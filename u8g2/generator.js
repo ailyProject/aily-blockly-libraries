@@ -7,7 +7,7 @@ Arduino.forBlock['u8g2_init'] = function(block, generator) {
   generator.addLibrary('WIRE_LIBRARY', '#include <Wire.h>');
   
   const constructorName = displayType + protocol;
-  generator.addObject('U8G2_' + instance, `U8G2_${constructorName} ${instance};`);
+  generator.addObject('U8G2_' + instance, `${constructorName} ${instance};`);
   
   return '';
 };
