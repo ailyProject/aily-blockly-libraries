@@ -33,15 +33,7 @@ Arduino.forBlock['stepper_set_speed'] = function (block, generator) {
 
 Arduino.forBlock['stepper_step'] = function (block, generator) {
   var variable_stepper = getVariableName(block);
-  var steps = generator.valueToCode(block, 'STEPS', Arduino.ORDER_ATOMIC) || '0';
-
-  var code = variable_stepper + '.step(' + steps + ');\n';
-  return code;
-};
-
-Arduino.forBlock['stepper_step_direct'] = function (block, generator) {
-  var variable_stepper = getVariableName(block);
-  var steps = block.getFieldValue('STEPS');
+  var steps = generator.valueToCode(block, 'STEPS', Arduino.ORDER_ATOMIC);
 
   var code = variable_stepper + '.step(' + steps + ');\n';
   return code;
