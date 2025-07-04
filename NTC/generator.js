@@ -83,26 +83,3 @@ Arduino.forBlock['ntc_read_kelvin'] = function(block, generator) {
     
     return [`${variable}->readKelvin()`, Arduino.ORDER_FUNCTION_CALL];
 };
-
-Arduino.forBlock['ntc_simple_read'] = function(block, generator) {
-    const pin = block.getFieldValue('PIN');
-    const refResistance = block.getFieldValue('REF_RESISTANCE');
-    
-    // 添加库引用
-    generator.addLibrary('ntc_lib', '#include <Thermistor.h>\n#include <NTC_Thermistor.h>');
-    
-    // 创建临时变量用于简单读取
-    const tempVar = `ntc_temp_${pin}`;
-    
-    if (window['boardConfig'] && window['boardConfig'].core.indexOf('esp32') > -1) {
-        // ESP32版本
-        generator.addObject('ntc_' + pin, 
-            `NTC_Thermistor* ${tempVar} = new NTC_Thermistor_ESP32(${pin}, ${refResistance}, 10000, 25, 3950, 3300, 4095);`);
-    } else {
-        // Arduino版本
-        generator.addObject('ntc_' + pin, 
-            `NTC_Thermistor* ${tempVar} = new NTC_Thermistor(${pin}, ${refResistance}, 10000, 25, 3950);`);
-    }
-    
-    return [`${tempVar}->readCelsius()`, Arduino.ORDER_FUNCTION_CALL];
-};

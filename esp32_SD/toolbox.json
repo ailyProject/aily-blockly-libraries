@@ -4,9 +4,47 @@
   "name": "ESP32 SD",
   "contents": [
     {
-      "kind": "block",
-      "type": "sd_begin"
+  "kind": "block",
+  "type": "esp32_spi_sd_init",
+  "fields": {
+    "SPI_TYPE": "HSPI",
+    "SPI_VAR_NAME": "spi" 
+  },
+  "inputs": {
+    "SCK_PIN": {
+      "shadow": {
+        "type": "math_number",
+        "fields": {
+          "NUM": 14
+        }
+      }
     },
+    "MISO_PIN": {
+      "shadow": {
+        "type": "math_number",
+        "fields": {
+          "NUM": 12
+        }
+      }
+    },
+    "MOSI_PIN": {
+      "shadow": {
+        "type": "math_number",
+        "fields": {
+          "NUM": 13
+        }
+      }
+    },
+    "CS_PIN": {
+      "shadow": {
+        "type": "math_number",
+        "fields": {
+          "NUM": 5
+        }
+      }
+    }
+  }
+},
     {
       "kind": "block",
       "type": "sd_card_type"
@@ -25,8 +63,33 @@
     },
     {
       "kind": "block",
-      "type": "sd_open"
+      "type": "sd_read_file"
     },
+    {
+  "kind": "block",
+  "type": "sd_write_file",
+  "fields": {
+    "MODE": "WRITE"
+  },
+  "inputs": {
+    "DATA": {
+      "shadow": {
+        "type": "text",
+        "fields": {
+          "TEXT": "Hello, world!"
+        }
+      }
+    },
+    "PATH": {
+      "shadow": {
+        "type": "text",
+        "fields": {
+          "TEXT": "/data.txt"
+        }
+      }
+    }
+  }
+},
     {
       "kind": "block",
       "type": "sd_mkdir"

@@ -1,34 +1,27 @@
 [
   {
-    "type": "ags02ma_init",
-    "message0": "初始化AGS02MA TVOC传感器 %1 地址%2",
-    "args0": [
-      {
-        "type": "input_dummy",
-        "name": "I2C_PINS"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "ADDRESS",
-        "options": [
-          ["0x1A (默认)", "0x1A"],
-          ["0x1B", "0x1B"]
-        ]
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#4CAF50",
-    "tooltip": "初始化AGS02MA TVOC传感器，自动根据板卡类型配置I2C引脚",
-    "extensions": ["ags02ma_init_extension"]
-  },
+  "type": "ags02ma_init",
+  "message0": "初始化AGS02MA TVOC传感器 %1",
+  "args0": [
+    {
+      "type": "input_dummy",
+      "name": "I2C_PINS"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#4CAF50",
+  "tooltip": "初始化AGS02MA TVOC传感器，自动根据板卡类型配置I2C引脚",
+  "extensions": ["ags02ma_init_extension"]
+},
   {
     "type": "ags02ma_read_tvoc_ppb",
     "message0": "读取TVOC浓度(PPB)",
     "args0": [],
     "output": "Number",
     "colour": "#4CAF50",
-    "tooltip": "读取TVOC浓度，返回PPB单位的数值"
+    "tooltip": "读取TVOC浓度，返回PPB单位的数值",
+    "helpUrl": ""
   },
   {
     "type": "ags02ma_read_tvoc_ugm3",
@@ -36,7 +29,8 @@
     "args0": [],
     "output": "Number",
     "colour": "#4CAF50",
-    "tooltip": "读取TVOC浓度，返回μg/m³单位的数值"
+    "tooltip": "读取TVOC浓度，返回μg/m³单位的数值",
+    "helpUrl": ""
   },
   {
     "type": "ags02ma_reset",
@@ -45,23 +39,7 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4CAF50",
-    "tooltip": "重置AGS02MA传感器到初始状态"
-  },
-  {
-    "type": "ags02ma_read_simple",
-    "message0": "AGS02MA传感器读取TVOC %1",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "UNIT",
-        "options": [
-          ["PPB", "PPB"],
-          ["μg/m³", "UGM3"]
-        ]
-      }
-    ],
-    "output": "Number",
-    "colour": "#4CAF50",
-    "tooltip": "简化版：自动初始化并读取TVOC浓度（首次使用时自动初始化传感器）"
+    "tooltip": "重置AGS02MA传感器到初始状态",
+    "helpUrl": ""
   }
 ]

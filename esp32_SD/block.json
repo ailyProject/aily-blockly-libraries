@@ -1,19 +1,56 @@
 
 [
   {
-    "type": "sd_begin",
-    "message0": "初始化SD卡(引脚 %1)",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "CS_PIN"
-      }
-    ],
-    "output": null,
-    "colour": "#FF8800",
-    "tooltip": "初始化SD卡，传入芯片选择引脚（CS）",
-    "helpUrl": ""
-  },
+  "type": "esp32_spi_sd_init",
+  "message0": "初始化SPI和SD卡 %1 SPI类型: %2 SPI变量名: %3 %4 SCK引脚: %5 MISO引脚: %6 MOSI引脚: %7 CS引脚: %8",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "SPI_TYPE",
+      "options": [
+        ["HSPI", "HSPI"],
+        ["VSPI", "VSPI"]
+      ]
+    },
+    {
+      "type": "field_input",
+      "name": "SPI_VAR_NAME",
+      "text": "spi"
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_value",
+      "name": "SCK_PIN",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "MISO_PIN",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "MOSI_PIN",
+      "check": "Number" 
+    },
+    {
+      "type": "input_value",
+      "name": "CS_PIN",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": false,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#FF9800",
+  "tooltip": "一键初始化SPI接口和SD卡，自动处理初始化顺序和错误检查",
+  "helpUrl": ""
+},
   {
     "type": "sd_card_type",
     "message0": "SD卡类型",
@@ -47,22 +84,47 @@
     "helpUrl": ""
   },
   {
-    "type": "sd_open",
-    "message0": "打开SD文件 路径 %1 模式 %2",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "PATH"
-      },
-      {
-        "type": "input_value",
-        "name": "MODE"
-      }
-    ],
-    "output": null,
-    "colour": "#FF8800",
-    "tooltip": "打开SD卡文件/目录，可指定读取或写入模式",
-    "helpUrl": ""
+  "type": "sd_read_file",
+  "message0": "读取文本文件 %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "PATH",
+      "check": "String"
+    }
+  ],
+  "output": "String",
+  "colour": "#FF9800",
+  "tooltip": "读取SD卡上的文本文件内容并返回"
+  },
+  {
+  "type": "sd_write_file",
+  "message0": "%1 写入数据 %2 到文件 %3",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "MODE",
+      "options": [
+        ["覆盖", "WRITE"],
+        ["追加", "APPEND"]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "DATA",
+      "check": ["String", "Number"]
+    },
+    {
+      "type": "input_value",
+      "name": "PATH",
+      "check": "String"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#FF9800",
+  "tooltip": "将数据写入SD卡上的文件"
   },
   {
     "type": "sd_mkdir",

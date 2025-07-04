@@ -11,12 +11,71 @@ function addSDFSLib(generator) {
   generator.addLibrary('FS_include', '#include <FS.h>');
 }
 
+// 一键初始化SPI和SD卡
+Arduino.forBlock['esp32_spi_sd_init'] = function(block, generator) {
+  // 添加必要的库
+  generator.addLibrary('esp32_spi', '#include <SPI.h>');
+  addSDFSLib(generator);
+  // 移除重复的FS库，因为addSDFSLib函数会处理
+  
+  // 获取SPI配置参数
+  const spiType = block.getFieldValue('SPI_TYPE') || 'HSPI';
+  const spiVarName = block.getFieldValue('SPI_VAR_NAME') || 'spi';
+  
+  // 获取引脚参数
+  const sckPin = generator.valueToCode(block, 'SCK_PIN', Arduino.ORDER_ATOMIC);
+  const misoPin = generator.valueToCode(block, 'MISO_PIN', Arduino.ORDER_ATOMIC);
+  const mosiPin = generator.valueToCode(block, 'MOSI_PIN', Arduino.ORDER_ATOMIC);
+  const csPin = generator.valueToCode(block, 'CS_PIN', Arduino.ORDER_ATOMIC) || '5';
+  
+  // 创建SPI实例变量
+  const spiCode = `SPIClass ${spiVarName} = SPIClass(${spiType});\n`;
+  generator.addVariable(`spi_${spiVarName}`, spiCode);
+  
+  // 生成SPI初始化代码，使用较高优先级
+  generator.addSetup('010_spi_begin', 
+    `// 初始化SPI接口\n${spiVarName}.begin(${sckPin}, ${misoPin}, ${mosiPin}, ${csPin});\n`);
+  
+  // 生成SD卡初始化代码，使用较低优先级确保在SPI初始化之后执行
+  const sdInitCode = 
+`// 初始化SD卡
+if (!SD.begin(${csPin}, ${spiVarName})) {
+  Serial.println("SD card initialization failed!");
+  while (1); // 无限循环
+}
+Serial.println("SD card initialization done.");
+`;
+  
+  generator.addSetup('050_sd_begin', sdInitCode);
+  
+  return '';
+};
+
 // SD卡初始化 - SD.begin([csPin])
 Arduino.forBlock['sd_begin'] = function(block, generator) {
-  addSDFSLib(generator);
-  const csPin = generator.valueToCode(block, 'CS_PIN', Arduino.ORDER_ATOMIC) || 'SS';
-  const code = `SD.begin(${csPin})`;
-  return [code, Arduino.ORDER_FUNCTION_CALL];
+  var pin = generator.valueToCode(block, 'PIN', Arduino.ORDER_ATOMIC) || block.getFieldValue('CS_PIN') || '10';
+  var spi = generator.valueToCode(block, 'SPI_INST', Arduino.ORDER_ATOMIC) || '';
+  
+  generator.addLibrary('SD', '#include <SD.h>');
+  
+  // 添加初始化代码，并包含错误处理
+  var code = '';
+  
+  if (spi && spi.length > 0) {
+    // 如果提供了SPI实例，使用指定的SPI
+    code = `if (!SD.begin(${pin}, ${spi})) { // 初始化SD卡\n`;
+  } else {
+    // 否则使用默认SPI
+    code = `if (!SD.begin(${pin})) { // 初始化SD卡\n`;
+  }
+  
+  code += '  Serial.println("SD card initialization failed!");\n';
+  code += '  while (1); // 无限循环\n';
+  code += '}\n';
+  
+  // 使用数字前缀提高优先级（数字越大优先级越低）
+  generator.addSetup('050_sd_begin', code);
+  return '';
 };
 
 // 获取SD卡类型 - SD.cardType()
@@ -44,11 +103,79 @@ Arduino.forBlock['sd_used_bytes'] = function(block, generator) {
 };
 
 // 打开文件/目录 - SD.open(path [, mode])
-Arduino.forBlock['sd_open'] = function(block, generator) {
+// 读取文件并存储到变量 - 独立函数实现
+// 读取文本文件并返回内容 - 作为值输出
+Arduino.forBlock['sd_read_file'] = function(block, generator) {
   addSDFSLib(generator);
   const path = generator.valueToCode(block, 'PATH', Arduino.ORDER_ATOMIC);
-  const mode = generator.valueToCode(block, 'MODE', Arduino.ORDER_ATOMIC) || 'FILE_READ';
-  return [`SD.open(${path}, ${mode})`, Arduino.ORDER_FUNCTION_CALL];
+  
+  // 添加读取文本文件函数到全局
+  const functionName = 'readTextFile';
+  const functionCode = 
+`String readTextFile(fs::FS &fs, const char * path) {
+  Serial.printf("Reading text file: %s\\n", path);
+  String result = "";
+ 
+  File file = fs.open(path);
+  if(!file) {
+    Serial.println("Failed to open text file for reading");
+    return result;
+  }
+  
+  // 逐字符读取文本文件内容
+  while(file.available()) {
+    char c = file.read();
+    result += c;
+  }
+  
+  file.close();
+  Serial.printf("Text file read complete, %d bytes\\n", result.length());
+  return result;
+}`;
+
+  generator.addFunction(functionName, functionCode);
+  
+  // 直接返回函数调用表达式，作为值使用
+  return [`readTextFile(SD, ${path})`, Arduino.ORDER_FUNCTION_CALL];
+};
+
+Arduino.forBlock['sd_write_file'] = function(block, generator) {
+  addSDFSLib(generator);
+  const path = generator.valueToCode(block, 'PATH', Arduino.ORDER_ATOMIC);
+  const data = generator.valueToCode(block, 'DATA', Arduino.ORDER_ATOMIC);
+  const append = block.getFieldValue('MODE') === 'APPEND';
+  
+  // 添加writeFile函数到全局
+  const functionName = 'writeStringToFile';
+  const functionCode = 
+`void writeStringToFile(fs::FS &fs, const char * path, const String &data, bool append) {
+  Serial.printf("Writing to file: %s\\n", path);
+  
+  File file;
+  if (append) {
+    file = fs.open(path, FILE_APPEND);
+  } else {
+    file = fs.open(path, FILE_WRITE);
+  }
+  
+  if(!file) {
+    Serial.println("Failed to open file for writing");
+    return;
+  }
+  
+  if(file.print(data)) {
+    Serial.println("File written successfully");
+  } else {
+    Serial.println("Write failed");
+  }
+  
+  file.close();
+}`;
+
+  generator.addFunction(functionName, functionCode);
+  
+  // 生成函数调用代码
+  return `writeStringToFile(SD, ${path}, ${data}, ${append});\n`;
 };
 
 // 创建目录 - SD.mkdir(path)

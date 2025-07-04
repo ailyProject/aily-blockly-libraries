@@ -1,8 +1,3 @@
-// 避免重复加载扩展
-if (Blockly.Extensions.isRegistered('ags02ma_init_extension')) {
-  Blockly.Extensions.unregister('ags02ma_init_extension');
-}
-
 // 在generator.js文件开头添加扩展定义
 Blockly.Extensions.register('ags02ma_init_extension', function() {
   // 动态根据板卡类型显示不同的界面
@@ -53,8 +48,7 @@ Arduino.forBlock['ags02ma_init'] = function(block, generator) {
   var isESP8266Core = boardCore.indexOf('esp8266') > -1 || 
                      boardName.indexOf('esp8266') > -1;
   
-  // 获取用户选择的地址和Wire选项
-  var address = block.getFieldValue('ADDRESS') || '0x1A';
+  // 只有非Arduino板卡才获取Wire选项
   var wireOption = 'WIRE1'; // 默认值
   if (!isArduinoCore) {
     wireOption = block.getFieldValue('WIRE_OPTION') || 'WIRE1';
@@ -63,8 +57,17 @@ Arduino.forBlock['ags02ma_init'] = function(block, generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
   generator.addLibrary('AGS02MA', '#include <AGS02MA.h>');
   
-  // 创建AGS02MA对象，使用用户选择的地址
-  generator.addVariable('ags02ma', `AGS02MA ags02ma(${address}, &Wire);`);
+  // 创建AGS02MA对象，默认地址0x1A
+  generator.addVariable('ags02ma', 'AGS02MA ags02ma(0x1A, &Wire);');
+  
+  // 调试信息
+  console.log('AGS02MA Init: 开发板信息:', boardConfig);
+  console.log('AGS02MA Init: 核心类型:', boardCore);
+  console.log('AGS02MA Init: 板名:', boardName);
+  console.log('AGS02MA Init: isArduinoCore:', isArduinoCore);
+  console.log('AGS02MA Init: isESP32Core:', isESP32Core);
+  console.log('AGS02MA Init: isESP8266Core:', isESP8266Core);
+  console.log('AGS02MA Init: wireOption:', wireOption);
   
   // 初始化I2C总线和传感器
   var setupCode = '// 配置I2C引脚并初始化AGS02MA TVOC传感器\n';
@@ -107,13 +110,13 @@ Arduino.forBlock['ags02ma_init'] = function(block, generator) {
   setupCode += `
 // 初始化AGS02MA TVOC传感器
 if (ags02ma.begin()) {
-  Serial.println("AGS02MA传感器初始化成功! 地址: ${address}");
+  Serial.println("AGS02MA传感器初始化成功!");
   ags02ma.setPPBMode(); // 默认设置为PPB模式
   Serial.println("传感器设置完成，开始测量!");
 } else {
   Serial.println("警告: AGS02MA传感器初始化失败!");
   Serial.println("请检查:");
-  Serial.println("1. 传感器地址是否为${address}");
+  Serial.println("1. 传感器地址是否为0x1A");
   Serial.println("2. I2C接线是否正确");
   Serial.println("3. 传感器供电是否正常");
 }`;
@@ -124,6 +127,7 @@ if (ags02ma.begin()) {
 
 // 读取TVOC浓度（PPB）- 简化版
 Arduino.forBlock['ags02ma_read_tvoc_ppb'] = function(block, generator) {
+  // 注意：需要先手动设置PPB模式
   return ['ags02ma.readPPB()', Arduino.ORDER_FUNCTION_CALL];
 };
 
@@ -142,55 +146,4 @@ float ags02ma_read_ugm3_converted() {
 // 重置传感器
 Arduino.forBlock['ags02ma_reset'] = function(block, generator) {
   return 'ags02ma.reset();\n';
-};
-
-// 简化版读取块 - 自动初始化并读取
-Arduino.forBlock['ags02ma_read_simple'] = function(block, generator) {
-  var unit = block.getFieldValue('UNIT');
-  
-  // 自动添加初始化代码（使用默认地址0x1A）
-  generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('AGS02MA', '#include <AGS02MA.h>');
-  generator.addVariable('ags02ma_simple', 'AGS02MA ags02ma_simple(0x1A, &Wire);');
-  generator.addVariable('ags02ma_initialized', 'bool ags02ma_initialized = false;');
-  
-  // 添加初始化检查函数
-  generator.addFunction('ags02ma_auto_init', `
-void ags02ma_auto_init() {
-  if (!ags02ma_initialized) {
-    Wire.begin();
-    if (ags02ma_simple.begin()) {
-      ags02ma_simple.setPPBMode();
-      ags02ma_initialized = true;
-      Serial.println("AGS02MA传感器自动初始化成功!");
-    } else {
-      Serial.println("AGS02MA传感器自动初始化失败!");
-    }
-  }
-}`);
-
-  if (unit === 'UGM3') {
-    // 添加μg/m³读取函数
-    generator.addFunction('ags02ma_read_ugm3_simple', `
-float ags02ma_read_ugm3_simple() {
-  ags02ma_auto_init();
-  if (ags02ma_initialized) {
-    uint32_t raw_value = ags02ma_simple.readUGM3();
-    return raw_value * 3.48;
-  }
-  return -1;
-}`);
-    return ['ags02ma_read_ugm3_simple()', Arduino.ORDER_FUNCTION_CALL];
-  } else {
-    // PPB模式
-    generator.addFunction('ags02ma_read_ppb_simple', `
-uint32_t ags02ma_read_ppb_simple() {
-  ags02ma_auto_init();
-  if (ags02ma_initialized) {
-    return ags02ma_simple.readPPB();
-  }
-  return 0;
-}`);
-    return ['ags02ma_read_ppb_simple()', Arduino.ORDER_FUNCTION_CALL];
-  }
 };
