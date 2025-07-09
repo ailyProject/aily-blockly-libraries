@@ -73,7 +73,15 @@ Arduino.forBlock['tft_preset_color'] = function (block, generator) {
 // 文本、字体、文本属性合并
 Arduino.forBlock['tft_set_text_color'] = function(block, generator) {
   var color = generator.valueToCode(block, 'COLOR', Arduino.ORDER_ATOMIC) || block.getFieldValue('COLOR') || 'ST77XX_WHITE';
-  return 'tft.setTextColor(' + color + ');\n';
+  var bgColor = generator.valueToCode(block, 'BG_COLOR', Arduino.ORDER_ATOMIC) || block.getFieldValue('BG_COLOR') || 'ST77XX_BLACK';
+  
+  // 如果提供了背景颜色，则同时设置前景色和背景色
+  if (generator.valueToCode(block, 'BG_COLOR', Arduino.ORDER_ATOMIC) || block.getFieldValue('BG_COLOR')) {
+    return 'tft.setTextColor(' + color + ', ' + bgColor + ');\n';
+  } else {
+    // 如果没有提供背景颜色，只设置前景色
+    return 'tft.setTextColor(' + color + ');\n';
+  }
 };
 
 Arduino.forBlock['tft_set_text_color_bg'] = function(block, generator) {
@@ -94,25 +102,25 @@ Arduino.forBlock['tft_set_cursor'] = function(block, generator) {
 };
 
 Arduino.forBlock['tft_print'] = function(block, generator) {
-  var text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC) || block.getFieldValue('TEXT') || '""';
-  var newline = block.getFieldValue('NEWLINE') === 'TRUE';
-  var row = generator.valueToCode(block, 'ROW', Arduino.ORDER_ATOMIC);
-  var col = generator.valueToCode(block, 'COLUMN', Arduino.ORDER_ATOMIC);
-  
-  // 生成代码
-  var code = '';
-  
-  // 如果提供了行和列，先设置光标位置
-  if (row && col) {
-    // 计算真实坐标，假设一个字符的宽度为6像素，高度为8像素
-    // 这些值可能需要根据当前的文本大小进行调整
-    code += 'tft.setCursor(' + row + ' , ' + col + ' );\n';
-  }
-  
-  // 添加打印语句
-  code += 'tft.' + (newline ? 'println' : 'print') + '(' + text + ');\n';
-  
-  return code;
+var text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC) || block.getFieldValue('TEXT') || '""';
+var newline = block.getFieldValue('NEWLINE') === 'TRUE';
+var row = generator.valueToCode(block, 'ROW', Arduino.ORDER_ATOMIC);
+var col = generator.valueToCode(block, 'COLUMN', Arduino.ORDER_ATOMIC);
+
+// 生成代码
+var code = '';
+
+// 如果提供了行和列，先设置光标位置
+if (row && col) {
+// 计算真实坐标，假设一个字符的宽度为6像素，高度为8像素
+// 这些值可能需要根据当前的文本大小进行调整
+code += 'tft.setCursor(' + row + ' , ' + col + ' );\n';
+}
+
+// 添加打印语句
+code += 'tft.' + (newline ? 'println' : 'print') + '(' + text + ');\n';
+
+return code;
 };
 
 // 基本图形、像素、直线、矩形等
