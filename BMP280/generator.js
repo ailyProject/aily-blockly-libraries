@@ -6,7 +6,7 @@ Arduino.forBlock['bmp280_init'] = function(block, generator) {
     generator.addSetupBegin('BMP280_SETUP', 'if (!bmp.begin(' + address + ')) {\n  Serial.println("Could not find a valid BMP280 sensor, check wiring!");\n  while (1);\n}\n');
     
     // 添加I2C初始化
-    generator.addSetupBegin('WIRE_BEGIN', 'Wire.begin();');
+    generator.addSetupBegin('WIRE_BEGIN', '// 默认Wire:  SDA = 21 ,  SCL = 22\n  Wire.begin();');
     generator.addLibrary('WIRE_INCLUDE', '#include <Wire.h>');
     
     return '';

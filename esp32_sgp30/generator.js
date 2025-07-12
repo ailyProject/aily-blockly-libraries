@@ -1,10 +1,13 @@
 // SGP30 Generator Functions
 
 Arduino.forBlock['sgp30_init'] = function(block, generator) {
-    generator.addLibrary('#include <Wire.h>', '#include <Wire.h>');
     generator.addLibrary('#include "Adafruit_SGP30.h"', '#include "Adafruit_SGP30.h"');
     generator.addObject('Adafruit_SGP30 sgp', 'Adafruit_SGP30 sgp;');
     
+    // 添加I2C初始化
+    generator.addSetupBegin('WIRE_BEGIN', '// 默认Wire:  SDA = 21 ,  SCL = 22\n  Wire.begin();');
+    generator.addLibrary('WIRE_INCLUDE', '#include <Wire.h>');
+
     var code = 'if (!sgp.begin()) {\n';
     code += '  Serial.println("SGP30 sensor not found!");\n';
     code += '  while(1);\n';

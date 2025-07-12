@@ -4,7 +4,9 @@ Arduino.forBlock['si7021_begin'] = function(block, generator) {
 
 // 添加库引用
 generator.addLibrary('#include <Adafruit_Si7021.h>', '#include <Adafruit_Si7021.h>');
-generator.addLibrary('#include <Wire.h>', '#include <Wire.h>');
+// 添加I2C初始化
+generator.addSetupBegin('WIRE_BEGIN', '// 默认Wire:  SDA = 21 ,  SCL = 22\n  Wire.begin();');
+generator.addLibrary('WIRE_INCLUDE', '#include <Wire.h>');
 
 // 添加对象声明
 generator.addObject('Adafruit_Si7021 ' + objectName, 'Adafruit_Si7021 ' + objectName + ' = Adafruit_Si7021();');

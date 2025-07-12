@@ -1,7 +1,7 @@
 [
   {
       "inputsInline": true,
-      "message0": "初始化 BMP280 传感器 I2C地址 %1",
+      "message0": "初始化 BMP280 传感器 I2C地址 %1 使用 %2",
       "type": "bmp280_init",
       "args0": [
           {
@@ -11,6 +11,11 @@
                   ["0x76 (默认)", "0x76"],
                   ["0x77 (备选)", "0x77"]
               ]
+          },
+          {
+              "type": "field_dropdown",
+              "name": "WIRE",
+              "options": "${board.i2c}"
           }
       ],
       "previousStatement": null,
@@ -64,10 +69,10 @@
             "type": "field_dropdown",
             "name": "TEMP_OS",
             "options": [
+                ["4倍", "SAMPLING_X4"],
                 ["无过采样", "SAMPLING_NONE"],
                 ["1倍", "SAMPLING_X1"],
                 ["2倍", "SAMPLING_X2"],
-                ["4倍", "SAMPLING_X4"],
                 ["8倍", "SAMPLING_X8"],
                 ["16倍", "SAMPLING_X16"]
             ]
@@ -76,10 +81,10 @@
             "type": "field_dropdown",
             "name": "PRES_OS",
             "options": [
+                ["4倍", "SAMPLING_X4"],
                 ["无过采样", "SAMPLING_NONE"],
                 ["1倍", "SAMPLING_X1"],
                 ["2倍", "SAMPLING_X2"],
-                ["4倍", "SAMPLING_X4"],
                 ["8倍", "SAMPLING_X8"],
                 ["16倍", "SAMPLING_X16"]
             ]
@@ -88,9 +93,9 @@
             "type": "field_dropdown",
             "name": "FILTER",
             "options": [
+                ["4倍", "FILTER_X4"],
                 ["关闭", "FILTER_OFF"],
                 ["2倍", "FILTER_X2"],
-                ["4倍", "FILTER_X4"],
                 ["8倍", "FILTER_X8"],
                 ["16倍", "FILTER_X16"]
             ]
