@@ -26,7 +26,6 @@
                     }
                 }
         },
-  
         {
             "kind": "block",
             "type": "aivox_init_std"
@@ -83,7 +82,7 @@
         },
         {
             "kind": "block",
-            "type": "aivox_register_led_driver_status",
+            "type": "aivox_register_driver_status",
             "inputs": 
                 {
                     "driver_name": {
@@ -91,14 +90,6 @@
                             "type": "text",
                             "fields": {
                                 "driver_name": "test"
-                            }
-                        }
-                    },
-                    "driver_num": {
-                        "shadow": {
-                            "type": "math_number",
-                            "fields": {
-                                "driver_num": 1
                             }
                         }
                     },
@@ -129,134 +120,6 @@
                 }
             
         },
-        {
-            "kind": "block",
-            "type": "aivox_register_servo_driver_status",
-            "inputs": 
-                {
-                    "driver_name": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "driver_name": "test"
-                            }
-                        }
-                    },
-                    "driver_num": {
-                        "shadow": {
-                            "type": "math_number",
-                            "fields": {
-                                "driver_num": 1
-                            }
-                        }
-                    },
-                    "driver_properties": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "driver_properties": "test"
-                            }
-                        }
-                    }
-                }
-            
-        },
-        {
-            "kind": "block",
-            "type": "aivox_register_ultrasonic_sensor_driver_status",
-            "inputs": 
-                {
-                    "driver_name": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "driver_name": "test"
-                            }
-                        }
-                    },
-                    "driver_properties": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "driver_properties": "test"
-                            }
-                        }
-                    }
-                }
-            
-        },
-        {
-            "kind": "block",
-            "type": "aivox_register_dht11_sensor_driver_status",
-            "inputs": 
-                {
-                    "dht11_temp_name": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "dht11_temp_name": "test"
-                            }
-                        }
-                    },
-                    "temp_properties": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "temp_properties": "test"
-                            }
-                        }
-                    },
-                     "dht11_humidity_name": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "dht11_humidity_name": "test"
-                            }
-                        }
-                    },
-                    "humidity_properties": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "humidity_properties": "test"
-                            }
-                        }
-                    }
-                }
-            
-        },
-        {
-            "kind": "block",
-            "type": "aivox_register_analog_sensor_driver_status",
-            "inputs": 
-                {
-                    "aivox_analog_name": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "aivox_analog_name": "ultrasonic"
-                            }
-                        }
-                    },
-                    "aivox_analog_desc": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "aivox_ultrasonic_distance": "abc"
-                            }
-                        }
-                    },
-                    "aivox_analog_status": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "aivox_ultrasonic_distance": "abc"
-                            }
-                        }
-                    }
-                }
-        },
-   
 
         {
             "kind": "block",
@@ -324,19 +187,11 @@
         },
         {
             "kind": "block",
-            "type": "aivox_get_iot_led_message_event_fuction"
+            "type": "aivox_get_iot_message_event_fuction"
         },
         {
             "kind": "block",
-            "type": "aivox_get_iot_servo_message_event_fuction"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_get_iot_servo_message"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_update_led_iot_state",
+            "type": "aivox_update_iot_state",
             "inputs": 
                 {
                     "aivox_drive": {
@@ -349,141 +204,9 @@
                     },
                     "aivox_drive_state": {
                         "shadow": {
-                            "type": "logic_boolean",
+                            "type": "text",
                             "fields": {
                                 "aivox_drive_state": "12345678"
-                            }
-                        }
-                    }
-                }
-        },
-        
-        {
-            "kind": "block",
-            "type": "aivox_update_servo_iot_state",
-            "inputs": 
-                {
-                    "aivox_drive": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "aivox_drive": "LED"
-                            }
-                        }
-                    },
-                    "aivox_drive_state": {
-                        "shadow": {
-                            "type": "math_number",
-                            "fields": {
-                                "aivox_drive_state": 90
-                            }
-                        }
-                    }
-                }
-        },
-        {
-            "kind": "block",
-            "type": "aivox_update_all_servo_iot_state",
-            "inputs": 
-                {
-                    "aivox_servo_num": {
-                        "shadow": {
-                            "type": "math_number",
-                            "fields": {
-                                "aivox_drive": 2
-                            }
-                        }
-                    },
-                    "aivox_drive_state": {
-                        "shadow": {
-                            "type": "math_number",
-                            "fields": {
-                                "aivox_drive_state": 90
-                            }
-                        }
-                    }
-                }
-        },
-        {
-            "kind": "block",
-            "type": "aivox_update_ultrasonic_iot_state",
-            "inputs": 
-                {
-                    "aivox_ultrasonic": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "aivox_ultrasonic": "ultrasonic"
-                            }
-                        }
-                    },
-                    "aivox_ultrasonic_distance": {
-                        "shadow": {
-                            "type": "math_number",
-                            "fields": {
-                                "aivox_ultrasonic_distance": "12345678"
-                            }
-                        }
-                    }
-                }
-        },
-        
-        {
-            "kind": "block",
-            "type": "aivox_update_dht11_iot_state",
-            "inputs": 
-                {
-                    "aivox_dht11": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "aivox_dht11": "LED"
-                            }
-                        }
-                    },
-                    "aivox_dnt11_value": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "aivox_dnt11_value": "12345678"
-                            }
-                        }
-                    }
-                }
-        },
-        {
-            "kind": "block",
-            "type": "aivox_update_analog_sensor_iot_state",
-            "inputs": 
-                {
-                    "aivox_analog_sensor_name": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "aivox_analog_sensor_name": "LED"
-                            }
-                        }
-                    },
-                    "aivox_analog_sensor_value": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "aivox_analog_sensor_value": "12345678"
-                            }
-                        }
-                    }
-                }
-        },
-        {
-            "kind": "block",
-            "type": "aivox_update_ws2812_brightness",
-            "inputs": 
-                {
-                    "aivox_ws2812_brightness": {
-                        "shadow": {
-                            "type": "math_number",
-                            "fields": {
-                                "aivox_ws2812_brightness": "200"
                             }
                         }
                     }
