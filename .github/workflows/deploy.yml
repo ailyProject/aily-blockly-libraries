@@ -206,6 +206,9 @@ jobs:
       
       - name: Generate JSON
         run: node genjson.js
+
+      - name: Generate ai JSON
+        run: node genjson-ai.js
       
       - name: Check if JSON file exists
         run: |
@@ -218,17 +221,28 @@ jobs:
             exit 1
           fi
       
-      - name: SFTP upload
-        uses: Dylan700/sftp-upload-action@latest
+      - name: Check if ai JSON file exists
+        run: |
+          if [ -f "./libraries-ai.json" ]; then
+            echo "AI file exists"
+            cat ./libraries-ai.json | head -n 10
+          else
+            echo "AI file does not exist"
+            ls -la
+            exit 1
+          fi
+      
+      - name: SCP upload boards JSON files
+        uses: appleboy/scp-action@v0.1.7
         with:
-          server: ${{ secrets.SERVER }}
+          host: ${{ secrets.SERVER }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: 22
-          uploads: |
-            ./ => ${{ secrets.TARGET }}
-          ignore: |
-            !libraries.json
+          source: "libraries.json, libraries-ai.json"
+          target: ${{ secrets.TARGET }}
+          timeout: 120s
+          command_timeout: 60s
       
       # 添加此步骤作为工作流的最后一步
       - name: Update last deploy tag
