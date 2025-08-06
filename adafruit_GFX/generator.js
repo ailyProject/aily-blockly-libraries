@@ -11,6 +11,10 @@ Arduino.forBlock['tft_init'] = function(block, generator) {
   var sclk = generator.valueToCode(block, 'SCLK', generator.ORDER_ATOMIC) || '18';
   var rst = generator.valueToCode(block, 'RST', generator.ORDER_ATOMIC) || '-1';
   
+  // 获取屏幕尺寸参数
+  var width = generator.valueToCode(block, 'WIDTH', generator.ORDER_ATOMIC) || '240';
+  var height = generator.valueToCode(block, 'HEIGHT', generator.ORDER_ATOMIC) || '240';
+  
   // 添加SPI库
   generator.addLibrary('SPI', '#include <SPI.h>');
   
@@ -28,7 +32,7 @@ Arduino.forBlock['tft_init'] = function(block, generator) {
     
     // 使用软件SPI构造函数，包含固定引脚
     generator.addObject('tft', 'Adafruit_ST7789 tft = Adafruit_ST7789('+cs+', '+dc+', '+mosi+', '+sclk+', '+rst+');');
-    generator.addSetupBegin('tft_init', 'tft.init(240, 240);');
+    generator.addSetupBegin('tft_init', 'tft.init('+width+', '+height+');');
     
   } else { // 默认为ST7735
     generator.addLibrary('Adafruit_ST7735', '#include <Adafruit_ST7735.h>');
