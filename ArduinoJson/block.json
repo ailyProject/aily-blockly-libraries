@@ -1,0 +1,217 @@
+[
+  {
+    "type": "json_document_init",
+    "message0": "初始化JSON文档 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "NAME",
+        "text": "doc"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "json_document_add_value",
+    "message0": "JSON %1 添加键 %2 值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "doc",
+        "variableTypes": ["JsonDocument"],
+        "defaultType": "JsonDocument"
+      },
+      {
+        "type": "field_input",
+        "name": "KEY",
+        "text": "key"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["Number", "String"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "支持简单键或路径，如: key 或 data[0].name"
+  },
+  {
+    "type": "json_document_add_array",
+    "message0": "JSON %1 添加数组 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "doc",
+        "variableTypes": ["JsonDocument"],
+        "defaultType": "JsonDocument"
+      },
+      {
+        "type": "field_input",
+        "name": "ARRAY_NAME",
+        "text": "array"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "json_document_add_array_value",
+    "message0": "JSON 数组 %1 添加数据 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "array",
+        "variableTypes": ["JsonArray"],
+        "defaultType": "JsonArray"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["Number", "String"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "json_document_get_value",
+    "message0": "JSON %1 获取键 %2 的值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "doc",
+        "variableTypes": ["JsonDocument"],
+        "defaultType": "JsonDocument"
+      },
+      {
+        "type": "field_input",
+        "name": "KEY",
+        "text": "key"
+      }
+    ],
+    "output": ["Number", "String"],
+    "colour": "#4CAF50",
+    "tooltip": "支持简单键或路径，如: key 或 data[0].name"
+  },
+  {
+    "type": "json_document_get_value_type",
+    "message0": "JSON %1 获取键 %2 的值 类型 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "doc",
+        "variableTypes": ["JsonDocument"],
+        "defaultType": "JsonDocument"
+      },
+      {
+        "type": "field_input",
+        "name": "KEY",
+        "text": "key"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["布尔值", "bool"],
+          ["整数", "int"],
+          ["无符号整数", "unsigned int"],
+          ["长整数", "long"],
+          ["无符号长整数", "unsigned long"],
+          ["浮点数", "float"],
+          ["双精度浮点数", "double"],
+          ["字符串", "const char*"],
+          ["String对象", "String"],
+          ["JSON数组", "JsonArrayConst"],
+          ["JSON对象", "JsonObjectConst"]
+        ]
+      }
+    ],
+    "output": ["String"],
+    "colour": "#4CAF50",
+    "tooltip": "支持简单键或路径，如: key 或 data[0].name"
+  },
+  {
+    "type": "json_document_get_array",
+    "message0": "JSON %1 获取数组 %2 的第 %3 个元素",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "doc",
+        "variableTypes": ["JsonDocument"],
+        "defaultType": "JsonDocument"
+      },
+      {
+        "type": "field_input",
+        "name": "ARRAY_NAME",
+        "text": "array"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number",
+        "value": 0
+      }
+    ],
+    "output": ["Number", "String"],
+    "colour": "#4CAF50",
+    "tooltip": "支持简单键或路径，如: key 或 data[0].name"
+  },
+  {
+    "type": "json_document_serialize_to_somewhere",
+    "message0": "JSON %1 序列化为字符串到 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "doc",
+        "variableTypes": ["JsonDocument"],
+        "defaultType": "JsonDocument"
+      },
+      {
+        "type": "input_value",
+        "name": "OUTPUT"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "将JSON文档序列化为字符串到指定位置，如变量或串口输出"
+  },
+  {
+    "type": "json_document_deserialize_from_somewhere",
+    "message0": "JSON %1 从字符串 %2 初始化并反序列化",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "doc"
+      },
+      {
+        "type": "input_value",
+        "name": "INPUT"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化并从字符串反序列化JSON文档"
+  }
+]

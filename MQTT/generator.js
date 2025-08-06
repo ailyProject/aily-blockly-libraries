@@ -128,13 +128,39 @@ Arduino.forBlock['pubsub_set_server_domain'] = function(block, generator) {
 Arduino.forBlock['pubsub_set_callback'] = function(block, generator) {
   const clientName = block.getFieldValue('NAME') || 'mqttClient';
   
-  let callbackName = clientName + 'Callback';
+  let callbackName = clientName + '_callback';
 
   // 获取回调函数体内容
   const callbackBody = generator.statementToCode(block, 'NAME') || '';
+
+  // 添加byte数组转char数组的代码
+  let payloadConversion = 
+    '  char* payload_str = (char*)malloc(length + 1);\n' +
+    '  memcpy(payload_str, payload, length);\n' +
+    '  payload_str[length] = \'\\0\';\n' +
+    '\n';
+  
+  // 在回调函数体结束前释放内存
+  let memoryCleanup = 
+    '\n' +
+    '  free(payload_str);\n';
   
   // 生成回调函数定义
-  const functionDef = 'void ' + callbackName + '(char* topic, byte* payload, unsigned int length) {\n' + callbackBody + '}';
+  const functionDef = 'void ' + callbackName + '(char* topic, byte* payload, unsigned int length) {\n' + 
+    payloadConversion + 
+    callbackBody + 
+    memoryCleanup + 
+    '}';
+
+  // registerVariableToBlockly('topic', callbackName);
+  // registerVariableToBlockly('payload', callbackName);
+  // registerVariableToBlockly('payload_str', callbackName);
+  // registerVariableToBlockly('length', callbackName);
+  addVariableToToolbox('topic', 'topic');
+  addVariableToToolbox('payload', 'payload');
+  addVariableToToolbox('payload_str', 'payload_str');
+  addVariableToToolbox('length', 'length');
+
   generator.addFunction(callbackName, functionDef);
   
   // 使用字符串拼接构建setCallback代码
@@ -145,6 +171,25 @@ Arduino.forBlock['pubsub_set_callback'] = function(block, generator) {
   
   return '';
 };
+
+Arduino.forBlock['pubsub_set_callback_with_topic'] = function(block, generator) {
+  const topic = generator.valueToCode(block, 'TOPIC', generator.ORDER_ATOMIC) || '""';
+
+  const callbackName = 'mqtt' + topic.replace(/[^a-zA-Z0-9]/g, '_') + '_sub_callback';
+  const callbackBody = generator.statementToCode(block, 'NAME') || '';
+
+  const functionDef = 'void ' + callbackName + '(const char* payload) {\n' + callbackBody + '}\n';
+  generator.addFunction(callbackName, functionDef);
+  
+  // let code = callbackName + '(payload, length);\n';
+  let code = 'if (strcmp(topic, ' + topic + ') == 0) {\n' +
+    '  ' + callbackName + '(payload_str);\n' +
+    '}\n';
+  // generator.addSetupEnd('pubsub_callback_' + callbackName, code);
+  
+  return code;
+};
+
 Arduino.forBlock['pubsub_connect'] = function(block, generator) {
   const clientName = block.getFieldValue('NAME') || 'mqttClient';
   return clientName + '.connect(' + generator.valueToCode(block, 'CLIENT_ID', generator.ORDER_ATOMIC) + ');\n';
