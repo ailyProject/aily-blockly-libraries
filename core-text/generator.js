@@ -131,7 +131,7 @@ Arduino.forBlock["string_charAt"] = function (block) {
   // STRING/NUM改为input_value类型，需用valueToCode获取
   const string = Arduino.valueToCode(block, "STRING", Arduino.ORDER_NONE) || '""';
   const num = Arduino.valueToCode(block, "NUM", Arduino.ORDER_NONE) || '0';
-  const code = Arduino.forceString(string)[0] + ".charAt(" + num + "-1)";
+  const code = Arduino.forceString(string)[0] + ".charAt(" + num + ")";
   return [code, Arduino.ORDER_ADDITION];
 };
 
@@ -146,7 +146,7 @@ Arduino.forBlock["string_indexOf"] = function (block) {
   // STRING1/STRING2改为input_value类型，需用valueToCode获取
   const string1 = Arduino.valueToCode(block, "STRING1", Arduino.ORDER_NONE) || '""';
   const string2 = Arduino.valueToCode(block, "STRING2", Arduino.ORDER_NONE) || '""';
-  const code = Arduino.forceString(string1)[0] + ".indexOf(" + Arduino.forceString(string2)[0] + ") != -1";
+  const code = Arduino.forceString(string1)[0] + ".indexOf(" + Arduino.forceString(string2)[0] + ")";
   return [code, Arduino.ORDER_ADDITION];
 };
 
@@ -154,12 +154,27 @@ Arduino.forBlock["string_substring"] = function (block) {
   // STRING改为input_value类型，需用valueToCode获取
   const string = Arduino.valueToCode(block, "STRING", Arduino.ORDER_NONE) || '""';
   const start = block.getFieldValue("START");
-  const startIndex = block.getFieldValue("START_INDEX") || 0;
+  const startIndex = Arduino.valueToCode(block, "START_INDEX", Arduino.ORDER_NONE) || '0';
   const last = block.getFieldValue("LAST");
-  const lastIndex = block.getFieldValue("LAST_INDEX") || 0;
-  const code = `dfstring.substring(${string},${start},${startIndex},${last},${lastIndex})`;
+  const lastIndex = Arduino.valueToCode(block, "LAST_INDEX", Arduino.ORDER_NONE) || '0';
 
-  Arduino.addLibrary("DFString", "#include <DFString.h>");
+  let startPos, endPos;
+
+  // Handle start position: 0="第" (from beginning), 1="倒数第" (from end)
+  if (start === "1") {
+    startPos = `(String(${string}).length() - ${startIndex})`;
+  } else {
+    startPos = startIndex;
+  }
+
+  // Handle end position: 0="第" (from beginning), 1="倒数第" (from end)
+  if (last === "1") {
+    endPos = `(String(${string}).length() - ${lastIndex} + 1)`;
+  } else {
+    endPos = lastIndex;
+  }
+
+  const code = `String(${string}).substring(${startPos}, ${endPos})`;
   return [code, Arduino.ORDER_ADDITION];
 };
 
@@ -168,16 +183,15 @@ Arduino.forBlock["string_find_str"] = function (block) {
   const string1 = Arduino.valueToCode(block, "STRING1", Arduino.ORDER_NONE) || '""';
   const string2 = Arduino.valueToCode(block, "STRING2", Arduino.ORDER_NONE) || '""';
   const find = block.getFieldValue("FIND") || "";
-  const code = `dfstring.${find}(String(${string1}), String(${string2}))`;
+  const code = `String(${string1}).${find}(String(${string2}))`;
 
-  Arduino.addLibrary("DFString", "#include <DFString.h>");
   return [code, Arduino.ORDER_ADDITION];
 };
 
 Arduino.forBlock["string_to"] = function (block) {
-  const string = block.getFieldValue("STRING") || "";
+  const string = Arduino.valueToCode(block, "STRING", Arduino.ORDER_NONE) || '""';
   const type = block.getFieldValue("TYPE");
-  const code = `String("${string}").${type}()`;
+  const code = `String(${string}).${type}()`;
 
   return [code, Arduino.ORDER_ADDITION];
 };
