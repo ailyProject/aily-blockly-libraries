@@ -11,6 +11,14 @@
 - **测试者**: 奈何col
 - **官方库**: https://github.com/adafruit/DHT-sensor-library
 
+## Blockly 工具箱分类
+
+### DHT传感器
+- `dht_init` - 初始化传感器
+- `dht_read_temperature` - 读取温度
+- `dht_read_humidity` - 读取湿度
+- `dht_read_success` - 读取状态检查
+
 ## 支持的传感器型号
 
 ### DHT11
@@ -31,87 +39,151 @@
 - **采样频率**: 0.5Hz (每2秒1次)
 - **特点**: 中等精度和成本
 
-## 可用模块
+## 详细块定义
 
-### 初始化传感器 (`dht_init`)
-初始化DHT传感器并设置引脚
-- **参数**: 传感器型号（DHT11/DHT22/DHT21）、数字引脚
-- **实现**: 创建DHT对象并在setup中调用begin()
-- **自动功能**: 添加DHT库引用，创建全局对象，自动初始化
+### 初始化块
 
-### 读取温度 (`dht_read_temperature`)
-读取传感器温度值（摄氏度）
-- **参数**: 传感器型号、引脚号
-- **返回值**: 浮点数，温度值（°C）
-- **实现**: 调用 `dht.readTemperature()`
-- **智能管理**: 自动创建对应的DHT对象（如果不存在）
-
-### 读取湿度 (`dht_read_humidity`)
-读取传感器湿度值（相对湿度百分比）
-- **参数**: 传感器型号、引脚号
-- **返回值**: 浮点数，湿度值（%RH）
-- **实现**: 调用 `dht.readHumidity()`
-- **智能管理**: 自动创建对应的DHT对象（如果不存在）
-
-### 读取状态检查 (`dht_read_success`)
-检查传感器读取是否成功
-- **参数**: 传感器型号、引脚号
-- **返回值**: 布尔值，true表示读取成功
-- **实现**: 检查温度和湿度读取值是否为NaN
-- **用途**: 在读取数据前验证传感器工作状态
-
-## 使用说明
-
-### 基本用法
+#### dht_init
+**类型**: 语句块 (previousStatement/nextStatement)
+**描述**: 初始化DHT传感器并设置引脚
+**字段**:
+- `TYPE`: 下拉选择 - 传感器型号 ["DHT11", "DHT22", "DHT21"]
+- `PIN`: 下拉选择 - 数字引脚 (来自 ${board.digitalPins})
+**生成代码**:
 ```cpp
-#include <DHT.h>
-
-// 自动生成的DHT对象
 DHT dht_2_dht22(2, DHT22);
-
-void setup() {
-  Serial.begin(9600);
-  // 自动初始化
-  dht_2_dht22.begin();
-}
-
-void loop() {
-  // 检查读取状态
-  if (!isnan(dht_2_dht22.readTemperature()) &&
-      !isnan(dht_2_dht22.readHumidity())) {
-
-    // 读取温度和湿度
-    float temperature = dht_2_dht22.readTemperature();
-    float humidity = dht_2_dht22.readHumidity();
-
-    Serial.print("温度: ");
-    Serial.print(temperature);
-    Serial.println("°C");
-
-    Serial.print("湿度: ");
-    Serial.print(humidity);
-    Serial.println("%");
-  }
-
-  delay(2000); // DHT22建议2秒间隔
-}
+// setup中: dht_2_dht22.begin();
 ```
+**自动功能**:
+- 添加库引用: `#include <DHT.h>`
+- 创建全局对象: `DHT dht_引脚号_传感器型号(引脚, 传感器型号);`
+- 自动初始化: 在setup中调用 `begin()`
+
+### 读取块
+
+#### dht_read_temperature
+**类型**: 值块 (output: Number)
+**描述**: 读取传感器温度值（摄氏度）
+**字段**:
+- `TYPE`: 下拉选择 - 传感器型号 ["DHT11", "DHT22", "DHT21"]
+- `PIN`: 下拉选择 - 数字引脚 (来自 ${board.digitalPins})
+**生成代码**: `dht_2_dht22.readTemperature()`
+**返回值**: 浮点数，温度值（°C）
+**智能管理**: 自动创建对应的DHT对象（如果不存在）
+
+#### dht_read_humidity
+**类型**: 值块 (output: Number)
+**描述**: 读取传感器湿度值（相对湿度百分比）
+**字段**:
+- `TYPE`: 下拉选择 - 传感器型号 ["DHT11", "DHT22", "DHT21"]
+- `PIN`: 下拉选择 - 数字引脚 (来自 ${board.digitalPins})
+**生成代码**: `dht_2_dht22.readHumidity()`
+**返回值**: 浮点数，湿度值（%RH）
+**智能管理**: 自动创建对应的DHT对象（如果不存在）
+
+#### dht_read_success
+**类型**: 值块 (output: Boolean)
+**描述**: 检查传感器读取是否成功
+**字段**:
+- `TYPE`: 下拉选择 - 传感器型号 ["DHT11", "DHT22", "DHT21"]
+- `PIN`: 下拉选择 - 数字引脚 (来自 ${board.digitalPins})
+**生成代码**: `(!isnan(dht_2_dht22.readTemperature()) && !isnan(dht_2_dht22.readHumidity()))`
+**返回值**: 布尔值，true表示读取成功
+**用途**: 在读取数据前验证传感器工作状态
+
+## .abi 文件生成规范
+
+### 块连接规则
+- **语句块**: 有 `previousStatement/nextStatement`，通过 `next` 连接
+- **值块**: 有 `output`，连接到 `inputs` 中，不含 `next` 字段
 
 ### 智能对象管理
 - 系统根据传感器型号和引脚自动创建唯一的DHT对象
-- 对象命名格式：`dht_引脚号_传感器型号`
-- 避免重复创建相同配置的对象
+- 对象命名格式：`dht_引脚号_传感器型号` (如 `dht_2_dht22`)
+- 避免重复创建相同配置的对象 (`Arduino.addedDHTInitCode`)
 - 自动添加必要的库引用和初始化代码
 
-### 错误处理
-```cpp
-// 使用读取状态检查
-if (dht_read_success) {
-  float temp = dht_read_temperature;
-  float hum = dht_read_humidity;
-  // 处理有效数据
-} else {
-  Serial.println("传感器读取失败!");
+### 自动代码生成
+- **库引用**: `#include <DHT.h>`
+- **对象声明**: `DHT dht_2_dht22(2, DHT22);`
+- **初始化代码**: 在setup中添加 `dht_2_dht22.begin();`
+- **跟踪机制**: 使用 `Arduino.initializedDHTSensors` 和 `Arduino.addedDHTInitCode` 避免重复
+
+### 动态配置引用
+- 引脚选择器根据开发板配置动态显示可用数字引脚
+- `${board.digitalPins}` - 数字引脚列表
+
+## 使用示例
+
+### 初始化传感器
+```json
+{
+  "type": "dht_init",
+  "fields": {
+    "TYPE": "DHT22",
+    "PIN": "2"
+  }
+}
+```
+
+### 读取温度
+```json
+{
+  "type": "dht_read_temperature",
+  "fields": {
+    "TYPE": "DHT22",
+    "PIN": "2"
+  }
+}
+```
+
+### 读取湿度
+```json
+{
+  "type": "dht_read_humidity",
+  "fields": {
+    "TYPE": "DHT22",
+    "PIN": "2"
+  }
+}
+```
+
+### 状态检查
+```json
+{
+  "type": "dht_read_success",
+  "fields": {
+    "TYPE": "DHT22",
+    "PIN": "2"
+  }
+}
+```
+
+### 完整使用示例
+```json
+{
+  "type": "controls_if",
+  "inputs": {
+    "IF0": {
+      "block": {
+        "type": "dht_read_success",
+        "fields": {"TYPE": "DHT22", "PIN": "2"}
+      }
+    },
+    "DO0": {
+      "block": {
+        "type": "serial_println",
+        "inputs": {
+          "VAR": {
+            "block": {
+              "type": "dht_read_temperature",
+              "fields": {"TYPE": "DHT22", "PIN": "2"}
+            }
+          }
+        }
+      }
+    }
+  }
 }
 ```
 
@@ -134,8 +206,9 @@ if (dht_read_success) {
 - 避免在潮湿环境中长期使用DHT11
 
 ## 技术特性
-- **自动管理**: 智能创建和管理DHT对象
+- **自动管理**: 智能创建和管理DHT对象，避免重复初始化
 - **多传感器支持**: 同时支持多个不同型号的DHT传感器
 - **错误检测**: 提供读取状态检查功能
 - **库集成**: 自动添加Adafruit DHT库依赖
 - **引脚适配**: 根据开发板动态显示可用数字引脚
+- **代码优化**: 智能跟踪和管理传感器对象生命周期
