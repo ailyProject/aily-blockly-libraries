@@ -99,7 +99,7 @@ function ensureSerialBegin(serialPort, generator, baudrate = 9600) {
   if (!Arduino.addedSerialInitCode.has(serialPort) || baudrate != 9600) {
     // console.log(`Adding default serial initialization for ${serialPort} at ${baudrate} baud.`);
     // 只有在没有添加过任何初始化代码时才添加默认初始化
-    generator.addSetupBegin(`serial_${serialPort}_begin`, `${serialPort}.begin(${baudrate});`);
+    generator.addSetupBegin(`serial_${serialPort}_begin`, `${serialPort}.begin(${baudrate});`, true);
     // 标记为已添加初始化代码
     Arduino.addedSerialInitCode.add(serialPort);
   } else {
