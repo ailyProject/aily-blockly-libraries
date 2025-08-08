@@ -4,7 +4,7 @@ Arduino/C++编程中的时间管理核心库，提供延时控制、时间获取
 
 ## 库信息
 - **库名**: @aily-project/lib-core-time
-- **版本**: 1.0.0
+- **版本**: 0.0.1
 - **作者**: aily Project
 - **描述**: 核心库，包含delay、millis、micros等函数
 - **依赖**: @aily-project/lib-core-math (0.0.1)
