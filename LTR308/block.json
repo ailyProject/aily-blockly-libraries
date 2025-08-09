@@ -1,0 +1,164 @@
+[
+  {
+    "type": "ltr308_init_with_wire",
+    "message0": "初始化LTR308光照传感器 %1\n增益 %2\n积分时间 %3\n测量速率 %4\n使用 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "ltr308"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "GAIN",
+        "options": [
+          [
+            "1x (1-64k lux)",
+            "LTR308_GAIN_1"
+          ],
+          [
+            "3x (0.3-21k lux)",
+            "LTR308_GAIN_3"
+          ],
+          [
+            "6x (0.15-10.6k lux)",
+            "LTR308_GAIN_6"
+          ],
+          [
+            "9x (0.1-7k lux)",
+            "LTR308_GAIN_9"
+          ],
+          [
+            "18x (0.05-3.5k lux)",
+            "LTR308_GAIN_18"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INTEGRATION_TIME",
+        "options": [
+          [
+            "25ms",
+            "LTR308_INTEGRATION_25MS"
+          ],
+          [
+            "50ms",
+            "LTR308_INTEGRATION_50MS"
+          ],
+          [
+            "100ms (默认)",
+            "LTR308_INTEGRATION_100MS"
+          ],
+          [
+            "200ms",
+            "LTR308_INTEGRATION_200MS"
+          ],
+          [
+            "400ms",
+            "LTR308_INTEGRATION_400MS"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MEASUREMENT_RATE",
+        "options": [
+          [
+            "25ms",
+            "LTR308_RATE_25MS"
+          ],
+          [
+            "50ms",
+            "LTR308_RATE_50MS"
+          ],
+          [
+            "100ms",
+            "LTR308_RATE_100MS"
+          ],
+          [
+            "200ms",
+            "LTR308_RATE_200MS"
+          ],
+          [
+            "500ms (默认)",
+            "LTR308_RATE_500MS"
+          ],
+          [
+            "1000ms",
+            "LTR308_RATE_1000MS"
+          ],
+          [
+            "2000ms",
+            "LTR308_RATE_2000MS"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": false,
+    "colour": 160,
+    "tooltip": "初始化LTR308光照传感器，设置增益、积分时间和测量速率",
+    "extensions": ["ltr308_init_with_wire_pin_info"]
+  },
+  {
+    "type": "ltr308_read_light_level",
+    "message0": "读取LTR308传感器 %1 的光照值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ltr308",
+        "variableTypes": [
+          "LTR308"
+        ],
+        "defaultType": "LTR308"
+      }
+    ],
+    "output": "Number",
+    "colour": 160,
+    "tooltip": "读取LTR308传感器的光照强度(lux)"
+  },
+  {
+    "type": "ltr308_read_raw_data",
+    "message0": "读取LTR308传感器 %1 的原始数据",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ltr308",
+        "variableTypes": [
+          "LTR308"
+        ],
+        "defaultType": "LTR308"
+      }
+    ],
+    "output": "Number",
+    "colour": 160,
+    "tooltip": "读取LTR308传感器的原始ADC数据"
+  },
+  {
+    "type": "ltr308_is_data_ready",
+    "message0": "LTR308传感器 %1 数据是否准备好",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ltr308",
+        "variableTypes": [
+          "LTR308"
+        ],
+        "defaultType": "LTR308"
+      }
+    ],
+    "output": "Boolean",
+    "colour": 160,
+    "tooltip": "检查LTR308传感器是否有新的数据可读取"
+  }
+]

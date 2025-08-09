@@ -1,0 +1,321 @@
+[
+  {
+    "type": "imu9dof_init",
+    "message0": "初始化9轴IMU传感器 %1\n使用 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "imu"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 180,
+    "tooltip": "初始化掌控板3.0上的9轴IMU传感器",
+    "extensions": ["imu9dof_init_pin_info"]
+  },
+  {
+    "type": "imu9dof_read_accel",
+    "message0": "读取IMU %1 的加速度(g) %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "IMU9DOF"
+        ],
+        "defaultType": "IMU9DOF"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          [
+            "X轴",
+            "X"
+          ],
+          [
+            "Y轴",
+            "Y"
+          ],
+          [
+            "Z轴",
+            "Z"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": 180,
+    "tooltip": "读取加速度计数据，单位为g"
+  },
+  {
+    "type": "imu9dof_read_gyro",
+    "message0": "读取IMU %1 的角速度(°/s) %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "IMU9DOF"
+        ],
+        "defaultType": "IMU9DOF"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          [
+            "X轴",
+            "X"
+          ],
+          [
+            "Y轴",
+            "Y"
+          ],
+          [
+            "Z轴",
+            "Z"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": 180,
+    "tooltip": "读取陀螺仪数据，单位为度/秒"
+  },
+  {
+    "type": "imu9dof_read_mag",
+    "message0": "读取IMU %1 的磁场强度(μT) %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "IMU9DOF"
+        ],
+        "defaultType": "IMU9DOF"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          [
+            "X轴",
+            "X"
+          ],
+          [
+            "Y轴",
+            "Y"
+          ],
+          [
+            "Z轴",
+            "Z"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": 180,
+    "tooltip": "读取磁力计数据，单位为微特斯拉(μT)"
+  },
+  {
+    "type": "imu9dof_read_temperature",
+    "message0": "读取IMU %1 的温度(°C)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "IMU9DOF"
+        ],
+        "defaultType": "IMU9DOF"
+      }
+    ],
+    "output": "Number",
+    "colour": 180,
+    "tooltip": "读取IMU传感器的温度，单位为摄氏度"
+  },
+  {
+    "type": "imu9dof_compute_angles",
+    "message0": "计算IMU %1 的姿态角",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "IMU9DOF"
+        ],
+        "defaultType": "IMU9DOF"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 180,
+    "tooltip": "计算IMU的姿态角（横滚角、俯仰角、航向角）"
+  },
+  {
+    "type": "imu9dof_read_angle",
+    "message0": "读取IMU %1 的 %2 角度(°)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "IMU9DOF"
+        ],
+        "defaultType": "IMU9DOF"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ANGLE",
+        "options": [
+          [
+            "横滚(Roll)",
+            "ROLL"
+          ],
+          [
+            "俯仰(Pitch)",
+            "PITCH"
+          ],
+          [
+            "航向(Yaw)",
+            "YAW"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": 180,
+    "tooltip": "读取IMU的姿态角，单位为度"
+  },
+  {
+    "type": "imu9dof_calibrate_mag",
+    "message0": "校准IMU %1 的磁力计",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "IMU9DOF"
+        ],
+        "defaultType": "IMU9DOF"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 180,
+    "tooltip": "校准磁力计，消除硬铁和软铁干扰"
+  },
+  {
+    "type": "imu9dof_set_acc_range",
+    "message0": "设置IMU %1 加速度计量程为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "IMU9DOF"
+        ],
+        "defaultType": "IMU9DOF"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RANGE",
+        "options": [
+          [
+            "±2g",
+            "QMI8658A_ACC_RANGE_2G"
+          ],
+          [
+            "±4g",
+            "QMI8658A_ACC_RANGE_4G"
+          ],
+          [
+            "±8g",
+            "QMI8658A_ACC_RANGE_8G"
+          ],
+          [
+            "±16g",
+            "QMI8658A_ACC_RANGE_16G"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 180,
+    "tooltip": "设置加速度计的测量范围"
+  },
+  {
+    "type": "imu9dof_set_gyro_range",
+    "message0": "设置IMU %1 陀螺仪量程为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "IMU9DOF"
+        ],
+        "defaultType": "IMU9DOF"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RANGE",
+        "options": [
+          [
+            "±16°/s",
+            "QMI8658A_GYRO_RANGE_16DPS"
+          ],
+          [
+            "±32°/s",
+            "QMI8658A_GYRO_RANGE_32DPS"
+          ],
+          [
+            "±64°/s",
+            "QMI8658A_GYRO_RANGE_64DPS"
+          ],
+          [
+            "±128°/s",
+            "QMI8658A_GYRO_RANGE_128DPS"
+          ],
+          [
+            "±256°/s",
+            "QMI8658A_GYRO_RANGE_256DPS"
+          ],
+          [
+            "±512°/s",
+            "QMI8658A_GYRO_RANGE_512DPS"
+          ],
+          [
+            "±1024°/s",
+            "QMI8658A_GYRO_RANGE_1024DPS"
+          ],
+          [
+            "±2048°/s",
+            "QMI8658A_GYRO_RANGE_2048DPS"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 180,
+    "tooltip": "设置陀螺仪的测量范围"
+  }
+]
