@@ -1,0 +1,206 @@
+{
+    "kind": "category",
+    "name": "任务调度器",
+    "colour": "#FF6B35",
+    "icon": "fa-light fa-list-check",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "配置"
+        },
+        {
+            "kind": "block",
+            "type": "taskscheduler_config"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "调度器"
+        },
+        {
+            "kind": "block",
+            "type": "taskscheduler_create"
+        },
+        {
+            "kind": "block",
+            "type": "taskscheduler_execute"
+        },
+        {
+            "kind": "block",
+            "type": "scheduler_add_task"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "任务创建"
+        },
+        {
+            "kind": "block",
+            "type": "task_create",
+            "inputs": {
+                "INTERVAL": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1000
+                        }
+                    }
+                },
+                "ITERATIONS": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": -1
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "task_create_simple",
+            "inputs": {
+                "INTERVAL": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1000
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "任务控制"
+        },
+        {
+            "kind": "block",
+            "type": "task_enable"
+        },
+        {
+            "kind": "block",
+            "type": "task_disable"
+        },
+        {
+            "kind": "block",
+            "type": "task_restart"
+        },
+        {
+            "kind": "block",
+            "type": "task_delay",
+            "inputs": {
+                "DELAY": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1000
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "task_set_interval",
+            "inputs": {
+                "INTERVAL": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1000
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "任务状态"
+        },
+        {
+            "kind": "block",
+            "type": "task_is_enabled"
+        },
+        {
+            "kind": "block",
+            "type": "task_is_first_iteration"
+        },
+        {
+            "kind": "block",
+            "type": "task_is_last_iteration"
+        },
+        {
+            "kind": "block",
+            "type": "task_get_run_counter"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "状态请求 (需启用)"
+        },
+        {
+            "kind": "block",
+            "type": "status_request_create"
+        },
+        {
+            "kind": "block",
+            "type": "status_request_set_waiting",
+            "inputs": {
+                "COUNT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "status_request_signal"
+        },
+        {
+            "kind": "block",
+            "type": "task_wait_for"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "超时功能 (需启用)"
+        },
+        {
+            "kind": "block",
+            "type": "task_set_timeout",
+            "inputs": {
+                "TIMEOUT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 5000
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "task_is_timed_out"
+        }
+    ]
+}

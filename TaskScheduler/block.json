@@ -1,0 +1,469 @@
+[
+    {
+        "type": "taskscheduler_config",
+        "message0": "任务调度器配置 %1 %2 启用状态请求 %3 启用任务超时 %4 启用低功耗睡眠 %5 启用任务优先级 %6 启用本地存储 %7 启用微秒精度 %8",
+        "args0": [
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "field_checkbox",
+                "name": "STATUS_REQUEST",
+                "checked": false
+            },
+            {
+                "type": "field_checkbox",
+                "name": "TIMEOUT",
+                "checked": false
+            },
+            {
+                "type": "field_checkbox",
+                "name": "SLEEP_ON_IDLE",
+                "checked": false
+            },
+            {
+                "type": "field_checkbox",
+                "name": "PRIORITY",
+                "checked": false
+            },
+            {
+                "type": "field_checkbox",
+                "name": "LTS_POINTER",
+                "checked": false
+            },
+            {
+                "type": "field_checkbox",
+                "name": "MICRO_RES",
+                "checked": false
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6B35",
+        "tooltip": "配置TaskScheduler库的高级功能选项",
+        "helpUrl": ""
+    },
+    {
+        "type": "taskscheduler_create",
+        "message0": "创建调度器 %1",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "SCHEDULER",
+                "variable": "scheduler",
+                "variableTypes": ["Scheduler"],
+                "defaultType": "Scheduler"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6B35",
+        "tooltip": "创建一个任务调度器实例",
+        "helpUrl": ""
+    },
+    {
+        "type": "taskscheduler_execute",
+        "message0": "调度器 %1 执行任务",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "SCHEDULER",
+                "variable": "scheduler",
+                "variableTypes": ["Scheduler"],
+                "defaultType": "Scheduler"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6B35",
+        "tooltip": "执行调度器中的任务，必须放在loop()函数中",
+        "helpUrl": ""
+    },
+    {
+        "type": "task_create",
+        "message0": "创建任务 %1 间隔 %2 毫秒 执行 %3 次 回调函数 %4",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "TASK",
+                "variable": "task1",
+                "variableTypes": ["Task"],
+                "defaultType": "Task"
+            },
+            {
+                "type": "input_value",
+                "name": "INTERVAL",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "ITERATIONS",
+                "check": "Number"
+            },
+            {
+                "type": "field_input",
+                "name": "CALLBACK",
+                "text": "taskCallback"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "创建一个定时任务",
+        "helpUrl": ""
+    },
+    {
+        "type": "task_create_simple",
+        "message0": "创建简单任务 %1 每 %2 毫秒执行一次 %3",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "TASK",
+                "variable": "task1",
+                "variableTypes": ["Task"],
+                "defaultType": "Task"
+            },
+            {
+                "type": "input_value",
+                "name": "INTERVAL",
+                "check": "Number"
+            },
+            {
+                "type": "input_statement",
+                "name": "DO"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "创建一个简单的重复执行任务",
+        "helpUrl": ""
+    },
+    {
+        "type": "scheduler_add_task",
+        "message0": "调度器 %1 添加任务 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "SCHEDULER",
+                "variable": "scheduler",
+                "variableTypes": ["Scheduler"],
+                "defaultType": "Scheduler"
+            },
+            {
+                "type": "field_variable",
+                "name": "TASK",
+                "variable": "task1",
+                "variableTypes": ["Task"],
+                "defaultType": "Task"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6B35",
+        "tooltip": "将任务添加到调度器中",
+        "helpUrl": ""
+    },
+    {
+        "type": "task_enable",
+        "message0": "启用任务 %1",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "TASK",
+                "variable": "task1",
+                "variableTypes": ["Task"],
+                "defaultType": "Task"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "启用指定的任务",
+        "helpUrl": ""
+    },
+    {
+        "type": "task_disable",
+        "message0": "禁用任务 %1",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "TASK",
+                "variable": "task1",
+                "variableTypes": ["Task"],
+                "defaultType": "Task"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "禁用指定的任务",
+        "helpUrl": ""
+    },
+    {
+        "type": "task_restart",
+        "message0": "重启任务 %1",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "TASK",
+                "variable": "task1",
+                "variableTypes": ["Task"],
+                "defaultType": "Task"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "重新启动任务",
+        "helpUrl": ""
+    },
+    {
+        "type": "task_delay",
+        "message0": "延迟任务 %1 %2 毫秒",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "TASK",
+                "variable": "task1",
+                "variableTypes": ["Task"],
+                "defaultType": "Task"
+            },
+            {
+                "type": "input_value",
+                "name": "DELAY",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "延迟任务的下次执行",
+        "helpUrl": ""
+    },
+    {
+        "type": "task_set_interval",
+        "message0": "设置任务 %1 间隔为 %2 毫秒",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "TASK",
+                "variable": "task1",
+                "variableTypes": ["Task"],
+                "defaultType": "Task"
+            },
+            {
+                "type": "input_value",
+                "name": "INTERVAL",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "设置任务的执行间隔",
+        "helpUrl": ""
+    },
+    {
+        "type": "task_is_enabled",
+        "message0": "任务 %1 已启用",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "TASK",
+                "variable": "task1",
+                "variableTypes": ["Task"],
+                "defaultType": "Task"
+            }
+        ],
+        "output": "Boolean",
+        "colour": "#4CAF50",
+        "tooltip": "检查任务是否已启用",
+        "helpUrl": ""
+    },
+    {
+        "type": "task_is_first_iteration",
+        "message0": "任务 %1 是首次运行",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "TASK",
+                "variable": "task1",
+                "variableTypes": ["Task"],
+                "defaultType": "Task"
+            }
+        ],
+        "output": "Boolean",
+        "colour": "#4CAF50",
+        "tooltip": "检查是否是任务的首次运行",
+        "helpUrl": ""
+    },
+    {
+        "type": "task_is_last_iteration",
+        "message0": "任务 %1 是最后一次运行",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "TASK",
+                "variable": "task1",
+                "variableTypes": ["Task"],
+                "defaultType": "Task"
+            }
+        ],
+        "output": "Boolean",
+        "colour": "#4CAF50",
+        "tooltip": "检查是否是任务的最后一次运行",
+        "helpUrl": ""
+    },
+    {
+        "type": "task_get_run_counter",
+        "message0": "任务 %1 运行次数",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "TASK",
+                "variable": "task1",
+                "variableTypes": ["Task"],
+                "defaultType": "Task"
+            }
+        ],
+        "output": "Number",
+        "colour": "#4CAF50",
+        "tooltip": "获取任务已运行的次数",
+        "helpUrl": ""
+    },
+    {
+        "type": "status_request_create",
+        "message0": "创建状态请求 %1",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STATUS_REQUEST",
+                "variable": "statusRequest",
+                "variableTypes": ["StatusRequest"],
+                "defaultType": "StatusRequest"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "创建一个状态请求对象用于任务同步",
+        "helpUrl": ""
+    },
+    {
+        "type": "status_request_set_waiting",
+        "message0": "状态请求 %1 设置等待 %2 个信号",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STATUS_REQUEST",
+                "variable": "statusRequest",
+                "variableTypes": ["StatusRequest"],
+                "defaultType": "StatusRequest"
+            },
+            {
+                "type": "input_value",
+                "name": "COUNT",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "设置状态请求需要等待的信号数量",
+        "helpUrl": ""
+    },
+    {
+        "type": "status_request_signal",
+        "message0": "状态请求 %1 发出信号",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STATUS_REQUEST",
+                "variable": "statusRequest",
+                "variableTypes": ["StatusRequest"],
+                "defaultType": "StatusRequest"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "向状态请求发出一个信号",
+        "helpUrl": ""
+    },
+    {
+        "type": "task_wait_for",
+        "message0": "任务 %1 等待状态请求 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "TASK",
+                "variable": "task1",
+                "variableTypes": ["Task"],
+                "defaultType": "Task"
+            },
+            {
+                "type": "field_variable",
+                "name": "STATUS_REQUEST",
+                "variable": "statusRequest",
+                "variableTypes": ["StatusRequest"],
+                "defaultType": "StatusRequest"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "让任务等待状态请求完成",
+        "helpUrl": ""
+    },
+    {
+        "type": "task_set_timeout",
+        "message0": "设置任务 %1 超时时间 %2 毫秒",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "TASK",
+                "variable": "task1",
+                "variableTypes": ["Task"],
+                "defaultType": "Task"
+            },
+            {
+                "type": "input_value",
+                "name": "TIMEOUT",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF9800",
+        "tooltip": "设置任务的超时时间",
+        "helpUrl": ""
+    },
+    {
+        "type": "task_is_timed_out",
+        "message0": "任务 %1 已超时",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "TASK",
+                "variable": "task1",
+                "variableTypes": ["Task"],
+                "defaultType": "Task"
+            }
+        ],
+        "output": "Boolean",
+        "colour": "#FF9800",
+        "tooltip": "检查任务是否已超时",
+        "helpUrl": ""
+    }
+]
