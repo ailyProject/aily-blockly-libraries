@@ -442,10 +442,78 @@ function renameVariable(block, oldName, newName, vtype) {
   }
 }
 
-function isBlockConnected(block) {
-  // 定义主入口块类型（可根据实际情况调整）
-  const ENTRY_BLOCK_TYPES = ['arduino_setup', 'arduino_loop'];
+// 全局变量存储所有入口块类型
+let ENTRY_BLOCK_TYPES = ['arduino_setup', 'arduino_loop'];
 
+/**
+ * 注册Hat块类型到入口块列表
+ * @param {string|string[]} blockTypes - 要注册的块类型，可以是单个字符串或字符串数组
+ */
+function registerHatBlock(blockTypes) {
+  if (typeof blockTypes === 'string') {
+    blockTypes = [blockTypes];
+  }
+
+  if (Array.isArray(blockTypes)) {
+    blockTypes.forEach(blockType => {
+      if (typeof blockType === 'string' && !ENTRY_BLOCK_TYPES.includes(blockType)) {
+        ENTRY_BLOCK_TYPES.push(blockType);
+        console.log(`Hat块类型已注册: ${blockType}`);
+      }
+    });
+  } else {
+    console.warn('registerHatBlock: 参数必须是字符串或字符串数组');
+  }
+}
+
+/**
+ * 获取当前所有已注册的入口块类型
+ * @returns {string[]} 入口块类型数组
+ */
+function getRegisteredHatBlocks() {
+  return [...ENTRY_BLOCK_TYPES];
+}
+
+/**
+ * 移除已注册的Hat块类型
+ * @param {string|string[]} blockTypes - 要移除的块类型
+ */
+function unregisterHatBlock(blockTypes) {
+  if (typeof blockTypes === 'string') {
+    blockTypes = [blockTypes];
+  }
+
+  if (Array.isArray(blockTypes)) {
+    blockTypes.forEach(blockType => {
+      const index = ENTRY_BLOCK_TYPES.indexOf(blockType);
+      if (index > -1) {
+        ENTRY_BLOCK_TYPES.splice(index, 1);
+        console.log(`Hat块类型已移除: ${blockType}`);
+      }
+    });
+  }
+}
+
+// 将注册函数暴露到全局，供其他库调用
+if (typeof window !== 'undefined') {
+  window.registerHatBlock = registerHatBlock;
+  window.getRegisteredHatBlocks = getRegisteredHatBlocks;
+  window.unregisterHatBlock = unregisterHatBlock;
+}
+
+// 自动注册常见的Hat块类型
+registerHatBlock([
+  'pubsub_set_callback',
+  'blinker_button',
+  'blinker_slider',
+  'blinker_colorpicker',
+  'blinker_joystick',
+  'blinker_chart',
+  'blinker_heartbeat',
+  'blinker_data_handler'
+]);
+
+function isBlockConnected(block) {
   // 递归向上查找
   function findRootBlock(b) {
     if (!b) return null;

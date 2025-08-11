@@ -1,95 +1,145 @@
 [
-    {
-        "inputsInline": true,
-        "message0": "初始化按钮 在引脚 %1",
-        "type": "onebutton_setup",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "PIN",
-                "options": "${board.digitalPins}"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF5733"
-    },
-    {
-        "inputsInline": true,
-        "message0": "按钮单击事件 %1",
-        "type": "onebutton_attachClick",
-        "args0": [
-            {
-                "type": "input_statement",
-                "name": "CLICK_FUNC"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF5733"
-    },
-    {
-        "inputsInline": true,
-        "message0": "按钮双击事件 %1",
-        "type": "onebutton_attachDoubleClick",
-        "args0": [
-            {
-                "type": "input_statement",
-                "name": "DOUBLE_CLICK_FUNC"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF5733"
-    },
-    {
-        "inputsInline": true,
-        "message0": "按钮长按开始事件 %1",
-        "type": "onebutton_attachLongPressStart",
-        "args0": [
-            {
-                "type": "input_statement",
-                "name": "LONG_PRESS_START_FUNC"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF5733"
-    },
-    {
-        "inputsInline": true,
-        "message0": "按钮长按停止事件 %1",
-        "type": "onebutton_attachLongPressStop",
-        "args0": [
-            {
-                "type": "input_statement",
-                "name": "LONG_PRESS_STOP_FUNC"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF5733"
-    },
-    {
-        "inputsInline": true,
-        "message0": "按钮长按持续事件 %1",
-        "type": "onebutton_attachDuringLongPress",
-        "args0": [
-            {
-                "type": "input_statement",
-                "name": "DURING_LONG_PRESS_FUNC"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF5733"
-    },
-    {
-        "inputsInline": true,
-        "message0": "检查按钮状态",
-        "type": "onebutton_tick",
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF5733"
-    }
+  {
+    "message0": "初始化按钮 %1 在引脚 %2 %3 低电平有效 %4",
+    "type": "onebutton_setup",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "button1"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PIN_MODE",
+        "options": [
+          ["普通输入", "INPUT"],
+          ["上拉输入", "INPUT_PULLUP"]
+        ]
+      },
+      {
+        "type": "field_checkbox",
+        "name": "ACTIVE_LOW",
+        "checked": true
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#FF5733"
+  },
+  {
+    "message0": "按钮 %1 单击时执行",
+    "type": "onebutton_attachClick",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "button1",
+        "variableTypes": ["OneButton"],
+        "defaultType": "OneButton"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "CLICK_FUNC"
+      }
+    ],
+    "inputsInline": true,
+    "colour": "#FF5733"
+  },
+  {
+    "message0": "按钮 %1 双击时执行",
+    "type": "onebutton_attachDoubleClick",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "button1",
+        "variableTypes": ["OneButton"],
+        "defaultType": "OneButton"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DOUBLE_CLICK_FUNC"
+      }
+    ],
+    "inputsInline": true,
+    "colour": "#FF5733"
+  },
+  {
+    "message0": "按钮 %1 长按开始时执行",
+    "type": "onebutton_attachLongPressStart",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "button1",
+        "variableTypes": ["OneButton"],
+        "defaultType": "OneButton"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "LONG_PRESS_START_FUNC"
+      }
+    ],
+    "inputsInline": true,
+    "colour": "#FF5733"
+  },
+  {
+    "message0": "按钮 %1 长按停止时执行",
+    "type": "onebutton_attachLongPressStop",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "button1",
+        "variableTypes": ["OneButton"],
+        "defaultType": "OneButton"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "LONG_PRESS_STOP_FUNC"
+      }
+    ],
+    "inputsInline": true,
+    "colour": "#FF5733"
+  },
+  {
+    "message0": "按钮 %1 长按持续时执行",
+    "type": "onebutton_attachDuringLongPress",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "button1",
+        "variableTypes": ["OneButton"],
+        "defaultType": "OneButton"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DURING_LONG_PRESS_FUNC"
+      }
+    ],
+    "inputsInline": true,
+    "colour": "#FF5733"
+  }
 ]
