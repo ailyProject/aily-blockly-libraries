@@ -31,7 +31,7 @@
 },
     {
     "type": "esp32_i2s_init_and_begin",
-    "message0": "初始化I2S麦克风 SCK:%1 WS:%2 SD:%3 采样率%4Hz 缓冲区大小%5",
+    "message0": "初始化PCM麦克风 SCK:%1 WS:%2 SD:%3 采样率%4Hz 缓冲区大小%5",
     "args0": [
         {
             "type": "input_value",
@@ -72,6 +72,144 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#FF9800",
+    "inputsInline": true
+},
+    {
+    "type": "esp32_pdm_init_and_begin",
+    "message0": "初始化PDM麦克风 CLK:%1 DATA:%2 采样率%3Hz 缓冲区大小%4",
+    "args0": [
+        {
+            "type": "input_value",
+            "name": "CLK_PIN",
+            "check": "Number"
+        },
+        {
+            "type": "input_value",
+            "name": "DATA_PIN",
+            "check": "Number"
+        },
+        {
+            "type": "field_dropdown",
+            "name": "SAMPLE_RATE",
+            "options": [
+                ["8000", "8000"],
+                ["16000", "16000"],
+                ["22050", "22050"],
+                ["44100", "44100"]
+            ]
+        },
+        {
+            "type": "field_dropdown",
+            "name": "BUFFER_SIZE",
+            "options": [
+                ["512", "512"],
+                ["1024", "1024"],
+                ["2048", "2048"],
+                ["4096", "4096"]
+            ]
+        }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "inputsInline": true
+},
+    {
+    "type": "esp32_pdm_is_ready",
+    "message0": "PDM麦克风%1已就绪",
+    "args0": [
+        {
+            "type": "field_variable",
+            "name": "OBJECT",
+            "variable": "microphone",
+            "variableTypes": ["EspI2S"],
+            "defaultType": "EspI2S"
+        }
+    ],
+    "output": "Boolean",
+    "colour": "#FF5722",
+    "inputsInline": true
+},
+    {
+    "type": "esp32_pdm_read_samples",
+    "message0": "PDM麦克风%1读取音频样本",
+    "args0": [
+        {
+            "type": "field_variable",
+            "name": "OBJECT",
+            "variable": "microphone",
+            "variableTypes": ["EspI2S"],
+            "defaultType": "EspI2S"
+        }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "inputsInline": true
+},
+    {
+    "type": "esp32_get_mic_type",
+    "message0": "获取麦克风%1类型",
+    "args0": [
+        {
+            "type": "field_variable",
+            "name": "OBJECT",
+            "variable": "microphone",
+            "variableTypes": ["EspI2S"],
+            "defaultType": "EspI2S"
+        }
+    ],
+    "output": "String",
+    "colour": "#795548",
+    "inputsInline": true
+},
+    {
+    "type": "esp32_pdm_set_filter",
+    "message0": "PDM麦克风%1设置滤波器 长度:%2 截止频率:%3Hz",
+    "args0": [
+        {
+            "type": "field_variable",
+            "name": "OBJECT",
+            "variable": "microphone",
+            "variableTypes": ["EspI2S"],
+            "defaultType": "EspI2S"
+        },
+        {
+            "type": "input_value",
+            "name": "FILTER_LENGTH",
+            "check": "Number"
+        },
+        {
+            "type": "input_value",
+            "name": "CUTOFF_FREQ",
+            "check": "Number"
+        }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "inputsInline": true
+},
+    {
+    "type": "esp32_pdm_set_gain",
+    "message0": "PDM麦克风%1设置增益%2倍",
+    "args0": [
+        {
+            "type": "field_variable",
+            "name": "OBJECT",
+            "variable": "microphone",
+            "variableTypes": ["EspI2S"],
+            "defaultType": "EspI2S"
+        },
+        {
+            "type": "input_value",
+            "name": "GAIN",
+            "check": "Number"
+        }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
     "inputsInline": true
 },
     {
