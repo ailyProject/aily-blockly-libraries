@@ -332,3 +332,73 @@ ${objectName}.updateMelody();     // 更新旋律播放状态
     
     return code;
 };
+
+// PDM麦克风初始化
+Arduino.forBlock['esp32_pdm_init_and_begin'] = function(block, generator) {
+    // 获取自定义引脚和参数
+    const clkPin = generator.valueToCode(block, 'CLK_PIN', Arduino.ORDER_ATOMIC) || '42';
+    const dataPin = generator.valueToCode(block, 'DATA_PIN', Arduino.ORDER_ATOMIC) || '41';
+    const sampleRate = block.getFieldValue('SAMPLE_RATE') || '16000';
+    const bufferSize = block.getFieldValue('BUFFER_SIZE') || '512';
+
+    // 添加库
+    generator.addLibrary('#include "Esp_I2S.h"', '#include "Esp_I2S.h"');
+
+    // 创建对象
+    generator.addObject(
+        `EspI2S microphone;`,
+        `EspI2S microphone;`
+    );
+
+    // 生成PDM初始化代码
+    const initCode = `
+    // 初始化PDM麦克风
+    if (!microphone.beginPDM(${sampleRate}, ${bufferSize}, ${clkPin}, ${dataPin})) {
+        Serial.println("❌ PDM麦克风初始化失败！");
+    } else {
+        Serial.println("✅ PDM麦克风初始化成功！");
+    }
+    `;
+
+    generator.addSetup('pdm_init', initCode);
+
+    return '';
+};
+
+// PDM麦克风就绪状态检查
+Arduino.forBlock['esp32_pdm_is_ready'] = function(block, generator) {
+    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
+    
+    return [`${objectName}.isPDMReady()`, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// PDM麦克风读取样本
+Arduino.forBlock['esp32_pdm_read_samples'] = function(block, generator) {
+    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
+    
+    return `${objectName}.readPDMSamples();\n`;
+};
+
+// 获取麦克风类型
+Arduino.forBlock['esp32_get_mic_type'] = function(block, generator) {
+    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
+    
+    return [`${objectName}.getMicTypeString()`, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// PDM滤波器设置
+Arduino.forBlock['esp32_pdm_set_filter'] = function(block, generator) {
+    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
+    const filterLength = generator.valueToCode(block, 'FILTER_LENGTH', Arduino.ORDER_NONE) || '32';
+    const cutoffFreq = generator.valueToCode(block, 'CUTOFF_FREQ', Arduino.ORDER_NONE) || '1000';
+    
+    return `${objectName}.setPDMFilter(${filterLength}, ${cutoffFreq});\n`;
+};
+
+// PDM增益设置
+Arduino.forBlock['esp32_pdm_set_gain'] = function(block, generator) {
+    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
+    const gain = generator.valueToCode(block, 'GAIN', Arduino.ORDER_NONE) || '1.0';
+    
+    return `${objectName}.setPDMGain(${gain});\n`;
+};

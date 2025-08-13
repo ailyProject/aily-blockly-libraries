@@ -48,6 +48,13 @@
     }
 },
         {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "🎤 麦克风初始化"
+        },
+        {
     "kind": "block",
     "type": "esp32_i2s_init_and_begin",
     "inputs": {
@@ -78,15 +85,51 @@
     }
 },
         {
+    "kind": "block",
+    "type": "esp32_pdm_init_and_begin",
+    "inputs": {
+        "CLK_PIN": {
+            "shadow": {
+                "type": "math_number",
+                "fields": {
+                    "NUM": 41
+                }
+            }
+        },
+        "DATA_PIN": {
+            "shadow": {
+                "type": "math_number",
+                "fields": {
+                    "NUM": 2
+                }
+            }
+        }
+    }
+},
+        {
             "kind": "sep"
         },
         {
             "kind": "label",
-            "text": "音频分析"
+            "text": "📊 音频分析"
         },
         {
             "kind": "block",
             "type": "esp32_i2s_read_samples",
+            "fields": {
+                "OBJECT": "microphone"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_pdm_read_samples",
+            "fields": {
+                "OBJECT": "microphone"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_get_mic_type",
             "fields": {
                 "OBJECT": "microphone"
             }
@@ -137,13 +180,66 @@
             }
         },
         {
-            "kind": "sep"
-        },
-        {
             "kind": "block",
             "type": "esp32_i2s_calibrate",
             "fields": {
                 "OBJECT": "microphone"
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "🔧 PDM配置"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_pdm_is_ready",
+            "fields": {
+                "OBJECT": "microphone"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_pdm_set_filter",
+            "fields": {
+                "OBJECT": "microphone"
+            },
+            "inputs": {
+                "FILTER_LENGTH": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 32
+                        }
+                    }
+                },
+                "CUTOFF_FREQ": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1000
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_pdm_set_gain",
+            "fields": {
+                "OBJECT": "microphone"
+            },
+            "inputs": {
+                "GAIN": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1.0
+                        }
+                    }
+                }
             }
         },
         {
