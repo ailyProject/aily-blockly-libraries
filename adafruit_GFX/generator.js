@@ -4,16 +4,19 @@
 Arduino.forBlock['tft_init'] = function(block, generator) {
   var model = block.getFieldValue('MODEL'); // ST7735、ST7789或ST7796S
   
-  // 从用户输入获取引脚配置，如果没有输入则使用默认值
-  var cs = generator.valueToCode(block, 'CS', generator.ORDER_ATOMIC) || '5';
-  var dc = generator.valueToCode(block, 'DC', generator.ORDER_ATOMIC) || '2';
-  var mosi = generator.valueToCode(block, 'MOSI', generator.ORDER_ATOMIC) || '23';
-  var sclk = generator.valueToCode(block, 'SCLK', generator.ORDER_ATOMIC) || '18';
+  // 从用户输入获取引脚配置，使用与Adafruit_st7789.ino匹配的默认值
+  var cs = generator.valueToCode(block, 'CS', generator.ORDER_ATOMIC) || '34';
+  var dc = generator.valueToCode(block, 'DC', generator.ORDER_ATOMIC) || '35';
+  var mosi = generator.valueToCode(block, 'MOSI', generator.ORDER_ATOMIC) || '37';
+  var sclk = generator.valueToCode(block, 'SCLK', generator.ORDER_ATOMIC) || '36';
   var rst = generator.valueToCode(block, 'RST', generator.ORDER_ATOMIC) || '-1';
   
-  // 获取屏幕尺寸参数
-  var width = generator.valueToCode(block, 'WIDTH', generator.ORDER_ATOMIC) || '240';
-  var height = generator.valueToCode(block, 'HEIGHT', generator.ORDER_ATOMIC) || '240';
+  // 获取背光引脚配置（新增）
+  var blk = generator.valueToCode(block, 'BLK', generator.ORDER_ATOMIC) || '33';
+  
+  // 获取屏幕尺寸参数，使用与Adafruit_st7789.ino匹配的默认值
+  var width = generator.valueToCode(block, 'WIDTH', generator.ORDER_ATOMIC) || '172';
+  var height = generator.valueToCode(block, 'HEIGHT', generator.ORDER_ATOMIC) || '320';
   
   // 添加SPI库
   generator.addLibrary('SPI', '#include <SPI.h>');
@@ -32,7 +35,17 @@ Arduino.forBlock['tft_init'] = function(block, generator) {
     
     // 使用软件SPI构造函数，包含固定引脚
     generator.addObject('tft', 'Adafruit_ST7789 tft = Adafruit_ST7789('+cs+', '+dc+', '+mosi+', '+sclk+', '+rst+');');
-    generator.addSetupBegin('tft_init', 'tft.init('+width+', '+height+');');
+    
+    // 添加背光控制（如果指定了背光引脚）
+    if (blk !== '-1' && blk !== 'undefined' && blk !== '') {
+      generator.addSetupBegin('tft_backlight', 'pinMode('+blk+', OUTPUT);\n  digitalWrite('+blk+', HIGH);  // 开启背光');
+    }
+    
+    // 添加串口调试信息
+    generator.addSetupBegin('tft_debug', 'Serial.begin(115200);\n  Serial.println("Initializing ST7789 display...");');
+    
+    // ST7789初始化序列
+    generator.addSetupBegin('tft_init', 'tft.init('+width+', '+height+');\n  tft.setRotation(3);\n  Serial.println("ST7789 initialized successfully!");\n  \n  // 测试显示\n  tft.fillScreen(ST77XX_BLACK);\n  tft.fillScreen(ST77XX_RED);\n  delay(500);\n  tft.fillScreen(ST77XX_GREEN);\n  delay(500);\n  tft.fillScreen(ST77XX_BLUE);\n  delay(500);\n  tft.fillScreen(ST77XX_BLACK);');
     
   } else { // 默认为ST7735
     generator.addLibrary('Adafruit_ST7735', '#include <Adafruit_ST7735.h>');
