@@ -1,0 +1,253 @@
+[
+    {
+        "type": "as5600_init",
+        "message0": "初始化AS5600传感器%1地址%2方向引脚%3",
+        "args0": [
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "ADDRESS",
+                "options": [
+                    ["AS5600 (0x36)", "0x36"],
+                    ["AS5600L (0x40)", "0x40"]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "DIR_PIN",
+                "options": [
+                    ["软件控制", "255"],
+                    ["2", "2"],
+                    ["3", "3"],
+                    ["4", "4"],
+                    ["5", "5"],
+                    ["6", "6"],
+                    ["7", "7"],
+                    ["8", "8"],
+                    ["9", "9"],
+                    ["10", "10"],
+                    ["11", "11"],
+                    ["12", "12"],
+                    ["13", "13"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6B35",
+        "tooltip": "初始化AS5600磁性角度传感器"
+    },
+    {
+        "type": "as5600_read_angle",
+        "message0": "读取AS5600角度%1单位%2",
+        "args0": [
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "UNIT",
+                "options": [
+                    ["度", "degrees"],
+                    ["弧度", "radians"],
+                    ["原始值", "raw"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#FF6B35",
+        "tooltip": "读取AS5600传感器的角度值"
+    },
+    {
+        "type": "as5600_read_raw_angle",
+        "message0": "读取AS5600原始角度",
+        "output": "Number",
+        "colour": "#FF6B35",
+        "tooltip": "读取AS5600传感器的原始角度值(0-4095)"
+    },
+    {
+        "type": "as5600_set_direction",
+        "message0": "设置AS5600旋转方向%1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "DIRECTION",
+                "options": [
+                    ["顺时针", "0"],
+                    ["逆时针", "1"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6B35",
+        "tooltip": "设置AS5600传感器的旋转方向"
+    },
+    {
+        "type": "as5600_set_offset",
+        "message0": "设置AS5600角度偏移%1度",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "OFFSET",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6B35",
+        "tooltip": "设置AS5600传感器的角度偏移值"
+    },
+    {
+        "type": "as5600_get_offset",
+        "message0": "获取AS5600角度偏移",
+        "output": "Number",
+        "colour": "#FF6B35",
+        "tooltip": "获取AS5600传感器当前的角度偏移值"
+    },
+    {
+        "type": "as5600_detect_magnet",
+        "message0": "AS5600检测到磁铁",
+        "output": "Boolean",
+        "colour": "#FF6B35",
+        "tooltip": "检测AS5600传感器是否检测到磁铁"
+    },
+    {
+        "type": "as5600_magnet_status",
+        "message0": "AS5600磁铁%1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "STATUS",
+                "options": [
+                    ["过强", "strong"],
+                    ["过弱", "weak"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "output": "Boolean",
+        "colour": "#FF6B35",
+        "tooltip": "检测AS5600传感器磁铁强度状态"
+    },
+    {
+        "type": "as5600_read_magnitude",
+        "message0": "读取AS5600磁场强度",
+        "output": "Number",
+        "colour": "#FF6B35",
+        "tooltip": "读取AS5600传感器的磁场强度值"
+    },
+    {
+        "type": "as5600_read_agc",
+        "message0": "读取AS5600自动增益",
+        "output": "Number",
+        "colour": "#FF6B35",
+        "tooltip": "读取AS5600传感器的自动增益控制值"
+    },
+    {
+        "type": "as5600_angular_speed",
+        "message0": "读取AS5600角速度%1单位%2",
+        "args0": [
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "UNIT",
+                "options": [
+                    ["度/秒", "degrees"],
+                    ["弧度/秒", "radians"],
+                    ["转/分", "rpm"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#FF6B35",
+        "tooltip": "读取AS5600传感器的角速度"
+    },
+    {
+        "type": "as5600_cumulative_position",
+        "message0": "读取AS5600累积位置",
+        "output": "Number",
+        "colour": "#FF6B35",
+        "tooltip": "读取AS5600传感器的累积位置(支持多圈计数)"
+    },
+    {
+        "type": "as5600_revolutions",
+        "message0": "读取AS5600转数",
+        "output": "Number",
+        "colour": "#FF6B35",
+        "tooltip": "读取AS5600传感器的完整转数"
+    },
+    {
+        "type": "as5600_reset_position",
+        "message0": "重置AS5600累积位置为%1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "POSITION",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6B35",
+        "tooltip": "重置AS5600传感器的累积位置"
+    },
+    {
+        "type": "as5600_set_power_mode",
+        "message0": "设置AS5600功耗模式%1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "MODE",
+                "options": [
+                    ["正常", "0"],
+                    ["低功耗1", "1"],
+                    ["低功耗2", "2"],
+                    ["低功耗3", "3"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6B35",
+        "tooltip": "设置AS5600传感器的功耗模式"
+    },
+    {
+        "type": "as5600_set_output_mode",
+        "message0": "设置AS5600输出模式%1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "MODE",
+                "options": [
+                    ["模拟0-100%", "0"],
+                    ["模拟10-90%", "1"],
+                    ["PWM", "2"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6B35",
+        "tooltip": "设置AS5600传感器的输出模式"
+    },
+    {
+        "type": "as5600_is_connected",
+        "message0": "AS5600已连接",
+        "output": "Boolean",
+        "colour": "#FF6B35",
+        "tooltip": "检测AS5600传感器是否已连接"
+    }
+]
