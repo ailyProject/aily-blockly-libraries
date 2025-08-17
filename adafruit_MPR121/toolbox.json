@@ -1,0 +1,70 @@
+{
+    "kind": "category",
+    "name": "MPR121触摸传感器",
+    "icon": "fa-light fa-hand-pointer",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "mpr121_init",
+            "fields": {
+                "I2C_ADDR": "0x5A"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "mpr121_init_advanced",
+            "fields": {
+                "I2C_ADDR": "0x5A",
+                "TOUCH_THRESHOLD": "12",
+                "RELEASE_THRESHOLD": "6"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "mpr121_is_touched",
+            "fields": {
+                "CHANNEL": "0"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "mpr121_get_touched"
+        },
+        {
+            "kind": "block",
+            "type": "mpr121_get_filtered_data",
+            "fields": {
+                "CHANNEL": "0"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "mpr121_get_baseline_data",
+            "fields": {
+                "CHANNEL": "0"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "mpr121_set_thresholds",
+            "inputs": {
+                "TOUCH_THRESHOLD": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 12
+                        }
+                    }
+                },
+                "RELEASE_THRESHOLD": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 6
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
