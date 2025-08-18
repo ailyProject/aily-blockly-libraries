@@ -1,0 +1,135 @@
+[
+    {
+        "type": "rfid_init",
+        "message0": "初始化RFID模块 SDA引脚%1 RST引脚%2",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "SDA_PIN",
+                "options": "${board.digitalPins}"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "RST_PIN",
+                "options": "${board.digitalPins}"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF5722",
+        "inputsInline": true,
+        "tooltip": "初始化RFID模块，指定SDA和RST引脚"
+    },
+    {
+        "type": "rfid_is_card_present",
+        "message0": "检测是否有卡片靠近",
+        "output": "Boolean",
+        "colour": "#FF5722",
+        "inputsInline": true,
+        "tooltip": "检测是否有RFID卡片靠近读卡器"
+    },
+    {
+        "type": "rfid_read_uid",
+        "message0": "读取卡片UID",
+        "output": "String",
+        "colour": "#FF5722",
+        "inputsInline": true,
+        "tooltip": "读取RFID卡片的唯一标识符（UID）"
+    },
+    {
+        "type": "rfid_authenticate",
+        "message0": "验证密钥 扇区%1 密钥类型%2 密钥%3",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "SECTOR",
+                "check": "Number"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "KEY_TYPE",
+                "options": [
+                    ["密钥A", "PICC_CMD_MF_AUTH_KEY_A"],
+                    ["密钥B", "PICC_CMD_MF_AUTH_KEY_B"]
+                ]
+            },
+            {
+                "type": "input_value",
+                "name": "KEY",
+                "check": "String"
+            }
+        ],
+        "output": "Boolean",
+        "colour": "#FF5722",
+        "inputsInline": true,
+        "tooltip": "验证指定扇区的密钥，返回验证结果"
+    },
+    {
+        "type": "rfid_read_block",
+        "message0": "读取数据块%1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "BLOCK",
+                "check": "Number"
+            }
+        ],
+        "output": "String",
+        "colour": "#FF5722",
+        "inputsInline": true,
+        "tooltip": "读取指定数据块的内容"
+    },
+    {
+        "type": "rfid_write_block",
+        "message0": "写入数据块%1 数据%2",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "BLOCK",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "DATA",
+                "check": "String"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF5722",
+        "inputsInline": true,
+        "tooltip": "向指定数据块写入数据"
+    },
+    {
+        "type": "rfid_halt",
+        "message0": "停止RFID通信",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF5722",
+        "inputsInline": true,
+        "tooltip": "停止与RFID卡片的通信"
+    },
+    {
+        "type": "rfid_get_uid_string",
+        "message0": "获取UID字符串格式",
+        "output": "String",
+        "colour": "#FF5722",
+        "inputsInline": true,
+        "tooltip": "获取格式化的UID字符串"
+    },
+    {
+        "type": "rfid_uid_equals",
+        "message0": "当前UID等于%1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "UID",
+                "check": "String"
+            }
+        ],
+        "output": "Boolean",
+        "colour": "#FF5722",
+        "inputsInline": true,
+        "tooltip": "比较当前卡片UID是否等于指定值"
+    }
+]
