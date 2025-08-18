@@ -2,9 +2,9 @@ Arduino.forBlock['esp32_time_init'] = function(block, generator) {
     const offset = generator.valueToCode(block, 'OFFSET', Arduino.ORDER_ATOMIC) || '0';
     
     generator.addLibrary('#include <ESP32Time.h>', '#include <ESP32Time.h>');
-    generator.addObject('ESP32Time rtc(' + offset + ');', 'ESP32Time rtc(' + offset + ');');
+    generator.addObject('ESP32Time rtc;', 'ESP32Time rtc;');
     
-    return '';
+    return 'rtc.offset = ' + offset + ';\n';
 };
 
 Arduino.forBlock['esp32_time_set_datetime'] = function(block, generator) {
