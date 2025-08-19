@@ -76,7 +76,7 @@ Blockly.getMainWorkspace().addChangeListener((event) => {
     loadExistingVariablesToToolbox(Blockly.getMainWorkspace());
   }
   if (event.type === Blockly.Events.VAR_DELETE) {
-    console.log("删除的变量ID: ", event.varId);
+    // console.log("删除的变量ID: ", event.varId);
     // 获取当前工作区
     const workspace = Blockly.getMainWorkspace();
 
@@ -317,7 +317,7 @@ function registerVariableToBlockly(varName, varType) {
     if (!existingVar) {
       // 创建新变量
       workspace.createVariable(varName, varType);
-      console.log('Variable registered to Blockly:', varName);
+      // console.log('Variable registered to Blockly:', varName);
     }
   }
 }
@@ -337,14 +337,14 @@ function renameVariableInBlockly(block, oldName, newName, varType) {
 // 重命名变量
 function renameVariable(block, oldName, newName, vtype) {
   try {
-    console.log("rename variable: ", oldName, newName);
+    // console.log("rename variable: ", oldName, newName);
     const workspace = block.workspace;
     if (!workspace || !oldName || !newName) return;
 
     Blockly.Msg.VARIABLES_CURRENT_NAME = newName;
     newNameExisting = Blockly.Variables.nameUsedWithAnyType(newName, workspace);
     if (newNameExisting) {
-      console.log(`变量 ${newName} 已存在，无法重命名`);
+      // console.log(`变量 ${newName} 已存在，无法重命名`);
       return;
     }
 
@@ -398,11 +398,11 @@ function renameVariable(block, oldName, newName, vtype) {
 
     // 找到变量类别并更新其内容
     for (let category of originalToolboxDef.contents) {
-      console.log("category: ", category);
+      // console.log("category: ", category);
       if ((category.name === "Variables" ||
         (category.contents && category.contents[0]?.callbackKey === "CREATE_VARIABLE"))) {
 
-        console.log("isOldVarStillReferenced: ", isOldVarStillReferenced);
+        // console.log("isOldVarStillReferenced: ", isOldVarStillReferenced);
         if (isOldVarStillReferenced) {
           workspace.createVariable(newName, vtype)
           const timestamp = new Date().getTime();
@@ -423,7 +423,7 @@ function renameVariable(block, oldName, newName, vtype) {
           const oldVariable = workspace.getVariable(oldName, vtype);
           if (oldVariable) {
             const oldVariableId = oldVariable.getId();
-            console.log("oldVariableId: ", oldVariableId);
+            // console.log("oldVariableId: ", oldVariableId);
             workspace.renameVariableById(oldVariableId, newName);
             category.contents.forEach(item => {
               if (item.fields && item.fields.VAR && item.fields.VAR.name === oldName) {
@@ -438,7 +438,7 @@ function renameVariable(block, oldName, newName, vtype) {
       }
     }
   } catch (e) {
-    console.log("重命名变量时出错:", e);
+    // console.log("重命名变量时出错:", e);
   }
 }
 
@@ -458,7 +458,7 @@ function registerHatBlock(blockTypes) {
     blockTypes.forEach(blockType => {
       if (typeof blockType === 'string' && !ENTRY_BLOCK_TYPES.includes(blockType)) {
         ENTRY_BLOCK_TYPES.push(blockType);
-        console.log(`Hat块类型已注册: ${blockType}`);
+        // console.log(`Hat块类型已注册: ${blockType}`);
       }
     });
   } else {
@@ -488,7 +488,7 @@ function unregisterHatBlock(blockTypes) {
       const index = ENTRY_BLOCK_TYPES.indexOf(blockType);
       if (index > -1) {
         ENTRY_BLOCK_TYPES.splice(index, 1);
-        console.log(`Hat块类型已移除: ${blockType}`);
+        // console.log(`Hat块类型已移除: ${blockType}`);
       }
     });
   }
@@ -545,7 +545,7 @@ function debounce(func, wait) {
 
 // 创建一个防抖版本的重命名变量函数，附加到Arduino对象上
 Arduino.debouncedRenameVariable = debounce((block, oldName, newName, vtype) => {
-  console.log("执行延迟重命名: ", oldName, "->", newName);
+  // console.log("执行延迟重命名: ", oldName, "->", newName);
   renameVariable(block, oldName, newName, vtype);
   // 存储当前名称以供将来比较
   Arduino.previousVariables[block.id] = newName;
@@ -559,7 +559,7 @@ Arduino.forBlock["variable_define"] = function (block, generator) {
 
   // Create a storage object for previously defined variables
   if (!Arduino.previousVariables) {
-    console.log("create new previousVariables");
+    // console.log("create new previousVariables");
     Arduino.previousVariables = {};
   }
 
