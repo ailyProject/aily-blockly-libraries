@@ -73,7 +73,8 @@ client.loop();                          // 保持连接
 |------------|--------|----------|-------------|----------|
 | 对象创建/初始化 | 语句块 | previousStatement/nextStatement | **field_input** | 用户输入变量名，自动注册 |
 | 对象方法调用 | 语句块 | previousStatement/nextStatement | **field_variable** | 引用已创建的对象变量 |
-| 事件回调 | 特殊语句块 | 包含input_statement | **field_variable** | 引用对象，包含代码块 |
+| 事件回调 | hat模式块 | **无previousStatement/nextStatement** | **field_variable+inpt_statement** | 引用对象，包含代码块，事件驱动 |
+| 条件回调处理 | **混合模式块** | **有previousStatement/nextStatement** | **input_value+input_statement** | 在程序流程中设置特定条件的回调 |
 | 状态查询 | 值块 | output: ["Type"] | **field_variable** | 引用对象，返回值 |
 | 数据操作 | 语句块 | previousStatement/nextStatement | **field_variable** | 引用对象，操作数据 |
 
@@ -101,6 +102,19 @@ client.loop();                          // 保持连接
    }
    ```
 
+**generator.js中读取变量名的方法区别**：
+
+- **field_input 读取方式**：
+  ```javascript
+  const varName = block.getFieldValue('VAR') || 'button';
+  ```
+
+- **field_variable 读取方式**：
+  ```javascript
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'button';
+  ```
+
 ### 2.3 标准块结构模板
 
 **基础语句块**：
@@ -125,25 +139,50 @@ client.loop();                          // 保持连接
 }
 ```
 
-**事件处理块**：
+**事件处理块（hat模式）**：
 ```json
 {
-  "type": "mqtt_on_message",
-  "message0": "MQTT客户端 %1 收到消息时执行",
+  "type": "onebutton_attach_click",
+  "message0": "当按钮 %1 被单击时",
   "args0": [
     {
       "type": "field_variable",
-      "name": "CLIENT",
-      "variable": "mqttClient",
-      "variableTypes": ["PubSubClient"],
-      "defaultType": "PubSubClient"
+      "name": "VAR",
+      "variable": "button",
+      "variableTypes": ["OneButton"],
+      "defaultType": "OneButton"
+    }
+  ],
+  "message1": "执行 %1",
+  "args1": [{"type": "input_statement", "name": "HANDLER"}],
+  "colour": "#5CB85C",
+  "tooltip": "设置按钮单击事件处理"
+}
+```
+
+**注意**：事件回调块使用**hat模式**，没有`previousStatement`和`nextStatement`，因为它们是事件驱动的，不在主程序流程中执行。
+
+**混合模式块（条件回调处理）**：
+```json
+{
+  "type": "pubsub_set_callback_with_topic",
+  "message0": "收到主题 %1 时执行",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "TOPIC"
     }
   ],
   "message1": "%1",
   "args1": [{"type": "input_statement", "name": "HANDLER"}],
-  "colour": "#9C27B0"
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#9C27B0",
+  "tooltip": "在MQTT回调中处理特定主题"
 }
 ```
+
+**注意**：混合模式块**既有语句连接又包含回调代码**，用于在主程序流程中设置特定条件的回调处理逻辑。
 
 ### 2.4 变量管理核心机制
 
@@ -201,49 +240,16 @@ generator.addVariable(varName, 'Type ' + varName + ';'); // generator会自动�
 
 ## 阶段三：实现规范
 
-### 3.1 block.json设计模式
+### 3.1 block.json设计要点
 
-**标准块结构**：
-```json
-{
-  "type": "库名_功能名",
-  "message0": "直观的中文描述 %1 %2",
-  "args0": [
-    {
-      "type": "field_variable",
-      "name": "VAR",
-      "variable": "defaultName",
-      "variableTypes": ["CustomType"],
-      "defaultType": "CustomType"
-    },
-    {"type": "input_value", "name": "PARAM", "check": ["类型"]}
-  ],
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": "#统一颜色",
-  "tooltip": "功能说明"
-}
-```
+**block.json结构**：
+JSON数组格式，包含多个块定义对象
 
-**事件处理块模式**：
-```json
-{
-  "type": "mqtt_on_message",
-  "message0": "MQTT客户端 %1 收到消息时执行",
-  "args0": [
-    {
-      "type": "field_variable",
-      "name": "CLIENT",
-      "variable": "mqttClient",
-      "variableTypes": ["PubSubClient"],
-      "defaultType": "PubSubClient"
-    }
-  ],
-  "message1": "%1",
-  "args1": [{"type": "input_statement", "name": "HANDLER"}],
-  "colour": "#9C27B0"
-}
-```
+**设计要点**：
+- 详细的块结构模板参见第2.3节"标准块结构模板"
+- 事件回调块采用hat模式，无连接属性
+- 混合模式块有连接属性，包含回调代码块
+- 所有input_value需在toolbox.json中配置影子块
 
 ### 3.2 generator.js实现模式
 
@@ -290,19 +296,43 @@ Arduino.forBlock['block_type'] = function(block, generator) {
 };
 ```
 
-**回调函数处理示例**：
+**回调函数处理示例（基于OneButton实际实现）**：
 ```javascript
-Arduino.forBlock['mqtt_on_message'] = function(block, generator) {
-  const clientVar = block.getFieldValue('CLIENT') || 'client';
+Arduino.forBlock['onebutton_attach_click'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'button';
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
-  const callbackName = 'mqtt_callback_' + clientVar;
+  const callbackName = 'onebutton_click_' + varName;
 
-  const functionDef = `void ${callbackName}(char* topic, byte* payload, unsigned int length) {
+  const functionDef = `void ${callbackName}() {
 ${handlerCode}
 }`;
 
+  let code = varName + '.attachClick(' + callbackName + ');\n';
   generator.addFunction(callbackName, functionDef); // 自动去重
-  return `${clientVar}.setCallback(${callbackName});\n`;
+  generator.addSetupEnd(code, code);
+  generator.addLoopBegin(varName + '.tick();', varName + '.tick();');
+
+  return ''; // hat模式块返回空字符串
+};
+```
+
+**混合模式块处理示例（基于MQTT实际实现）**：
+```javascript
+Arduino.forBlock['pubsub_set_callback_with_topic'] = function(block, generator) {
+  const topic = generator.valueToCode(block, 'TOPIC', generator.ORDER_ATOMIC) || '""';
+  const callbackName = 'mqtt' + topic.replace(/[^a-zA-Z0-9]/g, '_') + '_sub_callback';
+  const callbackBody = generator.statementToCode(block, 'HANDLER') || '';
+
+  const functionDef = 'void ' + callbackName + '(const char* payload) {\n' + callbackBody + '}\n';
+  generator.addFunction(callbackName, functionDef);
+  
+  // 生成条件检查代码，在主回调中调用
+  let code = 'if (strcmp(topic, ' + topic + ') == 0) {\n' +
+    '  ' + callbackName + '(payload_str);\n' +
+    '}\n';
+  
+  return code; // 混合模式块返回条件检查代码
 };
 ```
 
@@ -465,8 +495,14 @@ function getClientName(block, def) {
 ### 设计模式
 1. **初始化块**: 使用`field_input`让用户输入新变量名
 2. **调用块**: 使用`field_variable`选择已存在变量，配置`variableTypes`
-3. **input_value**: 必须在toolbox.json中配置影子块
-4. **变量重命名**: 在generator.js中实现field validator监听
+3. **事件回调块**: hat模式，无连接属性，返回空字符串
+4. **混合模式块**: 有连接属性，包含回调代码，返回条件代码
+5. **input_value**: 必须在toolbox.json中配置影子块
+6. **变量重命名**: 在generator.js中实现field validator监听
+
+### generator.js中变量名读取方式
+- **field_input**: `block.getFieldValue('VAR')`
+- **field_variable**: `block.getField('VAR').getText()`
 
 ### 核心库函数
 - `registerVariableToBlockly(varName, varType)` - 注册变量
