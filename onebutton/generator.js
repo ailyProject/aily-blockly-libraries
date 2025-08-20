@@ -1,5 +1,11 @@
-Arduino.forBlock['onebutton_setup'] = function (block, generator) {
-  // 监听VAR输入值的变化，自动重命名Blockly变量
+// OneButton Blockly库生成器
+// 基于Arduino OneButton库的Blockly实现
+
+'use strict';
+
+// 创建按钮块
+Arduino.forBlock['onebutton_setup'] = function(block, generator) {
+  // 1. 设置变量重命名监听
   if (!block._onebuttonVarMonitorAttached) {
     block._onebuttonVarMonitorAttached = true;
     block._onebuttonVarLastName = block.getFieldValue('VAR') || 'button';
@@ -17,83 +23,178 @@ Arduino.forBlock['onebutton_setup'] = function (block, generator) {
     }
   }
 
+  // 2. 参数提取
   const varName = block.getFieldValue('VAR') || 'button';
-
-  registerVariableToBlockly(varName, 'OneButton');
-
   const pin = block.getFieldValue('PIN');
   const pinMode = block.getFieldValue('PIN_MODE');
   const activeLow = block.getFieldValue('ACTIVE_LOW') === 'TRUE';
 
+  // 3. 库和变量管理
   generator.addLibrary('#include <OneButton.h>', '#include <OneButton.h>');
+  registerVariableToBlockly(varName, 'OneButton');
   generator.addVariable('OneButton ' + varName, 'OneButton ' + varName + ';');
 
+  // 4. 自动添加tick()到主循环
   generator.addLoopBegin(varName + '.tick();', varName + '.tick();');
-  
+
+  // 5. 生成设置代码
   return varName + '.setup(' + pin + ', ' + pinMode + ', ' + activeLow + ');\n';
 };
 
-Arduino.forBlock['onebutton_attachClick'] = function (block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'button';
+// 单击事件块
+Arduino.forBlock['onebutton_attach_click'] = function(block, generator) {
+  const varName = block.getFieldValue('VAR') || 'button';
+  const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
+  const callbackName = 'onebutton_click_' + varName;
 
-  let callbackName = 'click_callback_' + varName;
-  let callbackBody = generator.statementToCode(block, 'CLICK_FUNC') || '';
-  
-  const functionDef = 'void ' + callbackName + '() {\n' + callbackBody + '}\n';
+  const functionDef = `void ${callbackName}() {
+${handlerCode}
+}`;
+
   generator.addFunction(callbackName, functionDef);
-  
   return varName + '.attachClick(' + callbackName + ');\n';
 };
 
-Arduino.forBlock['onebutton_attachDoubleClick'] = function (block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'button';
-  
-  let callbackName = 'double_click_callback_' + varName;
-  let callbackBody = generator.statementToCode(block, 'DOUBLE_CLICK_FUNC') || '';
-  
-  const functionDef = 'void ' + callbackName + '() {\n' + callbackBody + '}\n';
+// 双击事件块
+Arduino.forBlock['onebutton_attach_double_click'] = function(block, generator) {
+  const varName = block.getFieldValue('VAR') || 'button';
+  const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
+  const callbackName = 'onebutton_double_click_' + varName;
+
+  const functionDef = `void ${callbackName}() {
+${handlerCode}
+}`;
+
   generator.addFunction(callbackName, functionDef);
-  
   return varName + '.attachDoubleClick(' + callbackName + ');\n';
 };
 
-Arduino.forBlock['onebutton_attachLongPressStart'] = function (block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'button';
-  
-  let callbackName = 'long_press_start_callback_' + varName;
-  let callbackBody = generator.statementToCode(block, 'LONG_PRESS_START_FUNC') || '';
-  
-  const functionDef = 'void ' + callbackName + '() {\n' + callbackBody + '}\n';
+// 多次点击事件块
+Arduino.forBlock['onebutton_attach_multi_click'] = function(block, generator) {
+  const varName = block.getFieldValue('VAR') || 'button';
+  const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
+  const callbackName = 'onebutton_multi_click_' + varName;
+
+  const functionDef = `void ${callbackName}() {
+${handlerCode}
+}`;
+
   generator.addFunction(callbackName, functionDef);
-  
+  return varName + '.attachMultiClick(' + callbackName + ');\n';
+};
+
+// 按下事件块
+Arduino.forBlock['onebutton_attach_press'] = function(block, generator) {
+  const varName = block.getFieldValue('VAR') || 'button';
+  const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
+  const callbackName = 'onebutton_press_' + varName;
+
+  const functionDef = `void ${callbackName}() {
+${handlerCode}
+}`;
+
+  generator.addFunction(callbackName, functionDef);
+  return varName + '.attachPress(' + callbackName + ');\n';
+};
+
+// 长按开始事件块
+Arduino.forBlock['onebutton_attach_long_press_start'] = function(block, generator) {
+  const varName = block.getFieldValue('VAR') || 'button';
+  const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
+  const callbackName = 'onebutton_long_press_start_' + varName;
+
+  const functionDef = `void ${callbackName}() {
+${handlerCode}
+}`;
+
+  generator.addFunction(callbackName, functionDef);
   return varName + '.attachLongPressStart(' + callbackName + ');\n';
 };
 
-Arduino.forBlock['onebutton_attachLongPressStop'] = function (block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'button';
-  
-  let callbackName = 'long_press_stop_callback_' + varName;
-  let callbackBody = generator.statementToCode(block, 'LONG_PRESS_STOP_FUNC') || '';
-  
-  const functionDef = 'void ' + callbackName + '() {\n' + callbackBody + '}\n';
+// 长按期间事件块
+Arduino.forBlock['onebutton_attach_during_long_press'] = function(block, generator) {
+  const varName = block.getFieldValue('VAR') || 'button';
+  const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
+  const callbackName = 'onebutton_during_long_press_' + varName;
+
+  const functionDef = `void ${callbackName}() {
+${handlerCode}
+}`;
+
   generator.addFunction(callbackName, functionDef);
-  
+  return varName + '.attachDuringLongPress(' + callbackName + ');\n';
+};
+
+// 长按结束事件块
+Arduino.forBlock['onebutton_attach_long_press_stop'] = function(block, generator) {
+  const varName = block.getFieldValue('VAR') || 'button';
+  const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
+  const callbackName = 'onebutton_long_press_stop_' + varName;
+
+  const functionDef = `void ${callbackName}() {
+${handlerCode}
+}`;
+
+  generator.addFunction(callbackName, functionDef);
   return varName + '.attachLongPressStop(' + callbackName + ');\n';
 };
 
-Arduino.forBlock['onebutton_attachDuringLongPress'] = function (block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'button';
+// 设置防抖时间块
+Arduino.forBlock['onebutton_set_debounce_ms'] = function(block, generator) {
+  const varName = block.getFieldValue('VAR') || 'button';
+  const ms = generator.valueToCode(block, 'MS', Arduino.ORDER_ATOMIC) || '50';
   
-  let callbackName = 'during_long_press_callback_' + varName;
-  let callbackBody = generator.statementToCode(block, 'DURING_LONG_PRESS_FUNC') || '';
+  return varName + '.setDebounceMs(' + ms + ');\n';
+};
+
+// 设置单击时间块
+Arduino.forBlock['onebutton_set_click_ms'] = function(block, generator) {
+  const varName = block.getFieldValue('VAR') || 'button';
+  const ms = generator.valueToCode(block, 'MS', Arduino.ORDER_ATOMIC) || '400';
   
-  const functionDef = 'void ' + callbackName + '() {\n' + callbackBody + '}\n';
-  generator.addFunction(callbackName, functionDef);
+  return varName + '.setClickMs(' + ms + ');\n';
+};
+
+// 设置长按时间块
+Arduino.forBlock['onebutton_set_press_ms'] = function(block, generator) {
+  const varName = block.getFieldValue('VAR') || 'button';
+  const ms = generator.valueToCode(block, 'MS', Arduino.ORDER_ATOMIC) || '800';
   
-  return varName + '.attachDuringLongPress(' + callbackName + ');\n';
+  return varName + '.setPressMs(' + ms + ');\n';
+};
+
+// 设置长按间隔时间块
+Arduino.forBlock['onebutton_set_long_press_interval_ms'] = function(block, generator) {
+  const varName = block.getFieldValue('VAR') || 'button';
+  const ms = generator.valueToCode(block, 'MS', Arduino.ORDER_ATOMIC) || '0';
+  
+  return varName + '.setLongPressIntervalMs(' + ms + ');\n';
+};
+
+// 检查是否正在长按块
+Arduino.forBlock['onebutton_is_long_pressed'] = function(block, generator) {
+  const varName = block.getFieldValue('VAR') || 'button';
+  
+  return [varName + '.isLongPressed()', Arduino.ORDER_ATOMIC];
+};
+
+// 获取按下时长块
+Arduino.forBlock['onebutton_get_pressed_ms'] = function(block, generator) {
+  const varName = block.getFieldValue('VAR') || 'button';
+  
+  return [varName + '.getPressedMs()', Arduino.ORDER_ATOMIC];
+};
+
+// 获取点击次数块
+Arduino.forBlock['onebutton_get_number_clicks'] = function(block, generator) {
+  const varName = block.getFieldValue('VAR') || 'button';
+  
+  return [varName + '.getNumberClicks()', Arduino.ORDER_ATOMIC];
+};
+
+// 重置按钮状态块
+Arduino.forBlock['onebutton_reset'] = function(block, generator) {
+  const varName = block.getFieldValue('VAR') || 'button';
+  
+  return varName + '.reset();\n';
 };

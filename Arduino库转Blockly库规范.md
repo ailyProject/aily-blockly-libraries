@@ -203,6 +203,9 @@ generator.addVariable(varName, 'Type ' + varName + ';'); // generator会自动�
 
 ### 3.1 block.json设计模式
 
+**block.json结构**：
+JSON数组格式，包含多个块定义对象
+
 **标准块结构**：
 ```json
 {
