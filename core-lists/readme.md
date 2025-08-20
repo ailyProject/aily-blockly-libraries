@@ -155,6 +155,9 @@ Arduino/C++编程中的数组管理核心库，提供一维、二维数组创建
 ```json
 {
   "type": "list_create_with",
+  "extraState": {
+    "itemCount": 2
+  },
   "fields": {
     "VAR": "myArray",
     "TYPE": "int",
@@ -164,6 +167,9 @@ Arduino/C++编程中的数组管理核心库，提供一维、二维数组创建
     "INPUT0": {
       "block": {
         "type": "list_create_with_item",
+        "extraState": {
+          "itemCount": 3
+        },
         "inputs": {
           "LENGTH": {"block": {"type": "math_number", "fields": {"NUM": "3"}}},
           "VALUE0": {"block": {"type": "math_number", "fields": {"NUM": "1"}}},
