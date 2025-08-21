@@ -277,8 +277,8 @@ button.reset();
 - `onebutton_set_long_press_interval_ms.MS`: 默认类型 1000
 
 ### 变量管理
-- 使用 `field_input` 创建新变量时，自动注册到Blockly系统
-- 使用 `field_variable` 选择已存在的变量，支持变量重命名
+- 使用 `field_input` 创建新变量时，自动注册到Blockly系统，支持变量重命名
+- 使用 `field_variable` 选择已存在的变量
 - 变量类型为 `OneButton`，确保类型安全
 
 ### 智能板卡适配
