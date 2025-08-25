@@ -383,18 +383,22 @@ Blinker_widget_.icon("fas fa-lightbulb")
 ```json
 {
   "type": "blinker_button",
+  "id": "button_id",
   "fields": {"KEY": "btn-led"},
   "inputs": {
     "NAME": {
       "block": {
         "type": "blinker_widget_print",
+        "id": "widget_print_id",
+        "extraState": {"itemCount": 1},
         "fields": {"WIDGET": "btn-led"},
         "inputs": {
           "INPUT0": {
             "block": {
               "type": "blinker_icon",
+              "id": "icon_block_id",
               "inputs": {
-                "ICON": {"shadow": {"type": "text", "fields": {"TEXT": "fas fa-lightbulb"}}}
+                "ICON": {"shadow": {"type": "text", "id": "icon_shadow_id", "fields": {"TEXT": "fas fa-lightbulb"}}}
               }
             }
           }
@@ -409,24 +413,29 @@ Blinker_widget_.icon("fas fa-lightbulb")
 ```json
 {
   "type": "blinker_widget_print",
+  "id": "widget_print_id",
+  "extraState": {"itemCount": 3},
   "fields": {"WIDGET": "btn-led"},
   "inputs": {
     "INPUT0": {
       "block": {
         "type": "blinker_icon",
-        "inputs": {"ICON": {"shadow": {"type": "text", "fields": {"TEXT": "fas fa-lightbulb"}}}}
+        "id": "icon_block_id",
+        "inputs": {"ICON": {"shadow": {"type": "text", "id": "icon_shadow_id", "fields": {"TEXT": "fas fa-lightbulb"}}}}
       }
     },
     "INPUT1": {
       "block": {
         "type": "blinker_color",
-        "inputs": {"COLOR": {"shadow": {"type": "text", "fields": {"TEXT": "#FFFF00"}}}}
+        "id": "color_block_id",
+        "inputs": {"COLOR": {"shadow": {"type": "text", "id": "color_shadow_id", "fields": {"TEXT": "#FFFF00"}}}}
       }
     },
     "INPUT2": {
       "block": {
         "type": "blinker_text",
-        "inputs": {"TEXT": {"shadow": {"type": "text", "fields": {"TEXT": "开灯"}}}}
+        "id": "text_block_id",
+        "inputs": {"TEXT": {"shadow": {"type": "text", "id": "text_shadow_id", "fields": {"TEXT": "开灯"}}}}
       }
     }
   }

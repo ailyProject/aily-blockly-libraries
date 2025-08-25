@@ -84,6 +84,7 @@ toolbox.json → 用户可见的块 → block.json → 块的结构定义 → ge
 - **Hat块**: 无连接属性，通过inputs连接内部语句
 - **语句块**: (previousStatement/nextStatement)
 - **值块**: (output: Type)
+- **动态输入块**: 需要extraState字段记录输入数量
 
 ### 字段类型描述（推荐中文）
 在块定义中使用中文描述替代英文术语：
@@ -135,7 +136,10 @@ toolbox.json → 用户可见的块 → block.json → 块的结构定义 → ge
 [说明不同开发板的自动适配逻辑]
 ```
 
-**注意**: 不要包含字段类型映射表，该信息已在`blockly代码规范.md`中统一说明。
+**注意**:
+- 不要包含字段类型映射表，该信息已在`blockly代码规范.md`中统一说明
+- .abi示例中所有块都必须包含`id`字段
+- 动态输入块需要`extraState`字段记录输入数量
 
 ### 5. 使用示例
 ```markdown
@@ -145,9 +149,25 @@ toolbox.json → 用户可见的块 → block.json → 块的结构定义 → ge
 ```json
 {
   "type": "block_type",
+  "id": "block_id",
   "fields": {"FIELD": "value"},
   "inputs": {
-    "INPUT": {"shadow": {"type": "text", "fields": {"TEXT": "default"}}}
+    "INPUT": {"shadow": {"type": "text", "id": "shadow_id", "fields": {"TEXT": "default"}}}
+  }
+}
+```
+
+### 动态输入块示例（如有）
+```json
+{
+  "type": "dynamic_block_type",
+  "id": "block_id",
+  "extraState": {"itemCount": 3},
+  "fields": {"FIELD": "value"},
+  "inputs": {
+    "INPUT0": {"block": {...}},
+    "INPUT1": {"block": {...}},
+    "INPUT2": {"block": {...}}
   }
 }
 ```

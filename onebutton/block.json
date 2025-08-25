@@ -1,12 +1,12 @@
 [
   {
-    "message0": "初始化按钮 %1 在引脚 %2 %3 低电平有效 %4",
     "type": "onebutton_setup",
+    "message0": "创建按钮 %1 引脚 %2 模式 %3 低电平有效 %4",
     "args0": [
       {
         "type": "field_input",
         "name": "VAR",
-        "text": "button1"
+        "text": "button"
       },
       {
         "type": "field_dropdown",
@@ -22,24 +22,27 @@
         ]
       },
       {
-        "type": "field_checkbox",
+        "type": "field_dropdown",
         "name": "ACTIVE_LOW",
-        "checked": true
+        "options": [
+          ["是", "TRUE"],
+          ["否", "FALSE"]
+        ]
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "inputsInline": true,
-    "colour": "#FF5733"
+    "colour": "#FF6B6B",
+    "tooltip": "创建并初始化一个按钮对象"
   },
   {
+    "type": "onebutton_attach_click",
     "message0": "按钮 %1 单击时执行",
-    "type": "onebutton_attachClick",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "button1",
+        "variable": "button",
         "variableTypes": ["OneButton"],
         "defaultType": "OneButton"
       }
@@ -48,20 +51,20 @@
     "args1": [
       {
         "type": "input_statement",
-        "name": "CLICK_FUNC"
+        "name": "HANDLER"
       }
     ],
-    "inputsInline": true,
-    "colour": "#FF5733"
+    "colour": "#FF6B6B",
+    "tooltip": "当按钮被单击时执行代码"
   },
   {
+    "type": "onebutton_attach_double_click",
     "message0": "按钮 %1 双击时执行",
-    "type": "onebutton_attachDoubleClick",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "button1",
+        "variable": "button",
         "variableTypes": ["OneButton"],
         "defaultType": "OneButton"
       }
@@ -70,20 +73,64 @@
     "args1": [
       {
         "type": "input_statement",
-        "name": "DOUBLE_CLICK_FUNC"
+        "name": "HANDLER"
       }
     ],
-    "inputsInline": true,
-    "colour": "#FF5733"
+    "colour": "#FF6B6B",
+    "tooltip": "当按钮被双击时执行代码"
   },
   {
+    "type": "onebutton_attach_multi_click",
+    "message0": "按钮 %1 多次点击时执行",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "button",
+        "variableTypes": ["OneButton"],
+        "defaultType": "OneButton"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#FF6B6B",
+    "tooltip": "当按钮被多次点击时执行代码"
+  },
+  {
+    "type": "onebutton_attach_press",
+    "message0": "按钮 %1 按下时执行",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "button",
+        "variableTypes": ["OneButton"],
+        "defaultType": "OneButton"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#FF6B6B",
+    "tooltip": "当按钮被按下时执行代码"
+  },
+  {
+    "type": "onebutton_attach_long_press_start",
     "message0": "按钮 %1 长按开始时执行",
-    "type": "onebutton_attachLongPressStart",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "button1",
+        "variable": "button",
         "variableTypes": ["OneButton"],
         "defaultType": "OneButton"
       }
@@ -92,20 +139,20 @@
     "args1": [
       {
         "type": "input_statement",
-        "name": "LONG_PRESS_START_FUNC"
+        "name": "HANDLER"
       }
     ],
-    "inputsInline": true,
-    "colour": "#FF5733"
+    "colour": "#FF6B6B",
+    "tooltip": "当按钮开始长按时执行代码"
   },
   {
-    "message0": "按钮 %1 长按停止时执行",
-    "type": "onebutton_attachLongPressStop",
+    "type": "onebutton_attach_during_long_press",
+    "message0": "按钮 %1 长按期间执行",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "button1",
+        "variable": "button",
         "variableTypes": ["OneButton"],
         "defaultType": "OneButton"
       }
@@ -114,20 +161,20 @@
     "args1": [
       {
         "type": "input_statement",
-        "name": "LONG_PRESS_STOP_FUNC"
+        "name": "HANDLER"
       }
     ],
-    "inputsInline": true,
-    "colour": "#FF5733"
+    "colour": "#FF6B6B",
+    "tooltip": "当按钮长按期间执行代码"
   },
   {
-    "message0": "按钮 %1 长按持续时执行",
-    "type": "onebutton_attachDuringLongPress",
+    "type": "onebutton_attach_long_press_stop",
+    "message0": "按钮 %1 长按结束时执行",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "button1",
+        "variable": "button",
         "variableTypes": ["OneButton"],
         "defaultType": "OneButton"
       }
@@ -136,10 +183,163 @@
     "args1": [
       {
         "type": "input_statement",
-        "name": "DURING_LONG_PRESS_FUNC"
+        "name": "HANDLER"
       }
     ],
-    "inputsInline": true,
-    "colour": "#FF5733"
+    "colour": "#FF6B6B",
+    "tooltip": "当按钮长按结束时执行代码"
+  },
+  {
+    "type": "onebutton_set_debounce_ms",
+    "message0": "按钮 %1 设置防抖时间 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "button",
+        "variableTypes": ["OneButton"],
+        "defaultType": "OneButton"
+      },
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置按钮防抖时间（毫秒）"
+  },
+  {
+    "type": "onebutton_set_click_ms",
+    "message0": "按钮 %1 设置单击时间 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "button",
+        "variableTypes": ["OneButton"],
+        "defaultType": "OneButton"
+      },
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置单击判定时间（毫秒）"
+  },
+  {
+    "type": "onebutton_set_press_ms",
+    "message0": "按钮 %1 设置长按时间 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "button",
+        "variableTypes": ["OneButton"],
+        "defaultType": "OneButton"
+      },
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置长按判定时间（毫秒）"
+  },
+  {
+    "type": "onebutton_set_long_press_interval_ms",
+    "message0": "按钮 %1 设置长按间隔 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "button",
+        "variableTypes": ["OneButton"],
+        "defaultType": "OneButton"
+      },
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置长按期间回调间隔时间（毫秒）"
+  },
+  {
+    "type": "onebutton_is_long_pressed",
+    "message0": "按钮 %1 是否正在长按",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "button",
+        "variableTypes": ["OneButton"],
+        "defaultType": "OneButton"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF6B6B",
+    "tooltip": "检查按钮是否正在长按状态"
+  },
+  {
+    "type": "onebutton_get_pressed_ms",
+    "message0": "按钮 %1 获取按下时长",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "button",
+        "variableTypes": ["OneButton"],
+        "defaultType": "OneButton"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B6B",
+    "tooltip": "获取按钮按下的持续时间（毫秒）"
+  },
+  {
+    "type": "onebutton_get_number_clicks",
+    "message0": "按钮 %1 获取点击次数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "button",
+        "variableTypes": ["OneButton"],
+        "defaultType": "OneButton"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B6B",
+    "tooltip": "获取按钮的点击次数"
+  },
+  {
+    "type": "onebutton_reset",
+    "message0": "按钮 %1 重置状态",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "button",
+        "variableTypes": ["OneButton"],
+        "defaultType": "OneButton"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "重置按钮的状态机"
   }
 ]

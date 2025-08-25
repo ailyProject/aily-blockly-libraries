@@ -388,7 +388,7 @@ Arduino.forBlock['blinker_data_upload'] = function (block, generator) {
   
   chartKey = 'Blinker_' + chartKey.replace(/-/g, '_');
 
-  return chartKey + '.upload(' + dataKey + ', ' + value + ');\n';
+  return chartKey + '.upload(\"' + dataKey + '\", ' + value + ');\n';
 };
 
 Arduino.forBlock['blinker_heartbeat'] = function (block, generator) {
