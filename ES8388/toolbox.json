@@ -1,0 +1,148 @@
+{
+  "kind": "category",
+  "name": "ES8388",
+  "colour": "#FF6B6B",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_create",
+      "inputs": {
+        "SDA": {"shadow": {"type": "math_number", "fields": {"NUM": "21"}}},
+        "SCL": {"shadow": {"type": "math_number", "fields": {"NUM": "22"}}},
+        "SPEED": {"shadow": {"type": "math_number", "fields": {"NUM": "400000"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "es8388_begin",
+      "inputs": {
+        "SAMPLE_RATE": {"shadow": {"type": "math_number", "fields": {"NUM": "44100"}}},
+        "MCK_PIN": {"shadow": {"type": "math_number", "fields": {"NUM": "39"}}},
+        "BCK_PIN": {"shadow": {"type": "math_number", "fields": {"NUM": "41"}}},
+        "WS_PIN": {"shadow": {"type": "math_number", "fields": {"NUM": "42"}}},
+        "DATA_OUT_PIN": {"shadow": {"type": "math_number", "fields": {"NUM": "38"}}},
+        "DATA_IN_PIN": {"shadow": {"type": "math_number", "fields": {"NUM": "40"}}}
+      }
+    },
+    {
+      "kind": "label",
+      "text": "输入输出配置"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_set_input_select"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_set_output_select"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_set_input_gain",
+      "inputs": {
+        "GAIN": {"shadow": {"type": "math_number", "fields": {"NUM": "8"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "es8388_set_output_volume",
+      "inputs": {
+        "VOLUME": {"shadow": {"type": "math_number", "fields": {"NUM": "20"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "es8388_dac_mute"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_set_alc_mode"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_analog_bypass"
+    },
+    {
+      "kind": "label",
+      "text": "录音功能"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_start_recording",
+      "inputs": {
+        "DURATION": {"shadow": {"type": "math_number", "fields": {"NUM": "5"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "es8388_stop_recording"
+    },
+    {
+      "kind": "label",
+      "text": "播放功能"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_start_playback"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_stop_playback"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_record_and_play",
+      "inputs": {
+        "DURATION": {"shadow": {"type": "math_number", "fields": {"NUM": "5"}}}
+      }
+    },
+    {
+      "kind": "label",
+      "text": "实时音频处理"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_enable_passthrough"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_disable_passthrough"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_process_audio"
+    },
+    {
+      "kind": "label",
+      "text": "状态查询"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_is_recording"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_is_playing"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_get_recorded_samples"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_get_recorded_duration"
+    },
+    {
+      "kind": "label",
+      "text": "调试工具"
+    },
+    {
+      "kind": "block",
+      "type": "es8388_scan_i2c"
+    }
+  ]
+}

@@ -1,0 +1,480 @@
+[
+  {
+    "type": "es8388_create",
+    "message0": "创建 ES8388 音频编解码器 %1 I2C SDA引脚 %2 I2C SCL引脚 %3 I2C速度 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "es8388"
+      },
+      {
+        "type": "input_value",
+        "name": "SDA",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "SCL",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "创建ES8388音频编解码器对象"
+  },
+  {
+    "type": "es8388_begin",
+    "message0": "初始化 ES8388 %1 采样率 %2 MCLK引脚 %3 BCLK引脚 %4 WS引脚 %5 数据输出引脚 %6 数据输入引脚 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      },
+      {
+        "type": "input_value",
+        "name": "SAMPLE_RATE",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "MCK_PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "BCK_PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "WS_PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "DATA_OUT_PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "DATA_IN_PIN",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "初始化ES8388芯片和I2S接口"
+  },
+  {
+    "type": "es8388_set_input_gain",
+    "message0": "设置 ES8388 %1 输入增益 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      },
+      {
+        "type": "input_value",
+        "name": "GAIN",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置输入增益 (0-8)"
+  },
+  {
+    "type": "es8388_set_output_volume",
+    "message0": "设置 ES8388 %1 输出音量 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      },
+      {
+        "type": "input_value",
+        "name": "VOLUME",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置输出音量 (0-33)"
+  },
+  {
+    "type": "es8388_dac_mute",
+    "message0": "ES8388 %1 DAC静音 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MUTE",
+        "options": [
+          ["开启", "TRUE"],
+          ["关闭", "FALSE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置DAC静音状态"
+  },
+  {
+    "type": "es8388_start_recording",
+    "message0": "ES8388 %1 开始录音 时长 %2 秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      },
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "开始录音指定时长"
+  },
+  {
+    "type": "es8388_stop_recording",
+    "message0": "ES8388 %1 停止录音",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "停止录音"
+  },
+  {
+    "type": "es8388_start_playback",
+    "message0": "ES8388 %1 开始播放录音",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "开始播放录制的音频"
+  },
+  {
+    "type": "es8388_stop_playback",
+    "message0": "ES8388 %1 停止播放",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "停止播放"
+  },
+  {
+    "type": "es8388_record_and_play",
+    "message0": "ES8388 %1 录音并播放 时长 %2 秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      },
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "录音并立即播放"
+  },
+  {
+    "type": "es8388_enable_passthrough",
+    "message0": "ES8388 %1 启用音频直通",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "启用音频直通模式"
+  },
+  {
+    "type": "es8388_disable_passthrough",
+    "message0": "ES8388 %1 禁用音频直通",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "禁用音频直通模式"
+  },
+  {
+    "type": "es8388_process_audio",
+    "message0": "ES8388 %1 处理音频数据",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "处理音频数据（用于实时音频处理）"
+  },
+  {
+    "type": "es8388_is_recording",
+    "message0": "ES8388 %1 是否正在录音",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      }
+    ],
+    "output": ["Boolean"],
+    "colour": "#FF6B6B",
+    "tooltip": "检查是否正在录音"
+  },
+  {
+    "type": "es8388_is_playing",
+    "message0": "ES8388 %1 是否正在播放",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      }
+    ],
+    "output": ["Boolean"],
+    "colour": "#FF6B6B",
+    "tooltip": "检查是否正在播放"
+  },
+  {
+    "type": "es8388_get_recorded_samples",
+    "message0": "ES8388 %1 获取录音样本数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      }
+    ],
+    "output": ["Number"],
+    "colour": "#FF6B6B",
+    "tooltip": "获取已录音的样本数量"
+  },
+  {
+    "type": "es8388_get_recorded_duration",
+    "message0": "ES8388 %1 获取录音时长",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      }
+    ],
+    "output": ["Number"],
+    "colour": "#FF6B6B",
+    "tooltip": "获取录音时长（秒）"
+  },
+  {
+    "type": "es8388_set_input_select",
+    "message0": "ES8388 %1 选择输入源 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INPUT",
+        "options": [
+          ["输入1", "IN1"],
+          ["输入2", "IN2"],
+          ["输入1差分", "IN1DIFF"],
+          ["输入2差分", "IN2DIFF"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "选择音频输入源"
+  },
+  {
+    "type": "es8388_set_output_select",
+    "message0": "ES8388 %1 选择输出 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OUTPUT",
+        "options": [
+          ["输出1", "OUT1"],
+          ["输出2", "OUT2"],
+          ["全部输出", "OUTALL"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "选择音频输出"
+  },
+  {
+    "type": "es8388_set_alc_mode",
+    "message0": "ES8388 %1 设置ALC模式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ALC_MODE",
+        "options": [
+          ["禁用", "DISABLE"],
+          ["通用", "GENERIC"],
+          ["语音", "VOICE"],
+          ["音乐", "MUSIC"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置自动电平控制模式"
+  },
+  {
+    "type": "es8388_analog_bypass",
+    "message0": "ES8388 %1 模拟直通 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BYPASS",
+        "options": [
+          ["开启", "TRUE"],
+          ["关闭", "FALSE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置模拟直通模式"
+  },
+  {
+    "type": "es8388_scan_i2c",
+    "message0": "ES8388 %1 扫描I2C设备",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "es8388",
+        "variableTypes": ["ES8388"],
+        "defaultType": "ES8388"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "扫描I2C总线上的设备"
+  }
+]
