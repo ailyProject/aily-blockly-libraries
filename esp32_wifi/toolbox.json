@@ -274,6 +274,109 @@
         {
             "kind": "block",
             "type": "esp32_wifi_event_handler"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "NTP时间同步"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_ntp_begin",
+            "inputs": {
+                "NTP_SERVER": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "pool.ntp.org"
+                        }
+                    }
+                },
+                "TIMEZONE_OFFSET": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 8
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_ntp_begin_advanced",
+            "inputs": {
+                "NTP_SERVER": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "ntp.aliyun.com"
+                        }
+                    }
+                },
+                "TIMEZONE_OFFSET": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 8
+                        }
+                    }
+                },
+                "DAYLIGHT_OFFSET": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_set_timezone"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_set_custom_timezone",
+            "inputs": {
+                "TIMEZONE_STRING": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "CST-8"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_get_time"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_get_formatted_time",
+            "inputs": {
+                "FORMAT_STRING": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "%Y-%m-%d %H:%M:%S"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_ntp_synced"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_get_epoch_time"
         }
     ]
 }

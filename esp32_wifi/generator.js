@@ -277,6 +277,200 @@ Arduino.forBlock['esp32_wifi_event_handler'] = function(block, generator) {
     return '';
 };
 
+// NTP时钟功能
+
+// 初始化NTP时钟（基础版本）
+Arduino.forBlock['esp32_wifi_ntp_begin'] = function(block, generator) {
+    const ntpServer = generator.valueToCode(block, 'NTP_SERVER', Arduino.ORDER_ATOMIC) || '"pool.ntp.org"';
+    const timezoneOffset = generator.valueToCode(block, 'TIMEZONE_OFFSET', Arduino.ORDER_ATOMIC) || '8';
+
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <time.h>', '#include <time.h>');
+
+    // 添加NTP初始化函数
+    generator.addFunction('ntp_init_function',
+        'void initNTP(const char* ntpServer, long timezoneOffset) {\n' +
+        '  configTime(timezoneOffset * 3600, 0, ntpServer);\n' +
+        '  Serial.println("正在同步NTP时间...");\n' +
+        '  struct tm timeinfo;\n' +
+        '  int retry = 0;\n' +
+        '  while (!getLocalTime(&timeinfo) && retry < 10) {\n' +
+        '    delay(1000);\n' +
+        '    retry++;\n' +
+        '    Serial.print(".");\n' +
+        '  }\n' +
+        '  if (retry < 10) {\n' +
+        '    Serial.println("\\nNTP时间同步成功!");\n' +
+        '  } else {\n' +
+        '    Serial.println("\\nNTP时间同步失败!");\n' +
+        '  }\n' +
+        '}\n'
+    );
+
+    const code = `initNTP(${ntpServer}, ${timezoneOffset});\n`;
+    return code;
+};
+
+// 初始化NTP时钟（高级版本）
+Arduino.forBlock['esp32_wifi_ntp_begin_advanced'] = function(block, generator) {
+    const ntpServer = generator.valueToCode(block, 'NTP_SERVER', Arduino.ORDER_ATOMIC) || '"pool.ntp.org"';
+    const timezoneOffset = generator.valueToCode(block, 'TIMEZONE_OFFSET', Arduino.ORDER_ATOMIC) || '8';
+    const daylightOffset = generator.valueToCode(block, 'DAYLIGHT_OFFSET', Arduino.ORDER_ATOMIC) || '0';
+
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <time.h>', '#include <time.h>');
+
+    // 添加高级NTP初始化函数
+    generator.addFunction('ntp_init_advanced_function',
+        'void initNTPAdvanced(const char* ntpServer, long timezoneOffset, int daylightOffset) {\n' +
+        '  configTime(timezoneOffset * 3600, daylightOffset * 3600, ntpServer);\n' +
+        '  Serial.println("正在同步NTP时间...");\n' +
+        '  struct tm timeinfo;\n' +
+        '  int retry = 0;\n' +
+        '  while (!getLocalTime(&timeinfo) && retry < 10) {\n' +
+        '    delay(1000);\n' +
+        '    retry++;\n' +
+        '    Serial.print(".");\n' +
+        '  }\n' +
+        '  if (retry < 10) {\n' +
+        '    Serial.println("\\nNTP时间同步成功!");\n' +
+        '  } else {\n' +
+        '    Serial.println("\\nNTP时间同步失败!");\n' +
+        '  }\n' +
+        '}\n'
+    );
+
+    const code = `initNTPAdvanced(${ntpServer}, ${timezoneOffset}, ${daylightOffset});\n`;
+    return code;
+};
+
+// 获取当前时间
+Arduino.forBlock['esp32_wifi_get_time'] = function(block, generator) {
+    const format = block.getFieldValue('FORMAT');
+
+    generator.addLibrary('#include <time.h>', '#include <time.h>');
+
+    // 添加时间获取函数
+    generator.addFunction('get_time_function',
+        'String getTimeString(String format) {\n' +
+        '  struct tm timeinfo;\n' +
+        '  if (!getLocalTime(&timeinfo)) {\n' +
+        '    return "时间未同步";\n' +
+        '  }\n' +
+        '  \n' +
+        '  if (format == "FULL") {\n' +
+        '    char timeStr[64];\n' +
+        '    strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", &timeinfo);\n' +
+        '    return String(timeStr);\n' +
+        '  } else if (format == "YEAR") {\n' +
+        '    return String(timeinfo.tm_year + 1900);\n' +
+        '  } else if (format == "MONTH") {\n' +
+        '    return String(timeinfo.tm_mon + 1);\n' +
+        '  } else if (format == "DAY") {\n' +
+        '    return String(timeinfo.tm_mday);\n' +
+        '  } else if (format == "HOUR") {\n' +
+        '    return String(timeinfo.tm_hour);\n' +
+        '  } else if (format == "MINUTE") {\n' +
+        '    return String(timeinfo.tm_min);\n' +
+        '  } else if (format == "SECOND") {\n' +
+        '    return String(timeinfo.tm_sec);\n' +
+        '  } else if (format == "WEEKDAY") {\n' +
+        '    const char* weekdays[] = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};\n' +
+        '    return String(weekdays[timeinfo.tm_wday]);\n' +
+        '  } else if (format == "TIMESTAMP") {\n' +
+        '    return String(mktime(&timeinfo));\n' +
+        '  }\n' +
+        '  return "未知格式";\n' +
+        '}\n'
+    );
+
+    const code = `getTimeString("${format}")`;
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// 获取格式化时间
+Arduino.forBlock['esp32_wifi_get_formatted_time'] = function(block, generator) {
+    const formatString = generator.valueToCode(block, 'FORMAT_STRING', Arduino.ORDER_ATOMIC) || '"%Y-%m-%d %H:%M:%S"';
+
+    generator.addLibrary('#include <time.h>', '#include <time.h>');
+
+    // 添加格式化时间函数
+    generator.addFunction('get_formatted_time_function',
+        'String getFormattedTime(const char* format) {\n' +
+        '  struct tm timeinfo;\n' +
+        '  if (!getLocalTime(&timeinfo)) {\n' +
+        '    return "时间未同步";\n' +
+        '  }\n' +
+        '  char timeStr[128];\n' +
+        '  strftime(timeStr, sizeof(timeStr), format, &timeinfo);\n' +
+        '  return String(timeStr);\n' +
+        '}\n'
+    );
+
+    const code = `getFormattedTime(${formatString})`;
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// 检查NTP时间是否已同步
+Arduino.forBlock['esp32_wifi_ntp_synced'] = function(block, generator) {
+    generator.addLibrary('#include <time.h>', '#include <time.h>');
+
+    // 添加同步检查函数
+    generator.addFunction('ntp_synced_function',
+        'bool isNTPSynced() {\n' +
+        '  struct tm timeinfo;\n' +
+        '  return getLocalTime(&timeinfo);\n' +
+        '}\n'
+    );
+
+    const code = 'isNTPSynced()';
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// 获取Unix时间戳
+Arduino.forBlock['esp32_wifi_get_epoch_time'] = function(block, generator) {
+    generator.addLibrary('#include <time.h>', '#include <time.h>');
+
+    // 添加时间戳获取函数
+    generator.addFunction('get_epoch_time_function',
+        'unsigned long getEpochTime() {\n' +
+        '  struct tm timeinfo;\n' +
+        '  if (!getLocalTime(&timeinfo)) {\n' +
+        '    return 0;\n' +
+        '  }\n' +
+        '  return mktime(&timeinfo);\n' +
+        '}\n'
+    );
+
+    const code = 'getEpochTime()';
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// 设置时区
+Arduino.forBlock['esp32_wifi_set_timezone'] = function(block, generator) {
+    const timezone = block.getFieldValue('TIMEZONE');
+
+    generator.addLibrary('#include <time.h>', '#include <time.h>');
+
+    if (timezone === 'CUSTOM') {
+        // 如果选择自定义，不生成代码，需要用户使用自定义时区块
+        return '// 请使用"设置自定义时区"积木块\n';
+    }
+
+    const code = `setenv("TZ", "${timezone}", 1);\ntzset();\n`;
+    return code;
+};
+
+// 设置自定义时区
+Arduino.forBlock['esp32_wifi_set_custom_timezone'] = function(block, generator) {
+    const timezoneString = generator.valueToCode(block, 'TIMEZONE_STRING', Arduino.ORDER_ATOMIC) || '"CST-8"';
+
+    generator.addLibrary('#include <time.h>', '#include <time.h>');
+
+    const code = `setenv("TZ", ${timezoneString}, 1);\ntzset();\n`;
+    return code;
+};
+
 // 扩展：简化的WiFi连接块
 if (Blockly.Extensions.isRegistered('esp32_wifi_simple_connect_extension')) {
     Blockly.Extensions.unregister('esp32_wifi_simple_connect_extension');
