@@ -259,5 +259,144 @@
         "nextStatement": null,
         "colour": "#03A9F4",
         "inputsInline": false
+    },
+    {
+        "type": "esp32_wifi_ntp_begin",
+        "message0": "初始化NTP时钟 服务器 %1 时区偏移 %2 小时",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "NTP_SERVER",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "TIMEZONE_OFFSET",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "inputsInline": true,
+        "tooltip": "初始化NTP时间同步，设置NTP服务器和时区偏移"
+    },
+    {
+        "type": "esp32_wifi_ntp_begin_advanced",
+        "message0": "初始化NTP时钟 服务器 %1 时区偏移 %2 小时 夏令时偏移 %3 小时",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "NTP_SERVER",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "TIMEZONE_OFFSET",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "DAYLIGHT_OFFSET",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "inputsInline": false,
+        "tooltip": "初始化NTP时间同步，设置NTP服务器、时区偏移和夏令时偏移"
+    },
+    {
+        "type": "esp32_wifi_get_time",
+        "message0": "获取当前时间 格式 %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "FORMAT",
+                "options": [
+                    ["完整时间", "FULL"],
+                    ["年份", "YEAR"],
+                    ["月份", "MONTH"],
+                    ["日期", "DAY"],
+                    ["小时", "HOUR"],
+                    ["分钟", "MINUTE"],
+                    ["秒钟", "SECOND"],
+                    ["星期", "WEEKDAY"],
+                    ["时间戳", "TIMESTAMP"]
+                ]
+            }
+        ],
+        "output": "String",
+        "colour": "#4CAF50",
+        "tooltip": "获取当前时间的指定格式"
+    },
+    {
+        "type": "esp32_wifi_get_formatted_time",
+        "message0": "获取格式化时间 格式 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "FORMAT_STRING",
+                "check": "String"
+            }
+        ],
+        "output": "String",
+        "colour": "#4CAF50",
+        "inputsInline": true,
+        "tooltip": "使用自定义格式字符串获取时间，如 '%Y-%m-%d %H:%M:%S'"
+    },
+    {
+        "type": "esp32_wifi_ntp_synced",
+        "message0": "NTP时间已同步",
+        "output": "Boolean",
+        "colour": "#4CAF50",
+        "tooltip": "检查NTP时间是否已成功同步"
+    },
+    {
+        "type": "esp32_wifi_get_epoch_time",
+        "message0": "获取Unix时间戳",
+        "output": "Number",
+        "colour": "#4CAF50",
+        "tooltip": "获取Unix时间戳（从1970年1月1日开始的秒数）"
+    },
+    {
+        "type": "esp32_wifi_set_timezone",
+        "message0": "设置时区 %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "TIMEZONE",
+                "options": [
+                    ["北京时间 (UTC+8)", "CST-8"],
+                    ["东京时间 (UTC+9)", "JST-9"],
+                    ["纽约时间 (UTC-5)", "EST5EDT,M3.2.0,M11.1.0"],
+                    ["伦敦时间 (UTC+0)", "GMT0BST,M3.5.0/1,M10.5.0"],
+                    ["巴黎时间 (UTC+1)", "CET-1CEST,M3.5.0,M10.5.0/3"],
+                    ["悉尼时间 (UTC+10)", "AEST-10AEDT,M10.1.0,M4.1.0/3"],
+                    ["自定义", "CUSTOM"]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "设置时区信息"
+    },
+    {
+        "type": "esp32_wifi_set_custom_timezone",
+        "message0": "设置自定义时区 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "TIMEZONE_STRING",
+                "check": "String"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "inputsInline": true,
+        "tooltip": "设置自定义时区字符串，如 'CST-8' 或 'EST5EDT,M3.2.0,M11.1.0'"
     }
 ]
