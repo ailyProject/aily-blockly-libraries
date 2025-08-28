@@ -1,0 +1,218 @@
+{
+    "kind": "category",
+    "name": "步进电机",
+    "colour": "#ff6600",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "accel_stepper_init"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_set_max_speed",
+            "inputs": {
+                "SPEED": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1000
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_set_acceleration",
+            "inputs": {
+                "ACCELERATION": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 500
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_set_speed",
+            "inputs": {
+                "SPEED": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 100
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_move_to",
+            "inputs": {
+                "POSITION": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1000
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_move",
+            "inputs": {
+                "STEPS": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 100
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_run"
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_run_speed"
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_run_to_position"
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_run_to_new_position",
+            "inputs": {
+                "POSITION": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 500
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_stop"
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_set_current_position",
+            "inputs": {
+                "POSITION": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "状态查询"
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_current_position"
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_target_position"
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_distance_to_go"
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_is_running"
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_speed"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "示例程序段"
+        },
+        {
+            "kind": "block",
+            "type": "accel_stepper_init",
+            "inputs": {},
+            "next": {
+                "block": {
+                    "type": "accel_stepper_set_max_speed",
+                    "inputs": {
+                        "SPEED": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 1000
+                                }
+                            }
+                        }
+                    },
+                    "next": {
+                        "block": {
+                            "type": "accel_stepper_set_acceleration",
+                            "inputs": {
+                                "ACCELERATION": {
+                                    "shadow": {
+                                        "type": "math_number",
+                                        "fields": {
+                                            "NUM": 500
+                                        }
+                                    }
+                                }
+                            },
+                            "next": {
+                                "block": {
+                                    "type": "accel_stepper_move_to",
+                                    "inputs": {
+                                        "POSITION": {
+                                            "shadow": {
+                                                "type": "math_number",
+                                                "fields": {
+                                                    "NUM": 1000
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

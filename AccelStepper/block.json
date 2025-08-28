@@ -1,0 +1,320 @@
+[
+    {
+        "type": "accel_stepper_init",
+        "message0": "初始化步进电机%1 类型%2 引脚1%3 引脚2%4 引脚3%5 引脚4%6",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "INTERFACE",
+                "options": [
+                    ["4线全步进", "FULL4WIRE"],
+                    ["2线步进驱动器", "DRIVER"],
+                    ["2线全步进", "FULL2WIRE"],
+                    ["3线全步进", "FULL3WIRE"],
+                    ["4线半步进", "HALF4WIRE"],
+                    ["3线半步进", "HALF3WIRE"]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PIN1",
+                "options": "${board.digitalPins}"
+            },
+            {
+                "type": "field_dropdown", 
+                "name": "PIN2",
+                "options": "${board.digitalPins}"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PIN3", 
+                "options": "${board.digitalPins}"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PIN4",
+                "options": "${board.digitalPins}"
+            }
+        ],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff6600",
+        "extensions": ["accel_stepper_init_extension"]
+    },
+    {
+        "type": "accel_stepper_set_max_speed",
+        "message0": "设置步进电机%1最大速度%2步/秒",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            },
+            {
+                "type": "input_value",
+                "name": "SPEED",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff6600"
+    },
+    {
+        "type": "accel_stepper_set_acceleration",
+        "message0": "设置步进电机%1加速度%2步/秒²",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            },
+            {
+                "type": "input_value",
+                "name": "ACCELERATION",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff6600"
+    },
+    {
+        "type": "accel_stepper_set_speed",
+        "message0": "设置步进电机%1速度%2步/秒",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            },
+            {
+                "type": "input_value",
+                "name": "SPEED",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff6600"
+    },
+    {
+        "type": "accel_stepper_move_to",
+        "message0": "步进电机%1移动到绝对位置%2步",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            },
+            {
+                "type": "input_value",
+                "name": "POSITION",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff6600"
+    },
+    {
+        "type": "accel_stepper_move",
+        "message0": "步进电机%1移动%2步",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            },
+            {
+                "type": "input_value",
+                "name": "STEPS",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff6600"
+    },
+    {
+        "type": "accel_stepper_run",
+        "message0": "运行步进电机%1 (带加速度)",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff6600"
+    },
+    {
+        "type": "accel_stepper_run_speed",
+        "message0": "运行步进电机%1 (恒定速度)",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff6600"
+    },
+    {
+        "type": "accel_stepper_run_to_position",
+        "message0": "步进电机%1运行到目标位置",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff6600"
+    },
+    {
+        "type": "accel_stepper_run_to_new_position",
+        "message0": "步进电机%1运行到新位置%2步",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            },
+            {
+                "type": "input_value",
+                "name": "POSITION",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff6600"
+    },
+    {
+        "type": "accel_stepper_stop",
+        "message0": "停止步进电机%1",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff6600"
+    },
+    {
+        "type": "accel_stepper_current_position",
+        "message0": "步进电机%1当前位置",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#ff6600"
+    },
+    {
+        "type": "accel_stepper_target_position",
+        "message0": "步进电机%1目标位置",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#ff6600"
+    },
+    {
+        "type": "accel_stepper_distance_to_go",
+        "message0": "步进电机%1距离目标位置的步数",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#ff6600"
+    },
+    {
+        "type": "accel_stepper_is_running",
+        "message0": "步进电机%1正在运行？",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            }
+        ],
+        "inputsInline": true,
+        "output": "Boolean",
+        "colour": "#ff6600"
+    },
+    {
+        "type": "accel_stepper_set_current_position",
+        "message0": "设置步进电机%1当前位置为%2步",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            },
+            {
+                "type": "input_value",
+                "name": "POSITION",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff6600"
+    },
+    {
+        "type": "accel_stepper_speed",
+        "message0": "步进电机%1当前速度",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER_NAME",
+                "variable": "stepper1"
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#ff6600"
+    }
+]
