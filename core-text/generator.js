@@ -308,14 +308,17 @@ Arduino.forBlock["text_join"] = function (block) {
   const joinBlock = block;
   switch (joinBlock.itemCount_) {
     case 0:
+      // 没有元素，返回空字符串
       return ["\"\"", Arduino.ORDER_ATOMIC];
     case 1: {
+      // 单个元素，直接返回强制转换为字符串的结果
       const element =
         Arduino.valueToCode(joinBlock, "ADD0", Arduino.ORDER_NONE) || "\"\"";
       const codeAndOrder = Arduino.forceString(element);
       return codeAndOrder;
     }
     case 2: {
+      // 两个元素，直接用 + 连接
       const element0 =
         Arduino.valueToCode(joinBlock, "ADD0", Arduino.ORDER_NONE) || "\"\"";
       const element1 =
@@ -324,12 +327,13 @@ Arduino.forBlock["text_join"] = function (block) {
       return [code, Arduino.ORDER_ADDITION];
     }
     default: {
-      // Arduino不支持数组join方法，使用String连接替代
-      let code = "String(\"\")";
+      // 多个元素（3个或以上），依次用 + 连接所有元素
+      const elements = [];
       for (let i = 0; i < joinBlock.itemCount_; i++) {
         const element = Arduino.valueToCode(joinBlock, "ADD" + i, Arduino.ORDER_NONE) || "\"\"";
-        code += " + " + Arduino.forceString(element)[0];
+        elements.push(Arduino.forceString(element)[0]);
       }
+      const code = elements.join(" + ");
       return [code, Arduino.ORDER_ADDITION];
     }
   }
