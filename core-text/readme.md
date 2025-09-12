@@ -7,6 +7,8 @@ Arduino/C++编程中的文本处理核心库，提供字符串操作、字符处
 - **版本**: 0.0.1
 - **作者**: aily Project
 - **描述**: 文本相关函数
+- **兼容**: 所有开发板
+- **电压**: 3.3V、5V
 
 ## Blockly 工具箱分类
 
@@ -184,9 +186,12 @@ Arduino/C++编程中的文本处理核心库，提供字符串操作、字符处
 
 #### text_join
 **类型**: 值块 (output: String)
-**描述**: 连接多个文本元素
-**动态输入**: 支持动态添加多个文本输入
-**生成代码**: 生成连接多个字符串的表达式
+**描述**: 连接多个文本元素，支持动态添加多个文本输入
+**动态输入**: ADD0, ADD1, ADD2, ... - 根据需要动态生成
+**生成代码**:
+```cpp
+String("") + element1 + element2 + ...
+```
 **扩展**: 使用 `text_join_mutator` 动态管理输入
 
 #### text_append
@@ -242,15 +247,15 @@ Arduino/C++编程中的文本处理核心库，提供字符串操作、字符处
 #### tt_getSubstring
 **类型**: 值块 (output: String)
 **描述**: 获取子字符串，支持多种位置模式
-**字段**:
-- `WHERE1`: 下拉选择 - 起始位置模式
-- `WHERE2`: 下拉选择 - 结束位置模式
 **值输入**:
 - `STRING`: 字符串输入 - 目标字符串
-- `AT1`: 数字输入 - 起始位置 (可选)
-- `AT2`: 数字输入 - 结束位置 (可选)
-**生成代码**: 根据位置模式生成substring调用
-**扩展**: 使用 `TEXT_GET_SUBSTRING_MUTATOR_MIXIN` 动态管理输入
+- `AT1`: 数字输入 - 起始位置 (动态显示，根据位置模式)
+- `AT2`: 数字输入 - 结束位置 (动态显示，根据位置模式)
+**生成代码**:
+```cpp
+String(text).substring(start, end)  // 根据位置模式生成
+```
+**扩展**: 使用 `text_getSubstring_mutator` 动态管理输入
 **工具箱默认**: STRING=变量"text"
 
 #### text_changeCase
@@ -344,9 +349,14 @@ Arduino/C++编程中的文本处理核心库，提供字符串操作、字符处
 - `text_replace.TEXT`: 默认空文本影子块
 - `text_reverse.TEXT`: 默认空文本影子块
 
-### 动态扩展机制
-- `text_join`: 使用 `text_join_mutator` 动态管理多个文本输入
-- `tt_getSubstring`: 使用 `TEXT_GET_SUBSTRING_MUTATOR_MIXIN` 动态管理位置输入
+### 变量管理
+- 使用 `field_input` 创建新变量时，自动注册到Blockly系统，支持变量重命名
+- 使用 `field_variable` 选择已存在的变量
+
+### 动态输入块
+- `text_join` 需要 `extraState` 字段记录输入数量，使用 `text_join_mutator` 动态管理多个文本输入
+- `tt_getSubstring` 使用 `text_getSubstring_mutator` 动态管理位置输入
+- `text_charAt` 使用 `text_charAt_mutator` 动态管理位置输入
 - 支持序列化和反序列化动态输入结构
 
 ### 辅助函数生成
@@ -363,9 +373,10 @@ Arduino/C++编程中的文本处理核心库，提供字符串操作、字符处
 ```json
 {
   "type": "string_add_string",
+  "id": "string_add_id",
   "inputs": {
-    "STRING1": {"shadow": {"type": "text", "fields": {"TEXT": "Hello"}}},
-    "STRING2": {"shadow": {"type": "text", "fields": {"TEXT": " World"}}}
+    "STRING1": {"shadow": {"type": "text", "id": "str1_shadow_id", "fields": {"TEXT": "Hello"}}},
+    "STRING2": {"shadow": {"type": "text", "id": "str2_shadow_id", "fields": {"TEXT": " World"}}}
   }
 }
 ```
@@ -374,9 +385,10 @@ Arduino/C++编程中的文本处理核心库，提供字符串操作、字符处
 ```json
 {
   "type": "string_to_something",
+  "id": "string_convert_id",
   "fields": {"TYPE": "toInt"},
   "inputs": {
-    "TEXT": {"shadow": {"type": "text", "fields": {"TEXT": "123"}}}
+    "TEXT": {"shadow": {"type": "text", "id": "convert_shadow_id", "fields": {"TEXT": "123"}}}
   }
 }
 ```
@@ -385,10 +397,11 @@ Arduino/C++编程中的文本处理核心库，提供字符串操作、字符处
 ```json
 {
   "type": "string_substring",
+  "id": "substring_id",
   "inputs": {
-    "STRING": {"shadow": {"type": "text", "fields": {"TEXT": "apple"}}},
-    "START_INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}},
-    "LAST_INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "3"}}}
+    "STRING": {"shadow": {"type": "text", "id": "substr_text_id", "fields": {"TEXT": "apple"}}},
+    "START_INDEX": {"shadow": {"type": "math_number", "id": "start_id", "fields": {"NUM": "1"}}},
+    "LAST_INDEX": {"shadow": {"type": "math_number", "id": "end_id", "fields": {"NUM": "3"}}}
   }
 }
 ```
@@ -397,10 +410,11 @@ Arduino/C++编程中的文本处理核心库，提供字符串操作、字符处
 ```json
 {
   "type": "text_indexOf",
+  "id": "indexof_id",
   "fields": {"END": "FIRST"},
   "inputs": {
-    "VALUE": {"block": {"type": "variables_get", "fields": {"VAR": {"id": "text_var"}}}},
-    "FIND": {"shadow": {"type": "text", "fields": {"TEXT": "abc"}}}
+    "VALUE": {"block": {"type": "variables_get", "id": "var_get_id", "fields": {"VAR": {"id": "text_var"}}}},
+    "FIND": {"shadow": {"type": "text", "id": "find_shadow_id", "fields": {"TEXT": "abc"}}}
   }
 }
 ```
@@ -409,9 +423,26 @@ Arduino/C++编程中的文本处理核心库，提供字符串操作、字符处
 ```json
 {
   "type": "text_changeCase",
+  "id": "changecase_id",
   "fields": {"CASE": "UPPERCASE"},
   "inputs": {
-    "TEXT": {"shadow": {"type": "text", "fields": {"TEXT": "hello"}}}
+    "TEXT": {"shadow": {"type": "text", "id": "text_shadow_id", "fields": {"TEXT": "hello"}}}
+  }
+}
+```
+
+### 动态文本连接
+```json
+{
+  "type": "text_join",
+  "id": "text_join_id",
+  "extraState": {
+    "itemCount": 3
+  },
+  "inputs": {
+    "ADD0": {"block": {"type": "text", "id": "text1_id", "fields": {"TEXT": "Hello"}}},
+    "ADD1": {"block": {"type": "text", "id": "text2_id", "fields": {"TEXT": " "}}},
+    "ADD2": {"block": {"type": "text", "id": "text3_id", "fields": {"TEXT": "World"}}}
   }
 }
 ```

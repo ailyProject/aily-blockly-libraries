@@ -149,35 +149,38 @@ Arduino.forBlock['wifi_encryption_type'] = function(block, generator) {
 
 Arduino.forBlock['wifi_config'] = function(block, generator) {
   ensureWiFiLibrary(generator);
-  var ip = block.getFieldValue('IP') || '192.168.1.1';
+  // var ip = block.getFieldValue('IP') || '192.168.1.1';
+  const ip = Arduino.valueToCode(block, 'IP', Arduino.ORDER_ATOMIC);
+
+  // console.log('Setting WiFi IP:', ip);
   
   // 验证IP地址格式（IPv4）
-  function isValidIP(ip) {
-    if (typeof ip !== 'string') return false;
+  // function isValidIP(ip) {
+  //   if (typeof ip !== 'string') return false;
     
-    var parts = ip.split('.');
-    if (parts.length !== 4) return false;
+  //   var parts = ip.split('.');
+  //   if (parts.length !== 4) return false;
     
-    for (var i = 0; i < parts.length; i++) {
-      var part = parseInt(parts[i]);
-      if (isNaN(part) || part < 0 || part > 255) {
-        return false;
-      }
-      // 检查是否有前导零（除了单个0）
-      if (parts[i] !== part.toString()) {
-        return false;
-      }
-    }
-    return true;
-  }
+  //   for (var i = 0; i < parts.length; i++) {
+  //     var part = parseInt(parts[i]);
+  //     if (isNaN(part) || part < 0 || part > 255) {
+  //       return false;
+  //     }
+  //     // 检查是否有前导零（除了单个0）
+  //     if (parts[i] !== part.toString()) {
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // }
   
-  // 如果IP格式无效，使用默认IP
-  if (!isValidIP(ip)) {
-    ip = '192.168.1.100';
-  }
+  // // 如果IP格式无效，使用默认IP
+  // if (!isValidIP(ip)) {
+  //   ip = 'IPAddress(192.168.1.100)';
+  // }
   
   // 将IP地址格式转换为Arduino的IPAddress格式
-  ip = 'IPAddress(' + ip.replace(/\./g, ',') + ')';
+  // ip = 'IPAddress(' + ip.replace(/\./g, ',') + ')';
   let code = 'WiFi.config(' + ip + ');\n';
   return code;
 };
