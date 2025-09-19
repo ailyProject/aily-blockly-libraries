@@ -347,4 +347,32 @@ Arduino.forBlock["map_to"] = function (block) {
   return [code, Arduino.ORDER_ADDITION];
 };
 
+// 注册 math_op_tooltip 扩展
+try {
+  // 定义 tooltip 映射
+  const MATH_OP_TOOLTIPS = {
+    'ADD': '加法：两个数相加',
+    'MINUS': '减法：两个数相减', 
+    'MULTIPLY': '乘法：两个数相乘',
+    'DIVIDE': '除法：两个数相除',
+    'MODULO': '取模：计算除法的余数',
+    'POWER': '幂运算：计算一个数的指定次方'
+  };
+
+  // 检查是否已经注册
+  if (Blockly.Extensions.isRegistered('math_op_tooltip')) {
+    Blockly.Extensions.unregister('math_op_tooltip');
+  }
+
+  Blockly.Extensions.register('math_op_tooltip', function() {
+    // 为 math_arithmetic 块设置动态 tooltip
+    this.setTooltip(function() {
+      const op = this.getFieldValue('OP');
+      return MATH_OP_TOOLTIPS[op] || '数学运算';
+    });
+  });
+} catch (e) {
+  console.error("注册 math_op_tooltip 扩展失败:", e);
+}
+
 
