@@ -442,22 +442,39 @@ function renameVariable(block, oldName, newName, vtype) {
   }
 }
 
-// 全局变量存储所有入口块类型
-let ENTRY_BLOCK_TYPES = ['arduino_setup', 'arduino_loop'];
+// 全局变量存储所有入口块类型 - 使用 window 对象避免重复声明
+if (typeof window !== 'undefined') {
+  if (!window.ENTRY_BLOCK_TYPES) {
+    window.ENTRY_BLOCK_TYPES = ['arduino_setup', 'arduino_loop'];
+  }
+} else {
+  // Node.js 环境下的处理
+  if (typeof global !== 'undefined' && !global.ENTRY_BLOCK_TYPES) {
+    global.ENTRY_BLOCK_TYPES = ['arduino_setup', 'arduino_loop'];
+  }
+}
 
 /**
  * 注册Hat块类型到入口块列表
  * @param {string|string[]} blockTypes - 要注册的块类型，可以是单个字符串或字符串数组
  */
 function registerHatBlock(blockTypes) {
+  const entryTypes = (typeof window !== 'undefined') ? window.ENTRY_BLOCK_TYPES : 
+                     (typeof global !== 'undefined') ? global.ENTRY_BLOCK_TYPES : null;
+  
+  if (!entryTypes) {
+    console.warn('registerHatBlock: ENTRY_BLOCK_TYPES 未初始化');
+    return;
+  }
+
   if (typeof blockTypes === 'string') {
     blockTypes = [blockTypes];
   }
 
   if (Array.isArray(blockTypes)) {
     blockTypes.forEach(blockType => {
-      if (typeof blockType === 'string' && !ENTRY_BLOCK_TYPES.includes(blockType)) {
-        ENTRY_BLOCK_TYPES.push(blockType);
+      if (typeof blockType === 'string' && !entryTypes.includes(blockType)) {
+        entryTypes.push(blockType);
         // console.log(`Hat块类型已注册: ${blockType}`);
       }
     });
@@ -471,7 +488,10 @@ function registerHatBlock(blockTypes) {
  * @returns {string[]} 入口块类型数组
  */
 function getRegisteredHatBlocks() {
-  return [...ENTRY_BLOCK_TYPES];
+  const entryTypes = (typeof window !== 'undefined') ? window.ENTRY_BLOCK_TYPES : 
+                     (typeof global !== 'undefined') ? global.ENTRY_BLOCK_TYPES : 
+                     ['arduino_setup', 'arduino_loop'];
+  return [...entryTypes];
 }
 
 /**
@@ -479,15 +499,23 @@ function getRegisteredHatBlocks() {
  * @param {string|string[]} blockTypes - 要移除的块类型
  */
 function unregisterHatBlock(blockTypes) {
+  const entryTypes = (typeof window !== 'undefined') ? window.ENTRY_BLOCK_TYPES : 
+                     (typeof global !== 'undefined') ? global.ENTRY_BLOCK_TYPES : null;
+  
+  if (!entryTypes) {
+    console.warn('unregisterHatBlock: ENTRY_BLOCK_TYPES 未初始化');
+    return;
+  }
+
   if (typeof blockTypes === 'string') {
     blockTypes = [blockTypes];
   }
 
   if (Array.isArray(blockTypes)) {
     blockTypes.forEach(blockType => {
-      const index = ENTRY_BLOCK_TYPES.indexOf(blockType);
+      const index = entryTypes.indexOf(blockType);
       if (index > -1) {
-        ENTRY_BLOCK_TYPES.splice(index, 1);
+        entryTypes.splice(index, 1);
         // console.log(`Hat块类型已移除: ${blockType}`);
       }
     });
@@ -526,7 +554,11 @@ function isBlockConnected(block) {
   const rootBlock = findRootBlock(block);
 
   // 如果根块是入口块，则认为已连接，否则为独立
-  if (rootBlock && ENTRY_BLOCK_TYPES.includes(rootBlock.type)) {
+  const entryTypes = (typeof window !== 'undefined') ? window.ENTRY_BLOCK_TYPES : 
+                     (typeof global !== 'undefined') ? global.ENTRY_BLOCK_TYPES : 
+                     ['arduino_setup', 'arduino_loop'];
+  
+  if (rootBlock && entryTypes.includes(rootBlock.type)) {
     return true;
   }
   return false;
