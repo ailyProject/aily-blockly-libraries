@@ -443,7 +443,7 @@ function renameVariable(block, oldName, newName, vtype) {
 }
 
 // 全局变量存储所有入口块类型
-let ENTRY_BLOCK_TYPES = ['arduino_setup', 'arduino_loop'];
+window.ENTRY_BLOCK_TYPES = window.ENTRY_BLOCK_TYPES || ['arduino_setup', 'arduino_loop'];
 
 /**
  * 注册Hat块类型到入口块列表
@@ -456,8 +456,8 @@ function registerHatBlock(blockTypes) {
 
   if (Array.isArray(blockTypes)) {
     blockTypes.forEach(blockType => {
-      if (typeof blockType === 'string' && !ENTRY_BLOCK_TYPES.includes(blockType)) {
-        ENTRY_BLOCK_TYPES.push(blockType);
+      if (typeof blockType === 'string' && !window.ENTRY_BLOCK_TYPES.includes(blockType)) {
+        window.ENTRY_BLOCK_TYPES.push(blockType);
         // console.log(`Hat块类型已注册: ${blockType}`);
       }
     });
@@ -471,7 +471,7 @@ function registerHatBlock(blockTypes) {
  * @returns {string[]} 入口块类型数组
  */
 function getRegisteredHatBlocks() {
-  return [...ENTRY_BLOCK_TYPES];
+  return [...window.ENTRY_BLOCK_TYPES];
 }
 
 /**
@@ -485,9 +485,9 @@ function unregisterHatBlock(blockTypes) {
 
   if (Array.isArray(blockTypes)) {
     blockTypes.forEach(blockType => {
-      const index = ENTRY_BLOCK_TYPES.indexOf(blockType);
+      const index = window.ENTRY_BLOCK_TYPES.indexOf(blockType);
       if (index > -1) {
-        ENTRY_BLOCK_TYPES.splice(index, 1);
+        window.ENTRY_BLOCK_TYPES.splice(index, 1);
         // console.log(`Hat块类型已移除: ${blockType}`);
       }
     });
@@ -526,7 +526,7 @@ function isBlockConnected(block) {
   const rootBlock = findRootBlock(block);
 
   // 如果根块是入口块，则认为已连接，否则为独立
-  if (rootBlock && ENTRY_BLOCK_TYPES.includes(rootBlock.type)) {
+  if (rootBlock && window.ENTRY_BLOCK_TYPES.includes(rootBlock.type)) {
     return true;
   }
   return false;
@@ -639,9 +639,9 @@ Arduino.forBlock["type_cast"] = function (block, generator) {
   // 类型强制转换
   const value = Arduino.valueToCode(block, "VALUE", Arduino.ORDER_ATOMIC) || "0";
   const type = block.getFieldValue("TYPE");
-  
+
   let code;
-  
+
   // 根据目标类型生成相应的转换代码
   switch (type) {
     case "String":
@@ -658,7 +658,7 @@ Arduino.forBlock["type_cast"] = function (block, generator) {
       code = "(" + type + ")" + value;
       break;
   }
-  
+
   return [code, Arduino.ORDER_ATOMIC];
 };
 
