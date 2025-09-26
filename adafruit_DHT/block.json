@@ -1,8 +1,13 @@
 [
     {
         "type": "dht_init",
-        "message0": "初始化 DHT %1 传感器 连接到引脚 %2",
+        "message0": "初始化 DHT %1 传感器 类型 %2 连接到引脚 %3",
         "args0": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "dht"
+            },
             {
                 "type": "field_dropdown",
                 "name": "TYPE",
@@ -25,21 +30,14 @@
     },
     {
         "type": "dht_read_temperature",
-        "message0": "从 DHT %1 传感器 引脚 %2 读取温度 (℃)",
+        "message0": "从 DHT %1 传感器 读取温度 (℃)",
         "args0": [
             {
-                "type": "field_dropdown",
-                "name": "TYPE",
-                "options": [
-                    ["DHT11", "DHT11"],
-                    ["DHT22", "DHT22"],
-                    ["DHT21", "DHT21"]
-                ]
-            },
-            {
-                "type": "field_dropdown",
-                "name": "PIN",
-                "options": "${board.digitalPins}"
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "dht",
+                "variableTypes": ["DHT"],
+                "defaultType": "DHT"
             }
         ],
         "inputsInline": true,
@@ -48,21 +46,14 @@
     },
     {
         "type": "dht_read_humidity",
-        "message0": "从 DHT %1 传感器 引脚 %2 读取湿度 (%)",
+        "message0": "从 DHT %1 传感器 读取湿度 (%)",
         "args0": [
             {
-                "type": "field_dropdown",
-                "name": "TYPE",
-                "options": [
-                    ["DHT11", "DHT11"],
-                    ["DHT22", "DHT22"],
-                    ["DHT21", "DHT21"]
-                ]
-            },
-            {
-                "type": "field_dropdown",
-                "name": "PIN",
-                "options": "${board.digitalPins}"
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "dht",
+                "variableTypes": ["DHT"],
+                "defaultType": "DHT"
             }
         ],
         "inputsInline": true,
@@ -71,21 +62,14 @@
     },
     {
         "type": "dht_read_success",
-        "message0": "DHT %1 传感器 引脚 %2 读取成功",
+        "message0": "DHT %1 传感器 读取成功",
         "args0": [
             {
-                "type": "field_dropdown",
-                "name": "TYPE",
-                "options": [
-                    ["DHT11", "DHT11"],
-                    ["DHT22", "DHT22"],
-                    ["DHT21", "DHT21"]
-                ]
-            },
-            {
-                "type": "field_dropdown",
-                "name": "PIN",
-                "options": "${board.digitalPins}"
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "dht",
+                "variableTypes": ["DHT"],
+                "defaultType": "DHT"
             }
         ],
         "inputsInline": true,
