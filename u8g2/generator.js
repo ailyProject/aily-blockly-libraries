@@ -226,7 +226,23 @@ Arduino.forBlock['u8g2_draw_str'] = function (block, generator) {
     drawCode = 'drawUTF8';
   }
   generator.addSetupEnd('u8g2_enableUTF8Print', 'u8g2.enableUTF8Print();');
-  return `u8g2.setFont(${fontSetting});\nu8g2.${drawCode}(${x}, ${y}, ${text});\nu8g2.sendBuffer();\n`;
+
+  const target = block.getInputTargetBlock('TEXT');
+  let isText = false;
+
+  if (target && target.type === 'text') {
+    isText = true;
+  }
+
+  let textCode = text;
+  if (!isText) {
+    textCode = 'String(' + text + ').c_str()';
+  }
+
+  let code = '';
+  code += `u8g2.setFont(${fontSetting});\nu8g2.${drawCode}(${x}, ${y}, ${textCode});\nu8g2.sendBuffer();\n`;
+  return code;
+  // return `u8g2.setFont(${fontSetting});\nu8g2.${drawCode}(${x}, ${y}, ${text});\nu8g2.sendBuffer();\n`;
 };
 
 // 设置字体
@@ -426,17 +442,31 @@ Arduino.forBlock['u8x8_draw_str'] = function (block, generator) {
   const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC);
   const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC);
   const text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC);
+
+  const target = block.getInputTargetBlock('TEXT');
+  let isText = false;
+
+  if (target && target.type === 'text') {
+    isText = true;
+  }
+
   const inverse = block.getFieldValue('INVERSE') === 'TRUE';
   let fontSetting = 'u8x8_font_chroma48medium8_r'; // 默认字体设置
   let drawCode= 'drawString';
   let code = 'u8x8.setFont(' + fontSetting + ');\n';
+  
+  let textCode = text;
+  if (!isText) {
+    textCode = 'String(' + text + ').c_str()';
+  }
+
   if (inverse) {
     code += 'u8x8.setInverseFont(1);\n';
-    code += `u8x8.${drawCode}(${x}, ${y}, ${text});\n`;
+    code += `u8x8.${drawCode}(${x}, ${y}, ${textCode});\n`;
     code += 'u8x8.setInverseFont(0);\n';
   }
   else {
-    code += `u8x8.${drawCode}(${x}, ${y}, ${text});\n`;
+    code += `u8x8.${drawCode}(${x}, ${y}, ${textCode});\n`;
   }
   return code;
 };
