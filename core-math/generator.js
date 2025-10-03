@@ -6,6 +6,28 @@ Arduino.forBlock["math_number"] = function (block) {
   return [String(number), order];
 };
 
+Arduino.forBlock["math_number_base"] = function (block) {
+  // Multi-base numeric value (DEC, HEX, BIN).
+  const base = block.getFieldValue("BASE");
+  let numStr = block.getFieldValue("NUM").trim();
+  let code;
+
+  if (base === "HEX") {
+    // 移除可能的0x或0X前缀
+    numStr = numStr.replace(/^0[xX]/, "");
+    code = "0x" + numStr.toUpperCase();
+  } else if (base === "BIN") {
+    // 移除可能的0b或0B前缀
+    numStr = numStr.replace(/^0[bB]/, "");
+    code = "0b" + numStr;
+  } else {
+    // DEC - 直接使用数值
+    code = numStr;
+  }
+
+  return [code, Arduino.ORDER_ATOMIC];
+};
+
 Arduino.forBlock["math_arithmetic"] = function (block) {
   // Basic arithmetic operators, and power.
   const OPERATORS = {
@@ -375,4 +397,124 @@ try {
   console.error("注册 math_op_tooltip 扩展失败:", e);
 }
 
+// 位移操作：<< 和 >>
+Arduino.forBlock["math_bitwise_shift"] = function (block) {
+  const OPERATORS = {
+    LEFT: [" << ", Arduino.ORDER_BITWISE_SHIFT],
+    RIGHT: [" >> ", Arduino.ORDER_BITWISE_SHIFT],
+  };
+  const tuple = OPERATORS[block.getFieldValue("OP")];
+  const operator = tuple[0];
+  const order = tuple[1];
+  const argument0 = Arduino.valueToCode(block, "A", order) || "0";
+  const argument1 = Arduino.valueToCode(block, "B", order) || "0";
+  const code = argument0 + operator + argument1;
+  return [code, order];
+};
 
+// 按位逻辑运算：&, |, ^
+Arduino.forBlock["math_bitwise_logic"] = function (block) {
+  const OPERATORS = {
+    AND: [" & ", Arduino.ORDER_BITWISE_AND],
+    OR: [" | ", Arduino.ORDER_BITWISE_OR],
+    XOR: [" ^ ", Arduino.ORDER_BITWISE_XOR],
+  };
+  const tuple = OPERATORS[block.getFieldValue("OP")];
+  const operator = tuple[0];
+  const order = tuple[1];
+  const argument0 = Arduino.valueToCode(block, "A", order) || "0";
+  const argument1 = Arduino.valueToCode(block, "B", order) || "0";
+  const code = argument0 + operator + argument1;
+  return [code, order];
+};
+
+// 提取位段（通用）
+Arduino.forBlock["math_extract_bits"] = function (block) {
+  const operator = block.getFieldValue("OP");
+  const number = Arduino.valueToCode(block, "NUM", Arduino.ORDER_NONE) || "0";
+  let code;
+  let order;
+
+  switch (operator) {
+    case "HIGH_BYTE":
+      code = "highByte(" + number + ")";
+      order = Arduino.ORDER_FUNCTION_CALL;
+      break;
+    case "LOW_BYTE":
+      code = "lowByte(" + number + ")";
+      order = Arduino.ORDER_FUNCTION_CALL;
+      break;
+    case "HIGH_WORD":
+      code = "((" + number + " >> 16) & 0xFFFF)";
+      order = Arduino.ORDER_BITWISE_AND;
+      break;
+    case "LOW_WORD":
+      code = "(" + number + " & 0xFFFF)";
+      order = Arduino.ORDER_BITWISE_AND;
+      break;
+    default:
+      code = "0";
+      order = Arduino.ORDER_ATOMIC;
+  }
+
+  return [code, order];
+};
+
+// 读取指定位
+Arduino.forBlock["math_bitread"] = function (block) {
+  const number = Arduino.valueToCode(block, "NUM", Arduino.ORDER_NONE) || "0";
+  const bit = Arduino.valueToCode(block, "BIT", Arduino.ORDER_NONE) || "0";
+  const code = "bitRead(" + number + ", " + bit + ")";
+  return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// 写入指定位（返回修改后的值）
+Arduino.forBlock["math_bitwrite"] = function (block) {
+  const number = Arduino.valueToCode(block, "NUM", Arduino.ORDER_NONE) || "0";
+  const bit = Arduino.valueToCode(block, "BIT", Arduino.ORDER_NONE) || "0";
+  const value = Arduino.valueToCode(block, "VALUE", Arduino.ORDER_NONE) || "0";
+  // 手动实现：如果value为1则置位，否则清零
+  const code = "((" + value + ") ? ((" + number + ") | (1 << (" + bit + "))) : ((" + number + ") & ~(1 << (" + bit + "))))";
+  return [code, Arduino.ORDER_CONDITIONAL];
+};
+
+// 置位(设置为1，返回修改后的值)
+Arduino.forBlock["math_bitset"] = function (block) {
+  const number = Arduino.valueToCode(block, "NUM", Arduino.ORDER_BITWISE_OR) || "0";
+  const bit = Arduino.valueToCode(block, "BIT", Arduino.ORDER_NONE) || "0";
+  const code = "(" + number + " | (1 << " + bit + "))";
+  return [code, Arduino.ORDER_BITWISE_OR];
+};
+
+// 清零(设置为0，返回修改后的值)
+Arduino.forBlock["math_bitclear"] = function (block) {
+  const number = Arduino.valueToCode(block, "NUM", Arduino.ORDER_BITWISE_AND) || "0";
+  const bit = Arduino.valueToCode(block, "BIT", Arduino.ORDER_NONE) || "0";
+  const code = "(" + number + " & ~(1 << " + bit + "))";
+  return [code, Arduino.ORDER_BITWISE_AND];
+};
+
+// 组合位段（通用）
+Arduino.forBlock["math_combine_bits"] = function (block) {
+  const operator = block.getFieldValue("OP");
+  const high = Arduino.valueToCode(block, "HIGH", Arduino.ORDER_NONE) || "0";
+  const low = Arduino.valueToCode(block, "LOW", Arduino.ORDER_NONE) || "0";
+  let code;
+  let order;
+
+  switch (operator) {
+    case "MAKE_WORD":
+      code = "word(" + high + ", " + low + ")";
+      order = Arduino.ORDER_FUNCTION_CALL;
+      break;
+    case "MAKE_DWORD":
+      code = "((uint32_t)(" + high + ") << 16 | (" + low + "))";
+      order = Arduino.ORDER_BITWISE_OR;
+      break;
+    default:
+      code = "0";
+      order = Arduino.ORDER_ATOMIC;
+  }
+
+  return [code, order];
+};
