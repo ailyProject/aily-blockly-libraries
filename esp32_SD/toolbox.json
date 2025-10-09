@@ -1,50 +1,50 @@
-
 {
   "kind": "category",
   "name": "ESP32 SD",
+  "icon": "fa-light fa-sd-card",
   "contents": [
     {
-  "kind": "block",
-  "type": "sd_init",
-  "fields": {
-    "SPI_TYPE": "HSPI",
-    "SPI_VAR_NAME": "spi" 
-  },
-  "inputs": {
-    "SCK_PIN": {
-      "shadow": {
-        "type": "math_number",
-        "fields": {
-          "NUM": 3
+      "kind": "block",
+      "type": "sd_init",
+      "fields": {
+        "SPI_TYPE": "HSPI",
+        "SPI_VAR_NAME": "spi"
+      },
+      "inputs": {
+        "SCK_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 3
+            }
+          }
+        },
+        "MISO_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 35
+            }
+          }
+        },
+        "MOSI_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 14
+            }
+          }
+        },
+        "CS_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 46
+            }
+          }
         }
       }
     },
-    "MISO_PIN": {
-      "shadow": {
-        "type": "math_number",
-        "fields": {
-          "NUM": 35
-        }
-      }
-    },
-    "MOSI_PIN": {
-      "shadow": {
-        "type": "math_number",
-        "fields": {
-          "NUM": 14
-        }
-      }
-    },
-    "CS_PIN": {
-      "shadow": {
-        "type": "math_number",
-        "fields": {
-          "NUM": 46
-        }
-      }
-    }
-  }
-},
     {
       "kind": "block",
       "type": "sd_card_type"
@@ -66,30 +66,30 @@
       "type": "sd_read_file"
     },
     {
-  "kind": "block",
-  "type": "sd_write_file",
-  "fields": {
-    "MODE": "WRITE"
-  },
-  "inputs": {
-    "DATA": {
-      "shadow": {
-        "type": "text",
-        "fields": {
-          "TEXT": "Hello, world!"
+      "kind": "block",
+      "type": "sd_write_file",
+      "fields": {
+        "MODE": "WRITE"
+      },
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello, world!"
+            }
+          }
+        },
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/data.txt"
+            }
+          }
         }
       }
     },
-    "PATH": {
-      "shadow": {
-        "type": "text",
-        "fields": {
-          "TEXT": "/data.txt"
-        }
-      }
-    }
-  }
-},
     {
       "kind": "block",
       "type": "sd_mkdir"

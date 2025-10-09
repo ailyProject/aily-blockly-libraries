@@ -31,8 +31,8 @@
   {
     "name": "@aily-project/lib-dht",
     "nickname": "DHT温湿度传感器",
-    "version": "1.0.0",
-    "description": "DHT11/DHT22(AM2302)/DHT21(AM2301)温湿度传感器库，支持读取温度和湿度数据",
+    "version": "1.0.1",
+    "description": "DHT11/DHT22(AM2302)/DHT21(AM2301)温湿度传感器库，支持温湿度数据采集、低功耗运行、响应速度快、抗干扰能力强。",
     "author": "adafruit",
     "compatibility": {
       "core": [],
@@ -67,7 +67,7 @@
     "name": "@aily-project/lib-adafruit-gfx",
     "nickname": "彩色显示屏",
     "version": "1.0.2",
-    "description": "基于Adafruit GFX的彩色显示屏驱动库，支持ST7735、ST7789、ST7796S等常用驱动芯片。",
+    "description": "基于Adafruit GFX的彩色显示屏驱动库，支持ST7735、ST7789、ST7796S等常用驱动芯片，支持多种显示屏（如OLED、TFT、LCD等），支持文本、图像、图形元素（如线、圆、矩形等）绘制，字体和颜色自定义，兼容多种显示驱动库，接口丰富。",
     "author": "community",
     "compatibility": {
       "core": [],
@@ -91,9 +91,9 @@
   },
   {
     "name": "@aily-project/lib-adafruit_ina219",
-    "nickname": "INA219传感器驱动库",
+    "nickname": "INA291功率计",
     "version": "0.0.1",
-    "description": "INA219传感器驱动库，适用于esp32、arduino，支持I2C通信，提供电流、总线电压、分线电压、功率数据获取功能。",
+    "description": "INA219传感器驱动库，适用于esp32、arduino，支持I2C通信，提供电流、总线电压、分线电压、功率数据获取功能，低漂移高精度，兼容多种主流开发板。",
     "author": "OpenJumper",
     "compatibility": {
       "core": [
@@ -118,14 +118,47 @@
       "传感器"
     ],
     "tested": true,
-    "icon": "",
+    "icon": "fa-light fa-monitor-waveform",
     "url": "https://github.com/adafruit/Adafruit_INA219"
+  },
+  {
+    "name": "@aily-project/lib-adafruit-mpr121",
+    "nickname": "MPR121触摸传感器",
+    "version": "0.0.1",
+    "description": "Adafruit MPR121 12通道电容触摸传感器库，支持I2C通信，触摸检测和阈值设置",
+    "author": "ericoding",
+    "compatibility": {
+      "core": [],
+      "voltage": [
+        3.3
+      ]
+    },
+    "keywords": [
+      "aily",
+      "blockly",
+      "MPR121",
+      "Adafruit",
+      "touch",
+      "capacitive",
+      "sensor",
+      "触摸传感器",
+      "电容",
+      "I2C",
+      "mpr121_init",
+      "mpr121_touched",
+      "mpr121_filtered",
+      "mpr121_baseline",
+      "mpr121_threshold"
+    ],
+    "tested": true,
+    "icon": "fa-light fa-hand-pointer",
+    "url": ""
   },
   {
     "name": "@aily-project/lib-adafruit-vl53l0x",
     "nickname": "VL53L0X激光测距传感器",
     "version": "1.0.0",
-    "description": "VL53L0X激光测距传感器驱动库，使用I2C通信，提供距离数据获取功能。",
+    "description": "VL53L0X激光测距传感器驱动库，使用I2C通信，支持毫米级距离检测、测量速度快、抗环境光干扰能力强，体积小巧，兼容多种主流开发板。。",
     "author": "OpenJumper",
     "compatibility": {
       "core": [
@@ -145,18 +178,18 @@
       "传感器"
     ],
     "tested": true,
-    "icon": "",
+    "icon": "fa-light fa-ruler-horizontal",
     "url": ""
   },
   {
     "name": "@aily-project/lib-ags02ma",
     "nickname": "AGS02MA TVOC传感器",
     "version": "0.0.1",
-    "description": "AGS02MA TVOC气体传感器控制库,适用于Arduino、ESP32等开发板",
+    "description": "AGS02MA TVOC气体传感器控制库,适用于Arduino、ESP32等开发板，使用I2C接口读取TVOC浓度，输出PPB单位的数字量。",
     "author": "aily Project",
     "compatibility": {
       "core": [
-        "arduino:var",
+        "arduino:avr",
         "esp32:esp32",
         "esp32:esp32s3"
       ],
@@ -175,14 +208,14 @@
       "TVOC"
     ],
     "tested": true,
-    "icon": "",
+    "icon": "fa-light fa-wind-warning",
     "url": ""
   },
   {
     "name": "@aily-project/lib-ai-assistant",
     "nickname": "ai-assistant",
     "version": "0.0.1",
-    "description": "用于小智语音识别后向各种设备通过串口发送控制命令，供主设备识别和执行相应操作,支持arduino、mega2560、esp32s3。",
+    "description": "模块通过UART接口与主板通信，模块自带音频编解码器和麦克风阵列，实现语音识别、自然语言处理和语音合成，可连接云端AI服务实现智能对话和设备控制，支持arduino、mega2560、esp32s3。",
     "author": "OpenJumper",
     "compatibility": {
       "core": [
@@ -209,7 +242,7 @@
       "artificial intelligence"
     ],
     "tested": true,
-    "icon": "",
+    "icon": "fa-light fa-microchip-ai",
     "url": ""
   },
   {
@@ -310,6 +343,29 @@
     "url": "https://madhephaestus.github.io/ESP32Servo/"
   },
   {
+    "name": "@aily-project/lib-arduinojson",
+    "nickname": "ArduinoJson",
+    "version": "1.0.0",
+    "description": "ArduinoJson库，支持JSON数据的解析和生成",
+    "author": "aily Project",
+    "compatibility": {
+      "core": [],
+      "voltage": [
+        3.3,
+        5
+      ]
+    },
+    "keywords": [
+      "aily",
+      "blockly",
+      "ArduinoJson",
+      "json"
+    ],
+    "tested": true,
+    "icon": "fa-light fa-code",
+    "url": "https://arduinojson.org/"
+  },
+  {
     "name": "@aily-project/lib-keyboard",
     "nickname": "USB模拟键盘",
     "version": "1.0.0",
@@ -371,7 +427,7 @@
     "author": "aily Project",
     "compatibility": {
       "core": [
-        "arduino:arduino_r4_wifi"
+        "renesas_uno:unor4wifi"
       ],
       "voltage": [
         3.3,
@@ -387,6 +443,35 @@
     ],
     "tested": true,
     "icon": "iconfont icon-a-8x8lattice",
+    "url": ""
+  },
+  {
+    "name": "@aily-project/lib-r4-rtc",
+    "nickname": "R4实时时钟",
+    "version": "1.0.0",
+    "description": "适用于Arduino UNO R4的RTC库，提供精确的时间跟踪、定时回调和时间格式化功能",
+    "author": "Arduino",
+    "compatibility": {
+      "core": [
+        "renesas_uno:minima",
+        "renesas_uno:unor4wifi"
+      ],
+      "voltage": [
+        3.3,
+        5
+      ]
+    },
+    "keywords": [
+      "aily",
+      "blockly",
+      "rtc",
+      "clock",
+      "time",
+      "calendar",
+      "realtime"
+    ],
+    "tested": true,
+    "icon": "fa-light fa-clock",
     "url": ""
   },
   {
@@ -421,7 +506,7 @@
     "name": "@aily-project/lib-bh1750",
     "nickname": "BH1750光照传感器",
     "version": "0.0.1",
-    "description": "BH1750数字光照强度传感器控制库，适用于Arduino、ESP32等开发板",
+    "description": "BH1750数字光照强度传感器控制库，适用于Arduino、ESP32等开发板。使用I2C接口读取光照强度数值，将环境光转换为数字信号直接输出勒克斯值，支持连续测量模式和单次测量模式。",
     "author": "aily Project",
     "compatibility": {
       "core": [
@@ -448,7 +533,7 @@
     "name": "@aily-project/lib-bmp280",
     "nickname": "BMP280气压传感器",
     "version": "0.0.1",
-    "description": "用于BMP280温度、气压与海拔高度测量的传感器库，适用于Arduino、ESP32等开发板",
+    "description": "用于BMP280气压传感器，通过I2C接口实现温度、气压的高精度测量、海拔高度计算，适用于Arduino、ESP32等开发板",
     "author": "aily-project",
     "compatibility": {
       "core": [
@@ -515,7 +600,7 @@
     "name": "@aily-project/lib-encoder",
     "nickname": "Arduino旋转编码器库",
     "version": "0.0.1",
-    "description": "Arduino旋转编码器驱动库，支持I2C通信，提供旋转编码器数据获取功能。",
+    "description": "Arduino旋转编码器驱动库，支持I2C通信，支持旋转方向识别、步数计数、按键检测（带按键编码器），响应速度快，兼容多种主流开发板。",
     "author": "OpenJumper",
     "compatibility": {
       "core": [
@@ -533,6 +618,68 @@
       "旋转编码器",
       "编码器",
       "传感器"
+    ],
+    "tested": true,
+    "icon": "",
+    "url": ""
+  },
+  {
+    "name": "@aily-project/lib-es8388",
+    "nickname": "ES8388音频编解码器",
+    "version": "1.0.0",
+    "description": "ES8388立体声音频编解码器库，支持录音、播放和实时音频处理",
+    "author": "",
+    "compatibility": {
+      "core": [
+        "esp32:esp32"
+      ],
+      "voltage": [
+        3.3
+      ]
+    },
+    "keywords": [
+      "aily",
+      "blockly",
+      "es8388",
+      "audio",
+      "codec",
+      "i2s",
+      "recording",
+      "playback"
+    ],
+    "tested": true,
+    "icon": "",
+    "url": "https://github.com/everest-se/ES8388"
+  },
+  {
+    "name": "@aily-project/lib-ESP32Time",
+    "nickname": "ESP32RTC时间库",
+    "version": "1.0.0",
+    "description": "ESP32内置RTC时间管理库，支持时间设置、获取和格式化，无需外部RTC模块",
+    "author": "Vonweller",
+    "compatibility": {
+      "core": [
+        "esp32:esp32",
+        "esp32:esp32c3",
+        "esp32:esp32c6",
+        "esp32:esp32s2",
+        "esp32:esp32s3"
+      ],
+      "voltage": [
+        3.3
+      ]
+    },
+    "keywords": [
+      "aily",
+      "blockly",
+      "ESP32Time",
+      "RTC",
+      "time",
+      "date",
+      "esp32_time_init",
+      "esp32_time_set",
+      "esp32_time_get",
+      "esp32_time_format"
     ],
     "tested": true,
     "icon": "",
@@ -570,7 +717,7 @@
     "name": "@aily-project/lib-esp32_encoder",
     "nickname": "ESP32旋转编码器库",
     "version": "0.0.1",
-    "description": "ESP32旋转编码器驱动库适用于esp32，支持I2C通信，提供旋转编码器数据获取功能。",
+    "description": "ESP32旋转编码器驱动库适用于esp32，通过I2C通信，实现对旋转编码器信号的高效采集与处理，简化编码器应用开发流程。支持多通道编码器输入、旋转方向与步数精准检测，兼容多种编码器类型。",
     "author": "OpenJumper",
     "compatibility": {
       "core": [
@@ -598,7 +745,7 @@
     "name": "@aily-project/lib-esp32-i2s",
     "nickname": "ESP32 I2S音频库",
     "version": "1.0.0",
-    "description": "支持ESP32 I2S数字麦克风录音和功放播放的音频库，包含WAV文件录制播放、音调生成、旋律播放等功能",
+    "description": "支持ESP32 I2S数字麦克风录音和功放播放的音频库，利用ESP32内置I2S硬件接口，实现高质量音频数据的采集与播放，包含WAV文件录制播放、音调生成、旋律播放等功能",
     "author": "aily Project",
     "compatibility": {
       "core": [
@@ -639,7 +786,7 @@
     "name": "@aily-project/lib-esp32-sd",
     "nickname": "ESP32 SD卡库",
     "version": "0.0.1",
-    "description": "SD卡及文件系统操作库,适用于ESP32等开发板",
+    "description": "SD卡及文件系统操作库,通过SPI实现对SD卡的文件读写操作，简化大容量数据存储与管理，适配ESP32系列开发板。支持多种文件系统（如FAT32）、文件和目录操作、数据流读写、卡容量检测。",
     "author": "esp32",
     "compatibility": {
       "core": [
@@ -657,14 +804,14 @@
       "存储"
     ],
     "tested": true,
-    "icon": "",
+    "icon": "fa-light fa-sd-card",
     "url": ""
   },
   {
     "name": "@aily-project/lib-fastled",
     "nickname": "RGB灯带驱动库",
     "version": "1.0.1",
-    "description": "基于FastLed的GRB灯带驱动库，支持WS2812B/WS2811/NEOPIXEL等多种RGB灯带的控制，提供颜色、亮度、彩虹效果等多种预置特效。",
+    "description": "基于FastLed的GRB灯带驱动库，支持WS2812B/WS2811/NEOPIXEL等多种RGB灯带的控制，提供颜色、亮度、彩虹效果等多种预置特效，支持链式连接和独立控制。",
     "author": "奈何col",
     "compatibility": {
       "core": [],
@@ -699,7 +846,7 @@
     "name": "@aily-project/lib-hx711",
     "nickname": "HX711称重传感器库",
     "version": "0.5.2",
-    "description": "用于控制HX711称重传感器模块，支持校准、去皮和读取重量功能",
+    "description": "用于控制HX711称重传感器模块，支持校准、去皮和读取重量功能，支持差分输入和可编程增益，需要软件校准实现重量到数值的转换。",
     "author": "bogde",
     "compatibility": {
       "core": [
@@ -730,7 +877,7 @@
     "name": "@aily-project/lib-iicmotordriver",
     "nickname": "IIC电机驱动库",
     "version": "0.0.1",
-    "description": "通过该库控制IIC电机驱动板，实现4路可调速电机控制、4路舵机控制",
+    "description": "适配openjumper IIC-MS驱动板，通过I2C协议实现4路可调速电机控制、4路舵机控制，支持多路电机独立控制、转速调节、正反转切换、刹车功能，兼容多种主流开发板。",
     "author": "K2L",
     "compatibility": {
       "core": [
@@ -753,6 +900,35 @@
     "tested": true,
     "icon": "iconfont icon-motor",
     "url": ""
+  },
+  {
+    "name": "@aily-project/lib-imu9dof",
+    "nickname": "9轴IMU传感器",
+    "version": "0.0.1",
+    "description": "9轴IMU传感器库，支持QMI8658A六轴传感器(加速度计+陀螺仪)和MMC5603NJ三轴磁力传感器，适用于掌控板3.0",
+    "author": "VonWell",
+    "compatibility": {
+      "core": [
+        "esp32:esp32",
+        "esp32:esp32s3"
+      ],
+      "voltage": [
+        3.3
+      ]
+    },
+    "keywords": [
+      "imu",
+      "9dof",
+      "qmi8658a",
+      "mmc5603nj",
+      "加速度计",
+      "陀螺仪",
+      "磁力计",
+      "掌控板"
+    ],
+    "tested": true,
+    "icon": "",
+    "url": "https://github.com/deneyapkart/deneyap-9-eksen-ataletsel-olcum-birimi-arduino-library"
   },
   {
     "name": "@aily-project/lib-liquidcrystal",
@@ -784,7 +960,7 @@
   },
   {
     "name": "@aily-project/lib-liquidcrystal_i2c",
-    "nickname": "LCD1602 I2C驱动库",
+    "nickname": "LCD1602 I2C驱动",
     "version": "1.0.0",
     "description": "LCD1602 I2C显示屏控制支持库，支持Arduino UNO、MEGA、ESP8266、ESP32等开发板",
     "author": "aily Project",
@@ -813,7 +989,7 @@
     "name": "@aily-project/lib-lm35",
     "nickname": "LM35温度传感器库",
     "version": "0.0.1",
-    "description": "LM35温度传感器库，提供简单易用的温度读取功能",
+    "description": "LM35温度传感器库，通过模拟信号输出实现环境温度的精准测量，支持连续温度采集、低功耗运行、线性输出、无需校准，兼容多种开发板。",
     "author": "aily Project",
     "compatibility": {
       "core": [
@@ -840,10 +1016,38 @@
     "url": ""
   },
   {
-    "name": "@aily-project/lib-mp3player-gd3800",
-    "nickname": "GD3800音频播放",
+    "name": "@aily-project/lib-ltr308",
+    "nickname": "LTR308光照传感器",
     "version": "0.0.1",
-    "description": "GD3800音频播放模块驱动库，支持串口通信，可用于播放MP3等格式的音频文件。",
+    "description": "LTR308数字光照强度传感器控制库，适用于掌控板3.0等ESP32开发板",
+    "author": "VonWell",
+    "compatibility": {
+      "core": [
+        "arduino:avr",
+        "esp32:esp32",
+        "esp32:esp32s3"
+      ],
+      "voltage": [
+        3.3,
+        5
+      ]
+    },
+    "keywords": [
+      "ltr308",
+      "光照传感器",
+      "LTR308",
+      "light",
+      "掌控板"
+    ],
+    "tested": true,
+    "icon": "fa-light fa-sun",
+    "url": "https://github.com/dantudose/LTR308"
+  },
+  {
+    "name": "@aily-project/lib-mp3player-gd3800",
+    "nickname": "MP3音频播放",
+    "version": "0.0.1",
+    "description": "GD3800音频播放模块驱动库，支持串口通信，支持多种音频格式播放、音量调节、曲目切换，操作简单，兼容多平台，适用于语音提示、背景音乐等场景。",
     "author": "OpenJumper",
     "compatibility": {
       "core": [
@@ -897,13 +1101,13 @@
     ],
     "tested": true,
     "icon": "fa-light fa-comments",
-    "url": ""
+    "url": "https://github.com/knolleary/pubsubclient"
   },
   {
     "name": "@aily-project/lib-ntc",
     "nickname": "NTC热敏电阻",
     "version": "1.0.0",
-    "description": "NTC热敏电阻库，支持Esp32等开发板，提供摄氏度、华氏度、开尔文温度读取",
+    "description": "NTC热敏电阻库，支持Esp32等开发板，提供摄氏度、华氏度、开尔文温度读取，硬件可搭配ojmbBxx09ESP32-S3 AIOT综合板中NTC模块使用。",
     "author": "aily Project",
     "compatibility": {
       "core": [
@@ -929,9 +1133,9 @@
   },
   {
     "name": "@aily-project/lib-nv170d",
-    "nickname": "常用语音播报模块",
+    "nickname": "特定语音播报",
     "version": "0.0.1",
-    "description": "通过该库控制语音播报模块，内置69种常用语",
+    "description": "硬件采用openjumper 语音播报模块(ojmoBph4010) 基于特定语音播报库，内置69端日常语音，通过一个IO驱动，实现文本内容的语音合成与播放。",
     "author": "K2L",
     "compatibility": {
       "core": [
@@ -955,10 +1159,43 @@
     "url": ""
   },
   {
+    "name": "@aily-project/lib-onebutton",
+    "nickname": "OneButton",
+    "version": "0.0.2",
+    "description": "单按钮事件检测库，支持单击、双击、长按等多种事件",
+    "author": "aily Project",
+    "compatibility": {
+      "core": [
+        "arduino:avr",
+        "arduino:megaavr",
+        "arduino:samd",
+        "esp32:esp32",
+        "esp8266:esp8266",
+        "renesas_uno:unor4wifi",
+        "rp2040:rp2040"
+      ],
+      "voltage": [
+        3.3,
+        5
+      ]
+    },
+    "keywords": [
+      "aily",
+      "blockly",
+      "button",
+      "click",
+      "press",
+      "input"
+    ],
+    "tested": true,
+    "icon": "fa-light fa-circle-dot",
+    "url": "https://github.com/mathertel/OneButton"
+  },
+  {
     "name": "@aily-project/lib-openjumper-iicps3",
-    "nickname": "IICPS3数据解析专用库",
+    "nickname": "PS3无线接收器",
     "version": "0.0.1",
-    "description": "通过该库解析IICPS3手柄接收模块的数据，支持获取手柄的按键状态、摇杆位置。",
+    "description": "适配openjumper PS3无线接收器（编号ojmoBhp4039 ），通过该库解析IICPS3手柄接收模块的数据，支持获取手柄的按键状态、摇杆位置。",
     "author": "OpenJumper",
     "compatibility": {
       "core": [],
@@ -980,9 +1217,9 @@
   },
   {
     "name": "@aily-project/lib-tts",
-    "nickname": "文本转语音",
+    "nickname": "TTS语音合成模块",
     "version": "0.0.1",
-    "description": "通过OpenJumper TTS库控制文本转语音模块，支持播放铃声、提示音、警告音、数字和文本。",
+    "description": "适配openjumperTTS语音合成模块（编号ojmoBhp4035 ），通过串口将文本内容实时转换为语音输出，简化语音播报功能的实现，适配多种开发板，支持播放铃声、提示音、警告音、数字和文本。",
     "author": "OpenJumper",
     "compatibility": {
       "core": [],
@@ -1007,12 +1244,13 @@
     "name": "@aily-project/lib-servo",
     "nickname": "舵机驱动",
     "version": "1.0.0",
-    "description": "舵机控制支持库，支持Arduino UNO、MEGA、ESP32等开发板",
+    "description": "舵机控制支持库，通过PWM信号精准控制舵机的转动角度，支持多通道舵机控制、角度设定、速度调节，适用于Arduino UNO、MEGA、UNO R4等开发板",
     "author": "aily Project",
     "compatibility": {
       "core": [
         "arduino:avr",
-        "esp32:esp32"
+        "renesas_uno:minima",
+        "renesas_uno:unor4wifi"
       ],
       "voltage": [
         3.3,
@@ -1035,12 +1273,13 @@
     "name": "@aily-project/lib-servo360",
     "nickname": "360舵机驱动",
     "version": "1.0.0",
-    "description": "360舵机控制支持库，支持Arduino UNO、MEGA、ESP32等开发板",
+    "description": "360舵机控制支持库，过PWM信号实现对360度连续旋转舵机的速度和方向控制，支持正反转、速度调节、停止控制，适用于Arduino UNO、MEGA、UNO R4等开发板",
     "author": "aily Project",
     "compatibility": {
       "core": [
         "arduino:avr",
-        "esp32:esp32"
+        "renesas_uno:minima",
+        "renesas_uno:unor4wifi"
       ],
       "voltage": [
         3.3,
@@ -1063,7 +1302,7 @@
     "name": "@aily-project/lib-sgp30",
     "nickname": "SGP30空气质量传感器",
     "version": "1.0.0",
-    "description": "SGP30气体/空气质量感器支持库，支持测量TVOC和eCO2，适用于Arduino、ESP32等开发板",
+    "description": "SGP30气体/空气质量感器支持库，通过I2C接口实现对空气中总挥发性有机物（TVOC）和二氧化碳当量（eCO₂）的实时检测，适用于Arduino、ESP32等开发板",
     "author": "aily Project",
     "compatibility": {
       "core": [
@@ -1090,14 +1329,14 @@
       "挥发性有机化合物"
     ],
     "tested": true,
-    "icon": "",
+    "icon": "fa-light fa-wind-warning",
     "url": ""
   },
   {
     "name": "@aily-project/lib-si7021",
     "nickname": "Si7021温湿度传感器",
     "version": "1.0.0",
-    "description": "Si7021温湿度传感器控制库，适用于Arduino、ESP32等开发板，基于Adafruit Si7021库",
+    "description": "Si7021温湿度传感器控制库，通过I2C接口实现环境温度与湿度的高精度测量，适用于Arduino、ESP32等开发板。",
     "author": "aily Project",
     "compatibility": {
       "core": [
@@ -1127,10 +1366,10 @@
     "url": ""
   },
   {
-    "name": "@aily-project/lib-sparkfun_BMI270",
-    "nickname": "BMI270传感器驱动库",
+    "name": "@aily-project/lib-sparkfun_bmi270",
+    "nickname": "BMI270六轴IMU传感器",
     "version": "0.0.1",
-    "description": "BMI270传感器驱动库适用于esp32，支持I2C通信，提供加速度、陀螺仪数据获取功能。",
+    "description": "基于BMI270六轴IMU传感器，通过I2C接口实现加速度与角速度数据采集，适用于ESP32开发板。",
     "author": "OpenJumper",
     "compatibility": {
       "core": [
@@ -1156,20 +1395,19 @@
     "url": ""
   },
   {
-    "name": "@aily-project/lib-tb6612-motor",
+    "name": "@aily-project/lib-sparkfun_tb6612",
     "nickname": "TB6612直流电机驱动",
     "version": "0.0.2",
-    "description": "支持TB6612双路直流电机驱动器的控制库，适用于Arduino、ESP32等开发板",
+    "description": "基于TB6612直流电机驱动芯片，通过PWM和方向控制信号实现双路直流电机的正反转与调速，适用于Arduino、ESP32等开发板",
     "author": "aily Project",
     "compatibility": {
       "core": [
         "arduino:avr",
-        "esp32:esp32",
-        "esp32:esp32s3"
+        "esp32:esp32"
       ],
       "voltage": [
         3.3,
-        "5-10"
+        5
       ]
     },
     "keywords": [
@@ -1186,13 +1424,12 @@
     "name": "@aily-project/lib-stepper",
     "nickname": "步进电机驱动库",
     "version": "0.0.1",
-    "description": "28BYJ-48步进电机控制库,支持Arduino UNO,ESP32等开发板",
+    "description": "针对四相五线步进电机28BYJ-48的驱动库，常配合ULN2003等驱动板使用，,支持Arduino UNO,ESP32等开发板",
     "author": "aily-project",
     "compatibility": {
       "core": [
         "arduino:avr",
-        "esp32:esp32",
-        "esp32:esp32s3"
+        "esp32:esp32"
       ],
       "voltage": [
         5
@@ -1213,8 +1450,8 @@
   {
     "name": "@aily-project/lib-u8g2",
     "nickname": "单色显示屏",
-    "version": "1.0.0",
-    "description": "基于u8g2的单色显示屏驱动库，可驱动多种OLED、LCD单色显示屏，支持SSD1306、SSD1309、SH1106、SH1107、ST7920等常用驱动芯片。",
+    "version": "1.0.1",
+    "description": "基于u8g2的单色显示屏驱动库，支持U8g2及U8x8，可驱动多种OLED、LCD单色显示屏，支持SSD1306、SSD1309、SH1106、SH1107、ST7920等常用驱动芯片。",
     "author": "奈何col",
     "compatibility": {
       "core": [],
@@ -1246,7 +1483,7 @@
     "name": "@aily-project/lib-ultrasonic",
     "nickname": "超声波传感器",
     "version": "0.0.1",
-    "description": "超声波传感器，驱动库支持SR04",
+    "description": "超声波传感器，驱动库支持SR04，通过发射和接收超声波信号实现非接触式距离测量，适配多种开发板。",
     "author": "aily Project",
     "compatibility": "",
     "keywords": [
@@ -1263,7 +1500,7 @@
     "name": "@aily-project/lib-wind",
     "nickname": "风速风向雨量传感器",
     "version": "1.0.0",
-    "description": "风速风向雨量传感器控制库，支持风速测量(km/h, mph)和风向检测，以及雨量测量，适用于Arduino、ESP32等开发板",
+    "description": "风速风向雨量传感器控制库，硬件适配openJumper气象物联网大师套件中的风速风向雨滴传感器，支持风速测量(km/h, mph)和风向检测，以及雨量测量，适用于Arduino、ESP32等开发板",
     "author": "aily Project",
     "compatibility": {
       "core": [
@@ -1293,6 +1530,25 @@
       "降雨"
     ],
     "tested": true,
+    "icon": "",
+    "url": ""
+  },
+  {
+    "name": "@aily-project/lib-accelstepper",
+    "nickname": "步进电机驱动",
+    "version": "1.0.0",
+    "description": "AccelStepper库的Blockly封装，支持带加速度控制的步进电机",
+    "author": "aily-project",
+    "compatibility": "",
+    "keywords": [
+      "blockly",
+      "arduino",
+      "stepper",
+      "motor",
+      "accelstepper",
+      "acceleration"
+    ],
+    "tested": false,
     "icon": "",
     "url": ""
   },
@@ -1698,7 +1954,7 @@
       "can_filter"
     ],
     "tested": false,
-    "icon": "",
+    "icon": "fa-light fa-car-circle-bolt",
     "url": ""
   },
   {
@@ -1726,35 +1982,6 @@
     ],
     "tested": false,
     "icon": "fa-light fa-microchip",
-    "url": ""
-  },
-  {
-    "name": "@aily-project/lib-r4-rtc",
-    "nickname": "R4实时时钟",
-    "version": "1.0.0",
-    "description": "适用于Arduino UNO R4的RTC库，提供精确的时间跟踪、定时回调和时间格式化功能",
-    "author": "Arduino",
-    "compatibility": {
-      "core": [
-        "renesas_uno:minima",
-        "renesas_uno:unor4wifi"
-      ],
-      "voltage": [
-        3.3,
-        5
-      ]
-    },
-    "keywords": [
-      "aily",
-      "blockly",
-      "rtc",
-      "clock",
-      "time",
-      "calendar",
-      "realtime"
-    ],
-    "tested": false,
-    "icon": "fa-light fa-clock",
     "url": ""
   },
   {
@@ -1885,6 +2112,37 @@
       "softwareserial",
       "serial",
       "communication"
+    ],
+    "tested": false,
+    "icon": "",
+    "url": ""
+  },
+  {
+    "name": "@aily-project/lib-as5600",
+    "nickname": "AS5600磁性角度传感器库",
+    "version": "0.1.0",
+    "description": "AS5600/AS5600L磁性旋转角度传感器支持库，支持角度读取、角速度测量、累积位置计算等功能",
+    "author": "aily Project",
+    "compatibility": {
+      "core": [],
+      "voltage": [
+        3.3,
+        5
+      ]
+    },
+    "keywords": [
+      "aily",
+      "blockly",
+      "as5600",
+      "magnetic",
+      "angle",
+      "sensor",
+      "rotation",
+      "i2c",
+      "encoder",
+      "position",
+      "angular_speed",
+      "cumulative_position"
     ],
     "tested": false,
     "icon": "",
@@ -2093,7 +2351,7 @@
       "esp32_can_check_alerts"
     ],
     "tested": false,
-    "icon": "",
+    "icon": "fa-light fa-car-circle-bolt",
     "url": ""
   },
   {
@@ -2342,7 +2600,7 @@
   {
     "name": "@aily-project/lib-espui",
     "nickname": "ESPUI网页界面库",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "description": "基于ESPUI的ESP32/ESP8266网页界面库，支持创建按钮、滑条、开关等Web UI控件",
     "author": "ericoding",
     "compatibility": {
@@ -2377,13 +2635,7 @@
       "http",
       "webserver",
       "async",
-      "littlefs",
-      "pad",
-      "accelerometer",
-      "separator",
-      "file",
       "espui_begin",
-      "espui_begin_littlefs",
       "espui_label",
       "espui_button",
       "espui_switcher",
@@ -2392,15 +2644,8 @@
       "espui_number",
       "espui_graph",
       "espui_gauge",
-      "espui_separator",
-      "espui_pad",
-      "espui_pad_with_center",
-      "espui_accelerometer",
-      "espui_file_display",
       "espui_update_control",
       "espui_update_label",
-      "espui_set_enabled",
-      "espui_set_visibility",
       "espui_on_event"
     ],
     "tested": false,
@@ -2699,35 +2944,51 @@
     "url": ""
   },
   {
-    "name": "@aily-project/lib-onebutton",
-    "nickname": "OneButton按键",
-    "version": "0.0.1",
-    "description": "OneButton按键支持库, 支持单击、双击、长按等多种按键操作",
-    "author": "",
+    "name": "@aily-project/lib-mt6701",
+    "nickname": "MT6701磁旋转编码器",
+    "version": "1.0.0",
+    "description": "MT6701磁旋转编码器库，支持角度读取、RPM计算和转数累计，适用于ESP32开发板",
+    "author": "aily Project",
     "compatibility": {
       "core": [
-        "arduino:avr",
-        "esp32:esp32"
+        "esp32:esp32",
+        "esp32:esp32c3",
+        "esp32:esp32s3"
       ],
       "voltage": [
-        3.3,
-        5
+        3.3
       ]
     },
     "keywords": [
       "aily",
       "blockly",
-      "onebutton"
+      "mt6701",
+      "encoder",
+      "magnetic",
+      "rotary",
+      "angle",
+      "rpm",
+      "i2c",
+      "esp32",
+      "mt6701_init",
+      "mt6701_get_angle_radians",
+      "mt6701_get_angle_degrees",
+      "mt6701_get_rpm",
+      "mt6701_get_count",
+      "mt6701_get_full_turns",
+      "mt6701_get_turns",
+      "mt6701_get_accumulator",
+      "mt6701_update_count"
     ],
     "tested": false,
-    "icon": "fa-light fa-circle-dot",
+    "icon": "",
     "url": ""
   },
   {
     "name": "@aily-project/lib-asr",
-    "nickname": "语音识别",
+    "nickname": "易编离线语音识别（ASR）",
     "version": "0.0.1",
-    "description": "通过OpenJumper ASR库用于识别特定的语音识别词",
+    "description": "适配OpenJumper离线语音识别模块，使用串口接收语音识别结果，支持多种语音指令识别，适用于语音控制、智能家居等场景。",
     "author": "OpenJumper",
     "compatibility": {
       "core": [],
@@ -2881,6 +3142,44 @@
     "url": ""
   },
   {
+    "name": "@aily-project/lib-rfid",
+    "nickname": "RFID读卡器",
+    "version": "0.0.1",
+    "description": "MFRC522 RFID读卡器驱动库，支持读取卡片UID、数据读写、密钥验证等功能",
+    "author": "ericoding",
+    "compatibility": {
+      "core": [
+        "arduino:avr",
+        "esp32:esp32",
+        "esp32:esp32c3",
+        "esp32:esp32s3",
+        "renesas_uno:minima",
+        "renesas_uno:unor4wifi"
+      ],
+      "voltage": [
+        3.3
+      ]
+    },
+    "keywords": [
+      "aily",
+      "blockly",
+      "RFID",
+      "MFRC522",
+      "NFC",
+      "读卡器",
+      "UID",
+      "Mifare",
+      "rfid_init",
+      "rfid_read_uid",
+      "rfid_authenticate",
+      "rfid_read_block",
+      "rfid_write_block"
+    ],
+    "tested": false,
+    "icon": "fa-solid fa-wireless",
+    "url": ""
+  },
+  {
     "name": "@aily-project/lib-rtc",
     "nickname": "RTC时钟",
     "version": "1.0.0",
@@ -2979,6 +3278,38 @@
     "url": ""
   },
   {
+    "name": "@aily-project/lib-task-scheduler",
+    "nickname": "任务调度器",
+    "version": "0.0.1",
+    "description": "TaskScheduler合作式多任务库，支持定时任务、任务同步、超时控制等高级功能",
+    "author": "aily Project",
+    "compatibility": {
+      "core": [],
+      "voltage": [
+        3.3,
+        5
+      ]
+    },
+    "keywords": [
+      "aily",
+      "blockly",
+      "taskscheduler",
+      "multitask",
+      "scheduler",
+      "task",
+      "timer",
+      "cooperative",
+      "non-blocking",
+      "status_request",
+      "timeout",
+      "priority",
+      "sleep"
+    ],
+    "tested": false,
+    "icon": "fa-light fa-list-check",
+    "url": ""
+  },
+  {
     "name": "@aily-project/lib-tcs34725",
     "nickname": "颜色识别库",
     "version": "0.0.1",
@@ -3039,7 +3370,7 @@
     "name": "@aily-project/lib-tm1650",
     "nickname": "TM1650四位数码管驱动库",
     "version": "0.0.1",
-    "description": "TM1650四位数码管驱动库",
+    "description": "TM1650四位数码管驱动库，通过I2C接口控制四位七段数码管显示，支持数字和部分字符显示。",
     "author": "K2L",
     "compatibility": {
       "core": [
@@ -3128,7 +3459,7 @@
       "core",
       "eeprom"
     ],
-    "tested": false,
+    "tested": true,
     "icon": "fa-light fa-database",
     "url": ""
   },
@@ -3361,7 +3692,7 @@
   {
     "name": "@aily-project/lib-core-time",
     "nickname": "时间控制",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "description": "核心库，通常已经集成到初始模板中。包含delay、millis、micros等函数",
     "author": "aily Project",
     "compatibility": {
