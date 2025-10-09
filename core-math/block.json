@@ -16,6 +16,30 @@
     "extensions": ["parent_tooltip_when_inline"]
   },
   {
+    "type": "math_number_base",
+    "message0": "%1 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BASE",
+        "options": [
+          ["DEC", "DEC"],
+          ["HEX", "HEX"],
+          ["BIN", "BIN"]
+        ]
+      },
+      {
+        "type": "field_input",
+        "name": "NUM",
+        "text": "0"
+      }
+    ],
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "多进制数字：DEC(十进制) HEX(十六进制0x) BIN(二进制0b)",
+    "helpUrl": ""
+  },
+  {
     "type": "math_arithmetic",
     "message0": "%1 %2 %3",
     "args0": [
@@ -394,6 +418,208 @@
     ],
     "output": "Number",
     "style": "math_blocks",
+    "helpUrl": ""
+  },
+  {
+    "type": "math_bitwise_shift",
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "A",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          ["<<", "LEFT"],
+          [">>", "RIGHT"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "B",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "位移操作：左移(<<)或右移(>>)",
+    "helpUrl": ""
+  },
+  {
+    "type": "math_bitwise_logic",
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "A",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          ["&", "AND"],
+          ["|", "OR"],
+          ["^", "XOR"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "B",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "按位逻辑运算：与(&)、或(|)、异或(^)",
+    "helpUrl": ""
+  },
+  {
+    "type": "math_extract_bits",
+    "message0": "%1 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          ["高8位", "HIGH_BYTE"],
+          ["低8位", "LOW_BYTE"],
+          ["高16位", "HIGH_WORD"],
+          ["低16位", "LOW_WORD"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "提取数值的指定位段",
+    "helpUrl": ""
+  },
+  {
+    "type": "math_bitread",
+    "message0": "读取 %1 的第 %2 位",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BIT",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "读取数值指定位的值(0或1)",
+    "helpUrl": ""
+  },
+  {
+    "type": "math_bitwrite",
+    "message0": "写入 %1 的第 %2 位为 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BIT",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "将数值指定位设置为0或1",
+    "helpUrl": ""
+  },
+  {
+    "type": "math_bitset",
+    "message0": "置位 %1 的第 %2 位",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BIT",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "将数值指定位设置为1",
+    "helpUrl": ""
+  },
+  {
+    "type": "math_bitclear",
+    "message0": "清零 %1 的第 %2 位",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BIT",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "将数值指定位清零为0",
+    "helpUrl": ""
+  },
+  {
+    "type": "math_combine_bits",
+    "message0": "%1 高位 %2 低位 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          ["组合16位", "MAKE_WORD"],
+          ["组合32位", "MAKE_DWORD"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "HIGH",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LOW",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "组合高低位为指定位宽的数值",
     "helpUrl": ""
   }
 ]
