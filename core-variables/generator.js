@@ -155,16 +155,30 @@ addVariableToToolbox = function (block, varName) {
       item.name_ === "Variables" || (item.getContents && item.getContents()[0]?.callbackKey === "CREATE_VARIABLE")
     );
 
-    const variable = workspace.getVariable(varName);
+    // 确保变量存在，如果不存在则创建
+    let variable = workspace.getVariable(varName);
+    if (!variable) {
+      // 如果变量不存在，先创建它
+      workspace.createVariable(varName, "string");
+      variable = workspace.getVariable(varName);
+    }
+    
+    // 如果仍然获取不到变量，则退出
+    if (!variable) {
+      console.log("无法创建或获取变量:", varName);
+      return;
+    }
 
     // 获取原始工具箱定义
     const originalToolboxDef = workspace.options.languageTree;
     if (!originalToolboxDef) return;
 
     // 找到变量类别并更新其内容
+    let variableCategoryFound = false;
     for (let category of originalToolboxDef.contents) {
       if ((category.name === "Variables" ||
         (category.contents && category.contents[0]?.callbackKey === "CREATE_VARIABLE"))) {
+        variableCategoryFound = true;
         if (category.contents.length === 1) {
           category.contents = [
             {
@@ -187,12 +201,13 @@ addVariableToToolbox = function (block, varName) {
           ];
         }
 
-        // 检查变量是否已存在
+        // 检查变量是否已存在（通过ID和名称双重检查）
         const varExists = category.contents.some(item =>
-          item.fields && item.fields.VAR && item.fields.VAR.name === varName
+          item.fields && item.fields.VAR && 
+          (item.fields.VAR.name === varName || (variable && item.fields.VAR.id === variable.getId()))
         );
 
-        if (!varExists) {
+        if (!varExists && variable) {
           category.contents.push({
             "kind": "block",
             "type": "variables_get",
@@ -211,6 +226,11 @@ addVariableToToolbox = function (block, varName) {
         }
         break;
       }
+    }
+    
+    // 如果没有找到变量分类，尝试创建一个基本的变量分类
+    if (!variableCategoryFound) {
+      console.log("变量分类未找到，可能需要手动初始化工具箱");
     }
   } catch (e) {
     console.log("添加循环变量到工具箱时出错:", e);
@@ -306,18 +326,20 @@ function refreshToolbox(oldWorkspace, openVariableItem = true) {
   if (toolbox.isVisible_ && openVariableItem) {
     toolbox.setSelectedItem(variableCategory);
   }
+
+  console.log("工具箱已更新");
 }
 
 function registerVariableToBlockly(varName, varType) {
   // 获取当前工作区
   const workspace = Blockly.getMainWorkspace();
-  if (workspace && workspace.createVariable) {
-    // 检查变量是否已存在
-    const existingVar = workspace.getVariable(varName);
+  if (workspace && workspace.createVariable && varName) {
+    // 检查变量是否已存在（同名同类型）
+    const existingVar = workspace.getVariable(varName, varType);
     if (!existingVar) {
       // 创建新变量
       workspace.createVariable(varName, varType);
-      // console.log('Variable registered to Blockly:', varName);
+      // console.log('Variable registered to Blockly:', varName, varType);
     }
   }
 }
@@ -575,36 +597,38 @@ function debounce(func, wait) {
   };
 }
 
-// 创建一个防抖版本的重命名变量函数，附加到Arduino对象上
-Arduino.debouncedRenameVariable = debounce((block, oldName, newName, vtype) => {
-  // console.log("执行延迟重命名: ", oldName, "->", newName);
-  renameVariable(block, oldName, newName, vtype);
-  // 存储当前名称以供将来比较
-  Arduino.previousVariables[block.id] = newName;
-}, 500); // 500毫秒延迟
+// 防抖函数保留，但不再用于variable_define的重命名
 
 Arduino.forBlock["variable_define"] = function (block, generator) {
+  // 1. 设置变量重命名监听（按照库规范实现）
+  if (!block._varMonitorAttached) {
+    block._varMonitorAttached = true;
+    block._varLastName = block.getFieldValue('VAR') || 'variable';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._varLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName); // 使用核心库函数
+          block._varLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
   const gorp = block.getFieldValue("GORP");
   let type = block.getFieldValue("TYPE");
   const name = block.getFieldValue("VAR");
   let value = Arduino.valueToCode(block, "VALUE", Arduino.ORDER_ATOMIC);
 
-  // Create a storage object for previously defined variables
-  if (!Arduino.previousVariables) {
-    // console.log("create new previousVariables");
-    Arduino.previousVariables = {};
-  }
-
-  // Compare current name with previously stored name
-  const previousName = Arduino.previousVariables[block.id];
-
-  // 检测变量名是否更改
-  if (previousName && previousName !== name) {
-    // 使用防抖函数延迟更新变量，而不是立即更新
-    Arduino.debouncedRenameVariable(block, previousName, name);
-  } else {
-    Arduino.previousVariables[block.id] = name; // 更新当前名称
-  }
+  // 2. 自动注册变量到Blockly系统（只注册一次）
+  // if (name) {
+  registerVariableToBlockly(name);
+  //   // 将变量添加到工具箱，这会自动触发展开效果
+  //   addVariableToToolbox(block, name);
+  // }
 
   let defaultValue = "";
 

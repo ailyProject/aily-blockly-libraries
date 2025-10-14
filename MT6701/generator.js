@@ -2,7 +2,7 @@ Arduino.forBlock['mt6701_init'] = function(block, generator) {
   var objectName = generator.getVariableName(block.getFieldValue('OBJECT'));
   
   generator.addLibrary('#include <Wire.h>', '#include <Wire.h>');
-  generator.addLibrary('#include "MT6701.hpp"', '#include "MT6701.hpp"');
+  generator.addLibrary('#include "MT6701.h"', '#include "MT6701.h"');
   generator.addObject(objectName, 'MT6701 ' + objectName + ';');
   generator.addSetupBegin(objectName + '_begin', objectName + '.begin();');
   
@@ -15,7 +15,7 @@ Arduino.forBlock['mt6701_init_advanced'] = function(block, generator) {
   var interval = generator.valueToCode(block, 'INTERVAL', generator.ORDER_ATOMIC) || '50';
   
   generator.addLibrary('#include <Wire.h>', '#include <Wire.h>');
-  generator.addLibrary('#include "MT6701.hpp"', '#include "MT6701.hpp"');
+  generator.addLibrary('#include "MT6701.h"', '#include "MT6701.h"');
   generator.addObject(objectName, 'MT6701 ' + objectName + '(' + address + ', ' + interval + ');');
   generator.addSetupBegin(objectName + '_begin', objectName + '.begin();');
   
