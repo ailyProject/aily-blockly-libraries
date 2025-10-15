@@ -1,12 +1,12 @@
 # DHT温湿度传感器 (DHT Temperature & Humidity Sensor) 库
 
-基于Adafruit DHT传感器库的可视化编程模块，支持DHT11、DHT22、DHT21温湿度传感器。
+基于Adafruit DHT传感器库的可视化编程模块，支持DHT11、DHT22、DHT21、DHT20(I2C)温湿度传感器。
 
 ## 库信息
 - **库名**: @aily-project/lib-dht
-- **版本**: 1.0.0
+- **版本**: 1.0.3
 - **作者**: adafruit
-- **描述**: DHT11/DHT22(AM2302)/DHT21(AM2301)温湿度传感器库
+- **描述**: DHT11/DHT22(AM2302)/DHT21(AM2301)/DHT20(I2C)温湿度传感器库
 - **电压**: 3.3V、5V
 - **测试者**: 奈何col
 - **官方库**: https://github.com/adafruit/DHT-sensor-library
@@ -38,6 +38,12 @@
 - **湿度范围**: 0-100%RH (±3%RH精度)
 - **采样频率**: 0.5Hz (每2秒1次)
 - **特点**: 中等精度和成本
+
+### DHT20 (I2C)
+- **温度范围**: -40-80°C (±0.5°C精度)
+- **湿度范围**: 0-100%RH (±3%RH精度)
+- **通信接口**: I2C (地址0x38)
+- **特点**: I2C数字接口，高精度，可共享总线
 
 ## 详细块定义
 
