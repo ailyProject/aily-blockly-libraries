@@ -1,0 +1,297 @@
+[
+  {
+    "type": "emailsender_create",
+    "message0": "创建邮件发送器 %1 登录邮箱 %2 密码 %3 发件人邮箱 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "emailSender"
+      },
+      {
+        "type": "input_value",
+        "name": "EMAIL_LOGIN",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "EMAIL_PASSWORD",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "EMAIL_FROM",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "创建邮件发送器对象"
+  },
+  {
+    "type": "emailsender_create_with_name",
+    "message0": "创建邮件发送器 %1 登录邮箱 %2 密码 %3 发件人邮箱 %4 发件人姓名 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "emailSender"
+      },
+      {
+        "type": "input_value",
+        "name": "EMAIL_LOGIN",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "EMAIL_PASSWORD",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "EMAIL_FROM",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "NAME_FROM",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "创建邮件发送器对象（包含发件人姓名）"
+  },
+  {
+    "type": "emailsender_configure",
+    "message0": "配置邮件发送器 %1 SMTP服务器 %2 端口 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "emailSender",
+        "variableTypes": ["EMailSender"],
+        "defaultType": "EMailSender"
+      },
+      {
+        "type": "input_value",
+        "name": "SMTP_SERVER",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "SMTP_PORT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "配置SMTP服务器和端口"
+  },
+  {
+    "type": "emailsender_set_secure",
+    "message0": "设置邮件发送器 %1 安全连接 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "emailSender",
+        "variableTypes": ["EMailSender"],
+        "defaultType": "EMailSender"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SECURE",
+        "options": [
+          ["启用", "TRUE"],
+          ["禁用", "FALSE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置是否使用安全连接"
+  },
+  {
+    "type": "emailsender_message_create",
+    "message0": "创建邮件消息 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "message"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "创建邮件消息对象"
+  },
+  {
+    "type": "emailsender_set_subject",
+    "message0": "设置邮件消息 %1 主题 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "message",
+        "variableTypes": ["EMailMessage"],
+        "defaultType": "EMailMessage"
+      },
+      {
+        "type": "input_value",
+        "name": "SUBJECT",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置邮件主题"
+  },
+  {
+    "type": "emailsender_set_content",
+    "message0": "设置邮件消息 %1 内容 %2 类型 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "message",
+        "variableTypes": ["EMailMessage"],
+        "defaultType": "EMailMessage"
+      },
+      {
+        "type": "input_value",
+        "name": "CONTENT",
+        "check": ["String"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MIME_TYPE",
+        "options": [
+          ["HTML", "text/html"],
+          ["纯文本", "text/plain"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置邮件内容和类型"
+  },
+  {
+    "type": "emailsender_send",
+    "message0": "发送邮件 %1 收件人 %2 邮件消息 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "emailSender",
+        "variableTypes": ["EMailSender"],
+        "defaultType": "EMailSender"
+      },
+      {
+        "type": "input_value",
+        "name": "TO",
+        "check": ["String"]
+      },
+      {
+        "type": "field_variable",
+        "name": "MESSAGE",
+        "variable": "message",
+        "variableTypes": ["EMailMessage"],
+        "defaultType": "EMailMessage"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "发送邮件到指定收件人"
+  },
+  {
+    "type": "emailsender_send_with_response",
+    "message0": "发送邮件 %1 收件人 %2 邮件消息 %3 保存响应到 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "emailSender",
+        "variableTypes": ["EMailSender"],
+        "defaultType": "EMailSender"
+      },
+      {
+        "type": "input_value",
+        "name": "TO",
+        "check": ["String"]
+      },
+      {
+        "type": "field_variable",
+        "name": "MESSAGE",
+        "variable": "message",
+        "variableTypes": ["EMailMessage"],
+        "defaultType": "EMailMessage"
+      },
+      {
+        "type": "field_input",
+        "name": "RESPONSE_VAR",
+        "text": "response"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "发送邮件并保存响应信息"
+  },
+  {
+    "type": "emailsender_get_status",
+    "message0": "获取邮件发送状态 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "response",
+        "variableTypes": ["EMailResponse"],
+        "defaultType": "EMailResponse"
+      }
+    ],
+    "output": ["Boolean"],
+    "colour": "#9C27B0",
+    "tooltip": "获取邮件发送是否成功"
+  },
+  {
+    "type": "emailsender_get_code",
+    "message0": "获取邮件发送响应码 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "response",
+        "variableTypes": ["EMailResponse"],
+        "defaultType": "EMailResponse"
+      }
+    ],
+    "output": ["String"],
+    "colour": "#9C27B0",
+    "tooltip": "获取邮件发送响应码"
+  },
+  {
+    "type": "emailsender_get_description",
+    "message0": "获取邮件发送描述 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "response",
+        "variableTypes": ["EMailResponse"],
+        "defaultType": "EMailResponse"
+      }
+    ],
+    "output": ["String"],
+    "colour": "#9C27B0",
+    "tooltip": "获取邮件发送描述信息"
+  }
+]
