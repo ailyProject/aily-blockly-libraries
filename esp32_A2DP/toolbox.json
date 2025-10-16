@@ -1,0 +1,155 @@
+{
+  "kind": "category",
+  "name": "ESP32 蓝牙音频",
+  "colour": "#4A90E2",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "蓝牙音频接收器 (Sink)"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_sink_create"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_sink_start",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "MyMusic"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "播放控制"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_sink_play"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_sink_pause"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_sink_stop"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_sink_next"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_sink_previous"
+    },
+    {
+      "kind": "label",
+      "text": "音量控制"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_sink_set_volume",
+      "inputs": {
+        "VOLUME": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 50
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_sink_get_volume"
+    },
+    {
+      "kind": "label",
+      "text": "状态和事件"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_sink_get_audio_state"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_sink_on_metadata"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_sink_on_connection_state"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_sink_on_audio_state"
+    },
+    {
+      "kind": "label",
+      "text": "音频状态常量"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_audio_state_started"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_audio_state_stopped"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_audio_state_remote_suspend"
+    },
+    {
+      "kind": "label",
+      "text": "蓝牙音频发送器 (Source)"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_source_create"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_source_start",
+      "inputs": {
+        "TARGET_NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "TargetDevice"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_source_set_volume",
+      "inputs": {
+        "VOLUME": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 50
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_source_set_auto_reconnect"
+    },
+    {
+      "kind": "block",
+      "type": "a2dp_source_on_data_callback"
+    }
+  ]
+}

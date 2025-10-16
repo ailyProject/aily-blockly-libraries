@@ -1,0 +1,421 @@
+[
+  {
+    "type": "a2dp_sink_create",
+    "message0": "创建蓝牙音频接收器 %1 输出到 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "a2dp_sink"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OUTPUT_TYPE",
+        "options": [
+          ["I2S外部DAC", "I2S"],
+          ["内置DAC", "INTERNAL_DAC"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4A90E2",
+    "tooltip": "创建蓝牙A2DP音频接收器(Sink)对象"
+  },
+  {
+    "type": "a2dp_sink_start",
+    "message0": "启动蓝牙音频接收器 %1 设备名称 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "a2dp_sink",
+        "variableTypes": ["BluetoothA2DPSink"],
+        "defaultType": "BluetoothA2DPSink"
+      },
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4A90E2",
+    "tooltip": "启动蓝牙音频接收器并设置蓝牙名称"
+  },
+  {
+    "type": "a2dp_sink_set_volume",
+    "message0": "设置音量 %1 音量值 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "a2dp_sink",
+        "variableTypes": ["BluetoothA2DPSink"],
+        "defaultType": "BluetoothA2DPSink"
+      },
+      {
+        "type": "input_value",
+        "name": "VOLUME",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4A90E2",
+    "tooltip": "设置音量(0-127)"
+  },
+  {
+    "type": "a2dp_sink_get_volume",
+    "message0": "获取音量 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "a2dp_sink",
+        "variableTypes": ["BluetoothA2DPSink"],
+        "defaultType": "BluetoothA2DPSink"
+      }
+    ],
+    "output": "Number",
+    "colour": "#4A90E2",
+    "tooltip": "获取当前音量值(0-127)"
+  },
+  {
+    "type": "a2dp_sink_play",
+    "message0": "播放 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "a2dp_sink",
+        "variableTypes": ["BluetoothA2DPSink"],
+        "defaultType": "BluetoothA2DPSink"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4A90E2",
+    "tooltip": "发送播放命令(AVRC)"
+  },
+  {
+    "type": "a2dp_sink_pause",
+    "message0": "暂停 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "a2dp_sink",
+        "variableTypes": ["BluetoothA2DPSink"],
+        "defaultType": "BluetoothA2DPSink"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4A90E2",
+    "tooltip": "发送暂停命令(AVRC)"
+  },
+  {
+    "type": "a2dp_sink_stop",
+    "message0": "停止 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "a2dp_sink",
+        "variableTypes": ["BluetoothA2DPSink"],
+        "defaultType": "BluetoothA2DPSink"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4A90E2",
+    "tooltip": "发送停止命令(AVRC)"
+  },
+  {
+    "type": "a2dp_sink_next",
+    "message0": "下一曲 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "a2dp_sink",
+        "variableTypes": ["BluetoothA2DPSink"],
+        "defaultType": "BluetoothA2DPSink"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4A90E2",
+    "tooltip": "发送下一曲命令(AVRC)"
+  },
+  {
+    "type": "a2dp_sink_previous",
+    "message0": "上一曲 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "a2dp_sink",
+        "variableTypes": ["BluetoothA2DPSink"],
+        "defaultType": "BluetoothA2DPSink"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4A90E2",
+    "tooltip": "发送上一曲命令(AVRC)"
+  },
+  {
+    "type": "a2dp_sink_on_metadata",
+    "message0": "接收器 %1 收到元数据时执行",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "a2dp_sink",
+        "variableTypes": ["BluetoothA2DPSink"],
+        "defaultType": "BluetoothA2DPSink"
+      }
+    ],
+    "message1": "ID: %1 内容: %2",
+    "args1": [
+      {
+        "type": "field_variable",
+        "name": "ID_VAR",
+        "variable": "metadata_id"
+      },
+      {
+        "type": "field_variable",
+        "name": "TEXT_VAR",
+        "variable": "metadata_text"
+      }
+    ],
+    "message2": "%1",
+    "args2": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#4A90E2",
+    "tooltip": "当接收到音乐元数据(标题、艺术家等)时执行"
+  },
+  {
+    "type": "a2dp_sink_on_connection_state",
+    "message0": "接收器 %1 连接状态改变时执行",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "a2dp_sink",
+        "variableTypes": ["BluetoothA2DPSink"],
+        "defaultType": "BluetoothA2DPSink"
+      }
+    ],
+    "message1": "状态: %1",
+    "args1": [
+      {
+        "type": "field_variable",
+        "name": "STATE_VAR",
+        "variable": "conn_state"
+      }
+    ],
+    "message2": "%1",
+    "args2": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#4A90E2",
+    "tooltip": "当蓝牙连接状态改变时执行"
+  },
+  {
+    "type": "a2dp_sink_on_audio_state",
+    "message0": "接收器 %1 音频状态改变时执行",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "a2dp_sink",
+        "variableTypes": ["BluetoothA2DPSink"],
+        "defaultType": "BluetoothA2DPSink"
+      }
+    ],
+    "message1": "状态: %1",
+    "args1": [
+      {
+        "type": "field_variable",
+        "name": "STATE_VAR",
+        "variable": "audio_state"
+      }
+    ],
+    "message2": "%1",
+    "args2": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#4A90E2",
+    "tooltip": "当音频播放状态改变时执行"
+  },
+  {
+    "type": "a2dp_sink_get_audio_state",
+    "message0": "获取音频状态 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "a2dp_sink",
+        "variableTypes": ["BluetoothA2DPSink"],
+        "defaultType": "BluetoothA2DPSink"
+      }
+    ],
+    "output": "Number",
+    "colour": "#4A90E2",
+    "tooltip": "获取当前音频播放状态"
+  },
+  {
+    "type": "a2dp_source_create",
+    "message0": "创建蓝牙音频发送器 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "a2dp_source"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "创建蓝牙A2DP音频发送器(Source)对象"
+  },
+  {
+    "type": "a2dp_source_start",
+    "message0": "启动蓝牙音频发送器 %1 目标设备名称 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "a2dp_source",
+        "variableTypes": ["BluetoothA2DPSource"],
+        "defaultType": "BluetoothA2DPSource"
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET_NAME",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "启动蓝牙音频发送器并连接到目标设备"
+  },
+  {
+    "type": "a2dp_source_set_volume",
+    "message0": "设置发送器音量 %1 音量值 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "a2dp_source",
+        "variableTypes": ["BluetoothA2DPSource"],
+        "defaultType": "BluetoothA2DPSource"
+      },
+      {
+        "type": "input_value",
+        "name": "VOLUME",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "设置音频发送器音量(0-127)"
+  },
+  {
+    "type": "a2dp_source_on_data_callback",
+    "message0": "发送器 %1 请求音频数据时执行",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "a2dp_source",
+        "variableTypes": ["BluetoothA2DPSource"],
+        "defaultType": "BluetoothA2DPSource"
+      }
+    ],
+    "message1": "数据缓冲: %1 帧数: %2",
+    "args1": [
+      {
+        "type": "field_variable",
+        "name": "FRAME_VAR",
+        "variable": "frame"
+      },
+      {
+        "type": "field_variable",
+        "name": "COUNT_VAR",
+        "variable": "frame_count"
+      }
+    ],
+    "message2": "%1",
+    "args2": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#E67E22",
+    "tooltip": "当需要发送音频数据时调用此回调函数"
+  },
+  {
+    "type": "a2dp_source_set_auto_reconnect",
+    "message0": "发送器 %1 设置自动重连 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "a2dp_source",
+        "variableTypes": ["BluetoothA2DPSource"],
+        "defaultType": "BluetoothA2DPSource"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ENABLE",
+        "options": [
+          ["启用", "TRUE"],
+          ["禁用", "FALSE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "设置是否自动重连到上次连接的设备"
+  },
+  {
+    "type": "a2dp_audio_state_started",
+    "message0": "音频状态_正在播放",
+    "output": "Number",
+    "colour": "#9B59B6",
+    "tooltip": "ESP_A2D_AUDIO_STATE_STARTED"
+  },
+  {
+    "type": "a2dp_audio_state_stopped",
+    "message0": "音频状态_已停止",
+    "output": "Number",
+    "colour": "#9B59B6",
+    "tooltip": "ESP_A2D_AUDIO_STATE_STOPPED"
+  },
+  {
+    "type": "a2dp_audio_state_remote_suspend",
+    "message0": "音频状态_远程暂停",
+    "output": "Number",
+    "colour": "#9B59B6",
+    "tooltip": "ESP_A2D_AUDIO_STATE_REMOTE_SUSPEND"
+  }
+]
