@@ -377,6 +377,388 @@
         {
             "kind": "block",
             "type": "esp32_wifi_get_epoch_time"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "TCP服务器"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_tcp_server_begin",
+            "inputs": {
+                "PORT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 80
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_tcp_server_accept"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_tcp_server_connected"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_tcp_server_available"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_tcp_server_read"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_tcp_server_write",
+            "inputs": {
+                "DATA": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "Hello"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_tcp_server_println",
+            "inputs": {
+                "DATA": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "Hello"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_tcp_server_stop_client"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "TCP客户端"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_tcp_client_connect",
+            "inputs": {
+                "HOST": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "192.168.1.100"
+                        }
+                    }
+                },
+                "PORT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 8080
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_tcp_client_connected"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_tcp_client_available"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_tcp_client_read"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_tcp_client_write",
+            "inputs": {
+                "DATA": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "Hello"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_tcp_client_println",
+            "inputs": {
+                "DATA": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "Hello"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_tcp_client_stop"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "UDP通信（同步）"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_udp_begin",
+            "inputs": {
+                "PORT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 8888
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_udp_send_packet",
+            "inputs": {
+                "DATA": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "Hello UDP"
+                        }
+                    }
+                },
+                "IP": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "192.168.1.100"
+                        }
+                    }
+                },
+                "PORT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 8888
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_udp_begin_packet",
+            "inputs": {
+                "IP": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "192.168.1.100"
+                        }
+                    }
+                },
+                "PORT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 8888
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_udp_write",
+            "inputs": {
+                "DATA": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "Hello"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_udp_end_packet"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_udp_parse_packet"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_udp_available"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_udp_read"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_udp_remote_ip"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_udp_remote_port"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_udp_broadcast",
+            "inputs": {
+                "DATA": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "Broadcast Message"
+                        }
+                    }
+                },
+                "PORT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 8888
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_udp_stop"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "UDP通信（异步）"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_async_udp_begin",
+            "inputs": {
+                "PORT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1234
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_async_udp_listen",
+            "inputs": {
+                "PORT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1234
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_async_udp_send",
+            "inputs": {
+                "DATA": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "Hello Async UDP"
+                        }
+                    }
+                },
+                "IP": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "192.168.1.100"
+                        }
+                    }
+                },
+                "PORT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1234
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_async_udp_broadcast",
+            "inputs": {
+                "DATA": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "Broadcast"
+                        }
+                    }
+                },
+                "PORT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1234
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_async_udp_packet_data"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_async_udp_packet_length"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_async_udp_packet_remote_ip"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_wifi_async_udp_packet_remote_port"
         }
     ]
 }

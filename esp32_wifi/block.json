@@ -398,5 +398,464 @@
         "colour": "#4CAF50",
         "inputsInline": true,
         "tooltip": "设置自定义时区字符串，如 'CST-8' 或 'EST5EDT,M3.2.0,M11.1.0'"
+    },
+    {
+        "type": "esp32_wifi_tcp_server_begin",
+        "message0": "启动TCP服务器 端口 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "PORT",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF9800",
+        "inputsInline": true,
+        "tooltip": "在指定端口启动TCP服务器"
+    },
+    {
+        "type": "esp32_wifi_tcp_server_accept",
+        "message0": "接受客户端连接",
+        "output": "Boolean",
+        "colour": "#FF9800",
+        "tooltip": "等待并接受客户端连接，返回是否有新客户端"
+    },
+    {
+        "type": "esp32_wifi_tcp_server_available",
+        "message0": "服务器有数据可读",
+        "output": "Boolean",
+        "colour": "#FF9800",
+        "tooltip": "检查服务器是否有数据可读"
+    },
+    {
+        "type": "esp32_wifi_tcp_server_read",
+        "message0": "读取服务器数据 %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "READ_TYPE",
+                "options": [
+                    ["字符串", "STRING"],
+                    ["单个字节", "BYTE"],
+                    ["读到换行符", "LINE"]
+                ]
+            }
+        ],
+        "output": "String",
+        "colour": "#FF9800",
+        "tooltip": "从服务器客户端读取数据"
+    },
+    {
+        "type": "esp32_wifi_tcp_server_write",
+        "message0": "服务器发送数据 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "DATA",
+                "check": "String"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF9800",
+        "inputsInline": true,
+        "tooltip": "向当前连接的客户端发送数据"
+    },
+    {
+        "type": "esp32_wifi_tcp_server_println",
+        "message0": "服务器发送数据并换行 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "DATA",
+                "check": "String"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF9800",
+        "inputsInline": true,
+        "tooltip": "向当前连接的客户端发送数据并换行"
+    },
+    {
+        "type": "esp32_wifi_tcp_server_connected",
+        "message0": "服务器客户端已连接",
+        "output": "Boolean",
+        "colour": "#FF9800",
+        "tooltip": "检查当前客户端是否仍然连接"
+    },
+    {
+        "type": "esp32_wifi_tcp_server_stop_client",
+        "message0": "断开服务器客户端连接",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF9800",
+        "tooltip": "断开当前客户端连接"
+    },
+    {
+        "type": "esp32_wifi_tcp_client_connect",
+        "message0": "TCP客户端连接到 主机 %1 端口 %2",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "HOST",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "PORT",
+                "check": "Number"
+            }
+        ],
+        "output": "Boolean",
+        "colour": "#FF5722",
+        "inputsInline": true,
+        "tooltip": "TCP客户端连接到指定主机和端口"
+    },
+    {
+        "type": "esp32_wifi_tcp_client_connected",
+        "message0": "TCP客户端已连接",
+        "output": "Boolean",
+        "colour": "#FF5722",
+        "tooltip": "检查TCP客户端是否已连接"
+    },
+    {
+        "type": "esp32_wifi_tcp_client_available",
+        "message0": "TCP客户端有数据可读",
+        "output": "Boolean",
+        "colour": "#FF5722",
+        "tooltip": "检查TCP客户端是否有数据可读"
+    },
+    {
+        "type": "esp32_wifi_tcp_client_read",
+        "message0": "TCP客户端读取数据 %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "READ_TYPE",
+                "options": [
+                    ["字符串", "STRING"],
+                    ["单个字节", "BYTE"],
+                    ["读到换行符", "LINE"]
+                ]
+            }
+        ],
+        "output": "String",
+        "colour": "#FF5722",
+        "tooltip": "从TCP服务器读取数据"
+    },
+    {
+        "type": "esp32_wifi_tcp_client_write",
+        "message0": "TCP客户端发送数据 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "DATA",
+                "check": "String"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF5722",
+        "inputsInline": true,
+        "tooltip": "向TCP服务器发送数据"
+    },
+    {
+        "type": "esp32_wifi_tcp_client_println",
+        "message0": "TCP客户端发送数据并换行 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "DATA",
+                "check": "String"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF5722",
+        "inputsInline": true,
+        "tooltip": "向TCP服务器发送数据并换行"
+    },
+    {
+        "type": "esp32_wifi_tcp_client_stop",
+        "message0": "断开TCP客户端连接",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF5722",
+        "tooltip": "断开TCP客户端连接"
+    },
+    {
+        "type": "esp32_wifi_udp_begin",
+        "message0": "初始化UDP 本地端口 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "PORT",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "inputsInline": true,
+        "tooltip": "初始化UDP通信，绑定本地端口"
+    },
+    {
+        "type": "esp32_wifi_udp_begin_packet",
+        "message0": "开始UDP数据包 目标IP %1 目标端口 %2",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "IP",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "PORT",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "inputsInline": true,
+        "tooltip": "开始准备UDP数据包，指定目标IP和端口"
+    },
+    {
+        "type": "esp32_wifi_udp_write",
+        "message0": "UDP写入数据 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "DATA",
+                "check": "String"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "inputsInline": true,
+        "tooltip": "向UDP数据包写入数据"
+    },
+    {
+        "type": "esp32_wifi_udp_end_packet",
+        "message0": "发送UDP数据包",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "结束并发送UDP数据包"
+    },
+    {
+        "type": "esp32_wifi_udp_send_packet",
+        "message0": "发送UDP数据包 数据 %1 目标IP %2 目标端口 %3",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "DATA",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "IP",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "PORT",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "inputsInline": false,
+        "tooltip": "一次性发送UDP数据包（简化版）"
+    },
+    {
+        "type": "esp32_wifi_udp_parse_packet",
+        "message0": "检查UDP数据包",
+        "output": "Number",
+        "colour": "#9C27B0",
+        "tooltip": "检查是否有UDP数据包，返回数据包大小"
+    },
+    {
+        "type": "esp32_wifi_udp_available",
+        "message0": "UDP可读字节数",
+        "output": "Number",
+        "colour": "#9C27B0",
+        "tooltip": "返回UDP缓冲区中可读的字节数"
+    },
+    {
+        "type": "esp32_wifi_udp_read",
+        "message0": "读取UDP数据 %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "READ_TYPE",
+                "options": [
+                    ["字符串", "STRING"],
+                    ["单个字节", "BYTE"]
+                ]
+            }
+        ],
+        "output": "String",
+        "colour": "#9C27B0",
+        "tooltip": "从UDP缓冲区读取数据"
+    },
+    {
+        "type": "esp32_wifi_udp_remote_ip",
+        "message0": "UDP远程IP地址",
+        "output": "String",
+        "colour": "#9C27B0",
+        "tooltip": "获取UDP数据包发送方的IP地址"
+    },
+    {
+        "type": "esp32_wifi_udp_remote_port",
+        "message0": "UDP远程端口",
+        "output": "Number",
+        "colour": "#9C27B0",
+        "tooltip": "获取UDP数据包发送方的端口"
+    },
+    {
+        "type": "esp32_wifi_udp_stop",
+        "message0": "停止UDP",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "停止UDP通信"
+    },
+    {
+        "type": "esp32_wifi_udp_broadcast",
+        "message0": "UDP广播 数据 %1 端口 %2",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "DATA",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "PORT",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "inputsInline": true,
+        "tooltip": "向局域网广播UDP数据包"
+    },
+    {
+        "type": "esp32_wifi_async_udp_begin",
+        "message0": "初始化异步UDP 端口 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "PORT",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#673AB7",
+        "inputsInline": true,
+        "tooltip": "初始化异步UDP通信"
+    },
+    {
+        "type": "esp32_wifi_async_udp_listen",
+        "message0": "异步UDP监听 端口 %1 回调函数 %2",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "PORT",
+                "check": "Number"
+            },
+            {
+                "type": "input_statement",
+                "name": "CALLBACK"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#673AB7",
+        "inputsInline": false,
+        "tooltip": "设置异步UDP监听，当收到数据包时执行回调"
+    },
+    {
+        "type": "esp32_wifi_async_udp_send",
+        "message0": "异步UDP发送 数据 %1 IP %2 端口 %3",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "DATA",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "IP",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "PORT",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#673AB7",
+        "inputsInline": false,
+        "tooltip": "使用异步UDP发送数据"
+    },
+    {
+        "type": "esp32_wifi_async_udp_broadcast",
+        "message0": "异步UDP广播 数据 %1 端口 %2",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "DATA",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "PORT",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#673AB7",
+        "inputsInline": true,
+        "tooltip": "使用异步UDP向局域网广播数据"
+    },
+    {
+        "type": "esp32_wifi_async_udp_packet_data",
+        "message0": "异步UDP数据包内容",
+        "output": "String",
+        "colour": "#673AB7",
+        "tooltip": "获取异步UDP数据包的内容（在回调中使用）"
+    },
+    {
+        "type": "esp32_wifi_async_udp_packet_length",
+        "message0": "异步UDP数据包长度",
+        "output": "Number",
+        "colour": "#673AB7",
+        "tooltip": "获取异步UDP数据包的长度（在回调中使用）"
+    },
+    {
+        "type": "esp32_wifi_async_udp_packet_remote_ip",
+        "message0": "异步UDP数据包远程IP",
+        "output": "String",
+        "colour": "#673AB7",
+        "tooltip": "获取异步UDP数据包发送方的IP地址（在回调中使用）"
+    },
+    {
+        "type": "esp32_wifi_async_udp_packet_remote_port",
+        "message0": "异步UDP数据包远程端口",
+        "output": "Number",
+        "colour": "#673AB7",
+        "tooltip": "获取异步UDP数据包发送方的端口（在回调中使用）"
     }
 ]

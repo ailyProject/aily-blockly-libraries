@@ -479,3 +479,474 @@ if (Blockly.Extensions.isRegistered('esp32_wifi_simple_connect_extension')) {
 Blockly.Extensions.register('esp32_wifi_simple_connect_extension', function() {
     // 可以添加额外的验证或行为
 });
+
+// ==================== TCP服务器相关 ====================
+
+// 启动TCP服务器
+Arduino.forBlock['esp32_wifi_tcp_server_begin'] = function(block, generator) {
+    const port = generator.valueToCode(block, 'PORT', Arduino.ORDER_ATOMIC) || '80';
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addVariable('NetworkServer tcpServer', `NetworkServer tcpServer(${port});`);
+    generator.addVariable('NetworkClient tcpServerClient', 'NetworkClient tcpServerClient;');
+    
+    generator.addSetupEnd('tcp_server_begin', 'tcpServer.begin();\n');
+    
+    return '';
+};
+
+// 接受客户端连接
+Arduino.forBlock['esp32_wifi_tcp_server_accept'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addVariable('NetworkServer tcpServer', 'NetworkServer tcpServer(80);');
+    generator.addVariable('NetworkClient tcpServerClient', 'NetworkClient tcpServerClient;');
+    
+    const code = '(tcpServerClient = tcpServer.accept())';
+    return [code, Arduino.ORDER_ASSIGNMENT];
+};
+
+// 检查服务器客户端连接状态
+Arduino.forBlock['esp32_wifi_tcp_server_connected'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addVariable('NetworkClient tcpServerClient', 'NetworkClient tcpServerClient;');
+    
+    const code = 'tcpServerClient.connected()';
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// 检查服务器是否有数据可读
+Arduino.forBlock['esp32_wifi_tcp_server_available'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addVariable('NetworkClient tcpServerClient', 'NetworkClient tcpServerClient;');
+    
+    const code = 'tcpServerClient.available()';
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// 从服务器客户端读取数据
+Arduino.forBlock['esp32_wifi_tcp_server_read'] = function(block, generator) {
+    const readType = block.getFieldValue('READ_TYPE');
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addVariable('NetworkClient tcpServerClient', 'NetworkClient tcpServerClient;');
+    
+    let code;
+    if (readType === 'STRING') {
+        code = 'tcpServerClient.readString()';
+    } else if (readType === 'BYTE') {
+        code = 'String((char)tcpServerClient.read())';
+    } else if (readType === 'LINE') {
+        code = 'tcpServerClient.readStringUntil(\'\\n\')';
+    }
+    
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// 服务器发送数据
+Arduino.forBlock['esp32_wifi_tcp_server_write'] = function(block, generator) {
+    const data = generator.valueToCode(block, 'DATA', Arduino.ORDER_ATOMIC) || '""';
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addVariable('NetworkClient tcpServerClient', 'NetworkClient tcpServerClient;');
+    
+    const code = `tcpServerClient.print(${data});\n`;
+    return code;
+};
+
+// 服务器发送数据并换行
+Arduino.forBlock['esp32_wifi_tcp_server_println'] = function(block, generator) {
+    const data = generator.valueToCode(block, 'DATA', Arduino.ORDER_ATOMIC) || '""';
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addVariable('NetworkClient tcpServerClient', 'NetworkClient tcpServerClient;');
+    
+    const code = `tcpServerClient.println(${data});\n`;
+    return code;
+};
+
+// 断开服务器客户端连接
+Arduino.forBlock['esp32_wifi_tcp_server_stop_client'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addVariable('NetworkClient tcpServerClient', 'NetworkClient tcpServerClient;');
+    
+    const code = 'tcpServerClient.stop();\n';
+    return code;
+};
+
+// ==================== TCP客户端相关 ====================
+
+// TCP客户端连接
+Arduino.forBlock['esp32_wifi_tcp_client_connect'] = function(block, generator) {
+    const host = generator.valueToCode(block, 'HOST', Arduino.ORDER_ATOMIC) || '""';
+    const port = generator.valueToCode(block, 'PORT', Arduino.ORDER_ATOMIC) || '80';
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addVariable('NetworkClient tcpClient', 'NetworkClient tcpClient;');
+    
+    const code = `tcpClient.connect(${host}, ${port})`;
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// TCP客户端连接状态
+Arduino.forBlock['esp32_wifi_tcp_client_connected'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addVariable('NetworkClient tcpClient', 'NetworkClient tcpClient;');
+    
+    const code = 'tcpClient.connected()';
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// TCP客户端有数据可读
+Arduino.forBlock['esp32_wifi_tcp_client_available'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addVariable('NetworkClient tcpClient', 'NetworkClient tcpClient;');
+    
+    const code = 'tcpClient.available()';
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// TCP客户端读取数据
+Arduino.forBlock['esp32_wifi_tcp_client_read'] = function(block, generator) {
+    const readType = block.getFieldValue('READ_TYPE');
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addVariable('NetworkClient tcpClient', 'NetworkClient tcpClient;');
+    
+    let code;
+    if (readType === 'STRING') {
+        code = 'tcpClient.readString()';
+    } else if (readType === 'BYTE') {
+        code = 'String((char)tcpClient.read())';
+    } else if (readType === 'LINE') {
+        code = 'tcpClient.readStringUntil(\'\\n\')';
+    }
+    
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// TCP客户端发送数据
+Arduino.forBlock['esp32_wifi_tcp_client_write'] = function(block, generator) {
+    const data = generator.valueToCode(block, 'DATA', Arduino.ORDER_ATOMIC) || '""';
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addVariable('NetworkClient tcpClient', 'NetworkClient tcpClient;');
+    
+    const code = `tcpClient.print(${data});\n`;
+    return code;
+};
+
+// TCP客户端发送数据并换行
+Arduino.forBlock['esp32_wifi_tcp_client_println'] = function(block, generator) {
+    const data = generator.valueToCode(block, 'DATA', Arduino.ORDER_ATOMIC) || '""';
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addVariable('NetworkClient tcpClient', 'NetworkClient tcpClient;');
+    
+    const code = `tcpClient.println(${data});\n`;
+    return code;
+};
+
+// TCP客户端断开连接
+Arduino.forBlock['esp32_wifi_tcp_client_stop'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addVariable('NetworkClient tcpClient', 'NetworkClient tcpClient;');
+    
+    const code = 'tcpClient.stop();\n';
+    return code;
+};
+
+// ==================== UDP通信相关 ====================
+
+// 初始化UDP
+Arduino.forBlock['esp32_wifi_udp_begin'] = function(block, generator) {
+    const port = generator.valueToCode(block, 'PORT', Arduino.ORDER_ATOMIC) || '8888';
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <NetworkUdp.h>', '#include <NetworkUdp.h>');
+    generator.addVariable('NetworkUDP udp', 'NetworkUDP udp;');
+    
+    const code = `udp.begin(${port});\n`;
+    return code;
+};
+
+// 开始UDP数据包
+Arduino.forBlock['esp32_wifi_udp_begin_packet'] = function(block, generator) {
+    const ip = generator.valueToCode(block, 'IP', Arduino.ORDER_ATOMIC) || '"192.168.1.100"';
+    const port = generator.valueToCode(block, 'PORT', Arduino.ORDER_ATOMIC) || '8888';
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <NetworkUdp.h>', '#include <NetworkUdp.h>');
+    generator.addVariable('NetworkUDP udp', 'NetworkUDP udp;');
+    
+    const code = `udp.beginPacket(${ip}, ${port});\n`;
+    return code;
+};
+
+// UDP写入数据
+Arduino.forBlock['esp32_wifi_udp_write'] = function(block, generator) {
+    const data = generator.valueToCode(block, 'DATA', Arduino.ORDER_ATOMIC) || '""';
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <NetworkUdp.h>', '#include <NetworkUdp.h>');
+    generator.addVariable('NetworkUDP udp', 'NetworkUDP udp;');
+    
+    const code = `udp.print(${data});\n`;
+    return code;
+};
+
+// 发送UDP数据包
+Arduino.forBlock['esp32_wifi_udp_end_packet'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <NetworkUdp.h>', '#include <NetworkUdp.h>');
+    generator.addVariable('NetworkUDP udp', 'NetworkUDP udp;');
+    
+    const code = 'udp.endPacket();\n';
+    return code;
+};
+
+// 发送UDP数据包（简化版）
+Arduino.forBlock['esp32_wifi_udp_send_packet'] = function(block, generator) {
+    const data = generator.valueToCode(block, 'DATA', Arduino.ORDER_ATOMIC) || '""';
+    const ip = generator.valueToCode(block, 'IP', Arduino.ORDER_ATOMIC) || '"192.168.1.100"';
+    const port = generator.valueToCode(block, 'PORT', Arduino.ORDER_ATOMIC) || '8888';
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <NetworkUdp.h>', '#include <NetworkUdp.h>');
+    generator.addVariable('NetworkUDP udp', 'NetworkUDP udp;');
+    
+    const code = `udp.beginPacket(${ip}, ${port});\n` +
+                 `udp.print(${data});\n` +
+                 `udp.endPacket();\n`;
+    return code;
+};
+
+// 检查UDP数据包
+Arduino.forBlock['esp32_wifi_udp_parse_packet'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <NetworkUdp.h>', '#include <NetworkUdp.h>');
+    generator.addVariable('NetworkUDP udp', 'NetworkUDP udp;');
+    
+    const code = 'udp.parsePacket()';
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// UDP可读字节数
+Arduino.forBlock['esp32_wifi_udp_available'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <NetworkUdp.h>', '#include <NetworkUdp.h>');
+    generator.addVariable('NetworkUDP udp', 'NetworkUDP udp;');
+    
+    const code = 'udp.available()';
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// 读取UDP数据
+Arduino.forBlock['esp32_wifi_udp_read'] = function(block, generator) {
+    const readType = block.getFieldValue('READ_TYPE');
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <NetworkUdp.h>', '#include <NetworkUdp.h>');
+    generator.addVariable('NetworkUDP udp', 'NetworkUDP udp;');
+    
+    let code;
+    if (readType === 'STRING') {
+        // 添加读取字符串函数
+        generator.addFunction('udp_read_string_function',
+            'String udpReadString() {\n' +
+            '  String data = "";\n' +
+            '  int len = udp.available();\n' +
+            '  if (len > 0) {\n' +
+            '    char buffer[len + 1];\n' +
+            '    udp.read(buffer, len);\n' +
+            '    buffer[len] = 0;\n' +
+            '    data = String(buffer);\n' +
+            '  }\n' +
+            '  return data;\n' +
+            '}\n'
+        );
+        code = 'udpReadString()';
+    } else if (readType === 'BYTE') {
+        code = 'String((char)udp.read())';
+    }
+    
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// UDP远程IP地址
+Arduino.forBlock['esp32_wifi_udp_remote_ip'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <NetworkUdp.h>', '#include <NetworkUdp.h>');
+    generator.addVariable('NetworkUDP udp', 'NetworkUDP udp;');
+    
+    const code = 'udp.remoteIP().toString()';
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// UDP远程端口
+Arduino.forBlock['esp32_wifi_udp_remote_port'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <NetworkUdp.h>', '#include <NetworkUdp.h>');
+    generator.addVariable('NetworkUDP udp', 'NetworkUDP udp;');
+    
+    const code = 'udp.remotePort()';
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// 停止UDP
+Arduino.forBlock['esp32_wifi_udp_stop'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <NetworkUdp.h>', '#include <NetworkUdp.h>');
+    generator.addVariable('NetworkUDP udp', 'NetworkUDP udp;');
+    
+    const code = 'udp.stop();\n';
+    return code;
+};
+
+// UDP广播
+Arduino.forBlock['esp32_wifi_udp_broadcast'] = function(block, generator) {
+    const data = generator.valueToCode(block, 'DATA', Arduino.ORDER_ATOMIC) || '""';
+    const port = generator.valueToCode(block, 'PORT', Arduino.ORDER_ATOMIC) || '8888';
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <NetworkUdp.h>', '#include <NetworkUdp.h>');
+    generator.addVariable('NetworkUDP udp', 'NetworkUDP udp;');
+    
+    // 添加广播函数
+    generator.addFunction('udp_broadcast_function',
+        'void udpBroadcast(String data, int port) {\n' +
+        '  IPAddress broadcastIP = WiFi.localIP();\n' +
+        '  broadcastIP[3] = 255;\n' +
+        '  udp.beginPacket(broadcastIP, port);\n' +
+        '  udp.print(data);\n' +
+        '  udp.endPacket();\n' +
+        '}\n'
+    );
+    
+    const code = `udpBroadcast(${data}, ${port});\n`;
+    return code;
+};
+
+// ==================== 异步UDP相关 ====================
+
+// 初始化异步UDP
+Arduino.forBlock['esp32_wifi_async_udp_begin'] = function(block, generator) {
+    const port = generator.valueToCode(block, 'PORT', Arduino.ORDER_ATOMIC) || '1234';
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <AsyncUDP.h>', '#include <AsyncUDP.h>');
+    generator.addVariable('AsyncUDP asyncUdp', 'AsyncUDP asyncUdp;');
+    
+    return '';
+};
+
+// 异步UDP监听
+Arduino.forBlock['esp32_wifi_async_udp_listen'] = function(block, generator) {
+    const port = generator.valueToCode(block, 'PORT', Arduino.ORDER_ATOMIC) || '1234';
+    const callback = generator.statementToCode(block, 'CALLBACK');
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <AsyncUDP.h>', '#include <AsyncUDP.h>');
+    generator.addVariable('AsyncUDP asyncUdp', 'AsyncUDP asyncUdp;');
+    generator.addVariable('AsyncUDPPacket asyncUdpPacket', 'AsyncUDPPacket asyncUdpPacket;');
+    
+    // 添加回调处理函数
+    const functionName = 'asyncUdpCallback';
+    generator.addFunction(`${functionName}_function`,
+        `void ${functionName}(AsyncUDPPacket packet) {\n` +
+        `  asyncUdpPacket = packet;\n` +
+        callback +
+        `}\n`
+    );
+    
+    const code = `if (asyncUdp.listen(${port})) {\n` +
+                 `  asyncUdp.onPacket(${functionName});\n` +
+                 `}\n`;
+    return code;
+};
+
+// 异步UDP发送
+Arduino.forBlock['esp32_wifi_async_udp_send'] = function(block, generator) {
+    const data = generator.valueToCode(block, 'DATA', Arduino.ORDER_ATOMIC) || '""';
+    const ip = generator.valueToCode(block, 'IP', Arduino.ORDER_ATOMIC) || '"192.168.1.100"';
+    const port = generator.valueToCode(block, 'PORT', Arduino.ORDER_ATOMIC) || '1234';
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <AsyncUDP.h>', '#include <AsyncUDP.h>');
+    generator.addVariable('AsyncUDP asyncUdp', 'AsyncUDP asyncUdp;');
+    
+    // 添加异步发送函数
+    generator.addFunction('async_udp_send_function',
+        'void asyncUdpSend(String data, String ip, int port) {\n' +
+        '  IPAddress targetIP;\n' +
+        '  targetIP.fromString(ip);\n' +
+        '  asyncUdp.writeTo((const uint8_t*)data.c_str(), data.length(), targetIP, port);\n' +
+        '}\n'
+    );
+    
+    const code = `asyncUdpSend(${data}, ${ip}, ${port});\n`;
+    return code;
+};
+
+// 异步UDP广播
+Arduino.forBlock['esp32_wifi_async_udp_broadcast'] = function(block, generator) {
+    const data = generator.valueToCode(block, 'DATA', Arduino.ORDER_ATOMIC) || '""';
+    const port = generator.valueToCode(block, 'PORT', Arduino.ORDER_ATOMIC) || '1234';
+    
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <AsyncUDP.h>', '#include <AsyncUDP.h>');
+    generator.addVariable('AsyncUDP asyncUdp', 'AsyncUDP asyncUdp;');
+    
+    const code = `asyncUdp.broadcast(${data});\n`;
+    return code;
+};
+
+// 异步UDP数据包内容
+Arduino.forBlock['esp32_wifi_async_udp_packet_data'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <AsyncUDP.h>', '#include <AsyncUDP.h>');
+    generator.addVariable('AsyncUDPPacket asyncUdpPacket', 'AsyncUDPPacket asyncUdpPacket;');
+    
+    // 添加数据读取函数
+    generator.addFunction('async_udp_packet_data_function',
+        'String getAsyncUdpPacketData() {\n' +
+        '  char data[asyncUdpPacket.length() + 1];\n' +
+        '  memcpy(data, asyncUdpPacket.data(), asyncUdpPacket.length());\n' +
+        '  data[asyncUdpPacket.length()] = 0;\n' +
+        '  return String(data);\n' +
+        '}\n'
+    );
+    
+    const code = 'getAsyncUdpPacketData()';
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// 异步UDP数据包长度
+Arduino.forBlock['esp32_wifi_async_udp_packet_length'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <AsyncUDP.h>', '#include <AsyncUDP.h>');
+    generator.addVariable('AsyncUDPPacket asyncUdpPacket', 'AsyncUDPPacket asyncUdpPacket;');
+    
+    const code = 'asyncUdpPacket.length()';
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// 异步UDP数据包远程IP
+Arduino.forBlock['esp32_wifi_async_udp_packet_remote_ip'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <AsyncUDP.h>', '#include <AsyncUDP.h>');
+    generator.addVariable('AsyncUDPPacket asyncUdpPacket', 'AsyncUDPPacket asyncUdpPacket;');
+    
+    const code = 'asyncUdpPacket.remoteIP().toString()';
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+// 异步UDP数据包远程端口
+Arduino.forBlock['esp32_wifi_async_udp_packet_remote_port'] = function(block, generator) {
+    generator.addLibrary('#include <WiFi.h>', '#include <WiFi.h>');
+    generator.addLibrary('#include <AsyncUDP.h>', '#include <AsyncUDP.h>');
+    generator.addVariable('AsyncUDPPacket asyncUdpPacket', 'AsyncUDPPacket asyncUdpPacket;');
+    
+    const code = 'asyncUdpPacket.remotePort()';
+    return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
