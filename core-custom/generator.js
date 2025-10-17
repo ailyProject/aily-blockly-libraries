@@ -37,3 +37,44 @@ Arduino.forBlock['custom_function'] = function (block, generator) {
     generator.addFunction(name, code);
     return '';
 };
+
+Arduino.forBlock['custom_insert_code'] = function (block, generator) {
+    const position = block.getFieldValue('POSITION');
+    const code = block.getFieldValue('CODE');
+    const tag = 'custom_insert_' + position + '_' + Math.random().toString(36).substr(2, 9);
+
+    switch (position) {
+        case 'macro':
+            generator.addMacro(tag, code);
+            break;
+        case 'library':
+            generator.addLibrary(tag, code);
+            break;
+        case 'variable':
+            generator.addVariable(tag, code);
+            break;
+        case 'object':
+            generator.addObject(tag, code);
+            break;
+        case 'function':
+            generator.addFunction(tag, code);
+            break;
+    }
+    return '';
+};
+
+Arduino.forBlock['comment'] = function (block, generator) {
+    const text = block.getFieldValue('TEXT');
+    return '// ' + text + '\n';
+};
+
+Arduino.forBlock['comment_wrapper'] = function (block, generator) {
+    const text = block.getFieldValue('TEXT');
+    const statements = generator.statementToCode(block, 'STATEMENTS');
+    
+    let code = '// [BEGIN] ' + text + '\n';
+    code += statements;
+    code += '// [END] ' + text + '\n';
+    
+    return code;
+};
