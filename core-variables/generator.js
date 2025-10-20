@@ -223,6 +223,7 @@ addVariableToToolbox = function (block, varName) {
           Blockly.Msg.VARIABLES_CURRENT_NAME = varName;
 
           refreshToolbox(workspace, openVariableItem = false);
+          console.log("变量已添加到工具箱:", varName);
         }
         break;
       }
@@ -334,13 +335,19 @@ function registerVariableToBlockly(varName, varType) {
   // 获取当前工作区
   const workspace = Blockly.getMainWorkspace();
   if (workspace && workspace.createVariable && varName) {
-    // 检查变量是否已存在（同名同类型）
-    const existingVar = workspace.getVariable(varName, varType);
-    if (!existingVar) {
-      // 创建新变量
-      workspace.createVariable(varName, varType);
-      // console.log('Variable registered to Blockly:', varName, varType);
+    // 检查是否已存在同名变量（不考虑类型）
+    const existingVar = workspace.getVariable(varName);
+    if (existingVar) {
+      return; // 已存在，无需创建
     }
+    
+    // 创建新变量（如果varType为undefined，Blockly会创建无类型变量）
+    if (varType !== undefined) {
+      workspace.createVariable(varName, varType);
+    } else {
+      workspace.createVariable(varName, '');
+    }
+    // console.log('Variable registered to Blockly:', varName, varType);
   }
 }
 
@@ -610,7 +617,8 @@ Arduino.forBlock["variable_define"] = function (block, generator) {
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._varLastName;
         if (workspace && newName && newName !== oldName) {
-          renameVariableInBlockly(block, oldName, newName); // 使用核心库函数
+          // 重命名时也不强制设置类型，保持与原变量一致
+          renameVariableInBlockly(block, oldName, newName, undefined);
           block._varLastName = newName;
         }
         return newName;
@@ -623,12 +631,13 @@ Arduino.forBlock["variable_define"] = function (block, generator) {
   const name = block.getFieldValue("VAR");
   let value = Arduino.valueToCode(block, "VALUE", Arduino.ORDER_ATOMIC);
 
-  // 2. 自动注册变量到Blockly系统（只注册一次）
-  // if (name) {
-  registerVariableToBlockly(name);
-  //   // 将变量添加到工具箱，这会自动触发展开效果
-  //   addVariableToToolbox(block, name);
-  // }
+  // 2. 自动注册变量到Blockly系统
+  if (name) {
+    // 不强制设置类型，让Blockly使用默认的无类型变量
+    registerVariableToBlockly(name, undefined);
+    // 将变量添加到工具箱，这会自动触发展开效果
+    addVariableToToolbox(block, name);
+  }
 
   let defaultValue = "";
 

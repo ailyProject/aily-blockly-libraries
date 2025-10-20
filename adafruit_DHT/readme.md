@@ -1,189 +1,90 @@
-# DHT温湿度传感器 (DHT Temperature & Humidity Sensor) 库
+# adafruit_DHT
 
-基于Adafruit DHT传感器库的可视化编程模块，支持DHT11、DHT22、DHT21、DHT20(I2C)温湿度传感器。
+DHT温湿度传感器操作库
 
 ## 库信息
-- **库名**: @aily-project/lib-dht
-- **版本**: 1.0.3
-- **作者**: adafruit
-- **描述**: DHT11/DHT22(AM2302)/DHT21(AM2301)/DHT20(I2C)温湿度传感器库
-- **电压**: 3.3V、5V
-- **测试者**: 奈何col
-- **官方库**: https://github.com/adafruit/DHT-sensor-library
+- **库名**: @aily-project/lib-adafruit-dht
+- **版本**: 1.0.0
+- **兼容**: Arduino全系列平台
 
-## Blockly 工具箱分类
+## 块定义
 
-### DHT传感器
-- `dht_init` - 初始化传感器
-- `dht_read_temperature` - 读取温度
-- `dht_read_humidity` - 读取湿度
-- `dht_read_success` - 读取状态检查
+| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
+|--------|------|----------|----------|----------|
+| `dht_init` | 语句块 | VAR(field_variable), TYPE(field_dropdown), PIN(field_number) | `"fields":{"VAR":{"id":"dht_id","name":"dht","type":"DHT"},"TYPE":"DHT22","PIN":"2"}` | `DHT dht(2, DHT22); dht.begin();` |
+| `dht_read_temperature` | 值块 | VAR(field_variable) | `"fields":{"VAR":{"id":"dht_id","name":"dht","type":"DHT"}}` | `dht.readTemperature()` |
+| `dht_read_humidity` | 值块 | VAR(field_variable) | `"fields":{"VAR":{"id":"dht_id","name":"dht","type":"DHT"}}` | `dht.readHumidity()` |
+| `dht_read_success` | 值块 | VAR(field_variable) | `"fields":{"VAR":{"id":"dht_id","name":"dht","type":"DHT"}}` | `!isnan(dht.readTemperature()) && !isnan(dht.readHumidity())` |
 
-## 支持的传感器型号
+## 字段类型映射
 
-### DHT11
-- **温度范围**: 0-50°C (±2°C精度)
-- **湿度范围**: 20-90%RH (±5%RH精度)
-- **采样频率**: 1Hz (每秒1次)
-- **特点**: 低成本，精度较低
+| 类型 | .abi格式 | 示例 |
+|------|----------|------|
+| field_variable | DHT变量对象 | `"VAR": {"id": "dht_id", "name": "dht", "type": "DHT"}` |
+| field_dropdown | 字符串 | `"TYPE": "DHT22"` |
+| field_number | 数值字符串 | `"PIN": "2"` |
 
-### DHT22 (AM2302)
-- **温度范围**: -40-80°C (±0.5°C精度)
-- **湿度范围**: 0-100%RH (±2-5%RH精度)
-- **采样频率**: 0.5Hz (每2秒1次)
-- **特点**: 高精度，推荐使用
+## 连接规则
 
-### DHT21 (AM2301)
-- **温度范围**: -40-80°C (±0.5°C精度)
-- **湿度范围**: 0-100%RH (±3%RH精度)
-- **采样频率**: 0.5Hz (每2秒1次)
-- **特点**: 中等精度和成本
-
-### DHT20 (I2C)
-- **温度范围**: -40-80°C (±0.5°C精度)
-- **湿度范围**: 0-100%RH (±3%RH精度)
-- **通信接口**: I2C (地址0x38)
-- **特点**: I2C数字接口，高精度，可共享总线
-
-## 详细块定义
-
-### 初始化块
-
-#### dht_init
-**类型**: 语句块 (previousStatement/nextStatement)
-**描述**: 初始化DHT传感器并设置引脚
-**字段**:
-- `TYPE`: 下拉选择 - 传感器型号 ["DHT11", "DHT22", "DHT21"]
-- `PIN`: 下拉选择 - 数字引脚 (来自 ${board.digitalPins})
-**生成代码**:
-```cpp
-DHT dht_2_dht22(2, DHT22);
-// setup中: dht_2_dht22.begin();
-```
-**自动功能**:
-- 添加库引用: `#include <DHT.h>`
-- 创建全局对象: `DHT dht_引脚号_传感器型号(引脚, 传感器型号);`
-- 自动初始化: 在setup中调用 `begin()`
-
-### 读取块
-
-#### dht_read_temperature
-**类型**: 值块 (output: Number)
-**描述**: 读取传感器温度值（摄氏度）
-**字段**:
-- `TYPE`: 下拉选择 - 传感器型号 ["DHT11", "DHT22", "DHT21"]
-- `PIN`: 下拉选择 - 数字引脚 (来自 ${board.digitalPins})
-**生成代码**: `dht_2_dht22.readTemperature()`
-**返回值**: 浮点数，温度值（°C）
-**智能管理**: 自动创建对应的DHT对象（如果不存在）
-
-#### dht_read_humidity
-**类型**: 值块 (output: Number)
-**描述**: 读取传感器湿度值（相对湿度百分比）
-**字段**:
-- `TYPE`: 下拉选择 - 传感器型号 ["DHT11", "DHT22", "DHT21"]
-- `PIN`: 下拉选择 - 数字引脚 (来自 ${board.digitalPins})
-**生成代码**: `dht_2_dht22.readHumidity()`
-**返回值**: 浮点数，湿度值（%RH）
-**智能管理**: 自动创建对应的DHT对象（如果不存在）
-
-#### dht_read_success
-**类型**: 值块 (output: Boolean)
-**描述**: 检查传感器读取是否成功
-**字段**:
-- `TYPE`: 下拉选择 - 传感器型号 ["DHT11", "DHT22", "DHT21"]
-- `PIN`: 下拉选择 - 数字引脚 (来自 ${board.digitalPins})
-**生成代码**: `(!isnan(dht_2_dht22.readTemperature()) && !isnan(dht_2_dht22.readHumidity()))`
-**返回值**: 布尔值，true表示读取成功
-**用途**: 在读取数据前验证传感器工作状态
-
-## .abi 文件生成规范
-
-### 块连接规则
-- **语句块**: 有 `previousStatement/nextStatement`，通过 `next` 连接
-- **值块**: 有 `output`，连接到 `inputs` 中，不含 `next` 字段
-
-### 智能对象管理
-- 系统根据传感器型号和引脚自动创建唯一的DHT对象
-- 对象命名格式：`dht_引脚号_传感器型号` (如 `dht_2_dht22`)
-- 避免重复创建相同配置的对象 (`Arduino.addedDHTInitCode`)
-- 自动添加必要的库引用和初始化代码
-
-### 自动代码生成
-- **库引用**: `#include <DHT.h>`
-- **对象声明**: `DHT dht_2_dht22(2, DHT22);`
-- **初始化代码**: 在setup中添加 `dht_2_dht22.begin();`
-- **跟踪机制**: 使用 `Arduino.initializedDHTSensors` 和 `Arduino.addedDHTInitCode` 避免重复
-
-### 动态配置引用
-- 引脚选择器根据开发板配置动态显示可用数字引脚
-- `${board.digitalPins}` - 数字引脚列表
+- **语句块**: dht_init有previousStatement/nextStatement，通过`next`字段连接
+- **值块**: dht_read_temperature、dht_read_humidity、dht_read_success有output，连接到`inputs`中
+- **特殊规则**: 
+  - DHT变量类型为"DHT"，每个实例独立管理
+  - dht_init生成库包含、变量定义和setup初始化
+  - 读取块直接调用DHT实例方法
 
 ## 使用示例
 
-### 初始化传感器
+### DHT传感器初始化
 ```json
 {
   "type": "dht_init",
+  "id": "dht_setup",
   "fields": {
+    "VAR": {"id": "dht_var", "name": "dht", "type": "DHT"},
     "TYPE": "DHT22",
     "PIN": "2"
   }
 }
 ```
 
-### 读取温度
+### 温湿度读取
 ```json
 {
-  "type": "dht_read_temperature",
-  "fields": {
-    "TYPE": "DHT22",
-    "PIN": "2"
+  "type": "variables_set",
+  "id": "set_temp",
+  "fields": {"VAR": {"id": "temp_var", "name": "temperature", "type": "Number"}},
+  "inputs": {
+    "VALUE": {
+      "block": {
+        "type": "dht_read_temperature",
+        "fields": {"VAR": {"id": "dht_var", "name": "dht", "type": "DHT"}}
+      }
+    }
   }
 }
 ```
 
-### 读取湿度
-```json
-{
-  "type": "dht_read_humidity",
-  "fields": {
-    "TYPE": "DHT22",
-    "PIN": "2"
-  }
-}
-```
-
-### 状态检查
-```json
-{
-  "type": "dht_read_success",
-  "fields": {
-    "TYPE": "DHT22",
-    "PIN": "2"
-  }
-}
-```
-
-### 完整使用示例
+### 读取状态检测
 ```json
 {
   "type": "controls_if",
+  "id": "check_dht",
   "inputs": {
     "IF0": {
       "block": {
         "type": "dht_read_success",
-        "fields": {"TYPE": "DHT22", "PIN": "2"}
+        "fields": {"VAR": {"id": "dht_var", "name": "dht", "type": "DHT"}}
       }
     },
     "DO0": {
       "block": {
-        "type": "serial_println",
+        "type": "serial_print",
         "inputs": {
-          "VAR": {
+          "CONTENT": {
             "block": {
               "type": "dht_read_temperature",
-              "fields": {"TYPE": "DHT22", "PIN": "2"}
+              "fields": {"VAR": {"id": "dht_var", "name": "dht", "type": "DHT"}}
             }
           }
         }
@@ -193,28 +94,19 @@ DHT dht_2_dht22(2, DHT22);
 }
 ```
 
-## 接线说明
+## 重要规则
 
-### 标准接线（3线制）
-- **VCC**: 连接3.3V或5V电源
-- **GND**: 连接地线
-- **DATA**: 连接数字引脚（如D2）
-- **上拉电阻**: DATA线需要4.7kΩ-10kΩ上拉电阻
+1. **必须遵守**: DHT传感器需要在setup()中初始化，读取间隔DHT11≥1秒，DHT22/DHT21≥2秒
+2. **连接限制**: dht_init是语句块必须在setup区域，读取块是值块可用于表达式
+3. **变量管理**: 每个DHT实例使用独立的DHT类型变量，支持多传感器同时使用
+4. **常见错误**: ❌ 未初始化直接读取，❌ 读取频率过高，❌ 变量类型不匹配
 
-### 4线制模块
-某些DHT模块有4个引脚，其中一个为NC（不连接）
+## 支持的字段选项
+- **TYPE(传感器类型)**: "DHT11", "DHT22", "DHT21"
+- **PIN(引脚范围)**: 0-255（数字I/O引脚）
+- **变量类型**: "DHT"（专用类型，用于DHT传感器实例）
 
-## 注意事项
-- DHT传感器读取间隔不能太频繁（DHT11最少1秒，DHT22最少2秒）
-- 需要在DATA线上添加上拉电阻（4.7kΩ-10kΩ）
-- 传感器启动需要1-2秒稳定时间
-- 读取失败时会返回NaN，需要进行错误检查
-- 避免在潮湿环境中长期使用DHT11
-
-## 技术特性
-- **自动管理**: 智能创建和管理DHT对象，避免重复初始化
-- **多传感器支持**: 同时支持多个不同型号的DHT传感器
-- **错误检测**: 提供读取状态检查功能
-- **库集成**: 自动添加Adafruit DHT库依赖
-- **引脚适配**: 根据开发板动态显示可用数字引脚
-- **代码优化**: 智能跟踪和管理传感器对象生命周期
+## 技术规格
+- **DHT11**: 温度0-50°C(±2°C), 湿度20-80%RH(±5%RH), 读取间隔≥1秒
+- **DHT22**: 温度-40-80°C(±0.5°C), 湿度0-100%RH(±2-5%RH), 读取间隔≥2秒  
+- **DHT21**: 温度-40-80°C(±0.3°C), 湿度0-100%RH(±3%RH), 读取间隔≥2秒

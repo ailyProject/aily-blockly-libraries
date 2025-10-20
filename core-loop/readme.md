@@ -1,166 +1,43 @@
-# 循环控制 (Loop Control) 核心库
+# core-loop
 
-Arduino/C++编程中的循环控制核心库，提供各种循环结构和程序流程控制功能。
+循环控制核心库
 
 ## 库信息
 - **库名**: @aily-project/lib-core-loop
 - **版本**: 0.0.1
-- **作者**: aily Project
-- **描述**: 核心库，通常已经集成到初始模板中
-- **电压**: 3.3V、5V
-- **测试者**: 奈何col
+- **兼容**: Arduino全系列平台，3.3V/5V
 
-## Blockly 工具箱分类
+## 块定义
 
-### Loops 控制
-- `arduino_setup` - Arduino初始化
-- `arduino_loop` - Arduino主循环
-- `controls_repeat_ext` - 重复执行
-- `controls_repeat` - 无限循环
-- `controls_whileUntil` - 条件循环
-- `controls_for` - 计数循环
-- `controls_flow_statements` - 流程控制
-- `controls_whileForever` - 永久循环
+| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
+|--------|------|----------|----------|----------|
+| `arduino_setup` | Hat块 | ARDUINO_SETUP(input_statement) | `"inputs":{"ARDUINO_SETUP":{"block":{...}}}` | `void setup(){...}` |
+| `arduino_loop` | Hat块 | ARDUINO_LOOP(input_statement) | `"inputs":{"ARDUINO_LOOP":{"block":{...}}}` | `void loop(){...}` |
+| `controls_repeat_ext` | 语句块 | TIMES(input_value), DO(input_statement) | `"inputs":{"TIMES":{"block":{...}},"DO":{"block":{...}}}` | `for(int i=0;i<times;i++){...}` |
+| `controls_repeat` | 语句块 | TIMES(field_number), DO(input_statement) | `"fields":{"TIMES":"10"},"inputs":{"DO":{"block":{...}}}` | `for(int i=0;i<10;i++){...}` |
+| `controls_whileUntil` | 语句块 | MODE(field_dropdown), BOOL(input_value), DO(input_statement) | `"fields":{"MODE":"WHILE"},"inputs":{"BOOL":{"block":{...}},"DO":{"block":{...}}}` | `while(condition){...}` |
+| `controls_for` | 语句块 | VAR(field_variable), FROM(input_value), TO(input_value), BY(input_value), DO(input_statement) | `"fields":{"VAR":{"id":"var_id"}},"inputs":{"FROM":{"block":{...}},"TO":{"block":{...}},"BY":{"block":{...}},"DO":{"block":{...}}}` | `for(int var=from;var<=to;var+=by){...}` |
+| `controls_flow_statements` | 语句块 | FLOW(field_dropdown) | `"fields":{"FLOW":"BREAK"}` | `break;` |
+| `controls_whileForever` | 语句块 | DO(input_statement) | `"inputs":{"DO":{"block":{...}}}` | `while(true){...}` |
 
-## 详细块定义
+## 字段类型映射
 
-### 程序结构块
+| 类型 | .abi格式 | 示例 |
+|------|----------|------|
+| field_number | 数值 | `"TIMES": "10"` |
+| field_dropdown | 字符串 | `"MODE": "WHILE"` |
+| field_variable | 对象 | `"VAR": {"id": "var_id", "name": "i", "type": "int"}` |
+| input_value | 块连接 | `"inputs": {"TIMES": {"block": {...}}}` |
+| input_statement | 块连接 | `"inputs": {"DO": {"block": {...}}}` |
 
-#### arduino_setup
-**类型**: Hat块 (无连接属性)
-**描述**: Arduino程序初始化部分，只执行一次
-**语句输入**:
-- `ARDUINO_SETUP`: 语句输入 - 初始化代码
-**生成代码**:
-```cpp
-void setup() {
-  // 初始化代码
-}
-```
-**用途**: 设置引脚模式、初始化串口、配置传感器等
+## 连接规则
 
-#### arduino_loop
-**类型**: Hat块 (无连接属性)
-**描述**: Arduino主循环部分，持续执行
-**语句输入**:
-- `ARDUINO_LOOP`: 语句输入 - 循环代码
-**生成代码**:
-```cpp
-void loop() {
-  // 循环代码
-}
-```
-**用途**: 主要程序逻辑，传感器读取，控制输出等
-
-### 循环控制块
-
-#### controls_repeat_ext
-**类型**: 语句块 (previousStatement/nextStatement)
-**描述**: 重复执行指定次数
-**值输入**:
-- `TIMES`: 数字输入 - 重复次数 (检查类型: Number)
-**语句输入**:
-- `DO`: 语句输入 - 重复执行的代码
-**生成代码**:
-```cpp
-for (int count = 0; count < 10; count++) {
-  // 重复执行的代码
-}
-```
-**工具箱默认**: 默认重复 10 次
-
-#### controls_repeat
-**类型**: 语句块 (previousStatement/nextStatement)
-**描述**: 简单重复循环
-**语句输入**:
-- `DO`: 语句输入 - 重复执行的代码
-**生成代码**:
-```cpp
-while (true) {
-  // 重复执行的代码
-}
-```
-**注意**: 需要手动添加跳出条件，避免死循环
-
-#### controls_whileUntil
-**类型**: 语句块 (previousStatement/nextStatement)
-**描述**: 条件循环，支持while和until模式
-**字段**:
-- `MODE`: 下拉选择 ["WHILE", "UNTIL"]
-**值输入**:
-- `BOOL`: 布尔输入 - 循环条件
-**语句输入**:
-- `DO`: 语句输入 - 循环体代码
-**生成代码**:
-- WHILE: `while (condition) { ... }`
-- UNTIL: `while (!(condition)) { ... }`
-
-#### controls_for
-**类型**: 语句块 (previousStatement/nextStatement)
-**描述**: 带计数器的for循环，支持起始值、结束值、步长
-**字段**:
-- `VAR`: 变量选择器 - 循环变量
-**值输入**:
-- `FROM`: 数字输入 - 起始值
-- `TO`: 数字输入 - 结束值
-- `BY`: 数字输入 - 步长
-**语句输入**:
-- `DO`: 语句输入 - 循环体代码
-**生成代码**:
-```cpp
-for (int i = 1; i <= 10; i += 1) {
-  // 循环体代码
-}
-```
-**智能步长**: 自动检测循环方向（递增/递减），根据起始值和结束值优化循环条件
-**工具箱默认**: 从 1 到 10，步长 1
-
-#### controls_whileForever
-**类型**: 语句块 (previousStatement/nextStatement)
-**描述**: 永远执行的循环
-**语句输入**:
-- `DO`: 语句输入 - 循环体代码
-**生成代码**:
-```cpp
-while (true) {
-  // 循环体代码
-}
-```
-
-### 流程控制块
-
-#### controls_flow_statements
-**类型**: 语句块 (previousStatement/nextStatement)
-**描述**: 循环流程控制，支持break和continue
-**字段**:
-- `FLOW`: 下拉选择 ["BREAK", "CONTINUE"]
-**生成代码**:
-- BREAK: `break;` - 跳出当前循环
-- CONTINUE: `continue;` - 跳过当前循环的剩余部分，继续下一次循环
-**注意**: 只影响最内层循环
-
-## .abi 文件生成规范
-
-### 块连接规则
-- **Hat块**: 无连接属性，通过 `inputs` 连接内部语句
-- **语句块**: 有 `previousStatement/nextStatement`，通过 `next` 连接
-
-### 工具箱默认配置
-- `controls_repeat_ext.TIMES`: 默认数字 10
-- `controls_for.FROM`: 默认数字 1
-- `controls_for.TO`: 默认数字 10
-- `controls_for.BY`: 默认数字 1
-
-### 循环变量管理
-- `controls_for` 循环自动创建循环变量
-- 变量作用域限制在循环内部
-- 支持嵌套循环的变量管理
-- 避免变量名冲突
-
-### 智能步长检测
-- 自动检测循环方向（递增/递减）
-- 根据起始值和结束值优化循环条件
-- 支持正负步长值
+- **语句块**: 有previousStatement/nextStatement，通过`next`字段连接
+- **Hat块**: 无连接属性，程序入口点，通过`inputs`连接内部语句
+- **特殊规则**: 
+  - arduino_setup和arduino_loop是顶层Hat块，不能有next连接
+  - controls_flow_statements只有previousStatement，无nextStatement
+  - for循环会自动创建循环变量并添加到工具箱
 
 ## 使用示例
 
@@ -168,64 +45,30 @@ while (true) {
 ```json
 {
   "type": "arduino_setup",
+  "id": "setup_block",
   "inputs": {
     "ARDUINO_SETUP": {
       "block": {
-        "type": "serial_begin",
-        "fields": {"SERIAL": "Serial", "SPEED": "9600"}
-      }
-    }
-  }
-}
-```
-
-### 重复循环
-```json
-{
-  "type": "controls_repeat_ext",
-  "inputs": {
-    "TIMES": {"block": {"type": "math_number", "fields": {"NUM": 5}}},
-    "DO": {
-      "block": {
-        "type": "io_digitalwrite",
-        "inputs": {
-          "PIN": {"shadow": {"type": "io_pin_digi", "fields": {"PIN": "13"}}},
-          "STATE": {"shadow": {"type": "io_state", "fields": {"STATE": "HIGH"}}}
-        }
-      }
-    }
-  }
-}
-```
-
-### 条件循环
-```json
-{
-  "type": "controls_whileUntil",
-  "fields": {"MODE": "WHILE"},
-  "inputs": {
-    "BOOL": {
-      "block": {
-        "type": "logic_compare",
-        "fields": {"OP": "LT"},
-        "inputs": {
-          "A": {"block": {"type": "variables_get"}},
-          "B": {"block": {"type": "math_number", "fields": {"NUM": 100}}}
-        }
-      }
-    },
-    "DO": {
-      "block": {
         "type": "variables_set",
+        "fields": {"VAR": {"id": "led_pin", "name": "ledPin", "type": "int"}},
+        "inputs": {"VALUE": {"block": {"type": "math_number", "fields": {"NUM": "13"}}}}
+      }
+    }
+  }
+},
+{
+  "type": "arduino_loop", 
+  "id": "loop_block",
+  "inputs": {
+    "ARDUINO_LOOP": {
+      "block": {
+        "type": "controls_repeat",
+        "fields": {"TIMES": "5"},
         "inputs": {
-          "VALUE": {
+          "DO": {
             "block": {
-              "type": "math_arithmetic",
-              "fields": {"OP": "ADD"},
-              "inputs": {
-                "A": {"block": {"type": "variables_get"}},
-                "B": {"block": {"type": "math_number", "fields": {"NUM": 1}}}
-              }
+              "type": "arduino_digitalWrite",
+              "fields": {"PIN": "13", "STATE": "HIGH"}
             }
           }
         }
@@ -235,39 +78,36 @@ while (true) {
 }
 ```
 
-### 计数循环
+### For循环计数器
 ```json
 {
   "type": "controls_for",
-  "fields": {"VAR": {"id": "i_var_id"}},
+  "id": "for_loop",
+  "fields": {
+    "VAR": {"id": "counter_var", "name": "i", "type": "int"}
+  },
   "inputs": {
-    "FROM": {"block": {"type": "math_number", "fields": {"NUM": 0}}},
-    "TO": {"block": {"type": "math_number", "fields": {"NUM": 9}}},
-    "BY": {"block": {"type": "math_number", "fields": {"NUM": 1}}},
+    "FROM": {"block": {"type": "math_number", "fields": {"NUM": "1"}}},
+    "TO": {"block": {"type": "math_number", "fields": {"NUM": "10"}}},
+    "BY": {"block": {"type": "math_number", "fields": {"NUM": "1"}}},
     "DO": {
       "block": {
-        "type": "serial_println",
-        "inputs": {
-          "VAR": {"block": {"type": "variables_get", "fields": {"VAR": {"id": "i_var_id"}}}}
-        }
+        "type": "arduino_print",
+        "inputs": {"TEXT": {"block": {"type": "variables_get", "fields": {"VAR": {"id": "counter_var"}}}}}
       }
     }
-  }
+  },
+  "next": {"block": {...}}
 }
 ```
 
-### 流程控制示例
-```json
-{
-  "type": "controls_flow_statements",
-  "fields": {"FLOW": "BREAK"}
-}
-```
+## 重要规则
 
-## 技术特性
-- **标准兼容**: 基于标准C++循环语法
-- **Arduino结构**: 支持Arduino特有的setup/loop结构
-- **智能优化**: 自动优化循环条件和步长
-- **作用域安全**: 自动管理变量作用域
-- **性能优化**: 生成高效的循环代码
-- **嵌套支持**: 支持多层循环嵌套
+1. **必须遵守**: arduino_setup和arduino_loop只能有一个，且为程序顶层结构
+2. **连接限制**: Hat块不能有next连接，controls_flow_statements不能连接后续语句
+3. **常见错误**: ❌ 在setup/loop外放置arduino代码，❌ flow_statements后连接其他语句
+
+## 支持的字段选项
+- **MODE(while/until)**: "WHILE", "UNTIL"
+- **FLOW(控制流)**: "BREAK", "CONTINUE"
+- **变量类型**: 自动推导为"int"类型
