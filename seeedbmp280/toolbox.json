@@ -1,0 +1,45 @@
+{
+  "kind": "category",
+  "name": "SeeedBMP280",
+  "colour": "#00979D",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "bmp280_create"
+    },
+    {
+      "kind": "block",
+      "type": "bmp280_init"
+    },
+    {
+      "kind": "label",
+      "text": "数据读取"
+    },
+    {
+      "kind": "block",
+      "type": "bmp280_get_temperature"
+    },
+    {
+      "kind": "block",
+      "type": "bmp280_get_pressure"
+    },
+    {
+      "kind": "block",
+      "type": "bmp280_calc_altitude",
+      "inputs": {
+        "PRESSURE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 101325
+            }
+          }
+        }
+      }
+    }
+  ]
+}
