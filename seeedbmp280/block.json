@@ -1,0 +1,87 @@
+[
+  {
+    "type": "bmp280_create",
+    "message0": "创建BMP280传感器 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "bmp280"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979D",
+    "tooltip": "创建BMP280气压传感器对象"
+  },
+  {
+    "type": "bmp280_init",
+    "message0": "初始化BMP280传感器 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "bmp280",
+        "variableTypes": ["BMP280"],
+        "defaultType": "BMP280"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979D",
+    "tooltip": "初始化BMP280传感器，返回true表示成功"
+  },
+  {
+    "type": "bmp280_get_temperature",
+    "message0": "获取BMP280温度 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "bmp280",
+        "variableTypes": ["BMP280"],
+        "defaultType": "BMP280"
+      }
+    ],
+    "output": "Number",
+    "colour": "#00979D",
+    "tooltip": "获取温度值（摄氏度）"
+  },
+  {
+    "type": "bmp280_get_pressure",
+    "message0": "获取BMP280气压 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "bmp280",
+        "variableTypes": ["BMP280"],
+        "defaultType": "BMP280"
+      }
+    ],
+    "output": "Number",
+    "colour": "#00979D",
+    "tooltip": "获取气压值（帕斯卡Pa）"
+  },
+  {
+    "type": "bmp280_calc_altitude",
+    "message0": "计算海拔高度 %1 气压 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "bmp280",
+        "variableTypes": ["BMP280"],
+        "defaultType": "BMP280"
+      },
+      {
+        "type": "input_value",
+        "name": "PRESSURE",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#00979D",
+    "tooltip": "根据气压计算海拔高度（米）"
+  }
+]
