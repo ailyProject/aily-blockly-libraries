@@ -1,0 +1,185 @@
+{
+  "kind": "category",
+  "name": "PN532 NFC",
+  "colour": "#0066CC",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "模块初始化"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_create_spi"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_create_spi_hw"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_create_i2c"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_create_i2c_pins"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_begin"
+    },
+    {
+      "kind": "label",
+      "text": "基本配置"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_get_firmware_version"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_sam_config"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_set_passive_retries"
+    },
+    {
+      "kind": "label",
+      "text": "读取卡片信息"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_read_passive_target"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_get_uid_length"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_get_uid_byte",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "Mifare Classic操作"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_mifare_classic_authenticate",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "FFFFFFFFFFFF"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "pn532_mifare_classic_read_block"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_mifare_classic_write_block",
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello NFC"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "pn532_mifare_classic_format_ndef"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_mifare_classic_write_ndef_uri",
+      "inputs": {
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "example.com"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "Mifare Ultralight操作"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_mifare_ultralight_read_page"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_mifare_ultralight_write_page",
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "NTAG2xx操作"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_ntag2xx_read_page"
+    },
+    {
+      "kind": "block",
+      "type": "pn532_ntag2xx_write_page",
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "pn532_ntag2xx_write_ndef_uri",
+      "inputs": {
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "example.com"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
