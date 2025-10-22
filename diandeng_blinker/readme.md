@@ -26,8 +26,8 @@
 | `blinker_value` | 语句块 | KEY(field_input), VALUE(input_value) | `"fields":{"KEY":"num-abc"},"inputs":{"VALUE":{"block":{...}}}` | `BlinkerNumber1.print(value);` |
 | `blinker_icon` | 语句块 | KEY(field_input), ICON_NAME(field_input) | `"fields":{"KEY":"ico-abc","ICON_NAME":"icon_1"}` | `BlinkerIcon1.icon(icon_name);` |
 | `blinker_color` | 语句块 | KEY(field_input), COLOR(field_input) | `"fields":{"KEY":"ico-abc","COLOR":"#FFFFFF"}` | `BlinkerIcon1.color(color);` |
-| `blinker_chart` | 语句块 | KEY(field_input), VALUE(input_value) | `"fields":{"KEY":"cha-abc"},"inputs":{"VALUE":{"block":{...}}}` | `BlinkerChart1.print(value);` |
-| `blinker_data_upload` | 语句块 | KEY(field_input), VALUE(input_value) | `"fields":{"KEY":"data1"},"inputs":{"VALUE":{"block":{...}}}` | `Blinker.dataStorage(key,value);` |
+| `blinker_chart` | Hat块 | KEY(field_input), NAME(input_statement) | `"fields":{"KEY":"chart-abc"},"inputs":{"NAME":{"block":{...}}}` | `BlinkerChart chart(key);` + callback |
+| `blinker_chart_data_upload` | 语句块 | CHART(field_input), KEY(field_input), VALUE(input_value) | `"fields":{"CHART":"chart-abc","KEY":"data-"},"inputs":{"VALUE":{"block":{...}}}` | `Blinker_chart.upload(key,value);` |
 | `blinker_print` | 语句块 | DATA(input_value) | `"inputs":{"DATA":{"block":{...}}}` | `Blinker.print(data);` |
 | `blinker_delay` | 语句块 | TIME(input_value) | `"inputs":{"TIME":{"block":{...}}}` | `Blinker.delay(time);` |
 | `blinker_vibrate` | 语句块 | TIME(input_value) | `"inputs":{"TIME":{"block":{...}}}` | `Blinker.vibrate(time);` |
@@ -53,8 +53,9 @@
 - **Hat块**: 无连接属性，通过`inputs`连接内部语句，作为回调函数
 - **特殊规则**: 
   - blinker_init_wifi根据MODE字段动态显示配置输入
-  - 组件键名必须符合Blinker命名规范（如btn-、ran-、col-等前缀）
+  - 组件键名必须符合Blinker命名规范（如btn-、ran-、col-、chart-等前缀）
   - Hat块会自动生成对应的回调函数和组件对象
+  - blinker_chart定义图表组件回调，在回调中使用blinker_chart_data_upload上传数据
   - 初始化块会自动添加`Blinker.run()`到loop中，无需手动调用
   - WiFi初始化在ESP32平台支持单参数模式（仅需密钥）
   - blinker_widget_print支持mutator动态添加输入，通过extraState.itemCount设置输入数量，自动创建未注册的组件
@@ -100,12 +101,38 @@
 }
 ```
 
+### 图表数据上传
+```json
+{
+  "type": "blinker_chart",
+  "id": "chart_data",
+  "fields": {"KEY": "chart-temp"},
+  "inputs": {
+    "NAME": {
+      "block": {
+        "type": "blinker_chart_data_upload",
+        "fields": {"CHART": "chart-temp", "KEY": "data-temp"},
+        "inputs": {
+          "VALUE": {
+            "block": {
+              "type": "dht_read_temperature",
+              "fields": {"VAR": {"id": "dht_var", "name": "dht", "type": "DHT"}}
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
 ## 重要规则
 
-1. **必须遵守**: 组件键名必须唯一，遵循Blinker命名规范（btn-按钮、ran-滑块、col-调色板等）
+1. **必须遵守**: 组件键名必须唯一，遵循Blinker命名规范（btn-按钮、ran-滑块、col-调色板、chart-图表等）
 2. **连接限制**: 初始化块必须在setup中调用，会自动添加Blinker.run()到loop
-3. **动态输入**: blinker_widget_print使用extraState.itemCount控制输入数量，支持链式调用
-4. **常见错误**: ❌ 重复使用相同键名，❌ 在WiFi未连接前调用数据上传，❌ 手动添加Blinker.run()造成重复
+3. **图表使用**: blinker_chart定义图表回调，在回调内使用blinker_chart_data_upload上传数据，CHART字段需与图表KEY匹配
+4. **动态输入**: blinker_widget_print使用extraState.itemCount控制输入数量，支持链式调用
+5. **常见错误**: ❌ 重复使用相同键名，❌ 在WiFi未连接前调用数据上传，❌ 手动添加Blinker.run()造成重复，❌ blinker_chart_data_upload的CHART字段与图表KEY不匹配
 
 ## 支持的字段选项
 - **MODE(配网模式)**: "手动配网", "EspTouchV2"

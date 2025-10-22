@@ -380,7 +380,7 @@ Arduino.forBlock['blinker_chart'] = function (block, generator) {
   return '';
 };
 
-Arduino.forBlock['blinker_data_upload'] = function (block, generator) {
+Arduino.forBlock['blinker_chart_data_upload'] = function (block, generator) {
   // 获取图表名称和数据键名
   let chartKey = block.getFieldValue('CHART');
   let dataKey = block.getFieldValue('KEY');
