@@ -3,6 +3,11 @@ Arduino.forBlock['custom_code'] = function (block, generator) {
     return code + '\n';
 };
 
+Arduino.forBlock['custom_code2'] = function (block, generator) {
+    const code = block.getFieldValue('CODE');
+    return [code, generator.ORDER_ATOMIC];
+};
+
 Arduino.forBlock['custom_macro'] = function (block, generator) {
     const name = block.getFieldValue('NAME');
     const value = block.getFieldValue('VALUE');
