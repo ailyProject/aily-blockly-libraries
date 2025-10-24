@@ -1,0 +1,148 @@
+[
+    {
+        "type": "capacitivesensor_create",
+        "message0": "创建电容传感器 %1 发送引脚 %2 接收引脚 %3",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "sensor"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "SEND",
+                "options": "${board.digitalPins}"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "RECV",
+                "options": "${board.digitalPins}"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9B59B6",
+        "tooltip": "创建电容式触摸传感器对象，指定发送和接收引脚"
+    },
+    {
+        "type": "capacitivesensor_read",
+        "message0": "电容传感器 %1 读取滤波值 样本数 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "sensor",
+                "variableTypes": ["CapacitiveSensor"],
+                "defaultType": "CapacitiveSensor"
+            },
+            {
+                "type": "input_value",
+                "name": "SAMPLES",
+                "check": ["Number"]
+            }
+        ],
+        "output": "Number",
+        "colour": "#9B59B6",
+        "tooltip": "读取去除基线后的触摸值，样本数越大越稳定"
+    },
+    {
+        "type": "capacitivesensor_read_raw",
+        "message0": "电容传感器 %1 读取原始值 样本数 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "sensor",
+                "variableTypes": ["CapacitiveSensor"],
+                "defaultType": "CapacitiveSensor"
+            },
+            {
+                "type": "input_value",
+                "name": "SAMPLES",
+                "check": ["Number"]
+            }
+        ],
+        "output": "Number",
+        "colour": "#9B59B6",
+        "tooltip": "读取未经基线校正的原始电容值"
+    },
+    {
+        "type": "capacitivesensor_set_timeout",
+        "message0": "电容传感器 %1 设置超时时间 %2 毫秒",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "sensor",
+                "variableTypes": ["CapacitiveSensor"],
+                "defaultType": "CapacitiveSensor"
+            },
+            {
+                "type": "input_value",
+                "name": "TIMEOUT",
+                "check": ["Number"]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9B59B6",
+        "tooltip": "配置充放电循环的超时时间，防止在强干扰下无限等待"
+    },
+    {
+        "type": "capacitivesensor_set_autocal",
+        "message0": "电容传感器 %1 设置自动校准间隔 %2 毫秒",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "sensor",
+                "variableTypes": ["CapacitiveSensor"],
+                "defaultType": "CapacitiveSensor"
+            },
+            {
+                "type": "input_value",
+                "name": "INTERVAL",
+                "check": ["Number"]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9B59B6",
+        "tooltip": "设置自动基线校准间隔，0表示关闭自动校准"
+    },
+    {
+        "type": "capacitivesensor_reset_autocal",
+        "message0": "电容传感器 %1 重置自动校准",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "sensor",
+                "variableTypes": ["CapacitiveSensor"],
+                "defaultType": "CapacitiveSensor"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9B59B6",
+        "tooltip": "立即重置基线，常用于启动时或传感器状态变化后"
+    },
+    {
+        "type": "capacitivesensor_wiring_hint",
+        "message0": "接线参考 %1",
+        "args0": [
+            {
+                "type": "field_image",
+                "src": "1.JPG",
+                "width": 300,
+                "height": 300,
+                "alt": "CapacitiveSensor Wiring"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9B59B6",
+        "tooltip": "参考电容触摸传感器的发送/接收引脚与电阻连接方式，不生成代码",
+        "extensions": ["capacitivesensor_wiring_hint_image"]
+    }
+]
