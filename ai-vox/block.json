@@ -1,17 +1,73 @@
 [
     {
-        "inputsInline": true,
-        "message0": "初始化 AI-VOX 网络 SSID %1 PASSWORD %2 ",
-        "type": "aivox_init_wifi",
+        "message0": "初始化 AI-VOX WIFI模式 %1",
+        "type": "aivox3_init_wifi",
         "args0": [
-            {"type": "input_value","name": "wifi_ssid","text": "areararear"},
-            {"type": "input_value","name": "wifi_pwd","text": "String"}
-
+    
+            {
+                "type": "field_dropdown",
+                "name": "MODE",
+                "options": [
+                    [
+                        "手动配网",
+                        "Manual"
+                    ]
+                ]
+            }
         ],
+        "extensions":["aivox3_init_wifi_extension"],
         "previousStatement": null,
         "nextStatement": null,
         "colour": "#4CAF50"
     },
+    {
+        "type": "aivox3_get_wifi_state",
+        "message0": "获取AI-VOX3网络连接状态",
+        "output": "auto",
+        "colour": "#4CAF50",
+        "tooltip": "获取AI-VOX3网络连接状态",
+        "helpUrl": ""
+    },
+    {
+        "message0": "AI-VOX3 %1",
+        "type": "aivox3_wifi_state",
+        "args0": [
+    
+            {
+                "type": "field_dropdown",
+                "name": "STATE",
+                "options": [
+                    [
+                        " WIFI连接中",
+                        "kConnecting"
+                    ],
+                    [
+                        "配网模式",
+                        "kSmartConfiguring"
+                    ],
+                    [
+                        " WIFI连接完成",
+                        "kFinished"
+                    ]
+                ]
+            }
+        ],
+        "output": "auto",
+        "colour": "#4CAF50",
+        "tooltip": "AI-VOX3网络连接状态",
+        "helpUrl": ""
+    },
+    {
+        "type": "aivox3_init_es8311",
+        "extensions":["aivox3_init_es8311_extension"],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "初始化AI-VOX3引擎ES8311模块",
+        "helpUrl": ""
+    },
+
     {
         "type": "aivox_init_std",
         "extensions":["aivox_init_std_extension"],
@@ -30,6 +86,16 @@
         "nextStatement": null,
         "colour": "#4CAF50",
         "tooltip": "初始化AI-VOX屏幕，使用ST7789驱动。",
+        "helpUrl": ""
+    },
+    {
+        "type": "aivox3_init_lcd",
+        "extensions":["aivox3_init_lcd_extension"],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "初始化AI-VOX3屏幕，使用ST7789驱动。",
         "helpUrl": ""
     },
     {

@@ -1,32 +1,38 @@
 {
     "kind": "category",
-    "name": "AI Vox",
+    "name": "AI-VOX3",
     "icon": "fa-light fa-message-bot",
     "contents": [
         {
             "kind": "block",
-            "type": "aivox_init_wifi",
+            "type": "aivox3_init_wifi"
+        },
+        {
+            "kind": "block",
+            "type": "aivox3_get_wifi_state"
+        },
+        {   "kind": "block",
+            "type": "aivox3_wifi_state"
+        },
+        {
+            "kind": "block",
+            "type": "aivox3_init_es8311"
+        },
+        {
+            "kind": "block",
+            "type": "aivox3_set_es8311_volume",
             "inputs": 
-                {
-                    "wifi_ssid": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "test"
-                            }
-                        }
-                    },
-                    "wifi_pwd": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "12345678"
-                            }
+            {
+                "aivox3_es8311_volume": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 100
                         }
                     }
                 }
+            }
         },
-  
         {
             "kind": "block",
             "type": "aivox_init_std"
@@ -35,17 +41,59 @@
             "kind": "block",
             "type": "aivox_init_lcd"
         },
+        {
+            "kind": "block",
+            "type": "aivox_config_ota_url",
+            "inputs": 
+                {
+                    "ai_vox_ota_url": {
+                        "shadow": {
+                            "type": "text",
+                            "fields": {
+                                "TEXT": "https://api.tenclass.net/xiaozhi/ota/"
+                            }
+                        }
+                    }
+                }
+        },
+        {
+            "kind": "block",
+            "type": "aivox_config_websocket",
+            "inputs": 
+                {
+                    "ai_vox_websocket_url": {
+                        "shadow": {
+                            "type": "text",
+                            "fields": {
+                                "TEXT": "wss://api.tenclass.net/xiaozhi/v1/"
+                            }
+                        }
+                    },
+                    "ai_vox_websocket_param": {
+                        "shadow": {
+                            "type": "text",
+                            "fields": {
+                                "TEXT": "{{\"Authorization\", \"Bearer test-token\"}}"
+                            }
+                        }
+                    }
 
+                }
+        },
+        {
+            "kind": "block",
+            "type": "aivox3_start_engine"
+        },
         {
             "kind": "block",
             "type": "aivox_lcd_show_status",
             "inputs": 
                 {
-                    "ai_vox_status": {
+                    "ai_vox_content": {
                         "shadow": {
                             "type": "text",
                             "fields": {
-                                "TEXT": "test"
+                                "TEXT": "连接中"
                             }
                         }
                     }
@@ -53,14 +101,18 @@
         },
         {
             "kind": "block",
-            "type": "aivox_lcd_show_chat_message",
+            "type": "aivox_mcp_register_control_command"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_mcp_control",
             "inputs": 
                 {
-                    "ai_vox_chat_message": {
+                    "DESC": {
                         "shadow": {
                             "type": "text",
                             "fields": {
-                                "TEXT": "test"
+                                "TEXT": "LED, true for on, false for off"
                             }
                         }
                     }
@@ -68,14 +120,66 @@
         },
         {
             "kind": "block",
-            "type": "aivox_lcd_show_emotion",
+            "type": "aivox_mcp_control_param"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_loop_activation"
+        },
+        {
+            "kind": "block",
+            "type": "get_aivox_activation_code"
+        },
+        {
+            "kind": "block",
+            "type": "get_aivox_activation_msg"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_loop_emotion"
+        },
+        {
+            "kind": "block",
+            "type": "get_aivox_emotion_result"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_emotion"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_emotion_list"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_loop_state_change"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_state"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_loop_chat_message"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_loop_chat_message_role_var"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_loop_chat_message_msg_var"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_display_wchat_content",
             "inputs": 
                 {
-                    "ai_vox_emotion": {
+                    "content": {
                         "shadow": {
                             "type": "text",
                             "fields": {
-                                "TEXT": "test"
+                                "TEXT": "你好"
                             }
                         }
                     }
@@ -83,396 +187,35 @@
         },
         {
             "kind": "block",
-            "type": "aivox_register_led_driver_status",
-            "inputs": 
-                {
-                    "driver_name": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "test"
-                            }
-                        }
-                    },
-                    "driver_num": {
-                        "shadow": {
-                            "type": "math_number",
-                            "fields": {
-                                "NUM": 1
-                            }
-                        }
-                    },
-                    "driver_properties": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "test"
-                            }
-                        }
-                    },
-                    "driver_open": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "test"
-                            }
-                        }
-                    },
-                    "driver_close": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "test"
-                            }
+            "type": "aivox_loop_mcp"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_get_iot_message_event_name_new"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_control_message_event_fuction"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_response_mcp_control_result_new"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_update_mcp_control_state_new",
+            "inputs": {
+                "STATE": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "nulllab"
                         }
                     }
                 }
-            
-        },
-        {
-            "kind": "block",
-            "type": "aivox_register_servo_driver_status",
-            "inputs": 
-                {
-                    "driver_name": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "test"
-                            }
-                        }
-                    },
-                    "driver_num": {
-                        "shadow": {
-                            "type": "math_number",
-                            "fields": {
-                                "NUM": 1
-                            }
-                        }
-                    },
-                    "driver_properties": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "test"
-                            }
-                        }
-                    }
-                }
-            
-        },
-        {
-            "kind": "block",
-            "type": "aivox_register_ultrasonic_sensor_driver_status",
-            "inputs": 
-                {
-                    "driver_name": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "test"
-                            }
-                        }
-                    },
-                    "driver_properties": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "test"
-                            }
-                        }
-                    }
-                }
-            
-        },
-        {
-            "kind": "block",
-            "type": "aivox_register_dht11_sensor_driver_status",
-            "inputs": 
-                {
-                    "dht11_temp_name": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "test"
-                            }
-                        }
-                    },
-                    "temp_properties": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "test"
-                            }
-                        }
-                    },
-                     "dht11_humidity_name": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "test"
-                            }
-                        }
-                    },
-                    "humidity_properties": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "test"
-                            }
-                        }
-                    }
-                }
-            
-        },
-        {
-            "kind": "block",
-            "type": "aivox_register_analog_sensor_driver_status",
-            "inputs": 
-                {
-                    "aivox_analog_name": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "ultrasonic"
-                            }
-                        }
-                    },
-                    "aivox_analog_desc": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "abc"
-                            }
-                        }
-                    },
-                    "aivox_analog_status": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "abc"
-                            }
-                        }
-                    }
-                }
-        },
-   
-
-        {
-            "kind": "block",
-            "type": "aivox_loop"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_event_is_activation"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_get_activation_message"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_get_activation_code"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_event_is_state_change"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_get_new_state"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_get_old_state"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_state_enum"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_event_is_emotion"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_get_emotion"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_event_is_chat_message"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_get_chat_role"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_chat_role_enum"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_get_chat_content"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_event_is_iot_message"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_get_iot_message_event_name"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_get_iot_led_message_event_fuction"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_get_iot_servo_message_event_fuction"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_get_iot_servo_message"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_update_led_iot_state",
-            "inputs": 
-                {
-                    "aivox_drive": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "LED"
-                            }
-                        }
-                    },
-                    "aivox_drive_state": {
-                        "shadow": {
-                            "type": "logic_boolean",
-                            "fields": {
-                                "BOOL": "true"
-                            }
-                        }
-                    }
-                }
-        },
-        
-        {
-            "kind": "block",
-            "type": "aivox_update_servo_iot_state",
-            "inputs": 
-                {
-                    "aivox_drive": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "LED"
-                            }
-                        }
-                    },
-                    "aivox_drive_state": {
-                        "shadow": {
-                            "type": "math_number",
-                            "fields": {
-                                "NUM": 90
-                            }
-                        }
-                    }
-                }
-        },
-        {
-            "kind": "block",
-            "type": "aivox_update_all_servo_iot_state",
-            "inputs": 
-                {
-                    "aivox_servo_num": {
-                        "shadow": {
-                            "type": "math_number",
-                            "fields": {
-                                "NUM": 2
-                            }
-                        }
-                    },
-                    "aivox_drive_state": {
-                        "shadow": {
-                            "type": "math_number",
-                            "fields": {
-                                "NUM": 90
-                            }
-                        }
-                    }
-                }
-        },
-        {
-            "kind": "block",
-            "type": "aivox_update_ultrasonic_iot_state",
-            "inputs": 
-                {
-                    "aivox_ultrasonic": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "ultrasonic"
-                            }
-                        }
-                    },
-                    "aivox_ultrasonic_distance": {
-                        "shadow": {
-                            "type": "math_number",
-                            "fields": {
-                                "NUM": 12345678
-                            }
-                        }
-                    }
-                }
-        },
-        
-        {
-            "kind": "block",
-            "type": "aivox_update_dht11_iot_state",
-            "inputs": 
-                {
-                    "aivox_dht11": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "LED"
-                            }
-                        }
-                    },
-                    "aivox_dnt11_value": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "12345678"
-                            }
-                        }
-                    }
-                }
-        },
-        {
-            "kind": "block",
-            "type": "aivox_update_analog_sensor_iot_state",
-            "inputs": 
-                {
-                    "aivox_analog_sensor_name": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "LED"
-                            }
-                        }
-                    },
-                    "aivox_analog_sensor_value": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "12345678"
-                            }
-                        }
-                    }
-                }
+            }
         }
+        
+      
     ]
 }
