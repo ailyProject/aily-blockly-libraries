@@ -16,4 +16,4 @@ AI-VOX引脚配置说明：
 | 显示屏CLK                            | GPIO16 |
 | 显示屏DC                             | GPIO12 |
 | 显示屏RST                            | GPIO21 |
-| 显示屏CS | GPIO15 |
+| 显示屏CS                             | GPIO15 |
