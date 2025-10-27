@@ -1,0 +1,237 @@
+{
+    "kind": "category",
+    "name": "SSCMA AI",
+    "colour": "#2E7D32",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "初始化"
+        },
+        {
+            "kind": "block",
+            "type": "sscma_init"
+        },
+        {
+            "kind": "block",
+            "type": "sscma_init_i2c",
+            "inputs": {
+                "RST": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": -1
+                        }
+                    }
+                },
+                "ADDR": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 98
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "sscma_init_spi",
+            "inputs": {
+                "CS": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": -1
+                        }
+                    }
+                },
+                "SYNC": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": -1
+                        }
+                    }
+                },
+                "RST": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": -1
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "AI推理"
+        },
+        {
+            "kind": "block",
+            "type": "sscma_invoke",
+            "inputs": {
+                "TIMES": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "sscma_invoke_success"
+        },
+        {
+            "kind": "label",
+            "text": "目标检测(Boxes)"
+        },
+        {
+            "kind": "block",
+            "type": "sscma_boxes_size"
+        },
+        {
+            "kind": "block",
+            "type": "sscma_box_property",
+            "inputs": {
+                "INDEX": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "分类(Classes)"
+        },
+        {
+            "kind": "block",
+            "type": "sscma_classes_size"
+        },
+        {
+            "kind": "block",
+            "type": "sscma_class_property",
+            "inputs": {
+                "INDEX": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "点检测(Points)"
+        },
+        {
+            "kind": "block",
+            "type": "sscma_points_size"
+        },
+        {
+            "kind": "block",
+            "type": "sscma_point_property",
+            "inputs": {
+                "INDEX": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "关键点检测(Keypoints)"
+        },
+        {
+            "kind": "block",
+            "type": "sscma_keypoints_size"
+        },
+        {
+            "kind": "block",
+            "type": "sscma_keypoint_box",
+            "inputs": {
+                "INDEX": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "sscma_keypoint_points_size",
+            "inputs": {
+                "INDEX": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "sscma_keypoint_point",
+            "inputs": {
+                "GROUP_INDEX": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                },
+                "POINT_INDEX": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "性能与信息"
+        },
+        {
+            "kind": "block",
+            "type": "sscma_perf"
+        },
+        {
+            "kind": "block",
+            "type": "sscma_get_id"
+        },
+        {
+            "kind": "block",
+            "type": "sscma_get_name"
+        },
+        {
+            "kind": "block",
+            "type": "sscma_get_info"
+        },
+        {
+            "kind": "block",
+            "type": "sscma_get_image"
+        }
+    ]
+}
