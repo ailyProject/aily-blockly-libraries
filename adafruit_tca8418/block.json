@@ -1,0 +1,345 @@
+[
+  {
+    "type": "tca8418_create",
+    "message0": "创建 TCA8418 键盘矩阵/GPIO扩展器 变量 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "keypad"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0066CC",
+    "tooltip": "创建TCA8418键盘矩阵/GPIO扩展器对象"
+  },
+  {
+    "type": "tca8418_begin",
+    "message0": "初始化 %1 I2C地址 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keypad",
+        "variableTypes": ["Adafruit_TCA8418"],
+        "defaultType": "Adafruit_TCA8418"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0066CC",
+    "tooltip": "初始化TCA8418设备"
+  },
+  {
+    "type": "tca8418_matrix",
+    "message0": "设置 %1 键盘矩阵 行数 %2 列数 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keypad",
+        "variableTypes": ["Adafruit_TCA8418"],
+        "defaultType": "Adafruit_TCA8418"
+      },
+      {
+        "type": "input_value",
+        "name": "ROWS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLUMNS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0066CC",
+    "tooltip": "配置键盘矩阵的行数和列数"
+  },
+  {
+    "type": "tca8418_available",
+    "message0": "%1 可用按键事件数量",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keypad",
+        "variableTypes": ["Adafruit_TCA8418"],
+        "defaultType": "Adafruit_TCA8418"
+      }
+    ],
+    "output": "Number",
+    "colour": "#0066CC",
+    "tooltip": "获取FIFO缓冲区中可用的事件数量"
+  },
+  {
+    "type": "tca8418_get_event",
+    "message0": "%1 获取按键事件",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keypad",
+        "variableTypes": ["Adafruit_TCA8418"],
+        "defaultType": "Adafruit_TCA8418"
+      }
+    ],
+    "output": "Number",
+    "colour": "#0066CC",
+    "tooltip": "从FIFO缓冲区获取一个按键事件"
+  },
+  {
+    "type": "tca8418_flush",
+    "message0": "清空 %1 事件缓冲区",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keypad",
+        "variableTypes": ["Adafruit_TCA8418"],
+        "defaultType": "Adafruit_TCA8418"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0066CC",
+    "tooltip": "清空FIFO缓冲区中的所有事件"
+  },
+  {
+    "type": "tca8418_pin_mode",
+    "message0": "设置 %1 引脚 %2 模式 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keypad",
+        "variableTypes": ["Adafruit_TCA8418"],
+        "defaultType": "Adafruit_TCA8418"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["输入", "INPUT"],
+          ["输出", "OUTPUT"],
+          ["输入上拉", "INPUT_PULLUP"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0066CC",
+    "tooltip": "设置GPIO引脚模式"
+  },
+  {
+    "type": "tca8418_digital_read",
+    "message0": "读取 %1 引脚 %2 电平",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keypad",
+        "variableTypes": ["Adafruit_TCA8418"],
+        "defaultType": "Adafruit_TCA8418"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN",
+        "check": "Number"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#0066CC",
+    "tooltip": "读取GPIO引脚电平状态"
+  },
+  {
+    "type": "tca8418_digital_write",
+    "message0": "设置 %1 引脚 %2 电平 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keypad",
+        "variableTypes": ["Adafruit_TCA8418"],
+        "defaultType": "Adafruit_TCA8418"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "LEVEL",
+        "options": [
+          ["高电平", "HIGH"],
+          ["低电平", "LOW"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0066CC",
+    "tooltip": "设置GPIO引脚输出电平"
+  },
+  {
+    "type": "tca8418_enable_interrupts",
+    "message0": "启用 %1 中断",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keypad",
+        "variableTypes": ["Adafruit_TCA8418"],
+        "defaultType": "Adafruit_TCA8418"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0066CC",
+    "tooltip": "启用矩阵和GPIO引脚的中断"
+  },
+  {
+    "type": "tca8418_disable_interrupts",
+    "message0": "禁用 %1 中断",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keypad",
+        "variableTypes": ["Adafruit_TCA8418"],
+        "defaultType": "Adafruit_TCA8418"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0066CC",
+    "tooltip": "禁用矩阵和GPIO引脚的中断"
+  },
+  {
+    "type": "tca8418_enable_debounce",
+    "message0": "启用 %1 按键消抖",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keypad",
+        "variableTypes": ["Adafruit_TCA8418"],
+        "defaultType": "Adafruit_TCA8418"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0066CC",
+    "tooltip": "启用按键消抖功能"
+  },
+  {
+    "type": "tca8418_disable_debounce",
+    "message0": "禁用 %1 按键消抖",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keypad",
+        "variableTypes": ["Adafruit_TCA8418"],
+        "defaultType": "Adafruit_TCA8418"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0066CC",
+    "tooltip": "禁用按键消抖功能"
+  },
+  {
+    "type": "tca8418_when_key_event",
+    "message0": "当 %1 有按键事件时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keypad",
+        "variableTypes": ["Adafruit_TCA8418"],
+        "defaultType": "Adafruit_TCA8418"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#0066CC",
+    "tooltip": "当有按键事件时执行代码"
+  },
+  {
+    "type": "tca8418_current_event",
+    "message0": "%1 当前按键事件",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keypad",
+        "variableTypes": ["Adafruit_TCA8418"],
+        "defaultType": "Adafruit_TCA8418"
+      }
+    ],
+    "output": "Number",
+    "colour": "#0066CC",
+    "tooltip": "获取自动保存的当前按键事件（仅在事件处理积木块内使用）"
+  },
+  {
+    "type": "tca8418_get_event_row",
+    "message0": "按键事件 %1 的行号",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "EVENT",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#0066CC",
+    "tooltip": "从按键事件中提取行号(0-7)"
+  },
+  {
+    "type": "tca8418_get_event_col",
+    "message0": "按键事件 %1 的列号",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "EVENT",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#0066CC",
+    "tooltip": "从按键事件中提取列号(0-9)"
+  },
+  {
+    "type": "tca8418_get_event_pressed",
+    "message0": "按键事件 %1 是按下",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "EVENT",
+        "check": "Number"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#0066CC",
+    "tooltip": "从按键事件中判断是按下(true)还是释放(false)"
+  }
+]
