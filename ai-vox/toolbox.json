@@ -4,19 +4,12 @@
     "icon": "fa-light fa-message-bot",
     "contents": [
         {
-            "kind": "block",
-            "type": "aivox3_init_wifi"
+            "kind": "label",
+            "text": "控制"
         },
         {
             "kind": "block",
-            "type": "aivox3_get_wifi_state"
-        },
-        {   "kind": "block",
-            "type": "aivox3_wifi_state"
-        },
-        {
-            "kind": "block",
-            "type": "aivox3_init_es8311"
+            "type": "aivox3_start_engine"
         },
         {
             "kind": "block",
@@ -35,11 +28,158 @@
         },
         {
             "kind": "block",
-            "type": "aivox_init_std"
+            "type": "aivox_lcd_show_status",
+            "inputs": 
+                {
+                    "ai_vox_content": {
+                        "shadow": {
+                            "type": "text",
+                            "fields": {
+                                "TEXT": "连接中"
+                            }
+                        }
+                    }
+                }
         },
         {
             "kind": "block",
+            "type": "aivox_loop_state_change"
+        },
+        {
+            "kind": "label",
+            "text": "初始化"
+        },
+        {
+            "kind": "block",
+            "type": "aivox3_init_wifi"
+        },
+        {   "kind": "block",
+            "type": "aivox3_wifi_state"
+        },
+        {
+            "kind": "block",
+            "type": "aivox3_init_es8311"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_init_mic"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_init_audio"
+        },
+        
+        {
+            "kind": "block",
             "type": "aivox_init_lcd"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_display_mode"
+        },
+        
+        {
+            "kind": "label",
+            "text": "事件"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_loop_activation"
+        },
+        {
+            "kind": "block",
+            "type": "get_aivox_activation_message"
+        },
+ 
+        {
+            "kind": "block",
+            "type": "aivox_loop_emotion"
+        },
+        {
+            "kind": "block",
+            "type": "get_aivox_emotion_result"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_emotion"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_emotion_list"
+        },
+
+        {
+            "kind": "block",
+            "type": "aivox_loop_chat_message"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_loop_chat_message_role_var"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_loop_chat_message_msg_var"
+        },
+        {
+            "kind": "label",
+            "text": "MCP"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_mcp_register_control_command"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_mcp_control",
+            "inputs": 
+                {
+                    "DESC": {
+                        "shadow": {
+                            "type": "text",
+                            "fields": {
+                                "TEXT": "LED, true for on, false for off"
+                            }
+                        }
+                    }
+                }
+        },
+        {
+            "kind": "block",
+            "type": "aivox_mcp_control_param"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_loop_mcp"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_get_iot_message_event_name_new"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_control_message_event_fuction"
+        },
+        {
+            "kind": "block",
+            "type": "aivox_update_mcp_control_state_new",
+            "inputs": {
+                "STATE": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "nulllab"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "aivox_response_mcp_control_result_new"
+        },
+        {
+            "kind": "label",
+            "text": "自定义"
         },
         {
             "kind": "block",
@@ -79,143 +219,8 @@
                     }
 
                 }
-        },
-        {
-            "kind": "block",
-            "type": "aivox3_start_engine"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_lcd_show_status",
-            "inputs": 
-                {
-                    "ai_vox_content": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "连接中"
-                            }
-                        }
-                    }
-                }
-        },
-        {
-            "kind": "block",
-            "type": "aivox_mcp_register_control_command"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_mcp_control",
-            "inputs": 
-                {
-                    "DESC": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "LED, true for on, false for off"
-                            }
-                        }
-                    }
-                }
-        },
-        {
-            "kind": "block",
-            "type": "aivox_mcp_control_param"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_loop_activation"
-        },
-        {
-            "kind": "block",
-            "type": "get_aivox_activation_code"
-        },
-        {
-            "kind": "block",
-            "type": "get_aivox_activation_msg"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_loop_emotion"
-        },
-        {
-            "kind": "block",
-            "type": "get_aivox_emotion_result"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_emotion"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_emotion_list"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_loop_state_change"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_state"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_loop_chat_message"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_loop_chat_message_role_var"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_loop_chat_message_msg_var"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_display_wchat_content",
-            "inputs": 
-                {
-                    "content": {
-                        "shadow": {
-                            "type": "text",
-                            "fields": {
-                                "TEXT": "你好"
-                            }
-                        }
-                    }
-                }
-        },
-        {
-            "kind": "block",
-            "type": "aivox_loop_mcp"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_get_iot_message_event_name_new"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_control_message_event_fuction"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_response_mcp_control_result_new"
-        },
-        {
-            "kind": "block",
-            "type": "aivox_update_mcp_control_state_new",
-            "inputs": {
-                "STATE": {
-                    "shadow": {
-                        "type": "text",
-                        "fields": {
-                            "TEXT": "nulllab"
-                        }
-                    }
-                }
-            }
         }
-        
+
       
     ]
 }

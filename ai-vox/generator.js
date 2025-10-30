@@ -3,14 +3,12 @@ if (Blockly.Extensions.isRegistered('aivox3_init_wifi_extension')) {
   Blockly.Extensions.unregister('aivox3_init_wifi_extension');
 }
 
-if (Blockly.Extensions.isRegistered('aivox_init_std_extension')) {
-  Blockly.Extensions.unregister('aivox_init_std_extension');
+if (Blockly.Extensions.isRegistered('aivox_init_mic_extension')) {
+  Blockly.Extensions.unregister('aivox_init_mic_extension');
 }
 
-
-
-if (Blockly.Extensions.isRegistered('aivox3_init_lcd_extension')) {
-  Blockly.Extensions.unregister('aivox3_init_lcd_extension');
+if (Blockly.Extensions.isRegistered('aivox_init_audio_extension')) {
+  Blockly.Extensions.unregister('aivox_init_audio_extension');
 }
 
 if (Blockly.Extensions.isRegistered('aivox3_init_es8311_extension')) {
@@ -21,53 +19,108 @@ if (Blockly.Extensions.isRegistered('aivox3_mcp_control_param_extension')) {
   Blockly.Extensions.unregister('aivox3_mcp_control_param_extension');
 }
 
-Blockly.Extensions.register('aivox_init_std_extension', function () {
+var bclkPinList = [["GPIO5","5"],["GPIO0","0"],["GPIO1","1"],["GPIO2","2"],["GPIO3","3"],["GPIO4","4"],["GPIO5","5"],["GPIO6","6"],["GPIO7","7"],["GPIO8","8"],["GPIO9","9"],["GPIO10","10"],["GPIO11","11"],["GPIO12","12"],["GPIO13","13"],["GPIO14","14"],["GPIO15","15"],["GPIO16","16"],["GPIO17","17"],["GPIO18","18"],["GPIO19","19"],["GPIO20","20"],["GPIO21","21"],["GPIO35","35"],["GPIO36","36"],["GPIO37","37"],["GPIO38","38"],["GPIO39","39"],["GPIO40","40"],["GPIO41","41"],["GPIO42","42"],["GPIO43","43"],["GPIO44","44"],["GPIO45","45"],["GPIO46","46"],["GPIO47","47"],["GPIO48","48"]];
+var wsPinList = [["GPIO2","2"],["GPIO0","0"],["GPIO1","1"],["GPIO2","2"],["GPIO3","3"],["GPIO4","4"],["GPIO5","5"],["GPIO6","6"],["GPIO7","7"],["GPIO8","8"],["GPIO9","9"],["GPIO10","10"],["GPIO11","11"],["GPIO12","12"],["GPIO13","13"],["GPIO14","14"],["GPIO15","15"],["GPIO16","16"],["GPIO17","17"],["GPIO18","18"],["GPIO19","19"],["GPIO20","20"],["GPIO21","21"],["GPIO35","35"],["GPIO36","36"],["GPIO37","37"],["GPIO38","38"],["GPIO39","39"],["GPIO40","40"],["GPIO41","41"],["GPIO42","42"],["GPIO43","43"],["GPIO44","44"],["GPIO45","45"],["GPIO46","46"],["GPIO47","47"],["GPIO48","48"]];
+var micDinPinList = [["GPIO4","4"],["GPIO0","0"],["GPIO1","1"],["GPIO2","2"],["GPIO3","3"],["GPIO4","4"],["GPIO5","5"],["GPIO6","6"],["GPIO7","7"],["GPIO8","8"],["GPIO9","9"],["GPIO10","10"],["GPIO11","11"],["GPIO12","12"],["GPIO13","13"],["GPIO14","14"],["GPIO15","15"],["GPIO16","16"],["GPIO17","17"],["GPIO18","18"],["GPIO19","19"],["GPIO20","20"],["GPIO21","21"],["GPIO35","35"],["GPIO36","36"],["GPIO37","37"],["GPIO38","38"],["GPIO39","39"],["GPIO40","40"],["GPIO41","41"],["GPIO42","42"],["GPIO43","43"],["GPIO44","44"],["GPIO45","45"],["GPIO46","46"],["GPIO47","47"],["GPIO48","48"]];
+// var doutPinList = [["GPIO9","9"],["GPIO0","0"],["GPIO1","1"],["GPIO2","2"],["GPIO3","3"],["GPIO4","4"],["GPIO5","5"],["GPIO6","6"],["GPIO7","7"],["GPIO8","8"],["GPIO9","9"],["GPIO10","10"],["GPIO11","11"],["GPIO12","12"],["GPIO13","13"],["GPIO14","14"],["GPIO15","15"],["GPIO16","16"],["GPIO17","17"],["GPIO18","18"],["GPIO19","19"],["GPIO20","20"],["GPIO21","21"],["GPIO35","35"],["GPIO36","36"],["GPIO37","37"],["GPIO38","38"],["GPIO39","39"],["GPIO40","40"],["GPIO41","41"],["GPIO42","42"],["GPIO43","43"],["GPIO44","44"],["GPIO45","45"],["GPIO46","46"],["GPIO47","47"],["GPIO48","48"]];
+
+Blockly.Extensions.register('aivox_init_mic_extension', function () {
   // 直接在扩展中添加updateShape_函数
   this.updateShape_ = function (boardType) {
     if(boardType.indexOf('aivox') > -1) {
         this.appendDummyInput('')
-        .appendField("初始化 AI-VOX (标准I2S) 麦克风引脚 BCLK")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO5", "5"]]), "MIC_BCLK")
-        .appendField("WS")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO2", "2"]]), "MIC_WS")
-        .appendField("DIN")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO4", "4"]]), "MIC_DIN")   
-         this.appendDummyInput('')
-          .appendField("扬声器功放引脚 BCLK")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO13", "13"]]), "SPK_BCLK")
-        .appendField("WS")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO14", "14"]]), "SPK_WS")
-        .appendField("DOUT")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO1", "1"]]), "SPK_DOUT") 
-         this.appendDummyInput('')
-          .appendField("触发引脚Trigger")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO0", "0"]]), "TRIGGER_PIN")    
+        .appendField("初始化标准I2S麦克风引脚 BCLK")
+        .appendField(new Blockly.FieldDropdown(bclkPinList), "MIC_BCLK")
+        .appendField("WS引脚")
+        .appendField(new Blockly.FieldDropdown(wsPinList), "MIC_WS")
+        .appendField("DIN引脚")
+        .appendField(new Blockly.FieldDropdown(micDinPinList), "MIC_DIN")   
+        //  this.appendDummyInput('')
+        //   .appendField("扬声器BCLK引脚")
+        // .appendField(new Blockly.FieldDropdown([
+        //     ["GPIO13", "13"]]), "SPK_BCLK")
+        // .appendField("WS引脚")
+        // .appendField(new Blockly.FieldDropdown([
+        //     ["GPIO14", "14"]]), "SPK_WS")
+        // .appendField("DOUT引脚")
+        // .appendField(new Blockly.FieldDropdown([
+        //     ["GPIO1", "1"]]), "SPK_DOUT") 
+        //  this.appendDummyInput('')
+        //   .appendField("Trigger触发引脚")
+        // .appendField(new Blockly.FieldDropdown([
+        //     ["GPIO0", "0"]]), "TRIGGER_PIN")    
     } else {
         let pins = window['boardConfig'].digitalPins;
         this.appendDummyInput('')
         .appendField("初始化小智AI麦克风(标准I2S)引脚 BCLK")
         .appendField(new Blockly.FieldDropdown(pins), "MIC_BCLK")
-        .appendField("WS")
+        .appendField("WS引脚")
         .appendField(new Blockly.FieldDropdown(pins), "MIC_WS")
-        .appendField("DIN")
+        .appendField("DIN引脚")
         .appendField(new Blockly.FieldDropdown(pins), "MIC_DIN")   
+        //  this.appendDummyInput('')
+        //   .appendField("扬声器功放引脚 BCLK")
+        // .appendField(new Blockly.FieldDropdown(pins), "SPK_BCLK")
+        // .appendField("WS引脚")
+        // .appendField(new Blockly.FieldDropdown(pins), "SPK_WS")
+        // .appendField("DOUT引脚")
+        // .appendField(new Blockly.FieldDropdown(pins), "SPK_DOUT") 
+        //  this.appendDummyInput('')
+        //   .appendField("Trigger触发引脚")
+        // .appendField(new Blockly.FieldDropdown(pins), "TRIGGER_PIN")    
+    }
+  };
+  this.updateShape_(window['boardConfig'].name);
+});
+                      
+var spkBclkPinList = [["GPIO13","13"],["GPIO0","0"],["GPIO1","1"],["GPIO2","2"],["GPIO3","3"],["GPIO4","4"],["GPIO5","5"],["GPIO6","6"],["GPIO7","7"],["GPIO8","8"],["GPIO9","9"],["GPIO10","10"],["GPIO11","11"],["GPIO12","12"],["GPIO13","13"],["GPIO14","14"],["GPIO15","15"],["GPIO16","16"],["GPIO17","17"],["GPIO18","18"],["GPIO19","19"],["GPIO20","20"],["GPIO21","21"],["GPIO35","35"],["GPIO36","36"],["GPIO37","37"],["GPIO38","38"],["GPIO39","39"],["GPIO40","40"],["GPIO41","41"],["GPIO42","42"],["GPIO43","43"],["GPIO44","44"],["GPIO45","45"],["GPIO46","46"],["GPIO47","47"],["GPIO48","48"]];
+var spkWsPinList = [["GPIO14","14"],["GPIO0","0"],["GPIO1","1"],["GPIO2","2"],["GPIO3","3"],["GPIO4","4"],["GPIO5","5"],["GPIO6","6"],["GPIO7","7"],["GPIO8","8"],["GPIO9","9"],["GPIO10","10"],["GPIO11","11"],["GPIO12","12"],["GPIO13","13"],["GPIO14","14"],["GPIO15","15"],["GPIO16","16"],["GPIO17","17"],["GPIO18","18"],["GPIO19","19"],["GPIO20","20"],["GPIO21","21"],["GPIO35","35"],["GPIO36","36"],["GPIO37","37"],["GPIO38","38"],["GPIO39","39"],["GPIO40","40"],["GPIO41","41"],["GPIO42","42"],["GPIO43","43"],["GPIO44","44"],["GPIO45","45"],["GPIO46","46"],["GPIO47","47"],["GPIO48","48"]];
+var spkDoutPinList = [["GPIO1","1"],["GPIO0","0"],["GPIO1","1"],["GPIO2","2"],["GPIO3","3"],["GPIO4","4"],["GPIO5","5"],["GPIO6","6"],["GPIO7","7"],["GPIO8","8"],["GPIO9","9"],["GPIO10","10"],["GPIO11","11"],["GPIO12","12"],["GPIO13","13"],["GPIO14","14"],["GPIO15","15"],["GPIO16","16"],["GPIO17","17"],["GPIO18","18"],["GPIO19","19"],["GPIO20","20"],["GPIO21","21"],["GPIO35","35"],["GPIO36","36"],["GPIO37","37"],["GPIO38","38"],["GPIO39","39"],["GPIO40","40"],["GPIO41","41"],["GPIO42","42"],["GPIO43","43"],["GPIO44","44"],["GPIO45","45"],["GPIO46","46"],["GPIO47","47"],["GPIO48","48"]];
+
+Blockly.Extensions.register('aivox_init_audio_extension', function () {
+  // 直接在扩展中添加updateShape_函数
+  this.updateShape_ = function (boardType) {
+    if(boardType.indexOf('aivox') > -1) {
+        // this.appendDummyInput('')
+        // .appendField("初始化 AI-VOX (标准I2S) 麦克风引脚 BCLK")
+        // .appendField(new Blockly.FieldDropdown([
+        //     ["GPIO5", "5"]]), "MIC_BCLK")
+        // .appendField("WS引脚")
+        // .appendField(new Blockly.FieldDropdown([
+        //     ["GPIO2", "2"]]), "MIC_WS")
+        // .appendField("DIN引脚")
+        // .appendField(new Blockly.FieldDropdown([
+        //     ["GPIO4", "4"]]), "MIC_DIN")   
          this.appendDummyInput('')
-          .appendField("扬声器功放引脚 BCLK")
+          .appendField("初始化标准I2S音频解码器BCLK引脚")
+        .appendField(new Blockly.FieldDropdown(spkBclkPinList), "SPK_BCLK")
+        .appendField("WS引脚")
+        .appendField(new Blockly.FieldDropdown(spkWsPinList), "SPK_WS")
+        .appendField("DOUT引脚")
+        .appendField(new Blockly.FieldDropdown(spkDoutPinList), "SPK_DOUT") 
+        //  this.appendDummyInput('')
+        //   .appendField("Trigger触发引脚")
+        // .appendField(new Blockly.FieldDropdown([
+        //     ["GPIO0", "0"]]), "TRIGGER_PIN")    
+    } else {
+        let pins = window['boardConfig'].digitalPins;
+        // this.appendDummyInput('')
+        // .appendField("初始化小智AI麦克风(标准I2S)引脚 BCLK")
+        // .appendField(new Blockly.FieldDropdown(pins), "MIC_BCLK")
+        // .appendField("WS引脚")
+        // .appendField(new Blockly.FieldDropdown(pins), "MIC_WS")
+        // .appendField("DIN引脚")
+        // .appendField(new Blockly.FieldDropdown(pins), "MIC_DIN")   
+        this.appendDummyInput('')
+        .appendField("扬声器功放引脚 BCLK")
         .appendField(new Blockly.FieldDropdown(pins), "SPK_BCLK")
-        .appendField("WS")
+        .appendField("WS引脚")
         .appendField(new Blockly.FieldDropdown(pins), "SPK_WS")
-        .appendField("DOUT")
+        .appendField("DOUT引脚")
         .appendField(new Blockly.FieldDropdown(pins), "SPK_DOUT") 
-         this.appendDummyInput('')
-          .appendField("触发引脚Trigger")
-        .appendField(new Blockly.FieldDropdown(pins), "TRIGGER_PIN")    
+        //  this.appendDummyInput('')
+        //   .appendField("Trigger触发引脚")
+        // .appendField(new Blockly.FieldDropdown(pins), "TRIGGER_PIN")    
     }
   };
   this.updateShape_(window['boardConfig'].name);
@@ -363,51 +416,6 @@ if (typeof window !== 'undefined') {
   window.resetAllVariableConfig = resetAllVariableConfig;
 }
 
-Blockly.Extensions.register('aivox3_init_lcd_extension', function () {
-  // 直接在扩展中添加updateShape_函数
-  this.updateShape_ = function (boardType) {
-    if(boardType.indexOf('aivox') > -1) {
-        console.log("board is aivox");
-        this.appendDummyInput('')
-        .appendField("初始化 AI-VOX3 显示屏(ST7789驱动) 背光引脚backLight")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO16", "16"]]), "backLight")
-        .appendField("MOSI")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO21", "21"]]), "MOSI")
-        .appendField("CLK")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO17", "17"]]), "CLK")   
-          .appendField("DC")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO14", "14"]]), "DC")
-        // .appendField("RST")
-        // .appendField(new Blockly.FieldDropdown([
-        //     ["GPIO21", "21"]]), "RST")
-        .appendField("CS")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO15", "15"]]), "CS") 
-        
-    } else {
-        let pins = window['boardConfig'].digitalPins;
-        this.appendDummyInput('')
-        .appendField("初始化小智AI显示屏(ST7789驱动) 背光引脚backLight")
-        .appendField(new Blockly.FieldDropdown(pins), "backLight")
-        .appendField("MOSI")
-        .appendField(new Blockly.FieldDropdown(pins), "MOSI")
-        .appendField("CLK")
-        .appendField(new Blockly.FieldDropdown(pins), "CLK")   
-        .appendField("DC")
-        .appendField(new Blockly.FieldDropdown(pins), "DC")
-        .appendField("RST")
-        .appendField(new Blockly.FieldDropdown(pins), "RST")
-        .appendField("CS")
-        .appendField(new Blockly.FieldDropdown(pins), "CS") 
-    }
-  };
-  this.updateShape_(window['boardConfig'].name);
-});
-
 Blockly.Extensions.register('aivox3_init_wifi_extension', function () {
 // 直接在扩展中添加updateShape_函数
   this.updateShape_ = function (configType) {
@@ -480,41 +488,46 @@ Blockly.Extensions.register('aivox3_init_wifi_extension', function () {
   this.updateShape_(this.getFieldValue('MODE'));
 });
 
+var sdaPinList = [["GPIO13","13"],["GPIO0","0"],["GPIO1","1"],["GPIO2","2"],["GPIO3","3"],["GPIO4","4"],["GPIO5","5"],["GPIO6","6"],["GPIO7","7"],["GPIO8","8"],["GPIO9","9"],["GPIO10","10"],["GPIO11","11"],["GPIO12","12"],["GPIO13","13"],["GPIO14","14"],["GPIO15","15"],["GPIO16","16"],["GPIO17","17"],["GPIO18","18"],["GPIO19","19"],["GPIO20","20"],["GPIO21","21"],["GPIO35","35"],["GPIO36","36"],["GPIO37","37"],["GPIO38","38"],["GPIO39","39"],["GPIO40","40"],["GPIO41","41"],["GPIO42","42"],["GPIO43","43"],["GPIO44","44"],["GPIO45","45"],["GPIO46","46"],["GPIO47","47"],["GPIO48","48"]];
+var sclPinList = [["GPIO12","12"],["GPIO0","0"],["GPIO1","1"],["GPIO2","2"],["GPIO3","3"],["GPIO4","4"],["GPIO5","5"],["GPIO6","6"],["GPIO7","7"],["GPIO8","8"],["GPIO9","9"],["GPIO10","10"],["GPIO11","11"],["GPIO12","12"],["GPIO13","13"],["GPIO14","14"],["GPIO15","15"],["GPIO16","16"],["GPIO17","17"],["GPIO18","18"],["GPIO19","19"],["GPIO20","20"],["GPIO21","21"],["GPIO35","35"],["GPIO36","36"],["GPIO37","37"],["GPIO38","38"],["GPIO39","39"],["GPIO40","40"],["GPIO41","41"],["GPIO42","42"],["GPIO43","43"],["GPIO44","44"],["GPIO45","45"],["GPIO46","46"],["GPIO47","47"],["GPIO48","48"]];
+var mclkPinList = [["GPIO11","11"],["GPIO0","0"],["GPIO1","1"],["GPIO2","2"],["GPIO3","3"],["GPIO4","4"],["GPIO5","5"],["GPIO6","6"],["GPIO7","7"],["GPIO8","8"],["GPIO9","9"],["GPIO10","10"],["GPIO11","11"],["GPIO12","12"],["GPIO13","13"],["GPIO14","14"],["GPIO15","15"],["GPIO16","16"],["GPIO17","17"],["GPIO18","18"],["GPIO19","19"],["GPIO20","20"],["GPIO21","21"],["GPIO35","35"],["GPIO36","36"],["GPIO37","37"],["GPIO38","38"],["GPIO39","39"],["GPIO40","40"],["GPIO41","41"],["GPIO42","42"],["GPIO43","43"],["GPIO44","44"],["GPIO45","45"],["GPIO46","46"],["GPIO47","47"],["GPIO48","48"]];
+var sclkPinList = [["GPIO10","10"],["GPIO0","0"],["GPIO1","1"],["GPIO2","2"],["GPIO3","3"],["GPIO4","4"],["GPIO5","5"],["GPIO6","6"],["GPIO7","7"],["GPIO8","8"],["GPIO9","9"],["GPIO10","10"],["GPIO11","11"],["GPIO12","12"],["GPIO13","13"],["GPIO14","14"],["GPIO15","15"],["GPIO16","16"],["GPIO17","17"],["GPIO18","18"],["GPIO19","19"],["GPIO20","20"],["GPIO21","21"],["GPIO35","35"],["GPIO36","36"],["GPIO37","37"],["GPIO38","38"],["GPIO39","39"],["GPIO40","40"],["GPIO41","41"],["GPIO42","42"],["GPIO43","43"],["GPIO44","44"],["GPIO45","45"],["GPIO46","46"],["GPIO47","47"],["GPIO48","48"]];
+var lrckPinList = [["GPIO8","8"],["GPIO0","0"],["GPIO1","1"],["GPIO2","2"],["GPIO3","3"],["GPIO4","4"],["GPIO5","5"],["GPIO6","6"],["GPIO7","7"],["GPIO8","8"],["GPIO9","9"],["GPIO10","10"],["GPIO11","11"],["GPIO12","12"],["GPIO13","13"],["GPIO14","14"],["GPIO15","15"],["GPIO16","16"],["GPIO17","17"],["GPIO18","18"],["GPIO19","19"],["GPIO20","20"],["GPIO21","21"],["GPIO35","35"],["GPIO36","36"],["GPIO37","37"],["GPIO38","38"],["GPIO39","39"],["GPIO40","40"],["GPIO41","41"],["GPIO42","42"],["GPIO43","43"],["GPIO44","44"],["GPIO45","45"],["GPIO46","46"],["GPIO47","47"],["GPIO48","48"]];
+var dinPinList = [["GPIO7","7"],["GPIO0","0"],["GPIO1","1"],["GPIO2","2"],["GPIO3","3"],["GPIO4","4"],["GPIO5","5"],["GPIO6","6"],["GPIO7","7"],["GPIO8","8"],["GPIO9","9"],["GPIO10","10"],["GPIO11","11"],["GPIO12","12"],["GPIO13","13"],["GPIO14","14"],["GPIO15","15"],["GPIO16","16"],["GPIO17","17"],["GPIO18","18"],["GPIO19","19"],["GPIO20","20"],["GPIO21","21"],["GPIO35","35"],["GPIO36","36"],["GPIO37","37"],["GPIO38","38"],["GPIO39","39"],["GPIO40","40"],["GPIO41","41"],["GPIO42","42"],["GPIO43","43"],["GPIO44","44"],["GPIO45","45"],["GPIO46","46"],["GPIO47","47"],["GPIO48","48"]];
+var doutPinList = [["GPIO9","9"],["GPIO0","0"],["GPIO1","1"],["GPIO2","2"],["GPIO3","3"],["GPIO4","4"],["GPIO5","5"],["GPIO6","6"],["GPIO7","7"],["GPIO8","8"],["GPIO9","9"],["GPIO10","10"],["GPIO11","11"],["GPIO12","12"],["GPIO13","13"],["GPIO14","14"],["GPIO15","15"],["GPIO16","16"],["GPIO17","17"],["GPIO18","18"],["GPIO19","19"],["GPIO20","20"],["GPIO21","21"],["GPIO35","35"],["GPIO36","36"],["GPIO37","37"],["GPIO38","38"],["GPIO39","39"],["GPIO40","40"],["GPIO41","41"],["GPIO42","42"],["GPIO43","43"],["GPIO44","44"],["GPIO45","45"],["GPIO46","46"],["GPIO47","47"],["GPIO48","48"]];
+
+
 Blockly.Extensions.register('aivox3_init_es8311_extension', function () {
     // 直接在扩展中添加updateShape_函数
   this.updateShape_ = function (boardType) {
     if(boardType.indexOf('aivox') > -1) {
+      // let pins = window['boardConfig'].digitalPins;
         this.appendDummyInput('')
-        .appendField("初始化AI-VOX3 ES8311音频编解码器 SDA引脚")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO13", "13"]]), "ES8311_SDA")
+        .appendField("初始化ES8311音频编解码器")
+        this.appendDummyInput('')
+        .appendField("SDA引脚")
+        .appendField(new Blockly.FieldDropdown(sdaPinList), "ES8311_SDA")
         this.appendDummyInput('')
         .appendField("SCL引脚")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO12", "12"]]), "ES8311_SCL")
+        .appendField(new Blockly.FieldDropdown(sclPinList), "ES8311_SCL")
         this.appendDummyInput('')
         .appendField("MCLK引脚")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO11", "11"]]), "ES8311_MCLK")   
+        .appendField(new Blockly.FieldDropdown(mclkPinList), "ES8311_MCLK")   
         this.appendDummyInput('')
           .appendField("SCLK引脚")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO10", "10"]]), "ES8311_SCLK")
+        .appendField(new Blockly.FieldDropdown(sclkPinList), "ES8311_SCLK")
         this.appendDummyInput('')
         .appendField("LRCK引脚")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO8", "8"]]), "ES8311_LRCK")
+        .appendField(new Blockly.FieldDropdown(lrckPinList), "ES8311_LRCK")
         this.appendDummyInput('')
-        .appendField("数据输入引脚")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO7", "7"]]), "ES8311_DSDIN") 
+        .appendField("DIN引脚")
+        .appendField(new Blockly.FieldDropdown(dinPinList), "ES8311_DSDIN") 
         this.appendDummyInput('')
-        .appendField("数据输出引脚")
-        .appendField(new Blockly.FieldDropdown([
-            ["GPIO9", "9"]]), "ES8311_DSDOUT") 
+        .appendField("DOUT引脚")
+        .appendField(new Blockly.FieldDropdown(doutPinList), "ES8311_DSDOUT") 
         this.appendValueInput('ES8311_I2C_ADDRESS')
         .setCheck('Number')
-        .appendField("ES8311 I2C地址");
+        .appendField("I2C地址");
         this.appendValueInput('ES8311_RATE')
         .setCheck('Number')
         .appendField("采样率");
@@ -522,17 +535,24 @@ Blockly.Extensions.register('aivox3_init_es8311_extension', function () {
         let pins = window['boardConfig'].digitalPins;
         this.appendDummyInput('')
         .appendField("初始化ES8311音频编解码器 SDA引脚")
+        
         .appendField(new Blockly.FieldDropdown(pins), "ES8311_SDA")
+        this.appendDummyInput('')
         .appendField("SCL引脚")
         .appendField(new Blockly.FieldDropdown(pins), "ES8311_SCL")
+        this.appendDummyInput('')
         .appendField("MCLK引脚")
         .appendField(new Blockly.FieldDropdown(pins), "ES8311_MCLK")   
+        this.appendDummyInput('')
         .appendField("SCLK引脚")
         .appendField(new Blockly.FieldDropdown(pins), "ES8311_SCLK")
+        this.appendDummyInput('')
         .appendField("LRCK引脚")
         .appendField(new Blockly.FieldDropdown(pins), "ES8311_LRCK")
+        this.appendDummyInput('')
         .appendField("数据输入引脚")
         .appendField(new Blockly.FieldDropdown(pins), "ES8311_DSDIN") 
+        this.appendDummyInput('')
         .appendField("数据输出引脚")
         .appendField(new Blockly.FieldDropdown(pins), "ES8311_DSDOUT") 
         this.appendValueInput('ES8311_I2C_ADDRESS')
@@ -705,6 +725,7 @@ Arduino.forBlock['aivox3_init_es8311'] = function(block, generator) {
     generator.addLibrary('include_i2c_master', '#include <driver/i2c_master.h>\n');
     generator.addLibrary('aivox3_es8311_library', '#include "components/espressif/esp_audio_codec/esp_audio_simple_dec.h"\n#include "audio_device/audio_device_es8311.h"\n');
     generator.addObject('aivox3_audio_device_es8311', 'i2c_master_bus_handle_t g_i2c_master_bus_handle = nullptr;\nstd::shared_ptr<ai_vox::AudioDeviceEs8311> g_audio_output_device;', true);
+    generator.addObject('aivox3_audio_device_es8311_input', 'std::shared_ptr<ai_vox::AudioDeviceEs8311> g_audio_input_device;', true);
 
     generator.addObject('aivox3_initI2C', `void InitI2cBus() {
     const i2c_master_bus_config_t i2c_master_bus_config = {
@@ -737,22 +758,23 @@ Arduino.forBlock['aivox3_set_es8311_volume'] = function(block, generator) {
     return `g_audio_output_device->set_volume(${aivox3_es8311_volume});\n`;
 }
 
-Arduino.forBlock['aivox_init_std'] = function(block, generator) {
+Arduino.forBlock['aivox_init_mic'] = function(block, generator) {
     const micBclk = block.getFieldValue('MIC_BCLK');
     const micWs = block.getFieldValue('MIC_WS');
     const micDin = block.getFieldValue('MIC_DIN');
 
-    const spkBclk = block.getFieldValue('SPK_BCLK');
-    const spkWs = block.getFieldValue('SPK_WS');
-    const spkDout = block.getFieldValue('SPK_DOUT');
-    const triggerPin = block.getFieldValue('TRIGGER_PIN');
+    // const spkBclk = block.getFieldValue('SPK_BCLK');
+    // const spkWs = block.getFieldValue('SPK_WS');
+    // const spkDout = block.getFieldValue('SPK_DOUT');
+    // const triggerPin = block.getFieldValue('TRIGGER_PIN');
 
     // Add Libraries
     generator.addLibrary('include_aivox_engine', '#include "ai_vox_engine.h"');
     generator.addLibrary('include_aivox_observer', '#include "ai_vox_observer.h"');
     generator.addLibrary('include_i2s_std_input', '#include "audio_input_device_sph0645.h"');
     // #include "audio_device/audio_output_device_i2s_std.h"
-    generator.addLibrary('include_i2s_std_output', '#include "audio_device/audio_output_device_i2s_std.h"');
+    // generator.addLibrary('include_i2s_std_output', '#include "audio_device/audio_output_device_i2s_std.h"');
+    generator.addLibrary('include_aivox_button', '#include "components/espressif/button/button_gpio.h"\n#include "components/espressif/button/iot_button.h"\n');
 
     // Add Objects
     generator.addObject('aivox_observer', 'auto g_observer = std::make_shared<ai_vox::Observer>();', true);
@@ -761,13 +783,13 @@ Arduino.forBlock['aivox_init_std'] = function(block, generator) {
     generator.addObject('aivox_kMicPinWs', `constexpr gpio_num_t kMicPinWs = GPIO_NUM_${micWs};`, true);
     generator.addObject('aivox_kMicPinDin', `constexpr gpio_num_t kMicPinDin = GPIO_NUM_${micDin};`, true);
 
-    generator.addObject('aivox_kSpeakerPinBclk', `constexpr gpio_num_t kSpeakerPinBclk = GPIO_NUM_${spkBclk};`, true);
-    generator.addObject('aivox_kSpeakerPinWs', `constexpr gpio_num_t kSpeakerPinWs = GPIO_NUM_${spkWs};`, true);
-    generator.addObject('aivox_kSpeakerPinDout', `constexpr gpio_num_t kSpeakerPinDout = GPIO_NUM_${spkDout};`, true);
+    // generator.addObject('aivox_kSpeakerPinBclk', `constexpr gpio_num_t kSpeakerPinBclk = GPIO_NUM_${spkBclk};`, true);
+    // generator.addObject('aivox_kSpeakerPinWs', `constexpr gpio_num_t kSpeakerPinWs = GPIO_NUM_${spkWs};`, true);
+    // generator.addObject('aivox_kSpeakerPinDout', `constexpr gpio_num_t kSpeakerPinDout = GPIO_NUM_${spkDout};`, true);
 
-    generator.addObject('aivox_kTriggerPin', `constexpr gpio_num_t kTriggerPin = GPIO_NUM_${triggerPin};`, true);
-    generator.addObject('aivox_input_device', `auto audio_input_device = std::make_shared<AudioInputDeviceSph0645>(kMicPinBclk, kMicPinWs, kMicPinDin);`, true);
-    generator.addObject('aivox_output_device', `auto audio_output_device = std::make_shared<ai_vox::AudioOutputDeviceI2sStd>(kSpeakerPinBclk, kSpeakerPinWs, kSpeakerPinDout);`, true);
+    // generator.addObject('aivox_kTriggerPin', `constexpr gpio_num_t kTriggerPin = GPIO_NUM_${triggerPin};`, true);
+    generator.addObject('aivox_input_device', `auto g_audio_input_device = std::make_shared<AudioInputDeviceSph0645>(kMicPinBclk, kMicPinWs, kMicPinDin);`, true);
+    // generator.addObject('aivox_output_device', `auto g_audio_output_device = std::make_shared<ai_vox::AudioOutputDeviceI2sStd>(kSpeakerPinBclk, kSpeakerPinWs, kSpeakerPinDout);`, true);
     //   auto& ai_vox_engine = ai_vox::Engine::GetInstance();
     generator.addObject('ai_vox_engine', `auto& ai_vox_engine = ai_vox::Engine::GetInstance();`, true);
     generator.addSetup(' button_config_t_btn_cfg ',`const button_config_t btn_cfg = {
@@ -784,11 +806,62 @@ Arduino.forBlock['aivox_init_std'] = function(block, generator) {
     // Add Setup code
     const setupCode = `
   ai_vox_engine.SetObserver(g_observer);
-  ai_vox_engine.SetTrigger(kTriggerPin);
-  ai_vox_engine.Start(audio_input_device, audio_output_device);
 `;
-    generator.addSetup('aivox_serial', "Serial.begin(115200);", false);
-    generator.addSetup('aivox_start', setupCode, false);
+    // generator.addSetup('aivox_serial', "Serial.begin(115200);", false);
+    // generator.addSetup('aivox_setObserver', setupCode, false);
+    return ''; // This block generates setup code, not loop code.
+};
+
+Arduino.forBlock['aivox_init_audio'] = function(block, generator) {
+    // const micBclk = block.getFieldValue('MIC_BCLK');
+    // const micWs = block.getFieldValue('MIC_WS');
+    // const micDin = block.getFieldValue('MIC_DIN');
+
+    const spkBclk = block.getFieldValue('SPK_BCLK');
+    const spkWs = block.getFieldValue('SPK_WS');
+    const spkDout = block.getFieldValue('SPK_DOUT');
+    // const triggerPin = block.getFieldValue('TRIGGER_PIN');
+
+    // Add Libraries
+    generator.addLibrary('include_aivox_engine', '#include "ai_vox_engine.h"');
+    generator.addLibrary('include_aivox_observer', '#include "ai_vox_observer.h"');
+    // generator.addLibrary('include_i2s_std_input', '#include "audio_input_device_sph0645.h"');
+    // #include "audio_device/audio_output_device_i2s_std.h"
+    generator.addLibrary('include_i2s_std_output', '#include "audio_device/audio_output_device_i2s_std.h"');
+    generator.addLibrary('include_aivox_button', '#include "components/espressif/button/button_gpio.h"\n#include "components/espressif/button/iot_button.h"\n');
+
+    // Add Objects
+    generator.addObject('aivox_observer', 'auto g_observer = std::make_shared<ai_vox::Observer>();', true);
+ 
+    // generator.addObject('aivox_kMicPinBclk', `constexpr gpio_num_t kMicPinBclk = GPIO_NUM_${micBclk};`, true);
+    // generator.addObject('aivox_kMicPinWs', `constexpr gpio_num_t kMicPinWs = GPIO_NUM_${micWs};`, true);
+    // generator.addObject('aivox_kMicPinDin', `constexpr gpio_num_t kMicPinDin = GPIO_NUM_${micDin};`, true);
+
+    generator.addObject('aivox_kSpeakerPinBclk', `constexpr gpio_num_t kSpeakerPinBclk = GPIO_NUM_${spkBclk};`, true);
+    generator.addObject('aivox_kSpeakerPinWs', `constexpr gpio_num_t kSpeakerPinWs = GPIO_NUM_${spkWs};`, true);
+    generator.addObject('aivox_kSpeakerPinDout', `constexpr gpio_num_t kSpeakerPinDout = GPIO_NUM_${spkDout};`, true);
+
+    // generator.addObject('aivox_kTriggerPin', `constexpr gpio_num_t kTriggerPin = GPIO_NUM_${triggerPin};`, true);
+    // generator.addObject('aivox_input_device', `auto audio_input_device = std::make_shared<AudioInputDeviceSph0645>(kMicPinBclk, kMicPinWs, kMicPinDin);`, true);
+    generator.addObject('aivox_output_device', `auto g_audio_output_device = std::make_shared<ai_vox::AudioOutputDeviceI2sStd>(kSpeakerPinBclk, kSpeakerPinWs, kSpeakerPinDout);`, true);
+    //   auto& ai_vox_engine = ai_vox::Engine::GetInstance();
+    generator.addObject('ai_vox_engine', `auto& ai_vox_engine = ai_vox::Engine::GetInstance();`, true);
+    generator.addSetup(' button_config_t_btn_cfg ',`const button_config_t btn_cfg = {
+      .long_press_time = 1000,
+      .short_press_time = 50,
+  };
+
+  const button_gpio_config_t gpio_cfg = {
+      .gpio_num = GPIO_NUM_0,
+      .active_level = 0,
+      .enable_power_save = false,
+      .disable_pull = false,
+  };`, false);
+    // Add Setup code
+    const setupCode = `
+`;
+    // generator.addSetup('aivox_serial', "Serial.begin(115200);", false);
+    // generator.addSetup('aivox_setObserver', setupCode, false);
     return ''; // This block generates setup code, not loop code.
 };
 
@@ -896,36 +969,13 @@ Arduino.forBlock['aivox_init_lcd'] = function(block, generator) {
     return '';
 }
 
-Arduino.forBlock['get_aivox_emotion_result'] = function(block, generator) {
-  const eventVar = getEventVarName(block);
-  let code = '';
-  if (!eventVar || eventVar !== 'iot_message_event') {
-    code = `emotion.c_str()`; 
+var display_mode = '';
+var display_role = '';
+Arduino.forBlock['aivox_display_mode'] = function(block, generator) {
+    display_mode = block.getFieldValue('display_mode');
+    // generator.addObject('lcd_display_mode', `String display_mode = ${display_mode};`, true);
+    return '';
   }
-  return [code, Arduino.ORDER_MEMBER]; 
-}
-
-// 
-Arduino.forBlock['aivox_emotion'] = function(block, generator) {
-  const emotion = block.getFieldValue('emotion');
-  const varField = block.getField('EMOTIONVAR');
-  const varName = varField ? varField.getText() : '';
-  // 验证服务是否存在
-  const service = getAivoxControlService(varName);
-  if (!service) {
-      console.warn(`not found ${varName}`);
-  }
-
-  // const emotion = block.getFieldValue('emotion');
-  let code = `${varField} == "${emotion}"`;
-  return [code, Arduino.ORDER_MEMBER]; 
-}
-
-Arduino.forBlock['aivox_emotion_list'] = function(block, generator) {
-  const emotion = block.getFieldValue('emotion');
-  let code = `"${emotion}"`;
-  return [code, Arduino.ORDER_MEMBER]; 
-}
 
 // Arduino.forBlock['aivox3_init_lcd'] = function(block, generator) {
 //     const backLight = block.getFieldValue('backLight');
@@ -1030,154 +1080,165 @@ Arduino.forBlock['aivox_emotion_list'] = function(block, generator) {
 
 // --- Event Loop ---
 Arduino.forBlock['aivox_loop_activation'] = function(block, generator) {
-     if (!block._codeVarMonitorAttached) {
-      block._codeVarMonitorAttached = true;
-      block._codeVarLastName = block.getFieldValue("CODEVAR") || "code";
-      const varField = block.getField("CODEVAR");
-      if (varField && typeof varField.setValidator === "function") {
-        varField.setValidator(function(newName) {
-          const workspace = block.workspace || (typeof Blockly !== "undefined" && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-          const oldName = block._codeVarLastName;
-          if (workspace && newName && newName !== oldName) {
-            renameVariableInBlockly(workspace, oldName, newName, 'AIVOX_CODE');
-            block._codeVarLastName = newName;
-          }
-          return newName;
-        });
-      }
-    }
-    var code = block.getFieldValue("CODEVAR") || "code";
-    registerVariableToBlockly(code, 'AIVOX_CODE');
+    //  if (!block._codeVarMonitorAttached) {
+    //   block._codeVarMonitorAttached = true;
+    //   block._codeVarLastName = block.getFieldValue("CODEVAR") || "code";
+    //   const varField = block.getField("CODEVAR");
+    //   if (varField && typeof varField.setValidator === "function") {
+    //     varField.setValidator(function(newName) {
+    //       const workspace = block.workspace || (typeof Blockly !== "undefined" && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+    //       const oldName = block._codeVarLastName;
+    //       if (workspace && newName && newName !== oldName) {
+    //         renameVariableInBlockly(workspace, oldName, newName, 'AIVOX_CODE');
+    //         block._codeVarLastName = newName;
+    //       }
+    //       return newName;
+    //     });
+    //   }
+    // }
+    // var code = block.getFieldValue("CODEVAR") || "code";
+    // registerVariableToBlockly(code, 'AIVOX_CODE');
 
-     if (!block._activationMessageVarMonitorAttached) {
-      block._activationMessageVarMonitorAttached = true;
-      block._activationMessageVarLastName = block.getFieldValue("ACTIVATIONMESSAGEVAR") || "message";
-      const varField = block.getField("ACTIVATIONMESSAGEVAR");
-      if (varField && typeof varField.setValidator === "function") {
-        varField.setValidator(function(newName) {
-          const workspace = block.workspace || (typeof Blockly !== "undefined" && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-          const oldName = block._activationMessageVarLastName;
-          if (workspace && newName && newName !== oldName) {
-            renameVariableInBlockly(workspace, oldName, newName, 'AIVOX_ACTIVATIONMESSAGE');
-            block._activationMessageVarLastName = newName;
-          }
-          return newName;
-        });
-      }
-    }
-    var activation_message = block.getFieldValue("ACTIVATIONMESSAGEVAR") || "message";
-    registerVariableToBlockly(activation_message, 'AIVOX_ACTIVATIONMESSAGE');
+    //  if (!block._activationMessageVarMonitorAttached) {
+    //   block._activationMessageVarMonitorAttached = true;
+    //   block._activationMessageVarLastName = block.getFieldValue("ACTIVATIONMESSAGEVAR") || "message";
+    //   const varField = block.getField("ACTIVATIONMESSAGEVAR");
+    //   if (varField && typeof varField.setValidator === "function") {
+    //     varField.setValidator(function(newName) {
+    //       const workspace = block.workspace || (typeof Blockly !== "undefined" && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+    //       const oldName = block._activationMessageVarLastName;
+    //       if (workspace && newName && newName !== oldName) {
+    //         renameVariableInBlockly(workspace, oldName, newName, 'AIVOX_ACTIVATIONMESSAGE');
+    //         block._activationMessageVarLastName = newName;
+    //       }
+    //       return newName;
+    //     });
+    //   }
+    // }
+    // var activation_message = block.getFieldValue("ACTIVATIONMESSAGEVAR") || "message";
+    // registerVariableToBlockly(activation_message, 'AIVOX_ACTIVATIONMESSAGE');
 
 
 
     // let code = block.getFieldValue("code");
     // let message = block.getFieldValue("message");
-    generator.addLibrary('include_aivoxcore', '#include "AIVOXCore.h"');
-     generator.addObject('aivox_object', `AIVOXCore aivoxcore;\n`, true);
-     generator.addObject(`g_observer`, `auto g_observer = std::make_shared<ai_vox::Observer>();`, true);
+    generator.addLibrary('include_aivoxcore', '#include "AIVOXEventCore.h"');
+     generator.addObject('aivox_object', `AIVOXEventCore aivoxEventCore;\n`, true);
+     generator.addObject(`aivox_observer`, `auto g_observer = std::make_shared<ai_vox::Observer>();`, true);
     const statements_do = generator.statementToCode(block, 'DO');
     generator.addObject('aivox_onActivation', `void OnActivation(const std::string& ${code}, const std::string& ${activation_message}){
       ${statements_do}  
 }`);
 
-    generator.addSetup("setup_onActivation", "aivoxcore.onActivation(OnActivation);" ,true);
+    generator.addSetup("setup_onActivation", "aivoxEventCore.onActivation(OnActivation);" ,true);
     // Add necessary loop code
-    const loopCode = `  aivoxcore.update(g_observer);\n`;
+    const loopCode = `  aivoxEventCore.update(g_observer);\n`;
     // Use addLoop to ensure it's added correctly, tag prevents duplicates if block used multiple times (though unlikely for this type)
     generator.addLoop('aivox_event_loop', loopCode, true);
     return ''; // The main loop logic is added via addLoop
 };
 
-Arduino.forBlock['get_aivox_activation_code'] = function(block, generator) {  
-  const varField = block.getField('CODEVAR');
-  const varName = varField ? varField.getText() : '';
-  // 验证服务是否存在
-  const service = getAivoxControlService(varName);
-  if (!service) {
-      console.warn(`not found ${varName}`);
-  }
-  let code = `${varName}`;
+Arduino.forBlock['get_aivox_activation_message'] = function(block, generator) {  
+  const activation_type = block.getFieldValue('activation_type');
+  // const varField = block.getField('CODEVAR');
+  // const varName = varField ? varField.getText() : '';
+  // // 验证服务是否存在
+  // const service = getAivoxControlService(varName);
+  // if (!service) {
+  //     console.warn(`not found ${varName}`);
+  // }
+  let code = `${activation_type}`;
   return [code, Arduino.ORDER_MEMBER]; 
 }
 
-Arduino.forBlock['get_aivox_activation_msg'] = function(block, generator) {
-  const varField = block.getField('ACTIVATIONMESSAGEVAR');
-  const varName = varField ? varField.getText() : '';
-  // 验证服务是否存在
-  const service = getAivoxControlService(varName);
-  if (!service) {
-      console.warn(`not found ${varName}`);
-  }
-  let msg = `${varName}`;
-  return [msg, Arduino.ORDER_MEMBER]; 
-}
-
 Arduino.forBlock['aivox_loop_emotion'] = function(block, generator) {
-    if (!block._emotionVarMonitorAttached) {
-      block._emotionVarMonitorAttached = true;
-      block._emotionVarLastName = block.getFieldValue("EMOTIONVAR") || "emotion";
-      const varField = block.getField("EMOTIONVAR");
-      if (varField && typeof varField.setValidator === "function") {
-        varField.setValidator(function(newName) {
-          const workspace = block.workspace || (typeof Blockly !== "undefined" && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-          const oldName = block._emotionVarLastName;
-          if (workspace && newName && newName !== oldName) {
-            renameVariableInBlockly(workspace, oldName, newName, 'AIVOX_EMOTION');
-            block._emotionVarLastName = newName;
-          }
-          return newName;
-        });
-      }
-    }
-    var emotion = block.getFieldValue("EMOTIONVAR") || "emotion";
-    registerVariableToBlockly(emotion, 'AIVOX_EMOTION');
-    generator.addLibrary('include_aivoxcore', '#include "AIVOXCore.h"');
-    generator.addObject('aivox_object', `AIVOXCore aivoxcore;\n`, true);
-    generator.addObject(`g_observer`, `auto g_observer = std::make_shared<ai_vox::Observer>();`, true);
+    // if (!block._emotionVarMonitorAttached) {
+    //   block._emotionVarMonitorAttached = true;
+    //   block._emotionVarLastName = block.getFieldValue("EMOTIONVAR") || "emotion";
+    //   const varField = block.getField("EMOTIONVAR");
+    //   if (varField && typeof varField.setValidator === "function") {
+    //     varField.setValidator(function(newName) {
+    //       const workspace = block.workspace || (typeof Blockly !== "undefined" && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+    //       const oldName = block._emotionVarLastName;
+    //       if (workspace && newName && newName !== oldName) {
+    //         renameVariableInBlockly(workspace, oldName, newName, 'AIVOX_EMOTION');
+    //         block._emotionVarLastName = newName;
+    //       }
+    //       return newName;
+    //     });
+    //   }
+    // }
+    // var emotion = block.getFieldValue("EMOTIONVAR") || "emotion";
+    // registerVariableToBlockly(emotion, 'AIVOX_EMOTION');
+    generator.addLibrary('include_aivoxcore', '#include "AIVOXEventCore.h"');
+    generator.addObject('aivox_object', `AIVOXEventCore aivoxEventCore;\n`, true);
+    generator.addObject(`aivox_observer`, `auto g_observer = std::make_shared<ai_vox::Observer>();`, true);
     const statements_do = generator.statementToCode(block, 'DO');
-    generator.addObject('aivox_onEmotion', `void OnEmotion(const std::string& ${emotion}){
+    generator.addObject('aivox_onEmotion', `void OnEmotion(const std::string& emotion){
       ${statements_do}  
 }`);
 
-    generator.addSetup("setup_onEmotion", "aivoxcore.onEmotion(OnEmotion);" ,true);
+    generator.addSetup("setup_onEmotion", "aivoxEventCore.onEmotion(OnEmotion);" ,true);
     // Add necessary loop code
-    const loopCode = `  aivoxcore.update(g_observer);\n`;
+    const loopCode = `  aivoxEventCore.update(g_observer);\n`;
     // Use addLoop to ensure it's added correctly, tag prevents duplicates if block used multiple times (though unlikely for this type)
     generator.addLoop('aivox_event_loop', loopCode, true);
     return ''; // The main loop logic is added via addLoop
 };
 
+Arduino.forBlock['get_aivox_emotion_result'] = function(block, generator) {
+  code = `emotion.c_str()`; 
+  return [code, Arduino.ORDER_MEMBER]; 
+}
+
+// 
+Arduino.forBlock['aivox_emotion'] = function(block, generator) {
+  const emotion = block.getFieldValue('emotion');
+
+  // const emotion = block.getFieldValue('emotion');
+  let code = `emotion == "${emotion}"`;
+  return [code, Arduino.ORDER_MEMBER]; 
+}
+
+Arduino.forBlock['aivox_emotion_list'] = function(block, generator) {
+  const emotion = block.getFieldValue('emotion');
+  let code = `"${emotion}"`;
+  return [code, Arduino.ORDER_MEMBER]; 
+}
+
 Arduino.forBlock['aivox_loop_state_change'] = function(block, generator) {
 
-  if (!block._stateVarMonitorAttached) {
-    block._stateVarMonitorAttached = true;
-    block._stateVarLastName = block.getFieldValue("STATEVAR") || "state";
-    const varField = block.getField("STATEVAR");
-    if (varField && typeof varField.setValidator === "function") {
-      varField.setValidator(function(newName) {
-        const workspace = block.workspace || (typeof Blockly !== "undefined" && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-        const oldName = block._stateVarLastName;
-        if (workspace && newName && newName !== oldName) {
-          renameVariableInBlockly(workspace, oldName, newName, 'AIVOX_STATE');
-          block._stateVarLastName = newName;
-        }
-        return newName;
-      });
-    }
-  }
-    var state = block.getFieldValue("STATEVAR") || "state";
-    registerVariableToBlockly(state, 'AIVOX_STATE');
-    // let state = block.getFieldValue("state");
-    generator.addLibrary('include_aivoxcore', '#include "AIVOXCore.h"');
-    generator.addObject('aivox_object', `AIVOXCore aivoxcore;\n`, true);
-    generator.addObject(`g_observer`, `auto g_observer = std::make_shared<ai_vox::Observer>();`, true);
+  // if (!block._stateVarMonitorAttached) {
+  //   block._stateVarMonitorAttached = true;
+  //   block._stateVarLastName = block.getFieldValue("STATEVAR") || "state";
+  //   const varField = block.getField("STATEVAR");
+  //   if (varField && typeof varField.setValidator === "function") {
+  //     varField.setValidator(function(newName) {
+  //       const workspace = block.workspace || (typeof Blockly !== "undefined" && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+  //       const oldName = block._stateVarLastName;
+  //       if (workspace && newName && newName !== oldName) {
+  //         renameVariableInBlockly(workspace, oldName, newName, 'AIVOX_STATE');
+  //         block._stateVarLastName = newName;
+  //       }
+  //       return newName;
+  //     });
+  //   }
+  // }
+  //   var state = block.getFieldValue("STATEVAR") || "state";
+  //   registerVariableToBlockly(state, 'AIVOX_STATE');
+    let state = block.getFieldValue("chat_state");
+    generator.addLibrary('include_aivox_event_core', '#include "AIVOXEventCore.h"');
+    generator.addObject('aivox_object', `AIVOXEventCore aivoxEventCore;\n`, true);
+    generator.addObject(`aivox_observer`, `auto g_observer = std::make_shared<ai_vox::Observer>();`, true);
     const statements_do = generator.statementToCode(block, 'DO');
-    generator.addObject('aivox_onStateChange', `void OnStateChange(ai_vox::ChatState ${state}){
-      ${statements_do}  
+    generator.addObject(`aivox_onStateChange_${state}`, `void OnState${state}(ai_vox::ChatState state){
+      if(state == ai_vox::ChatState::k${state}) {
+         ${statements_do}  
+      }
 }`);
-    generator.addSetup("setup_onStateChange", "aivoxcore.onStateChange(OnStateChange);" ,true);
+    generator.addSetup(`setup_onStateChange_${state}`, `aivoxEventCore.onState${state}(OnState${state});` ,true);
     // Add necessary loop code
-    const loopCode = `  aivoxcore.update(g_observer);\n`;
+    const loopCode = `  aivoxEventCore.update(g_observer);\n`;
     // Use addLoop to ensure it's added correctly, tag prevents duplicates if block used multiple times (though unlikely for this type)
     generator.addLoop('aivox_event_loop', loopCode, true);
     return ''; // The main loop logic is added via addLoop
@@ -1242,16 +1303,18 @@ Arduino.forBlock['aivox_loop_chat_message'] = function(block, generator) {
   // registerVariableToBlockly(message, 'AIVOX_MESSAGE');
 
   // console.log("aivox_loop_chat_message=====: ", role);
-  generator.addLibrary('include_aivoxcore', '#include "AIVOXCore.h"');
-  generator.addObject('aivox_object', `AIVOXCore aivoxcore;\n`, true);
-  generator.addObject(`g_observer`, `auto g_observer = std::make_shared<ai_vox::Observer>();`, true);
+  generator.addLibrary('include_aivoxcore', '#include "AIVOXEventCore.h"');
+  generator.addObject('aivox_object', `AIVOXEventCore aivoxEventCore;\n`, true);
+  generator.addObject(`aivox_observer`, `auto g_observer = std::make_shared<ai_vox::Observer>();`, true);
+  generator.addObject(`chat_message_role`, `std::string chatRole ;`, true);
   const statements_do = generator.statementToCode(block, 'DO');
   generator.addObject('aivox_onChatMessage', `void OnChatMessage(const std::string& role, const std::string& message){
+      chatRole = role;
       ${statements_do}  
 }`);
-    generator.addSetup("setup_onChatMessage", "aivoxcore.onChatMessage(OnChatMessage);" ,true);
+    generator.addSetup("setup_onChatMessage", "aivoxEventCore.onChatMessage(OnChatMessage);" ,true);
     // Add necessary loop code
-    const loopCode = `  aivoxcore.update(g_observer);\n`;
+    const loopCode = `  aivoxEventCore.update(g_observer);\n`;
     // Use addLoop to ensure it's added correctly, tag prevents duplicates if block used multiple times (though unlikely for this type)
     generator.addLoop('aivox_event_loop', loopCode, true);
     return ''; // The main loop logic is added via addLoop
@@ -1292,16 +1355,16 @@ Arduino.forBlock['aivox_display_wchat_content'] = function(block, generator) {
 }
 
 Arduino.forBlock['aivox_loop_mcp'] = function(block, generator) {
-  generator.addLibrary('include_aivoxcore', '#include "AIVOXCore.h"');
-  generator.addObject('aivox_object', `AIVOXCore aivoxcore;\n`, true);
-  generator.addObject(`g_observer`, `auto g_observer = std::make_shared<ai_vox::Observer>();`, true);
+  generator.addLibrary('include_aivoxcore', '#include "AIVOXEventCore.h"');
+  generator.addObject('aivox_object', `AIVOXEventCore aivoxEventCore;\n`, true);
+  generator.addObject(`aivox_observer`, `auto g_observer = std::make_shared<ai_vox::Observer>();`, true);
   const statements_do = generator.statementToCode(block, 'DO');
   generator.addObject('aivox_onMcpToolCall', `void OnMcpControl(const std::int64_t& id, const std::string& name, const std::map<std::string, std::variant<std::string, int64_t, bool>>& param){
     ${statements_do}  
 }`);
-    generator.addSetup("setup_onMcpToolCall", "aivoxcore.onMcpToolCall(OnMcpControl);" ,true);
+    generator.addSetup("setup_onMcpToolCall", "aivoxEventCore.onMcpToolCall(OnMcpControl);" ,true);
     // Add necessary loop code
-    const loopCode = `  aivoxcore.update(g_observer);\n`;
+    const loopCode = `  aivoxEventCore.update(g_observer);\n`;
     // Use addLoop to ensure it's added correctly, tag prevents duplicates if block used multiple times (though unlikely for this type)
     generator.addLoop('aivox_event_loop', loopCode, true);
     return ''; // The main loop logic is added via addLoop
@@ -1324,15 +1387,25 @@ function getEventVarName(block) {
 }
 
 Arduino.forBlock['aivox_lcd_show_status'] = function (block, generator) {
+  generator.addObject(`chat_message_role`, `std::string chatRole;`, true);
     let location = block.getFieldValue('location');
     let ai_vox_content = generator.valueToCode(block, 'ai_vox_content', generator.ORDER_ATOMIC) || '""';
-    let code = `g_display->${location} ${ai_vox_content});\n`;
+    let code = '';
+    if(location == 'SetChatMessage'){
+      if(display_mode == '' || display_mode == 'normal'){
+        code = `g_display->SetChatMessage(Display::Role::kSystem, ${ai_vox_content});\n`;
+      }else{
+        code = `if(chatRole == "assistant"){\n  g_display->SetChatMessage(Display::Role::kAssistant, ${ai_vox_content});\n}else if(chatRole == "user"){\n  g_display->SetChatMessage(Display::Role::kUser, ${ai_vox_content});\n}else{\n  g_display->SetChatMessage(Display::Role::kSystem, ${ai_vox_content});\n}\n`;
+      }
+    }else{
+      code = `g_display->${location}(${ai_vox_content});\n`;
+    }
     return code;
 };
 
 Arduino.forBlock['aivox_config_ota_url'] = function (block, generator) {
     let ota_url = generator.valueToCode(block, 'ai_vox_ota_url', generator.ORDER_ATOMIC) || '""';
-    generator.addObject(`g_observer`, `auto g_observer = std::make_shared<ai_vox::Observer>();`, true);
+    generator.addObject(`aivox_observer`, `auto g_observer = std::make_shared<ai_vox::Observer>();`, true);
     generator.addObject('ai_vox_engine', `auto& ai_vox_engine = ai_vox::Engine::GetInstance();`, true);
     generator.addSetup(`aivox_instance`, `ai_vox_engine.SetObserver(g_observer);\n`, true);
     let code = `   ai_vox_engine.SetObserver(g_observer);\nai_vox_engine.SetOtaUrl(${ota_url});\n`;
@@ -1352,10 +1425,24 @@ Arduino.forBlock['aivox_config_websocket'] = function (block, generator) {
 Arduino.forBlock['aivox3_start_engine'] = function (block, generator) {
     generator.addLibrary('button_gpio', '#include "components/espressif/button/button_gpio.h"\n#include "components/espressif/button/iot_button.h"');
     generator.addObject(`g_button_boot_handle`, ` button_handle_t g_button_boot_handle = nullptr;`, true);
-    generator.addObject(`g_observer`, `auto g_observer = std::make_shared<ai_vox::Observer>();`, true);
+    generator.addObject('aivox_observer', 'auto g_observer = std::make_shared<ai_vox::Observer>();', true);
     generator.addObject('ai_vox_engine', `auto& ai_vox_engine = ai_vox::Engine::GetInstance();`, true);
     generator.addSetup(`aivox_instance`, `ai_vox_engine.SetObserver(g_observer);\n`, true);
-    let code = ` ai_vox_engine.Start(g_audio_device_es8311, g_audio_device_es8311);\n  ESP_ERROR_CHECK(iot_button_register_cb(
+    var workspace = Blockly.getMainWorkspace();
+        // 获取所有块
+    var allBlocks = workspace.getAllBlocks();
+     const hasValue1 = allBlocks.find(item => item.type === 'aivox3_init_es8311');
+    // 遍历所有块并打印出它们的类型
+    // allBlocks.forEach(function(block) {
+        console.log("all type: ", hasValue1);
+        let startCode ;
+        if(hasValue1){
+          startCode = `g_audio_output_device, g_audio_output_device`;
+        } else {
+          startCode = `g_audio_input_device, g_audio_output_device`;
+        }
+    // });
+    let code = ` ai_vox_engine.Start(${startCode});\n  ESP_ERROR_CHECK(iot_button_register_cb(
       g_button_boot_handle,
       BUTTON_PRESS_DOWN,
       nullptr,
@@ -1434,7 +1521,6 @@ Arduino.forBlock['aivox_mcp_register_value_control_command'] = function(block, g
 
 Arduino.forBlock['aivox_mcp_register_control_command'] = function(block, generator) {
     let mcp_control_name = generator.valueToCode(block, 'NAME', generator.ORDER_ATOMIC) || '""';
-
     if (mcp_control_name === '""') {
         return '';
     }
@@ -1541,7 +1627,7 @@ Arduino.forBlock['aivox_mcp_control_param'] = function(block, generator) {
                         deleteMcpControlParam(oldName);
                         registerMcpControlParam(newName, oldParam.type, oldParam.minValue, oldParam.maxValue);
                     }
-                    renameVariableInBlockly(block, oldName, newName, 'AIVOX_STATE');
+                    renameVariableInBlockly(block, oldName, newName, 'AIVOX_PARAM_STATE');
                     block._stateVarLastName = newName;
                 }
                 return newName;
@@ -1558,7 +1644,7 @@ Arduino.forBlock['aivox_mcp_control_param'] = function(block, generator) {
         configOption = 'Boolean'; // 默认类型
     }
 
-    registerVariableToBlockly(varName, 'AIVOX_STATE');
+    registerVariableToBlockly(varName, 'AIVOX_PARAM_STATE');
 
     let code = '';
     let minValue = null;
