@@ -1,0 +1,96 @@
+{
+  "kind": "category",
+  "name": "SU-03T语音识别",
+  "colour": "#5CB85C",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化设置"
+    },
+    {
+      "kind": "block",
+      "type": "su03t_init",
+      "inputs": {
+        "RX_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 2
+            }
+          }
+        },
+        "TX_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 3
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "语音识别"
+    },
+    {
+      "kind": "block",
+      "type": "su03t_refresh"
+    },
+    {
+      "kind": "block",
+      "type": "su03t_clear_result"
+    },
+    {
+      "kind": "block",
+      "type": "su03t_recognized",
+      "inputs": {
+        "COMMAND": {
+          "shadow": {
+            "type": "su03t_command"
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "su03t_command"
+    },
+    {
+      "kind": "label",
+      "text": "语音播报"
+    },
+    {
+      "kind": "block",
+      "type": "su03t_speak_integer",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 25
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "su03t_speak_decimal",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 25.5
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "su03t_speak_text"
+    }
+  ]
+}
