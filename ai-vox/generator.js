@@ -1126,7 +1126,7 @@ Arduino.forBlock['aivox_loop_activation'] = function(block, generator) {
      generator.addObject('aivox_object', `AIVOXEventCore aivoxEventCore;\n`, true);
      generator.addObject(`aivox_observer`, `auto g_observer = std::make_shared<ai_vox::Observer>();`, true);
     const statements_do = generator.statementToCode(block, 'DO');
-    generator.addObject('aivox_onActivation', `void OnActivation(const std::string& ${code}, const std::string& ${activation_message}){
+    generator.addObject('aivox_onActivation', `void OnActivation(const std::string& code, const std::string& message){
       ${statements_do}  
 }`);
 
