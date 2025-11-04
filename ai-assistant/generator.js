@@ -11,22 +11,25 @@ Blockly.Extensions.register('ai_assistant_board_extension', function() {
   // 获取开发板配置信息
   var boardConfig = window['boardConfig'] || {};
   var boardCore = (boardConfig.core || '').toLowerCase();
+  var boardType = (boardConfig.type || '').toLowerCase();
   var boardName = (boardConfig.name || '').toLowerCase();
   
-  // 判断开发板类型
+  // 判断开发板类型（使用标准的 core 和 type 字段）
   var isESP32 = boardCore.indexOf('esp32') > -1 || 
+                boardType.indexOf('esp32') > -1 ||
                 boardName.indexOf('esp32') > -1;
   var isMega2560 = boardCore.indexOf('mega') > -1 || 
+                  boardType.indexOf('mega') > -1 ||
                   boardName.indexOf('mega') > -1 || 
                   boardName.indexOf('2560') > -1;
-  var isArduinoUno = boardCore.indexOf('arduino') > -1 || 
-                    boardName.indexOf('arduino') > -1 || 
+  var isArduinoUno = (boardCore === 'arduino:avr' && boardType.indexOf('uno') > -1) ||
                     boardName.indexOf('uno') > -1 ||
                     (!isESP32 && !isMega2560); // 如果不是ESP32和Mega，默认为Arduino UNO
   
   // 打印板卡识别信息（调试用）
   console.log('AI-Assistant: 板卡配置：', boardConfig);
   console.log('AI-Assistant: 板卡核心：', boardCore);
+  console.log('AI-Assistant: 板卡类型：', boardType);
   console.log('AI-Assistant: 板卡名称：', boardName);
   console.log('AI-Assistant: isESP32:', isESP32);
   console.log('AI-Assistant: isMega2560:', isMega2560);
@@ -45,17 +48,17 @@ Blockly.Extensions.register('ai_assistant_board_extension', function() {
     dummyInput.appendField('选择串口：');
     dummyInput.appendField(new Blockly.FieldDropdown([
       ['Serial0 (RX:GPIO43/TX:GPIO44)', 'UART0'],
-      ['Serial1 (RX:GPIO9/TX:GPIO10)', 'UART1'],
-      ['Serial2 (RX:GPIO16/TX:GPIO17)', 'UART2']
+      ['Serial1 (RX:GPIO17/TX:GPIO18)', 'UART1'],
+      ['Serial2 (RX:GPIO15/TX:GPIO16)', 'UART2']
     ]), 'SERIAL_OPTION');
     
     // 添加一个不可见字段存储RX/TX引脚，便于生成器使用
-    // ESP32在SERIAL1选项下用GPIO9/10
+    // ESP32在SERIAL1选项下用GPIO17/18（默认值）
     this.appendDummyInput('RX_PIN_INPUT')
-      .appendField(new Blockly.FieldLabelSerializable('9'), 'RX_PIN')
+      .appendField(new Blockly.FieldLabelSerializable('17'), 'RX_PIN')
       .setVisible(false);
     this.appendDummyInput('TX_PIN_INPUT')
-      .appendField(new Blockly.FieldLabelSerializable('10'), 'TX_PIN')
+      .appendField(new Blockly.FieldLabelSerializable('18'), 'TX_PIN')
       .setVisible(false);
     
   } else if (isMega2560) {
@@ -84,17 +87,31 @@ Blockly.Extensions.register('ai_assistant_board_extension', function() {
     var rxOptions = [];
     var txOptions = [];
     
-    // 生成可用引脚列表（排除硬件串口引脚0/1）
-    for (var i = 2; i <= 13; i++) {
-      rxOptions.push([i.toString(), i.toString()]);
-      txOptions.push([i.toString(), i.toString()]);
-    }
+    // 从板卡配置中获取数字引脚列表
+    var digitalPins = boardConfig.digitalPins || [];
     
-    // 添加模拟引脚
-    var analogPins = ['A0', 'A1', 'A2', 'A3', 'A4', 'A5'];
-    for (var i = 0; i < analogPins.length; i++) {
-      rxOptions.push([analogPins[i], analogPins[i]]);
-      txOptions.push([analogPins[i], analogPins[i]]);
+    if (digitalPins.length > 0) {
+      // 使用板卡配置的引脚列表（排除0和1，因为是硬件串口）
+      for (var i = 0; i < digitalPins.length; i++) {
+        var pinValue = digitalPins[i][1];
+        var pinLabel = digitalPins[i][0];
+        // 排除引脚0和1
+        if (pinValue !== '0' && pinValue !== '1' && pinValue !== 0 && pinValue !== 1) {
+          rxOptions.push([pinLabel, pinValue.toString()]);
+          txOptions.push([pinLabel, pinValue.toString()]);
+        }
+      }
+    } else {
+      // 备用方案：如果没有配置，使用默认引脚列表
+      for (var i = 2; i <= 13; i++) {
+        rxOptions.push([i.toString(), i.toString()]);
+        txOptions.push([i.toString(), i.toString()]);
+      }
+      var analogPins = ['A0', 'A1', 'A2', 'A3', 'A4', 'A5'];
+      for (var i = 0; i < analogPins.length; i++) {
+        rxOptions.push([analogPins[i], analogPins[i]]);
+        txOptions.push([analogPins[i], analogPins[i]]);
+      }
     }
     
     softwareSerial.appendField('RX');
@@ -150,15 +167,20 @@ Arduino.forBlock['ai_assistant_config'] = function(block, generator) {
   const config = window['boardConfig'] || {};
   console.log('boardConfig:', config);
   const core = (config.core || '').toLowerCase();
+  const type = (config.type || '').toLowerCase();
   const name = (config.name || '').toLowerCase();
   
-  // 判断开发板类型
+  // 判断开发板类型（使用标准的 core 和 type 字段）
   const esp32 = core.indexOf('esp32') > -1 || 
+               type.indexOf('esp32') > -1 ||
                name.indexOf('esp32') > -1;
   const mega2560 = core.indexOf('mega') > -1 || 
+                 type.indexOf('mega') > -1 ||
                  name.indexOf('mega') > -1 || 
                  name.indexOf('2560') > -1;
-  const arduinoUno = (!esp32 && !mega2560); // 如果不是ESP32和Mega，默认为Arduino UNO
+  const arduinoUno = (core === 'arduino:avr' && type.indexOf('uno') > -1) ||
+                 name.indexOf('uno') > -1 ||
+                 (!esp32 && !mega2560); // 如果不是ESP32和Mega，默认为Arduino UNO
   
   // 打印调试信息
   console.log('AI-Assistant 代码生成\n板卡类型:', esp32 ? 'ESP32' : (mega2560 ? 'MEGA2560' : 'Arduino UNO'));
@@ -208,21 +230,24 @@ Arduino.forBlock['ai_assistant_config'] = function(block, generator) {
   console.log('尝试添加变量 receivedCommand');
   try {
     generator.addVariable('receivedCommand', 'String receivedCommand = "";');
+    generator.addVariable('cmdCount', 'int cmdCount = 0;  // 命令计数器');
+    generator.addVariable('lastCmdTime', 'unsigned long lastCmdTime = 0;  // 上次接收命令的时间');
     console.log('变量添加成功');
   } catch(e) {
     console.error('添加变量失败:', e);
   }
   
+  // 初始化串口跟踪集合（与 lib-core-serial 兼容）
+  if (!Arduino.addedSerialInitCode) {
+    Arduino.addedSerialInitCode = new Set();
+  }
+  if (!Arduino.initializedSerialPorts) {
+    Arduino.initializedSerialPorts = new Set();
+  }
+  
   // 根据不同板卡类型和串口类型生成不同的串口配置
   if (esp32) {
-    // ESP32 初始化硬件串口
-    console.log('尝试添加ESP32硬件串口初始化代码');
-    try {
-      generator.addSetupBegin('serial_begin', '  // 初始化主硬件串口（ESP32）\n  Serial.begin(9600);');
-      console.log('ESP32硬件串口初始化代码添加成功');
-    } catch(e) {
-      console.error('添加ESP32硬件串口初始化代码失败:', e);
-    }
+    console.log('ESP32 初始化串口');
     
     if (serialType === 'HARDWARE') {
       // ESP32 硬件串口选项
@@ -239,11 +264,11 @@ Arduino.forBlock['ai_assistant_config'] = function(block, generator) {
           break;
         case 'UART1':
           serialName = 'Serial1';
-          txRxPins = '  Serial1.begin(9600, SERIAL_8N1, 9, 10);  // UART1 (TX:GPIO10, RX:GPIO9)';
+          txRxPins = '  Serial1.begin(9600, SERIAL_8N1, 18, 17);  // UART1 (TX:GPIO17, RX:GPIO18)';
           break;
         case 'UART2':
           serialName = 'Serial2';
-          txRxPins = '  Serial2.begin(9600, SERIAL_8N1, 18, 17);  // UART2 (TX:GPIO17, RX:GPIO18)';
+          txRxPins = '  Serial2.begin(9600, SERIAL_8N1, 15, 16);  // UART2 (TX:GPIO16, RX:GPIO15)';
           break;
         default:
           serialName = 'Serial';
@@ -252,12 +277,28 @@ Arduino.forBlock['ai_assistant_config'] = function(block, generator) {
           break;
       }
       
-      // 根据选择的串口初始化
+      // 只初始化用户选择的串口
+      generator.addSetupBegin('esp32_serial_begin', txRxPins);
+      // 标记该串口为已初始化（与 lib-core-serial 兼容）
+      Arduino.addedSerialInitCode.add(serialName);
+      Arduino.initializedSerialPorts.add(serialName);
+      
+      // 如果不是UART0，需要初始化Serial用于调试输出
       if (serialOption !== 'UART0') {
-        generator.addSetupBegin('esp32_serial_begin', txRxPins + '\n  Serial.println("ESP32系统启动，使用' + serialName + '");');
+        generator.addSetupBegin('esp32_debug_serial', '  Serial.begin(9600);  // 用于调试输出');
+        Arduino.addedSerialInitCode.add('Serial');
+        Arduino.initializedSerialPorts.add('Serial');
       }
       
       // 生成接收命令代码
+      let debugOutput = '';
+      if (serialOption !== 'UART0') {
+        // 如果不是使用Serial接收，则通过Serial打印调试信息
+        debugOutput = `
+              Serial.print("收到命令: ");
+              Serial.println(receivedCommand);`;
+      }
+      
       generator.addLoop('receive_command', `// 从ESP32的${serialName}获取命令
       if (${serialName}.available()) {
           String cmd = "";
@@ -266,17 +307,25 @@ Arduino.forBlock['ai_assistant_config'] = function(block, generator) {
           while (millis() - startTime < 100) {
               if (${serialName}.available()) {
                   char c = ${serialName}.read();
-                  if (c == 10 || c == 13) {
-                      break;
-                  }
-                  cmd += c;
-                  delay(2);
+                if (c == 10 || c == 13) {
+                    break;
+                }
+                cmd += c;
+                delay(2);
+              }
+          }
+          // 清空串口缓冲区的残留换行符（避免重复触发）
+          delay(10);
+          while (${serialName}.available()) {
+              char c = ${serialName}.peek();
+              if (c == 10 || c == 13) {
+                  ${serialName}.read();
+              } else {
+                  break;
               }
           }
           if (cmd.length() > 0) {
-              receivedCommand = cmd;
-              Serial.print("ESP32 ${serialName}收到命令: ");
-              Serial.println(receivedCommand);
+              receivedCommand = cmd;${debugOutput}
           }
       }
       `);
@@ -285,7 +334,10 @@ Arduino.forBlock['ai_assistant_config'] = function(block, generator) {
       generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
       generator.addObject('mySerial', 'SoftwareSerial mySerial(' + rxPin + ', ' + txPin + ');');
       
-      generator.addSetupBegin('myserial_begin', '  // 初始化软串口\n  mySerial.begin(9600);\n  Serial.println("ESP32系统启动，使用软串口 RX:' + rxPin + ' TX:' + txPin + '");');
+      generator.addSetupBegin('myserial_begin', '  mySerial.begin(9600);  // ESP32软串口');
+      // 标记mySerial为已初始化
+      Arduino.addedSerialInitCode.add('mySerial');
+      Arduino.initializedSerialPorts.add('mySerial');
       
       // 使用软串口
       generator.addLoop('receive_command', `// 从软串口获取命令
@@ -303,17 +355,25 @@ Arduino.forBlock['ai_assistant_config'] = function(block, generator) {
                   delay(2);
               }
           }
+          // 清空串口缓冲区的残留换行符（避免重复触发）
+          delay(10);
+          while (mySerial.available()) {
+              char c = mySerial.peek();
+              if (c == 10 || c == 13) {
+                  mySerial.read();
+              } else {
+                  break;
+              }
+          }
           if (cmd.length() > 0) {
               receivedCommand = cmd;
-              Serial.print("ESP32软串口收到命令: ");
-              Serial.println(receivedCommand);
+              // 不打印调试信息，因为Serial未初始化
           }
       }
       `);
     }
   } else if (mega2560) {
-    // Mega2560 初始化硬件串口
-    generator.addSetupBegin('serial_begin', '  // 初始化主硬件串口（Mega2560）\n  Serial.begin(9600);');
+    console.log('Mega2560 初始化串口');
     
     if (serialType === 'HARDWARE') {
       // Mega2560 硬件串口选项
@@ -346,12 +406,28 @@ Arduino.forBlock['ai_assistant_config'] = function(block, generator) {
           break;
       }
       
-      // 根据选择的串口初始化
+      // 只初始化用户选择的串口
+      generator.addSetupBegin('mega_serial_begin', serialInit);
+      // 标记该串口为已初始化（与 lib-core-serial 兼容）
+      Arduino.addedSerialInitCode.add(serialName);
+      Arduino.initializedSerialPorts.add(serialName);
+      
+      // 如果不是UART0，需要初始化Serial用于调试输出
       if (serialOption !== 'UART0') {
-        generator.addSetupBegin('mega_serial_begin', serialInit + '\n  Serial.println("Mega2560系统启动，使用' + serialName + '");');
+        generator.addSetupBegin('mega_debug_serial', '  Serial.begin(9600);  // 用于调试输出');
+        Arduino.addedSerialInitCode.add('Serial');
+        Arduino.initializedSerialPorts.add('Serial');
       }
       
       // 生成接收命令代码
+      let debugOutput = '';
+      if (serialOption !== 'UART0') {
+        // 如果不是使用Serial接收，则通过Serial打印调试信息
+        debugOutput = `
+              Serial.print("收到命令: ");
+              Serial.println(receivedCommand);`;
+      }
+      
       generator.addLoop('receive_command', `// 从Mega2560的${serialName}获取命令
       if (${serialName}.available()) {
           String cmd = "";
@@ -367,10 +443,18 @@ Arduino.forBlock['ai_assistant_config'] = function(block, generator) {
                 delay(2);
               }
           }
+          // 清空串口缓冲区的残留换行符（避免重复触发）
+          delay(10);
+          while (${serialName}.available()) {
+              char c = ${serialName}.peek();
+              if (c == 10 || c == 13) {
+                  ${serialName}.read();
+              } else {
+                  break;
+              }
+          }
           if (cmd.length() > 0) {
-              receivedCommand = cmd;
-              Serial.print("Mega2560 ${serialName}收到命令: ");
-              Serial.println(receivedCommand);
+              receivedCommand = cmd;${debugOutput}
           }
       }
       `);
@@ -379,7 +463,10 @@ Arduino.forBlock['ai_assistant_config'] = function(block, generator) {
       generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
       generator.addObject('mySerial', 'SoftwareSerial mySerial(' + rxPin + ', ' + txPin + ');');
       
-      generator.addSetupBegin('myserial_begin', '  // 初始化软串口\n  mySerial.begin(9600);\n  Serial.println("Mega2560系统启动，使用软串口 RX:' + rxPin + ' TX:' + txPin + '");');
+      generator.addSetupBegin('myserial_begin', '  mySerial.begin(9600);  // Mega2560软串口');
+      // 标记mySerial为已初始化
+      Arduino.addedSerialInitCode.add('mySerial');
+      Arduino.initializedSerialPorts.add('mySerial');
       
       // 使用软串口
       generator.addLoop('receive_command', `// 从软串口获取命令
@@ -397,21 +484,31 @@ Arduino.forBlock['ai_assistant_config'] = function(block, generator) {
                   delay(2);
               }
           }
+          // 清空串口缓冲区的残留换行符（避免重复触发）
+          delay(10);
+          while (mySerial.available()) {
+              char c = mySerial.peek();
+              if (c == 10 || c == 13) {
+                  mySerial.read();
+              } else {
+                  break;
+              }
+          }
           if (cmd.length() > 0) {
               receivedCommand = cmd;
-              Serial.print("Mega2560软串口收到命令: ");
-              Serial.println(receivedCommand);
+              // 不打印调试信息，因为Serial未初始化
           }
       }
       `);
     }
   } else { // Arduino UNO
-    // 初始化主硬件串口
-    generator.addSetupBegin('serial_begin', '  // 初始化硬件串口（Arduino UNO）\n  Serial.begin(9600);');
     
     if (serialType === 'HARDWARE') {
-      // Arduino UNO只有一个硬件串口（UART0）
-      generator.addSetupBegin('uno_hardware_serial', '  Serial.println("Arduino UNO系统启动，使用硬件串口");');
+      // Arduino UNO只有一个硬件串口（UART0），用于接收命令
+      generator.addSetupBegin('serial_begin', '  Serial.begin(9600);  // Arduino UNO硬件串口');
+      // 标记Serial为已初始化（与 lib-core-serial 兼容）
+      Arduino.addedSerialInitCode.add('Serial');
+      Arduino.initializedSerialPorts.add('Serial');
       
       // 生成接收命令代码
       generator.addLoop('receive_command', `// 从Arduino UNO硬件串口获取命令
@@ -429,6 +526,16 @@ Arduino.forBlock['ai_assistant_config'] = function(block, generator) {
                   delay(2);
               }
           }
+          // 清空串口缓冲区的残留换行符（避免重复触发）
+          delay(10);
+          while (Serial.available()) {
+              char c = Serial.peek();
+              if (c == 10 || c == 13) {
+                  Serial.read();
+              } else {
+                  break;
+              }
+          }
           if (cmd.length() > 0) {
               receivedCommand = cmd;
               // 不打印日志，因为此时Serial用于数据通信
@@ -437,11 +544,15 @@ Arduino.forBlock['ai_assistant_config'] = function(block, generator) {
       }
       `);
     } else { // 软串口模式
-      // Arduino UNO使用软串口
+      // Arduino UNO使用软串口接收命令
       generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
       generator.addObject('mySerial', 'SoftwareSerial mySerial(' + rxPin + ', ' + txPin + ');');
       
-      generator.addSetupBegin('myserial_begin', '  // 初始化软串口\n  mySerial.begin(9600);\n  Serial.println("Arduino UNO系统启动，使用软串口 RX:' + rxPin + ' TX:' + txPin + '");');
+      // 只初始化软串口（9600波特率，SoftwareSerial在Arduino UNO上115200不稳定）
+      generator.addSetupBegin('myserial_begin', '  mySerial.begin(9600);  // Arduino UNO软串口');
+      // 标记mySerial为已初始化
+      Arduino.addedSerialInitCode.add('mySerial');
+      Arduino.initializedSerialPorts.add('mySerial');
       
       // 使用软串口
       generator.addLoop('receive_command', `// 从软串口获取命令
@@ -459,10 +570,33 @@ Arduino.forBlock['ai_assistant_config'] = function(block, generator) {
                   delay(2);
               }
           }
+          // 清空串口缓冲区的残留换行符（避免重复触发）
+          delay(10);  // 等待所有数据到达
+          while (mySerial.available()) {
+              char c = mySerial.peek();  // 先看一眼，不读取
+              if (c == 10 || c == 13) {
+                  mySerial.read();  // 如果是换行符，读取并丢弃
+              } else {
+                  break;  // 如果不是换行符，停止（可能是下一条命令）
+              }
+          }
           if (cmd.length() > 0) {
-              receivedCommand = cmd;
-              Serial.print("Arduino UNO软串口收到命令: ");
-              Serial.println(receivedCommand);
+              // 去重：如果与上次命令相同且时间间隔小于200ms，忽略
+              unsigned long currentTime = millis();
+              if (cmd != receivedCommand || (currentTime - lastCmdTime) > 200) {
+                  receivedCommand = cmd;
+                  lastCmdTime = currentTime;
+                  cmdCount++;
+                  Serial.print("[");
+                  Serial.print(cmdCount);
+                  Serial.print("] 软串口收到命令: ");
+                  Serial.print(receivedCommand);
+                  Serial.print(" (长度:");
+                  Serial.print(cmd.length());
+                  Serial.println(")");
+              } else {
+                  Serial.println("  -> 忽略重复命令");
+              }
           }
       }
       `);
@@ -476,12 +610,15 @@ Arduino.forBlock['ai_assistant_receive'] = function (block, generator) {
   // 获取开发板配置信息
   var configData = window['boardConfig'] || {};
   var coreType = (configData.core || '').toLowerCase();
+  var typeInfo = (configData.type || '').toLowerCase();
   var nameType = (configData.name || '').toLowerCase();
   
-  // 判断开发板类型
+  // 判断开发板类型（使用标准的 core 和 type 字段）
   var esp32 = coreType.indexOf('esp32') > -1 || 
+             typeInfo.indexOf('esp32') > -1 ||
              nameType.indexOf('esp32') > -1;
   var mega2560 = coreType.indexOf('mega') > -1 || 
+                typeInfo.indexOf('mega') > -1 ||
                 nameType.indexOf('mega') > -1 || 
                 nameType.indexOf('2560') > -1;
   
@@ -616,5 +753,30 @@ Arduino.forBlock['serial_command_handler'] = function (block, generator) {
       code = "false";
   }
   
+  // 不再在判断时清空，只返回判断条件
   return [code, Arduino.ORDER_RELATIONAL];
+};
+
+Arduino.forBlock['serial_custom_command'] = function (block, generator) {
+  console.log('serial_custom_command 代码生成器被调用');
+  
+  // 获取用户输入的自定义命令
+  let customCmd = block.getFieldValue('CUSTOM_CMD') || "";
+  console.log('自定义命令:', customCmd);
+  
+  // 转义引号，防止代码注入
+  customCmd = customCmd.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+  
+  // 生成条件判断代码（支持部分匹配）
+  let code = `(receivedCommand.indexOf("${customCmd}") >= 0)`;
+  
+  console.log('生成的代码:', code);
+  
+  // 不再在判断时清空，只返回判断条件
+  return [code, Arduino.ORDER_RELATIONAL];
+};
+
+Arduino.forBlock['serial_clear_command'] = function (block, generator) {
+  // 清空receivedCommand变量
+  return 'receivedCommand = "";\n';
 };
