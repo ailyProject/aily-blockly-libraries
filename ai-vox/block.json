@@ -76,6 +76,19 @@
         "helpUrl": ""
     },
     {
+        "type": "aivox3_set_screen_light",
+        "message0": "设置AI-VOX屏幕亮度为 %1 ",
+        "args0": [
+            {"type": "input_value","name": "aivox3_screen_light","NUM": 50}
+        ],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "设置AI-VOX屏幕亮度",
+        "helpUrl": ""
+    },
+    {
         "type": "aivox_init_mic",
         "extensions":["aivox_init_mic_extension"],
         "inputsInline": false,
@@ -1730,7 +1743,7 @@
     },
     {
         "inputsInline": true,
-        "message0": "设置MCP服务名称 %1 的数据 %2",
+        "message0": "设置MCP服务名称 %1 参数 %2 的值为 %3",
         "type": "aivox_update_mcp_control_state_new",
         "args0": [
             {
@@ -1739,6 +1752,13 @@
                 "variable": "led",
                 "variableTypes": ["AIVOX"],
                 "defaultType": "AIVOX"
+            },
+            {
+                "type": "field_variable", 
+                "name": "PVAR",
+                "variable": "state",
+                "variableTypes": ["AIVOX_PARAM_STATE"],
+                "defaultType": "AIVOX_PARAM_STATE"
             },
             {"type": "input_value","name": "STATE", "text": "nulllab"}
         ],
