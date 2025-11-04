@@ -380,7 +380,7 @@ Arduino.forBlock['blinker_chart'] = function (block, generator) {
   return '';
 };
 
-Arduino.forBlock['blinker_chart_data_upload'] = function (block, generator) {
+Arduino.forBlock['blinker_data_upload'] = function (block, generator) {
   // 获取图表名称和数据键名
   let chartKey = block.getFieldValue('CHART');
   let dataKey = block.getFieldValue('KEY');
@@ -480,10 +480,10 @@ Arduino.forBlock['blinker_widget_print'] = function (block, generator) {
   // 收集所有连接的对象块返回的代码
   let objectValues = [];
   
-  // 遍历所有输入连接
+  // 遍历所有输入连接（兼容新旧mutator）
   for (let i = 0; i < block.inputList.length; i++) {
     const input = block.inputList[i];
-    if (input.type === Blockly.INPUT_VALUE && input.name.startsWith('INPUT')) {
+    if (input.type === Blockly.INPUT_VALUE && input.name && input.name.startsWith('INPUT')) {
       const value = generator.valueToCode(block, input.name, Arduino.ORDER_ATOMIC);
       if (value && value !== '""') {
         objectValues.push(value);
@@ -583,189 +583,3 @@ Arduino.forBlock['blinker_delay'] = function (block, generator) {
   // 返回Blinker.delay(time)语句代码
   return 'Blinker.delay(' + delayTime + ');\n';
 }
-
-// 检查并移除已存在的扩展注册
-if (Blockly.Extensions.isRegistered('custom_dynamic_extension')) {
-  Blockly.Extensions.unregister('custom_dynamic_extension');
-}
-Blockly.Extensions.register('custom_dynamic_extension', function () {
-  // 最小输入数量
-  this.minInputs = 2;
-  // 输入项计数
-  this.itemCount = this.minInputs;
-
-  // 添加所有动态块需要的方法
-  this.findInputIndexForConnection = function (connection) {
-    if (!connection.targetConnection || connection.targetBlock()?.isInsertionMarker()) {
-      return null;
-    }
-
-    let connectionIndex = -1;
-    for (let i = 0; i < this.inputList.length; i++) {
-      if (this.inputList[i].connection == connection) {
-        connectionIndex = i;
-      }
-    }
-
-    if (connectionIndex == this.inputList.length - 1) {
-      return this.inputList.length + 1;
-    }
-
-    const nextInput = this.inputList[connectionIndex + 1];
-    const nextConnection = nextInput?.connection?.targetConnection;
-    if (nextConnection && !nextConnection.getSourceBlock().isInsertionMarker()) {
-      return connectionIndex + 1;
-    }
-
-    return null;
-  };
-
-  this.onPendingConnection = function (connection) {
-    const insertIndex = this.findInputIndexForConnection(connection);
-    if (insertIndex == null) {
-      return;
-    }
-
-    this.appendValueInput(`INPUT${Blockly.utils.idGenerator.genUid()}`);
-    this.moveNumberedInputBefore(this.inputList.length - 1, insertIndex);
-  };
-
-  this.finalizeConnections = function () {
-    const targetConns = this.removeUnnecessaryEmptyConns(
-      this.inputList.map((i) => i.connection?.targetConnection),
-    );
-
-    this.tearDownBlock();
-    this.addItemInputs(targetConns);
-    this.itemCount = targetConns.length;
-  };
-
-  this.tearDownBlock = function () {
-    // 只删除动态添加的输入（INPUT2及以后）
-    for (let i = this.inputList.length - 1; i >= 0; i--) {
-      const inputName = this.inputList[i].name;
-      // 保留原始的INPUT0和INPUT1，只删除动态添加的
-      if (inputName.startsWith('INPUT') && inputName !== 'INPUT0' && inputName !== 'INPUT1') {
-        this.removeInput(inputName);
-      }
-    }
-  };
-
-  this.removeUnnecessaryEmptyConns = function (targetConns) {
-    const filteredConns = [...targetConns];
-    for (let i = filteredConns.length - 1; i >= 0; i--) {
-      if (!filteredConns[i] && filteredConns.length > this.minInputs) {
-        filteredConns.splice(i, 1);
-      }
-    }
-    return filteredConns;
-  };
-
-  this.addItemInputs = function (targetConns) {
-    // 从INPUT2开始添加动态输入
-    for (let i = this.minInputs; i < targetConns.length; i++) {
-      const inputName = `INPUT${i}`;
-      const input = this.appendValueInput(inputName);
-      const targetConn = targetConns[i];
-      if (targetConn) input.connection?.connect(targetConn);
-    }
-  };
-
-  this.isCorrectlyFormatted = function () {
-    // 检查动态输入是否正确格式化
-    let dynamicInputIndex = this.minInputs;
-    for (let i = 0; i < this.inputList.length; i++) {
-      const inputName = this.inputList[i].name;
-      if (inputName.startsWith('INPUT') && inputName !== 'INPUT0' && inputName !== 'INPUT1') {
-        if (inputName !== `INPUT${dynamicInputIndex}`) return false;
-        dynamicInputIndex++;
-      }
-    }
-    return true;
-  };
-});
-
-
-// 检查并移除已存在的扩展注册
-if (Blockly.Extensions.isRegistered('custom_dynamic_mutator')) {
-  Blockly.Extensions.unregister('custom_dynamic_mutator');
-}
-// 定义 Mutator 来处理序列化
-Blockly.Extensions.registerMutator('custom_dynamic_mutator', {
-  /**
-   * 将变异状态转换为 DOM 元素
-   * 用于序列化块的动态输入配置到 XML
-   * @returns {Element} 包含变异信息的 XML 元素
-   */
-  mutationToDom: function () {
-    // 如果块没有死亡或正在死亡，先完成连接并重新初始化
-    if (!this.isDeadOrDying()) {
-      Blockly.Events.disable();
-      this.finalizeConnections();
-      if (this instanceof Blockly.BlockSvg) this.initSvg();
-      Blockly.Events.enable();
-    }
-
-    // 创建包含变异信息的 XML 元素
-    const container = Blockly.utils.xml.createElement('mutation');
-    container.setAttribute('items', `${this.itemCount}`);
-    return container;
-  },
-
-  /**
-   * 从 DOM 元素恢复变异状态
-   * 用于从 XML 反序列化块的动态输入配置
-   * @param {Element} xmlElement 包含变异信息的 XML 元素
-   */
-  domToMutation: function (xmlElement) {
-    // 从 XML 属性中读取项目数量，确保不小于最小输入数
-    this.itemCount = Math.max(
-      parseInt(xmlElement.getAttribute('items') || '0', 10),
-      this.minInputs,
-    );
-
-    // 根据项目数量添加额外的输入
-    for (let i = this.minInputs; i < this.itemCount; i++) {
-      this.appendValueInput(`INPUT${i}`);
-    }
-  },
-
-  /**
-   * 保存额外的状态信息
-   * 用于新版本的 Blockly 序列化系统
-   * @returns {Object} 包含状态信息的对象
-   */
-  saveExtraState: function () {
-    // 如果块格式不正确且没有死亡，先完成连接并重新初始化
-    if (!this.isDeadOrDying() && !this.isCorrectlyFormatted()) {
-      Blockly.Events.disable();
-      this.finalizeConnections();
-      if (this instanceof Blockly.BlockSvg) this.initSvg();
-      Blockly.Events.enable();
-    }
-
-    // 返回包含项目数量的状态对象
-    return {
-      itemCount: this.itemCount,
-    };
-  },
-
-  /**
-   * 加载额外的状态信息
-   * 用于新版本的 Blockly 反序列化系统
-   * @param {Object|string} state 状态对象或字符串
-   */
-  loadExtraState: function (state) {
-    // 如果状态是字符串格式，转换为 DOM 并使用旧版本方法处理
-    if (typeof state === 'string') {
-      this.domToMutation(Blockly.utils.xml.textToDom(state));
-      return;
-    }
-
-    // 从状态对象中恢复项目数量并创建相应的输入
-    this.itemCount = state['itemCount'] || 0;
-    for (let i = this.minInputs; i < this.itemCount; i++) {
-      this.appendValueInput(`INPUT${i}`);
-    }
-  }
-});
