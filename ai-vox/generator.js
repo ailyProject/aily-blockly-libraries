@@ -758,6 +758,12 @@ Arduino.forBlock['aivox3_set_es8311_volume'] = function(block, generator) {
     return `g_audio_output_device->set_volume(${aivox3_es8311_volume});\n`;
 }
 
+Arduino.forBlock['aivox3_set_screen_light'] = function(block, generator) {
+    const aivox3_screen_light = generator.valueToCode(block, 'aivox3_screen_light', generator.ORDER_ATOMIC) || '""';
+    // generator.addSetup("aivox3_setup_es8311", `  g_audio_device_es8311 = std::make_shared<ai_vox::AudioDeviceEs8311>(g_i2c_master_bus_handle, ${es8311_i2c_address}, I2C_NUM_1, ${es8311_rate}, GPIO_NUM_${es8311_mclk}, GPIO_NUM_${es8311_sclk}, GPIO_NUM_${es8311_lrck}, GPIO_NUM_${es8311_dsdout}, GPIO_NUM_${es8311_dsdin});`);
+    return `analogWrite(kDisplayBacklightPin, ${aivox3_screen_light});\n`;
+}
+
 Arduino.forBlock['aivox_init_mic'] = function(block, generator) {
     const micBclk = block.getFieldValue('MIC_BCLK');
     const micWs = block.getFieldValue('MIC_WS');
@@ -883,7 +889,7 @@ Arduino.forBlock['aivox_init_lcd'] = function(block, generator) {
     generator.addLibrary('include_aivox_button', '#include "components/espressif/button/button_gpio.h"\n#include "components/espressif/button/iot_button.h"\n');
     generator.addLibrary('include_aivox_display', '#include "display.h"');
 
-    // generator.addObject('aivox_backLight', `constexpr gpio_num_t kDisplayBacklightPin = GPIO_NUM_${backLight};`, true);
+    generator.addObject('aivox_backLight', `constexpr gpio_num_t kDisplayBacklightPin = GPIO_NUM_${backLight};`, true);
     // generator.addObject('aivox_mosi', `constexpr gpio_num_t kDisplayMosiPin = GPIO_NUM_${mosi};`, true);
     // generator.addObject('aivox_clk', `constexpr gpio_num_t kDisplayClkPin = GPIO_NUM_${clk};`, true);
     // generator.addObject('aivox_dc', `constexpr gpio_num_t kDisplayDcPin = GPIO_NUM_${dc};`, true);
@@ -1126,7 +1132,7 @@ Arduino.forBlock['aivox_loop_activation'] = function(block, generator) {
      generator.addObject('aivox_object', `AIVOXEventCore aivoxEventCore;\n`, true);
      generator.addObject(`aivox_observer`, `auto g_observer = std::make_shared<ai_vox::Observer>();`, true);
     const statements_do = generator.statementToCode(block, 'DO');
-    generator.addObject('aivox_onActivation', `void OnActivation(const std::string& code, const std::string& message){
+    generator.addObject('aivox_onActivation', `void OnActivation(const std::string& ${code}, const std::string& ${activation_message}){
       ${statements_do}  
 }`);
 
@@ -1524,18 +1530,24 @@ Arduino.forBlock['aivox_mcp_register_control_command'] = function(block, generat
     if (mcp_control_name === '""') {
         return '';
     }
+    // let mcp_control_count = generator.valueToCode(block, 'COUNT', generator.ORDER_ATOMIC) || 0;
+
     // 获取到的数据为 "led", "LED, true for on, false for off"格式, 需要提取变量名和描述
     // 使用正则表达式来正确解析，避免描述中的逗号影响分割
     let match = mcp_control_name.match(/"([^"]+)",\s*"([^"]+)"/);
+    // let match = mcp_control_name.match(/"([^"]*)",\s*"([^"]*)"",\s*(\d+)/);
     let name = match ? match[1] : '';
     let description = match ? match[2] : '';
+    // let count = match ? match[3] : 1;
     let control_name_set = "self." + name + ".set";
     let control_name_get = "self." + name + ".get";
 
     console.log('mcp_control_name:', mcp_control_name);
+    console.log('mcp_control_name match:', match);
     console.log('Extracted name:', name);
     console.log('Extracted description:', description);
-
+    // console.log('Extracted count:', count);
+// count
     let paramValues = [];
     // 遍历所有的参数输入
     for (let i = 0; i < block.inputList.length; i++) {
@@ -1559,23 +1571,25 @@ Arduino.forBlock['aivox_mcp_register_control_command'] = function(block, generat
 
     generator.addObject('ai_vox_engine', `auto& ai_vox_engine = ai_vox::Engine::GetInstance();`, true);
     generator.addSetup(`aivox_instance`, `ai_vox_engine.SetObserver(g_observer);\n`, true);
+    // generator.addObject(`ai_vox_mcp_${name}_count`, `int ${name}_count = ${count};`, true);
     generator.addSetup(`aivox_add_mcp_tool_set_${name}`, `  ai_vox_engine.AddMcpTool("${control_name_set}",                                           // tool name
                     "${description}",
                     {
-                        ${paramCodes}
+                      ${paramCodes}
                     }
   );\n`, true);
     generator.addSetup(`aivox_add_mcp_tool_get_${name}`, `  ai_vox_engine.AddMcpTool("${control_name_get}",                                           // tool name
-                    "${description}",  // tool description
+                    "${description}", 
                     {
-                        {
-                        },
+                      ${paramCodes}
                     }
   );\n`, true);
     return '';
 };
 
 Arduino.forBlock['aivox_mcp_control'] = function(block, generator) {
+    // let mcp_control_count = generator.valueToCode(block, 'COUNT', generator.ORDER_ATOMIC) || 0;
+
     // 监听VAR输入值的变化，自动重命名Blockly变量
     if (!block._aivoxVarMonitorAttached) {
         block._aivoxVarMonitorAttached = true;
@@ -1602,12 +1616,13 @@ Arduino.forBlock['aivox_mcp_control'] = function(block, generator) {
 
     var varName = block.getFieldValue('VAR') || 'led';
     var description = generator.valueToCode(block, 'DESC', generator.ORDER_ATOMIC) || '""';
-
+    // var count = generator.valueToCode(block, 'COUNT', generator.ORDER_ATOMIC) || '""';
+    // console.log("aivox_mcp_control count: ", count);
     // 注册AIVOX控制服务和Blockly变量
-    registerAivoxControlService(varName, description.replace(/"/g, ''), []);
+    registerAivoxControlService(varName, description.replace(/"/g, ''));
     registerVariableToBlockly(varName, 'AIVOX');
 
-    return ['\"' + varName + '\", ' + description, Arduino.ORDER_ATOMIC];
+    return ['\"' + varName + '\", ' + description , Arduino.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['aivox_mcp_control_param'] = function(block, generator) {
@@ -1898,13 +1913,18 @@ Arduino.forBlock['aivox_update_mcp_control_state_new'] = function(block, generat
     // 获取变量字段值
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'led';
+    const paramField = block.getField('PVAR');
+    const paramName = paramField ? paramField.getText() : 'led';
+    const param = getMcpControlParam(paramName);
+    console.log("aivox_update_mcp_control_state_new ====: ", param);
+    let type = param.type;
     let state = generator.valueToCode(block, 'STATE', generator.ORDER_ATOMIC) || '""';
     // 验证服务是否存在
     const service = getAivoxControlService(varName);
     if (!service) {
         console.warn(`AIVOX service '${varName}' not found`);
     }
-    const code = `if ("self.${varName}.get" == name) {ai_vox_engine.SendMcpCallResponse(id, ${state});}\n`;
+    const code = `if ("self.${varName}.get" == name) {\n const auto ${varName}_${paramName} = std::get<${type}>(param.at(${paramName}));\n  ai_vox_engine.SendMcpCallResponse(id, ${state});\n}`;
     return code;
 }
 
@@ -2097,3 +2117,5 @@ Blockly.Extensions.registerMutator('custom_dynamic_mutator', {
     }
   }
 });
+
+//  
