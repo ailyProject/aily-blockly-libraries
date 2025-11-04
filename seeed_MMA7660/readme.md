@@ -1,0 +1,1 @@
+https://github.com/Seeed-Studio/Accelerometer_MMA7660

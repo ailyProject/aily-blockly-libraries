@@ -1,0 +1,189 @@
+{
+  "kind": "category",
+  "name": "TCA8418键盘矩阵",
+  "colour": "#0066CC",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_create"
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_begin",
+      "inputs": {
+        "ADDRESS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 52
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_matrix",
+      "inputs": {
+        "ROWS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 4
+            }
+          }
+        },
+        "COLUMNS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 3
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "键盘矩阵"
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_available"
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_get_event"
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_flush"
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_when_key_event"
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_current_event"
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_get_event_row",
+      "inputs": {
+        "EVENT": {
+          "shadow": {
+            "type": "tca8418_current_event",
+            "fields": {
+              "VAR": {
+                "id": "keypad"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_get_event_col",
+      "inputs": {
+        "EVENT": {
+          "shadow": {
+            "type": "tca8418_current_event",
+            "fields": {
+              "VAR": {
+                "id": "keypad"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_get_event_pressed",
+      "inputs": {
+        "EVENT": {
+          "shadow": {
+            "type": "tca8418_current_event",
+            "fields": {
+              "VAR": {
+                "id": "keypad"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "GPIO控制"
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_pin_mode",
+      "inputs": {
+        "PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_digital_read",
+      "inputs": {
+        "PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_digital_write",
+      "inputs": {
+        "PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "配置选项"
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_enable_interrupts"
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_disable_interrupts"
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_enable_debounce"
+    },
+    {
+      "kind": "block",
+      "type": "tca8418_disable_debounce"
+    }
+  ]
+}

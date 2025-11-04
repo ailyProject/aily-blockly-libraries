@@ -1,51 +1,1130 @@
 [
     {
-        "inputsInline": true,
-        "message0": "初始化 AI-VOX 网络 SSID %1 PASSWORD %2 ",
-        "type": "aivox_init_wifi",
+        "message0": "初始化 AI-VOX WIFI模式 %1",
+        "type": "aivox3_init_wifi",
         "args0": [
-            {"type": "input_value","name": "wifi_ssid","text": "areararear"},
-            {"type": "input_value","name": "wifi_pwd","text": "String"}
-
+    
+            {
+                "type": "field_dropdown",
+                "name": "MODE",
+                "options": [
+                    [
+                        "手动配网",
+                        "Manual"
+                    ]
+                ]
+            }
         ],
+        "extensions":["aivox3_init_wifi_extension"],
         "previousStatement": null,
         "nextStatement": null,
         "colour": "#4CAF50"
     },
     {
-        "type": "aivox_init_std",
-        "extensions":["aivox_init_std_extension"],
+        "type": "aivox3_get_wifi_state",
+        "message0": "获取AI-VOX设备状态",
+        "output": "",
+        "colour": "#4CAF50",
+        "tooltip": "获取AI-VOX3设备状态",
+        "helpUrl": ""
+    },
+    {
+        "message0": "AI-VOX网络%1",
+        "type": "aivox3_wifi_state",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "STATE",
+                "options": [
+                    [
+                        " WIFI连接中",
+                        "kConnecting"
+                    ],
+                    [
+                        " WIFI连接完成",
+                        "kFinished"
+                    ]
+                ]
+            }
+        ],
+        "output": "Boolean",
+        "colour": "#4CAF50",
+        "tooltip": "AI-VOX3网络连接状态",
+        "helpUrl": ""
+    },
+    {
+        "type": "aivox3_init_es8311",
+        "extensions":["aivox3_init_es8311_extension"],
         "inputsInline": false,
         "previousStatement": null,
         "nextStatement": null,
         "colour": "#4CAF50",
-        "tooltip": "初始化AI-VOX引擎，使用标准I2S麦克风和扬声器。",
+        "tooltip": "初始化AI-VOX3引擎ES8311模块",
+        "helpUrl": ""
+    },
+    {
+        "type": "aivox3_set_es8311_volume",
+        "message0": "设置AI-VOX音量为 %1 ",
+        "args0": [
+            {"type": "input_value","name": "aivox3_es8311_volume","NUM": 50}
+        ],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "设置AI-VOX设备音量大小",
+        "helpUrl": ""
+    },
+    {
+        "type": "aivox_init_mic",
+        "extensions":["aivox_init_mic_extension"],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "初始化AI-VOX引擎，使用标准I2S麦克风",
+        "helpUrl": ""
+    },
+    {
+        "type": "aivox_init_audio",
+        "extensions":["aivox_init_audio_extension"],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "初始化AI-VOX引擎，使用标准I2S音频解码器",
         "helpUrl": ""
     },
     {
         "type": "aivox_init_lcd",
-        "extensions":["aivox_init_lcd_extension"],
+        "message0": "初始化显示屏(ST7789)\nBackLight背光引脚 %1 \nMOSI引脚 %2\n CLK引脚 %3\n DC引脚 %4\n RST引脚 %5\n CS引脚 %6",
+        "args0": [
+            {"type": "field_dropdown","name": "backLight", "options": [
+                    [
+                        "GPIO16",
+                        "16"
+                    ],
+                    [
+                        "GPIO0",
+                        "0"
+                    ],
+                    [
+                        "GPIO1",
+                        "1"
+                    ],
+                    [
+                        "GPIO2",
+                        "2"
+                    ],
+                    [
+                        "GPIO3",
+                        "3"
+                    ],
+                    [
+                        "GPIO4",
+                        "4"
+                    ],
+                    [
+                        "GPIO5",
+                        "5"
+                    ],
+                    [
+                        "GPIO6",
+                        "6"
+                    ],
+                    [
+                        "GPIO7",
+                        "7"
+                    ],
+                    [
+                        "GPIO8",
+                        "8"
+                    ],
+                    [
+                        "GPIO9",
+                        "9"
+                    ],
+                    [
+                        "GPIO10",
+                        "10"
+                    ],
+                    [
+                        "GPIO11",
+                        "11"
+                    ],
+                    [
+                        "GPIO12",
+                        "12"
+                    ],
+                    [
+                        "GPIO13",
+                        "13"
+                    ],
+                    [
+                        "GPIO14",
+                        "14"
+                    ],
+                    [
+                        "GPIO15",
+                        "15"
+                    ],
+                    [
+                        "GPIO16",
+                        "16"
+                    ],
+                    [
+                        "GPIO17",
+                        "17"
+                    ],
+                    [
+                        "GPIO18",
+                        "18"
+                    ],
+                    [
+                        "GPIO19",
+                        "19"
+                    ],
+                    [
+                        "GPIO20",
+                        "20"
+                    ],
+                    [
+                        "GPIO21",
+                        "21"
+                    ],
+                    [
+                        "GPIO35",
+                        "35"
+                    ],
+                    [
+                        "GPIO36",
+                        "36"
+                    ],
+                    [
+                        "GPIO37",
+                        "37"
+                    ],
+                    [
+                        "GPIO38",
+                        "38"
+                    ],
+                    [
+                        "GPIO39",
+                        "39"
+                    ],
+                    [
+                        "GPIO40",
+                        "40"
+                    ],
+                    [
+                        "GPIO41",
+                        "41"
+                    ],
+                    [
+                        "GPIO42",
+                        "42"
+                    ],
+                    [
+                        "GPIO43",
+                        "43"
+                    ],
+                    [
+                        "GPIO44",
+                        "44"
+                    ],
+                    [
+                        "GPIO45",
+                        "45"
+                    ],
+                    [
+                        "GPIO46",
+                        "46"
+                    ],
+                    [
+                        "GPIO47",
+                        "47"
+                    ],
+                    [
+                        "GPIO48",
+                        "48"
+                    ],
+                    [
+                        "无",
+                        "-1"
+                    ]
+                ]
+            },
+            {"type": "field_dropdown","name": "MOSI", "options": [
+                    [
+                        "GPIO21",
+                        "21"
+                    ],
+                    [
+                        "GPIO0",
+                        "0"
+                    ],
+                    [
+                        "GPIO1",
+                        "1"
+                    ],
+                    [
+                        "GPIO2",
+                        "2"
+                    ],
+                    [
+                        "GPIO3",
+                        "3"
+                    ],
+                    [
+                        "GPIO4",
+                        "4"
+                    ],
+                    [
+                        "GPIO5",
+                        "5"
+                    ],
+                    [
+                        "GPIO6",
+                        "6"
+                    ],
+                    [
+                        "GPIO7",
+                        "7"
+                    ],
+                    [
+                        "GPIO8",
+                        "8"
+                    ],
+                    [
+                        "GPIO9",
+                        "9"
+                    ],
+                    [
+                        "GPIO10",
+                        "10"
+                    ],
+                    [
+                        "GPIO11",
+                        "11"
+                    ],
+                    [
+                        "GPIO12",
+                        "12"
+                    ],
+                    [
+                        "GPIO13",
+                        "13"
+                    ],
+                    [
+                        "GPIO14",
+                        "14"
+                    ],
+                    [
+                        "GPIO15",
+                        "15"
+                    ],
+                    [
+                        "GPIO16",
+                        "16"
+                    ],
+                    [
+                        "GPIO17",
+                        "17"
+                    ],
+                    [
+                        "GPIO18",
+                        "18"
+                    ],
+                    [
+                        "GPIO19",
+                        "19"
+                    ],
+                    [
+                        "GPIO20",
+                        "20"
+                    ],
+                    [
+                        "GPIO21",
+                        "21"
+                    ],
+                    [
+                        "GPIO35",
+                        "35"
+                    ],
+                    [
+                        "GPIO36",
+                        "36"
+                    ],
+                    [
+                        "GPIO37",
+                        "37"
+                    ],
+                    [
+                        "GPIO38",
+                        "38"
+                    ],
+                    [
+                        "GPIO39",
+                        "39"
+                    ],
+                    [
+                        "GPIO40",
+                        "40"
+                    ],
+                    [
+                        "GPIO41",
+                        "41"
+                    ],
+                    [
+                        "GPIO42",
+                        "42"
+                    ],
+                    [
+                        "GPIO43",
+                        "43"
+                    ],
+                    [
+                        "GPIO44",
+                        "44"
+                    ],
+                    [
+                        "GPIO45",
+                        "45"
+                    ],
+                    [
+                        "GPIO46",
+                        "46"
+                    ],
+                    [
+                        "GPIO47",
+                        "47"
+                    ],
+                    [
+                        "GPIO48",
+                        "48"
+                    ],
+                    [
+                        "无",
+                        "-1"
+                    ]
+                ]
+            },
+            {"type": "field_dropdown","name": "CLK", "options": [
+                    [
+                        "GPIO17",
+                        "17"
+                    ],
+                    [
+                        "GPIO0",
+                        "0"
+                    ],
+                    [
+                        "GPIO1",
+                        "1"
+                    ],
+                    [
+                        "GPIO2",
+                        "2"
+                    ],
+                    [
+                        "GPIO3",
+                        "3"
+                    ],
+                    [
+                        "GPIO4",
+                        "4"
+                    ],
+                    [
+                        "GPIO5",
+                        "5"
+                    ],
+                    [
+                        "GPIO6",
+                        "6"
+                    ],
+                    [
+                        "GPIO7",
+                        "7"
+                    ],
+                    [
+                        "GPIO8",
+                        "8"
+                    ],
+                    [
+                        "GPIO9",
+                        "9"
+                    ],
+                    [
+                        "GPIO10",
+                        "10"
+                    ],
+                    [
+                        "GPIO11",
+                        "11"
+                    ],
+                    [
+                        "GPIO12",
+                        "12"
+                    ],
+                    [
+                        "GPIO13",
+                        "13"
+                    ],
+                    [
+                        "GPIO14",
+                        "14"
+                    ],
+                    [
+                        "GPIO15",
+                        "15"
+                    ],
+                    [
+                        "GPIO16",
+                        "16"
+                    ],
+                    [
+                        "GPIO17",
+                        "17"
+                    ],
+                    [
+                        "GPIO18",
+                        "18"
+                    ],
+                    [
+                        "GPIO19",
+                        "19"
+                    ],
+                    [
+                        "GPIO20",
+                        "20"
+                    ],
+                    [
+                        "GPIO21",
+                        "21"
+                    ],
+                    [
+                        "GPIO35",
+                        "35"
+                    ],
+                    [
+                        "GPIO36",
+                        "36"
+                    ],
+                    [
+                        "GPIO37",
+                        "37"
+                    ],
+                    [
+                        "GPIO38",
+                        "38"
+                    ],
+                    [
+                        "GPIO39",
+                        "39"
+                    ],
+                    [
+                        "GPIO40",
+                        "40"
+                    ],
+                    [
+                        "GPIO41",
+                        "41"
+                    ],
+                    [
+                        "GPIO42",
+                        "42"
+                    ],
+                    [
+                        "GPIO43",
+                        "43"
+                    ],
+                    [
+                        "GPIO44",
+                        "44"
+                    ],
+                    [
+                        "GPIO45",
+                        "45"
+                    ],
+                    [
+                        "GPIO46",
+                        "46"
+                    ],
+                    [
+                        "GPIO47",
+                        "47"
+                    ],
+                    [
+                        "GPIO48",
+                        "48"
+                    ],
+                    [
+                        "无",
+                        "-1"
+                    ]
+                ]
+            },
+            {"type": "field_dropdown","name": "DC", "options": [
+                    [
+                        "GPIO14",
+                        "14"
+                    ],
+                    [
+                        "GPIO0",
+                        "0"
+                    ],
+                    [
+                        "GPIO1",
+                        "1"
+                    ],
+                    [
+                        "GPIO2",
+                        "2"
+                    ],
+                    [
+                        "GPIO3",
+                        "3"
+                    ],
+                    [
+                        "GPIO4",
+                        "4"
+                    ],
+                    [
+                        "GPIO5",
+                        "5"
+                    ],
+                    [
+                        "GPIO6",
+                        "6"
+                    ],
+                    [
+                        "GPIO7",
+                        "7"
+                    ],
+                    [
+                        "GPIO8",
+                        "8"
+                    ],
+                    [
+                        "GPIO9",
+                        "9"
+                    ],
+                    [
+                        "GPIO10",
+                        "10"
+                    ],
+                    [
+                        "GPIO11",
+                        "11"
+                    ],
+                    [
+                        "GPIO12",
+                        "12"
+                    ],
+                    [
+                        "GPIO13",
+                        "13"
+                    ],
+                    [
+                        "GPIO14",
+                        "14"
+                    ],
+                    [
+                        "GPIO15",
+                        "15"
+                    ],
+                    [
+                        "GPIO16",
+                        "16"
+                    ],
+                    [
+                        "GPIO17",
+                        "17"
+                    ],
+                    [
+                        "GPIO18",
+                        "18"
+                    ],
+                    [
+                        "GPIO19",
+                        "19"
+                    ],
+                    [
+                        "GPIO20",
+                        "20"
+                    ],
+                    [
+                        "GPIO21",
+                        "21"
+                    ],
+                    [
+                        "GPIO35",
+                        "35"
+                    ],
+                    [
+                        "GPIO36",
+                        "36"
+                    ],
+                    [
+                        "GPIO37",
+                        "37"
+                    ],
+                    [
+                        "GPIO38",
+                        "38"
+                    ],
+                    [
+                        "GPIO39",
+                        "39"
+                    ],
+                    [
+                        "GPIO40",
+                        "40"
+                    ],
+                    [
+                        "GPIO41",
+                        "41"
+                    ],
+                    [
+                        "GPIO42",
+                        "42"
+                    ],
+                    [
+                        "GPIO43",
+                        "43"
+                    ],
+                    [
+                        "GPIO44",
+                        "44"
+                    ],
+                    [
+                        "GPIO45",
+                        "45"
+                    ],
+                    [
+                        "GPIO46",
+                        "46"
+                    ],
+                    [
+                        "GPIO47",
+                        "47"
+                    ],
+                    [
+                        "GPIO48",
+                        "48"
+                    ],
+                    [
+                        "无",
+                        "-1"
+                    ]
+                ]
+            },
+            {"type": "field_dropdown","name": "RST", "options": [
+                    [
+                        "无",
+                        "-1"
+                    ],
+                    [
+                        "GPIO0",
+                        "0"
+                    ],
+                    [
+                        "GPIO1",
+                        "1"
+                    ],
+                    [
+                        "GPIO2",
+                        "2"
+                    ],
+                    [
+                        "GPIO3",
+                        "3"
+                    ],
+                    [
+                        "GPIO4",
+                        "4"
+                    ],
+                    [
+                        "GPIO5",
+                        "5"
+                    ],
+                    [
+                        "GPIO6",
+                        "6"
+                    ],
+                    [
+                        "GPIO7",
+                        "7"
+                    ],
+                    [
+                        "GPIO8",
+                        "8"
+                    ],
+                    [
+                        "GPIO9",
+                        "9"
+                    ],
+                    [
+                        "GPIO10",
+                        "10"
+                    ],
+                    [
+                        "GPIO11",
+                        "11"
+                    ],
+                    [
+                        "GPIO12",
+                        "12"
+                    ],
+                    [
+                        "GPIO13",
+                        "13"
+                    ],
+                    [
+                        "GPIO14",
+                        "14"
+                    ],
+                    [
+                        "GPIO15",
+                        "15"
+                    ],
+                    [
+                        "GPIO16",
+                        "16"
+                    ],
+                    [
+                        "GPIO17",
+                        "17"
+                    ],
+                    [
+                        "GPIO18",
+                        "18"
+                    ],
+                    [
+                        "GPIO19",
+                        "19"
+                    ],
+                    [
+                        "GPIO20",
+                        "20"
+                    ],
+                    [
+                        "GPIO21",
+                        "21"
+                    ],
+                    [
+                        "GPIO35",
+                        "35"
+                    ],
+                    [
+                        "GPIO36",
+                        "36"
+                    ],
+                    [
+                        "GPIO37",
+                        "37"
+                    ],
+                    [
+                        "GPIO38",
+                        "38"
+                    ],
+                    [
+                        "GPIO39",
+                        "39"
+                    ],
+                    [
+                        "GPIO40",
+                        "40"
+                    ],
+                    [
+                        "GPIO41",
+                        "41"
+                    ],
+                    [
+                        "GPIO42",
+                        "42"
+                    ],
+                    [
+                        "GPIO43",
+                        "43"
+                    ],
+                    [
+                        "GPIO44",
+                        "44"
+                    ],
+                    [
+                        "GPIO45",
+                        "45"
+                    ],
+                    [
+                        "GPIO46",
+                        "46"
+                    ],
+                    [
+                        "GPIO47",
+                        "47"
+                    ],
+                    [
+                        "GPIO48",
+                        "48"
+                    ],
+                    [
+                        "无",
+                        "-1"
+                    ]
+                ]
+            },
+            {"type": "field_dropdown","name": "CS", "options": [
+                    [
+                        "GPIO15",
+                        "15"
+                    ],
+                    [
+                        "GPIO1",
+                        "1"
+                    ],
+                    [
+                        "GPIO2",
+                        "2"
+                    ],
+                    [
+                        "GPIO3",
+                        "3"
+                    ],
+                    [
+                        "GPIO4",
+                        "4"
+                    ],
+                    [
+                        "GPIO5",
+                        "5"
+                    ],
+                    [
+                        "GPIO6",
+                        "6"
+                    ],
+                    [
+                        "GPIO7",
+                        "7"
+                    ],
+                    [
+                        "GPIO8",
+                        "8"
+                    ],
+                    [
+                        "GPIO9",
+                        "9"
+                    ],
+                    [
+                        "GPIO10",
+                        "10"
+                    ],
+                    [
+                        "GPIO11",
+                        "11"
+                    ],
+                    [
+                        "GPIO12",
+                        "12"
+                    ],
+                    [
+                        "GPIO13",
+                        "13"
+                    ],
+                    [
+                        "GPIO14",
+                        "14"
+                    ],
+                    [
+                        "GPIO15",
+                        "15"
+                    ],
+                    [
+                        "GPIO16",
+                        "16"
+                    ],
+                    [
+                        "GPIO17",
+                        "17"
+                    ],
+                    [
+                        "GPIO18",
+                        "18"
+                    ],
+                    [
+                        "GPIO19",
+                        "19"
+                    ],
+                    [
+                        "GPIO20",
+                        "20"
+                    ],
+                    [
+                        "GPIO21",
+                        "21"
+                    ],
+                    [
+                        "GPIO35",
+                        "35"
+                    ],
+                    [
+                        "GPIO36",
+                        "36"
+                    ],
+                    [
+                        "GPIO37",
+                        "37"
+                    ],
+                    [
+                        "GPIO38",
+                        "38"
+                    ],
+                    [
+                        "GPIO39",
+                        "39"
+                    ],
+                    [
+                        "GPIO40",
+                        "40"
+                    ],
+                    [
+                        "GPIO41",
+                        "41"
+                    ],
+                    [
+                        "GPIO42",
+                        "42"
+                    ],
+                    [
+                        "GPIO43",
+                        "43"
+                    ],
+                    [
+                        "GPIO44",
+                        "44"
+                    ],
+                    [
+                        "GPIO45",
+                        "45"
+                    ],
+                    [
+                        "GPIO46",
+                        "46"
+                    ],
+                    [
+                        "GPIO47",
+                        "47"
+                    ],
+                    [
+                        "GPIO48",
+                        "48"
+                    ],
+                    [
+                        "无",
+                        "-1"
+                    ]
+                ]
+            }
+        ],
         "inputsInline": false,
         "previousStatement": null,
         "nextStatement": null,
         "colour": "#4CAF50",
-        "tooltip": "初始化AI-VOX屏幕，使用ST7789驱动。",
+        "tooltip": "初始化AI-VOX屏幕，使用ST7789驱动\nAI-VOX3引脚：背光：GPIO16, MOSI: GPIO21, CLK: GPIO17, DC: GPIO14, RST: 无，CS：GPIO15\nAI-VOX引脚：背光：GPIO11, MOSI: GPIO17, CLK: GPIO16, DC: GPIO12, RST: GPIO21，CS：GPIO15",
         "helpUrl": ""
     },
     {
         "inputsInline": true,
-        "message0": "显示屏 显示状态 %1 ",
+        "message0": "初始化会话显示样式为 %1 ",
+        "type": "aivox_display_mode",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "display_mode",
+                "options": [
+                    [
+                        "普通",
+                        "normal"
+                    ],
+                    [
+                        "微信对话",
+                        "wechat"
+                    ]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "tooltip": "",
+        "colour": "#4CAF50"
+    },
+
+    {
+        "inputsInline": true,
+        "message0": "在 %1显示 %2 ",
         "type": "aivox_lcd_show_status",
         "args0": [
-            {"type": "input_value","name": "ai_vox_status","text": "test"}
+            {
+                "type": "field_dropdown",
+                "name": "location",
+                "options": [
+                    [
+                        "状态框",
+                        "ShowStatus"
+                    ],
+                    [
+                        "表情框",
+                        "SetEmotion"
+                    ],
+                    [
+                        "内容框",
+                        "SetChatMessage"
+                    ]
+                ]
+            },
+            {"type": "input_value","name": "ai_vox_content","text": "连接中"}
         ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50"
+    },
+   
+    {
+        "inputsInline": true,
+        "message0": "自定义OTA链接 %1 ",
+        "type": "aivox_config_ota_url",
+        "args0": [
+            {"type": "input_value","name": "ai_vox_ota_url","text": "https://api.tenclass.net/xiaozhi/ota/"}
+        ],
+        "previousStatement": null,
+        "tooltip": "使用虾哥服务器不需要调用此块，自建兼容虾哥服务器协议调用此块",
+        "nextStatement": null,
+        "colour": "#4CAF50"
+    },
+    {
+        "inputsInline": true,
+        "message0": "自定义websocket链接 %1 请求头(C语言数组格式) %2 ",
+        "type": "aivox_config_websocket",
+        "args0": [
+            {"type": "input_value","name": "ai_vox_websocket_url","text": "wss://api.tenclass.net/xiaozhi/v1/"},
+            {"type": "input_value","name": "ai_vox_websocket_param","text": "{{\"Authorization\", \"Bearer test-token\"}}"}
+        ],
+        "previousStatement": null,
+        "tooltip": "使用虾哥服务器不需要调用此块，自建兼容虾哥服务器协议调用此块",
+        "nextStatement": null,
+        "colour": "#4CAF50"
+    },
+    {
+        "inputsInline": true,
+        "message0": "启动AI-VOX引擎 ",
+        "type": "aivox3_start_engine",
         "previousStatement": null,
         "nextStatement": null,
         "colour": "#4CAF50"
     },
     {
         "inputsInline": true,
-        "message0": "显示屏 %1 显示聊天信息 %2",
+        "message0": "设备对话框 %1 显示聊天信息 %2",
         "type": "aivox_lcd_show_chat_message",
         "args0": [
             {"type": "field_dropdown","name": "ai_vox_display_role","options": [
@@ -61,7 +1140,7 @@
     },
     {
         "inputsInline": true,
-        "message0": "显示屏 显示表情 %1 ",
+        "message0": "显示屏状态框 显示表情 %1 ",
         "type": "aivox_lcd_show_emotion",
         "args0": [
             {"type": "input_value","name": "ai_vox_emotion","text": "test"}
@@ -70,401 +1149,601 @@
         "nextStatement": null,
         "colour": "#4CAF50"
     },
-
     {
         "inputsInline": true,
-        "message0": "注册LED设备名称 %1 led数量 %2 属性描述 %3 控制功能 打开 %4 关闭 %5",
-        "type": "aivox_register_led_driver_status",
+        "message0": "注册MCP状态控制  名称%1 描述 %2 参数 %3",
+        "type": "aivox_mcp_register_state_control_command",
         "args0": [
-            {"type": "input_value","name": "driver_name","text": "test"},
-            {"type": "input_value","name": "driver_num","text": "test"},
-            {"type": "input_value","name": "driver_properties","text": "test"},
-            {"type": "input_value","name": "driver_open","text": "test"},
-            {"type": "input_value","name": "driver_close","text": "test"}
+            {"type": "input_value","name": "ai_vox_mcp_control_name","text": "led"},
+            {"type": "input_value","name": "ai_vox_mcp_control_desc","text": "LED, true for on, false for off"},
+            {"type": "input_value","name": "ai_vox_mcp_control_param","text": "state"}
         ],
         "previousStatement": null,
         "nextStatement": null,
         "colour": "#4CAF50"
     },
-
     {
         "inputsInline": true,
-        "message0": "注册舵机设备名称 %1 舵机数量 %2 属性描述 %3",
-        "type": "aivox_register_servo_driver_status",
+        "message0": "注册MCP数值控制  名称%1 描述 %2 参数 %3 最小值 %4 最大值 %5",
+        "type": "aivox_mcp_register_value_control_command",
         "args0": [
-            {"type": "input_value","name": "driver_name","text": "test"},
-            {"type": "input_value","name": "driver_num","text": "test"},
-            {"type": "input_value","name": "driver_properties","text": "test"}
+            {"type": "input_value","name": "ai_vox_mcp_control_name","text": "led"},
+            {"type": "input_value","name": "ai_vox_mcp_control_desc","text": "LED, true for on, false for off"},
+            {"type": "input_value","name": "ai_vox_mcp_control_param","text": "state"},
+            {"type": "input_value","name": "ai_vox_mcp_control_value_min", "NUM": 0},
+            {"type": "input_value","name": "ai_vox_mcp_control_value_max", "NUM": 100}
         ],
         "previousStatement": null,
         "nextStatement": null,
-        "colour": "#C9A0DC"
+        "colour": "#4CAF50"
     },
     {
-        "inputsInline": true,
-        "message0": "注册模拟传感器设备名称 %1 属性描述 %2 状态 %3",
-        "type": "aivox_register_analog_sensor_driver_status",
+        "inputsInline": false,
+        "message0": "注册MCP控制服务%1",
+        "type": "aivox_mcp_register_control_command",
         "args0": [
-            {"type": "input_value","name": "aivox_analog_name","text": "test"},
-            {"type": "input_value","name": "aivox_analog_desc","text": "test"},
-            {"type": "input_value","name": "aivox_analog_status","text": "test"}
+            {"type": "input_value","name": "NAME","check": "Object"}
+        ],
+        "message1": "参数%1",
+        "args1": [
+            {"type": "input_value","name": "INPUT0","check": "Object"}
         ],
         "previousStatement": null,
         "nextStatement": null,
-        "colour": "#C9A0DC"
+        "colour": "#4CAF50",
+        "mutator": "dynamic_inputs_mutator"
     },
     {
         "inputsInline": true,
-        "message0": "注册超声波设备名称 %1 属性描述 %2",
-        "type": "aivox_register_ultrasonic_sensor_driver_status",
+        "message0": "MCP服务名称%1 描述%2",
+        "type": "aivox_mcp_control",
         "args0": [
-            {"type": "input_value","name": "driver_name","text": "test"},
-            {"type": "input_value","name": "driver_properties","text": "test"}
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "led"
+            },
+            {
+                "type": "input_value",
+                "name": "DESC",
+                "text": "LED, true for on, false for off"
+            }
         ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#C9A0DC"
+        "output": "Object",
+        "colour": "#4CAF50"
     },
     {
         "inputsInline": true,
-        "message0": "注册温湿度DHT11设备温度功能名称 %1 属性描述 %2 湿度功能名称 %3 属性描述 %4",
-        "type": "aivox_register_dht11_sensor_driver_status",
+        "message0": "MCP服务参数%1 参数类型%2",
+        "type": "aivox_mcp_control_param",
         "args0": [
-            {"type": "input_value","name": "dht11_temp_name","text": "test"},
-            {"type": "input_value","name": "temp_properties","text": "test"},
-            {"type": "input_value","name": "dht11_humidity_name","text": "test"},
-            {"type": "input_value","name": "humidity_properties","text": "test"}
+            {   "type": "field_input",
+                "name": "VAR",
+                "text": "state"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TYPE",
+                "options": [
+                    ["布尔值 (Boolean)", "Boolean"],
+                    ["数值 (Number)", "Number"]
+                ]
+            }
         ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#C9A0DC"
+        "output": "Object",
+        "colour": "#4CAF50",
+        "extensions": [
+            "aivox3_mcp_control_param_extension"
+        ]
     },
     {
-        "inputsInline": true,
-        "message0": "注册WS2812彩灯功能名称 %1 灯珠数量 %2",
-        "type": "aivox_register_ws2812_driver_status",
-        "args0": [
-            {"type": "input_value","name": "aivox_ws2812_name","text": "test"},
-            {"type": "input_value","name": "aivox_ws2812_num","text": "test"}
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#C9A0DC"
-    },
-    {
-        "type": "aivox_loop",
-        "message0": "当 AI-VOX 事件发生时 %1 %2",
+        "type": "aivox_loop_activation",
+        "message0": "当AI-VOX收到激活信息%1 %2",
         "args0": [
             { "type": "input_dummy" },
             { "type": "input_statement", "name": "DO" }
         ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF9800",
-        "tooltip": "处理AI Vox引擎产生的事件。",
+        "colour": "#4CAF50",
+        "inputsInline": false,
+        "tooltip": "AI-VOX激活事件的逻辑",
         "helpUrl": ""
     },
     {
-        "type": "aivox_event_is_activation",
-        "message0": "如果事件是 激活",
-        "message1": "执行 %1",
-        "args1": [
-            { "type": "input_statement", "name": "DO" }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FFC107",
-        "tooltip": "检查当前事件是否为设备激活事件。",
-        "helpUrl": ""
-    },
-    {
-        "type": "aivox_get_activation_message",
-        "message0": "获取激活消息",
-        "output": "String",
-        "colour": "#FFC107",
-        "tooltip": "获取设备激活事件中的消息内容。",
-        "helpUrl": ""
-    },
-    {
-        "type": "aivox_get_activation_code",
-        "message0": "获取激活代码",
-        "output": "String",
-        "colour": "#FFC107",
-        "tooltip": "获取设备激活事件中的代码。",
-        "helpUrl": ""
-    },
-    {
-        "type": "aivox_event_is_state_change",
-        "message0": "如果事件是 状态改变",
-        "message1": "执行 %1",
-        "args1": [
-            { "type": "input_statement", "name": "DO" }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FFC107",
-        "tooltip": "检查当前事件是否为状态改变事件。",
-        "helpUrl": ""
-    },
-    {
-        "type": "aivox_get_new_state",
-        "message0": "获取新状态",
-        "output": "Number",
-        "colour": "#FFC107",
-        "tooltip": "获取状态改变事件中的新状态。",
-        "helpUrl": ""
-    },
-    {
-        "type": "aivox_get_old_state",
-        "message0": "获取旧状态",
-        "output": "Number",
-        "colour": "#FFC107",
-        "tooltip": "获取状态改变事件中的旧状态。",
-        "helpUrl": ""
-    },
-    {
-        "type": "aivox_state_enum",
-        "message0": "%1",
+        "inputsInline": true,
+        "message0": "收到的 %1",
+        "type": "get_aivox_activation_message",
         "args0": [
             {
                 "type": "field_dropdown",
-                "name": "STATE",
+                "name": "activation_type",
                 "options": [
-                    ["空闲 (Idle)", "ai_vox::ChatState::kIdle"],
-                    ["初始化中 (Initing)", "ai_vox::ChatState::kIniting"],
-                    ["待命 (Standby)", "ai_vox::ChatState::kStandby"],
-                    ["连接中 (Connecting)", "ai_vox::ChatState::kConnecting"],
-                    ["聆听中 (Listening)", "ai_vox::ChatState::kListening"],
-                    ["说话中 (Speaking)", "ai_vox::ChatState::kSpeaking"]
+                    ["激活码", "code"],
+                    ["激活网址", "message"]
                 ]
             }
         ],
-        "output": "Number",
-        "colour": "#FFEB3B",
-        "tooltip": "AI-VOX 聊天状态。",
-        "helpUrl": ""
-    },
-    {
-        "type": "aivox_event_is_emotion",
-        "message0": "如果事件是 表情",
-        "message1": "执行 %1",
-        "args1": [
-            { "type": "input_statement", "name": "DO" }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FFC107",
-        "tooltip": "检查当前事件是否为表情事件。",
-        "helpUrl": ""
-    },
-    {
-        "type": "aivox_get_emotion",
-        "message0": "获取表情",
         "output": "String",
-        "colour": "#FFC107",
-        "tooltip": "获取表情事件中的表情名称。",
+        "colour": "#4CAF50",
+        "tooltip": "获取设备的激活码",
         "helpUrl": ""
     },
     {
-        "type": "aivox_event_is_chat_message",
-        "message0": "如果事件是 聊天消息",
-        "message1": "执行 %1",
-        "args1": [
+        "type": "aivox_loop_emotion",
+        "message0": "当AI-VOX收到表情码%1 %2",
+        "args0": [
+            { "type": "input_dummy" },
             { "type": "input_statement", "name": "DO" }
         ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FFC107",
-        "tooltip": "检查当前事件是否为聊天消息事件。",
+        "colour": "#4CAF50",
+        "inputsInline": false,
+        "tooltip": "AI-VOX表情事件的逻辑",
         "helpUrl": ""
     },
     {
-        "type": "aivox_get_chat_role",
-        "message0": "获取聊天角色",
-        "output": "Number",
-        "colour": "#FFC107",
-        "tooltip": "获取聊天消息事件中的角色。",
+        "inputsInline": true,
+        "message0": "收到的表情码",
+        "type": "get_aivox_emotion_result",
+        "output": "String",
+        "colour": "#4CAF50",
+        "tooltip": "获取当前情绪表情",
         "helpUrl": ""
     },
+
     {
-        "type": "aivox_chat_role_enum",
-        "message0": "聊天系统角色 %1",
+        "inputsInline": true,
+        "message0": "收到的表情为 %1?",
+        "type": "aivox_emotion",
         "args0": [
             {
+                "type": "field_dropdown",
+                "name": "emotion",
+                "options": [
+                    [
+                        "高兴",
+                        "happy"
+                    ],
+                    [
+                        "酷炫",
+                        "cool"
+                    ],
+                    [
+                        "大笑",
+                        "laughing"
+                    ],
+                    [
+                        "搞笑",
+                        "funny"
+                    ],
+                    [
+                        "忧伤",
+                        "sad"
+                    ],
+                    [
+                        "生气",
+                        "angry"
+                    ],
+                    [
+                        "哭泣",
+                        "crying"
+                    ],
+                    [
+                        "喜欢",
+                        "loving"
+                    ],
+                    [
+                        "尴尬",
+                        "embarrassed"
+                    ],
+                    [
+                        "惊讶",
+                        "surprised"
+                    ],
+                    [
+                        "震惊",
+                        "shocked"
+                    ],
+                    [
+                        "思考",
+                        "thinking"
+                    ],
+                    [
+                        "调皮",
+                        "winking"
+                    ],
+                    [
+                        "放松",
+                        "relaxed"
+                    ],
+                    [
+                        "享受",
+                        "delicious"
+                    ],
+                    [
+                        "亲亲",
+                        "kissy"
+                    ],
+                    [
+                        "自信",
+                        "confident"
+                    ],
+                    [
+                        "困倦",
+                        "sleepy"
+                    ],
+                    [
+                        "搞怪",
+                        "silly"
+                    ],
+                    [
+                        "困惑",
+                        "confused"
+                    ]
+                ]
+            }
+        ],
+        "output": "Boolean",
+        "colour": "#4CAF50",
+        "tooltip": "情绪表情",
+        "helpUrl": ""
+    },
+    {
+        "inputsInline": true,
+        "message0": "表情包 %1",
+        "type": "aivox_emotion_list",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "emotion",
+                "options": [
+                    [
+                        "高兴",
+                        "happy"
+                    ],
+                    [
+                        "酷炫",
+                        "cool"
+                    ],
+                    [
+                        "大笑",
+                        "laughing"
+                    ],
+                    [
+                        "搞笑",
+                        "funny"
+                    ],
+                    [
+                        "忧伤",
+                        "sad"
+                    ],
+                    [
+                        "生气",
+                        "angry"
+                    ],
+                    [
+                        "哭泣",
+                        "crying"
+                    ],
+                    [
+                        "喜欢",
+                        "loving"
+                    ],
+                    [
+                        "尴尬",
+                        "embarrassed"
+                    ],
+                    [
+                        "惊讶",
+                        "surprised"
+                    ],
+                    [
+                        "震惊",
+                        "shocked"
+                    ],
+                    [
+                        "思考",
+                        "thinking"
+                    ],
+                    [
+                        "调皮",
+                        "winking"
+                    ],
+                    [
+                        "放松",
+                        "relaxed"
+                    ],
+                    [
+                        "享受",
+                        "delicious"
+                    ],
+                    [
+                        "亲亲",
+                        "kissy"
+                    ],
+                    [
+                        "自信",
+                        "confident"
+                    ],
+                    [
+                        "困倦",
+                        "sleepy"
+                    ],
+                    [
+                        "搞怪",
+                        "silly"
+                    ],
+                    [
+                        "困惑",
+                        "confused"
+                    ]
+                ]
+            }
+        ],
+        "output": "String",
+        "colour": "#4CAF50",
+        "tooltip": "情绪表情",
+        "helpUrl": ""
+    },
+    {
+        "type": "aivox_loop_state_change",
+        "message0": "当AI-VOX设备状态为 %1 %2 %3",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "chat_state",
+                "options": [
+                    [
+                        "空闲中",
+                        "Idle"
+                    ],
+                    [
+                        "初始化完成",
+                        "Initted"
+                    ],
+                    [
+                        "加载协议中",
+                        "Loading"
+                    ],
+                    [
+                        "加载协议失败",
+                        "LoadingFailed"
+                    ],
+                    [
+                        "待命",
+                        "Standby"
+                    ],
+                    [
+                        "连接中",
+                        "Connecting"
+                    ],
+                    [
+                        "聆听中",
+                        "Listening"
+                    ],
+                    [
+                        "说话中",
+                        "Speaking"
+                    ]
+                ]
+            },
+            { "type": "input_dummy" },
+            { "type": "input_statement", "name": "DO" }
+        ],
+        "colour": "#4CAF50",
+        "inputsInline": false,
+        "tooltip": "处理AI-VOX交互状态变化事件",
+        "helpUrl": ""
+    },
+    {
+        "inputsInline": true,
+        "message0": "AI-VOX状态%1为 %2?",
+        "type": "aivox_state",
+        "args0": [
+            {
+                "type": "field_variable", 
+                "name": "STATEVAR",
+                "variable": "state",
+                "variableTypes": ["AIVOX_STATE"],
+                "defaultType": "AIVOX_STATE"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "state",
+                "options": [
+                    [
+                        "空闲中",
+                        "ai_vox::ChatState::kIdle"
+                    ],
+                    [
+                        "初始化完成",
+                        "ai_vox::ChatState::kInitted"
+                    ],
+                    [
+                        "加载协议中",
+                        "ai_vox::ChatState::kLoading"
+                    ],
+                    [
+                        "加载协议失败",
+                        "ai_vox::ChatState::kLoadingFailed"
+                    ],
+                    [
+                        "待命",
+                        "ai_vox::ChatState::kStandby"
+                    ],
+                    [
+                        "连接中",
+                        "ai_vox::ChatState::kConnecting"
+                    ],
+                    [
+                        "聆听中",
+                        "ai_vox::ChatState::kListening"
+                    ],
+                    [
+                        "说话中",
+                        "ai_vox::ChatState::kSpeaking"
+                    ]
+                ]
+            }
+        ],
+        "output": "Boolean",
+        "colour": "#4CAF50",
+        "tooltip": "判断当前设备状态",
+        "helpUrl": ""
+    },
+    {
+        "type": "aivox_loop_chat_message",
+        "message0": "当AI-VOX收到聊天消息%1 %2",
+        "args0": [
+            { "type": "input_dummy" },
+            { "type": "input_statement", "name": "DO" }
+        ],
+        "colour": "#4CAF50",
+        "inputsInline": false,
+        "tooltip": "处理AI-VOX交互消息事件",
+        "helpUrl": ""
+    },
+    {
+        "type": "aivox_loop_chat_message_role_var",
+        "message0": "收到%1的消息？",
+        "args0": [
+             {
                 "type": "field_dropdown",
                 "name": "chat_role",
                 "options": [
-                    ["助手 (Assistant)", "ai_vox::ChatRole::kAssistant"],
-                    ["用户 (User)", "ai_vox::ChatRole::kUser"]
+                    ["助手回复", "assistant"],
+                    ["用户询问", "user"]
                 ]
             }
         ],
-        "output": "Number",
-        "colour": "#FFEB3B",
-        "tooltip": "AI-VOX 聊天角色。",
-        "helpUrl": ""
+        "output": "Boolean",
+        "tooltip": "AI-VOX设备当前消息的角色",
+        "colour": "#4CAF50"
     },
     {
-        "type": "aivox_get_chat_content",
-        "message0": "获取聊天内容",
+        "type": "aivox_loop_chat_message_msg_var",
+        "message0": "收到的消息内容",
         "output": "String",
-        "colour": "#FFC107",
-        "tooltip": "获取聊天消息事件中的内容。",
-        "helpUrl": ""
+        "tooltip": "AI-VOX设备当前聊天的信息内容",
+        "colour": "#4CAF50"
     },
     {
-        "type": "aivox_event_is_iot_message",
-        "message0": "如果是IOT控制事件",
-        "message1": "执行 %1",
-        "args1": [
+        "type": "aivox_loop_mcp",
+        "message0": "当AI-VOX收到MCP消息%1 %2",
+        "args0": [
+            { "type": "input_dummy" },
             { "type": "input_statement", "name": "DO" }
         ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FFC107",
-        "tooltip": "检查当前事件是否为IOT事件。",
+        "colour": "#4CAF50",
+        "inputsInline": false,
+        "tooltip": "处理AI-VOX MCP信息",
         "helpUrl": ""
     },
+    
     {
         "type": "aivox_get_iot_message_event_name",
-        "message0": "获取IOT事件名称",
-        "output": "String",
+        "message0": "设备名称为 %1",
+        "args0": [
+            {"type": "input_value","name": "ai_vox_mcp_control_name","text": "led"}
+        ],
+        "output": "Boolean",
         "colour": "#FFC107",
         "tooltip": "",
         "helpUrl": ""
     },
     {
-        "type": "aivox_get_iot_led_message_event_fuction",
-        "message0": "IOT为LED事件功能为 %1",
+        "type": "aivox_get_iot_message_event_name_new",
+        "message0": "MCP服务名称为 %1?",
         "args0": [
             {
-                "type": "field_dropdown",
-                "name": "event_fuction",
-                "options": [
-                    ["打开", "TurnOn"],
-                    ["关闭", "TurnOff"]
-                ]
+                "type": "field_variable", 
+                "name": "VAR",
+                "variable": "led",
+                "variableTypes": ["AIVOX"],
+                "defaultType": "AIVOX"
             }
         ],
-        "output": "String",
-        "colour": "#FFC107",
+        "output": "Boolean",
+        "colour": "#4CAF50"
+    },
+    {
+        "type": "aivox_state_control_message_event_fuction",
+        "message0": "获取设备名称 %1 状态参数 %2 的结果",
+        "args0": [
+            {"type": "input_value","name": "ai_vox_mcp_control_name","text": "led"},
+            {"type": "input_value","name": "ai_vox_mcp_control_state","text": "state"}
+        ],
+        "output": "null",
+        "colour": "#4CAF50",
         "tooltip": "",
         "helpUrl": ""
     },
     {
-        "type": "aivox_get_iot_servo_message_event_fuction",
-        "message0": "IOT为舵机事件功能为 %1",
+        "type": "aivox_control_message_event_fuction",
+        "message0": "获取MCP服务名称 %1 参数 %2 的结果",
         "args0": [
             {
-                "type": "field_dropdown",
-                "name": "event_fuction",
-                "options": [
-                    ["设置单个舵机角度", "SetOneServo"],
-                    ["设置所有舵机角度", "SetAllServos"]
-                ]
+                "type": "field_variable", 
+                "name": "VAR",
+                "variable": "led",
+                "variableTypes": ["AIVOX"],
+                "defaultType": "AIVOX"
+            },
+            {
+                "type": "field_variable", 
+                "name": "PVAR",
+                "variable": "state",
+                "variableTypes": ["AIVOX_PARAM_STATE"],
+                "defaultType": "AIVOX_PARAM_STATE"
             }
         ],
-        "output": "String",
-        "colour": "#FFC107",
+        "output": "null",
+        "colour": "#4CAF50",
         "tooltip": "",
         "helpUrl": ""
     },
     {
-        "type": "aivox_get_iot_servo_message",
-        "message0": "获取IOT设置舵机的 %1",
+        "inputsInline": true,
+        "message0": "上报设备 %1 控制结果",
+        "type": "aivox_response_mcp_control_result",
+        "args0": [
+            {"type": "input_value","name": "ai_vox_mcp_control_name","text": "led"}
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50"
+    },
+    {
+        "inputsInline": true,
+        "message0": "上报MCP服务名称 %1 执行完成",
+        "type": "aivox_response_mcp_control_result_new",
         "args0": [
             {
-                "type": "field_dropdown",
-                "name": "iot_servo_msg",
-                "options": [
-                    ["编号", "1"],
-                    ["角度", "2"]
-                ]
+                "type": "field_variable", 
+                "name": "VAR",
+                "variable": "led",
+                "variableTypes": ["AIVOX"],
+                "defaultType": "AIVOX"
             }
         ],
-        "output": "Number",
-        "colour": "#FFC107",
-        "tooltip": "",
-        "helpUrl": ""
-    },
-    {
-        "inputsInline": true,
-        "message0": "更新LED设备 %1 状态值 %2 ",
-        "type": "aivox_update_led_iot_state",
-        "args0": [
-            {"type": "input_value","name": "aivox_drive","text": "led"},
-            {"type": "input_value","name": "aivox_drive_state","text": "str"}
-
-        ],
         "previousStatement": null,
         "nextStatement": null,
         "colour": "#4CAF50"
     },
     {
         "inputsInline": true,
-        "message0": "更新舵机设备 %1 角度为 %2 ",
-        "type": "aivox_update_servo_iot_state",
+        "message0": "设置MCP服务名称 %1 的数据 %2",
+        "type": "aivox_update_mcp_control_state_new",
         "args0": [
-            {"type": "input_value","name": "aivox_drive","text": "servo"},
-            {"type": "input_value","name": "aivox_drive_state","text": "str"}
-
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50"
-    },
-    {
-        "inputsInline": true,
-        "message0": "更新 %1个舵机角度为 %2 ",
-        "type": "aivox_update_all_servo_iot_state",
-        "args0": [
-            {"type": "input_value","name": "aivox_servo_num","text": "2"},
-            {"type": "input_value","name": "aivox_drive_state","text": "str"}
-
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50"
-    },
-    {
-        "inputsInline": true,
-        "message0": "更新超声波%1 距离为 %2 ",
-        "type": "aivox_update_ultrasonic_iot_state",
-        "args0": [
-            {"type": "input_value","name": "aivox_ultrasonic","text": "us04"},
-            {"type": "input_value","name": "aivox_ultrasonic_distance","text": "123"}
-
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50"
-    },
-    {
-        "inputsInline": true,
-        "message0": "更新温湿度%1 数据为 %2 ",
-        "type": "aivox_update_dht11_iot_state",
-        "args0": [
-            {"type": "input_value","name": "aivox_dht11","text": "us04"},
-            {"type": "input_value","name": "aivox_dnt11_value","text": "123"}
-
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50"
-    },
-    {
-        "inputsInline": true,
-        "message0": "更新模拟传感器 %1 数据 %2 ",
-        "type": "aivox_update_analog_sensor_iot_state",
-        "args0": [
-            {"type": "input_value","name": "aivox_analog_sensor_name","text": "us04"},
-            {"type": "input_value","name": "aivox_analog_sensor_value","text": "123"}
-
+            {
+                "type": "field_variable", 
+                "name": "VAR",
+                "variable": "led",
+                "variableTypes": ["AIVOX"],
+                "defaultType": "AIVOX"
+            },
+            {"type": "input_value","name": "STATE", "text": "nulllab"}
         ],
         "previousStatement": null,
         "nextStatement": null,
         "colour": "#4CAF50"
     }
-
-
 ]

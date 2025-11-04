@@ -1,0 +1,126 @@
+[
+    {
+        "type": "rfid_setup",
+        "message0": "初始化RFID读卡器 %1 RX引脚 %2 TX引脚 %3 使能引脚 %4",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "rfidReader"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "RX_PIN",
+                "options": "${board.digitalPins}"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TX_PIN",
+                "options": "${board.digitalPins}"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "ENABLE_PIN",
+                "options": "${board.digitalPins}"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#5C9FE5",
+        "tooltip": "初始化RFID读卡器，设置RX、TX和使能引脚",
+        "helpUrl": ""
+    },
+    {
+        "type": "rfid_on_tag_read",
+        "message0": "当RFID读卡器 %1 读取到标签时",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "rfidReader",
+                "variableTypes": ["RFIDReader"],
+                "defaultType": "RFIDReader"
+            }
+        ],
+        "message1": "标签ID %1",
+        "args1": [
+            {
+                "type": "field_variable",
+                "name": "TAG_VAR",
+                "variable": "tagID",
+                "variableTypes": ["String"],
+                "defaultType": "String"
+            }
+        ],
+        "message2": "执行 %1",
+        "args2": [
+            {
+                "type": "input_statement",
+                "name": "HANDLER"
+            }
+        ],
+        "colour": "#5C9FE5",
+        "tooltip": "当读取到RFID标签时执行的代码",
+        "helpUrl": ""
+    },
+    {
+        "type": "rfid_available",
+        "message0": "RFID读卡器 %1 有数据可读",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "rfidReader",
+                "variableTypes": ["RFIDReader"],
+                "defaultType": "RFIDReader"
+            }
+        ],
+        "output": "Boolean",
+        "colour": "#5C9FE5",
+        "tooltip": "检查RFID读卡器是否有数据可读",
+        "helpUrl": ""
+    },
+    {
+        "type": "rfid_read_tag",
+        "message0": "RFID读卡器 %1 读取标签ID",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "rfidReader",
+                "variableTypes": ["RFIDReader"],
+                "defaultType": "RFIDReader"
+            }
+        ],
+        "output": "String",
+        "colour": "#5C9FE5",
+        "tooltip": "读取RFID标签的ID（10位字符串）",
+        "helpUrl": ""
+    },
+    {
+        "type": "rfid_enable",
+        "message0": "RFID读卡器 %1 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "rfidReader",
+                "variableTypes": ["RFIDReader"],
+                "defaultType": "RFIDReader"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "STATE",
+                "options": [
+                    ["启用", "LOW"],
+                    ["禁用", "HIGH"]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#5C9FE5",
+        "tooltip": "启用或禁用RFID读卡器",
+        "helpUrl": ""
+    }
+]

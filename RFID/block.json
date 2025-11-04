@@ -1,8 +1,13 @@
 [
     {
         "type": "rfid_init",
-        "message0": "初始化RFID模块 SDA引脚%1 RST引脚%2",
+        "message0": "创建RFID读卡器 %1 SDA引脚 %2 RST引脚 %3",
         "args0": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "rfid"
+            },
             {
                 "type": "field_dropdown",
                 "name": "SDA_PIN",
@@ -18,28 +23,53 @@
         "nextStatement": null,
         "colour": "#FF5722",
         "inputsInline": true,
-        "tooltip": "初始化RFID模块，指定SDA和RST引脚"
+        "tooltip": "创建一个MFRC522读卡器并完成SPI初始化"
     },
     {
         "type": "rfid_is_card_present",
-        "message0": "检测是否有卡片靠近",
+        "message0": "RFID %1 检测是否有卡片靠近",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "rfid",
+                "variableTypes": ["RFIDReader"],
+                "defaultType": "RFIDReader"
+            }
+        ],
         "output": "Boolean",
         "colour": "#FF5722",
         "inputsInline": true,
-        "tooltip": "检测是否有RFID卡片靠近读卡器"
+        "tooltip": "调用PICC_IsNewCardPresent检测是否有新卡靠近"
     },
     {
         "type": "rfid_read_uid",
-        "message0": "读取卡片UID",
+        "message0": "RFID %1 读取卡片UID",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "rfid",
+                "variableTypes": ["RFIDReader"],
+                "defaultType": "RFIDReader"
+            }
+        ],
         "output": "String",
         "colour": "#FF5722",
         "inputsInline": true,
-        "tooltip": "读取RFID卡片的唯一标识符（UID）"
+        "tooltip": "调用PICC_ReadCardSerial并返回十六进制UID字符串"
     },
     {
         "type": "rfid_authenticate",
-        "message0": "验证密钥 扇区%1 密钥类型%2 密钥%3",
+        "message0": "RFID %1 验证扇区 %2 密钥类型 %3 密钥 %4",
         "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "rfid",
+                "variableTypes": ["RFIDReader"],
+                "defaultType": "RFIDReader"
+            },
             {
                 "type": "input_value",
                 "name": "SECTOR",
@@ -62,12 +92,19 @@
         "output": "Boolean",
         "colour": "#FF5722",
         "inputsInline": true,
-        "tooltip": "验证指定扇区的密钥，返回验证结果"
+        "tooltip": "验证指定扇区的密钥，成功返回true"
     },
     {
         "type": "rfid_read_block",
-        "message0": "读取数据块%1",
+        "message0": "RFID %1 读取数据块 %2",
         "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "rfid",
+                "variableTypes": ["RFIDReader"],
+                "defaultType": "RFIDReader"
+            },
             {
                 "type": "input_value",
                 "name": "BLOCK",
@@ -77,12 +114,19 @@
         "output": "String",
         "colour": "#FF5722",
         "inputsInline": true,
-        "tooltip": "读取指定数据块的内容"
+        "tooltip": "读取指定数据块并返回十六进制字符串"
     },
     {
         "type": "rfid_write_block",
-        "message0": "写入数据块%1 数据%2",
+        "message0": "RFID %1 写入数据块 %2 数据 %3",
         "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "rfid",
+                "variableTypes": ["RFIDReader"],
+                "defaultType": "RFIDReader"
+            },
             {
                 "type": "input_value",
                 "name": "BLOCK",
@@ -98,29 +142,54 @@
         "nextStatement": null,
         "colour": "#FF5722",
         "inputsInline": true,
-        "tooltip": "向指定数据块写入数据"
+        "tooltip": "向指定数据块写入文本或十六进制数据"
     },
     {
         "type": "rfid_halt",
-        "message0": "停止RFID通信",
+        "message0": "RFID %1 停止通信",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "rfid",
+                "variableTypes": ["RFIDReader"],
+                "defaultType": "RFIDReader"
+            }
+        ],
         "previousStatement": null,
         "nextStatement": null,
         "colour": "#FF5722",
         "inputsInline": true,
-        "tooltip": "停止与RFID卡片的通信"
+        "tooltip": "停止当前卡片通信并关闭加密"
     },
     {
         "type": "rfid_get_uid_string",
-        "message0": "获取UID字符串格式",
+        "message0": "RFID %1 获取UID字符串",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "rfid",
+                "variableTypes": ["RFIDReader"],
+                "defaultType": "RFIDReader"
+            }
+        ],
         "output": "String",
         "colour": "#FF5722",
         "inputsInline": true,
-        "tooltip": "获取格式化的UID字符串"
+        "tooltip": "读取缓存在reader.uid中的UID字符串（不重复读取）"
     },
     {
         "type": "rfid_uid_equals",
-        "message0": "当前UID等于%1",
+        "message0": "RFID %1 当前UID等于 %2",
         "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "rfid",
+                "variableTypes": ["RFIDReader"],
+                "defaultType": "RFIDReader"
+            },
             {
                 "type": "input_value",
                 "name": "UID",
@@ -130,6 +199,6 @@
         "output": "Boolean",
         "colour": "#FF5722",
         "inputsInline": true,
-        "tooltip": "比较当前卡片UID是否等于指定值"
+        "tooltip": "比较当前缓存的UID是否与指定字符串相等"
     }
 ]

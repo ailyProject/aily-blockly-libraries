@@ -1,0 +1,338 @@
+[
+  {
+    "type": "seeed_can_create",
+    "message0": "创建CAN对象 %1 CS引脚 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "can"
+      },
+      {
+        "type": "field_number",
+        "name": "CS_PIN",
+        "value": 9,
+        "min": 0,
+        "max": 53
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "创建CAN总线对象，指定SPI片选引脚"
+  },
+  {
+    "type": "seeed_can_begin",
+    "message0": "初始化CAN %1 速度 %2 时钟 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "can",
+        "variableTypes": ["MCP_CAN"],
+        "defaultType": "MCP_CAN"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SPEED",
+        "options": [
+          ["5KBPS", "CAN_5KBPS"],
+          ["10KBPS", "CAN_10KBPS"],
+          ["20KBPS", "CAN_20KBPS"],
+          ["25KBPS", "CAN_25KBPS"],
+          ["31.25KBPS", "CAN_31K25BPS"],
+          ["33KBPS", "CAN_33KBPS"],
+          ["40KBPS", "CAN_40KBPS"],
+          ["50KBPS", "CAN_50KBPS"],
+          ["80KBPS", "CAN_80KBPS"],
+          ["83.3KBPS", "CAN_83K3BPS"],
+          ["95KBPS", "CAN_95KBPS"],
+          ["95.2KBPS", "CAN_95K2BPS"],
+          ["100KBPS", "CAN_100KBPS"],
+          ["125KBPS", "CAN_125KBPS"],
+          ["200KBPS", "CAN_200KBPS"],
+          ["250KBPS", "CAN_250KBPS"],
+          ["500KBPS", "CAN_500KBPS"],
+          ["666KBPS", "CAN_666KBPS"],
+          ["800KBPS", "CAN_800KBPS"],
+          ["1000KBPS", "CAN_1000KBPS"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CLOCK",
+        "options": [
+          ["8MHz", "MCP_8MHz"],
+          ["12MHz", "MCP_12MHz"],
+          ["16MHz", "MCP_16MHz"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "初始化CAN总线，设置通信速度和时钟频率"
+  },
+  {
+    "type": "seeed_can_send",
+    "message0": "CAN发送 %1 ID %2 扩展帧 %3 数据 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "can",
+        "variableTypes": ["MCP_CAN"],
+        "defaultType": "MCP_CAN"
+      },
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "EXT",
+        "options": [
+          ["标准帧", "0"],
+          ["扩展帧", "1"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "发送CAN消息，指定ID、帧类型和数据"
+  },
+  {
+    "type": "seeed_can_receive_check",
+    "message0": "CAN %1 有消息接收",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "can",
+        "variableTypes": ["MCP_CAN"],
+        "defaultType": "MCP_CAN"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "tooltip": "检查是否有CAN消息接收"
+  },
+  {
+    "type": "seeed_can_receive",
+    "message0": "CAN接收 %1 数据长度 %2 消息ID %3 数据 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "can",
+        "variableTypes": ["MCP_CAN"],
+        "defaultType": "MCP_CAN"
+      },
+      {
+        "type": "field_variable",
+        "name": "LEN",
+        "variable": "len",
+        "variableTypes": ["Number"],
+        "defaultType": "Number"
+      },
+      {
+        "type": "field_variable",
+        "name": "ID",
+        "variable": "id",
+        "variableTypes": ["Number"],
+        "defaultType": "Number"
+      },
+      {
+        "type": "field_variable",
+        "name": "DATA",
+        "variable": "data",
+        "variableTypes": ["String"],
+        "defaultType": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "读取接收到的CAN消息，获取长度、ID和数据"
+  },
+  {
+    "type": "seeed_can_get_id",
+    "message0": "CAN %1 获取消息ID",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "can",
+        "variableTypes": ["MCP_CAN"],
+        "defaultType": "MCP_CAN"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取最后接收到的CAN消息ID"
+  },
+  {
+    "type": "seeed_can_init_mask",
+    "message0": "CAN %1 设置掩码 %2 扩展帧 %3 掩码值 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "can",
+        "variableTypes": ["MCP_CAN"],
+        "defaultType": "MCP_CAN"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "NUM",
+        "options": [
+          ["掩码0", "0"],
+          ["掩码1", "1"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "EXT",
+        "options": [
+          ["标准帧", "0"],
+          ["扩展帧", "1"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MASK",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置CAN接收掩码，用于过滤消息"
+  },
+  {
+    "type": "seeed_can_init_filter",
+    "message0": "CAN %1 设置过滤器 %2 扩展帧 %3 过滤值 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "can",
+        "variableTypes": ["MCP_CAN"],
+        "defaultType": "MCP_CAN"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "NUM",
+        "options": [
+          ["过滤器0", "0"],
+          ["过滤器1", "1"],
+          ["过滤器2", "2"],
+          ["过滤器3", "3"],
+          ["过滤器4", "4"],
+          ["过滤器5", "5"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "EXT",
+        "options": [
+          ["标准帧", "0"],
+          ["扩展帧", "1"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "FILTER",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置CAN接收过滤器，用于过滤特定ID的消息"
+  },
+  {
+    "type": "seeed_can_set_mode",
+    "message0": "CAN %1 设置模式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "can",
+        "variableTypes": ["MCP_CAN"],
+        "defaultType": "MCP_CAN"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["正常模式", "MODE_NORMAL"],
+          ["睡眠模式", "MODE_SLEEP"],
+          ["监听模式", "MODE_LISTEN"],
+          ["配置模式", "MODE_CONFIG"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置CAN控制器工作模式"
+  },
+  {
+    "type": "seeed_can_sleep",
+    "message0": "CAN %1 进入睡眠模式",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "can",
+        "variableTypes": ["MCP_CAN"],
+        "defaultType": "MCP_CAN"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "让CAN控制器进入睡眠模式以节省功耗"
+  },
+  {
+    "type": "seeed_can_wake",
+    "message0": "CAN %1 唤醒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "can",
+        "variableTypes": ["MCP_CAN"],
+        "defaultType": "MCP_CAN"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "唤醒CAN控制器"
+  },
+  {
+    "type": "seeed_can_check_error",
+    "message0": "CAN %1 检查错误",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "can",
+        "variableTypes": ["MCP_CAN"],
+        "defaultType": "MCP_CAN"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "检查CAN控制器错误状态"
+  }
+]

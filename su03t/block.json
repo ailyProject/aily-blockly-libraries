@@ -1,0 +1,203 @@
+[
+  {
+    "type": "su03t_init",
+    "message0": "初始化SU-03T语音识别模块 %1 RX为 %2 TX为 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["软串口", "software"],
+          ["硬串口", "hardware"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "RX_PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "TX_PIN",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5CB85C",
+    "tooltip": "初始化SU-03T语音识别模块，支持软串口和硬串口连接"
+  },
+  {
+    "type": "su03t_refresh",
+    "message0": "刷新语音识别结果 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["软串口", "software"],
+          ["硬串口", "hardware"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5CB85C",
+    "tooltip": "检查并刷新语音识别结果"
+  },
+  {
+    "type": "su03t_clear_result",
+    "message0": "清除语音识别结果",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5CB85C",
+    "tooltip": "清除当前的语音识别结果"
+  },
+  {
+    "type": "su03t_recognized",
+    "message0": "识别到指令 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "COMMAND",
+        "check": ["Number"]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5CB85C",
+    "tooltip": "检查是否识别到指定的语音指令"
+  },
+  {
+    "type": "su03t_command",
+    "message0": "%1 指令",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "COMMAND",
+        "options": [
+          ["开灯", "1"],
+          ["关灯", "2"],
+          ["调为红色", "3"],
+          ["调为蓝色", "4"],
+          ["调为绿色", "5"],
+          ["调为彩色", "6"],
+          ["打开空调", "7"],
+          ["关闭空调", "8"],
+          ["打开风扇", "9"],
+          ["关闭风扇", "16"],
+          ["1档风", "17"],
+          ["2档风", "18"],
+          ["3档风", "19"],
+          ["自动模式", "20"],
+          ["制冷模式", "21"],
+          ["制热模式", "22"],
+          ["升高温度", "23"],
+          ["降低温度", "24"],
+          ["打开台灯", "25"],
+          ["关闭台灯", "32"],
+          ["调到最亮", "33"],
+          ["调到最暗", "34"],
+          ["调亮一点", "35"],
+          ["调暗一点", "36"],
+          ["查询温度", "37"],
+          ["查询湿度", "38"],
+          ["查询天气", "39"],
+          ["前进", "40"],
+          ["后退", "41"],
+          ["左转", "48"],
+          ["右转", "49"],
+          ["停止", "50"],
+          ["查询时间", "51"],
+          ["播放音乐", "52"],
+          ["上一首", "53"],
+          ["下一首", "54"],
+          ["开始", "55"],
+          ["暂停", "56"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#5CB85C",
+    "tooltip": "获取预定义语音指令的数值"
+  },
+  {
+    "type": "su03t_speak_integer",
+    "message0": "播报整数 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5CB85C",
+    "tooltip": "播报整数数值"
+  },
+  {
+    "type": "su03t_speak_decimal",
+    "message0": "播报小数 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5CB85C",
+    "tooltip": "播报小数数值"
+  },
+  {
+    "type": "su03t_speak_text",
+    "message0": "播报 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TEXT",
+        "options": [
+          ["现在的温度是", "1"],
+          ["度", "2"],
+          ["现在的湿度是百分之", "3"],
+          ["一", "4"],
+          ["二", "5"],
+          ["三", "6"],
+          ["四", "7"],
+          ["五", "8"],
+          ["六", "9"],
+          ["七", "10"],
+          ["八", "11"],
+          ["九", "12"],
+          ["十", "13"],
+          ["个", "14"],
+          ["百", "15"],
+          ["千", "16"],
+          ["万", "17"],
+          ["亿", "18"],
+          ["点", "19"],
+          ["负", "20"],
+          ["零", "21"],
+          ["现在的时间是", "22"],
+          ["年", "23"],
+          ["月", "24"],
+          ["日", "25"],
+          ["点", "26"],
+          ["分", "27"],
+          ["秒", "28"],
+          ["百分之", "29"],
+          ["现在的距离是", "30"],
+          ["毫米", "31"],
+          ["厘米", "32"],
+          ["米", "33"],
+          ["千米", "34"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5CB85C",
+    "tooltip": "播报预定义的文本内容"
+  }
+]

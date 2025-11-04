@@ -1,0 +1,118 @@
+{
+  "kind": "category",
+  "name": "Seeed CAN",
+  "colour": "#FF9800",
+  "icon":"fa-light fa-cars",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "seeed_can_create"
+    },
+    {
+      "kind": "block",
+      "type": "seeed_can_begin"
+    },
+    {
+      "kind": "label",
+      "text": "消息发送"
+    },
+    {
+      "kind": "block",
+      "type": "seeed_can_send",
+      "inputs": {
+        "ID": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "0x100"
+            }
+          }
+        },
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "{0,1,2,3,4,5,6,7}"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "消息接收"
+    },
+    {
+      "kind": "block",
+      "type": "seeed_can_receive_check"
+    },
+    {
+      "kind": "block",
+      "type": "seeed_can_receive"
+    },
+    {
+      "kind": "block",
+      "type": "seeed_can_get_id"
+    },
+    {
+      "kind": "label",
+      "text": "过滤器设置"
+    },
+    {
+      "kind": "block",
+      "type": "seeed_can_init_mask",
+      "inputs": {
+        "MASK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "0x7FF"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "seeed_can_init_filter",
+      "inputs": {
+        "FILTER": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "0x100"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "控制模式"
+    },
+    {
+      "kind": "block",
+      "type": "seeed_can_set_mode"
+    },
+    {
+      "kind": "block",
+      "type": "seeed_can_sleep"
+    },
+    {
+      "kind": "block",
+      "type": "seeed_can_wake"
+    },
+    {
+      "kind": "label",
+      "text": "状态检查"
+    },
+    {
+      "kind": "block",
+      "type": "seeed_can_check_error"
+    }
+  ]
+}

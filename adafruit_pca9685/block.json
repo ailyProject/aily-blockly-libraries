@@ -1,0 +1,293 @@
+[
+  {
+    "type": "pca9685_create",
+    "message0": "创建 PCA9685 舵机驱动器 变量 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "pwm"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "创建PCA9685舵机驱动器对象（16通道PWM控制器）"
+  },
+  {
+    "type": "pca9685_begin",
+    "message0": "初始化 %1 I2C地址0X %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pwm",
+        "variableTypes": ["Adafruit_PWMServoDriver"],
+        "defaultType": "Adafruit_PWMServoDriver"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "初始化PCA9685设备，默认地址0x40"
+  },
+  {
+    "type": "pca9685_set_freq",
+    "message0": "设置 %1 PWM频率 %2 Hz",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pwm",
+        "variableTypes": ["Adafruit_PWMServoDriver"],
+        "defaultType": "Adafruit_PWMServoDriver"
+      },
+      {
+        "type": "input_value",
+        "name": "FREQ",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "设置PWM输出频率（舵机通常使用50-60Hz）"
+  },
+  {
+    "type": "pca9685_set_servo_angle",
+    "message0": "设置 %1 通道 %2 舵机角度 %3 度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pwm",
+        "variableTypes": ["Adafruit_PWMServoDriver"],
+        "defaultType": "Adafruit_PWMServoDriver"
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ANGLE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "设置指定通道舵机角度（0-180度）"
+  },
+  {
+    "type": "pca9685_set_pwm",
+    "message0": "设置 %1 通道 %2 PWM值 开始 %3 结束 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pwm",
+        "variableTypes": ["Adafruit_PWMServoDriver"],
+        "defaultType": "Adafruit_PWMServoDriver"
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ON",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "OFF",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "直接设置PWM值（0-4095），高级用户使用"
+  },
+  {
+    "type": "pca9685_set_microseconds",
+    "message0": "设置 %1 通道 %2 脉宽 %3 微秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pwm",
+        "variableTypes": ["Adafruit_PWMServoDriver"],
+        "defaultType": "Adafruit_PWMServoDriver"
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MICROSECONDS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "设置脉冲宽度（微秒），舵机通常500-2500μs"
+  },
+  {
+    "type": "pca9685_config_servo",
+    "message0": "配置 %1 舵机参数 最小PWM %2 最大PWM %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pwm",
+        "variableTypes": ["Adafruit_PWMServoDriver"],
+        "defaultType": "Adafruit_PWMServoDriver"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MAX",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "配置舵机PWM范围（默认100-700）"
+  },
+  {
+    "type": "pca9685_set_all_servos",
+    "message0": "设置 %1 所有舵机角度 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pwm",
+        "variableTypes": ["Adafruit_PWMServoDriver"],
+        "defaultType": "Adafruit_PWMServoDriver"
+      },
+      {
+        "type": "input_value",
+        "name": "ANGLE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "将所有16个通道设置为相同角度"
+  },
+  {
+    "type": "pca9685_sleep",
+    "message0": "使 %1 进入睡眠模式",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pwm",
+        "variableTypes": ["Adafruit_PWMServoDriver"],
+        "defaultType": "Adafruit_PWMServoDriver"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "进入低功耗睡眠模式"
+  },
+  {
+    "type": "pca9685_wakeup",
+    "message0": "唤醒 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pwm",
+        "variableTypes": ["Adafruit_PWMServoDriver"],
+        "defaultType": "Adafruit_PWMServoDriver"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "从睡眠模式唤醒"
+  },
+  {
+    "type": "pca9685_set_servo_range",
+    "message0": "设置 %1 通道 %2 舵机范围 最小角度 %3 对应PWM %4 最大角度 %5 对应PWM %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pwm",
+        "variableTypes": ["Adafruit_PWMServoDriver"],
+        "defaultType": "Adafruit_PWMServoDriver"
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN_ANGLE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN_PWM",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MAX_ANGLE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MAX_PWM",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "为特定通道自定义舵机角度-PWM映射关系"
+  },
+  {
+    "type": "pca9685_angle_to_pwm",
+    "message0": "%1 将角度 %2 转换为PWM值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pwm",
+        "variableTypes": ["Adafruit_PWMServoDriver"],
+        "defaultType": "Adafruit_PWMServoDriver"
+      },
+      {
+        "type": "input_value",
+        "name": "ANGLE",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "将角度值转换为对应的PWM值"
+  }
+]
