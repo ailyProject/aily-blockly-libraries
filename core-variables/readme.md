@@ -12,8 +12,8 @@ Arduino变量管理库，提供变量声明、赋值、获取和类型转换功�
 | 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
 |--------|------|----------|----------|----------|
 | `variable_define` | 语句块 | VAR(field_input), TYPE(dropdown), VALUE(input) | `"VAR":"name"`, `"TYPE":"int"` | `int name = 0;` |
-| `variables_get` | 值块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `name` |
-| `variables_set` | 语句块 | VAR(field_variable), VALUE(input) | `"VAR":{"id":"var_id"}` | `name = value;` |
+| `variables_get` | 值块 | VAR(field_variable) | `"VAR":{"id":"name"}` | `name` |
+| `variables_set` | 语句块 | VAR(field_variable), VALUE(input) | `"VAR":{"id":"name"}` | `name = value;` |
 | `type_cast` | 值块 | VALUE(input), TYPE(dropdown) | `"TYPE":"int"` | `(int)value` |
 
 ## 字段类型映射
@@ -22,7 +22,7 @@ Arduino变量管理库，提供变量声明、赋值、获取和类型转换功�
 |------|----------|------|
 | field_input | 字符串 | `"VAR": "temperature"` |
 | field_dropdown | 字符串 | `"TYPE": "int"` |
-| field_variable | 对象 | `"VAR": {"id": "var_id"}` |
+| field_variable | 对象 | `"VAR": {"id": "name"}` |
 | input_value | 块连接 | `"inputs": {"VALUE": {"block": {...}}}` |
 
 ## 连接规则
@@ -48,7 +48,7 @@ Arduino变量管理库，提供变量声明、赋值、获取和类型转换功�
 {
   "type": "variables_set",
   "id": "set_id", 
-  "fields": {"VAR": {"id": "temp_var_id"}},
+  "fields": {"VAR": {"id": "temp"}},
   "inputs": {"VALUE": {"block": {"type": "math_number", "fields": {"NUM": 30}}}}
 }
 ```
@@ -66,7 +66,7 @@ Arduino变量管理库，提供变量声明、赋值、获取和类型转换功�
         "next": {
           "block": {
             "type": "variables_set",
-            "fields": {"VAR": {"id": "count_var_id"}},
+            "fields": {"VAR": {"id": "count"}},
             "inputs": {"VALUE": {"block": {"type": "math_number", "fields": {"NUM": 1}}}}
           }
         }
@@ -78,7 +78,7 @@ Arduino变量管理库，提供变量声明、赋值、获取和类型转换功�
 
 ## 重要规则
 
-1. **变量ID**: 声明用字符串，引用用对象ID
+1. **变量ID**: 声明用字符串，引用用对象ID(不知道ID时可以使用变量名)
 2. **作用域**: 连接在程序流中=局部变量，独立存在=全局变量  
 3. **必须唯一**: 所有块ID和变量ID必须唯一
 4. **连接限制**: 值块无next字段，语句块有连接点
