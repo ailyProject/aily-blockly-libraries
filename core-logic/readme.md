@@ -150,6 +150,7 @@
 2. **连接限制**: 语句块只能连接语句块，值块只能连接到输入端口
 3. **动态输入**: controls_ifelse使用extraState.elseIfCount控制else if分支数量
 4. **常见错误**: ❌ 将值块放在语句位置，❌ 字段值拼写错误，❌ extraState与实际输入数量不匹配
+5. **特别注意**: controls_if不具备else分支，必须使用controls_ifelse实现完整条件判断
 
 ## 支持的字段选项
 - **OP(比较)**: "EQ", "NEQ", "LT", "LTE", "GT", "GTE"  
