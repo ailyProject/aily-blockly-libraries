@@ -11,7 +11,7 @@
 
 | 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
 |--------|------|----------|----------|----------|
-| `controls_if` | 语句块 | IF0(input_value), DO0(input_statement) | `"inputs":{"IF0":{"block":{...}},"DO0":{"block":{...}}}` | `if(condition){...}` |
+| `controls_if` | 语句块 | IF0(input_value), DO0(input_statement), extraState | `"inputs":{"IF0":{"block":{...}},"DO0":{"block":{...}}}` | `if(condition){...}` |
 | `controls_ifelse` | 语句块 | IF0(input_value), DO0(input_statement), ELSE(input_statement), extraState | `"extraState":{"elseIfCount":2},"inputs":{"IF0":{"block":{...}},"DO0":{"block":{...}},"IF1":{"block":{...}},"DO1":{"block":{...}},"ELSE":{"block":{...}}}` | `if(condition){...}else if(condition2){...}else{...}` |
 | `logic_compare` | 值块 | OP(field_dropdown), A(input_value), B(input_value) | `"fields":{"OP":"EQ"},"inputs":{"A":{"block":{...}},"B":{"block":{...}}}` | `a == b` |
 | `logic_operation` | 值块 | OP(field_dropdown), A(input_value), B(input_value) | `"fields":{"OP":"AND"},"inputs":{"A":{"block":{...}},"B":{"block":{...}}}` | `a && b` |
@@ -32,6 +32,7 @@
 - **语句块**: 有previousStatement/nextStatement，通过`next`字段连接
 - **值块**: 有output，连接到`inputs`中，无`next`字段
 - **特殊规则**: 
+  - controls_if支持mutator扩展，通过extraState.elseifCount设置"否则如果"分支数量，通过extraState.hasElse设置是否包含"否则"分支
   - controls_ifelse支持mutator扩展，通过extraState.elseIfCount设置"否则如果"分支数量
   - 动态添加的分支输入名为IF1/DO1, IF2/DO2等，按序号递增
 
@@ -148,9 +149,8 @@
 
 1. **必须遵守**: 块ID必须唯一，字段值必须匹配预定义选项
 2. **连接限制**: 语句块只能连接语句块，值块只能连接到输入端口
-3. **动态输入**: controls_ifelse使用extraState.elseIfCount控制else if分支数量
+3. **动态输入**: controls_ifelse使用extraState.elseIfCount控制else if分支数量; controls_if使用extraState.elseifCount和extraState.hasElse控制分支数量
 4. **常见错误**: ❌ 将值块放在语句位置，❌ 字段值拼写错误，❌ extraState与实际输入数量不匹配
-5. **特别注意**: controls_if不具备else分支，必须使用controls_ifelse实现完整条件判断
 
 ## 支持的字段选项
 - **OP(比较)**: "EQ", "NEQ", "LT", "LTE", "GT", "GTE"  

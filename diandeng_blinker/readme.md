@@ -35,7 +35,7 @@
 | `blinker_delay` | 语句块 | DELAY(input_value) | `"inputs":{"DELAY":{"block":{...}}}` | `Blinker.delay(delay);` |
 | `blinker_vibrate` | 语句块 | 无 | `{}` | `Blinker.vibrate();` |
 | `blinker_reset` | 语句块 | 无 | `{}` | `Blinker.reset();` |
-| `blinker_widget_print` | 语句块 | WIDGET(field_input), INPUT0(input_value), INPUT1(input_value), extraState | `"fields":{"WIDGET":"num-abc"},"extraState":{"itemCount":2},"inputs":{"INPUT0":{"block":{...}},"INPUT1":{"block":{...}}}` | `Blinker_widget.method().print();` |
+| `blinker_widget_print` | 语句块 | WIDGET(field_input), INPUT0(input_value), INPUT1(input_value), extraState | `"fields":{"WIDGET":"num-abc"},"extraState":{"extraCount":2},"inputs":{"INPUT0":{"block":{...}},"INPUT1":{"block":{...}}}` | `Blinker_widget.method().print();` |
 | `blinker_heartbeat` | Hat块 | NAME(input_statement) | `"inputs":{"NAME":{"block":{...}}}` | `heartbeat callback` |
 | `blinker_data_handler` | Hat块 | NAME(input_statement) | `"inputs":{"NAME":{"block":{...}}}` | `dataRead callback` |
 
@@ -61,7 +61,7 @@
   - blinker_chart定义图表组件回调，在回调中使用blinker_chart_data_upload上传数据
   - 初始化块会自动添加`Blinker.run()`到loop中，无需手动调用
   - WiFi初始化在ESP32平台支持单参数模式（仅需密钥）
-  - blinker_widget_print支持mutator动态添加输入，通过extraState.itemCount设置输入数量，自动创建未注册的组件
+  - blinker_widget_print支持mutator动态添加输入，通过extraState.extraCount设置输入数量，自动创建未注册的组件
   - 日志块blinker_log(_args)仅用于调试，生成到BLINKER_DEBUG输出
 
 ## 使用示例
@@ -136,7 +136,7 @@
   "type": "blinker_widget_print",
   "id": "widget_feedback",
   "fields": {"WIDGET": "num-abc"},
-  "extraState": {"itemCount": 3},
+  "extraState": {"extraCount": 3},
   "inputs": {
     "INPUT0": {
       "block": {
@@ -174,7 +174,7 @@
 2. **连接限制**: 初始化块必须在setup中调用，会自动添加Blinker.run()到loop
 3. **图表使用**: blinker_chart定义图表回调，在回调内使用blinker_chart_data_upload上传数据，CHART字段需与图表KEY匹配
 4. **对象块使用**: blinker_text、blinker_value、blinker_icon、blinker_color、blinker_state都是值块，返回对象方法链，必须连接到blinker_widget_print的输入中使用
-5. **动态输入**: blinker_widget_print使用extraState.itemCount控制输入数量，支持多个对象块链式调用
+5. **动态输入**: blinker_widget_print使用extraState.extraCount控制输入数量，支持多个对象块链式调用
 6. **日志调试**: blinker_log(_args)用于调试输出，需要先初始化blinker_debug_init
 7. **常见错误**: ❌ 重复使用相同键名，❌ 在WiFi未连接前调用数据上传，❌ 手动添加Blinker.run()造成重复，❌ blinker_chart_data_upload的CHART字段与图表KEY不匹配，❌ 对象块单独使用而未连接到blinker_widget_print，❌ 混淆对象块（返回`.method()`）和组件块（如blinker_button）
 8. **数据反馈**: 建议在心跳包回调中进行数据上传，一般使用blinker_widget_print向对应的组件进行数据反馈
