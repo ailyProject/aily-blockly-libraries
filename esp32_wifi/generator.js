@@ -534,7 +534,7 @@ Arduino.forBlock['esp32_wifi_tcp_server_read'] = function(block, generator) {
     if (readType === 'STRING') {
         code = 'tcpServerClient.readString()';
     } else if (readType === 'BYTE') {
-        code = 'String((char)tcpServerClient.read())';
+        code = '(char)tcpServerClient.read()';
     } else if (readType === 'LINE') {
         code = 'tcpServerClient.readStringUntil(\'\\n\')';
     }
