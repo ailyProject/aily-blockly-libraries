@@ -1,18 +1,52 @@
 function getVariableName(block) {
-  const variableField = block.getField('HCNAME');
-  const variableModel = variableField.getVariable();
-  console.log("name: ", variableModel.name);
-  return variableModel.name;
+  const variableField = block.getField('VAR');
+  const variableName = variableField ? variableField.getText() : 'hc1';
+  // console.log("name: ", variableModel.name);
+  return variableName;
+}
+
+function ensureLibrary(generator, libraryKey, libraryCode) {
+  if (!generator.libraries_) {
+    generator.libraries_ = {};
+  }
+  if (!generator.libraries_[libraryKey]) {
+    generator.addLibrary(libraryKey, libraryCode);
+  }
+}
+
+function ensure74HC595Library(generator) {
+  ensureLibrary(generator, '74HC595_include', '#include <ShiftRegister74HC595.h>');
 }
 
 Arduino.forBlock['74hc595_create'] = function(block, generator) {
-  const hcnm = getVariableName(block);
+  // 监听VAR输入值的变化，自动更新变量名
+  if (!block._hcVarMonitorAttached) {
+    block._hcVarMonitorAttached = true;
+    block._hcVarLastName = block.getFieldValue('VAR') || 'hc1';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._hcVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'HC');
+          block._hcVarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
+  const hcName = block.getFieldValue('VAR') || 'hc1';
+
+  registerVariableToBlockly(hcName, 'HC');
+
   var hcnum = generator.valueToCode(block, 'HCNUMBER', Arduino.ORDER_ATOMIC) || '1';
   var hcdtPin = block.getFieldValue("HCDATA_PIN");
   var hclkPin = block.getFieldValue("HCCLOCK_PIN");
   var hclhPin = block.getFieldValue("HCLATCH_PIN");
-  generator.addLibrary('#include <ShiftRegister74HC595.h>', '#include <ShiftRegister74HC595.h>');
-  generator.addVariable('ShiftRegister74HC595', 'ShiftRegister74HC595<'+hcnum+'> ' + hcnm + '(' + hcdtPin + ', ' + hclkPin + ', ' + hclhPin + ');\n');
+  ensure74HC595Library(generator);
+  generator.addVariable(hcName, 'ShiftRegister74HC595<'+hcnum+'> ' + hcName + '(' + hcdtPin + ', ' + hclkPin + ', ' + hclhPin + ');\n');
   return '';
 };
 

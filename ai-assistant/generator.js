@@ -27,13 +27,13 @@ Blockly.Extensions.register('ai_assistant_board_extension', function() {
                     (!isESP32 && !isMega2560); // 如果不是ESP32和Mega，默认为Arduino UNO
   
   // 打印板卡识别信息（调试用）
-  console.log('AI-Assistant: 板卡配置：', boardConfig);
-  console.log('AI-Assistant: 板卡核心：', boardCore);
-  console.log('AI-Assistant: 板卡类型：', boardType);
-  console.log('AI-Assistant: 板卡名称：', boardName);
-  console.log('AI-Assistant: isESP32:', isESP32);
-  console.log('AI-Assistant: isMega2560:', isMega2560);
-  console.log('AI-Assistant: isArduinoUno:', isArduinoUno);
+  // console.log('AI-Assistant: 板卡配置：', boardConfig);
+  // console.log('AI-Assistant: 板卡核心：', boardCore);
+  // console.log('AI-Assistant: 板卡类型：', boardType);
+  // console.log('AI-Assistant: 板卡名称：', boardName);
+  // console.log('AI-Assistant: isESP32:', isESP32);
+  // console.log('AI-Assistant: isMega2560:', isMega2560);
+  // console.log('AI-Assistant: isArduinoUno:', isArduinoUno);
   
   // 获取输入字段的引用
   var dummyInput = this.getInput('SERIAL_OPTION');

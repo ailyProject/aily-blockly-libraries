@@ -1,0 +1,86 @@
+# Library Compliance Checker Configuration
+
+# 检测规则配置
+compliance:
+  # 基础文件结构检测
+  file_structure:
+    required_files:
+      - package.json
+      - block.json
+      - generator.js
+      - toolbox.json
+    optional_files:
+      - readme.md
+      - i18n/
+    
+  # 分数权重配置
+  scoring:
+    file_structure: 10      # 文件结构 10分
+    package_json: 15        # package.json规范 15分
+    block_json: 20         # block.json设计 20分
+    generator_js: 25       # generator.js实现 25分
+    toolbox_json: 10       # toolbox.json配置 10分
+    readme: 20             # README文档 20分
+    
+  # 检测严格程度
+  strictness:
+    # error: 必须修复的问题
+    # warning: 建议修复的问题
+    # info: 提示信息
+    missing_readme: warning
+    outdated_version: info
+    missing_i18n: warning
+    poor_generator_practices: error
+
+# GitHub Actions配置
+github:
+  # PR检测配置
+  pull_request:
+    # 是否在PR中自动运行检测
+    auto_check: true
+    
+    # 是否阻止不合规的PR合并
+    block_merge: true
+    
+    # 最低通过分数（百分比）
+    minimum_score: 80
+    
+    # 是否发布详细的检测报告评论
+    detailed_comments: true
+  
+  # 推送检测配置  
+  push:
+    # 是否在推送时运行检测
+    auto_check: true
+    
+    # 检测失败是否导致构建失败
+    fail_on_error: false
+
+# 库类型特殊规则
+library_types:
+  # 传感器库
+  sensor:
+    required_patterns:
+      - init_block
+      - read_blocks
+    generator_patterns:
+      - variable_management
+      - library_inclusion
+      
+  # 通信库  
+  communication:
+    required_patterns:
+      - config_block
+      - send_receive_blocks
+    generator_patterns:
+      - connection_management
+      - callback_handling
+      
+  # 控制库
+  control:
+    required_patterns:
+      - init_block
+      - control_blocks
+    generator_patterns:
+      - state_management
+      - hardware_abstraction

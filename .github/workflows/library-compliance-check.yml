@@ -1,0 +1,113 @@
+name: Library Compliance Check
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - '*/package.json'
+      - '*/block.json'
+      - '*/generator.js'
+      - '*/toolbox.json'
+      - '*/readme.md'
+  push:
+    branches: [ main, develop ]
+    paths:
+      - '*/package.json'
+      - '*/block.json'
+      - '*/generator.js'
+      - '*/toolbox.json'
+      - '*/readme.md'
+
+jobs:
+  validate-libraries:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Get changed libraries
+      id: changed-libs
+      run: |
+        echo "检测变更的库文件..."
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          # PR模式：比较PR分支与目标分支
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})
+        else
+          # Push模式：比较当前提交与上一个提交
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+        fi
+        
+        echo "变更的文件:"
+        echo "$CHANGED_FILES"
+        
+        # 提取变更的库目录
+        CHANGED_LIBRARIES=$(echo "$CHANGED_FILES" | grep -E '\.(json|js|md)$' | cut -d'/' -f1 | sort | uniq | grep -v '^$' | grep -v '^\.' || true)
+        
+        echo "变更的库:"
+        echo "$CHANGED_LIBRARIES"
+        
+        # 转换为逗号分隔的字符串
+        LIBS_LIST=$(echo "$CHANGED_LIBRARIES" | tr '\n' ',' | sed 's/,$//')
+        echo "libraries=$LIBS_LIST" >> $GITHUB_OUTPUT
+        
+        # 检查是否有需要检测的库
+        if [ -z "$LIBS_LIST" ]; then
+          echo "has_changes=false" >> $GITHUB_OUTPUT
+        else
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Validate changed libraries
+      if: steps.changed-libs.outputs.has_changes == 'true'
+      run: |
+        echo "开始检测变更的库..."
+        
+        # 使用新的GitHub Actions验证器
+        if [ -n "${{ steps.changed-libs.outputs.libraries }}" ]; then
+          # 将逗号分隔的字符串转换为空格分隔的参数
+          LIBS="${{ steps.changed-libs.outputs.libraries }}"
+          LIBS_ARGS=$(echo "$LIBS" | tr ',' ' ')
+          
+          echo "检测库: $LIBS_ARGS"
+          node github-actions-validator.js $LIBS_ARGS
+        else
+          echo "使用Git变更检测模式"
+          node github-actions-validator.js --changed
+        fi
+
+    - name: No changes detected
+      if: steps.changed-libs.outputs.has_changes == 'false'
+      run: |
+        echo "ℹ️ 未检测到需要验证的库文件变更"
+        echo "变更检测范围: package.json, block.json, generator.js, toolbox.json, readme.md"
+
+    - name: Comment PR with results
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          // PR评论将通过GitHub Actions Summary自动生成
+          // 这里添加一个简单的状态评论
+          const comment = `## 🤖 库规范检测完成
+          
+          📊 **检测报告**: 查看上方的Actions摘要获取详细结果
+          
+          💡 **本地检测**: 运行 \`node validate-library-compliance.js <库名>\` 获取详细信息
+          
+          📖 **规范文档**: 参考项目中的规范文档了解最佳实践`;
+          
+          // 发布评论
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
