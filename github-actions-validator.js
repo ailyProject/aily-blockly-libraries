@@ -228,7 +228,7 @@ GitHub Actions环境变量:
     process.exit(0);
   } else {
     console.log('💥 部分库未通过检测，请修复问题后重新提交');
-    console.log('💡 请务必参考本github仓库中的 Arduino库转Blockly库规范.md 及 blockly库readme编写规范.md');
+    console.log('💡 请务必参考本github仓库中的[Arduino库转Blockly库规范](./Arduino库转Blockly库规范.md)及[Blockly库README编写规范](./blockly库readme编写规范.md)');
     process.exit(1);
   }
 }
