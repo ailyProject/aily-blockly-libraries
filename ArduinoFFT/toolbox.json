@@ -1,0 +1,69 @@
+{
+  "kind": "category",
+  "name": "ArduinoFFT",
+  "icon": "fa-light fa-wave-square",
+  "colour": "#4280D7",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "Arduino_FFT_init",
+      "inputs": {
+        "SAMPLES_COUNT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 64 }
+          }
+        },
+        "SAMPLING_FREQUENCY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 5000 }
+          }
+        }
+      }
+    },
+    { "kind": "block", "type": "Arduino_FFT_windowing" },
+    {
+      "kind": "block",
+      "type": "Arduino_FFT_compute",
+      "inputs": {
+        "SAMPLES_COUNT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 64 }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "Arduino_FFT_complex_to_magnitude",
+      "inputs": {
+        "SAMPLES_COUNT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 64 }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "Arduino_FFT_major_peak",
+      "inputs": {
+        "SAMPLES_COUNT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 64 }
+          }
+        },
+        "SAMPLING_FREQUENCY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 5000 }
+          }
+        }
+      }
+    }
+  ]
+}
