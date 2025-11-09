@@ -16,6 +16,7 @@
 | `Arduino_FFT_compute` | 语句块 | REAL_ARRAY(field_variable), IMAG_ARRAY(field_variable), SAMPLES_COUNT(input_value), DIRECTION(field_dropdown) | `"fields": {"REAL_ARRAY": {"id": "var_id"}, "IMAG_ARRAY": {"id": "var_id"}}, "inputs": {"SAMPLES_COUNT": {"block": {...}}, "DIRECTION": "FFT_FORWARD"}` | `FFT.Compute(vReal, vImag, samples, FFT_FORWARD);` |
 | `Arduino_FFT_complex_to_magnitude` | 语句块 | REAL_ARRAY(field_variable), IMAG_ARRAY(field_variable), SAMPLES_COUNT(input_value) | `"fields": {"REAL_ARRAY": {"id": "var_id"}, "IMAG_ARRAY": {"id": "var_id"}}, "inputs": {"SAMPLES_COUNT": {"block": {...}}}` | `FFT.ComplexToMagnitude(vReal, vImag, samples);` |
 | `Arduino_FFT_major_peak` | 值块 | MAGNITUDE_ARRAY(field_variable), SAMPLES_COUNT(input_value), SAMPLING_FREQUENCY(input_value) | `"fields": {"MAGNITUDE_ARRAY": {"id": "var_id"}}, "inputs": {"SAMPLES_COUNT": {"block": {...}}, "SAMPLING_FREQUENCY": {"block": {...}}}` | `FFT.MajorPeak(vReal, samples, freq)` |
+| `Arduino_FFT_get_band` | 值块 | MAGNITUDE_ARRAY(field_variable), SAMPLES_COUNT(input_value), SAMPLING_FREQUENCY(input_value), BAND_INDEX(input_value) | `"fields": {"MAGNITUDE_ARRAY": {"id": "var_id"}}, "inputs": {"SAMPLES_COUNT": {"block": {...}}, "SAMPLING_FREQUENCY": {"block": {...}}, "BAND_INDEX": {"block": {...}}}` | `arduinoFFT_getBandValue(vReal, samples, freq, band)` |
 
 ## 字段类型映射
 
@@ -77,8 +78,9 @@
 2. **数组要求**: 使用field_variable选择预定义的double[]类型变量，数组大小必须等于样本数
 3. **样本数限制**: 必须为2的幂（如64、128、256），影响FFT计算效率
 4. **方向选择**: 正向用于分析原始信号，逆向用于重建信号
-5. **依赖关系**: windowing后compute，再complex_to_magnitude，最后major_peak
-6. **内存注意**: 大数组可能消耗大量RAM，适用于Arduino Mega等板卡
+5. **依赖关系**: windowing后compute，再complex_to_magnitude，最后根据需求使用major_peak或get_band值块
+6. **get_band用途**: 将幅值数据等分为8段获取峰值，可直接驱动频谱灯的每个频段
+7. **内存注意**: 大数组可能消耗大量RAM，适用于Arduino Mega等板卡
 
 ## 支持的关键参数
 - 数据类型：double（实部、虚部数组）

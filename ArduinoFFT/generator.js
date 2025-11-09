@@ -38,7 +38,7 @@ Arduino.forBlock["Arduino_FFT_windowing"] = function (block, generator) {
   ensureArduinoFFT(generator);
 
   const code =
-    `FFT.Windowing(${arrayName}, sizeof(${arrayName})/sizeof(${arrayName}[0]), ` +
+    `FFT.windowing(${arrayName}, sizeof(${arrayName})/sizeof(${arrayName}[0]), ` +
     `${windowType}, ${direction});\n`;
   return code;
 };
@@ -53,7 +53,7 @@ Arduino.forBlock["Arduino_FFT_compute"] = function (block, generator) {
 
   ensureArduinoFFT(generator);
 
-  const code = `FFT.Compute(${realArray}, ${imagArray}, ${samples}, ${direction});\n`;
+  const code = `FFT.compute(${realArray}, ${imagArray}, ${samples}, ${direction});\n`;
   return code;
 };
 
@@ -69,7 +69,7 @@ Arduino.forBlock["Arduino_FFT_complex_to_magnitude"] = function (
 
   ensureArduinoFFT(generator);
 
-  const code = `FFT.ComplexToMagnitude(${realArray}, ${imagArray}, ${samples});\n`;
+  const code = `FFT.complexToMagnitude(${realArray}, ${imagArray}, ${samples});\n`;
   return code;
 };
 
@@ -84,7 +84,25 @@ Arduino.forBlock["Arduino_FFT_major_peak"] = function (block, generator) {
 
   ensureArduinoFFT(generator);
 
-  const code = `FFT.MajorPeak(${magnitudeArray}, ${samples}, ${samplingFrequency})`;
+  const code = `FFT.majorPeak(${magnitudeArray}, ${samples}, ${samplingFrequency})`;
+  return [code, Arduino.ORDER_ATOMIC];
+};
+
+Arduino.forBlock["Arduino_FFT_get_band"] = function (block, generator) {
+  const magnitudeArray =
+    ensureFFTVariableField(block, "MAGNITUDE_ARRAY", FFT_TYPE_MAP.ARRAY) ||
+    "vReal";
+  const samples = getSamplesValue(block, generator, "SAMPLES_COUNT", "64");
+  const samplingFrequency =
+    generator.valueToCode(block, "SAMPLING_FREQUENCY", Arduino.ORDER_ATOMIC) ||
+    "5000";
+  const bandIndex =
+    generator.valueToCode(block, "BAND_INDEX", Arduino.ORDER_ATOMIC) || "0";
+
+  ensureArduinoFFT(generator);
+  ensureFFTBandsHelper(generator);
+
+  const code = `arduinoFFT_getBandValue(${magnitudeArray}, ${samples}, ${samplingFrequency}, ${bandIndex})`;
   return [code, Arduino.ORDER_ATOMIC];
 };
 
@@ -199,8 +217,10 @@ function ensureFFTVariableField(block, fieldName, varType) {
   }
 
   const resolvedType = varType || FFT_FIELD_TYPES[fieldName];
+  const variableModel =
+    typeof field.getVariable === "function" ? field.getVariable() : null;
   const currentName =
-    (typeof field.getValue === "function" && field.getValue()) ||
+    (variableModel && variableModel.name) ||
     (typeof field.getText === "function" && field.getText()) ||
     "";
 
@@ -241,4 +261,50 @@ function ensureFFTVariableField(block, fieldName, varType) {
   }
 
   return currentName || null;
+}
+
+const FFT_BAND_FUNCTION_NAME = "arduinoFFT_getBandValue";
+
+function ensureFFTBandsHelper(generator) {
+  const helperCode = `
+double ${FFT_BAND_FUNCTION_NAME}(double *magnitudes, int samples, double samplingFrequency, int bandIndex) {
+  const int bands = 8;
+  int halfSamples = samples / 2;
+  if (halfSamples <= 1) {
+    return 0;
+  }
+  int binsPerBand = halfSamples / bands;
+  if (binsPerBand < 1) {
+    binsPerBand = 1;
+  }
+  int startBin = bandIndex * binsPerBand;
+  int endBin = (bandIndex + 1) * binsPerBand - 1;
+  if (bandIndex >= bands - 1) {
+    endBin = halfSamples - 1;
+  }
+  if (startBin < 1) {
+    startBin = 1;
+  }
+  if (endBin >= halfSamples) {
+    endBin = halfSamples - 1;
+  }
+  double maxValue = 0;
+  for (int i = startBin; i <= endBin; ++i) {
+    double value = magnitudes[i];
+    if (value > maxValue) {
+      maxValue = value;
+    }
+  }
+  return maxValue;
+}`;
+
+  if (generator && typeof generator.addFunction === "function") {
+    generator.addFunction(FFT_BAND_FUNCTION_NAME, helperCode.trim());
+  } else if (
+    typeof Blockly !== "undefined" &&
+    Blockly.Arduino &&
+    typeof Blockly.Arduino.addFunction === "function"
+  ) {
+    Blockly.Arduino.addFunction(FFT_BAND_FUNCTION_NAME, helperCode.trim());
+  }
 }
