@@ -13,6 +13,9 @@ RGB灯带驱动库，支持WS2812B/WS2811/NEOPIXEL等多种RGB灯带控制
 |--------|------|----------|----------|----------|
 | `fastled_init` | 语句块 | DATA_PIN(field_dropdown), TYPE(field_dropdown), NUM_LEDS(field_number) | `"fields":{"DATA_PIN":"6","TYPE":"WS2812B","NUM_LEDS":"30"}` | `FastLED.addLeds<WS2812B, 6, GRB>(leds_6, 30);` |
 | `fastled_set_pixel` | 语句块 | DATA_PIN(field_dropdown), PIXEL(input_value), COLOR(input_value) | `"fields":{"DATA_PIN":"6"},"inputs":{"PIXEL":{"block":{...}},"COLOR":{"block":{...}}}` | `leds_6[pixel] = color; FastLED.show();` |
+| `fastled_set_range` | 语句块 | DATA_PIN(field_dropdown), START(input_value), END(input_value), COLOR(input_value) | `"fields":{"DATA_PIN":"6"},"inputs":{"START":{"block":{...}},"END":{"block":{...}},"COLOR":{"block":{...}}}` | `for(int i=start;i<=end;i++){ leds_6[i]=color; }` |
+| `fastled_draw_bar` | 语句块 | DATA_PIN(field_dropdown), START(input_value), END(input_value), LEVEL(input_value), FOREGROUND(input_value), BACKGROUND(input_value) | `{"fields":{"DATA_PIN":"6"},"inputs":{"START":...}}` | `int active = constrain(level, 0, len); for(...) leds = active ? fg : bg;` |
+| `fastled_refresh` | 语句块 | - | `{}` | `FastLED.show();` |
 | `fastled_show` | 语句块 | 无 | `{}` | `FastLED.show();` |
 | `fastled_clear` | 语句块 | DATA_PIN(field_dropdown) | `"fields":{"DATA_PIN":"6"}` | `FastLED.clear(); FastLED.show();` |
 | `fastled_brightness` | 语句块 | BRIGHTNESS(input_value) | `"inputs":{"BRIGHTNESS":{"block":{...}}}` | `FastLED.setBrightness(brightness);` |
