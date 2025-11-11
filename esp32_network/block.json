@@ -1,0 +1,470 @@
+[
+  {
+    "type": "esp32_network_client_create",
+    "message0": "创建网络客户端 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "client"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "创建一个网络客户端对象"
+  },
+  {
+    "type": "esp32_network_client_connect_ip",
+    "message0": "客户端 %1 连接到IP %2 端口 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClient"],
+        "defaultType": "NetworkClient"
+      },
+      {
+        "type": "input_value",
+        "name": "IP",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "连接到指定的IP地址和端口"
+  },
+  {
+    "type": "esp32_network_client_connect_host",
+    "message0": "客户端 %1 连接到主机 %2 端口 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClient"],
+        "defaultType": "NetworkClient"
+      },
+      {
+        "type": "input_value",
+        "name": "HOST",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "连接到指定的主机名和端口"
+  },
+  {
+    "type": "esp32_network_client_print",
+    "message0": "客户端 %1 发送数据 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClient"],
+        "defaultType": "NetworkClient"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "向服务器发送数据"
+  },
+  {
+    "type": "esp32_network_client_println",
+    "message0": "客户端 %1 发送数据并换行 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClient"],
+        "defaultType": "NetworkClient"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "向服务器发送数据并添加换行符"
+  },
+  {
+    "type": "esp32_network_client_available",
+    "message0": "客户端 %1 可读取数据字节数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClient"],
+        "defaultType": "NetworkClient"
+      }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50",
+    "tooltip": "获取可读取的数据字节数"
+  },
+  {
+    "type": "esp32_network_client_read",
+    "message0": "客户端 %1 读取数据 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClient"],
+        "defaultType": "NetworkClient"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["单个字节", "BYTE"],
+          ["字符串", "STRING"],
+          ["读到换行符", "LINE"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#4CAF50",
+    "tooltip": "从服务器读取数据"
+  },
+  {
+    "type": "esp32_network_client_connected",
+    "message0": "客户端 %1 已连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClient"],
+        "defaultType": "NetworkClient"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "检查客户端是否已连接"
+  },
+  {
+    "type": "esp32_network_client_stop",
+    "message0": "客户端 %1 断开连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClient"],
+        "defaultType": "NetworkClient"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "断开客户端连接"
+  },
+  {
+    "type": "esp32_network_server_create",
+    "message0": "创建网络服务器 %1 端口 %2 最大连接数 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "server"
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "MAX_CLIENTS",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "创建一个网络服务器对象"
+  },
+  {
+    "type": "esp32_network_server_begin",
+    "message0": "服务器 %1 开始监听",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["NetworkServer"],
+        "defaultType": "NetworkServer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "开始监听客户端连接"
+  },
+  {
+    "type": "esp32_network_server_accept",
+    "message0": "服务器 %1 监听客户端 %2 连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["NetworkServer"],
+        "defaultType": "NetworkServer"
+      },
+      {
+        "type": "field_input",
+        "name": "CLIENT_VAR",
+        "text": "client"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "接受客户端连接并返回客户端对象"
+  },
+  {
+    "type": "esp32_network_server_stop",
+    "message0": "服务器 %1 停止监听",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["NetworkServer"],
+        "defaultType": "NetworkServer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "停止服务器监听"
+  },
+  {
+    "type": "esp32_network_udp_create",
+    "message0": "创建UDP对象 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "udp"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "创建一个UDP对象"
+  },
+  {
+    "type": "esp32_network_udp_begin",
+    "message0": "UDP %1 开始监听端口 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "udp",
+        "variableTypes": ["NetworkUDP"],
+        "defaultType": "NetworkUDP"
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "开始监听指定端口的UDP数据包"
+  },
+  {
+    "type": "esp32_network_udp_begin_packet",
+    "message0": "UDP %1 开始发送数据包到 %2 端口 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "udp",
+        "variableTypes": ["NetworkUDP"],
+        "defaultType": "NetworkUDP"
+      },
+      {
+        "type": "input_value",
+        "name": "IP",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "开始准备发送UDP数据包"
+  },
+  {
+    "type": "esp32_network_udp_write",
+    "message0": "UDP %1 写入数据 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "udp",
+        "variableTypes": ["NetworkUDP"],
+        "defaultType": "NetworkUDP"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "向UDP数据包写入数据"
+  },
+  {
+    "type": "esp32_network_udp_end_packet",
+    "message0": "UDP %1 发送数据包",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "udp",
+        "variableTypes": ["NetworkUDP"],
+        "defaultType": "NetworkUDP"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "发送UDP数据包"
+  },
+  {
+    "type": "esp32_network_udp_parse_packet",
+    "message0": "UDP %1 解析接收到的数据包",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "udp",
+        "variableTypes": ["NetworkUDP"],
+        "defaultType": "NetworkUDP"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "解析接收到的UDP数据包，返回数据包大小"
+  },
+  {
+    "type": "esp32_network_udp_available",
+    "message0": "UDP %1 可用数据字节数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "udp",
+        "variableTypes": ["NetworkUDP"],
+        "defaultType": "NetworkUDP"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取可读取的数据字节数"
+  },
+  {
+    "type": "esp32_network_udp_read",
+    "message0": "UDP %1 读取数据",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "udp",
+        "variableTypes": ["NetworkUDP"],
+        "defaultType": "NetworkUDP"
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "从UDP缓冲区读取数据"
+  },
+  {
+    "type": "esp32_network_udp_remote_ip",
+    "message0": "UDP %1 远程IP地址",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "udp",
+        "variableTypes": ["NetworkUDP"],
+        "defaultType": "NetworkUDP"
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "获取发送数据包的远程IP地址"
+  },
+  {
+    "type": "esp32_network_udp_remote_port",
+    "message0": "UDP %1 远程端口",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "udp",
+        "variableTypes": ["NetworkUDP"],
+        "defaultType": "NetworkUDP"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取发送数据包的远程端口"
+  },
+  {
+    "type": "esp32_network_udp_stop",
+    "message0": "UDP %1 停止监听",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "udp",
+        "variableTypes": ["NetworkUDP"],
+        "defaultType": "NetworkUDP"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "停止UDP监听"
+  }
+]

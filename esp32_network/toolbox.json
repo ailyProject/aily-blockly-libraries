@@ -1,0 +1,214 @@
+{
+  "kind": "category",
+  "name": "ESP32 Network",
+  "icon": "fa-light fa-network-wired",
+  "colour": "#4CAF50",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "TCP客户端"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_client_create"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_client_connect_host",
+      "inputs": {
+        "HOST": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "example.com"
+            }
+          }
+        },
+        "PORT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 80
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_client_print",
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello World"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_client_println",
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello World"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_client_available"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_client_read"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_client_connected"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_client_stop"
+    },
+    {
+      "kind": "sep",
+      "gap": "24"
+    },
+    {
+      "kind": "label",
+      "text": "TCP服务器"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_server_create",
+      "inputs": {
+        "PORT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 80
+            }
+          }
+        },
+        "MAX_CLIENTS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 4
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_server_begin"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_server_accept"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_server_stop"
+    },
+    {
+      "kind": "sep",
+      "gap": "24"
+    },
+    {
+      "kind": "label",
+      "text": "UDP通信"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_udp_create"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_udp_begin",
+      "inputs": {
+        "PORT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 8888
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_udp_begin_packet",
+      "inputs": {
+        "IP": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "192.168.1.100"
+            }
+          }
+        },
+        "PORT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 8888
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_udp_write",
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello UDP"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_udp_end_packet"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_udp_parse_packet"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_udp_available"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_udp_read"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_udp_remote_ip"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_udp_remote_port"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_network_udp_stop"
+    }
+  ]
+}

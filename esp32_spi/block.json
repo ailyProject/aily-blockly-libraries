@@ -1,178 +1,334 @@
-
 [
   {
     "type": "esp32_spi_create",
-    "message0": "创建 SPI对象 %1 使用芯片 %2",
+    "message0": "创建SPI对象 %1 总线 %2",
     "args0": [
       {
-        "type": "field_variable",
+        "type": "field_input",
         "name": "VAR",
-        "variable": "spi1",
-        "variableTypes": [
-          "SPI"
-        ],
-        "defaultType": "SPI"
+        "text": "spi"
       },
       {
         "type": "field_dropdown",
-        "name": "SPI_TYPE",
+        "name": "BUS",
         "options": [
-          [
-            "HSPI",
-            "HSPI"
-          ],
-          [
-            "VSPI",
-            "VSPI"
-          ]
+          ["VSPI", "VSPI"],
+          ["HSPI", "HSPI"]
         ]
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#009688",
-    "inputsInline": true
+    "colour": "#4CAF50",
+    "tooltip": "创建SPI通信对象"
   },
   {
     "type": "esp32_spi_begin",
-    "message0": "初始化 SPI对象 %1 (默认引脚)",
+    "message0": "初始化SPI %1 默认引脚",
     "args0": [
       {
-        "type": "input_value",
-        "name": "SPI_INST"
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spi",
+        "variableTypes": ["SPIClass"],
+        "defaultType": "SPIClass"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#009688",
-    "inputsInline": true
+    "colour": "#4CAF50",
+    "tooltip": "初始化SPI总线 使用默认引脚"
   },
   {
-    "type": "esp32_spi_begin_pins",
-    "message0": "初始化 SPI对象 %1, SCK: %2, MISO: %3, MOSI: %4, SS: %5",
+    "type": "esp32_spi_begin_custom",
+    "message0": "初始化SPI %1 自定义引脚 SCK:%2 MISO:%3 MOSI:%4 SS:%5",
     "args0": [
       {
-        "type": "input_value",
-        "name": "SPI_INST"
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spi",
+        "variableTypes": ["SPIClass"],
+        "defaultType": "SPIClass"
       },
       {
         "type": "input_value",
-        "name": "SCK_PIN"
+        "name": "SCK",
+        "check": ["Number"]
       },
       {
         "type": "input_value",
-        "name": "MISO_PIN"
+        "name": "MISO",
+        "check": ["Number"]
       },
       {
         "type": "input_value",
-        "name": "MOSI_PIN"
+        "name": "MOSI",
+        "check": ["Number"]
       },
       {
         "type": "input_value",
-        "name": "SS_PIN"
+        "name": "SS",
+        "check": ["Number"]
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#009688",
-    "inputsInline": true
+    "colour": "#4CAF50",
+    "tooltip": "初始化SPI总线并设置引脚"
   },
   {
-    "type": "esp32_spi_begin_transaction",
-    "message0": "SPI对象 %1 开始事务 (时钟: %2, 位序: %3, 数据模式: %4)",
+    "type": "esp32_spi_settings",
+    "message0": "SPI %1 设置频率:%2Hz 位序:%3 模式:%4",
     "args0": [
       {
-        "type": "input_value",
-        "name": "SPI_INST"
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spi",
+        "variableTypes": ["SPIClass"],
+        "defaultType": "SPIClass"
       },
       {
         "type": "input_value",
-        "name": "CLOCK_SPEED"
+        "name": "FREQUENCY",
+        "check": ["Number"]
       },
       {
         "type": "field_dropdown",
         "name": "BIT_ORDER",
         "options": [
-          [
-            "MSBFIRST",
-            "MSBFIRST"
-          ],
-          [
-            "LSBFIRST",
-            "LSBFIRST"
-          ]
+          ["MSB优先", "MSBFIRST"],
+          ["LSB优先", "LSBFIRST"]
         ]
       },
       {
         "type": "field_dropdown",
-        "name": "DATA_MODE",
+        "name": "MODE",
         "options": [
-          [
-            "模式0",
-            "SPI_MODE0"
-          ],
-          [
-            "模式1",
-            "SPI_MODE1"
-          ],
-          [
-            "模式2",
-            "SPI_MODE2"
-          ],
-          [
-            "模式3",
-            "SPI_MODE3"
-          ]
+          ["MODE0", "0"],
+          ["MODE1", "1"],
+          ["MODE2", "2"],
+          ["MODE3", "3"]
         ]
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#009688",
-    "inputsInline": true
+    "colour": "#4CAF50",
+    "tooltip": "设置SPI通信参数"
   },
   {
-    "type": "esp32_spi_end_transaction",
-    "message0": "SPI对象 %1 结束事务",
+    "type": "esp32_spi_begin_transaction",
+    "message0": "开始SPI %1 事务",
     "args0": [
       {
-        "type": "input_value",
-        "name": "SPI_INST"
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spi",
+        "variableTypes": ["SPIClass"],
+        "defaultType": "SPIClass"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#009688",
-    "inputsInline": true
+    "colour": "#4CAF50",
+    "tooltip": "开始SPI事务"
+  },
+  {
+    "type": "esp32_spi_end_transaction",
+    "message0": "结束SPI %1 事务",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spi",
+        "variableTypes": ["SPIClass"],
+        "defaultType": "SPIClass"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "结束SPI事务"
   },
   {
     "type": "esp32_spi_transfer",
-    "message0": "SPI对象 %1 传输数据 %2",
+    "message0": "SPI %1 传输数据:%2",
     "args0": [
       {
-        "type": "input_value",
-        "name": "SPI_INST"
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spi",
+        "variableTypes": ["SPIClass"],
+        "defaultType": "SPIClass"
       },
       {
         "type": "input_value",
-        "name": "DATA"
+        "name": "DATA",
+        "check": ["Number"]
       }
     ],
     "output": "Number",
-    "colour": "#009688",
-    "inputsInline": true
+    "colour": "#4CAF50",
+    "tooltip": "传输一个字节数据并返回接收到的数据"
   },
   {
-    "type": "esp32_spi_pin_ss",
-    "message0": "获取 SPI对象 %1 的SS引脚",
+    "type": "esp32_spi_transfer16",
+    "message0": "SPI %1 传输16位数据:%2",
     "args0": [
       {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spi",
+        "variableTypes": ["SPIClass"],
+        "defaultType": "SPIClass"
+      },
+      {
         "type": "input_value",
-        "name": "SPI_INST"
+        "name": "DATA",
+        "check": ["Number"]
       }
     ],
     "output": "Number",
-    "colour": "#009688",
-    "inputsInline": true
+    "colour": "#4CAF50",
+    "tooltip": "传输16位数据并返回接收到的数据"
+  },
+  {
+    "type": "esp32_spi_write",
+    "message0": "SPI %1 写入数据:%2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spi",
+        "variableTypes": ["SPIClass"],
+        "defaultType": "SPIClass"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "写入一个字节数据"
+  },
+  {
+    "type": "esp32_spi_write_bytes",
+    "message0": "SPI %1 写入字节数组 数据:%2 长度:%3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spi",
+        "variableTypes": ["SPIClass"],
+        "defaultType": "SPIClass"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": ["Array"]
+      },
+      {
+        "type": "input_value",
+        "name": "LENGTH",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "写入字节数组数据"
+  },
+  {
+    "type": "esp32_spi_set_frequency",
+    "message0": "设置SPI %1 频率:%2Hz",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spi",
+        "variableTypes": ["SPIClass"],
+        "defaultType": "SPIClass"
+      },
+      {
+        "type": "input_value",
+        "name": "FREQUENCY",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置SPI通信频率"
+  },
+  {
+    "type": "esp32_spi_set_bit_order",
+    "message0": "设置SPI %1 位序:%2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spi",
+        "variableTypes": ["SPIClass"],
+        "defaultType": "SPIClass"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BIT_ORDER",
+        "options": [
+          ["MSB优先", "MSBFIRST"],
+          ["LSB优先", "LSBFIRST"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置SPI数据位序"
+  },
+  {
+    "type": "esp32_spi_set_data_mode",
+    "message0": "设置SPI %1 模式:%2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spi",
+        "variableTypes": ["SPIClass"],
+        "defaultType": "SPIClass"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["MODE0", "0"],
+          ["MODE1", "1"],
+          ["MODE2", "2"],
+          ["MODE3", "3"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置SPI时钟极性和相位模式"
+  },
+  {
+    "type": "esp32_spi_get_ss_pin",
+    "message0": "获取SPI %1 片选引脚",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spi",
+        "variableTypes": ["SPIClass"],
+        "defaultType": "SPIClass"
+      }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50",
+    "tooltip": "获取SPI片选引脚编号"
   }
 ]

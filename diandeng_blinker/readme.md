@@ -35,7 +35,7 @@
 | `blinker_delay` | 语句块 | DELAY(input_value) | `"inputs":{"DELAY":{"block":{...}}}` | `Blinker.delay(delay);` |
 | `blinker_vibrate` | 语句块 | 无 | `{}` | `Blinker.vibrate();` |
 | `blinker_reset` | 语句块 | 无 | `{}` | `Blinker.reset();` |
-| `blinker_widget_print` | 语句块 | WIDGET(field_input), INPUT0(input_value), INPUT1(input_value), extraState | `"fields":{"WIDGET":"num-abc"},"extraState":{"extraCount":2},"inputs":{"INPUT0":{"block":{...}},"INPUT1":{"block":{...}}}` | `Blinker_widget.method().print();` |
+| `blinker_widget_print` | 语句块 | WIDGET(field_input), INPUT0(input_value), extraState | `"fields":{"WIDGET":"num-abc"},"extraState":{"extraCount":1},"inputs":{"INPUT0":{"block":{...}}` | `Blinker_widget.method().print();` |
 | `blinker_heartbeat` | Hat块 | NAME(input_statement) | `"inputs":{"NAME":{"block":{...}}}` | `heartbeat callback` |
 | `blinker_data_handler` | Hat块 | NAME(input_statement) | `"inputs":{"NAME":{"block":{...}}}` | `dataRead callback` |
 

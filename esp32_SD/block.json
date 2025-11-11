@@ -1,344 +1,341 @@
-
 [
   {
-  "type": "sd_init",
-  "message0": "初始化SPI和SD卡 %1 SPI类型: %2 SPI变量名: %3 %4 SCK引脚: %5 MISO引脚: %6 MOSI引脚: %7 CS引脚: %8",
-  "args0": [
-    {
-      "type": "input_dummy"
-    },
-    {
-      "type": "field_dropdown",
-      "name": "SPI_TYPE",
-      "options": [
-        ["HSPI", "HSPI"],
-        ["VSPI", "VSPI"]
-      ]
-    },
-    {
-      "type": "field_input",
-      "name": "SPI_VAR_NAME",
-      "text": "spi"
-    },
-    {
-      "type": "input_dummy"
-    },
-    {
-      "type": "input_value",
-      "name": "SCK_PIN",
-      "check": "Number"
-    },
-    {
-      "type": "input_value",
-      "name": "MISO_PIN",
-      "check": "Number"
-    },
-    {
-      "type": "input_value",
-      "name": "MOSI_PIN",
-      "check": "Number" 
-    },
-    {
-      "type": "input_value",
-      "name": "CS_PIN",
-      "check": "Number"
-    }
-  ],
-  "inputsInline": false,
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": "#FF9800",
-  "tooltip": "一键初始化SPI接口和SD卡，自动处理初始化顺序和错误检查",
-  "helpUrl": ""
-},
-  {
-    "type": "sd_card_type",
-    "message0": "SD卡类型",
-    "output": null,
-    "colour": "#FF8800",
-    "tooltip": "获取SD卡类型",
-    "helpUrl": ""
-  },
-  {
-    "type": "sd_card_size",
-    "message0": "SD卡容量",
-    "output": null,
-    "colour": "#FF8800",
-    "tooltip": "获取SD卡容量",
-    "helpUrl": ""
-  },
-  {
-    "type": "sd_total_bytes",
-    "message0": "SD卡总字节数",
-    "output": null,
-    "colour": "#FF8800",
-    "tooltip": "获取SD卡总空间（字节数）",
-    "helpUrl": ""
-  },
-  {
-    "type": "sd_used_bytes",
-    "message0": "SD卡已用字节数",
-    "output": null,
-    "colour": "#FF8800",
-    "tooltip": "获取SD卡已使用空间（字节数）",
-    "helpUrl": ""
-  },
-  {
-  "type": "sd_read_file",
-  "message0": "读取文本文件 %1",
-  "args0": [
-    {
-      "type": "input_value",
-      "name": "PATH",
-      "check": "String"
-    }
-  ],
-  "output": "String",
-  "colour": "#FF9800",
-  "tooltip": "读取SD卡上的文本文件内容并返回"
-  },
-  {
-  "type": "sd_write_file",
-  "message0": "%1 写入数据 %2 到文件 %3",
-  "args0": [
-    {
-      "type": "field_dropdown",
-      "name": "MODE",
-      "options": [
-        ["覆盖", "WRITE"],
-        ["追加", "APPEND"]
-      ]
-    },
-    {
-      "type": "input_value",
-      "name": "DATA",
-      "check": ["String", "Number"]
-    },
-    {
-      "type": "input_value",
-      "name": "PATH",
-      "check": "String"
-    }
-  ],
-  "inputsInline": true,
-  "previousStatement": null,
-  "nextStatement": null,
-  "colour": "#FF9800",
-  "tooltip": "将数据写入SD卡上的文件"
-  },
-  {
-    "type": "sd_mkdir",
-    "message0": "在SD卡创建目录 %1",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "PATH"
-      }
-    ],
+    "type": "esp32_sd_begin",
+    "message0": "初始化SD卡默认引脚",
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#FF8800",
-    "tooltip": "创建SD卡目录",
-    "helpUrl": ""
+    "colour": "#FF9800",
+    "tooltip": "初始化SD卡文件系统"
   },
   {
-    "type": "sd_rmdir",
-    "message0": "删除SD卡目录 %1",
+    "type": "esp32_sd_begin_custom",
+    "message0": "初始化SD卡 CS:%1 SCK:%2 MISO:%3 MOSI:%4 频率:%5Hz",
     "args0": [
       {
         "type": "input_value",
-        "name": "PATH"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#FF8800",
-    "tooltip": "删除SD卡目录",
-    "helpUrl": ""
-  },
-  {
-    "type": "sd_remove",
-    "message0": "删除SD卡文件 %1",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "PATH"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#FF8800",
-    "tooltip": "删除SD卡文件",
-    "helpUrl": ""
-  },
-  {
-    "type": "sd_rename",
-    "message0": "重命名SD卡文件/目录 从 %1 到 %2",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "PATH_FROM"
+        "name": "CS",
+        "check": ["Number"]
       },
       {
         "type": "input_value",
-        "name": "PATH_TO"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#FF8800",
-    "tooltip": "重命名SD卡中的文件或目录",
-    "helpUrl": ""
-  },
-  {
-    "type": "file_is_directory",
-    "message0": "文件 %1 是否为目录",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "FILE_VAR"
-      }
-    ],
-    "output": null,
-    "colour": "#33AAFF",
-    "tooltip": "判断文件是否为目录",
-    "helpUrl": ""
-  },
-  {
-    "type": "file_open_next_file",
-    "message0": "文件 %1 打开下一个文件",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "FILE_VAR"
-      }
-    ],
-    "output": null,
-    "colour": "#33AAFF",
-    "tooltip": "遍历目录时，获取下一个文件或目录",
-    "helpUrl": ""
-  },
-  {
-    "type": "file_name",
-    "message0": "获取文件 %1 名称",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "FILE_VAR"
-      }
-    ],
-    "output": null,
-    "colour": "#33AAFF",
-    "tooltip": "获取文件或目录的名称",
-    "helpUrl": ""
-  },
-  {
-    "type": "file_size",
-    "message0": "获取文件 %1 大小",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "FILE_VAR"
-      }
-    ],
-    "output": null,
-    "colour": "#33AAFF",
-    "tooltip": "获取文件大小（字节）",
-    "helpUrl": ""
-  },
-  {
-    "type": "file_get_last_write",
-    "message0": "获取文件 %1 最后修改时间",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "FILE_VAR"
-      }
-    ],
-    "output": null,
-    "colour": "#33AAFF",
-    "tooltip": "获取文件或目录的最后修改时间",
-    "helpUrl": ""
-  },
-  {
-    "type": "file_available",
-    "message0": "文件 %1 可读取字节数",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "FILE_VAR"
-      }
-    ],
-    "output": null,
-    "colour": "#33AAFF",
-    "tooltip": "返回文件可读取的字节数",
-    "helpUrl": ""
-  },
-  {
-    "type": "file_read",
-    "message0": "读取文件 %1 数据",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "FILE_VAR"
-      }
-    ],
-    "output": null,
-    "colour": "#33AAFF",
-    "tooltip": "从文件中读取一个字节数据",
-    "helpUrl": ""
-  },
-  {
-    "type": "file_write",
-    "message0": "写入到文件 %1 数据 %2",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "FILE_VAR"
+        "name": "SCK",
+        "check": ["Number"]
       },
       {
         "type": "input_value",
-        "name": "DATA"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#33AAFF",
-    "tooltip": "写入数据到文件",
-    "helpUrl": ""
-  },
-  {
-    "type": "file_print",
-    "message0": "打印到文件 %1 数据 %2",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "FILE_VAR"
+        "name": "MISO",
+        "check": ["Number"]
       },
       {
         "type": "input_value",
-        "name": "DATA"
+        "name": "MOSI",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "FREQUENCY",
+        "check": ["Number"]
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#33AAFF",
-    "tooltip": "将数据打印输出到文件",
-    "helpUrl": ""
+    "colour": "#FF9800",
+    "tooltip": "使用自定义引脚初始化SD卡"
   },
   {
-    "type": "file_close",
+    "type": "esp32_sd_card_info",
+    "message0": "SD卡信息 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "INFO",
+        "options": [
+          ["卡类型", "cardType"],
+          ["卡大小(MB)", "cardSize"],
+          ["总空间(MB)", "totalBytes"],
+          ["已用空间(MB)", "usedBytes"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取SD卡信息"
+  },
+  {
+    "type": "esp32_sd_file_exists",
+    "message0": "文件存在 %1 路径:%2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "SD",
+        "variableTypes": ["SDFS"],
+        "defaultType": "SDFS"
+      },
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": ["String"]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "tooltip": "检查文件是否存在"
+  },
+  {
+    "type": "esp32_sd_open_file",
+    "message0": "打开文件 %1 路径:%2 模式:%3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": ["File"],
+        "defaultType": "File"
+      },
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": ["String"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["读取", "FILE_READ"],
+          ["写入", "FILE_WRITE"],
+          ["追加", "FILE_APPEND"]
+        ]
+      }
+    ],
+    "output": "File",
+    "colour": "#FF9800",
+    "tooltip": "打开文件"
+  },
+  {
+    "type": "esp32_sd_close_file",
     "message0": "关闭文件 %1",
     "args0": [
       {
-        "type": "input_value",
-        "name": "FILE_VAR"
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": ["File"],
+        "defaultType": "File"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#33AAFF",
-    "tooltip": "关闭文件",
-    "helpUrl": ""
+    "colour": "#FF9800",
+    "tooltip": "关闭文件"
+  },
+  {
+    "type": "esp32_sd_write_file",
+    "message0": "写入文件 %1 内容:%2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": ["File"],
+        "defaultType": "File"
+      },
+      {
+        "type": "input_value",
+        "name": "CONTENT",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "写入内容到文件"
+  },
+  {
+    "type": "esp32_sd_read_file",
+    "message0": "读取文件 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": ["File"],
+        "defaultType": "File"
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "从文件读取内容"
+  },
+  {
+    "type": "esp32_sd_file_available",
+    "message0": "文件可读 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": ["File"],
+        "defaultType": "File"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "tooltip": "检查文件是否可读"
+  },
+  {
+    "type": "esp32_sd_file_size",
+    "message0": "文件大小 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": ["File"],
+        "defaultType": "File"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取文件大小"
+  },
+  {
+    "type": "esp32_sd_write_file_quick",
+    "message0": "快速写入文件 路径:%1 内容:%2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "CONTENT",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "快速写入文件（自动打开和关闭）"
+  },
+  {
+    "type": "esp32_sd_read_file_quick",
+    "message0": "快速读取文件 路径:%1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": ["String"]
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "快速读取文件（自动打开和关闭）"
+  },
+  {
+    "type": "esp32_sd_append_file",
+    "message0": "追加文件 路径:%1 内容:%2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "CONTENT",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "追加内容到文件末尾"
+  },
+  {
+    "type": "esp32_sd_delete_file",
+    "message0": "删除文件 路径:%1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "删除文件"
+  },
+  {
+    "type": "esp32_sd_rename_file",
+    "message0": "重命名文件 旧路径:%1 新路径:%2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "OLD_PATH",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "NEW_PATH",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "重命名文件"
+  },
+  {
+    "type": "esp32_sd_create_dir",
+    "message0": "创建目录 路径:%1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "创建目录"
+  },
+  {
+    "type": "esp32_sd_remove_dir",
+    "message0": "删除目录 路径:%1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "删除目录"
+  },
+  {
+    "type": "esp32_sd_list_dir",
+    "message0": "列出目录 路径:%1 层级:%2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "LEVELS",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "列出目录内容"
   }
 ]

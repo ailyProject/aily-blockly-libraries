@@ -1,478 +1,172 @@
-# ESP32 WiFi库
+# esp32_wifi
 
-## 简介
-ESP32 WiFi库为aily blockly提供了完整的WiFi功能支持，包括：
-- WiFi网络连接和断开
-- WiFi热点模式
-- 网络扫描
-- HTTP客户端功能
-- WiFi事件处理
-- NTP时钟同步功能
-- **TCP服务器和客户端** ⭐
-- **UDP通信（同步和异步）** ⭐ 新增
+ESP32 WiFi库，包含WiFi连接、SmartConfig、热点模式、网络扫描等WiFi基础功能
 
-## 功能特性
+## 库信息
+- **库名**: @aily-project/lib-esp32-wifi
+- **版本**: 1.0.2
+- **兼容**: ESP32系列平台
 
-### WiFi连接管理
-- **连接WiFi网络**：支持连接到指定的WiFi网络
-- **检查连接状态**：实时检查WiFi连接状态
-- **断开连接**：主动断开WiFi连接
-- **获取网络信息**：获取本地IP地址和信号强度
+## 块定义
 
-### 网络扫描
-- **扫描网络**：扫描周围可用的WiFi网络
-- **获取扫描结果**：获取扫描到的网络名称
+| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
+|--------|------|----------|----------|----------|
+| `esp32_wifi_begin` | 语句块 | SSID(input_value), PASSWORD(input_value) | `"inputs":{"SSID":{},"PASSWORD":{}}` | `WiFi.begin(ssid, password);` |
+| `esp32_wifi_begin_advanced` | 语句块 | SSID(input_value), PASSWORD(input_value), CHANNEL(input_value), BSSID(input_value) | `"inputs":{"SSID":{},"PASSWORD":{},"CHANNEL":{},"BSSID":{}}` | `WiFi.begin(ssid, password, channel, bssid);` |
+| `esp32_wifi_disconnect` | 语句块 | ERASE_AP(field_dropdown) | `"fields":{"ERASE_AP":"FALSE"}` | `WiFi.disconnect(false);` |
+| `esp32_wifi_status` | 值块 | - | `{}` | `WiFi.status()` |
+| `esp32_wifi_status_type` | 值块 | STATUS(field_dropdown) | `"fields":{"STATUS":"WL_CONNECTED"}` | `WL_CONNECTED` |
+| `esp32_wifi_is_connected` | 值块 | - | `{}` | `WiFi.isConnected()` |
+| `esp32_wifi_local_ip` | 值块 | - | `{}` | `WiFi.localIP().toString()` |
+| `esp32_wifi_mac_address` | 值块 | - | `{}` | `WiFi.macAddress()` |
+| `esp32_wifi_rssi` | 值块 | - | `{}` | `WiFi.RSSI()` |
+| `esp32_wifi_ssid` | 值块 | - | `{}` | `WiFi.SSID()` |
+| `esp32_wifi_scan_networks` | 值块 | ASYNC(field_dropdown) | `"fields":{"ASYNC":"FALSE"}` | `WiFi.scanNetworks()` |
+| `esp32_wifi_get_ssid` | 值块 | INDEX(input_value) | `"inputs":{"INDEX":{}}` | `WiFi.SSID(index)` |
+| `esp32_wifi_get_rssi` | 值块 | INDEX(input_value) | `"inputs":{"INDEX":{}}` | `WiFi.RSSI(index)` |
+| `esp32_wifi_get_encryption_type` | 值块 | INDEX(input_value) | `"inputs":{"INDEX":{}}` | `WiFi.encryptionType(index)` |
+| `esp32_wifi_encryption_type` | 值块 | TYPE(field_dropdown) | `"fields":{"TYPE":"WIFI_AUTH_WPA2_PSK"}` | `WIFI_AUTH_WPA2_PSK` |
+| `esp32_wifi_scan_complete` | 值块 | - | `{}` | `WiFi.scanComplete()` |
+| `esp32_wifi_scan_delete` | 语句块 | - | `{}` | `WiFi.scanDelete();` |
+| `esp32_wifi_softap` | 语句块 | SSID(input_value), PASSWORD(input_value), CHANNEL(input_value) | `"inputs":{"SSID":{},"PASSWORD":{},"CHANNEL":{}}` | `WiFi.softAP(ssid, password, channel);` |
+| `esp32_wifi_softap_config` | 语句块 | IP(field_input), GATEWAY(field_input), SUBNET(field_input) | `"fields":{"IP":"192.168.4.1","GATEWAY":"192.168.4.1","SUBNET":"255.255.255.0"}` | `WiFi.softAPConfig(ip, gateway, subnet);` |
+| `esp32_wifi_softap_disconnect` | 语句块 | WIFI_OFF(field_dropdown) | `"fields":{"WIFI_OFF":"FALSE"}` | `WiFi.softAPdisconnect(false);` |
+| `esp32_wifi_softap_station_count` | 值块 | - | `{}` | `WiFi.softAPgetStationNum()` |
+| `esp32_wifi_softap_ip` | 值块 | - | `{}` | `WiFi.softAPIP().toString()` |
+| `esp32_wifi_set_mode` | 语句块 | MODE(field_dropdown) | `"fields":{"MODE":"WIFI_STA"}` | `WiFi.mode(WIFI_STA);` |
+| `esp32_wifi_get_mode` | 值块 | - | `{}` | `WiFi.getMode()` |
+| `esp32_wifi_mode` | 值块 | MODE(field_dropdown) | `"fields":{"MODE":"WIFI_MODE_STA"}` | `WIFI_MODE_STA` |
+| `esp32_wifi_set_auto_reconnect` | 语句块 | AUTO_RECONNECT(field_dropdown) | `"fields":{"AUTO_RECONNECT":"TRUE"}` | `WiFi.setAutoReconnect(true);` |
+| `esp32_wifi_wait_for_connect_result` | 值块 | TIMEOUT(input_value) | `"inputs":{"TIMEOUT":{}}` | `WiFi.waitForConnectResult(timeout)` |
+| `esp32_wifi_smartconfig_start` | 语句块 | - | `{}` | `WiFi.beginSmartConfig();` |
+| `esp32_wifi_smartconfig_stop` | 语句块 | - | `{}` | `WiFi.stopSmartConfig();` |
+| `esp32_wifi_smartconfig_done` | 值块 | - | `{}` | `WiFi.smartConfigDone()` |
 
-### 热点模式
-- **创建热点**：将ESP32设置为WiFi热点
-- **获取热点IP**：获取热点模式下的IP地址
+## 字段类型映射
 
-### 网络客户端
-- **连接服务器**：连接到指定的服务器和端口
-- **发送数据**：向服务器发送数据
-- **接收数据**：从服务器接收数据
-- **关闭连接**：关闭网络连接
+| 类型 | .abi格式 | 示例 |
+|------|----------|------|
+| field_dropdown | 字符串 | `"ERASE_AP": "FALSE"` |
+| field_input | 字符串 | `"IP": "192.168.4.1"` |
+| input_value | 块连接 | `"inputs": {"SSID": {"block": {...}}}` |
 
-### HTTP功能
-- **HTTP GET请求**：发送HTTP GET请求并获取响应
-- **HTTP POST请求**：发送POST请求支持表单和JSON数据
-- **通用HTTP请求**：支持GET、POST、PUT、DELETE、PATCH等方法
+## 连接规则
 
-### TCP服务器
-- **启动TCP服务器**：在指定端口监听客户端连接
-- **接受客户端连接**：接受并处理客户端连接
-- **双向数据传输**：支持发送和接收数据
-- **连接管理**：检查连接状态和断开连接
-
-### TCP客户端
-- **连接TCP服务器**：连接到远程TCP服务器
-- **双向通信**：支持发送和接收数据
-- **连接状态检查**：实时检查连接状态
-- **优雅断开**：主动关闭连接
-
-### UDP通信（同步） ⭐ 新增
-- **UDP初始化**：绑定本地端口开始UDP通信
-- **发送UDP数据包**：向指定IP和端口发送数据
-- **接收UDP数据包**：接收并解析UDP数据包
-- **广播支持**：支持局域网UDP广播
-- **远程信息获取**：获取数据包发送方的IP和端口
-
-### UDP通信（异步） ⭐ 新增
-- **异步UDP监听**：使用回调函数处理接收的数据包
-- **非阻塞发送**：异步发送UDP数据包
-- **事件驱动**：基于事件的数据处理机制
-- **高性能**：适合高频率UDP通信场景
-
-### 事件处理
-- **WiFi事件**：处理WiFi连接、断开等事件
-
-### NTP时钟同步
-- **NTP时间同步**：自动从网络时间服务器同步时间
-- **多种时间格式**：支持完整时间、年月日时分秒、星期、时间戳等9种格式
-- **时区管理**：支持全球主要时区和自定义时区设置
-- **同步状态检查**：实时检查时间同步状态
-- **自定义格式**：支持strftime格式字符串自定义时间显示
+- **语句块**: begin、disconnect、set_mode等有previousStatement/nextStatement，通过`next`字段连接
+- **值块**: status、local_ip、rssi等有output，连接到`inputs`中，无`next`字段
+- **特殊规则**: 
+  - WiFi功能使用全局WiFi对象，无需变量管理
+  - 连接操作是异步的，需要检查状态
+  - 扫描结果需要手动删除释放内存
 
 ## 使用示例
 
-### 基本WiFi连接
-```
-连接WiFi网络 "your-ssid" 密码 "your-password"
-等待直到 WiFi已连接
-串口输出 "WiFi连接成功"
-串口输出 获取本地IP地址
-```
-
-### HTTP请求
-```
-连接WiFi网络 "your-ssid" 密码 "your-password"
-等待直到 WiFi已连接
-设置变量 response 为 HTTP GET请求 "http://httpbin.org/get"
-串口输出 response
-```
-
-### TCP服务器示例
-```
-连接WiFi网络 "your-ssid" 密码 "your-password"
-等待直到 WiFi已连接
-启动TCP服务器 端口 80
-串口输出 "服务器已启动"
-
-重复无限次：
-  如果 接受客户端连接：
-    如果 服务器有数据可读：
-      设置变量 data 为 读取服务器数据 字符串
-      串口输出 data
-      服务器发送数据并换行 "收到: " + data
-    断开服务器客户端连接
-```
-
-### TCP客户端示例
-```
-连接WiFi网络 "your-ssid" 密码 "your-password"
-等待直到 WiFi已连接
-如果 TCP客户端连接到 主机 "192.168.1.100" 端口 8080：
-  TCP客户端发送数据并换行 "Hello Server"
-  等待直到 TCP客户端有数据可读
-  设置变量 response 为 TCP客户端读取数据 字符串
-  串口输出 response
-  断开TCP客户端连接
-```
-
-### UDP发送（同步）示例 ⭐ 新增
-```
-连接WiFi网络 "your-ssid" 密码 "your-password"
-等待直到 WiFi已连接
-初始化UDP 本地端口 8888
-
-重复无限次：
-  发送UDP数据包 数据 "Hello UDP" 目标IP "192.168.1.100" 目标端口 8888
-  延时 1000 毫秒
-```
-
-### UDP接收（同步）示例 ⭐ 新增
-```
-连接WiFi网络 "your-ssid" 密码 "your-password"
-等待直到 WiFi已连接
-初始化UDP 本地端口 8888
-串口输出 "UDP服务器已启动，端口: 8888"
-
-重复无限次：
-  设置变量 packetSize 为 检查UDP数据包
-  如果 packetSize > 0：
-    设置变量 data 为 读取UDP数据 字符串
-    设置变量 remoteIP 为 UDP远程IP地址
-    设置变量 remotePort 为 UDP远程端口
-    串口输出 "收到来自 " + remoteIP + ":" + remotePort + " 的数据: " + data
-```
-
-### UDP广播示例 ⭐ 新增
-```
-连接WiFi网络 "your-ssid" 密码 "your-password"
-等待直到 WiFi已连接
-初始化UDP 本地端口 8888
-
-重复无限次：
-  UDP广播 数据 "Anyone here?" 端口 8888
-  延时 1000 毫秒
-```
-
-### 异步UDP服务器示例 ⭐ 新增
-```
-连接WiFi网络 "your-ssid" 密码 "your-password"
-等待直到 WiFi已连接
-
-异步UDP监听 端口 1234 回调函数：
-  设置变量 data 为 异步UDP数据包内容
-  设置变量 remoteIP 为 异步UDP数据包远程IP
-  设置变量 remotePort 为 异步UDP数据包远程端口
-  串口输出 "收到来自 " + remoteIP + ":" + remotePort + " 的数据: " + data
-
-串口输出 "异步UDP服务器已启动"
-
-重复无限次：
-  延时 1000 毫秒
-```
-
-### 异步UDP客户端示例 ⭐ 新增
-```
-连接WiFi网络 "your-ssid" 密码 "your-password"
-等待直到 WiFi已连接
-初始化异步UDP 端口 1234
-
-重复无限次：
-  异步UDP发送 数据 "Hello Async UDP" IP "192.168.1.100" 端口 1234
-  延时 1000 毫秒
-```
-
-### NTP时钟同步
-```
-连接WiFi网络 "your-ssid" 密码 "your-password"
-等待直到 WiFi已连接
-初始化NTP时钟 服务器 "pool.ntp.org" 时区偏移 8 小时
-等待直到 NTP时间已同步
-串口输出 "当前时间: " + 获取当前时间 格式 完整时间
-串口输出 "今天是: " + 获取当前时间 格式 星期
-```
-
-## UDP通信功能详细说明 ⭐ 新增
-
-### 📡 UDP基础概念
-
-UDP（User Datagram Protocol）是一种无连接的传输协议，具有以下特点：
-- **无连接**：不需要建立连接，直接发送数据
-- **快速**：没有连接建立的开销，延迟低
-- **不可靠**：不保证数据到达，不保证顺序
-- **适用场景**：实时通信、游戏、视频流、物联网设备通信
-
-### 🔧 同步UDP功能
-
-#### UDP初始化
-```
-初始化UDP 本地端口 [端口号]
-```
-- **功能**: 初始化UDP并绑定本地端口
-- **参数**: 本地端口号（如8888）
-- **说明**: 必须先初始化才能收发UDP数据
-
-#### 发送UDP数据包（简化版）
-```
-发送UDP数据包 数据 [数据内容] 目标IP [IP地址] 目标端口 [端口号]
-```
-- **功能**: 一次性发送UDP数据包
-- **参数**:
-  - 数据: 要发送的字符串数据
-  - 目标IP: 如 "192.168.1.100"
-  - 目标端口: 如 8888
-- **使用**: 最简单的UDP发送方式
-
-#### 发送UDP数据包（分步版）
-```
-开始UDP数据包 目标IP [IP地址] 目标端口 [端口号]
-UDP写入数据 [数据内容]
-发送UDP数据包
-```
-- **功能**: 分步构建和发送UDP数据包
-- **优势**: 可以多次写入数据，一次发送
-- **使用**: 适合发送大量数据或多段数据
-
-#### 接收UDP数据包
-```
-检查UDP数据包
-```
-- **返回**: Number类型，数据包大小（0表示无数据）
-- **说明**: 检查是否有UDP数据包到达
-
-```
-UDP可读字节数
-```
-- **返回**: Number类型，缓冲区中可读的字节数
-
-```
-读取UDP数据 [格式]
-```
-- **返回**: String类型的数据
-- **格式选项**:
-  - 字符串: 读取所有可用数据为字符串
-  - 单个字节: 读取一个字节
-
-#### 获取发送方信息
-```
-UDP远程IP地址
-```
-- **返回**: String类型，发送方的IP地址
-
-```
-UDP远程端口
-```
-- **返回**: Number类型，发送方的端口号
-
-#### UDP广播
-```
-UDP广播 数据 [数据内容] 端口 [端口号]
-```
-- **功能**: 向局域网内所有设备广播UDP数据
-- **说明**: 广播地址自动计算（如192.168.1.255）
-
-#### 停止UDP
-```
-停止UDP
-```
-- **功能**: 停止UDP通信，释放资源
-
-### ⚡ 异步UDP功能
-
-#### 异步UDP初始化
-```
-初始化异步UDP 端口 [端口号]
-```
-- **功能**: 初始化异步UDP
-- **说明**: 异步UDP使用事件回调机制，不阻塞主程序
-
-#### 异步UDP监听
-```
-异步UDP监听 端口 [端口号] 回调函数：
-  [处理接收数据的代码]
-```
-- **功能**: 设置异步UDP监听和回调函数
-- **说明**: 当收到数据包时自动执行回调函数
-- **优势**: 非阻塞，不影响主程序运行
-
-#### 异步UDP发送
-```
-异步UDP发送 数据 [数据内容] IP [IP地址] 端口 [端口号]
-```
-- **功能**: 异步发送UDP数据包
-- **说明**: 非阻塞发送，立即返回
-
-#### 异步UDP广播
-```
-异步UDP广播 数据 [数据内容] 端口 [端口号]
-```
-- **功能**: 异步方式向局域网广播UDP数据
-
-#### 异步UDP数据包信息（在回调中使用）
-```
-异步UDP数据包内容
-```
-- **返回**: String类型，数据包内容
-- **说明**: 仅在回调函数中使用
-
-```
-异步UDP数据包长度
-```
-- **返回**: Number类型，数据包长度
-
-```
-异步UDP数据包远程IP
-```
-- **返回**: String类型，发送方IP地址
-
-```
-异步UDP数据包远程端口
-```
-- **返回**: Number类型，发送方端口
-
-### 🎯 同步UDP vs 异步UDP
-
-| 特性 | 同步UDP | 异步UDP |
-|------|---------|---------|
-| **阻塞性** | 阻塞式（需要轮询） | 非阻塞（事件驱动） |
-| **实现难度** | 简单 | 稍复杂 |
-| **性能** | 适中 | 高 |
-| **适用场景** | 简单通信、学习 | 高频通信、生产环境 |
-| **资源占用** | 较少 | 较多 |
-| **可靠性** | 需要手动轮询 | 自动回调，不易丢失 |
-
-### 💡 UDP使用技巧
-
-1. **选择合适的UDP模式**
-   - 简单应用：使用同步UDP
-   - 高频通信：使用异步UDP
-   - 广播通信：两种模式都支持
-
-2. **端口选择**
-   - 避免使用常用端口（0-1023）
-   - 建议使用 1024-65535 范围
-   - 确保发送方和接收方端口一致
-
-3. **数据大小限制**
-   - UDP单个数据包通常限制在 1472 字节以内
-   - 超大数据需要分包发送
-
-4. **错误处理**
-   - UDP不保证送达，重要数据需要应答机制
-   - 可以添加重试逻辑
-
-5. **广播注意事项**
-   - 广播会影响局域网所有设备
-   - 不要频繁广播大数据包
-   - 某些路由器可能限制广播
-
-## NTP时钟功能详细说明
-
-### 🕐 时间同步积木块
-
-#### 基础NTP初始化
-```
-初始化NTP时钟 服务器 [NTP服务器] 时区偏移 [小时数] 小时
-```
-- **功能**: 初始化NTP时间同步
-- **参数**:
-  - NTP服务器: 如 "pool.ntp.org", "ntp.aliyun.com"
-  - 时区偏移: 相对UTC的小时数，北京时间为8
-
-#### 高级NTP初始化
-```
-初始化NTP时钟 服务器 [NTP服务器] 时区偏移 [小时数] 小时 夏令时偏移 [小时数] 小时
-```
-- **功能**: 支持夏令时的NTP初始化
-- **参数**: 额外支持夏令时偏移设置
-
-### 🕑 时间获取积木块
-
-#### 标准时间获取
-```
-获取当前时间 格式 [格式选择]
-```
-- **返回**: String类型的时间信息
-- **格式选项**:
-  - 完整时间: "2024-01-15 14:30:25"
-  - 年份: "2024" | 月份: "1" | 日期: "15"
-  - 小时: "14" | 分钟: "30" | 秒钟: "25"
-  - 星期: "星期一" | 时间戳: "1705298425"
-
-#### 自定义格式时间
-```
-获取格式化时间 格式 [格式字符串]
-```
-- **功能**: 使用strftime格式字符串自定义时间格式
-- **示例**: "%Y年%m月%d日" → "2024年01月15日"
-
-#### Unix时间戳
-```
-获取Unix时间戳
-```
-- **返回**: Number类型的Unix时间戳
-
-### 🕒 状态检查积木块
-```
-NTP时间已同步
-```
-- **返回**: Boolean类型，检查时间是否已成功同步
-
-### 🌍 时区设置积木块
-```
-设置时区 [时区选择]
-```
-- **选项**: 北京时间(UTC+8)、东京时间(UTC+9)、纽约时间(UTC-5)等
-
-```
-设置自定义时区 [时区字符串]
-```
-- **功能**: 使用POSIX时区字符串设置时区
-
-### 常用NTP服务器
-- **国际通用**: pool.ntp.org
-- **阿里云**: ntp.aliyun.com
-- **腾讯云**: ntp.tencent.com
-- **中国**: cn.pool.ntp.org
-
-## 兼容性
-- **支持开发板**：ESP32、ESP32-C3、ESP32-S3
-- **工作电压**：3.3V
-- **依赖库**：WiFi.h、NetworkUdp.h、AsyncUDP.h、time.h（ESP32核心库自带）
-
-## 注意事项
-
-### 一般注意事项
-1. 确保ESP32已连接到WiFi网络再使用HTTP客户端功能
-2. 使用热点模式时会断开原有的WiFi连接
-3. 网络扫描功能可能需要几秒钟时间完成
-
-### TCP通信注意事项
-4. TCP服务器和TCP客户端使用不同的变量，可以同时使用
-5. TCP连接是可靠的，但需要正确处理断开连接的情况
-6. 服务器可以同时处理多个客户端（通过循环accept）
-
-### UDP通信注意事项 ⭐
-7. **UDP不可靠**: UDP不保证数据送达，重要数据需要应答确认
-8. **数据包大小**: 建议UDP数据包不超过1472字节
-9. **端口冲突**: 同时使用同步和异步UDP时要使用不同端口
-10. **广播限制**: UDP广播只在局域网内有效
-11. **防火墙**: 某些网络环境可能阻止UDP通信
-12. **异步回调**: 异步UDP的回调函数应尽快执行完毕，避免阻塞
-
-### NTP功能注意事项
-13. **WiFi连接**: 使用NTP功能前必须先连接WiFi
-14. **同步时间**: 首次同步可能需要几秒钟时间
-15. **网络依赖**: NTP同步需要网络连接，离线时无法更新时间
-16. **精度**: ESP32内部时钟精度有限，建议定期重新同步
-17. **时区**: 设置时区后会影响所有时间获取函数的结果
-
-## 参考文档
-- [ESP32 Arduino WiFi库文档](https://docs.espressif.com/projects/arduino-esp32/en/latest/libraries.html)
-- [ESP32 AsyncUDP库文档](https://github.com/espressif/arduino-esp32/tree/master/libraries/AsyncUDP)
-- [ESP32 时间函数文档](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/system_time.html)
-- [UDP协议说明](https://en.wikipedia.org/wiki/User_Datagram_Protocol)
-- [NTP协议说明](https://en.wikipedia.org/wiki/Network_Time_Protocol)
+### WiFi连接
+```json
+{
+  "type": "esp32_wifi_begin",
+  "id": "wifi_connect",
+  "inputs": {
+    "SSID": {
+      "block": {
+        "type": "text",
+        "fields": {"TEXT": "MyWiFi"}
+      }
+    },
+    "PASSWORD": {
+      "block": {
+        "type": "text",
+        "fields": {"TEXT": "MyPassword"}
+      }
+    }
+  }
+}
+```
+
+### 网络扫描和状态检查
+```json
+{
+  "type": "variables_set",
+  "id": "scan_networks",
+  "fields": {"VAR": {"id": "network_count", "name": "networkCount", "type": "Number"}},
+  "inputs": {
+    "VALUE": {
+      "block": {
+        "type": "esp32_wifi_scan_networks",
+        "fields": {"ASYNC": "FALSE"}
+      }
+    }
+  },
+  "next": {
+    "block": {
+      "type": "controls_if",
+      "inputs": {
+        "IF0": {
+          "block": {
+            "type": "esp32_wifi_is_connected"
+          }
+        },
+        "DO0": {
+          "block": {
+            "type": "serial_print",
+            "inputs": {
+              "CONTENT": {
+                "block": {
+                  "type": "esp32_wifi_local_ip"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### 创建WiFi热点
+```json
+{
+  "type": "esp32_wifi_set_mode",
+  "id": "set_ap_mode",
+  "fields": {"MODE": "WIFI_AP"},
+  "next": {
+    "block": {
+      "type": "esp32_wifi_softap",
+      "inputs": {
+        "SSID": {
+          "block": {
+            "type": "text",
+            "fields": {"TEXT": "ESP32_Hotspot"}
+          }
+        },
+        "PASSWORD": {
+          "block": {
+            "type": "text", 
+            "fields": {"TEXT": "12345678"}
+          }
+        },
+        "CHANNEL": {
+          "block": {
+            "type": "math_number",
+            "fields": {"NUM": 1}
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+## 重要规则
+
+1. **必须遵守**: WiFi操作是异步的，需要使用状态检查块确认连接结果
+2. **连接限制**: 语句块可串联执行，值块用于获取状态信息
+3. **内存管理**: 网络扫描后必须调用scan_delete释放内存
+4. **常见错误**: ❌ 未检查连接状态直接使用，❌ 忘记删除扫描结果，❌ 热点密码少于8位
+
+## 支持的字段选项
+- **WiFi模式**: "WIFI_STA"（站点）, "WIFI_AP"（热点）, "WIFI_AP_STA"（混合）, "WIFI_MODE_NULL"（关闭）
+- **连接状态**: "WL_CONNECTED"（已连接）, "WL_DISCONNECTED"（已断开）, "WL_CONNECT_FAILED"（连接失败）等
+- **加密类型**: "WIFI_AUTH_OPEN"（开放）, "WIFI_AUTH_WPA2_PSK"（WPA2）, "WIFI_AUTH_WPA3_PSK"（WPA3）等
+- **扫描模式**: "FALSE"（同步扫描）, "TRUE"（异步扫描）

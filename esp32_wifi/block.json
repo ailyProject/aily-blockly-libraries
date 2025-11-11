@@ -1,861 +1,403 @@
 [
-    {
-        "type": "esp32_wifi_begin",
-        "message0": "连接WiFi网络 SSID %1 密码 %2",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "SSID",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "PASSWORD",
-                "check": "String"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#03A9F4",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_wifi_status",
-        "message0": "WiFi连接状态",
-        "output": "Boolean",
-        "colour": "#03A9F4"
-    },
-    {
-        "type": "esp32_wifi_connected",
-        "message0": "WiFi已连接",
-        "output": "Boolean",
-        "colour": "#03A9F4"
-    },
-    {
-        "type": "esp32_wifi_disconnect",
-        "message0": "断开WiFi连接",
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#03A9F4"
-    },
-    {
-        "type": "esp32_wifi_local_ip",
-        "message0": "获取本地IP地址",
-        "output": "String",
-        "colour": "#03A9F4"
-    },
-    {
-        "type": "esp32_wifi_rssi",
-        "message0": "获取信号强度",
-        "output": "Number",
-        "colour": "#03A9F4"
-    },
-    {
-        "type": "esp32_wifi_scan",
-        "message0": "扫描WiFi网络",
-        "output": "Number",
-        "colour": "#03A9F4"
-    },
-    {
-        "type": "esp32_wifi_get_scan_result",
-        "message0": "获取扫描到的网络 %1 的SSID",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "INDEX",
-                "check": "Number"
-            }
-        ],
-        "output": "String",
-        "colour": "#03A9F4",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_wifi_ap_mode",
-        "message0": "创建WiFi热点 SSID %1 密码 %2",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "SSID",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "PASSWORD",
-                "check": "String"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#03A9F4",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_wifi_ap_ip",
-        "message0": "获取热点IP地址",
-        "output": "String",
-        "colour": "#03A9F4"
-    },
-    {
-        "type": "esp32_wifi_client_connect",
-        "message0": "连接到服务器 %1 端口 %2",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "HOST",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "PORT",
-                "check": "Number"
-            }
-        ],
-        "output": "Boolean",
-        "colour": "#03A9F4",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_wifi_client_print",
-        "message0": "发送数据 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "DATA",
-                "check": "String"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#03A9F4",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_wifi_client_available",
-        "message0": "客户端有数据可读",
-        "output": "Boolean",
-        "colour": "#03A9F4"
-    },
-    {
-        "type": "esp32_wifi_client_read_string",
-        "message0": "读取服务器响应",
-        "output": "String",
-        "colour": "#03A9F4"
-    },
-    {
-        "type": "esp32_wifi_client_stop",
-        "message0": "关闭客户端连接",
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#03A9F4"
-    },
-    {
-        "type": "esp32_wifi_http_get",
-        "message0": "HTTP GET请求 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "URL",
-                "check": "String"
-            }
-        ],
-        "output": "String",
-        "colour": "#03A9F4",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_wifi_http_post",
-        "message0": "HTTP POST请求 URL %1 数据 %2",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "URL",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "DATA",
-                "check": "String"
-            }
-        ],
-        "output": "String",
-        "colour": "#03A9F4",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_wifi_http_post_json",
-        "message0": "HTTP POST JSON请求 URL %1 JSON数据 %2",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "URL",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "JSON_DATA",
-                "check": "String"
-            }
-        ],
-        "output": "String",
-        "colour": "#03A9F4",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_wifi_http_request",
-        "message0": "HTTP请求 方法 %1 URL %2 数据 %3 Content-Type %4",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "METHOD",
-                "options": [
-                    ["GET", "GET"],
-                    ["POST", "POST"],
-                    ["PUT", "PUT"],
-                    ["DELETE", "DELETE"],
-                    ["PATCH", "PATCH"]
-                ]
-            },
-            {
-                "type": "input_value",
-                "name": "URL",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "DATA",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "CONTENT_TYPE",
-                "check": "String"
-            }
-        ],
-        "output": "String",
-        "colour": "#03A9F4",
-        "inputsInline": false
-    },
-    {
-        "type": "esp32_wifi_event_handler",
-        "message0": "WiFi事件处理 %1 %2",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "EVENT",
-                "options": [
-                    ["连接成功", "ARDUINO_EVENT_WIFI_STA_CONNECTED"],
-                    ["断开连接", "ARDUINO_EVENT_WIFI_STA_DISCONNECTED"],
-                    ["获得IP", "ARDUINO_EVENT_WIFI_STA_GOT_IP"],
-                    ["丢失IP", "ARDUINO_EVENT_WIFI_STA_LOST_IP"]
-                ]
-            },
-            {
-                "type": "input_statement",
-                "name": "HANDLER"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#03A9F4",
-        "inputsInline": false
-    },
-    {
-        "type": "esp32_wifi_ntp_begin",
-        "message0": "初始化NTP时钟 服务器 %1 时区偏移 %2 小时",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "NTP_SERVER",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "TIMEZONE_OFFSET",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50",
-        "inputsInline": true,
-        "tooltip": "初始化NTP时间同步，设置NTP服务器和时区偏移"
-    },
-    {
-        "type": "esp32_wifi_ntp_begin_advanced",
-        "message0": "初始化NTP时钟 服务器 %1 时区偏移 %2 小时 夏令时偏移 %3 小时",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "NTP_SERVER",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "TIMEZONE_OFFSET",
-                "check": "Number"
-            },
-            {
-                "type": "input_value",
-                "name": "DAYLIGHT_OFFSET",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50",
-        "inputsInline": false,
-        "tooltip": "初始化NTP时间同步，设置NTP服务器、时区偏移和夏令时偏移"
-    },
-    {
-        "type": "esp32_wifi_get_time",
-        "message0": "获取当前时间 格式 %1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "FORMAT",
-                "options": [
-                    ["完整时间", "FULL"],
-                    ["年份", "YEAR"],
-                    ["月份", "MONTH"],
-                    ["日期", "DAY"],
-                    ["小时", "HOUR"],
-                    ["分钟", "MINUTE"],
-                    ["秒钟", "SECOND"],
-                    ["星期", "WEEKDAY"],
-                    ["时间戳", "TIMESTAMP"]
-                ]
-            }
-        ],
-        "output": "String",
-        "colour": "#4CAF50",
-        "tooltip": "获取当前时间的指定格式"
-    },
-    {
-        "type": "esp32_wifi_get_formatted_time",
-        "message0": "获取格式化时间 格式 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "FORMAT_STRING",
-                "check": "String"
-            }
-        ],
-        "output": "String",
-        "colour": "#4CAF50",
-        "inputsInline": true,
-        "tooltip": "使用自定义格式字符串获取时间，如 '%Y-%m-%d %H:%M:%S'"
-    },
-    {
-        "type": "esp32_wifi_ntp_synced",
-        "message0": "NTP时间已同步",
-        "output": "Boolean",
-        "colour": "#4CAF50",
-        "tooltip": "检查NTP时间是否已成功同步"
-    },
-    {
-        "type": "esp32_wifi_get_epoch_time",
-        "message0": "获取Unix时间戳",
-        "output": "Number",
-        "colour": "#4CAF50",
-        "tooltip": "获取Unix时间戳（从1970年1月1日开始的秒数）"
-    },
-    {
-        "type": "esp32_wifi_set_timezone",
-        "message0": "设置时区 %1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "TIMEZONE",
-                "options": [
-                    ["北京时间 (UTC+8)", "CST-8"],
-                    ["东京时间 (UTC+9)", "JST-9"],
-                    ["纽约时间 (UTC-5)", "EST5EDT,M3.2.0,M11.1.0"],
-                    ["伦敦时间 (UTC+0)", "GMT0BST,M3.5.0/1,M10.5.0"],
-                    ["巴黎时间 (UTC+1)", "CET-1CEST,M3.5.0,M10.5.0/3"],
-                    ["悉尼时间 (UTC+10)", "AEST-10AEDT,M10.1.0,M4.1.0/3"],
-                    ["自定义", "CUSTOM"]
-                ]
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50",
-        "tooltip": "设置时区信息"
-    },
-    {
-        "type": "esp32_wifi_set_custom_timezone",
-        "message0": "设置自定义时区 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "TIMEZONE_STRING",
-                "check": "String"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50",
-        "inputsInline": true,
-        "tooltip": "设置自定义时区字符串，如 'CST-8' 或 'EST5EDT,M3.2.0,M11.1.0'"
-    },
-    {
-        "type": "esp32_wifi_tcp_server_begin",
-        "message0": "启动TCP服务器 端口 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "PORT",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF9800",
-        "inputsInline": true,
-        "tooltip": "在指定端口启动TCP服务器"
-    },
-    {
-        "type": "esp32_wifi_tcp_server_accept",
-        "message0": "接受客户端连接",
-        "output": "Boolean",
-        "colour": "#FF9800",
-        "tooltip": "等待并接受客户端连接，返回是否有新客户端"
-    },
-    {
-        "type": "esp32_wifi_tcp_server_available",
-        "message0": "服务器有数据可读",
-        "output": "Boolean",
-        "colour": "#FF9800",
-        "tooltip": "检查服务器是否有数据可读"
-    },
-    {
-        "type": "esp32_wifi_tcp_server_read",
-        "message0": "读取服务器数据 %1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "READ_TYPE",
-                "options": [
-                    ["字符串", "STRING"],
-                    ["单个字节", "BYTE"],
-                    ["读到换行符", "LINE"]
-                ]
-            }
-        ],
-        "output": "String",
-        "colour": "#FF9800",
-        "tooltip": "从服务器客户端读取数据"
-    },
-    {
-        "type": "esp32_wifi_tcp_server_write",
-        "message0": "服务器发送数据 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "DATA",
-                "check": "String"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF9800",
-        "inputsInline": true,
-        "tooltip": "向当前连接的客户端发送数据"
-    },
-    {
-        "type": "esp32_wifi_tcp_server_println",
-        "message0": "服务器发送数据并换行 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "DATA",
-                "check": "String"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF9800",
-        "inputsInline": true,
-        "tooltip": "向当前连接的客户端发送数据并换行"
-    },
-    {
-        "type": "esp32_wifi_tcp_server_connected",
-        "message0": "服务器客户端已连接",
-        "output": "Boolean",
-        "colour": "#FF9800",
-        "tooltip": "检查当前客户端是否仍然连接"
-    },
-    {
-        "type": "esp32_wifi_tcp_server_stop_client",
-        "message0": "断开服务器客户端连接",
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF9800",
-        "tooltip": "断开当前客户端连接"
-    },
-    {
-        "type": "esp32_wifi_tcp_client_connect",
-        "message0": "TCP客户端连接到 主机 %1 端口 %2",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "HOST",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "PORT",
-                "check": "Number"
-            }
-        ],
-        "output": "Boolean",
-        "colour": "#FF5722",
-        "inputsInline": true,
-        "tooltip": "TCP客户端连接到指定主机和端口"
-    },
-    {
-        "type": "esp32_wifi_tcp_client_connected",
-        "message0": "TCP客户端已连接",
-        "output": "Boolean",
-        "colour": "#FF5722",
-        "tooltip": "检查TCP客户端是否已连接"
-    },
-    {
-        "type": "esp32_wifi_tcp_client_available",
-        "message0": "TCP客户端有数据可读",
-        "output": "Boolean",
-        "colour": "#FF5722",
-        "tooltip": "检查TCP客户端是否有数据可读"
-    },
-    {
-        "type": "esp32_wifi_tcp_client_read",
-        "message0": "TCP客户端读取数据 %1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "READ_TYPE",
-                "options": [
-                    ["字符串", "STRING"],
-                    ["单个字节", "BYTE"],
-                    ["读到换行符", "LINE"]
-                ]
-            }
-        ],
-        "output": "String",
-        "colour": "#FF5722",
-        "tooltip": "从TCP服务器读取数据"
-    },
-    {
-        "type": "esp32_wifi_tcp_client_write",
-        "message0": "TCP客户端发送数据 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "DATA",
-                "check": "String"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF5722",
-        "inputsInline": true,
-        "tooltip": "向TCP服务器发送数据"
-    },
-    {
-        "type": "esp32_wifi_tcp_client_println",
-        "message0": "TCP客户端发送数据并换行 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "DATA",
-                "check": "String"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF5722",
-        "inputsInline": true,
-        "tooltip": "向TCP服务器发送数据并换行"
-    },
-    {
-        "type": "esp32_wifi_tcp_client_stop",
-        "message0": "断开TCP客户端连接",
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF5722",
-        "tooltip": "断开TCP客户端连接"
-    },
-    {
-        "type": "esp32_wifi_udp_begin",
-        "message0": "初始化UDP 本地端口 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "PORT",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#9C27B0",
-        "inputsInline": true,
-        "tooltip": "初始化UDP通信，绑定本地端口"
-    },
-    {
-        "type": "esp32_wifi_udp_begin_packet",
-        "message0": "开始UDP数据包 目标IP %1 目标端口 %2",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "IP",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "PORT",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#9C27B0",
-        "inputsInline": true,
-        "tooltip": "开始准备UDP数据包，指定目标IP和端口"
-    },
-    {
-        "type": "esp32_wifi_udp_write",
-        "message0": "UDP写入数据 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "DATA",
-                "check": "String"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#9C27B0",
-        "inputsInline": true,
-        "tooltip": "向UDP数据包写入数据"
-    },
-    {
-        "type": "esp32_wifi_udp_end_packet",
-        "message0": "发送UDP数据包",
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#9C27B0",
-        "tooltip": "结束并发送UDP数据包"
-    },
-    {
-        "type": "esp32_wifi_udp_send_packet",
-        "message0": "发送UDP数据包 数据 %1 目标IP %2 目标端口 %3",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "DATA",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "IP",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "PORT",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#9C27B0",
-        "inputsInline": false,
-        "tooltip": "一次性发送UDP数据包（简化版）"
-    },
-    {
-        "type": "esp32_wifi_udp_parse_packet",
-        "message0": "检查UDP数据包",
-        "output": "Number",
-        "colour": "#9C27B0",
-        "tooltip": "检查是否有UDP数据包，返回数据包大小"
-    },
-    {
-        "type": "esp32_wifi_udp_available",
-        "message0": "UDP可读字节数",
-        "output": "Number",
-        "colour": "#9C27B0",
-        "tooltip": "返回UDP缓冲区中可读的字节数"
-    },
-    {
-        "type": "esp32_wifi_udp_read",
-        "message0": "读取UDP数据 %1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "READ_TYPE",
-                "options": [
-                    ["字符串", "STRING"],
-                    ["单个字节", "BYTE"]
-                ]
-            }
-        ],
-        "output": "String",
-        "colour": "#9C27B0",
-        "tooltip": "从UDP缓冲区读取数据"
-    },
-    {
-        "type": "esp32_wifi_udp_remote_ip",
-        "message0": "UDP远程IP地址",
-        "output": "String",
-        "colour": "#9C27B0",
-        "tooltip": "获取UDP数据包发送方的IP地址"
-    },
-    {
-        "type": "esp32_wifi_udp_remote_port",
-        "message0": "UDP远程端口",
-        "output": "Number",
-        "colour": "#9C27B0",
-        "tooltip": "获取UDP数据包发送方的端口"
-    },
-    {
-        "type": "esp32_wifi_udp_stop",
-        "message0": "停止UDP",
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#9C27B0",
-        "tooltip": "停止UDP通信"
-    },
-    {
-        "type": "esp32_wifi_udp_broadcast",
-        "message0": "UDP广播 数据 %1 端口 %2",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "DATA",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "PORT",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#9C27B0",
-        "inputsInline": true,
-        "tooltip": "向局域网广播UDP数据包"
-    },
-    {
-        "type": "esp32_wifi_async_udp_begin",
-        "message0": "初始化异步UDP 端口 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "PORT",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#673AB7",
-        "inputsInline": true,
-        "tooltip": "初始化异步UDP通信"
-    },
-    {
-        "type": "esp32_wifi_async_udp_listen",
-        "message0": "异步UDP监听 端口 %1 回调函数 %2",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "PORT",
-                "check": "Number"
-            },
-            {
-                "type": "input_statement",
-                "name": "CALLBACK"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#673AB7",
-        "inputsInline": false,
-        "tooltip": "设置异步UDP监听，当收到数据包时执行回调"
-    },
-    {
-        "type": "esp32_wifi_async_udp_send",
-        "message0": "异步UDP发送 数据 %1 IP %2 端口 %3",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "DATA",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "IP",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "PORT",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#673AB7",
-        "inputsInline": false,
-        "tooltip": "使用异步UDP发送数据"
-    },
-    {
-        "type": "esp32_wifi_async_udp_broadcast",
-        "message0": "异步UDP广播 数据 %1 端口 %2",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "DATA",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "PORT",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#673AB7",
-        "inputsInline": true,
-        "tooltip": "使用异步UDP向局域网广播数据"
-    },
-    {
-        "type": "esp32_wifi_async_udp_packet_data",
-        "message0": "异步UDP数据包内容",
-        "output": "String",
-        "colour": "#673AB7",
-        "tooltip": "获取异步UDP数据包的内容（在回调中使用）"
-    },
-    {
-        "type": "esp32_wifi_async_udp_packet_length",
-        "message0": "异步UDP数据包长度",
-        "output": "Number",
-        "colour": "#673AB7",
-        "tooltip": "获取异步UDP数据包的长度（在回调中使用）"
-    },
-    {
-        "type": "esp32_wifi_async_udp_packet_remote_ip",
-        "message0": "异步UDP数据包远程IP",
-        "output": "String",
-        "colour": "#673AB7",
-        "tooltip": "获取异步UDP数据包发送方的IP地址（在回调中使用）"
-    },
-    {
-        "type": "esp32_wifi_async_udp_packet_remote_port",
-        "message0": "异步UDP数据包远程端口",
-        "output": "Number",
-        "colour": "#673AB7",
-        "tooltip": "获取异步UDP数据包发送方的端口（在回调中使用）"
-    }
+  {
+    "type": "esp32_wifi_begin",
+    "message0": "连接WiFi %1 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SSID"
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "连接到WiFi网络"
+  },
+  {
+    "type": "esp32_wifi_begin_advanced",
+    "message0": "连接WiFi %1 密码 %2 通道 %3 BSSID %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SSID"
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD"
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL"
+      },
+      {
+        "type": "input_value",
+        "name": "BSSID"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "高级连接WiFi网络"
+  },
+  {
+    "type": "esp32_wifi_disconnect",
+    "message0": "断开WiFi连接 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ERASE_AP",
+        "options": [
+          ["保留配置", "FALSE"],
+          ["清除配置", "TRUE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "断开WiFi连接"
+  },
+  {
+    "type": "esp32_wifi_status",
+    "message0": "WiFi连接状态",
+    "output": "Number",
+    "colour": "#00796B",
+    "tooltip": "获取WiFi连接状态"
+  },
+  {
+    "type": "esp32_wifi_status_type",
+    "message0": "WiFi状态类型 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATUS",
+        "options": [
+          ["未连接", "WL_NO_SHIELD"],
+          ["停止", "WL_STOPPED"],
+          ["空闲", "WL_IDLE_STATUS"],
+          ["无可用SSID", "WL_NO_SSID_AVAIL"],
+          ["扫描完成", "WL_SCAN_COMPLETED"],
+          ["已连接", "WL_CONNECTED"],
+          ["连接失败", "WL_CONNECT_FAILED"],
+          ["连接丢失", "WL_CONNECTION_LOST"],
+          ["断开连接", "WL_DISCONNECTED"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#00796B",
+    "tooltip": "获取WiFi状态的描述"
+  },
+  {
+    "type": "esp32_wifi_is_connected",
+    "message0": "WiFi已连接",
+    "output": "Boolean",
+    "colour": "#00796B",
+    "tooltip": "检查WiFi是否已连接"
+  },
+  {
+    "type": "esp32_wifi_local_ip",
+    "message0": "本机IP地址",
+    "output": "String",
+    "colour": "#00796B",
+    "tooltip": "获取本机IP地址"
+  },
+  {
+    "type": "esp32_wifi_mac_address",
+    "message0": "MAC地址",
+    "output": "String",
+    "colour": "#00796B",
+    "tooltip": "获取MAC地址"
+  },
+  {
+    "type": "esp32_wifi_rssi",
+    "message0": "信号强度(RSSI)",
+    "output": "Number",
+    "colour": "#00796B",
+    "tooltip": "获取WiFi信号强度"
+  },
+  {
+    "type": "esp32_wifi_ssid",
+    "message0": "当前WiFi名称(SSID)",
+    "output": "String",
+    "colour": "#00796B",
+    "tooltip": "获取当前连接的WiFi名称"
+  },
+  {
+    "type": "esp32_wifi_scan_networks",
+    "message0": "扫描WiFi网络 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ASYNC",
+        "options": [
+          ["同步扫描", "FALSE"],
+          ["异步扫描", "TRUE"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#00796B",
+    "tooltip": "扫描可用的WiFi网络"
+  },
+  {
+    "type": "esp32_wifi_get_ssid",
+    "message0": "获取网络 %1 的SSID",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX"
+      }
+    ],
+    "output": "String",
+    "colour": "#00796B",
+    "tooltip": "获取指定网络的SSID"
+  },
+  {
+    "type": "esp32_wifi_get_rssi",
+    "message0": "获取网络 %1 的信号强度",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX"
+      }
+    ],
+    "output": "Number",
+    "colour": "#00796B",
+    "tooltip": "获取指定网络的信号强度"
+  },
+  {
+    "type": "esp32_wifi_get_encryption_type",
+    "message0": "获取网络 %1 的加密类型",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX"
+      }
+    ],
+    "output": "Number",
+    "colour": "#00796B",
+    "tooltip": "获取指定网络的加密类型"
+  },
+  {
+    "type": "esp32_wifi_encryption_type",
+    "message0": "网络加密类型 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["开放", "WIFI_AUTH_OPEN"],
+          ["WEP", "WIFI_AUTH_WEP"],
+          ["WPA_PSK", "WIFI_AUTH_WPA_PSK"],
+          ["WPA2_PSK", "WIFI_AUTH_WPA2_PSK"],
+          ["WPA_WPA2_PSK", "WIFI_AUTH_WPA_WPA2_PSK"],
+          ["WPA2_ENTERPRISE", "WIFI_AUTH_WPA2_ENTERPRISE"],
+          ["WPA3_PSK", "WIFI_AUTH_WPA3_PSK"],
+          ["WPA2_WPA3_PSK", "WIFI_AUTH_WPA2_WPA3_PSK"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#00796B",
+    "tooltip": "获取加密类型的描述"
+  },
+  {
+    "type": "esp32_wifi_scan_complete",
+    "message0": "异步扫描网络完成",
+    "output": "Number",
+    "colour": "#00796B",
+    "tooltip": "检查WiFi扫描是否完成(异步扫描时使用)"
+  },
+  {
+    "type": "esp32_wifi_scan_delete",
+    "message0": "删除网络扫描结果",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "删除WiFi扫描结果"
+  },
+  {
+    "type": "esp32_wifi_softap",
+    "message0": "创建WiFi热点 %1 密码 %2 通道 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SSID"
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD"
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "创建WiFi热点"
+  },
+  {
+    "type": "esp32_wifi_softap_config",
+    "message0": "配置热点\nIP %1 \n网关 %2 \n子网掩码 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "IP",
+        "text": "192.168.4.1"
+      },
+      {
+        "type": "field_input",
+        "name": "GATEWAY",
+        "text": "192.168.4.1"
+      },
+      {
+        "type": "field_input",
+        "name": "SUBNET",
+        "text": "255.255.255.0"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "配置WiFi热点IP设置"
+  },
+  {
+    "type": "esp32_wifi_softap_disconnect",
+    "message0": "关闭WiFi热点 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIFI_OFF",
+        "options": [
+          ["保持WiFi开启", "FALSE"],
+          ["关闭WiFi", "TRUE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "关闭WiFi热点"
+  },
+  {
+    "type": "esp32_wifi_softap_station_count",
+    "message0": "热点连接设备数",
+    "output": "Number",
+    "colour": "#00796B",
+    "tooltip": "获取连接到热点的设备数量"
+  },
+  {
+    "type": "esp32_wifi_softap_ip",
+    "message0": "热点IP地址",
+    "output": "String",
+    "colour": "#00796B",
+    "tooltip": "获取WiFi热点的IP地址"
+  },
+  {
+    "type": "esp32_wifi_set_mode",
+    "message0": "设置WiFi模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["仅站点模式", "WIFI_STA"],
+          ["仅热点模式", "WIFI_AP"],
+          ["混合模式", "WIFI_AP_STA"],
+          ["关闭模式", "WIFI_MODE_NULL"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "设置WiFi工作模式"
+  },
+  {
+    "type": "esp32_wifi_get_mode",
+    "message0": "WiFi工作模式",
+    "output": "Number",
+    "colour": "#00796B",
+    "tooltip": "获取当前WiFi工作模式"
+  },
+  {
+    "type": "esp32_wifi_mode",
+    "message0": "WiFi模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["仅站点模式", "WIFI_MODE_STA"],
+          ["仅热点模式", "WIFI_MODE_AP"],
+          ["混合模式", "WIFI_MODE_APSTA"],
+          ["关闭模式", "WIFI_MODE_NULL"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#00796B",
+    "tooltip": "获取WiFi模式的描述"
+  },
+  {
+    "type": "esp32_wifi_set_auto_reconnect",
+    "message0": "设置自动重连 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AUTO_RECONNECT",
+        "options": [
+          ["启用", "TRUE"],
+          ["禁用", "FALSE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "设置WiFi自动重连"
+  },
+  {
+    "type": "esp32_wifi_wait_for_connect_result",
+    "message0": "等待连接结果 超时 %1 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIMEOUT"
+      }
+    ],
+    "output": "Number",
+    "colour": "#00796B",
+    "tooltip": "等待WiFi连接结果"
+  },
+  {
+    "type": "esp32_wifi_smartconfig_start",
+    "message0": "开始SmartConfig配网",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "启动SmartConfig配网"
+  },
+  {
+    "type": "esp32_wifi_smartconfig_stop",
+    "message0": "停止SmartConfig配网",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "停止SmartConfig配网"
+  },
+  {
+    "type": "esp32_wifi_smartconfig_done",
+    "message0": "SmartConfig配网完成",
+    "output": "Boolean",
+    "colour": "#00796B",
+    "tooltip": "检查SmartConfig配网是否完成"
+  }
 ]

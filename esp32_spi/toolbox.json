@@ -1,11 +1,19 @@
-
 {
   "kind": "category",
   "name": "ESP32 SPI",
+  "colour": "#4CAF50",
   "contents": [
+    {
+      "kind": "label",
+      "text": "对象创建"
+    },
     {
       "kind": "block",
       "type": "esp32_spi_create"
+    },
+    {
+      "kind": "label",
+      "text": "初始化设置"
     },
     {
       "kind": "block",
@@ -13,7 +21,24 @@
     },
     {
       "kind": "block",
-      "type": "esp32_spi_begin_pins"
+      "type": "esp32_spi_begin_custom",
+      "inputs": {
+        "SCK": {"shadow": {"type": "math_number", "fields": {"NUM": "18"}}},
+        "MISO": {"shadow": {"type": "math_number", "fields": {"NUM": "19"}}},
+        "MOSI": {"shadow": {"type": "math_number", "fields": {"NUM": "23"}}},
+        "SS": {"shadow": {"type": "math_number", "fields": {"NUM": "5"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spi_settings",
+      "inputs": {
+        "FREQUENCY": {"shadow": {"type": "math_number", "fields": {"NUM": "1000000"}}}
+      }
+    },
+    {
+      "kind": "label",
+      "text": "事务控制"
     },
     {
       "kind": "block",
@@ -24,12 +49,63 @@
       "type": "esp32_spi_end_transaction"
     },
     {
-      "kind": "block",
-      "type": "esp32_spi_transfer"
+      "kind": "label",
+      "text": "数据传输"
     },
     {
       "kind": "block",
-      "type": "esp32_spi_pin_ss"
+      "type": "esp32_spi_transfer",
+      "inputs": {
+        "DATA": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spi_transfer16",
+      "inputs": {
+        "DATA": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spi_write",
+      "inputs": {
+        "DATA": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spi_write_bytes",
+      "inputs": {
+        "LENGTH": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}}
+      }
+    },
+    {
+      "kind": "label",
+      "text": "参数设置"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spi_set_frequency",
+      "inputs": {
+        "FREQUENCY": {"shadow": {"type": "math_number", "fields": {"NUM": "1000000"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spi_set_bit_order"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spi_set_data_mode"
+    }, 
+    {
+      "kind": "label",
+      "text": "参数获取"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spi_get_ss_pin"
     }
   ]
 }
