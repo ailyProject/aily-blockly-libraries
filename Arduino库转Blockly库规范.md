@@ -72,7 +72,9 @@ client.loop();                          // 保持连接
 | Arduino模式 | 块类型 | 连接属性 | 字段类型选择 | 设计要点 |
 |------------|--------|----------|-------------|----------|
 | 对象创建/初始化 | 语句块 | previousStatement/nextStatement | **field_input** | 用户输入变量名，自动注册 |
+| **全局对象方法调用** | **语句块** | **previousStatement/nextStatement** | **无需变量字段** | **直接调用全局对象(Serial, httpUpdate等)，无需创建** |
 | 对象方法调用 | 语句块 | previousStatement/nextStatement | **field_variable** | 引用已创建的对象变量 |
+| **全局对象状态查询** | **值块** | **output: ["Type"]** | **无需变量字段** | **直接返回全局对象状态值** |
 | 事件回调 | hat模式块 | **无previousStatement/nextStatement** | **field_variable+inpt_statement** | 引用对象，包含代码块，事件驱动 |
 | 条件回调处理 | **混合模式块** | **有previousStatement/nextStatement** | **input_value+input_statement** | 在程序流程中设置特定条件的回调 |
 | 状态查询 | 值块 | output: ["Type"] | **field_variable** | 引用对象，返回值 |
@@ -102,6 +104,30 @@ client.loop();                          // 保持连接
    }
    ```
 
+3. **全局对象直接调用（无需变量字段）**：
+   ```json
+   {
+     "type": "serial_println",
+     "message0": "串口%1输出%2并换行",
+     "args0": [
+       {
+         "type": "field_dropdown",
+         "name": "SERIAL",
+         "options": "${board.serialPort}"  // 选择串口，不是变量
+       },
+       {
+         "type": "input_value",
+         "name": "VAR"
+       }
+     ]
+   }
+   ```
+
+**全局对象识别标准**：
+- **平台内置对象**：`Serial`, `Wire`, `SPI`, `WiFi`, `httpUpdate`, `SPIFFS`, `ESP`, `EEPROM`等
+- **库全局实例**：在头文件中已定义为全局实例的对象
+- **单例模式对象**：设计为全局唯一访问的对象
+
 **generator.js中读取变量名的方法区别**：
 
 - **field_input 读取方式**：
@@ -113,6 +139,13 @@ client.loop();                          // 保持连接
   ```javascript
   const varField = block.getField('VAR');
   const varName = varField ? varField.getText() : 'button';
+  ```
+
+- **全局对象直接使用**：
+  ```javascript
+  // 无需读取变量名，直接使用全局对象
+  const serialPort = block.getFieldValue('SERIAL') || 'Serial';
+  return serialPort + '.println(' + content + ');\n';
   ```
 
 ### 2.3 标准块结构模板
@@ -136,6 +169,37 @@ client.loop();                          // 保持连接
   "nextStatement": null,
   "colour": "#统一颜色",
   "tooltip": "功能说明"
+}
+```
+
+**全局对象调用块**：
+```json
+{
+  "type": "serial_println",
+  "message0": "串口%1输出%2并换行",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "SERIAL",
+      "options": "${board.serialPort}"
+    },
+    {"type": "input_value", "name": "VAR"}
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#48c2c4",
+  "tooltip": "向指定串口输出内容并换行"
+}
+```
+
+**全局对象状态查询块**：
+```json
+{
+  "type": "httpupdate_get_last_error",
+  "message0": "获取更新最后错误代码",
+  "output": "Number",
+  "colour": "#FF9800",
+  "tooltip": "获取最后一次更新的错误代码"
 }
 ```
 
@@ -262,7 +326,7 @@ JSON数组格式，包含多个块定义对象
 - `generator.addVariable()` - 自动避免重复声明相同变量
 - `generator.addFunction()` - 自动避免重复定义相同函数
 
-**标准生成器结构**：
+**标准生成器结构（自定义对象）**：
 ```javascript
 Arduino.forBlock['block_type'] = function(block, generator) {
   // 1. 变量重命名监听（需自己实现，参考实际库代码）
@@ -293,6 +357,32 @@ Arduino.forBlock['block_type'] = function(block, generator) {
 
   // 4. 生成代码
   return varName + '.doSomething();\n';
+};
+```
+
+**全局对象生成器结构（简化版）**：
+```javascript
+Arduino.forBlock['serial_println'] = function(block, generator) {
+  // 1. 直接获取参数，无需变量管理
+  const serialPort = block.getFieldValue('SERIAL') || 'Serial';
+  const content = generator.valueToCode(block, 'VAR', generator.ORDER_ATOMIC) || '""';
+
+  // 2. 只需添加必要的库（如果需要）
+  // 对于Arduino内置Serial，通常无需添加库
+
+  // 3. 直接生成代码
+  return serialPort + '.println(' + content + ');\n';
+};
+```
+
+**ESP32全局对象示例**：
+```javascript
+Arduino.forBlock['httpupdate_get_last_error'] = function(block, generator) {
+  // 1. 确保库引用
+  generator.addLibrary('ESP32httpUpdate', '#include <ESP32httpUpdate.h>');
+
+  // 2. 直接调用全局对象
+  return ['httpUpdate.getLastError()', generator.ORDER_ATOMIC];
 };
 ```
 
@@ -495,14 +585,22 @@ function getClientName(block, def) {
 ### 设计模式
 1. **初始化块**: 使用`field_input`让用户输入新变量名
 2. **调用块**: 使用`field_variable`选择已存在变量，配置`variableTypes`
-3. **事件回调块**: hat模式，无连接属性，返回空字符串
-4. **混合模式块**: 有连接属性，包含回调代码，返回条件代码
-5. **input_value**: 必须在toolbox.json中配置影子块
-6. **变量重命名**: 在generator.js中实现field validator监听
+3. **全局对象块**: 无需变量字段，直接调用全局对象（如Serial, httpUpdate）
+4. **事件回调块**: hat模式，无连接属性，返回空字符串
+5. **混合模式块**: 有连接属性，包含回调代码，返回条件代码
+6. **input_value**: 必须在toolbox.json中配置影子块
+7. **变量重命名**: 在generator.js中实现field validator监听
 
 ### generator.js中变量名读取方式
 - **field_input**: `block.getFieldValue('VAR')`
 - **field_variable**: `block.getField('VAR').getText()`
+- **全局对象**: 直接使用对象名，如`Serial`, `WiFi`, `httpUpdate`
+
+### 全局对象处理原则
+- **平台内置**: 基础对象(Serial, Wire, SPI)通常无需库引用
+- **功能内置**: 特定功能对象(WiFi, httpUpdate)需添加对应库
+- **库全局实例**: 检查头文件是否已定义为全局实例
+- **设计简化**: 全局对象块无需变量管理和重命名监听
 
 ### 核心库函数
 - `registerVariableToBlockly(varName, varType)` - 注册变量
