@@ -26,15 +26,15 @@ ESP32 HTTP客户端库，支持HTTP/HTTPS请求和响应处理
 | `esp32_httpclient_set_follow_redirects` | 语句块 | VAR(field_variable), FOLLOW(field_dropdown) | `"fields":{"VAR":"http","FOLLOW":"HTTPC_STRICT_FOLLOW_REDIRECTS"}` | `http.setFollowRedirects(mode);` |
 | `esp32_httpclient_set_redirect_limit` | 语句块 | VAR(field_variable), LIMIT(input_value) | `"fields":{"VAR":"http"}, "inputs":{"LIMIT":{}}` | `http.setRedirectLimit(limit);` |
 | `esp32_httpclient_add_header` | 语句块 | VAR(field_variable), NAME(input_value), VALUE(input_value) | `"fields":{"VAR":"http"}, "inputs":{"NAME":{},"VALUE":{}}` | `http.addHeader(name, value);` |
-| `esp32_httpclient_get` | 语句块 | VAR(field_variable) | `"fields":{"VAR":"http"}` | `http.GET();` |
-| `esp32_httpclient_post` | 语句块 | VAR(field_variable), DATA(input_value) | `"fields":{"VAR":"http"}, "inputs":{"DATA":{}}` | `http.POST(data);` |
-| `esp32_httpclient_put` | 语句块 | VAR(field_variable), DATA(input_value) | `"fields":{"VAR":"http"}, "inputs":{"DATA":{}}` | `http.PUT(data);` |
-| `esp32_httpclient_patch` | 语句块 | VAR(field_variable), DATA(input_value) | `"fields":{"VAR":"http"}, "inputs":{"DATA":{}}` | `http.PATCH(data);` |
-| `esp32_httpclient_get_response_code` | 值块 | - | `{}` | `http.getResponseCode()` |
+| `esp32_httpclient_get` | 语句块 | VAR(field_variable) | `"fields":{"VAR":"http"}` | `int httpCode = http.GET();` |
+| `esp32_httpclient_post` | 语句块 | VAR(field_variable), DATA(input_value) | `"fields":{"VAR":"http"}, "inputs":{"DATA":{}}` | `int httpCode = http.POST(data);` |
+| `esp32_httpclient_put` | 语句块 | VAR(field_variable), DATA(input_value) | `"fields":{"VAR":"http"}, "inputs":{"DATA":{}}` | `int httpCode = http.PUT(data);` |
+| `esp32_httpclient_patch` | 语句块 | VAR(field_variable), DATA(input_value) | `"fields":{"VAR":"http"}, "inputs":{"DATA":{}}` | `int httpCode = http.PATCH(data);` |
+| `esp32_httpclient_get_response_code` | 值块 | - | `{}` | `httpCode` |
 | `esp32_httpclient_code_list` | 值块 | CODE(field_dropdown) | `"fields":{"CODE":"HTTP_CODE_OK"}` | `HTTP_CODE_OK` |
 | `esp32_httpclient_get_size` | 值块 | VAR(field_variable) | `"fields":{"VAR":"http"}` | `http.getSize()` |
 | `esp32_httpclient_get_string` | 值块 | VAR(field_variable) | `"fields":{"VAR":"http"}` | `http.getString()` |
-| `esp32_httpclient_get_header` | 值块 | VAR(field_variable), NAME(input_value) | `"fields":{"VAR":"http"}, "inputs":{"NAME":{}}` | `http.header(name)` |
+| `esp32_httpclient_get_header` | 值块 | VAR(field_variable), NAME(input_value) | `"fields":{"VAR":"http"}, "inputs":{"NAME":{}}` | `http.header(name.c_str())` |
 | `esp32_httpclient_get_location` | 值块 | VAR(field_variable) | `"fields":{"VAR":"http"}` | `http.getLocation()` |
 | `esp32_httpclient_get_stream` | 值块 | VAR(field_variable) | `"fields":{"VAR":"http"}` | `http.getStream()` |
 | `esp32_httpclient_connected` | 值块 | VAR(field_variable) | `"fields":{"VAR":"http"}` | `http.connected()` |
@@ -56,6 +56,8 @@ ESP32 HTTP客户端库，支持HTTP/HTTPS请求和响应处理
 - **特殊规则**: 
   - HTTPClient变量类型专用，每个实例独立管理
   - create类型块生成变量定义，操作块调用实例方法
+  - HTTP请求方法(GET/POST/PUT/PATCH)会创建`httpCode`变量存储响应码
+  - `esp32_httpclient_get_response_code`块返回最近HTTP请求的响应码
   - 需要WiFi连接才能正常工作
 
 ## 使用示例
