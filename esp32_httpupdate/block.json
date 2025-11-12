@@ -1,0 +1,255 @@
+[
+  {
+    "type": "esp32_httpupdate_set_led_pin",
+    "message0": "设置更新LED引脚 %1 LED亮电平 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "LED_ON",
+        "options": [
+          ["高电平", "HIGH"],
+          ["低电平", "LOW"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置更新过程中的LED指示引脚"
+  },
+  {
+    "type": "esp32_httpupdate_set_md5",
+    "message0": "设置更新MD5校验值 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MD5",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置固件文件的MD5校验值"
+  },
+  {
+    "type": "esp32_httpupdate_set_auth",
+    "message0": "设置认证信息 用户名 %1 密码 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "USER",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置HTTP基本认证的用户名和密码"
+  },
+  {
+    "type": "esp32_httpupdate_update",
+    "message0": "从URL更新固件URL %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "从指定URL下载并更新固件"
+  },
+  {
+    "type": "esp32_httpupdate_update_spiffs",
+    "message0": "从URL更新SPIFFS URL %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "从指定URL下载并更新SPIFFS文件系统"
+  },
+  {
+    "type": "esp32_httpupdate_update_secure",
+    "message0": "从URL更新固件URL %1 CA证书 %2 用户名 %3 密码 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "CA_CERT",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "USER",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "从指定URL下载并更新固件"
+  },
+  {
+    "type": "esp32_httpupdate_update_spiffs_secure",
+    "message0": "从URL更新SPIFFS URL %1 CA证书 %2 用户名 %3 密码 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "CA_CERT",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "USER",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "从指定URL下载并更新SPIFFS文件系统"
+  },
+  {
+    "type": "esp32_httpupdate_on_start",
+    "message0": "当更新开始时执行",
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#FF9800",
+    "tooltip": "设置更新开始时的回调函数"
+  },
+  {
+    "type": "esp32_httpupdate_on_end",
+    "message0": "当更新结束时执行",
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#FF9800",
+    "tooltip": "设置更新结束时的回调函数"
+  },
+  {
+    "type": "esp32_httpupdate_on_progress",
+    "message0": "当更新进度变化时执行",
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#FF9800",
+    "tooltip": "设置更新进度变化时的回调函数"
+  },
+  {
+    "type": "esp32_httpupdate_on_error",
+    "message0": "当更新出错时执行",
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#FF9800",
+    "tooltip": "设置更新出错时的回调函数"
+  },
+  {
+    "type": "esp32_httpupdate_get_last_error",
+    "message0": "获取更新最后错误代码",
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取最后一次更新的错误代码"
+  },
+  {
+    "type": "esp32_httpupdate_get_last_error_string",
+    "message0": "获取更新最后错误信息",
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "获取最后一次更新的错误信息字符串"
+  },
+  {
+    "type": "esp32_httpupdate_result",
+    "message0": "获取更新结果",
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取更新结果"
+  },
+  {
+    "type": "esp32_httpupdate_result_list",
+    "message0": "更新结果常量 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CODE",
+        "options": [
+          ["更新失败", "HTTP_UPDATE_FAILED"],
+          ["无更新", "HTTP_UPDATE_NO_UPDATES"],
+          ["更新成功", "HTTP_UPDATE_OK"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "更新结果常量"
+  },
+  {
+    "type": "esp32_httpupdate_process_current",
+    "message0": "获取当前已更新大小",
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取当前已下载并写入的更新文件大小（字节）"
+  },
+  {
+    "type": "esp32_httpupdate_process_total",
+    "message0": "获取更新总大小",
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取更新文件的总大小（字节）"
+  }
+]

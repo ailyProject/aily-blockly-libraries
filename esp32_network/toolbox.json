@@ -35,6 +35,138 @@
       }
     },
     {
+      "kind": "label",
+      "text": "TCP安全客户端"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_networkclientsecure_create"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_networkclientsecure_set_insecure"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_networkclientsecure_set_ca_cert",
+      "inputs": {
+        "CA_CERT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "-----BEGIN CERTIFICATE-----\\n-----END CERTIFICATE-----"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_networkclientsecure_set_certificate",
+      "inputs": {
+        "CERT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "-----BEGIN CERTIFICATE-----\\n-----END CERTIFICATE-----"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_networkclientsecure_set_private_key",
+      "inputs": {
+        "PRIVATE_KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "-----BEGIN PRIVATE KEY-----\\n-----END PRIVATE KEY-----"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_networkclientsecure_set_psk",
+      "inputs": {
+        "PSK_IDENT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "client_identity"
+            }
+          }
+        },
+        "PSK_KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "shared_secret_key"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_networkclientsecure_set_plain_start"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_networkclientsecure_start_tls"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_networkclientsecure_verify_fingerprint",
+      "inputs": {
+        "FINGERPRINT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD"
+            }
+          }
+        },
+        "DOMAIN": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "example.com"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_networkclientsecure_get_peer_fingerprint"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_networkclientsecure_last_error"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_networkclientsecure_set_handshake_timeout",
+      "inputs": {
+        "TIMEOUT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 120
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "TCP客户端通用功能"
+    },
+    {
       "kind": "block",
       "type": "esp32_network_client_print",
       "inputs": {
