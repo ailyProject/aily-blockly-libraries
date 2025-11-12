@@ -1,5 +1,16 @@
 // Network库代码生成器
 
+// 确保NetworkClientSecure库被包含
+function ensureNetworkClientSecureLib(generator) {
+  generator.addLibrary('NetworkClientSecure', '#include <NetworkClientSecure.h>');
+}
+
+// 获取变量名的工具函数
+function getVariableName(block, fieldName, defaultName) {
+  const varField = block.getField(fieldName);
+  return varField ? varField.getText() : defaultName;
+}
+
 // NetworkClient相关块
 Arduino.forBlock['esp32_network_client_create'] = function(block, generator) {
   // 设置变量重命名监听
@@ -32,6 +43,182 @@ Arduino.forBlock['esp32_network_client_create'] = function(block, generator) {
   }
   
   return '';
+};
+
+// 创建NetworkClientSecure对象
+Arduino.forBlock['esp32_networkclientsecure_create'] = function(block, generator) {
+  // 设置变量重命名监听
+  if (!block._networkclientsecureVarMonitorAttached) {
+    block._networkclientsecureVarMonitorAttached = true;
+    block._networkclientsecureVarLastName = block.getFieldValue('VAR') || 'client';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._networkclientsecureVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'NetworkClientSecure');
+          block._networkclientsecureVarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'client';
+  
+  // 添加库和变量声明
+  ensureNetworkClientSecureLib(generator);
+  registerVariableToBlockly(varName, 'NetworkClientSecure');
+  if (isBlockConnected(block)) {
+    return 'NetworkClientSecure ' + varName + ';';
+  } else {
+    generator.addVariable(varName, 'NetworkClientSecure ' + varName + ';');
+  }
+  
+  return '';
+};
+
+// 设置不安全模式
+Arduino.forBlock['esp32_networkclientsecure_set_insecure'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'client');
+  
+  ensureNetworkClientSecureLib(generator);
+  
+  return varName + '.setInsecure();\n';
+};
+
+// 设置CA证书
+Arduino.forBlock['esp32_networkclientsecure_set_ca_cert'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'client');
+  const caCert = generator.valueToCode(block, 'CA_CERT', generator.ORDER_ATOMIC) || '""';
+  
+  ensureNetworkClientSecureLib(generator);
+  
+  return varName + '.setCACert(' + caCert + '.c_str());\n';
+};
+
+// 设置客户端证书
+Arduino.forBlock['esp32_networkclientsecure_set_certificate'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'client');
+  const cert = generator.valueToCode(block, 'CERT', generator.ORDER_ATOMIC) || '""';
+  
+  ensureNetworkClientSecureLib(generator);
+  
+  return varName + '.setCertificate(' + cert + '.c_str());\n';
+};
+
+// 设置私钥
+Arduino.forBlock['esp32_networkclientsecure_set_private_key'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'client');
+  const privateKey = generator.valueToCode(block, 'PRIVATE_KEY', generator.ORDER_ATOMIC) || '""';
+  
+  ensureNetworkClientSecureLib(generator);
+  
+  return varName + '.setPrivateKey(' + privateKey + '.c_str());\n';
+};
+
+// 设置PSK认证
+Arduino.forBlock['esp32_networkclientsecure_set_psk'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'client');
+  const pskIdent = generator.valueToCode(block, 'PSK_IDENT', generator.ORDER_ATOMIC) || '""';
+  const pskKey = generator.valueToCode(block, 'PSK_KEY', generator.ORDER_ATOMIC) || '""';
+  
+  ensureNetworkClientSecureLib(generator);
+  
+  return varName + '.setPreSharedKey(' + pskIdent + '.c_str(), ' + pskKey + '.c_str());\n';
+};
+
+// 设置明文启动模式
+Arduino.forBlock['esp32_networkclientsecure_set_plain_start'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'client');
+  
+  ensureNetworkClientSecureLib(generator);
+  
+  return varName + '.setPlainStart();\n';
+};
+
+// 启动TLS升级
+Arduino.forBlock['esp32_networkclientsecure_start_tls'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'client');
+  
+  ensureNetworkClientSecureLib(generator);
+  
+  const code = varName + '.startTLS()';
+  return [code, generator.ORDER_FUNCTION_CALL];
+};
+
+// 设置握手超时
+Arduino.forBlock['esp32_networkclientsecure_set_handshake_timeout'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'client');
+  const timeout = generator.valueToCode(block, 'TIMEOUT', generator.ORDER_ATOMIC) || '120';
+  
+  ensureNetworkClientSecureLib(generator);
+  
+  return varName + '.setHandshakeTimeout(' + timeout + ');\n';
+};
+
+// 验证指纹
+Arduino.forBlock['esp32_networkclientsecure_verify_fingerprint'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'client');
+  const fingerprint = generator.valueToCode(block, 'FINGERPRINT', generator.ORDER_ATOMIC) || '""';
+  const domain = generator.valueToCode(block, 'DOMAIN', generator.ORDER_ATOMIC) || '""';
+  
+  ensureNetworkClientSecureLib(generator);
+  
+  const code = varName + '.verify(' + fingerprint + '.c_str(), ' + domain + '.c_str())';
+  return [code, generator.ORDER_FUNCTION_CALL];
+};
+
+// 获取对端证书指纹
+Arduino.forBlock['esp32_networkclientsecure_get_peer_fingerprint'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'client');
+  
+  ensureNetworkClientSecureLib(generator);
+  
+  // 创建一个函数来获取指纹并转换为十六进制字符串
+  const functionName = 'getPeerFingerprint_' + varName;
+  const functionCode = `String ${functionName}() {
+  uint8_t fingerprint[32];
+  if (!${varName}.getFingerprintSHA256(fingerprint)) {
+    return "";
+  }
+  String result = "";
+  for (int i = 0; i < 32; i++) {
+    if (fingerprint[i] < 16) result += "0";
+    result += String(fingerprint[i], HEX);
+    if (i < 31) result += " ";
+  }
+  return result;
+}`;
+  
+  generator.addFunction(functionName, functionCode);
+  
+  const code = functionName + '()';
+  return [code, generator.ORDER_FUNCTION_CALL];
+};
+
+// 获取最后错误
+Arduino.forBlock['esp32_networkclientsecure_last_error'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'client');
+  
+  ensureNetworkClientSecureLib(generator);
+  
+  // 创建一个函数来获取错误信息
+  const functionName = 'getLastError_' + varName;
+  const functionCode = `String ${functionName}() {
+  char buf[256];
+  int error = ${varName}.lastError(buf, sizeof(buf));
+  if (error == 0) {
+    return "No error";
+  }
+  return String(buf);
+}`;
+  
+  generator.addFunction(functionName, functionCode);
+  
+  const code = functionName + '()';
+  return [code, generator.ORDER_FUNCTION_CALL];
 };
 
 Arduino.forBlock['esp32_network_client_connect_host'] = function(block, generator) {

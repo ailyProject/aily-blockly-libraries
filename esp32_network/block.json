@@ -69,6 +69,244 @@
     "tooltip": "连接到指定的主机名和端口"
   },
   {
+    "type": "esp32_networkclientsecure_create",
+    "message0": "创建安全网络客户端 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "client"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "创建一个新的NetworkClientSecure安全网络客户端对象"
+  },
+  {
+    "type": "esp32_networkclientsecure_set_insecure",
+    "message0": "设置 %1 为不安全模式",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClientSecure"],
+        "defaultType": "NetworkClientSecure"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置为不安全模式，不验证证书链（仅用于测试）"
+  },
+  {
+    "type": "esp32_networkclientsecure_set_ca_cert",
+    "message0": "设置 %1 的CA证书 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClientSecure"],
+        "defaultType": "NetworkClientSecure"
+      },
+      {
+        "type": "input_value",
+        "name": "CA_CERT",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置根CA证书用于验证服务器"
+  },
+  {
+    "type": "esp32_networkclientsecure_set_certificate",
+    "message0": "设置 %1 的客户端证书 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClientSecure"],
+        "defaultType": "NetworkClientSecure"
+      },
+      {
+        "type": "input_value",
+        "name": "CERT",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置客户端证书用于双向认证"
+  },
+  {
+    "type": "esp32_networkclientsecure_set_private_key",
+    "message0": "设置 %1 的私钥 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClientSecure"],
+        "defaultType": "NetworkClientSecure"
+      },
+      {
+        "type": "input_value",
+        "name": "PRIVATE_KEY",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置客户端私钥用于双向认证"
+  },
+  {
+    "type": "esp32_networkclientsecure_set_psk",
+    "message0": "设置 %1 的PSK认证 身份 %2 密钥 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClientSecure"],
+        "defaultType": "NetworkClientSecure"
+      },
+      {
+        "type": "input_value",
+        "name": "PSK_IDENT",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PSK_KEY",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置预共享密钥(PSK)认证"
+  },
+  {
+    "type": "esp32_networkclientsecure_set_plain_start",
+    "message0": "设置 %1 为明文启动模式",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClientSecure"],
+        "defaultType": "NetworkClientSecure"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置为明文启动模式，用于协议升级（如STARTTLS）"
+  },
+  {
+    "type": "esp32_networkclientsecure_start_tls",
+    "message0": "启动 %1 的TLS连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClientSecure"],
+        "defaultType": "NetworkClientSecure"
+      }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50",
+    "tooltip": "将明文连接升级为TLS连接，返回0表示失败，非0表示成功"
+  },
+  {
+    "type": "esp32_networkclientsecure_set_handshake_timeout",
+    "message0": "设置 %1 握手超时 %2 秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClientSecure"],
+        "defaultType": "NetworkClientSecure"
+      },
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置SSL握手超时时间"
+  },
+  {
+    "type": "esp32_networkclientsecure_verify_fingerprint",
+    "message0": "验证 %1 指纹 %2 域名 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClientSecure"],
+        "defaultType": "NetworkClientSecure"
+      },
+      {
+        "type": "input_value",
+        "name": "FINGERPRINT",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "DOMAIN",
+        "check": ["String"]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "验证服务器证书指纹和域名"
+  },
+  {
+    "type": "esp32_networkclientsecure_get_peer_fingerprint",
+    "message0": "获取 %1 的对端证书指纹",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClientSecure"],
+        "defaultType": "NetworkClientSecure"
+      }
+    ],
+    "output": "String",
+    "colour": "#4CAF50",
+    "tooltip": "获取对端证书的SHA256指纹（十六进制字符串）"
+  },
+  {
+    "type": "esp32_networkclientsecure_last_error",
+    "message0": "获取 %1 的最后错误",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "client",
+        "variableTypes": ["NetworkClientSecure"],
+        "defaultType": "NetworkClientSecure"
+      }
+    ],
+    "output": "String",
+    "colour": "#4CAF50",
+    "tooltip": "获取最后一次连接或操作的错误信息"
+  },
+  {
     "type": "esp32_network_client_print",
     "message0": "客户端 %1 发送数据 %2",
     "args0": [
