@@ -41,11 +41,11 @@ Arduino.forBlock['tft_init'] = function(block, generator) {
       generator.addSetupBegin('tft_backlight', 'pinMode('+blk+', OUTPUT);\n  digitalWrite('+blk+', HIGH);  // 开启背光');
     }
     
-    // 添加串口调试信息
-    generator.addSetupBegin('tft_debug', 'Serial.begin(115200);\n  Serial.println("Initializing ST7789 display...");');
+    // // 添加串口调试信息
+    // generator.addSetupBegin('tft_debug', 'Serial.begin(115200);\n  Serial.println("Initializing ST7789 display...");');
     
     // ST7789初始化序列
-    generator.addSetupBegin('tft_init', 'tft.init('+width+', '+height+');\n  tft.setRotation(3);\n  Serial.println("ST7789 initialized successfully!");\n  \n  // 测试显示\n  tft.fillScreen(ST77XX_BLACK);\n  tft.fillScreen(ST77XX_RED);\n  delay(500);\n  tft.fillScreen(ST77XX_GREEN);\n  delay(500);\n  tft.fillScreen(ST77XX_BLUE);\n  delay(500);\n  tft.fillScreen(ST77XX_BLACK);');
+    generator.addSetupBegin('tft_init', 'tft.init('+width+', '+height+');\n  tft.setRotation(3);\n  ');
     
   } else { // 默认为ST7735
     generator.addLibrary('Adafruit_ST7735', '#include <Adafruit_ST7735.h>');

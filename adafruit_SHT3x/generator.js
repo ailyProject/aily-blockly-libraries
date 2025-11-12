@@ -1,6 +1,8 @@
 // SHT31 温湿度传感器 Generator
 Arduino.forBlock['sht31_init'] = function (block, generator) {
     const address = block.getFieldValue('ADDRESS');
+    const sdaPin = block.getFieldValue('SDA') || '4';
+    const sclPin = block.getFieldValue('SCL') || '5';
 
     // 添加库文件
     generator.addLibrary('#include <Wire.h>', '#include <Wire.h>');
@@ -9,8 +11,9 @@ Arduino.forBlock['sht31_init'] = function (block, generator) {
     // 添加全局变量
     generator.addObject('Adafruit_SHT31 sht31 = Adafruit_SHT31();', 'Adafruit_SHT31 sht31 = Adafruit_SHT31();');
 
-    // 添加初始化代码到setup
-    const initCode = `if (!sht31.begin(${address})) {
+    // 添加初始化代码到setup，包含I2C引脚配置
+    const initCode = `Wire.begin(${sdaPin}, ${sclPin});
+  if (!sht31.begin(${address})) {
     Serial.println("SHT31 sensor not found!");
   }`;
     generator.addSetupBegin('sht31_init', initCode);
@@ -55,8 +58,9 @@ Arduino.forBlock['sht31_simple_read'] = function (block, generator) {
     generator.addLibrary('#include "Adafruit_SHT31.h"', '#include "Adafruit_SHT31.h"');
     generator.addObject('Adafruit_SHT31 sht31 = Adafruit_SHT31();', 'Adafruit_SHT31 sht31 = Adafruit_SHT31();');
 
-    // 自动初始化（简化版本）
-    const initCode = `if (!sht31.begin(0x44)) {
+    // 自动初始化（简化版本），使用默认引脚SDA=4, SCL=5
+    const initCode = `Wire.begin(4, 5);
+  if (!sht31.begin(0x44)) {
     Serial.println("SHT31 sensor not found!");
   }`;
     generator.addSetupBegin('sht31_init', initCode);

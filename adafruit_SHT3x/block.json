@@ -1,7 +1,7 @@
 [
     {
         "type": "sht31_init",
-        "message0": "初始化SHT3x传感器 地址%1",
+        "message0": "初始化SHT3x传感器 地址%1 SDA%2 SCL%3",
         "args0": [
             {
                 "type": "field_dropdown",
@@ -10,13 +10,23 @@
                     ["0x44 (默认)", "0x44"],
                     ["0x45 (备用)", "0x45"]
                 ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "SDA",
+                "options": "${board.digitalPins}"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "SCL",
+                "options": "${board.digitalPins}"
             }
         ],
         "inputsInline": true,
         "previousStatement": null,
         "nextStatement": null,
         "colour": "#4CAF50",
-        "tooltip": "初始化SHT3x温湿度传感器，选择I2C地址"
+        "tooltip": "初始化SHT3x温湿度传感器，选择I2C地址和引脚\n默认：SDA=GPIO4, SCL=GPIO5"
     },
     {
         "type": "sht31_heater_control",
