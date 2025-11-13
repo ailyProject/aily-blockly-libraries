@@ -233,6 +233,8 @@ class LibraryValidator {
       let methodBlocks = 0;
       let hatBlocks = 0;
       let valueBlocks = 0;
+      let globalObjectBlocks = 0;
+      let quickOperationBlocks = 0;
 
       for (const block of blocks) {
         if (!block.type) {
@@ -254,6 +256,20 @@ class LibraryValidator {
         
         const hasVarField = block.args0 && block.args0.some(arg => arg.name === 'VAR');
 
+        // 检测快速操作模式块
+        const isQuickOperationBlock = block.type.includes('_quick') ||
+                                     block.type.includes('_fast') ||
+                                     (block.message0 && block.message0.includes('快速'));
+
+        // 检测全局对象块（无VAR字段，有dropdown或直接调用）
+        const isGlobalObjectBlock = !hasVarField && 
+                                   (block.args0 && block.args0.some(arg => 
+                                     arg.type === 'field_dropdown' && 
+                                     (arg.name === 'SERIAL' || arg.name === 'PORT'))) ||
+                                   block.type.includes('serial_') ||
+                                   block.type.includes('httpupdate_') ||
+                                   block.type.includes('wifi_');
+
         if (isInitBlock) {
           initBlocks++;
           // 检测初始化块应使用field_input
@@ -267,6 +283,39 @@ class LibraryValidator {
               this.addIssue('warning', 'block.json', `${block.type}: 初始化块应使用field_input而非field_variable`, '将VAR字段类型改为field_input');
               console.log(`  ⚠️  ${block.type}: 应使用field_input`);
             }
+          }
+        } else if (isQuickOperationBlock) {
+          quickOperationBlocks++;
+          // 快速操作块检测：不应有VAR字段，应直接使用input_value参数
+          if (!hasVarField) {
+            this.addSuccess();
+            console.log(`  ✅ ${block.type}: 快速操作块设计正确（无需变量管理）`);
+          } else {
+            this.addFailure();
+            this.addIssue('warning', 'block.json', `${block.type}: 快速操作块不应包含VAR字段`, '移除VAR字段，直接使用input_value参数');
+            console.log(`  ⚠️  ${block.type}: 快速操作块不应有VAR字段`);
+          }
+          
+          // 检测是否有input_value参数
+          const hasInputValue = block.args0 && block.args0.some(arg => arg.type === 'input_value');
+          if (hasInputValue) {
+            this.addSuccess();
+            console.log(`  ✅ ${block.type}: 使用input_value参数`);
+          } else {
+            this.addFailure();
+            this.addIssue('info', 'block.json', `${block.type}: 快速操作块建议使用input_value参数`, '添加路径、内容等input_value参数');
+            console.log(`  💡 ${block.type}: 建议添加input_value参数`);
+          }
+        } else if (isGlobalObjectBlock) {
+          globalObjectBlocks++;
+          // 全局对象块检测：不应有VAR字段
+          if (!hasVarField) {
+            this.addSuccess();
+            console.log(`  ✅ ${block.type}: 全局对象块设计正确（无需变量管理）`);
+          } else {
+            this.addFailure();
+            this.addIssue('warning', 'block.json', `${block.type}: 全局对象块不应包含VAR字段`, '移除VAR字段，直接调用全局对象');
+            console.log(`  ⚠️  ${block.type}: 全局对象块不应有VAR字段`);
           }
         } else if (isHatBlock) {
           hatBlocks++;
@@ -298,9 +347,50 @@ class LibraryValidator {
             }
           }
         }
+
+        // 检测块的连接属性是否正确
+        if (isHatBlock) {
+          if (!block.previousStatement && !block.nextStatement) {
+            this.addSuccess();
+            console.log(`  ✅ ${block.type}: Hat块连接属性正确`);
+          } else {
+            this.addFailure();
+            this.addIssue('warning', 'block.json', `${block.type}: Hat块不应有previousStatement/nextStatement`, '移除连接属性');
+            console.log(`  ⚠️  ${block.type}: Hat块连接属性错误`);
+          }
+        } else if (isValueBlock) {
+          if (block.output && !block.previousStatement && !block.nextStatement) {
+            this.addSuccess();
+            console.log(`  ✅ ${block.type}: 值块连接属性正确`);
+          } else {
+            this.addFailure();
+            this.addIssue('warning', 'block.json', `${block.type}: 值块应只有output属性`, '移除previousStatement/nextStatement，保留output');
+            console.log(`  ⚠️  ${block.type}: 值块连接属性错误`);
+          }
+        }
+
+        // 检测tooltip字段
+        if (block.tooltip && block.tooltip.length > 0) {
+          this.addSuccess();
+          console.log(`  ✅ ${block.type}: 包含tooltip说明`);
+        } else {
+          this.addFailure();
+          this.addIssue('info', 'block.json', `${block.type}: 缺少tooltip字段`, '添加简洁的功能说明');
+          console.log(`  💡 ${block.type}: 建议添加tooltip`);
+        }
       }
 
-      console.log(`  📈 块类型统计: 初始化(${initBlocks}) 方法调用(${methodBlocks}) Hat块(${hatBlocks}) 值块(${valueBlocks})`);
+      console.log(`  📈 块类型统计: 初始化(${initBlocks}) 方法调用(${methodBlocks}) Hat块(${hatBlocks}) 值块(${valueBlocks}) 全局对象(${globalObjectBlocks}) 快速操作(${quickOperationBlocks})`);
+
+      // 检测是否有合理的块类型分布
+      if (initBlocks > 0) {
+        this.addSuccess();
+        console.log(`  ✅ 包含初始化块，结构合理`);
+      } else {
+        this.addFailure();
+        this.addIssue('info', 'block.json', '缺少初始化块', '添加对象创建/配置块');
+        console.log(`  💡 建议添加初始化块`);
+      }
 
     } catch (error) {
       // JSON格式错误已在前面处理
@@ -481,6 +571,26 @@ class LibraryValidator {
         console.log(`  ⚠️  缺少变量重命名监听机制`);
       }
 
+      // 检测addFunction vs addObject的正确使用
+      const hasAddFunction = content.includes('.addFunction(');
+      const hasAddObject = content.includes('.addObject(');
+      
+      if (hasAddFunction) {
+        this.addSuccess();
+        console.log(`  ✅ 使用addFunction添加函数定义`);
+      }
+      
+      if (hasAddObject) {
+        this.addSuccess();
+        console.log(`  ✅ 使用addObject添加对象/变量声明`);
+      }
+
+      // 检测快速操作模式实现
+      if (content.includes('addObject') && (content.includes('writeFile') || content.includes('readFile'))) {
+        this.addSuccess();
+        console.log(`  ✅ 实现快速操作模式（使用addObject）`);
+      }
+
       // 检测正确的变量读取方式
       const hasCorrectVarRead = content.includes('.getText()') && content.includes('getField(\'VAR\')');
       const hasIncorrectVarRead = content.includes('getFieldValue(\'VAR\')') && !content.includes('.getText()');
@@ -492,6 +602,34 @@ class LibraryValidator {
         this.addFailure();
         this.addIssue('warning', 'generator.js', '应使用getField(\'VAR\').getText()而非getFieldValue(\'VAR\')', '对于field_variable类型，使用getText()方法');
         console.log(`  ⚠️  建议使用 getText() 替代 getFieldValue()`);
+      }
+
+      // 检测全局对象处理模式
+      const globalObjectPatterns = ['Serial', 'WiFi', 'httpUpdate', 'Wire', 'SPI'];
+      let hasGlobalObjectHandling = false;
+      for (const pattern of globalObjectPatterns) {
+        if (content.includes(pattern + '.') || content.includes(pattern + ' ')) {
+          hasGlobalObjectHandling = true;
+          break;
+        }
+      }
+      
+      if (hasGlobalObjectHandling) {
+        this.addSuccess();
+        console.log(`  ✅ 正确处理全局对象调用`);
+      }
+
+      // 检测board适配机制
+      const hasBoardConfig = content.includes('boardConfig') || 
+                            content.includes('ensureWiFiLib') ||
+                            content.includes('board.core');
+      if (hasBoardConfig) {
+        this.addSuccess();
+        console.log(`  ✅ 实现智能板卡适配机制`);
+      } else {
+        this.addFailure();
+        this.addIssue('info', 'generator.js', '建议实现板卡适配机制', '根据boardConfig适配不同开发板的库');
+        console.log(`  💡 建议: 实现板卡适配机制`);
       }
 
       // 检测避免重复定义机制
@@ -525,7 +663,7 @@ class LibraryValidator {
         if (blockCode.includes('getFieldValue(\'VAR\')')) {
           this.addSuccess();
           console.log(`  ✅ ${blockName}: 初始化块正确使用getFieldValue()`);
-        } else {
+        } else if (blockCode.includes('getField(\'VAR\')')) {
           this.addFailure();
           this.addIssue('warning', 'generator.js', `${blockName}: 初始化块应使用getFieldValue('VAR')`, '对于field_input类型，使用getFieldValue()');
           console.log(`  ⚠️  ${blockName}: 初始化块应使用getFieldValue()`);
@@ -555,15 +693,81 @@ class LibraryValidator {
         }
       }
 
-      // 检测类型映射表使用
-      const hasTypeMapping = content.includes('TypeMap') || content.includes('typeMap');
-      if (hasTypeMapping) {
+      // 检测快速操作块模式
+      const quickBlockPattern = /Arduino\.forBlock\[['"].*?(?:_quick|_fast|快速).*?['"]\]/g;
+      const quickMatches = content.match(quickBlockPattern) || [];
+      
+      for (const match of quickMatches) {
+        const blockNameMatch = match.match(/['"](.+?)['"]/);
+        const blockName = blockNameMatch ? blockNameMatch[1] : 'unknown';
+        
+        const blockStartIndex = content.indexOf(match);
+        const blockEndIndex = content.indexOf('};', blockStartIndex);
+        const blockCode = content.substring(blockStartIndex, blockEndIndex);
+        
+        // 检测快速操作块的特征
+        const hasAddObject = blockCode.includes('.addObject(');
+        const hasErrorHandling = blockCode.includes('Serial.println') && 
+                                (blockCode.includes('Failed') || blockCode.includes('Error') || blockCode.includes('失败'));
+        const hasResourceMgmt = blockCode.includes('.close()') || blockCode.includes('file.');
+        
+        if (hasAddObject) {
+          this.addSuccess();
+          console.log(`  ✅ ${blockName}: 快速操作块正确使用addObject`);
+        } else {
+          this.addFailure();
+          this.addIssue('warning', 'generator.js', `${blockName}: 快速操作块应使用addObject生成辅助函数`, '使用addObject而非addFunction');
+          console.log(`  ⚠️  ${blockName}: 应使用addObject`);
+        }
+        
+        if (hasErrorHandling) {
+          this.addSuccess();
+          console.log(`  ✅ ${blockName}: 包含错误处理机制`);
+        } else {
+          this.addFailure();
+          this.addIssue('warning', 'generator.js', `${blockName}: 缺少错误处理机制`, '在辅助函数中添加Serial.println错误提示');
+          console.log(`  ⚠️  ${blockName}: 缺少错误处理`);
+        }
+        
+        if (hasResourceMgmt) {
+          this.addSuccess();
+          console.log(`  ✅ ${blockName}: 包含资源管理机制`);
+        }
+      }
+
+      // 检测全局对象块模式（无VAR字段）
+      const globalBlockPattern = /Arduino\.forBlock\[['"].*?(?:serial_|httpupdate_|wifi_).*?['"]\]/g;
+      const globalMatches = content.match(globalBlockPattern) || [];
+      
+      for (const match of globalMatches) {
+        const blockNameMatch = match.match(/['"](.+?)['"]/);
+        const blockName = blockNameMatch ? blockNameMatch[1] : 'unknown';
+        
+        const blockStartIndex = content.indexOf(match);
+        const blockEndIndex = content.indexOf('};', blockStartIndex);
+        const blockCode = content.substring(blockStartIndex, blockEndIndex);
+        
+        // 全局对象块不应有VAR字段处理
+        if (!blockCode.includes('getFieldValue(\'VAR\')') && !blockCode.includes('getField(\'VAR\')')) {
+          this.addSuccess();
+          console.log(`  ✅ ${blockName}: 全局对象块正确设计（无需变量管理）`);
+        } else {
+          this.addFailure();
+          this.addIssue('warning', 'generator.js', `${blockName}: 全局对象块不应包含VAR字段处理`, '直接使用全局对象，移除变量管理代码');
+          console.log(`  ⚠️  ${blockName}: 不应处理VAR字段`);
+        }
+      }
+
+      // 检测错误处理模式
+      const hasSerialBegin = content.includes('ensureSerialBegin') || 
+                            content.includes('Serial.begin');
+      if (hasSerialBegin) {
         this.addSuccess();
-        console.log(`  ✅ 使用类型映射表管理变量类型`);
+        console.log(`  ✅ 确保Serial初始化`);
       } else {
         this.addFailure();
-        this.addIssue('info', 'generator.js', '建议使用类型映射表管理变量类型', '创建TypeMap对象记录变量类型信息');
-        console.log(`  💡 建议: 使用类型映射表管理变量类型(非必须项)`);
+        this.addIssue('info', 'generator.js', '建议确保Serial初始化', '在需要输出调试信息时确保Serial.begin');
+        console.log(`  💡 建议: 确保Serial初始化`);
       }
 
     } catch (error) {
