@@ -11,24 +11,24 @@ ESP32 SD卡文件系统操作库
 
 | 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
 |--------|------|----------|----------|----------|
-| `esp32_sd_begin` | 语句块 | 无 | `{}` | `SD.begin(); // 默认引脚` |
-| `esp32_sd_begin_custom` | 语句块 | CS/SCK/MISO/MOSI/FREQUENCY(input_value) | `"inputs":{"CS":{"block":{"type":"math_number","fields":{"NUM":"5"}}},"SCK":{"block":{"type":"math_number","fields":{"NUM":"18"}}}}` | `SPI.begin(18,19,23,5); SD.begin(5,SPI,4000000);` |
+| `esp32_sd_begin` | 语句块 | 无 | `{}` | `SD.begin()初始化+错误处理` |
+| `esp32_sd_begin_custom` | 语句块 | CS/SCK/MISO/MOSI/FREQUENCY(input_value) | `"inputs":{"CS":{"block":{"type":"math_number","fields":{"NUM":"5"}}},"SCK":{"block":{"type":"math_number","fields":{"NUM":"18"}}}}` | `SPI.begin()+SD.begin()自定义引脚配置` |
 | `esp32_sd_card_info` | 值块 | INFO(field_dropdown) | `"fields":{"INFO":"cardType"}` | `SD.cardType()` |
-| `esp32_sd_file_exists` | 值块 | VAR(field_variable), PATH(input_value) | `"fields":{"VAR":{"id":"sd_id","name":"SD","type":"SDFS"}},"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/test.txt"}}}}` | `SD.exists("/test.txt")` |
-| `esp32_sd_open_file` | 值块 | VAR(field_variable), PATH(input_value), MODE(field_dropdown) | `"fields":{"VAR":{"id":"file_id","name":"file","type":"File"},"MODE":"FILE_READ"},"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/test.txt"}}}}` | `file = SD.open("/test.txt", FILE_READ)` |
+| `esp32_sd_file_exists` | 值块 | PATH(input_value) | `"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/test.txt"}}}}` | `SD.exists("/test.txt")` |
+| `esp32_sd_open_file` | 值块 | VAR(field_variable), PATH(input_value), MODE(field_dropdown) | `"fields":{"VAR":{"id":"file_id","name":"file","type":"File"},"MODE":"FILE_READ"},"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/test.txt"}}}}` | `file = SD.open(path, mode)` |
 | `esp32_sd_close_file` | 语句块 | VAR(field_variable) | `"fields":{"VAR":{"id":"file_id","name":"file","type":"File"}}` | `file.close();` |
-| `esp32_sd_write_file` | 语句块 | VAR(field_variable), CONTENT(input_value) | `"fields":{"VAR":{"id":"file_id","name":"file","type":"File"}},"inputs":{"CONTENT":{"block":{"type":"text","fields":{"TEXT":"Hello"}}}}` | `file.print("Hello");` |
-| `esp32_sd_read_file` | 值块 | VAR(field_variable) | `"fields":{"VAR":{"id":"file_id","name":"file","type":"File"}}` | `file.readString()` |
+| `esp32_sd_write_file` | 语句块 | VAR(field_variable), CONTENT(input_value) | `"fields":{"VAR":{"id":"file_id","name":"file","type":"File"}},"inputs":{"CONTENT":{"block":{"type":"text","fields":{"TEXT":"Hello"}}}}` | `file.print(content);` |
+| `esp32_sd_read_file` | 值块 | VAR(field_variable) | `"fields":{"VAR":{"id":"file_id","name":"file","type":"File"}}` | `readFileContent(file)` |
 | `esp32_sd_file_available` | 值块 | VAR(field_variable) | `"fields":{"VAR":{"id":"file_id","name":"file","type":"File"}}` | `file.available()` |
 | `esp32_sd_file_size` | 值块 | VAR(field_variable) | `"fields":{"VAR":{"id":"file_id","name":"file","type":"File"}}` | `file.size()` |
-| `esp32_sd_write_file_quick` | 语句块 | PATH/CONTENT(input_value) | `"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/hello.txt"}}},"CONTENT":{"block":{"type":"text","fields":{"TEXT":"Hello World"}}}}` | `writeFile(SD, "/hello.txt", "Hello World");` |
-| `esp32_sd_read_file_quick` | 值块 | PATH(input_value) | `"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/hello.txt"}}}}` | `readFile(SD, "/hello.txt")` |
-| `esp32_sd_append_file` | 语句块 | PATH/CONTENT(input_value) | `"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/log.txt"}}},"CONTENT":{"block":{"type":"text","fields":{"TEXT":"New data"}}}}` | `appendFile(SD, "/log.txt", "New data");` |
-| `esp32_sd_delete_file` | 语句块 | PATH(input_value) | `"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/temp.txt"}}}}` | `SD.remove("/temp.txt");` |
-| `esp32_sd_rename_file` | 语句块 | OLD_PATH/NEW_PATH(input_value) | `"inputs":{"OLD_PATH":{"block":{"type":"text","fields":{"TEXT":"/old.txt"}}},"NEW_PATH":{"block":{"type":"text","fields":{"TEXT":"/new.txt"}}}}` | `SD.rename("/old.txt", "/new.txt");` |
-| `esp32_sd_create_dir` | 语句块 | PATH(input_value) | `"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/mydir"}}}}` | `SD.mkdir("/mydir");` |
-| `esp32_sd_remove_dir` | 语句块 | PATH(input_value) | `"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/mydir"}}}}` | `SD.rmdir("/mydir");` |
-| `esp32_sd_list_dir` | 语句块 | PATH/LEVELS(input_value) | `"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/"}}}, "LEVELS":{"block":{"type":"math_number","fields":{"NUM":"0"}}}}` | `listDir(SD, "/", 0);` |
+| `esp32_sd_write_file_quick` | 语句块 | PATH/CONTENT(input_value) | `"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/hello.txt"}}},"CONTENT":{"block":{"type":"text","fields":{"TEXT":"Hello World"}}}}` | `writeFile(path, content);` |
+| `esp32_sd_read_file_quick` | 值块 | PATH(input_value) | `"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/hello.txt"}}}}` | `readFile(path)` |
+| `esp32_sd_append_file` | 语句块 | PATH/CONTENT(input_value) | `"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/log.txt"}}},"CONTENT":{"block":{"type":"text","fields":{"TEXT":"New data"}}}}` | `appendFile(path, content);` |
+| `esp32_sd_delete_file` | 语句块 | PATH(input_value) | `"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/temp.txt"}}}}` | `SD.remove(path)+结果提示;` |
+| `esp32_sd_rename_file` | 语句块 | OLD_PATH/NEW_PATH(input_value) | `"inputs":{"OLD_PATH":{"block":{"type":"text","fields":{"TEXT":"/old.txt"}}},"NEW_PATH":{"block":{"type":"text","fields":{"TEXT":"/new.txt"}}}}` | `SD.rename(oldPath, newPath)+结果提示;` |
+| `esp32_sd_create_dir` | 语句块 | PATH(input_value) | `"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/mydir"}}}}` | `SD.mkdir(path)+结果提示;` |
+| `esp32_sd_remove_dir` | 语句块 | PATH(input_value) | `"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/mydir"}}}}` | `SD.rmdir(path)+结果提示;` |
+| `esp32_sd_list_dir` | 语句块 | PATH/LEVELS(input_value) | `"inputs":{"PATH":{"block":{"type":"text","fields":{"TEXT":"/"}}}, "LEVELS":{"block":{"type":"math_number","fields":{"NUM":"0"}}}}` | `listDir(SD, path, levels);` |
 
 ## 字段类型映射
 
@@ -44,8 +44,11 @@ ESP32 SD卡文件系统操作库
 - **值块**: 读取、查询类块有output，连接到`inputs`中，无`next`字段
 - **特殊规则**: 
   - File变量类型为"File"，SDFS变量类型为"SDFS"
-  - SD卡必须先初始化再使用
-  - 文件操作支持File对象模式和快速操作模式
+  - SD卡必须先初始化再使用，会自动添加错误处理代码
+  - 文件读取使用自动生成的`readFileContent`函数确保完整读取
+  - 快速文件操作自动生成`writeFile`、`readFile`、`appendFile`等辅助函数
+  - 目录列表功能自动生成递归`listDir`函数
+  - 文件操作结果会自动输出到串口进行状态提示
   - 路径格式为Unix风格"/"开头的绝对路径
 
 ## 使用示例
