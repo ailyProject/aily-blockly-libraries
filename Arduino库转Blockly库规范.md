@@ -59,10 +59,14 @@ client.loop();                          // 保持连接
 - **通信类**: 发送、接收、订阅
 - **状态类**: 连接检查、错误状态
 - **维护类**: 保持连接、清理资源
+- **快速操作类**: 一步完成复杂操作流程（如文件读写、数据传输等）
 
 **按用户流程分类**：
 ```
 设备初始化 → 网络连接 → 服务配置 → 数据交互 → 状态监控
+                                    ↓
+                               快速操作模式
+                              （简化复杂流程）
 ```
 
 ## 阶段二：block.json设计规范
@@ -75,7 +79,8 @@ client.loop();                          // 保持连接
 | **全局对象方法调用** | **语句块** | **previousStatement/nextStatement** | **无需变量字段** | **直接调用全局对象(Serial, httpUpdate等)，无需创建** |
 | 对象方法调用 | 语句块 | previousStatement/nextStatement | **field_variable** | 引用已创建的对象变量 |
 | **全局对象状态查询** | **值块** | **output: ["Type"]** | **无需变量字段** | **直接返回全局对象状态值** |
-| 事件回调 | hat模式块 | **无previousStatement/nextStatement** | **field_variable+inpt_statement** | 引用对象，包含代码块，事件驱动 |
+| **快速操作模式** | **语句块/值块** | **标准连接** | **无变量字段，直接参数** | **自动生成辅助函数，简化复杂操作流程** |
+| 事件回调 | hat模式块 | **无previousStatement/nextStatement** | **field_variable+input_statement** | 引用对象，包含代码块，事件驱动 |
 | 条件回调处理 | **混合模式块** | **有previousStatement/nextStatement** | **input_value+input_statement** | 在程序流程中设置特定条件的回调 |
 | 状态查询 | 值块 | output: ["Type"] | **field_variable** | 引用对象，返回值 |
 | 数据操作 | 语句块 | previousStatement/nextStatement | **field_variable** | 引用对象，操作数据 |
@@ -120,6 +125,28 @@ client.loop();                          // 保持连接
          "name": "VAR"
        }
      ]
+   }
+   ```
+
+4. **快速操作模式（自动生成辅助函数）**：
+   ```json
+   {
+     "type": "esp32_sd_write_file_quick",
+     "message0": "快速写入文件 路径%1 内容%2",
+     "args0": [
+       {
+         "type": "input_value",
+         "name": "PATH",
+         "check": ["String"]
+       },
+       {
+         "type": "input_value", 
+         "name": "CONTENT",
+         "check": ["String"]
+       }
+     ],
+     "previousStatement": null,
+     "nextStatement": null
    }
    ```
 
@@ -325,6 +352,7 @@ JSON数组格式，包含多个块定义对象
 - `generator.addLibrary()` - 自动避免重复添加相同库
 - `generator.addVariable()` - 自动避免重复声明相同变量
 - `generator.addFunction()` - 自动避免重复定义相同函数
+- `generator.addObject()` - 自动避免重复定义相同辅助函数（推荐用于复杂操作）
 
 **标准生成器结构（自定义对象）**：
 ```javascript
@@ -383,6 +411,44 @@ Arduino.forBlock['httpupdate_get_last_error'] = function(block, generator) {
 
   // 2. 直接调用全局对象
   return ['httpUpdate.getLastError()', generator.ORDER_ATOMIC];
+};
+```
+
+**快速操作模式生成器结构（自动生成辅助函数）**：
+```javascript
+Arduino.forBlock['esp32_sd_write_file_quick'] = function(block, generator) {
+  // 1. 获取参数，无需变量管理
+  const path = generator.valueToCode(block, 'PATH', generator.ORDER_ATOMIC) || '""';
+  const content = generator.valueToCode(block, 'CONTENT', generator.ORDER_ATOMIC) || '""';
+
+  // 2. 添加必要库
+  generator.addLibrary('FS', '#include <FS.h>');
+  generator.addLibrary('SD', '#include <SD.h>');
+
+  // 3. 自动生成辅助函数（完整错误处理）
+  let functionDef = '';
+  functionDef += 'void writeFile(const char * path, const char * message) {\n';
+  functionDef += '  File file = SD.open(path, FILE_WRITE);\n';
+  functionDef += '  if (!file) {\n';
+  functionDef += '    Serial.println("Failed to open file for writing");\n';
+  functionDef += '    return;\n';
+  functionDef += '  }\n';
+  functionDef += '  if (file.print(message)) {\n';
+  functionDef += '    Serial.println("File written");\n';
+  functionDef += '  } else {\n';
+  functionDef += '    Serial.println("Write failed");\n';
+  functionDef += '  }\n';
+  functionDef += '  file.close();\n';
+  functionDef += '}\n';
+
+  // 4. 注册辅助函数（自动去重）
+  generator.addObject('writeFile_function', functionDef, true);
+  
+  // 5. 确保Serial初始化
+  ensureSerialBegin("Serial", generator);
+
+  // 6. 生成调用代码
+  return 'writeFile(' + path + ', ' + content + ');\n';
 };
 ```
 
@@ -586,10 +652,11 @@ function getClientName(block, def) {
 1. **初始化块**: 使用`field_input`让用户输入新变量名
 2. **调用块**: 使用`field_variable`选择已存在变量，配置`variableTypes`
 3. **全局对象块**: 无需变量字段，直接调用全局对象（如Serial, httpUpdate）
-4. **事件回调块**: hat模式，无连接属性，返回空字符串
-5. **混合模式块**: 有连接属性，包含回调代码，返回条件代码
-6. **input_value**: 必须在toolbox.json中配置影子块
-7. **变量重命名**: 在generator.js中实现field validator监听
+4. **快速操作块**: 无需变量管理，自动生成完整的辅助函数处理复杂操作流程
+5. **事件回调块**: hat模式，无连接属性，返回空字符串
+6. **混合模式块**: 有连接属性，包含回调代码，返回条件代码
+7. **input_value**: 必须在toolbox.json中配置影子块
+8. **变量重命名**: 在generator.js中实现field validator监听
 
 ### generator.js中变量名读取方式
 - **field_input**: `block.getFieldValue('VAR')`
@@ -609,7 +676,21 @@ function getClientName(block, def) {
 ### Generator机制
 - `generator.addLibrary()` - 自动去重库引用
 - `generator.addVariable()` - 自动去重变量声明
-- `generator.addFunction()` - 自动去重函数定义
+- `generator.addFunction()` - 自动去重函数定义，用于添加函数到全局作用域
+- `generator.addObject()` - 自动去重对象/变量声明，用于添加全局对象、变量声明、常量定义等
+
+**关键区别**: 
+- `addFunction`添加的内容放在全局函数区域
+- `addObject`添加的内容放在全局对象/变量声明区域
+- 快速操作的辅助函数使用`addObject`是因为它们往往包含完整的功能实现和错误处理逻辑
+
+### 快速操作模式设计原则
+- **用户友好**: 一个块完成完整操作流程，无需手动管理中间步骤
+- **自动错误处理**: 辅助函数包含完整的错误检查和状态提示
+- **资源管理**: 自动处理资源的打开、使用、关闭lifecycle
+- **状态反馈**: 通过Serial输出操作结果，便于调试
+- **代码复用**: 使用`addObject`确保辅助函数不重复定义
+- **Serial初始化**: 使用`ensureSerialBegin()`确保调试输出正常工作
 
 ### 变量类型格式
 ```json
@@ -626,8 +707,16 @@ function getClientName(block, def) {
 
 1. **深度理解原库**: 分析API设计理念和使用模式
 2. **用户导向设计**: 简化操作流程，优化交互体验
-3. **高质量实现**: 确保代码生成正确性和效率，避免重复定义
-4. **全面测试验证**: 保证功能完整性和兼容性
-5. **持续优化改进**: 根据反馈不断完善
+3. **双重模式支持**: 提供标准操作模式（精细控制）和快速操作模式（简化流程）
+4. **智能辅助函数**: 自动生成包含错误处理和资源管理的辅助函数
+5. **高质量实现**: 确保代码生成正确性和效率，避免重复定义
+6. **全面测试验证**: 保证功能完整性和兼容性
+7. **持续优化改进**: 根据反馈不断完善
 
-通过遵循本规范，正确使用核心库函数和generator内置机制，实现变量重命名监听和板卡适配，可以系统性地将Arduino库转换为高质量的Blockly库，提供直观高效的图形化编程体验。
+**快速操作模式适用场景**：
+- 文件系统操作（读写、追加、删除等）
+- 网络通信（HTTP请求、数据传输等）
+- 硬件控制（传感器读取、执行器控制等）
+- 数据处理（格式转换、计算处理等）
+
+通过遵循本规范，正确使用核心库函数和generator内置机制，实现变量重命名监听和板卡适配，结合快速操作模式简化复杂流程，可以系统性地将Arduino库转换为高质量的Blockly库，提供直观高效的图形化编程体验。

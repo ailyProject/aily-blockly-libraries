@@ -47,38 +47,83 @@ class GitHubActionsValidator extends LibraryValidator {
 
     let summary = `## ${statusEmoji} 库检测结果: ${libraryName}\n\n`;
     summary += `**状态**: ${status}\n`;
-    summary += `**得分**: ${this.score}/${this.maxScore} (${scorePercentage}%)\n\n`;
+    summary += `**得分**: ${this.score}/${this.maxScore} (${scorePercentage}%)\n`;
+    summary += `**检测时间**: ${new Date().toLocaleString('zh-CN')}\n\n`;
+
+    // 添加检测覆盖面信息
+    summary += `### 📋 检测覆盖面\n\n`;
+    summary += `- ✅ 文件结构完整性\n`;
+    summary += `- ✅ JSON格式正确性\n`;
+    summary += `- ✅ package.json规范（命名、版本、兼容性）\n`;
+    summary += `- ✅ block.json设计规范（字段类型、连接属性、块分类）\n`;
+    summary += `- ✅ toolbox.json影子块配置\n`;
+    summary += `- ✅ README轻量化规范\n`;
+    summary += `- ✅ generator.js最佳实践（变量管理、板卡适配、快速操作模式）\n\n`;
 
     if (!passed && this.failureDetails.length > 0) {
-      summary += `### 🔧 需要修复的问题\n\n`;
+      summary += `### 🔧 关键问题（必须修复）\n\n`;
       this.failureDetails.forEach(detail => {
         summary += `${detail}\n`;
       });
       summary += `\n`;
     }
 
-    summary += `### 📊 详细检测报告\n\n`;
-    
-    // 按类别分组显示问题
-    const issuesByCategory = {};
-    this.issues.forEach(issue => {
-      if (!issuesByCategory[issue.category]) {
-        issuesByCategory[issue.category] = [];
-      }
-      issuesByCategory[issue.category].push(issue);
-    });
+    // 按重要性和类别分组显示所有问题
+    const criticalIssues = this.issues.filter(i => i.type === 'error');
+    const warningIssues = this.issues.filter(i => i.type === 'warning');
+    const infoIssues = this.issues.filter(i => i.type === 'info');
 
-    Object.keys(issuesByCategory).forEach(category => {
-      summary += `#### ${category}\n\n`;
-      issuesByCategory[category].forEach(issue => {
-        const icon = issue.type === 'error' ? '❌' : issue.type === 'warning' ? '⚠️' : 'ℹ️';
-        summary += `- ${icon} ${issue.message}\n`;
-        if (issue.suggestion) {
-          summary += `  - 💡 ${issue.suggestion}\n`;
-        }
-      });
+    if (criticalIssues.length > 0) {
+      summary += `### ❌ 严重问题 (${criticalIssues.length})\n\n`;
+      summary = this.groupAndDisplayIssues(criticalIssues, summary);
+    }
+
+    if (warningIssues.length > 0) {
+      summary += `### ⚠️ 警告问题 (${warningIssues.length})\n\n`;
+      summary = this.groupAndDisplayIssues(warningIssues, summary);
+    }
+
+    if (infoIssues.length > 0) {
+      summary += `### 💡 优化建议 (${infoIssues.length})\n\n`;
+      summary = this.groupAndDisplayIssues(infoIssues, summary);
+    }
+
+    // 如果通过检测，显示成功信息
+    if (passed) {
+      summary += `### 🎉 恭喜！\n\n`;
+      summary += `您的库 **${libraryName}** 完全符合Arduino转Blockly库规范！\n\n`;
+      summary += `**主要亮点**：\n`;
+      summary += `- 📁 文件结构完整规范\n`;
+      summary += `- 🧩 块设计遵循最佳实践\n`;
+      summary += `- ⚙️ 代码生成器实现正确\n`;
+      summary += `- 📚 文档规范简洁\n\n`;
+    } else {
+      summary += `### 🔗 参考资料\n\n`;
+      summary += `请参考以下规范文档进行修复：\n`;
+      summary += `- 📖 [Arduino库转Blockly库规范](./Arduino库转Blockly库规范.md)\n`;
+      summary += `- 📝 [Blockly库README编写规范](./blockly库readme编写规范.md)\n`;
+      summary += `- 🚀 [GitHub Actions部署指南](./DEPLOYMENT.md)\n\n`;
+      
+      summary += `### 💫 快速修复提示\n\n`;
+      
+      if (criticalIssues.some(i => i.category === 'JSON格式')) {
+        summary += `- 🔧 **JSON语法错误**: 使用在线JSON验证器检查语法\n`;
+      }
+      
+      if (criticalIssues.some(i => i.category === 'block.json')) {
+        summary += `- 🧩 **块设计问题**: 确保初始化块使用field_input，方法块使用field_variable+variableTypes\n`;
+      }
+      
+      if (warningIssues.some(i => i.category === 'generator.js')) {
+        summary += `- ⚙️ **代码生成问题**: 注意field_input用getFieldValue()，field_variable用getField().getText()\n`;
+      }
+      
+      if (warningIssues.some(i => i.category === 'toolbox.json')) {
+        summary += `- 🧰 **影子块配置**: 为所有input_value字段配置影子块\n`;
+      }
+      
       summary += `\n`;
-    });
+    }
 
     // 写入摘要文件
     try {
@@ -86,6 +131,31 @@ class GitHubActionsValidator extends LibraryValidator {
     } catch (error) {
       console.error('Failed to write GitHub Actions summary:', error);
     }
+  }
+
+  // 辅助方法：按类别分组显示问题
+  groupAndDisplayIssues(issues, summary) {
+    const issuesByCategory = {};
+    issues.forEach(issue => {
+      if (!issuesByCategory[issue.category]) {
+        issuesByCategory[issue.category] = [];
+      }
+      issuesByCategory[issue.category].push(issue);
+    });
+
+    Object.keys(issuesByCategory).forEach(category => {
+      summary += `#### 📁 ${category}\n\n`;
+      issuesByCategory[category].forEach(issue => {
+        const icon = issue.type === 'error' ? '❌' : issue.type === 'warning' ? '⚠️' : '💡';
+        summary += `- ${icon} ${issue.message}\n`;
+        if (issue.suggestion) {
+          summary += `  - **修复建议**: ${issue.suggestion}\n`;
+        }
+      });
+      summary += `\n`;
+    });
+
+    return summary;
   }
 
   // 重写验证方法以支持GitHub Actions
