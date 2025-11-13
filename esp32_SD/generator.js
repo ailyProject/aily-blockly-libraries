@@ -13,9 +13,9 @@ Arduino.forBlock['esp32_sd_begin'] = function(block, generator) {
   code += '  return;\n';
   code += '}\n';
 
-  generator.addSetupEnd(code, code);
+  // generator.addSetupEnd(code, code);
   
-  return '';
+  return code;
 };
 
 Arduino.forBlock['esp32_sd_begin_custom'] = function(block, generator) {
@@ -39,9 +39,9 @@ Arduino.forBlock['esp32_sd_begin_custom'] = function(block, generator) {
   code += '  return;\n';
   code += '}\n';
 
-  generator.addSetupEnd(code, code);
+  // generator.addSetupEnd(code, code);
   
-  return '';
+  return code;
 };
 
 Arduino.forBlock['esp32_sd_card_info'] = function(block, generator) {
@@ -72,14 +72,12 @@ Arduino.forBlock['esp32_sd_card_info'] = function(block, generator) {
 };
 
 Arduino.forBlock['esp32_sd_file_exists'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'SD';
   const path = generator.valueToCode(block, 'PATH', generator.ORDER_ATOMIC) || '""';
 
   generator.addLibrary('FS', '#include <FS.h>');
   generator.addLibrary('SD', '#include <SD.h>');
 
-  let code = varName + '.exists(' + path + ')';
+  let code = 'SD.exists(' + path + ')';
   
   return [code, generator.ORDER_FUNCTION_CALL];
 };
@@ -134,14 +132,19 @@ Arduino.forBlock['esp32_sd_read_file'] = function(block, generator) {
   generator.addLibrary('FS', '#include <FS.h>');
   generator.addLibrary('SD', '#include <SD.h>');
 
+  let functionDef = '';
+  functionDef += 'String readFileContent(File &file) {\n';
+  functionDef += '  String result = "";\n';
+  functionDef += '  while (file.available()) {\n';
+  functionDef += '    result += (char)file.read();\n';
+  functionDef += '  }\n';
+  functionDef += '  return result;\n';
+  functionDef += '}\n';
+
+  generator.addObject('readFileContent_function', functionDef, true);
+
   let code = '';
-  code += '(function() {\n';
-  code += '  String result = "";\n';
-  code += '  while (' + varName + '.available()) {\n';
-  code += '    result += (char)' + varName + '.read();\n';
-  code += '  }\n';
-  code += '  return result;\n';
-  code += '})()';
+  code += 'readFileContent(' + varName + ')';
   
   return [code, generator.ORDER_FUNCTION_CALL];
 };
@@ -178,22 +181,27 @@ Arduino.forBlock['esp32_sd_write_file_quick'] = function(block, generator) {
   generator.addLibrary('FS', '#include <FS.h>');
   generator.addLibrary('SD', '#include <SD.h>');
 
+  let functionDef = '';
+  functionDef += 'void writeFile(const char * path, const char * message) {\n';
+  functionDef += '  File file = SD.open(path, FILE_WRITE);\n';
+  functionDef += '  if (!file) {\n';
+  functionDef += '    Serial.println("Failed to open file for writing");\n';
+  functionDef += '    return;\n';
+  functionDef += '  }\n';
+  functionDef += '  if (file.print(message)) {\n';
+  functionDef += '    Serial.println("File written");\n';
+  functionDef += '  } else {\n';
+  functionDef += '    Serial.println("Write failed");\n';
+  functionDef += '  }\n';
+  functionDef += '  file.close();\n';
+  functionDef += '}\n';
+
+  generator.addObject('writeFile_function', functionDef, true);
+
   ensureSerialBegin("Serial", generator);
 
   let code = '';
-  code += '{\n';
-  code += '  File file = SD.open(' + path + ', FILE_WRITE);\n';
-  code += '  if (!file) {\n';
-  code += '    Serial.println("Failed to open file for writing");\n';
-  code += '    return;\n';
-  code += '  }\n';
-  code += '  if (file.print(' + content + ')) {\n';
-  code += '    Serial.println("File written");\n';
-  code += '  } else {\n';
-  code += '    Serial.println("Write failed");\n';
-  code += '  }\n';
-  code += '  file.close();\n';
-  code += '}\n';
+  code += 'writeFile(' + path + ', ' + content + ');\n';
 
   return code;
 };
@@ -205,22 +213,27 @@ Arduino.forBlock['esp32_sd_read_file_quick'] = function(block, generator) {
   generator.addLibrary('FS', '#include <FS.h>');
   generator.addLibrary('SD', '#include <SD.h>');
 
+  let functionDef = '';
+  functionDef += 'String readFile(const char * path) {\n';
+  functionDef += '  String result = "";\n';
+  functionDef += '  File file = SD.open(path);\n';
+  functionDef += '  if (!file) {\n';
+  functionDef += '    Serial.println("Failed to open file for reading");\n';
+  functionDef += '    return result;\n';
+  functionDef += '  }\n';
+  functionDef += '  while (file.available()) {\n';
+  functionDef += '    result += (char)file.read();\n';
+  functionDef += '  }\n';
+  functionDef += '  file.close();\n';
+  functionDef += '  return result;\n';
+  functionDef += '}\n';
+
+  generator.addObject('readFile_function', functionDef, true);
+
   ensureSerialBegin("Serial", generator);
 
   let code = '';
-  code += '(function() {\n';
-  code += '  String result = "";\n';
-  code += '  File file = SD.open(' + path + ');\n';
-  code += '  if (!file) {\n';
-  code += '    Serial.println("Failed to open file for reading");\n';
-  code += '    return result;\n';
-  code += '  }\n';
-  code += '  while (file.available()) {\n';
-  code += '    result += (char)file.read();\n';
-  code += '  }\n';
-  code += '  file.close();\n';
-  code += '  return result;\n';
-  code += '})()';
+  code += 'readFile(' + path + ')';
   
   return [code, generator.ORDER_FUNCTION_CALL];
 };
@@ -233,22 +246,27 @@ Arduino.forBlock['esp32_sd_append_file'] = function(block, generator) {
   generator.addLibrary('FS', '#include <FS.h>');
   generator.addLibrary('SD', '#include <SD.h>');
 
+  let functionDef = '';
+  functionDef += 'void appendFile(const char * path, const char * message) {\n';
+  functionDef += '  File file = SD.open(path, FILE_APPEND);\n';
+  functionDef += '  if (!file) {\n';
+  functionDef += '    Serial.println("Failed to open file for appending");\n';
+  functionDef += '    return;\n';
+  functionDef += '  }\n';
+  functionDef += '  if (file.print(message)) {\n';
+  functionDef += '    Serial.println("Message appended");\n';
+  functionDef += '  } else {\n';
+  functionDef += '    Serial.println("Append failed");\n';
+  functionDef += '  }\n';
+  functionDef += '  file.close();\n';
+  functionDef += '}\n';
+
+  generator.addObject('appendFile_function', functionDef, true);
+
   ensureSerialBegin("Serial", generator);
 
   let code = '';
-  code += '{\n';
-  code += '  File file = SD.open(' + path + ', FILE_APPEND);\n';
-  code += '  if (!file) {\n';
-  code += '    Serial.println("Failed to open file for appending");\n';
-  code += '    return;\n';
-  code += '  }\n';
-  code += '  if (file.print(' + content + ')) {\n';
-  code += '    Serial.println("Message appended");\n';
-  code += '  } else {\n';
-  code += '    Serial.println("Append failed");\n';
-  code += '  }\n';
-  code += '  file.close();\n';
-  code += '}\n';
+  code += 'appendFile(' + path + ', ' + content + ');\n';
 
   return code;
 };
