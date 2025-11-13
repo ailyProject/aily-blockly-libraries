@@ -311,7 +311,6 @@ Arduino.forBlock['esp32_sd_rename_file'] = function(block, generator) {
 };
 
 Arduino.forBlock['esp32_sd_create_dir'] = function(block, generator) {
-  const varField = block.getField('VAR');
   const path = generator.valueToCode(block, 'PATH', generator.ORDER_ATOMIC) || '""';
 
   generator.addLibrary('FS', '#include <FS.h>');
