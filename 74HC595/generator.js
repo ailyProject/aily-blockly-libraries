@@ -1,7 +1,6 @@
 function getVariableName(block) {
   const variableField = block.getField('VAR');
   const variableName = variableField ? variableField.getText() : 'hc1';
-  // console.log("name: ", variableModel.name);
   return variableName;
 }
 
