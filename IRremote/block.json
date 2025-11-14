@@ -1,7 +1,7 @@
 [
   {
     "inputsInline": true,
-    "message0": "红外接收 快速测试  引脚 %1",
+    "message0": "红外接收快速测试 引脚 %1",
     "type": "QuickTesting",
     "args0": [
       {
@@ -46,7 +46,7 @@
   },
   {
     "type": "irrecv_datain",
-    "message0": "接收到红外数据%1",
+    "message0": "当接收到红外数据 %1",
     "args0": [
       {
         "type": "input_statement",
@@ -54,7 +54,7 @@
       }
     ],
     "previousStatement": null,
-    "nextStatement": null,    
+    "nextStatement": null,
     "colour": "#ff5722"
   },
   {
@@ -80,6 +80,66 @@
     ],
     "previousStatement": null,
     "nextStatement": null,
+    "colour": "#ff5722"
+  },
+  {
+    "hat": "cap",
+    "inputsInline": false,
+    "message0": "当红外按键 %1 被按下 (防抖 %2 ms) %3",
+    "type": "irrecv_on_key",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "IRKEY",
+        "options": [
+          [
+            "频道-",
+            "CH_MINUS"
+          ],
+          [
+            "频道",
+            "CHANNEL"
+          ],
+          [
+            "频道+",
+            "CH_PLUS"
+          ],
+          [
+            "上一曲",
+            "PREV"
+          ],
+          [
+            "下一曲",
+            "NEXT"
+          ],
+          [
+            "播放/暂停",
+            "PLAY_PAUSE"
+          ],
+          [
+            "音量-",
+            "VOL_DOWN"
+          ],
+          [
+            "音量+",
+            "VOL_UP"
+          ],
+          [
+            "EQ",
+            "EQ"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DEBOUNCE",
+        "check": "Number"
+      },
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
     "colour": "#ff5722"
   }
 ]
