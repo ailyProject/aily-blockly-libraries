@@ -1,0 +1,102 @@
+name: Debug Permissions
+
+on:
+  workflow_dispatch:  # 手动触发
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  actions: read
+
+jobs:
+  debug-permissions:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Debug GitHub Context
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          console.log('🔍 调试GitHub Actions权限...');
+          console.log('');
+          
+          // 基本信息
+          console.log('📊 基本信息:');
+          console.log(`- 仓库: ${context.repo.owner}/${context.repo.repo}`);
+          console.log(`- 事件类型: ${context.eventName}`);
+          console.log(`- Actor: ${context.actor}`);
+          console.log(`- Run ID: ${context.runId}`);
+          console.log('');
+          
+          // 权限测试
+          console.log('🔐 权限测试:');
+          
+          try {
+            // 测试读取仓库信息
+            const repo = await github.rest.repos.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            console.log('✅ 仓库读取权限: 正常');
+          } catch (error) {
+            console.log('❌ 仓库读取权限: 失败', error.message);
+          }
+          
+          // 如果是PR事件，测试PR相关权限
+          if (context.eventName === 'pull_request') {
+            try {
+              const { data: comments } = await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number
+              });
+              console.log('✅ PR评论读取权限: 正常');
+              
+              // 尝试创建测试评论
+              const testComment = await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: '🤖 **权限测试评论** - 如果您看到这条评论，说明GitHub Actions具有正确的PR评论权限。\n\n*此评论将被自动删除*'
+              });
+              console.log('✅ PR评论创建权限: 正常');
+              
+              // 删除测试评论
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: testComment.data.id
+              });
+              console.log('✅ PR评论删除权限: 正常');
+              
+            } catch (error) {
+              console.log('❌ PR评论权限测试失败:', error.message);
+              console.log('错误详情:', JSON.stringify(error, null, 2));
+            }
+          }
+          
+          // Actions权限测试
+          try {
+            const runs = await github.rest.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'library-compliance-check.yml',
+              per_page: 1
+            });
+            console.log('✅ Actions读取权限: 正常');
+          } catch (error) {
+            console.log('❌ Actions读取权限: 失败', error.message);
+          }
+          
+          console.log('');
+          console.log('🔧 建议检查项:');
+          console.log('1. Repository Settings → Actions → General → Workflow permissions');
+          console.log('2. Repository Settings → Actions → General → Allow GitHub Actions to create and approve pull requests');
+          console.log('3. Branch protection rules on main branch');
