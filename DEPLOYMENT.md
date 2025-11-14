@@ -105,8 +105,90 @@ git push origin develop
 
 ## ⚙️ 高级配置
 
-### 自定义检测规则
-编辑 `.github/compliance-config.yml`:
+### 库规范检测系统 v2.0 新功能
+
+**基于最新Arduino库转Blockly库规范的增强检测**：
+
+🔍 **新增检测项目**：
+- **快速操作模式检测**: 自动识别快速操作块并验证设计规范
+- **addFunction vs addObject使用**: 检测正确的generator方法选择
+- **全局对象处理**: 验证全局对象块的正确设计（无VAR字段）
+- **变量读取方式**: 确保field_input用getFieldValue()，field_variable用getText()
+- **板卡适配机制**: 检测智能板卡适配代码
+- **错误处理和资源管理**: 验证快速操作块的完整实现
+
+📈 **增强功能**：
+- **块类型统计**: 显示初始化、方法、Hat、值、全局对象、快速操作块数量
+- **连接属性验证**: 检测Hat块、值块的连接属性是否正确
+- **tooltip完整性**: 确保所有块都有功能说明
+- **影子块配置详情**: 显示每个块的影子块配置状态
+
+🎯 **质量保证**：
+- 覆盖Arduino库转Blockly库规范的所有核心要点
+- 支持新的快速操作模式最佳实践
+- 智能识别不同块类型的设计模式
+- 提供详细的修复建议和参考文档链接
+
+### 检测范围升级
+
+**从基础检测到设计规范的全覆盖**：
+
+| 检测类别 | v1.0 基础版 | v2.0 增强版 | 新增功能 |
+|---------|-------------|-------------|----------|
+| 文件结构 | ✅ 基础文件 | ✅ 完整性检测 | 📁 详细文件验证 |
+| JSON格式 | ✅ 语法检查 | ✅ 结构验证 | 🧩 块类型分析 |
+| block.json | ⚠️ 基础检测 | ✅ 设计规范 | 🔧 字段类型验证、连接属性 |
+| generator.js | ⚠️ 简单检测 | ✅ 最佳实践 | ⚙️ 变量管理、快速操作、板卡适配 |
+| toolbox.json | ❌ 无检测 | ✅ 影子块配置 | 🧰 完整配置验证 |
+| README | ❌ 无检测 | ✅ 轻量化规范 | 📚 结构化内容检测 |
+
+### 实际使用示例
+
+```bash
+# 检测单个库（显示详细分析）
+node validate-library-compliance.js esp32_SD
+📊 综合评分: 86/91 (95%)
+📈 块类型统计: 初始化(1) 方法调用(9) Hat块(0) 值块(6) 全局对象(0) 快速操作(2)
+
+# 批量检测所有库
+node validate-library-compliance.js --all
+🏆 完全合规 (≥90%): 12 个
+⚠️ 部分合规 (60-89%): 8 个 
+❌ 需要修改 (<60%): 3 个
+
+# GitHub Actions中自动运行
+node github-actions-validator.js --changed
+🔍 准备检测 3 个库: esp32_SD, MQTT, OneButton
+```
+
+### 权限配置和故障排除
+
+**必需权限配置**：
+```yaml
+permissions:
+  contents: read          # 读取仓库内容
+  pull-requests: write    # 写入PR评论
+  issues: write          # 写入issue评论
+  actions: read          # 读取actions状态
+```
+
+**常见问题解决**：
+
+| 错误信息 | 原因 | 解决方案 |
+|---------|------|----------|
+| `Resource not accessible by integration` | 缺少PR评论权限 | 添加`pull-requests: write`权限 |
+| `HttpError: 403` | Token权限不足 | 检查`GITHUB_TOKEN`权限配置 |
+| `检测脚本找不到` | 文件路径问题 | 确保脚本在仓库根目录 |
+| `变更检测失败` | Git配置问题 | 检查`fetch-depth: 0`配置 |
+
+**调试模式**：
+```bash
+# 启用详细日志
+GITHUB_ACTIONS=true node github-actions-validator.js --changed
+
+# 检查权限状态
+echo "Token权限: ${{ toJson(github.token) }}"
+```
 
 ```yaml
 compliance:

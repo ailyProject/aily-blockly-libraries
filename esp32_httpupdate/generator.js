@@ -19,41 +19,8 @@ function ensureHTTPUpdateLib(generator) {
   generator.addLibrary('HTTPClient', '#include <HTTPClient.h>');
 }
 
-// // 创建HTTPUpdate对象
-// Arduino.forBlock['esp32_httpupdate_create'] = function(block, generator) {
-//   // 设置变量重命名监听
-//   if (!block._httpupdateVarMonitorAttached) {
-//     block._httpupdateVarMonitorAttached = true;
-//     block._httpupdateVarLastName = block.getFieldValue('VAR') || 'httpUpdater';
-//     const varField = block.getField('VAR');
-//     if (varField && typeof varField.setValidator === 'function') {
-//       varField.setValidator(function(newName) {
-//         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-//         const oldName = block._httpupdateVarLastName;
-//         if (workspace && newName && newName !== oldName) {
-//           renameVariableInBlockly(block, oldName, newName, 'HTTPUpdate');
-//           block._httpupdateVarLastName = newName;
-//         }
-//         return newName;
-//       });
-//     }
-//   }
-
-//   const varName = block.getFieldValue('VAR') || 'httpUpdater';
-  
-//   // 添加库和变量
-//   ensureWiFiLib(generator);
-//   ensureHTTPUpdateLib(generator);
-//   registerVariableToBlockly(varName, 'HTTPUpdate');
-//   generator.addVariable(varName, 'HTTPUpdate ' + varName + ';');
-  
-//   return '';
-// };
-
 // 设置LED引脚
 Arduino.forBlock['esp32_httpupdate_set_led_pin'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  // const varName = varField ? varField.getText() : 'httpUpdater';
   const pin = generator.valueToCode(block, 'PIN', generator.ORDER_ATOMIC) || 'LED_BUILTIN';
   const ledOn = block.getFieldValue('LED_ON');
   
@@ -64,8 +31,6 @@ Arduino.forBlock['esp32_httpupdate_set_led_pin'] = function(block, generator) {
 
 // 设置MD5校验
 Arduino.forBlock['esp32_httpupdate_set_md5'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  // const varName = varField ? varField.getText() : 'httpUpdater';
   const md5 = generator.valueToCode(block, 'MD5', generator.ORDER_ATOMIC) || '""';
   
   ensureHTTPUpdateLib(generator);
@@ -75,8 +40,6 @@ Arduino.forBlock['esp32_httpupdate_set_md5'] = function(block, generator) {
 
 // 设置认证信息
 Arduino.forBlock['esp32_httpupdate_set_auth'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  // const varName = varField ? varField.getText() : 'httpUpdater';
   const user = generator.valueToCode(block, 'USER', generator.ORDER_ATOMIC) || '""';
   const password = generator.valueToCode(block, 'PASSWORD', generator.ORDER_ATOMIC) || '""';
   
@@ -87,8 +50,6 @@ Arduino.forBlock['esp32_httpupdate_set_auth'] = function(block, generator) {
 
 // 更新固件
 Arduino.forBlock['esp32_httpupdate_update'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  // const varName = varField ? varField.getText() : 'httpUpdater';
   const url = generator.valueToCode(block, 'URL', generator.ORDER_ATOMIC) || '""';
   
   ensureWiFiLib(generator);
@@ -104,8 +65,6 @@ Arduino.forBlock['esp32_httpupdate_update'] = function(block, generator) {
 
 // 更新SPIFFS
 Arduino.forBlock['esp32_httpupdate_update_spiffs'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  // const varName = varField ? varField.getText() : 'httpUpdater';
   const url = generator.valueToCode(block, 'URL', generator.ORDER_ATOMIC) || '""';
   
   ensureWiFiLib(generator);
@@ -120,8 +79,6 @@ Arduino.forBlock['esp32_httpupdate_update_spiffs'] = function(block, generator) 
 };
 
 Arduino.forBlock['esp32_httpupdate_update_secure'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  // const varName = varField ? varField.getText() : 'httpUpdater';
   const url = generator.valueToCode(block, 'URL', generator.ORDER_ATOMIC) || '""';
   const caCert = generator.valueToCode(block, 'CA_CERT', generator.ORDER_ATOMIC) || '""';
   const user = generator.valueToCode(block, 'USER', generator.ORDER_ATOMIC) || '""';
@@ -141,8 +98,6 @@ Arduino.forBlock['esp32_httpupdate_update_secure'] = function(block, generator) 
 }
 
 Arduino.forBlock['esp32_httpupdate_update_spiffs_secure'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  // const varName = varField ? varField.getText() : 'httpUpdater';
   const url = generator.valueToCode(block, 'URL', generator.ORDER_ATOMIC) || '""';
   const caCert = generator.valueToCode(block, 'CA_CERT', generator.ORDER_ATOMIC) || '""';
   const user = generator.valueToCode(block, 'USER', generator.ORDER_ATOMIC) || '""';
@@ -163,8 +118,6 @@ Arduino.forBlock['esp32_httpupdate_update_spiffs_secure'] = function(block, gene
 
 // 更新开始回调
 Arduino.forBlock['esp32_httpupdate_on_start'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  // const varName = varField ? varField.getText() : 'httpUpdater';
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
   const callbackName = 'httpupdate_start_httpUpdate';
   
@@ -181,8 +134,6 @@ Arduino.forBlock['esp32_httpupdate_on_start'] = function(block, generator) {
 
 // 更新结束回调
 Arduino.forBlock['esp32_httpupdate_on_end'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  // const varName = varField ? varField.getText() : 'httpUpdater';
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
   const callbackName = 'httpupdate_end_httpUpdate';
   
@@ -199,8 +150,6 @@ Arduino.forBlock['esp32_httpupdate_on_end'] = function(block, generator) {
 
 // 更新进度回调
 Arduino.forBlock['esp32_httpupdate_on_progress'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  // const varName = varField ? varField.getText() : 'httpUpdater';
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
   const callbackName = 'httpupdate_progress_httpUpdate';
   
@@ -217,8 +166,6 @@ Arduino.forBlock['esp32_httpupdate_on_progress'] = function(block, generator) {
 
 // 更新错误回调
 Arduino.forBlock['esp32_httpupdate_on_error'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  // const varName = varField ? varField.getText() : 'httpUpdater';
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
   const callbackName = 'httpupdate_error_httpUpdate';
   
@@ -235,9 +182,6 @@ Arduino.forBlock['esp32_httpupdate_on_error'] = function(block, generator) {
 
 // 获取最后错误代码
 Arduino.forBlock['esp32_httpupdate_get_last_error'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  // const varName = varField ? varField.getText() : 'httpUpdater';
-  
   ensureHTTPUpdateLib(generator);
   
   return ['httpUpdate.getLastError()', generator.ORDER_FUNCTION_CALL];
@@ -245,9 +189,6 @@ Arduino.forBlock['esp32_httpupdate_get_last_error'] = function(block, generator)
 
 // 获取最后错误信息
 Arduino.forBlock['esp32_httpupdate_get_last_error_string'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  // const varName = varField ? varField.getText() : 'httpUpdater';
-  
   ensureHTTPUpdateLib(generator);
   
   return ['httpUpdate.getLastErrorString()', generator.ORDER_FUNCTION_CALL];
