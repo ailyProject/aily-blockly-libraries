@@ -161,6 +161,35 @@ node github-actions-validator.js --changed
 🔍 准备检测 3 个库: esp32_SD, MQTT, OneButton
 ```
 
+### 权限配置和故障排除
+
+**必需权限配置**：
+```yaml
+permissions:
+  contents: read          # 读取仓库内容
+  pull-requests: write    # 写入PR评论
+  issues: write          # 写入issue评论
+  actions: read          # 读取actions状态
+```
+
+**常见问题解决**：
+
+| 错误信息 | 原因 | 解决方案 |
+|---------|------|----------|
+| `Resource not accessible by integration` | 缺少PR评论权限 | 添加`pull-requests: write`权限 |
+| `HttpError: 403` | Token权限不足 | 检查`GITHUB_TOKEN`权限配置 |
+| `检测脚本找不到` | 文件路径问题 | 确保脚本在仓库根目录 |
+| `变更检测失败` | Git配置问题 | 检查`fetch-depth: 0`配置 |
+
+**调试模式**：
+```bash
+# 启用详细日志
+GITHUB_ACTIONS=true node github-actions-validator.js --changed
+
+# 检查权限状态
+echo "Token权限: ${{ toJson(github.token) }}"
+```
+
 ```yaml
 compliance:
   scoring:
