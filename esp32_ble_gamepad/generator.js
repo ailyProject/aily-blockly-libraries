@@ -46,7 +46,7 @@ Arduino.forBlock['esp32_ble_gamepad_connected'] = function (block, generator) {
         );
         
         Arduino.esp32BleGamepadInitialized = true;
-    }
+    } 
     
     var code = 'compositeHID.isConnected()';
     return [code, generator.ORDER_ATOMIC];
@@ -133,7 +133,7 @@ Arduino.forBlock['esp32_ble_gamepad_button_with_pin'] = function (block, generat
     generator.addVariable(buttonStateVar, 'int ' + buttonStateVar + ' = HIGH;');
     
     // 生成按键检测代码
-    var activeLevel = (pinMode === 'INPUT_PULLUP') ? 'LOW' : 'HIGH';
+    var activeLevel = (pinMode === 'INPUT_PULLUP') ? 'LOW' : 'HIGH'; 
     var inactiveLevel = (pinMode === 'INPUT_PULLUP') ? 'HIGH' : 'LOW';
     
     var code = 'if (compositeHID.isConnected()) {\n' +
