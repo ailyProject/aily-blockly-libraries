@@ -70,9 +70,34 @@ function ensureMacroDefine(generator, cacheKey, macroName, macroValue) {
   );
 }
 
-function ensureSerialBegin(generator, serialPort, baud, config, keyLabel) {
+// 在每次完整代码生成前重置 Modbus 专用缓存，避免跨工程污染
+if (!Arduino._modbusWorkspacePatched) {
+  Arduino._modbusWorkspacePatched = true;
+  const originalWorkspaceToCode = Arduino.workspaceToCode;
+  Arduino.workspaceToCode = function (workspace) {
+    if (this) {
+      this._modbusSerialInit = {};
+    }
+    return originalWorkspaceToCode
+      ? originalWorkspaceToCode.call(this, workspace)
+      : "";
+  };
+}
+
+// ensureSerialBegin: 使用 Modbus 专用版本避免与全局 helper 冲突
+function ensureModbusSerialBegin(
+  generator,
+  serialPort,
+  baud,
+  config,
+  keyLabel,
+) {
   if (!serialPort) return "";
   const code = `${serialPort}.begin(${baud}, ${config});`;
+  const cacheKey = `modbus_serial_begin_${keyLabel || serialPort}`;
+  generator._modbusSerialInit = generator._modbusSerialInit || {};
+  if (generator._modbusSerialInit[cacheKey] === code) return "";
+  generator._modbusSerialInit[cacheKey] = code;
   return `${code}\n`;
 }
 
@@ -139,6 +164,7 @@ Arduino.forBlock["modbus_rtu_slave_create"] = function (block, generator) {
     "modbus",
   );
   const serialPort = resolveSerialPort(block.getFieldValue("SERIAL"));
+  const defaultBaud = block.getFieldValue("SERIAL_BAUD") || "9600";
   const dePin =
     generator.valueToCode(block, "DE_PIN", Arduino.ORDER_ATOMIC) || "-1";
   const rePin =
@@ -151,7 +177,7 @@ Arduino.forBlock["modbus_rtu_slave_create"] = function (block, generator) {
   ensureMacroDefine(generator, serialMacroKey, serialMacro, serialPort);
   generator.addObject(
     `modbus_rtu_slave_${varName}`,
-    `ModbusRTUSlave ${varName}(${serialPort}, ${dePin}, ${rePin});`,
+    `ModbusRTUSlave ${varName}(${serialMacro}, ${dePin}, ${rePin});`,
   );
 
   generator._modbusInstances = generator._modbusInstances || {};
@@ -159,6 +185,7 @@ Arduino.forBlock["modbus_rtu_slave_create"] = function (block, generator) {
     serialPort,
     macroPrefix,
     serialMacro,
+    defaultBaud,
   };
 
   return "";
@@ -177,12 +204,14 @@ Arduino.forBlock["modbus_rtu_slave_set_response_delay"] = function (
 Arduino.forBlock["modbus_rtu_slave_begin"] = function (block, generator) {
   const varName = getFieldVariableText(block, "VAR", "modbus");
   const unitId = block.getFieldValue("UNIT_ID") || "1";
-  const baud =
-    generator.valueToCode(block, "BAUD", Arduino.ORDER_ATOMIC) || "38400";
-  const config = block.getFieldValue("CONFIG") || "SERIAL_8N1";
   const instance = generator._modbusInstances
     ? generator._modbusInstances[varName]
     : null;
+  const serialBaud =
+    instance && instance.defaultBaud ? instance.defaultBaud : "9600";
+  const baud =
+    generator.valueToCode(block, "BAUD", Arduino.ORDER_ATOMIC) || "9600";
+  const config = block.getFieldValue("CONFIG") || "SERIAL_8N1";
   const serialPort = resolveSerialPort(
     instance && instance.serialPort ? instance.serialPort : undefined,
   );
@@ -196,15 +225,15 @@ Arduino.forBlock["modbus_rtu_slave_begin"] = function (block, generator) {
   ensureMacroDefine(generator, serialMacroKey, serialMacro, serialPort);
   ensureMacroDefine(generator, configMacroKey, configMacro, config);
 
-  const serialInit = ensureSerialBegin(
+  const serialInitCode = ensureModbusSerialBegin(
     generator,
     serialMacro,
-    baud,
+    serialBaud,
     configMacro,
     macroPrefix,
   );
 
-  return `${serialInit}${varName}.begin(${unitId}, ${baud}, ${config});\n`;
+  return `${serialInitCode}${varName}.begin(${unitId}, ${baud}, ${configMacro});\n`;
 };
 
 Arduino.forBlock["modbus_rtu_slave_poll"] = function (block, generator) {
