@@ -1,204 +1,219 @@
 [
-    {
-        "type": "rfid_init",
-        "message0": "创建RFID读卡器 %1 SDA引脚 %2 RST引脚 %3",
-        "args0": [
-            {
-                "type": "field_input",
-                "name": "VAR",
-                "text": "rfid"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "SDA_PIN",
-                "options": "${board.digitalPins}"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "RST_PIN",
-                "options": "${board.digitalPins}"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF5722",
-        "inputsInline": true,
-        "tooltip": "创建一个MFRC522读卡器并完成SPI初始化"
-    },
-    {
-        "type": "rfid_is_card_present",
-        "message0": "RFID %1 检测是否有卡片靠近",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "rfid",
-                "variableTypes": ["RFIDReader"],
-                "defaultType": "RFIDReader"
-            }
-        ],
-        "output": "Boolean",
-        "colour": "#FF5722",
-        "inputsInline": true,
-        "tooltip": "调用PICC_IsNewCardPresent检测是否有新卡靠近"
-    },
-    {
-        "type": "rfid_read_uid",
-        "message0": "RFID %1 读取卡片UID",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "rfid",
-                "variableTypes": ["RFIDReader"],
-                "defaultType": "RFIDReader"
-            }
-        ],
-        "output": "String",
-        "colour": "#FF5722",
-        "inputsInline": true,
-        "tooltip": "调用PICC_ReadCardSerial并返回十六进制UID字符串"
-    },
-    {
-        "type": "rfid_authenticate",
-        "message0": "RFID %1 验证扇区 %2 密钥类型 %3 密钥 %4",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "rfid",
-                "variableTypes": ["RFIDReader"],
-                "defaultType": "RFIDReader"
-            },
-            {
-                "type": "input_value",
-                "name": "SECTOR",
-                "check": "Number"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "KEY_TYPE",
-                "options": [
-                    ["密钥A", "PICC_CMD_MF_AUTH_KEY_A"],
-                    ["密钥B", "PICC_CMD_MF_AUTH_KEY_B"]
-                ]
-            },
-            {
-                "type": "input_value",
-                "name": "KEY",
-                "check": "String"
-            }
-        ],
-        "output": "Boolean",
-        "colour": "#FF5722",
-        "inputsInline": true,
-        "tooltip": "验证指定扇区的密钥，成功返回true"
-    },
-    {
-        "type": "rfid_read_block",
-        "message0": "RFID %1 读取数据块 %2",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "rfid",
-                "variableTypes": ["RFIDReader"],
-                "defaultType": "RFIDReader"
-            },
-            {
-                "type": "input_value",
-                "name": "BLOCK",
-                "check": "Number"
-            }
-        ],
-        "output": "String",
-        "colour": "#FF5722",
-        "inputsInline": true,
-        "tooltip": "读取指定数据块并返回十六进制字符串"
-    },
-    {
-        "type": "rfid_write_block",
-        "message0": "RFID %1 写入数据块 %2 数据 %3",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "rfid",
-                "variableTypes": ["RFIDReader"],
-                "defaultType": "RFIDReader"
-            },
-            {
-                "type": "input_value",
-                "name": "BLOCK",
-                "check": "Number"
-            },
-            {
-                "type": "input_value",
-                "name": "DATA",
-                "check": "String"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF5722",
-        "inputsInline": true,
-        "tooltip": "向指定数据块写入文本或十六进制数据"
-    },
-    {
-        "type": "rfid_halt",
-        "message0": "RFID %1 停止通信",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "rfid",
-                "variableTypes": ["RFIDReader"],
-                "defaultType": "RFIDReader"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF5722",
-        "inputsInline": true,
-        "tooltip": "停止当前卡片通信并关闭加密"
-    },
-    {
-        "type": "rfid_get_uid_string",
-        "message0": "RFID %1 获取UID字符串",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "rfid",
-                "variableTypes": ["RFIDReader"],
-                "defaultType": "RFIDReader"
-            }
-        ],
-        "output": "String",
-        "colour": "#FF5722",
-        "inputsInline": true,
-        "tooltip": "读取缓存在reader.uid中的UID字符串（不重复读取）"
-    },
-    {
-        "type": "rfid_uid_equals",
-        "message0": "RFID %1 当前UID等于 %2",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "rfid",
-                "variableTypes": ["RFIDReader"],
-                "defaultType": "RFIDReader"
-            },
-            {
-                "type": "input_value",
-                "name": "UID",
-                "check": "String"
-            }
-        ],
-        "output": "Boolean",
-        "colour": "#FF5722",
-        "inputsInline": true,
-        "tooltip": "比较当前缓存的UID是否与指定字符串相等"
-    }
+  {
+    "type": "mfrc522_setup",
+    "message0": "初始化 RFID 读写器 %1 I2C地址 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "rfid"
+      },
+      {
+        "type": "field_number",
+        "name": "ADDRESS",
+        "value": "0x2F",
+        "min": "0x08",
+        "max": "0x7F"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化MFRC522 RFID读写器,设置I2C地址和引脚",
+    "extensions": ["mfrc522_board_extension"]
+  },
+  {
+    "type": "mfrc522_is_new_card_present",
+    "message0": "RFID %1 检测到新卡片",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rfid",
+        "variableTypes": ["MFRC522"],
+        "defaultType": "MFRC522"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "检测是否有新的RFID卡片靠近"
+  },
+  {
+    "type": "mfrc522_read_card_serial",
+    "message0": "RFID %1 读取卡片序列号",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rfid",
+        "variableTypes": ["MFRC522"],
+        "defaultType": "MFRC522"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "读取RFID卡片的唯一序列号"
+  },
+  {
+    "type": "mfrc522_read_uid",
+    "message0": "RFID %1 获取UID字符串",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rfid",
+        "variableTypes": ["MFRC522"],
+        "defaultType": "MFRC522"
+      }
+    ],
+    "output": "String",
+    "colour": "#4CAF50",
+    "tooltip": "获取RFID卡片的UID字符串"
+  },
+  {
+    "type": "mfrc522_when_card_detected",
+    "message0": "当 RFID %1 检测到卡片时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rfid",
+        "variableTypes": ["MFRC522"],
+        "defaultType": "MFRC522"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#4CAF50",
+    "tooltip": "当检测到RFID卡片时触发的事件"
+  },
+  {
+    "type": "mfrc522_authenticate",
+    "message0": "RFID %1 认证扇区 %2 密钥类型 %3 密钥 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rfid",
+        "variableTypes": ["MFRC522"],
+        "defaultType": "MFRC522"
+      },
+      {
+        "type": "input_value",
+        "name": "SECTOR",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "KEY_TYPE",
+        "options": [
+          ["A密钥", "A"],
+          ["B密钥", "B"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "认证RFID卡片的指定扇区"
+  },
+  {
+    "type": "mfrc522_read_block",
+    "message0": "RFID %1 读取块 %2 到 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rfid",
+        "variableTypes": ["MFRC522"],
+        "defaultType": "MFRC522"
+      },
+      {
+        "type": "input_value",
+        "name": "BLOCK",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_variable",
+        "name": "BUFFER",
+        "variable": "data",
+        "variableTypes": ["Array"],
+        "defaultType": "Array"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "读取指定块的数据到数组"
+  },
+  {
+    "type": "mfrc522_write_block",
+    "message0": "RFID %1 写入数据 %2 到块 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rfid",
+        "variableTypes": ["MFRC522"],
+        "defaultType": "MFRC522"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "BLOCK",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "写入数据到指定块"
+  },
+  {
+    "type": "mfrc522_halt_card",
+    "message0": "RFID %1 停止卡片通信",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rfid",
+        "variableTypes": ["MFRC522"],
+        "defaultType": "MFRC522"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "停止与RFID卡片的通信"
+  },
+  {
+    "type": "mfrc522_get_data_string",
+    "message0": "获取 %1 的十六进制字符串",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "BUFFER",
+        "variable": "data",
+        "variableTypes": ["Array"],
+        "defaultType": "Array"
+      }
+    ],
+    "output": "String",
+    "colour": "#4CAF50",
+    "tooltip": "将RFID数据数组转换为十六进制字符串格式（如：48 65 6c 6c 6f）"
+  }
 ]
