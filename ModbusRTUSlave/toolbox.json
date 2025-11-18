@@ -1,0 +1,180 @@
+{
+  "kind": "category",
+  "name": "Modbus RTU从站",
+  "colour": "#FF7043",
+  "icon": "fa-solid fa-waveform-lines",
+  "contents": [
+    { "kind": "label", "text": "初始化" },
+    {
+      "kind": "block",
+      "type": "modbus_rtu_slave_create",
+      "inputs": {
+        "DE_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": -1 }
+          }
+        },
+        "RE_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": -1 }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "modbus_rtu_slave_set_response_delay",
+      "inputs": {
+        "DELAY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "modbus_rtu_slave_begin",
+      "inputs": {
+        "BAUD": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 9600 }
+          }
+        }
+      }
+    },
+    { "kind": "label", "text": "数据配置" },
+    { "kind": "block", "type": "modbus_rtu_slave_bind_coils" },
+    { "kind": "block", "type": "modbus_rtu_slave_bind_discrete" },
+    { "kind": "block", "type": "modbus_rtu_slave_bind_holding" },
+    { "kind": "block", "type": "modbus_rtu_slave_bind_input" },
+    { "kind": "label", "text": "线圈与离散量" },
+    {
+      "kind": "block",
+      "type": "modbus_rtu_slave_coils_set",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "logic_boolean",
+            "fields": { "BOOL": "FALSE" }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "modbus_rtu_slave_coils_get",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "modbus_rtu_slave_discrete_set",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "logic_boolean",
+            "fields": { "BOOL": "FALSE" }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "modbus_rtu_slave_discrete_get",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        }
+      }
+    },
+    { "kind": "label", "text": "寄存器" },
+    {
+      "kind": "block",
+      "type": "modbus_rtu_slave_holding_set",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "modbus_rtu_slave_holding_get",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "modbus_rtu_slave_input_set",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "modbus_rtu_slave_input_get",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        }
+      }
+    },
+    { "kind": "label", "text": "运行" },
+    { "kind": "block", "type": "modbus_rtu_slave_poll" }
+  ]
+}
