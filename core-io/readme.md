@@ -27,13 +27,25 @@ Arduino基础I/O控制库，提供数字/模拟读写、引脚模式设置功能
 | 类型 | .abi格式 | 示例 |
 |------|----------|------|
 | field_dropdown | 字符串 | `"PIN": "2"` |
+| field_dropdown(动态) | 字符串 | `"PIN": "13"` (从board.json获取value值) |
 | input_value | 块连接 | `"inputs": {"PIN": {"block": {...}}}` |
 
 ## 连接规则
 
 - **语句块**: 有previousStatement/nextStatement，通过`next`字段连接
 - **值块**: 有output，连接到`inputs`中，无`next`字段
-- **引脚选择**: 根据板卡类型动态显示可用引脚 `${board.digitalPins}`, `${board.analogPins}`, `${board.pwmPins}`
+- **特殊规则**: 引脚选择根据开发板配置动态显示
+
+### 动态选项处理
+当遇到动态引脚选项时：
+1. **数字引脚**: `"options": "${board.digitalPins}"` - 需要从board.json获取digitalPins数组
+2. **模拟引脚**: `"options": "${board.analogPins}"` - 需要从board.json获取analogPins数组  
+3. **PWM引脚**: `"options": "${board.pwmPins}"` - 需要从board.json获取pwmPins数组
+
+**示例**：
+- block.json中：`"options": "${board.digitalPins}"`
+- board.json中：`"digitalPins": [["Pin 2", "2"], ["Pin 13", "13"]]`
+- .abi中使用：`"PIN": "13"` (选择数组中某组的value，即第二个元素)
 
 ## 使用示例
 
@@ -89,10 +101,11 @@ Arduino基础I/O控制库，提供数字/模拟读写、引脚模式设置功能
 
 ## 重要规则
 
-1. **引脚配置**: 根据开发板自动显示可用引脚选项
+1. **动态引脚配置**: 引脚选项从board.json动态获取，不同开发板显示不同引脚
 2. **模式设置**: 数字引脚需先设置模式再使用
 3. **PWM限制**: 只有支持PWM的引脚可用analogWrite
 4. **电平范围**: 数字0-1，模拟0-1023(读取)/0-255(输出)
+5. **引脚格式**: .abi中使用数组中的value值(如"13")，不使用内部key或模板字符串
 
 ## 支持的引脚模式
 INPUT, OUTPUT, INPUT_PULLUP

@@ -48,6 +48,7 @@
 |------|----------|------|
 | field_input | 字符串 | `"FIELD": "value"` |
 | field_dropdown | 字符串 | `"TYPE": "option"` |
+| field_dropdown(动态) | 字符串 | `"PORT": "Wire"` (从board.json获取) |
 | field_variable | 对象 | `"VAR": {"id": "var_id"}` |
 | input_value | 块连接 | `"inputs": {"INPUT": {"block": {...}}}` |
 | input_statement | 块连接 | `"inputs": {"DO": {"block": {...}}}` |
@@ -61,6 +62,17 @@
 - **值块**: 有output，连接到`inputs`中，无`next`字段
 - **Hat块**: 无连接属性，通过`inputs`连接内部语句
 - **特殊规则**: [库特有的连接规则，如变量ID格式等]
+
+### 动态选项处理
+当遇到`"options": "${board.xxx}"`格式的dropdown字段时：
+1. 需要从**board.json**文件中获取对应的选项数组
+2. 使用`board.xxx`中的xxx作为key，获取对应的value数组
+3. 在.abi文件中使用数组中的具体选项值，而非模板字符串
+
+**示例**：
+- block.json中：`"options": "${board.i2c}"`
+- board.json中：`"i2c": [["I2C", "Wire"], ["I2C1", "Wire1"]]`
+- .abi中使用：`"PORT": "Wire"` (选择数组中某组的value，即第二个元素)
 ```
 
 ### 5. 使用示例（1-2个典型示例）
