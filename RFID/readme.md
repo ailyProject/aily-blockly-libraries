@@ -1,172 +1,92 @@
-# RFID读卡器库
-基于 Miguel Balboa 的 [MFRC522](https://github.com/miguelbalboa/rfid) Arduino 库封装，提供多读卡器实例、卡片检测、UID 读取、密钥验证与数据块读写等核心流程。
+# MFRC522 RFID 图形化库
+
+MFRC522 I2C RFID读写器的 Aily Blockly 图形化编程库。
 
 ## 库信息
-- **库名**: @aily-project/lib-rfid
-- **版本**: 0.0.1
-- **兼容**: arduino:avr / esp32:esp32 / esp32:esp32c3 / esp32:esp32s3 / renesas_uno:minima / renesas_uno:unor4wifi
+
+**包名**: `@aily-project/lib-rfid`  
+**版本**: 1.0.0  
+**依赖**: Emakefun_RFID, Wire  
+**兼容**: Arduino UNO/Mega/ESP32/ESP8266/UNO R4  
+**功能**: 卡片检测、UID读取、数据读写、密钥认证、智能板卡适配
 
 ## 块定义
 
 | 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
-|--------|------|-----------|----------|----------|
-| `rfid_init` | 语句块 | `VAR(field_input), SDA_PIN(field_dropdown), RST_PIN(field_dropdown)` | `"fields":{"VAR":"rfid","SDA_PIN":"10","RST_PIN":"9"}` | `register → MFRC522 rfid(10, 9); SPI.begin(); rfid.PCD_Init();` |
-| `rfid_is_card_present` | 值块 | `VAR(field_variable)` | `"fields":{"VAR":{"id":"rfid_id"}}` | `rfid.PICC_IsNewCardPresent()` |
-| `rfid_read_uid` | 值块 | `VAR(field_variable)` | `"fields":{"VAR":{"id":"rfid_id"}}` | `rfid.PICC_ReadCardSerial()?rfidUidToString(rfid):""` |
-| `rfid_get_uid_string` | 值块 | `VAR(field_variable)` | `"fields":{"VAR":{"id":"rfid_id"}}` | `rfidUidToString(rfid)` |
-| `rfid_uid_equals` | 值块 | `VAR(field_variable), UID(input_value)` | `"inputs":{"UID":{"shadow":{"type":"text","fields":{"TEXT":"04A1B2C3"}}}}` | `rfidUidToString(rfid)==rfidNormalizeHexString(String(UID))` |
-| `rfid_authenticate` | 值块 | `VAR(field_variable), SECTOR(input_value), KEY_TYPE(field_dropdown), KEY(input_value)` | `"fields":{"KEY_TYPE":"PICC_CMD_MF_AUTH_KEY_A"}` + `"inputs":{"SECTOR":{"shadow":{"type":"math_number","fields":{"NUM":1}}},"KEY":{"shadow":{"type":"text","fields":{"TEXT":"FFFFFFFFFFFF"}}}}` | `rfidAuthenticateSector(rfid, sector, MFRC522::KEY_TYPE, key)` |
-| `rfid_read_block` | 值块 | `VAR(field_variable), BLOCK(input_value)` | `"inputs":{"BLOCK":{"shadow":{"type":"math_number","fields":{"NUM":4}}}}` | `rfidReadBlockHex(rfid, block)` |
-| `rfid_write_block` | 语句块 | `VAR(field_variable), BLOCK(input_value), DATA(input_value)` | `"inputs":{"DATA":{"shadow":{"type":"text","fields":{"TEXT":"Hello RFID!"}}}}` | `rfidWriteBlockData(rfid, block, data);` |
-| `rfid_halt` | 语句块 | `VAR(field_variable)` | `{"type":"rfid_halt","fields":{"VAR":{"id":"rfid_id"}}}` | `rfid.PICC_HaltA(); rfid.PCD_StopCrypto1();` |
+|--------|------|----------|----------|----------|
+| `mfrc522_setup` | 语句块 | VAR(field_input), ADDRESS(field_number) | `"VAR":"rfid","ADDRESS":"0x2F"` | `MFRC522 rfid(0x2F); Wire.begin(); rfid.PCD_Init();` |
+| `mfrc522_is_new_card_present` | 值块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `rfid.PICC_IsNewCardPresent()` |
+| `mfrc522_read_card_serial` | 值块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `rfid.PICC_ReadCardSerial()` |
+| `mfrc522_read_uid` | 值块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `rfid.Read_Uid()` |
+| `mfrc522_when_card_detected` | Hat块 | VAR(field_variable), HANDLER(input_statement) | `"VAR":{"id":"var_id"},"inputs":{"HANDLER":{...}}` | `if(rfid.PICC_IsNewCardPresent()&&rfid.PICC_ReadCardSerial()){...}` |
+| `mfrc522_authenticate` | 语句块 | VAR(field_variable), SECTOR/KEY_TYPE/KEY(input_value) | `"VAR":{"id":"var_id"},"inputs":{"SECTOR":{...}}` | `rfid.PCD_Authenticate(0x60,1,&key,&rfid.uid);` |
+| `mfrc522_read_block` | 语句块 | VAR(field_variable), BLOCK(input_value), BUFFER(field_variable) | `"VAR":{"id":"var_id"},"BUFFER":{"id":"buf_id"}` | `rfid.MIFARE_Read(4,data,&size);` |
+| `mfrc522_write_block` | 语句块 | VAR(field_variable), DATA/BLOCK(input_value) | `"VAR":{"id":"var_id"},"inputs":{"DATA":{...}}` | `rfid.MIFARE_Write(4,buffer,16);` |
+| `mfrc522_halt_card` | 语句块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `rfid.PICC_HaltA(); rfid.PCD_StopCrypto1();` |
+| `mfrc522_get_data_string` | 值块 | BUFFER(field_variable) | `"BUFFER":{"id":"buf_id"}` | `format_data()` |
 
 ## 字段类型映射
 
-| 类型 | .abi格式 | 示例 |
-|------|----------|------|
-| field_input | 字符串 | `"fields":{"VAR":"rfid"}` |
-| field_dropdown | 字符串 | `"fields":{"KEY_TYPE":"PICC_CMD_MF_AUTH_KEY_A"}` |
-| field_variable | 对象 | `"fields":{"VAR":{"id":"rfid_id"}}` |
-| input_value | 块连接 | `"inputs":{"BLOCK":{"shadow":{...}}}` |
-| input_statement | 块连接 | `"inputs":{"HANDLER":{"block":{...}}}` |
+| 字段类型 | 用途 | 说明 |
+|---------|------|------|
+| field_input | 对象名 | 初始化块文本输入 |
+| field_variable | 对象引用 | 方法块变量选择 |
+| field_number | 数值 | I2C地址(0x08-0x7F) |
+| field_dropdown | 选项 | 引脚/密钥类型 |
+| input_value | 值输入 | 扇区/块/数据/密钥 |
 
 ## 连接规则
-- **语句块**: `rfid_init`、`rfid_write_block`、`rfid_halt` 具备 previous/next，通常放在 `setup` 或控制语句中串联，`rfid_init` 负责注册 `RFIDReader` 变量类型。
-- **值块**: `rfid_is_card_present`、`rfid_read_uid` 等只有 `output`，可嵌入条件、变量赋值和表达式中。
-- **Hat块**: 本库无 Hat 块，事件驱动需结合控制类或 OneButton 等库。
-- **特殊规则**: `rfid_read_uid` 会在内部调用 `PICC_ReadCardSerial()` 并更新 `reader.uid`；`rfid_get_uid_string`/`rfid_uid_equals` 依赖最近一次读取；`rfid_halt` 同时调用 `PICC_HaltA` 与 `PCD_StopCrypto1` 结束加密会话。
+
+**语句连接**: 初始化块→检测/事件块→认证块→数据操作块→停止通信  
+**值输出**: Boolean类型用于条件判断，String类型用于显示  
+**依赖**: 必须先初始化→认证后才能读写→操作后停止通信
 
 ## 使用示例
 
-### 多实例卡片检测
-```json
-{
-  "blocks": {
-    "languageVersion": 0,
-    "blocks": [
-      {
-        "type": "arduino_setup",
-        "id": "setup",
-        "deletable": false,
-        "inputs": {
-          "ARDUINO_SETUP": {
-            "block": {
-              "type": "rfid_init",
-              "id": "init1",
-              "fields": {"VAR": "reader1", "SDA_PIN": "10", "RST_PIN": "9"},
-              "next": {
-                "block": {
-                  "type": "controls_if",
-                  "id": "if1",
-                  "inputs": {
-                    "IF0": {
-                      "block": {
-                        "type": "rfid_is_card_present",
-                        "id": "present1",
-                        "fields": {"VAR": {"id": "reader1"}}
-                      }
-                    },
-                    "DO0": {
-                      "block": {
-                        "type": "text_print",
-                        "id": "print1",
-                        "inputs": {
-                          "TEXT": {
-                            "block": {
-                              "type": "rfid_read_uid",
-                              "id": "read1",
-                              "fields": {"VAR": {"id": "reader1"}}
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    ]
-  },
-  "variables": [{"id": "reader1", "name": "reader1", "type": "RFIDReader"}]
+### UID读取
+```cpp
+// 初始化 RFID 读写器 rfid I2C地址 0x2F
+// 当 RFID rfid 检测到卡片时 → 串口打印 RFID rfid 获取UID字符串
+
+MFRC522 rfid(0x2F);
+void setup() { Serial.begin(115200); Wire.begin(); rfid.PCD_Init(); }
+void loop() {
+  if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial())
+    Serial.println(rfid.Read_Uid());
 }
 ```
 
-### 验证扇区并读写块
-```json
-{
-  "type": "rfid_init",
-  "fields": {"VAR": "reader1", "SDA_PIN": "10", "RST_PIN": "9"},
-  "next": {
-    "block": {
-      "type": "controls_if",
-      "inputs": {
-        "IF0": {
-          "block": {
-            "type": "rfid_is_card_present",
-            "fields": {"VAR": {"id": "reader1"}}
-          }
-        },
-        "DO0": {
-          "block": {
-            "type": "controls_if",
-            "inputs": {
-              "IF0": {
-                "block": {
-                  "type": "rfid_authenticate",
-                  "fields": {"VAR": {"id": "reader1"}, "KEY_TYPE": "PICC_CMD_MF_AUTH_KEY_A"},
-                  "inputs": {
-                    "SECTOR": {"block": {"type": "math_number", "fields": {"NUM": 1}}},
-                    "KEY": {"block": {"type": "text", "fields": {"TEXT": "FFFFFFFFFFFF"}}}
-                  }
-                }
-              },
-              "DO0": {
-                "block": {
-                  "type": "rfid_write_block",
-                  "fields": {"VAR": {"id": "reader1"}},
-                  "inputs": {
-                    "BLOCK": {"block": {"type": "math_number", "fields": {"NUM": 4}}},
-                    "DATA": {"block": {"type": "text", "fields": {"TEXT": "Hello RFID!"}}}
-                  },
-                  "next": {
-                    "block": {
-                      "type": "text_print",
-                      "fields": {},
-                      "inputs": {
-                        "TEXT": {
-                          "block": {
-                            "type": "rfid_read_block",
-                            "fields": {"VAR": {"id": "reader1"}},
-                            "inputs": {
-                              "BLOCK": {"block": {"type": "math_number", "fields": {"NUM": 4}}}
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+### 数据读写
+```cpp
+// 认证扇区→读取块→打印数据→停止通信
+if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
+  rfid.PCD_Authenticate(0x60, 1, &key, &rfid.uid);
+  rfid.MIFARE_Read(4, data, &size);
+  rfid.PICC_HaltA();
 }
 ```
 
 ## 重要规则
-1. **必须遵守**: 每个 `RFIDReader` 变量需通过 `rfid_init` 注册一次，生成的 `MFRC522` 对象共享全局 SPI；密钥字符串必须为 12 个十六进制字符（6 字节）。
-2. **连接限制**: `rfid_write_block`、`rfid_halt` 为语句块只能放在语句序列；在 `rfid_authenticate` 返回 true 之后才能进行 `MIFARE_Read/Write` 以避免 `STATUS_ERROR`。
-3. **常见错误**: ❌ 未调用 `rfid_is_card_present`/`rfid_read_uid` 就直接认证导致 `reader.uid` 未填充；❌ 写入数据超出 16 字节；❌ 忘记 `rfid_halt` 关闭加密导致下一张卡读写失败。
 
-## 支持的关键参数
-- `RFIDReader` 变量类型可创建多个读卡器实例（不同 SS/RST）。
-- `KEY_TYPE`: `PICC_CMD_MF_AUTH_KEY_A` / `PICC_CMD_MF_AUTH_KEY_B`；默认 shadow 为 Key A。
-- `SECTOR`/`BLOCK`: 0–15 扇区、0–63 块，`rfid_read_block`/`rfid_write_block` 块在工具箱中默认填入 1、4，可按需修改。
-- `DATA` 输入支持 16 字节文本或 32 字符十六进制；十六进制字符串会自动转大写写入。
-- 电气：MFRC522 仅支持 3.3V 逻辑；在 5V 板卡上需保证逻辑电平兼容。
+### 初始化块
+- **field_input**: 使用文本输入定义对象名
+- **首次调用**: 必须最先调用
+- **板卡适配**: ESP32可选引脚，UNO/Mega固定引脚(UNO: A4/A5, Mega: 20/21)
+
+### 方法块
+- **field_variable**: 使用变量下拉引用对象
+- **依赖初始化**: 依赖初始化块创建的对象
+- **正确调用**: 使用`getField('VAR').getText()`
+
+### 变量管理
+- **注册**: 调用`registerVariableToBlockly()`
+- **监听**: field validator监听重命名
+- **同步**: 调用`renameVariableInBlockly()`
+
+### 数据操作
+- **流程**: 先认证→读写→停止通信
+- **密钥**: 十六进制逗号分隔(如"0xFF,0xFF,0xFF,0xFF,0xFF,0xFF")
+- **块地址**: MIFARE 1K为0-63，每块16字节
+
+### 支持卡片
+MIFARE Mini/1K/4K, Ultralight/Ultralight C

@@ -1,0 +1,453 @@
+[
+  {
+    "type": "modbus_rtu_slave_create",
+    "message0": "创建Modbus RTU从站 %1 串口 %2 波特率 %3 发送使能引脚 %4 接收使能引脚 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "modbus"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL_BAUD",
+        "options": [
+          ["9600", "9600"],
+          ["19200", "19200"],
+          ["38400", "38400"],
+          ["57600", "57600"],
+          ["115200", "115200"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DE_PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "RE_PIN",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF7043",
+    "tooltip": "创建Modbus RTU从站实例，DE/RE引脚填-1表示硬件自动切换"
+  },
+  {
+    "type": "modbus_rtu_slave_set_response_delay",
+    "message0": "Modbus从站 %1 设置响应延时 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "modbus",
+        "variableTypes": ["ModbusRTUSlave"],
+        "defaultType": "ModbusRTUSlave"
+      },
+      {
+        "type": "input_value",
+        "name": "DELAY",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF7043",
+    "tooltip": "设置响应延时，避免主机DE引脚释放过慢"
+  },
+  {
+    "type": "modbus_rtu_slave_begin",
+    "message0": "Modbus从站 %1 启动 设备ID %2 波特率 %3 串口格式 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "modbus",
+        "variableTypes": ["ModbusRTUSlave"],
+        "defaultType": "ModbusRTUSlave"
+      },
+      {
+        "type": "field_number",
+        "name": "UNIT_ID",
+        "value": 1,
+        "min": 1,
+        "max": 247
+      },
+      {
+        "type": "input_value",
+        "name": "BAUD",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CONFIG",
+        "options": [
+          ["8N1", "SERIAL_8N1"],
+          ["8N2", "SERIAL_8N2"],
+          ["8E1", "SERIAL_8E1"],
+          ["8E2", "SERIAL_8E2"],
+          ["8O1", "SERIAL_8O1"],
+          ["8O2", "SERIAL_8O2"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF7043",
+    "tooltip": "设置从站地址、波特率和串口校验格式"
+  },
+  {
+    "type": "modbus_rtu_slave_poll",
+    "message0": "Modbus从站 %1 轮询请求",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "modbus",
+        "variableTypes": ["ModbusRTUSlave"],
+        "defaultType": "ModbusRTUSlave"
+      }
+    ],
+    "message1": "收到有效请求时执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF7043",
+    "tooltip": "频繁调用以处理主站读写请求"
+  },
+  {
+    "type": "modbus_rtu_slave_bind_coils",
+    "message0": "Modbus从站 %1 配置线圈数组 %2 长度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "modbus",
+        "variableTypes": ["ModbusRTUSlave"],
+        "defaultType": "ModbusRTUSlave"
+      },
+      {
+        "type": "field_input",
+        "name": "ARRAY",
+        "text": "coils"
+      },
+      {
+        "type": "field_number",
+        "name": "LENGTH",
+        "value": 2,
+        "min": 1,
+        "max": 512
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFA270",
+    "tooltip": "创建布尔线圈数组并告知库其长度"
+  },
+  {
+    "type": "modbus_rtu_slave_bind_discrete",
+    "message0": "Modbus从站 %1 配置离散输入数组 %2 长度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "modbus",
+        "variableTypes": ["ModbusRTUSlave"],
+        "defaultType": "ModbusRTUSlave"
+      },
+      {
+        "type": "field_input",
+        "name": "ARRAY",
+        "text": "discreteInputs"
+      },
+      {
+        "type": "field_number",
+        "name": "LENGTH",
+        "value": 2,
+        "min": 1,
+        "max": 512
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFA270",
+    "tooltip": "创建布尔离散输入数组用于向主站上报"
+  },
+  {
+    "type": "modbus_rtu_slave_bind_holding",
+    "message0": "Modbus从站 %1 配置保持寄存器 %2 长度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "modbus",
+        "variableTypes": ["ModbusRTUSlave"],
+        "defaultType": "ModbusRTUSlave"
+      },
+      {
+        "type": "field_input",
+        "name": "ARRAY",
+        "text": "holdingRegisters"
+      },
+      {
+        "type": "field_number",
+        "name": "LENGTH",
+        "value": 2,
+        "min": 1,
+        "max": 512
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFC7A6",
+    "tooltip": "创建16位保持寄存器数组，用于主站读写"
+  },
+  {
+    "type": "modbus_rtu_slave_bind_input",
+    "message0": "Modbus从站 %1 配置输入寄存器 %2 长度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "modbus",
+        "variableTypes": ["ModbusRTUSlave"],
+        "defaultType": "ModbusRTUSlave"
+      },
+      {
+        "type": "field_input",
+        "name": "ARRAY",
+        "text": "inputRegisters"
+      },
+      {
+        "type": "field_number",
+        "name": "LENGTH",
+        "value": 2,
+        "min": 1,
+        "max": 512
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFC7A6",
+    "tooltip": "创建16位输入寄存器数组，用于上报模拟量"
+  },
+  {
+    "type": "modbus_rtu_slave_coils_set",
+    "message0": "线圈数组 %1 索引 %2 写入 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ARRAY",
+        "variable": "coils",
+        "variableTypes": ["ModbusCoilArray"],
+        "defaultType": "ModbusCoilArray"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["Boolean"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#66BB6A",
+    "tooltip": "写入指定线圈值，可用于初始化或本地强制"
+  },
+  {
+    "type": "modbus_rtu_slave_coils_get",
+    "message0": "线圈数组 %1 索引 %2 的值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ARRAY",
+        "variable": "coils",
+        "variableTypes": ["ModbusCoilArray"],
+        "defaultType": "ModbusCoilArray"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#66BB6A",
+    "tooltip": "读取线圈状态，用于驱动输出"
+  },
+  {
+    "type": "modbus_rtu_slave_discrete_set",
+    "message0": "离散输入数组 %1 索引 %2 写入 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ARRAY",
+        "variable": "discreteInputs",
+        "variableTypes": ["ModbusDiscreteArray"],
+        "defaultType": "ModbusDiscreteArray"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["Boolean"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "更新离散输入状态，上报开关量"
+  },
+  {
+    "type": "modbus_rtu_slave_discrete_get",
+    "message0": "离散输入数组 %1 索引 %2 的值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ARRAY",
+        "variable": "discreteInputs",
+        "variableTypes": ["ModbusDiscreteArray"],
+        "defaultType": "ModbusDiscreteArray"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#26A69A",
+    "tooltip": "读取离散输入数组，多用于调试"
+  },
+  {
+    "type": "modbus_rtu_slave_holding_set",
+    "message0": "保持寄存器数组 %1 索引 %2 写入 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ARRAY",
+        "variable": "holdingRegisters",
+        "variableTypes": ["ModbusHoldingArray"],
+        "defaultType": "ModbusHoldingArray"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#42A5F5",
+    "tooltip": "写入16位保持寄存器，可提供默认值"
+  },
+  {
+    "type": "modbus_rtu_slave_holding_get",
+    "message0": "保持寄存器数组 %1 索引 %2 的值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ARRAY",
+        "variable": "holdingRegisters",
+        "variableTypes": ["ModbusHoldingArray"],
+        "defaultType": "ModbusHoldingArray"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#42A5F5",
+    "tooltip": "读取保持寄存器值，用于模拟量输出"
+  },
+  {
+    "type": "modbus_rtu_slave_input_set",
+    "message0": "输入寄存器数组 %1 索引 %2 写入 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ARRAY",
+        "variable": "inputRegisters",
+        "variableTypes": ["ModbusInputArray"],
+        "defaultType": "ModbusInputArray"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "写入16位输入寄存器，上报模拟量"
+  },
+  {
+    "type": "modbus_rtu_slave_input_get",
+    "message0": "输入寄存器数组 %1 索引 %2 的值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ARRAY",
+        "variable": "inputRegisters",
+        "variableTypes": ["ModbusInputArray"],
+        "defaultType": "ModbusInputArray"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#7E57C2",
+    "tooltip": "读取输入寄存器值，方便调试"
+  }
+]
