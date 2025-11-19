@@ -48,7 +48,7 @@
 |------|----------|------|
 | field_input | 字符串 | `"FIELD": "value"` |
 | field_dropdown | 字符串 | `"TYPE": "option"` |
-| field_dropdown(动态) | 字符串 | `"PORT": "I2C1"` (从board.json获取) |
+| field_dropdown(动态) | 字符串 | `"PORT": "Wire"` (从board.json获取) |
 | field_variable | 对象 | `"VAR": {"id": "var_id"}` |
 | input_value | 块连接 | `"inputs": {"INPUT": {"block": {...}}}` |
 | input_statement | 块连接 | `"inputs": {"DO": {"block": {...}}}` |
@@ -72,7 +72,7 @@
 **示例**：
 - block.json中：`"options": "${board.i2c}"`
 - board.json中：`"i2c": [["I2C", "Wire"], ["I2C1", "Wire1"]]`
-- .abi中使用：`"PORT": "I2C"` (选择数组中某组的key，即第一个元素)
+- .abi中使用：`"PORT": "Wire"` (选择数组中某组的value，即第二个元素)
 ```
 
 ### 5. 使用示例（1-2个典型示例）

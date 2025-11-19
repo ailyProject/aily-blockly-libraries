@@ -27,7 +27,7 @@ Arduino基础I/O控制库，提供数字/模拟读写、引脚模式设置功能
 | 类型 | .abi格式 | 示例 |
 |------|----------|------|
 | field_dropdown | 字符串 | `"PIN": "2"` |
-| field_dropdown(动态) | 字符串 | `"PIN": "Pin 13"` (从board.json获取key值) |
+| field_dropdown(动态) | 字符串 | `"PIN": "13"` (从board.json获取value值) |
 | input_value | 块连接 | `"inputs": {"PIN": {"block": {...}}}` |
 
 ## 连接规则
@@ -45,7 +45,7 @@ Arduino基础I/O控制库，提供数字/模拟读写、引脚模式设置功能
 **示例**：
 - block.json中：`"options": "${board.digitalPins}"`
 - board.json中：`"digitalPins": [["Pin 2", "2"], ["Pin 13", "13"]]`
-- .abi中使用：`"PIN": "Pin 13"` (选择数组中某组的key，即第一个元素)
+- .abi中使用：`"PIN": "13"` (选择数组中某组的value，即第二个元素)
 
 ## 使用示例
 
@@ -55,7 +55,7 @@ Arduino基础I/O控制库，提供数字/模拟读写、引脚模式设置功能
   "type": "io_digitalwrite",
   "id": "write_id",
   "inputs": {
-    "PIN": {"shadow": {"type": "io_pin_digi", "fields": {"PIN": "Pin 13"}}},
+    "PIN": {"shadow": {"type": "io_pin_digi", "fields": {"PIN": "13"}}},
     "STATE": {"shadow": {"type": "io_state", "fields": {"STATE": "HIGH"}}}
   }
 }
@@ -67,7 +67,7 @@ Arduino基础I/O控制库，提供数字/模拟读写、引脚模式设置功能
   "type": "io_analogread", 
   "id": "read_id",
   "inputs": {
-    "PIN": {"shadow": {"type": "io_pin_adc", "fields": {"PIN": "Pin A0"}}}
+    "PIN": {"shadow": {"type": "io_pin_adc", "fields": {"PIN": "A0"}}}
   }
 }
 ```
@@ -81,14 +81,14 @@ Arduino基础I/O控制库，提供数字/模拟读写、引脚模式设置功能
       "block": {
         "type": "io_pinmode",
         "inputs": {
-          "PIN": {"shadow": {"type": "io_pin_digi", "fields": {"PIN": "Pin 13"}}},
+          "PIN": {"shadow": {"type": "io_pin_digi", "fields": {"PIN": "13"}}},
           "MODE": {"shadow": {"type": "io_mode", "fields": {"MODE": "OUTPUT"}}}
         },
         "next": {
           "block": {
             "type": "io_digitalwrite", 
             "inputs": {
-              "PIN": {"shadow": {"type": "io_pin_digi", "fields": {"PIN": "Pin 13"}}},
+              "PIN": {"shadow": {"type": "io_pin_digi", "fields": {"PIN": "13"}}},
               "STATE": {"shadow": {"type": "io_state", "fields": {"STATE": "HIGH"}}}
             }
           }
@@ -105,7 +105,7 @@ Arduino基础I/O控制库，提供数字/模拟读写、引脚模式设置功能
 2. **模式设置**: 数字引脚需先设置模式再使用
 3. **PWM限制**: 只有支持PWM的引脚可用analogWrite
 4. **电平范围**: 数字0-1，模拟0-1023(读取)/0-255(输出)
-5. **引脚格式**: .abi中使用数组中的key值(如"Pin 13")，不使用内部value或模板字符串
+5. **引脚格式**: .abi中使用数组中的value值(如"13")，不使用内部key或模板字符串
 
 ## 支持的引脚模式
 INPUT, OUTPUT, INPUT_PULLUP
