@@ -1,99 +1,104 @@
 [
   {
-    "type": "sscma_init",
-    "message0": "初始化SSCMA %1 变量名 %2",
+    "type": "sscma_begin_i2c",
+    "message0": "初始化SSCMA AI模块 %1 I2C接口 %2 \n复位引脚 %3 I2C地址 %4",
     "args0": [
-      {
-        "type": "input_dummy"
-      },
-      {
-        "type": "field_input",
-        "name": "VAR",
-        "text": "ai"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#2E7D32",
-    "tooltip": "创建SSCMA AI对象(通过UART通信)",
-    "helpUrl": ""
-  },
-  {
-    "type": "sscma_init_i2c",
-    "message0": "初始化SSCMA %1 变量名 %2 使用I2C %3 RST引脚 %4 I2C地址 %5",
-    "args0": [
-      {
-        "type": "input_dummy"
-      },
       {
         "type": "field_input",
         "name": "VAR",
         "text": "ai"
       },
       {
-        "type": "input_value",
+        "type": "field_dropdown",
         "name": "WIRE",
-        "check": "TwoWire"
+        "options": "${board.i2c}"
       },
       {
         "type": "input_value",
-        "name": "RST",
-        "check": "Number"
+        "name": "RST"
       },
       {
         "type": "input_value",
-        "name": "ADDR",
-        "check": "Number"
+        "name": "ADDRESS"
       }
     ],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#2E7D32",
-    "tooltip": "通过I2C初始化SSCMA AI对象",
-    "helpUrl": ""
+    "colour": "#4CAF50",
+    "tooltip": "初始化SSCMA AI模块，使用I2C接口通信"
   },
   {
-    "type": "sscma_init_spi",
-    "message0": "初始化SSCMA %1 变量名 %2 使用SPI %3 CS引脚 %4 SYNC引脚 %5 RST引脚 %6",
+    "type": "sscma_begin_serial",
+    "message0": "初始化SSCMA AI模块 %1 串口接口 %2 \n复位引脚 %3 波特率 %4 ",
     "args0": [
-      {
-        "type": "input_dummy"
-      },
       {
         "type": "field_input",
         "name": "VAR",
         "text": "ai"
       },
       {
-        "type": "input_value",
-        "name": "SPI",
-        "check": "SPIClass"
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": [
+          ["Serial", "Serial"],
+          ["Serial1", "Serial1"],
+          ["Serial2", "Serial2"]
+        ]
       },
       {
         "type": "input_value",
-        "name": "CS",
-        "check": "Number"
+        "name": "RST"
       },
       {
         "type": "input_value",
-        "name": "SYNC",
-        "check": "Number"
-      },
-      {
-        "type": "input_value",
-        "name": "RST",
-        "check": "Number"
+        "name": "BAUD"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#2E7D32",
-    "tooltip": "通过SPI初始化SSCMA AI对象",
-    "helpUrl": ""
+    "colour": "#4CAF50",
+    "tooltip": "初始化SSCMA AI模块，使用串口接口通信"
+  },
+  {
+    "type": "sscma_begin_spi",
+    "message0": "初始化SSCMA AI模块 %1 SPI接口 %2 \nCS引脚 %3 SYNC引脚 %4 \n复位引脚 %5 时钟频率 %6",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "ai"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SPI",
+        "options": "${board.spi}"
+      },
+      {
+        "type": "input_value",
+        "name": "CS"
+      },
+      {
+        "type": "input_value",
+        "name": "SYNC"
+      },
+      {
+        "type": "input_value",
+        "name": "RST"
+      },
+      {
+        "type": "input_value",
+        "name": "CLOCK"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化SSCMA AI模块，使用SPI接口通信"
   },
   {
     "type": "sscma_invoke",
-    "message0": "%1 执行AI推理 %2 次数 %3 是否显示图像 %4",
+    "message0": "%1获取执行AI推理结果 推理次数%2 过滤%3 显示%4",
     "args0": [
       {
         "type": "field_variable",
@@ -103,28 +108,177 @@
         "defaultType": "SSCMA"
       },
       {
-        "type": "input_dummy"
+        "type": "field_number",
+        "name": "TIMES",
+        "value": 1,
+        "min": 1,
+        "max": 10
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FILTER",
+        "options": [
+          ["是", "true"],
+          ["否", "false"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SHOW",
+        "options": [
+          ["否", "false"],
+          ["是", "true"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#2196F3",
+    "tooltip": "执行AI推理，获取检测结果"
+  },
+  {
+    "type": "sscma_get_boxes_count",
+    "message0": "%1获取目标检测结果数量",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMA"],
+        "defaultType": "SSCMA"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取检测到的目标框数量"
+  },
+  {
+    "type": "sscma_get_box_info",
+    "message0": "%1获取目标检测信息 索引%2 属性%3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMA"],
+        "defaultType": "SSCMA"
       },
       {
         "type": "input_value",
-        "name": "TIMES",
-        "check": "Number"
+        "name": "INDEX",
+        "check": ["Number"]
       },
       {
-        "type": "field_checkbox",
-        "name": "SHOW_IMAGE",
-        "checked": false
+        "type": "field_dropdown",
+        "name": "PROPERTY",
+        "options": [
+          ["X坐标", "x"],
+          ["Y坐标", "y"],
+          ["宽度", "w"],
+          ["高度", "h"],
+          ["置信度", "score"],
+          ["目标类别", "target"]
+        ]
       }
     ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#388E3C",
-    "tooltip": "执行AI推理,返回0表示成功",
-    "helpUrl": ""
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取指定检测框的属性信息"
   },
   {
-    "type": "sscma_invoke_success",
-    "message0": "%1 执行推理成功?",
+    "type": "sscma_get_classes_count",
+    "message0": "%1获取分类检测结果数量",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMA"],
+        "defaultType": "SSCMA"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取分类结果的数量"
+  },
+  {
+    "type": "sscma_get_class_info",
+    "message0": "%1获取分类检测信息 索引%2 属性%3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMA"],
+        "defaultType": "SSCMA"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROPERTY",
+        "options": [
+          ["置信度", "score"],
+          ["目标类别", "target"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取指定分类结果的属性信息"
+  },
+  {
+    "type": "sscma_get_points_count",
+    "message0": "%1获取关键点数量",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMA"],
+        "defaultType": "SSCMA"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取关键点的数量"
+  },
+  {
+    "type": "sscma_get_point_info",
+    "message0": "%1获取关键点信息 索引%2 属性%3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMA"],
+        "defaultType": "SSCMA"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROPERTY",
+        "options": [
+          ["X坐标", "x"],
+          ["Y坐标", "y"],
+          ["置信度", "score"],
+          ["目标类别", "target"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取指定关键点的属性信息"
+  },
+  {
+    "type": "sscma_check_last_image",
+    "message0": "%1是否有最近一帧图像数据",
     "args0": [
       {
         "type": "field_variable",
@@ -135,13 +289,12 @@
       }
     ],
     "output": "Boolean",
-    "colour": "#388E3C",
-    "tooltip": "检查AI推理是否成功执行",
-    "helpUrl": ""
+    "colour": "#FF9800",
+    "tooltip": "检查SSCMA是否有最近一帧图像数据可用"
   },
   {
-    "type": "sscma_boxes_size",
-    "message0": "%1 检测到的目标数量",
+    "type": "sscma_get_last_image",
+    "message0": "%1获取最近一帧图像数据",
     "args0": [
       {
         "type": "field_variable",
@@ -151,255 +304,13 @@
         "defaultType": "SSCMA"
       }
     ],
-    "output": "Number",
-    "colour": "#43A047",
-    "tooltip": "获取检测到的边界框数量",
-    "helpUrl": ""
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "获取SSCMA处理的最近一帧图像数据"
   },
   {
-    "type": "sscma_box_property",
-    "message0": "%1 第 %2 个目标的 %3",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMA"],
-        "defaultType": "SSCMA"
-      },
-      {
-        "type": "input_value",
-        "name": "INDEX",
-        "check": "Number"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "PROPERTY",
-        "options": [
-          ["X坐标", "x"],
-          ["Y坐标", "y"],
-          ["宽度", "w"],
-          ["高度", "h"],
-          ["置信度", "score"],
-          ["类别ID", "target"]
-        ]
-      }
-    ],
-    "output": "Number",
-    "colour": "#43A047",
-    "tooltip": "获取指定边界框的属性值",
-    "helpUrl": ""
-  },
-  {
-    "type": "sscma_classes_size",
-    "message0": "%1 分类结果数量",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMA"],
-        "defaultType": "SSCMA"
-      }
-    ],
-    "output": "Number",
-    "colour": "#66BB6A",
-    "tooltip": "获取分类结果数量",
-    "helpUrl": ""
-  },
-  {
-    "type": "sscma_class_property",
-    "message0": "%1 第 %2 个分类的 %3",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMA"],
-        "defaultType": "SSCMA"
-      },
-      {
-        "type": "input_value",
-        "name": "INDEX",
-        "check": "Number"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "PROPERTY",
-        "options": [
-          ["类别ID", "target"],
-          ["置信度", "score"]
-        ]
-      }
-    ],
-    "output": "Number",
-    "colour": "#66BB6A",
-    "tooltip": "获取指定分类的属性值",
-    "helpUrl": ""
-  },
-  {
-    "type": "sscma_points_size",
-    "message0": "%1 检测到的点数量",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMA"],
-        "defaultType": "SSCMA"
-      }
-    ],
-    "output": "Number",
-    "colour": "#81C784",
-    "tooltip": "获取检测到的点数量",
-    "helpUrl": ""
-  },
-  {
-    "type": "sscma_point_property",
-    "message0": "%1 第 %2 个点的 %3",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMA"],
-        "defaultType": "SSCMA"
-      },
-      {
-        "type": "input_value",
-        "name": "INDEX",
-        "check": "Number"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "PROPERTY",
-        "options": [
-          ["X坐标", "x"],
-          ["Y坐标", "y"],
-          ["Z坐标", "z"],
-          ["置信度", "score"],
-          ["类别ID", "target"]
-        ]
-      }
-    ],
-    "output": "Number",
-    "colour": "#81C784",
-    "tooltip": "获取指定点的属性值",
-    "helpUrl": ""
-  },
-  {
-    "type": "sscma_keypoints_size",
-    "message0": "%1 检测到的关键点组数量",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMA"],
-        "defaultType": "SSCMA"
-      }
-    ],
-    "output": "Number",
-    "colour": "#A5D6A7",
-    "tooltip": "获取检测到的关键点组数量",
-    "helpUrl": ""
-  },
-  {
-    "type": "sscma_keypoint_box",
-    "message0": "%1 第 %2 个关键点组的边界框 %3",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMA"],
-        "defaultType": "SSCMA"
-      },
-      {
-        "type": "input_value",
-        "name": "INDEX",
-        "check": "Number"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "PROPERTY",
-        "options": [
-          ["X坐标", "x"],
-          ["Y坐标", "y"],
-          ["宽度", "w"],
-          ["高度", "h"],
-          ["置信度", "score"],
-          ["类别ID", "target"]
-        ]
-      }
-    ],
-    "output": "Number",
-    "colour": "#A5D6A7",
-    "tooltip": "获取关键点组边界框的属性值",
-    "helpUrl": ""
-  },
-  {
-    "type": "sscma_keypoint_points_size",
-    "message0": "%1 第 %2 个关键点组的点数量",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMA"],
-        "defaultType": "SSCMA"
-      },
-      {
-        "type": "input_value",
-        "name": "INDEX",
-        "check": "Number"
-      }
-    ],
-    "output": "Number",
-    "colour": "#A5D6A7",
-    "tooltip": "获取指定关键点组包含的点数量",
-    "helpUrl": ""
-  },
-  {
-    "type": "sscma_keypoint_point",
-    "message0": "%1 第 %2 个关键点组 第 %3 个点的 %4",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMA"],
-        "defaultType": "SSCMA"
-      },
-      {
-        "type": "input_value",
-        "name": "GROUP_INDEX",
-        "check": "Number"
-      },
-      {
-        "type": "input_value",
-        "name": "POINT_INDEX",
-        "check": "Number"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "PROPERTY",
-        "options": [
-          ["X坐标", "x"],
-          ["Y坐标", "y"],
-          ["置信度", "score"],
-          ["类别ID", "target"]
-        ]
-      }
-    ],
-    "output": "Number",
-    "colour": "#A5D6A7",
-    "tooltip": "获取关键点组中指定点的属性值",
-    "helpUrl": ""
-  },
-  {
-    "type": "sscma_perf",
-    "message0": "%1 推理性能 %2",
+    "type": "sscma_get_performance",
+    "message0": "%1获取性能信息 %2阶段",
     "args0": [
       {
         "type": "field_variable",
@@ -412,20 +323,85 @@
         "type": "field_dropdown",
         "name": "STAGE",
         "options": [
-          ["预处理耗时(ms)", "prepocess"],
-          ["推理耗时(ms)", "inference"],
-          ["后处理耗时(ms)", "postprocess"]
+          ["预处理", "prepocess"],
+          ["推理", "inference"],
+          ["后处理", "postprocess"]
         ]
       }
     ],
     "output": "Number",
-    "colour": "#4CAF50",
-    "tooltip": "获取AI推理各阶段的耗时",
-    "helpUrl": ""
+    "colour": "#FF9800",
+    "tooltip": "获取指定阶段的处理时间（毫秒）"
   },
   {
-    "type": "sscma_get_id",
-    "message0": "%1 获取设备ID",
+    "type": "sscma_available",
+    "message0": "%1是否有可读数据",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMA"],
+        "defaultType": "SSCMA"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "检查SSCMA是否有可读数据"
+  },
+  {
+    "type": "sscma_read",
+    "message0": "%1读取数据 数组%2 长度%3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMA"],
+        "defaultType": "SSCMA"
+      },
+      {
+        "type": "input_value",
+        "name": "ARRAY"
+      },
+      {
+        "type": "input_value",
+        "name": "LENGTH"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "从SSCMA读取数据"
+  },
+  {
+    "type": "sscma_write",
+    "message0": "%1写入数据 数组%2 长度%3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMA"],
+        "defaultType": "SSCMA"
+      },
+      {
+        "type": "input_value",
+        "name": "ARRAY"
+      },
+      {
+        "type": "input_value",
+        "name": "LENGTH"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "向SSCMA写入数据"
+  },
+  {
+    "type": "sscma_get_device_id",
+    "message0": "%1获取设备ID",
     "args0": [
       {
         "type": "field_variable",
@@ -436,13 +412,12 @@
       }
     ],
     "output": "String",
-    "colour": "#558B2F",
-    "tooltip": "获取SSCMA设备的唯一ID",
-    "helpUrl": ""
+    "colour": "#9C27B0",
+    "tooltip": "获取SSCMA设备的唯一ID"
   },
   {
-    "type": "sscma_get_name",
-    "message0": "%1 获取设备名称",
+    "type": "sscma_get_device_name",
+    "message0": "%1获取设备名称",
     "args0": [
       {
         "type": "field_variable",
@@ -453,13 +428,12 @@
       }
     ],
     "output": "String",
-    "colour": "#558B2F",
-    "tooltip": "获取SSCMA设备的名称",
-    "helpUrl": ""
+    "colour": "#9C27B0",
+    "tooltip": "获取SSCMA设备的名称"
   },
   {
-    "type": "sscma_get_info",
-    "message0": "%1 获取模型信息",
+    "type": "sscma_get_device_info",
+    "message0": "%1获取设备信息",
     "args0": [
       {
         "type": "field_variable",
@@ -470,13 +444,12 @@
       }
     ],
     "output": "String",
-    "colour": "#558B2F",
-    "tooltip": "获取当前加载模型的信息(Base64编码)",
-    "helpUrl": ""
+    "colour": "#9C27B0",
+    "tooltip": "获取SSCMA设备的详细信息"
   },
   {
-    "type": "sscma_get_image",
-    "message0": "%1 获取最后图像",
+    "type": "sscma_reset",
+    "message0": "%1重置SSCMA设备",
     "args0": [
       {
         "type": "field_variable",
@@ -486,9 +459,43 @@
         "defaultType": "SSCMA"
       }
     ],
-    "output": "String",
-    "colour": "#558B2F",
-    "tooltip": "获取最后推理的图像数据(Base64编码)",
-    "helpUrl": ""
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "重置SSCMA设备"
+  },
+  {
+    "type": "sscma_save_jpeg",
+    "message0": "%1保存JPEG图像",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMA"],
+        "defaultType": "SSCMA"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "保存当前图像为JPEG格式"
+  },
+  {
+    "type": "sscma_clean_actions",
+    "message0": "%1清理动作",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMA"],
+        "defaultType": "SSCMA"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "清理所有已设置的动作"
   }
 ]

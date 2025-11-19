@@ -21,6 +21,17 @@ API提取   功能分类   块定义      代码生成      工具箱配置    �
 例程研究  用户流程   字段设计    变量管理      影子块设置    兼容测试
 ```
 
+## Blockly库结构
+```
+library-name
+├─ block.json        // 块定义
+├─ generator.js      // 代码生成器
+├─ toolbox.json      // 工具箱配置
+├─ README.md         // 用户阅读的使用说明
+├─ README_AI.md      // 大模型阅读的使用说明
+└─ src               // Arduino库源码
+```
+
 ## 阶段一：源码分析
 
 ### 1.1 API识别方法

@@ -1,238 +1,260 @@
 {
-    "kind": "category",
-    "name": "SSCMA AI",
-    "icon":"fa-light fa-camera-web",
-    "colour": "#2E7D32",
-    "contents": [
-        {
-            "kind": "label",
-            "text": "初始化"
-        },
-        {
-            "kind": "block",
-            "type": "sscma_init"
-        },
-        {
-            "kind": "block",
-            "type": "sscma_init_i2c",
-            "inputs": {
-                "RST": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": -1
-                        }
-                    }
-                },
-                "ADDR": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 98
-                        }
-                    }
-                }
+  "kind": "category",
+  "name": "SenseCraft AI",
+  "icon": "fa-light fa-camera-web",
+  "colour": "#4CAF50",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_begin_i2c",
+      "inputs": {
+        "RST": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": -1
             }
+          }
         },
-        {
-            "kind": "block",
-            "type": "sscma_init_spi",
-            "inputs": {
-                "CS": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": -1
-                        }
-                    }
-                },
-                "SYNC": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": -1
-                        }
-                    }
-                },
-                "RST": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": -1
-                        }
-                    }
-                }
+        "ADDRESS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 98
             }
-        },
-        {
-            "kind": "label",
-            "text": "AI推理"
-        },
-        {
-            "kind": "block",
-            "type": "sscma_invoke",
-            "inputs": {
-                "TIMES": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 1
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "sscma_invoke_success"
-        },
-        {
-            "kind": "label",
-            "text": "目标检测(Boxes)"
-        },
-        {
-            "kind": "block",
-            "type": "sscma_boxes_size"
-        },
-        {
-            "kind": "block",
-            "type": "sscma_box_property",
-            "inputs": {
-                "INDEX": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "label",
-            "text": "分类(Classes)"
-        },
-        {
-            "kind": "block",
-            "type": "sscma_classes_size"
-        },
-        {
-            "kind": "block",
-            "type": "sscma_class_property",
-            "inputs": {
-                "INDEX": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "label",
-            "text": "点检测(Points)"
-        },
-        {
-            "kind": "block",
-            "type": "sscma_points_size"
-        },
-        {
-            "kind": "block",
-            "type": "sscma_point_property",
-            "inputs": {
-                "INDEX": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "label",
-            "text": "关键点检测(Keypoints)"
-        },
-        {
-            "kind": "block",
-            "type": "sscma_keypoints_size"
-        },
-        {
-            "kind": "block",
-            "type": "sscma_keypoint_box",
-            "inputs": {
-                "INDEX": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "sscma_keypoint_points_size",
-            "inputs": {
-                "INDEX": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "sscma_keypoint_point",
-            "inputs": {
-                "GROUP_INDEX": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                },
-                "POINT_INDEX": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "label",
-            "text": "性能与信息"
-        },
-        {
-            "kind": "block",
-            "type": "sscma_perf"
-        },
-        {
-            "kind": "block",
-            "type": "sscma_get_id"
-        },
-        {
-            "kind": "block",
-            "type": "sscma_get_name"
-        },
-        {
-            "kind": "block",
-            "type": "sscma_get_info"
-        },
-        {
-            "kind": "block",
-            "type": "sscma_get_image"
+          }
         }
-    ]
+      }
+    },
+    {
+      "kind": "block",
+      "type": "sscma_begin_serial",
+      "inputs": {
+        "RST": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": -1
+            }
+          }
+        },
+        "BAUD": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 921600
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "sscma_begin_spi",
+      "inputs": {
+        "CS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": -1
+            }
+          }
+        },
+        "SYNC": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": -1
+            }
+          }
+        },
+        "RST": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": -1
+            }
+          }
+        },
+        "CLOCK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 15000000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "AI推理"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_invoke"
+    },
+    {
+      "kind": "label",
+      "text": "检测结果"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_get_boxes_count"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_get_box_info",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "sscma_get_classes_count"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_get_class_info",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "sscma_get_points_count"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_get_point_info",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "sscma_check_last_image"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_get_last_image"
+    },
+    {
+      "kind": "label",
+      "text": "性能信息"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_get_performance"
+    },
+    {
+      "kind": "label",
+      "text": "数据传输"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_available"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_read",
+      "inputs": {
+        "ARRAY": {
+          "shadow": {
+            "type": "variables_get",
+            "fields": {
+              "VAR": "dataArray"
+            }
+          }
+        },
+        "LENGTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "sscma_write",
+      "inputs": {
+        "ARRAY": {
+          "shadow": {
+            "type": "variables_get",
+            "fields": {
+              "VAR": "dataArray"
+            }
+          }
+        },
+        "LENGTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "设备信息"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_get_device_id"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_get_device_name"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_get_device_info"
+    },
+    {
+      "kind": "label",
+      "text": "控制操作"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_reset"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_save_jpeg"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_clean_actions"
+    }
+  ]
 }
