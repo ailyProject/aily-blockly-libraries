@@ -1,35 +1,36 @@
 [
   {
-    "type": "spa07_create_i2c",
-    "message0": "创建SPA07传感器 %1 使用I2C地址 %2",
+    "type": "spa06_create_i2c",
+    "message0": "创建SPA06传感器 %1 使用I2C地址 %2",
     "args0": [
       {
         "type": "field_input",
         "name": "VAR",
-        "text": "spa07"
+        "text": "spa06"
       },
       {
         "type": "field_dropdown",
         "name": "ADDR",
         "options": [
-          ["0x77 (默认)", "0x77"],
-          ["0x76", "0x76"]
+          ["0x76 (默认)", "0x76"],
+          ["0x77", "0x77"]
         ]
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#00979D",
-    "tooltip": "创建SPA07-003气压温度传感器对象，使用I2C通信"
+    "tooltip": "创建SPA06-003气压温度传感器对象，使用I2C通信",
+    "extensions": ["spa06_i2c_board_extension"]
   },
   {
-    "type": "spa07_create_spi",
-    "message0": "创建SPA07传感器 %1 使用SPI引脚 %2",
+    "type": "spa06_create_spi",
+    "message0": "创建SPA06传感器 %1 使用SPI引脚 %2",
     "args0": [
       {
         "type": "field_input",
         "name": "VAR",
-        "text": "spa07"
+        "text": "spa06"
       },
       {
         "type": "field_input",
@@ -40,16 +41,16 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#00979D",
-    "tooltip": "创建SPA07-003气压温度传感器对象，使用SPI通信"
+    "tooltip": "创建SPA06-003气压温度传感器对象，使用SPI通信"
   },
   {
-    "type": "spa07_set_pressure_config",
+    "type": "spa06_set_pressure_sampling",
     "message0": "设置 %1 压力采样率 %2 过采样率 %3",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spa07",
+        "variable": "spa06",
         "variableTypes": ["SPL07_003"],
         "defaultType": "SPL07_003"
       },
@@ -88,13 +89,13 @@
     "tooltip": "配置压力传感器的采样率和过采样率"
   },
   {
-    "type": "spa07_set_temperature_config",
+    "type": "spa06_set_temperature_sampling",
     "message0": "设置 %1 温度采样率 %2 过采样率 %3",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spa07",
+        "variable": "spa06",
         "variableTypes": ["SPL07_003"],
         "defaultType": "SPL07_003"
       },
@@ -133,13 +134,13 @@
     "tooltip": "配置温度传感器的采样率和过采样率"
   },
   {
-    "type": "spa07_set_mode",
+    "type": "spa06_set_mode",
     "message0": "设置 %1 工作模式 %2",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spa07",
+        "variable": "spa06",
         "variableTypes": ["SPL07_003"],
         "defaultType": "SPL07_003"
       },
@@ -162,13 +163,13 @@
     "tooltip": "设置传感器的工作模式"
   },
   {
-    "type": "spa07_set_temperature_source",
+    "type": "spa06_set_temperature_source",
     "message0": "设置 %1 温度源 %2",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spa07",
+        "variable": "spa06",
         "variableTypes": ["SPL07_003"],
         "defaultType": "SPL07_003"
       },
@@ -187,13 +188,13 @@
     "tooltip": "设置温度传感器源"
   },
   {
-    "type": "spa07_read_pressure",
+    "type": "spa06_read_pressure",
     "message0": "%1 读取压力值",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spa07",
+        "variable": "spa06",
         "variableTypes": ["SPL07_003"],
         "defaultType": "SPL07_003"
       }
@@ -203,13 +204,13 @@
     "tooltip": "读取当前压力值（帕斯卡）"
   },
   {
-    "type": "spa07_read_temperature",
+    "type": "spa06_read_temperature",
     "message0": "%1 读取温度值",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spa07",
+        "variable": "spa06",
         "variableTypes": ["SPL07_003"],
         "defaultType": "SPL07_003"
       }
@@ -219,13 +220,13 @@
     "tooltip": "读取当前温度值（摄氏度）"
   },
   {
-    "type": "spa07_calc_altitude",
+    "type": "spa06_calc_altitude",
     "message0": "%1 计算海拔高度",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spa07",
+        "variable": "spa06",
         "variableTypes": ["SPL07_003"],
         "defaultType": "SPL07_003"
       }
@@ -235,13 +236,13 @@
     "tooltip": "根据压力值计算海拔高度（米）"
   },
   {
-    "type": "spa07_pressure_available",
+    "type": "spa06_pressure_available",
     "message0": "%1 压力数据可用",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spa07",
+        "variable": "spa06",
         "variableTypes": ["SPL07_003"],
         "defaultType": "SPL07_003"
       }
@@ -251,13 +252,13 @@
     "tooltip": "检查是否有新的压力数据可用"
   },
   {
-    "type": "spa07_temperature_available",
+    "type": "spa06_temperature_available",
     "message0": "%1 温度数据可用",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spa07",
+        "variable": "spa06",
         "variableTypes": ["SPL07_003"],
         "defaultType": "SPL07_003"
       }
@@ -267,13 +268,13 @@
     "tooltip": "检查是否有新的温度数据可用"
   },
   {
-    "type": "spa07_configure_interrupt",
+    "type": "spa06_set_interrupt",
     "message0": "设置 %1 中断模式 %2",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spa07",
+        "variable": "spa06",
         "variableTypes": ["SPL07_003"],
         "defaultType": "SPL07_003"
       },
@@ -298,13 +299,13 @@
     "tooltip": "配置中断模式"
   },
   {
-    "type": "spa07_get_interrupt_status",
+    "type": "spa06_get_interrupt_status",
     "message0": "%1 获取中断状态",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spa07",
+        "variable": "spa06",
         "variableTypes": ["SPL07_003"],
         "defaultType": "SPL07_003"
       }
@@ -314,13 +315,13 @@
     "tooltip": "获取当前中断状态寄存器值"
   },
   {
-    "type": "spa07_set_pressure_offset",
+    "type": "spa06_set_pressure_offset",
     "message0": "设置 %1 压力偏移 %2 Pa",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spa07",
+        "variable": "spa06",
         "variableTypes": ["SPL07_003"],
         "defaultType": "SPL07_003"
       },
@@ -336,13 +337,13 @@
     "tooltip": "设置压力测量偏移值"
   },
   {
-    "type": "spa07_set_temperature_offset",
+    "type": "spa06_set_temperature_offset",
     "message0": "设置 %1 温度偏移 %2 °C",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spa07",
+        "variable": "spa06",
         "variableTypes": ["SPL07_003"],
         "defaultType": "SPL07_003"
       },
