@@ -164,7 +164,6 @@ Arduino.forBlock["modbus_rtu_slave_create"] = function (block, generator) {
     "modbus",
   );
   const serialPort = resolveSerialPort(block.getFieldValue("SERIAL"));
-  const defaultBaud = block.getFieldValue("SERIAL_BAUD") || "9600";
   const dePin =
     generator.valueToCode(block, "DE_PIN", Arduino.ORDER_ATOMIC) || "-1";
   const rePin =
@@ -185,7 +184,6 @@ Arduino.forBlock["modbus_rtu_slave_create"] = function (block, generator) {
     serialPort,
     macroPrefix,
     serialMacro,
-    defaultBaud,
   };
 
   return "";
@@ -207,10 +205,7 @@ Arduino.forBlock["modbus_rtu_slave_begin"] = function (block, generator) {
   const instance = generator._modbusInstances
     ? generator._modbusInstances[varName]
     : null;
-  const serialBaud =
-    instance && instance.defaultBaud ? instance.defaultBaud : "9600";
-  const baud =
-    generator.valueToCode(block, "BAUD", Arduino.ORDER_ATOMIC) || "9600";
+  const baud = block.getFieldValue("BAUD") || "9600";
   const config = block.getFieldValue("CONFIG") || "SERIAL_8N1";
   const serialPort = resolveSerialPort(
     instance && instance.serialPort ? instance.serialPort : undefined,
@@ -228,7 +223,7 @@ Arduino.forBlock["modbus_rtu_slave_begin"] = function (block, generator) {
   const serialInitCode = ensureModbusSerialBegin(
     generator,
     serialMacro,
-    serialBaud,
+    baud,
     configMacro,
     macroPrefix,
   );
