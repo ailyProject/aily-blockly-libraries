@@ -1,85 +1,99 @@
-# 自定义代码 (Custom Code) 核心库
+# 自定义代码核心库
 
-Arduino/C++编程中的自定义代码核心库，允许插入自定义代码、宏定义、库引用、变量和函数。
+Arduino/C++编程中的自定义代码核心库，提供代码插入、宏定义、库引用、变量和函数定义功能。
 
 ## 库信息
 - **库名**: @aily-project/lib-core-custom
 - **版本**: 1.0.0
-- **作者**: aily Project
-- **描述**: 允许插入自定义代码、宏定义、函数
-- **测试者**: 奈何col
+- **兼容**: 所有Arduino平台
 
-## 可用模块
+## 块定义
 
-### 自定义代码 (`custom_code`)
-在程序中插入任意C++代码
-- **功能**: 多行文本输入框，支持任意代码
-- **用途**: 插入复杂逻辑、调用特殊函数、临时调试代码
-- **位置**: 插入到程序流中的当前位置
+| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
+|--------|------|----------|----------|----------|
+| `custom_code` | 语句块 | CODE(field_multilinetext) | `"CODE":"digitalWrite(13, HIGH);"` | 直接输出代码 |
+| `custom_code2` | 值块 | CODE(field_multilinetext) | `"CODE":"analogRead(A0)"` | 直接输出代码 |
+| `custom_macro` | Hat块 | NAME(field_input), VALUE(field_input) | `"NAME":"LED_PIN","VALUE":"13"` | `#define LED_PIN 13` |
+| `custom_library` | Hat块 | LIB_NAME(field_input) | `"LIB_NAME":"Servo.h"` | `#include <Servo.h>` |
+| `custom_variable` | Hat块 | TYPE(field_dropdown), NAME(field_input), VALUE(field_input) | `"TYPE":"int","NAME":"count","VALUE":"0"` | `int count = 0;` |
+| `custom_function` | Hat块 | NAME(field_input), RETURN(field_dropdown), PARAMS(field_input), BODY(field_multilinetext) | 完整函数参数 | 函数定义 |
+| `custom_insert_code` | Hat块 | POSITION(field_dropdown), CODE(field_multilinetext) | `"POSITION":"variable","CODE":"int x;"` | 按位置插入 |
+| `comment` | 语句块 | TEXT(field_input) | `"TEXT":"这是注释"` | `// 这是注释` |
+| `comment_wrapper` | 语句块 | TEXT(field_input), STATEMENTS(input_statement) | `"TEXT":"代码区域"` | 包装代码块 |
 
-### 宏定义 (`custom_macro`)
-添加宏定义到程序顶部
-- **参数**: 宏名称、宏值
-- **实现**: `#define 宏名称 宏值`
-- **用途**: 定义常量、简化代码、条件编译
-- **示例**: `#define PIN_LED 13`
+## 字段类型映射
 
-### 引用库 (`custom_library`)
-添加库引用到程序顶部
-- **参数**: 库名称
-- **实现**: `#include <库名称>`
-- **用途**: 引用第三方库、系统库
-- **示例**: `#include <Servo.h>`
+| 类型 | .abi格式 | 示例 |
+|------|----------|------|
+| field_input | 字符串 | `"NAME": "LED_PIN"` |
+| field_multilinetext | 字符串 | `"CODE": "digitalWrite(13, HIGH);"` |
+| field_dropdown | 字符串 | `"TYPE": "int"` |
+| input_statement | 块连接 | `"inputs": {"STATEMENTS": {"block": {...}}}` |
 
-### 定义变量 (`custom_variable`)
-定义自定义类型变量
-- **参数**: 数据类型、变量名、初始值
-- **支持类型**: int, long, float, double, unsigned int, unsigned long, bool, char, string
-- **用途**: 创建特殊类型变量、全局变量
+## 连接规则
 
-### 函数定义 (`custom_function`)
-定义自定义函数
-- **参数**: 函数名、返回类型、参数列表、函数体
-- **支持返回类型**: 所有基本数据类型
-- **用途**: 创建可重用的代码块、模块化编程
+- **语句块**: custom_code、comment、comment_wrapper有previousStatement/nextStatement，通过`next`字段连接
+- **值块**: custom_code2有output，连接到`inputs`中，无`next`字段
+- **Hat块**: custom_macro、custom_library、custom_variable、custom_function、custom_insert_code无连接属性，影响全局代码结构
+- **特殊规则**: Hat块按类型自动添加到对应代码区域，不参与程序流连接
 
-## 使用说明
+## 使用示例
 
-### 基本用法
-```cpp
-// 宏定义
-#define LED_PIN 13
-
-// 库引用
-#include <WiFi.h>
-
-// 变量定义
-int sensorValue = 0;
-
-// 函数定义
-int calculateAverage(int a, int b) {
-  return (a + b) / 2;
+### 自定义代码语句
+```json
+{
+  "type": "custom_code",
+  "id": "custom_1",
+  "fields": {
+    "CODE": "digitalWrite(13, HIGH);\ndelay(1000);"
+  }
 }
-
-// 自定义代码
-digitalWrite(LED_PIN, HIGH);
 ```
 
-### 高级应用
-- **条件编译**: 使用宏定义控制编译选项
-- **代码复用**: 通过函数定义实现模块化
-- **第三方集成**: 引用外部库扩展功能
-- **调试支持**: 插入调试代码和日志输出
+### 宏定义
+```json
+{
+  "type": "custom_macro",
+  "id": "macro_1",
+  "fields": {
+    "NAME": "LED_PIN",
+    "VALUE": "13"
+  }
+}
+```
 
-## 注意事项
-- 自定义代码需要遵循C++语法规范
-- 宏定义和库引用会添加到程序顶部
-- 变量定义的作用域取决于插入位置
-- 函数定义建议放在setup()之前
-- 注意避免命名冲突和重复定义
+### 完整程序示例
+```json
+{
+  "type": "arduino_setup",
+  "inputs": {
+    "ARDUINO_SETUP": {
+      "block": {
+        "type": "custom_code",
+        "fields": {"CODE": "pinMode(LED_PIN, OUTPUT);"},
+        "next": {
+          "block": {
+            "type": "comment",
+            "fields": {"TEXT": "设置引脚模式"}
+          }
+        }
+      }
+    }
+  }
+}
+```
 
-## 技术特性
-- **灵活性**: 支持任意C++代码插入
-- **多语言**: 支持中文、英文等多种界面语言
-- **智能管理**: 自动处理代码位置和依赖关系
-- **类型安全**: 提供常用数据类型选择
+## 重要规则
+
+1. **代码位置**: Hat块（宏定义、库引用等）自动添加到程序对应区域，语句块按连接顺序执行
+2. **语法检查**: 自定义代码需遵循C++语法，编译错误由Arduino IDE报告
+3. **作用域管理**: 变量定义和函数定义影响全局作用域，注意命名冲突
+4. **常见错误**: ❌ 语法错误代码，❌ 重复定义变量/函数，❌ 缺少分号
+
+## 支持的数据类型
+- **基本类型**: void, int, long, float, double, bool, char, string
+- **无符号类型**: unsigned char, unsigned long
+- **插入位置**: macro(宏定义区), library(库引用区), variable(变量定义区), object(对象定义区), function(函数定义区)
+
+---
+*自包含文档，无需外部规范*

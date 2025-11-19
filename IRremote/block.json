@@ -1,85 +1,253 @@
 [
   {
-    "inputsInline": true,
-    "message0": "红外接收 快速测试  引脚 %1",
-    "type": "QuickTesting",
+    "type": "irremote_library_config",
+    "message0": "红外库配置 缓冲区长度 %1 启用通用解码 %2 保留特殊协议 %3",
     "args0": [
       {
-        "type": "field_dropdown",
-        "name": "IRPIN",
-        "options": "${board.digitalPins}"
+        "type": "input_value",
+        "name": "RAW_LENGTH",
+        "check": "Number"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "UNIVERSAL",
+        "checked": true
+      },
+      {
+        "type": "field_checkbox",
+        "name": "EXOTIC",
+        "checked": true
       }
     ],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#ff5722"
+    "colour": "#FF7043",
+    "tooltip": "通过编译期宏配置RAW_BUFFER_LENGTH以及是否保留通用/特殊协议解析",
+    "helpUrl": ""
   },
   {
-    "inputsInline": true,
-    "message0": "红外接收初始化 引脚 %1",
-    "type": "irrecv_begin_in",
+    "type": "irremote_receiver_begin",
+    "message0": "初始化红外接收 引脚 %1",
     "args0": [
       {
-        "type": "field_dropdown",
-        "name": "IRPININ",
-        "options": "${board.digitalPins}"
+        "type": "input_value",
+        "name": "PIN"
       }
     ],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#ff5722"
+    "colour": "#FF7043",
+    "tooltip": "调用IrReceiver.begin设置接收引脚与LED反馈参数，需在setup中执行一次",
+    "helpUrl": ""
   },
   {
-    "inputsInline": true,
-    "message0": "红外发射初始化 引脚 %1",
-    "type": "irrecv_begin_out",
+    "type": "irremote_sender_begin",
+    "message0": "初始化红外发送 引脚 %1",
     "args0": [
       {
-        "type": "field_dropdown",
-        "name": "IRPINOUT",
-        "options": "${board.digitalPins}"
+        "type": "input_value",
+        "name": "PIN"
       }
     ],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#ff5722"
+    "colour": "#42A5F5",
+    "tooltip": "调用IrSender.begin设置发射引脚与可选LED反馈",
+    "helpUrl": ""
   },
   {
-    "type": "irrecv_datain",
-    "message0": "接收到红外数据%1",
+    "type": "irremote_on_receive",
+    "message0": "当红外接收成功时 %1",
     "args0": [
       {
         "type": "input_statement",
-        "name": "IRDATA"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,    
-    "colour": "#ff5722"
-  },
-  {
-    "inputsInline": true,
-    "message0": "接收到的红外数据",
-    "type": "irrecv_irdata",
-    "output": "Number",
-    "colour": "#ff5722"
-  },
-  {
-    "inputsInline": true,
-    "message0": "红外发射 地址0x%1 数据0x%2",
-    "type": "irrecv_irsend",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "IRADDRESS"
-      },
-      {
-        "type": "input_value",
-        "name": "IROUTDATA"
+        "name": "DO"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#ff5722"
+    "colour": "#FF7043",
+    "tooltip": "生成 if (IrReceiver.decode()) { ... IrReceiver.resume(); } 结构，需放在loop中",
+    "helpUrl": ""
+  },
+  {
+    "type": "irremote_receiver_available",
+    "message0": "红外接收有新数据",
+    "output": "Boolean",
+    "colour": "#FF7043",
+    "tooltip": "返回IrReceiver.available()状态",
+    "helpUrl": ""
+  },
+  {
+    "type": "irremote_get_value",
+    "message0": "红外数据 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FIELD",
+        "options": [
+          ["地址", "ADDRESS"],
+          ["命令", "COMMAND"],
+          ["附加值", "EXTRA"],
+          ["原始码", "RAW"],
+          ["位数", "BITS"],
+          ["标志位", "FLAGS"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF7043",
+    "tooltip": "读取IrReceiver.decodedIRData中的数值字段",
+    "helpUrl": ""
+  },
+  {
+    "type": "irremote_get_protocol",
+    "message0": "红外协议 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FORMAT",
+        "options": [
+          ["名称", "NAME"],
+          ["枚举值", "ID"]
+        ]
+      }
+    ],
+    "output": ["String", "Number"],
+    "colour": "#FF7043",
+    "tooltip": "返回协议名称或decode_type_t枚举值",
+    "helpUrl": ""
+  },
+  {
+    "type": "irremote_check_flag",
+    "message0": "红外标志 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FLAG",
+        "options": [
+          ["重复帧", "REPEAT"],
+          ["自动重复", "AUTO_REPEAT"],
+          ["奇偶校验失败", "PARITY"],
+          ["切换位", "TOGGLE"],
+          ["不同重发协议", "DIFF_REPEAT"],
+          ["包含附加信息", "EXTRA_INFO"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF7043",
+    "tooltip": "检查IrReceiver.decodedIRData.flags对应标志位",
+    "helpUrl": ""
+  },
+  {
+    "type": "irremote_is_preset_key",
+    "message0": "按下预置按键%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "KEY",
+        "options": [
+          ["CH_MINUS", "69"],
+          ["CHANNEL", "70"],
+          ["CH_PLUS", "71"],
+          ["PREV", "68"],
+          ["NEXT", "64"],
+          ["PLAY_PAUSE", "67"],
+          ["VOL_DOWN", "7"],
+          ["VOL_UP", "21"],
+          ["EQ", "9"],
+          ["NUM_0", "22"],
+          ["NUM_1", "12"],
+          ["NUM_2", "24"],
+          ["NUM_3", "94"],
+          ["NUM_4", "8"],
+          ["NUM_5", "28"],
+          ["NUM_6", "90"],
+          ["NUM_7", "66"],
+          ["NUM_8", "82"],
+          ["NUM_9", "74"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF7043",
+    "tooltip": "匹配预置遥控器按键命令，无需手动比较命令值",
+    "helpUrl": ""
+  },
+  {
+    "type": "irremote_get_preset_name",
+    "message0": "获取预置按键名称",
+    "output": "String",
+    "colour": "#FF7043",
+    "tooltip": "返回预置遥控器按键的名称，若未匹配返回空字符串",
+    "helpUrl": ""
+  },
+  {
+    "type": "irremote_resume",
+    "message0": "红外接收准备下一帧",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF7043",
+    "tooltip": "调用IrReceiver.resume()手动准备下一次接收",
+    "helpUrl": ""
+  },
+  {
+    "type": "irremote_send_command",
+    "message0": "红外发送 协议 %1 地址 %2 命令 %3 重复 %4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PROTOCOL",
+        "options": [
+          ["NEC", "NEC"],
+          ["NEC2", "NEC2"],
+          ["SAMSUNG", "SAMSUNG"],
+          ["SAMSUNG48", "SAMSUNG48"],
+          ["SAMSUNGLG", "SAMSUNGLG"],
+          ["SONY", "SONY"],
+          ["PANASONIC", "PANASONIC"],
+          ["DENON", "DENON"],
+          ["SHARP", "SHARP"],
+          ["LG", "LG"],
+          ["JVC", "JVC"],
+          ["RC5", "RC5"],
+          ["RC6", "RC6"],
+          ["KASEIKYO_JVC", "KASEIKYO_JVC"],
+          ["KASEIKYO_DENON", "KASEIKYO_DENON"],
+          ["KASEIKYO_SHARP", "KASEIKYO_SHARP"],
+          ["KASEIKYO_MITSUBISHI", "KASEIKYO_MITSUBISHI"],
+          ["ONKYO", "ONKYO"],
+          ["APPLE", "APPLE"],
+          ["BOSEWAVE", "BOSEWAVE"],
+          ["FAST", "FAST"],
+          ["LEGO_PF", "LEGO_PF"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COMMAND",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "REPEAT",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#42A5F5",
+    "tooltip": "调用IrSender.write按指定协议发送地址与命令，可配置重复次数",
+    "helpUrl": ""
   }
 ]

@@ -1,44 +1,113 @@
 {
   "kind": "category",
-  "name": "IR遥控",
+  "name": "红外遥控",
+  "colour": "#FF7043",
+  "icon": "fa-solid fa-signal",
   "contents": [
     {
-      "kind": "block",
-      "type": "QuickTesting"
+      "kind": "label",
+      "text": "接收"
     },
     {
       "kind": "block",
-      "type": "irrecv_begin_in"
-    },
-    {
-      "kind": "block",
-      "type": "irrecv_begin_out"
-    },
-    {
-      "kind": "block",
-      "type": "irrecv_datain"
-    },
-    {
-      "kind": "block",
-      "type": "irrecv_irdata"
-    },
-    {
-      "kind": "block",
-      "type": "irrecv_irsend",
+      "type": "irremote_library_config",
       "inputs": {
-        "IRADDRESS": {
-          "block": {
+        "RAW_LENGTH": {
+          "shadow": {
             "type": "math_number",
             "fields": {
-              "NUM": 102
+              "NUM": 200
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "irremote_receiver_begin",
+      "inputs": {
+        "PIN": {
+          "block": {
+            "type": "io_pin_digi"
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "irremote_on_receive"
+    },
+    {
+      "kind": "block",
+      "type": "irremote_receiver_available"
+    },
+    {
+      "kind": "block",
+      "type": "irremote_get_value"
+    },
+    {
+      "kind": "block",
+      "type": "irremote_get_protocol"
+    },
+    {
+      "kind": "block",
+      "type": "irremote_is_preset_key"
+    },
+    {
+      "kind": "block",
+      "type": "irremote_get_preset_name"
+    },
+    {
+      "kind": "block",
+      "type": "irremote_check_flag"
+    },
+    {
+      "kind": "block",
+      "type": "irremote_resume"
+    },
+    {
+      "kind": "sep"
+    },
+    {
+      "kind": "label",
+      "text": "发送"
+    },
+    {
+      "kind": "block",
+      "type": "irremote_sender_begin",
+      "inputs": {
+        "PIN": {
+          "block": {
+            "type": "io_pin_digi"
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "irremote_send_command",
+      "inputs": {
+        "ADDRESS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
             }
           }
         },
-        "IROUTDATA": {
-          "block": {
+        "COMMAND": {
+          "shadow": {
             "type": "math_number",
             "fields": {
-              "NUM": 45
+              "NUM": 0
+            }
+          }
+        },
+        "REPEAT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
             }
           }
         }

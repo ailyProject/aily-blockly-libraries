@@ -1,252 +1,127 @@
-# Seeed SSCMA AI视觉传感器 Blockly库
+# seeed_SSCMA
 
-## 简介
+Seeed SenseCraft AI视觉识别模块操作库
 
-Seeed SSCMA (Seeed SenseCraft Model Assistant) 是一个强大的AI视觉传感器库,支持目标检测、图像分类、关键点检测等多种AI功能。本Blockly库将其封装为易用的图形化编程块,让用户可以轻松使用AI视觉功能。
+## 库信息
+- **库名**: @aily-project/lib-seeed-sscma
+- **版本**: 1.0.0
+- **兼容**: Arduino全系列平台
 
-## 主要特性
+## 块定义
 
-- **多种AI功能**: 支持目标检测(Boxes)、图像分类(Classes)、点检测(Points)、关键点检测(Keypoints)
-- **多种通信方式**: 支持UART、I2C、SPI三种通信协议
-- **性能监控**: 可获取预处理、推理、后处理各阶段的耗时
-- **图像获取**: 支持获取推理过程中的图像数据(Base64编码)
-- **设备信息**: 可查询设备ID、名称、模型信息等
+| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
+|--------|------|----------|----------|----------|
+| `sscma_begin_i2c` | 语句块 | VAR(field_input), WIRE(field_dropdown), RST(input_value), ADDRESS(input_value) | `"fields":{"VAR":"ai","WIRE":"Wire"},"inputs":{"RST":"2","ADDRESS":"0x62"}` | `SSCMA ai; ai.begin(Wire, 2, 0x62);` |
+| `sscma_begin_serial` | 语句块 | VAR(field_input), SERIAL(field_dropdown), RST(input_value), BAUD(input_value) | `"fields":{"VAR":"ai","SERIAL":"Serial1"},"inputs":{"RST":"2","BAUD":"115200"}` | `SSCMA ai; ai.begin(Serial1, 2, 115200);` |
+| `sscma_begin_spi` | 语句块 | VAR(field_input), SPI(field_dropdown), CS(input_value), SYNC(input_value), RST(input_value), CLOCK(input_value) | `"fields":{"VAR":"ai","SPI":"SPI"},"inputs":{"CS":"10","SYNC":"5","RST":"2","CLOCK":"1000000"}` | `SSCMA ai; ai.begin(SPI, 10, 5, 2, 1000000);` |
+| `sscma_invoke` | 值块 | VAR(field_variable), TIMES(field_number), FILTER(field_dropdown), SHOW(field_dropdown) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"},"TIMES":"1","FILTER":"true","SHOW":"false"}` | `ai.invoke(1, true, false)` |
+| `sscma_get_boxes_count` | 值块 | VAR(field_variable) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"}}` | `ai.boxes().size()` |
+| `sscma_get_box_info` | 值块 | VAR(field_variable), INDEX(input_value), PROPERTY(field_dropdown) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"},"PROPERTY":"x"},"inputs":{"INDEX":"0"}` | `ai.boxes()[0].x` |
+| `sscma_get_classes_count` | 值块 | VAR(field_variable) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"}}` | `ai.classes().size()` |
+| `sscma_get_class_info` | 值块 | VAR(field_variable), INDEX(input_value), PROPERTY(field_dropdown) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"},"PROPERTY":"score"},"inputs":{"INDEX":"0"}` | `ai.classes()[0].score` |
+| `sscma_get_points_count` | 值块 | VAR(field_variable) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"}}` | `ai.points().size()` |
+| `sscma_get_point_info` | 值块 | VAR(field_variable), INDEX(input_value), PROPERTY(field_dropdown) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"},"PROPERTY":"x"},"inputs":{"INDEX":"0"}` | `ai.points()[0].x` |
+| `sscma_check_last_image` | 值块 | VAR(field_variable) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"}}` | `ai.last_image()` |
+| `sscma_get_last_image` | 值块 | VAR(field_variable) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"}}` | `ai.get_last_image()` |
+| `sscma_get_performance` | 值块 | VAR(field_variable), STAGE(field_dropdown) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"},"STAGE":"inference"}` | `ai.perf().inference` |
+| `sscma_available` | 值块 | VAR(field_variable) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"}}` | `ai.available()` |
+| `sscma_read` | 语句块 | VAR(field_variable), ARRAY(input_value), LENGTH(input_value) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"}},"inputs":{"ARRAY":"buffer","LENGTH":"10"}` | `ai.read(buffer, 10);` |
+| `sscma_write` | 语句块 | VAR(field_variable), ARRAY(input_value), LENGTH(input_value) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"}},"inputs":{"ARRAY":"data","LENGTH":"5"}` | `ai.write(data, 5);` |
+| `sscma_get_device_id` | 值块 | VAR(field_variable) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"}}` | `ai.ID()` |
+| `sscma_get_device_name` | 值块 | VAR(field_variable) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"}}` | `ai.name()` |
+| `sscma_get_device_info` | 值块 | VAR(field_variable) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"}}` | `ai.info()` |
+| `sscma_reset` | 语句块 | VAR(field_variable) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"}}` | `ai.reset();` |
+| `sscma_save_jpeg` | 语句块 | VAR(field_variable) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"}}` | `ai.save_jpeg();` |
+| `sscma_clean_actions` | 语句块 | VAR(field_variable) | `"fields":{"VAR":{"id":"ai_id","name":"ai","type":"SSCMA"}}` | `ai.clean();` |
 
-## 支持的板卡
+## 字段类型映射
 
-- ESP32系列
-- Arduino SAMD系列
-- Arduino Mbed系列  
-- Renesas UNO R4 WiFi
+| 类型 | .abi格式 | 示例 |
+|------|----------|------|
+| field_variable | SSCMA变量对象 | `"VAR": {"id": "ai_id", "name": "ai", "type": "SSCMA"}` |
+| field_input | 字符串 | `"VAR": "ai"` |
+| field_dropdown | 字符串 | `"WIRE": "Wire", "SERIAL": "Serial1"` |
+| field_number | 数值字符串 | `"TIMES": "1"` |
+| input_value | 连接的值块 | `"RST": "2", "ADDRESS": "0x62"` |
 
-## 依赖库
+## 连接规则
 
-- Seeed Arduino SSCMA (>= 1.0.0)
-- ArduinoJson (>= 6.0.0)
-
-## 块分类
-
-### 初始化块
-
-#### 1. 初始化SSCMA (UART)
-- **描述**: 使用UART方式初始化SSCMA传感器(默认方式)
-- **参数**:
-  - 变量名: AI对象的变量名
-- **示例**: 创建名为"ai"的SSCMA对象
-
-#### 2. 初始化SSCMA (I2C)
-- **描述**: 使用I2C方式初始化SSCMA传感器
-- **参数**:
-  - 变量名: AI对象的变量名
-  - 使用I2C: I2C对象引用
-  - RST引脚: 复位引脚(-1表示不使用)
-  - I2C地址: 设备地址(默认0x62即98)
-
-#### 3. 初始化SSCMA (SPI)
-- **描述**: 使用SPI方式初始化SSCMA传感器
-- **参数**:
-  - 变量名: AI对象的变量名
-  - 使用SPI: SPI对象引用
-  - CS引脚: 片选引脚
-  - SYNC引脚: 同步引脚
-  - RST引脚: 复位引脚
-
-### AI推理块
-
-#### 4. 执行AI推理
-- **描述**: 执行AI推理并获取结果
-- **参数**:
-  - AI对象: 选择已创建的SSCMA对象
-  - 次数: 推理执行次数(默认1)
-  - 是否显示图像: 是否获取推理图像
-
-#### 5. 执行推理成功?
-- **描述**: 检查AI推理是否成功执行
-- **返回**: Boolean值(成功返回true)
-
-### 目标检测(Boxes)块
-
-#### 6. 检测到的目标数量
-- **描述**: 获取检测到的边界框数量
-- **返回**: 数值
-
-#### 7. 第N个目标的属性
-- **描述**: 获取指定目标的属性值
-- **参数**:
-  - 索引: 目标索引(从0开始)
-  - 属性: X坐标/Y坐标/宽度/高度/置信度/类别ID
-- **返回**: 数值
-
-### 分类(Classes)块
-
-#### 8. 分类结果数量
-- **描述**: 获取分类结果的数量
-- **返回**: 数值
-
-#### 9. 第N个分类的属性
-- **描述**: 获取指定分类的属性值
-- **参数**:
-  - 索引: 分类索引(从0开始)
-  - 属性: 类别ID/置信度
-- **返回**: 数值
-
-### 点检测(Points)块
-
-#### 10. 检测到的点数量
-- **描述**: 获取检测到的点数量
-- **返回**: 数值
-
-#### 11. 第N个点的属性
-- **描述**: 获取指定点的属性值
-- **参数**:
-  - 索引: 点索引(从0开始)
-  - 属性: X坐标/Y坐标/Z坐标/置信度/类别ID
-- **返回**: 数值
-
-### 关键点检测(Keypoints)块
-
-#### 12. 检测到的关键点组数量
-- **描述**: 获取检测到的关键点组数量
-- **返回**: 数值
-
-#### 13. 第N个关键点组的边界框属性
-- **描述**: 获取关键点组边界框的属性值
-- **参数**:
-  - 索引: 关键点组索引(从0开始)
-  - 属性: X坐标/Y坐标/宽度/高度/置信度/类别ID
-- **返回**: 数值
-
-#### 14. 第N个关键点组的点数量
-- **描述**: 获取指定关键点组包含的点数量
-- **参数**:
-  - 索引: 关键点组索引
-- **返回**: 数值
-
-#### 15. 关键点组中指定点的属性
-- **描述**: 获取关键点组中指定点的属性值
-- **参数**:
-  - 关键点组索引: 从0开始
-  - 点索引: 从0开始
-  - 属性: X坐标/Y坐标/置信度/类别ID
-- **返回**: 数值
-
-### 性能与信息块
-
-#### 16. 推理性能
-- **描述**: 获取AI推理各阶段的耗时
-- **参数**:
-  - 阶段: 预处理/推理/后处理
-- **返回**: 耗时(毫秒)
-
-#### 17. 获取设备ID
-- **描述**: 获取SSCMA设备的唯一ID
-- **返回**: 字符串
-
-#### 18. 获取设备名称
-- **描述**: 获取SSCMA设备的名称
-- **返回**: 字符串
-
-#### 19. 获取模型信息
-- **描述**: 获取当前加载模型的信息
-- **返回**: Base64编码的模型信息字符串
-
-#### 20. 获取最后图像
-- **描述**: 获取最后推理的图像数据
-- **返回**: Base64编码的图像字符串
+- **语句块**: 初始化块和控制块有previousStatement/nextStatement，通过`next`字段连接
+- **值块**: AI功能块和信息获取块有output，连接到`inputs`中
+- **特殊规则**: 
+  - SSCMA变量类型为"SSCMA"，每个实例独立管理
+  - 初始化块生成库包含、变量定义和setup初始化
+  - 功能块直接调用SSCMA实例方法
 
 ## 使用示例
 
-### 示例1: 简单目标检测
-
-```
-初始化SSCMA
-  变量名: ai
-
-重复执行
-  如果 ai 执行推理成功?
-    如果 ai 检测到的目标数量 > 0
-      串口打印 "X坐标: " ai 第0个目标的X坐标
-      串口打印 "Y坐标: " ai 第0个目标的Y坐标
-```
-
-### 示例2: 风扇追踪(基于fan_tracking.ino)
-
-```
-初始化SSCMA
-  变量名: ai
-
-设置引脚模式 D0 为 输出
-
-重复执行
-  如果 ai 执行推理成功?
-    如果 ai 检测到的目标数量 > 0
-      设置 x 为 ai 第0个目标的X坐标
-      如果 x < 80
-        // 向左旋转舵机
-        数字输出 D0 高电平
-        延时微秒 2500
-        数字输出 D0 低电平
-      否则 如果 x > 140
-        // 向右旋转舵机
-        数字输出 D0 高电平
-        延时微秒 500
-        数字输出 D0 低电平
+### I2C接口初始化
+```json
+{
+  "type": "sscma_begin_i2c",
+  "id": "sscma_init",
+  "fields": {"VAR": "ai", "WIRE": "Wire"},
+  "inputs": {
+    "RST": {"block": {"type": "math_number", "fields": {"NUM": "2"}}},
+    "ADDRESS": {"block": {"type": "math_number", "fields": {"NUM": "0x62"}}}
+  }
+}
 ```
 
-### 示例3: 性能监控
-
+### AI推理执行
+```json
+{
+  "type": "variables_set",
+  "id": "set_result",
+  "fields": {"VAR": {"id": "result_var", "name": "result", "type": "Number"}},
+  "inputs": {
+    "VALUE": {
+      "block": {
+        "type": "sscma_invoke",
+        "fields": {"VAR": {"id": "ai_var", "name": "ai", "type": "SSCMA"}, "TIMES": "1", "FILTER": "true", "SHOW": "false"}
+      }
+    }
+  }
+}
 ```
-初始化SSCMA
-  变量名: ai
 
-重复执行
-  ai 执行AI推理
-  串口打印 "预处理: " ai 推理性能 预处理耗时(ms) "ms"
-  串口打印 "推理: " ai 推理性能 推理耗时(ms) "ms"
-  串口打印 "后处理: " ai 推理性能 后处理耗时(ms) "ms"
+### 目标检测结果获取
+```json
+{
+  "type": "controls_if",
+  "id": "check_boxes",
+  "inputs": {
+    "IF0": {
+      "block": {
+        "type": "logic_compare",
+        "fields": {"OP": "GT"},
+        "inputs": {
+          "A": {"block": {"type": "sscma_get_boxes_count", "fields": {"VAR": {"id": "ai_var", "name": "ai", "type": "SSCMA"}}}},
+          "B": {"block": {"type": "math_number", "fields": {"NUM": "0"}}}
+        }
+      }
+    },
+    "DO0": {
+      "block": {
+        "type": "serial_print",
+        "inputs": {
+          "CONTENT": {
+            "block": {
+              "type": "sscma_get_box_info",
+              "fields": {"VAR": {"id": "ai_var", "name": "ai", "type": "SSCMA"}, "PROPERTY": "x"},
+              "inputs": {"INDEX": {"block": {"type": "math_number", "fields": {"NUM": "0"}}}}
+            }
+          }
+        }
+      }
+    }
+  }
+}
 ```
 
-## 技术说明
+## 重要规则
 
-### 通信协议选择
-
-1. **UART(默认)**: 最简单,适合快速上手
-2. **I2C**: 节省引脚,适合引脚资源有限的场景
-3. **SPI**: 传输速度最快,适合需要高帧率的应用
-
-### 数据结构
-
-- **Boxes**: 目标检测边界框,包含位置(x,y)、尺寸(w,h)、置信度、类别
-- **Classes**: 分类结果,包含类别ID和置信度
-- **Points**: 检测点,包含3D坐标(x,y,z)、置信度、类别
-- **Keypoints**: 关键点组,包含边界框和多个关键点
-
-### 性能优化
-
-- 推理次数默认为1,可根据需要调整
-- 不需要图像时关闭图像获取功能以提高性能
-- 使用SPI通信可获得最佳传输性能
-
-## 注意事项
-
-1. **内存限制**: AVR平台(如Arduino UNO)内存不足,不支持此库
-2. **串口波特率**: UART模式默认921600,请确保板卡支持
-3. **I2C地址**: 默认0x62(98),如有冲突可修改
-4. **图像数据**: 获取图像需要较大内存(16KB+),请谨慎使用
-
-## 参考资源
-
-- [Seeed SSCMA官方文档](https://github.com/Seeed-Studio/Seeed_Arduino_SSCMA)
-- [SSCMA固件](https://github.com/Seeed-Studio/SSCMA-Micro)
-- [示例程序](./src/examples/)
-
-## 许可证
-
-MIT License
-
-## 版本历史
-
-- v1.0.0 (2025-10-27): 初始版本
-  - 支持UART/I2C/SPI三种通信方式
-  - 完整的目标检测、分类、关键点检测功能
-  - 性能监控和设备信息查询
+1. **必须遵守**: SSCMA模块需要在setup()中初始化，选择合适的通信接口（I2C/Serial/SPI）
+2. **连接限制**: 初始化块是语句块必须在setup区域，功能块是值块可用于表达式
+3. **变量管理**: 每个SSCMA实例使用独立的SSCMA类型变量，支持多模块同时使用
+4. **常见错误**: ❌ 未初始化直接调用，❌ 数组索引越界，❌ 变量类型不匹配，❌ 接口参数配置错误
