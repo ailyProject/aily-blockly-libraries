@@ -71,8 +71,8 @@
 
 **示例**：
 - block.json中：`"options": "${board.i2c}"`
-- board.json中：`"i2c": [["I2C":"Wire"], ["I2C1": "Wire1"]]`
-- .abi中使用：`"PORT": "I2C1"` (选择数组中的一个值)
+- board.json中：`"i2c": [["I2C", "Wire"], ["I2C1", "Wire1"]]`
+- .abi中使用：`"PORT": "I2C"` (选择数组中某组的key，即第一个元素)
 ```
 
 ### 5. 使用示例（1-2个典型示例）

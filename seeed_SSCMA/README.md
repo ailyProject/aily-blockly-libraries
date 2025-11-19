@@ -1,6 +1,6 @@
 # seeed_SSCMA
 
-Seeed Grove AI视觉识别模块操作库
+Seeed SenseCraft AI视觉识别模块操作库
 
 ## 库信息
 - **库名**: @aily-project/lib-seeed-sscma
