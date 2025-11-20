@@ -41,9 +41,8 @@ Arduino.forBlock['esp32_spi_begin'] = function(block, generator) {
   generator.addLibrary('SPI', '#include <SPI.h>');
   
   let code = varName + '->begin();\n';
-  generator.addSetupEnd(code, code);
 
-  return '';
+  return code;
 }
 
 Arduino.forBlock['esp32_spi_begin_custom'] = function(block, generator) {
@@ -58,9 +57,8 @@ Arduino.forBlock['esp32_spi_begin_custom'] = function(block, generator) {
   generator.addLibrary('SPI', '#include <SPI.h>');
 
   let code = varName + '->begin(' + sck + ', ' + miso + ', ' + mosi + ', ' + ss + ');\n';
-  generator.addSetupEnd(code, code);
   
-  return '';
+  return code;
 };
 
 Arduino.forBlock['esp32_spi_settings'] = function(block, generator) {
@@ -78,9 +76,7 @@ Arduino.forBlock['esp32_spi_settings'] = function(block, generator) {
   code += varName + '->setBitOrder(' + bitOrder + ');\n';
   code += varName + '->setDataMode(' + mode + ');\n';
   
-  generator.addSetupEnd(code, code);
-  
-  return '';
+  return code;
 };
 
 Arduino.forBlock['esp32_spi_begin_transaction'] = function(block, generator) {

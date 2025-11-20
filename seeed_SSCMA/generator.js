@@ -1,5 +1,11 @@
 'use strict';
 
+// 检测是否为ESP32核心
+function isESP32Core() {
+  const boardConfig = window['boardConfig'];
+  return boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1;
+}
+
 // 初始化块 - I2C接口
 Arduino.forBlock['sscma_begin_i2c'] = function(block, generator) {
   // 设置变量重命名监听
@@ -67,6 +73,26 @@ Arduino.forBlock['sscma_begin_serial'] = function(block, generator) {
   const baud = generator.valueToCode(block, 'BAUD', generator.ORDER_ATOMIC) || '921600';
   const rst = generator.valueToCode(block, 'RST', generator.ORDER_ATOMIC) || '-1';
 
+  const isESP32 = isESP32Core();
+  if (isESP32) {
+    // ESP32核心使用HardwareSerial对象
+    let atSerial = '';
+    if (serial === 'Serial') {
+      atSerial = 'atSerial(0)';
+    } else if (serial === 'Serial1') {
+      atSerial = 'atSerial(1)';
+    } else if (serial === 'Serial2') {
+      atSerial = 'atSerial(2)';
+    } else {
+      atSerial = 'atSerial(0)';
+    }
+    generator.addLibrary('HardwareSerial', '#include <HardwareSerial.h>');
+    generator.addVariable(serial, 'HardwareSerial ' + atSerial + ';');
+  } else {
+    // 非ESP32核心使用Serial对象
+    generator.addVariable(serial, '#define atSerial ' + serial + ';');
+  }
+
   // 添加库和变量
   generator.addLibrary('Seeed_Arduino_SSCMA', '#include <Seeed_Arduino_SSCMA.h>');
   registerVariableToBlockly(varName, 'SSCMA');
@@ -79,9 +105,9 @@ Arduino.forBlock['sscma_begin_serial'] = function(block, generator) {
   // 生成SSCMA初始化代码
   let code = '';
   if (rst == -1) {
-    code = varName + '.begin(&' + serial + ', -1, ' + baud + ');\n';
+    code = varName + '.begin(&atSerial, -1, ' + baud + ');\n';
   } else {
-    code = varName + '.begin(&' + serial + ', ' + rst + ', ' + baud + ');\n';
+    code = varName + '.begin(&atSerial, ' + rst + ', ' + baud + ');\n';
   }
 
   return code;
