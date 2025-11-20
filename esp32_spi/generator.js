@@ -34,6 +34,20 @@
 //   return '';
 // };
 
+function ensureLibrary(generator, libraryKey, libraryCode) {
+  if (!generator.libraries_) {
+    generator.libraries_ = {};
+  }
+  if (!generator.libraries_[libraryKey]) {
+    generator.addLibrary(libraryKey, libraryCode);
+  }
+}
+
+function ensureSPILibrary(generator) {
+  ensureLibrary(generator, 'SPI_include', '#include <SPI.h>');
+}
+
+
 Arduino.forBlock['esp32_spi_begin'] = function(block, generator) {
   // 设置变量重命名监听
   if (!block._spiVarMonitorAttached) {
@@ -56,7 +70,7 @@ Arduino.forBlock['esp32_spi_begin'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'SPI';
   const bus = block.getFieldValue('BUS') || 'HSPI';
 
-  generator.addLibrary('SPI', '#include <SPI.h>');
+  ensureSPILibrary(generator);
 
   // 注册变量到Blockly系统
   registerVariableToBlockly(varName, 'SPIClass');
@@ -98,7 +112,7 @@ Arduino.forBlock['esp32_spi_begin_custom'] = function(block, generator) {
   const mosi = generator.valueToCode(block, 'MOSI', generator.ORDER_ATOMIC) || '-1';
   const ss = generator.valueToCode(block, 'SS', generator.ORDER_ATOMIC) || '-1';
 
-  generator.addLibrary('SPI', '#include <SPI.h>');
+  ensureSPILibrary(generator);
 
   // 注册变量到Blockly系统
   registerVariableToBlockly(varName, 'SPIClass');
@@ -135,7 +149,7 @@ Arduino.forBlock['esp32_spi_begin_transaction'] = function(block, generator) {
   const varField = block.getField('VAR');
   const varName = varField ? varField.getText() : 'SPI';
 
-  generator.addLibrary('SPI', '#include <SPI.h>');
+  ensureSPILibrary(generator);
 
   const frequency = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC) || '1000000';
   const bitOrder = block.getFieldValue('BIT_ORDER') || 'MSBFIRST';
@@ -151,7 +165,7 @@ Arduino.forBlock['esp32_spi_end_transaction'] = function(block, generator) {
   const varField = block.getField('VAR');
   const varName = varField ? varField.getText() : 'SPI';
 
-  generator.addLibrary('SPI', '#include <SPI.h>');
+  ensureSPILibrary(generator);
 
   let code = varName + '.endTransaction();\n';
   
@@ -164,7 +178,7 @@ Arduino.forBlock['esp32_spi_transfer'] = function(block, generator) {
   
   const data = generator.valueToCode(block, 'DATA', generator.ORDER_ATOMIC) || '0';
 
-  generator.addLibrary('SPI', '#include <SPI.h>');
+  ensureSPILibrary(generator);
 
   let code = varName + '.transfer(' + data + ')';
   
@@ -177,7 +191,7 @@ Arduino.forBlock['esp32_spi_transfer16'] = function(block, generator) {
   
   const data = generator.valueToCode(block, 'DATA', generator.ORDER_ATOMIC) || '0';
 
-  generator.addLibrary('SPI', '#include <SPI.h>');
+  ensureSPILibrary(generator);
 
   let code = varName + '.transfer16(' + data + ')';
   
@@ -190,7 +204,7 @@ Arduino.forBlock['esp32_spi_write'] = function(block, generator) {
   
   const data = generator.valueToCode(block, 'DATA', generator.ORDER_ATOMIC) || '0';
 
-  generator.addLibrary('SPI', '#include <SPI.h>');
+  ensureSPILibrary(generator);
 
   let code = varName + '.write(' + data + ');\n';
   
@@ -204,7 +218,7 @@ Arduino.forBlock['esp32_spi_write_bytes'] = function(block, generator) {
   const data = generator.valueToCode(block, 'DATA', generator.ORDER_ATOMIC) || 'NULL';
   const length = generator.valueToCode(block, 'LENGTH', generator.ORDER_ATOMIC) || '0';
 
-  generator.addLibrary('SPI', '#include <SPI.h>');
+  ensureSPILibrary(generator);
 
   let code = varName + '.writeBytes(' + data + ', ' + length + ');\n';
   
@@ -217,7 +231,7 @@ Arduino.forBlock['esp32_spi_set_frequency'] = function(block, generator) {
   
   const frequency = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC) || '1000000';
 
-  generator.addLibrary('SPI', '#include <SPI.h>');
+  ensureSPILibrary(generator);
 
   let code = varName + '.setFrequency(' + frequency + ');\n';
   
@@ -230,7 +244,7 @@ Arduino.forBlock['esp32_spi_set_bit_order'] = function(block, generator) {
   
   const bitOrder = block.getFieldValue('BIT_ORDER') || 'MSBFIRST';
 
-  generator.addLibrary('SPI', '#include <SPI.h>');
+  ensureSPILibrary(generator);
 
   let code = varName + '.setBitOrder(' + bitOrder + ');\n';
   
@@ -243,7 +257,7 @@ Arduino.forBlock['esp32_spi_set_data_mode'] = function(block, generator) {
   
   const mode = block.getFieldValue('MODE') || '0';
 
-  generator.addLibrary('SPI', '#include <SPI.h>');
+  ensureSPILibrary(generator);
 
   let code = varName + '.setDataMode(' + mode + ');\n';
   
@@ -254,7 +268,7 @@ Arduino.forBlock['esp32_spi_get_ss_pin'] = function(block, generator) {
   const varField = block.getField('VAR');
   const varName = varField ? varField.getText() : 'SPI';
   
-  generator.addLibrary('SPI', '#include <SPI.h>');
+  ensureSPILibrary(generator);
   let code = varName + '.pinSS()';
   
   return [code, generator.ORDER_FUNCTION_CALL];
