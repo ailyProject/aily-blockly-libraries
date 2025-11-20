@@ -170,7 +170,7 @@ Arduino.forBlock["controls_for"] = function (block, generator) {
   }
 
   // 使用模板字符串改善代码可读性
-  code = `for (int ${variable0} = ${argument0}; ${variable0}${up ? " <= " : " >= "}${argument1}; ${variable0}`;
+  code = `for (int ${variable0} = ${argument0}; ${variable0}${up ? " < " : " > "}${argument1}; ${variable0}`;
 
   console.log("code: ", code);
   const step = Math.abs(Number(increment));
