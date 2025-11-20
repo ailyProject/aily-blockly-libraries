@@ -16,7 +16,7 @@
 | `controls_repeat_ext` | 语句块 | TIMES(input_value), DO(input_statement) | `"inputs":{"TIMES":{"block":{...}},"DO":{"block":{...}}}` | `for(int i=0;i<times;i++){...}` |
 | `controls_repeat` | 语句块 | TIMES(field_number), DO(input_statement) | `"fields":{"TIMES":"10"},"inputs":{"DO":{"block":{...}}}` | `for(int i=0;i<10;i++){...}` |
 | `controls_whileUntil` | 语句块 | MODE(field_dropdown), BOOL(input_value), DO(input_statement) | `"fields":{"MODE":"WHILE"},"inputs":{"BOOL":{"block":{...}},"DO":{"block":{...}}}` | `while(condition){...}` |
-| `controls_for` | 语句块 | VAR(field_variable), FROM(input_value), TO(input_value), BY(input_value), DO(input_statement) | `"fields":{"VAR":{"id":"var_id"}},"inputs":{"FROM":{"block":{...}},"TO":{"block":{...}},"BY":{"block":{...}},"DO":{"block":{...}}}` | `for(int var=from;var<=to;var+=by){...}` |
+| `controls_for` | 语句块 | VAR(field_variable), FROM(input_value), TO(input_value), BY(input_value), DO(input_statement) | `"fields":{"VAR":{"id":"var_id"}},"inputs":{"FROM":{"block":{...}},"TO":{"block":{...}},"BY":{"block":{...}},"DO":{"block":{...}}}` | `for(int var=from;var<to;var+=by){...}` |
 | `controls_flow_statements` | 语句块 | FLOW(field_dropdown) | `"fields":{"FLOW":"BREAK"}` | `break;` |
 | `controls_whileForever` | 语句块 | DO(input_statement) | `"inputs":{"DO":{"block":{...}}}` | `while(true){...}` |
 
