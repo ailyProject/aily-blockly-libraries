@@ -6,7 +6,7 @@
       {
         "type": "field_input",
         "name": "VAR",
-        "text": "spi"
+        "text": "SPI"
       },
       {
         "type": "field_dropdown",
@@ -24,14 +24,20 @@
   },
   {
     "type": "esp32_spi_begin",
-    "message0": "初始化SPI %1 默认引脚",
+    "message0": "初始化SPI %1 使用 %2 默认引脚",
     "args0": [
       {
-        "type": "field_variable",
+        "type": "field_input",
         "name": "VAR",
-        "variable": "spi",
-        "variableTypes": ["SPIClass"],
-        "defaultType": "SPIClass"
+        "text": "SPI"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BUS",
+        "options": [
+          ["硬件SPI", "HSPI"],
+          ["虚拟SPI", "VSPI"]
+        ]
       }
     ],
     "previousStatement": null,
@@ -41,14 +47,20 @@
   },
   {
     "type": "esp32_spi_begin_custom",
-    "message0": "初始化SPI %1 自定义引脚 SCK:%2 MISO:%3 MOSI:%4 SS:%5",
+    "message0": "初始化SPI %1 使用 %2  自定义引脚 SCK:%3 MISO:%4 MOSI:%5 SS:%6",
     "args0": [
       {
-        "type": "field_variable",
+        "type": "field_input",
         "name": "VAR",
-        "variable": "spi",
-        "variableTypes": ["SPIClass"],
-        "defaultType": "SPIClass"
+        "text": "SPI"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BUS",
+        "options": [
+          ["硬件SPI", "HSPI"],
+          ["虚拟SPI", "VSPI"]
+        ]
       },
       {
         "type": "input_value",
@@ -83,7 +95,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spi",
+        "variable": "SPI",
         "variableTypes": ["SPIClass"],
         "defaultType": "SPIClass"
       },
@@ -118,14 +130,37 @@
   },
   {
     "type": "esp32_spi_begin_transaction",
-    "message0": "开始SPI %1 事务",
+    "message0": "开始SPI %1 事务 频率:%2Hz 位序:%3 模式:%4",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spi",
+        "variable": "SPI",
         "variableTypes": ["SPIClass"],
         "defaultType": "SPIClass"
+      },
+      {
+        "type": "input_value",
+        "name": "FREQUENCY",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BIT_ORDER",
+        "options": [
+          ["MSB优先", "MSBFIRST"],
+          ["LSB优先", "LSBFIRST"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["MODE0", "0"],
+          ["MODE1", "1"],
+          ["MODE2", "2"],
+          ["MODE3", "3"]
+        ]
       }
     ],
     "previousStatement": null,
@@ -140,7 +175,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spi",
+        "variable": "SPI",
         "variableTypes": ["SPIClass"],
         "defaultType": "SPIClass"
       }
@@ -157,7 +192,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spi",
+        "variable": "SPI",
         "variableTypes": ["SPIClass"],
         "defaultType": "SPIClass"
       },
@@ -178,7 +213,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spi",
+        "variable": "SPI",
         "variableTypes": ["SPIClass"],
         "defaultType": "SPIClass"
       },
@@ -199,7 +234,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spi",
+        "variable": "SPI",
         "variableTypes": ["SPIClass"],
         "defaultType": "SPIClass"
       },
@@ -221,7 +256,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spi",
+        "variable": "SPI",
         "variableTypes": ["SPIClass"],
         "defaultType": "SPIClass"
       },
@@ -248,7 +283,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spi",
+        "variable": "SPI",
         "variableTypes": ["SPIClass"],
         "defaultType": "SPIClass"
       },
@@ -270,7 +305,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spi",
+        "variable": "SPI",
         "variableTypes": ["SPIClass"],
         "defaultType": "SPIClass"
       },
@@ -295,7 +330,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spi",
+        "variable": "SPI",
         "variableTypes": ["SPIClass"],
         "defaultType": "SPIClass"
       },
@@ -322,7 +357,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spi",
+        "variable": "SPI",
         "variableTypes": ["SPIClass"],
         "defaultType": "SPIClass"
       }
