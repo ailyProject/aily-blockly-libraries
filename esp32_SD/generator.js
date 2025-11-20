@@ -1,5 +1,46 @@
 'use strict';
 
+// 注册File变量类型的重命名监听扩展
+if (typeof Blockly !== 'undefined' && Blockly.Extensions) {
+  if (Blockly.Extensions.isRegistered('esp32_sd_file_extension')) {
+    Blockly.Extensions.unregister('esp32_sd_file_extension');
+  }
+
+  Blockly.Extensions.register('esp32_sd_file_extension', function() {
+    // 添加变量重命名监听机制
+    var varField = this.getField('VAR');
+    if (varField) {
+      varField.setValidator(function(newValue) {
+        var oldValue = this.getValue();
+        if (oldValue !== newValue) {
+          // 调用核心库函数进行重命名
+          renameVariableInBlockly(this.sourceBlock_, oldValue, newValue, 'File');
+        }
+        return newValue;
+      });
+    }
+  });
+}
+
+// 板卡适配辅助函数 - 获取板卡类型
+function getBoardType() {
+  var boardConfig = window['boardConfig'] || {};
+  var core = (boardConfig.core || '').toLowerCase();
+  var type = (boardConfig.type || '').toLowerCase();
+  var name = (boardConfig.name || '').toLowerCase();
+  
+  var isESP32 = core.indexOf('esp32') > -1 || 
+                type.indexOf('esp32') > -1 ||
+                name.indexOf('esp32') > -1;
+  
+  return {
+    isESP32: isESP32,
+    core: core,
+    type: type,
+    name: name
+  };
+}
+
 Arduino.forBlock['esp32_sd_begin'] = function(block, generator) {
   generator.addLibrary('FS', '#include <FS.h>');
   generator.addLibrary('SD', '#include <SD.h>');

@@ -11,6 +11,7 @@
 
 | 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
 |--------|------|----------|----------|----------|
+| `io_tone_init` | 语句块 | TONEPIN(field_dropdown) | `"fields":{"TONEPIN":"8"}` | `pinMode(8, OUTPUT);` |
 | `io_tone` | 语句块 | TONEPIN(field_dropdown), FREQUENCY(input_value) | `"fields":{"TONEPIN":"8"},"inputs":{"FREQUENCY":{"block":{...}}}` | `tone(8, frequency);` |
 | `io_tone_duration` | 语句块 | TONEPIN(field_dropdown), FREQUENCY(input_value), DURATION(input_value) | `"fields":{"TONEPIN":"8"},"inputs":{"FREQUENCY":{"block":{...}},"DURATION":{"block":{...}}}` | `tone(8, frequency, duration);` |
 | `io_system_sound` | 语句块 | TONEPIN(field_dropdown), SOUND_TYPE(field_dropdown) | `"fields":{"TONEPIN":"8","SOUND_TYPE":"startup"}` | `playSystemSound(8, "startup");` |
