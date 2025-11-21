@@ -17,7 +17,8 @@
       }
     ],
     "previousStatement": null,
-    "nextStatement": null
+    "nextStatement": null,
+    "icon": "fa-light fa-arrow-right-arrow-left"
   },
   {
     "inputsInline": true,
@@ -31,7 +32,8 @@
         "options": "${board.serialPort}"
       }
     ],
-    "output": "Number"
+    "output": "Number",
+    "icon": "fa-light fa-arrow-right-arrow-left"
   },
   {
     "inputsInline": true,
@@ -48,14 +50,51 @@
         "type": "field_dropdown",
         "name": "TYPE",
         "options": [
-          ["read", "read"],
-          ["peek", "peek"],
-          ["parseInt", "parseInt"],
-          ["parseFloat", "parseFloat"]
+          [
+            "read",
+            "read"
+          ],
+          [
+            "peek",
+            "peek"
+          ],
+          [
+            "parseInt",
+            "parseInt"
+          ],
+          [
+            "parseFloat",
+            "parseFloat"
+          ],
+          [
+            "readString",
+            "readString"
+          ]
         ]
       }
     ],
-    "output": "Any"
+    "output": "Any",
+    "icon": "fa-light fa-arrow-right-arrow-left"
+  },
+  {
+    "inputsInline": true,
+    "message0": "读取串口%1数据直到%2",
+    "type": "serial_read_until",
+    "colour": "#48c2c4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      },
+      {
+        "type": "input_value",
+        "name": "TERMINATOR",
+        "check": ["Character"]
+      }
+    ],
+    "output": "String",
+    "icon": "fa-light fa-arrow-right-arrow-left"
   },
   {
     "inputsInline": true,
@@ -74,7 +113,8 @@
       }
     ],
     "previousStatement": null,
-    "nextStatement": null
+    "nextStatement": null,
+    "icon": "fa-light fa-arrow-right-arrow-left"
   },
   {
     "inputsInline": true,
@@ -93,7 +133,8 @@
       }
     ],
     "previousStatement": null,
-    "nextStatement": null
+    "nextStatement": null,
+    "icon": "fa-light fa-arrow-right-arrow-left"
   },
   {
     "inputsInline": true,
@@ -112,7 +153,8 @@
       }
     ],
     "previousStatement": null,
-    "nextStatement": null
+    "nextStatement": null,
+    "icon": "fa-light fa-arrow-right-arrow-left"
   },
   {
     "inputsInline": true,
@@ -126,6 +168,47 @@
         "options": "${board.serialPort}"
       }
     ],
-    "output": "String"
+    "output": "String",
+    "icon": "fa-light fa-arrow-right-arrow-left"
+  },
+  {
+    "inputsInline": true,
+    "message0": "初始化串口%1 使用%2 \n设置波特率为%3 RX引脚%4 TX引脚%5",
+    "type": "serial_begin_esp32_custom",
+    "colour": "#48c2c4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "SerialCustom"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "UART",
+        "options": [
+          ["UART0","UART0"],
+          ["UART1","UART1"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SPEED",
+        "options": "${board.serialSpeed}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RX",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TX",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "icon": "fa-light fa-arrow-right-arrow-left",
+    "extensions": ["serial_begin_esp32_custom_extension"]
   }
 ]
