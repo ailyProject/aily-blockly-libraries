@@ -1,164 +1,303 @@
 [
-    {
-        "type": "mpr121_init",
-        "message0": "初始化MPR121电容触摸传感器 I2C地址%1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "I2C_ADDR",
-                "options": [
-                    ["0x5A", "0x5A"],
-                    ["0x5B", "0x5B"],
-                    ["0x5C", "0x5C"],
-                    ["0x5D", "0x5D"]
-                ]
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#E91E63",
-        "inputsInline": true
-    },
-    {
-        "type": "mpr121_init_advanced",
-        "message0": "初始化MPR121传感器 I2C地址%1 触摸阈值%2 释放阈值%3",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "I2C_ADDR",
-                "options": [
-                    ["0x5A", "0x5A"],
-                    ["0x5B", "0x5B"],
-                    ["0x5C", "0x5C"],
-                    ["0x5D", "0x5D"]
-                ]
-            },
-            {
-                "type": "field_number",
-                "name": "TOUCH_THRESHOLD",
-                "value": 12,
-                "min": 1,
-                "max": 255
-            },
-            {
-                "type": "field_number",
-                "name": "RELEASE_THRESHOLD",
-                "value": 6,
-                "min": 1,
-                "max": 255
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#E91E63",
-        "inputsInline": true
-    },
-    {
-        "type": "mpr121_is_touched",
-        "message0": "MPR121通道%1被触摸",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "CHANNEL",
-                "options": [
-                    ["0", "0"],
-                    ["1", "1"],
-                    ["2", "2"],
-                    ["3", "3"],
-                    ["4", "4"],
-                    ["5", "5"],
-                    ["6", "6"],
-                    ["7", "7"],
-                    ["8", "8"],
-                    ["9", "9"],
-                    ["10", "10"],
-                    ["11", "11"]
-                ]
-            }
-        ],
-        "output": "Boolean",
-        "colour": "#E91E63",
-        "inputsInline": true
-    },
-    {
-        "type": "mpr121_get_touched",
-        "message0": "MPR121获取所有触摸状态",
-        "output": "Number",
-        "colour": "#E91E63",
-        "inputsInline": true
-    },
-    {
-        "type": "mpr121_get_filtered_data",
-        "message0": "MPR121通道%1滤波数据",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "CHANNEL",
-                "options": [
-                    ["0", "0"],
-                    ["1", "1"],
-                    ["2", "2"],
-                    ["3", "3"],
-                    ["4", "4"],
-                    ["5", "5"],
-                    ["6", "6"],
-                    ["7", "7"],
-                    ["8", "8"],
-                    ["9", "9"],
-                    ["10", "10"],
-                    ["11", "11"]
-                ]
-            }
-        ],
-        "output": "Number",
-        "colour": "#E91E63",
-        "inputsInline": true
-    },
-    {
-        "type": "mpr121_get_baseline_data",
-        "message0": "MPR121通道%1基线数据",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "CHANNEL",
-                "options": [
-                    ["0", "0"],
-                    ["1", "1"],
-                    ["2", "2"],
-                    ["3", "3"],
-                    ["4", "4"],
-                    ["5", "5"],
-                    ["6", "6"],
-                    ["7", "7"],
-                    ["8", "8"],
-                    ["9", "9"],
-                    ["10", "10"],
-                    ["11", "11"]
-                ]
-            }
-        ],
-        "output": "Number",
-        "colour": "#E91E63",
-        "inputsInline": true
-    },
-    {
-        "type": "mpr121_set_thresholds",
-        "message0": "MPR121设置阈值 触摸%1 释放%2",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "TOUCH_THRESHOLD",
-                "check": "Number"
-            },
-            {
-                "type": "input_value",
-                "name": "RELEASE_THRESHOLD", 
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#E91E63",
-        "inputsInline": true
-    }
+  {
+    "type": "mpr121_init",
+    "message0": "初始化MPR121电容触摸传感器 I2C地址%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "I2C_ADDR",
+        "options": [
+          [
+            "0x5A",
+            "0x5A"
+          ],
+          [
+            "0x5B",
+            "0x5B"
+          ],
+          [
+            "0x5C",
+            "0x5C"
+          ],
+          [
+            "0x5D",
+            "0x5D"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "inputsInline": true,
+    "icon": "fa-light fa-hand-pointer"
+  },
+  {
+    "type": "mpr121_init_advanced",
+    "message0": "初始化MPR121传感器 I2C地址%1 触摸阈值%2 释放阈值%3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "I2C_ADDR",
+        "options": [
+          [
+            "0x5A",
+            "0x5A"
+          ],
+          [
+            "0x5B",
+            "0x5B"
+          ],
+          [
+            "0x5C",
+            "0x5C"
+          ],
+          [
+            "0x5D",
+            "0x5D"
+          ]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "TOUCH_THRESHOLD",
+        "value": 12,
+        "min": 1,
+        "max": 255
+      },
+      {
+        "type": "field_number",
+        "name": "RELEASE_THRESHOLD",
+        "value": 6,
+        "min": 1,
+        "max": 255
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "inputsInline": true,
+    "icon": "fa-light fa-hand-pointer"
+  },
+  {
+    "type": "mpr121_is_touched",
+    "message0": "MPR121通道%1被触摸",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ],
+          [
+            "4",
+            "4"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "6",
+            "6"
+          ],
+          [
+            "7",
+            "7"
+          ],
+          [
+            "8",
+            "8"
+          ],
+          [
+            "9",
+            "9"
+          ],
+          [
+            "10",
+            "10"
+          ],
+          [
+            "11",
+            "11"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#E91E63",
+    "inputsInline": true,
+    "icon": "fa-light fa-hand-pointer"
+  },
+  {
+    "type": "mpr121_get_touched",
+    "message0": "MPR121获取所有触摸状态",
+    "output": "Number",
+    "colour": "#E91E63",
+    "inputsInline": true,
+    "icon": "fa-light fa-hand-pointer"
+  },
+  {
+    "type": "mpr121_get_filtered_data",
+    "message0": "MPR121通道%1滤波数据",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ],
+          [
+            "4",
+            "4"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "6",
+            "6"
+          ],
+          [
+            "7",
+            "7"
+          ],
+          [
+            "8",
+            "8"
+          ],
+          [
+            "9",
+            "9"
+          ],
+          [
+            "10",
+            "10"
+          ],
+          [
+            "11",
+            "11"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E91E63",
+    "inputsInline": true,
+    "icon": "fa-light fa-hand-pointer"
+  },
+  {
+    "type": "mpr121_get_baseline_data",
+    "message0": "MPR121通道%1基线数据",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ],
+          [
+            "4",
+            "4"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "6",
+            "6"
+          ],
+          [
+            "7",
+            "7"
+          ],
+          [
+            "8",
+            "8"
+          ],
+          [
+            "9",
+            "9"
+          ],
+          [
+            "10",
+            "10"
+          ],
+          [
+            "11",
+            "11"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E91E63",
+    "inputsInline": true,
+    "icon": "fa-light fa-hand-pointer"
+  },
+  {
+    "type": "mpr121_set_thresholds",
+    "message0": "MPR121设置阈值 触摸%1 释放%2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TOUCH_THRESHOLD",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "RELEASE_THRESHOLD",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "inputsInline": true,
+    "icon": "fa-light fa-hand-pointer"
+  }
 ]
