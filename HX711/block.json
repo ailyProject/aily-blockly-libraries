@@ -1,239 +1,281 @@
 [
-    {
-        "type": "hx711_create",
-        "message0": "创建HX711称重传感器 %1",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "scale",
-                "variableTypes": ["HX711"],
-                "defaultType": "HX711"
-            }
+  {
+    "type": "hx711_create",
+    "message0": "创建HX711称重传感器 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "scale",
+        "variableTypes": [
+          "HX711"
         ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3"
-    },
-    {
-        "type": "hx711_begin",
-        "message0": "初始化 %1 数据引脚 %2 时钟引脚 %3",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "scale",
-                "variableTypes": ["HX711"],
-                "defaultType": "HX711"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "DATAPIN",
-                "options": "${board.digitalPins}"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "CLOCKPIN",
-                "options": "${board.digitalPins}"
-            }
+        "defaultType": "HX711"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "icon": "fa-light fa-weight-scale"
+  },
+  {
+    "type": "hx711_begin",
+    "message0": "初始化 %1 数据引脚 %2 时钟引脚 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "scale",
+        "variableTypes": [
+          "HX711"
         ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3"
-    },
-    {
-        "type": "hx711_tare",
-        "message0": "%1 去皮 (次数 %2)",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "scale",
-                "variableTypes": ["HX711"],
-                "defaultType": "HX711"
-            },
-            {
-                "type": "field_number",
-                "name": "TIMES",
-                "value": 10,
-                "min": 1
-            }
+        "defaultType": "HX711"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATAPIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CLOCKPIN",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "icon": "fa-light fa-weight-scale"
+  },
+  {
+    "type": "hx711_tare",
+    "message0": "%1 去皮 (次数 %2)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "scale",
+        "variableTypes": [
+          "HX711"
         ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3"
-    },
-    {
-        "type": "hx711_set_scale",
-        "message0": "%1 设置比例因子 %2",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "scale",
-                "variableTypes": ["HX711"],
-                "defaultType": "HX711"
-            },
-            {
-                "type": "input_value",
-                "name": "SCALE",
-                "check": "Number"
-            }
+        "defaultType": "HX711"
+      },
+      {
+        "type": "field_number",
+        "name": "TIMES",
+        "value": 10,
+        "min": 1
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "icon": "fa-light fa-weight-scale"
+  },
+  {
+    "type": "hx711_set_scale",
+    "message0": "%1 设置比例因子 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "scale",
+        "variableTypes": [
+          "HX711"
         ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3"
-    },
-    {
-        "type": "hx711_get_units",
-        "message0": "%1 获取重量 (次数 %2)",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "scale",
-                "variableTypes": ["HX711"],
-                "defaultType": "HX711"
-            },
-            {
-                "type": "field_number",
-                "name": "TIMES",
-                "value": 1,
-                "min": 1
-            }
+        "defaultType": "HX711"
+      },
+      {
+        "type": "input_value",
+        "name": "SCALE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "icon": "fa-light fa-weight-scale"
+  },
+  {
+    "type": "hx711_get_units",
+    "message0": "%1 获取重量 (次数 %2)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "scale",
+        "variableTypes": [
+          "HX711"
         ],
-        "inputsInline": true,
-        "output": "Number",
-        "colour": "#2196F3"
-    },
-    {
-        "type": "hx711_read",
-        "message0": "%1 读取原始数据",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "scale",
-                "variableTypes": ["HX711"],
-                "defaultType": "HX711"
-            }
+        "defaultType": "HX711"
+      },
+      {
+        "type": "field_number",
+        "name": "TIMES",
+        "value": 1,
+        "min": 1
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2196F3",
+    "icon": "fa-light fa-weight-scale"
+  },
+  {
+    "type": "hx711_read",
+    "message0": "%1 读取原始数据",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "scale",
+        "variableTypes": [
+          "HX711"
         ],
-        "inputsInline": true,
-        "output": "Number",
-        "colour": "#2196F3"
-    },
-    {
-        "type": "hx711_read_average",
-        "message0": "%1 读取平均值 (次数 %2)",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "scale",
-                "variableTypes": ["HX711"],
-                "defaultType": "HX711"
-            },
-            {
-                "type": "field_number",
-                "name": "TIMES",
-                "value": 10,
-                "min": 1
-            }
+        "defaultType": "HX711"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2196F3",
+    "icon": "fa-light fa-weight-scale"
+  },
+  {
+    "type": "hx711_read_average",
+    "message0": "%1 读取平均值 (次数 %2)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "scale",
+        "variableTypes": [
+          "HX711"
         ],
-        "inputsInline": true,
-        "output": "Number",
-        "colour": "#2196F3"
-    },
-    {
-        "type": "hx711_power_down",
-        "message0": "%1 关闭电源",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "scale",
-                "variableTypes": ["HX711"],
-                "defaultType": "HX711"
-            }
+        "defaultType": "HX711"
+      },
+      {
+        "type": "field_number",
+        "name": "TIMES",
+        "value": 10,
+        "min": 1
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2196F3",
+    "icon": "fa-light fa-weight-scale"
+  },
+  {
+    "type": "hx711_power_down",
+    "message0": "%1 关闭电源",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "scale",
+        "variableTypes": [
+          "HX711"
         ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3"
-    },
-    {
-        "type": "hx711_power_up",
-        "message0": "%1 开启电源",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "scale",
-                "variableTypes": ["HX711"],
-                "defaultType": "HX711"
-            }
+        "defaultType": "HX711"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "icon": "fa-light fa-weight-scale"
+  },
+  {
+    "type": "hx711_power_up",
+    "message0": "%1 开启电源",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "scale",
+        "variableTypes": [
+          "HX711"
         ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3"
-    },
-    {
-        "type": "hx711_set_gain",
-        "message0": "%1 设置增益 %2",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "scale",
-                "variableTypes": ["HX711"],
-                "defaultType": "HX711"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "GAIN",
-                "options": [
-                    ["128 (通道A)", "HX711_CHANNEL_A_GAIN_128"],
-                    ["64 (通道A)", "HX711_CHANNEL_A_GAIN_64"],
-                    ["32 (通道B)", "HX711_CHANNEL_B_GAIN_32"]
-                ]
-            }
+        "defaultType": "HX711"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "icon": "fa-light fa-weight-scale"
+  },
+  {
+    "type": "hx711_set_gain",
+    "message0": "%1 设置增益 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "scale",
+        "variableTypes": [
+          "HX711"
         ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3"
-    },
-    {
-        "type": "hx711_calibrate_scale",
-        "message0": "%1 校准比例 已知重量 %2 次数 %3",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "VAR",
-                "variable": "scale",
-                "variableTypes": ["HX711"],
-                "defaultType": "HX711"
-            },
-            {
-                "type": "input_value",
-                "name": "WEIGHT",
-                "check": "Number"
-            },
-            {
-                "type": "field_number",
-                "name": "TIMES",
-                "value": 10,
-                "min": 1
-            }
+        "defaultType": "HX711"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "GAIN",
+        "options": [
+          [
+            "128 (通道A)",
+            "HX711_CHANNEL_A_GAIN_128"
+          ],
+          [
+            "64 (通道A)",
+            "HX711_CHANNEL_A_GAIN_64"
+          ],
+          [
+            "32 (通道B)",
+            "HX711_CHANNEL_B_GAIN_32"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "icon": "fa-light fa-weight-scale"
+  },
+  {
+    "type": "hx711_calibrate_scale",
+    "message0": "%1 校准比例 已知重量 %2 次数 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "scale",
+        "variableTypes": [
+          "HX711"
         ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3"
-    }
+        "defaultType": "HX711"
+      },
+      {
+        "type": "input_value",
+        "name": "WEIGHT",
+        "check": "Number"
+      },
+      {
+        "type": "field_number",
+        "name": "TIMES",
+        "value": 10,
+        "min": 1
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "icon": "fa-light fa-weight-scale"
+  }
 ]

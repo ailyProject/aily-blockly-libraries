@@ -1,231 +1,303 @@
 [
-    {
-        "type": "icm20948_init",
-        "message0": "初始化ICM20948传感器 I2C地址%1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "ADDRESS",
-                "options": [
-                    ["0x69 (默认)", "1"],
-                    ["0x68 (ADR接地)", "0"]
-                ]
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF6B35",
-        "tooltip": "初始化ICM20948九轴传感器"
-    },
-    {
-        "type": "icm20948_read_accel",
-        "message0": "读取加速度计%1轴数值",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "AXIS",
-                "options": [
-                    ["X", "X"],
-                    ["Y", "Y"],
-                    ["Z", "Z"]
-                ]
-            }
-        ],
-        "inputsInline": true,
-        "output": "Number",
-        "colour": "#FF6B35",
-        "tooltip": "读取加速度计指定轴的数值 (mg)"
-    },
-    {
-        "type": "icm20948_read_gyro",
-        "message0": "读取陀螺仪%1轴数值",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "AXIS",
-                "options": [
-                    ["X", "X"],
-                    ["Y", "Y"],
-                    ["Z", "Z"]
-                ]
-            }
-        ],
-        "inputsInline": true,
-        "output": "Number",
-        "colour": "#FF6B35",
-        "tooltip": "读取陀螺仪指定轴的数值 (度/秒)"
-    },
-    {
-        "type": "icm20948_read_mag",
-        "message0": "读取磁力计%1轴数值",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "AXIS",
-                "options": [
-                    ["X", "X"],
-                    ["Y", "Y"],
-                    ["Z", "Z"]
-                ]
-            }
-        ],
-        "inputsInline": true,
-        "output": "Number",
-        "colour": "#FF6B35",
-        "tooltip": "读取磁力计指定轴的数值 (μT)"
-    },
-    {
-        "type": "icm20948_read_temp",
-        "message0": "读取温度",
-        "inputsInline": true,
-        "output": "Number",
-        "colour": "#FF6B35",
-        "tooltip": "读取传感器温度 (°C)"
-    },
-    {
-        "type": "icm20948_data_ready",
-        "message0": "ICM20948数据就绪",
-        "inputsInline": true,
-        "output": "Boolean",
-        "colour": "#FF6B35",
-        "tooltip": "检查传感器是否有新数据可读"
-    },
-    {
-        "type": "icm20948_ahrs_init",
-        "message0": "初始化AHRS姿态解算 采样频率%1Hz",
-        "args0": [
-            {
-                "type": "field_number",
-                "name": "FREQ",
-                "value": 100,
-                "min": 10,
-                "max": 1000
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF6B35",
-        "tooltip": "初始化AHRS姿态解算算法"
-    },
-    {
-        "type": "icm20948_ahrs_update",
-        "message0": "更新AHRS姿态解算",
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF6B35",
-        "tooltip": "使用最新的传感器数据更新AHRS解算"
-    },
-    {
-        "type": "icm20948_get_roll",
-        "message0": "获取横滚角Roll",
-        "inputsInline": true,
-        "output": "Number",
-        "colour": "#FF6B35",
-        "tooltip": "获取AHRS解算的横滚角 (度)"
-    },
-    {
-        "type": "icm20948_get_pitch",
-        "message0": "获取俯仰角Pitch",
-        "inputsInline": true,
-        "output": "Number",
-        "colour": "#FF6B35",
-        "tooltip": "获取AHRS解算的俯仰角 (度)"
-    },
-    {
-        "type": "icm20948_get_yaw",
-        "message0": "获取偏航角Yaw",
-        "inputsInline": true,
-        "output": "Number",
-        "colour": "#FF6B35",
-        "tooltip": "获取AHRS解算的偏航角 (度)"
-    },
-    {
-        "type": "icm20948_calibrate_gyro",
-        "message0": "校准陀螺仪 采样次数%1",
-        "args0": [
-            {
-                "type": "field_number",
-                "name": "SAMPLES",
-                "value": 500,
-                "min": 100,
-                "max": 2000
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF6B35",
-        "tooltip": "校准陀螺仪零点偏移，传感器需保持静止"
-    },
-    {
-        "type": "icm20948_set_gyro_offset",
-        "message0": "设置陀螺仪偏移 X%1 Y%2 Z%3",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "OFFSET_X",
-                "check": "Number"
-            },
-            {
-                "type": "input_value",
-                "name": "OFFSET_Y",
-                "check": "Number"
-            },
-            {
-                "type": "input_value",
-                "name": "OFFSET_Z",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF6B35",
-        "tooltip": "手动设置陀螺仪三轴偏移值"
-    },
-    {
-        "type": "icm20948_set_accel_range",
-        "message0": "设置加速度计量程%1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "RANGE",
-                "options": [
-                    ["±2g", "gpm2"],
-                    ["±4g", "gpm4"],
-                    ["±8g", "gpm8"],
-                    ["±16g", "gpm16"]
-                ]
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF6B35",
-        "tooltip": "设置加速度计测量量程"
-    },
-    {
-        "type": "icm20948_set_gyro_range",
-        "message0": "设置陀螺仪量程%1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "RANGE",
-                "options": [
-                    ["±250°/s", "dps250"],
-                    ["±500°/s", "dps500"],
-                    ["±1000°/s", "dps1000"],
-                    ["±2000°/s", "dps2000"]
-                ]
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF6B35",
-        "tooltip": "设置陀螺仪测量量程"
-    }
+  {
+    "type": "icm20948_init",
+    "message0": "初始化ICM20948传感器 I2C地址%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ADDRESS",
+        "options": [
+          [
+            "0x69 (默认)",
+            "1"
+          ],
+          [
+            "0x68 (ADR接地)",
+            "0"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "初始化ICM20948九轴传感器",
+    "icon": "fa-light fa-plane-departure"
+  },
+  {
+    "type": "icm20948_read_accel",
+    "message0": "读取加速度计%1轴数值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "读取加速度计指定轴的数值 (mg)",
+    "icon": "fa-light fa-plane-departure"
+  },
+  {
+    "type": "icm20948_read_gyro",
+    "message0": "读取陀螺仪%1轴数值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "读取陀螺仪指定轴的数值 (度/秒)",
+    "icon": "fa-light fa-plane-departure"
+  },
+  {
+    "type": "icm20948_read_mag",
+    "message0": "读取磁力计%1轴数值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "读取磁力计指定轴的数值 (μT)",
+    "icon": "fa-light fa-plane-departure"
+  },
+  {
+    "type": "icm20948_read_temp",
+    "message0": "读取温度",
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "读取传感器温度 (°C)",
+    "icon": "fa-light fa-plane-departure"
+  },
+  {
+    "type": "icm20948_data_ready",
+    "message0": "ICM20948数据就绪",
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#FF6B35",
+    "tooltip": "检查传感器是否有新数据可读",
+    "icon": "fa-light fa-plane-departure"
+  },
+  {
+    "type": "icm20948_ahrs_init",
+    "message0": "初始化AHRS姿态解算 采样频率%1Hz",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "FREQ",
+        "value": 100,
+        "min": 10,
+        "max": 1000
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "初始化AHRS姿态解算算法",
+    "icon": "fa-light fa-plane-departure"
+  },
+  {
+    "type": "icm20948_ahrs_update",
+    "message0": "更新AHRS姿态解算",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "使用最新的传感器数据更新AHRS解算",
+    "icon": "fa-light fa-plane-departure"
+  },
+  {
+    "type": "icm20948_get_roll",
+    "message0": "获取横滚角Roll",
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "获取AHRS解算的横滚角 (度)",
+    "icon": "fa-light fa-plane-departure"
+  },
+  {
+    "type": "icm20948_get_pitch",
+    "message0": "获取俯仰角Pitch",
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "获取AHRS解算的俯仰角 (度)",
+    "icon": "fa-light fa-plane-departure"
+  },
+  {
+    "type": "icm20948_get_yaw",
+    "message0": "获取偏航角Yaw",
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "获取AHRS解算的偏航角 (度)",
+    "icon": "fa-light fa-plane-departure"
+  },
+  {
+    "type": "icm20948_calibrate_gyro",
+    "message0": "校准陀螺仪 采样次数%1",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "SAMPLES",
+        "value": 500,
+        "min": 100,
+        "max": 2000
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "校准陀螺仪零点偏移，传感器需保持静止",
+    "icon": "fa-light fa-plane-departure"
+  },
+  {
+    "type": "icm20948_set_gyro_offset",
+    "message0": "设置陀螺仪偏移 X%1 Y%2 Z%3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "OFFSET_X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "OFFSET_Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "OFFSET_Z",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "手动设置陀螺仪三轴偏移值",
+    "icon": "fa-light fa-plane-departure"
+  },
+  {
+    "type": "icm20948_set_accel_range",
+    "message0": "设置加速度计量程%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "RANGE",
+        "options": [
+          [
+            "±2g",
+            "gpm2"
+          ],
+          [
+            "±4g",
+            "gpm4"
+          ],
+          [
+            "±8g",
+            "gpm8"
+          ],
+          [
+            "±16g",
+            "gpm16"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "设置加速度计测量量程",
+    "icon": "fa-light fa-plane-departure"
+  },
+  {
+    "type": "icm20948_set_gyro_range",
+    "message0": "设置陀螺仪量程%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "RANGE",
+        "options": [
+          [
+            "±250°/s",
+            "dps250"
+          ],
+          [
+            "±500°/s",
+            "dps500"
+          ],
+          [
+            "±1000°/s",
+            "dps1000"
+          ],
+          [
+            "±2000°/s",
+            "dps2000"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "设置陀螺仪测量量程",
+    "icon": "fa-light fa-plane-departure"
+  }
 ]

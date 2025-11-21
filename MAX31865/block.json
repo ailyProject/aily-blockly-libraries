@@ -1,110 +1,148 @@
 [
-    {
-        "type": "max31865_init",
-        "message0": "初始化温度传感器 CS引脚 %1 连接方式 %2 传感器类型 %3",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "CS_PIN",
-                "options": "${board.digitalPins}"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "WIRE_MODE",
-                "options": [
-                    ["2线制", "MAX31865_2WIRE"],
-                    ["3线制", "MAX31865_3WIRE"],
-                    ["4线制", "MAX31865_4WIRE"]
-                ]
-            },
-            {
-                "type": "field_dropdown",
-                "name": "SENSOR_TYPE",
-                "options": [
-                    ["PT100", "MAX31865_PT100"],
-                    ["PT1000", "MAX31865_PT1000"]
-                ]
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3",
-        "inputsInline": true
-    },
-    {
-        "type": "max31865_read",
-        "message0": "读取温度传感器 获取温度 %1 获取电阻 %2 获取状态 %3",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "TEMP_VAR",
-                "variable": "temperature"
-            },
-            {
-                "type": "field_variable",
-                "name": "RESISTANCE_VAR",
-                "variable": "resistance"
-            },
-            {
-                "type": "field_variable",
-                "name": "STATUS_VAR",
-                "variable": "status"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3",
-        "inputsInline": true
-    },
-    {
-        "type": "max31865_set_low_threshold",
-        "message0": "设置温度传感器低故障阈值 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "THRESHOLD",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3",
-        "inputsInline": true
-    },
-    {
-        "type": "max31865_set_high_threshold",
-        "message0": "设置温度传感器高故障阈值 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "THRESHOLD",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3",
-        "inputsInline": true
-    },
-    {
-        "type": "max31865_check_fault",
-        "message0": "检查温度传感器故障 %1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "FAULT_TYPE",
-                "options": [
-                    ["高温故障", "MAX31865_FAULT_TEMP_HIGH"],
-                    ["低温故障", "MAX31865_FAULT_TEMP_LOW"],
-                    ["基准电阻高故障", "MAX31865_FAULT_REFIN_HIGH"],
-                    ["基准电阻低/开路故障", "MAX31865_FAULT_REFIN_LOW_OPEN"],
-                    ["温度传感器低/开路故障", "MAX31865_FAULT_RTDIN_LOW_OPEN"],
-                    ["电压超出范围故障", "MAX31865_FAULT_VOLTAGE_OOR"]
-                ]
-            }
-        ],
-        "output": "Boolean",
-        "colour": "#2196F3",
-        "inputsInline": true
-    }
+  {
+    "type": "max31865_init",
+    "message0": "初始化温度传感器 CS引脚 %1 连接方式 %2 传感器类型 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CS_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE_MODE",
+        "options": [
+          [
+            "2线制",
+            "MAX31865_2WIRE"
+          ],
+          [
+            "3线制",
+            "MAX31865_3WIRE"
+          ],
+          [
+            "4线制",
+            "MAX31865_4WIRE"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SENSOR_TYPE",
+        "options": [
+          [
+            "PT100",
+            "MAX31865_PT100"
+          ],
+          [
+            "PT1000",
+            "MAX31865_PT1000"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "inputsInline": true,
+    "icon": "fa-light fa-temperature-three-quarters"
+  },
+  {
+    "type": "max31865_read",
+    "message0": "读取温度传感器 获取温度 %1 获取电阻 %2 获取状态 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "TEMP_VAR",
+        "variable": "temperature"
+      },
+      {
+        "type": "field_variable",
+        "name": "RESISTANCE_VAR",
+        "variable": "resistance"
+      },
+      {
+        "type": "field_variable",
+        "name": "STATUS_VAR",
+        "variable": "status"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "inputsInline": true,
+    "icon": "fa-light fa-temperature-three-quarters"
+  },
+  {
+    "type": "max31865_set_low_threshold",
+    "message0": "设置温度传感器低故障阈值 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "THRESHOLD",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "inputsInline": true,
+    "icon": "fa-light fa-temperature-three-quarters"
+  },
+  {
+    "type": "max31865_set_high_threshold",
+    "message0": "设置温度传感器高故障阈值 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "THRESHOLD",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "inputsInline": true,
+    "icon": "fa-light fa-temperature-three-quarters"
+  },
+  {
+    "type": "max31865_check_fault",
+    "message0": "检查温度传感器故障 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FAULT_TYPE",
+        "options": [
+          [
+            "高温故障",
+            "MAX31865_FAULT_TEMP_HIGH"
+          ],
+          [
+            "低温故障",
+            "MAX31865_FAULT_TEMP_LOW"
+          ],
+          [
+            "基准电阻高故障",
+            "MAX31865_FAULT_REFIN_HIGH"
+          ],
+          [
+            "基准电阻低/开路故障",
+            "MAX31865_FAULT_REFIN_LOW_OPEN"
+          ],
+          [
+            "温度传感器低/开路故障",
+            "MAX31865_FAULT_RTDIN_LOW_OPEN"
+          ],
+          [
+            "电压超出范围故障",
+            "MAX31865_FAULT_VOLTAGE_OOR"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#2196F3",
+    "inputsInline": true,
+    "icon": "fa-light fa-temperature-three-quarters"
+  }
 ]

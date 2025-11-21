@@ -1,103 +1,131 @@
-[    {
-        "type": "ble_mouse_init",
-        "message0": "初始化并启动BLE鼠标 %1设备名称 %2制造商 %3电池电量 %4",
-        "args0": [
-            {
-                "type": "input_dummy"
-            },
-            {
-                "type": "input_value",
-                "name": "DEVICE_NAME",
-                "check": "String"
-            },
-            {
-                "type": "input_value", 
-                "name": "MANUFACTURER",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "BATTERY",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": false,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3"
-    },
-    {
-        "type": "ble_mouse_is_connected",
-        "message0": "BLE鼠标已连接",
-        "output": "Boolean",
-        "colour": "#2196F3"
-    },    {
-        "type": "ble_mouse_move",
-        "message0": "鼠标移动 X %1 Y %2",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "X",
-                "check": "Number"
-            },
-            {
-                "type": "input_value", 
-                "name": "Y",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50"
-    },
-    {
-        "type": "ble_mouse_click",
-        "message0": "鼠标%1 %2",        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "BUTTON",
-                "options": [
-                    ["左键", "MOUSE_LOGICAL_LEFT_BUTTON"],
-                    ["右键", "MOUSE_LOGICAL_RIGHT_BUTTON"], 
-                    ["中键", "MOUSE_LOGICAL_MIDDLE_BUTTON"]
-                ]
-            },
-            {
-                "type": "field_dropdown",
-                "name": "ACTION",
-                "options": [
-                    ["按下", "press"],
-                    ["释放", "release"],
-                    ["点击", "click"]
-                ]
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50"
-    },    {
-        "type": "ble_mouse_scroll",
-        "message0": "鼠标滚轮 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "SCROLL",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50"
-    },
-    {
-        "type": "ble_mouse_send_report",
-        "message0": "发送鼠标报告",
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50"
-    }
+[
+  {
+    "type": "ble_mouse_init",
+    "message0": "初始化并启动BLE鼠标 %1设备名称 %2制造商 %3电池电量 %4",
+    "args0": [
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_value",
+        "name": "DEVICE_NAME",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "MANUFACTURER",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "BATTERY",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "icon": "fa-light fa-computer-mouse-scrollwheel"
+  },
+  {
+    "type": "ble_mouse_is_connected",
+    "message0": "BLE鼠标已连接",
+    "output": "Boolean",
+    "colour": "#2196F3",
+    "icon": "fa-light fa-computer-mouse-scrollwheel"
+  },
+  {
+    "type": "ble_mouse_move",
+    "message0": "鼠标移动 X %1 Y %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-computer-mouse-scrollwheel"
+  },
+  {
+    "type": "ble_mouse_click",
+    "message0": "鼠标%1 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "左键",
+            "MOUSE_LOGICAL_LEFT_BUTTON"
+          ],
+          [
+            "右键",
+            "MOUSE_LOGICAL_RIGHT_BUTTON"
+          ],
+          [
+            "中键",
+            "MOUSE_LOGICAL_MIDDLE_BUTTON"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "按下",
+            "press"
+          ],
+          [
+            "释放",
+            "release"
+          ],
+          [
+            "点击",
+            "click"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-computer-mouse-scrollwheel"
+  },
+  {
+    "type": "ble_mouse_scroll",
+    "message0": "鼠标滚轮 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SCROLL",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-computer-mouse-scrollwheel"
+  },
+  {
+    "type": "ble_mouse_send_report",
+    "message0": "发送鼠标报告",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-computer-mouse-scrollwheel"
+  }
 ]
