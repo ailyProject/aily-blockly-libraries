@@ -1,218 +1,228 @@
 [
-    {
-        "type": "esp32_can_init",
-        "message0": "初始化CAN总线 接收引脚 %1 发送引脚 %2 模式 %3 波特率 %4",
-        "args0": [
-            {
-                "type": "field_number",
-                "name": "RX_PIN",
-                "value": 21
-            },
-            {
-                "type": "field_number",
-                "name": "TX_PIN",
-                "value": 22
-            },
-            {
-                "type": "field_dropdown",
-                "name": "MODE",
-                "options": [
-                    [
-                        "普通模式",
-                        "TWAI_MODE_NORMAL"
-                    ],
-                    [
-                        "只监听模式",
-                        "TWAI_MODE_LISTEN_ONLY"
-                    ]
-                ]
-            },
-            {
-                "type": "field_dropdown",
-                "name": "SPEED",
-                "options": [
-                    [
-                        "500Kbits",
-                        "TWAI_TIMING_CONFIG_500KBITS()"
-                    ],
-                    [
-                        "100Kbits",
-                        "TWAI_TIMING_CONFIG_100KBITS()"
-                    ],
-                    [
-                        "125Kbits",
-                        "TWAI_TIMING_CONFIG_125KBITS()"
-                    ],
-                    [
-                        "250Kbits",
-                        "TWAI_TIMING_CONFIG_250KBITS()"
-                    ],
-                    [
-                        "1Mbits",
-                        "TWAI_TIMING_CONFIG_1MBITS()"
-                    ]
-                ]
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3",
-        "tooltip": "初始化ESP32 CAN总线(TWAI)",
-        "helpUrl": ""
-    },
-    {
-        "type": "esp32_can_configure_alerts",
-        "message0": "配置CAN警报 %1 接收数据 %2 发送空闲 %3 发送成功 %4 发送失败 %5 错误被动 %6 总线错误 %7 接收队列满 %8",
-        "args0": [
-            {
-                "type": "input_dummy"
-            },
-            {
-                "type": "field_checkbox",
-                "name": "RX_DATA",
-                "checked": false
-            },
-            {
-                "type": "field_checkbox",
-                "name": "TX_IDLE",
-                "checked": false
-            },
-            {
-                "type": "field_checkbox",
-                "name": "TX_SUCCESS",
-                "checked": false
-            },
-            {
-                "type": "field_checkbox",
-                "name": "TX_FAILED",
-                "checked": false
-            },
-            {
-                "type": "field_checkbox",
-                "name": "ERR_PASS",
-                "checked": false
-            },
-            {
-                "type": "field_checkbox",
-                "name": "BUS_ERROR",
-                "checked": false
-            },
-            {
-                "type": "field_checkbox",
-                "name": "RX_QUEUE_FULL",
-                "checked": false
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3",
-        "tooltip": "配置需要监听的CAN总线警报",
-        "helpUrl": ""
-    },
-    {
-        "type": "esp32_can_send_message",
-        "message0": "发送CAN消息 标识符(ID) %1 数据长度 %2 数据 %3",
-        "args0": [
-            {
-                "type": "field_number",
-                "name": "ID",
-                "value": 0,
-                "min": 0,
-                "max": 2047
-            },
-            {
-                "type": "field_number",
-                "name": "LENGTH",
-                "value": 4,
-                "min": 0,
-                "max": 8
-            },
-            {
-                "type": "field_input",
-                "name": "DATA",
-                "text": "0,0,0,0"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3",
-        "tooltip": "发送CAN消息，数据格式为逗号分隔的字节值",
-        "helpUrl": ""
-    },
-    {
-        "type": "esp32_can_receive_message",
-        "message0": "接收CAN消息",
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3",
-        "tooltip": "接收并处理CAN消息",
-        "helpUrl": ""
-    },
-    {
-        "type": "esp32_can_check_alerts",
-        "message0": "检查CAN警报",
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3",
-        "tooltip": "检查CAN总线警报",
-        "helpUrl": ""
-    },
-    {
-        "type": "esp32_can_message_available",
-        "message0": "CAN消息可用",
-        "output": "Boolean",
-        "colour": "#2196F3",
-        "tooltip": "检查是否有CAN消息可用",
-        "helpUrl": ""
-    },
-    {
-        "type": "esp32_can_get_message_id",
-        "message0": "获取CAN消息ID",
-        "output": "Number",
-        "colour": "#2196F3",
-        "tooltip": "获取接收到的CAN消息的ID",
-        "helpUrl": ""
-    },
-    {
-        "type": "esp32_can_get_message_length",
-        "message0": "获取CAN消息长度",
-        "output": "Number",
-        "colour": "#2196F3",
-        "tooltip": "获取接收到的CAN消息的数据长度",
-        "helpUrl": ""
-    },
-    {
-        "type": "esp32_can_get_message_data",
-        "message0": "获取CAN消息数据字节 %1",
-        "args0": [
-            {
-                "type": "field_number",
-                "name": "INDEX",
-                "value": 0,
-                "min": 0,
-                "max": 7
-            }
-        ],
-        "output": "Number",
-        "colour": "#2196F3",
-        "tooltip": "获取接收到的CAN消息的指定位置的数据字节",
-        "helpUrl": ""
-    },
-    {
-        "type": "esp32_can_transmit_interval",
-        "message0": "设置CAN消息发送间隔 %1 毫秒",
-        "args0": [
-            {
-                "type": "field_number",
-                "name": "INTERVAL",
-                "value": 1000,
-                "min": 1
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3",
-        "tooltip": "设置CAN消息定时发送的间隔",
-        "helpUrl": ""
-    }
+  {
+    "type": "esp32_can_init",
+    "message0": "初始化CAN总线 接收引脚 %1 发送引脚 %2 模式 %3 波特率 %4",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "RX_PIN",
+        "value": 21
+      },
+      {
+        "type": "field_number",
+        "name": "TX_PIN",
+        "value": 22
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "普通模式",
+            "TWAI_MODE_NORMAL"
+          ],
+          [
+            "只监听模式",
+            "TWAI_MODE_LISTEN_ONLY"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SPEED",
+        "options": [
+          [
+            "500Kbits",
+            "TWAI_TIMING_CONFIG_500KBITS()"
+          ],
+          [
+            "100Kbits",
+            "TWAI_TIMING_CONFIG_100KBITS()"
+          ],
+          [
+            "125Kbits",
+            "TWAI_TIMING_CONFIG_125KBITS()"
+          ],
+          [
+            "250Kbits",
+            "TWAI_TIMING_CONFIG_250KBITS()"
+          ],
+          [
+            "1Mbits",
+            "TWAI_TIMING_CONFIG_1MBITS()"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "初始化ESP32 CAN总线(TWAI)",
+    "helpUrl": "",
+    "icon": "fa-light fa-car-circle-bolt"
+  },
+  {
+    "type": "esp32_can_configure_alerts",
+    "message0": "配置CAN警报 %1 接收数据 %2 发送空闲 %3 发送成功 %4 发送失败 %5 错误被动 %6 总线错误 %7 接收队列满 %8",
+    "args0": [
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "RX_DATA",
+        "checked": false
+      },
+      {
+        "type": "field_checkbox",
+        "name": "TX_IDLE",
+        "checked": false
+      },
+      {
+        "type": "field_checkbox",
+        "name": "TX_SUCCESS",
+        "checked": false
+      },
+      {
+        "type": "field_checkbox",
+        "name": "TX_FAILED",
+        "checked": false
+      },
+      {
+        "type": "field_checkbox",
+        "name": "ERR_PASS",
+        "checked": false
+      },
+      {
+        "type": "field_checkbox",
+        "name": "BUS_ERROR",
+        "checked": false
+      },
+      {
+        "type": "field_checkbox",
+        "name": "RX_QUEUE_FULL",
+        "checked": false
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "配置需要监听的CAN总线警报",
+    "helpUrl": "",
+    "icon": "fa-light fa-car-circle-bolt"
+  },
+  {
+    "type": "esp32_can_send_message",
+    "message0": "发送CAN消息 标识符(ID) %1 数据长度 %2 数据 %3",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "ID",
+        "value": 0,
+        "min": 0,
+        "max": 2047
+      },
+      {
+        "type": "field_number",
+        "name": "LENGTH",
+        "value": 4,
+        "min": 0,
+        "max": 8
+      },
+      {
+        "type": "field_input",
+        "name": "DATA",
+        "text": "0,0,0,0"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "发送CAN消息，数据格式为逗号分隔的字节值",
+    "helpUrl": "",
+    "icon": "fa-light fa-car-circle-bolt"
+  },
+  {
+    "type": "esp32_can_receive_message",
+    "message0": "接收CAN消息",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "接收并处理CAN消息",
+    "helpUrl": "",
+    "icon": "fa-light fa-car-circle-bolt"
+  },
+  {
+    "type": "esp32_can_check_alerts",
+    "message0": "检查CAN警报",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "检查CAN总线警报",
+    "helpUrl": "",
+    "icon": "fa-light fa-car-circle-bolt"
+  },
+  {
+    "type": "esp32_can_message_available",
+    "message0": "CAN消息可用",
+    "output": "Boolean",
+    "colour": "#2196F3",
+    "tooltip": "检查是否有CAN消息可用",
+    "helpUrl": "",
+    "icon": "fa-light fa-car-circle-bolt"
+  },
+  {
+    "type": "esp32_can_get_message_id",
+    "message0": "获取CAN消息ID",
+    "output": "Number",
+    "colour": "#2196F3",
+    "tooltip": "获取接收到的CAN消息的ID",
+    "helpUrl": "",
+    "icon": "fa-light fa-car-circle-bolt"
+  },
+  {
+    "type": "esp32_can_get_message_length",
+    "message0": "获取CAN消息长度",
+    "output": "Number",
+    "colour": "#2196F3",
+    "tooltip": "获取接收到的CAN消息的数据长度",
+    "helpUrl": "",
+    "icon": "fa-light fa-car-circle-bolt"
+  },
+  {
+    "type": "esp32_can_get_message_data",
+    "message0": "获取CAN消息数据字节 %1",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "INDEX",
+        "value": 0,
+        "min": 0,
+        "max": 7
+      }
+    ],
+    "output": "Number",
+    "colour": "#2196F3",
+    "tooltip": "获取接收到的CAN消息的指定位置的数据字节",
+    "helpUrl": "",
+    "icon": "fa-light fa-car-circle-bolt"
+  },
+  {
+    "type": "esp32_can_transmit_interval",
+    "message0": "设置CAN消息发送间隔 %1 毫秒",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "INTERVAL",
+        "value": 1000,
+        "min": 1
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置CAN消息定时发送的间隔",
+    "helpUrl": "",
+    "icon": "fa-light fa-car-circle-bolt"
+  }
 ]

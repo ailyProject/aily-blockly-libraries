@@ -1,220 +1,261 @@
 [
-    {
-        "type": "esp32_time_init",
-        "message0": "初始化ESP32时间 时区偏移%1秒",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "OFFSET",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF6B35",
-        "tooltip": "初始化ESP32时间对象，设置时区偏移（秒）"
-    },
-    {
-        "type": "esp32_time_set_datetime",
-        "message0": "设置时间 年%1月%2日%3时%4分%5秒%6",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "YEAR",
-                "check": "Number"
-            },
-            {
-                "type": "input_value",
-                "name": "MONTH",
-                "check": "Number"
-            },
-            {
-                "type": "input_value",
-                "name": "DAY",
-                "check": "Number"
-            },
-            {
-                "type": "input_value",
-                "name": "HOUR",
-                "check": "Number"
-            },
-            {
-                "type": "input_value",
-                "name": "MINUTE",
-                "check": "Number"
-            },
-            {
-                "type": "input_value",
-                "name": "SECOND",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF6B35",
-        "tooltip": "设置ESP32的内部时间"
-    },
-    {
-        "type": "esp32_time_set_epoch",
-        "message0": "设置时间戳%1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "EPOCH",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF6B35",
-        "tooltip": "使用Unix时间戳设置时间"
-    },
-    {
-        "type": "esp32_time_get_time",
-        "message0": "获取时间",
-        "output": "String",
-        "colour": "#FF6B35",
-        "tooltip": "获取当前时间字符串 (HH:MM:SS)"
-    },
-    {
-        "type": "esp32_time_get_date",
-        "message0": "获取日期%1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "FORMAT",
-                "options": [
-                    ["短格式", "false"],
-                    ["长格式", "true"]
-                ]
-            }
-        ],
-        "output": "String",
-        "colour": "#FF6B35",
-        "tooltip": "获取当前日期字符串"
-    },
-    {
-        "type": "esp32_time_get_datetime",
-        "message0": "获取日期时间%1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "FORMAT",
-                "options": [
-                    ["短格式", "false"],
-                    ["长格式", "true"]
-                ]
-            }
-        ],
-        "output": "String",
-        "colour": "#FF6B35",
-        "tooltip": "获取当前日期和时间字符串"
-    },
-    {
-        "type": "esp32_time_get_format",
-        "message0": "获取格式化时间%1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "FORMAT",
-                "check": "String"
-            }
-        ],
-        "output": "String",
-        "colour": "#FF6B35",
-        "tooltip": "使用自定义格式获取时间字符串"
-    },
-    {
-        "type": "esp32_time_get_epoch",
-        "message0": "获取时间戳",
-        "output": "Number",
-        "colour": "#FF6B35",
-        "tooltip": "获取当前Unix时间戳"
-    },
-    {
-        "type": "esp32_time_get_second",
-        "message0": "获取秒",
-        "output": "Number",
-        "colour": "#FF6B35",
-        "tooltip": "获取当前秒数 (0-59)"
-    },
-    {
-        "type": "esp32_time_get_minute",
-        "message0": "获取分钟",
-        "output": "Number",
-        "colour": "#FF6B35",
-        "tooltip": "获取当前分钟数 (0-59)"
-    },
-    {
-        "type": "esp32_time_get_hour",
-        "message0": "获取小时%1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "FORMAT",
-                "options": [
-                    ["12小时制", "false"],
-                    ["24小时制", "true"]
-                ]
-            }
-        ],
-        "output": "Number",
-        "colour": "#FF6B35",
-        "tooltip": "获取当前小时数"
-    },
-    {
-        "type": "esp32_time_get_ampm",
-        "message0": "获取上午/下午%1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "CASE",
-                "options": [
-                    ["大写", "false"],
-                    ["小写", "true"]
-                ]
-            }
-        ],
-        "output": "String",
-        "colour": "#FF6B35",
-        "tooltip": "获取AM/PM标识"
-    },
-    {
-        "type": "esp32_time_get_day",
-        "message0": "获取日",
-        "output": "Number",
-        "colour": "#FF6B35",
-        "tooltip": "获取当前日期 (1-31)"
-    },
-    {
-        "type": "esp32_time_get_month",
-        "message0": "获取月",
-        "output": "Number",
-        "colour": "#FF6B35",
-        "tooltip": "获取当前月份 (0-11)"
-    },
-    {
-        "type": "esp32_time_get_year",
-        "message0": "获取年",
-        "output": "Number",
-        "colour": "#FF6B35",
-        "tooltip": "获取当前年份"
-    },
-    {
-        "type": "esp32_time_get_dayofweek",
-        "message0": "获取星期",
-        "output": "Number",
-        "colour": "#FF6B35",
-        "tooltip": "获取星期几 (0=周日, 1=周一...6=周六)"
-    },
-    {
-        "type": "esp32_time_get_dayofyear",
-        "message0": "获取年中第几天",
-        "output": "Number",
-        "colour": "#FF6B35",
-        "tooltip": "获取一年中的第几天 (0-365)"
-    }
+  {
+    "type": "esp32_time_init",
+    "message0": "初始化ESP32时间 时区偏移%1秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "OFFSET",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "初始化ESP32时间对象，设置时区偏移（秒）",
+    "icon": "fa-light fa-calendar-days"
+  },
+  {
+    "type": "esp32_time_set_datetime",
+    "message0": "设置时间 年%1月%2日%3时%4分%5秒%6",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "YEAR",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MONTH",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DAY",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "HOUR",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MINUTE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SECOND",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "设置ESP32的内部时间",
+    "icon": "fa-light fa-calendar-days"
+  },
+  {
+    "type": "esp32_time_set_epoch",
+    "message0": "设置时间戳%1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "EPOCH",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "使用Unix时间戳设置时间",
+    "icon": "fa-light fa-calendar-days"
+  },
+  {
+    "type": "esp32_time_get_time",
+    "message0": "获取时间",
+    "output": "String",
+    "colour": "#FF6B35",
+    "tooltip": "获取当前时间字符串 (HH:MM:SS)",
+    "icon": "fa-light fa-calendar-days"
+  },
+  {
+    "type": "esp32_time_get_date",
+    "message0": "获取日期%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FORMAT",
+        "options": [
+          [
+            "短格式",
+            "false"
+          ],
+          [
+            "长格式",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#FF6B35",
+    "tooltip": "获取当前日期字符串",
+    "icon": "fa-light fa-calendar-days"
+  },
+  {
+    "type": "esp32_time_get_datetime",
+    "message0": "获取日期时间%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FORMAT",
+        "options": [
+          [
+            "短格式",
+            "false"
+          ],
+          [
+            "长格式",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#FF6B35",
+    "tooltip": "获取当前日期和时间字符串",
+    "icon": "fa-light fa-calendar-days"
+  },
+  {
+    "type": "esp32_time_get_format",
+    "message0": "获取格式化时间%1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "FORMAT",
+        "check": "String"
+      }
+    ],
+    "output": "String",
+    "colour": "#FF6B35",
+    "tooltip": "使用自定义格式获取时间字符串",
+    "icon": "fa-light fa-calendar-days"
+  },
+  {
+    "type": "esp32_time_get_epoch",
+    "message0": "获取时间戳",
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "获取当前Unix时间戳",
+    "icon": "fa-light fa-calendar-days"
+  },
+  {
+    "type": "esp32_time_get_second",
+    "message0": "获取秒",
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "获取当前秒数 (0-59)",
+    "icon": "fa-light fa-calendar-days"
+  },
+  {
+    "type": "esp32_time_get_minute",
+    "message0": "获取分钟",
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "获取当前分钟数 (0-59)",
+    "icon": "fa-light fa-calendar-days"
+  },
+  {
+    "type": "esp32_time_get_hour",
+    "message0": "获取小时%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FORMAT",
+        "options": [
+          [
+            "12小时制",
+            "false"
+          ],
+          [
+            "24小时制",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "获取当前小时数",
+    "icon": "fa-light fa-calendar-days"
+  },
+  {
+    "type": "esp32_time_get_ampm",
+    "message0": "获取上午/下午%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CASE",
+        "options": [
+          [
+            "大写",
+            "false"
+          ],
+          [
+            "小写",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#FF6B35",
+    "tooltip": "获取AM/PM标识",
+    "icon": "fa-light fa-calendar-days"
+  },
+  {
+    "type": "esp32_time_get_day",
+    "message0": "获取日",
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "获取当前日期 (1-31)",
+    "icon": "fa-light fa-calendar-days"
+  },
+  {
+    "type": "esp32_time_get_month",
+    "message0": "获取月",
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "获取当前月份 (0-11)",
+    "icon": "fa-light fa-calendar-days"
+  },
+  {
+    "type": "esp32_time_get_year",
+    "message0": "获取年",
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "获取当前年份",
+    "icon": "fa-light fa-calendar-days"
+  },
+  {
+    "type": "esp32_time_get_dayofweek",
+    "message0": "获取星期",
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "获取星期几 (0=周日, 1=周一...6=周六)",
+    "icon": "fa-light fa-calendar-days"
+  },
+  {
+    "type": "esp32_time_get_dayofyear",
+    "message0": "获取年中第几天",
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "获取一年中的第几天 (0-365)",
+    "icon": "fa-light fa-calendar-days"
+  }
 ]

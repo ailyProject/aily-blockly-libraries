@@ -1,253 +1,482 @@
 [
-    {
-        "type": "esp32_ble_gamepad_init",
-        "message0": "初始化ESP32蓝牙游戏手柄 %1设备名称 %2",
-        "args0": [
-            {
-                "type": "input_dummy"
-            },
-            {
-                "type": "input_value",
-                "name": "DEVICE_NAME",
-                "check": "String"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_ble_gamepad_connected",
-        "message0": "蓝牙游戏手柄已连接",
-        "output": "Boolean",
-        "colour": "#4CAF50"
-    },
-    {
-        "type": "esp32_ble_gamepad_press_button",
-        "message0": "按下按键 %1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "BUTTON",
-                "options": [
-                    ["按键1", "BUTTON_1"],
-                    ["按键2", "BUTTON_2"],
-                    ["按键3", "BUTTON_3"],
-                    ["按键4", "BUTTON_4"],
-                    ["按键5", "BUTTON_5"],
-                    ["按键6", "BUTTON_6"],
-                    ["按键7", "BUTTON_7"],
-                    ["按键8", "BUTTON_8"],
-                    ["按键9", "BUTTON_9"],
-                    ["按键10", "BUTTON_10"],
-                    ["按键11", "BUTTON_11"],
-                    ["按键12", "BUTTON_12"],
-                    ["按键13", "BUTTON_13"],
-                    ["按键14", "BUTTON_14"],
-                    ["按键15", "BUTTON_15"],
-                    ["按键16", "BUTTON_16"]
-                ]
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_ble_gamepad_release_button",
-        "message0": "释放按键 %1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "BUTTON",
-                "options": [
-                    ["按键1", "BUTTON_1"],
-                    ["按键2", "BUTTON_2"],
-                    ["按键3", "BUTTON_3"],
-                    ["按键4", "BUTTON_4"],
-                    ["按键5", "BUTTON_5"],
-                    ["按键6", "BUTTON_6"],
-                    ["按键7", "BUTTON_7"],
-                    ["按键8", "BUTTON_8"],
-                    ["按键9", "BUTTON_9"],
-                    ["按键10", "BUTTON_10"],
-                    ["按键11", "BUTTON_11"],
-                    ["按键12", "BUTTON_12"],
-                    ["按键13", "BUTTON_13"],
-                    ["按键14", "BUTTON_14"],
-                    ["按键15", "BUTTON_15"],
-                    ["按键16", "BUTTON_16"]
-                ]
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_ble_gamepad_button_with_pin",
-        "message0": "当引脚 %1按键 %2被按下时 %3按下游戏手柄按键 %4",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "PIN",
-                "options": "${board.digitalPins}"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "PIN_MODE",
-                "options": [
-                    ["上拉输入", "INPUT_PULLUP"],
-                    ["普通输入", "INPUT"]
-                ]
-            },
-            {
-                "type": "input_dummy"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "BUTTON",
-                "options": [
-                    ["按键1", "BUTTON_1"],
-                    ["按键2", "BUTTON_2"],
-                    ["按键3", "BUTTON_3"],
-                    ["按键4", "BUTTON_4"],
-                    ["按键5", "BUTTON_5"],
-                    ["按键6", "BUTTON_6"],
-                    ["按键7", "BUTTON_7"],
-                    ["按键8", "BUTTON_8"]
-                ]
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50",
-        "inputsInline": false
-    },
-    {
-        "type": "esp32_ble_gamepad_set_axes",
-        "message0": "设置摇杆轴 %1X轴 %2Y轴 %3",
-        "args0": [
-            {
-                "type": "input_dummy"
-            },
-            {
-                "type": "input_value",
-                "name": "X_AXIS",
-                "check": "Number"
-            },
-            {
-                "type": "input_value",
-                "name": "Y_AXIS",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50",
-        "inputsInline": false
-    },
-    {
-        "type": "esp32_ble_gamepad_set_hat",
-        "message0": "设置方向键 %1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "HAT_DIRECTION",
-                "options": [
-                    ["居中", "HAT_CENTERED"],
-                    ["上", "HAT_UP"],
-                    ["右上", "HAT_UP_RIGHT"],
-                    ["右", "HAT_RIGHT"],
-                    ["右下", "HAT_DOWN_RIGHT"],
-                    ["下", "HAT_DOWN"],
-                    ["左下", "HAT_DOWN_LEFT"],
-                    ["左", "HAT_LEFT"],
-                    ["左上", "HAT_UP_LEFT"]
-                ]
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_ble_gamepad_special_button",
-        "message0": "按下特殊按键 %1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "SPECIAL_BUTTON",
-                "options": [
-                    ["开始键", "Start"],
-                    ["选择键", "Select"],
-                    ["菜单键", "Menu"],
-                    ["主页键", "Home"],
-                    ["返回键", "Back"],
-                    ["音量+", "VolumeInc"],
-                    ["音量-", "VolumeDec"],
-                    ["静音", "VolumeMute"]
-                ]
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_ble_gamepad_release_special_button",
-        "message0": "释放特殊按键 %1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "SPECIAL_BUTTON",
-                "options": [
-                    ["开始键", "Start"],
-                    ["选择键", "Select"],
-                    ["菜单键", "Menu"],
-                    ["主页键", "Home"],
-                    ["返回键", "Back"],
-                    ["音量+", "VolumeInc"],
-                    ["音量-", "VolumeDec"],
-                    ["静音", "VolumeMute"]
-                ]
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_ble_gamepad_analog_read",
-        "message0": "将引脚 %1模拟输入映射到摇杆 %2轴",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "ANALOG_PIN",
-                "options": "${board.analogPins}"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "AXIS",
-                "options": [
-                    ["X轴", "X"],
-                    ["Y轴", "Y"],
-                    ["Z轴", "Z"],
-                    ["RX轴", "RX"],
-                    ["RY轴", "RY"],
-                    ["RZ轴", "RZ"]
-                ]
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50",
-        "inputsInline": true
-    }
+  {
+    "type": "esp32_ble_gamepad_init",
+    "message0": "初始化ESP32蓝牙游戏手柄 %1设备名称 %2",
+    "args0": [
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_value",
+        "name": "DEVICE_NAME",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "inputsInline": true,
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "esp32_ble_gamepad_connected",
+    "message0": "蓝牙游戏手柄已连接",
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "esp32_ble_gamepad_press_button",
+    "message0": "按下按键 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "按键1",
+            "BUTTON_1"
+          ],
+          [
+            "按键2",
+            "BUTTON_2"
+          ],
+          [
+            "按键3",
+            "BUTTON_3"
+          ],
+          [
+            "按键4",
+            "BUTTON_4"
+          ],
+          [
+            "按键5",
+            "BUTTON_5"
+          ],
+          [
+            "按键6",
+            "BUTTON_6"
+          ],
+          [
+            "按键7",
+            "BUTTON_7"
+          ],
+          [
+            "按键8",
+            "BUTTON_8"
+          ],
+          [
+            "按键9",
+            "BUTTON_9"
+          ],
+          [
+            "按键10",
+            "BUTTON_10"
+          ],
+          [
+            "按键11",
+            "BUTTON_11"
+          ],
+          [
+            "按键12",
+            "BUTTON_12"
+          ],
+          [
+            "按键13",
+            "BUTTON_13"
+          ],
+          [
+            "按键14",
+            "BUTTON_14"
+          ],
+          [
+            "按键15",
+            "BUTTON_15"
+          ],
+          [
+            "按键16",
+            "BUTTON_16"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "inputsInline": true,
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "esp32_ble_gamepad_release_button",
+    "message0": "释放按键 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "按键1",
+            "BUTTON_1"
+          ],
+          [
+            "按键2",
+            "BUTTON_2"
+          ],
+          [
+            "按键3",
+            "BUTTON_3"
+          ],
+          [
+            "按键4",
+            "BUTTON_4"
+          ],
+          [
+            "按键5",
+            "BUTTON_5"
+          ],
+          [
+            "按键6",
+            "BUTTON_6"
+          ],
+          [
+            "按键7",
+            "BUTTON_7"
+          ],
+          [
+            "按键8",
+            "BUTTON_8"
+          ],
+          [
+            "按键9",
+            "BUTTON_9"
+          ],
+          [
+            "按键10",
+            "BUTTON_10"
+          ],
+          [
+            "按键11",
+            "BUTTON_11"
+          ],
+          [
+            "按键12",
+            "BUTTON_12"
+          ],
+          [
+            "按键13",
+            "BUTTON_13"
+          ],
+          [
+            "按键14",
+            "BUTTON_14"
+          ],
+          [
+            "按键15",
+            "BUTTON_15"
+          ],
+          [
+            "按键16",
+            "BUTTON_16"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "inputsInline": true,
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "esp32_ble_gamepad_button_with_pin",
+    "message0": "当引脚 %1按键 %2被按下时 %3按下游戏手柄按键 %4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PIN_MODE",
+        "options": [
+          [
+            "上拉输入",
+            "INPUT_PULLUP"
+          ],
+          [
+            "普通输入",
+            "INPUT"
+          ]
+        ]
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "按键1",
+            "BUTTON_1"
+          ],
+          [
+            "按键2",
+            "BUTTON_2"
+          ],
+          [
+            "按键3",
+            "BUTTON_3"
+          ],
+          [
+            "按键4",
+            "BUTTON_4"
+          ],
+          [
+            "按键5",
+            "BUTTON_5"
+          ],
+          [
+            "按键6",
+            "BUTTON_6"
+          ],
+          [
+            "按键7",
+            "BUTTON_7"
+          ],
+          [
+            "按键8",
+            "BUTTON_8"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "inputsInline": false,
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "esp32_ble_gamepad_set_axes",
+    "message0": "设置摇杆轴 %1X轴 %2Y轴 %3",
+    "args0": [
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_value",
+        "name": "X_AXIS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y_AXIS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "inputsInline": false,
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "esp32_ble_gamepad_set_hat",
+    "message0": "设置方向键 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "HAT_DIRECTION",
+        "options": [
+          [
+            "居中",
+            "HAT_CENTERED"
+          ],
+          [
+            "上",
+            "HAT_UP"
+          ],
+          [
+            "右上",
+            "HAT_UP_RIGHT"
+          ],
+          [
+            "右",
+            "HAT_RIGHT"
+          ],
+          [
+            "右下",
+            "HAT_DOWN_RIGHT"
+          ],
+          [
+            "下",
+            "HAT_DOWN"
+          ],
+          [
+            "左下",
+            "HAT_DOWN_LEFT"
+          ],
+          [
+            "左",
+            "HAT_LEFT"
+          ],
+          [
+            "左上",
+            "HAT_UP_LEFT"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "inputsInline": true,
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "esp32_ble_gamepad_special_button",
+    "message0": "按下特殊按键 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SPECIAL_BUTTON",
+        "options": [
+          [
+            "开始键",
+            "Start"
+          ],
+          [
+            "选择键",
+            "Select"
+          ],
+          [
+            "菜单键",
+            "Menu"
+          ],
+          [
+            "主页键",
+            "Home"
+          ],
+          [
+            "返回键",
+            "Back"
+          ],
+          [
+            "音量+",
+            "VolumeInc"
+          ],
+          [
+            "音量-",
+            "VolumeDec"
+          ],
+          [
+            "静音",
+            "VolumeMute"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "inputsInline": true,
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "esp32_ble_gamepad_release_special_button",
+    "message0": "释放特殊按键 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SPECIAL_BUTTON",
+        "options": [
+          [
+            "开始键",
+            "Start"
+          ],
+          [
+            "选择键",
+            "Select"
+          ],
+          [
+            "菜单键",
+            "Menu"
+          ],
+          [
+            "主页键",
+            "Home"
+          ],
+          [
+            "返回键",
+            "Back"
+          ],
+          [
+            "音量+",
+            "VolumeInc"
+          ],
+          [
+            "音量-",
+            "VolumeDec"
+          ],
+          [
+            "静音",
+            "VolumeMute"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "inputsInline": true,
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "esp32_ble_gamepad_analog_read",
+    "message0": "将引脚 %1模拟输入映射到摇杆 %2轴",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ANALOG_PIN",
+        "options": "${board.analogPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          [
+            "X轴",
+            "X"
+          ],
+          [
+            "Y轴",
+            "Y"
+          ],
+          [
+            "Z轴",
+            "Z"
+          ],
+          [
+            "RX轴",
+            "RX"
+          ],
+          [
+            "RY轴",
+            "RY"
+          ],
+          [
+            "RZ轴",
+            "RZ"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "inputsInline": true,
+    "icon": "fa-light fa-gamepad-modern"
+  }
 ]
