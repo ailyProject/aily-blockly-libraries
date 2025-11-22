@@ -404,6 +404,12 @@ Arduino.forBlock['wire_scan'] = function(block, generator) {
   return scanFuncName + '();\n';
 };
 
+// 检测是否为ESP32核心
+function isESP32Core() {
+  const boardConfig = window['boardConfig'];
+  return boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1;
+}
+
 // 动态添加wire_begin_with_settings块的功能（参考core-variables实现）
 function addWireBeginWithSettingsBlock() {
   try {
@@ -425,7 +431,7 @@ function addWireBeginWithSettingsBlock() {
           item.type === "wire_begin_with_settings"
         );
 
-        if (!blockExists) {
+        if (!blockExists && isESP32Core()) {
           // 在wire_begin后面添加wire_begin_with_settings
           const wireBeginIndex = category.contents.findIndex(item => 
             item.type === "wire_begin"
