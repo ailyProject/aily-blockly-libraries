@@ -20,7 +20,8 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4CAF50",
-    "tooltip": "创建SPI通信对象"
+    "tooltip": "创建SPI通信对象",
+    "extensions": ["esp32_spi_create_custom_port"]
   },
   {
     "type": "esp32_spi_begin",
@@ -43,7 +44,8 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4CAF50",
-    "tooltip": "初始化SPI总线 使用默认引脚"
+    "tooltip": "初始化SPI总线 使用默认引脚",
+    "extensions": ["esp32_spi_begin_custom_port"]
   },
   {
     "type": "esp32_spi_begin_custom",
@@ -64,40 +66,35 @@
       },
       {
         "type": "input_value",
-        "name": "SCK",
-        "check": ["Number"]
+        "name": "SCK"
       },
       {
         "type": "input_value",
-        "name": "MISO",
-        "check": ["Number"]
+        "name": "MISO"
       },
       {
         "type": "input_value",
-        "name": "MOSI",
-        "check": ["Number"]
+        "name": "MOSI"
       },
       {
         "type": "input_value",
-        "name": "SS",
-        "check": ["Number"]
+        "name": "SS"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4CAF50",
-    "tooltip": "初始化SPI总线并设置引脚"
+    "tooltip": "初始化SPI总线并设置引脚",
+    "extensions": ["esp32_spi_begin_custom_custom_port"]
   },
   {
     "type": "esp32_spi_settings",
     "message0": "SPI %1 设置频率:%2Hz 位序:%3 模式:%4",
     "args0": [
       {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "SPI",
-        "variableTypes": ["SPIClass"],
-        "defaultType": "SPIClass"
+        "type": "field_dropdown",
+        "name": "SPI",
+        "options": "${board.spi}"
       },
       {
         "type": "input_value",
@@ -126,18 +123,17 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4CAF50",
-    "tooltip": "设置SPI通信参数"
+    "tooltip": "设置SPI通信参数",
+    "extensions": ["esp32_spi_settings_custom_port"]
   },
   {
     "type": "esp32_spi_begin_transaction",
     "message0": "开始SPI %1 事务 频率:%2Hz 位序:%3 模式:%4",
     "args0": [
       {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "SPI",
-        "variableTypes": ["SPIClass"],
-        "defaultType": "SPIClass"
+        "type": "field_dropdown",
+        "name": "SPI",
+        "options": "${board.spi}"
       },
       {
         "type": "input_value",
@@ -166,35 +162,33 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4CAF50",
-    "tooltip": "开始SPI事务"
+    "tooltip": "开始SPI事务",
+    "extensions": ["esp32_spi_begin_transaction_custom_port"]
   },
   {
     "type": "esp32_spi_end_transaction",
     "message0": "结束SPI %1 事务",
     "args0": [
       {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "SPI",
-        "variableTypes": ["SPIClass"],
-        "defaultType": "SPIClass"
+        "type": "field_dropdown",
+        "name": "SPI",
+        "options": "${board.spi}"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4CAF50",
-    "tooltip": "结束SPI事务"
+    "tooltip": "结束SPI事务",
+    "extensions": ["esp32_spi_end_transaction_custom_port"]
   },
   {
     "type": "esp32_spi_transfer",
     "message0": "SPI %1 传输数据:%2",
     "args0": [
       {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "SPI",
-        "variableTypes": ["SPIClass"],
-        "defaultType": "SPIClass"
+        "type": "field_dropdown",
+        "name": "SPI",
+        "options": "${board.spi}"
       },
       {
         "type": "input_value",
@@ -204,18 +198,17 @@
     ],
     "output": "Number",
     "colour": "#4CAF50",
-    "tooltip": "传输一个字节数据并返回接收到的数据"
+    "tooltip": "传输一个字节数据并返回接收到的数据",
+    "extensions": ["esp32_spi_transfer_custom_port"]
   },
   {
     "type": "esp32_spi_transfer16",
     "message0": "SPI %1 传输16位数据:%2",
     "args0": [
       {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "SPI",
-        "variableTypes": ["SPIClass"],
-        "defaultType": "SPIClass"
+        "type": "field_dropdown",
+        "name": "SPI",
+        "options": "${board.spi}"
       },
       {
         "type": "input_value",
@@ -225,18 +218,17 @@
     ],
     "output": "Number",
     "colour": "#4CAF50",
-    "tooltip": "传输16位数据并返回接收到的数据"
+    "tooltip": "传输16位数据并返回接收到的数据",
+    "extensions": ["esp32_spi_transfer16_custom_port"]
   },
   {
     "type": "esp32_spi_write",
     "message0": "SPI %1 写入数据:%2",
     "args0": [
       {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "SPI",
-        "variableTypes": ["SPIClass"],
-        "defaultType": "SPIClass"
+        "type": "field_dropdown",
+        "name": "SPI",
+        "options": "${board.spi}"
       },
       {
         "type": "input_value",
@@ -247,18 +239,17 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4CAF50",
-    "tooltip": "写入一个字节数据"
+    "tooltip": "写入一个字节数据",
+    "extensions": ["esp32_spi_write_custom_port"]
   },
   {
     "type": "esp32_spi_write_bytes",
     "message0": "SPI %1 写入字节数组 数据:%2 长度:%3",
     "args0": [
       {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "SPI",
-        "variableTypes": ["SPIClass"],
-        "defaultType": "SPIClass"
+        "type": "field_dropdown",
+        "name": "SPI",
+        "options": "${board.spi}"
       },
       {
         "type": "input_value",
@@ -274,18 +265,17 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4CAF50",
-    "tooltip": "写入字节数组数据"
+    "tooltip": "写入字节数组数据",
+    "extensions": ["esp32_spi_write_bytes_custom_port"]
   },
   {
     "type": "esp32_spi_set_frequency",
     "message0": "设置SPI %1 频率:%2Hz",
     "args0": [
       {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "SPI",
-        "variableTypes": ["SPIClass"],
-        "defaultType": "SPIClass"
+        "type": "field_dropdown",
+        "name": "SPI",
+        "options": "${board.spi}"
       },
       {
         "type": "input_value",
@@ -296,18 +286,17 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4CAF50",
-    "tooltip": "设置SPI通信频率"
+    "tooltip": "设置SPI通信频率",
+    "extensions": ["esp32_spi_set_frequency_custom_port"]
   },
   {
     "type": "esp32_spi_set_bit_order",
     "message0": "设置SPI %1 位序:%2",
     "args0": [
       {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "SPI",
-        "variableTypes": ["SPIClass"],
-        "defaultType": "SPIClass"
+        "type": "field_dropdown",
+        "name": "SPI",
+        "options": "${board.spi}"
       },
       {
         "type": "field_dropdown",
@@ -321,18 +310,17 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4CAF50",
-    "tooltip": "设置SPI数据位序"
+    "tooltip": "设置SPI数据位序",
+    "extensions": ["esp32_spi_set_bit_order_custom_port"]
   },
   {
     "type": "esp32_spi_set_data_mode",
     "message0": "设置SPI %1 模式:%2",
     "args0": [
       {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "SPI",
-        "variableTypes": ["SPIClass"],
-        "defaultType": "SPIClass"
+        "type": "field_dropdown",
+        "name": "SPI",
+        "options": "${board.spi}"
       },
       {
         "type": "field_dropdown",
@@ -348,22 +336,22 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4CAF50",
-    "tooltip": "设置SPI时钟极性和相位模式"
+    "tooltip": "设置SPI时钟极性和相位模式",
+    "extensions": ["esp32_spi_set_data_mode_custom_port"]
   },
   {
     "type": "esp32_spi_get_ss_pin",
     "message0": "获取SPI %1 片选引脚",
     "args0": [
       {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "SPI",
-        "variableTypes": ["SPIClass"],
-        "defaultType": "SPIClass"
+        "type": "field_dropdown",
+        "name": "SPI",
+        "options": "${board.spi}"
       }
     ],
     "output": "Number",
     "colour": "#4CAF50",
-    "tooltip": "获取SPI片选引脚编号"
+    "tooltip": "获取SPI片选引脚编号",
+    "extensions": ["esp32_spi_get_ss_pin_custom_port"]
   }
 ]
