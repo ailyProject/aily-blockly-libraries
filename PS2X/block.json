@@ -1,324 +1,615 @@
 [
-    {
-        "type": "ps2x_init",
-        "message0": "初始化PS2控制器 CLK%1 CMD%2 ATT%3 DAT%4 压力模式%5 震动模式%6",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "CLK",
-                "options": "${board.digitalPins}"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "CMD",
-                "options": "${board.digitalPins}"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "ATT",
-                "options": "${board.digitalPins}"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "DAT",
-                "options": "${board.digitalPins}"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "PRESSURES",
-                "options": [
-                    ["开启", "true"],
-                    ["关闭", "false"]
-                ]
-            },
-            {
-                "type": "field_dropdown",
-                "name": "RUMBLE",
-                "options": [
-                    ["开启", "true"],
-                    ["关闭", "false"]
-                ]
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#0066CC",
-        "inputsInline": false
-    },
-    {
-        "type": "ps2x_read",
-        "message0": "读取PS2控制器状态 震动强度%1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "VIBRATE",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#0066CC",
-        "inputsInline": true
-    },
-    {
-        "type": "ps2x_button",
-        "message0": "PS2按钮%1被按下",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "BUTTON",
-                "options": [
-                    ["上", "PSB_PAD_UP"],
-                    ["下", "PSB_PAD_DOWN"],
-                    ["左", "PSB_PAD_LEFT"],
-                    ["右", "PSB_PAD_RIGHT"],
-                    ["三角形", "PSB_TRIANGLE"],
-                    ["圆形", "PSB_CIRCLE"],
-                    ["叉号", "PSB_CROSS"],
-                    ["方块", "PSB_SQUARE"],
-                    ["L1", "PSB_L1"],
-                    ["L2", "PSB_L2"],
-                    ["L3", "PSB_L3"],
-                    ["R1", "PSB_R1"],
-                    ["R2", "PSB_R2"],
-                    ["R3", "PSB_R3"],
-                    ["SELECT", "PSB_SELECT"],
-                    ["START", "PSB_START"]
-                ]
-            }
-        ],
-        "output": "Boolean",
-        "colour": "#0066CC"
-    },
-    {
-        "type": "ps2x_button_pressed",
-        "message0": "PS2按钮%1刚被按下",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "BUTTON",
-                "options": [
-                    ["上", "PSB_PAD_UP"],
-                    ["下", "PSB_PAD_DOWN"],
-                    ["左", "PSB_PAD_LEFT"],
-                    ["右", "PSB_PAD_RIGHT"],
-                    ["三角形", "PSB_TRIANGLE"],
-                    ["圆形", "PSB_CIRCLE"],
-                    ["叉号", "PSB_CROSS"],
-                    ["方块", "PSB_SQUARE"],
-                    ["L1", "PSB_L1"],
-                    ["L2", "PSB_L2"],
-                    ["L3", "PSB_L3"],
-                    ["R1", "PSB_R1"],
-                    ["R2", "PSB_R2"],
-                    ["R3", "PSB_R3"],
-                    ["SELECT", "PSB_SELECT"],
-                    ["START", "PSB_START"],
-                    ["红色", "PSB_RED"],
-                    ["蓝色", "PSB_BLUE"]
-                ]
-            }
-        ],
-        "output": "Boolean",
-        "colour": "#0066CC"
-    },
-    {
-        "type": "ps2x_button_released",
-        "message0": "PS2按钮%1刚被释放",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "BUTTON",
-                "options": [
-                    ["上", "PSB_PAD_UP"],
-                    ["下", "PSB_PAD_DOWN"],
-                    ["左", "PSB_PAD_LEFT"],
-                    ["右", "PSB_PAD_RIGHT"],
-                    ["三角形", "PSB_TRIANGLE"],
-                    ["圆形", "PSB_CIRCLE"],
-                    ["叉号", "PSB_CROSS"],
-                    ["方块", "PSB_SQUARE"],
-                    ["L1", "PSB_L1"],
-                    ["L2", "PSB_L2"],
-                    ["L3", "PSB_L3"],
-                    ["R1", "PSB_R1"],
-                    ["R2", "PSB_R2"],
-                    ["R3", "PSB_R3"],
-                    ["SELECT", "PSB_SELECT"],
-                    ["START", "PSB_START"]
-                ]
-            }
-        ],
-        "output": "Boolean",
-        "colour": "#0066CC"
-    },
-    {
-        "type": "ps2x_analog",
-        "message0": "PS2模拟量%1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "ANALOG",
-                "options": [
-                    ["右摇杆X", "PSS_RX"],
-                    ["右摇杆Y", "PSS_RY"],
-                    ["左摇杆X", "PSS_LX"],
-                    ["左摇杆Y", "PSS_LY"]
-                ]
-            }
-        ],
-        "output": "Number",
-        "colour": "#0066CC"
-    },
-    {
-        "type": "ps2x_analog_button",
-        "message0": "PS2按钮%1压力值",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "BUTTON",
-                "options": [
-                    ["上", "PSAB_PAD_UP"],
-                    ["下", "PSAB_PAD_DOWN"],
-                    ["左", "PSAB_PAD_LEFT"],
-                    ["右", "PSAB_PAD_RIGHT"],
-                    ["三角形", "PSAB_TRIANGLE"],
-                    ["圆形", "PSAB_CIRCLE"],
-                    ["叉号", "PSAB_CROSS"],
-                    ["方块", "PSAB_SQUARE"],
-                    ["L1", "PSAB_L1"],
-                    ["L2", "PSAB_L2"],
-                    ["R1", "PSAB_R1"],
-                    ["R2", "PSAB_R2"]
-                ]
-            }
-        ],
-        "output": "Number",
-        "colour": "#0066CC"
-    },
-    {
-        "type": "ps2x_controller_type",
-        "message0": "PS2控制器类型",
-        "output": "Number",
-        "colour": "#0066CC"
-    },
-    {
-        "type": "ps2x_new_button_state",
-        "message0": "PS2按钮状态发生变化",
-        "output": "Boolean",
-        "colour": "#0066CC"
-    },
-    {
-        "type": "ps2x_new_button_state_specific",
-        "message0": "PS2按钮%1状态发生变化",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "BUTTON",
-                "options": [
-                    ["上", "PSB_PAD_UP"],
-                    ["下", "PSB_PAD_DOWN"],
-                    ["左", "PSB_PAD_LEFT"],
-                    ["右", "PSB_PAD_RIGHT"],
-                    ["三角形", "PSB_TRIANGLE"],
-                    ["圆形", "PSB_CIRCLE"],
-                    ["叉号", "PSB_CROSS"],
-                    ["方块", "PSB_SQUARE"],
-                    ["L1", "PSB_L1"],
-                    ["L2", "PSB_L2"],
-                    ["L3", "PSB_L3"],
-                    ["R1", "PSB_R1"],
-                    ["R2", "PSB_R2"],
-                    ["R3", "PSB_R3"],
-                    ["SELECT", "PSB_SELECT"],
-                    ["START", "PSB_START"]
-                ]
-            }
-        ],
-        "output": "Boolean",
-        "colour": "#0066CC"
-    },
-    {
-        "type": "ps2x_is_connected",
-        "message0": "PS2控制器已连接",
-        "output": "Boolean",
-        "colour": "#0066CC"
-    },
-    {
-        "type": "ps2x_simple_init",
-        "message0": "简易初始化PS2控制器 CLK%1 CMD%2 ATT%3 DAT%4",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "CLK",
-                "options": "${board.digitalPins}"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "CMD",
-                "options": "${board.digitalPins}"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "ATT",
-                "options": "${board.digitalPins}"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "DAT",
-                "options": "${board.digitalPins}"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#42A5F5",
-        "inputsInline": false
-    },
-    {
-        "type": "ps2x_simple_read",
-        "message0": "读取PS2控制器",
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#42A5F5"
-    },
-    {
-        "type": "ps2x_joystick_moved",
-        "message0": "摇杆%1移动",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "STICK",
-                "options": [
-                    ["左", "LEFT"],
-                    ["右", "RIGHT"]
-                ]
-            }
-        ],
-        "output": "Boolean",
-        "colour": "#42A5F5"
-    },
-    {
-        "type": "ps2x_joystick_position",
-        "message0": "摇杆%1的%2轴位置",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "STICK",
-                "options": [
-                    ["左", "LEFT"],
-                    ["右", "RIGHT"]
-                ]
-            },
-            {
-                "type": "field_dropdown",
-                "name": "AXIS",
-                "options": [
-                    ["X", "X"],
-                    ["Y", "Y"]
-                ]
-            }
-        ],
-        "output": "Number",
-        "colour": "#42A5F5"
-    }
+  {
+    "type": "ps2x_init",
+    "message0": "初始化PS2控制器 CLK%1 CMD%2 ATT%3 DAT%4 压力模式%5 震动模式%6",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CLK",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CMD",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ATT",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DAT",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PRESSURES",
+        "options": [
+          [
+            "开启",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RUMBLE",
+        "options": [
+          [
+            "开启",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0066CC",
+    "inputsInline": false,
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "ps2x_read",
+    "message0": "读取PS2控制器状态 震动强度%1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "VIBRATE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0066CC",
+    "inputsInline": true,
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "ps2x_button",
+    "message0": "PS2按钮%1被按下",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "上",
+            "PSB_PAD_UP"
+          ],
+          [
+            "下",
+            "PSB_PAD_DOWN"
+          ],
+          [
+            "左",
+            "PSB_PAD_LEFT"
+          ],
+          [
+            "右",
+            "PSB_PAD_RIGHT"
+          ],
+          [
+            "三角形",
+            "PSB_TRIANGLE"
+          ],
+          [
+            "圆形",
+            "PSB_CIRCLE"
+          ],
+          [
+            "叉号",
+            "PSB_CROSS"
+          ],
+          [
+            "方块",
+            "PSB_SQUARE"
+          ],
+          [
+            "L1",
+            "PSB_L1"
+          ],
+          [
+            "L2",
+            "PSB_L2"
+          ],
+          [
+            "L3",
+            "PSB_L3"
+          ],
+          [
+            "R1",
+            "PSB_R1"
+          ],
+          [
+            "R2",
+            "PSB_R2"
+          ],
+          [
+            "R3",
+            "PSB_R3"
+          ],
+          [
+            "SELECT",
+            "PSB_SELECT"
+          ],
+          [
+            "START",
+            "PSB_START"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#0066CC",
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "ps2x_button_pressed",
+    "message0": "PS2按钮%1刚被按下",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "上",
+            "PSB_PAD_UP"
+          ],
+          [
+            "下",
+            "PSB_PAD_DOWN"
+          ],
+          [
+            "左",
+            "PSB_PAD_LEFT"
+          ],
+          [
+            "右",
+            "PSB_PAD_RIGHT"
+          ],
+          [
+            "三角形",
+            "PSB_TRIANGLE"
+          ],
+          [
+            "圆形",
+            "PSB_CIRCLE"
+          ],
+          [
+            "叉号",
+            "PSB_CROSS"
+          ],
+          [
+            "方块",
+            "PSB_SQUARE"
+          ],
+          [
+            "L1",
+            "PSB_L1"
+          ],
+          [
+            "L2",
+            "PSB_L2"
+          ],
+          [
+            "L3",
+            "PSB_L3"
+          ],
+          [
+            "R1",
+            "PSB_R1"
+          ],
+          [
+            "R2",
+            "PSB_R2"
+          ],
+          [
+            "R3",
+            "PSB_R3"
+          ],
+          [
+            "SELECT",
+            "PSB_SELECT"
+          ],
+          [
+            "START",
+            "PSB_START"
+          ],
+          [
+            "红色",
+            "PSB_RED"
+          ],
+          [
+            "蓝色",
+            "PSB_BLUE"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#0066CC",
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "ps2x_button_released",
+    "message0": "PS2按钮%1刚被释放",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "上",
+            "PSB_PAD_UP"
+          ],
+          [
+            "下",
+            "PSB_PAD_DOWN"
+          ],
+          [
+            "左",
+            "PSB_PAD_LEFT"
+          ],
+          [
+            "右",
+            "PSB_PAD_RIGHT"
+          ],
+          [
+            "三角形",
+            "PSB_TRIANGLE"
+          ],
+          [
+            "圆形",
+            "PSB_CIRCLE"
+          ],
+          [
+            "叉号",
+            "PSB_CROSS"
+          ],
+          [
+            "方块",
+            "PSB_SQUARE"
+          ],
+          [
+            "L1",
+            "PSB_L1"
+          ],
+          [
+            "L2",
+            "PSB_L2"
+          ],
+          [
+            "L3",
+            "PSB_L3"
+          ],
+          [
+            "R1",
+            "PSB_R1"
+          ],
+          [
+            "R2",
+            "PSB_R2"
+          ],
+          [
+            "R3",
+            "PSB_R3"
+          ],
+          [
+            "SELECT",
+            "PSB_SELECT"
+          ],
+          [
+            "START",
+            "PSB_START"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#0066CC",
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "ps2x_analog",
+    "message0": "PS2模拟量%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ANALOG",
+        "options": [
+          [
+            "右摇杆X",
+            "PSS_RX"
+          ],
+          [
+            "右摇杆Y",
+            "PSS_RY"
+          ],
+          [
+            "左摇杆X",
+            "PSS_LX"
+          ],
+          [
+            "左摇杆Y",
+            "PSS_LY"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#0066CC",
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "ps2x_analog_button",
+    "message0": "PS2按钮%1压力值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "上",
+            "PSAB_PAD_UP"
+          ],
+          [
+            "下",
+            "PSAB_PAD_DOWN"
+          ],
+          [
+            "左",
+            "PSAB_PAD_LEFT"
+          ],
+          [
+            "右",
+            "PSAB_PAD_RIGHT"
+          ],
+          [
+            "三角形",
+            "PSAB_TRIANGLE"
+          ],
+          [
+            "圆形",
+            "PSAB_CIRCLE"
+          ],
+          [
+            "叉号",
+            "PSAB_CROSS"
+          ],
+          [
+            "方块",
+            "PSAB_SQUARE"
+          ],
+          [
+            "L1",
+            "PSAB_L1"
+          ],
+          [
+            "L2",
+            "PSAB_L2"
+          ],
+          [
+            "R1",
+            "PSAB_R1"
+          ],
+          [
+            "R2",
+            "PSAB_R2"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#0066CC",
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "ps2x_controller_type",
+    "message0": "PS2控制器类型",
+    "output": "Number",
+    "colour": "#0066CC",
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "ps2x_new_button_state",
+    "message0": "PS2按钮状态发生变化",
+    "output": "Boolean",
+    "colour": "#0066CC",
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "ps2x_new_button_state_specific",
+    "message0": "PS2按钮%1状态发生变化",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "上",
+            "PSB_PAD_UP"
+          ],
+          [
+            "下",
+            "PSB_PAD_DOWN"
+          ],
+          [
+            "左",
+            "PSB_PAD_LEFT"
+          ],
+          [
+            "右",
+            "PSB_PAD_RIGHT"
+          ],
+          [
+            "三角形",
+            "PSB_TRIANGLE"
+          ],
+          [
+            "圆形",
+            "PSB_CIRCLE"
+          ],
+          [
+            "叉号",
+            "PSB_CROSS"
+          ],
+          [
+            "方块",
+            "PSB_SQUARE"
+          ],
+          [
+            "L1",
+            "PSB_L1"
+          ],
+          [
+            "L2",
+            "PSB_L2"
+          ],
+          [
+            "L3",
+            "PSB_L3"
+          ],
+          [
+            "R1",
+            "PSB_R1"
+          ],
+          [
+            "R2",
+            "PSB_R2"
+          ],
+          [
+            "R3",
+            "PSB_R3"
+          ],
+          [
+            "SELECT",
+            "PSB_SELECT"
+          ],
+          [
+            "START",
+            "PSB_START"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#0066CC",
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "ps2x_is_connected",
+    "message0": "PS2控制器已连接",
+    "output": "Boolean",
+    "colour": "#0066CC",
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "ps2x_simple_init",
+    "message0": "简易初始化PS2控制器 CLK%1 CMD%2 ATT%3 DAT%4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CLK",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CMD",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ATT",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DAT",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#42A5F5",
+    "inputsInline": false,
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "ps2x_simple_read",
+    "message0": "读取PS2控制器",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#42A5F5",
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "ps2x_joystick_moved",
+    "message0": "摇杆%1移动",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STICK",
+        "options": [
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#42A5F5",
+    "icon": "fa-light fa-gamepad-modern"
+  },
+  {
+    "type": "ps2x_joystick_position",
+    "message0": "摇杆%1的%2轴位置",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STICK",
+        "options": [
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#42A5F5",
+    "icon": "fa-light fa-gamepad-modern"
+  }
 ]

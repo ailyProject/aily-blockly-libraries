@@ -1,202 +1,222 @@
 [
-    {
-        "type": "espnow_serial_init",
-        "message0": "ESP-NOW串口模式初始化 对端MAC地址 %1 WiFi频道 %2 工作模式 %3",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "PEER_MAC",
-                "check": "String"
-            },
-            {
-                "type": "field_number",
-                "name": "CHANNEL",
-                "value": 1,
-                "min": 1,
-                "max": 14
-            },
-            {
-                "type": "field_dropdown",
-                "name": "MODE",
-                "options": [
-                    ["Station模式", "STATION"],
-                    ["AP模式", "AP"]
-                ]
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50",
-        "tooltip": "初始化ESP-NOW串口通信模式，用于两个ESP32设备间的点对点通信"
-    },
-    {
-        "type": "espnow_serial_available",
-        "message0": "ESP-NOW串口有数据可读取",
-        "output": "Boolean",
-        "colour": "#4CAF50",
-        "tooltip": "检查ESP-NOW串口是否有接收到数据"
-    },
-    {
-        "type": "espnow_serial_read",
-        "message0": "ESP-NOW串口读取数据",
-        "output": "String",
-        "colour": "#4CAF50",
-        "tooltip": "从ESP-NOW串口读取接收到的数据"
-    },
-    {
-        "type": "espnow_serial_write",
-        "message0": "ESP-NOW串口发送数据 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "DATA",
-                "check": "String"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#4CAF50",
-        "tooltip": "通过ESP-NOW串口发送数据到对端设备"
-    },
-    {
-        "type": "espnow_broadcast_master_init",
-        "message0": "ESP-NOW广播主机初始化 WiFi频道 %1",
-        "args0": [
-            {
-                "type": "field_number",
-                "name": "CHANNEL",
-                "value": 6,
-                "min": 1,
-                "max": 14
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF9800",
-        "tooltip": "初始化ESP-NOW广播主机模式，可以向网络中所有从机广播消息"
-    },
-    {
-        "type": "espnow_broadcast_send",
-        "message0": "ESP-NOW广播发送消息 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "MESSAGE",
-                "check": "String"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF9800",
-        "tooltip": "向网络中所有ESP-NOW从机设备广播消息"
-    },
-    {
-        "type": "espnow_broadcast_slave_init",
-        "message0": "ESP-NOW广播从机初始化 WiFi频道 %1",
-        "args0": [
-            {
-                "type": "field_number",
-                "name": "CHANNEL",
-                "value": 6,
-                "min": 1,
-                "max": 14
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3",
-        "tooltip": "初始化ESP-NOW广播从机模式，可以接收主机发送的广播消息"
-    },
-    {
-        "type": "espnow_on_receive",
-        "message0": "当ESP-NOW接收到数据时 %1 %2",
-        "args0": [
-            {
-                "type": "input_dummy"
-            },
-            {
-                "type": "input_statement",
-                "name": "CALLBACK"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#9C27B0",
-        "tooltip": "设置ESP-NOW数据接收回调函数"
-    },
-    {
-        "type": "espnow_get_received_data",
-        "message0": "获取ESP-NOW接收到的数据",
-        "output": "String",
-        "colour": "#9C27B0",
-        "tooltip": "获取ESP-NOW接收回调中的数据内容"
-    },
-    {
-        "type": "espnow_get_sender_mac",
-        "message0": "获取ESP-NOW发送者MAC地址",
-        "output": "String",
-        "colour": "#9C27B0",
-        "tooltip": "获取ESP-NOW消息发送者的MAC地址"
-    },
-    {
-        "type": "espnow_network_init",
-        "message0": "ESP-NOW网络模式初始化 WiFi频道 %1 设备数量 %2",
-        "args0": [
-            {
-                "type": "field_number",
-                "name": "CHANNEL",
-                "value": 4,
-                "min": 1,
-                "max": 14
-            },
-            {
-                "type": "field_number",
-                "name": "PEER_COUNT",
-                "value": 2,
-                "min": 1,
-                "max": 10
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#607D8B",
-        "tooltip": "初始化ESP-NOW网络模式，支持多设备组网通信"
-    },
-    {
-        "type": "espnow_network_send_data",
-        "message0": "ESP-NOW网络发送数据 %1",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "DATA",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#607D8B",
-        "tooltip": "在ESP-NOW网络中发送数据"
-    },
-    {
-        "type": "espnow_is_master",
-        "message0": "ESP-NOW网络当前设备是主机",
-        "output": "Boolean",
-        "colour": "#607D8B",
-        "tooltip": "检查当前设备在ESP-NOW网络中是否为主机"
-    },
-    {
-        "type": "espnow_get_mac_address",
-        "message0": "获取ESP32 MAC地址",
-        "output": "String",
-        "colour": "#795548",
-        "tooltip": "获取当前ESP32设备的MAC地址"
-    }
+  {
+    "type": "espnow_serial_init",
+    "message0": "ESP-NOW串口模式初始化 对端MAC地址 %1 WiFi频道 %2 工作模式 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PEER_MAC",
+        "check": "String"
+      },
+      {
+        "type": "field_number",
+        "name": "CHANNEL",
+        "value": 1,
+        "min": 1,
+        "max": 14
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "Station模式",
+            "STATION"
+          ],
+          [
+            "AP模式",
+            "AP"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化ESP-NOW串口通信模式，用于两个ESP32设备间的点对点通信",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "espnow_serial_available",
+    "message0": "ESP-NOW串口有数据可读取",
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "检查ESP-NOW串口是否有接收到数据",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "espnow_serial_read",
+    "message0": "ESP-NOW串口读取数据",
+    "output": "String",
+    "colour": "#4CAF50",
+    "tooltip": "从ESP-NOW串口读取接收到的数据",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "espnow_serial_write",
+    "message0": "ESP-NOW串口发送数据 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "通过ESP-NOW串口发送数据到对端设备",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "espnow_broadcast_master_init",
+    "message0": "ESP-NOW广播主机初始化 WiFi频道 %1",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "CHANNEL",
+        "value": 6,
+        "min": 1,
+        "max": 14
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "初始化ESP-NOW广播主机模式，可以向网络中所有从机广播消息",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "espnow_broadcast_send",
+    "message0": "ESP-NOW广播发送消息 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "向网络中所有ESP-NOW从机设备广播消息",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "espnow_broadcast_slave_init",
+    "message0": "ESP-NOW广播从机初始化 WiFi频道 %1",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "CHANNEL",
+        "value": 6,
+        "min": 1,
+        "max": 14
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "初始化ESP-NOW广播从机模式，可以接收主机发送的广播消息",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "espnow_on_receive",
+    "message0": "当ESP-NOW接收到数据时 %1 %2",
+    "args0": [
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "CALLBACK"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "设置ESP-NOW数据接收回调函数",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "espnow_get_received_data",
+    "message0": "获取ESP-NOW接收到的数据",
+    "output": "String",
+    "colour": "#9C27B0",
+    "tooltip": "获取ESP-NOW接收回调中的数据内容",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "espnow_get_sender_mac",
+    "message0": "获取ESP-NOW发送者MAC地址",
+    "output": "String",
+    "colour": "#9C27B0",
+    "tooltip": "获取ESP-NOW消息发送者的MAC地址",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "espnow_network_init",
+    "message0": "ESP-NOW网络模式初始化 WiFi频道 %1 设备数量 %2",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "CHANNEL",
+        "value": 4,
+        "min": 1,
+        "max": 14
+      },
+      {
+        "type": "field_number",
+        "name": "PEER_COUNT",
+        "value": 2,
+        "min": 1,
+        "max": 10
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "初始化ESP-NOW网络模式，支持多设备组网通信",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "espnow_network_send_data",
+    "message0": "ESP-NOW网络发送数据 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "在ESP-NOW网络中发送数据",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "espnow_is_master",
+    "message0": "ESP-NOW网络当前设备是主机",
+    "output": "Boolean",
+    "colour": "#607D8B",
+    "tooltip": "检查当前设备在ESP-NOW网络中是否为主机",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "espnow_get_mac_address",
+    "message0": "获取ESP32 MAC地址",
+    "output": "String",
+    "colour": "#795548",
+    "tooltip": "获取当前ESP32设备的MAC地址",
+    "icon": "fa-light fa-signal-stream"
+  }
 ]

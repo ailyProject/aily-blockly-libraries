@@ -1,132 +1,147 @@
 [
-    {
-        "type": "sgp30_init",
-        "message0": "初始化SGP30传感器使用 %1",
-        "args0": [
-            {
-                "type": "field_dropdown",
-                "name": "WIRE",
-                "options": "${board.i2c}"
-            }
+  {
+    "type": "sgp30_init",
+    "message0": "初始化SGP30传感器使用 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E8B57",
+    "inputsInline": true,
+    "icon": "fa-light fa-wind-warning"
+  },
+  {
+    "type": "sgp30_measure",
+    "message0": "SGP30测量空气质量",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E8B57",
+    "inputsInline": true,
+    "icon": "fa-light fa-wind-warning"
+  },
+  {
+    "type": "sgp30_get_tvoc",
+    "message0": "获取TVOC值(ppb)",
+    "output": "Number",
+    "colour": "#2E8B57",
+    "inputsInline": true,
+    "icon": "fa-light fa-wind-warning"
+  },
+  {
+    "type": "sgp30_get_eco2",
+    "message0": "获取eCO2值(ppm)",
+    "output": "Number",
+    "colour": "#2E8B57",
+    "inputsInline": true,
+    "icon": "fa-light fa-wind-warning"
+  },
+  {
+    "type": "sgp30_measure_raw",
+    "message0": "SGP30测量原始数据",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E8B57",
+    "inputsInline": true,
+    "icon": "fa-light fa-wind-warning"
+  },
+  {
+    "type": "sgp30_get_raw_h2",
+    "message0": "获取原始H2信号",
+    "output": "Number",
+    "colour": "#2E8B57",
+    "inputsInline": true,
+    "icon": "fa-light fa-wind-warning"
+  },
+  {
+    "type": "sgp30_get_raw_ethanol",
+    "message0": "获取原始乙醇信号",
+    "output": "Number",
+    "colour": "#2E8B57",
+    "inputsInline": true,
+    "icon": "fa-light fa-wind-warning"
+  },
+  {
+    "type": "sgp30_set_humidity",
+    "message0": "设置SGP30湿度补偿 温度%1°C 湿度%2%RH",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEMPERATURE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "HUMIDITY",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E8B57",
+    "inputsInline": true,
+    "icon": "fa-light fa-wind-warning"
+  },
+  {
+    "type": "sgp30_get_baseline",
+    "message0": "获取SGP30基线值 eCO2基线%1 TVOC基线%2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ECO2_BASE",
+        "variable": "eco2_baseline",
+        "variableTypes": [
+          "Number"
         ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2E8B57",
-        "inputsInline": true
-    },
-    {
-        "type": "sgp30_measure",
-        "message0": "SGP30测量空气质量",
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2E8B57",
-        "inputsInline": true
-    },
-    {
-        "type": "sgp30_get_tvoc",
-        "message0": "获取TVOC值(ppb)",
-        "output": "Number",
-        "colour": "#2E8B57",
-        "inputsInline": true
-    },
-    {
-        "type": "sgp30_get_eco2",
-        "message0": "获取eCO2值(ppm)",
-        "output": "Number",
-        "colour": "#2E8B57",
-        "inputsInline": true
-    },
-    {
-        "type": "sgp30_measure_raw",
-        "message0": "SGP30测量原始数据",
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2E8B57",
-        "inputsInline": true
-    },
-    {
-        "type": "sgp30_get_raw_h2",
-        "message0": "获取原始H2信号",
-        "output": "Number",
-        "colour": "#2E8B57",
-        "inputsInline": true
-    },
-    {
-        "type": "sgp30_get_raw_ethanol",
-        "message0": "获取原始乙醇信号",
-        "output": "Number",
-        "colour": "#2E8B57",
-        "inputsInline": true
-    },
-    {
-        "type": "sgp30_set_humidity",
-        "message0": "设置SGP30湿度补偿 温度%1°C 湿度%2%RH",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "TEMPERATURE",
-                "check": "Number"
-            },
-            {
-                "type": "input_value",
-                "name": "HUMIDITY",
-                "check": "Number"
-            }
+        "defaultType": "Number"
+      },
+      {
+        "type": "field_variable",
+        "name": "TVOC_BASE",
+        "variable": "tvoc_baseline",
+        "variableTypes": [
+          "Number"
         ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2E8B57",
-        "inputsInline": true
-    },
-    {
-        "type": "sgp30_get_baseline",
-        "message0": "获取SGP30基线值 eCO2基线%1 TVOC基线%2",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "ECO2_BASE",
-                "variable": "eco2_baseline",
-                "variableTypes": ["Number"],
-                "defaultType": "Number"
-            },
-            {
-                "type": "field_variable",
-                "name": "TVOC_BASE",
-                "variable": "tvoc_baseline",
-                "variableTypes": ["Number"],
-                "defaultType": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2E8B57",
-        "inputsInline": true
-    },
-    {
-        "type": "sgp30_set_baseline",
-        "message0": "设置SGP30基线值 eCO2基线%1 TVOC基线%2",
-        "args0": [
-            {
-                "type": "input_value",
-                "name": "ECO2_BASE",
-                "check": "Number"
-            },
-            {
-                "type": "input_value",
-                "name": "TVOC_BASE",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2E8B57",
-        "inputsInline": true
-    },
-    {
-        "type": "sgp30_get_serial",
-        "message0": "获取SGP30序列号",
-        "output": "String",
-        "colour": "#2E8B57",
-        "inputsInline": true
-    }
+        "defaultType": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E8B57",
+    "inputsInline": true,
+    "icon": "fa-light fa-wind-warning"
+  },
+  {
+    "type": "sgp30_set_baseline",
+    "message0": "设置SGP30基线值 eCO2基线%1 TVOC基线%2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ECO2_BASE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "TVOC_BASE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E8B57",
+    "inputsInline": true,
+    "icon": "fa-light fa-wind-warning"
+  },
+  {
+    "type": "sgp30_get_serial",
+    "message0": "获取SGP30序列号",
+    "output": "String",
+    "colour": "#2E8B57",
+    "inputsInline": true,
+    "icon": "fa-light fa-wind-warning"
+  }
 ]

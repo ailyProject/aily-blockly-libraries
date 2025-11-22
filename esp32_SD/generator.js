@@ -44,6 +44,30 @@ Arduino.forBlock['esp32_sd_begin_custom'] = function(block, generator) {
   return code;
 };
 
+Arduino.forBlock['esp32_sd_init'] = function(block, generator) {
+  const spi = block.getFieldValue('SPI') || 'SPI';
+  const ss = generator.valueToCode(block, 'SS', generator.ORDER_ATOMIC) || '5';
+  const frequency = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC) || '4000000';
+
+  generator.addLibrary('FS', '#include <FS.h>');
+  generator.addLibrary('SD', '#include <SD.h>');
+  generator.addLibrary('SPI', '#include <SPI.h>');
+
+  ensureSerialBegin("Serial", generator);
+
+  generator.addSetup(`spi_${spi}_begin`, '' + spi + '.begin(); // 初始化SPI ' + spi);
+
+  let code = '';
+  code += 'if (!SD.begin(' + ss + ', ' + spi + ', ' + frequency + ')) {\n';
+  code += '  Serial.println("Card Mount Failed");\n';
+  code += '  return;\n';
+  code += '}\n';
+
+  generator.addSetup(`sd_${spi}_begin`, code);
+  
+  return '';
+}
+
 Arduino.forBlock['esp32_sd_card_info'] = function(block, generator) {
   const info = block.getFieldValue('INFO') || 'cardType';
 

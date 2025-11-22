@@ -5,35 +5,50 @@
 ## 库信息
 - **库名**: @aily-project/lib-core-serial
 - **版本**: 0.0.1
-- **兼容**: Arduino全系列平台，3.3V/5V
+- **兼容**: Arduino全系列平台
 
 ## 块定义
 
 | 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
 |--------|------|----------|----------|----------|
-| `serial_begin` | 语句块 | SERIAL(field_dropdown), SPEED(field_dropdown) | `"fields":{"SERIAL":"Serial","SPEED":"9600"}` | `Serial.begin(9600);` |
+| `serial_begin` | 语句块 | SERIAL/SPEED(field_dropdown) | `"fields":{"SERIAL":"Serial","SPEED":"9600"}` | `Serial.begin(9600)` |
 | `serial_available` | 值块 | SERIAL(field_dropdown) | `"fields":{"SERIAL":"Serial"}` | `Serial.available()` |
-| `serial_read` | 值块 | SERIAL(field_dropdown), TYPE(field_dropdown) | `"fields":{"SERIAL":"Serial","TYPE":"read"}` | `Serial.read()` |
-| `serial_print` | 语句块 | SERIAL(field_dropdown), VAR(input_value) | `"fields":{"SERIAL":"Serial"},"inputs":{"VAR":{"block":{...}}}` | `Serial.print(var);` |
-| `serial_println` | 语句块 | SERIAL(field_dropdown), VAR(input_value) | `"fields":{"SERIAL":"Serial"},"inputs":{"VAR":{"block":{...}}}` | `Serial.println(var);` |
-| `serial_write` | 语句块 | SERIAL(field_dropdown), DATA(input_value) | `"fields":{"SERIAL":"Serial"},"inputs":{"DATA":{"block":{...}}}` | `Serial.write(data);` |
+| `serial_read` | 值块 | SERIAL/TYPE(field_dropdown) | `"fields":{"SERIAL":"Serial","TYPE":"read"}` | `Serial.read()` |
+| `serial_read_until` | 值块 | SERIAL(field_dropdown), TERMINATOR(input_value) | `"fields":{"SERIAL":"Serial"},"inputs":{"TERMINATOR":{"block":{"type":"text","fields":{"TEXT":"\\n"}}}}` | `Serial.readStringUntil(char)` |
+| `serial_print` | 语句块 | SERIAL(field_dropdown), VAR(input_value) | `"fields":{"SERIAL":"Serial"},"inputs":{"VAR":{"block":{"type":"text","fields":{"TEXT":""}}}}` | `Serial.print(var)` |
+| `serial_println` | 语句块 | SERIAL(field_dropdown), VAR(input_value) | `"fields":{"SERIAL":"Serial"},"inputs":{"VAR":{"block":{"type":"text","fields":{"TEXT":""}}}}` | `Serial.println(var)` |
+| `serial_write` | 语句块 | SERIAL(field_dropdown), DATA(input_value) | `"fields":{"SERIAL":"Serial"},"inputs":{"DATA":{"block":{"type":"math_number","fields":{"NUM":"0"}}}}` | `Serial.write(data)` |
 | `serial_read_string` | 值块 | SERIAL(field_dropdown) | `"fields":{"SERIAL":"Serial"}` | `Serial.readString()` |
+| `serial_begin_esp32_custom` | 语句块 | VAR(field_input), UART/SPEED/RX/TX(field_dropdown) | `"fields":{"VAR":"SerialCustom","UART":"UART1","SPEED":"9600","RX":"16","TX":"17"}` | `HardwareSerial SerialCustom(1)+begin()` |
 
 ## 字段类型映射
 
 | 类型 | .abi格式 | 示例 |
 |------|----------|------|
+| field_input | 字符串 | `"VAR": "SerialCustom"` |
 | field_dropdown | 字符串 | `"SERIAL": "Serial"` |
-| input_value | 块连接 | `"inputs": {"VAR": {"block": {...}}}` |
+| field_dropdown(动态) | 字符串 | `"SERIAL": "Serial"` (从board.json的serialPort字段获取) |
+| input_value | 块连接 | `"inputs": {"VAR": {"block": {"type": "text", "fields": {"TEXT": ""}}}}` |
 
 ## 连接规则
 
-- **语句块**: 有previousStatement/nextStatement，通过`next`字段连接
-- **值块**: 有output，连接到`inputs`中，无`next`字段
+- **语句块**: 有previousStatement/nextStatement,通过`next`字段连接
+- **值块**: 有output,连接到`inputs`中,无`next`字段
 - **特殊规则**: 
-  - 串口端口和波特率选项由板卡配置动态生成 `${board.serialPort}`, `${board.serialSpeed}`
   - 未初始化的串口会自动添加默认初始化代码
-  - serial_available输出Number类型，serial_read输出Any类型，serial_read_string输出String类型
+  - serial_available输出Number, serial_read输出Any, serial_read_string/serial_read_until输出String
+  - serial_begin_esp32_custom仅ESP32平台支持,用于自定义UART配置
+
+### 动态选项处理
+当遇到`"options": "${board.xxx}"`格式的dropdown字段时:
+1. 需要从**board.json**文件中获取对应的选项数组
+2. 使用`board.xxx`中的xxx作为key,获取对应的value数组
+3. 在.abi文件中使用数组中的具体选项值,而非模板字符串
+
+**示例**:
+- block.json中: `"options": "${board.serialPort}"`
+- board.json中: `"serialPort": [["Serial", "Serial"], ["Serial1", "Serial1"]]`
+- .abi中使用: `"SERIAL": "Serial"` (选择数组中某组的value,即第二个元素)
 
 ## 使用示例
 
@@ -64,7 +79,8 @@
     "IF0": {
       "block": {
         "type": "logic_compare",
-        "fields": {"OP": "GT"}, 
+        "id": "compare_available",
+        "fields": {"OP": "GT"},
         "inputs": {
           "A": {"block": {"type": "serial_available", "fields": {"SERIAL": "Serial"}}},
           "B": {"block": {"type": "math_number", "fields": {"NUM": "0"}}}
@@ -74,7 +90,8 @@
     "DO0": {
       "block": {
         "type": "variables_set",
-        "fields": {"VAR": {"id": "received_data", "name": "data", "type": "String"}},
+        "id": "set_data",
+        "fields": {"VAR": {"id": "data_var", "name": "data", "type": "String"}},
         "inputs": {
           "VALUE": {"block": {"type": "serial_read_string", "fields": {"SERIAL": "Serial"}}}
         }
@@ -84,13 +101,31 @@
 }
 ```
 
+### ESP32自定义串口
+```json
+{
+  "type": "serial_begin_esp32_custom",
+  "id": "custom_serial",
+  "fields": {
+    "VAR": "MySerial",
+    "UART": "UART1",
+    "SPEED": "115200",
+    "RX": "16",
+    "TX": "17"
+  }
+}
+```
+
 ## 重要规则
 
-1. **必须遵守**: 使用串口前建议先调用serial_begin初始化，否则系统会自动添加默认初始化
-2. **连接限制**: serial_begin、serial_print、serial_println、serial_write为语句块，其他为值块
-3. **常见错误**: ❌ 忘记检查serial_available就直接读取，❌ 波特率设置与硬件不匹配
+1. **必须遵守**: 使用串口前建议先初始化,未初始化会自动添加默认配置,块ID必须唯一
+2. **连接限制**: begin/print/println/write为语句块,available/read/read_string/read_until为值块无next字段
+3. **平台特性**: serial_begin_esp32_custom仅ESP32支持,用于配置硬件UART
+4. **常见错误**: ❌ 忘记检查available就直接读取 ❌ 波特率设置与硬件不匹配 ❌ ESP32使用超出范围的UART编号
 
 ## 支持的字段选项
-- **SERIAL(串口)**: 根据板卡动态生成，常见值："Serial", "Serial1", "Serial2", "Serial3"
-- **SPEED(波特率)**: 根据板卡动态生成，常见值："9600", "19200", "38400", "57600", "115200"
-- **TYPE(读取类型)**: "read", "peek", "parseInt", "parseFloat"
+- **SERIAL**: 从board.json的serialPort字段获取(如"Serial","Serial1","Serial2")
+- **SPEED**: 从board.json的serialSpeed字段获取(如"9600","115200")
+- **TYPE**: "read","peek","parseInt","parseFloat","readString"
+- **UART**: "UART0","UART1" (ESP32硬件UART编号)
+- **RX/TX**: 从board.json的digitalPins字段获取GPIO引脚号
