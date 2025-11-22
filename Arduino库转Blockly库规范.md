@@ -363,7 +363,7 @@ JSON数组格式，包含多个块定义对象
 - `generator.addLibrary()` - 自动避免重复添加相同库
 - `generator.addVariable()` - 自动避免重复声明相同变量
 - `generator.addFunction()` - 自动避免重复定义相同函数
-- `generator.addObject()` - 自动避免重复定义相同辅助函数（推荐用于复杂操作）
+- `generator.addObject()` - 自动避免重复定义相同对象
 
 **标准生成器结构（自定义对象）**：
 ```javascript
@@ -453,7 +453,7 @@ Arduino.forBlock['esp32_sd_write_file_quick'] = function(block, generator) {
   functionDef += '}\n';
 
   // 4. 注册辅助函数（自动去重）
-  generator.addObject('writeFile_function', functionDef, true);
+  generator.addFunction('writeFile_function', functionDef, true);
   
   // 5. 确保Serial初始化
   ensureSerialBegin("Serial", generator);
@@ -690,17 +690,12 @@ function getClientName(block, def) {
 - `generator.addFunction()` - 自动去重函数定义，用于添加函数到全局作用域
 - `generator.addObject()` - 自动去重对象/变量声明，用于添加全局对象、变量声明、常量定义等
 
-**关键区别**: 
-- `addFunction`添加的内容放在全局函数区域
-- `addObject`添加的内容放在全局对象/变量声明区域
-- 快速操作的辅助函数使用`addObject`是因为它们往往包含完整的功能实现和错误处理逻辑
-
 ### 快速操作模式设计原则
 - **用户友好**: 一个块完成完整操作流程，无需手动管理中间步骤
 - **自动错误处理**: 辅助函数包含完整的错误检查和状态提示
 - **资源管理**: 自动处理资源的打开、使用、关闭lifecycle
 - **状态反馈**: 通过Serial输出操作结果，便于调试
-- **代码复用**: 使用`addObject`确保辅助函数不重复定义
+- **代码复用**: 使用`addFunction`确保辅助函数不重复定义
 - **Serial初始化**: 使用`ensureSerialBegin()`确保调试输出正常工作
 
 ### 变量类型格式

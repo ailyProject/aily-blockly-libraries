@@ -110,7 +110,9 @@ Arduino.forBlock['sscma_begin_serial'] = function(block, generator) {
     code = varName + '.begin(&' + serial + ', ' + rst + ', ' + baud + ');\n';
   }
 
-  return code;
+  generator.addSetup(varName + '_sscma_serial_begin', code);
+
+  return '';
 };
 
 // 初始化块 - SPI接口
@@ -154,7 +156,10 @@ Arduino.forBlock['sscma_begin_spi'] = function(block, generator) {
     code = varName + '.begin(&' + spi + ', ' + cs + ', ' + sync + ', ' + rst + ', ' + clock + ');\n';
   }
 
-  return code;
+  generator.addSetup(`spi_${spi}_begin`, '' + spi + '.begin(); // 初始化SPI ' + spi);
+  generator.addSetup(varName + '_sscma_spi_begin', code);
+
+  return '';
 };
 
 // 执行AI推理

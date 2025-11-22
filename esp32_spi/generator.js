@@ -4,7 +4,7 @@
 Blockly.getMainWorkspace().addChangeListener((event) => {
   // 当工作区完成加载时调用
   if (event.type === Blockly.Events.FINISHED_LOADING) {
-    console.log('ESP32-SPI: FINISHED_LOADING 事件触发');
+    // console.log('ESP32-SPI: FINISHED_LOADING 事件触发');
     loadExistingSPIBlockToToolbox(Blockly.getMainWorkspace());
   }
 });
@@ -13,40 +13,40 @@ Blockly.getMainWorkspace().addChangeListener((event) => {
 function isESP32Core() {
   const boardConfig = window['boardConfig'];
   const result = boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1;
-  console.log('ESP32-SPI: isESP32Core 检查:', {
-    boardConfig: !!boardConfig,
-    core: boardConfig?.core,
-    result: result
-  });
+  // console.log('ESP32-SPI: isESP32Core 检查:', {
+  //   boardConfig: !!boardConfig,
+  //   core: boardConfig?.core,
+  //   result: result
+  // });
   return result;
 }
 
 function loadExistingSPIBlockToToolbox(workspace) {
   if (!workspace) return;
 
-  console.log("ESP32-SPI: loadExistingSPIBlockToToolbox 被调用");
+  // console.log("ESP32-SPI: loadExistingSPIBlockToToolbox 被调用");
 
   // 获取原始工具箱定义
   const originalToolboxDef = workspace.options.languageTree;
   if (!originalToolboxDef) {
-    console.log("ESP32-SPI: 没有找到 originalToolboxDef");
+    // console.log("ESP32-SPI: 没有找到 originalToolboxDef");
     return;
   }
 
   for (let category of originalToolboxDef.contents) {
-    console.log("ESP32-SPI: 检查类别:", category.name);
+    // console.log("ESP32-SPI: 检查类别:", category.name);
     const isSPICategory = category.name === "SPI" || 
                           category.name === "ESP32 SPI" ||
                           (category.contents && category.contents[0] && 
                            category.contents[0].type && category.contents[0].type.startsWith("esp32_spi_"));
-    console.log("ESP32-SPI: 是否为SPI类别:", isSPICategory, category.name);
+    // console.log("ESP32-SPI: 是否为SPI类别:", isSPICategory, category.name);
     
     if (isSPICategory) {
-      console.log("ESP32-SPI: 找到SPI类别，共有 %d 个块", category.contents?.length);
+      // console.log("ESP32-SPI: 找到SPI类别，共有 %d 个块", category.contents?.length);
 
       // 检测是否为ESP32核心
       if (isESP32Core()) {
-        console.log("ESP32-SPI: 检测到ESP32核心，开始更新");
+        // console.log("ESP32-SPI: 检测到ESP32核心，开始更新");
 
         // 更新SPI引脚信息
         updateESPSPIBlocksWithCustomPorts();
@@ -212,11 +212,11 @@ function updateESPSPIBlockDropdownWithCustomPorts(block, config) {
 function generateESPSPIOptionsWithCustom(boardConfig) {
   const originalSPIs = boardConfig.spiOriginal || boardConfig.spi;
   
-  console.log('ESP32-SPI: generateESPSPIOptionsWithCustom 输入:', {
-    spi: boardConfig.spi,
-    spiPins: boardConfig.spiPins,
-    spiOriginal: boardConfig.spiOriginal
-  });
+  // console.log('ESP32-SPI: generateESPSPIOptionsWithCustom 输入:', {
+  //   spi: boardConfig.spi,
+  //   spiPins: boardConfig.spiPins,
+  //   spiOriginal: boardConfig.spiOriginal
+  // });
   
   // 首先处理默认SPI配置，为其添加引脚信息（类似aily-iic的实现）
   const result = originalSPIs.map(([displayName, value]) => {
@@ -292,7 +292,7 @@ function updateESPSPIBlocksWithCustomPorts() {
     // 检查开发板配置
     const boardConfig = window['boardConfig'];
     if (!boardConfig || !boardConfig.spi) {
-      console.log('ESP32-SPI: boardConfig 或 boardConfig.spi 不存在');
+      // console.log('ESP32-SPI: boardConfig 或 boardConfig.spi 不存在');
       return;
     }
 
@@ -302,12 +302,12 @@ function updateESPSPIBlocksWithCustomPorts() {
     // 备份原始配置（只在第一次时）
     if (!boardConfig.spiOriginal) {
       boardConfig.spiOriginal = [...originalSPIs];
-      console.log('ESP32-SPI: 备份原始配置', boardConfig.spiOriginal);
+      // console.log('ESP32-SPI: 备份原始配置', boardConfig.spiOriginal);
     }
     
     // 创建带引脚信息的SPI选项（不修改原始boardConfig）
     const spiOptionsWithPins = generateESPSPIOptionsWithCustom(boardConfig);
-    console.log('ESP32-SPI: 生成的SPI选项（带引脚信息）:', spiOptionsWithPins);
+    // console.log('ESP32-SPI: 生成的SPI选项（带引脚信息）:', spiOptionsWithPins);
     
     // 创建临时配置对象，避免修改原始boardConfig（参考IIC实现）
     const tempConfig = {
@@ -330,7 +330,7 @@ function updateESPSPIBlocksWithCustomPorts() {
       });
     }
   } catch (e) {
-    console.error('ESP32-SPI: updateESPSPIBlocksWithCustomPorts 错误:', e);
+    // console.error('ESP32-SPI: updateESPSPIBlocksWithCustomPorts 错误:', e);
     // 静默处理错误
   }
 }
@@ -345,7 +345,7 @@ function ensureLibrary(generator, libraryKey, libraryCode) {
 }
 
 function ensureSPILibrary(generator) {
-  ensureLibrary(generator, 'SPI_include', '#include <SPI.h>');
+  ensureLibrary(generator, 'SPI', '#include <SPI.h>');
 }
 
 
@@ -369,9 +369,9 @@ Arduino.forBlock['esp32_spi_begin'] = function(block, generator) {
     generator.addVariable(varName, 'SPIClass ' + varName + '(VSPI);');
   }
 
-  code += varName + '.begin();\n';
+  generator.addSetup(`spi_${varName}_begin`, `${varName}.begin(); // 初始化SPI ${varName}`);
 
-  return code;
+  return '';
 }
 
 Arduino.forBlock['esp32_spi_begin_custom'] = function(block, generator) {
@@ -396,16 +396,15 @@ Arduino.forBlock['esp32_spi_begin_custom'] = function(block, generator) {
     macroCode += '#endif\n';
 
     generator.addMacro('esp32_spi_vspi_define', macroCode);
-    
     generator.addVariable(varName, 'SPIClass ' + varName + '(VSPI);');
   }
 
   // 添加初始化代码到setup部分
-  const setupKey = `spi_custom_${varName}_begin`;
+  const setupKey = `spi_${varName}_begin`;
   const setupCode = `${varName}.begin(${sck}, ${miso}, ${mosi}, ${ss}); // 自定义SPI ${varName}`;
-  // generator.addSetup(setupKey, setupCode);
+  generator.addSetup(setupKey, setupCode);
 
-  return setupCode;
+  return '';
 };
 
 // Arduino.forBlock['esp32_spi_settings'] = function(block, generator) {
@@ -670,7 +669,7 @@ function addESPSPIInputChangeListener(block) {
       
       // 检测自定义名称是否已更改
       if (currentCustomName !== newCustomName) {
-        console.log(`SPI VAR名称从 ${currentCustomName} 更改为 ${newCustomName}`);
+        // console.log(`SPI VAR名称从 ${currentCustomName} 更改为 ${newCustomName}`);
         // 自定义名称已更改，清理旧的自定义配置
         clearCustomESPSPIConfig(currentCustomName);
         // 立即执行全面清理，确保旧配置被移除
@@ -729,7 +728,7 @@ function addESPSPIInputChangeListener(block) {
               const newName = block.getFieldValue('VAR') || 'SPI';
               
               if (oldName !== newName) {
-                console.log(`ESP SPI VAR变化: ${oldName} -> ${newName}`);
+                // console.log(`ESP SPI VAR变化: ${oldName} -> ${newName}`);
                 // 立即清理旧配置
                 clearCustomESPSPIConfig(oldName);
                 // 立即执行全面清理
@@ -928,7 +927,7 @@ window.cleanupUnusedCustomESPSPIs = function() {
     Object.keys(customSPIs).forEach(customName => {
       // 如果这个自定义名称不在任何活跃的SPI块中使用，则删除它
       if (!activeSPINames.has(customName)) {
-        console.log(`清理未使用的自定义SPI配置: ${customName}`);
+        // console.log(`清理未使用的自定义SPI配置: ${customName}`);
         delete customSPIs[customName];
         if (customConfigs) {
           delete customConfigs[customName];
@@ -939,12 +938,12 @@ window.cleanupUnusedCustomESPSPIs = function() {
     
     // 如果有配置变化，更新UI
     if (configChanged) {
-      console.log('检测到自定义SPI配置变化，更新UI...');
+      // console.log('检测到自定义SPI配置变化，更新UI...');
       updateESPSPIBlocksWithCustomPorts();
       setTimeout(() => updateAllESPSPIBlocksInWorkspace(), 100);
     }
   } catch (e) {
-    console.error('清理自定义SPI配置时出错:', e);
+    // console.error('清理自定义SPI配置时出错:', e);
   }
 };
 
@@ -1027,9 +1026,9 @@ if (typeof Blockly !== 'undefined') {
 
 // 如果boardConfig已经存在，立即处理
 if (window['boardConfig']) {
-  console.log('ESP32-SPI: boardConfig 已存在，立即初始化');
+  // console.log('ESP32-SPI: boardConfig 已存在，立即初始化');
   setTimeout(() => {
-    console.log('ESP32-SPI: 开始执行 boardConfig 初始化');
+    // console.log('ESP32-SPI: 开始执行 boardConfig 初始化');
     
     // 先清理残留的自定义配置（参考IIC实现）
     if (window['customESPSPIs']) {
@@ -1080,11 +1079,11 @@ window.forceResetCustomESPSPIs = function() {
 // 强制重新验证所有自定义SPI配置
 window.validateAllCustomESPSPIs = function() {
   try {
-    console.log('开始验证所有自定义SPI配置...');
+    // console.log('开始验证所有自定义SPI配置...');
     // 立即执行清理，移除所有未使用的配置
     window.cleanupUnusedCustomESPSPIs();
   } catch (e) {
-    console.error('验证自定义SPI配置时出错:', e);
+    // console.error('验证自定义SPI配置时出错:', e);
   }
 };
 

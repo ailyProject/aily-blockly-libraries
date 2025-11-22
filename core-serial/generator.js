@@ -24,24 +24,41 @@ function updateAllSerialBlocksInWorkspace(customSerialName) {
 // 更新自定义串口配置的辅助函数
 function updateCustomSerialConfig(customName, serialPort, rxPin, txPin, baudRate) {
   try {
-    if (!window['customSerialPorts']) {
-      window['customSerialPorts'] = {};
-    }
-    if (!window['customSerialConfigs']) {
-      window['customSerialConfigs'] = {};
+    // 检查配置是否已更改（参考IIC实现）
+    let configChanged = true;
+    
+    if (window['customSerialPorts'] && window['customSerialPorts'][customName]) {
+      const existingConfig = window['customSerialPorts'][customName];
+      
+      if (existingConfig.serialPort === serialPort && 
+          existingConfig.rxPin === rxPin && 
+          existingConfig.txPin === txPin && 
+          existingConfig.baudRate === baudRate) {
+        configChanged = false;
+      }
     }
     
-    window['customSerialPorts'][customName] = {
-      serialPort: serialPort,
-      rxPin: rxPin,
-      txPin: txPin,
-      baudRate: baudRate
-    };
-    window['customSerialConfigs'][customName] = true;
-    
-    // 立即更新UI
-    updateSerialBlocksWithCustomPorts();
-    updateAllSerialBlocksInWorkspace(customName);
+    // 只有当配置确实变化时才更新
+    if (configChanged) {
+      if (!window['customSerialPorts']) {
+        window['customSerialPorts'] = {};
+      }
+      if (!window['customSerialConfigs']) {
+        window['customSerialConfigs'] = {};
+      }
+      
+      window['customSerialPorts'][customName] = {
+        serialPort: serialPort,
+        rxPin: rxPin,
+        txPin: txPin,
+        baudRate: baudRate
+      };
+      window['customSerialConfigs'][customName] = true;
+      
+      // 立即更新UI
+      updateSerialBlocksWithCustomPorts();
+      updateAllSerialBlocksInWorkspace(customName);
+    }
   } catch (e) {
     // 忽略错误
   }
@@ -345,8 +362,12 @@ Arduino.forBlock["serial_begin_esp32_custom"] = function (block, generator) {
   generator.addVariable(varName, `HardwareSerial ${varName}(${port});`);
   
   let code = `${varName}.begin(${baudrate}, SERIAL_8N1, ${rxPin}, ${txPin});\n`;
+  generator.addSetupBegin(`serial_${varName}_begin`, code);
 
-  return code;
+  Arduino.initializedSerialPorts.add(varName);
+  Arduino.addedSerialInitCode.add(varName);
+
+  return '';
 }
 
 // 辅助函数，确保串口已被初始化
@@ -437,26 +458,12 @@ function addSerialCustomPortExtensions() {
         setTimeout(() => {
           initializeSerialBlock(this);
           // 为serial_begin_esp32_custom特别添加输入监听器
-          // if (this.type === 'serial_begin_esp32_custom') {
-          //   addSerialInputChangeListener(this);
-          // }
+          if (this.type === 'serial_begin_esp32_custom') {
+            addSerialInputChangeListener(this);
+          }
         }, 50);
       });
     });
-
-    // // 保持原有的扩展名兼容性
-    // // 检查并移除serial_begin_esp32_custom_extension
-    // if (Blockly.Extensions.isRegistered && Blockly.Extensions.isRegistered('serial_begin_esp32_custom_extension')) {
-    //   Blockly.Extensions.unregister('serial_begin_esp32_custom_extension');
-    // }
-    
-    // // 注册serial_begin_esp32_custom_extension
-    // Blockly.Extensions.register('serial_begin_esp32_custom_extension', function() {
-    //   setTimeout(() => {
-    //     initializeSerialBlock(this);
-    //     addSerialInputChangeListener(this);
-    //   }, 50);
-    // });
   } catch (e) {
     // 忽略扩展注册错误
   }
@@ -692,7 +699,7 @@ function clearCustomSerialConfig(customName) {
       // 立即更新UI，恢复默认串口显示
       updateSerialBlocksWithCustomPorts();
       
-      // 更新所有相关的串口块
+      // 只更新使用这个特定串口实例的块（参考IIC，不调用render）
       const workspace = Blockly.getMainWorkspace();
       if (workspace) {
         setTimeout(() => {
@@ -700,8 +707,11 @@ function clearCustomSerialConfig(customName) {
           allBlocks.forEach(b => {
             if (b.getField && b.getField('SERIAL')) {
               try {
-                updateSerialBlockDropdownWithCustomPorts(b);
-                b.render();
+                const blockSerial = b.getFieldValue('SERIAL');
+                // 只更新使用被删除的 customName 的块
+                if (blockSerial === customName) {
+                  updateSerialBlockDropdownWithCustomPorts(b);
+                }
               } catch (e) {
                 // 忽略已销毁的块
               }
@@ -794,6 +804,14 @@ if (typeof Blockly !== 'undefined') {
     if (event.type === Blockly.Events.FINISHED_LOADING) {
       // 延迟执行以确保所有初始化完成
       setTimeout(() => {
+        // 先清理残留的自定义配置（参考IIC实现）
+        if (window['customSerialPorts']) {
+          window['customSerialPorts'] = {};
+        }
+        if (window['customSerialConfigs']) {
+          window['customSerialConfigs'] = {};
+        }
+        
         // 更新串口信息
         updateSerialBlocksWithCustomPorts();
       }, 200);

@@ -43,6 +43,32 @@
     "tooltip": "使用自定义引脚初始化SD卡"
   },
   {
+    "type": "esp32_sd_init",
+    "message0": "初始化SD卡 使用SPI %1 CS引脚 %2 频率 %3Hz ",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SPI",
+        "options": "${board.spi}"
+      },
+      {
+        "type": "input_value",
+        "name": "SS",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "FREQUENCY",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "初始化SD卡 使用指定的SPI总线"
+  },
+  {
     "type": "esp32_sd_card_info",
     "message0": "SD卡信息 %1",
     "args0": [
