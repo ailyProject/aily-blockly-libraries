@@ -93,7 +93,7 @@ function getESP32ChipType() {
     
     return null;
   } catch (e) {
-    console.error('获取 ESP32 芯片型号失败:', e);
+    // console.error('获取 ESP32 芯片型号失败:', e);
     return null;
   }
 }
@@ -138,6 +138,8 @@ function loadExistingSerialBlockToToolbox(workspace) {
   const originalToolboxDef = workspace.options.languageTree;
   if (!originalToolboxDef) return;
 
+  let toolboxUpdated = false;
+
   for (let category of originalToolboxDef.contents) {
     // console.log("检查类别:", category);
     if (category.name === "串口" || (category.contents && category.contents[0] && 
@@ -162,11 +164,15 @@ function loadExistingSerialBlockToToolbox(workspace) {
 
         if (serialBeginIndex >= 0) {
           // 在serial_begin块后插入serial_begin_esp32_custom块
+          // console.log("在 serial_begin 块后插入 serial_begin_esp32_custom 块");
           category.contents.splice(serialBeginIndex + 1, 0, newBlock);
         } else {
           // 添加 serial_begin_esp32_custom 块到工具箱
+          // console.log("添加 serial_begin_esp32_custom 块到工具箱开头");
           category.contents.unshift(newBlock);
         }
+        
+        toolboxUpdated = true;
         // if (!hasCustomBlock) {
         //   // console.log("添加 serial_begin_esp32_custom 块到工具箱");
         //   category.contents.push({
@@ -178,6 +184,12 @@ function loadExistingSerialBlockToToolbox(workspace) {
         // }
       }
     }
+  }
+
+  // 刷新工具箱显示
+  if (toolboxUpdated) {
+    // console.log("刷新工具箱显示");
+    workspace.updateToolbox(originalToolboxDef);
   }
 
 }
@@ -306,7 +318,7 @@ if (typeof Blockly !== 'undefined' && Blockly.Extensions) {
             // 获取动态 UART 选项
             const uartOptions = generateUARTOptions();
 
-            console.log('更新 UART 下拉框选项:', uartOptions);
+            // console.log('更新 UART 下拉框选项:', uartOptions);
             
             // 更新下拉框选项
             uartField.menuGenerator_ = uartOptions;
@@ -329,12 +341,12 @@ if (typeof Blockly !== 'undefined' && Blockly.Extensions) {
             }
           }
         } catch (e) {
-          console.error('初始化 UART 下拉框失败:', e);
+          // console.error('初始化 UART 下拉框失败:', e);
         }
       }, 50);
     });
   } catch (e) {
-    console.error('注册 serial_begin_esp32_custom_extension 扩展失败:', e);
+    // console.error('注册 serial_begin_esp32_custom_extension 扩展失败:', e);
   }
 }
 
@@ -487,7 +499,7 @@ function addSerialInputChangeListener(block) {
       
       // 检测自定义名称是否已更改
       if (currentCustomName !== newCustomName) {
-        console.log(`Serial VAR名称从 ${currentCustomName} 更改为 ${newCustomName}`);
+        // console.log(`Serial VAR名称从 ${currentCustomName} 更改为 ${newCustomName}`);
         // 自定义名称已更改，清理旧的自定义配置
         clearCustomSerialConfig(currentCustomName);
         // 立即执行全面清理，确保旧配置被移除
@@ -773,7 +785,7 @@ window.cleanupUnusedCustomSerialPorts = function() {
     Object.keys(customPorts).forEach(customName => {
       // 如果这个自定义名称不在任何活跃的串口块中使用，则删除它
       if (!activeSerialNames.has(customName)) {
-        console.log(`清理未使用的自定义串口配置: ${customName}`);
+        // console.log(`清理未使用的自定义串口配置: ${customName}`);
         delete customPorts[customName];
         if (customConfigs) {
           delete customConfigs[customName];
@@ -784,12 +796,12 @@ window.cleanupUnusedCustomSerialPorts = function() {
     
     // 如果有配置变化，更新UI
     if (configChanged) {
-      console.log('检测到自定义串口配置变化，更新UI...');
+      // console.log('检测到自定义串口配置变化，更新UI...');
       updateSerialBlocksWithCustomPorts();
       setTimeout(() => updateAllSerialBlocksInWorkspace(), 100);
     }
   } catch (e) {
-    console.error('清理自定义串口配置时出错:', e);
+    // console.error('清理自定义串口配置时出错:', e);
   }
 };
 
@@ -894,11 +906,11 @@ window.forceResetCustomSerialPorts = function() {
 // 强制重新验证所有自定义串口配置
 window.validateAllCustomSerialPorts = function() {
   try {
-    console.log('开始验证所有自定义串口配置...');
+    // console.log('开始验证所有自定义串口配置...');
     // 立即执行清理，移除所有未使用的配置
     window.cleanupUnusedCustomSerialPorts();
   } catch (e) {
-    console.error('验证自定义串口配置时出错:', e);
+    // console.error('验证自定义串口配置时出错:', e);
   }
 };
 
