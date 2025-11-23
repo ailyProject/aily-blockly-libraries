@@ -234,5 +234,105 @@
         "colour": "#1976D2",
         "tooltip": "调整摄像头亮度、对比度和饱和度(-2到2)",
         "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_capture",
+        "message0": "拍摄一张照片",
+        "output": "CameraFrame",
+        "colour": "#0D47A1",
+        "tooltip": "获取一帧摄像头画面数据,返回帧对象(必须在使用完后释放)",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_frame_buffer",
+        "message0": "帧 %1 的数据指针",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "FRAME",
+                "check": "CameraFrame"
+            }
+        ],
+        "output": "Number",
+        "colour": "#0D47A1",
+        "tooltip": "获取帧数据的内存指针(uint8_t*),可用于显示或传输",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_frame_len",
+        "message0": "帧 %1 的数据长度",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "FRAME",
+                "check": "CameraFrame"
+            }
+        ],
+        "output": "Number",
+        "colour": "#0D47A1",
+        "tooltip": "获取帧数据的字节长度",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_frame_width",
+        "message0": "帧 %1 的宽度",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "FRAME",
+                "check": "CameraFrame"
+            }
+        ],
+        "output": "Number",
+        "colour": "#0D47A1",
+        "tooltip": "获取帧图像的宽度(像素)",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_frame_height",
+        "message0": "帧 %1 的高度",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "FRAME",
+                "check": "CameraFrame"
+            }
+        ],
+        "output": "Number",
+        "colour": "#0D47A1",
+        "tooltip": "获取帧图像的高度(像素)",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_release",
+        "message0": "释放帧 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "FRAME",
+                "check": "CameraFrame"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#0D47A1",
+        "tooltip": "释放帧缓冲区内存(使用完帧后必须调用)",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_send_serial",
+        "message0": "通过串口发送帧 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "FRAME",
+                "check": "CameraFrame"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#0D47A1",
+        "tooltip": "通过串口发送JPEG图像数据(可用于上位机显示)",
+        "helpUrl": ""
     }
 ]
