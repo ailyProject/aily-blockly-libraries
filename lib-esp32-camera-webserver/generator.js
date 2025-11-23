@@ -166,9 +166,7 @@ ${pinConfig}
     s->set_brightness(s, 1);
     s->set_saturation(s, -2);
   }
-  if(config.pixel_format == PIXFORMAT_JPEG){
-    s->set_framesize(s, FRAMESIZE_QVGA);
-  }
+  // 使用用户在初始化块中设置的分辨率，不再强制修改为QVGA
 
 #if defined(CAMERA_MODEL_M5STACK_WIDE) || defined(CAMERA_MODEL_M5STACK_ESP32CAM)
   s->set_vflip(s, 1);
@@ -238,6 +236,52 @@ Arduino.forBlock['esp32_camera_set_brightness'] = function (block, generator) {
     s->set_brightness(s, ${brightness});
     s->set_contrast(s, ${contrast});
     s->set_saturation(s, ${saturation});
+  }
+`;
+};
+
+// 摄像头捕获和数据访问块
+// 注意：返回指针转换为unsigned long，这样可以存储在Blockly的整数变量中
+Arduino.forBlock['esp32_camera_capture'] = function (block, generator) {
+  return ['((unsigned long)esp_camera_fb_get())', generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['esp32_camera_frame_buffer'] = function (block, generator) {
+  const frame = generator.valueToCode(block, 'FRAME', generator.ORDER_ATOMIC) || '0';
+  return [`(${frame} ? ((camera_fb_t*)${frame})->buf : NULL)`, generator.ORDER_CONDITIONAL];
+};
+
+Arduino.forBlock['esp32_camera_frame_len'] = function (block, generator) {
+  const frame = generator.valueToCode(block, 'FRAME', generator.ORDER_ATOMIC) || '0';
+  return [`(${frame} ? ((camera_fb_t*)${frame})->len : 0)`, generator.ORDER_CONDITIONAL];
+};
+
+Arduino.forBlock['esp32_camera_frame_width'] = function (block, generator) {
+  const frame = generator.valueToCode(block, 'FRAME', generator.ORDER_ATOMIC) || '0';
+  return [`(${frame} ? ((camera_fb_t*)${frame})->width : 0)`, generator.ORDER_CONDITIONAL];
+};
+
+Arduino.forBlock['esp32_camera_frame_height'] = function (block, generator) {
+  const frame = generator.valueToCode(block, 'FRAME', generator.ORDER_ATOMIC) || '0';
+  return [`(${frame} ? ((camera_fb_t*)${frame})->height : 0)`, generator.ORDER_CONDITIONAL];
+};
+
+Arduino.forBlock['esp32_camera_release'] = function (block, generator) {
+  const frame = generator.valueToCode(block, 'FRAME', generator.ORDER_ATOMIC) || '0';
+  return `  if(${frame}) {
+    esp_camera_fb_return((camera_fb_t*)${frame});
+  }
+`;
+};
+
+Arduino.forBlock['esp32_camera_send_serial'] = function (block, generator) {
+  const frame = generator.valueToCode(block, 'FRAME', generator.ORDER_ATOMIC) || '0';
+  return `  if(${frame}) {
+    camera_fb_t* _fb = (camera_fb_t*)${frame};
+    if(_fb->buf && _fb->len > 0) {
+      Serial.write(_fb->buf, _fb->len);
+      Serial.flush();
+    }
   }
 `;
 };
