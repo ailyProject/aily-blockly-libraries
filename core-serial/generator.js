@@ -1,4 +1,41 @@
 // 动态串口配置管理 - 参考aily-iic实现
+// 在最开始就拦截 Blockly 的字段验证
+// 全局拦截 Blockly FieldDropdown 验证逻辑，允许自定义串口值通过验证
+(function installSerialFieldValidator() {
+  const tryInstall = function() {
+    if (typeof Blockly !== 'undefined' && Blockly.Field && Blockly.FieldDropdown) {
+      // 检查是否已经安装过
+      if (Blockly.FieldDropdown.prototype._serialValidatorInstalled) {
+        return;
+      }
+      
+      // 保存原始的 doClassValidation_ 方法
+      const originalDoClassValidation = Blockly.FieldDropdown.prototype.doClassValidation_;
+      
+      // 重写 FieldDropdown 的验证方法
+      Blockly.FieldDropdown.prototype.doClassValidation_ = function(newValue) {
+        // 检查是否是 SERIAL 字段且值为自定义串口
+        if (this.name === 'SERIAL') {
+          const customPorts = window['customSerialPorts'];
+          if (customPorts && customPorts[newValue]) {
+            return newValue; // 允许自定义串口值通过验证
+          }
+        }
+        // 否则调用原始验证逻辑
+        return originalDoClassValidation ? originalDoClassValidation.call(this, newValue) : newValue;
+      };
+      
+      // 标记已安装
+      Blockly.FieldDropdown.prototype._serialValidatorInstalled = true;
+    } else {
+      // Blockly 还未加载，延迟重试
+      setTimeout(tryInstall, 100);
+    }
+  };
+  
+  tryInstall();
+})();
+
 // 通用的更新所有相关串口块的函数
 function updateAllSerialBlocksInWorkspace(customSerialName) {
   try {
@@ -306,12 +343,38 @@ if (typeof Blockly !== 'undefined' && Blockly.Extensions) {
     
     // 注册扩展
     Blockly.Extensions.register('serial_begin_esp32_custom_extension', function() {
-      setTimeout(() => {
-        // 检查块是否在 flyout 中
-        if (this.isInFlyout) {
-          return;
+      // 检查块是否在 flyout 中
+      if (this.isInFlyout) {
+        return;
+      }
+      
+      try {
+        // 立即同步注册自定义串口配置（确保加载时配置就绪）
+        const varName = this.getFieldValue('VAR') || 'SerialCustom';
+        const serialPort = this.getFieldValue('UART') || 'UART0';
+        const rxPin = this.getFieldValue('RX') || '0';
+        const txPin = this.getFieldValue('TX') || '0';
+        const baudrate = this.getFieldValue('SPEED') || '9600';
+        
+        if (!window['customSerialPorts']) {
+          window['customSerialPorts'] = {};
+        }
+        if (!window['customSerialConfigs']) {
+          window['customSerialConfigs'] = {};
         }
         
+        window['customSerialPorts'][varName] = {
+          serialPort: serialPort,
+          rxPin: rxPin,
+          txPin: txPin,
+          baudRate: baudrate
+        };
+        window['customSerialConfigs'][varName] = true;
+      } catch (e) {
+        // 忽略错误
+      }
+      
+      setTimeout(() => {
         try {
           const uartField = this.getField('UART');
           if (uartField) {
@@ -340,6 +403,10 @@ if (typeof Blockly !== 'undefined' && Blockly.Extensions) {
               uartField.setValue(uartOptions[0][1]);
             }
           }
+          
+          // 更新UI显示
+          updateSerialBlocksWithCustomPorts();
+          addSerialInputChangeListener(this);
         } catch (e) {
           // console.error('初始化 UART 下拉框失败:', e);
         }
@@ -410,20 +477,43 @@ function initializeSerialBlock(block) {
     const serialField = block.getField('SERIAL');
     if (!serialField) return;
     
-    // 延迟初始化，等待boardConfig加载
+    // 先立即同步更新一次（不等待，确保加载时配置就绪）
+    const currentValue = serialField.getValue();
+    updateSerialBlockDropdownWithCustomPorts(block);
+    
+    // 如果当前值存在且看起来是自定义串口名称，强制保留它
+    if (currentValue) {
+      try {
+        // 重新获取选项并验证
+        const boardConfig = window['boardConfig'];
+        if (boardConfig) {
+          const options = generateSerialPortOptionsWithCustom(boardConfig);
+          const matchingOption = options.find(([text, value]) => value === currentValue);
+          
+          // 如果找到匹配选项，确保设置正确
+          if (matchingOption) {
+            serialField.setValue(currentValue);
+          }
+        }
+      } catch (e) {
+        // 忽略错误
+      }
+    }
+    
+    // 延迟初始化，等待boardConfig加载（用于UI更新）
     setTimeout(() => {
       updateSerialBlockDropdownWithCustomPorts(block);
       
       const boardConfig = window['boardConfig'];
       if (boardConfig && boardConfig.serialPort && boardConfig.serialPort.length > 0) {
-        const currentValue = serialField.getValue();
+        const savedValue = serialField.getValue();
         
         // 检查当前值是否在选项列表中
         const options = generateSerialPortOptionsWithCustom(boardConfig);
-        const matchingOption = options.find(([text, value]) => value === currentValue);
+        const matchingOption = options.find(([text, value]) => value === savedValue);
         
         // 只有在没有当前值或当前值无效的情况下才设置默认值
-        if (!currentValue || !matchingOption) {
+        if (!savedValue || !matchingOption) {
           try {
             serialField.setValue(boardConfig.serialPort[0][1]);
           } catch (e) {
@@ -465,11 +555,11 @@ function addSerialCustomPortExtensions() {
         Blockly.Extensions.unregister(extensionName);
       }
       
-      // 然后注册扩展
+      // 注册扩展
       Blockly.Extensions.register(extensionName, function() {
         setTimeout(() => {
           initializeSerialBlock(this);
-          // 为serial_begin_esp32_custom特别添加输入监听器
+          // 为 serial_begin_esp32_custom 添加字段变化监听器
           if (this.type === 'serial_begin_esp32_custom') {
             addSerialInputChangeListener(this);
           }
@@ -477,7 +567,7 @@ function addSerialCustomPortExtensions() {
       });
     });
   } catch (e) {
-    // 忽略扩展注册错误
+    // console.error('[Serial Debug] 扩展注册错误:', e);
   }
 }
 
@@ -665,6 +755,7 @@ function updateSerialBlockDropdownWithCustomPorts(block, config) {
     if (!serialField) return;
     
     const optionsWithCustom = generateSerialPortOptionsWithCustom(boardConfig);
+    const currentValue = serialField.getValue();
 
     // 更新下拉菜单选项
     if (optionsWithCustom.length > 0) {
@@ -674,13 +765,11 @@ function updateSerialBlockDropdownWithCustomPorts(block, config) {
         return optionsWithCustom;
       };
 
-      // 获取当前值
-      const currentValue = serialField.getValue();
       // 检查当前值是否在新的选项列表中
       const matchingOption = optionsWithCustom.find(([text, value]) => value === currentValue);
 
       if (currentValue && matchingOption) {
-        // 强制调用setValue刷新UI（即使值未变，setValue也会刷新显示文本）
+        // 强制调用 setValue 刷新 UI
         serialField.setValue(currentValue);
       } else {
         // 当前值无效，设置为第一个选项
@@ -688,7 +777,7 @@ function updateSerialBlockDropdownWithCustomPorts(block, config) {
       }
     }
   } catch (e) {
-    // 忽略错误
+    // console.error('[Serial Debug] 更新下拉选项时出错:', e);
   }
 }
 
@@ -785,7 +874,6 @@ window.cleanupUnusedCustomSerialPorts = function() {
     Object.keys(customPorts).forEach(customName => {
       // 如果这个自定义名称不在任何活跃的串口块中使用，则删除它
       if (!activeSerialNames.has(customName)) {
-        // console.log(`清理未使用的自定义串口配置: ${customName}`);
         delete customPorts[customName];
         if (customConfigs) {
           delete customConfigs[customName];
@@ -796,12 +884,11 @@ window.cleanupUnusedCustomSerialPorts = function() {
     
     // 如果有配置变化，更新UI
     if (configChanged) {
-      // console.log('检测到自定义串口配置变化，更新UI...');
       updateSerialBlocksWithCustomPorts();
       setTimeout(() => updateAllSerialBlocksInWorkspace(), 100);
     }
   } catch (e) {
-    // console.error('清理自定义串口配置时出错:', e);
+    // 忽略错误
   }
 };
 
@@ -812,16 +899,86 @@ if (typeof Blockly !== 'undefined') {
 
   // 添加工作区变化监听器
   const addSerialBlocksListener = function(event) {
+    // 在块创建时立即注册自定义串口配置
+    if (event.type === Blockly.Events.BLOCK_CREATE) {
+      try {
+        const workspace = Blockly.getMainWorkspace();
+        if (!workspace) return;
+        
+        const block = workspace.getBlockById(event.blockId);
+        if (block && block.type === 'serial_begin_esp32_custom') {
+          const varName = block.getFieldValue('VAR') || 'SerialCustom';
+          const serialPort = block.getFieldValue('UART') || 'UART0';
+          const rxPin = block.getFieldValue('RX') || '0';
+          const txPin = block.getFieldValue('TX') || '0';
+          const baudrate = block.getFieldValue('SPEED') || '9600';
+          
+          if (!window['customSerialPorts']) {
+            window['customSerialPorts'] = {};
+          }
+          if (!window['customSerialConfigs']) {
+            window['customSerialConfigs'] = {};
+          }
+          
+          window['customSerialPorts'][varName] = {
+            serialPort: serialPort,
+            rxPin: rxPin,
+            txPin: txPin,
+            baudRate: baudrate
+          };
+          window['customSerialConfigs'][varName] = true;
+          
+          // 立即更新所有串口块的下拉选项
+          updateSerialBlocksWithCustomPorts();
+        }
+      } catch (e) {
+        // 忽略错误
+      }
+    }
+    
     // 当工作区完成加载时调用
     if (event.type === Blockly.Events.FINISHED_LOADING) {
-      // 延迟执行以确保所有初始化完成
       setTimeout(() => {
-        // 先清理残留的自定义配置（参考IIC实现）
+        // 清理残留的自定义配置
         if (window['customSerialPorts']) {
           window['customSerialPorts'] = {};
         }
         if (window['customSerialConfigs']) {
           window['customSerialConfigs'] = {};
+        }
+        
+        // 扫描工作区中所有的 serial_begin_esp32_custom 块，预先注册配置
+        const workspace = Blockly.getMainWorkspace();
+        if (workspace) {
+          const allBlocks = workspace.getAllBlocks();
+          allBlocks.forEach(block => {
+            if (block.type === 'serial_begin_esp32_custom') {
+              try {
+                const varName = block.getFieldValue('VAR') || 'SerialCustom';
+                const serialPort = block.getFieldValue('UART') || 'UART0';
+                const rxPin = block.getFieldValue('RX') || '0';
+                const txPin = block.getFieldValue('TX') || '0';
+                const baudrate = block.getFieldValue('SPEED') || '9600';
+                
+                if (!window['customSerialPorts']) {
+                  window['customSerialPorts'] = {};
+                }
+                if (!window['customSerialConfigs']) {
+                  window['customSerialConfigs'] = {};
+                }
+                
+                window['customSerialPorts'][varName] = {
+                  serialPort: serialPort,
+                  rxPin: rxPin,
+                  txPin: txPin,
+                  baudRate: baudrate
+                };
+                window['customSerialConfigs'][varName] = true;
+              } catch (e) {
+                // 忽略错误
+              }
+            }
+          });
         }
         
         // 更新串口信息
@@ -906,11 +1063,9 @@ window.forceResetCustomSerialPorts = function() {
 // 强制重新验证所有自定义串口配置
 window.validateAllCustomSerialPorts = function() {
   try {
-    // console.log('开始验证所有自定义串口配置...');
-    // 立即执行清理，移除所有未使用的配置
     window.cleanupUnusedCustomSerialPorts();
   } catch (e) {
-    // console.error('验证自定义串口配置时出错:', e);
+    // 忽略错误
   }
 };
 
