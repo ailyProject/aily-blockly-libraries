@@ -17,6 +17,24 @@
     },
     {
       "kind": "block",
+      "type": "serial_read_string"
+    },
+    {
+      "kind": "block",
+      "type": "serial_read_until",
+      "inputs": {
+        "TERMINATOR": {
+          "shadow": {
+            "type": "char",
+            "fields": {
+              "CHAR": "\\n"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
       "type": "serial_print",
       "inputs": {
         "VAR": {
@@ -46,10 +64,6 @@
     {
       "kind": "block",
       "type": "serial_write"
-    },
-    {
-      "kind": "block",
-      "type": "serial_read_string"
     },
     {
       "kind": "block",

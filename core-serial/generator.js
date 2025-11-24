@@ -291,7 +291,7 @@ Arduino.forBlock["serial_read"] = function (block, generator) {
   const obj = block.getFieldValue("SERIAL");
   const type = block.getFieldValue("TYPE");
   ensureSerialBegin(obj, generator);
-  return [`${obj}.${type}()`, Arduino.ORDER_FUNCTION_CALL];
+  return [`${obj}.${type}`, Arduino.ORDER_FUNCTION_CALL];
 };
 
 Arduino.forBlock["serial_read_until"] = function (block, generator) {
