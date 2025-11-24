@@ -1,0 +1,546 @@
+[
+  {
+    "type": "websocket_client_create",
+    "message0": "创建WebSocket客户端 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "wsClient"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "创建WebSocket客户端对象",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_client_begin",
+    "message0": "WebSocket客户端 %1 连接到 %2 端口 %3 路径 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsClient",
+        "variableTypes": ["WebSocketsClient"],
+        "defaultType": "WebSocketsClient"
+      },
+      {
+        "type": "input_value",
+        "name": "HOST",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "连接到WebSocket服务器",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_client_begin_ssl",
+    "message0": "WebSocket客户端 %1 SSL连接到 %2 端口 %3 路径 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsClient",
+        "variableTypes": ["WebSocketsClient"],
+        "defaultType": "WebSocketsClient"
+      },
+      {
+        "type": "input_value",
+        "name": "HOST",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "SSL安全连接到WebSocket服务器",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_client_on_event",
+    "message0": "当WebSocket客户端 %1 收到事件时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsClient",
+        "variableTypes": ["WebSocketsClient"],
+        "defaultType": "WebSocketsClient"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#2196F3",
+    "tooltip": "设置WebSocket客户端事件处理",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_client_send_text",
+    "message0": "WebSocket客户端 %1 发送文本 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsClient",
+        "variableTypes": ["WebSocketsClient"],
+        "defaultType": "WebSocketsClient"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "发送文本消息到WebSocket服务器",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_client_send_binary",
+    "message0": "WebSocket客户端 %1 发送二进制数据 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsClient",
+        "variableTypes": ["WebSocketsClient"],
+        "defaultType": "WebSocketsClient"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "发送二进制数据到WebSocket服务器",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_client_disconnect",
+    "message0": "WebSocket客户端 %1 断开连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsClient",
+        "variableTypes": ["WebSocketsClient"],
+        "defaultType": "WebSocketsClient"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "断开WebSocket客户端连接",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_client_is_connected",
+    "message0": "WebSocket客户端 %1 是否已连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsClient",
+        "variableTypes": ["WebSocketsClient"],
+        "defaultType": "WebSocketsClient"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#2196F3",
+    "tooltip": "检查WebSocket客户端是否已连接",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_client_set_reconnect",
+    "message0": "WebSocket客户端 %1 设置重连间隔 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsClient",
+        "variableTypes": ["WebSocketsClient"],
+        "defaultType": "WebSocketsClient"
+      },
+      {
+        "type": "input_value",
+        "name": "INTERVAL",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置WebSocket客户端重连间隔",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_client_enable_heartbeat",
+    "message0": "WebSocket客户端 %1 启用心跳 间隔%2毫秒 超时%3毫秒 断开次数%4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsClient",
+        "variableTypes": ["WebSocketsClient"],
+        "defaultType": "WebSocketsClient"
+      },
+      {
+        "type": "input_value",
+        "name": "PING_INTERVAL",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "PONG_TIMEOUT",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "DISCONNECT_COUNT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "启用WebSocket客户端心跳检测",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_server_create",
+    "message0": "创建WebSocket服务器 %1 端口 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "wsServer"
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "创建WebSocket服务器对象",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_server_begin",
+    "message0": "WebSocket服务器 %1 启动",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsServer",
+        "variableTypes": ["WebSocketsServer"],
+        "defaultType": "WebSocketsServer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "启动WebSocket服务器",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_server_on_event",
+    "message0": "当WebSocket服务器 %1 收到事件时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsServer",
+        "variableTypes": ["WebSocketsServer"],
+        "defaultType": "WebSocketsServer"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#4CAF50",
+    "tooltip": "设置WebSocket服务器事件处理",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_server_send_text",
+    "message0": "WebSocket服务器 %1 向客户端 %2 发送文本 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsServer",
+        "variableTypes": ["WebSocketsServer"],
+        "defaultType": "WebSocketsServer"
+      },
+      {
+        "type": "input_value",
+        "name": "CLIENT_NUM",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "向指定客户端发送文本消息",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_server_broadcast_text",
+    "message0": "WebSocket服务器 %1 广播文本 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsServer",
+        "variableTypes": ["WebSocketsServer"],
+        "defaultType": "WebSocketsServer"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "向所有连接的客户端广播文本消息",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_server_send_binary",
+    "message0": "WebSocket服务器 %1 向客户端 %2 发送二进制数据 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsServer",
+        "variableTypes": ["WebSocketsServer"],
+        "defaultType": "WebSocketsServer"
+      },
+      {
+        "type": "input_value",
+        "name": "CLIENT_NUM",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "向指定客户端发送二进制数据",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_server_broadcast_binary",
+    "message0": "WebSocket服务器 %1 广播二进制数据 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsServer",
+        "variableTypes": ["WebSocketsServer"],
+        "defaultType": "WebSocketsServer"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "向所有连接的客户端广播二进制数据",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_server_disconnect",
+    "message0": "WebSocket服务器 %1 断开客户端 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsServer",
+        "variableTypes": ["WebSocketsServer"],
+        "defaultType": "WebSocketsServer"
+      },
+      {
+        "type": "input_value",
+        "name": "CLIENT_NUM",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "断开指定客户端连接",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_server_disconnect_all",
+    "message0": "WebSocket服务器 %1 断开所有客户端",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsServer",
+        "variableTypes": ["WebSocketsServer"],
+        "defaultType": "WebSocketsServer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "断开所有客户端连接",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_server_connected_clients",
+    "message0": "WebSocket服务器 %1 连接的客户端数量",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsServer",
+        "variableTypes": ["WebSocketsServer"],
+        "defaultType": "WebSocketsServer"
+      }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50",
+    "tooltip": "获取连接的客户端数量",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_server_client_connected",
+    "message0": "WebSocket服务器 %1 客户端 %2 是否已连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wsServer",
+        "variableTypes": ["WebSocketsServer"],
+        "defaultType": "WebSocketsServer"
+      },
+      {
+        "type": "input_value",
+        "name": "CLIENT_NUM",
+        "check": ["Number"]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "检查指定客户端是否已连接",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_event_type",
+    "message0": "事件类型 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["断开连接", "WStype_DISCONNECTED"],
+          ["已连接", "WStype_CONNECTED"],
+          ["文本消息", "WStype_TEXT"],
+          ["二进制消息", "WStype_BIN"],
+          ["Ping", "WStype_PING"],
+          ["Pong", "WStype_PONG"],
+          ["错误", "WStype_ERROR"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "WebSocket事件类型",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_event_payload",
+    "message0": "事件数据 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PAYLOAD",
+        "options": [
+          ["事件类型", "TYPE"],
+          ["事件数据(uint8_t*)", "PAYLOAD"],
+          ["事件数据(char*)", "PAYLOAD_CHAR"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "WebSocket事件数据",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_event_payload_length",
+    "message0": "事件数据长度",
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取事件数据的长度",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "websocket_event_client_num",
+    "message0": "事件客户端编号",
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取事件的客户端编号",
+    "icon": "fa-light fa-link"
+  }
+]

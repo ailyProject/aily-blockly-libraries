@@ -1,0 +1,320 @@
+{
+  "kind": "category",
+  "name": "WebSockets",
+  "icon": "fa-light fa-link",
+  "colour": "#2196F3",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "WebSocket客户端"
+    },
+    {
+      "kind": "block",
+      "type": "websocket_client_create"
+    },
+    {
+      "kind": "block",
+      "type": "websocket_client_begin",
+      "inputs": {
+        "HOST": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "192.168.1.100"
+            }
+          }
+        },
+        "PORT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 80
+            }
+          }
+        },
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "websocket_client_begin_ssl",
+      "inputs": {
+        "HOST": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "echo.websocket.org"
+            }
+          }
+        },
+        "PORT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 443
+            }
+          }
+        },
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "websocket_client_on_event"
+    },
+    {
+      "kind": "block",
+      "type": "websocket_client_send_text",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello WebSocket!"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "websocket_client_send_binary",
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "binary data"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "websocket_client_disconnect"
+    },
+    {
+      "kind": "block",
+      "type": "websocket_client_is_connected"
+    },
+    {
+      "kind": "block",
+      "type": "websocket_client_set_reconnect",
+      "inputs": {
+        "INTERVAL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 5000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "websocket_client_enable_heartbeat",
+      "inputs": {
+        "PING_INTERVAL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 15000
+            }
+          }
+        },
+        "PONG_TIMEOUT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 3000
+            }
+          }
+        },
+        "DISCONNECT_COUNT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 2
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "sep"
+    },
+    {
+      "kind": "label",
+      "text": "WebSocket服务器"
+    },
+    {
+      "kind": "block",
+      "type": "websocket_server_create",
+      "inputs": {
+        "PORT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 81
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "websocket_server_begin"
+    },
+    {
+      "kind": "block",
+      "type": "websocket_server_on_event"
+    },
+    {
+      "kind": "block",
+      "type": "websocket_server_send_text",
+      "inputs": {
+        "CLIENT_NUM": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello Client!"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "websocket_server_broadcast_text",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Broadcast message"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "websocket_server_send_binary",
+      "inputs": {
+        "CLIENT_NUM": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "binary data"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "websocket_server_broadcast_binary",
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "binary data"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "websocket_server_disconnect",
+      "inputs": {
+        "CLIENT_NUM": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "websocket_server_disconnect_all"
+    },
+    {
+      "kind": "block",
+      "type": "websocket_server_connected_clients"
+    },
+    {
+      "kind": "block",
+      "type": "websocket_server_client_connected",
+      "inputs": {
+        "CLIENT_NUM": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "sep"
+    },
+    {
+      "kind": "label",
+      "text": "事件处理"
+    },
+    {
+      "kind": "block",
+      "type": "websocket_event_type"
+    },
+    {
+      "kind": "block",
+      "type": "websocket_event_payload"
+    },
+    {
+      "kind": "block",
+      "type": "websocket_event_payload_length"
+    },
+    {
+      "kind": "block",
+      "type": "websocket_event_client_num"
+    }
+  ]
+}
