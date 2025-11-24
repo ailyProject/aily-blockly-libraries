@@ -37,6 +37,7 @@ Arduino.forBlock['sscma_begin_i2c'] = function(block, generator) {
   registerVariableToBlockly(varName, 'SSCMA');
   generator.addVariable(varName, 'SSCMA ' + varName + ';');
 
+  generator.addSetup(`wire_${wire}_begin`, '' + wire + '.begin(); // 初始化I2C ' + wire);
   // 生成初始化代码
   let code = '';
   if (rst == -1) {
@@ -173,6 +174,11 @@ Arduino.forBlock['sscma_invoke'] = function(block, generator) {
   const code = varName + '.invoke(' + times + ', ' + filter + ', ' + show + ')';
   return [code, generator.ORDER_ATOMIC];
 };
+
+Arduino.forBlock['sscma_return_status'] = function(block, generator) {
+  const status = block.getFieldValue('STATUS');
+  return [status, generator.ORDER_ATOMIC];
+}
 
 // 获取检测框数量
 Arduino.forBlock['sscma_get_boxes_count'] = function(block, generator) {

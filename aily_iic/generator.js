@@ -149,24 +149,24 @@ Arduino.forBlock['wire_begin'] = function(block, generator) {
 
   // 根据模式生成不同的代码
   var code = '';
-  var setupKey = '';
+  // var setupKey = 'wire_begin_' + wire;
   
   if (mode === 'SLAVE') {
     // 从模式：Wire.begin(address) - 使用默认引脚
     var address = getAddressValue(block, generator);
     
     code = wire + '.begin(' + address + '); // 从设备模式 设备地址: ' + address + '\n';
-    setupKey = 'wire_begin_' + wire + '_slave_' + address;
+    // setupKey = 'wire_begin_' + wire + '_slave_' + address;
   } else {
     // 主模式：Wire.begin()
     code = wire + '.begin(); // 主设备模式\n';
-    setupKey = 'wire_begin_' + wire + '_master';
+    // setupKey = 'wire_begin_' + wire + '_master';
   }
   
   // 组合最终代码并添加到setup部分
   var fullCode = pinComment + code;
-  if (!generator.setupCodes_ || !generator.setupCodes_[setupKey]) {
-    generator.addSetup(setupKey, fullCode);
+  if (!generator.setupCodes_ || !generator.setupCodes_[`wire_${wire}_begin`]) {
+    generator.addSetup(`wire_${wire}_begin`, fullCode);
   }
   
   return '';
@@ -207,19 +207,19 @@ Arduino.forBlock['wire_begin_with_settings'] = function(block, generator) {
     var address = getAddressValue(block, generator);
 
     code = pinComment + ' 从设备模式 设备地址: ' + address + '\n  ' + wire + '.begin(' + address + ', ' + sda + ', ' + scl + ');\n';
-    setupKey = 'wire_begin_' + wire + '_slave_' + address + '_' + sda + '_' + scl;
+    // setupKey = `wire_${wire}_begin_slave_${address}_${sda}_${scl}`;
   } else {
     // 主模式：Wire.begin(sda, scl)
     code = pinComment + ' 主设备模式\n  ' + wire + '.begin(' + sda + ', ' + scl + ');\n';
-    setupKey = 'wire_begin_' + wire + '_' + sda + '_' + scl + '_master';
+    // setupKey = 'wire_begin_' + wire + '_' + sda + '_' + scl + '_master';
   }
   
   // 为每个Wire实例使用基础的setupKey，避免与wire_begin冲突
-  var baseSetupKey = 'wire_begin_' + wire;
+  var baseSetupKey = `wire_${wire}_begin`;
   
   // 检查是否已经初始化过这个Wire实例（任何形式的初始化）
   if (!generator.setupCodes_ || (!generator.setupCodes_[baseSetupKey] && !generator.setupCodes_[setupKey])) {
-    generator.addSetup(setupKey, code);
+    generator.addSetup(baseSetupKey, code);
     // 同时标记基础key，防止后续的wire_begin重复初始化
     generator.addSetup(baseSetupKey, '// Wire ' + wire + ' initialized with custom pins\n');
   }
