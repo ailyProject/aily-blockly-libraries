@@ -1,5 +1,65 @@
 'use strict';
 
+// 全局拦截 Blockly FieldDropdown 验证逻辑，允许自定义SPI值通过验证
+(function installSPIFieldValidator() {
+  const tryInstall = function() {
+    if (typeof Blockly !== 'undefined' && Blockly.Field && Blockly.FieldDropdown) {
+      // 检查是否已经安装过
+      if (Blockly.FieldDropdown.prototype._spiValidatorInstalled) {
+        return;
+      }
+      
+      // 保存原始的 doClassValidation_ 方法
+      const originalDoClassValidation = Blockly.FieldDropdown.prototype.doClassValidation_;
+      
+      // 获取已保存的串口验证标记
+      const serialValidatorInstalled = Blockly.FieldDropdown.prototype._serialValidatorInstalled;
+      
+      // 重写 FieldDropdown 的验证方法
+      Blockly.FieldDropdown.prototype.doClassValidation_ = function(newValue) {
+        // 检查是否是 SPI 字段
+        if (this.name === 'SPI') {
+          // 检查是否是已注册的自定义SPI
+          const customSPIs = window['customESPSPIs'];
+          if (customSPIs && customSPIs[newValue]) {
+            return newValue;
+          }
+          
+          // 检查是否是标准SPI选项（SPI, HSPI, VSPI等）
+          const boardConfig = window['boardConfig'];
+          if (boardConfig && boardConfig.spi) {
+            const standardOptions = boardConfig.spiOriginal || boardConfig.spi;
+            const isStandardOption = standardOptions.some(option => option[1] === newValue);
+            if (isStandardOption) {
+              return originalDoClassValidation ? originalDoClassValidation.call(this, newValue) : newValue;
+            }
+          }
+          
+          // 对于非标准选项，在加载期间临时允许通过（可能是待注册的自定义SPI）
+          return newValue;
+        }
+        // 如果已安装串口验证器，调用它（保持兼容性）
+        if (serialValidatorInstalled && this.name === 'SERIAL') {
+          const customPorts = window['customSerialPorts'];
+          if (customPorts && customPorts[newValue]) {
+            return newValue;
+          }
+        }
+        // 否则调用原始验证逻辑
+        return originalDoClassValidation ? originalDoClassValidation.call(this, newValue) : newValue;
+      };
+      
+      // 标记已安装
+      Blockly.FieldDropdown.prototype._spiValidatorInstalled = true;
+    } else {
+      // Blockly 还未加载，延迟重试
+      setTimeout(tryInstall, 100);
+    }
+  };
+  
+  tryInstall();
+})();
+
 // 动态SPI配置管理 - 参考core-serial实现
 Blockly.getMainWorkspace().addChangeListener((event) => {
   // 当工作区完成加载时调用
@@ -123,25 +183,24 @@ function updateAllESPSPIBlocksInWorkspace(spiName) {
   }
 }
 
-// 更新自定义SPI配置的辅助函数
+// 更新自定义SPI配置的辅助函数（参考 core-serial）
 function updateCustomESPSPIConfig(customName, sckPin, misoPin, mosiPin, ssPin) {
   try {
-    // 检查引脚值是否已更改（参考aily-iic的实现）
-    let pinsChanged = true;
+    let configChanged = true;
     
     if (window['customESPSPIs'] && window['customESPSPIs'][customName]) {
-      const existingPins = window['customESPSPIs'][customName];
+      const existingConfig = window['customESPSPIs'][customName];
       
-      if (existingPins.sck === sckPin && 
-          existingPins.miso === misoPin && 
-          existingPins.mosi === mosiPin && 
-          existingPins.ss === ssPin) {
-        pinsChanged = false;
+      if (existingConfig.sck === sckPin && 
+          existingConfig.miso === misoPin && 
+          existingConfig.mosi === mosiPin && 
+          existingConfig.ss === ssPin) {
+        configChanged = false;
       }
     }
     
-    // 只有当引脚值确实变化时才更新
-    if (pinsChanged) {
+    // 只有当配置确实变化时才更新
+    if (configChanged) {
       if (!window['customESPSPIs']) {
         window['customESPSPIs'] = {};
       }
@@ -181,6 +240,7 @@ function updateESPSPIBlockDropdownWithCustomPorts(block, config) {
     if (!spiField) return;
     
     const optionsWithCustom = generateESPSPIOptionsWithCustom(boardConfig);
+    const currentValue = spiField.getValue();
 
     // 更新下拉菜单选项
     if (optionsWithCustom.length > 0) {
@@ -190,16 +250,22 @@ function updateESPSPIBlockDropdownWithCustomPorts(block, config) {
         return optionsWithCustom;
       };
 
-      // 获取当前值
-      const currentValue = spiField.getValue();
       // 检查当前值是否在新的选项列表中
       const matchingOption = optionsWithCustom.find(([text, value]) => value === currentValue);
 
       if (currentValue && matchingOption) {
         // 强制调用setValue刷新UI（即使值未变，setValue也会刷新显示文本）
         spiField.setValue(currentValue);
+      } else if (currentValue) {
+        // 当前值在选项中不存在，但保持原值（可能是待注册的自定义SPI）
+        // 不强制重置，让全局验证拦截器处理
+        try {
+          spiField.setValue(currentValue);
+        } catch (e) {
+          // 忽略错误
+        }
       } else {
-        // 当前值无效，设置为第一个选项
+        // 没有当前值，设置为第一个选项
         spiField.setValue(optionsWithCustom[0][1]);
       }
     }
@@ -208,78 +274,18 @@ function updateESPSPIBlockDropdownWithCustomPorts(block, config) {
   }
 }
 
-// 生成带引脚信息的SPI选项（参考aily-iic的generateI2COptionsWithPins实现）
+// 生成带自定义SPI信息的选项（参考 core-serial 实现）
 function generateESPSPIOptionsWithCustom(boardConfig) {
   const originalSPIs = boardConfig.spiOriginal || boardConfig.spi;
+  const result = [...originalSPIs]; // 复制原始选项
   
-  // console.log('ESP32-SPI: generateESPSPIOptionsWithCustom 输入:', {
-  //   spi: boardConfig.spi,
-  //   spiPins: boardConfig.spiPins,
-  //   spiOriginal: boardConfig.spiOriginal
-  // });
-  
-  // 首先处理默认SPI配置，为其添加引脚信息（类似aily-iic的实现）
-  const result = originalSPIs.map(([displayName, value]) => {
-    // 移除已有的引脚信息，重新生成
-    const cleanDisplayName = displayName.replace(/\(SCK:\d+,\s*MISO:\d+,\s*MOSI:\d+,\s*SS:\d+\)/, '').trim();
-    
-    // 优先使用自定义引脚信息，再使用boardConfig中的引脚信息
-    let pins = null;
-    let isCustom = false;
-    
-    // 检查自定义引脚配置
-    const customESPSPIs = window['customESPSPIs'];
-    if (customESPSPIs && customESPSPIs[value]) {
-      pins = customESPSPIs[value];
-      isCustom = true;
-    }
-    // 回退到boardConfig中的引脚信息（参考aily-iic的i2cPins结构）
-    else if (boardConfig.spiPins && boardConfig.spiPins[value]) {
-      const spiPins = boardConfig.spiPins[value];
-      // 处理类似aily-iic的引脚信息结构：[['SCK', '18'], ['MISO', '19'], ...]
-      if (Array.isArray(spiPins)) {
-        pins = {
-          sck: spiPins.find(pin => pin[0] === 'SCK')?.[1] || '-1',
-          miso: spiPins.find(pin => pin[0] === 'MISO')?.[1] || '-1', 
-          mosi: spiPins.find(pin => pin[0] === 'MOSI')?.[1] || '-1',
-          ss: spiPins.find(pin => pin[0] === 'SS')?.[1] || '-1'
-        };
-      } else if (typeof spiPins === 'object') {
-        // 处理对象结构：{sck: '18', miso: '19', ...}
-        pins = {
-          sck: spiPins.sck || spiPins.SCK || '-1',
-          miso: spiPins.miso || spiPins.MISO || '-1',
-          mosi: spiPins.mosi || spiPins.MOSI || '-1',
-          ss: spiPins.ss || spiPins.SS || '-1'
-        };
-      }
-      isCustom = false;
-    }
-    
-    // 修改条件：只要pins存在就显示，允许-1值
-    if (pins && (pins.sck || pins.miso || pins.mosi || pins.ss)) {
-      const suffix = isCustom ? ' (自定义)' : '';
-      const sckDisplay = pins.sck || '-1';
-      const misoDisplay = pins.miso || '-1';
-      const mosiDisplay = pins.mosi || '-1';
-      const ssDisplay = pins.ss || '-1';
-      return [cleanDisplayName + `(SCK:${sckDisplay}, MISO:${misoDisplay}, MOSI:${mosiDisplay}, SS:${ssDisplay})` + suffix, value];
-    }
-    
-    return [cleanDisplayName, value];
-  });
-  
-  // 添加额外的自定义SPI选项（不在原始配置中的）
+  // 添加自定义SPI选项
   const customESPSPIs = window['customESPSPIs'];
   if (customESPSPIs) {
     Object.keys(customESPSPIs).forEach(customName => {
-      // 检查这个自定义名称是否已经在原始配置中
-      const existsInOriginal = originalSPIs.some(([, value]) => value === customName);
-      if (!existsInOriginal) {
-        const config = customESPSPIs[customName];
-        const displayText = `${customName}(SCK:${config.sck}, MISO:${config.miso}, MOSI:${config.mosi}, SS:${config.ss}) (自定义)`;
-        result.push([displayText, customName]);
-      }
+      const config = customESPSPIs[customName];
+      const displayText = `${customName}(SCK:${config.sck}, MISO:${config.miso}, MOSI:${config.mosi}, SS:${config.ss})`;
+      result.push([displayText, customName]);
     });
   }
   
@@ -551,7 +557,30 @@ function initializeESPSPIBlock(block) {
     const spiField = block.getField('SPI');
     if (!spiField) return;
     
-    // 延迟初始化，等待boardConfig加载
+    // 先立即同步更新一次（不等待，确保加载时配置就绪）
+    const currentValue = spiField.getValue();
+    updateESPSPIBlockDropdownWithCustomPorts(block);
+    
+    // 如果当前值存在且看起来是自定义SPI名称，强制保留它
+    if (currentValue) {
+      try {
+        // 重新获取选项并验证
+        const boardConfig = window['boardConfig'];
+        if (boardConfig) {
+          const options = generateESPSPIOptionsWithCustom(boardConfig);
+          const matchingOption = options.find(([text, value]) => value === currentValue);
+          
+          // 如果找到匹配选项，确保设置正确
+          if (matchingOption) {
+            spiField.setValue(currentValue);
+          }
+        }
+      } catch (e) {
+        // 忽略错误
+      }
+    }
+    
+    // 延迟初始化，等待boardConfig加载（用于UI更新）
     setTimeout(() => {
       // 检查块是否在 flyout 中，如果是则不更新
       if (block.isInFlyout) {
@@ -562,24 +591,21 @@ function initializeESPSPIBlock(block) {
       
       const boardConfig = window['boardConfig'];
       if (boardConfig && boardConfig.spi && boardConfig.spi.length > 0) {
-        const currentValue = spiField.getValue();
+        const savedValue = spiField.getValue();
         
         // 检查当前值是否在选项列表中
         const options = generateESPSPIOptionsWithCustom(boardConfig);
-        const matchingOption = options.find(([text, value]) => value === currentValue);
+        const matchingOption = options.find(([text, value]) => value === savedValue);
         
         // 只有在没有当前值或当前值无效的情况下才设置默认值
-        if (!currentValue || !matchingOption) {
+        if (!savedValue || !matchingOption) {
           try {
             spiField.setValue(boardConfig.spi[0][1]);
           } catch (e) {
             // 如果设置失败，可能是因为选项尚未正确加载
-            // 稍后在updateESPSPIBlockDropdownWithCustomPorts中会再次尝试
           }
         }
       }
-      
-      // setValue 已经会触发渲染，不需要再次调用 render()
     }, 100);
   } catch (e) {
     // 忽略错误
@@ -620,6 +646,47 @@ function addESPSPICustomPortExtensions() {
       
       // 然后注册扩展
       Blockly.Extensions.register(extensionName, function() {
+        // 如果是 esp32_spi_begin_custom，立即同步注册配置
+        if (this.type === 'esp32_spi_begin_custom' && !this.isInFlyout) {
+          try {
+            const varName = this.getFieldValue('VAR') || 'SPI';
+            
+            // 尝试从连接的引脚块获取实际值
+            const getShadowOrConnectedValue = (inputName) => {
+              const input = this.getInput(inputName);
+              if (input && input.connection) {
+                const targetBlock = input.connection.targetBlock();
+                if (targetBlock && targetBlock.type === 'math_number') {
+                  return targetBlock.getFieldValue('NUM') || '-1';
+                }
+              }
+              return '-1';
+            };
+            
+            const sckPin = getShadowOrConnectedValue('SCK');
+            const misoPin = getShadowOrConnectedValue('MISO');
+            const mosiPin = getShadowOrConnectedValue('MOSI');
+            const ssPin = getShadowOrConnectedValue('SS');
+            
+            if (!window['customESPSPIs']) {
+              window['customESPSPIs'] = {};
+            }
+            if (!window['customESPSPIConfigs']) {
+              window['customESPSPIConfigs'] = {};
+            }
+            
+            window['customESPSPIs'][varName] = {
+              sck: sckPin,
+              miso: misoPin,
+              mosi: mosiPin,
+              ss: ssPin
+            };
+            window['customESPSPIConfigs'][varName] = true;
+          } catch (e) {
+            // 忽略错误
+          }
+        }
+        
         setTimeout(() => {
           initializeESPSPIBlock(this);
           // 为esp32_spi_begin_custom特别添加输入监听器
@@ -954,11 +1021,60 @@ if (typeof Blockly !== 'undefined') {
 
   // 添加工作区变化监听器
   const addESPSPIBlocksListener = function(event) {
+    // 在块创建时立即注册自定义SPI配置
+    if (event.type === Blockly.Events.BLOCK_CREATE) {
+      try {
+        const workspace = Blockly.getMainWorkspace();
+        if (!workspace) return;
+        
+        const block = workspace.getBlockById(event.blockId);
+        if (block && block.type === 'esp32_spi_begin_custom') {
+          const varName = block.getFieldValue('VAR') || 'SPI';
+          
+          // 尝试获取引脚值
+          const getShadowOrConnectedValue = (inputName) => {
+            const input = block.getInput(inputName);
+            if (input && input.connection) {
+              const targetBlock = input.connection.targetBlock();
+              if (targetBlock && targetBlock.type === 'math_number') {
+                return targetBlock.getFieldValue('NUM') || '-1';
+              }
+            }
+            return '-1';
+          };
+          
+          const sckPin = getShadowOrConnectedValue('SCK');
+          const misoPin = getShadowOrConnectedValue('MISO');
+          const mosiPin = getShadowOrConnectedValue('MOSI');
+          const ssPin = getShadowOrConnectedValue('SS');
+          
+          if (!window['customESPSPIs']) {
+            window['customESPSPIs'] = {};
+          }
+          if (!window['customESPSPIConfigs']) {
+            window['customESPSPIConfigs'] = {};
+          }
+          
+          window['customESPSPIs'][varName] = {
+            sck: sckPin,
+            miso: misoPin,
+            mosi: mosiPin,
+            ss: ssPin
+          };
+          window['customESPSPIConfigs'][varName] = true;
+          
+          // 立即更新所有SPI块的下拉选项
+          updateESPSPIBlocksWithCustomPorts();
+        }
+      } catch (e) {
+        // 忽略错误
+      }
+    }
+    
     // 当工作区完成加载时调用
     if (event.type === Blockly.Events.FINISHED_LOADING) {
-      // 延迟执行以确保所有初始化完成
       setTimeout(() => {
-        // 先清理残留的自定义配置（参考IIC实现）
+        // 清理残留的自定义配置
         if (window['customESPSPIs']) {
           window['customESPSPIs'] = {};
         }
@@ -966,14 +1082,56 @@ if (typeof Blockly !== 'undefined') {
           window['customESPSPIConfigs'] = {};
         }
         
-        // 更新SPI信息
-        updateESPSPIBlocksWithCustomPorts();
-        
-        // 刷新工具箱以使用新的块定义
+        // 扫描工作区中所有的 esp32_spi_begin_custom 块，预先注册配置
         const workspace = Blockly.getMainWorkspace();
         if (workspace) {
-          refreshSPIToolbox(workspace);
+          const allBlocks = workspace.getAllBlocks();
+          allBlocks.forEach(block => {
+            if (block.type === 'esp32_spi_begin_custom') {
+              try {
+                const varName = block.getFieldValue('VAR') || 'SPI';
+                
+                // 对于 input_value 类型，直接获取连接的块的值
+                const getShadowOrConnectedValue = (inputName) => {
+                  const input = block.getInput(inputName);
+                  if (!input || !input.connection) return '-1';
+                  
+                  const targetBlock = input.connection.targetBlock();
+                  if (targetBlock && targetBlock.type === 'math_number') {
+                    return targetBlock.getFieldValue('NUM') || '-1';
+                  }
+                  
+                  return '-1';
+                };
+                
+                const sckPin = getShadowOrConnectedValue('SCK');
+                const misoPin = getShadowOrConnectedValue('MISO');
+                const mosiPin = getShadowOrConnectedValue('MOSI');
+                const ssPin = getShadowOrConnectedValue('SS');
+                
+                if (!window['customESPSPIs']) {
+                  window['customESPSPIs'] = {};
+                }
+                if (!window['customESPSPIConfigs']) {
+                  window['customESPSPIConfigs'] = {};
+                }
+                
+                window['customESPSPIs'][varName] = {
+                  sck: sckPin,
+                  miso: misoPin,
+                  mosi: mosiPin,
+                  ss: ssPin
+                };
+                window['customESPSPIConfigs'][varName] = true;
+              } catch (e) {
+                // 忽略错误
+              }
+            }
+          });
         }
+        
+        // 更新SPI信息
+        updateESPSPIBlocksWithCustomPorts();
       }, 200);
     }
     
