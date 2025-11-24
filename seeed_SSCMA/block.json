@@ -26,7 +26,8 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4CAF50",
-    "tooltip": "初始化SSCMA AI模块，使用I2C接口通信"
+    "tooltip": "初始化SSCMA AI模块，使用I2C接口通信",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_begin_serial",
@@ -54,7 +55,8 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4CAF50",
-    "tooltip": "初始化SSCMA AI模块，使用串口接口通信"
+    "tooltip": "初始化SSCMA AI模块，使用串口接口通信",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_begin_spi",
@@ -90,7 +92,8 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4CAF50",
-    "tooltip": "初始化SSCMA AI模块，使用SPI接口通信"
+    "tooltip": "初始化SSCMA AI模块，使用SPI接口通信",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_invoke",
@@ -100,7 +103,9 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       },
       {
@@ -114,22 +119,62 @@
         "type": "field_dropdown",
         "name": "FILTER",
         "options": [
-          ["是", "true"],
-          ["否", "false"]
+          [
+            "是",
+            "true"
+          ],
+          [
+            "否",
+            "false"
+          ]
         ]
       },
       {
         "type": "field_dropdown",
         "name": "SHOW",
         "options": [
-          ["否", "false"],
-          ["是", "true"]
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
         ]
       }
     ],
     "output": "Number",
     "colour": "#2196F3",
-    "tooltip": "执行AI推理，获取检测结果"
+    "tooltip": "执行AI推理，获取检测结果",
+    "icon": "fa-light fa-camera-web"
+  },
+  {
+    "type": "sscma_return_status",
+    "message0": "AI执行结果状态常量 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATUS",
+        "options": [
+          ["成功", "CMD_OK"],
+          ["重试", "CMD_AGAIN"],
+          ["日志错误", "CMD_ELOG"],
+          ["超时", "CMD_ETIMEDOUT"],
+          ["IO错误", "CMD_EIO"],
+          ["无效参数", "CMD_EINVAL"],
+          ["内存不足", "CMD_ENOMEM"],
+          ["繁忙", "CMD_EBUSY"],
+          ["不支持", "CMD_ENOTSUP"],
+          ["权限错误", "CMD_EPERM"],
+          ["未知错误", "CMD_EUNKNOWN"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF5722",
+    "tooltip": "SSCMA命令执行结果状态常量",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_get_boxes_count",
@@ -139,13 +184,16 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       }
     ],
     "output": "Number",
     "colour": "#FF9800",
-    "tooltip": "获取检测到的目标框数量"
+    "tooltip": "获取检测到的目标框数量",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_get_box_info",
@@ -155,30 +203,53 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       },
       {
         "type": "input_value",
         "name": "INDEX",
-        "check": ["Number"]
+        "check": [
+          "Number"
+        ]
       },
       {
         "type": "field_dropdown",
         "name": "PROPERTY",
         "options": [
-          ["X坐标", "x"],
-          ["Y坐标", "y"],
-          ["宽度", "w"],
-          ["高度", "h"],
-          ["置信度", "score"],
-          ["目标类别", "target"]
+          [
+            "X坐标",
+            "x"
+          ],
+          [
+            "Y坐标",
+            "y"
+          ],
+          [
+            "宽度",
+            "w"
+          ],
+          [
+            "高度",
+            "h"
+          ],
+          [
+            "置信度",
+            "score"
+          ],
+          [
+            "目标类别",
+            "target"
+          ]
         ]
       }
     ],
     "output": "Number",
     "colour": "#FF9800",
-    "tooltip": "获取指定检测框的属性信息"
+    "tooltip": "获取指定检测框的属性信息",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_get_classes_count",
@@ -188,13 +259,16 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       }
     ],
     "output": "Number",
     "colour": "#FF9800",
-    "tooltip": "获取分类结果的数量"
+    "tooltip": "获取分类结果的数量",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_get_class_info",
@@ -204,26 +278,37 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       },
       {
         "type": "input_value",
         "name": "INDEX",
-        "check": ["Number"]
+        "check": [
+          "Number"
+        ]
       },
       {
         "type": "field_dropdown",
         "name": "PROPERTY",
         "options": [
-          ["置信度", "score"],
-          ["目标类别", "target"]
+          [
+            "置信度",
+            "score"
+          ],
+          [
+            "目标类别",
+            "target"
+          ]
         ]
       }
     ],
     "output": "Number",
     "colour": "#FF9800",
-    "tooltip": "获取指定分类结果的属性信息"
+    "tooltip": "获取指定分类结果的属性信息",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_get_points_count",
@@ -233,13 +318,16 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       }
     ],
     "output": "Number",
     "colour": "#FF9800",
-    "tooltip": "获取关键点的数量"
+    "tooltip": "获取关键点的数量",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_get_point_info",
@@ -249,28 +337,45 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       },
       {
         "type": "input_value",
         "name": "INDEX",
-        "check": ["Number"]
+        "check": [
+          "Number"
+        ]
       },
       {
         "type": "field_dropdown",
         "name": "PROPERTY",
         "options": [
-          ["X坐标", "x"],
-          ["Y坐标", "y"],
-          ["置信度", "score"],
-          ["目标类别", "target"]
+          [
+            "X坐标",
+            "x"
+          ],
+          [
+            "Y坐标",
+            "y"
+          ],
+          [
+            "置信度",
+            "score"
+          ],
+          [
+            "目标类别",
+            "target"
+          ]
         ]
       }
     ],
     "output": "Number",
     "colour": "#FF9800",
-    "tooltip": "获取指定关键点的属性信息"
+    "tooltip": "获取指定关键点的属性信息",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_check_last_image",
@@ -280,13 +385,16 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       }
     ],
     "output": "Boolean",
     "colour": "#FF9800",
-    "tooltip": "检查SSCMA是否有最近一帧图像数据可用"
+    "tooltip": "检查SSCMA是否有最近一帧图像数据可用",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_get_last_image",
@@ -296,13 +404,16 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       }
     ],
     "output": "String",
     "colour": "#FF9800",
-    "tooltip": "获取SSCMA处理的最近一帧图像数据"
+    "tooltip": "获取SSCMA处理的最近一帧图像数据",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_get_performance",
@@ -312,22 +423,34 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       },
       {
         "type": "field_dropdown",
         "name": "STAGE",
         "options": [
-          ["预处理", "prepocess"],
-          ["推理", "inference"],
-          ["后处理", "postprocess"]
+          [
+            "预处理",
+            "prepocess"
+          ],
+          [
+            "推理",
+            "inference"
+          ],
+          [
+            "后处理",
+            "postprocess"
+          ]
         ]
       }
     ],
     "output": "Number",
     "colour": "#FF9800",
-    "tooltip": "获取指定阶段的处理时间（毫秒）"
+    "tooltip": "获取指定阶段的处理时间（毫秒）",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_available",
@@ -337,13 +460,16 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       }
     ],
     "output": "Number",
     "colour": "#9C27B0",
-    "tooltip": "检查SSCMA是否有可读数据"
+    "tooltip": "检查SSCMA是否有可读数据",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_read",
@@ -353,7 +479,9 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       },
       {
@@ -368,7 +496,8 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#9C27B0",
-    "tooltip": "从SSCMA读取数据"
+    "tooltip": "从SSCMA读取数据",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_write",
@@ -378,7 +507,9 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       },
       {
@@ -393,7 +524,8 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#9C27B0",
-    "tooltip": "向SSCMA写入数据"
+    "tooltip": "向SSCMA写入数据",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_get_device_id",
@@ -403,13 +535,16 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       }
     ],
     "output": "String",
     "colour": "#9C27B0",
-    "tooltip": "获取SSCMA设备的唯一ID"
+    "tooltip": "获取SSCMA设备的唯一ID",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_get_device_name",
@@ -419,13 +554,16 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       }
     ],
     "output": "String",
     "colour": "#9C27B0",
-    "tooltip": "获取SSCMA设备的名称"
+    "tooltip": "获取SSCMA设备的名称",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_get_device_info",
@@ -435,13 +573,16 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       }
     ],
     "output": "String",
     "colour": "#9C27B0",
-    "tooltip": "获取SSCMA设备的详细信息"
+    "tooltip": "获取SSCMA设备的详细信息",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_reset",
@@ -451,14 +592,17 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#F44336",
-    "tooltip": "重置SSCMA设备"
+    "tooltip": "重置SSCMA设备",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_save_jpeg",
@@ -468,14 +612,17 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#607D8B",
-    "tooltip": "保存当前图像为JPEG格式"
+    "tooltip": "保存当前图像为JPEG格式",
+    "icon": "fa-light fa-camera-web"
   },
   {
     "type": "sscma_clean_actions",
@@ -485,13 +632,16 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "ai",
-        "variableTypes": ["SSCMA"],
+        "variableTypes": [
+          "SSCMA"
+        ],
         "defaultType": "SSCMA"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#607D8B",
-    "tooltip": "清理所有已设置的动作"
+    "tooltip": "清理所有已设置的动作",
+    "icon": "fa-light fa-camera-web"
   }
 ]
