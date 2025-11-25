@@ -1,6 +1,6 @@
 # seeed_SSCMA_Core
 
-微控制器优化的AI推理库
+微控制器优化的AI推理库，支持视觉AI模型的高效运行，适用于ESP32-S3平台。
 
 ## 库信息
 - **库名**: @aily-project/lib-sscma_micro_core
