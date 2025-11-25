@@ -1,0 +1,157 @@
+{
+  "kind": "category",
+  "name": "SSCMA Core",
+  "icon": "fa-light fa-brain-circuit",
+  "colour": "#FF6B6B",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "实例创建"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_create"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_create_video_capture"
+    },
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_begin"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_video_capture_begin"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_set_loop_task_stack_size",
+      "inputs": {
+        "SIZE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 40960
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "推理处理"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_get_managed_frame"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_invoke",
+      "inputs": {
+        "FRAME": {
+          "shadow": {
+            "type": "sscma_core_get_managed_frame"
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "回调注册"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_register_boxes_callback"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_register_classes_callback"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_register_points_callback"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_register_keypoints_callback"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_register_perf_callback"
+    },
+    {
+      "kind": "label",
+      "text": "检测结果"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_get_boxes"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_get_boxes_info"
+    },
+    {
+      "kind": "label",
+      "text": "分类结果"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_get_classes"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_get_classes_info"
+    },
+    {
+      "kind": "label",
+      "text": "关键点结果"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_get_points"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_get_points_info"
+    },
+    {
+      "kind": "label",
+      "text": "关键点组结果"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_get_keypoints"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_get_keypoints_info"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_get_keypoints_points"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_get_keypoints_points_info"
+    },
+    {
+      "kind": "label",
+      "text": "性能指标"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_get_perf"
+    },
+    {
+      "kind": "block",
+      "type": "sscma_core_get_perf_info"
+    }
+  ]
+}
