@@ -1,0 +1,512 @@
+[
+  {
+    "type": "sscma_core_create",
+    "message0": "创建SSCMA实例 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "ai"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "创建SSCMA Core实例",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_create_video_capture",
+    "message0": "创建视频捕获实例 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "camera"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "创建视频捕获实例",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_begin",
+    "message0": "初始化SSCMA %1 使用默认配置",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMAMicroCore"],
+        "defaultType": "SSCMAMicroCore"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4ECDC4",
+    "tooltip": "初始化SSCMA实例",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_video_capture_begin",
+    "message0": "初始化视频捕获 %1 使用XIAOS3默认配置",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "camera",
+        "variableTypes": ["VideoCapture"],
+        "defaultType": "VideoCapture"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4ECDC4",
+    "tooltip": "初始化视频捕获设备",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_set_loop_task_stack_size",
+    "message0": "设置SSCMA循环任务栈大小 %1 字节",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SIZE",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4ECDC4",
+    "tooltip": "设置SSCMA循环任务栈大小",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_invoke",
+    "message0": "SSCMA %1 推理处理帧 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMAMicroCore"],
+        "defaultType": "SSCMAMicroCore"
+      },
+      {
+        "type": "input_value",
+        "name": "FRAME",
+        "check": ["Frame"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#45B7D1",
+    "tooltip": "执行AI推理",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_get_managed_frame",
+    "message0": "获取管理帧 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "camera",
+        "variableTypes": ["VideoCapture"],
+        "defaultType": "VideoCapture"
+      }
+    ],
+    "output": "Frame",
+    "colour": "#45B7D1",
+    "tooltip": "从视频捕获获取管理帧",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_register_boxes_callback",
+    "message0": "%1 目标检测回调",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMAMicroCore"],
+        "defaultType": "SSCMAMicroCore"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#5FB89A",
+    "tooltip": "注册目标检测回调",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_register_classes_callback",
+    "message0": "%1 分类检测回调",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMAMicroCore"],
+        "defaultType": "SSCMAMicroCore"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#5FB89A",
+    "tooltip": "注册分类检测回调",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_register_points_callback",
+    "message0": "%1 关键点检测回调",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMAMicroCore"],
+        "defaultType": "SSCMAMicroCore"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#5FB89A",
+    "tooltip": "注册关键点检测回调",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_register_keypoints_callback",
+    "message0": "%1 关键点组检测回调",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMAMicroCore"],
+        "defaultType": "SSCMAMicroCore"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#5FB89A",
+    "tooltip": "注册关键点组检测回调",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_register_perf_callback",
+    "message0": "%1 性能回调",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMAMicroCore"],
+        "defaultType": "SSCMAMicroCore"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5FB89A",
+    "tooltip": "注册性能指标回调",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_get_boxes",
+    "message0": "%1遍历获取目标检测结果",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMAMicroCore"],
+        "defaultType": "SSCMAMicroCore"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F5C842",
+    "tooltip": "遍历获取检测到的目标框结果",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_get_boxes_info",
+    "message0": "获取目标检测信息 属性 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PROPERTY",
+        "options": [
+          ["X坐标", "x"],
+          ["Y坐标", "y"],
+          ["宽度", "w"],
+          ["高度", "h"],
+          ["置信度", "score"],
+          ["目标类别", "target"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#F5C842",
+    "tooltip": "遍历获取目标检测信息",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_get_classes",
+    "message0": "%1遍历获取分类检测结果",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMAMicroCore"],
+        "defaultType": "SSCMAMicroCore"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F5C842",
+    "tooltip": "获取分类检测结果",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_get_classes_info",
+    "message0": "获取分类检测信息 属性 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PROPERTY",
+        "options": [
+          ["置信度", "score"],
+          ["目标类别", "target"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#F5C842",
+    "tooltip": "获取分类检测信息",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_get_points",
+    "message0": "%1遍历关键点检测结果",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMAMicroCore"],
+        "defaultType": "SSCMAMicroCore"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F5C842",
+    "tooltip": "遍历获取关键点检测结果",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_get_points_info",
+    "message0": "获取关键点信息 属性 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PROPERTY",
+        "options": [
+          ["X坐标", "x"],
+          ["Y坐标", "y"],
+          ["Z坐标", "z"],
+          ["置信度", "score"],
+          ["目标类别", "target"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#F5C842",
+    "tooltip": "获取关键点信息",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_get_keypoints",
+    "message0": "%1遍历关键点组检测结果",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMAMicroCore"],
+        "defaultType": "SSCMAMicroCore"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F5C842",
+    "tooltip": "遍历获取关键点组检测结果",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_get_keypoints_info",
+    "message0": "获取关键点组信息 属性 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PROPERTY",
+        "options": [
+          ["X坐标", "x"],
+          ["Y坐标", "y"],
+          ["高度", "h"],
+          ["宽度", "w"],
+          ["置信度", "score"],
+          ["目标类别", "target"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#F5C842",
+    "tooltip": "获取关键点组信息",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_get_keypoints_points",
+    "message0": "遍历获取关键点组中的点信息",
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F5C842",
+    "tooltip": "遍历获取关键点组中的点信息",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_get_keypoints_points_info",
+    "message0": "获取关键点组中的点信息 属性 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PROPERTY",
+        "options": [
+          ["X坐标", "x"],
+          ["Y坐标", "y"],
+          ["Z坐标", "z"],
+          ["置信度", "score"],
+          ["目标类别", "target"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#F5C842",
+    "tooltip": "获取关键点组中的点信息",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_get_perf",
+    "message0": "%1获取性能指标到 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ai",
+        "variableTypes": ["SSCMAMicroCore"],
+        "defaultType": "SSCMAMicroCore"
+      },
+      {
+        "type": "field_input",
+        "name": "PERF_VAR",
+        "text": "perf"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F5C842",
+    "tooltip": "获取性能指标到变量",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "sscma_core_get_perf_info",
+    "message0": "获取 %1 性能信息 属性 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "PERF_VAR",
+        "variable": "perf",
+        "variableTypes": ["Perf"],
+        "defaultType": "Perf"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROPERTY",
+        "options": [
+          ["预处理时间", "preprocess"],
+          ["推理时间", "inference"],
+          ["后处理时间", "postprocess"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#F5C842",
+    "tooltip": "获取性能信息",
+    "icon": "fa-light fa-brain-circuit"
+  }
+]
