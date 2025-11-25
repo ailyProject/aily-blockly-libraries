@@ -1,0 +1,102 @@
+[
+    {
+        "type": "esp32_task_new",
+        "message0": "创建任务 %1",
+        "message1": "初始化 %1",
+        "message2": "循环执行 %1",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "TASK_NAME",
+                "text": "task1"
+            }
+        ],
+        "args1": [
+            {
+                "type": "input_statement",
+                "name": "SETUP"
+            }
+        ],
+        "args2": [
+            {
+                "type": "input_statement",
+                "name": "LOOP"
+            }
+        ],
+        "colour": "#FF6B35",
+        "tooltip": "创建一个新任务，包含初始化和循环执行代码",
+        "icon": "task"
+    },
+    {
+        "type": "esp32_task_start",
+        "message0": "启动任务 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "TASK_NAME",
+                "check": [
+                    "String"
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6B35",
+        "tooltip": "启动指定的任务，如果不填写则启动所有任务",
+        "icon": "task"
+    },
+    {
+        "type": "esp32_task_start_all",
+        "message0": "启动所有任务",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6B35",
+        "tooltip": "启动所有已创建的任务",
+        "icon": "task"
+    },
+    {
+        "type": "esp32_task_free",
+        "message0": "释放任务 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "TASK_NAME",
+                "check": [
+                    "String"
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6B35",
+        "tooltip": "释放指定的任务，如果不填写则释放所有任务",
+        "icon": "task"
+    },
+    {
+        "type": "esp32_task_free_all",
+        "message0": "释放所有任务",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6B35",
+        "tooltip": "释放所有正在运行的任务",
+        "icon": "task"
+    },
+    {
+        "type": "esp32_task_delay",
+        "message0": "任务延时 %1 毫秒",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "DELAY_TIME",
+                "check": [
+                    "Number"
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6B35",
+        "tooltip": "任务中的延时函数，让出CPU给其他任务",
+        "icon": "task"
+    }
+]
