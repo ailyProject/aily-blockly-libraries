@@ -75,6 +75,88 @@
     "icon": "fa-regular fa-value-absolute"
   },
   {
+    "inputsInline": true,
+    "type": "variable_define_advanced",
+    "message0": "声明 %1 %2 %3 为 %4 并赋值 %5",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STORAGE",
+        "options": [
+          ["-",""],
+          ["静态 (static)","static"],
+          ["外部 (extern)","extern"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "QUALIFIER",
+        "options": [
+          ["-",""],
+          ["常量 (const)","const"],
+          ["易变 (volatile)","volatile"],
+          ["常量易变 (const volatile)","const volatile"]
+        ]
+      },
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "%{BKY_VARIABLES_CURRENT_NAME}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["8位整型 (int8_t)","int8_t"],
+          ["16位整型 (int16_t)","int16_t"],
+          ["32位整型 (int32_t)","int32_t"],
+          ["64位整型 (int64_t)","int64_t"],
+          ["8位无符号整型 (uint8_t)","uint8_t"],
+          ["16位无符号整型 (uint16_t)","uint16_t"],
+          ["32位无符号整型 (uint32_t)","uint32_t"],
+          ["64位无符号整型 (uint64_t)","uint64_t"],
+          ["---","---"],
+          ["整型 (int)","int"],
+          ["长整型 (long)","long"],
+          ["浮点型 (float)","float"],
+          ["双精度浮点型 (double)","double"],
+          ["无符号整型 (unsigned int)","unsigned int"],
+          ["无符号长整型 (unsigned long)","unsigned long"],
+          ["---","---"],
+          ["布尔型 (bool)","bool"],
+          ["字符型 (char)","char"],
+          ["字节型 (byte)","byte"],
+          ["字符串型 (String)","String"],
+          ["指针 (void*)","void*"],
+          ["大小类型 (size_t)","size_t"],
+          ["无符号字符型 (unsigned char)","unsigned char"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff8c1a",
+    "toolbox": {
+      "show": true,
+      "inputs": {
+        "VALUE": {
+          "block": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    "tooltip": "高级变量定义，支持存储类说明符（static/extern）和类型限定符（const/volatile）",
+    "icon": "fa-regular fa-code-simple"
+  },
+  {
     "type": "variables_get",
     "message0": "%1",
     "args0": [
@@ -129,46 +211,29 @@
         "type": "field_dropdown",
         "name": "TYPE",
         "options": [
-          [
-            "整型 (int)",
-            "int"
-          ],
-          [
-            "长整型 (long)",
-            "long"
-          ],
-          [
-            "浮点型 (float)",
-            "float"
-          ],
-          [
-            "双精度浮点型 (double)",
-            "double"
-          ],
-          [
-            "无符号整型 (unsigned int)",
-            "unsigned int"
-          ],
-          [
-            "无符号长整型 (unsigned long)",
-            "unsigned long"
-          ],
-          [
-            "布尔型 (bool)",
-            "bool"
-          ],
-          [
-            "字符型 (char)",
-            "char"
-          ],
-          [
-            "字节型 (byte)",
-            "byte"
-          ],
-          [
-            "字符串型 (String)",
-            "String"
-          ]
+          ["8位整型 (int8_t)","int8_t"],
+          ["16位整型 (int16_t)","int16_t"],
+          ["32位整型 (int32_t)","int32_t"],
+          ["64位整型 (int64_t)","int64_t"],
+          ["8位无符号整型 (uint8_t)","uint8_t"],
+          ["16位无符号整型 (uint16_t)","uint16_t"],
+          ["32位无符号整型 (uint32_t)","uint32_t"],
+          ["64位无符号整型 (uint64_t)","uint64_t"],
+          ["---","---"],
+          ["整型 (int)","int"],
+          ["长整型 (long)","long"],
+          ["浮点型 (float)","float"],
+          ["双精度浮点型 (double)","double"],
+          ["无符号整型 (unsigned int)","unsigned int"],
+          ["无符号长整型 (unsigned long)","unsigned long"],
+          ["---","---"],
+          ["布尔型 (bool)","bool"],
+          ["字符型 (char)","char"],
+          ["字节型 (byte)","byte"],
+          ["字符串型 (String)","String"],
+          ["指针 (void*)","void*"],
+          ["大小类型 (size_t)","size_t"],
+          ["无符号字符型 (unsigned char)","unsigned char"]
         ]
       }
     ],

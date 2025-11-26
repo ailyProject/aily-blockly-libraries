@@ -34,6 +34,10 @@ Blockly.getMainWorkspace().registerButtonCallback(
                 },
                 {
                   "kind": "block",
+                  "type": "variable_define_advanced"
+                },
+                {
+                  "kind": "block",
                   "type": "variables_set"
                 },
                 {
@@ -192,6 +196,10 @@ addVariableToToolbox = function (block, varName) {
             },
             {
               "kind": "block",
+              "type": "variable_define_advanced"
+            },
+            {
+              "kind": "block",
               "type": "variables_set"
             },
             {
@@ -267,6 +275,10 @@ function loadExistingVariablesToToolbox(workspace) {
           {
             "kind": "block",
             "type": "variable_define"
+          },
+          {
+            "kind": "block",
+            "type": "variable_define_advanced"
           },
           {
             "kind": "block",
@@ -676,6 +688,104 @@ Arduino.forBlock["variable_define"] = function (block, generator) {
   }
 };
 
+Arduino.forBlock["variable_define_advanced"] = function (block, generator) {
+  // 1. 设置变量重命名监听
+  if (!block._varMonitorAttached) {
+    block._varMonitorAttached = true;
+    block._varLastName = block.getFieldValue('VAR') || 'variable';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._varLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, undefined);
+          block._varLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
+  const storage = block.getFieldValue("STORAGE");  // static, extern, ""
+  const qualifier = block.getFieldValue("QUALIFIER");  // const, volatile, const volatile, ""
+  let type = block.getFieldValue("TYPE");
+  const name = block.getFieldValue("VAR");
+  let value = Arduino.valueToCode(block, "VALUE", Arduino.ORDER_ATOMIC);
+
+  // 2. 自动注册变量到Blockly系统
+  if (name) {
+    registerVariableToBlockly(name, undefined);
+    addVariableToToolbox(block, name);
+  }
+
+  let defaultValue = "";
+
+  // 首先统一处理类型转换
+  if (type === "string") {
+    type = "String";
+  }
+  
+  // 如果使用固定宽度整数类型，自动包含 stdint.h
+  if (/^(u?int(8|16|32|64)_t|size_t)$/.test(type)) {
+    generator.addLibrary("stdint", "#include <stdint.h>");
+  }
+
+  if (!value) {
+    switch (type) {
+      case "String":
+        defaultValue = `""`;
+        break;
+      case "char":
+        defaultValue = `''`;
+        break;
+      case "void*":
+        defaultValue = "NULL";
+        break;
+      default:
+        defaultValue = 0;
+    }
+  } else {
+    defaultValue = value;
+  }
+
+  // 构建变量声明字符串
+  let declaration = "";
+  
+  // 添加存储类说明符（storage class specifier）
+  if (storage) {
+    declaration += storage + " ";
+  }
+  
+  // 添加类型限定符（type qualifier）
+  if (qualifier) {
+    declaration += qualifier + " ";
+  }
+  
+  // 添加类型和变量名
+  declaration += type + " " + name;
+  
+  // extern 不能有初始化值（只是声明）
+  if (storage === "extern") {
+    if (isBlockConnected(block)) {
+      return declaration + ";\n";
+    } else {
+      Arduino.addVariable(`${storage}_${qualifier}_${type}_${name}`, declaration + ";");
+      return "";
+    }
+  }
+  
+  // 其他情况添加初始化值
+  declaration += " = " + defaultValue;
+
+  if (isBlockConnected(block)) {
+    return declaration + ";\n";
+  } else {
+    Arduino.addVariable(`${storage}_${qualifier}_${type}_${name}`, declaration + ";");
+    return "";
+  }
+};
+
 Arduino.forBlock["variables_get"] = function (block, generator) {
   // Variable getter.
   const { name: code, type } = block.workspace.getVariableById(
@@ -706,6 +816,11 @@ Arduino.forBlock["type_cast"] = function (block, generator) {
   const type = block.getFieldValue("TYPE");
 
   let code;
+  
+  // 如果使用固定宽度整数类型，自动包含 stdint.h
+  if (/^(u?int(8|16|32|64)_t|size_t)$/.test(type)) {
+    Arduino.addInclude("stdint", "#include <stdint.h>");
+  }
 
   // 根据目标类型生成相应的转换代码
   switch (type) {
@@ -717,6 +832,10 @@ Arduino.forBlock["type_cast"] = function (block, generator) {
     case "unsigned long":
       // 无符号类型需要空格
       code = "(" + type + ")" + value;
+      break;
+    case "void*":
+      // 指针类型转换
+      code = "(void*)(" + value + ")";
       break;
     default:
       // 其他类型使用标准 C++ 类型转换语法

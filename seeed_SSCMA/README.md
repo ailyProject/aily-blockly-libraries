@@ -55,7 +55,7 @@ Seeed SenseCraft Model Assistant AI视觉识别模块操作库
   - 初始化块使用field_input创建变量，其他块使用field_variable引用变量
   - 初始化块在setup()中生成`#include <Seeed_Arduino_SSCMA.h>`和变量定义，在setup()中调用begin()
   - 推理结果索引从0开始，建议在循环中使用变量获取所有结果
-  - **invoke返回值处理**: `sscma_invoke`返回CMD_OK(值为0)表示成功，不能直接在if判断中使用。需要使用**逻辑非块**或与`sscma_return_status`块进行**状态对比**
+  - **invoke返回值处理**: `sscma_invoke`返回CMD_OK(值为0)表示成功，不能直接在if判断中使用。可用三种方式：1) 使用**逻辑非块**将成功放入if分支 2) 与`sscma_return_status`进行**状态对比** 3) 直接在**else分支**中处理成功情况
 
 ### 动态选项处理
 当遇到`"options": "${board.xxx}"`格式的dropdown字段时：
@@ -67,24 +67,14 @@ Seeed SenseCraft Model Assistant AI视觉识别模块操作库
 
 ## 使用示例
 
-### I2C接口初始化和推理(使用逻辑非判断)
+### 方式1: 使用逻辑非判断(将成功放入if分支)
 ```json
 {
   "type": "sscma_begin_i2c",
   "fields": {"VAR": "ai", "WIRE": "Wire"},
   "inputs": {
-    "RST": {
-      "shadow": {
-        "type": "math_number",
-        "fields": {"NUM": -1}
-      }
-    },
-    "ADDRESS": {
-      "shadow": {
-        "type": "math_number",
-        "fields": {"NUM": 98}
-      }
-    }
+    "RST": {"shadow": {"type": "math_number", "fields": {"NUM": -1}}},
+    "ADDRESS": {"shadow": {"type": "math_number", "fields": {"NUM": 98}}}
   },
   "next": {
     "block": {
@@ -97,12 +87,7 @@ Seeed SenseCraft Model Assistant AI视觉识别模块操作库
               "BOOL": {
                 "block": {
                   "type": "sscma_invoke",
-                  "fields": {
-                    "VAR": {"id": "ai_id"},
-                    "TIMES": 1,
-                    "FILTER": "false",
-                    "SHOW": "false"
-                  }
+                  "fields": {"VAR": {"id": "ai_id"}, "TIMES": 1, "FILTER": "false", "SHOW": "false"}
                 }
               }
             }
@@ -112,14 +97,7 @@ Seeed SenseCraft Model Assistant AI视觉识别模块操作库
           "block": {
             "type": "serial_println",
             "fields": {"SERIAL": "Serial"},
-            "inputs": {
-              "VAR": {
-                "shadow": {
-                  "type": "text",
-                  "fields": {"TEXT": "invoke success"}
-                }
-              }
-            }
+            "inputs": {"VAR": {"shadow": {"type": "text", "fields": {"TEXT": "invoke success"}}}}
           }
         }
       }
@@ -127,9 +105,9 @@ Seeed SenseCraft Model Assistant AI视觉识别模块操作库
   }
 }
 ```
-**说明**: invoke返回0(CMD_OK)表示成功，使用`logic_negate`(逻辑非)将0转为true进入if分支
+**说明**: 使用`logic_negate`(逻辑非)将0转为true，成功时执行if分支
 
-### 使用状态对比判断(推荐)
+### 方式2: 使用状态对比判断
 ```json
 {
   "type": "controls_if",
@@ -142,12 +120,7 @@ Seeed SenseCraft Model Assistant AI视觉识别模块操作库
           "A": {
             "block": {
               "type": "sscma_invoke",
-              "fields": {
-                "VAR": {"id": "ai_id"},
-                "TIMES": 1,
-                "FILTER": "false",
-                "SHOW": "false"
-              }
+              "fields": {"VAR": {"id": "ai_id"}, "TIMES": 1, "FILTER": "false", "SHOW": "false"}
             }
           },
           "B": {
@@ -163,20 +136,44 @@ Seeed SenseCraft Model Assistant AI视觉识别模块操作库
       "block": {
         "type": "serial_println",
         "fields": {"SERIAL": "Serial"},
-        "inputs": {
-          "VAR": {
-            "shadow": {
-              "type": "text",
-              "fields": {"TEXT": "invoke success"}
-            }
-          }
-        }
+        "inputs": {"VAR": {"shadow": {"type": "text", "fields": {"TEXT": "invoke success"}}}}
       }
     }
   }
 }
 ```
-**说明**: 使用`logic_compare`将invoke返回值与`sscma_return_status`的CMD_OK常量对比，更清晰直观
+**说明**: 使用`logic_compare`对比返回值与CMD_OK常量，更清晰直观
+
+### 方式3: 使用else分支处理成功(推荐)
+```json
+{
+  "type": "controls_if",
+  "extraState": {"hasElse": true},
+  "inputs": {
+    "IF0": {
+      "block": {
+        "type": "sscma_invoke",
+        "fields": {"VAR": {"id": "ai_id"}, "TIMES": 1, "FILTER": "false", "SHOW": "false"}
+      }
+    },
+    "DO0": {
+      "block": {
+        "type": "serial_println",
+        "fields": {"SERIAL": "Serial"},
+        "inputs": {"VAR": {"shadow": {"type": "text", "fields": {"TEXT": "invoke failed"}}}}
+      }
+    },
+    "ELSE": {
+      "block": {
+        "type": "serial_println",
+        "fields": {"SERIAL": "Serial"},
+        "inputs": {"VAR": {"shadow": {"type": "text", "fields": {"TEXT": "invoke success"}}}}
+      }
+    }
+  }
+}
+```
+**说明**: 直接使用invoke返回值，失败(非0)进if分支，成功(0)进else分支，最简洁自然
 
 ### 获取性能信息
 ```json
@@ -391,7 +388,7 @@ Seeed SenseCraft Model Assistant AI视觉识别模块操作库
    - ❌ field_variable缺少id或type字段
    - ❌ 接口参数配置错误(如I2C地址、波特率、引脚号)
    - ❌ 在未调用invoke前获取结果
-   - ❌ **直接使用invoke返回值判断**: invoke返回0表示成功，直接用在if中会被当作false，必须使用逻辑非或状态对比
+   - ❌ **直接使用invoke返回值作为成功判断**: invoke返回0表示成功，直接用在if中会进入失败分支。解决方法：使用逻辑非、状态对比或else分支
 
 ## 支持的字段选项
 
