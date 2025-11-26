@@ -363,11 +363,15 @@ Blockly.Extensions.register('esp32ai_init_wifi_extension', function () {
   };
 
   // 监听MODE字段的变化
-  this.getField('MODE').setValidator(function (option) {
+  this.getField('MODE').setValidator(function(option) {
     this.getSourceBlock().updateShape_(option);
     return option;
   });
-  this.updateShape_(this.getFieldValue('MODE'));
+  // 安全获取字段值
+  const modeField = this.getField('MODE');
+  if (modeField) {
+    this.updateShape_(modeField.getValue());
+  }
 });
 
 Blockly.Extensions.register('aivox3_mcp_control_param_extension', function () {
@@ -432,11 +436,15 @@ Blockly.Extensions.register('aivox3_mcp_control_param_extension', function () {
   };
 
   // 监听TYPE字段的变化
-  this.getField('TYPE').setValidator(function (option) {
+  this.getField('TYPE').setValidator(function(option) {
     this.getSourceBlock().updateShape_(option);
     return option;
   });
-  this.updateShape_(this.getFieldValue('TYPE'));
+  // 安全获取字段值
+  const typeField = this.getField('TYPE');
+  if (typeField) {
+    this.updateShape_(typeField.getValue());
+  }
 });
 
 // 存储任务函数避免重复定义
@@ -697,13 +705,16 @@ Blockly.Extensions.register('esp32_i2s_mic_dynamic_inputs', function() {
     };
 
     // 3. 为 MIC_TYPE 字段添加验证器，切换类型时更新形状
-    this.getField('MIC_TYPE').setValidator(option => {
-        this.updateShape_(option);
+    this.getField('MIC_TYPE').setValidator(function(option) {
+        this.getSourceBlock().updateShape_(option);
         return option;
     });
 
     // 4. 初始化时更新形状
-    this.updateShape_(this.getFieldValue('MIC_TYPE'));
+    const micTypeField = this.getField('MIC_TYPE');
+    if (micTypeField) {
+      this.updateShape_(micTypeField.getValue());
+    }
 });
 //麦克风
 Arduino.forBlock['esp32_i2s_mic_setup'] = function(block, generator) {
@@ -837,15 +848,18 @@ Blockly.Extensions.register('esp32ai_init_display_dynamic_inputs', function() {
     };
 
     // 3. 为 DISPLAY_TYPE 字段添加验证器，当值改变时触发形状更新
-    this.getField('DISPLAY_TYPE').setValidator(option => {
-        this.updateShape_(option);
+    this.getField('DISPLAY_TYPE').setValidator(function(option) {
+        this.getSourceBlock().updateShape_(option);
         // 返回选中的值，以更新下拉框的显示
         return option;
     });
 
     // 4. 初始化时，根据默认选中的类型更新块的形状
-    const defaultType = this.getFieldValue('DISPLAY_TYPE');
-    this.updateShape_(defaultType);
+    const displayTypeField = this.getField('DISPLAY_TYPE');
+    if (displayTypeField) {
+      const defaultType = displayTypeField.getValue();
+      this.updateShape_(defaultType);
+    }
 });
 // 统一的显示屏初始化代码生成器
 Arduino.forBlock['esp32ai_init_display'] = function(block, generator) {
@@ -1818,7 +1832,7 @@ Arduino.forBlock['aivox_mcp_control'] = function(block, generator) {
         block._aivoxVarLastName = block.getFieldValue('VAR') || 'led';
         const varField = block.getField('VAR');
         if (varField && typeof varField.setValidator === 'function') {
-            varField.setValidator(function(newName) {
+            varField.setValidator((newName) => {
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._aivoxVarLastName;
                 if (workspace && newName && newName !== oldName) {
@@ -1854,7 +1868,7 @@ Arduino.forBlock['aivox_mcp_control_param'] = function(block, generator) {
         block._stateVarLastName = block.getFieldValue('VAR') || 'state';
         const varField = block.getField('VAR');
         if (varField && typeof varField.setValidator === 'function') {
-            varField.setValidator(function(newName) {
+            varField.setValidator((newName) => {
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._stateVarLastName;
                 if (workspace && newName && newName !== oldName) {
