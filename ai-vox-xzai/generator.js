@@ -1989,7 +1989,6 @@ Arduino.forBlock['aivox_response_mcp_control_result_new'] = function(block, gene
 
 Arduino.forBlock['aivox_update_mcp_control_state_new'] = function(block, generator) {
     const eventVar = getEventVarName(block);
-    // 获取变量字段值
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'led';
     const paramField = block.getField('PVAR');
@@ -1998,46 +1997,80 @@ Arduino.forBlock['aivox_update_mcp_control_state_new'] = function(block, generat
 
     if (!param) {
         console.error(`[aivox_update_mcp_control_state_new] Parameter '${paramName}' not found.`);
-        // 返回一段注释掉的错误信息，这样可以让生成的代码继续编译，但会提示错误
         return `// Error: Parameter '${paramName}' not found. Cannot update MCP control state.`;
     }
 
-    console.log("aivox_update_mcp_control_state_new ====: ", param);
-    let type = param.type;
-    let state = generator.valueToCode(block, 'STATE', generator.ORDER_ATOMIC) || '""';
-    // 验证服务是否存在
+    // 获取state值（可能带括号，如"(String(dht.readHumidity()))"）
+    const state = generator.valueToCode(block, 'STATE', generator.ORDER_ATOMIC) || '""';
     const service = getAivoxControlService(varName);
     if (!service) {
         console.warn(`AIVOX service '${varName}' not found`);
     }
 
-    let cType = "bool";
-    if (param.type === "Number") cType = "int64_t";
-    if (param.type === "String") cType = "std::string";
-    
+    // 1. 修正：判断state是否为String对象（支持带括号的情况）
+    const isStateStringObject = /String\(/.test(state); // 用正则匹配是否包含"String("
+    const cType = param.type === "Number" ? "int64_t" : (param.type === "String" ? "std::string" : "bool");
+
+    generator.addLibrary('sstream', '#include <sstream>\n');
+
+    // -------------------------- Set 请求逻辑 --------------------------
     let setCode = `
     if ("self.${varName}.set" == name) {
         const ${cType}* param_ptr = event.param<${cType}>("${paramName}");
         if (param_ptr != nullptr) {
-            ${state} = *param_ptr; // 解引用指针
+            `;
+
+    if (cType === "int64_t" && isStateStringObject) {
+        setCode += `${state} = String(static_cast<long long>(*param_ptr));`;
+    } else if (cType === "std::string" && isStateStringObject) {
+        setCode += `${state} = String(param_ptr->c_str());`;
+    } else if (cType === "std::string" && !isStateStringObject) {
+        setCode += `${state} = *param_ptr;`;
+    } else if (cType === "bool" && isStateStringObject) {
+        setCode += `${state} = (*param_ptr) ? "true" : "false";`;
+    } else {
+        setCode += `${state} = *param_ptr;`;
+    }
+
+    setCode += `
         } else {
             printf("Warning: Parameter '${paramName}' not found for 'self.${varName}.set'.\\n");
         }
         ai_vox_engine.SendMcpCallResponse(id, true);
     }`;
 
-    // 为 'get' 请求生成代码
+    // -------------------------- Get 请求逻辑（核心修复） --------------------------
     let getCode = `
     else if ("self.${varName}.get" == name) {
-        ai_vox_engine.SendMcpCallResponse(id, ${state});
+        `;
+
+    if (cType === "bool") {
+        if (isStateStringObject) {
+            getCode += `ai_vox_engine.SendMcpCallResponse(id, ${state}.equals("true"));`;
+        } else {
+            getCode += `ai_vox_engine.SendMcpCallResponse(id, ${state});`;
+        }
+    } else if (cType === "int64_t") {
+        // 核心修复：只要是String对象，就强制添加.toInt()
+        if (isStateStringObject) {
+            getCode += `ai_vox_engine.SendMcpCallResponse(id, static_cast<int64_t>(${state}.toInt()));`;
+        } else {
+            getCode += `ai_vox_engine.SendMcpCallResponse(id, static_cast<int64_t>(${state}));`;
+        }
+    } else if (cType === "std::string") {
+        if (isStateStringObject) {
+            getCode += `ai_vox_engine.SendMcpCallResponse(id, ${state}.c_str());`;
+        } else {
+            getCode += `ai_vox_engine.SendMcpCallResponse(id, ${state});`;
+        }
+    }
+
+    getCode += `
     }`;
 
     const code = setCode + getCode;
     return code;
-}
-
-
-
+};
 
 
 
