@@ -367,10 +367,20 @@ async function main() {
         // 获取当前目录路径
         const currentDir = __dirname;
 
-        // 读取当前目录下除去以.开头的文件夹
-        const dirents = (await fs.readdir(currentDir, { withFileTypes: true }))
-            .filter(dirent => dirent.isDirectory() && !dirent.name.startsWith('.'))
-            .map(dirent => dirent.name);
+        // 获取命令行参数
+        const args = process.argv.slice(2);
+        let dirents = [];
+        let isManual = false;
+
+        if (args.length > 0) {
+            dirents = args;
+            isManual = true;
+        } else {
+            // 读取当前目录下除去以.开头的文件夹
+            dirents = (await fs.readdir(currentDir, { withFileTypes: true }))
+                .filter(dirent => dirent.isDirectory() && !dirent.name.startsWith('.'))
+                .map(dirent => dirent.name);
+        }
 
         // 存储待生成i18n的目录
         const directories = [];
@@ -388,11 +398,18 @@ async function main() {
                 await fs.access(blockJsonPath, fs.constants.F_OK);
                 await fs.access(toolboxJsonPath, fs.constants.F_OK);
             } catch (error) {
-                // console.log(`跳过 ${subdir}，因为缺少必要的文件`);
+                if (isManual) {
+                    console.log(`跳过 ${subdir}，因为缺少必要的文件`);
+                }
                 hasRequiredFiles = false;
             }
 
             if (!hasRequiredFiles) continue;
+
+            if (isManual) {
+                directories.push(subdir);
+                continue;
+            }
 
             const i18nPath = path.join(currentDir, subdir, 'i18n');
 
