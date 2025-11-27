@@ -1,155 +1,164 @@
 {
-    "kind": "category",
-    "name": "ESP32实时时钟",
-    "icon": "fa-light fa-calendar-days",
-    "contents": [
-        {
-            "kind": "block",
-            "type": "esp32_time_init",
-            "inputs": {
-                "OFFSET": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 28800
-                        }
-                    }
-                }
+  "kind": "category",
+  "name": "ESP32实时时钟",
+  "icon": "fa-light fa-calendar-clock",
+  "colour": "#FF9800",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "时间设置"
+    },
+    {
+      "kind": "block",
+      "type": "esp32time_set_time",
+      "inputs": {
+        "YEAR": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "2024"
             }
+          }
         },
-        {
-            "kind": "block",
-            "type": "esp32_time_set_datetime",
-            "inputs": {
-                "YEAR": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 2024
-                        }
-                    }
-                },
-                "MONTH": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 8
-                        }
-                    }
-                },
-                "DAY": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 18
-                        }
-                    }
-                },
-                "HOUR": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 16
-                        }
-                    }
-                },
-                "MINUTE": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                },
-                "SECOND": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                }
+        "MONTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
             }
+          }
         },
-        {
-            "kind": "block",
-            "type": "esp32_time_set_epoch",
-            "inputs": {
-                "EPOCH": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 1609459200
-                        }
-                    }
-                }
+        "DAY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
             }
+          }
         },
-        {
-            "kind": "block",
-            "type": "esp32_time_get_time"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_time_get_date"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_time_get_datetime"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_time_get_format",
-            "inputs": {
-                "FORMAT": {
-                    "shadow": {
-                        "type": "text",
-                        "fields": {
-                            "TEXT": "%Y-%m-%d %H:%M:%S"
-                        }
-                    }
-                }
+        "HOUR": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "0"
             }
+          }
         },
-        {
-            "kind": "block",
-            "type": "esp32_time_get_epoch"
+        "MINUTE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "0"
+            }
+          }
         },
-        {
-            "kind": "block",
-            "type": "esp32_time_get_second"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_time_get_minute"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_time_get_hour"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_time_get_ampm"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_time_get_day"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_time_get_month"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_time_get_year"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_time_get_dayofweek"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_time_get_dayofyear"
+        "SECOND": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "0"
+            }
+          }
         }
-    ]
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32time_set_time_epoch",
+      "inputs": {
+        "EPOCH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1609459200"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32time_set_offset",
+      "inputs": {
+        "OFFSET": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "28800"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "时间获取"
+    },
+    {
+      "kind": "block",
+      "type": "esp32time_get_time"
+    },
+    {
+      "kind": "block",
+      "type": "esp32time_get_date"
+    },
+    {
+      "kind": "block",
+      "type": "esp32time_get_datetime"
+    },
+    {
+      "kind": "block",
+      "type": "esp32time_get_formatted_time",
+      "inputs": {
+        "FORMAT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "%Y-%m-%d %H:%M:%S"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32time_get_epoch"
+    },
+    {
+      "kind": "label",
+      "text": "时间分量"
+    },
+    {
+      "kind": "block",
+      "type": "esp32time_get_second"
+    },
+    {
+      "kind": "block",
+      "type": "esp32time_get_minute"
+    },
+    {
+      "kind": "block",
+      "type": "esp32time_get_hour"
+    },
+    {
+      "kind": "block",
+      "type": "esp32time_get_day"
+    },
+    {
+      "kind": "block",
+      "type": "esp32time_get_month"
+    },
+    {
+      "kind": "block",
+      "type": "esp32time_get_year"
+    },
+    {
+      "kind": "block",
+      "type": "esp32time_get_yday"
+    },
+    {
+      "kind": "block",
+      "type": "esp32time_get_ampm"
+    }
+  ]
 }

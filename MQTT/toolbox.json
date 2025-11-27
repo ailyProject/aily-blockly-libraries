@@ -1,19 +1,108 @@
-
 {
   "kind": "category",
-  "icon": "fa-light fa-comments",
   "name": "MQTT",
-  "colour": "#FF5722",
+  "icon": "fa-light fa-comments",
+  "colour": "#9C27B0",
   "contents": [
     {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
       "kind": "block",
-      "type": "pubsub_create"
+      "type": "pubsub_create",
+      "inputs": {
+        "SERVER": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "mqtt.example.com"
+            }
+          }
+        },
+        "PORT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1883
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "连接"
+    },
+    {
+      "kind": "block",
+      "type": "pubsub_connect",
+      "inputs": {
+        "CLIENT_ID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "arduinoClient"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "pubsub_connect_auth",
+      "inputs": {
+        "CLIENT_ID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "arduinoClient"
+            }
+          }
+        },
+        "USERNAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "username"
+            }
+          }
+        },
+        "PASSWORD": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "password"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "pubsub_connected"
+    },
+    {
+      "kind": "block",
+      "type": "pubsub_state"
+    },
+    {
+      "kind": "block",
+      "type": "pubsub_state_code"
+    },
+    {
+      "kind": "block",
+      "type": "pubsub_disconnect"
+    },
+    {
+      "kind": "label",
+      "text": "通信"
     },
     {
       "kind": "block",
       "type": "pubsub_set_callback",
       "inputs": {
-        "NAME": {
+        "HANDLER": {
           "block": {
             "type": "pubsub_set_callback_with_topic",
             "inputs": {
@@ -21,7 +110,7 @@
                 "shadow": {
                   "type": "text",
                   "fields": {
-                    "TEXT": "/sub_topic"
+                    "TEXT": "inTopic"
                   }
                 }
               }
@@ -38,33 +127,7 @@
           "shadow": {
             "type": "text",
             "fields": {
-              "TEXT": "/sub_topic"
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "pubsub_connect_with_credentials"
-    },
-    {
-      "kind": "block",
-      "type": "pubsub_connected"
-    },
-    {
-      "kind": "block",
-      "type": "pubsub_state"
-    },
-    {
-      "kind": "block",
-      "type": "pubsub_subscribe",
-      "inputs": {
-        "TOPIC": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "topic"
+              "TEXT": "inTopic"
             }
           }
         }
@@ -78,7 +141,7 @@
           "shadow": {
             "type": "text",
             "fields": {
-              "TEXT": "topic"
+              "TEXT": "outTopic"
             }
           }
         },
@@ -86,11 +149,43 @@
           "shadow": {
             "type": "text",
             "fields": {
-              "TEXT": "message"
+              "TEXT": "hello world"
             }
           }
         }
       }
+    },
+    {
+      "kind": "block",
+      "type": "pubsub_subscribe",
+      "inputs": {
+        "TOPIC": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "inTopic"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "pubsub_unsubscribe",
+      "inputs": {
+        "TOPIC": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "topic"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "pubsub_loop"
     }
   ]
 }
