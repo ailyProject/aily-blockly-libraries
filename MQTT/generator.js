@@ -1,137 +1,137 @@
-// generator.js
-// 合并后的 Generator blocks for Ethernet, WiFi, PubSubClient, and SRAM
-
-// Ethernet.h
-Arduino.forBlock['ethernet_begin'] = function(block, generator) {
-  const mac = generator.valueToCode(block, 'MAC', generator.ORDER_ATOMIC);
-  const ip = generator.valueToCode(block, 'IP', generator.ORDER_ATOMIC);
-  generator.addLibrary('Ethernet', '#include <Ethernet.h>');
-  return 'Ethernet.begin(' + mac + ', ' + ip + ');\n';
-};
-
-// WiFi，根据板卡类型统一处理WiFi相关的addLibrary
-function ensureWiFiLib(generator) {
-  // 获取开发板配置
-  const boardConfig = window['boardConfig'];
-  
-  if (boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1) {
-    // ESP32系列开发板
-    generator.addLibrary('WiFi', '#include <WiFi.h>');
-  } else if (boardConfig && boardConfig.core && boardConfig.core.indexOf('renesas_uno') > -1) {
-    // Arduino UNO R4 WiFi
-    generator.addLibrary('WiFi', '#include <WiFiS3.h>');
-  } else {
-    // 默认使用ESP32的库
-    generator.addLibrary('WiFi', '#include <WiFi.h>');
-  }
-}
-Arduino.forBlock['wifi_mode'] = function(block, generator) {
-  ensureWiFiLib(generator);
-  return 'WiFi.mode(' + generator.valueToCode(block, 'MODE', generator.ORDER_ATOMIC) + ');\n';
-};
-Arduino.forBlock['wifi_begin'] = function(block, generator) {
-  ensureWiFiLib(generator);
-  return 'WiFi.begin(' + generator.valueToCode(block, 'SSID', generator.ORDER_ATOMIC) + ', ' + generator.valueToCode(block, 'PASSWORD', generator.ORDER_ATOMIC) + ');\n';
-};
-Arduino.forBlock['wifi_status'] = function(block, generator) {
-  ensureWiFiLib(generator);
-  return ['WiFi.status()', generator.ORDER_FUNCTION_CALL];
-};
-Arduino.forBlock['wifi_local_ip'] = function(block, generator) {
-  ensureWiFiLib(generator);
-  return ['WiFi.localIP()', generator.ORDER_FUNCTION_CALL];
-};
-
-// PubSubClient，统一获取clientName简化冗余
-function getClientName(block, def) {
-  return block.getFieldValue('NAME') || def;
-}
+// 确保库引用
 function ensurePubSubLib(generator) {
   generator.addLibrary('PubSubClient', '#include <PubSubClient.h>');
 }
-Arduino.forBlock['pubsub_create'] = function(block, generator) {
-  ensurePubSubLib(generator);
-  const client = block.getFieldValue('CLIENT') || 'client';
-  const name = block.getFieldValue('NAME') || 'mqttClient';
-  const ssl = block.getFieldValue('SSL') === 'TRUE';
-  const server = block.getFieldValue('SERVER') || 'broker.diandeng.tech';
-  const port = block.getFieldValue('PORT') || '1883';
-  
-  // 检查是否有提供客户端名称
-  const hasClientName = client && client.trim() !== '';
-  
-  // 根据板卡类型选择合适的WiFi客户端库
+
+// 确保WiFi库引用（根据板卡类型）
+function ensureWiFiLib(generator) {
   const boardConfig = window['boardConfig'];
   
-  if (ssl) {
-    // SSL模式 - 添加安全客户端库
-    if (boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1) {
-      // ESP32系列开发板
-      generator.addLibrary('WiFiClientSecure', '#include <WiFiClientSecure.h>');
-      generator.addVariable('WiFiClientSecure ' + client, 'WiFiClientSecure ' + client + ';');
-      generator.addVariable('PubSubClient ' + name, 'PubSubClient ' + name + '(' + client + ');');
-    } else if (boardConfig && boardConfig.core && boardConfig.core.indexOf('renesas_uno') > -1) {
-      // Arduino UNO R4 WiFi
-      generator.addLibrary('WiFiSSLClient', '#include <WiFiSSLClient.h>');
-      generator.addVariable('WiFiSSLClient ' + client, 'WiFiSSLClient ' + client + ';');
-      generator.addVariable('PubSubClient ' + name, 'PubSubClient ' + name + '(' + client + ');');
-    } else {
-      // 默认ESP32处理
-      generator.addLibrary('WiFiClientSecure', '#include <WiFiClientSecure.h>');
-      generator.addVariable('WiFiClientSecure ' + client, 'WiFiClientSecure ' + client + ';');
-      generator.addVariable('PubSubClient ' + name, 'PubSubClient ' + name + '(' + client + ');');
-    }
+  if (boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1) {
+    generator.addLibrary('WiFi', '#include <WiFi.h>');
+  } else if (boardConfig && boardConfig.core && boardConfig.core.indexOf('renesas_uno') > -1) {
+    generator.addLibrary('WiFi', '#include <WiFiS3.h>');
   } else {
-    // 非SSL模式 - 使用普通WiFi客户端
-    ensureWiFiLib(generator);
-    if (boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1) {
-      // ESP32系列开发板
-      generator.addLibrary('WiFiClient', '#include <WiFiClient.h>');
-      generator.addVariable('WiFiClient ' + client, 'WiFiClient ' + client + ';');
-      generator.addVariable('PubSubClient ' + name, 'PubSubClient ' + name + '(' + client + ');');
-    } else if (boardConfig && boardConfig.core && boardConfig.core.indexOf('renesas_uno') > -1) {
-      // Arduino UNO R4 WiFi
-      generator.addLibrary('WiFiClient', '#include <WiFiClient.h>');
-      generator.addVariable('WiFiClient ' + client, 'WiFiClient ' + client + ';');
-      generator.addVariable('PubSubClient ' + name, 'PubSubClient ' + name + '(' + client + ');');
-    } else {
-      // 默认ESP32处理
-      generator.addLibrary('WiFiClient', '#include <WiFiClient.h>');
-      generator.addVariable('WiFiClient ' + client, 'WiFiClient ' + client + ';');
-      generator.addVariable('PubSubClient ' + name, 'PubSubClient ' + name + '(' + client + ');');
+    generator.addLibrary('WiFi', '#include <WiFi.h>');
+  }
+}
+
+// 确保Ethernet库引用
+function ensureEthernetLib(generator) {
+  generator.addLibrary('SPI', '#include <SPI.h>');
+  generator.addLibrary('Ethernet', '#include <Ethernet.h>');
+}
+
+// 获取变量名的工具函数
+function getVariableName(block, fieldName, defaultName) {
+  const varField = block.getField(fieldName);
+  return varField ? varField.getText() : defaultName;
+}
+
+// 创建MQTT客户端
+Arduino.forBlock['pubsub_create'] = function(block, generator) {
+  // 设置变量重命名监听
+  if (!block._pubsubVarMonitorAttached) {
+    block._pubsubVarMonitorAttached = true;
+    block._pubsubVarLastName = block.getFieldValue('VAR') || 'mqttClient';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._pubsubVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'PubSubClient');
+          block._pubsubVarLastName = newName;
+        }
+        return newName;
+      });
     }
   }
 
-  let code = name + '.setServer("' + server + '", ' + port + ');\n';
+  // if (!block._clientVarMonitorAttached) {
+  //   block._clientVarMonitorAttached = true;
+  //   block._clientVarLastName = block.getFieldValue('CLIENT') || 'client';
+  //   const varField = block.getField('CLIENT');
+  //   if (varField && typeof varField.setValidator === 'function') {
+  //     varField.setValidator(function(newName) {
+  //       const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+  //       const oldName = block._clientVarLastName;
+  //       if (workspace && newName && newName !== oldName) {
+  //         renameVariableInBlockly(block, oldName, newName, 'WiFiClient');
+  //         block._clientVarLastName = newName;
+  //       }
+  //       return newName;
+  //     });
+  //   }
+  // }
 
-  generator.addLoopEnd(name + '.loop()', name + '.loop();\n');
+  const varName = block.getFieldValue('VAR') || 'mqttClient';
+  const clientVarName = block.getFieldValue('CLIENT') || 'client';
+  const ssl = block.getFieldValue('SSL') === 'TRUE';
+  const server = generator.valueToCode(block, 'SERVER', generator.ORDER_ATOMIC) || '"mqtt.example.com"';
+  const port = generator.valueToCode(block, 'PORT', generator.ORDER_ATOMIC) || (ssl ? '8883' : '1883');
+  
+  // 添加库和变量声明
+  ensurePubSubLib(generator);
+  ensureWiFiLib(generator);
+  registerVariableToBlockly(varName, 'PubSubClient');
+  // generator.addVariable(varName, 'PubSubClient ' + varName + '(wifiClient);');
+  
+  const boardConfig = window['boardConfig'];
+  // 添加WiFi客户端声明
+  if (ssl) {
+    if (boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1) {
+      // ESP32系列开发板
+      generator.addLibrary('WiFiClientSecure', '#include <WiFiClientSecure.h>');
+      generator.addVariable(clientVarName, 'WiFiClientSecure ' + clientVarName + ';');
+    } else if (boardConfig && boardConfig.core && boardConfig.core.indexOf('renesas_uno') > -1) {
+      // Arduino UNO R4 WiFi
+      generator.addLibrary('WiFiSSLClient', '#include <WiFiSSLClient.h>');
+      generator.addVariable(clientVarName, 'WiFiSSLClient ' + clientVarName + ';');
+    } else {
+      // 其他开发板默认使用WiFiClientSecure
+      generator.addLibrary('WiFiClientSecure', '#include <WiFiClientSecure.h>');
+      generator.addVariable(clientVarName, 'WiFiClientSecure ' + clientVarName + ';');
+    }
+  } else {
+    generator.addLibrary('WiFiClient', '#include <WiFiClient.h>');
+    generator.addVariable(clientVarName, 'WiFiClient ' + clientVarName + ';');
+  }
+  generator.addVariable(varName, 'PubSubClient ' + varName + '(' + clientVarName + ');');
 
+  let code = ''
+  code += varName + '.setServer(' + server + ', ' + port + ');\n';
+
+  generator.addLoopEnd(varName + '.loop()', varName + '.loop();');
+  
   return code;
 };
-Arduino.forBlock['pubsub_create_with_server'] = function(block, generator) {
-  ensurePubSubLib(generator);
-  const name = getClientName(block, 'mqttClient');
-  generator.addVariable(
-    'PubSubClient ' + name,
-    'PubSubClient ' + name + '(' + generator.valueToCode(block, 'SERVER', generator.ORDER_ATOMIC) + ', ' + generator.valueToCode(block, 'PORT', generator.ORDER_ATOMIC) + ', ' + generator.valueToCode(block, 'CALLBACK', generator.ORDER_ATOMIC) + ', ' + generator.valueToCode(block, 'CLIENT', generator.ORDER_ATOMIC) + ')'
-  );
-  return '';
-};
-Arduino.forBlock['pubsub_set_server_ip'] = function(block, generator) {
-  const clientName = block.getFieldValue('NAME') || 'mqttClient';
-  return clientName + '.setServer(' + generator.valueToCode(block, 'SERVER', generator.ORDER_ATOMIC) + ', ' + generator.valueToCode(block, 'PORT', generator.ORDER_ATOMIC) + ');\n';
-};
-Arduino.forBlock['pubsub_set_server_domain'] = function(block, generator) {
-  const clientName = block.getFieldValue('NAME') || 'mqttClient';
-  return clientName + '.setServer(' + generator.valueToCode(block, 'DOMAIN', generator.ORDER_ATOMIC) + ', ' + generator.valueToCode(block, 'PORT', generator.ORDER_ATOMIC) + ');\n';
-};
-Arduino.forBlock['pubsub_set_callback'] = function(block, generator) {
-  const clientName = block.getFieldValue('NAME') || 'mqttClient';
-  
-  let callbackName = clientName + '_callback';
 
-  // 获取回调函数体内容
-  const callbackBody = generator.statementToCode(block, 'NAME') || '';
+// // 设置MQTT服务器
+// Arduino.forBlock['pubsub_set_server'] = function(block, generator) {
+//   const server = generator.valueToCode(block, 'SERVER', generator.ORDER_ATOMIC) || '"mqtt.example.com"';
+//   const port = block.getFieldValue('PORT') || '1883';
+  
+//   ensurePubSubLib(generator);
+  
+//   // 查找已创建的MQTT客户端变量
+//   const workspace = block.workspace;
+//   let mqttClientVar = 'mqttClient';
+//   if (workspace) {
+//     const variables = workspace.getVariablesOfType('PubSubClient');
+//     if (variables && variables.length > 0) {
+//       mqttClientVar = variables[0].name;
+//     }
+//   }
+  
+//   return mqttClientVar + '.setServer(' + server + ', ' + port + ');\n';
+// };
+
+// 设置MQTT回调
+Arduino.forBlock['pubsub_set_callback'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'mqttClient');
+  const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
+  const callbackName = 'mqtt_callback_' + varName;
 
   // 添加byte数组转char数组的代码
   let payloadConversion = 
@@ -145,140 +145,223 @@ Arduino.forBlock['pubsub_set_callback'] = function(block, generator) {
     '\n' +
     '  free(payload_str);\n';
   
-  // 生成回调函数定义
-  const functionDef = 'void ' + callbackName + '(char* topic, byte* payload, unsigned int length) {\n' + 
-    payloadConversion + 
-    callbackBody + 
-    memoryCleanup + 
-    '}';
-
-  // registerVariableToBlockly('topic', callbackName);
-  // registerVariableToBlockly('payload', callbackName);
-  // registerVariableToBlockly('payload_str', callbackName);
-  // registerVariableToBlockly('length', callbackName);
-  addVariableToToolbox('topic', 'topic');
-  addVariableToToolbox('payload', 'payload');
-  addVariableToToolbox('payload_str', 'payload_str');
-  addVariableToToolbox('length', 'length');
-
+  // 生成回调函数
+  let functionDef = 'void ' + callbackName + '(char* topic, byte* payload, unsigned int length) {\n';
+  functionDef += payloadConversion;
+  functionDef += handlerCode;
+  functionDef += memoryCleanup;
+  functionDef += '}\n';
+  
   generator.addFunction(callbackName, functionDef);
   
-  // 使用字符串拼接构建setCallback代码
-  let code = clientName + '.setCallback(' + callbackName + ');\n';
+  // 查找已创建的MQTT客户端变量
+  const workspace = block.workspace;
+  let mqttClientVar = 'mqttClient';
+  if (workspace) {
+    const variables = workspace.getVariablesOfType('PubSubClient');
+    if (variables && variables.length > 0) {
+      mqttClientVar = variables[0].name;
+    }
+  }
   
-  // 添加到setup函数末尾
-  generator.addSetupEnd('pubsub_callback_' + clientName, code);
+  let code = mqttClientVar + '.setCallback(' + callbackName + ');\n';
+  generator.addSetupEnd(code, code);
   
   return '';
 };
 
 Arduino.forBlock['pubsub_set_callback_with_topic'] = function(block, generator) {
-  const topic = generator.valueToCode(block, 'TOPIC', generator.ORDER_ATOMIC) || '""';
+  const topic = generator.valueToCode(block, 'TOPIC', generator.ORDER_ATOMIC) || '"topic"';
+  const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
+  const callbackName = 'mqtt_sub_' + topic.replace(/[^a-zA-Z0-9_]/g, '_') + '_callback';
 
-  const callbackName = 'mqtt' + topic.replace(/[^a-zA-Z0-9]/g, '_') + '_sub_callback';
-  const callbackBody = generator.statementToCode(block, 'NAME') || '';
+  // 生成回调函数
+  let functionDef = 'void ' + callbackName + '(const char* payload) {\n';
+  functionDef += handlerCode;
+  functionDef += '}\n';
 
-  const functionDef = 'void ' + callbackName + '(const char* payload) {\n' + callbackBody + '}\n';
   generator.addFunction(callbackName, functionDef);
-  
-  // let code = callbackName + '(payload, length);\n';
-  let code = 'if (strcmp(topic, ' + topic + ') == 0) {\n' +
-    '  ' + callbackName + '(payload_str);\n' +
-    '}\n';
-  // generator.addSetupEnd('pubsub_callback_' + callbackName, code);
-  
+
+  // 在订阅时使用该回调函数
+  let code = '';
+  code += 'if (strcmp(topic, ' + topic + ') == 0)  {\n';
+  code += '  ' + callbackName + '(payload_str);\n';
+  code += '}\n';
+
   return code;
 };
 
+// 连接MQTT服务器
 Arduino.forBlock['pubsub_connect'] = function(block, generator) {
-  const clientName = block.getFieldValue('NAME') || 'mqttClient';
-  return clientName + '.connect(' + generator.valueToCode(block, 'CLIENT_ID', generator.ORDER_ATOMIC) + ');\n';
-};
-Arduino.forBlock['pubsub_connect_with_credentials'] = function(block, generator) {
-  const clientName = block.getFieldValue('NAME') || 'mqttClient';
-  const clientId = block.getFieldValue('CLIENT_ID') || '';
-  const username = block.getFieldValue('USERNAME') || '';
-  const password = block.getFieldValue('PASSWORD') || '';
+  const varName = getVariableName(block, 'VAR', 'mqttClient');
+  const clientId = generator.valueToCode(block, 'CLIENT_ID', generator.ORDER_ATOMIC) || '"arduinoClient"';
   
-  // 确保 clientId 不为空
-  const finalClientId = clientId.trim() === '' ? 'defaultClient' : clientId;
+  ensurePubSubLib(generator);
   
-  // 生成连接代码作为表达式
-  let code;
-  if (username.trim() === '' && password.trim() === '') {
-    code = clientName + '.connect("' + finalClientId + '")';
-  } else {
-    code = clientName + '.connect("' + finalClientId + '", "' + username + '", "' + password + '")';
+  // 查找已创建的MQTT客户端变量
+  const workspace = block.workspace;
+  let mqttClientVar = varName;
+  if (workspace) {
+    const variables = workspace.getVariablesOfType('PubSubClient');
+    if (variables && variables.length > 0) {
+      mqttClientVar = variables[0].name;
+    }
   }
   
-  // 返回表达式格式：[代码, 优先级]
-  return [code, generator.ORDER_FUNCTION_CALL];
+  return [mqttClientVar + '.connect(' + clientId + ')', generator.ORDER_FUNCTION_CALL];
 };
-Arduino.forBlock['pubsub_connected'] = function(block, generator) {
-  const clientName = block.getFieldValue('NAME') || 'mqttClient';
-  return [clientName + '.connected()', generator.ORDER_FUNCTION_CALL];
-};
-Arduino.forBlock['pubsub_loop'] = function(block, generator) {
-  const clientName = block.getFieldValue('NAME') || 'mqttClient';
-  return clientName + '.loop();\n';
-};
-Arduino.forBlock['pubsub_state'] = function(block, generator) {
-  const clientName = block.getFieldValue('NAME') || 'mqttClient';
-  return [clientName + '.state()', generator.ORDER_FUNCTION_CALL];
-};
-Arduino.forBlock['pubsub_publish'] = function(block, generator) {
-  // 确保已包含PubSubClient库
-  ensurePubSubLib(generator);
-  const clientName = block.getFieldValue('NAME') || 'mqttClient';
+
+// 带认证连接MQTT服务器
+Arduino.forBlock['pubsub_connect_auth'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'mqttClient');
+  const clientId = generator.valueToCode(block, 'CLIENT_ID', generator.ORDER_ATOMIC) || '"arduinoClient"';
+  const username = generator.valueToCode(block, 'USERNAME', generator.ORDER_ATOMIC) || '""';
+  const password = generator.valueToCode(block, 'PASSWORD', generator.ORDER_ATOMIC) || '""';
   
-  // 获取主题和负载参数，提供默认值
-  const topic = generator.valueToCode(block, 'TOPIC', generator.ORDER_ATOMIC) || '""';
-  const payload = generator.valueToCode(block, 'PAYLOAD', generator.ORDER_ATOMIC) || '""';
-    
-  let code = '';
-  code += clientName + '.publish(' + topic + ', ' + payload + ');\n';
+  ensurePubSubLib(generator);
+  
+  // 查找已创建的MQTT客户端变量
+  const workspace = block.workspace;
+  let mqttClientVar = varName;
+  if (workspace) {
+    const variables = workspace.getVariablesOfType('PubSubClient');
+    if (variables && variables.length > 0) {
+      mqttClientVar = variables[0].name;
+    }
+  }
+  
+  return [mqttClientVar + '.connect(' + clientId + ', ' + username + ', ' + password + ')', generator.ORDER_FUNCTION_CALL];
+};
 
-  return code;
+// 发布MQTT消息
+Arduino.forBlock['pubsub_publish'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'mqttClient');
+  const topic = generator.valueToCode(block, 'TOPIC', generator.ORDER_ATOMIC) || '"topic"';
+  const payload = generator.valueToCode(block, 'PAYLOAD', generator.ORDER_ATOMIC) || '"message"';
+  
+  ensurePubSubLib(generator);
+  
+  // 查找已创建的MQTT客户端变量
+  const workspace = block.workspace;
+  let mqttClientVar = varName;
+  if (workspace) {
+    const variables = workspace.getVariablesOfType('PubSubClient');
+    if (variables && variables.length > 0) {
+      mqttClientVar = variables[0].name;
+    }
+  }
+  
+  return mqttClientVar + '.publish(' + topic + ', ' + payload + ');\n';
 };
-Arduino.forBlock['pubsub_publish_with_length'] = function(block, generator) {
-  const clientName = block.getField('NAME').getVariable().getName() || 'mqttClient';
-  return clientName + '.publish(' + generator.valueToCode(block, 'TOPIC', generator.ORDER_ATOMIC) + ', ' + generator.valueToCode(block, 'PAYLOAD', generator.ORDER_ATOMIC) + ', ' + generator.valueToCode(block, 'LENGTH', generator.ORDER_ATOMIC) + ');\n';
-};
+
+// 订阅MQTT主题
 Arduino.forBlock['pubsub_subscribe'] = function(block, generator) {
-  const clientName = block.getFieldValue('NAME') || 'mqttClient';
-  return clientName + '.subscribe(' + generator.valueToCode(block, 'TOPIC', generator.ORDER_ATOMIC) + ');\n';
-};
-Arduino.forBlock['pubsub_begin_publish'] = function(block, generator) {
-  const clientName = block.getField('NAME').getVariable().getName() || 'mqttClient';
-  return clientName + '.beginPublish(' + generator.valueToCode(block, 'TOPIC', generator.ORDER_ATOMIC) + ', ' + generator.valueToCode(block, 'LENGTH', generator.ORDER_ATOMIC) + ', ' + generator.valueToCode(block, 'RETAINED', generator.ORDER_ATOMIC) + ');\n';
-};
-Arduino.forBlock['pubsub_print'] = function(block, generator) {
-  const clientName = block.getField('NAME').getVariable().getName() || 'mqttClient';
-  return clientName + '.print(' + generator.valueToCode(block, 'DATA', generator.ORDER_ATOMIC) + ');\n';
-};
-Arduino.forBlock['pubsub_end_publish'] = function(block, generator) {
-  const clientName = block.getField('NAME').getVariable().getName() || 'mqttClient';
-  return clientName + '.endPublish();\n';
+  const varName = getVariableName(block, 'VAR', 'mqttClient');
+  const topic = generator.valueToCode(block, 'TOPIC', generator.ORDER_ATOMIC) || '"topic"';
+  
+  ensurePubSubLib(generator);
+  
+  // 查找已创建的MQTT客户端变量
+  const workspace = block.workspace;
+  let mqttClientVar = varName;
+  if (workspace) {
+    const variables = workspace.getVariablesOfType('PubSubClient');
+    if (variables && variables.length > 0) {
+      mqttClientVar = variables[0].name;
+    }
+  }
+  
+  return mqttClientVar + '.subscribe(' + topic + ');\n';
 };
 
-// SRAM.h，统一SRAM名字
-function getSramName(block) {
-  return block.getFieldValue('NAME') || 'sram';
-}
-function ensureSramLib(generator) {
-  generator.addLibrary('SRAM', '#include <SRAM.h>');
-}
-Arduino.forBlock['sram_create'] = function(block, generator) {
-  ensureSramLib(generator);
-  generator.addVariable('SRAM ' + getSramName(block), 'SRAM ' + getSramName(block) + '(' + generator.valueToCode(block, 'CS_PIN', generator.ORDER_ATOMIC) + ', ' + generator.valueToCode(block, 'SIZE', generator.ORDER_ATOMIC) + ')');
-  return '';
+// 取消订阅MQTT主题
+Arduino.forBlock['pubsub_unsubscribe'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'mqttClient');
+  const topic = generator.valueToCode(block, 'TOPIC', generator.ORDER_ATOMIC) || '"topic"';
+  
+  ensurePubSubLib(generator);
+  
+  // 查找已创建的MQTT客户端变量
+  const workspace = block.workspace;
+  let mqttClientVar = varName;
+  if (workspace) {
+    const variables = workspace.getVariablesOfType('PubSubClient');
+    if (variables && variables.length > 0) {
+      mqttClientVar = variables[0].name;
+    }
+  }
+  
+  return mqttClientVar + '.unsubscribe(' + topic + ');\n';
 };
-Arduino.forBlock['sram_begin'] = function(block, generator) {
-  return getSramName(block) + '.begin();\n';
+
+// 处理MQTT通信
+Arduino.forBlock['pubsub_loop'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'mqttClient');
+  ensurePubSubLib(generator);
+  
+  // 查找已创建的MQTT客户端变量
+  const workspace = block.workspace;
+  let mqttClientVar = varName;
+  if (workspace) {
+    const variables = workspace.getVariablesOfType('PubSubClient');
+    if (variables && variables.length > 0) {
+      mqttClientVar = variables[0].name;
+    }
+  }
+  
+  return mqttClientVar + '.loop();\n';
 };
-Arduino.forBlock['sram_seek'] = function(block, generator) {
-  return getSramName(block) + '.seek(' + generator.valueToCode(block, 'ADDRESS', generator.ORDER_ATOMIC) + ');\n';
+
+// 检查MQTT连接状态
+Arduino.forBlock['pubsub_connected'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'mqttClient');
+  ensurePubSubLib(generator);
+  
+  // 查找已创建的MQTT客户端变量
+  const workspace = block.workspace;
+  let mqttClientVar = varName;
+  if (workspace) {
+    const variables = workspace.getVariablesOfType('PubSubClient');
+    if (variables && variables.length > 0) {
+      mqttClientVar = variables[0].name;
+    }
+  }
+  
+  return [mqttClientVar + '.connected()', generator.ORDER_FUNCTION_CALL];
 };
-Arduino.forBlock['sram_read'] = function(block, generator) {
-  return [getSramName(block) + '.read()', generator.ORDER_FUNCTION_CALL];
+
+// 获取MQTT连接状态码
+Arduino.forBlock['pubsub_state'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'mqttClient');
+  ensurePubSubLib(generator);
+  
+  // 查找已创建的MQTT客户端变量
+  const workspace = block.workspace;
+  let mqttClientVar = varName;
+  if (workspace) {
+    const variables = workspace.getVariablesOfType('PubSubClient');
+    if (variables && variables.length > 0) {
+      mqttClientVar = variables[0].name;
+    }
+  }
+  
+  return [mqttClientVar + '.state()', generator.ORDER_FUNCTION_CALL];
+};
+
+// 断开MQTT连接
+Arduino.forBlock['pubsub_disconnect'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'mqttClient');
+  ensurePubSubLib(generator);
+  
+  // 查找已创建的MQTT客户端变量
+  const workspace = block.workspace;
+  let mqttClientVar = varName;
+  if (workspace) {
+    const variables = workspace.getVariablesOfType('PubSubClient');
+    if (variables && variables.length > 0) {
+      mqttClientVar = variables[0].name;
+    }
+  }
+  
+  return mqttClientVar + '.disconnect();\n';
 };
