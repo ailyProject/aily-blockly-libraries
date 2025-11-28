@@ -388,8 +388,9 @@ try {
 
   Blockly.Extensions.register('math_op_tooltip', function() {
     // 为 math_arithmetic 块设置动态 tooltip
+    const block = this;
     this.setTooltip(function() {
-      const op = this.getFieldValue('OP');
+      const op = block.getFieldValue('OP');
       return MATH_OP_TOOLTIPS[op] || '数学运算';
     });
   });
