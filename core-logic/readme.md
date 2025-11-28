@@ -18,6 +18,7 @@
 | `logic_negate` | 值块 | BOOL(input_value) | `"inputs":{"BOOL":{"block":{...}}}` | `!bool` |
 | `logic_boolean` | 值块 | BOOL(field_dropdown) | `"fields":{"BOOL":"true"}` | `true` |
 | `logic_ternary` | 值块 | IF(input_value), THEN(input_value), ELSE(input_value) | `"inputs":{"IF":{"block":{...}},"THEN":{"block":{...}},"ELSE":{"block":{...}}}` | `condition ? then : else` |
+| `controls_switch` | 语句块 | SWITCH(input_value), CASE0(input_value), DO0(input_statement), DEFAULT(input_statement), extraState | `"inputs":{"SWITCH":{"block":{...}},"CASE0":{"block":{...}},"DO0":{"block":{...}},"DEFAULT":{"block":{...}}}` | `switch(val){case ...: ...; default: ...;}` |
 
 ## 字段类型映射
 
@@ -26,6 +27,7 @@
 | field_dropdown | 字符串 | `"OP": "EQ"` |
 | input_value | 块连接 | `"inputs": {"A": {"block": {...}}}` |
 | input_statement | 块连接 | `"inputs": {"DO0": {"block": {...}}}` |
+| extraState | 对象 | `"extraState":{"caseCount":2}` |
 
 ## 连接规则
 
@@ -34,6 +36,7 @@
 - **特殊规则**: 
   - controls_if支持mutator扩展，通过extraState.elseifCount设置"否则如果"分支数量，通过extraState.hasElse设置是否包含"否则"分支
   - controls_ifelse支持mutator扩展，通过extraState.elseIfCount设置"否则如果"分支数量
+  - controls_switch支持mutator扩展，通过extraState.caseCount设置case分支数量，动态添加的分支输入名为CASE1/DO1, CASE2/DO2等，按序号递增
   - 动态添加的分支输入名为IF1/DO1, IF2/DO2等，按序号递增
 
 ## 使用示例
@@ -97,6 +100,22 @@
 ```
 
 ### 多分支条件判断
+### switch多分支选择
+```json
+{
+  "type": "controls_switch",
+  "id": "switch_block",
+  "extraState": {"caseCount": 2},
+  "inputs": {
+    "SWITCH": {"block": {"type": "variables_get", "fields": {"VAR": {"id": "mode"}}}},
+    "CASE0": {"block": {"type": "math_number", "fields": {"NUM": "1"}}},
+    "DO0": {"block": {"type": "serial_println", "inputs": {"VAR": {"block": {"type": "text", "fields": {"TEXT": "模式1"}}}}}},
+    "CASE1": {"block": {"type": "math_number", "fields": {"NUM": "2"}}},
+    "DO1": {"block": {"type": "serial_println", "inputs": {"VAR": {"block": {"type": "text", "fields": {"TEXT": "模式2"}}}}}},
+    "DEFAULT": {"block": {"type": "serial_println", "inputs": {"VAR": {"block": {"type": "text", "fields": {"TEXT": "其他"}}}}}}
+  }
+}
+```
 ```json
 {
   "type": "controls_ifelse",
@@ -149,7 +168,7 @@
 
 1. **必须遵守**: 块ID必须唯一，字段值必须匹配预定义选项
 2. **连接限制**: 语句块只能连接语句块，值块只能连接到输入端口
-3. **动态输入**: controls_ifelse使用extraState.elseIfCount控制else if分支数量; controls_if使用extraState.elseifCount和extraState.hasElse控制分支数量
+3. **动态输入**: controls_ifelse使用extraState.elseIfCount控制else if分支数量; controls_if使用extraState.elseifCount和extraState.hasElse控制分支数量；controls_switch使用extraState.caseCount控制case分支数量
 4. **常见错误**: ❌ 将值块放在语句位置，❌ 字段值拼写错误，❌ extraState与实际输入数量不匹配
 
 ## 支持的字段选项

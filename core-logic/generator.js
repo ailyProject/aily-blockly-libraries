@@ -44,6 +44,56 @@ Arduino.forBlock["controls_if"] = function (block) {
 // export const controls_ifelse = controls_if;
 Arduino.forBlock["controls_ifelse"] = Arduino.forBlock["controls_if"];
 
+Arduino.forBlock["controls_switch"] = function (block) {
+  // Switch/case statement.
+  let n = 0;
+  let code = "";
+  
+  // Get the switch expression
+  const switchValue = Arduino.valueToCode(block, "SWITCH", Arduino.ORDER_NONE) || "0";
+  
+  if (Arduino.STATEMENT_PREFIX) {
+    code += Arduino.injectId(Arduino.STATEMENT_PREFIX, block);
+  }
+  
+  code += "switch (" + switchValue + ") {\n";
+  
+  // Process all case statements
+  do {
+    const caseValue = Arduino.valueToCode(block, "CASE" + n, Arduino.ORDER_NONE);
+    if (caseValue) {
+      code += "  case " + caseValue + ":\n";
+      let branchCode = Arduino.statementToCode(block, "DO" + n);
+      if (Arduino.STATEMENT_SUFFIX) {
+        branchCode = Arduino.prefixLines(
+          Arduino.injectId(Arduino.STATEMENT_SUFFIX, block),
+          Arduino.INDENT
+        ) + branchCode;
+      }
+      code += Arduino.prefixLines(branchCode, Arduino.INDENT);
+      code += "    break;\n";
+    }
+    n++;
+  } while (block.getInput("CASE" + n));
+  
+  // Process default case if present
+  if (block.getInput("DEFAULT")) {
+    code += "  default:\n";
+    let defaultCode = Arduino.statementToCode(block, "DEFAULT");
+    if (Arduino.STATEMENT_SUFFIX) {
+      defaultCode = Arduino.prefixLines(
+        Arduino.injectId(Arduino.STATEMENT_SUFFIX, block),
+        Arduino.INDENT
+      ) + defaultCode;
+    }
+    code += Arduino.prefixLines(defaultCode, Arduino.INDENT);
+    code += "    break;\n";
+  }
+  
+  code += "}\n";
+  return code;
+};
+
 Arduino.forBlock["logic_compare"] = function (block) {
   // Comparison operator.
   const OPERATORS = {
