@@ -1,0 +1,1357 @@
+[
+  {
+    "type": "car_is_key_pressed",
+    "message0": "按键 %1 被按下",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "KEY",
+        "options": [
+          ["A", "0"],
+          ["B", "1"],
+          ["C", "2"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5C68A6",
+    "tooltip": "判断板载按键是否被按下"
+  },
+  {
+    "type": "car_ultrasonic_distance",
+    "message0": "超声波测距 TRIG %1 ECHO %2 单位:厘米",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TRIG",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ECHO",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "output": "Number",
+    "colour": "#5C68A6",
+    "tooltip": "超声波测距传感器，返回厘米值"
+  },
+  {
+    "type": "car_line_init",
+    "message0": "初始化八路巡线传感器",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C7DA6",
+    "tooltip": "八路巡线传感器(I2C地址0x27, SDA=21, SCL=22)"
+  },
+  {
+    "type": "car_line_is_state",
+    "message0": "当前线路状态等于 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          ["(0) 00000000 全白", "0"],
+          ["(24) 00011000 中间两路", "24"],
+          ["(60) 00111100 中间四路", "60"],
+          ["(126) 01111110 中间六路", "126"],
+          ["(255) 11111111 全黑", "255"],
+          ["(1) 00000001 A0", "1"],
+          ["(2) 00000010 A1", "2"],
+          ["(4) 00000100 A2", "4"],
+          ["(8) 00001000 A3", "8"],
+          ["(16) 00010000 A4", "16"],
+          ["(32) 00100000 A5", "32"],
+          ["(64) 01000000 A6", "64"],
+          ["(128) 10000000 A7", "128"],
+          ["(3) 00000011 A0+A1", "3"],
+          ["(12) 00001100 A2+A3", "12"],
+          ["(48) 00110000 A4+A5", "48"],
+          ["(192) 11000000 A6+A7", "192"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5C7DA6",
+    "tooltip": "判断当前巡线状态(8路传感器)"
+  },
+  {
+    "type": "car_line_offset",
+    "message0": "获取线路偏移量",
+    "output": "Number",
+    "colour": "#5C7DA6",
+    "tooltip": "获取巡线偏移量，用于PID控制"
+  },
+  {
+    "type": "car_line_sensor_value",
+    "message0": "获取 %1 传感器当前值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SENSOR",
+        "options": [
+          ["A0", "0"],
+          ["A1", "1"],
+          ["A2", "2"],
+          ["A3", "3"],
+          ["A4", "4"],
+          ["A5", "5"],
+          ["A6", "6"],
+          ["A7", "7"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#5C7DA6",
+    "tooltip": "获取单个传感器的当前值(0-1023)"
+  },
+  {
+    "type": "car_line_sensor_reference",
+    "message0": "获取 %1 传感器参考值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SENSOR",
+        "options": [
+          ["A0", "0"],
+          ["A1", "1"],
+          ["A2", "2"],
+          ["A3", "3"],
+          ["A4", "4"],
+          ["A5", "5"],
+          ["A6", "6"],
+          ["A7", "7"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#5C7DA6",
+    "tooltip": "获取单个传感器的参考值(阈值,0-1023)"
+  },
+  {
+    "type": "car_line_sensor_digital",
+    "message0": "获取 %1 传感器数字值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SENSOR",
+        "options": [
+          ["A0", "0"],
+          ["A1", "1"],
+          ["A2", "2"],
+          ["A3", "3"],
+          ["A4", "4"],
+          ["A5", "5"],
+          ["A6", "6"],
+          ["A7", "7"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#5C7DA6",
+    "tooltip": "获取单个传感器的数字值(0或1, 1表示检测到黑线)"
+  },
+  {
+    "type": "car_servo_init",
+    "message0": "初始化舵机(通过STM32 I2C)",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "初始化STM32舵机控制(地址0x10)"
+  },
+  {
+    "type": "car_servo_angle",
+    "message0": "设置舵机 %1 角度为 %2 度",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": [
+          ["S1", "0"],
+          ["S2", "1"],
+          ["S3", "2"],
+          ["S4", "3"],
+          ["S5", "4"],
+          ["S6", "5"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ANGLE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "设置STM32舵机角度(0-180)"
+  },
+  {
+    "type": "car_servo_dual_angle",
+    "message0": "设置所有舵机角度为 %1 度",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ANGLE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "设置所有舵机(S1-S6)为相同角度"
+  },
+  {
+    "type": "car_motor_control_single",
+    "message0": "控制TT马达 %1 方向 %2 速度 %3(0-255)",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR_ID",
+        "options": [
+          ["EL1", "0"],
+          ["ER1", "1"],
+          ["EL2", "2"],
+          ["ER2", "3"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIRECTION",
+        "options": [
+          ["停止", "0"],
+          ["正转", "1"],
+          ["反转", "2"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "通过STM32控制TT马达(速度范围0-255)"
+  },
+  {
+    "type": "car_motor_stop_single",
+    "message0": "停止TT马达 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR_ID",
+        "options": [
+          ["EL1", "0"],
+          ["ER1", "1"],
+          ["EL2", "2"],
+          ["ER2", "3"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "停止单个TT马达"
+  },
+  {
+    "type": "car_stepper_control",
+    "message0": "步进电机 %1 %2 转动 %3 度",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STEPPER_NUM",
+        "options": [
+          ["L", "0"],
+          ["R", "1"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIRECTION",
+        "options": [
+          ["顺时针", "0"],
+          ["逆时针", "1"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DEGREES",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "通过STM32控制步进电机(0-65535度)"
+  },
+  {
+    "type": "car_stepper_control_turns",
+    "message0": "步进电机 %1 %2 转动 %3 圈",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STEPPER_NUM",
+        "options": [
+          ["L", "0"],
+          ["R", "1"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIRECTION",
+        "options": [
+          ["顺时针", "0"],
+          ["逆时针", "1"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "TURNS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "通过STM32控制步进电机转指定圈数(1圈=360度，最大182圈)"
+  },
+  {
+    "type": "car_stop_all_motors",
+    "message0": "停止所有电机(含舵机/TT马达/步进电机)",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "发送系统命令停止所有电机"
+  },
+  {
+    "type": "car_servo_to_mid",
+    "message0": "所有舵机归中位(90度)",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "所有舵机快速归中位"
+  },
+  {
+    "type": "car_encoder_config",
+    "message0": "配置编码电机参数 脉冲数/转 %1 减速比 %2",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "PPR",
+        "value": 3,
+        "min": 1,
+        "max": 1000
+      },
+      {
+        "type": "field_number",
+        "name": "REDUCTION",
+        "value": 48,
+        "min": 1,
+        "max": 1000
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "配置编码电机的脉冲数和减速比参数（必须在setup最前面使用，影响代码生成）。默认：PPR=3, 减速比=48"
+  },
+  {
+    "type": "car_encoder_set_pid",
+    "message0": "设置编码电机 %1 PID参数 P %2 I %3 D %4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR_ID",
+        "options": [
+          ["EMR", "0"],
+          ["EML", "1"],
+          ["全部", "-1"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "P",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "I",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "D",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "设置编码电机速度PID控制器参数"
+  },
+  {
+    "type": "car_encoder_run_speed",
+    "message0": "编码电机 %1 以速度 %2 RPM转动(-500~500)",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR_ID",
+        "options": [
+          ["EMR", "0"],
+          ["EML", "1"],
+          ["全部", "-1"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "编码电机速度闭环控制(使用PID)，范围-500到500，死区±10RPM。库会自动在后台线程更新转速。"
+  },
+  {
+    "type": "car_encoder_run_pwm",
+    "message0": "编码电机 %1 以动力 %2 转动(-100~100)",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR_ID",
+        "options": [
+          ["EMR", "0"],
+          ["EML", "1"],
+          ["全部", "-1"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DUTY",
+        "check": "Number"
+        }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "编码电机PWM控制(-100到100)"
+  },
+  {
+    "type": "car_encoder_stop",
+    "message0": "停止编码电机 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR_ID",
+        "options": [
+          ["EMR", "0"],
+          ["EML", "1"],
+          ["全部", "-1"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "停止编码电机"
+  },
+  {
+    "type": "car_encoder_get_degree",
+    "message0": "编码电机 %1 转过的角度(度)",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR_ID",
+        "options": [
+          ["EMR", "0"],
+          ["EML", "1"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#00BCD4",
+    "tooltip": "获取编码电机转过的角度"
+  },
+  {
+    "type": "car_encoder_reset_degree",
+    "message0": "重置编码电机 %1 转过的角度",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR_ID",
+        "options": [
+          ["EMR", "0"],
+          ["EML", "1"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "重置编码电机角度计数"
+  },
+  {
+    "type": "car_encoder_get_speed",
+    "message0": "编码电机 %1 当前转速(RPM)",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR_ID",
+        "options": [
+          ["EMR", "0"],
+          ["EML", "1"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#00BCD4",
+    "tooltip": "获取编码电机当前转速"
+  },
+  {
+    "type": "car_ps3_init",
+    "message0": "初始化PS3手柄 MAC地址 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MAC_ADDR",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "初始化PS3蓝牙手柄"
+  },
+  {
+    "type": "car_ps3_button_pressed",
+    "message0": "PS3按键 %1 被按下",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          ["Cross (×)", "cross"],
+          ["Square (□)", "square"],
+          ["Triangle (△)", "triangle"],
+          ["Circle (○)", "circle"],
+          ["Up", "up"],
+          ["Down", "down"],
+          ["Left", "left"],
+          ["Right", "right"],
+          ["L1", "l1"],
+          ["L2", "l2"],
+          ["R1", "r1"],
+          ["R2", "r2"],
+          ["Select", "select"],
+          ["Start", "start"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#607D8B",
+    "tooltip": "判断PS3按键是否被按下"
+  },
+  {
+    "type": "car_ps3_stick_value",
+    "message0": "PS3摇杆 %1 %2 轴值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STICK",
+        "options": [
+          ["左摇杆", "l"],
+          ["右摇杆", "r"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          ["X轴", "x"],
+          ["Y轴", "y"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "获取PS3摇杆模拟值(-128到127)"
+  },
+  {
+    "type": "car_ps3_is_connected",
+    "message0": "PS3手柄已连接",
+    "output": "Boolean",
+    "colour": "#607D8B",
+    "tooltip": "判断PS3手柄是否连接"
+  },
+  {
+    "type": "ai_assistant_config",
+    "message0": "配置AI-assistant串口通信 %1 %2",
+    "args0": [
+      {
+        "type": "input_dummy",
+        "name": "SERIAL_OPTION"
+      },
+      {
+        "type": "input_dummy",
+        "name": "DUMMY_SPACE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3CB371",
+    "tooltip": "配置用于AI-assistant通信的串口，根据板卡类型自动选择可用串口",
+    "helpUrl": "",
+    "extensions": ["ai_assistant_board_extension"]
+  },
+  {
+    "type": "serial_command_handler",
+    "message0": "接收到 %1 命令",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          ["小车前进", "MOVE_FORWARD"],
+          ["小车后退", "MOVE_BACKWARD"],
+          ["小车左转", "TURN_LEFT"],
+          ["小车右转", "TURN_RIGHT"],
+          ["小车急停", "STOP"],
+          ["打开LED", "LED_ON"],
+          ["关闭LED", "LED_OFF"],
+          ["LED闪烁", "LED_BLINK"],
+          ["舵机旋转", "SERVO_ROTATE"],
+          ["修改风扇速度", "FAN_SPEED"],
+          ["打开风扇", "FAN_ON"],
+          ["关闭风扇", "FAN_OFF"],
+          ["打开彩灯", "RGB_ON"],
+          ["关闭彩灯", "RGB_OFF"],
+          ["设置彩灯亮度", "RGB_BRIGHTNESS"],
+          ["设置彩灯渐变色差", "RGB_GRADIENT"],
+          ["机械臂抓取", "ARM_GRAB"],
+          ["机械臂松开", "ARM_RELEASE"],
+          ["机械臂回归初始位置", "ARM_DOWN"],
+          ["打开继电器", "RELAY_ON"],
+          ["关闭继电器", "RELAY_OFF"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#3CB371",
+    "tooltip": "判断是否接收到指定类型的命令",
+    "helpUrl": ""
+  },
+  {
+    "type": "serial_custom_command",
+    "message0": "摄像头识别到:%1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "CUSTOM_CMD",
+        "text": "computer"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#3CB371",
+    "tooltip": "判断是否接收到自定义命令（支持部分匹配）",
+    "helpUrl": ""
+  },
+  {
+    "type": "serial_clear_command",
+    "message0": "清空已接收的命令",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3CB371",
+    "tooltip": "清空receivedCommand变量，用于处理完所有命令后",
+    "helpUrl": ""
+  },
+  {
+    "type": "jy61p_set_zero",
+    "message0": "设置JY61P零点",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "将当前姿态角度设置为零点（参考位置）"
+  },
+  {
+    "type": "jy61p_get_angle",
+    "message0": "获取姿态角度 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ANGLE_TYPE",
+        "options": [
+          ["Yaw (航向角)", "YAW"],
+          ["Pitch (俯仰角)", "PITCH"],
+          ["Roll (横滚角)", "ROLL"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E67E22",
+    "tooltip": "获取JY61P姿态角度，返回0-360度"
+  },
+  {
+    "type": "jy61p_get_acceleration",
+    "message0": "获取加速度 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          ["X轴", "X"],
+          ["Y轴", "Y"],
+          ["Z轴", "Z"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E67E22",
+    "tooltip": "获取JY61P加速度，单位:g，范围:-16~16"
+  },
+  {
+    "type": "jy61p_get_gyro",
+    "message0": "获取角速度 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          ["X轴", "X"],
+          ["Y轴", "Y"],
+          ["Z轴", "Z"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E67E22",
+    "tooltip": "获取JY61P角速度，单位:°/s，范围:-2000~2000"
+  },
+  {
+    "type": "ws2812_init",
+    "message0": "初始化WS2812 引脚 %1 LED数量 %2 初始亮度 %3 (0-255)",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "COUNT",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BRIGHTNESS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "初始化WS2812灯带(Adafruit NeoPixel)"
+  },
+  {
+    "type": "ws2812_set_single_color",
+    "message0": "设置第 %1 个LED为 R %2 G %3 B %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "RED",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "GREEN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BLUE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置单个LED的RGB颜色，索引从0开始"
+  },
+  {
+    "type": "ws2812_set_preset_color",
+    "message0": "设置所有LED为 %1 颜色",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["红色", "RED"],
+          ["绿色", "GREEN"],
+          ["蓝色", "BLUE"],
+          ["白色", "WHITE"],
+          ["黄色", "YELLOW"],
+          ["青色", "CYAN"],
+          ["品红", "MAGENTA"],
+          ["橙色", "ORANGE"],
+          ["紫色", "PURPLE"],
+          ["粉色", "PINK"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "使用预设颜色设置所有LED"
+  },
+  {
+    "type": "ws2812_clear",
+    "message0": "关闭所有LED",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "关闭所有LED灯"
+  },
+  {
+    "type": "ws2812_show",
+    "message0": "刷新显示LED",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "更新LED显示(调用strip.show())"
+  },
+  {
+    "type": "ws2812_set_brightness",
+    "message0": "设置亮度为 %1 (0-255)",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "BRIGHTNESS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置LED整体亮度"
+  },
+  {
+    "type": "ws2812_color_wipe",
+    "message0": "颜色擦除效果 R %1 G %2 B %3 延时 %4 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "RED",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "GREEN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BLUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFA07A",
+    "tooltip": "逐个点亮LED的颜色擦除效果"
+  },
+  {
+    "type": "ws2812_rainbow",
+    "message0": "彩虹效果 循环次数 %1 延时 %2 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "CYCLES",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFA07A",
+    "tooltip": "显示彩虹渐变效果"
+  },
+  {
+    "type": "ws2812_rainbow_cycle",
+    "message0": "彩虹追逐效果 循环次数 %1 延时 %2 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "CYCLES",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFA07A",
+    "tooltip": "彩虹颜色循环追逐效果"
+  },
+  {
+    "type": "ws2812_theater_chase",
+    "message0": "剧院追逐效果 R %1 G %2 B %3 循环 %4 次 延时 %5 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "RED",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "GREEN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BLUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CYCLES",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFA07A",
+    "tooltip": "每隔两个LED点亮一个的追逐效果"
+  },
+  {
+    "type": "ws2812_breathing",
+    "message0": "呼吸灯效果 R %1 G %2 B %3 循环 %4 次 步进 %5",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "RED",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "GREEN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BLUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CYCLES",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "STEP",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFA07A",
+    "tooltip": "渐亮渐暗的呼吸灯效果，步进值越大速度越快"
+  },
+  {
+    "type": "ws2812_running_light",
+    "message0": "流水灯效果 R %1 G %2 B %3 循环 %4 次 延时 %5 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "RED",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "GREEN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BLUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CYCLES",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFA07A",
+    "tooltip": "单个LED依次点亮的流水灯效果"
+  },
+  {
+    "type": "ws2812_sparkle",
+    "message0": "闪烁效果 R %1 G %2 B %3 闪烁 %4 次 延时 %5 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "RED",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "GREEN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BLUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COUNT",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFA07A",
+    "tooltip": "随机位置闪烁的星光效果"
+  },
+  {
+    "type": "ws2812_sine_wave",
+    "message0": "正弦波动画 循环 %1 次 延时 %2 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "CYCLES",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFA07A",
+    "tooltip": "基于正弦波的彩虹动画效果"
+  },
+  {
+    "type": "ws2812_hsv_cycle",
+    "message0": "HSV色环循环 步进 %1 延时 %2 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "STEP",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFB347",
+    "tooltip": "HSV色环循环效果，步进值越大速度越快"
+  },
+  {
+    "type": "ws2812_get_led_count",
+    "message0": "获取LED总数量",
+    "output": "Number",
+    "colour": "#FF6B6B",
+    "tooltip": "获取WS2812灯带的LED总数"
+  },
+  {
+    "type": "ws2812_get_brightness",
+    "message0": "获取当前亮度",
+    "output": "Number",
+    "colour": "#FF6B6B",
+    "tooltip": "获取WS2812当前亮度值(0-255)"
+  },
+  {
+    "type": "sentry2_begin_i2c",
+    "message0": "初始化 Sentry2 端口 I2C SDA %1 SCL %2 地址 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SDA_PIN",
+        "options": [
+          ["21", "21"],
+          ["22", "22"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SCL_PIN",
+        "options": [
+          ["21", "21"],
+          ["22", "22"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDR",
+        "options": [
+          ["0x60", "0x60"],
+          ["0x61", "0x61"],
+          ["0x62", "0x62"],
+          ["0x63", "0x63"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff9f06",
+    "tooltip": "初始化Sentry2视觉传感器（I2C模式）"
+  },
+  {
+    "type": "sentry2_camera_set_awb",
+    "message0": "设置 Sentry2 白平衡模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AWB",
+        "options": [
+          ["自动", "kAutoWhiteBalance"],
+          ["锁定", "kLockWhiteBalance"],
+          ["白光", "kWhiteLight"],
+          ["黄光", "kYellowLight"],
+          ["校准", "kWhiteBalanceCalibrating"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff9f06",
+    "tooltip": "设置Sentry2的白平衡模式"
+  },
+  {
+    "type": "sentry2_vision_set",
+    "message0": "设置 Sentry2 %1 算法 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VISION_STA",
+        "options": [
+          ["开启", "ON"],
+          ["关闭", "OFF"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION_TYPE",
+        "options": [
+          ["颜色识别", "Sentry2::kVisionColor"],
+          ["色块检测", "Sentry2::kVisionBlob"],
+          ["标签识别", "Sentry2::kVisionAprilTag"],
+          ["线条检测", "Sentry2::kVisionLine"],
+          ["深度学习", "Sentry2::kVisionLearning"],
+          ["卡片识别", "Sentry2::kVisionCard"],
+          ["人脸识别", "Sentry2::kVisionFace"],
+          ["20类物体", "Sentry2::kVision20Classes"],
+          ["二维码", "Sentry2::kVisionQrCode"],
+          ["自定义", "Sentry2::kVisionCustom"],
+          ["运动物体", "Sentry2::kVisionMotionDetect"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff9f06",
+    "tooltip": "开启或关闭指定的视觉算法"
+  },
+  {
+    "type": "sentry2_set_param_num",
+    "message0": "设置 Sentry2 %1 %2 组参数",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VISION_TYPE",
+        "options": [
+          ["颜色识别", "Sentry2::kVisionColor"],
+          ["色块检测", "Sentry2::kVisionBlob"],
+          ["自定义", "Sentry2::kVisionCustom"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "NUM",
+        "value": 1,
+        "min": 1,
+        "max": 25
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff9f06",
+    "tooltip": "设置指定算法的参数组数量"
+  },
+  {
+    "type": "sentry2_set_color_param",
+    "message0": "设置 Sentry2 颜色识别 中心横坐标 %1 中心纵坐标 %2 宽度 %3 高度 %4 参数组 %5",
+    "args0": [
+      {"type": "field_number", "name": "XVALUE", "value": 50},
+      {"type": "field_number", "name": "YVALUE", "value": 50},
+      {"type": "field_number", "name": "WIDTH", "value": 3},
+      {"type": "field_number", "name": "HIGHT", "value": 4},
+      {"type": "field_number", "name": "NUM", "value": 1, "min": 1, "max": 25}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff9f06",
+    "tooltip": "设置颜色识别算法的参数"
+  },
+  {
+    "type": "sentry2_set_blob_param",
+    "message0": "设置 Sentry2 色块检测 最小宽度 %1 最小高度 %2 颜色 %3 参数组 %4",
+    "args0": [
+      {"type": "field_number", "name": "WIDTH", "value": 3},
+      {"type": "field_number", "name": "HIGHT", "value": 4},
+      {"type": "field_dropdown", "name": "COLOR_LABLE", "options": [
+        ["红色", "Sentry2::kColorRed"], ["绿色", "Sentry2::kColorGreen"], ["蓝色", "Sentry2::kColorBlue"],
+        ["黄色", "Sentry2::kColorYellow"], ["黑色", "Sentry2::kColorBlack"], ["白色", "Sentry2::kColorWhite"]
+      ]},
+      {"type": "field_number", "name": "NUM", "value": 1, "min": 1, "max": 25}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff9f06",
+    "tooltip": "设置色块检测算法的参数"
+  },
+  {
+    "type": "sentry2_get_vision_result",
+    "message0": "Sentry2 %1 返回的结果数量",
+    "args0": [
+      {"type": "field_dropdown", "name": "VISION_TYPE", "options": [
+        ["颜色识别", "Sentry2::kVisionColor"], ["色块检测", "Sentry2::kVisionBlob"],
+        ["标签识别", "Sentry2::kVisionAprilTag"], ["线条检测", "Sentry2::kVisionLine"],
+        ["深度学习", "Sentry2::kVisionLearning"], ["卡片识别", "Sentry2::kVisionCard"],
+        ["人脸识别", "Sentry2::kVisionFace"], ["20类物体", "Sentry2::kVision20Classes"],
+        ["二维码", "Sentry2::kVisionQrCode"], ["自定义", "Sentry2::kVisionCustom"],
+        ["运动物体", "Sentry2::kVisionMotionDetect"]
+      ]}
+    ],
+    "output": "Number",
+    "colour": "#ff9f06",
+    "tooltip": "获取指定算法返回的结果数量"
+  },
+  {
+    "type": "sentry2_get_color_value",
+    "message0": "Sentry2 颜色识别 返回值 %1 结果 %2 的",
+    "args0": [
+      {"type": "field_dropdown", "name": "OBJ_INFO", "options": [
+        ["标签", "kLabel"], ["红色分量值", "kRValue"], ["绿色分量值", "kGValue"], ["蓝色分量值", "kBValue"]
+      ]},
+      {"type": "field_number", "name": "NUM", "value": 1}
+    ],
+    "output": "Number",
+    "colour": "#ff9f06",
+    "tooltip": "获取颜色识别的指定结果值"
+  },
+  {
+    "type": "sentry2_get_value",
+    "message0": "Sentry2 %1 返回值 %2 结果 %3 的",
+    "args0": [
+      {"type": "field_dropdown", "name": "VISION_TYPE", "options": [
+        ["色块检测", "Sentry2::kVisionBlob"], ["标签识别", "Sentry2::kVisionAprilTag"],
+        ["深度学习", "Sentry2::kVisionLearning"], ["卡片识别", "Sentry2::kVisionCard"],
+        ["人脸识别", "Sentry2::kVisionFace"], ["20类物体", "Sentry2::kVision20Classes"],
+        ["运动物体", "Sentry2::kVisionMotionDetect"]
+      ]},
+      {"type": "field_dropdown", "name": "OBJ_INFO", "options": [
+        ["横坐标", "kXValue"], ["纵坐标", "kYValue"], ["宽度", "kWidthValue"], ["高度", "kHeightValue"], ["标签", "kLabel"]
+      ]},
+      {"type": "field_number", "name": "NUM", "value": 1}
+    ],
+    "output": "Number",
+    "colour": "#ff9f06",
+    "tooltip": "获取指定算法的返回值"
+  },
+  {
+    "type": "sentry2_get_qrcode_value_str",
+    "message0": "Sentry2 二维码 返回的结果字符串",
+    "output": "String",
+    "colour": "#ff9f06",
+    "tooltip": "获取二维码识别的字符串结果"
+  },
+  {
+    "type": "sentry2_get_color_label",
+    "message0": "Sentry2 颜色识别 识别到 %1 结果 %2",
+    "args0": [
+      {"type": "field_dropdown", "name": "COLOR_LABLE", "options": [
+        ["红色", "Sentry2::kColorRed"], ["绿色", "Sentry2::kColorGreen"], ["蓝色", "Sentry2::kColorBlue"],
+        ["黄色", "Sentry2::kColorYellow"], ["黑色", "Sentry2::kColorBlack"], ["白色", "Sentry2::kColorWhite"]
+      ]},
+      {"type": "field_number", "name": "NUM", "value": 1}
+    ],
+    "output": "Boolean",
+    "colour": "#ff9f06",
+    "tooltip": "判断颜色识别是否识别到指定颜色"
+  },
+  {
+    "type": "sentry2_get_card_label",
+    "message0": "Sentry2 卡片识别 识别到 %1 结果 %2",
+    "args0": [
+      {"type": "field_dropdown", "name": "CARD_LABLE", "options": [
+        ["前进", "Sentry2::kCardForward"], ["左转", "Sentry2::kCardLeft"], ["右转", "Sentry2::kCardRight"],
+        ["掉头", "Sentry2::kCardTurnAround"], ["停车", "Sentry2::kCardPark"],
+        ["绿灯", "Sentry2::kCardGreenLight"], ["红灯", "Sentry2::kCardRedLight"],
+        ["速度40", "Sentry2::kCardSpeed40"], ["速度60", "Sentry2::kCardSpeed60"], ["速度80", "Sentry2::kCardSpeed80"],
+        ["√", "Sentry2::kCardCheck"], ["X", "Sentry2::kCardCross"], ["◯", "Sentry2::kCardCircle"],
+        ["☐", "Sentry2::kCardSquare"], ["△", "Sentry2::kCardTriangle"],
+        ["+", "Sentry2::kCardPlus"], ["-", "Sentry2::kCardMinus"], ["÷", "Sentry2::kCardDivide"], ["=", "Sentry2::kCardEqual"],
+        ["0", "Sentry2::kCardZero"], ["1", "Sentry2::kCardOne"], ["2", "Sentry2::kCardTwo"], ["3", "Sentry2::kCardThree"],
+        ["4", "Sentry2::kCardFour"], ["5", "Sentry2::kCardFive"], ["6", "Sentry2::kCardSix"], ["7", "Sentry2::kCardSeven"],
+        ["8", "Sentry2::kCardEight"], ["9", "Sentry2::kCardNine"]
+      ]},
+      {"type": "field_number", "name": "NUM", "value": 1}
+    ],
+    "output": "Boolean",
+    "colour": "#ff9f06",
+    "tooltip": "判断卡片识别是否识别到指定卡片"
+  }
+]
