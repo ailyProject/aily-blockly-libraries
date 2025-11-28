@@ -238,7 +238,10 @@
       {
         "type": "input_value",
         "name": "TEXT",
-        "check": "String"
+        "check": [
+          "Number",
+          "String"
+        ]
       }
     ],
     "previousStatement": null,
@@ -564,6 +567,140 @@
     "nextStatement": null,
     "colour": "#4DB6AC",
     "tooltip": "将缓冲区内容显示到屏幕",
+    "inputsInline": true,
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "u8x8_begin",
+    "message0": "初始化 U8x8 显示屏 型号 %1 分辨率 %2 通信 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "SSD1306",
+            "SSD1306"
+          ],
+          [
+            "SSD1309",
+            "SSD1309"
+          ],
+          [
+            "SH1106",
+            "SH1106"
+          ],
+          [
+            "SH1107",
+            "SH1107"
+          ],
+          [
+            "ST7920",
+            "ST7920"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RESOLUTION",
+        "options": [
+          [
+            "128x64",
+            "128X64_NONAME"
+          ],
+          [
+            "128x32",
+            "128X32_NONAME"
+          ],
+          [
+            "128x128",
+            "128X128_NONAME"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROTOCOL",
+        "options": [
+          [
+            "I2C",
+            "_HW_I2C"
+          ],
+          [
+            "3W_SPI",
+            "_3W_HW_SPI"
+          ],
+          [
+            "4W_SPI",
+            "_4W_HW_SPI"
+          ],
+          [
+            "软件 I2C",
+            "_SW_I2C"
+          ],
+          [
+            "软件 3W_SPI",
+            "_3W_SW_SPI"
+          ],
+          [
+            "软件 4W_SPI",
+            "_4W_SW_SPI"
+          ]
+        ]
+      }
+    ],
+    "extensions": [
+      "u8g2_begin_dynamic_inputs"
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4DB6AC",
+    "tooltip": "初始化U8X8显示设备",
+    "inputsInline": true,
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "u8x8_clear",
+    "message0": "U8x8 显示屏清屏",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4DB6AC",
+    "tooltip": "清空显示内容",
+    "inputsInline": true,
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "u8x8_draw_str",
+    "message0": "U8x8 显示文本 坐标 x%1 y%2 文本%3 反色%4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "Number",
+          "String"
+        ]
+      },
+      {
+        "type": "field_checkbox",
+        "name": "INVERSE",
+        "checked": false
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4DB6AC",
+    "tooltip": "显示文本",
     "inputsInline": true,
     "icon": "iconfont icon-oled12864"
   }

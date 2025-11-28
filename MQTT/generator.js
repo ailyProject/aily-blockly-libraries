@@ -133,17 +133,14 @@ Arduino.forBlock['pubsub_set_callback'] = function(block, generator) {
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
   const callbackName = 'mqtt_callback_' + varName;
 
-  // 添加byte数组转char数组的代码
+  // 添加byte数组转String的代码
   let payloadConversion = 
-    '  char* payload_str = (char*)malloc(length + 1);\n' +
-    '  memcpy(payload_str, payload, length);\n' +
-    '  payload_str[length] = \'\\0\';\n' +
+    '  String payload_str(payload, length);\n' +
     '\n';
   
-  // 在回调函数体结束前释放内存
+  // 在回调函数体结束前释放内存（String自动管理，无需手动释放）
   let memoryCleanup = 
-    '\n' +
-    '  free(payload_str);\n';
+    '\n';
   
   // 生成回调函数
   let functionDef = 'void ' + callbackName + '(char* topic, byte* payload, unsigned int length) {\n';
@@ -176,7 +173,7 @@ Arduino.forBlock['pubsub_set_callback_with_topic'] = function(block, generator) 
   const callbackName = 'mqtt_sub_' + topic.replace(/[^a-zA-Z0-9_]/g, '_') + '_callback';
 
   // 生成回调函数
-  let functionDef = 'void ' + callbackName + '(const char* payload) {\n';
+  let functionDef = 'void ' + callbackName + '(const String &payload_str) {\n';
   functionDef += handlerCode;
   functionDef += '}\n';
 
@@ -190,6 +187,10 @@ Arduino.forBlock['pubsub_set_callback_with_topic'] = function(block, generator) 
 
   return code;
 };
+
+Arduino.forBlock['pubsub_get_topic_callback_payload'] = function(block, generator) {
+  return ['payload_str', generator.ORDER_FUNCTION_CALL];
+}
 
 // 连接MQTT服务器
 Arduino.forBlock['pubsub_connect'] = function(block, generator) {

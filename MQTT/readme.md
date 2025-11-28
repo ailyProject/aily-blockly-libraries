@@ -15,6 +15,7 @@
 | `pubsub_create` | 语句块 | VAR(field_input), CLIENT(field_input), SSL(field_dropdown), SERVER(input_value), PORT(input_value) | `"fields":{"VAR":"mqttClient","CLIENT":"client","SSL":"FALSE"}, "inputs":{"SERVER":{"block":...},"PORT":{"block":...}}` | 声明底层 client（如 `WiFiClient` / `WiFiClientSecure`），声明 `PubSubClient mqttClient(client);` 并调用 `setServer` |
 | `pubsub_set_callback` | 事件/回调 | VAR(field_variable), HANDLER(input_statement) | `"fields":{"VAR":{...}}, "inputs":{"HANDLER":{...}}` | 在生成器中创建 `void mqtt_callback_xxx(...)` 并在 setup 中调用 `mqttClient.setCallback(...)` |
 | `pubsub_set_callback_with_topic` | 语句块 | TOPIC(input_value), HANDLER(input_statement) | `"inputs":{"TOPIC":{...},"HANDLER":{...}}` | 生成按主题分发的回调检查代码（在全局回调内判断 topic） |
+| `pubsub_get_topic_callback_payload` | 值块 | 无 | 无 | `payload_str`（回调内可用，返回 String） |
 | `pubsub_connect` | 值块 | VAR(field_variable), CLIENT_ID(input_value) | `"inputs":{"CLIENT_ID":{...}}` | `mqttClient.connect(clientId)` (返回 Boolean) |
 | `pubsub_connect_auth` | 值块 | VAR(field_variable), CLIENT_ID(input_value), USERNAME(input_value), PASSWORD(input_value) | `"inputs":{...}` | `mqttClient.connect(id, user, pass)` (返回 Boolean) |
 | `pubsub_publish` | 语句块 | VAR(field_variable), TOPIC(input_value), PAYLOAD(input_value) | `"inputs":{...}` | `mqttClient.publish(topic, payload);` |
@@ -30,11 +31,11 @@
 
 | 类型 | .abi格式 | 示例 |
 |------|----------|------|
-| field_variable | 对象（变量引用） | `"VAR": {"id":"mqtt_id","name":"mqttClient","type":"MQTTClient"}`
-| field_input | 字符串 | `"VAR": "mqttClient"` 或 `"CLIENT": "client"`
-| field_dropdown | 字符串 | `"SSL": "FALSE"` 或 `"STATE": "MQTT_CONNECTED"`
-| input_value | 块连接（单值） | `"inputs": {"SERVER": {"block": {...}}}`
-| input_statement | 块连接（语句序列） | `"inputs": {"HANDLER": {"block": {...}}}`
+| field_variable | 对象（变量引用） | `"VAR": {"id":"mqtt_id","name":"mqttClient","type":"PubSubClient"}` |
+| field_input | 字符串 | `"VAR": "mqttClient"` 或 `"CLIENT": "client"` |
+| field_dropdown | 字符串 | `"SSL": "FALSE"` 或 `"STATE": "MQTT_CONNECTED"` |
+| input_value | 块连接（单值） | `"inputs": {"SERVER": {"block": {...}}}` |
+| input_statement | 块连接（语句序列） | `"inputs": {"HANDLER": {"block": {...}}}` |
 
 ## 连接规则
 

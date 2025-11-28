@@ -1,262 +1,316 @@
 {
-    "kind": "category",
-    "icon": "iconfont icon-oled12864",
-    "name": "单色显示屏",
-    "contents": [
-        {
-            "kind": "block",
-            "type": "u8g2_begin"
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_clear"
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_clear_buffer"
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_send_buffer"
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_draw_pixel",
-            "inputs": {
-                "X": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 32
-                        }
-                    }
-                },
-                "Y": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 16
-                        }
-                    }
-                }
+  "kind": "category",
+  "icon": "iconfont icon-oled12864",
+  "name": "单色显示屏",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "u8g2初始化"
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_begin"
+    },
+    {
+      "kind": "label",
+      "text": "u8g2绘制"
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_draw_pixel",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 32
             }
+          }
         },
-        {
-            "kind": "block",
-            "type": "u8g2_draw_line",
-            "inputs": {
-                "X1": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                },
-                "Y1": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                },
-                "X2": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 64
-                        }
-                    }
-                },
-                "Y2": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 32
-                        }
-                    }
-                }
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 16
             }
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_draw_rectangle",
-            "inputs": {
-                "X": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 10
-                        }
-                    }
-                },
-                "Y": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 10
-                        }
-                    }
-                },
-                "WIDTH": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 40
-                        }
-                    }
-                },
-                "HEIGHT": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 20
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_draw_circle",
-            "inputs": {
-                "X": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 64
-                        }
-                    }
-                },
-                "Y": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 32
-                        }
-                    }
-                },
-                "RADIUS": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 15
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_draw_str",
-            "inputs": {
-                "X": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                },
-                "Y": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 20
-                        }
-                    }
-                },
-                "TEXT": {
-                    "shadow": {
-                        "type": "text",
-                        "fields": {
-                            "TEXT": "Hello World"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_draw_bitmap",
-            "inputs": {
-                "X": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                },
-                "Y": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                },
-                "BITMAP": {
-                    "shadow": {
-                        "type": "u8g2_bitmap"
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_bitmap"
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_icon_16x16"
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_icon_32x32"
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_icon_64x64"
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_set_font"
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_set_font_mode"
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_set_draw_color"
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_set_flip_mode"
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_set_power_save"
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_set_contrast",
-            "inputs": {
-                "VALUE": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 128
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "u8g2_set_bus_clock"
+          }
         }
-    ]
+      }
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_draw_line",
+      "inputs": {
+        "X1": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y1": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "X2": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 64
+            }
+          }
+        },
+        "Y2": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 32
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_draw_rectangle",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "WIDTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 40
+            }
+          }
+        },
+        "HEIGHT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 20
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_draw_circle",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 64
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 32
+            }
+          }
+        },
+        "RADIUS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 15
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_draw_str",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 20
+            }
+          }
+        },
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello World"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_draw_bitmap",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "BITMAP": {
+          "shadow": {
+            "type": "u8g2_bitmap"
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_bitmap"
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_icon_16x16"
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_icon_32x32"
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_icon_64x64"
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_clear"
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_clear_buffer"
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_send_buffer"
+    },
+    {
+      "kind": "label",
+      "text": "u8g2设置"
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_set_font"
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_set_font_mode"
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_set_draw_color"
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_set_flip_mode"
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_set_power_save"
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_set_contrast",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 128
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "u8g2_set_bus_clock"
+    },
+    {
+      "kind": "label",
+      "text": "u8x8"
+    },
+    {
+        "kind": "block",
+        "type": "u8x8_begin"
+    },
+    {
+      "kind": "block",
+      "type": "u8x8_draw_str",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello World"
+            }
+          }
+        }
+      }
+    },
+    {
+        "kind": "block",
+        "type": "u8x8_clear"
+    }
+  ]
 }

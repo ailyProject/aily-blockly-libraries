@@ -113,6 +113,26 @@
                     "TEXT": "inTopic"
                   }
                 }
+              },
+              "HANDLER": {
+                "block": {
+                  "type": "pubsub_publish",
+                  "inputs": {
+                    "TOPIC": {
+                      "shadow": {
+                        "type": "text",
+                        "fields": {
+                          "TEXT": "outTopic"
+                        }
+                      }
+                    },
+                    "PAYLOAD": {
+                      "block": {
+                        "type": "pubsub_get_topic_callback_payload"
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -132,6 +152,10 @@
           }
         }
       }
+    },
+    {
+      "kind": "block",
+      "type": "pubsub_get_topic_callback_payload"
     },
     {
       "kind": "block",
