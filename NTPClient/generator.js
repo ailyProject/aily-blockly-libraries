@@ -68,46 +68,46 @@ function getVariableName(block, fieldName, defaultName) {
 //   return varName + '.begin();\n';
 // };
 
-// // 创建带参数的NTP客户端对象
-// Arduino.forBlock['ntpclient_create_with_params'] = function(block, generator) {
-//   // 设置变量重命名监听
-//   if (!block._ntpVarMonitorAttached) {
-//     block._ntpVarMonitorAttached = true;
-//     block._ntpVarLastName = block.getFieldValue('VAR') || 'timeClient';
-//     const varField = block.getField('VAR');
-//     if (varField && typeof varField.setValidator === 'function') {
-//       varField.setValidator(function(newName) {
-//         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-//         const oldName = block._ntpVarLastName;
-//         if (workspace && newName && newName !== oldName) {
-//           renameVariableInBlockly(block, oldName, newName, 'NTPClient');
-//           block._ntpVarLastName = newName;
-//         }
-//         return newName;
-//       });
-//     }
-//   }
+// 创建带参数的NTP客户端对象
+Arduino.forBlock['ntpclient_create_with_params'] = function(block, generator) {
+  // // 设置变量重命名监听
+  // if (!block._ntpVarMonitorAttached) {
+  //   block._ntpVarMonitorAttached = true;
+  //   block._ntpVarLastName = block.getFieldValue('VAR') || 'timeClient';
+  //   const varField = block.getField('VAR');
+  //   if (varField && typeof varField.setValidator === 'function') {
+  //     varField.setValidator(function(newName) {
+  //       const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+  //       const oldName = block._ntpVarLastName;
+  //       if (workspace && newName && newName !== oldName) {
+  //         renameVariableInBlockly(block, oldName, newName, 'NTPClient');
+  //         block._ntpVarLastName = newName;
+  //       }
+  //       return newName;
+  //     });
+  //   }
+  // }
 
-//   const varName = block.getFieldValue('VAR') || 'timeClient';
-//   const server = generator.valueToCode(block, 'SERVER', generator.ORDER_ATOMIC) || '"pool.ntp.org"';
-//   const offset = generator.valueToCode(block, 'OFFSET', generator.ORDER_ATOMIC) || '0';
+  // const varName = block.getFieldValue('VAR') || 'timeClient';
+  const server = generator.valueToCode(block, 'SERVER', generator.ORDER_ATOMIC) || '"pool.ntp.org"';
+  const offset = generator.valueToCode(block, 'OFFSET', generator.ORDER_ATOMIC) || '0';
 
-//   // 添加必要的库
-//   ensureWiFiLib(generator);
-//   ensureWiFiUDPLib(generator);
-//   ensureNTPClientLib(generator);
+  // 添加必要的库
+  ensureWiFiLib(generator);
+  ensureWiFiUDPLib(generator);
+  ensureNTPClientLib(generator);
 
-//   // 注册变量到Blockly系统
-//   registerVariableToBlockly(varName, 'NTPClient');
+  // 注册变量到Blockly系统
+  // registerVariableToBlockly(varName, 'NTPClient');
   
-//   // 添加WiFiUDP对象声明
-//   generator.addObject('WiFiUDP ntpUDP', 'WiFiUDP ntpUDP;');
+  // 添加WiFiUDP对象声明
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
   
-//   // 添加NTPClient对象声明
-//   generator.addObject('NTPClient ' + varName, 'NTPClient ' + varName + '(ntpUDP, ' + server + ', ' + offset + ');');
+  // 添加NTPClient对象声明
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP, ' + server + ', ' + offset + ');');
 
-//   return varName + '.begin();\n';
-// };
+  return 'timeClient.begin();\n';
+};
 
 // // 启动NTP客户端
 // Arduino.forBlock['ntpclient_begin'] = function(block, generator) {
@@ -123,142 +123,142 @@ function getVariableName(block, fieldName, defaultName) {
 
 // 更新NTP时间
 Arduino.forBlock['ntpclient_update'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'timeClient');
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
 
   // 添加必要的库
   ensureWiFiLib(generator);
   ensureWiFiUDPLib(generator);
   ensureNTPClientLib(generator);
 
-  generator.addObject('WiFiUDP ntpUDP', 'WiFiUDP ntpUDP;');
-  generator.addObject('NTPClient timeClient', 'NTPClient timeClient(ntpUDP);');  
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');  
 
   return 'timeClient.update();\n';
 };
 
 // 强制更新NTP时间
 Arduino.forBlock['ntpclient_force_update'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'timeClient');
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
 
   // 添加必要的库
   ensureWiFiLib(generator);
   ensureWiFiUDPLib(generator);
   ensureNTPClientLib(generator);
 
-  generator.addObject('WiFiUDP ntpUDP', 'WiFiUDP ntpUDP;');
-  generator.addObject('NTPClient timeClient', 'NTPClient timeClient(ntpUDP);');  
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');  
 
   return 'timeClient.forceUpdate();\n';
 };
 
 // 获取格式化时间
 Arduino.forBlock['ntpclient_get_formatted_time'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'timeClient');
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
 
   // 添加必要的库
   ensureWiFiLib(generator);
   ensureWiFiUDPLib(generator);
   ensureNTPClientLib(generator);
 
-  generator.addObject('WiFiUDP ntpUDP', 'WiFiUDP ntpUDP;');
-  generator.addObject('NTPClient timeClient', 'NTPClient timeClient(ntpUDP);');  
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');  
 
   return ['timeClient.getFormattedTime()', generator.ORDER_FUNCTION_CALL];
 };
 
 // 获取Unix时间戳
 Arduino.forBlock['ntpclient_get_epoch_time'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'timeClient');
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
 
   // 添加必要的库
   ensureWiFiLib(generator);
   ensureWiFiUDPLib(generator);
   ensureNTPClientLib(generator);
 
-  generator.addObject('WiFiUDP ntpUDP', 'WiFiUDP ntpUDP;');
-  generator.addObject('NTPClient timeClient', 'NTPClient timeClient(ntpUDP);');  
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');  
 
   return ['timeClient.getEpochTime()', generator.ORDER_FUNCTION_CALL];
 };
 
 // 获取小时
 Arduino.forBlock['ntpclient_get_hours'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'timeClient');
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
 
   // 添加必要的库
   ensureWiFiLib(generator);
   ensureWiFiUDPLib(generator);
   ensureNTPClientLib(generator);
 
-  generator.addObject('WiFiUDP ntpUDP', 'WiFiUDP ntpUDP;');
-  generator.addObject('NTPClient timeClient', 'NTPClient timeClient(ntpUDP);');  
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');  
 
   return ['timeClient.getHours()', generator.ORDER_FUNCTION_CALL];
 };
 
 // 获取分钟
 Arduino.forBlock['ntpclient_get_minutes'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'timeClient');
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
 
   // 添加必要的库
   ensureWiFiLib(generator);
   ensureWiFiUDPLib(generator);
   ensureNTPClientLib(generator);
 
-  generator.addObject('WiFiUDP ntpUDP', 'WiFiUDP ntpUDP;');
-  generator.addObject('NTPClient timeClient', 'NTPClient timeClient(ntpUDP);');  
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');  
 
   return ['timeClient.getMinutes()', generator.ORDER_FUNCTION_CALL];
 };
 
 // 获取秒
 Arduino.forBlock['ntpclient_get_seconds'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'timeClient');
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
 
   // 添加必要的库
   ensureWiFiLib(generator);
   ensureWiFiUDPLib(generator);
   ensureNTPClientLib(generator);
 
-  generator.addObject('WiFiUDP ntpUDP', 'WiFiUDP ntpUDP;');
-  generator.addObject('NTPClient timeClient', 'NTPClient timeClient(ntpUDP);');  
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');  
 
   return ['timeClient.getSeconds()', generator.ORDER_FUNCTION_CALL];
 };
 
 // 获取日期
 Arduino.forBlock['ntpclient_get_day'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'timeClient');
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
 
   // 添加必要的库
   ensureWiFiLib(generator);
   ensureWiFiUDPLib(generator);
   ensureNTPClientLib(generator);
 
-  generator.addObject('WiFiUDP ntpUDP', 'WiFiUDP ntpUDP;');
-  generator.addObject('NTPClient timeClient', 'NTPClient timeClient(ntpUDP);');  
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');  
 
   return ['timeClient.getDay()', generator.ORDER_FUNCTION_CALL];
 };
 
 // 检查时间是否已设置
 Arduino.forBlock['ntpclient_is_time_set'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'timeClient');
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
 
   // 添加必要的库
   ensureWiFiLib(generator);
   ensureWiFiUDPLib(generator);
   ensureNTPClientLib(generator);
 
-  generator.addObject('WiFiUDP ntpUDP', 'WiFiUDP ntpUDP;');
-  generator.addObject('NTPClient timeClient', 'NTPClient timeClient(ntpUDP);');  
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');  
 
   return ['timeClient.isTimeSet()', generator.ORDER_FUNCTION_CALL];
 };
 
 // 设置时区偏移
 Arduino.forBlock['ntpclient_set_time_offset'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'timeClient');
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
   const offset = generator.valueToCode(block, 'OFFSET', generator.ORDER_ATOMIC) || '0';
 
   // 添加必要的库
@@ -266,15 +266,15 @@ Arduino.forBlock['ntpclient_set_time_offset'] = function(block, generator) {
   ensureWiFiUDPLib(generator);
   ensureNTPClientLib(generator);
 
-  generator.addObject('WiFiUDP ntpUDP', 'WiFiUDP ntpUDP;');
-  generator.addObject('NTPClient timeClient', 'NTPClient timeClient(ntpUDP);');  
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');  
 
   return 'timeClient.setTimeOffset(' + offset + ');\n';
 };
 
 // 设置更新间隔
 Arduino.forBlock['ntpclient_set_update_interval'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'timeClient');
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
   const interval = generator.valueToCode(block, 'INTERVAL', generator.ORDER_ATOMIC) || '60000';
 
   // 添加必要的库
@@ -282,15 +282,15 @@ Arduino.forBlock['ntpclient_set_update_interval'] = function(block, generator) {
   ensureWiFiUDPLib(generator);
   ensureNTPClientLib(generator);
 
-  generator.addObject('WiFiUDP ntpUDP', 'WiFiUDP ntpUDP;');
-  generator.addObject('NTPClient timeClient', 'NTPClient timeClient(ntpUDP);');  
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');  
 
   return 'timeClient.setUpdateInterval(' + interval + ');\n';
 };
 
 // 设置NTP服务器
 Arduino.forBlock['ntpclient_set_pool_server_name'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'timeClient');
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
   const server = generator.valueToCode(block, 'SERVER', generator.ORDER_ATOMIC) || '"pool.ntp.org"';
 
   // 添加必要的库
@@ -298,23 +298,23 @@ Arduino.forBlock['ntpclient_set_pool_server_name'] = function(block, generator) 
   ensureWiFiUDPLib(generator);
   ensureNTPClientLib(generator);
 
-  generator.addObject('WiFiUDP ntpUDP', 'WiFiUDP ntpUDP;');
-  generator.addObject('NTPClient timeClient', 'NTPClient timeClient(ntpUDP);');  
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');  
 
   return 'timeClient.setPoolServerName(' + server + ');\n';
 };
 
 // 停止NTP客户端
 Arduino.forBlock['ntpclient_end'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'timeClient');
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
 
   // 添加必要的库
   ensureWiFiLib(generator);
   ensureWiFiUDPLib(generator);
   ensureNTPClientLib(generator);
 
-  generator.addObject('WiFiUDP ntpUDP', 'WiFiUDP ntpUDP;');
-  generator.addObject('NTPClient timeClient', 'NTPClient timeClient(ntpUDP);');  
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');  
 
   return 'timeClient.end();\n';
 };
