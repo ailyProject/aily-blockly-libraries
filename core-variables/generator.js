@@ -819,7 +819,7 @@ Arduino.forBlock["type_cast"] = function (block, generator) {
   
   // 如果使用固定宽度整数类型，自动包含 stdint.h
   if (/^(u?int(8|16|32|64)_t|size_t)$/.test(type)) {
-    Arduino.addInclude("stdint", "#include <stdint.h>");
+    generator.addLibrary("stdint", "#include <stdint.h>");
   }
 
   // 根据目标类型生成相应的转换代码
