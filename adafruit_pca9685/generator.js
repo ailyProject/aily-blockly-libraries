@@ -56,6 +56,20 @@ Arduino.forBlock['pca9685_begin'] = function(block, generator) {
   generator.addLibrary('Adafruit_PWMServoDriver', '#include <Adafruit_PWMServoDriver.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
   
+  // 确保Serial初始化（使用core-serial库的ID格式）
+  if (!Arduino.addedSerialInitCode || !Arduino.addedSerialInitCode.has('Serial')) {
+    generator.addSetupBegin('serial_Serial_begin', 'Serial.begin(115200);');
+    if (!Arduino.addedSerialInitCode) Arduino.addedSerialInitCode = new Set();
+    Arduino.addedSerialInitCode.add('Serial');
+  }
+  
+  // 分离Wire初始化和传感器初始化
+  const wireInitCode = 'Wire.begin();';
+  const pinComment = '// PCA9685 I2C连接: 使用默认I2C引脚';
+  
+  // 使用统一的setupKey添加Wire初始化
+  generator.addSetup('wire_Wire_begin', pinComment + '\n' + wireInitCode + '\n');
+  
   // 智能处理地址格式：输入40视为十六进制简写，输出0x40
   let addressHex;
   const addressStr = address.toString().trim();
@@ -69,7 +83,7 @@ Arduino.forBlock['pca9685_begin'] = function(block, generator) {
     addressHex = '0x' + addressStr.toUpperCase();
   }
   
-  // 生成初始化代码
+  // 生成PCA9685初始化代码
   const code = varName + ' = Adafruit_PWMServoDriver(' + addressHex + ');\n' +
     varName + '.begin();\n';
   
@@ -126,8 +140,7 @@ Arduino.forBlock['pca9685_set_microseconds'] = function(block, generator) {
 
 // PCA9685 配置舵机参数块
 Arduino.forBlock['pca9685_config_servo'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'pwm';
+  const varName = block.getFieldValue('VAR') || 'pwm';
   const min = generator.valueToCode(block, 'MIN', generator.ORDER_ATOMIC) || '100';
   const max = generator.valueToCode(block, 'MAX', generator.ORDER_ATOMIC) || '700';
   

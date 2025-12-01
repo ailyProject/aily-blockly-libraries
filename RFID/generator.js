@@ -25,52 +25,14 @@ Arduino.renameVariableInBlockly = function(oldName, newName, varType) {
   }
 };
 
-// 注册板卡识别扩展
+// 注册扩展（无需板卡识别）
 if (Blockly.Extensions.isRegistered('mfrc522_board_extension')) {
   Blockly.Extensions.unregister('mfrc522_board_extension');
 }
 
 Blockly.Extensions.register('mfrc522_board_extension', function() {
-  // 获取开发板配置信息
-  var boardConfig = window['boardConfig'] || {};
-  var boardCore = (boardConfig.core || '').toLowerCase();
-  var boardType = (boardConfig.type || '').toLowerCase();
-  var boardName = (boardConfig.name || '').toLowerCase();
-  
-  // 判断开发板类型
-  var isESP32 = boardCore.indexOf('esp32') > -1 || 
-                boardType.indexOf('esp32') > -1 ||
-                boardName.indexOf('esp32') > -1;
-  var isMega2560 = boardCore.indexOf('mega') > -1 || 
-                  boardType.indexOf('mega') > -1 ||
-                  boardName.indexOf('mega') > -1 || 
-                  boardName.indexOf('2560') > -1;
-  
-  // 保存板卡类型到块实例
-  this.boardType_ = isESP32 ? 'ESP32' : (isMega2560 ? 'MEGA' : 'UNO');
-  
-  if (isESP32) {
-    // ESP32需要添加SDA和SCL引脚选择
-    // 获取板卡的数字引脚列表
-    var digitalPins = (boardConfig.digitalPins || []);
-    var pinOptions = digitalPins.length > 0 ? digitalPins : [['1', '1'], ['2', '2']];
-    
-    // 添加引脚字段到消息
-    this.appendDummyInput('PIN_INPUT')
-      .appendField('SDA引脚')
-      .appendField(new Blockly.FieldDropdown(pinOptions), 'SDA_PIN')
-      .appendField('SCL引脚')
-      .appendField(new Blockly.FieldDropdown(pinOptions), 'SCL_PIN');
-    
-    this.setTooltip('初始化MFRC522 RFID读写器，ESP32需要设置I2C地址和SDA/SCL引脚');
-  } else {
-    // Arduino UNO和Mega2560不需要引脚选择（引脚固定）
-    if (isMega2560) {
-      this.setTooltip('初始化MFRC522 RFID读写器（Mega2560 I2C引脚固定: SDA->20, SCL->21）');
-    } else {
-      this.setTooltip('初始化MFRC522 RFID读写器（Arduino UNO I2C引脚固定: SDA->A4, SCL->A5）');
-    }
-  }
+  // 设置提示信息（使用默认I2C引脚）
+  this.setTooltip('初始化MFRC522 RFID读写器（I2C默认引脚）');
   
   // 添加变量重命名监听机制
   var varField = this.getField('VAR');
@@ -89,29 +51,9 @@ Blockly.Extensions.register('mfrc522_board_extension', function() {
 Arduino.forBlock['mfrc522_setup'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'rfid';
   const address = block.getFieldValue('ADDRESS') || '0x2F';
-  const sdaPin = block.getFieldValue('SDA_PIN') || 'A4';
-  const sclPin = block.getFieldValue('SCL_PIN') || 'A5';
 
   // 注册变量到Blockly
   Arduino.registerVariableToBlockly(varName, 'MFRC522');
-
-  // 获取当前开发板配置
-  const config = window['boardConfig'] || {};
-  const core = (config.core || '').toLowerCase();
-  const type = (config.type || '').toLowerCase();
-  const name = (config.name || '').toLowerCase();
-  
-  // 判断开发板类型（参考 ai-assistant 的实现）
-  const isESP32 = core.indexOf('esp32') > -1 || 
-                  type.indexOf('esp32') > -1 ||
-                  name.indexOf('esp32') > -1;
-  const isMega2560 = core.indexOf('mega') > -1 || 
-                     type.indexOf('mega') > -1 ||
-                     name.indexOf('mega') > -1 || 
-                     name.indexOf('2560') > -1;
-  const isArduinoUno = (core === 'arduino:avr' && type.indexOf('uno') > -1) ||
-                       name.indexOf('uno') > -1 ||
-                       (!isESP32 && !isMega2560); // 如果不是ESP32和Mega，默认为Arduino UNO
 
   generator.addLibrary('MFRC522', '#include <Emakefun_RFID.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
@@ -128,26 +70,16 @@ Arduino.forBlock['mfrc522_setup'] = function(block, generator) {
   const objDeclaration = 'MFRC522 ' + varName + '(' + address + ');';
   generator.addVariable(varName, objDeclaration);
   
-  // 根据板卡类型生成不同的初始化代码
-  let setupCode = '';
-  let pinComment = '';
+  // 分离Wire初始化和传感器初始化
+  const wireInitCode = 'Wire.begin();';
+  const pinComment = '// MFRC522 I2C连接: 使用默认I2C引脚';
+  const sensorInitCode = varName + '.PCD_Init();\n';
   
-  if (isESP32) {
-    // ESP32需要指定SDA和SCL引脚参数
-    setupCode = 'Wire.begin(' + sdaPin + ', ' + sclPin + ');\n' + varName + '.PCD_Init();\n';
-    pinComment = '// MFRC522 I2C连接 (ESP32): SDA->' + sdaPin + ', SCL->' + sclPin;
-  } else {
-    // Arduino UNO和Mega2560的I2C引脚固定，不需要参数
-    setupCode = 'Wire.begin();\n' + varName + '.PCD_Init();\n';
-    if (isMega2560) {
-      pinComment = '// MFRC522 I2C连接 (Mega2560): SDA->20, SCL->21';
-    } else {
-      pinComment = '// MFRC522 I2C连接 (Arduino UNO): SDA->A4, SCL->A5';
-    }
-  }
+  // 使用统一的setupKey添加Wire初始化（可被aily_iic库覆盖）
+  generator.addSetup('wire_Wire_begin', pinComment + '\n' + wireInitCode + '\n');
   
-  generator.addSetupEnd(setupCode, setupCode);
-  generator.addSetupBegin(pinComment, pinComment);
+  // 传感器初始化使用独立的key
+  generator.addSetup(`mfrc522_${varName}_init`, sensorInitCode);
   
   return '';
 };

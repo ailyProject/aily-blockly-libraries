@@ -48,55 +48,15 @@ function renameVariableInBlockly(block, oldName, newName, varType) {
   }
 }
 
-// 注册板卡识别扩展 - I2C版本
+// 注册变量重命名扩展
 if (Blockly.Extensions && Blockly.Extensions.isRegistered && Blockly.Extensions.isRegistered('spa06_i2c_board_extension')) {
   Blockly.Extensions.unregister('spa06_i2c_board_extension');
 }
 
 if (Blockly.Extensions && Blockly.Extensions.register) {
   Blockly.Extensions.register('spa06_i2c_board_extension', function() {
-    // 获取开发板配置信息
-    var boardConfig = window['boardConfig'] || {};
-    var boardCore = (boardConfig.core || '').toLowerCase();
-    var boardType = (boardConfig.type || '').toLowerCase();
-    var boardName = (boardConfig.name || '').toLowerCase();
-    
-    // 判断开发板类型
-    var isESP32 = boardCore.indexOf('esp32') > -1 || 
-                  boardType.indexOf('esp32') > -1 ||
-                  boardName.indexOf('esp32') > -1;
-    var isMega2560 = boardCore.indexOf('mega') > -1 || 
-                    boardType.indexOf('mega') > -1 ||
-                    boardName.indexOf('mega') > -1 || 
-                    boardName.indexOf('2560') > -1;
-    
-    // 保存板卡类型到块实例
-    this.boardType_ = isESP32 ? 'ESP32' : (isMega2560 ? 'MEGA' : 'UNO');
-    
-    if (isESP32) {
-      // ESP32需要添加SDA和SCL引脚选择
-      var digitalPins = (boardConfig.digitalPins || []);
-      var pinOptions = digitalPins.length > 0 ? digitalPins : [
-        ['21', '21'], ['22', '22'], ['19', '19'], ['23', '23'],
-        ['18', '18'], ['5', '5'], ['17', '17'], ['16', '16']
-      ];
-      
-      // 添加引脚字段到消息
-      this.appendDummyInput('PIN_INPUT')
-        .appendField('SDA引脚')
-        .appendField(new Blockly.FieldDropdown(pinOptions), 'SDA_PIN')
-        .appendField('SCL引脚')
-        .appendField(new Blockly.FieldDropdown(pinOptions), 'SCL_PIN');
-      
-      this.setTooltip('创建SPA06-003气压温度传感器对象，ESP32需要设置I2C地址和SDA/SCL引脚');
-    } else {
-      // Arduino UNO和Mega2560不需要引脚选择（引脚固定）
-      if (isMega2560) {
-        this.setTooltip('创建SPA06-003气压温度传感器对象（Mega2560 I2C引脚固定: SDA->20, SCL->21）');
-      } else {
-        this.setTooltip('创建SPA06-003气压温度传感器对象（Arduino UNO I2C引脚固定: SDA->A4, SCL->A5）');
-      }
-    }
+    // 设置提示信息（统一使用引脚4/5）
+    this.setTooltip('创建SPA06-003气压温度传感器对象（I2C默认引脚: SDA->4, SCL->5）');
     
     // 添加变量重命名监听机制
     var varField = this.getField('VAR');
@@ -116,26 +76,12 @@ if (Blockly.Extensions && Blockly.Extensions.register) {
 Arduino.forBlock['spa06_create_i2c'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'spa06';
   const addr = block.getFieldValue('ADDR');
-  const sdaPin = block.getFieldValue('SDA_PIN') || '21';
-  const sclPin = block.getFieldValue('SCL_PIN') || '22';
+  // 使用统一默认I2C引脚
+  const sdaPin = '4';  // 默认SDA引脚
+  const sclPin = '5';  // 默认SCL引脚
 
   // 注册变量到Blockly
   registerVariableToBlockly(varName, 'SPL07_003');
-
-  // 获取当前开发板配置
-  const config = window['boardConfig'] || {};
-  const core = (config.core || '').toLowerCase();
-  const type = (config.type || '').toLowerCase();
-  const name = (config.name || '').toLowerCase();
-  
-  // 判断开发板类型
-  const isESP32 = core.indexOf('esp32') > -1 || 
-                  type.indexOf('esp32') > -1 ||
-                  name.indexOf('esp32') > -1;
-  const isMega2560 = core.indexOf('mega') > -1 || 
-                     type.indexOf('mega') > -1 ||
-                     name.indexOf('mega') > -1 || 
-                     name.indexOf('2560') > -1;
 
   // Add libraries
   ensureSPA06Lib(generator);
@@ -152,26 +98,16 @@ Arduino.forBlock['spa06_create_i2c'] = function(block, generator) {
   // 添加全局对象声明
   generator.addVariable(varName, 'SPL07_003 ' + varName + ';');
   
-  // 根据板卡类型生成不同的初始化代码
-  let setupCode = '';
-  let pinComment = '';
+  // 分离Wire初始化和传感器初始化，使用统一的setupKey格式
+  const wireInitCode = `Wire.begin(${sdaPin}, ${sclPin});`;
+  const pinComment = `// SPA06 I2C连接: SDA->${sdaPin}, SCL->${sclPin}`;
+  const sensorInitCode = `${varName}.begin(${addr}, &Wire);\nSerial.println("Connected to SPL06-003! :)");`;
   
-  if (isESP32) {
-    // ESP32需要指定SDA和SCL引脚参数
-    setupCode = `Wire.begin(${sdaPin}, ${sclPin});\nif (${varName}.begin(${addr}, &Wire) == false) {\n  Serial.println("Error initializing SPL06-003 :(");\n  while(1) {}\n}\nSerial.println("Connected to SPL06-003! :)");\n`;
-    pinComment = `// SPA06 I2C连接 (ESP32): SDA->${sdaPin}, SCL->${sclPin}`;
-  } else {
-    // Arduino UNO和Mega2560的I2C引脚固定，不需要参数
-    setupCode = `Wire.begin();\nif (${varName}.begin(${addr}, &Wire) == false) {\n  Serial.println("Error initializing SPL06-003 :(");\n  while(1) {}\n}\nSerial.println("Connected to SPL06-003! :)");\n`;
-    if (isMega2560) {
-      pinComment = '// SPA06 I2C连接 (Mega2560): SDA->20, SCL->21';
-    } else {
-      pinComment = '// SPA06 I2C连接 (Arduino UNO): SDA->A4, SCL->A5';
-    }
-  }
+  // 使用统一的setupKey添加Wire初始化（可被aily_iic库覆盖）
+  generator.addSetup('wire_Wire_begin', pinComment + '\n' + wireInitCode + '\n');
   
-  generator.addSetupEnd(setupCode, setupCode);
-  generator.addSetupBegin(pinComment, pinComment);
+  // 传感器初始化）
+  generator.addSetup(`spa06_${varName}_init`, sensorInitCode);
   
   return '';
 };

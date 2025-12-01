@@ -43,12 +43,26 @@ Arduino.forBlock['tca8418_begin'] = function(block, generator) {
   generator.addLibrary('Adafruit_TCA8418', '#include <Adafruit_TCA8418.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
   
+  // 确保Serial初始化（使用core-serial库的ID格式）
+  if (!Arduino.addedSerialInitCode || !Arduino.addedSerialInitCode.has('Serial')) {
+    generator.addSetupBegin('serial_Serial_begin', 'Serial.begin(115200);');
+    if (!Arduino.addedSerialInitCode) Arduino.addedSerialInitCode = new Set();
+    Arduino.addedSerialInitCode.add('Serial');
+  }
+  
+  // 分离Wire初始化和传感器初始化
+  const wireInitCode = 'Wire.begin();';
+  const pinComment = '// TCA8418 I2C连接: 使用默认I2C引脚';
+  
+  // 使用统一的setupKey添加Wire初始化（可被aily_iic库覆盖）
+  generator.addSetup('wire_Wire_begin', pinComment + '\n' + wireInitCode + '\n');
+  
   // 将十进制地址转换为十六进制字符串
   const addressNum = parseInt(address);
   const addressHex = isNaN(addressNum) ? address : '0x' + addressNum.toString(16);
   
-  // 生成初始化代码
-  const code = 'if (!' + varName + '.begin(' + addressHex + ', &Wire)) {\n' +
+  // 生成传感器初始化代码
+  let code = 'if (!' + varName + '.begin(' + addressHex + ', &Wire)) {\n' +
     '  Serial.println("' + varName + ' not found, check wiring & pullups!");\n' +
     '  while (1);\n' +
     '}\n';

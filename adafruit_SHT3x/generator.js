@@ -23,93 +23,49 @@ function renameVariableInBlockly(block, oldName, newName, varType) {
   }
 }
 
-// 注册板卡识别扩展 - I2C版本
+// 注册扩展（无需板卡识别）
 if (Blockly.Extensions && Blockly.Extensions.isRegistered && Blockly.Extensions.isRegistered('sht31_i2c_board_extension')) {
   Blockly.Extensions.unregister('sht31_i2c_board_extension');
 }
 
 if (Blockly.Extensions && Blockly.Extensions.register) {
   Blockly.Extensions.register('sht31_i2c_board_extension', function() {
-    // 获取开发板配置信息
-    var boardConfig = window['boardConfig'] || {};
-    var boardCore = (boardConfig.core || '').toLowerCase();
-    var boardType = (boardConfig.type || '').toLowerCase();
-    var boardName = (boardConfig.name || '').toLowerCase();
-    
-    // 判断开发板类型
-    var isESP32 = boardCore.indexOf('esp32') > -1 || 
-                  boardType.indexOf('esp32') > -1 ||
-                  boardName.indexOf('esp32') > -1;
-    var isMega2560 = boardCore.indexOf('mega') > -1 || 
-                    boardType.indexOf('mega') > -1 ||
-                    boardName.indexOf('mega') > -1 || 
-                    boardName.indexOf('2560') > -1;
-    
-    // 保存板卡类型到块实例
-    this.boardType_ = isESP32 ? 'ESP32' : (isMega2560 ? 'MEGA' : 'UNO');
-    
-    if (isESP32) {
-      // ESP32需要添加SDA和SCL引脚选择
-      var digitalPins = (boardConfig.digitalPins || []);
-      var pinOptions = digitalPins.length > 0 ? digitalPins : [
-        ['21', '21'], ['22', '22'], ['19', '19'], ['23', '23'],
-        ['18', '18'], ['5', '5'], ['17', '17'], ['16', '16']
-      ];
-      
-      // 添加引脚字段到消息
-      this.appendDummyInput('PIN_INPUT')
-        .appendField('SDA引脚')
-        .appendField(new Blockly.FieldDropdown(pinOptions), 'SDA_PIN')
-        .appendField('SCL引脚')
-        .appendField(new Blockly.FieldDropdown(pinOptions), 'SCL_PIN');
-      
-      this.setTooltip('初始化SHT3x温湿度传感器，ESP32需要设置I2C地址和SDA/SCL引脚');
-    } else {
-      // Arduino UNO和Mega2560不需要引脚选择（引脚固定）
-      if (isMega2560) {
-        this.setTooltip('初始化SHT3x温湿度传感器（Mega2560 I2C引脚固定: SDA->20, SCL->21）');
-      } else {
-        this.setTooltip('初始化SHT3x温湿度传感器（Arduino UNO I2C引脚固定: SDA->A4, SCL->A5）');
-      }
-    }
-    
-    // 添加变量重命名监听机制（虽然SHT31不使用变量系统，但为了通过检测）
-    var addressField = this.getField('ADDRESS');
-    if (addressField && typeof addressField.setValidator === 'function') {
-      addressField.setValidator(function(newValue) {
-        // SHT31使用固定对象名，不需要实际重命名
-        return newValue;
-      });
-    }
+    // 设置提示信息（统一使用引脚4/5）
+    this.setTooltip('初始化SHT3x温湿度传感器（I2C默认引脚: SDA->4, SCL->5）');
   });
 }
 
 Arduino.forBlock['sht31_init'] = function (block, generator) {
-    const address = block.getFieldValue('ADDRESS');
-    const sdaPin = block.getFieldValue('SDA_PIN') || '21';
-    const sclPin = block.getFieldValue('SCL_PIN') || '22';
+    // 设置变量重命名监听
+    if (!block._sht31VarMonitorAttached) {
+        block._sht31VarMonitorAttached = true;
+        block._sht31VarLastName = block.getFieldValue('VAR') || 'sht31';
+        const varField = block.getField('VAR');
+        if (varField && typeof varField.setValidator === 'function') {
+            varField.setValidator(function(newName) {
+                const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+                const oldName = block._sht31VarLastName;
+                if (workspace && newName && newName !== oldName) {
+                    renameVariableInBlockly(block, oldName, newName, 'Adafruit_SHT31');
+                    block._sht31VarLastName = newName;
+                }
+                return newName;
+            });
+        }
+    }
 
-    // 获取当前开发板配置
-    const config = window['boardConfig'] || {};
-    const core = (config.core || '').toLowerCase();
-    const type = (config.type || '').toLowerCase();
-    const name = (config.name || '').toLowerCase();
-    
-    // 判断开发板类型
-    const isESP32 = core.indexOf('esp32') > -1 || 
-                    type.indexOf('esp32') > -1 ||
-                    name.indexOf('esp32') > -1;
-    const isMega2560 = core.indexOf('mega') > -1 || 
-                       type.indexOf('mega') > -1 ||
-                       name.indexOf('mega') > -1 || 
-                       name.indexOf('2560') > -1;
+    const varName = block.getFieldValue('VAR') || 'sht31';
+    const address = block.getFieldValue('ADDRESS') || '0x44';
 
     // 添加库文件
-    generator.addLibrary('#include <Wire.h>', '#include <Wire.h>');
-    generator.addLibrary('#include "Adafruit_SHT31.h"', '#include "Adafruit_SHT31.h"');
+    generator.addLibrary('Wire', '#include <Wire.h>');
+    generator.addLibrary('Adafruit_SHT31', '#include "Adafruit_SHT31.h"');
 
+    // 注册变量到Blockly
+    registerVariableToBlockly(varName, 'Adafruit_SHT31');
+    
     // 添加全局变量
-    generator.addObject('Adafruit_SHT31 sht31 = Adafruit_SHT31();', 'Adafruit_SHT31 sht31 = Adafruit_SHT31();');
+    generator.addVariable(varName, 'Adafruit_SHT31 ' + varName + ' = Adafruit_SHT31();');
 
     // 确保Serial初始化（使用core-serial库的ID格式）
     if (!Arduino.addedSerialInitCode) {
@@ -120,85 +76,74 @@ Arduino.forBlock['sht31_init'] = function (block, generator) {
       Arduino.addedSerialInitCode.add('Serial');
     }
 
-    // 根据板卡类型生成不同的初始化代码
-    let initCode = '';
-    let pinComment = '';
+    // 分离Wire初始化和传感器初始化
+    const wireInitCode = 'Wire.begin();';
+    const pinComment = '// SHT3x I2C连接: 使用默认I2C引脚';
     
-    if (isESP32) {
-      // ESP32需要指定SDA和SCL引脚参数
-      initCode = `Wire.begin(${sdaPin}, ${sclPin});\nif (!sht31.begin(${address})) {\n  Serial.println("SHT31 sensor not found!");\n}`;
-      pinComment = `// SHT31 I2C连接 (ESP32): SDA->${sdaPin}, SCL->${sclPin}`;
-    } else {
-      // Arduino UNO和Mega2560的I2C引脚固定，不需要参数
-      initCode = `Wire.begin();\nif (!sht31.begin(${address})) {\n  Serial.println("SHT31 sensor not found!");\n}`;
-      if (isMega2560) {
-        pinComment = '// SHT31 I2C连接 (Mega2560): SDA->20, SCL->21';
-      } else {
-        pinComment = '// SHT31 I2C连接 (Arduino UNO): SDA->A4, SCL->A5';
-      }
-    }
+    // 转换地址为十六进制格式
+    const addressHex = address.startsWith('0x') ? address : '0x' + parseInt(address).toString(16);
     
-    generator.addSetupBegin('sht31_init', initCode);
-    generator.addSetupBegin('sht31_pin_comment', pinComment);
+    const sensorInitCode = `if (!${varName}.begin(${addressHex})) {
+  Serial.println("Couldn't find SHT3x");
+  while (1) delay(1);
+}
+`;
+  
+    // 使用统一的setupKey添加Wire初始化（可被aily_iic库覆盖）
+    generator.addSetup('wire_Wire_begin', pinComment + '\n' + wireInitCode + '\n');
+  
+    // 传感器初始化使用独立的key
+    generator.addSetup(`sht31_${varName}_init`, sensorInitCode);
 
     return '';
 };
 
 Arduino.forBlock['sht31_heater_control'] = function (block, generator) {
+    const varField = block.getField('VAR');
+    const varName = varField ? varField.getText() : 'sht31';
     const state = block.getFieldValue('STATE');
 
     // 确保已初始化
-    generator.addLibrary('#include <Wire.h>', '#include <Wire.h>');
-    generator.addLibrary('#include "Adafruit_SHT31.h"', '#include "Adafruit_SHT31.h"');
-    generator.addObject('Adafruit_SHT31 sht31 = Adafruit_SHT31();', 'Adafruit_SHT31 sht31 = Adafruit_SHT31();');
+    generator.addLibrary('Wire', '#include <Wire.h>');
+    generator.addLibrary('Adafruit_SHT31', '#include "Adafruit_SHT31.h"');
 
-    return `sht31.heater(${state});\n`;
+    return `${varName}.heater(${state});\n`;
 };
 
 Arduino.forBlock['sht31_is_heater_enabled'] = function (block, generator) {
-    // 确保已初始化
-    generator.addLibrary('#include <Wire.h>', '#include <Wire.h>');
-    generator.addLibrary('#include "Adafruit_SHT31.h"', '#include "Adafruit_SHT31.h"');
-    generator.addObject('Adafruit_SHT31 sht31 = Adafruit_SHT31();', 'Adafruit_SHT31 sht31 = Adafruit_SHT31();');
+    const varField = block.getField('VAR');
+    const varName = varField ? varField.getText() : 'sht31';
 
-    return ['sht31.isHeaterEnabled()', generator.ORDER_ATOMIC];
+    // 确保已初始化
+    generator.addLibrary('Wire', '#include <Wire.h>');
+    generator.addLibrary('Adafruit_SHT31', '#include "Adafruit_SHT31.h"');
+
+    return [varName + '.isHeaterEnabled()', generator.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['sht31_reset'] = function (block, generator) {
-    // 确保已初始化
-    generator.addLibrary('#include <Wire.h>', '#include <Wire.h>');
-    generator.addLibrary('#include "Adafruit_SHT31.h"', '#include "Adafruit_SHT31.h"');
-    generator.addObject('Adafruit_SHT31 sht31 = Adafruit_SHT31();', 'Adafruit_SHT31 sht31 = Adafruit_SHT31();');
+    const varField = block.getField('VAR');
+    const varName = varField ? varField.getText() : 'sht31';
 
-    return 'sht31.reset();\n';
+    // 确保已初始化
+    generator.addLibrary('Wire', '#include <Wire.h>');
+    generator.addLibrary('Adafruit_SHT31', '#include "Adafruit_SHT31.h"');
+
+    return varName + '.reset();\n';
 };
 
 Arduino.forBlock['sht31_simple_read'] = function (block, generator) {
+    const varField = block.getField('VAR');
+    const varName = varField ? varField.getText() : 'sht31';
     const type = block.getFieldValue('TYPE');
 
     // 确保已初始化
-    generator.addLibrary('#include <Wire.h>', '#include <Wire.h>');
-    generator.addLibrary('#include "Adafruit_SHT31.h"', '#include "Adafruit_SHT31.h"');
-    generator.addObject('Adafruit_SHT31 sht31 = Adafruit_SHT31();', 'Adafruit_SHT31 sht31 = Adafruit_SHT31();');
-
-    // 确保Serial初始化（使用core-serial库的ID格式）
-    if (!Arduino.addedSerialInitCode) {
-      Arduino.addedSerialInitCode = new Set();
-    }
-    if (!Arduino.addedSerialInitCode.has('Serial')) {
-      generator.addSetupBegin('serial_Serial_begin', 'Serial.begin(115200);');
-      Arduino.addedSerialInitCode.add('Serial');
-    }
-
-    // 自动初始化（简化版本）
-    const initCode = `if (!sht31.begin(0x44)) {
-    Serial.println("SHT31 sensor not found!");
-  }`;
-    generator.addSetupBegin('sht31_init', initCode);
+    generator.addLibrary('Wire', '#include <Wire.h>');
+    generator.addLibrary('Adafruit_SHT31', '#include "Adafruit_SHT31.h"');
 
     if (type === 'temperature') {
-        return ['sht31.readTemperature()', generator.ORDER_ATOMIC];
+        return [varName + '.readTemperature()', generator.ORDER_ATOMIC];
     } else {
-        return ['sht31.readHumidity()', generator.ORDER_ATOMIC];
+        return [varName + '.readHumidity()', generator.ORDER_ATOMIC];
     }
 };

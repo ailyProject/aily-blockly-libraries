@@ -29,12 +29,24 @@ Arduino.forBlock['bmp280_create'] = function(block, generator) {
 };
 
 Arduino.forBlock['bmp280_init'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'bmp280';
+  const varName = block.getFieldValue('VAR') || 'bmp280';
   
   // 添加库
   generator.addLibrary('Seeed_BMP280', '#include <Seeed_BMP280.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
+  
+  // 确保Serial初始化（使用core-serial库的ID格式）
+  if (!Arduino.addedSerialInitCode || !Arduino.addedSerialInitCode.has('Serial')) {
+    generator.addSetupBegin('serial_Serial_begin', 'Serial.begin(115200);');
+    if (!Arduino.addedSerialInitCode) Arduino.addedSerialInitCode = new Set();
+    Arduino.addedSerialInitCode.add('Serial');
+  }
+  
+  // 分离Wire初始化和传感器初始化
+  const wireInitCode = 'Wire.begin();';
+  const pinComment = '// BMP280 I2C连接: 使用默认I2C引脚';
+  
+  generator.addSetup('wire_Wire_begin', pinComment + '\n' + wireInitCode + '\n');
   
   const code = varName + '.init();\n';
   return code;
