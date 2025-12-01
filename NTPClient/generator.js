@@ -181,6 +181,51 @@ Arduino.forBlock['ntpclient_get_epoch_time'] = function(block, generator) {
   return ['timeClient.getEpochTime()', generator.ORDER_FUNCTION_CALL];
 };
 
+// 获取年份
+Arduino.forBlock['ntpclient_get_year'] = function(block, generator) {
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
+
+  // 添加必要的库
+  ensureWiFiLib(generator);
+  ensureWiFiUDPLib(generator);
+  ensureNTPClientLib(generator);
+
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');
+
+  return ['timeClient.getYear()', generator.ORDER_FUNCTION_CALL];
+};
+
+// 获取月份
+Arduino.forBlock['ntpclient_get_month'] = function(block, generator) {
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
+  
+  // 添加必要的库
+  ensureWiFiLib(generator);
+  ensureWiFiUDPLib(generator);
+  ensureNTPClientLib(generator);
+
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');
+
+  return ['timeClient.getMonth()', generator.ORDER_FUNCTION_CALL];
+}
+
+// 获取一年中的第几天
+Arduino.forBlock['ntpclient_get_yday'] = function(block, generator) {
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
+
+  // 添加必要的库
+  ensureWiFiLib(generator);
+  ensureWiFiUDPLib(generator);
+  ensureNTPClientLib(generator);
+
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');
+
+  return ['timeClient.getYDay()', generator.ORDER_FUNCTION_CALL];
+};
+
 // 获取小时
 Arduino.forBlock['ntpclient_get_hours'] = function(block, generator) {
   // const varName = getVariableName(block, 'VAR', 'timeClient');

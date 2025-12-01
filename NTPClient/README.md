@@ -16,6 +16,9 @@ NTP 时间同步块，基于 Arduino NTPClient 库，用于获取网络时间并
 | `ntpclient_force_update` | 语句块 | 无 | 无 | `timeClient.forceUpdate();` |
 | `ntpclient_get_formatted_time` | 值块 | 无 | 无 | `timeClient.getFormattedTime()` |
 | `ntpclient_get_epoch_time` | 值块 | 无 | 无 | `timeClient.getEpochTime()` |
+| `ntpclient_get_year` | 值块 | 无 | 无 | `timeClient.getYear()` |
+| `ntpclient_get_month` | 值块 | 无 | 无 | `timeClient.getMonth()` |
+| `ntpclient_get_yday` | 值块 | 无 | 无 | `timeClient.getYDay()` |
 | `ntpclient_get_hours` | 值块 | 无 | 无 | `timeClient.getHours()` |
 | `ntpclient_get_minutes` | 值块 | 无 | 无 | `timeClient.getMinutes()` |
 | `ntpclient_get_seconds` | 值块 | 无 | 无 | `timeClient.getSeconds()` |
