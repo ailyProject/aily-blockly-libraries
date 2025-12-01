@@ -1,5 +1,25 @@
 // SHT31 温湿度传感器 Generator
 
+// 注册WIRE字段动态创建扩展（DHT20风格）
+if (Blockly.Extensions.isRegistered('sht31_wire_dynamic')) {
+  Blockly.Extensions.unregister('sht31_wire_dynamic');
+}
+Blockly.Extensions.register('sht31_wire_dynamic', function() {
+  // 移除旧的输入框（如果存在）
+  if (this.getInput('WIRE_SET')) {
+    this.removeInput('WIRE_SET');
+  }
+  
+  // 动态创建整个输入框
+  const i2cOptions = (window.boardConfig && window.boardConfig.i2c) 
+    ? window.boardConfig.i2c 
+    : [['Wire', 'Wire']];
+  
+  this.appendDummyInput('WIRE_SET')
+      .appendField('I2C接口')
+      .appendField(new Blockly.FieldDropdown(i2cOptions), 'WIRE');
+});
+
 // 变量管理辅助函数
 function registerVariableToBlockly(varName, varType) {
   if (typeof Blockly === 'undefined' || !Blockly.getMainWorkspace) return;
@@ -24,16 +44,13 @@ function renameVariableInBlockly(block, oldName, newName, varType) {
 }
 
 // 注册扩展（无需板卡识别）
-if (Blockly.Extensions && Blockly.Extensions.isRegistered && Blockly.Extensions.isRegistered('sht31_i2c_board_extension')) {
+if (Blockly.Extensions.isRegistered('sht31_i2c_board_extension')) {
   Blockly.Extensions.unregister('sht31_i2c_board_extension');
 }
-
-if (Blockly.Extensions && Blockly.Extensions.register) {
-  Blockly.Extensions.register('sht31_i2c_board_extension', function() {
-    // 设置提示信息（统一使用引脚4/5）
-    this.setTooltip('初始化SHT3x温湿度传感器（I2C默认引脚: SDA->4, SCL->5）');
-  });
-}
+Blockly.Extensions.register('sht31_i2c_board_extension', function() {
+  // 设置提示信息
+  this.setTooltip('初始化SHT3x温湿度传感器');
+});
 
 Arduino.forBlock['sht31_init'] = function (block, generator) {
     // 设置变量重命名监听
@@ -76,8 +93,11 @@ Arduino.forBlock['sht31_init'] = function (block, generator) {
       Arduino.addedSerialInitCode.add('Serial');
     }
 
+    // 从WIRE字段读取I2C接口
+    const wire = block.getFieldValue('WIRE') || 'Wire';
+    
     // 分离Wire初始化和传感器初始化
-    const wireInitCode = 'Wire.begin();';
+    const wireInitCode = wire + '.begin();';
     const pinComment = '// SHT3x I2C连接: 使用默认I2C引脚';
     
     // 转换地址为十六进制格式
@@ -89,8 +109,8 @@ Arduino.forBlock['sht31_init'] = function (block, generator) {
 }
 `;
   
-    // 使用统一的setupKey添加Wire初始化（可被aily_iic库覆盖）
-    generator.addSetup('wire_Wire_begin', pinComment + '\n' + wireInitCode + '\n');
+    // 使用动态setupKey添加Wire初始化（支持多I2C总线）
+    generator.addSetup(`wire_${wire}_begin`, pinComment + '\n' + wireInitCode + '\n');
   
     // 传感器初始化使用独立的key
     generator.addSetup(`sht31_${varName}_init`, sensorInitCode);

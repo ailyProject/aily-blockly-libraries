@@ -1,8 +1,4 @@
 // SPA06-003 Blockly Library Generator
-// Author: Aily Blockly Conversion
-// Purpose: Generate Arduino code for SPA06-003 pressure and temperature sensor
-
-'use strict';
 
 // Ensure library is included
 function ensureSPA06Lib(generator) {
@@ -48,29 +44,46 @@ function renameVariableInBlockly(block, oldName, newName, varType) {
   }
 }
 
+// 注册WIRE字段动态创建扩展（DHT20风格）
+if (Blockly.Extensions.isRegistered('spa06_wire_dynamic')) {
+  Blockly.Extensions.unregister('spa06_wire_dynamic');
+}
+Blockly.Extensions.register('spa06_wire_dynamic', function() {
+  // 移除旧的输入框（如果存在）
+  if (this.getInput('WIRE_SET')) {
+    this.removeInput('WIRE_SET');
+  }
+  
+  // 动态创建整个输入框
+  const i2cOptions = (window.boardConfig && window.boardConfig.i2c) 
+    ? window.boardConfig.i2c 
+    : [['Wire', 'Wire']];
+  
+  this.appendDummyInput('WIRE_SET')
+      .appendField('I2C接口')
+      .appendField(new Blockly.FieldDropdown(i2cOptions), 'WIRE');
+});
+
 // 注册变量重命名扩展
-if (Blockly.Extensions && Blockly.Extensions.isRegistered && Blockly.Extensions.isRegistered('spa06_i2c_board_extension')) {
+if (Blockly.Extensions.isRegistered('spa06_i2c_board_extension')) {
   Blockly.Extensions.unregister('spa06_i2c_board_extension');
 }
-
-if (Blockly.Extensions && Blockly.Extensions.register) {
-  Blockly.Extensions.register('spa06_i2c_board_extension', function() {
-    // 设置提示信息（统一使用引脚4/5）
-    this.setTooltip('创建SPA06-003气压温度传感器对象（I2C默认引脚: SDA->4, SCL->5）');
-    
-    // 添加变量重命名监听机制
-    var varField = this.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newValue) {
-        var oldValue = this.getValue();
-        if (oldValue !== newValue) {
-          renameVariableInBlockly(this.getSourceBlock(), oldValue, newValue, 'SPL07_003');
-        }
-        return newValue;
-      });
-    }
-  });
-}
+Blockly.Extensions.register('spa06_i2c_board_extension', function() {
+  // 设置提示信息（统一使用引脚4/5）
+  this.setTooltip('创建SPA06-003气压温度传感器对象（I2C默认引脚: SDA->4, SCL->5）');
+  
+  // 添加变量重命名监听机制
+  var varField = this.getField('VAR');
+  if (varField && varField.setValidator) {
+    varField.setValidator(function(newValue) {
+      var oldValue = this.getValue();
+      if (oldValue !== newValue) {
+        renameVariableInBlockly(this.getSourceBlock(), oldValue, newValue, 'SPL07_003');
+      }
+      return newValue;
+    });
+  }
+});
 
 // Create SPA06 sensor with I2C
 Arduino.forBlock['spa06_create_i2c'] = function(block, generator) {
@@ -98,10 +111,13 @@ Arduino.forBlock['spa06_create_i2c'] = function(block, generator) {
   // 添加全局对象声明
   generator.addVariable(varName, 'SPL07_003 ' + varName + ';');
   
+  // 动态获取Wire（spa06支持自定义引脚）
+  const wire = block.getFieldValue('WIRE') || 'Wire';
+  
   // 分离Wire初始化和传感器初始化，使用统一的setupKey格式
-  const wireInitCode = `Wire.begin(${sdaPin}, ${sclPin});`;
+  const wireInitCode = `${wire}.begin(${sdaPin}, ${sclPin});`;
   const pinComment = `// SPA06 I2C连接: SDA->${sdaPin}, SCL->${sclPin}`;
-  const sensorInitCode = `${varName}.begin(${addr}, &Wire);\nSerial.println("Connected to SPL06-003! :)");`;
+  const sensorInitCode = `${varName}.begin(${addr}, &${wire});\nSerial.println("Connected to SPL06-003! :)");`;
   
   // 使用统一的setupKey添加Wire初始化（可被aily_iic库覆盖）
   generator.addSetup('wire_Wire_begin', pinComment + '\n' + wireInitCode + '\n');

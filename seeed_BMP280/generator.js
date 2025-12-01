@@ -1,3 +1,23 @@
+// 注册WIRE字段动态创建扩展（DHT20风格）
+if (Blockly.Extensions.isRegistered('bmp280_wire_dynamic')) {
+  Blockly.Extensions.unregister('bmp280_wire_dynamic');
+}
+Blockly.Extensions.register('bmp280_wire_dynamic', function() {
+  // 移除旧的输入框（如果存在）
+  if (this.getInput('WIRE_SET')) {
+    this.removeInput('WIRE_SET');
+  }
+  
+  // 动态创建整个输入框
+  const i2cOptions = (window.boardConfig && window.boardConfig.i2c) 
+    ? window.boardConfig.i2c 
+    : [['Wire', 'Wire']];
+  
+  this.appendDummyInput('WIRE_SET')
+      .appendField('I2C接口')
+      .appendField(new Blockly.FieldDropdown(i2cOptions), 'WIRE');
+});
+
 Arduino.forBlock['bmp280_create'] = function(block, generator) {
   // 设置变量重命名监听
   if (!block._bmp280VarMonitorAttached) {
@@ -42,11 +62,15 @@ Arduino.forBlock['bmp280_init'] = function(block, generator) {
     Arduino.addedSerialInitCode.add('Serial');
   }
   
+  // 动态获取Wire（支持Wire/Wire1等）
+  const wire = block.getFieldValue('WIRE') || 'Wire'; // 从字段读取，默认Wire
+  
   // 分离Wire初始化和传感器初始化
-  const wireInitCode = 'Wire.begin();';
+  const wireInitCode = wire + '.begin();';
   const pinComment = '// BMP280 I2C连接: 使用默认I2C引脚';
   
-  generator.addSetup('wire_Wire_begin', pinComment + '\n' + wireInitCode + '\n');
+  // 使用动态setupKey添加Wire初始化（支持多I2C总线）
+  generator.addSetup(`wire_${wire}_begin`, pinComment + '\n' + wireInitCode + '\n');
   
   const code = varName + '.init();\n';
   return code;

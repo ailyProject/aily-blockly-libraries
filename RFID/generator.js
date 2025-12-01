@@ -25,6 +25,26 @@ Arduino.renameVariableInBlockly = function(oldName, newName, varType) {
   }
 };
 
+// 注册WIRE字段动态创建扩展（DHT20风格）
+if (Blockly.Extensions.isRegistered('mfrc522_wire_dynamic')) {
+  Blockly.Extensions.unregister('mfrc522_wire_dynamic');
+}
+Blockly.Extensions.register('mfrc522_wire_dynamic', function() {
+  // 移除旧的输入框（如果存在）
+  if (this.getInput('WIRE_SET')) {
+    this.removeInput('WIRE_SET');
+  }
+  
+  // 动态创建整个输入框
+  const i2cOptions = (window.boardConfig && window.boardConfig.i2c) 
+    ? window.boardConfig.i2c 
+    : [['Wire', 'Wire']];
+  
+  this.appendDummyInput('WIRE_SET')
+      .appendField('I2C接口')
+      .appendField(new Blockly.FieldDropdown(i2cOptions), 'WIRE');
+});
+
 // 注册扩展（无需板卡识别）
 if (Blockly.Extensions.isRegistered('mfrc522_board_extension')) {
   Blockly.Extensions.unregister('mfrc522_board_extension');
@@ -70,13 +90,16 @@ Arduino.forBlock['mfrc522_setup'] = function(block, generator) {
   const objDeclaration = 'MFRC522 ' + varName + '(' + address + ');';
   generator.addVariable(varName, objDeclaration);
   
+  // 动态获取Wire（支持Wire/Wire1等）
+  const wire = block.getFieldValue('WIRE') || 'Wire'; // 从字段读取，默认Wire
+  
   // 分离Wire初始化和传感器初始化
-  const wireInitCode = 'Wire.begin();';
+  const wireInitCode = wire + '.begin();';
   const pinComment = '// MFRC522 I2C连接: 使用默认I2C引脚';
   const sensorInitCode = varName + '.PCD_Init();\n';
   
-  // 使用统一的setupKey添加Wire初始化（可被aily_iic库覆盖）
-  generator.addSetup('wire_Wire_begin', pinComment + '\n' + wireInitCode + '\n');
+  // 使用动态setupKey添加Wire初始化（支持多I2C总线）
+  generator.addSetup(`wire_${wire}_begin`, pinComment + '\n' + wireInitCode + '\n');
   
   // 传感器初始化使用独立的key
   generator.addSetup(`mfrc522_${varName}_init`, sensorInitCode);

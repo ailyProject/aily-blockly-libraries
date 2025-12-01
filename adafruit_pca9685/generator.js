@@ -1,5 +1,25 @@
 // PCA9685 Blockly Generator for Aily Platform
 
+// 注册WIRE字段动态创建扩展（DHT20风格）
+if (Blockly.Extensions.isRegistered('pca9685_wire_dynamic')) {
+  Blockly.Extensions.unregister('pca9685_wire_dynamic');
+}
+Blockly.Extensions.register('pca9685_wire_dynamic', function() {
+  // 移除旧的输入框（如果存在）
+  if (this.getInput('WIRE_SET')) {
+    this.removeInput('WIRE_SET');
+  }
+  
+  // 动态创建整个输入框
+  const i2cOptions = (window.boardConfig && window.boardConfig.i2c) 
+    ? window.boardConfig.i2c 
+    : [['Wire', 'Wire']];
+  
+  this.appendDummyInput('WIRE_SET')
+      .appendField('I2C接口')
+      .appendField(new Blockly.FieldDropdown(i2cOptions), 'WIRE');
+});
+
 // 注意：registerVariableToBlockly 和 renameVariableInBlockly 由核心库提供
 
 // PCA9685 舵机参数存储（每个对象的配置）
@@ -63,12 +83,15 @@ Arduino.forBlock['pca9685_begin'] = function(block, generator) {
     Arduino.addedSerialInitCode.add('Serial');
   }
   
+  // 动态获取Wire（支持Wire/Wire1等）
+  const wire = block.getFieldValue('WIRE') || 'Wire'; // 从字段读取，默认Wire
+  
   // 分离Wire初始化和传感器初始化
-  const wireInitCode = 'Wire.begin();';
+  const wireInitCode = wire + '.begin();';
   const pinComment = '// PCA9685 I2C连接: 使用默认I2C引脚';
   
-  // 使用统一的setupKey添加Wire初始化
-  generator.addSetup('wire_Wire_begin', pinComment + '\n' + wireInitCode + '\n');
+  // 使用动态setupKey添加Wire初始化（支持多I2C总线）
+  generator.addSetup(`wire_${wire}_begin`, pinComment + '\n' + wireInitCode + '\n');
   
   // 智能处理地址格式：输入40视为十六进制简写，输出0x40
   let addressHex;

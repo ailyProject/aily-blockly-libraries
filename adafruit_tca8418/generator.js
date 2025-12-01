@@ -1,5 +1,25 @@
 // TCA8418 Blockly Generator for Aily Platform
 
+// 注册WIRE字段动态创建扩展（DHT20风格）
+if (Blockly.Extensions.isRegistered('tca8418_wire_dynamic')) {
+  Blockly.Extensions.unregister('tca8418_wire_dynamic');
+}
+Blockly.Extensions.register('tca8418_wire_dynamic', function() {
+  // 移除旧的输入框（如果存在）
+  if (this.getInput('WIRE_SET')) {
+    this.removeInput('WIRE_SET');
+  }
+  
+  // 动态创建整个输入框
+  const i2cOptions = (window.boardConfig && window.boardConfig.i2c) 
+    ? window.boardConfig.i2c 
+    : [['Wire', 'Wire']];
+  
+  this.appendDummyInput('WIRE_SET')
+      .appendField('I2C接口')
+      .appendField(new Blockly.FieldDropdown(i2cOptions), 'WIRE');
+});
+
 // 注意：registerVariableToBlockly 和 renameVariableInBlockly 由核心库提供
 
 // TCA8418 创建块
@@ -50,19 +70,22 @@ Arduino.forBlock['tca8418_begin'] = function(block, generator) {
     Arduino.addedSerialInitCode.add('Serial');
   }
   
+  // 动态获取Wire（支持Wire/Wire1等）
+  const wire = block.getFieldValue('WIRE') || 'Wire'; // 从字段读取，默认Wire
+  
   // 分离Wire初始化和传感器初始化
-  const wireInitCode = 'Wire.begin();';
+  const wireInitCode = wire + '.begin();';
   const pinComment = '// TCA8418 I2C连接: 使用默认I2C引脚';
   
-  // 使用统一的setupKey添加Wire初始化（可被aily_iic库覆盖）
-  generator.addSetup('wire_Wire_begin', pinComment + '\n' + wireInitCode + '\n');
+  // 使用动态setupKey添加Wire初始化（支持多I2C总线）
+  generator.addSetup(`wire_${wire}_begin`, pinComment + '\n' + wireInitCode + '\n');
   
   // 将十进制地址转换为十六进制字符串
   const addressNum = parseInt(address);
   const addressHex = isNaN(addressNum) ? address : '0x' + addressNum.toString(16);
   
   // 生成传感器初始化代码
-  let code = 'if (!' + varName + '.begin(' + addressHex + ', &Wire)) {\n' +
+  const code = 'if (!' + varName + '.begin(' + addressHex + ', &Wire)) {\n' +
     '  Serial.println("' + varName + ' not found, check wiring & pullups!");\n' +
     '  while (1);\n' +
     '}\n';
