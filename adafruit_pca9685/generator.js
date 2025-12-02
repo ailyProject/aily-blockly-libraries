@@ -1,19 +1,5 @@
 // PCA9685 Blockly Generator for Aily Platform
 
-// 注册WIRE字段动态更新扩展
-if (Blockly.Extensions.isRegistered('pca9685_wire_dynamic')) {
-  Blockly.Extensions.unregister('pca9685_wire_dynamic');
-}
-Blockly.Extensions.register('pca9685_wire_dynamic', function() {
-  const wireField = this.getField('WIRE');
-  if (wireField) {
-    const i2cOptions = (window.boardConfig && window.boardConfig.i2c) 
-      ? window.boardConfig.i2c 
-      : [['Wire', 'Wire']];
-    wireField.menuGenerator_ = i2cOptions;
-  }
-});
-
 // 注意：registerVariableToBlockly 和 renameVariableInBlockly 由核心库提供
 
 // PCA9685 舵机参数存储（每个对象的配置）
@@ -70,22 +56,14 @@ Arduino.forBlock['pca9685_begin'] = function(block, generator) {
   generator.addLibrary('Adafruit_PWMServoDriver', '#include <Adafruit_PWMServoDriver.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
   
-  // 确保Serial初始化（使用core-serial库的ID格式）
-  if (!Arduino.addedSerialInitCode || !Arduino.addedSerialInitCode.has('Serial')) {
-    generator.addSetupBegin('serial_Serial_begin', 'Serial.begin(115200);');
-    if (!Arduino.addedSerialInitCode) Arduino.addedSerialInitCode = new Set();
-    Arduino.addedSerialInitCode.add('Serial');
-  }
+  // 添加变量声明
+  generator.addVariable(varName, 'Adafruit_PWMServoDriver ' + varName + ';');
   
   // 动态获取Wire（支持Wire/Wire1等）
   const wire = block.getFieldValue('WIRE') || 'Wire'; // 从字段读取，默认Wire
   
-  // 分离Wire初始化和传感器初始化
-  const wireInitCode = wire + '.begin();';
-  const pinComment = '// PCA9685 I2C连接: 使用默认I2C引脚';
-  
   // 使用动态setupKey添加Wire初始化（支持多I2C总线）
-  generator.addSetup(`wire_${wire}_begin`, pinComment + '\n' + wireInitCode + '\n');
+  generator.addSetup(`wire_${wire}_begin`, wire + '.begin();');
   
   // 智能处理地址格式：输入40视为十六进制简写，输出0x40
   let addressHex;

@@ -1,19 +1,5 @@
 // SHT31 温湿度传感器 Generator
 
-// 注册WIRE字段动态更新扩展
-if (Blockly.Extensions.isRegistered('sht31_wire_dynamic')) {
-  Blockly.Extensions.unregister('sht31_wire_dynamic');
-}
-Blockly.Extensions.register('sht31_wire_dynamic', function() {
-  const wireField = this.getField('WIRE');
-  if (wireField) {
-    const i2cOptions = (window.boardConfig && window.boardConfig.i2c) 
-      ? window.boardConfig.i2c 
-      : [['Wire', 'Wire']];
-    wireField.menuGenerator_ = i2cOptions;
-  }
-});
-
 // 变量管理辅助函数
 function registerVariableToBlockly(varName, varType) {
   if (typeof Blockly === 'undefined' || !Blockly.getMainWorkspace) return;
@@ -36,15 +22,6 @@ function renameVariableInBlockly(block, oldName, newName, varType) {
     workspace.renameVariableById(oldVar.getId(), newName);
   }
 }
-
-// 注册扩展（无需板卡识别）
-if (Blockly.Extensions.isRegistered('sht31_i2c_board_extension')) {
-  Blockly.Extensions.unregister('sht31_i2c_board_extension');
-}
-Blockly.Extensions.register('sht31_i2c_board_extension', function() {
-  // 设置提示信息
-  this.setTooltip('初始化SHT3x温湿度传感器');
-});
 
 Arduino.forBlock['sht31_init'] = function (block, generator) {
     // 设置变量重命名监听

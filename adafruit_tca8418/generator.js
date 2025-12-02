@@ -1,19 +1,5 @@
 // TCA8418 Blockly Generator for Aily Platform
 
-// 注册WIRE字段动态更新扩展
-if (Blockly.Extensions.isRegistered('tca8418_wire_dynamic')) {
-  Blockly.Extensions.unregister('tca8418_wire_dynamic');
-}
-Blockly.Extensions.register('tca8418_wire_dynamic', function() {
-  const wireField = this.getField('WIRE');
-  if (wireField) {
-    const i2cOptions = (window.boardConfig && window.boardConfig.i2c) 
-      ? window.boardConfig.i2c 
-      : [['Wire', 'Wire']];
-    wireField.menuGenerator_ = i2cOptions;
-  }
-});
-
 // 注意：registerVariableToBlockly 和 renameVariableInBlockly 由核心库提供
 
 // TCA8418 创建块

@@ -44,41 +44,6 @@ function renameVariableInBlockly(block, oldName, newName, varType) {
   }
 }
 
-// 注册WIRE字段动态更新扩展
-if (Blockly.Extensions.isRegistered('spa06_wire_dynamic')) {
-  Blockly.Extensions.unregister('spa06_wire_dynamic');
-}
-Blockly.Extensions.register('spa06_wire_dynamic', function() {
-  const wireField = this.getField('WIRE');
-  if (wireField) {
-    const i2cOptions = (window.boardConfig && window.boardConfig.i2c) 
-      ? window.boardConfig.i2c 
-      : [['Wire', 'Wire']];
-    wireField.menuGenerator_ = i2cOptions;
-  }
-});
-
-// 注册变量重命名扩展
-if (Blockly.Extensions.isRegistered('spa06_i2c_board_extension')) {
-  Blockly.Extensions.unregister('spa06_i2c_board_extension');
-}
-Blockly.Extensions.register('spa06_i2c_board_extension', function() {
-  // 设置提示信息（统一使用引脚4/5）
-  this.setTooltip('创建SPA06-003气压温度传感器对象（I2C默认引脚: SDA->4, SCL->5）');
-  
-  // 添加变量重命名监听机制
-  var varField = this.getField('VAR');
-  if (varField && varField.setValidator) {
-    varField.setValidator(function(newValue) {
-      var oldValue = this.getValue();
-      if (oldValue !== newValue) {
-        renameVariableInBlockly(this.getSourceBlock(), oldValue, newValue, 'SPL07_003');
-      }
-      return newValue;
-    });
-  }
-});
-
 // Create SPA06 sensor with I2C
 Arduino.forBlock['spa06_create_i2c'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'spa06';

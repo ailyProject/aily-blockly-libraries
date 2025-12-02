@@ -19,47 +19,11 @@ Arduino.renameVariableInBlockly = function(oldName, newName, varType) {
     if (workspace && workspace.renameVariableById) {
       var variable = workspace.getVariable(oldName, varType);
       if (variable) {
-        workspace.renameVariableById(variable.getId(), newName);
+        workspace.renameVariableById(variable.getId(), newName);                                                                                                                                                                                                                          
       }
     }
   }
 };
-
-// 注册WIRE字段动态更新扩展
-if (Blockly.Extensions.isRegistered('mfrc522_wire_dynamic')) {
-  Blockly.Extensions.unregister('mfrc522_wire_dynamic');
-}
-Blockly.Extensions.register('mfrc522_wire_dynamic', function() {
-  const wireField = this.getField('WIRE');
-  if (wireField) {
-    const i2cOptions = (window.boardConfig && window.boardConfig.i2c) 
-      ? window.boardConfig.i2c 
-      : [['Wire', 'Wire']];
-    wireField.menuGenerator_ = i2cOptions;
-  }
-});
-
-// 注册扩展（无需板卡识别）
-if (Blockly.Extensions.isRegistered('mfrc522_board_extension')) {
-  Blockly.Extensions.unregister('mfrc522_board_extension');
-}
-
-Blockly.Extensions.register('mfrc522_board_extension', function() {
-  // 设置提示信息（使用默认I2C引脚）
-  this.setTooltip('初始化MFRC522 RFID读写器（I2C默认引脚）');
-  
-  // 添加变量重命名监听机制
-  var varField = this.getField('VAR');
-  if (varField) {
-    varField.setValidator(function(newValue) {
-      var oldValue = this.getValue();
-      if (oldValue !== newValue) {
-        Arduino.renameVariableInBlockly(oldValue, newValue, 'MFRC522');
-      }
-      return newValue;
-    });
-  }
-});
 
 // 初始化块
 Arduino.forBlock['mfrc522_setup'] = function(block, generator) {

@@ -1,16 +1,4 @@
-// 注册WIRE字段动态更新扩展
-if (Blockly.Extensions.isRegistered('bmp280_wire_dynamic')) {
-  Blockly.Extensions.unregister('bmp280_wire_dynamic');
-}
-Blockly.Extensions.register('bmp280_wire_dynamic', function() {
-  const wireField = this.getField('WIRE');
-  if (wireField) {
-    const i2cOptions = (window.boardConfig && window.boardConfig.i2c) 
-      ? window.boardConfig.i2c 
-      : [['Wire', 'Wire']];
-    wireField.menuGenerator_ = i2cOptions;
-  }
-});
+// BMP280 Blockly Generator for Aily Platform
 
 Arduino.forBlock['bmp280_create'] = function(block, generator) {
   // 设置变量重命名监听
