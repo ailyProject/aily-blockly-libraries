@@ -1,9 +1,16 @@
+// 检测是否为ESP32核心
+function isESP32Core() {
+  const boardConfig = window['boardConfig'];
+  return boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1;
+}
+
 if (Blockly.Extensions.isRegistered('u8g2_init_dynamic_inputs')) {
   Blockly.Extensions.unregister('u8g2_init_dynamic_inputs');
 }
 
 Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
   // 重新设计动态输入流程：屏幕类型 -> 分辨率 -> 通信协议 -> 引脚配置
+  let isESP32 = isESP32Core();
   
   // 辅助函数：移除所有输入
   this.removeAllInputs_ = function() {
@@ -174,9 +181,19 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
     
     switch (protocolValue) {
       case '_HW_I2C':
-        this.appendDummyInput('I2C_PINS')
-          .appendField('引脚RST')
-          .appendField(new Blockly.FieldTextInput('U8X8_PIN_NONE'), 'RESET_PIN');
+        if (isESP32) {
+          this.appendDummyInput('I2C_PINS')
+            .appendField('引脚SCL')
+            .appendField(new Blockly.FieldTextInput('SCL'), 'SCL_PIN')
+            .appendField('SDA')
+            .appendField(new Blockly.FieldTextInput('SDA'), 'SDA_PIN')
+            .appendField('RST')
+            .appendField(new Blockly.FieldTextInput('U8X8_PIN_NONE'), 'RESET_PIN');
+        } else {
+          this.appendDummyInput('I2C_PINS')
+            .appendField('引脚RST')
+            .appendField(new Blockly.FieldTextInput('U8X8_PIN_NONE'), 'RESET_PIN');
+        }
         break;
       case '_SW_I2C':
         this.appendDummyInput('SW_I2C_PINS')
@@ -310,9 +327,17 @@ Arduino.forBlock['u8g2_begin'] = function (block, generator) {
   // 根据不同的协议类型添加对应的引脚参数
   switch (protocol) {
     case '_HW_I2C':
-      // 硬件I2C只需要重置引脚
-      var resetPin = block.getFieldValue('RESET_PIN') || 'U8X8_PIN_NONE';
-      code += 'U8G2_R0, ' + resetPin;
+      if (isESP32Core()) {
+        // ESP32硬件I2C需要SCL、SDA和重置引脚
+        var sclPin = block.getFieldValue('SCL_PIN') || 'SCL';
+        var sdaPin = block.getFieldValue('SDA_PIN') || 'SDA';
+        var resetPin = block.getFieldValue('RESET_PIN') || 'U8X8_PIN_NONE';
+        code += 'U8G2_R0, ' + resetPin + ', ' + sclPin + ', ' + sdaPin;
+      } else {
+        // 硬件I2C只需要重置引脚
+        var resetPin = block.getFieldValue('RESET_PIN') || 'U8X8_PIN_NONE';
+        code += 'U8G2_R0, ' + resetPin;
+      }
       break;
 
     case '_SW_I2C':
@@ -665,66 +690,130 @@ Arduino.forBlock['u8x8_begin'] = function (block, generator) {
   var resolution = block.getFieldValue('RESOLUTION');
   var protocol = block.getFieldValue('PROTOCOL');
 
+  // 处理SEEED变种的特殊情况
+  var constructorType = type;
+  var constructorProtocol = protocol;
+  
+  if (type === 'SH1107' && (resolution === 'SEEED_96X96' || resolution === 'SEEED_128X128')) {
+    constructorType = 'SH1107_SEEED';
+    if (resolution === 'SEEED_96X96') {
+      resolution = '96X96';
+    } else if (resolution === 'SEEED_128X128') {
+      resolution = '128X128';
+    }
+  }
+
+  // 获取分辨率，如果为空则使用默认值
+  if (!resolution || resolution === 'null') {
+    switch (type) {
+      case 'SSD1306':
+        resolution = '128X64_NONAME';
+        break;
+      case 'SSD1309':
+        resolution = '128X64_NONAME0';
+        break;
+      case 'SH1106':
+        resolution = '128X64_NONAME';
+        break;
+      case 'SH1107':
+        resolution = '64X128';
+        break;
+      case 'ST7920':
+        resolution = '128X32';
+        break;
+      default:
+        resolution = '128X64_NONAME';
+        break;
+    }
+  }
+  // 分辨率现在已经是正确的U8G2格式
+
   // 构建基础的构造函数名称
-  var code = 'U8X8_' + type + '_' + resolution + protocol + ' u8x8(';
+  var code = 'U8X8_' + constructorType + '_' + resolution + constructorProtocol + ' u8x8(';
 
   // 根据不同的协议类型添加对应的引脚参数
   switch (protocol) {
     case '_HW_I2C':
-      // 硬件I2C只需要重置引脚
-      var resetPin = block.getFieldValue('RESET_PIN');
-      code += resetPin;
+      if (isESP32Core()) {
+        // ESP32硬件I2C需要SCL、SDA和重置引脚
+        var sclPin = block.getFieldValue('SCL_PIN') || 'SCL';
+        var sdaPin = block.getFieldValue('SDA_PIN') || 'SDA';
+        var resetPin = block.getFieldValue('RESET_PIN') || 'U8X8_PIN_NONE';
+        code += resetPin + ', ' + sclPin + ', ' + sdaPin;
+      } else {
+        // 硬件I2C只需要重置引脚
+        var resetPin = block.getFieldValue('RESET_PIN') || 'U8X8_PIN_NONE';
+        code += resetPin;
+      }
       break;
 
     case '_SW_I2C':
       // 软件I2C需要时钟、数据和重置引脚
-      var clockPin = block.getFieldValue('CLOCK_PIN');
-      var dataPin = block.getFieldValue('DATA_PIN');
-      var resetPin = block.getFieldValue('RESET_PIN');
+      var clockPin = block.getFieldValue('CLOCK_PIN') || '13';
+      var dataPin = block.getFieldValue('DATA_PIN') || '11';
+      var resetPin = block.getFieldValue('RESET_PIN') || '8';
       code += clockPin + ', ' + dataPin + ', ' + resetPin;
       break;
 
     case '_3W_HW_SPI':
       // 3线硬件SPI需要片选和重置引脚
-      var csPin = block.getFieldValue('CS_PIN');
-      var resetPin = block.getFieldValue('RESET_PIN');
+      var csPin = block.getFieldValue('CS_PIN') || '10';
+      var resetPin = block.getFieldValue('RESET_PIN') || '8';
       code += csPin + ', ' + resetPin;
       break;
 
     case '_3W_SW_SPI':
       // 3线软件SPI需要时钟、数据、片选和重置引脚
-      var clockPin = block.getFieldValue('CLOCK_PIN');
-      var dataPin = block.getFieldValue('DATA_PIN');
-      var csPin = block.getFieldValue('CS_PIN');
-      var resetPin = block.getFieldValue('RESET_PIN');
+      var clockPin = block.getFieldValue('CLOCK_PIN') || '13';
+      var dataPin = block.getFieldValue('DATA_PIN') || '11';
+      var csPin = block.getFieldValue('CS_PIN') || '10';
+      var resetPin = block.getFieldValue('RESET_PIN') || '8';
       code += clockPin + ', ' + dataPin + ', ' + csPin + ', ' + resetPin;
       break;
 
     case '_4W_HW_SPI':
-      // 4线硬件SPI需要DC、片选和重置引脚
-      var dcPin = block.getFieldValue('DC_PIN');
-      var csPin = block.getFieldValue('CS_PIN');
-      var resetPin = block.getFieldValue('RESET_PIN');
-      code += dcPin + ', ' + csPin + ', ' + resetPin;
+      // 4线硬件SPI需要CS、DC和重置引脚
+      var csPin = block.getFieldValue('CS_PIN') || '10';
+      var dcPin = block.getFieldValue('DC_PIN') || '9';
+      var resetPin = block.getFieldValue('RESET_PIN') || '8';
+      code += csPin + ', ' + dcPin + ', ' + resetPin;
       break;
 
     case '_4W_SW_SPI':
       // 4线软件SPI需要时钟、数据、片选、DC和重置引脚
-      var clockPin = block.getFieldValue('CLOCK_PIN');
-      var dataPin = block.getFieldValue('DATA_PIN');
-      var csPin = block.getFieldValue('CS_PIN');
-      var dcPin = block.getFieldValue('DC_PIN');
-      var resetPin = block.getFieldValue('RESET_PIN');
+      var clockPin = block.getFieldValue('CLOCK_PIN') || '13';
+      var dataPin = block.getFieldValue('DATA_PIN') || '11';
+      var csPin = block.getFieldValue('CS_PIN') || '10';
+      var dcPin = block.getFieldValue('DC_PIN') || '9';
+      var resetPin = block.getFieldValue('RESET_PIN') || '8';
       code += clockPin + ', ' + dataPin + ', ' + csPin + ', ' + dcPin + ', ' + resetPin;
       break;
 
+    case '_HW_SPI':
+      // ST7920 硬件SPI模式：使用默认硬件SPI引脚 + 片选和重置
+      var csPin = block.getFieldValue('CS_PIN') || 'U8X8_PIN_NONE';
+      var resetPin = block.getFieldValue('RESET_PIN') || 'U8X8_PIN_NONE';
+      code += csPin + ', ' + resetPin;
+      break;
+
+    case '_SW_SPI':
+      // ST7920 SPI模式：时钟、数据、片选、重置
+      var clockPin = block.getFieldValue('CLOCK_PIN') || '18';
+      var dataPin = block.getFieldValue('DATA_PIN') || '16';
+      var csPin = block.getFieldValue('CS_PIN') || '17';
+      var resetPin = block.getFieldValue('RESET_PIN') || 'U8X8_PIN_NONE';
+      code += clockPin + ', ' + dataPin + ', ' + csPin + ', ' + resetPin;
+      break;
+
     default:
+      // 默认情况
+      code += 'U8X8_PIN_NONE';
       break;
   }
-  
+
   code += ');';
 
-  generator.addLibrary('u8g2', '#include <U8g2lib.h>');
+  generator.addLibrary('u8x8', '#include <U8x8lib.h>');
   generator.addObject('u8x8', code);
   return 'u8x8.begin();\n';
 };
