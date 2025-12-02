@@ -16,7 +16,7 @@
   },
   {
     "type": "tca8418_begin",
-    "message0": "%1 初始化 I2C地址 %2",
+    "message0": "%1 初始化 I2C地址 %2 I2C接口 %3",
     "args0": [
       {
         "type": "field_variable",
@@ -29,6 +29,15 @@
         "type": "input_value",
         "name": "ADDRESS",
         "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": [
+          ["Wire", "Wire"],
+          ["Wire1", "Wire1"],
+          ["Wire2", "Wire2"]
+        ]
       }
     ],
     "inputsInline": true,
@@ -36,10 +45,7 @@
     "nextStatement": null,
     "colour": "#0066CC",
     "tooltip": "初始化TCA8418模块，设置I2C地址",
-    "icon": "fa-solid fa-keyboard",
-    "extensions": [
-      "tca8418_wire_dynamic"
-    ]
+    "icon": "fa-solid fa-keyboard"
   },
   {
     "type": "tca8418_matrix",

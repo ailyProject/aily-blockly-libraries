@@ -3,24 +3,18 @@
  * 支持SPI、I2C、UART接口，以及Mifare Classic、Mifare Ultralight、NTAG2xx等卡片操作
  */
 
-// 注册WIRE字段动态创建扩展（DHT20风格）
+// 注册WIRE字段动态更新扩展
 if (Blockly.Extensions.isRegistered('pn532_wire_dynamic')) {
   Blockly.Extensions.unregister('pn532_wire_dynamic');
 }
 Blockly.Extensions.register('pn532_wire_dynamic', function() {
-  // 移除旧的输入框（如果存在）
-  if (this.getInput('WIRE_SET')) {
-    this.removeInput('WIRE_SET');
+  const wireField = this.getField('WIRE');
+  if (wireField) {
+    const i2cOptions = (window.boardConfig && window.boardConfig.i2c) 
+      ? window.boardConfig.i2c 
+      : [['Wire', 'Wire']];
+    wireField.menuGenerator_ = i2cOptions;
   }
-  
-  // 动态创建整个输入框
-  const i2cOptions = (window.boardConfig && window.boardConfig.i2c) 
-    ? window.boardConfig.i2c 
-    : [['Wire', 'Wire']];
-  
-  this.appendDummyInput('WIRE_SET')
-      .appendField('I2C接口')
-      .appendField(new Blockly.FieldDropdown(i2cOptions), 'WIRE');
 });
 
 // 全局变量存储最近读取的UID信息

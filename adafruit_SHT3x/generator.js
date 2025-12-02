@@ -1,23 +1,17 @@
 // SHT31 温湿度传感器 Generator
 
-// 注册WIRE字段动态创建扩展（DHT20风格）
+// 注册WIRE字段动态更新扩展
 if (Blockly.Extensions.isRegistered('sht31_wire_dynamic')) {
   Blockly.Extensions.unregister('sht31_wire_dynamic');
 }
 Blockly.Extensions.register('sht31_wire_dynamic', function() {
-  // 移除旧的输入框（如果存在）
-  if (this.getInput('WIRE_SET')) {
-    this.removeInput('WIRE_SET');
+  const wireField = this.getField('WIRE');
+  if (wireField) {
+    const i2cOptions = (window.boardConfig && window.boardConfig.i2c) 
+      ? window.boardConfig.i2c 
+      : [['Wire', 'Wire']];
+    wireField.menuGenerator_ = i2cOptions;
   }
-  
-  // 动态创建整个输入框
-  const i2cOptions = (window.boardConfig && window.boardConfig.i2c) 
-    ? window.boardConfig.i2c 
-    : [['Wire', 'Wire']];
-  
-  this.appendDummyInput('WIRE_SET')
-      .appendField('I2C接口')
-      .appendField(new Blockly.FieldDropdown(i2cOptions), 'WIRE');
 });
 
 // 变量管理辅助函数

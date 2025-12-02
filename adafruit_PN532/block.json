@@ -45,7 +45,7 @@
   },
   {
     "type": "pn532_begin",
-    "message0": "%1 初始化",
+    "message0": "%1 初始化 I2C接口 %2",
     "args0": [
       {
         "type": "field_variable",
@@ -53,6 +53,15 @@
         "variable": "nfc",
         "variableTypes": ["Adafruit_PN532"],
         "defaultType": "Adafruit_PN532"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": [
+          ["Wire", "Wire"],
+          ["Wire1", "Wire1"],
+          ["Wire2", "Wire2"]
+        ]
       }
     ],
     "inputsInline": true,
@@ -60,10 +69,7 @@
     "nextStatement": null,
     "colour": "#0066CC",
     "tooltip": "初始化PN532传感器",
-    "icon": "fa-solid fa-credit-card",
-    "extensions": [
-      "pn532_wire_dynamic"
-    ]
+    "icon": "fa-solid fa-credit-card"
   },
   {
     "type": "pn532_get_firmware_version",

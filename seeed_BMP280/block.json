@@ -16,12 +16,21 @@
   },
   {
     "type": "bmp280_init",
-    "message0": "初始化 BMP280 %1",
+    "message0": "初始化 BMP280 %1 I2C接口 %2",
     "args0": [
       {
         "type": "field_input",
         "name": "VAR",
         "text": "bmp280"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": [
+          ["Wire", "Wire"],
+          ["Wire1", "Wire1"],
+          ["Wire2", "Wire2"]
+        ]
       }
     ],
     "inputsInline": true,
@@ -29,10 +38,7 @@
     "nextStatement": null,
     "colour": "#00979D",
     "tooltip": "初始化BMP280气压温度传感器",
-    "icon": "fa-solid fa-gauge",
-    "extensions": [
-      "bmp280_wire_dynamic"
-    ]
+    "icon": "fa-solid fa-gauge"
   },
   {
     "type": "bmp280_get_temperature",
