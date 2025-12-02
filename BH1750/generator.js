@@ -107,7 +107,7 @@ Arduino.forBlock['bh1750_init_with_wire'] = function(block, generator) {
   // 生成初始化代码
   let setupCode = '// 初始化BH1750光照传感器 ' + varName + '\n';
   if (wire && wire !== 'Wire' && wire !== '') {
-    const wireBeginKey = 'wire_begin_' + wire;
+    const wireBeginKey = `wire_${wire}_begin`;
     var isAlreadyInitialized = false;
     if (generator.setupCodes_) {
       if (generator.setupCodes_[wireBeginKey]) {
@@ -146,7 +146,7 @@ Arduino.forBlock['bh1750_init_with_wire'] = function(block, generator) {
     }
     setupCode += 'if (' + varName + '.begin(BH1750::' + mode + ', ' + address + ', &' + wire + ')) {\n';
   } else {
-    const wireBeginKey = 'wire_begin_Wire';
+    const wireBeginKey = `wire_${wire}_begin`;
     var isAlreadyInitialized = false;
     if (generator.setupCodes_) {
       if (generator.setupCodes_[wireBeginKey]) {

@@ -107,7 +107,7 @@ Arduino.forBlock['dht_init'] = function (block, generator) {
   if (dht_type === 'DHT20') {
     var wire = block.getFieldValue('WIRE');
     // 注册Blockly变量，类型为DHT20
-    registerVariableToBlockly(varName, 'DHT20');
+    registerVariableToBlockly(varName, 'DHT');
     
     // 确保DHT20库已添加
     ensureDHT20Library(generator);

@@ -226,6 +226,21 @@ Arduino.forBlock['ntpclient_get_yday'] = function(block, generator) {
   return ['timeClient.getYDay()', generator.ORDER_FUNCTION_CALL];
 };
 
+// 获取月份中的第几天
+Arduino.forBlock['ntpclient_get_mday'] = function(block, generator) {
+  // const varName = getVariableName(block, 'VAR', 'timeClient');
+
+  // 添加必要的库
+  ensureWiFiLib(generator);
+  ensureWiFiUDPLib(generator);
+  ensureNTPClientLib(generator);
+
+  generator.addObject('ntpUDP', 'WiFiUDP ntpUDP;');
+  generator.addObject('timeClient', 'NTPClient timeClient(ntpUDP);');
+
+  return ['timeClient.getMDay()', generator.ORDER_FUNCTION_CALL];
+};
+
 // 获取小时
 Arduino.forBlock['ntpclient_get_hours'] = function(block, generator) {
   // const varName = getVariableName(block, 'VAR', 'timeClient');
