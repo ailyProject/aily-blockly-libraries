@@ -119,7 +119,7 @@ Arduino.forBlock['ina219_init_with_wire'] = function(block, generator) {
   // 如果指定了特定的Wire实例，使用该实例初始化
   if (wire && wire !== 'Wire' && wire !== '') {
     // 统一使用与new_iic库相同的setupKey命名规范
-    const wireBeginKey = 'wire_begin_' + wire;
+    const wireBeginKey = `wire_${wire}_begin`;
     
     // 检查是否已经初始化过这个Wire实例（包括wire_begin_with_settings的初始化）
     var isAlreadyInitialized = false;
@@ -130,7 +130,7 @@ Arduino.forBlock['ina219_init_with_wire'] = function(block, generator) {
       } else {
         // 检查是否存在该Wire实例的wire_begin_with_settings初始化记录
         for (var key in generator.setupCodes_) {
-          if (key.startsWith('wire_begin_' + wire + '_') && key !== wireBeginKey) {
+          if (key.startsWith(`wire_begin_${wire}_`) && key !== wireBeginKey) {
             isAlreadyInitialized = true;
             break;
           }
@@ -174,7 +174,7 @@ Arduino.forBlock['ina219_init_with_wire'] = function(block, generator) {
     setupCode += 'if (' + varName + '.begin(&' + wire + ')) {\n';
   } else {
     // 统一使用与new_iic库相同的setupKey命名规范
-    const wireBeginKey = 'wire_begin_Wire';
+    const wireBeginKey = `wire_${wire}_begin`;
     
     // 检查是否已经初始化过Wire实例（包括wire_begin_with_settings的初始化）
     var isAlreadyInitialized = false;
@@ -185,7 +185,7 @@ Arduino.forBlock['ina219_init_with_wire'] = function(block, generator) {
       } else {
         // 检查是否存在Wire实例的wire_begin_with_settings初始化记录
         for (var key in generator.setupCodes_) {
-          if (key.startsWith('wire_begin_Wire_') && key !== wireBeginKey) {
+          if (key.startsWith(`wire_${wire}_begin`) && key !== wireBeginKey) {
             isAlreadyInitialized = true;
             break;
           }
