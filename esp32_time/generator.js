@@ -101,6 +101,14 @@ Arduino.forBlock['esp32time_get_hour'] = function(block, generator) {
   return ['rtc.getHour(' + mode + ')', generator.ORDER_FUNCTION_CALL];
 };
 
+// 获取星期几
+Arduino.forBlock['esp32time_get_wday'] = function(block, generator) {
+  ensureESP32TimeLib(generator);
+  generator.addObject('rtc', 'ESP32Time rtc;');
+  
+  return ['rtc.getDayofWeek()', generator.ORDER_FUNCTION_CALL];
+};
+
 // 获取日期
 Arduino.forBlock['esp32time_get_day'] = function(block, generator) {
   ensureESP32TimeLib(generator);
