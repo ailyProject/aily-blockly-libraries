@@ -1,48 +1,8 @@
+'use strict';
+
 // SPA06-003 Blockly Library Generator
 
-// Ensure library is included
-function ensureSPA06Lib(generator) {
-  generator.addLibrary('SPA06', '#include <SPL07-003.h>');
-}
 
-// Ensure Wire library for I2C
-function ensureWireLib(generator) {
-  generator.addLibrary('Wire', '#include <Wire.h>');
-}
-
-// Ensure SPI library for SPI
-function ensureSPILib(generator) {
-  generator.addLibrary('SPI', '#include <SPI.h>');
-}
-
-// Helper function to get variable name
-function getVariableName(block, fieldName, defaultName) {
-  const varField = block.getField(fieldName);
-  return varField ? varField.getText() : defaultName;
-}
-
-// 核心库函数: 注册变量到Blockly
-function registerVariableToBlockly(varName, varType) {
-  if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
-    var workspace = Blockly.getMainWorkspace();
-    if (workspace && workspace.createVariable) {
-      workspace.createVariable(varName, varType);
-    }
-  }
-}
-
-// 核心库函数: 重命名Blockly中的变量
-function renameVariableInBlockly(block, oldName, newName, varType) {
-  if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
-    var workspace = Blockly.getMainWorkspace();
-    if (workspace && workspace.renameVariableById) {
-      var variable = workspace.getVariable(oldName, varType);
-      if (variable) {
-        workspace.renameVariableById(variable.getId(), newName);
-      }
-    }
-  }
-}
 
 // Create SPA06 sensor with I2C
 Arduino.forBlock['spa06_create_i2c'] = function(block, generator) {
@@ -53,8 +13,9 @@ Arduino.forBlock['spa06_create_i2c'] = function(block, generator) {
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
       varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._spa06VarLastName;
-        if (newName && newName !== oldName) {
+        if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'SPL07_003');
           block._spa06VarLastName = newName;
         }
@@ -70,8 +31,8 @@ Arduino.forBlock['spa06_create_i2c'] = function(block, generator) {
   registerVariableToBlockly(varName, 'SPL07_003');
 
   // Add libraries
-  ensureSPA06Lib(generator);
-  ensureWireLib(generator);
+  generator.addLibrary('SPA06', '#include <SPL07-003.h>');
+  generator.addLibrary('Wire', '#include <Wire.h>');
   
   // 添加全局对象声明
   generator.addVariable(varName, 'SPL07_003 ' + varName + ';');
@@ -117,8 +78,8 @@ Arduino.forBlock['spa06_create_spi'] = function(block, generator) {
   const pin = block.getFieldValue('PIN') || 'SS';
 
   // Add libraries
-  ensureSPA06Lib(generator);
-  ensureSPILib(generator);
+  generator.addLibrary('SPA06', '#include <SPL07-003.h>');
+  generator.addLibrary('SPI', '#include <SPI.h>');
 
   // Register variable and add declaration
   registerVariableToBlockly(varName, 'SPL07_003');
@@ -133,11 +94,12 @@ Arduino.forBlock['spa06_create_spi'] = function(block, generator) {
 
 // Set pressure sampling configuration
 Arduino.forBlock['spa06_set_pressure_sampling'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'spa06');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'spa06';
   const rate = block.getFieldValue('RATE');
   const oversample = block.getFieldValue('OVERSAMPLE');
 
-  ensureSPA06Lib(generator);
+  generator.addLibrary('SPA06', '#include <SPL07-003.h>');
 
   const code = `${varName}.setPressureConfig(${rate}, ${oversample});\n`;
   return code;
@@ -145,11 +107,12 @@ Arduino.forBlock['spa06_set_pressure_sampling'] = function(block, generator) {
 
 // Set temperature sampling configuration
 Arduino.forBlock['spa06_set_temperature_sampling'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'spa06');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'spa06';
   const rate = block.getFieldValue('RATE');
   const oversample = block.getFieldValue('OVERSAMPLE');
 
-  ensureSPA06Lib(generator);
+  generator.addLibrary('SPA06', '#include <SPL07-003.h>');
 
   const code = `${varName}.setTemperatureConfig(${rate}, ${oversample});\n`;
   return code;
@@ -157,10 +120,11 @@ Arduino.forBlock['spa06_set_temperature_sampling'] = function(block, generator) 
 
 // Set working mode
 Arduino.forBlock['spa06_set_mode'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'spa06');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'spa06';
   const mode = block.getFieldValue('MODE');
 
-  ensureSPA06Lib(generator);
+  generator.addLibrary('SPA06', '#include <SPL07-003.h>');
 
   const code = `${varName}.setMode(${mode});\n`;
   return code;
@@ -168,10 +132,11 @@ Arduino.forBlock['spa06_set_mode'] = function(block, generator) {
 
 // Set temperature source
 Arduino.forBlock['spa06_set_temperature_source'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'spa06');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'spa06';
   const source = block.getFieldValue('SOURCE');
 
-  ensureSPA06Lib(generator);
+  generator.addLibrary('SPA06', '#include <SPL07-003.h>');
 
   const code = `${varName}.setTemperatureSource(${source});\n`;
   return code;
@@ -179,9 +144,10 @@ Arduino.forBlock['spa06_set_temperature_source'] = function(block, generator) {
 
 // Read pressure value
 Arduino.forBlock['spa06_read_pressure'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'spa06');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'spa06';
 
-  ensureSPA06Lib(generator);
+  generator.addLibrary('SPA06', '#include <SPL07-003.h>');
 
   const code = `${varName}.readPressure()`;
   return [code, Arduino.ORDER_FUNCTION_CALL];
@@ -189,9 +155,10 @@ Arduino.forBlock['spa06_read_pressure'] = function(block, generator) {
 
 // Read temperature value
 Arduino.forBlock['spa06_read_temperature'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'spa06');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'spa06';
 
-  ensureSPA06Lib(generator);
+  generator.addLibrary('SPA06', '#include <SPL07-003.h>');
 
   const code = `${varName}.readTemperature()`;
   return [code, Arduino.ORDER_FUNCTION_CALL];
@@ -199,9 +166,10 @@ Arduino.forBlock['spa06_read_temperature'] = function(block, generator) {
 
 // Calculate altitude
 Arduino.forBlock['spa06_calc_altitude'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'spa06');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'spa06';
 
-  ensureSPA06Lib(generator);
+  generator.addLibrary('SPA06', '#include <SPL07-003.h>');
 
   const code = `${varName}.calcAltitude()`;
   return [code, Arduino.ORDER_FUNCTION_CALL];
@@ -209,9 +177,10 @@ Arduino.forBlock['spa06_calc_altitude'] = function(block, generator) {
 
 // Check if pressure data is available
 Arduino.forBlock['spa06_pressure_available'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'spa06');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'spa06';
 
-  ensureSPA06Lib(generator);
+  generator.addLibrary('SPA06', '#include <SPL07-003.h>');
 
   const code = `${varName}.pressureAvailable()`;
   return [code, Arduino.ORDER_FUNCTION_CALL];
@@ -219,9 +188,10 @@ Arduino.forBlock['spa06_pressure_available'] = function(block, generator) {
 
 // Check if temperature data is available
 Arduino.forBlock['spa06_temperature_available'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'spa06');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'spa06';
 
-  ensureSPA06Lib(generator);
+  generator.addLibrary('SPA06', '#include <SPL07-003.h>');
 
   const code = `${varName}.temperatureAvailable()`;
   return [code, Arduino.ORDER_FUNCTION_CALL];
@@ -229,10 +199,11 @@ Arduino.forBlock['spa06_temperature_available'] = function(block, generator) {
 
 // Configure interrupt
 Arduino.forBlock['spa06_set_interrupt'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'spa06');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'spa06';
   const interrupt = block.getFieldValue('INTERRUPT');
 
-  ensureSPA06Lib(generator);
+  generator.addLibrary('SPA06', '#include <SPL07-003.h>');
 
   const code = `${varName}.configureInterrupt(${interrupt});\n`;
   return code;
@@ -240,9 +211,10 @@ Arduino.forBlock['spa06_set_interrupt'] = function(block, generator) {
 
 // Get interrupt status
 Arduino.forBlock['spa06_get_interrupt_status'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'spa06');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'spa06';
 
-  ensureSPA06Lib(generator);
+  generator.addLibrary('SPA06', '#include <SPL07-003.h>');
 
   const code = `${varName}.getInterruptStatus()`;
   return [code, Arduino.ORDER_FUNCTION_CALL];
@@ -250,10 +222,11 @@ Arduino.forBlock['spa06_get_interrupt_status'] = function(block, generator) {
 
 // Set pressure offset
 Arduino.forBlock['spa06_set_pressure_offset'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'spa06');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'spa06';
   const offset = generator.valueToCode(block, 'OFFSET', Arduino.ORDER_ATOMIC) || '0.0';
 
-  ensureSPA06Lib(generator);
+  generator.addLibrary('SPA06', '#include <SPL07-003.h>');
 
   const code = `${varName}.setPressureOffset(${offset});\n`;
   return code;
@@ -261,10 +234,11 @@ Arduino.forBlock['spa06_set_pressure_offset'] = function(block, generator) {
 
 // Set temperature offset
 Arduino.forBlock['spa06_set_temperature_offset'] = function(block, generator) {
-  const varName = getVariableName(block, 'VAR', 'spa06');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'spa06';
   const offset = generator.valueToCode(block, 'OFFSET', Arduino.ORDER_ATOMIC) || '0.0';
 
-  ensureSPA06Lib(generator);
+  generator.addLibrary('SPA06', '#include <SPL07-003.h>');
 
   const code = `${varName}.setTemperatureOffset(${offset});\n`;
   return code;

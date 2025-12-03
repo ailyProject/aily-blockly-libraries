@@ -1,0 +1,549 @@
+[
+  {
+    "type": "sentry2_begin_i2c",
+    "message0": "初始化 Sentry2 I2C接口 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff9f06",
+    "tooltip": "初始化Sentry2视觉传感器（I2C地址0x60）"
+  },
+  {
+    "type": "sentry2_camera_set_awb",
+    "message0": "设置 Sentry2 白平衡模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AWB",
+        "options": [
+          ["自动", "kAutoWhiteBalance"],
+          ["锁定", "kLockWhiteBalance"],
+          ["白光", "kWhiteLight"],
+          ["黄光", "kYellowLight"],
+          ["校准", "kWhiteBalanceCalibrating"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff9f06",
+    "tooltip": "设置Sentry2的白平衡模式"
+  },
+  {
+    "type": "sentry2_vision_set",
+    "message0": "设置 Sentry2 %1 算法 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VISION_STA",
+        "options": [
+          ["开启", "ON"],
+          ["关闭", "OFF"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION_TYPE",
+        "options": [
+          ["颜色识别", "Sentry2::kVisionColor"],
+          ["色块检测", "Sentry2::kVisionBlob"],
+          ["标签识别", "Sentry2::kVisionAprilTag"],
+          ["线条检测", "Sentry2::kVisionLine"],
+          ["深度学习", "Sentry2::kVisionLearning"],
+          ["卡片识别", "Sentry2::kVisionCard"],
+          ["人脸识别", "Sentry2::kVisionFace"],
+          ["20类物体", "Sentry2::kVision20Classes"],
+          ["二维码", "Sentry2::kVisionQrCode"],
+          ["自定义", "Sentry2::kVisionCustom"],
+          ["运动物体", "Sentry2::kVisionMotionDetect"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff9f06",
+    "tooltip": "开启或关闭指定的视觉算法"
+  },
+  {
+    "type": "sentry2_set_param_num",
+    "message0": "设置 Sentry2 %1 %2 组参数",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VISION_TYPE",
+        "options": [
+          ["颜色识别", "Sentry2::kVisionColor"],
+          ["色块检测", "Sentry2::kVisionBlob"],
+          ["自定义", "Sentry2::kVisionCustom"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "NUM",
+        "value": 1,
+        "min": 1,
+        "max": 25
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff9f06",
+    "tooltip": "设置指定算法的参数组数量"
+  },
+  {
+    "type": "sentry2_set_color_param",
+    "message0": "设置 Sentry2 颜色识别 中心横坐标 %1 中心纵坐标 %2 宽度 %3 高度 %4 参数组 %5",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "XVALUE",
+        "value": 50
+      },
+      {
+        "type": "field_number",
+        "name": "YVALUE",
+        "value": 50
+      },
+      {
+        "type": "field_number",
+        "name": "WIDTH",
+        "value": 3
+      },
+      {
+        "type": "field_number",
+        "name": "HIGHT",
+        "value": 4
+      },
+      {
+        "type": "field_number",
+        "name": "NUM",
+        "value": 1,
+        "min": 1,
+        "max": 25
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff9f06",
+    "tooltip": "设置颜色识别算法的参数"
+  },
+  {
+    "type": "sentry2_set_blob_param",
+    "message0": "设置 Sentry2 色块检测 最小宽度 %1 最小高度 %2 颜色 %3 参数组 %4",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "WIDTH",
+        "value": 3
+      },
+      {
+        "type": "field_number",
+        "name": "HIGHT",
+        "value": 4
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COLOR_LABLE",
+        "options": [
+          ["红色", "Sentry2::kColorRed"],
+          ["绿色", "Sentry2::kColorGreen"],
+          ["蓝色", "Sentry2::kColorBlue"],
+          ["黄色", "Sentry2::kColorYellow"],
+          ["黑色", "Sentry2::kColorBlack"],
+          ["白色", "Sentry2::kColorWhite"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "NUM",
+        "value": 1,
+        "min": 1,
+        "max": 25
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff9f06",
+    "tooltip": "设置色块检测算法的参数"
+  },
+  {
+    "type": "sentry2_set_vision_param",
+    "message0": "设置 Sentry2 %1 参数1 %2 参数2 %3 参数3 %4 参数4 %5 参数5 %6 参数组 %7",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VISION_TYPE",
+        "options": [
+          ["颜色识别", "Sentry2::kVisionColor"],
+          ["色块检测", "Sentry2::kVisionBlob"],
+          ["深度学习", "Sentry2::kVisionLearning"],
+          ["人脸识别", "Sentry2::kVisionFace"],
+          ["自定义", "Sentry2::kVisionCustom"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "XVALUE",
+        "value": 0
+      },
+      {
+        "type": "field_number",
+        "name": "YVALUE",
+        "value": 0
+      },
+      {
+        "type": "field_number",
+        "name": "WIDTH",
+        "value": 0
+      },
+      {
+        "type": "field_number",
+        "name": "HIGHT",
+        "value": 0
+      },
+      {
+        "type": "field_number",
+        "name": "COLOR_LABLE",
+        "value": 0
+      },
+      {
+        "type": "field_number",
+        "name": "NUM",
+        "value": 1,
+        "min": 1,
+        "max": 25
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff9f06",
+    "tooltip": "设置自定义视觉算法的参数"
+  },
+  {
+    "type": "sentry2_get_vision_result",
+    "message0": "Sentry2 %1 返回的结果数量",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VISION_TYPE",
+        "options": [
+          ["颜色识别", "Sentry2::kVisionColor"],
+          ["色块检测", "Sentry2::kVisionBlob"],
+          ["标签识别", "Sentry2::kVisionAprilTag"],
+          ["线条检测", "Sentry2::kVisionLine"],
+          ["深度学习", "Sentry2::kVisionLearning"],
+          ["卡片识别", "Sentry2::kVisionCard"],
+          ["人脸识别", "Sentry2::kVisionFace"],
+          ["20类物体", "Sentry2::kVision20Classes"],
+          ["二维码", "Sentry2::kVisionQrCode"],
+          ["自定义", "Sentry2::kVisionCustom"],
+          ["运动物体", "Sentry2::kVisionMotionDetect"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#ff9f06",
+    "tooltip": "获取指定算法返回的结果数量"
+  },
+  {
+    "type": "sentry2_get_color_value",
+    "message0": "Sentry2 颜色识别 返回值 %1 结果 %2 的",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "OBJ_INFO",
+        "options": [
+          ["标签", "kLabel"],
+          ["红色分量值", "kRValue"],
+          ["绿色分量值", "kGValue"],
+          ["蓝色分量值", "kBValue"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "NUM",
+        "value": 1
+      }
+    ],
+    "output": "Number",
+    "colour": "#ff9f06",
+    "tooltip": "获取颜色识别的指定结果值"
+  },
+  {
+    "type": "sentry2_get_value",
+    "message0": "Sentry2 %1 返回值 %2 结果 %3 的",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VISION_TYPE",
+        "options": [
+          ["色块检测", "Sentry2::kVisionBlob"],
+          ["标签识别", "Sentry2::kVisionAprilTag"],
+          ["深度学习", "Sentry2::kVisionLearning"],
+          ["卡片识别", "Sentry2::kVisionCard"],
+          ["人脸识别", "Sentry2::kVisionFace"],
+          ["20类物体", "Sentry2::kVision20Classes"],
+          ["运动物体", "Sentry2::kVisionMotionDetect"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OBJ_INFO",
+        "options": [
+          ["横坐标", "kXValue"],
+          ["纵坐标", "kYValue"],
+          ["宽度", "kWidthValue"],
+          ["高度", "kHeightValue"],
+          ["标签", "kLabel"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "NUM",
+        "value": 1
+      }
+    ],
+    "output": "Number",
+    "colour": "#ff9f06",
+    "tooltip": "获取指定算法的返回值"
+  },
+  {
+    "type": "sentry2_get_line_value",
+    "message0": "Sentry2 线条检测 返回值 %1 结果 %2 的",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "OBJ_INFO",
+        "options": [
+          ["终点横坐标", "kXValue"],
+          ["终点纵坐标", "kYValue"],
+          ["起点横坐标", "kWidthValue"],
+          ["起点纵坐标", "kHeightValue"],
+          ["倾斜角度", "kLabel"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "NUM",
+        "value": 1
+      }
+    ],
+    "output": "Number",
+    "colour": "#ff9f06",
+    "tooltip": "获取线条检测的返回值"
+  },
+  {
+    "type": "sentry2_get_qrcode_value",
+    "message0": "Sentry2 二维码 返回值 %1 结果 %2 的",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "OBJ_INFO",
+        "options": [
+          ["横坐标", "kXValue"],
+          ["纵坐标", "kYValue"],
+          ["宽度", "kWidthValue"],
+          ["高度", "kHeightValue"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "NUM",
+        "value": 1
+      }
+    ],
+    "output": "Number",
+    "colour": "#ff9f06",
+    "tooltip": "获取二维码识别的返回值"
+  },
+  {
+    "type": "sentry2_get_qrcode_value_str",
+    "message0": "Sentry2 二维码 返回的结果字符串",
+    "output": "String",
+    "colour": "#ff9f06",
+    "tooltip": "获取二维码识别的字符串结果"
+  },
+  {
+    "type": "sentry2_get_custom_value",
+    "message0": "Sentry2 %1 返回值 %2 结果 %3 的",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VISION_TYPE",
+        "options": [
+          ["颜色识别", "Sentry2::kVisionColor"],
+          ["色块检测", "Sentry2::kVisionBlob"],
+          ["深度学习", "Sentry2::kVisionLearning"],
+          ["人脸识别", "Sentry2::kVisionFace"],
+          ["自定义", "Sentry2::kVisionCustom"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OBJ_INFO",
+        "options": [
+          ["数据1", "kXValue"],
+          ["数据2", "kYValue"],
+          ["数据3", "kWidthValue"],
+          ["数据4", "kHeightValue"],
+          ["数据5", "kLabel"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "NUM",
+        "value": 1
+      }
+    ],
+    "output": "Number",
+    "colour": "#ff9f06",
+    "tooltip": "获取自定义算法的返回值"
+  },
+  {
+    "type": "sentry2_get_color_label",
+    "message0": "Sentry2 颜色识别 识别到 %1 结果 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "COLOR_LABLE",
+        "options": [
+          ["红色", "Sentry2::kColorRed"],
+          ["绿色", "Sentry2::kColorGreen"],
+          ["蓝色", "Sentry2::kColorBlue"],
+          ["黄色", "Sentry2::kColorYellow"],
+          ["黑色", "Sentry2::kColorBlack"],
+          ["白色", "Sentry2::kColorWhite"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "NUM",
+        "value": 1
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#ff9f06",
+    "tooltip": "判断颜色识别是否识别到指定颜色"
+  },
+  {
+    "type": "sentry2_get_color_blob",
+    "message0": "Sentry2 色块检测 检测到 %1 块 结果 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "COLOR_LABLE",
+        "options": [
+          ["红色", "Sentry2::kColorRed"],
+          ["绿色", "Sentry2::kColorGreen"],
+          ["蓝色", "Sentry2::kColorBlue"],
+          ["黄色", "Sentry2::kColorYellow"],
+          ["黑色", "Sentry2::kColorBlack"],
+          ["白色", "Sentry2::kColorWhite"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "NUM",
+        "value": 1
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#ff9f06",
+    "tooltip": "判断色块检测是否检测到指定颜色块"
+  },
+  {
+    "type": "sentry2_get_card_label",
+    "message0": "Sentry2 卡片识别 识别到 %1 结果 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CARD_LABLE",
+        "options": [
+          ["前进", "Sentry2::kCardForward"],
+          ["左转", "Sentry2::kCardLeft"],
+          ["右转", "Sentry2::kCardRight"],
+          ["掉头", "Sentry2::kCardTurnAround"],
+          ["停车", "Sentry2::kCardPark"],
+          ["绿灯", "Sentry2::kCardGreenLight"],
+          ["红灯", "Sentry2::kCardRedLight"],
+          ["速度40", "Sentry2::kCardSpeed40"],
+          ["速度60", "Sentry2::kCardSpeed60"],
+          ["速度80", "Sentry2::kCardSpeed80"],
+          ["√", "Sentry2::kCardCheck"],
+          ["X", "Sentry2::kCardCross"],
+          ["◯", "Sentry2::kCardCircle"],
+          ["☐", "Sentry2::kCardSquare"],
+          ["△", "Sentry2::kCardTriangle"],
+          ["+", "Sentry2::kCardPlus"],
+          ["-", "Sentry2::kCardMinus"],
+          ["÷", "Sentry2::kCardDivide"],
+          ["=", "Sentry2::kCardEqual"],
+          ["0", "Sentry2::kCardZero"],
+          ["1", "Sentry2::kCardOne"],
+          ["2", "Sentry2::kCardTwo"],
+          ["3", "Sentry2::kCardThree"],
+          ["4", "Sentry2::kCardFour"],
+          ["5", "Sentry2::kCardFive"],
+          ["6", "Sentry2::kCardSix"],
+          ["7", "Sentry2::kCardSeven"],
+          ["8", "Sentry2::kCardEight"],
+          ["9", "Sentry2::kCardNine"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "NUM",
+        "value": 1
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#ff9f06",
+    "tooltip": "判断卡片识别是否识别到指定卡片"
+  },
+  {
+    "type": "sentry2_get_class20_label",
+    "message0": "Sentry2 20类物体 识别到 %1 结果 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "Class20_LABLE",
+        "options": [
+          ["飞机", "Sentry2::kAirplane"],
+          ["自行车", "Sentry2::kBicycle"],
+          ["鸟", "Sentry2::kBird"],
+          ["船", "Sentry2::kBoat"],
+          ["瓶子", "Sentry2::kBottle"],
+          ["公交车", "Sentry2::kBus"],
+          ["汽车", "Sentry2::kCar"],
+          ["猫", "Sentry2::kCat"],
+          ["椅子", "Sentry2::kChair"],
+          ["牛", "Sentry2::kCow"],
+          ["餐桌", "Sentry2::kDiningTable"],
+          ["狗", "Sentry2::kDog"],
+          ["马", "Sentry2::kHorse"],
+          ["摩托车", "Sentry2::kMotorBike"],
+          ["人", "Sentry2::kPerson"],
+          ["盆栽植物", "Sentry2::kPottedPlant"],
+          ["羊", "Sentry2::kSheep"],
+          ["沙发", "Sentry2::kSofa"],
+          ["火车", "Sentry2::kTrain"],
+          ["显示器", "Sentry2::kTvMonitor"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "NUM",
+        "value": 1
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#ff9f06",
+    "tooltip": "判断20类物体识别是否识别到指定物体"
+  }
+]

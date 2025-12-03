@@ -1,3 +1,5 @@
+'use strict';
+
 // PCA9685 Blockly Generator for Aily Platform
 
 // 注意：registerVariableToBlockly 和 renameVariableInBlockly 由核心库提供
@@ -135,7 +137,8 @@ Arduino.forBlock['pca9685_set_microseconds'] = function(block, generator) {
 
 // PCA9685 配置舵机参数块
 Arduino.forBlock['pca9685_config_servo'] = function(block, generator) {
-  const varName = block.getFieldValue('VAR') || 'pwm';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'pwm';
   const min = generator.valueToCode(block, 'MIN', generator.ORDER_ATOMIC) || '100';
   const max = generator.valueToCode(block, 'MAX', generator.ORDER_ATOMIC) || '700';
   

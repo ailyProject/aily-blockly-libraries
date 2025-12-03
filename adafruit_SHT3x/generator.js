@@ -1,27 +1,6 @@
+'use strict';
+
 // SHT31 温湿度传感器 Generator
-
-// 变量管理辅助函数
-function registerVariableToBlockly(varName, varType) {
-  if (typeof Blockly === 'undefined' || !Blockly.getMainWorkspace) return;
-  const workspace = Blockly.getMainWorkspace();
-  if (!workspace) return;
-  
-  let variable = workspace.getVariable(varName, varType);
-  if (!variable) {
-    workspace.createVariable(varName, varType);
-  }
-}
-
-function renameVariableInBlockly(block, oldName, newName, varType) {
-  if (typeof Blockly === 'undefined' || !Blockly.getMainWorkspace) return;
-  const workspace = block.workspace || Blockly.getMainWorkspace();
-  if (!workspace) return;
-  
-  const oldVar = workspace.getVariable(oldName, varType);
-  if (oldVar) {
-    workspace.renameVariableById(oldVar.getId(), newName);
-  }
-}
 
 Arduino.forBlock['sht31_init'] = function (block, generator) {
     // 设置变量重命名监听

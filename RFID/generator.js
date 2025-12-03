@@ -1,29 +1,9 @@
 'use strict';
 
-// MFRC522 RFID库代码生成器 - 修复版本
+// MFRC522 RFID库代码生成器 
 
-// 核心库函数: 注册变量到Blockly
-Arduino.registerVariableToBlockly = function(varName, varType) {
-  if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
-    var workspace = Blockly.getMainWorkspace();
-    if (workspace && workspace.createVariable) {
-      workspace.createVariable(varName, varType);
-    }
-  }
-};
 
-// 核心库函数: 重命名Blockly中的变量
-Arduino.renameVariableInBlockly = function(oldName, newName, varType) {
-  if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
-    var workspace = Blockly.getMainWorkspace();
-    if (workspace && workspace.renameVariableById) {
-      var variable = workspace.getVariable(oldName, varType);
-      if (variable) {
-        workspace.renameVariableById(variable.getId(), newName);                                                                                                                                                                                                                          
-      }
-    }
-  }
-};
+
 
 // 初始化块
 Arduino.forBlock['mfrc522_setup'] = function(block, generator) {
@@ -34,9 +14,10 @@ Arduino.forBlock['mfrc522_setup'] = function(block, generator) {
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
       varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._mfrc522VarLastName;
-        if (newName && newName !== oldName) {
-          Arduino.renameVariableInBlockly(oldName, newName, 'MFRC522');
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'MFRC522');
           block._mfrc522VarLastName = newName;
         }
         return newName;
@@ -48,13 +29,13 @@ Arduino.forBlock['mfrc522_setup'] = function(block, generator) {
   const address = block.getFieldValue('ADDRESS') || '0x2F';
 
   // 注册变量到Blockly
-  Arduino.registerVariableToBlockly(varName, 'MFRC522');
+  registerVariableToBlockly(varName, 'MFRC522');
 
   generator.addLibrary('MFRC522', '#include <Emakefun_RFID.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
   
   // 使用core-serial库的ID格式确保与core-serial库去重
-  if (!Arduino.addedSerialInitCode || !Arduino.addedSerialInitCode.has('Serial')) {
+  if (!generator.addedSerialInitCode || !generator.addedSerialInitCode.has('Serial')) {
     generator.addSetupBegin('serial_Serial_begin', 'Serial.begin(115200);');
     // 标记Serial为已初始化（兼容core-serial库）
     if (!Arduino.addedSerialInitCode) Arduino.addedSerialInitCode = new Set();
@@ -70,11 +51,10 @@ Arduino.forBlock['mfrc522_setup'] = function(block, generator) {
   
   // 分离Wire初始化和传感器初始化
   const wireInitCode = wire + '.begin();';
-  const pinComment = '// MFRC522 I2C连接: 使用默认I2C引脚';
   const sensorInitCode = varName + '.PCD_Init();\n';
   
   // 使用动态setupKey添加Wire初始化（支持多I2C总线）
-  generator.addSetup(`wire_${wire}_begin`, pinComment + '\n' + wireInitCode + '\n');
+  generator.addSetup(`wire_${wire}_begin`, wireInitCode + '\n');
   
   // 传感器初始化使用独立的key
   generator.addSetup(`mfrc522_${varName}_init`, sensorInitCode);

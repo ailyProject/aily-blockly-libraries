@@ -1,3 +1,5 @@
+'use strict';
+
 // TCA8418 Blockly Generator for Aily Platform
 
 // 注意：registerVariableToBlockly 和 renameVariableInBlockly 由核心库提供

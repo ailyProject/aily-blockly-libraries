@@ -1,34 +1,9 @@
+'use strict';
+
 /**
  * PN532 NFC/RFID模块代码生成器
  * 支持SPI、I2C、UART接口，以及Mifare Classic、Mifare Ultralight、NTAG2xx等卡片操作
  */
-
-// 全局变量存储最近读取的UID信息
-let globalUID = [];
-let globalUIDLength = 0;
-
-// 核心库函数: 注册Blockly变量
-function registerVariableToBlockly(varName, varType) {
-  if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
-    var workspace = Blockly.getMainWorkspace();
-    if (workspace && workspace.createVariable) {
-      workspace.createVariable(varName, varType);
-    }
-  }
-}
-
-// 核心库函数: 重命名Blockly变量
-function renameVariableInBlockly(block, oldName, newName, varType) {
-  if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
-    var workspace = block.workspace || Blockly.getMainWorkspace();
-    if (workspace && workspace.renameVariableById) {
-      var variable = workspace.getVariable(oldName, varType);
-      if (variable) {
-        workspace.renameVariableById(variable.getId(), newName);
-      }
-    }
-  }
-}
 
 // PN532 SPI接口创建
 Arduino.forBlock['pn532_create_spi'] = function(block, generator) {
@@ -39,8 +14,9 @@ Arduino.forBlock['pn532_create_spi'] = function(block, generator) {
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
       varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._pn532VarLastName;
-        if (newName && newName !== oldName) {
+        if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'Adafruit_PN532');
           block._pn532VarLastName = newName;
         }
@@ -56,13 +32,12 @@ Arduino.forBlock['pn532_create_spi'] = function(block, generator) {
   generator.addLibrary('PN532', '#include <Adafruit_PN532.h>');
   generator.addLibrary('SPI', '#include <SPI.h>');
   registerVariableToBlockly(varName, 'Adafruit_PN532');
-
   generator.addVariable(`pn532_${varName}`, 'Adafruit_PN532 *' + varName + ';');
   generator.addSetup(`spi_${spi}_begin`, spi + '.begin();');
   generator.addSetup(`pn532_${varName}_init`, varName + ' = new Adafruit_PN532(' + ss + ', &' + spi + ');');
   generator.addSetup(`pn532_${varName}_begin`, varName + '->begin();');
 
-  return '';
+  return "";
 };
 
 // PN532 I2C接口创建
@@ -93,7 +68,7 @@ Arduino.forBlock['pn532_create_i2c'] = function(block, generator) {
   registerVariableToBlockly(varName, 'Adafruit_PN532');
   generator.addVariable(varName, 'Adafruit_PN532 ' + varName + '(-1, -1);');
 
-  return '';
+  return "";
 };
 
 // PN532 I2C接口创建（带引脚版）
@@ -126,7 +101,7 @@ Arduino.forBlock['pn532_create_i2c_pins'] = function(block, generator) {
   registerVariableToBlockly(varName, 'Adafruit_PN532');
   generator.addVariable(varName, 'Adafruit_PN532 ' + varName + '(' + irq + ', ' + reset + ');');
 
-  return '';
+  return "";
 };
 
 // PN532初始化
@@ -173,7 +148,8 @@ Arduino.forBlock['pn532_get_firmware_version'] = function(block, generator) {
 
 // SAM配置
 Arduino.forBlock['pn532_sam_config'] = function(block, generator) {
-  const varName = block.getFieldValue('VAR') || 'nfc';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'nfc';
 
   // 添加库引用
   generator.addLibrary('PN532', '#include <Adafruit_PN532.h>');

@@ -1,3 +1,5 @@
+'use strict';
+
 // BMP280 Blockly Generator for Aily Platform
 
 Arduino.forBlock['bmp280_create'] = function(block, generator) {
@@ -31,7 +33,8 @@ Arduino.forBlock['bmp280_create'] = function(block, generator) {
 };
 
 Arduino.forBlock['bmp280_init'] = function(block, generator) {
-  const varName = block.getFieldValue('VAR') || 'bmp280';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'bmp280';
   
   // 添加库
   generator.addLibrary('Seeed_BMP280', '#include <Seeed_BMP280.h>');
