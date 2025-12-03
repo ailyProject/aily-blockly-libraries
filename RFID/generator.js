@@ -27,6 +27,23 @@ Arduino.renameVariableInBlockly = function(oldName, newName, varType) {
 
 // 初始化块
 Arduino.forBlock['mfrc522_setup'] = function(block, generator) {
+  // 设置变量重命名监听
+  if (!block._mfrc522VarMonitorAttached) {
+    block._mfrc522VarMonitorAttached = true;
+    block._mfrc522VarLastName = block.getFieldValue('VAR') || 'rfid';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const oldName = block._mfrc522VarLastName;
+        if (newName && newName !== oldName) {
+          Arduino.renameVariableInBlockly(oldName, newName, 'MFRC522');
+          block._mfrc522VarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
   const varName = block.getFieldValue('VAR') || 'rfid';
   const address = block.getFieldValue('ADDRESS') || '0x2F';
 

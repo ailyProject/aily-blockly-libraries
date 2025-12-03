@@ -42,13 +42,7 @@ Arduino.forBlock['tca8418_begin'] = function(block, generator) {
   // 添加库引用
   generator.addLibrary('Adafruit_TCA8418', '#include <Adafruit_TCA8418.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
-  
-  // 确保Serial初始化（使用core-serial库的ID格式）
-  if (!Arduino.addedSerialInitCode || !Arduino.addedSerialInitCode.has('Serial')) {
-    generator.addSetupBegin('serial_Serial_begin', 'Serial.begin(115200);');
-    if (!Arduino.addedSerialInitCode) Arduino.addedSerialInitCode = new Set();
-    Arduino.addedSerialInitCode.add('Serial');
-  }
+
   
   // 动态获取Wire（支持Wire/Wire1等）
   const wire = block.getFieldValue('WIRE') || 'Wire'; // 从字段读取，默认Wire

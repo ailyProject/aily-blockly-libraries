@@ -46,11 +46,25 @@ function renameVariableInBlockly(block, oldName, newName, varType) {
 
 // Create SPA06 sensor with I2C
 Arduino.forBlock['spa06_create_i2c'] = function(block, generator) {
+  // 设置变量重命名监听
+  if (!block._spa06VarMonitorAttached) {
+    block._spa06VarMonitorAttached = true;
+    block._spa06VarLastName = block.getFieldValue('VAR') || 'spa06';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const oldName = block._spa06VarLastName;
+        if (newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'SPL07_003');
+          block._spa06VarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
   const varName = block.getFieldValue('VAR') || 'spa06';
   const addr = block.getFieldValue('ADDR');
-  // 使用统一默认I2C引脚
-  const sdaPin = '4';  // 默认SDA引脚
-  const sclPin = '5';  // 默认SCL引脚
 
   // 注册变量到Blockly
   registerVariableToBlockly(varName, 'SPL07_003');
@@ -59,29 +73,21 @@ Arduino.forBlock['spa06_create_i2c'] = function(block, generator) {
   ensureSPA06Lib(generator);
   ensureWireLib(generator);
   
-  // 使用core-serial库的ID格式确保与core-serial库去重
-  if (!Arduino.addedSerialInitCode || !Arduino.addedSerialInitCode.has('Serial')) {
-    generator.addSetupBegin('serial_Serial_begin', 'Serial.begin(115200);');
-    // 标记Serial为已初始化（兼容core-serial库）
-    if (!Arduino.addedSerialInitCode) Arduino.addedSerialInitCode = new Set();
-    Arduino.addedSerialInitCode.add('Serial');
-  }
-  
   // 添加全局对象声明
   generator.addVariable(varName, 'SPL07_003 ' + varName + ';');
   
-  // 动态获取Wire（spa06支持自定义引脚）
+  // 动态获取Wire（支持Wire/Wire1等）
   const wire = block.getFieldValue('WIRE') || 'Wire';
   
-  // 分离Wire初始化和传感器初始化，使用统一的setupKey格式
-  const wireInitCode = `${wire}.begin(${sdaPin}, ${sclPin});`;
-  const pinComment = `// SPA06 I2C连接: SDA->${sdaPin}, SCL->${sclPin}`;
-  const sensorInitCode = `${varName}.begin(${addr}, &${wire});\nSerial.println("Connected to SPL06-003! :)");`;
+  // 分离Wire初始化和传感器初始化
+  const wireInitCode = wire + '.begin();';
+  const pinComment = '// SPA06 I2C连接: 使用默认I2C引脚';
   
-  // 使用统一的setupKey添加Wire初始化（可被aily_iic库覆盖）
-  generator.addSetup('wire_Wire_begin', pinComment + '\n' + wireInitCode + '\n');
+  // 使用动态setupKey添加Wire初始化（支持多I2C总线）
+  generator.addSetup(`wire_${wire}_begin`, pinComment + '\n' + wireInitCode + '\n');
   
-  // 传感器初始化）
+  // 传感器初始化
+  const sensorInitCode = `${varName}.begin(${addr}, &${wire});`;
   generator.addSetup(`spa06_${varName}_init`, sensorInitCode);
   
   return '';

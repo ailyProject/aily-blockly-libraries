@@ -30,6 +30,41 @@ function renameVariableInBlockly(block, oldName, newName, varType) {
   }
 }
 
+// PN532 SPI接口创建
+Arduino.forBlock['pn532_create_spi'] = function(block, generator) {
+  // 设置变量重命名监听
+  if (!block._pn532VarMonitorAttached) {
+    block._pn532VarMonitorAttached = true;
+    block._pn532VarLastName = block.getFieldValue('VAR') || 'nfc';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const oldName = block._pn532VarLastName;
+        if (newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'Adafruit_PN532');
+          block._pn532VarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'nfc';
+  const spi = block.getFieldValue('SPI');
+  const ss = generator.valueToCode(block, 'SS', generator.ORDER_ATOMIC) || '10';
+
+  generator.addLibrary('PN532', '#include <Adafruit_PN532.h>');
+  generator.addLibrary('SPI', '#include <SPI.h>');
+  registerVariableToBlockly(varName, 'Adafruit_PN532');
+
+  generator.addVariable(`pn532_${varName}`, 'Adafruit_PN532 *' + varName + ';');
+  generator.addSetup(`spi_${spi}_begin`, spi + '.begin();');
+  generator.addSetup(`pn532_${varName}_init`, varName + ' = new Adafruit_PN532(' + ss + ', &' + spi + ');');
+  generator.addSetup(`pn532_${varName}_begin`, varName + '->begin();');
+
+  return '';
+};
+
 // PN532 I2C接口创建
 Arduino.forBlock['pn532_create_i2c'] = function(block, generator) {
   // 设置变量重命名监听
