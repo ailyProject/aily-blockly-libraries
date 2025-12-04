@@ -35,14 +35,6 @@ Arduino.forBlock['car_servo_angle'] = function(block, generator) {
 };
 
 
-Arduino.forBlock['car_servo_dual_angle'] = function(block, generator) {
-  Arduino.ensureStm32I2c(generator);
-  const angle = generator.valueToCode(block, 'ANGLE', Arduino.ORDER_ATOMIC) || '90';
-  
-  return `STM32_I2C.servoDualAngle(${angle});\n`;
-};
-
-
 // ========== TT马达控制(通过STM32) ==========
 Arduino.forBlock['car_motor_control_single'] = function(block, generator) {
   Arduino.ensureStm32I2c(generator);

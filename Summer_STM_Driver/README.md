@@ -13,7 +13,6 @@ ESP32 Summer Board智能小车综合控制库，通过I2C控制STM32多功能板
 |--------|------|----------|----------|----------|
 | `car_is_key_pressed` | 值块 | KEY(field_dropdown) | `"fields":{"KEY":"0"}` | `readKeyEvent()==0` 返回Boolean |
 | `car_servo_angle` | 语句块 | PIN(field_dropdown), ANGLE(input_value) | `"fields":{"PIN":"0"},"inputs":{"ANGLE":{"block":{"type":"math_number","fields":{"NUM":"90"}}}}` | `STM32_I2C.servoAngle(0,90)` |
-| `car_servo_dual_angle` | 语句块 | ANGLE(input_value) | `"inputs":{"ANGLE":{"block":{"type":"math_number","fields":{"NUM":"90"}}}}` | `STM32_I2C.servoDualAngle(90)` |
 | `car_motor_control_single` | 语句块 | MOTOR_ID(field_dropdown), DIRECTION(field_dropdown), SPEED(input_value) | `"fields":{"MOTOR_ID":"0","DIRECTION":"1"},"inputs":{"SPEED":{"block":{"type":"math_number","fields":{"NUM":"128"}}}}` | `STM32_I2C.motorControl(0,1,128)` |
 | `car_motor_stop_single` | 语句块 | MOTOR_ID(field_dropdown) | `"fields":{"MOTOR_ID":"0"}` | `STM32_I2C.motorStop(0)` |
 | `car_stepper_control` | 语句块 | STEPPER_NUM(field_dropdown), DIRECTION(field_dropdown), DEGREES(input_value) | `"fields":{"STEPPER_NUM":"0","DIRECTION":"0"},"inputs":{"DEGREES":{"block":{"type":"math_number","fields":{"NUM":"360"}}}}` | `STM32_I2C.stepperControl(0,0,360)` |
@@ -173,7 +172,7 @@ ESP32 Summer Board智能小车综合控制库，通过I2C控制STM32多功能板
 1. **必须遵守**: 确保I2C连接正确，ESP32与STM32I2C地址匹配，块ID必须唯一
 2. **连接限制**: 控制块是语句块有next连接，读取块是值块无next字段，只能作为input_value使用
 3. **数值范围**: 舵机角度0-180，电机速度0-255，步进电机角度0-360或圈数，按键编号0-2
-4. **硬件限制**: 6路舵机、4路TT马达、2路步进电机、1个JY61P传感器，不可超出范围
+4. **硬件限制**: 6路舵机(单独控制)、4路TT马达、2路步进电机、1个JY61P传感器，不可超出范围
 5. **常见错误**:
    - ❌ 舵机/电机/步进电机编号超出范围
    - ❌ 角度或速度值超出有效范围
