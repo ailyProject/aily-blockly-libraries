@@ -74,41 +74,46 @@ Arduino.forBlock['sscma_begin_serial'] = function(block, generator) {
   const baud = generator.valueToCode(block, 'BAUD', generator.ORDER_ATOMIC) || '921600';
   const rst = generator.valueToCode(block, 'RST', generator.ORDER_ATOMIC) || '-1';
 
-  // const isESP32 = isESP32Core();
-  // if (isESP32) {
-  //   // // ESP32核心使用HardwareSerial对象
-  //   // let atSerial = '';
-  //   // if (serial === 'Serial') {
-  //   //   atSerial = 'atSerial(0)';
-  //   // } else if (serial === 'Serial1') {
-  //   //   atSerial = 'atSerial(1)';
-  //   // } else if (serial === 'Serial2') {
-  //   //   atSerial = 'atSerial(2)';
-  //   // } else {
-  //   //   atSerial = 'atSerial(0)';
-  //   // }
-  //   // generator.addLibrary('HardwareSerial', '#include <HardwareSerial.h>');
-  //   // generator.addVariable(serial, 'HardwareSerial ' + atSerial + ';');
-  // } else {
-  //   // 非ESP32核心使用Serial对象
-  //   generator.addVariable(serial, '#define atSerial ' + serial + ';');
-  // }
-
   // 添加库和变量
   generator.addLibrary('Seeed_Arduino_SSCMA', '#include <Seeed_Arduino_SSCMA.h>');
   registerVariableToBlockly(varName, 'SSCMA');
   generator.addVariable(varName, 'SSCMA ' + varName + ';');
 
-  // 生成串口初始化代码
-  // let serialInitCode = serial + '.begin(' + baud + ');\n';
-  // generator.addSetup(serialInitCode);
-
   // 生成SSCMA初始化代码
   let code = '';
-  if (rst == -1) {
-    code = varName + '.begin(&' + serial + ', -1, ' + baud + ');\n';
+  if (serial === 'Serial' || serial === 'Serial1' || serial === 'Serial2') {
+    const isESP32 = isESP32Core();
+    if (isESP32) {
+      // ESP32核心使用HardwareSerial对象
+      let atSerial = '';
+      if (serial === 'Serial') {
+        atSerial = 'atSerial(0)';
+      } else if (serial === 'Serial1') {
+        atSerial = 'atSerial(1)';
+      } else if (serial === 'Serial2') {
+        atSerial = 'atSerial(2)';
+      } else {
+        atSerial = 'atSerial(0)';
+      }
+      generator.addLibrary('HardwareSerial', '#include <HardwareSerial.h>');
+      generator.addVariable(serial, 'HardwareSerial ' + atSerial + ';');
+    } else {
+      // 非ESP32核心使用Serial对象
+      generator.addVariable(serial, '#define atSerial ' + serial + ';');
+    }
+    if (rst == -1) {
+      code = varName + '.begin(&atSerial, -1, ' + baud + ');\n';
+    } else {
+      code = varName + '.begin(&atSerial, ' + rst + ', ' + baud + ');\n';
+    }
   } else {
-    code = varName + '.begin(&' + serial + ', ' + rst + ', ' + baud + ');\n';
+    // 生成SSCMA初始化代码
+    let code = '';
+    if (rst == -1) {
+      code = varName + '.begin(&' + serial + ', -1, ' + baud + ');\n';
+    } else {
+      code = varName + '.begin(&' + serial + ', ' + rst + ', ' + baud + ');\n';
+    }
   }
 
   generator.addSetup(varName + '_sscma_serial_begin', code);
