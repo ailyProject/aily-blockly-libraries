@@ -40,7 +40,7 @@ Arduino.forBlock['pn532_create_spi'] = function(block, generator) {
   return "";
 };
 
-// PN532 I2C接口创建
+// PN532 I2C接口创建并初始化
 Arduino.forBlock['pn532_create_i2c'] = function(block, generator) {
   // 设置变量重命名监听
   if (!block._pn532VarMonitorAttached) {
@@ -61,77 +61,22 @@ Arduino.forBlock['pn532_create_i2c'] = function(block, generator) {
   }
 
   const varName = block.getFieldValue('VAR') || 'nfc';
+  const wire = block.getFieldValue('WIRE') || 'Wire';
 
-  // 添加库和变量声明（简化版，使用I2C，无需引脚，使用-1表示不使用IRQ和RESET）
+  // 添加库和变量声明
   generator.addLibrary('PN532', '#include <Adafruit_PN532.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
   registerVariableToBlockly(varName, 'Adafruit_PN532');
   generator.addVariable(varName, 'Adafruit_PN532 ' + varName + '(-1, -1);');
-
-  return "";
-};
-
-// PN532 I2C接口创建（带引脚版）
-Arduino.forBlock['pn532_create_i2c_pins'] = function(block, generator) {
-  // 设置变量重命名监听
-  if (!block._pn532VarMonitorAttached) {
-    block._pn532VarMonitorAttached = true;
-    block._pn532VarLastName = block.getFieldValue('VAR') || 'nfc';
-    const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
-        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-        const oldName = block._pn532VarLastName;
-        if (workspace && newName && newName !== oldName) {
-          renameVariableInBlockly(block, oldName, newName, 'Adafruit_PN532');
-          block._pn532VarLastName = newName;
-        }
-        return newName;
-      });
-    }
-  }
-
-  const varName = block.getFieldValue('VAR') || 'nfc';
-  const irq = block.getFieldValue('IRQ');
-  const reset = block.getFieldValue('RESET');
-
-  // 添加库和变量声明（带引脚版）
-  generator.addLibrary('PN532', '#include <Adafruit_PN532.h>');
-  generator.addLibrary('Wire', '#include <Wire.h>');
-  registerVariableToBlockly(varName, 'Adafruit_PN532');
-  generator.addVariable(varName, 'Adafruit_PN532 ' + varName + '(' + irq + ', ' + reset + ');');
-
-  return "";
-};
-
-// PN532初始化
-Arduino.forBlock['pn532_begin'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'nfc';
-
-  // 添加库引用
-  generator.addLibrary('PN532', '#include <Adafruit_PN532.h>');
-  generator.addLibrary('Wire', '#include <Wire.h>');
   
-  // 确保Serial初始化（使用core-serial库的ID格式）
-  if (!Arduino.addedSerialInitCode || !Arduino.addedSerialInitCode.has('Serial')) {
-    generator.addSetupBegin('serial_Serial_begin', 'Serial.begin(115200);');
-    if (!Arduino.addedSerialInitCode) Arduino.addedSerialInitCode = new Set();
-    Arduino.addedSerialInitCode.add('Serial');
-  }
+
   
-  // 动态获取Wire（支持Wire/Wire1等）
-  const wire = block.getFieldValue('WIRE') || 'Wire'; // 从字段读取，默认Wire
-  
-  // 分离Wire初始化和传感器初始化
-  const wireInitCode = wire + '.begin();';
+  // 添加Wire初始化和PN532初始化到setup
   const pinComment = '// PN532 I2C连接: 使用默认I2C引脚';
-  
-  // 使用动态setupKey添加Wire初始化（支持多I2C总线）
-  generator.addSetup(`wire_${wire}_begin`, pinComment + '\n' + wireInitCode + '\n');
-  
-  let code = varName + '.begin();\n';
-  return code;
+  generator.addSetup(`wire_${wire}_begin`, pinComment + '\n' + wire + '.begin();\n');
+  generator.addSetup(`pn532_${varName}_begin`, varName + '.begin();');
+
+  return "";
 };
 
 // 获取固件版本
