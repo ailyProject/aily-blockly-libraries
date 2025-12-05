@@ -1,3 +1,7 @@
+'use strict';
+
+// BMP280 Blockly Generator for Aily Platform
+
 Arduino.forBlock['bmp280_create'] = function(block, generator) {
   // 设置变量重命名监听
   if (!block._bmp280VarMonitorAttached) {
@@ -35,6 +39,17 @@ Arduino.forBlock['bmp280_init'] = function(block, generator) {
   // 添加库
   generator.addLibrary('Seeed_BMP280', '#include <Seeed_BMP280.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
+  
+  
+  // 动态获取Wire（支持Wire/Wire1等）
+  const wire = block.getFieldValue('WIRE') || 'Wire'; // 从字段读取，默认Wire
+  
+  // 分离Wire初始化和传感器初始化
+  const wireInitCode = wire + '.begin();';
+  const pinComment = '// BMP280 I2C连接: 使用默认I2C引脚';
+  
+  // 使用动态setupKey添加Wire初始化（支持多I2C总线）
+  generator.addSetup(`wire_${wire}_begin`, pinComment + '\n' + wireInitCode + '\n');
   
   const code = varName + '.init();\n';
   return code;

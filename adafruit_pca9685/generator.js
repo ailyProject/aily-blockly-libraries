@@ -1,3 +1,5 @@
+'use strict';
+
 // PCA9685 Blockly Generator for Aily Platform
 
 // 注意：registerVariableToBlockly 和 renameVariableInBlockly 由核心库提供
@@ -56,6 +58,15 @@ Arduino.forBlock['pca9685_begin'] = function(block, generator) {
   generator.addLibrary('Adafruit_PWMServoDriver', '#include <Adafruit_PWMServoDriver.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
   
+  // 添加变量声明
+  generator.addVariable(varName, 'Adafruit_PWMServoDriver ' + varName + ';');
+  
+  // 动态获取Wire（支持Wire/Wire1等）
+  const wire = block.getFieldValue('WIRE') || 'Wire'; // 从字段读取，默认Wire
+  
+  // 使用动态setupKey添加Wire初始化（支持多I2C总线）
+  generator.addSetup(`wire_${wire}_begin`, wire + '.begin();');
+  
   // 智能处理地址格式：输入40视为十六进制简写，输出0x40
   let addressHex;
   const addressStr = address.toString().trim();
@@ -69,7 +80,7 @@ Arduino.forBlock['pca9685_begin'] = function(block, generator) {
     addressHex = '0x' + addressStr.toUpperCase();
   }
   
-  // 生成初始化代码
+  // 生成PCA9685初始化代码
   const code = varName + ' = Adafruit_PWMServoDriver(' + addressHex + ');\n' +
     varName + '.begin();\n';
   

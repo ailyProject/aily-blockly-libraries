@@ -1,3 +1,5 @@
+'use strict';
+
 // TCA8418 Blockly Generator for Aily Platform
 
 // 注意：registerVariableToBlockly 和 renameVariableInBlockly 由核心库提供
@@ -42,12 +44,23 @@ Arduino.forBlock['tca8418_begin'] = function(block, generator) {
   // 添加库引用
   generator.addLibrary('Adafruit_TCA8418', '#include <Adafruit_TCA8418.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
+
+  
+  // 动态获取Wire（支持Wire/Wire1等）
+  const wire = block.getFieldValue('WIRE') || 'Wire'; // 从字段读取，默认Wire
+  
+  // 分离Wire初始化和传感器初始化
+  const wireInitCode = wire + '.begin();';
+  const pinComment = '// TCA8418 I2C连接: 使用默认I2C引脚';
+  
+  // 使用动态setupKey添加Wire初始化（支持多I2C总线）
+  generator.addSetup(`wire_${wire}_begin`, pinComment + '\n' + wireInitCode + '\n');
   
   // 将十进制地址转换为十六进制字符串
   const addressNum = parseInt(address);
   const addressHex = isNaN(addressNum) ? address : '0x' + addressNum.toString(16);
   
-  // 生成初始化代码
+  // 生成传感器初始化代码
   const code = 'if (!' + varName + '.begin(' + addressHex + ', &Wire)) {\n' +
     '  Serial.println("' + varName + ' not found, check wiring & pullups!");\n' +
     '  while (1);\n' +
