@@ -17,6 +17,10 @@ if (typeof window !== 'undefined') {
   if (!window.aivoxControlServices) {
     window.aivoxControlServices = [];
   }
+  // 新增：存储MCP服务和参数的关联关系
+  if (!window.mcpServiceParamMap) {
+    window.mcpServiceParamMap = [];
+  }
 } else {
   // Node.js环境下的处理
   if (typeof global !== 'undefined') {
@@ -25,6 +29,10 @@ if (typeof window !== 'undefined') {
     }
     if (!global.aivoxControlServices) {
       global.aivoxControlServices = [];
+    }
+    // 新增：存储MCP服务和参数的关联关系
+    if (!global.mcpServiceParamMap) {
+      global.mcpServiceParamMap = [];
     }
   }
 }
@@ -247,13 +255,65 @@ function debugPrintAllVariables() {
   debugPrintAivoxServices();
 }
 
+// 获取MCP服务和参数关联关系数组
+function getMcpServiceParamMapArray() {
+  return (typeof window !== 'undefined') ? window.mcpServiceParamMap : 
+         (typeof global !== 'undefined') ? global.mcpServiceParamMap : [];
+}
+
+// 注册MCP服务和参数的关联关系
+function registerMcpServiceParam(serviceName, paramName) {
+  const mcpServiceParamMap = getMcpServiceParamMapArray();
+  // 检查是否已存在该关联
+  const existingIndex = mcpServiceParamMap.findIndex(item => 
+    item.serviceName === serviceName && item.paramName === paramName
+  );
+  
+  if (existingIndex === -1) {
+    mcpServiceParamMap.push({
+      serviceName: serviceName,
+      paramName: paramName,
+      createdAt: new Date().toISOString()
+    });
+  }
+}
+
+// 获取指定MCP服务的所有参数
+function getMcpServiceParams(serviceName) {
+  const mcpServiceParamMap = getMcpServiceParamMapArray();
+  return mcpServiceParamMap.filter(item => item.serviceName === serviceName)
+                          .map(item => item.paramName);
+}
+
+// 删除指定MCP服务的所有参数关联
+function deleteMcpServiceParams(serviceName) {
+  const mcpServiceParamMap = getMcpServiceParamMapArray();
+  const initialLength = mcpServiceParamMap.length;
+  for (let i = mcpServiceParamMap.length - 1; i >= 0; i--) {
+    if (mcpServiceParamMap[i].serviceName === serviceName) {
+      mcpServiceParamMap.splice(i, 1);
+    }
+  }
+  return initialLength - mcpServiceParamMap.length;
+}
+
+// 清空所有MCP服务和参数关联关系
+function clearAllMcpServiceParams() {
+  const mcpServiceParamMap = getMcpServiceParamMapArray();
+  const count = mcpServiceParamMap.length;
+  mcpServiceParamMap.length = 0;
+  return count;
+}
+
 // 管理 - 导出变量配置为JSON
 function exportVariableConfig() {
   const mcpControlParams = getMcpControlParamsArray();
   const aivoxControlServices = getAivoxControlServicesArray();
+  const mcpServiceParamMap = getMcpServiceParamMapArray();
   return {
     mcpControlParams: mcpControlParams,
     aivoxControlServices: aivoxControlServices,
+    mcpServiceParamMap: mcpServiceParamMap,
     exportedAt: new Date().toISOString(),
     version: '1.0'
   };
@@ -272,6 +332,11 @@ function importVariableConfig(config) {
       aivoxControlServices.length = 0;
       aivoxControlServices.push(...config.aivoxControlServices);
     }
+    if (config.mcpServiceParamMap && Array.isArray(config.mcpServiceParamMap)) {
+      const mcpServiceParamMap = getMcpServiceParamMapArray();
+      mcpServiceParamMap.length = 0;
+      mcpServiceParamMap.push(...config.mcpServiceParamMap);
+    }
     console.log('Variable configuration imported successfully');
     return true;
   } catch (error) {
@@ -284,14 +349,36 @@ function importVariableConfig(config) {
 function resetAllVariableConfig() {
   const paramCount = clearAllMcpControlParams();
   const serviceCount = clearAllAivoxControlServices();
-  console.log(`Reset complete: ${paramCount} parameters and ${serviceCount} services cleared`);
-  return { paramCount, serviceCount };
+  const serviceParamCount = clearAllMcpServiceParams();
+  console.log(`Reset complete: ${paramCount} parameters, ${serviceCount} services and ${serviceParamCount} service-param associations cleared`);
+  return { paramCount, serviceCount, serviceParamCount };
+}
+
+// 调试 - 打印所有MCP服务和参数关联关系
+function debugPrintMcpServiceParams() {
+  const mcpServiceParamMap = getMcpServiceParamMapArray();
+  console.log('=== MCP Service-Param Associations ===');
+  mcpServiceParamMap.forEach((item, index) => {
+    console.log(`${index + 1}. Service: ${item.serviceName}, Param: ${item.paramName}`);
+  });
+  console.log(`Total: ${mcpServiceParamMap.length} associations`);
+}
+
+// 调试 - 打印所有变量信息（更新）
+function debugPrintAllVariables() {
+  console.log('=== All Variable Information ===');
+  debugPrintMcpParams();
+  console.log('');
+  debugPrintAivoxServices();
+  console.log('');
+  debugPrintMcpServiceParams();
 }
 
 // 将调试函数暴露到全局，便于在控制台中使用
 if (typeof window !== 'undefined') {
   window.debugPrintMcpParams = debugPrintMcpParams;
   window.debugPrintAivoxServices = debugPrintAivoxServices;
+  window.debugPrintMcpServiceParams = debugPrintMcpServiceParams;
   window.debugPrintAllVariables = debugPrintAllVariables;
   window.exportVariableConfig = exportVariableConfig;
   window.importVariableConfig = importVariableConfig;
@@ -384,7 +471,7 @@ Blockly.Extensions.register('aivox3_mcp_control_param_extension', function () {
       this.removeInput('MAX');
     }
 
-    if (configType !== 'Boolean') {
+    if (configType === 'Number') {
       this.appendValueInput('MIN')
         .setCheck('Number')
         .appendField("最小值");
@@ -1335,6 +1422,137 @@ Arduino.forBlock['aivox3_set_screen_light'] = function(block, generator) {
     return ``;
 };
 
+// 实现esp32ai_selget_mcp_control块的代码生成逻辑
+Arduino.forBlock['esp32ai_selget_mcp_control'] = function(block, generator) {
+  // 获取MCP服务名称
+  // 对于field_variable类型的字段，使用getText()方法获取显示的变量名称
+  const varField = block.getField('VAR');
+  const serviceName = varField ? varField.getText() : 'unknown_service';
+  
+  // 获取设置区和上报区的代码
+  const setCodeBlock = generator.statementToCode(block, 'setCODE_BLOCK') || '';
+  const reportCodeBlock = generator.statementToCode(block, 'CODE_BLOCK') || '';
+  
+  // 获取该MCP服务的所有参数
+  const params = getMcpServiceParams(serviceName);
+  
+  let code = '';
+  let setCode = '';
+  let getCode = '';
+  
+  // 设置区有代码时生成设置逻辑
+  if (setCodeBlock.trim() !== '') {
+    // 生成设置区代码块
+    setCode += `  // 设置区代码\n`;
+    setCode += `  ${setCodeBlock.trim()}\n`;
+    setCode += `  // 告知MCP服务器设置成功\n`;
+    setCode += `  ai_vox_engine.SendMcpCallResponse(id, true);\n`;
+  }
+  
+  // 生成上报区代码块 - 无论是否有上报代码，都生成上报逻辑
+  // 生成参数声明
+if (reportCodeBlock.trim() !== '') {
+  if (params.length > 0) {
+    getCode += `  // 参数声明区\n`;
+    params.forEach(paramName => {
+      // 根据参数类型生成不同的声明
+      const param = getMcpControlParam(paramName);
+      if (param) {
+        if (param.type === 'Boolean') {
+          getCode += `  bool ${paramName} = false;\n`;
+        } else if (param.type === 'Number') {
+          getCode += `  int64_t ${paramName} = 0;\n`;
+        } else if (param.type === 'String') {
+          // 使用Arduino String类型，避免与std::string转换冲突
+          getCode += `  String ${paramName} = "";\n`;
+        }
+      } else {
+        // 默认使用int64_t类型
+        getCode += `  int64_t ${paramName} = 0;\n`;
+      }
+    });
+  }
+  
+  // 生成上报区代码
+    getCode += `  // 上报区代码\n`;
+    getCode += `  ${reportCodeBlock.trim()}\n`;
+  
+  // 根据参数数量生成不同的上报格式
+  if (params.length === 1) {
+    // 单个参数时，直接参数上报
+    const paramName = params[0];
+    const param = getMcpControlParam(paramName);
+    getCode += `  // 单个参数，直接上报\n`;
+    if (param && param.type === 'String') {
+      // 将Arduino String转换为std::string
+      getCode += `  ai_vox_engine.SendMcpCallResponse(id, std::string(${paramName}.c_str()));\n`;
+    } else {
+      // 其他类型直接传递
+      getCode += `  ai_vox_engine.SendMcpCallResponse(id, ${paramName});\n`;
+    }
+  } else if (params.length > 1) {
+    // 多个参数时，生成json上报
+    getCode += `  // 多个参数，生成JSON上报\n`;
+    getCode += `  cJSON *root = cJSON_CreateObject();\n`;
+    
+    // 添加每个参数到JSON对象
+    params.forEach(paramName => {
+      // 根据参数类型生成不同的cJSON创建函数调用
+      const param = getMcpControlParam(paramName);
+      if (param) {
+        if (param.type === 'Boolean') {
+          getCode += `  cJSON_AddItemToObject(root, "${paramName}", cJSON_CreateBool(${paramName}));\n`;
+        } else if (param.type === 'Number') {
+          getCode += `  cJSON_AddItemToObject(root, "${paramName}", cJSON_CreateNumber(${paramName}));\n`;
+        } else if (param.type === 'String') {
+          getCode += `  cJSON_AddItemToObject(root, "${paramName}", cJSON_CreateString(${paramName}.c_str()));\n`;
+        }
+      } else {
+        // 默认作为数值处理
+        getCode += `  cJSON_AddItemToObject(root, "${paramName}", cJSON_CreateNumber(${paramName}));\n`;
+      }
+    });
+    
+    // 生成JSON字符串并上报
+    getCode += `  char *json_str = cJSON_PrintUnformatted(root);\n`;
+    getCode += `  ai_vox_engine.SendMcpCallResponse(id, std::string(json_str));\n`;
+    getCode += `  cJSON_Delete(root);\n`;
+    getCode += `  free(json_str);\n`;
+  } else {
+    // 没有参数时，仅上报执行结果
+    getCode += `  // 没有参数，仅上报执行结果\n`;
+    getCode += `  ai_vox_engine.SendMcpCallResponse(id, true);\n`;
+  }
+}
+  
+  // 引入cJSON头文件（如果需要）- 只有在生成了需要cJSON的上报代码时才引入
+  if (reportCodeBlock.trim() !== '' && params.length > 1) {
+    generator.addLibrary('cjson_lib', '#include "cJSON.h"');
+  }
+  
+  // 生成if-else if结构
+  if (setCode && getCode) {
+    // 同时有set和get代码，生成if-else if结构
+    code += `if ("self.${serviceName}.set" == name) {\n`;
+    code += setCode;
+    code += `} else if ("self.${serviceName}.get" == name) {\n`;
+    code += getCode;
+    code += `}\n`;
+  } else if (setCode) {
+    // 只有set代码
+    code += `if ("self.${serviceName}.set" == name) {\n`;
+    code += setCode;
+    code += `}\n`;
+  } else if (getCode) {
+    // 只有get代码
+    code += `if ("self.${serviceName}.get" == name) {\n`;
+    code += getCode;
+    code += `}\n`;
+  }
+  
+  return code;
+};
+
 Arduino.forBlock['aivox3_ST77789TurnOnBacklight_engine'] = function (block, generator) {
     return 'g_display->TurnOnBacklight();\n';
 };
@@ -1353,37 +1571,93 @@ Arduino.forBlock['aivox_lcd_show_status'] = function (block, generator) {
     let location = block.getFieldValue('location');
     let ai_vox_content = generator.valueToCode(block, 'ai_vox_content', generator.ORDER_ATOMIC) || '""';
     let code = '';
-    if(location == 'SetChatMessage'){
-      if(display_mode == '' || display_mode == 'normal'){
-        if (display_type === 'ST7789') {
-          code = `g_display->SetChatMessage(Display::Role::kSystem, ${ai_vox_content});\n`;
-        } else if (display_type === 'SSD1306') {
-          code = `g_display->SetChatMessage(${ai_vox_content});\n`;
-        }
-      }else{
-        if (display_type === 'ST7789') {
-          code = `if(chatRole == "Assistant"){
-            g_display->SetChatMessage(Display::Role::kAssistant, ${ai_vox_content});
-          }else if(chatRole == "User"){
-            g_display->SetChatMessage(Display::Role::kUser, ${ai_vox_content});
-          }else{  
-            g_display->SetChatMessage(Display::Role::kSystem, ${ai_vox_content});
-          }\n`;
-        } else if (display_type === 'SSD1306') {
-          code = `if(chatRole == "Assistant"){
-            g_display->SetChatMessage(${ai_vox_content});
-          }else if(chatRole == "User"){
-            g_display->SetChatMessage(${ai_vox_content});
-          }else{  
-            g_display->SetChatMessage(${ai_vox_content});
-          }\n`;
-        }
-      }
-    }else{
-      if (display_type !== 'NONE') {
-        code = `g_display->${location}(${ai_vox_content});\n`;
-      }
-    }
+    // 检查是否为字符串字面量（带引号）
+     const isQuotedString = /^"(.*)"$/.test(ai_vox_content);
+     
+     // 检查是否为字符字面量（如'a'）
+     const isCharLiteral = /^'(.)'$/.test(ai_vox_content);
+
+     // 如果是字符字面量，将其转换为字符串字面量（如"a"）
+     if (isCharLiteral) {
+       const charValue = ai_vox_content.match(/^'(.)'$/)[1];
+       ai_vox_content = `"${charValue}"`;
+     }
+     
+     // 检查是否已经是.c_str()调用
+     const isAlreadyCStr = /\.c_str\(\)$/.test(ai_vox_content);
+     
+     // 检查是否为括号包裹的表达式
+     const isParenthesized = /^\((.*)\)$/.test(ai_vox_content);
+     
+     // 检查是否为const char*类型的变量（如message）
+     const isConstCharPtr = /^\s*\(?\s*message\s*\)?\s*$/.test(ai_vox_content) || /^\s*\(?\s*emotion\.c_str\(\)\s*\)?\s*$/.test(ai_vox_content);
+     
+     // 处理不同显示类型和位置的代码生成
+     if(location == 'SetChatMessage'){ 
+       if(display_mode == '' || display_mode == 'normal'){ 
+         if (display_type === 'ST7789') { 
+           if (isQuotedString || isCharLiteral || isAlreadyCStr || isConstCharPtr) {
+             code = `g_display->SetChatMessage(Display::Role::kSystem, ${ai_vox_content});\n`; 
+           } else {
+             code = `g_display->SetChatMessage(Display::Role::kSystem, ${ai_vox_content}.c_str());\n`; 
+           }
+         } else if (display_type === 'SSD1306') { 
+           if (isQuotedString || isCharLiteral || isAlreadyCStr || isConstCharPtr) {
+             code = `g_display->SetChatMessage(${ai_vox_content});\n`; 
+           } else {
+             code = `g_display->SetChatMessage(${ai_vox_content}.c_str());\n`; 
+           }
+         } 
+       }else{ 
+         if (display_type === 'ST7789') { 
+           if (isQuotedString || isCharLiteral || isAlreadyCStr || isConstCharPtr) {
+             code = `if(chatRole == "Assistant"){ 
+             g_display->SetChatMessage(Display::Role::kAssistant, ${ai_vox_content}); 
+           }else if(chatRole == "User"){ 
+             g_display->SetChatMessage(Display::Role::kUser, ${ai_vox_content}); 
+           }else{  
+             g_display->SetChatMessage(Display::Role::kSystem, ${ai_vox_content}); 
+           }
+           chatRole = "System";\n`; 
+           } else {
+             code = `if(chatRole == "Assistant"){ 
+             g_display->SetChatMessage(Display::Role::kAssistant, ${ai_vox_content}.c_str()); 
+           }else if(chatRole == "User"){ 
+             g_display->SetChatMessage(Display::Role::kUser, ${ai_vox_content}.c_str()); 
+           }else{  
+             g_display->SetChatMessage(Display::Role::kSystem, ${ai_vox_content}.c_str()); 
+           }
+           chatRole = "System";\n`; 
+           }
+         } else if (display_type === 'SSD1306') { 
+           if (isQuotedString || isCharLiteral || isAlreadyCStr || isConstCharPtr) {
+             code = `if(chatRole == "Assistant"){ 
+             g_display->SetChatMessage(${ai_vox_content}); 
+           }else if(chatRole == "User"){ 
+             g_display->SetChatMessage(${ai_vox_content}); 
+           }else{  
+             g_display->SetChatMessage(${ai_vox_content}); 
+           }\n`; 
+           } else {
+             code = `if(chatRole == "Assistant"){ 
+             g_display->SetChatMessage(${ai_vox_content}.c_str()); 
+           }else if(chatRole == "User"){ 
+             g_display->SetChatMessage(${ai_vox_content}.c_str()); 
+           }else{  
+             g_display->SetChatMessage(${ai_vox_content}.c_str()); 
+           }\n`; 
+           }
+         } 
+       } 
+     }else{ 
+       if (display_type !== 'NONE') { 
+         if (isQuotedString || isCharLiteral || isAlreadyCStr || isConstCharPtr) {
+           code = `g_display->${location}(${ai_vox_content});\n`; 
+         } else {
+           code = `g_display->${location}(${ai_vox_content}.c_str());\n`; 
+         }
+       } 
+     } 
     return code;
 };
 
@@ -1697,7 +1971,7 @@ Arduino.forBlock['esp32ai_loop_mcp'] = function(block, generator) {
         };
     }
     // 获取子块（状态判断逻辑）的代码
-    const stateHandlersCode = generator.statementToCode(block, 'STATE_HANDLERS');
+    let stateHandlersCode = generator.statementToCode(block, 'STATE_HANDLERS');
 
     // 1. 引入必要头文件
     generator.addLibrary('include_aivox_engine', '#include "ai_vox_engine.h"');
@@ -1711,7 +1985,28 @@ Arduino.forBlock['esp32ai_loop_mcp'] = function(block, generator) {
     ai_vox::Engine::GetInstance().SetObserver(g_observer);
 `, true);
 
-    // 4. 实现状态变化事件处理器函数
+    // 4. 处理状态处理器代码，将多个独立的if语句转换为if-else if结构
+    // 匹配所有的独立if语句，例如：if ("self.led.set" == name) {
+    const ifRegex = /^\s*if\s*\(("self\.[^\.]+\.(set|get)")\s*==\s*name\)\s*\{/gm;
+    const matches = [];
+    let match;
+    
+    // 收集所有if语句的条件
+    while ((match = ifRegex.exec(stateHandlersCode)) !== null) {
+        matches.push(match[0]);
+    }
+    
+    // 如果有多个独立的if语句，转换为if-else if结构
+    if (matches.length > 1) {
+        let processedCode = stateHandlersCode;
+        for (let i = 1; i < matches.length; i++) {
+            // 将后续的if语句替换为else if
+            processedCode = processedCode.replace(matches[i], matches[i].replace('if', 'else if'));
+        }
+        stateHandlersCode = processedCode;
+    }
+
+    // 5. 实现状态变化事件处理器函数
     generator.addFunction(`HandleMcpToolCallEvent`, `
 void HandleMcpToolCallEvent(const ai_vox::McpToolCallEvent& event) {
     auto id = event.id;
@@ -1766,8 +2061,9 @@ Arduino.forBlock['aivox_mcp_register_control_command'] = function(block, generat
     if (mcp_control_name === '""') {
         return '';
     }
-    // let mcp_control_count = generator.valueToCode(block, 'COUNT', generator.ORDER_ATOMIC) || 0;
-
+    // Get the selected mode from the dropdown
+    const mode = block.getFieldValue('MODE') || 'regular';
+    
     // 获取到的数据为 "led", "LED, true for on, false for off"格式, 需要提取变量名和描述
     // 使用正则表达式来正确解析，避免描述中的逗号影响分割
     let match = mcp_control_name.match(/"([^"]+)",\s*"([^"]+)"/);
@@ -1777,6 +2073,7 @@ Arduino.forBlock['aivox_mcp_register_control_command'] = function(block, generat
     // let count = match ? match[3] : 1;
     let control_name_set = "self." + name + ".set";
     let control_name_get = "self." + name + ".get";
+    console.log('Selected mode:', mode);
 
     console.log('mcp_control_name:', mcp_control_name);
     console.log('mcp_control_name match:', match);
@@ -1799,27 +2096,66 @@ Arduino.forBlock['aivox_mcp_register_control_command'] = function(block, generat
     console.log('Parameter Values:', paramValues);
 
     let paramCodes = '';
+    const paramNames = [];
     if (paramValues.length > 0) {
         paramCodes = paramValues.map(param => `{${param}},`).join('\n                        ');
+        
+        // 从paramValues中提取参数名称，建立服务与参数的映射关系
+        paramValues.forEach(paramCode => {
+            // 匹配参数代码中的参数名称，例如匹配 "\"state_sf\", ai_vox::ParamSchema<bool>{.default_value = std::nullopt}," 中的 "state_sf"
+            const paramNameMatch = paramCode.match(/\"([^"]+)\"/);
+            if (paramNameMatch) {
+                const paramName = paramNameMatch[1];
+                paramNames.push(paramName);
+                // 注册MCP服务与参数的关联关系
+                registerMcpServiceParam(name, paramName);
+            }
+        });
     } else {
         paramCodes = '';
     }
 
+    // 先删除旧的服务，然后重新注册
+    if (name !== 'led') {
+        deleteAivoxControlService(name);
+    }
+    // 注册新服务
+    registerAivoxControlService(name, description, paramNames);
+    
+    // 先删除旧的参数映射关系
+    deleteMcpServiceParams(name);
+    
+    // 然后添加新的参数映射关系
+    paramNames.forEach(paramName => {
+        // 注册MCP服务与参数的关联关系
+        registerMcpServiceParam(name, paramName);
+    });
+
     generator.addObject('ai_vox_engine', `auto& ai_vox_engine = ai_vox::Engine::GetInstance();`, true);
     generator.addSetup(`aivox_instance`, `ai_vox_engine.SetObserver(g_observer);\n`, true);
     // generator.addObject(`ai_vox_mcp_${name}_count`, `int ${name}_count = ${count};`, true);
-    generator.addSetup(`aivox_add_mcp_tool_set_${name}`, `  ai_vox_engine.AddMcpTool("${control_name_set}",                                           // tool name
+    
+    // Generate code based on the selected mode
+    if (mode === 'regular' || mode === 'set_only') {
+        // Generate set method code
+        generator.addSetup(`aivox_add_mcp_tool_set_${name}`, `  ai_vox_engine.AddMcpTool("${control_name_set}",                                           // tool name
                     "${description}",
                     {
                       ${paramCodes}
                     }
   );\n`, true);
-    generator.addSetup(`aivox_add_mcp_tool_get_${name}`, `  ai_vox_engine.AddMcpTool("${control_name_get}",                                           // tool name
+    }
+    
+    if (mode === 'regular' || mode === 'report_only') {
+        // Generate get method code
+        generator.addSetup(`aivox_add_mcp_tool_get_${name}`, `  ai_vox_engine.AddMcpTool("${control_name_get}",                                           // tool name
                     "${description}", 
                     {
-                      ${paramCodes}
+                      // empty
                     }
   );\n`, true);
+    }
+    
     return '';
 };
 
@@ -1833,14 +2169,31 @@ Arduino.forBlock['aivox_mcp_control'] = function(block, generator) {
         const varField = block.getField('VAR');
         if (varField && typeof varField.setValidator === 'function') {
             varField.setValidator((newName) => {
+                // 只在新名称非空且与旧名称不同时才执行操作
+                if (!newName || newName === block._aivoxVarLastName) {
+                    return newName;
+                }
+                
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._aivoxVarLastName;
-                if (workspace && newName && newName !== oldName) {
+                if (workspace) {
                     // 更新AIVOX控制服务名称
                     const oldService = getAivoxControlService(oldName);
                     if (oldService) {
-                        deleteAivoxControlService(oldName);
+                        // 旧值为led时不删除
+                        if (oldName !== 'led') {
+                          deleteAivoxControlService(oldName);
+                        }
                         registerAivoxControlService(newName, oldService.description, oldService.params);
+                        
+                        // 更新参数映射关系
+                        const oldParams = getMcpServiceParams(oldName);
+                        // 删除旧的参数映射关系
+                        deleteMcpServiceParams(oldName);
+                        // 为新服务名称创建新的参数映射关系
+                        oldParams.forEach(paramName => {
+                            registerMcpServiceParam(newName, paramName);
+                        });
                     }
                     renameVariableInBlockly(block, oldName, newName, 'AIVOX');
                     block._aivoxVarLastName = newName;
@@ -1869,14 +2222,36 @@ Arduino.forBlock['aivox_mcp_control_param'] = function(block, generator) {
         const varField = block.getField('VAR');
         if (varField && typeof varField.setValidator === 'function') {
             varField.setValidator((newName) => {
+                // 只在新名称非空且与旧名称不同时才执行操作
+                if (!newName || newName === block._stateVarLastName) {
+                    return newName;
+                }
+                
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._stateVarLastName;
-                if (workspace && newName && newName !== oldName) {
+                if (workspace) {
                     // 删除旧参数，注册新参数
                     const oldParam = getMcpControlParam(oldName);
                     if (oldParam) {
-                        deleteMcpControlParam(oldName);
+                        if (oldName !== 'state') {
+                          deleteMcpControlParam(oldName);
+                        }
                         registerMcpControlParam(newName, oldParam.type, oldParam.minValue, oldParam.maxValue);
+                        
+                        // 更新所有使用该参数的服务的映射关系
+                        const mcpServiceParamMap = getMcpServiceParamMapArray();
+                        // 查找所有使用旧参数名称的服务
+                        const servicesUsingParam = mcpServiceParamMap.filter(item => item.paramName === oldName);
+                        // 为每个服务更新参数映射关系
+                        servicesUsingParam.forEach(item => {
+                            // 删除旧的参数映射关系
+                            const index = mcpServiceParamMap.findIndex(mapItem => mapItem.serviceName === item.serviceName && mapItem.paramName === oldName);
+                            if (index !== -1) {
+                                mcpServiceParamMap.splice(index, 1);
+                            }
+                            // 添加新的参数映射关系
+                            registerMcpServiceParam(item.serviceName, newName);
+                        });
                     }
                     renameVariableInBlockly(block, oldName, newName, 'AIVOX_PARAM_STATE');
                     block._stateVarLastName = newName;
@@ -1963,8 +2338,10 @@ Arduino.forBlock['aivox_control_message_event_fuction'] = function(block, genera
     
     // 根据参数类型生成相应的代码
     let cType = "bool";
-    if (param.type === "Number") cType = "int64_t";
-    if (param.type === "String") cType = "std::string";
+    if (param) {
+        if (param.type === "Number") cType = "int64_t";
+        if (param.type === "String") cType = "std::string";
+    }
     
     let defaultValue;
     switch (cType) {
@@ -2086,7 +2463,54 @@ Arduino.forBlock['aivox_update_mcp_control_state_new'] = function(block, generat
     return code;
 };
 
+Arduino.forBlock['aivox_calculateupdate_mcp_control_state'] = function(block, generator) {
+    const varField = block.getField('VAR');
+    const varName = varField ? varField.getText() : 'led';
+    const customParamField = block.getField('PVAR');
+    const customParamName = customParamField ? customParamField.getText() : 'state';
+    
+    // 获取代码块中的代码
+    const codeBlock = generator.statementToCode(block, 'CODE_BLOCK');
+    
+    generator.addLibrary('string', '#include <string>\n');
+    generator.addLibrary('sstream', '#include <sstream>\n');
+    
+    // 根据参数名获取参数类型
+    const param = getMcpControlParam(customParamName);
+    let varType = 'String'; // 默认类型为String
+    if (param) {
+        if (param.type === 'Boolean') {
+            varType = 'bool';
+        } else if (param.type === 'Number') {
+            varType = 'int64_t';
+        } else if (param.type === 'String') {
+            varType = 'String';
+        }
+    }
 
+    let sendResponseCode = `ai_vox_engine.SendMcpCallResponse(id, ${customParamName});`;
+    // 无论变量类型是什么，都需要确保SendMcpCallResponse接收正确的类型
+    if (varType === 'String') {
+        // 如果是Arduino String类型，转换为c_str()
+        sendResponseCode = `ai_vox_engine.SendMcpCallResponse(id, ${customParamName}.c_str());`;
+    } else if (varType === 'bool') {
+        // 如果是bool类型，直接传递
+        sendResponseCode = `ai_vox_engine.SendMcpCallResponse(id, ${customParamName});`;
+    } else if (varType === 'int64_t') {
+        // 如果是int64_t类型，直接传递
+        sendResponseCode = `ai_vox_engine.SendMcpCallResponse(id, ${customParamName});`;
+    }
+
+    // 生成代码，匹配用户期望的格式
+    const code = `
+    if ("self.${varName}.get" == name) {
+        ${varType} ${customParamName};
+        ${codeBlock}
+        ${sendResponseCode}
+    }`;
+
+    return code;
+};
 
 // 检查并移除已存在的扩展注册
 if (Blockly.Extensions.isRegistered('custom_dynamic_extension')) {
