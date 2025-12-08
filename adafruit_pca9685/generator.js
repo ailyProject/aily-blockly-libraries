@@ -43,7 +43,7 @@ Arduino.forBlock['pca9685_create'] = function(block, generator) {
   generator.addLibrary('Adafruit_PWMServoDriver', '#include <Adafruit_PWMServoDriver.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
   registerVariableToBlockly(varName, 'Adafruit_PWMServoDriver');
-  generator.addVariable(varName, 'Adafruit_PWMServoDriver ' + varName + ' = Adafruit_PWMServoDriver();');
+  generator.addVariable(varName, 'Adafruit_PWMServoDriver ' + varName + ';');
   
   return '';
 };
@@ -57,9 +57,6 @@ Arduino.forBlock['pca9685_begin'] = function(block, generator) {
   // 添加库引用
   generator.addLibrary('Adafruit_PWMServoDriver', '#include <Adafruit_PWMServoDriver.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
-  
-  // 添加变量声明
-  generator.addVariable(varName, 'Adafruit_PWMServoDriver ' + varName + ';');
   
   // 动态获取Wire（支持Wire/Wire1等）
   const wire = block.getFieldValue('WIRE') || 'Wire'; // 从字段读取，默认Wire
