@@ -13,37 +13,11 @@
 Arduino.forBlock['openjumper_asr_init'] = function(block, generator) {
   const rxPin = block.getFieldValue('RX_PIN');
   const txPin = block.getFieldValue('TX_PIN');
-  const boardConfig = generator.getBoardConfig ? generator.getBoardConfig() : null;
   
-  // 添加OJASR库引用
+  // 添加OJASR库引用（串口库由OJASR.h内部根据平台自动引用）
   generator.addLibrary('OpenJumperASR', '#include <OJASR.h>');
   
-  // 根据板卡类型智能选择软串口库
-  if (boardConfig && boardConfig.platform) {
-    const platform = boardConfig.platform.toLowerCase();
-    
-    // ESP32系列：优先使用硬件串口，兼容软串口
-    if (platform.includes('esp32')) {
-      generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
-    } 
-    // AVR系列（Arduino UNO/Nano等）：使用标准软串口
-    else if (platform.includes('avr')) {
-      generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
-    }
-    // STM32系列：使用HardwareSerial
-    else if (platform.includes('stm32')) {
-      generator.addLibrary('HardwareSerial', '#include <HardwareSerial.h>');
-    }
-    // 其他板卡：默认使用软串口
-    else {
-      generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
-    }
-  } else {
-    // 无板卡配置时默认使用软串口（最大兼容性）
-    generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
-  }
-  
-  // 创建全局ASR对象（避免重复创建）
+  // 创建全局ASR对象
   generator.addObject('ASR_Object', 'OJASR asr(' + rxPin + ', ' + txPin + ');');
   
   // 在setup开始处初始化ASR模块（波特率115200）
