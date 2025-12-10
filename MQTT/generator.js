@@ -75,7 +75,7 @@ Arduino.forBlock['pubsub_create'] = function(block, generator) {
   ensurePubSubLib(generator);
   ensureWiFiLib(generator);
   registerVariableToBlockly(varName, 'PubSubClient');
-  // generator.addVariable(varName, 'PubSubClient ' + varName + '(wifiClient);');
+  // generator.addObject(varName, 'PubSubClient ' + varName + '(wifiClient);');
   
   const boardConfig = window['boardConfig'];
   // 添加WiFi客户端声明
@@ -83,21 +83,21 @@ Arduino.forBlock['pubsub_create'] = function(block, generator) {
     if (boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1) {
       // ESP32系列开发板
       generator.addLibrary('WiFiClientSecure', '#include <WiFiClientSecure.h>');
-      generator.addVariable(clientVarName, 'WiFiClientSecure ' + clientVarName + ';');
+      generator.addObject(clientVarName, 'WiFiClientSecure ' + clientVarName + ';');
     } else if (boardConfig && boardConfig.core && boardConfig.core.indexOf('renesas_uno') > -1) {
       // Arduino UNO R4 WiFi
       generator.addLibrary('WiFiSSLClient', '#include <WiFiSSLClient.h>');
-      generator.addVariable(clientVarName, 'WiFiSSLClient ' + clientVarName + ';');
+      generator.addObject(clientVarName, 'WiFiSSLClient ' + clientVarName + ';');
     } else {
       // 其他开发板默认使用WiFiClientSecure
       generator.addLibrary('WiFiClientSecure', '#include <WiFiClientSecure.h>');
-      generator.addVariable(clientVarName, 'WiFiClientSecure ' + clientVarName + ';');
+      generator.addObject(clientVarName, 'WiFiClientSecure ' + clientVarName + ';');
     }
   } else {
     generator.addLibrary('WiFiClient', '#include <WiFiClient.h>');
-    generator.addVariable(clientVarName, 'WiFiClient ' + clientVarName + ';');
+    generator.addObject(clientVarName, 'WiFiClient ' + clientVarName + ';');
   }
-  generator.addVariable(varName, 'PubSubClient ' + varName + '(' + clientVarName + ');');
+  generator.addObject(varName, 'PubSubClient ' + varName + '(' + clientVarName + ');');
 
   let code = ''
   code += varName + '.setServer(' + server + ', ' + port + ');\n';

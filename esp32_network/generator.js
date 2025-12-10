@@ -39,7 +39,7 @@ Arduino.forBlock['esp32_network_client_create'] = function(block, generator) {
   if (isBlockConnected(block)) {
     return 'NetworkClient ' + varName + ';';
   } else {
-    generator.addVariable(varName, 'NetworkClient ' + varName + ';');
+    generator.addObject(varName, 'NetworkClient ' + varName + ';');
   }
   
   return '';
@@ -73,7 +73,7 @@ Arduino.forBlock['esp32_networkclientsecure_create'] = function(block, generator
   if (isBlockConnected(block)) {
     return 'NetworkClientSecure ' + varName + ';';
   } else {
-    generator.addVariable(varName, 'NetworkClientSecure ' + varName + ';');
+    generator.addObject(varName, 'NetworkClientSecure ' + varName + ';');
   }
   
   return '';
@@ -329,7 +329,7 @@ Arduino.forBlock['esp32_network_server_create'] = function(block, generator) {
   // 添加库和变量
   generator.addLibrary('Network', '#include <Network.h>');
   registerVariableToBlockly(varName, 'NetworkServer');
-  generator.addVariable(varName, 'NetworkServer ' + varName + '(' + port + ', ' + maxClients + ');');
+  generator.addObject(varName, 'NetworkServer ' + varName + '(' + port + ', ' + maxClients + ');');
   
   return '';
 };
@@ -369,7 +369,7 @@ Arduino.forBlock['esp32_network_server_accept'] = function(block, generator) {
   
   // 注册客户端变量
   registerVariableToBlockly(clientVarName, 'NetworkClient');
-  // generator.addVariable(clientVarName, 'NetworkClient ' + clientVarName + ';');
+  // generator.addObject(clientVarName, 'NetworkClient ' + clientVarName + ';');
   
   generator.addLibrary('Network', '#include <Network.h>');
   
@@ -415,7 +415,7 @@ Arduino.forBlock['esp32_network_udp_create'] = function(block, generator) {
   if (isBlockConnected(block)) {
     return 'NetworkUDP ' + varName + ';';
   } else {
-    generator.addVariable(varName, 'NetworkUDP ' + varName + ';');
+    generator.addObject(varName, 'NetworkUDP ' + varName + ';');
   }
 
   return '';

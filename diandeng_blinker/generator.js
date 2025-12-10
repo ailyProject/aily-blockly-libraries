@@ -204,7 +204,7 @@ Arduino.forBlock['blinker_button'] = function (block, generator) {
   let varName = 'Blinker_' + key.replace(/-/g, '_');
 
   // 添加按钮组件对象
-  generator.addVariable(varName, 'BlinkerButton ' + varName + '("' + key + '");');
+  generator.addObject(varName, 'BlinkerButton ' + varName + '("' + key + '");');
 
   // 注册到变量数据库，供blinker_widget_print使用
   if (!generator.variableDB_) {
@@ -244,7 +244,7 @@ Arduino.forBlock['blinker_slider'] = function (block, generator) {
   let varName = 'Blinker_' + key.replace(/-/g, '_');
 
   // 添加滑块组件对象
-  generator.addVariable(varName, 'BlinkerSlider ' + varName + '("' + key + '");');
+  generator.addObject(varName, 'BlinkerSlider ' + varName + '("' + key + '");');
 
   // 注册到变量数据库，供blinker_widget_print使用
   if (!generator.variableDB_) {
@@ -281,7 +281,7 @@ Arduino.forBlock['blinker_colorpicker'] = function (block, generator) {
   let varName = 'Blinker_' + key.replace(/-/g, '_');
 
   // 添加RGB组件对象
-  generator.addVariable(varName, 'BlinkerRGB ' + varName + '("' + key + '");');
+  generator.addObject(varName, 'BlinkerRGB ' + varName + '("' + key + '");');
 
   // 注册到变量数据库，供blinker_widget_print使用
   if (!generator.variableDB_) {
@@ -321,7 +321,7 @@ Arduino.forBlock['blinker_joystick'] = function (block, generator) {
   let varName = 'Blinker_' + key.replace(/-/g, '_');
 
   // 添加摇杆组件对象
-  generator.addVariable(varName, 'BlinkerJoystick ' + varName + '("' + key + '");');
+  generator.addObject(varName, 'BlinkerJoystick ' + varName + '("' + key + '");');
 
   // 注册到变量数据库，供blinker_widget_print使用
   if (!generator.variableDB_) {
@@ -359,7 +359,7 @@ Arduino.forBlock['blinker_chart'] = function (block, generator) {
   // 创建图表对象变量名
   let varName = 'Blinker_' + key.replace(/-/g, '_');
   // 添加图表组件对象
-  generator.addVariable(varName, 'BlinkerChart ' + varName + '("' +
+  generator.addObject(varName, 'BlinkerChart ' + varName + '("' +
     key + '");');
 
   // 注册到变量数据库，供blinker_widget_print使用
@@ -469,7 +469,7 @@ Arduino.forBlock['blinker_widget_print'] = function (block, generator) {
   // 判断varName未注册或类型为BlinkerNumber时，创建默认组件
   if (!generator.variableDB_[varName] || generator.variableDB_[varName] === 'BlinkerNumber') {
     let componentType = 'BlinkerNumber';
-    generator.addVariable(varName, componentType + ' ' + varName + '("' + widget + '");');
+    generator.addObject(varName, componentType + ' ' + varName + '("' + widget + '");');
     generator.variableDB_[varName] = componentType;
     // console.log(`Widget "${widget}" is not registered, using default BlinkerNumber component.`);
   } else {

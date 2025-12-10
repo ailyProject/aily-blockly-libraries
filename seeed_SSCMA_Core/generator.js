@@ -11,7 +11,7 @@ Arduino.forBlock['sscma_core_create'] = function(block, generator) {
   registerVariableToBlockly(varName, 'SSCMAMicroCore');
   
   // 添加变量声明
-  generator.addVariable(varName, 'SSCMAMicroCore ' + varName + ';');
+  generator.addObject(varName, 'SSCMAMicroCore ' + varName + ';');
   
   return '';
 };
@@ -26,7 +26,7 @@ Arduino.forBlock['sscma_core_create_video_capture'] = function(block, generator)
   registerVariableToBlockly(varName, 'VideoCapture');
   
   // 添加变量声明
-  generator.addVariable(varName, 'SSCMAMicroCore::VideoCapture ' + varName + ';');
+  generator.addObject(varName, 'SSCMAMicroCore::VideoCapture ' + varName + ';');
   
   return '';
 };

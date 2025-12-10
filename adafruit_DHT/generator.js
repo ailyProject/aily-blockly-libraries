@@ -114,7 +114,7 @@ Arduino.forBlock['dht_init'] = function (block, generator) {
     
     // 添加DHT20对象定义（使用Wire）
     var dht20Def = 'DHT20 ' + varName + '(&' + wire + ');';
-    generator.addVariable(varName, dht20Def);
+    generator.addObject(varName, dht20Def);
     
     generator.sensorVarName = varName;
     
@@ -132,7 +132,7 @@ Arduino.forBlock['dht_init'] = function (block, generator) {
     
     // 添加DHT对象定义，使用用户指定的变量名
     var dhtDef = 'DHT ' + varName + '(' + pin + ', ' + dht_type + ');';
-    generator.addVariable(varName, dhtDef);
+    generator.addObject(varName, dhtDef);
     
     generator.sensorVarName = varName;
     

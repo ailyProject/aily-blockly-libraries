@@ -153,7 +153,7 @@ function loadExistingSPIBlockToToolbox(workspace) {
 //   registerVariableToBlockly(varName, 'SPIClass');
   
 //   // 生成变量声明
-//   generator.addVariable(varName, 'SPIClass *' + varName + ' = new SPIClass(' + bus + ');');
+//   generator.addObject(varName, 'SPIClass *' + varName + ' = new SPIClass(' + bus + ');');
 
 //   return '';
 // };
@@ -372,7 +372,7 @@ Arduino.forBlock['esp32_spi_begin'] = function(block, generator) {
 
     generator.addMacro('esp32_spi_vspi_define', macroCode);
 
-    generator.addVariable(varName, 'SPIClass ' + varName + '(VSPI);');
+    generator.addObject(varName, 'SPIClass ' + varName + '(VSPI);');
   }
 
   generator.addSetup(`spi_${varName}_begin`, `${varName}.begin(); // 初始化SPI ${varName}`);
@@ -402,7 +402,7 @@ Arduino.forBlock['esp32_spi_begin_custom'] = function(block, generator) {
     macroCode += '#endif\n';
 
     generator.addMacro('esp32_spi_vspi_define', macroCode);
-    generator.addVariable(varName, 'SPIClass ' + varName + '(VSPI);');
+    generator.addObject(varName, 'SPIClass ' + varName + '(VSPI);');
   }
 
   // 添加初始化代码到setup部分
