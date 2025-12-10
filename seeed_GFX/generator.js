@@ -112,7 +112,7 @@ Arduino.forBlock['seeed_gfx_init'] = function(block, generator) {
   window.parent.postMessage(messageData, '*');
   // }
 
-  generator.addMacro('BOARD_SCREEN_COMBO', '#define BOARD_SCREEN_COMBO ' + model + '\n');
+  // generator.addMacro('BOARD_SCREEN_COMBO', '#define BOARD_SCREEN_COMBO ' + model + '\n');
   // 添加库引用
   generator.addLibrary('TFT_eSPI', '#include <TFT_eSPI.h>');
   generator.addLibrary('SPI', '#include <SPI.h>');
