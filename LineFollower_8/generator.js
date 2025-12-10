@@ -11,7 +11,7 @@ Arduino.forBlock['line_init'] = function(block, generator) {
   generator.addLibrary('EspReceive', '#include "EspReceive.h"');
   
   // 创建传感器对象
-  generator.addVariable('lineSensor', 'EspReceive lineSensor;');
+  generator.addObject('lineSensor', 'EspReceive lineSensor;');
   
   generator.addSetup(`wire_${wire}_begin`, '' + wire + '.begin(); // 初始化I2C ' + wire);
   

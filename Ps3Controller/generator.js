@@ -8,11 +8,15 @@ Arduino.forBlock['ps3_init'] = function(block, generator) {
   
   generator.addLibrary('Ps3Controller', '#include <Ps3Controller.h>');
   
+  //串口初始化
+  if (!Arduino.addedSerialInitCode) Arduino.addedSerialInitCode = new Set();
+  if (!Arduino.addedSerialInitCode.has('Serial')) {
+    generator.addSetupBegin('serial_Serial_begin', 'Serial.begin(115200);');
+    Arduino.addedSerialInitCode.add('Serial');
+  }
 
   generator.addFunction('ps3_notify', 'void ps3_notify() {}');
   generator.addFunction('ps3_onConnect', 'void ps3_onConnect() {\n  Serial.println("PS3 Controller Connected");\n}');
-  
-
   
   generator.addSetup('ps3_init', `Ps3.attach(ps3_notify);\nPs3.attachOnConnect(ps3_onConnect);\nPs3.begin(${macAddr});\nSerial.println("PS3 Controller Ready");`);
   

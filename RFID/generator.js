@@ -33,18 +33,16 @@ Arduino.forBlock['mfrc522_setup'] = function(block, generator) {
 
   generator.addLibrary('MFRC522', '#include <Emakefun_RFID.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
-  
-  // 使用core-serial库的ID格式确保与core-serial库去重
-  if (!generator.addedSerialInitCode || !generator.addedSerialInitCode.has('Serial')) {
+  //串口初始化去重
+  if (!Arduino.addedSerialInitCode) Arduino.addedSerialInitCode = new Set();
+  if (!Arduino.addedSerialInitCode.has('Serial')) {
     generator.addSetupBegin('serial_Serial_begin', 'Serial.begin(115200);');
-    // 标记Serial为已初始化（兼容core-serial库）
-    if (!Arduino.addedSerialInitCode) Arduino.addedSerialInitCode = new Set();
     Arduino.addedSerialInitCode.add('Serial');
   }
   
   // 添加全局对象声明
   const objDeclaration = 'MFRC522 ' + varName + '(' + address + ');';
-  generator.addVariable(varName, objDeclaration);
+  generator.addObject(varName, objDeclaration);
   
   // 动态获取Wire（支持Wire/Wire1等）
   const wire = block.getFieldValue('WIRE') || 'Wire'; // 从字段读取，默认Wire

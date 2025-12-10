@@ -112,6 +112,12 @@ Arduino.forBlock['jy61p_get_gyro'] = function(block, generator) {
   return [code, Arduino.ORDER_FUNCTION_CALL];
 }
 
+// ========== 舵机角度值块 ==========
+Arduino.forBlock['car_servo_angle_value'] = function(block, generator) {
+  const angle = block.getFieldValue('ANGLE') || '90';
+  return [angle, Arduino.ORDER_ATOMIC];
+};
+
 Arduino.ensureWS2812 = function(generator) {
   generator.addLibrary('Adafruit_NeoPixel', '#include "Adafruit_NeoPixel.h"');
   generator.addLibrary('WS2812_Effects', '#include "WS2812_Effects.h"');

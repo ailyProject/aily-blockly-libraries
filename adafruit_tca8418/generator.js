@@ -2,52 +2,26 @@
 
 // TCA8418 Blockly Generator for Aily Platform
 
-// 注意：registerVariableToBlockly 和 renameVariableInBlockly 由核心库提供
-
-// TCA8418 创建块
-Arduino.forBlock['tca8418_create'] = function(block, generator) {
-  // 设置变量重命名监听
-  if (!block._tca8418VarMonitorAttached) {
-    block._tca8418VarMonitorAttached = true;
-    block._tca8418VarLastName = block.getFieldValue('VAR') || 'keypad';
-    const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
-        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-        const oldName = block._tca8418VarLastName;
-        if (workspace && newName && newName !== oldName) {
-          renameVariableInBlockly(block, oldName, newName, 'Adafruit_TCA8418');
-          block._tca8418VarLastName = newName;
-        }
-        return newName;
-      });
-    }
-  }
-
-  const varName = block.getFieldValue('VAR') || 'keypad';
-  
-  // 添加库和变量
-  generator.addLibrary('Adafruit_TCA8418', '#include <Adafruit_TCA8418.h>');
-  generator.addLibrary('Wire', '#include <Wire.h>');
-  registerVariableToBlockly(varName, 'Adafruit_TCA8418');
-  generator.addVariable(varName, 'Adafruit_TCA8418 ' + varName + ';');
-  
-  return '';
-};
-
 // TCA8418 初始化块
 Arduino.forBlock['tca8418_begin'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'keypad';
+  const varName = block.getFieldValue('VAR') || 'keypad';
   const address = generator.valueToCode(block, 'ADDRESS', generator.ORDER_ATOMIC) || '52';
+  const wire = block.getFieldValue('WIRE') || 'Wire';
   
   // 添加库引用
   generator.addLibrary('Adafruit_TCA8418', '#include <Adafruit_TCA8418.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
 
-  
-  // 动态获取Wire（支持Wire/Wire1等）
-  const wire = block.getFieldValue('WIRE') || 'Wire'; // 从字段读取，默认Wire
+  // 注册变量并添加对象声明
+  registerVariableToBlockly(varName, 'Adafruit_TCA8418');
+  generator.addObject(varName, 'Adafruit_TCA8418 ' + varName + ';');
+
+  //串口初始化
+  if (!Arduino.addedSerialInitCode) Arduino.addedSerialInitCode = new Set();
+  if (!Arduino.addedSerialInitCode.has('Serial')) {
+    generator.addSetupBegin('serial_Serial_begin', 'Serial.begin(115200);');
+    Arduino.addedSerialInitCode.add('Serial');
+  }
   
   // 分离Wire初始化和传感器初始化
   const wireInitCode = wire + '.begin();';
@@ -61,7 +35,7 @@ Arduino.forBlock['tca8418_begin'] = function(block, generator) {
   const addressHex = isNaN(addressNum) ? address : '0x' + addressNum.toString(16);
   
   // 生成传感器初始化代码
-  const code = 'if (!' + varName + '.begin(' + addressHex + ', &Wire)) {\n' +
+  const code = 'if (!' + varName + '.begin(' + addressHex + ', &' + wire + ')) {\n' +
     '  Serial.println("' + varName + ' not found, check wiring & pullups!");\n' +
     '  while (1);\n' +
     '}\n';

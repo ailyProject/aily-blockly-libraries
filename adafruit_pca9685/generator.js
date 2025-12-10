@@ -9,27 +9,11 @@ if (typeof Arduino._pca9685Configs === 'undefined') {
   Arduino._pca9685Configs = {};
 }
 
-// PCA9685 创建块
-Arduino.forBlock['pca9685_create'] = function(block, generator) {
-  // 设置变量重命名监听
-  if (!block._pca9685VarMonitorAttached) {
-    block._pca9685VarMonitorAttached = true;
-    block._pca9685VarLastName = block.getFieldValue('VAR') || 'pwm';
-    const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
-        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-        const oldName = block._pca9685VarLastName;
-        if (workspace && newName && newName !== oldName) {
-          renameVariableInBlockly(block, oldName, newName, 'Adafruit_PWMServoDriver');
-          block._pca9685VarLastName = newName;
-        }
-        return newName;
-      });
-    }
-  }
-
+// PCA9685 初始化块（合并创建和初始化）
+Arduino.forBlock['pca9685_begin'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'pwm';
+  const address = generator.valueToCode(block, 'ADDRESS', generator.ORDER_ATOMIC) || '40';
+  const wire = block.getFieldValue('WIRE') || 'Wire';
   
   // 初始化配置存储
   if (!Arduino._pca9685Configs[varName]) {
@@ -39,27 +23,13 @@ Arduino.forBlock['pca9685_create'] = function(block, generator) {
     };
   }
   
-  // 添加库和变量
-  generator.addLibrary('Adafruit_PWMServoDriver', '#include <Adafruit_PWMServoDriver.h>');
-  generator.addLibrary('Wire', '#include <Wire.h>');
-  registerVariableToBlockly(varName, 'Adafruit_PWMServoDriver');
-  generator.addVariable(varName, 'Adafruit_PWMServoDriver ' + varName + ';');
-  
-  return '';
-};
-
-// PCA9685 初始化块
-Arduino.forBlock['pca9685_begin'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'pwm';
-  const address = generator.valueToCode(block, 'ADDRESS', generator.ORDER_ATOMIC) || '40';
-  
   // 添加库引用
   generator.addLibrary('Adafruit_PWMServoDriver', '#include <Adafruit_PWMServoDriver.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
   
-  // 动态获取Wire（支持Wire/Wire1等）
-  const wire = block.getFieldValue('WIRE') || 'Wire'; // 从字段读取，默认Wire
+  // 注册变量并添加对象声明
+  registerVariableToBlockly(varName, 'Adafruit_PWMServoDriver');
+  generator.addObject(varName, 'Adafruit_PWMServoDriver ' + varName + ';');
   
   // 使用动态setupKey添加Wire初始化（支持多I2C总线）
   generator.addSetup(`wire_${wire}_begin`, wire + '.begin();');

@@ -32,7 +32,7 @@ Arduino.forBlock['pn532_create_spi'] = function(block, generator) {
   generator.addLibrary('PN532', '#include <Adafruit_PN532.h>');
   generator.addLibrary('SPI', '#include <SPI.h>');
   registerVariableToBlockly(varName, 'Adafruit_PN532');
-  generator.addVariable(`pn532_${varName}`, 'Adafruit_PN532 *' + varName + ';');
+  generator.addObject(`pn532_${varName}`, 'Adafruit_PN532 *' + varName + ';');
   generator.addSetup(`spi_${spi}_begin`, spi + '.begin();');
   generator.addSetup(`pn532_${varName}_init`, varName + ' = new Adafruit_PN532(' + ss + ', &' + spi + ');');
   generator.addSetup(`pn532_${varName}_begin`, varName + '->begin();');

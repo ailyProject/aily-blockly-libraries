@@ -81,6 +81,13 @@ Arduino.forBlock['spa06_create_spi'] = function(block, generator) {
   generator.addLibrary('SPA06', '#include <SPL07-003.h>');
   generator.addLibrary('SPI', '#include <SPI.h>');
 
+  //串口初始化
+  if (!Arduino.addedSerialInitCode) Arduino.addedSerialInitCode = new Set();
+  if (!Arduino.addedSerialInitCode.has('Serial')) {
+    generator.addSetupBegin('serial_Serial_begin', 'Serial.begin(115200);');
+    Arduino.addedSerialInitCode.add('Serial');
+  }
+
   // Register variable and add declaration
   registerVariableToBlockly(varName, 'SPL07_003');
   generator.addVariable(varName, 'SPL07_003 ' + varName + ';');

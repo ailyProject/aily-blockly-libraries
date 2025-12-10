@@ -4,14 +4,25 @@
 
 // I2C初始化块
 Arduino.forBlock['sentry2_begin_i2c'] = function(block, generator) {
+  const address = generator.valueToCode(block, 'ADDRESS', generator.ORDER_ATOMIC) || '96';
   const wire = block.getFieldValue('WIRE') || 'Wire';
   
   // 添加库引用
   generator.addLibrary('SentryInclude', '#include <Sentry.h>');
   generator.addLibrary('WireInclude', '#include <Wire.h>');
   
-  // 创建传感器对象，地址写死为0x60
-  generator.addObject('sentry.Object', 'Sentry2 sentry(0x60);');
+
+  const addressNum = parseInt(address);
+  const addressHex = isNaN(addressNum) ? address : '0x' + addressNum.toString(16).toUpperCase();
+
+  generator.addObject('sentry.Object', 'Sentry2 sentry(' + addressHex + ');');
+  
+  //串口初始化
+  if (!Arduino.addedSerialInitCode) Arduino.addedSerialInitCode = new Set();
+  if (!Arduino.addedSerialInitCode.has('Serial')) {
+    generator.addSetupBegin('serial_Serial_begin', 'Serial.begin(115200);');
+    Arduino.addedSerialInitCode.add('Serial');
+  }
   
   generator.addSetup(`wire_${wire}_begin`, '' + wire + '.begin(); // 初始化I2C ' + wire);
   

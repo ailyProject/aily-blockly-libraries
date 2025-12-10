@@ -1,29 +1,12 @@
 [
   {
-    "type": "pca9685_create",
-    "message0": "创建 PCA9685 舵机驱动器 变量 %1",
+    "type": "pca9685_begin",
+    "message0": "初始化 PCA9685 %1 I2C地址 %2 I2C接口 %3",
     "args0": [
       {
         "type": "field_input",
         "name": "VAR",
         "text": "pwm"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#FF6B35",
-    "tooltip": "创建PCA9685舵机驱动器对象（16通道PWM控制器）"
-  },
-  {
-    "type": "pca9685_begin",
-    "message0": "%1 初始化 I2C地址 %2 I2C接口 %3",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "pwm",
-        "variableTypes": ["Adafruit_PWMServoDriver"],
-        "defaultType": "Adafruit_PWMServoDriver"
       },
       {
         "type": "input_value",
@@ -36,10 +19,11 @@
         "options": "${board.i2c}"
       }
     ],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#FF6B35",
-    "tooltip": "初始化PCA9685模块，设置I2C地址",
+    "tooltip": "创建并初始化PCA9685舵机驱动器（16通道PWM控制器）",
     "icon": "fa-solid fa-microchip"
   },
   {

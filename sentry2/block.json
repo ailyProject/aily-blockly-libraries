@@ -1,18 +1,24 @@
 [
   {
     "type": "sentry2_begin_i2c",
-    "message0": "初始化 Sentry2 I2C接口 %1",
+    "message0": "初始化 Sentry2 I2C地址 %1 I2C接口 %2",
     "args0": [
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      },
       {
         "type": "field_dropdown",
         "name": "WIRE",
         "options": "${board.i2c}"
       }
     ],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#ff9f06",
-    "tooltip": "初始化Sentry2视觉传感器（I2C地址0x60）"
+    "tooltip": "初始化Sentry2视觉传感器（默认I2C地址0x60）"
   },
   {
     "type": "sentry2_camera_set_awb",
