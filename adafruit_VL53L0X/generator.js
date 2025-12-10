@@ -37,8 +37,8 @@ function ensureVL53L0XSetup(varName, generator) {
   ensureVL53L0XLibraries(generator);
   
   // 使用传入的变量名
-  const variableKey = 'vl53l0x_sensor_' + varName;
-  generator.addVariable(variableKey, 'Adafruit_VL53L0X ' + varName + ';');
+  // const variableKey = 'vl53l0x_sensor_' + varName;
+  generator.addObject(varName, 'Adafruit_VL53L0X ' + varName + ';');
   
   return varName; // 返回使用的变量名，供后续引用
 }

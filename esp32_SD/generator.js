@@ -117,7 +117,7 @@ Arduino.forBlock['esp32_sd_open_file'] = function(block, generator) {
 
   // 注册文件变量
   registerVariableToBlockly(varName, 'File');
-  generator.addVariable(varName, 'File ' + varName + ';');
+  generator.addObject(varName, 'File ' + varName + ';');
 
   let code = varName + ' = SD.open(' + path + ', ' + mode + ')';
   

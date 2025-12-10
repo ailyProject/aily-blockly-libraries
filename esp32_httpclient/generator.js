@@ -39,7 +39,7 @@ Arduino.forBlock['esp32_httpclient_create'] = function(block, generator) {
   if (isBlockConnected(block)) {
     return 'HTTPClient ' + varName + ';\n';
   } else {
-    generator.addVariable(varName, 'HTTPClient ' + varName + ';');
+    generator.addObject(varName, 'HTTPClient ' + varName + ';');
   }
   
   return '';

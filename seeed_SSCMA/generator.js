@@ -35,7 +35,7 @@ Arduino.forBlock['sscma_begin_i2c'] = function(block, generator) {
   generator.addLibrary('Seeed_Arduino_SSCMA', '#include <Seeed_Arduino_SSCMA.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
   registerVariableToBlockly(varName, 'SSCMA');
-  generator.addVariable(varName, 'SSCMA ' + varName + ';');
+  generator.addObject(varName, 'SSCMA ' + varName + ';');
 
   generator.addSetup(`wire_${wire}_begin`, '' + wire + '.begin(); // 初始化I2C ' + wire);
   // 生成初始化代码
@@ -77,7 +77,7 @@ Arduino.forBlock['sscma_begin_serial'] = function(block, generator) {
   // 添加库和变量
   generator.addLibrary('Seeed_Arduino_SSCMA', '#include <Seeed_Arduino_SSCMA.h>');
   registerVariableToBlockly(varName, 'SSCMA');
-  generator.addVariable(varName, 'SSCMA ' + varName + ';');
+  generator.addObject(varName, 'SSCMA ' + varName + ';');
 
   // 生成SSCMA初始化代码
   let code = '';
@@ -96,10 +96,10 @@ Arduino.forBlock['sscma_begin_serial'] = function(block, generator) {
         atSerial = 'atSerial(0)';
       }
       generator.addLibrary('HardwareSerial', '#include <HardwareSerial.h>');
-      generator.addVariable(serial, 'HardwareSerial ' + atSerial + ';');
+      generator.addObject(serial, 'HardwareSerial ' + atSerial + ';');
     } else {
       // 非ESP32核心使用Serial对象
-      generator.addVariable(serial, '#define atSerial ' + serial + ';');
+      generator.addObject(serial, '#define atSerial ' + serial + ';');
     }
     if (rst == -1) {
       code = varName + '.begin(&atSerial, -1, ' + baud + ');\n';

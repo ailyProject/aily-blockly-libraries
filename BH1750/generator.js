@@ -37,8 +37,8 @@ function ensureBH1750Setup(varName, address, generator) {
   ensureBH1750Libraries(generator);
   
   // 使用传入的变量名和地址
-  const variableKey = 'bh1750_sensor_' + varName;
-  generator.addVariable(variableKey, 'BH1750 ' + varName + '(' + address + ');');
+  // const variableKey = 'bh1750_sensor_' + varName;
+  generator.addObject(varName, 'BH1750 ' + varName + '(' + address + ');');
   
   return varName; // 返回使用的变量名，供后续引用
 };
@@ -98,7 +98,7 @@ Arduino.forBlock['bh1750_init_with_wire'] = function(block, generator) {
   ensureSerialBegin('Serial', generator);
 
   // 3. 添加BH1750对象变量到全局变量区域
-  generator.addVariable(varName, 'BH1750 ' + varName + '(' + address + ');');
+  generator.addObject(varName, 'BH1750 ' + varName + '(' + address + ');');
 
   // 保存变量名和地址，供后续块使用
   generator.sensorVarName = varName;
