@@ -4,7 +4,7 @@
         "message0": "初始化ESP32摄像头服务器 %1 WiFi名称 %2 WiFi密码 %3 摄像头型号 %4 分辨率 %5",
         "args0": [
             {
-                "type": "input_dummy"
+                "type": "inputsInline"
             },
             {
                 "type": "input_value",
@@ -244,7 +244,7 @@
         "message0": "拍摄一张照片",
         "output": "CameraFrame",
         "colour": "#0D47A1",
-        "tooltip": "获取一帧摄像头画面数据,返回帧对象(必须在使用完后释放)",
+        "tooltip": "获取一帧摄像头画面数据,返回帧对象(⚠️配合'无符号长整型'变量使用,使用完后必须调用释放帧块)",
         "helpUrl": ""
     },
     {
@@ -320,7 +320,7 @@
         "previousStatement": null,
         "nextStatement": null,
         "colour": "#0D47A1",
-        "tooltip": "释放帧缓冲区内存(使用完帧后必须调用)",
+        "tooltip": "释放帧缓冲区内存(使用完帧后必须调用，send_serial块会自动释放)",
         "helpUrl": ""
     },
     {
@@ -336,7 +336,15 @@
         "previousStatement": null,
         "nextStatement": null,
         "colour": "#0D47A1",
-        "tooltip": "通过串口发送JPEG图像数据(可用于上位机显示)",
+        "tooltip": "通过串口发送JPEG图像数据(带帧标识符，可用于上位机显示)",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_capture_and_encode_base64",
+        "message0": "拍摄照片并转换为Base64",
+        "output": "String",
+        "colour": "#0D47A1",
+        "tooltip": "拍摄一张照片并将其JPEG数据编码为Base64格式",
         "helpUrl": ""
     }
 ]

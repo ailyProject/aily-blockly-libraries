@@ -161,20 +161,33 @@ ${pinConfig}
   }
 
   sensor_t * s = esp_camera_sensor_get();
+  // 检查用户是否设置了翻转参数，如果没有则应用默认值
+  // 注意：我们通过检查sensor的默认值来判断用户是否进行了设置
   if (s->id.PID == OV3660_PID) {
-    s->set_vflip(s, 1);
+    // 仅在用户未设置时应用默认值
+    if(s->status.vflip == 0 && s->status.hmirror == 0) {
+      s->set_vflip(s, 1);
+    }
     s->set_brightness(s, 1);
     s->set_saturation(s, -2);
   }
   // 使用用户在初始化块中设置的分辨率，不再强制修改为QVGA
 
 #if defined(CAMERA_MODEL_M5STACK_WIDE) || defined(CAMERA_MODEL_M5STACK_ESP32CAM)
-  s->set_vflip(s, 1);
-  s->set_hmirror(s, 1);
+  // 仅在用户未设置时应用默认值
+  if(s->status.vflip == 0) {
+    s->set_vflip(s, 1);
+  }
+  if(s->status.hmirror == 0) {
+    s->set_hmirror(s, 1);
+  }
 #endif
 
 #if defined(CAMERA_MODEL_ESP32S3_EYE)
-  s->set_vflip(s, 1);
+  // 仅在用户未设置时应用默认值
+  if(s->status.vflip == 0) {
+    s->set_vflip(s, 1);
+  }
 #endif
 
   WiFi.begin(${ssid}, ${password});
@@ -242,6 +255,8 @@ Arduino.forBlock['esp32_camera_set_brightness'] = function (block, generator) {
 
 // 摄像头捕获和数据访问块
 // 注意：返回指针转换为unsigned long，这样可以存储在Blockly的整数变量中
+// ⚠️ 重要：使用完帧后必须调用esp32_camera_release块释放内存
+// 注意：esp32_camera_send_serial块会自动释放帧内存
 Arduino.forBlock['esp32_camera_capture'] = function (block, generator) {
   return ['((unsigned long)esp_camera_fb_get())', generator.ORDER_ATOMIC];
 };
@@ -269,19 +284,61 @@ Arduino.forBlock['esp32_camera_frame_height'] = function (block, generator) {
 Arduino.forBlock['esp32_camera_release'] = function (block, generator) {
   const frame = generator.valueToCode(block, 'FRAME', generator.ORDER_ATOMIC) || '0';
   return `  if(${frame}) {
-    esp_camera_fb_return((camera_fb_t*)${frame});
+    camera_fb_t* _fb = (camera_fb_t*)${frame};
+    // 额外的安全检查
+    if(_fb->buf && _fb->len > 0) {
+      esp_camera_fb_return(_fb);
+    }
   }
 `;
 };
 
 Arduino.forBlock['esp32_camera_send_serial'] = function (block, generator) {
   const frame = generator.valueToCode(block, 'FRAME', generator.ORDER_ATOMIC) || '0';
-  return `  if(${frame}) {
-    camera_fb_t* _fb = (camera_fb_t*)${frame};
+  return `  camera_fb_t* _fb = (camera_fb_t*)${frame};
+  if(_fb) {
     if(_fb->buf && _fb->len > 0) {
+      // 发送帧开始标识
+      Serial.println("===FRAME_START===");
+      // 发送帧长度信息
+      Serial.print("LEN:");
+      Serial.println(_fb->len);
+      // 发送JPEG数据
       Serial.write(_fb->buf, _fb->len);
+      // 发送帧结束标识
+      Serial.println("===FRAME_END===");
       Serial.flush();
     }
+    // 自动释放帧内存
+    esp_camera_fb_return(_fb);
   }
 `;
+
+};
+
+// 添加拍摄照片并转换为Base64的功能块实现
+Arduino.forBlock['esp32_camera_capture_and_encode_base64'] = function (block, generator) {
+  // 添加Base64编码所需的库
+  generator.addLibrary('base64', '#include <Base64.h>');
+  
+  // 添加获取并编码图片的函数
+  generator.addFunction('capture_and_encode_base64', `
+String capture_and_encode_base64() {
+  camera_fb_t* fb = esp_camera_fb_get();
+  if (!fb) {
+    Serial.println("Camera capture failed");
+    return String("");
+  }
+  
+  // 将JPEG数据编码为Base64
+  String base64Data = Base64.encode(fb->buf, fb->len);
+  
+  // 释放帧内存
+  esp_camera_fb_return(fb);
+  
+  return base64Data;
+}`);
+  
+  // 返回函数调用
+  return ['capture_and_encode_base64()', generator.ORDER_ATOMIC];
 };
