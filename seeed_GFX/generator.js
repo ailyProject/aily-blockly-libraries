@@ -19,12 +19,17 @@ if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
 
     const deleteListener = function(event) {
       if (event.type === Blockly.Events.BLOCK_DELETE) {
-        if (event.oldJson && event.oldJson.type === 'seeed_gfx_init') {
-          Arduino.seeed_gfx_type = '';
+        if (event.oldJson && (event.oldJson.type === 'seeed_gfx_init' || event.oldJson.type === 'seeed_gfx_epaper_begin')) {
           console.log('delete BOARD_SCREEN_COMBO macro');
           window['projectService'].removeMacro('BOARD_SCREEN_COMBO')
+            .then(() => {
+              if (Arduino.seeed_gfx_type === '502') {
+                return window['projectService'].removeMacro('USE_XIAO_EPAPER_DISPLAY_BOARD_EE04')
+              }
+            })
             .then(() => console.log('✅ 宏定义已移除'))
             .catch(err => console.error('❌ 失败:', err));
+          Arduino.seeed_gfx_type = '';
         }
       }
     };
@@ -84,12 +89,30 @@ Arduino.forBlock['seeed_gfx_create_tft'] = function(block, generator) {
 
 // TFT初始化
 Arduino.forBlock['seeed_gfx_init'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  const varName = 'tft';
+  // 监听VAR输入值的变化，自动重命名Blockly变量
+  if (!block._tftVarMonitorAttached) {
+    block._tftVarMonitorAttached = true;
+    block._tftVarLastName = block.getFieldValue('VAR') || 'tft';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._tftVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'TFT_eSPI');
+          block._tftVarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
 
-  const modelType = block.getFieldValue('MODEL') || 'Seeed_Wio_Terminal_500';
-  const modelParts = modelType.split('_');
-  const model = modelParts.pop();
+  var varName = block.getFieldValue('VAR') || 'tft';
+
+  // const modelType = block.getFieldValue('MODEL') || 'Seeed_Wio_Terminal_500';
+  // const modelParts = modelType.split('_');
+  // const model = modelParts.pop();
+  const model = block.getFieldValue('MODEL') || '500';
   // window.add();
   if (Arduino.seeed_gfx_type !== model) {
     Arduino.seeed_gfx_type = model;
@@ -119,7 +142,7 @@ Arduino.forBlock['seeed_gfx_init'] = function(block, generator) {
   
   // 注册变量
   registerVariableToBlockly(varName, 'TFT_eSPI');
-  generator.addVariable(varName, 'TFT_eSPI ' + varName + ' = TFT_eSPI();');
+  generator.addObject(varName, 'TFT_eSPI ' + varName + ' = TFT_eSPI();');
   
   // 生成初始化代码
   return varName + '.init();\n';
@@ -127,8 +150,8 @@ Arduino.forBlock['seeed_gfx_init'] = function(block, generator) {
 
 // 填充屏幕
 Arduino.forBlock['seeed_gfx_fill_screen'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  const varName = 'tft';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
   const color = generator.valueToCode(block, 'COLOR', generator.ORDER_ATOMIC) || '0';
   
   return varName + '.fillScreen(' + color + ');\n';
@@ -136,8 +159,8 @@ Arduino.forBlock['seeed_gfx_fill_screen'] = function(block, generator) {
 
 // 设置旋转
 Arduino.forBlock['seeed_gfx_set_rotation'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  const varName = 'tft';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
   const rotation = block.getFieldValue('ROTATION') || '0';
   
   return varName + '.setRotation(' + rotation + ');\n';
@@ -145,8 +168,8 @@ Arduino.forBlock['seeed_gfx_set_rotation'] = function(block, generator) {
 
 // 画点
 Arduino.forBlock['seeed_gfx_draw_pixel'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  const varName = 'tft';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
   const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
   const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
   const color = generator.valueToCode(block, 'COLOR', generator.ORDER_ATOMIC) || '0';
@@ -156,8 +179,8 @@ Arduino.forBlock['seeed_gfx_draw_pixel'] = function(block, generator) {
 
 // 画线
 Arduino.forBlock['seeed_gfx_draw_line'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  const varName = 'tft';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
   const x1 = generator.valueToCode(block, 'X1', generator.ORDER_ATOMIC) || '0';
   const y1 = generator.valueToCode(block, 'Y1', generator.ORDER_ATOMIC) || '0';
   const x2 = generator.valueToCode(block, 'X2', generator.ORDER_ATOMIC) || '0';
@@ -169,8 +192,8 @@ Arduino.forBlock['seeed_gfx_draw_line'] = function(block, generator) {
 
 // 画矩形
 Arduino.forBlock['seeed_gfx_draw_rect'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  const varName = 'tft';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
   const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
   const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
   const width = generator.valueToCode(block, 'WIDTH', generator.ORDER_ATOMIC) || '10';
@@ -182,8 +205,8 @@ Arduino.forBlock['seeed_gfx_draw_rect'] = function(block, generator) {
 
 // 填充矩形
 Arduino.forBlock['seeed_gfx_fill_rect'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  const varName = 'tft';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
   const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
   const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
   const width = generator.valueToCode(block, 'WIDTH', generator.ORDER_ATOMIC) || '10';
@@ -195,8 +218,8 @@ Arduino.forBlock['seeed_gfx_fill_rect'] = function(block, generator) {
 
 // 画矩形
 Arduino.forBlock['seeed_gfx_draw_round_rect'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  const varName = 'tft';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
   const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
   const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
   const width = generator.valueToCode(block, 'WIDTH', generator.ORDER_ATOMIC) || '10';
@@ -208,8 +231,8 @@ Arduino.forBlock['seeed_gfx_draw_round_rect'] = function(block, generator) {
 
 // 填充矩形
 Arduino.forBlock['seeed_gfx_fill_round_rect'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  const varName = 'tft';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
   const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
   const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
   const width = generator.valueToCode(block, 'WIDTH', generator.ORDER_ATOMIC) || '10';
@@ -221,8 +244,8 @@ Arduino.forBlock['seeed_gfx_fill_round_rect'] = function(block, generator) {
 
 // 画圆
 Arduino.forBlock['seeed_gfx_draw_circle'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  const varName = 'tft';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
   const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
   const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
   const radius = generator.valueToCode(block, 'RADIUS', generator.ORDER_ATOMIC) || '5';
@@ -233,8 +256,8 @@ Arduino.forBlock['seeed_gfx_draw_circle'] = function(block, generator) {
 
 // 填充圆
 Arduino.forBlock['seeed_gfx_fill_circle'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  const varName = 'tft';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
   const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
   const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
   const radius = generator.valueToCode(block, 'RADIUS', generator.ORDER_ATOMIC) || '5';
@@ -245,8 +268,8 @@ Arduino.forBlock['seeed_gfx_fill_circle'] = function(block, generator) {
 
 // 设置文字颜色
 Arduino.forBlock['seeed_gfx_set_text_color'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  const varName = 'tft';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
   const color = generator.valueToCode(block, 'COLOR', generator.ORDER_ATOMIC) || '0';
   const bgcolor = generator.valueToCode(block, 'BGCOLOR', generator.ORDER_ATOMIC) || '0';
   
@@ -255,8 +278,8 @@ Arduino.forBlock['seeed_gfx_set_text_color'] = function(block, generator) {
 
 // 设置文字大小
 Arduino.forBlock['seeed_gfx_set_text_size'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  const varName = 'tft';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
   const size = block.getFieldValue('SIZE') || '1';
   
   return varName + '.setTextSize(' + size + ');\n';
@@ -264,8 +287,8 @@ Arduino.forBlock['seeed_gfx_set_text_size'] = function(block, generator) {
 
 // 设置光标位置
 Arduino.forBlock['seeed_gfx_set_cursor'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  const varName = 'tft';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
   const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
   const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
   
@@ -274,8 +297,8 @@ Arduino.forBlock['seeed_gfx_set_cursor'] = function(block, generator) {
 
 // 打印文字
 Arduino.forBlock['seeed_gfx_print'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  const varName = 'tft';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
   const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
   
   return varName + '.print(' + text + ');\n';
@@ -283,8 +306,8 @@ Arduino.forBlock['seeed_gfx_print'] = function(block, generator) {
 
 // 显示文字
 Arduino.forBlock['seeed_gfx_draw_string'] = function(block, generator) {
-  // const varField = block.getField('VAR');
-  const varName = 'tft';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
   const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
   const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
   const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
@@ -342,15 +365,63 @@ Arduino.forBlock['seeed_gfx_create_epaper'] = function(block, generator) {
 
 // 电子墨水屏初始化
 Arduino.forBlock['seeed_gfx_epaper_begin'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'epaper';
+  // 监听VAR输入值的变化，自动重命名Blockly变量
+  if (!block._epaperVarMonitorAttached) {
+    block._epaperVarMonitorAttached = true;
+    block._epaperVarLastName = block.getFieldValue('VAR') || 'epaper';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._epaperVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'EPaper');
+          block._epaperVarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
+  var varName = block.getFieldValue('VAR') || 'epaper';
+  // const varField = block.getField('VAR');
+  // const varName = varField ? varField.getText() : 'epaper';
+  const model = block.getFieldValue('MODEL') || '502';
+
+  if (Arduino.seeed_gfx_type !== model) {
+    Arduino.seeed_gfx_type = model;
+    console.log('Selected model:', model);
+
+    if (window['projectService']) {
+      window['projectService'].addMacro(`BOARD_SCREEN_COMBO=${model}`)
+        .then(() => {
+          if (model === '502') {
+            return window['projectService'].addMacro('USE_XIAO_EPAPER_DISPLAY_BOARD_EE04')
+          } else {
+            return window['projectService'].removeMacro('USE_XIAO_EPAPER_DISPLAY_BOARD_EE04')
+          }
+        })
+        .then(() => console.log('✅ 宏定义已更新'))
+        .catch(err => console.error('❌ 失败:', err));
+    }
+  }
+
+  const messageData = {
+    eventType: 'workspaceChanged',
+    code: 'Blockly.JavaScript.workspaceToCode(workspace)'
+  };
+
+  // 发送消息给父窗口
+  window.parent.postMessage(messageData, '*');
+  // }
   
   // 添加库引用
-  generator.addLibrary('Seeed_GFX_EPaper', '#include <EPaper.h>');
+  generator.addLibrary('TFT_eSPI', '#include <TFT_eSPI.h>');
+  generator.addLibrary('SPI', '#include <SPI.h>');
   
   // 注册变量
-  registerVariableToBlockly(varName, 'EPaper');
-  generator.addVariable(varName, 'EPaper ' + varName + ';');
+  registerVariableToBlockly(varName, 'EPAPER');
+  generator.addObject(varName, 'EPaper ' + varName + ';');
   
   // 生成初始化代码
   return varName + '.begin();\n';
@@ -379,6 +450,11 @@ Arduino.forBlock['seeed_gfx_epaper_wake'] = function(block, generator) {
   
   return varName + '.wake();\n';
 };
+
+Arduino.forBlock['seeed_gfx_color'] = function(block, generator) {
+  const color = block.getFieldValue('COLOR');
+  return [color, generator.ORDER_ATOMIC];
+}
 
 // 颜色常量块
 Arduino.forBlock['seeed_gfx_color_black'] = function(block, generator) {
@@ -415,6 +491,9 @@ Arduino.forBlock['seeed_gfx_color_magenta'] = function(block, generator) {
 
 // RGB565颜色转换
 Arduino.forBlock['seeed_gfx_rgb565'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+
   const color = block.getFieldValue('COLOR');
 
   // 解析十六进制颜色
@@ -424,5 +503,19 @@ Arduino.forBlock['seeed_gfx_rgb565'] = function(block, generator) {
   const g = parseInt(hex.substring(2, 4), 16);
   const b = parseInt(hex.substring(4, 6), 16);
   
-  return ['tft.color565(' + r + ', ' + g + ', ' + b + ')', generator.ORDER_ATOMIC];
+  return [varName + '.color565(' + r + ', ' + g + ', ' + b + ')', generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['seeed_gfx_get_width'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+  
+  return [varName + '.width()', generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['seeed_gfx_get_height'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+  
+  return [varName + '.height()', generator.ORDER_ATOMIC];
 };
