@@ -1,57 +1,55 @@
 # Seeed GFX
 
+Seeed GFX TFT / EPaper 显示相关的 Blockly 库说明
+
 ## 库信息
 - **库名**: `@aily-project/lib-seeed-gfx`
 - **兼容**: Arduino / ESP32 / ESP8266
 
-## 块定义
-
-| 块类型 | 连接 | 字段/输入 | .abi 格式示例 | 生成代码（简要） |
+## 块定义（摘要表格）
+| 块类型 | 连接 | 字段/输入 | .abi 格式 | 生成代码 |
 |---|---:|---|---|---|
-| `seeed_gfx_init` | 语句块 | `MODEL` (field_dropdown) | `"fields":{"MODEL":"501"}` | 注入宏 `BOARD_SCREEN_COMBO`、头文件，返回 `tft.init();`（并尝试同步 IDE 宏） |
-| `seeed_gfx_fill_screen` | 语句块 | `COLOR` (input_value) | `"inputs":{"COLOR":{...}}` | `tft.fillScreen(color);` |
-| `seeed_gfx_set_rotation` | 语句块 | `ROTATION` (field_angle) | `"fields":{"ROTATION":"90"}` | `tft.setRotation(angle);` |
-| `seeed_gfx_draw_pixel` | 语句块 | `X`,`Y`,`COLOR` (input_value) | `"inputs":{"X":{...}}` | `tft.drawPixel(x,y,color);` |
-| `seeed_gfx_draw_line` | 语句块 | `X1`,`Y1`,`X2`,`Y2`,`COLOR` | - | `tft.drawLine(x1,y1,x2,y2,color);` |
-| `seeed_gfx_draw_rect` | 语句块 | `X`,`Y`,`WIDTH`,`HEIGHT`,`COLOR` | - | `tft.drawRect(x,y,w,h,color);` |
-| `seeed_gfx_fill_rect` | 语句块 | `X`,`Y`,`WIDTH`,`HEIGHT`,`COLOR` | - | `tft.fillRect(x,y,w,h,color);` |
-| `seeed_gfx_draw_round_rect` | 语句块 | `X`,`Y`,`WIDTH`,`HEIGHT`,`RADIUS`,`COLOR` | - | `tft.drawRoundRect(...)` |
-| `seeed_gfx_fill_round_rect` | 语句块 | `X`,`Y`,`WIDTH`,`HEIGHT`,`RADIUS`,`COLOR` | - | `tft.fillRoundRect(...)` |
-| `seeed_gfx_draw_circle` | 语句块 | `X`,`Y`,`RADIUS`,`COLOR` | - | `tft.drawCircle(x,y,r,color);` |
-| `seeed_gfx_fill_circle` | 语句块 | `X`,`Y`,`RADIUS`,`COLOR` | - | `tft.fillCircle(x,y,r,color);` |
-| `seeed_gfx_set_text_color` | 语句块 | `COLOR`,`BGCOLOR` | - | `tft.setTextColor(color,bg);` |
-| `seeed_gfx_set_text_size` | 语句块 | `SIZE` (dropdown) | `"fields":{"SIZE":"2"}` | `tft.setTextSize(size);` |
-| `seeed_gfx_set_cursor` | 语句块 | `X`,`Y` | - | `tft.setCursor(x,y);` |
-| `seeed_gfx_print` | 语句块 | `TEXT` (input_value) | - | `tft.print(text);` |
-| `seeed_gfx_draw_string` | 语句块 | `TEXT`,`X`,`Y`,`FONT` | `"fields":{"FONT":"2"}` | `tft.drawString(text,x,y,font);` |
-| `seeed_gfx_rgb565` | 值块 | `COLOR` (field_colour_hsv_sliders) | `"fields":{"COLOR":"#rrggbb"}` | 生成 `tft.color565(r,g,b)` 表达式（Number） |
+| `seeed_gfx_init` | 语句块 | `VAR`(field_input), `MODEL`(field_dropdown) | `"fields":{"VAR":"tft","MODEL":"501"}` | 注入宏 `BOARD_SCREEN_COMBO=<MODEL>`，`tft.init();` |
+| `seeed_gfx_fill_screen` | 语句块 | `VAR`(field_variable), `COLOR`(input_value/seeed_gfx_color) | `"fields":{"VAR":{"id":"..."}},"inputs":{"COLOR":{...}}` | `gfx.fillScreen(color);` |
+| `seeed_gfx_set_rotation` | 语句块 | `VAR`(field_variable), `ROTATION`(field_angle) | `"fields":{"ROTATION":"90"}` | `gfx.setRotation(angle);` |
+| `seeed_gfx_draw_pixel` | 语句块 | `VAR`,`X`,`Y`,`COLOR`(input_value) | - | `gfx.drawPixel(x,y,color);` |
+| `seeed_gfx_draw_line` | 语句块 | `VAR`,`X1`,`Y1`,`X2`,`Y2`,`COLOR` | - | `gfx.drawLine(x1,y1,x2,y2,color);` |
+| `seeed_gfx_draw_rect` | 语句块 | `VAR`,`X`,`Y`,`WIDTH`,`HEIGHT`,`COLOR` | - | `gfx.drawRect(x,y,w,h,color);` |
+| `seeed_gfx_fill_rect` | 语句块 | `VAR`,`X`,`Y`,`WIDTH`,`HEIGHT`,`COLOR` | - | `gfx.fillRect(x,y,w,h,color);` |
+| `seeed_gfx_draw_round_rect` | 语句块 | `VAR`,`X`,`Y`,`WIDTH`,`HEIGHT`,`RADIUS`,`COLOR` | - | `gfx.drawRoundRect(...)` |
+| `seeed_gfx_fill_round_rect` | 语句块 | `VAR`,`X`,`Y`,`WIDTH`,`HEIGHT`,`RADIUS`,`COLOR` | - | `gfx.fillRoundRect(...)` |
+| `seeed_gfx_draw_circle` | 语句块 | `VAR`,`X`,`Y`,`RADIUS`,`COLOR` | - | `gfx.drawCircle(x,y,r,color);` |
+| `seeed_gfx_fill_circle` | 语句块 | `VAR`,`X`,`Y`,`RADIUS`,`COLOR` | - | `gfx.fillCircle(x,y,r,color);` |
+| `seeed_gfx_set_text_color` | 语句块 | `VAR`,`COLOR`,`BGCOLOR` | - | `gfx.setTextColor(color,bg);` |
+| `seeed_gfx_set_text_size` | 语句块 | `VAR`,`SIZE`(field_dropdown) | `"fields":{"SIZE":"2"}` | `gfx.setTextSize(size);` |
+| `seeed_gfx_set_cursor` | 语句块 | `VAR`,`X`,`Y` | - | `gfx.setCursor(x,y);` |
+| `seeed_gfx_print` | 语句块 | `VAR`,`TEXT`(input_value) | - | `gfx.print(text);` |
+| `seeed_gfx_draw_string` | 语句块 | `VAR`,`TEXT`,`X`,`Y`,`FONT`(field_dropdown) | `"fields":{"FONT":"2"}` | `gfx.drawString(text,x,y,font);` |
+| `seeed_gfx_epaper_begin` | 语句块 | `VAR`(field_input),`MODEL`(field_dropdown) | `"fields":{"MODEL":"502"}` | 注入 `BOARD_SCREEN_COMBO=<MODEL>`，若 MODEL==502 额外注入 `USE_XIAO_EPAPER_DISPLAY_BOARD_EE04`，声明 `EPaper <VAR>;` 返回 `epaper.begin();` |
+| `seeed_gfx_epaper_update/sleep/wake` | 语句块 | `VAR`(field_variable) | - | `epaper.update()/sleep()/wake()` |
+| `seeed_gfx_color` | 值块 | `COLOR`(field_dropdown) | `"fields":{"COLOR":"TFT_RED"}` | 返回颜色宏数值（Number） |
+| `seeed_gfx_rgb565` | 值块 | `VAR`,`COLOR`(field_input hex `#rrggbb`) | `"fields":{"COLOR":"#rrggbb"}` | 生成 `tft.color565(r,g,b)` 表达式（Number） |
 
 ## 字段类型映射
-
-| 类型 | .abi 格式 | 示例 |
+| 类型 | .abi 格式 | 说明 |
 |---|---|---|
-| field_input | 字符串 | `"VAR":"tft"` |
-| field_dropdown | 字符串 | `"MODEL":"Seeed_XIAO_Round_Display_501"` |
-| field_angle / field_dropdown(数值) | 字符串/数字 | `"ROTATION":"90"` |
-| field_colour_hsv_sliders | 字符串（#rrggbb） | `"COLOR":"#ff0000"` |
-| input_value | 嵌套块 | `"inputs":{"X":{"block":{...}}}` |
+| `field_input` | 字符串 | 直接写入字段值，如 `"VAR":"tft"` |
+| `field_variable` | 对象或字符串 | 推荐 `{"id":"var_id"}` 以保证唯一性，或按 generator 要求使用变量名字符串 |
+| `field_dropdown` | 字符串 | 下拉 value 在 `block.json` 中定义（MODEL / COLOR / FONT / SIZE 等） |
+| `field_angle` | 数字/字符串 | 角度值，如 `"ROTATION":"90"` |
+| `input_value` | 嵌套 block 对象 | `"inputs":{"X":{"block":{...}}}` |
 
-## 连接规则（简要）
+## 连接规则与生成器行为（关键）
+- 语句块使用 `previousStatement`/`nextStatement`，在 `.abi` 中通过 `next` 字段表示链式连接。
+- 值块有 `output`，作为表达式嵌入 `inputs`，无 `next` 字段。
 
-- 语句块通过 `previousStatement`/`nextStatement` 链接（使用 JSON 的 `next` 字段表示）。
-- 值块（有 output）用于表达式输入，通过 `inputs` 嵌套块连接。
-- 若块包含变量选择（field_variable），.abi 中应使用对象格式 `"VAR": {"id":"var_id"}` 或直接使用 `"VAR":"tft"` 视生成器期望而定。
-
-## 使用示例（.abi/JSON 片段）
-
-创建并初始化 TFT：
-
+## 使用示例
+### 初始化并打印
 ```json
-{ "type": "seeed_gfx_init", "fields": { "MODEL": "Seeed_XIAO_Round_Display_501" } }
+{ "type": "seeed_gfx_init", "fields": { "VAR": "tft", "MODEL": "501" } }
 ```
 
-绘制圆形：
-
+### 绘制红色圆（使用 rgb565）
 ```json
 {
   "type": "seeed_gfx_draw_circle",
@@ -65,28 +63,11 @@
 ```
 
 ## 重要规则
+1. 必须先执行 `seeed_gfx_init` 或 `seeed_gfx_epaper_begin` 再使用绘图/墨水屏块。
+2. `seeed_gfx_rgb565` 生成器依赖 `TFT_eSPI::color565`，生成环境需包含 `TFT_eSPI`。
+3. 块 ID 与变量 ID 必须唯一，避免在 `.abi` 中冲突。
 
-1. 创建对象后必须先调用 `seeed_gfx_init` 初始化再使用绘图块。
-2. `seeed_gfx_rgb565` 返回表达式依赖 `TFT_eSPI` 的 `color565` 方法，生成器环境需包含 `TFT_eSPI`。
-3. 若要在 IDE 层面同步宏，请确保 `window.projectService` 可用并支持 `addMacro` / `removeMacro`。
+## 支持的屏幕型号
+- TFT: `Seeed_Wio_Terminal` (500), `Seeed_XIAO_Round_Display` (501), `Seeed_XIAO_ILI9341` (666)
+- EPaper: `Seeed_XIAO_EPaper_7inch5` (502), `Seeed_reTerminal_E1001` (520), `Seeed_reTerminal_E1002` (521), `Seeed_reTerminal_E1003` (522), `Seeed_reTerminal_E1004` (523)
 
-## 支持的屏幕型号及对应MODEL
-- Seeed_Wio_Terminal: 500
-- Seeed_XIAO_Round_Display: 501
-- Seeed_XIAO_EPaper_7inch5: 502
-- Seeed_XIAO_EPaper_5inch83: 503
-- Seeed_XIAO_EPaper_2inch9: 504
-- Seeed_XIAO_EPaper_1inch54: 505
-- Seeed_XIAO_EPaper_4inch26: 506
-- Seeed_XIAO_EPaper_4inch2: 507
-- Seeed_XIAO_EPaper_2inch13: 508
-- Seeed_XIAO_EPaper_7inch3_colorful: 509
-- Seeed_XIAO_EPaper_13inch3_colorful: 510
-- Seeed_XIAO_EPaper_10inch3: 511
-- Seeed_XIAO_EPaper_2inch9_BWRY: 512
-- Seeed_XIAO_EPaper_2inch13_BWRY: 513
-- Seeed_reTerminal_E1001: 520
-- Seeed_reTerminal_E1002: 521
-- Seeed_reTerminal_E1003: 522
-- Seeed_reTerminal_E1004: 523
-- Seeed_XIAO_ILI9341: 666
