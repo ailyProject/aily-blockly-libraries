@@ -318,27 +318,36 @@ Arduino.forBlock['esp32_camera_send_serial'] = function (block, generator) {
 
 // 添加拍摄照片并转换为Base64的功能块实现
 Arduino.forBlock['esp32_camera_capture_and_encode_base64'] = function (block, generator) {
-  // 添加Base64编码所需的库
-  generator.addLibrary('base64', '#include <Base64.h>');
-  
+  // 使用ESP32自带的mbedTLS库进行Base64编码
+  generator.addLibrary('mbedtls_base64', '#include <mbedtls/base64.h>');
+
   // 添加获取并编码图片的函数
   generator.addFunction('capture_and_encode_base64', `
 String capture_and_encode_base64() {
   camera_fb_t* fb = esp_camera_fb_get();
   if (!fb) {
-    Serial.println("Camera capture failed");
     return String("");
   }
-  
-  // 将JPEG数据编码为Base64
-  String base64Data = Base64.encode(fb->buf, fb->len);
-  
-  // 释放帧内存
+
+  // 计算Base64编码后的长度
+  size_t out_len = 0;
+  mbedtls_base64_encode(NULL, 0, &out_len, fb->buf, fb->len);
+
+  // 分配内存并编码
+  char* base64_buf = (char*)malloc(out_len + 1);
+  if (base64_buf) {
+    mbedtls_base64_encode((unsigned char*)base64_buf, out_len, &out_len, fb->buf, fb->len);
+    base64_buf[out_len] = '\\0';
+    String result = String(base64_buf);
+    free(base64_buf);
+    esp_camera_fb_return(fb);
+    return result;
+  }
+
   esp_camera_fb_return(fb);
-  
-  return base64Data;
+  return String("");
 }`);
-  
+
   // 返回函数调用
   return ['capture_and_encode_base64()', generator.ORDER_ATOMIC];
 };
