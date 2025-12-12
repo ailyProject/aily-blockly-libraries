@@ -161,3 +161,73 @@ Arduino.forBlock['qwen_omni_get_response_status'] = function() {
 Arduino.forBlock['qwen_omni_get_error_message'] = function() {
   return ['qwen_last_error', Arduino.ORDER_ATOMIC];
 };
+
+Arduino.forBlock['qwen_omni_vision_chat'] = function(block, generator) {
+  const image = generator.valueToCode(block, 'IMAGE', Arduino.ORDER_ATOMIC) || '""';
+  const message = generator.valueToCode(block, 'MESSAGE', Arduino.ORDER_ATOMIC) || '""';
+  const model = block.getFieldValue('MODEL');
+
+  // 添加图片对话函数
+  generator.addFunction('qwen_vision_request', `
+String qwen_vision_request(String model, String base64Image, String message) {
+  Serial.println("=== 通义千问VL图片对话开始 ===");
+  Serial.println("模型: " + model);
+  Serial.println("提示词: " + message);
+
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("错误: WiFi未连接");
+    qwen_last_success = false;
+    qwen_last_error = "WiFi not connected";
+    return "";
+  }
+
+  HTTPClient http;
+  String url = qwen_base_url + "/chat/completions";
+  http.begin(url);
+  http.setTimeout(60000); // 60秒超时（图片处理需要更长时间）
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("Authorization", "Bearer " + qwen_api_key);
+
+  // 构建JSON请求体
+  String requestBody = "{\\"model\\":\\"" + model + "\\",\\"messages\\":[{\\"role\\":\\"user\\",\\"content\\":[";
+  requestBody += "{\\"type\\":\\"image_url\\",\\"image_url\\":{\\"url\\":\\"data:image/jpeg;base64," + base64Image + "\\"}},";
+  requestBody += "{\\"type\\":\\"text\\",\\"text\\":\\"" + message + "\\"}";
+  requestBody += "]}]}";
+
+  Serial.println("发送HTTP请求...");
+  int httpResponseCode = http.POST(requestBody);
+  Serial.println("HTTP响应码: " + String(httpResponseCode));
+  String response = "";
+
+  if (httpResponseCode == 200) {
+    String payload = http.getString();
+    Serial.println("API响应长度: " + String(payload.length()));
+
+    // 解析响应
+    int start = payload.indexOf("\\"content\\":\\"") + 11;
+    int end = payload.indexOf("\\"", start);
+    if (start > 10 && end > start) {
+      response = payload.substring(start, end);
+      Serial.println("解析成功，AI回复: " + response);
+      qwen_last_success = true;
+      qwen_last_error = "";
+    } else {
+      Serial.println("解析失败");
+      qwen_last_success = false;
+      qwen_last_error = "Parse error";
+    }
+  } else {
+    String errorResponse = http.getString();
+    Serial.println("HTTP错误: " + errorResponse);
+    qwen_last_success = false;
+    qwen_last_error = "HTTP " + String(httpResponseCode);
+  }
+
+  http.end();
+  Serial.println("=== 通义千问VL图片对话结束 ===");
+  return response;
+}`);
+
+  const code = `qwen_vision_request("${model}", ${image}, ${message})`;
+  return [code, Arduino.ORDER_FUNCTION_CALL];
+};
