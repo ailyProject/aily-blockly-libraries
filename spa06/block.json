@@ -1,7 +1,7 @@
 [
   {
     "type": "spa06_create_i2c",
-    "message0": "创建SPA06传感器 %1 使用I2C地址 %2",
+    "message0": "创建SPA06-003传感器 %1 I2C地址 %2 I2C接口 %3",
     "args0": [
       {
         "type": "field_input",
@@ -12,16 +12,26 @@
         "type": "field_dropdown",
         "name": "ADDR",
         "options": [
-          ["0x76 (默认)", "0x76"],
-          ["0x77", "0x77"]
+          [
+            "0x76",
+            "0x76"
+          ],
+          [
+            "0x77",
+            "0x77"
+          ]
         ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#00979D",
-    "tooltip": "创建SPA06-003气压温度传感器对象，使用I2C通信",
-    "extensions": ["spa06_i2c_board_extension"]
+    "tooltip": "创建SPA06-003气压温度传感器对象，使用I2C通信"
   },
   {
     "type": "spa06_create_spi",

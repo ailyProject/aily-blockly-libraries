@@ -1,0 +1,119 @@
+[
+  {
+    "type": "ps3_init",
+    "message0": "初始化PS3手柄 MAC地址 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MAC_ADDR",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "初始化PS3蓝牙手柄，需要提供ESP32的MAC地址"
+  },
+  {
+    "type": "ps3_button_pressed",
+    "message0": "PS3按键 %1 被按下",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          ["Cross (×)", "cross"],
+          ["Square (□)", "square"],
+          ["Triangle (△)", "triangle"],
+          ["Circle (○)", "circle"],
+          ["Up", "up"],
+          ["Down", "down"],
+          ["Left", "left"],
+          ["Right", "right"],
+          ["L1", "l1"],
+          ["L2", "l2"],
+          ["R1", "r1"],
+          ["R2", "r2"],
+          ["Select", "select"],
+          ["Start", "start"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#607D8B",
+    "tooltip": "判断PS3按键是否被按下"
+  },
+  {
+    "type": "ps3_stick_value",
+    "message0": "PS3摇杆 %1 %2 轴值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STICK",
+        "options": [
+          ["左摇杆", "l"],
+          ["右摇杆", "r"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          ["X轴", "x"],
+          ["Y轴", "y"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "获取PS3摇杆模拟值(-128到127)"
+  },
+  {
+    "type": "ps3_is_connected",
+    "message0": "PS3手柄已连接",
+    "output": "Boolean",
+    "colour": "#607D8B",
+    "tooltip": "判断PS3手柄是否连接"
+  },
+  {
+    "type": "ps3_set_rumble",
+    "message0": "PS3手柄震动 强度 %1 持续 %2 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INTENSITY",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "设置PS3手柄震动，强度0-100，持续时间0-5000毫秒"
+  },
+  {
+    "type": "ps3_set_player",
+    "message0": "设置PS3手柄玩家编号 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PLAYER",
+        "options": [
+          ["1", "1"],
+          ["2", "2"],
+          ["3", "3"],
+          ["4", "4"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "设置PS3手柄LED显示的玩家编号"
+  }
+]

@@ -1,40 +1,25 @@
-Arduino.forBlock['bmp280_create'] = function(block, generator) {
-  // 设置变量重命名监听
-  if (!block._bmp280VarMonitorAttached) {
-    block._bmp280VarMonitorAttached = true;
-    block._bmp280VarLastName = block.getFieldValue('VAR') || 'bmp280';
-    const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
-        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-        const oldName = block._bmp280VarLastName;
-        if (workspace && newName && newName !== oldName) {
-          renameVariableInBlockly(block, oldName, newName, 'BMP280');
-          block._bmp280VarLastName = newName;
-        }
-        return newName;
-      });
-    }
-  }
+'use strict';
 
-  const varName = block.getFieldValue('VAR') || 'bmp280';
-  
-  // 添加库和变量
-  generator.addLibrary('Seeed_BMP280', '#include <Seeed_BMP280.h>');
-  generator.addLibrary('Wire', '#include <Wire.h>');
-  registerVariableToBlockly(varName, 'BMP280');
-  generator.addVariable(varName, 'BMP280 ' + varName + ';');
-  
-  return '';
-};
+// BMP280 Blockly Generator for Aily Platform
 
 Arduino.forBlock['bmp280_init'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'bmp280';
+  const varName = block.getFieldValue('VAR') || 'bmp280';
+  const wire = block.getFieldValue('WIRE') || 'Wire';
   
   // 添加库
   generator.addLibrary('Seeed_BMP280', '#include <Seeed_BMP280.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
+  
+  // 注册变量并添加对象声明
+  registerVariableToBlockly(varName, 'BMP280');
+  generator.addObject(varName, 'BMP280 ' + varName + ';');
+  
+  // 分离Wire初始化和传感器初始化
+  const wireInitCode = wire + '.begin();';
+  const pinComment = '// BMP280 I2C连接: 使用默认I2C引脚';
+  
+  // 使用动态setupKey添加Wire初始化（支持多I2C总线）
+  generator.addSetup(`wire_${wire}_begin`, pinComment + '\n' + wireInitCode + '\n');
   
   const code = varName + '.init();\n';
   return code;

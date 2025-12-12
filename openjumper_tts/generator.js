@@ -13,43 +13,12 @@
 Arduino.forBlock['openjumper_tts_init'] = function(block, generator) {
   const rxPin = block.getFieldValue('RX_PIN');
   const txPin = block.getFieldValue('TX_PIN');
-  const boardConfig = generator.getBoardConfig ? generator.getBoardConfig() : null;
   
-  // 添加TTS库引用
+  // 添加TTS库引用（串口库由OpenJumperTTS.h内部根据平台自动引用）
   generator.addLibrary('OpenJumperTTS', '#include <OpenJumperTTS.h>');
   
-  // 根据板卡类型智能选择串口库
-  if (boardConfig && boardConfig.platform) {
-    const platform = boardConfig.platform.toLowerCase();
-    
-    // ESP32系列：优先使用硬件串口，兼容软串口
-    if (platform.includes('esp32')) {
-      generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
-    } 
-    // AVR系列（Arduino UNO/Nano等）：使用标准软串口
-    else if (platform.includes('avr')) {
-      generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
-    }
-    // STM32系列：使用HardwareSerial
-    else if (platform.includes('stm32')) {
-      generator.addLibrary('HardwareSerial', '#include <HardwareSerial.h>');
-    }
-    // 其他板卡：默认使用软串口
-    else {
-      generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
-    }
-  } else {
-    // 无板卡配置时默认使用软串口（最大兼容性）
-    generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
-  }
-  
-  // 创建全局TTS对象（包含使用说明注释）
-  const ttsComment = '/*TTS文本播报格式说明:\n' +
-                     '[n1]: 数字播报模式\n' +
-                     '[n2]: 数值播报模式\n' +
-                     '[n3]: 电话号码播报模式\n' +
-                     '[w0]: 停顿符*/';
-  generator.addObject('TTS_Object', ttsComment + '\nOpenJumperTTS TTS(' + rxPin + ', ' + txPin + ');');
+  // 创建全局TTS对象
+  generator.addObject('TTS_Object', 'OpenJumperTTS TTS(' + rxPin + ', ' + txPin + ');');
   
   // 在setup开始处初始化TTS模块（波特率115200）
   generator.addSetupBegin('TTS_Init', '  TTS.begin(115200);');
@@ -78,9 +47,7 @@ Arduino.forBlock['openjumper_tts_play_invoice'] = function(block, generator) {
 Arduino.forBlock['openjumper_tts_play_control'] = function(block, generator) {
   var controlAction = block.getFieldValue('CONTROL_ACTION');
   
-  // 定义控制常量（如果在库中未定义）
-  generator.addMacro('PLAY_CONTROLS', '#define PLAY_STOP 0\n#define PLAY_PAUSE 1\n#define PLAY_CONTINUE 2');
-  
+  // 注意：PLAY_STOP、PLAY_PAUSE、PLAY_CONTINUE 常量应该在 OpenJumperTTS.h 中定义
   var code = 'TTS.playcontrol(' + controlAction + ');\n';
   return code;
 };
