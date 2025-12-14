@@ -759,6 +759,105 @@ Arduino.forBlock['esp32ai_button_long_pressing'] = function(block, generator) {
   return '';
 };
 
+// esp32ai_selget_mcp_control 块的mutator和extension
+if (Blockly.Extensions.isRegistered('esp32ai_selget_mcp_control_mutator')) {
+    Blockly.Extensions.unregister('esp32ai_selget_mcp_control_mutator');
+}
+if (Blockly.Extensions.isRegistered('esp32ai_selget_mcp_control_extension')) {
+    Blockly.Extensions.unregister('esp32ai_selget_mcp_control_extension');
+}
+
+Blockly.Extensions.registerMutator('esp32ai_selget_mcp_control_mutator', {
+  saveExtraState: function() {
+    return { 'mode': this.mode_ || 'regular' };
+  },
+  loadExtraState: function(state) {
+    this.mode_ = state['mode'] || 'regular';
+    this.updateShape_();
+  }
+}, function() {
+  // 这是helper函数，在块初始化时调用
+  this.mode_ = 'regular';
+
+  this.updateShape_ = function(mode) {
+    if (mode !== undefined) {
+      this.mode_ = mode;
+    }
+    const hasSetInput = this.getInput('setCODE_BLOCK');
+    const hasReportInput = this.getInput('CODE_BLOCK');
+
+    if (this.mode_ === 'set_only') {
+      if (!hasSetInput) {
+        this.appendStatementInput('setCODE_BLOCK').appendField('设置');
+      }
+      if (hasReportInput) {
+        this.removeInput('CODE_BLOCK');
+      }
+    } else if (this.mode_ === 'report_only') {
+      if (hasSetInput) {
+        this.removeInput('setCODE_BLOCK');
+      }
+      if (!hasReportInput) {
+        this.appendStatementInput('CODE_BLOCK').appendField('上报');
+      }
+    } else {
+      if (!hasSetInput) {
+        this.appendStatementInput('setCODE_BLOCK').appendField('设置');
+      }
+      if (!hasReportInput) {
+        this.appendStatementInput('CODE_BLOCK').appendField('上报');
+      }
+    }
+  };
+
+  this.updateShape_();
+});
+
+Blockly.Extensions.register('esp32ai_selget_mcp_control_extension', function() {
+  const block = this;
+
+  const updateBlockDisplay = function() {
+    const varField = block.getField('VAR');
+    if (!varField) return;
+    const varName = varField.getText();
+    const mode = findMcpServiceMode(block.workspace, varName);
+    if (block.mode_ !== mode) {
+      block.updateShape_(mode);
+    }
+  };
+
+  setTimeout(updateBlockDisplay, 100);
+
+  const changeListener = function(event) {
+    if (!block.workspace) return;
+    if (event.type === Blockly.Events.BLOCK_CHANGE ||
+        event.type === Blockly.Events.VAR_RENAME ||
+        event.type === Blockly.Events.BLOCK_CREATE ||
+        event.type === Blockly.Events.BLOCK_DELETE) {
+      updateBlockDisplay();
+    }
+  };
+  block.workspace.addChangeListener(changeListener);
+});
+
+function findMcpServiceMode(workspace, varName) {
+  if (!workspace) return 'regular';
+  const allBlocks = workspace.getAllBlocks(false);
+  for (let i = 0; i < allBlocks.length; i++) {
+    const block = allBlocks[i];
+    if (block.type === 'aivox_mcp_register_control_command') {
+      const nameInput = block.getInputTargetBlock('NAME');
+      if (nameInput && nameInput.type === 'aivox_mcp_control') {
+        const nameField = nameInput.getField('VAR');
+        if (nameField && nameField.getText() === varName) {
+          return block.getFieldValue('MODE') || 'regular';
+        }
+      }
+    }
+  }
+  return 'regular';
+}
+
 // 定义 esp32_i2s_mic_setup 块的动态输入扩展
 if (Blockly.Extensions.isRegistered('esp32_i2s_mic_dynamic_inputs')) {
     Blockly.Extensions.unregister('esp32_i2s_mic_dynamic_inputs');
@@ -1428,10 +1527,10 @@ Arduino.forBlock['esp32ai_selget_mcp_control'] = function(block, generator) {
   // 对于field_variable类型的字段，使用getText()方法获取显示的变量名称
   const varField = block.getField('VAR');
   const serviceName = varField ? varField.getText() : 'unknown_service';
-  
-  // 获取设置区和上报区的代码
-  const setCodeBlock = generator.statementToCode(block, 'setCODE_BLOCK') || '';
-  const reportCodeBlock = generator.statementToCode(block, 'CODE_BLOCK') || '';
+
+  // 获取设置区和上报区的代码，先检查输入是否存在
+  const setCodeBlock = block.getInput('setCODE_BLOCK') ? (generator.statementToCode(block, 'setCODE_BLOCK') || '') : '';
+  const reportCodeBlock = block.getInput('CODE_BLOCK') ? (generator.statementToCode(block, 'CODE_BLOCK') || '') : '';
   
   // 获取该MCP服务的所有参数
   const params = getMcpServiceParams(serviceName);
