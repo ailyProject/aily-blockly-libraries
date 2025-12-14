@@ -7,6 +7,7 @@
 ## 📋 目录
 
 - [快速开始](#-快速开始)
+- [⚠️ PR核心规则](#️-pr核心规则)
 - [提交前准备](#-提交前准备)
 - [库结构规范](#-库结构规范)
 - [PR提交流程](#-pr提交流程)
@@ -53,6 +54,91 @@ git push origin feature/新库名称
 
 ### 5. 创建Pull Request
 在GitHub上创建PR，填写相关信息，等待审核。
+
+---
+
+## ⚠️ PR核心规则
+
+> **重要提示**：为了保证代码审核效率和版本管理的清晰性，请严格遵守以下规则。不符合规则的PR将被要求修改或拒绝。
+
+### 🔴 一个PR只能修改一个库
+
+| ✅ 正确做法 | ❌ 错误做法 |
+|------------|------------|
+| PR #1: 添加DHT库 | PR #1: 同时添加DHT库和BME280库 |
+| PR #2: 添加BME280库 | PR #1: 修复DHT库bug + 添加新功能到servo库 |
+| PR #3: 修复FastLED库bug | PR #1: 更新多个库的package.json版本 |
+
+**原因**：
+- 便于代码审核，每个PR专注于单一变更
+- 便于问题追踪，如果出现bug可以快速定位
+- 便于版本回滚，可以独立撤销某个库的变更
+- 便于CI/CD，自动检测只针对单个库运行
+
+### 🔴 保持Commit简洁
+
+**推荐**：每个PR使用一个清晰的commit（或少量高度相关的commit）
+
+```bash
+# ✅ 推荐：单个完整的commit
+git add DHT/
+git commit -m "feat(DHT): 添加DHT温湿度传感器库"
+
+# ✅ 可接受：少量相关commit（针对复杂库）
+git commit -m "feat(DHT): 添加DHT传感器基础功能"
+git commit -m "feat(DHT): 添加DHT20 I2C支持"
+git commit -m "docs(DHT): 添加使用文档和示例"
+
+# ❌ 避免：过多零散的commit
+git commit -m "add file"
+git commit -m "fix typo"
+git commit -m "update"
+git commit -m "fix again"
+git commit -m "final fix"
+```
+
+**如何合并多个commit**：
+```bash
+# 方法1：使用 --amend 修改最后一个commit
+git add .
+git commit --amend -m "feat(DHT): 添加DHT温湿度传感器库"
+
+# 方法2：使用 rebase 合并多个commit
+git rebase -i HEAD~3  # 合并最近3个commit
+# 在编辑器中将 pick 改为 squash 或 s，保留第一个为 pick
+```
+
+### 🔴 如果需要修改多个库
+
+请分别创建多个PR：
+
+```bash
+# 库1：DHT
+git checkout -b feature/DHT
+# 开发DHT库...
+git add DHT/
+git commit -m "feat(DHT): 添加DHT温湿度传感器库"
+git push origin feature/DHT
+# 创建PR #1
+
+# 库2：BME280
+git checkout main
+git checkout -b feature/BME280
+# 开发BME280库...
+git add BME280/
+git commit -m "feat(BME280): 添加BME280气压传感器库"
+git push origin feature/BME280
+# 创建PR #2
+```
+
+### 📋 PR检查清单
+
+在提交PR前，请确认：
+
+- [ ] 本PR只涉及 **一个库** 的变更
+- [ ] Commit信息清晰，描述了变更内容
+- [ ] 没有包含无关文件的修改
+- [ ] 已运行规范检测且分数>=80分
 
 ---
 
@@ -328,6 +414,8 @@ git commit -m "docs(servo): 更新README添加使用示例"
 
 ## ✅ 自检清单
 <!-- 请确认以下项目已完成 -->
+- [ ] ⚠️ **本PR只涉及一个库的变更**（重要！）
+- [ ] ⚠️ **Commit信息清晰且数量精简**
 - [ ] 已阅读 [库规范.md](./库规范.md)
 - [ ] 已运行 `node validate-library-compliance.js 库名称` 且分数>=80
 - [ ] 库包含所有必需文件（package.json, block.json, generator.js, toolbox.json）
@@ -358,18 +446,31 @@ git commit -m "docs(servo): 更新README添加使用示例"
 ### 审核步骤
 
 1. **自动检测**：GitHub Actions运行规范检测
-2. **人工审核**：维护者审核代码质量和设计
-3. **反馈修改**：根据审核意见进行修改
-4. **合并发布**：通过审核后合并到主分支
+2. **PR格式检查**：确认PR只涉及单个库且commit清晰
+3. **人工审核**：维护者审核代码质量和设计
+4. **反馈修改**：根据审核意见进行修改
+5. **合并发布**：通过审核后合并到主分支
 
 ### 审核重点
 
+- ✅ **PR是否只涉及一个库**（重要！）
+- ✅ **Commit是否清晰精简**
 - ✅ 库结构是否完整规范
 - ✅ block设计是否用户友好
 - ✅ generator.js是否正确生成代码
 - ✅ 是否遵循命名规范
 - ✅ 文档是否清晰完整
 - ✅ 是否存在安全问题
+
+### 常见拒绝原因
+
+| 原因 | 解决方法 |
+|------|---------|
+| PR修改了多个库 | 拆分为多个独立的PR |
+| commit过多且杂乱 | 使用 `git rebase -i` 合并commit |
+| 规范检测分数<80 | 按照检测报告修复问题 |
+| 缺少必需文件 | 补充缺失的文件 |
+| 命名不规范 | 修改package.json中的name字段 |
 
 ### 修改反馈
 
@@ -381,17 +482,35 @@ git checkout feature/新库名称
 
 # 进行修改...
 
-# 提交修改
+# 使用 --amend 避免产生多余的commit
 git add .
-git commit -m "fix: 根据审核意见修复XXX问题"
+git commit --amend -m "feat(库名): 添加XXX库（已修复审核意见）"
 
-# 推送更新
-git push origin feature/新库名称
+# 强制推送更新（因为修改了commit历史）
+git push origin feature/新库名称 --force
 ```
 
 ---
 
 ## ❓ 常见问题
+
+### Q: 为什么一个PR只能修改一个库？
+
+这是为了保证代码审核和版本管理的清晰性：
+- **便于审核**：审核者可以专注于单一库的变更
+- **便于追踪**：如果出现问题可以快速定位到具体的PR
+- **便于回滚**：可以独立撤销某个库的变更而不影响其他库
+- **便于CI/CD**：自动检测可以针对单个库精确运行
+
+### Q: 我想同时提交多个库怎么办？
+
+请为每个库创建独立的分支和PR：
+```bash
+# 库1
+git checkout -b feature/lib-a && git add lib-a/ && git commit -m "feat(lib-a): ..." && git push origin feature/lib-a
+# 库2
+git checkout main && git checkout -b feature/lib-b && git add lib-b/ && git commit -m "feat(lib-b): ..." && git push origin feature/lib-b
+```
 
 ### Q: 规范检测分数不够80分怎么办？
 
