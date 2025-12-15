@@ -46,32 +46,68 @@
         "type": "field_dropdown",
         "name": "MODEL",
         "options": [
-          [
-            "qwen-turbo",
-            "qwen-turbo"
-          ],
-          [
-            "qwen-plus",
-            "qwen-plus"
-          ],
-          [
-            "qwen-max",
-            "qwen-max"
-          ],
-          [
-            "qwen-long",
-            "qwen-long"
-          ],
-          [
-            "qwen-omni-turbo",
-            "qwen-omni-turbo"
-          ]
+          ["qwen-turbo (快速)", "qwen-turbo"],
+          ["qwen-plus", "qwen-plus"],
+          ["qwen-max", "qwen-max"],
+          ["qwen-long", "qwen-long"],
+          ["qwen3-max", "qwen3-max"],
+          ["qwen-omni-turbo", "qwen-omni-turbo"],
+          ["qwen3-omni-flash", "qwen3-omni-flash"]
         ]
       }
     ],
     "output": "String",
     "colour": "#FF6B35",
     "tooltip": "发送消息到通义千问并获取回复",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
+  },
+  {
+    "type": "qwen_omni_chat_simple",
+    "message0": "通义千问对话(简易) %1 用户消息 %2",
+    "args0": [
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      }
+    ],
+    "output": "String",
+    "colour": "#FF6B35",
+    "tooltip": "使用默认模型(qwen-turbo)发送消息",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
+  },
+  {
+    "type": "qwen_omni_chat_with_thinking",
+    "message0": "通义千问深度思考对话 %1 用户消息 %2 %3 模型 %4",
+    "args0": [
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["qwen3-max", "qwen3-max"],
+          ["qwen3-max-preview", "qwen3-max-preview"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#FF6B35",
+    "tooltip": "启用深度思考模式的通义千问对话",
     "helpUrl": "",
     "icon": "fa-regular fa-head-side-gear"
   },
@@ -94,52 +130,19 @@
         "type": "field_dropdown",
         "name": "MODEL",
         "options": [
-           [
-            "qwen3-max",
-            "qwen3-max"
-          ],
-          [
-            "qwen3-max-preview",
-            "qwen3-max-preview"
-          ],
-          [
-            "qwen3-vl-plus ",
-            "qwen3-vl-plus "
-          ],
-          [
-            "qwen3-vl-flash",
-            "qwen3-vl-flash"
-          ],
-          [
-            "qwen3-omni-flash",
-            "qwen3-omni-flash"
-          ],
-          [
-            "qwen-turbo",
-            "qwen-turbo"
-          ],
-          [
-            "qwen-plus",
-            "qwen-plus"
-          ],
-          [
-            "qwen-max",
-            "qwen-max"
-          ],
-          [
-            "qwen-long",
-            "qwen-long"
-          ],
-          [
-            "qwen-omni-turbo",
-            "qwen-omni-turbo"
-          ]
+          ["qwen-turbo (快速)", "qwen-turbo"],
+          ["qwen-plus", "qwen-plus"],
+          ["qwen-max", "qwen-max"],
+          ["qwen-long", "qwen-long"],
+          ["qwen3-max", "qwen3-max"],
+          ["qwen-omni-turbo", "qwen-omni-turbo"],
+          ["qwen3-omni-flash", "qwen3-omni-flash"]
         ]
       }
     ],
     "output": "String",
     "colour": "#FF6B35",
-    "tooltip": "支持多轮对话的通义千问（简化版本）",
+    "tooltip": "支持多轮对话的通义千问，自动保存对话历史",
     "helpUrl": "",
     "icon": "fa-regular fa-head-side-gear"
   },
@@ -192,6 +195,39 @@
     "icon": "fa-regular fa-head-side-gear"
   },
   {
+    "type": "qwen_omni_set_stream_callback",
+    "message0": "设置通义千问流式回调 %1 %2",
+    "args0": [
+      {"type": "input_dummy"},
+      {"type": "input_statement", "name": "CALLBACK"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "设置流式回调函数，每收到一个文本片段时执行。使用'获取流式片段'块获取当前片段内容",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
+  },
+  {
+    "type": "qwen_omni_get_stream_chunk",
+    "message0": "获取通义千问流式片段",
+    "output": "String",
+    "colour": "#FF6B35",
+    "tooltip": "在流式回调中获取当前收到的文本片段",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
+  },
+  {
+    "type": "qwen_omni_clear_stream_callback",
+    "message0": "清除通义千问流式回调",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "清除已设置的流式回调函数",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
+  },
+  {
     "type": "qwen_omni_vision_chat",
     "message0": "通义千问图片对话 %1 Base64图片 %2 %3 提示词 %4 %5 模型 %6",
     "args0": [
@@ -218,22 +254,10 @@
         "type": "field_dropdown",
         "name": "MODEL",
         "options": [
-          [
-            "qwen3-vl-plus",
-            "qwen3-vl-plus"
-          ],
-          [
-            "qwen3-vl-flash",
-            "qwen3-vl-flash"
-          ],
-          [
-            "qwen-vl-max",
-            "qwen-vl-max"
-          ],
-          [
-            "qwen-vl-plus",
-            "qwen-vl-plus"
-          ]
+          ["qwen3-vl-plus (推荐)", "qwen3-vl-plus"],
+          ["qwen3-vl-flash (快速)", "qwen3-vl-flash"],
+          ["qwen-vl-max", "qwen-vl-max"],
+          ["qwen-vl-plus", "qwen-vl-plus"]
         ]
       }
     ],
@@ -242,5 +266,107 @@
     "tooltip": "发送Base64编码的图片和文本到通义千问VL模型进行图片理解",
     "helpUrl": "",
     "icon": "fa-regular fa-head-side-gear"
+  },
+  {
+    "type": "qwen_omni_vision_url_chat",
+    "message0": "通义千问图片URL对话 %1 图片URL %2 %3 提示词 %4 %5 模型 %6",
+    "args0": [
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "IMAGE_URL",
+        "check": "String"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["qwen3-vl-plus (推荐)", "qwen3-vl-plus"],
+          ["qwen3-vl-flash (快速)", "qwen3-vl-flash"],
+          ["qwen-vl-max", "qwen-vl-max"],
+          ["qwen-vl-plus", "qwen-vl-plus"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#FF6B35",
+    "tooltip": "发送图片URL和文本到通义千问VL模型进行图片理解",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
+  },
+  {
+    "type": "qwen_omni_image_generate",
+    "message0": "通义万相生成图片 %1 提示词 %2 %3 模型 %4 %5 尺寸 %6",
+    "args0": [
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "PROMPT",
+        "check": "String"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["wanx2.1-t2i-turbo (快速)", "wanx2.1-t2i-turbo"],
+          ["wanx2.1-t2i-plus", "wanx2.1-t2i-plus"],
+          ["wanx-v1", "wanx-v1"]
+        ]
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SIZE",
+        "options": [
+          ["1024x1024", "1024*1024"],
+          ["720x1280", "720*1280"],
+          ["1280x720", "1280*720"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#9333EA",
+    "tooltip": "根据文字描述生成图片，返回图片URL链接，可配合TFT屏幕显示",
+    "helpUrl": "",
+    "icon": "fa-regular fa-image"
+  },
+  {
+    "type": "qwen_omni_image_generate_simple",
+    "message0": "通义万相生成图片(简易) %1 提示词 %2",
+    "args0": [
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "PROMPT",
+        "check": "String"
+      }
+    ],
+    "output": "String",
+    "colour": "#9333EA",
+    "tooltip": "根据文字描述生成图片，使用默认设置，返回图片URL链接，可配合TFT屏幕显示",
+    "helpUrl": "",
+    "icon": "fa-regular fa-image"
   }
 ]

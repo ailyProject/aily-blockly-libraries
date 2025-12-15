@@ -1,10 +1,10 @@
 # 通义千问 Qwen API 库
 
-阿里云通义千问大语言模型API库,支持文本对话和图片理解
+阿里云通义千问大语言模型API库，支持文本对话、图片理解和图像生成
 
 ## 库信息
 - **库名**: @aily-project/lib-qwen-omni
-- **版本**: 0.0.1
+- **版本**: 0.0.2
 - **兼容**: esp32:esp32
 
 ## 块定义
@@ -13,8 +13,13 @@
 |--------|------|----------|----------|----------|
 | `qwen_omni_config` | 语句块 | API_KEY(input_value), BASE_URL(input_value) | 无字段 | 配置API密钥和URL |
 | `qwen_omni_chat` | 值块 | MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "qwen-turbo"` | 发送消息获取回复 |
-| `qwen_omni_chat_with_history` | 值块 | MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "qwen3-max"` | 多轮对话 |
-| `qwen_omni_vision_chat` | 值块 | IMAGE(input_value), MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "qwen3-vl-plus"` | 图片对话 |
+| `qwen_omni_chat_simple` | 值块 | MESSAGE(input_value) | 无字段 | 简易对话(默认qwen-turbo) |
+| `qwen_omni_chat_with_thinking` | 值块 | MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "qwen3-max"` | 深度思考对话 |
+| `qwen_omni_chat_with_history` | 值块 | MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "qwen-turbo"` | 多轮对话(保存历史) |
+| `qwen_omni_vision_chat` | 值块 | IMAGE(input_value), MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "qwen3-vl-plus"` | Base64图片对话 |
+| `qwen_omni_vision_url_chat` | 值块 | IMAGE_URL(input_value), MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "qwen3-vl-plus"` | 图片URL对话 |
+| `qwen_omni_image_generate` | 值块 | PROMPT(input_value), MODEL(dropdown), SIZE(dropdown) | `"MODEL": "wanx2.1-t2i-turbo"` | 生成图片返回URL |
+| `qwen_omni_image_generate_simple` | 值块 | PROMPT(input_value) | 无字段 | 简易图片生成 |
 | `qwen_omni_clear_history` | 语句块 | 无 | 无字段 | 清空对话历史 |
 | `qwen_omni_set_system_prompt` | 语句块 | SYSTEM_PROMPT(input_value) | 无字段 | 设置系统提示词 |
 | `qwen_omni_get_response_status` | 值块 | 无 | 无字段 | 获取响应状态 |
@@ -107,13 +112,14 @@
 2. **连接限制**: 值块不能有next字段
 3. **WiFi要求**: 使用前必须连接WiFi
 4. **API Key**: 需要有效的阿里云API Key
-5. **图片格式**: 图片对话需要Base64编码的JPEG图片
+5. **图片格式**: Base64图片对话需要JPEG格式的Base64编码
 
 ## 支持的模型
 
 ### 文本模型
-- qwen-turbo, qwen-plus, qwen-max, qwen-long
-- qwen3-max, qwen3-max-preview
+- qwen-turbo (快速，推荐)
+- qwen-plus, qwen-max, qwen-long
+- qwen3-max, qwen3-max-preview (支持深度思考)
 - qwen-omni-turbo, qwen3-omni-flash
 
 ### 视觉模型
@@ -121,9 +127,21 @@
 - qwen3-vl-flash (快速)
 - qwen-vl-max, qwen-vl-plus
 
+### 图像生成模型 (通义万相)
+- wanx2.1-t2i-turbo (快速，推荐)
+- wanx2.1-t2i-plus
+- wanx-v1
+
+### 图像生成尺寸
+- 1024x1024 (默认，正方形)
+- 720x1280, 1280x720 (竖版/横版)
+
 ## 特殊说明
 
-- 图片对话使用mbedTLS Base64编码,无需额外库
-- 超时时间: 文本30秒,图片60秒
+- 多轮对话会自动保存对话历史，使用`清空对话历史`块重置
+- 深度思考模式会启用`enable_thinking`参数
+- 超时时间: 对话60秒，图像生成120秒
 - 响应状态通过`qwen_last_success`变量检查
 - 错误信息通过`qwen_last_error`变量获取
+- 图像生成使用异步API，会自动轮询等待结果
+- 图片URL可配合adafruit_GFX库的"下载URL图片并显示"积木在TFT屏幕上显示
