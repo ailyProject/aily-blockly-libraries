@@ -417,3 +417,6 @@ String zhipu_image_generate(String model, String prompt, String size) {
   const code = `zhipu_image_generate("CogView-3-Flash", ${prompt}, "1024x1024")`;
   return [code, Arduino.ORDER_FUNCTION_CALL];
 };
+
+
+

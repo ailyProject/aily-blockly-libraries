@@ -144,3 +144,4 @@
 - 响应状态通过`qwen_last_success`变量检查
 - 错误信息通过`qwen_last_error`变量获取
 - 图像生成使用异步API，会自动轮询等待结果
+- 图片URL可配合adafruit_GFX库的"下载URL图片并显示"积木在TFT屏幕上显示

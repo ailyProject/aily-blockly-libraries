@@ -549,3 +549,6 @@ String qwen_image_generate(String model, String prompt, String size) {
   const code = `qwen_image_generate("wanx2.1-t2i-turbo", ${prompt}, "1024*1024")`;
   return [code, Arduino.ORDER_FUNCTION_CALL];
 };
+
+
+

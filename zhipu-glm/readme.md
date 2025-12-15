@@ -115,3 +115,4 @@
 - 错误信息通过`zhipu_last_error`变量获取
 - 支持通过URL直接传入网络图片进行分析
 - 图像生成返回图片URL，有效期有限
+- 图片URL可配合adafruit_GFX库的"下载URL图片并显示"积木在TFT屏幕上显示
