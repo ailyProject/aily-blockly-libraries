@@ -71,6 +71,7 @@ String qwen_simple_request(String model, String message, bool enableThinking) {
             data.trim();
             
             if (data == "[DONE]") {
+              Serial.println();
               Serial.println("流式传输完成");
               break;
             }
@@ -80,7 +81,9 @@ String qwen_simple_request(String model, String message, bool enableThinking) {
               contentStart += 11;
               int contentEnd = data.indexOf("\\"", contentStart);
               if (contentEnd > contentStart) {
-                fullContent += data.substring(contentStart, contentEnd);
+                String content = data.substring(contentStart, contentEnd);
+                Serial.print(content); // 实时输出
+                fullContent += content;
               }
             }
           }
@@ -92,7 +95,6 @@ String qwen_simple_request(String model, String message, bool enableThinking) {
     
     if (fullContent.length() > 0) {
       response = fullContent;
-      Serial.println("流式解析成功，AI回复: " + response);
       qwen_last_success = true;
       qwen_last_error = "";
     } else {
@@ -159,13 +161,18 @@ String qwen_history_request(String model, String message) {
           if (buffer.startsWith("data:")) {
             String data = buffer.substring(5);
             data.trim();
-            if (data == "[DONE]") break;
+            if (data == "[DONE]") {
+              Serial.println();
+              break;
+            }
             int contentStart = data.indexOf("\\"content\\":\\"");
             if (contentStart >= 0) {
               contentStart += 11;
               int contentEnd = data.indexOf("\\"", contentStart);
               if (contentEnd > contentStart) {
-                fullContent += data.substring(contentStart, contentEnd);
+                String content = data.substring(contentStart, contentEnd);
+                Serial.print(content); // 实时输出
+                fullContent += content;
               }
             }
           }
@@ -293,13 +300,18 @@ String qwen_vision_request(String model, String base64Image, String message) {
           if (buffer.startsWith("data:")) {
             String data = buffer.substring(5);
             data.trim();
-            if (data == "[DONE]") break;
+            if (data == "[DONE]") {
+              Serial.println();
+              break;
+            }
             int contentStart = data.indexOf("\\"content\\":\\"");
             if (contentStart >= 0) {
               contentStart += 11;
               int contentEnd = data.indexOf("\\"", contentStart);
               if (contentEnd > contentStart) {
-                fullContent += data.substring(contentStart, contentEnd);
+                String content = data.substring(contentStart, contentEnd);
+                Serial.print(content); // 实时输出
+                fullContent += content;
               }
             }
           }
@@ -377,13 +389,18 @@ String qwen_vision_url_request(String model, String imageUrl, String message) {
           if (buffer.startsWith("data:")) {
             String data = buffer.substring(5);
             data.trim();
-            if (data == "[DONE]") break;
+            if (data == "[DONE]") {
+              Serial.println();
+              break;
+            }
             int contentStart = data.indexOf("\\"content\\":\\"");
             if (contentStart >= 0) {
               contentStart += 11;
               int contentEnd = data.indexOf("\\"", contentStart);
               if (contentEnd > contentStart) {
-                fullContent += data.substring(contentStart, contentEnd);
+                String content = data.substring(contentStart, contentEnd);
+                Serial.print(content); // 实时输出
+                fullContent += content;
               }
             }
           }

@@ -73,6 +73,7 @@ String zhipu_simple_request(String model, String message, bool enableThinking) {
             data.trim();
             
             if (data == "[DONE]") {
+              Serial.println();
               Serial.println("流式传输完成");
               break;
             }
@@ -84,6 +85,7 @@ String zhipu_simple_request(String model, String message, bool enableThinking) {
               int contentEnd = data.indexOf("\\"", contentStart);
               if (contentEnd > contentStart) {
                 String content = data.substring(contentStart, contentEnd);
+                Serial.print(content); // 实时输出
                 fullContent += content;
               }
             }
@@ -209,13 +211,18 @@ String zhipu_vision_request(String model, String base64Image, String message) {
           if (buffer.startsWith("data:")) {
             String data = buffer.substring(5);
             data.trim();
-            if (data == "[DONE]") break;
+            if (data == "[DONE]") {
+              Serial.println();
+              break;
+            }
             int contentStart = data.indexOf("\\"content\\":\\"");
             if (contentStart >= 0) {
               contentStart += 11;
               int contentEnd = data.indexOf("\\"", contentStart);
               if (contentEnd > contentStart) {
-                fullContent += data.substring(contentStart, contentEnd);
+                String content = data.substring(contentStart, contentEnd);
+                Serial.print(content); // 实时输出
+                fullContent += content;
               }
             }
           }
@@ -293,13 +300,18 @@ String zhipu_vision_url_request(String model, String imageUrl, String message) {
           if (buffer.startsWith("data:")) {
             String data = buffer.substring(5);
             data.trim();
-            if (data == "[DONE]") break;
+            if (data == "[DONE]") {
+              Serial.println();
+              break;
+            }
             int contentStart = data.indexOf("\\"content\\":\\"");
             if (contentStart >= 0) {
               contentStart += 11;
               int contentEnd = data.indexOf("\\"", contentStart);
               if (contentEnd > contentStart) {
-                fullContent += data.substring(contentStart, contentEnd);
+                String content = data.substring(contentStart, contentEnd);
+                Serial.print(content); // 实时输出
+                fullContent += content;
               }
             }
           }
