@@ -15,10 +15,10 @@ Arduino.forBlock['zhipu_glm_config'] = function(block, generator) {
   generator.addVariable('zhipu_last_success', 'bool zhipu_last_success = false;');
   generator.addVariable('zhipu_last_error', 'String zhipu_last_error = "";');
 
-  // 添加简化的HTTP请求函数
+  // 添加流式HTTP请求函数
   generator.addFunction('zhipu_simple_request', `
 String zhipu_simple_request(String model, String message, bool enableThinking) {
-  Serial.println("=== 智谱AI API调用开始 ===");
+  Serial.println("=== 智谱AI API调用开始(流式) ===");
   Serial.println("模型: " + model);
   Serial.println("消息: " + message);
 
@@ -28,24 +28,21 @@ String zhipu_simple_request(String model, String message, bool enableThinking) {
     zhipu_last_error = "WiFi not connected";
     return "";
   }
-  Serial.println("WiFi连接正常");
 
   HTTPClient http;
   String url = zhipu_base_url + "/chat/completions";
-  Serial.println("请求URL: " + url);
   http.begin(url);
-  http.setTimeout(60000); // 60秒超时
+  http.setTimeout(60000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + zhipu_api_key);
-  Serial.println("请求头设置完成");
 
   String requestBody = "{\\"model\\":\\"" + model + "\\",\\"messages\\":[";
   if (zhipu_system_prompt.length() > 0) {
     requestBody += "{\\"role\\":\\"system\\",\\"content\\":\\"" + zhipu_system_prompt + "\\"},";
   }
   requestBody += "{\\"role\\":\\"user\\",\\"content\\":\\"" + message + "\\"}]";
+  requestBody += ",\\"stream\\":true";
   
-  // 如果启用深度思考模式
   if (enableThinking) {
     requestBody += ",\\"thinking\\":{\\"type\\":\\"enabled\\"}";
     requestBody += ",\\"max_tokens\\":65536";
@@ -53,32 +50,63 @@ String zhipu_simple_request(String model, String message, bool enableThinking) {
   }
   requestBody += "}";
 
-  Serial.println("请求体: " + requestBody);
-  Serial.println("发送HTTP请求...");
+  Serial.println("发送流式请求...");
   int httpResponseCode = http.POST(requestBody);
   Serial.println("HTTP响应码: " + String(httpResponseCode));
   String response = "";
 
   if (httpResponseCode == 200) {
-    String payload = http.getString();
-    Serial.println("API响应: " + payload);
-
-    // 解析响应中的content字段
-    int start = payload.indexOf("\\"content\\":\\"") + 11;
-    int end = payload.indexOf("\\"", start);
-    if (start > 10 && end > start) {
-      response = payload.substring(start, end);
-      Serial.println("解析成功，AI回复: " + response);
+    WiFiClient* stream = http.getStreamPtr();
+    String fullContent = "";
+    String buffer = "";
+    
+    while (http.connected() || stream->available()) {
+      if (stream->available()) {
+        char c = stream->read();
+        buffer += c;
+        
+        // 检查是否收到完整的一行
+        if (c == '\\n') {
+          buffer.trim();
+          if (buffer.startsWith("data:")) {
+            String data = buffer.substring(5);
+            data.trim();
+            
+            if (data == "[DONE]") {
+              Serial.println("流式传输完成");
+              break;
+            }
+            
+            // 解析JSON中的content
+            int contentStart = data.indexOf("\\"content\\":\\"");
+            if (contentStart >= 0) {
+              contentStart += 11;
+              int contentEnd = data.indexOf("\\"", contentStart);
+              if (contentEnd > contentStart) {
+                String content = data.substring(contentStart, contentEnd);
+                fullContent += content;
+              }
+            }
+          }
+          buffer = "";
+        }
+      }
+      delay(1);
+    }
+    
+    if (fullContent.length() > 0) {
+      response = fullContent;
+      Serial.println("流式解析成功，AI回复: " + response);
       zhipu_last_success = true;
       zhipu_last_error = "";
     } else {
-      Serial.println("解析失败，无法找到content字段");
+      Serial.println("流式解析失败");
       zhipu_last_success = false;
-      zhipu_last_error = "Parse error";
+      zhipu_last_error = "Stream parse error";
     }
   } else {
     String errorResponse = http.getString();
-    Serial.println("HTTP错误响应: " + errorResponse);
+    Serial.println("HTTP错误: " + errorResponse);
     zhipu_last_success = false;
     zhipu_last_error = "HTTP " + String(httpResponseCode);
   }
@@ -139,15 +167,14 @@ Arduino.forBlock['zhipu_glm_vision_chat'] = function(block, generator) {
   const message = generator.valueToCode(block, 'MESSAGE', Arduino.ORDER_ATOMIC) || '""';
   const model = block.getFieldValue('MODEL');
 
-  // 添加图片对话函数（Base64）
+  // 添加图片对话函数（Base64，流式）
   generator.addFunction('zhipu_vision_request', `
 String zhipu_vision_request(String model, String base64Image, String message) {
-  Serial.println("=== 智谱AI视觉对话开始 ===");
+  Serial.println("=== 智谱AI视觉对话开始(流式) ===");
   Serial.println("模型: " + model);
   Serial.println("提示词: " + message);
 
   if (WiFi.status() != WL_CONNECTED) {
-    Serial.println("错误: WiFi未连接");
     zhipu_last_success = false;
     zhipu_last_error = "WiFi not connected";
     return "";
@@ -156,47 +183,62 @@ String zhipu_vision_request(String model, String base64Image, String message) {
   HTTPClient http;
   String url = zhipu_base_url + "/chat/completions";
   http.begin(url);
-  http.setTimeout(60000); // 60秒超时
+  http.setTimeout(60000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + zhipu_api_key);
 
-  // 构建JSON请求体
   String requestBody = "{\\"model\\":\\"" + model + "\\",\\"messages\\":[{\\"role\\":\\"user\\",\\"content\\":[";
   requestBody += "{\\"type\\":\\"image_url\\",\\"image_url\\":{\\"url\\":\\"data:image/jpeg;base64," + base64Image + "\\"}},";
   requestBody += "{\\"type\\":\\"text\\",\\"text\\":\\"" + message + "\\"}";
-  requestBody += "]}]}";
+  requestBody += "]}],\\"stream\\":true}";
 
-  Serial.println("发送HTTP请求...");
   int httpResponseCode = http.POST(requestBody);
-  Serial.println("HTTP响应码: " + String(httpResponseCode));
   String response = "";
 
   if (httpResponseCode == 200) {
-    String payload = http.getString();
-    Serial.println("API响应长度: " + String(payload.length()));
-
-    // 解析响应
-    int start = payload.indexOf("\\"content\\":\\"") + 11;
-    int end = payload.indexOf("\\"", start);
-    if (start > 10 && end > start) {
-      response = payload.substring(start, end);
-      Serial.println("解析成功，AI回复: " + response);
+    WiFiClient* stream = http.getStreamPtr();
+    String fullContent = "";
+    String buffer = "";
+    
+    while (http.connected() || stream->available()) {
+      if (stream->available()) {
+        char c = stream->read();
+        buffer += c;
+        if (c == '\\n') {
+          buffer.trim();
+          if (buffer.startsWith("data:")) {
+            String data = buffer.substring(5);
+            data.trim();
+            if (data == "[DONE]") break;
+            int contentStart = data.indexOf("\\"content\\":\\"");
+            if (contentStart >= 0) {
+              contentStart += 11;
+              int contentEnd = data.indexOf("\\"", contentStart);
+              if (contentEnd > contentStart) {
+                fullContent += data.substring(contentStart, contentEnd);
+              }
+            }
+          }
+          buffer = "";
+        }
+      }
+      delay(1);
+    }
+    
+    if (fullContent.length() > 0) {
+      response = fullContent;
       zhipu_last_success = true;
       zhipu_last_error = "";
     } else {
-      Serial.println("解析失败");
       zhipu_last_success = false;
-      zhipu_last_error = "Parse error";
+      zhipu_last_error = "Stream parse error";
     }
   } else {
-    String errorResponse = http.getString();
-    Serial.println("HTTP错误: " + errorResponse);
     zhipu_last_success = false;
     zhipu_last_error = "HTTP " + String(httpResponseCode);
   }
 
   http.end();
-  Serial.println("=== 智谱AI视觉对话结束 ===");
   return response;
 }`);
 
@@ -209,16 +251,14 @@ Arduino.forBlock['zhipu_glm_vision_url_chat'] = function(block, generator) {
   const message = generator.valueToCode(block, 'MESSAGE', Arduino.ORDER_ATOMIC) || '""';
   const model = block.getFieldValue('MODEL');
 
-  // 添加图片URL对话函数
+  // 添加图片URL对话函数（流式）
   generator.addFunction('zhipu_vision_url_request', `
 String zhipu_vision_url_request(String model, String imageUrl, String message) {
-  Serial.println("=== 智谱AI视觉URL对话开始 ===");
+  Serial.println("=== 智谱AI视觉URL对话开始(流式) ===");
   Serial.println("模型: " + model);
   Serial.println("图片URL: " + imageUrl);
-  Serial.println("提示词: " + message);
 
   if (WiFi.status() != WL_CONNECTED) {
-    Serial.println("错误: WiFi未连接");
     zhipu_last_success = false;
     zhipu_last_error = "WiFi not connected";
     return "";
@@ -227,47 +267,62 @@ String zhipu_vision_url_request(String model, String imageUrl, String message) {
   HTTPClient http;
   String url = zhipu_base_url + "/chat/completions";
   http.begin(url);
-  http.setTimeout(60000); // 60秒超时
+  http.setTimeout(60000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + zhipu_api_key);
 
-  // 构建JSON请求体
   String requestBody = "{\\"model\\":\\"" + model + "\\",\\"messages\\":[{\\"role\\":\\"user\\",\\"content\\":[";
   requestBody += "{\\"type\\":\\"image_url\\",\\"image_url\\":{\\"url\\":\\"" + imageUrl + "\\"}},";
   requestBody += "{\\"type\\":\\"text\\",\\"text\\":\\"" + message + "\\"}";
-  requestBody += "]}]}";
+  requestBody += "]}],\\"stream\\":true}";
 
-  Serial.println("发送HTTP请求...");
   int httpResponseCode = http.POST(requestBody);
-  Serial.println("HTTP响应码: " + String(httpResponseCode));
   String response = "";
 
   if (httpResponseCode == 200) {
-    String payload = http.getString();
-    Serial.println("API响应长度: " + String(payload.length()));
-
-    // 解析响应
-    int start = payload.indexOf("\\"content\\":\\"") + 11;
-    int end = payload.indexOf("\\"", start);
-    if (start > 10 && end > start) {
-      response = payload.substring(start, end);
-      Serial.println("解析成功，AI回复: " + response);
+    WiFiClient* stream = http.getStreamPtr();
+    String fullContent = "";
+    String buffer = "";
+    
+    while (http.connected() || stream->available()) {
+      if (stream->available()) {
+        char c = stream->read();
+        buffer += c;
+        if (c == '\\n') {
+          buffer.trim();
+          if (buffer.startsWith("data:")) {
+            String data = buffer.substring(5);
+            data.trim();
+            if (data == "[DONE]") break;
+            int contentStart = data.indexOf("\\"content\\":\\"");
+            if (contentStart >= 0) {
+              contentStart += 11;
+              int contentEnd = data.indexOf("\\"", contentStart);
+              if (contentEnd > contentStart) {
+                fullContent += data.substring(contentStart, contentEnd);
+              }
+            }
+          }
+          buffer = "";
+        }
+      }
+      delay(1);
+    }
+    
+    if (fullContent.length() > 0) {
+      response = fullContent;
       zhipu_last_success = true;
       zhipu_last_error = "";
     } else {
-      Serial.println("解析失败");
       zhipu_last_success = false;
-      zhipu_last_error = "Parse error";
+      zhipu_last_error = "Stream parse error";
     }
   } else {
-    String errorResponse = http.getString();
-    Serial.println("HTTP错误: " + errorResponse);
     zhipu_last_success = false;
     zhipu_last_error = "HTTP " + String(httpResponseCode);
   }
 
   http.end();
-  Serial.println("=== 智谱AI视觉URL对话结束 ===");
   return response;
 }`);
 
@@ -344,7 +399,7 @@ String zhipu_image_generate(String model, String prompt, String size) {
   return response;
 }`);
 
-  const code = `zhipu_image_generate("CogView-3-Flash", ${prompt}, "${size}")`;
+  const code = `zhipu_image_generate("${model}", ${prompt}, "${size}")`;
   return [code, Arduino.ORDER_FUNCTION_CALL];
 };
 
@@ -413,8 +468,8 @@ String zhipu_image_generate(String model, String prompt, String size) {
   return response;
 }`);
 
-  // 使用默认模型和尺寸
-  const code = `zhipu_image_generate("CogView-3-Flash", ${prompt}, "1024x1024")`;
+  // 使用默认模型(免费)和尺寸
+  const code = `zhipu_image_generate("cogview-3-flash", ${prompt}, "1024x1024")`;
   return [code, Arduino.ORDER_FUNCTION_CALL];
 };
 

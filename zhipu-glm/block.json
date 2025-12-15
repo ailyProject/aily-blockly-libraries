@@ -173,10 +173,19 @@
   },
   {
     "type": "zhipu_glm_image_generate",
-    "message0": "智谱AI生成图片 %1 提示词 %2 %3 尺寸 %4",
+    "message0": "智谱AI生成图片 %1 提示词 %2 %3 模型 %4 %5 尺寸 %6",
     "args0": [
       {"type": "inputsInline"},
       {"type": "input_value", "name": "PROMPT", "check": "String"},
+      {"type": "inputsInline"},
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["CogView-4 (高清)", "cogview-4"],
+          ["CogView-3-Flash (免费)", "cogview-3-flash"]
+        ]
+      },
       {"type": "inputsInline"},
       {
         "type": "field_dropdown",
@@ -194,7 +203,7 @@
     ],
     "output": "String",
     "colour": "#9333EA",
-    "tooltip": "使用CogView-3-Flash生成图片，返回图片URL链接，可配合TFT屏幕显示",
+    "tooltip": "生成图片，返回图片URL链接。CogView-4生成高清美感图片，CogView-3-Flash完全免费",
     "helpUrl": "",
     "icon": "fa-regular fa-image"
   },

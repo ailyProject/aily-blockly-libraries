@@ -16,10 +16,10 @@ Arduino.forBlock['qwen_omni_config'] = function(block, generator) {
   generator.addVariable('qwen_last_error', 'String qwen_last_error = "";');
   generator.addVariable('qwen_chat_history', 'String qwen_chat_history = "";');
 
-  // 添加简化的HTTP请求函数
+  // 添加流式HTTP请求函数
   generator.addFunction('qwen_simple_request', `
 String qwen_simple_request(String model, String message, bool enableThinking) {
-  Serial.println("=== 通义千问API调用开始 ===");
+  Serial.println("=== 通义千问API调用开始(流式) ===");
   Serial.println("模型: " + model);
   Serial.println("消息: " + message);
 
@@ -29,96 +29,80 @@ String qwen_simple_request(String model, String message, bool enableThinking) {
     qwen_last_error = "WiFi not connected";
     return "";
   }
-  Serial.println("WiFi连接正常");
 
   HTTPClient http;
   String url = qwen_base_url + "/chat/completions";
-  Serial.println("请求URL: " + url);
   http.begin(url);
-  http.setTimeout(60000); // 60秒超时
+  http.setTimeout(60000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
-  Serial.println("请求头设置完成");
 
   String requestBody = "{\\"model\\":\\"" + model + "\\",\\"messages\\":[";
   if (qwen_system_prompt.length() > 0) {
     requestBody += "{\\"role\\":\\"system\\",\\"content\\":\\"" + qwen_system_prompt + "\\"},";
   }
   requestBody += "{\\"role\\":\\"user\\",\\"content\\":\\"" + message + "\\"}]";
-
-  // 如果是omni模型，必须使用stream=true
-  if (model.indexOf("omni") >= 0) {
-    requestBody += ",\\"stream\\":true";
-  }
+  requestBody += ",\\"stream\\":true";
   
-  // 如果启用深度思考模式
   if (enableThinking) {
     requestBody += ",\\"enable_thinking\\":true";
   }
   requestBody += "}";
 
-  Serial.println("请求体: " + requestBody);
-  Serial.println("发送HTTP请求...");
+  Serial.println("发送流式请求...");
   int httpResponseCode = http.POST(requestBody);
   Serial.println("HTTP响应码: " + String(httpResponseCode));
   String response = "";
 
   if (httpResponseCode == 200) {
-    String payload = http.getString();
-    Serial.println("API响应: " + payload);
-
-    // 检查是否是流式响应
-    if (model.indexOf("omni") >= 0 && payload.indexOf("data:") >= 0) {
-      Serial.println("处理流式响应...");
-      String fullContent = "";
-      int dataPos = 0;
-      while ((dataPos = payload.indexOf("data:", dataPos)) >= 0) {
-        dataPos += 5;
-        int lineEnd = payload.indexOf("\\n", dataPos);
-        if (lineEnd < 0) lineEnd = payload.length();
-
-        String dataLine = payload.substring(dataPos, lineEnd);
-        dataLine.trim();
-
-        if (dataLine == "[DONE]") break;
-        if (dataLine.length() == 0) continue;
-
-        int contentStart = dataLine.indexOf("\\"content\\":\\"") + 11;
-        int contentEnd = dataLine.indexOf("\\"", contentStart);
-        if (contentStart > 10 && contentEnd > contentStart) {
-          String content = dataLine.substring(contentStart, contentEnd);
-          fullContent += content;
+    WiFiClient* stream = http.getStreamPtr();
+    String fullContent = "";
+    String buffer = "";
+    
+    while (http.connected() || stream->available()) {
+      if (stream->available()) {
+        char c = stream->read();
+        buffer += c;
+        
+        if (c == '\\n') {
+          buffer.trim();
+          if (buffer.startsWith("data:")) {
+            String data = buffer.substring(5);
+            data.trim();
+            
+            if (data == "[DONE]") {
+              Serial.println("流式传输完成");
+              break;
+            }
+            
+            int contentStart = data.indexOf("\\"content\\":\\"");
+            if (contentStart >= 0) {
+              contentStart += 11;
+              int contentEnd = data.indexOf("\\"", contentStart);
+              if (contentEnd > contentStart) {
+                fullContent += data.substring(contentStart, contentEnd);
+              }
+            }
+          }
+          buffer = "";
         }
-        dataPos = lineEnd + 1;
       }
-
-      if (fullContent.length() > 0) {
-        response = fullContent;
-        Serial.println("流式解析成功，AI回复: " + response);
-        qwen_last_success = true;
-        qwen_last_error = "";
-      } else {
-        Serial.println("流式解析失败");
-        qwen_last_success = false;
-        qwen_last_error = "Stream parse error";
-      }
+      delay(1);
+    }
+    
+    if (fullContent.length() > 0) {
+      response = fullContent;
+      Serial.println("流式解析成功，AI回复: " + response);
+      qwen_last_success = true;
+      qwen_last_error = "";
     } else {
-      int start = payload.indexOf("\\"content\\":\\"") + 11;
-      int end = payload.indexOf("\\"", start);
-      if (start > 10 && end > start) {
-        response = payload.substring(start, end);
-        Serial.println("解析成功，AI回复: " + response);
-        qwen_last_success = true;
-        qwen_last_error = "";
-      } else {
-        Serial.println("解析失败，无法找到content字段");
-        qwen_last_success = false;
-        qwen_last_error = "Parse error";
-      }
+      Serial.println("流式解析失败");
+      qwen_last_success = false;
+      qwen_last_error = "Stream parse error";
     }
   } else {
     String errorResponse = http.getString();
-    Serial.println("HTTP错误响应: " + errorResponse);
+    Serial.println("HTTP错误: " + errorResponse);
     qwen_last_success = false;
     qwen_last_error = "HTTP " + String(httpResponseCode);
   }
@@ -128,10 +112,10 @@ String qwen_simple_request(String model, String message, bool enableThinking) {
   return response;
 }`);
 
-  // 添加多轮对话请求函数
+  // 添加多轮对话请求函数（流式）
   generator.addFunction('qwen_history_request', `
 String qwen_history_request(String model, String message) {
-  Serial.println("=== 通义千问多轮对话开始 ===");
+  Serial.println("=== 通义千问多轮对话开始(流式) ===");
 
   if (WiFi.status() != WL_CONNECTED) {
     qwen_last_success = false;
@@ -156,24 +140,50 @@ String qwen_history_request(String model, String message) {
   if (qwen_system_prompt.length() > 0) {
     requestBody += "{\\"role\\":\\"system\\",\\"content\\":\\"" + qwen_system_prompt + "\\"},";
   }
-  requestBody += qwen_chat_history + "]}";
+  requestBody += qwen_chat_history + "],\\"stream\\":true}";
 
   int httpResponseCode = http.POST(requestBody);
   String response = "";
 
   if (httpResponseCode == 200) {
-    String payload = http.getString();
-    int start = payload.indexOf("\\"content\\":\\"") + 11;
-    int end = payload.indexOf("\\"", start);
-    if (start > 10 && end > start) {
-      response = payload.substring(start, end);
+    WiFiClient* stream = http.getStreamPtr();
+    String fullContent = "";
+    String buffer = "";
+    
+    while (http.connected() || stream->available()) {
+      if (stream->available()) {
+        char c = stream->read();
+        buffer += c;
+        if (c == '\\n') {
+          buffer.trim();
+          if (buffer.startsWith("data:")) {
+            String data = buffer.substring(5);
+            data.trim();
+            if (data == "[DONE]") break;
+            int contentStart = data.indexOf("\\"content\\":\\"");
+            if (contentStart >= 0) {
+              contentStart += 11;
+              int contentEnd = data.indexOf("\\"", contentStart);
+              if (contentEnd > contentStart) {
+                fullContent += data.substring(contentStart, contentEnd);
+              }
+            }
+          }
+          buffer = "";
+        }
+      }
+      delay(1);
+    }
+    
+    if (fullContent.length() > 0) {
+      response = fullContent;
       // 添加助手回复到历史
       qwen_chat_history += ",{\\"role\\":\\"assistant\\",\\"content\\":\\"" + response + "\\"}";
       qwen_last_success = true;
       qwen_last_error = "";
     } else {
       qwen_last_success = false;
-      qwen_last_error = "Parse error";
+      qwen_last_error = "Stream parse error";
     }
   } else {
     qwen_last_success = false;
@@ -244,12 +254,11 @@ Arduino.forBlock['qwen_omni_vision_chat'] = function(block, generator) {
 
   generator.addFunction('qwen_vision_request', `
 String qwen_vision_request(String model, String base64Image, String message) {
-  Serial.println("=== 通义千问VL图片对话开始 ===");
+  Serial.println("=== 通义千问VL图片对话开始(流式) ===");
   Serial.println("模型: " + model);
   Serial.println("提示词: " + message);
 
   if (WiFi.status() != WL_CONNECTED) {
-    Serial.println("错误: WiFi未连接");
     qwen_last_success = false;
     qwen_last_error = "WiFi not connected";
     return "";
@@ -265,32 +274,50 @@ String qwen_vision_request(String model, String base64Image, String message) {
   String requestBody = "{\\"model\\":\\"" + model + "\\",\\"messages\\":[{\\"role\\":\\"user\\",\\"content\\":[";
   requestBody += "{\\"type\\":\\"image_url\\",\\"image_url\\":{\\"url\\":\\"data:image/jpeg;base64," + base64Image + "\\"}},";
   requestBody += "{\\"type\\":\\"text\\",\\"text\\":\\"" + message + "\\"}";
-  requestBody += "]}]}";
+  requestBody += "]}],\\"stream\\":true}";
 
-  Serial.println("发送HTTP请求...");
   int httpResponseCode = http.POST(requestBody);
-  Serial.println("HTTP响应码: " + String(httpResponseCode));
   String response = "";
 
   if (httpResponseCode == 200) {
-    String payload = http.getString();
-    Serial.println("API响应长度: " + String(payload.length()));
-
-    int start = payload.indexOf("\\"content\\":\\"") + 11;
-    int end = payload.indexOf("\\"", start);
-    if (start > 10 && end > start) {
-      response = payload.substring(start, end);
-      Serial.println("解析成功，AI回复: " + response);
+    WiFiClient* stream = http.getStreamPtr();
+    String fullContent = "";
+    String buffer = "";
+    
+    while (http.connected() || stream->available()) {
+      if (stream->available()) {
+        char c = stream->read();
+        buffer += c;
+        if (c == '\\n') {
+          buffer.trim();
+          if (buffer.startsWith("data:")) {
+            String data = buffer.substring(5);
+            data.trim();
+            if (data == "[DONE]") break;
+            int contentStart = data.indexOf("\\"content\\":\\"");
+            if (contentStart >= 0) {
+              contentStart += 11;
+              int contentEnd = data.indexOf("\\"", contentStart);
+              if (contentEnd > contentStart) {
+                fullContent += data.substring(contentStart, contentEnd);
+              }
+            }
+          }
+          buffer = "";
+        }
+      }
+      delay(1);
+    }
+    
+    if (fullContent.length() > 0) {
+      response = fullContent;
       qwen_last_success = true;
       qwen_last_error = "";
     } else {
-      Serial.println("解析失败");
       qwen_last_success = false;
-      qwen_last_error = "Parse error";
+      qwen_last_error = "Stream parse error";
     }
   } else {
-    String errorResponse = http.getString();
-    Serial.println("HTTP错误: " + errorResponse);
     qwen_last_success = false;
     qwen_last_error = "HTTP " + String(httpResponseCode);
   }
@@ -311,10 +338,9 @@ Arduino.forBlock['qwen_omni_vision_url_chat'] = function(block, generator) {
 
   generator.addFunction('qwen_vision_url_request', `
 String qwen_vision_url_request(String model, String imageUrl, String message) {
-  Serial.println("=== 通义千问VL图片URL对话开始 ===");
+  Serial.println("=== 通义千问VL图片URL对话开始(流式) ===");
   Serial.println("模型: " + model);
   Serial.println("图片URL: " + imageUrl);
-  Serial.println("提示词: " + message);
 
   if (WiFi.status() != WL_CONNECTED) {
     qwen_last_success = false;
@@ -332,22 +358,48 @@ String qwen_vision_url_request(String model, String imageUrl, String message) {
   String requestBody = "{\\"model\\":\\"" + model + "\\",\\"messages\\":[{\\"role\\":\\"user\\",\\"content\\":[";
   requestBody += "{\\"type\\":\\"image_url\\",\\"image_url\\":{\\"url\\":\\"" + imageUrl + "\\"}},";
   requestBody += "{\\"type\\":\\"text\\",\\"text\\":\\"" + message + "\\"}";
-  requestBody += "]}]}";
+  requestBody += "]}],\\"stream\\":true}";
 
   int httpResponseCode = http.POST(requestBody);
   String response = "";
 
   if (httpResponseCode == 200) {
-    String payload = http.getString();
-    int start = payload.indexOf("\\"content\\":\\"") + 11;
-    int end = payload.indexOf("\\"", start);
-    if (start > 10 && end > start) {
-      response = payload.substring(start, end);
+    WiFiClient* stream = http.getStreamPtr();
+    String fullContent = "";
+    String buffer = "";
+    
+    while (http.connected() || stream->available()) {
+      if (stream->available()) {
+        char c = stream->read();
+        buffer += c;
+        if (c == '\\n') {
+          buffer.trim();
+          if (buffer.startsWith("data:")) {
+            String data = buffer.substring(5);
+            data.trim();
+            if (data == "[DONE]") break;
+            int contentStart = data.indexOf("\\"content\\":\\"");
+            if (contentStart >= 0) {
+              contentStart += 11;
+              int contentEnd = data.indexOf("\\"", contentStart);
+              if (contentEnd > contentStart) {
+                fullContent += data.substring(contentStart, contentEnd);
+              }
+            }
+          }
+          buffer = "";
+        }
+      }
+      delay(1);
+    }
+    
+    if (fullContent.length() > 0) {
+      response = fullContent;
       qwen_last_success = true;
       qwen_last_error = "";
     } else {
       qwen_last_success = false;
-      qwen_last_error = "Parse error";
+      qwen_last_error = "Stream parse error";
     }
   } else {
     qwen_last_success = false;
