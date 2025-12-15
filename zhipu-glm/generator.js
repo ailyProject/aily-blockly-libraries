@@ -14,6 +14,8 @@ Arduino.forBlock['zhipu_glm_config'] = function(block, generator) {
   generator.addVariable('zhipu_system_prompt', 'String zhipu_system_prompt = "";');
   generator.addVariable('zhipu_last_success', 'bool zhipu_last_success = false;');
   generator.addVariable('zhipu_last_error', 'String zhipu_last_error = "";');
+  generator.addVariable('zhipu_stream_chunk', 'String zhipu_stream_chunk = "";');
+  generator.addVariable('zhipu_stream_callback', 'void (*zhipu_stream_callback)(void) = NULL;');
 
   // 添加流式HTTP请求函数
   generator.addFunction('zhipu_simple_request', `
@@ -87,6 +89,11 @@ String zhipu_simple_request(String model, String message, bool enableThinking) {
                 String content = data.substring(contentStart, contentEnd);
                 Serial.print(content); // 实时输出
                 fullContent += content;
+                // 调用流式回调
+                if (zhipu_stream_callback != NULL) {
+                  zhipu_stream_chunk = content;
+                  zhipu_stream_callback();
+                }
               }
             }
           }
@@ -98,7 +105,6 @@ String zhipu_simple_request(String model, String message, bool enableThinking) {
     
     if (fullContent.length() > 0) {
       response = fullContent;
-      Serial.println("流式解析成功，AI回复: " + response);
       zhipu_last_success = true;
       zhipu_last_error = "";
     } else {
@@ -163,6 +169,26 @@ Arduino.forBlock['zhipu_glm_get_error_message'] = function() {
   return ['zhipu_last_error', Arduino.ORDER_ATOMIC];
 };
 
+// 流式回调相关
+Arduino.forBlock['zhipu_glm_set_stream_callback'] = function(block, generator) {
+  const callback = generator.statementToCode(block, 'CALLBACK');
+  
+  // 生成回调函数
+  generator.addFunction('zhipu_user_stream_callback', `
+void zhipu_user_stream_callback() {
+${callback}}`);
+  
+  return 'zhipu_stream_callback = zhipu_user_stream_callback;\n';
+};
+
+Arduino.forBlock['zhipu_glm_get_stream_chunk'] = function() {
+  return ['zhipu_stream_chunk', Arduino.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['zhipu_glm_clear_stream_callback'] = function() {
+  return 'zhipu_stream_callback = NULL;\n';
+};
+
 
 Arduino.forBlock['zhipu_glm_vision_chat'] = function(block, generator) {
   const image = generator.valueToCode(block, 'IMAGE', Arduino.ORDER_ATOMIC) || '""';
@@ -223,6 +249,11 @@ String zhipu_vision_request(String model, String base64Image, String message) {
                 String content = data.substring(contentStart, contentEnd);
                 Serial.print(content); // 实时输出
                 fullContent += content;
+                // 调用流式回调
+                if (zhipu_stream_callback != NULL) {
+                  zhipu_stream_chunk = content;
+                  zhipu_stream_callback();
+                }
               }
             }
           }
@@ -312,6 +343,11 @@ String zhipu_vision_url_request(String model, String imageUrl, String message) {
                 String content = data.substring(contentStart, contentEnd);
                 Serial.print(content); // 实时输出
                 fullContent += content;
+                // 调用流式回调
+                if (zhipu_stream_callback != NULL) {
+                  zhipu_stream_chunk = content;
+                  zhipu_stream_callback();
+                }
               }
             }
           }

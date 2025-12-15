@@ -15,6 +15,8 @@ Arduino.forBlock['qwen_omni_config'] = function(block, generator) {
   generator.addVariable('qwen_last_success', 'bool qwen_last_success = false;');
   generator.addVariable('qwen_last_error', 'String qwen_last_error = "";');
   generator.addVariable('qwen_chat_history', 'String qwen_chat_history = "";');
+  generator.addVariable('qwen_stream_chunk', 'String qwen_stream_chunk = "";');
+  generator.addVariable('qwen_stream_callback', 'void (*qwen_stream_callback)(void) = NULL;');
 
   // 添加流式HTTP请求函数
   generator.addFunction('qwen_simple_request', `
@@ -84,6 +86,11 @@ String qwen_simple_request(String model, String message, bool enableThinking) {
                 String content = data.substring(contentStart, contentEnd);
                 Serial.print(content); // 实时输出
                 fullContent += content;
+                // 调用流式回调
+                if (qwen_stream_callback != NULL) {
+                  qwen_stream_chunk = content;
+                  qwen_stream_callback();
+                }
               }
             }
           }
@@ -173,6 +180,11 @@ String qwen_history_request(String model, String message) {
                 String content = data.substring(contentStart, contentEnd);
                 Serial.print(content); // 实时输出
                 fullContent += content;
+                // 调用流式回调
+                if (qwen_stream_callback != NULL) {
+                  qwen_stream_chunk = content;
+                  qwen_stream_callback();
+                }
               }
             }
           }
@@ -253,6 +265,26 @@ Arduino.forBlock['qwen_omni_get_error_message'] = function() {
   return ['qwen_last_error', Arduino.ORDER_ATOMIC];
 };
 
+// 流式回调相关
+Arduino.forBlock['qwen_omni_set_stream_callback'] = function(block, generator) {
+  const callback = generator.statementToCode(block, 'CALLBACK');
+  
+  // 生成回调函数
+  generator.addFunction('qwen_user_stream_callback', `
+void qwen_user_stream_callback() {
+${callback}}`);
+  
+  return 'qwen_stream_callback = qwen_user_stream_callback;\n';
+};
+
+Arduino.forBlock['qwen_omni_get_stream_chunk'] = function() {
+  return ['qwen_stream_chunk', Arduino.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['qwen_omni_clear_stream_callback'] = function() {
+  return 'qwen_stream_callback = NULL;\n';
+};
+
 
 Arduino.forBlock['qwen_omni_vision_chat'] = function(block, generator) {
   const image = generator.valueToCode(block, 'IMAGE', Arduino.ORDER_ATOMIC) || '""';
@@ -312,6 +344,11 @@ String qwen_vision_request(String model, String base64Image, String message) {
                 String content = data.substring(contentStart, contentEnd);
                 Serial.print(content); // 实时输出
                 fullContent += content;
+                // 调用流式回调
+                if (qwen_stream_callback != NULL) {
+                  qwen_stream_chunk = content;
+                  qwen_stream_callback();
+                }
               }
             }
           }
@@ -401,6 +438,11 @@ String qwen_vision_url_request(String model, String imageUrl, String message) {
                 String content = data.substring(contentStart, contentEnd);
                 Serial.print(content); // 实时输出
                 fullContent += content;
+                // 调用流式回调
+                if (qwen_stream_callback != NULL) {
+                  qwen_stream_chunk = content;
+                  qwen_stream_callback();
+                }
               }
             }
           }
