@@ -1004,3 +1004,99 @@ function convertImageToRGB565(imageData) {
     return null;
   }
 }
+
+
+// 下载URL图片并显示到TFT屏幕
+Arduino.forBlock['tft_draw_url_image'] = function(block, generator) {
+  const url = generator.valueToCode(block, 'URL', Arduino.ORDER_ATOMIC) || '""';
+  const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC) || '0';
+  const width = generator.valueToCode(block, 'WIDTH', Arduino.ORDER_ATOMIC) || '240';
+  const height = generator.valueToCode(block, 'HEIGHT', Arduino.ORDER_ATOMIC) || '240';
+
+  // 添加必要的库
+  generator.addLibrary('tft_wifi', '#include <WiFi.h>');
+  generator.addLibrary('tft_http', '#include <HTTPClient.h>');
+  generator.addLibrary('tft_tjpgd', '#include <TJpg_Decoder.h>');
+
+  // 添加显示URL图片的函数
+  generator.addFunction('tft_draw_url_image', `
+// TJpgDec回调函数 - 使用Adafruit_GFX的drawRGBBitmap
+bool tft_jpg_output(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitmap) {
+  if (y >= tft.height()) return 0;
+  tft.drawRGBBitmap(x, y, bitmap, w, h);
+  return 1;
+}
+
+void tft_draw_url_image(String imageUrl, int x, int y, int maxWidth, int maxHeight) {
+  Serial.println("=== 下载并显示URL图片 ===");
+  Serial.println("URL: " + imageUrl);
+
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("错误: WiFi未连接");
+    return;
+  }
+
+  HTTPClient http;
+  http.begin(imageUrl);
+  http.setTimeout(30000);
+  int httpCode = http.GET();
+
+  if (httpCode == HTTP_CODE_OK) {
+    int len = http.getSize();
+    Serial.println("图片大小: " + String(len) + " bytes");
+
+    // 检查图片大小，避免内存溢出
+    if (len > 500000) {
+      Serial.println("错误: 图片太大，超过500KB限制");
+      http.end();
+      return;
+    }
+
+    WiFiClient* stream = http.getStreamPtr();
+    uint8_t* buffer = (uint8_t*)malloc(len);
+    
+    if (buffer) {
+      int bytesRead = 0;
+      while (http.connected() && bytesRead < len) {
+        size_t available = stream->available();
+        if (available) {
+          int readBytes = stream->readBytes(buffer + bytesRead, available);
+          bytesRead += readBytes;
+        }
+        delay(1);
+      }
+      
+      Serial.println("下载完成: " + String(bytesRead) + " bytes");
+      Serial.println("开始解码显示...");
+      
+      // 获取图片尺寸并计算缩放比例
+      uint16_t imgW = 0, imgH = 0;
+      TJpgDec.getJpgSize(&imgW, &imgH, buffer, len);
+      Serial.println("原始图片尺寸: " + String(imgW) + "x" + String(imgH));
+      
+      // 计算合适的缩放比例 (1, 2, 4, 8)
+      uint8_t scale = 1;
+      if (imgW > maxWidth * 4 || imgH > maxHeight * 4) scale = 8;
+      else if (imgW > maxWidth * 2 || imgH > maxHeight * 2) scale = 4;
+      else if (imgW > maxWidth || imgH > maxHeight) scale = 2;
+      
+      Serial.println("缩放比例: 1/" + String(scale));
+      TJpgDec.setJpgScale(scale);
+      TJpgDec.setCallback(tft_jpg_output);
+      TJpgDec.drawJpg(x, y, buffer, len);
+      
+      free(buffer);
+      Serial.println("图片显示完成");
+    } else {
+      Serial.println("内存分配失败");
+    }
+  } else {
+    Serial.println("HTTP错误: " + String(httpCode));
+  }
+
+  http.end();
+}`);
+
+  return `tft_draw_url_image(${url}, ${x}, ${y}, ${width}, ${height});\n`;
+};

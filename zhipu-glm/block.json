@@ -1,0 +1,256 @@
+[
+  {
+    "type": "zhipu_glm_config",
+    "message0": "配置智谱AI API %1 API Key %2 %3 Base URL %4",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "API_KEY", "check": "String"},
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "BASE_URL", "check": "String"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3B82F6",
+    "tooltip": "配置智谱AI API的访问密钥和基础URL",
+    "helpUrl": "",
+    "icon": "fa-regular fa-brain"
+  },
+  {
+    "type": "zhipu_glm_chat",
+    "message0": "智谱AI对话 %1 用户消息 %2 %3 模型 %4",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {"type": "inputsInline"},
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["glm-4.5-flash", "glm-4.5-flash"],
+          ["glm-4.6", "glm-4.6"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#3B82F6",
+    "tooltip": "发送消息到智谱AI并获取回复",
+    "helpUrl": "",
+    "icon": "fa-regular fa-brain"
+  },
+  {
+    "type": "zhipu_glm_chat_with_thinking",
+    "message0": "智谱AI深度思考对话 %1 用户消息 %2 %3 模型 %4",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {"type": "inputsInline"},
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["glm-4.6", "glm-4.6"],
+          ["glm-4.6v", "glm-4.6v"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#3B82F6",
+    "tooltip": "启用深度思考模式的智谱AI对话",
+    "helpUrl": "",
+    "icon": "fa-regular fa-brain"
+  },
+  {
+    "type": "zhipu_glm_chat_with_history",
+    "message0": "智谱AI多轮对话 %1 用户消息 %2 %3 模型 %4",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {"type": "inputsInline"},
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["glm-4.5-flash", "glm-4.5-flash"],
+          ["glm-4.6", "glm-4.6"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#3B82F6",
+    "tooltip": "支持多轮对话的智谱AI",
+    "helpUrl": "",
+    "icon": "fa-regular fa-brain"
+  },
+  {
+    "type": "zhipu_glm_clear_history",
+    "message0": "清空智谱AI对话历史",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3B82F6",
+    "tooltip": "清空保存的对话历史记录",
+    "helpUrl": "",
+    "icon": "fa-regular fa-brain"
+  },
+  {
+    "type": "zhipu_glm_set_system_prompt",
+    "message0": "设置智谱AI系统提示词 %1 系统提示词 %2",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "SYSTEM_PROMPT", "check": "String"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3B82F6",
+    "tooltip": "设置AI助手的角色和行为规则",
+    "helpUrl": "",
+    "icon": "fa-regular fa-brain"
+  },
+  {
+    "type": "zhipu_glm_get_response_status",
+    "message0": "获取智谱AI响应状态",
+    "output": "Boolean",
+    "colour": "#3B82F6",
+    "tooltip": "检查最后一次API调用是否成功",
+    "helpUrl": "",
+    "icon": "fa-regular fa-brain"
+  },
+  {
+    "type": "zhipu_glm_get_error_message",
+    "message0": "获取智谱AI错误信息",
+    "output": "String",
+    "colour": "#3B82F6",
+    "tooltip": "获取最后一次API调用的错误信息",
+    "helpUrl": "",
+    "icon": "fa-regular fa-brain"
+  },
+  {
+    "type": "zhipu_glm_set_stream_callback",
+    "message0": "设置智谱AI流式回调 %1 %2",
+    "args0": [
+      {"type": "input_dummy"},
+      {"type": "input_statement", "name": "CALLBACK"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3B82F6",
+    "tooltip": "设置流式回调函数，每收到一个文本片段时执行。使用'获取流式片段'块获取当前片段内容",
+    "helpUrl": "",
+    "icon": "fa-regular fa-brain"
+  },
+  {
+    "type": "zhipu_glm_get_stream_chunk",
+    "message0": "获取智谱AI流式片段",
+    "output": "String",
+    "colour": "#3B82F6",
+    "tooltip": "在流式回调中获取当前收到的文本片段",
+    "helpUrl": "",
+    "icon": "fa-regular fa-brain"
+  },
+  {
+    "type": "zhipu_glm_clear_stream_callback",
+    "message0": "清除智谱AI流式回调",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3B82F6",
+    "tooltip": "清除已设置的流式回调函数",
+    "helpUrl": "",
+    "icon": "fa-regular fa-brain"
+  },
+  {
+    "type": "zhipu_glm_vision_chat",
+    "message0": "智谱AI图片对话 %1 Base64图片 %2 %3 提示词 %4 %5 模型 %6",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "IMAGE", "check": "String"},
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {"type": "inputsInline"},
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["glm-4.6v-flash", "glm-4.6v-flash"],
+          ["glm-4.6v", "glm-4.6v"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#3B82F6",
+    "tooltip": "发送Base64编码的图片和文本到智谱AI视觉模型进行图片理解",
+    "helpUrl": "",
+    "icon": "fa-regular fa-brain"
+  },
+  {
+    "type": "zhipu_glm_vision_url_chat",
+    "message0": "智谱AI图片URL对话 %1 图片URL %2 %3 提示词 %4 %5 模型 %6",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "IMAGE_URL", "check": "String"},
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {"type": "inputsInline"},
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["glm-4.6v-flash", "glm-4.6v-flash"],
+          ["glm-4.6v", "glm-4.6v"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#3B82F6",
+    "tooltip": "发送图片URL和文本到智谱AI视觉模型进行图片理解",
+    "helpUrl": "",
+    "icon": "fa-regular fa-brain"
+  },
+  {
+    "type": "zhipu_glm_image_generate",
+    "message0": "智谱AI生成图片 %1 提示词 %2 %3 模型 %4 %5 尺寸 %6",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "PROMPT", "check": "String"},
+      {"type": "inputsInline"},
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["CogView-4 (高清)", "cogview-4"],
+          ["CogView-3-Flash (免费)", "cogview-3-flash"]
+        ]
+      },
+      {"type": "inputsInline"},
+      {
+        "type": "field_dropdown",
+        "name": "SIZE",
+        "options": [
+          ["1024x1024", "1024x1024"],
+          ["768x1344", "768x1344"],
+          ["1344x768", "1344x768"],
+          ["864x1152", "864x1152"],
+          ["1152x864", "1152x864"],
+          ["1440x720", "1440x720"],
+          ["720x1440", "720x1440"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#9333EA",
+    "tooltip": "生成图片，返回图片URL链接。CogView-4生成高清美感图片，CogView-3-Flash完全免费",
+    "helpUrl": "",
+    "icon": "fa-regular fa-image"
+  },
+  {
+    "type": "zhipu_glm_image_generate_simple",
+    "message0": "智谱AI生成图片(简易) %1 提示词 %2",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "PROMPT", "check": "String"}
+    ],
+    "output": "String",
+    "colour": "#9333EA",
+    "tooltip": "使用CogView-3-Flash生成1024x1024图片，返回图片URL链接，可配合TFT屏幕显示",
+    "helpUrl": "",
+    "icon": "fa-regular fa-image"
+  }
+]

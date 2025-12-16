@@ -1,176 +1,147 @@
-# 通义千问 Qwen-Omni API 库（轻量版）
+# 通义千问 Qwen API 库
 
-这是一个用于 aily blockly 的阿里云通义千问 Qwen-Omni 大语言模型 API 库的轻量版本，专为解决编译内存限制问题而设计。
+阿里云通义千问大语言模型API库，支持文本对话、图片理解和图像生成
 
-## 功能特性
+## 库信息
+- **库名**: @aily-project/lib-qwen-omni
+- **版本**: 0.0.2
+- **兼容**: esp32:esp32
 
-- ✅ 支持通义千问基础文字对话
-- ✅ 支持自定义系统提示词
-- ✅ 支持错误处理和状态检查
-- ✅ 轻量化设计，减少内存占用
-- ⚠️ 简化版多轮对话（暂时与单次对话相同）
+## 块定义
 
-## 支持的开发板
+| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
+|--------|------|----------|----------|----------|
+| `qwen_omni_config` | 语句块 | API_KEY(input_value), BASE_URL(input_value) | 无字段 | 配置API密钥和URL |
+| `qwen_omni_chat` | 值块 | MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "qwen-turbo"` | 发送消息获取回复 |
+| `qwen_omni_chat_simple` | 值块 | MESSAGE(input_value) | 无字段 | 简易对话(默认qwen-turbo) |
+| `qwen_omni_chat_with_thinking` | 值块 | MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "qwen3-max"` | 深度思考对话 |
+| `qwen_omni_chat_with_history` | 值块 | MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "qwen-turbo"` | 多轮对话(保存历史) |
+| `qwen_omni_vision_chat` | 值块 | IMAGE(input_value), MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "qwen3-vl-plus"` | Base64图片对话 |
+| `qwen_omni_vision_url_chat` | 值块 | IMAGE_URL(input_value), MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "qwen3-vl-plus"` | 图片URL对话 |
+| `qwen_omni_image_generate` | 值块 | PROMPT(input_value), MODEL(dropdown), SIZE(dropdown) | `"MODEL": "wanx2.1-t2i-turbo"` | 生成图片返回URL |
+| `qwen_omni_image_generate_simple` | 值块 | PROMPT(input_value) | 无字段 | 简易图片生成 |
+| `qwen_omni_clear_history` | 语句块 | 无 | 无字段 | 清空对话历史 |
+| `qwen_omni_set_system_prompt` | 语句块 | SYSTEM_PROMPT(input_value) | 无字段 | 设置系统提示词 |
+| `qwen_omni_get_response_status` | 值块 | 无 | 无字段 | 获取响应状态 |
+| `qwen_omni_get_error_message` | 值块 | 无 | 无字段 | 获取错误信息 |
 
-- ESP32 系列开发板（ESP32、ESP32-C3、ESP32-S3、ESP32-C6、ESP32-H2）
-- 需要支持 WiFi 连接
+## 字段类型映射
 
-## 依赖库
+| 类型 | .abi格式 | 示例 |
+|------|----------|------|
+| field_dropdown | 字符串 | `"MODEL": "qwen-turbo"` |
+| input_value | 块连接 | `"inputs": {"MESSAGE": {"shadow": {"type": "text", "fields": {"TEXT": "你好"}}}}` |
 
-- WiFi.h（ESP32 内置）
-- HTTPClient.h（ESP32 内置）
-- 无需额外依赖库
+## 连接规则
 
-## 使用方法
+- **语句块**: 有previousStatement/nextStatement，通过`next`字段连接
+- **值块**: 有output，连接到`inputs`中，无`next`字段
+- **input_value**: 建议配置影子块提供默认值
 
-### 1. 配置 API
+## 使用示例
 
-首先需要配置通义千问的 API Key 和 Base URL：
-
-```
-配置通义千问API
-├─ API Key: "sk-your-api-key-here"
-└─ Base URL: "https://dashscope.aliyuncs.com/compatible-mode/v1"
-```
-
-### 2. 设置系统提示词（可选）
-
-可以设置 AI 助手的角色和行为规则：
-
-```
-设置通义千问系统提示词
-└─ 系统提示词: "你是一个有用的AI助手"
-```
-
-### 3. 进行对话
-
-#### 简单对话
-```
-通义千问对话
-├─ 用户消息: "你好"
-├─ 模型: qwen-omni-turbo
-└─ 最大输出长度: 2048
-```
-
-#### 多轮对话
-```
-通义千问多轮对话
-├─ 用户消息: "继续我们的对话"
-├─ 保存历史记录: ✓
-├─ 模型: qwen-omni-turbo
-└─ 最大输出长度: 2048
-```
-
-### 4. 管理对话历史
-
-```
-清空通义千问对话历史
+### 配置API
+```json
+{
+  "type": "qwen_omni_config",
+  "id": "unique_id",
+  "inputs": {
+    "API_KEY": {
+      "shadow": {
+        "type": "text",
+        "fields": {"TEXT": "sk-your-api-key"}
+      }
+    },
+    "BASE_URL": {
+      "shadow": {
+        "type": "text",
+        "fields": {"TEXT": "https://dashscope.aliyuncs.com/compatible-mode/v1"}
+      }
+    }
+  }
+}
 ```
 
-### 5. 错误处理
-
+### 文本对话
+```json
+{
+  "type": "qwen_omni_chat",
+  "id": "unique_id",
+  "fields": {
+    "MODEL": "qwen-turbo"
+  },
+  "inputs": {
+    "MESSAGE": {
+      "shadow": {
+        "type": "text",
+        "fields": {"TEXT": "你好"}
+      }
+    }
+  }
+}
 ```
-如果 获取通义千问响应状态
-那么
-    串口输出 获取通义千问错误信息
+
+### 图片对话
+```json
+{
+  "type": "qwen_omni_vision_chat",
+  "id": "unique_id",
+  "fields": {
+    "MODEL": "qwen3-vl-plus"
+  },
+  "inputs": {
+    "IMAGE": {
+      "block": {
+        "type": "esp32_camera_capture_and_encode_base64",
+        "id": "image_id"
+      }
+    },
+    "MESSAGE": {
+      "shadow": {
+        "type": "text",
+        "fields": {"TEXT": "图中描绘的是什么?"}
+      }
+    }
+  }
+}
 ```
 
-## API Key 获取方法
+## 重要规则
 
-1. 访问 [阿里云百炼平台](https://bailian.console.aliyun.com/)
-2. 注册并登录账号
-3. 在控制台中创建应用
-4. 获取 API Key
+1. **必须遵守**: 每个块的ID必须唯一
+2. **连接限制**: 值块不能有next字段
+3. **WiFi要求**: 使用前必须连接WiFi
+4. **API Key**: 需要有效的阿里云API Key
+5. **图片格式**: Base64图片对话需要JPEG格式的Base64编码
 
 ## 支持的模型
 
-- `qwen-omni-turbo`：稳定版本
-- `qwen-omni-turbo-latest`：最新版本
-- `qwen2.5-omni-7b`：开源版本
+### 文本模型
+- qwen-turbo (快速，推荐)
+- qwen-plus, qwen-max, qwen-long
+- qwen3-max, qwen3-max-preview (支持深度思考)
+- qwen-omni-turbo, qwen3-omni-flash
 
-## 编译建议
+### 视觉模型
+- qwen3-vl-plus (推荐)
+- qwen3-vl-flash (快速)
+- qwen-vl-max, qwen-vl-plus
 
-如果遇到 `collect2.exe: error: ld returned 1 exit status` 链接错误：
+### 图像生成模型 (通义万相)
+- wanx2.1-t2i-turbo (快速，推荐)
+- wanx2.1-t2i-plus
+- wanx-v1
 
-1. **选择合适的分区方案**：
-   - 工具 → 分区方案 → 选择 "Huge APP (3MB No OTA/1MB SPIFFS)"
+### 图像生成尺寸
+- 1024x1024 (默认，正方形)
+- 720x1280, 1280x720 (竖版/横版)
 
-2. **优化内存使用**：
-   - 避免在同一程序中使用过多大型库
-   - 考虑分阶段实现功能
+## 特殊说明
 
-3. **检查WiFi连接**：
-   - 确保在 setup() 中正确初始化 WiFi
-
-## 注意事项
-
-1. 确保开发板已连接 WiFi
-2. API Key 需要有足够的调用额度
-3. 这是轻量版本，功能相对简化
-4. 建议在 setup() 中配置 API，在 loop() 中进行对话
-
-## 积木使用示例
-
-### 基本对话流程
-
-1. **初始化阶段**（在setup中）：
-   - 使用"配置通义千问API"积木设置API Key
-   - 使用"设置通义千问系统提示词"积木设置AI角色
-
-2. **对话阶段**（在loop中）：
-   - 使用"通义千问对话"或"通义千问多轮对话"积木发送消息
-   - 使用"获取通义千问响应状态"检查是否成功
-   - 如果失败，使用"获取通义千问错误信息"查看错误
-
-3. **历史管理**：
-   - 使用"清空通义千问对话历史"重置对话
-
-## 示例代码
-
-完整的使用示例：
-
-```cpp
-void setup() {
-  Serial.begin(115200);
-  
-  // 连接WiFi
-  WiFi.begin("your-wifi-ssid", "your-wifi-password");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting to WiFi...");
-  }
-  
-  // 配置通义千问API
-  qwen_api_key = "sk-your-api-key-here";
-  qwen_base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1";
-  
-  // 设置系统提示词
-  qwen_system_prompt = "你是一个有用的AI助手";
-}
-
-void loop() {
-  if (Serial.available()) {
-    String userInput = Serial.readString();
-    userInput.trim();
-    
-    // 进行对话
-    String response = qwen_make_request("qwen-omni-turbo", userInput, 2048, true, true);
-    
-    if (qwen_last_success) {
-      Serial.println("AI回复: " + response);
-    } else {
-      Serial.println("错误: " + qwen_last_error);
-    }
-  }
-  
-  delay(100);
-}
-```
-
-## 版本历史
-
-- v0.0.1：初始版本，支持基本的文字对话功能
-
-## 许可证
-
-本库基于阿里云通义千问 API 开发，使用时请遵守阿里云服务条款。
+- 多轮对话会自动保存对话历史，使用`清空对话历史`块重置
+- 深度思考模式会启用`enable_thinking`参数
+- 超时时间: 对话60秒，图像生成120秒
+- 响应状态通过`qwen_last_success`变量检查
+- 错误信息通过`qwen_last_error`变量获取
+- 图像生成使用异步API，会自动轮询等待结果
+- 图片URL可配合adafruit_GFX库的"下载URL图片并显示"积木在TFT屏幕上显示
