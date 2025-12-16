@@ -102,7 +102,43 @@ jobs:
           cd ${{ matrix.package }}
           npm run build --if-present
       
-      - name: Publish to NPM
+      - name: Publish to Registry 2
+        if: steps.check-update-all.outputs.should_skip != 'true'
+        env:
+          REGISTRY_2: ${{ secrets.REGISTRY_URL_2 }}
+          TOKEN_2: ${{ secrets.NPM_TOKEN_2 }}
+        run: |
+          if [ -z "$REGISTRY_2" ] || [ -z "$TOKEN_2" ]; then
+            echo "Registry 2 secrets not set, skipping."
+            exit 0
+          fi
+
+          cd ${{ matrix.package }}
+          
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          echo "Current version: $CURRENT_VERSION"
+
+          echo "----------------------------------------"
+          echo "Processing second registry: $REGISTRY_2"
+          
+          # 去掉协议头获取 host
+          REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2" | sed 's/^https\?:\/\///')
+          
+          # 配置认证
+          echo "//$REGISTRY_2_NO_PROTO:_authToken=$TOKEN_2" >> ~/.npmrc
+          
+          # 检查是否存在
+          if npm view $PACKAGE_NAME@$CURRENT_VERSION version --registry "$REGISTRY_2" &> /dev/null; then
+             echo "Version $CURRENT_VERSION exists on $REGISTRY_2, unpublishing..."
+             npm unpublish $PACKAGE_NAME@$CURRENT_VERSION --force --registry "$REGISTRY_2"
+             sleep 5
+          fi
+          
+          # 发布
+          npm publish --access public --registry "$REGISTRY_2"
+
+      - name: Publish to Default Registry
         if: steps.check-update-all.outputs.should_skip != 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -152,7 +188,53 @@ jobs:
           node-version: '18'
           registry-url: ${{ secrets.REGISTRY_URL }}
       
-      - name: Publish to NPM
+      - name: Publish All to Registry 2
+        if: steps.check-update-all.outputs.should_run == 'true'
+        env:
+          REGISTRY_2: ${{ secrets.REGISTRY_URL_2 }}
+          TOKEN_2: ${{ secrets.NPM_TOKEN_2 }}
+        run: |
+          if [ -z "$REGISTRY_2" ] || [ -z "$TOKEN_2" ]; then
+            echo "Registry 2 secrets not set, skipping."
+            exit 0
+          fi
+
+          REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2" | sed 's/^https\?:\/\///')
+          echo "//$REGISTRY_2_NO_PROTO:_authToken=$TOKEN_2" >> ~/.npmrc
+
+          PACKAGE_DIRS=$(find . -name "package.json" -not -path "*/node_modules/*" -not -path "./package.json" -exec dirname {} \; | sed 's/^\.\///')
+          echo "Found packages: $PACKAGE_DIRS"
+          # 仅保留一级目录
+          FIRST_LEVEL_DIRS=()
+          for dir in $PACKAGE_DIRS; do
+            if [[ "$dir" != *"/"* ]]; then
+              FIRST_LEVEL_DIRS+=("$dir")
+            fi
+          done
+          
+          echo "要发布的一级目录包: ${FIRST_LEVEL_DIRS[*]}"
+          
+          for dir in "${FIRST_LEVEL_DIRS[@]}"; do
+            if [ ! -d "$dir" ]; then
+              echo "目录 $dir 不存在，跳过..."
+              continue
+            fi
+            cd $dir
+            echo "发布 $dir 到 Registry 2"
+            CURRENT_VERSION=$(node -p "require('./package.json').version")
+            PACKAGE_NAME=$(node -p "require('./package.json').name")
+            echo "当前版本: $CURRENT_VERSION"
+            
+            if npm view $PACKAGE_NAME@$CURRENT_VERSION version --registry "$REGISTRY_2" &> /dev/null; then
+               echo "Version $CURRENT_VERSION exists on $REGISTRY_2, unpublishing..."
+               npm unpublish $PACKAGE_NAME@$CURRENT_VERSION --force --registry "$REGISTRY_2"
+               sleep 5
+            fi
+            npm publish --access public --registry "$REGISTRY_2"
+            cd ..
+          done
+      
+      - name: Publish All to Default Registry
         if: steps.check-update-all.outputs.should_run == 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -244,6 +326,24 @@ jobs:
           target: ${{ secrets.TARGET }}
           timeout: 120s
           command_timeout: 60s
+      
+      - name: Prepare R2 Upload
+        run: |
+          mkdir -p r2_json
+          cp libraries.json r2_json/
+          cp libraries-ai.json r2_json/
+
+      - name: Upload to R2
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com --acl public-read --follow-symlinks
+        env:
+          AWS_S3_BUCKET: ${{ secrets.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'auto'
+          SOURCE_DIR: 'r2_json'
+          DEST_DIR: '${{ secrets.R2_JSON_TARGET }}'
       
       # 添加此步骤作为工作流的最后一步
       - name: Update last deploy tag
