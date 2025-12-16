@@ -253,11 +253,11 @@ jobs:
       - name: Publish All to Default Registry
         if: steps.check-update-all.outputs.should_run == 'true'
         env:
-          # 确保清理掉可能残留的 .npmrc
-          rm -f .npmrc
-          
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
+          # 确保清理掉可能残留的 .npmrc
+          rm -f .npmrc
+
           PACKAGE_DIRS=$(find . -name "package.json" -not -path "*/node_modules/*" -not -path "./package.json" -exec dirname {} \; | sed 's/^\.\///')
           echo "Found packages: $PACKAGE_DIRS"
           # 仅保留一级目录
