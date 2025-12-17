@@ -124,19 +124,25 @@ jobs:
           
           # 去掉协议头获取 host
           REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2" | sed 's/^https\?:\/\///')
+          # 去掉可能存在的尾部斜杠
+          REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2_NO_PROTO" | sed 's/\/$//')
           
-          # 配置认证
-          echo "//$REGISTRY_2_NO_PROTO:_authToken=$TOKEN_2" >> ~/.npmrc
+          # 在当前目录生成 .npmrc，确保优先级最高且配置准确
+          echo "registry=$REGISTRY_2" > .npmrc
+          echo "//$REGISTRY_2_NO_PROTO/:_authToken=$TOKEN_2" >> .npmrc
           
           # 检查是否存在
-          if npm view $PACKAGE_NAME@$CURRENT_VERSION version --registry "$REGISTRY_2" &> /dev/null; then
+          if npm view $PACKAGE_NAME@$CURRENT_VERSION version &> /dev/null; then
              echo "Version $CURRENT_VERSION exists on $REGISTRY_2, unpublishing..."
-             npm unpublish $PACKAGE_NAME@$CURRENT_VERSION --force --registry "$REGISTRY_2"
+             npm unpublish $PACKAGE_NAME@$CURRENT_VERSION --force
              sleep 5
           fi
           
           # 发布
-          npm publish --access public --registry "$REGISTRY_2"
+          npm publish --access public
+          
+          # 清理临时配置文件
+          rm .npmrc
 
       - name: Publish to Default Registry
         if: steps.check-update-all.outputs.should_skip != 'true'
@@ -144,6 +150,8 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           cd ${{ matrix.package }}
+          # 确保清理掉可能残留的 .npmrc
+          rm -f .npmrc
           
           # 获取当前版本号
           CURRENT_VERSION=$(node -p "require('./package.json').version")
@@ -200,7 +208,12 @@ jobs:
           fi
 
           REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2" | sed 's/^https\?:\/\///')
-          echo "//$REGISTRY_2_NO_PROTO:_authToken=$TOKEN_2" >> ~/.npmrc
+          # 去掉可能存在的尾部斜杠
+          REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2_NO_PROTO" | sed 's/\/$//')
+          
+          # 在当前目录生成 .npmrc
+          echo "registry=$REGISTRY_2" > .npmrc
+          echo "//$REGISTRY_2_NO_PROTO/:_authToken=$TOKEN_2" >> .npmrc
 
           PACKAGE_DIRS=$(find . -name "package.json" -not -path "*/node_modules/*" -not -path "./package.json" -exec dirname {} \; | sed 's/^\.\///')
           echo "Found packages: $PACKAGE_DIRS"
@@ -225,20 +238,26 @@ jobs:
             PACKAGE_NAME=$(node -p "require('./package.json').name")
             echo "当前版本: $CURRENT_VERSION"
             
-            if npm view $PACKAGE_NAME@$CURRENT_VERSION version --registry "$REGISTRY_2" &> /dev/null; then
+            if npm view $PACKAGE_NAME@$CURRENT_VERSION version &> /dev/null; then
                echo "Version $CURRENT_VERSION exists on $REGISTRY_2, unpublishing..."
-               npm unpublish $PACKAGE_NAME@$CURRENT_VERSION --force --registry "$REGISTRY_2"
+               npm unpublish $PACKAGE_NAME@$CURRENT_VERSION --force
                sleep 5
             fi
-            npm publish --access public --registry "$REGISTRY_2"
+            npm publish --access public
             cd ..
           done
+          
+          # 清理
+          rm .npmrc
       
       - name: Publish All to Default Registry
         if: steps.check-update-all.outputs.should_run == 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
+          # 确保清理掉可能残留的 .npmrc
+          rm -f .npmrc
+
           PACKAGE_DIRS=$(find . -name "package.json" -not -path "*/node_modules/*" -not -path "./package.json" -exec dirname {} \; | sed 's/^\.\///')
           echo "Found packages: $PACKAGE_DIRS"
           # 仅保留一级目录
