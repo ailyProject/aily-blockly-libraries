@@ -1,0 +1,354 @@
+[
+  {
+    "type": "car_is_key_pressed",
+    "message0": "按键 %1 被按下",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "KEY",
+        "options": [
+          [
+            "A",
+            "0"
+          ],
+          [
+            "B",
+            "1"
+          ],
+          [
+            "C",
+            "2"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5C68A6",
+    "tooltip": "判断板载按键是否被按下"
+  },
+  {
+    "type": "car_servo_angle",
+    "message0": "设置舵机 %1 角度为 %2 度",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": [
+          [
+            "S1",
+            "0"
+          ],
+          [
+            "S2",
+            "1"
+          ],
+          [
+            "S3",
+            "2"
+          ],
+          [
+            "S4",
+            "3"
+          ],
+          [
+            "S5",
+            "4"
+          ],
+          [
+            "S6",
+            "5"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ANGLE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "设置STM32舵机角度(0-180)"
+  },
+  {
+    "type": "car_motor_control_single",
+    "message0": "控制TT马达 %1 方向 %2 速度 %3(0-255)",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR_ID",
+        "options": [
+          [
+            "EL1",
+            "0"
+          ],
+          [
+            "ER1",
+            "1"
+          ],
+          [
+            "EL2",
+            "2"
+          ],
+          [
+            "ER2",
+            "3"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIRECTION",
+        "options": [
+          [
+            "停止",
+            "0"
+          ],
+          [
+            "正转",
+            "1"
+          ],
+          [
+            "反转",
+            "2"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "通过STM32控制TT马达(速度范围0-255)"
+  },
+  {
+    "type": "car_motor_stop_single",
+    "message0": "停止TT马达 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR_ID",
+        "options": [
+          [
+            "EL1",
+            "0"
+          ],
+          [
+            "ER1",
+            "1"
+          ],
+          [
+            "EL2",
+            "2"
+          ],
+          [
+            "ER2",
+            "3"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "停止单个TT马达"
+  },
+  {
+    "type": "car_stepper_control",
+    "message0": "步进电机 %1 %2 转动 %3 度",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STEPPER_NUM",
+        "options": [
+          [
+            "L",
+            "0"
+          ],
+          [
+            "R",
+            "1"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIRECTION",
+        "options": [
+          [
+            "顺时针",
+            "0"
+          ],
+          [
+            "逆时针",
+            "1"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DEGREES",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "通过STM32控制步进电机(0-65535度)"
+  },
+  {
+    "type": "car_stepper_control_turns",
+    "message0": "步进电机 %1 %2 转动 %3 圈",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STEPPER_NUM",
+        "options": [
+          [
+            "L",
+            "0"
+          ],
+          [
+            "R",
+            "1"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIRECTION",
+        "options": [
+          [
+            "顺时针",
+            "0"
+          ],
+          [
+            "逆时针",
+            "1"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "TURNS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "通过STM32控制步进电机转指定圈数(1圈=360度，最大182圈)"
+  },
+  {
+    "type": "jy61p_set_zero",
+    "message0": "设置姿态角零点",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "将当前姿态角度设置为零点（参考位置）"
+  },
+  {
+    "type": "jy61p_get_angle",
+    "message0": "获取姿态角度 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ANGLE_TYPE",
+        "options": [
+          [
+            "Yaw (航向角)",
+            "YAW"
+          ],
+          [
+            "Pitch (俯仰角)",
+            "PITCH"
+          ],
+          [
+            "Roll (横滚角)",
+            "ROLL"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E67E22",
+    "tooltip": "获取JY61P姿态角度，返回0-360度"
+  },
+  {
+    "type": "jy61p_get_acceleration",
+    "message0": "获取加速度 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          [
+            "X轴",
+            "X"
+          ],
+          [
+            "Y轴",
+            "Y"
+          ],
+          [
+            "Z轴",
+            "Z"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E67E22",
+    "tooltip": "获取JY61P加速度，单位:g，范围:-16~16"
+  },
+  {
+    "type": "jy61p_get_gyro",
+    "message0": "获取角速度 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          [
+            "X轴",
+            "X"
+          ],
+          [
+            "Y轴",
+            "Y"
+          ],
+          [
+            "Z轴",
+            "Z"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E67E22",
+    "tooltip": "获取JY61P角速度，单位:°/s，范围:-2000~2000"
+  },
+  {
+    "type": "car_servo_angle_value",
+    "message0": "角度 %1 度",
+    "args0": [
+      {
+        "type": "field_angle",
+        "name": "ANGLE",
+        "angle": 90,
+        "min": 0,
+        "max": 180
+      }
+    ],
+    "output": "Number",
+    "colour": "#87CE00",
+    "tooltip": "舵机角度值（0-180度）",
+    "icon": "iconfont icon-servo"
+  }
+]
