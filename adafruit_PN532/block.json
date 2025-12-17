@@ -1,7 +1,7 @@
 [
   {
     "type": "pn532_create_spi",
-    "message0": "创建PN532 NFC模块 %1 使用SPI接口 SCK:%2 MISO:%3 MOSI:%4 SS:%5",
+    "message0": "创建PN532 NFC模块 %1 SPI接口 %2 \nSS引脚 %3",
     "args0": [
       {
         "type": "field_input",
@@ -9,79 +9,25 @@
         "text": "nfc"
       },
       {
-        "type": "field_number",
-        "name": "SCK",
-        "value": 2,
-        "min": 0,
-        "max": 53
+        "type": "field_dropdown",
+        "name": "SPI",
+        "options": "${board.spi}"
       },
       {
-        "type": "field_number",
-        "name": "MISO",
-        "value": 5,
-        "min": 0,
-        "max": 53
-      },
-      {
-        "type": "field_number",
-        "name": "MOSI",
-        "value": 3,
-        "min": 0,
-        "max": 53
-      },
-      {
-        "type": "field_number",
-        "name": "SS",
-        "value": 4,
-        "min": 0,
-        "max": 53
+        "type": "input_value",
+        "name": "SS"
       }
     ],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#0066CC",
-    "tooltip": "创建PN532 NFC模块对象，使用软件SPI接口"
-  },
-  {
-    "type": "pn532_create_spi_hw",
-    "message0": "创建PN532 NFC模块 %1 使用硬件SPI接口 SS:%2",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "VAR",
-        "text": "nfc"
-      },
-      {
-        "type": "field_number",
-        "name": "SS",
-        "value": 10,
-        "min": 0,
-        "max": 53
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#0066CC",
-    "tooltip": "创建PN532 NFC模块对象，使用硬件SPI接口"
+    "tooltip": "创建PN532 NFC模块对象，使用SPI接口",
+    "icon": "fa-solid fa-credit-card"
   },
   {
     "type": "pn532_create_i2c",
-    "message0": "创建PN532 NFC模块 %1 使用I2C接口（简化版）",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "VAR",
-        "text": "nfc"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#0066CC",
-    "tooltip": "创建PN532 NFC模块对象，使用I2C接口（不接IRQ和RESET引脚）"
-  },
-  {
-    "type": "pn532_create_i2c_pins",
-    "message0": "创建PN532 NFC模块 %1 使用I2C接口 IRQ:%2 RESET:%3",
+    "message0": "创建PN532 NFC模块 %1 使用I2C接口 %2",
     "args0": [
       {
         "type": "field_input",
@@ -89,41 +35,17 @@
         "text": "nfc"
       },
       {
-        "type": "field_number",
-        "name": "IRQ",
-        "value": 2,
-        "min": 0,
-        "max": 53
-      },
-      {
-        "type": "field_number",
-        "name": "RESET",
-        "value": 3,
-        "min": 0,
-        "max": 53
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
       }
     ],
-    "previousStatement": null,
-    "nextStatement": null,  
-    "colour": "#0066CC",
-    "tooltip": "创建PN532 NFC模块对象，使用I2C接口（带IRQ和RESET引脚）"
-  },
-  {
-    "type": "pn532_begin",
-    "message0": "初始化PN532模块 %1",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "nfc",
-        "variableTypes": ["Adafruit_PN532"],
-        "defaultType": "Adafruit_PN532"
-      }
-    ],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#0066CC",
-    "tooltip": "初始化PN532模块，必须在setup中调用"
+    "tooltip": "创建并初始化PN532 NFC模块对象，使用I2C接口",
+    "icon": "fa-solid fa-credit-card"
   },
   {
     "type": "pn532_get_firmware_version",
