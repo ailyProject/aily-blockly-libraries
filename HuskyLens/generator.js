@@ -234,6 +234,7 @@ Arduino.forBlock['huskylens_get_near_center'] = function(block, generator) {
     const varName = varField ? varField.getText() : 'huskylens';
     var type = block.getFieldValue('TYPE');
     var param = block.getFieldValue('PARAM');
+    var typeLower = type.toLowerCase() + 's';
 
     // 生成辅助函数
     var funcName = '_huskylens_getNearCenter' + type;
@@ -241,8 +242,8 @@ Arduino.forBlock['huskylens_get_near_center'] = function(block, generator) {
     funcCode += '  HUSKYLENSResult result;\n';
     funcCode += '  int minDist = 99999;\n';
     funcCode += '  int centerX = 160, centerY = 120;\n';
-    funcCode += '  for (int i = 0; i < hl.count' + type + 's(); i++) {\n';
-    funcCode += '    HUSKYLENSResult r = hl.get' + type + '(i);\n';
+    funcCode += '  for (int i = 0; i < hl.' + typeLower + '.available(); i++) {\n';
+    funcCode += '    HUSKYLENSResult r = hl.' + typeLower + '.readDirect(i);\n';
     funcCode += '    int dist = abs(r.xCenter - centerX) + abs(r.yCenter - centerY);\n';
     funcCode += '    if (dist < minDist) {\n';
     funcCode += '      minDist = dist;\n';
@@ -263,8 +264,9 @@ Arduino.forBlock['huskylens_get_id_param'] = function(block, generator) {
     var id = generator.valueToCode(block, 'ID', generator.ORDER_ATOMIC) || '1';
     var type = block.getFieldValue('TYPE');
     var param = block.getFieldValue('PARAM');
+    var typeLower = type.toLowerCase() + 's';
 
-    return [varName + '.get' + type + '(' + id + ', 0).' + param, generator.ORDER_MEMBER];
+    return [varName + '.' + typeLower + '.read(' + id + ', 0).' + param, generator.ORDER_MEMBER];
 };
 
 // 获取第N个方框/箭头的参数
@@ -274,8 +276,9 @@ Arduino.forBlock['huskylens_get_index_param'] = function(block, generator) {
     var index = generator.valueToCode(block, 'INDEX', generator.ORDER_ATOMIC) || '0';
     var type = block.getFieldValue('TYPE');
     var param = block.getFieldValue('PARAM');
+    var typeLower = type.toLowerCase() + 's';
 
-    return [varName + '.get' + type + '(' + index + ').' + param, generator.ORDER_MEMBER];
+    return [varName + '.' + typeLower + '.readDirect(' + index + ').' + param, generator.ORDER_MEMBER];
 };
 
 // 获取指定ID的第N个方框/箭头的参数
@@ -286,8 +289,9 @@ Arduino.forBlock['huskylens_get_id_index_param'] = function(block, generator) {
     var index = generator.valueToCode(block, 'INDEX', generator.ORDER_ATOMIC) || '0';
     var type = block.getFieldValue('TYPE');
     var param = block.getFieldValue('PARAM');
+    var typeLower = type.toLowerCase() + 's';
 
-    return [varName + '.get' + type + '(' + id + ', ' + index + ').' + param, generator.ORDER_MEMBER];
+    return [varName + '.' + typeLower + '.read(' + id + ', ' + index + ').' + param, generator.ORDER_MEMBER];
 };
 
 // 设置自定义名称
@@ -297,7 +301,7 @@ Arduino.forBlock['huskylens_set_custom_name'] = function(block, generator) {
     var id = generator.valueToCode(block, 'ID', generator.ORDER_ATOMIC) || '1';
     var name = generator.valueToCode(block, 'NAME', generator.ORDER_ATOMIC) || '"Name"';
 
-    return varName + '.setCustomName(' + name + ', ' + id + ');\n';
+    return varName + '.writeName(' + name + ', ' + id + ');\n';
 };
 
 // 请求指定ID的数据
@@ -316,7 +320,7 @@ Arduino.forBlock['huskylens_read_block_param'] = function(block, generator) {
     var index = generator.valueToCode(block, 'INDEX', generator.ORDER_ATOMIC) || '0';
     var param = block.getFieldValue('PARAM');
 
-    return [varName + '.readBlockDirect(' + index + ').' + param, generator.ORDER_MEMBER];
+    return [varName + '.blocks.readDirect(' + index + ').' + param, generator.ORDER_MEMBER];
 };
 
 // 读取箭头参数
@@ -326,7 +330,7 @@ Arduino.forBlock['huskylens_read_arrow_param'] = function(block, generator) {
     var index = generator.valueToCode(block, 'INDEX', generator.ORDER_ATOMIC) || '0';
     var param = block.getFieldValue('PARAM');
 
-    return [varName + '.readArrowDirect(' + index + ').' + param, generator.ORDER_MEMBER];
+    return [varName + '.arrows.readDirect(' + index + ').' + param, generator.ORDER_MEMBER];
 };
 
 // 显示OSD文字
