@@ -7,18 +7,79 @@
  * 基于: Arduino库转Blockly库规范.md
  * 
  * 使用方法:
- *   node validate-library-compliance.js [库名]
- *   node validate-library-compliance.js --all
+ *   node validate-library-compliance.js [库名]      检测指定库
+ *   node validate-library-compliance.js --all        检测所有库
+ *   node validate-library-compliance.js --changed    检测PR中变更的库
  */
 
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
+const yaml = require('js-yaml');
 
 class LibraryValidator {
-  constructor() {
+  constructor(configPath = null) {
     this.issues = [];
     this.score = 0;
     this.maxScore = 0;
+    this.config = this.loadConfig(configPath);
+  }
+
+  // 加载配置文件
+  loadConfig(configPath) {
+    const defaultConfig = {
+      compliance: {
+        scoring: {
+          file_structure: 10,
+          package_json: 15,
+          block_json: 20,
+          generator_js: 25,
+          toolbox_json: 10,
+          readme: 20
+        },
+        strictness: {
+          missing_readme: 'warning',
+          outdated_version: 'info',
+          missing_i18n: 'warning',
+          poor_generator_practices: 'error'
+        }
+      },
+      github: {
+        pull_request: {
+          minimum_score: 80,
+          block_merge: true
+        }
+      }
+    };
+
+    if (!configPath) {
+      // 尝试从默认位置加载
+      const defaultPaths = [
+        '.github/compliance-config.yml',
+        'compliance-config.yml'
+      ];
+      
+      for (const p of defaultPaths) {
+        const fullPath = path.resolve(p);
+        if (fs.existsSync(fullPath)) {
+          configPath = fullPath;
+          break;
+        }
+      }
+    }
+
+    if (configPath && fs.existsSync(configPath)) {
+      try {
+        const fileContents = fs.readFileSync(configPath, 'utf8');
+        const loadedConfig = yaml.load(fileContents);
+        console.log(`📋 已加载配置文件: ${configPath}\n`);
+        return { ...defaultConfig, ...loadedConfig };
+      } catch (e) {
+        console.warn(`⚠️  配置文件加载失败，使用默认配置: ${e.message}\n`);
+      }
+    }
+
+    return defaultConfig;
   }
 
   // 添加检测问题
@@ -945,6 +1006,148 @@ class LibraryValidator {
 
     return results;
   }
+
+  // 获取 git 变更的文件列表
+  getChangedFiles() {
+    try {
+      // 尝试获取与 main 分支的差异（适用于 PR）
+      let changedFiles;
+      try {
+        changedFiles = execSync('git diff --name-only origin/main...HEAD', { encoding: 'utf8' });
+      } catch (e) {
+        // 如果没有 origin/main，尝试与本地 main 比较
+        try {
+          changedFiles = execSync('git diff --name-only main...HEAD', { encoding: 'utf8' });
+        } catch (e2) {
+          // 如果都失败，获取最近一次提交的变更
+          changedFiles = execSync('git diff --name-only HEAD~1 HEAD', { encoding: 'utf8' });
+        }
+      }
+      return changedFiles.trim().split('\n').filter(f => f);
+    } catch (error) {
+      console.error('⚠️  无法获取 git 变更信息:', error.message);
+      console.error('   请确保在 git 仓库中运行此命令');
+      return [];
+    }
+  }
+
+  // 从变更文件中提取库目录
+  extractLibrariesFromChangedFiles(changedFiles) {
+    const libraries = new Set();
+    
+    for (const file of changedFiles) {
+      // 跳过根目录文件
+      if (!file.includes('/') && !file.includes('\\')) {
+        continue;
+      }
+      
+      // 获取第一级目录名（库名）
+      const parts = file.split(/[\/\\]/);
+      const libraryName = parts[0];
+      
+      // 跳过隐藏目录和 node_modules
+      if (libraryName.startsWith('.') || libraryName === 'node_modules') {
+        continue;
+      }
+      
+      libraries.add(libraryName);
+    }
+    
+    return Array.from(libraries);
+  }
+
+  // 验证 PR 中变更的库
+  async validateChangedLibraries() {
+    const currentDir = process.cwd();
+    
+    console.log('🔍 检测 PR 中的变更文件...\n');
+    
+    const changedFiles = this.getChangedFiles();
+    
+    if (changedFiles.length === 0) {
+      console.log('ℹ️  未检测到文件变更');
+      return [];
+    }
+    
+    console.log(`📝 发现 ${changedFiles.length} 个变更文件`);
+    
+    const changedLibraries = this.extractLibrariesFromChangedFiles(changedFiles);
+    
+    if (changedLibraries.length === 0) {
+      console.log('\n✅ 本次变更未涉及库目录\n');
+      return [];
+    }
+    
+    console.log(`\n📦 本次变更涉及 ${changedLibraries.length} 个库:`);
+    changedLibraries.forEach(lib => console.log(`   - ${lib}`));
+    console.log('');
+    
+    const results = [];
+    let passCount = 0;
+    let partialCount = 0;
+    let failCount = 0;
+
+    for (const lib of changedLibraries) {
+      const libPath = path.join(currentDir, lib);
+      
+      // 检查目录是否存在
+      if (!fs.existsSync(libPath)) {
+        console.log(`⚠️  跳过: ${lib} (目录不存在)\n`);
+        continue;
+      }
+      
+      // 检查是否是有效的库目录
+      const hasPackageJson = fs.existsSync(path.join(libPath, 'package.json'));
+      const hasBlockJson = fs.existsSync(path.join(libPath, 'block.json'));
+      
+      if (!hasPackageJson && !hasBlockJson) {
+        console.log(`⚠️  跳过: ${lib} (不是有效的库目录)\n`);
+        continue;
+      }
+
+      const result = await this.validateLibrary(libPath);
+      results.push(result);
+
+      if (result.percentage >= 90) {
+        passCount++;
+      } else if (result.percentage >= 60) {
+        partialCount++;
+      } else {
+        failCount++;
+      }
+    }
+
+    // 总体统计
+    if (results.length > 0) {
+      console.log('\n' + '='.repeat(60));
+      console.log('🏆 变更库检测统计');
+      console.log('='.repeat(60));
+      console.log(`📊 共检测库: ${results.length} 个`);
+      console.log(`✅ 完全合规 (≥90%): ${passCount} 个`);
+      console.log(`⚠️  部分合规 (60-89%): ${partialCount} 个`);
+      console.log(`❌ 需要修改 (<60%): ${failCount} 个`);
+
+      // 按评分排序显示
+      results.sort((a, b) => b.percentage - a.percentage);
+      console.log('\n📋 库评分:');
+      for (const result of results) {
+        const icon = result.percentage >= 90 ? '✅' : result.percentage >= 60 ? '⚠️' : '❌';
+        console.log(`  ${icon} ${result.libraryName}: ${result.percentage}%`);
+      }
+      
+      // 如果有不合规的库，返回错误码
+      if (failCount > 0) {
+        console.log('\n❌ 检测失败: 存在不合规的库');
+        process.exitCode = 1;
+      } else if (partialCount > 0) {
+        console.log('\n⚠️  检测警告: 部分库需要改进');
+      } else {
+        console.log('\n✅ 检测通过: 所有变更库均符合规范');
+      }
+    }
+
+    return results;
+  }
 }
 
 // 主函数
@@ -957,9 +1160,10 @@ async function main() {
 Arduino库转Blockly库规范检测工具
 
 使用方法:
-  node validate-library-compliance.js [库名]     检测指定库
-  node validate-library-compliance.js --all      检测所有库
-  node validate-library-compliance.js --help     显示帮助
+  node validate-library-compliance.js [库名]       检测指定库
+  node validate-library-compliance.js --all        检测所有库
+  node validate-library-compliance.js --changed    检测PR中变更的库 (推荐用于CI/CD)
+  node validate-library-compliance.js --help       显示帮助
 
 检测范围:
   ✅ 文件结构完整性
@@ -969,18 +1173,33 @@ Arduino库转Blockly库规范检测工具
   ✅ toolbox.json影子块配置
   ✅ README轻量化规范
   ✅ generator.js最佳实践
+
+CI/CD 集成:
+  在 GitHub Actions 或其他 CI 中使用 --changed 参数
+  可以只检测 PR 中实际变更的库，大幅提升检测速度
 `);
     return;
   }
 
   if (args[0] === '--all') {
     await validator.validateAllLibraries();
+  } else if (args[0] === '--changed') {
+    await validator.validateChangedLibraries();
   } else {
     const libraryName = args[0];
     const libraryPath = path.resolve(libraryName);
     
+    // 检查路径是否存在
     if (!fs.existsSync(libraryPath)) {
       console.error(`❌ 库目录不存在: ${libraryPath}`);
+      process.exit(1);
+    }
+
+    // 检查是否是目录（过滤掉文件）
+    const stat = fs.statSync(libraryPath);
+    if (!stat.isDirectory()) {
+      console.error(`❌ 指定的路径不是目录: ${libraryPath}`);
+      console.error('   请指定一个库文件夹，而不是文件');
       process.exit(1);
     }
 
