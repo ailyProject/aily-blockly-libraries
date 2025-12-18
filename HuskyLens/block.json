@@ -1,0 +1,819 @@
+[
+    {
+        "type": "huskylens_init_i2c_until",
+        "message0": "初始化 HuskyLens %1 I2C接口 %2 直到成功",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "huskylens"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "WIRE",
+                "options": "${board.i2c}"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "通过I2C接口初始化HuskyLens，会一直尝试直到成功"
+    },
+    {
+        "type": "huskylens_init_i2c",
+        "message0": "初始化 HuskyLens %1 I2C接口 %2",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "huskylens"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "WIRE",
+                "options": "${board.i2c}"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "通过I2C接口初始化HuskyLens AI摄像头"
+    },
+    {
+        "type": "huskylens_init_serial",
+        "message0": "初始化 HuskyLens %1 串口 %2",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "huskylens"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "SERIAL",
+                "options": "${board.serialPort}"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "通过串口初始化HuskyLens AI摄像头"
+    },
+    {
+        "type": "huskylens_set_algorithm",
+        "message0": "HuskyLens %1 切换算法为 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "ALGORITHM",
+                "options": [
+                    ["人脸识别", "ALGORITHM_FACE_RECOGNITION"],
+                    ["物体追踪", "ALGORITHM_OBJECT_TRACKING"],
+                    ["物体识别", "ALGORITHM_OBJECT_RECOGNITION"],
+                    ["巡线追踪", "ALGORITHM_LINE_TRACKING"],
+                    ["颜色识别", "ALGORITHM_COLOR_RECOGNITION"],
+                    ["标签识别", "ALGORITHM_TAG_RECOGNITION"],
+                    ["物体分类", "ALGORITHM_OBJECT_CLASSIFICATION"],
+                    ["二维码识别", "ALGORITHM_QR_RECOGNITION"],
+                    ["条形码识别", "ALGORITHM_BARCODE_RECOGNITION"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "切换HuskyLens的识别算法"
+    },
+    {
+        "type": "huskylens_set_algorithm_until",
+        "message0": "HuskyLens %1 切换到 %2 算法 直到成功",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "ALGORITHM",
+                "options": [
+                    ["人脸识别", "ALGORITHM_FACE_RECOGNITION"],
+                    ["物体追踪", "ALGORITHM_OBJECT_TRACKING"],
+                    ["物体识别", "ALGORITHM_OBJECT_RECOGNITION"],
+                    ["巡线追踪", "ALGORITHM_LINE_TRACKING"],
+                    ["颜色识别", "ALGORITHM_COLOR_RECOGNITION"],
+                    ["标签识别", "ALGORITHM_TAG_RECOGNITION"],
+                    ["物体分类", "ALGORITHM_OBJECT_CLASSIFICATION"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "切换HuskyLens的识别算法，会一直尝试直到成功"
+    },
+    {
+        "type": "huskylens_request",
+        "message0": "HuskyLens %1 请求数据",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "从HuskyLens请求识别数据"
+    },
+    {
+        "type": "huskylens_request_blocks",
+        "message0": "HuskyLens %1 请求方框数据",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "从HuskyLens请求方框类型数据"
+    },
+    {
+        "type": "huskylens_request_arrows",
+        "message0": "HuskyLens %1 请求箭头数据",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "从HuskyLens请求箭头类型数据（用于巡线）"
+    },
+    {
+        "type": "huskylens_available",
+        "message0": "HuskyLens %1 检测到数据数量",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#00BCD4",
+        "tooltip": "获取HuskyLens检测到的数据数量"
+    },
+    {
+        "type": "huskylens_is_learned",
+        "message0": "HuskyLens %1 已学习",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            }
+        ],
+        "inputsInline": true,
+        "output": "Boolean",
+        "colour": "#00BCD4",
+        "tooltip": "检查HuskyLens是否已学习过目标"
+    },
+    {
+        "type": "huskylens_count_learned_ids",
+        "message0": "HuskyLens %1 已学习ID数量",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#00BCD4",
+        "tooltip": "获取HuskyLens已学习的ID数量"
+    },
+    {
+        "type": "huskylens_is_id_learned",
+        "message0": "HuskyLens %1 ID %2 是否已学习",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "input_value",
+                "name": "ID",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "output": "Boolean",
+        "colour": "#00BCD4",
+        "tooltip": "检查指定ID是否已学习"
+    },
+    {
+        "type": "huskylens_is_appear",
+        "message0": "HuskyLens %1 %2 是否在画面中",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TYPE",
+                "options": [
+                    ["方框", "Blocks"],
+                    ["箭头", "Arrows"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "output": "Boolean",
+        "colour": "#00BCD4",
+        "tooltip": "检查方框或箭头是否在画面中"
+    },
+    {
+        "type": "huskylens_is_id_appear",
+        "message0": "HuskyLens %1 ID %2 %3 是否在画面中",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "input_value",
+                "name": "ID",
+                "check": "Number"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TYPE",
+                "options": [
+                    ["方框", "Blocks"],
+                    ["箭头", "Arrows"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "output": "Boolean",
+        "colour": "#00BCD4",
+        "tooltip": "检查指定ID的方框或箭头是否在画面中"
+    },
+    {
+        "type": "huskylens_count_type",
+        "message0": "HuskyLens %1 %2 总数",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TYPE",
+                "options": [
+                    ["方框", "Blocks"],
+                    ["箭头", "Arrows"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#00BCD4",
+        "tooltip": "获取方框或箭头的总数量"
+    },
+    {
+        "type": "huskylens_count_id_type",
+        "message0": "HuskyLens %1 ID %2 %3 总数",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "input_value",
+                "name": "ID",
+                "check": "Number"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TYPE",
+                "options": [
+                    ["方框", "Blocks"],
+                    ["箭头", "Arrows"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#00BCD4",
+        "tooltip": "获取指定ID的方框或箭头数量"
+    },
+    {
+        "type": "huskylens_get_near_center",
+        "message0": "HuskyLens %1 靠近中心 %2 的 %3",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TYPE",
+                "options": [
+                    ["方框", "Block"],
+                    ["箭头", "Arrow"]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PARAM",
+                "options": [
+                    ["ID", "ID"],
+                    ["X中心", "xCenter"],
+                    ["Y中心", "yCenter"],
+                    ["宽度", "width"],
+                    ["高度", "height"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#00BCD4",
+        "tooltip": "获取靠近画面中心的方框或箭头的参数"
+    },
+    {
+        "type": "huskylens_get_id_param",
+        "message0": "HuskyLens %1 ID %2 %3 的参数 %4",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "input_value",
+                "name": "ID",
+                "check": "Number"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TYPE",
+                "options": [
+                    ["方框", "Block"],
+                    ["箭头", "Arrow"]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PARAM",
+                "options": [
+                    ["X中心", "xCenter"],
+                    ["Y中心", "yCenter"],
+                    ["宽度", "width"],
+                    ["高度", "height"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#00BCD4",
+        "tooltip": "获取指定ID的方框或箭头的参数"
+    },
+    {
+        "type": "huskylens_get_index_param",
+        "message0": "HuskyLens %1 第 %2 个 %3 的 %4",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "input_value",
+                "name": "INDEX",
+                "check": "Number"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TYPE",
+                "options": [
+                    ["方框", "Block"],
+                    ["箭头", "Arrow"]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PARAM",
+                "options": [
+                    ["ID", "ID"],
+                    ["X中心", "xCenter"],
+                    ["Y中心", "yCenter"],
+                    ["宽度", "width"],
+                    ["高度", "height"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#00BCD4",
+        "tooltip": "获取第N个方框或箭头的参数"
+    },
+    {
+        "type": "huskylens_get_id_index_param",
+        "message0": "HuskyLens %1 ID %2 第 %3 个 %4 的参数 %5",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "input_value",
+                "name": "ID",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "INDEX",
+                "check": "Number"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TYPE",
+                "options": [
+                    ["方框", "Block"],
+                    ["箭头", "Arrow"]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PARAM",
+                "options": [
+                    ["X中心", "xCenter"],
+                    ["Y中心", "yCenter"],
+                    ["宽度", "width"],
+                    ["高度", "height"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#00BCD4",
+        "tooltip": "获取指定ID的第N个方框或箭头的参数"
+    },
+    {
+        "type": "huskylens_set_custom_name",
+        "message0": "HuskyLens %1 设置ID %2 名字为 %3",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "input_value",
+                "name": "ID",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "NAME",
+                "check": "String"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "为指定ID设置自定义名称"
+    },
+    {
+        "type": "huskylens_request_by_id",
+        "message0": "HuskyLens %1 请求ID %2 的数据",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "input_value",
+                "name": "ID",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "请求指定ID的数据"
+    },
+    {
+        "type": "huskylens_read_block_param",
+        "message0": "HuskyLens %1 读取第 %2 个方框的 %3",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "input_value",
+                "name": "INDEX",
+                "check": "Number"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PARAM",
+                "options": [
+                    ["X中心坐标", "xCenter"],
+                    ["Y中心坐标", "yCenter"],
+                    ["宽度", "width"],
+                    ["高度", "height"],
+                    ["ID", "ID"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#00BCD4",
+        "tooltip": "读取指定方框的参数"
+    },
+    {
+        "type": "huskylens_read_arrow_param",
+        "message0": "HuskyLens %1 读取第 %2 个箭头的 %3",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "input_value",
+                "name": "INDEX",
+                "check": "Number"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PARAM",
+                "options": [
+                    ["起点X坐标", "xOrigin"],
+                    ["起点Y坐标", "yOrigin"],
+                    ["终点X坐标", "xTarget"],
+                    ["终点Y坐标", "yTarget"],
+                    ["ID", "ID"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#00BCD4",
+        "tooltip": "读取指定箭头的参数"
+    },
+    {
+        "type": "huskylens_write_osd",
+        "message0": "HuskyLens %1 在屏幕 X %2 Y %3 显示文字 %4",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "input_value",
+                "name": "X",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "Y",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "TEXT",
+                "check": "String"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "在HuskyLens屏幕上显示自定义文字"
+    },
+    {
+        "type": "huskylens_clear_osd",
+        "message0": "HuskyLens %1 清除屏幕文字",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "清除HuskyLens屏幕上的自定义文字"
+    },
+    {
+        "type": "huskylens_learn_once",
+        "message0": "HuskyLens %1 学习一次 ID %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "input_value",
+                "name": "ID",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "让HuskyLens学习当前画面中的目标"
+    },
+    {
+        "type": "huskylens_forget_learn",
+        "message0": "HuskyLens %1 遗忘所有学习",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "让HuskyLens遗忘所有已学习的内容"
+    },
+    {
+        "type": "huskylens_save_model",
+        "message0": "HuskyLens %1 保存模型到SD卡 编号 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "input_value",
+                "name": "INDEX",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "将当前学习的模型保存到SD卡"
+    },
+    {
+        "type": "huskylens_load_model",
+        "message0": "HuskyLens %1 从SD卡加载模型 编号 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            },
+            {
+                "type": "input_value",
+                "name": "INDEX",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "从SD卡加载已保存的模型"
+    },
+    {
+        "type": "huskylens_take_photo",
+        "message0": "HuskyLens %1 拍照保存到SD卡",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "拍摄照片并保存到SD卡"
+    },
+    {
+        "type": "huskylens_screenshot",
+        "message0": "HuskyLens %1 截屏保存到SD卡",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "huskylens",
+                "variableTypes": ["HUSKYLENS"],
+                "defaultType": "HUSKYLENS"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "截取当前屏幕并保存到SD卡"
+    }
+]
