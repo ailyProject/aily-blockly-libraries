@@ -86,6 +86,9 @@ Arduino.forBlock['esp32_task_free_all'] = function (block, generator) {
 
 // 任务延时
 Arduino.forBlock['esp32_task_delay'] = function (block, generator) {
+    // 添加库引用
+    generator.addLibrary('DFRobot_Task', '#include <DFRobot_Task.h>');
+
     // 获取延时时间
     const delayTime = generator.valueToCode(block, 'DELAY_TIME', generator.ORDER_ATOMIC) || '1000';
 
