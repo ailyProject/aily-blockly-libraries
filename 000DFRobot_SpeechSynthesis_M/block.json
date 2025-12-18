@@ -1,0 +1,499 @@
+[
+    {
+        "type": "speech_init_i2c",
+        "message0": "初始化语音合成模块 %1 I2C接口 %2 版本 %3",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "tts"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "WIRE",
+                "options": "${board.i2c}"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "VERSION",
+                "options": [
+                    ["V1", "eV1"],
+                    ["V2", "eV2"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "通过I2C接口初始化语音合成模块，需要先使用I2C初始化块设置引脚"
+    },
+    {
+        "type": "speech_init_uart",
+        "message0": "初始化语音合成模块 %1 串口 %2 版本 %3",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "tts"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "SERIAL",
+                "options": "${board.serialPort}"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "VERSION",
+                "options": [
+                    ["V1", "eV1"],
+                    ["V2", "eV2"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "通过串口初始化语音合成模块"
+    },
+    {
+        "type": "speech_speak",
+        "message0": "语音合成 %1 播报 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            },
+            {
+                "type": "input_value",
+                "name": "TEXT",
+                "check": "String"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "播报指定文字内容，支持中英文混合"
+    },
+    {
+        "type": "speech_set_volume",
+        "message0": "语音合成 %1 设置音量 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "VOLUME",
+                "options": [
+                    ["0 (静音)", "0"],
+                    ["1", "1"],
+                    ["2", "2"],
+                    ["3", "3"],
+                    ["4", "4"],
+                    ["5 (默认)", "5"],
+                    ["6", "6"],
+                    ["7", "7"],
+                    ["8", "8"],
+                    ["9 (最大)", "9"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "设置语音播报音量(0-9)"
+    },
+    {
+        "type": "speech_set_speed",
+        "message0": "语音合成 %1 设置语速 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "SPEED",
+                "options": [
+                    ["0 (最慢)", "0"],
+                    ["1", "1"],
+                    ["2", "2"],
+                    ["3", "3"],
+                    ["4", "4"],
+                    ["5 (默认)", "5"],
+                    ["6", "6"],
+                    ["7", "7"],
+                    ["8", "8"],
+                    ["9 (最快)", "9"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "设置语音播报速度(0-9)"
+    },
+    {
+        "type": "speech_set_tone",
+        "message0": "语音合成 %1 设置语调 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TONE",
+                "options": [
+                    ["0 (最低)", "0"],
+                    ["1", "1"],
+                    ["2", "2"],
+                    ["3", "3"],
+                    ["4", "4"],
+                    ["5 (默认)", "5"],
+                    ["6", "6"],
+                    ["7", "7"],
+                    ["8", "8"],
+                    ["9 (最高)", "9"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "设置语音播报语调(0-9)"
+    },
+    {
+        "type": "speech_set_sound_type",
+        "message0": "语音合成 %1 设置发音人 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TYPE",
+                "options": [
+                    ["女声1 (推荐)", "eFemale1"],
+                    ["男声1 (推荐)", "eMale1"],
+                    ["男声2", "eMale2"],
+                    ["女声2", "eFemale2"],
+                    ["唐老鸭", "eDonaldDuck"],
+                    ["女声3", "eFemale3"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "设置语音发音人类型"
+    },
+    {
+        "type": "speech_set_english_pron",
+        "message0": "语音合成 %1 英文发音方式 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PRON",
+                "options": [
+                    ["单词", "eWord"],
+                    ["字母", "eAlphabet"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "设置英文发音方式：按单词或按字母"
+    },
+    {
+        "type": "speech_set_language",
+        "message0": "语音合成 %1 数字语言 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "LANG",
+                "options": [
+                    ["自动判断", "eAutoJudgel"],
+                    ["中文", "eChinesel"],
+                    ["英文", "eEnglishl"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "设置数字、单位、特殊字符的发音语言"
+    },
+    {
+        "type": "speech_set_digital_pron",
+        "message0": "语音合成 %1 数字读法 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PRON",
+                "options": [
+                    ["自动判断", "eAutoJudged"],
+                    ["电话号码", "eNumber"],
+                    ["数值", "eNumeric"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "设置长数字的读法方式"
+    },
+    {
+        "type": "speech_set_style",
+        "message0": "语音合成 %1 合成风格 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "STYLE",
+                "options": [
+                    ["流畅", "eSmooth"],
+                    ["逐字", "eCaton"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "设置语音合成风格"
+    },
+    {
+        "type": "speech_enable_rhythm",
+        "message0": "语音合成 %1 %2 韵律",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "ENABLE",
+                "options": [
+                    ["启用", "true"],
+                    ["禁用", "false"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "启用或禁用中文韵律功能"
+    },
+    {
+        "type": "speech_enable_pinyin",
+        "message0": "语音合成 %1 %2 拼音合成",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "ENABLE",
+                "options": [
+                    ["启用", "true"],
+                    ["禁用", "false"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "启用或禁用拼音合成功能"
+    },
+    {
+        "type": "speech_stop",
+        "message0": "语音合成 %1 停止播报",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "停止当前语音播报"
+    },
+    {
+        "type": "speech_pause",
+        "message0": "语音合成 %1 暂停播报",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "暂停当前语音播报"
+    },
+    {
+        "type": "speech_resume",
+        "message0": "语音合成 %1 恢复播报",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "恢复暂停的语音播报"
+    },
+    {
+        "type": "speech_wait",
+        "message0": "语音合成 %1 等待播报完成",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "等待当前语音播报完成"
+    },
+    {
+        "type": "speech_reset",
+        "message0": "语音合成 %1 恢复默认设置",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "将所有设置恢复为默认值"
+    },
+    {
+        "type": "speech_sleep",
+        "message0": "语音合成 %1 进入休眠",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "让语音合成模块进入休眠模式"
+    },
+    {
+        "type": "speech_wakeup",
+        "message0": "语音合成 %1 唤醒",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "tts",
+                "variableTypes": ["SpeechSynthesis"],
+                "defaultType": "SpeechSynthesis"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "从休眠模式唤醒语音合成模块"
+    }
+]
