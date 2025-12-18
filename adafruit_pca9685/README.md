@@ -1,341 +1,94 @@
-# PCA9685 舵机驱动库
+# adafruit_pca9685
 
-## 📋 简介
+PCA9685 I2C 16通道PWM舵机驱动库，支持舵机角度控制、PWM输出、微秒脉宽控制等功能。
 
-PCA9685 是一款功能强大的 I2C 16通道 PWM 舵机驱动器，专为 Arduino 和 ESP32 等微控制器设计。本库提供了完整的图形化编程支持，让舵机控制变得简单直观。
+## 库信息
+- **库名**: @aily-project/lib-adafruit-pca9685
+- **版本**: 1.0.0
+- **兼容**: Arduino AVR/SAMD, ESP32, ESP8266, RP2040, Renesas UNO R4
+- **I2C地址**: 0x40 (默认)
 
-### ✨ 主要特性
+## 块定义
 
-- **16通道独立控制**：同时控制多达16个舵机或PWM设备
-- **I2C接口**：仅需2根信号线，节省GPIO资源
-- **精确角度控制**：0-180度角度输入，自动转换为PWM值
-- **高级PWM控制**：支持直接PWM值和微秒脉宽设置
-- **批量操作**：一键设置所有通道
-- **电源管理**：睡眠/唤醒模式，降低功耗
-- **参数配置**：自定义舵机PWM范围，适配不同型号
+| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
+|--------|------|----------|----------|----------|
+| `pca9685_create` | 语句 | VAR(input) | `"VAR":"pwm"` | `Adafruit_PWMServoDriver pwm;` |
+| `pca9685_begin` | 语句 | VAR(var), ADDRESS(input) | `"VAR":{"id":"..."}` | `pwm.begin();` |
+| `pca9685_set_freq` | 语句 | VAR(var), FREQ(input) | `"VAR":{"id":"..."}` | `pwm.setPWMFreq(60);` |
+| `pca9685_set_servo_angle` | 语句 | VAR(var), CHANNEL/ANGLE(input) | `"VAR":{"id":"..."}` | `pwm.setPWM(ch,0,map(angle,0,180,100,700));` |
+| `pca9685_set_pwm` | 语句 | VAR(var), CHANNEL/ON/OFF(input) | `"VAR":{"id":"..."}` | `pwm.setPWM(ch,on,off);` |
+| `pca9685_set_microseconds` | 语句 | VAR(var), CHANNEL/MICROSECONDS(input) | `"VAR":{"id":"..."}` | `pwm.writeMicroseconds(ch,us);` |
+| `pca9685_config_servo` | 语句 | VAR(input), MIN/MAX(input) | `"VAR":"pwm"` | 配置舵机范围 |
+| `pca9685_set_all_servos` | 语句 | VAR(var), ANGLE(input) | `"VAR":{"id":"..."}` | 批量设置16通道 |
+| `pca9685_sleep/wakeup` | 语句 | VAR(var) | `"VAR":{"id":"..."}` | `pwm.sleep/wakeup();` |
+| `pca9685_set_servo_range` | 语句 | VAR(var), 多输入 | `"VAR":{"id":"..."}` | 自定义映射 |
+| `pca9685_angle_to_pwm` | 值 | VAR(var), ANGLE(input) | `"VAR":{"id":"..."}` | `map(angle,0,180,100,700)` |
 
----
+## 字段类型映射
 
-## 🛠️ 硬件准备
+| 类型 | .abi格式 | 示例 |
+|------|----------|------|
+| field_input | 字符串 | `"VAR": "pwm"` |
+| field_variable | 对象 | `"VAR": {"id": "var_id"}` |
+| input_value | 块连接 | `"inputs": {"CHANNEL": {"block": {...}}}` |
 
-### 必需硬件
-```
-ESP32/Arduino开发板 × 1
-PCA9685舵机驱动板 × 1  
-舵机（SG90/MG90S等）× 1-16
-外部5V-6V电源 × 1
-杜邦线若干
-```
+## 连接规则
 
-### 接线图
+- **语句块**: 有previousStatement/nextStatement，通过`next`字段连接
+- **值块**: 有output，连接到`inputs`中，无`next`字段
+- **变量规则**:
+  - `pca9685_create`, `pca9685_config_servo`使用`field_input`，.abi中为字符串
+  - 其他方法块使用`field_variable`，.abi中为对象`{"id":"变量ID"}`
+- **配置存储**: `pca9685_config_servo`设置的范围会被`pca9685_set_servo_angle`自动使用
 
-#### PCA9685 基础接线
-```
-ESP32          PCA9685
-GPIO21 (SDA) → SDA
-GPIO22 (SCL) → SCL  
-GND          → GND
-3.3V         → VCC
+## 使用示例
 
-外部电源
-5V-6V        → V+ (舵机供电)
-GND          → GND (与ESP32共地)
-```
-
-#### 舵机连接
-```
-舵机线    PCA9685通道
-信号线(橙) → PWM (如通道0)
-电源线(红) → V+
-地线(棕)  → GND
-```
-
----
-
-## 📦 软件依赖
-
-### Arduino 库安装
-在 Arduino IDE 中安装以下库：
-
-1. **Adafruit PWM Servo Driver Library**
-   - 库管理器搜索：`Adafruit PWM Servo Driver`
-   - 版本：2.4.0 或更高
-
-2. **Adafruit BusIO** (自动安装)
-   - 安装 PWM Servo Driver 时会自动安装
-
----
-
-## 🎯 快速开始
-
-### 基础示例
-
-#### 1. 单舵机控制
-```blockly
-创建 PCA9685 舵机驱动器 变量 pwm
-初始化 pwm I2C地址0X 40
-设置 pwm PWM频率 60 Hz
-设置 pwm 通道 0 舵机角度 90 度
-```
-
-#### 2. 多舵机控制
-```blockly
-创建 PCA9685 舵机驱动器 变量 pwm
-初始化 pwm I2C地址0X 40
-设置 pwm PWM频率 60 Hz
-设置 pwm 通道 0 舵机角度 0 度
-设置 pwm 通道 1 舵机角度 45 度
-设置 pwm 通道 2 舵机角度 90 度
-设置 pwm 通道 3 舵机角度 135 度
-设置 pwm 通道 4 舵机角度 180 度
-```
-
-#### 3. 批量操作
-```blockly
-创建 PCA9685 舵机驱动器 变量 pwm
-初始化 pwm I2C地址0X 40
-设置 pwm PWM频率 60 Hz
-设置 pwm 所有舵机角度 90 度
-```
-
----
-
-## 🔧 积木块详解
-
-### 初始化类
-
-| 积木块 | 功能 | 参数 |
-|--------|------|------|
-| 创建 PCA9685 舵机驱动器 | 创建对象变量 | 变量名 |
-| 初始化 | 初始化设备 | 变量名, I2C地址 |
-| 设置 PWM频率 | 设置输出频率 | 变量名, 频率(Hz) |
-
-### 舵机控制类
-
-| 积木块 | 功能 | 参数 |
-|--------|------|------|
-| 设置舵机角度 | 控制单个舵机 | 变量名, 通道, 角度 |
-| 设置所有舵机角度 | 批量控制 | 变量名, 角度 |
-
-### 高级控制类
-
-| 积木块 | 功能 | 参数 |
-|--------|------|------|
-| 设置PWM值 | 直接PWM控制 | 变量名, 通道, 开始值, 结束值 |
-| 设置脉宽 | 微秒脉宽控制 | 变量名, 通道, 微秒值 |
-| 角度转PWM值 | 数值转换 | 变量名, 角度 |
-
-### 配置类
-
-| 积木块 | 功能 | 参数 |
-|--------|------|------|
-| 配置舵机参数 | 设置PWM范围 | 变量名, 最小PWM, 最大PWM |
-| 设置舵机范围 | 自定义映射 | 变量名, 通道, 最小角度, 最小PWM, 最大角度, 最大PWM |
-
-### 电源管理类
-
-| 积木块 | 功能 | 参数 |
-|--------|------|------|
-| 进入睡眠模式 | 低功耗模式 | 变量名 |
-| 唤醒 | 退出睡眠 | 变量名 |
-
----
-
-## 📊 技术参数
-
-### PCA9685 规格
-- **通道数**：16个独立PWM通道
-- **PWM分辨率**：12位 (0-4095)
-- **PWM频率**：40Hz - 1600Hz
-- **I2C速率**：100kHz (标准), 400kHz (快速)
-- **工作电压**：2.3V - 5.5V (VCC)
-- **舵机供电**：5V - 6V (V+)
-
-### 默认配置
-- **I2C地址**：0x40 (十进制40)
-- **PWM频率**：60Hz (舵机推荐)
-- **舵机范围**：100-700 PWM值
-- **角度范围**：0-180度
-
----
-
-## 🎮 使用技巧
-
-### 1. 地址设置
-```
-输入 40  → 生成 0x40 (默认地址)
-输入 41  → 生成 0x41 (A0接高电平)
-输入 70  → 生成 0x70 (最高地址)
-```
-
-### 2. 频率选择
-- **舵机控制**：50-60Hz (推荐60Hz)
-- **LED调光**：100-1000Hz
-- **电机控制**：1000-1600Hz
-
-### 3. PWM范围调整
-不同舵机可能需要不同的PWM范围：
-- **SG90**：100-700 (默认)
-- **MG996R**：150-600
-- **大扭力舵机**：200-800
-
-### 4. 电源管理
-- 使用外部5V-6V电源给舵机供电
-- VCC仅给芯片供电(3.3V或5V)
-- 外部电源必须与主控共地
-
----
-
-## 🐛 故障排查
-
-### 常见问题
-
-#### 1. 舵机不转动
-**可能原因**：
-- 外部电源未连接到V+
-- I2C地址错误
-- PWM频率设置不当
-
-**解决方法**：
-```blockly
-// 检查I2C通信
-创建 PCA9685 舵机驱动器 变量 pwm
-初始化 pwm I2C地址0X 40
-设置 pwm PWM频率 60 Hz
-设置 pwm 通道 0 舵机角度 180 度
-```
-
-#### 2. 舵机抖动
-**可能原因**：
-- PWM频率不合适
-- 电源电压不稳定
-- PWM值范围不匹配
-
-**解决方法**：
-```blockly
-// 调整频率和范围
-设置 pwm PWM频率 50 Hz
-配置 pwm 舵机参数 最小PWM 150 最大PWM 600
-```
-
-#### 3. 编译错误
-**可能原因**：
-- 库未安装
-- 变量名冲突
-
-**解决方法**：
-1. 确认安装 `Adafruit PWM Servo Driver Library`
-2. 检查生成的代码语法
-3. 使用不同的变量名
-
-### 调试代码
-
-生成的Arduino代码示例：
-```cpp
-#include <Adafruit_PWMServoDriver.h>
-#include <Wire.h>
-
-Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
-
-void setup() {
-  pwm = Adafruit_PWMServoDriver(0x40);
-  pwm.begin();
-  pwm.setPWMFreq(60);
-  pwm.setPWM(0, 0, map(90, 0, 180, 100, 700));
-}
-
-void loop() {
+### 基础初始化
+```json
+{
+  "type": "pca9685_create",
+  "fields": {"VAR": "pwm"},
+  "next": {
+    "block": {
+      "type": "pca9685_begin",
+      "fields": {"VAR": {"id": "pwm_var_id"}},
+      "inputs": {"ADDRESS": {"shadow": {"type": "math_number", "fields": {"NUM": 40}}}},
+      "next": {
+        "block": {
+          "type": "pca9685_set_freq",
+          "fields": {"VAR": {"id": "pwm_var_id"}},
+          "inputs": {"FREQ": {"shadow": {"type": "math_number", "fields": {"NUM": 60}}}}
+        }
+      }
+    }
+  }
 }
 ```
 
----
-
-## 📚 进阶应用
-
-### 1. 机械手控制
-```blockly
-// 机械手动作序列
-创建 PCA9685 舵机驱动器 变量 pwm
-初始化 pwm I2C地址0X 40
-设置 pwm PWM频率 60 Hz
-
-// 抓取动作
-设置 pwm 通道 0 舵机角度 90 度  // 基座
-设置 pwm 通道 1 舵机角度 45 度  // 大臂
-设置 pwm 通道 2 舵机角度 120 度 // 小臂
-设置 pwm 通道 3 舵机角度 60 度  // 夹爪
-等待 1 秒
-
-// 释放动作
-设置 pwm 通道 3 舵机角度 180 度 // 打开夹爪
+### 控制舵机
+```json
+{
+  "type": "pca9685_set_servo_angle",
+  "fields": {"VAR": {"id": "pwm_var_id"}},
+  "inputs": {
+    "CHANNEL": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}},
+    "ANGLE": {"shadow": {"type": "math_number", "fields": {"NUM": 90}}}
+  }
+}
 ```
 
-### 2. 六足机器人
-```blockly
-// 六足机器人步态控制
-创建 PCA9685 舵机驱动器 变量 pwm
-初始化 pwm I2C地址0X 40
-设置 pwm PWM频率 60 Hz
+## 重要规则
 
-// 前进步态
-设置 pwm 所有舵机角度 90 度
-设置 pwm 通道 0 舵机角度 120 度
-设置 pwm 通道 3 舵机角度 60 度
-等待 0.5 秒
-设置 pwm 通道 1 舵机角度 120 度
-设置 pwm 通道 4 舵机角度 60 度
-```
+1. **初始化顺序**: create → begin → set_freq → (可选)config_servo
+2. **I2C初始化**: 自动添加`Wire.begin()`，可被`aily_iic`覆盖
+3. **地址格式**: 输入40自动转为0x40，简化输入
+4. **舵机范围**: 默认PWM 100-700，可用`config_servo`自定义
+5. **外部供电**: 舵机需要独立5-6V电源，不能用开发板供电
+6. **通道编号**: 0-15，共16个通道
 
-### 3. 自定义舵机映射
-```blockly
-// 为不同舵机设置不同范围
-创建 PCA9685 舵机驱动器 变量 pwm
-初始化 pwm I2C地址0X 40
+## 支持的参数
 
-// SG90舵机 (0-180度 → 100-700 PWM)
-设置 pwm 通道 0 舵机范围 最小角度 0 对应PWM 100 最大角度 180 对应PWM 700
-
-// MG996R舵机 (0-180度 → 150-600 PWM)  
-设置 pwm 通道 1 舵机范围 最小角度 0 对应PWM 150 最大角度 180 对应PWM 600
-```
-
----
-
-## 📖 参考资料
-
-### 官方文档
-- [Adafruit PCA9685 教程](https://learn.adafruit.com/16-channel-pwm-servo-driver)
-- [PCA9685 数据手册](https://www.nxp.com/docs/en/data-sheet/PCA9685.pdf)
-- [Arduino库文档](https://adafruit.github.io/Adafruit-PWM-Servo-Driver-Library/html/index.html)
-
-### 相关项目
-- 机械手控制项目
-- 六足机器人项目
-- 多轴云台项目
-- LED矩阵控制项目
-
----
-
-## 📄 许可证
-
-本项目基于 MIT 许可证开源。
-
----
-
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request 来改进这个库！
-
----
-
-## 📞 支持
-
-如果您在使用过程中遇到问题，请：
-1. 查看本文档的故障排查部分
-2. 检查硬件连接是否正确
-3. 确认库依赖是否正确安装
-4. 提交 Issue 并提供详细信息
-
----
-
-**🎉 祝您使用愉快！**
+**PWM频率**: 50-60Hz (舵机标准)  
+**PWM值**: 0-4095 (12位分辨率)  
+**脉宽**: 500-2500μs (舵机标准范围)  
+**默认舵机范围**: 100-700 PWM
