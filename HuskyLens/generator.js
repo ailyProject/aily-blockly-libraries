@@ -26,30 +26,31 @@ Arduino.forBlock['huskylens_init_i2c_until'] = function (block, generator) {
     var varName = block.getFieldValue('VAR') || 'huskylens';
     var wire = block.getFieldValue('WIRE') || 'Wire';
 
-    // 检查是否已有Wire初始化积木
-    var blocks = block.workspace.getAllBlocks(false);
-    var wireInitialized = false;
-    for (var i = 0; i < blocks.length; i++) {
-        if (blocks[i].type === 'wire_begin' ||
-            blocks[i].type === 'wire_begin_address' ||
-            blocks[i].type === 'wire_scan_devices' ||
-            blocks[i].type === 'wire_begin_with_settings' ||
-            blocks[i].type === 'esp32_i2c_begin' ||
-            blocks[i].type === 'esp32_i2c_begin_simple' ||
-            blocks[i].type === 'esp32_i2c_slave_begin') {
-            wireInitialized = true;
-            break;
-        }
-    }
+    // // 检查是否已有Wire初始化积木
+    // var blocks = block.workspace.getAllBlocks(false);
+    // var wireInitialized = false;
+    // for (var i = 0; i < blocks.length; i++) {
+    //     if (blocks[i].type === 'wire_begin' ||
+    //         blocks[i].type === 'wire_begin_address' ||
+    //         blocks[i].type === 'wire_scan_devices' ||
+    //         blocks[i].type === 'wire_begin_with_settings' ||
+    //         blocks[i].type === 'esp32_i2c_begin' ||
+    //         blocks[i].type === 'esp32_i2c_begin_simple' ||
+    //         blocks[i].type === 'esp32_i2c_slave_begin') {
+    //         wireInitialized = true;
+    //         break;
+    //     }
+    // }
 
-    if (!wireInitialized) {
-        generator.addSetupBegin('wire_begin', wire + '.begin();');
-    }
+    // if (!wireInitialized) {
+    //     generator.addSetupBegin('wire_begin', wire + '.begin();');
+    // }
 
     generator.addLibrary('Wire', '#include <Wire.h>');
     generator.addLibrary('HUSKYLENS', '#include "HUSKYLENS.h"');
     registerVariableToBlockly(varName, 'HUSKYLENS');
     generator.addObject(varName, 'HUSKYLENS ' + varName + ';');
+    generator.addSetup(`wire_${wire}_begin`, wire + '.begin();');
     generator.addSetup(varName + '_begin', 'while (!' + varName + '.begin(' + wire + ')) {\n    Serial.println(F("HuskyLens begin failed!"));\n    delay(100);\n  }');
     return '';
 };
@@ -77,25 +78,25 @@ Arduino.forBlock['huskylens_init_i2c'] = function (block, generator) {
     var varName = block.getFieldValue('VAR') || 'huskylens';
     var wire = block.getFieldValue('WIRE') || 'Wire';
 
-    // 检查是否已有Wire初始化积木
-    var blocks = block.workspace.getAllBlocks(false);
-    var wireInitialized = false;
-    for (var i = 0; i < blocks.length; i++) {
-        if (blocks[i].type === 'wire_begin' ||
-            blocks[i].type === 'wire_begin_address' ||
-            blocks[i].type === 'wire_scan_devices' ||
-            blocks[i].type === 'wire_begin_with_settings' ||
-            blocks[i].type === 'esp32_i2c_begin' ||
-            blocks[i].type === 'esp32_i2c_begin_simple' ||
-            blocks[i].type === 'esp32_i2c_slave_begin') {
-            wireInitialized = true;
-            break;
-        }
-    }
+    // // 检查是否已有Wire初始化积木
+    // var blocks = block.workspace.getAllBlocks(false);
+    // var wireInitialized = false;
+    // for (var i = 0; i < blocks.length; i++) {
+    //     if (blocks[i].type === 'wire_begin' ||
+    //         blocks[i].type === 'wire_begin_address' ||
+    //         blocks[i].type === 'wire_scan_devices' ||
+    //         blocks[i].type === 'wire_begin_with_settings' ||
+    //         blocks[i].type === 'esp32_i2c_begin' ||
+    //         blocks[i].type === 'esp32_i2c_begin_simple' ||
+    //         blocks[i].type === 'esp32_i2c_slave_begin') {
+    //         wireInitialized = true;
+    //         break;
+    //     }
+    // }
 
-    if (!wireInitialized) {
-        generator.addSetupBegin('wire_begin', wire + '.begin();');
-    }
+    // if (!wireInitialized) {
+    //     generator.addSetupBegin('wire_begin', wire + '.begin();');
+    // }
 
     // 添加库引用
     generator.addLibrary('Wire', '#include <Wire.h>');
@@ -106,7 +107,7 @@ Arduino.forBlock['huskylens_init_i2c'] = function (block, generator) {
 
     // 添加对象
     generator.addObject(varName, 'HUSKYLENS ' + varName + ';');
-
+    generator.addSetup(`wire_${wire}_begin`, wire + '.begin();');
     // 初始化
     generator.addSetup(varName + '_begin', varName + '.begin(' + wire + ');');
 
