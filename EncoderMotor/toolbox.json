@@ -1,0 +1,150 @@
+{
+  "kind": "category",
+  "name": "编码电机",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "encoder_config",
+      "fields": {
+        "PPR": 3,
+        "REDUCTION": 48
+      }
+    },
+    {
+      "kind": "block",
+      "type": "encoder_setpin",
+      "fields": {
+        "MOTOR_ID": 0
+      },
+      "inputs": {
+        "PIN_POSITIVE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 12
+            }
+          }
+        },
+        "PIN_NEGATIVE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 14
+            }
+          }
+        },
+        "PIN_ENCODER_A": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 35
+            }
+          }
+        },
+        "PIN_ENCODER_B": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 36
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "encoder_set_pid",
+      "fields": {
+        "MOTOR_ID": "0"
+      },
+      "inputs": {
+        "P": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 5
+            }
+          }
+        },
+        "I": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 2
+            }
+          }
+        },
+        "D": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "encoder_run_speed",
+      "fields": {
+        "MOTOR_ID": "0"
+      },
+      "inputs": {
+        "SPEED": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 100
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "encoder_run_pwm",
+      "fields": {
+        "MOTOR_ID": "0"
+      },
+      "inputs": {
+        "DUTY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 50
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "encoder_stop",
+      "fields": {
+        "MOTOR_ID": "-1"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "encoder_get_degree",
+      "fields": {
+        "MOTOR_ID": "0"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "encoder_reset_degree",
+      "fields": {
+        "MOTOR_ID": "0"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "encoder_get_speed",
+      "fields": {
+        "MOTOR_ID": "0"
+      }
+    }
+  ]
+}
