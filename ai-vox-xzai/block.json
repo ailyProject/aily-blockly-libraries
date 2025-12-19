@@ -771,6 +771,32 @@
     },
     {
         "inputsInline": true,
+        "message0": "MCP服务参数%1 参数类型%2",
+        "type": "esp32ai_mcp_control_param",
+        "args0": [
+            {   "type": "field_input",
+                "name": "VAR",
+                "text": "state"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TYPE",
+                "options": [
+                    ["布尔值 (Boolean)", "Boolean"],
+                    ["数值 (Number)", "Number"],
+                    ["字符串 (String)", "String"]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "extensions": [
+            "esp32ai_mcp_control_param_extension"
+        ]
+    },
+    {
+        "inputsInline": true,
         "message0": "MCP服务名称%1 描述%2",
         "type": "aivox_mcp_control",
         "args0": [
@@ -806,6 +832,45 @@
         "inputsInline": false,
         "tooltip": "处理AI-VOX MCP信息",
         "helpUrl": ""
+    },
+    {
+        "type": "esp32ai_loop_mcp_new",
+        "message0": "%1 注册MCP控制服务",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "MODE",
+                "options": [
+                    ["常规", "regular"],
+                    ["只设置", "set_only"],
+                    ["只上报", "report_only"]
+                ],
+                "tooltip": "选择MCP服务模式"
+            }
+        ],
+        "message1": "服务名称%1 描述%2",
+        "args1": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "led"
+            },
+            {
+                "type": "input_value",
+                "name": "DESC",
+                "text": "LED, true for on, false for off"
+            }
+        ],
+        "message2": "参数%1",
+        "args2": [
+            {"type": "input_statement","name": "params_list"}
+        ],
+        "message3": "消息处理",
+        "colour": "#4CAF50",
+        "inputsInline": false,
+        "tooltip": "MCP服务注册及消息处理",
+        "helpUrl": "",
+        "extensions": ["esp32ai_loop_mcp_new_extension"]
     },   
     {
         "type": "aivox_get_iot_message_event_name",
