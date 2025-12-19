@@ -20,9 +20,30 @@ Arduino.ensureEncoderMotor = function(generator) {
 // ========== 编码电机配置 ==========
 Arduino.forBlock['encoder_config'] = function(block, generator) {
   // 读取用户设置的PPR和减速比，更新配置
-  Arduino._encoderMotorConfig.ppr = block.getFieldValue('PPR');
-  Arduino._encoderMotorConfig.reduction = block.getFieldValue('REDUCTION');
-  
+  const pprRaw = generator.valueToCode(block, 'PPR', Arduino.ORDER_ATOMIC) || '3';
+  const reductionRaw = generator.valueToCode(block, 'REDUCTION', Arduino.ORDER_ATOMIC) || '48';
+
+  // 如果是字面数字（例如 '1'），在生成时进行范围限制；否则保留原表达式交给运行时处理
+  // 两个量范围限制在 1 到 1000 之间
+  let ppr = pprRaw;
+  if (/^\s*\d+\s*$/.test(pprRaw)) {
+    let pprNum = parseInt(pprRaw, 10);
+    if (pprNum < 1) pprNum = 1;
+    else if (pprNum > 1000) pprNum = 1000;
+    ppr = String(pprNum);
+  }
+
+  let reduction = reductionRaw;
+  if (/^\s*\d+\s*$/.test(reductionRaw)) {
+    let reductionNum = parseInt(reductionRaw, 10);
+    if (reductionNum < 1) reductionNum = 1;
+    else if (reductionNum > 1000) reductionNum = 1000;
+    reduction = String(reductionNum);
+  }
+
+  Arduino._encoderMotorConfig.ppr = ppr;
+  Arduino._encoderMotorConfig.reduction = reduction;
+
   // 调用 ensureEncoderMotor 确保配置生效
   Arduino.ensureEncoderMotor(generator);
   
@@ -39,7 +60,7 @@ Arduino.forBlock['encoder_setpin'] = function(block, generator) {
   Arduino._encoderMotorConfig.pin_encoder_b = block.getFieldValue('PIN_ENCODER_B');
   
   // 调用 ensureEncoderMotor 确保配置生效
-  //Arduino.ensureEncoderMotor(generator);
+  Arduino.ensureEncoderMotor(generator);
   let motorId = block.getFieldValue('MOTOR_ID');
   let pin_pos;
   let pin_neg;
