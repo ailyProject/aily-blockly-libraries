@@ -4,14 +4,14 @@
  */
 
 // I2C初始化（直到成功）
-Arduino.forBlock['huskylens_init_i2c_until'] = function(block, generator) {
+Arduino.forBlock['huskylens_init_i2c_until'] = function (block, generator) {
     // 变量重命名监听
     if (!block._huskyVarMonitorAttached) {
         block._huskyVarMonitorAttached = true;
         block._huskyVarLastName = block.getFieldValue('VAR') || 'huskylens';
         const varField = block.getField('VAR');
         if (varField && typeof varField.setValidator === 'function') {
-            varField.setValidator(function(newName) {
+            varField.setValidator(function (newName) {
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._huskyVarLastName;
                 if (workspace && newName && newName !== oldName) {
@@ -30,21 +30,19 @@ Arduino.forBlock['huskylens_init_i2c_until'] = function(block, generator) {
     generator.addLibrary('HUSKYLENS', '#include "HUSKYLENS.h"');
     registerVariableToBlockly(varName, 'HUSKYLENS');
     generator.addObject(varName, 'HUSKYLENS ' + varName + ';');
-    generator.addSetup(wire + '_begin', wire + '.begin();');
-    generator.addSetupEnd(varName + '_begin', 'while (!' + varName + '.begin(' + wire + ')) {\n    Serial.println(F("HuskyLens begin failed!"));\n    delay(100);\n  }');
-
+    generator.addSetup(varName + '_begin', 'while (!' + varName + '.begin(' + wire + ')) {\n    Serial.println(F("HuskyLens begin failed!"));\n    delay(100);\n  }');
     return '';
 };
 
 // I2C初始化
-Arduino.forBlock['huskylens_init_i2c'] = function(block, generator) {
+Arduino.forBlock['huskylens_init_i2c'] = function (block, generator) {
     // 变量重命名监听
     if (!block._huskyVarMonitorAttached) {
         block._huskyVarMonitorAttached = true;
         block._huskyVarLastName = block.getFieldValue('VAR') || 'huskylens';
         const varField = block.getField('VAR');
         if (varField && typeof varField.setValidator === 'function') {
-            varField.setValidator(function(newName) {
+            varField.setValidator(function (newName) {
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._huskyVarLastName;
                 if (workspace && newName && newName !== oldName) {
@@ -70,21 +68,20 @@ Arduino.forBlock['huskylens_init_i2c'] = function(block, generator) {
     generator.addObject(varName, 'HUSKYLENS ' + varName + ';');
 
     // 初始化
-    generator.addSetup(wire + '_begin', wire + '.begin();');
-    generator.addSetupEnd(varName + '_begin', 'while (!' + varName + '.begin(' + wire + ')) {\n    Serial.println(F("HuskyLens begin failed!"));\n    delay(100);\n  }');
+    generator.addSetup(varName + '_begin', varName + '.begin(' + wire + ');');
 
     return '';
 };
 
 // 串口初始化
-Arduino.forBlock['huskylens_init_serial'] = function(block, generator) {
+Arduino.forBlock['huskylens_init_serial'] = function (block, generator) {
     // 变量重命名监听
     if (!block._huskyVarMonitorAttached) {
         block._huskyVarMonitorAttached = true;
         block._huskyVarLastName = block.getFieldValue('VAR') || 'huskylens';
         const varField = block.getField('VAR');
         if (varField && typeof varField.setValidator === 'function') {
-            varField.setValidator(function(newName) {
+            varField.setValidator(function (newName) {
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._huskyVarLastName;
                 if (workspace && newName && newName !== oldName) {
@@ -116,7 +113,7 @@ Arduino.forBlock['huskylens_init_serial'] = function(block, generator) {
 };
 
 // 切换算法
-Arduino.forBlock['huskylens_set_algorithm'] = function(block, generator) {
+Arduino.forBlock['huskylens_set_algorithm'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var algorithm = block.getFieldValue('ALGORITHM');
@@ -125,7 +122,7 @@ Arduino.forBlock['huskylens_set_algorithm'] = function(block, generator) {
 };
 
 // 切换算法直到成功
-Arduino.forBlock['huskylens_set_algorithm_until'] = function(block, generator) {
+Arduino.forBlock['huskylens_set_algorithm_until'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var algorithm = block.getFieldValue('ALGORITHM');
@@ -134,7 +131,7 @@ Arduino.forBlock['huskylens_set_algorithm_until'] = function(block, generator) {
 };
 
 // 请求数据
-Arduino.forBlock['huskylens_request'] = function(block, generator) {
+Arduino.forBlock['huskylens_request'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
 
@@ -142,7 +139,7 @@ Arduino.forBlock['huskylens_request'] = function(block, generator) {
 };
 
 // 请求方框数据
-Arduino.forBlock['huskylens_request_blocks'] = function(block, generator) {
+Arduino.forBlock['huskylens_request_blocks'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
 
@@ -150,7 +147,7 @@ Arduino.forBlock['huskylens_request_blocks'] = function(block, generator) {
 };
 
 // 请求箭头数据
-Arduino.forBlock['huskylens_request_arrows'] = function(block, generator) {
+Arduino.forBlock['huskylens_request_arrows'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
 
@@ -158,7 +155,7 @@ Arduino.forBlock['huskylens_request_arrows'] = function(block, generator) {
 };
 
 // 获取数据数量
-Arduino.forBlock['huskylens_available'] = function(block, generator) {
+Arduino.forBlock['huskylens_available'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
 
@@ -166,7 +163,7 @@ Arduino.forBlock['huskylens_available'] = function(block, generator) {
 };
 
 // 是否已学习
-Arduino.forBlock['huskylens_is_learned'] = function(block, generator) {
+Arduino.forBlock['huskylens_is_learned'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
 
@@ -174,7 +171,7 @@ Arduino.forBlock['huskylens_is_learned'] = function(block, generator) {
 };
 
 // 已学习ID数量
-Arduino.forBlock['huskylens_count_learned_ids'] = function(block, generator) {
+Arduino.forBlock['huskylens_count_learned_ids'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
 
@@ -182,7 +179,7 @@ Arduino.forBlock['huskylens_count_learned_ids'] = function(block, generator) {
 };
 
 // 指定ID是否已学习
-Arduino.forBlock['huskylens_is_id_learned'] = function(block, generator) {
+Arduino.forBlock['huskylens_is_id_learned'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var id = generator.valueToCode(block, 'ID', generator.ORDER_ATOMIC) || '1';
@@ -191,7 +188,7 @@ Arduino.forBlock['huskylens_is_id_learned'] = function(block, generator) {
 };
 
 // 方框/箭头是否在画面中
-Arduino.forBlock['huskylens_is_appear'] = function(block, generator) {
+Arduino.forBlock['huskylens_is_appear'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var type = block.getFieldValue('TYPE');
@@ -200,7 +197,7 @@ Arduino.forBlock['huskylens_is_appear'] = function(block, generator) {
 };
 
 // 指定ID的方框/箭头是否在画面中
-Arduino.forBlock['huskylens_is_id_appear'] = function(block, generator) {
+Arduino.forBlock['huskylens_is_id_appear'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var id = generator.valueToCode(block, 'ID', generator.ORDER_ATOMIC) || '1';
@@ -210,7 +207,7 @@ Arduino.forBlock['huskylens_is_id_appear'] = function(block, generator) {
 };
 
 // 方框/箭头总数
-Arduino.forBlock['huskylens_count_type'] = function(block, generator) {
+Arduino.forBlock['huskylens_count_type'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var type = block.getFieldValue('TYPE');
@@ -219,7 +216,7 @@ Arduino.forBlock['huskylens_count_type'] = function(block, generator) {
 };
 
 // 指定ID的方框/箭头数量
-Arduino.forBlock['huskylens_count_id_type'] = function(block, generator) {
+Arduino.forBlock['huskylens_count_id_type'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var id = generator.valueToCode(block, 'ID', generator.ORDER_ATOMIC) || '1';
@@ -229,7 +226,7 @@ Arduino.forBlock['huskylens_count_id_type'] = function(block, generator) {
 };
 
 // 获取靠近中心的方框/箭头参数
-Arduino.forBlock['huskylens_get_near_center'] = function(block, generator) {
+Arduino.forBlock['huskylens_get_near_center'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var type = block.getFieldValue('TYPE');
@@ -258,7 +255,7 @@ Arduino.forBlock['huskylens_get_near_center'] = function(block, generator) {
 };
 
 // 获取指定ID的方框/箭头参数（第一个）
-Arduino.forBlock['huskylens_get_id_param'] = function(block, generator) {
+Arduino.forBlock['huskylens_get_id_param'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var id = generator.valueToCode(block, 'ID', generator.ORDER_ATOMIC) || '1';
@@ -270,7 +267,7 @@ Arduino.forBlock['huskylens_get_id_param'] = function(block, generator) {
 };
 
 // 获取第N个方框/箭头的参数
-Arduino.forBlock['huskylens_get_index_param'] = function(block, generator) {
+Arduino.forBlock['huskylens_get_index_param'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var index = generator.valueToCode(block, 'INDEX', generator.ORDER_ATOMIC) || '0';
@@ -282,7 +279,7 @@ Arduino.forBlock['huskylens_get_index_param'] = function(block, generator) {
 };
 
 // 获取指定ID的第N个方框/箭头的参数
-Arduino.forBlock['huskylens_get_id_index_param'] = function(block, generator) {
+Arduino.forBlock['huskylens_get_id_index_param'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var id = generator.valueToCode(block, 'ID', generator.ORDER_ATOMIC) || '1';
@@ -295,7 +292,7 @@ Arduino.forBlock['huskylens_get_id_index_param'] = function(block, generator) {
 };
 
 // 设置自定义名称
-Arduino.forBlock['huskylens_set_custom_name'] = function(block, generator) {
+Arduino.forBlock['huskylens_set_custom_name'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var id = generator.valueToCode(block, 'ID', generator.ORDER_ATOMIC) || '1';
@@ -305,7 +302,7 @@ Arduino.forBlock['huskylens_set_custom_name'] = function(block, generator) {
 };
 
 // 请求指定ID的数据
-Arduino.forBlock['huskylens_request_by_id'] = function(block, generator) {
+Arduino.forBlock['huskylens_request_by_id'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var id = generator.valueToCode(block, 'ID', generator.ORDER_ATOMIC) || '1';
@@ -314,7 +311,7 @@ Arduino.forBlock['huskylens_request_by_id'] = function(block, generator) {
 };
 
 // 读取方框参数
-Arduino.forBlock['huskylens_read_block_param'] = function(block, generator) {
+Arduino.forBlock['huskylens_read_block_param'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var index = generator.valueToCode(block, 'INDEX', generator.ORDER_ATOMIC) || '0';
@@ -324,7 +321,7 @@ Arduino.forBlock['huskylens_read_block_param'] = function(block, generator) {
 };
 
 // 读取箭头参数
-Arduino.forBlock['huskylens_read_arrow_param'] = function(block, generator) {
+Arduino.forBlock['huskylens_read_arrow_param'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var index = generator.valueToCode(block, 'INDEX', generator.ORDER_ATOMIC) || '0';
@@ -334,7 +331,7 @@ Arduino.forBlock['huskylens_read_arrow_param'] = function(block, generator) {
 };
 
 // 显示OSD文字
-Arduino.forBlock['huskylens_write_osd'] = function(block, generator) {
+Arduino.forBlock['huskylens_write_osd'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
@@ -345,7 +342,7 @@ Arduino.forBlock['huskylens_write_osd'] = function(block, generator) {
 };
 
 // 清除OSD文字
-Arduino.forBlock['huskylens_clear_osd'] = function(block, generator) {
+Arduino.forBlock['huskylens_clear_osd'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
 
@@ -353,7 +350,7 @@ Arduino.forBlock['huskylens_clear_osd'] = function(block, generator) {
 };
 
 // 学习一次
-Arduino.forBlock['huskylens_learn_once'] = function(block, generator) {
+Arduino.forBlock['huskylens_learn_once'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var id = generator.valueToCode(block, 'ID', generator.ORDER_ATOMIC) || '1';
@@ -362,7 +359,7 @@ Arduino.forBlock['huskylens_learn_once'] = function(block, generator) {
 };
 
 // 遗忘学习
-Arduino.forBlock['huskylens_forget_learn'] = function(block, generator) {
+Arduino.forBlock['huskylens_forget_learn'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
 
@@ -370,7 +367,7 @@ Arduino.forBlock['huskylens_forget_learn'] = function(block, generator) {
 };
 
 // 保存模型
-Arduino.forBlock['huskylens_save_model'] = function(block, generator) {
+Arduino.forBlock['huskylens_save_model'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var index = generator.valueToCode(block, 'INDEX', generator.ORDER_ATOMIC) || '0';
@@ -379,7 +376,7 @@ Arduino.forBlock['huskylens_save_model'] = function(block, generator) {
 };
 
 // 加载模型
-Arduino.forBlock['huskylens_load_model'] = function(block, generator) {
+Arduino.forBlock['huskylens_load_model'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
     var index = generator.valueToCode(block, 'INDEX', generator.ORDER_ATOMIC) || '0';
@@ -388,7 +385,7 @@ Arduino.forBlock['huskylens_load_model'] = function(block, generator) {
 };
 
 // 拍照
-Arduino.forBlock['huskylens_take_photo'] = function(block, generator) {
+Arduino.forBlock['huskylens_take_photo'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
 
@@ -396,7 +393,7 @@ Arduino.forBlock['huskylens_take_photo'] = function(block, generator) {
 };
 
 // 截屏
-Arduino.forBlock['huskylens_screenshot'] = function(block, generator) {
+Arduino.forBlock['huskylens_screenshot'] = function (block, generator) {
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'huskylens';
 
