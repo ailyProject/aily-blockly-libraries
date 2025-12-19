@@ -86,9 +86,9 @@ Arduino.forBlock['encoder_run_speed'] = function(block, generator) {
   const speed = generator.valueToCode(block, 'SPEED', Arduino.ORDER_ATOMIC) || '0';
   
   if (motorId === '-1') {
-    return `g_encoder_motor_0.RunSpeed(${speed});\ng_encoder_motor_1.RunSpeed(${speed});\n`;
+    return `g_encoder_motor_0.RunSpeed(constrain(${speed}, -500, 500));\ng_encoder_motor_1.RunSpeed(constrain(${speed}, -500, 500));\n`;
   } else {
-    return `g_encoder_motor_${motorId}.RunSpeed(${speed});\n`;
+    return `g_encoder_motor_${motorId}.RunSpeed(constrain(${speed}, -500, 500));\n`;
   }
 };
 
@@ -97,7 +97,7 @@ Arduino.forBlock['encoder_run_pwm'] = function(block, generator) {
   Arduino.ensureEncoderMotor(generator);
   const motorId = block.getFieldValue('MOTOR_ID');
   const duty = generator.valueToCode(block, 'DUTY', Arduino.ORDER_ATOMIC) || '0';
-  const mappedDuty = `map(${duty}, -100, 100, -1023, 1023)`;
+  const mappedDuty = `map(constrain(${duty}, -100, 100), -100, 100, -1023, 1023)`;
   
   if (motorId === '-1') {
     return `g_encoder_motor_0.RunPwmDuty(${mappedDuty});\ng_encoder_motor_1.RunPwmDuty(${mappedDuty});\n`;
