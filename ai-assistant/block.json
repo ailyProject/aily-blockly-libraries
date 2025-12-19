@@ -1,21 +1,40 @@
 [
   {
     "type": "ai_assistant_config",
-    "message0": "配置AI-assistant串口通信 %1 %2",
+    "message0": "配置AI-assistant 使用串口%1 波特率%2",
+    "message1": "RX引脚%1 TX引脚%2",
     "args0": [
       {
-        "type": "input_dummy",
-        "name": "SERIAL_OPTION"
+        "type": "field_dropdown",
+        "name": "UART",
+        "options": [
+          ["UART0", "UART0"],
+          ["UART1", "UART1"],
+          ["UART2", "UART2"]
+        ]
       },
       {
-        "type": "input_dummy",
-        "name": "DUMMY_SPACE"
+        "type": "field_dropdown",
+        "name": "SPEED",
+        "options": "${board.serialSpeed}"
+      }
+    ],
+    "args1": [
+      {
+        "type": "field_dropdown",
+        "name": "RX",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TX",
+        "options": "${board.digitalPins}"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#3CB371",
-    "tooltip": "配置用于AI-assistant通信的串口，根据板卡类型自动选择可用串口",
+    "tooltip": "配置AI-assistant串口通信。ESP32硬件串口(除UART0)可自定义引脚，Mega固定串口，UNO软串口",
     "helpUrl": "",
     "extensions": [
       "ai_assistant_board_extension"
