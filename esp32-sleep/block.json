@@ -1,0 +1,164 @@
+[
+  {
+    "type": "esp32_deep_sleep_timer",
+    "message0": "ESP32 设置定时唤醒 睡眠%1秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SECONDS",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "设置ESP32定时唤醒，进入深度睡眠模式"
+  },
+  {
+    "type": "esp32_deep_sleep_ext0",
+    "message0": "ESP32 设置外部引脚唤醒 引脚%1 电平%2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": [
+          ["GPIO0", "0"],
+          ["GPIO2", "2"],
+          ["GPIO4", "4"],
+          ["GPIO12", "12"],
+          ["GPIO13", "13"],
+          ["GPIO14", "14"],
+          ["GPIO15", "15"],
+          ["GPIO25", "25"],
+          ["GPIO26", "26"],
+          ["GPIO27", "27"],
+          ["GPIO32", "32"],
+          ["GPIO33", "33"],
+          ["GPIO34", "34"],
+          ["GPIO35", "35"],
+          ["GPIO36", "36"],
+          ["GPIO39", "39"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "LEVEL",
+        "options": [
+          ["高电平", "1"],
+          ["低电平", "0"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "设置ESP32外部引脚唤醒，必须使用RTC GPIO引脚"
+  },
+  {
+    "type": "esp32_deep_sleep_start",
+    "message0": "ESP32 进入深度睡眠",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "启动ESP32深度睡眠模式"
+  },
+  {
+    "type": "esp32_set_cpu_frequency",
+    "message0": "ESP32 设置CPU频率 %1 MHz",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FREQUENCY",
+        "options": [
+          ["240", "240"],
+          ["160", "160"],
+          ["80", "80"],
+          ["40", "40"],
+          ["20", "20"],
+          ["10", "10"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "设置ESP32 CPU频率以降低功耗"
+  },
+  {
+    "type": "esp32_deep_sleep_quick",
+    "message0": "ESP32 快速深度睡眠 %1秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SECONDS",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "一步完成ESP32定时设置和深度睡眠"
+  },
+  {
+    "type": "esp32_light_sleep_start",
+    "message0": "ESP32 进入浅度睡眠",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "启动ESP32浅度睡眠模式，唤醒后继续执行"
+  },
+  {
+    "type": "esp32_rtc_variable_int",
+    "message0": "RTC整数变量 %1 初始值%2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "rtcCounter"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "创建RTC存储的整数变量，睡眠后数据不丢失"
+  },
+  {
+    "type": "esp32_rtc_set_variable",
+    "message0": "设置RTC变量 %1 = %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "rtcCounter"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置RTC变量的值"
+  },
+  {
+    "type": "esp32_rtc_get_variable",
+    "message0": "获取RTC变量 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "rtcCounter"
+      }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50",
+    "tooltip": "获取RTC变量的值"
+  }
+]
