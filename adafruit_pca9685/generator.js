@@ -1,3 +1,5 @@
+'use strict';
+
 // PCA9685 Blockly Generator for Aily Platform
 
 // 注意：registerVariableToBlockly 和 renameVariableInBlockly 由核心库提供
@@ -7,27 +9,17 @@ if (typeof Arduino._pca9685Configs === 'undefined') {
   Arduino._pca9685Configs = {};
 }
 
-// PCA9685 创建块
-Arduino.forBlock['pca9685_create'] = function(block, generator) {
-  // 设置变量重命名监听
-  if (!block._pca9685VarMonitorAttached) {
-    block._pca9685VarMonitorAttached = true;
-    block._pca9685VarLastName = block.getFieldValue('VAR') || 'pwm';
-    const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
-        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-        const oldName = block._pca9685VarLastName;
-        if (workspace && newName && newName !== oldName) {
-          renameVariableInBlockly(block, oldName, newName, 'Adafruit_PWMServoDriver');
-          block._pca9685VarLastName = newName;
-        }
-        return newName;
-      });
-    }
-  }
+// PCA9685 通道参数存储（每个通道的独立配置）
+if (typeof Arduino._pca9685ChannelConfigs === 'undefined') {
+  Arduino._pca9685ChannelConfigs = {};
+}
 
-  const varName = block.getFieldValue('VAR') || 'pwm';
+// PCA9685 初始化块（合并创建和初始化）
+Arduino.forBlock['pca9685_begin'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'pwm';
+  const address = generator.valueToCode(block, 'ADDRESS', generator.ORDER_ATOMIC) || '40';
+  const wire = block.getFieldValue('WIRE') || 'Wire';
   
   // 初始化配置存储
   if (!Arduino._pca9685Configs[varName]) {
@@ -37,43 +29,33 @@ Arduino.forBlock['pca9685_create'] = function(block, generator) {
     };
   }
   
-  // 添加库和变量
-  generator.addLibrary('Adafruit_PWMServoDriver', '#include <Adafruit_PWMServoDriver.h>');
-  generator.addLibrary('Wire', '#include <Wire.h>');
-  registerVariableToBlockly(varName, 'Adafruit_PWMServoDriver');
-  generator.addVariable(varName, 'Adafruit_PWMServoDriver ' + varName + ' = Adafruit_PWMServoDriver();');
-  
-  return '';
-};
-
-// PCA9685 初始化块
-Arduino.forBlock['pca9685_begin'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'pwm';
-  const address = generator.valueToCode(block, 'ADDRESS', generator.ORDER_ATOMIC) || '40';
-  
   // 添加库引用
   generator.addLibrary('Adafruit_PWMServoDriver', '#include <Adafruit_PWMServoDriver.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
   
-  // 智能处理地址格式：输入40视为十六进制简写，输出0x40
-  let addressHex;
-  const addressStr = address.toString().trim();
+  // 注册变量并添加对象声明
+  registerVariableToBlockly(varName, 'Adafruit_PWMServoDriver');
+  generator.addObject(varName, 'Adafruit_PWMServoDriver ' + varName + ';');
   
-  if (addressStr.startsWith('0x') || addressStr.startsWith('0X')) {
-    // 已经是0x格式，直接使用
-    addressHex = address;
-  } else {
-    // 将输入数字视为十六进制简写（40 → 0x40, 41 → 0x41）
-    // 直接在前面加0x，不做进制转换
-    addressHex = '0x' + addressStr.toUpperCase();
+  // 变量重命名监听
+  if (varField && varField.setValidator) {
+    varField.setValidator(function(newName) {
+      if (newName) {
+        renameVariableInBlockly(varName, newName, 'Adafruit_PWMServoDriver');
+      }
+      return newName;
+    });
   }
   
-  // 生成初始化代码
-  const code = varName + ' = Adafruit_PWMServoDriver(' + addressHex + ');\n' +
-    varName + '.begin();\n';
+  // 使用动态setupKey添加Wire初始化（支持多I2C总线）
+  generator.addSetup(`wire_${wire}_begin`, wire + '.begin();');
   
-  return code;
+  // PCA9685初始化代码放入setup
+  generator.addSetup(varName + '_init', 
+    varName + ' = Adafruit_PWMServoDriver(' + address + ');\n' +
+    '  ' + varName + '.begin();');
+  
+  return '';
 };
 
 // PCA9685 设置PWM频率块
@@ -93,41 +75,27 @@ Arduino.forBlock['pca9685_set_servo_angle'] = function(block, generator) {
   const channel = generator.valueToCode(block, 'CHANNEL', generator.ORDER_ATOMIC) || '0';
   const angle = generator.valueToCode(block, 'ANGLE', generator.ORDER_ATOMIC) || '90';
   
-  // 获取配置
-  const config = Arduino._pca9685Configs[varName] || { minPWM: 100, maxPWM: 700 };
+  // 检查是否有通道特定配置
+  const channelKey = varName + '_ch' + channel;
+  const channelConfig = Arduino._pca9685ChannelConfigs[channelKey];
   
-  // 直接使用map()函数内联计算，不使用辅助函数
-  const code = varName + '.setPWM(' + channel + ', 0, map(' + angle + ', 0, 180, ' + config.minPWM + ', ' + config.maxPWM + '));\n';
-  return code;
-};
-
-// PCA9685 设置PWM值块
-Arduino.forBlock['pca9685_set_pwm'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'pwm';
-  const channel = generator.valueToCode(block, 'CHANNEL', generator.ORDER_ATOMIC) || '0';
-  const on = generator.valueToCode(block, 'ON', generator.ORDER_ATOMIC) || '0';
-  const off = generator.valueToCode(block, 'OFF', generator.ORDER_ATOMIC) || '300';
-  
-  const code = varName + '.setPWM(' + channel + ', ' + on + ', ' + off + ');\n';
-  return code;
-};
-
-// PCA9685 设置微秒脉宽块
-Arduino.forBlock['pca9685_set_microseconds'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'pwm';
-  const channel = generator.valueToCode(block, 'CHANNEL', generator.ORDER_ATOMIC) || '0';
-  const microseconds = generator.valueToCode(block, 'MICROSECONDS', generator.ORDER_ATOMIC) || '1500';
-  
-  const code = varName + '.writeMicroseconds(' + channel + ', ' + microseconds + ');\n';
-  return code;
+  if (channelConfig) {
+    // 使用通道特定的配置
+    const code = varName + '.setPWM(' + channel + ', 0, map(' + angle + ', ' + 
+      channelConfig.minAngle + ', ' + channelConfig.maxAngle + ', ' + 
+      channelConfig.minPWM + ', ' + channelConfig.maxPWM + '));\n';
+    return code;
+  } else {
+    // 使用全局配置
+    const config = Arduino._pca9685Configs[varName] || { minPWM: 100, maxPWM: 700 };
+    const code = varName + '.setPWM(' + channel + ', 0, map(' + angle + ', 0, 180, ' + config.minPWM + ', ' + config.maxPWM + '));\n';
+    return code;
+  }
 };
 
 // PCA9685 配置舵机参数块
 Arduino.forBlock['pca9685_config_servo'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'pwm';
+  const varName = block.getFieldValue('VAR') || 'pwm';
   const min = generator.valueToCode(block, 'MIN', generator.ORDER_ATOMIC) || '100';
   const max = generator.valueToCode(block, 'MAX', generator.ORDER_ATOMIC) || '700';
   
@@ -188,20 +156,23 @@ Arduino.forBlock['pca9685_set_servo_range'] = function(block, generator) {
   const maxAngle = generator.valueToCode(block, 'MAX_ANGLE', generator.ORDER_ATOMIC) || '180';
   const maxPWM = generator.valueToCode(block, 'MAX_PWM', generator.ORDER_ATOMIC) || '700';
   
-  const code = '// 通道 ' + channel + ' 自定义映射: ' + minAngle + '度=' + minPWM + ', ' + maxAngle + '度=' + maxPWM + '\n';
+  // 存储通道特定配置（仅当channel是常量时）
+  const channelKey = varName + '_ch' + channel;
+  Arduino._pca9685ChannelConfigs[channelKey] = {
+    minAngle: parseInt(minAngle),
+    maxAngle: parseInt(maxAngle),
+    minPWM: parseInt(minPWM),
+    maxPWM: parseInt(maxPWM)
+  };
+  
+  // 生成配置注释
+  const code = '// 通道 ' + channel + ' 自定义映射: ' + minAngle + '-' + maxAngle + '度 → ' + minPWM + '-' + maxPWM + ' PWM\n';
   return code;
 };
 
-// PCA9685 角度转PWM值块
-Arduino.forBlock['pca9685_angle_to_pwm'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'pwm';
-  const angle = generator.valueToCode(block, 'ANGLE', generator.ORDER_ATOMIC) || '90';
-  
-  // 获取配置
-  const config = Arduino._pca9685Configs[varName] || { minPWM: 100, maxPWM: 700 };
-  
-  // 直接使用map()函数内联计算
-  const code = 'map(' + angle + ', 0, 180, ' + config.minPWM + ', ' + config.maxPWM + ')';
-  return [code, Arduino.ORDER_FUNCTION_CALL];
+// PCA9685 角度值块
+Arduino.forBlock['pca9685_angle'] = function(block, generator) {
+  const angle = block.getFieldValue('ANGLE') || '90';
+  const code = angle;
+  return [code, Arduino.ORDER_ATOMIC];
 };

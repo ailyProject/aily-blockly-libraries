@@ -9,10 +9,6 @@
     },
     {
       "kind": "block",
-      "type": "pca9685_create"
-    },
-    {
-      "kind": "block",
       "type": "pca9685_begin",
       "inputs": {
         "ADDRESS": {
@@ -57,9 +53,9 @@
         },
         "ANGLE": {
           "shadow": {
-            "type": "math_number",
+            "type": "pca9685_angle",
             "fields": {
-              "NUM": 90
+              "ANGLE": 90
             }
           }
         }
@@ -71,79 +67,9 @@
       "inputs": {
         "ANGLE": {
           "shadow": {
-            "type": "math_number",
+            "type": "pca9685_angle",
             "fields": {
-              "NUM": 90
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "label",
-      "text": "高级PWM控制"
-    },
-    {
-      "kind": "block",
-      "type": "pca9685_set_pwm",
-      "inputs": {
-        "CHANNEL": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 0
-            }
-          }
-        },
-        "ON": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 0
-            }
-          }
-        },
-        "OFF": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 300
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "pca9685_set_microseconds",
-      "inputs": {
-        "CHANNEL": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 0
-            }
-          }
-        },
-        "MICROSECONDS": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 1500
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "pca9685_angle_to_pwm",
-      "inputs": {
-        "ANGLE": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 90
+              "ANGLE": 90
             }
           }
         }
@@ -189,9 +115,9 @@
         },
         "MIN_ANGLE": {
           "shadow": {
-            "type": "math_number",
+            "type": "pca9685_angle",
             "fields": {
-              "NUM": 0
+              "ANGLE": 0
             }
           }
         },
@@ -205,9 +131,9 @@
         },
         "MAX_ANGLE": {
           "shadow": {
-            "type": "math_number",
+            "type": "pca9685_angle",
             "fields": {
-              "NUM": 180
+              "ANGLE": 180
             }
           }
         },
@@ -232,6 +158,14 @@
     {
       "kind": "block",
       "type": "pca9685_wakeup"
+    },
+    {
+      "kind": "label",
+      "text": "角度值"
+    },
+    {
+      "kind": "block",
+      "type": "pca9685_angle"
     }
   ]
 }
