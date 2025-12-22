@@ -20,6 +20,7 @@
 | `serial_write` | 语句块 | SERIAL(field_dropdown), DATA(input_value) | `"fields":{"SERIAL":"Serial"},"inputs":{"DATA":{"block":{"type":"math_number","fields":{"NUM":"65"}}}}` | `Serial.write(65)` |
 | `serial_read_string` | 值块 | SERIAL(field_dropdown) | `"fields":{"SERIAL":"Serial"}` | `Serial.readString()` |
 | `serial_begin_esp32_custom` | 语句块 | VAR(field_input), UART/SPEED/RX/TX(field_dropdown) | `"fields":{"VAR":"MySerial","UART":"UART1","SPEED":"9600","RX":"16","TX":"17"}` | `HardwareSerial MySerial(1); MySerial.begin(9600,SERIAL_8N1,16,17)` |
+| `serial_begin_software` | 语句块 | VAR(field_input), RX/TX(field_dropdown), SPEED(field_dropdown) | `"fields":{"VAR":"SoftSerial","RX":"10","TX":"11","SPEED":"9600"}` | `SoftwareSerial SoftSerial(10,11); SoftSerial.begin(9600)` |
 
 ## 字段类型映射
 
@@ -37,6 +38,7 @@
 - **特殊规则**: 
   - 未初始化的串口会自动添加默认初始化(9600波特率)
   - serial_begin_esp32_custom创建自定义HardwareSerial实例,仅ESP32平台
+  - serial_begin_software创建SoftwareSerial实例,仅Arduino AVR平台
   - 自定义串口名称会动态添加到SERIAL下拉选项中
 
 ### 动态选项处理
