@@ -4,86 +4,50 @@ AI语音助手模块操作库
 
 ## 库信息
 - **库名**: @aily-project/lib-ai-assistant
-- **版本**: 0.0.1
-- **兼容**: Arduino UNO、Mega2560、ESP32S3
+- **版本**: 0.0.8
+- **兼容**: Arduino UNO、Mega2560、ESP32全系列（ESP32/ESP32S2/ESP32S3/ESP32C3/ESP32C6等）
 
 ## 块定义
 
 | 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
 |--------|------|----------|----------|----------|
-| `ai_assistant_config` | 语句块 | SERIAL_OPTION(扩展字段), SERIAL_TYPE(field_dropdown), RX_PIN/TX_PIN(field_dropdown) | `"fields":{"SERIAL_OPTION":"UART1","SERIAL_TYPE":"HARDWARE","RX_PIN":"2","TX_PIN":"3"}` | `Serial1.begin(9600); receivedCommand=""` |
+| `ai_assistant_config` | 语句块 | UART(field_dropdown), SPEED(field_dropdown), RX/TX(field_dropdown) | `"fields":{"UART":"UART1","SPEED":"9600","RX":"16","TX":"17"}` | `Serial1.begin(9600, SERIAL_8N1, 16, 17); receivedCommand=""` |
 | `serial_command_handler` | 值块 | ACTION(field_dropdown) | `"fields":{"ACTION":"MOVE_FORWARD"}` | `(receivedCommand.indexOf("MOVE F") >= 0)` |
+| `serial_custom_command` | 值块 | CUSTOM_CMD(field_input) | `"fields":{"CUSTOM_CMD":"computer"}` | `(receivedCommand.indexOf("computer") >= 0)` |
+| `serial_clear_command` | 语句块 | 无 | `{}` | `receivedCommand = "";` |
 
 ## 字段类型映射
 
 | 类型 | .abi格式 | 示例 |
 |------|----------|------|
-| field_dropdown | 字符串 | `"ACTION": "MOVE_FORWARD"` |
-| 扩展字段 | 动态生成 | `"SERIAL_OPTION": "UART1"` |
+| field_dropdown | 字符串 | `"UART": "UART1"` |
+| field_input | 字符串 | `"CUSTOM_CMD": "computer"` |
 
 ## 连接规则
-
-- **语句块**: ai_assistant_config有previousStatement/nextStatement，通过`next`字段连接
-- **值块**: serial_command_handler有output，返回Boolean类型，连接到条件判断
-- **特殊规则**: 
-  - 根据板卡类型自动配置可用串口选项
-  - 自动生成receivedCommand全局变量和串口接收代码
-  - 支持硬件串口和软件串口(Arduino UNO)
+- **语句块**: ai_assistant_config和serial_clear_command有previousStatement/nextStatement
+- **值块**: serial_command_handler和serial_custom_command返回Boolean，用于条件判断
+- **板卡适配**: 
+  - **ESP32**: UART0固定引脚，其他UART可自定义RX/TX引脚，数量自动适配芯片
+  - **Mega2560**: 4个硬件串口，引脚固定
+  - **UNO**: 硬件串口或软串口（可自定义引脚）
 
 ## 使用示例
 
-### AI助手配置(ESP32)
+### ESP32配置（自定义引脚）
 ```json
-{
-  "type": "ai_assistant_config",
-  "id": "ai_config",
-  "fields": {
-    "SERIAL_OPTION": "UART1"
-  }
-}
+{"type": "ai_assistant_config", "fields": {"UART": "UART1", "SPEED": "9600", "RX": "16", "TX": "17"}}
 ```
 
-### AI助手配置(Arduino UNO软串口)
+### UNO配置（软串口）
 ```json
-{
-  "type": "ai_assistant_config", 
-  "id": "ai_config_uno",
-  "fields": {
-    "SERIAL_TYPE": "SOFTWARE",
-    "RX_PIN": "2",
-    "TX_PIN": "3"
-  }
-}
-```
-
-### 命令判断处理
-```json
-{
-  "type": "controls_if",
-  "id": "command_check",
-  "inputs": {
-    "IF0": {
-      "block": {
-        "type": "serial_command_handler",
-        "fields": {"ACTION": "MOVE_FORWARD"}
-      }
-    },
-    "DO0": {
-      "block": {
-        "type": "serial_print",
-        "inputs": {"CONTENT": {"block": {"type": "text", "fields": {"TEXT": "小车前进"}}}}
-      }
-    }
-  }
-}
+{"type": "ai_assistant_config", "fields": {"UART": "SOFTWARE", "SPEED": "9600", "RX": "2", "TX": "3"}}
 ```
 
 ## 重要规则
-
-1. **必须遵守**: ai_assistant_config必须在setup区域首先配置，建立串口通信
-2. **连接限制**: serial_command_handler返回Boolean，用于条件判断语句
-3. **板卡适配**: 根据板卡类型自动显示可用串口选项(ESP32:3个硬件串口, Mega2560:4个硬件串口, UNO:1个硬件+软串口)
-4. **常见错误**: ❌ 未配置串口直接使用命令判断，❌ 软串口引脚与其他功能冲突
+1. ai_assistant_config必须在setup区域首先配置
+2. 命令判断块返回Boolean，用于条件判断
+3. ESP32 UART0引脚固定，其他UART可自定义引脚
+4. 避免软串口引脚与其他功能冲突
 
 ## 支持的命令类型
 - **运动控制**: "小车前进"(MOVE_FORWARD), "小车后退"(MOVE_BACKWARD), "小车左转"(TURN_LEFT), "小车右转"(TURN_RIGHT), "小车急停"(STOP)
@@ -95,9 +59,19 @@ AI语音助手模块操作库
 - **继电器控制**: "打开继电器"(RELAY_ON), "关闭继电器"(RELAY_OFF)
 
 ## 技术规格
-- **通信协议**: UART串口通信，波特率9600
-- **模块特性**: 内置音频编解码器和麦克风阵列
-- **AI功能**: 语音识别、自然语言处理、语音合成
-- **云端支持**: 可连接云端AI服务实现智能对话
-- **工作电压**: 3.3V-5V兼容
-- **串口配置**: ESP32(Serial/Serial1/Serial2), Mega2560(Serial/Serial1/Serial2/Serial3), UNO(Serial+软串口选项)
+- UART串口通信，可配置波特率
+- 内置音频编解码器和麦克风阵列
+- 支持语音识别、自然语言处理、语音合成
+- 工作电压3.3V-5V兼容
+
+## 更新日志
+
+### v0.0.8
+- ✨ ESP32所有硬件串口（除UART0外）支持自定义RX/TX引脚配置
+- ✨ 新增`serial_custom_command`块支持自定义命令匹配
+- ✨ 新增`serial_clear_command`块用于清空接收缓冲
+- 🐛 修复Mega板卡识别问题
+- 📝 改进工具提示和说明文档
+
+### v0.0.1
+- 初始版本，支持基础语音命令识别
