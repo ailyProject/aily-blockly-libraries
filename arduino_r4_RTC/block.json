@@ -1,306 +1,235 @@
 [
   {
-    "type": "rtc_begin",
-    "message0": "初始化RTC时钟",
-    "inputsInline": true,
+    "type": "renesas_rtc_begin",
+    "message0": "初始化RTC",
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#4285F4",
-    "tooltip": "初始化RTC时钟模块",
+    "colour": "#FF9800",
+    "tooltip": "初始化RTC模块",
     "icon": "fa-regular fa-clock"
   },
   {
-    "type": "rtc_set_time",
-    "message0": "设置RTC时间 日期 %1 月份 %2 年份 %3 时 %4 分 %5 秒 %6 星期 %7",
+    "type": "renesas_rtc_is_running",
+    "message0": "RTC是否正在运行",
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "tooltip": "检查RTC是否正在运行",
+    "icon": "fa-regular fa-clock"
+  },
+  {
+    "type": "renesas_rtc_set_time",
+    "message0": "设置RTC时间 %1年 %2月 %3日 %4时 %5分 %6秒 星期%7",
     "args0": [
       {
-        "type": "field_number",
-        "name": "DAY",
-        "value": 1,
-        "min": 1,
-        "max": 31
-      },
-      {
-        "type": "field_dropdown",
-        "name": "MONTH",
-        "options": [
-          [
-            "一月",
-            "Month::JANUARY"
-          ],
-          [
-            "二月",
-            "Month::FEBRUARY"
-          ],
-          [
-            "三月",
-            "Month::MARCH"
-          ],
-          [
-            "四月",
-            "Month::APRIL"
-          ],
-          [
-            "五月",
-            "Month::MAY"
-          ],
-          [
-            "六月",
-            "Month::JUNE"
-          ],
-          [
-            "七月",
-            "Month::JULY"
-          ],
-          [
-            "八月",
-            "Month::AUGUST"
-          ],
-          [
-            "九月",
-            "Month::SEPTEMBER"
-          ],
-          [
-            "十月",
-            "Month::OCTOBER"
-          ],
-          [
-            "十一月",
-            "Month::NOVEMBER"
-          ],
-          [
-            "十二月",
-            "Month::DECEMBER"
-          ]
-        ]
-      },
-      {
-        "type": "field_number",
+        "type": "input_value",
         "name": "YEAR",
-        "value": 2023,
-        "min": 2000,
-        "max": 2100
+        "check": ["Number"]
       },
       {
-        "type": "field_number",
+        "type": "input_value",
+        "name": "MONTH",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "DAY",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
         "name": "HOUR",
-        "value": 0,
-        "min": 0,
-        "max": 23
+        "check": ["Number"]
       },
       {
-        "type": "field_number",
+        "type": "input_value",
         "name": "MINUTE",
-        "value": 0,
-        "min": 0,
-        "max": 59
+        "check": ["Number"]
       },
       {
-        "type": "field_number",
+        "type": "input_value",
         "name": "SECOND",
-        "value": 0,
-        "min": 0,
-        "max": 59
+        "check": ["Number"]
       },
       {
-        "type": "field_dropdown",
-        "name": "DAY_OF_WEEK",
-        "options": [
-          [
-            "星期一",
-            "DayOfWeek::MONDAY"
-          ],
-          [
-            "星期二",
-            "DayOfWeek::TUESDAY"
-          ],
-          [
-            "星期三",
-            "DayOfWeek::WEDNESDAY"
-          ],
-          [
-            "星期四",
-            "DayOfWeek::THURSDAY"
-          ],
-          [
-            "星期五",
-            "DayOfWeek::FRIDAY"
-          ],
-          [
-            "星期六",
-            "DayOfWeek::SATURDAY"
-          ],
-          [
-            "星期日",
-            "DayOfWeek::SUNDAY"
-          ]
-        ]
-      }
-    ],
-    "inputsInline": false,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#4285F4",
-    "tooltip": "设置RTC时钟的当前时间",
-    "icon": "fa-regular fa-clock"
-  },
-  {
-    "type": "rtc_get_time",
-    "message0": "获取RTC当前时间 存入变量 %1",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "TIME_VAR",
-        "variable": "rtcTime",
-        "variableTypes": [
-          "RTCTime"
-        ],
-        "defaultType": "RTCTime"
+        "type": "input_value",
+        "name": "DAYOFWEEK",
+        "check": ["Number"]
       }
     ],
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#4285F4",
-    "tooltip": "获取RTC当前时间并存入变量",
+    "colour": "#FF9800",
+    "tooltip": "设置RTC时间",
     "icon": "fa-regular fa-clock"
   },
   {
-    "type": "rtc_time_to_string",
-    "message0": "将RTC时间变量 %1 转换为字符串",
+    "type": "renesas_rtc_get_time",
+    "message0": "获取RTC时间到 %1",
     "args0": [
       {
-        "type": "field_variable",
-        "name": "TIME_VAR",
-        "variable": "rtcTime",
-        "variableTypes": [
-          "RTCTime"
-        ],
-        "defaultType": "RTCTime"
+        "type": "field_input",
+        "name": "VAR",
+        "text": "rtc_current_time"
       }
     ],
-    "output": "String",
-    "colour": "#4285F4",
-    "tooltip": "将时间变量转换为YYYY-MM-DDThh:mm:ss格式字符串",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "获取当前RTC时间到指定变量",
     "icon": "fa-regular fa-clock"
   },
   {
-    "type": "rtc_get_time_component",
-    "message0": "获取时间变量 %1 的 %2",
+    "type": "renesas_rtc_time_get_day",
+    "message0": "获取%1的日期(1-31)",
     "args0": [
       {
         "type": "field_variable",
-        "name": "TIME_VAR",
-        "variable": "rtcTime",
+        "name": "VAR",
+        "variable": "rtc_current_time",
         "variableTypes": [
           "RTCTime"
         ],
         "defaultType": "RTCTime"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "COMPONENT",
-        "options": [
-          [
-            "日期",
-            "getDayOfMonth()"
-          ],
-          [
-            "月份",
-            "getMonth()"
-          ],
-          [
-            "年份",
-            "getYear()"
-          ],
-          [
-            "小时",
-            "getHour()"
-          ],
-          [
-            "分钟",
-            "getMinutes()"
-          ],
-          [
-            "秒钟",
-            "getSeconds()"
-          ]
-        ]
       }
     ],
     "output": "Number",
-    "colour": "#4285F4",
-    "tooltip": "获取时间变量的特定组成部分",
+    "colour": "#FF9800",
+    "tooltip": "获取时间对象的日",
     "icon": "fa-regular fa-clock"
   },
   {
-    "type": "rtc_is_running",
-    "message0": "RTC时钟是否运行中",
-    "output": "Boolean",
-    "colour": "#4285F4",
-    "tooltip": "检查RTC时钟是否正在运行",
-    "icon": "fa-regular fa-clock"
-  },
-  {
-    "type": "rtc_create_time_var",
-    "message0": "创建RTC时间变量 %1",
+    "type": "renesas_rtc_time_get_month",
+    "message0": "获取%1的月份(1-12)",
     "args0": [
       {
         "type": "field_variable",
-        "name": "TIME_VAR",
-        "variable": "rtcTime",
+        "name": "VAR",
+        "variable": "rtc_current_time",
         "variableTypes": [
           "RTCTime"
         ],
         "defaultType": "RTCTime"
       }
     ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#4285F4",
-    "tooltip": "创建一个RTC时间变量",
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取时间对象的月",
     "icon": "fa-regular fa-clock"
   },
   {
-    "type": "rtc_set_periodic_callback",
-    "message0": "设置RTC周期性回调 周期 %1",
+    "type": "renesas_rtc_time_get_year",
+    "message0": "获取%1的年份",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc_current_time",
+        "variableTypes": [
+          "RTCTime"
+        ],
+        "defaultType": "RTCTime"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取时间对象的年",
+    "icon": "fa-regular fa-clock"
+  },
+  {
+    "type": "renesas_rtc_time_get_hour",
+    "message0": "获取%1的小时数(0-23)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc_current_time",
+        "variableTypes": [
+          "RTCTime"
+        ],
+        "defaultType": "RTCTime"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取时间对象的小时数(0-23)",
+    "icon": "fa-regular fa-clock"
+  },
+  {
+    "type": "renesas_rtc_time_get_minute",
+    "message0": "获取%1的分钟数(0-59)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc_current_time",
+        "variableTypes": [
+          "RTCTime"
+        ],
+        "defaultType": "RTCTime"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取时间对象的分钟数(0-59)",
+    "icon": "fa-regular fa-clock"
+  },
+  {
+    "type": "renesas_rtc_time_get_second",
+    "message0": "获取%1的秒数(0-59)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc_current_time",
+        "variableTypes": [
+          "RTCTime"
+        ],
+        "defaultType": "RTCTime"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取时间对象的秒数(0-59)",
+    "icon": "fa-regular fa-clock"
+  },
+  {
+    "type": "renesas_rtc_time_get_day_of_week",
+    "message0": "获取%1的星期几(0-6)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc_current_time",
+        "variableTypes": [
+          "RTCTime"
+        ],
+        "defaultType": "RTCTime"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取时间对象的星期几(0-6)",
+    "icon": "fa-regular fa-clock"
+  },
+  {
+    "type": "renesas_rtc_set_periodic_callback",
+    "message0": "设置RTC周期回调 周期%1",
     "args0": [
       {
         "type": "field_dropdown",
         "name": "PERIOD",
         "options": [
-          [
-            "每2秒一次",
-            "Period::ONCE_EVERY_2_SEC"
-          ],
-          [
-            "每秒一次",
-            "Period::ONCE_EVERY_1_SEC"
-          ],
-          [
-            "每秒2次",
-            "Period::N2_TIMES_EVERY_SEC"
-          ],
-          [
-            "每秒4次",
-            "Period::N4_TIMES_EVERY_SEC"
-          ],
-          [
-            "每秒8次",
-            "Period::N8_TIMES_EVERY_SEC"
-          ],
-          [
-            "每秒16次",
-            "Period::N16_TIMES_EVERY_SEC"
-          ],
-          [
-            "每秒32次",
-            "Period::N32_TIMES_EVERY_SEC"
-          ],
-          [
-            "每秒64次",
-            "Period::N64_TIMES_EVERY_SEC"
-          ]
+          ["每2秒", "ONCE_EVERY_2_SEC"],
+          ["每1秒", "ONCE_EVERY_1_SEC"],
+          ["每秒2次", "N2_TIMES_EVERY_SEC"],
+          ["每秒4次", "N4_TIMES_EVERY_SEC"],
+          ["每秒8次", "N8_TIMES_EVERY_SEC"],
+          ["每秒16次", "N16_TIMES_EVERY_SEC"],
+          ["每秒32次", "N32_TIMES_EVERY_SEC"],
+          ["每秒64次", "N64_TIMES_EVERY_SEC"],
+          ["每秒128次", "N128_TIMES_EVERY_SEC"],
+          ["每秒256次", "N256_TIMES_EVERY_SEC"]
         ]
       }
     ],
@@ -308,14 +237,99 @@
     "args1": [
       {
         "type": "input_statement",
-        "name": "CALLBACK_CODE"
+        "name": "HANDLER"
       }
     ],
-    "inputsInline": false,
+    "colour": "#FF9800",
+    "tooltip": "设置RTC周期性回调函数(只能设置一次回调)",
+    "icon": "fa-regular fa-clock"
+  },
+  {
+    "type": "renesas_rtc_set_alarm_callback",
+    "message0": "设置RTC闹钟回调 秒%1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SECOND",
+        "check": ["Number"]
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#FF9800",
+    "tooltip": "设置RTC闹钟回调函数，当秒数匹配时触发(只能设置一次闹钟)",
+    "icon": "fa-regular fa-clock"
+  },
+  {
+    "type": "renesas_rtc_set_time_if_not_running",
+    "message0": "如果RTC未运行则设置时间 日%1 月%2 年%3 时%4 分%5 秒%6 星期%7",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DAY",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MONTH",
+        "options": [
+          ["1月", "JANUARY"],
+          ["2月", "FEBRUARY"],
+          ["3月", "MARCH"],
+          ["4月", "APRIL"],
+          ["5月", "MAY"],
+          ["6月", "JUNE"],
+          ["7月", "JULY"],
+          ["8月", "AUGUST"],
+          ["9月", "SEPTEMBER"],
+          ["10月", "OCTOBER"],
+          ["11月", "NOVEMBER"],
+          ["12月", "DECEMBER"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "YEAR",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "HOUR",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "MINUTE",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "SECOND",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DAYOFWEEK",
+        "options": [
+          ["星期日", "SUNDAY"],
+          ["星期一", "MONDAY"],
+          ["星期二", "TUESDAY"],
+          ["星期三", "WEDNESDAY"],
+          ["星期四", "THURSDAY"],
+          ["星期五", "FRIDAY"],
+          ["星期六", "SATURDAY"]
+        ]
+      }
+    ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#4285F4",
-    "tooltip": "设置RTC定时执行的回调函数",
+    "colour": "#FF9800",
+    "tooltip": "如果RTC未运行则设置时间",
     "icon": "fa-regular fa-clock"
   }
 ]
