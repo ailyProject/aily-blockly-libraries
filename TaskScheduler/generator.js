@@ -139,16 +139,17 @@ Arduino.forBlock["taskscheduler_config"] = function (block, generator) {
 // 创建调度器
 Arduino.forBlock["taskscheduler_create"] = function (block, generator) {
   // 自动生成唯一的变量名
-  const schedulerName = ensureUniqueVariableName(
-    block,
-    "SCHEDULER",
-    "scheduler",
-  );
+  // const schedulerName = ensureUniqueVariableName(
+  //   block,
+  //   "SCHEDULER",
+  //   "scheduler",
+  // );
 
   // 设置变量重命名监听
   if (!block._schedulerVarMonitorAttached) {
     block._schedulerVarMonitorAttached = true;
-    block._schedulerVarLastName = schedulerName;
+    // block._schedulerVarLastName = schedulerName;
+    block._schedulerVarLastName = block.getFieldValue('SCHEDULER') || 'scheduler';
     const varField = block.getField("SCHEDULER");
     if (varField && typeof varField.setValidator === "function") {
       varField.setValidator(function (newName) {
@@ -164,7 +165,7 @@ Arduino.forBlock["taskscheduler_create"] = function (block, generator) {
           newName !== oldName &&
           typeof renameVariableInBlockly === "function"
         ) {
-          renameVariableInBlockly(block, oldName, newName, "");
+          renameVariableInBlockly(block, oldName, newName, "Scheduler");
           block._schedulerVarLastName = newName;
         }
         return newName;
@@ -174,10 +175,12 @@ Arduino.forBlock["taskscheduler_create"] = function (block, generator) {
 
   generator.addLibrary("TaskScheduler", "#include <TaskScheduler.h>");
 
-  // 注册变量到Blockly
-  if (typeof registerVariableToBlockly === "function") {
-    registerVariableToBlockly(schedulerName, "");
-  }
+  const schedulerName = block.getFieldValue("SCHEDULER") || "scheduler";
+
+  // // 注册变量到Blockly
+  // if (typeof registerVariableToBlockly === "function") {
+  //   registerVariableToBlockly(schedulerName, "");
+  // }
 
   generator.addObject(
     "scheduler_" + schedulerName,
@@ -203,6 +206,24 @@ Arduino.forBlock["taskscheduler_execute"] = function (block, generator) {
 
 // 创建任务
 Arduino.forBlock["task_create"] = function (block, generator) {
+  // 监听TASK输入值的变化，自动重命名变量
+  if (!block._taskVarMonitorAttached) {
+    block._taskVarMonitorAttached = true;
+    block._taskVarLastName = block.getFieldValue('TASK') || 'task1';
+    const varField = block.getField('TASK');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._taskVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'Task');
+          block._taskVarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
   // 获取任务名（使用 field_input）
   const taskName = block.getFieldValue("TASK") || "task1";
 
@@ -238,6 +259,24 @@ Arduino.forBlock["task_create"] = function (block, generator) {
 
 // 创建简单任务
 Arduino.forBlock["task_create_simple"] = function (block, generator) {
+  // 监听TASK输入值的变化，自动重命名变量
+  if (!block._taskVarMonitorAttached) {
+    block._taskVarMonitorAttached = true;
+    block._taskVarLastName = block.getFieldValue('TASK') || 'task1';
+    const varField = block.getField('TASK');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._taskVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'Task');
+          block._taskVarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
   // 自动生成唯一的变量名
   const taskName = ensureUniqueVariableName(block, "TASK", "task1");
 
@@ -417,16 +456,16 @@ Arduino.forBlock["task_get_run_counter"] = function (block, generator) {
 // 创建状态请求
 Arduino.forBlock["status_request_create"] = function (block, generator) {
   // 自动生成唯一的变量名
-  const statusRequestName = ensureUniqueVariableName(
-    block,
-    "STATUS_REQUEST",
-    "statusRequest",
-  );
+  // const statusRequestName = ensureUniqueVariableName(
+  //   block,
+  //   "STATUS_REQUEST",
+  //   "statusRequest",
+  // );
 
   // 设置变量重命名监听
   if (!block._statusRequestVarMonitorAttached) {
     block._statusRequestVarMonitorAttached = true;
-    block._statusRequestVarLastName = statusRequestName;
+    block._statusRequestVarLastName = block.getFieldValue('STATUS_REQUEST') || 'statusRequest';
     const varField = block.getField("STATUS_REQUEST");
     if (varField && typeof varField.setValidator === "function") {
       varField.setValidator(function (newName) {
@@ -442,7 +481,7 @@ Arduino.forBlock["status_request_create"] = function (block, generator) {
           newName !== oldName &&
           typeof renameVariableInBlockly === "function"
         ) {
-          renameVariableInBlockly(block, oldName, newName, "");
+          renameVariableInBlockly(block, oldName, newName, "StatusRequest");
           block._statusRequestVarLastName = newName;
         }
         return newName;
@@ -450,13 +489,15 @@ Arduino.forBlock["status_request_create"] = function (block, generator) {
     }
   }
 
+  const statusRequestName = block.getFieldValue("STATUS_REQUEST") || "statusRequest";
+
   if (taskSchedulerConfig.statusRequest) {
     generator.addLibrary("TaskScheduler", "#include <TaskScheduler.h>");
 
-    // 注册变量到Blockly
-    if (typeof registerVariableToBlockly === "function") {
-      registerVariableToBlockly(statusRequestName, "");
-    }
+    // // 注册变量到Blockly
+    // if (typeof registerVariableToBlockly === "function") {
+    //   registerVariableToBlockly(statusRequestName, "");
+    // }
 
     generator.addObject(
       "status_request_" + statusRequestName,
