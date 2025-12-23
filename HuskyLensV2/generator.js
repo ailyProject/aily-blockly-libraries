@@ -335,3 +335,80 @@ Arduino.forBlock['huskylensv2_is_valid'] = function(block, generator) {
     const code = result + '.isValid()';
     return [code, generator.ORDER_ATOMIC];
 };
+
+// 多算法功能类生成器
+Arduino.forBlock['huskylensv2_set_multi_algorithm'] = function(block, generator) {
+    const varField = block.getField('VAR');
+    const varName = varField ? varField.getText() : 'huskylens';
+    const algorithm1 = block.getFieldValue('ALGORITHM1');
+    const algorithm2 = block.getFieldValue('ALGORITHM2');
+    const algorithm3 = block.getFieldValue('ALGORITHM3');
+
+    return varName + '.setMultiAlgorithm(' + algorithm1 + ', ' + algorithm2 + ', ' + algorithm3 + ');\n';
+};
+
+Arduino.forBlock['huskylensv2_set_multi_algorithm_ratio'] = function(block, generator) {
+    const varField = block.getField('VAR');
+    const varName = varField ? varField.getText() : 'huskylens';
+    const ratio1 = generator.valueToCode(block, 'RATIO1', generator.ORDER_ATOMIC);
+    const ratio2 = generator.valueToCode(block, 'RATIO2', generator.ORDER_ATOMIC);
+    const ratio3 = generator.valueToCode(block, 'RATIO3', generator.ORDER_ATOMIC);
+
+    return varName + '.setMultiAlgorithmRatio(' + ratio1 + ', ' + ratio2 + ', ' + ratio3 + ');\n';
+};
+
+// 媒体录制类生成器
+Arduino.forBlock['huskylensv2_start_recording'] = function(block, generator) {
+    const varField = block.getField('VAR');
+    const varName = varField ? varField.getText() : 'huskylens';
+    const type = block.getFieldValue('TYPE');
+    const duration = generator.valueToCode(block, 'DURATION', generator.ORDER_ATOMIC);
+    const filename = generator.valueToCode(block, 'FILENAME', generator.ORDER_ATOMIC);
+    const resolution = block.getFieldValue('RESOLUTION');
+
+    return varName + '.startRecording(' + type + ', ' + duration + ', ' + filename + ', ' + resolution + ');\n';
+};
+
+Arduino.forBlock['huskylensv2_stop_recording'] = function(block, generator) {
+    const varField = block.getField('VAR');
+    const varName = varField ? varField.getText() : 'huskylens';
+    const type = block.getFieldValue('TYPE');
+
+    return varName + '.stopRecording(' + type + ');\n';
+};
+
+// 结果角度和类别ID类生成器
+Arduino.forBlock['huskylensv2_result_pitch'] = function(block, generator) {
+    const result = generator.valueToCode(block, 'RESULT', generator.ORDER_ATOMIC);
+
+    const code = result + '.pitch';
+    return [code, generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['huskylensv2_result_yaw'] = function(block, generator) {
+    const result = generator.valueToCode(block, 'RESULT', generator.ORDER_ATOMIC);
+
+    const code = result + '.yaw';
+    return [code, generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['huskylensv2_result_roll'] = function(block, generator) {
+    const result = generator.valueToCode(block, 'RESULT', generator.ORDER_ATOMIC);
+
+    const code = result + '.roll';
+    return [code, generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['huskylensv2_result_azimuth'] = function(block, generator) {
+    const result = generator.valueToCode(block, 'RESULT', generator.ORDER_ATOMIC);
+
+    const code = result + '.azimuth';
+    return [code, generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['huskylensv2_result_classid'] = function(block, generator) {
+    const result = generator.valueToCode(block, 'RESULT', generator.ORDER_ATOMIC);
+
+    const code = result + '.classID';
+    return [code, generator.ORDER_ATOMIC];
+};
