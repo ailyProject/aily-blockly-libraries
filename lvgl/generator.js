@@ -113,11 +113,69 @@ Arduino.forBlock['lvgl_init'] = function(block, generator) {
   return setupCode;
 };
 
+Arduino.forBlock['lvgl_indev_create'] = function(block, generator) {
+  // 变量重命名监听
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'indev';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_indev_t');
+          block._lvglVarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'indev';
+  const type = block.getFieldValue('TYPE') || 'LV_INDEV_TYPE_POINTER';
+  const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
+
+  ensureLvglLib(generator);
+
+  registerVariableToBlockly(varName, 'lv_indev_t');
+
+  let callbackName = varName + '_read_cb';
+  let callbackCode = '';
+  callbackCode += 'void ' + callbackName + '(lv_indev_drv_t * drv, lv_indev_data_t * data) {\n';
+  callbackCode += handlerCode;
+  callbackCode += '}\n';
+
+  generator.addFunction(callbackName, callbackCode);
+
+  let code = '';
+  code += 'lv_indev_t *' + varName + ' = lv_indev_create();\n';
+  code += 'lv_indev_set_type(' + varName + ', ' + type + ');\n';
+  code += 'lv_indev_set_read_cb(' + varName + ', ' + callbackName + ');\n';
+
+  return code;
+};
+
+Arduino.forBlock['lvgl_indev_data_param_set'] = function(block, generator) {
+  const param = block.getFieldValue('PARAM');
+  const value = generator.valueToCode(block, 'VALUE', generator.ORDER_ATOMIC) || '0';
+
+  let code = '';
+  code += 'data->' + param + ' = ' + value + ';\n';
+
+  return code;
+};
+
+Arduino.forBlock['lvgl_indev_state_param'] = function(block, generator) {
+  const state = block.getFieldValue('STATE') || 'LV_INDEV_STATE_REL';
+  return [state, generator.ORDER_ATOMIC];
+};
+
 Arduino.forBlock['lvgl_label_create'] = function(block, generator) {
   // 变量重命名监听
   if (!block._lvglVarMonitorAttached) {
     block._lvglVarMonitorAttached = true;
-    block._lvglVarLastName = block.getFieldValue('VAR') || 'label1';
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'label';
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
       varField.setValidator(function(newName) {
@@ -132,21 +190,20 @@ Arduino.forBlock['lvgl_label_create'] = function(block, generator) {
     }
   }
 
-  const varName = block.getFieldValue('VAR') || 'label1';
+  const varName = block.getFieldValue('VAR') || 'label';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return varName + ' = lv_label_create(' + parent + ');\n';
-  // return varName + ' = lv_label_create(lv_screen_active());\n';
+  return 'lv_obj_t *' + varName + ' = lv_label_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_label_set_text'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'label1';
+  const varName = varField ? varField.getText() : 'label';
   const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
 
   ensureLvglLib(generator);
@@ -156,7 +213,7 @@ Arduino.forBlock['lvgl_label_set_text'] = function(block, generator) {
 
 Arduino.forBlock['lvgl_label_set_long_mode'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'label1';
+  const varName = varField ? varField.getText() : 'label';
   const mode = block.getFieldValue('MODE');
 
   ensureLvglLib(generator);
@@ -169,7 +226,7 @@ Arduino.forBlock['lvgl_label_set_long_mode'] = function(block, generator) {
 Arduino.forBlock['lvgl_button_create'] = function(block, generator) {
   if (!block._lvglVarMonitorAttached) {
     block._lvglVarMonitorAttached = true;
-    block._lvglVarLastName = block.getFieldValue('VAR') || 'btn1';
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'btn';
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
       varField.setValidator(function(newName) {
@@ -184,15 +241,15 @@ Arduino.forBlock['lvgl_button_create'] = function(block, generator) {
     }
   }
 
-  const varName = block.getFieldValue('VAR') || 'btn1';
+  const varName = block.getFieldValue('VAR') || 'btn';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return varName + ' = lv_button_create(' + parent + ');\n';
+  return 'lv_obj_t *' + varName + ' = lv_button_create(' + parent + ');\n';
 };
 
 // ==================== 滑动条控件 ====================
@@ -200,7 +257,7 @@ Arduino.forBlock['lvgl_button_create'] = function(block, generator) {
 Arduino.forBlock['lvgl_slider_create'] = function(block, generator) {
   if (!block._lvglVarMonitorAttached) {
     block._lvglVarMonitorAttached = true;
-    block._lvglVarLastName = block.getFieldValue('VAR') || 'slider1';
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'slider';
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
       varField.setValidator(function(newName) {
@@ -215,20 +272,20 @@ Arduino.forBlock['lvgl_slider_create'] = function(block, generator) {
     }
   }
 
-  const varName = block.getFieldValue('VAR') || 'slider1';
+  const varName = block.getFieldValue('VAR') || 'slider';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return varName + ' = lv_slider_create(' + parent + ');\n';
+  return 'lv_obj_t *' + varName + ' = lv_slider_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_slider_set_value'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'slider1';
+  const varName = varField ? varField.getText() : 'slider';
   const value = generator.valueToCode(block, 'VALUE', generator.ORDER_ATOMIC) || '0';
   const anim = block.getFieldValue('ANIM');
 
@@ -239,7 +296,7 @@ Arduino.forBlock['lvgl_slider_set_value'] = function(block, generator) {
 
 Arduino.forBlock['lvgl_slider_set_range'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'slider1';
+  const varName = varField ? varField.getText() : 'slider';
   const min = generator.valueToCode(block, 'MIN', generator.ORDER_ATOMIC) || '0';
   const max = generator.valueToCode(block, 'MAX', generator.ORDER_ATOMIC) || '100';
 
@@ -250,7 +307,7 @@ Arduino.forBlock['lvgl_slider_set_range'] = function(block, generator) {
 
 Arduino.forBlock['lvgl_slider_get_value'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'slider1';
+  const varName = varField ? varField.getText() : 'slider';
 
   ensureLvglLib(generator);
 
@@ -262,7 +319,7 @@ Arduino.forBlock['lvgl_slider_get_value'] = function(block, generator) {
 Arduino.forBlock['lvgl_switch_create'] = function(block, generator) {
   if (!block._lvglVarMonitorAttached) {
     block._lvglVarMonitorAttached = true;
-    block._lvglVarLastName = block.getFieldValue('VAR') || 'sw1';
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'sw';
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
       varField.setValidator(function(newName) {
@@ -277,15 +334,15 @@ Arduino.forBlock['lvgl_switch_create'] = function(block, generator) {
     }
   }
 
-  const varName = block.getFieldValue('VAR') || 'sw1';
+  const varName = block.getFieldValue('VAR') || 'sw';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return varName + ' = lv_switch_create(' + parent + ');\n';
+  return 'lv_obj_t *' + varName + ' = lv_switch_create(' + parent + ');\n';
 };
 
 // ==================== 复选框控件 ====================
@@ -293,7 +350,7 @@ Arduino.forBlock['lvgl_switch_create'] = function(block, generator) {
 Arduino.forBlock['lvgl_checkbox_create'] = function(block, generator) {
   if (!block._lvglVarMonitorAttached) {
     block._lvglVarMonitorAttached = true;
-    block._lvglVarLastName = block.getFieldValue('VAR') || 'cb1';
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'cb';
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
       varField.setValidator(function(newName) {
@@ -308,16 +365,16 @@ Arduino.forBlock['lvgl_checkbox_create'] = function(block, generator) {
     }
   }
 
-  const varName = block.getFieldValue('VAR') || 'cb1';
+  const varName = block.getFieldValue('VAR') || 'cb';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
   const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '"Checkbox"';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  let code = varName + ' = lv_checkbox_create(' + parent + ');\n';
+  let code = 'lv_obj_t *' + varName + ' = lv_checkbox_create(' + parent + ');\n';
   code += 'lv_checkbox_set_text(' + varName + ', ' + text + ');\n';
 
   return code;
@@ -328,7 +385,7 @@ Arduino.forBlock['lvgl_checkbox_create'] = function(block, generator) {
 Arduino.forBlock['lvgl_bar_create'] = function(block, generator) {
   if (!block._lvglVarMonitorAttached) {
     block._lvglVarMonitorAttached = true;
-    block._lvglVarLastName = block.getFieldValue('VAR') || 'bar1';
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'bar';
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
       varField.setValidator(function(newName) {
@@ -343,20 +400,20 @@ Arduino.forBlock['lvgl_bar_create'] = function(block, generator) {
     }
   }
 
-  const varName = block.getFieldValue('VAR') || 'bar1';
+  const varName = block.getFieldValue('VAR') || 'bar';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return varName + ' = lv_bar_create(' + parent + ');\n';
+  return 'lv_obj_t *' + varName + ' = lv_bar_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_bar_set_value'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'bar1';
+  const varName = varField ? varField.getText() : 'bar';
   const value = generator.valueToCode(block, 'VALUE', generator.ORDER_ATOMIC) || '0';
   const anim = block.getFieldValue('ANIM');
 
@@ -367,7 +424,7 @@ Arduino.forBlock['lvgl_bar_set_value'] = function(block, generator) {
 
 Arduino.forBlock['lvgl_bar_set_range'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'bar1';
+  const varName = varField ? varField.getText() : 'bar';
   const min = generator.valueToCode(block, 'MIN', generator.ORDER_ATOMIC) || '0';
   const max = generator.valueToCode(block, 'MAX', generator.ORDER_ATOMIC) || '100';
 
@@ -381,7 +438,7 @@ Arduino.forBlock['lvgl_bar_set_range'] = function(block, generator) {
 Arduino.forBlock['lvgl_arc_create'] = function(block, generator) {
   if (!block._lvglVarMonitorAttached) {
     block._lvglVarMonitorAttached = true;
-    block._lvglVarLastName = block.getFieldValue('VAR') || 'arc1';
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'arc';
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
       varField.setValidator(function(newName) {
@@ -396,20 +453,20 @@ Arduino.forBlock['lvgl_arc_create'] = function(block, generator) {
     }
   }
 
-  const varName = block.getFieldValue('VAR') || 'arc1';
+  const varName = block.getFieldValue('VAR') || 'arc';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return varName + ' = lv_arc_create(' + parent + ');\n';
+  return 'lv_obj_t *' + varName + ' = lv_arc_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_arc_set_value'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'arc1';
+  const varName = varField ? varField.getText() : 'arc';
   const value = generator.valueToCode(block, 'VALUE', generator.ORDER_ATOMIC) || '0';
 
   ensureLvglLib(generator);
@@ -419,7 +476,7 @@ Arduino.forBlock['lvgl_arc_set_value'] = function(block, generator) {
 
 Arduino.forBlock['lvgl_arc_set_range'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'arc1';
+  const varName = varField ? varField.getText() : 'arc';
   const min = generator.valueToCode(block, 'MIN', generator.ORDER_ATOMIC) || '0';
   const max = generator.valueToCode(block, 'MAX', generator.ORDER_ATOMIC) || '100';
 
@@ -433,7 +490,7 @@ Arduino.forBlock['lvgl_arc_set_range'] = function(block, generator) {
 Arduino.forBlock['lvgl_spinner_create'] = function(block, generator) {
   if (!block._lvglVarMonitorAttached) {
     block._lvglVarMonitorAttached = true;
-    block._lvglVarLastName = block.getFieldValue('VAR') || 'spinner1';
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'spinner';
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
       varField.setValidator(function(newName) {
@@ -448,20 +505,20 @@ Arduino.forBlock['lvgl_spinner_create'] = function(block, generator) {
     }
   }
 
-  const varName = block.getFieldValue('VAR') || 'spinner1';
+  const varName = block.getFieldValue('VAR') || 'spinner';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return varName + ' = lv_spinner_create(' + parent + ');\n';
+  return 'lv_obj_t *' + varName + ' = lv_spinner_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_spinner_set_anim_params'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'spinner1';
+  const varName = varField ? varField.getText() : 'spinner';
   const time = generator.valueToCode(block, 'TIME', generator.ORDER_ATOMIC) || '1000';
   const angle = generator.valueToCode(block, 'ANGLE', generator.ORDER_ATOMIC) || '270';
 
@@ -475,7 +532,7 @@ Arduino.forBlock['lvgl_spinner_set_anim_params'] = function(block, generator) {
 Arduino.forBlock['lvgl_dropdown_create'] = function(block, generator) {
   if (!block._lvglVarMonitorAttached) {
     block._lvglVarMonitorAttached = true;
-    block._lvglVarLastName = block.getFieldValue('VAR') || 'dropdown1';
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'dropdown';
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
       varField.setValidator(function(newName) {
@@ -490,20 +547,20 @@ Arduino.forBlock['lvgl_dropdown_create'] = function(block, generator) {
     }
   }
 
-  const varName = block.getFieldValue('VAR') || 'dropdown1';
+  const varName = block.getFieldValue('VAR') || 'dropdown';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return varName + ' = lv_dropdown_create(' + parent + ');\n';
+  return 'lv_obj_t *' + varName + ' = lv_dropdown_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_dropdown_set_options'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'dropdown1';
+  const varName = varField ? varField.getText() : 'dropdown';
   const options = generator.valueToCode(block, 'OPTIONS', generator.ORDER_ATOMIC) || '"Option1\\nOption2\\nOption3"';
 
   ensureLvglLib(generator);
@@ -513,7 +570,7 @@ Arduino.forBlock['lvgl_dropdown_set_options'] = function(block, generator) {
 
 Arduino.forBlock['lvgl_dropdown_get_selected'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'dropdown1';
+  const varName = varField ? varField.getText() : 'dropdown';
 
   ensureLvglLib(generator);
 
@@ -525,7 +582,7 @@ Arduino.forBlock['lvgl_dropdown_get_selected'] = function(block, generator) {
 Arduino.forBlock['lvgl_textarea_create'] = function(block, generator) {
   if (!block._lvglVarMonitorAttached) {
     block._lvglVarMonitorAttached = true;
-    block._lvglVarLastName = block.getFieldValue('VAR') || 'textarea1';
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'textarea';
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
       varField.setValidator(function(newName) {
@@ -540,20 +597,20 @@ Arduino.forBlock['lvgl_textarea_create'] = function(block, generator) {
     }
   }
 
-  const varName = block.getFieldValue('VAR') || 'textarea1';
+  const varName = block.getFieldValue('VAR') || 'textarea';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return varName + ' = lv_textarea_create(' + parent + ');\n';
+  return 'lv_obj_t *' + varName + ' = lv_textarea_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_textarea_set_text'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'textarea1';
+  const varName = varField ? varField.getText() : 'textarea';
   const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
 
   ensureLvglLib(generator);
@@ -563,7 +620,7 @@ Arduino.forBlock['lvgl_textarea_set_text'] = function(block, generator) {
 
 Arduino.forBlock['lvgl_textarea_get_text'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'textarea1';
+  const varName = varField ? varField.getText() : 'textarea';
 
   ensureLvglLib(generator);
 
@@ -572,7 +629,7 @@ Arduino.forBlock['lvgl_textarea_get_text'] = function(block, generator) {
 
 Arduino.forBlock['lvgl_textarea_set_placeholder'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'textarea1';
+  const varName = varField ? varField.getText() : 'textarea';
   const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
 
   ensureLvglLib(generator);
@@ -804,7 +861,7 @@ Arduino.forBlock['lvgl_screen_load'] = function(block, generator) {
 Arduino.forBlock['lvgl_obj_create'] = function(block, generator) {
   if (!block._lvglVarMonitorAttached) {
     block._lvglVarMonitorAttached = true;
-    block._lvglVarLastName = block.getFieldValue('VAR') || 'obj1';
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'obj';
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
       varField.setValidator(function(newName) {
@@ -819,21 +876,21 @@ Arduino.forBlock['lvgl_obj_create'] = function(block, generator) {
     }
   }
 
-  const varName = block.getFieldValue('VAR') || 'obj1';
+  const varName = block.getFieldValue('VAR') || 'obj';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return varName + ' = lv_obj_create(' + parent + ');\n';
+  return 'lv_obj_t *' + varName + ' = lv_obj_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_screen_create'] = function(block, generator) {
   if (!block._lvglVarMonitorAttached) {
     block._lvglVarMonitorAttached = true;
-    block._lvglVarLastName = block.getFieldValue('VAR') || 'screen1';
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'screen';
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
       varField.setValidator(function(newName) {
@@ -848,11 +905,11 @@ Arduino.forBlock['lvgl_screen_create'] = function(block, generator) {
     }
   }
 
-  const varName = block.getFieldValue('VAR') || 'screen1';
+  const varName = block.getFieldValue('VAR') || 'screen';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return varName + ' = lv_obj_create(NULL);\n';
+  return 'lv_obj_t *' + varName + ' = lv_obj_create(NULL);\n';
 };

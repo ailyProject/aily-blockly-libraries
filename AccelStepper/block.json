@@ -1,320 +1,613 @@
 [
-    {
-        "type": "accel_stepper_init",
-        "message0": "初始化步进电机%1 类型%2 引脚1%3 引脚2%4 引脚3%5 引脚4%6",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "INTERFACE",
-                "options": [
-                    ["4线全步进", "FULL4WIRE"],
-                    ["2线步进驱动器", "DRIVER"],
-                    ["2线全步进", "FULL2WIRE"],
-                    ["3线全步进", "FULL3WIRE"],
-                    ["4线半步进", "HALF4WIRE"],
-                    ["3线半步进", "HALF3WIRE"]
-                ]
-            },
-            {
-                "type": "field_dropdown",
-                "name": "PIN1",
-                "options": "${board.digitalPins}"
-            },
-            {
-                "type": "field_dropdown", 
-                "name": "PIN2",
-                "options": "${board.digitalPins}"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "PIN3", 
-                "options": "${board.digitalPins}"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "PIN4",
-                "options": "${board.digitalPins}"
-            }
-        ],
-        "inputsInline": false,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#ff6600",
-        "extensions": ["accel_stepper_init_extension"]
-    },
-    {
-        "type": "accel_stepper_set_max_speed",
-        "message0": "设置步进电机%1最大速度%2步/秒",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            },
-            {
-                "type": "input_value",
-                "name": "SPEED",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#ff6600"
-    },
-    {
-        "type": "accel_stepper_set_acceleration",
-        "message0": "设置步进电机%1加速度%2步/秒²",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            },
-            {
-                "type": "input_value",
-                "name": "ACCELERATION",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#ff6600"
-    },
-    {
-        "type": "accel_stepper_set_speed",
-        "message0": "设置步进电机%1速度%2步/秒",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            },
-            {
-                "type": "input_value",
-                "name": "SPEED",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#ff6600"
-    },
-    {
-        "type": "accel_stepper_move_to",
-        "message0": "步进电机%1移动到绝对位置%2步",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            },
-            {
-                "type": "input_value",
-                "name": "POSITION",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#ff6600"
-    },
-    {
-        "type": "accel_stepper_move",
-        "message0": "步进电机%1移动%2步",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            },
-            {
-                "type": "input_value",
-                "name": "STEPS",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#ff6600"
-    },
-    {
-        "type": "accel_stepper_run",
-        "message0": "运行步进电机%1 (带加速度)",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#ff6600"
-    },
-    {
-        "type": "accel_stepper_run_speed",
-        "message0": "运行步进电机%1 (恒定速度)",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#ff6600"
-    },
-    {
-        "type": "accel_stepper_run_to_position",
-        "message0": "步进电机%1运行到目标位置",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#ff6600"
-    },
-    {
-        "type": "accel_stepper_run_to_new_position",
-        "message0": "步进电机%1运行到新位置%2步",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            },
-            {
-                "type": "input_value",
-                "name": "POSITION",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#ff6600"
-    },
-    {
-        "type": "accel_stepper_stop",
-        "message0": "停止步进电机%1",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#ff6600"
-    },
-    {
-        "type": "accel_stepper_current_position",
-        "message0": "步进电机%1当前位置",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            }
-        ],
-        "inputsInline": true,
-        "output": "Number",
-        "colour": "#ff6600"
-    },
-    {
-        "type": "accel_stepper_target_position",
-        "message0": "步进电机%1目标位置",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            }
-        ],
-        "inputsInline": true,
-        "output": "Number",
-        "colour": "#ff6600"
-    },
-    {
-        "type": "accel_stepper_distance_to_go",
-        "message0": "步进电机%1距离目标位置的步数",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            }
-        ],
-        "inputsInline": true,
-        "output": "Number",
-        "colour": "#ff6600"
-    },
-    {
-        "type": "accel_stepper_is_running",
-        "message0": "步进电机%1正在运行？",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            }
-        ],
-        "inputsInline": true,
-        "output": "Boolean",
-        "colour": "#ff6600"
-    },
-    {
-        "type": "accel_stepper_set_current_position",
-        "message0": "设置步进电机%1当前位置为%2步",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            },
-            {
-                "type": "input_value",
-                "name": "POSITION",
-                "check": "Number"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#ff6600"
-    },
-    {
-        "type": "accel_stepper_speed",
-        "message0": "步进电机%1当前速度",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "STEPPER_NAME",
-                "variable": "stepper1"
-            }
-        ],
-        "inputsInline": true,
-        "output": "Number",
-        "colour": "#ff6600"
-    }
+  {
+    "type": "accelstepper_setup",
+    "message0": "创建步进电机 %1 接口类型%2 引脚%3 %4 %5 %6",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "stepper"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INTERFACE",
+        "options": [
+          ["4线全步", "4"],
+          ["2线全步", "2"],
+          ["3线全步", "3"],
+          ["3线半步", "6"],
+          ["4线半步", "8"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PIN1"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN2"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN3"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN4"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "创建步进电机对象，支持多种接口类型"
+  },
+  {
+    "type": "accelstepper_setup_driver",
+    "message0": "创建步进电机 %1 驱动模式(Step+Direction) Step引脚%2 Direction引脚%3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "stepper"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN_STEP"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN_DIR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "创建步进电机对象，使用驱动器模式（Step+Direction）"
+  },
+  {
+    "type": "accelstepper_move_to",
+    "message0": "让步进电机 %1 移动到位置 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      },
+      {
+        "type": "input_value",
+        "name": "POSITION"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置目标位置（绝对位置）"
+  },
+  {
+    "type": "accelstepper_move",
+    "message0": "让步进电机 %1 相对移动 %2 步",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      },
+      {
+        "type": "input_value",
+        "name": "STEPS"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "相对移动指定步数"
+  },
+  {
+    "type": "accelstepper_run",
+    "message0": "让步进电机 %1 执行一步（带加速）",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "执行一步，带加速/减速（需要在loop中频繁调用）"
+  },
+  {
+    "type": "accelstepper_run_speed",
+    "message0": "让步进电机 %1 恒速执行一步",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "恒速执行一步（需要在loop中频繁调用）"
+  },
+  {
+    "type": "accelstepper_stop",
+    "message0": "让步进电机 %1 停止",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "尽可能快地停止电机"
+  },
+  {
+    "type": "accelstepper_set_max_speed",
+    "message0": "设置步进电机 %1 的最大速度为 %2 步/秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置最大速度（单位：步/秒）"
+  },
+  {
+    "type": "accelstepper_set_speed",
+    "message0": "设置步进电机 %1 的恒定速度为 %2 步/秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置恒定速度（单位：步/秒，用于runSpeed模式）"
+  },
+  {
+    "type": "accelstepper_get_speed",
+    "message0": "获取步进电机 %1 的当前速度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      }
+    ],
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "获取当前速度（单位：步/秒）"
+  },
+  {
+    "type": "accelstepper_set_acceleration",
+    "message0": "设置步进电机 %1 的加速度为 %2 步/秒²",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      },
+      {
+        "type": "input_value",
+        "name": "ACCEL"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置加速度（单位：步/秒²）"
+  },
+  {
+    "type": "accelstepper_get_current_position",
+    "message0": "获取步进电机 %1 的当前位置",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      }
+    ],
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "获取当前位置（单位：步）"
+  },
+  {
+    "type": "accelstepper_set_current_position",
+    "message0": "设置步进电机 %1 的当前位置为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      },
+      {
+        "type": "input_value",
+        "name": "POSITION"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置当前位置（用于归零等操作）"
+  },
+  {
+    "type": "accelstepper_distance_to_go",
+    "message0": "获取步进电机 %1 到目标位置的距离",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      }
+    ],
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "获取到目标位置的距离（单位：步）"
+  },
+  {
+    "type": "accelstepper_is_running",
+    "message0": "步进电机 %1 是否正在运行",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#607D8B",
+    "tooltip": "检查电机是否正在运行"
+  },
+  {
+    "type": "accelstepper_enable_outputs",
+    "message0": "启用步进电机 %1 的输出",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "启用电机输出"
+  },
+  {
+    "type": "accelstepper_disable_outputs",
+    "message0": "禁用步进电机 %1 的输出",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "禁用电机输出（省电）"
+  },
+  {
+    "type": "accelstepper_run_to_position",
+    "message0": "让步进电机 %1 运行到目标位置（阻塞）",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "运行到目标位置（阻塞模式，会等待直到到达）"
+  },
+  {
+    "type": "accelstepper_run_to_new_position",
+    "message0": "让步进电机 %1 运行到新位置 %2（阻塞）",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      },
+      {
+        "type": "input_value",
+        "name": "POSITION"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "运行到新位置（阻塞模式，会等待直到到达）"
+  },
+  {
+    "type": "accelstepper_run_speed_to_position",
+    "message0": "让步进电机 %1 恒速运行到目标位置",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "恒速运行到目标位置（需要在loop中频繁调用）"
+  },
+  {
+    "type": "accelstepper_set_enable_pin",
+    "message0": "设置步进电机 %1 的使能引脚为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "设置使能引脚（用于驱动器）"
+  },
+  {
+    "type": "multistepper_create",
+    "message0": "创建多电机同步控制器 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "steppers"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "创建 MultiStepper 对象，可管理最多10个步进电机"
+  },
+  {
+    "type": "multistepper_add_stepper",
+    "message0": "添加步进电机 %1 到多电机控制器 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "STEPPER",
+        "variable": "stepper",
+        "variableTypes": ["AccelStepper"],
+        "defaultType": "AccelStepper"
+      },
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "steppers",
+        "variableTypes": ["MultiStepper"],
+        "defaultType": "MultiStepper"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "将单个步进电机添加到多电机控制器"
+  },
+  {
+    "type": "multistepper_move_to",
+    "message0": "让多电机控制器 %1 中所有电机同步移动到位置 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "steppers",
+        "variableTypes": ["MultiStepper"],
+        "defaultType": "MultiStepper"
+      },
+      {
+        "type": "input_value",
+        "name": "POSITIONS"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置所有电机的目标位置数组 {pos1, pos2, ...}，它们将以恒定速度同时到达"
+  },
+  {
+    "type": "multistepper_move_to_2",
+    "message0": "让多电机控制器 %1 中2个电机同步移动 电机1位置%2 电机2位置%3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "steppers",
+        "variableTypes": ["MultiStepper"],
+        "defaultType": "MultiStepper"
+      },
+      {
+        "type": "input_value",
+        "name": "POS1"
+      },
+      {
+        "type": "input_value",
+        "name": "POS2"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置2个电机的目标位置，适用于XY平台等双轴应用"
+  },
+  {
+    "type": "multistepper_move_to_3",
+    "message0": "让多电机控制器 %1 中3个电机同步移动 电机1位置%2 电机2位置%3 电机3位置%4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "steppers",
+        "variableTypes": ["MultiStepper"],
+        "defaultType": "MultiStepper"
+      },
+      {
+        "type": "input_value",
+        "name": "POS1"
+      },
+      {
+        "type": "input_value",
+        "name": "POS2"
+      },
+      {
+        "type": "input_value",
+        "name": "POS3"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置3个电机的目标位置，适用于XYZ平台等三轴应用"
+  },
+  {
+    "type": "multistepper_move_to_4",
+    "message0": "让多电机控制器 %1 中4个电机同步移动 电机1位置%2 电机2位置%3 电机3位置%4 电机4位置%5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "steppers",
+        "variableTypes": ["MultiStepper"],
+        "defaultType": "MultiStepper"
+      },
+      {
+        "type": "input_value",
+        "name": "POS1"
+      },
+      {
+        "type": "input_value",
+        "name": "POS2"
+      },
+      {
+        "type": "input_value",
+        "name": "POS3"
+      },
+      {
+        "type": "input_value",
+        "name": "POS4"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置4个电机的目标位置"
+  },
+  {
+    "type": "multistepper_run",
+    "message0": "让多电机控制器 %1 执行一步（非阻塞）",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "steppers",
+        "variableTypes": ["MultiStepper"],
+        "defaultType": "MultiStepper"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "执行一步，必须在loop中频繁调用"
+  },
+  {
+    "type": "multistepper_run_speed_to_position",
+    "message0": "让多电机控制器 %1 运行到目标位置（阻塞）",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "steppers",
+        "variableTypes": ["MultiStepper"],
+        "defaultType": "MultiStepper"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "运行到目标位置（阻塞模式，会等待直到到达）"
+  },
+  {
+    "type": "multistepper_positions_array",
+    "message0": "创建位置数组 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INPUT0"
+      }
+    ],
+    "output": "Array",
+    "colour": "#9E9E9E",
+    "mutator": "dynamic_inputs_mutator",
+    "tooltip": "创建位置数组，用于 multistepper_move_to"
+  }
 ]

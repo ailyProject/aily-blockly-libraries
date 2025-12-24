@@ -44,6 +44,84 @@
     "icon": "fa-light fa-mobile"
   },
   {
+    "type": "lvgl_indev_create",
+    "message0": "初始化输入设备 %1 类型 %2 数据获取回调函数",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "indev"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["指针设备(触摸屏/鼠标)", "LV_INDEV_TYPE_POINTER"],
+          ["按键设备", "LV_INDEV_TYPE_KEYPAD"],
+          ["按钮设备", "LV_INDEV_TYPE_BUTTON"],
+          ["编码器设备", "LV_INDEV_TYPE_ENCODER"]
+        ]
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "初始化输入设备",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_indev_data_param_set",
+    "message0": "数据参数 %1 设置为 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PARAM",
+        "options": [
+          ["状态", "state"],
+          ["坐标 X", "point.x"],
+          ["坐标 Y", "point.y"],
+          ["按键值", "key"],
+          ["按钮 ID", "btn_id"],
+          ["编码器增量", "enc_diff"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "获取输入设备的数据参数",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_indev_state_param",
+    "message0": "输入设备状态常量 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          ["释放", "LV_INDEV_STATE_REL"],
+          ["按下", "LV_INDEV_STATE_PR"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "输入设备状态常量",
+    "icon": "fa-light fa-mobile"
+  },
+  {
     "type": "lvgl_label_create",
     "message0": "创建标签 %1 父对象 %2",
     "args0": [
@@ -1171,7 +1249,7 @@
         "defaultType": "lv_obj_t"
       },
       {
-        "type": "field_colour",
+        "type": "field_colour_hsv_sliders",
         "name": "COLOR",
         "colour": "#ffffff"
       }
@@ -1196,7 +1274,7 @@
         "defaultType": "lv_obj_t"
       },
       {
-        "type": "field_colour",
+        "type": "field_colour_hsv_sliders",
         "name": "COLOR",
         "colour": "#000000"
       }
@@ -1221,7 +1299,7 @@
         "defaultType": "lv_obj_t"
       },
       {
-        "type": "field_colour",
+        "type": "field_colour_hsv_sliders",
         "name": "COLOR",
         "colour": "#000000"
       }
