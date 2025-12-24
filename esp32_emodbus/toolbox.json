@@ -1,0 +1,417 @@
+{
+    "kind": "category",
+    "name": "eModbus通信",
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-network-wired",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "RTU客户端"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_rtu_client_create"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_rtu_client_begin"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "TCP客户端"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_tcp_client_create"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_tcp_client_begin"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_tcp_client_set_target",
+            "inputs": {
+                "IP": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "192.168.1.100"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "客户端设置"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_client_set_timeout"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_client_on_data"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_client_on_error"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "异步读取"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_read_holding_registers",
+            "inputs": {
+                "ADDRESS": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                },
+                "COUNT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_read_input_registers",
+            "inputs": {
+                "ADDRESS": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                },
+                "COUNT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_read_coils",
+            "inputs": {
+                "ADDRESS": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                },
+                "COUNT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_read_discrete_inputs",
+            "inputs": {
+                "ADDRESS": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                },
+                "COUNT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "同步读取"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_sync_read_holding_registers",
+            "inputs": {
+                "ADDRESS": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_sync_read_input_register",
+            "inputs": {
+                "ADDRESS": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_sync_read_coil",
+            "inputs": {
+                "ADDRESS": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "写入操作"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_write_single_register",
+            "inputs": {
+                "ADDRESS": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                },
+                "VALUE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 100
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_write_single_coil",
+            "inputs": {
+                "ADDRESS": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                },
+                "VALUE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_write_multiple_registers",
+            "inputs": {
+                "ADDRESS": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "响应数据处理"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_response_get_uint16",
+            "inputs": {
+                "INDEX": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_response_get_float",
+            "inputs": {
+                "INDEX": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_response_server_id"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_response_function_code"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_response_length"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "错误处理"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_error_code"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_error_message"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "客户端状态"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_client_pending_requests"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_client_clear_queue"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "RTU服务器"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_rtu_server_create"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_rtu_server_begin"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "TCP服务器"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_tcp_server_create"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_tcp_server_begin"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "服务器功能"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_server_register_fc03"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_server_register_fc06"
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_server_add_response_data",
+            "inputs": {
+                "VALUE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "emodbus_server_set_error"
+        }
+    ]
+}

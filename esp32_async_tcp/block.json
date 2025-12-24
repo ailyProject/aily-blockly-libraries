@@ -1,0 +1,562 @@
+[
+  {
+    "type": "async_tcp_client_create",
+    "icon": "fa-light fa-network-wired",
+    "message0": "创建异步TCP客户端 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "tcpClient"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "创建一个新的异步TCP客户端对象"
+  },
+  {
+    "type": "async_tcp_client_connect",
+    "icon": "fa-light fa-network-wired",
+    "message0": "TCP客户端 %1 连接到 主机 %2 端口 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      },
+      {
+        "type": "input_value",
+        "name": "HOST",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "连接到指定的TCP服务器"
+  },
+  {
+    "type": "async_tcp_client_close",
+    "icon": "fa-light fa-network-wired",
+    "message0": "TCP客户端 %1 关闭连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "关闭TCP连接"
+  },
+  {
+    "type": "async_tcp_client_write",
+    "icon": "fa-light fa-network-wired",
+    "message0": "TCP客户端 %1 发送数据 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "通过TCP连接发送数据"
+  },
+  {
+    "type": "async_tcp_client_connected",
+    "icon": "fa-light fa-network-wired",
+    "message0": "TCP客户端 %1 已连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#2196F3",
+    "tooltip": "检查TCP客户端是否已连接"
+  },
+  {
+    "type": "async_tcp_client_connecting",
+    "icon": "fa-light fa-network-wired",
+    "message0": "TCP客户端 %1 正在连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#2196F3",
+    "tooltip": "检查TCP客户端是否正在连接"
+  },
+  {
+    "type": "async_tcp_client_space",
+    "icon": "fa-light fa-network-wired",
+    "message0": "TCP客户端 %1 可发送空间",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2196F3",
+    "tooltip": "获取TCP缓冲区可用空间大小"
+  },
+  {
+    "type": "async_tcp_client_can_send",
+    "icon": "fa-light fa-network-wired",
+    "message0": "TCP客户端 %1 可以发送",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#2196F3",
+    "tooltip": "检查是否可以发送数据（无待确认数据）"
+  },
+  {
+    "type": "async_tcp_client_set_no_delay",
+    "icon": "fa-light fa-network-wired",
+    "message0": "TCP客户端 %1 设置无延迟 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "NODELAY",
+        "checked": true
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置TCP无延迟模式（Nagle算法）"
+  },
+  {
+    "type": "async_tcp_client_set_rx_timeout",
+    "icon": "fa-light fa-network-wired",
+    "message0": "TCP客户端 %1 设置接收超时 %2 秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      },
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置接收数据超时时间（秒）"
+  },
+  {
+    "type": "async_tcp_client_remote_ip",
+    "icon": "fa-light fa-network-wired",
+    "message0": "TCP客户端 %1 远程IP地址",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      }
+    ],
+    "output": "String",
+    "colour": "#2196F3",
+    "tooltip": "获取远程主机的IP地址"
+  },
+  {
+    "type": "async_tcp_client_remote_port",
+    "icon": "fa-light fa-network-wired",
+    "message0": "TCP客户端 %1 远程端口",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2196F3",
+    "tooltip": "获取远程主机的端口号"
+  },
+  {
+    "type": "async_tcp_client_local_port",
+    "icon": "fa-light fa-network-wired",
+    "message0": "TCP客户端 %1 本地端口",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2196F3",
+    "tooltip": "获取本地端口号"
+  },
+  {
+    "type": "async_tcp_client_on_connect",
+    "icon": "fa-light fa-network-wired",
+    "message0": "当 TCP客户端 %1 连接成功时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#4CAF50",
+    "tooltip": "设置TCP连接成功时的回调处理"
+  },
+  {
+    "type": "async_tcp_client_on_disconnect",
+    "icon": "fa-light fa-network-wired",
+    "message0": "当 TCP客户端 %1 断开连接时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#4CAF50",
+    "tooltip": "设置TCP连接断开时的回调处理"
+  },
+  {
+    "type": "async_tcp_client_on_data",
+    "icon": "fa-light fa-network-wired",
+    "message0": "当 TCP客户端 %1 收到数据时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      }
+    ],
+    "message1": "数据存入 %1 长度存入 %2",
+    "args1": [
+      {
+        "type": "field_input",
+        "name": "DATA_VAR",
+        "text": "receivedData"
+      },
+      {
+        "type": "field_input",
+        "name": "LEN_VAR",
+        "text": "dataLength"
+      }
+    ],
+    "message2": "执行 %1",
+    "args2": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#4CAF50",
+    "tooltip": "设置TCP收到数据时的回调处理，数据和长度会存入指定变量"
+  },
+  {
+    "type": "async_tcp_client_on_error",
+    "icon": "fa-light fa-network-wired",
+    "message0": "当 TCP客户端 %1 发生错误时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      }
+    ],
+    "message1": "错误码存入 %1",
+    "args1": [
+      {
+        "type": "field_input",
+        "name": "ERROR_VAR",
+        "text": "errorCode"
+      }
+    ],
+    "message2": "执行 %1",
+    "args2": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#4CAF50",
+    "tooltip": "设置TCP发生错误时的回调处理"
+  },
+  {
+    "type": "async_tcp_client_on_ack",
+    "icon": "fa-light fa-network-wired",
+    "message0": "当 TCP客户端 %1 收到确认时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      }
+    ],
+    "message1": "确认长度存入 %1 耗时存入 %2 (毫秒)",
+    "args1": [
+      {
+        "type": "field_input",
+        "name": "LEN_VAR",
+        "text": "ackLength"
+      },
+      {
+        "type": "field_input",
+        "name": "TIME_VAR",
+        "text": "ackTime"
+      }
+    ],
+    "message2": "执行 %1",
+    "args2": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#4CAF50",
+    "tooltip": "设置TCP收到ACK确认时的回调处理"
+  },
+  {
+    "type": "async_tcp_client_on_timeout",
+    "icon": "fa-light fa-network-wired",
+    "message0": "当 TCP客户端 %1 超时时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpClient",
+        "variableTypes": ["AsyncClient"],
+        "defaultType": "AsyncClient"
+      }
+    ],
+    "message1": "超时时间存入 %1 (毫秒)",
+    "args1": [
+      {
+        "type": "field_input",
+        "name": "TIME_VAR",
+        "text": "timeoutMs"
+      }
+    ],
+    "message2": "执行 %1",
+    "args2": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#4CAF50",
+    "tooltip": "设置TCP超时时的回调处理"
+  },
+  {
+    "type": "async_tcp_client_error_to_string",
+    "icon": "fa-light fa-network-wired",
+    "message0": "TCP错误码 %1 转为文字",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ERROR",
+        "check": "Number"
+      }
+    ],
+    "output": "String",
+    "colour": "#2196F3",
+    "tooltip": "将TCP错误码转换为可读的错误描述"
+  },
+  {
+    "type": "async_tcp_server_create",
+    "icon": "fa-light fa-network-wired",
+    "message0": "创建异步TCP服务器 %1 端口 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "tcpServer"
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "创建一个新的异步TCP服务器"
+  },
+  {
+    "type": "async_tcp_server_begin",
+    "icon": "fa-light fa-network-wired",
+    "message0": "TCP服务器 %1 启动",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpServer",
+        "variableTypes": ["AsyncServer"],
+        "defaultType": "AsyncServer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "启动TCP服务器，开始监听连接"
+  },
+  {
+    "type": "async_tcp_server_end",
+    "icon": "fa-light fa-network-wired",
+    "message0": "TCP服务器 %1 停止",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpServer",
+        "variableTypes": ["AsyncServer"],
+        "defaultType": "AsyncServer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "停止TCP服务器"
+  },
+  {
+    "type": "async_tcp_server_set_no_delay",
+    "icon": "fa-light fa-network-wired",
+    "message0": "TCP服务器 %1 设置无延迟 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpServer",
+        "variableTypes": ["AsyncServer"],
+        "defaultType": "AsyncServer"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "NODELAY",
+        "checked": true
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置服务器的TCP无延迟模式"
+  },
+  {
+    "type": "async_tcp_server_on_client",
+    "icon": "fa-light fa-network-wired",
+    "message0": "当 TCP服务器 %1 有客户端连接时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tcpServer",
+        "variableTypes": ["AsyncServer"],
+        "defaultType": "AsyncServer"
+      }
+    ],
+    "message1": "客户端存入 %1",
+    "args1": [
+      {
+        "type": "field_input",
+        "name": "CLIENT_VAR",
+        "text": "newClient"
+      }
+    ],
+    "message2": "执行 %1",
+    "args2": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#4CAF50",
+    "tooltip": "设置有新客户端连接时的回调处理"
+  }
+]
