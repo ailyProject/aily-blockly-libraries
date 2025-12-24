@@ -1,12 +1,56 @@
 [
   {
+    "type": "lvgl_init",
+    "message0": "初始化 LVGL 使用显示驱动库 %1 屏幕分辨率 宽 %2 高 %3 旋转角度 %4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DRIVER",
+        "options": [
+          ["TFT_eSPI", "TFT_eSPI"],
+          ["LovyanGFX(待支持)", "LovyanGFX"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "HEIGHT",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ROTATION",
+        "options": [
+          ["0°", "LV_DISPLAY_ROTATION_0"],
+          ["90°", "LV_DISPLAY_ROTATION_90"],
+          ["180°", "LV_DISPLAY_ROTATION_180"],
+          ["270°", "LV_DISPLAY_ROTATION_270"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "初始化 LVGL 库",
+    "icon": "fa-light fa-mobile"
+  },
+  {
     "type": "lvgl_label_create",
     "message0": "创建标签 %1 父对象 %2",
     "args0": [
       {
         "type": "field_input",
         "name": "VAR",
-        "text": "label1"
+        "text": "label"
       },
       {
         "type": "field_variable",
@@ -31,7 +75,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "label1",
+        "variable": "label",
         "variableTypes": [
           "lv_obj_t"
         ],
@@ -58,7 +102,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "label1",
+        "variable": "label",
         "variableTypes": [
           "lv_obj_t"
         ],
@@ -104,7 +148,7 @@
       {
         "type": "field_input",
         "name": "VAR",
-        "text": "btn1"
+        "text": "btn"
       },
       {
         "type": "field_variable",
@@ -129,7 +173,7 @@
       {
         "type": "field_input",
         "name": "VAR",
-        "text": "slider1"
+        "text": "slider"
       },
       {
         "type": "field_variable",
@@ -154,7 +198,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "slider1",
+        "variable": "slider",
         "variableTypes": [
           "lv_obj_t"
         ],
@@ -195,7 +239,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "slider1",
+        "variable": "slider",
         "variableTypes": [
           "lv_obj_t"
         ],
@@ -229,7 +273,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "slider1",
+        "variable": "slider",
         "variableTypes": [
           "lv_obj_t"
         ],
@@ -273,7 +317,7 @@
       {
         "type": "field_input",
         "name": "VAR",
-        "text": "cb1"
+        "text": "cb"
       },
       {
         "type": "field_variable",
@@ -305,7 +349,7 @@
       {
         "type": "field_input",
         "name": "VAR",
-        "text": "bar1"
+        "text": "bar"
       },
       {
         "type": "field_variable",
@@ -330,7 +374,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "bar1",
+        "variable": "bar",
         "variableTypes": [
           "lv_obj_t"
         ],
@@ -371,7 +415,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "bar1",
+        "variable": "bar",
         "variableTypes": [
           "lv_obj_t"
         ],
@@ -405,7 +449,7 @@
       {
         "type": "field_input",
         "name": "VAR",
-        "text": "arc1"
+        "text": "arc"
       },
       {
         "type": "field_variable",
@@ -430,7 +474,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "arc1",
+        "variable": "arc",
         "variableTypes": [
           "lv_obj_t"
         ],
@@ -457,7 +501,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "arc1",
+        "variable": "arc",
         "variableTypes": [
           "lv_obj_t"
         ],
@@ -491,7 +535,7 @@
       {
         "type": "field_input",
         "name": "VAR",
-        "text": "spinner1"
+        "text": "spinner"
       },
       {
         "type": "field_variable",
@@ -516,7 +560,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "spinner1",
+        "variable": "spinner",
         "variableTypes": [
           "lv_obj_t"
         ],
@@ -550,7 +594,7 @@
       {
         "type": "field_input",
         "name": "VAR",
-        "text": "dropdown1"
+        "text": "dropdown"
       },
       {
         "type": "field_variable",
@@ -575,7 +619,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "dropdown1",
+        "variable": "dropdown",
         "variableTypes": [
           "lv_obj_t"
         ],
@@ -602,7 +646,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "dropdown1",
+        "variable": "dropdown",
         "variableTypes": [
           "lv_obj_t"
         ],
@@ -646,7 +690,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "textarea1",
+        "variable": "textarea",
         "variableTypes": [
           "lv_obj_t"
         ],
@@ -673,7 +717,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "textarea1",
+        "variable": "textarea",
         "variableTypes": [
           "lv_obj_t"
         ],
@@ -692,7 +736,7 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "textarea1",
+        "variable": "textarea",
         "variableTypes": [
           "lv_obj_t"
         ],
@@ -1434,7 +1478,7 @@
       {
         "type": "field_input",
         "name": "VAR",
-        "text": "screen1"
+        "text": "screen"
       }
     ],
     "previousStatement": null,

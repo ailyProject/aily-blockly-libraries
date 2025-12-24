@@ -3,6 +3,58 @@
  * 为LVGL图形库生成Arduino代码
  */
 
+if (!Arduino.lvgl) {
+  Arduino.lvgl = true;
+  Arduino.lvgl_type = '';
+}
+
+// 监听块删除事件（将监听器绑定到工作区实例，避免重载/热替换时重复添加）
+if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
+  // 延迟添加监听器,确保工作区已初始化
+  setTimeout(() => {
+    const workspace = Blockly.getMainWorkspace();
+    if (!workspace) return;
+
+    // 如果工作区上已标记为添加过监听器则跳过（工作区作用域）
+    if (workspace._lvglDeleteListenerAdded) return;
+
+    const deleteListener = function(event) {
+      if (event.type === Blockly.Events.BLOCK_DELETE) {
+        if (event.oldJson && event.oldJson.type == 'lvgl_init') {
+          console.log('delete LVGL macro');
+          if (Arduino.lvgl_type === 'TFT_eSPI' && window['projectService']) {
+            window['projectService'].removeMacro('LV_USE_TFT_ESPI')
+              .then(() => console.log('LVGL macro removed'))
+              .catch(err => console.error('Failed to remove LVGL macro:', err));
+            Arduino.lvgl_type = '';
+          }
+        }
+      }
+    };
+
+    workspace.addChangeListener(deleteListener);
+    workspace._lvglDeleteListenerAdded = true;
+    workspace._lvglDeleteListener = deleteListener;
+
+    // 在工作区被销毁时移除监听器并清理标志（防止残留）
+    // 该操作会覆盖 workspace.dispose，保留原有实现并在其中移除监听器
+    if (typeof workspace.dispose === 'function') {
+      const _origDispose = workspace.dispose.bind(workspace);
+      workspace.dispose = function() {
+        try {
+          if (workspace._lvglDeleteListener) {
+            workspace.removeChangeListener(workspace._lvglDeleteListener);
+            workspace._lvglDeleteListener = null;
+          }
+        } catch (e) {
+          // 忽略错误
+        }
+        workspace._lvglDeleteListenerAdded = false;
+        _origDispose();
+      };
+    }
+  }, 100);
+}
 // ==================== 辅助函数 ====================
 
 /**
@@ -25,6 +77,41 @@ function colorToLvgl(color) {
 }
 
 // ==================== 标签控件 ====================
+Arduino.forBlock['lvgl_init'] = function(block, generator) {
+  ensureLvglLib(generator);
+  // generator.addSetup('lv_init', 'lv_init();');
+  // generator.addSetup('lv_tick_set_cb', 'lv_tick_set_cb(millis);\n');
+  const driver = block.getFieldValue('DRIVER') || 'TFT_eSPI';
+  const width = generator.valueToCode(block, 'WIDTH', generator.ORDER_ATOMIC) || '240';
+  const height = generator.valueToCode(block, 'HEIGHT', generator.ORDER_ATOMIC) || '240';
+  const rotation = block.getFieldValue('ROTATION') || '0';
+
+  if (Arduino.lvgl_type !== driver) {
+    Arduino.lvgl_type = driver;
+    console.log('selected LVGL driver:', driver);
+    
+    if (window['projectService'] && driver === 'TFT_eSPI') {
+      window['projectService'].addMacro('LV_USE_TFT_ESPI=1')
+        .then(() => console.log('LVGL macro added'))
+        .catch(err => console.error('Failed to add LVGL macro:', err));
+    }
+  }
+
+  let setupCode = '';
+  setupCode += 'lv_init();\n';
+  setupCode += 'lv_tick_set_cb(millis);\n';
+  setupCode += 'static uint32_t draw_buf[' + width + ' * ' + height + ' / 10 * (LV_COLOR_DEPTH / 8) / 4];\n';
+
+  if (driver === 'TFT_eSPI') {
+    setupCode += 'lv_display_t * disp;\n';
+    setupCode += 'disp = lv_tft_espi_create(' + width +', ' + height + ', draw_buf, sizeof(draw_buf));\n';
+    setupCode += 'lv_display_set_rotation(disp, ' + rotation + ');\n';
+  }
+
+  generator.addLoopBegin('lv_task_handler', 'lv_task_handler();');
+
+  return setupCode;
+};
 
 Arduino.forBlock['lvgl_label_create'] = function(block, generator) {
   // 变量重命名监听
@@ -54,6 +141,7 @@ Arduino.forBlock['lvgl_label_create'] = function(block, generator) {
   generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
   return varName + ' = lv_label_create(' + parent + ');\n';
+  // return varName + ' = lv_label_create(lv_screen_active());\n';
 };
 
 Arduino.forBlock['lvgl_label_set_text'] = function(block, generator) {
