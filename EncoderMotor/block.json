@@ -1,111 +1,112 @@
 [
   {
-    "type": "encoder_config",
-    "message0": "配置编码电机参数 脉冲数/转 %1 减速比 %2",
+    "type": "encoder_motor_create",
+    "message0": "创建编码电机 %1 电机引脚A %2 B %3 编码器引脚A %4 B %5 PPR%6 减速比%7 相位关系 %8",
     "args0": [
       {
-        "type": "input_value",
-        "name": "PPR",
-        "check": "Number"
+        "type": "field_input",
+        "name": "VAR",
+        "text": "motor1"
       },
       {
         "type": "input_value",
-        "name": "REDUCTION",
+        "name": "POS_PIN"
+      },
+      {
+        "type": "input_value",
+        "name": "NEG_PIN"
+      },
+      {
+        "type": "input_value",
+        "name": "A_PIN"
+      },
+      {
+        "type": "input_value",
+        "name": "B_PIN"
+      },
+      {
+        "type": "input_value",
+        "name": "PPR"
+      },
+      {
+        "type": "input_value",
+        "name": "REDUCTION"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PHASE",
+        "options": [
+          ["A相领先", "em::EncoderMotor::kAPhaseLeads"],
+          ["B相领先", "em::EncoderMotor::kBPhaseLeads"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979D",
+    "tooltip": "创建编码电机对象，配置电机和编码器引脚、PPR、减速比"
+  },
+  {
+    "type": "encoder_motor_set_pid",
+    "message0": "设置编码电机 %1 PID参数 P%2 I%3 D%4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor1",
+        "variableTypes": ["EncoderMotor"],
+        "defaultType": "EncoderMotor"
+      },
+      {
+        "type": "input_value",
+        "name": "P"
+      },
+      {
+        "type": "input_value",
+        "name": "I"
+      },
+      {
+        "type": "input_value",
+        "name": "D"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979D",
+    "tooltip": "设置速度环PID控制器参数"
+  },
+  {
+    "type": "encoder_motor_run_pwm",
+    "message0": "编码电机 %1 以动力 %2 运转(-1023~1023)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor1",
+        "variableTypes": ["EncoderMotor"],
+        "defaultType": "EncoderMotor"
+      },
+      {
+        "type": "input_value",
+        "name": "PWM",
         "check": "Number"
       }
     ],
-    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#00BCD4",
-    "tooltip": "配置编码电机的脉冲数和减速比参数（必须在setup最前面使用）。默认：PPR=3, 减速比=48"
+    "colour": "#00979D",
+    "tooltip": "直接设置PWM占空比驱动电机，范围-1023到1023，负值反转"
   },
   {
-    "type": "encoder_setpin",
-    "message0": "配置编码电机%1 正极 %2 负极 %3 编码器A相 %4 编码器B相 %5",
+    "type": "encoder_motor_run_speed",
+    "message0": "编码电机 %1 以速度 %2 RPM运转(-300~300)",
     "args0": [
       {
-        "type": "field_dropdown",
-        "name": "MOTOR_ID",
-        "options": [
-          ["EMR", "0"],
-          ["EML", "1"]
-        ]
-      },
-      {
-        "type": "input_value",
-        "name": "PIN_POSITIVE",
-        "options": "${board.digitalPins}"
-      },
-      {
-        "type": "input_value",
-        "name": "PIN_NEGATIVE",
-        "options": "${board.digitalPins}"
-      },
-      {
-        "type": "input_value",
-        "name": "PIN_ENCODER_A",
-        "options": "${board.digitalPins}"
-      },
-      {
-        "type": "input_value",
-        "name": "PIN_ENCODER_B",
-        "options": "${board.digitalPins}"
-      }
-    ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#00BCD4",
-    "tooltip": "配置编码电机的引脚参数（必须在setup最前面使用）。"
-  },
-  {
-    "type": "encoder_set_pid",
-    "message0": "设置编码电机 %1 PID参数 P %2 I %3 D %4",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "MOTOR_ID",
-        "options": [
-          ["EMR", "0"],
-          ["EML", "1"],
-          ["全部", "-1"]
-        ]
-      },
-      {
-        "type": "input_value",
-        "name": "P",
-        "check": "Number"
-      },
-      {
-        "type": "input_value",
-        "name": "I",
-        "check": "Number"
-      },
-      {
-        "type": "input_value",
-        "name": "D",
-        "check": "Number"
-      }
-    ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#00BCD4",
-    "tooltip": "设置编码电机速度PID控制器参数"
-  },
-  {
-    "type": "encoder_run_speed",
-    "message0": "编码电机 %1 以速度 %2 RPM转动(-500~500)",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "MOTOR_ID",
-        "options": [
-          ["EMR", "0"],
-          ["EML", "1"],
-          ["全部", "-1"]
-        ]
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor1",
+        "variableTypes": ["EncoderMotor"],
+        "defaultType": "EncoderMotor"
       },
       {
         "type": "input_value",
@@ -113,106 +114,74 @@
         "check": "Number"
       }
     ],
-    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#00BCD4",
-    "tooltip": "编码电机速度闭环控制(使用PID)，范围-500到500，死区±10RPM"
+    "colour": "#00979D",
+    "tooltip": "使用速度环控制电机转速，范围-300到300RPM，负值反转"
   },
   {
-    "type": "encoder_run_pwm",
-    "message0": "编码电机 %1 以动力 %2 转动(-100~100)",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "MOTOR_ID",
-        "options": [
-          ["EMR", "0"],
-          ["EML", "1"],
-          ["全部", "-1"]
-        ]
-      },
-      {
-        "type": "input_value",
-        "name": "DUTY",
-        "check": "Number"
-      }
-    ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#00BCD4",
-    "tooltip": "编码电机PWM开环控制(-100到100)"
-  },
-  {
-    "type": "encoder_stop",
+    "type": "encoder_motor_stop",
     "message0": "停止编码电机 %1",
     "args0": [
       {
-        "type": "field_dropdown",
-        "name": "MOTOR_ID",
-        "options": [
-          ["EMR", "0"],
-          ["EML", "1"],
-          ["全部", "-1"]
-        ]
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor1",
+        "variableTypes": ["EncoderMotor"],
+        "defaultType": "EncoderMotor"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#00BCD4",
-    "tooltip": "停止编码电机"
+    "colour": "#00979D",
+    "tooltip": "停止电机运行"
   },
   {
-    "type": "encoder_get_degree",
-    "message0": "编码电机 %1 转过的角度(度)",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "MOTOR_ID",
-        "options": [
-          ["EMR", "0"],
-          ["EML", "1"]
-        ]
-      }
-    ],
-    "output": "Number",
-    "colour": "#00BCD4",
-    "tooltip": "获取编码电机转过的角度"
-  },
-  {
-    "type": "encoder_reset_degree",
-    "message0": "重置编码电机 %1 转过的角度",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "MOTOR_ID",
-        "options": [
-          ["EMR", "0"],
-          ["EML", "1"]
-        ]
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#00BCD4",
-    "tooltip": "重置编码电机角度计数"
-  },
-  {
-    "type": "encoder_get_speed",
+    "type": "encoder_motor_get_speed",
     "message0": "编码电机 %1 当前转速(RPM)",
     "args0": [
       {
-        "type": "field_dropdown",
-        "name": "MOTOR_ID",
-        "options": [
-          ["EMR", "0"],
-          ["EML", "1"]
-        ]
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor1",
+        "variableTypes": ["EncoderMotor"],
+        "defaultType": "EncoderMotor"
       }
     ],
     "output": "Number",
-    "colour": "#00BCD4",
-    "tooltip": "获取编码电机当前转速"
+    "colour": "#00979D",
+    "tooltip": "获取电机当前转速"
+  },
+  {
+    "type": "encoder_motor_get_pwm",
+    "message0": "编码电机 %1 当前PWM占空比",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor1",
+        "variableTypes": ["EncoderMotor"],
+        "defaultType": "EncoderMotor"
+      }
+    ],
+    "output": "Number",
+    "colour": "#00979D",
+    "tooltip": "获取电机当前PWM占空比"
+  },
+  {
+    "type": "encoder_motor_get_pulse",
+    "message0": "编码电机 %1 编码脉冲计数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor1",
+        "variableTypes": ["EncoderMotor"],
+        "defaultType": "EncoderMotor"
+      }
+    ],
+    "output": "Number",
+    "colour": "#00979D",
+    "tooltip": "获取编码器脉冲计数"
   }
 ]

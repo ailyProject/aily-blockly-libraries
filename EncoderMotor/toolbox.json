@@ -1,16 +1,53 @@
 {
   "kind": "category",
   "name": "编码电机",
+  "colour": "#00979D",
   "contents": [
     {
+      "kind": "label",
+      "text": "电机配置"
+    },
+    {
       "kind": "block",
-      "type": "encoder_config",
+      "type": "encoder_motor_create",
       "inputs": {
+        "POS_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "27"
+            }
+          }
+        },
+        "NEG_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "13"
+            }
+          }
+        },
+        "A_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "18"
+            }
+          }
+        },
+        "B_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "19"
+            }
+          }
+        },
         "PPR": {
           "shadow": {
             "type": "math_number",
             "fields": {
-              "NUM": 3
+              "NUM": "12"
             }
           }
         },
@@ -18,7 +55,7 @@
           "shadow": {
             "type": "math_number",
             "fields": {
-              "NUM": 48
+              "NUM": "90"
             }
           }
         }
@@ -26,57 +63,13 @@
     },
     {
       "kind": "block",
-      "type": "encoder_setpin",
-      "fields": {
-        "MOTOR_ID": 0
-      },
-      "inputs": {
-        "PIN_POSITIVE": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 12
-            }
-          }
-        },
-        "PIN_NEGATIVE": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 14
-            }
-          }
-        },
-        "PIN_ENCODER_A": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 35
-            }
-          }
-        },
-        "PIN_ENCODER_B": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 36
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "encoder_set_pid",
-      "fields": {
-        "MOTOR_ID": "0"
-      },
+      "type": "encoder_motor_set_pid",
       "inputs": {
         "P": {
           "shadow": {
             "type": "math_number",
             "fields": {
-              "NUM": 5
+              "NUM": "3.0"
             }
           }
         },
@@ -84,7 +77,7 @@
           "shadow": {
             "type": "math_number",
             "fields": {
-              "NUM": 2
+              "NUM": "1.0"
             }
           }
         },
@@ -92,7 +85,28 @@
           "shadow": {
             "type": "math_number",
             "fields": {
-              "NUM": 1
+              "NUM": "1.0"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "separator"
+    },
+    {
+      "kind": "label",
+      "text": "电机控制"
+    },
+    {
+      "kind": "block",
+      "type": "encoder_motor_run_pwm",
+      "inputs": {
+        "PWM": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "500"
             }
           }
         }
@@ -100,16 +114,13 @@
     },
     {
       "kind": "block",
-      "type": "encoder_run_speed",
-      "fields": {
-        "MOTOR_ID": "0"
-      },
+      "type": "encoder_motor_run_speed",
       "inputs": {
         "SPEED": {
           "shadow": {
             "type": "math_number",
             "fields": {
-              "NUM": 100
+              "NUM": "100"
             }
           }
         }
@@ -117,48 +128,26 @@
     },
     {
       "kind": "block",
-      "type": "encoder_run_pwm",
-      "fields": {
-        "MOTOR_ID": "0"
-      },
-      "inputs": {
-        "DUTY": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 50
-            }
-          }
-        }
-      }
+      "type": "encoder_motor_stop"
+    },
+    {
+      "kind": "separator"
+    },
+    {
+      "kind": "label",
+      "text": "状态查询"
     },
     {
       "kind": "block",
-      "type": "encoder_stop",
-      "fields": {
-        "MOTOR_ID": "-1"
-      }
+      "type": "encoder_motor_get_speed"
     },
     {
       "kind": "block",
-      "type": "encoder_get_degree",
-      "fields": {
-        "MOTOR_ID": "0"
-      }
+      "type": "encoder_motor_get_pwm"
     },
     {
       "kind": "block",
-      "type": "encoder_reset_degree",
-      "fields": {
-        "MOTOR_ID": "0"
-      }
-    },
-    {
-      "kind": "block",
-      "type": "encoder_get_speed",
-      "fields": {
-        "MOTOR_ID": "0"
-      }
+      "type": "encoder_motor_get_pulse"
     }
   ]
 }
