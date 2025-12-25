@@ -1,18 +1,60 @@
 // 统一的TFT屏幕相关 Generator.js 合并文件
 
+// 获取板卡配置
+function getBoardConfig() {
+  return typeof window !== 'undefined' && window['boardConfig'] ? window['boardConfig'] : null;
+}
+
+// 检测是否为ESP32核心
+function isESP32Core() {
+  const boardConfig = getBoardConfig();
+  return boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1;
+}
+
+// 检测是否为AVR核心
+function isAVRCore() {
+  const boardConfig = getBoardConfig();
+  return boardConfig && boardConfig.core && boardConfig.core.indexOf('avr') > -1;
+}
+
 // 初始化、对象定义部分，兼容ST7735/ST7789/ST7796S/自定义
 Arduino.forBlock['tft_init'] = function(block, generator) {
   var model = block.getFieldValue('MODEL'); // ST7735、ST7789或ST7796S
   
-  // 从用户输入获取引脚配置，使用与Adafruit_st7789.ino匹配的默认值
-  var cs = generator.valueToCode(block, 'CS', generator.ORDER_ATOMIC) || '34';
-  var dc = generator.valueToCode(block, 'DC', generator.ORDER_ATOMIC) || '35';
-  var mosi = generator.valueToCode(block, 'MOSI', generator.ORDER_ATOMIC) || '37';
-  var sclk = generator.valueToCode(block, 'SCLK', generator.ORDER_ATOMIC) || '36';
-  var rst = generator.valueToCode(block, 'RST', generator.ORDER_ATOMIC) || '-1';
+  // 获取板卡配置以设置默认引脚值
+  const boardConfig = getBoardConfig();
+  var defaultCS = '34', defaultDC = '35', defaultMOSI = '37', defaultSCLK = '36', defaultRST = '-1', defaultBLK = '33';
+  
+  // 根据板卡类型调整默认引脚值
+  if (boardConfig) {
+    if (isESP32Core()) {
+      // ESP32默认引脚配置
+      defaultCS = '5';
+      defaultDC = '2';
+      defaultMOSI = '23';
+      defaultSCLK = '18';
+      defaultRST = '4';
+      defaultBLK = '22';
+    } else if (isAVRCore()) {
+      // AVR (如Arduino Uno) 默认引脚配置
+      defaultCS = '10';
+      defaultDC = '9';
+      defaultMOSI = '11';
+      defaultSCLK = '13';
+      defaultRST = '8';
+      defaultBLK = '7';
+    }
+  }
+  
+  // 从用户输入获取引脚配置，使用板卡适配的默认值
+  var cs = generator.valueToCode(block, 'CS', generator.ORDER_ATOMIC) || defaultCS;
+  var dc = generator.valueToCode(block, 'DC', generator.ORDER_ATOMIC) || defaultDC;
+  var mosi = generator.valueToCode(block, 'MOSI', generator.ORDER_ATOMIC) || defaultMOSI;
+  var sclk = generator.valueToCode(block, 'SCLK', generator.ORDER_ATOMIC) || defaultSCLK;
+  var rst = generator.valueToCode(block, 'RST', generator.ORDER_ATOMIC) || defaultRST;
   
   // 获取背光引脚配置（新增）
-  var blk = generator.valueToCode(block, 'BLK', generator.ORDER_ATOMIC) || '33';
+  var blk = generator.valueToCode(block, 'BLK', generator.ORDER_ATOMIC) || defaultBLK;
   
   // 获取屏幕尺寸参数，使用与Adafruit_st7789.ino匹配的默认值
   var width = generator.valueToCode(block, 'WIDTH', generator.ORDER_ATOMIC) || '172';
@@ -45,7 +87,7 @@ Arduino.forBlock['tft_init'] = function(block, generator) {
     generator.addSetupBegin('tft_debug', 'Serial.begin(115200);\n  Serial.println("Initializing ST7789 display...");');
     
     // ST7789初始化序列
-    generator.addSetupBegin('tft_init', 'tft.init('+width+', '+height+');\n  tft.setRotation(3);\n  Serial.println("ST7789 initialized successfully!");\n  \n  // 测试显示\n  tft.fillScreen(ST77XX_BLACK);\n  tft.fillScreen(ST77XX_RED);\n  delay(500);\n  tft.fillScreen(ST77XX_GREEN);\n  delay(500);\n  tft.fillScreen(ST77XX_BLUE);\n  delay(500);\n  tft.fillScreen(ST77XX_BLACK);');
+    generator.addSetupBegin('tft_init', 'tft.init('+width+', '+height+');\n  tft.setRotation(3);\n  Serial.println("ST7789 initialized successfully!");');
     
   } else { // 默认为ST7735
     generator.addLibrary('Adafruit_ST7735', '#include <Adafruit_ST7735.h>');
@@ -289,6 +331,21 @@ Arduino.forBlock['tft_create_canvas16'] = function(block, generator) {
   var h = generator.valueToCode(block, 'HEIGHT', Arduino.ORDER_ATOMIC) || '10';
   generator.addLibrary('Adafruit_GFX', '#include <Adafruit_GFX.h>');
   generator.addVariable(name, 'GFXcanvas16 ' + name + '(' + w + ', ' + h + ');');
+  registerVariableToBlockly(name, 'GFXcanvas16');
+  
+  var varField = block.getField('NAME');
+  if (varField && typeof varField.setValidator === 'function') {
+    varField.setValidator(function(newName) {
+      const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+      const oldName = block._canvas16VarLastName;
+      if (workspace && newName && newName !== oldName) {
+        renameVariableInBlockly(block, oldName, newName, 'GFXcanvas16');
+        block._canvas16VarLastName = newName;
+      }
+      return newName;
+    });
+  }
+  
   return '';
 };
 
@@ -298,6 +355,21 @@ Arduino.forBlock['tft_create_canvas1'] = function(block, generator) {
   var h = generator.valueToCode(block, 'HEIGHT', Arduino.ORDER_ATOMIC) || '10';
   generator.addLibrary('Adafruit_GFX', '#include <Adafruit_GFX.h>');
   generator.addVariable(name, 'GFXcanvas1 ' + name + '(' + w + ', ' + h + ');');
+  registerVariableToBlockly(name, 'GFXcanvas1');
+  
+  var varField = block.getField('NAME');
+  if (varField && typeof varField.setValidator === 'function') {
+    varField.setValidator(function(newName) {
+      const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+      const oldName = block._canvas1VarLastName;
+      if (workspace && newName && newName !== oldName) {
+        renameVariableInBlockly(block, oldName, newName, 'GFXcanvas1');
+        block._canvas1VarLastName = newName;
+      }
+      return newName;
+    });
+  }
+  
   return '';
 };
 
@@ -386,12 +458,12 @@ const uint16_t ${bitmapVarName}_height = ${height};`;
 Arduino.forBlock['tft_image_file'] = function(block, generator) {
   // 获取图片预览字段的值和坐标
   const imagePreview = block.getFieldValue('IMAGE_PREVIEW');
-  const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC) || '0';
-  const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC) || '0';
+  const x = block.getFieldValue('X') || '0';
+  const y = block.getFieldValue('Y') || '0';
 
   // 获取尺寸输入值，如果没有则使用图片预览字段中的尺寸
-  let width = generator.valueToCode(block, 'WIDTH', Arduino.ORDER_ATOMIC);
-  let height = generator.valueToCode(block, 'HEIGHT', Arduino.ORDER_ATOMIC);
+  let width = block.getFieldValue('WIDTH');
+  let height = block.getFieldValue('HEIGHT');
 
   // 解析图片预览字段的值
   let filePath = '';
@@ -1100,3 +1172,44 @@ void tft_draw_url_image(String imageUrl, int x, int y, int maxWidth, int maxHeig
 
   return `tft_draw_url_image(${url}, ${x}, ${y}, ${width}, ${height});\n`;
 };
+
+function registerVariableToBlockly(varName, varType) {
+  if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
+    const workspace = Blockly.getMainWorkspace();
+    if (workspace && workspace.createVariable) {
+      const existingVar = workspace.getVariable(varName, varType);
+      if (!existingVar) {
+        workspace.createVariable(varName, varType);
+      }
+    }
+  }
+}
+
+function renameVariableInBlockly(block, oldName, newName, varType) {
+  if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
+    const workspace = block.workspace || Blockly.getMainWorkspace();
+    if (workspace && workspace.renameVariableById) {
+      const variable = workspace.getVariable(oldName, varType);
+      if (variable) {
+        workspace.renameVariableById(variable.getId(), newName);
+      }
+    }
+  }
+}
+
+if (typeof Blockly !== 'undefined' && Blockly.FieldVariable) {
+  const originalValidator = Blockly.FieldVariable.prototype.validator;
+  Blockly.FieldVariable.prototype.validator = function(newValue) {
+    const oldValue = this.getValue();
+    const result = originalValidator.call(this, newValue);
+    if (result !== null && oldValue !== result && this.sourceBlock_) {
+      const block = this.sourceBlock_;
+      const varType = block.type === 'tft_create_canvas16' ? 'GFXcanvas16' : 
+                     block.type === 'tft_create_canvas1' ? 'GFXcanvas1' : '';
+      if (varType) {
+        renameVariableInBlockly(block, oldValue, result, varType);
+      }
+    }
+    return result;
+  };
+}
