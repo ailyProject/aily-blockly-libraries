@@ -1,0 +1,215 @@
+[
+  {
+    "type": "chsc6x_setup",
+    "message0": "创建触摸屏 %1 使用I2C %2 地址 %3 中断引脚 %4 宽度 %5 高度 %6 旋转 %7",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "touch"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "PIN"
+      },
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "HEIGHT",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ROTATION",
+        "options": [
+          ["0度","0"],
+          ["90度","1"],
+          ["180度","2"],
+          ["270度","3"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "icon": "fa-light fa-hand-point-up",
+    "tooltip": "创建并初始化CHSC6X触摸屏对象"
+  },
+  {
+    "type": "chsc6x_is_pressed",
+    "message0": "触摸屏 %1 被触摸",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "touch",
+        "variableTypes": ["CHSC6X"],
+        "defaultType": "CHSC6X"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF5722",
+    "icon": "fa-light fa-hand-point-up",
+    "tooltip": "检测触摸屏是否被触摸"
+  },
+  {
+    "type": "chsc6x_get_x",
+    "message0": "触摸屏 %1 的X坐标",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "touch",
+        "variableTypes": ["CHSC6X"],
+        "defaultType": "CHSC6X"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF5722",
+    "icon": "fa-light fa-hand-point-up",
+    "tooltip": "获取触摸点的X坐标"
+  },
+  {
+    "type": "chsc6x_get_y",
+    "message0": "触摸屏 %1 的Y坐标",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "touch",
+        "variableTypes": ["CHSC6X"],
+        "defaultType": "CHSC6X"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF5722",
+    "icon": "fa-light fa-hand-point-up",
+    "tooltip": "获取触摸点的Y坐标"
+  },
+  {
+    "type": "chsc6x_get_xy",
+    "message0": "触摸屏 %1 获取坐标到 X %2 Y %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "touch",
+        "variableTypes": ["CHSC6X"],
+        "defaultType": "CHSC6X"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": ["Number"]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF5722",
+    "icon": "fa-light fa-hand-point-up",
+    "tooltip": "获取触摸坐标到指定变量"
+  },
+  {
+    "type": "chsc6x_set_rotation",
+    "message0": "触摸屏 %1 设置旋转为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "touch",
+        "variableTypes": ["CHSC6X"],
+        "defaultType": "CHSC6X"
+      },
+      {
+        "type": "input_value",
+        "name": "ROTATION",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "icon": "fa-light fa-hand-point-up",
+    "tooltip": "设置触摸屏旋转角度(0-3)"
+  },
+  {
+    "type": "chsc6x_get_rotation",
+    "message0": "触摸屏 %1 的旋转角度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "touch",
+        "variableTypes": ["CHSC6X"],
+        "defaultType": "CHSC6X"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF5722",
+    "icon": "fa-light fa-hand-point-up",
+    "tooltip": "获取当前旋转角度(0-3)"
+  },
+  {
+    "type": "chsc6x_set_screen_size",
+    "message0": "触摸屏 %1 设置屏幕大小 宽 %2 高 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "touch",
+        "variableTypes": ["CHSC6X"],
+        "defaultType": "CHSC6X"
+      },
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "HEIGHT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "icon": "fa-light fa-hand-point-up",
+    "tooltip": "设置触摸屏尺寸"
+  },
+  {
+    "type": "chsc6x_run",
+    "message0": "触摸屏 %1 运行检测",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "touch",
+        "variableTypes": ["CHSC6X"],
+        "defaultType": "CHSC6X"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF5722",
+    "icon": "fa-light fa-hand-point-up",
+    "tooltip": "运行触摸检测并更新内部坐标"
+  }
+]

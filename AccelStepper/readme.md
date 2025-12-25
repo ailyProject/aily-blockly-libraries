@@ -1,110 +1,168 @@
-# AccelStepper库 - Blockly封装
+# AccelStepper
 
-## 概述
+高性能步进电机控制库，支持加减速和多电机同步控制
 
-AccelStepper是一个功能强大的Arduino步进电机控制库，支持加速度和减速度控制。这个Blockly封装库将AccelStepper的主要功能转换为可视化编程块，让用户可以通过拖拽的方式轻松控制步进电机。
+## 库信息
+- **库名**: @aily-project/lib-accelstepper
+- **版本**: 1.0.0
+- **兼容**: Arduino全系列, ESP32, ESP8266
 
-## 主要特性
+## 块定义
 
-- **多种步进电机接口**：支持2线、3线、4线步进电机以及步进电机驱动器
-- **加速度控制**：支持设置最大速度、加速度和恒定速度运行
-- **位置控制**：支持绝对位置和相对位置移动
-- **状态查询**：可查询当前位置、目标位置、运行状态等
-- **非阻塞运行**：支持非阻塞式运行，不影响其他程序执行
+| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
+|--------|------|----------|----------|----------|
+| `accelstepper_setup` | 语句块 | VAR(field_input), INTERFACE(field_dropdown), PIN1(input) | `"VAR":"stepper","INTERFACE":"4"` | `stepper = AccelStepper(4, pin1, pin2, pin3, pin4);` |
+| `accelstepper_setup_driver` | 语句块 | VAR(field_input), PIN_STEP(input), PIN_DIR(input) | `"VAR":"stepper"` | `stepper = AccelStepper(AccelStepper::DRIVER, stepPin, dirPin);` |
+| `accelstepper_move_to` | 语句块 | VAR(field_variable), POSITION(input) | `"VAR":{"id":"var_id"}` | `stepper.moveTo(position);` |
+| `accelstepper_move` | 语句块 | VAR(field_variable), STEPS(input) | `"VAR":{"id":"var_id"}` | `stepper.move(steps);` |
+| `accelstepper_run` | 语句块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `stepper.run();` |
+| `accelstepper_run_speed` | 语句块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `stepper.runSpeed();` |
+| `accelstepper_stop` | 语句块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `stepper.stop();` |
+| `accelstepper_set_max_speed` | 语句块 | VAR(field_variable), SPEED(input) | `"VAR":{"id":"var_id"}` | `stepper.setMaxSpeed(speed);` |
+| `accelstepper_set_speed` | 语句块 | VAR(field_variable), SPEED(input) | `"VAR":{"id":"var_id"}` | `stepper.setSpeed(speed);` |
+| `accelstepper_get_speed` | 值块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `stepper.speed()` |
+| `accelstepper_set_acceleration` | 语句块 | VAR(field_variable), ACCEL(input) | `"VAR":{"id":"var_id"}` | `stepper.setAcceleration(accel);` |
+| `accelstepper_get_current_position` | 值块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `stepper.currentPosition()` |
+| `accelstepper_set_current_position` | 语句块 | VAR(field_variable), POSITION(input) | `"VAR":{"id":"var_id"}` | `stepper.setCurrentPosition(position);` |
+| `accelstepper_distance_to_go` | 值块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `stepper.distanceToGo()` |
+| `accelstepper_is_running` | 值块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `stepper.isRunning()` |
+| `accelstepper_enable_outputs` | 语句块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `stepper.enableOutputs();` |
+| `accelstepper_disable_outputs` | 语句块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `stepper.disableOutputs();` |
+| `accelstepper_run_to_position` | 语句块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `stepper.runToPosition();` |
+| `accelstepper_run_to_new_position` | 语句块 | VAR(field_variable), POSITION(input) | `"VAR":{"id":"var_id"}` | `stepper.runToNewPosition(position);` |
+| `accelstepper_run_speed_to_position` | 语句块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `stepper.runSpeedToPosition();` |
+| `accelstepper_set_enable_pin` | 语句块 | VAR(field_variable), PIN(input) | `"VAR":{"id":"var_id"}` | `stepper.setEnablePin(pin);` |
+| `multistepper_create` | 语句块 | VAR(field_input) | `"VAR":"steppers"` | `steppers = MultiStepper();` |
+| `multistepper_add_stepper` | 语句块 | STEPPER(field_variable), VAR(field_variable) | `"VAR":"steppers"` | `steppers.addStepper(stepper);` |
+| `multistepper_move_to` | 语句块 | VAR(field_variable), POSITIONS(input) | `"VAR":"steppers"` | `steppers.moveTo(positions);` |
+| `multistepper_positions_array` | 值块 | INPUT0(input), extraState | `"extraState":{"extraCount":1},"inputs":{"INPUT0":{"block":{},"INPUT1":{"block":{}}}}` | `{pos1, pos2, pos3, pos4}` |
+| `multistepper_run` | 语句块 | VAR(field_variable) | `"VAR":"steppers"` | `steppers.run();` |
+| `multistepper_run_speed_to_position` | 语句块 | VAR(field_variable) | `"VAR":"steppers"` | `steppers.runSpeedToPosition();` |
 
-## 支持的步进电机类型
+## 字段类型映射
 
-### 接口类型
-1. **4线全步进** (FULL4WIRE) - 最常见的4线步进电机
-2. **2线步进驱动器** (DRIVER) - 使用步进电机驱动器，只需要步进和方向信号
-3. **2线全步进** (FULL2WIRE) - 双极性2线步进电机
-4. **3线全步进** (FULL3WIRE) - 如硬盘主轴电机等3线步进电机
-5. **4线半步进** (HALF4WIRE) - 4线半步进模式，提供更精确的控制
-6. **3线半步进** (HALF3WIRE) - 3线半步进模式
+| 类型 | .abi格式 | 示例 |
+|------|----------|------|
+| field_input | 字符串 | `"VAR": "stepper"` |
+| field_dropdown | 字符串 | `"INTERFACE": "4"` |
+| field_variable | 对象 | `"VAR": {"id": "var_id"}` |
+| input_value | 块连接 | `"inputs": {"POSITION": {"block": {...}}}` |
 
-## 功能块说明
+## 连接规则
 
-### 初始化和配置
-- **初始化步进电机**：设置步进电机类型和引脚连接
-- **设置最大速度**：设置步进电机的最大运行速度（步/秒）
-- **设置加速度**：设置加速和减速度（步/秒²）
-- **设置速度**：设置恒定速度运行的速度值
-
-### 运动控制
-- **移动到绝对位置**：设置目标绝对位置
-- **相对移动**：相对于当前位置移动指定步数
-- **运行电机（带加速度）**：以设定的加速度运行到目标位置
-- **运行电机（恒定速度）**：以恒定速度运行
-- **运行到目标位置**：阻塞式运行到目标位置
-- **运行到新位置**：设置新目标位置并阻塞式运行
-
-### 控制和查询
-- **停止电机**：立即停止电机运行
-- **设置当前位置**：重新设定当前位置基准点
-- **获取当前位置**：读取电机当前位置
-- **获取目标位置**：读取设定的目标位置
-- **获取剩余步数**：距离目标位置还需要的步数
-- **检查运行状态**：判断电机是否正在运行
-- **获取当前速度**：读取电机当前运行速度
+- **语句块**: 有previousStatement/nextStatement，通过`next`字段连接
+- **值块**: 有output，连接到`inputs`中，无`next`字段
+- **初始化块**: 使用field_input让用户输入新变量名，自动注册到变量系统
+- **方法调用块**: 使用field_variable选择已存在变量，配置variableTypes为["AccelStepper"]或["MultiStepper"]
 
 ## 使用示例
 
-### 基本使用步骤
-1. 初始化步进电机，选择合适的接口类型和引脚
-2. 设置最大速度和加速度参数
-3. 设置目标位置或移动步数
-4. 在主循环中调用运行函数
-
-### 简单往复运动示例
-```
-初始化步进电机 stepper1 类型4线全步进 引脚1:2 引脚2:3 引脚3:4 引脚4:5
-设置步进电机 stepper1 最大速度 1000 步/秒
-设置步进电机 stepper1 加速度 500 步/秒²
-步进电机 stepper1 移动到绝对位置 1000 步
-
-循环执行：
-  运行步进电机 stepper1 (带加速度)
-  如果 步进电机 stepper1 距离目标位置的步数 = 0：
-    步进电机 stepper1 移动到绝对位置 (0 - 步进电机 stepper1 当前位置) 步
-```
-
-### 恒定速度运行示例
-```
-初始化步进电机 stepper1 类型2线步进驱动器 引脚1:2 引脚2:3
-设置步进电机 stepper1 最大速度 500 步/秒
-设置步进电机 stepper1 速度 100 步/秒
-
-循环执行：
-  运行步进电机 stepper1 (恒定速度)
+### 基础4线步进电机
+```json
+{
+  "type": "accelstepper_setup",
+  "id": "setup_id",
+  "fields": {
+    "VAR": "stepper",
+    "INTERFACE": "4"
+  },
+  "inputs": {
+    "PIN1": {
+      "block": {
+        "type": "math_number",
+        "fields": {"NUM": 2}
+      }
+    }
+  }
+}
 ```
 
-## 硬件连接
+### 带加速控制的完整程序
+```json
+[
+  {
+    "type": "accelstepper_setup",
+    "id": "setup_id",
+    "fields": {"VAR": "stepper", "INTERFACE": "4"},
+    "inputs": {"PIN1": {"block": {"type": "math_number", "fields": {"NUM": 2}}}},
+    "next": {"block": "accelstepper_set_max_speed_id"}
+  },
+  {
+    "type": "accelstepper_set_max_speed",
+    "id": "set_max_speed_id",
+    "fields": {"VAR": {"variable": "stepper"}},
+    "inputs": {"SPEED": {"block": {"type": "math_number", "fields": {"NUM": 1000}}}},
+    "next": {"block": "accelstepper_set_acceleration_id"}
+  },
+  {
+    "type": "accelstepper_set_acceleration",
+    "id": "accelstepper_set_acceleration_id",
+    "fields": {"VAR": {"variable": "stepper"}},
+    "inputs": {"ACCEL": {"block": {"type": "math_number", "fields": {"NUM": 100}}}}
+  }
+]
+```
 
-### 4线步进电机连接
-- 引脚1：连接到步进电机线圈A+
-- 引脚2：连接到步进电机线圈A-
-- 引脚3：连接到步进电机线圈B+
-- 引脚4：连接到步进电机线圈B-
+## 重要规则
 
-### 步进电机驱动器连接
-- 引脚1：连接到驱动器的STEP引脚
-- 引脚2：连接到驱动器的DIR引脚
-- 驱动器的电源和步进电机按驱动器说明书连接
+1. **必须遵守**: run()和runSpeed()必须在loop中频繁调用，否则电机不会动作
+2. **连接限制**: 初始化块后的方法调用块必须选择正确的电机变量
+3. **常见错误**: 
+   - ❌ 忘记在loop中调用run()
+   - ❌ 没有设置最大速度和加速度就使用run()
+   - ❌ 阻塞模式(runToPosition)会导致程序卡死
 
-## 注意事项
+## 支持的接口类型
 
-1. **速度限制**：步进电机的最大可靠速度约为4000步/秒（16MHz Arduino）
-2. **电源要求**：步进电机通常需要外部电源，Arduino的5V输出可能不足
-3. **非阻塞运行**：推荐在主循环中使用`run()`或`runSpeed()`而不是阻塞式函数
-4. **位置精度**：这是开环控制，如果电机失步，位置计算会出现偏差
-5. **加速度设置**：调用`setAcceleration()`是耗时操作，不要频繁调用
+- **4线全步**: FULL4WIRE (4) - 4引脚全步进
+- **2线全步**: FULL2WIRE (2) - 2引脚全步进
+- **3线全步**: FULL3WIRE (3) - 3引脚全步进（如硬盘电机）
+- **3线半步**: HALF3WIRE (6) - 3引脚半步进
+- **4线半步**: HALF4WIRE (8) - 4引脚半步进
+- **驱动模式**: DRIVER (1) - Step+Direction驱动器模式
 
-## 技术支持
+## 使用模式
 
-本库基于开源的AccelStepper库（v1.65）开发，详细技术文档请参考：
-- [AccelStepper官方文档](http://www.airspayce.com/mikem/arduino/AccelStepper/)
-- [AccelStepper GitHub仓库](https://github.com/waspinator/AccelStepper)
+### 非阻塞模式（推荐）
+```javascript
+// setup中
+stepper.moveTo(1000);
+// loop中
+stepper.run();  // 必须频繁调用
+```
 
-## 开源说明
+### 恒速模式
+```javascript
+// setup中
+stepper.setSpeed(50);
+// loop中
+stepper.runSpeed();  // 恒速运行
+```
 
-本Blockly封装基于AccelStepper开源库，AccelStepper库遵循GPL V3许可证。
+### 阻塞模式（简单但不推荐）
+```javascript
+stepper.runToNewPosition(1000);  // 等待到达才继续
+```
+
+## MultiStepper 多电机同步控制
+
+MultiStepper 类支持同时控制多达10个步进电机进行同步运动，适用于3D打印机、XY绘图仪等需要多轴协调运动的场景。
+
+### 重要限制
+
+1. **恒速运动**: MultiStepper 只支持恒速运动，不支持加速度控制
+2. **最大电机数**: 最多可管理 10 个步进电机
+3. **同步到达**: 所有添加的电机将以不同速度同时到达目标位置
+4. **速度设置**: 使用 MultiStepper 前，必须为各个电机设置最大速度
+
+### 使用步骤
+
+1. **创建多个 AccelStepper 对象**: 为每个电机创建独立的 AccelStepper 对象
+2. **设置各电机最大速度**: 为每个电机调用 setMaxSpeed() 设置最大速度
+3. **创建 MultiStepper 对象**: 创建多电机控制器
+4. **添加电机**: 将各个 AccelStepper 对象添加到 MultiStepper
+5. **设置目标位置**: 使用 moveTo 设置所有电机的目标位置
+6. **执行运动**: 在 loop 中频繁调用 run()
+7. **设置合适速度**: 根据电机规格和负载设置合理的最大速度
+8. **频繁调用 run()**: 在 loop 中尽可能频繁地调用 run()，确保运动流畅
+9. **阻塞模式慎用**: `runSpeedToPosition()` 会阻塞程序，只在简单场景使用

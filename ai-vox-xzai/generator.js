@@ -1665,99 +1665,166 @@ Arduino.forBlock['esp32ai_wake_engine'] = function(block, generator) {
     return `ai_vox::Engine::GetInstance().Advance();\n`;
 };
 
+// 主动发送消息
+Arduino.forBlock['esp32ai_sendtext'] = function(block, generator) {
+  let sendmessage = generator.valueToCode(block, 'sendmessage', generator.ORDER_ATOMIC) || '""';
+  let code = '';
+
+  // 1. 移除不必要的括号（如果是括号包裹的表达式）
+  const isParenthesized = /^\((.*)\)$/.test(sendmessage);
+  if (isParenthesized) {
+    sendmessage = sendmessage.match(/^\((.*)\)$/)[1];
+  }
+
+  generator.addObject('ai_vox_engine', `auto& ai_vox_engine = ai_vox::Engine::GetInstance();`, true);
+  generator.addObject('esp32aicurrentState', `ai_vox::ChatState esp32aicurrentState = ai_vox_engine.GetCurrentState();`, true);
+
+  // 2. 判断是否为 带引号的字符串字面量 或 已调用.c_str() 或 const char* 类型
+  const isQuotedString = /^"(.*)"$/.test(sendmessage);
+  const isAlreadyCStr = /\.c_str\(\)$/.test(sendmessage);
+  const isConstCharPtr = /^\s*message\s*$/.test(sendmessage) || /^\s*emotion\.c_str\(\)\s*$/.test(sendmessage);
+  // 匹配整数（正负）、浮点数（正负、小数、科学计数法）
+  const isNumber = /^-?\d+(\.\d+)?([eE][-+]?\d+)?$/.test(sendmessage.trim());
+
+  // 3. 构建正确的 JSON 字符串（使用 Arduino String 类拼接，避免引号冲突）
+  let sendTextCode = '';
+  const jsonPrefix = "{\\\"type\\\": \\\"listen\\\", \\\"state\\\": \\\"detect\\\", \\\"text\\\": \\\"";
+  const jsonSuffix = "\\\"}";
+
+  if (isQuotedString || isAlreadyCStr || isConstCharPtr) {
+    // 情况1：sendmessage 是带引号字面量/已转c_str/const char*
+    if (isQuotedString) {
+      // 移除 sendmessage 自带的双引号
+      const innerText = sendmessage.replace(/^"(.*)"$/, '$1');
+      // 直接拼接为 std::string，无需 Arduino String
+      sendTextCode = `ai_vox_engine.SendText(std::string("${jsonPrefix}") + "${innerText}" + std::string("${jsonSuffix}"));\n`;
+    } else {
+      // 非字符串字面量，拼接为 std::string
+      sendTextCode = `ai_vox_engine.SendText(std::string("${jsonPrefix}") + ${sendmessage} + std::string("${jsonSuffix}"));\n`;
+    }
+  } else if (isNumber) {
+    // 情况2：数字类型（自动转文本）
+    // 区分整数和浮点数，适配 std::to_string（整数）和 String（浮点数，兼容更多场景）
+    sendTextCode = `ai_vox_engine.SendText(std::string("${jsonPrefix}") + String(${sendmessage}).c_str() + std::string("${jsonSuffix}"));\n`;
+  } else {
+    // 情况2：sendmessage 是 Arduino String 类型，先转 c_str() 再构建 std::string
+    sendTextCode = `ai_vox_engine.SendText(std::string("${jsonPrefix}") + ${sendmessage}.c_str() + std::string("${jsonSuffix}"));\n`;
+  }
+  
+  code = `// 获取当前设备状态
+  esp32aicurrentState = ai_vox_engine.GetCurrentState();
+  
+  // 如果设备状态不是kListening，先执行唤醒操作
+  if (esp32aicurrentState != ai_vox::ChatState::kListening) {
+    // 执行唤醒
+    ai_vox::Engine::GetInstance().Advance();
+    
+    // 等待设备状态变为kListening，最多等待6秒
+    unsigned long startTime = millis();
+    bool listeningStateReached = false;
+    while (millis() - startTime < 6000) {
+      esp32aicurrentState = ai_vox_engine.GetCurrentState();
+      if (esp32aicurrentState == ai_vox::ChatState::kListening) {
+        listeningStateReached = true;
+        break;
+      }
+      delay(100); // 每隔100ms检查一次状态
+    }
+    
+    // 如果6秒内没有进入kListening状态，直接结束
+    if (!listeningStateReached) {
+      // 核心修改：移除break（原大括号内的break无意义，现在直接返回/终止逻辑）
+      return;
+    }
+    
+    // 核心修改2：将阻塞delay(1000)替换为非阻塞等待
+    unsigned long waitStartTime = millis();
+    bool waitCompleted = false;
+    while (!waitCompleted) {
+      // 检查是否已等待1000毫秒
+      if (millis() - waitStartTime >= 1000) {
+        waitCompleted = true;
+      }
+      // 等待过程中持续检查设备状态，确保仍处于kListening
+      esp32aicurrentState = ai_vox_engine.GetCurrentState();
+      if (esp32aicurrentState != ai_vox::ChatState::kListening) {
+        // 状态异常，终止等待
+        return;
+      }
+      // 短暂延时，避免占用过多CPU资源
+      delayMicroseconds(100);
+    }
+  }
+  
+  // 执行发送文本操作
+  ${sendTextCode}\n`;
+
+  return code;
+};
+
 Arduino.forBlock['aivox_lcd_show_status'] = function (block, generator) {
   generator.addObject(`chat_message_role`, `std::string chatRole;`, true);
-    let location = block.getFieldValue('location');
-    let ai_vox_content = generator.valueToCode(block, 'ai_vox_content', generator.ORDER_ATOMIC) || '""';
-    let code = '';
-    // 检查是否为字符串字面量（带引号）
-     const isQuotedString = /^"(.*)"$/.test(ai_vox_content);
-     
-     // 检查是否为字符字面量（如'a'）
-     const isCharLiteral = /^'(.)'$/.test(ai_vox_content);
+  let location = block.getFieldValue('location');
+  let ai_vox_content = generator.valueToCode(block, 'ai_vox_content', generator.ORDER_ATOMIC) || '""';
+  let code = '';
 
-     // 如果是字符字面量，将其转换为字符串字面量（如"a"）
-     if (isCharLiteral) {
-       const charValue = ai_vox_content.match(/^'(.)'$/)[1];
-       ai_vox_content = `"${charValue}"`;
-     }
-     
-     // 检查是否已经是.c_str()调用
-     const isAlreadyCStr = /\.c_str\(\)$/.test(ai_vox_content);
-     
-     // 检查是否为括号包裹的表达式
-     const isParenthesized = /^\((.*)\)$/.test(ai_vox_content);
-     
-     // 检查是否为const char*类型的变量（如message）
-     const isConstCharPtr = /^\s*\(?\s*message\s*\)?\s*$/.test(ai_vox_content) || /^\s*\(?\s*emotion\.c_str\(\)\s*\)?\s*$/.test(ai_vox_content);
-     
-     // 处理不同显示类型和位置的代码生成
-     if(location == 'SetChatMessage'){ 
-       if(display_mode == '' || display_mode == 'normal'){ 
-         if (display_type === 'ST7789') { 
-           if (isQuotedString || isCharLiteral || isAlreadyCStr || isConstCharPtr) {
-             code = `g_display->SetChatMessage(Display::Role::kSystem, ${ai_vox_content});\n`; 
-           } else {
-             code = `g_display->SetChatMessage(Display::Role::kSystem, ${ai_vox_content}.c_str());\n`; 
-           }
-         } else if (display_type === 'SSD1306') { 
-           if (isQuotedString || isCharLiteral || isAlreadyCStr || isConstCharPtr) {
-             code = `g_display->SetChatMessage(${ai_vox_content});\n`; 
-           } else {
-             code = `g_display->SetChatMessage(${ai_vox_content}.c_str());\n`; 
-           }
-         } 
-       }else{ 
-         if (display_type === 'ST7789') { 
-           if (isQuotedString || isCharLiteral || isAlreadyCStr || isConstCharPtr) {
-             code = `if(chatRole == "Assistant"){ 
-             g_display->SetChatMessage(Display::Role::kAssistant, ${ai_vox_content}); 
-           }else if(chatRole == "User"){ 
-             g_display->SetChatMessage(Display::Role::kUser, ${ai_vox_content}); 
-           }else{  
-             g_display->SetChatMessage(Display::Role::kSystem, ${ai_vox_content}); 
-           }
-           chatRole = "System";\n`; 
-           } else {
-             code = `if(chatRole == "Assistant"){ 
-             g_display->SetChatMessage(Display::Role::kAssistant, ${ai_vox_content}.c_str()); 
-           }else if(chatRole == "User"){ 
-             g_display->SetChatMessage(Display::Role::kUser, ${ai_vox_content}.c_str()); 
-           }else{  
-             g_display->SetChatMessage(Display::Role::kSystem, ${ai_vox_content}.c_str()); 
-           }
-           chatRole = "System";\n`; 
-           }
-         } else if (display_type === 'SSD1306') { 
-           if (isQuotedString || isCharLiteral || isAlreadyCStr || isConstCharPtr) {
-             code = `if(chatRole == "Assistant"){ 
-             g_display->SetChatMessage(${ai_vox_content}); 
-           }else if(chatRole == "User"){ 
-             g_display->SetChatMessage(${ai_vox_content}); 
-           }else{  
-             g_display->SetChatMessage(${ai_vox_content}); 
-           }\n`; 
-           } else {
-             code = `if(chatRole == "Assistant"){ 
-             g_display->SetChatMessage(${ai_vox_content}.c_str()); 
-           }else if(chatRole == "User"){ 
-             g_display->SetChatMessage(${ai_vox_content}.c_str()); 
-           }else{  
-             g_display->SetChatMessage(${ai_vox_content}.c_str()); 
-           }\n`; 
-           }
-         } 
-       } 
-     }else{ 
-       if (display_type !== 'NONE') { 
-         if (isQuotedString || isCharLiteral || isAlreadyCStr || isConstCharPtr) {
-           code = `g_display->${location}(${ai_vox_content});\n`; 
-         } else {
-           code = `g_display->${location}(${ai_vox_content}.c_str());\n`; 
-         }
-       } 
-     } 
-    return code;
+  // 定义合法的const char*类型标识（无需添加.c_str()）
+  const isQuotedString = /^"(.*)"$/.test(ai_vox_content);
+  const isCharLiteral = /^'(.)'$/.test(ai_vox_content);
+  const isAlreadyCStr = /\.c_str\(\)$/.test(ai_vox_content);
+  const isConstCharPtr = /^\s*\(?\s*message\s*\)?\s*$/.test(ai_vox_content) || /^\s*\(?\s*emotion\.c_str\(\)\s*\)?\s*$/.test(ai_vox_content);
+
+  // 合法const char*类型集合
+  const isLegalConstCharPtr = isQuotedString || isCharLiteral || isAlreadyCStr || isConstCharPtr;
+
+  // ========== 核心修改：统一处理非合法const char*类型（包括数值变量、数字字面量、表达式） ==========
+  let finalContent = ai_vox_content;
+  if (!isLegalConstCharPtr) {
+    // 所有非合法const char*的内容，统一用String包裹后再取.c_str()
+    // 包括：int变量（hjld）、数字字面量（123）、数值表达式（a+b）等
+    finalContent = `String(${ai_vox_content}).c_str()`;
+  }
+  // 字符字面量单独转换为字符串字面量
+  if (isCharLiteral) {
+    const charValue = ai_vox_content.match(/^'(.)'$/)[1];
+    finalContent = `"${charValue}"`;
+  }
+
+  // 处理不同显示类型和位置的代码生成
+  if (location == 'SetChatMessage') {
+    if (display_mode == '' || display_mode == 'normal') {
+      if (display_type === 'ST7789') {
+        code = `g_display->SetChatMessage(Display::Role::kSystem, ${finalContent});\n`;
+      } else if (display_type === 'SSD1306') {
+        code = `g_display->SetChatMessage(${finalContent});\n`;
+      }
+    } else {
+      if (display_type === 'ST7789') {
+        code = `if(chatRole == "Assistant"){ 
+        g_display->SetChatMessage(Display::Role::kAssistant, ${finalContent}); 
+      }else if(chatRole == "User"){ 
+        g_display->SetChatMessage(Display::Role::kUser, ${finalContent}); 
+      }else{  
+        g_display->SetChatMessage(Display::Role::kSystem, ${finalContent}); 
+      }
+      chatRole = "System";\n`;
+      } else if (display_type === 'SSD1306') {
+        code = `if(chatRole == "Assistant"){ 
+        g_display->SetChatMessage(${finalContent}); 
+      }else if(chatRole == "User"){ 
+        g_display->SetChatMessage(${finalContent}); 
+      }else{  
+        g_display->SetChatMessage(${finalContent}); 
+      }\n`;
+      }
+    }
+  } else {
+    if (display_type !== 'NONE') {
+      code = `g_display->${location}(${finalContent});\n`;
+    }
+  }
+
+  return code;
 };
 
 var eventHandlers = {};// 定义存储事件处理器的对象

@@ -1,0 +1,350 @@
+[
+    {
+        "type": "esp32_camera_webserver_init",
+        "message0": "初始化ESP32摄像头服务器 %1 WiFi名称 %2 WiFi密码 %3 摄像头型号 %4 分辨率 %5",
+        "args0": [
+            {
+                "type": "inputsInline"
+            },
+            {
+                "type": "input_value",
+                "name": "SSID",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "PASSWORD",
+                "check": "String"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "MODEL",
+                "options": [
+                    [
+                        "AI Thinker",
+                        "CAMERA_MODEL_AI_THINKER"
+                    ],
+                    [
+                        "M5Stack PSRAM",
+                        "CAMERA_MODEL_M5STACK_PSRAM"
+                    ],
+                    [
+                        "M5Stack Wide",
+                        "CAMERA_MODEL_M5STACK_WIDE"
+                    ],
+                    [
+                        "ESP Eye",
+                        "CAMERA_MODEL_ESP_EYE"
+                    ],
+                    [
+                        "FireBeetle 2 ESP32S3",
+                        "CAMERA_MODEL_DFRobot_FireBeetle2_ESP32S3"
+                    ],
+                    [
+                        "NL-ESP32-S3-CAM",
+                        "CAMERA_MODEL_ESP32S3_EYE"
+                    ],
+                    [
+                        "XIAO ESP32S3",
+                        "CAMERA_MODEL_XIAO_ESP32S3"
+                    ],
+                    [
+                        "自定义引脚",
+                        "CUSTOM"
+                    ]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "RESOLUTION",
+                "options": [
+                    [
+                        "UXGA (1600x1200)",
+                        "FRAMESIZE_UXGA"
+                    ],
+                    [
+                        "SXGA (1280x1024)",
+                        "FRAMESIZE_SXGA"
+                    ],
+                    [
+                        "XGA (1024x768)",
+                        "FRAMESIZE_XGA"
+                    ],
+                    [
+                        "SVGA (800x600)",
+                        "FRAMESIZE_SVGA"
+                    ],
+                    [
+                        "VGA (640x480)",
+                        "FRAMESIZE_VGA"
+                    ],
+                    [
+                        "CIF (400x296)",
+                        "FRAMESIZE_CIF"
+                    ],
+                    [
+                        "QVGA (320x240)",
+                        "FRAMESIZE_QVGA"
+                    ],
+                    [
+                        "HQVGA (240x176)",
+                        "FRAMESIZE_HQVGA"
+                    ],
+                    [
+                        "QQVGA (160x120)",
+                        "FRAMESIZE_QQVGA"
+                    ]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#2196F3",
+        "tooltip": "初始化ESP32摄像头网络服务器,配置WiFi和摄像头参数",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_custom_pins",
+        "message0": "自定义摄像头引脚配置 %1 数据引脚D0-D7 %2 XCLK引脚 %3 PCLK引脚 %4 VSYNC引脚 %5 HREF引脚 %6 SDA引脚 %7 SCL引脚 %8 PWDN引脚 %9 RESET引脚 %10",
+        "args0": [
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "input_value",
+                "name": "DATA_PINS",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "XCLK",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "PCLK",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "VSYNC",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "HREF",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "SDA",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "SCL",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "PWDN",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "RESET",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#2196F3",
+        "tooltip": "当选择'自定义引脚'时,用此块配置摄像头引脚。数据引脚格式: '11,12,13,14,15,16,17,18'",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_set_quality",
+        "message0": "设置摄像头JPEG质量 %1",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "QUALITY",
+                "value": 10,
+                "min": 0,
+                "max": 63
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#1976D2",
+        "tooltip": "设置JPEG压缩质量(0-63,数值越小质量越高)",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_set_flip",
+        "message0": "设置摄像头翻转 %1 垂直翻转 %2 水平镜像 %3",
+        "args0": [
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "field_checkbox",
+                "name": "VFLIP",
+                "checked": false
+            },
+            {
+                "type": "field_checkbox",
+                "name": "HMIRROR",
+                "checked": false
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#1976D2",
+        "tooltip": "设置摄像头画面翻转和镜像",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_set_brightness",
+        "message0": "设置摄像头 %1 亮度 %2 对比度 %3 饱和度 %4",
+        "args0": [
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "field_number",
+                "name": "BRIGHTNESS",
+                "value": 0,
+                "min": -2,
+                "max": 2
+            },
+            {
+                "type": "field_number",
+                "name": "CONTRAST",
+                "value": 0,
+                "min": -2,
+                "max": 2
+            },
+            {
+                "type": "field_number",
+                "name": "SATURATION",
+                "value": 0,
+                "min": -2,
+                "max": 2
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#1976D2",
+        "tooltip": "调整摄像头亮度、对比度和饱和度(-2到2)",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_capture",
+        "message0": "拍摄一张照片",
+        "output": "CameraFrame",
+        "colour": "#0D47A1",
+        "tooltip": "获取一帧摄像头画面数据,返回帧对象(⚠️配合'无符号长整型'变量使用,使用完后必须调用释放帧块)",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_frame_buffer",
+        "message0": "帧 %1 的数据指针",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "FRAME",
+                "check": "CameraFrame"
+            }
+        ],
+        "output": "Number",
+        "colour": "#0D47A1",
+        "tooltip": "获取帧数据的内存指针(uint8_t*),可用于显示或传输",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_frame_len",
+        "message0": "帧 %1 的数据长度",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "FRAME",
+                "check": "CameraFrame"
+            }
+        ],
+        "output": "Number",
+        "colour": "#0D47A1",
+        "tooltip": "获取帧数据的字节长度",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_frame_width",
+        "message0": "帧 %1 的宽度",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "FRAME",
+                "check": "CameraFrame"
+            }
+        ],
+        "output": "Number",
+        "colour": "#0D47A1",
+        "tooltip": "获取帧图像的宽度(像素)",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_frame_height",
+        "message0": "帧 %1 的高度",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "FRAME",
+                "check": "CameraFrame"
+            }
+        ],
+        "output": "Number",
+        "colour": "#0D47A1",
+        "tooltip": "获取帧图像的高度(像素)",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_release",
+        "message0": "释放帧 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "FRAME",
+                "check": "CameraFrame"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#0D47A1",
+        "tooltip": "释放帧缓冲区内存(使用完帧后必须调用，send_serial块会自动释放)",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_send_serial",
+        "message0": "通过串口发送帧 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "FRAME",
+                "check": "CameraFrame"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#0D47A1",
+        "tooltip": "通过串口发送JPEG图像数据(带帧标识符，可用于上位机显示)",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32_camera_capture_and_encode_base64",
+        "message0": "拍摄照片并转换为Base64",
+        "output": "String",
+        "colour": "#0D47A1",
+        "tooltip": "拍摄一张照片并将其JPEG数据编码为Base64格式",
+        "helpUrl": ""
+    }
+]

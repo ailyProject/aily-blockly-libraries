@@ -1,39 +1,88 @@
 {
   "kind": "category",
   "icon": "fa-light fa-clock",
-  "name": "RTC时钟",
+  "name": "R4实时时钟",
+  "colour": "#FF9800",
   "contents": [
     {
-      "kind": "block",
-      "type": "rtc_begin"
+      "kind": "label",
+      "text": "基础操作"
     },
     {
       "kind": "block",
-      "type": "rtc_set_time"
+      "type": "renesas_rtc_begin"
     },
     {
       "kind": "block",
-      "type": "rtc_create_time_var"
+      "type": "renesas_rtc_is_running"
+    },
+    {
+      "kind": "label",
+      "text": "时间设置"
     },
     {
       "kind": "block",
-      "type": "rtc_get_time"
+      "type": "renesas_rtc_set_time",
+      "inputs": {
+        "YEAR": {"shadow": {"type": "math_number", "fields": {"NUM": "2023"}}},
+        "MONTH": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}},
+        "DAY": {"shadow": {"type": "math_number", "fields": {"NUM": "25"}}},
+        "HOUR": {"shadow": {"type": "math_number", "fields": {"NUM": "14"}}},
+        "MINUTE": {"shadow": {"type": "math_number", "fields": {"NUM": "30"}}},
+        "SECOND": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "DAYOFWEEK": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}}
+      }
+    },
+    {
+      "kind": "label",
+      "text": "时间获取"
     },
     {
       "kind": "block",
-      "type": "rtc_time_to_string"
+      "type": "renesas_rtc_get_time"
     },
     {
       "kind": "block",
-      "type": "rtc_get_time_component"
+      "type": "renesas_rtc_time_get_year"
     },
     {
       "kind": "block",
-      "type": "rtc_is_running"
+      "type": "renesas_rtc_time_get_month"
     },
     {
       "kind": "block",
-      "type": "rtc_set_periodic_callback"
+      "type": "renesas_rtc_time_get_day"
+    },
+    {
+      "kind": "block",
+      "type": "renesas_rtc_time_get_hour"
+    },
+    {
+      "kind": "block",
+      "type": "renesas_rtc_time_get_minute"
+    },
+    {
+      "kind": "block",
+      "type": "renesas_rtc_time_get_second"
+    },
+    {
+      "kind": "block",
+      "type": "renesas_rtc_time_get_day_of_week"
+    },
+    {
+      "kind": "label",
+      "text": "回调函数"
+    },
+    {
+      "kind": "block",
+      "type": "renesas_rtc_set_periodic_callback"
+    },
+    {
+      "kind": "block",
+      "type": "renesas_rtc_set_alarm_callback",
+      "inputs": {
+        "SECOND": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}}
+      }
     }
   ]
 }

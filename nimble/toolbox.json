@@ -1,0 +1,332 @@
+{
+  "kind": "category",
+  "name": "NimBLE蓝牙",
+  "colour": "#2196F3",
+  "icon": "fa-light fa-bluetooth",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_init",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "NimBLE"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "nimble_deinit"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_get_address"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_set_mtu",
+      "inputs": {
+        "MTU": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 512
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "nimble_set_power"
+    },
+    {
+      "kind": "label",
+      "text": "服务端"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_create_server"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_server_create_service",
+      "inputs": {
+        "UUID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "ABCD"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "nimble_service_create_characteristic",
+      "inputs": {
+        "UUID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "1234"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "nimble_service_create_characteristic_props",
+      "inputs": {
+        "UUID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "1234"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "nimble_characteristic_set_value",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello BLE"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "nimble_characteristic_get_value"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_characteristic_notify"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_service_start"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_server_connected_count"
+    },
+    {
+      "kind": "label",
+      "text": "广播"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_advertising_add_service",
+      "inputs": {
+        "UUID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "ABCD"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "nimble_advertising_set_name",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "NimBLE-Server"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "nimble_start_advertising"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_stop_advertising"
+    },
+    {
+      "kind": "label",
+      "text": "服务端事件"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_on_connect"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_on_disconnect"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_on_characteristic_write"
+    },
+    {
+      "kind": "label",
+      "text": "扫描"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_start_scan",
+      "inputs": {
+        "DURATION": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 5
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "nimble_stop_scan"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_is_scanning"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_on_scan_result"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_scan_device_name"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_scan_device_address"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_scan_device_rssi"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_scan_device_has_service",
+      "inputs": {
+        "UUID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "ABCD"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "客户端"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_create_client"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_client_connect_address",
+      "inputs": {
+        "ADDRESS": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "AA:BB:CC:DD:EE:FF"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "nimble_client_connect_device"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_client_disconnect"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_client_is_connected"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_client_get_service",
+      "inputs": {
+        "UUID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "ABCD"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "nimble_remote_service_get_characteristic",
+      "inputs": {
+        "UUID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "1234"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "nimble_remote_char_read"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_remote_char_write",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "nimble_remote_char_subscribe"
+    },
+    {
+      "kind": "block",
+      "type": "nimble_notify_data"
+    }
+  ]
+}

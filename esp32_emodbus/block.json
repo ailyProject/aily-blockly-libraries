@@ -1,0 +1,1006 @@
+[
+    {
+        "type": "emodbus_rtu_client_create",
+        "message0": "创建Modbus RTU客户端 %1 RS485控制引脚 %2",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "mbClient"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "RTS_PIN",
+                "options": "${board.digitalPins}"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "创建Modbus RTU客户端实例，需要指定RS485模块的DE/RE控制引脚",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_rtu_client_begin",
+        "message0": "启动RTU客户端 %1 串口 %2 波特率 %3 RX引脚 %4 TX引脚 %5",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbClient",
+                "variableTypes": [
+                    "ModbusClientRTU"
+                ],
+                "defaultType": "ModbusClientRTU"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "SERIAL",
+                "options": [
+                    [
+                        "Serial1",
+                        "Serial1"
+                    ],
+                    [
+                        "Serial2",
+                        "Serial2"
+                    ]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "BAUDRATE",
+                "options": [
+                    [
+                        "9600",
+                        "9600"
+                    ],
+                    [
+                        "19200",
+                        "19200"
+                    ],
+                    [
+                        "38400",
+                        "38400"
+                    ],
+                    [
+                        "57600",
+                        "57600"
+                    ],
+                    [
+                        "115200",
+                        "115200"
+                    ]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "RX_PIN",
+                "options": "${board.digitalPins}"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TX_PIN",
+                "options": "${board.digitalPins}"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "启动Modbus RTU客户端，配置串口和引脚",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_tcp_client_create",
+        "message0": "创建Modbus TCP客户端 %1",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "mbTcpClient"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#2196F3",
+        "tooltip": "创建Modbus TCP客户端实例",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_tcp_client_begin",
+        "message0": "启动TCP客户端 %1",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbTcpClient",
+                "variableTypes": [
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientTCP"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#2196F3",
+        "tooltip": "启动Modbus TCP客户端后台任务",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_tcp_client_set_target",
+        "message0": "设置TCP客户端 %1 目标服务器 IP %2 端口 %3",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbTcpClient",
+                "variableTypes": [
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientTCP"
+            },
+            {
+                "type": "input_value",
+                "name": "IP",
+                "check": "String"
+            },
+            {
+                "type": "field_number",
+                "name": "PORT",
+                "value": 502,
+                "min": 1,
+                "max": 65535
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#2196F3",
+        "tooltip": "设置Modbus TCP服务器的IP地址和端口",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_client_set_timeout",
+        "message0": "设置客户端 %1 超时时间 %2 毫秒",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbClient",
+                "variableTypes": [
+                    "ModbusClientRTU",
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientRTU"
+            },
+            {
+                "type": "field_number",
+                "name": "TIMEOUT",
+                "value": 2000,
+                "min": 100,
+                "max": 30000
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "设置Modbus通信超时时间",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_client_on_data",
+        "message0": "当客户端 %1 收到数据时",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbClient",
+                "variableTypes": [
+                    "ModbusClientRTU",
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientRTU"
+            }
+        ],
+        "message1": "执行 %1",
+        "args1": [
+            {
+                "type": "input_statement",
+                "name": "HANDLER"
+            }
+        ],
+        "colour": "#9C27B0",
+        "tooltip": "设置数据接收回调函数，收到响应时执行",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_client_on_error",
+        "message0": "当客户端 %1 发生错误时",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbClient",
+                "variableTypes": [
+                    "ModbusClientRTU",
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientRTU"
+            }
+        ],
+        "message1": "执行 %1",
+        "args1": [
+            {
+                "type": "input_statement",
+                "name": "HANDLER"
+            }
+        ],
+        "colour": "#F44336",
+        "tooltip": "设置错误处理回调函数，发生通信错误时执行",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_read_holding_registers",
+        "message0": "客户端 %1 读取保持寄存器 从站ID %2 起始地址 %3 数量 %4",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbClient",
+                "variableTypes": [
+                    "ModbusClientRTU",
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientRTU"
+            },
+            {
+                "type": "field_number",
+                "name": "SERVER_ID",
+                "value": 1,
+                "min": 1,
+                "max": 247
+            },
+            {
+                "type": "input_value",
+                "name": "ADDRESS",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "COUNT",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF9800",
+        "tooltip": "异步读取保持寄存器(功能码0x03)，结果通过回调返回",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_read_input_registers",
+        "message0": "客户端 %1 读取输入寄存器 从站ID %2 起始地址 %3 数量 %4",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbClient",
+                "variableTypes": [
+                    "ModbusClientRTU",
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientRTU"
+            },
+            {
+                "type": "field_number",
+                "name": "SERVER_ID",
+                "value": 1,
+                "min": 1,
+                "max": 247
+            },
+            {
+                "type": "input_value",
+                "name": "ADDRESS",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "COUNT",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF9800",
+        "tooltip": "异步读取输入寄存器(功能码0x04)，结果通过回调返回",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_read_coils",
+        "message0": "客户端 %1 读取线圈 从站ID %2 起始地址 %3 数量 %4",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbClient",
+                "variableTypes": [
+                    "ModbusClientRTU",
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientRTU"
+            },
+            {
+                "type": "field_number",
+                "name": "SERVER_ID",
+                "value": 1,
+                "min": 1,
+                "max": 247
+            },
+            {
+                "type": "input_value",
+                "name": "ADDRESS",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "COUNT",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF9800",
+        "tooltip": "异步读取线圈状态(功能码0x01)，结果通过回调返回",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_read_discrete_inputs",
+        "message0": "客户端 %1 读取离散输入 从站ID %2 起始地址 %3 数量 %4",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbClient",
+                "variableTypes": [
+                    "ModbusClientRTU",
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientRTU"
+            },
+            {
+                "type": "field_number",
+                "name": "SERVER_ID",
+                "value": 1,
+                "min": 1,
+                "max": 247
+            },
+            {
+                "type": "input_value",
+                "name": "ADDRESS",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "COUNT",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF9800",
+        "tooltip": "异步读取离散输入(功能码0x02)，结果通过回调返回",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_write_single_register",
+        "message0": "客户端 %1 写入单个寄存器 从站ID %2 地址 %3 值 %4",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbClient",
+                "variableTypes": [
+                    "ModbusClientRTU",
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientRTU"
+            },
+            {
+                "type": "field_number",
+                "name": "SERVER_ID",
+                "value": 1,
+                "min": 1,
+                "max": 247
+            },
+            {
+                "type": "input_value",
+                "name": "ADDRESS",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#E91E63",
+        "tooltip": "写入单个保持寄存器(功能码0x06)",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_write_single_coil",
+        "message0": "客户端 %1 写入单个线圈 从站ID %2 地址 %3 值 %4",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbClient",
+                "variableTypes": [
+                    "ModbusClientRTU",
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientRTU"
+            },
+            {
+                "type": "field_number",
+                "name": "SERVER_ID",
+                "value": 1,
+                "min": 1,
+                "max": 247
+            },
+            {
+                "type": "input_value",
+                "name": "ADDRESS",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": [
+                    "Number",
+                    "Boolean"
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#E91E63",
+        "tooltip": "写入单个线圈(功能码0x05)，值为0(OFF)或1(ON)",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_write_multiple_registers",
+        "message0": "客户端 %1 写入多个寄存器 从站ID %2 起始地址 %3 值数组 %4",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbClient",
+                "variableTypes": [
+                    "ModbusClientRTU",
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientRTU"
+            },
+            {
+                "type": "field_number",
+                "name": "SERVER_ID",
+                "value": 1,
+                "min": 1,
+                "max": 247
+            },
+            {
+                "type": "input_value",
+                "name": "ADDRESS",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "VALUES",
+                "check": "Array"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#E91E63",
+        "tooltip": "写入多个保持寄存器(功能码0x10)",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_sync_read_holding_registers",
+        "message0": "客户端 %1 同步读取保持寄存器 从站ID %2 地址 %3",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbClient",
+                "variableTypes": [
+                    "ModbusClientRTU",
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientRTU"
+            },
+            {
+                "type": "field_number",
+                "name": "SERVER_ID",
+                "value": 1,
+                "min": 1,
+                "max": 247
+            },
+            {
+                "type": "input_value",
+                "name": "ADDRESS",
+                "check": "Number"
+            }
+        ],
+        "output": "Number",
+        "colour": "#FF9800",
+        "tooltip": "同步读取单个保持寄存器并返回值(功能码0x03)",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_sync_read_input_register",
+        "message0": "客户端 %1 同步读取输入寄存器 从站ID %2 地址 %3",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbClient",
+                "variableTypes": [
+                    "ModbusClientRTU",
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientRTU"
+            },
+            {
+                "type": "field_number",
+                "name": "SERVER_ID",
+                "value": 1,
+                "min": 1,
+                "max": 247
+            },
+            {
+                "type": "input_value",
+                "name": "ADDRESS",
+                "check": "Number"
+            }
+        ],
+        "output": "Number",
+        "colour": "#FF9800",
+        "tooltip": "同步读取单个输入寄存器并返回值(功能码0x04)",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_sync_read_coil",
+        "message0": "客户端 %1 同步读取线圈 从站ID %2 地址 %3",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbClient",
+                "variableTypes": [
+                    "ModbusClientRTU",
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientRTU"
+            },
+            {
+                "type": "field_number",
+                "name": "SERVER_ID",
+                "value": 1,
+                "min": 1,
+                "max": 247
+            },
+            {
+                "type": "input_value",
+                "name": "ADDRESS",
+                "check": "Number"
+            }
+        ],
+        "output": "Number",
+        "colour": "#FF9800",
+        "tooltip": "同步读取单个线圈状态并返回值(功能码0x01)",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_response_get_uint16",
+        "message0": "从响应中获取第 %1 个寄存器值(16位)",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "INDEX",
+                "check": "Number"
+            }
+        ],
+        "output": "Number",
+        "colour": "#9C27B0",
+        "tooltip": "从回调响应中读取指定位置的16位寄存器值(从0开始)",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_response_get_float",
+        "message0": "从响应中获取第 %1 个浮点值(32位)",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "INDEX",
+                "check": "Number"
+            }
+        ],
+        "output": "Number",
+        "colour": "#9C27B0",
+        "tooltip": "从回调响应中读取指定位置的32位浮点值(占用2个寄存器)",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_response_server_id",
+        "message0": "响应的从站ID",
+        "output": "Number",
+        "colour": "#9C27B0",
+        "tooltip": "获取当前响应的从站ID",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_response_function_code",
+        "message0": "响应的功能码",
+        "output": "Number",
+        "colour": "#9C27B0",
+        "tooltip": "获取当前响应的功能码",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_response_length",
+        "message0": "响应的数据长度",
+        "output": "Number",
+        "colour": "#9C27B0",
+        "tooltip": "获取当前响应的数据字节数",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_error_code",
+        "message0": "错误代码",
+        "output": "Number",
+        "colour": "#F44336",
+        "tooltip": "获取当前错误的错误码",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_error_message",
+        "message0": "错误信息",
+        "output": "String",
+        "colour": "#F44336",
+        "tooltip": "获取当前错误的可读错误信息",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_rtu_server_create",
+        "message0": "创建Modbus RTU服务器 %1 超时 %2 毫秒 RS485控制引脚 %3",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "mbServer"
+            },
+            {
+                "type": "field_number",
+                "name": "TIMEOUT",
+                "value": 2000,
+                "min": 100,
+                "max": 30000
+            },
+            {
+                "type": "field_dropdown",
+                "name": "RTS_PIN",
+                "options": "${board.digitalPins}"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#009688",
+        "tooltip": "创建Modbus RTU服务器实例",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_rtu_server_begin",
+        "message0": "启动RTU服务器 %1 串口 %2 波特率 %3 RX引脚 %4 TX引脚 %5",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbServer",
+                "variableTypes": [
+                    "ModbusServerRTU"
+                ],
+                "defaultType": "ModbusServerRTU"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "SERIAL",
+                "options": [
+                    [
+                        "Serial1",
+                        "Serial1"
+                    ],
+                    [
+                        "Serial2",
+                        "Serial2"
+                    ]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "BAUDRATE",
+                "options": [
+                    [
+                        "9600",
+                        "9600"
+                    ],
+                    [
+                        "19200",
+                        "19200"
+                    ],
+                    [
+                        "38400",
+                        "38400"
+                    ],
+                    [
+                        "57600",
+                        "57600"
+                    ],
+                    [
+                        "115200",
+                        "115200"
+                    ]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "RX_PIN",
+                "options": "${board.digitalPins}"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TX_PIN",
+                "options": "${board.digitalPins}"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#009688",
+        "tooltip": "启动Modbus RTU服务器",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_tcp_server_create",
+        "message0": "创建Modbus TCP服务器 %1 端口 %2 最大客户端数 %3",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "mbTcpServer"
+            },
+            {
+                "type": "field_number",
+                "name": "PORT",
+                "value": 502,
+                "min": 1,
+                "max": 65535
+            },
+            {
+                "type": "field_number",
+                "name": "MAX_CLIENTS",
+                "value": 4,
+                "min": 1,
+                "max": 10
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "创建Modbus TCP服务器实例",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_tcp_server_begin",
+        "message0": "启动TCP服务器 %1",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbTcpServer",
+                "variableTypes": [
+                    "ModbusServerWiFi"
+                ],
+                "defaultType": "ModbusServerWiFi"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#00BCD4",
+        "tooltip": "启动Modbus TCP服务器",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_server_register_fc03",
+        "message0": "服务器 %1 注册读取保持寄存器处理 从站ID %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbServer",
+                "variableTypes": [
+                    "ModbusServerRTU",
+                    "ModbusServerWiFi"
+                ],
+                "defaultType": "ModbusServerRTU"
+            },
+            {
+                "type": "field_number",
+                "name": "SERVER_ID",
+                "value": 1,
+                "min": 1,
+                "max": 247
+            }
+        ],
+        "message1": "处理请求 起始地址: %1 数量: %2",
+        "args1": [
+            {
+                "type": "field_variable",
+                "name": "ADDRESS_VAR",
+                "variable": "reqAddress"
+            },
+            {
+                "type": "field_variable",
+                "name": "COUNT_VAR",
+                "variable": "reqCount"
+            }
+        ],
+        "message2": "返回数据 %1",
+        "args2": [
+            {
+                "type": "input_statement",
+                "name": "HANDLER"
+            }
+        ],
+        "colour": "#009688",
+        "tooltip": "注册读取保持寄存器(FC03)的处理函数",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_server_register_fc06",
+        "message0": "服务器 %1 注册写入单个寄存器处理 从站ID %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbServer",
+                "variableTypes": [
+                    "ModbusServerRTU",
+                    "ModbusServerWiFi"
+                ],
+                "defaultType": "ModbusServerRTU"
+            },
+            {
+                "type": "field_number",
+                "name": "SERVER_ID",
+                "value": 1,
+                "min": 1,
+                "max": 247
+            }
+        ],
+        "message1": "处理请求 地址: %1 值: %2",
+        "args1": [
+            {
+                "type": "field_variable",
+                "name": "ADDRESS_VAR",
+                "variable": "reqAddress"
+            },
+            {
+                "type": "field_variable",
+                "name": "VALUE_VAR",
+                "variable": "reqValue"
+            }
+        ],
+        "message2": "执行操作 %1",
+        "args2": [
+            {
+                "type": "input_statement",
+                "name": "HANDLER"
+            }
+        ],
+        "colour": "#009688",
+        "tooltip": "注册写入单个保持寄存器(FC06)的处理函数",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_server_add_response_data",
+        "message0": "添加响应数据(16位) %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#009688",
+        "tooltip": "向服务器响应中添加一个16位数据",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_server_set_error",
+        "message0": "设置响应错误 错误码 %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "ERROR_CODE",
+                "options": [
+                    [
+                        "非法功能码",
+                        "ILLEGAL_FUNCTION"
+                    ],
+                    [
+                        "非法数据地址",
+                        "ILLEGAL_DATA_ADDRESS"
+                    ],
+                    [
+                        "非法数据值",
+                        "ILLEGAL_DATA_VALUE"
+                    ],
+                    [
+                        "设备故障",
+                        "SERVER_DEVICE_FAILURE"
+                    ]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#F44336",
+        "tooltip": "设置服务器响应为错误响应",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_client_pending_requests",
+        "message0": "客户端 %1 待处理请求数",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbClient",
+                "variableTypes": [
+                    "ModbusClientRTU",
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientRTU"
+            }
+        ],
+        "output": "Number",
+        "colour": "#4CAF50",
+        "tooltip": "获取队列中待处理的请求数量",
+        "icon": "fa-light fa-network-wired"
+    },
+    {
+        "type": "emodbus_client_clear_queue",
+        "message0": "客户端 %1 清空请求队列",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "mbClient",
+                "variableTypes": [
+                    "ModbusClientRTU",
+                    "ModbusClientTCP"
+                ],
+                "defaultType": "ModbusClientRTU"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "清空所有待处理的请求",
+        "icon": "fa-light fa-network-wired"
+    }
+]

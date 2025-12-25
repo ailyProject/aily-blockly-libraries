@@ -1,0 +1,1761 @@
+[
+  {
+    "type": "lvgl_init",
+    "message0": "初始化 LVGL 使用显示驱动库 %1 屏幕分辨率 宽 %2 高 %3 旋转角度 %4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DRIVER",
+        "options": [
+          ["TFT_eSPI", "TFT_eSPI"],
+          ["LovyanGFX(待支持)", "LovyanGFX"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "HEIGHT",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ROTATION",
+        "options": [
+          ["0°", "LV_DISPLAY_ROTATION_0"],
+          ["90°", "LV_DISPLAY_ROTATION_90"],
+          ["180°", "LV_DISPLAY_ROTATION_180"],
+          ["270°", "LV_DISPLAY_ROTATION_270"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "初始化 LVGL 库",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_indev_create",
+    "message0": "初始化输入设备 %1 类型 %2 数据获取回调函数",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "indev"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["指针设备(触摸屏/鼠标)", "LV_INDEV_TYPE_POINTER"],
+          ["按键设备", "LV_INDEV_TYPE_KEYPAD"],
+          ["按钮设备", "LV_INDEV_TYPE_BUTTON"],
+          ["编码器设备", "LV_INDEV_TYPE_ENCODER"]
+        ]
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "初始化输入设备",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_indev_data_param_set",
+    "message0": "数据参数 %1 设置为 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PARAM",
+        "options": [
+          ["状态", "state"],
+          ["坐标 X", "point.x"],
+          ["坐标 Y", "point.y"],
+          ["按键值", "key"],
+          ["按钮 ID", "btn_id"],
+          ["编码器增量", "enc_diff"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "获取输入设备的数据参数",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_indev_state_param",
+    "message0": "输入设备状态常量 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          ["释放", "LV_INDEV_STATE_REL"],
+          ["按下", "LV_INDEV_STATE_PR"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "输入设备状态常量",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_label_create",
+    "message0": "创建标签 %1 父对象 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "label"
+      },
+      {
+        "type": "field_variable",
+        "name": "PARENT",
+        "variable": "screen",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "创建一个文本标签控件",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_label_set_text",
+    "message0": "设置标签 %1 文本为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "label",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置标签显示的文本内容",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lv_label_set_text_fmt",
+    "message0": "设置标签 %1 格式化文本 格式串 %2 参数 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "label",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "FMT",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ARGS"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "使用格式化字符串设置标签文本，支持 printf 风格的格式化（如 \"Button: %d\"）",
+    "helpUrl": "",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_label_set_long_mode",
+    "message0": "设置标签 %1 长文本模式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "label",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "自动换行",
+            "LV_LABEL_LONG_MODE_WRAP"
+          ],
+          [
+            "显示省略号",
+            "LV_LABEL_LONG_MODE_DOTS"
+          ],
+          [
+            "来回滚动",
+            "LV_LABEL_LONG_MODE_SCROLL"
+          ],
+          [
+            "循环滚动",
+            "LV_LABEL_LONG_MODE_SCROLL_CIRCULAR"
+          ],
+          [
+            "裁剪",
+            "LV_LABEL_LONG_MODE_CLIP"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置标签的长文本处理模式",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_button_create",
+    "message0": "创建按钮 %1 父对象 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "btn"
+      },
+      {
+        "type": "field_variable",
+        "name": "PARENT",
+        "variable": "screen",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "创建一个按钮控件",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_slider_create",
+    "message0": "创建滑动条 %1 父对象 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "slider"
+      },
+      {
+        "type": "field_variable",
+        "name": "PARENT",
+        "variable": "screen",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "创建一个滑动条控件",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_slider_set_value",
+    "message0": "设置滑动条 %1 值为 %2 动画 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "slider",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ANIM",
+        "options": [
+          [
+            "开启",
+            "LV_ANIM_ON"
+          ],
+          [
+            "关闭",
+            "LV_ANIM_OFF"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置滑动条的当前值",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_slider_set_range",
+    "message0": "设置滑动条 %1 范围 最小 %2 最大 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "slider",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MAX",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置滑动条的取值范围",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_slider_get_value",
+    "message0": "获取滑动条 %1 的值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "slider",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取滑动条的当前值",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_switch_create",
+    "message0": "创建开关 %1 父对象 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "sw1"
+      },
+      {
+        "type": "field_variable",
+        "name": "PARENT",
+        "variable": "screen",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "创建一个开关控件",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_checkbox_create",
+    "message0": "创建复选框 %1 父对象 %2 文本 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "cb"
+      },
+      {
+        "type": "field_variable",
+        "name": "PARENT",
+        "variable": "screen",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "创建一个复选框控件",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_bar_create",
+    "message0": "创建进度条 %1 父对象 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "bar"
+      },
+      {
+        "type": "field_variable",
+        "name": "PARENT",
+        "variable": "screen",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "创建一个进度条控件",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_bar_set_value",
+    "message0": "设置进度条 %1 值为 %2 动画 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "bar",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ANIM",
+        "options": [
+          [
+            "开启",
+            "LV_ANIM_ON"
+          ],
+          [
+            "关闭",
+            "LV_ANIM_OFF"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "设置进度条的当前值",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_bar_set_range",
+    "message0": "设置进度条 %1 范围 最小 %2 最大 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "bar",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MAX",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "设置进度条的取值范围",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_arc_create",
+    "message0": "创建圆弧 %1 父对象 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "arc"
+      },
+      {
+        "type": "field_variable",
+        "name": "PARENT",
+        "variable": "screen",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "创建一个圆弧控件",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_arc_set_value",
+    "message0": "设置圆弧 %1 值为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "arc",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "设置圆弧的当前值",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_arc_set_range",
+    "message0": "设置圆弧 %1 范围 最小 %2 最大 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "arc",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MAX",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "设置圆弧的取值范围",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_spinner_create",
+    "message0": "创建加载动画 %1 父对象 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "spinner"
+      },
+      {
+        "type": "field_variable",
+        "name": "PARENT",
+        "variable": "screen",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "创建一个加载动画控件",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_spinner_set_anim_params",
+    "message0": "设置加载动画 %1 时长 %2 ms 弧度 %3 °",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spinner",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ANGLE",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "设置加载动画的时长和弧度",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_dropdown_create",
+    "message0": "创建下拉框 %1 父对象 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "dropdown"
+      },
+      {
+        "type": "field_variable",
+        "name": "PARENT",
+        "variable": "screen",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3F51B5",
+    "tooltip": "创建一个下拉框控件",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_dropdown_set_options",
+    "message0": "设置下拉框 %1 选项 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "dropdown",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "OPTIONS",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3F51B5",
+    "tooltip": "设置下拉框选项，用\\n分隔多个选项",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_dropdown_get_selected",
+    "message0": "获取下拉框 %1 选中项索引",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "dropdown",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "output": "Number",
+    "colour": "#3F51B5",
+    "tooltip": "获取下拉框当前选中项的索引",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_textarea_create",
+    "message0": "创建文本框 %1 父对象 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "textarea1"
+      },
+      {
+        "type": "field_variable",
+        "name": "PARENT",
+        "variable": "screen",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "创建一个文本输入框控件",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_textarea_set_text",
+    "message0": "设置文本框 %1 文本为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "textarea",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "设置文本框的内容",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_textarea_get_text",
+    "message0": "获取文本框 %1 的文本",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "textarea",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "output": "String",
+    "colour": "#009688",
+    "tooltip": "获取文本框的内容",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_textarea_set_placeholder",
+    "message0": "设置文本框 %1 占位符为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "textarea",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "设置文本框的占位符文本",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_set_pos",
+    "message0": "设置 %1 位置 X %2 Y %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "设置对象的X和Y坐标位置",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_set_size",
+    "message0": "设置 %1 大小 宽 %2 高 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "HEIGHT",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "设置对象的宽度和高度",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_align",
+    "message0": "设置 %1 对齐 %2 偏移 X %3 Y %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ALIGN",
+        "options": [
+          [
+            "居中",
+            "LV_ALIGN_CENTER"
+          ],
+          [
+            "左上",
+            "LV_ALIGN_TOP_LEFT"
+          ],
+          [
+            "中上",
+            "LV_ALIGN_TOP_MID"
+          ],
+          [
+            "右上",
+            "LV_ALIGN_TOP_RIGHT"
+          ],
+          [
+            "左中",
+            "LV_ALIGN_LEFT_MID"
+          ],
+          [
+            "右中",
+            "LV_ALIGN_RIGHT_MID"
+          ],
+          [
+            "左下",
+            "LV_ALIGN_BOTTOM_LEFT"
+          ],
+          [
+            "中下",
+            "LV_ALIGN_BOTTOM_MID"
+          ],
+          [
+            "右下",
+            "LV_ALIGN_BOTTOM_RIGHT"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X_OFS",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "Y_OFS",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "设置对象相对于父对象的对齐方式和偏移",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_center",
+    "message0": "居中 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "将对象居中显示",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_add_flag",
+    "message0": "为 %1 添加标志 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FLAG",
+        "options": [
+          [
+            "隐藏",
+            "LV_OBJ_FLAG_HIDDEN"
+          ],
+          [
+            "可点击",
+            "LV_OBJ_FLAG_CLICKABLE"
+          ],
+          [
+            "可选中",
+            "LV_OBJ_FLAG_CHECKABLE"
+          ],
+          [
+            "可滚动",
+            "LV_OBJ_FLAG_SCROLLABLE"
+          ],
+          [
+            "禁用",
+            "LV_OBJ_FLAG_DISABLED"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "为对象添加标志",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_remove_flag",
+    "message0": "从 %1 移除标志 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FLAG",
+        "options": [
+          [
+            "隐藏",
+            "LV_OBJ_FLAG_HIDDEN"
+          ],
+          [
+            "可点击",
+            "LV_OBJ_FLAG_CLICKABLE"
+          ],
+          [
+            "可选中",
+            "LV_OBJ_FLAG_CHECKABLE"
+          ],
+          [
+            "可滚动",
+            "LV_OBJ_FLAG_SCROLLABLE"
+          ],
+          [
+            "禁用",
+            "LV_OBJ_FLAG_DISABLED"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "从对象移除标志",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_add_state",
+    "message0": "为 %1 添加状态 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "选中",
+            "LV_STATE_CHECKED"
+          ],
+          [
+            "聚焦",
+            "LV_STATE_FOCUSED"
+          ],
+          [
+            "按下",
+            "LV_STATE_PRESSED"
+          ],
+          [
+            "禁用",
+            "LV_STATE_DISABLED"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "为对象添加状态",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_remove_state",
+    "message0": "从 %1 移除状态 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "选中",
+            "LV_STATE_CHECKED"
+          ],
+          [
+            "聚焦",
+            "LV_STATE_FOCUSED"
+          ],
+          [
+            "按下",
+            "LV_STATE_PRESSED"
+          ],
+          [
+            "禁用",
+            "LV_STATE_DISABLED"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "从对象移除状态",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_has_state",
+    "message0": "%1 有状态 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "选中",
+            "LV_STATE_CHECKED"
+          ],
+          [
+            "聚焦",
+            "LV_STATE_FOCUSED"
+          ],
+          [
+            "按下",
+            "LV_STATE_PRESSED"
+          ],
+          [
+            "禁用",
+            "LV_STATE_DISABLED"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#8BC34A",
+    "tooltip": "检查对象是否有指定状态",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_delete",
+    "message0": "删除 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "删除对象及其所有子对象",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_set_style_bg_color",
+    "message0": "设置 %1 背景颜色 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "field_colour_hsv_sliders",
+        "name": "COLOR",
+        "colour": "#ffffff"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "设置对象的背景颜色",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_set_style_text_color",
+    "message0": "设置 %1 文本颜色 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "field_colour_hsv_sliders",
+        "name": "COLOR",
+        "colour": "#000000"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "设置对象的文本颜色",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_set_style_border_color",
+    "message0": "设置 %1 边框颜色 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "field_colour_hsv_sliders",
+        "name": "COLOR",
+        "colour": "#000000"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "设置对象的边框颜色",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_set_style_border_width",
+    "message0": "设置 %1 边框宽度 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "设置对象的边框宽度",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_set_style_radius",
+    "message0": "设置 %1 圆角半径 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "RADIUS",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "设置对象的圆角半径",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_set_style_pad_all",
+    "message0": "设置 %1 内边距 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "PAD",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "设置对象的所有内边距",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_set_style_bg_opa",
+    "message0": "设置 %1 背景透明度 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OPA",
+        "options": [
+          [
+            "完全透明",
+            "LV_OPA_TRANSP"
+          ],
+          [
+            "25%",
+            "LV_OPA_25"
+          ],
+          [
+            "50%",
+            "LV_OPA_50"
+          ],
+          [
+            "75%",
+            "LV_OPA_75"
+          ],
+          [
+            "不透明",
+            "LV_OPA_COVER"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "设置对象的背景透明度",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_event_add_cb",
+    "message0": "当 %1 发生 %2 事件时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "EVENT",
+        "options": [
+          [ "全部事件", "LV_EVENT_ALL" ],
+          [ "按下", "LV_EVENT_PRESSED" ],
+          [ "持续按下", "LV_EVENT_PRESSING" ],
+          [ "按下后移出", "LV_EVENT_PRESS_LOST" ],
+          [ "短按", "LV_EVENT_SHORT_CLICKED" ],
+          [ "单击", "LV_EVENT_SINGLE_CLICKED" ],
+          [ "双击", "LV_EVENT_DOUBLE_CLICKED" ],
+          [ "三击", "LV_EVENT_TRIPLE_CLICKED" ],
+          [ "长按", "LV_EVENT_LONG_PRESSED" ],
+          [ "长按重复", "LV_EVENT_LONG_PRESSED_REPEAT" ],
+          [ "点击", "LV_EVENT_CLICKED" ],
+          [ "释放", "LV_EVENT_RELEASED" ],
+          [ "滚动开始", "LV_EVENT_SCROLL_BEGIN" ],
+          [ "滚动投掷开始", "LV_EVENT_SCROLL_THROW_BEGIN" ],
+          [ "滚动结束", "LV_EVENT_SCROLL_END" ],
+          [ "滚动", "LV_EVENT_SCROLL" ],
+          [ "手势", "LV_EVENT_GESTURE" ],
+          [ "按键", "LV_EVENT_KEY" ],
+          [ "旋转", "LV_EVENT_ROTARY" ],
+          [ "聚焦", "LV_EVENT_FOCUSED" ],
+          [ "失焦", "LV_EVENT_DEFOCUSED" ],
+          [ "离开", "LV_EVENT_LEAVE" ],
+          [ "碰撞测试", "LV_EVENT_HIT_TEST" ],
+          [ "输入设备重置", "LV_EVENT_INDEV_RESET" ],
+          [ "悬停进入", "LV_EVENT_HOVER_OVER" ],
+          [ "悬停离开", "LV_EVENT_HOVER_LEAVE" ],
+          [ "覆盖检查", "LV_EVENT_COVER_CHECK" ],
+          [ "刷新扩展绘制尺寸", "LV_EVENT_REFR_EXT_DRAW_SIZE" ],
+          [ "主绘制开始", "LV_EVENT_DRAW_MAIN_BEGIN" ],
+          [ "主绘制", "LV_EVENT_DRAW_MAIN" ],
+          [ "主绘制结束", "LV_EVENT_DRAW_MAIN_END" ],
+          [ "后绘制开始", "LV_EVENT_DRAW_POST_BEGIN" ],
+          [ "后绘制", "LV_EVENT_DRAW_POST" ],
+          [ "后绘制结束", "LV_EVENT_DRAW_POST_END" ],
+          [ "绘制任务添加", "LV_EVENT_DRAW_TASK_ADDED" ],
+          [ "值改变", "LV_EVENT_VALUE_CHANGED" ],
+          [ "插入", "LV_EVENT_INSERT" ],
+          [ "刷新", "LV_EVENT_REFRESH" ],
+          [ "就绪", "LV_EVENT_READY" ],
+          [ "取消", "LV_EVENT_CANCEL" ],
+          [ "状态改变", "LV_EVENT_STATE_CHANGED" ],
+          [ "创建", "LV_EVENT_CREATE" ],
+          [ "删除", "LV_EVENT_DELETE" ],
+          [ "子对象改变", "LV_EVENT_CHILD_CHANGED" ],
+          [ "子对象创建", "LV_EVENT_CHILD_CREATED" ],
+          [ "子对象删除", "LV_EVENT_CHILD_DELETED" ],
+          [ "屏幕卸载开始", "LV_EVENT_SCREEN_UNLOAD_START" ],
+          [ "屏幕加载开始", "LV_EVENT_SCREEN_LOAD_START" ],
+          [ "屏幕已加载", "LV_EVENT_SCREEN_LOADED" ],
+          [ "屏幕已卸载", "LV_EVENT_SCREEN_UNLOADED" ],
+          [ "尺寸改变", "LV_EVENT_SIZE_CHANGED" ],
+          [ "样式改变", "LV_EVENT_STYLE_CHANGED" ],
+          [ "布局改变", "LV_EVENT_LAYOUT_CHANGED" ],
+          [ "获取自身尺寸", "LV_EVENT_GET_SELF_SIZE" ],
+          [ "区域失效", "LV_EVENT_INVALIDATE_AREA" ],
+          [ "分辨率改变", "LV_EVENT_RESOLUTION_CHANGED" ],
+          [ "颜色格式改变", "LV_EVENT_COLOR_FORMAT_CHANGED" ],
+          [ "刷新请求", "LV_EVENT_REFR_REQUEST" ],
+          [ "刷新开始", "LV_EVENT_REFR_START" ],
+          [ "刷新就绪", "LV_EVENT_REFR_READY" ],
+          [ "渲染开始", "LV_EVENT_RENDER_START" ],
+          [ "渲染就绪", "LV_EVENT_RENDER_READY" ],
+          [ "刷新开始(flush)", "LV_EVENT_FLUSH_START" ],
+          [ "刷新完成(flush)", "LV_EVENT_FLUSH_FINISH" ],
+          [ "刷新等待开始", "LV_EVENT_FLUSH_WAIT_START" ],
+          [ "刷新等待完成", "LV_EVENT_FLUSH_WAIT_FINISH" ],
+          [ "布局更新完成", "LV_EVENT_UPDATE_LAYOUT_COMPLETED" ],
+          [ "垂直同步", "LV_EVENT_VSYNC" ],
+          [ "垂直同步请求", "LV_EVENT_VSYNC_REQUEST" ]
+        ]
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "设置对象的事件回调",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_event_code",
+    "message0": "事件代码常量 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "EVENT",
+        "options": [
+          [ "全部事件", "LV_EVENT_ALL" ],
+          [ "按下", "LV_EVENT_PRESSED" ],
+          [ "持续按下", "LV_EVENT_PRESSING" ],
+          [ "按下后移出", "LV_EVENT_PRESS_LOST" ],
+          [ "短按", "LV_EVENT_SHORT_CLICKED" ],
+          [ "单击", "LV_EVENT_SINGLE_CLICKED" ],
+          [ "双击", "LV_EVENT_DOUBLE_CLICKED" ],
+          [ "三击", "LV_EVENT_TRIPLE_CLICKED" ],
+          [ "长按", "LV_EVENT_LONG_PRESSED" ],
+          [ "长按重复", "LV_EVENT_LONG_PRESSED_REPEAT" ],
+          [ "点击", "LV_EVENT_CLICKED" ],
+          [ "释放", "LV_EVENT_RELEASED" ],
+          [ "滚动开始", "LV_EVENT_SCROLL_BEGIN" ],
+          [ "滚动投掷开始", "LV_EVENT_SCROLL_THROW_BEGIN" ],
+          [ "滚动结束", "LV_EVENT_SCROLL_END" ],
+          [ "滚动", "LV_EVENT_SCROLL" ],
+          [ "手势", "LV_EVENT_GESTURE" ],
+          [ "按键", "LV_EVENT_KEY" ],
+          [ "旋转", "LV_EVENT_ROTARY" ],
+          [ "聚焦", "LV_EVENT_FOCUSED" ],
+          [ "失焦", "LV_EVENT_DEFOCUSED" ],
+          [ "离开", "LV_EVENT_LEAVE" ],
+          [ "碰撞测试", "LV_EVENT_HIT_TEST" ],
+          [ "输入设备重置", "LV_EVENT_INDEV_RESET" ],
+          [ "悬停进入", "LV_EVENT_HOVER_OVER" ],
+          [ "悬停离开", "LV_EVENT_HOVER_LEAVE" ],
+          [ "覆盖检查", "LV_EVENT_COVER_CHECK" ],
+          [ "刷新扩展绘制尺寸", "LV_EVENT_REFR_EXT_DRAW_SIZE" ],
+          [ "主绘制开始", "LV_EVENT_DRAW_MAIN_BEGIN" ],
+          [ "主绘制", "LV_EVENT_DRAW_MAIN" ],
+          [ "主绘制结束", "LV_EVENT_DRAW_MAIN_END" ],
+          [ "后绘制开始", "LV_EVENT_DRAW_POST_BEGIN" ],
+          [ "后绘制", "LV_EVENT_DRAW_POST" ],
+          [ "后绘制结束", "LV_EVENT_DRAW_POST_END" ],
+          [ "绘制任务添加", "LV_EVENT_DRAW_TASK_ADDED" ],
+          [ "值改变", "LV_EVENT_VALUE_CHANGED" ],
+          [ "插入", "LV_EVENT_INSERT" ],
+          [ "刷新", "LV_EVENT_REFRESH" ],
+          [ "就绪", "LV_EVENT_READY" ],
+          [ "取消", "LV_EVENT_CANCEL" ],
+          [ "状态改变", "LV_EVENT_STATE_CHANGED" ],
+          [ "创建", "LV_EVENT_CREATE" ],
+          [ "删除", "LV_EVENT_DELETE" ],
+          [ "子对象改变", "LV_EVENT_CHILD_CHANGED" ],
+          [ "子对象创建", "LV_EVENT_CHILD_CREATED" ],
+          [ "子对象删除", "LV_EVENT_CHILD_DELETED" ],
+          [ "屏幕卸载开始", "LV_EVENT_SCREEN_UNLOAD_START" ],
+          [ "屏幕加载开始", "LV_EVENT_SCREEN_LOAD_START" ],
+          [ "屏幕已加载", "LV_EVENT_SCREEN_LOADED" ],
+          [ "屏幕已卸载", "LV_EVENT_SCREEN_UNLOADED" ],
+          [ "尺寸改变", "LV_EVENT_SIZE_CHANGED" ],
+          [ "样式改变", "LV_EVENT_STYLE_CHANGED" ],
+          [ "布局改变", "LV_EVENT_LAYOUT_CHANGED" ],
+          [ "获取自身尺寸", "LV_EVENT_GET_SELF_SIZE" ],
+          [ "区域失效", "LV_EVENT_INVALIDATE_AREA" ],
+          [ "分辨率改变", "LV_EVENT_RESOLUTION_CHANGED" ],
+          [ "颜色格式改变", "LV_EVENT_COLOR_FORMAT_CHANGED" ],
+          [ "刷新请求", "LV_EVENT_REFR_REQUEST" ],
+          [ "刷新开始", "LV_EVENT_REFR_START" ],
+          [ "刷新就绪", "LV_EVENT_REFR_READY" ],
+          [ "渲染开始", "LV_EVENT_RENDER_START" ],
+          [ "渲染就绪", "LV_EVENT_RENDER_READY" ],
+          [ "刷新开始(flush)", "LV_EVENT_FLUSH_START" ],
+          [ "刷新完成(flush)", "LV_EVENT_FLUSH_FINISH" ],
+          [ "刷新等待开始", "LV_EVENT_FLUSH_WAIT_START" ],
+          [ "刷新等待完成", "LV_EVENT_FLUSH_WAIT_FINISH" ],
+          [ "布局更新完成", "LV_EVENT_UPDATE_LAYOUT_COMPLETED" ],
+          [ "垂直同步", "LV_EVENT_VSYNC" ],
+          [ "垂直同步请求", "LV_EVENT_VSYNC_REQUEST" ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#F44336",
+    "tooltip": "获取事件代码的常量值",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_get_child",
+    "message0": "创建 %1 使用 %2 的子对象 索引 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "child_obj"
+      },
+      {
+        "type": "field_variable",
+        "name": "VAR_PARENT",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "获取父对象的指定索引的子对象",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_screen_active",
+    "message0": "获取当前屏幕",
+    "output": "lv_obj_t",
+    "colour": "#455A64",
+    "tooltip": "获取当前活动的屏幕对象",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_screen_load",
+    "message0": "加载屏幕 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "screen",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#455A64",
+    "tooltip": "切换到指定的屏幕",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_create",
+    "message0": "创建基础对象 %1 父对象 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "obj"
+      },
+      {
+        "type": "field_variable",
+        "name": "PARENT",
+        "variable": "screen",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "创建一个基础容器对象",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_screen_create",
+    "message0": "创建新屏幕 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "screen"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#455A64",
+    "tooltip": "创建一个新的屏幕对象",
+    "icon": "fa-light fa-mobile"
+  }
+]

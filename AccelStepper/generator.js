@@ -1,218 +1,386 @@
-/**
- * AccelStepper 步进电机库代码生成器
- */
-
-// 避免重复加载扩展
-if (Blockly.Extensions.isRegistered('accel_stepper_init_extension')) {
-  Blockly.Extensions.unregister('accel_stepper_init_extension');
+// Helper function to get variable name from field_variable
+function getStepperVarName(block) {
+  const varField = block.getField('VAR');
+  return varField ? varField.getText() : 'stepper';
 }
 
-// 注册初始化扩展，用于根据接口类型隐藏不必要的引脚
-Blockly.Extensions.register('accel_stepper_init_extension', function() {
-  // 获取接口类型字段
-  var interfaceField = this.getField('INTERFACE');
-  
-  // 监听接口类型变化
-  var thisBlock = this;
-  interfaceField.setValidator(function(newValue) {
-    // 根据接口类型显示/隐藏相应引脚
-    var pin3Field = thisBlock.getField('PIN3');
-    var pin4Field = thisBlock.getField('PIN4');
-    
-    switch(newValue) {
-      case 'DRIVER':
-      case 'FULL2WIRE':
-        // 2引脚模式，隐藏pin3和pin4
-        if (pin3Field) pin3Field.setVisible(false);
-        if (pin4Field) pin4Field.setVisible(false);
-        break;
-      case 'FULL3WIRE':
-      case 'HALF3WIRE':
-        // 3引脚模式，显示pin3，隐藏pin4
-        if (pin3Field) pin3Field.setVisible(true);
-        if (pin4Field) pin4Field.setVisible(false);
-        break;
-      case 'FULL4WIRE':
-      case 'HALF4WIRE':
-        // 4引脚模式，显示所有引脚
-        if (pin3Field) pin3Field.setVisible(true);
-        if (pin4Field) pin4Field.setVisible(true);
-        break;
+// Register variable to Blockly
+function registerStepperVariable(generator, varName) {
+  if (typeof registerVariableToBlockly === 'function') {
+    registerVariableToBlockly(varName, 'AccelStepper');
+  }
+  generator.addLibrary('AccelStepper', '#include <AccelStepper.h>');
+  generator.addVariable('AccelStepper ' + varName, 'AccelStepper ' + varName + ';');
+}
+
+// Setup block for 2-4 wire steppers
+Arduino.forBlock['accelstepper_setup'] = function(block, generator) {
+  // 变量重命名监听
+  if (!block._stepperVarMonitorAttached) {
+    block._stepperVarMonitorAttached = true;
+    block._stepperVarLastName = block.getFieldValue('VAR') || 'stepper';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.onRename === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._stepperVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'AccelStepper');
+          block._stepperVarLastName = newName;
+        }
+        return newName;
+      });
     }
-    
-    // 更新块的外观
-    thisBlock.render();
-    return newValue;
-  });
-  
-  // 初始化时设置引脚可见性
-  var initialValue = interfaceField.getValue();
-  interfaceField.getValidator()(initialValue);
-});
+  }
 
-Arduino.forBlock['accel_stepper_init'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    var interface = block.getFieldValue('INTERFACE');
-    var pin1 = block.getFieldValue('PIN1');
-    var pin2 = block.getFieldValue('PIN2');
-    var pin3 = block.getFieldValue('PIN3');
-    var pin4 = block.getFieldValue('PIN4');
-    
-    // 添加AccelStepper库引用
-    generator.addLibrary('AccelStepper', '#include <AccelStepper.h>');
-    
-    // 根据接口类型生成不同的对象声明
-    var objectDeclaration = '';
-    switch(interface) {
-        case 'DRIVER':
-            objectDeclaration = 'AccelStepper ' + stepperName + '(AccelStepper::DRIVER, ' + pin1 + ', ' + pin2 + ');';
-            break;
-        case 'FULL2WIRE':
-            objectDeclaration = 'AccelStepper ' + stepperName + '(AccelStepper::FULL2WIRE, ' + pin1 + ', ' + pin2 + ');';
-            break;
-        case 'FULL3WIRE':
-            objectDeclaration = 'AccelStepper ' + stepperName + '(AccelStepper::FULL3WIRE, ' + pin1 + ', ' + pin2 + ', ' + pin3 + ');';
-            break;
-        case 'FULL4WIRE':
-            objectDeclaration = 'AccelStepper ' + stepperName + '(AccelStepper::FULL4WIRE, ' + pin1 + ', ' + pin2 + ', ' + pin3 + ', ' + pin4 + ');';
-            break;
-        case 'HALF3WIRE':
-            objectDeclaration = 'AccelStepper ' + stepperName + '(AccelStepper::HALF3WIRE, ' + pin1 + ', ' + pin2 + ', ' + pin3 + ');';
-            break;
-        case 'HALF4WIRE':
-            objectDeclaration = 'AccelStepper ' + stepperName + '(AccelStepper::HALF4WIRE, ' + pin1 + ', ' + pin2 + ', ' + pin3 + ', ' + pin4 + ');';
-            break;
-        default:
-            objectDeclaration = 'AccelStepper ' + stepperName + '(AccelStepper::FULL4WIRE, ' + pin1 + ', ' + pin2 + ', ' + pin3 + ', ' + pin4 + ');';
+  const varName = block.getFieldValue('VAR') || 'stepper';
+  const interfaceType = block.getFieldValue('INTERFACE');
+  const pin1 = generator.valueToCode(block, 'PIN1', generator.ORDER_ATOMIC) || '2';
+  const pin2 = generator.valueToCode(block, 'PIN2', generator.ORDER_ATOMIC) || '3';
+  const pin3 = generator.valueToCode(block, 'PIN3', generator.ORDER_ATOMIC) || '4';
+  const pin4 = generator.valueToCode(block, 'PIN4', generator.ORDER_ATOMIC) || '5';
+
+  registerStepperVariable(generator, varName);
+
+  // Build the pin list based on interface type
+  let pinList = pin1;
+  if (interfaceType === '2' || interfaceType === '3' || interfaceType === '4' || interfaceType === '6' || interfaceType === '8') {
+    pinList += ', ' + pin2;
+  }
+  if (interfaceType === '3' || interfaceType === '4' || interfaceType === '6' || interfaceType === '8') {
+    pinList += ', ' + pin3;
+  }
+  if (interfaceType === '4' || interfaceType === '8') {
+    pinList += ', ' + pin4;
+  }
+
+  let code = varName + ' = AccelStepper(' + interfaceType + ', ' + pinList + ');\n';
+  return code;
+};
+
+// Setup block for driver mode (Step + Direction)
+Arduino.forBlock['accelstepper_setup_driver'] = function(block, generator) {
+  // 变量重命名监听
+  if (!block._stepperVarMonitorAttached) {
+    block._stepperVarMonitorAttached = true;
+    block._stepperVarLastName = block.getFieldValue('VAR') || 'stepper';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.onRename === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._stepperVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'AccelStepper');
+          block._stepperVarLastName = newName;
+        }
+        return newName;
+      });
     }
-    
-    // 添加对象声明
-    generator.addObject(stepperName, objectDeclaration);
-    
-    // 添加基本初始化设置（可选的默认值）
-    generator.addSetupBegin(stepperName + '_init', 
-        stepperName + '.setMaxSpeed(1000.0);\n' +
-        '  ' + stepperName + '.setAcceleration(500.0);'
-    );
-    
-    return '';
+  }
+
+  const varName = block.getFieldValue('VAR') || 'stepper';
+  const pinStep = generator.valueToCode(block, 'PIN_STEP', generator.ORDER_ATOMIC) || '2';
+  const pinDir = generator.valueToCode(block, 'PIN_DIR', generator.ORDER_ATOMIC) || '3';
+
+  registerStepperVariable(generator, varName);
+
+  // Driver mode uses interface type 1
+  let code = varName + ' = AccelStepper(AccelStepper::DRIVER, ' + pinStep + ', ' + pinDir + ');\n';
+  return code;
 };
 
-Arduino.forBlock['accel_stepper_set_max_speed'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    var speed = generator.valueToCode(block, 'SPEED', generator.ORDER_ATOMIC) || '1000';
-    
-    var code = stepperName + '.setMaxSpeed(' + speed + ');\n';
-    return code;
+// Move to absolute position
+Arduino.forBlock['accelstepper_move_to'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+  const position = generator.valueToCode(block, 'POSITION', generator.ORDER_ATOMIC) || '0';
+
+  let code = varName + '.moveTo(' + position + ');\n';
+  return code;
 };
 
-Arduino.forBlock['accel_stepper_set_acceleration'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    var acceleration = generator.valueToCode(block, 'ACCELERATION', generator.ORDER_ATOMIC) || '500';
-    
-    var code = stepperName + '.setAcceleration(' + acceleration + ');\n';
-    return code;
+// Move relative steps
+Arduino.forBlock['accelstepper_move'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+  const steps = generator.valueToCode(block, 'STEPS', generator.ORDER_ATOMIC) || '0';
+
+  let code = varName + '.move(' + steps + ');\n';
+  return code;
 };
 
-Arduino.forBlock['accel_stepper_set_speed'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    var speed = generator.valueToCode(block, 'SPEED', generator.ORDER_ATOMIC) || '100';
-    
-    var code = stepperName + '.setSpeed(' + speed + ');\n';
-    return code;
+// Run one step with acceleration
+Arduino.forBlock['accelstepper_run'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+
+  let code = varName + '.run();\n';
+  return code;
 };
 
-Arduino.forBlock['accel_stepper_move_to'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    var position = generator.valueToCode(block, 'POSITION', generator.ORDER_ATOMIC) || '0';
-    
-    var code = stepperName + '.moveTo(' + position + ');\n';
-    return code;
+// Run one step at constant speed
+Arduino.forBlock['accelstepper_run_speed'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+
+  let code = varName + '.runSpeed();\n';
+  return code;
 };
 
-Arduino.forBlock['accel_stepper_move'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    var steps = generator.valueToCode(block, 'STEPS', generator.ORDER_ATOMIC) || '100';
-    
-    var code = stepperName + '.move(' + steps + ');\n';
-    return code;
+// Stop motor
+Arduino.forBlock['accelstepper_stop'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+
+  let code = varName + '.stop();\n';
+  return code;
 };
 
-Arduino.forBlock['accel_stepper_run'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    
-    var code = stepperName + '.run();\n';
-    return code;
+// Set max speed
+Arduino.forBlock['accelstepper_set_max_speed'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+  const speed = generator.valueToCode(block, 'SPEED', generator.ORDER_ATOMIC) || '1000';
+
+  let code = varName + '.setMaxSpeed(' + speed + ');\n';
+  return code;
 };
 
-Arduino.forBlock['accel_stepper_run_speed'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    
-    var code = stepperName + '.runSpeed();\n';
-    return code;
+// Set constant speed
+Arduino.forBlock['accelstepper_set_speed'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+  const speed = generator.valueToCode(block, 'SPEED', generator.ORDER_ATOMIC) || '50';
+
+  let code = varName + '.setSpeed(' + speed + ');\n';
+  return code;
 };
 
-Arduino.forBlock['accel_stepper_run_to_position'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    
-    var code = stepperName + '.runToPosition();\n';
-    return code;
+// Get current speed
+Arduino.forBlock['accelstepper_get_speed'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+
+  let code = varName + '.speed()';
+  return [code, generator.ORDER_ATOMIC];
 };
 
-Arduino.forBlock['accel_stepper_run_to_new_position'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    var position = generator.valueToCode(block, 'POSITION', generator.ORDER_ATOMIC) || '0';
-    
-    var code = stepperName + '.runToNewPosition(' + position + ');\n';
-    return code;
+// Set acceleration
+Arduino.forBlock['accelstepper_set_acceleration'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+  const accel = generator.valueToCode(block, 'ACCEL', generator.ORDER_ATOMIC) || '100';
+
+  let code = varName + '.setAcceleration(' + accel + ');\n';
+  return code;
 };
 
-Arduino.forBlock['accel_stepper_stop'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    
-    var code = stepperName + '.stop();\n';
-    return code;
+// Get current position
+Arduino.forBlock['accelstepper_get_current_position'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+
+  let code = varName + '.currentPosition()';
+  return [code, generator.ORDER_ATOMIC];
 };
 
-Arduino.forBlock['accel_stepper_current_position'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    
-    var code = stepperName + '.currentPosition()';
-    return [code, generator.ORDER_ATOMIC];
+// Set current position
+Arduino.forBlock['accelstepper_set_current_position'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+  const position = generator.valueToCode(block, 'POSITION', generator.ORDER_ATOMIC) || '0';
+
+  let code = varName + '.setCurrentPosition(' + position + ');\n';
+  return code;
 };
 
-Arduino.forBlock['accel_stepper_target_position'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    
-    var code = stepperName + '.targetPosition()';
-    return [code, generator.ORDER_ATOMIC];
+// Get distance to go
+Arduino.forBlock['accelstepper_distance_to_go'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+
+  let code = varName + '.distanceToGo()';
+  return [code, generator.ORDER_ATOMIC];
 };
 
-Arduino.forBlock['accel_stepper_distance_to_go'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    
-    var code = stepperName + '.distanceToGo()';
-    return [code, generator.ORDER_ATOMIC];
+// Check if running
+Arduino.forBlock['accelstepper_is_running'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+
+  let code = varName + '.isRunning()';
+  return [code, generator.ORDER_ATOMIC];
 };
 
-Arduino.forBlock['accel_stepper_is_running'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    
-    var code = stepperName + '.isRunning()';
-    return [code, generator.ORDER_ATOMIC];
+// Enable outputs
+Arduino.forBlock['accelstepper_enable_outputs'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+
+  let code = varName + '.enableOutputs();\n';
+  return code;
 };
 
-Arduino.forBlock['accel_stepper_set_current_position'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    var position = generator.valueToCode(block, 'POSITION', generator.ORDER_ATOMIC) || '0';
-    
-    var code = stepperName + '.setCurrentPosition(' + position + ');\n';
-    return code;
+// Disable outputs
+Arduino.forBlock['accelstepper_disable_outputs'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+
+  let code = varName + '.disableOutputs();\n';
+  return code;
 };
 
-Arduino.forBlock['accel_stepper_speed'] = function(block, generator) {
-    var stepperName = Arduino.nameDB_.getName(block.getFieldValue('STEPPER_NAME'), Blockly.VARIABLE_CATEGORY_NAME);
-    
-    var code = stepperName + '.speed()';
-    return [code, generator.ORDER_ATOMIC];
+// Run to position (blocking)
+Arduino.forBlock['accelstepper_run_to_position'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+
+  let code = varName + '.runToPosition();\n';
+  return code;
+};
+
+// Run to new position (blocking)
+Arduino.forBlock['accelstepper_run_to_new_position'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+  const position = generator.valueToCode(block, 'POSITION', generator.ORDER_ATOMIC) || '0';
+
+  let code = varName + '.runToNewPosition(' + position + ');\n';
+  return code;
+};
+
+// Run speed to position
+Arduino.forBlock['accelstepper_run_speed_to_position'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+
+  let code = varName + '.runSpeedToPosition();\n';
+  return code;
+};
+
+// Set enable pin
+Arduino.forBlock['accelstepper_set_enable_pin'] = function(block, generator) {
+  const varName = getStepperVarName(block);
+  const pin = generator.valueToCode(block, 'PIN', generator.ORDER_ATOMIC) || '255';
+
+  let code = varName + '.setEnablePin(' + pin + ');\n';
+  return code;
+};
+
+// Register MultiStepper variable
+function registerMultiStepperVariable(generator, varName) {
+  if (typeof registerVariableToBlockly === 'function') {
+    registerVariableToBlockly(varName, 'MultiStepper');
+  }
+  generator.addLibrary('MultiStepper', '#include <MultiStepper.h>');
+  generator.addVariable('MultiStepper ' + varName, 'MultiStepper ' + varName + ';');
+}
+
+// Create MultiStepper object
+Arduino.forBlock['multistepper_create'] = function(block, generator) {
+  const varName = block.getFieldValue('VAR') || 'steppers';
+
+  registerMultiStepperVariable(generator, varName);
+
+  let code = varName + ' = MultiStepper();\n';
+  return code;
+};
+
+// Add stepper to MultiStepper
+Arduino.forBlock['multistepper_add_stepper'] = function(block, generator) {
+  const stepperVar = block.getField('STEPPER').getText() || 'stepper';
+  const multiVarName = block.getField('VAR').getText() || 'steppers';
+
+  generator.addLibrary('MultiStepper', '#include <MultiStepper.h>');
+
+  let code = multiVarName + '.addStepper(' + stepperVar + ');\n';
+  return code;
+};
+
+// Move multiple steppers to positions (using array)
+Arduino.forBlock['multistepper_move_to'] = function(block, generator) {
+  const multiVarName = block.getField('VAR').getText() || 'steppers';
+  const positions = generator.valueToCode(block, 'POSITIONS', generator.ORDER_ATOMIC) || '{0}';
+
+  let code = multiVarName + '.moveTo(' + positions + ');\n';
+  return code;
+};
+
+// Move 2 steppers to positions
+Arduino.forBlock['multistepper_move_to_2'] = function(block, generator) {
+  // 变量重命名监听
+  if (!block._stepperVarMonitorAttached) {
+    block._stepperVarMonitorAttached = true;
+    block._stepperVarLastName = block.getFieldValue('VAR') || 'steppers';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.onRename === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._stepperVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'AccelStepper');
+          block._stepperVarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
+  const multiVarName = block.getField('VAR').getText() || 'steppers';
+  const pos1 = generator.valueToCode(block, 'POS1', generator.ORDER_ATOMIC) || '0';
+  const pos2 = generator.valueToCode(block, 'POS2', generator.ORDER_ATOMIC) || '0';
+
+  let code = 'long positions_2[] = {' + pos1 + ', ' + pos2 + '};\n';
+  code += multiVarName + '.moveTo(positions_2);\n';
+  return code;
+};
+
+// Move 3 steppers to positions
+Arduino.forBlock['multistepper_move_to_3'] = function(block, generator) {
+  const multiVarName = block.getField('VAR').getText() || 'steppers';
+  const pos1 = generator.valueToCode(block, 'POS1', generator.ORDER_ATOMIC) || '0';
+  const pos2 = generator.valueToCode(block, 'POS2', generator.ORDER_ATOMIC) || '0';
+  const pos3 = generator.valueToCode(block, 'POS3', generator.ORDER_ATOMIC) || '0';
+
+  let code = 'long positions_3[] = {' + pos1 + ', ' + pos2 + ', ' + pos3 + '};\n';
+  code += multiVarName + '.moveTo(positions_3);\n';
+  return code;
+};
+
+// Move 4 steppers to positions
+Arduino.forBlock['multistepper_move_to_4'] = function(block, generator) {
+  const multiVarName = block.getField('VAR').getText() || 'steppers';
+  const pos1 = generator.valueToCode(block, 'POS1', generator.ORDER_ATOMIC) || '0';
+  const pos2 = generator.valueToCode(block, 'POS2', generator.ORDER_ATOMIC) || '0';
+  const pos3 = generator.valueToCode(block, 'POS3', generator.ORDER_ATOMIC) || '0';
+  const pos4 = generator.valueToCode(block, 'POS4', generator.ORDER_ATOMIC) || '0';
+
+  let code = 'long positions_4[] = {' + pos1 + ', ' + pos2 + ', ' + pos3 + ', ' + pos4 + '};\n';
+  code += multiVarName + '.moveTo(positions_4);\n';
+  return code;
+};
+
+// Create positions array
+Arduino.forBlock['multistepper_positions_array'] = function(block, generator) {
+  // const pos1 = generator.valueToCode(block, 'POS1', generator.ORDER_ATOMIC) || '0';
+  // const pos2 = generator.valueToCode(block, 'POS2', generator.ORDER_ATOMIC) || '0';
+  // const pos3 = generator.valueToCode(block, 'POS3', generator.ORDER_ATOMIC) || '0';
+  // const pos4 = generator.valueToCode(block, 'POS4', generator.ORDER_ATOMIC) || '0';
+
+  // let code = '{' + pos1 + ', ' + pos2 + ', ' + pos3 + ', ' + pos4 + '}';
+  // 收集所有连接的对象块返回的代码
+  let objectValues = [];
+
+  // 遍历所有输入连接（兼容新旧mutator）
+  for (let i = 0; i < block.inputList.length; i++) {
+    const input = block.inputList[i];
+    if (input.type === Blockly.INPUT_VALUE && input.name && input.name.startsWith('INPUT')) {
+      const value = generator.valueToCode(block, input.name, Arduino.ORDER_ATOMIC);
+      if (value && value !== '""') {
+        objectValues.push(value);
+      }
+    }
+  }
+
+  let code = '{' + objectValues.join(', ') + '}';
+  
+  return [code, generator.ORDER_ATOMIC];
+};
+
+// Run one step for multiple steppers
+Arduino.forBlock['multistepper_run'] = function(block, generator) {
+  const multiVarName = block.getField('VAR').getText() || 'steppers';
+
+  let code = multiVarName + '.run();\n';
+  return code;
+};
+
+// Run multiple steppers to positions (blocking)
+Arduino.forBlock['multistepper_run_speed_to_position'] = function(block, generator) {
+  const multiVarName = block.getField('VAR').getText() || 'steppers';
+
+  let code = multiVarName + '.runSpeedToPosition();\n';
+  return code;
 };

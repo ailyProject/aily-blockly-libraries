@@ -1,0 +1,748 @@
+[
+  {
+    "type": "nimble_init",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "初始化 NimBLE 设备名称 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "初始化NimBLE蓝牙栈，设置设备广播名称",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_deinit",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "关闭 NimBLE 释放资源 %1",
+    "args0": [
+      {
+        "type": "field_checkbox",
+        "name": "CLEAR_ALL",
+        "checked": false
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "关闭NimBLE蓝牙栈，选择是否清除所有配置",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_create_server",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "创建 BLE 服务端 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "pServer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "创建一个BLE服务端实例",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_server_create_service",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "服务端 %1 创建服务 UUID %2 保存到 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "SERVER",
+        "variable": "pServer",
+        "variableTypes": ["NimBLEServer"],
+        "defaultType": "NimBLEServer"
+      },
+      {
+        "type": "input_value",
+        "name": "UUID",
+        "check": ["String"]
+      },
+      {
+        "type": "field_input",
+        "name": "SERVICE_VAR",
+        "text": "pService"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "在服务端上创建一个BLE服务",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_service_create_characteristic",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "服务 %1 创建特征 UUID %2 保存到 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "SERVICE",
+        "variable": "pService",
+        "variableTypes": ["NimBLEService"],
+        "defaultType": "NimBLEService"
+      },
+      {
+        "type": "input_value",
+        "name": "UUID",
+        "check": ["String"]
+      },
+      {
+        "type": "field_input",
+        "name": "CHAR_VAR",
+        "text": "pCharacteristic"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "在服务中创建一个可读写的特征值",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_service_create_characteristic_props",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "服务 %1 创建特征 UUID %2 属性 %3 保存到 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "SERVICE",
+        "variable": "pService",
+        "variableTypes": ["NimBLEService"],
+        "defaultType": "NimBLEService"
+      },
+      {
+        "type": "input_value",
+        "name": "UUID",
+        "check": ["String"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROPERTIES",
+        "options": [
+          ["读+写", "READ_WRITE"],
+          ["只读", "READ"],
+          ["只写", "WRITE"],
+          ["读+通知", "READ_NOTIFY"],
+          ["读+写+通知", "READ_WRITE_NOTIFY"],
+          ["读+写+指示", "READ_WRITE_INDICATE"]
+        ]
+      },
+      {
+        "type": "field_input",
+        "name": "CHAR_VAR",
+        "text": "pCharacteristic"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "在服务中创建一个具有指定属性的特征值",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_characteristic_set_value",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "特征 %1 设置值 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CHAR",
+        "variable": "pCharacteristic",
+        "variableTypes": ["NimBLECharacteristic"],
+        "defaultType": "NimBLECharacteristic"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置特征值的数据",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_characteristic_get_value",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "获取特征 %1 的值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CHAR",
+        "variable": "pCharacteristic",
+        "variableTypes": ["NimBLECharacteristic"],
+        "defaultType": "NimBLECharacteristic"
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "获取特征值的数据",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_characteristic_notify",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "特征 %1 发送通知",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CHAR",
+        "variable": "pCharacteristic",
+        "variableTypes": ["NimBLECharacteristic"],
+        "defaultType": "NimBLECharacteristic"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "向已订阅的客户端发送通知",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_service_start",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "启动服务 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "SERVICE",
+        "variable": "pService",
+        "variableTypes": ["NimBLEService"],
+        "defaultType": "NimBLEService"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "启动BLE服务",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_start_advertising",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "开始广播",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "开始BLE广播，让设备可以被发现",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_stop_advertising",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "停止广播",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "停止BLE广播",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_advertising_add_service",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "广播添加服务 UUID %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "UUID",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "在广播数据中添加服务UUID",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_advertising_set_name",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "广播设置名称 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "设置广播显示的设备名称",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_server_connected_count",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "服务端 %1 已连接客户端数量",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "SERVER",
+        "variable": "pServer",
+        "variableTypes": ["NimBLEServer"],
+        "defaultType": "NimBLEServer"
+      }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50",
+    "tooltip": "获取当前连接的客户端数量",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_on_connect",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "当客户端连接到服务端 %1 时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "SERVER",
+        "variable": "pServer",
+        "variableTypes": ["NimBLEServer"],
+        "defaultType": "NimBLEServer"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#E91E63",
+    "tooltip": "当有客户端连接时执行的代码",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_on_disconnect",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "当客户端断开服务端 %1 连接时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "SERVER",
+        "variable": "pServer",
+        "variableTypes": ["NimBLEServer"],
+        "defaultType": "NimBLEServer"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#E91E63",
+    "tooltip": "当客户端断开连接时执行的代码",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_on_characteristic_write",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "当特征 %1 被写入时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CHAR",
+        "variable": "pCharacteristic",
+        "variableTypes": ["NimBLECharacteristic"],
+        "defaultType": "NimBLECharacteristic"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#E91E63",
+    "tooltip": "当特征值被客户端写入时执行的代码",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_start_scan",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "开始扫描 持续 %1 秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "开始扫描BLE设备，0表示持续扫描",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_stop_scan",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "停止扫描",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "停止BLE扫描",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_is_scanning",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "正在扫描中",
+    "output": "Boolean",
+    "colour": "#00BCD4",
+    "tooltip": "检查是否正在扫描",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_on_scan_result",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "当扫描到设备时",
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#E91E63",
+    "tooltip": "当扫描到BLE设备时执行的代码，可使用 scanDevice 变量获取设备信息",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_scan_device_name",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "扫描到的设备名称",
+    "output": "String",
+    "colour": "#00BCD4",
+    "tooltip": "获取扫描到的设备名称（在扫描回调中使用）",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_scan_device_address",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "扫描到的设备地址",
+    "output": "String",
+    "colour": "#00BCD4",
+    "tooltip": "获取扫描到的设备地址（在扫描回调中使用）",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_scan_device_rssi",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "扫描到的设备信号强度",
+    "output": "Number",
+    "colour": "#00BCD4",
+    "tooltip": "获取扫描到的设备RSSI信号强度（在扫描回调中使用）",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_scan_device_has_service",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "扫描到的设备包含服务 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "UUID",
+        "check": ["String"]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#00BCD4",
+    "tooltip": "检查扫描到的设备是否广播指定的服务UUID",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_create_client",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "创建 BLE 客户端 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "pClient"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "创建一个BLE客户端实例",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_client_connect_address",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "客户端 %1 连接到地址 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CLIENT",
+        "variable": "pClient",
+        "variableTypes": ["NimBLEClient"],
+        "defaultType": "NimBLEClient"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": ["String"]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#795548",
+    "tooltip": "连接到指定地址的BLE设备，返回是否成功",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_client_connect_device",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "客户端 %1 连接到扫描设备",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CLIENT",
+        "variable": "pClient",
+        "variableTypes": ["NimBLEClient"],
+        "defaultType": "NimBLEClient"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#795548",
+    "tooltip": "连接到扫描回调中的设备",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_client_disconnect",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "客户端 %1 断开连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CLIENT",
+        "variable": "pClient",
+        "variableTypes": ["NimBLEClient"],
+        "defaultType": "NimBLEClient"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "断开与服务端的连接",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_client_is_connected",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "客户端 %1 已连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CLIENT",
+        "variable": "pClient",
+        "variableTypes": ["NimBLEClient"],
+        "defaultType": "NimBLEClient"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#795548",
+    "tooltip": "检查客户端是否已连接",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_client_get_service",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "客户端 %1 获取服务 UUID %2 保存到 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CLIENT",
+        "variable": "pClient",
+        "variableTypes": ["NimBLEClient"],
+        "defaultType": "NimBLEClient"
+      },
+      {
+        "type": "input_value",
+        "name": "UUID",
+        "check": ["String"]
+      },
+      {
+        "type": "field_input",
+        "name": "SERVICE_VAR",
+        "text": "pRemoteService"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "获取远程服务端的指定服务",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_remote_service_get_characteristic",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "远程服务 %1 获取特征 UUID %2 保存到 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "SERVICE",
+        "variable": "pRemoteService",
+        "variableTypes": ["NimBLERemoteService"],
+        "defaultType": "NimBLERemoteService"
+      },
+      {
+        "type": "input_value",
+        "name": "UUID",
+        "check": ["String"]
+      },
+      {
+        "type": "field_input",
+        "name": "CHAR_VAR",
+        "text": "pRemoteChar"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "获取远程服务中的指定特征",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_remote_char_read",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "读取远程特征 %1 的值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CHAR",
+        "variable": "pRemoteChar",
+        "variableTypes": ["NimBLERemoteCharacteristic"],
+        "defaultType": "NimBLERemoteCharacteristic"
+      }
+    ],
+    "output": "String",
+    "colour": "#795548",
+    "tooltip": "读取远程特征的值",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_remote_char_write",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "向远程特征 %1 写入 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CHAR",
+        "variable": "pRemoteChar",
+        "variableTypes": ["NimBLERemoteCharacteristic"],
+        "defaultType": "NimBLERemoteCharacteristic"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "向远程特征写入数据",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_remote_char_subscribe",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "订阅远程特征 %1 通知",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CHAR",
+        "variable": "pRemoteChar",
+        "variableTypes": ["NimBLERemoteCharacteristic"],
+        "defaultType": "NimBLERemoteCharacteristic"
+      }
+    ],
+    "message1": "收到数据时执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#E91E63",
+    "tooltip": "订阅远程特征的通知，收到数据时执行回调，可使用 notifyData 变量获取数据",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_notify_data",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "收到的通知数据",
+    "output": "String",
+    "colour": "#795548",
+    "tooltip": "获取通知回调中收到的数据（在订阅回调中使用）",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_get_address",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "获取本机 BLE 地址",
+    "output": "String",
+    "colour": "#2196F3",
+    "tooltip": "获取本机的BLE地址",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_set_mtu",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "设置 MTU 大小 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MTU",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置BLE数据包最大传输单元大小",
+    "helpUrl": ""
+  },
+  {
+    "type": "nimble_set_power",
+    "icon": "fa-light fa-bluetooth",
+    "message0": "设置发射功率 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "POWER",
+        "options": [
+          ["-12 dBm", "-12"],
+          ["-9 dBm", "-9"],
+          ["-6 dBm", "-6"],
+          ["-3 dBm", "-3"],
+          ["0 dBm", "0"],
+          ["3 dBm", "3"],
+          ["6 dBm", "6"],
+          ["9 dBm", "9"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置BLE发射功率",
+    "helpUrl": ""
+  }
+]
