@@ -142,7 +142,7 @@ Arduino.forBlock['lvgl_indev_create'] = function(block, generator) {
 
   let callbackName = varName + '_read_cb';
   let callbackCode = '';
-  callbackCode += 'void ' + callbackName + '(lv_indev_drv_t * drv, lv_indev_data_t * data) {\n';
+  callbackCode += 'void ' + callbackName + '(lv_indev_t * drv, lv_indev_data_t * data) {\n';
   callbackCode += handlerCode;
   callbackCode += '}\n';
 
@@ -206,9 +206,33 @@ Arduino.forBlock['lvgl_label_set_text'] = function(block, generator) {
   const varName = varField ? varField.getText() : 'label';
   const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
 
+  const target = block.getInputTargetBlock('TEXT');
+  let isText = false;
+
+  if (target && target.type === 'text') {
+    isText = true;
+  }
+
+  let textCode = text;
+  if (!isText) {
+    textCode = 'String(' + text + ').c_str()';
+  }
+
   ensureLvglLib(generator);
 
-  return 'lv_label_set_text(' + varName + ', ' + text + ');\n';
+  return 'lv_label_set_text(' + varName + ', ' + textCode + ');\n';
+};
+
+Arduino.forBlock['lv_label_set_text_fmt'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'label';
+  const fmt = generator.valueToCode(block, 'FMT', generator.ORDER_ATOMIC) || '""';
+  const args = generator.valueToCode(block, 'ARGS', generator.ORDER_ATOMIC) || '';
+  
+  ensureLvglLib(generator);
+  
+  // 如果有参数则添加，否则只使用格式字符串
+  return 'lv_label_set_text_fmt(' + varName + ', ' + fmt + (args ? ', ' + args : '') + ');\n';
 };
 
 Arduino.forBlock['lvgl_label_set_long_mode'] = function(block, generator) {
@@ -828,18 +852,58 @@ Arduino.forBlock['lvgl_event_add_cb'] = function(block, generator) {
 
   // 添加回调函数定义
   const functionDef = 'void ' + callbackName + '(lv_event_t * e) {\n' +
-    '  lv_obj_t * obj = lv_event_get_target_obj(e);\n' +
-    handlerCode +
+    '  lv_event_code_t code = lv_event_get_code(e);\n' +
+    '  lv_obj_t *' + varName + ' = lv_event_get_target_obj(e);\n' +
+    '  if (code == ' + event + ') {\n' +
+      handlerCode +
+    '  }\n' +
     '}\n';
 
   generator.addFunction(callbackName, functionDef);
 
   // 在setup中添加事件注册
   const setupCode = 'lv_obj_add_event_cb(' + varName + ', ' + callbackName + ', ' + event + ', NULL);\n';
-  generator.addSetupEnd(callbackName + '_setup', setupCode);
+  // generator.addSetupEnd(callbackName + '_setup', setupCode);
 
-  return '';
+  return setupCode;
 };
+
+Arduino.forBlock['lvgl_event_code'] = function(block, generator) {
+  const eventCode = block.getFieldValue('EVENT');
+  return [eventCode, generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['lvgl_obj_get_child'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'child_obj';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'child_obj';
+
+  const varField = block.getField('VAR_PARENT');
+  const varParentName = varField ? varField.getText() : 'obj';
+  const index = generator.valueToCode(block, 'INDEX', generator.ORDER_ATOMIC) || '0';
+
+  const code = 'lv_obj_t *' + varName + ' = lv_obj_get_child(' + varParentName + ', ' + index + ');\n';
+  
+  ensureLvglLib(generator);
+  registerVariableToBlockly(varName, 'lv_obj_t');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  return code;
+}
 
 // ==================== 屏幕操作 ====================
 

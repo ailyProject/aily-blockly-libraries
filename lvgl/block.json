@@ -174,6 +174,39 @@
     "icon": "fa-light fa-mobile"
   },
   {
+    "type": "lv_label_set_text_fmt",
+    "message0": "设置标签 %1 格式化文本 格式串 %2 参数 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "label",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "FMT",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ARGS"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "使用格式化字符串设置标签文本，支持 printf 风格的格式化（如 \"Button: %d\"）",
+    "helpUrl": "",
+    "icon": "fa-light fa-mobile"
+  },
+  {
     "type": "lvgl_label_set_long_mode",
     "message0": "设置标签 %1 长文本模式 %2",
     "args0": [
@@ -1454,34 +1487,75 @@
         "type": "field_dropdown",
         "name": "EVENT",
         "options": [
-          [
-            "点击",
-            "LV_EVENT_CLICKED"
-          ],
-          [
-            "按下",
-            "LV_EVENT_PRESSED"
-          ],
-          [
-            "释放",
-            "LV_EVENT_RELEASED"
-          ],
-          [
-            "长按",
-            "LV_EVENT_LONG_PRESSED"
-          ],
-          [
-            "值改变",
-            "LV_EVENT_VALUE_CHANGED"
-          ],
-          [
-            "聚焦",
-            "LV_EVENT_FOCUSED"
-          ],
-          [
-            "失焦",
-            "LV_EVENT_DEFOCUSED"
-          ]
+          [ "全部事件", "LV_EVENT_ALL" ],
+          [ "按下", "LV_EVENT_PRESSED" ],
+          [ "持续按下", "LV_EVENT_PRESSING" ],
+          [ "按下后移出", "LV_EVENT_PRESS_LOST" ],
+          [ "短按", "LV_EVENT_SHORT_CLICKED" ],
+          [ "单击", "LV_EVENT_SINGLE_CLICKED" ],
+          [ "双击", "LV_EVENT_DOUBLE_CLICKED" ],
+          [ "三击", "LV_EVENT_TRIPLE_CLICKED" ],
+          [ "长按", "LV_EVENT_LONG_PRESSED" ],
+          [ "长按重复", "LV_EVENT_LONG_PRESSED_REPEAT" ],
+          [ "点击", "LV_EVENT_CLICKED" ],
+          [ "释放", "LV_EVENT_RELEASED" ],
+          [ "滚动开始", "LV_EVENT_SCROLL_BEGIN" ],
+          [ "滚动投掷开始", "LV_EVENT_SCROLL_THROW_BEGIN" ],
+          [ "滚动结束", "LV_EVENT_SCROLL_END" ],
+          [ "滚动", "LV_EVENT_SCROLL" ],
+          [ "手势", "LV_EVENT_GESTURE" ],
+          [ "按键", "LV_EVENT_KEY" ],
+          [ "旋转", "LV_EVENT_ROTARY" ],
+          [ "聚焦", "LV_EVENT_FOCUSED" ],
+          [ "失焦", "LV_EVENT_DEFOCUSED" ],
+          [ "离开", "LV_EVENT_LEAVE" ],
+          [ "碰撞测试", "LV_EVENT_HIT_TEST" ],
+          [ "输入设备重置", "LV_EVENT_INDEV_RESET" ],
+          [ "悬停进入", "LV_EVENT_HOVER_OVER" ],
+          [ "悬停离开", "LV_EVENT_HOVER_LEAVE" ],
+          [ "覆盖检查", "LV_EVENT_COVER_CHECK" ],
+          [ "刷新扩展绘制尺寸", "LV_EVENT_REFR_EXT_DRAW_SIZE" ],
+          [ "主绘制开始", "LV_EVENT_DRAW_MAIN_BEGIN" ],
+          [ "主绘制", "LV_EVENT_DRAW_MAIN" ],
+          [ "主绘制结束", "LV_EVENT_DRAW_MAIN_END" ],
+          [ "后绘制开始", "LV_EVENT_DRAW_POST_BEGIN" ],
+          [ "后绘制", "LV_EVENT_DRAW_POST" ],
+          [ "后绘制结束", "LV_EVENT_DRAW_POST_END" ],
+          [ "绘制任务添加", "LV_EVENT_DRAW_TASK_ADDED" ],
+          [ "值改变", "LV_EVENT_VALUE_CHANGED" ],
+          [ "插入", "LV_EVENT_INSERT" ],
+          [ "刷新", "LV_EVENT_REFRESH" ],
+          [ "就绪", "LV_EVENT_READY" ],
+          [ "取消", "LV_EVENT_CANCEL" ],
+          [ "状态改变", "LV_EVENT_STATE_CHANGED" ],
+          [ "创建", "LV_EVENT_CREATE" ],
+          [ "删除", "LV_EVENT_DELETE" ],
+          [ "子对象改变", "LV_EVENT_CHILD_CHANGED" ],
+          [ "子对象创建", "LV_EVENT_CHILD_CREATED" ],
+          [ "子对象删除", "LV_EVENT_CHILD_DELETED" ],
+          [ "屏幕卸载开始", "LV_EVENT_SCREEN_UNLOAD_START" ],
+          [ "屏幕加载开始", "LV_EVENT_SCREEN_LOAD_START" ],
+          [ "屏幕已加载", "LV_EVENT_SCREEN_LOADED" ],
+          [ "屏幕已卸载", "LV_EVENT_SCREEN_UNLOADED" ],
+          [ "尺寸改变", "LV_EVENT_SIZE_CHANGED" ],
+          [ "样式改变", "LV_EVENT_STYLE_CHANGED" ],
+          [ "布局改变", "LV_EVENT_LAYOUT_CHANGED" ],
+          [ "获取自身尺寸", "LV_EVENT_GET_SELF_SIZE" ],
+          [ "区域失效", "LV_EVENT_INVALIDATE_AREA" ],
+          [ "分辨率改变", "LV_EVENT_RESOLUTION_CHANGED" ],
+          [ "颜色格式改变", "LV_EVENT_COLOR_FORMAT_CHANGED" ],
+          [ "刷新请求", "LV_EVENT_REFR_REQUEST" ],
+          [ "刷新开始", "LV_EVENT_REFR_START" ],
+          [ "刷新就绪", "LV_EVENT_REFR_READY" ],
+          [ "渲染开始", "LV_EVENT_RENDER_START" ],
+          [ "渲染就绪", "LV_EVENT_RENDER_READY" ],
+          [ "刷新开始(flush)", "LV_EVENT_FLUSH_START" ],
+          [ "刷新完成(flush)", "LV_EVENT_FLUSH_FINISH" ],
+          [ "刷新等待开始", "LV_EVENT_FLUSH_WAIT_START" ],
+          [ "刷新等待完成", "LV_EVENT_FLUSH_WAIT_FINISH" ],
+          [ "布局更新完成", "LV_EVENT_UPDATE_LAYOUT_COMPLETED" ],
+          [ "垂直同步", "LV_EVENT_VSYNC" ],
+          [ "垂直同步请求", "LV_EVENT_VSYNC_REQUEST" ]
         ]
       }
     ],
@@ -1492,8 +1566,127 @@
         "name": "HANDLER"
       }
     ],
+    "previousStatement": null,
+    "nextStatement": null,
     "colour": "#F44336",
     "tooltip": "设置对象的事件回调",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_event_code",
+    "message0": "事件代码常量 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "EVENT",
+        "options": [
+          [ "全部事件", "LV_EVENT_ALL" ],
+          [ "按下", "LV_EVENT_PRESSED" ],
+          [ "持续按下", "LV_EVENT_PRESSING" ],
+          [ "按下后移出", "LV_EVENT_PRESS_LOST" ],
+          [ "短按", "LV_EVENT_SHORT_CLICKED" ],
+          [ "单击", "LV_EVENT_SINGLE_CLICKED" ],
+          [ "双击", "LV_EVENT_DOUBLE_CLICKED" ],
+          [ "三击", "LV_EVENT_TRIPLE_CLICKED" ],
+          [ "长按", "LV_EVENT_LONG_PRESSED" ],
+          [ "长按重复", "LV_EVENT_LONG_PRESSED_REPEAT" ],
+          [ "点击", "LV_EVENT_CLICKED" ],
+          [ "释放", "LV_EVENT_RELEASED" ],
+          [ "滚动开始", "LV_EVENT_SCROLL_BEGIN" ],
+          [ "滚动投掷开始", "LV_EVENT_SCROLL_THROW_BEGIN" ],
+          [ "滚动结束", "LV_EVENT_SCROLL_END" ],
+          [ "滚动", "LV_EVENT_SCROLL" ],
+          [ "手势", "LV_EVENT_GESTURE" ],
+          [ "按键", "LV_EVENT_KEY" ],
+          [ "旋转", "LV_EVENT_ROTARY" ],
+          [ "聚焦", "LV_EVENT_FOCUSED" ],
+          [ "失焦", "LV_EVENT_DEFOCUSED" ],
+          [ "离开", "LV_EVENT_LEAVE" ],
+          [ "碰撞测试", "LV_EVENT_HIT_TEST" ],
+          [ "输入设备重置", "LV_EVENT_INDEV_RESET" ],
+          [ "悬停进入", "LV_EVENT_HOVER_OVER" ],
+          [ "悬停离开", "LV_EVENT_HOVER_LEAVE" ],
+          [ "覆盖检查", "LV_EVENT_COVER_CHECK" ],
+          [ "刷新扩展绘制尺寸", "LV_EVENT_REFR_EXT_DRAW_SIZE" ],
+          [ "主绘制开始", "LV_EVENT_DRAW_MAIN_BEGIN" ],
+          [ "主绘制", "LV_EVENT_DRAW_MAIN" ],
+          [ "主绘制结束", "LV_EVENT_DRAW_MAIN_END" ],
+          [ "后绘制开始", "LV_EVENT_DRAW_POST_BEGIN" ],
+          [ "后绘制", "LV_EVENT_DRAW_POST" ],
+          [ "后绘制结束", "LV_EVENT_DRAW_POST_END" ],
+          [ "绘制任务添加", "LV_EVENT_DRAW_TASK_ADDED" ],
+          [ "值改变", "LV_EVENT_VALUE_CHANGED" ],
+          [ "插入", "LV_EVENT_INSERT" ],
+          [ "刷新", "LV_EVENT_REFRESH" ],
+          [ "就绪", "LV_EVENT_READY" ],
+          [ "取消", "LV_EVENT_CANCEL" ],
+          [ "状态改变", "LV_EVENT_STATE_CHANGED" ],
+          [ "创建", "LV_EVENT_CREATE" ],
+          [ "删除", "LV_EVENT_DELETE" ],
+          [ "子对象改变", "LV_EVENT_CHILD_CHANGED" ],
+          [ "子对象创建", "LV_EVENT_CHILD_CREATED" ],
+          [ "子对象删除", "LV_EVENT_CHILD_DELETED" ],
+          [ "屏幕卸载开始", "LV_EVENT_SCREEN_UNLOAD_START" ],
+          [ "屏幕加载开始", "LV_EVENT_SCREEN_LOAD_START" ],
+          [ "屏幕已加载", "LV_EVENT_SCREEN_LOADED" ],
+          [ "屏幕已卸载", "LV_EVENT_SCREEN_UNLOADED" ],
+          [ "尺寸改变", "LV_EVENT_SIZE_CHANGED" ],
+          [ "样式改变", "LV_EVENT_STYLE_CHANGED" ],
+          [ "布局改变", "LV_EVENT_LAYOUT_CHANGED" ],
+          [ "获取自身尺寸", "LV_EVENT_GET_SELF_SIZE" ],
+          [ "区域失效", "LV_EVENT_INVALIDATE_AREA" ],
+          [ "分辨率改变", "LV_EVENT_RESOLUTION_CHANGED" ],
+          [ "颜色格式改变", "LV_EVENT_COLOR_FORMAT_CHANGED" ],
+          [ "刷新请求", "LV_EVENT_REFR_REQUEST" ],
+          [ "刷新开始", "LV_EVENT_REFR_START" ],
+          [ "刷新就绪", "LV_EVENT_REFR_READY" ],
+          [ "渲染开始", "LV_EVENT_RENDER_START" ],
+          [ "渲染就绪", "LV_EVENT_RENDER_READY" ],
+          [ "刷新开始(flush)", "LV_EVENT_FLUSH_START" ],
+          [ "刷新完成(flush)", "LV_EVENT_FLUSH_FINISH" ],
+          [ "刷新等待开始", "LV_EVENT_FLUSH_WAIT_START" ],
+          [ "刷新等待完成", "LV_EVENT_FLUSH_WAIT_FINISH" ],
+          [ "布局更新完成", "LV_EVENT_UPDATE_LAYOUT_COMPLETED" ],
+          [ "垂直同步", "LV_EVENT_VSYNC" ],
+          [ "垂直同步请求", "LV_EVENT_VSYNC_REQUEST" ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#F44336",
+    "tooltip": "获取事件代码的常量值",
+    "icon": "fa-light fa-mobile"
+  },
+  {
+    "type": "lvgl_obj_get_child",
+    "message0": "创建 %1 使用 %2 的子对象 索引 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "child_obj"
+      },
+      {
+        "type": "field_variable",
+        "name": "VAR_PARENT",
+        "variable": "obj",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "获取父对象的指定索引的子对象",
     "icon": "fa-light fa-mobile"
   },
   {
@@ -1531,7 +1724,7 @@
       {
         "type": "field_input",
         "name": "VAR",
-        "text": "obj1"
+        "text": "obj"
       },
       {
         "type": "field_variable",
