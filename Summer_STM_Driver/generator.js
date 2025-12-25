@@ -114,7 +114,7 @@ Arduino.forBlock['jy61p_get_gyro'] = function(block, generator) {
 
 // ========== 舵机角度值块 ==========
 Arduino.forBlock['car_servo_angle_value'] = function(block, generator) {
-  const angle = block.getFieldValue('ANGLE') || '90';
+  const angle = block.getFieldValue('ANGLE');
   return [angle, Arduino.ORDER_ATOMIC];
 };
 
