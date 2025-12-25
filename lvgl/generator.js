@@ -87,12 +87,14 @@ Arduino.forBlock['lvgl_init'] = function(block, generator) {
   const rotation = block.getFieldValue('ROTATION') || '0';
 
   if (Arduino.lvgl_type !== driver) {
-    Arduino.lvgl_type = driver;
     console.log('selected LVGL driver:', driver);
     
     if (window['projectService'] && driver === 'TFT_eSPI') {
       window['projectService'].addMacro('LV_USE_TFT_ESPI=1')
-        .then(() => console.log('LVGL macro added'))
+        .then(() => {
+          console.log('LVGL macro added')
+          Arduino.lvgl_type = 'TFT_eSPI';
+        })
         .catch(err => console.error('Failed to add LVGL macro:', err));
     }
   }
