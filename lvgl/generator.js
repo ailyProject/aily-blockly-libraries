@@ -88,14 +88,18 @@ Arduino.forBlock['lvgl_init'] = function(block, generator) {
 
   if (Arduino.lvgl_type !== driver) {
     console.log('selected LVGL driver:', driver);
+    Arduino.lvgl_type = driver;
     
     if (window['projectService'] && driver === 'TFT_eSPI') {
       window['projectService'].addMacro('LV_USE_TFT_ESPI=1')
         .then(() => {
           console.log('LVGL macro added')
-          Arduino.lvgl_type = 'TFT_eSPI';
         })
         .catch(err => console.error('Failed to add LVGL macro:', err));
+    } else {
+      window['projectService'].removeMacro('LV_USE_TFT_ESPI')
+        .then(() => console.log('LVGL macro removed'))
+        .catch(err => console.error('Failed to remove LVGL macro:', err));
     }
   }
 
