@@ -6,6 +6,8 @@
 if (!Arduino.lvgl) {
   Arduino.lvgl = true;
   Arduino.lvgl_type = '';
+  Arduino.lvgl_font = '';
+  Arduino.lvgl_fonts_used = {}; // 跟踪正在使用的字体
 }
 
 // 监听块删除事件（将监听器绑定到工作区实例，避免重载/热替换时重复添加）
@@ -27,6 +29,17 @@ if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
               .then(() => console.log('LVGL macro removed'))
               .catch(err => console.error('Failed to remove LVGL macro:', err));
             Arduino.lvgl_type = '';
+          }
+        }
+        // 处理字体块删除
+        if (event.oldJson && event.oldJson.type == 'lvgl_obj_set_style_text_font') {
+          const fontField = event.oldJson.fields && event.oldJson.fields.FONT;
+          if (fontField) {
+            const deletedFont = fontField;
+            // 延迟检查，确保工作区状态已更新
+            setTimeout(() => {
+              checkAndRemoveFontMacro(workspace, deletedFont);
+            }, 100);
           }
         }
       }
@@ -56,6 +69,42 @@ if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
   }, 100);
 }
 // ==================== 辅助函数 ====================
+
+/**
+ * 检查工作区中是否还有使用指定字体的块
+ */
+function isFontUsedInWorkspace(workspace, fontName) {
+  if (!workspace) return false;
+  
+  const allBlocks = workspace.getAllBlocks(false);
+  for (let i = 0; i < allBlocks.length; i++) {
+    const block = allBlocks[i];
+    if (block.type === 'lvgl_obj_set_style_text_font') {
+      const font = block.getFieldValue('FONT');
+      if (font === fontName) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+/**
+ * 检查并移除不再使用的字体宏
+ */
+function checkAndRemoveFontMacro(workspace, fontName) {
+  if (!window['projectService']) return;
+  
+  // 检查工作区中是否还有使用该字体的块
+  if (!isFontUsedInWorkspace(workspace, fontName)) {
+    console.log('Font no longer used, removing macro:', fontName);
+    window['projectService'].removeMacro(fontName)
+      .then(() => console.log('Font macro removed:', fontName))
+      .catch(err => console.error('Failed to remove font macro:', err));
+  } else {
+    console.log('Font still in use:', fontName);
+  }
+}
 
 /**
  * 确保LVGL库被添加
@@ -772,6 +821,40 @@ Arduino.forBlock['lvgl_obj_delete'] = function(block, generator) {
 };
 
 // ==================== 样式设置 ====================
+
+Arduino.forBlock['lvgl_obj_set_style_text_font'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const font = block.getFieldValue('FONT');
+  let setFont = '';
+
+  if (font === 'LV_FONT_DEFAULT') {
+    // 默认字体不需要设置
+    return '';
+  }
+
+  if (font === 'LV_FONT_SOURCE_HAN_SANS_SC_14_CJK') {
+    setFont = '&lv_font_source_han_sans_sc_14_cjk';
+
+    if (window['projectService']) {
+      window['projectService'].addMacro('LV_FONT_SOURCE_HAN_SANS_SC_14_CJK=1')
+        .then(() => console.log('Font macro added: LV_FONT_SOURCE_HAN_SANS_SC_14_CJK'))
+        .catch((err) => console.error('Error adding font macro:', err));
+    }
+  } else if (font === 'LV_FONT_SOURCE_HAN_SANS_SC_16_CJK') {
+    setFont = '&lv_font_source_han_sans_sc_16_cjk';
+
+    if (window['projectService']) {
+      window['projectService'].addMacro('LV_FONT_SOURCE_HAN_SANS_SC_16_CJK=1')
+        .then(() => console.log('Font macro added: LV_FONT_SOURCE_HAN_SANS_SC_16_CJK'))
+        .catch((err) => console.error('Error adding font macro:', err));
+    }
+  }
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_set_style_text_font(' + varName + ', ' + setFont + ', LV_PART_MAIN);\n';
+};
 
 Arduino.forBlock['lvgl_obj_set_style_bg_color'] = function(block, generator) {
   const varField = block.getField('VAR');
