@@ -386,12 +386,12 @@ const uint16_t ${bitmapVarName}_height = ${height};`;
 Arduino.forBlock['tft_image_file'] = function(block, generator) {
   // 获取图片预览字段的值和坐标
   const imagePreview = block.getFieldValue('IMAGE_PREVIEW');
-  const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC) || '0';
-  const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC) || '0';
+  const x = block.getFieldValue('X') || '0';
+  const y = block.getFieldValue('Y') || '0';
 
   // 获取尺寸输入值，如果没有则使用图片预览字段中的尺寸
-  let width = generator.valueToCode(block, 'WIDTH', Arduino.ORDER_ATOMIC);
-  let height = generator.valueToCode(block, 'HEIGHT', Arduino.ORDER_ATOMIC);
+  let width = block.getFieldValue('WIDTH');
+  let height = block.getFieldValue('HEIGHT');
 
   // 解析图片预览字段的值
   let filePath = '';
