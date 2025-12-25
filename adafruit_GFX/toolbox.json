@@ -796,7 +796,19 @@
     },
     {
       "kind": "block",
-      "type": "tft_get_buffer"
+      "type": "tft_get_buffer",
+      "inputs": {
+        "CANVAS": {
+          "shadow": {
+            "type": "variables_get",
+            "fields": {
+              "VAR": {
+                "name": "canvas16"
+              }
+            }
+          }
+        }
+      }
     },
     {
       "kind": "block",
@@ -825,6 +837,14 @@
               "NUM": 0
             }
           }
+        },
+        "BITMAP": {
+          "shadow": {
+            "type": "tft_bitmap_image",
+            "fields": {
+              "IMAGE_DATA": ""
+            }
+          }
         }
       }
     },
@@ -832,6 +852,14 @@
       "kind": "block",
       "type": "tft_draw_url_image",
       "inputs": {
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "http://example.com/image.jpg"
+            }
+          }
+        },
         "X": {
           "shadow": {
             "type": "math_number",
