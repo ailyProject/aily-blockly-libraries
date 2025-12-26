@@ -15,8 +15,8 @@ ESP32 Summer Board智能小车综合控制库，通过I2C控制STM32多功能板
 | `car_servo_angle` | 语句块 | PIN(field_dropdown), ANGLE(input_value) | `"fields":{"PIN":"0"},"inputs":{"ANGLE":{"block":{"type":"math_number","fields":{"NUM":"90"}}}}` | `STM32_I2C.servoAngle(0,90)` |
 | `car_motor_control_single` | 语句块 | MOTOR_ID(field_dropdown), DIRECTION(field_dropdown), SPEED(input_value) | `"fields":{"MOTOR_ID":"0","DIRECTION":"1"},"inputs":{"SPEED":{"block":{"type":"math_number","fields":{"NUM":"128"}}}}` | `STM32_I2C.motorControl(0,1,128)` |
 | `car_motor_stop_single` | 语句块 | MOTOR_ID(field_dropdown) | `"fields":{"MOTOR_ID":"0"}` | `STM32_I2C.motorStop(0)` |
-| `car_stepper_control` | 语句块 | STEPPER_NUM(field_dropdown), DIRECTION(field_dropdown), DEGREES(input_value) | `"fields":{"STEPPER_NUM":"0","DIRECTION":"0"},"inputs":{"DEGREES":{"block":{"type":"math_number","fields":{"NUM":"360"}}}}` | `STM32_I2C.stepperControl(0,0,360)` |
-| `car_stepper_control_turns` | 语句块 | STEPPER_NUM(field_dropdown), DIRECTION(field_dropdown), TURNS(input_value) | `"fields":{"STEPPER_NUM":"0","DIRECTION":"0"},"inputs":{"TURNS":{"block":{"type":"math_number","fields":{"NUM":"1"}}}}` | `STM32_I2C.stepperControlTurns(0,0,1)` |
+| `car_stepper_control` | 语句块 | STEPPER_NUM(field_dropdown), DIRECTION(field_dropdown), DEGREES(input_value), SPEED(input_value) | `"fields":{"STEPPER_NUM":"0","DIRECTION":"0"},"inputs":{"DEGREES":{"block":{"type":"math_number","fields":{"NUM":"360"}}},"SPEED":{"block":{"type":"math_number","fields":{"NUM":"2"}}}}` | `STM32_I2C.stepperControlSpeed(0,0,360,2)` |
+| `car_stepper_control_turns` | 语句块 | STEPPER_NUM(field_dropdown), DIRECTION(field_dropdown), TURNS(input_value), SPEED(input_value) | `"fields":{"STEPPER_NUM":"0","DIRECTION":"0"},"inputs":{"TURNS":{"block":{"type":"math_number","fields":{"NUM":"1"}}},"SPEED":{"block":{"type":"math_number","fields":{"NUM":"2"}}}}` | `STM32_I2C.stepperControlTurns(0,0,1,2)` |
 | `jy61p_set_zero` | 语句块 | 无 | 无 | `STM32_I2C.jy61pSetZero()` |
 | `jy61p_get_angle` | 值块 | ANGLE_TYPE(field_dropdown) | `"fields":{"ANGLE_TYPE":"YAW"}` | `STM32_I2C.jy61pGetAngle('Z')` 返回float |
 | `jy61p_get_acceleration` | 值块 | AXIS(field_dropdown) | `"fields":{"AXIS":"X"}` | `STM32_I2C.jy61pGetAcceleration('X')` 返回float |
@@ -45,6 +45,7 @@ ESP32 Summer Board智能小车综合控制库，通过I2C控制STM32多功能板
   - 板载3个按键，通过模拟引脚A0读取
   - JY61P六轴传感器通过STM32读取数据
   - 舵机角度范围0-180度，电机速度0-255
+  - 步进电机速度范围1-10ms/拍，数值越小越快，默认2ms
 
 ## 使用示例
 
@@ -117,6 +118,58 @@ ESP32 Summer Board智能小车综合控制库，通过I2C控制STM32多功能板
 }
 ```
 
+### 步进电机控制示例
+```json
+{
+  "type": "car_stepper_control",
+  "fields": {"STEPPER_NUM": "0", "DIRECTION": "0"},
+  "inputs": {
+    "DEGREES": {
+      "shadow": {
+        "type": "math_number",
+        "fields": {"NUM": "90"}
+      }
+    },
+    "SPEED": {
+      "shadow": {
+        "type": "math_number",
+        "fields": {"NUM": "2"}
+      }
+    }
+  },
+  "next": {
+    "block": {
+      "type": "time_delay",
+      "inputs": {
+        "DELAY_TIME": {
+          "shadow": {"type": "math_number", "fields": {"NUM": "1000"}}
+        }
+      },
+      "next": {
+        "block": {
+          "type": "car_stepper_control_turns",
+          "fields": {"STEPPER_NUM": "1", "DIRECTION": "1"},
+          "inputs": {
+            "TURNS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {"NUM": "1"}
+              }
+            },
+            "SPEED": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {"NUM": "5"}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
 ### JY61P传感器示例
 ```json
 {
@@ -171,11 +224,18 @@ ESP32 Summer Board智能小车综合控制库，通过I2C控制STM32多功能板
 
 1. **必须遵守**: 确保I2C连接正确，ESP32与STM32I2C地址匹配，块ID必须唯一
 2. **连接限制**: 控制块是语句块有next连接，读取块是值块无next字段，只能作为input_value使用
-3. **数值范围**: 舵机角度0-180，电机速度0-255，步进电机角度0-360或圈数，按键编号0-2
+3. **数值范围**: 
+   - 舵机角度: 0-180度
+   - TT马达速度: 0-255
+   - 步进电机角度: 0-65535度
+   - 步进电机圈数: 0-182圈（最大65535度÷360）
+   - 步进电机速度: 1-10ms/拍（越小越快，默认2ms）
+   - 按键编号: 0-2
 4. **硬件限制**: 6路舵机(单独控制)、4路TT马达、2路步进电机、1个JY61P传感器，不可超出范围
 5. **常见错误**:
    - ❌ 舵机/电机/步进电机编号超出范围
    - ❌ 角度或速度值超出有效范围
+   - ❌ 步进电机速度设置过快(小于1ms)或过慢(大于10ms)
    - ❌ I2C通信失败（检查接线和地址）
    - ❌ 未校零就使用JY61P角度数据
    - ❌ 按键读取值判断错误
