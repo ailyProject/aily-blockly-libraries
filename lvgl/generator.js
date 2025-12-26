@@ -1066,3 +1066,383 @@ Arduino.forBlock['lvgl_screen_create'] = function(block, generator) {
 
   return 'lv_obj_t *' + varName + ' = lv_obj_create(NULL);\n';
 };
+
+// ==================== 图像控件 ====================
+
+Arduino.forBlock['lvgl_image_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'img';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'img';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+
+  ensureLvglLib(generator);
+  registerVariableToBlockly(varName, 'lv_obj_t');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+
+  return 'lv_obj_t *' + varName + ' = lv_image_create(' + parent + ');\n';
+};
+
+Arduino.forBlock['lvgl_image_set_src'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'img';
+  const src = generator.valueToCode(block, 'SRC', generator.ORDER_ATOMIC) || '""';
+
+  const target = block.getInputTargetBlock('SRC');
+  let isText = false;
+
+  if (target && target.type === 'text') {
+    isText = true;
+  }
+
+  let srcCode = src;
+  if (!isText) {
+    srcCode = 'String(' + src + ').c_str()';
+  }
+
+  ensureLvglLib(generator);
+
+  return 'lv_image_set_src(' + varName + ', ' + srcCode + ');\n';
+};
+
+Arduino.forBlock['lvgl_image_set_zoom'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'img';
+  const zoom = generator.valueToCode(block, 'ZOOM', generator.ORDER_ATOMIC) || '256';
+
+  ensureLvglLib(generator);
+
+  return 'lv_image_set_zoom(' + varName + ', ' + zoom + ');\n';
+};
+
+Arduino.forBlock['lvgl_image_set_angle'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'img';
+  const angle = generator.valueToCode(block, 'ANGLE', generator.ORDER_ATOMIC) || '0';
+
+  ensureLvglLib(generator);
+
+  return 'lv_image_set_angle(' + varName + ', ' + angle + ');\n';
+};
+
+Arduino.forBlock['lvgl_image_set_offset'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'img';
+  const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
+
+  ensureLvglLib(generator);
+
+  return 'lv_image_set_offset_x(' + varName + ', ' + x + ');\nlv_image_set_offset_y(' + varName + ', ' + y + ');\n';
+};
+
+// ==================== 图表控件 ====================
+
+Arduino.forBlock['lvgl_chart_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'chart';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'chart';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+
+  ensureLvglLib(generator);
+  registerVariableToBlockly(varName, 'lv_obj_t');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+
+  return 'lv_obj_t *' + varName + ' = lv_chart_create(' + parent + ');\n';
+};
+
+Arduino.forBlock['lvgl_chart_set_type'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'chart';
+  const type = block.getFieldValue('TYPE');
+
+  ensureLvglLib(generator);
+
+  return 'lv_chart_set_type(' + varName + ', ' + type + ');\n';
+};
+
+Arduino.forBlock['lvgl_chart_set_point_count'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'chart';
+  const count = generator.valueToCode(block, 'COUNT', generator.ORDER_ATOMIC) || '10';
+
+  ensureLvglLib(generator);
+
+  return 'lv_chart_set_point_count(' + varName + ', ' + count + ');\n';
+};
+
+Arduino.forBlock['lvgl_chart_add_series'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'chart';
+  const seriesName = block.getFieldValue('SERIES') || 'series1';
+  const color = block.getFieldValue('COLOR');
+
+  ensureLvglLib(generator);
+  registerVariableToBlockly(seriesName, 'lv_chart_series_t');
+  // generator.addVariable(seriesName, 'lv_chart_series_t * ' + seriesName + ';');
+
+  return 'lv_chart_series_t *' + seriesName + ' = lv_chart_add_series(' + varName + ', ' + color + ', LV_AXIS_PRIMARY_Y);\n';
+};
+
+Arduino.forBlock['lvgl_chart_set_next_value'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'chart';
+  const seriesName = block.getFieldValue('SERIES') || 'series1';
+  const value = generator.valueToCode(block, 'VALUE', generator.ORDER_ATOMIC) || '0';
+
+  ensureLvglLib(generator);
+
+  return 'lv_chart_set_next_value(' + varName + ', ' + seriesName + ', ' + value + ');\n';
+};
+
+Arduino.forBlock['lvgl_chart_set_range'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'chart';
+  const seriesName = block.getFieldValue('SERIES') || 'series1';
+  const min = generator.valueToCode(block, 'MIN', generator.ORDER_ATOMIC) || '0';
+  const max = generator.valueToCode(block, 'MAX', generator.ORDER_ATOMIC) || '100';
+
+  ensureLvglLib(generator);
+
+  return 'lv_chart_set_range(' + varName + ', LV_AXIS_PRIMARY_Y, ' + min + ', ' + max + ');\n';
+};
+
+Arduino.forBlock['lvgl_chart_set_update_mode'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'chart';
+  const mode = block.getFieldValue('MODE');
+
+  ensureLvglLib(generator);
+
+  return 'lv_chart_set_update_mode(' + varName + ', ' + mode + ');\n';
+};
+
+Arduino.forBlock['lvgl_chart_refresh'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'chart';
+
+  ensureLvglLib(generator);
+
+  return 'lv_chart_refresh(' + varName + ');\n';
+};
+
+// ==================== 键盘控件 ====================
+
+Arduino.forBlock['lvgl_keyboard_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'keyboard';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'keyboard';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+
+  ensureLvglLib(generator);
+  registerVariableToBlockly(varName, 'lv_obj_t');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+
+  return 'lv_obj_t *' + varName + ' = lv_keyboard_create(' + parent + ');\n';
+};
+
+Arduino.forBlock['lvgl_keyboard_set_textarea'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'keyboard';
+  const textareaField = block.getField('TEXTAREA');
+  const textarea = textareaField ? textareaField.getText() : 'textarea';
+
+  ensureLvglLib(generator);
+
+  return 'lv_keyboard_set_textarea(' + varName + ', ' + textarea + ');\n';
+};
+
+Arduino.forBlock['lvgl_keyboard_set_mode'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'keyboard';
+  const mode = block.getFieldValue('MODE');
+
+  ensureLvglLib(generator);
+
+  return 'lv_keyboard_set_mode(' + varName + ', ' + mode + ');\n';
+};
+
+Arduino.forBlock['lvgl_keyboard_set_popovers'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'keyboard';
+  const enable = block.getFieldValue('ENABLE');
+
+  ensureLvglLib(generator);
+
+  return 'lv_keyboard_set_popovers(' + varName + ', ' + enable + ');\n';
+};
+
+// ==================== 列表控件 ====================
+
+Arduino.forBlock['lvgl_list_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'list';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'list';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+
+  ensureLvglLib(generator);
+  registerVariableToBlockly(varName, 'lv_obj_t');
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+
+  return 'lv_obj_t *' + varName + ' = lv_list_create(' + parent + ');\n';
+};
+
+Arduino.forBlock['lvgl_list_add_text'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'list';
+  const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
+
+  const target = block.getInputTargetBlock('TEXT');
+  let isText = false;
+
+  if (target && target.type === 'text') {
+    isText = true;
+  }
+
+  let textCode = text;
+  if (!isText) {
+    textCode = 'String(' + text + ').c_str()';
+  }
+
+  ensureLvglLib(generator);
+
+  return 'lv_list_add_text(' + varName + ', ' + textCode + ');\n';
+};
+
+Arduino.forBlock['lvgl_list_add_btn'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'list';
+  const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
+  const icon = block.getFieldValue('ICON');
+
+  const target = block.getInputTargetBlock('TEXT');
+  let isText = false;
+
+  if (target && target.type === 'text') {
+    isText = true;
+  }
+
+  let textCode = text;
+  if (!isText) {
+    textCode = 'String(' + text + ').c_str()';
+  }
+
+  ensureLvglLib(generator);
+
+  return 'lv_list_add_btn(' + varName + ', ' + icon + ', ' + textCode + ');\n';
+};
+
+// ==================== 选项卡控件 ====================
+
+Arduino.forBlock['lvgl_tabview_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'tabview';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+        return newName;
+      });
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'tabview';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+
+  ensureLvglLib(generator);
+  registerVariableToBlockly(varName, 'lv_obj_t');
+
+  return 'lv_obj_t *' + varName + ' = lv_tabview_create(' + parent + ');\n';
+};
+
+Arduino.forBlock['lvgl_tabview_add_tab'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tabview';
+  const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
+
+  const target = block.getInputTargetBlock('TEXT');
+  let isText = false;
+
+  if (target && target.type === 'text') {
+    isText = true;
+  }
+
+  let textCode = text;
+  if (!isText) {
+    textCode = 'String(' + text + ').c_str()';
+  }
+
+  ensureLvglLib(generator);
+
+  return ['lv_tabview_add_tab(' + varName + ', ' + textCode + ')', generator.ORDER_FUNCTION_CALL];
+};

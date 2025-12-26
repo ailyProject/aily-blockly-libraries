@@ -5,556 +5,811 @@
   "icon": "fa-light fa-mobile",
   "contents": [
     {
-      "kind": "label",
-      "text": "初始化"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_init",
-      "inputs": {
-        "WIDTH": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 240
+      "kind": "category",
+      "name": "初始化",
+      "icon": "fa-light fa-cog",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "lvgl_init",
+          "inputs": {
+            "WIDTH": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 240
+                }
+              }
+            },
+            "HEIGHT": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 240
+                }
+              }
             }
           }
         },
-        "HEIGHT": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 240
-            }
-          }
+        {
+          "kind": "block",
+          "type": "lvgl_indev_create"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_indev_data_param_set"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_indev_state_param"
         }
-      }
+      ]
     },
     {
-      "kind": "label",
-      "text": "外部输入"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_indev_create"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_indev_data_param_set"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_indev_state_param"
-    },
-    {
-      "kind": "label",
-      "text": "屏幕"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_screen_create"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_screen_active"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_screen_load"
-    },
-    {
-      "kind": "label",
-      "text": "基础对象"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_create"
-    },
-    {
-      "kind": "label",
-      "text": "标签"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_label_create"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_label_set_text",
-      "inputs": {
-        "TEXT": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "Hello LVGL"
-            }
-          }
+      "kind": "category",
+      "name": "屏幕",
+      "icon": "fa-light fa-desktop",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "lvgl_screen_create"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_screen_active"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_screen_load"
         }
-      }
+      ]
     },
     {
-      "kind": "block",
-      "type": "lvgl_label_set_long_mode"
-    },
-    {
-      "kind": "label",
-      "text": "按钮"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_button_create"
-    },
-    {
-      "kind": "label",
-      "text": "滑动条"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_slider_create"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_slider_set_value",
-      "inputs": {
-        "VALUE": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 50
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_slider_set_range",
-      "inputs": {
-        "MIN": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 0
+      "kind": "category",
+      "name": "显示控件",
+      "icon": "fa-light fa-eye",
+      "contents": [
+        {
+          "kind": "label",
+          "text": "标签"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_label_create"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_label_set_text",
+          "inputs": {
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Hello LVGL"
+                }
+              }
             }
           }
         },
-        "MAX": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 100
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_slider_get_value"
-    },
-    {
-      "kind": "label",
-      "text": "开关"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_switch_create"
-    },
-    {
-      "kind": "label",
-      "text": "复选框"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_checkbox_create",
-      "inputs": {
-        "TEXT": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "复选框"
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "label",
-      "text": "进度条"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_bar_create"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_bar_set_value",
-      "inputs": {
-        "VALUE": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 50
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_bar_set_range",
-      "inputs": {
-        "MIN": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 0
+        {
+          "kind": "block",
+          "type": "lvgl_label_set_long_mode"
+        },
+        {
+          "kind": "label",
+          "text": "图像"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_image_create"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_image_set_src",
+          "inputs": {
+            "SRC": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "A:/image.png"
+                }
+              }
             }
           }
         },
-        "MAX": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 100
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "label",
-      "text": "圆弧"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_arc_create"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_arc_set_value",
-      "inputs": {
-        "VALUE": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 50
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_arc_set_range",
-      "inputs": {
-        "MIN": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 0
+        {
+          "kind": "block",
+          "type": "lvgl_image_set_zoom",
+          "inputs": {
+            "ZOOM": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 256
+                }
+              }
             }
           }
         },
-        "MAX": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 100
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "label",
-      "text": "加载动画"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_spinner_create"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_spinner_set_anim_params",
-      "inputs": {
-        "TIME": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 1000
+        {
+          "kind": "block",
+          "type": "lvgl_image_set_angle",
+          "inputs": {
+            "ANGLE": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
             }
           }
         },
-        "ANGLE": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 270
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "label",
-      "text": "下拉框"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_dropdown_create"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_dropdown_set_options",
-      "inputs": {
-        "OPTIONS": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "选项1\\n选项2\\n选项3"
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_dropdown_get_selected"
-    },
-    {
-      "kind": "label",
-      "text": "文本框"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_textarea_create"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_textarea_set_text",
-      "inputs": {
-        "TEXT": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": ""
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_textarea_get_text"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_textarea_set_placeholder",
-      "inputs": {
-        "TEXT": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "请输入内容..."
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "label",
-      "text": "位置与大小"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_set_pos",
-      "inputs": {
-        "X": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 0
+        {
+          "kind": "block",
+          "type": "lvgl_image_set_offset",
+          "inputs": {
+            "X": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "Y": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
             }
           }
         },
-        "Y": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 0
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_set_size",
-      "inputs": {
-        "WIDTH": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 100
+        {
+          "kind": "label",
+          "text": "列表"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_list_create"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_list_add_text",
+          "inputs": {
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "列表项文本"
+                }
+              }
             }
           }
         },
-        "HEIGHT": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 50
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_align",
-      "inputs": {
-        "X_OFS": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 0
+        {
+          "kind": "block",
+          "type": "lvgl_list_add_btn",
+          "inputs": {
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "按钮文本"
+                }
+              }
             }
           }
         },
-        "Y_OFS": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 0
+        {
+          "kind": "label",
+          "text": "选项卡"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_tabview_create"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_tabview_add_tab",
+          "inputs": {
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "选项卡1"
+                }
+              }
             }
           }
         }
-      }
+      ]
     },
     {
-      "kind": "block",
-      "type": "lvgl_obj_center"
+      "kind": "category",
+      "name": "输入控件",
+      "icon": "fa-light fa-keyboard",
+      "contents": [
+        {
+          "kind": "label",
+          "text": "按钮"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_button_create"
+        },
+        {
+          "kind": "label",
+          "text": "滑动条"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_slider_create"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_slider_set_value",
+          "inputs": {
+            "VALUE": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 50
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_slider_set_range",
+          "inputs": {
+            "MIN": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "MAX": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 100
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_slider_get_value"
+        },
+        {
+          "kind": "label",
+          "text": "开关"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_switch_create"
+        },
+        {
+          "kind": "label",
+          "text": "复选框"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_checkbox_create",
+          "inputs": {
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "复选框"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "label",
+          "text": "下拉框"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_dropdown_create"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_dropdown_set_options",
+          "inputs": {
+            "OPTIONS": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "选项1\\n选项2\\n选项3"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_dropdown_get_selected"
+        },
+        {
+          "kind": "label",
+          "text": "文本框"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_textarea_create"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_textarea_set_text",
+          "inputs": {
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": ""
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_textarea_get_text"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_textarea_set_placeholder",
+          "inputs": {
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "请输入内容..."
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "label",
+          "text": "键盘"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_keyboard_create"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_keyboard_set_textarea"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_keyboard_set_mode"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_keyboard_set_popovers"
+        }
+      ]
     },
     {
-      "kind": "label",
-      "text": "状态与标志"
+      "kind": "category",
+      "name": "显示器控件",
+      "icon": "fa-light fa-chart-bar",
+      "contents": [
+        {
+          "kind": "label",
+          "text": "进度条"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_bar_create"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_bar_set_value",
+          "inputs": {
+            "VALUE": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 50
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_bar_set_range",
+          "inputs": {
+            "MIN": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "MAX": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 100
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "label",
+          "text": "圆弧"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_arc_create"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_arc_set_value",
+          "inputs": {
+            "VALUE": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 50
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_arc_set_range",
+          "inputs": {
+            "MIN": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "MAX": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 100
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "label",
+          "text": "加载动画"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_spinner_create"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_spinner_set_anim_params",
+          "inputs": {
+            "TIME": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 1000
+                }
+              }
+            },
+            "ANGLE": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 270
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "label",
+          "text": "图表"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_chart_create"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_chart_set_type"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_chart_set_point_count",
+          "inputs": {
+            "COUNT": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 10
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_chart_add_series"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_chart_set_next_value",
+          "inputs": {
+            "VALUE": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 50
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_chart_set_range",
+          "inputs": {
+            "MIN": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "MAX": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 100
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_chart_set_update_mode"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_chart_refresh"
+        }
+      ]
     },
     {
-      "kind": "block",
-      "type": "lvgl_obj_add_flag"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_remove_flag"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_add_state"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_remove_state"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_has_state"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_delete"
-    },
-    {
-      "kind": "label",
-      "text": "样式"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_set_style_text_font"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_set_style_bg_color"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_set_style_text_color"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_set_style_border_color"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_set_style_border_width",
-      "inputs": {
-        "WIDTH": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 2
+      "kind": "category",
+      "name": "布局",
+      "icon": "fa-light fa-layer-group",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "lvgl_obj_create"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_set_pos",
+          "inputs": {
+            "X": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "Y": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_set_size",
+          "inputs": {
+            "WIDTH": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 100
+                }
+              }
+            },
+            "HEIGHT": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 50
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_align",
+          "inputs": {
+            "X_OFS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "Y_OFS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_center"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_get_child",
+          "inputs": {
+            "INDEX": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
             }
           }
         }
-      }
+      ]
     },
     {
-      "kind": "block",
-      "type": "lvgl_obj_set_style_radius",
-      "inputs": {
-        "RADIUS": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 5
+      "kind": "category",
+      "name": "样式",
+      "icon": "fa-light fa-palette",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "lvgl_obj_set_style_text_font"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_set_style_bg_color"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_set_style_text_color"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_set_style_border_color"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_set_style_border_width",
+          "inputs": {
+            "WIDTH": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 2
+                }
+              }
             }
           }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_set_style_pad_all",
-      "inputs": {
-        "PAD": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 10
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_set_style_radius",
+          "inputs": {
+            "RADIUS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 5
+                }
+              }
             }
           }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_set_style_bg_opa"
-    },
-    {
-      "kind": "label",
-      "text": "事件"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_event_add_cb"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_event_code"
-    },
-    {
-      "kind": "block",
-      "type": "lvgl_obj_get_child",
-      "inputs": {
-        "INDEX": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 0
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_set_style_pad_all",
+          "inputs": {
+            "PAD": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 10
+                }
+              }
             }
           }
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_set_style_bg_opa"
         }
-      }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "事件",
+      "icon": "fa-light fa-bolt",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "lvgl_event_add_cb"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_event_code"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "状态与标志",
+      "icon": "fa-light fa-toggle-on",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "lvgl_obj_add_flag"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_remove_flag"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_add_state"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_remove_state"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_has_state"
+        },
+        {
+          "kind": "block",
+          "type": "lvgl_obj_delete"
+        }
+      ]
     }
   ]
 }
