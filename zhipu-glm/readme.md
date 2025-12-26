@@ -4,7 +4,7 @@
 
 ## 库信息
 - **库名**: @aily-project/lib-zhipu-glm
-- **版本**: 0.0.1
+- **版本**: 0.0.2
 - **兼容**: esp32:esp32
 
 ## 块定义
@@ -13,7 +13,7 @@
 |--------|------|----------|----------|----------|
 | `zhipu_glm_config` | 语句块 | API_KEY(input_value), BASE_URL(input_value) | 无字段 | 配置API密钥和URL |
 | `zhipu_glm_chat` | 值块 | MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "glm-4.5-flash"` | 发送消息获取回复 |
-| `zhipu_glm_chat_with_thinking` | 值块 | MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "glm-4.6"` | 深度思考对话 |
+| `zhipu_glm_chat_with_thinking` | 值块 | MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "glm-4.7"` | 深度思考对话 |
 | `zhipu_glm_chat_with_history` | 值块 | MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "glm-4.5-flash"` | 多轮对话 |
 | `zhipu_glm_vision_chat` | 值块 | IMAGE(input_value), MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "glm-4.6v-flash"` | Base64图片对话 |
 | `zhipu_glm_vision_url_chat` | 值块 | IMAGE_URL(input_value), MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "glm-4.6v-flash"` | 图片URL对话 |
@@ -91,12 +91,13 @@
 ## 支持的模型
 
 ### 文本模型
-- glm-4.5-flash (快速，推荐)
-- glm-4.6 (支持深度思考)
+- glm-4.5-flash (免费，快速，推荐)
+- glm-4.7 (收费，支持深度思考)
 
 ### 视觉模型
-- glm-4.6v-flash (快速，推荐)
-- glm-4.6v (支持深度思考)
+- glm-4.6v-flash (免费，快速，推荐)
+- glm-4.6v (收费，支持深度思考)
+- glm-4.6v-flashx (收费，快速)
 
 ### 图像生成模型
 - CogView-4 (高清美感图片)
