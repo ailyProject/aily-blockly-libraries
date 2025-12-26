@@ -235,19 +235,26 @@ function loadExistingSerialBlockToToolbox(workspace) {
         const serialBeginIndex = category.contents.findIndex(block =>
           block.type === "serial_begin");
 
-        const newBlock = {
+        const newBlock1 = {
           "kind": "block",
           "type": "serial_begin_software"
+        };
+
+        const newBlock2 = {
+          "kind": "block",
+          "type": "serial_listen_software"
         };
 
         if (serialBeginIndex >= 0) {
           // 在serial_begin块后插入serial_begin_software块
           // console.log("在 serial_begin 块后插入 serial_begin_software 块");
-          category.contents.splice(serialBeginIndex + 1, 0, newBlock);
+          category.contents.splice(serialBeginIndex + 1, 0, newBlock1);
+          category.contents.splice(serialBeginIndex + 2, 0, newBlock2);
         } else {
           // 添加 serial_begin_software 块到工具箱
           // console.log("添加 serial_begin_software 块到工具箱开头");
-          category.contents.unshift(newBlock);
+          category.contents.unshift(newBlock1);
+          category.contents.unshift(newBlock2);
         }
 
         toolboxUpdated = true;
@@ -577,6 +584,11 @@ Arduino.forBlock["serial_begin_software"] = function (block, generator) {
 
   return '';
 }
+
+Arduino.forBlock["serial_listen_software"] = function (block, generator) {
+  const varName = block.getFieldValue("VAR") || 'mySerial';
+  return `${varName}.listen();\n`;
+};
 
 // 辅助函数，确保串口已被初始化
 function ensureSerialBegin(serialPort, generator, baudrate = 9600) {

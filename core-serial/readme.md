@@ -21,6 +21,7 @@
 | `serial_read_string` | 值块 | SERIAL(field_dropdown) | `"fields":{"SERIAL":"Serial"}` | `Serial.readString()` |
 | `serial_begin_esp32_custom` | 语句块 | VAR(field_input), UART/SPEED/RX/TX(field_dropdown) | `"fields":{"VAR":"MySerial","UART":"UART1","SPEED":"9600","RX":"16","TX":"17"}` | `HardwareSerial MySerial(1); MySerial.begin(9600,SERIAL_8N1,16,17)` |
 | `serial_begin_software` | 语句块 | VAR(field_input), RX/TX(field_dropdown), SPEED(field_dropdown) | `"fields":{"VAR":"SoftSerial","RX":"10","TX":"11","SPEED":"9600"}` | `SoftwareSerial SoftSerial(10,11); SoftSerial.begin(9600)` |
+| `serial_listen_software` | 语句块 | VAR(field_input) | `"fields":{"VAR":"SoftSerial"}` | `SoftSerial.listen()` |
 
 ## 字段类型映射
 
