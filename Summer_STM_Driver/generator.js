@@ -60,8 +60,9 @@ Arduino.forBlock['car_stepper_control'] = function(block, generator) {
   const stepperNum = block.getFieldValue('STEPPER_NUM');
   const direction = block.getFieldValue('DIRECTION');
   const degrees = generator.valueToCode(block, 'DEGREES', Arduino.ORDER_ATOMIC) || '360';
+  const speed = generator.valueToCode(block, 'SPEED', Arduino.ORDER_ATOMIC) || '2';
   
-  return `STM32_I2C.stepperControl(${stepperNum}, ${direction}, ${degrees});\n`;
+  return `STM32_I2C.stepperControlSpeed(${stepperNum}, ${direction}, ${degrees}, ${speed});\n`;
 };
 
 
@@ -70,8 +71,9 @@ Arduino.forBlock['car_stepper_control_turns'] = function(block, generator) {
   const stepperNum = block.getFieldValue('STEPPER_NUM');
   const direction = block.getFieldValue('DIRECTION');
   const turns = generator.valueToCode(block, 'TURNS', Arduino.ORDER_ATOMIC) || '1';
+  const speed = generator.valueToCode(block, 'SPEED', Arduino.ORDER_ATOMIC) || '2';
   
-  return `STM32_I2C.stepperControlTurns(${stepperNum}, ${direction}, ${turns});\n`;
+  return `STM32_I2C.stepperControlTurns(${stepperNum}, ${direction}, ${turns}, ${speed});\n`;
 };
 
 

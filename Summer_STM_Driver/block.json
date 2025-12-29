@@ -161,7 +161,7 @@
   },
   {
     "type": "car_stepper_control",
-    "message0": "步进电机 %1 %2 转动 %3 度",
+    "message0": "步进电机 %1 %2 转动 %3 度 速度 %4 ms/拍",
     "args0": [
       {
         "type": "field_dropdown",
@@ -195,16 +195,21 @@
         "type": "input_value",
         "name": "DEGREES",
         "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#FF5722",
-    "tooltip": "通过STM32控制步进电机(0-65535度)"
+    "tooltip": "通过STM32控制步进电机(0-65535度)，速度1-10ms/拍，越小越快"
   },
   {
     "type": "car_stepper_control_turns",
-    "message0": "步进电机 %1 %2 转动 %3 圈",
+    "message0": "步进电机 %1 %2 转动 %3 圈 速度 %4 ms/拍",
     "args0": [
       {
         "type": "field_dropdown",
@@ -238,12 +243,17 @@
         "type": "input_value",
         "name": "TURNS",
         "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#FF5722",
-    "tooltip": "通过STM32控制步进电机转指定圈数(1圈=360度，最大182圈)"
+    "tooltip": "通过STM32控制步进电机转指定圈数(1圈=360度)，速度1-10ms/拍，越小越快"
   },
   {
     "type": "jy61p_set_zero",
