@@ -26,6 +26,7 @@
 | `pubsub_state` | 值块 | VAR(field_variable) | 无 | `mqttClient.state()` (返回 Number) |
 | `pubsub_state_code` | 值块 | STATE(field_dropdown) | `"fields":{"STATE":"MQTT_CONNECTED"}` | 常量映射（如 `MQTT_CONNECTED` / `MQTT_CONNECT_FAILED` 等） |
 | `pubsub_disconnect` | 语句块 | VAR(field_variable) | 无 | `mqttClient.disconnect();` |
+| `pubsub_setBufferSize` | 语句块 | VAR(field_variable), SIZE(input_value) | `"inputs":{"SIZE":{...}}` | `mqttClient.setBufferSize(size);` |
 
 ## 字段类型映射
 

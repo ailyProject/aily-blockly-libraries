@@ -366,3 +366,25 @@ Arduino.forBlock['pubsub_disconnect'] = function(block, generator) {
   
   return mqttClientVar + '.disconnect();\n';
 };
+
+Arduino.forBlock['pubsub_setBufferSize'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'mqttClient');
+  const size = generator.valueToCode(block, 'SIZE', generator.ORDER_ATOMIC) || '256';
+  ensurePubSubLib(generator);
+
+  // 查找已创建的MQTT客户端变量
+  const workspace = block.workspace;
+  let mqttClientVar = varName;
+  if (workspace) {
+    const variables = workspace.getVariablesOfType('PubSubClient');
+    if (variables && variables.length > 0) {
+      mqttClientVar = variables[0].name;
+    }
+  }
+
+  if (size <= 0) {
+    size = '256'; // 设置一个默认值，防止无效大小
+  }
+
+  return mqttClientVar + '.setBufferSize(' + size + ');\n';
+};
