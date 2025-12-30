@@ -115,3 +115,21 @@ Arduino.forBlock['encoder_motor_get_pulse'] = function(block, generator) {
   const code = `${varName}.EncoderPulseCount()`;
   return [code, generator.ORDER_ATOMIC];
 };
+
+// 获取转动圈数
+Arduino.forBlock['encoder_motor_get_revolutions'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'motor';
+
+  const code = `${varName}.GetRevolutions()`;
+  return [code, generator.ORDER_ATOMIC];
+};
+
+// 重置脉冲计数
+Arduino.forBlock['encoder_motor_reset_pulse'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'motor';
+
+  const code = `${varName}.ResetPulseCount();\n`;
+  return code;
+};

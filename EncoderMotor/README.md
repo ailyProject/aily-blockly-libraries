@@ -17,6 +17,8 @@
 | `encoder_motor_get_speed` | 值块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `motor1.SpeedRpm()` |
 | `encoder_motor_get_pwm` | 值块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `motor1.PwmDuty()` |
 | `encoder_motor_get_pulse` | 值块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `motor1.EncoderPulseCount()` |
+| `encoder_motor_get_revolutions` | 值块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `motor1.GetRevolutions()` |
+| `encoder_motor_reset_pulse` | 语句块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `motor1.ResetPulseCount();` |
 
 ## 字段类型映射
 
@@ -108,3 +110,5 @@
 - **PID参数**: P、I、D为浮点数，需根据电机特性调优
 - **编码器**: 支持AB相编码器，相位差90度
 - **自动初始化**: 创建块自动添加Init()到setup
+- **圈数计算**: 圈数 = 编码器脉冲计数 / (PPR × 减速比)，正数表示正转，负数表示反转
+- **脉冲重置**: 重置脉冲计数会同时清零圈数统计
