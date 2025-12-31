@@ -1,0 +1,165 @@
+[
+    {
+        "type": "four_driver_init",
+        "message0": "电机驱动初始化 驱动接口 %1 ",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "power_index",
+                "options": [
+                    [
+                        "1",
+                        "0"
+                    ],
+                    [
+                        "2",
+                        "1"
+                    ]
+                ]
+            }
+        ],
+        "nextStatement": null,
+        "previousStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "初始化四路有刷电机驱动"
+    },
+    {
+        "type": "four_driver_set_speed",
+        "message0": "设置电机速度 左前 %1 右前 %2 左后 %3 右后 %4 cm/s",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "speed1",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "speed2",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "speed3",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "speed4",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "分别设置四个电机的速度，单位厘米每秒"
+    },
+    {
+        "type": "four_driver_move",
+        "message0": "小车 %1 速度 %2 cm/s 距离 %3 cm",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "DIRECTION",
+                "options": [
+                    [
+                        "前进",
+                        "1"
+                    ],
+                    [
+                        "后退",
+                        "2"
+                    ],
+                    [
+                        "左移",
+                        "3"
+                    ],
+                    [
+                        "右移",
+                        "4"
+                    ]
+                ]
+            },
+            {
+                "type": "field_number",
+                "name": "SPEED",
+                "value": 50,
+                "min": 0,
+                "max": 175
+            },
+            {
+                "type": "field_number",
+                "name": "DISTANCE",
+                "value": 10,
+                "min": 0
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "控制小车向设置方向移动指定距离"
+    },
+    {
+        "type": "four_driver_turn",
+        "message0": "向 %1 转 %2 ° 转向速度 %3 cm/s",
+        "args0": [
+			{
+                "type": "field_dropdown",
+                "name": "DIRECTION",
+                "options": [
+                    [
+                        "左",
+                        "1"
+                    ],
+                    [
+                        "右",
+                        "-1"
+                    ]
+                ]
+            },
+            {
+                "type": "input_value",
+                "name": "ANGLE",
+				"value": 0,
+                "min": 0,
+                "max": 360,
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "SPEED",
+				"value": 0,
+                "min": 0,
+                "max": 175,
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "按照指定的角度、方向、速度进行旋转"
+    },
+	{
+		"type": "four_driver_track",
+		"message0": "追踪目标的X坐标 %1 Y坐标 %2 ",
+		"args0": [
+			{
+				"type": "input_value",
+				"name": "coord_x",
+				"value": 0
+			},
+			{
+				"type": "input_value",
+				"name": "coord_y",
+				"value": 0
+			}
+		],
+		"inputsInline": true,
+		"colour": "#4CAF50",
+		"tooltip": "自动追踪目标，按照目标的方向前进，速度根据目标距离自动调整",
+		"output": "Number"
+    }
+	
+]
