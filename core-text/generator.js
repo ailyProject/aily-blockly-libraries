@@ -753,6 +753,9 @@ try {
   Blockly.Extensions.register('text_single_quotes', SINGLE_QUOTES_EXTENSION);
 
   // Register the mixin for reuse
+  if (Blockly.Extensions.isRegistered('single_quote_image_mixin')) {
+    Blockly.Extensions.unregister('single_quote_image_mixin');
+  }
   Blockly.Extensions.registerMixin('single_quote_image_mixin', SINGLE_QUOTE_IMAGE_MIXIN);
 } catch (e) {
   console.error("注册text_single_quotes扩展失败:", e);
