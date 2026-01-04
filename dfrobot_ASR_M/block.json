@@ -1,0 +1,111 @@
+[
+  {
+    "type": "dfrobot_asr_init",
+    "message0": "初始化语音识别模块 %1\n识别模式 %2\n麦克风模式 %3\nI2C地址 %4\n使用 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "asr"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "循环模式 (LOOP)",
+            "LOOP"
+          ],
+          [
+            "指令模式 (PASSWORD)",
+            "PASSWORD"
+          ],
+          [
+            "按钮模式 (BUTTON)",
+            "BUTTON"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MIC_MODE",
+        "options": [
+          [
+            "麦克风 (MIC)",
+            "MIC"
+          ],
+          [
+            "单声道 (MONO)",
+            "MONO"
+          ]
+        ]
+      },
+      {
+        "type": "field_input",
+        "name": "ADDRESS",
+        "text": "0x4F"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": false,
+    "colour": 210,
+    "tooltip": "初始化DFRobot语音识别模块，支持三种识别模式",
+    "extensions": ["dfrobot_asr_init_pin_info"]
+  },
+  {
+    "type": "dfrobot_asr_add_command",
+    "message0": "添加语音关键词 %1 编号为 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "WORDS",
+        "text": "kai deng"
+      },
+      {
+        "type": "field_input",
+        "name": "ID",
+        "text": "1"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "添加语音词条，词条使用拼音（如：kai deng），识别号范围1-255"
+  },
+  {
+    "type": "dfrobot_asr_start",
+    "message0": "开始语音识别",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "启动语音识别功能"
+  },
+  {
+    "type": "dfrobot_asr_read",
+    "message0": "读取语音识别结果编号",
+    "output": "Number",
+    "colour": 210,
+    "tooltip": "读取识别到的词条编号，返回-1表示未识别到"
+  },
+  {
+    "type": "dfrobot_asr_set_i2c_addr",
+    "message0": "设置语音模块I2C地址 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "ADDR",
+        "text": "0x4F"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "设置语音模块的I2C地址（0-127），需要重新上电后生效"
+  }
+]
