@@ -1,0 +1,951 @@
+[
+    {
+        "type": "four_driver_init",
+        "message0": "使用驱动接口 %1 初始化四路电机驱动",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "power_index",
+                "options": [
+                    [
+                        "1",
+                        "0"
+                    ],
+                    [
+                        "2",
+                        "1"
+                    ]
+                ]
+            }
+        ],
+        "nextStatement": null,
+        "previousStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "初始化四路有刷电机驱动"
+    },
+    {
+        "type": "four_driver_set_speed",
+        "message0": "设置电机速度 左前 %1 右前 %2 左后 %3 右后 %4 cm/s",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "speed1",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "speed2",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "speed3",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "speed4",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "分别设置四个电机的速度，单位厘米每秒"
+    },
+    {
+        "type": "four_driver_move",
+        "message0": "小车 %1 速度 %2 cm/s 距离 %3 cm",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "DIRECTION",
+                "options": [
+                    [
+                        "前进",
+                        "1"
+                    ],
+                    [
+                        "后退",
+                        "2"
+                    ],
+                    [
+                        "左移",
+                        "3"
+                    ],
+                    [
+                        "右移",
+                        "4"
+                    ]
+                ]
+            },
+            {
+                "type": "field_number",
+                "name": "SPEED",
+                "value": 50,
+                "min": 0,
+                "max": 175
+            },
+            {
+                "type": "field_number",
+                "name": "DISTANCE",
+                "value": 10,
+                "min": 0
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "控制小车向设置方向移动指定距离"
+    },
+    {
+        "type": "four_driver_turn",
+        "message0": "向 %1 转 %2 ° 转向速度 %3 cm/s",
+        "args0": [
+			{
+                "type": "field_dropdown",
+                "name": "DIRECTION",
+                "options": [
+                    [
+                        "左",
+                        "1"
+                    ],
+                    [
+                        "右",
+                        "-1"
+                    ]
+                ]
+            },
+            {
+                "type": "input_value",
+                "name": "ANGLE",
+				"value": 0,
+                "min": 0,
+                "max": 360,
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "SPEED",
+				"value": 0,
+                "min": 0,
+                "max": 175,
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "按照指定的角度、方向、速度进行旋转"
+    },
+	{
+		"type": "four_driver_track",
+		"message0": "追踪目标的X坐标 %1 Y坐标 %2 ",
+		"args0": [
+			{
+				"type": "input_value",
+				"name": "coord_x",
+				"value": 0
+			},
+			{
+				"type": "input_value",
+				"name": "coord_y",
+				"value": 0
+			}
+		],
+		"inputsInline": true,
+		"colour": "#4CAF50",
+		"tooltip": "自动追踪目标，按照目标的方向前进，速度根据目标距离自动调整",
+		"output": "Number"
+    },
+    {
+        "type": "imu660ma_init",
+        "message0": "使用传感器接口 %1 初始化IMU660MA传感器",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "power_index",
+                "options": [
+                    [
+                        "1",
+                        "6"
+                    ],
+                    [
+                        "2",
+                        "7"
+                    ],
+                    [
+                        "3",
+                        "8"
+                    ],
+                    [
+                        "4",
+                        "9"
+                    ],
+                    [
+                        "5",
+                        "10"
+                    ]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#1565C0",
+        "tooltip": "初始化姿态传感器"
+    },
+    {
+        "type": "imu660ma_calibration_acc",
+        "message0": "校准 IMU660MA 加速度计",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#1565C0",
+        "tooltip": "校准加速度计，需要放平然后静止不动"
+    },
+    {
+        "type": "imu660ma_calibration_gyro",
+        "message0": "校准 IMU660MA 陀螺仪",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#1565C0",
+        "tooltip": "校准陀螺仪，校准时需要保持静止"
+    },
+    {
+        "type": "imu660ma_calibration_yaw",
+        "message0": "校准 IMU660MA 航向角为 %1 ",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "yaw",
+                "check": "Number"
+            }
+        ],		
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#1565C0",
+        "tooltip": "校准航向角，传入当前正确的航向角用于纠正"
+    },
+    {
+        "type": "imu660ma_get_acc",
+        "message0": "获取 IMU660MA 加速度 %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "AXIS",
+                "options": [
+                    [
+                        "X轴",
+                        "X"
+                    ],
+                    [
+                        "Y轴",
+                        "Y"
+                    ],
+                    [
+                        "Z轴",
+                        "Z"
+                    ]
+                ]
+            }
+        ],
+        "output": "Number",
+        "colour": "#1565C0",
+        "tooltip": "获取加速度数据"
+    },
+    {
+        "type": "imu660ma_get_gyro",
+        "message0": "获取 IMU660MA 陀螺仪 %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "AXIS",
+                "options": [
+                    [
+                        "X轴",
+                        "X"
+                    ],
+                    [
+                        "Y轴",
+                        "Y"
+                    ],
+                    [
+                        "Z轴",
+                        "Z"
+                    ]
+                ]
+            }
+        ],
+        "output": "Number",
+        "colour": "#1565C0",
+        "tooltip": "获取陀螺仪的数据"
+    },
+    {
+        "type": "imu660ma_get_angle",
+        "message0": "获取 IMU660MA %1 角度",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "ANGLE",
+                "options": [
+                    [
+                        "俯仰角",
+                        "PITCH"
+                    ],
+                    [
+                        "横滚角",
+                        "ROLL"
+                    ],
+                    [
+                        "偏航角",
+                        "YAW"
+                    ]
+                ]
+            }
+        ],
+        "output": "Number",
+        "colour": "#1565C0",
+        "tooltip": "获取当前的姿态角度，可以获取俯仰角、横滚角、偏航角"
+    },
+	{
+        "type": "photoelectricity_init",
+        "message0": "使用传感器接口 %1 初始化灰度传感器 ",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "power_index",
+                "options": [
+                    [
+                        "1",
+                        "6"
+                    ],
+                    [
+                        "2",
+                        "7"
+                    ],
+                    [
+                        "3",
+                        "8"
+                    ],
+                    [
+                        "4",
+                        "9"
+                    ],
+                    [
+                        "5",
+                        "10"
+                    ]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ffbb1a",
+        "tooltip": "初始化高精度灰度传感器"
+    },
+    {
+        "type": "photoelectricity_set_black",
+        "message0": "校准 黑色背景 传感器ID %1",
+		"args0": [
+            {
+                "type": "field_dropdown",
+                "name": "DEVICE_ID",
+                "options": [
+                    [
+                        "传感器1",
+                        "1"
+                    ],
+                    [
+                        "传感器2",
+                        "2"
+                    ],
+                    [
+                        "传感器3",
+                        "3"
+                    ],
+                    [
+                        "传感器4",
+                        "4"
+                    ]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ffbb1a",
+        "tooltip": "将传感器放置在黑色线条上，然后调用此命令，以此完成黑色校准"
+    },
+    {
+        "type": "photoelectricity_set_white",
+        "message0": "校准 白色背景 传感器ID %1",
+		"args0": [
+            {
+                "type": "field_dropdown",
+                "name": "DEVICE_ID",
+                "options": [
+                    [
+                        "传感器1",
+                        "1"
+                    ],
+                    [
+                        "传感器2",
+                        "2"
+                    ],
+                    [
+                        "传感器3",
+                        "3"
+                    ],
+                    [
+                        "传感器4",
+                        "4"
+                    ]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ffbb1a",
+        "tooltip": "将传感器放置在白色区域上，然后调用此命令，以此完成白色校准"
+    },
+    {
+        "type": "photoelectricity_get_position",
+        "message0": "获取 偏差数据 传感器ID %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "DEVICE_ID",
+                "options": [
+                    [
+                        "传感器1",
+                        "1"
+                    ],
+                    [
+                        "传感器2",
+                        "2"
+                    ],
+                    [
+                        "传感器3",
+                        "3"
+                    ],
+                    [
+                        "传感器4",
+                        "4"
+                    ]
+                ]
+            }
+        ],
+        "output": "Number",
+        "colour": "#ffbb1a",
+        "tooltip": "获取灰度传感器计算的偏差数据，主要用于循单线时使用"
+    },
+    {
+        "type": "photoelectricity_get_value",
+        "message0": "获取 原始数据 传感器ID %1 通道 %2",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "DEVICE_ID",
+                "options": [
+                    [
+                        "传感器1",
+                        "1"
+                    ],
+                    [
+                        "传感器2",
+                        "2"
+                    ],
+                    [
+                        "传感器3",
+                        "3"
+                    ],
+                    [
+                        "传感器4",
+                        "4"
+                    ]
+                ]				
+            },
+			{
+				"type": "field_dropdown",
+                "name": "CHANNEL",
+                "options": [
+                    [
+                        "通道1",
+                        "0"
+                    ],
+                    [
+                        "通道2",
+                        "1"
+                    ],
+                    [
+                        "通道3",
+                        "2"
+                    ],
+                    [
+                        "通道4",
+                        "3"
+                    ],
+                    [
+                        "通道5",
+                        "4"
+                    ],
+                    [
+                        "通道6",
+                        "5"
+                    ],
+                    [
+                        "通道7",
+                        "6"
+                    ],
+                    [
+                        "通道8",
+                        "7"
+                    ],
+                    [
+                        "通道9",
+                        "8"
+                    ],
+                    [
+                        "通道10",
+                        "9"
+                    ]
+                ]
+				
+			}
+        ],
+        "output": "Number",
+        "colour": "#ffbb1a",
+        "tooltip": "获取传感器的原始数据"
+    },
+    {
+        "type": "photoelectricity_get_value_bin",
+        "message0": "获取 二值化数据 传感器ID %1 通道 %2",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "DEVICE_ID",
+                "options": [
+                    [
+                        "传感器1",
+                        "1"
+                    ],
+                    [
+                        "传感器2",
+                        "2"
+                    ],
+                    [
+                        "传感器3",
+                        "3"
+                    ],
+                    [
+                        "传感器4",
+                        "4"
+                    ]
+                ]				
+            },
+			{
+				"type": "field_dropdown",
+                "name": "CHANNEL",
+                "options": [
+                    [
+                        "通道1",
+                        "0"
+                    ],
+                    [
+                        "通道2",
+                        "1"
+                    ],
+                    [
+                        "通道3",
+                        "2"
+                    ],
+                    [
+                        "通道4",
+                        "3"
+                    ],
+                    [
+                        "通道5",
+                        "4"
+                    ],
+                    [
+                        "通道6",
+                        "5"
+                    ],
+                    [
+                        "通道7",
+                        "6"
+                    ],
+                    [
+                        "通道8",
+                        "7"
+                    ],
+                    [
+                        "通道9",
+                        "8"
+                    ],
+                    [
+                        "通道10",
+                        "9"
+                    ]
+                ]
+				
+			}
+        ],
+        "output": "Number",
+        "colour": "#ffbb1a",
+        "tooltip": "获取传感器的二值化之后的数据，1表示白色，0表示黑色，数据更简单直观"
+    },
+    {
+        "type": "photoelectricity_get_black_num",
+        "message0": "获取 黑点数量 传感器ID %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "DEVICE_ID",
+                "options": [
+                    [
+                        "传感器1",
+                        "1"
+                    ],
+                    [
+                        "传感器2",
+                        "2"
+                    ],
+                    [
+                        "传感器3",
+                        "3"
+                    ],
+                    [
+                        "传感器4",
+                        "4"
+                    ]
+                ]				
+            }
+        ],
+        "output": "Number",
+        "colour": "#ffbb1a",
+        "tooltip": "获取传感器看到的黑色数量"
+    },
+    {
+        "type": "photoelectricity_get_white_num",
+        "message0": "获取 白点数量 传感器ID %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "DEVICE_ID",
+                "options": [
+                    [
+                        "传感器1",
+                        "1"
+                    ],
+                    [
+                        "传感器2",
+                        "2"
+                    ],
+                    [
+                        "传感器3",
+                        "3"
+                    ],
+                    [
+                        "传感器4",
+                        "4"
+                    ]
+                ]				
+            }
+        ],
+        "output": "Number",
+        "colour": "#ffbb1a",
+        "tooltip": "获取传感器看到的白色数量"
+    },
+    {
+        "type": "ch422_set_beep",
+        "message0": "设置蜂鸣器状态 %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "STATE",
+                "options": [
+                    [
+                        "打开",
+                        "1"
+                    ],
+                    [
+                        "关闭",
+                        "0"
+                    ]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#f34021",
+        "tooltip": "控制蜂鸣器的状态，通常用于调试时便于判断状态时使用"
+    },
+    {
+        "type": "ch422_set_led",
+        "message0": "设置 %1 LED 为 %2 状态",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "COLOR",
+                "options": [
+                    [
+                        "红色",
+                        "red"
+                    ],
+                    [
+                        "绿色",
+                        "green"
+                    ],
+                    [
+                        "蓝色",
+                        "blue"
+                    ]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "STATE",
+                "options": [
+                    [
+                        "打开",
+                        "1"
+                    ],
+                    [
+                        "关闭",
+                        "0"
+                    ]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#f34021",
+        "tooltip": "控制LED的状态，通常用于调试时便于判断状态时使用"
+    },
+	{
+        "type": "key4_adc1_begin",
+        "message0": "初始化ADC按键",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#f321d8",
+        "tooltip": "初始化ADC按键，仅使用一个ADC引脚完成多个按键的输入检测"
+    },
+    {
+        "inputsInline": true,
+        "type": "key4_adc1_read",
+        "message0": "获取按键状态 %1 按键状态 %2",
+        "colour": "#f321d8",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "KEY_ID",
+                "options": [
+					[
+						"按键1",
+                        "0"
+                    ],
+                    [
+                        "按键2",
+                        "1"
+                    ],
+                    [
+                        "按键3",
+                        "2"
+                    ],
+                    [
+                        "按键4",
+                        "3"
+                    ]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "STATE",
+                "options": [
+					[
+						"未按下",
+                        "0"
+                    ],
+                    [
+                        "已按下",
+                        "1"
+                    ],
+                    [
+                        "长按中",
+                        "2"
+                    ],
+                    [
+                        "按下并释放",
+                        "3"
+                    ]
+                ]
+            }
+        ],
+		"output": "Number",
+        "tooltip": "读取按键的状态"
+    },
+    {
+        "type": "openart_mini_begin",
+        "message0": "初始化OpenART mini视觉模块",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#21f3c2",
+        "tooltip": "初始化视觉识别设备，主要通过串口进行通讯"
+    },
+    {
+        "type": "openart_mini_detection_object",
+        "message0": "识别形状为 %1 且颜色为 %2 的物品",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "SHAPE",
+                "options": [
+                    [
+                        "正方体",
+                        "1"
+                    ],
+                    [
+                        "圆柱体",
+                        "2"
+                    ],
+                    [
+                        "圆锥体",
+                        "3"
+                    ],
+                    [
+                        "黑色圆圈",
+                        "4"
+                    ]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "VALUE",
+                "options": [
+                    [
+                        "黄色",
+                        "0xFFF200"
+                    ],
+                    [
+                        "绿色",
+                        "0x22B14C"
+                    ],
+                    [
+                        "红色",
+                        "0xF01450"
+                    ],
+                    [
+                        "黑色",
+                        "0x123456"
+                    ]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#21f3c2",
+        "tooltip": "发起识别物品的命令"
+    },
+    {
+        "type": "openart_mini_detection_apriltag",
+        "message0": "识别apriltag码",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#21f3c2",
+        "tooltip": "发起检测apriltag的命令"
+    },
+    {
+        "type": "openart_mini_detection_stop",
+        "message0": "停止识别",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#21f3c2",
+        "tooltip": "停止识别"
+    },
+    {
+        "inputsInline": true,
+        "type": "openart_mini_get_result",
+        "message0": "获取识别 %1 的状态",
+        "colour": "#21f3c2",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "TYPE",
+                "options": [
+					[
+						"物品",
+                        "1"
+                    ],
+                    [
+                        "Apriltag码",
+                        "2"
+                    ]
+                ]
+            }
+        ],
+		"output": "Number",
+        "tooltip": "获取识别的结果"
+    },
+    {
+        "inputsInline": true,
+        "type": "openart_mini_get_coord_x",
+        "message0": "获取识别到 %1 的横坐标",
+        "colour": "#21f3c2",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "TYPE",
+                "options": [
+					[
+						"物品",
+                        "1"
+                    ],
+                    [
+                        "Apriltag码",
+                        "2"
+                    ]
+                ]
+            }
+        ],
+		"output": "Number",
+        "tooltip": "获取识别到的物品X坐标"
+    },
+    {
+        "inputsInline": true,
+        "type": "openart_mini_get_coord_y",
+        "message0": "获取识别到 %1 的纵坐标",
+        "colour": "#21f3c2",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "TYPE",
+                "options": [
+					[
+						"物品",
+                        "1"
+                    ],
+                    [
+                        "Apriltag码",
+                        "2"
+                    ]
+                ]
+            }
+        ],
+		"output": "Number",
+        "tooltip": "获取识别到的物品Y坐标"
+    }
+]
