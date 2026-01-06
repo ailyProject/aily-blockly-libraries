@@ -15,13 +15,13 @@ Arduino UNO R4 WiFi RTC实时时钟库，提供时间设置、读取和闹钟功
 | `rtc_is_running` | 值块 | 无 | 无 | `RTC.isRunning()` |
 | `rtc_set_time` | 语句块 | DAY(input), MONTH(field), YEAR(input), HOUR(input), MINUTE(input), SECOND(input), DAYOFWEEK(field) | `"MONTH":"JANUARY"` | `RTCTime time(...); RTC.setTime(time);` |
 | `rtc_get_time` | 值块 | 无 | 无 | `RTC.getTime(rtc_current_time), rtc_current_time` |
-| `rtc_time_get_day` | 值块 | TIME(input) | 无 | `time.getDayOfMonth()` |
-| `rtc_time_get_month` | 值块 | TIME(input) | 无 | `Month2int(time.getMonth())` |
-| `rtc_time_get_year` | 值块 | TIME(input) | 无 | `time.getYear()` |
-| `rtc_time_get_hour` | 值块 | TIME(input) | 无 | `time.getHour()` |
-| `rtc_time_get_minute` | 值块 | TIME(input) | 无 | `time.getMinutes()` |
-| `rtc_time_get_second` | 值块 | TIME(input) | 无 | `time.getSeconds()` |
-| `rtc_time_get_day_of_week` | 值块 | TIME(input) | 无 | `DayOfWeek2int(time.getDayOfWeek(), false)` |
+| `rtc_time_get_day` | 值块 | VAR(field_variable) | 无 | `time.getDayOfMonth()` |
+| `rtc_time_get_month` | 值块 | VAR(field_variable) | 无 | `Month2int(time.getMonth())` |
+| `rtc_time_get_year` | 值块 | VAR(field_variable) | 无 | `time.getYear()` |
+| `rtc_time_get_hour` | 值块 | VAR(field_variable) | 无 | `time.getHour()` |
+| `rtc_time_get_minute` | 值块 | VAR(field_variable) | 无 | `time.getMinutes()` |
+| `rtc_time_get_second` | 值块 | VAR(field_variable) | 无 | `time.getSeconds()` |
+| `rtc_time_get_day_of_week` | 值块 | VAR(field_variable) | 无 | `DayOfWeek2int(time.getDayOfWeek(), false)` |
 | `rtc_set_periodic_callback` | Hat块 | PERIOD(field), HANDLER(input_statement) | `"PERIOD":"ONCE_EVERY_1_SEC"` | `RTC.setPeriodicCallback(callback, Period::...);` |
 | `rtc_set_alarm_callback` | Hat块 | SECOND(input), HANDLER(input_statement) | 无 | `RTC.setAlarmCallback(callback, alarmtime, am);` |
 

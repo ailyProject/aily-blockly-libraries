@@ -84,45 +84,52 @@ Arduino.forBlock['renesas_rtc_get_time'] = function(block, generator) {
 };
 
 Arduino.forBlock['renesas_rtc_time_get_day'] = function(block, generator) {
-  const time = generator.valueToCode(block, 'TIME', generator.ORDER_ATOMIC) || 'rtc_current_time';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'rtc_current_time';
   generator.addLibrary('RTC', '#include <RTC.h>');
-  return [time + '.getDayOfMonth()', generator.ORDER_ATOMIC];
+  return [varName + '.getDayOfMonth()', generator.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['renesas_rtc_time_get_month'] = function(block, generator) {
-  const time = generator.valueToCode(block, 'TIME', generator.ORDER_ATOMIC) || 'rtc_current_time';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'rtc_current_time';
   generator.addLibrary('RTC', '#include <RTC.h>');
-  return ['Month2int(' + time + '.getMonth())', generator.ORDER_ATOMIC];
+  return ['Month2int(' + varName + '.getMonth())', generator.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['renesas_rtc_time_get_year'] = function(block, generator) {
-  const time = generator.valueToCode(block, 'TIME', generator.ORDER_ATOMIC) || 'rtc_current_time';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'rtc_current_time';
   generator.addLibrary('RTC', '#include <RTC.h>');
-  return [time + '.getYear()', generator.ORDER_ATOMIC];
+  return [varName + '.getYear()', generator.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['renesas_rtc_time_get_hour'] = function(block, generator) {
-  const time = generator.valueToCode(block, 'TIME', generator.ORDER_ATOMIC) || 'rtc_current_time';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'rtc_current_time';
   generator.addLibrary('RTC', '#include <RTC.h>');
-  return [time + '.getHour()', generator.ORDER_ATOMIC];
+  return [varName + '.getHour()', generator.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['renesas_rtc_time_get_minute'] = function(block, generator) {
-  const time = generator.valueToCode(block, 'TIME', generator.ORDER_ATOMIC) || 'rtc_current_time';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'rtc_current_time';
   generator.addLibrary('RTC', '#include <RTC.h>');
-  return [time + '.getMinutes()', generator.ORDER_ATOMIC];
+  return [varName + '.getMinutes()', generator.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['renesas_rtc_time_get_second'] = function(block, generator) {
-  const time = generator.valueToCode(block, 'TIME', generator.ORDER_ATOMIC) || 'rtc_current_time';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'rtc_current_time';
   generator.addLibrary('RTC', '#include <RTC.h>');
-  return [time + '.getSeconds()', generator.ORDER_ATOMIC];
+  return [varName + '.getSeconds()', generator.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['renesas_rtc_time_get_day_of_week'] = function(block, generator) {
-  const time = generator.valueToCode(block, 'TIME', generator.ORDER_ATOMIC) || 'rtc_current_time';
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'rtc_current_time';
   generator.addLibrary('RTC', '#include <RTC.h>');
-  return ['DayOfWeek2int(' + time + '.getDayOfWeek(), false)', generator.ORDER_ATOMIC];
+  return ['DayOfWeek2int(' + varName + '.getDayOfWeek(), false)', generator.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['renesas_rtc_set_periodic_callback'] = function(block, generator) {

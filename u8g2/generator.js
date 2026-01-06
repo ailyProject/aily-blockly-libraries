@@ -426,11 +426,27 @@ Arduino.forBlock['u8g2_send_buffer'] = function (block, generator) {
   return `u8g2.sendBuffer();\n`;
 };
 
+// 辅助函数：检测后续块中是否有u8g2_send_buffer
+function hasFollowingSendBuffer(block) {
+  let nextBlock = block.getNextBlock();
+  while (nextBlock) {
+    if (nextBlock.type === 'u8g2_send_buffer') {
+      return true;
+    }
+    nextBlock = nextBlock.getNextBlock();
+  }
+  return false;
+}
+
 // 绘制像素点
 Arduino.forBlock['u8g2_draw_pixel'] = function (block, generator) {
   const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC);
   const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC);
-  return `u8g2.drawPixel(${x}, ${y});\nu8g2.sendBuffer();\n`;
+  let code = `u8g2.drawPixel(${x}, ${y});\n`;
+  if (!hasFollowingSendBuffer(block)) {
+    code += `u8g2.sendBuffer();\n`;
+  }
+  return code;
 };
 
 // 绘制直线
@@ -440,7 +456,11 @@ Arduino.forBlock['u8g2_draw_line'] = function (block, generator) {
   const x2 = generator.valueToCode(block, 'X2', Arduino.ORDER_ATOMIC);
   const y2 = generator.valueToCode(block, 'Y2', Arduino.ORDER_ATOMIC);
 
-  return `u8g2.drawLine(${x1}, ${y1}, ${x2}, ${y2});\nu8g2.sendBuffer();\n`;
+  let code = `u8g2.drawLine(${x1}, ${y1}, ${x2}, ${y2});\n`;
+  if (!hasFollowingSendBuffer(block)) {
+    code += `u8g2.sendBuffer();\n`;
+  }
+  return code;
 };
 
 // 绘制矩形
@@ -450,12 +470,18 @@ Arduino.forBlock['u8g2_draw_rectangle'] = function (block, generator) {
   const width = generator.valueToCode(block, 'WIDTH', Arduino.ORDER_ATOMIC);
   const height = generator.valueToCode(block, 'HEIGHT', Arduino.ORDER_ATOMIC);
   const fill = block.getFieldValue('FILL') === 'TRUE';
+  const needSendBuffer = !hasFollowingSendBuffer(block);
 
+  let code;
   if (fill) {
-    return `u8g2.drawBox(${x}, ${y}, ${width}, ${height});\nu8g2.sendBuffer();\n`;
+    code = `u8g2.drawBox(${x}, ${y}, ${width}, ${height});\n`;
   } else {
-    return `u8g2.drawFrame(${x}, ${y}, ${width}, ${height});\nu8g2.sendBuffer();\n`;
+    code = `u8g2.drawFrame(${x}, ${y}, ${width}, ${height});\n`;
   }
+  if (needSendBuffer) {
+    code += `u8g2.sendBuffer();\n`;
+  }
+  return code;
 };
 
 // 绘制圆形
@@ -464,12 +490,18 @@ Arduino.forBlock['u8g2_draw_circle'] = function (block, generator) {
   const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC);
   const radius = generator.valueToCode(block, 'RADIUS', Arduino.ORDER_ATOMIC);
   const fill = block.getFieldValue('FILL') === 'TRUE';
+  const needSendBuffer = !hasFollowingSendBuffer(block);
 
+  let code;
   if (fill) {
-    return `u8g2.drawDisc(${x}, ${y}, ${radius});\nu8g2.sendBuffer();\n`;
+    code = `u8g2.drawDisc(${x}, ${y}, ${radius});\n`;
   } else {
-    return `u8g2.drawCircle(${x}, ${y}, ${radius});\nu8g2.sendBuffer();\n`;
+    code = `u8g2.drawCircle(${x}, ${y}, ${radius});\n`;
   }
+  if (needSendBuffer) {
+    code += `u8g2.sendBuffer();\n`;
+  }
+  return code;
 };
 
 // 绘制文本
@@ -500,7 +532,10 @@ Arduino.forBlock['u8g2_draw_str'] = function (block, generator) {
   }
 
   let code = '';
-  code += `u8g2.setFont(${fontSetting});\nu8g2.${drawCode}(${x}, ${y}, ${textCode});\nu8g2.sendBuffer();\n`;
+  code += `u8g2.setFont(${fontSetting});\nu8g2.${drawCode}(${x}, ${y}, ${textCode});\n`;
+  if (!hasFollowingSendBuffer(block)) {
+    code += `u8g2.sendBuffer();\n`;
+  }
   return code;
 };
 
@@ -640,7 +675,11 @@ Arduino.forBlock['u8g2_draw_bitmap'] = function (block, generator) {
   // 从bitmap代码中提取变量名前缀
   const bitmapVarPrefix = bitmapCode.replace('_data', '');
 
-  return `u8g2.drawXBMP(${x}, ${y}, ${bitmapVarPrefix}_width, ${bitmapVarPrefix}_height, ${bitmapCode});\nu8g2.sendBuffer();\n`;
+  let code = `u8g2.drawXBMP(${x}, ${y}, ${bitmapVarPrefix}_width, ${bitmapVarPrefix}_height, ${bitmapCode});\n`;
+  if (!hasFollowingSendBuffer(block)) {
+    code += `u8g2.sendBuffer();\n`;
+  }
+  return code;
 };
 
 // 设置屏幕翻转
