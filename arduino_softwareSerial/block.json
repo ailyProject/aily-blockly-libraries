@@ -1,129 +1,236 @@
 [
-    {
-        "type": "softwareserial_create",
-        "message0": "创建软件串口 %1 RX引脚 %2 TX引脚 %3",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "SERIAL_VAR",
-                "variable": "mySerial",
-                "variableTypes": ["SoftwareSerial"],
-                "defaultType": "SoftwareSerial"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "RX_PIN",
-                "options": "${board.digitalPins}"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "TX_PIN",
-                "options": "${board.digitalPins}"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3"
-    },
-    {
-        "type": "softwareserial_begin",
-        "message0": "软件串口 %1 设置波特率 %2",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "SERIAL_VAR",
-                "variable": "mySerial",
-                "variableTypes": ["SoftwareSerial"],
-                "defaultType": "SoftwareSerial"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "BAUD_RATE",
-                "options": [
-                    ["9600", "9600"],
-                    ["4800", "4800"],
-                    ["19200", "19200"],
-                    ["38400", "38400"],
-                    ["57600", "57600"],
-                    ["115200", "115200"]
-                ]
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3"
-    },
-    {
-        "type": "softwareserial_listen",
-        "message0": "软件串口 %1 开始监听",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "SERIAL_VAR",
-                "variable": "mySerial",
-                "variableTypes": ["SoftwareSerial"],
-                "defaultType": "SoftwareSerial"
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3"
-    },
-    {
-        "type": "softwareserial_available",
-        "message0": "软件串口 %1 有可用数据",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "SERIAL_VAR",
-                "variable": "mySerial",
-                "variableTypes": ["SoftwareSerial"],
-                "defaultType": "SoftwareSerial"
-            }
-        ],
-        "inputsInline": true,
-        "output": "Boolean",
-        "colour": "#2196F3"
-    },
-    {
-        "type": "softwareserial_read",
-        "message0": "软件串口 %1 读取一个字节",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "SERIAL_VAR",
-                "variable": "mySerial",
-                "variableTypes": ["SoftwareSerial"],
-                "defaultType": "SoftwareSerial"
-            }
-        ],
-        "inputsInline": true,
-        "output": "Number",
-        "colour": "#2196F3"
-    },
-    {
-        "type": "softwareserial_write",
-        "message0": "软件串口 %1 写入数据 %2",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "SERIAL_VAR",
-                "variable": "mySerial",
-                "variableTypes": ["SoftwareSerial"],
-                "defaultType": "SoftwareSerial"
-            },
-            {
-                "type": "input_value",
-                "name": "DATA",
-                "check": ["String", "Number"]
-            }
-        ],
-        "inputsInline": true,
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3"
-    }
+  {
+    "type": "softwareserial_init",
+    "message0": "初始化软串口 %1 RX引脚 %2 TX引脚 %3 波特率 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "mySerial"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RX_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TX_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BAUD",
+        "options": [
+          ["300", "300"],
+          ["1200", "1200"],
+          ["2400", "2400"],
+          ["4800", "4800"],
+          ["9600", "9600"],
+          ["14400", "14400"],
+          ["19200", "19200"],
+          ["28800", "28800"],
+          ["38400", "38400"],
+          ["57600", "57600"],
+          ["115200", "115200"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5ba58c",
+    "tooltip": "创建一个软件模拟的串口，指定RX（接收）和TX（发送）引脚及波特率",
+    "helpUrl": "https://docs.arduino.cc/learn/built-in-libraries/software-serial/"
+  },
+  {
+    "type": "softwareserial_available",
+    "message0": "软串口 %1 缓冲区有数据",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mySerial",
+        "variableTypes": ["SoftwareSerial"],
+        "defaultType": "SoftwareSerial"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#5ba58c",
+    "tooltip": "返回软串口接收缓冲区中可读取的字节数",
+    "helpUrl": "https://docs.arduino.cc/learn/built-in-libraries/software-serial/"
+  },
+  {
+    "type": "softwareserial_read",
+    "message0": "读取软串口 %1 数据 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mySerial",
+        "variableTypes": ["SoftwareSerial"],
+        "defaultType": "SoftwareSerial"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["read", "read()"],
+          ["peek", "peek()"],
+          ["parseInt", "parseInt()"],
+          ["parseFloat", "parseFloat()"],
+          ["readString", "readString()"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Any",
+    "colour": "#5ba58c",
+    "tooltip": "从软串口读取数据。read()读一个字节，peek()查看但不移除，其他读取格式化数据",
+    "helpUrl": "https://docs.arduino.cc/learn/built-in-libraries/software-serial/"
+  },
+  {
+    "type": "softwareserial_print",
+    "message0": "软串口 %1 输出 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mySerial",
+        "variableTypes": ["SoftwareSerial"],
+        "defaultType": "SoftwareSerial"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5ba58c",
+    "tooltip": "通过软串口输出数据（不换行）",
+    "helpUrl": "https://docs.arduino.cc/learn/built-in-libraries/software-serial/"
+  },
+  {
+    "type": "softwareserial_println",
+    "message0": "软串口 %1 输出 %2 并换行",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mySerial",
+        "variableTypes": ["SoftwareSerial"],
+        "defaultType": "SoftwareSerial"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5ba58c",
+    "tooltip": "通过软串口输出数据并换行",
+    "helpUrl": "https://docs.arduino.cc/learn/built-in-libraries/software-serial/"
+  },
+  {
+    "type": "softwareserial_write",
+    "message0": "软串口 %1 输出原始数据 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mySerial",
+        "variableTypes": ["SoftwareSerial"],
+        "defaultType": "SoftwareSerial"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5ba58c",
+    "tooltip": "通过软串口发送原始字节数据",
+    "helpUrl": "https://docs.arduino.cc/learn/built-in-libraries/software-serial/"
+  },
+  {
+    "type": "softwareserial_listen",
+    "message0": "设置软串口 %1 为活动监听端口",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mySerial",
+        "variableTypes": ["SoftwareSerial"],
+        "defaultType": "SoftwareSerial"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5ba58c",
+    "tooltip": "将指定软串口设为活动监听端口。同一时刻只能有一个软串口处于监听状态",
+    "helpUrl": "https://docs.arduino.cc/learn/built-in-libraries/software-serial/"
+  },
+  {
+    "type": "softwareserial_islistening",
+    "message0": "软串口 %1 正在监听",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mySerial",
+        "variableTypes": ["SoftwareSerial"],
+        "defaultType": "SoftwareSerial"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#5ba58c",
+    "tooltip": "检查指定软串口是否为当前活动监听端口",
+    "helpUrl": "https://docs.arduino.cc/learn/built-in-libraries/software-serial/"
+  },
+  {
+    "type": "softwareserial_overflow",
+    "message0": "软串口 %1 缓冲区溢出",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mySerial",
+        "variableTypes": ["SoftwareSerial"],
+        "defaultType": "SoftwareSerial"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#5ba58c",
+    "tooltip": "检查软串口接收缓冲区是否发生过溢出（调用后会清除溢出标志）",
+    "helpUrl": "https://docs.arduino.cc/learn/built-in-libraries/software-serial/"
+  },
+  {
+    "type": "softwareserial_end",
+    "message0": "关闭软串口 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mySerial",
+        "variableTypes": ["SoftwareSerial"],
+        "defaultType": "SoftwareSerial"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5ba58c",
+    "tooltip": "停止软串口通信，释放相关资源",
+    "helpUrl": "https://docs.arduino.cc/learn/built-in-libraries/software-serial/"
+  }
 ]
