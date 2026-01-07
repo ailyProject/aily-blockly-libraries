@@ -1,870 +1,206 @@
 [
   {
-    "type": "wifi_begin",
-    "message0": "WiFi连接 SSID %1 密码 %2",
+    "type": "wifis3_begin",
+    "message0": "连接WiFi SSID %1 密码 %2",
     "args0": [
-      {
-        "type": "field_input",
-        "name": "SSID",
-        "text": "your_ssid"
-      },
-      {
-        "type": "field_input",
-        "name": "PASSWORD",
-        "text": "your_password"
-      }
-    ],
-    "inputsInline": true,
-    "output": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_begin_ap",
-    "message0": "WiFi AP模式 广播 SSID %1 密码 %2 频道 %3",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "SSID",
-        "text": "your_ap_ssid"
-      },
-      {
-        "type": "field_input",
-        "name": "PASSWORD",
-        "text": "your_ap_password"
-      },
-      {
-        "type": "field_input",
-        "name": "CHANNEL"
-      }
-    ],
-    "inputsInline": true,
-    "output": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_disconnect",
-    "message0": "WiFi断开连接",
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_status",
-    "message0": "WiFi状态获取",
-    "output": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_status_t",
-    "message0": "WiFi状态 %1",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "STATUS",
-        "options": [
-          [
-            "无WiFi扩展板",
-            "WL_NO_SHIELD"
-          ],
-          [
-            "无WiFi模块",
-            "WL_NO_MODULE"
-          ],
-          [
-            "空闲状态",
-            "WL_IDLE_STATUS"
-          ],
-          [
-            "无可用SSID",
-            "WL_NO_SSID_AVAIL"
-          ],
-          [
-            "扫描完成",
-            "WL_SCAN_COMPLETED"
-          ],
-          [
-            "已连接",
-            "WL_CONNECTED"
-          ],
-          [
-            "连接失败",
-            "WL_CONNECT_FAILED"
-          ],
-          [
-            "连接丢失",
-            "WL_CONNECTION_LOST"
-          ],
-          [
-            "已断开",
-            "WL_DISCONNECTED"
-          ],
-          [
-            "AP监听中",
-            "WL_AP_LISTENING"
-          ],
-          [
-            "AP已连接",
-            "WL_AP_CONNECTED"
-          ],
-          [
-            "AP失败",
-            "WL_AP_FAILED"
-          ]
-        ]
-      }
-    ],
-    "output": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_firmware_version",
-    "message0": "WiFi固件版本获取",
-    "output": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_local_ip",
-    "message0": "WiFi本地IP获取",
-    "output": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_ssid",
-    "message0": "WiFi获取SSID",
-    "output": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_bssid",
-    "message0": "WiFi获取BSSID 并赋值到 %1",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "MAC",
-        "variable": "bssid"
-      }
-    ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_rssi",
-    "message0": "WiFi信号强度获取",
-    "output": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_channel",
-    "message0": "WiFi信道 %1",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "INDEX"
-      }
-    ],
-    "output": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_encryption_type",
-    "message0": "WiFi加密类型",
-    "output": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_config",
-    "message0": "WiFi配置 IP %1",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "IP"
-      }
-    ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_mac_address",
-    "message0": "WiFi获取MAC地址 并赋值到 %1",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "MAC",
-        "variable": "macAddress"
-      }
+      {"type": "input_value", "name": "SSID", "check": ["String"]},
+      {"type": "input_value", "name": "PASS", "check": ["String"]}
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
+    "colour": "#FF6B6B",
+    "tooltip": "连接到WiFi网络（WPA/WPA2加密）"
   },
   {
-    "type": "wifi_scan_networks",
-    "message0": "WiFi扫描网络",
-    "output": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_ping_new",
-    "message0": "WiFi Ping 到 %1 TTL %2 超时 %3",
+    "type": "wifis3_begin_open",
+    "message0": "连接WiFi SSID %1 （开放网络）",
     "args0": [
-      {
-        "type": "input_value",
-        "name": "HOST"
-      },
-      {
-        "type": "input_value",
-        "name": "TTL"
-      },
-      {
-        "type": "input_value",
-        "name": "TIMEOUT"
-      }
+      {"type": "input_value", "name": "SSID", "check": ["String"]}
     ],
-    "inputsInline": true,
-    "output": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "连接到无密码的开放WiFi网络"
   },
   {
-    "type": "wifi_ping",
-    "message0": "WiFi Ping 模式 %1 IP %2 HOST %3 TTL %4 TIMEOUT %5",
+    "type": "wifis3_begin_ap",
+    "message0": "启动WiFi热点 SSID %1 密码 %2 频道 %3",
     "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "MODE",
-        "options": [
-          [
-            "IP",
-            "IP"
-          ],
-          [
-            "HOST",
-            "HOST"
-          ]
-        ]
-      },
-      {
-        "type": "input_value",
-        "name": "IP"
-      },
-      {
-        "type": "input_value",
-        "name": "HOST"
-      },
-      {
-        "type": "input_value",
-        "name": "TTL"
-      },
-      {
-        "type": "input_value",
-        "name": "TIMEOUT"
-      }
+      {"type": "input_value", "name": "SSID", "check": ["String"]},
+      {"type": "input_value", "name": "PASS", "check": ["String"]},
+      {"type": "input_value", "name": "CHANNEL", "check": ["Number"]}
     ],
-    "output": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "启动WiFi接入点（热点模式）"
   },
   {
-    "type": "wifi_ping_host",
-    "message0": "WiFi Ping 到主机 %1 TTL %2 超时 %3",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "HOST"
-      },
-      {
-        "type": "input_value",
-        "name": "TTL"
-      },
-      {
-        "type": "input_value",
-        "name": "TIMEOUT"
-      }
-    ],
-    "output": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
+    "type": "wifis3_disconnect",
+    "message0": "断开WiFi连接",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "断开当前WiFi连接"
   },
   {
-    "type": "wifi_get_time",
-    "message0": "WiFi获取时间",
-    "output": null,
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
+    "type": "wifis3_status",
+    "message0": "WiFi连接状态",
+    "output": "Number",
+    "colour": "#4ECDC4",
+    "tooltip": "返回WiFi连接状态（3=已连接, 1=空闲, 0=未连接等）"
   },
   {
-    "type": "wifi_ip_set",
-    "message0": "IP %1",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "IP",
-        "text": "192.168.1.1"
-      }
-    ],
-    "inputsInline": true,
+    "type": "wifis3_is_connected",
+    "message0": "WiFi已连接？",
+    "output": "Boolean",
+    "colour": "#4ECDC4",
+    "tooltip": "检查是否已连接到WiFi网络"
+  },
+  {
+    "type": "wifis3_local_ip",
+    "message0": "获取本地IP地址",
     "output": "String",
-    "colour": "#FF5722",
-    "icon": "fa-regular fa-wifi"
+    "colour": "#4ECDC4",
+    "tooltip": "返回设备的本地IP地址"
   },
   {
-    "type": "wifi_server_begin",
-    "message0": "WiFi服务器 %1 启动 端口 %2",
+    "type": "wifis3_mac_address",
+    "message0": "获取MAC地址",
+    "output": "String",
+    "colour": "#4ECDC4",
+    "tooltip": "返回WiFi模块的MAC地址"
+  },
+  {
+    "type": "wifis3_gateway_ip",
+    "message0": "获取网关IP地址",
+    "output": "String",
+    "colour": "#4ECDC4",
+    "tooltip": "返回网络网关的IP地址"
+  },
+  {
+    "type": "wifis3_subnet_mask",
+    "message0": "获取子网掩码",
+    "output": "String",
+    "colour": "#4ECDC4",
+    "tooltip": "返回网络的子网掩码"
+  },
+  {
+    "type": "wifis3_dns_ip",
+    "message0": "获取DNS服务器 %1",
     "args0": [
       {
-        "type": "field_input",
-        "name": "SERVER",
-        "text": "server"
-      },
-      {
-        "type": "input_value",
-        "name": "PORT"
+        "type": "field_dropdown",
+        "name": "DNS_INDEX",
+        "options": [
+          ["主DNS", "0"],
+          ["备用DNS", "1"]
+        ]
       }
     ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#3F51B5",
-    "icon": "fa-regular fa-wifi"
+    "output": "String",
+    "colour": "#4ECDC4",
+    "tooltip": "返回DNS服务器地址"
   },
   {
-    "type": "wifi_server_available",
-    "message0": "WiFi服务器 %1 可用客户端 %2",
+    "type": "wifis3_set_dns",
+    "message0": "设置DNS服务器 主 %1 备用 %2",
     "args0": [
-      {
-        "type": "field_variable",
-        "name": "SERVER_NAME",
-        "variable": "server",
-        "variableTypes": [
-          "WiFiServer"
-        ],
-        "defaultType": "WiFiServer"
-      },
-      {
-        "type": "field_input",
-        "name": "CLIENT_NAME",
-        "text": "client"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#3F51B5",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_server_accept",
-    "message0": "WiFi服务器 %1 接受连接",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "SERVER_NAME",
-        "variable": "server",
-        "variableTypes": [
-          "WiFiServer"
-        ],
-        "defaultType": "WiFiServer"
-      }
-    ],
-    "output": null,
-    "colour": "#3F51B5",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_client_connect",
-    "message0": "WiFi客户端 %1 连接到服务器 %2 端口 %3 SSL模式 %4",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "CLIENT_NAME",
-        "text": "client"
-      },
-      {
-        "type": "input_value",
-        "name": "SERVER"
-      },
-      {
-        "type": "input_value",
-        "name": "PORT"
-      },
-      {
-        "type": "field_checkbox",
-        "name": "SSL",
-        "checked": false
-      }
-    ],
-    "output": null,
-    "colour": "#009688",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_client_stop",
-    "message0": "WiFi客户端 %1 停止",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "CLIENT_NAME",
-        "variable": "client",
-        "variableTypes": [
-          "WiFiClient"
-        ],
-        "defaultType": "WiFiClient"
-      }
+      {"type": "input_value", "name": "DNS1", "check": ["String"]},
+      {"type": "input_value", "name": "DNS2", "check": ["String"]}
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#009688",
-    "icon": "fa-regular fa-wifi"
+    "colour": "#FF6B6B",
+    "tooltip": "设置主DNS和备用DNS服务器"
   },
   {
-    "type": "wifi_client_connected",
-    "message0": "WiFi客户端 %1 已连接",
+    "type": "wifis3_config_ip",
+    "message0": "配置静态IP 地址 %1 网关 %2 子网 %3",
     "args0": [
-      {
-        "type": "field_variable",
-        "name": "CLIENT_NAME",
-        "variable": "client",
-        "variableTypes": [
-          "WiFiClient"
-        ],
-        "defaultType": "WiFiClient"
-      }
-    ],
-    "output": null,
-    "colour": "#009688",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_client_available",
-    "message0": "WiFi客户端 %1 可用",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "CLIENT_NAME",
-        "variable": "client",
-        "variableTypes": [
-          "WiFiClient"
-        ],
-        "defaultType": "WiFiClient"
-      }
-    ],
-    "output": null,
-    "colour": "#009688",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_client_read",
-    "message0": "WiFi客户端 %1 读取数据",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "CLIENT_NAME",
-        "variable": "client",
-        "variableTypes": [
-          "WiFiClient"
-        ],
-        "defaultType": "WiFiClient"
-      }
-    ],
-    "inputsInline": true,
-    "output": null,
-    "colour": "#009688",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_client_read_buffer",
-    "message0": "WiFi客户端 %1 读取数据 缓冲区 %2 长度 %3",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "CLIENT_NAME",
-        "variable": "client",
-        "variableTypes": [
-          "WiFiClient"
-        ],
-        "defaultType": "WiFiClient",
-        "text": "client"
-      },
-      {
-        "type": "field_input",
-        "name": "BUFFER",
-        "text": "buffer"
-      },
-      {
-        "type": "input_value",
-        "name": "LENGTH"
-      }
-    ],
-    "inputsInline": true,
-    "output": null,
-    "colour": "#009688",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_client_flush",
-    "message0": "WiFi客户端 %1 刷新",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "CLIENT_NAME",
-        "variable": "client",
-        "variableTypes": [
-          "WiFiClient"
-        ],
-        "defaultType": "WiFiClient"
-      }
+      {"type": "input_value", "name": "IP", "check": ["String"]},
+      {"type": "input_value", "name": "GW", "check": ["String"]},
+      {"type": "input_value", "name": "SUBNET", "check": ["String"]}
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#009688",
-    "icon": "fa-regular fa-wifi"
+    "colour": "#FF6B6B",
+    "tooltip": "配置设备的静态IP地址、网关和子网掩码"
   },
   {
-    "type": "wifi_client_write",
-    "message0": "WiFi客户端 %1 写入数据 %2 长度 %3",
+    "type": "wifis3_set_hostname",
+    "message0": "设置主机名 %1",
     "args0": [
-      {
-        "type": "field_variable",
-        "name": "CLIENT_NAME",
-        "variable": "client",
-        "variableTypes": [
-          "WiFiClient"
-        ],
-        "defaultType": "WiFiClient"
-      },
-      {
-        "type": "input_value",
-        "name": "DATA"
-      },
-      {
-        "type": "input_value",
-        "name": "LENGTH"
-      }
-    ],
-    "output": null,
-    "colour": "#009688",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_client_print",
-    "message0": "WiFi客户端 %1 打印 %2",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "CLIENT_NAME",
-        "variable": "client",
-        "variableTypes": [
-          "WiFiClient"
-        ],
-        "defaultType": "WiFiClient"
-      },
-      {
-        "type": "input_value",
-        "name": "DATA"
-      }
+      {"type": "input_value", "name": "HOSTNAME", "check": ["String"]}
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#009688",
-    "icon": "fa-regular fa-wifi"
+    "colour": "#FF6B6B",
+    "tooltip": "设置DHCP主机名"
   },
   {
-    "type": "wifi_client_println",
-    "message0": "WiFi客户端 %1 打印并换行 %2",
+    "type": "wifis3_scan_networks",
+    "message0": "扫描WiFi网络",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "扫描周围可用的WiFi网络"
+  },
+  {
+    "type": "wifis3_ssid_by_index",
+    "message0": "获取第 %1 个网络SSID",
     "args0": [
-      {
-        "type": "field_variable",
-        "name": "CLIENT_NAME",
-        "variable": "client",
-        "variableTypes": [
-          "WiFiClient"
-        ],
-        "defaultType": "WiFiClient"
-      },
-      {
-        "type": "input_value",
-        "name": "DATA"
-      }
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "String",
+    "colour": "#4ECDC4",
+    "tooltip": "返回指定索引处的网络SSID"
+  },
+  {
+    "type": "wifis3_rssi_by_index",
+    "message0": "获取第 %1 个网络信号强度",
+    "args0": [
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "Number",
+    "colour": "#4ECDC4",
+    "tooltip": "返回指定索引处网络的RSSI信号强度（dBm）"
+  },
+  {
+    "type": "wifis3_scanned_networks_count",
+    "message0": "获取扫描到的网络数量",
+    "output": "Number",
+    "colour": "#4ECDC4",
+    "tooltip": "返回最后一次扫描发现的WiFi网络数量"
+  },
+  {
+    "type": "wifis3_ping",
+    "message0": "PING %1 （TTL %2 次数 %3）",
+    "args0": [
+      {"type": "input_value", "name": "HOST", "check": ["String"]},
+      {"type": "input_value", "name": "TTL", "check": ["Number"]},
+      {"type": "input_value", "name": "COUNT", "check": ["Number"]}
+    ],
+    "output": "Number",
+    "colour": "#4ECDC4",
+    "tooltip": "对指定主机执行PING操作，返回响应时间"
+  },
+  {
+    "type": "wifis3_firmware_version",
+    "message0": "获取WiFi固件版本",
+    "output": "String",
+    "colour": "#4ECDC4",
+    "tooltip": "返回WiFi模块的固件版本"
+  },
+  {
+    "type": "wifis3_wait_for_connection",
+    "message0": "等待WiFi连接 超时 %1 ms",
+    "args0": [
+      {"type": "input_value", "name": "TIMEOUT", "check": ["Number"]}
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#009688",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_client_read_string_until",
-    "message0": "WiFi客户端 %1 读取字符串直到 %2",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "CLIENT_NAME",
-        "variable": "client",
-        "variableTypes": [
-          "WiFiClient"
-        ],
-        "defaultType": "WiFiClient"
-      },
-      {
-        "type": "input_value",
-        "name": "TERMINATOR"
-      }
-    ],
-    "output": null,
-    "colour": "#009688",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_udp_create",
-    "message0": "创建WiFiUDP %1",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "UDP_NAME",
-        "text": "Udp"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#795548",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_udp_begin",
-    "message0": "WiFi UDP %1 开始，端口 %2",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "UDP_NAME",
-        "text": "Udp"
-      },
-      {
-        "type": "input_value",
-        "name": "PORT"
-      }
-    ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#795548",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_udp_begin_packet",
-    "message0": "WiFi UDP %1 开始数据包, 地址 %2 端口 %3",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "UDP_NAME",
-        "variable": "Udp",
-        "variableTypes": [
-          "WiFiUDP"
-        ],
-        "defaultType": "WiFiUDP"
-      },
-      {
-        "type": "input_value",
-        "name": "ADDRESS"
-      },
-      {
-        "type": "input_value",
-        "name": "PORT"
-      }
-    ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#795548",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_udp_write",
-    "message0": "WiFi UDP %1 写入数据 %2 长度 %3",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "UDP_NAME",
-        "variable": "Udp",
-        "variableTypes": [
-          "WiFiUDP"
-        ],
-        "defaultType": "WiFiUDP"
-      },
-      {
-        "type": "input_value",
-        "name": "BUFFER"
-      },
-      {
-        "type": "input_value",
-        "name": "SIZE"
-      }
-    ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#795548",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_udp_end_packet",
-    "message0": "WiFi UDP %1 结束数据包",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "UDP_NAME",
-        "variable": "Udp",
-        "variableTypes": [
-          "WiFiUDP"
-        ],
-        "defaultType": "WiFiUDP"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#795548",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_udp_parse_packet",
-    "message0": "WiFi UDP %1 解析数据包",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "UDP_NAME",
-        "variable": "Udp",
-        "variableTypes": [
-          "WiFiUDP"
-        ],
-        "defaultType": "WiFiUDP"
-      }
-    ],
-    "output": null,
-    "colour": "#795548",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_udp_read",
-    "message0": "WiFi UDP %1 读取数据 缓冲区 %2 长度 %3",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "UDP_NAME",
-        "variable": "Udp",
-        "variableTypes": [
-          "WiFiUDP"
-        ],
-        "defaultType": "WiFiUDP"
-      },
-      {
-        "type": "field_input",
-        "name": "BUFFER",
-        "text": "buffer"
-      },
-      {
-        "type": "input_value",
-        "name": "SIZE"
-      }
-    ],
-    "inputsInline": true,
-    "output": null,
-    "colour": "#795548",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_udp_remote_ip",
-    "message0": "WiFi UDP %1 远程IP读取",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "UDP_NAME",
-        "variable": "Udp",
-        "variableTypes": [
-          "WiFiUDP"
-        ],
-        "defaultType": "WiFiUDP"
-      }
-    ],
-    "output": null,
-    "colour": "#795548",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "wifi_udp_remote_port",
-    "message0": "WiFi UDP %1 远程端口读取",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "UDP_NAME",
-        "variable": "Udp",
-        "variableTypes": [
-          "WiFiUDP"
-        ],
-        "defaultType": "WiFiUDP"
-      }
-    ],
-    "output": null,
-    "colour": "#795548",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "rtc_begin",
-    "message0": "RTC初始化",
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#9C27B0",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "rtc_set_time",
-    "message0": "RTC设置时间 %1 并赋值到 %2",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "TIME"
-      },
-      {
-        "type": "field_variable",
-        "name": "NAME",
-        "variable": "timeToSet"
-      }
-    ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#9C27B0",
-    "icon": "fa-regular fa-wifi"
-  },
-  {
-    "type": "rtc_get_time",
-    "message0": "RTC获取时间 并赋值到 %1",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "NAME",
-        "variable": "currentTime"
-      }
-    ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#9C27B0",
-    "icon": "fa-regular fa-wifi"
+    "colour": "#FF6B6B",
+    "tooltip": "等待直到WiFi连接成功或超时"
   }
 ]

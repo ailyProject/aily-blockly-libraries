@@ -1,269 +1,239 @@
 {
   "kind": "category",
   "icon": "fa-light fa-wifi",
-  "name": "WiFiS3",
-  "colour": "#FF5722",
+  "name": "R4 WiFi",
   "contents": [
     {
       "kind": "label",
-      "tetx": "WiFi基础功能"
+      "text": "连接"
     },
     {
       "kind": "block",
-      "type": "wifi_begin"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_begin_ap"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_disconnect"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_status"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_status_t"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_firmware_version"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_local_ip"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_ssid"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_bssid"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_rssi"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_config",
+      "type": "wifis3_begin",
       "inputs": {
-        "IP": {
+        "SSID": {
           "shadow": {
-            "type": "wifi_ip_set"
+            "type": "text",
+            "fields": {"TEXT": "your-ssid"}
+          }
+        },
+        "PASS": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "your-password"}
           }
         }
       }
     },
     {
       "kind": "block",
-      "type": "wifi_ip_set"
+      "type": "wifis3_begin_open",
+      "inputs": {
+        "SSID": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "your-ssid"}
+          }
+        }
+      }
     },
     {
       "kind": "block",
-      "type": "wifi_mac_address"
+      "type": "wifis3_begin_ap",
+      "inputs": {
+        "SSID": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "MyAP"}
+          }
+        },
+        "PASS": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "password"}
+          }
+        },
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {"NUM": 1}
+          }
+        }
+      }
     },
     {
       "kind": "block",
-      "type": "wifi_scan_networks"
+      "type": "wifis3_disconnect"
     },
     {
       "kind": "block",
-      "type": "wifi_ping_new",
+      "type": "wifis3_wait_for_connection",
+      "inputs": {
+        "TIMEOUT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {"NUM": 30000}
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "状态查询"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_status"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_is_connected"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_local_ip"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_mac_address"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_gateway_ip"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_subnet_mask"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_dns_ip"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_firmware_version"
+    },
+    {
+      "kind": "label",
+      "text": "配置"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_config_ip",
+      "inputs": {
+        "IP": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "192.168.1.100"}
+          }
+        },
+        "GW": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "192.168.1.1"}
+          }
+        },
+        "SUBNET": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "255.255.255.0"}
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_set_dns",
+      "inputs": {
+        "DNS1": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "8.8.8.8"}
+          }
+        },
+        "DNS2": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "8.8.4.4"}
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_set_hostname",
+      "inputs": {
+        "HOSTNAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "arduino-device"}
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "网络扫描"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_scan_networks"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_scanned_networks_count"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_ssid_by_index",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {"NUM": 0}
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_rssi_by_index",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {"NUM": 0}
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "网络操作"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_ping",
       "inputs": {
         "HOST": {
           "shadow": {
             "type": "text",
-            "fields": {
-              "TEXT": "example.com"
-            }
+            "fields": {"TEXT": "8.8.8.8"}
           }
         },
         "TTL": {
           "shadow": {
             "type": "math_number",
-            "fields": {
-              "NUM": 128
-            }
+            "fields": {"NUM": 128}
           }
         },
-        "TIMEOUT": {
+        "COUNT": {
           "shadow": {
             "type": "math_number",
-            "fields": {
-              "NUM": 10
-            }
+            "fields": {"NUM": 1}
           }
         }
       }
-    },
-    {
-      "kind": "block",
-      "type": "wifi_get_time"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_server_begin",
-      "inputs": {
-        "PORT": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 80
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "wifi_server_available"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_server_accept"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_client_connect",
-      "inputs": {
-        "SERVER": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "example.com"
-            }
-          }
-        },
-        "PORT": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 80
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "wifi_client_connected"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_client_stop"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_client_available"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_client_flush"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_client_print"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_client_println"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_client_read"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_udp_begin",
-      "inputs": {
-        "PORT": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 2390
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "wifi_udp_begin_packet",
-      "inputs": {
-        "ADDRESS": {
-          "shadow": {
-            "type": "wifi_ip_set",
-            "fields": {
-              "IP": "192.168.1.100"
-            }
-          }
-        },
-        "PORT": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 2390
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "wifi_udp_write",
-      "inputs": {
-        "BUFFER": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "Hello, UDP!"
-            }
-          }
-        },
-        "SIZE": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 255
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "wifi_udp_end_packet"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_udp_parse_packet"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_udp_read",
-      "inputs": {
-        "SIZE": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 255
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "wifi_udp_remote_ip"
-    },
-    {
-      "kind": "block",
-      "type": "wifi_udp_remote_port"
     }
   ]
 }

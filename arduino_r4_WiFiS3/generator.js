@@ -1,736 +1,249 @@
-// generator.js
-'use strict';
+// WiFiS3 Blockly Generator
+// 全局WiFi对象无需创建，直接使用WiFi全局变量
 
-// ----------- 工具函数，只添加一次库 -----------
-function ensureWiFiLibrary(generator) {
-  generator.addLibrary('WiFi', '#include <WiFiS3.h>');
-}
-function ensureRTCLibrary(generator) {
-  generator.addLibrary('RTC', '#include <RTC.h>');
-}
+Arduino.forBlock['wifis3_begin'] = function(block, generator) {
+  // 参数提取
+  const ssid = generator.valueToCode(block, 'SSID', generator.ORDER_ATOMIC) || '""';
+  const pass = generator.valueToCode(block, 'PASS', generator.ORDER_ATOMIC) || '""';
 
-// 工具函数：将变量注册到 Blockly 变量系统中
-function registerVariableToBlockly(varName, workspace) {
-  try {
-    if (!workspace) {
-      workspace = Blockly.getMainWorkspace();
-    }
-    
-    if (workspace && workspace.createVariable) {
-      // 检查变量是否已存在
-      const existingVar = workspace.getVariable(varName);
-      if (!existingVar) {
-        // 创建新变量
-        workspace.createVariable(varName);
-        console.log('Variable registered to Blockly:', varName);
-      }
-    }
-  } catch (e) {
-    console.log('Failed to register variable to Blockly:', varName, e.message);
-  }
-}
-
-// 增强的 addVariable 函数，同时注册到 Blockly 变量系统
-function addVariableAndRegister(generator, varKey, varDeclaration, varName, workspace) {
-  // 添加到代码生成器
-  generator.addVariable(varKey, varDeclaration);
+  // 添加必要库
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
   
-  // 注册到 Blockly 变量系统
-  if (varName) {
-    registerVariableToBlockly(varName, workspace);
-  }
-}
+  // 确保Serial初始化（用于调试输出）
+  ensureSerialBegin('Serial', generator);
 
-// ----------- WiFiS3 基本功能 -----------
-Arduino.forBlock['wifi_begin'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
-  var ssid = block.getFieldValue('SSID') || 'your_ssid';
-  var password = block.getFieldValue('PASSWORD') || 'your_password';
+  // 生成代码
+  let code = 'int wifi_status = WiFi.begin(' + ssid + ', ' + pass + ');\n';
+  code += 'while (wifi_status != WL_CONNECTED) {\n';
+  code += '  Serial.println("Connecting to WiFi...");\n';
+  code += '  delay(1000);\n';
+  code += '  wifi_status = WiFi.status();\n';
+  code += '}\n';
+  code += 'Serial.println("WiFi Connected!");\n';
 
-  // 添加全局变量声明并注册到 Blockly 变量系统
-  addVariableAndRegister(generator, 'char ssid[]', 'char ssid[] = "' + ssid + '";', 'ssid');
-  addVariableAndRegister(generator, 'char pswd[]', 'char pswd[] = "' + password + '";', 'pswd');
-
-  return ['WiFi.begin(ssid, pswd)', Arduino.ORDER_FUNCTION_CALL];
+  return code;
 };
 
-Arduino.forBlock['wifi_begin_ap'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
-  var ssid = block.getFieldValue('SSID') || 'your_ap_ssid';
-  var password = block.getFieldValue('PASSWORD') || '';
-  var channel = block.getFieldValue('CHANNEL') || '';
+Arduino.forBlock['wifis3_begin_open'] = function(block, generator) {
+  const ssid = generator.valueToCode(block, 'SSID', generator.ORDER_ATOMIC) || '""';
 
-  // 添加 SSID 全局变量声明并注册到 Blockly 变量系统
-  addVariableAndRegister(generator, 'char ap_ssid[]', 'char ap_ssid[] = "' + ssid + '";', 'ap_ssid');
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
+  ensureSerialBegin('Serial', generator);
 
-  let code;
-  
-  // 检测参数并生成相应的调用
-  if (password && channel) {
-    // WiFi.beginAP(ssid, password, channel)
-    addVariableAndRegister(generator, 'char ap_pswd[]', 'char ap_pswd[] = "' + password + '";', 'ap_pswd');
-    addVariableAndRegister(generator, 'int ap_channel', 'int ap_channel = ' + channel + ';', 'ap_channel');
-    code = 'WiFi.beginAP(ap_ssid, ap_pswd, ap_channel)';
-  } else if (password) {
-    // WiFi.beginAP(ssid, password)
-    addVariableAndRegister(generator, 'char ap_pswd[]', 'char ap_pswd[] = "' + password + '";', 'ap_pswd');
-    code = 'WiFi.beginAP(ap_ssid, ap_pswd)';
-  } else if (channel) {
-    // WiFi.beginAP(ssid, channel) - 注意：Arduino WiFi库通常不支持这种形式
-    // 如果需要只设置channel而不设置password，通常需要空密码
-    addVariableAndRegister(generator, 'int ap_channel', 'int ap_channel = ' + channel + ';', 'ap_channel');
-    code = 'WiFi.beginAP(ap_ssid, "", ap_channel)';
-  } else {
-    // WiFi.beginAP(ssid)
-    code = 'WiFi.beginAP(ap_ssid)';
-  }
-  
-  return [code, Arduino.ORDER_FUNCTION_CALL];
+  let code = 'int wifi_status = WiFi.begin(' + ssid + ');\n';
+  code += 'while (wifi_status != WL_CONNECTED) {\n';
+  code += '  Serial.println("Connecting to WiFi...");\n';
+  code += '  delay(1000);\n';
+  code += '  wifi_status = WiFi.status();\n';
+  code += '}\n';
+  code += 'Serial.println("WiFi Connected!");\n';
+
+  return code;
 };
 
-Arduino.forBlock['wifi_disconnect'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
+Arduino.forBlock['wifis3_begin_ap'] = function(block, generator) {
+  const ssid = generator.valueToCode(block, 'SSID', generator.ORDER_ATOMIC) || '""';
+  const pass = generator.valueToCode(block, 'PASS', generator.ORDER_ATOMIC) || '""';
+  const channel = generator.valueToCode(block, 'CHANNEL', generator.ORDER_ATOMIC) || '1';
+
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
+  ensureSerialBegin('Serial', generator);
+
+  let code = 'uint8_t ap_status = WiFi.beginAP(' + ssid + ', ' + pass + ', ' + channel + ');\n';
+  code += 'if (ap_status == 1) {\n';
+  code += '  Serial.println("WiFi AP Started!");\n';
+  code += '} else {\n';
+  code += '  Serial.println("WiFi AP Failed!");\n';
+  code += '}\n';
+
+  return code;
+};
+
+Arduino.forBlock['wifis3_disconnect'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
   return 'WiFi.disconnect();\n';
 };
 
-Arduino.forBlock['wifi_status'] = Arduino.forBlock['wifi_firmware_version'] =
-  Arduino.forBlock['wifi_local_ip'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
-  var caller = {
-    'wifi_status': 'WiFi.status()',
-    'wifi_firmware_version': 'WiFi.firmwareVersion()',
-    'wifi_local_ip': 'WiFi.localIP()'
-  }[block.type];
-  return [caller, Arduino.ORDER_FUNCTION_CALL];
+Arduino.forBlock['wifis3_status'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
+  return ['WiFi.status()', generator.ORDER_ATOMIC];
 };
 
-Arduino.forBlock['wifi_status_t'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
-  var status = block.getFieldValue('STATUS');
-  return [status, Arduino.ORDER_ATOMIC];
+Arduino.forBlock['wifis3_is_connected'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
+  return ['(WiFi.status() == WL_CONNECTED)', generator.ORDER_ATOMIC];
 };
 
-Arduino.forBlock['wifi_ssid'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
-  return ['WiFi.SSID()', Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['wifi_bssid'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
+Arduino.forBlock['wifis3_local_ip'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
   
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('MAC');
-  const mac = varField ? varField.getText() : 'bssid_array';
+  // 创建辅助函数将IPAddress转换为字符串
+  const funcCode = `String ipToString(IPAddress ip) {
+  return String(ip[0]) + "." + String(ip[1]) + "." + String(ip[2]) + "." + String(ip[3]);
+}`;
   
-  // 将数组声明添加到全局变量部分并注册到 Blockly 变量系统
-  addVariableAndRegister(generator, 'byte ' + mac + '[]', 'byte ' + mac + '[6];', mac);
-  
-  // 生成获取BSSID的代码 - 作为语句返回
-  return 'WiFi.BSSID(' + mac + ');\n';
+  generator.addFunction('ipToString_func', funcCode);
+  return ['ipToString(WiFi.localIP())', generator.ORDER_ATOMIC];
 };
 
-Arduino.forBlock['wifi_rssi'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
-  // var index = generator.valueToCode(block, 'INDEX', Arduino.ORDER_ATOMIC);
-  return ['WiFi.RSSI()', Arduino.ORDER_FUNCTION_CALL];
+Arduino.forBlock['wifis3_mac_address'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
+  
+  const funcCode = `String macToString() {
+  uint8_t mac[6];
+  WiFi.macAddress(mac);
+  String result = "";
+  for (int i = 0; i < 6; i++) {
+    if (mac[i] < 16) result += "0";
+    result += String(mac[i], HEX);
+    if (i < 5) result += ":";
+  }
+  return result;
+}`;
+  
+  generator.addFunction('macToString_func', funcCode);
+  return ['macToString()', generator.ORDER_ATOMIC];
 };
 
-Arduino.forBlock['wifi_channel'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
-  var index = generator.valueToCode(block, 'INDEX', Arduino.ORDER_ATOMIC) || '0';
-  return ['WiFi.channel(' + index + ')', Arduino.ORDER_FUNCTION_CALL];
+Arduino.forBlock['wifis3_gateway_ip'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
+  
+  const funcCode = `String ipToString(IPAddress ip) {
+  return String(ip[0]) + "." + String(ip[1]) + "." + String(ip[2]) + "." + String(ip[3]);
+}`;
+  
+  generator.addFunction('ipToString_func', funcCode);
+  return ['ipToString(WiFi.gatewayIP())', generator.ORDER_ATOMIC];
 };
 
-Arduino.forBlock['wifi_encryption_type'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
-  // var index = generator.valueToCode(block, 'INDEX', Arduino.ORDER_ATOMIC);
-  return ['WiFi.encryptionType()', Arduino.ORDER_FUNCTION_CALL];
+Arduino.forBlock['wifis3_subnet_mask'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
+  
+  const funcCode = `String ipToString(IPAddress ip) {
+  return String(ip[0]) + "." + String(ip[1]) + "." + String(ip[2]) + "." + String(ip[3]);
+}`;
+  
+  generator.addFunction('ipToString_func', funcCode);
+  return ['ipToString(WiFi.subnetMask())', generator.ORDER_ATOMIC];
 };
 
-Arduino.forBlock['wifi_config'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
-  // var ip = block.getFieldValue('IP') || '192.168.1.1';
-  const ip = Arduino.valueToCode(block, 'IP', Arduino.ORDER_ATOMIC);
+Arduino.forBlock['wifis3_dns_ip'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
+  const dnsIndex = block.getFieldValue('DNS_INDEX') || '0';
+  
+  const funcCode = `String ipToString(IPAddress ip) {
+  return String(ip[0]) + "." + String(ip[1]) + "." + String(ip[2]) + "." + String(ip[3]);
+}`;
+  
+  generator.addFunction('ipToString_func', funcCode);
+  return ['ipToString(WiFi.dnsIP(' + dnsIndex + '))', generator.ORDER_ATOMIC];
+};
 
-  // console.log('Setting WiFi IP:', ip);
+Arduino.forBlock['wifis3_set_dns'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
+  const dns1 = generator.valueToCode(block, 'DNS1', generator.ORDER_ATOMIC) || '""';
+  const dns2 = generator.valueToCode(block, 'DNS2', generator.ORDER_ATOMIC) || '""';
   
-  // 验证IP地址格式（IPv4）
-  // function isValidIP(ip) {
-  //   if (typeof ip !== 'string') return false;
-    
-  //   var parts = ip.split('.');
-  //   if (parts.length !== 4) return false;
-    
-  //   for (var i = 0; i < parts.length; i++) {
-  //     var part = parseInt(parts[i]);
-  //     if (isNaN(part) || part < 0 || part > 255) {
-  //       return false;
-  //     }
-  //     // 检查是否有前导零（除了单个0）
-  //     if (parts[i] !== part.toString()) {
-  //       return false;
-  //     }
-  //   }
-  //   return true;
-  // }
+  return 'WiFi.setDNS(' + dns1 + ', ' + dns2 + ');\n';
+};
+
+Arduino.forBlock['wifis3_config_ip'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
+  const ip = generator.valueToCode(block, 'IP', generator.ORDER_ATOMIC) || '""';
+  const gw = generator.valueToCode(block, 'GW', generator.ORDER_ATOMIC) || '""';
+  const subnet = generator.valueToCode(block, 'SUBNET', generator.ORDER_ATOMIC) || '""';
   
-  // // 如果IP格式无效，使用默认IP
-  // if (!isValidIP(ip)) {
-  //   ip = 'IPAddress(192.168.1.100)';
-  // }
+  // 添加字符串转IPAddress的辅助函数
+  const funcCode = `IPAddress stringToIP(String ipStr) {
+  IPAddress ip;
+  ip.fromString(ipStr);
+  return ip;
+}`;
+  generator.addFunction('stringToIP_func', funcCode);
   
-  // 将IP地址格式转换为Arduino的IPAddress格式
-  // ip = 'IPAddress(' + ip.replace(/\./g, ',') + ')';
-  let code = 'WiFi.config(' + ip + ');\n';
+  return 'WiFi.config(stringToIP(' + ip + '), stringToIP(' + gw + '), stringToIP(' + subnet + '));\n';
+};
+
+Arduino.forBlock['wifis3_set_hostname'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
+  const hostname = generator.valueToCode(block, 'HOSTNAME', generator.ORDER_ATOMIC) || '""';
+  
+  return 'WiFi.setHostname(' + hostname + ');\n';
+};
+
+Arduino.forBlock['wifis3_scan_networks'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
+  ensureSerialBegin('Serial', generator);
+  
+  let code = 'Serial.println("Scanning WiFi networks...");\n';
+  code += 'int networksFound = WiFi.scanNetworks();\n';
+  code += 'Serial.print("Networks found: ");\n';
+  code += 'Serial.println(networksFound);\n';
+  
   return code;
 };
 
-Arduino.forBlock['wifi_mac_address'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
+Arduino.forBlock['wifis3_ssid_by_index'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
+  const index = generator.valueToCode(block, 'INDEX', generator.ORDER_ATOMIC) || '0';
   
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('MAC');
-  const mac = varField ? varField.getText() : 'mac_array';
-  
-  // 将数组声明添加到全局变量部分并注册到 Blockly 变量系统
-  addVariableAndRegister(generator, 'byte ' + mac + '[]', 'byte ' + mac + '[6];', mac);
-  
-  // 生成获取MAC地址的代码 - 作为语句返回
-  return 'WiFi.macAddress(' + mac + ');\n';
+  return ['WiFi.SSID(' + index + ')', generator.ORDER_ATOMIC];
 };
 
-Arduino.forBlock['wifi_scan_networks'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
-  return ['WiFi.scanNetworks()', Arduino.ORDER_FUNCTION_CALL];
+Arduino.forBlock['wifis3_rssi_by_index'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
+  const index = generator.valueToCode(block, 'INDEX', generator.ORDER_ATOMIC) || '0';
+  
+  return ['WiFi.RSSI(' + index + ')', generator.ORDER_ATOMIC];
 };
 
-// ----------- WiFi Ping（合并智能路由） -----------
-Arduino.forBlock['wifi_ping_new'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
-  var host = generator.valueToCode(block, 'HOST', Arduino.ORDER_ATOMIC);
-  var ttl = generator.valueToCode(block, 'TTL', Arduino.ORDER_ATOMIC);
-  var timeout = generator.valueToCode(block, 'TIMEOUT', Arduino.ORDER_ATOMIC);
+Arduino.forBlock['wifis3_scanned_networks_count'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
   
-  // 验证TTL和TIMEOUT必须是uint8_t类型（0-255）
-  if (ttl && ttl !== '""' && ttl !== "''") {
-    var ttlNum = parseInt(ttl.replace(/['"]/g, ''));
-    if (isNaN(ttlNum) || ttlNum < 0 || ttlNum > 255) {
-      ttl = null; // 如果不是有效的uint8_t范围，则忽略
-    } else {
-      ttl = Math.floor(ttlNum).toString(); // 确保是整数
-    }
-  }
-  
-  if (timeout && timeout !== '""' && timeout !== "''") {
-    var timeoutNum = parseInt(timeout.replace(/['"]/g, ''));
-    if (isNaN(timeoutNum) || timeoutNum < 0 || timeoutNum > 255) {
-      timeout = null; // 如果不是有效的uint8_t范围，则忽略
-    } else {
-      timeout = Math.floor(timeoutNum).toString(); // 确保是整数
-    }
-  }
-  
-  // 构建参数列表，按顺序添加非空参数
-  var params = [host];
-  if (ttl) {
-    params.push(ttl);
-    if (timeout) {
-      params.push(timeout);
-    }
-  }
-  // 如果有TIMEOUT但没有TTL，则不保留TIMEOUT（按要求）
-  
-  return ['WiFi.ping(' + params.join(', ') + ')', Arduino.ORDER_FUNCTION_CALL];
+  return ['WiFi.scanNetworks()', generator.ORDER_ATOMIC];
 };
 
-Arduino.forBlock['wifi_ping'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
-  var mode = block.getFieldValue && block.getFieldValue('MODE');
-  var ip = generator.valueToCode && generator.valueToCode(block, 'IP', Arduino.ORDER_ATOMIC);
-  var host = generator.valueToCode && generator.valueToCode(block, 'HOST', Arduino.ORDER_ATOMIC);
-  var ttl = generator.valueToCode && generator.valueToCode(block, 'TTL', Arduino.ORDER_ATOMIC);
-  var timeout = generator.valueToCode && generator.valueToCode(block, 'TIMEOUT', Arduino.ORDER_ATOMIC);
-  if (mode === 'IP') {
-    return ['WiFi.ping(' + ip + ')', Arduino.ORDER_FUNCTION_CALL];
-  } else if (mode === 'HOST') {
-    return ['WiFi.ping(' + host + ', ' + ttl + ', ' + timeout + ')', Arduino.ORDER_FUNCTION_CALL];
-  } else if (ip) {
-    return ['WiFi.ping(' + ip + ')', Arduino.ORDER_FUNCTION_CALL];
-  } else {
-    return ['WiFi.ping()', Arduino.ORDER_FUNCTION_CALL];
-  }
+Arduino.forBlock['wifis3_ping'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
+  const host = generator.valueToCode(block, 'HOST', generator.ORDER_ATOMIC) || '""';
+  const ttl = generator.valueToCode(block, 'TTL', generator.ORDER_ATOMIC) || '128';
+  const count = generator.valueToCode(block, 'COUNT', generator.ORDER_ATOMIC) || '1';
+  
+  return ['WiFi.ping(' + host + ', ' + ttl + ', ' + count + ')', generator.ORDER_ATOMIC];
 };
 
-Arduino.forBlock['wifi_ping_host'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
-  var host = generator.valueToCode(block, 'HOST', Arduino.ORDER_ATOMIC);
-  var ttl = generator.valueToCode(block, 'TTL', Arduino.ORDER_ATOMIC);
-  var timeout = generator.valueToCode(block, 'TIMEOUT', Arduino.ORDER_ATOMIC);
+Arduino.forBlock['wifis3_firmware_version'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
   
-  // 验证TTL和TIMEOUT必须是uint8_t类型（0-255）
-  if (ttl && ttl !== '""' && ttl !== "''") {
-    var ttlNum = parseInt(ttl.replace(/['"]/g, ''));
-    if (isNaN(ttlNum) || ttlNum < 0 || ttlNum > 255) {
-      ttl = '64'; // 默认TTL为64（uint8_t范围内）
-    } else {
-      ttl = Math.floor(ttlNum).toString(); // 确保是整数
-    }
-  } else {
-    ttl = '64';
-  }
-  
-  if (timeout && timeout !== '""' && timeout !== "''") {
-    var timeoutNum = parseInt(timeout.replace(/['"]/g, ''));
-    if (isNaN(timeoutNum) || timeoutNum < 0 || timeoutNum > 255) {
-      timeout = '100'; // 默认超时100（uint8_t范围内，单位可能是100ms）
-    } else {
-      timeout = Math.floor(timeoutNum).toString(); // 确保是整数
-    }
-  } else {
-    timeout = '100';
-  }
-  
-  return ['WiFi.ping(' + host + ', ' + ttl + ', ' + timeout + ')', Arduino.ORDER_FUNCTION_CALL];
+  return ['WiFi.firmwareVersion()', generator.ORDER_ATOMIC];
 };
 
-Arduino.forBlock['wifi_get_time'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
-  return ['WiFi.getTime()', Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['wifi_ip_set'] = function(block, generator) {
-  var ip = block.getFieldValue('IP') || '192.168.1.100';
+Arduino.forBlock['wifis3_wait_for_connection'] = function(block, generator) {
+  generator.addLibrary('WiFiS3', '#include <WiFiS3.h>');
+  const timeout = generator.valueToCode(block, 'TIMEOUT', generator.ORDER_ATOMIC) || '30000';
   
-  // 验证IP地址格式（IPv4）
-  function isValidIP(ip) {
-    if (typeof ip !== 'string') return false;
-    
-    var parts = ip.split('.');
-    if (parts.length !== 4) return false;
-    
-    for (var i = 0; i < parts.length; i++) {
-      var part = parseInt(parts[i]);
-      if (isNaN(part) || part < 0 || part > 255) {
-        return false;
-      }
-      // 检查是否有前导零（除了单个0）
-      if (parts[i] !== part.toString()) {
-        return false;
-      }
-    }
-    return true;
-  }
+  let code = 'unsigned long startTime = millis();\n';
+  code += 'while (WiFi.status() != WL_CONNECTED && (millis() - startTime) < ' + timeout + ') {\n';
+  code += '  Serial.println("Waiting for WiFi connection...");\n';
+  code += '  delay(500);\n';
+  code += '}\n';
+  code += 'if (WiFi.status() == WL_CONNECTED) {\n';
+  code += '  Serial.println("WiFi connected!");\n';
+  code += '} else {\n';
+  code += '  Serial.println("WiFi connection timeout!");\n';
+  code += '}\n';
   
-  // 如果IP格式无效，使用默认IP
-  if (!isValidIP(ip)) {
-    ip = '192.168.1.100';
-  }
-  
-  // 将IP地址格式转换为Arduino的IPAddress格式
-  return ['IPAddress(' + ip.replace(/\./g, ',') + ')', Arduino.ORDER_FUNCTION_CALL];
-};
-// ----------- WiFiServer -----------
-// Arduino.forBlock['wifi_server_create'] = function(block, generator) {
-//   ensureWiFiLibrary(generator);
-//   var port = generator.valueToCode(block, 'PORT', Arduino.ORDER_ATOMIC) || '80';
-//   var serverName = block.getFieldValue('SERVER_NAME') || 'server';
-//   generator.addVariable('WiFiServer ' + serverName, 'WiFiServer ' + serverName + '(' + port + ');');
-//   return '';
-// };
-
-Arduino.forBlock['wifi_server_begin'] = function(block, generator) {
-  // 监听SERVER输入值的变化，自动重命名Blockly变量
-  if (!block._wifiServerVarMonitorAttached) {
-    block._wifiServerVarMonitorAttached = true;
-    block._wifiServerVarLastName = block.getFieldValue('SERVER') || 'server';
-    const serverField = block.getField('SERVER');
-    if (serverField && typeof serverField.setValidator === 'function') {
-      serverField.setValidator(function(newName) {
-        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-        const oldName = block._wifiServerVarLastName;
-        if (workspace && newName && newName !== oldName) {
-          renameVariableInBlockly(block, oldName, newName, 'WiFiServer');
-          // const oldVar = workspace.getVariable(oldName, 'WiFiServer');
-          // const existVar = workspace.getVariable(newName, 'WiFiServer');
-          // if (oldVar && !existVar) {
-          //   workspace.renameVariableById(oldVar.getId(), newName);
-          //   if (typeof refreshToolbox === 'function') refreshToolbox(workspace, false);
-          // }
-          block._wifiServerVarLastName = newName;
-        }
-        return newName;
-      });
-    }
-  }
-  
-  ensureWiFiLibrary(generator);
-  var port = generator.valueToCode(block, 'PORT', Arduino.ORDER_ATOMIC) || '80';
-  
-  let serverName = block.getFieldValue('SERVER') || 'server';
-  
-  addVariableAndRegister(generator, 'WiFiServer ' + serverName, 'WiFiServer ' + serverName + '(' + port + ');', serverName);
-  
-  // 添加全局变量声明并注册到 Blockly 变量系统
-  registerVariableToBlockly(serverName, 'WiFiServer');
-
-  let code = serverName + '.begin();\n';
   return code;
 };
 
-Arduino.forBlock['wifi_server_available'] = function(block, generator) {
-  // 监听CLIENT_NAME输入值的变化，自动重命名Blockly变量
-  if (!block._wifiClientVarMonitorAttached) {
-    block._wifiClientVarMonitorAttached = true;
-    block._wifiClientVarLastName = block.getFieldValue('CLIENT_NAME') || 'client';
-    const clientField = block.getField('CLIENT_NAME');
-    if (clientField && typeof clientField.setValidator === 'function') {
-      clientField.setValidator(function(newName) {
-        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-        const oldName = block._wifiClientVarLastName;
-        if (workspace && newName && newName !== oldName) {
-          renameVariableInBlockly(block, oldName, newName, 'WiFiClient');
-          // const oldVar = workspace.getVariable(oldName, 'WiFiClient');
-          // const existVar = workspace.getVariable(newName, 'WiFiClient');
-          // if (oldVar && !existVar) {
-          //   workspace.renameVariableById(oldVar.getId(), newName);
-          //   if (typeof refreshToolbox === 'function') refreshToolbox(workspace, false);
-          // }
-          block._wifiClientVarLastName = newName;
-        }
-        return newName;
-      });
-    }
+// ============ 辅助函数 ============
+
+/**
+ * 确保Serial.begin被调用
+ */
+function ensureSerialBegin(port, generator) {
+  if (!generator._serialInitialized) {
+    generator._serialInitialized = true;
+    generator.addSetupStart('Serial.begin(9600);', 'serial_begin');
   }
-
-  // 参考 BH1750 的变量获取方式
-  const serverField = block.getField('SERVER_NAME');
-  const serverName = serverField ? serverField.getText() : 'server';
-  
-  let clientName = block.getFieldValue('CLIENT_NAME') || 'client';
-
-  registerVariableToBlockly(clientName, 'WiFiClient');
-  
-  let code = 'WiFiClient ' + clientName + ' = ' + serverName + '.available();\n';
-  return code;
-};
-
-Arduino.forBlock['wifi_server_accept'] = function(block, generator) {
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('SERVER_NAME');
-  const serverName = varField ? varField.getText() : 'server';
-  
-  return [serverName + '.accept()', Arduino.ORDER_FUNCTION_CALL];
-};
-
-// ----------- WiFiClient -----------
-// Arduino.forBlock['wifi_client_create'] = function(block, generator) {
-//   ensureWiFiLibrary(generator);
-//   var clientName = block.getFieldValue('CLIENT_NAME') || 'client';
-//   var isSSL = block.getFieldValue && block.getFieldValue('SSL') === 'TRUE';
-//   var clientType = isSSL ? 'WiFiSSLClient' : 'WiFiClient';
-//   generator.addVariable(clientName, clientType + ' ' + clientName + ';');
-//   return '';
-// };
-
-Arduino.forBlock['wifi_client_connect'] = function(block, generator) {
-  // 监听CLIENT_NAME输入值的变化，自动重命名Blockly变量
-  if (!block._wifiClientVarMonitorAttached) {
-    block._wifiClientVarMonitorAttached = true;
-    block._wifiClientVarLastName = block.getFieldValue('CLIENT_NAME') || 'client';
-    const clientField = block.getField('CLIENT_NAME');
-    if (clientField && typeof clientField.setValidator === 'function') {
-      clientField.setValidator(function(newName) {
-        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-        const oldName = block._wifiClientVarLastName;
-        if (workspace && newName && newName !== oldName) {
-          renameVariableInBlockly(block, oldName, newName, 'WiFiClient');
-          block._wifiClientVarLastName = newName;
-        }
-        return newName;
-      });
-    }
-  }
-
-  ensureWiFiLibrary(generator);
-  
-  let clientName = block.getFieldValue('CLIENT_NAME') || 'client';
-  
-  var isSSL = block.getFieldValue && block.getFieldValue('SSL') === 'TRUE';
-  var clientType = isSSL ? 'WiFiSSLClient' : 'WiFiClient';
-  addVariableAndRegister(generator, clientName, clientType + ' ' + clientName + ';', clientName);
-
-  registerVariableToBlockly(clientName, 'WiFiClient');
-
-  var server = generator.valueToCode(block, 'SERVER', Arduino.ORDER_ATOMIC);
-  var port = generator.valueToCode(block, 'PORT', Arduino.ORDER_ATOMIC);
-  return [clientName + '.connect(' + server + ', ' + port + ')', Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['wifi_client_stop'] = function(block, generator) {
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('CLIENT_NAME');
-  const clientName = varField ? varField.getText() : 'client';
-  
-  let code = clientName + '.stop();\n';
-  return code;
-};
-
-Arduino.forBlock['wifi_client_connected'] = Arduino.forBlock['wifi_client_available'] = function(block, generator) {
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('CLIENT_NAME');
-  const clientName = varField ? varField.getText() : 'client';
-  
-  var fn = block.type === 'wifi_client_connected' ? 'connected' : 'available';
-  return [clientName + '.' + fn + '()', Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['wifi_client_read'] = function(block, generator) {
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('CLIENT_NAME');
-  const clientName = varField ? varField.getText() : 'client';
-  
-  return [clientName + '.read()', Arduino.ORDER_FUNCTION_CALL];
-};
-
-
-Arduino.forBlock['wifi_client_read_buffer'] = function(block, generator) {
-  // 监听BUFFER输入值的变化，自动重命名Blockly变量
-  if (!block._wifiBufferVarMonitorAttached) {
-    block._wifiBufferVarMonitorAttached = true;
-    block._wifiBufferVarLastName = block.getFieldValue('BUFFER') || 'buffer';
-    const bufferField = block.getField('BUFFER');
-    if (bufferField && typeof bufferField.setValidator === 'function') {
-      bufferField.setValidator(function(newName) {
-        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-        const oldName = block._wifiBufferVarLastName;
-        if (workspace && newName && newName !== oldName) {
-          renameVariableInBlockly(block, oldName, newName, 'BUFFER');
-          block._wifiBufferVarLastName = newName;
-        }
-        return newName;
-      });
-    }
-  }
-  // 参考 BH1750 的变量获取方式
-  const clientField = block.getField('CLIENT_NAME');
-  const clientName = clientField ? clientField.getText() : 'client';
-  
-  // const bufferField = block.getField('BUFFER');
-  // const buffer = bufferField ? bufferField.getText() : 'buffer';
-  let buffer = block.getFieldValue('BUFFER') || 'buffer';
-
-  registerVariableToBlockly(buffer, 'BUFFER');
-  
-  var length = generator.valueToCode(block, 'LENGTH', Arduino.ORDER_ATOMIC);
-  return [buffer && length ? clientName + '.read(' + buffer + ', ' + length + ')' : clientName + '.read()', Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['wifi_client_flush'] = function(block, generator) {
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('CLIENT_NAME');
-  const clientName = varField ? varField.getText() : 'client';
-  
-  let code = clientName + '.flush();\n';
-  return code;
-};
-
-Arduino.forBlock['wifi_client_write'] = function(block, generator) {
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('CLIENT_NAME');
-  const clientName = varField ? varField.getText() : 'client';
-  
-  var data = generator.valueToCode(block, 'DATA', Arduino.ORDER_ATOMIC);
-  var length = generator.valueToCode(block, 'LENGTH', Arduino.ORDER_ATOMIC);
-  return [length ? clientName + '.write(' + data + ', ' + length + ')' : clientName + '.write(' + data + ')', Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['wifi_client_print'] = function(block, generator) {
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('CLIENT_NAME');
-  const clientName = varField ? varField.getText() : 'client';
-  
-  var data = generator.valueToCode(block, 'DATA', Arduino.ORDER_ATOMIC);
-  let code = clientName + '.print(' + data + ');\n';
-  return code;
-};
-
-Arduino.forBlock['wifi_client_println'] = function(block, generator) {
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('CLIENT_NAME');
-  const clientName = varField ? varField.getText() : 'client';
-  
-  var data = generator.valueToCode(block, 'DATA', Arduino.ORDER_ATOMIC);
-  let code = clientName + '.println(' + data + ');\n';
-  return code;
-};
-
-Arduino.forBlock['wifi_client_read_string_until'] = function(block, generator) {
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('CLIENT_NAME');
-  const clientName = varField ? varField.getText() : 'client';
-  
-  var terminator = generator.valueToCode(block, 'TERMINATOR', Arduino.ORDER_ATOMIC);
-  return [clientName + '.readStringUntil(' + terminator + ')', Arduino.ORDER_FUNCTION_CALL];
-};
-
-// ----------- WiFiUDP -----------
-Arduino.forBlock['wifi_udp_create'] = function(block, generator) {
-  ensureWiFiLibrary(generator);
-  
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('UDP_NAME');
-  const udpName = varField ? varField.getText() : 'Udp';
-  
-  addVariableAndRegister(generator, 'WiFiUDP ' + udpName, 'WiFiUDP ' + udpName + ';', udpName);
-  return '';
-};
-
-Arduino.forBlock['wifi_udp_begin'] = function(block, generator) {
-  // 监听UDP_NAME输入值的变化，自动重命名Blockly变量
-  if (!block._wifiUdpVarMonitorAttached) {
-    block._wifiUdpVarMonitorAttached = true;
-    block._wifiUdpVarLastName = block.getFieldValue('UDP_NAME') || 'Udp';
-    const udpField = block.getField('UDP_NAME');
-    if (udpField && typeof udpField.setValidator === 'function') {
-      udpField.setValidator(function(newName) {
-        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-        const oldName = block._wifiUdpVarLastName;
-        if (workspace && newName && newName !== oldName) {
-          renameVariableInBlockly(block, oldName, newName, 'WiFiUDP');
-          // const oldVar = workspace.getVariable(oldName, 'WiFiUDP');
-          // const existVar = workspace.getVariable(newName, 'WiFiUDP');
-          // if (oldVar && !existVar) {
-          //   workspace.renameVariableById(oldVar.getId(), newName);
-          //   if (typeof refreshToolbox === 'function') refreshToolbox(workspace, false);
-          // }
-          block._wifiUdpVarLastName = newName;
-        }
-        return newName;
-      });
-    }
-  }
-  
-  ensureWiFiLibrary(generator);
-  
-  // 参考 BH1750 的变量获取方式
-  let udpName = block.getFieldValue('UDP_NAME') || 'Udp';
-
-  registerVariableToBlockly(udpName, 'WiFiUDP');
-  
-  var port = generator.valueToCode(block, 'PORT', Arduino.ORDER_ATOMIC);
-  
-  addVariableAndRegister(generator, 'WiFiUDP ' + udpName, 'WiFiUDP ' + udpName + ';', udpName);
-  
-  let code = udpName + '.begin(' + port + ');\n';
-  return code;
-};
-
-Arduino.forBlock['wifi_udp_begin_packet'] = function(block, generator) {
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('UDP_NAME');
-  const udpName = varField ? varField.getText() : 'Udp';
-  
-  var address = generator.valueToCode(block, 'ADDRESS', Arduino.ORDER_ATOMIC);
-  var port = generator.valueToCode(block, 'PORT', Arduino.ORDER_ATOMIC);
-  let code = udpName + '.beginPacket(' + address + ', ' + port + ');\n';
-  return code;
-};
-
-Arduino.forBlock['wifi_udp_write'] = function(block, generator) {
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('UDP_NAME');
-  const udpName = varField ? varField.getText() : 'Udp';
-  
-  var buffer = generator.valueToCode(block, 'BUFFER', Arduino.ORDER_ATOMIC);
-  var size = generator.valueToCode(block, 'SIZE', Arduino.ORDER_ATOMIC);
-  let code = size ? udpName + '.write(' + buffer + ', ' + size + ');\n' : udpName + '.write(' + buffer + ');\n';
-  return code;
-};
-
-Arduino.forBlock['wifi_udp_end_packet'] = function(block, generator) {
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('UDP_NAME');
-  const udpName = varField ? varField.getText() : 'Udp';
-  
-  let code = udpName + '.endPacket();\n';
-  return code;
-};
-
-Arduino.forBlock['wifi_udp_parse_packet'] = function(block, generator) {
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('UDP_NAME');
-  const udpName = varField ? varField.getText() : 'Udp';
-  
-  return [udpName + '.parsePacket()', Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['wifi_udp_read'] = function(block, generator) {
-  // 参考 BH1750 的变量获取方式
-  const udpField = block.getField('UDP_NAME');
-  const udpName = udpField ? udpField.getText() : 'Udp';
-  
-  const bufferField = block.getField('BUFFER');
-  const buffer = bufferField ? bufferField.getText() : 'buffer';
-  
-  var size = generator.valueToCode(block, 'SIZE', Arduino.ORDER_ATOMIC) || '255';
-  
-  // 计算缓冲区大小 (size + 1)
-  var bufferSize = parseInt(size.replace(/['"]/g, '')) || 255;
-  var actualBufferSize = bufferSize + 1;
-  
-  // 创建全局缓冲区变量并注册到 Blockly 变量系统
-  addVariableAndRegister(generator, 'char ' + buffer + '[]', 'char ' + buffer + '[' + actualBufferSize + '];', buffer);
-  
-  return [udpName + '.read(' + buffer + ', ' + size + ')', Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['wifi_udp_remote_ip'] = function(block, generator) {
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('UDP_NAME');
-  const udpName = varField ? varField.getText() : 'Udp';
-  
-  return [udpName + '.remoteIP()', Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['wifi_udp_remote_port'] = function(block, generator) {
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('UDP_NAME');
-  const udpName = varField ? varField.getText() : 'Udp';
-  
-  return [udpName + '.remotePort()', Arduino.ORDER_FUNCTION_CALL];
-};
-
-// ----------- RTC -----------
-Arduino.forBlock['rtc_begin'] = function(block, generator) {
-  ensureRTCLibrary(generator);
-  return 'RTC.begin();\n';
-};
-
-Arduino.forBlock['rtc_set_time'] = function(block, generator) {
-  ensureRTCLibrary(generator);
-  var time = generator.valueToCode(block, 'TIME', Arduino.ORDER_ATOMIC);
-  
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('NAME');
-  const name = varField ? varField.getText() : 'timeToSet';
-  
-  // 添加RTCTime变量声明并注册到 Blockly 变量系统
-  addVariableAndRegister(generator, 'RTCTime ' + name, 'RTCTime ' + name + ';', name);
-  
-  let code = 'RTCTime ' +  name + ' = RTCTime(' + time + ');\nRTC.setTime(' + name + ');\n';
-  return code;
-};
-
-Arduino.forBlock['rtc_get_time'] = function(block, generator) {
-  ensureRTCLibrary(generator);
-  
-  // 参考 BH1750 的变量获取方式
-  const varField = block.getField('NAME');
-  const name = varField ? varField.getText() : 'currentTime';
-  
-  // 添加RTCTime变量声明并注册到 Blockly 变量系统
-  addVariableAndRegister(generator, 'RTCTime ' + name, 'RTCTime ' + name + ';', name);
-  
-  let code = 'RTCTime ' + name + ';\nRTC.getTime(' + name + ');\n';
-  return code;
-};
+}
