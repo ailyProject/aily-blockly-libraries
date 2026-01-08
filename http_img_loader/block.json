@@ -1,0 +1,162 @@
+[
+  {
+    "type": "lvgl_http_img_init",
+    "message0": "初始化LVGL HTTP图片加载器 屏幕宽%1 高%2 \nPSRAM模式%3 存储模式%4 \n最大文件%5KB 超时%6ms 调试%7",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "HEIGHT",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PSRAM_MODE",
+        "options": [
+          ["自动检测", "AUTO"],
+          ["有PSRAM", "AVAILABLE"],
+          ["无PSRAM", "NONE"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STORAGE_MODE",
+        "options": [
+          ["自动选择", "AUTO"],
+          ["强制LittleFS", "LITTLEFS"],
+          ["强制PSRAM", "PSRAM"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MAX_SIZE",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DEBUG",
+        "options": [
+          ["关闭", "FALSE"],
+          ["开启", "TRUE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "初始化HTTP图片加载器（全局单例，只需调用一次）",
+    "icon": "fa-light fa-image"
+  },
+  {
+    "type": "lvgl_http_img_load",
+    "message0": "从HTTP加载图片 URL%1 显示到%2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      },
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "img",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "从HTTP下载JPEG图片并显示到LVGL Image对象",
+    "icon": "fa-light fa-image"
+  },
+  {
+    "type": "lvgl_http_img_get_info",
+    "message0": "获取HTTP图片信息 URL%1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "获取远程图片的大小和类型信息（返回文件大小，-1表示未知）",
+    "icon": "fa-light fa-image"
+  },
+  {
+    "type": "lvgl_http_img_check",
+    "message0": "检查图片是否可加载 URL%1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#9C27B0",
+    "tooltip": "检查图片是否可加载（true:可加载，false:太大或错误）",
+    "icon": "fa-light fa-image"
+  },
+  {
+    "type": "lvgl_http_img_has_psram",
+    "message0": "检测是否有PSRAM",
+    "output": "Boolean",
+    "colour": "#9C27B0",
+    "tooltip": "检测系统是否有PSRAM（有PSRAM时可加载更大图片）",
+    "icon": "fa-light fa-image"
+  },
+  {
+    "type": "lvgl_http_img_get_max_size",
+    "message0": "获取当前最大允许图片大小",
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "获取当前配置允许的最大图片大小（字节）",
+    "icon": "fa-light fa-image"
+  },
+  {
+    "type": "lvgl_http_img_get_last_error",
+    "message0": "获取最后错误代码",
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取最后一次操作的错误代码（0=成功）",
+    "icon": "fa-light fa-image"
+  },
+  {
+    "type": "lvgl_http_img_err_to_string",
+    "message0": "错误代码%1转为描述字符串",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ERR_CODE",
+        "check": ["Number"]
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "将错误代码转换为可读的错误描述",
+    "icon": "fa-light fa-image"
+  },
+  {
+    "type": "lvgl_http_img_cleanup",
+    "message0": "清理HTTP图片加载器临时文件和缓存",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "清理临时文件和PSRAM缓存，释放内存",
+    "icon": "fa-light fa-image"
+  }
+]
