@@ -190,6 +190,7 @@ Arduino.forBlock['lvgl_indev_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'indev';
   const type = block.getFieldValue('TYPE') || 'LV_INDEV_TYPE_POINTER';
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
 
@@ -204,7 +205,12 @@ Arduino.forBlock['lvgl_indev_create'] = function(block, generator) {
   generator.addFunction(callbackName, callbackCode);
 
   let code = '';
-  code += 'lv_indev_t *' + varName + ' = lv_indev_create();\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_indev_t * ' + varName + ';');
+    code += varName + ' = lv_indev_create();\n';
+  } else {
+    code += 'lv_indev_t *' + varName + ' = lv_indev_create();\n';
+  }
   code += 'lv_indev_set_type(' + varName + ', ' + type + ');\n';
   code += 'lv_indev_set_read_cb(' + varName + ', ' + callbackName + ');\n';
 
@@ -248,12 +254,17 @@ Arduino.forBlock['lvgl_label_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'label';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return 'lv_obj_t *' + varName + ' = lv_label_create(' + parent + ');\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_label_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_label_create(' + parent + ');\n';
+  }
 };
 
 Arduino.forBlock['lvgl_label_set_text'] = function(block, generator) {
@@ -323,12 +334,17 @@ Arduino.forBlock['lvgl_button_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'btn';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return 'lv_obj_t *' + varName + ' = lv_button_create(' + parent + ');\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_button_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_button_create(' + parent + ');\n';
+  }
 };
 
 // ==================== 滑动条控件 ====================
@@ -354,12 +370,17 @@ Arduino.forBlock['lvgl_slider_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'slider';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return 'lv_obj_t *' + varName + ' = lv_slider_create(' + parent + ');\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_slider_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_slider_create(' + parent + ');\n';
+  }
 };
 
 Arduino.forBlock['lvgl_slider_set_value'] = function(block, generator) {
@@ -416,12 +437,17 @@ Arduino.forBlock['lvgl_switch_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'sw';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return 'lv_obj_t *' + varName + ' = lv_switch_create(' + parent + ');\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_switch_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_switch_create(' + parent + ');\n';
+  }
 };
 
 // ==================== 复选框控件 ====================
@@ -448,12 +474,18 @@ Arduino.forBlock['lvgl_checkbox_create'] = function(block, generator) {
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
   const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '"Checkbox"';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  let code = 'lv_obj_t *' + varName + ' = lv_checkbox_create(' + parent + ');\n';
+  let code = '';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    code = varName + ' = lv_checkbox_create(' + parent + ');\n';
+  } else {
+    code = 'lv_obj_t *' + varName + ' = lv_checkbox_create(' + parent + ');\n';
+  }
   code += 'lv_checkbox_set_text(' + varName + ', ' + text + ');\n';
 
   return code;
@@ -482,12 +514,19 @@ Arduino.forBlock['lvgl_bar_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'bar';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return 'lv_obj_t *' + varName + ' = lv_bar_create(' + parent + ');\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_bar_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_bar_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_bar_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_bar_set_value'] = function(block, generator) {
@@ -535,12 +574,19 @@ Arduino.forBlock['lvgl_arc_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'arc';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return 'lv_obj_t *' + varName + ' = lv_arc_create(' + parent + ');\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_arc_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_arc_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_arc_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_arc_set_value'] = function(block, generator) {
@@ -587,12 +633,19 @@ Arduino.forBlock['lvgl_spinner_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'spinner';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return 'lv_obj_t *' + varName + ' = lv_spinner_create(' + parent + ');\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_spinner_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_spinner_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_spinner_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_spinner_set_anim_params'] = function(block, generator) {
@@ -629,12 +682,19 @@ Arduino.forBlock['lvgl_dropdown_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'dropdown';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return 'lv_obj_t *' + varName + ' = lv_dropdown_create(' + parent + ');\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_dropdown_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_dropdown_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_dropdown_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_dropdown_set_options'] = function(block, generator) {
@@ -679,12 +739,19 @@ Arduino.forBlock['lvgl_textarea_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'textarea';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return 'lv_obj_t *' + varName + ' = lv_textarea_create(' + parent + ');\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_textarea_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_textarea_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_textarea_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_textarea_set_text'] = function(block, generator) {
@@ -1032,12 +1099,19 @@ Arduino.forBlock['lvgl_obj_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'obj';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return 'lv_obj_t *' + varName + ' = lv_obj_create(' + parent + ');\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_obj_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_obj_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_obj_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_screen_create'] = function(block, generator) {
@@ -1059,12 +1133,19 @@ Arduino.forBlock['lvgl_screen_create'] = function(block, generator) {
   }
 
   const varName = block.getFieldValue('VAR') || 'screen';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return 'lv_obj_t *' + varName + ' = lv_obj_create(NULL);\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_obj_create(NULL);\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_obj_create(NULL);\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_obj_create(NULL);\n';
 };
 
 // ==================== 图像控件 ====================
@@ -1090,12 +1171,19 @@ Arduino.forBlock['lvgl_image_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'img';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return 'lv_obj_t *' + varName + ' = lv_image_create(' + parent + ');\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_image_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_image_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_image_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_image_set_src'] = function(block, generator) {
@@ -1174,12 +1262,19 @@ Arduino.forBlock['lvgl_chart_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'chart';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return 'lv_obj_t *' + varName + ' = lv_chart_create(' + parent + ');\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_chart_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_chart_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_chart_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_chart_set_type'] = function(block, generator) {
@@ -1280,12 +1375,19 @@ Arduino.forBlock['lvgl_keyboard_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'keyboard';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return 'lv_obj_t *' + varName + ' = lv_keyboard_create(' + parent + ');\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_keyboard_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_keyboard_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_keyboard_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_keyboard_set_textarea'] = function(block, generator) {
@@ -1342,12 +1444,19 @@ Arduino.forBlock['lvgl_list_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'list';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
-  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
 
-  return 'lv_obj_t *' + varName + ' = lv_list_create(' + parent + ');\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_list_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_list_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_list_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_list_add_text'] = function(block, generator) {
@@ -1418,11 +1527,19 @@ Arduino.forBlock['lvgl_tabview_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'tabview';
   const parentField = block.getField('PARENT');
   const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
 
   ensureLvglLib(generator);
   registerVariableToBlockly(varName, 'lv_obj_t');
 
-  return 'lv_obj_t *' + varName + ' = lv_tabview_create(' + parent + ');\n';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_tabview_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_tabview_create(' + parent + ');\n';
+  }
+
+  // return 'lv_obj_t *' + varName + ' = lv_tabview_create(' + parent + ');\n';
 };
 
 Arduino.forBlock['lvgl_tabview_add_tab'] = function(block, generator) {

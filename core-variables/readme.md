@@ -9,10 +9,14 @@ Arduino变量管理库，提供变量声明、赋值、获取和类型转换功�
 
 ## 块定义
 
+推荐使用variable_define_scoped或variable_define_advanced_scoped以支持作用域控制，通过SCOPE字段选择变量作用域（global全局/local局部）。
+
 | 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
 |--------|------|----------|----------|----------|
 | `variable_define` | 语句块 | VAR(field_input), TYPE(dropdown), VALUE(input) | `"VAR":"name"`, `"TYPE":"int"` | `int name = 0;` |
+| `variable_define_scoped` | 语句块 | SCOPE(dropdown),VAR(field_input), TYPE(dropdown), VALUE(input) | `"SCOPE":"global"`,`"VAR":"name"`, `"TYPE":"int"` | `int name = 0;` |
 | `variable_define_advanced` | 语句块 | STORAGE(dropdown), QUALIFIER(dropdown), VAR(field_input), TYPE(dropdown), VALUE(input) | `"STORAGE":"static"`, `"QUALIFIER":"const"`, `"TYPE":"int"` | `static const int name = 0;` |
+| `variable_define_advanced_scoped` | 语句块 | SCOPE(dropdown),STORAGE(dropdown), QUALIFIER(dropdown), VAR(field_input), TYPE(dropdown), VALUE(input) | `"SCOPE":"global"`,`"STORAGE":"static"`, `"QUALIFIER":"const"`, `"TYPE":"int"` | `static const int name = 0;` |
 | `variables_get` | 值块 | VAR(field_variable) | `"VAR":{"id":"name"}` | `name` |
 | `variables_set` | 语句块 | VAR(field_variable), VALUE(input) | `"VAR":{"id":"name"}` | `name = value;` |
 | `type_cast` | 值块 | VALUE(input), TYPE(dropdown) | `"TYPE":"int"` | `(int)value` |

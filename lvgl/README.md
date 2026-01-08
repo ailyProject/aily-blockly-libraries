@@ -9,11 +9,13 @@ LVGL(Light and Versatile Graphics Library)嵌入式图形库，提供丰富的UI
 
 ## 块定义
 
+创建控件通过SCOPE字段选择变量作用域（global全局/local局部）。
+
 ### 屏幕操作
 
 | 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
 |--------|------|----------|----------|----------|
-| `lvgl_screen_create` | 语句块 | VAR(field_input) | `"VAR":"screen1"` | `screen1 = lv_obj_create(NULL);` |
+| `lvgl_screen_create` | 语句块 | SCOPE(dropdown),VAR(field_input) | `"SCOPE":"global","VAR":"screen1"` | `screen1 = lv_obj_create(NULL);` |
 | `lvgl_screen_active` | 值块 | 无 | 无 | `lv_screen_active()` |
 | `lvgl_screen_load` | 语句块 | VAR(field_variable) | `"VAR":{"id":"xxx"}` | `lv_screen_load(screen);` |
 
@@ -21,21 +23,21 @@ LVGL(Light and Versatile Graphics Library)嵌入式图形库，提供丰富的UI
 
 | 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
 |--------|------|----------|----------|----------|
-| `lvgl_label_create` | 语句块 | VAR(field_input), PARENT(field_variable) | `"VAR":"label1"` | `label1 = lv_label_create(parent);` |
-| `lvgl_button_create` | 语句块 | VAR(field_input), PARENT(field_variable) | `"VAR":"btn1"` | `btn1 = lv_button_create(parent);` |
-| `lvgl_slider_create` | 语句块 | VAR(field_input), PARENT(field_variable) | `"VAR":"slider1"` | `slider1 = lv_slider_create(parent);` |
-| `lvgl_switch_create` | 语句块 | VAR(field_input), PARENT(field_variable) | `"VAR":"sw1"` | `sw1 = lv_switch_create(parent);` |
-| `lvgl_checkbox_create` | 语句块 | VAR(field_input), PARENT(field_variable), TEXT(input) | `"VAR":"cb1"` | `cb1 = lv_checkbox_create(parent);` |
-| `lvgl_bar_create` | 语句块 | VAR(field_input), PARENT(field_variable) | `"VAR":"bar1"` | `bar1 = lv_bar_create(parent);` |
-| `lvgl_arc_create` | 语句块 | VAR(field_input), PARENT(field_variable) | `"VAR":"arc1"` | `arc1 = lv_arc_create(parent);` |
-| `lvgl_spinner_create` | 语句块 | VAR(field_input), PARENT(field_variable) | `"VAR":"spinner1"` | `spinner1 = lv_spinner_create(parent);` |
-| `lvgl_dropdown_create` | 语句块 | VAR(field_input), PARENT(field_variable) | `"VAR":"dropdown1"` | `dropdown1 = lv_dropdown_create(parent);` |
-| `lvgl_textarea_create` | 语句块 | VAR(field_input), PARENT(field_variable) | `"VAR":"textarea1"` | `textarea1 = lv_textarea_create(parent);` |
-| `lvgl_keyboard_create` | 语句块 | VAR(field_input), PARENT(field_variable) | `"VAR":"keyboard1"` | `keyboard1 = lv_keyboard_create(parent);` |
-| `lvgl_obj_create` | 语句块 | VAR(field_input), PARENT(field_variable) | `"VAR":"obj1"` | `obj1 = lv_obj_create(parent);` |
-| `lvgl_image_create` | 语句块 | VAR(field_input), PARENT(field_variable) | `"VAR":"img1"` | `img1 = lv_image_create(parent);` |
-| `lvgl_list_create` | 语句块 | VAR(field_input), PARENT(field_variable) | `"VAR":"list1"` | `list1 = lv_list_create(parent);` |
-| `lvgl_tabview_create` | 语句块 | VAR(field_input), PARENT(field_variable) | `"VAR":"tabview1"` | `tabview1 = lv_tabview_create(parent);` |
+| `lvgl_label_create` | 语句块 | SCOPE(dropdown),VAR(field_input), PARENT(field_variable) | `"SCOPE":"global","VAR":"label1"` | `label1 = lv_label_create(parent);` |
+| `lvgl_button_create` | 语句块 | SCOPE(dropdown),VAR(field_input), PARENT(field_variable) | `"SCOPE":"global","VAR":"btn1"` | `btn1 = lv_button_create(parent);` |
+| `lvgl_slider_create` | 语句块 | SCOPE(dropdown),VAR(field_input), PARENT(field_variable) | `"SCOPE":"global","VAR":"slider1"` | `slider1 = lv_slider_create(parent);` |
+| `lvgl_switch_create` | 语句块 | SCOPE(dropdown),VAR(field_input), PARENT(field_variable) | `"SCOPE":"global","VAR":"sw1"` | `sw1 = lv_switch_create(parent);` |
+| `lvgl_checkbox_create` | 语句块 | SCOPE(dropdown),VAR(field_input), PARENT(field_variable), TEXT(input) | `"SCOPE":"global","VAR":"cb1"` | `cb1 = lv_checkbox_create(parent);` |
+| `lvgl_bar_create` | 语句块 | SCOPE(dropdown),VAR(field_input), PARENT(field_variable) | `"SCOPE":"global","VAR":"bar1"` | `bar1 = lv_bar_create(parent);` |
+| `lvgl_arc_create` | 语句块 | SCOPE(dropdown),VAR(field_input), PARENT(field_variable) | `"SCOPE":"global","VAR":"arc1"` | `arc1 = lv_arc_create(parent);` |
+| `lvgl_spinner_create` | 语句块 | SCOPE(dropdown),VAR(field_input), PARENT(field_variable) | `"SCOPE":"global","VAR":"spinner1"` | `spinner1 = lv_spinner_create(parent);` |
+| `lvgl_dropdown_create` | 语句块 | SCOPE(dropdown),VAR(field_input), PARENT(field_variable) | `"SCOPE":"global","VAR":"dropdown1"` | `dropdown1 = lv_dropdown_create(parent);` |
+| `lvgl_textarea_create` | 语句块 | SCOPE(dropdown),VAR(field_input), PARENT(field_variable) | `"SCOPE":"global","VAR":"textarea1"` | `textarea1 = lv_textarea_create(parent);` |
+| `lvgl_keyboard_create` | 语句块 | SCOPE(dropdown),VAR(field_input), PARENT(field_variable) | `"SCOPE":"global","VAR":"keyboard1"` | `keyboard1 = lv_keyboard_create(parent);` |
+| `lvgl_obj_create` | 语句块 | SCOPE(dropdown),VAR(field_input), PARENT(field_variable) | `"SCOPE":"global","VAR":"obj1"` | `obj1 = lv_obj_create(parent);` |
+| `lvgl_image_create` | 语句块 | SCOPE(dropdown),VAR(field_input), PARENT(field_variable) | `"SCOPE":"global","VAR":"img1"` | `img1 = lv_image_create(parent);` |
+| `lvgl_list_create` | 语句块 | SCOPE(dropdown),VAR(field_input), PARENT(field_variable) | `"SCOPE":"global","VAR":"list1"` | `list1 = lv_list_create(parent);` |
+| `lvgl_tabview_create` | 语句块 | SCOPE(dropdown),VAR(field_input), PARENT(field_variable) | `"SCOPE":"global","VAR":"tabview1"` | `tabview1 = lv_tabview_create(parent);` |
 
 ### 控件操作
 
@@ -148,7 +150,7 @@ LVGL(Light and Versatile Graphics Library)嵌入式图形库，提供丰富的UI
 {
   "type": "lvgl_label_create",
   "id": "label_create_id",
-  "fields": {"VAR": "label1"},
+  "fields": {"Scope":"global","VAR": "label1"},
   "next": {
     "block": {
       "type": "lvgl_label_set_text",
@@ -172,7 +174,7 @@ LVGL(Light and Versatile Graphics Library)嵌入式图形库，提供丰富的UI
 {
   "type": "lvgl_slider_create",
   "id": "slider_create_id",
-  "fields": {"VAR": "slider1"},
+  "fields": {"Scope":"global","VAR": "slider1"},
   "next": {
     "block": {
       "type": "lvgl_slider_set_range",

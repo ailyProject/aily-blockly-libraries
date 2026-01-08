@@ -1,0 +1,316 @@
+{
+  "kind": "category",
+  "name": "气象数据",
+  "icon": "fa-light fa-cloud-sun",
+  "colour": "#FF6F00",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化与配置"
+    },
+    {
+      "kind": "block",
+      "type": "owm_init",
+      "inputs": {
+        "API_KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "your-api-key"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "owm_set_units"
+    },
+    {
+      "kind": "block",
+      "type": "owm_set_language"
+    },
+    {
+      "kind": "block",
+      "type": "owm_set_debug"
+    },
+    {
+      "kind": "label",
+      "text": "当前天气"
+    },
+    {
+      "kind": "block",
+      "type": "owm_get_weather_by_city",
+      "inputs": {
+        "CITY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Shanghai"
+            }
+          }
+        },
+        "COUNTRY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "CN"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "owm_get_weather_by_coords",
+      "inputs": {
+        "LAT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 31.2304
+            }
+          }
+        },
+        "LON": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 121.4737
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "owm_weather_data"
+    },
+    {
+      "kind": "label",
+      "text": "天气预报"
+    },
+    {
+      "kind": "block",
+      "type": "owm_get_forecast",
+      "inputs": {
+        "LAT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 31.2304
+            }
+          }
+        },
+        "LON": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 121.4737
+            }
+          }
+        },
+        "COUNT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 8
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "owm_get_forecast_by_city",
+      "inputs": {
+        "CITY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Shanghai"
+            }
+          }
+        },
+        "COUNTRY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "CN"
+            }
+          }
+        },
+        "COUNT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 8
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "owm_forecast_count"
+    },
+    {
+      "kind": "block",
+      "type": "owm_forecast_data",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "空气质量"
+    },
+    {
+      "kind": "block",
+      "type": "owm_get_air_pollution",
+      "inputs": {
+        "LAT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 39.9042
+            }
+          }
+        },
+        "LON": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 116.4074
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "owm_air_pollution_data"
+    },
+    {
+      "kind": "block",
+      "type": "owm_aqi_description",
+      "inputs": {
+        "AQI": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "地理编码"
+    },
+    {
+      "kind": "block",
+      "type": "owm_get_coords_by_city",
+      "inputs": {
+        "CITY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Beijing"
+            }
+          }
+        },
+        "COUNTRY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "CN"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "owm_get_coords_by_zip",
+      "inputs": {
+        "ZIP": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "10001"
+            }
+          }
+        },
+        "COUNTRY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "US"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "owm_get_location_by_coords",
+      "inputs": {
+        "LAT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 35.6762
+            }
+          }
+        },
+        "LON": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 139.6503
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "owm_geo_data"
+    },
+    {
+      "kind": "label",
+      "text": "工具"
+    },
+    {
+      "kind": "block",
+      "type": "owm_get_icon_url",
+      "inputs": {
+        "ICON": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "01d"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "owm_get_last_error"
+    },
+    {
+      "kind": "block",
+      "type": "owm_get_http_code"
+    }
+  ]
+}
