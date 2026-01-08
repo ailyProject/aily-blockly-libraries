@@ -39,6 +39,8 @@ if (!Arduino.tft_espi) {
   Arduino.tft_espi_cs = -1;
   Arduino.tft_espi_dc = -1;
   Arduino.tft_espi_rst = -1;
+  Arduino.tft_espi_bl = -1;
+  Arduino.tft_espi_bl_level = '';
   Arduino.tft_espi_use_hspi = false;
 }
 
@@ -100,6 +102,16 @@ if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
             .then(() => {
               console.log('Macro removed: TFT_RST');
               Arduino.tft_espi_rst = -1;
+            })
+            .then(() => {
+              console.log('Macro removed: TFT_BL');
+              Arduino.tft_espi_bl = -1;
+              return window['projectService'].removeMacro('TFT_BL');
+            })
+            .then(() => {
+              console.log('Macro removed: TFT_BL_LEVEL');
+              Arduino.tft_espi_bl_level = '';
+              return window['projectService'].removeMacro('TFT_BACKLIGHT_ON');
             })
             .then(() => {
               if (isESP32Core() && Arduino.tft_espi_use_hspi) {
@@ -166,6 +178,8 @@ Arduino.forBlock['tftespi_setup'] = function(block, generator) {
   const cs = cleanValue(generator.valueToCode(block, 'CS', generator.ORDER_ATOMIC) || '-1');
   const dc = cleanValue(generator.valueToCode(block, 'DC', generator.ORDER_ATOMIC) || '-1');
   const rst = cleanValue(generator.valueToCode(block, 'RST', generator.ORDER_ATOMIC) || '-1');
+  const bl = cleanValue(generator.valueToCode(block, 'BL', generator.ORDER_ATOMIC) || '-1');
+  const blLevel = block.getFieldValue('BL_LEVEL') || 'HIGH';
 
   if (Arduino.tft_espi_type !== model ||
       Arduino.tft_espi_frequency != frequency ||
@@ -176,7 +190,10 @@ Arduino.forBlock['tftespi_setup'] = function(block, generator) {
       Arduino.tft_espi_sclk != sclk ||
       Arduino.tft_espi_cs != cs ||
       Arduino.tft_espi_dc != dc ||
-      Arduino.tft_espi_rst != rst) {
+      Arduino.tft_espi_rst != rst ||
+      Arduino.tft_espi_bl != bl ||
+      Arduino.tft_espi_bl_level != blLevel ||
+      (isESP32Core() && !Arduino.tft_espi_use_hspi)) {
     
     // 先保存旧的 model 用于删除
     const oldModel = Arduino.tft_espi_type;
@@ -186,60 +203,76 @@ Arduino.forBlock['tftespi_setup'] = function(block, generator) {
     let promise = Promise.resolve();
     
     // 如果需要，先删除旧的 model macro
-    if (needRemoveOldModel) {
+    // if (needRemoveOldModel) {
       console.log('Removing old macro:', oldModel);
       promise = promise.then(() => window['projectService'].removeMacro(oldModel));
-    }
+    // }
     
     // 更新并添加新的 model
     Arduino.tft_espi_type = model;
     promise = promise.then(() => window['projectService'].addMacro(model));
     
     // 添加其他宏
-    if (Arduino.tft_espi_frequency != frequency) {
+    // if (Arduino.tft_espi_frequency != frequency) {
       Arduino.tft_espi_frequency = frequency;
       promise = promise.then(() => window['projectService'].addMacro(`TFT_FREQUENCY=${frequency}`));
-    }
+    // }
     
-    if (Arduino.tft_espi_width != width) {
+    // if (Arduino.tft_espi_width != width) {
       Arduino.tft_espi_width = width;
       promise = promise.then(() => window['projectService'].addMacro(`TFT_WIDTH=${width}`));
-    }
+    // }
     
-    if (Arduino.tft_espi_height != height) {
+    // if (Arduino.tft_espi_height != height) {
       Arduino.tft_espi_height = height;
       promise = promise.then(() => window['projectService'].addMacro(`TFT_HEIGHT=${height}`));
-    }
+    // }
     
-    if (Arduino.tft_espi_miso != miso) {
+    // if (Arduino.tft_espi_miso != miso) {
       Arduino.tft_espi_miso = miso;
       promise = promise.then(() => window['projectService'].addMacro(`TFT_MISO=${miso}`));
-    }
+    // }
     
-    if (Arduino.tft_espi_mosi != mosi) {
+    // if (Arduino.tft_espi_mosi != mosi) {
       Arduino.tft_espi_mosi = mosi;
       promise = promise.then(() => window['projectService'].addMacro(`TFT_MOSI=${mosi}`));
-    }
+    // }
     
-    if (Arduino.tft_espi_sclk != sclk) {
+    // if (Arduino.tft_espi_sclk != sclk) {
       Arduino.tft_espi_sclk = sclk;
       promise = promise.then(() => window['projectService'].addMacro(`TFT_SCLK=${sclk}`));
-    }
+    // }
     
-    if (Arduino.tft_espi_cs != cs) {
+    // if (Arduino.tft_espi_cs != cs) {
       Arduino.tft_espi_cs = cs;
       promise = promise.then(() => window['projectService'].addMacro(`TFT_CS=${cs}`));
-    }
+    // }
     
-    if (Arduino.tft_espi_dc != dc) {
+    // if (Arduino.tft_espi_dc != dc) {
       Arduino.tft_espi_dc = dc;
       promise = promise.then(() => window['projectService'].addMacro(`TFT_DC=${dc}`));
-    }
+    // }
     
-    if (Arduino.tft_espi_rst != rst) {
+    // if (Arduino.tft_espi_dc != dc) {
+      Arduino.tft_espi_dc = dc;
+      promise = promise.then(() => window['projectService'].addMacro(`TFT_DC=${dc}`));
+    // }
+    
+    // if (Arduino.tft_espi_rst != rst) {
       Arduino.tft_espi_rst = rst;
       promise = promise.then(() => window['projectService'].addMacro(`TFT_RST=${rst}`));
-    }
+    // }
+
+    // if (Arduino.tft_espi_bl != bl) {
+      Arduino.tft_espi_bl = bl;
+      promise = promise.then(() => window['projectService'].addMacro(`TFT_BL=${bl}`));
+    // }
+
+    // if (Arduino.tft_espi_bl_level != blLevel) {
+      Arduino.tft_espi_bl_level = blLevel;
+      const blMacro = blLevel === 'HIGH' ? 'TFT_BACKLIGHT_ON=HIGH' : 'TFT_BACKLIGHT_ON=LOW';
+      promise = promise.then(() => window['projectService'].addMacro(blMacro));
+    // }
     
     if (isESP32Core() && !Arduino.tft_espi_use_hspi) {
       Arduino.tft_espi_use_hspi = true;
