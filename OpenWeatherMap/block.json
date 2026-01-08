@@ -1,0 +1,557 @@
+[
+  {
+    "type": "owm_init",
+    "message0": "初始化天气服务 %1 API密钥 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "weather"
+      },
+      {
+        "type": "input_value",
+        "name": "API_KEY",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6F00",
+    "tooltip": "初始化OpenWeatherMap服务，需要提供API密钥",
+    "icon": "fa-regular fa-cloud-sun"
+  },
+  {
+    "type": "owm_set_units",
+    "message0": "设置天气 %1 单位为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "UNITS",
+        "options": [
+          ["公制 (摄氏度)", "OWM_UNITS_METRIC"],
+          ["英制 (华氏度)", "OWM_UNITS_IMPERIAL"],
+          ["标准 (开尔文)", "OWM_UNITS_STANDARD"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6F00",
+    "tooltip": "设置温度和风速的单位系统",
+    "icon": "fa-regular fa-temperature-half"
+  },
+  {
+    "type": "owm_set_language",
+    "message0": "设置天气 %1 语言为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "LANG",
+        "options": [
+          ["中文", "zh_cn"],
+          ["英文", "en"],
+          ["日文", "ja"],
+          ["韩文", "kr"],
+          ["德文", "de"],
+          ["法文", "fr"],
+          ["西班牙文", "es"],
+          ["俄文", "ru"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6F00",
+    "tooltip": "设置天气描述的语言",
+    "icon": "fa-regular fa-language"
+  },
+  {
+    "type": "owm_set_debug",
+    "message0": "设置天气 %1 调试模式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DEBUG",
+        "options": [
+          ["开启", "true"],
+          ["关闭", "false"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6F00",
+    "tooltip": "开启或关闭调试输出",
+    "icon": "fa-regular fa-bug"
+  },
+  {
+    "type": "owm_get_weather_by_city",
+    "message0": "天气 %1 获取城市天气 城市 %2 国家代码 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      },
+      {
+        "type": "input_value",
+        "name": "CITY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "COUNTRY",
+        "check": "String"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF6F00",
+    "tooltip": "通过城市名称获取当前天气数据，返回是否成功",
+    "icon": "fa-regular fa-city"
+  },
+  {
+    "type": "owm_get_weather_by_coords",
+    "message0": "天气 %1 获取坐标天气 纬度 %2 经度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      },
+      {
+        "type": "input_value",
+        "name": "LAT",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LON",
+        "check": "Number"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF6F00",
+    "tooltip": "通过经纬度坐标获取当前天气数据，返回是否成功",
+    "icon": "fa-regular fa-location-dot"
+  },
+  {
+    "type": "owm_weather_data",
+    "message0": "天气 %1 的 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          ["城市名称", "name"],
+          ["国家代码", "country"],
+          ["天气主类型", "weather_main"],
+          ["天气描述", "weather_description"],
+          ["天气图标", "weather_icon"],
+          ["当前温度", "temp"],
+          ["体感温度", "feels_like"],
+          ["最低温度", "temp_min"],
+          ["最高温度", "temp_max"],
+          ["湿度(%)", "humidity"],
+          ["气压(hPa)", "pressure"],
+          ["风速", "wind_speed"],
+          ["风向(度)", "wind_deg"],
+          ["云量(%)", "clouds"],
+          ["能见度(米)", "visibility"],
+          ["日出时间", "sunrise"],
+          ["日落时间", "sunset"]
+        ]
+      }
+    ],
+    "output": null,
+    "colour": "#FF6F00",
+    "tooltip": "获取当前天气的各项数据",
+    "icon": "fa-regular fa-cloud-sun"
+  },
+  {
+    "type": "owm_get_forecast",
+    "message0": "天气 %1 获取天气预报 纬度 %2 经度 %3 时间点数量 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      },
+      {
+        "type": "input_value",
+        "name": "LAT",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LON",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COUNT",
+        "check": "Number"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF8F00",
+    "tooltip": "获取5天/3小时天气预报，时间点数量0表示获取全部(最多40个)",
+    "icon": "fa-regular fa-calendar-days"
+  },
+  {
+    "type": "owm_get_forecast_by_city",
+    "message0": "天气 %1 获取城市预报 城市 %2 国家代码 %3 时间点数量 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      },
+      {
+        "type": "input_value",
+        "name": "CITY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "COUNTRY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "COUNT",
+        "check": "Number"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF8F00",
+    "tooltip": "通过城市名称获取5天天气预报",
+    "icon": "fa-regular fa-calendar-days"
+  },
+  {
+    "type": "owm_forecast_count",
+    "message0": "天气 %1 预报时间点数量",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF8F00",
+    "tooltip": "获取预报数据中的时间点数量",
+    "icon": "fa-regular fa-list-ol"
+  },
+  {
+    "type": "owm_forecast_data",
+    "message0": "天气 %1 第 %2 个预报的 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          ["时间文本", "dt_txt"],
+          ["天气主类型", "weather_main"],
+          ["天气描述", "weather_description"],
+          ["温度", "temp"],
+          ["体感温度", "feels_like"],
+          ["最低温度", "temp_min"],
+          ["最高温度", "temp_max"],
+          ["湿度(%)", "humidity"],
+          ["气压(hPa)", "pressure"],
+          ["风速", "wind_speed"],
+          ["云量(%)", "clouds"],
+          ["降水概率", "pop"],
+          ["3小时降雨量", "rain_3h"],
+          ["3小时降雪量", "snow_3h"]
+        ]
+      }
+    ],
+    "output": null,
+    "colour": "#FF8F00",
+    "tooltip": "获取指定时间点的预报数据(索引从0开始)",
+    "icon": "fa-regular fa-calendar-day"
+  },
+  {
+    "type": "owm_get_air_pollution",
+    "message0": "天气 %1 获取空气质量 纬度 %2 经度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      },
+      {
+        "type": "input_value",
+        "name": "LAT",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LON",
+        "check": "Number"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#7B1FA2",
+    "tooltip": "获取指定位置的当前空气质量数据",
+    "icon": "fa-regular fa-smog"
+  },
+  {
+    "type": "owm_air_pollution_data",
+    "message0": "天气 %1 的空气 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          ["空气质量指数(1-5)", "aqi"],
+          ["一氧化碳(μg/m³)", "co"],
+          ["一氧化氮(μg/m³)", "no"],
+          ["二氧化氮(μg/m³)", "no2"],
+          ["臭氧(μg/m³)", "o3"],
+          ["二氧化硫(μg/m³)", "so2"],
+          ["PM2.5(μg/m³)", "pm2_5"],
+          ["PM10(μg/m³)", "pm10"],
+          ["氨(μg/m³)", "nh3"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#7B1FA2",
+    "tooltip": "获取空气质量的各项数据",
+    "icon": "fa-regular fa-smog"
+  },
+  {
+    "type": "owm_aqi_description",
+    "message0": "空气质量描述 指数 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "AQI",
+        "check": "Number"
+      }
+    ],
+    "output": "String",
+    "colour": "#7B1FA2",
+    "tooltip": "将空气质量指数(1-5)转换为描述文本",
+    "icon": "fa-regular fa-circle-info"
+  },
+  {
+    "type": "owm_get_coords_by_city",
+    "message0": "天气 %1 查询城市坐标 城市 %2 国家代码 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      },
+      {
+        "type": "input_value",
+        "name": "CITY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "COUNTRY",
+        "check": "String"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#1976D2",
+    "tooltip": "通过城市名称查询地理坐标",
+    "icon": "fa-regular fa-map-location-dot"
+  },
+  {
+    "type": "owm_get_coords_by_zip",
+    "message0": "天气 %1 查询邮编坐标 邮编 %2 国家代码 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      },
+      {
+        "type": "input_value",
+        "name": "ZIP",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "COUNTRY",
+        "check": "String"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#1976D2",
+    "tooltip": "通过邮政编码查询地理坐标",
+    "icon": "fa-regular fa-mailbox"
+  },
+  {
+    "type": "owm_get_location_by_coords",
+    "message0": "天气 %1 反向查询位置 纬度 %2 经度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      },
+      {
+        "type": "input_value",
+        "name": "LAT",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LON",
+        "check": "Number"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#1976D2",
+    "tooltip": "通过经纬度反向查询位置信息",
+    "icon": "fa-regular fa-location-crosshairs"
+  },
+  {
+    "type": "owm_geo_data",
+    "message0": "天气 %1 的位置 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          ["城市名称", "name"],
+          ["国家代码", "country"],
+          ["州/省", "state"],
+          ["纬度", "lat"],
+          ["经度", "lon"]
+        ]
+      }
+    ],
+    "output": null,
+    "colour": "#1976D2",
+    "tooltip": "获取查询到的位置信息",
+    "icon": "fa-regular fa-globe"
+  },
+  {
+    "type": "owm_get_icon_url",
+    "message0": "天气图标URL 图标代码 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ICON",
+        "check": "String"
+      }
+    ],
+    "output": "String",
+    "colour": "#FF6F00",
+    "tooltip": "根据天气图标代码获取图标URL",
+    "icon": "fa-regular fa-image"
+  },
+  {
+    "type": "owm_get_last_error",
+    "message0": "天气 %1 最后错误信息",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      }
+    ],
+    "output": "String",
+    "colour": "#FF6F00",
+    "tooltip": "获取最后一次操作的错误信息",
+    "icon": "fa-regular fa-circle-exclamation"
+  },
+  {
+    "type": "owm_get_http_code",
+    "message0": "天气 %1 最后HTTP代码",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6F00",
+    "tooltip": "获取最后一次HTTP请求的响应代码",
+    "icon": "fa-regular fa-server"
+  }
+]
