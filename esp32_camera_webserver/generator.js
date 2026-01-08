@@ -43,12 +43,9 @@ Arduino.forBlock['esp32_camera_custom_pins'] = function (block, generator) {
 };
 
 Arduino.forBlock['esp32_camera_webserver_init'] = function (block, generator) {
-  const ssid = generator.valueToCode(block, 'SSID', generator.ORDER_ATOMIC) || '""';
-  const password = generator.valueToCode(block, 'PASSWORD', generator.ORDER_ATOMIC) || '""';
   const model = block.getFieldValue('MODEL');
   const resolution = block.getFieldValue('RESOLUTION');
 
-  // 添加必要的库引用
   generator.addLibrary('esp_camera', '#include <esp_camera.h>');
   generator.addLibrary('WiFi', '#include <WiFi.h>');
 
@@ -190,23 +187,13 @@ ${pinConfig}
   }
 #endif
 
-  WiFi.begin(${ssid}, ${password});
-  WiFi.setSleep(false);
-
-  Serial.print("Connecting to WiFi");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("");
-  Serial.println("WiFi connected");
-  
   int ledPin = -1;
 #if defined(LED_GPIO_NUM)
   ledPin = LED_GPIO_NUM;
 #endif
   startCameraServer(ledPin);
   
+  Serial.println("Camera initialized successfully");
   Serial.print("Camera Ready! Use 'http://");
   Serial.print(WiFi.localIP());
   Serial.println("' to connect");

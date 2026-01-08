@@ -1,6 +1,6 @@
 # ESP32摄像头网络服务器
 
-ESP32摄像头网络服务器库,支持多种ESP32开发板通过WiFi串流摄像头画面
+ESP32摄像头网络服务器库,支持多种ESP32开发板的摄像头功能。注意：WiFi连接需要使用专门的WiFi积木库，本库专注于摄像头功能。
 
 ## 库信息
 - **库名**: @aily-project/lib-esp32-camera-webserver
@@ -11,7 +11,7 @@ ESP32摄像头网络服务器库,支持多种ESP32开发板通过WiFi串流摄�
 
 | 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
 |--------|------|----------|----------|----------|
-| `esp32_camera_webserver_init` | 语句块 | MODEL(dropdown), RESOLUTION(dropdown), SSID(input_value), PASSWORD(input_value) | `"MODEL": "CAMERA_MODEL_AI_THINKER"`, `"RESOLUTION": "FRAMESIZE_UXGA"` | 初始化摄像头和WiFi,启动Web服务器 |
+| `esp32_camera_webserver_init` | 语句块 | MODEL(dropdown), RESOLUTION(dropdown) | `"MODEL": "CAMERA_MODEL_AI_THINKER"`, `"RESOLUTION": "FRAMESIZE_UXGA"` | 初始化摄像头,启动Web服务器 |
 | `esp32_camera_custom_pins` | 语句块 | DATA_PINS(input_value), XCLK(input_value), PCLK(input_value), VSYNC(input_value), HREF(input_value), SDA(input_value), SCL(input_value), PWDN(input_value), RESET(input_value) | 各引脚配置 | 自定义摄像头引脚配置 |
 | `esp32_camera_set_quality` | 语句块 | QUALITY(field_number) | `"QUALITY": 10` | 设置JPEG质量 |
 | `esp32_camera_set_flip` | 语句块 | VFLIP(field_checkbox), HMIRROR(field_checkbox) | `"VFLIP": false`, `"HMIRROR": false` | 设置画面翻转 |
@@ -48,23 +48,11 @@ ESP32摄像头网络服务器库,支持多种ESP32开发板通过WiFi串流摄�
   "fields": {
     "MODEL": "CAMERA_MODEL_DFRobot_FireBeetle2_ESP32S3",
     "RESOLUTION": "FRAMESIZE_UXGA"
-  },
-  "inputs": {
-    "SSID": {
-      "shadow": {
-        "type": "text",
-        "fields": {"TEXT": "my_wifi"}
-      }
-    },
-    "PASSWORD": {
-      "shadow": {
-        "type": "text",
-        "fields": {"TEXT": "my_password"}
-      }
-    }
   }
 }
 ```
+
+**注意**: 使用本库前，请先使用WiFi积木库建立WiFi连接。
 
 ## 重要规则
 
@@ -72,6 +60,7 @@ ESP32摄像头网络服务器库,支持多种ESP32开发板通过WiFi串流摄�
 2. **连接限制**: 语句块只能连接到其他语句块
 3. **常见错误**: ❌ 忘记为input_value配置shadow块
 4. **内存管理**: ⚠️ 使用esp32_camera_capture获取帧后，必须调用esp32_camera_release释放内存
+5. **WiFi连接**: ⚠️ 本库不包含WiFi连接功能，请使用专门的WiFi积木库建立连接
 
 ## 支持的摄像头型号
 
@@ -92,6 +81,7 @@ ESP32摄像头网络服务器库,支持多种ESP32开发板通过WiFi串流摄�
 - 高分辨率(UXGA/SXGA)需要PSRAM支持
 - Web服务器运行在独立的FreeRTOS任务中，loop()中无需调用处理函数
 - 串口发送帧数据包含帧标识符，便于上位机识别帧边界
+- WiFi连接需要使用专门的WiFi积木库，本库专注于摄像头功能
 实际测试结果预测：
 
 场景	                是否会卡	   影响
