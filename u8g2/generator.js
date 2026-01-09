@@ -69,6 +69,15 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
             ['128x128 SEEED', 'SEEED_128X128']
           ]), 'RESOLUTION');
         break;
+      case 'ST7305':
+        this.appendDummyInput('RESOLUTION')
+          .appendField('分辨率')
+          .appendField(new Blockly.FieldDropdown([
+            ['122X250', '122X250'],
+            ['200X200', '200X200'],
+            ['168X384', '168X384']
+          ]), 'RESOLUTION');
+        break;
       case 'ST7920':
         this.appendDummyInput('RESOLUTION')
           .appendField('分辨率')
@@ -140,6 +149,24 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
           protocolOptions = [
             ['I2C(硬件)', '_HW_I2C'],
             ['SPI 4线(硬件)', '_4W_HW_SPI']
+          ];
+        }
+        break;
+      case 'ST7305':
+        if (resolutionValue === '122X250') {
+          protocolOptions = [
+            ['SPI 4线(硬件)', '_4W_HW_SPI'],
+            ['SPI 4线(软件)', '_4W_SW_SPI']
+          ];
+        } else if (resolutionValue === '200X200') {
+          protocolOptions = [
+            ['SPI 4线(硬件)', '_4W_HW_SPI'],
+            ['SPI 4线(软件)', '_4W_SW_SPI']
+          ];
+        } else if (resolutionValue === '168X384') {
+          protocolOptions = [
+            ['SPI 4线(硬件)', '_4W_HW_SPI'],
+            ['SPI 4线(软件)', '_4W_SW_SPI']
           ];
         }
         break;
