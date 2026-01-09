@@ -121,7 +121,7 @@ u8g2.sendBuffer();
 4. **位图格式**: `field_bitmap_u8g2` 接受二维数组（0/1），generator 将自动转换为 XBM 并声明常量数组供绘制使用。
 
 ## 支持的选项（节选）
-- **TYPE(驱动芯片)**: "SSD1306", "SSD1309", "SH1106", "SH1107", "ST7920"
+- **TYPE(驱动芯片)**: "SSD1306", "SSD1309", "SH1106", "SH1107", "ST7305", "ST7920"
 - **RESOLUTION**: "128X64_NONAME_F", "128X32_NONAME_F", "128X128_NONAME_F"（U8g2 构造器变体）
 - **PROTOCOL**: `_HW_I2C`, `_SW_I2C`, `_3W_HW_SPI`, `_3W_SW_SPI`, `_4W_HW_SPI`, `_4W_SW_SPI`
 - **FONT**: 常见的 `u8g2` 字体常量（示例在下拉列表中）
