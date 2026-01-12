@@ -30,6 +30,31 @@ function ensureGeoData(generator, varName) {
   return dataVarName;
 }
 
+// 请求结果变量管理
+function ensureRequestResult(generator, varName) {
+  const resultVarName = '_owm_result_' + varName;
+  generator.addVariable(resultVarName, 'bool ' + resultVarName + ' = false;');
+  return resultVarName;
+}
+
+function ensureForecastResult(generator, varName) {
+  const resultVarName = '_owm_forecast_result_' + varName;
+  generator.addVariable(resultVarName, 'bool ' + resultVarName + ' = false;');
+  return resultVarName;
+}
+
+function ensureAirPollutionResult(generator, varName) {
+  const resultVarName = '_owm_air_result_' + varName;
+  generator.addVariable(resultVarName, 'bool ' + resultVarName + ' = false;');
+  return resultVarName;
+}
+
+function ensureGeoResult(generator, varName) {
+  const resultVarName = '_owm_geo_result_' + varName;
+  generator.addVariable(resultVarName, 'bool ' + resultVarName + ' = false;');
+  return resultVarName;
+}
+
 // 初始化天气服务
 Arduino.forBlock['owm_init'] = function(block, generator) {
   // 变量重命名监听
@@ -106,9 +131,9 @@ Arduino.forBlock['owm_get_weather_by_city'] = function(block, generator) {
   
   ensureOWMLib(generator);
   const dataVar = ensureWeatherData(generator, varName);
+  const resultVar = ensureRequestResult(generator, varName);
   
-  const code = varName + '.getCurrentWeatherByCity(' + city + ', ' + country + ', &' + dataVar + ')';
-  return [code, generator.ORDER_FUNCTION_CALL];
+  return resultVar + ' = ' + varName + '.getCurrentWeatherByCity(' + city + ', ' + country + ', &' + dataVar + ');\n';
 };
 
 // 通过坐标获取天气
@@ -120,9 +145,20 @@ Arduino.forBlock['owm_get_weather_by_coords'] = function(block, generator) {
   
   ensureOWMLib(generator);
   const dataVar = ensureWeatherData(generator, varName);
+  const resultVar = ensureRequestResult(generator, varName);
   
-  const code = varName + '.getCurrentWeather(' + lat + ', ' + lon + ', &' + dataVar + ')';
-  return [code, generator.ORDER_FUNCTION_CALL];
+  return resultVar + ' = ' + varName + '.getCurrentWeather(' + lat + ', ' + lon + ', &' + dataVar + ');\n';
+};
+
+// 请求是否成功
+Arduino.forBlock['owm_request_success'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'weather';
+  
+  ensureOWMLib(generator);
+  const resultVar = ensureRequestResult(generator, varName);
+  
+  return [resultVar, generator.ORDER_ATOMIC];
 };
 
 // 获取天气数据
@@ -204,9 +240,9 @@ Arduino.forBlock['owm_get_forecast'] = function(block, generator) {
   
   ensureOWMLib(generator);
   const dataVar = ensureForecastData(generator, varName);
+  const resultVar = ensureForecastResult(generator, varName);
   
-  const code = varName + '.getForecast(' + lat + ', ' + lon + ', &' + dataVar + ', ' + count + ')';
-  return [code, generator.ORDER_FUNCTION_CALL];
+  return resultVar + ' = ' + varName + '.getForecast(' + lat + ', ' + lon + ', &' + dataVar + ', ' + count + ');\n';
 };
 
 // 通过城市获取天气预报
@@ -219,9 +255,20 @@ Arduino.forBlock['owm_get_forecast_by_city'] = function(block, generator) {
   
   ensureOWMLib(generator);
   const dataVar = ensureForecastData(generator, varName);
+  const resultVar = ensureForecastResult(generator, varName);
   
-  const code = varName + '.getForecastByCity(' + city + ', ' + country + ', &' + dataVar + ', ' + count + ')';
-  return [code, generator.ORDER_FUNCTION_CALL];
+  return resultVar + ' = ' + varName + '.getForecastByCity(' + city + ', ' + country + ', &' + dataVar + ', ' + count + ');\n';
+};
+
+// 天气预报请求是否成功
+Arduino.forBlock['owm_forecast_request_success'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'weather';
+  
+  ensureOWMLib(generator);
+  const resultVar = ensureForecastResult(generator, varName);
+  
+  return [resultVar, generator.ORDER_ATOMIC];
 };
 
 // 预报时间点数量
@@ -305,9 +352,20 @@ Arduino.forBlock['owm_get_air_pollution'] = function(block, generator) {
   
   ensureOWMLib(generator);
   const dataVar = ensureAirPollutionData(generator, varName);
+  const resultVar = ensureAirPollutionResult(generator, varName);
   
-  const code = varName + '.getAirPollution(' + lat + ', ' + lon + ', &' + dataVar + ')';
-  return [code, generator.ORDER_FUNCTION_CALL];
+  return resultVar + ' = ' + varName + '.getAirPollution(' + lat + ', ' + lon + ', &' + dataVar + ');\n';
+};
+
+// 空气质量请求是否成功
+Arduino.forBlock['owm_air_pollution_request_success'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'weather';
+  
+  ensureOWMLib(generator);
+  const resultVar = ensureAirPollutionResult(generator, varName);
+  
+  return [resultVar, generator.ORDER_ATOMIC];
 };
 
 // 获取空气质量数据
@@ -374,9 +432,9 @@ Arduino.forBlock['owm_get_coords_by_city'] = function(block, generator) {
   
   ensureOWMLib(generator);
   const dataVar = ensureGeoData(generator, varName);
+  const resultVar = ensureGeoResult(generator, varName);
   
-  const code = '(' + varName + '.getCoordinatesByName(' + city + ', ' + country + ', NULL, &' + dataVar + ', 1) > 0)';
-  return [code, generator.ORDER_RELATIONAL];
+  return resultVar + ' = (' + varName + '.getCoordinatesByName(' + city + ', ' + country + ', NULL, &' + dataVar + ', 1) > 0);\n';
 };
 
 // 通过邮编查询坐标
@@ -388,9 +446,9 @@ Arduino.forBlock['owm_get_coords_by_zip'] = function(block, generator) {
   
   ensureOWMLib(generator);
   const dataVar = ensureGeoData(generator, varName);
+  const resultVar = ensureGeoResult(generator, varName);
   
-  const code = varName + '.getCoordinatesByZip(' + zip + ', ' + country + ', &' + dataVar + ')';
-  return [code, generator.ORDER_FUNCTION_CALL];
+  return resultVar + ' = ' + varName + '.getCoordinatesByZip(' + zip + ', ' + country + ', &' + dataVar + ');\n';
 };
 
 // 通过坐标反向查询位置
@@ -402,9 +460,20 @@ Arduino.forBlock['owm_get_location_by_coords'] = function(block, generator) {
   
   ensureOWMLib(generator);
   const dataVar = ensureGeoData(generator, varName);
+  const resultVar = ensureGeoResult(generator, varName);
   
-  const code = '(' + varName + '.getLocationByCoordinates(' + lat + ', ' + lon + ', &' + dataVar + ', 1) > 0)';
-  return [code, generator.ORDER_RELATIONAL];
+  return resultVar + ' = (' + varName + '.getLocationByCoordinates(' + lat + ', ' + lon + ', &' + dataVar + ', 1) > 0);\n';
+};
+
+// 地理编码请求是否成功
+Arduino.forBlock['owm_geo_request_success'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'weather';
+  
+  ensureOWMLib(generator);
+  const resultVar = ensureGeoResult(generator, varName);
+  
+  return [resultVar, generator.ORDER_ATOMIC];
 };
 
 // 获取位置数据
@@ -442,6 +511,8 @@ Arduino.forBlock['owm_geo_data'] = function(block, generator) {
 
 // 获取天气图标URL
 Arduino.forBlock['owm_get_icon_url'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'weather';
   const icon = generator.valueToCode(block, 'ICON', generator.ORDER_ATOMIC) || '""';
   
   ensureOWMLib(generator);
@@ -449,7 +520,7 @@ Arduino.forBlock['owm_get_icon_url'] = function(block, generator) {
   // 添加临时缓冲区
   generator.addVariable('_owm_icon_url_buffer', 'char _owm_icon_url_buffer[64];');
   
-  const code = 'OpenWeatherMap::getIconURL(' + icon + ', _owm_icon_url_buffer, 64)';
+  const code = varName + '.getIconURL(' + icon + ', _owm_icon_url_buffer, 64)';
   return [code, generator.ORDER_FUNCTION_CALL];
 };
 

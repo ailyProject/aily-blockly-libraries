@@ -107,7 +107,7 @@
   },
   {
     "type": "owm_get_weather_by_city",
-    "message0": "天气 %1 获取城市天气 城市 %2 国家代码 %3",
+    "message0": "天气 %1 请求城市天气 城市 %2 国家代码 %3",
     "args0": [
       {
         "type": "field_variable",
@@ -127,14 +127,15 @@
         "check": "String"
       }
     ],
-    "output": "Boolean",
+    "previousStatement": null,
+    "nextStatement": null,
     "colour": "#FF6F00",
-    "tooltip": "通过城市名称获取当前天气数据，返回是否成功",
+    "tooltip": "通过城市名称请求当前天气数据",
     "icon": "fa-regular fa-city"
   },
   {
     "type": "owm_get_weather_by_coords",
-    "message0": "天气 %1 获取坐标天气 纬度 %2 经度 %3",
+    "message0": "天气 %1 请求坐标天气 纬度 %2 经度 %3",
     "args0": [
       {
         "type": "field_variable",
@@ -154,10 +155,28 @@
         "check": "Number"
       }
     ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6F00",
+    "tooltip": "通过经纬度坐标请求当前天气数据",
+    "icon": "fa-regular fa-location-dot"
+  },
+  {
+    "type": "owm_request_success",
+    "message0": "天气 %1 请求成功?",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      }
+    ],
     "output": "Boolean",
     "colour": "#FF6F00",
-    "tooltip": "通过经纬度坐标获取当前天气数据，返回是否成功",
-    "icon": "fa-regular fa-location-dot"
+    "tooltip": "判断最后一次请求是否成功",
+    "icon": "fa-regular fa-circle-check"
   },
   {
     "type": "owm_weather_data",
@@ -201,7 +220,7 @@
   },
   {
     "type": "owm_get_forecast",
-    "message0": "天气 %1 获取天气预报 纬度 %2 经度 %3 时间点数量 %4",
+    "message0": "天气 %1 请求天气预报 纬度 %2 经度 %3 时间点数量 %4",
     "args0": [
       {
         "type": "field_variable",
@@ -226,14 +245,15 @@
         "check": "Number"
       }
     ],
-    "output": "Boolean",
+    "previousStatement": null,
+    "nextStatement": null,
     "colour": "#FF8F00",
-    "tooltip": "获取5天/3小时天气预报，时间点数量0表示获取全部(最多40个)",
+    "tooltip": "请求5天/3小时天气预报，时间点数量0表示获取全部(最多40个)",
     "icon": "fa-regular fa-calendar-days"
   },
   {
     "type": "owm_get_forecast_by_city",
-    "message0": "天气 %1 获取城市预报 城市 %2 国家代码 %3 时间点数量 %4",
+    "message0": "天气 %1 请求城市预报 城市 %2 国家代码 %3 时间点数量 %4",
     "args0": [
       {
         "type": "field_variable",
@@ -258,10 +278,28 @@
         "check": "Number"
       }
     ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF8F00",
+    "tooltip": "通过城市名称请求5天天气预报",
+    "icon": "fa-regular fa-calendar-days"
+  },
+  {
+    "type": "owm_forecast_request_success",
+    "message0": "天气 %1 预报请求成功?",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      }
+    ],
     "output": "Boolean",
     "colour": "#FF8F00",
-    "tooltip": "通过城市名称获取5天天气预报",
-    "icon": "fa-regular fa-calendar-days"
+    "tooltip": "判断最后一次天气预报请求是否成功",
+    "icon": "fa-regular fa-circle-check"
   },
   {
     "type": "owm_forecast_count",
@@ -324,7 +362,7 @@
   },
   {
     "type": "owm_get_air_pollution",
-    "message0": "天气 %1 获取空气质量 纬度 %2 经度 %3",
+    "message0": "天气 %1 请求空气质量 纬度 %2 经度 %3",
     "args0": [
       {
         "type": "field_variable",
@@ -344,10 +382,28 @@
         "check": "Number"
       }
     ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7B1FA2",
+    "tooltip": "请求指定位置的当前空气质量数据",
+    "icon": "fa-regular fa-smog"
+  },
+  {
+    "type": "owm_air_pollution_request_success",
+    "message0": "天气 %1 空气质量请求成功?",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      }
+    ],
     "output": "Boolean",
     "colour": "#7B1FA2",
-    "tooltip": "获取指定位置的当前空气质量数据",
-    "icon": "fa-regular fa-smog"
+    "tooltip": "判断最后一次空气质量请求是否成功",
+    "icon": "fa-regular fa-circle-check"
   },
   {
     "type": "owm_air_pollution_data",
@@ -398,7 +454,7 @@
   },
   {
     "type": "owm_get_coords_by_city",
-    "message0": "天气 %1 查询城市坐标 城市 %2 国家代码 %3",
+    "message0": "天气 %1 请求城市坐标 城市 %2 国家代码 %3",
     "args0": [
       {
         "type": "field_variable",
@@ -418,14 +474,15 @@
         "check": "String"
       }
     ],
-    "output": "Boolean",
+    "previousStatement": null,
+    "nextStatement": null,
     "colour": "#1976D2",
-    "tooltip": "通过城市名称查询地理坐标",
+    "tooltip": "通过城市名称请求地理坐标",
     "icon": "fa-regular fa-map-location-dot"
   },
   {
     "type": "owm_get_coords_by_zip",
-    "message0": "天气 %1 查询邮编坐标 邮编 %2 国家代码 %3",
+    "message0": "天气 %1 请求邮编坐标 邮编 %2 国家代码 %3",
     "args0": [
       {
         "type": "field_variable",
@@ -445,14 +502,15 @@
         "check": "String"
       }
     ],
-    "output": "Boolean",
+    "previousStatement": null,
+    "nextStatement": null,
     "colour": "#1976D2",
-    "tooltip": "通过邮政编码查询地理坐标",
+    "tooltip": "通过邮政编码请求地理坐标",
     "icon": "fa-regular fa-mailbox"
   },
   {
     "type": "owm_get_location_by_coords",
-    "message0": "天气 %1 反向查询位置 纬度 %2 经度 %3",
+    "message0": "天气 %1 请求反向位置 纬度 %2 经度 %3",
     "args0": [
       {
         "type": "field_variable",
@@ -472,10 +530,28 @@
         "check": "Number"
       }
     ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "通过经纬度请求反向位置信息",
+    "icon": "fa-regular fa-location-crosshairs"
+  },
+  {
+    "type": "owm_geo_request_success",
+    "message0": "天气 %1 地理编码请求成功?",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "weather",
+        "variableTypes": ["OpenWeatherMap"],
+        "defaultType": "OpenWeatherMap"
+      }
+    ],
     "output": "Boolean",
     "colour": "#1976D2",
-    "tooltip": "通过经纬度反向查询位置信息",
-    "icon": "fa-regular fa-location-crosshairs"
+    "tooltip": "判断最后一次地理编码请求是否成功",
+    "icon": "fa-regular fa-circle-check"
   },
   {
     "type": "owm_geo_data",
