@@ -39,15 +39,15 @@ Arduino.ensureLcdInitialized = function (generator) {
 
 // LCD 初始化块
 Arduino.forBlock['lcd_init'] = function (block, generator) {
-  const cols = block.getFieldValue('COLS');
-  const rows = block.getFieldValue('ROWS');
-  const rs_pin = block.getFieldValue('RS_PIN');
-  const e_pin = block.getFieldValue('E_PIN');
-  const d4_pin = block.getFieldValue('D4_PIN');
-  const d5_pin = block.getFieldValue('D5_PIN');
-  const d6_pin = block.getFieldValue('D6_PIN');
-  const d7_pin = block.getFieldValue('D7_PIN');
-  const light_pin = block.getFieldValue('LIGHT_PIN');
+  const cols = generator.valueToCode(block, 'COLS', Arduino.ORDER_ATOMIC) || '16';
+  const rows = generator.valueToCode(block, 'ROWS', Arduino.ORDER_ATOMIC) || '2';
+  const rs_pin = generator.valueToCode(block, 'RS_PIN', Arduino.ORDER_ATOMIC) || '12';
+  const e_pin = generator.valueToCode(block, 'E_PIN', Arduino.ORDER_ATOMIC) || '11';
+  const d4_pin = generator.valueToCode(block, 'D4_PIN', Arduino.ORDER_ATOMIC) || '5';
+  const d5_pin = generator.valueToCode(block, 'D5_PIN', Arduino.ORDER_ATOMIC) || '4';
+  const d6_pin = generator.valueToCode(block, 'D6_PIN', Arduino.ORDER_ATOMIC) || '3';
+  const d7_pin = generator.valueToCode(block, 'D7_PIN', Arduino.ORDER_ATOMIC) || '2';
+  const light_pin = generator.valueToCode(block, 'LIGHT_PIN', Arduino.ORDER_ATOMIC) || '6';
 
   // 添加库引用
   generator.addLibrary('LiquidCrystal', '#include <LiquidCrystal.h>');

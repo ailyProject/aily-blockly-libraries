@@ -1,0 +1,135 @@
+{
+  "kind": "category",
+  "name": "网络图片加载器",
+  "icon": "fa-light fa-image",
+  "colour": "#9C27B0",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "lvgl_http_img_init",
+      "inputs": {
+        "WIDTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 240
+            }
+          }
+        },
+        "HEIGHT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 240
+            }
+          }
+        },
+        "MAX_SIZE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 512
+            }
+          }
+        },
+        "TIMEOUT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 15000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "图片加载"
+    },
+    {
+      "kind": "block",
+      "type": "lvgl_http_img_load",
+      "inputs": {
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "http://httpbin.org/image/jpeg"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "信息查询"
+    },
+    {
+      "kind": "block",
+      "type": "lvgl_http_img_get_info",
+      "inputs": {
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "http://httpbin.org/image/jpeg"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "lvgl_http_img_check",
+      "inputs": {
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "http://httpbin.org/image/jpeg"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "lvgl_http_img_has_psram"
+    },
+    {
+      "kind": "block",
+      "type": "lvgl_http_img_get_max_size"
+    },
+    {
+      "kind": "label",
+      "text": "错误处理"
+    },
+    {
+      "kind": "block",
+      "type": "lvgl_http_img_get_last_error"
+    },
+    {
+      "kind": "block",
+      "type": "lvgl_http_img_err_to_string",
+      "inputs": {
+        "ERR_CODE": {
+          "shadow": {
+            "type": "lvgl_http_img_get_last_error"
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "资源管理"
+    },
+    {
+      "kind": "block",
+      "type": "lvgl_http_img_cleanup"
+    }
+  ]
+}

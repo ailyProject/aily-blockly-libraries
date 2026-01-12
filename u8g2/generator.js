@@ -69,6 +69,15 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
             ['128x128 SEEED', 'SEEED_128X128']
           ]), 'RESOLUTION');
         break;
+      case 'ST7305':
+        this.appendDummyInput('RESOLUTION')
+          .appendField('分辨率')
+          .appendField(new Blockly.FieldDropdown([
+            ['122X250', '122X250'],
+            ['200X200', '200X200'],
+            ['168X384', '168X384']
+          ]), 'RESOLUTION');
+        break;
       case 'ST7920':
         this.appendDummyInput('RESOLUTION')
           .appendField('分辨率')
@@ -140,6 +149,24 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
           protocolOptions = [
             ['I2C(硬件)', '_HW_I2C'],
             ['SPI 4线(硬件)', '_4W_HW_SPI']
+          ];
+        }
+        break;
+      case 'ST7305':
+        if (resolutionValue === '122X250') {
+          protocolOptions = [
+            ['SPI 4线(硬件)', '_4W_HW_SPI'],
+            ['SPI 4线(软件)', '_4W_SW_SPI']
+          ];
+        } else if (resolutionValue === '200X200') {
+          protocolOptions = [
+            ['SPI 4线(硬件)', '_4W_HW_SPI'],
+            ['SPI 4线(软件)', '_4W_SW_SPI']
+          ];
+        } else if (resolutionValue === '168X384') {
+          protocolOptions = [
+            ['SPI 4线(硬件)', '_4W_HW_SPI'],
+            ['SPI 4线(软件)', '_4W_SW_SPI']
           ];
         }
         break;
@@ -509,14 +536,14 @@ Arduino.forBlock['u8g2_draw_str'] = function (block, generator) {
   const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC);
   const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC);
   const text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC);
-  let fontSetting = 'u8g2_font_ncenB08_tr'; // 默认字体设置
-  let drawCode= 'drawStr';
-  const isChinese = /[\u4e00-\u9fa5]/.test(text); // 检测是否为中文
-  if (isChinese) {
-    // 如果是中文，使用特定的字体
-    fontSetting = 'u8g2_font_wqy12_t_chinese2';
-    drawCode = 'drawUTF8';
-  }
+  // let fontSetting = 'u8g2_font_ncenB08_tr'; // 默认字体设置
+  let drawCode= 'drawUTF8';
+  // const isChinese = /[\u4e00-\u9fa5]/.test(text); // 检测是否为中文
+  // if (isChinese) {
+  //   // 如果是中文，使用特定的字体
+  //   fontSetting = 'u8g2_font_wqy12_t_chinese2';
+  //   drawCode = 'drawUTF8';
+  // }
   generator.addSetupEnd('u8g2_enableUTF8Print', 'u8g2.enableUTF8Print();');
   
   const target = block.getInputTargetBlock('TEXT');
@@ -532,7 +559,8 @@ Arduino.forBlock['u8g2_draw_str'] = function (block, generator) {
   }
 
   let code = '';
-  code += `u8g2.setFont(${fontSetting});\nu8g2.${drawCode}(${x}, ${y}, ${textCode});\n`;
+  // code += `u8g2.setFont(${fontSetting});\n`;
+  code += `u8g2.${drawCode}(${x}, ${y}, ${textCode});\n`;
   if (!hasFollowingSendBuffer(block)) {
     code += `u8g2.sendBuffer();\n`;
   }

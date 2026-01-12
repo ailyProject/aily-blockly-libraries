@@ -1215,7 +1215,7 @@ Arduino.forBlock['lvgl_image_set_zoom'] = function(block, generator) {
 
   ensureLvglLib(generator);
 
-  return 'lv_image_set_zoom(' + varName + ', ' + zoom + ');\n';
+  return 'lv_img_set_zoom(' + varName + ', ' + zoom + ');\n';
 };
 
 Arduino.forBlock['lvgl_image_set_angle'] = function(block, generator) {
