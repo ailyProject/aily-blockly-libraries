@@ -8,6 +8,10 @@ if (Blockly.Extensions.isRegistered('aivox3_mcp_control_param_extension')) {
   Blockly.Extensions.unregister('aivox3_mcp_control_param_extension');
 }
 
+/*if (!window.addedFontMacros) {
+  window.addedFontMacros = new Set(); // 小智字体
+}*/
+
 // 注册一个全局数组变量来存储MCP控制参数及对应的类型
 // 使用条件声明避免重复声明错误
 if (typeof window !== 'undefined') {
@@ -611,8 +615,11 @@ var display_mode = '';
 var display_role = '';
 var aivox3_screen_light = 255; 
 var display_type = 'NONE';
+var es8311mr = 'false';
+var es8388pd = 'false';
 
 Arduino.forBlock['esp32ai_init_wifi'] = function (block, generator) {
+    generator.addLibrary('include_aivox_engine', '#include "ai_vox_engine.h"');
     let configOption = block.getFieldValue('MODE');
     let code = ``;
     generator.addObject('esp32ai_kSmartConfigType', `constexpr smartconfig_type_t kSmartConfigType = SC_TYPE_ESPTOUCH;`, true);
@@ -637,9 +644,9 @@ Arduino.forBlock['esp32ai_init_wifi'] = function (block, generator) {
 #include "components/wifi_configurator/wifi_configurator.h"
 #include "components/espressif/esp_audio_codec/esp_audio_simple_dec.h"
 #include "components/espressif/esp_audio_codec/esp_mp3_dec.h"
-#include "network_config_mode_mp3.h"
-#include "network_connected_mp3.h"
-#include "notification_0_mp3.h"`);
+#include "kljxgwj/mp3/network_config_mode_mp3.h"
+#include "kljxgwj/mp3/network_connected_mp3.h"
+#include "kljxgwj/mp3/notification_0_mp3.h"`);
     return '';
 };
 
@@ -667,7 +674,7 @@ Arduino.forBlock['esp32ai_button_setup'] = function(block, generator) {
   generator.addFunction('g_button_boot_handle_def', handleCode);
 
   // 4. 生成初始化代码（正确使用button_gpio_config_t）
-  const initCode = `const button_config_t ai_btn_cfg = {
+  const initCode = `  const button_config_t ai_btn_cfg = {
     .long_press_time = 1000,
     .short_press_time = 50,
   };
@@ -680,7 +687,7 @@ Arduino.forBlock['esp32ai_button_setup'] = function(block, generator) {
   // 创建设备函数现在能识别
   ESP_ERROR_CHECK(iot_button_new_gpio_device(&ai_btn_cfg, &ai_btn_gpio_cfg, &g_button_boot_handle));`;
 
-  generator.addSetupBegin('ai_trigger_button_init', initCode);
+  generator.addSetup('ai_trigger_button_init', initCode);
   return '';
 };
 
@@ -694,10 +701,10 @@ Arduino.forBlock['esp32ai_button_click'] = function(block, generator) {
     (void)button_handle;  // 忽略未使用的按钮句柄参数
     (void)usr_data;       // 忽略未使用的用户数据参数
     ${handlerCode}        // 用户定义的单击逻辑
-  }`);
+}`);
 
   // 2. 注册事件（使用正确的事件类型和参数顺序）
-  const registerCode = `ESP_ERROR_CHECK(iot_button_register_cb(
+  const registerCode = `  ESP_ERROR_CHECK(iot_button_register_cb(
     g_button_boot_handle,    // 1. 按钮句柄
     BUTTON_SINGLE_CLICK,     // 2. 单击事件（官方枚举值）
     NULL,                    // 3. 无事件参数（传NULL）
@@ -705,7 +712,7 @@ Arduino.forBlock['esp32ai_button_click'] = function(block, generator) {
     NULL                     // 5. 无用户数据（传NULL）
   ));`;
 
-  generator.addSetup('ai_trigger_button_click_reg', registerCode);
+  generator.addSetupEnd('ai_trigger_button_click_reg', registerCode);
   return '';
 };
 
@@ -858,6 +865,302 @@ function findMcpServiceMode(workspace, varName) {
   return 'regular';
 }
 
+//ES8311加入
+if (Blockly.Extensions.isRegistered('aivox3_init_es8311_extension')) {
+  Blockly.Extensions.unregister('aivox3_init_es8311_extension');
+}
+Blockly.Extensions.register('aivox3_init_es8311_extension', function () {
+    // 直接在扩展中添加updateShape_函数
+  this.updateShape_ = function (boardType) {
+        let pins = window['boardConfig'].digitalPins;
+        this.appendDummyInput('')
+        .appendField("初始化ES8311音频编解码器 SDA引脚")
+        
+        .appendField(new Blockly.FieldDropdown(pins), "ES8311_SDA")
+        this.appendDummyInput('')
+        .appendField("SCL引脚")
+        .appendField(new Blockly.FieldDropdown(pins), "ES8311_SCL")
+        this.appendDummyInput('')
+        .appendField("MCLK引脚")
+        .appendField(new Blockly.FieldDropdown(pins), "ES8311_MCLK")   
+        this.appendDummyInput('')
+        .appendField("SCLK引脚")
+        .appendField(new Blockly.FieldDropdown(pins), "ES8311_SCLK")
+        this.appendDummyInput('')
+        .appendField("LRCK引脚")
+        .appendField(new Blockly.FieldDropdown(pins), "ES8311_LRCK")
+        this.appendDummyInput('')
+        .appendField("数据输入引脚")
+        .appendField(new Blockly.FieldDropdown(pins), "ES8311_DSDIN") 
+        this.appendDummyInput('')
+        .appendField("数据输出引脚")
+        .appendField(new Blockly.FieldDropdown(pins), "ES8311_DSDOUT") 
+        this.appendValueInput('ES8311_I2C_ADDRESS')
+        .setCheck('Number')
+        .appendField("ES8311 I2C地址");
+        this.appendValueInput('ES8311_RATE')
+        .setCheck('Number')
+        .appendField("采样率");
+
+    // 延迟创建默认块，避免重复创建
+    setTimeout(() => {
+        this.createDefaultBlocks_();
+    }, 100);
+  };
+
+    // 创建默认字符串块的方法
+    this.createDefaultBlocks_ = function() {
+        // 检查workspace是否存在且已渲染    
+        if (!this.workspace || !this.workspace.rendered) {
+            return;
+        }
+        // 设置默认引脚值
+        const setDefaultPin = (fieldName, defaultValue) => {
+            const field = this.getField(fieldName);
+            if (field) {
+                const options = field.getOptions();
+                if (options.some(option => option[1] === defaultValue)) {
+                    field.setValue(defaultValue);
+                }
+            }
+        };
+
+        setDefaultPin('ES8311_SDA', '41');  // SDA引脚默认值
+        setDefaultPin('ES8311_SCL', '42');  // SCL引脚默认值
+        setDefaultPin('ES8311_MCLK', '46'); // MCLK引脚默认值
+        setDefaultPin('ES8311_SCLK', '39'); // SCLK引脚默认值
+        setDefaultPin('ES8311_LRCK', '2');  // LRCK引脚默认值
+        setDefaultPin('ES8311_DSDIN', '38'); // 数据输入引脚默认值
+        setDefaultPin('ES8311_DSDOUT', '40'); // 数据输出引脚默认值
+
+        const es8311_i2c_address = this.getInput('ES8311_I2C_ADDRESS');
+        if (es8311_i2c_address && !es8311_i2c_address.connection.targetConnection) {
+        try {
+            var i2cAddressBlock = this.workspace.newBlock('math_number');
+            i2cAddressBlock.setFieldValue(0x30, 'NUM');
+            i2cAddressBlock.initSvg();
+            i2cAddressBlock.render();
+            es8311_i2c_address.connection.connect(i2cAddressBlock.outputConnection);
+        } catch (e) {
+            console.warn('Failed to create ES8311 I2C ADDRESS default block:', e);
+            }
+        }
+        const es8311_rate = this.getInput('ES8311_RATE');
+        if (es8311_rate && !es8311_rate.connection.targetConnection) {
+        try {
+            var es8311RateBlock = this.workspace.newBlock('math_number');
+            es8311RateBlock.setFieldValue(16000, 'NUM');
+            es8311RateBlock.initSvg();
+            es8311RateBlock.render();
+            es8311_rate.connection.connect(es8311RateBlock.outputConnection);
+        } catch (e) {
+            console.warn('Failed to create es8311 sample rate default block:', e);
+            }
+        }
+    };
+  this.updateShape_(window['boardConfig'].name);
+});
+Arduino.forBlock['aivox3_init_es8311'] = function(block, generator) {
+    es8311mr = 'true';
+    es8388pd = 'false';
+    const es8311_mclk = block.getFieldValue('ES8311_MCLK');
+    const es8311_sclk = block.getFieldValue('ES8311_SCLK');
+    const es8311_lrck = block.getFieldValue('ES8311_LRCK');
+    const es8311_dsdin = block.getFieldValue('ES8311_DSDIN');
+    const es8311_dsdout = block.getFieldValue('ES8311_DSDOUT');
+    const es8311_scl = block.getFieldValue('ES8311_SCL');
+    const es8311_sda = block.getFieldValue('ES8311_SDA');
+// #include <driver/i2c_master.h>\n#include <esp_lcd_panel_io.h>\n#include <esp_lcd_panel_ops.h>\n#include <esp_lcd_panel_vendor.h>\n
+
+    const es8311_i2c_address = generator.valueToCode(block, 'ES8311_I2C_ADDRESS', generator.ORDER_ATOMIC) || '""';
+    const es8311_rate = generator.valueToCode(block, 'ES8311_RATE', generator.ORDER_ATOMIC) || '""';
+    generator.addLibrary('inclue_aivox3_engine', '#include "ai_vox_engine.h"\n');
+    generator.addLibrary('include_i2c_master', '#include <driver/i2c_master.h>\n');
+    generator.addLibrary('aivox3_es8311_library', '#include "components/espressif/esp_audio_codec/esp_audio_simple_dec.h"\n#include "audio_device/audio_device_es8311.h"\n');
+
+    generator.addVariable('esp32ai_rate',`int esp32ai_rate=${es8311_rate};\n`,true);
+
+    generator.addObject('aivox3_audio_device_es8311', 'i2c_master_bus_handle_t g_i2c_master_bus_handle = nullptr;\nstd::shared_ptr<ai_vox::AudioDeviceEs8311> g_audio_output_device;', true);
+    generator.addObject('aivox3_audio_device_es8311_input', 'std::shared_ptr<ai_vox::AudioDeviceEs8311> g_audio_input_device;', true);
+
+    generator.addObject('aivox3_initI2C', `void InitI2cBus() {
+    const i2c_master_bus_config_t i2c_master_bus_config = {
+        .i2c_port = I2C_NUM_1,
+        .sda_io_num = GPIO_NUM_${es8311_sda},
+        .scl_io_num = GPIO_NUM_${es8311_scl},
+        .clk_source = I2C_CLK_SRC_DEFAULT,
+        .glitch_ignore_cnt = 7,
+        .intr_priority = 0,
+        .trans_queue_depth = 0,
+        .flags =
+            {
+                .enable_internal_pullup = 1,
+                .allow_pd = 0,
+            },
+        };
+        ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_master_bus_config, &g_i2c_master_bus_handle));
+    }`, true);
+    generator.addSetup("aivox3_setup_init_i2c_bus", `    InitI2cBus();\n`);
+    generator.addSetup("aivox3_setup_es8311", `  g_audio_output_device = std::make_shared<ai_vox::AudioDeviceEs8311>(g_i2c_master_bus_handle, ${es8311_i2c_address}, I2C_NUM_1, ${es8311_rate}, GPIO_NUM_${es8311_mclk}, GPIO_NUM_${es8311_sclk}, GPIO_NUM_${es8311_lrck}, GPIO_NUM_${es8311_dsdout}, GPIO_NUM_${es8311_dsdin});`);
+    
+    return '';
+}
+
+//es8388接入
+if (Blockly.Extensions.isRegistered('esp32ai_init_es8388_extension')) {
+  Blockly.Extensions.unregister('esp32ai_init_es8388_extension');
+}
+Blockly.Extensions.register('esp32ai_init_es8388_extension', function () {
+    // 直接在扩展中添加updateShape_函数
+  this.updateShape_ = function (boardType) {
+        let pins = window['boardConfig'].digitalPins;
+        this.appendDummyInput('')
+        .appendField("初始化ES8388音频编解码器 SDA引脚")
+        
+        .appendField(new Blockly.FieldDropdown(pins), "ES8388_SDA")
+        this.appendDummyInput('')
+        .appendField("SCL引脚")
+        .appendField(new Blockly.FieldDropdown(pins), "ES8388_SCL")
+        this.appendDummyInput('')
+        .appendField("MCLK引脚")
+        .appendField(new Blockly.FieldDropdown(pins), "ES8388_MCLK")   
+        this.appendDummyInput('')
+        .appendField("SCLK引脚")
+        .appendField(new Blockly.FieldDropdown(pins), "ES8388_SCLK")
+        this.appendDummyInput('')
+        .appendField("LRCK引脚")
+        .appendField(new Blockly.FieldDropdown(pins), "ES8388_LRCK")
+        this.appendDummyInput('')
+        .appendField("数据输入引脚")
+        .appendField(new Blockly.FieldDropdown(pins), "ES8388_DSDIN") 
+        this.appendDummyInput('')
+        .appendField("数据输出引脚")
+        .appendField(new Blockly.FieldDropdown(pins), "ES8388_DSDOUT") 
+        this.appendValueInput('ES8388_I2C_ADDRESS')
+        .setCheck('Number')
+        .appendField("ES8388 I2C地址");
+        this.appendValueInput('ES8388_RATE')
+        .setCheck('Number')
+        .appendField("采样率");
+
+    // 延迟创建默认块，避免重复创建
+    setTimeout(() => {
+        this.createDefaultBlocks_();
+    }, 100);
+  };
+
+    // 创建默认字符串块的方法
+    this.createDefaultBlocks_ = function() {
+        // 检查workspace是否存在且已渲染    
+        if (!this.workspace || !this.workspace.rendered) {
+            return;
+        }
+        // 设置默认引脚值
+        const setDefaultPin = (fieldName, defaultValue) => {
+            const field = this.getField(fieldName);
+            if (field) {
+                const options = field.getOptions();
+                if (options.some(option => option[1] === defaultValue)) {
+                    field.setValue(defaultValue);
+                }
+            }
+        };
+
+        setDefaultPin('ES8388_SDA', '41');  // SDA引脚默认值
+        setDefaultPin('ES8388_SCL', '42');  // SCL引脚默认值
+        setDefaultPin('ES8388_MCLK', '46'); // MCLK引脚默认值
+        setDefaultPin('ES8388_SCLK', '39'); // SCLK引脚默认值
+        setDefaultPin('ES8388_LRCK', '2');  // LRCK引脚默认值
+        setDefaultPin('ES8388_DSDIN', '38'); // 数据输入引脚默认值
+        setDefaultPin('ES8388_DSDOUT', '40'); // 数据输出引脚默认值
+
+        const es8388_i2c_address = this.getInput('ES8388_I2C_ADDRESS');
+        if (es8388_i2c_address && !es8388_i2c_address.connection.targetConnection) {
+        try {
+            var i2cAddressBlock = this.workspace.newBlock('math_number');
+            i2cAddressBlock.setFieldValue(0x10, 'NUM');
+            i2cAddressBlock.initSvg();
+            i2cAddressBlock.render();
+            es8388_i2c_address.connection.connect(i2cAddressBlock.outputConnection);
+        } catch (e) {
+            console.warn('Failed to create ES8388 I2C ADDRESS default block:', e);
+            }
+        }
+        const es8388_rate = this.getInput('ES8388_RATE');
+        if (es8388_rate && !es8388_rate.connection.targetConnection) {
+        try {
+            var es8388RateBlock = this.workspace.newBlock('math_number');
+            es8388RateBlock.setFieldValue(44100, 'NUM');
+            es8388RateBlock.initSvg();
+            es8388RateBlock.render();
+            es8388_rate.connection.connect(es8388RateBlock.outputConnection);
+        } catch (e) {
+            console.warn('Failed to create es8388 sample rate default block:', e);
+            }
+        }
+    };
+  this.updateShape_(window['boardConfig'].name);
+});
+Arduino.forBlock['esp32ai_init_es8388'] = function(block, generator) {
+    es8311mr = 'false';
+    es8388pd = 'true';
+    const es8388_mclk = block.getFieldValue('ES8388_MCLK');
+    const es8388_sclk = block.getFieldValue('ES8388_SCLK');
+    const es8388_lrck = block.getFieldValue('ES8388_LRCK');
+    const es8388_dsdin = block.getFieldValue('ES8388_DSDIN');
+    const es8388_dsdout = block.getFieldValue('ES8388_DSDOUT');
+    const es8388_scl = block.getFieldValue('ES8388_SCL');
+    const es8388_sda = block.getFieldValue('ES8388_SDA');
+// #include <driver/i2c_master.h>\n#include <esp_lcd_panel_io.h>\n#include <esp_lcd_panel_ops.h>\n#include <esp_lcd_panel_vendor.h>\n
+
+    const es8388_i2c_address = generator.valueToCode(block, 'ES8388_I2C_ADDRESS', generator.ORDER_ATOMIC) || '""';
+    const es8388_rate = generator.valueToCode(block, 'ES8388_RATE', generator.ORDER_ATOMIC) || '""';
+    generator.addLibrary('inclue_aivox3_engine', '#include "ai_vox_engine.h"\n');
+    generator.addLibrary('include_i2c_master', '#include <driver/i2c_master.h>\n');
+    generator.addLibrary('aivox3_es8388_library', '#include "components/espressif/esp_audio_codec/esp_audio_simple_dec.h"\n#include "audio_device/audio_device_es8388.h"\n');
+
+    generator.addVariable('esp32ai_rate',`int esp32ai_rate=${es8388_rate};\n`,true);
+
+    generator.addObject('aivox3_audio_device_es8388', 'i2c_master_bus_handle_t g_i2c_master_bus_handle = nullptr;\nstd::shared_ptr<ai_vox::AudioDeviceEs8388> g_audio_output_device;', true);
+
+    generator.addObject('aivox3_initI2C', `void InitI2cBus() {
+    const i2c_master_bus_config_t i2c_master_bus_config = {
+        .i2c_port = I2C_NUM_1,
+        .sda_io_num = GPIO_NUM_${es8388_sda},
+        .scl_io_num = GPIO_NUM_${es8388_scl},
+        .clk_source = I2C_CLK_SRC_DEFAULT,
+        .glitch_ignore_cnt = 7,
+        .intr_priority = 0,
+        .trans_queue_depth = 0,
+        .flags =
+            {
+                .enable_internal_pullup = 1,
+                .allow_pd = 0,
+            },
+        };
+        ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_master_bus_config, &g_i2c_master_bus_handle));
+    }`, true);
+    generator.addSetup("aivox3_setup_init_i2c_bus", `    InitI2cBus();\n`);
+    generator.addSetup("aivox3_setup_es8388", `  g_audio_output_device = std::make_shared<ai_vox::AudioDeviceEs8388>(
+      g_i2c_master_bus_handle, 
+      ${es8388_i2c_address}, 
+      I2C_NUM_1, 
+      ${es8388_rate}, 
+      GPIO_NUM_${es8388_mclk}, 
+      GPIO_NUM_${es8388_sclk}, 
+      GPIO_NUM_${es8388_lrck}, 
+      GPIO_NUM_${es8388_dsdin},
+      GPIO_NUM_${es8388_dsdout}, 
+      GPIO_NUM_NC,
+      false
+    );
+    g_audio_output_device->OpenInput(${es8388_rate});
+    g_audio_output_device->OpenOutput(${es8388_rate});
+    g_audio_output_device->set_volume(80);\n`);
+    
+    return '';
+}
+
 // 定义 esp32_i2s_mic_setup 块的动态输入扩展
 if (Blockly.Extensions.isRegistered('esp32_i2s_mic_dynamic_inputs')) {
     Blockly.Extensions.unregister('esp32_i2s_mic_dynamic_inputs');
@@ -904,6 +1207,8 @@ Blockly.Extensions.register('esp32_i2s_mic_dynamic_inputs', function() {
 });
 //麦克风
 Arduino.forBlock['esp32_i2s_mic_setup'] = function(block, generator) {
+    es8311mr = 'false';
+    es8388pd = 'false';
     // 提取麦克风类型
     const micType = block.getFieldValue('MIC_TYPE');
 
@@ -954,6 +1259,8 @@ constexpr gpio_num_t kMicPinSd = ${sdPin};   // PDM数据引脚`;
 
 //扬声器
 Arduino.forBlock['esp32ai_i2s_speaker_setup'] = function(block, generator) {
+  es8311mr = 'false';
+  es8388pd = 'false';
   const sckPin = block.getFieldValue('SCK_PIN');
   const wsPin = block.getFieldValue('WS_PIN');
   const sdPin = block.getFieldValue('SD_PIN');
@@ -961,6 +1268,8 @@ Arduino.forBlock['esp32ai_i2s_speaker_setup'] = function(block, generator) {
   // 1. 添加库引用（对应 [库引用 library] 区域）
   generator.addLibrary('include_aivox_engine', '#include "ai_vox_engine.h"');
   generator.addLibrary('audio_output_i2s_lib','#include "audio_device/audio_output_device_i2s_std.h"');
+
+  generator.addVariable('esp32ai_rate','int esp32ai_rate=16000;\n',true);
   
   // 2. 定义引脚常量（对应 [变量 variable] 区域，使用constexpr保持与main.cpp一致）
   const pinDefines = `
@@ -979,14 +1288,13 @@ constexpr gpio_num_t kSpeakerPinSd = GPIO_NUM_${sdPin};  // SD (DIN)
 if (Blockly.Extensions.isRegistered('esp32ai_init_display_dynamic_inputs')) {
     Blockly.Extensions.unregister('esp32ai_init_display_dynamic_inputs');
 }
-
 Blockly.Extensions.register('esp32ai_init_display_dynamic_inputs', function() {
     // 这个函数负责根据选择的显示屏类型更新块的形状
     this.updateShape_ = function(displayType) {
         // 1. 移除所有可能存在的动态引脚输入，防止残留
         const inputNames = [
             'BACKLIGHT_PIN', 'MOSI_PIN', 'CLK_PIN', 'DC_PIN', 'RST_PIN', 'CS_PIN', // ST7789
-            'SCL_PIN', 'SDA_PIN'                                                   // SSD1306
+            'SCL_PIN', 'SDA_PIN', 'set_PIN', 'set_PIN1', 'i2c_settings'           // SSD1306
         ];
         inputNames.forEach(name => {
             if (this.getInput(name)) {
@@ -997,38 +1305,29 @@ Blockly.Extensions.register('esp32ai_init_display_dynamic_inputs', function() {
         // 2. 根据选择的类型，添加对应的引脚输入
         if (displayType === 'ST7789') {
             // 添加 ST7789 (SPI) 所需的引脚
-            this.appendDummyInput('BACKLIGHT_PIN')
-                .appendField('  BackLight 引脚:')
-                .appendField(new Blockly.FieldNumber(2), 'BACKLIGHT_PIN');
-
-            this.appendDummyInput('MOSI_PIN')
-                .appendField('  MOSI/SDA 引脚:')
-                .appendField(new Blockly.FieldNumber(13), 'MOSI_PIN');
-
-            this.appendDummyInput('CLK_PIN')
-                .appendField('  CLK/SCL 引脚:')
+            this.appendDummyInput('set_PIN')
+                .appendField('DC 引脚:')
+                .appendField(new Blockly.FieldNumber(27), 'DC_PIN')
+                .appendField('MOSI/SDA 引脚:')
+                .appendField(new Blockly.FieldNumber(13), 'MOSI_PIN')
+                .appendField('CLK/SCL 引脚:')
                 .appendField(new Blockly.FieldNumber(14), 'CLK_PIN');
 
-            this.appendDummyInput('DC_PIN')
-                .appendField('  DC 引脚:')
-                .appendField(new Blockly.FieldNumber(27), 'DC_PIN');
 
-            this.appendDummyInput('RST_PIN')
-                .appendField('  RST 引脚:')
-                .appendField(new Blockly.FieldNumber(33), 'RST_PIN');
-
-            this.appendDummyInput('CS_PIN')
-                .appendField('  CS 引脚:')
+            this.appendDummyInput('set_PIN1')
+                .appendField('RST 引脚:')
+                .appendField(new Blockly.FieldNumber(33), 'RST_PIN')
+                .appendField('BackLight 引脚:')
+                .appendField(new Blockly.FieldNumber(2), 'BACKLIGHT_PIN')
+                .appendField('CS 引脚:')
                 .appendField(new Blockly.FieldNumber(5), 'CS_PIN');
 
         } else if (displayType === 'SSD1306') {
             // 添加 SSD1306 (I2C) 所需的引脚
-            this.appendDummyInput('SCL_PIN')
-                .appendField('  SCL 引脚:')
-                .appendField(new Blockly.FieldNumber(22), 'SCL_PIN');
-
-            this.appendDummyInput('SDA_PIN')
-                .appendField('  SDA 引脚:')
+            this.appendDummyInput('i2c_settings')
+                .appendField('SCL 引脚:')
+                .appendField(new Blockly.FieldNumber(22), 'SCL_PIN')
+                .appendField('SDA 引脚:')
                 .appendField(new Blockly.FieldNumber(21), 'SDA_PIN');
         }
     };
@@ -1049,6 +1348,7 @@ Blockly.Extensions.register('esp32ai_init_display_dynamic_inputs', function() {
 });
 // 统一的显示屏初始化代码生成器
 Arduino.forBlock['esp32ai_init_display'] = function(block, generator) {
+    generator.addLibrary('include_aivox_engine', '#include "ai_vox_engine.h"');
     const displayType = block.getFieldValue('DISPLAY_TYPE');
     display_type = block.getFieldValue('DISPLAY_TYPE');
     // 根据显示屏类型生成不同的代码
@@ -1058,7 +1358,9 @@ Arduino.forBlock['esp32ai_init_display'] = function(block, generator) {
         const MOSIPin = block.getFieldValue('MOSI_PIN');
         const CLKPin = block.getFieldValue('CLK_PIN');
         const DCPin = block.getFieldValue('DC_PIN');
-        const RSTPin = block.getFieldValue('RST_PIN');
+        const rstPinValue = Number(block.getFieldValue('RST_PIN')) || -1;
+        const RSTPin = rstPinValue < 0 ? 'NC' : rstPinValue;
+        //const RSTPin = block.getFieldValue('RST_PIN');
         const CSPin = block.getFieldValue('CS_PIN');
         
         generator.addLibrary('spi_common_lib','#include <driver/spi_common.h>');
@@ -1066,11 +1368,12 @@ Arduino.forBlock['esp32ai_init_display'] = function(block, generator) {
         generator.addLibrary('esp_lcd_panel_io_lib','#include <esp_lcd_panel_io.h>');
         generator.addLibrary('esp_lcd_panel_ops_lib','#include <esp_lcd_panel_ops.h>');
         generator.addLibrary('esp_lcd_panel_vendor_lib','#include <esp_lcd_panel_vendor.h>');
-        generator.addLibrary('include_aivox_engine', '#include "ai_vox_engine.h"');
-        generator.addLibrary('esp32xzai_display', '#include "display.h"');
+        generator.addLibrary('esp32xzai_display', '#include "kljxgwj/screendisplay/display.h"');
 
         generator.addMacro('Screen_Display_Type_lcd','#define SCREEN_DISPLAY_TYPE_LCD (1)');
         generator.addMacro('Screen_Display_Type_oled','#define SCREEN_DISPLAY_TYPE_OLED (2)');
+        generator.addMacro('nScreen_Display_Type_lcd','#define nSCREEN_DISPLAY_TYPE_LCD (3)');
+        generator.addMacro('nScreen_Display_Type_oled','#define nSCREEN_DISPLAY_TYPE_OLED (4)');
         generator.addMacro('Screen_Display_Type','#define SCREEN_DISPLAY_TYPE SCREEN_DISPLAY_TYPE_LCD');
         
         const pinDefines = `
@@ -1101,11 +1404,12 @@ constexpr auto kDisplayRgbElementOrder = LCD_RGB_ELEMENT_ORDER_RGB;
         generator.addLibrary('esp_lcd_io_i2c_lib','#include <esp_lcd_io_i2c.h>');
         generator.addLibrary('esp_lcd_panel_ops_lib','#include <esp_lcd_panel_ops.h>');
         generator.addLibrary('esp_lcd_panel_ssd1306_lib','#include <esp_lcd_panel_ssd1306.h>');
-        generator.addLibrary('include_aivox_engine', '#include "ai_vox_engine.h"');
-        generator.addLibrary('esp32xzai_display', '#include "displayoled.h"');
+        generator.addLibrary('esp32xzai_display', '#include "kljxgwj/screendisplay/displayoled.h"');
 
         generator.addMacro('Screen_Display_Type_lcd','#define SCREEN_DISPLAY_TYPE_LCD (1)');
         generator.addMacro('Screen_Display_Type_oled','#define SCREEN_DISPLAY_TYPE_OLED (2)');
+        generator.addMacro('nScreen_Display_Type_lcd','#define nSCREEN_DISPLAY_TYPE_LCD (3)');
+        generator.addMacro('nScreen_Display_Type_oled','#define nSCREEN_DISPLAY_TYPE_OLED (4)');
         generator.addMacro('Screen_Display_Type','#define SCREEN_DISPLAY_TYPE SCREEN_DISPLAY_TYPE_OLED');
 
         const pinDefines = `
@@ -1125,11 +1429,812 @@ constexpr bool kDisplayMirrorY = true;
     return '';
 };
 
+// 定义esp32ai_init_nlvgl_display块的动态输入扩展
+if (Blockly.Extensions.isRegistered('esp32ai_init_nlvgl_display_dynamic_inputs')) {
+  Blockly.Extensions.unregister('esp32ai_init_nlvgl_display_dynamic_inputs');
+}
+Blockly.Extensions.register('esp32ai_init_nlvgl_display_dynamic_inputs', function() {
+    // 这个函数负责根据选择的显示屏类型更新块的形状
+    this.updateShape_ = function(displayType) {
+        // 1. 移除所有可能存在的动态引脚输入，防止残留
+        const inputNames = [
+            'BACKLIGHT_PIN', 'MOSI_PIN', 'CLK_PIN', 'DC_PIN', 'RST_PIN', 'CS_PIN', 'set_PIN', 'set_PIN1' // ST7789
+            ,'SCL_PIN', 'SDA_PIN', 'FREQUENCY', 'WIDTH', 'HEIGHT', 'DISPLAY_SETTINGS', 'i2c_settings'    // SSD1306
+            ,'lvgl_port_initxg','TASK_PRIORITY','TASK_STACK','TASK_AFFINITY','TASK_MAX_SLEEP','TIMER_PERIOD' //lvgl port
+            ,'lvgl_port_initbt'
+        ];
+        inputNames.forEach(name => {
+            if (this.getInput(name)) {
+                this.removeInput(name);
+            }
+        });
+
+        // 2. 根据选择的类型，添加对应的引脚输入
+        if (displayType === 'nST7789') {
+            this.appendDummyInput('DISPLAY_SETTINGS')
+                .appendField('宽度: ')
+                .appendField(new Blockly.FieldNumber(240), 'WIDTH')
+                .appendField('            高度: ')
+                .appendField(new Blockly.FieldNumber(240), 'HEIGHT')
+                .appendField('            频率: ')
+                .appendField(new Blockly.FieldDropdown([
+                  ["40MHz", "40000000"],
+                  ["20MHz", "20000000"],
+                  ["27MHz", "27000000"],
+                  ["10MHz", "10000000"],
+                  ["55MHz", "55000000"],
+                  ["80MHz", "80000000"]
+                ]), 'FREQUENCY');
+            // 添加 ST7789 (SPI) 所需的引脚
+            this.appendDummyInput('set_PIN')
+                .appendField('BackLight引脚:')
+                .appendField(new Blockly.FieldNumber(46), 'BACKLIGHT_PIN')
+                .appendField('  MOSI/SDA引脚:')
+                .appendField(new Blockly.FieldNumber(16), 'MOSI_PIN')
+                .appendField('  CLK/SCL引脚:')
+                .appendField(new Blockly.FieldNumber(15), 'CLK_PIN');
+
+            this.appendDummyInput('set_PIN1')
+                .appendField('         DC 引脚: ')
+                .appendField(new Blockly.FieldNumber(8), 'DC_PIN')
+                .appendField('             RST 引脚: ')
+                .appendField(new Blockly.FieldNumber(17), 'RST_PIN')
+                .appendField('          CS 引脚: ')
+                .appendField(new Blockly.FieldNumber(3), 'CS_PIN');
+            //添加lvgl端口
+            this.appendDummyInput('lvgl_port_initbt')
+                .appendField(new Blockly.FieldLabelSerializable('LVGL端口初始化'), 'TITLE')
+            this.appendDummyInput('lvgl_port_initxg')
+                .appendField('优先级:')
+                .appendField(new Blockly.FieldNumber(1,1,10), 'TASK_PRIORITY')
+                .appendField('空间:')
+                .appendField(new Blockly.FieldNumber(7168,1024,32768), 'TASK_STACK')
+                .appendField('核心:')
+                .appendField(new Blockly.FieldDropdown([
+                  ["无", "-1"],
+                  ["核心0", "0"],
+                  ["核心1", "1"]
+                ]), 'TASK_AFFINITY')
+                .appendField('睡眠(ms):')
+                .appendField(new Blockly.FieldNumber(500,0,5000), 'TASK_MAX_SLEEP')
+                .appendField('周期(ms):')
+                .appendField(new Blockly.FieldNumber(50,1,100), 'TIMER_PERIOD')
+
+        } else if (displayType === 'nSSD1306') {
+            this.appendDummyInput('i2c_settings')
+                .appendField('宽度:')
+                .appendField(new Blockly.FieldNumber(128), 'WIDTH')
+                .appendField('高度:')
+                .appendField(new Blockly.FieldNumber(64), 'HEIGHT')
+                .appendField('SCL 引脚:')
+                .appendField(new Blockly.FieldNumber(22), 'SCL_PIN')
+                .appendField('SDA 引脚:')
+                .appendField(new Blockly.FieldNumber(21), 'SDA_PIN');
+            //添加lvgl端口
+            this.appendDummyInput('lvgl_port_initbt')
+                .appendField(new Blockly.FieldLabelSerializable('LVGL端口初始化'), 'TITLE')
+            this.appendDummyInput('lvgl_port_initxg')
+                .appendField('优先级:')
+                .appendField(new Blockly.FieldNumber(1,1,10), 'TASK_PRIORITY')
+                .appendField('空间:')
+                .appendField(new Blockly.FieldNumber(7168,1024,32768), 'TASK_STACK')
+                .appendField('核心:')
+                .appendField(new Blockly.FieldDropdown([
+                  ["无", "-1"],
+                  ["核心0", "0"],
+                  ["核心1", "1"]
+                ]), 'TASK_AFFINITY')
+                .appendField('睡眠(ms):')
+                .appendField(new Blockly.FieldNumber(500,0,5000), 'TASK_MAX_SLEEP')
+                .appendField('周期(ms):')
+                .appendField(new Blockly.FieldNumber(50,1,100), 'TIMER_PERIOD')
+        }
+    };
+
+    // 3. 为 DISPLAY_TYPE 字段添加验证器，当值改变时触发形状更新
+    this.getField('DISPLAY_TYPE').setValidator(function(option) {
+        this.getSourceBlock().updateShape_(option);
+        // 返回选中的值，以更新下拉框的显示
+        return option;
+    });
+
+    // 4. 初始化时，根据默认选中的类型更新块的形状
+    const displayTypeField = this.getField('DISPLAY_TYPE');
+    if (displayTypeField) {
+      const defaultType = displayTypeField.getValue();
+      this.updateShape_(defaultType);
+    }
+});
+// 用外建lvgl时显示屏初始化代码生成器
+Arduino.forBlock['esp32ai_init_nlvgl_display'] = function(block, generator) {
+  generator.addLibrary('include_aivox_engine', '#include "ai_vox_engine.h"');
+  generator.addObject(`chat_message_role`, `std::string chatRole;`, true);
+  const displayType = block.getFieldValue('DISPLAY_TYPE');
+  display_type = 'NONE';
+  let setupCode = '';
+  // 根据显示屏类型生成不同的代码
+  if (displayType === 'nST7789') {
+    // --- ST7789 (SPI) 代码生成 ---
+    const backLightPin = block.getFieldValue('BACKLIGHT_PIN');
+    const MOSIPin = block.getFieldValue('MOSI_PIN');
+    const CLKPin = block.getFieldValue('CLK_PIN');
+    const DCPin = block.getFieldValue('DC_PIN');
+    const rstPinValue = Number(block.getFieldValue('RST_PIN')) || -1;
+    const RSTPin = rstPinValue < 0 ? 'NC' : rstPinValue;
+    const CSPin = block.getFieldValue('CS_PIN');
+    const width = block.getFieldValue('WIDTH') || '240';
+    const height = block.getFieldValue('HEIGHT') || '240';
+    const rotation = block.getFieldValue('ROTATION') || '0';
+    const pFREQUENCY = block.getFieldValue('FREQUENCY');
+
+    const taskPriority = block.getFieldValue('TASK_PRIORITY') || 1;
+    const taskStack = block.getFieldValue('TASK_STACK') || 7168;
+    const taskAffinity = block.getFieldValue('TASK_AFFINITY') || -1;
+    const taskMaxSleep = block.getFieldValue('TASK_MAX_SLEEP') || 500;
+    const timerPeriod = block.getFieldValue('TIMER_PERIOD') || 50;
+    
+    generator.addLibrary('spi_common_lib','#include <driver/spi_common.h>');
+    generator.addLibrary('esp_heap_caps_lib','#include <esp_heap_caps.h>');
+    generator.addLibrary('esp_lcd_panel_io_lib','#include <esp_lcd_panel_io.h>');
+    generator.addLibrary('esp_lcd_panel_ops_lib','#include <esp_lcd_panel_ops.h>');
+    generator.addLibrary('esp_lcd_panel_vendor_lib','#include <esp_lcd_panel_vendor.h>');
+    generator.addLibrary('map_lib','#include <map>');
+    generator.addLibrary('vector_lib','#include <vector>');
+    generator.addLibrary('algorithm_lib','#include <algorithm>');
+
+    generator.addLibrary('esp_lvgl_port_lib','#include "kljxgwj/lvgldj/esp_lvgl_port.h"');
+    //generator.addLibrary('font_awesome_symbols','#include "kljxgwj/lvgldj/font_awesome_symbols.h"');
+    //generator.addLibrary('font_emoji','#include "kljxgwj/lvgldj/font_emoji.h"');
+
+    generator.addMacro('Screen_Display_Type_lcd','#define SCREEN_DISPLAY_TYPE_LCD (1)');
+    generator.addMacro('Screen_Display_Type_oled','#define SCREEN_DISPLAY_TYPE_OLED (2)');
+    generator.addMacro('nScreen_Display_Type_lcd','#define nSCREEN_DISPLAY_TYPE_LCD (3)');
+    generator.addMacro('nScreen_Display_Type_oled','#define nSCREEN_DISPLAY_TYPE_OLED (4)');
+    generator.addMacro('Screen_Display_Type','#define SCREEN_DISPLAY_TYPE nSCREEN_DISPLAY_TYPE_LCD');
+
+    generator.addVariable('esp32ai_custom_g_display','static lv_display_t* g_display = nullptr;');
+    
+    const pinDefines = `
+constexpr gpio_num_t kDisplayBacklightPin = GPIO_NUM_${backLightPin};
+constexpr gpio_num_t kDisplayMosiPin = GPIO_NUM_${MOSIPin};
+constexpr gpio_num_t kDisplayClkPin = GPIO_NUM_${CLKPin};
+constexpr gpio_num_t kDisplayDcPin = GPIO_NUM_${DCPin};
+constexpr gpio_num_t kDisplayRstPin = GPIO_NUM_${RSTPin};
+constexpr gpio_num_t kDisplayCsPin = GPIO_NUM_${CSPin};
+
+constexpr auto kDisplaySpiMode = 0;
+constexpr uint32_t kDisplayWidth = ${width};
+constexpr uint32_t kDisplayHeight = ${height};
+constexpr uint32_t kDisplayPclkHz = ${pFREQUENCY};
+constexpr uint8_t kDisplayRotateDeg = ${rotation};
+constexpr bool kDisplayMirrorX = (kDisplayRotateDeg == 90 || kDisplayRotateDeg == 180);
+constexpr bool kDisplayMirrorY = (kDisplayRotateDeg == 180 || kDisplayRotateDeg == 270);
+constexpr bool kDisplayInvertColor = true;
+constexpr bool kDisplaySwapXY = (kDisplayRotateDeg == 90 || kDisplayRotateDeg == 270);
+constexpr auto kDisplayRgbElementOrder = LCD_RGB_ELEMENT_ORDER_RGB;
+`;
+    generator.addVariable('lcdPin_defines', pinDefines.trim());
+
+    generator.addFunction('esp32ai_custom_DisplayInit',`
+void DisplayInit(esp_lcd_panel_io_handle_t panel_io,
+                 esp_lcd_panel_handle_t panel,
+                 int width,
+                 int height,
+                 int offset_x,
+                 int offset_y,
+                 bool mirror_x,
+                 bool mirror_y,
+                 bool swap_xy) {
+    // 绘制白色背景
+    std::vector<uint16_t> buffer(width, 0xFFFF);
+    for (int y = 0; y < height; y++) {
+        esp_lcd_panel_draw_bitmap(panel, 0, y, width, y + 1, buffer.data());
+    }
+
+    ESP_ERROR_CHECK(esp_lcd_panel_disp_on_off(panel, true));
+    lv_init();
+
+    lvgl_port_cfg_t port_cfg = ESP_LVGL_PORT_INIT_CONFIG();
+    port_cfg.task_priority = ${taskPriority};
+    port_cfg.task_stack = ${taskStack};
+    port_cfg.task_affinity = ${taskAffinity};
+    port_cfg.task_max_sleep_ms = ${taskMaxSleep};
+    port_cfg.timer_period_ms = ${timerPeriod};
+    lvgl_port_init(&port_cfg);
+
+    const lvgl_port_display_cfg_t display_cfg = {
+        .io_handle = panel_io,
+        .panel_handle = panel,
+        .control_handle = nullptr,
+        .buffer_size = static_cast<uint32_t>(width * 10),
+        .double_buffer = false,
+        .trans_size = 0,
+        .hres = static_cast<uint32_t>((swap_xy) ? height : width),
+        .vres = static_cast<uint32_t>((swap_xy) ? width : height),
+        .monochrome = false,
+        .rotation =
+            {
+                .swap_xy = swap_xy,
+                .mirror_x = mirror_x,
+                .mirror_y = mirror_y,
+            },
+        .color_format = LV_COLOR_FORMAT_RGB565,
+        .flags =
+            {
+                .buff_dma = 1,
+                .buff_spiram = 0,
+                .sw_rotate = 0,
+                .swap_bytes = 1,
+                .full_refresh = 0,
+                .direct_mode = 0,
+            },
+    };
+
+    g_display = lvgl_port_add_disp(&display_cfg);
+
+    assert(g_display != nullptr);
+    if (g_display == nullptr) {
+        abort();
+        return;
+    }
+
+    if (offset_x != 0 || offset_y != 0) {
+        lv_display_set_offset(g_display, offset_x, offset_y);
+    }
+}
+    `);
+
+    generator.addFunction('esp32ai_custom_InitDisplay',`
+void InitDisplay() {
+  printf("init display\\n");
+  pinMode(kDisplayBacklightPin, OUTPUT);
+  analogWrite(kDisplayBacklightPin, 255);
+
+  spi_bus_config_t buscfg{
+      .mosi_io_num = kDisplayMosiPin,
+      .miso_io_num = GPIO_NUM_NC,
+      .sclk_io_num = kDisplayClkPin,
+      .quadwp_io_num = GPIO_NUM_NC,
+      .quadhd_io_num = GPIO_NUM_NC,
+      .data4_io_num = GPIO_NUM_NC,
+      .data5_io_num = GPIO_NUM_NC,
+      .data6_io_num = GPIO_NUM_NC,
+      .data7_io_num = GPIO_NUM_NC,
+      .data_io_default_level = false,
+      .max_transfer_sz = kDisplayWidth * kDisplayHeight * sizeof(uint16_t),
+      .flags = 0,
+      .isr_cpu_id = ESP_INTR_CPU_AFFINITY_AUTO,
+      .intr_flags = 0,
+  };
+  ESP_ERROR_CHECK(spi_bus_initialize(SPI3_HOST, &buscfg, SPI_DMA_CH_AUTO));
+  
+  esp_lcd_panel_io_handle_t panel_io = nullptr;
+  esp_lcd_panel_handle_t panel = nullptr;
+
+  esp_lcd_panel_io_spi_config_t io_config = {};
+  io_config.cs_gpio_num = kDisplayCsPin;
+  io_config.dc_gpio_num = kDisplayDcPin;
+  io_config.spi_mode = kDisplaySpiMode;
+  io_config.pclk_hz = kDisplayPclkHz;
+  io_config.trans_queue_depth = 10;
+  io_config.lcd_cmd_bits = 8;
+  io_config.lcd_param_bits = 8;
+  ESP_ERROR_CHECK(esp_lcd_new_panel_io_spi(SPI3_HOST, &io_config, &panel_io));
+
+  esp_lcd_panel_dev_config_t panel_config = {};
+  panel_config.reset_gpio_num = kDisplayRstPin;
+  panel_config.rgb_ele_order = kDisplayRgbElementOrder;
+  panel_config.bits_per_pixel = 16;
+  ESP_ERROR_CHECK(esp_lcd_new_panel_st7789(panel_io, &panel_config, &panel));
+
+  esp_lcd_panel_reset(panel);
+
+  esp_lcd_panel_init(panel);
+  esp_lcd_panel_invert_color(panel, kDisplayInvertColor);
+  esp_lcd_panel_swap_xy(panel, kDisplaySwapXY);
+  esp_lcd_panel_mirror(panel, kDisplayMirrorX, kDisplayMirrorY);
+
+  DisplayInit(panel_io, panel, kDisplayWidth, kDisplayHeight, 0, 0, kDisplayMirrorX, kDisplayMirrorY, kDisplaySwapXY);
+}
+    `);
+    generator.addSetup('esp32ai_custom_InitDisplay_setup',' InitDisplay();\n');
+  } else if (displayType === 'nSSD1306') {
+    // --- SSD1306 (I2C) 代码生成 ---
+    const sclPin = block.getFieldValue('SCL_PIN');
+    const sdaPin = block.getFieldValue('SDA_PIN');
+    const pWIDTH = block.getFieldValue('WIDTH') || '128';  // 默认128x64
+    const pHEIGHT = block.getFieldValue('HEIGHT') || '64';
+    const rotation = block.getFieldValue('ROTATION') || '0';  // 旋转角度
+
+    const taskPriority = block.getFieldValue('TASK_PRIORITY') || 1;
+    const taskStack = block.getFieldValue('TASK_STACK') || 7168;
+    const taskAffinity = block.getFieldValue('TASK_AFFINITY') || -1;
+    const taskMaxSleep = block.getFieldValue('TASK_MAX_SLEEP') || 500;
+    const timerPeriod = block.getFieldValue('TIMER_PERIOD') || 50;
+      
+    generator.addLibrary('i2c_master_lib','#include <driver/i2c_master.h>');
+    generator.addLibrary('esp_lcd_io_i2c_lib','#include <esp_lcd_io_i2c.h>');
+    generator.addLibrary('esp_lcd_panel_ops_lib','#include <esp_lcd_panel_ops.h>');
+    generator.addLibrary('esp_lcd_panel_ssd1306_lib','#include <esp_lcd_panel_ssd1306.h>');
+    generator.addLibrary('map_lib','#include <map>');
+    generator.addLibrary('vector_lib','#include <vector>');
+    generator.addLibrary('algorithm_lib','#include <algorithm>');
+    generator.addLibrary('esp_lvgl_port_lib','#include "kljxgwj/lvgldj/esp_lvgl_port.h"');
+
+    generator.addMacro('Screen_Display_Type_lcd','#define SCREEN_DISPLAY_TYPE_LCD (1)');
+    generator.addMacro('Screen_Display_Type_oled','#define SCREEN_DISPLAY_TYPE_OLED (2)');
+    generator.addMacro('nScreen_Display_Type_lcd','#define nSCREEN_DISPLAY_TYPE_LCD (3)');
+    generator.addMacro('nScreen_Display_Type_oled','#define nSCREEN_DISPLAY_TYPE_OLED (4)');
+    generator.addMacro('Screen_Display_Type','#define SCREEN_DISPLAY_TYPE nSCREEN_DISPLAY_TYPE_OLED');
+
+    generator.addVariable('esp32ai_custom_g_display','static lv_display_t* g_display = nullptr;');
+
+    const pinDefines = `
+constexpr gpio_num_t kI2cPinSda = GPIO_NUM_${sdaPin};
+constexpr gpio_num_t kI2cPinScl = GPIO_NUM_${sclPin};
+
+constexpr uint32_t kDisplayWidth = ${pWIDTH};
+constexpr uint32_t kDisplayHeight = ${pHEIGHT};
+constexpr uint8_t kDisplayRotateDeg = ${rotation};
+constexpr bool kDisplayMirrorX = (kDisplayRotateDeg == 90 || kDisplayRotateDeg == 180);
+constexpr bool kDisplayMirrorY = (kDisplayRotateDeg == 180 || kDisplayRotateDeg == 270);
+constexpr bool kDisplaySwapXY = (kDisplayRotateDeg == 90 || kDisplayRotateDeg == 270);
+constexpr uint32_t kI2cClockHz = 400 * 1000;  // I2C时钟频率400KHz
+`;
+      generator.addVariable('lcdPin_defines', pinDefines.trim());
+
+      generator.addFunction('esp32ai_custom_DisplayInit',`
+void DisplayInit(esp_lcd_panel_io_handle_t panel_io,
+                 esp_lcd_panel_handle_t panel,
+                 int width,
+                 int height,
+                 bool mirror_x,
+                 bool mirror_y,
+                 bool swap_xy) {
+    lvgl_port_cfg_t port_cfg = ESP_LVGL_PORT_INIT_CONFIG();
+    port_cfg.task_priority = ${taskPriority};
+    port_cfg.task_stack = ${taskStack};
+    port_cfg.task_affinity = ${taskAffinity};
+    port_cfg.task_max_sleep_ms = ${taskMaxSleep};
+    port_cfg.timer_period_ms = ${timerPeriod};
+    lvgl_port_init(&port_cfg);
+
+    const lvgl_port_display_cfg_t display_cfg = {
+        .io_handle = panel_io,
+        .panel_handle = panel,
+        .control_handle = nullptr,
+        .buffer_size = static_cast<uint32_t>(width * height),
+        .double_buffer = false,
+        .trans_size = 0,
+        .hres = static_cast<uint32_t>((swap_xy) ? height : width),
+        .vres = static_cast<uint32_t>((swap_xy) ? width : height),
+        .monochrome = true,
+        .rotation =
+            {
+                .swap_xy = swap_xy,
+                .mirror_x = mirror_x,
+                .mirror_y = mirror_y,
+            },
+        .color_format = LV_COLOR_FORMAT_UNKNOWN,
+        .flags =
+            {
+                .buff_dma = 1,
+                .buff_spiram = 0,
+                .sw_rotate = 0,
+                .swap_bytes = 0,
+                .full_refresh = 0,
+                .direct_mode = 0,
+            },
+    };
+
+    g_display = lvgl_port_add_disp(&display_cfg);
+}
+    `);
+
+    generator.addFunction('esp32ai_custom_InitDisplay',`
+void InitDisplay() {
+  printf("init display\\n");
+  i2c_master_bus_handle_t display_i2c_bus;
+  i2c_master_bus_config_t bus_config = {
+      .i2c_port = I2C_NUM_0,
+      .sda_io_num = kI2cPinSda,
+      .scl_io_num = kI2cPinScl,
+      .clk_source = I2C_CLK_SRC_DEFAULT,
+      .glitch_ignore_cnt = 7,
+      .intr_priority = 0,
+      .trans_queue_depth = 0,
+      .flags =
+          {
+              .enable_internal_pullup = 1,
+              .allow_pd = false,
+          },
+  };
+  ESP_ERROR_CHECK(i2c_new_master_bus(&bus_config, &display_i2c_bus));
+  
+  esp_lcd_panel_io_handle_t panel_io = nullptr;
+  esp_lcd_panel_io_i2c_config_t io_config = {
+      .dev_addr = 0x3C,
+      .on_color_trans_done = nullptr,
+      .user_ctx = nullptr,
+      .control_phase_bytes = 1,
+      .dc_bit_offset = 6,
+      .lcd_cmd_bits = 8,
+      .lcd_param_bits = 8,
+      .flags =
+          {
+              .dc_low_on_data = 0,
+              .disable_control_phase = 0,
+          },
+      .scl_speed_hz = 400 * 1000,
+  };
+  ESP_ERROR_CHECK(esp_lcd_new_panel_io_i2c_v2(display_i2c_bus, &io_config, &panel_io));
+
+  esp_lcd_panel_handle_t panel = nullptr;
+  esp_lcd_panel_dev_config_t panel_config = {};
+  panel_config.reset_gpio_num = -1;
+  panel_config.bits_per_pixel = 1;
+
+  esp_lcd_panel_ssd1306_config_t ssd1306_config = {
+      .height = static_cast<uint8_t>(kDisplayHeight),
+  };
+  panel_config.vendor_config = &ssd1306_config;
+
+  ESP_ERROR_CHECK(esp_lcd_new_panel_ssd1306(panel_io, &panel_config, &panel));
+  ESP_ERROR_CHECK(esp_lcd_panel_reset(panel));
+  ESP_ERROR_CHECK(esp_lcd_panel_init(panel));
+  ESP_ERROR_CHECK(esp_lcd_panel_disp_on_off(panel, true));
+
+  DisplayInit(panel_io, panel, kDisplayWidth, kDisplayHeight, kDisplayMirrorX, kDisplayMirrorY, kDisplaySwapXY);
+}
+    `);
+
+    generator.addSetup('esp32ai_custom_InitDisplay_setup',' InitDisplay();\n');
+  }
+  
+  return '';
+};
+
+//设置小智显示字体
+Arduino.forBlock['esp32ai_lvgl_obj_set_style_text_font'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const xzfont = block.getFieldValue('FONT');
+  
+  const bstr = ['font_emoji_32_init()', 'font_emoji_64_init()'];
+
+  if (bstr.includes(xzfont)) {
+    generator.addLibrary('font_emoji','#include "kljxgwj/lvgldj/font_emoji.h"');
+    return `lv_obj_set_style_text_font(${varName}, ${xzfont}, 0);\n`;
+  } else {
+    generator.addLibrary('font_awesome_symbols','#include "kljxgwj/lvgldj/font_awesome_symbols.h"');
+    generator.addLibrary(xzfont, 'LV_FONT_DECLARE(' + xzfont + ');');
+    return `lv_obj_set_style_text_font(${varName}, &${xzfont}, 0);\n`;
+  }
+};
+
+//返回图片字体
+const EMOTION_ICON_MAP = {
+  "EMOJI": [
+    ["中性", "FONT_AWESOME_EMOJI_NEUTRAL"],
+    ["高兴", "FONT_AWESOME_EMOJI_HAPPY"],
+    ["大笑", "FONT_AWESOME_EMOJI_LAUGHING"],
+    ["搞笑", "FONT_AWESOME_EMOJI_FUNNY"],
+    ["难过", "FONT_AWESOME_EMOJI_SAD"],
+    ["生气", "FONT_AWESOME_EMOJI_ANGRY"],
+    ["哭泣", "FONT_AWESOME_EMOJI_CRYING"],
+    ["爱心", "FONT_AWESOME_EMOJI_LOVING"],
+    ["尴尬", "FONT_AWESOME_EMOJI_EMBARRASSED"],
+    ["惊讶", "FONT_AWESOME_EMOJI_SURPRISED"],
+    ["震惊", "FONT_AWESOME_EMOJI_SHOCKED"],
+    ["思考", "FONT_AWESOME_EMOJI_THINKING"],
+    ["眨眼", "FONT_AWESOME_EMOJI_WINKING"],
+    ["酷炫", "FONT_AWESOME_EMOJI_COOL"],
+    ["放松", "FONT_AWESOME_EMOJI_RELAXED"],
+    ["美味", "FONT_AWESOME_EMOJI_DELICIOUS"],
+    ["亲亲", "FONT_AWESOME_EMOJI_KISSY"],
+    ["自信", "FONT_AWESOME_EMOJI_CONFIDENT"],
+    ["困倦", "FONT_AWESOME_EMOJI_SLEEPY"],
+    ["傻气", "FONT_AWESOME_EMOJI_SILLY"],
+    ["困惑", "FONT_AWESOME_EMOJI_CONFUSED"]
+  ],
+  "BATTERY": [
+    ["电池满格", "FONT_AWESOME_BATTERY_FULL"],
+    ["电池75%", "FONT_AWESOME_BATTERY_3"],
+    ["电池50%", "FONT_AWESOME_BATTERY_2"],
+    ["电池25%", "FONT_AWESOME_BATTERY_1"],
+    ["电池空", "FONT_AWESOME_BATTERY_EMPTY"],
+    ["电池无电", "FONT_AWESOME_BATTERY_SLASH"],
+    ["电池充电中", "FONT_AWESOME_BATTERY_CHARGING"]
+  ],
+  "WIFI": [
+    ["WiFi满格", "FONT_AWESOME_WIFI"],
+    ["WiFi信号一般", "FONT_AWESOME_WIFI_FAIR"],
+    ["WiFi信号弱", "FONT_AWESOME_WIFI_WEAK"],
+    ["WiFi关闭", "FONT_AWESOME_WIFI_OFF"]
+  ],
+  "SIGNAL": [
+    ["信号满格", "FONT_AWESOME_SIGNAL_FULL"],
+    ["信号4格", "FONT_AWESOME_SIGNAL_4"],
+    ["信号3格", "FONT_AWESOME_SIGNAL_3"],
+    ["信号2格", "FONT_AWESOME_SIGNAL_2"],
+    ["信号1格", "FONT_AWESOME_SIGNAL_1"],
+    ["信号关闭", "FONT_AWESOME_SIGNAL_OFF"]
+  ],
+  "VOLUME": [
+    ["音量最大", "FONT_AWESOME_VOLUME_HIGH"],
+    ["音量中等", "FONT_AWESOME_VOLUME_MEDIUM"],
+    ["音量最小", "FONT_AWESOME_VOLUME_LOW"],
+    ["静音", "FONT_AWESOME_VOLUME_MUTE"]
+  ],
+  "MEDIA": [
+    ["音乐", "FONT_AWESOME_MUSIC"],
+    ["播放", "FONT_AWESOME_PLAY"],
+    ["暂停", "FONT_AWESOME_PAUSE"],
+    ["停止", "FONT_AWESOME_STOP"],
+    ["上一曲", "FONT_AWESOME_PREV"],
+    ["下一曲", "FONT_AWESOME_NEXT"]
+  ],
+  "ARROW": [
+    ["左箭头", "FONT_AWESOME_MICARROW_LEFT"],
+    ["右箭头", "FONT_AWESOME_ARROW_RIGHT"],
+    ["上箭头", "FONT_AWESOME_ARROW_UP"],
+    ["下箭头", "FONT_AWESOME_ARROW_DOWN"]
+  ],
+  "FUNCTION": [
+    ["对勾", "FONT_AWESOME_CHECK"],
+    ["叉号", "FONT_AWESOME_XMARK"],
+    ["电源", "FONT_AWESOME_POWER"],
+    ["设置", "FONT_AWESOME_GEAR"],
+    ["删除", "FONT_AWESOME_TRASH"],
+    ["主页", "FONT_AWESOME_HOME"],
+    ["图片", "FONT_AWESOME_IMAGE"],
+    ["编辑", "FONT_AWESOME_EDIT"],
+    ["警告", "FONT_AWESOME_WARNING"],
+    ["铃铛", "FONT_AWESOME_BELL"],
+    ["位置", "FONT_AWESOME_LOCATION"],
+    ["地球", "FONT_AWESOME_GLOBE"],
+    ["定位箭头", "FONT_AWESOME_LOCATION_ARROW"],
+    ["SD卡", "FONT_AWESOME_SD_CARD"],
+    ["蓝牙", "FONT_AWESOME_BLUETOOTH"],
+    ["评论", "FONT_AWESOME_COMMENT"],
+    ["AI芯片", "FONT_AWESOME_AI_CHIP"],
+    ["用户", "FONT_AWESOME_USER"],
+    ["机器人用户", "FONT_AWESOME_USER_ROBOT"],
+    ["下载", "FONT_AWESOME_DOWNLOAD"]
+  ]
+};
+if (Blockly.Extensions.isRegistered('esp32ai_emotion_category_link_extension')) {
+  Blockly.Extensions.unregister('esp32ai_emotion_category_link_extension');
+}
+Blockly.Extensions.register('esp32ai_emotion_category_link_extension', function() {
+  const block = this;
+  
+  // 这个函数负责根据选择的分类更新图标下拉框
+  this.updateIconOptions_ = function(categoryValue) {
+    // 移除现有的图标输入（如果存在）
+    if (block.getInput('ICON_INPUT')) {
+      block.removeInput('ICON_INPUT');
+    }
+    
+    // 获取对应分类的选项
+    const targetOptions = EMOTION_ICON_MAP[categoryValue] || EMOTION_ICON_MAP["EMOJI"];
+    const iconOptions = targetOptions.map(item => [item[0], item[1]]);
+    
+    // 创建新的图标下拉框字段
+    const iconField = new Blockly.FieldDropdown(iconOptions, function(newValue) {
+      return newValue;
+    });
+    
+    // 创建图标输入并添加字段
+    const iconInput = block.appendDummyInput('ICON_INPUT')
+      .appendField('图标：')
+      .appendField(iconField, 'ICON');
+    
+    // 设置默认值
+    if (iconOptions.length > 0) {
+      iconField.setValue(iconOptions[0][1]);
+    }
+  };
+
+  // 为 CATEGORY 字段添加验证器，当值改变时更新图标选项
+  const categoryField = block.getField('CATEGORY');
+  if (categoryField) {
+    categoryField.setValidator(function(newValue) {
+      block.updateIconOptions_(newValue);
+      return newValue;
+    });
+    
+    // 初始化时，根据默认选中的分类创建图标下拉框
+    const defaultCategory = categoryField.getValue() || "EMOJI";
+    this.updateIconOptions_(defaultCategory);
+  }
+});
+Arduino.forBlock['esp32ai_emotion_select'] = function(block, generator) {
+  // 获取选中的字体宏
+  const iconField = block.getField('ICON');
+  if (!iconField) {
+    // 如果没有图标字段，使用默认分类的第一个选项
+    const categoryValue = block.getFieldValue('CATEGORY') || 'EMOJI';
+    const options = EMOTION_ICON_MAP[categoryValue] || EMOTION_ICON_MAP["EMOJI"];
+    return [options[0][1], 0];
+  }
+  
+  const iconMacro = iconField.getValue();
+  if (!iconMacro) {
+    // 宏值为空，返回分类的第一个选项
+    const categoryValue = block.getFieldValue('CATEGORY') || 'EMOJI';
+    const options = EMOTION_ICON_MAP[categoryValue] || EMOTION_ICON_MAP["EMOJI"];
+    return [options[0][1], 0];
+  }
+
+  // 返回选中的字体宏
+  return [iconMacro, 0];
+};
+
+//设置lvgl标签图标文本
+Arduino.forBlock['lvgl_label_set_text_emotion'] = function(block, generator) {
+  generator.addLibrary('lvgl_label_emotion_lib_cstring', '#include <cstring>');
+
+  generator.addVariable('lvgl_label_emotion_emotion_map',`
+// 全局表情映射常量（键：表情码，值：Font Awesome表情常量）
+const struct {
+  const char* key;          // 情绪字符串标识
+  const char* emoji_const;  // 对应的Font Awesome表情常量
+} EMOTION_MAP[] = {
+  {"neutral", FONT_AWESOME_EMOJI_NEUTRAL},
+  {"happy", FONT_AWESOME_EMOJI_HAPPY},
+  {"laughing", FONT_AWESOME_EMOJI_LAUGHING},
+  {"funny", FONT_AWESOME_EMOJI_FUNNY},
+  {"sad", FONT_AWESOME_EMOJI_SAD},
+  {"angry", FONT_AWESOME_EMOJI_ANGRY},
+  {"crying", FONT_AWESOME_EMOJI_CRYING},
+  {"loving", FONT_AWESOME_EMOJI_LOVING},
+  {"embarrassed", FONT_AWESOME_EMOJI_EMBARRASSED},
+  {"surprised", FONT_AWESOME_EMOJI_SURPRISED},
+  {"shocked", FONT_AWESOME_EMOJI_SHOCKED},
+  {"thinking", FONT_AWESOME_EMOJI_THINKING},
+  {"winking", FONT_AWESOME_EMOJI_WINKING},
+  {"cool", FONT_AWESOME_EMOJI_COOL},
+  {"relaxed", FONT_AWESOME_EMOJI_RELAXED},
+  {"delicious", FONT_AWESOME_EMOJI_DELICIOUS},
+  {"kissy", FONT_AWESOME_EMOJI_KISSY},
+  {"confident", FONT_AWESOME_EMOJI_CONFIDENT},
+  {"sleepy", FONT_AWESOME_EMOJI_SLEEPY},
+  {"silly", FONT_AWESOME_EMOJI_SILLY},
+  {"confused", FONT_AWESOME_EMOJI_CONFUSED}
+};
+const int EMOTION_MAP_COUNT = sizeof(EMOTION_MAP)/sizeof(EMOTION_MAP[0]);`
+  );
+
+  // 3. 添加表情查找函数（放到[函数 function]区）
+  generator.addFunction('lvgl_label_emotion_get_icon',
+  `/**
+* 根据情绪码查找对应的Font Awesome表情常量
+* @param emotion 情绪码字符串（如"happy"）
+* @return 对应的表情常量，无匹配/空指针返回中性表情
+*/
+const char* get_ztemotion_icon(const char* emotion) {
+  // 空指针保护
+  if (emotion == NULL) return FONT_AWESOME_EMOJI_NEUTRAL;
+  
+  // 遍历映射表查找匹配项
+  for (int i = 0; i < EMOTION_MAP_COUNT; i++) {
+    if (strcmp(emotion, EMOTION_MAP[i].key) == 0) {
+      return EMOTION_MAP[i].emoji_const;
+    }
+  }
+  
+  // 无匹配返回默认中性表情
+  return FONT_AWESOME_EMOJI_NEUTRAL;
+}`
+  );
+
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'label';
+  const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
+
+  let textCode = text; // 默认使用原始文本值
+  const target = block.getInputTargetBlock('TEXT'); // 获取TEXT输入连接的块
+
+  // 直接判断：如果连接的是情绪块，就调用get_ztemotion_icon
+  if (target) { // 先判断target存在
+    const emotionBlockTypes = ['get_aivox_emotion_result', 'aivox_emotion_list'];
+    if (emotionBlockTypes.includes(target.type)) { // 直接判断是否是情绪块
+      // 情绪块：调用查找函数，空值默认"neutral"
+      const emotionCode = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '"neutral"';
+      textCode = `get_ztemotion_icon(${emotionCode})`; // 生成函数调用代码
+    }
+    // 非情绪块：保持textCode = text（原始值）
+  }
+
+  ensureLvglLib(generator);
+
+  return 'lv_label_set_text(' + varName + ', ' + textCode + ');\n';
+};
+
+//设置lvgl标签小智图标表情
+Arduino.forBlock['lvgl_label_set_text_cpemotion'] = function(block, generator) {
+  generator.addLibrary('lvgl_label_cpemotion_lib_cstring', '#include <cstring>');
+
+  // 2. 定义全局表情映射常量（放到[变量 variable]区，作为全局常量）
+  generator.addVariable('lvgl_label_cpemotion_emotion_map',`
+// 全局表情映射常量（键：表情码，值：表情图标）
+const char* EMOTION_KEYS[] = {
+  "neutral", "happy", "laughing", "funny", "sad", "angry", "crying", "loving",
+  "embarrassed", "surprised", "shocked", "thinking", "winking", "cool", "relaxed",
+  "delicious", "kissy", "confident", "sleepy", "silly", "confused"
+};
+const char* EMOTION_ICONS[] = {
+  "😶", "🙂", "😆", "😂", "😔", "😠", "😭", "😍",
+  "😳", "😯", "😱", "🤤", "😉", "😎", "😌",
+  "🤤", "😘", "😏", "😴", "😜", "🙄"
+};
+const int EMOTION_COUNT = sizeof(EMOTION_KEYS)/sizeof(EMOTION_KEYS[0]);`
+  );
+
+  // 3. 添加表情查找函数（放到[函数 function]区，避免全局函数）
+  generator.addFunction('lvgl_label_cpemotion_get_icon',
+  `/**
+* 根据表情码查找对应的表情图标
+* @param emotion 表情码字符串（如"happy"）
+* @return 对应的表情图标字符串，无匹配返回默认表情😶
+*/
+const char* get_emotion_icon(const char* emotion) {
+  // 空指针保护：同步改为返回默认表情（可选，建议统一）
+  if (emotion == NULL) return "😶";
+  // 遍历全局表情映射表查找匹配项
+  for (int i = 0; i < EMOTION_COUNT; i++) {
+    if (strcmp(emotion, EMOTION_KEYS[i]) == 0) {
+      return EMOTION_ICONS[i];
+    }
+  }
+  // 无匹配返回默认表情😶 ← 核心修改行
+  return "😶";
+}`
+  );
+
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'label';
+  // 5. 处理文本输入逻辑
+  let textCode = '""'; // 默认空字符串
+  const textInput = block.getInput('TEXT');
+  
+  if (textInput) {
+    // 统一获取输入值（无论是什么块），为空则赋值"unknown"（避免传空指针）
+    const emotionCode = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '"unknown"';
+    // 无论输入是啥，都走表情查找逻辑（找不到自动返回默认😶）
+    textCode = `get_emotion_icon(${emotionCode})`;
+  }
+
+  // 6. 生成最终的LVGL设置标签文本代码
+  return `lv_label_set_text(${varName}, ${textCode});\n`;
+};
+
+//获取lvgl锁
+Arduino.forBlock['lvgl_port_lock'] = function(block, generator) {
+  const timeoutMs = block.getFieldValue('TIMEOUT_MS') || 1000;
+  
+  //generator.addLibrary('LVGL', '#include <lvgl.h>');
+  generator.addLibrary('esp_lvgl_port_lib','#include "kljxgwj/lvgldj/esp_lvgl_port.h"')
+  
+  return ['lvgl_port_lock(' + timeoutMs + ')', generator.ORDER_ATOMIC];
+};
+//释放lvgl锁
+Arduino.forBlock['lvgl_port_unlock'] = function(block, generator) {
+  //generator.addLibrary('LVGL', '#include <lvgl.h>');
+  generator.addLibrary('esp_lvgl_port_lib','#include "kljxgwj/lvgldj/esp_lvgl_port.h"')
+  
+  return 'lvgl_port_unlock();\n';
+};
+
 // AI 引擎启动
 Arduino.forBlock['esp32ai_start_engine'] = function(block, generator) {
+  generator.addObject(`chat_message_role`, `std::string chatRole;`, true);
   generator.addMacro('Screen_Display_Type_lcd','#define SCREEN_DISPLAY_TYPE_LCD (1)');
   generator.addMacro('Screen_Display_Type_oled','#define SCREEN_DISPLAY_TYPE_OLED (2)');
   generator.addMacro('Screen_Display_Type_none','#define SCREEN_DISPLAY_TYPE_NONE (0)');
+  generator.addMacro('nScreen_Display_Type_lcd','#define nSCREEN_DISPLAY_TYPE_LCD (3)');
+  generator.addMacro('nScreen_Display_Type_oled','#define nSCREEN_DISPLAY_TYPE_OLED (4)');
   generator.addMacro('Screen_Display_Type','#define SCREEN_DISPLAY_TYPE SCREEN_DISPLAY_TYPE_NONE');
 
   if (display_type === 'ST7789') {
@@ -1140,9 +2245,10 @@ Arduino.forBlock['esp32ai_start_engine'] = function(block, generator) {
 
   generator.addObject(`aivox_observer`, `std::shared_ptr<ai_vox::Observer> g_observer = std::make_shared<ai_vox::Observer>();`, true);
   generator.addObject('ai_vox_engine', `auto& ai_vox_engine = ai_vox::Engine::GetInstance();`, true);
-
-  generator.addObject('esp32ai_audio_output_device', `
+  if (es8311mr === 'false' && es8388pd === 'false') {
+    generator.addObject('esp32ai_audio_output_device', `
 auto g_audio_output_device = std::make_shared<ai_vox::AudioOutputDeviceI2sStd>(kSpeakerPinSck, kSpeakerPinWs, kSpeakerPinSd);\n`,true);
+  }
 
   if (display_type === 'ST7789') {
     generator.addFunction('esp32ai_InitDisplay',`
@@ -1301,13 +2407,13 @@ void PrintMemInfo() {
 #endif\n`,true);
   
   generator.addLoopBegin('esp32ai_PrintMemInfo_loop',`
-#ifdef PRINT_HEAP_INFO_INTERVAL
-  static uint32_t s_print_heap_info_time = 0;
-  if (s_print_heap_info_time == 0 || millis() - s_print_heap_info_time >= PRINT_HEAP_INFO_INTERVAL) {
-    s_print_heap_info_time = millis();
-    PrintMemInfo();
-  }
-#endif\n`);
+  #ifdef PRINT_HEAP_INFO_INTERVAL
+    static uint32_t s_print_heap_info_time = 0;
+    if (s_print_heap_info_time == 0 || millis() - s_print_heap_info_time >= PRINT_HEAP_INFO_INTERVAL) {
+      s_print_heap_info_time = millis();
+      PrintMemInfo();
+    }
+  #endif\n`);
 
   generator.addFunction('esp32ai_PlayMp3',`
 void PlayMp3(const uint8_t* data, size_t size) {
@@ -1328,7 +2434,7 @@ void PlayMp3(const uint8_t* data, size_t size) {
     printf("Failed to open mp3 decoder: %d\\n", ret);
     abort();
   }
-  g_audio_output_device->OpenOutput(16000);
+  g_audio_output_device->OpenOutput(esp32ai_rate);
 
   esp_audio_simple_dec_raw_t raw = {
       .buffer = const_cast<uint8_t*>(data),
@@ -1386,24 +2492,24 @@ void ConfigureWifi() {
       [](void*, void* data) {
         printf("boot button pressed\\n");
         static_cast<WifiConfigurator*>(data)->StartSmartConfig();
-      },
-      wifi_configurator.get()));\n`;
+  },
+  wifi_configurator.get()));\n`;
 
   if (display_type !== 'NONE') {
     fhcode = fhcode + `
-  g_display->ShowStatus("网络配置中");\n`;
+    g_display->ShowStatus("网络配置中");\n`;
   }
 
   fhcode = fhcode + `
-PlayMp3(kNotification0mp3, sizeof(kNotification0mp3));
+  PlayMp3(kNotification0mp3, sizeof(kNotification0mp3));
 
-#if defined(WIFI_SSID) && defined(WIFI_PASSWORD)
-  printf("wifi config start with wifi: %s, %s\\n", WIFI_SSID, WIFI_PASSWORD);
-  wifi_configurator->Start(WIFI_SSID, WIFI_PASSWORD);
-#else
-  printf("wifi config start\\n");
-  wifi_configurator->Start();
-#endif
+  #if defined(WIFI_SSID) && defined(WIFI_PASSWORD)
+    printf("wifi config start with wifi: %s, %s\\n", WIFI_SSID, WIFI_PASSWORD);
+    wifi_configurator->Start(WIFI_SSID, WIFI_PASSWORD);
+  #else
+    printf("wifi config start\\n");
+    wifi_configurator->Start();
+  #endif
 
   while (true) {
     const auto state = wifi_configurator->WaitStateChanged();
@@ -1416,16 +2522,16 @@ PlayMp3(kNotification0mp3, sizeof(kNotification0mp3));
   }
 
   fhcode = fhcode + `
-} else if (state == WifiConfigurator::State::kSmartConfiguring) {
-      printf("wifi smart configuring\\n");\n`;
+  } else if (state == WifiConfigurator::State::kSmartConfiguring) {
+        printf("wifi smart configuring\\n");\n`;
 
   if (display_type !== 'NONE') {
     fhcode = fhcode + `
-  g_display->ShowStatus("配网模式");\n`;
+    g_display->ShowStatus("配网模式");\n`;
   }
 
   fhcode = fhcode + `
-PlayMp3(kNetworkConfigModeMp3, sizeof(kNetworkConfigModeMp3));
+  PlayMp3(kNetworkConfigModeMp3, sizeof(kNetworkConfigModeMp3));
     } else if (state == WifiConfigurator::State::kFinished) {
       break;
     }
@@ -1442,9 +2548,9 @@ PlayMp3(kNetworkConfigModeMp3, sizeof(kNetworkConfigModeMp3));
   printf("- subnet mask: %s\\n", WiFi.subnetMask().toString().c_str());\n`;
 
   if (display_type !== 'NONE') {
-    fhcode = fhcode + `g_display->ShowStatus("网络已连接");\n`;
+    fhcode = fhcode + ` g_display->ShowStatus("网络已连接");\n`;
   }
-  fhcode = fhcode + `PlayMp3(kNetworkConnectedMp3, sizeof(kNetworkConnectedMp3));\n}`;
+  fhcode = fhcode + ` PlayMp3(kNetworkConnectedMp3, sizeof(kNetworkConnectedMp3));\n}`;
 
   generator.addFunction('esp32ai_ConfigureWifi',fhcode,true);
   
@@ -1455,6 +2561,10 @@ PlayMp3(kNetworkConfigModeMp3, sizeof(kNetworkConfigModeMp3));
   auto audio_input_device = std::make_shared<ai_vox::PdmAudioInputDevice>(kMicPinSck, kMicPinSd);
 #endif\n`;
 
+  if (es8311mr === 'true' || es8388pd === 'true') {
+    initCode = ``;
+  }
+
   if (display_type !== 'NONE') {
     initCode = initCode + `
   InitDisplay();
@@ -1463,17 +2573,22 @@ PlayMp3(kNetworkConfigModeMp3, sizeof(kNetworkConfigModeMp3));
 
   initCode = initCode + `
   ConfigureWifi();\n`;
-  generator.addSetupBegin('esp32ai_start_engine_setupbegin', initCode);
+  //generator.addSetup('esp32ai_start_engine_setupbegin', initCode);
 
-  let setcode = `\nprintf("engine starting\\n");\n`;
+  let setcode = initCode + `\nprintf("engine starting\\n");\n`;
 
   if (display_type !== 'NONE') {
     setcode = setcode + `
   g_display->ShowStatus("AI引擎启动中");\n`;
   }
 
-  setcode = setcode + `
+  if (es8311mr === 'true' || es8388pd === 'true') {
+    setcode = setcode + `
+  ai_vox_engine.Start(g_audio_output_device, g_audio_output_device);\nprintf("engine started\\n");\n`;
+  } else {
+    setcode = setcode + `
   ai_vox_engine.Start(audio_input_device, g_audio_output_device);\nprintf("engine started\\n");\n`;
+  }
 
   if (display_type !== 'NONE') {
     setcode = setcode + `
@@ -1488,7 +2603,7 @@ Arduino.forBlock['aivox_config_ota_url'] = function (block, generator) {
     let ota_url = generator.valueToCode(block, 'ai_vox_ota_url', generator.ORDER_ATOMIC) || '""';
     generator.addObject(`aivox_observer`, `std::shared_ptr<ai_vox::Observer> g_observer = std::make_shared<ai_vox::Observer>();`, true);
     generator.addObject('ai_vox_engine', `auto& ai_vox_engine = ai_vox::Engine::GetInstance();`, true);
-    generator.addSetup(`aivox_instance`, `ai_vox_engine.SetObserver(g_observer);\n`, true);
+    generator.addSetupBegin(`aivox_instance`, `ai_vox_engine.SetObserver(g_observer);\n`, true);
     let code = `ai_vox_engine.SetOtaUrl(${ota_url});\n`;
     return code;
 };
@@ -1498,7 +2613,7 @@ Arduino.forBlock['aivox_config_websocket'] = function (block, generator) {
     let websocket_param = generator.valueToCode(block, 'ai_vox_websocket_param', generator.ORDER_ATOMIC) || '""';
     websocket_param = websocket_param.substring(1, websocket_param.length - 1);
     generator.addObject('ai_vox_engine', `auto& ai_vox_engine = ai_vox::Engine::GetInstance();`, true);
-    generator.addSetup(`aivox_instance`, `ai_vox_engine.SetObserver(g_observer);\n`, true);
+    generator.addSetupBegin(`aivox_instance`, `ai_vox_engine.SetObserver(g_observer);\n`, true);
     let code = `ai_vox_engine.ConfigWebsocket(${websocket_url}, ${websocket_param});\n`;
     return code;
 };
@@ -1626,7 +2741,7 @@ if (reportCodeBlock.trim() !== '') {
   
   // 引入cJSON头文件（如果需要）- 只有在生成了需要cJSON的上报代码时才引入
   if (reportCodeBlock.trim() !== '' && params.length > 1) {
-    generator.addLibrary('cjson_lib', '#include "cJSON.h"');
+    generator.addLibrary('cjson_lib', '#include "kljxgwj/cjsonk/cJSON.h"');
   }
   
   // 生成if-else if结构
@@ -2124,7 +3239,7 @@ Arduino.forBlock['aivox_loop_chat_message_role_var'] = function(block, generator
 };
 
 Arduino.forBlock['aivox_loop_chat_message_msg_var'] = function(block, generator) {
-  let message = `message`;
+  let message = `message.c_str()`;
   return [message, Arduino.ORDER_MEMBER]; 
 };
 
@@ -2298,13 +3413,13 @@ Arduino.forBlock['aivox_mcp_register_control_command'] = function(block, generat
     });
 
     generator.addObject('ai_vox_engine', `auto& ai_vox_engine = ai_vox::Engine::GetInstance();`, true);
-    generator.addSetup(`aivox_instance`, `ai_vox_engine.SetObserver(g_observer);\n`, true);
+    generator.addSetupbegin(`aivox_instance`, `ai_vox_engine.SetObserver(g_observer);\n`, true);
     // generator.addObject(`ai_vox_mcp_${name}_count`, `int ${name}_count = ${count};`, true);
     
     // Generate code based on the selected mode
     if (mode === 'regular' || mode === 'set_only') {
         // Generate set method code
-        generator.addSetup(`aivox_add_mcp_tool_set_${name}`, `  ai_vox_engine.AddMcpTool("${control_name_set}",                                           // tool name
+        generator.addSetupBegin(`aivox_add_mcp_tool_set_${name}`, `  ai_vox_engine.AddMcpTool("${control_name_set}",                                           // tool name
                     "${description}",
                     {
                       ${paramCodes}
@@ -2314,7 +3429,7 @@ Arduino.forBlock['aivox_mcp_register_control_command'] = function(block, generat
     
     if (mode === 'regular' || mode === 'report_only') {
         // Generate get method code
-        generator.addSetup(`aivox_add_mcp_tool_get_${name}`, `  ai_vox_engine.AddMcpTool("${control_name_get}",                                           // tool name
+        generator.addSetupBegin(`aivox_add_mcp_tool_get_${name}`, `  ai_vox_engine.AddMcpTool("${control_name_get}",                                           // tool name
                     "${description}", 
                     {
                       // empty
@@ -3065,11 +4180,11 @@ Arduino.forBlock['esp32ai_loop_mcp_new'] = function(block, generator) {
   const setCodeBlock = hasSetCodeInput ? generator.statementToCode(block, 'setCODE_BLOCK') || '' : '';
   const reportCodeBlock = hasCodeInput ? generator.statementToCode(block, 'CODE_BLOCK') || '' : '';
   const needCJSON = hasCodeInput && reportCodeBlock.trim() && paramNames.length > 1;
-  if (needCJSON) generator.addLibrary('cjson_lib', '#include "cJSON.h"');
+  if (needCJSON) generator.addLibrary('cjson_lib', '#include "kljxgwj/cjsonk/cJSON.h"');
 
   generator.addObject(`aivox_observer`, `std::shared_ptr<ai_vox::Observer> g_observer = std::make_shared<ai_vox::Observer>();`, true);
   generator.addObject('ai_vox_engine', `auto& ai_vox_engine = ai_vox::Engine::GetInstance();`, true);
-  generator.addSetupBegin(`aivox_set_observer`, `
+  generator.addSetup(`aivox_set_observer`, `
     ai_vox::Engine::GetInstance().SetObserver(g_observer);
 `, true);
 
