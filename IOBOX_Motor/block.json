@@ -1,0 +1,93 @@
+[
+  {
+    "type": "iobox_motor_init",
+    "message0": "初始化IOBOX电机驱动",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D1495B",
+    "tooltip": "初始化IOBOX电机驱动模块，支持M1和M2两个电机"
+  },
+  {
+    "type": "iobox_motor_run",
+    "message0": "IOBOX电机 %1 %2 速度 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "INDEX",
+        "options": [
+          [
+            "M1",
+            "0"
+          ],
+          [
+            "M2",
+            "1"
+          ],
+          [
+            "全部",
+            "2"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIRECTION",
+        "options": [
+          [
+            "顺时针",
+            "0"
+          ],
+          [
+            "逆时针",
+            "1"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number",
+        "shadow": {
+          "type": "math_number",
+          "fields": {
+            "NUM": 255
+          }
+        }
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D1495B",
+    "tooltip": "控制IOBOX电机运行，速度范围0-255"
+  },
+  {
+    "type": "iobox_motor_stop",
+    "message0": "IOBOX电机 %1 停止",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "INDEX",
+        "options": [
+          [
+            "M1",
+            "0"
+          ],
+          [
+            "M2",
+            "1"
+          ],
+          [
+            "全部",
+            "2"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D1495B",
+    "tooltip": "停止指定的IOBOX电机"
+  }
+]
