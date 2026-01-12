@@ -7,6 +7,7 @@ if (!Arduino.lvgl) {
   Arduino.lvgl = true;
   Arduino.lvgl_type = '';
   Arduino.lvgl_font = '';
+  Arduino.lvgl_img_font = false;
   Arduino.lvgl_fonts_used = {}; // 跟踪正在使用的字体
 }
 
@@ -40,6 +41,18 @@ if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
             setTimeout(() => {
               checkAndRemoveFontMacro(workspace, deletedFont);
             }, 100);
+          }
+        }
+
+        if (event.oldJson && event.oldJson.type == 'lvgl_set_img_font') {
+          if (Arduino.lvgl_img_font) {
+            console.log('delete LVGL image font macro');
+            if (window['projectService']) {
+              window['projectService'].removeMacro('LV_USE_IMGFONT')
+                .then(() => console.log('LVGL image font macro removed'))
+                .catch(err => console.error('Failed to remove LVGL image font macro:', err));
+              Arduino.lvgl_img_font = false;
+            }
           }
         }
       }
@@ -1563,3 +1576,27 @@ Arduino.forBlock['lvgl_tabview_add_tab'] = function(block, generator) {
 
   return ['lv_tabview_add_tab(' + varName + ', ' + textCode + ')', generator.ORDER_FUNCTION_CALL];
 };
+
+Arduino.forBlock['lvgl_set_img_font'] = function(block, generator) {
+  const font = block.getFieldValue('ENABLE');
+
+  if (font === 'true') {
+    if (window['projectService'] && !Arduino.lvgl_img_font) {
+      Arduino.lvgl_img_font = true;
+      window['projectService'].addMacro('LV_USE_IMGFONT=1')
+        .then(() => {
+          console.log('Macro added: LV_USE_IMGFONT=1')
+        })
+        .catch((err) => console.error('Error adding macro:', err));
+    }
+  } else {
+    if (window['projectService'] && Arduino.lvgl_img_font) {
+      Arduino.lvgl_img_font = false;
+      window['projectService'].removeMacro('LV_USE_IMGFONT')
+        .then(() => console.log('Macro removed: LV_USE_IMGFONT'))
+        .catch((err) => console.error('Error removing macro:', err));
+    }
+  }
+
+  return '';
+}

@@ -240,7 +240,7 @@
     },
     {
         "type": "esp32ai_init_display",
-        "message0": "初始化显示屏: %1",
+        "message0": "原界面初始化显示屏: %1",
         "args0": [
             {
             "type": "field_dropdown",
@@ -253,6 +253,38 @@
             }
         ],
         "extensions": ["esp32ai_init_display_dynamic_inputs"],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "初始化指定类型的显示屏",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32ai_init_nlvgl_display",
+        "message0": "自定lVGL初始化显示屏: %1  旋转角度: %2  ",
+        "args0": [
+            {
+            "type": "field_dropdown",
+            "name": "DISPLAY_TYPE",
+            "options": [
+                ["ST7789 (SPI)", "nST7789"],
+                ["SSD1306 (I2C)", "nSSD1306"]
+            ],
+            "tooltip": "选择要初始化的显示屏类型"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "ROTATION",
+                "options": [
+                ["0°", "LV_DISPLAY_ROTATION_0"],
+                ["90°", "LV_DISPLAY_ROTATION_90"],
+                ["180°", "LV_DISPLAY_ROTATION_180"],
+                ["270°", "LV_DISPLAY_ROTATION_270"]
+                ]
+            }
+        ],  
+        "extensions": ["esp32ai_init_nlvgl_display_dynamic_inputs"],
         "inputsInline": false,
         "previousStatement": null,
         "nextStatement": null,
@@ -1049,5 +1081,171 @@
         "colour": "#2196F3",
         "mutator": "esp32ai_selget_mcp_control_mutator",
         "extensions": ["esp32ai_selget_mcp_control_extension"]
+    },
+    {
+        "type": "lvgl_port_lock",
+        "message0": "获取LVGL锁 超时%1ms",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "TIMEOUT_MS",
+                "value": 1000,
+                "min": 0,
+                "max": 10000
+            }
+        ],
+        "output": "Boolean",
+        "colour": "#4CAF50",
+        "tooltip": "获取LVGL互斥锁"
+    },
+    {
+        "type": "lvgl_port_unlock",
+        "message0": "释放LVGL锁",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "释放LVGL互斥锁"
+    },
+    {
+        "type": "esp32ai_lvgl_obj_set_style_text_font",
+        "message0": "设置 %1 小智字体 %2",
+        "args0": [
+        {
+            "type": "field_variable",
+            "name": "VAR",
+            "variable": "obj",
+            "variableTypes": [
+                "lv_obj_t"
+            ],
+            "defaultType": "lv_obj_t"
+        },
+        {
+            "type": "field_dropdown",
+            "name": "FONT",
+            "options": [
+                [
+                    "单色屏文本14号字体",
+                    "font_puhui_14_1"
+                ],
+                [
+                    "单色屏30号大图标",
+                    "font_awesome_30_1"
+                ],
+                [
+                    "单色屏14号小图标",
+                    "font_awesome_14_1"
+                ],
+                [
+                    "彩屏文本16号字体",
+                    "font_puhui_16_4"
+                ],
+                [ "彩屏黑色功能图标30号",
+                    "font_awesome_30_4"
+                ],
+                [ "彩屏黑色功能图标16号",
+                    "font_awesome_16_4"
+                ],
+                [ "彩屏情绪32号",
+                    "font_emoji_32_init()"
+                ]
+            ]
+        }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#673AB7",
+        "tooltip": "设置对象的文本字体",
+        "icon": "fa-light fa-mobile"
+    },
+    {
+        "message0": "返回图片字体 分类：%1",
+        "type": "esp32ai_emotion_select",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "CATEGORY",
+                "options": [
+                    ["表情类", "EMOJI"],
+                    ["电池类", "BATTERY"],
+                    ["WiFi类", "WIFI"],
+                    ["信号类", "SIGNAL"],
+                    ["音量类", "VOLUME"],
+                    ["媒体控制类", "MEDIA"],
+                    ["箭头类", "ARROW"],
+                    ["功能图标类", "FUNCTION"]
+                ],
+                "tooltip": "选择图标分类"
+            }
+        ],
+        "extensions": ["esp32ai_emotion_category_link_extension"],
+        "output": "String",
+        "colour": "#4CAF50",
+        "tooltip": "选择分类和图标，返回对应的图形字体宏"
+    },
+    {
+        "type": "lvgl_label_set_text_emotion",
+        "message0": "设置标签 %1 图标文本为 %2",
+        "args0": [
+        {
+            "type": "field_variable",
+            "name": "VAR",
+            "variable": "label",
+            "variableTypes": [
+                "lv_obj_t"
+            ],
+            "defaultType": "lv_obj_t"
+        },
+        {
+            "type": "input_value",
+            "name": "TEXT"
+        }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "设置标签显示的图标"
+    },
+    {
+        "type": "lvgl_label_set_text_cpemotion",
+        "message0": "设置标签 %1 小智彩屏表情 %2",
+        "args0": [
+        {
+            "type": "field_variable",
+            "name": "VAR",
+            "variable": "label",
+            "variableTypes": [
+                "lv_obj_t"
+            ],
+            "defaultType": "lv_obj_t"
+        },
+        {
+            "type": "input_value",
+            "name": "TEXT"
+        }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "设置标签显示的小智彩屏表情"
+    },
+    {
+        "type": "aivox3_init_es8311",
+        "extensions":["aivox3_init_es8311_extension"],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "初始化AI-VOX3引擎ES8311模块",
+        "helpUrl": ""
+    },
+    {
+        "type": "esp32ai_init_es8388",
+        "extensions":["esp32ai_init_es8388_extension"],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "初始化小智语音引擎ES8388模块",
+        "helpUrl": ""
     }
 ]
