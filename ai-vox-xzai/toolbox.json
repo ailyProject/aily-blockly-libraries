@@ -37,15 +37,19 @@
                 },
                 {
                     "kind": "block",
+                    "type": "aivox3_init_es8311"
+                },
+                {
+                    "kind": "block",
+                    "type": "esp32ai_init_es8388"
+                },
+                {
+                    "kind": "block",
                     "type": "esp32_i2s_mic_setup"
                 },
                 {
                     "kind": "block",
                     "type": "esp32ai_i2s_speaker_setup"
-                },
-                {
-                    "kind": "block",
-                    "type": "esp32ai_init_display"
                 },
                 {
                     "kind": "block",
@@ -90,10 +94,111 @@
                 {
                     "kind": "block",
                     "type": "esp32ai_start_engine"
+                }
+            ]
+        },
+        {
+            "kind": "category",
+            "name": "屏显示",
+            "icon": "fa-light fa-desktop",
+            "contents": [
+                {
+                    "kind": "label",
+                    "text": "说明:1.预内置和自定义不可混用"
                 },
                 {
-                    "kind": "block",
-                    "type": "aivox_display_mode"
+                    "kind": "label",
+                    "text": "   2.自定义需要自己画界面,内容可自定，灵活但麻烦"
+                },
+                {
+                    "kind": "label",
+                    "text": "   3.预内置是定死的，但直接可用"
+                },
+                {
+                    "kind": "category",
+                    "name": "预内置",
+                    "icon": "fa-light fa-eye",
+                    "contents": [
+                        {
+                            "kind": "block",
+                            "type": "esp32ai_init_display"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "aivox_display_mode"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "aivox_lcd_show_status",
+                            "inputs": {
+                                "ai_vox_content": {
+                                    "shadow": {
+                                        "type": "text",
+                                        "fields": {
+                                            "TEXT": "连接中"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "kind": "block",
+                            "type": "aivox3_ST77789TurnOnBacklight_engine"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "aivox3_ST77789TurnOffBacklight_engine"
+                        }
+                    ]
+                },
+                {
+                    "kind": "category",
+                    "name": "自定义",
+                    "icon": "fa-light fa-code",
+                    "contents": [
+                        {
+                            "kind": "block",
+                            "type": "esp32ai_init_nlvgl_display"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "lvgl_port_lock"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "lvgl_port_unlock"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "esp32ai_lvgl_obj_set_style_text_font"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "esp32ai_emotion_select"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "lvgl_label_set_text_emotion",
+                            "inputs": {
+                                "TEXT":{
+                                    "block": {
+                                        "type": "esp32ai_emotion_select"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "kind": "block",
+                            "type": "lvgl_label_set_text_cpemotion",
+                            "inputs": {
+                                "TEXT":{
+                                    "block": {
+                                        "type": "get_aivox_emotion_result"
+                                    }
+                                }
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -133,28 +238,6 @@
                             }
                         }
                     }
-                },
-                {
-                    "kind": "block",
-                    "type": "aivox_lcd_show_status",
-                    "inputs": {
-                        "ai_vox_content": {
-                            "shadow": {
-                                "type": "text",
-                                "fields": {
-                                    "TEXT": "连接中"
-                                }
-                            }
-                        }
-                    }
-                },
-                {
-                    "kind": "block",
-                    "type": "aivox3_ST77789TurnOnBacklight_engine"
-                },
-                {
-                    "kind": "block",
-                    "type": "aivox3_ST77789TurnOffBacklight_engine"
                 },
                 {
                     "kind": "block",
