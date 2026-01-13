@@ -271,8 +271,8 @@ function loadExistingVariablesToToolbox(workspace) {
   const allVariables = workspace.getAllVariables();
   // const allVariables = workspace.getVariableMap().getAllVariables;
   if (allVariables.length === 0) {
-    // return;
-    registerVariableToBlockly('i', 'int');
+    return;
+    // registerVariableToBlockly('i', 'int');
   }
 
   // 获取原始工具箱定义
