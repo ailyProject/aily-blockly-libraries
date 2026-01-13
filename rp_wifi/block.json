@@ -1,0 +1,609 @@
+[
+  {
+    "type": "rp_wifi_begin",
+    "message0": "连接WiFi %1 密码 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SSID"
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "连接到WiFi网络（阻塞模式）",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_begin_open",
+    "message0": "连接开放WiFi %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SSID"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "连接到无密码的开放WiFi网络",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_begin_noblock",
+    "message0": "连接WiFi(非阻塞) %1 密码 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SSID"
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "连接到WiFi网络（非阻塞模式，需要检查connected()状态）",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_disconnect",
+    "message0": "断开WiFi连接 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIFI_OFF",
+        "options": [
+          ["保持WiFi开启", "FALSE"],
+          ["关闭WiFi", "TRUE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "断开WiFi连接",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_end",
+    "message0": "关闭WiFi",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "完全关闭WiFi功能",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_connected",
+    "message0": "WiFi已连接",
+    "output": "Boolean",
+    "colour": "#009688",
+    "tooltip": "检查WiFi是否已连接",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_status",
+    "message0": "WiFi连接状态",
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "获取WiFi连接状态码",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_status_type",
+    "message0": "WiFi状态 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATUS",
+        "options": [
+          ["空闲", "WL_IDLE_STATUS"],
+          ["无可用SSID", "WL_NO_SSID_AVAIL"],
+          ["扫描完成", "WL_SCAN_COMPLETED"],
+          ["已连接", "WL_CONNECTED"],
+          ["连接失败", "WL_CONNECT_FAILED"],
+          ["连接丢失", "WL_CONNECTION_LOST"],
+          ["断开连接", "WL_DISCONNECTED"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "获取WiFi状态常量",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_wait_for_connect",
+    "message0": "等待连接结果 超时 %1 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIMEOUT"
+      }
+    ],
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "等待WiFi连接结果，返回连接状态",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_local_ip",
+    "message0": "本机IP地址",
+    "output": "String",
+    "colour": "#009688",
+    "tooltip": "获取本机IP地址",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_subnet_mask",
+    "message0": "子网掩码",
+    "output": "String",
+    "colour": "#009688",
+    "tooltip": "获取子网掩码",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_gateway_ip",
+    "message0": "网关IP地址",
+    "output": "String",
+    "colour": "#009688",
+    "tooltip": "获取网关IP地址",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_dns_ip",
+    "message0": "DNS服务器IP",
+    "output": "String",
+    "colour": "#009688",
+    "tooltip": "获取DNS服务器IP地址",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_mac_address",
+    "message0": "MAC地址",
+    "output": "String",
+    "colour": "#009688",
+    "tooltip": "获取MAC地址",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_ssid",
+    "message0": "当前WiFi名称(SSID)",
+    "output": "String",
+    "colour": "#009688",
+    "tooltip": "获取当前连接的WiFi名称",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_rssi",
+    "message0": "信号强度(RSSI)",
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "获取WiFi信号强度(dBm)",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_channel",
+    "message0": "当前WiFi通道",
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "获取当前WiFi通道",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_encryption_type",
+    "message0": "当前加密类型",
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "获取当前WiFi加密类型",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_set_hostname",
+    "message0": "设置主机名 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "HOSTNAME"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "设置DHCP请求中使用的主机名",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_get_hostname",
+    "message0": "获取主机名",
+    "output": "String",
+    "colour": "#009688",
+    "tooltip": "获取当前设置的主机名",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_config_static",
+    "message0": "配置静态IP\nIP地址 %1\nDNS服务器 %2\n网关 %3\n子网掩码 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "LOCAL_IP",
+        "text": "192.168.1.100"
+      },
+      {
+        "type": "field_input",
+        "name": "DNS",
+        "text": "192.168.1.1"
+      },
+      {
+        "type": "field_input",
+        "name": "GATEWAY",
+        "text": "192.168.1.1"
+      },
+      {
+        "type": "field_input",
+        "name": "SUBNET",
+        "text": "255.255.255.0"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "配置静态IP地址（禁用DHCP）",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_set_dns",
+    "message0": "设置DNS服务器 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "DNS1",
+        "text": "8.8.8.8"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "设置DNS服务器",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_set_mode",
+    "message0": "设置WiFi模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["站点模式(STA)", "WIFI_STA"],
+          ["热点模式(AP)", "WIFI_AP"],
+          ["混合模式(AP+STA)", "WIFI_AP_STA"],
+          ["关闭", "WIFI_OFF"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "设置WiFi工作模式",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_get_mode",
+    "message0": "获取WiFi模式",
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "获取当前WiFi工作模式",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_scan_networks",
+    "message0": "扫描WiFi网络 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ASYNC",
+        "options": [
+          ["同步扫描", "FALSE"],
+          ["异步扫描", "TRUE"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "扫描可用的WiFi网络，返回发现的网络数量",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_scan_complete",
+    "message0": "扫描完成状态",
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "获取异步扫描完成状态，返回发现的网络数量",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_scan_delete",
+    "message0": "删除扫描结果",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "删除WiFi扫描结果，释放内存",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_get_ssid",
+    "message0": "获取网络 %1 的SSID",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX"
+      }
+    ],
+    "output": "String",
+    "colour": "#009688",
+    "tooltip": "获取指定网络的SSID",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_get_rssi",
+    "message0": "获取网络 %1 的信号强度",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX"
+      }
+    ],
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "获取指定网络的信号强度(dBm)",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_get_encryption",
+    "message0": "获取网络 %1 的加密类型",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX"
+      }
+    ],
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "获取指定网络的加密类型",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_get_channel",
+    "message0": "获取网络 %1 的通道",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX"
+      }
+    ],
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "获取指定网络的通道",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_encryption_constant",
+    "message0": "加密类型 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["无加密", "ENC_TYPE_NONE"],
+          ["WPA", "ENC_TYPE_TKIP"],
+          ["WPA2", "ENC_TYPE_CCMP"],
+          ["自动", "ENC_TYPE_AUTO"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "获取加密类型常量",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_begin_ap",
+    "message0": "创建WiFi热点 %1 密码 %2 通道 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SSID"
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD"
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "创建WiFi热点（AP模式）",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_begin_ap_open",
+    "message0": "创建开放WiFi热点 %1 通道 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SSID"
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "创建无密码的开放WiFi热点",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_softap_config",
+    "message0": "配置热点IP\nIP地址 %1\n网关 %2\n子网掩码 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "IP",
+        "text": "192.168.4.1"
+      },
+      {
+        "type": "field_input",
+        "name": "GATEWAY",
+        "text": "192.168.4.1"
+      },
+      {
+        "type": "field_input",
+        "name": "SUBNET",
+        "text": "255.255.255.0"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "配置热点IP设置",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_softap_disconnect",
+    "message0": "关闭WiFi热点 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIFI_OFF",
+        "options": [
+          ["保持WiFi开启", "FALSE"],
+          ["关闭WiFi", "TRUE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "关闭WiFi热点",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_softap_ip",
+    "message0": "热点IP地址",
+    "output": "String",
+    "colour": "#009688",
+    "tooltip": "获取热点IP地址",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_softap_mac",
+    "message0": "热点MAC地址",
+    "output": "String",
+    "colour": "#009688",
+    "tooltip": "获取热点MAC地址",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_softap_ssid",
+    "message0": "热点SSID",
+    "output": "String",
+    "colour": "#009688",
+    "tooltip": "获取热点SSID",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_softap_station_count",
+    "message0": "热点连接设备数",
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "获取连接到热点的设备数量",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_host_by_name",
+    "message0": "解析域名 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "HOSTNAME"
+      }
+    ],
+    "output": "String",
+    "colour": "#009688",
+    "tooltip": "将域名解析为IP地址",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_ping",
+    "message0": "Ping %1 TTL %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "HOST"
+      },
+      {
+        "type": "input_value",
+        "name": "TTL"
+      }
+    ],
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "Ping指定主机，返回响应时间(ms)",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_get_time",
+    "message0": "获取网络时间",
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "获取网络时间(Unix时间戳)",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_set_timeout",
+    "message0": "设置超时时间 %1 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIMEOUT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "设置WiFi操作超时时间",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_no_low_power",
+    "message0": "禁用低功耗模式",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "禁用WiFi低功耗模式以提高性能",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "rp_wifi_firmware_version",
+    "message0": "固件版本",
+    "output": "String",
+    "colour": "#009688",
+    "tooltip": "获取WiFi固件版本",
+    "icon": "fa-regular fa-wifi"
+  }
+]
