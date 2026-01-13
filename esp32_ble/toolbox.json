@@ -1,0 +1,404 @@
+{
+  "kind": "category",
+  "name": "ESP32 BLE",
+  "icon": "fa-light fa-bluetooth",
+  "colour": "#2196F3",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "设备管理"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_init",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "ESP32-BLE"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_deinit"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_get_address"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_set_mtu",
+      "inputs": {
+        "MTU": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 512
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_get_mtu"
+    },
+    {
+      "kind": "label",
+      "text": "服务端"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_create_server"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_server_create_service",
+      "inputs": {
+        "UUID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_service_start"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_service_stop"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_server_connected_count"
+    },
+    {
+      "kind": "label",
+      "text": "特征值"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_create_characteristic",
+      "inputs": {
+        "UUID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "beb5483e-36e1-4688-b7f5-ea07361b26a8"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_characteristic_set_value",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello BLE"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_characteristic_get_value"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_characteristic_notify"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_characteristic_indicate"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_add_descriptor"
+    },
+    {
+      "kind": "label",
+      "text": "广播"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_start_advertising"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_stop_advertising"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_advertising_add_service_uuid",
+      "inputs": {
+        "UUID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_advertising_set_scan_response"
+    },
+    {
+      "kind": "label",
+      "text": "事件回调"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_on_connect"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_on_disconnect"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_on_write"
+    },
+    {
+      "kind": "label",
+      "text": "客户端"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_create_client"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_client_connect",
+      "inputs": {
+        "ADDRESS": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "00:00:00:00:00:00"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_client_disconnect"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_client_is_connected"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_client_get_service",
+      "inputs": {
+        "UUID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_remote_service_get_characteristic",
+      "inputs": {
+        "UUID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "beb5483e-36e1-4688-b7f5-ea07361b26a8"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_remote_characteristic_read"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_remote_characteristic_write",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_remote_characteristic_can_read"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_remote_characteristic_can_notify"
+    },
+    {
+      "kind": "label",
+      "text": "扫描"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_get_scan"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_scan_set_active"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_scan_set_interval",
+      "inputs": {
+        "INTERVAL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1349
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_scan_set_window",
+      "inputs": {
+        "WINDOW": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 449
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_scan_start",
+      "inputs": {
+        "DURATION": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 5
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_scan_stop"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_scan_get_results"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_scan_results_count"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_scan_results_get_device",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_advertised_device_name"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_advertised_device_address"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_advertised_device_rssi"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_scan_clear_results"
+    },
+    {
+      "kind": "label",
+      "text": "快速操作-UART"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_uart_server_quick",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "ESP32-UART"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_uart_send",
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello BLE"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_uart_on_receive"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_uart_received_data"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_ble_uart_is_connected"
+    }
+  ]
+}

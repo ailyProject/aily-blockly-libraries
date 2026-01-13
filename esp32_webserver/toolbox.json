@@ -1,0 +1,334 @@
+{
+  "kind": "category",
+  "name": "ESP32 Web服务器",
+  "icon": "fa-solid fa-server",
+  "colour": "#FF5722",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_create"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_begin"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_stop"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_handle_client"
+    },
+    {
+      "kind": "label",
+      "text": "路由处理"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_on",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_on_not_found"
+    },
+    {
+      "kind": "label",
+      "text": "发送响应"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_send",
+      "inputs": {
+        "CODE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 200
+            }
+          }
+        },
+        "TYPE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "text/html"
+            }
+          }
+        },
+        "CONTENT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "<h1>Hello World</h1>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_send_simple",
+      "inputs": {
+        "CONTENT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello World"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_send_html",
+      "inputs": {
+        "CONTENT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "<h1>Hello World</h1>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_send_json",
+      "inputs": {
+        "CONTENT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "{\"status\": \"ok\"}"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_send_error",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Not Found"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_send_header",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Cache-Control"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "no-cache"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "请求信息"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_uri"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_method"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_client_ip"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_content_length"
+    },
+    {
+      "kind": "label",
+      "text": "请求参数"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_arg",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "name"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_has_arg",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "name"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_args_count"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_arg_by_index",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_arg_name",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_path_arg",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "请求头"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_collect_headers"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_header",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Content-Type"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_has_header",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Content-Type"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_host_header"
+    },
+    {
+      "kind": "label",
+      "text": "认证与安全"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_authenticate",
+      "inputs": {
+        "USERNAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "admin"
+            }
+          }
+        },
+        "PASSWORD": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "password"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_request_authentication"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_webserver_enable_cors"
+    }
+  ]
+}

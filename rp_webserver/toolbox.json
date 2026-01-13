@@ -1,0 +1,302 @@
+{
+  "kind": "category",
+  "name": "Pico Web服务器",
+  "icon": "fa-light fa-server",
+  "colour": "#4CAF50",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_create"
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_begin"
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_handle_client"
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_stop"
+    },
+    {
+      "kind": "label",
+      "text": "路由处理"
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_on",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_on_not_found"
+    },
+    {
+      "kind": "label",
+      "text": "发送响应"
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_send",
+      "inputs": {
+        "CODE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 200
+            }
+          }
+        },
+        "CONTENT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello World!"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_send_custom_type",
+      "inputs": {
+        "CODE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 200
+            }
+          }
+        },
+        "CONTENT_TYPE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "image/svg+xml"
+            }
+          }
+        },
+        "CONTENT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "<svg>...</svg>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_send_header",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Cache-Control"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "no-cache"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "请求信息"
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_uri"
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_method"
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_method_is"
+    },
+    {
+      "kind": "label",
+      "text": "请求参数"
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_arg_by_name",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "id"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_arg_by_index",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_arg_name",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_args_count"
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_has_arg",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "id"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "请求头"
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_header",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Content-Type"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_has_header",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Authorization"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_host_header"
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_collect_headers",
+      "inputs": {
+        "HEADERS": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "User-Agent"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "高级功能"
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_enable_cors"
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_authenticate",
+      "inputs": {
+        "USERNAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "admin"
+            }
+          }
+        },
+        "PASSWORD": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "password"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_webserver_request_authentication",
+      "inputs": {
+        "REALM": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Login Required"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

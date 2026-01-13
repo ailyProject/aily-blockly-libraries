@@ -1,0 +1,560 @@
+[
+  {
+    "type": "rp_webserver_create",
+    "message0": "创建Web服务器 %1 端口 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "server"
+      },
+      {
+        "type": "field_number",
+        "name": "PORT",
+        "value": 80,
+        "min": 1,
+        "max": 65535
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "创建一个Web服务器对象",
+    "icon": "fa-regular fa-server"
+  },
+  {
+    "type": "rp_webserver_begin",
+    "message0": "启动服务器 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "启动Web服务器开始监听",
+    "icon": "fa-regular fa-server"
+  },
+  {
+    "type": "rp_webserver_handle_client",
+    "message0": "处理 %1 客户端请求",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "处理客户端请求（应放在loop中）",
+    "icon": "fa-regular fa-server"
+  },
+  {
+    "type": "rp_webserver_on",
+    "message0": "当 %1 收到 %2 请求路径 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "METHOD",
+        "options": [
+          ["任意", "HTTP_ANY"],
+          ["GET", "HTTP_GET"],
+          ["POST", "HTTP_POST"],
+          ["PUT", "HTTP_PUT"],
+          ["DELETE", "HTTP_DELETE"],
+          ["PATCH", "HTTP_PATCH"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": ["String"]
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#4CAF50",
+    "tooltip": "注册指定路径的请求处理函数",
+    "icon": "fa-regular fa-route"
+  },
+  {
+    "type": "rp_webserver_on_not_found",
+    "message0": "当 %1 收到未知路径请求",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#4CAF50",
+    "tooltip": "处理未匹配任何路由的请求（404）",
+    "icon": "fa-regular fa-route"
+  },
+  {
+    "type": "rp_webserver_send",
+    "message0": "%1 响应状态码 %2 类型 %3 内容 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "CODE",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CONTENT_TYPE",
+        "options": [
+          ["纯文本 text/plain", "text/plain"],
+          ["HTML text/html", "text/html"],
+          ["JSON application/json", "application/json"],
+          ["XML application/xml", "application/xml"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CONTENT",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "发送HTTP响应给客户端",
+    "icon": "fa-regular fa-reply"
+  },
+  {
+    "type": "rp_webserver_send_custom_type",
+    "message0": "%1 响应状态码 %2 自定义类型 %3 内容 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "CODE",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "CONTENT_TYPE",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "CONTENT",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "发送自定义Content-Type的HTTP响应",
+    "icon": "fa-regular fa-reply"
+  },
+  {
+    "type": "rp_webserver_send_header",
+    "message0": "%1 发送响应头 %2 值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "发送自定义响应头",
+    "icon": "fa-regular fa-reply"
+  },
+  {
+    "type": "rp_webserver_uri",
+    "message0": "%1 请求的URI",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "获取当前请求的URI路径",
+    "icon": "fa-regular fa-link"
+  },
+  {
+    "type": "rp_webserver_method",
+    "message0": "%1 请求的方法",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "获取当前请求的HTTP方法（GET/POST等）",
+    "icon": "fa-regular fa-code"
+  },
+  {
+    "type": "rp_webserver_method_is",
+    "message0": "%1 请求方法是 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "METHOD",
+        "options": [
+          ["GET", "HTTP_GET"],
+          ["POST", "HTTP_POST"],
+          ["PUT", "HTTP_PUT"],
+          ["DELETE", "HTTP_DELETE"],
+          ["PATCH", "HTTP_PATCH"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "tooltip": "判断当前请求是否为指定的HTTP方法",
+    "icon": "fa-regular fa-code"
+  },
+  {
+    "type": "rp_webserver_arg_by_name",
+    "message0": "%1 获取参数 %2 的值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": ["String"]
+      }
+    ],
+    "output": "String",
+    "colour": "#9C27B0",
+    "tooltip": "根据参数名获取请求参数值",
+    "icon": "fa-regular fa-input-text"
+  },
+  {
+    "type": "rp_webserver_arg_by_index",
+    "message0": "%1 获取第 %2 个参数的值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": ["Number"]
+      }
+    ],
+    "output": "String",
+    "colour": "#9C27B0",
+    "tooltip": "根据索引获取请求参数值（从0开始）",
+    "icon": "fa-regular fa-input-text"
+  },
+  {
+    "type": "rp_webserver_arg_name",
+    "message0": "%1 获取第 %2 个参数的名称",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": ["Number"]
+      }
+    ],
+    "output": "String",
+    "colour": "#9C27B0",
+    "tooltip": "根据索引获取请求参数名称（从0开始）",
+    "icon": "fa-regular fa-input-text"
+  },
+  {
+    "type": "rp_webserver_args_count",
+    "message0": "%1 参数数量",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "获取请求参数的数量",
+    "icon": "fa-regular fa-input-text"
+  },
+  {
+    "type": "rp_webserver_has_arg",
+    "message0": "%1 存在参数 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": ["String"]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#9C27B0",
+    "tooltip": "检查是否存在指定名称的参数",
+    "icon": "fa-regular fa-input-text"
+  },
+  {
+    "type": "rp_webserver_header",
+    "message0": "%1 获取请求头 %2 的值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": ["String"]
+      }
+    ],
+    "output": "String",
+    "colour": "#795548",
+    "tooltip": "获取指定名称的请求头值",
+    "icon": "fa-regular fa-heading"
+  },
+  {
+    "type": "rp_webserver_has_header",
+    "message0": "%1 存在请求头 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": ["String"]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#795548",
+    "tooltip": "检查是否存在指定名称的请求头",
+    "icon": "fa-regular fa-heading"
+  },
+  {
+    "type": "rp_webserver_host_header",
+    "message0": "%1 Host请求头",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      }
+    ],
+    "output": "String",
+    "colour": "#795548",
+    "tooltip": "获取请求的Host头",
+    "icon": "fa-regular fa-heading"
+  },
+  {
+    "type": "rp_webserver_collect_headers",
+    "message0": "%1 收集请求头 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "HEADERS",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "设置要收集的请求头（多个用逗号分隔）",
+    "icon": "fa-regular fa-heading"
+  },
+  {
+    "type": "rp_webserver_enable_cors",
+    "message0": "%1 启用CORS跨域",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "启用跨域资源共享（CORS）",
+    "icon": "fa-regular fa-globe"
+  },
+  {
+    "type": "rp_webserver_stop",
+    "message0": "停止服务器 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "停止Web服务器",
+    "icon": "fa-regular fa-stop"
+  },
+  {
+    "type": "rp_webserver_authenticate",
+    "message0": "%1 验证用户名 %2 密码 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "USERNAME",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD",
+        "check": ["String"]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#E91E63",
+    "tooltip": "验证HTTP基本认证的用户名和密码",
+    "icon": "fa-regular fa-lock"
+  },
+  {
+    "type": "rp_webserver_request_authentication",
+    "message0": "%1 请求认证 提示 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["WebServer"],
+        "defaultType": "WebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "REALM",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "请求客户端进行HTTP认证",
+    "icon": "fa-regular fa-lock"
+  }
+]

@@ -1,0 +1,370 @@
+{
+  "kind": "category",
+  "name": "Pico HTTPClient",
+  "icon": "fa-light fa-globe",
+  "colour": "#2196F3",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_create"
+    },
+    {
+      "kind": "label",
+      "text": "连接"
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_begin_url",
+      "inputs": {
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "http://example.com"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_begin_host",
+      "inputs": {
+        "HOST": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "example.com"
+            }
+          }
+        },
+        "PORT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 80
+            }
+          }
+        },
+        "URI": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_begin_https",
+      "inputs": {
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "https://example.com"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_end"
+    },
+    {
+      "kind": "label",
+      "text": "配置"
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_set_timeout",
+      "inputs": {
+        "TIMEOUT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 5000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_set_reuse"
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_set_user_agent",
+      "inputs": {
+        "USER_AGENT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "RP2040-HTTPClient"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_set_authorization",
+      "inputs": {
+        "USER": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "username"
+            }
+          }
+        },
+        "PASSWORD": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "password"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_set_authorization_token",
+      "inputs": {
+        "TOKEN": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Bearer token"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_set_follow_redirects"
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_set_redirect_limit",
+      "inputs": {
+        "LIMIT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_add_header",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Content-Type"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "application/json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "请求"
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_get"
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_post",
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "{\"key\":\"value\"}"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_put",
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "{\"key\":\"value\"}"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_patch",
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "{\"key\":\"value\"}"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_delete"
+    },
+    {
+      "kind": "label",
+      "text": "响应"
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_get_response_code"
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_code_list"
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_get_size"
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_get_string"
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_get_header",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Content-Type"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_get_location"
+    },
+    {
+      "kind": "label",
+      "text": "状态"
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_connected"
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_error_to_string",
+      "inputs": {
+        "ERROR_CODE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": -1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "快速操作"
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_quick_get",
+      "inputs": {
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "http://httpbin.org/get"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_quick_post",
+      "inputs": {
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "http://httpbin.org/post"
+            }
+          }
+        },
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "hello=world"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rp_httpclient_quick_post_json",
+      "inputs": {
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "http://httpbin.org/post"
+            }
+          }
+        },
+        "JSON": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "{\"hello\":\"world\"}"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
