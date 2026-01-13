@@ -1,0 +1,625 @@
+[
+  {
+    "type": "rp_httpclient_create",
+    "message0": "创建HTTP客户端 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "http"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "创建一个新的HTTPClient对象",
+    "icon": "fa-regular fa-globe"
+  },
+  {
+    "type": "rp_httpclient_begin_url",
+    "message0": "连接 %1 到URL %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      },
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "连接到指定的URL",
+    "icon": "fa-regular fa-globe"
+  },
+  {
+    "type": "rp_httpclient_begin_host",
+    "message0": "连接 %1 到主机 %2 端口 %3 路径 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      },
+      {
+        "type": "input_value",
+        "name": "HOST",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "URI",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "连接到指定的主机、端口和路径",
+    "icon": "fa-regular fa-globe"
+  },
+  {
+    "type": "rp_httpclient_begin_https",
+    "message0": "安全连接 %1 到URL %2 (跳过证书验证)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      },
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "安全连接到HTTPS URL（跳过证书验证）",
+    "icon": "fa-regular fa-lock"
+  },
+  {
+    "type": "rp_httpclient_end",
+    "message0": "断开连接 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "断开HTTP连接",
+    "icon": "fa-regular fa-globe"
+  },
+  {
+    "type": "rp_httpclient_set_timeout",
+    "message0": "设置 %1 超时时间 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      },
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置连接超时时间（毫秒）",
+    "icon": "fa-regular fa-clock"
+  },
+  {
+    "type": "rp_httpclient_set_reuse",
+    "message0": "设置 %1 复用连接 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "REUSE",
+        "options": [
+          ["启用", "true"],
+          ["禁用", "false"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置是否复用TCP连接（keep-alive）",
+    "icon": "fa-regular fa-recycle"
+  },
+  {
+    "type": "rp_httpclient_set_user_agent",
+    "message0": "设置 %1 用户代理 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      },
+      {
+        "type": "input_value",
+        "name": "USER_AGENT",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置HTTP用户代理字符串",
+    "icon": "fa-regular fa-id-card"
+  },
+  {
+    "type": "rp_httpclient_set_authorization",
+    "message0": "设置 %1 认证 用户名 %2 密码 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      },
+      {
+        "type": "input_value",
+        "name": "USER",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置HTTP基本认证",
+    "icon": "fa-regular fa-key"
+  },
+  {
+    "type": "rp_httpclient_set_authorization_token",
+    "message0": "设置 %1 认证令牌 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      },
+      {
+        "type": "input_value",
+        "name": "TOKEN",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置HTTP Bearer令牌认证",
+    "icon": "fa-regular fa-key"
+  },
+  {
+    "type": "rp_httpclient_set_follow_redirects",
+    "message0": "设置 %1 重定向跟随 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FOLLOW",
+        "options": [
+          ["禁用", "HTTPC_DISABLE_FOLLOW_REDIRECTS"],
+          ["严格模式(仅GET/HEAD)", "HTTPC_STRICT_FOLLOW_REDIRECTS"],
+          ["强制模式(所有方法)", "HTTPC_FORCE_FOLLOW_REDIRECTS"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置HTTP重定向跟随模式",
+    "icon": "fa-regular fa-directions"
+  },
+  {
+    "type": "rp_httpclient_set_redirect_limit",
+    "message0": "设置 %1 最大重定向次数 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      },
+      {
+        "type": "input_value",
+        "name": "LIMIT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置最大重定向次数",
+    "icon": "fa-regular fa-directions"
+  },
+  {
+    "type": "rp_httpclient_add_header",
+    "message0": "添加 %1 请求头 %2 值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      },
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "添加HTTP请求头",
+    "icon": "fa-regular fa-list"
+  },
+  {
+    "type": "rp_httpclient_get",
+    "message0": "发送GET请求 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "发送HTTP GET请求",
+    "icon": "fa-regular fa-download"
+  },
+  {
+    "type": "rp_httpclient_post",
+    "message0": "发送POST请求 %1 数据 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "发送HTTP POST请求",
+    "icon": "fa-regular fa-upload"
+  },
+  {
+    "type": "rp_httpclient_put",
+    "message0": "发送PUT请求 %1 数据 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "发送HTTP PUT请求",
+    "icon": "fa-regular fa-upload"
+  },
+  {
+    "type": "rp_httpclient_patch",
+    "message0": "发送PATCH请求 %1 数据 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "发送HTTP PATCH请求",
+    "icon": "fa-regular fa-upload"
+  },
+  {
+    "type": "rp_httpclient_delete",
+    "message0": "发送DELETE请求 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "发送HTTP DELETE请求",
+    "icon": "fa-regular fa-trash"
+  },
+  {
+    "type": "rp_httpclient_get_response_code",
+    "message0": "获取响应状态码",
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取最后一次请求的HTTP响应状态码",
+    "icon": "fa-regular fa-hashtag"
+  },
+  {
+    "type": "rp_httpclient_code_list",
+    "message0": "HTTP状态码 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CODE",
+        "options": [
+          ["200 OK", "HTTP_CODE_OK"],
+          ["201 Created", "HTTP_CODE_CREATED"],
+          ["204 No Content", "HTTP_CODE_NO_CONTENT"],
+          ["301 永久移动", "HTTP_CODE_MOVED_PERMANENTLY"],
+          ["302 Found", "HTTP_CODE_FOUND"],
+          ["304 Not Modified", "HTTP_CODE_NOT_MODIFIED"],
+          ["400 Bad Request", "HTTP_CODE_BAD_REQUEST"],
+          ["401 Unauthorized", "HTTP_CODE_UNAUTHORIZED"],
+          ["403 Forbidden", "HTTP_CODE_FORBIDDEN"],
+          ["404 Not Found", "HTTP_CODE_NOT_FOUND"],
+          ["500 Server Error", "HTTP_CODE_INTERNAL_SERVER_ERROR"],
+          ["502 Bad Gateway", "HTTP_CODE_BAD_GATEWAY"],
+          ["503 Service Unavailable", "HTTP_CODE_SERVICE_UNAVAILABLE"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "HTTP状态码常量",
+    "icon": "fa-regular fa-list"
+  },
+  {
+    "type": "rp_httpclient_get_size",
+    "message0": "获取 %1 响应大小",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取响应内容大小（字节）",
+    "icon": "fa-regular fa-ruler"
+  },
+  {
+    "type": "rp_httpclient_get_string",
+    "message0": "获取 %1 响应内容",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "获取响应内容字符串",
+    "icon": "fa-regular fa-file-text"
+  },
+  {
+    "type": "rp_httpclient_get_header",
+    "message0": "获取 %1 响应头 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      },
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": ["String"]
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "获取指定响应头的值",
+    "icon": "fa-regular fa-list"
+  },
+  {
+    "type": "rp_httpclient_get_location",
+    "message0": "获取 %1 重定向位置",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "获取重定向的Location头值",
+    "icon": "fa-regular fa-map-marker"
+  },
+  {
+    "type": "rp_httpclient_connected",
+    "message0": "%1 已连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "tooltip": "检查HTTP连接是否已建立",
+    "icon": "fa-regular fa-plug"
+  },
+  {
+    "type": "rp_httpclient_error_to_string",
+    "message0": "%1 错误码 %2 转文本",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["HTTPClient"],
+        "defaultType": "HTTPClient"
+      },
+      {
+        "type": "input_value",
+        "name": "ERROR_CODE",
+        "check": ["Number"]
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "将错误代码转换为可读的错误信息",
+    "icon": "fa-regular fa-exclamation-triangle"
+  },
+  {
+    "type": "rp_httpclient_quick_get",
+    "message0": "快速GET请求 URL %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      }
+    ],
+    "output": "String",
+    "colour": "#8BC34A",
+    "tooltip": "快速发送GET请求并返回响应内容",
+    "icon": "fa-regular fa-bolt"
+  },
+  {
+    "type": "rp_httpclient_quick_post",
+    "message0": "快速POST请求 URL %1 数据 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": ["String"]
+      }
+    ],
+    "output": "String",
+    "colour": "#8BC34A",
+    "tooltip": "快速发送POST请求并返回响应内容",
+    "icon": "fa-regular fa-bolt"
+  },
+  {
+    "type": "rp_httpclient_quick_post_json",
+    "message0": "快速POST JSON URL %1 JSON %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "JSON",
+        "check": ["String"]
+      }
+    ],
+    "output": "String",
+    "colour": "#8BC34A",
+    "tooltip": "快速发送JSON POST请求并返回响应内容",
+    "icon": "fa-regular fa-bolt"
+  }
+]
