@@ -8,6 +8,9 @@ if (!Arduino.lvgl) {
   Arduino.lvgl_type = '';
   Arduino.lvgl_font = '';
   Arduino.lvgl_img_font = false;
+  Arduino.lvgl_stdlib_malloc = '';
+  Arduino.lvgl_stdlib_string = '';
+  Arduino.lvgl_stdlib_sprintf = '';
   Arduino.lvgl_fonts_used = {}; // 跟踪正在使用的字体
 }
 
@@ -52,6 +55,42 @@ if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
                 .then(() => console.log('LVGL image font macro removed'))
                 .catch(err => console.error('Failed to remove LVGL image font macro:', err));
               Arduino.lvgl_img_font = false;
+            }
+          }
+        }
+
+        if (event.oldJson && event.oldJson.type == 'lvgl_set_stdlib_malloc') {
+          if (Arduino.lvgl_stdlib_malloc != '') {
+            console.log('delete LVGL stdlib malloc macro');
+            if (window['projectService']) {
+              window['projectService'].removeMacro('LV_USE_STDLIB_MALLOC')
+                .then(() => console.log('LVGL stdlib malloc macro removed'))
+                .catch(err => console.error('Failed to remove LVGL stdlib malloc macro:', err));
+              Arduino.lvgl_stdlib_malloc = '';
+            }
+          }
+        }
+
+        if (event.oldJson && event.oldJson.type == 'lvgl_set_stdlib_string') {
+          if (Arduino.lvgl_stdlib_string != '') {
+            console.log('delete LVGL stdlib string macro');
+            if (window['projectService']) {
+              window['projectService'].removeMacro('LV_USE_STDLIB_STRING')
+                .then(() => console.log('LVGL stdlib string macro removed'))
+                .catch(err => console.error('Failed to remove LVGL stdlib string macro:', err));
+              Arduino.lvgl_stdlib_string = '';
+            }
+          }
+        }
+
+        if (event.oldJson && event.oldJson.type == 'lvgl_set_stdlib_sprintf') {
+          if (Arduino.lvgl_stdlib_sprintf != '') {
+            console.log('delete LVGL stdlib sprintf macro');
+            if (window['projectService']) {
+              window['projectService'].removeMacro('LV_USE_STDLIB_SPRINTF')
+                .then(() => console.log('LVGL stdlib sprintf macro removed'))
+                .catch(err => console.error('Failed to remove LVGL stdlib sprintf macro:', err));
+              Arduino.lvgl_stdlib_sprintf = '';
             }
           }
         }
@@ -1600,3 +1639,51 @@ Arduino.forBlock['lvgl_set_img_font'] = function(block, generator) {
 
   return '';
 }
+
+Arduino.forBlock['lvgl_set_stdlib_malloc'] = function(block, generator) {
+  const lib = block.getFieldValue('LIB');
+
+  if (Arduino.lvgl_stdlib_malloc !== lib) {
+    Arduino.lvgl_stdlib_malloc = lib;
+
+    if (window['projectService']) {
+      window['projectService'].addMacro('LV_USE_STDLIB_MALLOC=' + lib)
+        .then(() => console.log('Macro added: LV_USE_STDLIB_MALLOC=' + lib))
+        .catch((err) => console.error('Error adding macro:', err));
+    }
+  }
+
+  return '';
+};
+
+Arduino.forBlock['lvgl_set_stdlib_string'] = function(block, generator) {
+  const lib = block.getFieldValue('LIB');
+
+  if (Arduino.lvgl_stdlib_string !== lib) {
+    Arduino.lvgl_stdlib_string = lib;
+
+    if (window['projectService']) {
+      window['projectService'].addMacro('LV_USE_STDLIB_STRING=' + lib)
+        .then(() => console.log('Macro added: LV_USE_STDLIB_STRING=' + lib))
+        .catch((err) => console.error('Error adding macro:', err));
+    }
+  }
+
+  return '';
+};
+
+Arduino.forBlock['lvgl_set_stdlib_sprintf'] = function(block, generator) {
+  const lib = block.getFieldValue('LIB');
+
+  if (Arduino.lvgl_stdlib_sprintf !== lib) {
+    Arduino.lvgl_stdlib_sprintf = lib;
+    
+    if (window['projectService']) {
+      window['projectService'].addMacro('LV_USE_STDLIB_SPRINTF=' + lib)
+        .then(() => console.log('Macro added: LV_USE_STDLIB_SPRINTF=' + lib))
+        .catch((err) => console.error('Error adding macro:', err));
+    }
+  }
+
+  return '';
+};
