@@ -69,7 +69,9 @@ ESP32摄像头网络服务器库,支持多种ESP32开发板的摄像头功能。
 - M5Stack Wide
 - ESP Eye
 - FireBeetle 2 ESP32S3 (需要AXP313A电源管理)
+- NL-ESP32-S3-CAM
 - XIAO ESP32S3
+- ESP32-S3-WROOM-CAM (新增)
 
 ## 支持的分辨率
 
