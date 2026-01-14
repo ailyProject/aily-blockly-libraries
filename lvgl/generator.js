@@ -1617,6 +1617,8 @@ Arduino.forBlock['lvgl_tabview_add_tab'] = function(block, generator) {
 };
 
 Arduino.forBlock['lvgl_set_img_font'] = function(block, generator) {
+  ensureLvglLib(generator);
+  
   const font = block.getFieldValue('ENABLE');
 
   if (font === 'true') {
@@ -1641,6 +1643,8 @@ Arduino.forBlock['lvgl_set_img_font'] = function(block, generator) {
 }
 
 Arduino.forBlock['lvgl_set_stdlib_malloc'] = function(block, generator) {
+  ensureLvglLib(generator);
+
   const lib = block.getFieldValue('LIB');
 
   if (Arduino.lvgl_stdlib_malloc !== lib) {
@@ -1657,6 +1661,8 @@ Arduino.forBlock['lvgl_set_stdlib_malloc'] = function(block, generator) {
 };
 
 Arduino.forBlock['lvgl_set_stdlib_string'] = function(block, generator) {
+  ensureLvglLib(generator);
+
   const lib = block.getFieldValue('LIB');
 
   if (Arduino.lvgl_stdlib_string !== lib) {
@@ -1673,6 +1679,8 @@ Arduino.forBlock['lvgl_set_stdlib_string'] = function(block, generator) {
 };
 
 Arduino.forBlock['lvgl_set_stdlib_sprintf'] = function(block, generator) {
+  ensureLvglLib(generator);
+
   const lib = block.getFieldValue('LIB');
 
   if (Arduino.lvgl_stdlib_sprintf !== lib) {
