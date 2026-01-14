@@ -1039,36 +1039,36 @@ Arduino.forBlock["variables_set"] = function (block, generator) {
     block.getFieldValue("VAR"),
   );
 
-  // 检查工作区中是否有变量定义块定义了当前变量
-  const workspace = block.workspace;
-  const allBlocks = workspace.getAllBlocks(false);
-  const defineBlockTypes = [
-    'variable_define',
-    'variable_define_scoped',
-    'variable_define_advanced',
-    'variable_define_advanced_scoped'
-  ];
+  // // 检查工作区中是否有变量定义块定义了当前变量
+  // const workspace = block.workspace;
+  // const allBlocks = workspace.getAllBlocks(false);
+  // const defineBlockTypes = [
+  //   'variable_define',
+  //   'variable_define_scoped',
+  //   'variable_define_advanced',
+  //   'variable_define_advanced_scoped'
+  // ];
   
-  let isVariableDefined = false;
-  for (const b of allBlocks) {
-    if (defineBlockTypes.includes(b.type)) {
-      const varField = b.getField('VAR');
-      if (varField && varField.getText() === code) {
-        isVariableDefined = true;
-        break;
-      }
-    }
-  }
+  // let isVariableDefined = false;
+  // for (const b of allBlocks) {
+  //   if (defineBlockTypes.includes(b.type)) {
+  //     const varField = b.getField('VAR');
+  //     if (varField && varField.getText() === code) {
+  //       isVariableDefined = true;
+  //       break;
+  //     }
+  //   }
+  // }
   
-  // 如果变量未被定义，自动添加全局变量声明
-  if (!isVariableDefined) {
-    // 根据变量类型确定默认类型，如果没有类型则使用 int
-    let varType = type || 'int';
-    if (varType === 'string') {
-      varType = 'String';
-    }
-    Arduino.addVariable(`${varType}_${code}`, `${varType} ${code};`);
-  }
+  // // 如果变量未被定义，自动添加全局变量声明
+  // if (!isVariableDefined) {
+  //   // 根据变量类型确定默认类型，如果没有类型则使用 int
+  //   let varType = type || 'int';
+  //   if (varType === 'string') {
+  //     varType = 'String';
+  //   }
+  //   Arduino.addVariable(`${varType}_${code}`, `${varType} ${code};`);
+  // }
 
   return `${code} = ${value};\n`;
 };
