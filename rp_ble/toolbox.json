@@ -1,0 +1,263 @@
+{
+    "kind": "category",
+    "icon": "fa-light fa-bluetooth",
+    "name": "Pico BLE",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "初始化"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_setup",
+            "inputs": {
+                "NAME": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "Pico BLE"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_setup_simple"
+        },
+        {
+            "kind": "label",
+            "text": "广播管理"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_start_advertising"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_stop_advertising"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_ibeacon_configure",
+            "inputs": {
+                "UUID": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "E2C56DB5-DFFB-48D2-B060-D0F5A71096E0"
+                        }
+                    }
+                },
+                "MAJOR": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1
+                        }
+                    }
+                },
+                "MINOR": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "扫描设备"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_start_scanning"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_stop_scanning"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_on_advertisement"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_adv_get_address"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_adv_get_rssi"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_adv_is_ibeacon"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_adv_name_has_prefix",
+            "inputs": {
+                "PREFIX": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "Pico"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "GATT服务"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_add_service",
+            "inputs": {
+                "UUID": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "B8E06067-62AD-41BA-9231-206AE80AB551"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_add_characteristic",
+            "inputs": {
+                "UUID": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "f897177b-aee8-4767-8ecc-cc694fd5fcef"
+                        }
+                    }
+                },
+                "VALUE": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "Hello BLE"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_add_characteristic_dynamic",
+            "inputs": {
+                "UUID": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "f897177b-aee8-4767-8ecc-cc694fd5fce0"
+                        }
+                    }
+                },
+                "CHAR_ID": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "事件回调"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_on_device_connected"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_on_device_disconnected"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_on_characteristic_read",
+            "inputs": {
+                "RETURN_SIZE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_on_characteristic_write"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_write_buffer",
+            "inputs": {
+                "DATA": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "A"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "连接管理"
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_connect",
+            "inputs": {
+                "ADDRESS": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "00:00:00:00:00:00"
+                        }
+                    }
+                },
+                "TIMEOUT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 10000
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_connect_adv",
+            "inputs": {
+                "TIMEOUT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 10000
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "rp_ble_disconnect"
+        }
+    ]
+}

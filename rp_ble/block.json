@@ -1,0 +1,465 @@
+[
+    {
+        "type": "rp_ble_setup",
+        "message0": "初始化BLE 设备名称 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "NAME",
+                "check": "String"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#2196F3",
+        "tooltip": "初始化BLE蓝牙，并设置设备名称",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_setup_simple",
+        "message0": "初始化BLE (使用默认名称)",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#2196F3",
+        "tooltip": "使用默认名称初始化BLE蓝牙",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_start_advertising",
+        "message0": "开始BLE广播",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#2196F3",
+        "tooltip": "开始BLE广播，让其他设备可以发现",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_stop_advertising",
+        "message0": "停止BLE广播",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#2196F3",
+        "tooltip": "停止BLE广播",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_ibeacon_configure",
+        "message0": "配置iBeacon UUID %1 主ID %2 副ID %3",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "UUID",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "MAJOR",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "MINOR",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#2196F3",
+        "tooltip": "配置iBeacon参数",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_start_scanning",
+        "message0": "开始BLE扫描",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "开始扫描周围的BLE设备",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_stop_scanning",
+        "message0": "停止BLE扫描",
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "tooltip": "停止扫描BLE设备",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_on_advertisement",
+        "message0": "当扫描到BLE广播时 设备信息存入 %1",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "ADV_VAR",
+                "text": "bleAdv"
+            }
+        ],
+        "message1": "执行 %1",
+        "args1": [
+            {
+                "type": "input_statement",
+                "name": "HANDLER"
+            }
+        ],
+        "colour": "#4CAF50",
+        "tooltip": "当扫描到BLE设备广播时执行代码",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_adv_get_address",
+        "message0": "获取广播 %1 的设备地址",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "ADV_VAR",
+                "variable": "bleAdv",
+                "variableTypes": ["BLEAdvertisement"],
+                "defaultType": "BLEAdvertisement"
+            }
+        ],
+        "output": "String",
+        "colour": "#4CAF50",
+        "tooltip": "获取广播设备的MAC地址",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_adv_get_rssi",
+        "message0": "获取广播 %1 的信号强度(RSSI)",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "ADV_VAR",
+                "variable": "bleAdv",
+                "variableTypes": ["BLEAdvertisement"],
+                "defaultType": "BLEAdvertisement"
+            }
+        ],
+        "output": "Number",
+        "colour": "#4CAF50",
+        "tooltip": "获取广播设备的信号强度RSSI",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_adv_is_ibeacon",
+        "message0": "广播 %1 是iBeacon",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "ADV_VAR",
+                "variable": "bleAdv",
+                "variableTypes": ["BLEAdvertisement"],
+                "defaultType": "BLEAdvertisement"
+            }
+        ],
+        "output": "Boolean",
+        "colour": "#4CAF50",
+        "tooltip": "检查广播是否为iBeacon",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_adv_name_has_prefix",
+        "message0": "广播 %1 设备名以 %2 开头",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "ADV_VAR",
+                "variable": "bleAdv",
+                "variableTypes": ["BLEAdvertisement"],
+                "defaultType": "BLEAdvertisement"
+            },
+            {
+                "type": "input_value",
+                "name": "PREFIX",
+                "check": "String"
+            }
+        ],
+        "inputsInline": true,
+        "output": "Boolean",
+        "colour": "#4CAF50",
+        "tooltip": "检查广播设备名是否以指定前缀开头",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_add_service",
+        "message0": "添加GATT服务 UUID %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "UUID",
+                "check": "String"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "添加一个GATT服务",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_add_characteristic",
+        "message0": "添加特征 UUID %1 属性 %2 初始值 %3",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "UUID",
+                "check": "String"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PROPS",
+                "options": [
+                    ["只读", "ATT_PROPERTY_READ"],
+                    ["只写", "ATT_PROPERTY_WRITE"],
+                    ["读写", "ATT_PROPERTY_READ | ATT_PROPERTY_WRITE"],
+                    ["通知", "ATT_PROPERTY_NOTIFY"],
+                    ["读+通知", "ATT_PROPERTY_READ | ATT_PROPERTY_NOTIFY"],
+                    ["读写+通知", "ATT_PROPERTY_READ | ATT_PROPERTY_WRITE | ATT_PROPERTY_NOTIFY"]
+                ]
+            },
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "String"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "添加一个静态特征值",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_add_characteristic_dynamic",
+        "message0": "添加动态特征 UUID %1 属性 %2 ID %3",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "UUID",
+                "check": "String"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PROPS",
+                "options": [
+                    ["只读", "ATT_PROPERTY_READ"],
+                    ["只写", "ATT_PROPERTY_WRITE"],
+                    ["读写", "ATT_PROPERTY_READ | ATT_PROPERTY_WRITE"],
+                    ["通知", "ATT_PROPERTY_NOTIFY"],
+                    ["读+通知", "ATT_PROPERTY_READ | ATT_PROPERTY_NOTIFY"],
+                    ["读写+通知", "ATT_PROPERTY_READ | ATT_PROPERTY_WRITE | ATT_PROPERTY_NOTIFY"]
+                ]
+            },
+            {
+                "type": "input_value",
+                "name": "CHAR_ID",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#9C27B0",
+        "tooltip": "添加一个动态特征，读写通过回调处理",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_on_device_connected",
+        "message0": "当BLE设备连接时 设备存入 %1",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "DEV_VAR",
+                "text": "bleDevice"
+            }
+        ],
+        "message1": "执行 %1",
+        "args1": [
+            {
+                "type": "input_statement",
+                "name": "HANDLER"
+            }
+        ],
+        "colour": "#FF9800",
+        "tooltip": "当BLE设备连接成功时执行代码",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_on_device_disconnected",
+        "message0": "当BLE设备断开连接时",
+        "message1": "执行 %1",
+        "args1": [
+            {
+                "type": "input_statement",
+                "name": "HANDLER"
+            }
+        ],
+        "colour": "#FF9800",
+        "tooltip": "当BLE设备断开连接时执行代码",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_on_characteristic_read",
+        "message0": "当特征被读取时 特征ID %1 缓冲区 %2 缓冲区大小 %3",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "CHAR_ID_VAR",
+                "text": "charId"
+            },
+            {
+                "type": "field_input",
+                "name": "BUFFER_VAR",
+                "text": "buffer"
+            },
+            {
+                "type": "field_input",
+                "name": "SIZE_VAR",
+                "text": "bufferSize"
+            }
+        ],
+        "message1": "执行 %1",
+        "args1": [
+            {
+                "type": "input_statement",
+                "name": "HANDLER"
+            }
+        ],
+        "message2": "返回数据长度 %1",
+        "args2": [
+            {
+                "type": "input_value",
+                "name": "RETURN_SIZE",
+                "check": "Number"
+            }
+        ],
+        "colour": "#FF9800",
+        "tooltip": "当动态特征被读取时执行代码，需要返回数据长度",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_on_characteristic_write",
+        "message0": "当特征被写入时 特征ID %1 数据 %2 数据长度 %3",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "CHAR_ID_VAR",
+                "text": "charId"
+            },
+            {
+                "type": "field_input",
+                "name": "DATA_VAR",
+                "text": "data"
+            },
+            {
+                "type": "field_input",
+                "name": "LEN_VAR",
+                "text": "dataLen"
+            }
+        ],
+        "message1": "执行 %1",
+        "args1": [
+            {
+                "type": "input_statement",
+                "name": "HANDLER"
+            }
+        ],
+        "colour": "#FF9800",
+        "tooltip": "当动态特征被写入时执行代码",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_write_buffer",
+        "message0": "写入缓冲区 %1 数据 %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "BUFFER_VAR",
+                "variable": "buffer",
+                "variableTypes": ["uint8_t*"],
+                "defaultType": "uint8_t*"
+            },
+            {
+                "type": "input_value",
+                "name": "DATA",
+                "check": ["String", "Number"]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF9800",
+        "tooltip": "向缓冲区写入数据（用于特征读取回调）",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_connect",
+        "message0": "连接BLE设备 地址 %1 超时 %2 毫秒",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "ADDRESS",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "TIMEOUT",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#E91E63",
+        "tooltip": "连接指定地址的BLE设备",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_connect_adv",
+        "message0": "连接BLE广播设备 %1 超时 %2 毫秒",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "ADV_VAR",
+                "variable": "bleAdv",
+                "variableTypes": ["BLEAdvertisement"],
+                "defaultType": "BLEAdvertisement"
+            },
+            {
+                "type": "input_value",
+                "name": "TIMEOUT",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#E91E63",
+        "tooltip": "连接扫描到的BLE广播设备",
+        "icon": "fa-light fa-bluetooth"
+    },
+    {
+        "type": "rp_ble_disconnect",
+        "message0": "断开BLE设备 %1",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "DEV_VAR",
+                "variable": "bleDevice",
+                "variableTypes": ["BLEDevice"],
+                "defaultType": "BLEDevice"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#E91E63",
+        "tooltip": "断开与BLE设备的连接",
+        "icon": "fa-light fa-bluetooth"
+    }
+]
