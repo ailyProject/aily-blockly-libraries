@@ -11,6 +11,7 @@ if (!Arduino.lvgl) {
   Arduino.lvgl_stdlib_malloc = '';
   Arduino.lvgl_stdlib_string = '';
   Arduino.lvgl_stdlib_sprintf = '';
+  Arduino.lvgl_theme = '';
   Arduino.lvgl_fonts_used = {}; // 跟踪正在使用的字体
 }
 
@@ -91,6 +92,18 @@ if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
                 .then(() => console.log('LVGL stdlib sprintf macro removed'))
                 .catch(err => console.error('Failed to remove LVGL stdlib sprintf macro:', err));
               Arduino.lvgl_stdlib_sprintf = '';
+            }
+          }
+        }
+
+        if (event.oldJson && event.oldJson.type == 'lvgl_set_theme') {
+          if (Arduino.lvgl_theme != '') {
+            console.log('delete LVGL theme macro');
+            if (window['projectService']) {
+              window['projectService'].removeMacro(Arduino.lvgl_theme)
+                .then(() => console.log('LVGL theme macro removed'))
+                .catch(err => console.error('Failed to remove LVGL theme macro:', err));
+              Arduino.lvgl_theme = '';
             }
           }
         }
@@ -1689,6 +1702,24 @@ Arduino.forBlock['lvgl_set_stdlib_sprintf'] = function(block, generator) {
     if (window['projectService']) {
       window['projectService'].addMacro('LV_USE_STDLIB_SPRINTF=' + lib)
         .then(() => console.log('Macro added: LV_USE_STDLIB_SPRINTF=' + lib))
+        .catch((err) => console.error('Error adding macro:', err));
+    }
+  }
+
+  return '';
+};
+
+Arduino.forBlock['lvgl_set_theme'] = function(block, generator) {
+  ensureLvglLib(generator);
+
+  const theme = block.getFieldValue('THEME');
+
+  if (Arduino.lvgl_theme !== theme) {
+    Arduino.lvgl_theme = theme;
+
+    if (window['projectService']) {
+      window['projectService'].addMacro('LV_THEME_DEFAULT_DARK=' + (theme === 'dark' ? '1' : '0'))
+        .then(() => console.log('Macro added: LV_THEME_DEFAULT_DARK=' + (theme === 'dark' ? '1' : '0')))
         .catch((err) => console.error('Error adding macro:', err));
     }
   }
