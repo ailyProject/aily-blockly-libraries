@@ -180,6 +180,7 @@ Arduino.forBlock['tftespi_setup'] = function(block, generator) {
   const rst = cleanValue(generator.valueToCode(block, 'RST', generator.ORDER_ATOMIC) || '-1');
   const bl = cleanValue(generator.valueToCode(block, 'BL', generator.ORDER_ATOMIC) || '-1');
   const blLevel = block.getFieldValue('BL_LEVEL') || 'HIGH';
+  // const rotation = block.getFieldValue('ROTATION') || '0';
 
   if (Arduino.tft_espi_type !== model ||
       Arduino.tft_espi_frequency != frequency ||
@@ -289,6 +290,17 @@ Arduino.forBlock['tftespi_setup'] = function(block, generator) {
   generator.addVariable(varName, 'TFT_eSPI ' + varName + ' = TFT_eSPI();');
 
   let code = varName + '.init();\n';
+  // code += varName + `.setRotation(${rotation});\n`;
+
+  return code;
+};
+
+Arduino.forBlock['tftespi_set_rotation'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+  const rotation = block.getFieldValue('ROTATION') || '0';
+
+  let code = varName + `.setRotation(${rotation});\n`;
 
   return code;
 };
