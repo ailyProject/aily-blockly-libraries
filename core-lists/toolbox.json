@@ -5,49 +5,40 @@
   "colour": "#03A9F4",
   "contents": [
     {
+      "kind": "label",
+      "text": "创建数组"
+    },
+    {
       "kind": "block",
-      "type": "list_create_with",
+      "type": "list_create_empty",
       "inputs": {
-        "INPUT0": {
+        "LENGTH": {
           "block": {
             "kind": "block",
-            "type": "list_create_with_item",
+            "type": "math_number",
+            "fields": { "NUM": "10" }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list_create_with_values",
+      "inputs": {
+        "VALUES": {
+          "block": {
+            "kind": "block",
+            "type": "list_values",
+            "extraState": { "extraCount": 2 },
             "inputs": {
-              "LENGTH": {
-                "block": {
-                  "kind": "block",
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "3"
-                  }
-                }
+              "INPUT0": {
+                "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "1" } }
               },
-              "VALUE0": {
-                "block": {
-                  "kind": "block",
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "1"
-                  }
-                }
+              "INPUT1": {
+                "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "2" } }
               },
-              "VALUE1": {
-                "block": {
-                  "kind": "block",
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "2"
-                  }
-                }
-              },
-              "VALUE2": {
-                "block": {
-                  "kind": "block",
-                  "type": "math_number",
-                  "fields": {
-                    "NUM": "3"
-                  }
-                }
+              "INPUT2": {
+                "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "3" } }
               }
             }
           }
@@ -56,97 +47,59 @@
     },
     {
       "kind": "block",
-      "type": "list_create_with",
+      "type": "list_from_string",
       "inputs": {
-        "INPUT0": {
+        "TEXT": {
           "block": {
             "kind": "block",
             "type": "text",
-            "fields": {
-              "TEXT": "Hello, World!"
-            }
+            "fields": { "TEXT": "Hello" }
           }
         }
       }
     },
     {
       "kind": "block",
-      "type": "list_create_with_item",
+      "type": "list_values",
+      "extraState": { "extraCount": 2 },
       "inputs": {
-        "LENGTH": {
-          "block": {
-            "kind": "block",
-            "type": "math_number",
-            "fields": {
-              "NUM": "3"
-            }
-          }
+        "INPUT0": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "1" } }
         },
-        "VALUE0": {
-          "block": {
-            "kind": "block",
-            "type": "math_number",
-            "fields": {
-              "NUM": "1"
-            }
-          }
+        "INPUT1": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "2" } }
         },
-        "VALUE1": {
-          "block": {
-            "kind": "block",
-            "type": "math_number",
-            "fields": {
-              "NUM": "2"
-            }
-          }
-        },
-        "VALUE2": {
-          "block": {
-            "kind": "block",
-            "type": "math_number",
-            "fields": {
-              "NUM": "3"
-            }
-          }
+        "INPUT2": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "3" } }
         }
       }
     },
     {
       "kind": "block",
-      "type": "list_get_index",
+      "type": "list_values_simple"
+    },
+    {
+      "kind": "label",
+      "text": "读写元素"
+    },
+    {
+      "kind": "block",
+      "type": "list_get",
       "inputs": {
-        "AT": {
-          "block": {
-            "kind": "block",
-            "type": "math_number",
-            "fields": {
-              "NUM": "0"
-            }
-          }
+        "INDEX": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "0" } }
         }
       }
     },
     {
       "kind": "block",
-      "type": "list_set_index",
+      "type": "list_set",
       "inputs": {
-        "AT": {
-          "block": {
-            "kind": "block",
-            "type": "math_number",
-            "fields": {
-              "NUM": "0"
-            }
-          }
+        "INDEX": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "0" } }
         },
-        "TO": {
-          "block": {
-            "kind": "block",
-            "type": "math_number",
-            "fields": {
-              "NUM": "10"
-            }
-          }
+        "VALUE": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "10" } }
         }
       }
     },
@@ -155,24 +108,114 @@
       "type": "list_length"
     },
     {
+      "kind": "label",
+      "text": "查找与判断"
+    },
+    {
       "kind": "block",
-      "type": "list2_get_value",
+      "type": "list_find",
       "inputs": {
-        "ROW": {
+        "VALUE": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "5" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list_contains",
+      "inputs": {
+        "VALUE": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "5" } }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "统计计算"
+    },
+    {
+      "kind": "block",
+      "type": "list_min_max"
+    },
+    {
+      "kind": "label",
+      "text": "数组操作"
+    },
+    {
+      "kind": "block",
+      "type": "list_sort"
+    },
+    {
+      "kind": "block",
+      "type": "list_reverse"
+    },
+    {
+      "kind": "block",
+      "type": "list_fill",
+      "inputs": {
+        "VALUE": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "0" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list_copy"
+    },
+    {
+      "kind": "block",
+      "type": "list_shift"
+    },
+    {
+      "kind": "label",
+      "text": "遍历数组"
+    },
+    {
+      "kind": "block",
+      "type": "list_foreach_index"
+    },
+    {
+      "kind": "label",
+      "text": "二维数组"
+    },
+    {
+      "kind": "block",
+      "type": "list2d_create",
+      "inputs": {
+        "ROWS": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "3" } }
+        },
+        "COLS": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "3" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list2d_create_with_values",
+      "extraState": { "extraCount": 1 },
+      "inputs": {
+        "INPUT0": {
           "block": {
             "kind": "block",
-            "type": "math_number",
-            "fields": {
-              "NUM": "0"
+            "type": "list_values",
+            "extraState": { "extraCount": 2 },
+            "inputs": {
+              "INPUT0": { "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "1" } } },
+              "INPUT1": { "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "2" } } },
+              "INPUT2": { "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "3" } } }
             }
           }
         },
-        "COL": {
+        "INPUT1": {
           "block": {
             "kind": "block",
-            "type": "math_number",
-            "fields": {
-              "NUM": "0"
+            "type": "list_values",
+            "extraState": { "extraCount": 2 },
+            "inputs": {
+              "INPUT0": { "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "4" } } },
+              "INPUT1": { "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "5" } } },
+              "INPUT2": { "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "6" } } }
             }
           }
         }
@@ -180,40 +223,34 @@
     },
     {
       "kind": "block",
-      "type": "list2_set_value",
+      "type": "list2d_get",
       "inputs": {
         "ROW": {
-          "block": {
-            "kind": "block",
-            "type": "math_number",
-            "fields": {
-              "NUM": "0"
-            }
-          }
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "0" } }
         },
         "COL": {
-          "block": {
-            "kind": "block",
-            "type": "math_number",
-            "fields": {
-              "NUM": "0"
-            }
-          }
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "0" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list2d_set",
+      "inputs": {
+        "ROW": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "0" } }
+        },
+        "COL": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "0" } }
         },
         "VALUE": {
-          "block": {
-            "kind": "block",
-            "type": "math_number",
-            "fields": {
-              "NUM": "10"
-            }
-          }
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "0" } }
         }
       }
     },
     {
       "kind": "block",
-      "type": "list2_get_length"
+      "type": "list2d_size"
     }
   ]
 }
