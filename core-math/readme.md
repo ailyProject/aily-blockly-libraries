@@ -18,7 +18,6 @@
 | `math_trig` | 值块 | OP(field_dropdown), NUM(input_value) | `"fields":{"OP":"SIN"},"inputs":{"NUM":{"block":{...}}}` | `sin(num)` |
 | `math_constant` | 值块 | CONSTANT(field_dropdown) | `"fields":{"CONSTANT":"PI"}` | `M_PI` |
 | `math_number_property` | 值块 | NUMBER_TO_CHECK(input_value), PROPERTY(field_dropdown) | `"fields":{"PROPERTY":"EVEN"},"inputs":{"NUMBER_TO_CHECK":{"block":{...}}}` | `num % 2 == 0` |
-| `math_change` | 语句块 | VAR(field_variable), DELTA(input_value) | `"fields":{"VAR":{"id":"var_id"}},"inputs":{"DELTA":{"block":{...}}}` | `var += delta;` |
 | `math_round` | 值块 | OP(field_dropdown), NUM(input_value) | `"fields":{"OP":"ROUND"},"inputs":{"NUM":{"block":{...}}}` | `round(num)` |
 | `math_modulo` | 值块 | DIVIDEND(input_value), DIVISOR(input_value) | `"inputs":{"DIVIDEND":{"block":{...}},"DIVISOR":{"block":{...}}}` | `dividend % divisor` |
 | `math_constrain` | 值块 | VALUE(input_value), LOW(input_value), HIGH(input_value) | `"inputs":{"VALUE":{"block":{...}},"LOW":{"block":{...}},"HIGH":{"block":{...}}}` | `constrain(value,low,high)` |
@@ -81,7 +80,6 @@
 ## 重要规则
 
 1. **必须遵守**: 数学运算输入必须是Number类型，位操作结果为整数
-2. **连接限制**: math_change是语句块，其他都是值块
 3. **常见错误**: ❌ 三角函数输入弧度制，❌ 随机数范围包含上界
 
 ## 支持的字段选项
