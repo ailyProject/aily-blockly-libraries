@@ -1,12 +1,12 @@
 [
   {
-    "type": "list_create_with",
-    "message0": "创建数组 %1 类型 %2 长度 %3 %4",
+    "type": "list_create_empty",
+    "message0": "创建空数组 %1 类型 %2 长度 %3",
     "args0": [
       {
         "type": "field_input",
         "name": "VAR",
-        "text": "list"
+        "text": "myList"
       },
       {
         "type": "field_dropdown",
@@ -63,117 +63,148 @@
         ]
       },
       {
-        "type": "field_input",
-        "name": "LENGTH",
-        "text": "3"
-      },
-      {
         "type": "input_value",
-        "name": "INPUT0",
-        "check": [
-          "Array",
-          "String"
-        ]
+        "name": "LENGTH",
+        "check": "Number"
       }
     ],
-    "inputsInline": false,
+    "inputsInline": true,
     "colour": "#03A9F4",
     "previousStatement": null,
     "nextStatement": null,
     "helpUrl": "",
-    "tooltip": "创建数组，支持一维/二维数组，可连接多个数组项或字符串",
+    "tooltip": "创建一个指定类型和长度的空数组",
+    "icon": "fa-regular fa-layer-group"
+  },
+  {
+    "type": "list_create_with_values",
+    "message0": "创建数组 %1 类型 %2 初始值 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "myList"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["整数", "int"],
+          ["小数", "float"],
+          ["字符", "char"],
+          ["字符串", "String"],
+          ["字节", "byte"],
+          ["长整数", "long"],
+          ["双精度", "double"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUES"
+      }
+    ],
+    "inputsInline": true,
+    "colour": "#03A9F4",
+    "previousStatement": null,
+    "nextStatement": null,
+    "helpUrl": "",
+    "tooltip": "创建一个带初始值的数组",
+    "icon": "fa-regular fa-layer-group"
+  },
+  {
+    "type": "list_values",
+    "message0": "%1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INPUT0"
+      }
+    ],
+    "output": "Array",
+    "colour": "#03A9F4",
+    "helpUrl": "",
+    "tooltip": "数组初始值列表，右键添加/删除项",
     "mutator": "dynamic_inputs_mutator",
     "icon": "fa-regular fa-layer-group"
   },
   {
-    "type": "list_create_with_item",
-    "message0": "长度 %1 值 %2",
+    "type": "list_values_simple",
+    "message0": "{%1}",
     "args0": [
       {
-        "type": "input_value",
-        "name": "LENGTH"
-      },
-      {
-        "type": "input_dummy"
+        "type": "field_input",
+        "name": "LIST",
+        "text": "1, 2, 3"
       }
     ],
-    "colour": "#03A9F4",
-    "inputsInline": true,
     "output": "Array",
+    "colour": "#03A9F4",
     "helpUrl": "",
-    "tooltip": "创建数组初始值，可以动态设置长度和各个值",
-    "extensions": [
-      "list_init_mutator"
-    ],
-    "mutator": "list_init_dynamic_mutator",
+    "tooltip": "数组初始值列表，右键添加/删除项",
     "icon": "fa-regular fa-layer-group"
   },
   {
-    "type": "list_get_index",
-    "message0": "数组 %1 第 %2 项",
+    "type": "list_get",
+    "message0": "获取数组 %1 索引 [%2] 的值",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "list",
-        "variableTypes": [
-          "LISTS"
-        ],
+        "variable": "myList",
+        "variableTypes": ["LISTS"],
         "defaultType": "LISTS"
       },
       {
         "type": "input_value",
-        "name": "AT"
+        "name": "INDEX",
+        "check": "Number"
       }
     ],
+    "inputsInline": true,
     "colour": "#03A9F4",
-    "output": "Number",
+    "output": null,
     "helpUrl": "",
-    "tooltip": "返回数组指定位置的值，索引从1开始",
+    "tooltip": "获取数组指定索引位置的值（从0开始）",
     "icon": "fa-regular fa-layer-group"
   },
   {
-    "type": "list_set_index",
-    "message0": "设置数组 %1 第 %2 项为 %3",
+    "type": "list_set",
+    "message0": "设置数组 %1 索引 [ %2 ] 的值为 %3",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "list",
-        "variableTypes": [
-          "LISTS"
-        ],
+        "variable": "myList",
+        "variableTypes": ["LISTS"],
         "defaultType": "LISTS"
       },
       {
         "type": "input_value",
-        "name": "AT",
+        "name": "INDEX",
         "check": "Number"
       },
       {
         "type": "input_value",
-        "name": "TO"
+        "name": "VALUE"
       }
     ],
-    "colour": "#03A9F4",
     "inputsInline": true,
+    "colour": "#03A9F4",
     "previousStatement": null,
     "nextStatement": null,
     "helpUrl": "",
-    "tooltip": "设置数组指定位置的值，索引从1开始",
+    "tooltip": "设置数组指定索引位置的值（从0开始）",
     "icon": "fa-regular fa-layer-group"
   },
   {
     "type": "list_length",
-    "message0": "数组 %1 的长度",
+    "message0": "获取数组 %1 的长度",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "list",
-        "variableTypes": [
-          "LISTS"
-        ],
+        "variable": "myList",
+        "variableTypes": ["LISTS"],
         "defaultType": "LISTS"
       }
     ],
@@ -184,16 +215,363 @@
     "icon": "fa-regular fa-layer-group"
   },
   {
-    "type": "list2_get_value",
-    "message0": "二维数组 %1 第 %2 行 第 %3 列",
+    "type": "list_find",
+    "message0": "在数组 %1 中查找 %2",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "list",
-        "variableTypes": [
-          "LISTS"
-        ],
+        "variable": "myList",
+        "variableTypes": ["LISTS"],
+        "defaultType": "LISTS"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      }
+    ],
+    "inputsInline": true,
+    "colour": "#03A9F4",
+    "output": "Number",
+    "helpUrl": "",
+    "tooltip": "查找值在数组中的索引位置，未找到返回-1",
+    "icon": "fa-regular fa-layer-group"
+  },
+  {
+    "type": "list_contains",
+    "message0": "数组 %1 包含 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myList",
+        "variableTypes": ["LISTS"],
+        "defaultType": "LISTS"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      }
+    ],
+    "inputsInline": true,
+    "colour": "#03A9F4",
+    "output": "Boolean",
+    "helpUrl": "",
+    "tooltip": "检查数组是否包含指定的值",
+    "icon": "fa-regular fa-layer-group"
+  },
+  {
+    "type": "list_min_max",
+    "message0": "获取数组 %1 的 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myList",
+        "variableTypes": ["LISTS"],
+        "defaultType": "LISTS"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["最小值", "min"],
+          ["最大值", "max"],
+          ["求和", "sum"],
+          ["平均值", "avg"]
+        ]
+      }
+    ],
+    "colour": "#03A9F4",
+    "output": "Number",
+    "helpUrl": "",
+    "tooltip": "获取数组的最小值、最大值、求和或平均值",
+    "icon": "fa-regular fa-layer-group"
+  },
+  {
+    "type": "list_sort",
+    "message0": "数组 %1 %2 排序",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myList",
+        "variableTypes": ["LISTS"],
+        "defaultType": "LISTS"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ORDER",
+        "options": [
+          ["升序", "asc"],
+          ["降序", "desc"]
+        ]
+      }
+    ],
+    "colour": "#03A9F4",
+    "previousStatement": null,
+    "nextStatement": null,
+    "helpUrl": "",
+    "tooltip": "对数组进行升序或降序排序",
+    "icon": "fa-regular fa-layer-group"
+  },
+  {
+    "type": "list_reverse",
+    "message0": "反转数组 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myList",
+        "variableTypes": ["LISTS"],
+        "defaultType": "LISTS"
+      }
+    ],
+    "colour": "#03A9F4",
+    "previousStatement": null,
+    "nextStatement": null,
+    "helpUrl": "",
+    "tooltip": "将数组元素顺序反转",
+    "icon": "fa-regular fa-layer-group"
+  },
+  {
+    "type": "list_fill",
+    "message0": "数组 %1 全部填充为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myList",
+        "variableTypes": ["LISTS"],
+        "defaultType": "LISTS"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      }
+    ],
+    "inputsInline": true,
+    "colour": "#03A9F4",
+    "previousStatement": null,
+    "nextStatement": null,
+    "helpUrl": "",
+    "tooltip": "将数组所有元素设置为指定的值",
+    "icon": "fa-regular fa-layer-group"
+  },
+  {
+    "type": "list_copy",
+    "message0": "复制数组 %1 到 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "FROM",
+        "variable": "myList",
+        "variableTypes": ["LISTS"],
+        "defaultType": "LISTS"
+      },
+      {
+        "type": "field_variable",
+        "name": "TO",
+        "variable": "copyList",
+        "variableTypes": ["LISTS"],
+        "defaultType": "LISTS"
+      }
+    ],
+    "colour": "#03A9F4",
+    "previousStatement": null,
+    "nextStatement": null,
+    "helpUrl": "",
+    "tooltip": "将一个数组的内容复制到另一个数组",
+    "icon": "fa-regular fa-layer-group"
+  },
+  {
+    "type": "list_foreach",
+    "message0": "对数组 %1 的每个元素 %2 执行 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myList",
+        "variableTypes": ["LISTS"],
+        "defaultType": "LISTS"
+      },
+      {
+        "type": "field_input",
+        "name": "ITEM",
+        "text": "item"
+      },
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "colour": "#03A9F4",
+    "previousStatement": null,
+    "nextStatement": null,
+    "helpUrl": "",
+    "tooltip": "遍历数组中的每个元素并执行操作",
+    "icon": "fa-regular fa-layer-group"
+  },
+  {
+    "type": "list_foreach_index",
+    "message0": "对数组 %1 遍历 索引 %2 值 %3 执行 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myList",
+        "variableTypes": ["LISTS"],
+        "defaultType": "LISTS"
+      },
+      {
+        "type": "field_input",
+        "name": "INDEX",
+        "text": "i"
+      },
+      {
+        "type": "field_input",
+        "name": "ITEM",
+        "text": "item"
+      },
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "colour": "#03A9F4",
+    "previousStatement": null,
+    "nextStatement": null,
+    "helpUrl": "",
+    "tooltip": "遍历数组，同时获取索引和值",
+    "icon": "fa-regular fa-layer-group"
+  },
+  {
+    "type": "list2d_create",
+    "message0": "创建二维数组 %1 类型 %2 %3 行 %4 列",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "matrix"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["整数", "int"],
+          ["小数", "float"],
+          ["字符", "char"],
+          ["字节", "byte"],
+          ["长整数", "long"],
+          ["双精度", "double"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ROWS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLS",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "colour": "#03A9F4",
+    "previousStatement": null,
+    "nextStatement": null,
+    "helpUrl": "",
+    "tooltip": "创建一个指定行数和列数的二维数组",
+    "icon": "fa-regular fa-layer-group"
+  },
+  {
+    "type": "list2d_create_with_values",
+    "message0": "创建二维数组 %1 类型 %2 初始值 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "matrix"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "整数",
+            "int"
+          ],
+          [
+            "无符号整数",
+            "unsigned int"
+          ],
+          [
+            "长整数",
+            "long"
+          ],
+          [
+            "无符号长整数",
+            "unsigned long"
+          ],
+          [
+            "短整数",
+            "short"
+          ],
+          [
+            "无符号短整数",
+            "unsigned short"
+          ],
+          [
+            "浮点数",
+            "float"
+          ],
+          [
+            "双精度浮点数",
+            "double"
+          ],
+          [
+            "字符",
+            "char"
+          ],
+          [
+            "无符号字符",
+            "unsigned char"
+          ],
+          [
+            "字符串",
+            "String"
+          ],
+          [
+            "字节",
+            "byte"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "INPUT0",
+        "check": "Array"
+      }
+    ],
+    "inputsInline": false,
+    "colour": "#03A9F4",
+    "previousStatement": null,
+    "nextStatement": null,
+    "helpUrl": "",
+    "tooltip": "创建带初始值的二维数组，每行用数组值块表示",
+    "mutator": "dynamic_inputs_mutator",
+    "icon": "fa-regular fa-layer-group"
+  },
+  {
+    "type": "list2d_get",
+    "message0": "获取二维数组 %1 索引 [ %2 ][ %3 ] 的值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["LISTS"],
         "defaultType": "LISTS"
       },
       {
@@ -207,24 +585,22 @@
         "check": "Number"
       }
     ],
-    "colour": "#03A9F4",
     "inputsInline": true,
+    "colour": "#03A9F4",
     "output": null,
     "helpUrl": "",
-    "tooltip": "获取二维数组指定位置的值，索引从1开始",
+    "tooltip": "获取二维数组指定位置的值（索引从0开始）",
     "icon": "fa-regular fa-layer-group"
   },
   {
-    "type": "list2_set_value",
-    "message0": "设置二维数组 %1 第 %2 行 第 %3 列为 %4",
+    "type": "list2d_set",
+    "message0": "设置二维数组 %1 索引 [ %2 ][ %3 ] 的值为 %4",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "list",
-        "variableTypes": [
-          "LISTS"
-        ],
+        "variable": "matrix",
+        "variableTypes": ["LISTS"],
         "defaultType": "LISTS"
       },
       {
@@ -242,39 +618,31 @@
         "name": "VALUE"
       }
     ],
-    "colour": "#03A9F4",
     "inputsInline": true,
+    "colour": "#03A9F4",
     "previousStatement": null,
     "nextStatement": null,
     "helpUrl": "",
-    "tooltip": "设置二维数组指定位置的值，索引从1开始",
+    "tooltip": "设置二维数组指定位置的值（索引从0开始）",
     "icon": "fa-regular fa-layer-group"
   },
   {
-    "type": "list2_get_length",
+    "type": "list2d_size",
     "message0": "二维数组 %1 的 %2",
     "args0": [
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "list",
-        "variableTypes": [
-          "LISTS"
-        ],
+        "variable": "matrix",
+        "variableTypes": ["LISTS"],
         "defaultType": "LISTS"
       },
       {
         "type": "field_dropdown",
-        "name": "TYPE",
+        "name": "DIMENSION",
         "options": [
-          [
-            "行数",
-            "rows"
-          ],
-          [
-            "列数",
-            "cols"
-          ]
+          ["行数", "rows"],
+          ["列数", "cols"]
         ]
       }
     ],
@@ -282,6 +650,56 @@
     "output": "Number",
     "helpUrl": "",
     "tooltip": "获取二维数组的行数或列数",
+    "icon": "fa-regular fa-layer-group"
+  },
+  {
+    "type": "list_shift",
+    "message0": "数组 %1 循环 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myList",
+        "variableTypes": ["LISTS"],
+        "defaultType": "LISTS"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIRECTION",
+        "options": [
+          ["左移", "left"],
+          ["右移", "right"]
+        ]
+      }
+    ],
+    "colour": "#03A9F4",
+    "previousStatement": null,
+    "nextStatement": null,
+    "helpUrl": "",
+    "tooltip": "将数组元素循环左移或右移一位",
+    "icon": "fa-regular fa-layer-group"
+  },
+  {
+    "type": "list_from_string",
+    "message0": "创建字符数组 %1 = %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "text"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "colour": "#03A9F4",
+    "previousStatement": null,
+    "nextStatement": null,
+    "helpUrl": "",
+    "tooltip": "从字符串创建字符数组",
     "icon": "fa-regular fa-layer-group"
   }
 ]
