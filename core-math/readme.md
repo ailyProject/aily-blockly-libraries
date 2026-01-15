@@ -25,7 +25,7 @@
 | `math_random_int` | 值块 | FROM(input_value), TO(input_value) | `"inputs":{"FROM":{"block":{...}},"TO":{"block":{...}}}` | `random(from,to+1)` |
 | `math_random_float` | 值块 | 无 | `{}` | `random(0,1000)/1000.0` |
 | `math_round_to_decimal` | 值块 | NUMBER(input_value), DECIMALS(input_value) | `"inputs":{"NUMBER":{"block":{...}},"DECIMALS":{"block":{...}}}` | `round(number*pow(10,decimals))/pow(10,decimals)` |
-| `map_to` | 值块 | NUM(input_value), FIRST_START(input_value), FIRST_END(input_value), SECOND_START(input_value), SECOND_END(input_value) | `"inputs":{"NUM":{"block":{...}},"FIRST_START":{"block":{...}},"FIRST_END":{"block":{...}},"SECOND_START":{"block":{...}},"SECOND_END":{"block":{...}}}` | `map(num,first_start,first_end,second_start,second_end)` |
+| `map_to` | 值块 | NUM(input_value), FIRST_START(input_value), FIRST_END(input_value), LAST_START(input_value), LAST_END(input_value) | `"inputs":{"NUM":{"block":{...}},"FIRST_START":{"block":{...}},"FIRST_END":{"block":{...}},"LAST_START":{"block":{...}},"LAST_END":{"block":{...}}}` | `map(num,first_start,first_end,last_start,last_end)` |
 | `math_bitwise_shift` | 值块 | OP(field_dropdown), A(input_value), B(input_value) | `"fields":{"OP":"LEFT"},"inputs":{"A":{"block":{...}},"B":{"block":{...}}}` | `a << b` |
 | `math_bitwise_logic` | 值块 | OP(field_dropdown), A(input_value), B(input_value) | `"fields":{"OP":"AND"},"inputs":{"A":{"block":{...}},"B":{"block":{...}}}` | `a & b` |
 | `math_bitwise_not` | 值块 | NUM(input_value) | `"inputs":{"NUM":{"block":{...}}}` | `~num` |
