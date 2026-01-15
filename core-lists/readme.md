@@ -50,13 +50,6 @@ Arduino数组管理库，提供一维、二维数组的创建、读写、查找�
 | `list_copy` | 语句块 | FROM(field_variable), TO(field_variable) | `"FROM":{"id":"src_id"}` | `_listCopy_src_to_dest();` |
 | `list_shift` | 语句块 | VAR(field_variable), DIRECTION(dropdown) | `"DIRECTION":"left"` | `_listShift_myList_left();` |
 
-### 遍历数组
-
-| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
-|--------|------|----------|----------|----------|
-| `list_foreach` | 语句块 | VAR(field_variable), ITEM(field_input), DO(statement) | `"ITEM":"item"` | `for(...) { auto item = myList[_i]; }` |
-| `list_foreach_index` | 语句块 | VAR(field_variable), INDEX(field_input), ITEM(field_input), DO(statement) | `"INDEX":"i"`, `"ITEM":"item"` | `for(int i=0;...) { auto item = myList[i]; }` |
-
 ### 二维数组
 
 | 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
@@ -182,25 +175,6 @@ Arduino数组管理库，提供一维、二维数组的创建、读写、查找�
 ```
 生成: `_listSort_myList_asc();` (自动生成冒泡排序函数)
 
-### 遍历数组
-```json
-{
-  "type": "list_foreach_index",
-  "fields": {"VAR": {"id": "list_id"}, "INDEX": "i", "ITEM": "value"},
-  "inputs": {
-    "DO": {
-      "block": {"type": "serial_println", "inputs": {"CONTENT": {"block": {"type": "variables_get", "fields": {"VAR": {"id": "value_id"}}}}}}
-    }
-  }
-}
-```
-生成:
-```cpp
-for (int i = 0; i < (sizeof(myList) / sizeof(myList[0])); i++) {
-  auto value = myList[i];
-  Serial.println(value);
-}
-```
 
 ### 创建二维数组
 ```json
