@@ -290,7 +290,7 @@ Arduino.forBlock["math_constrain"] = function (block) {
   const argument1 =
     Arduino.valueToCode(block, "LOW", Arduino.ORDER_NONE) || "0";
   const argument2 =
-    Arduino.valueToCode(block, "HIGH", Arduino.ORDER_NONE) || "Infinity";
+    Arduino.valueToCode(block, "HIGH", Arduino.ORDER_NONE) || "0";
   // 使用Arduino的constrain函数
   const code = "constrain(" + argument0 + ", " + argument1 + ", " + argument2 + ")";
   return [code, Arduino.ORDER_FUNCTION_CALL];
