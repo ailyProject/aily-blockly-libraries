@@ -309,8 +309,11 @@ jobs:
       - name: Generate JSON
         run: node genjson.js
 
-      - name: Generate ai JSON
-        run: node genjson-ai.js
+      - name: Generate library info files
+        run: node generate-info.js --all
+      
+      - name: Generate libraries index
+        run: node generate-libraries-index.js
       
       - name: Check if JSON file exists
         run: |
@@ -323,13 +326,13 @@ jobs:
             exit 1
           fi
       
-      - name: Check if ai JSON file exists
+      - name: Check if libraries index file exists
         run: |
-          if [ -f "./libraries-ai.json" ]; then
-            echo "AI file exists"
-            cat ./libraries-ai.json | head -n 10
+          if [ -f "./libraries-index.json" ]; then
+            echo "Libraries index file exists"
+            cat ./libraries-index.json | head -n 10
           else
-            echo "AI file does not exist"
+            echo "Libraries index file does not exist"
             ls -la
             exit 1
           fi
@@ -341,7 +344,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: 22
-          source: "libraries.json, libraries-ai.json"
+          source: "libraries.json, libraries-index.json"
           target: ${{ secrets.TARGET }}
           timeout: 120s
           command_timeout: 60s
@@ -350,7 +353,7 @@ jobs:
         run: |
           mkdir -p r2_json
           cp libraries.json r2_json/
-          cp libraries-ai.json r2_json/
+          cp libraries-index.json r2_json/
 
       - name: Upload to R2
         uses: jakejarvis/s3-sync-action@master
