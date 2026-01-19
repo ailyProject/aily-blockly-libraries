@@ -452,7 +452,7 @@ Arduino.forBlock['tftespi_set_text_color'] = function(block, generator) {
 Arduino.forBlock['tftespi_set_text_size'] = function(block, generator) {
   const varField = block.getField('VAR');
   const varName = varField ? varField.getText() : 'tft';
-  const size = generator.valueToCode(block, 'SIZE', generator.ORDER_ATOMIC) || '1';
+  const size = block.getFieldValue('SIZE') || '1';
 
   let code = varName + '.setTextSize(' + size + ');\n';
 
