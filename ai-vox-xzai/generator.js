@@ -872,6 +872,8 @@ if (Blockly.Extensions.isRegistered('aivox3_init_es8311_extension')) {
 Blockly.Extensions.register('aivox3_init_es8311_extension', function () {
     // 直接在扩展中添加updateShape_函数
   this.updateShape_ = function (boardType) {
+    // console.log('Updating ES8311 block shape for board type:', boardType);
+    // if(boardType.indexOf('aivox') > -1) {
         let pins = window['boardConfig'].digitalPins;
         this.appendDummyInput('')
         .appendField("初始化ES8311音频编解码器 SDA引脚")
@@ -901,7 +903,10 @@ Blockly.Extensions.register('aivox3_init_es8311_extension', function () {
         this.appendValueInput('ES8311_RATE')
         .setCheck('Number')
         .appendField("采样率");
-
+        this.appendDummyInput('')
+        .appendField("I2C端口号")
+        .appendField(new Blockly.FieldDropdown([["0","I2C_NUM_0"],["1","I2C_NUM_1"]]), "ES8311_IIC_PORT");
+    // }
     // 延迟创建默认块，避免重复创建
     setTimeout(() => {
         this.createDefaultBlocks_();
@@ -932,6 +937,7 @@ Blockly.Extensions.register('aivox3_init_es8311_extension', function () {
         setDefaultPin('ES8311_LRCK', '2');  // LRCK引脚默认值
         setDefaultPin('ES8311_DSDIN', '38'); // 数据输入引脚默认值
         setDefaultPin('ES8311_DSDOUT', '40'); // 数据输出引脚默认值
+        setDefaultPin('ES8311_IIC_PORT', 'I2C_NUM_1'); // IIC端口号默认值
 
         const es8311_i2c_address = this.getInput('ES8311_I2C_ADDRESS');
         if (es8311_i2c_address && !es8311_i2c_address.connection.targetConnection) {
@@ -974,6 +980,7 @@ Arduino.forBlock['aivox3_init_es8311'] = function(block, generator) {
 
     const es8311_i2c_address = generator.valueToCode(block, 'ES8311_I2C_ADDRESS', generator.ORDER_ATOMIC) || '""';
     const es8311_rate = generator.valueToCode(block, 'ES8311_RATE', generator.ORDER_ATOMIC) || '""';
+    const es8311_iic_port = block.getFieldValue('ES8311_IIC_PORT') || 'I2C_NUM_1';
     generator.addLibrary('inclue_aivox3_engine', '#include "ai_vox_engine.h"\n');
     generator.addLibrary('include_i2c_master', '#include <driver/i2c_master.h>\n');
     generator.addLibrary('aivox3_es8311_library', '#include "components/espressif/esp_audio_codec/esp_audio_simple_dec.h"\n#include "audio_device/audio_device_es8311.h"\n');
@@ -985,7 +992,7 @@ Arduino.forBlock['aivox3_init_es8311'] = function(block, generator) {
 
     generator.addObject('aivox3_initI2C', `void InitI2cBus() {
     const i2c_master_bus_config_t i2c_master_bus_config = {
-        .i2c_port = I2C_NUM_1,
+        .i2c_port = ${es8311_iic_port},
         .sda_io_num = GPIO_NUM_${es8311_sda},
         .scl_io_num = GPIO_NUM_${es8311_scl},
         .clk_source = I2C_CLK_SRC_DEFAULT,
