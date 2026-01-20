@@ -872,7 +872,7 @@ if (Blockly.Extensions.isRegistered('aivox3_init_es8311_extension')) {
 Blockly.Extensions.register('aivox3_init_es8311_extension', function () {
     // 直接在扩展中添加updateShape_函数
   this.updateShape_ = function (boardType) {
-    // console.log('Updating ES8311 block shape for board type:', boardType);
+    console.log('Updating ES8311 block shape for board type:', boardType);
     // if(boardType.indexOf('aivox') > -1) {
         let pins = window['boardConfig'].digitalPins;
         this.appendDummyInput('')
@@ -904,7 +904,7 @@ Blockly.Extensions.register('aivox3_init_es8311_extension', function () {
         .setCheck('Number')
         .appendField("采样率");
         this.appendDummyInput('')
-        .appendField("I2C端口号")
+        .appendField("IIC端口号")
         .appendField(new Blockly.FieldDropdown([["0","I2C_NUM_0"],["1","I2C_NUM_1"]]), "ES8311_IIC_PORT");
     // }
     // 延迟创建默认块，避免重复创建
@@ -1362,6 +1362,7 @@ Arduino.forBlock['esp32ai_init_display'] = function(block, generator) {
     if (displayType === 'ST7789') {
         // --- ST7789 (SPI) 代码生成 ---
         const backLightPin = block.getFieldValue('BACKLIGHT_PIN');
+        const BLPin = backLightPin < 0 ? 'NC' : backLightPin;
         const MOSIPin = block.getFieldValue('MOSI_PIN');
         const CLKPin = block.getFieldValue('CLK_PIN');
         const DCPin = block.getFieldValue('DC_PIN');
@@ -1384,7 +1385,7 @@ Arduino.forBlock['esp32ai_init_display'] = function(block, generator) {
         generator.addMacro('Screen_Display_Type','#define SCREEN_DISPLAY_TYPE SCREEN_DISPLAY_TYPE_LCD');
         
         const pinDefines = `
-constexpr gpio_num_t kDisplayBacklightPin = GPIO_NUM_${backLightPin};
+constexpr gpio_num_t kDisplayBacklightPin = GPIO_NUM_${BLPin};
 constexpr gpio_num_t kDisplayMosiPin = GPIO_NUM_${MOSIPin};
 constexpr gpio_num_t kDisplayClkPin = GPIO_NUM_${CLKPin};
 constexpr gpio_num_t kDisplayDcPin = GPIO_NUM_${DCPin};
@@ -1563,6 +1564,7 @@ Arduino.forBlock['esp32ai_init_nlvgl_display'] = function(block, generator) {
   if (displayType === 'nST7789') {
     // --- ST7789 (SPI) 代码生成 ---
     const backLightPin = block.getFieldValue('BACKLIGHT_PIN');
+    const BLPin = backLightPin < 0 ? 'NC' : backLightPin;
     const MOSIPin = block.getFieldValue('MOSI_PIN');
     const CLKPin = block.getFieldValue('CLK_PIN');
     const DCPin = block.getFieldValue('DC_PIN');
@@ -1602,7 +1604,7 @@ Arduino.forBlock['esp32ai_init_nlvgl_display'] = function(block, generator) {
     generator.addVariable('esp32ai_custom_g_display','static lv_display_t* g_display = nullptr;');
     
     const pinDefines = `
-constexpr gpio_num_t kDisplayBacklightPin = GPIO_NUM_${backLightPin};
+constexpr gpio_num_t kDisplayBacklightPin = GPIO_NUM_${BLPin};
 constexpr gpio_num_t kDisplayMosiPin = GPIO_NUM_${MOSIPin};
 constexpr gpio_num_t kDisplayClkPin = GPIO_NUM_${CLKPin};
 constexpr gpio_num_t kDisplayDcPin = GPIO_NUM_${DCPin};
