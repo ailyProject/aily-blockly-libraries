@@ -217,6 +217,10 @@ Arduino.forBlock['lvgl_init'] = function(block, generator) {
     }
   }
 
+  if (driver === 'TFT_eSPI') {
+    generator.addMacro('LV_USE_TFT_ESPI', '#define LV_USE_TFT_ESPI 1');
+  }
+
   let setupCode = '';
   setupCode += 'lv_init();\n';
   setupCode += 'lv_tick_set_cb(millis);\n';
@@ -1652,6 +1656,10 @@ Arduino.forBlock['lvgl_set_img_font'] = function(block, generator) {
     }
   }
 
+  if (font === 'true') {
+    generator.addMacro('LV_USE_IMGFONT', '#define LV_USE_IMGFONT 1');
+  }
+
   return '';
 }
 
@@ -1669,6 +1677,8 @@ Arduino.forBlock['lvgl_set_stdlib_malloc'] = function(block, generator) {
         .catch((err) => console.error('Error adding macro:', err));
     }
   }
+
+  generator.addMacro('LV_USE_STDLIB_MALLOC', '#define LV_USE_STDLIB_MALLOC ' + lib);
 
   return '';
 };
@@ -1688,6 +1698,8 @@ Arduino.forBlock['lvgl_set_stdlib_string'] = function(block, generator) {
     }
   }
 
+  generator.addMacro('LV_USE_STDLIB_STRING', '#define LV_USE_STDLIB_STRING ' + lib);
+
   return '';
 };
 
@@ -1706,6 +1718,8 @@ Arduino.forBlock['lvgl_set_stdlib_sprintf'] = function(block, generator) {
     }
   }
 
+  generator.addMacro('LV_USE_STDLIB_SPRINTF', '#define LV_USE_STDLIB_SPRINTF ' + lib);
+
   return '';
 };
 
@@ -1723,6 +1737,8 @@ Arduino.forBlock['lvgl_set_theme'] = function(block, generator) {
         .catch((err) => console.error('Error adding macro:', err));
     }
   }
+
+  generator.addMacro('LV_THEME_DEFAULT_DARK', '#define LV_THEME_DEFAULT_DARK ' + (theme === 'dark' ? '1' : '0'));
 
   return '';
 };

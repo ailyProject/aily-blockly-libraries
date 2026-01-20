@@ -126,6 +126,8 @@ Arduino.forBlock['seeed_gfx_init'] = function(block, generator) {
     }
   }
 
+  generator.addMacro('BOARD_SCREEN_COMBO', '#define BOARD_SCREEN_COMBO ' + model);
+
   const messageData = {
     eventType: 'workspaceChanged',
     code: 'Blockly.JavaScript.workspaceToCode(workspace)'

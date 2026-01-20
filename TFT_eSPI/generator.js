@@ -285,6 +285,24 @@ Arduino.forBlock['tftespi_setup'] = function(block, generator) {
       .catch(err => console.error('Error adding macro:', err));
   }
 
+  generator.addMacro("TFT_MODEL", `#define ${model}`);
+  generator.addMacro("TFT_FREQUENCY", `#define TFT_FREQUENCY ${frequency}`);
+  generator.addMacro("TFT_WIDTH", `#define TFT_WIDTH ${width}`);
+  generator.addMacro("TFT_HEIGHT", `#define TFT_HEIGHT ${height}`);
+  generator.addMacro("TFT_MISO", `#define TFT_MISO ${miso}`);
+  generator.addMacro("TFT_MOSI", `#define TFT_MOSI ${mosi}`);
+  generator.addMacro("TFT_SCLK", `#define TFT_SCLK ${sclk}`);
+  generator.addMacro("TFT_CS", `#define TFT_CS ${cs}`);
+  generator.addMacro("TFT_DC", `#define TFT_DC ${dc}`);
+  generator.addMacro("TFT_RST", `#define TFT_RST ${rst}`);
+  generator.addMacro("TFT_BL", `#define TFT_BL ${bl}`);
+  const blMacro = blLevel === 'HIGH' ? '#define TFT_BACKLIGHT_ON HIGH' : '#define TFT_BACKLIGHT_ON LOW';
+  generator.addMacro("TFT_BACKLIGHT_ON", blMacro);
+
+  if (isESP32Core() && Arduino.tft_espi_use_hspi) {
+    generator.addMacro("USE_HSPI_PORT", '#define USE_HSPI_PORT');
+  }
+
   generator.addLibrary('TFT_eSPI', '#include <TFT_eSPI.h>');
   registerVariableToBlockly(varName, 'TFT_eSPI');
   generator.addVariable(varName, 'TFT_eSPI ' + varName + ' = TFT_eSPI();');
