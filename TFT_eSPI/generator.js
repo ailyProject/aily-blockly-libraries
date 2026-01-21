@@ -41,6 +41,7 @@ if (!Arduino.tft_espi) {
   Arduino.tft_espi_rst = -1;
   Arduino.tft_espi_bl = -1;
   Arduino.tft_espi_bl_level = '';
+  Arduino.tft_espi_color_mode = 'TFT_RGB';
   Arduino.tft_espi_use_hspi = false;
 }
 
@@ -180,6 +181,7 @@ Arduino.forBlock['tftespi_setup'] = function(block, generator) {
   const rst = cleanValue(generator.valueToCode(block, 'RST', generator.ORDER_ATOMIC) || '-1');
   const bl = cleanValue(generator.valueToCode(block, 'BL', generator.ORDER_ATOMIC) || '-1');
   const blLevel = block.getFieldValue('BL_LEVEL') || 'HIGH';
+  const colorMode = block.getFieldValue('COLOR_MODE') || 'TFT_RGB';
   // const rotation = block.getFieldValue('ROTATION') || '0';
 
   if (Arduino.tft_espi_type !== model ||
@@ -194,6 +196,7 @@ Arduino.forBlock['tftespi_setup'] = function(block, generator) {
       Arduino.tft_espi_rst != rst ||
       Arduino.tft_espi_bl != bl ||
       Arduino.tft_espi_bl_level != blLevel ||
+      Arduino.tft_espi_color_mode != colorMode ||
       (isESP32Core() && !Arduino.tft_espi_use_hspi)) {
     
     // 先保存旧的 model 用于删除
@@ -274,6 +277,11 @@ Arduino.forBlock['tftespi_setup'] = function(block, generator) {
       const blMacro = blLevel === 'HIGH' ? 'TFT_BACKLIGHT_ON=HIGH' : 'TFT_BACKLIGHT_ON=LOW';
       promise = promise.then(() => window['projectService'].addMacro(blMacro));
     // }
+
+    // if (Arduino.tft_espi_color_mode != colorMode) {
+      Arduino.tft_espi_color_mode = colorMode;
+      promise = promise.then(() => window['projectService'].addMacro(`TFT_RGB_ORDER=${colorMode}`));
+    // }
     
     if (isESP32Core() && !Arduino.tft_espi_use_hspi) {
       Arduino.tft_espi_use_hspi = true;
@@ -298,6 +306,7 @@ Arduino.forBlock['tftespi_setup'] = function(block, generator) {
   generator.addMacro("TFT_BL", `#define TFT_BL ${bl}`);
   const blMacro = blLevel === 'HIGH' ? '#define TFT_BACKLIGHT_ON HIGH' : '#define TFT_BACKLIGHT_ON LOW';
   generator.addMacro("TFT_BACKLIGHT_ON", blMacro);
+  generator.addMacro("TFT_RGB_ORDER", `#define TFT_RGB_ORDER ${colorMode}`);
 
   if (isESP32Core() && Arduino.tft_espi_use_hspi) {
     generator.addMacro("USE_HSPI_PORT", '#define USE_HSPI_PORT');
@@ -322,6 +331,16 @@ Arduino.forBlock['tftespi_set_rotation'] = function(block, generator) {
 
   return code;
 };
+
+Arduino.forBlock['tftespi_invert_display'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+  const invert = block.getFieldValue('INVERT') || 'false';
+
+  let code = varName + `.invertDisplay(${invert});\n`;
+
+  return code;
+}
 
 Arduino.forBlock['tftespi_fill_screen'] = function(block, generator) {
   const varField = block.getField('VAR');

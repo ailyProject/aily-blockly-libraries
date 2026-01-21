@@ -1008,7 +1008,7 @@ Arduino.forBlock['aivox3_init_es8311'] = function(block, generator) {
         ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_master_bus_config, &g_i2c_master_bus_handle));
     }`, true);
     generator.addSetup("aivox3_setup_init_i2c_bus", `    InitI2cBus();\n`);
-    generator.addSetup("aivox3_setup_es8311", `  g_audio_output_device = std::make_shared<ai_vox::AudioDeviceEs8311>(g_i2c_master_bus_handle, ${es8311_i2c_address}, I2C_NUM_1, ${es8311_rate}, GPIO_NUM_${es8311_mclk}, GPIO_NUM_${es8311_sclk}, GPIO_NUM_${es8311_lrck}, GPIO_NUM_${es8311_dsdout}, GPIO_NUM_${es8311_dsdin});`);
+    generator.addSetup("aivox3_setup_es8311", `  g_audio_output_device = std::make_shared<ai_vox::AudioDeviceEs8311>(g_i2c_master_bus_handle, ${es8311_i2c_address}, ${es8311_iic_port}, ${es8311_rate}, GPIO_NUM_${es8311_mclk}, GPIO_NUM_${es8311_sclk}, GPIO_NUM_${es8311_lrck}, GPIO_NUM_${es8311_dsdout}, GPIO_NUM_${es8311_dsdin});`);
     
     return '';
 }
@@ -1048,7 +1048,10 @@ Blockly.Extensions.register('esp32ai_init_es8388_extension', function () {
         .appendField("ES8388 I2C地址");
         this.appendValueInput('ES8388_RATE')
         .setCheck('Number')
-        .appendField("采样率");
+        .appendField("采样率")
+        this.appendDummyInput('')
+        .appendField("I2C端口号")
+        .appendField(new Blockly.FieldDropdown([["0","I2C_NUM_0"],["1","I2C_NUM_1"]]), "ES8388_IIC_PORT");
 
     // 延迟创建默认块，避免重复创建
     setTimeout(() => {
@@ -1063,23 +1066,24 @@ Blockly.Extensions.register('esp32ai_init_es8388_extension', function () {
             return;
         }
         // 设置默认引脚值
-        const setDefaultPin = (fieldName, defaultValue) => {
-            const field = this.getField(fieldName);
-            if (field) {
-                const options = field.getOptions();
-                if (options.some(option => option[1] === defaultValue)) {
-                    field.setValue(defaultValue);
-                }
-            }
-        };
+        // const setDefaultPin = (fieldName, defaultValue) => {
+        //     const field = this.getField(fieldName);
+        //     if (field) {
+        //         const options = field.getOptions();
+        //         if (options.some(option => option[1] === defaultValue)) {
+        //             field.setValue(defaultValue);
+        //         }
+        //     }
+        // };
 
-        setDefaultPin('ES8388_SDA', '41');  // SDA引脚默认值
-        setDefaultPin('ES8388_SCL', '42');  // SCL引脚默认值
-        setDefaultPin('ES8388_MCLK', '46'); // MCLK引脚默认值
-        setDefaultPin('ES8388_SCLK', '39'); // SCLK引脚默认值
-        setDefaultPin('ES8388_LRCK', '2');  // LRCK引脚默认值
-        setDefaultPin('ES8388_DSDIN', '38'); // 数据输入引脚默认值
-        setDefaultPin('ES8388_DSDOUT', '40'); // 数据输出引脚默认值
+        // setDefaultPin('ES8388_SDA', '41');  // SDA引脚默认值
+        // setDefaultPin('ES8388_SCL', '42');  // SCL引脚默认值
+        // setDefaultPin('ES8388_MCLK', '46'); // MCLK引脚默认值
+        // setDefaultPin('ES8388_SCLK', '39'); // SCLK引脚默认值
+        // setDefaultPin('ES8388_LRCK', '2');  // LRCK引脚默认值
+        // setDefaultPin('ES8388_DSDIN', '38'); // 数据输入引脚默认值
+        // setDefaultPin('ES8388_DSDOUT', '40'); // 数据输出引脚默认值
+        // setDefaultPin('ES8388_IIC_PORT', 'I2C_NUM_1'); // IIC端口号默认值
 
         const es8388_i2c_address = this.getInput('ES8388_I2C_ADDRESS');
         if (es8388_i2c_address && !es8388_i2c_address.connection.targetConnection) {
@@ -1122,6 +1126,7 @@ Arduino.forBlock['esp32ai_init_es8388'] = function(block, generator) {
 
     const es8388_i2c_address = generator.valueToCode(block, 'ES8388_I2C_ADDRESS', generator.ORDER_ATOMIC) || '""';
     const es8388_rate = generator.valueToCode(block, 'ES8388_RATE', generator.ORDER_ATOMIC) || '""';
+    const es8388_iic_port = block.getFieldValue('ES8388_IIC_PORT') || 'I2C_NUM_0';
     generator.addLibrary('inclue_aivox3_engine', '#include "ai_vox_engine.h"\n');
     generator.addLibrary('include_i2c_master', '#include <driver/i2c_master.h>\n');
     generator.addLibrary('aivox3_es8388_library', '#include "components/espressif/esp_audio_codec/esp_audio_simple_dec.h"\n#include "audio_device/audio_device_es8388.h"\n');
@@ -1132,7 +1137,7 @@ Arduino.forBlock['esp32ai_init_es8388'] = function(block, generator) {
 
     generator.addObject('aivox3_initI2C', `void InitI2cBus() {
     const i2c_master_bus_config_t i2c_master_bus_config = {
-        .i2c_port = I2C_NUM_1,
+        .i2c_port = ${es8388_iic_port},
         .sda_io_num = GPIO_NUM_${es8388_sda},
         .scl_io_num = GPIO_NUM_${es8388_scl},
         .clk_source = I2C_CLK_SRC_DEFAULT,
@@ -1151,7 +1156,7 @@ Arduino.forBlock['esp32ai_init_es8388'] = function(block, generator) {
     generator.addSetup("aivox3_setup_es8388", `  g_audio_output_device = std::make_shared<ai_vox::AudioDeviceEs8388>(
       g_i2c_master_bus_handle, 
       ${es8388_i2c_address}, 
-      I2C_NUM_1, 
+      ${es8388_iic_port}, 
       ${es8388_rate}, 
       GPIO_NUM_${es8388_mclk}, 
       GPIO_NUM_${es8388_sclk}, 
@@ -1160,10 +1165,7 @@ Arduino.forBlock['esp32ai_init_es8388'] = function(block, generator) {
       GPIO_NUM_${es8388_dsdout}, 
       GPIO_NUM_NC,
       false
-    );
-    g_audio_output_device->OpenInput(${es8388_rate});
-    g_audio_output_device->OpenOutput(${es8388_rate});
-    g_audio_output_device->set_volume(80);\n`);
+    );\n`);
     
     return '';
 }
@@ -3556,7 +3558,7 @@ Arduino.forBlock['aivox_mcp_control_param'] = function(block, generator) {
 
     // 验证参数类型
     if (!validateParamType(configOption)) {
-        console.warn(`Invalid parameter type: ${configOption}`);
+        // console.warn(`Invalid parameter type: ${configOption}`);
         configOption = 'Boolean'; // 默认类型
     }
 
@@ -3575,7 +3577,7 @@ Arduino.forBlock['aivox_mcp_control_param'] = function(block, generator) {
         
         // 验证数值范围
         if (!validateNumberParam(minValue, maxValue)) {
-            console.warn(`Invalid number range: min=${minValue}, max=${maxValue}`);
+            // console.warn(`Invalid number range: min=${minValue}, max=${maxValue}`);
         }
         
         code = '\"' + varName + '\", ai_vox::ParamSchema<int64_t>{.default_value = std::nullopt, .min = ' + minValue + ', .max = ' + maxValue + '},';
@@ -3709,7 +3711,7 @@ Arduino.forBlock['esp32ai_mcp_control_param'] = function(block, generator) {
 
     // 验证参数类型
     if (!validateParamType(configOption)) {
-        console.warn(`Invalid parameter type: ${configOption}`);
+        // console.warn(`Invalid parameter type: ${configOption}`);
         configOption = 'Boolean'; // 默认类型
     }
 
@@ -3728,7 +3730,7 @@ Arduino.forBlock['esp32ai_mcp_control_param'] = function(block, generator) {
         maxValue = generator.valueToCode(block, 'MAX', generator.ORDER_ATOMIC) || '100';
         
         if (!validateNumberParam(minValue, maxValue)) {
-            console.warn(`Invalid number range: min=${minValue}, max=${maxValue}`);
+            // console.warn(`Invalid number range: min=${minValue}, max=${maxValue}`);
         }
         
         code = `{"${varName}", ai_vox::ParamSchema<int64_t>{.default_value = std::nullopt, .min = ${minValue}, .max = ${maxValue}}},\n`;
@@ -3748,7 +3750,7 @@ Arduino.forBlock['aivox_get_iot_message_event_name_new'] = function(block, gener
     // 验证服务是否存在
     const service = getAivoxControlService(varName);
     if (!service) {
-        console.warn(`AIVOX service '${varName}' not found`);
+        // console.warn(`AIVOX service '${varName}' not found`);
     }
     
     let control_name_set = "self." + varName + ".set";
@@ -3771,11 +3773,11 @@ Arduino.forBlock['aivox_control_message_event_fuction'] = function(block, genera
     const param = getMcpControlParam(pvarName);
     
     if (!service) {
-        console.warn(`AIVOX service '${varName}' not found`);
+        // console.warn(`AIVOX service '${varName}' not found`);
     }
     
     if (!param) {
-        console.warn(`MCP parameter '${pvarName}' not found`);
+        // console.warn(`MCP parameter '${pvarName}' not found`);
     }
     
     // 根据参数类型生成相应的代码
@@ -3813,7 +3815,7 @@ Arduino.forBlock['aivox_response_mcp_control_result_new'] = function(block, gene
     // 验证服务是否存在
     const service = getAivoxControlService(varName);
     if (!service) {
-        console.warn(`AIVOX service '${varName}' not found`);
+        // console.warn(`AIVOX service '${varName}' not found`);
     }
     generator.addObject(`g_${varName}_res`, `bool g_${varName}_res = false;`, true);
     const code = `  ai_vox_engine.SendMcpCallResponse(id, true);\n`;
@@ -3837,7 +3839,7 @@ Arduino.forBlock['aivox_update_mcp_control_state_new'] = function(block, generat
     const state = generator.valueToCode(block, 'STATE', generator.ORDER_ATOMIC) || '""';
     const service = getAivoxControlService(varName);
     if (!service) {
-        console.warn(`AIVOX service '${varName}' not found`);
+        // console.warn(`AIVOX service '${varName}' not found`);
     }
 
     // 1. 修正：判断state是否为String对象（支持带括号的情况）

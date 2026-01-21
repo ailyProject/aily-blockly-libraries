@@ -1,7 +1,7 @@
 [
   {
     "type": "tftespi_setup",
-    "message0": "初始化TFT屏幕 %1 型号 %2 SPI频率 %3 宽度 %4 高度 %5\n MISO %6 MOSI %7 SCLK %8 CS %9 DC %10 \nRST %11 BL %12 背光 %13",
+    "message0": "初始化TFT屏幕 %1 型号 %2 SPI频率 %3 宽度 %4 高度 %5\n MISO %6 MOSI %7 SCLK %8 CS %9 DC %10 \nRST %11 BL %12 背光 %13 颜色模式 %14",
     "args0": [
       {
         "type": "field_input",
@@ -91,6 +91,14 @@
           ["高电平点亮", "HIGH"],
           ["低电平点亮", "LOW"]
         ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COLOR_MODE",
+        "options": [
+          ["RGB颜色模式", "TFT_RGB"],
+          ["BGR颜色模式", "TFT_BGR"]
+        ]
       }
     ],
     "previousStatement": null,
@@ -130,6 +138,32 @@
     "colour": "#00bcd4",
     "icon": "fa-light fa-mobile",
     "tooltip": "设置屏幕旋转方向"
+  },
+  {
+    "type": "tftespi_invert_display",
+    "message0": "TFT屏幕 %1 反转显示 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tft",
+        "variableTypes": ["TFT_eSPI"],
+        "defaultType": "TFT_eSPI"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INVERT",
+        "options": [
+          ["开启", "true"],
+          ["关闭", "false"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00bcd4",
+    "icon": "fa-light fa-mobile",
+    "tooltip": "反转屏幕显示颜色"
   },
   {
     "type": "tftespi_fill_screen",
