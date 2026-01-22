@@ -1398,7 +1398,19 @@ Arduino.forBlock['aivox_update_mcp_control_state_new'] = function(block, generat
     if (!service) {
         console.warn(`AIVOX service '${varName}' not found`);
     }
-    const code = `if ("self.${varName}.get" == name) {\n const auto ${varName}_${paramName} = std::get<${type}>(param.at(${paramName}));\n  ai_vox_engine.SendMcpCallResponse(id, ${state});\n}`;
+    let resCode = '';
+    if (param && type === 'Boolean') {
+        resCode = `std::get<bool>(param.at("${paramName}"))`;
+    } else if (param && type === 'Number') {
+        resCode = `std::get<int64_t>(param.at("${paramName}"))`;
+    } else if (param && type === 'String') {
+        resCode = `std::get<std::string>(param.at("${paramName}"))`;
+    } else {
+        // 默认使用bool类型
+        resCode = `std::get<bool>(param.at("${paramName}"))`;
+    }
+    const code = `if ("self.${varName}.get" == name) {\n const auto ${varName}_${paramName} = ${resCode};\n  ai_vox_engine.SendMcpCallResponse(id, ${state});\n}`;
+
     return code;
 }
 

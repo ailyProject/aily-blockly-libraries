@@ -920,24 +920,24 @@ Blockly.Extensions.register('aivox3_init_es8311_extension', function () {
             return;
         }
         // 设置默认引脚值
-        const setDefaultPin = (fieldName, defaultValue) => {
-            const field = this.getField(fieldName);
-            if (field) {
-                const options = field.getOptions();
-                if (options.some(option => option[1] === defaultValue)) {
-                    field.setValue(defaultValue);
-                }
-            }
-        };
+        // const setDefaultPin = (fieldName, defaultValue) => {
+        //     const field = this.getField(fieldName);
+        //     if (field) {
+        //         const options = field.getOptions();
+        //         if (options.some(option => option[1] === defaultValue)) {
+        //             field.setValue(defaultValue);
+        //         }
+        //     }
+        // };
 
-        setDefaultPin('ES8311_SDA', '41');  // SDA引脚默认值
-        setDefaultPin('ES8311_SCL', '42');  // SCL引脚默认值
-        setDefaultPin('ES8311_MCLK', '46'); // MCLK引脚默认值
-        setDefaultPin('ES8311_SCLK', '39'); // SCLK引脚默认值
-        setDefaultPin('ES8311_LRCK', '2');  // LRCK引脚默认值
-        setDefaultPin('ES8311_DSDIN', '38'); // 数据输入引脚默认值
-        setDefaultPin('ES8311_DSDOUT', '40'); // 数据输出引脚默认值
-        setDefaultPin('ES8311_IIC_PORT', 'I2C_NUM_1'); // IIC端口号默认值
+        // setDefaultPin('ES8311_SDA', '41');  // SDA引脚默认值
+        // setDefaultPin('ES8311_SCL', '42');  // SCL引脚默认值
+        // setDefaultPin('ES8311_MCLK', '46'); // MCLK引脚默认值
+        // setDefaultPin('ES8311_SCLK', '39'); // SCLK引脚默认值
+        // setDefaultPin('ES8311_LRCK', '2');  // LRCK引脚默认值
+        // setDefaultPin('ES8311_DSDIN', '38'); // 数据输入引脚默认值
+        // setDefaultPin('ES8311_DSDOUT', '40'); // 数据输出引脚默认值
+        // setDefaultPin('ES8311_IIC_PORT', 'I2C_NUM_1'); // IIC端口号默认值
 
         const es8311_i2c_address = this.getInput('ES8311_I2C_ADDRESS');
         if (es8311_i2c_address && !es8311_i2c_address.connection.targetConnection) {
