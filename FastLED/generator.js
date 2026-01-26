@@ -62,7 +62,14 @@ Arduino.forBlock["fastled_set_pixel"] = function (block, generator) {
   const pixel = generator.valueToCode(block, "PIXEL", generator.ORDER_ATOMIC);
   const color = generator.valueToCode(block, "COLOR", generator.ORDER_ATOMIC);
 
-  return `leds_${dataPin}[${pixel}] = ${color};\n`;
+  // return `leds_${dataPin}[${pixel}] = ${color};\n`;
+
+  let code = `leds_${dataPin}[${pixel}] = ${color};\n`;
+  if (!hasFastLEDRefreshBlock(block)) {
+    code += "FastLED.show();\n";
+  }
+
+  return code;
 };
 
 Arduino.forBlock["fastled_set_range"] = function (block, generator) {
@@ -75,13 +82,23 @@ Arduino.forBlock["fastled_set_range"] = function (block, generator) {
     generator.valueToCode(block, "COLOR", generator.ORDER_ATOMIC) ||
     "CRGB::Black";
   const loopVar = `_led_idx_${dataPin}`;
-  return (
+  // return (
+  //   `for (int ${loopVar} = (int)(${startIndex}); ${loopVar} <= (int)(${endIndex}); ${loopVar}++) {\n` +
+  //   `  if (${loopVar} >= 0 && ${loopVar} < NUM_LEDS_${dataPin}) {\n` +
+  //   `    leds_${dataPin}[${loopVar}] = ${color};\n` +
+  //   `  }\n` +
+  //   `}\n`
+  // );
+  let code =
     `for (int ${loopVar} = (int)(${startIndex}); ${loopVar} <= (int)(${endIndex}); ${loopVar}++) {\n` +
     `  if (${loopVar} >= 0 && ${loopVar} < NUM_LEDS_${dataPin}) {\n` +
     `    leds_${dataPin}[${loopVar}] = ${color};\n` +
     `  }\n` +
-    `}\n`
-  );
+    `}\n`;
+  if (!hasFastLEDRefreshBlock(block)) {
+    code += "FastLED.show();\n";
+  }
+  return code;
 };
 
 Arduino.forBlock["fastled_show"] = function (block, generator) {
@@ -108,7 +125,19 @@ Arduino.forBlock["fastled_draw_bar"] = function (block, generator) {
   const loopVar = `_led_bar_${dataPin}_${safeId}`;
   const bandSize = `_band_size_${dataPin}_${safeId}`;
   const active = `_active_${dataPin}_${safeId}`;
-  return (
+  // return (
+  //   `int ${bandSize} = (int)(${endIndex}) - (int)(${startIndex}) + 1;\n` +
+  //   `if (${bandSize} < 0) { ${bandSize} = 0; }\n` +
+  //   `int ${active} = constrain((int)(${level}), 0, ${bandSize});\n` +
+  //   `for (int ${loopVar} = 0; ${loopVar} < ${bandSize}; ${loopVar}++) {\n` +
+  //   `  int __idx = (int)(${startIndex}) + ${loopVar};\n` +
+  //   `  if (__idx >= 0 && __idx < NUM_LEDS_${dataPin}) {\n` +
+  //   `    leds_${dataPin}[__idx] = (${loopVar} < ${active}) ? ${fgColor} : ${bgColor};\n` +
+  //   `  }\n` +
+  //   `}\n`
+  // );
+
+  let code =
     `int ${bandSize} = (int)(${endIndex}) - (int)(${startIndex}) + 1;\n` +
     `if (${bandSize} < 0) { ${bandSize} = 0; }\n` +
     `int ${active} = constrain((int)(${level}), 0, ${bandSize});\n` +
@@ -117,8 +146,12 @@ Arduino.forBlock["fastled_draw_bar"] = function (block, generator) {
     `  if (__idx >= 0 && __idx < NUM_LEDS_${dataPin}) {\n` +
     `    leds_${dataPin}[__idx] = (${loopVar} < ${active}) ? ${fgColor} : ${bgColor};\n` +
     `  }\n` +
-    `}\n`
-  );
+    `}\n`;
+  if (!hasFastLEDRefreshBlock(block)) {
+    code += "FastLED.show();\n";
+  }
+
+  return code;
 };
 
 Arduino.forBlock["fastled_refresh"] = function (block, generator) {
