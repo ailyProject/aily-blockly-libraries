@@ -1,7 +1,7 @@
 [
   {
     "type": "u8g2_begin",
-    "message0": "初始化显示屏 型号 %1",
+    "message0": "初始化显示屏 型号 %1 模式 %2",
     "args0": [
       {
         "type": "field_dropdown",
@@ -32,6 +32,14 @@
             "ST7920"
           ]
         ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["全缓冲区", "FULL_BUFFER"],
+          ["页面缓冲区", "PAGE_BUFFER"]
+        ]
       }
     ],
     "extensions": [
@@ -41,6 +49,23 @@
     "nextStatement": null,
     "colour": "#4DB6AC",
     "tooltip": "初始化U8G2显示设备",
+    "inputsInline": true,
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "u8g2_page_buffer",
+    "message0": "页面缓冲区模式",
+    "message1": "绘图 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4DB6AC",
+    "tooltip": "使用页面缓冲区模式进行绘图操作",
     "inputsInline": true,
     "icon": "iconfont icon-oled12864"
   },

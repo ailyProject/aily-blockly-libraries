@@ -309,6 +309,7 @@ Arduino.forBlock['u8g2_begin'] = function (block, generator) {
   var type = block.getFieldValue('TYPE');
   var resolution = block.getFieldValue('RESOLUTION');
   var protocol = block.getFieldValue('PROTOCOL');
+  var mode = block.getFieldValue('MODE') === 'FULL_BUFFER' ? '_F' : '_1';
 
   // 处理SEEED变种的特殊情况
   var constructorType = type;
@@ -349,7 +350,7 @@ Arduino.forBlock['u8g2_begin'] = function (block, generator) {
   // 分辨率现在已经是正确的U8G2格式
 
   // 构建基础的构造函数名称
-  var code = 'U8G2_' + constructorType + '_' + resolution + '_F' + constructorProtocol + ' u8g2(';
+  var code = 'U8G2_' + constructorType + '_' + resolution + mode + constructorProtocol + ' u8g2(';
 
   // 根据不同的协议类型添加对应的引脚参数
   switch (protocol) {
@@ -438,6 +439,17 @@ Arduino.forBlock['u8g2_begin'] = function (block, generator) {
   return 'u8g2.begin();\n';
 };
 
+Arduino.forBlock['u8g2_page_buffer'] = function (block, generator) {
+  let branchCode = generator.statementToCode(block, 'DO');
+
+  let code = '';
+  code += 'u8g2.firstPage();\n';
+  code += 'do {\n';
+  code += branchCode;
+  code += '} while (u8g2.nextPage());\n';
+  return code;
+};
+
 // 清屏操作（立即生效）
 Arduino.forBlock['u8g2_clear'] = function (block, generator) {
   return `u8g2.clear();\n`;
@@ -465,12 +477,38 @@ function hasFollowingSendBuffer(block) {
   return false;
 }
 
+// 辅助函数：检测是full buffer还是page buffer模式
+function isPageBufferMode(block) {
+  let parentBlock = block.getSurroundParent();
+  while (parentBlock) {
+    if (parentBlock.type === 'u8g2_page_buffer') {
+      return true;
+    }
+    parentBlock = parentBlock.getSurroundParent();
+  }
+  return false;
+}
+
+// 辅助函数：检测工作区中是否有设置字体的block
+function hasSetFontInWorkspace(block) {
+  const workspace = block.workspace;
+  if (!workspace) return false;
+  
+  const allBlocks = workspace.getAllBlocks(false);
+  for (let i = 0; i < allBlocks.length; i++) {
+    if (allBlocks[i].type === 'u8g2_set_font') {
+      return true;
+    }
+  }
+  return false;
+}
+
 // 绘制像素点
 Arduino.forBlock['u8g2_draw_pixel'] = function (block, generator) {
   const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC);
   const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC);
   let code = `u8g2.drawPixel(${x}, ${y});\n`;
-  if (!hasFollowingSendBuffer(block)) {
+  if (!hasFollowingSendBuffer(block) && !isPageBufferMode(block)) {
     code += `u8g2.sendBuffer();\n`;
   }
   return code;
@@ -484,7 +522,7 @@ Arduino.forBlock['u8g2_draw_line'] = function (block, generator) {
   const y2 = generator.valueToCode(block, 'Y2', Arduino.ORDER_ATOMIC);
 
   let code = `u8g2.drawLine(${x1}, ${y1}, ${x2}, ${y2});\n`;
-  if (!hasFollowingSendBuffer(block)) {
+  if (!hasFollowingSendBuffer(block) && !isPageBufferMode(block)) {
     code += `u8g2.sendBuffer();\n`;
   }
   return code;
@@ -497,7 +535,7 @@ Arduino.forBlock['u8g2_draw_rectangle'] = function (block, generator) {
   const width = generator.valueToCode(block, 'WIDTH', Arduino.ORDER_ATOMIC);
   const height = generator.valueToCode(block, 'HEIGHT', Arduino.ORDER_ATOMIC);
   const fill = block.getFieldValue('FILL') === 'TRUE';
-  const needSendBuffer = !hasFollowingSendBuffer(block);
+  const needSendBuffer = !hasFollowingSendBuffer(block) && !isPageBufferMode(block);
 
   let code;
   if (fill) {
@@ -517,7 +555,7 @@ Arduino.forBlock['u8g2_draw_circle'] = function (block, generator) {
   const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC);
   const radius = generator.valueToCode(block, 'RADIUS', Arduino.ORDER_ATOMIC);
   const fill = block.getFieldValue('FILL') === 'TRUE';
-  const needSendBuffer = !hasFollowingSendBuffer(block);
+  const needSendBuffer = !hasFollowingSendBuffer(block) && !isPageBufferMode(block);
 
   let code;
   if (fill) {
@@ -536,14 +574,16 @@ Arduino.forBlock['u8g2_draw_str'] = function (block, generator) {
   const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC);
   const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC);
   const text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC);
-  // let fontSetting = 'u8g2_font_ncenB08_tr'; // 默认字体设置
   let drawCode= 'drawUTF8';
-  // const isChinese = /[\u4e00-\u9fa5]/.test(text); // 检测是否为中文
-  // if (isChinese) {
-  //   // 如果是中文，使用特定的字体
-  //   fontSetting = 'u8g2_font_wqy12_t_chinese2';
-  //   drawCode = 'drawUTF8';
-  // }
+
+  let fontSetting = 'u8g2_font_ncenB08_tr'; // 默认字体设置
+
+  const isChinese = /[\u4e00-\u9fa5]/.test(text); // 检测是否为中文
+  if (isChinese) {
+    // 如果是中文，使用特定的字体
+    fontSetting = 'u8g2_font_wqy12_t_chinese2';
+    // drawCode = 'drawUTF8';
+  }
   generator.addSetupEnd('u8g2_enableUTF8Print', 'u8g2.enableUTF8Print();');
   
   const target = block.getInputTargetBlock('TEXT');
@@ -559,9 +599,12 @@ Arduino.forBlock['u8g2_draw_str'] = function (block, generator) {
   }
 
   let code = '';
+  if (!hasSetFontInWorkspace(block)) {
+    code += `u8g2.setFont(${fontSetting});\n`;
+  }
   // code += `u8g2.setFont(${fontSetting});\n`;
   code += `u8g2.${drawCode}(${x}, ${y}, ${textCode});\n`;
-  if (!hasFollowingSendBuffer(block)) {
+  if (!hasFollowingSendBuffer(block) && !isPageBufferMode(block)) {
     code += `u8g2.sendBuffer();\n`;
   }
   return code;
@@ -704,7 +747,7 @@ Arduino.forBlock['u8g2_draw_bitmap'] = function (block, generator) {
   const bitmapVarPrefix = bitmapCode.replace('_data', '');
 
   let code = `u8g2.drawXBMP(${x}, ${y}, ${bitmapVarPrefix}_width, ${bitmapVarPrefix}_height, ${bitmapCode});\n`;
-  if (!hasFollowingSendBuffer(block)) {
+  if (!hasFollowingSendBuffer(block) && !isPageBufferMode(block)) {
     code += `u8g2.sendBuffer();\n`;
   }
   return code;
