@@ -4,6 +4,357 @@ function isESP32Core() {
   return boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1;
 }
 
+// 注册字体动态扩展
+if (Blockly.Extensions.isRegistered('u8g2_font_dynamic_inputs')) {
+  Blockly.Extensions.unregister('u8g2_font_dynamic_inputs');
+}
+
+Blockly.Extensions.register('u8g2_font_dynamic_inputs', function () {
+  // 动态字体选择：字体大小 -> 字体类型 -> 具体字体
+  
+  // 辅助函数：移除字体选择输入
+  this.removeFontInputs_ = function() {
+    if (this.getInput('FONT_TYPE')) this.removeInput('FONT_TYPE');
+    if (this.getInput('FONT_NAME')) this.removeInput('FONT_NAME');
+  };
+
+  // 根据字体大小更新字体类型选项
+  this.updateFontSize_ = function (sizeValue) {
+    // 移除现有输入
+    this.removeFontInputs_();
+    
+    var fontTypeOptions = [];
+    
+    // 根据字体大小确定可用的字体类型
+    switch (sizeValue) {
+      case '8':
+        fontTypeOptions = [
+          ['中文', 'CHINESE'],
+          ['Helvetica Bold', 'HELV_B'],
+          ['Helvetica Regular', 'HELV_R'],
+          ['New Century Bold', 'NCEN_B'],
+          ['New Century Regular', 'NCEN_R']
+        ];
+        break;
+      case '14':
+        fontTypeOptions = [
+          ['中文', 'CHINESE'],
+          ['Helvetica Bold', 'HELV_B'],
+          ['Helvetica Regular', 'HELV_R'],
+          ['New Century Bold', 'NCEN_B'],
+          ['New Century Regular', 'NCEN_R'],
+          ['Free Universal Bold', 'FUB'],
+          ['Free Universal Regular', 'FUR'],
+          ['Logisoso', 'LOGISOSO']
+        ];
+        break;
+      case '19':
+        fontTypeOptions = [
+          ['中文', 'CHINESE'],
+          ['Helvetica Bold', 'HELV_B'],
+          ['Helvetica Regular', 'HELV_R'],
+          ['New Century Bold', 'NCEN_B'],
+          ['New Century Regular', 'NCEN_R'],
+          ['Logisoso', 'LOGISOSO']
+        ];
+        break;
+      case '25':
+        fontTypeOptions = [
+          ['Helvetica Bold', 'HELV_B'],
+          ['Helvetica Regular', 'HELV_R'],
+          ['New Century Bold', 'NCEN_B'],
+          ['New Century Regular', 'NCEN_R'],
+          ['Free Universal Bold', 'FUB'],
+          ['Free Universal Regular', 'FUR'],
+          ['Logisoso', 'LOGISOSO']
+        ];
+        break;
+      case '34':
+      case '42':
+        fontTypeOptions = [
+          ['Free Universal Bold', 'FUB'],
+          ['Free Universal Regular', 'FUR'],
+          ['Logisoso', 'LOGISOSO']
+        ];
+        break;
+      case '50':
+      case '58':
+        fontTypeOptions = [
+          // ['Helvetica Bold', 'HELV_B'],
+          // ['Helvetica Regular', 'HELV_R'],
+          // ['New Century Bold', 'NCEN_B'],
+          // ['New Century Regular', 'NCEN_R'],
+          ['Logisoso', 'LOGISOSO']
+        ];
+        break;
+      default:
+        return;
+    }
+    
+    // 添加字体类型下拉框
+    this.appendDummyInput('FONT_TYPE')
+      .appendField('字体类型')
+      .appendField(new Blockly.FieldDropdown(fontTypeOptions), 'FONT_TYPE');
+    
+    // 为字体类型字段添加验证器
+    this.getField('FONT_TYPE').setValidator(option => {
+      this.updateFontName_(sizeValue, option);
+      return option;
+    });
+    
+    // 初始化具体字体
+    this.updateFontName_(sizeValue, fontTypeOptions[0][1]);
+  };
+
+  // 根据字体大小和类型更新具体字体选项
+  this.updateFontName_ = function (sizeValue, typeValue) {
+    // 移除具体字体输入
+    if (this.getInput('FONT_NAME')) this.removeInput('FONT_NAME');
+    
+    var fontOptions = [];
+    
+    // 根据大小和类型确定具体字体
+    if (typeValue === 'CHINESE') {
+      // 中文字体
+      switch (sizeValue) {
+        case '8':
+          fontOptions = [
+            ['文泉驿 12t', 'u8g2_font_wqy12_t_chinese2']
+          ];
+          break;
+        case '14':
+          fontOptions = [
+            ['文泉驿 14t', 'u8g2_font_wqy14_t_chinese2']
+          ];
+          break;
+        case '19':
+          fontOptions = [
+            ['文泉驿 16t', 'u8g2_font_wqy16_t_chinese2']
+          ];
+          break;
+      }
+    } else if (typeValue === 'HELV_B') {
+      // Helvetica Bold
+      switch (sizeValue) {
+        case '8':
+          fontOptions = [
+            ['8px ASCII 32-127', 'u8g2_font_helvB08_tr'],
+            ['8px 全字符集', 'u8g2_font_helvB08_tf']
+          ];
+          break;
+        case '14':
+          fontOptions = [
+            ['14px ASCII 32-127', 'u8g2_font_helvB14_tr'],
+            ['14px 全字符集', 'u8g2_font_helvB14_tf']
+          ];
+          break;
+        case '19':
+          fontOptions = [
+            ['18px ASCII 32-127', 'u8g2_font_helvB18_tr'],
+            ['18px 全字符集', 'u8g2_font_helvB18_tf']
+          ];
+          break;
+        case '25':
+          fontOptions = [
+            ['24px ASCII 32-127', 'u8g2_font_helvB24_tr'],
+            ['24px 全字符集', 'u8g2_font_helvB24_tf']
+          ];
+          break;
+      }
+    } else if (typeValue === 'HELV_R') {
+      // Helvetica Regular
+      switch (sizeValue) {
+        case '8':
+          fontOptions = [
+            ['8px ASCII 32-127', 'u8g2_font_helvR08_tr'],
+            ['8px 全字符集', 'u8g2_font_helvR08_tf']
+          ];
+          break;
+        case '14':
+          fontOptions = [
+            ['14px ASCII 32-127', 'u8g2_font_helvR14_tr'],
+            ['14px 全字符集', 'u8g2_font_helvR14_tf']
+          ];
+          break;
+        case '19':
+          fontOptions = [
+            ['18px ASCII 32-127', 'u8g2_font_helvR18_tr'],
+            ['18px 全字符集', 'u8g2_font_helvR18_tf']
+          ];
+          break;
+        case '25':
+          fontOptions = [
+            ['24px ASCII 32-127', 'u8g2_font_helvR24_tr'],
+            ['24px 全字符集', 'u8g2_font_helvR24_tf']
+          ];
+          break;
+      }
+    } else if (typeValue === 'NCEN_B') {
+      // New Century Bold
+      switch (sizeValue) {
+        case '8':
+          fontOptions = [
+            ['8px ASCII 32-127', 'u8g2_font_ncenB08_tr'],
+            ['8px 全字符集', 'u8g2_font_ncenB08_tf']
+          ];
+          break;
+        case '14':
+          fontOptions = [
+            ['14px ASCII 32-127', 'u8g2_font_ncenB14_tr'],
+            ['14px 全字符集', 'u8g2_font_ncenB14_tf']
+          ];
+          break;
+        case '19':
+          fontOptions = [
+            ['18px ASCII 32-127', 'u8g2_font_ncenB18_tr'],
+            ['18px 全字符集', 'u8g2_font_ncenB18_tf']
+          ];
+          break;
+        case '25':
+          fontOptions = [
+            ['24px ASCII 32-127', 'u8g2_font_ncenB24_tr'],
+            ['24px 全字符集', 'u8g2_font_ncenB24_tf']
+          ];
+          break;
+      }
+    } else if (typeValue === 'NCEN_R') {
+      // New Century Regular
+      switch (sizeValue) {
+        case '8':
+          fontOptions = [
+            ['8px ASCII 32-127', 'u8g2_font_ncenR08_tr'],
+            ['8px 全字符集', 'u8g2_font_ncenR08_tf']
+          ];
+          break;
+        case '14':
+          fontOptions = [
+            ['14px ASCII 32-127', 'u8g2_font_ncenR14_tr'],
+            ['14px 全字符集', 'u8g2_font_ncenR14_tf']
+          ];
+          break;
+        case '19':
+          fontOptions = [
+            ['18px ASCII 32-127', 'u8g2_font_ncenR18_tr'],
+            ['18px 全字符集', 'u8g2_font_ncenR18_tf']
+          ];
+          break;
+        case '25':
+          fontOptions = [
+            ['24px ASCII 32-127', 'u8g2_font_ncenR24_tr'],
+            ['24px 全字符集', 'u8g2_font_ncenR24_tf']
+          ];
+          break;
+      }
+    } else if (typeValue === 'FUB') {
+      // Free Universal Bold
+      switch (sizeValue) {
+        case '14':
+          fontOptions = [
+            ['14px ASCII 32-127', 'u8g2_font_fub14_tr'],
+            ['14px 全字符集', 'u8g2_font_fub14_tf']
+          ];
+          break;
+        case '25':
+          fontOptions = [
+            ['25px ASCII 32-127', 'u8g2_font_fub25_tr'],
+            ['25px 全字符集', 'u8g2_font_fub25_tf']
+          ];
+          break;
+        case '42':
+          fontOptions = [
+            ['42px ASCII 32-127', 'u8g2_font_fub42_tr'],
+            ['42px 全字符集', 'u8g2_font_fub42_tf']
+          ];
+          break;
+      }
+    } else if (typeValue === 'FUR') {
+      // Free Universal Regular
+      switch (sizeValue) {
+        case '14':
+          fontOptions = [
+            ['14px ASCII 32-127', 'u8g2_font_fur14_tr'],
+            ['14px 全字符集', 'u8g2_font_fur14_tf']
+          ];
+          break;
+        case '25':
+          fontOptions = [
+            ['25px ASCII 32-127', 'u8g2_font_fur25_tr'],
+            ['25px 全字符集', 'u8g2_font_fur25_tf']
+          ];
+          break;
+        case '42':
+          fontOptions = [
+            ['42px ASCII 32-127', 'u8g2_font_fur42_tr'],
+            ['42px 全字符集', 'u8g2_font_fur42_tf']
+          ];
+          break;
+      }
+    } else if (typeValue === 'LOGISOSO') {
+      // Logisoso
+      switch (sizeValue) {
+        case '14':
+          fontOptions = [
+            ['16px ASCII 32-127', 'u8g2_font_logisoso16_tr'],
+            ['16px 全字符集', 'u8g2_font_logisoso16_tf']
+          ];
+          break;
+        case '19':
+          fontOptions = [
+            ['18px ASCII 32-127', 'u8g2_font_logisoso18_tr'],
+            ['18px 全字符集', 'u8g2_font_logisoso18_tf']
+          ];
+          break;
+        case '25':
+          fontOptions = [
+            ['24px ASCII 32-127', 'u8g2_font_logisoso24_tr'],
+            ['24px 全字符集', 'u8g2_font_logisoso24_tf']
+          ];
+          break;
+        case '34':
+          fontOptions = [
+            ['34px ASCII 32-127', 'u8g2_font_logisoso34_tr'],
+            ['34px 全字符集', 'u8g2_font_logisoso34_tf']
+          ];
+          break;
+        case '42':
+          fontOptions = [
+            ['42px ASCII 32-127', 'u8g2_font_logisoso42_tr'],
+            ['42px 全字符集', 'u8g2_font_logisoso42_tf']
+          ];
+          break;
+        case '50':
+          fontOptions = [
+            ['50px ASCII 32-127', 'u8g2_font_logisoso50_tr'],
+            ['50px 全字符集', 'u8g2_font_logisoso50_tf']
+          ];
+          break;
+        case '58':
+          fontOptions = [
+            ['58px ASCII 32-127', 'u8g2_font_logisoso58_tr'],
+            ['58px 全字符集', 'u8g2_font_logisoso58_tf']
+          ];
+          break;
+      }
+    }
+    
+    if (fontOptions.length > 0) {
+      // 添加具体字体下拉框
+      this.appendDummyInput('FONT_NAME')
+        .appendField('字体')
+        .appendField(new Blockly.FieldDropdown(fontOptions), 'FONT');
+    }
+  };
+  
+  // 为SIZE字段添加验证器，切换时动态更新输入
+  this.getField('SIZE').setValidator(option => {
+    this.updateFontSize_(option);
+    return option;
+  });
+  
+  // 初始化时根据当前字体大小设置输入
+  this.updateFontSize_(this.getFieldValue('SIZE'));
+});
+
 if (Blockly.Extensions.isRegistered('u8g2_init_dynamic_inputs')) {
   Blockly.Extensions.unregister('u8g2_init_dynamic_inputs');
 }
@@ -612,6 +963,40 @@ Arduino.forBlock['u8g2_draw_str'] = function (block, generator) {
 
 // 设置字体
 Arduino.forBlock['u8g2_set_font'] = function (block, generator) {
+  // 8pixels high font
+  // u8g2_font_wqy12_t_chinese2 
+  // u8g2_font_helvB08_tf/tr
+  // u8g2_font_helvR08_tf/tr
+  // u8g2_font_ncenB08_tf/tr
+  // u8g2_font_ncenR08_tf/tr
+  // 14pixels high font
+  // u8g2_font_wqy14_t_chinese2
+  // u8g2_font_helvB14_tf/tr
+  // u8g2_font_helvR14_tf/tr
+  // u8g2_font_ncenB14_tf/tr
+  // u8g2_font_ncenR14_tf/tr
+  // u8g2_font_logisoso16_tf/tr
+  // 19pixels high font
+  // u8g2_font_wqy16_t_chinese2
+  // u8g2_font_helvB18_tf/tr
+  // u8g2_font_helvR18_tf/tr
+  // u8g2_font_ncenB18_tf/tr
+  // u8g2_font_ncenR18_tf/tr
+  // u8g2_font_logisoso18_tf/tr
+  // 25pixels high font
+  // u8g2_font_helvB24_tf/tr
+  // u8g2_font_helvR24_tf/tr
+  // u8g2_font_ncenB24_tf/tr
+  // u8g2_font_ncenR24_tf/tr
+  // u8g2_font_logisoso24_tf/tr
+  // 34pixels high font
+  // u8g2_font_logisoso34_tf/tr
+  // 42pixels high font
+  // u8g2_font_logisoso42_tf/tr
+  // 50pixels high font
+  // u8g2_font_logisoso50_tf/tr
+  // 58pixels high font
+  // u8g2_font_logisoso58_tf/tr
   const font = block.getFieldValue('FONT');
   return `u8g2.setFont(${font});\n`;
 };
@@ -778,10 +1163,10 @@ Arduino.forBlock['u8g2_set_bus_clock'] = function (block, generator) {
 };
 
 // 设置字体
-Arduino.forBlock['u8g2_set_font'] = function (block, generator) {
-  const font = block.getFieldValue('FONT');
-  return `u8g2.setFont(${font});\n`;
-};
+// Arduino.forBlock['u8g2_set_font'] = function (block, generator) {
+//   const font = block.getFieldValue('FONT');
+//   return `u8g2.setFont(${font});\n`;
+// };
 
 // 设置绘图颜色
 Arduino.forBlock['u8g2_set_draw_color'] = function (block, generator) {
