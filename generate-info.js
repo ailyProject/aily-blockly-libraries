@@ -35,7 +35,7 @@ const CATEGORY_KEYWORDS = [
         'display', 'screen', 'lcd', 'oled', 'tft', 'matrix', 'segment',
         'epaper', 'e-ink', 'gfx', 'graphics', 'neopixel', 'ws2812', 'led strip', 'apa102',
         '显示', '屏幕', '数码管', '点阵', 'ssd1306', 'st7735', 'st7789', 'ili9341', 'max7219',
-        '74hc595', 'FFT', 'espui'
+        '74hc595', 'FFT', 'espui', 'led'
     ]],
     ['audio', [
         'audio', 'sound', 'speaker', 'buzzer', 'mp3', 'music', 'voice', 'dfplayer', 'vs1053',
