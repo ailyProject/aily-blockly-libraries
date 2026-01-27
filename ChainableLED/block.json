@@ -1,0 +1,159 @@
+[
+  {
+    "type": "chainableled_setup",
+    "message0": "初始化 链式RGBLED %1 时钟引脚 %2 数据引脚 %3 LED数量 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "leds"
+      },
+      {
+        "type": "input_value",
+        "name": "CLK_PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "DATA_PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "NUM_LEDS",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "icon": "fa-light fa-light-emergency",
+    "tooltip": "创建链式RGB LED对象，指定时钟引脚、数据引脚和LED数量"
+  },
+  {
+    "type": "chainableled_init",
+    "message0": "初始化 链式RGBLED %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "leds",
+        "variableTypes": ["ChainableLED"],
+        "defaultType": "ChainableLED"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "icon": "fa-light fa-light-emergency",
+    "tooltip": "初始化链式RGB LED，配置引脚并设置所有LED为熄灭状态"
+  },
+  {
+    "type": "chainableled_set_color_rgb",
+    "message0": "设置 链式RGBLED %1 LED编号 %2 红色 %3 绿色 %4 蓝色 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "leds",
+        "variableTypes": ["ChainableLED"],
+        "defaultType": "ChainableLED"
+      },
+      {
+        "type": "input_value",
+        "name": "LED_INDEX",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "RED",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "GREEN",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "BLUE",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "icon": "fa-light fa-light-emergency",
+    "tooltip": "使用RGB颜色模式（红绿蓝，0-255）设置指定LED的颜色"
+  },
+  {
+    "type": "chainableled_set_color_hsl",
+    "message0": "设置 链式RGBLED %1 LED编号 %2 色相 %3 饱和度 %4 亮度 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "leds",
+        "variableTypes": ["ChainableLED"],
+        "defaultType": "ChainableLED"
+      },
+      {
+        "type": "input_value",
+        "name": "LED_INDEX",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "HUE",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "SATURATION",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "LIGHTNESS",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "icon": "fa-light fa-light-emergency",
+    "tooltip": "使用HSL颜色模式（色相、饱和度、亮度，0-1）设置指定LED的颜色"
+  },
+  {
+    "type": "chainableled_set_color",
+    "message0": "设置 链式RGBLED %1 LED编号 %2 颜色 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "leds",
+        "variableTypes": ["ChainableLED"],
+        "defaultType": "ChainableLED"
+      },
+      {
+        "type": "input_value",
+        "name": "LED_INDEX",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_colour_hsv_sliders",
+        "name": "COLOR",
+        "colour": "#ffffff"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "icon": "fa-light fa-light-emergency",
+    "tooltip": "使用颜色选择器设置指定LED的颜色"
+  }
+]
