@@ -1,97 +1,41 @@
 [
   {
-    "type": "espnow_serial_init",
-    "message0": "ESP-NOW串口模式初始化 对端MAC地址 %1 WiFi频道 %2 工作模式 %3",
+    "type": "esp_now_master_init",
+    "message0": "ESP-NOW 初始化为主机（发送方）通道 %1",
     "args0": [
       {
         "type": "input_value",
-        "name": "PEER_MAC",
-        "check": "String"
-      },
-      {
-        "type": "field_number",
         "name": "CHANNEL",
-        "value": 1,
-        "min": 1,
-        "max": 14
-      },
-      {
-        "type": "field_dropdown",
-        "name": "MODE",
-        "options": [
-          [
-            "Station模式",
-            "STATION"
-          ],
-          [
-            "AP模式",
-            "AP"
-          ]
-        ]
+        "check": "Number"
       }
     ],
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#4CAF50",
-    "tooltip": "初始化ESP-NOW串口通信模式，用于两个ESP32设备间的点对点通信",
-    "icon": "fa-regular fa-signal-stream"
+    "colour": "#E91E63",
+    "tooltip": "一键初始化为ESP-NOW主机（广播发送方），自动配置WiFi和ESP-NOW",
+    "icon": "fa-light fa-signal-stream"
   },
   {
-    "type": "espnow_serial_available",
-    "message0": "ESP-NOW串口有数据可读取",
-    "output": "Boolean",
-    "colour": "#4CAF50",
-    "tooltip": "检查ESP-NOW串口是否有接收到数据",
-    "icon": "fa-regular fa-signal-stream"
-  },
-  {
-    "type": "espnow_serial_read",
-    "message0": "ESP-NOW串口读取数据",
-    "output": "String",
-    "colour": "#4CAF50",
-    "tooltip": "从ESP-NOW串口读取接收到的数据",
-    "icon": "fa-regular fa-signal-stream"
-  },
-  {
-    "type": "espnow_serial_write",
-    "message0": "ESP-NOW串口发送数据 %1",
+    "type": "esp_now_slave_init",
+    "message0": "ESP-NOW 初始化为从机（接收方）通道 %1",
     "args0": [
       {
         "type": "input_value",
-        "name": "DATA",
-        "check": "String"
-      }
-    ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#4CAF50",
-    "tooltip": "通过ESP-NOW串口发送数据到对端设备",
-    "icon": "fa-regular fa-signal-stream"
-  },
-  {
-    "type": "espnow_broadcast_master_init",
-    "message0": "ESP-NOW广播主机初始化 WiFi频道 %1",
-    "args0": [
-      {
-        "type": "field_number",
         "name": "CHANNEL",
-        "value": 6,
-        "min": 1,
-        "max": 14
+        "check": "Number"
       }
     ],
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#FF9800",
-    "tooltip": "初始化ESP-NOW广播主机模式，可以向网络中所有从机广播消息",
-    "icon": "fa-regular fa-signal-stream"
+    "colour": "#E91E63",
+    "tooltip": "一键初始化为ESP-NOW从机（接收方），自动配置WiFi、ESP-NOW并注册新设备",
+    "icon": "fa-light fa-signal-stream"
   },
   {
-    "type": "espnow_broadcast_send",
-    "message0": "ESP-NOW广播发送消息 %1",
+    "type": "esp_now_broadcast_message",
+    "message0": "广播消息 %1",
     "args0": [
       {
         "type": "input_value",
@@ -102,121 +46,664 @@
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#FF9800",
-    "tooltip": "向网络中所有ESP-NOW从机设备广播消息",
-    "icon": "fa-regular fa-signal-stream"
+    "colour": "#E91E63",
+    "tooltip": "向网络中所有设备广播消息（需先初始化为主机）",
+    "icon": "fa-light fa-signal-stream"
   },
   {
-    "type": "espnow_broadcast_slave_init",
-    "message0": "ESP-NOW广播从机初始化 WiFi频道 %1",
-    "args0": [
-      {
-        "type": "field_number",
-        "name": "CHANNEL",
-        "value": 6,
-        "min": 1,
-        "max": 14
-      }
-    ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#2196F3",
-    "tooltip": "初始化ESP-NOW广播从机模式，可以接收主机发送的广播消息",
-    "icon": "fa-regular fa-signal-stream"
-  },
-  {
-    "type": "espnow_on_receive",
-    "message0": "当ESP-NOW接收到数据时 %1 %2",
-    "args0": [
-      {
-        "type": "input_dummy"
-      },
+    "type": "esp_now_on_message_received",
+    "message0": "当收到 ESP-NOW 消息时",
+    "message1": "执行 %1",
+    "args1": [
       {
         "type": "input_statement",
-        "name": "CALLBACK"
+        "name": "HANDLER"
       }
     ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#9C27B0",
-    "tooltip": "设置ESP-NOW数据接收回调函数",
-    "icon": "fa-regular fa-signal-stream"
+    "colour": "#E91E63",
+    "tooltip": "全局接收回调，任何ESP-NOW消息都会触发。回调中可用：收到的消息内容、消息长度、是否广播、发送方MAC",
+    "icon": "fa-light fa-signal-stream"
   },
   {
-    "type": "espnow_get_received_data",
-    "message0": "获取ESP-NOW接收到的数据",
+    "type": "esp_now_received_message",
+    "message0": "收到的消息",
     "output": "String",
-    "colour": "#9C27B0",
-    "tooltip": "获取ESP-NOW接收回调中的数据内容",
-    "icon": "fa-regular fa-signal-stream"
+    "colour": "#E91E63",
+    "tooltip": "在全局接收回调中获取收到的消息内容",
+    "icon": "fa-light fa-signal-stream"
   },
   {
-    "type": "espnow_get_sender_mac",
-    "message0": "获取ESP-NOW发送者MAC地址",
+    "type": "esp_now_received_message_len",
+    "message0": "消息长度",
+    "output": "Number",
+    "colour": "#E91E63",
+    "tooltip": "在全局接收回调中获取消息长度",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_received_is_broadcast",
+    "message0": "是广播消息",
+    "output": "Boolean",
+    "colour": "#E91E63",
+    "tooltip": "在全局接收回调中判断是否为广播消息",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_received_sender_mac",
+    "message0": "发送方MAC",
     "output": "String",
-    "colour": "#9C27B0",
-    "tooltip": "获取ESP-NOW消息发送者的MAC地址",
-    "icon": "fa-regular fa-signal-stream"
+    "colour": "#E91E63",
+    "tooltip": "在全局接收回调中获取发送方的MAC地址",
+    "icon": "fa-light fa-signal-stream"
   },
   {
-    "type": "espnow_network_init",
-    "message0": "ESP-NOW网络模式初始化 WiFi频道 %1 设备数量 %2",
-    "args0": [
-      {
-        "type": "field_number",
-        "name": "CHANNEL",
-        "value": 4,
-        "min": 1,
-        "max": 14
-      },
-      {
-        "type": "field_number",
-        "name": "PEER_COUNT",
-        "value": 2,
-        "min": 1,
-        "max": 10
-      }
-    ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#607D8B",
-    "tooltip": "初始化ESP-NOW网络模式，支持多设备组网通信",
-    "icon": "fa-regular fa-signal-stream"
-  },
-  {
-    "type": "espnow_network_send_data",
-    "message0": "ESP-NOW网络发送数据 %1",
+    "type": "esp_now_reply_message",
+    "message0": "回复消息 %1",
     "args0": [
       {
         "type": "input_value",
-        "name": "DATA",
+        "name": "MESSAGE",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "回复最后一个发送消息的设备（在接收回调中或之后使用）",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_node_init",
+    "message0": "ESP-NOW 初始化为双向节点 通道 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
         "check": "Number"
       }
     ],
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#607D8B",
-    "tooltip": "在ESP-NOW网络中发送数据",
-    "icon": "fa-regular fa-signal-stream"
+    "colour": "#E91E63",
+    "tooltip": "初始化为双向节点，既能广播发送也能接收消息",
+    "icon": "fa-light fa-signal-stream"
   },
   {
-    "type": "espnow_is_master",
-    "message0": "ESP-NOW网络当前设备是主机",
-    "output": "Boolean",
-    "colour": "#607D8B",
-    "tooltip": "检查当前设备在ESP-NOW网络中是否为主机",
-    "icon": "fa-regular fa-signal-stream"
+    "type": "esp_now_begin",
+    "message0": "初始化 ESP-NOW",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化ESP-NOW协议，使用默认配置",
+    "icon": "fa-light fa-signal-stream"
   },
   {
-    "type": "espnow_get_mac_address",
-    "message0": "获取ESP32 MAC地址",
+    "type": "esp_now_begin_with_pmk",
+    "message0": "初始化 ESP-NOW 主密钥 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PMK",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化ESP-NOW协议并设置主密钥（16字节）用于加密通信",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_end",
+    "message0": "停止 ESP-NOW",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "停止ESP-NOW协议",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_wifi_init",
+    "message0": "设置WiFi模式 %1 通道 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["STA（站点模式）", "WIFI_STA"],
+          ["AP（热点模式）", "WIFI_AP"],
+          ["AP+STA（混合模式）", "WIFI_AP_STA"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化WiFi模式和通道（ESP-NOW需要先配置WiFi）",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_create_peer",
+    "message0": "创建对等设备 %1 MAC地址 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "peer1"
+      },
+      {
+        "type": "input_value",
+        "name": "MAC",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "创建一个ESP-NOW对等设备（需要指定对方的MAC地址）",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_create_peer_advanced",
+    "message0": "创建对等设备 %1 MAC地址 %2 \n通道 %3 加密密钥 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "peer1"
+      },
+      {
+        "type": "input_value",
+        "name": "MAC",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LMK",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "创建带加密的ESP-NOW对等设备（LMK需要16字节）",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_create_broadcast_peer",
+    "message0": "创建广播对等设备 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "broadcastPeer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "创建一个广播对等设备，用于向网络中所有设备发送消息",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_remove_peer",
+    "message0": "移除对等设备 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "peer1",
+        "variableTypes": ["ESP_NOW_Peer"],
+        "defaultType": "ESP_NOW_Peer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "移除已注册的对等设备",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_send",
+    "message0": "对等设备 %1 发送消息 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "peer1",
+        "variableTypes": ["ESP_NOW_Peer"],
+        "defaultType": "ESP_NOW_Peer"
+      },
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "向指定对等设备发送字符串消息",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_send_data",
+    "message0": "对等设备 %1 发送数据 %2 长度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "peer1",
+        "variableTypes": ["ESP_NOW_Peer"],
+        "defaultType": "ESP_NOW_Peer"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA"
+      },
+      {
+        "type": "input_value",
+        "name": "LEN",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "向指定对等设备发送原始数据",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_on_receive",
+    "message0": "当对等设备 %1 收到消息时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "peer1",
+        "variableTypes": ["ESP_NOW_Peer"],
+        "defaultType": "ESP_NOW_Peer"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "设置对等设备接收消息的回调函数。回调中可使用变量: esp_now_data(消息内容), esp_now_len(消息长度), esp_now_broadcast(是否广播)",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_on_sent",
+    "message0": "当对等设备 %1 消息发送完成时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "peer1",
+        "variableTypes": ["ESP_NOW_Peer"],
+        "defaultType": "ESP_NOW_Peer"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "设置消息发送完成的回调函数。回调中可使用变量: esp_now_success(是否发送成功)",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_on_new_peer",
+    "message0": "当收到新对等设备消息时",
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "当收到未知设备消息时触发。回调中可使用变量: esp_now_src_mac(发送方MAC), esp_now_data(消息内容), esp_now_len(消息长度)",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_received_data",
+    "message0": "收到的消息内容",
     "output": "String",
-    "colour": "#795548",
-    "tooltip": "获取当前ESP32设备的MAC地址",
-    "icon": "fa-regular fa-signal-stream"
+    "colour": "#9C27B0",
+    "tooltip": "在接收回调中获取收到的消息内容（字符串）",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_received_len",
+    "message0": "收到的消息长度",
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "在接收回调中获取收到的消息长度",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_is_broadcast",
+    "message0": "是否为广播消息",
+    "output": "Boolean",
+    "colour": "#9C27B0",
+    "tooltip": "在接收回调中判断是否为广播消息",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_send_success",
+    "message0": "发送是否成功",
+    "output": "Boolean",
+    "colour": "#9C27B0",
+    "tooltip": "在发送回调中判断消息是否发送成功",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_src_mac",
+    "message0": "发送方MAC地址",
+    "output": "String",
+    "colour": "#9C27B0",
+    "tooltip": "在新对等设备回调中获取发送方MAC地址",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_serial_create",
+    "message0": "创建ESP-NOW串口 %1 对方MAC %2 通道 %3 工作模式 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "nowSerial"
+      },
+      {
+        "type": "input_value",
+        "name": "MAC",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["Station模式", "WIFI_STA"],
+          ["AP模式", "WIFI_AP"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "创建ESP-NOW串口通信对象，类似于Serial的使用方式",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_serial_available",
+    "message0": "ESP-NOW串口 %1 可读字节数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "nowSerial",
+        "variableTypes": ["ESP_NOW_Serial"],
+        "defaultType": "ESP_NOW_Serial"
+      }
+    ],
+    "output": "Number",
+    "colour": "#00BCD4",
+    "tooltip": "获取ESP-NOW串口接收缓冲区中可读取的字节数",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_serial_available_for_write",
+    "message0": "ESP-NOW串口 %1 可写字节数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "nowSerial",
+        "variableTypes": ["ESP_NOW_Serial"],
+        "defaultType": "ESP_NOW_Serial"
+      }
+    ],
+    "output": "Number",
+    "colour": "#00BCD4",
+    "tooltip": "获取ESP-NOW串口发送缓冲区剩余空间",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_serial_read",
+    "message0": "ESP-NOW串口 %1 读取一个字节",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "nowSerial",
+        "variableTypes": ["ESP_NOW_Serial"],
+        "defaultType": "ESP_NOW_Serial"
+      }
+    ],
+    "output": "Number",
+    "colour": "#00BCD4",
+    "tooltip": "从ESP-NOW串口读取一个字节",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_serial_read_string",
+    "message0": "ESP-NOW串口 %1 读取字符串",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "nowSerial",
+        "variableTypes": ["ESP_NOW_Serial"],
+        "defaultType": "ESP_NOW_Serial"
+      }
+    ],
+    "output": "String",
+    "colour": "#00BCD4",
+    "tooltip": "从ESP-NOW串口读取所有可用数据作为字符串",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_serial_read_string_until",
+    "message0": "ESP-NOW串口 %1 读取字符串直到 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "nowSerial",
+        "variableTypes": ["ESP_NOW_Serial"],
+        "defaultType": "ESP_NOW_Serial"
+      },
+      {
+        "type": "input_value",
+        "name": "TERMINATOR",
+        "check": ["Character"]
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#00BCD4",
+    "tooltip": "从ESP-NOW串口读取数据直到遇到指定字符",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_serial_print",
+    "message0": "ESP-NOW串口 %1 发送 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "nowSerial",
+        "variableTypes": ["ESP_NOW_Serial"],
+        "defaultType": "ESP_NOW_Serial"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "通过ESP-NOW串口发送数据",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_serial_println",
+    "message0": "ESP-NOW串口 %1 发送 %2 并换行",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "nowSerial",
+        "variableTypes": ["ESP_NOW_Serial"],
+        "defaultType": "ESP_NOW_Serial"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "通过ESP-NOW串口发送数据并换行",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_serial_write",
+    "message0": "ESP-NOW串口 %1 发送原始数据 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "nowSerial",
+        "variableTypes": ["ESP_NOW_Serial"],
+        "defaultType": "ESP_NOW_Serial"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#00BCD4",
+    "tooltip": "通过ESP-NOW串口发送原始数据",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_quick_broadcast",
+    "message0": "快速广播消息 %1 通道 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "快速向网络中的所有设备广播消息（自动初始化）",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_quick_send",
+    "message0": "快速发送消息给 MAC %1 内容 %2 通道 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MAC",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "快速向指定MAC地址设备发送消息（自动初始化）",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_get_mac",
+    "message0": "获取本机MAC地址",
+    "output": "String",
+    "colour": "#8BC34A",
+    "tooltip": "获取本机的WiFi MAC地址",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_get_max_data_len",
+    "message0": "ESP-NOW 最大数据长度",
+    "output": "Number",
+    "colour": "#8BC34A",
+    "tooltip": "获取ESP-NOW协议支持的最大数据长度（通常为250字节）",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_get_peer_count",
+    "message0": "ESP-NOW 对等设备数量",
+    "output": "Number",
+    "colour": "#8BC34A",
+    "tooltip": "获取已注册的对等设备数量",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "esp_now_get_version",
+    "message0": "ESP-NOW 版本号",
+    "output": "Number",
+    "colour": "#8BC34A",
+    "tooltip": "获取ESP-NOW协议版本号",
+    "icon": "fa-light fa-signal-stream"
   }
 ]

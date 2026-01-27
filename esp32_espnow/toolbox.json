@@ -1,136 +1,437 @@
 {
-    "kind": "category",
-    "name": "ESP-NOW通信",
-    "icon": "fa-light fa-signal-stream",
-    "colour": "#4CAF50",
-    "contents": [
-        {
-            "kind": "label",
-            "text": "串口模式(点对点)"
-        },
-        {
-            "kind": "block",
-            "type": "espnow_serial_init",
-            "inputs": {
-                "PEER_MAC": {
-                    "shadow": {
-                        "type": "text",
-                        "fields": {
-                            "TEXT": "F4:12:FA:40:64:4C"
-                        }
-                    }
-                }
+  "kind": "category",
+  "name": "ESP-NOW",
+  "icon": "fa-light fa-signal-stream",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "ESP-NOW极简模式"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_master_init",
+      "inputs": {
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
             }
-        },
-        {
-            "kind": "block",
-            "type": "espnow_serial_available"
-        },
-        {
-            "kind": "block",
-            "type": "espnow_serial_read"
-        },
-        {
-            "kind": "block",
-            "type": "espnow_serial_write",
-            "inputs": {
-                "DATA": {
-                    "shadow": {
-                        "type": "text",
-                        "fields": {
-                            "TEXT": "Hello ESP-NOW!"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "sep"
-        },
-        {
-            "kind": "label",
-            "text": "广播模式"
-        },
-        {
-            "kind": "block",
-            "type": "espnow_broadcast_master_init"
-        },
-        {
-            "kind": "block",
-            "type": "espnow_broadcast_send",
-            "inputs": {
-                "MESSAGE": {
-                    "shadow": {
-                        "type": "text",
-                        "fields": {
-                            "TEXT": "Broadcast Message"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "espnow_broadcast_slave_init"
-        },
-        {
-            "kind": "sep"
-        },
-        {
-            "kind": "label",
-            "text": "网络模式"
-        },
-        {
-            "kind": "block",
-            "type": "espnow_network_init"
-        },
-        {
-            "kind": "block",
-            "type": "espnow_network_send_data",
-            "inputs": {
-                "DATA": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 100
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "espnow_is_master"
-        },
-        {
-            "kind": "sep"
-        },
-        {
-            "kind": "label",
-            "text": "数据接收回调"
-        },
-        {
-            "kind": "block",
-            "type": "espnow_on_receive"
-        },
-        {
-            "kind": "block",
-            "type": "espnow_get_received_data"
-        },
-        {
-            "kind": "block",
-            "type": "espnow_get_sender_mac"
-        },
-        {
-            "kind": "sep"
-        },
-        {
-            "kind": "label",
-            "text": "工具函数"
-        },
-        {
-            "kind": "block",
-            "type": "espnow_get_mac_address"
+          }
         }
-    ]
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_slave_init",
+      "inputs": {
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_node_init",
+      "inputs": {
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_on_message_received"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_reply_message",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "OK"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_broadcast_message",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello!"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_received_message"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_received_message_len"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_received_is_broadcast"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_received_sender_mac"
+    },
+    {
+      "kind": "label",
+      "text": "ESP-NOW串口模式"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_serial_create",
+      "inputs": {
+        "MAC": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "AA:BB:CC:DD:EE:FF"
+            }
+          }
+        },
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_serial_available"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_serial_available_for_write"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_serial_read"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_serial_read_string"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_serial_read_string_until",
+      "inputs": {
+        "TERMINATOR": {
+          "shadow": {
+            "type": "char",
+            "fields": {
+              "CHAR": "\\n"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_serial_print",
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_serial_println",
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_serial_write"
+    },
+    {
+      "kind": "label",
+      "text": "ESP-NOW标准模式"
+    },
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_wifi_init",
+      "inputs": {
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_begin"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_begin_with_pmk",
+      "inputs": {
+        "PMK": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "pmk1234567890123"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_end"
+    },
+    {
+      "kind": "label",
+      "text": "创建对等设备"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_create_peer",
+      "inputs": {
+        "MAC": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "AA:BB:CC:DD:EE:FF"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_create_peer_advanced",
+      "inputs": {
+        "MAC": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "AA:BB:CC:DD:EE:FF"
+            }
+          }
+        },
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        },
+        "LMK": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "lmk1234567890123"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_create_broadcast_peer"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_remove_peer"
+    },
+    {
+      "kind": "label",
+      "text": "发送消息"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_send",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello ESP-NOW"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_send_data",
+      "inputs": {
+        "LEN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 4
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "接收事件"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_on_receive"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_on_sent"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_on_new_peer"
+    },
+    {
+      "kind": "label",
+      "text": "回调变量"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_received_data"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_received_len"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_is_broadcast"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_send_success"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_src_mac"
+    },
+    {
+      "kind": "label",
+      "text": "快速操作"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_quick_broadcast",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello Everyone!"
+            }
+          }
+        },
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_quick_send",
+      "inputs": {
+        "MAC": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "AA:BB:CC:DD:EE:FF"
+            }
+          }
+        },
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello!"
+            }
+          }
+        },
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "状态查询"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_get_mac"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_get_max_data_len"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_get_peer_count"
+    },
+    {
+      "kind": "block",
+      "type": "esp_now_get_version"
+    }
+  ]
 }
