@@ -1,104 +1,241 @@
-# ESP32 ESP-NOW Blockly库
+# ESP-NOW 通信库
 
-这是一个为ESP32 ESP-NOW功能设计的Arduino Blockly库，支持在可视化编程环境中使用ESP-NOW无线通信协议。
+ESP32无线通信库，支持设备间直接通信，无需WiFi网络。提供极简模式、串口模式、标准模式三种使用方式。
+推荐新手使用极简模式，一键初始化和发送接收。高级用户可选标准模式，精细控制对等设备和回调。
 
-## 功能特性
+## 库信息
+- **库名**: @aily-project/lib-esp_now
+- **版本**: 1.0.1
+- **兼容**: ESP32系列 (esp32:esp32)
 
-- **串口模式**：点对点通信，类似串口通信但使用无线方式
-- **广播模式**：支持主机向多个从机广播消息
-- **网络模式**：支持多设备组网，自动选择主机
-- **数据接收回调**：可以设置接收数据时的处理逻辑
+## 块定义
 
-## 支持的块
+### 极简模式（推荐新手）
 
-### 串口模式块
-- ESP-NOW串口模式初始化
-- ESP-NOW串口有数据可读取
-- ESP-NOW串口读取数据
-- ESP-NOW串口发送数据
+| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
+|--------|------|----------|----------|----------|
+| `esp_now_master_init` | 语句块 | CHANNEL(input) | - | 初始化为广播发送方 |
+| `esp_now_slave_init` | 语句块 | CHANNEL(input) | - | 初始化为接收方 |
+| `esp_now_node_init` | 语句块 | CHANNEL(input) | - | 初始化为双向节点 |
+| `esp_now_broadcast_message` | 语句块 | MESSAGE(input) | - | 广播消息 |
+| `esp_now_reply_message` | 语句块 | MESSAGE(input) | - | 回复发送方 |
+| `esp_now_on_message_received` | Hat块 | HANDLER(statement) | - | 消息接收回调 |
+| `esp_now_received_message` | 值块 | - | - | `esp_now_rx_message` |
+| `esp_now_received_message_len` | 值块 | - | - | `esp_now_rx_len` |
+| `esp_now_received_is_broadcast` | 值块 | - | - | `esp_now_rx_broadcast` |
+| `esp_now_received_sender_mac` | 值块 | - | - | `esp_now_rx_sender_mac` |
 
-### 广播模式块
-- ESP-NOW广播主机初始化
-- ESP-NOW广播发送消息
-- ESP-NOW广播从机初始化
+### 串口模式
 
-### 网络模式块
-- ESP-NOW网络模式初始化
-- ESP-NOW网络发送数据
-- ESP-NOW网络当前设备是主机
+| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
+|--------|------|----------|----------|----------|
+| `esp_now_serial_create` | 语句块 | VAR(field_input), MAC(input), CHANNEL(input), MODE(dropdown) | `"VAR":"nowSerial"`, `"MODE":"WIFI_STA"` | 创建串口对象 |
+| `esp_now_serial_available` | 值块 | VAR(field_variable) | `"VAR":{"id":"nowSerial"}` | `nowSerial.available()` |
+| `esp_now_serial_available_for_write` | 值块 | VAR(field_variable) | `"VAR":{"id":"nowSerial"}` | `nowSerial.availableForWrite()` |
+| `esp_now_serial_read` | 值块 | VAR(field_variable) | `"VAR":{"id":"nowSerial"}` | `nowSerial.read()` |
+| `esp_now_serial_read_string` | 值块 | VAR(field_variable) | `"VAR":{"id":"nowSerial"}` | `nowSerial.readString()` |
+| `esp_now_serial_read_string_until` | 值块 | VAR(field_variable), TERMINATOR(input) | `"VAR":{"id":"nowSerial"}` | `nowSerial.readStringUntil(c)` |
+| `esp_now_serial_print` | 语句块 | VAR(field_variable), DATA(input) | `"VAR":{"id":"nowSerial"}` | `nowSerial.print(data);` |
+| `esp_now_serial_println` | 语句块 | VAR(field_variable), DATA(input) | `"VAR":{"id":"nowSerial"}` | `nowSerial.println(data);` |
+| `esp_now_serial_write` | 值块 | VAR(field_variable), DATA(input) | `"VAR":{"id":"nowSerial"}` | `nowSerial.write(data)` |
 
-### 数据接收块
-- 当ESP-NOW接收到数据时
-- 获取ESP-NOW接收到的数据
-- 获取ESP-NOW发送者MAC地址
+### 标准模式-初始化
 
-### 工具块
-- 获取ESP32 MAC地址
+| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
+|--------|------|----------|----------|----------|
+| `esp_now_wifi_init` | 语句块 | MODE(dropdown), CHANNEL(input) | `"MODE":"WIFI_STA"` | WiFi模式配置 |
+| `esp_now_begin` | 语句块 | - | - | `ESP_NOW.begin();` |
+| `esp_now_begin_with_pmk` | 语句块 | PMK(input) | - | 带加密初始化 |
+| `esp_now_end` | 语句块 | - | - | `ESP_NOW.end();` |
+
+### 标准模式-对等设备
+
+| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
+|--------|------|----------|----------|----------|
+| `esp_now_create_peer` | 语句块 | VAR(field_input), MAC(input) | `"VAR":"peer1"` | 创建对等设备 |
+| `esp_now_create_peer_advanced` | 语句块 | VAR(field_input), MAC(input), CHANNEL(input), LMK(input) | `"VAR":"peer1"` | 创建加密对等设备 |
+| `esp_now_create_broadcast_peer` | 语句块 | VAR(field_input) | `"VAR":"broadcastPeer"` | 创建广播设备 |
+| `esp_now_remove_peer` | 语句块 | VAR(field_variable:ESP_NOW_Peer) | `"VAR":{"id":"peer1"}` | 移除对等设备 |
+
+### 标准模式-发送
+
+| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
+|--------|------|----------|----------|----------|
+| `esp_now_send` | 语句块 | VAR(field_variable:ESP_NOW_Peer), MESSAGE(input) | `"VAR":{"id":"peer1"}` | `peer1->send(msg);` |
+| `esp_now_send_data` | 语句块 | VAR(field_variable:ESP_NOW_Peer), DATA(input), LEN(input) | `"VAR":{"id":"peer1"}` | `peer1->send(data, len);` |
+
+### 标准模式-回调
+
+| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
+|--------|------|----------|----------|----------|
+| `esp_now_on_receive` | Hat块 | VAR(field_variable:ESP_NOW_Peer), HANDLER(statement) | `"VAR":{"id":"peer1"}` | 接收回调 |
+| `esp_now_on_sent` | Hat块 | VAR(field_variable:ESP_NOW_Peer), HANDLER(statement) | `"VAR":{"id":"peer1"}` | 发送完成回调 |
+| `esp_now_on_new_peer` | Hat块 | HANDLER(statement) | - | 新设备回调 |
+| `esp_now_received_data` | 值块 | - | - | `esp_now_data` |
+| `esp_now_received_len` | 值块 | - | - | `esp_now_len` |
+| `esp_now_is_broadcast` | 值块 | - | - | `esp_now_broadcast` |
+| `esp_now_send_success` | 值块 | - | - | `esp_now_success` |
+| `esp_now_src_mac` | 值块 | - | - | `esp_now_src_mac_global` |
+
+### 快速操作
+
+| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
+|--------|------|----------|----------|----------|
+| `esp_now_quick_broadcast` | 语句块 | MESSAGE(input), CHANNEL(input) | - | 一键广播 |
+| `esp_now_quick_send` | 语句块 | MAC(input), MESSAGE(input), CHANNEL(input) | - | 一键发送 |
+
+### 状态查询
+
+| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
+|--------|------|----------|----------|----------|
+| `esp_now_get_mac` | 值块 | - | - | `WiFi.macAddress()` |
+| `esp_now_get_max_data_len` | 值块 | - | - | `ESP_NOW.getMaxDataLen()` |
+| `esp_now_get_peer_count` | 值块 | - | - | `ESP_NOW.getTotalPeerCount()` |
+| `esp_now_get_version` | 值块 | - | - | `ESP_NOW.getVersion()` |
+
+## 字段类型映射
+
+| 类型 | .abi格式 | 示例 |
+|------|----------|------|
+| field_input | 字符串 | `"VAR": "peer1"` |
+| field_dropdown | 字符串 | `"MODE": "WIFI_STA"` |
+| field_variable | 对象 | `"VAR": {"id": "peer1"}` |
+| input_value | 块连接 | `"inputs": {"MESSAGE": {"block": {...}}}` |
+| input_statement | 块连接 | `"inputs": {"HANDLER": {"block": {...}}}` |
+
+### Dropdown选项
+
+**MODE (WiFi模式)**: `"WIFI_STA"` (Station) / `"WIFI_AP"` (AP) / `"WIFI_AP_STA"` (混合)
+
+## 连接规则
+
+- **语句块**: 有previousStatement/nextStatement，通过`next`字段连接
+- **值块**: 有output，连接到`inputs`中，无`next`字段
+- **Hat块**: 无连接属性，通过`inputs`连接内部语句
+- **变量规则**: 创建时用field_input(字符串)，使用时用field_variable(对象ID)
+- **变量类型**: `ESP_NOW_Peer`(标准对等设备)、`ESP_NOW_Serial`(串口模式)
 
 ## 使用示例
 
-### 点对点通信示例
-```
-初始化：ESP-NOW串口模式初始化 对端MAC地址 "F4:12:FA:40:64:4C" WiFi频道 1 工作模式 Station模式
-
-发送数据：ESP-NOW串口发送数据 "Hello World"
-
-接收数据：
-如果 ESP-NOW串口有数据可读取 则
-    显示 ESP-NOW串口读取数据
-```
-
-### 广播通信示例
-
-**主机端：**
-```
-初始化：ESP-NOW广播主机初始化 WiFi频道 6
-发送：ESP-NOW广播发送消息 "广播消息"
-```
-
-**从机端：**
-```
-初始化：ESP-NOW广播从机初始化 WiFi频道 6
-接收：当ESP-NOW接收到数据时
-    显示 获取ESP-NOW接收到的数据
-    显示 获取ESP-NOW发送者MAC地址
-```
-
-### 网络模式示例
-```
-初始化：ESP-NOW网络模式初始化 WiFi频道 4 设备数量 3
-
-如果 ESP-NOW网络当前设备是主机 则
-    ESP-NOW网络发送数据 传感器值
-否则
-    等待接收主机数据
+### 极简模式 - 主机广播
+```json
+{
+  "type": "arduino_setup",
+  "inputs": {
+    "ARDUINO_SETUP": {
+      "block": {
+        "type": "esp_now_master_init",
+        "inputs": {"CHANNEL": {"shadow": {"type": "math_number", "fields": {"NUM": 1}}}}
+      }
+    }
+  },
+  "next": {
+    "block": {
+      "type": "arduino_loop",
+      "inputs": {
+        "ARDUINO_LOOP": {
+          "block": {
+            "type": "esp_now_broadcast_message",
+            "inputs": {"MESSAGE": {"shadow": {"type": "text", "fields": {"TEXT": "Hello!"}}}}
+          }
+        }
+      }
+    }
+  }
+}
 ```
 
-## 依赖库
+### 极简模式 - 从机接收并回复
+```json
+{
+  "type": "arduino_setup",
+  "inputs": {
+    "ARDUINO_SETUP": {
+      "block": {
+        "type": "esp_now_slave_init",
+        "inputs": {"CHANNEL": {"shadow": {"type": "math_number", "fields": {"NUM": 1}}}}
+      }
+    }
+  },
+  "next": {
+    "block": {
+      "type": "esp_now_on_message_received",
+      "inputs": {
+        "HANDLER": {
+          "block": {
+            "type": "serial_println",
+            "inputs": {"VALUE": {"block": {"type": "esp_now_received_message"}}},
+            "next": {
+              "block": {
+                "type": "esp_now_reply_message",
+                "inputs": {"MESSAGE": {"shadow": {"type": "text", "fields": {"TEXT": "OK"}}}}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
 
-本库需要以下Arduino库支持：
-- ESP32_NOW_Serial (ESP32 Arduino Core内置)
-- ESP32_NOW (ESP32 Arduino Core内置)
-- WiFi (ESP32 Arduino Core内置)
+### 串口模式 - 双向通信
+```json
+{
+  "type": "esp_now_serial_create",
+  "fields": {"VAR": "nowSerial", "MODE": "WIFI_STA"},
+  "inputs": {
+    "MAC": {"shadow": {"type": "text", "fields": {"TEXT": "AA:BB:CC:DD:EE:FF"}}},
+    "CHANNEL": {"shadow": {"type": "math_number", "fields": {"NUM": 1}}}
+  }
+}
+```
+生成: 创建ESP-NOW串口对象，可用`print`/`println`发送，`available`/`readString`接收
 
-## 兼容性
+### 标准模式 - 对等设备通信
+```json
+{
+  "type": "esp_now_create_peer",
+  "fields": {"VAR": "peer1"},
+  "inputs": {"MAC": {"shadow": {"type": "text", "fields": {"TEXT": "AA:BB:CC:DD:EE:FF"}}}},
+  "next": {
+    "block": {
+      "type": "esp_now_send",
+      "fields": {"VAR": {"id": "peer1"}},
+      "inputs": {"MESSAGE": {"shadow": {"type": "text", "fields": {"TEXT": "Hello"}}}}
+    }
+  }
+}
+```
 
-- 支持ESP32、ESP32-C3、ESP32-S3、ESP32-C6、ESP32-H2等ESP32系列芯片
-- 工作电压：3.3V
-- 需要ESP32 Arduino Core 2.0.0或更高版本
+## 重要规则
 
-## 注意事项
+1. **通道一致**: 通信双方必须使用相同的WiFi通道
+2. **MAC地址格式**: 使用`AA:BB:CC:DD:EE:FF`格式
+3. **变量ID唯一**: 所有块ID和变量ID必须唯一
+4. **模式选择**:
+   - 极简模式：新手推荐，一键初始化
+   - 串口模式：类似Serial API，易于理解
+   - 标准模式：精细控制，适合高级用户
 
-1. ESP-NOW协议要求通信的设备必须在同一WiFi频道
-2. MAC地址格式必须为：XX:XX:XX:XX:XX:XX（十六进制，用冒号分隔）
-3. 不同工作模式（AP/Station）下设备的MAC地址可能不同
-4. ESP-NOW最大数据包长度为250字节
-5. 建议在setup()中初始化ESP-NOW，在loop()中处理数据收发
+## 三种初始化模式对比
 
-## 版本历史
+| 模式 | 块类型 | 功能 | 适用场景 |
+|------|--------|------|----------|
+| 主机 | `esp_now_master_init` | 仅发送广播 | 单向广播发送方 |
+| 从机 | `esp_now_slave_init` | 仅接收+可回复 | 接收并响应 |
+| 双向节点 | `esp_now_node_init` | 发送+接收 | 全双工通信 |
 
-- v1.0.0：初始版本，支持串口模式、广播模式和网络模式
+## 常见需求映射
 
-## 参考文档
+| 用户需求 | 推荐方案 |
+|----------|----------|
+| 广播消息给所有设备 | 极简模式: `master_init` + `broadcast_message` |
+| 接收并响应消息 | 极简模式: `slave_init` + `on_message_received` + `reply_message` |
+| 双向通信 | 极简模式: `node_init` 或 串口模式 |
+| 类Serial收发 | 串口模式: `serial_create` + `print`/`readString` |
+| 精细控制peer | 标准模式: `create_peer` + `on_receive` |
+| 获取本机MAC | `esp_now_get_mac` |
 
-https://docs.espressif.com/projects/arduino-esp32/en/latest/libraries.html
+---
+*自包含文档，无需外部规范*
