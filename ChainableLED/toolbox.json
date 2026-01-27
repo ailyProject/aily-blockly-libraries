@@ -1,0 +1,52 @@
+{
+  "kind": "category",
+  "name": "链式RGB LED",
+  "icon": "fa-light fa-light-emergency",
+  "colour": "#FF5722",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "基础设置"
+    },
+    {
+      "kind": "block",
+      "type": "chainableled_setup",
+      "inputs": {
+        "CLK_PIN": {"shadow": {"type": "math_number", "fields": {"NUM": "2"}}},
+        "DATA_PIN": {"shadow": {"type": "math_number", "fields": {"NUM": "3"}}},
+        "NUM_LEDS": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
+      }
+    },
+    {
+      "kind": "label",
+      "text": "颜色控制"
+    },
+    {
+      "kind": "block",
+      "type": "chainableled_set_color_rgb",
+      "inputs": {
+        "LED_INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "RED": {"shadow": {"type": "math_number", "fields": {"NUM": "255"}}},
+        "GREEN": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "BLUE": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "chainableled_set_color_hsl",
+      "inputs": {
+        "LED_INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "HUE": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "SATURATION": {"shadow": {"type": "math_number", "fields": {"NUM": "1.0"}}},
+        "LIGHTNESS": {"shadow": {"type": "math_number", "fields": {"NUM": "0.5"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "chainableled_set_color",
+      "inputs": {
+        "LED_INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}}
+      }
+    }
+  ]
+}
