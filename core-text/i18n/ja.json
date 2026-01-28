@@ -1,85 +1,26 @@
 {
     "toolbox_name": "テキスト",
     "string_add_string": {
-        "message0": "文字列(%1) + 文字列(%2)"
+        "message0": "文字列(%1) + 文字列(%2)",
+        "tooltip": "2つの文字列を連結します"
     },
-    "string_charAt": {
-        "message0": "%1 の %2 番目の文字"
-    },
-    "string_length": {
-        "message0": "%1 の文字数"
-    },
-    "string_indexOf": {
-        "message0": "%1 は %2 を含むか?"
-    },
-    "string_substring": {
-        "message0": "%1 の %2 %3 文字目から %4 %5 文字目まで取得",
-        "args0": [
-            null,
-            {
-                "options": [
-                    [
-                        "第",
-                        "0"
-                    ],
-                    [
-                        "後ろから第",
-                        "1"
-                    ]
-                ]
-            },
-            null,
-            {
-                "options": [
-                    [
-                        "第",
-                        "0"
-                    ],
-                    [
-                        "後ろから第",
-                        "1"
-                    ]
-                ]
-            },
-            null
-        ]
-    },
-    "string_find_str": {
-        "message0": "%2 の中で %1 を %3 の位置で探す",
-        "args0": [
-            null,
-            null,
-            {
-                "options": [
-                    [
-                        "最初",
-                        "indexOf"
-                    ],
-                    [
-                        "最後",
-                        "lastIndexOf"
-                    ]
-                ]
-            }
-        ]
-    },
-    "string_to": {
-        "message0": "文字列 %1 を %2 に変換",
-        "args0": [
-            null,
-            {
-                "options": [["整数", "toInt"],["浮動小数点", "toFloat"]]
-            }
-        ]
+    "array_get_dataAt": {
+        "message0": "配列 %1 の第 %2 要素"
     },
     "number_to": {
-        "message0": "数字 %1 をASCII文字列に変換"
+        "message0": "数字 %1 をASCII文字に変換",
+        "tooltip": "ASCIIコード数字を対応する文字に変換します"
     },
     "toascii": {
-        "message0": "文字 %1 をASCII数値に変換"
+        "message0": "文字 %1 をASCII値に変換",
+        "tooltip": "文字のASCIIコード値を取得します"
     },
     "number_to_string": {
         "message0": "数字 %1 を文字列に変換"
+    },
+    "char": {
+        "message0": "%1",
+        "tooltip": "1文字を入力。エスケープ文字対応：\\n(改行), \\t(タブ), \\r(復帰), \\\\(バックスラッシュ), \\'(シングルクォート), \\\"(ダブルクォート), \\0(ヌル)"
     },
     "text": {
         "message0": "%1"
@@ -93,52 +34,57 @@
     "text_create_join_item": {
         "message0": "%{BKY_TEXT_CREATE_JOIN_ITEM_TITLE_ITEM}"
     },
-    "text_append": {
-        "message0": "%1 の後にテキスト %2 を追加"
-    },
     "text_length": {
         "message0": "%1 の長さ"
     },
     "text_isEmpty": {
-        "message0": "%1 は空か"
+        "message0": "%1 は空"
     },
     "text_indexOf": {
-        "message0": "テキスト %1 の中に %2 %3",
+        "message0": "テキスト %1 で %2 テキスト %3 の出現位置",
         "args0": [
             null,
             {
-                "options": [["最初に出現するテキストを探す", "FIRST"],["最後に出現するテキストを探す", "LAST"]]
+                "options": [
+                    ["最初の", "FIRST"],
+                    ["最後の", "LAST"]
+                ]
             },
             null
         ]
     },
+    "string_endsWith": {
+        "message0": "テキスト %1 が %2 で終わる",
+        "tooltip": "テキストが指定の接尾辞で終わるかチェックします"
+    },
+    "string_startsWith": {
+        "message0": "テキスト %1 が %2 で始まる",
+        "tooltip": "テキストが指定の接頭辞で始まるかチェックします"
+    },
     "text_charAt": {
-        "message0": "テキスト %1 の中で %2",
+        "message0": "テキスト %1 で %2",
         "args0": [
             null,
             {
-                "options": [["#番目の文字を取得", "FROM_START"],["末尾から#番目の文字を取得", "FROM_END"],["最初の文字を取得", "FIRST"],["最後の文字を取得", "LAST"],["ランダムな文字を取得", "RANDOM"]]
+                "options": [
+                    ["#番目の文字を取得", "FROM_START"],
+                    ["後ろから#番目の文字を取得", "FROM_END"],
+                    ["最初の文字を取得", "FIRST"],
+                    ["最後の文字を取得", "LAST"],
+                    ["ランダムな文字を取得", "RANDOM"]
+                ]
             }
         ]
     },
     "tt_getSubstring": {
-        "message0": "テキスト %1 から部分文字列を取得",
+        "message0": "テキスト %1 の部分文字列を取得",
         "message1": "%1 %2",
         "args1": [
             {
                 "options": [
-                    [
-                        "#文字目から",
-                        "FROM_START"
-                    ],
-                    [
-                        "後ろから#文字目から",
-                        "FROM_END"
-                    ],
-                    [
-                        "最初の文字から",
-                        "FIRST"
-                    ]
+                    ["#番目の文字から", "FROM_START"],
+                    ["後ろから#番目の文字から", "FROM_END"],
+                    ["最初の文字から", "FIRST"]
                 ]
             },
             null
@@ -147,18 +93,9 @@
         "args2": [
             {
                 "options": [
-                    [
-                        "#文字目まで",
-                        "FROM_START"
-                    ],
-                    [
-                        "後ろから#文字目まで",
-                        "FROM_END"
-                    ],
-                    [
-                        "最後の文字まで",
-                        "LAST"
-                    ]
+                    ["#番目の文字まで", "FROM_START"],
+                    ["後ろから#番目の文字まで", "FROM_END"],
+                    ["最後の文字まで", "LAST"]
                 ]
             },
             null
@@ -168,7 +105,11 @@
         "message0": "%1 %2",
         "args0": [
             {
-                "options": [["大文字に変換", "UPPERCASE"],["小文字に変換", "LOWERCASE"],["タイトルケースに変換", "TITLECASE"]]
+                "options": [
+                    ["大文字に変換", "UPPERCASE"],
+                    ["小文字に変換", "LOWERCASE"],
+                    ["タイトルケースに変換", "TITLECASE"]
+                ]
             },
             null
         ]
@@ -177,18 +118,41 @@
         "message0": "%1 の %2",
         "args0": [
             {
-                "options": [["両端のスペースを削除", "BOTH"],["左端のスペースを削除", "LEFT"],["右端のスペースを削除", "RIGHT"]]
+                "options": [
+                    ["両端の空白を削除", "BOTH"],
+                    ["左側の空白を削除", "LEFT"],
+                    ["右側の空白を削除", "RIGHT"]
+                ]
             },
             null
         ]
     },
     "text_count": {
-        "message0": "%2の中で%1が出現する数を数える"
+        "message0": "%1 が %2 に出現する回数を数える"
     },
     "text_replace": {
-        "message0": "%1 の %2 を %3 で置換"
+        "message0": "%1 の %2 を %3 に置換"
     },
     "text_reverse": {
-        "message0": "テキスト %1 を逆にする"
+        "message0": "テキスト %1 を反転"
+    },
+    "string_to_something": {
+        "message0": "文字列 %1 を %2 に変換",
+        "tooltip": "文字列を指定のデータ型に変換します",
+        "args0": [
+            null,
+            {
+                "options": [
+                    ["整数 (int)", "toInt"],
+                    ["長整数 (long)", "toLong"],
+                    ["浮動小数点 (float)", "toFloat"],
+                    ["倍精度 (double)", "toDouble"],
+                    ["C文字列 (char*)", "c_str"],
+                    ["先頭文字 (char)", "charAt0"],
+                    ["大文字文字列", "toUpper"],
+                    ["小文字文字列", "toLower"]
+                ]
+            }
+        ]
     }
 }

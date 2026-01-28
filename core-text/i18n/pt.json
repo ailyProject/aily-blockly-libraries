@@ -1,85 +1,26 @@
 {
     "toolbox_name": "Texto",
     "string_add_string": {
-        "message0": "String(%1) + String(%2)"
+        "message0": "String(%1) + String(%2)",
+        "tooltip": "Concatena duas strings"
     },
-    "string_charAt": {
-        "message0": "Caractere na posição %2 de %1"
-    },
-    "string_length": {
-        "message0": "Número de caracteres de %1"
-    },
-    "string_indexOf": {
-        "message0": "%1 contém %2?"
-    },
-    "string_substring": {
-        "message0": "%1 obter caracteres de %2 %3 até %4 %5",
-        "args0": [
-            null,
-            {
-                "options": [
-                    [
-                        "o",
-                        "0"
-                    ],
-                    [
-                        "o último",
-                        "1"
-                    ]
-                ]
-            },
-            null,
-            {
-                "options": [
-                    [
-                        "o",
-                        "0"
-                    ],
-                    [
-                        "o último",
-                        "1"
-                    ]
-                ]
-            },
-            null
-        ]
-    },
-    "string_find_str": {
-        "message0": "Encontrar %1 em %2 na posição %3",
-        "args0": [
-            null,
-            null,
-            {
-                "options": [
-                    [
-                        "Primeira",
-                        "indexOf"
-                    ],
-                    [
-                        "Última",
-                        "lastIndexOf"
-                    ]
-                ]
-            }
-        ]
-    },
-    "string_to": {
-        "message0": "Converter string %1 para %2",
-        "args0": [
-            null,
-            {
-                "options": [["inteiro", "toInt"],["decimal", "toFloat"]]
-            }
-        ]
+    "array_get_dataAt": {
+        "message0": "elemento %2 do array %1"
     },
     "number_to": {
-        "message0": "Converter número %1 para string ASCII"
+        "message0": "converter número %1 para caractere ASCII",
+        "tooltip": "Converte um número de código ASCII para seu caractere correspondente"
     },
     "toascii": {
-        "message0": "Converter caractere %1 para valor ASCII"
+        "message0": "converter caractere %1 para valor ASCII",
+        "tooltip": "Obtém o valor do código ASCII de um caractere"
     },
     "number_to_string": {
-        "message0": "Converter número %1 para string"
+        "message0": "converter número %1 para string"
+    },
+    "char": {
+        "message0": "%1",
+        "tooltip": "Digite um único caractere. Suporta caracteres de escape: \\n(nova linha), \\t(tabulação), \\r(retorno de carro), \\\\(barra invertida), \\'(aspas simples), \\\"(aspas duplas), \\0(nulo)"
     },
     "text": {
         "message0": "%1"
@@ -93,31 +34,45 @@
     "text_create_join_item": {
         "message0": "%{BKY_TEXT_CREATE_JOIN_ITEM_TITLE_ITEM}"
     },
-    "text_append": {
-        "message0": "Anexar texto %2 após %1"
-    },
     "text_length": {
-        "message0": "Tamanho de %1"
+        "message0": "comprimento de %1"
     },
     "text_isEmpty": {
         "message0": "%1 está vazio"
     },
     "text_indexOf": {
-        "message0": "No texto %1 %2 %3",
+        "message0": "no texto %1 %2 ocorrência do texto %3",
         "args0": [
             null,
             {
-                "options": [["procurar primeira ocorrência do texto", "FIRST"],["procurar última ocorrência do texto", "LAST"]]
+                "options": [
+                    ["encontrar primeira", "FIRST"],
+                    ["encontrar última", "LAST"]
+                ]
             },
             null
         ]
     },
+    "string_endsWith": {
+        "message0": "texto %1 termina com %2",
+        "tooltip": "Verifica se o texto termina com o sufixo especificado"
+    },
+    "string_startsWith": {
+        "message0": "texto %1 começa com %2",
+        "tooltip": "Verifica se o texto começa com o prefixo especificado"
+    },
     "text_charAt": {
-        "message0": "No texto %1 %2",
+        "message0": "no texto %1 %2",
         "args0": [
             null,
             {
-                "options": [["Obter caractere #", "FROM_START"],["Obter caractere da última posição #", "FROM_END"],["Obter primeiro caractere", "FIRST"],["Obter último caractere", "LAST"],["Obter caractere aleatório", "RANDOM"]]
+                "options": [
+                    ["obter caractere #", "FROM_START"],
+                    ["obter caractere # do fim", "FROM_END"],
+                    ["obter primeiro caractere", "FIRST"],
+                    ["obter último caractere", "LAST"],
+                    ["obter caractere aleatório", "RANDOM"]
+                ]
             }
         ]
     },
@@ -127,18 +82,9 @@
         "args1": [
             {
                 "options": [
-                    [
-                        "do caractere #",
-                        "FROM_START"
-                    ],
-                    [
-                        "do # a partir do final",
-                        "FROM_END"
-                    ],
-                    [
-                        "do primeiro caractere",
-                        "FIRST"
-                    ]
+                    ["do caractere #", "FROM_START"],
+                    ["do caractere # do fim", "FROM_END"],
+                    ["do primeiro caractere", "FIRST"]
                 ]
             },
             null
@@ -147,18 +93,9 @@
         "args2": [
             {
                 "options": [
-                    [
-                        "até o caractere #",
-                        "FROM_START"
-                    ],
-                    [
-                        "até o # a partir do final",
-                        "FROM_END"
-                    ],
-                    [
-                        "até o último caractere",
-                        "LAST"
-                    ]
+                    ["até caractere #", "FROM_START"],
+                    ["até caractere # do fim", "FROM_END"],
+                    ["até último caractere", "LAST"]
                 ]
             },
             null
@@ -168,27 +105,54 @@
         "message0": "%1 %2",
         "args0": [
             {
-                "options": [["converter para maiúsculas", "UPPERCASE"],["converter para minúsculas", "LOWERCASE"],["converter para caixa de título", "TITLECASE"]]
+                "options": [
+                    ["para MAIÚSCULAS", "UPPERCASE"],
+                    ["para minúsculas", "LOWERCASE"],
+                    ["para Formato De Título", "TITLECASE"]
+                ]
             },
             null
         ]
     },
     "text_trim": {
-        "message0": "%1 aparar %2",
+        "message0": "%1 remover %2",
         "args0": [
             {
-                "options": [["aparar espaços de ambos os lados", "BOTH"],["aparar espaços do lado esquerdo", "LEFT"],["aparar espaços do lado direito", "RIGHT"]]
+                "options": [
+                    ["espaços de ambos os lados", "BOTH"],
+                    ["espaços da esquerda", "LEFT"],
+                    ["espaços da direita", "RIGHT"]
+                ]
             },
             null
         ]
     },
     "text_count": {
-        "message0": "Contar ocorrências de %1 em %2"
+        "message0": "contar ocorrências de %1 em %2"
     },
     "text_replace": {
-        "message0": "Substituir %2 por %3 em %1"
+        "message0": "substituir %2 por %3 em %1"
     },
     "text_reverse": {
-        "message0": "Inverter texto %1"
+        "message0": "inverter texto %1"
+    },
+    "string_to_something": {
+        "message0": "converter string %1 para %2",
+        "tooltip": "Converte a string para o tipo de dados especificado",
+        "args0": [
+            null,
+            {
+                "options": [
+                    ["inteiro (int)", "toInt"],
+                    ["inteiro longo (long)", "toLong"],
+                    ["ponto flutuante (float)", "toFloat"],
+                    ["dupla precisão (double)", "toDouble"],
+                    ["string C (char*)", "c_str"],
+                    ["primeiro caractere (char)", "charAt0"],
+                    ["string maiúscula", "toUpper"],
+                    ["string minúscula", "toLower"]
+                ]
+            }
+        ]
     }
 }

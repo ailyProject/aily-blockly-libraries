@@ -35,28 +35,6 @@
     },
     {
       "kind": "block",
-      "type": "string_charAt",
-      "inputs": {
-        "STRING": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "hello"
-            }
-          }
-        },
-        "NUM": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 1
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
       "type": "string_to_something",
       "inputs": {
         "TEXT": {
@@ -64,94 +42,6 @@
             "type": "text",
             "fields": {
               "TEXT": "123"
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "string_length",
-      "inputs": {
-        "STRING": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "world"
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "string_indexOf",
-      "inputs": {
-        "STRING1": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "hello, world"
-            }
-          }
-        },
-        "STRING2": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "hello"
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "string_substring",
-      "inputs": {
-        "STRING": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "apple"
-            }
-          }
-        },
-        "START_INDEX": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 1
-            }
-          }
-        },
-        "LAST_INDEX": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 3
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "string_find_str",
-      "inputs": {
-        "STRING1": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "apple"
-            }
-          }
-        },
-        "STRING2": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "ap"
             }
           }
         }
@@ -203,11 +93,31 @@
     },
     {
       "kind": "block",
-      "type": "number_to"
+      "type": "number_to",
+      "inputs": {
+        "NUM": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 65
+            }
+          }
+        }
+      }
     },
     {
       "kind": "block",
-      "type": "toascii"
+      "type": "toascii",
+      "inputs": {
+        "CHAR": {
+          "shadow": {
+            "type": "char",
+            "fields": {
+              "CHAR": "A"
+            }
+          }
+        }
+      }
     },
     {
       "kind": "block",
@@ -226,17 +136,6 @@
     {
       "kind": "block",
       "type": "text_join"
-    },
-    {
-      "kind": "block",
-      "type": "text_append",
-      "inputs": {
-        "TEXT": {
-          "shadow": {
-            "type": "text"
-          }
-        }
-      }
     },
     {
       "kind": "block",
@@ -271,10 +170,10 @@
       "type": "text_indexOf",
       "inputs": {
         "VALUE": {
-          "block": {
-            "type": "variables_get",
+          "shadow": {
+            "type": "text",
             "fields": {
-              "VAR": "text"
+              "TEXT": "Hello world"
             }
           }
         },
@@ -282,7 +181,7 @@
           "shadow": {
             "type": "text",
             "fields": {
-              "TEXT": "abc"
+              "TEXT": "world"
             }
           }
         }
@@ -293,10 +192,10 @@
       "type": "text_charAt",
       "inputs": {
         "VALUE": {
-          "block": {
-            "type": "variables_get",
+          "shadow": {
+            "type": "text",
             "fields": {
-              "VAR": "text"
+              "TEXT": "Hello world"
             }
           }
         }
@@ -307,10 +206,10 @@
       "type": "tt_getSubstring",
       "inputs": {
         "STRING": {
-          "block": {
-            "type": "variables_get",
+          "shadow": {
+            "type": "text",
             "fields": {
-              "VAR": "text"
+              "TEXT": "Hello world"
             }
           }
         }
@@ -350,12 +249,18 @@
       "inputs": {
         "SUB": {
           "shadow": {
-            "type": "text"
+            "type": "text",
+            "fields": {
+              "TEXT": "is"
+            }
           }
         },
         "TEXT": {
           "shadow": {
-            "type": "text"
+            "type": "text",
+            "fields": {
+              "TEXT": "This is a test. This is only a test."
+            }
           }
         }
       }
@@ -366,17 +271,26 @@
       "inputs": {
         "FROM": {
           "shadow": {
-            "type": "text"
+            "type": "text",
+            "fields": {
+              "TEXT": "cat"
+            }
           }
         },
         "TO": {
           "shadow": {
-            "type": "text"
+            "type": "text",
+            "fields": {
+              "TEXT": "dog"
+            }
           }
         },
         "TEXT": {
           "shadow": {
-            "type": "text"
+            "type": "text",
+            "fields": {
+              "TEXT": "the cat sat on the mat"
+            }
           }
         }
       }
@@ -387,7 +301,10 @@
       "inputs": {
         "TEXT": {
           "shadow": {
-            "type": "text"
+            "type": "text",
+            "fields": {
+              "TEXT": "abc"
+            }
           }
         }
       }

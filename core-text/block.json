@@ -37,178 +37,20 @@
     "icon": "fa-regular fa-input-text"
   },
   {
-    "type": "string_charAt",
-    "message0": "%1 的第 %2 个字符",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "STRING"
-      },
-      {
-        "type": "input_value",
-        "name": "NUM"
-      }
-    ],
-    "output": "String",
-    "style": "text_blocks",
-    "helpUrl": "",
-    "icon": "fa-regular fa-input-text"
-  },
-  {
-    "type": "string_length",
-    "message0": "%1 的字符数",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "STRING"
-      }
-    ],
-    "output": "Number",
-    "style": "text_blocks",
-    "helpUrl": "",
-    "icon": "fa-regular fa-input-text"
-  },
-  {
-    "type": "string_indexOf",
-    "message0": "%1 包含 %2 ?",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "STRING1"
-      },
-      {
-        "type": "input_value",
-        "name": "STRING2"
-      }
-    ],
-    "output": "String",
-    "style": "text_blocks",
-    "helpUrl": "",
-    "icon": "fa-regular fa-input-text"
-  },
-  {
-    "type": "string_substring",
-    "message0": "%1 获取 %2 %3 个字符到 %4 %5 个字符",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "STRING"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "START",
-        "options": [
-          [
-            "第",
-            "0"
-          ],
-          [
-            "倒数第",
-            "1"
-          ]
-        ]
-      },
-      {
-        "type": "input_value",
-        "name": "START_INDEX"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "LAST",
-        "options": [
-          [
-            "第",
-            "0"
-          ],
-          [
-            "倒数第",
-            "1"
-          ]
-        ]
-      },
-      {
-        "type": "input_value",
-        "name": "LAST_INDEX"
-      }
-    ],
-    "output": "String",
-    "style": "text_blocks",
-    "helpUrl": "",
-    "icon": "fa-regular fa-input-text"
-  },
-  {
-    "type": "string_find_str",
-    "message0": "查找 %1 在 %2 中 %3 出现位置",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "STRING1"
-      },
-      {
-        "type": "input_value",
-        "name": "STRING2"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "FIND",
-        "options": [
-          [
-            "首次",
-            "indexOf"
-          ],
-          [
-            "最后一次",
-            "lastIndexOf"
-          ]
-        ]
-      }
-    ],
-    "output": "String",
-    "style": "text_blocks",
-    "helpUrl": "",
-    "icon": "fa-regular fa-input-text"
-  },
-  {
-    "type": "string_to",
-    "message0": "将字符串 %1 转换为 %2",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "STRING"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "TYPE",
-        "options": [
-          [
-            "整数",
-            "toInt"
-          ],
-          [
-            "小数",
-            "toFloat"
-          ]
-        ]
-      }
-    ],
-    "output": "String",
-    "style": "text_blocks",
-    "helpUrl": "",
-    "icon": "fa-regular fa-input-text"
-  },
-  {
     "type": "number_to",
-    "message0": "将数字 %1 转换为ASCII字符串",
+    "message0": "将数字 %1 转换为ASCII字符",
     "args0": [
       {
-        "type": "field_number",
+        "type": "input_value",
         "name": "NUM",
-        "value": 0
+        "check": "Number"
       }
     ],
-    "output": "String",
+    "output": "Character",
     "style": "text_blocks",
+    "tooltip": "将ASCII码数字转换为对应的字符",
     "helpUrl": "",
+    "inputsInline": true,
     "icon": "fa-regular fa-input-text"
   },
   {
@@ -216,14 +58,16 @@
     "message0": "将字符 %1 转换为ASCII数值",
     "args0": [
       {
-        "type": "field_input",
-        "name": "STRING",
-        "text": "world"
+        "type": "input_value",
+        "name": "CHAR",
+        "check": ["Character", "String"]
       }
     ],
     "output": "Number",
     "style": "text_blocks",
+    "tooltip": "获取字符的ASCII码数值",
     "helpUrl": "",
+    "inputsInline": true,
     "icon": "fa-regular fa-input-text"
   },
   {
@@ -320,28 +164,6 @@
     "icon": "fa-regular fa-input-text"
   },
   {
-    "type": "text_append",
-    "message0": "在 %1 之后加上文本 %2",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "i"
-      },
-      {
-        "type": "input_value",
-        "name": "TEXT"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "style": "text_blocks",
-    "extensions": [
-      "text_append_tooltip"
-    ],
-    "icon": "fa-regular fa-input-text"
-  },
-  {
     "type": "text_length",
     "message0": "%1 的长度",
     "args0": [
@@ -381,7 +203,7 @@
   },
   {
     "type": "text_indexOf",
-    "message0": "在文本 %1 里 %2 %3",
+    "message0": "在文本 %1 里 %2 出现文本 %3",
     "args0": [
       {
         "type": "input_value",
@@ -393,11 +215,11 @@
         "name": "END",
         "options": [
           [
-            "寻找第一次出现的文本",
+            "寻找第一次",
             "FIRST"
           ],
           [
-            "寻找最后一次出现的文本",
+            "寻找最后一次",
             "LAST"
           ]
         ]
