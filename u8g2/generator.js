@@ -119,17 +119,23 @@ Blockly.Extensions.register('u8g2_font_dynamic_inputs', function () {
       switch (sizeValue) {
         case '8':
           fontOptions = [
-            ['文泉驿 12t', 'u8g2_font_wqy12_t_chinese2']
+            ['文泉驿 12t 1(约600字)', 'u8g2_font_wqy12_t_chinese1'],
+            ['文泉驿 12t 2(约2000字)', 'u8g2_font_wqy12_t_chinese2'],
+            ['文泉驿 12t 3(约3500字)', 'u8g2_font_wqy12_t_chinese3']
           ];
           break;
         case '14':
           fontOptions = [
-            ['文泉驿 14t', 'u8g2_font_wqy14_t_chinese2']
+            ['文泉驿 14t 1(约600字)', 'u8g2_font_wqy14_t_chinese1'],
+            ['文泉驿 14t 2(约2000字)', 'u8g2_font_wqy14_t_chinese2'],
+            ['文泉驿 14t 3(约3500字)', 'u8g2_font_wqy14_t_chinese3']
           ];
           break;
         case '19':
           fontOptions = [
-            ['文泉驿 16t', 'u8g2_font_wqy16_t_chinese2']
+            ['文泉驿 16t 1(约600字)', 'u8g2_font_wqy16_t_chinese1'],
+            ['文泉驿 16t 2(约2000字)', 'u8g2_font_wqy16_t_chinese2'],
+            ['文泉驿 16t 3(约3500字)', 'u8g2_font_wqy16_t_chinese3']
           ];
           break;
       }
@@ -964,7 +970,7 @@ Arduino.forBlock['u8g2_draw_str'] = function (block, generator) {
 // 设置字体
 Arduino.forBlock['u8g2_set_font'] = function (block, generator) {
   // 8pixels high font
-  // u8g2_font_wqy12_t_chinese2 
+  // u8g2_font_wqy12_t_chinese1/2/3
   // u8g2_font_helvB08_tf/tr
   // u8g2_font_helvR08_tf/tr
   // u8g2_font_ncenB08_tf/tr
