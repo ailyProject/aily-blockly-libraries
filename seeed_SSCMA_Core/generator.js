@@ -359,8 +359,8 @@ Arduino.forBlock['sscma_core_get_perf'] = function(block, generator) {
   // 设置变量重命名监听
   if (!generator._prefVarMonitorAttached) {
     generator._prefVarMonitorAttached = true;
-    generator._prefVarLastName = block.getFieldValue('PERF_VAR') || 'perf';
-    const varField = block.getField('PERF_VAR');
+    generator._prefVarLastName = block.getFieldValue('VAR') || 'perf';
+    const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
       varField.setValidator(function(newName) {
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
@@ -376,7 +376,7 @@ Arduino.forBlock['sscma_core_get_perf'] = function(block, generator) {
   
   // const varField = block.getField('VAR');
   // const varName = varField ? varField.getText() : 'ai';
-  const perfVarName = block.getFieldValue('PERF_VAR') || 'perf';
+  const perfVarName = block.getFieldValue('VAR') || 'perf';
   
   // 添加库引用
   generator.addLibrary('SSCMA_Micro_Core', '#include <SSCMA_Micro_Core.h>');
@@ -391,7 +391,7 @@ Arduino.forBlock['sscma_core_get_perf'] = function(block, generator) {
 };
 
 Arduino.forBlock['sscma_core_get_perf_info'] = function(block, generator) {
-  const varField = block.getField('PERF_VAR');
+  const varField = block.getField('VAR');
   const varName = varField ? varField.getText() : 'perf';
   const property = block.getFieldValue('PROPERTY');
 
