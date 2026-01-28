@@ -1,85 +1,26 @@
 {
     "toolbox_name": "Texto",
     "string_add_string": {
-        "message0": "Cadena(%1) + Cadena(%2)"
+        "message0": "Cadena(%1) + Cadena(%2)",
+        "tooltip": "Concatena dos cadenas"
     },
-    "string_charAt": {
-        "message0": "El carácter %2 de %1"
-    },
-    "string_length": {
-        "message0": "Cuenta de caracteres de %1"
-    },
-    "string_indexOf": {
-        "message0": "¿Contiene %1 a %2?"
-    },
-    "string_substring": {
-        "message0": "%1 obtener caracteres desde %2 %3 hasta %4 %5",
-        "args0": [
-            null,
-            {
-                "options": [
-                    [
-                        "el",
-                        "0"
-                    ],
-                    [
-                        "el último",
-                        "1"
-                    ]
-                ]
-            },
-            null,
-            {
-                "options": [
-                    [
-                        "el",
-                        "0"
-                    ],
-                    [
-                        "el último",
-                        "1"
-                    ]
-                ]
-            },
-            null
-        ]
-    },
-    "string_find_str": {
-        "message0": "Buscar %1 en %2 en la posición %3",
-        "args0": [
-            null,
-            null,
-            {
-                "options": [
-                    [
-                        "Primera",
-                        "indexOf"
-                    ],
-                    [
-                        "Última",
-                        "lastIndexOf"
-                    ]
-                ]
-            }
-        ]
-    },
-    "string_to": {
-        "message0": "Convertir cadena %1 a %2",
-        "args0": [
-            null,
-            {
-                "options": [["entero", "toInt"],["decimal", "toFloat"]]
-            }
-        ]
+    "array_get_dataAt": {
+        "message0": "elemento %2 del arreglo %1"
     },
     "number_to": {
-        "message0": "Convertir número %1 a cadena ASCII"
+        "message0": "convertir número %1 a carácter ASCII",
+        "tooltip": "Convierte un número de código ASCII a su carácter correspondiente"
     },
     "toascii": {
-        "message0": "Convertir carácter %1 a valor ASCII"
+        "message0": "convertir carácter %1 a valor ASCII",
+        "tooltip": "Obtiene el valor del código ASCII de un carácter"
     },
     "number_to_string": {
-        "message0": "Convertir número %1 a cadena"
+        "message0": "convertir número %1 a cadena"
+    },
+    "char": {
+        "message0": "%1",
+        "tooltip": "Ingrese un solo carácter. Soporta caracteres de escape: \\n(nueva línea), \\t(tabulador), \\r(retorno), \\\\(barra invertida), \\'(comilla simple), \\\"(comilla doble), \\0(nulo)"
     },
     "text": {
         "message0": "%1"
@@ -93,52 +34,57 @@
     "text_create_join_item": {
         "message0": "%{BKY_TEXT_CREATE_JOIN_ITEM_TITLE_ITEM}"
     },
-    "text_append": {
-        "message0": "Agregar texto %2 después de %1"
-    },
     "text_length": {
-        "message0": "Longitud de %1"
+        "message0": "longitud de %1"
     },
     "text_isEmpty": {
         "message0": "%1 está vacío"
     },
     "text_indexOf": {
-        "message0": "En el texto %1 %2 %3",
+        "message0": "en texto %1 %2 aparición de texto %3",
         "args0": [
             null,
             {
-                "options": [["buscar primera aparición del texto", "FIRST"],["buscar última aparición del texto", "LAST"]]
+                "options": [
+                    ["buscar primera", "FIRST"],
+                    ["buscar última", "LAST"]
+                ]
             },
             null
         ]
     },
+    "string_endsWith": {
+        "message0": "texto %1 termina con %2",
+        "tooltip": "Verifica si el texto termina con el sufijo especificado"
+    },
+    "string_startsWith": {
+        "message0": "texto %1 comienza con %2",
+        "tooltip": "Verifica si el texto comienza con el prefijo especificado"
+    },
     "text_charAt": {
-        "message0": "En el texto %1 %2",
+        "message0": "en texto %1 %2",
         "args0": [
             null,
             {
-                "options": [["obtener carácter #", "FROM_START"],["obtener carácter desde el final #", "FROM_END"],["obtener primer carácter", "FIRST"],["obtener último carácter", "LAST"],["obtener carácter aleatorio", "RANDOM"]]
+                "options": [
+                    ["obtener carácter #", "FROM_START"],
+                    ["obtener carácter # desde el final", "FROM_END"],
+                    ["obtener primer carácter", "FIRST"],
+                    ["obtener último carácter", "LAST"],
+                    ["obtener carácter aleatorio", "RANDOM"]
+                ]
             }
         ]
     },
     "tt_getSubstring": {
-        "message0": "obtener subcadena en el texto %1",
+        "message0": "obtener subcadena en texto %1",
         "message1": "%1 %2",
         "args1": [
             {
                 "options": [
-                    [
-                        "desde el carácter #",
-                        "FROM_START"
-                    ],
-                    [
-                        "desde el # desde el final",
-                        "FROM_END"
-                    ],
-                    [
-                        "desde el primer carácter",
-                        "FIRST"
-                    ]
+                    ["desde carácter #", "FROM_START"],
+                    ["desde carácter # desde el final", "FROM_END"],
+                    ["desde primer carácter", "FIRST"]
                 ]
             },
             null
@@ -147,18 +93,9 @@
         "args2": [
             {
                 "options": [
-                    [
-                        "hasta el carácter #",
-                        "FROM_START"
-                    ],
-                    [
-                        "hasta el # desde el final",
-                        "FROM_END"
-                    ],
-                    [
-                        "hasta el último carácter",
-                        "LAST"
-                    ]
+                    ["hasta carácter #", "FROM_START"],
+                    ["hasta carácter # desde el final", "FROM_END"],
+                    ["hasta último carácter", "LAST"]
                 ]
             },
             null
@@ -168,27 +105,54 @@
         "message0": "%1 %2",
         "args0": [
             {
-                "options": [["convertir a mayúsculas", "UPPERCASE"],["convertir a minúsculas", "LOWERCASE"],["convertir a formato título", "TITLECASE"]]
+                "options": [
+                    ["a MAYÚSCULAS", "UPPERCASE"],
+                    ["a minúsculas", "LOWERCASE"],
+                    ["a Tipo Título", "TITLECASE"]
+                ]
             },
             null
         ]
     },
     "text_trim": {
-        "message0": "Recortar %1 %2",
+        "message0": "%1 recortar %2",
         "args0": [
             {
-                "options": [["recortar espacios de ambos lados", "BOTH"],["recortar espacios del lado izquierdo", "LEFT"],["recortar espacios del lado derecho", "RIGHT"]]
+                "options": [
+                    ["espacios de ambos lados", "BOTH"],
+                    ["espacios de la izquierda", "LEFT"],
+                    ["espacios de la derecha", "RIGHT"]
+                ]
             },
             null
         ]
     },
     "text_count": {
-        "message0": "Contar ocurrencias de %1 en %2"
+        "message0": "contar apariciones de %1 en %2"
     },
     "text_replace": {
-        "message0": "Reemplazar %2 con %3 en %1"
+        "message0": "reemplazar %2 con %3 en %1"
     },
     "text_reverse": {
-        "message0": "Invertir texto %1"
+        "message0": "invertir texto %1"
+    },
+    "string_to_something": {
+        "message0": "convertir cadena %1 a %2",
+        "tooltip": "Convierte la cadena al tipo de dato especificado",
+        "args0": [
+            null,
+            {
+                "options": [
+                    ["entero (int)", "toInt"],
+                    ["entero largo (long)", "toLong"],
+                    ["flotante (float)", "toFloat"],
+                    ["doble (double)", "toDouble"],
+                    ["cadena C (char*)", "c_str"],
+                    ["primer carácter (char)", "charAt0"],
+                    ["cadena mayúsculas", "toUpper"],
+                    ["cadena minúsculas", "toLower"]
+                ]
+            }
+        ]
     }
 }

@@ -1,85 +1,26 @@
 {
     "toolbox_name": "Texte",
     "string_add_string": {
-        "message0": "Chaîne(%1) + Chaîne(%2)"
+        "message0": "Chaîne(%1) + Chaîne(%2)",
+        "tooltip": "Concatène deux chaînes"
     },
-    "string_charAt": {
-        "message0": "Caractère %2 de %1"
-    },
-    "string_length": {
-        "message0": "Nombre de caractères dans %1"
-    },
-    "string_indexOf": {
-        "message0": "%1 contient-il %2?"
-    },
-    "string_substring": {
-        "message0": "%1 obtenir les caractères de %2 %3 à %4 %5",
-        "args0": [
-            null,
-            {
-                "options": [
-                    [
-                        "le",
-                        "0"
-                    ],
-                    [
-                        "l'avant-dernier",
-                        "1"
-                    ]
-                ]
-            },
-            null,
-            {
-                "options": [
-                    [
-                        "le",
-                        "0"
-                    ],
-                    [
-                        "l'avant-dernier",
-                        "1"
-                    ]
-                ]
-            },
-            null
-        ]
-    },
-    "string_find_str": {
-        "message0": "Trouver %1 dans %2 à la position %3",
-        "args0": [
-            null,
-            null,
-            {
-                "options": [
-                    [
-                        "Première",
-                        "indexOf"
-                    ],
-                    [
-                        "Dernière",
-                        "lastIndexOf"
-                    ]
-                ]
-            }
-        ]
-    },
-    "string_to": {
-        "message0": "Convertir chaîne %1 en %2",
-        "args0": [
-            null,
-            {
-                "options": [["entier", "toInt"],["flottant", "toFloat"]]
-            }
-        ]
+    "array_get_dataAt": {
+        "message0": "élément %2 du tableau %1"
     },
     "number_to": {
-        "message0": "Convertir nombre %1 en chaîne ASCII"
+        "message0": "convertir le nombre %1 en caractère ASCII",
+        "tooltip": "Convertit un code ASCII en son caractère correspondant"
     },
     "toascii": {
-        "message0": "Convertir caractère %1 en valeur ASCII"
+        "message0": "convertir le caractère %1 en valeur ASCII",
+        "tooltip": "Obtient la valeur du code ASCII d'un caractère"
     },
     "number_to_string": {
-        "message0": "Convertir nombre %1 en chaîne"
+        "message0": "convertir le nombre %1 en chaîne"
+    },
+    "char": {
+        "message0": "%1",
+        "tooltip": "Entrez un seul caractère. Prend en charge les caractères d'échappement: \\n(nouvelle ligne), \\t(tabulation), \\r(retour chariot), \\\\(barre oblique inverse), \\'(apostrophe), \\\"(guillemet), \\0(nul)"
     },
     "text": {
         "message0": "%1"
@@ -93,31 +34,45 @@
     "text_create_join_item": {
         "message0": "%{BKY_TEXT_CREATE_JOIN_ITEM_TITLE_ITEM}"
     },
-    "text_append": {
-        "message0": "Ajouter texte %2 après %1"
-    },
     "text_length": {
-        "message0": "Longueur de %1"
+        "message0": "longueur de %1"
     },
     "text_isEmpty": {
         "message0": "%1 est vide"
     },
     "text_indexOf": {
-        "message0": "Dans le texte %1 %2 %3",
+        "message0": "dans le texte %1 %2 occurrence du texte %3",
         "args0": [
             null,
             {
-                "options": [["trouver première occurrence de texte", "FIRST"],["trouver dernière occurrence de texte", "LAST"]]
+                "options": [
+                    ["trouver la première", "FIRST"],
+                    ["trouver la dernière", "LAST"]
+                ]
             },
             null
         ]
     },
+    "string_endsWith": {
+        "message0": "le texte %1 se termine par %2",
+        "tooltip": "Vérifie si le texte se termine par le suffixe spécifié"
+    },
+    "string_startsWith": {
+        "message0": "le texte %1 commence par %2",
+        "tooltip": "Vérifie si le texte commence par le préfixe spécifié"
+    },
     "text_charAt": {
-        "message0": "Dans le texte %1 %2",
+        "message0": "dans le texte %1 %2",
         "args0": [
             null,
             {
-                "options": [["Obtenir caractère #", "FROM_START"],["Obtenir caractère à partir de fin #", "FROM_END"],["Obtenir premier caractère", "FIRST"],["Obtenir dernier caractère", "LAST"],["Obtenir caractère aléatoire", "RANDOM"]]
+                "options": [
+                    ["obtenir le caractère #", "FROM_START"],
+                    ["obtenir le caractère # depuis la fin", "FROM_END"],
+                    ["obtenir le premier caractère", "FIRST"],
+                    ["obtenir le dernier caractère", "LAST"],
+                    ["obtenir un caractère aléatoire", "RANDOM"]
+                ]
             }
         ]
     },
@@ -127,18 +82,9 @@
         "args1": [
             {
                 "options": [
-                    [
-                        "à partir du caractère #",
-                        "FROM_START"
-                    ],
-                    [
-                        "à partir du # depuis la fin",
-                        "FROM_END"
-                    ],
-                    [
-                        "à partir du premier caractère",
-                        "FIRST"
-                    ]
+                    ["du caractère #", "FROM_START"],
+                    ["du caractère # depuis la fin", "FROM_END"],
+                    ["du premier caractère", "FIRST"]
                 ]
             },
             null
@@ -147,18 +93,9 @@
         "args2": [
             {
                 "options": [
-                    [
-                        "jusqu'au caractère #",
-                        "FROM_START"
-                    ],
-                    [
-                        "jusqu'au # depuis la fin",
-                        "FROM_END"
-                    ],
-                    [
-                        "jusqu'au dernier caractère",
-                        "LAST"
-                    ]
+                    ["au caractère #", "FROM_START"],
+                    ["au caractère # depuis la fin", "FROM_END"],
+                    ["au dernier caractère", "LAST"]
                 ]
             },
             null
@@ -168,27 +105,54 @@
         "message0": "%1 %2",
         "args0": [
             {
-                "options": [["changer en majuscule", "UPPERCASE"],["changer en minuscule", "LOWERCASE"],["changer en majuscule", "TITLECASE"]]
+                "options": [
+                    ["en MAJUSCULES", "UPPERCASE"],
+                    ["en minuscules", "LOWERCASE"],
+                    ["en Casse De Titre", "TITLECASE"]
+                ]
             },
             null
         ]
     },
     "text_trim": {
-        "message0": "%1 trim %2",
+        "message0": "%1 supprimer %2",
         "args0": [
             {
-                "options": [["vider espaces des deux côtés", "BOTH"],["vider espaces du côté gauche", "LEFT"],["vider espaces du côté droit", "RIGHT"]]
+                "options": [
+                    ["les espaces des deux côtés", "BOTH"],
+                    ["les espaces à gauche", "LEFT"],
+                    ["les espaces à droite", "RIGHT"]
+                ]
             },
             null
         ]
     },
     "text_count": {
-        "message0": "Compter le nombre d'occurrences de %1 dans %2"
+        "message0": "compter les occurrences de %1 dans %2"
     },
     "text_replace": {
-        "message0": "Remplacer %2 par %3 dans %1"
+        "message0": "remplacer %2 par %3 dans %1"
     },
     "text_reverse": {
-        "message0": "Inverser le texte %1"
+        "message0": "inverser le texte %1"
+    },
+    "string_to_something": {
+        "message0": "convertir la chaîne %1 en %2",
+        "tooltip": "Convertit la chaîne en type de données spécifié",
+        "args0": [
+            null,
+            {
+                "options": [
+                    ["entier (int)", "toInt"],
+                    ["entier long (long)", "toLong"],
+                    ["flottant (float)", "toFloat"],
+                    ["double", "toDouble"],
+                    ["chaîne C (char*)", "c_str"],
+                    ["premier caractère (char)", "charAt0"],
+                    ["chaîne majuscule", "toUpper"],
+                    ["chaîne minuscule", "toLower"]
+                ]
+            }
+        ]
     }
 }

@@ -1,85 +1,26 @@
 {
     "toolbox_name": "文字",
     "string_add_string": {
-        "message0": "字符串(%1) + 字符串(%2)"
+        "message0": "字串(%1) + 字串(%2)",
+        "tooltip": "連接兩個字串"
     },
-    "string_charAt": {
-        "message0": "%1 的第 %2 個字符"
-    },
-    "string_length": {
-        "message0": "%1 的字符数"
-    },
-    "string_indexOf": {
-        "message0": "%1 包含 %2 ?"
-    },
-    "string_substring": {
-        "message0": "%1 取得 %2 %3 個字元到 %4 %5 個字元",
-        "args0": [
-            null,
-            {
-                "options": [
-                    [
-                        "第",
-                        "0"
-                    ],
-                    [
-                        "倒數第",
-                        "1"
-                    ]
-                ]
-            },
-            null,
-            {
-                "options": [
-                    [
-                        "第",
-                        "0"
-                    ],
-                    [
-                        "倒數第",
-                        "1"
-                    ]
-                ]
-            },
-            null
-        ]
-    },
-    "string_find_str": {
-        "message0": "查找 %1 在 %2 中 %3 出現位置",
-        "args0": [
-            null,
-            null,
-            {
-                "options": [
-                    [
-                        "首次",
-                        "indexOf"
-                    ],
-                    [
-                        "最後一次",
-                        "lastIndexOf"
-                    ]
-                ]
-            }
-        ]
-    },
-    "string_to": {
-        "message0": "將字符串 %1 轉換為 %2",
-        "args0": [
-            null,
-            {
-                "options": [["整數", "toInt"],["小數", "toFloat"]]
-            }
-        ]
+    "array_get_dataAt": {
+        "message0": "陣列 %1 的第 %2 個元素"
     },
     "number_to": {
-        "message0": "將數字 %1 轉換為ASCII字符串"
+        "message0": "將數字 %1 轉換為ASCII字元",
+        "tooltip": "將ASCII碼數字轉換為對應的字元"
     },
     "toascii": {
-        "message0": "將字符 %1 轉換為ASCII數值"
+        "message0": "將字元 %1 轉換為ASCII數值",
+        "tooltip": "獲取字元的ASCII碼數值"
     },
     "number_to_string": {
-        "message0": "將數字 %1 轉換為字符串"
+        "message0": "將數字 %1 轉換為字串"
+    },
+    "char": {
+        "message0": "%1",
+        "tooltip": "輸入單個字元，支援跳脫字元：\\n(換行), \\t(製表符), \\r(回車), \\\\(反斜線), \\'(單引號), \\\"(雙引號), \\0(空字元)"
     },
     "text": {
         "message0": "%1"
@@ -93,9 +34,6 @@
     "text_create_join_item": {
         "message0": "%{BKY_TEXT_CREATE_JOIN_ITEM_TITLE_ITEM}"
     },
-    "text_append": {
-        "message0": "在 %1 之后加上文本 %2"
-    },
     "text_length": {
         "message0": "%1 的長度"
     },
@@ -103,42 +41,50 @@
         "message0": "%1 是空的"
     },
     "text_indexOf": {
-        "message0": "在文本 %1 裡 %2 %3",
+        "message0": "在文字 %1 裡 %2 出現文字 %3",
         "args0": [
             null,
             {
-                "options": [["尋找第一次出現的文本", "FIRST"],["尋找最後一次出現的文本", "LAST"]]
+                "options": [
+                    ["尋找第一次", "FIRST"],
+                    ["尋找最後一次", "LAST"]
+                ]
             },
             null
         ]
     },
+    "string_endsWith": {
+        "message0": "文字 %1 以 %2 結尾",
+        "tooltip": "檢查文字是否以指定的後綴結尾"
+    },
+    "string_startsWith": {
+        "message0": "文字 %1 以 %2 開頭",
+        "tooltip": "檢查文字是否以指定的前綴開頭"
+    },
     "text_charAt": {
-        "message0": "在文本 %1 裡 %2",
+        "message0": "在文字 %1 裡 %2",
         "args0": [
             null,
             {
-                "options": [["獲取第#個字符", "FROM_START"],["獲取倒數第#個字符", "FROM_END"],["獲取第一個字符", "FIRST"],["獲取最後一個字符", "LAST"],["獲取隨機一個字符", "RANDOM"]]
+                "options": [
+                    ["獲取第#個字元", "FROM_START"],
+                    ["獲取倒數第#個字元", "FROM_END"],
+                    ["獲取第一個字元", "FIRST"],
+                    ["獲取最後一個字元", "LAST"],
+                    ["獲取隨機一個字元", "RANDOM"]
+                ]
             }
         ]
     },
     "tt_getSubstring": {
-        "message0": "在文本 %1中獲取子串",
+        "message0": "在文字 %1中獲取子串",
         "message1": "%1 %2",
         "args1": [
             {
                 "options": [
-                    [
-                        "從第#個字符",
-                        "FROM_START"
-                    ],
-                    [
-                        "從倒數第#個字符",
-                        "FROM_END"
-                    ],
-                    [
-                        "從第一個字符",
-                        "FIRST"
-                    ]
+                    ["從第#個字元", "FROM_START"],
+                    ["從倒數第#個字元", "FROM_END"],
+                    ["從第一個字元", "FIRST"]
                 ]
             },
             null
@@ -147,18 +93,9 @@
         "args2": [
             {
                 "options": [
-                    [
-                        "到第#個字符",
-                        "FROM_START"
-                    ],
-                    [
-                        "到倒數第#個字符",
-                        "FROM_END"
-                    ],
-                    [
-                        "到最後一個字符",
-                        "LAST"
-                    ]
+                    ["到第#個字元", "FROM_START"],
+                    ["到倒數第#個字元", "FROM_END"],
+                    ["到最後一個字元", "LAST"]
                 ]
             },
             null
@@ -168,7 +105,11 @@
         "message0": "%1 %2",
         "args0": [
             {
-                "options": [["轉為大寫", "UPPERCASE"],["轉為小寫", "LOWERCASE"],["轉為首字母大寫", "TITLECASE"]]
+                "options": [
+                    ["轉為大寫", "UPPERCASE"],
+                    ["轉為小寫", "LOWERCASE"],
+                    ["轉為首字母大寫", "TITLECASE"]
+                ]
             },
             null
         ]
@@ -177,7 +118,11 @@
         "message0": "%1 的 %2",
         "args0": [
             {
-                "options": [["消除其兩側的空格", "BOTH"],["消除其左侧的空格", "LEFT"],["消除其右側的空格", "RIGHT"]]
+                "options": [
+                    ["消除其兩側的空格", "BOTH"],
+                    ["消除其左側的空格", "LEFT"],
+                    ["消除其右側的空格", "RIGHT"]
+                ]
             },
             null
         ]
@@ -189,6 +134,25 @@
         "message0": "把 %1 中的 %2 替換為 %3"
     },
     "text_reverse": {
-        "message0": "倒轉文本 %1"
+        "message0": "倒轉文字 %1"
+    },
+    "string_to_something": {
+        "message0": "將字串 %1 轉換為 %2",
+        "tooltip": "將字串轉換為指定的資料類型",
+        "args0": [
+            null,
+            {
+                "options": [
+                    ["整數 (int)", "toInt"],
+                    ["長整數 (long)", "toLong"],
+                    ["浮點數 (float)", "toFloat"],
+                    ["雙精度 (double)", "toDouble"],
+                    ["C字串 (char*)", "c_str"],
+                    ["首字元 (char)", "charAt0"],
+                    ["大寫字串", "toUpper"],
+                    ["小寫字串", "toLower"]
+                ]
+            }
+        ]
     }
 }
