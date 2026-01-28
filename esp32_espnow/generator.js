@@ -68,6 +68,22 @@ function ensureEspNowInit(generator) {
   generator.addSetup('esp_now_init', initCode);
 }
 
+// 检查当前工作区是否有esp_now_on_message_received类型的块
+function ensureMessageHandler(generator) {
+  const workspace = typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace();
+  if (!workspace) {
+    return false;
+  }
+  
+  const allBlocks = workspace.getAllBlocks(false);
+  for (let i = 0; i < allBlocks.length; i++) {
+    if (allBlocks[i].type === 'esp_now_on_message_received') {
+      return true;
+    }
+  }
+  return false;
+}
+
 // 生成MAC地址解析辅助函数
 function ensureMacParseFunction(generator) {
   ensureSerialBegin('Serial', generator);
@@ -251,9 +267,10 @@ Arduino.forBlock['esp_now_slave_init'] = function(block, generator) {
   generator.addVariable('esp_now_rx_sender_mac', 'String esp_now_rx_sender_mac;');
   generator.addVariable('esp_now_slave_channel', 'uint8_t esp_now_slave_channel = ' + channel + ';');
   
-  // 用户消息回调占位（默认为空，需要在类之前声明）
-  generator.addFunction('esp_now_on_message_handler', 'void esp_now_on_message_handler() {\n  // 用户回调将覆盖此函数\n}\n');
-  
+  if (!ensureMessageHandler(generator)) {
+    // 用户消息回调占位（默认为空，需要在类之前声明）
+    generator.addFunction('esp_now_on_message_handler', 'void esp_now_on_message_handler() {\n  // 用户回调将覆盖此函数\n}\n');
+  }
   // 现在添加类定义（类中会调用上面的函数和变量）
   ensureSimpleReceiverPeerClass(generator);
   
@@ -446,8 +463,10 @@ Arduino.forBlock['esp_now_node_init'] = function(block, generator) {
   generator.addVariable('esp_now_slave_channel', 'uint8_t esp_now_slave_channel = ' + channel + ';');
   generator.addObject('esp_now_broadcast', 'ESP_NOW_Broadcast_Peer* esp_now_broadcast = nullptr;');
   
-  // 用户消息回调占位
-  generator.addFunction('esp_now_on_message_handler', 'void esp_now_on_message_handler() {\n  // 用户回调将覆盖此函数\n}\n');
+  if (!ensureMessageHandler(generator)) {
+    // 用户消息回调占位
+    generator.addFunction('esp_now_on_message_handler', 'void esp_now_on_message_handler() {\n  // 用户回调将覆盖此函数\n}\n');
+  }
   
   // 接收Peer类
   ensureSimpleReceiverPeerClass(generator);
