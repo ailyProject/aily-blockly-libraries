@@ -614,26 +614,66 @@ registerHatBlock([
   'blinker_data_handler'
 ]);
 
-function isBlockConnected(block) {
-  // 递归向上查找
-  function findRootBlock(b) {
-    if (!b) return null;
-    if (!b.previousConnection || !b.previousConnection.isConnected()) {
-      return b;
-    }
-    return findRootBlock(b.previousConnection.targetBlock());
-  }
+/**
+ * 检查块是否连接到代码流程中
+ * @param {Blockly.Block} block - 要检查的块
+ * @param {string|string[]|null} targetBlockType - 可选，指定目标块类型或类型数组
+ *   - 如果不传或为null，则检查是否连接到任意入口块（ENTRY_BLOCK_TYPES）
+ *   - 如果传入字符串，则检查是否连接到该类型的块
+ *   - 如果传入数组，则检查是否连接到数组中任一类型的块
+ * @returns {boolean} 是否连接
+ */
+function isBlockConnected(block, targetBlockType = null) {
+  if (!block) return false;
 
-  const rootBlock = findRootBlock(block);
-
-  // 如果根块是入口块，则认为已连接，否则为独立
+  // 获取入口块类型列表
   const entryTypes = (typeof window !== 'undefined') ? window.ENTRY_BLOCK_TYPES : 
                      (typeof global !== 'undefined') ? global.ENTRY_BLOCK_TYPES : 
                      ['arduino_setup', 'arduino_loop'];
-  
-  if (rootBlock && entryTypes.includes(rootBlock.type)) {
-    return true;
+
+  // 确定要查找的目标类型
+  let targetTypes;
+  if (targetBlockType === null || targetBlockType === undefined) {
+    // 未指定目标类型时，检查是否连接到任意入口块
+    targetTypes = entryTypes;
+  } else {
+    // 将目标类型统一为数组
+    targetTypes = Array.isArray(targetBlockType) ? targetBlockType : [targetBlockType];
   }
+
+  // 向上遍历查找目标块
+  const visited = new Set();
+  let currentBlock = block;
+
+  while (currentBlock) {
+    if (visited.has(currentBlock.id)) break;
+    visited.add(currentBlock.id);
+
+    // 检查当前块是否为目标类型
+    if (targetTypes.includes(currentBlock.type)) {
+      return true;
+    }
+
+    // 向上遍历：依次检查包围父块、前置连接、输出连接
+    let nextBlock = null;
+
+    // 1. 检查包围的父块（块嵌套在语句输入中）
+    const surroundParent = currentBlock.getSurroundParent();
+    if (surroundParent) {
+      nextBlock = surroundParent;
+    }
+    // 2. 检查前置连接（语句块的上方块）
+    else if (currentBlock.previousConnection && currentBlock.previousConnection.isConnected()) {
+      nextBlock = currentBlock.previousConnection.targetBlock();
+    }
+    // 3. 检查输出连接（表达式块所连接的块）
+    else if (currentBlock.outputConnection && currentBlock.outputConnection.isConnected()) {
+      nextBlock = currentBlock.outputConnection.targetBlock();
+    }
+
+    currentBlock = nextBlock;
+  }
+
   return false;
 }
 

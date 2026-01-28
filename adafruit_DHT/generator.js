@@ -54,6 +54,10 @@ if (!Arduino.dhtTypeMap) {
 }
 
 Arduino.forBlock['dht_init'] = function (block, generator) {
+  // 检查块是否连接到代码流程中，如果是独立块则不生成代码
+  // 使用全局函数，支持指定目标块类型
+  const isConnected = isBlockConnected(block);
+  
   // 添加引脚动态显示逻辑
   // if (!block._pinVisibilityAttached) {
   //   block._pinVisibilityAttached = true;
@@ -103,6 +107,7 @@ Arduino.forBlock['dht_init'] = function (block, generator) {
   // 保存类型映射
   Arduino.dhtTypeMap[varName] = dht_type;
 
+  let code = '';
   // DHT20 特殊处理（I2C接口）
   if (dht_type === 'DHT20') {
     var wire = block.getFieldValue('WIRE');
@@ -120,7 +125,8 @@ Arduino.forBlock['dht_init'] = function (block, generator) {
     
     // 在setup中初始化I2C和DHT20
     generator.addSetup(`wire_${wire}_begin`, wire + '.begin();');
-    generator.addSetup(`${varName}_begin`, varName + '.begin();');
+    // generator.addSetup(`${varName}_begin`, varName + '.begin();');
+    code += `${varName}.read();\n`; // 读取以初始化传感器
   } else {
     var pin = block.getFieldValue('PIN');
     // DHT11/22/21 处理（单总线接口）
@@ -137,13 +143,18 @@ Arduino.forBlock['dht_init'] = function (block, generator) {
     generator.sensorVarName = varName;
     
     // 在setup中初始化DHT对象
-    generator.addSetupBegin(varName + '_begin', varName + '.begin();');
+    // generator.addSetupBegin(varName + '_begin', varName + '.begin();');
+    code += `${varName}.begin();\n`;
+  }
+
+  if (!isConnected) {
+    return '';
   }
 
   // 使用ensureDHTInit确保DHT传感器初始化
   // ensureDHTInit(pin, dht_type, generator);
 
-  return '';
+  return code;
 };
 
 Arduino.forBlock['dht_read_temperature'] = function (block, generator) {
