@@ -32,14 +32,18 @@ Arduino.forBlock['sscma_core_create_video_capture'] = function(block, generator)
 };
 
 Arduino.forBlock['sscma_core_begin'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'ai';
+  // const varField = block.getField('VAR');
+  // const varName = varField ? varField.getText() : 'ai';
   
   // 添加库引用
   generator.addLibrary('SSCMA_Micro_Core', '#include <SSCMA_Micro_Core.h>');
+
+  generator.addObject('ai', 'SSCMAMicroCore ai;');
+  generator.addObject('camera', 'SSCMAMicroCore::VideoCapture camera;');
   
   // 生成初始化代码
-  let code = 'MA_RETURN_IF_UNEXPECTED(' + varName + '.begin(SSCMAMicroCore::Config::DefaultConfig));\n';
+  let code = 'MA_RETURN_IF_UNEXPECTED(camera.begin(SSCMAMicroCore::VideoCapture::DefaultCameraConfigXIAOS3));\n';
+  code += 'MA_RETURN_IF_UNEXPECTED(ai.begin(SSCMAMicroCore::Config::DefaultConfig));\n';
   
   return code;
 };
@@ -72,37 +76,37 @@ Arduino.forBlock['sscma_core_set_loop_task_stack_size'] = function(block, genera
 };
 
 Arduino.forBlock['sscma_core_invoke'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'ai';
+  // const varField = block.getField('VAR');
+  // const varName = varField ? varField.getText() : 'ai';
   const frame = generator.valueToCode(block, 'FRAME', generator.ORDER_ATOMIC) || 'nullptr';
   
   // 添加库引用
   generator.addLibrary('SSCMA_Micro_Core', '#include <SSCMA_Micro_Core.h>');
   
   // 生成推理代码
-  let code = 'MA_RETURN_IF_UNEXPECTED(' + varName + '.invoke(' + frame + '));\n';
+  let code = 'MA_RETURN_IF_UNEXPECTED(ai.invoke(' + frame + '));\n';
   
   return code;
 };
 
 Arduino.forBlock['sscma_core_get_managed_frame'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'camera';
+  // const varField = block.getField('VAR');
+  // const varName = varField ? varField.getText() : 'camera';
   
   // 添加库引用
   generator.addLibrary('SSCMA_Micro_Core', '#include <SSCMA_Micro_Core.h>');
   
   // 生成获取帧代码
-  let code = varName + '.getManagedFrame()';
+  let code = 'camera.getManagedFrame()';
   
   return [code, generator.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['sscma_core_register_boxes_callback'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'ai';
+  // const varField = block.getField('VAR');
+  // const varName = varField ? varField.getText() : 'ai';
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
-  const callbackName = 'sscma_core_boxes_' + varName;
+  const callbackName = 'sscma_core_boxes_ai';
   
   // 添加库引用
   generator.addLibrary('SSCMA_Micro_Core', '#include <SSCMA_Micro_Core.h>');
@@ -116,17 +120,17 @@ Arduino.forBlock['sscma_core_register_boxes_callback'] = function(block, generat
   generator.addFunction(callbackName, functionDef);
   
   // 生成注册代码
-  let code = varName + '.registerBoxesCallback(' + callbackName + ');\n';
+  let code = 'ai.registerBoxesCallback(' + callbackName + ');\n';
   generator.addSetupEnd(code, code);
   
   return '';
 };
 
 Arduino.forBlock['sscma_core_register_classes_callback'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'ai';
+  // const varField = block.getField('VAR');
+  // const varName = varField ? varField.getText() : 'ai';
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
-  const callbackName = 'sscma_core_classes_' + varName;
+  const callbackName = 'sscma_core_classes_ai';
   
   // 添加库引用
   generator.addLibrary('SSCMA_Micro_Core', '#include <SSCMA_Micro_Core.h>');
@@ -140,17 +144,17 @@ Arduino.forBlock['sscma_core_register_classes_callback'] = function(block, gener
   generator.addFunction(callbackName, functionDef);
   
   // 生成注册代码
-  let code = varName + '.registerClassesCallback(' + callbackName + ');\n';
+  let code = 'ai.registerClassesCallback(' + callbackName + ');\n';
   generator.addSetupEnd(code, code);
   
   return '';
 };
 
 Arduino.forBlock['sscma_core_register_points_callback'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'ai';
+  // const varField = block.getField('VAR');
+  // const varName = varField ? varField.getText() : 'ai';
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
-  const callbackName = 'sscma_core_points_' + varName;
+  const callbackName = 'sscma_core_points_ai';
   
   // 添加库引用
   generator.addLibrary('SSCMA_Micro_Core', '#include <SSCMA_Micro_Core.h>');
@@ -164,17 +168,17 @@ Arduino.forBlock['sscma_core_register_points_callback'] = function(block, genera
   generator.addFunction(callbackName, functionDef);
   
   // 生成注册代码
-  let code = varName + '.registerPointsCallback(' + callbackName + ');\n';
+  let code = 'ai.registerPointsCallback(' + callbackName + ');\n';
   generator.addSetupEnd(code, code);
   
   return '';
 };
 
 Arduino.forBlock['sscma_core_register_keypoints_callback'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'ai';
+  // const varField = block.getField('VAR');
+  // const varName = varField ? varField.getText() : 'ai';
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
-  const callbackName = 'sscma_core_keypoints_' + varName;
+  const callbackName = 'sscma_core_keypoints_ai';
   
   // 添加库引用
   generator.addLibrary('SSCMA_Micro_Core', '#include <SSCMA_Micro_Core.h>');
@@ -188,17 +192,17 @@ Arduino.forBlock['sscma_core_register_keypoints_callback'] = function(block, gen
   generator.addFunction(callbackName, functionDef);
   
   // 生成注册代码
-  let code = varName + '.registerKeypointsCallback(' + callbackName + ');\n';
+  let code = 'ai.registerKeypointsCallback(' + callbackName + ');\n';
   generator.addSetupEnd(code, code);
   
   return '';
 };
 
 Arduino.forBlock['sscma_core_register_perf_callback'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'ai';
+  // const varField = block.getField('VAR');
+  // const varName = varField ? varField.getText() : 'ai';
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
-  const callbackName = 'sscma_core_perf_' + varName;
+  const callbackName = 'sscma_core_perf_ai';
   
   // 添加库引用
   generator.addLibrary('SSCMA_Micro_Core', '#include <SSCMA_Micro_Core.h>');
@@ -212,15 +216,15 @@ Arduino.forBlock['sscma_core_register_perf_callback'] = function(block, generato
   generator.addFunction(callbackName, functionDef);
   
   // 生成注册代码
-  let code = varName + '.registerPerfCallback(' + callbackName + ');\n';
+  let code = 'ai.registerPerfCallback(' + callbackName + ');\n';
   generator.addSetupEnd(code, code);
   
   return '';
 };
 
 Arduino.forBlock['sscma_core_get_boxes'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'ai';
+  // const varField = block.getField('VAR');
+  // const varName = varField ? varField.getText() : 'ai';
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
   
   // 添加库引用
@@ -228,7 +232,7 @@ Arduino.forBlock['sscma_core_get_boxes'] = function(block, generator) {
   
   // 生成遍历获取边界框代码
   let code = '';
-  code += 'for (const auto& box : ' + varName + '.getBoxes()) {\n';
+  code += 'for (const auto& box : ai.getBoxes()) {\n';
   code += '  // 处理每个边界框 box\n';
   code += handlerCode;
   code += '}\n';
@@ -246,8 +250,8 @@ Arduino.forBlock['sscma_core_get_boxes_info'] = function(block, generator) {
 }
 
 Arduino.forBlock['sscma_core_get_classes'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'ai';
+  // const varField = block.getField('VAR');
+  // const varName = varField ? varField.getText() : 'ai';
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
   
   // 添加库引用
@@ -255,7 +259,7 @@ Arduino.forBlock['sscma_core_get_classes'] = function(block, generator) {
   
   // 生成遍历获取分类结果代码
   let code = '';
-  code += 'for (const auto& cls : ' + varName + '.getClasses()) {\n';
+  code += 'for (const auto& cls : ai.getClasses()) {\n';
   code += '  // 处理每个分类结果 cls\n';
   code += handlerCode;
   code += '}\n';
@@ -273,8 +277,8 @@ Arduino.forBlock['sscma_core_get_classes_info'] = function(block, generator) {
 };
 
 Arduino.forBlock['sscma_core_get_points'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'ai';
+  // const varField = block.getField('VAR');
+  // const varName = varField ? varField.getText() : 'ai';
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
   
   // 添加库引用
@@ -282,7 +286,7 @@ Arduino.forBlock['sscma_core_get_points'] = function(block, generator) {
   
   // 生成遍历获取点检测结果代码
   let code = '';
-  code += 'for (const auto& point : ' + varName + '.getPoints()) {\n';
+  code += 'for (const auto& point : ai.getPoints()) {\n';
   code += '  // 处理每个点检测结果 point\n';
   code += handlerCode;
   code += '}\n';
@@ -300,8 +304,8 @@ Arduino.forBlock['sscma_core_get_points_info'] = function(block, generator) {
 }
 
 Arduino.forBlock['sscma_core_get_keypoints'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'ai';
+  // const varField = block.getField('VAR');
+  // const varName = varField ? varField.getText() : 'ai';
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
   
   // 添加库引用
@@ -309,7 +313,7 @@ Arduino.forBlock['sscma_core_get_keypoints'] = function(block, generator) {
   
   // 生成遍历获取关键点代码
   let code = '';
-  code += 'for (const auto& kp : ' + varName + '.getKeypoints()) {\n';
+  code += 'for (const auto& kp : ai.getKeypoints()) {\n';
   code += '  // 处理每个关键点 keypoint\n';
   code += handlerCode;
   code += '}\n';
@@ -370,8 +374,8 @@ Arduino.forBlock['sscma_core_get_perf'] = function(block, generator) {
     }
   }
   
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'ai';
+  // const varField = block.getField('VAR');
+  // const varName = varField ? varField.getText() : 'ai';
   const perfVarName = block.getFieldValue('PERF_VAR') || 'perf';
   
   // 添加库引用
@@ -381,7 +385,7 @@ Arduino.forBlock['sscma_core_get_perf'] = function(block, generator) {
   registerVariableToBlockly(perfVarName, 'SSCMAMicroCore::Perf');
 
   let code = '';
-  code += 'auto ' + perfVarName + ' = ' + varName + '.getPerf();\n';
+  code += 'auto ' + perfVarName + ' = ai.getPerf();\n';
   
   return code;
 };

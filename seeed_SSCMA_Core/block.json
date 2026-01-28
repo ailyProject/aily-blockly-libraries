@@ -1,70 +1,11 @@
 [
   {
-    "type": "sscma_core_create",
-    "message0": "创建SSCMA实例 %1",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "VAR",
-        "text": "ai"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#FF6B6B",
-    "tooltip": "创建SSCMA Core实例",
-    "icon": "fa-light fa-brain-circuit"
-  },
-  {
-    "type": "sscma_core_create_video_capture",
-    "message0": "创建视频捕获实例 %1",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "VAR",
-        "text": "camera"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#FF6B6B",
-    "tooltip": "创建视频捕获实例",
-    "icon": "fa-light fa-brain-circuit"
-  },
-  {
     "type": "sscma_core_begin",
-    "message0": "初始化SSCMA %1 使用默认配置",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMAMicroCore"],
-        "defaultType": "SSCMAMicroCore"
-      }
-    ],
+    "message0": "初始化SSCMA使用XIAO ESP32S3默认配置",
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4ECDC4",
     "tooltip": "初始化SSCMA实例",
-    "icon": "fa-light fa-brain-circuit"
-  },
-  {
-    "type": "sscma_core_video_capture_begin",
-    "message0": "初始化视频捕获 %1 使用XIAOS3默认配置",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "camera",
-        "variableTypes": ["VideoCapture"],
-        "defaultType": "VideoCapture"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#4ECDC4",
-    "tooltip": "初始化视频捕获设备",
     "icon": "fa-light fa-brain-circuit"
   },
   {
@@ -85,15 +26,8 @@
   },
   {
     "type": "sscma_core_invoke",
-    "message0": "SSCMA %1 推理处理帧 %2",
+    "message0": "SSCMA推理处理帧 %1",
     "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMAMicroCore"],
-        "defaultType": "SSCMAMicroCore"
-      },
       {
         "type": "input_value",
         "name": "FRAME",
@@ -108,16 +42,7 @@
   },
   {
     "type": "sscma_core_get_managed_frame",
-    "message0": "获取管理帧 %1",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "camera",
-        "variableTypes": ["VideoCapture"],
-        "defaultType": "VideoCapture"
-      }
-    ],
+    "message0": "获取管理帧",
     "output": "Frame",
     "colour": "#45B7D1",
     "tooltip": "从视频捕获获取管理帧",
@@ -125,16 +50,7 @@
   },
   {
     "type": "sscma_core_register_boxes_callback",
-    "message0": "%1 目标检测回调",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMAMicroCore"],
-        "defaultType": "SSCMAMicroCore"
-      }
-    ],
+    "message0": "SSCMA目标检测回调",
     "message1": "执行 %1",
     "args1": [
       {
@@ -148,16 +64,7 @@
   },
   {
     "type": "sscma_core_register_classes_callback",
-    "message0": "%1 分类检测回调",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMAMicroCore"],
-        "defaultType": "SSCMAMicroCore"
-      }
-    ],
+    "message0": "SSCMA分类检测回调",
     "message1": "执行 %1",
     "args1": [
       {
@@ -171,16 +78,7 @@
   },
   {
     "type": "sscma_core_register_points_callback",
-    "message0": "%1 关键点检测回调",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMAMicroCore"],
-        "defaultType": "SSCMAMicroCore"
-      }
-    ],
+    "message0": "SSCMA关键点检测回调",
     "message1": "执行 %1",
     "args1": [
       {
@@ -194,16 +92,7 @@
   },
   {
     "type": "sscma_core_register_keypoints_callback",
-    "message0": "%1 关键点组检测回调",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMAMicroCore"],
-        "defaultType": "SSCMAMicroCore"
-      }
-    ],
+    "message0": "SSCMA关键点组检测回调",
     "message1": "执行 %1",
     "args1": [
       {
@@ -217,16 +106,7 @@
   },
   {
     "type": "sscma_core_register_perf_callback",
-    "message0": "%1 性能回调",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMAMicroCore"],
-        "defaultType": "SSCMAMicroCore"
-      }
-    ],
+    "message0": "SSCMA性能回调",
     "message1": "执行 %1",
     "args1": [
       {
@@ -242,16 +122,7 @@
   },
   {
     "type": "sscma_core_get_boxes",
-    "message0": "%1遍历获取目标检测结果",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMAMicroCore"],
-        "defaultType": "SSCMAMicroCore"
-      }
-    ],
+    "message0": "SSCMA遍历获取目标检测结果",
     "message1": "%1",
     "args1": [
       {
@@ -289,16 +160,7 @@
   },
   {
     "type": "sscma_core_get_classes",
-    "message0": "%1遍历获取分类检测结果",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMAMicroCore"],
-        "defaultType": "SSCMAMicroCore"
-      }
-    ],
+    "message0": "SSCMA遍历获取分类检测结果",
     "message1": "%1",
     "args1": [
       {
@@ -332,16 +194,7 @@
   },
   {
     "type": "sscma_core_get_points",
-    "message0": "%1遍历关键点检测结果",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMAMicroCore"],
-        "defaultType": "SSCMAMicroCore"
-      }
-    ],
+    "message0": "SSCMA遍历获取关键点检测结果",
     "message1": "%1",
     "args1": [
       {
@@ -378,16 +231,7 @@
   },
   {
     "type": "sscma_core_get_keypoints",
-    "message0": "%1遍历关键点组检测结果",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMAMicroCore"],
-        "defaultType": "SSCMAMicroCore"
-      }
-    ],
+    "message0": "SSCMA遍历获取关键点组检测结果",
     "message1": "%1",
     "args1": [
       {
@@ -462,15 +306,8 @@
   },
   {
     "type": "sscma_core_get_perf",
-    "message0": "%1获取性能指标到 %2",
+    "message0": "SSCMA获取性能指标到 %1",
     "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "ai",
-        "variableTypes": ["SSCMAMicroCore"],
-        "defaultType": "SSCMAMicroCore"
-      },
       {
         "type": "field_input",
         "name": "PERF_VAR",

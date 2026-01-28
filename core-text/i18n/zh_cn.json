@@ -1,85 +1,26 @@
 {
     "toolbox_name": "文字",
     "string_add_string": {
-        "message0": "字符串(%1) + 字符串(%2)"
+        "message0": "字符串(%1) + 字符串(%2)",
+        "tooltip": "连接两个字符串"
     },
-    "string_charAt": {
-        "message0": "%1 的第 %2 个字符"
-    },
-    "string_length": {
-        "message0": "%1 的字符数"
-    },
-    "string_indexOf": {
-        "message0": "%1 包含 %2 ?"
-    },
-    "string_substring": {
-        "message0": "%1 取得 %2 %3 個字元到 %4 %5 個字元",
-        "args0": [
-            null,
-            {
-                "options": [
-                    [
-                        "第",
-                        "0"
-                    ],
-                    [
-                        "倒數第",
-                        "1"
-                    ]
-                ]
-            },
-            null,
-            {
-                "options": [
-                    [
-                        "第",
-                        "0"
-                    ],
-                    [
-                        "倒數第",
-                        "1"
-                    ]
-                ]
-            },
-            null
-        ]
-    },
-    "string_find_str": {
-        "message0": "查找 %1 在 %2 中 %3 出现位置",
-        "args0": [
-            null,
-            null,
-            {
-                "options": [
-                    [
-                        "首次",
-                        "indexOf"
-                    ],
-                    [
-                        "最后一次",
-                        "lastIndexOf"
-                    ]
-                ]
-            }
-        ]
-    },
-    "string_to": {
-        "message0": "将字符串 %1 转换为 %2",
-        "args0": [
-            null,
-            {
-                "options": [["整数", "toInt"],["小数", "toFloat"]]
-            }
-        ]
+    "array_get_dataAt": {
+        "message0": "数组 %1 的第 %2 个元素"
     },
     "number_to": {
-        "message0": "将数字 %1 转换为ASCII字符串"
+        "message0": "将数字 %1 转换为ASCII字符",
+        "tooltip": "将ASCII码数字转换为对应的字符"
     },
     "toascii": {
-        "message0": "将字符 %1 转换为ASCII数值"
+        "message0": "将字符 %1 转换为ASCII数值",
+        "tooltip": "获取字符的ASCII码数值"
     },
     "number_to_string": {
         "message0": "将数字 %1 转换为字符串"
+    },
+    "char": {
+        "message0": "%1",
+        "tooltip": "输入单个字符，支持转义字符：\\n(换行), \\t(制表符), \\r(回车), \\\\(反斜杠), \\'(单引号), \\\"(双引号), \\0(空字符)"
     },
     "text": {
         "message0": "%1"
@@ -93,9 +34,6 @@
     "text_create_join_item": {
         "message0": "%{BKY_TEXT_CREATE_JOIN_ITEM_TITLE_ITEM}"
     },
-    "text_append": {
-        "message0": "在 %1 之后加上文本 %2"
-    },
     "text_length": {
         "message0": "%1 的长度"
     },
@@ -103,21 +41,38 @@
         "message0": "%1 是空的"
     },
     "text_indexOf": {
-        "message0": "在文本 %1 里 %2 %3",
+        "message0": "在文本 %1 里 %2 出现文本 %3",
         "args0": [
             null,
             {
-                "options": [["寻找第一次出现的文本", "FIRST"],["寻找最后一次出现的文本", "LAST"]]
+                "options": [
+                    ["寻找第一次", "FIRST"],
+                    ["寻找最后一次", "LAST"]
+                ]
             },
             null
         ]
+    },
+    "string_endsWith": {
+        "message0": "文本 %1 以 %2 结尾",
+        "tooltip": "检查文本是否以指定的后缀结尾"
+    },
+    "string_startsWith": {
+        "message0": "文本 %1 以 %2 开头",
+        "tooltip": "检查文本是否以指定的前缀开头"
     },
     "text_charAt": {
         "message0": "在文本 %1 里 %2",
         "args0": [
             null,
             {
-                "options": [["获取第#个字符", "FROM_START"],["获取倒数第#个字符", "FROM_END"],["获取第一个字符", "FIRST"],["获取最后一个字符", "LAST"],["获取随机一个字符", "RANDOM"]]
+                "options": [
+                    ["获取第#个字符", "FROM_START"],
+                    ["获取倒数第#个字符", "FROM_END"],
+                    ["获取第一个字符", "FIRST"],
+                    ["获取最后一个字符", "LAST"],
+                    ["获取随机一个字符", "RANDOM"]
+                ]
             }
         ]
     },
@@ -127,18 +82,9 @@
         "args1": [
             {
                 "options": [
-                    [
-                        "从第#个字符",
-                        "FROM_START"
-                    ],
-                    [
-                        "从倒数第#个字符",
-                        "FROM_END"
-                    ],
-                    [
-                        "从第一个字符",
-                        "FIRST"
-                    ]
+                    ["从第#个字符", "FROM_START"],
+                    ["从倒数第#个字符", "FROM_END"],
+                    ["从第一个字符", "FIRST"]
                 ]
             },
             null
@@ -147,18 +93,9 @@
         "args2": [
             {
                 "options": [
-                    [
-                        "到第#个字符",
-                        "FROM_START"
-                    ],
-                    [
-                        "到倒数第#个字符",
-                        "FROM_END"
-                    ],
-                    [
-                        "到最后一个字符",
-                        "LAST"
-                    ]
+                    ["到第#个字符", "FROM_START"],
+                    ["到倒数第#个字符", "FROM_END"],
+                    ["到最后一个字符", "LAST"]
                 ]
             },
             null
@@ -168,7 +105,11 @@
         "message0": "%1 %2",
         "args0": [
             {
-                "options": [["转为大写", "UPPERCASE"],["转为小写", "LOWERCASE"],["转为首字母大写", "TITLECASE"]]
+                "options": [
+                    ["转为大写", "UPPERCASE"],
+                    ["转为小写", "LOWERCASE"],
+                    ["转为首字母大写", "TITLECASE"]
+                ]
             },
             null
         ]
@@ -177,7 +118,11 @@
         "message0": "%1 的 %2",
         "args0": [
             {
-                "options": [["消除其两侧的空格", "BOTH"],["消除其左侧的空格", "LEFT"],["消除其右侧的空格", "RIGHT"]]
+                "options": [
+                    ["消除其两侧的空格", "BOTH"],
+                    ["消除其左侧的空格", "LEFT"],
+                    ["消除其右侧的空格", "RIGHT"]
+                ]
             },
             null
         ]
@@ -190,5 +135,24 @@
     },
     "text_reverse": {
         "message0": "倒转文本 %1"
+    },
+    "string_to_something": {
+        "message0": "将字符串 %1 转换为 %2",
+        "tooltip": "将字符串转换为指定的数据类型。toInt/toLong转为整数，toFloat/toDouble转为浮点数，c_str转为C字符串指针，charAt0获取首字符，toUpper/toLower转换大小写。",
+        "args0": [
+            null,
+            {
+                "options": [
+                    ["整数 (int)", "toInt"],
+                    ["长整数 (long)", "toLong"],
+                    ["浮点数 (float)", "toFloat"],
+                    ["双精度 (double)", "toDouble"],
+                    ["C字符串 (char*)", "c_str"],
+                    ["首字符 (char)", "charAt0"],
+                    ["大写字符串", "toUpper"],
+                    ["小写字符串", "toLower"]
+                ]
+            }
+        ]
     }
 }

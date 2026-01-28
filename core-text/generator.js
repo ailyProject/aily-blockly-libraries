@@ -127,87 +127,20 @@ Arduino.forBlock["string_add_string"] = function (block) {
   return [code, Arduino.ORDER_ADDITION];
 };
 
-Arduino.forBlock["string_charAt"] = function (block) {
-  // STRING/NUM改为input_value类型，需用valueToCode获取
-  const string = Arduino.valueToCode(block, "STRING", Arduino.ORDER_NONE) || '""';
-  const num = Arduino.valueToCode(block, "NUM", Arduino.ORDER_NONE) || '0';
-  const code = Arduino.forceString(string)[0] + ".charAt(" + num + ")";
-  return [code, Arduino.ORDER_ADDITION];
-};
-
-Arduino.forBlock["string_length"] = function (block) {
-  // STRING改为input_value类型，需用valueToCode获取
-  const string = Arduino.valueToCode(block, "STRING", Arduino.ORDER_NONE) || '""';
-  const code = Arduino.forceString(string)[0] + ".length()";
-  return [code, Arduino.ORDER_ADDITION];
-};
-
-Arduino.forBlock["string_indexOf"] = function (block) {
-  // STRING1/STRING2改为input_value类型，需用valueToCode获取
-  const string1 = Arduino.valueToCode(block, "STRING1", Arduino.ORDER_NONE) || '""';
-  const string2 = Arduino.valueToCode(block, "STRING2", Arduino.ORDER_NONE) || '""';
-  const code = Arduino.forceString(string1)[0] + ".indexOf(" + Arduino.forceString(string2)[0] + ")";
-  return [code, Arduino.ORDER_ADDITION];
-};
-
-Arduino.forBlock["string_substring"] = function (block) {
-  // STRING改为input_value类型，需用valueToCode获取
-  const string = Arduino.valueToCode(block, "STRING", Arduino.ORDER_NONE) || '""';
-  const start = block.getFieldValue("START");
-  const startIndex = Arduino.valueToCode(block, "START_INDEX", Arduino.ORDER_NONE) || '0';
-  const last = block.getFieldValue("LAST");
-  const lastIndex = Arduino.valueToCode(block, "LAST_INDEX", Arduino.ORDER_NONE) || '0';
-
-  let startPos, endPos;
-
-  // Handle start position: 0="第" (from beginning), 1="倒数第" (from end)
-  if (start === "1") {
-    startPos = `(String(${string}).length() - ${startIndex})`;
-  } else {
-    startPos = startIndex;
-  }
-
-  // Handle end position: 0="第" (from beginning), 1="倒数第" (from end)
-  if (last === "1") {
-    endPos = `(String(${string}).length() - ${lastIndex} + 1)`;
-  } else {
-    endPos = lastIndex;
-  }
-
-  const code = `String(${string}).substring(${startPos}, ${endPos})`;
-  return [code, Arduino.ORDER_ADDITION];
-};
-
-Arduino.forBlock["string_find_str"] = function (block) {
-  // STRING1/STRING2改为input_value类型，需用valueToCode获取
-  const string1 = Arduino.valueToCode(block, "STRING1", Arduino.ORDER_NONE) || '""';
-  const string2 = Arduino.valueToCode(block, "STRING2", Arduino.ORDER_NONE) || '""';
-  const find = block.getFieldValue("FIND") || "";
-  const code = `String(${string1}).${find}(String(${string2}))`;
-
-  return [code, Arduino.ORDER_ADDITION];
-};
-
-Arduino.forBlock["string_to"] = function (block) {
-  const string = Arduino.valueToCode(block, "STRING", Arduino.ORDER_NONE) || '""';
-  const type = block.getFieldValue("TYPE");
-  const code = `String(${string}).${type}()`;
-
-  return [code, Arduino.ORDER_ADDITION];
-};
-
 Arduino.forBlock["number_to"] = function (block) {
-  const num = block.getFieldValue("NUM") || 0;
-  const code = `String(char(${num}))`;
+  const num = Arduino.valueToCode(block, "NUM", Arduino.ORDER_NONE) || "0";
+  // 将ASCII码数字转换为字符
+  const code = `char(${num})`;
 
-  return [code, Arduino.ORDER_ADDITION];
+  return [code, Arduino.ORDER_FUNCTION_CALL];
 };
 
 Arduino.forBlock["toascii"] = function (block) {
-  const string = block.getFieldValue("STRING") || "";
-  const code = `toascii("${string}")`;
+  const char = Arduino.valueToCode(block, "CHAR", Arduino.ORDER_NONE) || "'\\0'";
+  // 使用 (int) 强制转换获取 ASCII 值
+  const code = `(int)(${char})`;
 
-  return [code, Arduino.ORDER_ADDITION];
+  return [code, Arduino.ORDER_ATOMIC];
 };
 
 Arduino.forBlock["number_to_string"] = function (block) {
@@ -339,31 +272,18 @@ Arduino.forBlock["text_join"] = function (block) {
   }
 };
 
-Arduino.forBlock["text_append"] = function (block) {
-  // Append to a variable in place.
-  const varName = Arduino.getVariableName(block.getFieldValue("VAR"));
-  const value = Arduino.valueToCode(block, "TEXT", Arduino.ORDER_NONE) || "\"\"";
-
-  try {
-    addVariableToToolbox(block, varName);
-  } catch (e) {
-    console.error("添加变量到工具箱失败:", e);
-  }
-
-  const code = varName + " += " + Arduino.forceString(value)[0] + ";\n";
-  return code;
-};
-
 Arduino.forBlock["text_length"] = function (block) {
   // String length - Arduino使用length()方法而不是length属性
   const text = Arduino.valueToCode(block, "VALUE", Arduino.ORDER_MEMBER) || "\"\"";
-  return [text + ".length()", Arduino.ORDER_FUNCTION_CALL];
+  // 使用 String() 包装确保兼容 const char* 和 String 类型
+  return ["String(" + text + ").length()", Arduino.ORDER_FUNCTION_CALL];
 };
 
 Arduino.forBlock["text_isEmpty"] = function (block) {
   // Is the string empty?
   const text = Arduino.valueToCode(block, "VALUE", Arduino.ORDER_MEMBER) || "\"\"";
-  return [text + ".length() == 0", Arduino.ORDER_EQUALITY];
+  // 使用 String() 包装确保兼容 const char* 和 String 类型
+  return ["String(" + text + ").length() == 0", Arduino.ORDER_EQUALITY];
 };
 
 Arduino.forBlock["text_indexOf"] = function (block) {
@@ -372,18 +292,8 @@ Arduino.forBlock["text_indexOf"] = function (block) {
   const substring = Arduino.valueToCode(block, "FIND", Arduino.ORDER_NONE) || "\"\"";
   const text = Arduino.valueToCode(block, "VALUE", Arduino.ORDER_MEMBER) || "\"\"";
 
-  try {
-    addVariableToToolbox(block, text);
-  } catch (e) {
-    console.error("添加变量到工具箱失败:", e);
-  }
-
-  // Arduino String类使用相同的方法名，但返回值与JS略有不同
-  const code = text + "." + operator + "(" + substring + ")";
-  // Adjust index if using one-based indices.
-  if (block.workspace.options.oneBasedIndex) {
-    return [code + " + 1", Arduino.ORDER_ADDITION];
-  }
+  // 使用 String() 包装确保兼容 const char* 和 String 类型
+  const code = "String(" + text + ")." + operator + "(" + substring + ")";
   return [code, Arduino.ORDER_FUNCTION_CALL];
 };
 
@@ -392,37 +302,34 @@ Arduino.forBlock["text_charAt"] = function (block) {
   const where = block.getFieldValue("WHERE") || "FROM_START";
   const textOrder = where === "RANDOM" ? Arduino.ORDER_NONE : Arduino.ORDER_MEMBER;
   const text = Arduino.valueToCode(block, "VALUE", textOrder) || "\"\"";
-
-  try {
-    addVariableToToolbox(block, text);
-  } catch (e) {
-    console.error("添加变量到工具箱失败:", e);
-  }
+  
+  // 使用 String() 包装确保兼容 const char* 和 String 类型
+  const safeText = "String(" + text + ")";
 
   switch (where) {
     case "FIRST": {
-      const code = text + ".charAt(0)";
+      const code = safeText + ".charAt(0)";
       return [code, Arduino.ORDER_FUNCTION_CALL];
     }
     case "LAST": {
-      // Arduino不支持slice，使用charAt(length-1)替代
-      const code = text + ".charAt(" + text + ".length()-1)";
+      const code = safeText + ".charAt(" + safeText + ".length()-1)";
       return [code, Arduino.ORDER_FUNCTION_CALL];
     }
     case "FROM_START": {
-      const at = Arduino.getAdjusted(block, "AT");
-      const code = text + ".charAt(" + at + ")";
+      // text_charAt_mutator 会动态添加名为 "AT" 的 input_value
+      const at = Arduino.valueToCode(block, "AT", Arduino.ORDER_NONE) || "0";
+      const code = safeText + ".charAt(" + at + ")";
       return [code, Arduino.ORDER_FUNCTION_CALL];
     }
     case "FROM_END": {
-      const at = Arduino.getAdjusted(block, "AT", 1, true);
-      // 从末尾计算位置
-      const code = text + ".charAt(" + text + ".length()-1-" + at + ")";
+      // text_charAt_mutator 会动态添加名为 "AT" 的 input_value
+      const at = Arduino.valueToCode(block, "AT", Arduino.ORDER_NONE) || "0";
+      const code = safeText + ".charAt(" + safeText + ".length()-1-" + at + ")";
       return [code, Arduino.ORDER_FUNCTION_CALL];
     }
     case "RANDOM": {
       // Arduino需要自定义随机字符选择函数
-      Arduino.addDefinition('text_random_letter',
+      Arduino.addFunction('text_random_letter',
         'char textRandomLetter(String text) {\n' +
         '  if (text.length() == 0) return 0;\n' +
         '  int index = random(text.length());\n' +
@@ -440,15 +347,9 @@ Arduino.forBlock["tt_getSubstring"] = function (block) {
   const text = Arduino.valueToCode(block, "STRING", Arduino.ORDER_NONE) || "\"\"";
   const where1 = block.getFieldValue("WHERE1");
   const where2 = block.getFieldValue("WHERE2");
-
-  try {
-    addVariableToToolbox(block, text);
-  } catch (e) {
-    console.error("添加变量到工具箱失败:", e);
-  }
-
-  console.log("where1: ", where1)
-  console.log("where2: ", where2)
+  
+  // 使用 String() 包装确保兼容 const char* 和 String 类型
+  const safeText = "String(" + text + ")";
 
   let at1;
   switch (where1) {
@@ -459,7 +360,7 @@ Arduino.forBlock["tt_getSubstring"] = function (block) {
     case "FROM_END":
       // 从AT1_VALUE输入获取值
       const at1Value = Arduino.valueToCode(block, "AT1_VALUE", Arduino.ORDER_NONE) || "0";
-      at1 = text + ".length() - 1 - " + at1Value;
+      at1 = safeText + ".length() - 1 - " + at1Value;
       break;
     case "FIRST":
       at1 = "0";
@@ -477,17 +378,17 @@ Arduino.forBlock["tt_getSubstring"] = function (block) {
     case "FROM_END":
       // 从AT2_VALUE输入获取值
       const at2Value = Arduino.valueToCode(block, "AT2_VALUE", Arduino.ORDER_NONE) || "0";
-      at2 = text + ".length() - " + at2Value;
+      at2 = safeText + ".length() - " + at2Value;
       break;
     case "LAST":
-      at2 = text + ".length()";
+      at2 = safeText + ".length()";
       break;
     default:
       throw Error("Unhandled option (text_getSubstring).");
   }
 
   // Arduino String的substring方法语法
-  const code = text + ".substring(" + at1 + ", " + at2 + ")";
+  const code = safeText + ".substring(" + at1 + ", " + at2 + ")";
   return [code, Arduino.ORDER_FUNCTION_CALL];
 };
 
@@ -813,8 +714,8 @@ Arduino.forBlock["string_endsWith"] = function (block) {
   const text = Arduino.valueToCode(block, "TEXT", Arduino.ORDER_MEMBER) || "\"\"";
   const suffix = Arduino.valueToCode(block, "SUFFIX", Arduino.ORDER_NONE) || "\"\"";
 
-  // Arduino String类有endsWith方法
-  const code = text + ".endsWith(" + suffix + ")";
+  // 使用 String() 包装确保兼容 const char* 和 String 类型
+  const code = "String(" + text + ").endsWith(" + suffix + ")";
   return [code, Arduino.ORDER_FUNCTION_CALL];
 };
 
@@ -823,8 +724,8 @@ Arduino.forBlock["string_startsWith"] = function (block) {
   const text = Arduino.valueToCode(block, "TEXT", Arduino.ORDER_MEMBER) || "\"\"";
   const prefix = Arduino.valueToCode(block, "PREFIX", Arduino.ORDER_NONE) || "\"\"";
 
-  // Arduino String类有startsWith方法
-  const code = text + ".startsWith(" + prefix + ")";
+  // 使用 String() 包装确保兼容 const char* 和 String 类型
+  const code = "String(" + text + ").startsWith(" + prefix + ")";
   return [code, Arduino.ORDER_FUNCTION_CALL];
 };
 
@@ -833,40 +734,55 @@ Arduino.forBlock["string_to_something"] = function (block) {
   const string = Arduino.valueToCode(block, "TEXT", Arduino.ORDER_MEMBER) || "\"\"";
   const type = block.getFieldValue("TYPE");
   
+  // 使用 String() 包装确保兼容 const char* 和 String 类型
+  const safeString = "String(" + string + ")";
+  
   let code;
   let order = Arduino.ORDER_FUNCTION_CALL;
   
   switch (type) {
     case "toInt":
-      code = string + ".toInt()";
+      code = safeString + ".toInt()";
       break;
     case "toLong":  
       // Arduino String 没有直接的 toLong，使用 atol
-      code = "atol(" + string + ".c_str())";
+      code = "atol(" + safeString + ".c_str())";
       break;
     case "toFloat":
-      code = string + ".toFloat()";
+      code = safeString + ".toFloat()";
       break;
     case "toDouble":
       // Arduino String 没有直接的 toDouble，使用 atof
-      code = "atof(" + string + ".c_str())";
+      code = "atof(" + safeString + ".c_str())";
       break;
     case "c_str":
-      code = string + ".c_str()";
+      code = safeString + ".c_str()";
       break;
     case "charAt0":
-      code = string + ".charAt(0)";
+      code = safeString + ".charAt(0)";
       break;
     case "toUpper":
-      // 直接使用 Arduino String 的 toUpperCase() 方法
-      code = "(" + string + ".toUpperCase(), " + string + ")";
+      // 需要复制字符串后再转换，因为 toUpperCase() 是就地修改
+      Arduino.addFunction('text_to_upper',
+        'String textToUpper(String text) {\n' +
+        '  String result = text;\n' +
+        '  result.toUpperCase();\n' +
+        '  return result;\n' +
+        '}\n');
+      code = "textToUpper(" + string + ")";
       break;
     case "toLower":
-      // 直接使用 Arduino String 的 toLowerCase() 方法
-      code = "(" + string + ".toLowerCase(), " + string + ")";
+      // 需要复制字符串后再转换，因为 toLowerCase() 是就地修改
+      Arduino.addFunction('text_to_lower',
+        'String textToLower(String text) {\n' +
+        '  String result = text;\n' +
+        '  result.toLowerCase();\n' +
+        '  return result;\n' +
+        '}\n');
+      code = "textToLower(" + string + ")";
       break;
     default:
-      code = string + ".toInt()";
+      code = safeString + ".toInt()";
       break;
   }
   
