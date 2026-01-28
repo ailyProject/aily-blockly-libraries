@@ -58,6 +58,7 @@ function ensureWiFiInit(generator, mode, channel) {
 // 确保ESP-NOW初始化
 function ensureEspNowInit(generator) {
   ensureEspNowLib(generator);
+  ensureSerialBegin('Serial', generator);
   
   const initCode = 'if (!ESP_NOW.begin()) {\n' +
     '  Serial.println("Failed to initialize ESP-NOW");\n' +
@@ -69,6 +70,8 @@ function ensureEspNowInit(generator) {
 
 // 生成MAC地址解析辅助函数
 function ensureMacParseFunction(generator) {
+  ensureSerialBegin('Serial', generator);
+
   const funcDef = 
 'bool parseMacAddress(const String& macStr, uint8_t* mac) {\n' +
 '  if (sscanf(macStr.c_str(), "%hhx:%hhx:%hhx:%hhx:%hhx:%hhx",\n' +
@@ -122,6 +125,8 @@ function setupVarMonitor(block, fieldName, varType) {
 
 // 生成统一的广播Peer类（简化版，不需要每个peer生成子类）
 function ensureSimpleBroadcastPeerClass(generator) {
+  ensureSerialBegin('Serial', generator);
+
   const classDef = 
 '// 简化版广播Peer类\n' +
 'class ESP_NOW_Broadcast_Peer : public ESP_NOW_Peer {\n' +
@@ -183,11 +188,16 @@ function ensureSimpleReceiverPeerClass(generator) {
 
 // 初始化为主机（广播发送方）
 Arduino.forBlock['esp_now_master_init'] = function(block, generator) {
+  // 检查块是否连接到代码流程中（有父块或前置连接）
+  // 如果是独立块则不生成代码
+  const isConnected = isBlockConnected(block, 'arduino_setup');
+
   const channel = generator.valueToCode(block, 'CHANNEL', generator.ORDER_ATOMIC) || '1';
   
   ensureEspNowLib(generator);
   ensureWiFiLib(generator);
   ensureSimpleBroadcastPeerClass(generator);
+  ensureSerialBegin('Serial', generator);
   
   // 全局广播对象
   generator.addObject('esp_now_broadcast', 'ESP_NOW_Broadcast_Peer* esp_now_broadcast = nullptr;');
@@ -210,6 +220,10 @@ Arduino.forBlock['esp_now_master_init'] = function(block, generator) {
   setupCode += '  ESP.restart();\n';
   setupCode += '}\n';
   
+  if (!isConnected) {
+    return '';
+  }
+
   generator.addSetup('esp_now_master_init', setupCode);
   
   return '';
@@ -217,6 +231,10 @@ Arduino.forBlock['esp_now_master_init'] = function(block, generator) {
 
 // 初始化为从机（接收方）
 Arduino.forBlock['esp_now_slave_init'] = function(block, generator) {
+  // 检查块是否连接到代码流程中（有父块或前置连接）
+  // 如果是独立块则不生成代码
+  const isConnected = isBlockConnected(block, 'arduino_setup');
+
   const channel = generator.valueToCode(block, 'CHANNEL', generator.ORDER_ATOMIC) || '1';
   
   ensureEspNowLib(generator);
@@ -224,6 +242,7 @@ Arduino.forBlock['esp_now_slave_init'] = function(block, generator) {
   ensureEspMacLib(generator);
   ensureVectorLib(generator);
   ensureMacToStringFunction(generator);  // 先添加辅助函数
+  ensureSerialBegin('Serial', generator);
   
   // 全局变量：存储接收到的消息信息（在类定义之前）
   generator.addVariable('esp_now_rx_message', 'String esp_now_rx_message;');
@@ -292,6 +311,10 @@ Arduino.forBlock['esp_now_slave_init'] = function(block, generator) {
   setupCode += '}\n';
   setupCode += 'ESP_NOW.onNewPeer(esp_now_register_new_master, nullptr);\n';
   setupCode += 'Serial.println("Waiting for master...");\n';
+  
+  if (!isConnected) {
+    return '';
+  }
   
   generator.addSetup('esp_now_slave_init', setupCode);
   
@@ -400,6 +423,10 @@ Arduino.forBlock['esp_now_reply_message'] = function(block, generator) {
 
 // 初始化为双向节点（既能广播发送也能接收）
 Arduino.forBlock['esp_now_node_init'] = function(block, generator) {
+  // 检查块是否连接到代码流程中（有父块或前置连接）
+  // 如果是独立块则不生成代码
+  const isConnected = isBlockConnected(block, 'arduino_setup');
+
   const channel = generator.valueToCode(block, 'CHANNEL', generator.ORDER_ATOMIC) || '1';
   
   ensureEspNowLib(generator);
@@ -409,6 +436,7 @@ Arduino.forBlock['esp_now_node_init'] = function(block, generator) {
   ensureMacToStringFunction(generator);
   ensureMacParseFunction(generator);
   ensureSimpleBroadcastPeerClass(generator);
+  ensureSerialBegin('Serial', generator);
   
   // 全局变量
   generator.addVariable('esp_now_rx_message', 'String esp_now_rx_message;');
@@ -477,6 +505,10 @@ Arduino.forBlock['esp_now_node_init'] = function(block, generator) {
   setupCode += 'ESP_NOW.onNewPeer(esp_now_register_new_master, nullptr);\n';
   setupCode += 'Serial.println("Ready for communication...");\n';
   
+  if (!isConnected) {
+    return '';
+  }
+  
   generator.addSetup('esp_now_node_init', setupCode);
   
   return '';
@@ -496,15 +528,24 @@ Arduino.forBlock['esp_now_begin'] = function(block, generator) {
 
 // 初始化ESP-NOW（带主密钥）
 Arduino.forBlock['esp_now_begin_with_pmk'] = function(block, generator) {
+  // 检查块是否连接到代码流程中（有父块或前置连接）
+  // 如果是独立块则不生成代码
+  const isConnected = isBlockConnected(block, 'arduino_setup');
+
   const pmk = generator.valueToCode(block, 'PMK', generator.ORDER_ATOMIC) || '"pmk1234567890123"';
   
   ensureEspNowLib(generator);
   ensureWiFiInit(generator, 'WIFI_STA', null);
+  ensureSerialBegin('Serial', generator);
   
   const initCode = 'if (!ESP_NOW.begin((const uint8_t *)' + pmk + '.c_str())) {\n' +
     '  Serial.println("Failed to initialize ESP-NOW");\n' +
     '  ESP.restart();\n' +
     '}\n';
+  
+  if (!isConnected) {
+    return '';
+  }
   
   generator.addSetup('esp_now_init', initCode);
   return '';
@@ -531,6 +572,10 @@ Arduino.forBlock['esp_now_wifi_init'] = function(block, generator) {
 
 // 创建对等设备
 Arduino.forBlock['esp_now_create_peer'] = function(block, generator) {
+  // 检查块是否连接到代码流程中（有父块或前置连接）
+  // 如果是独立块则不生成代码
+  const isConnected = isBlockConnected(block, 'arduino_setup');
+
   const varName = block.getFieldValue('VAR') || 'peer1';
   const mac = generator.valueToCode(block, 'MAC', generator.ORDER_ATOMIC) || '"AA:BB:CC:DD:EE:FF"';
   
@@ -541,6 +586,7 @@ Arduino.forBlock['esp_now_create_peer'] = function(block, generator) {
   ensureWiFiInit(generator, 'WIFI_STA', null);
   ensureEspNowInit(generator);
   ensureMacParseFunction(generator);
+  ensureSerialBegin('Serial', generator);
   
   // 生成自定义类（包含回调占位符）
   const className = 'ESP_NOW_Peer_' + varName;
@@ -578,6 +624,10 @@ Arduino.forBlock['esp_now_create_peer'] = function(block, generator) {
   if (typeof registerVariableToBlockly === 'function') {
     registerVariableToBlockly(varName, 'ESP_NOW_Peer');
   }
+
+  if (!isConnected) {
+    return '';
+  }
   
   // 生成MAC解析和对象创建代码
   generator.addVariable(varName + '_mac', 'uint8_t ' + varName + '_mac[6];');
@@ -600,6 +650,10 @@ Arduino.forBlock['esp_now_create_peer'] = function(block, generator) {
 
 // 创建高级对等设备（带通道和加密）
 Arduino.forBlock['esp_now_create_peer_advanced'] = function(block, generator) {
+  // 检查块是否连接到代码流程中（有父块或前置连接）
+  // 如果是独立块则不生成代码
+  const isConnected = isBlockConnected(block, 'arduino_setup');
+
   const varName = block.getFieldValue('VAR') || 'peer1';
   const mac = generator.valueToCode(block, 'MAC', generator.ORDER_ATOMIC) || '"AA:BB:CC:DD:EE:FF"';
   const channel = generator.valueToCode(block, 'CHANNEL', generator.ORDER_ATOMIC) || '0';
@@ -612,6 +666,7 @@ Arduino.forBlock['esp_now_create_peer_advanced'] = function(block, generator) {
   ensureWiFiInit(generator, 'WIFI_STA', channel);
   ensureEspNowInit(generator);
   ensureMacParseFunction(generator);
+  ensureSerialBegin('Serial', generator);
   
   // 生成自定义类
   const className = 'ESP_NOW_Peer_' + varName;
@@ -649,6 +704,10 @@ Arduino.forBlock['esp_now_create_peer_advanced'] = function(block, generator) {
   if (typeof registerVariableToBlockly === 'function') {
     registerVariableToBlockly(varName, 'ESP_NOW_Peer');
   }
+
+  if (!isConnected) {
+    return '';
+  }
   
   // 生成MAC解析和对象创建代码
   generator.addVariable(varName + '_mac', 'uint8_t ' + varName + '_mac[6];');
@@ -672,6 +731,10 @@ Arduino.forBlock['esp_now_create_peer_advanced'] = function(block, generator) {
 
 // 创建广播对等设备（简化版）
 Arduino.forBlock['esp_now_create_broadcast_peer'] = function(block, generator) {
+  // 检查块是否连接到代码流程中（有父块或前置连接）
+  // 如果是独立块则不生成代码
+  const isConnected = isBlockConnected(block, 'arduino_setup');
+
   const varName = block.getFieldValue('VAR') || 'broadcastPeer';
   
   // 设置变量重命名监听
@@ -680,6 +743,7 @@ Arduino.forBlock['esp_now_create_broadcast_peer'] = function(block, generator) {
   ensureEspNowLib(generator);
   ensureWiFiInit(generator, 'WIFI_STA', null);
   ensureEspNowInit(generator);
+  ensureSerialBegin('Serial', generator);
   
   // 使用统一的简化广播类
   ensureSimpleBroadcastPeerClass(generator);
@@ -696,6 +760,10 @@ Arduino.forBlock['esp_now_create_broadcast_peer'] = function(block, generator) {
   createCode += 'if (!' + varName + '->add()) {\n';
   createCode += '  Serial.println("Failed to register broadcast peer: ' + varName + '");\n';
   createCode += '}\n';
+
+  if (!isConnected) {
+    return '';
+  }
   
   generator.addSetup('esp_now_broadcast_create_' + varName, createCode);
   
@@ -813,6 +881,10 @@ handlerCode +
 
 // 当收到新对等设备消息时
 Arduino.forBlock['esp_now_on_new_peer'] = function(block, generator) {
+  // 检查块是否连接到代码流程中（有父块或前置连接）
+  // 如果是独立块则不生成代码
+  const isConnected = isBlockConnected(block, 'arduino_setup');
+
   const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
   
   ensureEspNowLib(generator);
@@ -835,6 +907,10 @@ handlerCode +
 '}\n';
   
   generator.addFunction(callbackName, funcDef);
+
+  if (!isConnected) {
+    return '';
+  }
   
   // 注册回调
   generator.addSetup('esp_now_new_peer_callback', 'ESP_NOW.onNewPeer(' + callbackName + ', nullptr);\n');
@@ -877,6 +953,10 @@ Arduino.forBlock['esp_now_src_mac'] = function(block, generator) {
 
 // 创建ESP-NOW串口
 Arduino.forBlock['esp_now_serial_create'] = function(block, generator) {
+  // 检查块是否连接到代码流程中（有父块或前置连接）
+  // 如果是独立块则不生成代码
+  const isConnected = isBlockConnected(block, 'arduino_setup');
+
   const varName = block.getFieldValue('VAR') || 'nowSerial';
   const mac = generator.valueToCode(block, 'MAC', generator.ORDER_ATOMIC) || '"AA:BB:CC:DD:EE:FF"';
   const channel = generator.valueToCode(block, 'CHANNEL', generator.ORDER_ATOMIC) || '1';
@@ -915,15 +995,20 @@ Arduino.forBlock['esp_now_serial_create'] = function(block, generator) {
   wifiSetup += '\n';
   wifiSetup += '// ESP-NOW初始化\n';
   wifiSetup += varName + '.begin(115200);\n';
+
+  if (!isConnected) {
+    return '';
+  }
   
-  // generator.addSetup('wifi_init_serial_' + varName, wifiSetup);
+  generator.addSetup('wifi_init_serial_' + varName, wifiSetup);
 
   // let createCode = varName + '_mac.fromString(' + mac + ');\n';
   // createCode += varName + ' = new ESP_NOW_Serial_Class(' + varName + '_mac, ' + channel + ', WIFI_IF_STA);\n';
   
   // generator.addSetup('esp_now_serial_create_' + varName, createCode);
   
-  return wifiSetup;
+  // return wifiSetup;
+  return '';
 };
 
 // // ESP-NOW串口开始通信
@@ -1020,6 +1105,7 @@ Arduino.forBlock['esp_now_quick_broadcast'] = function(block, generator) {
   
   ensureEspNowLib(generator);
   ensureWiFiLib(generator);
+  ensureSerialBegin('Serial', generator);
   
   // 添加快速广播辅助函数
   const funcDef = 
@@ -1066,6 +1152,7 @@ Arduino.forBlock['esp_now_quick_send'] = function(block, generator) {
   ensureEspNowLib(generator);
   ensureWiFiLib(generator);
   ensureMacParseFunction(generator);
+  ensureSerialBegin('Serial', generator);
   
   // 添加快速发送辅助函数
   const funcDef = 
