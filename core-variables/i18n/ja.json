@@ -1,53 +1,196 @@
 {
-    "toolbox_name": "変数",
-    "variable_define": {
-        "message0": "%1 を %2 に宣言して値を %3 に設定する",
-        "args0": [
-            null,
-            {
-                "options": [
-                    [
-                        "整数型",
-                        "int"
-                    ],
-                    [
-                        "長整数型",
-                        "long"
-                    ],
-                    [
-                        "浮動小数点型",
-                        "float"
-                    ],
-                    [
-                        "倍精度浮動小数点型",
-                        "double"
-                    ],
-                    [
-                        "符号なし整数型",
-                        "unsigned int"
-                    ],
-                    [
-                        "符号なし長整数型",
-                        "unsigned long"
-                    ],
-                    [
-                        "ブール型",
-                        "bool"
-                    ],
-                    [
-                        "文字型",
-                        "char"
-                    ],
-                    [
-                        "文字列型",
-                        "string"
-                    ]
-                ]
-            },
-            null
+  "toolbox_name": "変数",
+  "toolbox_button_create_variable": "変数を作成",
+  "variable_define": {
+    "message0": "%1 を %2 型として宣言し、値 %3 を代入",
+    "tooltip": "変数を宣言して初期値を設定します",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["整数型", "int"],
+          ["長整数型", "long"],
+          ["浮動小数点型", "float"],
+          ["倍精度浮動小数点型", "double"],
+          ["符号なし整数型", "unsigned int"],
+          ["符号なし長整数型", "unsigned long"],
+          ["ブール型", "bool"],
+          ["文字型", "char"],
+          ["文字列型", "string"]
         ]
-    },
-    "variables_set": {
-        "message0": "%1 に %2 を設定する"
-    }
+      }
+    ]
+  },
+  "variable_define_scoped": {
+    "message0": "%1 %2 を %3 型として宣言し、値 %4 を代入",
+    "tooltip": "グローバルまたはローカル変数を宣言して初期値を設定します",
+    "args0": [
+      {
+        "options": [
+          ["グローバル変数", "global"],
+          ["ローカル変数", "local"]
+        ]
+      },
+      null,
+      {
+        "options": [
+          ["整数型", "int"],
+          ["長整数型", "long"],
+          ["浮動小数点型", "float"],
+          ["倍精度浮動小数点型", "double"],
+          ["符号なし整数型", "unsigned int"],
+          ["符号なし長整数型", "unsigned long"],
+          ["ブール型", "bool"],
+          ["文字型", "char"],
+          ["文字列型", "string"]
+        ]
+      }
+    ]
+  },
+  "variable_define_advanced": {
+    "message0": "%1 %2 %3 を %4 型として宣言し、値 %5 を代入",
+    "tooltip": "高度な変数定義：ストレージクラス指定子（static/extern）と型修飾子（const/volatile）をサポート",
+    "args0": [
+      {
+        "options": [
+          ["-", ""],
+          ["静的 (static)", "static"],
+          ["外部 (extern)", "extern"]
+        ]
+      },
+      {
+        "options": [
+          ["-", ""],
+          ["定数 (const)", "const"],
+          ["揮発性 (volatile)", "volatile"],
+          ["定数揮発性 (const volatile)", "const volatile"]
+        ]
+      },
+      null,
+      {
+        "options": [
+          ["8ビット整数 (int8_t)", "int8_t"],
+          ["16ビット整数 (int16_t)", "int16_t"],
+          ["32ビット整数 (int32_t)", "int32_t"],
+          ["64ビット整数 (int64_t)", "int64_t"],
+          ["8ビット符号なし整数 (uint8_t)", "uint8_t"],
+          ["16ビット符号なし整数 (uint16_t)", "uint16_t"],
+          ["32ビット符号なし整数 (uint32_t)", "uint32_t"],
+          ["64ビット符号なし整数 (uint64_t)", "uint64_t"],
+          ["---", "---"],
+          ["整数型 (int)", "int"],
+          ["長整数型 (long)", "long"],
+          ["浮動小数点型 (float)", "float"],
+          ["倍精度浮動小数点型 (double)", "double"],
+          ["符号なし整数型 (unsigned int)", "unsigned int"],
+          ["符号なし長整数型 (unsigned long)", "unsigned long"],
+          ["---", "---"],
+          ["ブール型 (bool)", "bool"],
+          ["文字型 (char)", "char"],
+          ["バイト型 (byte)", "byte"],
+          ["文字列型 (String)", "String"],
+          ["ポインタ (void*)", "void*"],
+          ["サイズ型 (size_t)", "size_t"],
+          ["符号なし文字型 (unsigned char)", "unsigned char"]
+        ]
+      }
+    ]
+  },
+  "variable_define_advanced_scoped": {
+    "message0": "%1 %2 %3 %4 を %5 型として宣言し、値 %6 を代入",
+    "tooltip": "高度な変数定義：スコープ、ストレージクラス指定子、型修飾子をサポート",
+    "args0": [
+      {
+        "options": [
+          ["グローバル変数", "global"],
+          ["ローカル変数", "local"]
+        ]
+      },
+      {
+        "options": [
+          ["-", ""],
+          ["静的 (static)", "static"],
+          ["外部 (extern)", "extern"]
+        ]
+      },
+      {
+        "options": [
+          ["-", ""],
+          ["定数 (const)", "const"],
+          ["揮発性 (volatile)", "volatile"],
+          ["定数揮発性 (const volatile)", "const volatile"]
+        ]
+      },
+      null,
+      {
+        "options": [
+          ["8ビット整数 (int8_t)", "int8_t"],
+          ["16ビット整数 (int16_t)", "int16_t"],
+          ["32ビット整数 (int32_t)", "int32_t"],
+          ["64ビット整数 (int64_t)", "int64_t"],
+          ["8ビット符号なし整数 (uint8_t)", "uint8_t"],
+          ["16ビット符号なし整数 (uint16_t)", "uint16_t"],
+          ["32ビット符号なし整数 (uint32_t)", "uint32_t"],
+          ["64ビット符号なし整数 (uint64_t)", "uint64_t"],
+          ["---", "---"],
+          ["整数型 (int)", "int"],
+          ["長整数型 (long)", "long"],
+          ["浮動小数点型 (float)", "float"],
+          ["倍精度浮動小数点型 (double)", "double"],
+          ["符号なし整数型 (unsigned int)", "unsigned int"],
+          ["符号なし長整数型 (unsigned long)", "unsigned long"],
+          ["---", "---"],
+          ["ブール型 (bool)", "bool"],
+          ["文字型 (char)", "char"],
+          ["バイト型 (byte)", "byte"],
+          ["文字列型 (String)", "String"],
+          ["ポインタ (void*)", "void*"],
+          ["サイズ型 (size_t)", "size_t"],
+          ["符号なし文字型 (unsigned char)", "unsigned char"]
+        ]
+      }
+    ]
+  },
+  "variables_get": {
+    "message0": "%1",
+    "tooltip": "変数の値を取得"
+  },
+  "variables_set": {
+    "message0": "%1 に %2 を代入",
+    "tooltip": "変数に指定された値を設定"
+  },
+  "type_cast": {
+    "message0": "%1 を %2 にキャスト",
+    "tooltip": "値を指定されたデータ型に強制変換します。例：(int)3.14 は浮動小数点数を整数 3 に変換します",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["8ビット整数 (int8_t)", "int8_t"],
+          ["16ビット整数 (int16_t)", "int16_t"],
+          ["32ビット整数 (int32_t)", "int32_t"],
+          ["64ビット整数 (int64_t)", "int64_t"],
+          ["8ビット符号なし整数 (uint8_t)", "uint8_t"],
+          ["16ビット符号なし整数 (uint16_t)", "uint16_t"],
+          ["32ビット符号なし整数 (uint32_t)", "uint32_t"],
+          ["64ビット符号なし整数 (uint64_t)", "uint64_t"],
+          ["---", "---"],
+          ["整数型 (int)", "int"],
+          ["長整数型 (long)", "long"],
+          ["浮動小数点型 (float)", "float"],
+          ["倍精度浮動小数点型 (double)", "double"],
+          ["符号なし整数型 (unsigned int)", "unsigned int"],
+          ["符号なし長整数型 (unsigned long)", "unsigned long"],
+          ["---", "---"],
+          ["ブール型 (bool)", "bool"],
+          ["文字型 (char)", "char"],
+          ["バイト型 (byte)", "byte"],
+          ["文字列型 (String)", "String"],
+          ["ポインタ (void*)", "void*"],
+          ["サイズ型 (size_t)", "size_t"],
+          ["符号なし文字型 (unsigned char)", "unsigned char"]
+        ]
+      }
+    ]
+  }
 }

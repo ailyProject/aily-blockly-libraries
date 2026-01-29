@@ -1,53 +1,196 @@
 {
-    "toolbox_name": "Variables",
-    "variable_define": {
-        "message0": "Declare %1 as %2 and assign %3",
-        "args0": [
-            null,
-            {
-                "options": [
-                    [
-                        "Integer",
-                        "int"
-                    ],
-                    [
-                        "Long Integer",
-                        "long"
-                    ],
-                    [
-                        "Float",
-                        "float"
-                    ],
-                    [
-                        "Double",
-                        "double"
-                    ],
-                    [
-                        "Unsigned Integer",
-                        "unsigned int"
-                    ],
-                    [
-                        "Unsigned Long Integer",
-                        "unsigned long"
-                    ],
-                    [
-                        "Boolean",
-                        "bool"
-                    ],
-                    [
-                        "Character",
-                        "char"
-                    ],
-                    [
-                        "String",
-                        "string"
-                    ]
-                ]
-            },
-            null
+  "toolbox_name": "Variables",
+  "toolbox_button_create_variable": "Create Variable",
+  "variable_define": {
+    "message0": "Declare %1 as %2 with value %3",
+    "tooltip": "Declare a variable and assign an initial value",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Integer", "int"],
+          ["Long", "long"],
+          ["Float", "float"],
+          ["Double", "double"],
+          ["Unsigned Int", "unsigned int"],
+          ["Unsigned Long", "unsigned long"],
+          ["Boolean", "bool"],
+          ["Character", "char"],
+          ["String", "string"]
         ]
-    },
-    "variables_set": {
-        "message0": "Assign %1 to %2"
-    }
+      }
+    ]
+  },
+  "variable_define_scoped": {
+    "message0": "Declare %1 %2 as %3 with value %4",
+    "tooltip": "Declare a global or local variable and assign an initial value",
+    "args0": [
+      {
+        "options": [
+          ["Global Variable", "global"],
+          ["Local Variable", "local"]
+        ]
+      },
+      null,
+      {
+        "options": [
+          ["Integer", "int"],
+          ["Long", "long"],
+          ["Float", "float"],
+          ["Double", "double"],
+          ["Unsigned Int", "unsigned int"],
+          ["Unsigned Long", "unsigned long"],
+          ["Boolean", "bool"],
+          ["Character", "char"],
+          ["String", "string"]
+        ]
+      }
+    ]
+  },
+  "variable_define_advanced": {
+    "message0": "Declare %1 %2 %3 as %4 with value %5",
+    "tooltip": "Advanced variable definition with storage class specifier (static/extern) and type qualifier (const/volatile)",
+    "args0": [
+      {
+        "options": [
+          ["-", ""],
+          ["static", "static"],
+          ["extern", "extern"]
+        ]
+      },
+      {
+        "options": [
+          ["-", ""],
+          ["const", "const"],
+          ["volatile", "volatile"],
+          ["const volatile", "const volatile"]
+        ]
+      },
+      null,
+      {
+        "options": [
+          ["int8_t", "int8_t"],
+          ["int16_t", "int16_t"],
+          ["int32_t", "int32_t"],
+          ["int64_t", "int64_t"],
+          ["uint8_t", "uint8_t"],
+          ["uint16_t", "uint16_t"],
+          ["uint32_t", "uint32_t"],
+          ["uint64_t", "uint64_t"],
+          ["---", "---"],
+          ["int", "int"],
+          ["long", "long"],
+          ["float", "float"],
+          ["double", "double"],
+          ["unsigned int", "unsigned int"],
+          ["unsigned long", "unsigned long"],
+          ["---", "---"],
+          ["bool", "bool"],
+          ["char", "char"],
+          ["byte", "byte"],
+          ["String", "String"],
+          ["void*", "void*"],
+          ["size_t", "size_t"],
+          ["unsigned char", "unsigned char"]
+        ]
+      }
+    ]
+  },
+  "variable_define_advanced_scoped": {
+    "message0": "Declare %1 %2 %3 %4 as %5 with value %6",
+    "tooltip": "Advanced variable definition with scope, storage class specifier and type qualifier",
+    "args0": [
+      {
+        "options": [
+          ["Global Variable", "global"],
+          ["Local Variable", "local"]
+        ]
+      },
+      {
+        "options": [
+          ["-", ""],
+          ["static", "static"],
+          ["extern", "extern"]
+        ]
+      },
+      {
+        "options": [
+          ["-", ""],
+          ["const", "const"],
+          ["volatile", "volatile"],
+          ["const volatile", "const volatile"]
+        ]
+      },
+      null,
+      {
+        "options": [
+          ["int8_t", "int8_t"],
+          ["int16_t", "int16_t"],
+          ["int32_t", "int32_t"],
+          ["int64_t", "int64_t"],
+          ["uint8_t", "uint8_t"],
+          ["uint16_t", "uint16_t"],
+          ["uint32_t", "uint32_t"],
+          ["uint64_t", "uint64_t"],
+          ["---", "---"],
+          ["int", "int"],
+          ["long", "long"],
+          ["float", "float"],
+          ["double", "double"],
+          ["unsigned int", "unsigned int"],
+          ["unsigned long", "unsigned long"],
+          ["---", "---"],
+          ["bool", "bool"],
+          ["char", "char"],
+          ["byte", "byte"],
+          ["String", "String"],
+          ["void*", "void*"],
+          ["size_t", "size_t"],
+          ["unsigned char", "unsigned char"]
+        ]
+      }
+    ]
+  },
+  "variables_get": {
+    "message0": "%1",
+    "tooltip": "Get the value of a variable"
+  },
+  "variables_set": {
+    "message0": "Set %1 to %2",
+    "tooltip": "Set a variable to the specified value"
+  },
+  "type_cast": {
+    "message0": "Cast %1 to %2",
+    "tooltip": "Cast a value to the specified data type. For example: (int)3.14 converts a float to integer 3",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["int8_t", "int8_t"],
+          ["int16_t", "int16_t"],
+          ["int32_t", "int32_t"],
+          ["int64_t", "int64_t"],
+          ["uint8_t", "uint8_t"],
+          ["uint16_t", "uint16_t"],
+          ["uint32_t", "uint32_t"],
+          ["uint64_t", "uint64_t"],
+          ["---", "---"],
+          ["int", "int"],
+          ["long", "long"],
+          ["float", "float"],
+          ["double", "double"],
+          ["unsigned int", "unsigned int"],
+          ["unsigned long", "unsigned long"],
+          ["---", "---"],
+          ["bool", "bool"],
+          ["char", "char"],
+          ["byte", "byte"],
+          ["String", "String"],
+          ["void*", "void*"],
+          ["size_t", "size_t"],
+          ["unsigned char", "unsigned char"]
+        ]
+      }
+    ]
+  }
 }

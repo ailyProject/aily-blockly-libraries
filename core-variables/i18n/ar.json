@@ -1,53 +1,196 @@
 {
-    "toolbox_name": "المتغيرات",
-    "variable_define": {
-        "message0": "إعلان %1 كـ %2 وتعيين %3",
-        "args0": [
-            null,
-            {
-                "options": [
-                    [
-                        "عدد صحيح",
-                        "int"
-                    ],
-                    [
-                        "عدد صحيح طويل",
-                        "long"
-                    ],
-                    [
-                        "عدد عشري",
-                        "float"
-                    ],
-                    [
-                        "عدد عشري مزدوج الدقة",
-                        "double"
-                    ],
-                    [
-                        "عدد صحيح غير موقع",
-                        "unsigned int"
-                    ],
-                    [
-                        "عدد صحيح طويل غير موقع",
-                        "unsigned long"
-                    ],
-                    [
-                        "منطقي",
-                        "bool"
-                    ],
-                    [
-                        "حرف",
-                        "char"
-                    ],
-                    [
-                        "نص",
-                        "string"
-                    ]
-                ]
-            },
-            null
+  "toolbox_name": "المتغيرات",
+  "toolbox_button_create_variable": "إنشاء متغير",
+  "variable_define": {
+    "message0": "تعريف %1 كـ %2 بقيمة %3",
+    "tooltip": "تعريف متغير وتعيين قيمة أولية",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["عدد صحيح", "int"],
+          ["عدد صحيح طويل", "long"],
+          ["عدد عشري", "float"],
+          ["عدد عشري مزدوج", "double"],
+          ["عدد صحيح غير موقع", "unsigned int"],
+          ["عدد صحيح طويل غير موقع", "unsigned long"],
+          ["منطقي", "bool"],
+          ["حرف", "char"],
+          ["نص", "string"]
         ]
-    },
-    "variables_set": {
-        "message0": "تعيين %1 إلى %2"
-    }
+      }
+    ]
+  },
+  "variable_define_scoped": {
+    "message0": "تعريف %1 %2 كـ %3 بقيمة %4",
+    "tooltip": "تعريف متغير عام أو محلي وتعيين قيمة أولية",
+    "args0": [
+      {
+        "options": [
+          ["متغير عام", "global"],
+          ["متغير محلي", "local"]
+        ]
+      },
+      null,
+      {
+        "options": [
+          ["عدد صحيح", "int"],
+          ["عدد صحيح طويل", "long"],
+          ["عدد عشري", "float"],
+          ["عدد عشري مزدوج", "double"],
+          ["عدد صحيح غير موقع", "unsigned int"],
+          ["عدد صحيح طويل غير موقع", "unsigned long"],
+          ["منطقي", "bool"],
+          ["حرف", "char"],
+          ["نص", "string"]
+        ]
+      }
+    ]
+  },
+  "variable_define_advanced": {
+    "message0": "تعريف %1 %2 %3 كـ %4 بقيمة %5",
+    "tooltip": "تعريف متغير متقدم مع محدد فئة التخزين (static/extern) ومحدد النوع (const/volatile)",
+    "args0": [
+      {
+        "options": [
+          ["-", ""],
+          ["ثابت (static)", "static"],
+          ["خارجي (extern)", "extern"]
+        ]
+      },
+      {
+        "options": [
+          ["-", ""],
+          ["ثابت (const)", "const"],
+          ["متطاير (volatile)", "volatile"],
+          ["ثابت متطاير (const volatile)", "const volatile"]
+        ]
+      },
+      null,
+      {
+        "options": [
+          ["عدد صحيح 8 بت (int8_t)", "int8_t"],
+          ["عدد صحيح 16 بت (int16_t)", "int16_t"],
+          ["عدد صحيح 32 بت (int32_t)", "int32_t"],
+          ["عدد صحيح 64 بت (int64_t)", "int64_t"],
+          ["عدد صحيح 8 بت غير موقع (uint8_t)", "uint8_t"],
+          ["عدد صحيح 16 بت غير موقع (uint16_t)", "uint16_t"],
+          ["عدد صحيح 32 بت غير موقع (uint32_t)", "uint32_t"],
+          ["عدد صحيح 64 بت غير موقع (uint64_t)", "uint64_t"],
+          ["---", "---"],
+          ["عدد صحيح (int)", "int"],
+          ["عدد صحيح طويل (long)", "long"],
+          ["عدد عشري (float)", "float"],
+          ["عدد عشري مزدوج (double)", "double"],
+          ["عدد صحيح غير موقع (unsigned int)", "unsigned int"],
+          ["عدد صحيح طويل غير موقع (unsigned long)", "unsigned long"],
+          ["---", "---"],
+          ["منطقي (bool)", "bool"],
+          ["حرف (char)", "char"],
+          ["بايت (byte)", "byte"],
+          ["نص (String)", "String"],
+          ["مؤشر (void*)", "void*"],
+          ["نوع الحجم (size_t)", "size_t"],
+          ["حرف غير موقع (unsigned char)", "unsigned char"]
+        ]
+      }
+    ]
+  },
+  "variable_define_advanced_scoped": {
+    "message0": "تعريف %1 %2 %3 %4 كـ %5 بقيمة %6",
+    "tooltip": "تعريف متغير متقدم مع النطاق ومحدد فئة التخزين ومحدد النوع",
+    "args0": [
+      {
+        "options": [
+          ["متغير عام", "global"],
+          ["متغير محلي", "local"]
+        ]
+      },
+      {
+        "options": [
+          ["-", ""],
+          ["ثابت (static)", "static"],
+          ["خارجي (extern)", "extern"]
+        ]
+      },
+      {
+        "options": [
+          ["-", ""],
+          ["ثابت (const)", "const"],
+          ["متطاير (volatile)", "volatile"],
+          ["ثابت متطاير (const volatile)", "const volatile"]
+        ]
+      },
+      null,
+      {
+        "options": [
+          ["عدد صحيح 8 بت (int8_t)", "int8_t"],
+          ["عدد صحيح 16 بت (int16_t)", "int16_t"],
+          ["عدد صحيح 32 بت (int32_t)", "int32_t"],
+          ["عدد صحيح 64 بت (int64_t)", "int64_t"],
+          ["عدد صحيح 8 بت غير موقع (uint8_t)", "uint8_t"],
+          ["عدد صحيح 16 بت غير موقع (uint16_t)", "uint16_t"],
+          ["عدد صحيح 32 بت غير موقع (uint32_t)", "uint32_t"],
+          ["عدد صحيح 64 بت غير موقع (uint64_t)", "uint64_t"],
+          ["---", "---"],
+          ["عدد صحيح (int)", "int"],
+          ["عدد صحيح طويل (long)", "long"],
+          ["عدد عشري (float)", "float"],
+          ["عدد عشري مزدوج (double)", "double"],
+          ["عدد صحيح غير موقع (unsigned int)", "unsigned int"],
+          ["عدد صحيح طويل غير موقع (unsigned long)", "unsigned long"],
+          ["---", "---"],
+          ["منطقي (bool)", "bool"],
+          ["حرف (char)", "char"],
+          ["بايت (byte)", "byte"],
+          ["نص (String)", "String"],
+          ["مؤشر (void*)", "void*"],
+          ["نوع الحجم (size_t)", "size_t"],
+          ["حرف غير موقع (unsigned char)", "unsigned char"]
+        ]
+      }
+    ]
+  },
+  "variables_get": {
+    "message0": "%1",
+    "tooltip": "الحصول على قيمة المتغير"
+  },
+  "variables_set": {
+    "message0": "تعيين %1 إلى %2",
+    "tooltip": "تعيين متغير إلى القيمة المحددة"
+  },
+  "type_cast": {
+    "message0": "تحويل %1 إلى %2",
+    "tooltip": "تحويل قيمة إلى نوع البيانات المحدد. مثال: (int)3.14 يحول رقم عشري إلى العدد الصحيح 3",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["عدد صحيح 8 بت (int8_t)", "int8_t"],
+          ["عدد صحيح 16 بت (int16_t)", "int16_t"],
+          ["عدد صحيح 32 بت (int32_t)", "int32_t"],
+          ["عدد صحيح 64 بت (int64_t)", "int64_t"],
+          ["عدد صحيح 8 بت غير موقع (uint8_t)", "uint8_t"],
+          ["عدد صحيح 16 بت غير موقع (uint16_t)", "uint16_t"],
+          ["عدد صحيح 32 بت غير موقع (uint32_t)", "uint32_t"],
+          ["عدد صحيح 64 بت غير موقع (uint64_t)", "uint64_t"],
+          ["---", "---"],
+          ["عدد صحيح (int)", "int"],
+          ["عدد صحيح طويل (long)", "long"],
+          ["عدد عشري (float)", "float"],
+          ["عدد عشري مزدوج (double)", "double"],
+          ["عدد صحيح غير موقع (unsigned int)", "unsigned int"],
+          ["عدد صحيح طويل غير موقع (unsigned long)", "unsigned long"],
+          ["---", "---"],
+          ["منطقي (bool)", "bool"],
+          ["حرف (char)", "char"],
+          ["بايت (byte)", "byte"],
+          ["نص (String)", "String"],
+          ["مؤشر (void*)", "void*"],
+          ["نوع الحجم (size_t)", "size_t"],
+          ["حرف غير موقع (unsigned char)", "unsigned char"]
+        ]
+      }
+    ]
+  }
 }
