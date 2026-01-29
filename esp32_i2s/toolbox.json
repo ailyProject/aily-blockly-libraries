@@ -1,559 +1,141 @@
 {
-    "kind": "category",
-    "name": "ESP32 I2S",
-    "contents": [
-        {
-            "kind": "sep"
-        },
-        {
-            "kind": "label",
-            "text": "🔧 系统初始化"
-        },
-        {
-    "kind": "block",
-    "type": "esp32_sd_init",
-    "inputs": {
-        "CS_PIN": {
-            "shadow": {
-                "type": "math_number",
-                "fields": {
-                    "NUM": 46
-                }
-            }
-        },
-        "SCK_PIN": {
-            "shadow": {
-                "type": "math_number",
-                "fields": {
-                    "NUM": 3
-                }
-            }
-        },
-        "MOSI_PIN": {
-            "shadow": {
-                "type": "math_number",
-                "fields": {
-                    "NUM": 14
-                }
-            }
-        },
-        "MISO_PIN": {
-            "shadow": {
-                "type": "math_number",
-                "fields": {
-                    "NUM": 35
-                }
-            }
-        }
+  "kind": "category",
+  "name": "ESP32 I2S",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "基本操作"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_create"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_end"
+    },
+    {
+      "kind": "label",
+      "text": "引脚配置"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_set_pins_std"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_set_pins_pdm_tx"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_set_pins_pdm_rx"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_set_inverted"
+    },
+    {
+      "kind": "label",
+      "text": "初始化配置"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_begin"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_configure_tx"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_configure_rx"
+    },
+    {
+      "kind": "label",
+      "text": "数据读写"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_write_byte",
+      "inputs": {
+        "BYTE": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_write_sample",
+      "inputs": {
+        "SAMPLE": {"shadow": {"type": "math_number", "fields": {"NUM": 500}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_write_buffer",
+      "inputs": {
+        "SIZE": {"shadow": {"type": "math_number", "fields": {"NUM": 1024}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_read_bytes",
+      "inputs": {
+        "SIZE": {"shadow": {"type": "math_number", "fields": {"NUM": 1024}}}
+      }
+    },
+    {
+      "kind": "label",
+      "text": "音调生成"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_generate_tone",
+      "inputs": {
+        "FREQUENCY": {"shadow": {"type": "math_number", "fields": {"NUM": 440}}},
+        "DURATION": {"shadow": {"type": "math_number", "fields": {"NUM": 1000}}},
+        "AMPLITUDE": {"shadow": {"type": "math_number", "fields": {"NUM": 500}}}
+      }
+    },
+    {
+      "kind": "label",
+      "text": "WAV音频"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_record_wav",
+      "inputs": {
+        "SECONDS": {"shadow": {"type": "math_number", "fields": {"NUM": 5}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_play_wav",
+      "inputs": {
+        "LENGTH": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_free_wav_buffer"
+    },
+    {
+      "kind": "label",
+      "text": "状态查询"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_get_last_error"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_available"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_tx_sample_rate"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_i2s_rx_sample_rate"
     }
-},
-        {
-            "kind": "sep"
-        },
-        {
-            "kind": "label",
-            "text": "🎤 麦克风初始化"
-        },
-        {
-    "kind": "block",
-    "type": "esp32_i2s_init_and_begin",
-    "inputs": {
-        "SCK_PIN": {
-            "shadow": {
-                "type": "math_number",
-                "fields": {
-                    "NUM": 41
-                }
-            }
-        },
-        "WS_PIN": {
-            "shadow": {
-                "type": "math_number",
-                "fields": {
-                    "NUM": 42
-                }
-            }
-        },
-        "SD_PIN": {
-            "shadow": {
-                "type": "math_number",
-                "fields": {
-                    "NUM": 2
-                }
-            }
-        }
-    }
-},
-        {
-    "kind": "block",
-    "type": "esp32_pdm_init_and_begin",
-    "inputs": {
-        "CLK_PIN": {
-            "shadow": {
-                "type": "math_number",
-                "fields": {
-                    "NUM": 41
-                }
-            }
-        },
-        "DATA_PIN": {
-            "shadow": {
-                "type": "math_number",
-                "fields": {
-                    "NUM": 2
-                }
-            }
-        }
-    }
-},
-        {
-            "kind": "sep"
-        },
-        {
-            "kind": "label",
-            "text": "📊 音频分析"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_read_samples",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_pdm_read_samples",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_get_mic_type",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_get_level",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_sound_detected",
-            "fields": {
-                "OBJECT": "microphone"
-            },
-            "inputs": {
-                "THRESHOLD": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 1000
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_get_quality",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_get_freq_energy",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_get_snr",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_calibrate",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "sep"
-        },
-        {
-            "kind": "label",
-            "text": "🔧 PDM配置"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_pdm_is_ready",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_pdm_set_filter",
-            "fields": {
-                "OBJECT": "microphone"
-            },
-            "inputs": {
-                "FILTER_LENGTH": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 32
-                        }
-                    }
-                },
-                "CUTOFF_FREQ": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 1000
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_pdm_set_gain",
-            "fields": {
-                "OBJECT": "microphone"
-            },
-            "inputs": {
-                "GAIN": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 1.0
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "sep"
-        },
-        {
-            "kind": "label",
-            "text": "🎙️ 音频录制"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_start_recording",
-            "fields": {
-                "OBJECT": "microphone"
-            },
-            "inputs": {
-                "FILENAME": {
-                    "shadow": {
-                        "type": "text",
-                        "fields": {
-                            "TEXT": "record.wav"
-                        }
-                    }
-                },
-                "DURATION": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 10
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_stop_recording",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_update_recording",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "sep"
-        },
-        {
-            "kind": "label",
-            "text": "📊 录制状态"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_is_recording",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_get_recording_status",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_get_recorded_time",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "sep"
-        },
-        {
-            "kind": "label",
-            "text": "💾 文件管理"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_list_files",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_delete_file",
-            "fields": {
-                "OBJECT": "microphone"
-            },
-            "inputs": {
-                "FILENAME": {
-                    "shadow": {
-                        "type": "text",
-                        "fields": {
-                            "TEXT": "record.wav"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "sep"
-        },
-        {
-            "kind": "label",
-            "text": "🔊 I2S功放"
-        },
-        {
-    "kind": "block",
-    "type": "esp32_i2s_init_speaker",
-    "inputs": {
-        "BCLK_PIN": {
-            "shadow": {
-                "type": "math_number",
-                "fields": {
-                    "NUM": 39
-                }
-            }
-        },
-        "LRC_PIN": {
-            "shadow": {
-                "type": "math_number",
-                "fields": {
-                    "NUM": 40
-                }
-            }
-        },
-        "DIN_PIN": {
-            "shadow": {
-                "type": "math_number",
-                "fields": {
-                    "NUM": 38
-                }
-            }
-        }
-    }
-},
-        {
-            "kind": "block",
-            "type": "esp32_i2s_play_wav_file",
-            "fields": {
-                "OBJECT": "microphone"
-            },
-            "inputs": {
-                "FILENAME": {
-                    "shadow": {
-                        "type": "text",
-                        "fields": {
-                            "TEXT": "recording.wav"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_stop_playback",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_update_playback",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "sep"
-        },
-        {
-            "kind": "label",
-            "text": "🎵 音乐播放"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_play_tone",
-            "fields": {
-                "OBJECT": "microphone"
-            },
-            "inputs": {
-                "FREQUENCY": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 440
-                        }
-                    }
-                },
-                "DURATION": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 1000
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_play_note_name",
-            "fields": {
-                "OBJECT": "microphone",
-                "NOTE_NAME": "C4"
-            },
-            "inputs": {
-                "DURATION": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 500
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_play_twinkle_star",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_play_beep",
-            "fields": {
-                "OBJECT": "microphone"
-            },
-            "inputs": {
-                "DURATION": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 200
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_update_melody",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "sep"
-        },
-        {
-            "kind": "label",
-            "text": "🎚️ 音量控制"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_set_volume",
-            "fields": {
-                "OBJECT": "microphone"
-            },
-            "inputs": {
-                "VOLUME": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0.5
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "sep"
-        },
-        {
-            "kind": "label",
-            "text": "📊 播放状态"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_is_playing",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_is_melody_playing",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        },
-        {
-            "kind": "sep"
-        },
-        {
-            "kind": "label",
-            "text": "🔄 状态更新"
-        },
-        {
-            "kind": "block",
-            "type": "esp32_i2s_update_all",
-            "fields": {
-                "OBJECT": "microphone"
-            }
-        }
-    ]
+  ]
 }
