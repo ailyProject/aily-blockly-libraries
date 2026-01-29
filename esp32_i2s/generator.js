@@ -1,404 +1,326 @@
-// 在现有代码前面添加：
-Arduino.forBlock['esp32_sd_init'] = function(block, generator) {
-    // 添加必要的库文件
-    generator.addLibrary('#include "SD.h"', '#include "SD.h"');
-    generator.addLibrary('#include "SPI.h"', '#include "SPI.h"');
-    generator.addLibrary('#include "FS.h"', '#include "FS.h"');
-
-    // 从 block 获取自定义引脚号
-    const csPin = generator.valueToCode(block, 'CS_PIN', Arduino.ORDER_ATOMIC) || '46';
-    const sckPin = generator.valueToCode(block, 'SCK_PIN', Arduino.ORDER_ATOMIC) || '3';
-    const mosiPin = generator.valueToCode(block, 'MOSI_PIN', Arduino.ORDER_ATOMIC) || '14';
-    const misoPin = generator.valueToCode(block, 'MISO_PIN', Arduino.ORDER_ATOMIC) || '35';
-
-    // 创建SPI对象
-    generator.addObject('SPIClass spi = SPIClass(FSPI);', 'SPIClass spi = SPIClass(FSPI);');
-
-    // 在setup中添加SD卡初始化代码
-    const initCode = `
-    // 初始化SPI总线
-    spi.begin(${sckPin}, ${misoPin}, ${mosiPin}, ${csPin});  // SCK, MISO, MOSI, CS
-
-    // 初始化SD卡
-    if (!SD.begin(${csPin}, spi)) {
-        Serial.println("❌ 无法挂载 SD 卡！");
-        return;
+// I2S对象创建 - 使用field_input
+Arduino.forBlock['esp32_i2s_create'] = function(block, generator) {
+  // 变量重命名监听
+  if (!block._i2sVarMonitorAttached) {
+    block._i2sVarMonitorAttached = true;
+    block._i2sVarLastName = block.getFieldValue('VAR') || 'i2s';
+    const varField = block.getField('VAR');
+    if (varField && typeof varField.setValidator === 'function') {
+      varField.setValidator(function(newName) {
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._i2sVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'I2SClass');
+          block._i2sVarLastName = newName;
+        }
+        return newName;
+      });
     }
-    Serial.println("✅ SD 卡已挂载！");`;
+  }
 
-    generator.addSetup('sd_init', initCode);
+  const varName = block.getFieldValue('VAR') || 'i2s';
 
-    return '';
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+  registerVariableToBlockly(varName, 'I2SClass');
+  generator.addVariable('I2SClass_' + varName, 'I2SClass ' + varName + ';');
+
+  return '';
 };
 
-// 修改 esp32_i2s_init 函数，移除SD相关库（避免重复）
-Arduino.forBlock['esp32_i2s_init_and_begin'] = function(block, generator) {
-    // 获取自定义引脚和参数
-    const bclkPin = generator.valueToCode(block, 'SCK_PIN', Arduino.ORDER_ATOMIC) || '41';
-    const wsPin = generator.valueToCode(block, 'WS_PIN', Arduino.ORDER_ATOMIC) || '42';
-    const dinPin = generator.valueToCode(block, 'SD_PIN', Arduino.ORDER_ATOMIC) || '2';
-    const sampleRate = block.getFieldValue('SAMPLE_RATE') || '8000';
-    const bufferSize = block.getFieldValue('BUFFER_SIZE') || '512';
+// 设置标准模式引脚 - 关联I2S对象
+Arduino.forBlock['esp32_i2s_set_pins_std'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+  const bclk = block.getFieldValue('BCLK');
+  const ws = block.getFieldValue('WS');
+  const dout = block.getFieldValue('DOUT');
+  const din = block.getFieldValue('DIN');
+  const mclk = block.getFieldValue('MCLK');
 
-    // 添加库
-    generator.addLibrary('#include "Esp_I2S.h"', '#include "Esp_I2S.h"');
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
 
-    // 创建对象
-    generator.addObject(
-        `EspI2S microphone;`,
-        `EspI2S microphone;`
-    );
-
-    // 生成初始化代码（合并对象和 begin）
-    const initCode = `
-    // 初始化I2S麦克风
-    microphone.begin(${sampleRate}, ${bufferSize}, ${bclkPin}, ${wsPin}, ${dinPin});
-    `;
-
-    generator.addSetup('i2s_init', initCode);
-
-    return '';
+  return `${varName}.setPins(${bclk}, ${ws}, ${dout}, ${din}, ${mclk});\n`;
 };
 
-Arduino.forBlock['esp32_i2s_read_samples'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return `${objectName}.readSamples();\n`;
+// 设置PDM TX引脚
+Arduino.forBlock['esp32_i2s_set_pins_pdm_tx'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+  const clk = block.getFieldValue('CLK');
+  const dout0 = block.getFieldValue('DOUT0');
+  const dout1 = block.getFieldValue('DOUT1');
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  return `${varName}.setPinsPdmTx(${clk}, ${dout0}, ${dout1});\n`;
 };
 
-Arduino.forBlock['esp32_i2s_get_level'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    const levelType = block.getFieldValue('LEVEL_TYPE');
-    
-    let methodName;
-    switch(levelType) {
-        case 'average':
-            methodName = 'getAverageLevel';
-            break;
-        case 'peak':
-            methodName = 'getPeakLevel';
-            break;
-        case 'rms':
-            methodName = 'getRMSLevel';
-            break;
-        case 'decibels':
-            methodName = 'getDecibels';
-            break;
-        case 'percentage':
-            methodName = 'getPercentage';
-            break;
-        default:
-            methodName = 'getAverageLevel';
+// 设置PDM RX引脚
+Arduino.forBlock['esp32_i2s_set_pins_pdm_rx'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+  const clk = block.getFieldValue('CLK');
+  const din0 = block.getFieldValue('DIN0');
+  const din1 = block.getFieldValue('DIN1');
+  const din2 = block.getFieldValue('DIN2');
+  const din3 = block.getFieldValue('DIN3');
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  return `${varName}.setPinsPdmRx(${clk}, ${din0}, ${din1}, ${din2}, ${din3});\n`;
+};
+
+// 初始化I2S - 修复错误检查逻辑，添加slot_mask支持
+Arduino.forBlock['esp32_i2s_begin'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+  const mode = block.getFieldValue('MODE');
+  const rate = block.getFieldValue('RATE');
+  const bits = block.getFieldValue('BITS');
+  const slot = block.getFieldValue('SLOT');
+  const slotMask = block.getFieldValue('SLOT_MASK');
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  let beginParams = `${mode}, ${rate}, ${bits}, ${slot}`;
+  if (slotMask && slotMask !== '-1') {
+    beginParams += `, ${slotMask}`;
+  }
+
+  let code = `if (!${varName}.begin(${beginParams})) {\n`;
+  code += `  Serial.println("I2S初始化失败!");\n`;
+  code += `  while(1);\n`;
+  code += `}\n`;
+
+  return code;
+};
+
+// 配置TX通道
+Arduino.forBlock['esp32_i2s_configure_tx'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+  const rate = block.getFieldValue('RATE');
+  const bits = block.getFieldValue('BITS');
+  const slot = block.getFieldValue('SLOT');
+  const slotMask = block.getFieldValue('SLOT_MASK');
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  let configParams = `${rate}, ${bits}, ${slot}`;
+  if (slotMask && slotMask !== '-1') {
+    configParams += `, ${slotMask}`;
+  }
+
+  let code = `if (!${varName}.configureTX(${configParams})) {\n`;
+  code += `  Serial.println("I2S TX配置失败!");\n`;
+  code += `}\n`;
+
+  return code;
+};
+
+// 配置RX通道
+Arduino.forBlock['esp32_i2s_configure_rx'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+  const rate = block.getFieldValue('RATE');
+  const bits = block.getFieldValue('BITS');
+  const slot = block.getFieldValue('SLOT');
+  const transform = block.getFieldValue('TRANSFORM');
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  let code = `if (!${varName}.configureRX(${rate}, ${bits}, ${slot}, ${transform})) {\n`;
+  code += `  Serial.println("I2S RX配置失败!");\n`;
+  code += `}\n`;
+
+  return code;
+};
+
+// 写入单字节
+Arduino.forBlock['esp32_i2s_write_byte'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+  const byteValue = generator.valueToCode(block, 'BYTE', generator.ORDER_ATOMIC) || '0';
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  return `${varName}.write(${byteValue});\n`;
+};
+
+// 写入采样值（16位立体声）
+Arduino.forBlock['esp32_i2s_write_sample'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+  const sample = generator.valueToCode(block, 'SAMPLE', generator.ORDER_ATOMIC) || '0';
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  // 按照Simple_tone示例的方式写入16位立体声数据
+  let code = '';
+  code += `${varName}.write((int16_t)(${sample}) & 0xFF);\n`;
+  code += `${varName}.write(((int16_t)(${sample}) >> 8) & 0xFF);\n`;
+  code += `${varName}.write((int16_t)(${sample}) & 0xFF);\n`;
+  code += `${varName}.write(((int16_t)(${sample}) >> 8) & 0xFF);\n`;
+
+  return code;
+};
+
+// 写入缓冲区
+Arduino.forBlock['esp32_i2s_write_buffer'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+  const buffer = generator.valueToCode(block, 'BUFFER', generator.ORDER_ATOMIC) || 'buffer';
+  const size = generator.valueToCode(block, 'SIZE', generator.ORDER_ATOMIC) || '0';
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  return [`${varName}.write((const uint8_t*)${buffer}, ${size})`, generator.ORDER_ATOMIC];
+};
+
+// 读取字节
+Arduino.forBlock['esp32_i2s_read_bytes'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+  const buffer = generator.valueToCode(block, 'BUFFER', generator.ORDER_ATOMIC) || 'buffer';
+  const size = generator.valueToCode(block, 'SIZE', generator.ORDER_ATOMIC) || '0';
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  return `${varName}.readBytes(${buffer}, ${size});\n`;
+};
+
+// 录制WAV - 修复size参数处理
+Arduino.forBlock['esp32_i2s_record_wav'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+  const seconds = generator.valueToCode(block, 'SECONDS', generator.ORDER_ATOMIC) || '5';
+  const sizeVar = block.getFieldValue('SIZE_VAR') || 'wav_size';
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+  generator.addVariable('size_t_' + sizeVar, 'size_t ' + sizeVar + ' = 0;');
+
+  return [`${varName}.recordWAV(${seconds}, &${sizeVar})`, generator.ORDER_ATOMIC];
+};
+
+// 播放WAV - 添加长度参数
+Arduino.forBlock['esp32_i2s_play_wav'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+  const data = generator.valueToCode(block, 'DATA', generator.ORDER_ATOMIC) || 'NULL';
+  const length = generator.valueToCode(block, 'LENGTH', generator.ORDER_ATOMIC) || '0';
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  return `${varName}.playWAV(${data}, ${length});\n`;
+};
+
+// 结束I2S
+Arduino.forBlock['esp32_i2s_end'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  return `${varName}.end();\n`;
+};
+
+// 获取最后错误
+Arduino.forBlock['esp32_i2s_get_last_error'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  return [`${varName}.lastError()`, generator.ORDER_ATOMIC];
+};
+
+// 可读字节数
+Arduino.forBlock['esp32_i2s_available'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  return [`${varName}.available()`, generator.ORDER_ATOMIC];
+};
+
+// 发送采样率
+Arduino.forBlock['esp32_i2s_tx_sample_rate'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  return [`${varName}.txSampleRate()`, generator.ORDER_ATOMIC];
+};
+
+// 接收采样率
+Arduino.forBlock['esp32_i2s_rx_sample_rate'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  return [`${varName}.rxSampleRate()`, generator.ORDER_ATOMIC];
+};
+
+// 设置信号反转
+Arduino.forBlock['esp32_i2s_set_inverted'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+  const bclkInv = block.getFieldValue('BCLK_INV') === 'TRUE';
+  const wsInv = block.getFieldValue('WS_INV') === 'TRUE';
+  const mclkInv = block.getFieldValue('MCLK_INV') === 'TRUE';
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  return `${varName}.setInverted(${bclkInv}, ${wsInv}, ${mclkInv});\n`;
+};
+
+// 生成音调
+Arduino.forBlock['esp32_i2s_generate_tone'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'i2s';
+  const frequency = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC) || '440';
+  const duration = generator.valueToCode(block, 'DURATION', generator.ORDER_ATOMIC) || '1000';
+  const amplitude = generator.valueToCode(block, 'AMPLITUDE', generator.ORDER_ATOMIC) || '500';
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+
+  // 生成方波音调的辅助函数
+  const funcDef = `void i2s_generate_tone(I2SClass& i2s, int frequency, int duration_ms, int amplitude) {
+  uint32_t sampleRate = i2s.txSampleRate();
+  if (sampleRate == 0) sampleRate = 44100;
+  unsigned int halfWavelength = sampleRate / frequency / 2;
+  unsigned int totalSamples = (sampleRate * duration_ms) / 1000;
+  int32_t sample = amplitude;
+  
+  for (unsigned int count = 0; count < totalSamples; count++) {
+    if (count % halfWavelength == 0) {
+      sample = -sample;
     }
-    
-    return [`${objectName}.${methodName}()`, Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['esp32_i2s_sound_detected'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    const threshold = generator.valueToCode(block, 'THRESHOLD', Arduino.ORDER_NONE) || '1000';
-    
-    return [`${objectName}.isSoundDetected(${threshold})`, Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['esp32_i2s_get_quality'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return [`${objectName}.getQualityLevel()`, Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['esp32_i2s_get_freq_energy'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    const freqBand = block.getFieldValue('FREQ_BAND');
-    
-    let methodName;
-    switch(freqBand) {
-        case 'low':
-            methodName = 'getLowFreqEnergy';
-            break;
-        case 'mid':
-            methodName = 'getMidFreqEnergy';
-            break;
-        case 'high':
-            methodName = 'getHighFreqEnergy';
-            break;
-        default:
-            methodName = 'getLowFreqEnergy';
-    }
-    
-    return [`${objectName}.${methodName}()`, Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['esp32_i2s_calibrate'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return `${objectName}.calibrateNoiseFloor();\n`;
-};
-
-Arduino.forBlock['esp32_i2s_get_snr'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return [`${objectName}.getSNR()`, Arduino.ORDER_FUNCTION_CALL];
-};
-
-// 以下是新增的录制功能积木块代码生成器
-
-Arduino.forBlock['esp32_i2s_start_recording'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    const filename = generator.valueToCode(block, 'FILENAME', Arduino.ORDER_NONE) || '""';
-    const duration = generator.valueToCode(block, 'DURATION', Arduino.ORDER_NONE) || '0';
-    
-    return `${objectName}.startRecording(${filename}, ${duration} * 1000);\n`;
-};
-
-Arduino.forBlock['esp32_i2s_stop_recording'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return `${objectName}.stopRecording();\n`;
-};
-
-Arduino.forBlock['esp32_i2s_update_recording'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return `${objectName}.updateRecording();\n`;
-};
-
-Arduino.forBlock['esp32_i2s_is_recording'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return [`${objectName}.isRecording()`, Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['esp32_i2s_get_recording_status'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return [`${objectName}.getRecordingStatus()`, Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['esp32_i2s_get_recorded_time'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return [`${objectName}.getRecordedTime()`, Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['esp32_i2s_list_files'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return `${objectName}.listAudioFiles();\n`;
-};
-
-Arduino.forBlock['esp32_i2s_delete_file'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    const filename = generator.valueToCode(block, 'FILENAME', Arduino.ORDER_NONE) || '""';
-    
-    return `${objectName}.deleteAudioFile(${filename});\n`;
-};
-
-// 在现有代码后面添加功放相关的代码生成器：
-
-// 功放初始化
-Arduino.forBlock['esp32_i2s_init_speaker'] = function(block, generator) {
-    // 从 block 获取自定义功放引脚号
-    const speakerBclkPin = generator.valueToCode(block, 'BCLK_PIN', Arduino.ORDER_ATOMIC) || '39';
-    const speakerWsPin = generator.valueToCode(block, 'LRC_PIN', Arduino.ORDER_ATOMIC) || '40';
-    const speakerDinPin = generator.valueToCode(block, 'DIN_PIN', Arduino.ORDER_ATOMIC) || '38';
-
-    // 添加必要的库文件
-    generator.addLibrary('#include "Esp_I2S.h"', '#include "Esp_I2S.h"');
-
-    // 创建对象
-    generator.addObject(
-        `EspI2S microphone;`,
-        `EspI2S microphone;`
-    );
-
-    // 功放初始化代码
-    const initCode = `
-    // 初始化I2S功放
-    if (!microphone.initSpeaker(${speakerBclkPin}, ${speakerWsPin}, ${speakerDinPin})) {
-        Serial.println("❌ 功放初始化失败！");
-    } else {
-        Serial.println("✅ 功放初始化成功！");
-    }`;
-
-    generator.addSetup('speaker_init', initCode);
-
-    return '';
-};
-
-// WAV文件播放
-Arduino.forBlock['esp32_i2s_play_wav_file'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    const filename = generator.valueToCode(block, 'FILENAME', Arduino.ORDER_NONE) || '""';
-    
-    return `${objectName}.playWavFile(${filename});\n`;
-};
-
-Arduino.forBlock['esp32_i2s_stop_playback'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return `${objectName}.stopPlayback();\n`;
-};
-
-Arduino.forBlock['esp32_i2s_update_playback'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return `${objectName}.updatePlayback();\n`;
-};
-
-// 音调播放
-Arduino.forBlock['esp32_i2s_play_tone'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    const frequency = generator.valueToCode(block, 'FREQUENCY', Arduino.ORDER_NONE) || '440';
-    const duration = generator.valueToCode(block, 'DURATION', Arduino.ORDER_NONE) || '1000';
-    
-    return `${objectName}.playTone(${frequency}, ${duration});\n`;
-};
-
-// 音符播放
-Arduino.forBlock['esp32_i2s_play_note_name'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    const noteName = block.getFieldValue('NOTE_NAME');
-    const duration = generator.valueToCode(block, 'DURATION', Arduino.ORDER_NONE) || '500';
-    
-    // 音符名称到频率的映射
-    const noteFreqs = {
-        'C4': '261.63',
-        'D4': '293.66',
-        'E4': '329.63',
-        'F4': '349.23',
-        'G4': '392.00',
-        'A4': '440.00',
-        'B4': '493.88',
-        'C5': '523.25'
-    };
-    
-    const frequency = noteFreqs[noteName] || '440.00';
-    
-    return `${objectName}.playTone(${frequency}, ${duration});\n`;
-};
-
-// 预设音乐播放
-Arduino.forBlock['esp32_i2s_play_twinkle_star'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return `${objectName}.playTwinkleStar();\n`;
-};
-
-Arduino.forBlock['esp32_i2s_play_beep'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    const duration = generator.valueToCode(block, 'DURATION', Arduino.ORDER_NONE) || '200';
-    
-    return `${objectName}.playBeep(${duration});\n`;
-};
-
-Arduino.forBlock['esp32_i2s_update_melody'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return `${objectName}.updateMelody();\n`;
-};
-
-// 音量控制
-Arduino.forBlock['esp32_i2s_set_volume'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    const volume = generator.valueToCode(block, 'VOLUME', Arduino.ORDER_NONE) || '0.5';
-    
-    return `${objectName}.setVolume(${volume});\n`;
-};
-
-// 播放状态查询
-Arduino.forBlock['esp32_i2s_is_playing'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return [`${objectName}.isPlayingWav()`, Arduino.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['esp32_i2s_is_melody_playing'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return [`${objectName}.isMelodyPlaying()`, Arduino.ORDER_FUNCTION_CALL];
-};
-
-// 添加循环中更新的辅助函数生成器
-Arduino.forBlock['esp32_i2s_update_all'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    const code = `
-// 更新I2S状态
-${objectName}.updateRecording();  // 更新录制状态
-${objectName}.updatePlayback();   // 更新WAV播放状态
-${objectName}.updateMelody();     // 更新旋律播放状态
+    // 16位立体声输出
+    i2s.write(sample & 0xFF);
+    i2s.write((sample >> 8) & 0xFF);
+    i2s.write(sample & 0xFF);
+    i2s.write((sample >> 8) & 0xFF);
+  }
+}
 `;
-    
-    return code;
+
+  generator.addFunction('esp32_i2s_generate_tone', funcDef);
+
+  return `i2s_generate_tone(${varName}, ${frequency}, ${duration}, ${amplitude});\n`;
 };
 
-// PDM麦克风初始化
-Arduino.forBlock['esp32_pdm_init_and_begin'] = function(block, generator) {
-    // 获取自定义引脚和参数
-    const clkPin = generator.valueToCode(block, 'CLK_PIN', Arduino.ORDER_ATOMIC) || '42';
-    const dataPin = generator.valueToCode(block, 'DATA_PIN', Arduino.ORDER_ATOMIC) || '41';
-    const sampleRate = block.getFieldValue('SAMPLE_RATE') || '16000';
-    const bufferSize = block.getFieldValue('BUFFER_SIZE') || '512';
+// 释放WAV缓冲区
+Arduino.forBlock['esp32_i2s_free_wav_buffer'] = function(block, generator) {
+  const buffer = generator.valueToCode(block, 'BUFFER', generator.ORDER_ATOMIC) || 'NULL';
 
-    // 添加库
-    generator.addLibrary('#include "Esp_I2S.h"', '#include "Esp_I2S.h"');
+  let code = `if (${buffer} != NULL) {\n`;
+  code += `  free(${buffer});\n`;
+  code += `  ${buffer} = NULL;\n`;
+  code += `}\n`;
 
-    // 创建对象
-    generator.addObject(
-        `EspI2S microphone;`,
-        `EspI2S microphone;`
-    );
-
-    // 生成PDM初始化代码
-    const initCode = `
-    // 初始化PDM麦克风
-    if (!microphone.beginPDM(${sampleRate}, ${bufferSize}, ${clkPin}, ${dataPin})) {
-        Serial.println("❌ PDM麦克风初始化失败！");
-    } else {
-        Serial.println("✅ PDM麦克风初始化成功！");
-    }
-    `;
-
-    generator.addSetup('pdm_init', initCode);
-
-    return '';
-};
-
-// PDM麦克风就绪状态检查
-Arduino.forBlock['esp32_pdm_is_ready'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return [`${objectName}.isPDMReady()`, Arduino.ORDER_FUNCTION_CALL];
-};
-
-// PDM麦克风读取样本
-Arduino.forBlock['esp32_pdm_read_samples'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return `${objectName}.readPDMSamples();\n`;
-};
-
-// 获取麦克风类型
-Arduino.forBlock['esp32_get_mic_type'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    
-    return [`${objectName}.getMicTypeString()`, Arduino.ORDER_FUNCTION_CALL];
-};
-
-// PDM滤波器设置
-Arduino.forBlock['esp32_pdm_set_filter'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    const filterLength = generator.valueToCode(block, 'FILTER_LENGTH', Arduino.ORDER_NONE) || '32';
-    const cutoffFreq = generator.valueToCode(block, 'CUTOFF_FREQ', Arduino.ORDER_NONE) || '1000';
-    
-    return `${objectName}.setPDMFilter(${filterLength}, ${cutoffFreq});\n`;
-};
-
-// PDM增益设置
-Arduino.forBlock['esp32_pdm_set_gain'] = function(block, generator) {
-    const objectName = generator.nameDB_.getName(block.getFieldValue('OBJECT'), 'VARIABLE');
-    const gain = generator.valueToCode(block, 'GAIN', Arduino.ORDER_NONE) || '1.0';
-    
-    return `${objectName}.setPDMGain(${gain});\n`;
+  return code;
 };
