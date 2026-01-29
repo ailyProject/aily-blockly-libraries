@@ -1,55 +1,129 @@
 {
-"toolbox_name": "自訂代碼",
-"custom_code": {
-    "message0": "自訂代碼 %1"
-},
-"custom_macro": {
-    "message0": "宏定義 %1 為 %2"
-},
-"custom_library": {
-    "message0": "引用庫 %1"
-},
-"custom_variable": {
-    "message0": "定義變量 類型 %1 名稱 %2 初始值 %3",
+  "toolbox_name": "自訂代碼",
+  "toolbox_label_code_insert": "代碼插入",
+  "toolbox_label_preprocessor": "預處理指令",
+  "toolbox_label_conditional": "條件編譯",
+  "toolbox_label_function": "函數定義",
+  "toolbox_label_comment": "註釋",
+  "toolbox_label_advanced": "進階表達式",
+  "custom_code": {
+    "message0": "自訂代碼(語句) %1",
+    "tooltip": "插入自訂C++代碼語句，用於補充Blockly庫未提供的功能"
+  },
+  "custom_code2": {
+    "message0": "自訂代碼(表達式) %1",
+    "tooltip": "插入自訂C++表達式，可作為值使用"
+  },
+  "custom_macro": {
+    "message0": "#define %1 %2",
+    "tooltip": "定義預處理宏，會添加到程式頂部"
+  },
+  "custom_library": {
+    "message0": "#include <%1>",
+    "tooltip": "引用外部庫標頭檔"
+  },
+  "custom_function": {
+    "message0": "定義函數 %1 %2 返回類型 %3 參數 %4 %5 %6",
+    "tooltip": "定義自訂函數，函數體使用Blockly塊編寫"
+  },
+  "custom_function_text": {
+    "message0": "定義函數(文本) %1 %2 返回類型 %3 參數 %4 %5 函數體 %6",
+    "tooltip": "定義自訂函數，函數體直接使用文本編寫"
+  },
+  "custom_function_call": {
+    "message0": "調用 %1 ( %2 )",
+    "tooltip": "調用函數（作為語句）"
+  },
+  "custom_function_call_return": {
+    "message0": "調用 %1 ( %2 )",
+    "tooltip": "調用函數（獲取返回值）"
+  },
+  "custom_return": {
+    "message0": "return %1",
+    "tooltip": "從函數返回一個值"
+  },
+  "custom_return_void": {
+    "message0": "return",
+    "tooltip": "從函數返回（無返回值）"
+  },
+  "custom_insert_code": {
+    "message0": "插入代碼到 %1 %2 %3",
+    "tooltip": "向代碼的指定區域插入自訂代碼",
     "args0": [
-        {
-            "options": [
-                ["整型", "int"],
-                ["長整型", "long*"],
-                ["浮點型", "float"],
-                ["雙精度浮點型", "double"],
-                ["無符號整型", "unsigned char"],
-                ["無符號長整型", "unsigned char"],
-                ["布林型", "bool"],
-                ["字符型", "char"],
-                ["字串型", "string"]
-            ]
-        },
-        null,
-        null
+      {
+        "options": [
+          ["宏定義區", "macro"],
+          ["庫引用區", "library"],
+          ["變數定義區", "variable"],
+          ["物件定義區", "object"],
+          ["函數定義區", "function"]
+        ]
+      }
     ]
-},
-"custom_function": {
-    "message0": "函數定義 %1 %2 返回類型 %3 參數列表 %4 %5 函數體 %6",
+  },
+  "custom_ifdef": {
+    "message0": "#ifdef %1 %2 %3",
+    "tooltip": "條件編譯：當宏被定義時編譯此代碼"
+  },
+  "custom_ifndef": {
+    "message0": "#ifndef %1 %2 %3",
+    "tooltip": "條件編譯：當宏未被定義時編譯此代碼"
+  },
+  "custom_ifdef_else": {
+    "message0": "#ifdef %1 %2 %3 #else %4 %5",
+    "tooltip": "條件編譯：根據宏是否定義選擇編譯不同代碼"
+  },
+  "comment": {
+    "message0": "// %1",
+    "tooltip": "添加單行註釋"
+  },
+  "comment_multiline": {
+    "message0": "/* 多行註釋 */ %1",
+    "tooltip": "添加多行註釋塊"
+  },
+  "comment_wrapper": {
+    "message0": "// ===== %1 ===== %2 %3",
+    "tooltip": "用註釋標記包圍一段代碼區域"
+  },
+  "custom_sizeof": {
+    "message0": "sizeof( %1 )",
+    "tooltip": "獲取類型或變數佔用的位元組數"
+  },
+  "custom_cast": {
+    "message0": "( %1 ) %2",
+    "tooltip": "C風格類型轉換，可輸入任意類型名"
+  },
+  "custom_ternary": {
+    "message0": "%1 ? %2 : %3",
+    "tooltip": "三元條件運算符：條件 ? 真值 : 假值"
+  },
+  "custom_pointer_ref": {
+    "message0": "%1 %2",
+    "tooltip": "指標操作：取地址(&)或解引用(*)",
     "args0": [
-        null,
-        null,
-        {
-            "options": [
-                ["整型", "int"],
-                ["長整型", "long*"],
-                ["浮點型", "float"],
-                ["雙精度浮點型", "double"],
-                ["無符號整型", "unsigned char"],
-                ["無符號長整型", "unsigned char"],
-                ["布林型", "bool"],
-                ["字符型", "char"],
-                ["字串型", "string"]
-            ]
-        },
-        null,
-        null,
-        null
+      {
+        "options": [
+          ["&（取地址）", "&"],
+          ["*（解引用）", "*"]
+        ]
+      }
     ]
-}
+  },
+  "custom_array_access": {
+    "message0": "%1 [ %2 ]",
+    "tooltip": "存取陣列元素"
+  },
+  "custom_struct_access": {
+    "message0": "%1 %2 %3",
+    "tooltip": "存取結構體/類別成員",
+    "args0": [
+      null,
+      {
+        "options": [
+          [".（成員存取）", "."],
+          ["->（指標成員）", "->"]
+        ]
+      }
+    ]
+  }
 }

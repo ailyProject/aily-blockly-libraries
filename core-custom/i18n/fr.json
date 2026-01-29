@@ -1,55 +1,129 @@
 {
-"toolbox_name": "Code personnalisé",
-"custom_code": {
-    "message0": "Code personnalisé %1"
-},
-"custom_macro": {
-    "message0": "Définir la macro %1 comme %2"
-},
-"custom_library": {
-    "message0": "Inclure la bibliothèque %1"
-},
-"custom_variable": {
-    "message0": "Définir la variable type %1 nom %2 valeur initiale %3",
+  "toolbox_name": "Code Personnalisé",
+  "toolbox_label_code_insert": "Insertion de Code",
+  "toolbox_label_preprocessor": "Directives du Préprocesseur",
+  "toolbox_label_conditional": "Compilation Conditionnelle",
+  "toolbox_label_function": "Définition de Fonction",
+  "toolbox_label_comment": "Commentaires",
+  "toolbox_label_advanced": "Expressions Avancées",
+  "custom_code": {
+    "message0": "Code Personnalisé (Instruction) %1",
+    "tooltip": "Insérer une instruction C++ personnalisée pour compléter les fonctionnalités non fournies par la bibliothèque Blockly"
+  },
+  "custom_code2": {
+    "message0": "Code Personnalisé (Expression) %1",
+    "tooltip": "Insérer une expression C++ personnalisée pouvant être utilisée comme valeur"
+  },
+  "custom_macro": {
+    "message0": "#define %1 %2",
+    "tooltip": "Définir une macro préprocesseur, sera ajoutée en haut du programme"
+  },
+  "custom_library": {
+    "message0": "#include <%1>",
+    "tooltip": "Inclure un fichier d'en-tête de bibliothèque externe"
+  },
+  "custom_function": {
+    "message0": "Définir Fonction %1 %2 Type de Retour %3 Paramètres %4 %5 %6",
+    "tooltip": "Définir une fonction personnalisée avec des blocs Blockly comme corps de fonction"
+  },
+  "custom_function_text": {
+    "message0": "Définir Fonction (Texte) %1 %2 Type de Retour %3 Paramètres %4 %5 Corps %6",
+    "tooltip": "Définir une fonction personnalisée avec du texte comme corps de fonction"
+  },
+  "custom_function_call": {
+    "message0": "Appeler %1 ( %2 )",
+    "tooltip": "Appeler une fonction (comme instruction)"
+  },
+  "custom_function_call_return": {
+    "message0": "Appeler %1 ( %2 )",
+    "tooltip": "Appeler une fonction (obtenir la valeur de retour)"
+  },
+  "custom_return": {
+    "message0": "return %1",
+    "tooltip": "Retourner une valeur depuis la fonction"
+  },
+  "custom_return_void": {
+    "message0": "return",
+    "tooltip": "Retourner depuis la fonction (sans valeur de retour)"
+  },
+  "custom_insert_code": {
+    "message0": "Insérer Code dans %1 %2 %3",
+    "tooltip": "Insérer du code personnalisé dans la région spécifiée",
     "args0": [
-        {
-            "options": [
-                ["Entier", "int"],
-                ["Entier long", "long*"],
-                ["Flottant", "float"],
-                ["Double précision", "double"],
-                ["Entier non signé", "unsigned char"],
-                ["Long non signé", "unsigned char"],
-                ["Booléen", "bool"],
-                ["Caractère", "char"],
-                ["Chaîne de caractères", "string"]
-            ]
-        },
-        null,
-        null
+      {
+        "options": [
+          ["Région Macro", "macro"],
+          ["Région Bibliothèque", "library"],
+          ["Région Variable", "variable"],
+          ["Région Objet", "object"],
+          ["Région Fonction", "function"]
+        ]
+      }
     ]
-},
-"custom_function": {
-    "message0": "Définir la fonction %1 %2 type de retour %3 liste des paramètres %4 %5 corps de la fonction %6",
+  },
+  "custom_ifdef": {
+    "message0": "#ifdef %1 %2 %3",
+    "tooltip": "Compilation conditionnelle: compiler ce code quand la macro est définie"
+  },
+  "custom_ifndef": {
+    "message0": "#ifndef %1 %2 %3",
+    "tooltip": "Compilation conditionnelle: compiler ce code quand la macro n'est pas définie"
+  },
+  "custom_ifdef_else": {
+    "message0": "#ifdef %1 %2 %3 #else %4 %5",
+    "tooltip": "Compilation conditionnelle: compiler différent code selon si la macro est définie"
+  },
+  "comment": {
+    "message0": "// %1",
+    "tooltip": "Ajouter un commentaire sur une ligne"
+  },
+  "comment_multiline": {
+    "message0": "/* Commentaire Multiligne */ %1",
+    "tooltip": "Ajouter un bloc de commentaire multiligne"
+  },
+  "comment_wrapper": {
+    "message0": "// ===== %1 ===== %2 %3",
+    "tooltip": "Entourer une région de code avec des marqueurs de commentaire"
+  },
+  "custom_sizeof": {
+    "message0": "sizeof( %1 )",
+    "tooltip": "Obtenir la taille en octets d'un type ou d'une variable"
+  },
+  "custom_cast": {
+    "message0": "( %1 ) %2",
+    "tooltip": "Conversion de type style C, peut entrer n'importe quel nom de type"
+  },
+  "custom_ternary": {
+    "message0": "%1 ? %2 : %3",
+    "tooltip": "Opérateur conditionnel ternaire: condition ? valeur_vraie : valeur_fausse"
+  },
+  "custom_pointer_ref": {
+    "message0": "%1 %2",
+    "tooltip": "Opération de pointeur: obtenir l'adresse (&) ou déréférencer (*)",
     "args0": [
-        null,
-        null,
-        {
-            "options": [
-                ["Entier", "int"],
-                ["Entier long", "long*"],
-                ["Flottant", "float"],
-                ["Double précision", "double"],
-                ["Entier non signé", "unsigned char"],
-                ["Long non signé", "unsigned char"],
-                ["Booléen", "bool"],
-                ["Caractère", "char"],
-                ["Chaîne de caractères", "string"]
-            ]
-        },
-        null,
-        null,
-        null
+      {
+        "options": [
+          ["& (Obtenir l'adresse)", "&"],
+          ["* (Déréférencer)", "*"]
+        ]
+      }
     ]
-}
+  },
+  "custom_array_access": {
+    "message0": "%1 [ %2 ]",
+    "tooltip": "Accéder à un élément de tableau"
+  },
+  "custom_struct_access": {
+    "message0": "%1 %2 %3",
+    "tooltip": "Accéder à un membre de structure/classe",
+    "args0": [
+      null,
+      {
+        "options": [
+          [". (Accès membre)", "."],
+          ["-> (Membre pointeur)", "->"]
+        ]
+      }
+    ]
+  }
 }

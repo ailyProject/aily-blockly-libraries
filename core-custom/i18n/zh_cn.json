@@ -1,55 +1,129 @@
 {
-"toolbox_name": "自定义代码",
-"custom_code": {
-    "message0": "自定义代码 %1"
-},
-"custom_macro": {
-    "message0": "宏定义 %1 为 %2"
-},
-"custom_library": {
-    "message0": "引用库 %1"
-},
-"custom_variable": {
-    "message0": "定义变量 类型 %1 名称 %2 初始值 %3",
+  "toolbox_name": "自定义代码",
+  "toolbox_label_code_insert": "代码插入",
+  "toolbox_label_preprocessor": "预处理指令",
+  "toolbox_label_conditional": "条件编译",
+  "toolbox_label_function": "函数定义",
+  "toolbox_label_comment": "注释",
+  "toolbox_label_advanced": "高级表达式",
+  "custom_code": {
+    "message0": "自定义代码(语句) %1",
+    "tooltip": "插入自定义C++代码语句，用于补充Blockly库未提供的功能"
+  },
+  "custom_code2": {
+    "message0": "自定义代码(表达式) %1",
+    "tooltip": "插入自定义C++表达式，可作为值使用"
+  },
+  "custom_macro": {
+    "message0": "#define %1 %2",
+    "tooltip": "定义预处理宏，会添加到程序顶部"
+  },
+  "custom_library": {
+    "message0": "#include <%1>",
+    "tooltip": "引用外部库头文件"
+  },
+  "custom_function": {
+    "message0": "定义函数 %1 %2 返回类型 %3 参数 %4 %5 %6",
+    "tooltip": "定义自定义函数，函数体使用Blockly块编写"
+  },
+  "custom_function_text": {
+    "message0": "定义函数(文本) %1 %2 返回类型 %3 参数 %4 %5 函数体 %6",
+    "tooltip": "定义自定义函数，函数体直接使用文本编写"
+  },
+  "custom_function_call": {
+    "message0": "调用 %1 ( %2 )",
+    "tooltip": "调用函数（作为语句）"
+  },
+  "custom_function_call_return": {
+    "message0": "调用 %1 ( %2 )",
+    "tooltip": "调用函数（获取返回值）"
+  },
+  "custom_return": {
+    "message0": "return %1",
+    "tooltip": "从函数返回一个值"
+  },
+  "custom_return_void": {
+    "message0": "return",
+    "tooltip": "从函数返回（无返回值）"
+  },
+  "custom_insert_code": {
+    "message0": "插入代码到 %1 %2 %3",
+    "tooltip": "向代码的指定区域插入自定义代码",
     "args0": [
-        {
-            "options": [
-                ["整型", "int"],
-                ["长整型", "long*"],
-                ["浮点型", "float"],
-                ["双精度浮点型", "double"],
-                ["无符号整型", "unsigned char"],
-                ["无符号长整型", "unsigned char"],
-                ["布尔型", "bool"],
-                ["字符型", "char"],
-                ["字符串型", "string"]
-            ]
-        },
-        null,
-        null
+      {
+        "options": [
+          ["宏定义区", "macro"],
+          ["库引用区", "library"],
+          ["变量定义区", "variable"],
+          ["对象定义区", "object"],
+          ["函数定义区", "function"]
+        ]
+      }
     ]
-},
-"custom_function": {
-    "message0": "函数定义 %1 %2 返回类型 %3 参数列表 %4 %5 函数体 %6",
+  },
+  "custom_ifdef": {
+    "message0": "#ifdef %1 %2 %3",
+    "tooltip": "条件编译：当宏被定义时编译此代码"
+  },
+  "custom_ifndef": {
+    "message0": "#ifndef %1 %2 %3",
+    "tooltip": "条件编译：当宏未被定义时编译此代码"
+  },
+  "custom_ifdef_else": {
+    "message0": "#ifdef %1 %2 %3 #else %4 %5",
+    "tooltip": "条件编译：根据宏是否定义选择编译不同代码"
+  },
+  "comment": {
+    "message0": "// %1",
+    "tooltip": "添加单行注释"
+  },
+  "comment_multiline": {
+    "message0": "/* 多行注释 */ %1",
+    "tooltip": "添加多行注释块"
+  },
+  "comment_wrapper": {
+    "message0": "// ===== %1 ===== %2 %3",
+    "tooltip": "用注释标记包围一段代码区域"
+  },
+  "custom_sizeof": {
+    "message0": "sizeof( %1 )",
+    "tooltip": "获取类型或变量占用的字节数"
+  },
+  "custom_cast": {
+    "message0": "( %1 ) %2",
+    "tooltip": "C风格类型转换，可输入任意类型名"
+  },
+  "custom_ternary": {
+    "message0": "%1 ? %2 : %3",
+    "tooltip": "三元条件运算符：条件 ? 真值 : 假值"
+  },
+  "custom_pointer_ref": {
+    "message0": "%1 %2",
+    "tooltip": "指针操作：取地址(&)或解引用(*)",
     "args0": [
-        null,
-        null,
-        {
-            "options": [
-                ["整型", "int"],
-                ["长整型", "long*"],
-                ["浮点型", "float"],
-                ["双精度浮点型", "double"],
-                ["无符号整型", "unsigned char"],
-                ["无符号长整型", "unsigned char"],
-                ["布尔型", "bool"],
-                ["字符型", "char"],
-                ["字符串型", "string"]
-            ]
-        },
-        null,
-        null,
-        null
+      {
+        "options": [
+          ["&（取地址）", "&"],
+          ["*（解引用）", "*"]
+        ]
+      }
     ]
-}
+  },
+  "custom_array_access": {
+    "message0": "%1 [ %2 ]",
+    "tooltip": "访问数组元素"
+  },
+  "custom_struct_access": {
+    "message0": "%1 %2 %3",
+    "tooltip": "访问结构体/类成员",
+    "args0": [
+      null,
+      {
+        "options": [
+          [".（成员访问）", "."],
+          ["->（指针成员）", "->"]
+        ]
+      }
+    ]
+  }
 }
