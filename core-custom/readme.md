@@ -51,17 +51,6 @@
 | `comment_multiline` | 语句块 | TEXT(field_multilinetext) | `"TEXT":"多行"` | `/* 多行 */` |
 | `comment_wrapper` | 语句块 | TEXT(field_input), STATEMENTS(input_statement) | `"TEXT":"区域"` | `// [BEGIN]...// [END]` |
 
-### 高级表达式
-
-| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
-|--------|------|----------|----------|----------|
-| `custom_sizeof` | 值块 | TARGET(field_input) | `"TARGET":"int"` | `sizeof(int)` |
-| `custom_cast` | 值块 | TYPE(field_input), VALUE(input_value) | `"TYPE":"int"` | `(int)value` |
-| `custom_ternary` | 值块 | CONDITION(input_value), IF_TRUE(input_value), IF_FALSE(input_value) | - | `cond ? a : b` |
-| `custom_pointer_ref` | 值块 | OP(dropdown), VAR(field_input) | `"OP":"&","VAR":"x"` | `&x` |
-| `custom_array_access` | 值块 | ARRAY(field_input), INDEX(input_value) | `"ARRAY":"arr"` | `arr[index]` |
-| `custom_struct_access` | 值块 | STRUCT(field_input), OP(dropdown), MEMBER(field_input) | `"OP":".","MEMBER":"x"` | `obj.x` |
-
 ## 字段类型映射
 
 | 类型 | .abi格式 | 示例 |
@@ -77,10 +66,6 @@
 **RETURN** (函数返回类型): `void`, `int`, `long`, `float`, `double`, `bool`, `char`, `String`, `int*`, `char*`, `void*`, `uint8_t`, `uint16_t`, `uint32_t`
 
 **POSITION** (代码插入位置): `macro`(宏定义区), `library`(库引用区), `variable`(变量区), `object`(对象区), `function`(函数区)
-
-**OP** (指针操作): `&`(取地址), `*`(解引用)
-
-**OP** (成员访问): `.`(直接访问), `->`(指针访问)
 
 ## 连接规则
 

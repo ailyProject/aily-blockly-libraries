@@ -144,7 +144,10 @@
           ["String", "String"],
           ["int*", "int*"],
           ["char*", "char*"],
-          ["void*", "void*"]
+          ["void*", "void*"],
+          ["uint8_t", "uint8_t"],
+          ["uint16_t", "uint16_t"],
+          ["uint32_t", "uint32_t"]
         ]
       },
       {
@@ -402,144 +405,5 @@
     "tooltip": "用注释标记包围一段代码区域",
     "helpUrl": "",
     "icon": "fa-regular fa-folder"
-  },
-  {
-    "type": "custom_sizeof",
-    "message0": "sizeof( %1 )",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "TARGET",
-        "text": "int"
-      }
-    ],
-    "output": "Number",
-    "colour": "#FF9800",
-    "tooltip": "获取类型或变量占用的字节数",
-    "helpUrl": "",
-    "icon": "fa-regular fa-ruler"
-  },
-  {
-    "type": "custom_cast",
-    "message0": "( %1 ) %2",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "TYPE",
-        "text": "int"
-      },
-      {
-        "type": "input_value",
-        "name": "VALUE"
-      }
-    ],
-    "inputsInline": true,
-    "output": null,
-    "colour": "#FF9800",
-    "tooltip": "C风格类型转换，可输入任意类型名",
-    "helpUrl": "",
-    "icon": "fa-regular fa-exchange"
-  },
-  {
-    "type": "custom_ternary",
-    "message0": "%1 ? %2 : %3",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "CONDITION",
-        "check": "Boolean"
-      },
-      {
-        "type": "input_value",
-        "name": "IF_TRUE"
-      },
-      {
-        "type": "input_value",
-        "name": "IF_FALSE"
-      }
-    ],
-    "inputsInline": true,
-    "output": null,
-    "colour": "#FF9800",
-    "tooltip": "三元条件运算符：条件 ? 真值 : 假值",
-    "helpUrl": "",
-    "icon": "fa-regular fa-question"
-  },
-  {
-    "type": "custom_pointer_ref",
-    "message0": "%1 %2",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "OP",
-        "options": [
-          ["&（取地址）", "&"],
-          ["*（解引用）", "*"]
-        ]
-      },
-      {
-        "type": "field_input",
-        "name": "VAR",
-        "text": "variable"
-      }
-    ],
-    "inputsInline": true,
-    "output": null,
-    "colour": "#FF9800",
-    "tooltip": "指针操作：取地址(&)或解引用(*)",
-    "helpUrl": "",
-    "icon": "fa-regular fa-arrow-pointer"
-  },
-  {
-    "type": "custom_array_access",
-    "message0": "%1 [ %2 ]",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "ARRAY",
-        "text": "arr"
-      },
-      {
-        "type": "input_value",
-        "name": "INDEX",
-        "check": "Number"
-      }
-    ],
-    "inputsInline": true,
-    "output": null,
-    "colour": "#FF9800",
-    "tooltip": "访问数组元素",
-    "helpUrl": "",
-    "icon": "fa-regular fa-brackets-square"
-  },
-  {
-    "type": "custom_struct_access",
-    "message0": "%1 %2 %3",
-    "args0": [
-      {
-        "type": "field_input",
-        "name": "STRUCT",
-        "text": "obj"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "OP",
-        "options": [
-          [".（成员访问）", "."],
-          ["->（指针成员）", "->"]
-        ]
-      },
-      {
-        "type": "field_input",
-        "name": "MEMBER",
-        "text": "member"
-      }
-    ],
-    "inputsInline": true,
-    "output": null,
-    "colour": "#FF9800",
-    "tooltip": "访问结构体/类成员",
-    "helpUrl": "",
-    "icon": "fa-regular fa-sitemap"
   }
 ]

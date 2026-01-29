@@ -185,41 +185,41 @@ Arduino.forBlock['comment_wrapper'] = function (block, generator) {
     return code;
 };
 
-// ===== 高级运算符与表达式 =====
+// // ===== 高级运算符与表达式 =====
 
-Arduino.forBlock['custom_sizeof'] = function (block, generator) {
-    const target = block.getFieldValue('TARGET');
-    return ['sizeof(' + target + ')', generator.ORDER_FUNCTION_CALL];
-};
+// Arduino.forBlock['custom_sizeof'] = function (block, generator) {
+//     const target = block.getFieldValue('TARGET');
+//     return ['sizeof(' + target + ')', generator.ORDER_FUNCTION_CALL];
+// };
 
-Arduino.forBlock['custom_cast'] = function (block, generator) {
-    const type = block.getFieldValue('TYPE');
-    const value = generator.valueToCode(block, 'VALUE', generator.ORDER_NONE) || '0';
-    return ['(' + type + ')' + value, generator.ORDER_UNARY_PREFIX];
-};
+// Arduino.forBlock['custom_cast'] = function (block, generator) {
+//     const type = block.getFieldValue('TYPE');
+//     const value = generator.valueToCode(block, 'VALUE', generator.ORDER_NONE) || '0';
+//     return ['(' + type + ')' + value, generator.ORDER_UNARY_PREFIX];
+// };
 
-Arduino.forBlock['custom_ternary'] = function (block, generator) {
-    const condition = generator.valueToCode(block, 'CONDITION', generator.ORDER_CONDITIONAL) || 'true';
-    const ifTrue = generator.valueToCode(block, 'IF_TRUE', generator.ORDER_CONDITIONAL) || '0';
-    const ifFalse = generator.valueToCode(block, 'IF_FALSE', generator.ORDER_CONDITIONAL) || '0';
-    return ['(' + condition + ' ? ' + ifTrue + ' : ' + ifFalse + ')', generator.ORDER_CONDITIONAL];
-};
+// Arduino.forBlock['custom_ternary'] = function (block, generator) {
+//     const condition = generator.valueToCode(block, 'CONDITION', generator.ORDER_CONDITIONAL) || 'true';
+//     const ifTrue = generator.valueToCode(block, 'IF_TRUE', generator.ORDER_CONDITIONAL) || '0';
+//     const ifFalse = generator.valueToCode(block, 'IF_FALSE', generator.ORDER_CONDITIONAL) || '0';
+//     return ['(' + condition + ' ? ' + ifTrue + ' : ' + ifFalse + ')', generator.ORDER_CONDITIONAL];
+// };
 
-Arduino.forBlock['custom_pointer_ref'] = function (block, generator) {
-    const op = block.getFieldValue('OP');
-    const varName = block.getFieldValue('VAR');
-    return [op + varName, generator.ORDER_UNARY_PREFIX];
-};
+// Arduino.forBlock['custom_pointer_ref'] = function (block, generator) {
+//     const op = block.getFieldValue('OP');
+//     const varName = block.getFieldValue('VAR');
+//     return [op + varName, generator.ORDER_UNARY_PREFIX];
+// };
 
-Arduino.forBlock['custom_array_access'] = function (block, generator) {
-    const array = block.getFieldValue('ARRAY');
-    const index = generator.valueToCode(block, 'INDEX', generator.ORDER_NONE) || '0';
-    return [array + '[' + index + ']', generator.ORDER_MEMBER];
-};
+// Arduino.forBlock['custom_array_access'] = function (block, generator) {
+//     const array = block.getFieldValue('ARRAY');
+//     const index = generator.valueToCode(block, 'INDEX', generator.ORDER_NONE) || '0';
+//     return [array + '[' + index + ']', generator.ORDER_MEMBER];
+// };
 
-Arduino.forBlock['custom_struct_access'] = function (block, generator) {
-    const struct = block.getFieldValue('STRUCT');
-    const op = block.getFieldValue('OP');
-    const member = block.getFieldValue('MEMBER');
-    return [struct + op + member, generator.ORDER_MEMBER];
-};
+// Arduino.forBlock['custom_struct_access'] = function (block, generator) {
+//     const struct = block.getFieldValue('STRUCT');
+//     const op = block.getFieldValue('OP');
+//     const member = block.getFieldValue('MEMBER');
+//     return [struct + op + member, generator.ORDER_MEMBER];
+// };
