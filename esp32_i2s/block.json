@@ -1,772 +1,634 @@
 [
-    {
-    "type": "esp32_sd_init",
-    "message0": "初始化SD卡 CS:%1 SCK:%2 MOSI:%3 MISO:%4",
+  {
+    "type": "esp32_i2s_create",
+    "message0": "创建 I2S 对象 命名为 %1",
     "args0": [
-        {
-            "type": "input_value",
-            "name": "CS_PIN",
-            "check": "Number"
-        },
-        {
-            "type": "input_value",
-            "name": "SCK_PIN",
-            "check": "Number"
-        },
-        {
-            "type": "input_value",
-            "name": "MOSI_PIN",
-            "check": "Number"
-        },
-        {
-            "type": "input_value",
-            "name": "MISO_PIN",
-            "check": "Number"
-        }
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "i2s"
+      }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#4CAF50",
-    "inputsInline": true
-},
-    {
-    "type": "esp32_i2s_init_and_begin",
-    "message0": "初始化PCM麦克风 SCK:%1 WS:%2 SD:%3 采样率%4Hz 缓冲区大小%5",
+    "colour": "#5CB85C",
+    "tooltip": "创建一个I2S音频接口对象"
+  },
+  {
+    "type": "esp32_i2s_set_pins_std",
+    "message0": "I2S对象 %1 设置标准模式引脚 BCLK%2 WS/LRC%3 DOUT%4 DIN%5 MCLK%6",
     "args0": [
-        {
-            "type": "input_value",
-            "name": "SCK_PIN",
-            "check": "Number"
-        },
-        {
-            "type": "input_value",
-            "name": "WS_PIN",
-            "check": "Number"
-        },
-        {
-            "type": "input_value",
-            "name": "SD_PIN",
-            "check": "Number"
-        },
-        {
-            "type": "field_dropdown",
-            "name": "SAMPLE_RATE",
-            "options": [
-                ["8000", "8000"],
-                ["16000", "16000"],
-                ["22050", "22050"],
-                ["44100", "44100"]
-            ]
-        },
-        {
-            "type": "field_dropdown",
-            "name": "BUFFER_SIZE",
-            "options": [
-                ["512", "512"],
-                ["1024", "1024"],
-                ["2048", "2048"],
-                ["4096", "4096"]
-            ]
-        }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "field_number",
+        "name": "BCLK",
+        "value": 5,
+        "min": -1,
+        "max": 48
+      },
+      {
+        "type": "field_number",
+        "name": "WS",
+        "value": 25,
+        "min": -1,
+        "max": 48
+      },
+      {
+        "type": "field_number",
+        "name": "DOUT",
+        "value": 26,
+        "min": -1,
+        "max": 48
+      },
+      {
+        "type": "field_number",
+        "name": "DIN",
+        "value": -1,
+        "min": -1,
+        "max": 48
+      },
+      {
+        "type": "field_number",
+        "name": "MCLK",
+        "value": -1,
+        "min": -1,
+        "max": 48
+      }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#FF9800",
-    "inputsInline": true
-},
-    {
-    "type": "esp32_pdm_init_and_begin",
-    "message0": "初始化PDM麦克风 CLK:%1 DATA:%2 采样率%3Hz 缓冲区大小%4",
+    "colour": "#5CB85C",
+    "tooltip": "设置标准I2S模式的引脚,DIN和MCLK可选,不使用则设为-1"
+  },
+  {
+    "type": "esp32_i2s_set_pins_pdm_tx",
+    "message0": "I2S对象 %1 设置PDM发送引脚 CLK%2 DOUT0%3 DOUT1%4",
     "args0": [
-        {
-            "type": "input_value",
-            "name": "CLK_PIN",
-            "check": "Number"
-        },
-        {
-            "type": "input_value",
-            "name": "DATA_PIN",
-            "check": "Number"
-        },
-        {
-            "type": "field_dropdown",
-            "name": "SAMPLE_RATE",
-            "options": [
-                ["8000", "8000"],
-                ["16000", "16000"],
-                ["22050", "22050"],
-                ["44100", "44100"]
-            ]
-        },
-        {
-            "type": "field_dropdown",
-            "name": "BUFFER_SIZE",
-            "options": [
-                ["512", "512"],
-                ["1024", "1024"],
-                ["2048", "2048"],
-                ["4096", "4096"]
-            ]
-        }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "field_number",
+        "name": "CLK",
+        "value": 20,
+        "min": 0,
+        "max": 48
+      },
+      {
+        "type": "field_number",
+        "name": "DOUT0",
+        "value": 21,
+        "min": -1,
+        "max": 48
+      },
+      {
+        "type": "field_number",
+        "name": "DOUT1",
+        "value": -1,
+        "min": -1,
+        "max": 48
+      }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#FF5722",
-    "inputsInline": true
-},
-    {
-    "type": "esp32_pdm_is_ready",
-    "message0": "PDM麦克风%1已就绪",
+    "colour": "#5CB85C",
+    "tooltip": "设置PDM发送模式的引脚"
+  },
+  {
+    "type": "esp32_i2s_set_pins_pdm_rx",
+    "message0": "I2S对象 %1 设置PDM接收引脚 CLK%2 DIN0%3 DIN1%4 DIN2%5 DIN3%6",
     "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        }
-    ],
-    "output": "Boolean",
-    "colour": "#FF5722",
-    "inputsInline": true
-},
-    {
-    "type": "esp32_pdm_read_samples",
-    "message0": "PDM麦克风%1读取音频样本",
-    "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#FF5722",
-    "inputsInline": true
-},
-    {
-    "type": "esp32_get_mic_type",
-    "message0": "获取麦克风%1类型",
-    "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        }
-    ],
-    "output": "String",
-    "colour": "#795548",
-    "inputsInline": true
-},
-    {
-    "type": "esp32_pdm_set_filter",
-    "message0": "PDM麦克风%1设置滤波器 长度:%2 截止频率:%3Hz",
-    "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        },
-        {
-            "type": "input_value",
-            "name": "FILTER_LENGTH",
-            "check": "Number"
-        },
-        {
-            "type": "input_value",
-            "name": "CUTOFF_FREQ",
-            "check": "Number"
-        }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "field_number",
+        "name": "CLK",
+        "value": 20,
+        "min": 0,
+        "max": 48
+      },
+      {
+        "type": "field_number",
+        "name": "DIN0",
+        "value": 21,
+        "min": -1,
+        "max": 48
+      },
+      {
+        "type": "field_number",
+        "name": "DIN1",
+        "value": -1,
+        "min": -1,
+        "max": 48
+      },
+      {
+        "type": "field_number",
+        "name": "DIN2",
+        "value": -1,
+        "min": -1,
+        "max": 48
+      },
+      {
+        "type": "field_number",
+        "name": "DIN3",
+        "value": -1,
+        "min": -1,
+        "max": 48
+      }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#FF5722",
-    "inputsInline": true
-},
-    {
-    "type": "esp32_pdm_set_gain",
-    "message0": "PDM麦克风%1设置增益%2倍",
+    "colour": "#5CB85C",
+    "tooltip": "设置PDM接收模式的引脚"
+  },
+  {
+    "type": "esp32_i2s_begin",
+    "message0": "初始化 I2S 对象 %1 模式 %2 采样率 %3 Hz 位宽 %4 声道 %5 槽位 %6",
     "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        },
-        {
-            "type": "input_value",
-            "name": "GAIN",
-            "check": "Number"
-        }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["标准I2S", "I2S_MODE_STD"],
+          ["TDM模式", "I2S_MODE_TDM"],
+          ["PDM发送", "I2S_MODE_PDM_TX"],
+          ["PDM接收", "I2S_MODE_PDM_RX"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "RATE",
+        "value": 44100,
+        "min": 8000,
+        "max": 192000
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BITS",
+        "options": [
+          ["16位", "I2S_DATA_BIT_WIDTH_16BIT"],
+          ["32位", "I2S_DATA_BIT_WIDTH_32BIT"],
+          ["24位", "I2S_DATA_BIT_WIDTH_24BIT"],
+          ["8位", "I2S_DATA_BIT_WIDTH_8BIT"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SLOT",
+        "options": [
+          ["立体声", "I2S_SLOT_MODE_STEREO"],
+          ["单声道", "I2S_SLOT_MODE_MONO"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SLOT_MASK",
+        "options": [
+          ["自动", "-1"],
+          ["左声道", "I2S_STD_SLOT_LEFT"],
+          ["右声道", "I2S_STD_SLOT_RIGHT"],
+          ["双声道", "I2S_STD_SLOT_BOTH"]
+        ]
+      }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#FF5722",
-    "inputsInline": true
-},
-    {
-        "type": "esp32_i2s_read_samples",
-        "message0": "I2S麦克风%1读取音频样本",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "OBJECT",
-                "variable": "microphone",
-                "variableTypes": ["EspI2S"],
-                "defaultType": "EspI2S"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF9800",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_i2s_get_level",
-        "message0": "获取I2S麦克风%1的%2",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "OBJECT",
-                "variable": "microphone",
-                "variableTypes": ["EspI2S"],
-                "defaultType": "EspI2S"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "LEVEL_TYPE",
-                "options": [
-                    ["平均电平", "average"],
-                    ["峰值电平", "peak"],
-                    ["RMS电平", "rms"],
-                    ["分贝值", "decibels"],
-                    ["百分比", "percentage"]
-                ]
-            }
-        ],
-        "output": "Number",
-        "colour": "#FF9800",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_i2s_sound_detected",
-        "message0": "I2S麦克风%1检测到声音(阈值%2)",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "OBJECT",
-                "variable": "microphone",
-                "variableTypes": ["EspI2S"],
-                "defaultType": "EspI2S"
-            },
-            {
-                "type": "input_value",
-                "name": "THRESHOLD"
-            }
-        ],
-        "output": "Boolean",
-        "colour": "#FF9800",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_i2s_get_quality",
-        "message0": "获取I2S麦克风%1音质等级",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "OBJECT",
-                "variable": "microphone",
-                "variableTypes": ["EspI2S"],
-                "defaultType": "EspI2S"
-            }
-        ],
-        "output": "String",
-        "colour": "#FF9800",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_i2s_get_freq_energy",
-        "message0": "获取I2S麦克风%1的%2频段能量",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "OBJECT",
-                "variable": "microphone",
-                "variableTypes": ["EspI2S"],
-                "defaultType": "EspI2S"
-            },
-            {
-                "type": "field_dropdown",
-                "name": "FREQ_BAND",
-                "options": [
-                    ["低频", "low"],
-                    ["中频", "mid"],
-                    ["高频", "high"]
-                ]
-            }
-        ],
-        "output": "Number",
-        "colour": "#FF9800",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_i2s_calibrate",
-        "message0": "校准I2S麦克风%1噪声基准",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "OBJECT",
-                "variable": "microphone",
-                "variableTypes": ["EspI2S"],
-                "defaultType": "EspI2S"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#FF9800",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_i2s_get_snr",
-        "message0": "获取I2S麦克风%1信噪比",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "OBJECT",
-                "variable": "microphone",
-                "variableTypes": ["EspI2S"],
-                "defaultType": "EspI2S"
-            }
-        ],
-        "output": "Number",
-        "colour": "#FF9800",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_i2s_start_recording",
-        "message0": "I2S麦克风%1开始录制 文件名%2 时长%3秒",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "OBJECT",
-                "variable": "microphone",
-                "variableTypes": ["EspI2S"],
-                "defaultType": "EspI2S"
-            },
-            {
-                "type": "input_value",
-                "name": "FILENAME",
-                "check": "String"
-            },
-            {
-                "type": "input_value",
-                "name": "DURATION",
-                "check": "Number"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_i2s_stop_recording",
-        "message0": "I2S麦克风%1停止录制",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "OBJECT",
-                "variable": "microphone",
-                "variableTypes": ["EspI2S"],
-                "defaultType": "EspI2S"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_i2s_update_recording",
-        "message0": "I2S麦克风%1更新录制状态",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "OBJECT",
-                "variable": "microphone",
-                "variableTypes": ["EspI2S"],
-                "defaultType": "EspI2S"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_i2s_is_recording",
-        "message0": "I2S麦克风%1正在录制",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "OBJECT",
-                "variable": "microphone",
-                "variableTypes": ["EspI2S"],
-                "defaultType": "EspI2S"
-            }
-        ],
-        "output": "Boolean",
-        "colour": "#2196F3",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_i2s_get_recording_status",
-        "message0": "获取I2S麦克风%1录制状态",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "OBJECT",
-                "variable": "microphone",
-                "variableTypes": ["EspI2S"],
-                "defaultType": "EspI2S"
-            }
-        ],
-        "output": "String",
-        "colour": "#2196F3",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_i2s_get_recorded_time",
-        "message0": "获取I2S麦克风%1已录制时长",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "OBJECT",
-                "variable": "microphone",
-                "variableTypes": ["EspI2S"],
-                "defaultType": "EspI2S"
-            }
-        ],
-        "output": "Number",
-        "colour": "#2196F3",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_i2s_list_files",
-        "message0": "I2S麦克风%1列出SD卡音频文件",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "OBJECT",
-                "variable": "microphone",
-                "variableTypes": ["EspI2S"],
-                "defaultType": "EspI2S"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3",
-        "inputsInline": true
-    },
-    {
-        "type": "esp32_i2s_delete_file",
-        "message0": "I2S麦克风%1删除音频文件%2",
-        "args0": [
-            {
-                "type": "field_variable",
-                "name": "OBJECT",
-                "variable": "microphone",
-                "variableTypes": ["EspI2S"],
-                "defaultType": "EspI2S"
-            },
-            {
-                "type": "input_value",
-                "name": "FILENAME",
-                "check": "String"
-            }
-        ],
-        "previousStatement": null,
-        "nextStatement": null,
-        "colour": "#2196F3",
-        "inputsInline": true
-    },
-    {
-    "type": "esp32_i2s_init_speaker",
-    "message0": "初始化I2S功放 BCLK:%1 LRC:%2 DIN:%3",
+    "colour": "#5CB85C",
+    "tooltip": "初始化I2S接口,必须先设置引脚。槽位参数可选择使用左/右/双声道"
+  },
+  {
+    "type": "esp32_i2s_configure_tx",
+    "message0": "配置I2S对象 %1 TX 采样率 %2 Hz 位宽 %3 声道 %4 槽位 %5",
     "args0": [
-        {
-            "type": "input_value",
-            "name": "BCLK_PIN",
-            "check": "Number"
-        },
-        {
-            "type": "input_value",
-            "name": "LRC_PIN",
-            "check": "Number"
-        },
-        {
-            "type": "input_value",
-            "name": "DIN_PIN",
-            "check": "Number"
-        }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "field_number",
+        "name": "RATE",
+        "value": 44100,
+        "min": 8000,
+        "max": 192000
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BITS",
+        "options": [
+          ["16位", "I2S_DATA_BIT_WIDTH_16BIT"],
+          ["32位", "I2S_DATA_BIT_WIDTH_32BIT"],
+          ["24位", "I2S_DATA_BIT_WIDTH_24BIT"],
+          ["8位", "I2S_DATA_BIT_WIDTH_8BIT"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SLOT",
+        "options": [
+          ["立体声", "I2S_SLOT_MODE_STEREO"],
+          ["单声道", "I2S_SLOT_MODE_MONO"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SLOT_MASK",
+        "options": [
+          ["自动", "-1"],
+          ["左声道", "I2S_STD_SLOT_LEFT"],
+          ["右声道", "I2S_STD_SLOT_RIGHT"],
+          ["双声道", "I2S_STD_SLOT_BOTH"]
+        ]
+      }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#9C27B0",
-    "inputsInline": true
-},
-{
-    "type": "esp32_i2s_play_wav_file",
-    "message0": "I2S功放%1播放WAV文件%2",
+    "colour": "#5CB85C",
+    "tooltip": "配置I2S发送通道参数"
+  },
+  {
+    "type": "esp32_i2s_configure_rx",
+    "message0": "配置I2S对象 %1 RX 采样率 %2 Hz 位宽 %3 声道 %4 转换 %5",
     "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        },
-        {
-            "type": "input_value",
-            "name": "FILENAME",
-            "check": "String"
-        }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "field_number",
+        "name": "RATE",
+        "value": 16000,
+        "min": 8000,
+        "max": 192000
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BITS",
+        "options": [
+          ["16位", "I2S_DATA_BIT_WIDTH_16BIT"],
+          ["32位", "I2S_DATA_BIT_WIDTH_32BIT"],
+          ["24位", "I2S_DATA_BIT_WIDTH_24BIT"],
+          ["8位", "I2S_DATA_BIT_WIDTH_8BIT"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SLOT",
+        "options": [
+          ["立体声", "I2S_SLOT_MODE_STEREO"],
+          ["单声道", "I2S_SLOT_MODE_MONO"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TRANSFORM",
+        "options": [
+          ["无转换", "I2S_RX_TRANSFORM_NONE"],
+          ["32转16位", "I2S_RX_TRANSFORM_32_TO_16"],
+          ["立体声转单声道", "I2S_RX_TRANSFORM_16_STEREO_TO_MONO"]
+        ]
+      }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#9C27B0",
-    "inputsInline": true
-},
-{
-    "type": "esp32_i2s_stop_playback",
-    "message0": "I2S功放%1停止播放",
+    "colour": "#5CB85C",
+    "tooltip": "配置I2S接收通道参数"
+  },
+  {
+    "type": "esp32_i2s_write_byte",
+    "message0": "I2S对象 %1 写入字节 %2",
     "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "input_value",
+        "name": "BYTE",
+        "check": ["Number"]
+      }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#9C27B0",
-    "inputsInline": true
-},
-{
-    "type": "esp32_i2s_update_playback",
-    "message0": "I2S功放%1更新播放状态",
+    "colour": "#5CB85C",
+    "tooltip": "向I2S写入单个字节,通常在loop中连续写入"
+  },
+  {
+    "type": "esp32_i2s_read_bytes",
+    "message0": "I2S对象 %1 读取字节到数组 %2 读取数量 %3",
     "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "input_value",
+        "name": "BUFFER",
+        "check": ["Array"]
+      },
+      {
+        "type": "input_value",
+        "name": "SIZE",
+        "check": ["Number"]
+      }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#9C27B0",
-    "inputsInline": true
-},
-{
-    "type": "esp32_i2s_play_tone",
-    "message0": "I2S功放%1播放音调 频率%2Hz 时长%3毫秒",
+    "colour": "#5CB85C",
+    "tooltip": "从I2S读取指定数量的字节到数组,返回实际读取的字节数"
+  },
+  {
+    "type": "esp32_i2s_record_wav",
+    "message0": "I2S对象 %1 录制WAV音频 时长 %2 秒 保存大小到 %3",
     "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        },
-        {
-            "type": "input_value",
-            "name": "FREQUENCY",
-            "check": "Number"
-        },
-        {
-            "type": "input_value",
-            "name": "DURATION",
-            "check": "Number"
-        }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "input_value",
+        "name": "SECONDS",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_input",
+        "name": "SIZE_VAR",
+        "text": "wav_size"
+      }
+    ],
+    "output": "Array",
+    "colour": "#5CB85C",
+    "tooltip": "录制指定时长的WAV音频,返回字节数组指针,大小保存到指定变量。使用后请用free()释放内存"
+  },
+  {
+    "type": "esp32_i2s_play_wav",
+    "message0": "I2S对象 %1 播放WAV音频 数据 %2 长度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": ["Array"]
+      },
+      {
+        "type": "input_value",
+        "name": "LENGTH",
+        "check": ["Number"]
+      }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#673AB7",
-    "inputsInline": true
-},
-{
-    "type": "esp32_i2s_play_note_name",
-    "message0": "I2S功放%1播放音符%2 时长%3毫秒",
+    "colour": "#5CB85C",
+    "tooltip": "播放WAV格式的音频数据,需指定数据长度"
+  },
+  {
+    "type": "esp32_i2s_end",
+    "message0": "结束I2S对象 %1",
     "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        },
-        {
-            "type": "field_dropdown",
-            "name": "NOTE_NAME",
-            "options": [
-                ["C4 (Do)", "C4"],
-                ["D4 (Re)", "D4"],
-                ["E4 (Mi)", "E4"],
-                ["F4 (Fa)", "F4"],
-                ["G4 (So)", "G4"],
-                ["A4 (La)", "A4"],
-                ["B4 (Si)", "B4"],
-                ["C5 (Do高)", "C5"]
-            ]
-        },
-        {
-            "type": "input_value",
-            "name": "DURATION",
-            "check": "Number"
-        }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#673AB7",
-    "inputsInline": true
-},
-{
-    "type": "esp32_i2s_play_twinkle_star",
-    "message0": "I2S功放%1播放小星星",
+    "colour": "#5CB85C",
+    "tooltip": "停止I2S并释放资源"
+  },
+  {
+    "type": "esp32_i2s_get_last_error",
+    "message0": "获取I2S对象 %1 的最后错误代码",
     "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      }
+    ],
+    "output": "Number",
+    "colour": "#5CB85C",
+    "tooltip": "获取最后一次I2S操作的错误代码,0表示成功"
+  },
+  {
+    "type": "esp32_i2s_write_sample",
+    "message0": "I2S对象 %1 写入采样值 %2 (立体声写入左右声道)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "input_value",
+        "name": "SAMPLE",
+        "check": ["Number"]
+      }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#673AB7",
-    "inputsInline": true
-},
-{
-    "type": "esp32_i2s_play_beep",
-    "message0": "I2S功放%1播放蜂鸣 时长%2毫秒",
+    "colour": "#5CB85C",
+    "tooltip": "向I2S写入一个16位采样值,会自动写入左右声道"
+  },
+  {
+    "type": "esp32_i2s_write_buffer",
+    "message0": "I2S对象 %1 写入缓冲区 %2 长度 %3",
     "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        },
-        {
-            "type": "input_value",
-            "name": "DURATION",
-            "check": "Number"
-        }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "input_value",
+        "name": "BUFFER",
+        "check": ["Array"]
+      },
+      {
+        "type": "input_value",
+        "name": "SIZE",
+        "check": ["Number"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#5CB85C",
+    "tooltip": "向I2S写入缓冲区数据,返回实际写入的字节数"
+  },
+  {
+    "type": "esp32_i2s_available",
+    "message0": "I2S对象 %1 可读字节数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      }
+    ],
+    "output": "Number",
+    "colour": "#5CB85C",
+    "tooltip": "获取I2S接收缓冲区中可读的字节数"
+  },
+  {
+    "type": "esp32_i2s_tx_sample_rate",
+    "message0": "I2S对象 %1 发送采样率",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      }
+    ],
+    "output": "Number",
+    "colour": "#5CB85C",
+    "tooltip": "获取I2S发送通道的采样率"
+  },
+  {
+    "type": "esp32_i2s_rx_sample_rate",
+    "message0": "I2S对象 %1 接收采样率",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      }
+    ],
+    "output": "Number",
+    "colour": "#5CB85C",
+    "tooltip": "获取I2S接收通道的采样率"
+  },
+  {
+    "type": "esp32_i2s_set_inverted",
+    "message0": "I2S对象 %1 设置信号反转 BCLK%2 WS%3 MCLK%4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "BCLK_INV",
+        "checked": false
+      },
+      {
+        "type": "field_checkbox",
+        "name": "WS_INV",
+        "checked": false
+      },
+      {
+        "type": "field_checkbox",
+        "name": "MCLK_INV",
+        "checked": false
+      }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#673AB7",
-    "inputsInline": true
-},
-{
-    "type": "esp32_i2s_update_melody",
-    "message0": "I2S功放%1更新旋律播放",
+    "colour": "#5CB85C",
+    "tooltip": "设置I2S信号反转选项,用于兼容不同的音频芯片"
+  },
+  {
+    "type": "esp32_i2s_generate_tone",
+    "message0": "I2S对象 %1 生成方波音调 频率 %2 Hz 持续 %3 毫秒 振幅 %4",
     "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "input_value",
+        "name": "FREQUENCY",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "AMPLITUDE",
+        "check": ["Number"]
+      }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#673AB7",
-    "inputsInline": true
-},
-{
-    "type": "esp32_i2s_set_volume",
-    "message0": "I2S功放%1设置音量%2",
+    "colour": "#5CB85C",
+    "tooltip": "生成指定频率的方波音调并通过I2S播放"
+  },
+  {
+    "type": "esp32_i2s_free_wav_buffer",
+    "message0": "释放WAV缓冲区 %1",
     "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        },
-        {
-            "type": "input_value",
-            "name": "VOLUME",
-            "check": "Number"
-        }
+      {
+        "type": "input_value",
+        "name": "BUFFER",
+        "check": ["Array"]
+      }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#E91E63",
-    "inputsInline": true
-},
-{
-    "type": "esp32_i2s_is_playing",
-    "message0": "I2S功放%1正在播放WAV",
-    "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        }
-    ],
-    "output": "Boolean",
-    "colour": "#E91E63",
-    "inputsInline": true
-},
-{
-    "type": "esp32_i2s_is_melody_playing",
-    "message0": "I2S功放%1正在播放旋律",
-    "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        }
-    ],
-    "output": "Boolean",
-    "colour": "#E91E63",
-    "inputsInline": true
-},
-{
-    "type": "esp32_i2s_update_all",
-    "message0": "I2S音频功放%1更新所有状态",
-    "args0": [
-        {
-            "type": "field_variable",
-            "name": "OBJECT",
-            "variable": "microphone",
-            "variableTypes": ["EspI2S"],
-            "defaultType": "EspI2S"
-        }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#607D8B",
-    "inputsInline": true
-}
+    "colour": "#5CB85C",
+    "tooltip": "释放recordWAV分配的内存缓冲区"
+  }
 ]
