@@ -1,43 +1,45 @@
 [
   {
     "type": "custom_code",
-    "message0": "自定义代码 %1",
+    "message0": "自定义代码(语句) %1",
     "args0": [
       {
         "type": "field_multilinetext",
         "name": "CODE",
-        "text": "custom_code();"
+        "text": "// your code here"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#FF9800",
-    "tooltip": "在程序中插入自定义代码",
+    "tooltip": "插入自定义C++代码语句，用于补充Blockly库未提供的功能",
+    "helpUrl": "",
     "icon": "fa-regular fa-code"
   },
   {
     "type": "custom_code2",
-    "message0": "自定义代码 %1",
+    "message0": "自定义代码(表达式) %1",
     "args0": [
       {
         "type": "field_multilinetext",
         "name": "CODE",
-        "text": "custom_code"
+        "text": "expression"
       }
     ],
-    "output": "Any",
+    "output": null,
     "colour": "#FF9800",
-    "tooltip": "在程序中插入自定义代码2",
+    "tooltip": "插入自定义C++表达式，可作为值使用",
+    "helpUrl": "",
     "icon": "fa-regular fa-code"
   },
   {
     "type": "custom_macro",
-    "message0": "宏定义 %1 为 %2",
+    "message0": "#define %1 %2",
     "args0": [
       {
         "type": "field_input",
         "name": "NAME",
-        "text": "PIN_LED"
+        "text": "LED_PIN"
       },
       {
         "type": "field_input",
@@ -47,92 +49,28 @@
     ],
     "inputsInline": true,
     "colour": "#FF9800",
-    "tooltip": "添加宏定义到程序顶部",
-    "icon": "fa-regular fa-code"
+    "tooltip": "定义预处理宏，会添加到程序顶部",
+    "helpUrl": "",
+    "icon": "fa-regular fa-hashtag"
   },
   {
     "type": "custom_library",
-    "message0": "引用库 %1",
+    "message0": "#include <%1>",
     "args0": [
       {
         "type": "field_input",
         "name": "LIB_NAME",
-        "text": "Servo.h"
+        "text": "Wire.h"
       }
     ],
     "colour": "#FF9800",
-    "tooltip": "添加库引用到程序顶部",
-    "icon": "fa-regular fa-code"
-  },
-  {
-    "type": "custom_variable",
-    "message0": "定义变量 类型 %1 名称 %2 初始值 %3",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "TYPE",
-        "options": [
-          [
-            "无类型",
-            "void"
-          ],
-          [
-            "整型",
-            "int"
-          ],
-          [
-            "长整型",
-            "long*"
-          ],
-          [
-            "浮点型",
-            "float"
-          ],
-          [
-            "双精度浮点型",
-            "double"
-          ],
-          [
-            "无符号整型",
-            "unsigned char"
-          ],
-          [
-            "无符号长整型",
-            "unsigned long"
-          ],
-          [
-            "布尔型",
-            "bool"
-          ],
-          [
-            "字符型",
-            "char"
-          ],
-          [
-            "字符串型",
-            "string"
-          ]
-        ]
-      },
-      {
-        "type": "field_input",
-        "name": "NAME",
-        "text": "newVariable"
-      },
-      {
-        "type": "field_input",
-        "name": "VALUE",
-        "text": "0"
-      }
-    ],
-    "inputsInline": true,
-    "colour": "#FF9800",
-    "tooltip": "添加全局变量定义",
-    "icon": "fa-regular fa-code"
+    "tooltip": "引用外部库头文件",
+    "helpUrl": "",
+    "icon": "fa-regular fa-book"
   },
   {
     "type": "custom_function",
-    "message0": "函数定义 %1 %2 返回类型 %3 参数列表 %4 %5 函数体 %6",
+    "message0": "定义函数 %1 %2 返回类型 %3 参数 %4 %5 %6",
     "args0": [
       {
         "type": "field_input",
@@ -146,46 +84,70 @@
         "type": "field_dropdown",
         "name": "RETURN",
         "options": [
-          [
-            "无类型",
-            "void"
-          ],
-          [
-            "整型",
-            "int"
-          ],
-          [
-            "长整型",
-            "long*"
-          ],
-          [
-            "浮点型",
-            "float"
-          ],
-          [
-            "双精度浮点型",
-            "double"
-          ],
-          [
-            "无符号整型",
-            "unsigned char"
-          ],
-          [
-            "无符号长整型",
-            "unsigned long"
-          ],
-          [
-            "布尔型",
-            "bool"
-          ],
-          [
-            "字符型",
-            "char"
-          ],
-          [
-            "字符串型",
-            "string"
-          ]
+          ["void", "void"],
+          ["int", "int"],
+          ["long", "long"],
+          ["float", "float"],
+          ["double", "double"],
+          ["bool", "bool"],
+          ["char", "char"],
+          ["String", "String"],
+          ["int*", "int*"],
+          ["char*", "char*"],
+          ["void*", "void*"],
+          ["uint8_t", "uint8_t"],
+          ["uint16_t", "uint16_t"],
+          ["uint32_t", "uint32_t"]
+        ]
+      },
+      {
+        "type": "field_input",
+        "name": "PARAMS",
+        "text": ""
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "BODY"
+      }
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "定义自定义函数，函数体使用Blockly块编写",
+    "helpUrl": "",
+    "icon": "fa-regular fa-function"
+  },
+  {
+    "type": "custom_function_text",
+    "message0": "定义函数(文本) %1 %2 返回类型 %3 参数 %4 %5 函数体 %6",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "NAME",
+        "text": "myFunction"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RETURN",
+        "options": [
+          ["void", "void"],
+          ["int", "int"],
+          ["long", "long"],
+          ["float", "float"],
+          ["double", "double"],
+          ["bool", "bool"],
+          ["char", "char"],
+          ["String", "String"],
+          ["int*", "int*"],
+          ["char*", "char*"],
+          ["void*", "void*"],
+          ["uint8_t", "uint8_t"],
+          ["uint16_t", "uint16_t"],
+          ["uint32_t", "uint32_t"]
         ]
       },
       {
@@ -199,78 +161,235 @@
       {
         "type": "field_multilinetext",
         "name": "BODY",
-        "text": "// custom code;"
+        "text": "// function body"
       }
     ],
-    "colour": "#FF9800",
-    "tooltip": "定义一个自定义函数",
-    "icon": "fa-regular fa-code"
+    "colour": "#9C27B0",
+    "tooltip": "定义自定义函数，函数体直接使用文本编写",
+    "helpUrl": "",
+    "icon": "fa-regular fa-function"
+  },
+  {
+    "type": "custom_function_call",
+    "message0": "调用 %1 ( %2 )",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "NAME",
+        "text": "myFunction"
+      },
+      {
+        "type": "field_input",
+        "name": "ARGS",
+        "text": ""
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "调用函数（作为语句）",
+    "helpUrl": "",
+    "icon": "fa-regular fa-play"
+  },
+  {
+    "type": "custom_function_call_return",
+    "message0": "调用 %1 ( %2 )",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "NAME",
+        "text": "myFunction"
+      },
+      {
+        "type": "field_input",
+        "name": "ARGS",
+        "text": ""
+      }
+    ],
+    "inputsInline": true,
+    "output": null,
+    "colour": "#9C27B0",
+    "tooltip": "调用函数（获取返回值）",
+    "helpUrl": "",
+    "icon": "fa-regular fa-reply"
+  },
+  {
+    "type": "custom_return",
+    "message0": "return %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "从函数返回一个值",
+    "helpUrl": "",
+    "icon": "fa-regular fa-arrow-right-from-bracket"
+  },
+  {
+    "type": "custom_return_void",
+    "message0": "return",
+    "previousStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "从函数返回（无返回值）",
+    "helpUrl": "",
+    "icon": "fa-regular fa-arrow-right-from-bracket"
   },
   {
     "type": "custom_insert_code",
-    "message0": "插入代码到 %1 %2",
+    "message0": "插入代码到 %1 %2 %3",
     "args0": [
       {
         "type": "field_dropdown",
         "name": "POSITION",
         "options": [
-          [
-            "宏定义区",
-            "macro"
-          ],
-          [
-            "库引用区",
-            "library"
-          ],
-          [
-            "变量定义区",
-            "variable"
-          ],
-          [
-            "对象定义区",
-            "object"
-          ],
-          [
-            "函数定义区",
-            "function"
-          ]
+          ["宏定义区", "macro"],
+          ["库引用区", "library"],
+          ["变量定义区", "variable"],
+          ["对象定义区", "object"],
+          ["函数定义区", "function"]
         ]
+      },
+      {
+        "type": "input_dummy"
       },
       {
         "type": "field_multilinetext",
         "name": "CODE",
-        "text": "// your code here"
+        "text": "// your code"
       }
     ],
     "inputsInline": false,
     "colour": "#FF9800",
-    "tooltip": "向指定位置插入自定义代码",
-    "icon": "fa-regular fa-code"
+    "tooltip": "向代码的指定区域插入自定义代码",
+    "helpUrl": "",
+    "icon": "fa-regular fa-file-import"
+  },
+  {
+    "type": "custom_ifdef",
+    "message0": "#ifdef %1 %2 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "MACRO",
+        "text": "DEBUG"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "CODE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "条件编译：当宏被定义时编译此代码",
+    "helpUrl": "",
+    "icon": "fa-regular fa-code-branch"
+  },
+  {
+    "type": "custom_ifndef",
+    "message0": "#ifndef %1 %2 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "MACRO",
+        "text": "RELEASE"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "CODE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "条件编译：当宏未被定义时编译此代码",
+    "helpUrl": "",
+    "icon": "fa-regular fa-code-branch"
+  },
+  {
+    "type": "custom_ifdef_else",
+    "message0": "#ifdef %1 %2 %3 #else %4 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "MACRO",
+        "text": "DEBUG"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "IF_CODE"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "ELSE_CODE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "条件编译：根据宏是否定义选择编译不同代码",
+    "helpUrl": "",
+    "icon": "fa-regular fa-code-branch"
   },
   {
     "type": "comment",
-    "message0": "注释说明 %1",
+    "message0": "// %1",
     "args0": [
       {
         "type": "field_input",
         "name": "TEXT",
-        "text": "这是一条注释"
+        "text": "注释内容"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#9E9E9E",
     "tooltip": "添加单行注释",
-    "icon": "fa-regular fa-code"
+    "helpUrl": "",
+    "icon": "fa-regular fa-comment"
+  },
+  {
+    "type": "comment_multiline",
+    "message0": "/* 多行注释 */ %1",
+    "args0": [
+      {
+        "type": "field_multilinetext",
+        "name": "TEXT",
+        "text": "这是一段\n多行注释"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9E9E9E",
+    "tooltip": "添加多行注释块",
+    "helpUrl": "",
+    "icon": "fa-regular fa-comments"
   },
   {
     "type": "comment_wrapper",
-    "message0": "区域注释说明 %1 %2 %3",
+    "message0": "// ===== %1 ===== %2 %3",
     "args0": [
       {
         "type": "field_input",
         "name": "TEXT",
-        "text": "代码区域说明"
+        "text": "代码区域"
       },
       {
         "type": "input_dummy"
@@ -283,7 +402,8 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#9E9E9E",
-    "tooltip": "添加带标记的代码区域注释",
-    "icon": "fa-regular fa-code"
+    "tooltip": "用注释标记包围一段代码区域",
+    "helpUrl": "",
+    "icon": "fa-regular fa-folder"
   }
 ]
