@@ -1,55 +1,129 @@
 {
-"toolbox_name": "カスタムコード",
-"custom_code": {
-    "message0": "カスタムコード %1"
-},
-"custom_macro": {
-    "message0": "マクロ定義 %1 を %2 とする"
-},
-"custom_library": {
-    "message0": "ライブラリ %1 をインクルード"
-},
-"custom_variable": {
-    "message0": "変数定義 型 %1 名前 %2 初期値 %3",
+  "toolbox_name": "カスタムコード",
+  "toolbox_label_code_insert": "コード挿入",
+  "toolbox_label_preprocessor": "プリプロセッサ指令",
+  "toolbox_label_conditional": "条件付きコンパイル",
+  "toolbox_label_function": "関数定義",
+  "toolbox_label_comment": "コメント",
+  "toolbox_label_advanced": "高度な式",
+  "custom_code": {
+    "message0": "カスタムコード(ステートメント) %1",
+    "tooltip": "Blocklyライブラリが提供しない機能を補うためのカスタムC++コードステートメントを挿入"
+  },
+  "custom_code2": {
+    "message0": "カスタムコード(式) %1",
+    "tooltip": "値として使用できるカスタムC++式を挿入"
+  },
+  "custom_macro": {
+    "message0": "#define %1 %2",
+    "tooltip": "プリプロセッサマクロを定義、プログラムの先頭に追加されます"
+  },
+  "custom_library": {
+    "message0": "#include <%1>",
+    "tooltip": "外部ライブラリヘッダファイルをインクルード"
+  },
+  "custom_function": {
+    "message0": "関数を定義 %1 %2 戻り値の型 %3 パラメータ %4 %5 %6",
+    "tooltip": "Blocklyブロックを関数本体としてカスタム関数を定義"
+  },
+  "custom_function_text": {
+    "message0": "関数を定義(テキスト) %1 %2 戻り値の型 %3 パラメータ %4 %5 本体 %6",
+    "tooltip": "テキストを関数本体としてカスタム関数を定義"
+  },
+  "custom_function_call": {
+    "message0": "呼び出し %1 ( %2 )",
+    "tooltip": "関数を呼び出す（ステートメントとして）"
+  },
+  "custom_function_call_return": {
+    "message0": "呼び出し %1 ( %2 )",
+    "tooltip": "関数を呼び出す（戻り値を取得）"
+  },
+  "custom_return": {
+    "message0": "return %1",
+    "tooltip": "関数から値を返す"
+  },
+  "custom_return_void": {
+    "message0": "return",
+    "tooltip": "関数から戻る（戻り値なし）"
+  },
+  "custom_insert_code": {
+    "message0": "コードを挿入 %1 %2 %3",
+    "tooltip": "指定された領域にカスタムコードを挿入",
     "args0": [
-        {
-            "options": [
-                ["整数型", "int"],
-                ["長整数型", "long*"],
-                ["浮動小数点型", "float"],
-                ["倍精度浮動小数点型", "double"],
-                ["符号なし整数型", "unsigned char"],
-                ["符号なし長整数型", "unsigned char"],
-                ["ブール型", "bool"],
-                ["文字型", "char"],
-                ["文字列型", "string"]
-            ]
-        },
-        null,
-        null
+      {
+        "options": [
+          ["マクロ領域", "macro"],
+          ["ライブラリ領域", "library"],
+          ["変数領域", "variable"],
+          ["オブジェクト領域", "object"],
+          ["関数領域", "function"]
+        ]
+      }
     ]
-},
-"custom_function": {
-    "message0": "関数定義 %1 %2 戻り値型 %3 引数リスト %4 %5 関数本体 %6",
+  },
+  "custom_ifdef": {
+    "message0": "#ifdef %1 %2 %3",
+    "tooltip": "条件付きコンパイル：マクロが定義されている場合にこのコードをコンパイル"
+  },
+  "custom_ifndef": {
+    "message0": "#ifndef %1 %2 %3",
+    "tooltip": "条件付きコンパイル：マクロが定義されていない場合にこのコードをコンパイル"
+  },
+  "custom_ifdef_else": {
+    "message0": "#ifdef %1 %2 %3 #else %4 %5",
+    "tooltip": "条件付きコンパイル：マクロが定義されているかどうかに基づいて異なるコードをコンパイル"
+  },
+  "comment": {
+    "message0": "// %1",
+    "tooltip": "単一行コメントを追加"
+  },
+  "comment_multiline": {
+    "message0": "/* 複数行コメント */ %1",
+    "tooltip": "複数行コメントブロックを追加"
+  },
+  "comment_wrapper": {
+    "message0": "// ===== %1 ===== %2 %3",
+    "tooltip": "コメントマーカーでコード領域を囲む"
+  },
+  "custom_sizeof": {
+    "message0": "sizeof( %1 )",
+    "tooltip": "型または変数のバイトサイズを取得"
+  },
+  "custom_cast": {
+    "message0": "( %1 ) %2",
+    "tooltip": "C言語スタイルの型キャスト、任意の型名を入力可能"
+  },
+  "custom_ternary": {
+    "message0": "%1 ? %2 : %3",
+    "tooltip": "三項条件演算子：条件 ? 真の値 : 偽の値"
+  },
+  "custom_pointer_ref": {
+    "message0": "%1 %2",
+    "tooltip": "ポインタ操作：アドレス取得(&)または参照解除(*)",
     "args0": [
-        null,
-        null,
-        {
-            "options": [
-                ["整数型", "int"],
-                ["長整数型", "long*"],
-                ["浮動小数点型", "float"],
-                ["倍精度浮動小数点型", "double"],
-                ["符号なし整数型", "unsigned char"],
-                ["符号なし長整数型", "unsigned char"],
-                ["ブール型", "bool"],
-                ["文字型", "char"],
-                ["文字列型", "string"]
-            ]
-        },
-        null,
-        null,
-        null
+      {
+        "options": [
+          ["&（アドレス取得）", "&"],
+          ["*（参照解除）", "*"]
+        ]
+      }
     ]
-}
+  },
+  "custom_array_access": {
+    "message0": "%1 [ %2 ]",
+    "tooltip": "配列要素にアクセス"
+  },
+  "custom_struct_access": {
+    "message0": "%1 %2 %3",
+    "tooltip": "構造体/クラスメンバにアクセス",
+    "args0": [
+      null,
+      {
+        "options": [
+          [".（メンバアクセス）", "."],
+          ["->（ポインタメンバ）", "->"]
+        ]
+      }
+    ]
+  }
 }

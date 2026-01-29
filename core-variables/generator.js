@@ -123,6 +123,30 @@ Blockly.getMainWorkspace().addChangeListener((event) => {
               "kind": "button",
               "text": "新建变量",
               "callbackKey": "CREATE_VARIABLE"
+            },
+            {
+              "kind": "block",
+              "type": "variable_define"
+            },
+            {
+              "kind": "block",
+              "type": "variable_define_scoped"
+            },
+            {
+              "kind": "block",
+              "type": "variable_define_advanced"
+            },
+            {
+              "kind": "block",
+              "type": "variable_define_advanced_scoped"
+            },
+            {
+              "kind": "block",
+              "type": "variables_set"
+            },
+            {
+              "kind": "block",
+              "type": "type_cast"
             }
           ];
         } else {
@@ -132,6 +156,99 @@ Blockly.getMainWorkspace().addChangeListener((event) => {
 
         refreshToolbox(workspace);
         break;
+      }
+    }
+  }
+
+  // 监听块删除事件 - 当 variable_define 相关块被删除时，清理未使用的变量
+  if (event.type === Blockly.Events.BLOCK_DELETE) {
+    const workspace = Blockly.getMainWorkspace();
+    if (!workspace) return;
+
+    // 检查删除的块是否是变量定义块
+    const defineBlockTypes = [
+      'variable_define',
+      'variable_define_scoped',
+      'variable_define_advanced',
+      'variable_define_advanced_scoped'
+    ];
+
+    // 递归从 oldJson 中提取所有被删除的变量定义块的变量名
+    function extractDeletedVarNames(blockJson, varNames = []) {
+      if (!blockJson) return varNames;
+      
+      // 检查当前块是否是变量定义块
+      if (defineBlockTypes.includes(blockJson.type) && blockJson.fields?.VAR) {
+        varNames.push(blockJson.fields.VAR);
+      }
+      
+      // 递归检查所有输入中的子块
+      if (blockJson.inputs) {
+        for (const inputName in blockJson.inputs) {
+          const input = blockJson.inputs[inputName];
+          if (input && input.block) {
+            extractDeletedVarNames(input.block, varNames);
+          }
+        }
+      }
+      
+      // 递归检查 next 连接的块
+      if (blockJson.next && blockJson.next.block) {
+        extractDeletedVarNames(blockJson.next.block, varNames);
+      }
+      
+      return varNames;
+    }
+
+    // 获取所有被删除的变量名
+    const deletedVarNames = extractDeletedVarNames(event.oldJson);
+    if (deletedVarNames.length === 0) return;
+
+    // 获取工作区中所有剩余的块
+    const allBlocks = workspace.getAllBlocks(false);
+
+    // 对每个被删除的变量名进行检查
+    for (const deletedVarName of deletedVarNames) {
+      let isVariableUsed = false;
+
+      for (const block of allBlocks) {
+        // 检查其他变量定义块
+        if (defineBlockTypes.includes(block.type)) {
+          const varField = block.getField('VAR');
+          if (varField && varField.getText() === deletedVarName) {
+            isVariableUsed = true;
+            break;
+          }
+        }
+
+        // 检查变量获取块
+        if (block.type === 'variables_get' || block.type === 'variables_get_dynamic') {
+          const varField = block.getField('VAR');
+          if (varField && varField.getText() === deletedVarName) {
+            isVariableUsed = true;
+            break;
+          }
+        }
+
+        // 检查变量设置块
+        if (block.type === 'variables_set' || block.type === 'variables_set_dynamic') {
+          const varField = block.getField('VAR');
+          if (varField && varField.getText() === deletedVarName) {
+            isVariableUsed = true;
+            break;
+          }
+        }
+      }
+
+      // 如果变量未被使用，则删除它
+      if (!isVariableUsed) {
+        // 查找并删除变量（检查所有类型的变量）
+        const variable = workspace.getAllVariables().find(v => v.name === deletedVarName);
+        if (variable) {
+          // 删除变量会触发 VAR_DELETE 事件，自动更新工具箱
+          workspace.deleteVariableById(variable.getId());
+          // console.log("变量已删除:", deletedVarName);
+        }
       }
     }
   }
@@ -226,29 +343,49 @@ addVariableToToolbox = function (block, varName) {
           ];
         }
 
-        // 检查变量是否已存在（通过ID和名称双重检查）
-        const varExists = category.contents.some(item =>
-          item.fields && item.fields.VAR && 
-          (item.fields.VAR.name === varName || (variable && item.fields.VAR.id === variable.getId()))
-        );
-
-        if (!varExists && variable) {
-          category.contents.push({
-            "kind": "block",
-            "type": "variables_get",
-            "fields": {
-              "VAR": {
-                "id": variable.getId(),
-                "name": varName,
-                "type": "int"
+        // 同步工具箱：确保工作区中的所有变量都有对应的 get 块
+        const allVariables = workspace.getAllVariables();
+        let needRefresh = false;
+        
+        for (const v of allVariables) {
+          // 检查这个变量是否已经在工具箱中（通过 ID 检查，因为名称可能会变）
+          const varExistsInToolbox = category.contents.some(item =>
+            item.type === 'variables_get' &&
+            item.fields && item.fields.VAR && 
+            item.fields.VAR.id === v.getId()
+          );
+          
+          if (!varExistsInToolbox) {
+            category.contents.push({
+              "kind": "block",
+              "type": "variables_get",
+              "fields": {
+                "VAR": {
+                  "id": v.getId(),
+                  "name": v.name,
+                  "type": v.type || "int"
+                }
               }
-            }
-          });
-
+            });
+            needRefresh = true;
+          } else {
+            // 更新工具箱中已有块的名称（变量可能被重命名了）
+            category.contents.forEach(item => {
+              if (item.type === 'variables_get' &&
+                  item.fields && item.fields.VAR && 
+                  item.fields.VAR.id === v.getId() &&
+                  item.fields.VAR.name !== v.name) {
+                item.fields.VAR.name = v.name;
+                needRefresh = true;
+              }
+            });
+          }
+        }
+        
+        if (needRefresh) {
           Blockly.Msg.VARIABLES_CURRENT_NAME = varName;
-
           refreshToolbox(workspace, openVariableItem = false);
-          // console.log("变量已添加到工具箱:", varName);
+          // console.log("变量已同步到工具箱");
         }
         break;
       }
@@ -399,10 +536,17 @@ function renameVariableInBlockly(block, oldName, newName, varType) {
   if (workspace) {
     const oldVar = workspace.getVariable(oldName, varType);
     const existVar = workspace.getVariable(newName, varType);
+    
     if (oldVar && !existVar) {
+      // 旧变量存在且新变量不存在，执行重命名
       workspace.renameVariableById(oldVar.getId(), newName);
       if (typeof refreshToolbox === 'function') refreshToolbox(workspace, false);
+    } else if (!oldVar && !existVar) {
+      // 旧变量不存在（可能是复制块的情况），新变量也不存在，创建新变量
+      registerVariableToBlockly(newName, varType);
+      addVariableToToolbox(block, newName);
     }
+    // 如果 existVar 已存在，说明新变量已经存在，不需要做任何事
   }
 }
 
@@ -692,8 +836,10 @@ function debounce(func, wait) {
 
 Arduino.forBlock["variable_define"] = function (block, generator) {
   // 1. 设置变量重命名监听（按照库规范实现）
-  if (!block._varMonitorAttached) {
-    block._varMonitorAttached = true;
+  // 使用块 ID 来标记，避免复制块时标志被复制的问题
+  const monitorKey = '_varMonitor_' + block.id;
+  if (!block[monitorKey]) {
+    block[monitorKey] = true;
     block._varLastName = block.getFieldValue('VAR') || 'variable';
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
@@ -765,8 +911,10 @@ Arduino.forBlock["variable_define"] = function (block, generator) {
 
 Arduino.forBlock["variable_define_scoped"] = function (block, generator) {
   // 1. 设置变量重命名监听（按照库规范实现）
-  if (!block._varMonitorAttached) {
-    block._varMonitorAttached = true;
+  // 使用块 ID 来标记，避免复制块时标志被复制的问题
+  const monitorKey = '_varMonitor_' + block.id;
+  if (!block[monitorKey]) {
+    block[monitorKey] = true;
     block._varLastName = block.getFieldValue('VAR') || 'variable';
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
@@ -838,8 +986,10 @@ Arduino.forBlock["variable_define_scoped"] = function (block, generator) {
 
 Arduino.forBlock["variable_define_advanced"] = function (block, generator) {
   // 1. 设置变量重命名监听
-  if (!block._varMonitorAttached) {
-    block._varMonitorAttached = true;
+  // 使用块 ID 来标记，避免复制块时标志被复制的问题
+  const monitorKey = '_varMonitor_' + block.id;
+  if (!block[monitorKey]) {
+    block[monitorKey] = true;
     block._varLastName = block.getFieldValue('VAR') || 'variable';
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
@@ -949,8 +1099,10 @@ Arduino.forBlock["variable_define_advanced"] = function (block, generator) {
 
 Arduino.forBlock["variable_define_advanced_scoped"] = function (block, generator) {
   // 1. 设置变量重命名监听
-  if (!block._varMonitorAttached) {
-    block._varMonitorAttached = true;
+  // 使用块 ID 来标记，避免复制块时标志被复制的问题
+  const monitorKey = '_varMonitor_' + block.id;
+  if (!block[monitorKey]) {
+    block[monitorKey] = true;
     block._varLastName = block.getFieldValue('VAR') || 'variable';
     const varField = block.getField('VAR');
     if (varField && typeof varField.setValidator === 'function') {
