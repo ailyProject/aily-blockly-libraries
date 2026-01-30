@@ -1,13 +1,16 @@
 {
   "toolbox_name": "Serial",
   "serial_begin": {
-    "message0": "Initialize Serial%1 with baud rate %2"
+    "message0": "Initialize Serial%1 with baud rate %2",
+    "tooltip": "Initialize the specified serial port with baud rate"
   },
   "serial_available": {
-    "message0": "Serial%1 buffer has data"
+    "message0": "Serial%1 buffer has data",
+    "tooltip": "Check if serial buffer has readable data"
   },
   "serial_read": {
     "message0": "Read Serial%1 data %2",
+    "tooltip": "Read data from serial port",
     "args0": [
       null,
       {
@@ -17,23 +20,55 @@
           ["parse integer", "parseInt()"],
           ["parse float", "parseFloat()"],
           ["read string", "readString()"],
-          ["read until newline '\\n'", "readStringUntil('\\n')"],
           ["read until carriage return '\\r'", "readStringUntil('\\r')"],
+          ["read until newline '\\n'", "readStringUntil('\\n')"],
           ["read until null character '\\0'", "readStringUntil('\\0')"]
         ]
       }
     ]
   },
+  "serial_read_until": {
+    "message0": "Read Serial%1 data until %2",
+    "tooltip": "Read data from serial until terminator character"
+  },
   "serial_print": {
-    "message0": "Serial%1 outputs %2"
+    "message0": "Serial%1 print %2",
+    "tooltip": "Output data via serial port (no newline)"
   },
   "serial_println": {
-    "message0": "Serial%1 outputs %2 with newline"
+    "message0": "Serial%1 print %2 with newline",
+    "tooltip": "Output data via serial port with newline"
   },
   "serial_write": {
-    "message0": "Serial%1 outputs raw data %2"
+    "message0": "Serial%1 write raw data %2",
+    "tooltip": "Send raw byte data via serial port"
   },
   "serial_read_string": {
-    "message0": "Read Serial%1 string"
+    "message0": "Read Serial%1 string",
+    "tooltip": "Read complete string from serial port"
+  },
+  "serial_begin_esp32_custom": {
+    "message0": "Initialize Serial%1 using %2 \nwith baud rate %3 RX pin %4 TX pin %5",
+    "tooltip": "Initialize ESP32 custom serial with specified UART and pins",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["UART0", "UART0"],
+          ["UART1", "UART1"]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "serial_begin_software": {
+    "message0": "Initialize SoftwareSerial%1 with baud rate %2 RX pin %3 TX pin %4",
+    "tooltip": "Initialize software serial using any digital pins"
+  },
+  "serial_listen_software": {
+    "message0": "SoftwareSerial %1 start listening",
+    "tooltip": "Activate software serial to start receiving data"
   }
 }

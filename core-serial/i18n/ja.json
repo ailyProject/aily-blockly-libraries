@@ -1,39 +1,74 @@
 {
   "toolbox_name": "シリアル",
   "serial_begin": {
-    "message0": "シリアル%1を初期化し、ボーレートを%2に設定する"
+    "message0": "シリアル%1を初期化 ボーレート%2",
+    "tooltip": "指定したシリアルポートをボーレートで初期化"
   },
   "serial_available": {
-    "message0": "シリアル%1バッファにデータがあります"
+    "message0": "シリアル%1バッファにデータあり",
+    "tooltip": "シリアルバッファに読み取り可能なデータがあるか確認"
   },
   "serial_read": {
-    "message0": "シリアル%1データを%2読み取ります",
+    "message0": "シリアル%1からデータを読む %2",
+    "tooltip": "シリアルポートからデータを読み取る",
     "args0": [
       null,
       {
         "options": [
           ["読み取り", "read()"],
-          ["ピーク", "peek()"],
+          ["先読み", "peek()"],
           ["整数を解析", "parseInt()"],
-          ["浮動小数点数を解析", "parseFloat()"],
-          ["文字列を読み取る", "readString()"],
-          ["改行文字'\\n'まで読み取る", "readStringUntil('\\n')"],
-          ["キャリッジリターン文字'\\r'まで読み取る", "readStringUntil('\\r')"],
-          ["ヌル文字'\\0'まで読み取る", "readStringUntil('\\0')"]
+          ["小数を解析", "parseFloat()"],
+          ["文字列を読む", "readString()"],
+          ["復帰'\\r'まで読む", "readStringUntil('\\r')"],
+          ["改行'\\n'まで読む", "readStringUntil('\\n')"],
+          ["ヌル'\\0'まで読む", "readStringUntil('\\0')"]
         ]
       }
     ]
   },
+  "serial_read_until": {
+    "message0": "シリアル%1から%2まで読む",
+    "tooltip": "終端文字までシリアルからデータを読み取る"
+  },
   "serial_print": {
-    "message0": "シリアル%1が%2を出力"
+    "message0": "シリアル%1に出力%2",
+    "tooltip": "シリアルポートからデータを出力（改行なし）"
   },
   "serial_println": {
-    "message0": "シリアル%1が%2を出力し、改行します"
+    "message0": "シリアル%1に出力%2して改行",
+    "tooltip": "シリアルポートからデータを出力して改行"
   },
   "serial_write": {
-    "message0": "シリアル%1が生データ%2を出力"
+    "message0": "シリアル%1に生データ%2を送信",
+    "tooltip": "シリアルポートから生のバイトデータを送信"
   },
   "serial_read_string": {
-    "message0": "シリアル%1の文字列を読み取ります"
+    "message0": "シリアル%1から文字列を読む",
+    "tooltip": "シリアルポートから完全な文字列を読み取る"
+  },
+  "serial_begin_esp32_custom": {
+    "message0": "シリアル%1を初期化 %2使用 \nボーレート%3 RXピン%4 TXピン%5",
+    "tooltip": "ESP32カスタムシリアルをUARTとピン指定で初期化",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["UART0", "UART0"],
+          ["UART1", "UART1"]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "serial_begin_software": {
+    "message0": "ソフトシリアル%1を初期化 ボーレート%2 RXピン%3 TXピン%4",
+    "tooltip": "任意のデジタルピンでソフトウェアシリアルを初期化"
+  },
+  "serial_listen_software": {
+    "message0": "ソフトシリアル %1 リッスン開始",
+    "tooltip": "ソフトウェアシリアルをアクティブにしてデータ受信開始"
   }
 }

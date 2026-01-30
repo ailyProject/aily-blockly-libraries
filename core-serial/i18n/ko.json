@@ -1,39 +1,74 @@
 {
   "toolbox_name": "시리얼",
   "serial_begin": {
-    "message0": "시리얼 %1을(를) 초기화하고 보율을 %2로 설정"
+    "message0": "시리얼%1 초기화 보드레이트 %2",
+    "tooltip": "지정된 시리얼 포트를 보드레이트로 초기화"
   },
   "serial_available": {
-    "message0": "시리얼 %1 버퍼에 데이터가 있음"
+    "message0": "시리얼%1 버퍼에 데이터 있음",
+    "tooltip": "시리얼 버퍼에 읽을 수 있는 데이터가 있는지 확인"
   },
   "serial_read": {
-    "message0": "시리얼 %1 데이터를 %2로 읽기",
+    "message0": "시리얼%1 데이터 읽기 %2",
+    "tooltip": "시리얼 포트에서 데이터 읽기",
     "args0": [
       null,
       {
         "options": [
           ["읽기", "read()"],
-          ["피크", "peek()"],
-          ["정수 구문 분석", "parseInt()"],
-          ["실수 구문 분석", "parseFloat()"],
+          ["미리보기", "peek()"],
+          ["정수 파싱", "parseInt()"],
+          ["실수 파싱", "parseFloat()"],
           ["문자열 읽기", "readString()"],
-          ["줄 바꿈 문자 '\\n'까지 읽기", "readStringUntil('\\n')"],
-          ["캐리지 리턴 문자 '\\r'까지 읽기", "readStringUntil('\\r')"],
-          ["널 문자 '\\0'까지 읽기", "readStringUntil('\\0')"]
+          ["복귀'\\r'까지 읽기", "readStringUntil('\\r')"],
+          ["개행'\\n'까지 읽기", "readStringUntil('\\n')"],
+          ["널'\\0'까지 읽기", "readStringUntil('\\0')"]
         ]
       }
     ]
   },
+  "serial_read_until": {
+    "message0": "시리얼%1 데이터를 %2까지 읽기",
+    "tooltip": "종료 문자까지 시리얼에서 데이터 읽기"
+  },
   "serial_print": {
-    "message0": "시리얼 %1이(가) %2 출력"
+    "message0": "시리얼%1 출력 %2",
+    "tooltip": "시리얼 포트로 데이터 출력 (줄바꿈 없음)"
   },
   "serial_println": {
-    "message0": "시리얼 %1이(가) %2 출력하고 줄 바꿈"
+    "message0": "시리얼%1 출력 %2 후 줄바꿈",
+    "tooltip": "시리얼 포트로 데이터 출력 후 줄바꿈"
   },
   "serial_write": {
-    "message0": "시리얼 %1이(가) 원시 데이터 %2 출력"
+    "message0": "시리얼%1 원시 데이터 %2 전송",
+    "tooltip": "시리얼 포트로 원시 바이트 데이터 전송"
   },
   "serial_read_string": {
-    "message0": "시리얼 %1 문자열 읽기"
+    "message0": "시리얼%1 문자열 읽기",
+    "tooltip": "시리얼 포트에서 전체 문자열 읽기"
+  },
+  "serial_begin_esp32_custom": {
+    "message0": "시리얼%1 초기화 %2 사용 \n보드레이트 %3 RX핀 %4 TX핀 %5",
+    "tooltip": "ESP32 커스텀 시리얼을 UART와 핀 지정으로 초기화",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["UART0", "UART0"],
+          ["UART1", "UART1"]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "serial_begin_software": {
+    "message0": "소프트웨어 시리얼%1 초기화 보드레이트 %2 RX핀 %3 TX핀 %4",
+    "tooltip": "임의의 디지털 핀으로 소프트웨어 시리얼 초기화"
+  },
+  "serial_listen_software": {
+    "message0": "소프트웨어 시리얼 %1 수신 시작",
+    "tooltip": "소프트웨어 시리얼을 활성화하여 데이터 수신 시작"
   }
 }
