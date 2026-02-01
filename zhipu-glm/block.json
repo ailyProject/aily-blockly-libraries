@@ -1,13 +1,12 @@
 [
   {
     "type": "zhipu_glm_config",
-    "message0": "配置智谱AI API %1 API Key %2 %3 Base URL %4",
+    "message0": "配置智谱AI API Key %1 Base URL %2",
     "args0": [
-      {"type": "inputsInline"},
       {"type": "input_value", "name": "API_KEY", "check": "String"},
-      {"type": "inputsInline"},
       {"type": "input_value", "name": "BASE_URL", "check": "String"}
     ],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#3B82F6",
@@ -17,11 +16,9 @@
   },
   {
     "type": "zhipu_glm_chat",
-    "message0": "智谱AI对话 %1 用户消息 %2 %3 模型 %4",
+    "message0": "智谱AI对话 用户消息 %1 模型 %2",
     "args0": [
-      {"type": "inputsInline"},
       {"type": "input_value", "name": "MESSAGE", "check": "String"},
-      {"type": "inputsInline"},
       {
         "type": "field_dropdown",
         "name": "MODEL",
@@ -31,6 +28,7 @@
         ]
       }
     ],
+    "inputsInline": true,
     "output": "String",
     "colour": "#3B82F6",
     "tooltip": "发送消息到智谱AI并获取回复",
@@ -39,11 +37,9 @@
   },
   {
     "type": "zhipu_glm_chat_with_thinking",
-    "message0": "智谱AI深度思考对话 %1 用户消息 %2 %3 模型 %4",
+    "message0": "智谱AI深度思考对话 用户消息 %1 模型 %2",
     "args0": [
-      {"type": "inputsInline"},
       {"type": "input_value", "name": "MESSAGE", "check": "String"},
-      {"type": "inputsInline"},
       {
         "type": "field_dropdown",
         "name": "MODEL",
@@ -54,6 +50,7 @@
         ]
       }
     ],
+    "inputsInline": true,
     "output": "String",
     "colour": "#3B82F6",
     "tooltip": "启用深度思考模式的智谱AI对话",
@@ -62,11 +59,9 @@
   },
   {
     "type": "zhipu_glm_chat_with_history",
-    "message0": "智谱AI多轮对话 %1 用户消息 %2 %3 模型 %4",
+    "message0": "智谱AI多轮对话 用户消息 %1 模型 %2",
     "args0": [
-      {"type": "inputsInline"},
       {"type": "input_value", "name": "MESSAGE", "check": "String"},
-      {"type": "inputsInline"},
       {
         "type": "field_dropdown",
         "name": "MODEL",
@@ -76,6 +71,7 @@
         ]
       }
     ],
+    "inputsInline": true,
     "output": "String",
     "colour": "#3B82F6",
     "tooltip": "支持多轮对话的智谱AI",
@@ -94,11 +90,11 @@
   },
   {
     "type": "zhipu_glm_set_system_prompt",
-    "message0": "设置智谱AI系统提示词 %1 系统提示词 %2",
+    "message0": "设置智谱AI系统提示词 %1",
     "args0": [
-      {"type": "inputsInline"},
       {"type": "input_value", "name": "SYSTEM_PROMPT", "check": "String"}
     ],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#3B82F6",
@@ -159,13 +155,10 @@
   },
   {
     "type": "zhipu_glm_vision_chat",
-    "message0": "智谱AI图片对话 %1 Base64图片 %2 %3 提示词 %4 %5 模型 %6",
+    "message0": "智谱AI图片对话 Base64图片 %1 提示词 %2 模型 %3",
     "args0": [
-      {"type": "inputsInline"},
       {"type": "input_value", "name": "IMAGE", "check": "String"},
-      {"type": "inputsInline"},
       {"type": "input_value", "name": "MESSAGE", "check": "String"},
-      {"type": "inputsInline"},
       {
         "type": "field_dropdown",
         "name": "MODEL",
@@ -176,6 +169,7 @@
         ]
       }
     ],
+    "inputsInline": true,
     "output": "String",
     "colour": "#3B82F6",
     "tooltip": "发送Base64编码的图片和文本到智谱AI视觉模型进行图片理解",
@@ -183,14 +177,10 @@
     "icon": "fa-regular fa-brain"
   },
   {
-    "type": "zhipu_glm_vision_url_chat",
-    "message0": "智谱AI图片URL对话 %1 图片URL %2 %3 提示词 %4 %5 模型 %6",
+    "type": "zhipu_glm_vision_chat_direct_capture",
+    "message0": "智谱AI图片对话(直接拍照) 提示词 %1 模型 %2",
     "args0": [
-      {"type": "inputsInline"},
-      {"type": "input_value", "name": "IMAGE_URL", "check": "String"},
-      {"type": "inputsInline"},
       {"type": "input_value", "name": "MESSAGE", "check": "String"},
-      {"type": "inputsInline"},
       {
         "type": "field_dropdown",
         "name": "MODEL",
@@ -201,6 +191,30 @@
         ]
       }
     ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#3B82F6",
+    "tooltip": "直接从摄像头拍照并流式上传到智谱AI（不生成完整Base64字符串，显著降低内存占用）",
+    "helpUrl": "",
+    "icon": "fa-regular fa-brain"
+  },
+  {
+    "type": "zhipu_glm_vision_url_chat",
+    "message0": "智谱AI图片URL对话 图片URL %1 提示词 %2 模型 %3",
+    "args0": [
+      {"type": "input_value", "name": "IMAGE_URL", "check": "String"},
+      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["glm-4.6v-flash (免费)", "glm-4.6v-flash"],
+          ["glm-4.6v (收费)", "glm-4.6v"],
+          ["glm-4.6v-flashx (收费)", "glm-4.6v-flashx"]
+        ]
+      }
+    ],
+    "inputsInline": true,
     "output": "String",
     "colour": "#3B82F6",
     "tooltip": "发送图片URL和文本到智谱AI视觉模型进行图片理解",
@@ -209,11 +223,9 @@
   },
   {
     "type": "zhipu_glm_image_generate",
-    "message0": "智谱AI生成图片 %1 提示词 %2 %3 模型 %4 %5 尺寸 %6",
+    "message0": "智谱AI生成图片 提示词 %1 模型 %2 尺寸 %3",
     "args0": [
-      {"type": "inputsInline"},
       {"type": "input_value", "name": "PROMPT", "check": "String"},
-      {"type": "inputsInline"},
       {
         "type": "field_dropdown",
         "name": "MODEL",
@@ -222,7 +234,6 @@
           ["CogView-3-Flash (免费)", "cogview-3-flash"]
         ]
       },
-      {"type": "inputsInline"},
       {
         "type": "field_dropdown",
         "name": "SIZE",
@@ -237,6 +248,7 @@
         ]
       }
     ],
+    "inputsInline": true,
     "output": "String",
     "colour": "#9333EA",
     "tooltip": "生成图片，返回图片URL链接。CogView-4生成高清美感图片，CogView-3-Flash完全免费",
@@ -245,11 +257,11 @@
   },
   {
     "type": "zhipu_glm_image_generate_simple",
-    "message0": "智谱AI生成图片(简易) %1 提示词 %2",
+    "message0": "智谱AI生成图片(简易) 提示词 %1",
     "args0": [
-      {"type": "inputsInline"},
       {"type": "input_value", "name": "PROMPT", "check": "String"}
     ],
+    "inputsInline": true,
     "output": "String",
     "colour": "#9333EA",
     "tooltip": "使用CogView-3-Flash生成1024x1024图片，返回图片URL链接，可配合TFT屏幕显示",

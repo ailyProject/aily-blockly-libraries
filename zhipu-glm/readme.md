@@ -5,7 +5,7 @@
 ## 库信息
 - **库名**: @aily-project/lib-zhipu-glm
 - **版本**: 0.0.2
-- **兼容**: esp32:esp32
+- **兼容**: esp32:esp32 / esp32:esp32c3 / esp32:esp32s3 / esp32:esp32c6 / esp32:esp32h2
 
 ## 块定义
 
@@ -21,6 +21,9 @@
 | `zhipu_glm_set_system_prompt` | 语句块 | SYSTEM_PROMPT(input_value) | 无字段 | 设置系统提示词 |
 | `zhipu_glm_get_response_status` | 值块 | 无 | 无字段 | 获取响应状态 |
 | `zhipu_glm_get_error_message` | 值块 | 无 | 无字段 | 获取错误信息 |
+| `zhipu_glm_set_stream_callback` | 语句块 | CALLBACK(input_statement) | 无字段 | 设置流式回调 |
+| `zhipu_glm_get_stream_chunk` | 值块 | 无 | 无字段 | 获取流式片段 |
+| `zhipu_glm_clear_stream_callback` | 语句块 | 无 | 无字段 | 清除流式回调 |
 | `zhipu_glm_image_generate` | 值块 | PROMPT(input_value), SIZE(dropdown) | `"SIZE": "1024x1024"` | 生成图片返回URL |
 | `zhipu_glm_image_generate_simple` | 值块 | PROMPT(input_value) | 无字段 | 简易图片生成 |
 
@@ -30,6 +33,7 @@
 |------|----------|------|
 | field_dropdown | 字符串 | `"MODEL": "glm-4.5-flash"` |
 | input_value | 块连接 | `"inputs": {"MESSAGE": {"shadow": {"type": "text", "fields": {"TEXT": "你好"}}}}` |
+| input_statement | 块连接 | `"inputs": {"CALLBACK": {"block": {...}}}` |
 
 ## 连接规则
 
