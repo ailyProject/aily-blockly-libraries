@@ -305,34 +305,92 @@ Arduino.forBlock['esp32_camera_send_serial'] = function (block, generator) {
 
 // 添加拍摄照片并转换为Base64的功能块实现
 Arduino.forBlock['esp32_camera_capture_and_encode_base64'] = function (block, generator) {
-  // 使用ESP32自带的mbedTLS库进行Base64编码
-  generator.addLibrary('mbedtls_base64', '#include <mbedtls/base64.h>');
+  generator.addLibrary('esp_heap_caps', '#include <esp_heap_caps.h>');
 
   // 添加获取并编码图片的函数
+  generator.addFunction('esp32_cam_base64_encode', `
+size_t esp32_cam_base64_encode(const uint8_t* input, size_t input_len, char* output) {
+  static const char* table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+  size_t i = 0;
+  size_t o = 0;
+
+  while (i + 3 <= input_len) {
+    uint32_t n = ((uint32_t)input[i] << 16) | ((uint32_t)input[i + 1] << 8) | ((uint32_t)input[i + 2]);
+    output[o++] = table[(n >> 18) & 0x3F];
+    output[o++] = table[(n >> 12) & 0x3F];
+    output[o++] = table[(n >> 6) & 0x3F];
+    output[o++] = table[n & 0x3F];
+    i += 3;
+  }
+
+  size_t rem = input_len - i;
+  if (rem == 1) {
+    uint32_t n = ((uint32_t)input[i] << 16);
+    output[o++] = table[(n >> 18) & 0x3F];
+    output[o++] = table[(n >> 12) & 0x3F];
+    output[o++] = '=';
+    output[o++] = '=';
+  } else if (rem == 2) {
+    uint32_t n = ((uint32_t)input[i] << 16) | ((uint32_t)input[i + 1] << 8);
+    output[o++] = table[(n >> 18) & 0x3F];
+    output[o++] = table[(n >> 12) & 0x3F];
+    output[o++] = table[(n >> 6) & 0x3F];
+    output[o++] = '=';
+  }
+
+  return o;
+}`);
+
   generator.addFunction('capture_and_encode_base64', `
 String capture_and_encode_base64() {
   camera_fb_t* fb = esp_camera_fb_get();
-  if (!fb) {
+  if (!fb || !fb->buf || fb->len == 0) {
+    if (fb) {
+      esp_camera_fb_return(fb);
+    }
     return String("");
   }
 
-  // 计算Base64编码后的长度
-  size_t out_len = 0;
-  mbedtls_base64_encode(NULL, 0, &out_len, fb->buf, fb->len);
-
-  // 分配内存并编码
-  char* base64_buf = (char*)malloc(out_len + 1);
-  if (base64_buf) {
-    mbedtls_base64_encode((unsigned char*)base64_buf, out_len, &out_len, fb->buf, fb->len);
-    base64_buf[out_len] = '\\0';
-    String result = String(base64_buf);
-    free(base64_buf);
+  size_t required = 4 * ((fb->len + 2) / 3);
+  if (required == 0) {
     esp_camera_fb_return(fb);
-    return result;
+    return String("");
   }
 
+  char* base64_buf = nullptr;
+  bool usedCapsAlloc = false;
+  if (psramFound()) {
+    base64_buf = (char*)heap_caps_malloc(required + 1, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
+    usedCapsAlloc = true;
+  } else {
+    base64_buf = (char*)malloc(required + 1);
+  }
+
+  if (!base64_buf) {
+    esp_camera_fb_return(fb);
+    return String("");
+  }
+
+  size_t out_len = esp32_cam_base64_encode(fb->buf, fb->len, base64_buf);
   esp_camera_fb_return(fb);
-  return String("");
+
+  if (out_len == 0 || out_len > required) {
+    if (usedCapsAlloc) {
+      heap_caps_free(base64_buf);
+    } else {
+      free(base64_buf);
+    }
+    return String("");
+  }
+
+  base64_buf[out_len] = '\\0';
+  String result = String(base64_buf);
+  if (usedCapsAlloc) {
+    heap_caps_free(base64_buf);
+  } else {
+    free(base64_buf);
+  }
+  return result;
 }`);
 
   // 返回函数调用
