@@ -1,39 +1,74 @@
 {
   "toolbox_name": "Seriell",
   "serial_begin": {
-    "message0": "Seriell%1 initialisieren mit Baudrate %2"
+    "message0": "Serial%1 initialisieren mit Baudrate %2",
+    "tooltip": "Initialisiert den seriellen Port mit der Baudrate"
   },
   "serial_available": {
-    "message0": "Seriell%1 Puffer hat Daten"
+    "message0": "Serial%1 Puffer hat Daten",
+    "tooltip": "Prüft ob serielle Puffer lesbare Daten hat"
   },
   "serial_read": {
-    "message0": "Seriell%1 Daten %2 lesen",
+    "message0": "Serial%1 Daten lesen %2",
+    "tooltip": "Daten vom seriellen Port lesen",
     "args0": [
       null,
       {
         "options": [
           ["lesen", "read()"],
-          ["spähen", "peek()"],
-          ["Ganzzahl analysieren", "parseInt()"],
-          ["Fließkommazahl analysieren", "parseFloat()"],
+          ["vorschauen", "peek()"],
+          ["Integer parsen", "parseInt()"],
+          ["Float parsen", "parseFloat()"],
           ["String lesen", "readString()"],
-          ["bis zum Zeilenumbruch '\\n' lesen", "readStringUntil('\\n')"],
-          ["bis zum Wagenrücklauf '\\r' lesen", "readStringUntil('\\r')"],
-          ["bis zum Nullzeichen '\\0' lesen", "readStringUntil('\\0')"]
+          ["bis Wagenrücklauf '\\r' lesen", "readStringUntil('\\r')"],
+          ["bis Zeilenumbruch '\\n' lesen", "readStringUntil('\\n')"],
+          ["bis Nullzeichen '\\0' lesen", "readStringUntil('\\0')"]
         ]
       }
     ]
   },
+  "serial_read_until": {
+    "message0": "Serial%1 Daten bis %2 lesen",
+    "tooltip": "Daten vom seriellen Port bis zum Terminator lesen"
+  },
   "serial_print": {
-    "message0": "Seriell%1 gibt %2 aus"
+    "message0": "Serial%1 ausgeben %2",
+    "tooltip": "Daten über seriellen Port ausgeben (ohne Zeilenumbruch)"
   },
   "serial_println": {
-    "message0": "Seriell%1 gibt %2 aus mit Zeilenumbruch"
+    "message0": "Serial%1 ausgeben %2 mit Zeilenumbruch",
+    "tooltip": "Daten über seriellen Port mit Zeilenumbruch ausgeben"
   },
   "serial_write": {
-    "message0": "Seriell%1 gibt Rohdaten %2 aus"
+    "message0": "Serial%1 Rohdaten %2 senden",
+    "tooltip": "Rohbyte-Daten über seriellen Port senden"
   },
   "serial_read_string": {
-    "message0": "Seriell%1 Zeichenfolge lesen"
+    "message0": "Serial%1 String lesen",
+    "tooltip": "Vollständigen String vom seriellen Port lesen"
+  },
+  "serial_begin_esp32_custom": {
+    "message0": "Serial%1 initialisieren mit %2 \nBaudrate %3 RX-Pin %4 TX-Pin %5",
+    "tooltip": "ESP32 benutzerdefinierten seriellen Port mit UART und Pins initialisieren",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["UART0", "UART0"],
+          ["UART1", "UART1"]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "serial_begin_software": {
+    "message0": "SoftwareSerial%1 initialisieren Baudrate %2 RX-Pin %3 TX-Pin %4",
+    "tooltip": "Software-Serial mit beliebigen digitalen Pins initialisieren"
+  },
+  "serial_listen_software": {
+    "message0": "SoftwareSerial %1 Empfang starten",
+    "tooltip": "Software-Serial aktivieren um Daten zu empfangen"
   }
 }

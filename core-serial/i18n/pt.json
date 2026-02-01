@@ -1,39 +1,74 @@
 {
   "toolbox_name": "Serial",
   "serial_begin": {
-    "message0": "Iniciar Serial%1 com taxa de baud de %2"
+    "message0": "Inicializar Serial%1 com taxa %2",
+    "tooltip": "Inicializa a porta serial com a taxa de transmissão"
   },
   "serial_available": {
-    "message0": "Serial%1 o buffer tem dados"
+    "message0": "Serial%1 buffer tem dados",
+    "tooltip": "Verifica se o buffer serial tem dados legíveis"
   },
   "serial_read": {
-    "message0": "Ler dados da Serial%1 %2",
+    "message0": "Ler Serial%1 dados %2",
+    "tooltip": "Ler dados da porta serial",
     "args0": [
       null,
       {
         "options": [
           ["ler", "read()"],
-          ["espreitar", "peek()"],
+          ["espiar", "peek()"],
           ["analisar inteiro", "parseInt()"],
-          ["analisar flutuante", "parseFloat()"],
+          ["analisar decimal", "parseFloat()"],
           ["ler string", "readString()"],
+          ["ler até retorno '\\r'", "readStringUntil('\\r')"],
           ["ler até nova linha '\\n'", "readStringUntil('\\n')"],
-          ["ler até retorno de carro '\\r'", "readStringUntil('\\r')"],
-          ["ler até caractere nulo '\\0'", "readStringUntil('\\0')"]
+          ["ler até nulo '\\0'", "readStringUntil('\\0')"]
         ]
       }
     ]
   },
+  "serial_read_until": {
+    "message0": "Ler Serial%1 dados até %2",
+    "tooltip": "Ler dados seriais até o caractere terminador"
+  },
   "serial_print": {
-    "message0": "Serial%1 sai %2"
+    "message0": "Serial%1 imprimir %2",
+    "tooltip": "Enviar dados pela porta serial (sem nova linha)"
   },
   "serial_println": {
-    "message0": "Serial%1 sai %2 com nova linha"
+    "message0": "Serial%1 imprimir %2 com nova linha",
+    "tooltip": "Enviar dados pela porta serial com nova linha"
   },
   "serial_write": {
-    "message0": "Serial%1 sai dados brutos %2"
+    "message0": "Serial%1 enviar dados brutos %2",
+    "tooltip": "Enviar dados de bytes brutos pela porta serial"
   },
   "serial_read_string": {
-    "message0": "Ler string da Serial%1"
+    "message0": "Ler Serial%1 string",
+    "tooltip": "Ler string completa da porta serial"
+  },
+  "serial_begin_esp32_custom": {
+    "message0": "Inicializar Serial%1 usando %2 \ntaxa %3 pino RX %4 pino TX %5",
+    "tooltip": "Inicializar porta serial personalizada ESP32 com UART e pinos",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["UART0", "UART0"],
+          ["UART1", "UART1"]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "serial_begin_software": {
+    "message0": "Inicializar SoftwareSerial%1 taxa %2 pino RX %3 pino TX %4",
+    "tooltip": "Inicializar porta serial por software com pinos digitais"
+  },
+  "serial_listen_software": {
+    "message0": "SoftwareSerial %1 iniciar escuta",
+    "tooltip": "Ativar porta serial por software para receber dados"
   }
 }

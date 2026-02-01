@@ -349,6 +349,12 @@ Arduino.forBlock['pubsub_state'] = function(block, generator) {
   return [mqttClientVar + '.state()', generator.ORDER_FUNCTION_CALL];
 };
 
+Arduino.forBlock['pubsub_state_code'] = function(block, generator) {
+  const state = block.getFieldValue('STATE');
+  
+  return [state, generator.ORDER_ATOMIC];
+}
+
 // 断开MQTT连接
 Arduino.forBlock['pubsub_disconnect'] = function(block, generator) {
   const varName = getVariableName(block, 'VAR', 'mqttClient');

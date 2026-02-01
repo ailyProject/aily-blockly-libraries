@@ -1,39 +1,74 @@
 {
   "toolbox_name": "Série",
   "serial_begin": {
-    "message0": "Initialiser la Série%1 avec un débit en bauds de %2"
+    "message0": "Initialiser Serial%1 avec débit %2",
+    "tooltip": "Initialise le port série avec le débit en bauds"
   },
   "serial_available": {
-    "message0": "Série%1 le tampon a des données"
+    "message0": "Serial%1 tampon a des données",
+    "tooltip": "Vérifie si le tampon série a des données lisibles"
   },
   "serial_read": {
-    "message0": "Lire les données de la Série%1 %2",
+    "message0": "Lire Serial%1 données %2",
+    "tooltip": "Lire des données depuis le port série",
     "args0": [
       null,
       {
         "options": [
           ["lire", "read()"],
-          ["jeter un coup d'oeil", "peek()"],
-          ["analyser l'entier", "parseInt()"],
-          ["analyser le flottant", "parseFloat()"],
-          ["lire la chaîne", "readString()"],
-          ["lire jusqu'au caractère de nouvelle ligne '\\n'", "readStringUntil('\\n')"],
-          ["lire jusqu'au caractère de retour chariot '\\r'", "readStringUntil('\\r')"],
-          ["lire jusqu'au caractère nul '\\0'", "readStringUntil('\\0')"]
+          ["aperçu", "peek()"],
+          ["analyser entier", "parseInt()"],
+          ["analyser décimal", "parseFloat()"],
+          ["lire chaîne", "readString()"],
+          ["lire jusqu'à retour '\\r'", "readStringUntil('\\r')"],
+          ["lire jusqu'à saut '\\n'", "readStringUntil('\\n')"],
+          ["lire jusqu'à nul '\\0'", "readStringUntil('\\0')"]
         ]
       }
     ]
   },
+  "serial_read_until": {
+    "message0": "Lire Serial%1 données jusqu'à %2",
+    "tooltip": "Lire les données série jusqu'au caractère terminateur"
+  },
   "serial_print": {
-    "message0": "La Série%1 sort %2"
+    "message0": "Serial%1 afficher %2",
+    "tooltip": "Sortir des données via le port série (sans saut de ligne)"
   },
   "serial_println": {
-    "message0": "La Série%1 sort %2 avec saut de ligne"
+    "message0": "Serial%1 afficher %2 avec saut de ligne",
+    "tooltip": "Sortir des données via le port série avec saut de ligne"
   },
   "serial_write": {
-    "message0": "La Série%1 sort des données brutes %2"
+    "message0": "Serial%1 envoyer données brutes %2",
+    "tooltip": "Envoyer des données brutes via le port série"
   },
   "serial_read_string": {
-    "message0": "Lire la chaîne de la Série%1"
+    "message0": "Lire Serial%1 chaîne",
+    "tooltip": "Lire une chaîne complète depuis le port série"
+  },
+  "serial_begin_esp32_custom": {
+    "message0": "Initialiser Serial%1 utilisant %2 \ndébit %3 broche RX %4 broche TX %5",
+    "tooltip": "Initialiser le port série personnalisé ESP32 avec UART et broches",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["UART0", "UART0"],
+          ["UART1", "UART1"]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "serial_begin_software": {
+    "message0": "Initialiser SoftwareSerial%1 débit %2 broche RX %3 broche TX %4",
+    "tooltip": "Initialiser le port série logiciel avec des broches numériques"
+  },
+  "serial_listen_software": {
+    "message0": "SoftwareSerial %1 commencer l'écoute",
+    "tooltip": "Activer le port série logiciel pour recevoir des données"
   }
 }

@@ -3,6 +3,11 @@ if (Blockly.Extensions.isRegistered('dht_init_dynamic')) {
   Blockly.Extensions.unregister('dht_init_dynamic');
 }
 Blockly.Extensions.register('dht_init_dynamic', function () {
+  // 获取i18n翻译
+  const i18n = window.__BLOCKLY_LIB_I18N__?.['@aily-project/lib-dht']?.extensions?.dht_init_dynamic || {};
+  const i2cLabel = i18n.i2c_interface || 'I2C接口';
+  const pinLabel = i18n.pin || '引脚';
+
   this.updateShape_ = function (dhtType) {
     if (this.getInput('PIN_SET')) this.removeInput('PIN_SET');
     if (this.getInput('WIRE_SET')) this.removeInput('WIRE_SET');
@@ -10,13 +15,13 @@ Blockly.Extensions.register('dht_init_dynamic', function () {
       case 'DHT20':
         const i2cOptions = (window.boardConfig && window.boardConfig.i2c) ? window.boardConfig.i2c : [['I2C0','I2C0']];
         this.appendDummyInput('WIRE_SET')
-            .appendField('I2C接口')
+            .appendField(i2cLabel)
             .appendField(new Blockly.FieldDropdown(i2cOptions), 'WIRE');
         break;
       default:
         const pinOptions = (window.boardConfig && window.boardConfig.digitalPins) ? window.boardConfig.digitalPins : [['D2','2'], ['D3','3'], ['D4','4'], ['D5','5'], ['D6','6'], ['D7','7'], ['D8','8'], ['D9','9'], ['D10','10'], ['D11','11'], ['D12','12'], ['D13','13']];
         this.appendDummyInput('PIN_SET')
-            .appendField('引脚')
+            .appendField(pinLabel)
             .appendField(new Blockly.FieldDropdown(pinOptions), 'PIN');
         break;
     }

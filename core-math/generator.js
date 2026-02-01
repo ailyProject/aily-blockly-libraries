@@ -148,13 +148,13 @@ Arduino.forBlock["math_constant"] = function (block) {
   return CONSTANTS[block.getFieldValue("CONSTANT")];
 };
 
-Arduino.forBlock["math_number_property"] = function (block) {
+Arduino.forBlock["math_number_property"] = function (block, generator) {
   // Check if a number is even, odd, prime, whole, positive, or negative
   // or if it is divisible by certain number. Returns true or false.
   const PROPERTIES = {
-    EVEN: [" % 2 === 0", Arduino.ORDER_MODULUS, Arduino.ORDER_EQUALITY],
-    ODD: [" % 2 === 1", Arduino.ORDER_MODULUS, Arduino.ORDER_EQUALITY],
-    WHOLE: [" % 1 === 0", Arduino.ORDER_MODULUS, Arduino.ORDER_EQUALITY],
+    EVEN: [" % 2 == 0", Arduino.ORDER_MODULUS, Arduino.ORDER_EQUALITY],
+    ODD: [" % 2 == 1", Arduino.ORDER_MODULUS, Arduino.ORDER_EQUALITY],
+    WHOLE: [null, Arduino.ORDER_NONE, Arduino.ORDER_EQUALITY], // 整数类型始终为整数
     POSITIVE: [" > 0", Arduino.ORDER_RELATIONAL, Arduino.ORDER_RELATIONAL],
     NEGATIVE: [" < 0", Arduino.ORDER_RELATIONAL, Arduino.ORDER_RELATIONAL],
     DIVISIBLE_BY: [null, Arduino.ORDER_MODULUS, Arduino.ORDER_EQUALITY],
@@ -167,34 +167,34 @@ Arduino.forBlock["math_number_property"] = function (block) {
   let code;
   if (dropdownProperty === "PRIME") {
     // Prime is a special case as it is not a one-liner test.
-    const functionName = Arduino.provideFunction_(
-      "mathIsPrime",
-      `
-function ${Arduino.FUNCTION_NAME_PLACEHOLDER_}(n) {
+    const functionDef = `
+bool mathIsPrime(long n) {
   // https://en.wikipedia.org/wiki/Primality_test#Naive_methods
   if (n == 2 || n == 3) {
     return true;
   }
-  // False if n is NaN, negative, is 1, or not whole.
-  // And false if n is divisible by 2 or 3.
-  if (isNaN(n) || n <= 1 || n % 1 !== 0 || n % 2 === 0 || n % 3 === 0) {
+  // False if n is negative, is 1, or divisible by 2 or 3.
+  if (n <= 1 || n % 2 == 0 || n % 3 == 0) {
     return false;
   }
   // Check all the numbers of form 6k +/- 1, up to sqrt(n).
-  for (var x = 6; x <= sqrt(n) + 1; x += 6) {
-    if (n % (x - 1) === 0 || n % (x + 1) === 0) {
+  for (long x = 6; x <= (long)sqrt((double)n) + 1; x += 6) {
+    if (n % (x - 1) == 0 || n % (x + 1) == 0) {
       return false;
     }
   }
   return true;
 }
-`,
-    );
-    code = functionName + "(" + numberToCheck + ")";
+`;
+    generator.addFunction("mathIsPrime", functionDef);
+    code = "mathIsPrime(" + numberToCheck + ")";
   } else if (dropdownProperty === "DIVISIBLE_BY") {
     const divisor =
-      Arduino.valueToCode(block, "DIVISOR", Arduino.ORDER_MODULUS) || "0";
-    code = numberToCheck + " % " + divisor + " === 0";
+      Arduino.valueToCode(block, "DIVISOR", Arduino.ORDER_MODULUS) || "1";
+    code = "fmod(" + numberToCheck + ", " + divisor + ") == 0";
+  } else if (dropdownProperty === "WHOLE") {
+    // 检查是否为整数：小数部分是否为0
+    code = "floor(" + numberToCheck + ") == " + numberToCheck;
   } else {
     code = numberToCheck + suffix;
   }
@@ -225,53 +225,7 @@ Arduino.forBlock["math_round"] = Arduino.forBlock["math_single"];
 // export const math_trig = math_single;
 Arduino.forBlock["math_trig"] = Arduino.forBlock["math_single"];
 
-Arduino.forBlock["math_on_list"] = function (block) {
-  // Math functions for lists.
-  const func = block.getFieldValue("OP");
-  let list;
-  let code;
-  switch (func) {
-    case "SUM":
-      list = Arduino.valueToCode(block, "LIST", Arduino.ORDER_MEMBER) || "[]";
-      // Arduino不支持reduce方法
-      code = "0; // 警告: Arduino不支持自动数组求和，需要手动实现";
-      break;
-    case "MIN":
-      list = Arduino.valueToCode(block, "LIST", Arduino.ORDER_NONE) || "[]";
-      // Arduino不支持Math.min.apply
-      code = "0; // 警告: Arduino不支持自动求最小值，需要手动实现";
-      break;
-    case "MAX":
-      list = Arduino.valueToCode(block, "LIST", Arduino.ORDER_NONE) || "[]";
-      // Arduino不支持Math.max.apply
-      code = "0; // 警告: Arduino不支持自动求最大值，需要手动实现";
-      break;
-    case "AVERAGE":
-      // Arduino不支持reduce方法和数组length属性
-      code = "0; // 警告: Arduino不支持自动计算平均值，需要手动实现";
-      break;
-    case "MEDIAN":
-      // Arduino不支持filter, sort等方法
-      code = "0; // 警告: Arduino不支持自动计算中位数，需要手动实现";
-      break;
-    case "MODE":
-      // Arduino不支持复杂的模式计算
-      code = "0; // 警告: Arduino不支持自动计算众数，需要手动实现";
-      break;
-    case "STD_DEV":
-      // Arduino不支持reduce和Math.pow方法
-      code = "0; // 警告: Arduino不支持自动计算标准差，需要手动实现";
-      break;
-    case "RANDOM":
-      // 使用Arduino的random函数替代
-      list = Arduino.valueToCode(block, "LIST", Arduino.ORDER_NONE) || "[]";
-      code = "0; // 警告: Arduino不支持数组随机取值，需要使用random()手动实现";
-      break;
-    default:
-      throw Error("Unknown operator: " + func);
-  }
-  return [code, Arduino.ORDER_FUNCTION_CALL];
-};
+// math_on_list 已移除，相关功能请使用数组库中的实现
 
 Arduino.forBlock["math_modulo"] = function (block) {
   // Remainder computation.
@@ -371,8 +325,8 @@ Arduino.forBlock["map_to"] = function (block) {
 
 // 注册 math_op_tooltip 扩展
 try {
-  // 定义 tooltip 映射
-  const MATH_OP_TOOLTIPS = {
+  // 默认 tooltip 映射（作为 fallback）
+  const DEFAULT_TOOLTIPS = {
     'ADD': '加法：两个数相加',
     'MINUS': '减法：两个数相减', 
     'MULTIPLY': '乘法：两个数相乘',
@@ -391,11 +345,87 @@ try {
     const block = this;
     this.setTooltip(function() {
       const op = block.getFieldValue('OP');
-      return MATH_OP_TOOLTIPS[op] || '数学运算';
+      // 尝试从全局 i18n 数据中获取翻译
+      // const i18nTooltips = window.__BLOCKLY_LIB_I18N__?.['lib-core-math']?.extensions?.math_op_tooltip;
+      // 尝试从全局 i18n 数据中获取翻译（按库名存储）
+      // console.log("所有库的 i18n 键名:", Object.keys(window.__BLOCKLY_LIB_I18N__ || {}));
+      const mathI18n = window.__BLOCKLY_LIB_I18N__?.['@aily-project/lib-core-math'];
+      // console.log("lib-core-math i18n:", mathI18n);
+      const i18nTooltips = mathI18n?.extensions?.math_op_tooltip;
+      // console.log("math_op_tooltip:", i18nTooltips);
+      if (i18nTooltips && i18nTooltips[op]) {
+        // console.log("使用 i18n 翻译的 tooltip:", i18nTooltips[op]);
+        return i18nTooltips[op];
+      }
+      // console.log("使用默认 tooltip:", DEFAULT_TOOLTIPS[op]);
+      return DEFAULT_TOOLTIPS[op] || '数学运算';
     });
   });
 } catch (e) {
   console.error("注册 math_op_tooltip 扩展失败:", e);
+}
+
+// 注册 math_single_tooltip 扩展
+try {
+  const DEFAULT_SINGLE_TOOLTIPS = {
+    'ROOT': '平方根：计算数字的平方根',
+    'ABS': '绝对值：返回数字的绝对值',
+    'NEG': '取负：返回数字的相反数',
+    'LN': '自然对数：计算以e为底的对数',
+    'LOG10': '常用对数：计算以10为底的对数',
+    'EXP': '指数：计算e的指定次方',
+    'POW10': '10的幂：计算10的指定次方'
+  };
+
+  if (Blockly.Extensions.isRegistered('math_single_tooltip')) {
+    Blockly.Extensions.unregister('math_single_tooltip');
+  }
+
+  Blockly.Extensions.register('math_single_tooltip', function() {
+    const block = this;
+    this.setTooltip(function() {
+      const op = block.getFieldValue('OP');
+      const mathI18n = window.__BLOCKLY_LIB_I18N__?.['@aily-project/lib-core-math'];
+      const i18nTooltips = mathI18n?.extensions?.math_single_tooltip;
+      if (i18nTooltips && i18nTooltips[op]) {
+        return i18nTooltips[op];
+      }
+      return DEFAULT_SINGLE_TOOLTIPS[op] || '数学运算';
+    });
+  });
+} catch (e) {
+  console.error("注册 math_single_tooltip 扩展失败:", e);
+}
+
+// 注册 math_trig_tooltip 扩展
+try {
+  const DEFAULT_TRIG_TOOLTIPS = {
+    'SIN': '正弦：计算角度的正弦值（输入为度数）',
+    'COS': '余弦：计算角度的余弦值（输入为度数）',
+    'TAN': '正切：计算角度的正切值（输入为度数）',
+    'ASIN': '反正弦：计算正弦值的角度（返回度数）',
+    'ACOS': '反余弦：计算余弦值的角度（返回度数）',
+    'ATAN': '反正切：计算正切值的角度（返回度数）'
+  };
+
+  if (Blockly.Extensions.isRegistered('math_trig_tooltip')) {
+    Blockly.Extensions.unregister('math_trig_tooltip');
+  }
+
+  Blockly.Extensions.register('math_trig_tooltip', function() {
+    const block = this;
+    this.setTooltip(function() {
+      const op = block.getFieldValue('OP');
+      const mathI18n = window.__BLOCKLY_LIB_I18N__?.['@aily-project/lib-core-math'];
+      const i18nTooltips = mathI18n?.extensions?.math_trig_tooltip;
+      if (i18nTooltips && i18nTooltips[op]) {
+        return i18nTooltips[op];
+      }
+      return DEFAULT_TRIG_TOOLTIPS[op] || '三角函数运算';
+    });
+  });
+} catch (e) {
+  console.error("注册 math_trig_tooltip 扩展失败:", e);
 }
 
 // 位移操作：<< 和 >>

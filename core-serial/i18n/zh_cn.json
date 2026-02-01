@@ -1,13 +1,16 @@
 {
   "toolbox_name": "串口",
   "serial_begin": {
-    "message0": "初始化串口%1 设置波特率为%2"
+    "message0": "初始化串口%1 设置波特率为%2",
+    "tooltip": "初始化指定串口并设置通信波特率"
   },
   "serial_available": {
-    "message0": "串口%1缓冲区有数据"
+    "message0": "串口%1缓冲区有数据",
+    "tooltip": "检查串口缓冲区是否有可读数据"
   },
   "serial_read": {
     "message0": "读取串口%1数据 %2",
+    "tooltip": "从串口读取数据",
     "args0": [
       null,
       {
@@ -17,23 +20,55 @@
           ["解析整数", "parseInt()"],
           ["解析浮点数", "parseFloat()"],
           ["读取字符串", "readString()"],
-          ["读取直到换行符'\\n'", "readStringUntil('\\n')"],
           ["读取直到回车符'\\r'", "readStringUntil('\\r')"],
+          ["读取直到换行符'\\n'", "readStringUntil('\\n')"],
           ["读取直到空字符'\\0'", "readStringUntil('\\0')"]
         ]
       }
     ]
   },
+  "serial_read_until": {
+    "message0": "读取串口%1数据直到%2",
+    "tooltip": "从串口读取数据直到遇到指定终止字符"
+  },
   "serial_print": {
-    "message0": "串口%1输出%2"
+    "message0": "串口%1输出%2",
+    "tooltip": "通过串口输出数据（不换行）"
   },
   "serial_println": {
-    "message0": "串口%1输出%2并换行"
+    "message0": "串口%1输出%2并换行",
+    "tooltip": "通过串口输出数据并换行"
   },
   "serial_write": {
-    "message0": "串口%1输出原始数据%2"
+    "message0": "串口%1输出原始数据%2",
+    "tooltip": "通过串口发送原始字节数据"
   },
   "serial_read_string": {
-    "message0": "读取串口%1字符串"
+    "message0": "读取串口%1字符串",
+    "tooltip": "从串口读取完整字符串"
+  },
+  "serial_begin_esp32_custom": {
+    "message0": "初始化串口%1 使用%2 \n设置波特率为%3 RX引脚%4 TX引脚%5",
+    "tooltip": "初始化ESP32自定义串口，可指定UART和引脚",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["UART0", "UART0"],
+          ["UART1", "UART1"]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "serial_begin_software": {
+    "message0": "初始化软串口%1 设置波特率为%2 RX引脚%3 TX引脚%4",
+    "tooltip": "初始化软件模拟串口，可使用任意数字引脚"
+  },
+  "serial_listen_software": {
+    "message0": "软串口 %1 开始监听",
+    "tooltip": "激活软串口开始接收数据"
   }
 }

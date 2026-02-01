@@ -1,39 +1,74 @@
 {
-  "toolbox_name": "Serial",
+  "toolbox_name": "Serie",
   "serial_begin": {
-    "message0": "Inicializar Serial%1 con velocidad en baudios %2"
+    "message0": "Inicializar Serial%1 con velocidad %2",
+    "tooltip": "Inicializa el puerto serie con la velocidad en baudios"
   },
   "serial_available": {
-    "message0": "Serial%1 el búfer tiene datos"
+    "message0": "Serial%1 búfer tiene datos",
+    "tooltip": "Comprueba si el búfer serie tiene datos legibles"
   },
   "serial_read": {
-    "message0": "Leer datos de Serial%1 %2",
+    "message0": "Leer Serial%1 datos %2",
+    "tooltip": "Leer datos del puerto serie",
     "args0": [
       null,
       {
         "options": [
           ["leer", "read()"],
-          ["echar un vistazo", "peek()"],
+          ["vistazo", "peek()"],
           ["analizar entero", "parseInt()"],
-          ["analizar flotante", "parseFloat()"],
+          ["analizar decimal", "parseFloat()"],
           ["leer cadena", "readString()"],
-          ["leer hasta nueva línea '\\n'", "readStringUntil('\\n')"],
-          ["leer hasta retorno de carro '\\r'", "readStringUntil('\\r')"],
-          ["leer hasta carácter nulo '\\0'", "readStringUntil('\\0')"]
+          ["leer hasta retorno '\\r'", "readStringUntil('\\r')"],
+          ["leer hasta salto '\\n'", "readStringUntil('\\n')"],
+          ["leer hasta nulo '\\0'", "readStringUntil('\\0')"]
         ]
       }
     ]
   },
+  "serial_read_until": {
+    "message0": "Leer Serial%1 datos hasta %2",
+    "tooltip": "Leer datos serie hasta el carácter terminador"
+  },
   "serial_print": {
-    "message0": "Serial%1 sale %2"
+    "message0": "Serial%1 imprimir %2",
+    "tooltip": "Enviar datos por el puerto serie (sin salto de línea)"
   },
   "serial_println": {
-    "message0": "Serial%1 sale %2 con nueva línea"
+    "message0": "Serial%1 imprimir %2 con salto de línea",
+    "tooltip": "Enviar datos por el puerto serie con salto de línea"
   },
   "serial_write": {
-    "message0": "Serial%1 sale datos en bruto %2"
+    "message0": "Serial%1 enviar datos crudos %2",
+    "tooltip": "Enviar datos de bytes crudos por el puerto serie"
   },
   "serial_read_string": {
-    "message0": "Leer cadena de Serial%1"
+    "message0": "Leer Serial%1 cadena",
+    "tooltip": "Leer cadena completa del puerto serie"
+  },
+  "serial_begin_esp32_custom": {
+    "message0": "Inicializar Serial%1 usando %2 \nvelocidad %3 pin RX %4 pin TX %5",
+    "tooltip": "Inicializar puerto serie personalizado ESP32 con UART y pines",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["UART0", "UART0"],
+          ["UART1", "UART1"]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "serial_begin_software": {
+    "message0": "Inicializar SoftwareSerial%1 velocidad %2 pin RX %3 pin TX %4",
+    "tooltip": "Inicializar puerto serie por software con pines digitales"
+  },
+  "serial_listen_software": {
+    "message0": "SoftwareSerial %1 comenzar escucha",
+    "tooltip": "Activar puerto serie por software para recibir datos"
   }
 }
