@@ -1409,7 +1409,7 @@ Arduino.forBlock['aivox_update_mcp_control_state_new'] = function(block, generat
         // 默认使用bool类型
         resCode = `std::get<bool>(param.at("${paramName}"))`;
     }
-    const code = `if ("self.${varName}.get" == name) {\n const auto ${varName}_${paramName} = ${resCode};\n  ai_vox_engine.SendMcpCallResponse(id, ${state});\n}`;
+    const code = `if ("self.${varName}.get" == name) {\n   ai_vox_engine.SendMcpCallResponse(id, ${state});\n}`;
 
     return code;
 }
