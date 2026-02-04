@@ -1,86 +1,4 @@
-Blockly.getMainWorkspace().registerButtonCallback(
-  "CREATE_VARIABLE",
-  (button) => {
-    const workspace = button.getTargetWorkspace();
-    Blockly.Variables.createVariableButtonHandler(
-      workspace,
-      (varName) => {
-        Blockly.Msg.VARIABLES_CURRENT_NAME = varName;
-        // 获取变量分类
-        const toolbox = workspace.getToolbox();
-        const allCategories = toolbox.getToolboxItems();
-        const variableCategory = allCategories.find(item =>
-          item.name_ === "Variables" || (item.getContents && item.getContents()[0]?.callbackKey === "CREATE_VARIABLE")
-        );
-
-        // 获取原始工具箱定义
-        const originalToolboxDef = workspace.options.languageTree;
-
-        // 找到变量类别并更新其内容
-        for (let category of originalToolboxDef.contents) {
-          if ((category.name === "Variables" ||
-            (category.contents && category.contents[0]?.callbackKey === "CREATE_VARIABLE"))) {
-            // 更新该类别的内容
-            if (category.contents.length === 1) {
-              category.contents = [
-                {
-                  "kind": "button",
-                  "text": "新建变量",
-                  "callbackKey": "CREATE_VARIABLE"
-                },
-                {
-                  "kind": "block",
-                  "type": "variable_define"
-                },
-                {
-                  "kind": "block",
-                  "type": "variable_define_scoped"
-                },
-                {
-                  "kind": "block",
-                  "type": "variable_define_advanced"
-                },
-                {
-                  "kind": "block",
-                  "type": "variable_define_advanced_scoped"
-                },
-                {
-                  "kind": "block",
-                  "type": "variables_set"
-                },
-                {
-                  "kind": "block",
-                  "type": "type_cast"
-                }
-              ];
-            }
-
-            // 获取当前时间戳
-            const varId = workspace.getVariable(varName).getId();
-            category.contents.push({
-              "kind": "block",
-              "type": "variables_get",
-              "fields": {
-                "VAR": {
-                  "id": varId,
-                  "name": varName,
-                  "type": "string"
-                }
-              }
-            })
-
-            refreshToolbox(workspace);
-            break;
-          }
-        }
-
-        // 触发所有监听器
-        // variableCreationListeners.forEach(listener => listener(varName));
-      },
-      null
-    );
-  },
-);
+// CREATE_VARIABLE 功能已禁用
 
 Blockly.getMainWorkspace().addChangeListener((event) => {
   // 当工作区完成加载时调用
@@ -98,8 +16,10 @@ Blockly.getMainWorkspace().addChangeListener((event) => {
 
     // 找到变量类别并更新其内容
     for (let category of originalToolboxDef.contents) {
-      if ((category.name === "Variables" ||
-        (category.contents && category.contents[0]?.callbackKey === "CREATE_VARIABLE"))) {
+      // 通过检查是否包含 variable_define 块来识别变量分类
+      const isVariableCategory = category.name === "Variables" ||
+        (category.contents && category.contents.some(item => item.type === "variable_define"));
+      if (isVariableCategory) {
 
         // 首先过滤删除的变量
         category.contents = category.contents.filter(item => {
@@ -116,14 +36,9 @@ Blockly.getMainWorkspace().addChangeListener((event) => {
         // 检查删除后是否还有变量
         const allVariables = workspace.getAllVariables();
         
-        // 如果没有变量了，重置为只有"新建变量"按钮
+        // 如果没有变量了，重置为基本的变量块
         if (allVariables.length === 0) {
           category.contents = [
-            {
-              "kind": "button",
-              "text": "新建变量",
-              "callbackKey": "CREATE_VARIABLE"
-            },
             {
               "kind": "block",
               "type": "variable_define"
@@ -154,7 +69,7 @@ Blockly.getMainWorkspace().addChangeListener((event) => {
           Blockly.Msg.VARIABLES_CURRENT_NAME = allVariables.at(-1)?.name;
         }
 
-        refreshToolbox(workspace);
+        refreshToolbox(workspace, false);
         break;
       }
     }
@@ -281,7 +196,8 @@ addVariableToToolbox = function (block, varName) {
 
     const allCategories = toolbox.getToolboxItems();
     const variableCategory = allCategories.find(item =>
-      item.name_ === "Variables" || (item.getContents && item.getContents()[0]?.callbackKey === "CREATE_VARIABLE")
+      item.name_ === "Variables" || 
+      (item.getContents && item.getContents().some(c => c.type === "variable_define"))
     );
 
     // 确保变量存在，如果不存在则创建
@@ -306,16 +222,13 @@ addVariableToToolbox = function (block, varName) {
     // 找到变量类别并更新其内容
     let variableCategoryFound = false;
     for (let category of originalToolboxDef.contents) {
-      if ((category.name === "Variables" ||
-        (category.contents && category.contents[0]?.callbackKey === "CREATE_VARIABLE"))) {
+      // 通过检查是否包含 variable_define 块来识别变量分类
+      const isVariableCategory = category.name === "Variables" ||
+        (category.contents && category.contents.some(item => item.type === "variable_define"));
+      if (isVariableCategory) {
         variableCategoryFound = true;
-        if (category.contents.length === 1) {
+        if (category.contents.length <= 1) {
           category.contents = [
-            {
-              "kind": "button",
-              "text": "新建变量",
-              "callbackKey": "CREATE_VARIABLE"
-            },
             {
               "kind": "block",
               "type": "variable_define"
@@ -421,17 +334,14 @@ function loadExistingVariablesToToolbox(workspace) {
 
   // 找到变量类别
   for (let category of originalToolboxDef.contents) {
-    if ((category.name === "Variables" ||
-      (category.contents && category.contents[0]?.callbackKey === "CREATE_VARIABLE"))) {
+    // 通过检查是否包含 variable_define 块来识别变量分类
+    const isVariableCategory = category.name === "Variables" ||
+      (category.contents && category.contents.some(item => item.type === "variable_define"));
+    if (isVariableCategory) {
 
       // 确保类别内容包含基本的变量块
-      if (category.contents.length === 1) {
+      if (category.contents.length <= 1) {
         category.contents = [
-          {
-            "kind": "button",
-            "text": "新建变量",
-            "callbackKey": "CREATE_VARIABLE"
-          },
           {
             "kind": "block",
             "type": "variable_define"
@@ -502,7 +412,8 @@ function refreshToolbox(oldWorkspace, openVariableItem = true) {
   const toolbox = workspace.getToolbox();
   const allCategories = toolbox.getToolboxItems();
   const variableCategory = allCategories.find(item =>
-    item.name_ === "Variables" || (item.getContents && item.getContents()[0]?.callbackKey === "CREATE_VARIABLE")
+    item.name_ === "Variables" ||
+    (item.getContents && item.getContents().some(c => c.type === "variable_define"))
   );
   if (toolbox.isVisible_ && openVariableItem) {
     toolbox.setSelectedItem(variableCategory);
@@ -570,7 +481,8 @@ function renameVariable(block, oldName, newName, vtype) {
 
     const allCategories = toolbox.getToolboxItems();
     const variableCategory = allCategories.find(item =>
-      item.name_ === "Variables" || (item.getContents && item.getContents()[0]?.callbackKey === "CREATE_VARIABLE")
+      item.name_ === "Variables" ||
+      (item.getContents && item.getContents().some(c => c.type === "variable_define"))
     );
 
     // 获取原始工具箱定义
@@ -616,8 +528,10 @@ function renameVariable(block, oldName, newName, vtype) {
     // 找到变量类别并更新其内容
     for (let category of originalToolboxDef.contents) {
       // console.log("category: ", category);
-      if ((category.name === "Variables" ||
-        (category.contents && category.contents[0]?.callbackKey === "CREATE_VARIABLE"))) {
+      // 通过检查是否包含 variable_define 块来识别变量分类
+      const isVariableCategory = category.name === "Variables" ||
+        (category.contents && category.contents.some(item => item.type === "variable_define"));
+      if (isVariableCategory) {
 
         // console.log("isOldVarStillReferenced: ", isOldVarStillReferenced);
         if (isOldVarStillReferenced) {
