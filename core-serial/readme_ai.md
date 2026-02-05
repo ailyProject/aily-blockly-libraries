@@ -109,7 +109,8 @@ arduino_loop()
 
 ### Binary Data Communication
 ```
-variable_define("counter", int, math_number(0))
+arduino_global()
+    variable_define("counter", int, math_number(0))
 
 arduino_setup()
     serial_begin(Serial, 9600)

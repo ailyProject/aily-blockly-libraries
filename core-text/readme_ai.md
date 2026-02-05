@@ -71,9 +71,10 @@ arduino_setup()
 
 ### Text Joining and Formatting
 ```
-variable_define("sensor1", int, math_number(25))
-variable_define("sensor2", int, math_number(30))
-variable_define("sensor3", int, math_number(22))
+arduino_global()
+    variable_define("sensor1", int, math_number(25))
+    variable_define("sensor2", int, math_number(30))
+    variable_define("sensor3", int, math_number(22))
 
 arduino_setup()
     

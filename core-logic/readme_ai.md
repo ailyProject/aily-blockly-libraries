@@ -1,196 +1,118 @@
-# Arduino Loop Control Library
+# Arduino Logic Control Library
 
-Core library for loop control structures and program flow
+Core library for logic control and conditional operations
 
 ## Library Information
-- **Library Name**: @aily-project/lib-core-loop
+- **Library Name**: @aily-project/lib-core-logic
 - **Version**: 0.0.1
 
 ## Block Definitions
 
 | Block Type | Connection | Parameters | ABS Format | Generated Code |
 |------------|------------|------------|------------|----------------|
-| `arduino_setup` | Hat | ARDUINO_SETUP(input_statement) | `arduino_setup() statements` | `void setup() { statements }` |
-| `arduino_loop` | Hat | ARDUINO_LOOP(input_statement) | `arduino_loop() statements` | `void loop() { statements }` |
-| `controls_repeat_ext` | Statement | TIMES(input_value), DO(input_statement) | `controls_repeat_ext(math_number(5)) statements` | `for (int i = 0; i < 5; i++) { statements }` |
-| `controls_repeat` | Statement | TIMES(field_number), DO(input_statement) | `controls_repeat(10) statements` | `for (int i = 0; i < 10; i++) { statements }` |
-| `controls_whileUntil` | Statement | MODE(dropdown), BOOL(input_value), DO(input_statement) | `controls_whileUntil(WHILE, condition) statements` | `while (condition) { statements }` |
-| `controls_for` | Statement | VAR(field_variable), FROM(input_value), TO(input_value), BY(input_value), DO(input_statement) | `controls_for($i, math_number(1), math_number(10), math_number(1)) statements` | `for (int i = 1; i <= 10; i += 1) { statements }` |
-| `controls_flow_statements` | Statement | FLOW(dropdown) | `controls_flow_statements(BREAK)` | `break;` |
-| `controls_whileForever` | Statement | DO(input_statement) | `controls_whileForever() statements` | `while (true) { statements }` |
+| `controls_if` | Statement | IF0(input_value), DO0(input_statement) | `controls_if() @IF0: condition @DO0: statements` | `if (condition) { statements }` |
+| `controls_ifelse` | Statement | IF0(input_value), DO0(input_statement), ELSE(input_statement) | `controls_if() @IF0: condition @DO0: statements @ELSE: else_statements` | `if (condition) { statements } else { else_statements }` |
+| `controls_switch` | Statement | SWITCH(input_value), CASE0(input_value), DO0(input_statement), DEFAULT(input_statement) | `controls_switch() @SWITCH: variable @CASE0: value @DO0: statements @DEFAULT: default_statements` | `switch (variable) { case value: statements; break; default: default_statements; }` |
+| `logic_compare` | Value | A(input_value), OP(dropdown), B(input_value) | `logic_compare(EQ, variables_get($a), math_number(10))` | `(a == 10)` |
+| `logic_operation` | Value | A(input_value), OP(dropdown), B(input_value) | `logic_operation(AND, condition1, condition2)` | `(condition1 && condition2)` |
+| `logic_negate` | Value | BOOL(input_value) | `logic_negate(condition)` | `!(condition)` |
+| `logic_boolean` | Value | BOOL(dropdown) | `logic_boolean(TRUE)` | `true` |
+| `logic_ternary` | Value | IF(input_value), THEN(input_value), ELSE(input_value) | `logic_ternary(condition, value1, value2)` | `(condition ? value1 : value2)` |
 
 ## ABS Examples
 
-### Arduino Program Structure
+### Multiple Else-If Conditions
+> **Note**: Both `controls_if` and `controls_ifelse` blocks can be used for conditional logic. They support the same syntax for multiple else-if branches using `@IF1:`, `@IF2:`, etc.
+
 ```
+arduino_global()
+    variable_define("temperature", int, math_number(25))
+
 arduino_setup()
     serial_begin(Serial, 9600)
-    io_pinmode(io_pin_digi(13), io_mode(OUTPUT))
-    serial_println(Serial, text("Arduino started"))
 
 arduino_loop()
-    io_digitalwrite(io_pin_digi(13), io_state(HIGH))
-    time_delay(math_number(1000))
-    io_digitalwrite(io_pin_digi(13), io_state(LOW))
-    time_delay(math_number(1000))
-```
-
-### Basic Repeat Loops
-```
-arduino_setup()
-    serial_begin(Serial, 9600)
-    
-    // Fixed number repeat
-    controls_repeat(5)
-        serial_print(Serial, text("Count: "))
-        serial_println(Serial, math_number(i + 1))
-        time_delay(math_number(500))
-    
-    // Variable repeat
-    variable_define("times", int, math_number(3))
-    controls_repeat_ext(variables_get($times))
-        serial_println(Serial, text("Variable repeat"))
-        time_delay(math_number(1000))
-
-arduino_loop()
-    time_delay(math_number(5000))
-```
-
-### For Loop with Counter Variable
-```
-arduino_setup()
-    serial_begin(Serial, 9600)
-    
-    // Count up
-    controls_for($i, math_number(1), math_number(10), math_number(1))
-        serial_print(Serial, text("i = "))
-        serial_println(Serial, variables_get($i))
-    
-    // Count down with step
-    controls_for($j, math_number(20), math_number(0), math_number(-2))
-        serial_print(Serial, text("j = "))
-        serial_println(Serial, variables_get($j))
-
-arduino_loop()
-    time_delay(math_number(10000))
-```
-
-### While and Until Loops
-```
-arduino_setup()
-    variable_define("counter", int, math_number(0))
-    variable_define("sensor", int, math_number(0))
-    serial_begin(Serial, 9600)
-    
-    // While loop
-    controls_whileUntil(WHILE, logic_compare(LT, variables_get($counter), math_number(5)))
-        serial_print(Serial, text("While counter: "))
-        serial_println(Serial, variables_get($counter))
-        variables_set($counter, math_arithmetic(ADD, variables_get($counter), math_number(1)))
-        time_delay(math_number(1000))
-    
-    // Until loop
-    variables_set($sensor, math_number(0))
-    controls_whileUntil(UNTIL, logic_compare(GT, variables_get($sensor), math_number(50)))
-        variables_set($sensor, math_random_int(math_number(0), math_number(100)))
-        serial_print(Serial, text("Sensor value: "))
-        serial_println(Serial, variables_get($sensor))
-        time_delay(math_number(500))
-    
-    serial_println(Serial, text("Sensor threshold reached!"))
-
-arduino_loop()
+    controls_if()
+        @IF0: logic_compare(GT, variables_get($temperature), math_number(35))
+        @DO0:
+            serial_println(Serial, text("Very hot!"))
+        @IF1: logic_compare(GT, variables_get($temperature), math_number(25))
+        @DO1:
+            serial_println(Serial, text("Warm"))
+        @IF2: logic_compare(GT, variables_get($temperature), math_number(15))
+        @DO2:
+            serial_println(Serial, text("Cool"))
+        @ELSE:
+            serial_println(Serial, text("Cold"))
     time_delay(math_number(1000))
 ```
 
-### Loop Control with Break and Continue
+### Switch Case Statement
 ```
+arduino_global()
+    variable_define("dayOfWeek", int, math_number(3))
+
 arduino_setup()
-    serial_begin(Serial, 9600)
-    
-    // Break example
-    controls_for($i, math_number(1), math_number(20), math_number(1))
-        controls_if()
-            @IF0: logic_compare(EQ, math_arithmetic(MODULO, variables_get($i), math_number(2)), math_number(0))
-            @DO0:
-                controls_flow_statements(CONTINUE)
-        
-        serial_print(Serial, text("Odd number: "))
-        serial_println(Serial, variables_get($i))
-        
-        controls_if()
-            @IF0: logic_compare(GT, variables_get($i), math_number(10))
-            @DO0:
-                serial_println(Serial, text("Breaking at 10+"))
-                controls_flow_statements(BREAK)
-
-arduino_loop()
-    time_delay(math_number(5000))
-```
-
-### Nested Loops
-```
-arduino_setup()
-    serial_begin(Serial, 9600)
-    
-    // Nested for loops - multiplication table
-    controls_for($i, math_number(1), math_number(3), math_number(1))
-        controls_for($j, math_number(1), math_number(3), math_number(1))
-            variable_define("product", int, math_arithmetic(MULTIPLY, variables_get($i), variables_get($j)))
-            serial_print(Serial, variables_get($i))
-            serial_print(Serial, text(" × "))
-            serial_print(Serial, variables_get($j))
-            serial_print(Serial, text(" = "))
-            serial_println(Serial, variables_get($product))
-        
-        serial_println(Serial, text("---"))
-
-arduino_loop()
-    time_delay(math_number(10000))
-```
-
-### Infinite Loop with Conditions
-```
-arduino_setup()
-    variable_define("buttonPressed", bool, logic_boolean(FALSE))
-    io_pinmode(io_pin_digi(2), io_mode(INPUT_PULLUP))
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    // Main program loop with exit condition
-    controls_whileForever()
-        variable_define("buttonState", bool, logic_compare(EQ, io_digitalread(io_pin_digi(2)), io_state(LOW)))
-        
-        controls_if()
-            @IF0: variables_get($buttonState)
-            @DO0:
-                serial_println(Serial, text("Button pressed - exiting infinite loop"))
-                controls_flow_statements(BREAK)
-        
-        serial_println(Serial, text("Waiting for button press..."))
-        time_delay(math_number(1000))
+    controls_switch()
+        @SWITCH: variables_get($dayOfWeek)
+        @CASE0: math_number(1)
+        @DO0:
+            serial_println(Serial, text("Monday"))
+        @CASE1: math_number(2)
+        @DO1:
+            serial_println(Serial, text("Tuesday"))
+        @DEFAULT:
+            serial_println(Serial, text("Other day"))
+```
+
+### Complex Logic with Negation
+```
+arduino_global()
+    variable_define("sensor1", bool, logic_boolean(TRUE))
+    variable_define("sensor2", bool, logic_boolean(FALSE))
+
+arduino_setup()
+    serial_begin(Serial, 9600)
+
+arduino_loop()
+    controls_if()
+        @IF0: logic_operation(OR,
+                variables_get($sensor1),
+                logic_negate(variables_get($sensor2)))
+        @DO0:
+            serial_println(Serial, text("Condition met"))
+```
+
+### Ternary Conditional Operator
+```
+arduino_setup()
+    variable_define("score", int, math_number(85))
+    variable_define("grade", String, logic_ternary(
+        logic_compare(GTE, variables_get($score), math_number(90)),
+        text("A"),
+        text("B")))
     
-    serial_println(Serial, text("Continuing main program"))
-    time_delay(math_number(2000))
+    serial_begin(Serial, 9600)
+    serial_print(Serial, text("Grade: "))
+    serial_println(Serial, variables_get($grade))
 ```
 
 ## Parameter Options
 
 | Parameter | Available Values | Description |
 |-----------|------------------|-------------|
-| MODE (whileUntil) | WHILE, UNTIL | Loop continues while true or until true |
-| FLOW | BREAK, CONTINUE | Break exits loop, continue skips to next iteration |
-| TIMES | Number | Number of iterations for repeat loops |
+| Compare Operators | EQ, NE, LT, LTE, GT, GTE | Equal, Not Equal, Less Than, Less/Equal, Greater Than, Greater/Equal |
+| Logic Operators | AND, OR | Logical AND, Logical OR |
+| Boolean Values | TRUE, FALSE | Boolean true/false values |
 
 ## Important Notes
 
-1. **Program Structure**: Every Arduino program needs `arduino_setup()` and `arduino_loop()`
-2. **Setup vs Loop**: 
-   - `setup()` runs once at startup
-   - `loop()` runs continuously after setup
-3. **Variable Scope**: Loop variables (`i`, `j`) are automatically created and managed
-4. **Break/Continue**: Only work within loops, not in main program flow
-5. **Infinite Loops**: Use `controls_whileForever()` cautiously; always provide exit conditions
-6. **Performance**: Nested loops can consume significant processing time
-7. **Memory Usage**: Deep nesting can consume stack memory
-8. **Timing**: Long loops can block other operations; consider using non-blocking patterns
+1. **Conditional Structure**: Use `@IF0:`, `@DO0:`, `@ELSE:` syntax for if-else blocks. For multiple conditions, use `@IF1:`, `@DO1:`, `@IF2:`, `@DO2:`, etc. for else-if branches
+2. **Multiple Conditions**: Chain conditions using `logic_operation` with AND/OR
+3. **Switch Cases**: Add multiple cases using `@CASE0:`, `@CASE1:`, etc., each with corresponding `@DO0:`, `@DO1:`
+4. **Boolean Logic**: Combine `logic_negate` with other operations for complex conditions
+5. **Ternary Operator**: Use for simple conditional value assignments
+6. **Operator Precedence**: Use parentheses in complex expressions for clarity
