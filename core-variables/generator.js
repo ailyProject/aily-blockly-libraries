@@ -75,12 +75,12 @@ Blockly.getMainWorkspace().addChangeListener((event) => {
     }
   }
 
-  // 监听块删除事件 - 当 variable_define 相关块被删除时，清理未使用的变量
+  // 监听块删除事件 - 当变量相关块被删除时，清理未使用的变量
   if (event.type === Blockly.Events.BLOCK_DELETE) {
     const workspace = Blockly.getMainWorkspace();
     if (!workspace) return;
 
-    // 检查删除的块是否是变量定义块
+    // 变量定义块类型
     const defineBlockTypes = [
       'variable_define',
       'variable_define_scoped',
@@ -88,13 +88,32 @@ Blockly.getMainWorkspace().addChangeListener((event) => {
       'variable_define_advanced_scoped'
     ];
 
-    // 递归从 oldJson 中提取所有被删除的变量定义块的变量名
+    // 变量使用块类型（get 和 set）
+    const variableUseBlockTypes = [
+      'variables_get',
+      'variables_get_dynamic',
+      'variables_set',
+      'variables_set_dynamic'
+    ];
+
+    // 递归从 oldJson 中提取所有被删除的变量相关块的变量名
     function extractDeletedVarNames(blockJson, varNames = []) {
       if (!blockJson) return varNames;
       
       // 检查当前块是否是变量定义块
       if (defineBlockTypes.includes(blockJson.type) && blockJson.fields?.VAR) {
         varNames.push(blockJson.fields.VAR);
+      }
+      
+      // 检查当前块是否是变量使用块（get/set）
+      if (variableUseBlockTypes.includes(blockJson.type) && blockJson.fields?.VAR) {
+        const varField = blockJson.fields.VAR;
+        // VAR 字段可能是对象 { id, name, type } 或者字符串
+        if (typeof varField === 'object' && varField.name) {
+          varNames.push(varField.name);
+        } else if (typeof varField === 'string') {
+          varNames.push(varField);
+        }
       }
       
       // 递归检查所有输入中的子块
@@ -115,8 +134,8 @@ Blockly.getMainWorkspace().addChangeListener((event) => {
       return varNames;
     }
 
-    // 获取所有被删除的变量名
-    const deletedVarNames = extractDeletedVarNames(event.oldJson);
+    // 获取所有被删除的变量名（去重）
+    const deletedVarNames = [...new Set(extractDeletedVarNames(event.oldJson))];
     if (deletedVarNames.length === 0) return;
 
     // 获取工作区中所有剩余的块
