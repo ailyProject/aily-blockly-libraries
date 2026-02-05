@@ -1,115 +1,92 @@
-# Arduino Logic Control Library
+# Arduino I/O Control Library
 
-Core library for logic control and conditional operations
+Arduino input/output control library for basic pin operations
 
 ## Library Information
-- **Library Name**: @aily-project/lib-core-logic
-- **Version**: 0.0.1
+- **Library Name**: @aily-project/lib-core-io
+- **Version**: 1.0.0
 
 ## Block Definitions
 
 | Block Type | Connection | Parameters | ABS Format | Generated Code |
 |------------|------------|------------|------------|----------------|
-| `controls_if` | Statement | IF0(input_value), DO0(input_statement) | `controls_if() @IF0: condition @DO0: statements` | `if (condition) { statements }` |
-| `controls_ifelse` | Statement | IF0(input_value), DO0(input_statement), ELSE(input_statement) | `controls_if() @IF0: condition @DO0: statements @ELSE: else_statements` | `if (condition) { statements } else { else_statements }` |
-| `controls_switch` | Statement | SWITCH(input_value), CASE0(input_value), DO0(input_statement), DEFAULT(input_statement) | `controls_switch() @SWITCH: variable @CASE0: value @DO0: statements @DEFAULT: default_statements` | `switch (variable) { case value: statements; break; default: default_statements; }` |
-| `logic_compare` | Value | A(input_value), OP(dropdown), B(input_value) | `logic_compare(EQ, variables_get($a), math_number(10))` | `(a == 10)` |
-| `logic_operation` | Value | A(input_value), OP(dropdown), B(input_value) | `logic_operation(AND, condition1, condition2)` | `(condition1 && condition2)` |
-| `logic_negate` | Value | BOOL(input_value) | `logic_negate(condition)` | `!(condition)` |
-| `logic_boolean` | Value | BOOL(dropdown) | `logic_boolean(TRUE)` | `true` |
-| `logic_ternary` | Value | IF(input_value), THEN(input_value), ELSE(input_value) | `logic_ternary(condition, value1, value2)` | `(condition ? value1 : value2)` |
+| `io_pinmode` | Statement | PIN(input_value), MODE(input_value) | `io_pinmode(io_pin_digi(13), io_mode(OUTPUT))` | `pinMode(13, OUTPUT);` |
+| `io_digitalwrite` | Statement | PIN(input_value), STATE(input_value) | `io_digitalwrite(io_pin_digi(13), io_state(HIGH))` | `digitalWrite(13, HIGH);` |
+| `io_digitalread` | Value | PIN(input_value) | `io_digitalread(io_pin_digi(2))` | `digitalRead(2)` |
+| `io_analogwrite` | Statement | PIN(input_value), PWM(input_value) | `io_analogwrite(io_pin_pwm(9), math_number(128))` | `analogWrite(9, 128);` |
+| `io_analogread` | Value | PIN(input_value) | `io_analogread(io_pin_adc(A0))` | `analogRead(A0)` |
+| `io_pin_digi` | Value | PIN(dropdown) | `io_pin_digi(13)` | `13` |
+| `io_pin_adc` | Value | PIN(dropdown) | `io_pin_adc(A0)` | `A0` |
+| `io_pin_pwm` | Value | PIN(dropdown) | `io_pin_pwm(9)` | `9` |
+| `io_mode` | Value | MODE(dropdown) | `io_mode(OUTPUT)` | `OUTPUT` |
+| `io_state` | Value | STATE(dropdown) | `io_state(HIGH)` | `HIGH` |
 
 ## ABS Examples
 
-### Multiple Else-If Conditions
-> **Note**: Both `controls_if` and `controls_ifelse` blocks can be used for conditional logic. They support the same syntax for multiple else-if branches using `@IF1:`, `@IF2:`, etc.
-
+### Basic LED Control
 ```
-variable_define("temperature", int, math_number(25))
-
 arduino_setup()
-    serial_begin(Serial, 9600)
+    io_pinmode(io_pin_digi(13), io_mode(OUTPUT))
 
 arduino_loop()
-    controls_if()
-        @IF0: logic_compare(GT, variables_get($temperature), math_number(35))
-        @DO0:
-            serial_println(Serial, text("Very hot!"))
-        @IF1: logic_compare(GT, variables_get($temperature), math_number(25))
-        @DO1:
-            serial_println(Serial, text("Warm"))
-        @IF2: logic_compare(GT, variables_get($temperature), math_number(15))
-        @DO2:
-            serial_println(Serial, text("Cool"))
-        @ELSE:
-            serial_println(Serial, text("Cold"))
+    io_digitalwrite(io_pin_digi(13), io_state(HIGH))
+    time_delay(math_number(1000))
+    io_digitalwrite(io_pin_digi(13), io_state(LOW))
     time_delay(math_number(1000))
 ```
 
-### Switch Case Statement
+### Button Input with Pull-up
 ```
-variable_define("dayOfWeek", int, math_number(3))
-
 arduino_setup()
-    serial_begin(Serial, 9600)
-
-arduino_loop()
-    controls_switch()
-        @SWITCH: variables_get($dayOfWeek)
-        @CASE0: math_number(1)
-        @DO0:
-            serial_println(Serial, text("Monday"))
-        @CASE1: math_number(2)
-        @DO1:
-            serial_println(Serial, text("Tuesday"))
-        @DEFAULT:
-            serial_println(Serial, text("Other day"))
-```
-
-### Complex Logic with Negation
-```
-variable_define("sensor1", bool, logic_boolean(TRUE))
-variable_define("sensor2", bool, logic_boolean(FALSE))
-
-arduino_setup()
+    io_pinmode(io_pin_digi(2), io_mode(INPUT_PULLUP))
+    io_pinmode(io_pin_digi(13), io_mode(OUTPUT))
     serial_begin(Serial, 9600)
 
 arduino_loop()
     controls_if()
-        @IF0: logic_operation(OR,
-                variables_get($sensor1),
-                logic_negate(variables_get($sensor2)))
+        @IF0: logic_compare(EQ, io_digitalread(io_pin_digi(2)), io_state(LOW))
         @DO0:
-            serial_println(Serial, text("Condition met"))
+            io_digitalwrite(io_pin_digi(13), io_state(HIGH))
+            serial_println(Serial, text("Button pressed"))
+        @ELSE:
+            io_digitalwrite(io_pin_digi(13), io_state(LOW))
 ```
 
-### Ternary Conditional Operator
+### Analog Input and PWM Output
 ```
 arduino_setup()
-    variable_define("score", int, math_number(85))
-    variable_define("grade", String, logic_ternary(
-        logic_compare(GTE, variables_get($score), math_number(90)),
-        text("A"),
-        text("B")))
-    
+    io_pinmode(io_pin_pwm(9), io_mode(OUTPUT))
     serial_begin(Serial, 9600)
-    serial_print(Serial, text("Grade: "))
-    serial_println(Serial, variables_get($grade))
+
+arduino_loop()
+    variable_define("sensorValue", "int", io_analogread(io_pin_adc(A0)))
+    variable_define("pwmValue", "int", math_arithmetic(DIVIDE, variables_get($sensorValue), math_number(4)))
+    
+    io_analogwrite(io_pin_pwm(9), variables_get($pwmValue))
+    serial_print(Serial, text("Sensor: "))
+    serial_print(Serial, variables_get($sensorValue))
+    serial_print(Serial, text(" PWM: "))
+    serial_println(Serial, variables_get($pwmValue))
+    
+    time_delay(math_number(100))
 ```
 
 ## Parameter Options
 
 | Parameter | Available Values | Description |
 |-----------|------------------|-------------|
-| Compare Operators | EQ, NE, LT, LTE, GT, GTE | Equal, Not Equal, Less Than, Less/Equal, Greater Than, Greater/Equal |
-| Logic Operators | AND, OR | Logical AND, Logical OR |
-| Boolean Values | TRUE, FALSE | Boolean true/false values |
+| PIN (Digital) | 0-13, etc. | Digital pin numbers (board-specific) |
+| PIN (Analog) | A0-A5, etc. | Analog pin identifiers (board-specific) |
+| PIN (PWM) | 3,5,6,9,10,11, etc. | PWM-capable pin numbers (board-specific) |
+| MODE | INPUT, OUTPUT, INPUT_PULLUP | Pin operating modes |
+| STATE | HIGH, LOW | Digital signal levels |
+| PWM | 0-255 | PWM duty cycle value |
 
 ## Important Notes
 
-1. **Conditional Structure**: Use `@IF0:`, `@DO0:`, `@ELSE:` syntax for if-else blocks. For multiple conditions, use `@IF1:`, `@DO1:`, `@IF2:`, `@DO2:`, etc. for else-if branches
-2. **Multiple Conditions**: Chain conditions using `logic_operation` with AND/OR
-3. **Switch Cases**: Add multiple cases using `@CASE0:`, `@CASE1:`, etc., each with corresponding `@DO0:`, `@DO1:`
-4. **Boolean Logic**: Combine `logic_negate` with other operations for complex conditions
-5. **Ternary Operator**: Use for simple conditional value assignments
-6. **Operator Precedence**: Use parentheses in complex expressions for clarity
+1. **Pin Configuration**: Always use `io_pinmode` to configure pins before use
+2. **Pin Types**: Use appropriate pin blocks (`io_pin_digi`, `io_pin_adc`, `io_pin_pwm`) for different functions
+3. **PWM Range**: PWM values range from 0 (0% duty cycle) to 255 (100% duty cycle)
+4. **Analog Range**: Analog readings typically range from 0-1023 (10-bit ADC)
+5. **Pull-up Resistors**: Use `INPUT_PULLUP` mode for buttons to avoid external resistors
+6. **Board Compatibility**: Use get_board_parameters tools to get valid pin numbers for current board
