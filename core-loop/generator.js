@@ -86,6 +86,13 @@ Arduino.forBlock["arduino_loop"] = function (block, generator) {
   return `loop() {\n${code}}\n`;
 };
 
+Arduino.forBlock["arduino_global"] = function (block, generator) {
+  const code = Arduino.statementToCode(block, "ARDUINO_GLOBAL");
+  // generator.addVariable("global_variables", code);
+  // return "";
+  return code;
+};
+
 Arduino.forBlock["controls_repeat_ext"] = function (block, generator) {
   // Repeat n times.
   let repeats;
