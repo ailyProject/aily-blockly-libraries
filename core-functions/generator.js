@@ -1290,12 +1290,63 @@ if (typeof Blockly !== 'undefined') {
             }
           }
           
-          // 然后刷新所有调用块的标签（从 registry 获取参数名）
+          // 然后刷新所有调用块的下拉显示文本和参数标签
           const callBlocks = workspace.getBlocksByType('custom_function_call', false)
             .concat(workspace.getBlocksByType('custom_function_call_return', false));
           for (const block of callBlocks) {
+            // 🆕 刷新 FUNC_NAME 下拉框的显示文本
+            // 加载时 registry 为空，doClassValidation_ 覆写虽然接受了值，
+            // 但 selectedOption_ 显示文本是 "(无函数)"。
+            // 现在 registry 已就绪，清除缓存并重新设值以刷新显示。
+            var funcField = block.getField('FUNC_NAME');
+            if (funcField) {
+              funcField.generatedOptions = null; // 清除选项缓存
+              var currentValue = funcField.getValue();
+              if (currentValue && currentValue !== '__NONE__') {
+                // 强制刷新 selectedOption_ 显示文本
+                // 重新生成选项并查找匹配的显示文本
+                var options = funcField.getOptions(false); // false = 不用缓存
+                for (var oi = 0; oi < options.length; oi++) {
+                  if (options[oi][1] === currentValue) {
+                    funcField.selectedOption_ = options[oi];
+                    break;
+                  }
+                }
+                // 强制重新渲染文本
+                if (funcField.forceRerender) {
+                  funcField.forceRerender();
+                } else if (funcField.renderSelectedText_) {
+                  funcField.renderSelectedText_();
+                } else if (funcField.render_) {
+                  funcField.render_();
+                }
+              }
+            }
+            
             if (block.updateShape_) {
               block.updateShape_();
+            }
+            
+            // 🆕 刷新已有 INPUT 输入的参数标签（增量 updateShape_ 不会更新已有输入的标签）
+            if (block.getInputLabel_ && typeof block.getInputLabel_ === 'function') {
+              var inputIdx = 0;
+              while (block.getInput('INPUT' + inputIdx)) {
+                var inp = block.getInput('INPUT' + inputIdx);
+                var newLabel = block.getInputLabel_(inputIdx);
+                // 标签是 INPUT 的第一个字段（FieldLabel）
+                if (inp.fieldRow && inp.fieldRow.length > 0) {
+                  var labelField = inp.fieldRow[0];
+                  if (labelField && typeof labelField.setValue === 'function') {
+                    labelField.setValue(newLabel);
+                  }
+                }
+                inputIdx++;
+              }
+            }
+            
+            // 重新渲染块
+            if (block.render) {
+              block.render();
             }
           }
           
