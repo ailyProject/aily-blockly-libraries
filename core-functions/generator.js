@@ -314,17 +314,40 @@ function syncCallBlocksParams(funcName) {
 
 /**
  * 获取所有已注册函数的下拉选项
+ * 注意：当作为 menuGenerator_ 被调用时，this 指向字段对象
  * @returns {Array} 下拉选项数组
  */
 function getFunctionDropdownOptions() {
-  if (typeof window === 'undefined' || !window.customFunctionRegistry) {
+  const options = [];
+  
+  // 从 registry 获取所有已注册的函数
+  if (typeof window !== 'undefined' && window.customFunctionRegistry) {
+    const funcs = Object.keys(window.customFunctionRegistry);
+    for (const f of funcs) {
+      options.push([f, f]);
+    }
+  }
+  
+  // 🆕 加载顺序兼容：如果当前字段有值但不在选项中，添加为临时选项
+  // 这解决了 custom_function_call 先于 custom_function_def 加载时的问题
+  // FINISHED_LOADING 事件后会重新刷新选项
+  if (this && typeof this.getValue === 'function') {
+    const currentValue = this.getValue();
+    if (currentValue && currentValue !== '__NONE__') {
+      const exists = options.some(opt => opt[1] === currentValue);
+      if (!exists) {
+        // 将当前值作为临时选项添加（带标记提示）
+        options.push([currentValue + ' ⏳', currentValue]);
+      }
+    }
+  }
+  
+  // 如果没有任何选项，显示默认提示
+  if (options.length === 0) {
     return [[_getCallI18n().no_function || '(无函数)', '__NONE__']];
   }
-  const funcs = Object.keys(window.customFunctionRegistry);
-  if (funcs.length === 0) {
-    return [[_getCallI18n().no_function || '(无函数)', '__NONE__']];
-  }
-  return funcs.map(f => [f, f]);
+  
+  return options;
 }
 
 /**
@@ -745,10 +768,18 @@ var functionParamsHelper = functionParamsHelper || function() {
       if (oldName !== sanitizedName) {
         // 先删除旧的注册
         unregisterFunction(oldName);
-        // 延迟注册新函数，确保字段值已更新
-        setTimeout(() => {
-          block.updateFunctionRegistry_();
-        }, 0);
+      }
+      
+      // 🆕 同步注册新函数，确保后续块加载时 registry 已有数据
+      // 不使用 setTimeout，因为首次加载时 custom_function_call 可能紧随其后创建
+      if (typeof window !== 'undefined' && block.workspace && !block.workspace.isFlyout) {
+        window.customFunctionRegistry = window.customFunctionRegistry || {};
+        const returnType = block.getFieldValue('RETURN_TYPE') || 'void';
+        window.customFunctionRegistry[sanitizedName] = {
+          name: sanitizedName,
+          params: (block.params_ || []).map(p => ({ type: p.type, name: p.name })),
+          returnType: returnType
+        };
       }
       
       return sanitizedName;
@@ -926,29 +957,14 @@ var functionCallSyncMutator = functionCallSyncMutator || {
     const targetCount = state.extraCount || 0;
     this.updateShape_(targetCount);
     
-    // 预注册：当 call 块先于 def 块加载时，registry 可能还是空的。
-    // 根据 extraCount 和待恢复的 FUNC_NAME 临时注册一个占位条目，
-    // 确保 Blockly 恢复字段值时下拉菜单能接受该值。
-    // def 块加载后会用完整信息覆盖这个占位条目。
-    var block = this;
-    setTimeout(function() {
-      var funcName = block.getFieldValue && block.getFieldValue('FUNC_NAME');
-      if (funcName && funcName !== '__NONE__' && typeof window !== 'undefined' && window.customFunctionRegistry) {
-        if (!window.customFunctionRegistry[funcName]) {
-          // 生成占位参数列表
-          var placeholderParams = [];
-          for (var i = 0; i < targetCount; i++) {
-            placeholderParams.push({ type: 'int', name: 'param' + i });
-          }
-          window.customFunctionRegistry[funcName] = {
-            name: funcName,
-            params: placeholderParams,
-            returnType: 'void',
-            _placeholder: true  // 标记为占位，def 加载后会覆盖
-          };
-        }
-      }
-    }, 0);
+    // 🆕 清除 FUNC_NAME 下拉字段的选项缓存
+    // Blockly 的 doClassValidation_ 使用 getOptions(true) 会返回缓存的选项
+    // 如果 init() 时 registry 为空，缓存中只有 __NONE__
+    // 清除缓存后，恢复字段值时会重新调用 menuGenerator_，获取最新选项
+    const funcField = this.getField('FUNC_NAME');
+    if (funcField) {
+      funcField.generatedOptions = null;
+    }
   },
   
   /**
@@ -1076,6 +1092,21 @@ var functionCallSyncHelper = functionCallSyncHelper || function() {
   if (funcField) {
     funcField.menuGenerator_ = getFunctionDropdownOptions;
     
+    // 🆕 覆写 doClassValidation_，允许加载阶段接受尚不在选项列表中的函数名
+    // 问题根因：Blockly 恢复字段值时调用 doClassValidation_ → getOptions(true)
+    // 如果 custom_function_call 先于 custom_function_def 加载，registry 为空，
+    // 被恢复的函数名不在选项中，doClassValidation_ 返回 null 导致值被拒绝。
+    // FINISHED_LOADING 事件后会重新注册所有函数并刷新调用块。
+    var originalDoClassValidation = funcField.doClassValidation_;
+    funcField.doClassValidation_ = function(newValue) {
+      var result = originalDoClassValidation.call(this, newValue);
+      if (result === null && newValue != null && newValue !== '' && newValue !== '__NONE__') {
+        // 值不在当前选项中但看起来是有效函数名 —— 接受它
+        return newValue;
+      }
+      return result;
+    };
+    
     // 添加选择变化监听 - 用户主动选择新函数时更新参数
     funcField.setValidator(function(newValue) {
       if (newValue === '__NONE__') {
@@ -1086,23 +1117,6 @@ var functionCallSyncHelper = functionCallSyncHelper || function() {
       if (!block.hasInitialized_) {
         block.selectedFunction_ = newValue;
         block.hasInitialized_ = true;
-        
-        // 预注册：如果 registry 中还没有这个函数（call 先于 def 加载），
-        // 临时注册一个占位条目，保证下拉菜单能接受这个值
-        if (typeof window !== 'undefined' && window.customFunctionRegistry && !window.customFunctionRegistry[newValue]) {
-          var paramCount = block.extraCount_ || 0;
-          var placeholderParams = [];
-          for (var i = 0; i < paramCount; i++) {
-            placeholderParams.push({ type: 'int', name: 'param' + i });
-          }
-          window.customFunctionRegistry[newValue] = {
-            name: newValue,
-            params: placeholderParams,
-            returnType: 'void',
-            _placeholder: true
-          };
-        }
-        
         return newValue;
       }
       
@@ -1276,12 +1290,63 @@ if (typeof Blockly !== 'undefined') {
             }
           }
           
-          // 然后刷新所有调用块的标签（从 registry 获取参数名）
+          // 然后刷新所有调用块的下拉显示文本和参数标签
           const callBlocks = workspace.getBlocksByType('custom_function_call', false)
             .concat(workspace.getBlocksByType('custom_function_call_return', false));
           for (const block of callBlocks) {
+            // 🆕 刷新 FUNC_NAME 下拉框的显示文本
+            // 加载时 registry 为空，doClassValidation_ 覆写虽然接受了值，
+            // 但 selectedOption_ 显示文本是 "(无函数)"。
+            // 现在 registry 已就绪，清除缓存并重新设值以刷新显示。
+            var funcField = block.getField('FUNC_NAME');
+            if (funcField) {
+              funcField.generatedOptions = null; // 清除选项缓存
+              var currentValue = funcField.getValue();
+              if (currentValue && currentValue !== '__NONE__') {
+                // 强制刷新 selectedOption_ 显示文本
+                // 重新生成选项并查找匹配的显示文本
+                var options = funcField.getOptions(false); // false = 不用缓存
+                for (var oi = 0; oi < options.length; oi++) {
+                  if (options[oi][1] === currentValue) {
+                    funcField.selectedOption_ = options[oi];
+                    break;
+                  }
+                }
+                // 强制重新渲染文本
+                if (funcField.forceRerender) {
+                  funcField.forceRerender();
+                } else if (funcField.renderSelectedText_) {
+                  funcField.renderSelectedText_();
+                } else if (funcField.render_) {
+                  funcField.render_();
+                }
+              }
+            }
+            
             if (block.updateShape_) {
               block.updateShape_();
+            }
+            
+            // 🆕 刷新已有 INPUT 输入的参数标签（增量 updateShape_ 不会更新已有输入的标签）
+            if (block.getInputLabel_ && typeof block.getInputLabel_ === 'function') {
+              var inputIdx = 0;
+              while (block.getInput('INPUT' + inputIdx)) {
+                var inp = block.getInput('INPUT' + inputIdx);
+                var newLabel = block.getInputLabel_(inputIdx);
+                // 标签是 INPUT 的第一个字段（FieldLabel）
+                if (inp.fieldRow && inp.fieldRow.length > 0) {
+                  var labelField = inp.fieldRow[0];
+                  if (labelField && typeof labelField.setValue === 'function') {
+                    labelField.setValue(newLabel);
+                  }
+                }
+                inputIdx++;
+              }
+            }
+            
+            // 重新渲染块
+            if (block.render) {
+              block.render();
             }
           }
           
