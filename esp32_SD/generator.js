@@ -144,7 +144,7 @@ Arduino.forBlock['esp32_sd_write_file'] = function(block, generator) {
   generator.addLibrary('FS', '#include <FS.h>');
   generator.addLibrary('SD', '#include <SD.h>');
 
-  let code = varName + '.print(' + content + ');\n';
+  let code = varName + '.print(String(' + content + ').c_str());\n';
   
   return code;
 };
@@ -225,7 +225,7 @@ Arduino.forBlock['esp32_sd_write_file_quick'] = function(block, generator) {
   ensureSerialBegin("Serial", generator);
 
   let code = '';
-  code += 'writeFile(' + path + ', ' + content + ');\n';
+  code += 'writeFile(' + path + ', String(' + content + ').c_str());\n';
 
   return code;
 };
@@ -290,7 +290,7 @@ Arduino.forBlock['esp32_sd_append_file'] = function(block, generator) {
   ensureSerialBegin("Serial", generator);
 
   let code = '';
-  code += 'appendFile(' + path + ', ' + content + ');\n';
+  code += 'appendFile(' + path + ', String(' + content + ').c_str());\n';
 
   return code;
 };
