@@ -30,7 +30,7 @@
 ├── workflows/
 │   └── library-compliance-check.yml    # 主要的GitHub Actions工作流
 ├── compliance-config.yml               # 检测规则配置文件
-└── README.md                          # 本文档
+└── COMPLIANCE.md                      # 本文档
 
 validate-library-compliance.js          # 核心检测脚本
 github-actions-validator.js             # GitHub Actions优化版本
