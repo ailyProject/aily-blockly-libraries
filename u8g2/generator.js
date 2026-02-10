@@ -4,6 +4,11 @@ function isESP32Core() {
   return boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1;
 }
 
+function isAVRCore() {
+  const boardConfig = window['boardConfig'];
+  return boardConfig && boardConfig.core && boardConfig.core.indexOf('avr') > -1;
+}
+
 // 注册字体动态扩展
 if (Blockly.Extensions.isRegistered('u8g2_font_dynamic_inputs')) {
   Blockly.Extensions.unregister('u8g2_font_dynamic_inputs');
@@ -118,25 +123,61 @@ Blockly.Extensions.register('u8g2_font_dynamic_inputs', function () {
       // 中文字体
       switch (sizeValue) {
         case '8':
-          fontOptions = [
-            ['文泉驿 12t 1(约600字)', 'u8g2_font_wqy12_t_chinese1'],
-            ['文泉驿 12t 2(约2000字)', 'u8g2_font_wqy12_t_chinese2'],
-            ['文泉驿 12t 3(约3500字)', 'u8g2_font_wqy12_t_chinese3']
-          ];
+          if (!isAVRCore()) {
+            fontOptions = [
+              ['文泉驿 12t 1(约400字)', 'u8g2_font_wqy12_t_chinese1'],
+              ['文泉驿 12t 2(约600字)', 'u8g2_font_wqy12_t_chinese2'],
+              ['文泉驿 12t 3(约1000字)', 'u8g2_font_wqy12_t_chinese3'],
+              ['文泉驿 12t a(约4000字)', 'u8g2_font_wqy12_t_gb2312a'],
+              ['文泉驿 12t b(约4500字)', 'u8g2_font_wqy12_t_gb2312b'],
+              ['文泉驿 12t c(约7500字)', 'u8g2_font_wqy12_t_gb2312']
+            ];
+          }
+          else {
+            fontOptions = [
+              ['文泉驿 12t 1(约400字)', 'u8g2_font_wqy12_t_chinese1'],
+              ['文泉驿 12t 2(约600字)', 'u8g2_font_wqy12_t_chinese2'],
+              ['文泉驿 12t 3(约1000字)', 'u8g2_font_wqy12_t_chinese3']
+            ];
+          }
           break;
         case '14':
-          fontOptions = [
-            ['文泉驿 14t 1(约600字)', 'u8g2_font_wqy14_t_chinese1'],
-            ['文泉驿 14t 2(约2000字)', 'u8g2_font_wqy14_t_chinese2'],
-            ['文泉驿 14t 3(约3500字)', 'u8g2_font_wqy14_t_chinese3']
-          ];
+          if (!isAVRCore()) {
+            fontOptions = [
+              ['文泉驿 14t 1(约400字)', 'u8g2_font_wqy14_t_chinese1'],
+              ['文泉驿 14t 2(约600字)', 'u8g2_font_wqy14_t_chinese2'],
+              ['文泉驿 14t 3(约1000字)', 'u8g2_font_wqy14_t_chinese3'],
+              ['文泉驿 14t a(约4000字)', 'u8g2_font_wqy14_t_gb2312a'],
+              ['文泉驿 14t b(约4500字)', 'u8g2_font_wqy14_t_gb2312b'],
+              ['文泉驿 14t c(约7500字)', 'u8g2_font_wqy14_t_gb2312']
+            ];
+          }
+          else {
+            fontOptions = [
+              ['文泉驿 14t 1(约400字)', 'u8g2_font_wqy14_t_chinese1'],
+              ['文泉驿 14t 2(约600字)', 'u8g2_font_wqy14_t_chinese2'],
+              ['文泉驿 14t 3(约1000字)', 'u8g2_font_wqy14_t_chinese3']
+            ];
+          }
           break;
         case '19':
-          fontOptions = [
-            ['文泉驿 16t 1(约600字)', 'u8g2_font_wqy16_t_chinese1'],
-            ['文泉驿 16t 2(约2000字)', 'u8g2_font_wqy16_t_chinese2'],
-            ['文泉驿 16t 3(约3500字)', 'u8g2_font_wqy16_t_chinese3']
-          ];
+          if (!isAVRCore()) {
+            fontOptions = [
+              ['文泉驿 16t 1(约400字)', 'u8g2_font_wqy16_t_chinese1'],
+              ['文泉驿 16t 2(约600字)', 'u8g2_font_wqy16_t_chinese2'],
+              ['文泉驿 16t 3(约1000字)', 'u8g2_font_wqy16_t_chinese3'],
+              ['文泉驿 16t a(约4000字)', 'u8g2_font_wqy16_t_gb2312a'],
+              ['文泉驿 16t b(约4500字)', 'u8g2_font_wqy16_t_gb2312b'],
+              ['文泉驿 16t c(约7500字)', 'u8g2_font_wqy16_t_gb2312']
+            ];
+          }
+          else {
+            fontOptions = [
+              ['文泉驿 16t 1(约400字)', 'u8g2_font_wqy16_t_chinese1'],
+              ['文泉驿 16t 2(约600字)', 'u8g2_font_wqy16_t_chinese2'],
+              ['文泉驿 16t 3(约1000字)', 'u8g2_font_wqy16_t_chinese3']
+            ];
+          }
           break;
       }
     } else if (typeValue === 'HELV_B') {
