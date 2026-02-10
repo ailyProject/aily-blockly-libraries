@@ -925,6 +925,30 @@ var functionCallSyncMutator = functionCallSyncMutator || {
   loadExtraState: function(state) {
     const targetCount = state.extraCount || 0;
     this.updateShape_(targetCount);
+    
+    // 预注册：当 call 块先于 def 块加载时，registry 可能还是空的。
+    // 根据 extraCount 和待恢复的 FUNC_NAME 临时注册一个占位条目，
+    // 确保 Blockly 恢复字段值时下拉菜单能接受该值。
+    // def 块加载后会用完整信息覆盖这个占位条目。
+    var block = this;
+    setTimeout(function() {
+      var funcName = block.getFieldValue && block.getFieldValue('FUNC_NAME');
+      if (funcName && funcName !== '__NONE__' && typeof window !== 'undefined' && window.customFunctionRegistry) {
+        if (!window.customFunctionRegistry[funcName]) {
+          // 生成占位参数列表
+          var placeholderParams = [];
+          for (var i = 0; i < targetCount; i++) {
+            placeholderParams.push({ type: 'int', name: 'param' + i });
+          }
+          window.customFunctionRegistry[funcName] = {
+            name: funcName,
+            params: placeholderParams,
+            returnType: 'void',
+            _placeholder: true  // 标记为占位，def 加载后会覆盖
+          };
+        }
+      }
+    }, 0);
   },
   
   /**
@@ -1062,6 +1086,23 @@ var functionCallSyncHelper = functionCallSyncHelper || function() {
       if (!block.hasInitialized_) {
         block.selectedFunction_ = newValue;
         block.hasInitialized_ = true;
+        
+        // 预注册：如果 registry 中还没有这个函数（call 先于 def 加载），
+        // 临时注册一个占位条目，保证下拉菜单能接受这个值
+        if (typeof window !== 'undefined' && window.customFunctionRegistry && !window.customFunctionRegistry[newValue]) {
+          var paramCount = block.extraCount_ || 0;
+          var placeholderParams = [];
+          for (var i = 0; i < paramCount; i++) {
+            placeholderParams.push({ type: 'int', name: 'param' + i });
+          }
+          window.customFunctionRegistry[newValue] = {
+            name: newValue,
+            params: placeholderParams,
+            returnType: 'void',
+            _placeholder: true
+          };
+        }
+        
         return newValue;
       }
       
