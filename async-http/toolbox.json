@@ -1,218 +1,219 @@
 {
-  "kind": "category",
-  "name": "异步HTTP",
-  "contents": [
-    {
-      "kind": "label",
-      "text": "初始化"
-    },
-    {
-      "kind": "block",
-      "type": "async_http_create"
-    },
-    {
-      "kind": "block",
-      "type": "async_http_set_timeout",
-      "inputs": {
-        "TIMEOUT": {
-          "shadow": {
-            "type": "math_number",
-            "fields": {
-              "NUM": 15000
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "async_http_set_header",
-      "inputs": {
-        "NAME": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "User-Agent"
-            }
-          }
+    "kind": "category",
+    "name": "异步HTTP",
+    "icon": "fa-light fa-globe-pointer",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "初始化"
         },
-        "VALUE": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "AsyncHTTP/1.0"
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "async_http_clear_headers"
-    },
-    {
-      "kind": "label",
-      "text": "发送请求"
-    },
-    {
-      "kind": "block",
-      "type": "async_http_get",
-      "inputs": {
-        "URL": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "http://httpbin.org/get"
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "async_http_post_json",
-      "inputs": {
-        "URL": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "http://httpbin.org/post"
-            }
-          }
+        {
+            "kind": "block",
+            "type": "async_http_create"
         },
-        "BODY": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "{\"key\":\"value\"}"
+        {
+            "kind": "block",
+            "type": "async_http_set_timeout",
+            "inputs": {
+                "TIMEOUT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 15000
+                        }
+                    }
+                }
             }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "async_http_post",
-      "inputs": {
-        "URL": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "http://httpbin.org/post"
-            }
-          }
         },
-        "BODY": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "Hello from Arduino!"
+        {
+            "kind": "block",
+            "type": "async_http_set_header",
+            "inputs": {
+                "NAME": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "User-Agent"
+                        }
+                    }
+                },
+                "VALUE": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "AsyncHTTP/1.0"
+                        }
+                    }
+                }
             }
-          }
         },
-        "CONTENT_TYPE": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "text/plain"
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "async_http_put_json",
-      "inputs": {
-        "URL": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "http://httpbin.org/put"
-            }
-          }
+        {
+            "kind": "block",
+            "type": "async_http_clear_headers"
         },
-        "BODY": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "{\"key\":\"value\"}"
+        {
+            "kind": "label",
+            "text": "发送请求"
+        },
+        {
+            "kind": "block",
+            "type": "async_http_get",
+            "inputs": {
+                "URL": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "http://httpbin.org/get"
+                        }
+                    }
+                }
             }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "async_http_del",
-      "inputs": {
-        "URL": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "http://httpbin.org/delete"
+        },
+        {
+            "kind": "block",
+            "type": "async_http_post_json",
+            "inputs": {
+                "URL": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "http://httpbin.org/post"
+                        }
+                    }
+                },
+                "BODY": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "{\"key\":\"value\"}"
+                        }
+                    }
+                }
             }
-          }
-        }
-      }
-    },
-    {
-      "kind": "label",
-      "text": "响应数据（放在请求回调中）"
-    },
-    {
-      "kind": "block",
-      "type": "async_http_response_status"
-    },
-    {
-      "kind": "block",
-      "type": "async_http_response_body"
-    },
-    {
-      "kind": "block",
-      "type": "async_http_response_is_success"
-    },
-    {
-      "kind": "block",
-      "type": "async_http_response_header",
-      "inputs": {
-        "NAME": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-              "TEXT": "Content-Type"
+        },
+        {
+            "kind": "block",
+            "type": "async_http_post",
+            "inputs": {
+                "URL": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "http://httpbin.org/post"
+                        }
+                    }
+                },
+                "BODY": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "Hello from Arduino!"
+                        }
+                    }
+                },
+                "CONTENT_TYPE": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "text/plain"
+                        }
+                    }
+                }
             }
-          }
+        },
+        {
+            "kind": "block",
+            "type": "async_http_put_json",
+            "inputs": {
+                "URL": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "http://httpbin.org/put"
+                        }
+                    }
+                },
+                "BODY": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "{\"key\":\"value\"}"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "async_http_del",
+            "inputs": {
+                "URL": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "http://httpbin.org/delete"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "响应数据（放在请求回调中）"
+        },
+        {
+            "kind": "block",
+            "type": "async_http_response_status"
+        },
+        {
+            "kind": "block",
+            "type": "async_http_response_body"
+        },
+        {
+            "kind": "block",
+            "type": "async_http_response_is_success"
+        },
+        {
+            "kind": "block",
+            "type": "async_http_response_header",
+            "inputs": {
+                "NAME": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "Content-Type"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "错误处理"
+        },
+        {
+            "kind": "block",
+            "type": "async_http_on_error"
+        },
+        {
+            "kind": "block",
+            "type": "async_http_error_code"
+        },
+        {
+            "kind": "block",
+            "type": "async_http_error_message"
+        },
+        {
+            "kind": "label",
+            "text": "管理"
+        },
+        {
+            "kind": "block",
+            "type": "async_http_pending"
+        },
+        {
+            "kind": "block",
+            "type": "async_http_abort_all"
         }
-      }
-    },
-    {
-      "kind": "label",
-      "text": "错误处理"
-    },
-    {
-      "kind": "block",
-      "type": "async_http_on_error"
-    },
-    {
-      "kind": "block",
-      "type": "async_http_error_code"
-    },
-    {
-      "kind": "block",
-      "type": "async_http_error_message"
-    },
-    {
-      "kind": "label",
-      "text": "管理"
-    },
-    {
-      "kind": "block",
-      "type": "async_http_pending"
-    },
-    {
-      "kind": "block",
-      "type": "async_http_abort_all"
-    }
-  ]
+    ]
 }
