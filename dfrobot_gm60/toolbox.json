@@ -1,0 +1,66 @@
+{
+    "kind": "category",
+    "name": "GM60二维码扫描器",
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-qrcode",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "初始化"
+        },
+        {
+            "kind": "block",
+            "type": "gm60_init_i2c"
+        },
+        {
+            "kind": "block",
+            "type": "gm60_init_uart",
+            "inputs": {
+                "RX": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 2
+                        }
+                    }
+                },
+                "TX": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 3
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "配置"
+        },
+        {
+            "kind": "block",
+            "type": "gm60_set_encode"
+        },
+        {
+            "kind": "block",
+            "type": "gm60_setup_code"
+        },
+        {
+            "kind": "block",
+            "type": "gm60_set_identify"
+        },
+        {
+            "kind": "block",
+            "type": "gm60_reset"
+        },
+        {
+            "kind": "label",
+            "text": "读取"
+        },
+        {
+            "kind": "block",
+            "type": "gm60_detection"
+        }
+    ]
+}

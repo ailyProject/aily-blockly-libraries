@@ -1,0 +1,184 @@
+[
+  {
+    "type": "gm60_init_i2c",
+    "icon": "fa-light fa-qrcode",
+    "message0": "初始化二维码扫描器(I2C) %1\n地址 %2\n使用 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "gm60"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDRESS",
+        "options": [
+          ["0x1A (默认)", "0x1A"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "通过I2C初始化DFRobot GM60二维码扫描器模块"
+  },
+  {
+    "type": "gm60_init_uart",
+    "icon": "fa-light fa-qrcode",
+    "message0": "初始化二维码扫描器(串口) %1 RX引脚 %2 TX引脚 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "gm60"
+      },
+      {
+        "type": "input_value",
+        "name": "RX",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "TX",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "通过UART串口初始化DFRobot GM60二维码扫描器模块，指定RX和TX引脚"
+  },
+  {
+    "type": "gm60_set_encode",
+    "icon": "fa-light fa-qrcode",
+    "message0": "二维码扫描器 %1 设置编码为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gm60",
+        "variableTypes": ["GM60"],
+        "defaultType": "GM60"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ENCODE",
+        "options": [
+          ["UTF-8", "eUTF8"],
+          ["GBK", "eGBK"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置二维码扫描器输出数据的编码格式"
+  },
+  {
+    "type": "gm60_setup_code",
+    "icon": "fa-light fa-qrcode",
+    "message0": "二维码扫描器 %1 %2 设置码 %3 输出设置码内容",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gm60",
+        "variableTypes": ["GM60"],
+        "defaultType": "GM60"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ON",
+        "options": [
+          ["开启", "true"],
+          ["关闭", "false"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CONTENT",
+        "options": [
+          ["输出", "true"],
+          ["不输出", "false"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置码配置，可通过扫描二维码更改芯片寄存器的值"
+  },
+  {
+    "type": "gm60_set_identify",
+    "icon": "fa-light fa-qrcode",
+    "message0": "二维码扫描器 %1 识别模式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gm60",
+        "variableTypes": ["GM60"],
+        "defaultType": "GM60"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BARCODE",
+        "options": [
+          ["启用所有条码识别", "eEnableAllBarcode"],
+          ["启用默认条码识别", "eEnableDefaultcode"],
+          ["禁止所有条码识别", "eForbidAllBarcode"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置二维码/条码的识别类型，支持QR Code、EAN13、Code128等"
+  },
+  {
+    "type": "gm60_reset",
+    "icon": "fa-light fa-qrcode",
+    "message0": "二维码扫描器 %1 恢复出厂设置",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gm60",
+        "variableTypes": ["GM60"],
+        "defaultType": "GM60"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "将二维码扫描器恢复为出厂设置"
+  },
+  {
+    "type": "gm60_detection",
+    "icon": "fa-light fa-qrcode",
+    "message0": "二维码扫描器 %1 读取扫描数据",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gm60",
+        "variableTypes": ["GM60"],
+        "defaultType": "GM60"
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#4CAF50",
+    "tooltip": "检测并返回扫描到的二维码/条码数据，以字符串形式返回"
+  }
+]
