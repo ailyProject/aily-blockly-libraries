@@ -569,6 +569,13 @@ function main() {
                 continue;
             }
             
+            // 跳过隐藏的库
+            if (pkg.hide === true) {
+                console.log(`⏭  ${lib.name} - 已隐藏，跳过`);
+                skipped++;
+                continue;
+            }
+            
             // 生成 info.json
             const info = generateLibraryInfo(lib.name, pkg);
             
