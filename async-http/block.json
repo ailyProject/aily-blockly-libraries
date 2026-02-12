@@ -1,0 +1,356 @@
+[
+  {
+    "type": "async_http_create",
+    "message0": "创建异步HTTP客户端 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "http"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "创建异步HTTP客户端对象并初始化，会自动在loop中调用update()"
+  },
+  {
+    "type": "async_http_set_timeout",
+    "message0": "设置 %1 超时时间为 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["AsyncHTTP"],
+        "defaultType": "AsyncHTTP"
+      },
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置HTTP请求超时时间（默认10000毫秒）"
+  },
+  {
+    "type": "async_http_set_header",
+    "message0": "%1 设置默认请求头 %2 值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["AsyncHTTP"],
+        "defaultType": "AsyncHTTP"
+      },
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["String"]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置应用到所有请求的默认请求头"
+  },
+  {
+    "type": "async_http_clear_headers",
+    "message0": "%1 清除所有默认请求头",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["AsyncHTTP"],
+        "defaultType": "AsyncHTTP"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "清除所有已设置的默认请求头"
+  },
+  {
+    "type": "async_http_get",
+    "message0": "%1 发送GET请求 URL %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["AsyncHTTP"],
+        "defaultType": "AsyncHTTP"
+      },
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      }
+    ],
+    "message1": "收到响应后 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "发送异步GET请求，收到响应后执行回调代码（非阻塞）"
+  },
+  {
+    "type": "async_http_post_json",
+    "message0": "%1 发送POST JSON请求 URL %2 JSON内容 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["AsyncHTTP"],
+        "defaultType": "AsyncHTTP"
+      },
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "BODY",
+        "check": ["String"]
+      }
+    ],
+    "message1": "收到响应后 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "发送异步POST请求并附带JSON数据（Content-Type: application/json）"
+  },
+  {
+    "type": "async_http_post",
+    "message0": "%1 发送POST请求 URL %2 内容 %3 类型 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["AsyncHTTP"],
+        "defaultType": "AsyncHTTP"
+      },
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "BODY",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "CONTENT_TYPE",
+        "check": ["String"]
+      }
+    ],
+    "message1": "收到响应后 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "发送异步POST请求并指定内容类型"
+  },
+  {
+    "type": "async_http_put_json",
+    "message0": "%1 发送PUT JSON请求 URL %2 JSON内容 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["AsyncHTTP"],
+        "defaultType": "AsyncHTTP"
+      },
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "BODY",
+        "check": ["String"]
+      }
+    ],
+    "message1": "收到响应后 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "发送异步PUT请求并附带JSON数据（Content-Type: application/json）"
+  },
+  {
+    "type": "async_http_del",
+    "message0": "%1 发送DELETE请求 URL %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["AsyncHTTP"],
+        "defaultType": "AsyncHTTP"
+      },
+      {
+        "type": "input_value",
+        "name": "URL",
+        "check": ["String"]
+      }
+    ],
+    "message1": "收到响应后 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "发送异步DELETE请求，收到响应后执行回调代码"
+  },
+  {
+    "type": "async_http_on_error",
+    "message0": "当 %1 发生错误时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["AsyncHTTP"],
+        "defaultType": "AsyncHTTP"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#2196F3",
+    "tooltip": "当HTTP请求发生错误时执行回调代码（在回调中可使用错误代码和错误信息块）"
+  },
+  {
+    "type": "async_http_response_status",
+    "message0": "HTTP响应状态码",
+    "output": "Number",
+    "colour": "#2196F3",
+    "tooltip": "获取HTTP响应状态码（如200、404等），仅在请求回调中使用"
+  },
+  {
+    "type": "async_http_response_body",
+    "message0": "HTTP响应内容",
+    "output": "String",
+    "colour": "#2196F3",
+    "tooltip": "获取HTTP响应的正文内容，仅在请求回调中使用"
+  },
+  {
+    "type": "async_http_response_is_success",
+    "message0": "HTTP响应是否成功",
+    "output": "Boolean",
+    "colour": "#2196F3",
+    "tooltip": "判断HTTP响应是否成功（状态码200-299），仅在请求回调中使用"
+  },
+  {
+    "type": "async_http_response_header",
+    "message0": "HTTP响应头 %1 的值",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": ["String"]
+      }
+    ],
+    "output": "String",
+    "colour": "#2196F3",
+    "tooltip": "获取指定HTTP响应头的值，仅在请求回调中使用"
+  },
+  {
+    "type": "async_http_error_code",
+    "message0": "HTTP错误代码",
+    "output": "Number",
+    "colour": "#2196F3",
+    "tooltip": "获取HTTP错误代码，仅在错误回调中使用"
+  },
+  {
+    "type": "async_http_error_message",
+    "message0": "HTTP错误信息",
+    "output": "String",
+    "colour": "#2196F3",
+    "tooltip": "获取HTTP错误信息文本，仅在错误回调中使用"
+  },
+  {
+    "type": "async_http_pending",
+    "message0": "%1 待处理请求数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["AsyncHTTP"],
+        "defaultType": "AsyncHTTP"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2196F3",
+    "tooltip": "获取当前正在处理中的异步请求数量"
+  },
+  {
+    "type": "async_http_abort_all",
+    "message0": "%1 取消所有请求",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "http",
+        "variableTypes": ["AsyncHTTP"],
+        "defaultType": "AsyncHTTP"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "取消所有正在进行的异步HTTP请求"
+  }
+]
