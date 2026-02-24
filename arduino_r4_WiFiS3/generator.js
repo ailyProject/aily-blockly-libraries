@@ -244,6 +244,6 @@ Arduino.forBlock['wifis3_wait_for_connection'] = function(block, generator) {
 function ensureSerialBegin(port, generator) {
   if (!generator._serialInitialized) {
     generator._serialInitialized = true;
-    generator.addSetupStart('Serial.begin(9600);', 'serial_begin');
+    generator.addSetupBegin('Serial.begin(9600);', 'serial_begin');
   }
 }
