@@ -1,0 +1,250 @@
+{
+    "kind": "category",
+    "name": "MD40电机驱动",
+    "colour": "#00979D",
+    "icon": "iconfont icon-motor",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "初始化"
+        },
+        {
+            "kind": "block",
+            "type": "md40_init"
+        },
+        {
+            "kind": "label",
+            "text": "直流模式"
+        },
+        {
+            "kind": "block",
+            "type": "md40_set_dc_mode"
+        },
+        {
+            "kind": "block",
+            "type": "md40_run_pwm_duty",
+            "inputs": {
+                "PWM_DUTY": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 512
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "编码器模式"
+        },
+        {
+            "kind": "block",
+            "type": "md40_set_encoder_mode",
+            "inputs": {
+                "PPR": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 12
+                        }
+                    }
+                },
+                "REDUCTION": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 90
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "md40_set_speed_pid",
+            "inputs": {
+                "P": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1.5
+                        }
+                    }
+                },
+                "I": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1.5
+                        }
+                    }
+                },
+                "D": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "md40_set_position_pid",
+            "inputs": {
+                "P": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 10.0
+                        }
+                    }
+                },
+                "I": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1.0
+                        }
+                    }
+                },
+                "D": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1.0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "运行控制"
+        },
+        {
+            "kind": "block",
+            "type": "md40_run_speed",
+            "inputs": {
+                "RPM": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 100
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "md40_move_to",
+            "inputs": {
+                "POSITION": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 720
+                        }
+                    }
+                },
+                "SPEED": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 60
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "md40_move",
+            "inputs": {
+                "OFFSET": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 360
+                        }
+                    }
+                },
+                "SPEED": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 60
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "md40_stop"
+        },
+        {
+            "kind": "block",
+            "type": "md40_reset"
+        },
+        {
+            "kind": "label",
+            "text": "位置校准"
+        },
+        {
+            "kind": "block",
+            "type": "md40_set_position",
+            "inputs": {
+                "POSITION": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "md40_set_pulse_count",
+            "inputs": {
+                "PULSE_COUNT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "状态读取"
+        },
+        {
+            "kind": "block",
+            "type": "md40_get_speed"
+        },
+        {
+            "kind": "block",
+            "type": "md40_get_position"
+        },
+        {
+            "kind": "block",
+            "type": "md40_get_pulse_count"
+        },
+        {
+            "kind": "block",
+            "type": "md40_get_pwm_duty"
+        },
+        {
+            "kind": "block",
+            "type": "md40_get_state"
+        }
+    ]
+}
