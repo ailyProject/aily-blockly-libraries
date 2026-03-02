@@ -1,0 +1,299 @@
+[
+  {
+    "type": "codexpad_init",
+    "message0": "初始化CodexPad手柄 %1 MAC地址 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "pad"
+      },
+      {
+        "type": "input_value",
+        "name": "MAC",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5B6BC0",
+    "inputsInline": true,
+    "icon": "fa-regular fa-gamepad-modern",
+    "tooltip": "初始化CodexPad蓝牙手柄并连接到指定MAC地址，Update()会自动添加到主循环"
+  },
+  {
+    "type": "codexpad_is_connected",
+    "message0": "CodexPad %1 已连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pad",
+        "variableTypes": ["CodexPad"],
+        "defaultType": "CodexPad"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5B6BC0",
+    "icon": "fa-regular fa-gamepad-modern",
+    "tooltip": "检查CodexPad手柄是否已连接"
+  },
+  {
+    "type": "codexpad_set_tx_power",
+    "message0": "设置CodexPad %1 发射功率 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pad",
+        "variableTypes": ["CodexPad"],
+        "defaultType": "CodexPad"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "POWER",
+        "options": [
+          ["-16 dBm", "kMinus16dBm"],
+          ["-12 dBm", "kMinus12dBm"],
+          ["-8 dBm", "kMinus8dBm"],
+          ["-5 dBm", "kMinus5dBm"],
+          ["-3 dBm", "kMinus3dBm"],
+          ["-1 dBm", "kMinus1dBm"],
+          ["0 dBm", "k0dBm"],
+          ["1 dBm", "k1dBm"],
+          ["2 dBm", "k2dBm"],
+          ["3 dBm", "k3dBm"],
+          ["4 dBm", "k4dBm"],
+          ["5 dBm", "k5dBm"],
+          ["6 dBm", "k6dBm"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5B6BC0",
+    "inputsInline": true,
+    "icon": "fa-regular fa-gamepad-modern",
+    "tooltip": "设置手柄蓝牙发射功率，功率越高通信距离越远但功耗也越大"
+  },
+  {
+    "type": "codexpad_button_pressed",
+    "message0": "CodexPad %1 按键 %2 刚按下",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pad",
+        "variableTypes": ["CodexPad"],
+        "defaultType": "CodexPad"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          ["上", "kUp"],
+          ["下", "kDown"],
+          ["左", "kLeft"],
+          ["右", "kRight"],
+          ["X/□", "kSquareX"],
+          ["Y/△", "kTriangleY"],
+          ["A/×", "kCrossA"],
+          ["B/○", "kCircleB"],
+          ["L1", "kL1"],
+          ["L2", "kL2"],
+          ["L3", "kL3"],
+          ["R1", "kR1"],
+          ["R2", "kR2"],
+          ["R3", "kR3"],
+          ["Select", "kSelect"],
+          ["Start", "kStart"],
+          ["Home", "kHome"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5B6BC0",
+    "icon": "fa-regular fa-gamepad-modern",
+    "tooltip": "检测按键是否刚被按下（从弹起变为按下的瞬间）"
+  },
+  {
+    "type": "codexpad_button_released",
+    "message0": "CodexPad %1 按键 %2 刚释放",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pad",
+        "variableTypes": ["CodexPad"],
+        "defaultType": "CodexPad"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          ["上", "kUp"],
+          ["下", "kDown"],
+          ["左", "kLeft"],
+          ["右", "kRight"],
+          ["X/□", "kSquareX"],
+          ["Y/△", "kTriangleY"],
+          ["A/×", "kCrossA"],
+          ["B/○", "kCircleB"],
+          ["L1", "kL1"],
+          ["L2", "kL2"],
+          ["L3", "kL3"],
+          ["R1", "kR1"],
+          ["R2", "kR2"],
+          ["R3", "kR3"],
+          ["Select", "kSelect"],
+          ["Start", "kStart"],
+          ["Home", "kHome"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5B6BC0",
+    "icon": "fa-regular fa-gamepad-modern",
+    "tooltip": "检测按键是否刚被释放（从按下变为弹起的瞬间）"
+  },
+  {
+    "type": "codexpad_button_holding",
+    "message0": "CodexPad %1 按键 %2 持续按下",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pad",
+        "variableTypes": ["CodexPad"],
+        "defaultType": "CodexPad"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          ["上", "kUp"],
+          ["下", "kDown"],
+          ["左", "kLeft"],
+          ["右", "kRight"],
+          ["X/□", "kSquareX"],
+          ["Y/△", "kTriangleY"],
+          ["A/×", "kCrossA"],
+          ["B/○", "kCircleB"],
+          ["L1", "kL1"],
+          ["L2", "kL2"],
+          ["L3", "kL3"],
+          ["R1", "kR1"],
+          ["R2", "kR2"],
+          ["R3", "kR3"],
+          ["Select", "kSelect"],
+          ["Start", "kStart"],
+          ["Home", "kHome"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5B6BC0",
+    "icon": "fa-regular fa-gamepad-modern",
+    "tooltip": "检测按键是否持续被按住（上一帧和当前帧都处于按下状态）"
+  },
+  {
+    "type": "codexpad_button_state",
+    "message0": "CodexPad %1 按键 %2 状态",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pad",
+        "variableTypes": ["CodexPad"],
+        "defaultType": "CodexPad"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          ["上", "kUp"],
+          ["下", "kDown"],
+          ["左", "kLeft"],
+          ["右", "kRight"],
+          ["X/□", "kSquareX"],
+          ["Y/△", "kTriangleY"],
+          ["A/×", "kCrossA"],
+          ["B/○", "kCircleB"],
+          ["L1", "kL1"],
+          ["L2", "kL2"],
+          ["L3", "kL3"],
+          ["R1", "kR1"],
+          ["R2", "kR2"],
+          ["R3", "kR3"],
+          ["Select", "kSelect"],
+          ["Start", "kStart"],
+          ["Home", "kHome"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5B6BC0",
+    "icon": "fa-regular fa-gamepad-modern",
+    "tooltip": "获取按键当前状态，按下返回true，弹起返回false"
+  },
+  {
+    "type": "codexpad_axis_value",
+    "message0": "CodexPad %1 摇杆 %2 值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pad",
+        "variableTypes": ["CodexPad"],
+        "defaultType": "CodexPad"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          ["左摇杆X轴", "kLeftStickX"],
+          ["左摇杆Y轴", "kLeftStickY"],
+          ["右摇杆X轴", "kRightStickX"],
+          ["右摇杆Y轴", "kRightStickY"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#5B6BC0",
+    "icon": "fa-regular fa-gamepad-modern",
+    "tooltip": "获取摇杆轴值，范围0~255，中心位置约为128"
+  },
+  {
+    "type": "codexpad_axis_changed",
+    "message0": "CodexPad %1 摇杆 %2 值变化 阈值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pad",
+        "variableTypes": ["CodexPad"],
+        "defaultType": "CodexPad"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          ["左摇杆X轴", "kLeftStickX"],
+          ["左摇杆Y轴", "kLeftStickY"],
+          ["右摇杆X轴", "kRightStickX"],
+          ["右摇杆Y轴", "kRightStickY"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "THRESHOLD",
+        "check": "Number"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5B6BC0",
+    "inputsInline": true,
+    "icon": "fa-regular fa-gamepad-modern",
+    "tooltip": "检测摇杆轴值是否发生了超过阈值的显著变化，用于过滤微小抖动"
+  }
+]
