@@ -44,7 +44,7 @@ arduino_setup()
 
 arduino_loop()
     controls_if()
-        @IF0: logic_compare(EQ, io_digitalread(io_pin_digi(2)), io_state(LOW))
+        @IF0: logic_compare(io_digitalread(io_pin_digi(2)), EQ, io_state(LOW))
         @DO0:
             io_digitalwrite(io_pin_digi(13), io_state(HIGH))
             serial_println(Serial, text("Button pressed"))
@@ -60,7 +60,7 @@ arduino_setup()
 
 arduino_loop()
     variable_define("sensorValue", "int", io_analogread(io_pin_adc(A0)))
-    variable_define("pwmValue", "int", math_arithmetic(DIVIDE, variables_get($sensorValue), math_number(4)))
+    variable_define("pwmValue", "int", math_arithmetic(variables_get($sensorValue), DIVIDE, math_number(4)))
     
     io_analogwrite(io_pin_pwm(9), variables_get($pwmValue))
     serial_print(Serial, text("Sensor: "))

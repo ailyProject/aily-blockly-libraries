@@ -49,8 +49,11 @@ arduino_loop()
 | 参数 | 可选值 | 说明 |
 |------|--------|------|
 | TYPE | DHT11, DHT22, DHT21, DHT20 | 传感器类型 |
-| PIN | 2-13 | 数字引脚（DHT11/22/21） |
+| PIN | 2-13或D2-D13等 | 数字引脚（DHT11/22/21） |
 | WIRE | Wire, Wire1 | I2C 接口（仅 DHT20） |
+
+**说明**: PIN 具体可选值取决于所使用的开发板，Wire 选项适用于支持 I2C 的板子。
+如果需要修改Wire引脚或速率，请使用 `@aily-project/lib-aily_iic` 中的 I2C 块进行自定义配置。
 
 ## 注意事项
 

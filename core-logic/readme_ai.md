@@ -13,8 +13,8 @@ Core library for logic control and conditional operations
 | `controls_if` | Statement | IF0(input_value), DO0(input_statement) | `controls_if() @IF0: condition @DO0: statements` | `if (condition) { statements }` |
 | `controls_ifelse` | Statement | IF0(input_value), DO0(input_statement), ELSE(input_statement) | `controls_if() @IF0: condition @DO0: statements @ELSE: else_statements` | `if (condition) { statements } else { else_statements }` |
 | `controls_switch` | Statement | SWITCH(input_value), CASE0(input_value), DO0(input_statement), DEFAULT(input_statement) | `controls_switch() @SWITCH: variable @CASE0: value @DO0: statements @DEFAULT: default_statements` | `switch (variable) { case value: statements; break; default: default_statements; }` |
-| `logic_compare` | Value | A(input_value), OP(dropdown), B(input_value) | `logic_compare(EQ, variables_get($a), math_number(10))` | `(a == 10)` |
-| `logic_operation` | Value | A(input_value), OP(dropdown), B(input_value) | `logic_operation(AND, condition1, condition2)` | `(condition1 && condition2)` |
+| `logic_compare` | Value | A(input_value), OP(dropdown), B(input_value) | `logic_compare(variables_get($a), EQ, math_number(10))` | `(a == 10)` |
+| `logic_operation` | Value | A(input_value), OP(dropdown), B(input_value) | `logic_operation(condition1, AND, condition2)` | `(condition1 && condition2)` |
 | `logic_negate` | Value | BOOL(input_value) | `logic_negate(condition)` | `!(condition)` |
 | `logic_boolean` | Value | BOOL(dropdown) | `logic_boolean(TRUE)` | `true` |
 | `logic_ternary` | Value | IF(input_value), THEN(input_value), ELSE(input_value) | `logic_ternary(condition, value1, value2)` | `(condition ? value1 : value2)` |
@@ -33,13 +33,13 @@ arduino_setup()
 
 arduino_loop()
     controls_if()
-        @IF0: logic_compare(GT, variables_get($temperature), math_number(35))
+        @IF0: logic_compare(variables_get($temperature), GT, math_number(35))
         @DO0:
             serial_println(Serial, text("Very hot!"))
-        @IF1: logic_compare(GT, variables_get($temperature), math_number(25))
+        @IF1: logic_compare(variables_get($temperature), GT, math_number(25))
         @DO1:
             serial_println(Serial, text("Warm"))
-        @IF2: logic_compare(GT, variables_get($temperature), math_number(15))
+        @IF2: logic_compare(variables_get($temperature), GT, math_number(15))
         @DO2:
             serial_println(Serial, text("Cool"))
         @ELSE:
@@ -79,8 +79,9 @@ arduino_setup()
 
 arduino_loop()
     controls_if()
-        @IF0: logic_operation(OR,
+        @IF0: logic_operation(
                 variables_get($sensor1),
+                OR,
                 logic_negate(variables_get($sensor2)))
         @DO0:
             serial_println(Serial, text("Condition met"))
@@ -91,7 +92,7 @@ arduino_loop()
 arduino_setup()
     variable_define("score", int, math_number(85))
     variable_define("grade", String, logic_ternary(
-        logic_compare(GTE, variables_get($score), math_number(90)),
+        logic_compare(variables_get($score), GTE, math_number(90)),
         text("A"),
         text("B")))
     

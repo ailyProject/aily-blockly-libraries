@@ -12,11 +12,11 @@ Core library for mathematical operations and calculations
 |------------|------------|------------|------------|----------------|
 | `math_number` | Value | NUM(field_number) | `math_number(42)` | `42` |
 | `math_number_base` | Value | BASE(dropdown), NUM(field_input) | `math_number_base(HEX, "FF")` | `0xFF` |
-| `math_arithmetic` | Value | A(input_value), OP(dropdown), B(input_value) | `math_arithmetic(ADD, math_number(5), math_number(3))` | `(5 + 3)` |
+| `math_arithmetic` | Value | A(input_value), OP(dropdown), B(input_value) | `math_arithmetic(math_number(5), ADD, math_number(3))` | `(5 + 3)` |
 | `math_single` | Value | OP(dropdown), NUM(input_value) | `math_single(ROOT, math_number(16))` | `sqrt(16)` |
 | `math_trig` | Value | OP(dropdown), NUM(input_value) | `math_trig(SIN, math_number(90))` | `sin(90)` |
 | `math_constant` | Value | CONSTANT(dropdown) | `math_constant(PI)` | `PI` |
-| `math_number_property` | Value | NUMBER(input_value), PROPERTY(dropdown) | `math_number_property(math_number(-5), ABS)` | `abs(-5)` |
+| `math_number_property` | Value | NUMBER_TO_CHECK(input_value), PROPERTY(dropdown) | `math_number_property(math_number(4), EVEN)` | `((4) % 2 == 0)` |
 | `math_round` | Value | OP(dropdown), NUM(input_value) | `math_round(ROUND, math_number(3.7))` | `round(3.7)` |
 | `math_on_list` | Value | OP(dropdown), LIST(input_value) | `math_on_list(SUM, list_create())` | `sum_of_list` |
 | `math_modulo` | Value | DIVIDEND(input_value), DIVISOR(input_value) | `math_modulo(math_number(10), math_number(3))` | `(10 % 3)` |
@@ -29,7 +29,7 @@ Core library for mathematical operations and calculations
 ### Basic Arithmetic Operations
 ```
 arduino_setup()
-    variable_define("result", int, math_arithmetic(ADD, math_number(10), math_number(5)))
+    variable_define("result", int, math_arithmetic(math_number(10), ADD, math_number(5)))
     serial_begin(Serial, 9600)
     serial_print(Serial, text("10 + 5 = "))
     serial_println(Serial, variables_get($result))
@@ -37,7 +37,7 @@ arduino_setup()
 arduino_loop()
     variable_define("a", float, math_number(7.5))
     variable_define("b", float, math_number(2.3))
-    variable_define("product", float, math_arithmetic(MULTIPLY, variables_get($a), variables_get($b)))
+    variable_define("product", float, math_arithmetic(variables_get($a), MULTIPLY, variables_get($b)))
     
     serial_print(Serial, text("7.5 × 2.3 = "))
     serial_println(Serial, variables_get($product))
@@ -48,9 +48,10 @@ arduino_loop()
 ```
 arduino_setup()
     variable_define("angle", float, math_number(90))
-    variable_define("radians", float, math_arithmetic(MULTIPLY, 
+    variable_define("radians", float, math_arithmetic(
         variables_get($angle), 
-        math_arithmetic(DIVIDE, math_constant(PI), math_number(180))))
+        MULTIPLY,
+        math_arithmetic(math_constant(PI), DIVIDE, math_number(180))))
     
     serial_begin(Serial, 9600)
     serial_print(Serial, text("sin(90°) = "))
@@ -77,7 +78,7 @@ arduino_setup()
     
     serial_begin(Serial, 9600)
     serial_print(Serial, text("abs(-3.7) = "))
-    serial_println(Serial, math_number_property(variables_get($number), ABS))
+    serial_println(Serial, math_single(ABS, variables_get($number)))
     
     serial_print(Serial, text("round(-3.7) = "))
     serial_println(Serial, math_round(ROUND, variables_get($number)))
