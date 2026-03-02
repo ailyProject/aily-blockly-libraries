@@ -1,0 +1,572 @@
+[
+  {
+    "type": "yahboom_md_iic_init",
+    "icon": "iconfont icon-motor",
+    "message0": "初始化I2C电机驱动 %1 地址 %2 电机类型 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "motor"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDR",
+        "options": [
+          ["0x26(默认)", "0x26"],
+          ["0x27", "0x27"],
+          ["0x28", "0x28"],
+          ["0x29", "0x29"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR_TYPE",
+        "options": [
+          ["520电机", "MOTOR_520"],
+          ["310电机", "MOTOR_310"],
+          ["TT编码电机", "MOTOR_TT_ENCODER"],
+          ["TT直流电机", "MOTOR_TT"],
+          ["520-L电机", "MOTOR_520_L"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "初始化Yahboom I2C四路电机驱动板，设置I2C地址和电机类型"
+  },
+  {
+    "type": "yahboom_md_iic_set_deadzone",
+    "icon": "iconfont icon-motor",
+    "message0": "I2C电机驱动 %1 设置死区 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_IIC"],
+        "defaultType": "YahboomMD_IIC"
+      },
+      {
+        "type": "input_value",
+        "name": "DEADZONE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "设置电机死区值"
+  },
+  {
+    "type": "yahboom_md_iic_set_pulse_line",
+    "icon": "iconfont icon-motor",
+    "message0": "I2C电机驱动 %1 设置脉冲线数 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_IIC"],
+        "defaultType": "YahboomMD_IIC"
+      },
+      {
+        "type": "input_value",
+        "name": "LINE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "设置磁环脉冲线数"
+  },
+  {
+    "type": "yahboom_md_iic_set_pulse_phase",
+    "icon": "iconfont icon-motor",
+    "message0": "I2C电机驱动 %1 设置减速比 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_IIC"],
+        "defaultType": "YahboomMD_IIC"
+      },
+      {
+        "type": "input_value",
+        "name": "PHASE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "设置电机减速比"
+  },
+  {
+    "type": "yahboom_md_iic_set_wheel_diameter",
+    "icon": "iconfont icon-motor",
+    "message0": "I2C电机驱动 %1 设置轮径(mm) %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_IIC"],
+        "defaultType": "YahboomMD_IIC"
+      },
+      {
+        "type": "input_value",
+        "name": "DIAMETER",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "设置车轮直径（毫米）"
+  },
+  {
+    "type": "yahboom_md_iic_control_speed",
+    "icon": "iconfont icon-motor",
+    "message0": "I2C电机驱动 %1 速度控制 M1 %2 M2 %3 M3 %4 M4 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_IIC"],
+        "defaultType": "YahboomMD_IIC"
+      },
+      { "type": "input_value", "name": "M1", "check": "Number" },
+      { "type": "input_value", "name": "M2", "check": "Number" },
+      { "type": "input_value", "name": "M3", "check": "Number" },
+      { "type": "input_value", "name": "M4", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "控制4路电机速度（需编码器电机），范围 -1000~1000"
+  },
+  {
+    "type": "yahboom_md_iic_control_pwm",
+    "icon": "iconfont icon-motor",
+    "message0": "I2C电机驱动 %1 PWM控制 M1 %2 M2 %3 M3 %4 M4 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_IIC"],
+        "defaultType": "YahboomMD_IIC"
+      },
+      { "type": "input_value", "name": "M1", "check": "Number" },
+      { "type": "input_value", "name": "M2", "check": "Number" },
+      { "type": "input_value", "name": "M3", "check": "Number" },
+      { "type": "input_value", "name": "M4", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "直接控制4路电机PWM值"
+  },
+  {
+    "type": "yahboom_md_iic_encoder_offset",
+    "icon": "iconfont icon-motor",
+    "message0": "I2C电机驱动 %1 获取10ms编码器偏移 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_IIC"],
+        "defaultType": "YahboomMD_IIC"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR",
+        "options": [
+          ["M1", "0"],
+          ["M2", "1"],
+          ["M3", "2"],
+          ["M4", "3"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E67E22",
+    "tooltip": "读取指定电机的10ms实时编码器偏移量"
+  },
+  {
+    "type": "yahboom_md_iic_encoder_total",
+    "icon": "iconfont icon-motor",
+    "message0": "I2C电机驱动 %1 获取总编码器计数 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_IIC"],
+        "defaultType": "YahboomMD_IIC"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR",
+        "options": [
+          ["M1", "0"],
+          ["M2", "1"],
+          ["M3", "2"],
+          ["M4", "3"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E67E22",
+    "tooltip": "读取指定电机的总编码器计数"
+  },
+  {
+    "type": "yahboom_md_usart_init",
+    "icon": "iconfont icon-motor",
+    "message0": "初始化串口电机驱动 %1 串口 %2 电机类型 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "motor"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR_TYPE",
+        "options": [
+          ["520电机", "MOTOR_520"],
+          ["310电机", "MOTOR_310"],
+          ["TT编码电机", "MOTOR_TT_ENCODER"],
+          ["TT直流电机", "MOTOR_TT"],
+          ["520-L电机", "MOTOR_520_L"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "初始化Yahboom串口四路电机驱动板"
+  },
+  {
+    "type": "yahboom_md_usart_set_deadzone",
+    "icon": "iconfont icon-motor",
+    "message0": "串口电机驱动 %1 设置死区 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_USART"],
+        "defaultType": "YahboomMD_USART"
+      },
+      {
+        "type": "input_value",
+        "name": "DEADZONE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "设置电机死区值"
+  },
+  {
+    "type": "yahboom_md_usart_set_pulse_line",
+    "icon": "iconfont icon-motor",
+    "message0": "串口电机驱动 %1 设置脉冲线数 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_USART"],
+        "defaultType": "YahboomMD_USART"
+      },
+      {
+        "type": "input_value",
+        "name": "LINE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "设置磁环脉冲线数"
+  },
+  {
+    "type": "yahboom_md_usart_set_pulse_phase",
+    "icon": "iconfont icon-motor",
+    "message0": "串口电机驱动 %1 设置减速比 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_USART"],
+        "defaultType": "YahboomMD_USART"
+      },
+      {
+        "type": "input_value",
+        "name": "PHASE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "设置电机减速比"
+  },
+  {
+    "type": "yahboom_md_usart_set_wheel_diameter",
+    "icon": "iconfont icon-motor",
+    "message0": "串口电机驱动 %1 设置轮径(mm) %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_USART"],
+        "defaultType": "YahboomMD_USART"
+      },
+      {
+        "type": "input_value",
+        "name": "DIAMETER",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "设置车轮直径（毫米）"
+  },
+  {
+    "type": "yahboom_md_usart_set_pid",
+    "icon": "iconfont icon-motor",
+    "message0": "串口电机驱动 %1 设置PID P %2 I %3 D %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_USART"],
+        "defaultType": "YahboomMD_USART"
+      },
+      { "type": "input_value", "name": "P", "check": "Number" },
+      { "type": "input_value", "name": "I", "check": "Number" },
+      { "type": "input_value", "name": "D", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "设置电机PID参数"
+  },
+  {
+    "type": "yahboom_md_usart_set_upload_data",
+    "icon": "iconfont icon-motor",
+    "message0": "串口电机驱动 %1 数据上报 总编码器 %2 10ms编码器 %3 速度 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_USART"],
+        "defaultType": "YahboomMD_USART"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ALL_ENCODER",
+        "options": [["关闭", "false"], ["开启", "true"]]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TEN_ENCODER",
+        "options": [["关闭", "false"], ["开启", "true"]]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SPEED",
+        "options": [["关闭", "false"], ["开启", "true"]]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "配置电机模块上报的数据类型：总编码器计数、10ms实时编码器、速度(mm/s)"
+  },
+  {
+    "type": "yahboom_md_usart_control_speed",
+    "icon": "iconfont icon-motor",
+    "message0": "串口电机驱动 %1 速度控制 M1 %2 M2 %3 M3 %4 M4 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_USART"],
+        "defaultType": "YahboomMD_USART"
+      },
+      { "type": "input_value", "name": "M1", "check": "Number" },
+      { "type": "input_value", "name": "M2", "check": "Number" },
+      { "type": "input_value", "name": "M3", "check": "Number" },
+      { "type": "input_value", "name": "M4", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "控制4路电机速度（需编码器电机），范围 -1000~1000"
+  },
+  {
+    "type": "yahboom_md_usart_control_pwm",
+    "icon": "iconfont icon-motor",
+    "message0": "串口电机驱动 %1 PWM控制 M1 %2 M2 %3 M3 %4 M4 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_USART"],
+        "defaultType": "YahboomMD_USART"
+      },
+      { "type": "input_value", "name": "M1", "check": "Number" },
+      { "type": "input_value", "name": "M2", "check": "Number" },
+      { "type": "input_value", "name": "M3", "check": "Number" },
+      { "type": "input_value", "name": "M4", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "直接控制4路电机PWM值"
+  },
+  {
+    "type": "yahboom_md_usart_data_available",
+    "icon": "iconfont icon-motor",
+    "message0": "串口电机驱动 %1 收到数据",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_USART"],
+        "defaultType": "YahboomMD_USART"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#E67E22",
+    "tooltip": "检查是否收到电机模块返回的数据（自动在循环中接收数据）"
+  },
+  {
+    "type": "yahboom_md_usart_parse_data",
+    "icon": "iconfont icon-motor",
+    "message0": "串口电机驱动 %1 解析数据",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_USART"],
+        "defaultType": "YahboomMD_USART"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "解析接收到的数据并清除接收标志，应在检查到数据可用后调用"
+  },
+  {
+    "type": "yahboom_md_usart_encoder_offset",
+    "icon": "iconfont icon-motor",
+    "message0": "串口电机驱动 %1 获取10ms编码器偏移 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_USART"],
+        "defaultType": "YahboomMD_USART"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR",
+        "options": [
+          ["M1", "0"],
+          ["M2", "1"],
+          ["M3", "2"],
+          ["M4", "3"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E67E22",
+    "tooltip": "获取指定电机的10ms实时编码器偏移量"
+  },
+  {
+    "type": "yahboom_md_usart_encoder_total",
+    "icon": "iconfont icon-motor",
+    "message0": "串口电机驱动 %1 获取总编码器计数 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_USART"],
+        "defaultType": "YahboomMD_USART"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR",
+        "options": [
+          ["M1", "0"],
+          ["M2", "1"],
+          ["M3", "2"],
+          ["M4", "3"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E67E22",
+    "tooltip": "获取指定电机的总编码器计数"
+  },
+  {
+    "type": "yahboom_md_usart_speed",
+    "icon": "iconfont icon-motor",
+    "message0": "串口电机驱动 %1 获取速度(mm/s) %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["YahboomMD_USART"],
+        "defaultType": "YahboomMD_USART"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR",
+        "options": [
+          ["M1", "0"],
+          ["M2", "1"],
+          ["M3", "2"],
+          ["M4", "3"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E67E22",
+    "tooltip": "获取指定电机的当前速度（毫米/秒）"
+  }
+]
