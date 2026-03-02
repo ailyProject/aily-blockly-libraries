@@ -41,8 +41,9 @@ arduino_setup()
 
 arduino_loop()
     variable_define("currentTime", "unsigned long", time_millis())
-    variable_define("elapsed", "unsigned long", math_arithmetic(MINUS, 
+    variable_define("elapsed", "unsigned long", math_arithmetic(
         variables_get($currentTime), 
+        MINUS,
         variables_get($startTime)))
     
     serial_print(Serial, text("Elapsed time: "))
@@ -66,8 +67,9 @@ arduino_loop()
     variable_define("currentMillis", "unsigned long", time_millis())
     
     controls_if()
-        @IF0: logic_compare(GTE, 
-                math_arithmetic(MINUS, variables_get($currentMillis), variables_get($previousMillis)),
+        @IF0: logic_compare(
+                math_arithmetic(variables_get($currentMillis), MINUS, variables_get($previousMillis)),
+                GTE,
                 variables_get($interval))
         @DO0:
             variables_set($previousMillis, variables_get($currentMillis))
@@ -91,12 +93,13 @@ arduino_setup()
 
 arduino_loop()
     variable_define("currentMicros", "unsigned long", time_micros())
-    variable_define("duration", "unsigned long", math_arithmetic(MINUS,
+    variable_define("duration", "unsigned long", math_arithmetic(
         variables_get($currentMicros),
+        MINUS,
         variables_get($startMicros)))
     
     controls_if()
-        @IF0: logic_compare(GTE, variables_get($duration), math_number(10000))
+        @IF0: logic_compare(variables_get($duration), GTE, math_number(10000))
         @DO0:
             serial_print(Serial, text("10ms elapsed, actual: "))
             serial_print(Serial, variables_get($duration))
@@ -120,8 +123,9 @@ arduino_loop()
     
     // Timer 1 - Fast blinking
     controls_if()
-        @IF0: logic_compare(GTE,
-                math_arithmetic(MINUS, variables_get($now), variables_get($timer1)),
+        @IF0: logic_compare(
+                math_arithmetic(variables_get($now), MINUS, variables_get($timer1)),
+                GTE,
                 variables_get($interval1))
         @DO0:
             variables_set($timer1, variables_get($now))
@@ -129,8 +133,9 @@ arduino_loop()
     
     // Timer 2 - Slow reporting
     controls_if()
-        @IF0: logic_compare(GTE,
-                math_arithmetic(MINUS, variables_get($now), variables_get($timer2)),
+        @IF0: logic_compare(
+                math_arithmetic(variables_get($now), MINUS, variables_get($timer2)),
+                GTE,
                 variables_get($interval2))
         @DO0:
             variables_set($timer2, variables_get($now))

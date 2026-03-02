@@ -84,15 +84,15 @@ arduino_setup()
     serial_begin(Serial, 9600)
     
     // While loop
-    controls_whileUntil(WHILE, logic_compare(LT, variables_get($counter), math_number(5)))
+    controls_whileUntil(WHILE, logic_compare(variables_get($counter), LT, math_number(5)))
         serial_print(Serial, text("While counter: "))
         serial_println(Serial, variables_get($counter))
-        variables_set($counter, math_arithmetic(ADD, variables_get($counter), math_number(1)))
+        variables_set($counter, math_arithmetic(variables_get($counter), ADD, math_number(1)))
         time_delay(math_number(1000))
     
     // Until loop
     variables_set($sensor, math_number(0))
-    controls_whileUntil(UNTIL, logic_compare(GT, variables_get($sensor), math_number(50)))
+    controls_whileUntil(UNTIL, logic_compare(variables_get($sensor), GT, math_number(50)))
         variables_set($sensor, math_random_int(math_number(0), math_number(100)))
         serial_print(Serial, text("Sensor value: "))
         serial_println(Serial, variables_get($sensor))
@@ -112,7 +112,7 @@ arduino_setup()
     // Break example
     controls_for($i, math_number(1), math_number(20), math_number(1))
         controls_if()
-            @IF0: logic_compare(EQ, math_arithmetic(MODULO, variables_get($i), math_number(2)), math_number(0))
+            @IF0: logic_compare(math_arithmetic(variables_get($i), MODULO, math_number(2)), EQ, math_number(0))
             @DO0:
                 controls_flow_statements(CONTINUE)
         
@@ -120,7 +120,7 @@ arduino_setup()
         serial_println(Serial, variables_get($i))
         
         controls_if()
-            @IF0: logic_compare(GT, variables_get($i), math_number(10))
+            @IF0: logic_compare(variables_get($i), GT, math_number(10))
             @DO0:
                 serial_println(Serial, text("Breaking at 10+"))
                 controls_flow_statements(BREAK)
@@ -137,7 +137,7 @@ arduino_setup()
     // Nested for loops - multiplication table
     controls_for($i, math_number(1), math_number(3), math_number(1))
         controls_for($j, math_number(1), math_number(3), math_number(1))
-            variable_define("product", int, math_arithmetic(MULTIPLY, variables_get($i), variables_get($j)))
+            variable_define("product", int, math_arithmetic(variables_get($i), MULTIPLY, variables_get($j)))
             serial_print(Serial, variables_get($i))
             serial_print(Serial, text(" × "))
             serial_print(Serial, variables_get($j))
@@ -160,7 +160,7 @@ arduino_setup()
 arduino_loop()
     // Main program loop with exit condition
     controls_whileForever()
-        variable_define("buttonState", bool, logic_compare(EQ, io_digitalread(io_pin_digi(2)), io_state(LOW)))
+        variable_define("buttonState", bool, logic_compare(io_digitalread(io_pin_digi(2)), EQ, io_state(LOW)))
         
         controls_if()
             @IF0: variables_get($buttonState)

@@ -16,11 +16,11 @@ Core library for text and string operations
 | `string_add_string` | Value | STRING1(input_value), STRING2(input_value) | `string_add_string(text("Hello"), text("World"))` | `String("Hello") + String("World")` |
 | `text_length` | Value | VALUE(input_value) | `text_length(text("Hello"))` | `String("Hello").length()` |
 | `text_isEmpty` | Value | VALUE(input_value) | `text_isEmpty(text(""))` | `String("").length() == 0` |
-| `text_indexOf` | Value | VALUE(input_value), FIND(input_value) | `text_indexOf(text("Hello"), text("llo"))` | `String("Hello").indexOf("llo")` |
+| `text_indexOf` | Value | VALUE(input_value), END(dropdown), FIND(input_value) | `text_indexOf(text("Hello"), FIRST, text("llo"))` | `String("Hello").indexOf("llo")` |
 | `text_charAt` | Value | VALUE(input_value), AT(input_value) | `text_charAt(text("Hello"), math_number(0))` | `String("Hello").charAt(0)` |
 | `text_getSubstring` | Value | STRING(input_value), AT1(dropdown), AT2(dropdown) | `text_getSubstring(text("Hello"), "FIRST", "LAST")` | `String("Hello").substring(0)` |
-| `text_changeCase` | Value | TEXT(input_value), CASE(dropdown) | `text_changeCase(text("Hello"), "UPPERCASE")` | `String("Hello").toUpperCase()` |
-| `text_trim` | Value | TEXT(input_value), MODE(dropdown) | `text_trim(text(" Hello "), "BOTH")` | `String(" Hello ").trim()` |
+| `text_changeCase` | Value | CASE(dropdown), TEXT(input_value) | `text_changeCase(UPPERCASE, text("Hello"))` | `String("Hello").toUpperCase()` |
+| `text_trim` | Value | MODE(dropdown), TEXT(input_value) | `text_trim(BOTH, text(" Hello "))` | `String(" Hello ").trim()` |
 | `number_to_string` | Value | NUM(input_value) | `number_to_string(math_number(42))` | `String(42)` |
 | `number_to` | Value | NUM(input_value) | `number_to(math_number(65))` | `char(65)` |
 | `toascii` | Value | CHAR(input_value) | `toascii(char('A'))` | `int('A')` |
@@ -59,7 +59,7 @@ arduino_setup()
             serial_println(Serial, text("String is not empty"))
     
     // Find substring
-    variable_define("position", int, text_indexOf(variables_get($sentence), text("fox")))
+    variable_define("position", int, text_indexOf(variables_get($sentence), FIRST, text("fox")))
     serial_print(Serial, text("'fox' found at position: "))
     serial_println(Serial, variables_get($position))
     
@@ -107,14 +107,14 @@ arduino_setup()
     serial_println(Serial, text("'"))
     
     // Trim whitespace
-    variable_define("trimmed", String, text_trim(variables_get($userInput), BOTH))
+    variable_define("trimmed", String, text_trim(BOTH, variables_get($userInput)))
     serial_print(Serial, text("Trimmed: '"))
     serial_print(Serial, variables_get($trimmed))
     serial_println(Serial, text("'"))
     
     // Case conversion
-    variable_define("uppercase", String, text_changeCase(variables_get($trimmed), UPPERCASE))
-    variable_define("lowercase", String, text_changeCase(variables_get($trimmed), LOWERCASE))
+    variable_define("uppercase", String, text_changeCase(UPPERCASE, variables_get($trimmed)))
+    variable_define("lowercase", String, text_changeCase(LOWERCASE, variables_get($trimmed)))
     
     serial_print(Serial, text("Uppercase: "))
     serial_println(Serial, variables_get($uppercase))
@@ -129,10 +129,10 @@ arduino_setup()
     serial_begin(Serial, 9600)
     
     // Find colon position
-    variable_define("colonPos", int, text_indexOf(variables_get($data), text(":")))
+    variable_define("colonPos", int, text_indexOf(variables_get($data), FIRST, text(":")))
     
     controls_if()
-        @IF0: logic_compare(GT, variables_get($colonPos), math_number(-1))
+        @IF0: logic_compare(variables_get($colonPos), GT, math_number(-1))
         @DO0:
             // Extract temperature value after colon
             variable_define("tempStr", String, text_getSubstring(
