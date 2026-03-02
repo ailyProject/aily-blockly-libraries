@@ -1,0 +1,233 @@
+{
+    "kind": "category",
+    "name": "四路电机驱动",
+    "colour": "#E67E22",
+    "icon": "iconfont icon-motor",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "── I2C模式 ──"
+        },
+        {
+            "kind": "label",
+            "text": "初始化"
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_iic_init"
+        },
+        {
+            "kind": "label",
+            "text": "参数配置"
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_iic_set_deadzone",
+            "inputs": {
+                "DEADZONE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": { "NUM": 1300 }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_iic_set_pulse_line",
+            "inputs": {
+                "LINE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": { "NUM": 13 }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_iic_set_pulse_phase",
+            "inputs": {
+                "PHASE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": { "NUM": 20 }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_iic_set_wheel_diameter",
+            "inputs": {
+                "DIAMETER": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": { "NUM": 48 }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "电机控制"
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_iic_control_speed",
+            "inputs": {
+                "M1": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } },
+                "M2": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } },
+                "M3": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } },
+                "M4": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_iic_control_pwm",
+            "inputs": {
+                "M1": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "M2": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "M3": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "M4": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "编码器"
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_iic_encoder_offset"
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_iic_encoder_total"
+        },
+        {
+            "kind": "label",
+            "text": "── 串口模式 ──"
+        },
+        {
+            "kind": "label",
+            "text": "初始化"
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_usart_init"
+        },
+        {
+            "kind": "label",
+            "text": "参数配置"
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_usart_set_deadzone",
+            "inputs": {
+                "DEADZONE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": { "NUM": 1300 }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_usart_set_pulse_line",
+            "inputs": {
+                "LINE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": { "NUM": 13 }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_usart_set_pulse_phase",
+            "inputs": {
+                "PHASE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": { "NUM": 20 }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_usart_set_wheel_diameter",
+            "inputs": {
+                "DIAMETER": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": { "NUM": 48 }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_usart_set_pid",
+            "inputs": {
+                "P": { "shadow": { "type": "math_number", "fields": { "NUM": 0.1 } } },
+                "I": { "shadow": { "type": "math_number", "fields": { "NUM": 0.01 } } },
+                "D": { "shadow": { "type": "math_number", "fields": { "NUM": 0.001 } } }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_usart_set_upload_data"
+        },
+        {
+            "kind": "label",
+            "text": "电机控制"
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_usart_control_speed",
+            "inputs": {
+                "M1": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } },
+                "M2": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } },
+                "M3": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } },
+                "M4": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_usart_control_pwm",
+            "inputs": {
+                "M1": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "M2": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "M3": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "M4": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "数据读取"
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_usart_data_available"
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_usart_parse_data"
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_usart_encoder_offset"
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_usart_encoder_total"
+        },
+        {
+            "kind": "block",
+            "type": "yahboom_md_usart_speed"
+        }
+    ]
+}
