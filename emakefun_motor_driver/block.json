@@ -1,0 +1,333 @@
+[
+  {
+    "type": "emakefun_md_init",
+    "icon": "iconfont icon-motor",
+    "message0": "初始化电机驱动板 %1 I2C地址 %2 PWM频率 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "mMotor"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDR",
+        "options": [
+          ["0x60(默认)", "0x60"],
+          ["0x61", "0x61"],
+          ["0x62", "0x62"],
+          ["0x63", "0x63"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FREQ",
+        "options": [
+          ["50Hz(舵机/直流电机)", "50"],
+          ["1600Hz(步进电机)", "1600"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979D",
+    "tooltip": "初始化Emakefun电机驱动板，通过I2C通信。使用舵机或直流电机选50Hz，使用步进电机选1600Hz",
+    "helpUrl": "https://github.com/emakefun/MotorDriverBoard"
+  },
+  {
+    "type": "emakefun_md_dc_run",
+    "icon": "iconfont icon-motor",
+    "message0": "电机驱动 %1 直流电机 %2 速度 %3 方向 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mMotor",
+        "variableTypes": ["EmakefunMD"],
+        "defaultType": "EmakefunMD"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR",
+        "options": [
+          ["M1", "1"],
+          ["M2", "2"],
+          ["M3", "3"],
+          ["M4", "4"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          ["正转", "FORWARD"],
+          ["反转", "BACKWARD"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979D",
+    "tooltip": "设置直流电机速度(0-255)和方向。正转:FORWARD，反转:BACKWARD"
+  },
+  {
+    "type": "emakefun_md_dc_stop",
+    "icon": "iconfont icon-motor",
+    "message0": "电机驱动 %1 直流电机 %2 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mMotor",
+        "variableTypes": ["EmakefunMD"],
+        "defaultType": "EmakefunMD"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR",
+        "options": [
+          ["M1", "1"],
+          ["M2", "2"],
+          ["M3", "3"],
+          ["M4", "4"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          ["刹车", "BRAKE"],
+          ["释放", "RELEASE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979D",
+    "tooltip": "停止直流电机。刹车:立即停止并锁定电机；释放:切断电源使电机自由转动"
+  },
+  {
+    "type": "emakefun_md_servo_write",
+    "icon": "iconfont icon-motor",
+    "message0": "电机驱动 %1 舵机 %2 转到角度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mMotor",
+        "variableTypes": ["EmakefunMD"],
+        "defaultType": "EmakefunMD"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERVO",
+        "options": [
+          ["S1", "1"],
+          ["S2", "2"],
+          ["S3", "3"],
+          ["S4", "4"],
+          ["S5", "5"],
+          ["S6", "6"],
+          ["S7", "7"],
+          ["S8", "8"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ANGLE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979D",
+    "tooltip": "设置舵机转到指定角度(0-180度)"
+  },
+  {
+    "type": "emakefun_md_servo_write_speed",
+    "icon": "iconfont icon-motor",
+    "message0": "电机驱动 %1 舵机 %2 转到角度 %3 速度 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mMotor",
+        "variableTypes": ["EmakefunMD"],
+        "defaultType": "EmakefunMD"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERVO",
+        "options": [
+          ["S1", "1"],
+          ["S2", "2"],
+          ["S3", "3"],
+          ["S4", "4"],
+          ["S5", "5"],
+          ["S6", "6"],
+          ["S7", "7"],
+          ["S8", "8"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ANGLE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979D",
+    "tooltip": "以指定速度(1-10)转动舵机到目标角度(0-180)。速度10最快，1最慢"
+  },
+  {
+    "type": "emakefun_md_servo_read",
+    "icon": "iconfont icon-motor",
+    "message0": "电机驱动 %1 舵机 %2 当前角度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mMotor",
+        "variableTypes": ["EmakefunMD"],
+        "defaultType": "EmakefunMD"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERVO",
+        "options": [
+          ["S1", "1"],
+          ["S2", "2"],
+          ["S3", "3"],
+          ["S4", "4"],
+          ["S5", "5"],
+          ["S6", "6"],
+          ["S7", "7"],
+          ["S8", "8"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#00979D",
+    "tooltip": "读取舵机当前角度值"
+  },
+  {
+    "type": "emakefun_md_stepper_speed",
+    "icon": "iconfont icon-motor",
+    "message0": "电机驱动 %1 步进电机 %2 设置速度 %3 RPM",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mMotor",
+        "variableTypes": ["EmakefunMD"],
+        "defaultType": "EmakefunMD"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STEPPER",
+        "options": [
+          ["1", "1"],
+          ["2", "2"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "RPM",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979D",
+    "tooltip": "设置步进电机转速(RPM)，需在步进运动前调用"
+  },
+  {
+    "type": "emakefun_md_stepper_step",
+    "icon": "iconfont icon-motor",
+    "message0": "电机驱动 %1 步进电机 %2 运动 %3 步 方向 %4 模式 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mMotor",
+        "variableTypes": ["EmakefunMD"],
+        "defaultType": "EmakefunMD"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STEPPER",
+        "options": [
+          ["1", "1"],
+          ["2", "2"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "STEPS",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          ["正转", "FORWARD"],
+          ["反转", "BACKWARD"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STYLE",
+        "options": [
+          ["单步", "SINGLE"],
+          ["双步", "DOUBLE"],
+          ["交错", "INTERLEAVE"],
+          ["微步", "MICROSTEP"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979D",
+    "tooltip": "步进电机运动指定步数。标准步进电机200步=1圈。单步:精度高；双步:力矩大；交错:精度更高；微步:最平滑"
+  },
+  {
+    "type": "emakefun_md_stepper_release",
+    "icon": "iconfont icon-motor",
+    "message0": "电机驱动 %1 释放步进电机 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mMotor",
+        "variableTypes": ["EmakefunMD"],
+        "defaultType": "EmakefunMD"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STEPPER",
+        "options": [
+          ["1", "1"],
+          ["2", "2"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979D",
+    "tooltip": "释放步进电机，断电使电机自由转动，减少功耗和发热"
+  }
+]
