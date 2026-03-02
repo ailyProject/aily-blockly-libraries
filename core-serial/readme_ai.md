@@ -43,7 +43,7 @@ arduino_setup()
 
 arduino_loop()
     controls_if()
-        @IF0: logic_compare(GT, serial_available(Serial), math_number(0))
+        @IF0: logic_compare(serial_available(Serial), GT, math_number(0))
         @DO0:
             variable_define("command", String, serial_read_string(Serial))
             
@@ -69,15 +69,16 @@ arduino_setup()
 
 arduino_loop()
     controls_if()
-        @IF0: logic_compare(GT, serial_available(Serial), math_number(0))
+        @IF0: logic_compare(serial_available(Serial), GT, math_number(0))
         @DO0:
             variable_define("input", int, serial_read(Serial, "parseInt()"))
             
             controls_if()
-                @IF0: logic_compare(GT, variables_get($input), math_number(0))
+                @IF0: logic_compare(variables_get($input), GT, math_number(0))
                 @DO0:
-                    variable_define("square", int, math_arithmetic(MULTIPLY, 
+                    variable_define("square", int, math_arithmetic(
                         variables_get($input), 
+                        MULTIPLY,
                         variables_get($input)))
                     
                     serial_print(Serial, text("Square of "))
@@ -96,7 +97,7 @@ arduino_setup()
 
 arduino_loop()
     controls_if()
-        @IF0: logic_compare(GT, serial_available(Serial), math_number(0))
+        @IF0: logic_compare(serial_available(Serial), GT, math_number(0))
         @DO0:
             variable_define("data", String, serial_read_until(Serial, text("#")))
             
@@ -122,7 +123,7 @@ arduino_loop()
     
     // Read binary data if available
     controls_if()
-        @IF0: logic_compare(GTE, serial_available(Serial), math_number(2))
+        @IF0: logic_compare(serial_available(Serial), GTE, math_number(2))
         @DO0:
             variable_define("byte1", int, serial_read(Serial, "read()"))
             variable_define("byte2", int, serial_read(Serial, "read()"))
@@ -132,7 +133,7 @@ arduino_loop()
             serial_print(Serial, text(", "))
             serial_println(Serial, variables_get($byte2))
     
-    variables_set($counter, math_arithmetic(ADD, variables_get($counter), math_number(1)))
+    variables_set($counter, math_arithmetic(variables_get($counter), ADD, math_number(1)))
     time_delay(math_number(1000))
 ```
 
@@ -148,13 +149,13 @@ arduino_setup()
 arduino_loop()
     // Echo between Serial and custom serial
     controls_if()
-        @IF0: logic_compare(GT, serial_available(Serial), math_number(0))
+        @IF0: logic_compare(serial_available(Serial), GT, math_number(0))
         @DO0:
             variable_define("data", String, serial_read_string(Serial))
             serial_println(mySerial, variables_get($data))
     
     controls_if()
-        @IF0: logic_compare(GT, serial_available(mySerial), math_number(0))
+        @IF0: logic_compare(serial_available(mySerial), GT, math_number(0))
         @DO0:
             variable_define("data", String, serial_read_string(mySerial))
             serial_println(Serial, variables_get($data))

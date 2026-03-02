@@ -63,10 +63,8 @@ library-name/
 
 | 文档 | 说明 |
 |------|------|
-| [Arduino 库转 Blockly 库规范](./Arduino库转Blockly库规范.md) | 转换指南 |
-| [Blockly 代码规范](./blockly代码规范.md) | .abi 文件格式 |
-| [README 编写规范](./blockly库readme编写规范.md) | 文档标准 |
-| [README 编写规范 (ABS 版)](./blockly库readme编写规范_ABS版.md) | ABS 格式文档 |
+| [Blockly 库代码规范](./Blockly_Library_CODE_Conventions.md) | Blockly 库代码规范 |
+| [Blockly 库 README 规范](./Blockly_Library_README_Conventions.md) | README 文档规范 |
 | [多语言文件规范](./blockly库多语言文件规范.md) | i18n 详细规范 |
 
 ## 贡献
@@ -148,10 +146,8 @@ library-name/
 
 | Document | Description |
 |----------|-------------|
-| [Arduino to Blockly Conversion](./Arduino库转Blockly库规范.md) | Conversion guide |
-| [Blockly Code Standards](./blockly代码规范.md) | .abi file format |
-| [README Standards](./blockly库readme编写规范.md) | Documentation standards |
-| [README Standards (ABS)](./blockly库readme编写规范_ABS版.md) | ABS format docs |
+| [Blockly Library Code Conventions](./Blockly_Library_CODE_Conventions.md) | Code conventions for Blockly libraries |
+| [Blockly Library README Standards](./Blockly_Library_README_Conventions.md) | README documentation standards |
 | [i18n File Standards](./blockly库多语言文件规范.md) | Detailed i18n spec |
 
 ## Contributing
