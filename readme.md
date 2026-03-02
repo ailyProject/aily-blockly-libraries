@@ -53,7 +53,7 @@ library-name/
 |------|------|
 | [库编写规范](./库规范.md) | Blockly 库开发规范详解 |
 | [库开发指南](./库开发.md) | 开发调试与提交流程 |
-| [多语言支持](./i18n.md) | 国际化配置说明 |
+| [多语言支持](./Blockly_Library_i18n_Conventions.md) | 国际化配置说明 |
 | [PR 提交指南](./CONTRIBUTING.md) | 贡献代码规范 |
 | [私有部署](./库管理.md) | 私有 npm 仓库搭建 |
 | [库可用性测试](./test-table.md) | 各库测试状态 |
@@ -65,7 +65,7 @@ library-name/
 |------|------|
 | [Blockly 库代码规范](./Blockly_Library_CODE_Conventions.md) | Blockly 库代码规范 |
 | [Blockly 库 README 规范](./Blockly_Library_README_Conventions.md) | README 文档规范 |
-| [多语言文件规范](./blockly库多语言文件规范.md) | i18n 详细规范 |
+| [多语言文件规范](./Blockly_Library_i18n_Conventions.md) | i18n 详细规范 |
 
 ## 贡献
 
@@ -136,7 +136,7 @@ library-name/
 |----------|-------------|
 | [Library Standards](./库规范.md) | Blockly library development standards |
 | [Development Guide](./库开发.md) | Development, debugging and submission |
-| [Internationalization](./i18n.md) | i18n configuration guide |
+| [Internationalization](./Blockly_Library_i18n_Conventions.md) | i18n configuration guide |
 | [Contributing Guide](./CONTRIBUTING.md) | Contribution guidelines |
 | [Private Deployment](./库管理.md) | Private npm registry setup |
 | [Test Status](./test-table.md) | Library test status |
@@ -148,7 +148,7 @@ library-name/
 |----------|-------------|
 | [Blockly Library Code Conventions](./Blockly_Library_CODE_Conventions.md) | Code conventions for Blockly libraries |
 | [Blockly Library README Standards](./Blockly_Library_README_Conventions.md) | README documentation standards |
-| [i18n File Standards](./blockly库多语言文件规范.md) | Detailed i18n spec |
+| [i18n File Standards](./Blockly_Library_i18n_Conventions.md) | Detailed i18n spec |
 
 ## Contributing
 
