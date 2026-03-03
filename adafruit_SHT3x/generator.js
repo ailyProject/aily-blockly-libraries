@@ -40,14 +40,8 @@ Arduino.forBlock['sht31_init'] = function (block, generator) {
     // 添加全局对象
     generator.addObject(varName, 'Adafruit_SHT31 ' + varName + ';');
 
-    // 确保Serial初始化（使用core-serial库的ID格式）
-    if (!Arduino.addedSerialInitCode) {
-      Arduino.addedSerialInitCode = new Set();
-    }
-    if (!Arduino.addedSerialInitCode.has('Serial')) {
-      generator.addSetupBegin('serial_Serial_begin', 'Serial.begin(115200);');
-      Arduino.addedSerialInitCode.add('Serial');
-    }
+    // Serial初始化
+    generator.addSetupBegin('serial_Serial_begin', 'Serial.begin(115200);');
 
     // 从WIRE字段读取I2C接口
     const wire = block.getFieldValue('WIRE') || 'Wire';
