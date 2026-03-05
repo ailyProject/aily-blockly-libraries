@@ -1,0 +1,244 @@
+{
+  "kind": "category",
+  "name": "SimpleFOC",
+  "colour": "#4CAF50",
+  "contents": [
+    {
+      "kind": "category",
+      "name": "Motors",
+      "colour": "#4CAF50",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "simplefoc_bldc_create",
+          "inputs": {
+            "POLE_PAIRS": {"shadow": {"type": "math_number", "fields": {"NUM": 11}}},
+            "R": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}},
+            "KV": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}}
+          }
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_stepper_create",
+          "inputs": {
+            "POLE_PAIRS": {"shadow": {"type": "math_number", "fields": {"NUM": 50}}},
+            "R": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}}
+          }
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_init"
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_initfoc"
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_enable"
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_disable"
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_link_driver"
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_link_sensor"
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_link_current_sense"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "Drivers",
+      "colour": "#2196F3",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "simplefoc_driver_3pwm_create",
+          "inputs": {
+            "PIN_A": {"shadow": {"type": "math_number", "fields": {"NUM": 9}}},
+            "PIN_B": {"shadow": {"type": "math_number", "fields": {"NUM": 10}}},
+            "PIN_C": {"shadow": {"type": "math_number", "fields": {"NUM": 11}}},
+            "ENABLE": {"shadow": {"type": "math_number", "fields": {"NUM": 8}}}
+          }
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_driver_6pwm_create",
+          "inputs": {
+            "PIN_AH": {"shadow": {"type": "math_number", "fields": {"NUM": 9}}},
+            "PIN_AL": {"shadow": {"type": "math_number", "fields": {"NUM": 8}}},
+            "PIN_BH": {"shadow": {"type": "math_number", "fields": {"NUM": 10}}},
+            "PIN_BL": {"shadow": {"type": "math_number", "fields": {"NUM": 12}}},
+            "PIN_CH": {"shadow": {"type": "math_number", "fields": {"NUM": 11}}},
+            "PIN_CL": {"shadow": {"type": "math_number", "fields": {"NUM": 13}}}
+          }
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_driver_init",
+          "inputs": {
+            "VOLTAGE": {"shadow": {"type": "math_number", "fields": {"NUM": 12}}}
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "Sensors",
+      "colour": "#FF9800",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "simplefoc_encoder_create",
+          "inputs": {
+            "PIN_A": {"shadow": {"type": "math_number", "fields": {"NUM": 2}}},
+            "PIN_B": {"shadow": {"type": "math_number", "fields": {"NUM": 3}}},
+            "CPR": {"shadow": {"type": "math_number", "fields": {"NUM": 2048}}}
+          }
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_magnetic_spi_create",
+          "inputs": {
+            "CS": {"shadow": {"type": "math_number", "fields": {"NUM": 10}}}
+          }
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_magnetic_i2c_create",
+          "inputs": {
+            "ADDRESS": {"shadow": {"type": "math_number", "fields": {"NUM": 54}}}
+          }
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_sensor_init"
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_encoder_enable_interrupts"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "Control",
+      "colour": "#9C27B0",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_set_controller"
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_set_torque"
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_move",
+          "inputs": {
+            "TARGET": {"shadow": {"type": "math_number", "fields": {"NUM": 2}}}
+          }
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_loopfoc"
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_set_limits",
+          "inputs": {
+            "VOLTAGE_LIMIT": {"shadow": {"type": "math_number", "fields": {"NUM": 12}}},
+            "CURRENT_LIMIT": {"shadow": {"type": "math_number", "fields": {"NUM": 2}}}
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "PID Tuning",
+      "colour": "#9C27B0",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_pid_velocity",
+          "inputs": {
+            "P": {"shadow": {"type": "math_number", "fields": {"NUM": 0.5}}},
+            "I": {"shadow": {"type": "math_number", "fields": {"NUM": 10}}},
+            "D": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}},
+            "RAMP": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}},
+            "LIMIT": {"shadow": {"type": "math_number", "fields": {"NUM": 12}}}
+          }
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_pid_angle",
+          "inputs": {
+            "P": {"shadow": {"type": "math_number", "fields": {"NUM": 20}}},
+            "VEL_LIMIT": {"shadow": {"type": "math_number", "fields": {"NUM": 20}}}
+          }
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_pid_current",
+          "inputs": {
+            "P": {"shadow": {"type": "math_number", "fields": {"NUM": 3}}},
+            "I": {"shadow": {"type": "math_number", "fields": {"NUM": 300}}},
+            "D": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}},
+            "LIMIT": {"shadow": {"type": "math_number", "fields": {"NUM": 12}}}
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "Current Sense",
+      "colour": "#E91E63",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "simplefoc_lowside_current_sense_create",
+          "inputs": {
+            "PIN_A": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}},
+            "PIN_B": {"shadow": {"type": "math_number", "fields": {"NUM": 1}}},
+            "PIN_C": {"shadow": {"type": "math_number", "fields": {"NUM": 2}}},
+            "SHUNT_R": {"shadow": {"type": "math_number", "fields": {"NUM": 0.01}}},
+            "GAIN": {"shadow": {"type": "math_number", "fields": {"NUM": 50}}}
+          }
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_current_sense_link_driver"
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_current_sense_init"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "Read Values",
+      "colour": "#4CAF50",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_get_angle"
+        },
+        {
+          "kind": "block",
+          "type": "simplefoc_motor_get_velocity"
+        }
+      ]
+    }
+  ]
+}
