@@ -51,21 +51,21 @@ library-name/
 
 | 文档 | 说明 |
 |------|------|
-| [库编写规范](./库规范.md) | Blockly 库开发规范详解 |
-| [库开发指南](./库开发.md) | 开发调试与提交流程 |
-| [多语言支持](./Blockly_Library_i18n_Conventions.md) | 国际化配置说明 |
-| [PR 提交指南](./CONTRIBUTING.md) | 贡献代码规范 |
-| [私有部署](./库管理.md) | 私有 npm 仓库搭建 |
-| [库可用性测试](./test-table.md) | 各库测试状态 |
-| [计划新增库](./todo.md) | 待开发库列表 |
+| [库编写规范](./docs/库规范.md) | Blockly 库开发规范详解 |
+| [库开发指南](./docs/库开发.md) | 开发调试与提交流程 |
+| [多语言支持](./docs_ai/en/Blockly_Library_i18n_Conventions.md) | 国际化配置说明 |
+| [PR 提交指南](./docs/CONTRIBUTING.md) | 贡献代码规范 |
+| [私有部署](./docs/库管理.md) | 私有 npm 仓库搭建 |
+| [库可用性测试](./docs/test-table.md) | 各库测试状态 |
+| [计划新增库](./docs/todo.md) | 待开发库列表 |
 
 ### 开发者规范
 
 | 文档 | 说明 |
 |------|------|
-| [Blockly 库代码规范](./Blockly_Library_CODE_Conventions.md) | Blockly 库代码规范 |
-| [Blockly 库 README 规范](./Blockly_Library_README_Conventions.md) | README 文档规范 |
-| [多语言文件规范](./Blockly_Library_i18n_Conventions.md) | i18n 详细规范 |
+| [Blockly 库代码规范](./docs_ai/en/Blockly_Library_CODE_Conventions.md) | Blockly 库代码规范 |
+| [Blockly 库 README 规范](./docs_ai/Blockly_Library_README_Conventions.md) | README 文档规范 |
+| [多语言文件规范](./docs_ai/Blockly_Library_i18n_Conventions.md) | i18n 详细规范 |
 
 ## 贡献
 
@@ -134,21 +134,21 @@ library-name/
 
 | Document | Description |
 |----------|-------------|
-| [Library Standards](./库规范.md) | Blockly library development standards |
-| [Development Guide](./库开发.md) | Development, debugging and submission |
-| [Internationalization](./Blockly_Library_i18n_Conventions.md) | i18n configuration guide |
-| [Contributing Guide](./CONTRIBUTING.md) | Contribution guidelines |
-| [Private Deployment](./库管理.md) | Private npm registry setup |
-| [Test Status](./test-table.md) | Library test status |
-| [Roadmap](./todo.md) | Planned libraries |
+| [Library Standards](./docs/库规范.md) | Blockly library development standards |
+| [Development Guide](./docs/库开发.md) | Development, debugging and submission |
+| [Internationalization](./docs_ai/en/Blockly_Library_i18n_Conventions.md) | i18n configuration guide |
+| [Contributing Guide](./docs/CONTRIBUTING.md) | Contribution guidelines |
+| [Private Deployment](./docs/库管理.md) | Private npm registry setup |
+| [Test Status](./docs/test-table.md) | Library test status |
+| [Roadmap](./docs/todo.md) | Planned libraries |
 
 ### Developer References
 
 | Document | Description |
 |----------|-------------|
-| [Blockly Library Code Conventions](./Blockly_Library_CODE_Conventions.md) | Code conventions for Blockly libraries |
-| [Blockly Library README Standards](./Blockly_Library_README_Conventions.md) | README documentation standards |
-| [i18n File Standards](./Blockly_Library_i18n_Conventions.md) | Detailed i18n spec |
+| [Blockly Library Code Conventions](./docs_ai/en/Blockly_Library_CODE_Conventions.md) | Code conventions for Blockly libraries |
+| [Blockly Library README Standards](./docs_ai/en/Blockly_Library_README_Conventions.md) | README documentation standards |
+| [i18n File Standards](./docs_ai/en/Blockly_Library_i18n_Conventions.md) | Detailed i18n spec |
 
 ## Contributing
 

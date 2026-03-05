@@ -40,8 +40,8 @@ function filterPackageJson(packageJson, keysToExtract) {
 
 async function main() {
   try {
-    // 获取当前目录路径
-    const currentDir = __dirname;
+    // 获取库根目录路径（脚本位于 scripts_git_action/ 子目录中）
+    const currentDir = path.join(__dirname, '..');
 
     // 设置要提取的键，可以根据需要修改这个数组
     // 如果要提取所有键，可以设置为null

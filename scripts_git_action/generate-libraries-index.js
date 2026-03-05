@@ -8,7 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const LIBRARIES_DIR = __dirname;
+const LIBRARIES_DIR = path.join(__dirname, '..');
 const OUTPUT_FILE = path.join(LIBRARIES_DIR, 'libraries-index.json');
 
 // 需要排除的目录

@@ -307,13 +307,13 @@ jobs:
           registry-url: ${{ secrets.REGISTRY_URL }}
       
       - name: Generate JSON
-        run: node genjson.js
+        run: node scripts_git_action/genjson.js
 
       - name: Generate library info files
-        run: node generate-info.js --all
+        run: node scripts_git_action/generate-info.js --all
       
       - name: Generate libraries index
-        run: node generate-libraries-index.js
+        run: node scripts_git_action/generate-libraries-index.js
       
       - name: Check if JSON file exists
         run: |
