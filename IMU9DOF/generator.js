@@ -24,17 +24,22 @@ Arduino.forBlock['imu9dof_init'] = function(block, generator) {
   if (!block._imuVarMonitorAttached) {
     block._imuVarMonitorAttached = true;
     block._imuVarLastName = block.getFieldValue('VAR') || 'imu';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._imuVarLastName, 'IMU9DOF');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._imuVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'IMU9DOF');
           block._imuVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -42,7 +47,6 @@ Arduino.forBlock['imu9dof_init'] = function(block, generator) {
   const wire = block.getFieldValue('WIRE') || 'Wire';
 
   // 1. 注册变量到Blockly变量系统和工具箱
-  registerVariableToBlockly(varName, 'IMU9DOF');
 
   // 2. 添加必要的库
   ensureIMU9DOFLibraries(generator);

@@ -8,17 +8,22 @@ Arduino.forBlock['tca8418_create'] = function(block, generator) {
   if (!block._tca8418VarMonitorAttached) {
     block._tca8418VarMonitorAttached = true;
     block._tca8418VarLastName = block.getFieldValue('VAR') || 'keypad';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._tca8418VarLastName, 'Adafruit_TCA8418');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._tca8418VarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'Adafruit_TCA8418');
           block._tca8418VarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -27,7 +32,6 @@ Arduino.forBlock['tca8418_create'] = function(block, generator) {
   // 添加库和变量
   generator.addLibrary('Adafruit_TCA8418', '#include <Adafruit_TCA8418.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
-  registerVariableToBlockly(varName, 'Adafruit_TCA8418');
   generator.addVariable(varName, 'Adafruit_TCA8418 ' + varName + ';');
   
   return '';

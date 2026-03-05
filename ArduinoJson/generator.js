@@ -3,23 +3,27 @@ Arduino.forBlock['json_document_init'] = function(block, generator) {
   if (!block._jsonDocVarMonitorAttached) {
     block._jsonDocVarMonitorAttached = true;
     block._jsonDocVarLastName = block.getFieldValue('NAME') || 'doc';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._jsonDocVarLastName, 'JsonDocument');
     const nameField = block.getField('NAME');
-    if (nameField && typeof nameField.setValidator === 'function') {
-      nameField.setValidator(function(newName) {
+    if (nameField) {
+      const originalFinishEditing = nameField.onFinishEditing_;
+      nameField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._jsonDocVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'JsonDocument');
           block._jsonDocVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
   const docName = block.getFieldValue('NAME') || 'doc';
   
-  registerVariableToBlockly(docName, 'JsonDocument');
 
   ensureArduinoJsonLib(generator);
 
@@ -51,16 +55,17 @@ Arduino.forBlock['json_document_add_array'] = function(block, generator) {
   if (!block._jsonDocArrayMonitorAttached) {
     block._jsonDocArrayMonitorAttached = true;
     block._jsonDocArrayLastName = block.getFieldValue('ARRAY_NAME') || 'array';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._jsonDocArrayLastName, 'JsonArray');
     const arrayField = block.getField('ARRAY_NAME');
-    if (arrayField && typeof arrayField.setValidator === 'function') {
-      arrayField.setValidator(function(newName) {
-        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-        const oldName = block._jsonDocArrayLastName;
-        if (workspace && newName && newName !== oldName) {
-          block._jsonDocArrayLastName = newName;
+    if (arrayField) {
+      const originalFinishEditing = arrayField.onFinishEditing_;
+      arrayField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
         }
-        return newName;
-      });
+        block._jsonDocArrayLastName = newName;
+      };
     }
   }
   
@@ -69,7 +74,6 @@ Arduino.forBlock['json_document_add_array'] = function(block, generator) {
   
   const arrayName = block.getFieldValue('ARRAY_NAME') || 'array';
 
-  registerVariableToBlockly(arrayName, 'JsonArray');
   ensureArduinoJsonLib(generator);
 
   let code = 'JsonArray ' + arrayName + ' = ' + docName + '["' + arrayName + '"].to<JsonArray>();\n';
@@ -173,17 +177,22 @@ Arduino.forBlock['json_document_deserialize_from_somewhere'] = function(block, g
   if (!block._jsonDocVarMonitorAttached) {
     block._jsonDocVarMonitorAttached = true;
     block._jsonDocVarLastName = block.getFieldValue('VAR') || 'doc';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._jsonDocVarLastName, 'JsonDocument');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._jsonDocVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'JsonDocument');
           block._jsonDocVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -196,7 +205,6 @@ Arduino.forBlock['json_document_deserialize_from_somewhere'] = function(block, g
     throw new Error('Input must be a valid variable.');
   }
 
-  registerVariableToBlockly(docName, 'JsonDocument');
   ensureArduinoJsonLib(generator);
 
   ensureSerialBegin('Serial', generator);

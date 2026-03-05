@@ -23,23 +23,26 @@ Arduino.forBlock['74hc595_create'] = function(block, generator) {
   if (!block._hcVarMonitorAttached) {
     block._hcVarMonitorAttached = true;
     block._hcVarLastName = block.getFieldValue('VAR') || 'hc1';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._hcVarLastName, 'HC');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._hcVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'HC');
           block._hcVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
   const hcName = block.getFieldValue('VAR') || 'hc1';
-
-  registerVariableToBlockly(hcName, 'HC');
 
   var hcnum = generator.valueToCode(block, 'HCNUMBER', Arduino.ORDER_ATOMIC) || '1';
   var hcdtPin = block.getFieldValue("HCDATA_PIN");

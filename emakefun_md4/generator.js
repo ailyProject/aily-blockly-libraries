@@ -7,9 +7,15 @@ Arduino.forBlock['md40_init'] = function(block, generator) {
   if (!block._md40VarMonitorAttached) {
     block._md40VarMonitorAttached = true;
     block._md40VarLastName = block.getFieldValue('VAR') || 'md40';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._md40VarLastName, 'Md40');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._md40VarLastName;
         if (workspace && newName && newName !== oldName) {
@@ -18,8 +24,7 @@ Arduino.forBlock['md40_init'] = function(block, generator) {
           }
           block._md40VarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -32,7 +37,6 @@ Arduino.forBlock['md40_init'] = function(block, generator) {
 
   // 注册变量到Blockly
   if (typeof registerVariableToBlockly === 'function') {
-    registerVariableToBlockly(varName, 'Md40');
   }
 
   // 声明全局对象

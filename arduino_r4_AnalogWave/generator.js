@@ -9,16 +9,21 @@ Arduino.forBlock['analogwave_init'] = function(block, generator) {
   if (!block._analogwaveVarMonitorAttached) {
     block._analogwaveVarMonitorAttached = true;
     block._analogwaveVarLastName = block.getFieldValue('VAR') || 'wave';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._analogwaveVarLastName, 'analogWave');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const oldName = block._analogwaveVarLastName;
         if (oldName !== newName && typeof renameVariableInBlockly === 'function') {
           renameVariableInBlockly(block, oldName, newName, 'analogWave');
         }
         block._analogwaveVarLastName = newName;
-        return newName;
-      });
+      };
     }
   }
 
@@ -30,7 +35,6 @@ Arduino.forBlock['analogwave_init'] = function(block, generator) {
   
   // 注册变量到Blockly
   if (typeof registerVariableToBlockly === 'function') {
-    registerVariableToBlockly(varName, 'analogWave');
   }
   
   // 声明对象

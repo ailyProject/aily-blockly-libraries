@@ -8,17 +8,22 @@ Arduino.forBlock['es8388_create'] = function(block, generator) {
   if (!block._es8388VarMonitorAttached) {
     block._es8388VarMonitorAttached = true;
     block._es8388VarLastName = block.getFieldValue('VAR') || 'es8388';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._es8388VarLastName, 'ES8388');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._es8388VarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'ES8388');
           block._es8388VarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -32,7 +37,6 @@ Arduino.forBlock['es8388_create'] = function(block, generator) {
   generator.addLibrary('ES8388', '#include "ES8388.h"');
 
   // 注册变量到Blockly系统
-  registerVariableToBlockly(varName, 'ES8388');
   
   // 添加变量声明（generator会自动去重）
   generator.addVariable(varName, 'ES8388 ' + varName + '(' + sda + ', ' + scl + ', ' + speed + ');');

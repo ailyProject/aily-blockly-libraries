@@ -17,17 +17,22 @@ Arduino.forBlock['rp_httpclient_create'] = function(block, generator) {
   if (!block._rpHttpclientVarMonitorAttached) {
     block._rpHttpclientVarMonitorAttached = true;
     block._rpHttpclientVarLastName = block.getFieldValue('VAR') || 'http';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._rpHttpclientVarLastName, 'HTTPClient');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._rpHttpclientVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'HTTPClient');
           block._rpHttpclientVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -35,7 +40,6 @@ Arduino.forBlock['rp_httpclient_create'] = function(block, generator) {
   
   // 添加库和变量声明
   ensureRPHTTPClientLib(generator);
-  registerVariableToBlockly(varName, 'HTTPClient');
   if (isBlockConnected(block)) {
     return 'HTTPClient ' + varName + ';\n';
   } else {

@@ -57,23 +57,22 @@ Arduino.forBlock['bh1750_init_with_wire'] = function(block, generator) {
   if (!block._bh1750VarMonitorAttached) {
     block._bh1750VarMonitorAttached = true;
     block._bh1750VarLastName = block.getFieldValue('VAR') || 'lightMeter';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._bh1750VarLastName, 'BH1750');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._bh1750VarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'BH1750');
-          // const oldVar = workspace.getVariable(oldName, 'BH1750');
-          // const existVar = workspace.getVariable(newName, 'BH1750');
-          // if (oldVar && !existVar) {
-          //   workspace.renameVariableById(oldVar.getId(), newName);
-          //   if (typeof refreshToolbox === 'function') refreshToolbox(workspace, false);
-          // }
           block._bh1750VarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -91,7 +90,6 @@ Arduino.forBlock['bh1750_init_with_wire'] = function(block, generator) {
   //     if (typeof refreshToolbox === 'function') refreshToolbox(workspace, false);
   //   }
   // }
-  registerVariableToBlockly(varName, 'BH1750');
 
   // 2. 添加必要的库
   ensureBH1750Libraries(generator);

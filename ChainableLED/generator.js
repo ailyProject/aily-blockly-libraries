@@ -3,17 +3,22 @@ Arduino.forBlock['chainableled_setup'] = function(block, generator) {
   if (!block._chainableledSetupVarMonitorAttached) {
     block._chainableledSetupVarMonitorAttached = true;
     block._chainableledSetupLastName = block.getFieldValue('VAR') || 'leds';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._chainableledSetupLastName, 'ChainableLED');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._chainableledSetupLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'ChainableLED');
           block._chainableledSetupLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -25,7 +30,6 @@ Arduino.forBlock['chainableled_setup'] = function(block, generator) {
 
   // 库和变量管理（generator自动去重）
   generator.addLibrary('ChainableLED', '#include <ChainableLED.h>');
-  registerVariableToBlockly(varName, 'ChainableLED');
   generator.addVariable(varName, 'ChainableLED ' + varName + '(' + clkPin + ', ' + dataPin + ', ' + numLeds + ');');
 
   // 生成代码

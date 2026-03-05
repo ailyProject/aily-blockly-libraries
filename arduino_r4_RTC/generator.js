@@ -61,16 +61,19 @@ Arduino.forBlock['renesas_rtc_get_time'] = function(block, generator) {
     block._rtcVarMonitorAttached = true;
     block._rtcVarLastName = block.getFieldValue('VAR') || 'rtc_current_time';
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._rtcVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'RTCTime');
           block._rtcVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
   

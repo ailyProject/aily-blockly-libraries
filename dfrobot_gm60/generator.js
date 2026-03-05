@@ -6,17 +6,22 @@ Arduino.forBlock['gm60_init_i2c'] = function(block, generator) {
   if (!block._gm60VarMonitorAttached) {
     block._gm60VarMonitorAttached = true;
     block._gm60VarLastName = block.getFieldValue('VAR') || 'gm60';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._gm60VarLastName, 'GM60');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._gm60VarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'GM60');
           block._gm60VarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -25,7 +30,6 @@ Arduino.forBlock['gm60_init_i2c'] = function(block, generator) {
   var wire = block.getFieldValue('WIRE') || 'Wire';
 
   // 注册Blockly变量
-  registerVariableToBlockly(varName, 'GM60');
 
   // 添加库引用
   generator.addLibrary('Wire', '#include <Wire.h>');
@@ -58,17 +62,22 @@ Arduino.forBlock['gm60_init_uart'] = function(block, generator) {
   if (!block._gm60VarMonitorAttached) {
     block._gm60VarMonitorAttached = true;
     block._gm60VarLastName = block.getFieldValue('VAR') || 'gm60';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._gm60VarLastName, 'GM60');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._gm60VarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'GM60');
           block._gm60VarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -77,7 +86,6 @@ Arduino.forBlock['gm60_init_uart'] = function(block, generator) {
   var txPin = generator.valueToCode(block, 'TX', Arduino.ORDER_ATOMIC);
 
   // 注册Blockly变量
-  registerVariableToBlockly(varName, 'GM60');
 
   // 添加库引用
   generator.addLibrary('DFRobot_GM60', '#include <DFRobot_GM60.h>');

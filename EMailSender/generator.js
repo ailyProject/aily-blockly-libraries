@@ -46,17 +46,22 @@ Arduino.forBlock['emailsender_create'] = function(block, generator) {
     if (!block._emailSenderVarMonitorAttached) {
         block._emailSenderVarMonitorAttached = true;
         block._emailSenderVarLastName = block.getFieldValue('VAR') || 'emailSender';
+        // 初次注册变量到 Blockly 系统（仅执行一次）
+        registerVariableToBlockly(block._emailSenderVarLastName, 'EMailSender');
         const varField = block.getField('VAR');
-        if (varField && typeof varField.setValidator === 'function') {
-            varField.setValidator(function(newName) {
+        if (varField) {
+            const originalFinishEditing = varField.onFinishEditing_;
+            varField.onFinishEditing_ = function(newName) {
+              if (typeof originalFinishEditing === 'function') {
+                originalFinishEditing.call(this, newName);
+              }
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._emailSenderVarLastName;
                 if (workspace && newName && newName !== oldName) {
                     renameVariableInBlockly(block, oldName, newName, 'EMailSender');
                     block._emailSenderVarLastName = newName;
                 }
-                return newName;
-            });
+            };
         }
     }
 
@@ -69,7 +74,6 @@ Arduino.forBlock['emailsender_create'] = function(block, generator) {
     // 库和变量管理
     ensureNetworkLib(generator);
     ensureEmailSenderLib(generator);
-    registerVariableToBlockly(varName, 'EMailSender');
     generator.addVariable(varName, 'EMailSender ' + varName + '(' + emailLogin + ', ' + emailPassword + ', ' + emailFrom + ');');
 
     return '';
@@ -81,17 +85,22 @@ Arduino.forBlock['emailsender_create_with_name'] = function(block, generator) {
     if (!block._emailSenderVarMonitorAttached) {
         block._emailSenderVarMonitorAttached = true;
         block._emailSenderVarLastName = block.getFieldValue('VAR') || 'emailSender';
+        // 初次注册变量到 Blockly 系统（仅执行一次）
+        registerVariableToBlockly(block._emailSenderVarLastName, 'EMailSender');
         const varField = block.getField('VAR');
-        if (varField && typeof varField.setValidator === 'function') {
-            varField.setValidator(function(newName) {
+        if (varField) {
+            const originalFinishEditing = varField.onFinishEditing_;
+            varField.onFinishEditing_ = function(newName) {
+              if (typeof originalFinishEditing === 'function') {
+                originalFinishEditing.call(this, newName);
+              }
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._emailSenderVarLastName;
                 if (workspace && newName && newName !== oldName) {
                     renameVariableInBlockly(block, oldName, newName, 'EMailSender');
                     block._emailSenderVarLastName = newName;
                 }
-                return newName;
-            });
+            };
         }
     }
 
@@ -105,7 +114,6 @@ Arduino.forBlock['emailsender_create_with_name'] = function(block, generator) {
     // 库和变量管理
     ensureNetworkLib(generator);
     ensureEmailSenderLib(generator);
-    registerVariableToBlockly(varName, 'EMailSender');
     generator.addVariable(varName, 'EMailSender ' + varName + '(' + emailLogin + ', ' + emailPassword + ', ' + emailFrom + ', ' + nameFrom + ');');
 
     return '';
@@ -147,17 +155,22 @@ Arduino.forBlock['emailsender_message_create'] = function(block, generator) {
     if (!block._emailMessageVarMonitorAttached) {
         block._emailMessageVarMonitorAttached = true;
         block._emailMessageVarLastName = block.getFieldValue('VAR') || 'message';
+        // 初次注册变量到 Blockly 系统（仅执行一次）
+        registerVariableToBlockly(block._emailMessageVarLastName, 'EMailMessage');
         const varField = block.getField('VAR');
-        if (varField && typeof varField.setValidator === 'function') {
-            varField.setValidator(function(newName) {
+        if (varField) {
+            const originalFinishEditing = varField.onFinishEditing_;
+            varField.onFinishEditing_ = function(newName) {
+              if (typeof originalFinishEditing === 'function') {
+                originalFinishEditing.call(this, newName);
+              }
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._emailMessageVarLastName;
                 if (workspace && newName && newName !== oldName) {
                     renameVariableInBlockly(block, oldName, newName, 'EMailMessage');
                     block._emailMessageVarLastName = newName;
                 }
-                return newName;
-            });
+            };
         }
     }
 
@@ -166,7 +179,6 @@ Arduino.forBlock['emailsender_message_create'] = function(block, generator) {
 
     // 库和变量管理
     ensureEmailSenderLib(generator);
-    registerVariableToBlockly(varName, 'EMailMessage');
     generator.addVariable(varName, 'EMailSender::EMailMessage ' + varName + ';');
 
     return '';

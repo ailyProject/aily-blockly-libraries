@@ -13,17 +13,22 @@ Arduino.forBlock['pn532_create_spi'] = function(block, generator) {
   if (!block._pn532VarMonitorAttached) {
     block._pn532VarMonitorAttached = true;
     block._pn532VarLastName = block.getFieldValue('VAR') || 'nfc';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._pn532VarLastName, 'Adafruit_PN532');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._pn532VarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'Adafruit_PN532');
           block._pn532VarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -36,7 +41,6 @@ Arduino.forBlock['pn532_create_spi'] = function(block, generator) {
   // 添加库和变量声明
   generator.addLibrary('PN532', '#include <Adafruit_PN532.h>');
   generator.addLibrary('SPI', '#include <SPI.h>');
-  registerVariableToBlockly(varName, 'Adafruit_PN532');
   generator.addVariable(varName, 'Adafruit_PN532 ' + varName + '(' + sck + ', ' + miso + ', ' + mosi + ', ' + ss + ');');
 
   return '';
@@ -48,17 +52,22 @@ Arduino.forBlock['pn532_create_spi_hw'] = function(block, generator) {
   if (!block._pn532VarMonitorAttached) {
     block._pn532VarMonitorAttached = true;
     block._pn532VarLastName = block.getFieldValue('VAR') || 'nfc';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._pn532VarLastName, 'Adafruit_PN532');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._pn532VarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'Adafruit_PN532');
           block._pn532VarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -68,7 +77,6 @@ Arduino.forBlock['pn532_create_spi_hw'] = function(block, generator) {
   // 添加库和变量声明
   generator.addLibrary('PN532', '#include <Adafruit_PN532.h>');
   generator.addLibrary('SPI', '#include <SPI.h>');
-  registerVariableToBlockly(varName, 'Adafruit_PN532');
   generator.addVariable(varName, 'Adafruit_PN532 ' + varName + '(' + ss + ');');
 
   return '';
@@ -80,17 +88,22 @@ Arduino.forBlock['pn532_create_i2c'] = function(block, generator) {
   if (!block._pn532VarMonitorAttached) {
     block._pn532VarMonitorAttached = true;
     block._pn532VarLastName = block.getFieldValue('VAR') || 'nfc';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._pn532VarLastName, 'Adafruit_PN532');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._pn532VarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'Adafruit_PN532');
           block._pn532VarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -99,7 +112,6 @@ Arduino.forBlock['pn532_create_i2c'] = function(block, generator) {
   // 添加库和变量声明（简化版，使用I2C，无需引脚，使用-1表示不使用IRQ和RESET）
   generator.addLibrary('PN532', '#include <Adafruit_PN532.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
-  registerVariableToBlockly(varName, 'Adafruit_PN532');
   generator.addVariable(varName, 'Adafruit_PN532 ' + varName + '(-1, -1);');
 
   return '';
@@ -111,17 +123,22 @@ Arduino.forBlock['pn532_create_i2c_pins'] = function(block, generator) {
   if (!block._pn532VarMonitorAttached) {
     block._pn532VarMonitorAttached = true;
     block._pn532VarLastName = block.getFieldValue('VAR') || 'nfc';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._pn532VarLastName, 'Adafruit_PN532');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._pn532VarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'Adafruit_PN532');
           block._pn532VarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -132,7 +149,6 @@ Arduino.forBlock['pn532_create_i2c_pins'] = function(block, generator) {
   // 添加库和变量声明（带引脚版）
   generator.addLibrary('PN532', '#include <Adafruit_PN532.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
-  registerVariableToBlockly(varName, 'Adafruit_PN532');
   generator.addVariable(varName, 'Adafruit_PN532 ' + varName + '(' + irq + ', ' + reset + ');');
 
   return '';
