@@ -151,25 +151,25 @@ Arduino.forBlock["taskscheduler_create"] = function (block, generator) {
     // block._schedulerVarLastName = schedulerName;
     block._schedulerVarLastName = block.getFieldValue('SCHEDULER') || 'scheduler';
     const varField = block.getField("SCHEDULER");
-    if (varField && typeof varField.setValidator === "function") {
-      varField.setValidator(function (newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace =
           block.workspace ||
           (typeof Blockly !== "undefined" &&
             Blockly.getMainWorkspace &&
             Blockly.getMainWorkspace());
         const oldName = block._schedulerVarLastName;
-        if (
-          workspace &&
-          newName &&
-          newName !== oldName &&
-          typeof renameVariableInBlockly === "function"
-        ) {
-          renameVariableInBlockly(block, oldName, newName, "Scheduler");
+        if (workspace && newName && newName !== oldName) {
+          if (typeof renameVariableInBlockly === "function") {
+            renameVariableInBlockly(block, oldName, newName, "Scheduler");
+          }
           block._schedulerVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -211,16 +211,19 @@ Arduino.forBlock["task_create"] = function (block, generator) {
     block._taskVarMonitorAttached = true;
     block._taskVarLastName = block.getFieldValue('TASK') || 'task1';
     const varField = block.getField('TASK');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._taskVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'Task');
           block._taskVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -259,51 +262,37 @@ Arduino.forBlock["task_create"] = function (block, generator) {
 
 // 创建简单任务
 Arduino.forBlock["task_create_simple"] = function (block, generator) {
-  // 监听TASK输入值的变化，自动重命名变量
-  if (!block._taskVarMonitorAttached) {
-    block._taskVarMonitorAttached = true;
-    block._taskVarLastName = block.getFieldValue('TASK') || 'task1';
-    const varField = block.getField('TASK');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
-        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-        const oldName = block._taskVarLastName;
-        if (workspace && newName && newName !== oldName) {
-          renameVariableInBlockly(block, oldName, newName, 'Task');
-          block._taskVarLastName = newName;
-        }
-        return newName;
-      });
-    }
-  }
-
   // 自动生成唯一的变量名
   const taskName = ensureUniqueVariableName(block, "TASK", "task1");
 
-  // 设置变量重命名监听
+  // 设置变量重命名监听（仅初始化一次）
   if (!block._taskSimpleVarMonitorAttached) {
     block._taskSimpleVarMonitorAttached = true;
     block._taskSimpleVarLastName = taskName;
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    if (typeof registerVariableToBlockly === "function") {
+      registerVariableToBlockly(taskName, "");
+    }
     const varField = block.getField("TASK");
-    if (varField && typeof varField.setValidator === "function") {
-      varField.setValidator(function (newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace =
           block.workspace ||
           (typeof Blockly !== "undefined" &&
             Blockly.getMainWorkspace &&
             Blockly.getMainWorkspace());
         const oldName = block._taskSimpleVarLastName;
-        if (
-          workspace &&
-          newName &&
-          newName !== oldName &&
-          typeof renameVariableInBlockly === "function"
-        ) {
-          renameVariableInBlockly(block, oldName, newName, "");
+        if (workspace && newName && newName !== oldName) {
+          if (typeof renameVariableInBlockly === "function") {
+            renameVariableInBlockly(block, oldName, newName, "");
+          }
           block._taskSimpleVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
   var interval =
@@ -311,11 +300,6 @@ Arduino.forBlock["task_create_simple"] = function (block, generator) {
   var statements = generator.statementToCode(block, "DO");
 
   generator.addLibrary("TaskScheduler", "#include <TaskScheduler.h>");
-
-  // 注册变量到Blockly
-  if (typeof registerVariableToBlockly === "function") {
-    registerVariableToBlockly(taskName, "");
-  }
 
   // Add the function prototype before the object is declared.
   var callbackName = taskName + "Callback";
@@ -467,25 +451,25 @@ Arduino.forBlock["status_request_create"] = function (block, generator) {
     block._statusRequestVarMonitorAttached = true;
     block._statusRequestVarLastName = block.getFieldValue('STATUS_REQUEST') || 'statusRequest';
     const varField = block.getField("STATUS_REQUEST");
-    if (varField && typeof varField.setValidator === "function") {
-      varField.setValidator(function (newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace =
           block.workspace ||
           (typeof Blockly !== "undefined" &&
             Blockly.getMainWorkspace &&
             Blockly.getMainWorkspace());
         const oldName = block._statusRequestVarLastName;
-        if (
-          workspace &&
-          newName &&
-          newName !== oldName &&
-          typeof renameVariableInBlockly === "function"
-        ) {
-          renameVariableInBlockly(block, oldName, newName, "StatusRequest");
+        if (workspace && newName && newName !== oldName) {
+          if (typeof renameVariableInBlockly === "function") {
+            renameVariableInBlockly(block, oldName, newName, "StatusRequest");
+          }
           block._statusRequestVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 

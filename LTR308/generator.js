@@ -22,17 +22,22 @@ Arduino.forBlock['ltr308_init_with_wire'] = function(block, generator) {
   if (!block._ltr308VarMonitorAttached) {
     block._ltr308VarMonitorAttached = true;
     block._ltr308VarLastName = block.getFieldValue('VAR') || 'ltr308';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._ltr308VarLastName, 'LTR308');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._ltr308VarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'LTR308');
           block._ltr308VarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -43,7 +48,6 @@ Arduino.forBlock['ltr308_init_with_wire'] = function(block, generator) {
   const wire = block.getFieldValue('WIRE') || 'Wire';
 
   // 1. 注册变量到Blockly变量系统和工具箱
-  registerVariableToBlockly(varName, 'LTR308');
 
   // 2. 添加必要的库
   ensureLTR308Libraries(generator);

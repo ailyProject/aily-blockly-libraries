@@ -1220,9 +1220,15 @@ Arduino.forBlock['aivox_mcp_control'] = function(block, generator) {
     if (!block._aivoxVarMonitorAttached) {
         block._aivoxVarMonitorAttached = true;
         block._aivoxVarLastName = block.getFieldValue('VAR') || 'led';
+        // 初次注册变量到 Blockly 系统（仅执行一次）
+        registerVariableToBlockly(block._aivoxVarLastName, 'AIVOX');
         const varField = block.getField('VAR');
-        if (varField && typeof varField.setValidator === 'function') {
-            varField.setValidator(function(newName) {
+        if (varField) {
+            const originalFinishEditing = varField.onFinishEditing_;
+            varField.onFinishEditing_ = function(newName) {
+              if (typeof originalFinishEditing === 'function') {
+                originalFinishEditing.call(this, newName);
+              }
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._aivoxVarLastName;
                 if (workspace && newName && newName !== oldName) {
@@ -1235,8 +1241,7 @@ Arduino.forBlock['aivox_mcp_control'] = function(block, generator) {
                     renameVariableInBlockly(block, oldName, newName, 'AIVOX');
                     block._aivoxVarLastName = newName;
                 }
-                return newName;
-            });
+            };
         }
     }
 
@@ -1246,7 +1251,6 @@ Arduino.forBlock['aivox_mcp_control'] = function(block, generator) {
     // console.log("aivox_mcp_control count: ", count);
     // 注册AIVOX控制服务和Blockly变量
     registerAivoxControlService(varName, description.replace(/"/g, ''));
-    registerVariableToBlockly(varName, 'AIVOX');
 
     return ['\"' + varName + '\", ' + description , Arduino.ORDER_ATOMIC];
 };
@@ -1256,9 +1260,15 @@ Arduino.forBlock['aivox_mcp_control_param'] = function(block, generator) {
     if (!block._stateVarMonitorAttached) {
         block._stateVarMonitorAttached = true;
         block._stateVarLastName = block.getFieldValue('VAR') || 'state';
+        // 初次注册变量到 Blockly 系统（仅执行一次）
+        registerVariableToBlockly(block._stateVarLastName, 'AIVOX_PARAM_STATE');
         const varField = block.getField('VAR');
-        if (varField && typeof varField.setValidator === 'function') {
-            varField.setValidator(function(newName) {
+        if (varField) {
+            const originalFinishEditing = varField.onFinishEditing_;
+            varField.onFinishEditing_ = function(newName) {
+              if (typeof originalFinishEditing === 'function') {
+                originalFinishEditing.call(this, newName);
+              }
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._stateVarLastName;
                 if (workspace && newName && newName !== oldName) {
@@ -1271,8 +1281,7 @@ Arduino.forBlock['aivox_mcp_control_param'] = function(block, generator) {
                     renameVariableInBlockly(block, oldName, newName, 'AIVOX_PARAM_STATE');
                     block._stateVarLastName = newName;
                 }
-                return newName;
-            });
+            };
         }
     }
 
@@ -1285,7 +1294,6 @@ Arduino.forBlock['aivox_mcp_control_param'] = function(block, generator) {
         configOption = 'Boolean'; // 默认类型
     }
 
-    registerVariableToBlockly(varName, 'AIVOX_PARAM_STATE');
 
     let code = '';
     let minValue = null;

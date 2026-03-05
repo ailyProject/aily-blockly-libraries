@@ -100,14 +100,20 @@ if (Blockly.Extensions && Blockly.Extensions.register) {
     
     // 添加变量重命名监听机制
     var varField = this.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newValue) {
-        var oldValue = this.getValue();
-        if (oldValue !== newValue) {
-          renameVariableInBlockly(this.getSourceBlock(), oldValue, newValue, 'SPL07_003');
+    if (varField) {
+      var block = this;
+      block._spa06VarLastName = varField.getValue();
+      var originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newValue) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newValue);
         }
-        return newValue;
-      });
+        var oldValue = block._spa06VarLastName;
+        if (oldValue !== newValue) {
+          renameVariableInBlockly(block, oldValue, newValue, 'SPL07_003');
+          block._spa06VarLastName = newValue;
+        }
+      };
     }
   });
 }
@@ -182,17 +188,22 @@ Arduino.forBlock['spa06_create_spi'] = function(block, generator) {
   if (!block._spa06VarMonitorAttached) {
     block._spa06VarMonitorAttached = true;
     block._spa06VarLastName = block.getFieldValue('VAR') || 'spa06';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._spa06VarLastName, 'SPL07_003');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._spa06VarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'SPL07_003');
           block._spa06VarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -204,7 +215,6 @@ Arduino.forBlock['spa06_create_spi'] = function(block, generator) {
   ensureSPILib(generator);
 
   // Register variable and add declaration
-  registerVariableToBlockly(varName, 'SPL07_003');
   generator.addVariable(varName, 'SPL07_003 ' + varName + ';');
 
   // Generate initialization code that includes SPI.begin() and sensor begin()

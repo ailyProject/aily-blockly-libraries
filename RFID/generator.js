@@ -75,13 +75,19 @@ Blockly.Extensions.register('mfrc522_board_extension', function() {
   // 添加变量重命名监听机制
   var varField = this.getField('VAR');
   if (varField) {
-    varField.setValidator(function(newValue) {
-      var oldValue = this.getValue();
+    var block = this;
+    block._rfidVarLastName = varField.getValue();
+    var originalFinishEditing = varField.onFinishEditing_;
+    varField.onFinishEditing_ = function(newValue) {
+      if (typeof originalFinishEditing === 'function') {
+        originalFinishEditing.call(this, newValue);
+      }
+      var oldValue = block._rfidVarLastName;
       if (oldValue !== newValue) {
         Arduino.renameVariableInBlockly(oldValue, newValue, 'MFRC522');
+        block._rfidVarLastName = newValue;
       }
-      return newValue;
-    });
+    };
   }
 });
 

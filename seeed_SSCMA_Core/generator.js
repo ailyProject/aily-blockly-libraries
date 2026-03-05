@@ -361,16 +361,19 @@ Arduino.forBlock['sscma_core_get_perf'] = function(block, generator) {
     generator._prefVarMonitorAttached = true;
     generator._prefVarLastName = block.getFieldValue('VAR') || 'perf';
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = generator._prefVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVarialbleInBlockly(block, oldName, newName, 'Perf');
           generator._prefVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
   

@@ -22,15 +22,20 @@ Arduino.forBlock['emodbus_rtu_client_create'] = function(block, generator) {
   if (!block._varMonitorAttached) {
     block._varMonitorAttached = true;
     block._varLastName = block.getFieldValue('VAR') || 'mbClient';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._varLastName, 'ModbusClientRTU');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         if (newName !== block._varLastName) {
           renameVariableInBlockly(block, block._varLastName, newName, 'ModbusClientRTU');
           block._varLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -40,7 +45,6 @@ Arduino.forBlock['emodbus_rtu_client_create'] = function(block, generator) {
   generator.addLibrary('eModbus_ClientRTU', '#include "ModbusClientRTU.h"');
   ensureEmodbusLib(generator);
 
-  registerVariableToBlockly(varName, 'ModbusClientRTU');
   generator.addVariable(varName, 'ModbusClientRTU ' + varName + '(' + rtsPin + ');');
 
   return '';
@@ -76,15 +80,20 @@ Arduino.forBlock['emodbus_tcp_client_create'] = function(block, generator) {
   if (!block._varMonitorAttached) {
     block._varMonitorAttached = true;
     block._varLastName = block.getFieldValue('VAR') || 'mbTcpClient';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._varLastName, 'ModbusClientTCP');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         if (newName !== block._varLastName) {
           renameVariableInBlockly(block, block._varLastName, newName, 'ModbusClientTCP');
           block._varLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -93,7 +102,6 @@ Arduino.forBlock['emodbus_tcp_client_create'] = function(block, generator) {
   generator.addLibrary('eModbus_ClientTCP', '#include "ModbusClientTCP.h"');
   ensureWiFiLib(generator);
 
-  registerVariableToBlockly(varName, 'ModbusClientTCP');
   generator.addVariable('_wifiClient_' + varName, 'WiFiClient _wifiClient_' + varName + ';');
   generator.addVariable(varName, 'ModbusClientTCP ' + varName + '(_wifiClient_' + varName + ');');
 
@@ -448,15 +456,20 @@ Arduino.forBlock['emodbus_rtu_server_create'] = function(block, generator) {
   if (!block._varMonitorAttached) {
     block._varMonitorAttached = true;
     block._varLastName = block.getFieldValue('VAR') || 'mbServer';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._varLastName, 'ModbusServerRTU');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         if (newName !== block._varLastName) {
           renameVariableInBlockly(block, block._varLastName, newName, 'ModbusServerRTU');
           block._varLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -467,7 +480,6 @@ Arduino.forBlock['emodbus_rtu_server_create'] = function(block, generator) {
   generator.addLibrary('eModbus_ServerRTU', '#include "ModbusServerRTU.h"');
   ensureEmodbusLib(generator);
 
-  registerVariableToBlockly(varName, 'ModbusServerRTU');
   generator.addVariable(varName, 'ModbusServerRTU ' + varName + '(' + timeout + ', ' + rtsPin + ');');
 
   return '';
@@ -503,15 +515,20 @@ Arduino.forBlock['emodbus_tcp_server_create'] = function(block, generator) {
   if (!block._varMonitorAttached) {
     block._varMonitorAttached = true;
     block._varLastName = block.getFieldValue('VAR') || 'mbTcpServer';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._varLastName, 'ModbusServerWiFi');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         if (newName !== block._varLastName) {
           renameVariableInBlockly(block, block._varLastName, newName, 'ModbusServerWiFi');
           block._varLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -522,7 +539,6 @@ Arduino.forBlock['emodbus_tcp_server_create'] = function(block, generator) {
   generator.addLibrary('eModbus_ServerWiFi', '#include "ModbusServerWiFi.h"');
   ensureWiFiLib(generator);
 
-  registerVariableToBlockly(varName, 'ModbusServerWiFi');
   generator.addVariable(varName, 'ModbusServerWiFi ' + varName + ';');
 
   return '';

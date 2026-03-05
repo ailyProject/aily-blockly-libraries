@@ -7,17 +7,22 @@ Arduino.forBlock['dfplayer_begin'] = function(block, generator) {
   if (!block._dfplayerVarMonitorAttached) {
     block._dfplayerVarMonitorAttached = true;
     block._dfplayerVarLastName = block.getFieldValue('VAR') || 'dfplayer';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._dfplayerVarLastName, 'DFPlayer');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._dfplayerVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'DFPlayer');
           block._dfplayerVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -26,7 +31,6 @@ Arduino.forBlock['dfplayer_begin'] = function(block, generator) {
   var serial_pin_tx = generator.valueToCode(block, 'TX', Arduino.ORDER_ATOMIC);
   
   // 注册Blockly变量，类型为DFPlayer
-  registerVariableToBlockly(varName, 'DFPlayer');
   
   generator.addLibrary('dfplayer', '#include <DFRobotDFPlayerMini.h>');
   generator.addLibrary('softwareserial', '#include <SoftwareSerial.h>');

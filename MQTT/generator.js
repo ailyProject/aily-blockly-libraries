@@ -34,17 +34,22 @@ Arduino.forBlock['pubsub_create'] = function(block, generator) {
   if (!block._pubsubVarMonitorAttached) {
     block._pubsubVarMonitorAttached = true;
     block._pubsubVarLastName = block.getFieldValue('VAR') || 'mqttClient';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._pubsubVarLastName, 'PubSubClient');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._pubsubVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'PubSubClient');
           block._pubsubVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -74,7 +79,6 @@ Arduino.forBlock['pubsub_create'] = function(block, generator) {
   // 添加库和变量声明
   ensurePubSubLib(generator);
   ensureWiFiLib(generator);
-  registerVariableToBlockly(varName, 'PubSubClient');
   // generator.addObject(varName, 'PubSubClient ' + varName + '(wifiClient);');
   
   const boardConfig = window['boardConfig'];

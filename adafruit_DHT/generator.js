@@ -91,17 +91,22 @@ Arduino.forBlock['dht_init'] = function (block, generator) {
   if (!block._dhtVarMonitorAttached) {
     block._dhtVarMonitorAttached = true;
     block._dhtVarLastName = block.getFieldValue('VAR') || 'dht';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._dhtVarLastName, 'DHT');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._dhtVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'DHT');
           block._dhtVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -117,7 +122,6 @@ Arduino.forBlock['dht_init'] = function (block, generator) {
   if (dht_type === 'DHT20') {
     var wire = block.getFieldValue('WIRE');
     // 注册Blockly变量，类型为DHT20
-    registerVariableToBlockly(varName, 'DHT');
     
     // 确保DHT20库已添加
     ensureDHT20Library(generator);

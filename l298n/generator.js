@@ -10,19 +10,24 @@
 Arduino.forBlock['l298n_setup'] = function(block, generator) {
   // 变量重命名监听
   if (!block._varMonitorAttached) {
+  // 初次注册变量到 Blockly 系统（仅执行一次）
+  registerVariableToBlockly(varName, 'L298N');
     block._varMonitorAttached = true;
     block._lastName = block.getFieldValue('VAR') || 'motor';
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._lastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'L298N');
           block._lastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -33,7 +38,6 @@ Arduino.forBlock['l298n_setup'] = function(block, generator) {
 
   // 库和变量管理（generator自动去重）
   generator.addLibrary('L298N', '#include <L298N.h>');
-  registerVariableToBlockly(varName, 'L298N');
   generator.addVariable(varName, 'L298N ' + varName + '(' + en + ', ' + in1 + ', ' + in2 + ');');
 
   return '';
@@ -42,19 +46,24 @@ Arduino.forBlock['l298n_setup'] = function(block, generator) {
 Arduino.forBlock['l298n_setup_no_enable'] = function(block, generator) {
   // 变量重命名监听
   if (!block._varMonitorAttached) {
+  // 初次注册变量到 Blockly 系统（仅执行一次）
+  registerVariableToBlockly(varName, 'L298N');
     block._varMonitorAttached = true;
     block._lastName = block.getFieldValue('VAR') || 'motor';
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._lastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'L298N');
           block._lastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -63,7 +72,6 @@ Arduino.forBlock['l298n_setup_no_enable'] = function(block, generator) {
   const in2 = block.getFieldValue('IN2') || '5';
 
   generator.addLibrary('L298N', '#include <L298N.h>');
-  registerVariableToBlockly(varName, 'L298N');
   generator.addVariable(varName, 'L298N ' + varName + '(' + in1 + ', ' + in2 + ');');
 
   return '';

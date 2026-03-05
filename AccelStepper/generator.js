@@ -21,15 +21,18 @@ Arduino.forBlock['accelstepper_setup'] = function(block, generator) {
     block._stepperVarLastName = block.getFieldValue('VAR') || 'stepper';
     const varField = block.getField('VAR');
     if (varField && typeof varField.onRename === 'function') {
-      varField.setValidator(function(newName) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._stepperVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'AccelStepper');
           block._stepperVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -66,15 +69,18 @@ Arduino.forBlock['accelstepper_setup_driver'] = function(block, generator) {
     block._stepperVarLastName = block.getFieldValue('VAR') || 'stepper';
     const varField = block.getField('VAR');
     if (varField && typeof varField.onRename === 'function') {
-      varField.setValidator(function(newName) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._stepperVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'AccelStepper');
           block._stepperVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -296,15 +302,18 @@ Arduino.forBlock['multistepper_move_to_2'] = function(block, generator) {
     block._stepperVarLastName = block.getFieldValue('VAR') || 'steppers';
     const varField = block.getField('VAR');
     if (varField && typeof varField.onRename === 'function') {
-      varField.setValidator(function(newName) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._stepperVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'AccelStepper');
           block._stepperVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 

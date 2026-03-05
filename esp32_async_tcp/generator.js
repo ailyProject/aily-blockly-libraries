@@ -15,16 +15,21 @@ Arduino.forBlock['async_tcp_client_create'] = function(block, generator) {
   if (!block._asyncTcpClientVarMonitorAttached) {
     block._asyncTcpClientVarMonitorAttached = true;
     block._asyncTcpClientVarLastName = block.getFieldValue('VAR') || 'tcpClient';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._asyncTcpClientVarLastName, 'AsyncClient');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const oldName = block._asyncTcpClientVarLastName;
         if (oldName !== newName && typeof renameVariableInBlockly === 'function') {
           renameVariableInBlockly(block, oldName, newName, 'AsyncClient');
         }
         block._asyncTcpClientVarLastName = newName;
-        return newName;
-      });
+      };
     }
   }
 
@@ -33,7 +38,6 @@ Arduino.forBlock['async_tcp_client_create'] = function(block, generator) {
   ensureAsyncTCPLib(generator);
   
   if (typeof registerVariableToBlockly === 'function') {
-    registerVariableToBlockly(varName, 'AsyncClient');
   }
   
   generator.addVariable('AsyncClient_' + varName, 'AsyncClient ' + varName + ';');
@@ -301,16 +305,21 @@ Arduino.forBlock['async_tcp_server_create'] = function(block, generator) {
   if (!block._asyncTcpServerVarMonitorAttached) {
     block._asyncTcpServerVarMonitorAttached = true;
     block._asyncTcpServerVarLastName = block.getFieldValue('VAR') || 'tcpServer';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._asyncTcpServerVarLastName, 'AsyncServer');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const oldName = block._asyncTcpServerVarLastName;
         if (oldName !== newName && typeof renameVariableInBlockly === 'function') {
           renameVariableInBlockly(block, oldName, newName, 'AsyncServer');
         }
         block._asyncTcpServerVarLastName = newName;
-        return newName;
-      });
+      };
     }
   }
 
@@ -320,7 +329,6 @@ Arduino.forBlock['async_tcp_server_create'] = function(block, generator) {
   ensureAsyncTCPLib(generator);
   
   if (typeof registerVariableToBlockly === 'function') {
-    registerVariableToBlockly(varName, 'AsyncServer');
   }
   
   generator.addVariable('AsyncServer_' + varName, 'AsyncServer ' + varName + '(' + port + ');');

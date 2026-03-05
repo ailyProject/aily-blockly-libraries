@@ -23,23 +23,27 @@ Arduino.forBlock['websocket_client_create'] = function(block, generator) {
   if (!block._wsClientVarMonitorAttached) {
     block._wsClientVarMonitorAttached = true;
     block._wsClientVarLastName = varName;
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(varName, 'WebSocketsClient');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._wsClientVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'WebSocketsClient');
           block._wsClientVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
   // 添加库和变量声明
   generator.addLibrary('WebSockets', '#include <WebSocketsClient.h>');
-  registerVariableToBlockly(varName, 'WebSocketsClient');
   generator.addVariable(varName, 'WebSocketsClient ' + varName + ';');
   
   return '';
@@ -174,23 +178,27 @@ Arduino.forBlock['websocket_server_create'] = function(block, generator) {
   if (!block._wsServerVarMonitorAttached) {
     block._wsServerVarMonitorAttached = true;
     block._wsServerVarLastName = varName;
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(varName, 'WebSocketsServer');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._wsServerVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'WebSocketsServer');
           block._wsServerVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
   // 添加库和变量声明
   generator.addLibrary('WebSocketsServer', '#include <WebSocketsServer.h>');
-  registerVariableToBlockly(varName, 'WebSocketsServer');
   generator.addVariable(varName, 'WebSocketsServer ' + varName + '(' + port + ');');
   
   return '';

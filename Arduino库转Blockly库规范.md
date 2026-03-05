@@ -300,17 +300,22 @@ registerVariableToBlockly(varName, varType);
 if (!block._varMonitorAttached) {
   block._varMonitorAttached = true;
   block._varLastName = block.getFieldValue('VAR') || 'defaultName';
+  // 初次注册变量到 Blockly 系统（仅执行一次）
+  registerVariableToBlockly(block._varLastName, 'VariableType');
   const varField = block.getField('VAR');
-  if (varField && typeof varField.setValidator === 'function') {
-    varField.setValidator(function(newName) {
+  if (varField) {
+    const originalFinishEditing = varField.onFinishEditing_;
+    varField.onFinishEditing_ = function(newName) {
+      if (typeof originalFinishEditing === 'function') {
+        originalFinishEditing.call(this, newName);
+      }
       const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
       const oldName = block._varLastName;
       if (workspace && newName && newName !== oldName) {
-        renameVariableInBlockly(block, oldName, newName, 'VariableType'); // 核心库函数
+        renameVariableInBlockly(block, oldName, newName, 'VariableType');
         block._varLastName = newName;
       }
-      return newName;
-    });
+    };
   }
 }
 ```
@@ -372,17 +377,22 @@ Arduino.forBlock['block_type'] = function(block, generator) {
   if (!block._varMonitorAttached) {
     block._varMonitorAttached = true;
     block._varLastName = block.getFieldValue('VAR') || 'defaultVar';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._varLastName, 'VariableType');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._varLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'VariableType');
           block._varLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -510,17 +520,23 @@ Arduino.forBlock['onebutton_setup'] = function(block, generator) {
   if (!block._onebuttonVarMonitorAttached) {
     block._onebuttonVarMonitorAttached = true;
     block._onebuttonVarLastName = block.getFieldValue('VAR') || 'button';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._onebuttonVarLastName, 'OneButton');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      // 只在编辑完成时（按回车或失焦）触发重命名，避免每次输入都触发
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._onebuttonVarLastName;
         if (workspace && newName && newName !== oldName) {
-          renameVariableInBlockly(block, oldName, newName, 'OneButton'); // 核心库函数
+          renameVariableInBlockly(block, oldName, newName, 'OneButton');
           block._onebuttonVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 

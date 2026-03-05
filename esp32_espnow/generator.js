@@ -123,8 +123,12 @@ function setupVarMonitor(block, fieldName, varType) {
     block[monitorKey] = true;
     block[lastNameKey] = block.getFieldValue(fieldName) || 'peer1';
     const varField = block.getField(fieldName);
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block[lastNameKey];
         if (workspace && newName && newName !== oldName) {
@@ -133,8 +137,7 @@ function setupVarMonitor(block, fieldName, varType) {
           }
           block[lastNameKey] = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 }

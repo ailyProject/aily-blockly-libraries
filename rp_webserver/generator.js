@@ -28,17 +28,22 @@ Arduino.forBlock['rp_webserver_create'] = function(block, generator) {
   if (!block._webserverVarMonitorAttached) {
     block._webserverVarMonitorAttached = true;
     block._webserverVarLastName = block.getFieldValue('VAR') || 'server';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._webserverVarLastName, 'WebServer');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._webserverVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'WebServer');
           block._webserverVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -47,7 +52,6 @@ Arduino.forBlock['rp_webserver_create'] = function(block, generator) {
   
   // 添加库和变量声明
   ensureWebServerLib(generator);
-  registerVariableToBlockly(varName, 'WebServer');
   generator.addObject(varName, 'WebServer ' + varName + '(' + port + ');');
   
   return '';

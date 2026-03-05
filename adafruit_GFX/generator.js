@@ -334,16 +334,19 @@ Arduino.forBlock['tft_create_canvas16'] = function(block, generator) {
   registerVariableToBlockly(name, 'GFXcanvas16');
   
   var varField = block.getField('NAME');
-  if (varField && typeof varField.setValidator === 'function') {
-    varField.setValidator(function(newName) {
+  if (varField) {
+    const originalFinishEditing = varField.onFinishEditing_;
+    varField.onFinishEditing_ = function(newName) {
+      if (typeof originalFinishEditing === 'function') {
+        originalFinishEditing.call(this, newName);
+      }
       const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
       const oldName = block._canvas16VarLastName;
       if (workspace && newName && newName !== oldName) {
         renameVariableInBlockly(block, oldName, newName, 'GFXcanvas16');
         block._canvas16VarLastName = newName;
       }
-      return newName;
-    });
+    };
   }
   
   return '';
@@ -358,16 +361,19 @@ Arduino.forBlock['tft_create_canvas1'] = function(block, generator) {
   registerVariableToBlockly(name, 'GFXcanvas1');
   
   var varField = block.getField('NAME');
-  if (varField && typeof varField.setValidator === 'function') {
-    varField.setValidator(function(newName) {
+  if (varField) {
+    const originalFinishEditing = varField.onFinishEditing_;
+    varField.onFinishEditing_ = function(newName) {
+      if (typeof originalFinishEditing === 'function') {
+        originalFinishEditing.call(this, newName);
+      }
       const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
       const oldName = block._canvas1VarLastName;
       if (workspace && newName && newName !== oldName) {
         renameVariableInBlockly(block, oldName, newName, 'GFXcanvas1');
         block._canvas1VarLastName = newName;
       }
-      return newName;
-    });
+    };
   }
   
   return '';

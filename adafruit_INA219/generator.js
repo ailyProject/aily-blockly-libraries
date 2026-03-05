@@ -64,24 +64,22 @@ Arduino.forBlock['ina219_init_with_wire'] = function(block, generator) {
   if (!block._ina219VarMonitorAttached) {
     block._ina219VarMonitorAttached = true;
     block._ina219VarLastName = block.getFieldValue('VAR') || 'ina219';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._ina219VarLastName, 'INA219');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._ina219VarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'INA219');
-          // const oldVar = workspace.getVariable(oldName, 'INA219');
-          // const existVar = workspace.getVariable(newName, 'INA219');
-          // console.log("Renaming INA219 variable from", oldName, "to", newName);
-          // if (oldVar && !existVar) {
-          //   workspace.renameVariableById(oldVar.getId(), newName);
-          //   if (typeof refreshToolbox === 'function') refreshToolbox(workspace, false);
-          // }
           block._ina219VarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -98,7 +96,6 @@ Arduino.forBlock['ina219_init_with_wire'] = function(block, generator) {
   //     if (typeof refreshToolbox === 'function') refreshToolbox(workspace, false);
   //   }
   // }
-  registerVariableToBlockly(varName, 'INA219');
 
   // 添加必要的库
   ensureINA219Libraries(generator);

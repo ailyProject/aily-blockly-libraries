@@ -26,17 +26,22 @@ Arduino.forBlock['async_http_create'] = function(block, generator) {
   if (!block._asyncHttpVarMonitorAttached) {
     block._asyncHttpVarMonitorAttached = true;
     block._asyncHttpVarLastName = block.getFieldValue('VAR') || 'http';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._asyncHttpVarLastName, 'AsyncHTTP');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._asyncHttpVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'AsyncHTTP');
           block._asyncHttpVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -44,7 +49,6 @@ Arduino.forBlock['async_http_create'] = function(block, generator) {
 
   // 添加库和变量声明
   ensureAsyncHTTPLib(generator);
-  registerVariableToBlockly(varName, 'AsyncHTTP');
   generator.addVariable(varName, 'AsyncHTTP ' + varName + ';');
 
   // 自动在loop中添加update()
