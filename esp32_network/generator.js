@@ -17,17 +17,22 @@ Arduino.forBlock['esp32_network_client_create'] = function(block, generator) {
   if (!block._networkClientVarMonitorAttached) {
     block._networkClientVarMonitorAttached = true;
     block._networkClientVarLastName = block.getFieldValue('VAR') || 'client';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._networkClientVarLastName, 'NetworkClient');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._networkClientVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'NetworkClient');
           block._networkClientVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -35,7 +40,6 @@ Arduino.forBlock['esp32_network_client_create'] = function(block, generator) {
   
   // 添加库和变量
   generator.addLibrary('Network', '#include <Network.h>');
-  registerVariableToBlockly(varName, 'NetworkClient');
   if (isBlockConnected(block)) {
     return 'NetworkClient ' + varName + ';';
   } else {
@@ -51,17 +55,22 @@ Arduino.forBlock['esp32_networkclientsecure_create'] = function(block, generator
   if (!block._networkclientsecureVarMonitorAttached) {
     block._networkclientsecureVarMonitorAttached = true;
     block._networkclientsecureVarLastName = block.getFieldValue('VAR') || 'client';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._networkclientsecureVarLastName, 'NetworkClientSecure');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._networkclientsecureVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'NetworkClientSecure');
           block._networkclientsecureVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -69,7 +78,6 @@ Arduino.forBlock['esp32_networkclientsecure_create'] = function(block, generator
   
   // 添加库和变量声明
   ensureNetworkClientSecureLib(generator);
-  registerVariableToBlockly(varName, 'NetworkClientSecure');
   if (isBlockConnected(block)) {
     return 'NetworkClientSecure ' + varName + ';';
   } else {
@@ -308,17 +316,22 @@ Arduino.forBlock['esp32_network_server_create'] = function(block, generator) {
   if (!block._networkServerVarMonitorAttached) {
     block._networkServerVarMonitorAttached = true;
     block._networkServerVarLastName = block.getFieldValue('VAR') || 'server';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._networkServerVarLastName, 'NetworkServer');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._networkServerVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'NetworkServer');
           block._networkServerVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -328,7 +341,6 @@ Arduino.forBlock['esp32_network_server_create'] = function(block, generator) {
   
   // 添加库和变量
   generator.addLibrary('Network', '#include <Network.h>');
-  registerVariableToBlockly(varName, 'NetworkServer');
   generator.addObject(varName, 'NetworkServer ' + varName + '(' + port + ', ' + maxClients + ');');
   
   return '';
@@ -348,17 +360,22 @@ Arduino.forBlock['esp32_network_server_accept'] = function(block, generator) {
   if (!block._networkClientAcceptVarMonitorAttached) {
     block._networkClientAcceptVarMonitorAttached = true;
     block._networkClientAcceptVarLastName = block.getFieldValue('CLIENT_VAR') || 'client';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._networkClientAcceptVarLastName, 'NetworkClient');
     const varField = block.getField('CLIENT_VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._networkClientAcceptVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'NetworkClient');
           block._networkClientAcceptVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -368,7 +385,6 @@ Arduino.forBlock['esp32_network_server_accept'] = function(block, generator) {
   const clientVarName = block.getFieldValue('CLIENT_VAR') || 'client';
   
   // 注册客户端变量
-  registerVariableToBlockly(clientVarName, 'NetworkClient');
   // generator.addObject(clientVarName, 'NetworkClient ' + clientVarName + ';');
   
   generator.addLibrary('Network', '#include <Network.h>');
@@ -392,17 +408,22 @@ Arduino.forBlock['esp32_network_udp_create'] = function(block, generator) {
   if (!block._networkUdpVarMonitorAttached) {
     block._networkUdpVarMonitorAttached = true;
     block._networkUdpVarLastName = block.getFieldValue('VAR') || 'udp';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._networkUdpVarLastName, 'NetworkUDP');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._networkUdpVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'NetworkUDP');
           block._networkUdpVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -410,7 +431,6 @@ Arduino.forBlock['esp32_network_udp_create'] = function(block, generator) {
   
   // 添加库和变量
   generator.addLibrary('Network', '#include <Network.h>');
-  registerVariableToBlockly(varName, 'NetworkUDP');
 
   if (isBlockConnected(block)) {
     return 'NetworkUDP ' + varName + ';';

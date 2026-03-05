@@ -3,17 +3,22 @@ Arduino.forBlock['bmp280_create'] = function(block, generator) {
   if (!block._bmp280VarMonitorAttached) {
     block._bmp280VarMonitorAttached = true;
     block._bmp280VarLastName = block.getFieldValue('VAR') || 'bmp280';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._bmp280VarLastName, 'BMP280');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._bmp280VarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'BMP280');
           block._bmp280VarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -22,7 +27,6 @@ Arduino.forBlock['bmp280_create'] = function(block, generator) {
   // 添加库和变量
   generator.addLibrary('Seeed_BMP280', '#include <Seeed_BMP280.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
-  registerVariableToBlockly(varName, 'BMP280');
   generator.addVariable(varName, 'BMP280 ' + varName + ';');
   
   return '';

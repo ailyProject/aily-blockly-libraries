@@ -9,17 +9,22 @@ Arduino.forBlock['huskylens_init_i2c_until'] = function (block, generator) {
     if (!block._huskyVarMonitorAttached) {
         block._huskyVarMonitorAttached = true;
         block._huskyVarLastName = block.getFieldValue('VAR') || 'huskylens';
+        // 初次注册变量到 Blockly 系统（仅执行一次）
+        registerVariableToBlockly(block._huskyVarLastName, 'HUSKYLENS');
         const varField = block.getField('VAR');
-        if (varField && typeof varField.setValidator === 'function') {
-            varField.setValidator(function (newName) {
+        if (varField) {
+            const originalFinishEditing = varField.onFinishEditing_;
+            varField.onFinishEditing_ = function(newName) {
+              if (typeof originalFinishEditing === 'function') {
+                originalFinishEditing.call(this, newName);
+              }
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._huskyVarLastName;
                 if (workspace && newName && newName !== oldName) {
                     renameVariableInBlockly(block, oldName, newName, 'HUSKYLENS');
                     block._huskyVarLastName = newName;
                 }
-                return newName;
-            });
+            };
         }
     }
 
@@ -62,16 +67,19 @@ Arduino.forBlock['huskylens_init_i2c'] = function (block, generator) {
         block._huskyVarMonitorAttached = true;
         block._huskyVarLastName = block.getFieldValue('VAR') || 'huskylens';
         const varField = block.getField('VAR');
-        if (varField && typeof varField.setValidator === 'function') {
-            varField.setValidator(function (newName) {
+        if (varField) {
+            const originalFinishEditing = varField.onFinishEditing_;
+            varField.onFinishEditing_ = function(newName) {
+              if (typeof originalFinishEditing === 'function') {
+                originalFinishEditing.call(this, newName);
+              }
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._huskyVarLastName;
                 if (workspace && newName && newName !== oldName) {
                     renameVariableInBlockly(block, oldName, newName, 'HUSKYLENS');
                     block._huskyVarLastName = newName;
                 }
-                return newName;
-            });
+            };
         }
     }
 
@@ -121,16 +129,19 @@ Arduino.forBlock['huskylens_init_serial'] = function (block, generator) {
         block._huskyVarMonitorAttached = true;
         block._huskyVarLastName = block.getFieldValue('VAR') || 'huskylens';
         const varField = block.getField('VAR');
-        if (varField && typeof varField.setValidator === 'function') {
-            varField.setValidator(function (newName) {
+        if (varField) {
+            const originalFinishEditing = varField.onFinishEditing_;
+            varField.onFinishEditing_ = function(newName) {
+              if (typeof originalFinishEditing === 'function') {
+                originalFinishEditing.call(this, newName);
+              }
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._huskyVarLastName;
                 if (workspace && newName && newName !== oldName) {
                     renameVariableInBlockly(block, oldName, newName, 'HUSKYLENS');
                     block._huskyVarLastName = newName;
                 }
-                return newName;
-            });
+            };
         }
     }
 
@@ -141,7 +152,6 @@ Arduino.forBlock['huskylens_init_serial'] = function (block, generator) {
     generator.addLibrary('HUSKYLENS', '#include "HUSKYLENS.h"');
 
     // 注册变量
-    registerVariableToBlockly(varName, 'HUSKYLENS');
 
     // 添加对象
     generator.addObject(varName, 'HUSKYLENS ' + varName + ';');

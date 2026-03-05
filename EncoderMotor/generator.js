@@ -3,16 +3,21 @@
 // 创建编码电机
 Arduino.forBlock['encoder_motor_create'] = function(block, generator) {
   if (!block._encoderMotorVarMonitorAttached) {
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(varName, 'EncoderMotor');
     block._encoderMotorVarMonitorAttached = true;
     const inputField = block.getField('VAR');
-    if (inputField && typeof inputField.setValidator === 'function') {
-      inputField.setValidator(function(newName) {
+    if (inputField) {
+      const originalFinishEditing = inputField.onFinishEditing_;
+      inputField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const oldName = this.getValue();
         if (oldName !== newName && typeof renameVariableInBlockly === 'function') {
           renameVariableInBlockly(block, oldName, newName, 'EncoderMotor');
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -31,7 +36,6 @@ Arduino.forBlock['encoder_motor_create'] = function(block, generator) {
 
   // 注册变量到Blockly（使用核心库函数）
   if (typeof registerVariableToBlockly === 'function') {
-    registerVariableToBlockly(varName, 'EncoderMotor');
   }
 
   const constructCode = `em::EncoderMotor ${varName}(${posPin}, ${negPin}, ${aPin}, ${bPin}, ${ppr}, ${reduction}, ${phase});`

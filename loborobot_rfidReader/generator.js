@@ -6,17 +6,22 @@ Arduino.forBlock['rfid_setup'] = function(block, generator) {
   if (!block._rfidVarMonitorAttached) {
     block._rfidVarMonitorAttached = true;
     block._rfidVarLastName = block.getFieldValue('VAR') || 'rfidReader';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._rfidVarLastName, 'RFIDReader');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._rfidVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'RFIDReader');
           block._rfidVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -30,7 +35,6 @@ Arduino.forBlock['rfid_setup'] = function(block, generator) {
   generator.addLibrary('#include <SoftwareSerial.h>', '#include <SoftwareSerial.h>');
 
   // 4. 注册变量到Blockly系统
-  registerVariableToBlockly(varName, 'RFIDReader');
 
   // 5. 声明变量
   generator.addVariable('SoftwareSerial ' + varName, 'SoftwareSerial ' + varName + '(' + rxPin + ', ' + txPin + ');');

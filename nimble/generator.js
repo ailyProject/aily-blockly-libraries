@@ -59,9 +59,15 @@ Arduino.forBlock['nimble_create_server'] = function(block, generator) {
   if (!block._nimbleServerVarMonitorAttached) {
     block._nimbleServerVarMonitorAttached = true;
     block._nimbleServerVarLastName = block.getFieldValue('VAR') || 'pServer';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._nimbleServerVarLastName, 'NimBLEServer');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._nimbleServerVarLastName;
         if (workspace && newName && newName !== oldName) {
@@ -70,8 +76,7 @@ Arduino.forBlock['nimble_create_server'] = function(block, generator) {
           }
           block._nimbleServerVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -80,7 +85,6 @@ Arduino.forBlock['nimble_create_server'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'pServer';
   
   if (typeof registerVariableToBlockly === 'function') {
-    registerVariableToBlockly(varName, 'NimBLEServer');
   }
   generator.addVariable(varName, 'NimBLEServer* ' + varName + ' = nullptr;');
   
@@ -92,9 +96,15 @@ Arduino.forBlock['nimble_server_create_service'] = function(block, generator) {
   if (!block._nimbleServiceVarMonitorAttached) {
     block._nimbleServiceVarMonitorAttached = true;
     block._nimbleServiceVarLastName = block.getFieldValue('SERVICE_VAR') || 'pService';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._nimbleServiceVarLastName, 'NimBLEService');
     const varField = block.getField('SERVICE_VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._nimbleServiceVarLastName;
         if (workspace && newName && newName !== oldName) {
@@ -103,8 +113,7 @@ Arduino.forBlock['nimble_server_create_service'] = function(block, generator) {
           }
           block._nimbleServiceVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -116,7 +125,6 @@ Arduino.forBlock['nimble_server_create_service'] = function(block, generator) {
   const serviceVar = block.getFieldValue('SERVICE_VAR') || 'pService';
   
   if (typeof registerVariableToBlockly === 'function') {
-    registerVariableToBlockly(serviceVar, 'NimBLEService');
   }
   generator.addVariable(serviceVar, 'NimBLEService* ' + serviceVar + ' = nullptr;');
   
@@ -128,9 +136,15 @@ Arduino.forBlock['nimble_service_create_characteristic'] = function(block, gener
   if (!block._nimbleCharVarMonitorAttached) {
     block._nimbleCharVarMonitorAttached = true;
     block._nimbleCharVarLastName = block.getFieldValue('CHAR_VAR') || 'pCharacteristic';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._nimbleCharVarLastName, 'NimBLECharacteristic');
     const varField = block.getField('CHAR_VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._nimbleCharVarLastName;
         if (workspace && newName && newName !== oldName) {
@@ -139,8 +153,7 @@ Arduino.forBlock['nimble_service_create_characteristic'] = function(block, gener
           }
           block._nimbleCharVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -152,7 +165,6 @@ Arduino.forBlock['nimble_service_create_characteristic'] = function(block, gener
   const charVar = block.getFieldValue('CHAR_VAR') || 'pCharacteristic';
   
   if (typeof registerVariableToBlockly === 'function') {
-    registerVariableToBlockly(charVar, 'NimBLECharacteristic');
   }
   generator.addVariable(charVar, 'NimBLECharacteristic* ' + charVar + ' = nullptr;');
   
@@ -164,9 +176,15 @@ Arduino.forBlock['nimble_service_create_characteristic_props'] = function(block,
   if (!block._nimbleCharVarMonitorAttached) {
     block._nimbleCharVarMonitorAttached = true;
     block._nimbleCharVarLastName = block.getFieldValue('CHAR_VAR') || 'pCharacteristic';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._nimbleClientVarLastName, 'NimBLEClient');
     const varField = block.getField('CHAR_VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._nimbleCharVarLastName;
         if (workspace && newName && newName !== oldName) {
@@ -175,8 +193,7 @@ Arduino.forBlock['nimble_service_create_characteristic_props'] = function(block,
           }
           block._nimbleCharVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -430,9 +447,15 @@ Arduino.forBlock['nimble_create_client'] = function(block, generator) {
   if (!block._nimbleClientVarMonitorAttached) {
     block._nimbleClientVarMonitorAttached = true;
     block._nimbleClientVarLastName = block.getFieldValue('VAR') || 'pClient';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._nimbleRemoteServiceVarLastName, 'NimBLERemoteService');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._nimbleClientVarLastName;
         if (workspace && newName && newName !== oldName) {
@@ -441,8 +464,7 @@ Arduino.forBlock['nimble_create_client'] = function(block, generator) {
           }
           block._nimbleClientVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -451,7 +473,6 @@ Arduino.forBlock['nimble_create_client'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'pClient';
   
   if (typeof registerVariableToBlockly === 'function') {
-    registerVariableToBlockly(varName, 'NimBLEClient');
   }
   generator.addVariable(varName, 'NimBLEClient* ' + varName + ' = nullptr;');
   
@@ -500,9 +521,15 @@ Arduino.forBlock['nimble_client_get_service'] = function(block, generator) {
   if (!block._nimbleRemoteServiceVarMonitorAttached) {
     block._nimbleRemoteServiceVarMonitorAttached = true;
     block._nimbleRemoteServiceVarLastName = block.getFieldValue('SERVICE_VAR') || 'pRemoteService';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._nimbleRemoteCharVarLastName, 'NimBLERemoteCharacteristic');
     const varField = block.getField('SERVICE_VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._nimbleRemoteServiceVarLastName;
         if (workspace && newName && newName !== oldName) {
@@ -511,8 +538,7 @@ Arduino.forBlock['nimble_client_get_service'] = function(block, generator) {
           }
           block._nimbleRemoteServiceVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -524,7 +550,6 @@ Arduino.forBlock['nimble_client_get_service'] = function(block, generator) {
   const serviceVar = block.getFieldValue('SERVICE_VAR') || 'pRemoteService';
   
   if (typeof registerVariableToBlockly === 'function') {
-    registerVariableToBlockly(serviceVar, 'NimBLERemoteService');
   }
   generator.addVariable(serviceVar, 'NimBLERemoteService* ' + serviceVar + ' = nullptr;');
   
@@ -537,8 +562,12 @@ Arduino.forBlock['nimble_remote_service_get_characteristic'] = function(block, g
     block._nimbleRemoteCharVarMonitorAttached = true;
     block._nimbleRemoteCharVarLastName = block.getFieldValue('CHAR_VAR') || 'pRemoteChar';
     const varField = block.getField('CHAR_VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._nimbleRemoteCharVarLastName;
         if (workspace && newName && newName !== oldName) {
@@ -547,8 +576,7 @@ Arduino.forBlock['nimble_remote_service_get_characteristic'] = function(block, g
           }
           block._nimbleRemoteCharVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -560,7 +588,6 @@ Arduino.forBlock['nimble_remote_service_get_characteristic'] = function(block, g
   const charVar = block.getFieldValue('CHAR_VAR') || 'pRemoteChar';
   
   if (typeof registerVariableToBlockly === 'function') {
-    registerVariableToBlockly(charVar, 'NimBLERemoteCharacteristic');
   }
   generator.addVariable(charVar, 'NimBLERemoteCharacteristic* ' + charVar + ' = nullptr;');
   

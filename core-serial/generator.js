@@ -503,16 +503,19 @@ Arduino.forBlock["serial_begin_esp32_custom"] = function (block, generator) {
     block._esp32VarMonitorAttached = true;
     block._esp32VarLastName = block.getFieldValue("VAR") || 'SerialCustom';
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._esp32VarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'Serial');
           block._esp32VarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -553,16 +556,19 @@ Arduino.forBlock["serial_begin_software"] = function (block, generator) {
     block._softwareVarMonitorAttached = true;
     block._softwareVarLastName = block.getFieldValue("VAR") || 'mySerial';
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._softwareVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'Serial');
           block._softwareVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 

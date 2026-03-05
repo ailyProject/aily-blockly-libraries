@@ -7,17 +7,22 @@
 Arduino.forBlock['softwareserial_init'] = function(block, generator) {
   // 变量重命名监听
   if (!block._softserialVarMonitorAttached) {
+  // 初次注册变量到 Blockly 系统（仅执行一次）
+  registerVariableToBlockly(varName, 'SoftwareSerial');
     block._softserialVarMonitorAttached = true;
     block._softserialLastVarName = block.getFieldValue('VAR') || 'mySerial';
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         if (block._softserialLastVarName && block._softserialLastVarName !== newName) {
           renameVariableInBlockly(block, block._softserialLastVarName, newName, 'SoftwareSerial');
           block._softserialLastVarName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -31,7 +36,6 @@ Arduino.forBlock['softwareserial_init'] = function(block, generator) {
   generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
 
   // 注册变量到Blockly
-  registerVariableToBlockly(varName, 'SoftwareSerial');
 
   // 声明SoftwareSerial对象
   generator.addObject(

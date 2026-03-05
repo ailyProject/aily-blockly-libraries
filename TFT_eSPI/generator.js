@@ -154,17 +154,22 @@ Arduino.forBlock['tftespi_setup'] = function(block, generator) {
   if (!block._tftespiVarMonitorAttached) {
     block._tftespiVarMonitorAttached = true;
     block._tftespiVarLastName = block.getFieldValue('VAR') || 'tft';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._tftespiVarLastName, 'TFT_eSPI');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._tftespiVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'TFT_eSPI');
           block._tftespiVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -313,7 +318,6 @@ Arduino.forBlock['tftespi_setup'] = function(block, generator) {
   }
 
   generator.addLibrary('TFT_eSPI', '#include <TFT_eSPI.h>');
-  registerVariableToBlockly(varName, 'TFT_eSPI');
   generator.addVariable(varName, 'TFT_eSPI ' + varName + ' = TFT_eSPI();');
 
   let code = varName + '.init();\n';

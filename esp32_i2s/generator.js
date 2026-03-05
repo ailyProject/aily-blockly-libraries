@@ -4,24 +4,28 @@ Arduino.forBlock['esp32_i2s_create'] = function(block, generator) {
   if (!block._i2sVarMonitorAttached) {
     block._i2sVarMonitorAttached = true;
     block._i2sVarLastName = block.getFieldValue('VAR') || 'i2s';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._i2sVarLastName, 'I2SClass');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._i2sVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'I2SClass');
           block._i2sVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
   const varName = block.getFieldValue('VAR') || 'i2s';
 
   generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
-  registerVariableToBlockly(varName, 'I2SClass');
   generator.addVariable('I2SClass_' + varName, 'I2SClass ' + varName + ';');
 
   return '';

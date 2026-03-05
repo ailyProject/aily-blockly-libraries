@@ -12,17 +12,22 @@ Arduino.forBlock['sscma_begin_i2c'] = function(block, generator) {
   if (!block._sscmaVarMonitorAttached) {
     block._sscmaVarMonitorAttached = true;
     block._sscmaVarLastName = block.getFieldValue('VAR') || 'ai';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._sscmaVarLastName, 'SSCMA');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._sscmaVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'SSCMA');
           block._sscmaVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -34,7 +39,6 @@ Arduino.forBlock['sscma_begin_i2c'] = function(block, generator) {
   // 添加库和变量
   generator.addLibrary('Seeed_Arduino_SSCMA', '#include <Seeed_Arduino_SSCMA.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
-  registerVariableToBlockly(varName, 'SSCMA');
   generator.addObject(varName, 'SSCMA ' + varName + ';');
 
   generator.addSetup(`wire_${wire}_begin`, '' + wire + '.begin(); // 初始化I2C ' + wire);
@@ -55,17 +59,22 @@ Arduino.forBlock['sscma_begin_serial'] = function(block, generator) {
   if (!block._sscmaVarMonitorAttached) {
     block._sscmaVarMonitorAttached = true;
     block._sscmaVarLastName = block.getFieldValue('VAR') || 'ai';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._sscmaVarLastName, 'SSCMA');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._sscmaVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'SSCMA');
           block._sscmaVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -76,7 +85,6 @@ Arduino.forBlock['sscma_begin_serial'] = function(block, generator) {
 
   // 添加库和变量
   generator.addLibrary('Seeed_Arduino_SSCMA', '#include <Seeed_Arduino_SSCMA.h>');
-  registerVariableToBlockly(varName, 'SSCMA');
   generator.addObject(varName, 'SSCMA ' + varName + ';');
 
   // 生成SSCMA初始化代码
@@ -127,17 +135,22 @@ Arduino.forBlock['sscma_begin_spi'] = function(block, generator) {
   if (!block._sscmaVarMonitorAttached) {
     block._sscmaVarMonitorAttached = true;
     block._sscmaVarLastName = block.getFieldValue('VAR') || 'ai';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._sscmaVarLastName, 'SSCMA');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._sscmaVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'SSCMA');
           block._sscmaVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -151,7 +164,6 @@ Arduino.forBlock['sscma_begin_spi'] = function(block, generator) {
   // 添加库和变量
   generator.addLibrary('Seeed_Arduino_SSCMA', '#include <Seeed_Arduino_SSCMA.h>');
   generator.addLibrary('SPI', '#include <SPI.h>');
-  registerVariableToBlockly(varName, 'SSCMA');
   generator.addVariable(varName, 'SSCMA ' + varName + ';');
 
   // 生成初始化代码

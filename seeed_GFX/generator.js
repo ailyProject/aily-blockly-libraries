@@ -94,16 +94,19 @@ Arduino.forBlock['seeed_gfx_init'] = function(block, generator) {
     block._tftVarMonitorAttached = true;
     block._tftVarLastName = block.getFieldValue('VAR') || 'tft';
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._tftVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'TFT_eSPI');
           block._tftVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -372,16 +375,19 @@ Arduino.forBlock['seeed_gfx_epaper_begin'] = function(block, generator) {
     block._epaperVarMonitorAttached = true;
     block._epaperVarLastName = block.getFieldValue('VAR') || 'epaper';
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._epaperVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'EPaper');
           block._epaperVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 

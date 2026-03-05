@@ -3,11 +3,17 @@
 function ensureFieldInputVariable(block, fieldName, varType, defaultName) {
   const monitorKey = `_modbus_${fieldName}_monitor`;
   if (!block[monitorKey]) {
+  // 初次注册变量到 Blockly 系统（仅执行一次）
+  registerVariableToBlockly(name, varType);
     block[monitorKey] = true;
     block[`${monitorKey}_last`] = block.getFieldValue(fieldName) || defaultName;
     const field = block.getField(fieldName);
-    if (field && typeof field.setValidator === "function") {
-      field.setValidator(function (newName) {
+    if (field) {
+      const originalFinishEditing = field.onFinishEditing_;
+      field.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace =
           block.workspace ||
           (typeof Blockly !== "undefined" &&
@@ -18,12 +24,10 @@ function ensureFieldInputVariable(block, fieldName, varType, defaultName) {
           renameVariableInBlockly(block, oldName, newName, varType);
           block[`${monitorKey}_last`] = newName;
         }
-        return newName;
-      });
+      };
     }
   }
   const name = block.getFieldValue(fieldName) || defaultName;
-  registerVariableToBlockly(name, varType);
   return name;
 }
 

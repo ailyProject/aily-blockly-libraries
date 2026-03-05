@@ -8,17 +8,22 @@ Arduino.forBlock['chsc6x_setup'] = function(block, generator) {
   if (!block._chsc6xVarMonitorAttached) {
     block._chsc6xVarMonitorAttached = true;
     block._chsc6xVarLastName = block.getFieldValue('VAR') || 'touch';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._chsc6xVarLastName, 'CHSC6X');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._chsc6xVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'CHSC6X');
           block._chsc6xVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -33,7 +38,6 @@ Arduino.forBlock['chsc6x_setup'] = function(block, generator) {
   // 添加库和变量
   generator.addLibrary('CHSC6X', '#include <CHSC6X.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
-  registerVariableToBlockly(varName, 'CHSC6X');
   generator.addVariable('CHSC6X_' + varName, 'CHSC6X ' + varName + '(' + width + ', ' + height + ', ' + rotation + ', ' + pin + ', ' + address + ', &' + wire + ');');
 
   // 添加初始化代码到setup

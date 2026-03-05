@@ -9,17 +9,22 @@ Arduino.forBlock['speech_init_i2c'] = function(block, generator) {
     if (!block._speechVarMonitorAttached) {
         block._speechVarMonitorAttached = true;
         block._speechVarLastName = block.getFieldValue('VAR') || 'tts';
+        // 初次注册变量到 Blockly 系统（仅执行一次）
+        registerVariableToBlockly(block._speechVarLastName, 'SpeechSynthesis');
         const varField = block.getField('VAR');
-        if (varField && typeof varField.setValidator === 'function') {
-            varField.setValidator(function(newName) {
+        if (varField) {
+            const originalFinishEditing = varField.onFinishEditing_;
+            varField.onFinishEditing_ = function(newName) {
+              if (typeof originalFinishEditing === 'function') {
+                originalFinishEditing.call(this, newName);
+              }
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._speechVarLastName;
                 if (workspace && newName && newName !== oldName) {
                     renameVariableInBlockly(block, oldName, newName, 'SpeechSynthesis');
                     block._speechVarLastName = newName;
                 }
-                return newName;
-            });
+            };
         }
     }
 
@@ -31,7 +36,6 @@ Arduino.forBlock['speech_init_i2c'] = function(block, generator) {
     generator.addLibrary('SpeechSynthesis', '#include <DFRobot_SpeechSynthesis_M.h>');
 
     // 注册变量
-    registerVariableToBlockly(varName, 'SpeechSynthesis');
 
     // 添加对象 - 传入Wire指针
     generator.addObject(varName, 'DFRobot_SpeechSynthesis_I2C ' + varName + '(&' + wire + ');');
@@ -48,17 +52,22 @@ Arduino.forBlock['speech_init_uart'] = function(block, generator) {
     if (!block._speechVarMonitorAttached) {
         block._speechVarMonitorAttached = true;
         block._speechVarLastName = block.getFieldValue('VAR') || 'tts';
+        // 初次注册变量到 Blockly 系统（仅执行一次）
+        registerVariableToBlockly(block._speechVarLastName, 'SpeechSynthesis');
         const varField = block.getField('VAR');
-        if (varField && typeof varField.setValidator === 'function') {
-            varField.setValidator(function(newName) {
+        if (varField) {
+            const originalFinishEditing = varField.onFinishEditing_;
+            varField.onFinishEditing_ = function(newName) {
+              if (typeof originalFinishEditing === 'function') {
+                originalFinishEditing.call(this, newName);
+              }
                 const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
                 const oldName = block._speechVarLastName;
                 if (workspace && newName && newName !== oldName) {
                     renameVariableInBlockly(block, oldName, newName, 'SpeechSynthesis');
                     block._speechVarLastName = newName;
                 }
-                return newName;
-            });
+            };
         }
     }
 
@@ -70,7 +79,6 @@ Arduino.forBlock['speech_init_uart'] = function(block, generator) {
     generator.addLibrary('SpeechSynthesis', '#include <DFRobot_SpeechSynthesis_M.h>');
 
     // 注册变量
-    registerVariableToBlockly(varName, 'SpeechSynthesis');
 
     // 添加对象
     generator.addObject(varName, 'DFRobot_SpeechSynthesis_UART ' + varName + ';');

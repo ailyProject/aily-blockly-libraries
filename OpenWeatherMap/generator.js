@@ -61,15 +61,20 @@ Arduino.forBlock['owm_init'] = function(block, generator) {
   if (!block._owmVarMonitorAttached) {
     block._owmVarMonitorAttached = true;
     block._owmVarLastName = block.getFieldValue('VAR') || 'weather';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._owmVarLastName, 'OpenWeatherMap');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         if (block._owmVarLastName && block._owmVarLastName !== newName) {
           renameVariableInBlockly(block, block._owmVarLastName, newName, 'OpenWeatherMap');
         }
         block._owmVarLastName = newName;
-        return undefined;
-      });
+      };
     }
   }
   
@@ -77,7 +82,6 @@ Arduino.forBlock['owm_init'] = function(block, generator) {
   const apiKey = generator.valueToCode(block, 'API_KEY', generator.ORDER_ATOMIC) || '""';
   
   ensureOWMLib(generator);
-  registerVariableToBlockly(varName, 'OpenWeatherMap');
   generator.addVariable('OpenWeatherMap_' + varName, 'OpenWeatherMap ' + varName + ';');
   
   // 确保相关数据结构变量存在

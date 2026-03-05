@@ -12,17 +12,22 @@ Arduino.forBlock['a2dp_sink_create'] = function(block, generator) {
   if (!block._a2dpSinkVarMonitorAttached) {
     block._a2dpSinkVarMonitorAttached = true;
     block._a2dpSinkVarLastName = block.getFieldValue('VAR') || 'a2dp_sink';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._a2dpSinkVarLastName, 'BluetoothA2DPSink');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._a2dpSinkVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'BluetoothA2DPSink');
           block._a2dpSinkVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -35,7 +40,6 @@ Arduino.forBlock['a2dp_sink_create'] = function(block, generator) {
   generator.addLibrary('BluetoothA2DPSink', '#include "BluetoothA2DPSink.h"');
 
   // 4. 注册变量
-  registerVariableToBlockly(varName, 'BluetoothA2DPSink');
 
   // 5. 根据输出类型生成不同的声明和初始化代码
   if (outputType === 'I2S') {
@@ -207,17 +211,22 @@ Arduino.forBlock['a2dp_source_create'] = function(block, generator) {
   if (!block._a2dpSourceVarMonitorAttached) {
     block._a2dpSourceVarMonitorAttached = true;
     block._a2dpSourceVarLastName = block.getFieldValue('VAR') || 'a2dp_source';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._a2dpSourceVarLastName, 'BluetoothA2DPSource');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._a2dpSourceVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'BluetoothA2DPSource');
           block._a2dpSourceVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -228,7 +237,6 @@ Arduino.forBlock['a2dp_source_create'] = function(block, generator) {
   generator.addLibrary('BluetoothA2DPSource', '#include "BluetoothA2DPSource.h"');
 
   // 4. 注册变量和声明
-  registerVariableToBlockly(varName, 'BluetoothA2DPSource');
   generator.addVariable(varName, 'BluetoothA2DPSource ' + varName + ';');
 
   return '';

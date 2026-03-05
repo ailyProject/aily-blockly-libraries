@@ -774,21 +774,26 @@ Arduino.forBlock["variable_define"] = function (block, generator) {
   if (!block[monitorKey]) {
     block[monitorKey] = true;
     block._varLastName = block.getFieldValue('VAR') || 'variable';
+    // 初次注册变量到 Blockly 系统和工具箱（仅执行一次）
+    if (block._varLastName) {
+      registerVariableToBlockly(block._varLastName, undefined);
+      addVariableToToolbox(block, block._varLastName);
+    }
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      // 只在编辑完成时（按回车或失焦）触发重命名，避免每次输入都触发
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._varLastName;
         if (workspace && newName && newName !== oldName) {
-          // 重命名时也不强制设置类型，保持与原变量一致
-          // const currentType = block.getFieldValue("TYPE") || 'int';
-          // console.log("Renaming variable from", oldName, "to", newName, "with type", currentType);
-          // renameVariableInBlockly(block, oldName, newName, currentType);
           renameVariableInBlockly(block, oldName, newName, undefined);
           block._varLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -796,14 +801,6 @@ Arduino.forBlock["variable_define"] = function (block, generator) {
   let type = block.getFieldValue("TYPE");
   const name = block.getFieldValue("VAR");
   let value = Arduino.valueToCode(block, "VALUE", Arduino.ORDER_ATOMIC);
-
-  // 2. 自动注册变量到Blockly系统
-  if (name) {
-    // 不强制设置类型，让Blockly使用默认的无类型变量
-    registerVariableToBlockly(name, undefined);
-    // 将变量添加到工具箱，这会自动触发展开效果
-    addVariableToToolbox(block, name);
-  }
 
   let defaultValue = "";
 
@@ -849,20 +846,26 @@ Arduino.forBlock["variable_define_scoped"] = function (block, generator) {
   if (!block[monitorKey]) {
     block[monitorKey] = true;
     block._varLastName = block.getFieldValue('VAR') || 'variable';
+    // 初次注册变量到 Blockly 系统和工具箱（仅执行一次）
+    if (block._varLastName) {
+      registerVariableToBlockly(block._varLastName, undefined);
+      addVariableToToolbox(block, block._varLastName);
+    }
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      // 只在编辑完成时（按回车或失焦）触发重命名，避免每次输入都触发
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._varLastName;
         if (workspace && newName && newName !== oldName) {
-          // 重命名时也不强制设置类型，保持与原变量一致
-          // const currentType = block.getFieldValue("TYPE") || 'int';
-          // renameVariableInBlockly(block, oldName, newName, currentType);
           renameVariableInBlockly(block, oldName, newName, undefined);
           block._varLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -871,14 +874,6 @@ Arduino.forBlock["variable_define_scoped"] = function (block, generator) {
   const name = block.getFieldValue("VAR");
   let value = Arduino.valueToCode(block, "VALUE", Arduino.ORDER_ATOMIC);
   const scope = block.getFieldValue("SCOPE"); // local or global
-
-  // 2. 自动注册变量到Blockly系统
-  if (name) {
-    // 不强制设置类型，让Blockly使用默认的无类型变量
-    registerVariableToBlockly(name, undefined);
-    // 将变量添加到工具箱，这会自动触发展开效果
-    addVariableToToolbox(block, name);
-  }
 
   let defaultValue = "";
 
@@ -924,25 +919,26 @@ Arduino.forBlock["variable_define_advanced"] = function (block, generator) {
   if (!block[monitorKey]) {
     block[monitorKey] = true;
     block._varLastName = block.getFieldValue('VAR') || 'variable';
+    // 初次注册变量到 Blockly 系统和工具箱（仅执行一次）
+    if (block._varLastName) {
+      registerVariableToBlockly(block._varLastName, undefined);
+      addVariableToToolbox(block, block._varLastName);
+    }
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      // 只在编辑完成时（按回车或失焦）触发重命名，避免每次输入都触发
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._varLastName;
         if (workspace && newName && newName !== oldName) {
-          // const currentStorage = block.getFieldValue("STORAGE") || '';
-          // const currentQualifier = block.getFieldValue("QUALIFIER") || '';
-          // const currentType = block.getFieldValue("TYPE") || 'int';
-          // let fullType = "";
-          // if (currentStorage) fullType += currentStorage + " ";
-          // if (currentQualifier) fullType += currentQualifier + " ";
-          // fullType += currentType;
-          // renameVariableInBlockly(block, oldName, newName, fullType || '');
           renameVariableInBlockly(block, oldName, newName, undefined);
           block._varLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -951,16 +947,6 @@ Arduino.forBlock["variable_define_advanced"] = function (block, generator) {
   let type = block.getFieldValue("TYPE");
   const name = block.getFieldValue("VAR");
   let value = Arduino.valueToCode(block, "VALUE", Arduino.ORDER_ATOMIC);
-
-  // 2. 自动注册变量到Blockly系统
-  if (name) {
-    // let fullType = "";
-    // if (storage) fullType += storage + " ";
-    // if (qualifier) fullType += qualifier + " ";
-    // fullType += type;
-    registerVariableToBlockly(name, undefined);
-    addVariableToToolbox(block, name);
-  }
 
   let defaultValue = "";
 
@@ -1037,26 +1023,26 @@ Arduino.forBlock["variable_define_advanced_scoped"] = function (block, generator
   if (!block[monitorKey]) {
     block[monitorKey] = true;
     block._varLastName = block.getFieldValue('VAR') || 'variable';
+    // 初次注册变量到 Blockly 系统和工具箱（仅执行一次）
+    if (block._varLastName) {
+      registerVariableToBlockly(block._varLastName, undefined);
+      addVariableToToolbox(block, block._varLastName);
+    }
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      // 只在编辑完成时（按回车或失焦）触发重命名，避免每次输入都触发
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._varLastName;
         if (workspace && newName && newName !== oldName) {
-          // 获取当前块的类型信息
-          // const currentStorage = block.getFieldValue("STORAGE") || '';
-          // const currentQualifier = block.getFieldValue("QUALIFIER") || '';
-          // const currentType = block.getFieldValue("TYPE") || 'int';
-          // let fullType = "";
-          // if (currentStorage) fullType += currentStorage + " ";
-          // if (currentQualifier) fullType += currentQualifier + " ";
-          // fullType += currentType;
-          // renameVariableInBlockly(block, oldName, newName, fullType || '');
           renameVariableInBlockly(block, oldName, newName, undefined);
           block._varLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -1066,17 +1052,6 @@ Arduino.forBlock["variable_define_advanced_scoped"] = function (block, generator
   const name = block.getFieldValue("VAR");
   let value = Arduino.valueToCode(block, "VALUE", Arduino.ORDER_ATOMIC);
   const scope = block.getFieldValue("SCOPE"); // local or global
-
-  // 2. 自动注册变量到Blockly系统（使用真实类型）
-  if (name) {
-    // 构建完整的类型字符串（包含存储类和限定符）
-    // let fullType = "";
-    // if (storage) fullType += storage + " ";
-    // if (qualifier) fullType += qualifier + " ";
-    // fullType += type;
-    registerVariableToBlockly(name, undefined);
-    addVariableToToolbox(block, name);
-  }
 
   let defaultValue = "";
 

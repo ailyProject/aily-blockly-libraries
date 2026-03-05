@@ -9,17 +9,22 @@ Arduino.forBlock['seeed_can_create'] = function(block, generator) {
   if (!block._seeedCanVarMonitorAttached) {
     block._seeedCanVarMonitorAttached = true;
     block._seeedCanVarLastName = block.getFieldValue('VAR') || 'can';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._seeedCanVarLastName, 'MCP_CAN');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._seeedCanVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'MCP_CAN');
           block._seeedCanVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -31,7 +36,6 @@ Arduino.forBlock['seeed_can_create'] = function(block, generator) {
   generator.addLibrary('Seeed_CAN', '#include <mcp2515_can.h>');
   
   // 注册变量到Blockly系统
-  registerVariableToBlockly(varName, 'MCP_CAN');
   
   // 声明CAN对象变量
   generator.addVariable(varName, 'mcp2515_can ' + varName + '(' + csPin + ');');

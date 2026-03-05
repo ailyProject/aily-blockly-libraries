@@ -56,9 +56,15 @@ Arduino.forBlock["capacitivesensor_create"] = function (block, generator) {
     if (!block._capacitiveVarMonitorAttached) {
         block._capacitiveVarMonitorAttached = true;
         block._capacitiveVarLastName = block.getFieldValue("VAR") || "sensor";
+        // 初次注册变量到 Blockly 系统（仅执行一次）
+        registerVariableToBlockly(block._capacitiveVarLastName, "CapacitiveSensor");
         const varField = block.getField("VAR");
-        if (varField && typeof varField.setValidator === "function") {
-            varField.setValidator(function (newName) {
+        if (varField) {
+            const originalFinishEditing = varField.onFinishEditing_;
+            varField.onFinishEditing_ = function(newName) {
+                if (typeof originalFinishEditing === 'function') {
+                    originalFinishEditing.call(this, newName);
+                }
                 const workspace =
                     block.workspace ||
                     (typeof Blockly !== "undefined" &&
@@ -74,8 +80,7 @@ Arduino.forBlock["capacitivesensor_create"] = function (block, generator) {
                     );
                     block._capacitiveVarLastName = newName;
                 }
-                return newName;
-            });
+            };
         }
     }
 
@@ -87,7 +92,6 @@ Arduino.forBlock["capacitivesensor_create"] = function (block, generator) {
         "#include <CapacitiveSensor.h>",
         "#include <CapacitiveSensor.h>",
     );
-    registerVariableToBlockly(varName, "CapacitiveSensor");
     const variableKey = "capacitivesensor_" + varName;
     generator.addVariable(
         variableKey,

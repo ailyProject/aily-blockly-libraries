@@ -13,17 +13,22 @@ Arduino.forBlock['pca9685_create'] = function(block, generator) {
   if (!block._pca9685VarMonitorAttached) {
     block._pca9685VarMonitorAttached = true;
     block._pca9685VarLastName = block.getFieldValue('VAR') || 'pwm';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._pca9685VarLastName, 'Adafruit_PWMServoDriver');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._pca9685VarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'Adafruit_PWMServoDriver');
           block._pca9685VarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -40,7 +45,6 @@ Arduino.forBlock['pca9685_create'] = function(block, generator) {
   // 添加库和变量
   generator.addLibrary('Adafruit_PWMServoDriver', '#include <Adafruit_PWMServoDriver.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
-  registerVariableToBlockly(varName, 'Adafruit_PWMServoDriver');
   generator.addVariable(varName, 'Adafruit_PWMServoDriver ' + varName + ' = Adafruit_PWMServoDriver();');
   
   return '';

@@ -9,17 +9,22 @@ Arduino.forBlock['onebutton_setup'] = function(block, generator) {
   if (!block._onebuttonVarMonitorAttached) {
     block._onebuttonVarMonitorAttached = true;
     block._onebuttonVarLastName = block.getFieldValue('VAR') || 'button';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._onebuttonVarLastName, 'OneButton');
     const varField = block.getField('VAR');
-    if (varField && typeof varField.setValidator === 'function') {
-      varField.setValidator(function(newName) {
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._onebuttonVarLastName;
         if (workspace && newName && newName !== oldName) {
           renameVariableInBlockly(block, oldName, newName, 'OneButton');
           block._onebuttonVarLastName = newName;
         }
-        return newName;
-      });
+      };
     }
   }
 
@@ -31,7 +36,6 @@ Arduino.forBlock['onebutton_setup'] = function(block, generator) {
 
   // 3. 库和变量管理
   generator.addLibrary('#include <OneButton.h>', '#include <OneButton.h>');
-  registerVariableToBlockly(varName, 'OneButton');
   generator.addVariable('OneButton ' + varName, 'OneButton ' + varName + ';');
 
   // 4. 自动添加tick()到主循环
