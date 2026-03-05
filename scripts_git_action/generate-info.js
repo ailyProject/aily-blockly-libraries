@@ -12,7 +12,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const LIBRARIES_DIR = __dirname;
+const LIBRARIES_DIR = path.join(__dirname, '..');
 
 // 需要排除的目录
 const EXCLUDE_DIRS = ['node_modules', '.git', 'archive', 'template', '.github'];

@@ -57,7 +57,7 @@ jobs:
         echo "开始检测变更的库..."
         
         # 使用统一的检测脚本，自动读取配置文件
-        if ! node validate-library-compliance.js --changed; then
+        if ! node scripts_git_action/validate-library-compliance.js --changed; then
           echo "validation_passed=false" >> $GITHUB_OUTPUT
           echo "💥 库规范检测失败，请查看详细报告并修复问题"
           exit 1
@@ -118,15 +118,15 @@ jobs:
             comment += '\n💡 **本地检测**: \n';
             comment += '```bash\n';
             comment += '# 检测变更的库\n';
-            comment += 'node validate-library-compliance.js --changed\n\n';
-            comment += '# 检测指定库\n';
-            comment += 'node validate-library-compliance.js <库名>\n';
+            comment += 'node scripts_git_action/validate-library-compliance.js --changed\n\n';
+              comment += '# 检测指定库\n';
+            comment += 'node scripts_git_action/validate-library-compliance.js <库名>\n';
             comment += '```\n\n';
             comment += '📖 **规范文档**: \n';
             comment += '- [Arduino库转Blockly库规范](https://github.com/${{ github.repository }}/blob/main/Arduino库转Blockly库规范.md)\n';
             comment += '- [配置文件](.github/compliance-config.yml)\n\n';
             comment += '---\n';
-            comment += '*检测由 [库规范检测系统](https://github.com/${{ github.repository }}/blob/main/validate-library-compliance.js) 自动完成 | 运行ID: ${{ github.run_id }}*';
+            comment += '*检测由 [库规范检测系统](https://github.com/${{ github.repository }}/blob/main/scripts_git_action/validate-library-compliance.js) 自动完成 | 运行ID: ${{ github.run_id }}*';
             
             if (botComment) {
               await github.rest.issues.updateComment({
