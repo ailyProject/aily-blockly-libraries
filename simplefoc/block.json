@@ -1,0 +1,773 @@
+[
+  {
+    "type": "simplefoc_bldc_create",
+    "message0": "create BLDC motor %1 pole pairs %2 phase resistance %3 KV %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "motor"
+      },
+      {
+        "type": "input_value",
+        "name": "POLE_PAIRS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "R",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "KV",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Create a BLDC motor object with specified parameters",
+    "helpUrl": "https://docs.simplefoc.com/bldcmotor"
+  },
+  {
+    "type": "simplefoc_stepper_create",
+    "message0": "create Stepper motor %1 pole pairs %2 phase resistance %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "stepper"
+      },
+      {
+        "type": "input_value",
+        "name": "POLE_PAIRS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "R",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Create a Stepper motor object",
+    "helpUrl": "https://docs.simplefoc.com/steppermotor"
+  },
+  {
+    "type": "simplefoc_driver_3pwm_create",
+    "message0": "create 3PWM driver %1 pins A %2 B %3 C %4 enable %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "driver"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN_A",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN_B",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN_C",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ENABLE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "Create a 3PWM BLDC driver",
+    "helpUrl": "https://docs.simplefoc.com/bldcdriver3pwm"
+  },
+  {
+    "type": "simplefoc_driver_6pwm_create",
+    "message0": "create 6PWM driver %1 pins AH %2 AL %3 BH %4 BL %5 CH %6 CL %7",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "driver"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN_AH",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN_AL",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN_BH",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN_BL",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN_CH",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN_CL",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "Create a 6PWM BLDC driver",
+    "helpUrl": "https://docs.simplefoc.com/bldcdriver6pwm"
+  },
+  {
+    "type": "simplefoc_encoder_create",
+    "message0": "create encoder %1 pins A %2 B %3 CPR %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "encoder"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN_A",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN_B",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CPR",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "Create an encoder sensor",
+    "helpUrl": "https://docs.simplefoc.com/encoder"
+  },
+  {
+    "type": "simplefoc_magnetic_spi_create",
+    "message0": "create magnetic sensor SPI %1 chip select %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "sensor"
+      },
+      {
+        "type": "input_value",
+        "name": "CS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "Create a magnetic sensor via SPI (AS5048, AS5147, etc.)",
+    "helpUrl": "https://docs.simplefoc.com/magnetic_sensor_spi"
+  },
+  {
+    "type": "simplefoc_magnetic_i2c_create",
+    "message0": "create magnetic sensor I2C %1 address %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "sensor"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "Create a magnetic sensor via I2C (AS5600, etc.)",
+    "helpUrl": "https://docs.simplefoc.com/magnetic_sensor_i2c"
+  },
+  {
+    "type": "simplefoc_motor_link_driver",
+    "message0": "motor %1 link driver %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      },
+      {
+        "type": "field_variable",
+        "name": "DRIVER",
+        "variable": "driver",
+        "variableTypes": ["BLDCDriver", "StepperDriver"],
+        "defaultType": "BLDCDriver"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Link driver to motor",
+    "helpUrl": "https://docs.simplefoc.com/motor_link_driver"
+  },
+  {
+    "type": "simplefoc_motor_link_sensor",
+    "message0": "motor %1 link sensor %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      },
+      {
+        "type": "field_variable",
+        "name": "SENSOR",
+        "variable": "encoder",
+        "variableTypes": ["Sensor", "Encoder", "MagneticSensorSPI", "MagneticSensorI2C"],
+        "defaultType": "Sensor"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Link sensor to motor",
+    "helpUrl": "https://docs.simplefoc.com/motor_link_sensor"
+  },
+  {
+    "type": "simplefoc_driver_init",
+    "message0": "driver %1 init voltage supply %2 V",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "DRIVER",
+        "variable": "driver",
+        "variableTypes": ["BLDCDriver", "StepperDriver"],
+        "defaultType": "BLDCDriver"
+      },
+      {
+        "type": "input_value",
+        "name": "VOLTAGE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "Initialize driver with power supply voltage",
+    "helpUrl": "https://docs.simplefoc.com/driver_init"
+  },
+  {
+    "type": "simplefoc_sensor_init",
+    "message0": "sensor %1 init",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "SENSOR",
+        "variable": "encoder",
+        "variableTypes": ["Sensor", "Encoder", "MagneticSensorSPI", "MagneticSensorI2C"],
+        "defaultType": "Sensor"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "Initialize sensor",
+    "helpUrl": "https://docs.simplefoc.com/sensor_init"
+  },
+  {
+    "type": "simplefoc_encoder_enable_interrupts",
+    "message0": "encoder %1 enable interrupts",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "SENSOR",
+        "variable": "encoder",
+        "variableTypes": ["Encoder"],
+        "defaultType": "Encoder"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "Enable encoder hardware interrupts",
+    "helpUrl": "https://docs.simplefoc.com/encoder_interrupts"
+  },
+  {
+    "type": "simplefoc_motor_init",
+    "message0": "motor %1 init",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Initialize motor",
+    "helpUrl": "https://docs.simplefoc.com/motor_init"
+  },
+  {
+    "type": "simplefoc_motor_initfoc",
+    "message0": "motor %1 init FOC",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Initialize FOC algorithm and align sensor",
+    "helpUrl": "https://docs.simplefoc.com/init_foc"
+  },
+  {
+    "type": "simplefoc_motor_set_controller",
+    "message0": "motor %1 set control mode %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["torque", "torque"],
+          ["velocity", "velocity"],
+          ["angle/position", "angle"],
+          ["velocity openloop", "velocity_openloop"],
+          ["angle openloop", "angle_openloop"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Set motor control mode",
+    "helpUrl": "https://docs.simplefoc.com/motion_control"
+  },
+  {
+    "type": "simplefoc_motor_set_torque",
+    "message0": "motor %1 set torque mode %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["voltage", "voltage"],
+          ["DC current", "dc_current"],
+          ["FOC current", "foc_current"],
+          ["estimated current", "estimated_current"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Set torque control type",
+    "helpUrl": "https://docs.simplefoc.com/torque_control"
+  },
+  {
+    "type": "simplefoc_motor_move",
+    "message0": "motor %1 move target %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Move motor to target (voltage, velocity or angle depending on control mode)",
+    "helpUrl": "https://docs.simplefoc.com/motor_move"
+  },
+  {
+    "type": "simplefoc_motor_loopfoc",
+    "message0": "motor %1 loop FOC",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Execute FOC loop (should be called as fast as possible)",
+    "helpUrl": "https://docs.simplefoc.com/loop_foc"
+  },
+  {
+    "type": "simplefoc_motor_pid_velocity",
+    "message0": "motor %1 set velocity PID P %2 I %3 D %4 output ramp %5 limit %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      },
+      {
+        "type": "input_value",
+        "name": "P",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "I",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "D",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "RAMP",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LIMIT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "Configure velocity PID controller",
+    "helpUrl": "https://docs.simplefoc.com/velocity_pid"
+  },
+  {
+    "type": "simplefoc_motor_pid_angle",
+    "message0": "motor %1 set angle P %2 velocity limit %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      },
+      {
+        "type": "input_value",
+        "name": "P",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "VEL_LIMIT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "Configure angle/position P controller",
+    "helpUrl": "https://docs.simplefoc.com/angle_pid"
+  },
+  {
+    "type": "simplefoc_motor_pid_current",
+    "message0": "motor %1 set current PID P %2 I %3 D %4 limit %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      },
+      {
+        "type": "input_value",
+        "name": "P",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "I",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "D",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LIMIT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "Configure current PID controller",
+    "helpUrl": "https://docs.simplefoc.com/current_pid"
+  },
+  {
+    "type": "simplefoc_motor_set_limits",
+    "message0": "motor %1 set voltage limit %2 V current limit %3 A",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      },
+      {
+        "type": "input_value",
+        "name": "VOLTAGE_LIMIT",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CURRENT_LIMIT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Set motor voltage and current limits",
+    "helpUrl": "https://docs.simplefoc.com/motor_limits"
+  },
+  {
+    "type": "simplefoc_motor_get_angle",
+    "message0": "motor %1 shaft angle",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50",
+    "tooltip": "Get motor shaft angle in radians",
+    "helpUrl": "https://docs.simplefoc.com/shaft_angle"
+  },
+  {
+    "type": "simplefoc_motor_get_velocity",
+    "message0": "motor %1 shaft velocity",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50",
+    "tooltip": "Get motor shaft velocity in rad/s",
+    "helpUrl": "https://docs.simplefoc.com/shaft_velocity"
+  },
+  {
+    "type": "simplefoc_motor_enable",
+    "message0": "motor %1 enable",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Enable motor output",
+    "helpUrl": "https://docs.simplefoc.com/motor_enable"
+  },
+  {
+    "type": "simplefoc_motor_disable",
+    "message0": "motor %1 disable",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Disable motor output",
+    "helpUrl": "https://docs.simplefoc.com/motor_disable"
+  },
+  {
+    "type": "simplefoc_lowside_current_sense_create",
+    "message0": "create low-side current sense %1 pins A %2 B %3 C %4 shunt resistance %5 gain %6",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "current_sense"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN_A",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN_B",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN_C",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SHUNT_R",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "GAIN",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "Create low-side current sensing",
+    "helpUrl": "https://docs.simplefoc.com/lowside_current_sense"
+  },
+  {
+    "type": "simplefoc_current_sense_link_driver",
+    "message0": "current sense %1 link driver %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CURRENT_SENSE",
+        "variable": "current_sense",
+        "variableTypes": ["CurrentSense"],
+        "defaultType": "CurrentSense"
+      },
+      {
+        "type": "field_variable",
+        "name": "DRIVER",
+        "variable": "driver",
+        "variableTypes": ["BLDCDriver"],
+        "defaultType": "BLDCDriver"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "Link driver to current sense",
+    "helpUrl": "https://docs.simplefoc.com/current_sense_link_driver"
+  },
+  {
+    "type": "simplefoc_motor_link_current_sense",
+    "message0": "motor %1 link current sense %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MOTOR",
+        "variable": "motor",
+        "variableTypes": ["BLDCMotor", "StepperMotor"],
+        "defaultType": "BLDCMotor"
+      },
+      {
+        "type": "field_variable",
+        "name": "CURRENT_SENSE",
+        "variable": "current_sense",
+        "variableTypes": ["CurrentSense"],
+        "defaultType": "CurrentSense"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Link current sense to motor",
+    "helpUrl": "https://docs.simplefoc.com/motor_link_current_sense"
+  },
+  {
+    "type": "simplefoc_current_sense_init",
+    "message0": "current sense %1 init",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CURRENT_SENSE",
+        "variable": "current_sense",
+        "variableTypes": ["CurrentSense"],
+        "defaultType": "CurrentSense"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "Initialize current sensing",
+    "helpUrl": "https://docs.simplefoc.com/current_sense_init"
+  }
+]
