@@ -1,0 +1,296 @@
+[
+  {
+    "type": "ds1302_setup",
+    "message0": "DS1302 初始化 %1 CE引脚 %2 IO引脚 %3 SCLK引脚 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "rtc"
+      },
+      {
+        "type": "input_value",
+        "name": "CE_PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "IO_PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "SCLK_PIN",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化DS1302 RTC时钟模块，设置CE、IO、SCLK引脚"
+  },
+  {
+    "type": "ds1302_set_write_protect",
+    "message0": "%1 设置写保护 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["DS1302"],
+        "defaultType": "DS1302"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ENABLE",
+        "options": [
+          ["启用", "TRUE"],
+          ["禁用", "FALSE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "启用或禁用DS1302的写保护功能"
+  },
+  {
+    "type": "ds1302_set_halt",
+    "message0": "%1 设置时钟停止 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["DS1302"],
+        "defaultType": "DS1302"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "HALT",
+        "options": [
+          ["停止", "TRUE"],
+          ["运行", "FALSE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "停止或启动DS1302的时钟振荡器"
+  },
+  {
+    "type": "ds1302_get_time",
+    "message0": "%1 获取当前时间",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["DS1302"],
+        "defaultType": "DS1302"
+      }
+    ],
+    "output": "Time",
+    "colour": "#4CAF50",
+    "tooltip": "从DS1302读取当前时间，返回Time对象"
+  },
+  {
+    "type": "ds1302_set_time",
+    "message0": "%1 设置时间 年 %2 月 %3 日 %4 时 %5 分 %6 秒 %7 星期 %8",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["DS1302"],
+        "defaultType": "DS1302"
+      },
+      {
+        "type": "input_value",
+        "name": "YEAR",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "MONTH",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "DAY",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "HOUR",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "MINUTE",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "SECOND",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "WEEKDAY",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置DS1302的时间（年、月、日、时、分、秒、星期）"
+  },
+  {
+    "type": "ds1302_get_year",
+    "message0": "时间 %1 的年份",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": ["Time"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取Time对象的年份(2000-2099)"
+  },
+  {
+    "type": "ds1302_get_month",
+    "message0": "时间 %1 的月份",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": ["Time"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取Time对象的月份(1-12)"
+  },
+  {
+    "type": "ds1302_get_day",
+    "message0": "时间 %1 的日期",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": ["Time"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取Time对象的日期(1-31)"
+  },
+  {
+    "type": "ds1302_get_hour",
+    "message0": "时间 %1 的小时",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": ["Time"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取Time对象的小时(0-23)"
+  },
+  {
+    "type": "ds1302_get_minute",
+    "message0": "时间 %1 的分钟",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": ["Time"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取Time对象的分钟(0-59)"
+  },
+  {
+    "type": "ds1302_get_second",
+    "message0": "时间 %1 的秒数",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": ["Time"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取Time对象的秒数(0-59)"
+  },
+  {
+    "type": "ds1302_get_weekday",
+    "message0": "时间 %1 的星期",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": ["Time"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取Time对象的星期(1=星期日, 2=星期一, ..., 7=星期六)"
+  },
+  {
+    "type": "ds1302_write_ram",
+    "message0": "%1 写入RAM 地址 %2 值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["DS1302"],
+        "defaultType": "DS1302"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "向DS1302的RAM写入一个字节(地址范围0-30)"
+  },
+  {
+    "type": "ds1302_read_ram",
+    "message0": "%1 读取RAM 地址 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["DS1302"],
+        "defaultType": "DS1302"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": ["Number"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#2196F3",
+    "tooltip": "从DS1302的RAM读取一个字节(地址范围0-30)"
+  }
+]

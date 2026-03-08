@@ -12,9 +12,9 @@ Arduino.forBlock["ultrasonic_ranging"] = function (block, generator) {
   delay(10);
   return distance;
 }`;
-  Arduino.addFunction("ultrasonic_ranging", code);
+  Arduino.addFunction(functionName, code);
   Arduino.addSetupBegin(
-    "ultrasonic_ranging",
+    functionName,
     `  pinMode(${pin1}, OUTPUT);
   pinMode(${pin2}, INPUT);\n`,
   );
