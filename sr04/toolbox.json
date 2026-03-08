@@ -1,0 +1,81 @@
+{
+  "kind": "category",
+  "name": "SR04超声波",
+  "colour": "#5C9A5C",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "传感器初始化"
+    },
+    {
+      "kind": "block",
+      "type": "sr04_setup",
+      "inputs": {
+        "TRIG_PIN": {
+          "shadow": {
+            "type": "io_pin_digi",
+            "fields": {
+              "PIN": 2
+            }
+          }
+        },
+        "ECHO_PIN": {
+          "shadow": {
+            "type": "io_pin_digi",
+            "fields": {
+              "PIN": 3
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "距离测量"
+    },
+    {
+      "kind": "block",
+      "type": "sr04_measure_distance"
+    },
+    {
+      "kind": "block",
+      "type": "sr04_measure_distance_with_temp",
+      "inputs": {
+        "TEMPERATURE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 20
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "快速操作"
+    },
+    {
+      "kind": "block",
+      "type": "sr04_measure_quick",
+      "inputs": {
+        "TRIG_PIN": {
+          "shadow": {
+            "type": "io_pin_digi",
+            "fields": {
+              "PIN": 2
+            }
+          }
+        },
+        "ECHO_PIN": {
+          "shadow": {
+            "type": "io_pin_digi",
+            "fields": {
+              "PIN": 3
+            }
+          }
+        }
+      }
+    }
+  ]
+}
