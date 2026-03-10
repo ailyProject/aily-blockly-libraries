@@ -1,0 +1,119 @@
+[
+  {
+    "type": "dm11_init",
+    "message0": "初始化 DM11 %1 I2C地址 %2 PWM频率 %3 Hz",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "dm11"
+      },
+      {
+        "type": "field_input",
+        "name": "I2C_ADDR",
+        "text": "0x15"
+      },
+      {
+        "type": "input_value",
+        "name": "FREQUENCY",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化DM11电机驱动模块，默认I2C地址0x15，默认PWM频率1000Hz",
+    "icon": "iconfont icon-motor"
+  },
+  {
+    "type": "dm11_pwm_duty",
+    "message0": "DM11 %1 设置通道 %2 PWM占空比为 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "dm11",
+        "variableTypes": ["Dm11"],
+        "defaultType": "Dm11"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          ["通道0", "0"],
+          ["通道1", "1"],
+          ["通道2", "2"],
+          ["通道3", "3"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DUTY",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置指定PWM通道的占空比，范围0-4095",
+    "icon": "iconfont icon-motor"
+  },
+  {
+    "type": "dm11_motor_control",
+    "message0": "DM11 %1 控制 %2 速度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "dm11",
+        "variableTypes": ["Dm11"],
+        "defaultType": "Dm11"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR",
+        "options": [
+          ["电机A", "A"],
+          ["电机B", "B"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "控制电机速度，正值正转，负值反转，范围-4095到4095",
+    "icon": "iconfont icon-motor"
+  },
+  {
+    "type": "dm11_motor_stop",
+    "message0": "DM11 %1 停止 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "dm11",
+        "variableTypes": ["Dm11"],
+        "defaultType": "Dm11"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR",
+        "options": [
+          ["电机A", "A"],
+          ["电机B", "B"],
+          ["所有电机", "ALL"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "停止指定电机或所有电机",
+    "icon": "iconfont icon-motor"
+  }
+]
