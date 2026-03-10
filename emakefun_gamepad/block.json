@@ -1,0 +1,616 @@
+[
+  {
+    "type": "emakefun_gamepad_initialize",
+    "message0": "初始化游戏手柄 %1 启用陀螺仪 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "gamepad"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ENABLE_GYRO",
+        "options": [
+          [
+            "是",
+            "true"
+          ],
+          [
+            "否",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5B80A5",
+    "tooltip": "初始化Emakefun游戏手柄",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_model_create",
+    "message0": "创建游戏手柄模型 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "gamepadModel"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5B80A5",
+    "tooltip": "创建游戏手柄数据模型",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_attach_model",
+    "message0": "手柄 %1 绑定模型 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "GAMEPAD",
+        "variable": "gamepad",
+        "variableTypes": [
+          "Gamepad"
+        ],
+        "defaultType": "Gamepad"
+      },
+      {
+        "type": "field_variable",
+        "name": "MODEL",
+        "variable": "gamepadModel",
+        "variableTypes": [
+          "GamepadModel"
+        ],
+        "defaultType": "GamepadModel"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5B80A5",
+    "tooltip": "将数据模型绑定到手柄",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_model_add_observer",
+    "message0": "模型 %1 添加数据观察者 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MODEL",
+        "variable": "gamepadModel",
+        "variableTypes": [
+          "GamepadModel"
+        ],
+        "defaultType": "GamepadModel"
+      },
+      {
+        "type": "field_variable",
+        "name": "OBSERVER",
+        "variable": "publisher",
+        "variableTypes": [
+          "GamepadPublisher"
+        ],
+        "defaultType": "GamepadPublisher"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5B80A5",
+    "tooltip": "添加观察者，数据变化时自动发送",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_button_pressed",
+    "message0": "当模型 %1 的按键 %2 被按下时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MODEL",
+        "variable": "gamepadModel",
+        "variableTypes": [
+          "GamepadModel"
+        ],
+        "defaultType": "GamepadModel"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "摇杆按键",
+            "0"
+          ],
+          [
+            "L键",
+            "1"
+          ],
+          [
+            "R键",
+            "2"
+          ],
+          [
+            "Select键",
+            "3"
+          ],
+          [
+            "Mode键",
+            "4"
+          ],
+          [
+            "A键",
+            "5"
+          ],
+          [
+            "B键",
+            "6"
+          ],
+          [
+            "C键",
+            "7"
+          ],
+          [
+            "D键",
+            "8"
+          ]
+        ]
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#5CB85C",
+    "tooltip": "按键按下事件",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_button_released",
+    "message0": "当模型 %1 的按键 %2 被释放时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MODEL",
+        "variable": "gamepadModel",
+        "variableTypes": [
+          "GamepadModel"
+        ],
+        "defaultType": "GamepadModel"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "摇杆按键",
+            "0"
+          ],
+          [
+            "L键",
+            "1"
+          ],
+          [
+            "R键",
+            "2"
+          ],
+          [
+            "Select键",
+            "3"
+          ],
+          [
+            "Mode键",
+            "4"
+          ],
+          [
+            "A键",
+            "5"
+          ],
+          [
+            "B键",
+            "6"
+          ],
+          [
+            "C键",
+            "7"
+          ],
+          [
+            "D键",
+            "8"
+          ]
+        ]
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#5CB85C",
+    "tooltip": "按键释放事件",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_get_button_state",
+    "message0": "模型 %1 的按键 %2 被按下",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MODEL",
+        "variable": "gamepadModel",
+        "variableTypes": [
+          "GamepadModel"
+        ],
+        "defaultType": "GamepadModel"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "摇杆按键",
+            "0"
+          ],
+          [
+            "L键",
+            "1"
+          ],
+          [
+            "R键",
+            "2"
+          ],
+          [
+            "Select键",
+            "3"
+          ],
+          [
+            "Mode键",
+            "4"
+          ],
+          [
+            "A键",
+            "5"
+          ],
+          [
+            "B键",
+            "6"
+          ],
+          [
+            "C键",
+            "7"
+          ],
+          [
+            "D键",
+            "8"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5B80A5",
+    "tooltip": "检查按键是否被按下",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_get_joystick_x",
+    "message0": "模型 %1 的摇杆X值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MODEL",
+        "variable": "gamepadModel",
+        "variableTypes": [
+          "GamepadModel"
+        ],
+        "defaultType": "GamepadModel"
+      }
+    ],
+    "output": "Number",
+    "colour": "#5B80A5",
+    "tooltip": "获取摇杆X轴坐标 (0-255)",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_get_joystick_y",
+    "message0": "模型 %1 的摇杆Y值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MODEL",
+        "variable": "gamepadModel",
+        "variableTypes": [
+          "GamepadModel"
+        ],
+        "defaultType": "GamepadModel"
+      }
+    ],
+    "output": "Number",
+    "colour": "#5B80A5",
+    "tooltip": "获取摇杆Y轴坐标 (0-255)",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_get_gravity_x",
+    "message0": "模型 %1 的重力加速度X值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MODEL",
+        "variable": "gamepadModel",
+        "variableTypes": [
+          "GamepadModel"
+        ],
+        "defaultType": "GamepadModel"
+      }
+    ],
+    "output": "Number",
+    "colour": "#5B80A5",
+    "tooltip": "获取重力加速度X值",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_get_gravity_y",
+    "message0": "模型 %1 的重力加速度Y值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MODEL",
+        "variable": "gamepadModel",
+        "variableTypes": [
+          "GamepadModel"
+        ],
+        "defaultType": "GamepadModel"
+      }
+    ],
+    "output": "Number",
+    "colour": "#5B80A5",
+    "tooltip": "获取重力加速度Y值",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_get_gravity_z",
+    "message0": "模型 %1 的重力加速度Z值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MODEL",
+        "variable": "gamepadModel",
+        "variableTypes": [
+          "GamepadModel"
+        ],
+        "defaultType": "GamepadModel"
+      }
+    ],
+    "output": "Number",
+    "colour": "#5B80A5",
+    "tooltip": "获取重力加速度Z值",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_new_joystick_coordinate",
+    "message0": "模型 %1 摇杆坐标改变",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MODEL",
+        "variable": "gamepadModel",
+        "variableTypes": [
+          "GamepadModel"
+        ],
+        "defaultType": "GamepadModel"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5B80A5",
+    "tooltip": "检查摇杆坐标是否发生变化",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_new_gravity_acceleration",
+    "message0": "模型 %1 重力加速度改变",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MODEL",
+        "variable": "gamepadModel",
+        "variableTypes": [
+          "GamepadModel"
+        ],
+        "defaultType": "GamepadModel"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5B80A5",
+    "tooltip": "检查重力加速度是否发生变化",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_publisher_rf24_create",
+    "message0": "创建RF24发送器 %1 CE引脚 %2 CS引脚 %3 信道 %4 地址宽度 %5 地址 %6",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "publisher"
+      },
+      {
+        "type": "input_value",
+        "name": "CE_PIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CS_PIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDR_WIDTH",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "创建2.4G无线发送器",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_subscriber_rf24_create",
+    "message0": "创建RF24接收器 %1 CE引脚 %2 CS引脚 %3 信道 %4 地址宽度 %5 地址 %6",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "subscriber"
+      },
+      {
+        "type": "input_value",
+        "name": "CE_PIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CS_PIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDR_WIDTH",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4ECDC4",
+    "tooltip": "创建2.4G无线接收器",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_subscriber_rf24_attach_model",
+    "message0": "RF24接收器 %1 绑定模型 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "SUBSCRIBER",
+        "variable": "subscriber",
+        "variableTypes": [
+          "GamepadSubscriberRf24"
+        ],
+        "defaultType": "GamepadSubscriberRf24"
+      },
+      {
+        "type": "field_variable",
+        "name": "MODEL",
+        "variable": "gamepadModel",
+        "variableTypes": [
+          "GamepadModel"
+        ],
+        "defaultType": "GamepadModel"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4ECDC4",
+    "tooltip": "将数据模型绑定到RF24接收器",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_publisher_ble_create",
+    "message0": "创建BLE发送器 %1 串口 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "publisher"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "创建BLE蓝牙发送器",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_subscriber_ble_create",
+    "message0": "创建BLE接收器 %1 串口 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "subscriber"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4ECDC4",
+    "tooltip": "创建BLE蓝牙接收器",
+    "icon": "fa-light fa-gamepad"
+  },
+  {
+    "type": "emakefun_gamepad_subscriber_ble_attach_model",
+    "message0": "BLE接收器 %1 绑定模型 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "SUBSCRIBER",
+        "variable": "subscriber",
+        "variableTypes": [
+          "GamepadSubscriberBle"
+        ],
+        "defaultType": "GamepadSubscriberBle"
+      },
+      {
+        "type": "field_variable",
+        "name": "MODEL",
+        "variable": "gamepadModel",
+        "variableTypes": [
+          "GamepadModel"
+        ],
+        "defaultType": "GamepadModel"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4ECDC4",
+    "tooltip": "将数据模型绑定到BLE接收器",
+    "icon": "fa-light fa-gamepad"
+  }
+]
