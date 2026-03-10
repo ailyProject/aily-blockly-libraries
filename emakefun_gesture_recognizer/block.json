@@ -1,0 +1,68 @@
+[
+  {
+    "type": "gesture_recognizer_setup",
+    "icon": "fa-light fa-hand",
+    "message0": "初始化手势识别传感器 %1 I2C地址 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "gesture"
+      },
+      {
+        "type": "field_input",
+        "name": "I2C_ADDRESS",
+        "text": "0x39"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "创建并初始化手势识别传感器，默认I2C地址为0x39",
+    "helpUrl": "https://emakefun-arduino-library.github.io/emakefun_gesture_recognizer/"
+  },
+  {
+    "type": "gesture_recognizer_get_gesture",
+    "icon": "fa-light fa-hand",
+    "message0": "获取 %1 识别到的手势",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gesture",
+        "variableTypes": ["GestureRecognizer"],
+        "defaultType": "GestureRecognizer"
+      }
+    ],
+    "output": "Number",
+    "colour": "#00BCD4",
+    "tooltip": "获取当前识别到的手势，返回手势类型代码",
+    "helpUrl": "https://emakefun-arduino-library.github.io/emakefun_gesture_recognizer/"
+  },
+  {
+    "type": "gesture_recognizer_gesture_type",
+    "icon": "fa-light fa-hand",
+    "message0": "手势类型 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "GESTURE_TYPE",
+        "options": [
+          ["无手势", "0"],
+          ["右移", "1"],
+          ["左移", "2"],
+          ["后移", "3"],
+          ["前移", "4"],
+          ["上拉", "5"],
+          ["下压", "6"],
+          ["离开感应区", "7"],
+          ["悬停", "8"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#00BCD4",
+    "tooltip": "手势类型常量，用于判断识别到的手势",
+    "helpUrl": "https://emakefun-arduino-library.github.io/emakefun_gesture_recognizer/"
+  }
+]
