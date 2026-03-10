@@ -1,0 +1,253 @@
+[
+  {
+    "type": "matrix_keyboard_init",
+    "icon": "fa-light fa-grid-4",
+    "message0": "初始化矩阵键盘 %1 I2C地址 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "keyboard"
+      },
+      {
+        "type": "field_input",
+        "name": "I2C_ADDR",
+        "text": "0x65"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C81CD",
+    "tooltip": "初始化矩阵键盘，I2C地址默认为0x65"
+  },
+  {
+    "type": "matrix_keyboard_tick",
+    "icon": "fa-light fa-grid-4",
+    "message0": "扫描矩阵键盘 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keyboard",
+        "variableTypes": ["MatrixKeyboard"],
+        "defaultType": "MatrixKeyboard"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C81CD",
+    "tooltip": "扫描按键状态，需要在loop中每次循环调用"
+  },
+  {
+    "type": "matrix_keyboard_get_current_key",
+    "icon": "fa-light fa-grid-4",
+    "message0": "矩阵键盘 %1 当前按下按键",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keyboard",
+        "variableTypes": ["MatrixKeyboard"],
+        "defaultType": "MatrixKeyboard"
+      }
+    ],
+    "output": "String",
+    "colour": "#5C81CD",
+    "tooltip": "获取当前按下的按键字符，返回'0'-'9'、'A'-'D'、'*'、'#'，无按键时返回空字符"
+  },
+  {
+    "type": "matrix_keyboard_key_pressed",
+    "icon": "fa-light fa-grid-4",
+    "message0": "矩阵键盘 %1 按键 %2 被按下",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keyboard",
+        "variableTypes": ["MatrixKeyboard"],
+        "defaultType": "MatrixKeyboard"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "KEY",
+        "options": [
+          ["0", "kKey0"],
+          ["1", "kKey1"],
+          ["2", "kKey2"],
+          ["3", "kKey3"],
+          ["4", "kKey4"],
+          ["5", "kKey5"],
+          ["6", "kKey6"],
+          ["7", "kKey7"],
+          ["8", "kKey8"],
+          ["9", "kKey9"],
+          ["A", "kKeyA"],
+          ["B", "kKeyB"],
+          ["C", "kKeyC"],
+          ["D", "kKeyD"],
+          ["*", "kKeyAsterisk"],
+          ["#", "kKeyNumberSign"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5C81CD",
+    "tooltip": "检测指定按键是否被按下（按下瞬间）"
+  },
+  {
+    "type": "matrix_keyboard_key_pressing",
+    "icon": "fa-light fa-grid-4",
+    "message0": "矩阵键盘 %1 按键 %2 正在按住",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keyboard",
+        "variableTypes": ["MatrixKeyboard"],
+        "defaultType": "MatrixKeyboard"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "KEY",
+        "options": [
+          ["0", "kKey0"],
+          ["1", "kKey1"],
+          ["2", "kKey2"],
+          ["3", "kKey3"],
+          ["4", "kKey4"],
+          ["5", "kKey5"],
+          ["6", "kKey6"],
+          ["7", "kKey7"],
+          ["8", "kKey8"],
+          ["9", "kKey9"],
+          ["A", "kKeyA"],
+          ["B", "kKeyB"],
+          ["C", "kKeyC"],
+          ["D", "kKeyD"],
+          ["*", "kKeyAsterisk"],
+          ["#", "kKeyNumberSign"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5C81CD",
+    "tooltip": "检测指定按键是否正在被按住"
+  },
+  {
+    "type": "matrix_keyboard_key_released",
+    "icon": "fa-light fa-grid-4",
+    "message0": "矩阵键盘 %1 按键 %2 被释放",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keyboard",
+        "variableTypes": ["MatrixKeyboard"],
+        "defaultType": "MatrixKeyboard"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "KEY",
+        "options": [
+          ["0", "kKey0"],
+          ["1", "kKey1"],
+          ["2", "kKey2"],
+          ["3", "kKey3"],
+          ["4", "kKey4"],
+          ["5", "kKey5"],
+          ["6", "kKey6"],
+          ["7", "kKey7"],
+          ["8", "kKey8"],
+          ["9", "kKey9"],
+          ["A", "kKeyA"],
+          ["B", "kKeyB"],
+          ["C", "kKeyC"],
+          ["D", "kKeyD"],
+          ["*", "kKeyAsterisk"],
+          ["#", "kKeyNumberSign"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5C81CD",
+    "tooltip": "检测指定按键是否被释放（释放瞬间）"
+  },
+  {
+    "type": "matrix_keyboard_key_idle",
+    "icon": "fa-light fa-grid-4",
+    "message0": "矩阵键盘 %1 按键 %2 空闲",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keyboard",
+        "variableTypes": ["MatrixKeyboard"],
+        "defaultType": "MatrixKeyboard"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "KEY",
+        "options": [
+          ["0", "kKey0"],
+          ["1", "kKey1"],
+          ["2", "kKey2"],
+          ["3", "kKey3"],
+          ["4", "kKey4"],
+          ["5", "kKey5"],
+          ["6", "kKey6"],
+          ["7", "kKey7"],
+          ["8", "kKey8"],
+          ["9", "kKey9"],
+          ["A", "kKeyA"],
+          ["B", "kKeyB"],
+          ["C", "kKeyC"],
+          ["D", "kKeyD"],
+          ["*", "kKeyAsterisk"],
+          ["#", "kKeyNumberSign"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5C81CD",
+    "tooltip": "检测指定按键是否处于空闲状态"
+  },
+  {
+    "type": "matrix_keyboard_get_key_state",
+    "icon": "fa-light fa-grid-4",
+    "message0": "矩阵键盘 %1 按键 %2 状态",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keyboard",
+        "variableTypes": ["MatrixKeyboard"],
+        "defaultType": "MatrixKeyboard"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "KEY",
+        "options": [
+          ["0", "kKey0"],
+          ["1", "kKey1"],
+          ["2", "kKey2"],
+          ["3", "kKey3"],
+          ["4", "kKey4"],
+          ["5", "kKey5"],
+          ["6", "kKey6"],
+          ["7", "kKey7"],
+          ["8", "kKey8"],
+          ["9", "kKey9"],
+          ["A", "kKeyA"],
+          ["B", "kKeyB"],
+          ["C", "kKeyC"],
+          ["D", "kKeyD"],
+          ["*", "kKeyAsterisk"],
+          ["#", "kKeyNumberSign"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#5C81CD",
+    "tooltip": "获取指定按键的状态：0=空闲，1=按下，2=按住，3=释放"
+  }
+]

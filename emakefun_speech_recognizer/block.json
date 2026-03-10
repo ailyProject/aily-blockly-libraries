@@ -1,0 +1,199 @@
+[
+  {
+    "type": "speech_recognizer_setup",
+    "icon": "fa-light fa-circle-microphone",
+    "message0": "初始化语音识别模块 %1 I2C地址 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "speechRecognizer"
+      },
+      {
+        "type": "field_input",
+        "name": "I2C_ADDRESS",
+        "text": "0x30"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化语音识别模块，默认I2C地址为0x30",
+    "helpUrl": ""
+  },
+  {
+    "type": "speech_recognizer_set_mode",
+    "icon": "fa-light fa-circle-microphone",
+    "message0": "设置 %1 识别模式为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "speechRecognizer",
+        "variableTypes": ["SpeechRecognizer"],
+        "defaultType": "SpeechRecognizer"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["自动识别", "kRecognitionAuto"],
+          ["按键触发", "kButtonTrigger"],
+          ["关键词触发", "kKeywordTrigger"],
+          ["按键或关键词触发", "kKeywordOrButtonTrigger"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置语音识别模式",
+    "helpUrl": ""
+  },
+  {
+    "type": "speech_recognizer_set_timeout",
+    "icon": "fa-light fa-circle-microphone",
+    "message0": "设置 %1 识别超时 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "speechRecognizer",
+        "variableTypes": ["SpeechRecognizer"],
+        "defaultType": "SpeechRecognizer"
+      },
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置识别超时时间（毫秒），对自动识别模式无效",
+    "helpUrl": ""
+  },
+  {
+    "type": "speech_recognizer_add_keyword",
+    "icon": "fa-light fa-circle-microphone",
+    "message0": "添加关键词 %1 索引 %2 到 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEYWORD",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "speechRecognizer",
+        "variableTypes": ["SpeechRecognizer"],
+        "defaultType": "SpeechRecognizer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "添加语音识别关键词，最多50个词，每个词最多50字节",
+    "helpUrl": ""
+  },
+  {
+    "type": "speech_recognizer_recognize",
+    "icon": "fa-light fa-circle-microphone",
+    "message0": "%1 执行语音识别",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "speechRecognizer",
+        "variableTypes": ["SpeechRecognizer"],
+        "defaultType": "SpeechRecognizer"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "执行语音识别，返回识别到的关键词索引（>=0），未识别到返回-1。需在loop中循环调用",
+    "helpUrl": ""
+  },
+  {
+    "type": "speech_recognizer_get_event",
+    "icon": "fa-light fa-circle-microphone",
+    "message0": "%1 获取当前事件",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "speechRecognizer",
+        "variableTypes": ["SpeechRecognizer"],
+        "defaultType": "SpeechRecognizer"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取当前事件类型",
+    "helpUrl": ""
+  },
+  {
+    "type": "speech_recognizer_event_handler",
+    "icon": "fa-light fa-circle-microphone",
+    "message0": "当 %1 事件 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "speechRecognizer",
+        "variableTypes": ["SpeechRecognizer"],
+        "defaultType": "SpeechRecognizer"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "EVENT",
+        "options": [
+          ["开始等待触发", "kEventStartWaitingForTrigger"],
+          ["被按键触发", "kEventButtonTriggered"],
+          ["被关键词触发", "kEventKeywordTriggered"],
+          ["开始识别", "kEventStartRecognizing"],
+          ["识别成功", "kEventSpeechRecognized"],
+          ["识别超时", "kEventSpeechRecognitionTimedOut"]
+        ]
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "当指定事件发生时执行相应操作",
+    "helpUrl": ""
+  },
+  {
+    "type": "speech_recognizer_check_result",
+    "icon": "fa-light fa-circle-microphone",
+    "message0": "识别结果 %1 等于 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "RESULT",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": ["Number"]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#2196F3",
+    "tooltip": "检查识别结果是否等于指定索引",
+    "helpUrl": ""
+  }
+]
