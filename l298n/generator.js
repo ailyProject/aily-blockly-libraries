@@ -10,10 +10,12 @@
 Arduino.forBlock['l298n_setup'] = function(block, generator) {
   // 变量重命名监听
   if (!block._varMonitorAttached) {
-  // 初次注册变量到 Blockly 系统（仅执行一次）
-  registerVariableToBlockly(varName, 'L298N');
     block._varMonitorAttached = true;
     block._lastName = block.getFieldValue('VAR') || 'motor';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    if (typeof registerVariableToBlockly === 'function') {
+      registerVariableToBlockly(block._lastName, 'L298N');
+    }
     const varField = block.getField('VAR');
     if (varField) {
       const originalFinishEditing = varField.onFinishEditing_;
@@ -46,10 +48,12 @@ Arduino.forBlock['l298n_setup'] = function(block, generator) {
 Arduino.forBlock['l298n_setup_no_enable'] = function(block, generator) {
   // 变量重命名监听
   if (!block._varMonitorAttached) {
-  // 初次注册变量到 Blockly 系统（仅执行一次）
-  registerVariableToBlockly(varName, 'L298N');
     block._varMonitorAttached = true;
     block._lastName = block.getFieldValue('VAR') || 'motor';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    if (typeof registerVariableToBlockly === 'function') {
+      registerVariableToBlockly(block._lastName, 'L298N');
+    }
     const varField = block.getField('VAR');
     if (varField) {
       const originalFinishEditing = varField.onFinishEditing_;
