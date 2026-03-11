@@ -1,0 +1,147 @@
+[
+  {
+    "type": "nlcs21_init",
+    "message0": "初始化 NLCS21 颜色传感器 %1 增益 %2 积分时间 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "colorSensor"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "GAIN",
+        "options": [
+          ["1X", "kGain1X"],
+          ["4X", "kGain4X"],
+          ["8X", "kGain8X"],
+          ["32X", "kGain32X"],
+          ["96X", "kGain96X"],
+          ["192X", "kGain192X"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INTEGRATION_TIME",
+        "options": [
+          ["2ms", "kIntegrationTime2ms"],
+          ["8ms", "kIntegrationTime8ms"],
+          ["33ms", "kIntegrationTime33ms"],
+          ["132ms", "kIntegrationTime132ms"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E040FB",
+    "tooltip": "初始化NLCS21颜色传感器，设置增益和积分时间",
+    "icon": "fa-light fa-palette"
+  },
+  {
+    "type": "nlcs21_get_color",
+    "message0": "NLCS21 %1 读取到新颜色",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "colorSensor",
+        "variableTypes": ["ColorSensorNlcs21"],
+        "defaultType": "ColorSensorNlcs21"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#E040FB",
+    "tooltip": "读取颜色数据，返回是否成功读取到新数据",
+    "icon": "fa-light fa-palette"
+  },
+  {
+    "type": "nlcs21_color_value",
+    "message0": "NLCS21 %1 颜色 %2 值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "colorSensor",
+        "variableTypes": ["ColorSensorNlcs21"],
+        "defaultType": "ColorSensorNlcs21"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          ["R (红)", "r"],
+          ["G (绿)", "g"],
+          ["B (蓝)", "b"],
+          ["C (透明)", "c"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E040FB",
+    "tooltip": "获取最近一次读取的颜色通道值（R/G/B/C）",
+    "icon": "fa-light fa-palette"
+  },
+  {
+    "type": "nlcs21_set_threshold",
+    "message0": "NLCS21 %1 设置阈值 下限 %2 上限 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "colorSensor",
+        "variableTypes": ["ColorSensorNlcs21"],
+        "defaultType": "ColorSensorNlcs21"
+      },
+      {
+        "type": "input_value",
+        "name": "LOW",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "HIGH",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E040FB",
+    "tooltip": "设置颜色传感器中断阈值的上限和下限",
+    "icon": "fa-light fa-palette"
+  },
+  {
+    "type": "nlcs21_get_interrupt",
+    "message0": "NLCS21 %1 中断状态",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "colorSensor",
+        "variableTypes": ["ColorSensorNlcs21"],
+        "defaultType": "ColorSensorNlcs21"
+      }
+    ],
+    "output": "Number",
+    "colour": "#E040FB",
+    "tooltip": "获取中断状态，返回0或1",
+    "icon": "fa-light fa-palette"
+  },
+  {
+    "type": "nlcs21_clear_interrupt",
+    "message0": "NLCS21 %1 清除中断",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "colorSensor",
+        "variableTypes": ["ColorSensorNlcs21"],
+        "defaultType": "ColorSensorNlcs21"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E040FB",
+    "tooltip": "清除中断标志位",
+    "icon": "fa-light fa-palette"
+  }
+]
