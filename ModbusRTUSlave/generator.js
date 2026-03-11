@@ -2,6 +2,7 @@
 
 function ensureFieldInputVariable(block, fieldName, varType, defaultName) {
   const monitorKey = `_modbus_${fieldName}_monitor`;
+  const name = block.getFieldValue(fieldName) || defaultName;
   if (!block[monitorKey]) {
   // 初次注册变量到 Blockly 系统（仅执行一次）
   registerVariableToBlockly(name, varType);
@@ -27,7 +28,6 @@ function ensureFieldInputVariable(block, fieldName, varType, defaultName) {
       };
     }
   }
-  const name = block.getFieldValue(fieldName) || defaultName;
   return name;
 }
 

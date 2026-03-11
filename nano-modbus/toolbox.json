@@ -1,0 +1,294 @@
+{
+    "kind": "category",
+    "name": "nanoModbus",
+    "colour": "#2196F3",
+    "contents": [
+        {
+            "kind": "category",
+            "name": "客户端",
+            "icon": "fa-light fa-upload",
+            "colour": "#2196F3",
+            "contents": [
+                {
+                    "kind": "label",
+                    "text": "初始化"
+                },
+                {
+                    "kind": "block",
+                    "type": "nmbs_client_create"
+                },
+                {
+                    "kind": "block",
+                    "type": "nmbs_set_dest_address",
+                    "inputs": {
+                        "ADDRESS": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 1
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "nmbs_set_timeout",
+                    "inputs": {
+                        "READ_TIMEOUT": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 1000
+                                }
+                            }
+                        },
+                        "BYTE_TIMEOUT": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 100
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "sep"
+                },
+                {
+                    "kind": "label",
+                    "text": "读取"
+                },
+                {
+                    "kind": "block",
+                    "type": "nmbs_read_holding_register",
+                    "inputs": {
+                        "ADDRESS": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "nmbs_read_input_register",
+                    "inputs": {
+                        "ADDRESS": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "nmbs_read_coil",
+                    "inputs": {
+                        "ADDRESS": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "nmbs_read_discrete_input",
+                    "inputs": {
+                        "ADDRESS": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "sep"
+                },
+                {
+                    "kind": "label",
+                    "text": "写入"
+                },
+                {
+                    "kind": "block",
+                    "type": "nmbs_write_single_coil",
+                    "inputs": {
+                        "ADDRESS": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        },
+                        "VALUE": {
+                            "shadow": {
+                                "type": "logic_boolean",
+                                "fields": {
+                                    "BOOL": "TRUE"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "nmbs_write_single_register",
+                    "inputs": {
+                        "ADDRESS": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        },
+                        "VALUE": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "kind": "category",
+            "name": "服务器",
+            "icon": "fa-light fa-server",
+            "colour": "#2196F3",
+            "contents": [
+                {
+                    "kind": "label",
+                    "text": "初始化"
+                },
+                {
+                    "kind": "block",
+                    "type": "nmbs_server_create"
+                },
+                {
+                    "kind": "block",
+                    "type": "nmbs_server_poll"
+                },
+                {
+                    "kind": "sep"
+                },
+                {
+                    "kind": "label",
+                    "text": "数据操作"
+                },
+                {
+                    "kind": "block",
+                    "type": "nmbs_server_set_coil",
+                    "inputs": {
+                        "ADDRESS": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        },
+                        "VALUE": {
+                            "shadow": {
+                                "type": "logic_boolean",
+                                "fields": {
+                                    "BOOL": "TRUE"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "nmbs_server_get_coil",
+                    "inputs": {
+                        "ADDRESS": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "nmbs_server_set_register",
+                    "inputs": {
+                        "ADDRESS": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        },
+                        "VALUE": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "nmbs_server_get_register",
+                    "inputs": {
+                        "ADDRESS": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "nmbs_server_set_input_register",
+                    "inputs": {
+                        "ADDRESS": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        },
+                        "VALUE": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
