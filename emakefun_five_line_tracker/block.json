@@ -1,0 +1,224 @@
+[
+  {
+    "type": "five_line_tracker_v3_setup",
+    "message0": "初始化巡线传感器 %1 I2C地址 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "lineTracker"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "I2C_ADDRESS",
+        "options": [
+          ["0x50 (默认)", "0x50"],
+          ["0x51", "0x51"],
+          ["0x52", "0x52"],
+          ["0x53", "0x53"],
+          ["0x54", "0x54"],
+          ["0x55", "0x55"],
+          ["0x56", "0x56"],
+          ["0x57", "0x57"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5B8FF9",
+    "tooltip": "创建并初始化巡线传感器，I2C接口，默认地址0x50",
+    "icon": "fa-light fa-light-switch-off"
+  },
+  {
+    "type": "five_line_tracker_v3_get_device_id",
+    "message0": "巡线传感器 %1 获取设备ID",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "lineTracker",
+        "variableTypes": ["FiveLineTracker"],
+        "defaultType": "FiveLineTracker"
+      }
+    ],
+    "output": "Number",
+    "colour": "#5B8FF9",
+    "tooltip": "获取五路巡线传感器的设备ID",
+    "icon": "fa-light fa-light-switch-off"
+  },
+  {
+    "type": "five_line_tracker_v3_get_firmware_version",
+    "message0": "巡线传感器 %1 获取固件版本",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "lineTracker",
+        "variableTypes": ["FiveLineTracker"],
+        "defaultType": "FiveLineTracker"
+      }
+    ],
+    "output": "Number",
+    "colour": "#5B8FF9",
+    "tooltip": "获取五路巡线传感器的固件版本号",
+    "icon": "fa-light fa-light-switch-off"
+  },
+  {
+    "type": "five_line_tracker_v3_set_high_threshold",
+    "message0": "巡线传感器 %1 设置通道 %2 高阈值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "lineTracker",
+        "variableTypes": ["FiveLineTracker"],
+        "defaultType": "FiveLineTracker"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          ["通道0", "0"],
+          ["通道1", "1"],
+          ["通道2", "2"],
+          ["通道3", "3"],
+          ["通道4", "4"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "THRESHOLD",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5AD8A6",
+    "tooltip": "设置指定通道的高阈值(0-1023)，用于数字转换",
+    "icon": "fa-light fa-light-switch-off"
+  },
+  {
+    "type": "five_line_tracker_v3_set_low_threshold",
+    "message0": "巡线传感器 %1 设置通道 %2 低阈值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "lineTracker",
+        "variableTypes": ["FiveLineTracker"],
+        "defaultType": "FiveLineTracker"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          ["通道0", "0"],
+          ["通道1", "1"],
+          ["通道2", "2"],
+          ["通道3", "3"],
+          ["通道4", "4"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "THRESHOLD",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5AD8A6",
+    "tooltip": "设置指定通道的低阈值(0-1023)，用于数字转换",
+    "icon": "fa-light fa-light-switch-off"
+  },
+  {
+    "type": "five_line_tracker_v3_get_analog_value",
+    "message0": "巡线传感器 %1 读取通道 %2 模拟值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "lineTracker",
+        "variableTypes": ["FiveLineTracker"],
+        "defaultType": "FiveLineTracker"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          ["通道0", "0"],
+          ["通道1", "1"],
+          ["通道2", "2"],
+          ["通道3", "3"],
+          ["通道4", "4"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#F6BD16",
+    "tooltip": "读取指定通道的模拟值(0-1023)",
+    "icon": "fa-light fa-light-switch-off"
+  },
+  {
+    "type": "five_line_tracker_v3_get_digital_value",
+    "message0": "巡线传感器 %1 读取通道 %2 数字值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "lineTracker",
+        "variableTypes": ["FiveLineTracker"],
+        "defaultType": "FiveLineTracker"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          ["通道0", "0"],
+          ["通道1", "1"],
+          ["通道2", "2"],
+          ["通道3", "3"],
+          ["通道4", "4"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#F6BD16",
+    "tooltip": "读取指定通道的数字值(0或1)，根据阈值自动转换",
+    "icon": "fa-light fa-light-switch-off"
+  },
+  {
+    "type": "five_line_tracker_v3_get_all_digital_values",
+    "message0": "巡线传感器 %1 读取所有数字值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "lineTracker",
+        "variableTypes": ["FiveLineTracker"],
+        "defaultType": "FiveLineTracker"
+      }
+    ],
+    "output": "Number",
+    "colour": "#F6BD16",
+    "tooltip": "读取所有通道的数字值，返回一个字节，每一位代表一个通道的状态",
+    "icon": "fa-light fa-light-switch-off"
+  },
+  {
+    "type": "five_line_tracker_v3_check_error",
+    "message0": "巡线传感器 %1 初始化是否成功",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "lineTracker",
+        "variableTypes": ["FiveLineTracker"],
+        "defaultType": "FiveLineTracker"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5B8FF9",
+    "tooltip": "检查传感器初始化是否成功",
+    "icon": "fa-light fa-light-switch-off"
+  }
+]
