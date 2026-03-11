@@ -1,0 +1,197 @@
+[
+  {
+    "type": "emakefun_tts20_init",
+    "icon": "fa-light fa-volume-high",
+    "message0": "初始化TTS20语音合成模块 %1 I2C地址 %2 I2C接口 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "tts20"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "I2C_ADDRESS",
+        "options": [
+          ["0x40 (默认)", "0x40"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "初始化TTS20语音合成模块，通过I2C接口通信",
+    "helpUrl": ""
+  },
+  {
+    "type": "emakefun_tts20_play",
+    "icon": "fa-light fa-volume-high",
+    "message0": "TTS20 %1 播放文本 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tts20",
+        "variableTypes": ["EmakefunTts20"],
+        "defaultType": "EmakefunTts20"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": ["String"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "将文本转换为语音并播放，支持中英文。可在文本前加参数标注：[v*]音量(0-9)，[s*]语速(0-9)，[t*]语调(0-9)",
+    "helpUrl": ""
+  },
+  {
+    "type": "emakefun_tts20_play_sound",
+    "icon": "fa-light fa-volume-high",
+    "message0": "TTS20 %1 播放内置提示音 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tts20",
+        "variableTypes": ["EmakefunTts20"],
+        "defaultType": "EmakefunTts20"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SOUND",
+        "options": [
+          ["铃声1", "ring_1"],
+          ["铃声2", "ring_2"],
+          ["铃声3", "ring_3"],
+          ["铃声4", "ring_4"],
+          ["铃声5", "ring_5"],
+          ["信息提示1", "message_1"],
+          ["信息提示2", "message_2"],
+          ["信息提示3", "message_3"],
+          ["信息提示4", "message_4"],
+          ["信息提示5", "message_5"],
+          ["警示音1", "alert_1"],
+          ["警示音2", "alert_2"],
+          ["警示音3", "alert_3"],
+          ["警示音4", "alert_4"],
+          ["警示音5", "alert_5"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "播放TTS20模块内置的提示音效，包括铃声、信息提示和警示音各5种",
+    "helpUrl": ""
+  },
+  {
+    "type": "emakefun_tts20_is_busy",
+    "icon": "fa-light fa-volume-high",
+    "message0": "TTS20 %1 正在播放",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tts20",
+        "variableTypes": ["EmakefunTts20"],
+        "defaultType": "EmakefunTts20"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#9C27B0",
+    "tooltip": "检查TTS20模块是否正在播放，返回true表示忙碌，false表示空闲",
+    "helpUrl": ""
+  },
+  {
+    "type": "emakefun_tts20_wait_finish",
+    "icon": "fa-light fa-volume-high",
+    "message0": "TTS20 %1 等待播放完成",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tts20",
+        "variableTypes": ["EmakefunTts20"],
+        "defaultType": "EmakefunTts20"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "阻塞等待直到TTS20模块播放完成",
+    "helpUrl": ""
+  },
+  {
+    "type": "emakefun_tts20_stop",
+    "icon": "fa-light fa-volume-high",
+    "message0": "TTS20 %1 停止播放",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tts20",
+        "variableTypes": ["EmakefunTts20"],
+        "defaultType": "EmakefunTts20"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "停止当前语音播放",
+    "helpUrl": ""
+  },
+  {
+    "type": "emakefun_tts20_pause",
+    "icon": "fa-light fa-volume-high",
+    "message0": "TTS20 %1 暂停播放",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tts20",
+        "variableTypes": ["EmakefunTts20"],
+        "defaultType": "EmakefunTts20"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "暂停当前语音播放",
+    "helpUrl": ""
+  },
+  {
+    "type": "emakefun_tts20_resume",
+    "icon": "fa-light fa-volume-high",
+    "message0": "TTS20 %1 恢复播放",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tts20",
+        "variableTypes": ["EmakefunTts20"],
+        "defaultType": "EmakefunTts20"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "恢复已暂停的语音播放",
+    "helpUrl": ""
+  }
+]

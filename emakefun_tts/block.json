@@ -1,0 +1,172 @@
+[
+  {
+    "type": "emakefun_tts_init",
+    "icon": "fa-light fa-volume-high",
+    "message0": "初始化语音合成模块 %1 I2C地址 %2 I2C接口 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "tts"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "I2C_ADDRESS",
+        "options": [
+          ["0x40 (默认)", "0x40"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "初始化易创空间语音合成模块，通过I2C接口通信",
+    "helpUrl": ""
+  },
+  {
+    "type": "emakefun_tts_play",
+    "icon": "fa-light fa-volume-high",
+    "message0": "语音合成 %1 播放文本 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tts",
+        "variableTypes": ["EmakefunTts"],
+        "defaultType": "EmakefunTts"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": ["String"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "将文本转换为语音并播放，支持中英文，文本最大250字节",
+    "helpUrl": ""
+  },
+  {
+    "type": "emakefun_tts_push_cache",
+    "icon": "fa-light fa-volume-high",
+    "message0": "语音合成 %1 上传文本 %2 到缓存块 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tts",
+        "variableTypes": ["EmakefunTts"],
+        "defaultType": "EmakefunTts"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "CACHE_INDEX",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "将文本内容上传到指定缓存块，索引范围0~15",
+    "helpUrl": ""
+  },
+  {
+    "type": "emakefun_tts_play_cache",
+    "icon": "fa-light fa-volume-high",
+    "message0": "语音合成 %1 从缓存播放 播放次数 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tts",
+        "variableTypes": ["EmakefunTts"],
+        "defaultType": "EmakefunTts"
+      },
+      {
+        "type": "input_value",
+        "name": "COUNT",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "从缓存块0开始合成播放文本，播放次数范围1~15",
+    "helpUrl": ""
+  },
+  {
+    "type": "emakefun_tts_stop",
+    "icon": "fa-light fa-volume-high",
+    "message0": "语音合成 %1 停止播放",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tts",
+        "variableTypes": ["EmakefunTts"],
+        "defaultType": "EmakefunTts"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "停止当前语音播放",
+    "helpUrl": ""
+  },
+  {
+    "type": "emakefun_tts_pause",
+    "icon": "fa-light fa-volume-high",
+    "message0": "语音合成 %1 暂停播放",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tts",
+        "variableTypes": ["EmakefunTts"],
+        "defaultType": "EmakefunTts"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "暂停当前语音播放",
+    "helpUrl": ""
+  },
+  {
+    "type": "emakefun_tts_resume",
+    "icon": "fa-light fa-volume-high",
+    "message0": "语音合成 %1 恢复播放",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tts",
+        "variableTypes": ["EmakefunTts"],
+        "defaultType": "EmakefunTts"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "恢复已暂停的语音播放",
+    "helpUrl": ""
+  }
+]
