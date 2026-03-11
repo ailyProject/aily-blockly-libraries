@@ -1,53 +1,30 @@
-# ModbusRTUSlave
+# Modbus RTU Slave
 
-基于官方 ModbusRTUSlave Arduino 库的RTU从站封装，涵盖串口初始化、数据数组配置和寄存器/线圈读写
+Blockly library for building Modbus RTU slave devices over RS-485 serial communication.
 
-## 库信息
-- **库名**: @aily-project/lib-modbus-rtu-slave
-- **版本**: 0.0.1
-- **兼容**: 通用Arduino/ESP32/ESP8266/UNO R4/RP2040等串口设备
-- **电压**: 3.3V / 5V
-- **源码**: https://github.com/CMB27/ModbusRTUSlave
+## Library Info
 
-## 块定义
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-modbus-rtu-slave |
+| Version | 0.0.1 |
+| Author | ericoding |
+| Source | https://github.com/CMB27/ModbusRTUSlave |
+| License | - |
 
-| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
-|--------|------|----------|----------|----------|
-| `modbus_rtu_slave_create` | 语句块 | `VAR(field_input)`, `SERIAL(dropdown)`, `DE_PIN(input)`, `RE_PIN(input)` | `{"type":"modbus_rtu_slave_create","fields":{"VAR":"modbus","SERIAL":"Serial1"}}` | `ModbusRTUSlave modbus(Serial1, -1, -1);` |
-| `modbus_rtu_slave_set_response_delay` | 语句块 | `VAR(field_variable)`, `DELAY(input)` | `{"fields":{"VAR":{"id":"modbus"}},"inputs":{"DELAY":{"block":{...}}}}` | `modbus.setResponseDelay(5);` |
-| `modbus_rtu_slave_begin` | 语句块 | `VAR(field_variable)`, `UNIT_ID(field_number)`, `BAUD(input)`, `CONFIG(dropdown)` | `{"fields":{"UNIT_ID":1,"CONFIG":"SERIAL_8N1"}}` | `Serial1.begin(38400, SERIAL_8N1); modbus.begin(1, 38400, SERIAL_8N1);` |
-| `modbus_rtu_slave_poll` | 语句块 | `VAR(field_variable)`, `DO(input_statement)` | `{"inputs":{"DO":{"block":{...}}}}` | `if (modbus.poll()) { /* 用户代码 */ }` |
-| `modbus_rtu_slave_bind_coils` / `_bind_discrete` | 语句块 | `VAR(field_variable)`, `ARRAY(field_input)`, `LENGTH(field_number)` | `{"fields":{"ARRAY":"coils","LENGTH":2}}` | `bool coils[2]={false}; modbus.configureCoils(coils,2);` |
-| `modbus_rtu_slave_bind_holding` / `_bind_input` | 语句块 | `VAR(field_variable)`, `ARRAY(field_input)`, `LENGTH(field_number)` | `{"fields":{"ARRAY":"holdingRegisters","LENGTH":2}}` | `uint16_t holdingRegisters[2]={0}; modbus.configureHoldingRegisters(holdingRegisters,2);` |
-| `modbus_rtu_slave_coils_set` / `_discrete_set` | 语句块 | `ARRAY(field_variable)`, `INDEX(input)`, `VALUE(input)` | `{"fields":{"ARRAY":{"id":"coils"}}}` | `coils[0] = true;` |
-| `modbus_rtu_slave_coils_get` / `_discrete_get` | 值块 | `ARRAY(field_variable)`, `INDEX(input)` | `{"output":"Boolean"}` | `coils[0]` |
-| `modbus_rtu_slave_holding_set` / `_input_set` | 语句块 | `ARRAY(field_variable)`, `INDEX(input)`, `VALUE(input)` | `{"inputs":{"VALUE":{"block":{...}}}}` | `holdingRegisters[0] = 123;` |
-| `modbus_rtu_slave_holding_get` / `_input_get` | 值块 | `ARRAY(field_variable)`, `INDEX(input)` | `{"output":"Number"}` | `holdingRegisters[0]` |
+## Supported Boards
 
-## 字段类型映射
+Arduino UNO, Mega, Nano, ESP32, ESP8266, UNO R4, RP2040 and other boards with serial port support (3.3V / 5V).
 
-| 类型 | .abi格式 | 示例 |
-|------|----------|------|
-| field_input | 字符串 | `"ARRAY":"coils"` |
-| field_dropdown | 字符串 | `"CONFIG":"SERIAL_8N1"` |
-| field_variable | 对象 | `"VAR":{"id":"modbus"}` |
-| input_value | 块连接 | `"inputs":{"BAUD":{"block":{...}}}` |
-| input_statement | 块连接 | `"inputs":{"DO":{"block":{...}}}` |
+## Description
 
-## 连接规则
+This library wraps the ModbusRTUSlave Arduino library into Blockly blocks for building Modbus RTU slave devices. It supports RS-485 DE/RE pin control, configuring coil/discrete input/holding register/input register arrays, response delay settings, and polling for master requests.
 
-- 语句块需通过`previousStatement/nextStatement`串联，可直接放入`setup`或`loop`
-- 值块只有`output`属性，可插入表达式或条件输入中，不可单独悬空
-- Hat块未使用，本库事件通过`modbus_rtu_slave_poll`的`DO`语句输入触发
-- 自定义变量类型：`ModbusRTUSlave`、`ModbusCoilArray`、`ModbusDiscreteArray`、`ModbusHoldingArray`、`ModbusInputArray`
+## Quick Start
 
-## 使用示例
-
-### RS-485 从站初始化
-```json
-{
-  "type": "modbus_rtu_slave_begin",
-  "fields": {"UNIT_ID": 1, "CONFIG": "SERIAL_8N1"},
+1. Create a Modbus slave instance with serial port and DE/RE pins in `setup`
+2. Configure data arrays (coils, discrete inputs, holding/input registers) in `setup`
+3. Call `poll` in `loop` to handle master read/write requests
   "inputs": {
     "BAUD": {
       "shadow": {
