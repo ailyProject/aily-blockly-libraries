@@ -1,0 +1,285 @@
+[
+  {
+    "type": "mmwave_init",
+    "message0": "初始化毫米波雷达 %1 串口 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "radar"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL_TYPE",
+        "options": [
+          ["SoftwareSerial", "SOFTWARE"],
+          ["Serial1", "SERIAL1"],
+          ["Serial2", "SERIAL2"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5B80A5",
+    "icon": "fa-regular fa-satellite-dish",
+    "tooltip": "初始化24GHz毫米波雷达传感器",
+    "extensions": ["mmwave_init_dynamic"]
+  },
+  {
+    "type": "mmwave_update_status",
+    "message0": "毫米波雷达 %1 更新状态",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radar",
+        "variableTypes": ["SeeedMmwave"],
+        "defaultType": "SeeedMmwave"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5B80A5",
+    "icon": "fa-regular fa-satellite-dish",
+    "tooltip": "读取并更新雷达的最新状态数据"
+  },
+  {
+    "type": "mmwave_target_is",
+    "message0": "毫米波雷达 %1 目标状态为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radar",
+        "variableTypes": ["SeeedMmwave"],
+        "defaultType": "SeeedMmwave"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STATUS",
+        "options": [
+          ["无目标", "NoTarget"],
+          ["运动目标", "MovingTarget"],
+          ["静止目标", "StaticTarget"],
+          ["运动+静止目标", "BothTargets"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#5B80A5",
+    "icon": "fa-regular fa-satellite-dish",
+    "tooltip": "判断雷达目标状态是否为指定类型"
+  },
+  {
+    "type": "mmwave_target_status",
+    "message0": "毫米波雷达 %1 目标状态文本",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radar",
+        "variableTypes": ["SeeedMmwave"],
+        "defaultType": "SeeedMmwave"
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#5B80A5",
+    "icon": "fa-regular fa-satellite-dish",
+    "tooltip": "获取雷达目标状态的文本描述"
+  },
+  {
+    "type": "mmwave_distance",
+    "message0": "毫米波雷达 %1 检测距离",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radar",
+        "variableTypes": ["SeeedMmwave"],
+        "defaultType": "SeeedMmwave"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#5B80A5",
+    "icon": "fa-regular fa-satellite-dish",
+    "tooltip": "获取雷达检测到的目标距离(mm)"
+  },
+  {
+    "type": "mmwave_set_detection",
+    "message0": "毫米波雷达 %1 设置最大距离门 %2 无人持续时间(秒) %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radar",
+        "variableTypes": ["SeeedMmwave"],
+        "defaultType": "SeeedMmwave"
+      },
+      {
+        "type": "input_value",
+        "name": "DISTANCE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5B80A5",
+    "icon": "fa-regular fa-satellite-dish",
+    "tooltip": "配置雷达最大检测距离门(0-8)和无人持续时间(秒)"
+  },
+  {
+    "type": "mmwave_set_gate_sensitivity",
+    "message0": "毫米波雷达 %1 设置距离门 %2 运动灵敏度 %3 静止灵敏度 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radar",
+        "variableTypes": ["SeeedMmwave"],
+        "defaultType": "SeeedMmwave"
+      },
+      {
+        "type": "input_value",
+        "name": "GATE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MOVE_POWER",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "STATIC_POWER",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5B80A5",
+    "icon": "fa-regular fa-satellite-dish",
+    "tooltip": "设置指定距离门(0-8)的运动和静止触发灵敏度"
+  },
+  {
+    "type": "mmwave_set_resolution",
+    "message0": "毫米波雷达 %1 设置距离门分辨率 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radar",
+        "variableTypes": ["SeeedMmwave"],
+        "defaultType": "SeeedMmwave"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RESOLUTION",
+        "options": [
+          ["0.75m (默认)", "0"],
+          ["0.25m", "1"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5B80A5",
+    "icon": "fa-regular fa-satellite-dish",
+    "tooltip": "设置距离门分辨率，0为0.75m(默认)，1为0.25m"
+  },
+  {
+    "type": "mmwave_get_version",
+    "message0": "毫米波雷达 %1 固件版本",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radar",
+        "variableTypes": ["SeeedMmwave"],
+        "defaultType": "SeeedMmwave"
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#5B80A5",
+    "icon": "fa-regular fa-satellite-dish",
+    "tooltip": "获取雷达固件版本号"
+  },
+  {
+    "type": "mmwave_reboot",
+    "message0": "毫米波雷达 %1 重启",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radar",
+        "variableTypes": ["SeeedMmwave"],
+        "defaultType": "SeeedMmwave"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5B80A5",
+    "icon": "fa-regular fa-satellite-dish",
+    "tooltip": "重启毫米波雷达"
+  },
+  {
+    "type": "mmwave_factory_reset",
+    "message0": "毫米波雷达 %1 恢复出厂设置",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radar",
+        "variableTypes": ["SeeedMmwave"],
+        "defaultType": "SeeedMmwave"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5B80A5",
+    "icon": "fa-regular fa-satellite-dish",
+    "tooltip": "恢复雷达出厂设置"
+  },
+  {
+    "type": "mmwave_engineering_mode",
+    "message0": "毫米波雷达 %1 %2 工程模式",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radar",
+        "variableTypes": ["SeeedMmwave"],
+        "defaultType": "SeeedMmwave"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["启用", "ENABLE"],
+          ["禁用", "DISABLE"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5B80A5",
+    "icon": "fa-regular fa-satellite-dish",
+    "tooltip": "启用或禁用雷达工程模式"
+  }
+]

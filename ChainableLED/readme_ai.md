@@ -1,6 +1,6 @@
 # 链式RGB LED
 
-控制基于P9813协议的链式RGB LED，支持RGB和HSL颜色模式，适用于Seeed Studio Grove接口。
+控制基于P9813协议的链式RGB LED，支持RGB和HSL颜色模式，适用于SeeedStudio Grove接口。
 
 ## Library Info
 - **Name**: @aily-project/lib-chainableled

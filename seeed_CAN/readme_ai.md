@@ -1,6 +1,6 @@
 # Seeed CAN
 
-Seeed Studio CAN总线通信库，支持MCP2515和MCP2518FD控制器
+SeeedStudio CAN总线通信库，支持MCP2515和MCP2518FD控制器
 
 ## Library Info
 - **Name**: @aily-project/lib-seeed-can
