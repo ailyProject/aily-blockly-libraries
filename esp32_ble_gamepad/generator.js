@@ -15,7 +15,7 @@ Arduino.forBlock['esp32_ble_gamepad_init'] = function (block, generator) {
     generator.addLibrary('BleCompositeHID', '#include <BleCompositeHID.h>');
     
     // 添加全局对象
-    generator.addObject('compositeHID', 'BleCompositeHID compositeHID(' + deviceName + ', "aily Project", 100);');
+    generator.addObject('compositeHID', 'BleCompositeHID compositeHID(' + deviceName + ', "ailyProject", 100);');
     generator.addObject('gamepad', 'GamepadDevice* gamepad;');
     
     // 添加初始化代码到setup

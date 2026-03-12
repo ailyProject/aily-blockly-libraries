@@ -2,7 +2,7 @@
 
 Arduino.forBlock['ble_mouse_init'] = function(block, generator) {
     var deviceName = generator.valueToCode(block, 'DEVICE_NAME', Arduino.ORDER_ATOMIC) || '"BLE Mouse"';
-    var manufacturer = generator.valueToCode(block, 'MANUFACTURER', Arduino.ORDER_ATOMIC) || '"aily Project"';
+    var manufacturer = generator.valueToCode(block, 'MANUFACTURER', Arduino.ORDER_ATOMIC) || '"ailyProject"';
     var battery = generator.valueToCode(block, 'BATTERY', Arduino.ORDER_ATOMIC) || '100';
     
     generator.addLibrary('ble_composite_hid', '#include <BleCompositeHID.h>');
