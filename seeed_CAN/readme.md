@@ -1,6 +1,6 @@
 # Seeed CAN
 
-Seeed Studio CAN总线通信库，支持MCP2515和MCP2518FD控制器
+SeeedStudio CAN总线通信库，支持MCP2515和MCP2518FD控制器
 
 ## Library Info
 
@@ -18,7 +18,7 @@ Arduino AVR (UNO/Nano/Mega), Arduino Mega AVR, Arduino SAMD, ESP32, ESP8266, ren
 
 ## Description
 
-Seeed Studio CAN总线通信库，支持MCP2515和MCP2518FD控制器
+SeeedStudio CAN总线通信库，支持MCP2515和MCP2518FD控制器
 
 This library provides 12 Blockly blocks.
 

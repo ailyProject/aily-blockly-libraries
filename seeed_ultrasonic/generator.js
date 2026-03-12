@@ -1,5 +1,5 @@
 // Ultrasonic Ranger 代码生成器
-// Seeed Studio Ultrasonic Ranger library for Aily Blockly
+// SeeedStudio Ultrasonic Ranger library for Aily Blockly
 
 Arduino.forBlock['ultrasonic_create'] = function(block, generator) {
   // 变量重命名监听
