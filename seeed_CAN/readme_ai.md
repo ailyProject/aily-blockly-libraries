@@ -11,17 +11,17 @@ SeeedStudio CAN总线通信库，支持MCP2515和MCP2518FD控制器
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `seeed_can_create` | Statement | VAR(field_input), CS_PIN(field_number) | `seeed_can_create("can", 9)` | `` |
-| `seeed_can_begin` | Statement | VAR(field_variable), SPEED(dropdown), CLOCK(dropdown) | `seeed_can_begin(variables_get($can), CAN_5KBPS, MCP_8MHz)` | (dynamic code) |
-| `seeed_can_send` | Statement | VAR(field_variable), ID(input_value), EXT(dropdown), DATA(input_value) | `seeed_can_send(variables_get($can), math_number(0), 0, math_number(0))` | (dynamic code) |
-| `seeed_can_receive_check` | Value | VAR(field_variable) | `seeed_can_receive_check(variables_get($can))` | — |
-| `seeed_can_receive` | Statement | VAR(field_variable), LEN(field_variable), ID(field_variable), DATA(field_variable) | `seeed_can_receive(variables_get($can), variables_get($len), variables_get($id), variables_get($data))` | (dynamic code) |
-| `seeed_can_get_id` | Value | VAR(field_variable) | `seeed_can_get_id(variables_get($can))` | (dynamic code) |
-| `seeed_can_init_mask` | Statement | VAR(field_variable), NUM(dropdown), EXT(dropdown), MASK(input_value) | `seeed_can_init_mask(variables_get($can), 0, 0, math_number(0))` | (dynamic code) |
-| `seeed_can_init_filter` | Statement | VAR(field_variable), NUM(dropdown), EXT(dropdown), FILTER(input_value) | `seeed_can_init_filter(variables_get($can), 0, 0, math_number(0))` | (dynamic code) |
-| `seeed_can_set_mode` | Statement | VAR(field_variable), MODE(dropdown) | `seeed_can_set_mode(variables_get($can), MODE_NORMAL)` | (dynamic code) |
-| `seeed_can_sleep` | Statement | VAR(field_variable) | `seeed_can_sleep(variables_get($can))` | (dynamic code) |
-| `seeed_can_wake` | Statement | VAR(field_variable) | `seeed_can_wake(variables_get($can))` | (dynamic code) |
-| `seeed_can_check_error` | Value | VAR(field_variable) | `seeed_can_check_error(variables_get($can))` | (dynamic code) |
+| `seeed_can_begin` | Statement | VAR(field_variable), SPEED(dropdown), CLOCK(dropdown) | `seeed_can_begin($can, CAN_5KBPS, MCP_8MHz)` | (dynamic code) |
+| `seeed_can_send` | Statement | VAR(field_variable), ID(input_value), EXT(dropdown), DATA(input_value) | `seeed_can_send($can, math_number(0), 0, math_number(0))` | (dynamic code) |
+| `seeed_can_receive_check` | Value | VAR(field_variable) | `seeed_can_receive_check($can)` | — |
+| `seeed_can_receive` | Statement | VAR(field_variable), LEN(field_variable), ID(field_variable), DATA(field_variable) | `seeed_can_receive($can, $len, $id, $data)` | (dynamic code) |
+| `seeed_can_get_id` | Value | VAR(field_variable) | `seeed_can_get_id($can)` | (dynamic code) |
+| `seeed_can_init_mask` | Statement | VAR(field_variable), NUM(dropdown), EXT(dropdown), MASK(input_value) | `seeed_can_init_mask($can, 0, 0, math_number(0))` | (dynamic code) |
+| `seeed_can_init_filter` | Statement | VAR(field_variable), NUM(dropdown), EXT(dropdown), FILTER(input_value) | `seeed_can_init_filter($can, 0, 0, math_number(0))` | (dynamic code) |
+| `seeed_can_set_mode` | Statement | VAR(field_variable), MODE(dropdown) | `seeed_can_set_mode($can, MODE_NORMAL)` | (dynamic code) |
+| `seeed_can_sleep` | Statement | VAR(field_variable) | `seeed_can_sleep($can)` | (dynamic code) |
+| `seeed_can_wake` | Statement | VAR(field_variable) | `seeed_can_wake($can)` | (dynamic code) |
+| `seeed_can_check_error` | Value | VAR(field_variable) | `seeed_can_check_error($can)` | (dynamic code) |
 
 ## Parameter Options
 
@@ -39,18 +39,18 @@ SeeedStudio CAN总线通信库，支持MCP2515和MCP2518FD控制器
 ```
 arduino_setup()
     seeed_can_create("can", 9)
-    seeed_can_begin(variables_get($can), CAN_5KBPS, MCP_8MHz)
-    seeed_can_init_mask(variables_get($can), 0, 0, math_number(0))
-    seeed_can_init_filter(variables_get($can), 0, 0, math_number(0))
+    seeed_can_begin($can, CAN_5KBPS, MCP_8MHz)
+    seeed_can_init_mask($can, 0, 0, math_number(0))
+    seeed_can_init_filter($can, 0, 0, math_number(0))
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    serial_println(Serial, seeed_can_receive_check(variables_get($can)))
+    serial_println(Serial, seeed_can_receive_check($can))
     time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. **Variable Creation**: `seeed_can_create("varName", ...)` creates variable `$varName`; reference with `variables_get($varName)`
+1. **Variable Creation**: `seeed_can_create("varName", ...)` creates variable `$varName`; reference with `$varName`
 2. **Initialization**: Place init blocks inside `arduino_setup()`
 3. **Parameter Order**: Follows `block.json` args0 order

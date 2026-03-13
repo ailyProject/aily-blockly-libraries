@@ -10,9 +10,9 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `tcs34725_init` | Statement | TCS34725NAME(field_variable) | `tcs34725_init(variables_get($tcs))` | `` |
-| `tcs34725_led_ctrl` | Statement | TCS34725NAME(field_variable), TCSLEDSTATE(dropdown) | `tcs34725_led_ctrl(variables_get($tcs), false)` | (dynamic code) |
-| `tcs34725_get_rgb` | Statement | TCS34725NAME(field_variable) | `tcs34725_get_rgb(variables_get($tcs))` | (dynamic code) |
+| `tcs34725_init` | Statement | TCS34725NAME(field_variable) | `tcs34725_init($tcs)` | `` |
+| `tcs34725_led_ctrl` | Statement | TCS34725NAME(field_variable), TCSLEDSTATE(dropdown) | `tcs34725_led_ctrl($tcs, false)` | (dynamic code) |
+| `tcs34725_get_rgb` | Statement | TCS34725NAME(field_variable) | `tcs34725_get_rgb($tcs)` | (dynamic code) |
 | `tcs34725_rgb_value` | Value | TCSRGBVALUE(dropdown) | `tcs34725_rgb_value(red)` | (dynamic code) |
 
 ## Parameter Options
@@ -27,7 +27,7 @@
 ### Basic Usage
 ```
 arduino_setup()
-    tcs34725_init(variables_get($tcs))
+    tcs34725_init($tcs)
     serial_begin(Serial, 9600)
 
 arduino_loop()

@@ -11,13 +11,13 @@ Emakefun GPIO扩展板的Aily Blockly库，通过I2C扩展8路GPIO引脚，支�
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `gpio_expansion_board_init` | Statement | VAR(field_input), I2C_ADDR(field_input) | `gpio_expansion_board_init("gpioBoard", "0x24")` | `GpioExpansionBoard gpioBoard(0x24);` |
-| `gpio_expansion_board_set_mode` | Statement | VAR(field_variable), PIN(field_dropdown), MODE(field_dropdown) | `gpio_expansion_board_set_mode(variables_get($gpioBoard), E1, OUTPUT)` | `gpioBoard.SetGpioMode(GpioExpansionBoard::kGpioPinE1, GpioExpansionBoard::kOutput);` |
-| `gpio_expansion_board_set_level` | Statement | VAR(field_variable), PIN(field_dropdown), LEVEL(field_dropdown) | `gpio_expansion_board_set_level(variables_get($gpioBoard), E1, HIGH)` | `gpioBoard.SetGpioLevel(GpioExpansionBoard::kGpioPinE1, 1);` |
-| `gpio_expansion_board_get_level` | Value | VAR(field_variable), PIN(field_dropdown) | `gpio_expansion_board_get_level(variables_get($gpioBoard), E0)` | `gpioBoard.GetGpioLevel(GpioExpansionBoard::kGpioPinE0)` |
-| `gpio_expansion_board_get_adc` | Value | VAR(field_variable), PIN(field_dropdown) | `gpio_expansion_board_get_adc(variables_get($gpioBoard), E0)` | `gpioBoard.GetGpioAdcValue(GpioExpansionBoard::kGpioPinE0)` |
-| `gpio_expansion_board_set_pwm_frequency` | Statement | VAR(field_variable), FREQUENCY(input_value) | `gpio_expansion_board_set_pwm_frequency(variables_get($gpioBoard), math_number(50))` | `gpioBoard.SetPwmFrequency(50);` |
-| `gpio_expansion_board_set_pwm_duty` | Statement | VAR(field_variable), PIN(field_dropdown), DUTY(input_value) | `gpio_expansion_board_set_pwm_duty(variables_get($gpioBoard), E1, math_number(2048))` | `gpioBoard.SetPwmDuty(GpioExpansionBoard::kGpioPinE1, 2048);` |
-| `gpio_expansion_board_set_servo_angle` | Statement | VAR(field_variable), PIN(field_dropdown), ANGLE(input_value) | `gpio_expansion_board_set_servo_angle(variables_get($gpioBoard), E1, math_number(90))` | `gpioBoard.SetServoAngle(GpioExpansionBoard::kGpioPinE1, 90);` |
+| `gpio_expansion_board_set_mode` | Statement | VAR(field_variable), PIN(field_dropdown), MODE(field_dropdown) | `gpio_expansion_board_set_mode($gpioBoard, E1, OUTPUT)` | `gpioBoard.SetGpioMode(GpioExpansionBoard::kGpioPinE1, GpioExpansionBoard::kOutput);` |
+| `gpio_expansion_board_set_level` | Statement | VAR(field_variable), PIN(field_dropdown), LEVEL(field_dropdown) | `gpio_expansion_board_set_level($gpioBoard, E1, HIGH)` | `gpioBoard.SetGpioLevel(GpioExpansionBoard::kGpioPinE1, 1);` |
+| `gpio_expansion_board_get_level` | Value | VAR(field_variable), PIN(field_dropdown) | `gpio_expansion_board_get_level($gpioBoard, E0)` | `gpioBoard.GetGpioLevel(GpioExpansionBoard::kGpioPinE0)` |
+| `gpio_expansion_board_get_adc` | Value | VAR(field_variable), PIN(field_dropdown) | `gpio_expansion_board_get_adc($gpioBoard, E0)` | `gpioBoard.GetGpioAdcValue(GpioExpansionBoard::kGpioPinE0)` |
+| `gpio_expansion_board_set_pwm_frequency` | Statement | VAR(field_variable), FREQUENCY(input_value) | `gpio_expansion_board_set_pwm_frequency($gpioBoard, math_number(50))` | `gpioBoard.SetPwmFrequency(50);` |
+| `gpio_expansion_board_set_pwm_duty` | Statement | VAR(field_variable), PIN(field_dropdown), DUTY(input_value) | `gpio_expansion_board_set_pwm_duty($gpioBoard, E1, math_number(2048))` | `gpioBoard.SetPwmDuty(GpioExpansionBoard::kGpioPinE1, 2048);` |
+| `gpio_expansion_board_set_servo_angle` | Statement | VAR(field_variable), PIN(field_dropdown), ANGLE(input_value) | `gpio_expansion_board_set_servo_angle($gpioBoard, E1, math_number(90))` | `gpioBoard.SetServoAngle(GpioExpansionBoard::kGpioPinE1, 90);` |
 
 ## 参数选项
 

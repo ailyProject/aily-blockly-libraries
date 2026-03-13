@@ -10,11 +10,11 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `tb6612_motor_init` | Statement | MOTOR_A_NAME(field_variable), AIN1(input_value), AIN2(input_value), PWMA(input_value), OFFSET_A(input_value) | `tb6612_motor_init(variables_get($motor1), math_number(0), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
-| `tb6612_drive` | Statement | MOTOR_SELECT(dropdown), SPEED(input_value) | `tb6612_drive(A, math_number(9600))` | (dynamic code) |
-| `tb6612_reverse` | Statement | MOTOR_SELECT(dropdown), SPEED(input_value) | `tb6612_reverse(A, math_number(9600))` | (dynamic code) |
+| `tb6612_motor_init` | Statement | MOTOR_A_NAME(field_variable), AIN1(input_value), AIN2(input_value), PWMA(input_value), OFFSET_A(input_value) | `tb6612_motor_init($motor1, math_number(0), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
+| `tb6612_drive` | Statement | MOTOR_SELECT(dropdown), SPEED(input_value) | `tb6612_drive(A, math_number(100))` | (dynamic code) |
+| `tb6612_reverse` | Statement | MOTOR_SELECT(dropdown), SPEED(input_value) | `tb6612_reverse(A, math_number(100))` | (dynamic code) |
 | `tb6612_brake` | Statement | MOTOR_SELECT(dropdown) | `tb6612_brake(A)` | (dynamic code) |
-| `tb6612_dual_action` | Statement | MODE(dropdown), SPEED(input_value), MOTOR1(field_variable), MOTOR2(field_variable), LEFT_MOTOR(field_variable), RIGHT_MOTOR(field_variable) | `tb6612_dual_action(forward, math_number(9600), variables_get($motor1), variables_get($motor2), variables_get($leftMotor), variables_get($rightMotor))` | `forward(` |
+| `tb6612_dual_action` | Statement | MODE(dropdown), SPEED(input_value), MOTOR1(field_variable), MOTOR2(field_variable), LEFT_MOTOR(field_variable), RIGHT_MOTOR(field_variable) | `tb6612_dual_action(forward, math_number(100), $motor1, $motor2, $leftMotor, $rightMotor)` | `forward(` |
 
 ## Parameter Options
 
@@ -28,7 +28,7 @@
 ### Basic Usage
 ```
 arduino_setup()
-    tb6612_motor_init(variables_get($motor1), math_number(0), math_number(0), math_number(0), math_number(0))
+    tb6612_motor_init($motor1, math_number(0), math_number(0), math_number(0), math_number(0))
     serial_begin(Serial, 9600)
 
 arduino_loop()

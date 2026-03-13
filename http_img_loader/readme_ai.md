@@ -11,7 +11,7 @@
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `lvgl_http_img_init` | Statement | WIDTH(input_value), HEIGHT(input_value), PSRAM_MODE(dropdown), STORAGE_MODE(dropdown), MAX_SIZE(input_value), TIMEOUT(input_value), DEBUG(dropdown) | `lvgl_http_img_init(math_number(0), math_number(0), AUTO, AUTO, math_number(0), math_number(1000), FALSE)` | `HttpImageConfig httpImgConfig;\n` |
-| `lvgl_http_img_load` | Statement | URL(input_value), VAR(field_variable) | `lvgl_http_img_load(math_number(0), variables_get($img))` | `http_img_err_t httpImgLastError = httpImageLoader().load(..., ...);\n` |
+| `lvgl_http_img_load` | Statement | URL(input_value), VAR(field_variable) | `lvgl_http_img_load(math_number(0), $img)` | `http_img_err_t httpImgLastError = httpImageLoader().load(..., ...);\n` |
 | `lvgl_http_img_get_info` | Value | URL(input_value) | `lvgl_http_img_get_info(math_number(0))` | `httpImageLoader().getInfo(..., NULL) == HTTP_IMG_OK ? 0 : -1` |
 | `lvgl_http_img_check` | Value | URL(input_value) | `lvgl_http_img_check(math_number(0))` | `httpImageLoader().checkLoadable(...) == HTTP_IMG_OK` |
 | `lvgl_http_img_has_psram` | Value | (none) | `lvgl_http_img_has_psram()` | `httpImageLoader().hasPsram()` |

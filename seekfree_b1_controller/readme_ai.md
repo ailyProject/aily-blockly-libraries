@@ -11,9 +11,9 @@
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `four_driver_init` | Statement | power_index(dropdown) | `four_driver_init(0)` | `` |
-| `four_driver_set_speed` | Statement | speed1(input_value), speed2(input_value), speed3(input_value), speed4(input_value) | `four_driver_set_speed(math_number(9600), math_number(9600), math_number(9600), math_number(9600))` | `four_driver.set_speed(1, 2,` |
+| `four_driver_set_speed` | Statement | speed1(input_value), speed2(input_value), speed3(input_value), speed4(input_value) | `four_driver_set_speed(math_number(80), math_number(80), math_number(80), math_number(80))` | `four_driver.set_speed(1, 2,` |
 | `four_driver_move` | Statement | DIRECTION(dropdown), SPEED(field_number), DISTANCE(field_number) | `four_driver_move(1, 50, 10)` | `four_driver.move(..., ..., ...);\n` |
-| `four_driver_turn` | Statement | DIRECTION(dropdown), ANGLE(input_value), SPEED(input_value) | `four_driver_turn(1, math_number(0), math_number(9600))` | `four_driver.turn(... * ..., ...);\n` |
+| `four_driver_turn` | Statement | DIRECTION(dropdown), ANGLE(input_value), SPEED(input_value) | `four_driver_turn(1, math_number(90), math_number(80))` | `four_driver.turn(... * ..., ...);\n` |
 | `four_driver_track` | Value | coord_x(input_value), coord_y(input_value) | `four_driver_track(math_number(0), math_number(0))` | `four_driver.track(` |
 | `imu660ma_init` | Statement | power_index(dropdown) | `imu660ma_init(6)` | `` |
 | `imu660ma_calibration_acc` | Statement | (none) | `imu660ma_calibration_acc()` | `imu660ma.calibration_acc();\n` |

@@ -13,30 +13,30 @@ HuskyLensV2是一款简单易用的AI视觉传感器，支持人脸识别、物�
 | `huskylensv2_init_i2c_until` | Statement | VAR(field_input), WIRE(dropdown) | `huskylensv2_init_i2c_until("huskylens", WIRE)` | `` |
 | `huskylensv2_init_i2c` | Statement | VAR(field_input), WIRE(dropdown) | `huskylensv2_init_i2c("huskylens", WIRE)` | `` |
 | `huskylensv2_init_serial` | Statement | VAR(field_input), SERIAL(dropdown) | `huskylensv2_init_serial("huskylens", SERIAL)` | `` |
-| `huskylensv2_set_algorithm` | Statement | VAR(field_variable), ALGORITHM(dropdown) | `huskylensv2_set_algorithm(variables_get($huskylens), ALGORITHM_FACE_RECOGNITION)` | (dynamic code) |
-| `huskylensv2_set_algorithm_until` | Statement | VAR(field_variable), ALGORITHM(dropdown) | `huskylensv2_set_algorithm_until(variables_get($huskylens), ALGORITHM_FACE_RECOGNITION)` | `while (!` |
-| `huskylensv2_get_result` | Statement | VAR(field_variable) | `huskylensv2_get_result(variables_get($huskylens))` | (dynamic code) |
-| `huskylensv2_available` | Value | VAR(field_variable) | `huskylensv2_available(variables_get($huskylens))` | (dynamic code) |
-| `huskylensv2_count_learned` | Value | VAR(field_variable) | `huskylensv2_count_learned(variables_get($huskylens))` | (dynamic code) |
-| `huskylensv2_count_id` | Value | VAR(field_variable), ID(input_value) | `huskylensv2_count_id(variables_get($huskylens), math_number(0))` | (dynamic code) |
-| `huskylensv2_get_center` | Value | VAR(field_variable) | `huskylensv2_get_center(variables_get($huskylens))` | (dynamic code) |
-| `huskylensv2_get_by_index` | Value | VAR(field_variable), INDEX(input_value) | `huskylensv2_get_by_index(variables_get($huskylens), math_number(0))` | (dynamic code) |
-| `huskylensv2_get_by_id` | Value | VAR(field_variable), ID(input_value) | `huskylensv2_get_by_id(variables_get($huskylens), math_number(0))` | (dynamic code) |
-| `huskylensv2_get_by_id_index` | Value | VAR(field_variable), ID(input_value), INDEX(input_value) | `huskylensv2_get_by_id_index(variables_get($huskylens), math_number(0), math_number(0))` | (dynamic code) |
-| `huskylensv2_learn` | Statement | VAR(field_variable) | `huskylensv2_learn(variables_get($huskylens))` | (dynamic code) |
-| `huskylensv2_learn_block` | Statement | VAR(field_variable), X(input_value), Y(input_value), WIDTH(input_value), HEIGHT(input_value) | `huskylensv2_learn_block(variables_get($huskylens), math_number(0), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
-| `huskylensv2_forget` | Statement | VAR(field_variable) | `huskylensv2_forget(variables_get($huskylens))` | (dynamic code) |
-| `huskylensv2_take_photo` | Value | VAR(field_variable), RESOLUTION(dropdown) | `huskylensv2_take_photo(variables_get($huskylens), RESOLUTION_DEFAULT)` | (dynamic code) |
-| `huskylensv2_take_screenshot` | Value | VAR(field_variable) | `huskylensv2_take_screenshot(variables_get($huskylens))` | (dynamic code) |
-| `huskylensv2_draw_rect` | Statement | VAR(field_variable), COLOR(dropdown), LINEWIDTH(input_value), X(input_value), Y(input_value), WIDTH(input_value), HEIGHT(input_value) | `huskylensv2_draw_rect(variables_get($huskylens), COLOR_WHITE, math_number(0), math_number(0), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
-| `huskylensv2_draw_unique_rect` | Statement | VAR(field_variable), COLOR(dropdown), LINEWIDTH(input_value), X(input_value), Y(input_value), WIDTH(input_value), HEIGHT(input_value) | `huskylensv2_draw_unique_rect(variables_get($huskylens), COLOR_WHITE, math_number(0), math_number(0), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
-| `huskylensv2_clear_rect` | Statement | VAR(field_variable) | `huskylensv2_clear_rect(variables_get($huskylens))` | (dynamic code) |
-| `huskylensv2_draw_text` | Statement | VAR(field_variable), COLOR(dropdown), FONTSIZE(input_value), X(input_value), Y(input_value), TEXT(input_value) | `huskylensv2_draw_text(variables_get($huskylens), COLOR_WHITE, math_number(0), math_number(0), math_number(0), text("hello"))` | (dynamic code) |
-| `huskylensv2_clear_text` | Statement | VAR(field_variable) | `huskylensv2_clear_text(variables_get($huskylens))` | (dynamic code) |
-| `huskylensv2_save_knowledge` | Statement | VAR(field_variable), ID(input_value) | `huskylensv2_save_knowledge(variables_get($huskylens), math_number(0))` | (dynamic code) |
-| `huskylensv2_load_knowledge` | Statement | VAR(field_variable), ID(input_value) | `huskylensv2_load_knowledge(variables_get($huskylens), math_number(0))` | (dynamic code) |
-| `huskylensv2_play_music` | Statement | VAR(field_variable), NAME(input_value), VOLUME(input_value) | `huskylensv2_play_music(variables_get($huskylens), math_number(0), math_number(0))` | (dynamic code) |
-| `huskylensv2_set_name` | Statement | VAR(field_variable), ID(input_value), NAME(input_value) | `huskylensv2_set_name(variables_get($huskylens), math_number(0), math_number(0))` | (dynamic code) |
+| `huskylensv2_set_algorithm` | Statement | VAR(field_variable), ALGORITHM(dropdown) | `huskylensv2_set_algorithm($huskylens, ALGORITHM_FACE_RECOGNITION)` | (dynamic code) |
+| `huskylensv2_set_algorithm_until` | Statement | VAR(field_variable), ALGORITHM(dropdown) | `huskylensv2_set_algorithm_until($huskylens, ALGORITHM_FACE_RECOGNITION)` | `while (!` |
+| `huskylensv2_get_result` | Statement | VAR(field_variable) | `huskylensv2_get_result($huskylens)` | (dynamic code) |
+| `huskylensv2_available` | Value | VAR(field_variable) | `huskylensv2_available($huskylens)` | (dynamic code) |
+| `huskylensv2_count_learned` | Value | VAR(field_variable) | `huskylensv2_count_learned($huskylens)` | (dynamic code) |
+| `huskylensv2_count_id` | Value | VAR(field_variable), ID(input_value) | `huskylensv2_count_id($huskylens, math_number(0))` | (dynamic code) |
+| `huskylensv2_get_center` | Value | VAR(field_variable) | `huskylensv2_get_center($huskylens)` | (dynamic code) |
+| `huskylensv2_get_by_index` | Value | VAR(field_variable), INDEX(input_value) | `huskylensv2_get_by_index($huskylens, math_number(0))` | (dynamic code) |
+| `huskylensv2_get_by_id` | Value | VAR(field_variable), ID(input_value) | `huskylensv2_get_by_id($huskylens, math_number(0))` | (dynamic code) |
+| `huskylensv2_get_by_id_index` | Value | VAR(field_variable), ID(input_value), INDEX(input_value) | `huskylensv2_get_by_id_index($huskylens, math_number(0), math_number(0))` | (dynamic code) |
+| `huskylensv2_learn` | Statement | VAR(field_variable) | `huskylensv2_learn($huskylens)` | (dynamic code) |
+| `huskylensv2_learn_block` | Statement | VAR(field_variable), X(input_value), Y(input_value), WIDTH(input_value), HEIGHT(input_value) | `huskylensv2_learn_block($huskylens, math_number(0), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
+| `huskylensv2_forget` | Statement | VAR(field_variable) | `huskylensv2_forget($huskylens)` | (dynamic code) |
+| `huskylensv2_take_photo` | Value | VAR(field_variable), RESOLUTION(dropdown) | `huskylensv2_take_photo($huskylens, RESOLUTION_DEFAULT)` | (dynamic code) |
+| `huskylensv2_take_screenshot` | Value | VAR(field_variable) | `huskylensv2_take_screenshot($huskylens)` | (dynamic code) |
+| `huskylensv2_draw_rect` | Statement | VAR(field_variable), COLOR(dropdown), LINEWIDTH(input_value), X(input_value), Y(input_value), WIDTH(input_value), HEIGHT(input_value) | `huskylensv2_draw_rect($huskylens, COLOR_WHITE, math_number(0), math_number(0), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
+| `huskylensv2_draw_unique_rect` | Statement | VAR(field_variable), COLOR(dropdown), LINEWIDTH(input_value), X(input_value), Y(input_value), WIDTH(input_value), HEIGHT(input_value) | `huskylensv2_draw_unique_rect($huskylens, COLOR_WHITE, math_number(0), math_number(0), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
+| `huskylensv2_clear_rect` | Statement | VAR(field_variable) | `huskylensv2_clear_rect($huskylens)` | (dynamic code) |
+| `huskylensv2_draw_text` | Statement | VAR(field_variable), COLOR(dropdown), FONTSIZE(input_value), X(input_value), Y(input_value), TEXT(input_value) | `huskylensv2_draw_text($huskylens, COLOR_WHITE, math_number(0), math_number(0), math_number(0), text("hello"))` | (dynamic code) |
+| `huskylensv2_clear_text` | Statement | VAR(field_variable) | `huskylensv2_clear_text($huskylens)` | (dynamic code) |
+| `huskylensv2_save_knowledge` | Statement | VAR(field_variable), ID(input_value) | `huskylensv2_save_knowledge($huskylens, math_number(0))` | (dynamic code) |
+| `huskylensv2_load_knowledge` | Statement | VAR(field_variable), ID(input_value) | `huskylensv2_load_knowledge($huskylens, math_number(0))` | (dynamic code) |
+| `huskylensv2_play_music` | Statement | VAR(field_variable), NAME(input_value), VOLUME(input_value) | `huskylensv2_play_music($huskylens, math_number(0), math_number(0))` | (dynamic code) |
+| `huskylensv2_set_name` | Statement | VAR(field_variable), ID(input_value), NAME(input_value) | `huskylensv2_set_name($huskylens, math_number(0), math_number(0))` | (dynamic code) |
 | `huskylensv2_result_id` | Value | RESULT(input_value) | `huskylensv2_result_id(math_number(0))` | (dynamic code) |
 | `huskylensv2_result_x` | Value | RESULT(input_value) | `huskylensv2_result_x(math_number(0))` | (dynamic code) |
 | `huskylensv2_result_y` | Value | RESULT(input_value) | `huskylensv2_result_y(math_number(0))` | (dynamic code) |
@@ -47,10 +47,10 @@ HuskyLensV2是一款简单易用的AI视觉传感器，支持人脸识别、物�
 | `huskylensv2_result_confidence` | Value | RESULT(input_value) | `huskylensv2_result_confidence(math_number(0))` | (dynamic code) |
 | `huskylensv2_result_type` | Value | RESULT(input_value) | `huskylensv2_result_type(math_number(0))` | (dynamic code) |
 | `huskylensv2_is_valid` | Value | RESULT(input_value) | `huskylensv2_is_valid(math_number(0))` | (dynamic code) |
-| `huskylensv2_set_multi_algorithm` | Statement | VAR(field_variable), ALGORITHM1(dropdown), ALGORITHM2(dropdown), ALGORITHM3(dropdown) | `huskylensv2_set_multi_algorithm(variables_get($huskylens), ALGORITHM_FACE_RECOGNITION, ALGORITHM_FACE_RECOGNITION, ALGORITHM_FACE_RECOGNITION)` | (dynamic code) |
-| `huskylensv2_set_multi_algorithm_ratio` | Statement | VAR(field_variable), RATIO1(input_value), RATIO2(input_value), RATIO3(input_value) | `huskylensv2_set_multi_algorithm_ratio(variables_get($huskylens), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
-| `huskylensv2_start_recording` | Statement | VAR(field_variable), TYPE(dropdown), DURATION(input_value), FILENAME(input_value), RESOLUTION(dropdown) | `huskylensv2_start_recording(variables_get($huskylens), MEDIA_TYPE_VIDEO, math_number(0), math_number(0), 0)` | (dynamic code) |
-| `huskylensv2_stop_recording` | Statement | VAR(field_variable), TYPE(dropdown) | `huskylensv2_stop_recording(variables_get($huskylens), MEDIA_TYPE_VIDEO)` | (dynamic code) |
+| `huskylensv2_set_multi_algorithm` | Statement | VAR(field_variable), ALGORITHM1(dropdown), ALGORITHM2(dropdown), ALGORITHM3(dropdown) | `huskylensv2_set_multi_algorithm($huskylens, ALGORITHM_FACE_RECOGNITION, ALGORITHM_FACE_RECOGNITION, ALGORITHM_FACE_RECOGNITION)` | (dynamic code) |
+| `huskylensv2_set_multi_algorithm_ratio` | Statement | VAR(field_variable), RATIO1(input_value), RATIO2(input_value), RATIO3(input_value) | `huskylensv2_set_multi_algorithm_ratio($huskylens, math_number(0), math_number(0), math_number(0))` | (dynamic code) |
+| `huskylensv2_start_recording` | Statement | VAR(field_variable), TYPE(dropdown), DURATION(input_value), FILENAME(input_value), RESOLUTION(dropdown) | `huskylensv2_start_recording($huskylens, MEDIA_TYPE_VIDEO, math_number(0), math_number(0), 0)` | (dynamic code) |
+| `huskylensv2_stop_recording` | Statement | VAR(field_variable), TYPE(dropdown) | `huskylensv2_stop_recording($huskylens, MEDIA_TYPE_VIDEO)` | (dynamic code) |
 | `huskylensv2_result_pitch` | Value | RESULT(input_value) | `huskylensv2_result_pitch(math_number(0))` | (dynamic code) |
 | `huskylensv2_result_yaw` | Value | RESULT(input_value) | `huskylensv2_result_yaw(math_number(0))` | (dynamic code) |
 | `huskylensv2_result_roll` | Value | RESULT(input_value) | `huskylensv2_result_roll(math_number(0))` | (dynamic code) |
@@ -80,12 +80,12 @@ arduino_setup()
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    serial_println(Serial, huskylensv2_available(variables_get($huskylens)))
+    serial_println(Serial, huskylensv2_available($huskylens))
     time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. **Variable Creation**: `huskylensv2_init_i2c_until("varName", ...)` creates variable `$varName`; reference with `variables_get($varName)`
+1. **Variable Creation**: `huskylensv2_init_i2c_until("varName", ...)` creates variable `$varName`; reference with `$varName`
 2. **Initialization**: Place init blocks inside `arduino_setup()`
 3. **Parameter Order**: Follows `block.json` args0 order

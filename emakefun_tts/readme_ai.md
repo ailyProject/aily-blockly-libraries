@@ -35,7 +35,7 @@ arduino_setup()
     emakefun_tts_init("tts", 0x40, Wire)
 
 arduino_loop()
-    emakefun_tts_play(variables_get($tts), text("你好世界"))
+    emakefun_tts_play($tts, text("你好世界"))
     time_delay(math_number(2000))
 ```
 
@@ -45,9 +45,9 @@ arduino_setup()
     emakefun_tts_init("tts", 0x40, Wire)
 
 arduino_loop()
-    emakefun_tts_push_cache(variables_get($tts), text("一二三四五"), math_number(0))
-    emakefun_tts_push_cache(variables_get($tts), text("六七八九十"), math_number(1))
-    emakefun_tts_play_cache(variables_get($tts), math_number(1))
+    emakefun_tts_push_cache($tts, text("一二三四五"), math_number(0))
+    emakefun_tts_push_cache($tts, text("六七八九十"), math_number(1))
+    emakefun_tts_play_cache($tts, math_number(1))
     time_delay(math_number(3000))
 ```
 
@@ -57,13 +57,13 @@ arduino_setup()
     emakefun_tts_init("tts", 0x40, Wire)
 
 arduino_loop()
-    emakefun_tts_play(variables_get($tts), text("一二三四五六七八九十"))
+    emakefun_tts_play($tts, text("一二三四五六七八九十"))
     time_delay(math_number(1000))
-    emakefun_tts_pause(variables_get($tts))
+    emakefun_tts_pause($tts)
     time_delay(math_number(1000))
-    emakefun_tts_resume(variables_get($tts))
+    emakefun_tts_resume($tts)
     time_delay(math_number(1000))
-    emakefun_tts_stop(variables_get($tts))
+    emakefun_tts_stop($tts)
 ```
 
 ## Notes

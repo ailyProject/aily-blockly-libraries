@@ -11,7 +11,7 @@
 | 积木块类型 | 连接类型 | 参数 (args0顺序) | ABS格式 | 生成代码 |
 |------------|----------|------------------|---------|----------|
 | `gesture_recognizer_setup` | Statement | VAR(field_input), I2C_ADDRESS(field_input) | `gesture_recognizer_setup("gesture", "0x39")` | `emakefun::GestureRecognizer gesture(Wire, 0x39);` + 初始化检查 |
-| `gesture_recognizer_get_gesture` | Value | VAR(field_variable) | `gesture_recognizer_get_gesture(variables_get($gesture))` | `gesture.GetGesture()` |
+| `gesture_recognizer_get_gesture` | Value | VAR(field_variable) | `gesture_recognizer_get_gesture($gesture)` | `gesture.GetGesture()` |
 | `gesture_recognizer_gesture_type` | Value | GESTURE_TYPE(field_dropdown) | `gesture_recognizer_gesture_type(1)` | `1` |
 
 ## 参数选项

@@ -11,38 +11,38 @@ DFPlayer控制库，用于控制DFPlayer Mini模块，实现音频播放、暂�
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `dfplayer_begin` | Statement | VAR(field_input), RX(input_value), TX(input_value) | `dfplayer_begin("dfplayer", math_number(0), math_number(0))` | `` |
-| `dfplayer_play` | Statement | VAR(field_variable), FILE(input_value) | `dfplayer_play(variables_get($dfplayer), math_number(0))` | (dynamic code) |
-| `dfplayer_pause` | Statement | VAR(field_variable) | `dfplayer_pause(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_start` | Statement | VAR(field_variable) | `dfplayer_start(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_stop` | Statement | VAR(field_variable) | `dfplayer_stop(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_next` | Statement | VAR(field_variable) | `dfplayer_next(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_previous` | Statement | VAR(field_variable) | `dfplayer_previous(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_volume` | Statement | VAR(field_variable), VOLUME(input_value) | `dfplayer_volume(variables_get($dfplayer), math_number(0))` | (dynamic code) |
-| `dfplayer_volume_up` | Statement | VAR(field_variable) | `dfplayer_volume_up(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_volume_down` | Statement | VAR(field_variable) | `dfplayer_volume_down(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_eq` | Statement | VAR(field_variable), EQ(dropdown) | `dfplayer_eq(variables_get($dfplayer), 0)` | (dynamic code) |
-| `dfplayer_output_device` | Statement | VAR(field_variable), DEVICE(dropdown) | `dfplayer_output_device(variables_get($dfplayer), 1)` | (dynamic code) |
-| `dfplayer_loop` | Statement | VAR(field_variable), FILE(input_value) | `dfplayer_loop(variables_get($dfplayer), math_number(0))` | (dynamic code) |
-| `dfplayer_play_folder` | Statement | VAR(field_variable), FOLDER(input_value), FILE(input_value) | `dfplayer_play_folder(variables_get($dfplayer), math_number(0), math_number(0))` | (dynamic code) |
-| `dfplayer_enable_loop_all` | Statement | VAR(field_variable) | `dfplayer_enable_loop_all(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_disable_loop_all` | Statement | VAR(field_variable) | `dfplayer_disable_loop_all(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_play_mp3_folder` | Statement | VAR(field_variable), FILE(input_value) | `dfplayer_play_mp3_folder(variables_get($dfplayer), math_number(0))` | (dynamic code) |
-| `dfplayer_advertise` | Statement | VAR(field_variable), FILE(input_value) | `dfplayer_advertise(variables_get($dfplayer), math_number(0))` | (dynamic code) |
-| `dfplayer_stop_advertise` | Statement | VAR(field_variable) | `dfplayer_stop_advertise(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_play_large_folder` | Statement | VAR(field_variable), FOLDER(input_value), FILE(input_value) | `dfplayer_play_large_folder(variables_get($dfplayer), math_number(0), math_number(0))` | (dynamic code) |
-| `dfplayer_loop_folder` | Statement | VAR(field_variable), FOLDER(input_value) | `dfplayer_loop_folder(variables_get($dfplayer), math_number(0))` | (dynamic code) |
-| `dfplayer_random_all` | Statement | VAR(field_variable) | `dfplayer_random_all(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_enable_loop` | Statement | VAR(field_variable) | `dfplayer_enable_loop(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_disable_loop` | Statement | VAR(field_variable) | `dfplayer_disable_loop(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_read_state` | Value | VAR(field_variable) | `dfplayer_read_state(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_read_volume` | Value | VAR(field_variable) | `dfplayer_read_volume(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_read_eq` | Value | VAR(field_variable) | `dfplayer_read_eq(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_read_file_counts` | Value | VAR(field_variable) | `dfplayer_read_file_counts(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_read_current_file_number` | Value | VAR(field_variable) | `dfplayer_read_current_file_number(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_read_file_counts_in_folder` | Value | VAR(field_variable), FOLDER(input_value) | `dfplayer_read_file_counts_in_folder(variables_get($dfplayer), math_number(0))` | (dynamic code) |
-| `dfplayer_available` | Value | VAR(field_variable) | `dfplayer_available(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_read_type` | Value | VAR(field_variable) | `dfplayer_read_type(variables_get($dfplayer))` | (dynamic code) |
-| `dfplayer_read` | Value | VAR(field_variable) | `dfplayer_read(variables_get($dfplayer))` | (dynamic code) |
+| `dfplayer_play` | Statement | VAR(field_variable), FILE(input_value) | `dfplayer_play($dfplayer, math_number(0))` | (dynamic code) |
+| `dfplayer_pause` | Statement | VAR(field_variable) | `dfplayer_pause($dfplayer)` | (dynamic code) |
+| `dfplayer_start` | Statement | VAR(field_variable) | `dfplayer_start($dfplayer)` | (dynamic code) |
+| `dfplayer_stop` | Statement | VAR(field_variable) | `dfplayer_stop($dfplayer)` | (dynamic code) |
+| `dfplayer_next` | Statement | VAR(field_variable) | `dfplayer_next($dfplayer)` | (dynamic code) |
+| `dfplayer_previous` | Statement | VAR(field_variable) | `dfplayer_previous($dfplayer)` | (dynamic code) |
+| `dfplayer_volume` | Statement | VAR(field_variable), VOLUME(input_value) | `dfplayer_volume($dfplayer, math_number(0))` | (dynamic code) |
+| `dfplayer_volume_up` | Statement | VAR(field_variable) | `dfplayer_volume_up($dfplayer)` | (dynamic code) |
+| `dfplayer_volume_down` | Statement | VAR(field_variable) | `dfplayer_volume_down($dfplayer)` | (dynamic code) |
+| `dfplayer_eq` | Statement | VAR(field_variable), EQ(dropdown) | `dfplayer_eq($dfplayer, 0)` | (dynamic code) |
+| `dfplayer_output_device` | Statement | VAR(field_variable), DEVICE(dropdown) | `dfplayer_output_device($dfplayer, 1)` | (dynamic code) |
+| `dfplayer_loop` | Statement | VAR(field_variable), FILE(input_value) | `dfplayer_loop($dfplayer, math_number(0))` | (dynamic code) |
+| `dfplayer_play_folder` | Statement | VAR(field_variable), FOLDER(input_value), FILE(input_value) | `dfplayer_play_folder($dfplayer, math_number(0), math_number(0))` | (dynamic code) |
+| `dfplayer_enable_loop_all` | Statement | VAR(field_variable) | `dfplayer_enable_loop_all($dfplayer)` | (dynamic code) |
+| `dfplayer_disable_loop_all` | Statement | VAR(field_variable) | `dfplayer_disable_loop_all($dfplayer)` | (dynamic code) |
+| `dfplayer_play_mp3_folder` | Statement | VAR(field_variable), FILE(input_value) | `dfplayer_play_mp3_folder($dfplayer, math_number(0))` | (dynamic code) |
+| `dfplayer_advertise` | Statement | VAR(field_variable), FILE(input_value) | `dfplayer_advertise($dfplayer, math_number(0))` | (dynamic code) |
+| `dfplayer_stop_advertise` | Statement | VAR(field_variable) | `dfplayer_stop_advertise($dfplayer)` | (dynamic code) |
+| `dfplayer_play_large_folder` | Statement | VAR(field_variable), FOLDER(input_value), FILE(input_value) | `dfplayer_play_large_folder($dfplayer, math_number(0), math_number(0))` | (dynamic code) |
+| `dfplayer_loop_folder` | Statement | VAR(field_variable), FOLDER(input_value) | `dfplayer_loop_folder($dfplayer, math_number(0))` | (dynamic code) |
+| `dfplayer_random_all` | Statement | VAR(field_variable) | `dfplayer_random_all($dfplayer)` | (dynamic code) |
+| `dfplayer_enable_loop` | Statement | VAR(field_variable) | `dfplayer_enable_loop($dfplayer)` | (dynamic code) |
+| `dfplayer_disable_loop` | Statement | VAR(field_variable) | `dfplayer_disable_loop($dfplayer)` | (dynamic code) |
+| `dfplayer_read_state` | Value | VAR(field_variable) | `dfplayer_read_state($dfplayer)` | (dynamic code) |
+| `dfplayer_read_volume` | Value | VAR(field_variable) | `dfplayer_read_volume($dfplayer)` | (dynamic code) |
+| `dfplayer_read_eq` | Value | VAR(field_variable) | `dfplayer_read_eq($dfplayer)` | (dynamic code) |
+| `dfplayer_read_file_counts` | Value | VAR(field_variable) | `dfplayer_read_file_counts($dfplayer)` | (dynamic code) |
+| `dfplayer_read_current_file_number` | Value | VAR(field_variable) | `dfplayer_read_current_file_number($dfplayer)` | (dynamic code) |
+| `dfplayer_read_file_counts_in_folder` | Value | VAR(field_variable), FOLDER(input_value) | `dfplayer_read_file_counts_in_folder($dfplayer, math_number(0))` | (dynamic code) |
+| `dfplayer_available` | Value | VAR(field_variable) | `dfplayer_available($dfplayer)` | (dynamic code) |
+| `dfplayer_read_type` | Value | VAR(field_variable) | `dfplayer_read_type($dfplayer)` | (dynamic code) |
+| `dfplayer_read` | Value | VAR(field_variable) | `dfplayer_read($dfplayer)` | (dynamic code) |
 | `dfplayer_simple_play` | Statement | RX(input_value), TX(input_value), FILE(input_value) | `dfplayer_simple_play(math_number(0), math_number(0), math_number(0))` | `myDFPlayer.play(` |
 
 ## Parameter Options
@@ -61,12 +61,12 @@ arduino_setup()
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    serial_println(Serial, dfplayer_read_volume(variables_get($dfplayer)))
+    serial_println(Serial, dfplayer_read_volume($dfplayer))
     time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. **Variable Creation**: `dfplayer_begin("varName", ...)` creates variable `$varName`; reference with `variables_get($varName)`
+1. **Variable Creation**: `dfplayer_begin("varName", ...)` creates variable `$varName`; reference with `$varName`
 2. **Initialization**: Place init blocks inside `arduino_setup()`
 3. **Parameter Order**: Follows `block.json` args0 order

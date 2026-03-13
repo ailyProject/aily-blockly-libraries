@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "library": "@aily-project/lib-u8g2",
+  "displayName": "单色显示屏",
+  "type": "library",
+  "models": [
+    {
+      "id": "oled",
+      "name": "单色OLED/LCD",
+      "description": "通用单色显示屏驱动库，兼容SSD1306/SH1106/ST7565等控制器，支持I2C和SPI接口。",
+      "defaultVariant": "i2c",
+      "variants": [
+        {
+          "id": "i2c",
+          "name": "I2C接口",
+          "fullId": "lib-u8g2:oled:i2c",
+          "pinmapFile": "pinmaps/oled_i2c.json",
+          "protocol": "i2c",
+          "status": "available",
+          "isDefault": true,
+          "previewPins": ["VCC", "GND", "SDA", "SCL"]
+        },
+        {
+          "id": "spi",
+          "name": "SPI接口",
+          "fullId": "lib-u8g2:oled:spi",
+          "pinmapFile": "pinmaps/oled_spi.json",
+          "protocol": "spi",
+          "status": "available",
+          "isDefault": false,
+          "previewPins": ["VCC", "GND", "CS", "DC", "RST", "SCK", "MOSI"]
+        }
+      ]
+    }
+  ]
+}

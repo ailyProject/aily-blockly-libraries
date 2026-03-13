@@ -1,0 +1,257 @@
+[
+  {
+    "type": "controls_if",
+    "message0": "如果 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "IF0"
+      }
+    ],
+    "message1": "则执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO0"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "logic_blocks",
+    "helpUrl": "%{BKY_CONTROLS_IF_HELPURL}",
+    "mutator": "controls_if_mutator",
+    "extensions": [
+      "controls_if_tooltip"
+    ],
+    "icon": "fa-regular fa-split"
+  },
+  {
+    "type": "controls_ifelse",
+    "message0": "如果 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "IF0"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO0"
+      }
+    ],
+    "message2": "否则 %1",
+    "args2": [
+      {
+        "type": "input_statement",
+        "name": "ELSE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "logic_blocks",
+    "tooltip": "%{BKYCONTROLS_IF_TOOLTIP_2}",
+    "helpUrl": "%{BKY_CONTROLS_IF_HELPURL}",
+    "suppressPrefixSuffix": true,
+    "mutator": "controls_if_mutator",
+    "extensions": [
+      "controls_if_tooltip"
+    ],
+    "icon": "fa-regular fa-split"
+  },
+  {
+    "type": "controls_switch",
+    "message0": "选择 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SWITCH"
+      }
+    ],
+    "message1": "情况 %1",
+    "args1": [
+      {
+        "type": "input_value",
+        "name": "CASE0"
+      }
+    ],
+    "message2": "执行 %1",
+    "args2": [
+      {
+        "type": "input_statement",
+        "name": "DO0"
+      }
+    ],
+    "message3": "默认执行 %1",
+    "args3": [
+      {
+        "type": "input_statement",
+        "name": "DEFAULT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "logic_blocks",
+    "mutator": "switch_case_mutator",
+    "icon": "fa-regular fa-split"
+  },
+  {
+    "type": "logic_compare",
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "A"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          [
+            "==",
+            "EQ"
+          ],
+          [
+            "!=",
+            "NEQ"
+          ],
+          [
+            "<",
+            "LT"
+          ],
+          [
+            ">",
+            "GT"
+          ],
+          [
+            ">=",
+            "GTE"
+          ],
+          [
+            "<=",
+            "LTE"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "B"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "style": "logic_blocks",
+    "helpUrl": "%{BKY_LOGIC_COMPARE_HELPURL}",
+    "icon": "fa-regular fa-split"
+  },
+  {
+    "type": "logic_operation",
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "A"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          [
+            "与",
+            "AND"
+          ],
+          [
+            "或",
+            "OR"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "B"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "style": "logic_blocks",
+    "helpUrl": "%{BKY_LOGIC_OPERATION_HELPURL}",
+    "extensions": [
+      "logic_op_tooltip"
+    ],
+    "icon": "fa-regular fa-split"
+  },
+  {
+    "type": "logic_negate",
+    "message0": "非 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "BOOL"
+      }
+    ],
+    "output": "Boolean",
+    "style": "logic_blocks",
+    "tooltip": "%{BKY_LOGIC_NEGATE_TOOLTIP}",
+    "helpUrl": "%{BKY_LOGIC_NEGATE_HELPURL}",
+    "icon": "fa-regular fa-split"
+  },
+  {
+    "type": "logic_boolean",
+    "message0": "%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BOOL",
+        "options": [
+          [
+            "真",
+            "true"
+          ],
+          [
+            "假",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "style": "logic_blocks",
+    "tooltip": "%{BKY_LOGIC_BOOLEAN_TOOLTIP}",
+    "helpUrl": "%{BKY_LOGIC_BOOLEAN_HELPURL}",
+    "icon": "fa-regular fa-split"
+  },
+  {
+    "type": "logic_ternary",
+    "message0": "断言 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "IF",
+        "check": "Boolean"
+      }
+    ],
+    "message1": "如果为true %1",
+    "args1": [
+      {
+        "type": "input_value",
+        "name": "THEN"
+      }
+    ],
+    "message2": "如果为false %1",
+    "args2": [
+      {
+        "type": "input_value",
+        "name": "ELSE"
+      }
+    ],
+    "output": null,
+    "style": "logic_blocks",
+    "tooltip": "%{BKY_LOGIC_TERNARY_TOOLTIP}",
+    "helpUrl": "%{BKY_LOGIC_TERNARY_HELPURL}",
+    "extensions": [
+      "logic_ternary"
+    ],
+    "icon": "fa-regular fa-split"
+  }
+]

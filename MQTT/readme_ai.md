@@ -11,20 +11,20 @@
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `pubsub_create` | Statement | VAR(field_input), CLIENT(field_input), SSL(dropdown), SERVER(input_value), PORT(input_value) | `pubsub_create("mqttClient", "client", FALSE, math_number(0), math_number(0))` | (dynamic code) |
-| `pubsub_set_callback` | Statement | VAR(field_variable) | `pubsub_set_callback(variables_get($mqttClient))` | `` |
+| `pubsub_set_callback` | Statement | VAR(field_variable) | `pubsub_set_callback($mqttClient)` | `` |
 | `pubsub_set_callback_with_topic` | Statement | TOPIC(input_value) | `pubsub_set_callback_with_topic(math_number(0))` | (dynamic code) |
 | `pubsub_get_topic_callback_payload` | Value | (none) | `pubsub_get_topic_callback_payload()` | `payload_str` |
-| `pubsub_connect` | Value | VAR(field_variable), CLIENT_ID(input_value) | `pubsub_connect(variables_get($mqttClient), math_number(0))` | (dynamic code) |
-| `pubsub_connect_auth` | Value | VAR(field_variable), CLIENT_ID(input_value), USERNAME(input_value), PASSWORD(input_value) | `pubsub_connect_auth(variables_get($mqttClient), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
-| `pubsub_publish` | Statement | VAR(field_variable), TOPIC(input_value), PAYLOAD(input_value) | `pubsub_publish(variables_get($mqttClient), math_number(0), math_number(0))` | (dynamic code) |
-| `pubsub_subscribe` | Statement | VAR(field_variable), TOPIC(input_value) | `pubsub_subscribe(variables_get($mqttClient), math_number(0))` | (dynamic code) |
-| `pubsub_unsubscribe` | Statement | VAR(field_variable), TOPIC(input_value) | `pubsub_unsubscribe(variables_get($mqttClient), math_number(0))` | (dynamic code) |
-| `pubsub_loop` | Statement | VAR(field_variable) | `pubsub_loop(variables_get($mqttClient))` | (dynamic code) |
-| `pubsub_connected` | Value | VAR(field_variable) | `pubsub_connected(variables_get($mqttClient))` | (dynamic code) |
-| `pubsub_state` | Value | VAR(field_variable) | `pubsub_state(variables_get($mqttClient))` | (dynamic code) |
+| `pubsub_connect` | Value | VAR(field_variable), CLIENT_ID(input_value) | `pubsub_connect($mqttClient, math_number(0))` | (dynamic code) |
+| `pubsub_connect_auth` | Value | VAR(field_variable), CLIENT_ID(input_value), USERNAME(input_value), PASSWORD(input_value) | `pubsub_connect_auth($mqttClient, math_number(0), math_number(0), math_number(0))` | (dynamic code) |
+| `pubsub_publish` | Statement | VAR(field_variable), TOPIC(input_value), PAYLOAD(input_value) | `pubsub_publish($mqttClient, math_number(0), math_number(0))` | (dynamic code) |
+| `pubsub_subscribe` | Statement | VAR(field_variable), TOPIC(input_value) | `pubsub_subscribe($mqttClient, math_number(0))` | (dynamic code) |
+| `pubsub_unsubscribe` | Statement | VAR(field_variable), TOPIC(input_value) | `pubsub_unsubscribe($mqttClient, math_number(0))` | (dynamic code) |
+| `pubsub_loop` | Statement | VAR(field_variable) | `pubsub_loop($mqttClient)` | (dynamic code) |
+| `pubsub_connected` | Value | VAR(field_variable) | `pubsub_connected($mqttClient)` | (dynamic code) |
+| `pubsub_state` | Value | VAR(field_variable) | `pubsub_state($mqttClient)` | (dynamic code) |
 | `pubsub_state_code` | Value | STATE(dropdown) | `pubsub_state_code(MQTT_CONNECTED)` | (dynamic code) |
-| `pubsub_disconnect` | Statement | VAR(field_variable) | `pubsub_disconnect(variables_get($mqttClient))` | (dynamic code) |
-| `pubsub_setBufferSize` | Statement | VAR(field_variable), SIZE(input_value) | `pubsub_setBufferSize(variables_get($mqttClient), math_number(0))` | (dynamic code) |
+| `pubsub_disconnect` | Statement | VAR(field_variable) | `pubsub_disconnect($mqttClient)` | (dynamic code) |
+| `pubsub_setBufferSize` | Statement | VAR(field_variable), SIZE(input_value) | `pubsub_setBufferSize($mqttClient, math_number(0))` | (dynamic code) |
 
 ## Parameter Options
 
@@ -48,6 +48,6 @@ arduino_loop()
 
 ## Notes
 
-1. **Variable Creation**: `pubsub_create("varName", ...)` creates variable `$varName`; reference with `variables_get($varName)`
+1. **Variable Creation**: `pubsub_create("varName", ...)` creates variable `$varName`; reference with `$varName`
 2. **Initialization**: Place init blocks inside `arduino_setup()`
 3. **Parameter Order**: Follows `block.json` args0 order

@@ -14,13 +14,13 @@
 | `renesas_rtc_is_running` | Value | (none) | `renesas_rtc_is_running()` | `RTC.isRunning()` |
 | `renesas_rtc_set_time` | Statement | YEAR(input_value), MONTH(input_value), DAY(input_value), HOUR(input_value), MINUTE(input_value), SECOND(input_value), DAYOFWEEK(input_value) | `renesas_rtc_set_time(math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0))` | `RTCTime time(` |
 | `renesas_rtc_get_time` | Statement | VAR(field_input) | `renesas_rtc_get_time("rtc_current_time")` | `RTC.getTime(` |
-| `renesas_rtc_time_get_day` | Value | VAR(field_variable) | `renesas_rtc_time_get_day(variables_get($rtc_current_time))` | (dynamic code) |
-| `renesas_rtc_time_get_month` | Value | VAR(field_variable) | `renesas_rtc_time_get_month(variables_get($rtc_current_time))` | `Month2int(` |
-| `renesas_rtc_time_get_year` | Value | VAR(field_variable) | `renesas_rtc_time_get_year(variables_get($rtc_current_time))` | (dynamic code) |
-| `renesas_rtc_time_get_hour` | Value | VAR(field_variable) | `renesas_rtc_time_get_hour(variables_get($rtc_current_time))` | (dynamic code) |
-| `renesas_rtc_time_get_minute` | Value | VAR(field_variable) | `renesas_rtc_time_get_minute(variables_get($rtc_current_time))` | (dynamic code) |
-| `renesas_rtc_time_get_second` | Value | VAR(field_variable) | `renesas_rtc_time_get_second(variables_get($rtc_current_time))` | (dynamic code) |
-| `renesas_rtc_time_get_day_of_week` | Value | VAR(field_variable) | `renesas_rtc_time_get_day_of_week(variables_get($rtc_current_time))` | `DayOfWeek2int(` |
+| `renesas_rtc_time_get_day` | Value | VAR(field_variable) | `renesas_rtc_time_get_day($rtc_current_time)` | (dynamic code) |
+| `renesas_rtc_time_get_month` | Value | VAR(field_variable) | `renesas_rtc_time_get_month($rtc_current_time)` | `Month2int(` |
+| `renesas_rtc_time_get_year` | Value | VAR(field_variable) | `renesas_rtc_time_get_year($rtc_current_time)` | (dynamic code) |
+| `renesas_rtc_time_get_hour` | Value | VAR(field_variable) | `renesas_rtc_time_get_hour($rtc_current_time)` | (dynamic code) |
+| `renesas_rtc_time_get_minute` | Value | VAR(field_variable) | `renesas_rtc_time_get_minute($rtc_current_time)` | (dynamic code) |
+| `renesas_rtc_time_get_second` | Value | VAR(field_variable) | `renesas_rtc_time_get_second($rtc_current_time)` | (dynamic code) |
+| `renesas_rtc_time_get_day_of_week` | Value | VAR(field_variable) | `renesas_rtc_time_get_day_of_week($rtc_current_time)` | `DayOfWeek2int(` |
 | `renesas_rtc_set_periodic_callback` | Statement | PERIOD(dropdown) | `renesas_rtc_set_periodic_callback(ONCE_EVERY_2_SEC)` | `` |
 | `renesas_rtc_set_alarm_callback` | Statement | SECOND(input_value) | `renesas_rtc_set_alarm_callback(math_number(0))` | `` |
 | `renesas_rtc_set_time_if_not_running` | Statement | DAY(input_value), MONTH(dropdown), YEAR(input_value), HOUR(input_value), MINUTE(input_value), SECOND(input_value), DAYOFWEEK(dropdown) | `renesas_rtc_set_time_if_not_running(math_number(0), JANUARY, math_number(0), math_number(0), math_number(0), math_number(0), SUNDAY)` | — |

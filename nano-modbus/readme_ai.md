@@ -41,10 +41,10 @@
 ```
 arduino_setup()
     nmbs_client_create("modbusClient", Serial1, 9600)
-    nmbs_set_dest_address(variables_get($modbusClient), math_number(1))
+    nmbs_set_dest_address($modbusClient, math_number(1))
 
 arduino_loop()
-    serial_println(Serial, nmbs_read_holding_register(variables_get($modbusClient), math_number(0)))
+    serial_println(Serial, nmbs_read_holding_register($modbusClient, math_number(0)))
     time_delay(math_number(1000))
 ```
 
@@ -52,11 +52,11 @@ arduino_loop()
 ```
 arduino_setup()
     nmbs_client_create("modbusClient", Serial1, 9600)
-    nmbs_set_dest_address(variables_get($modbusClient), math_number(1))
+    nmbs_set_dest_address($modbusClient, math_number(1))
 
 arduino_loop()
-    nmbs_write_single_coil(variables_get($modbusClient), math_number(0), logic_boolean(TRUE))
-    nmbs_write_single_register(variables_get($modbusClient), math_number(0), math_number(123))
+    nmbs_write_single_coil($modbusClient, math_number(0), logic_boolean(TRUE))
+    nmbs_write_single_register($modbusClient, math_number(0), math_number(123))
     time_delay(math_number(1000))
 ```
 
@@ -67,7 +67,7 @@ arduino_setup()
     nmbs_server_set_input_register(math_number(0), math_number(1234))
 
 arduino_loop()
-    nmbs_server_poll(variables_get($modbusServer))
+    nmbs_server_poll($modbusServer)
     nmbs_server_set_input_register(math_number(0), analog_read(A0))
 ```
 

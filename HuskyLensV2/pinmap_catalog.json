@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "library": "@aily-project/lib-huskylensv2",
+  "displayName": "HuskyLensV2 AI摄像头",
+  "type": "library",
+  "models": [
+    {
+      "id": "huskylensv2",
+      "name": "HuskyLens V2",
+      "description": "DFRobot HuskyLens V2 AI视觉传感器，支持人脸识别、物体追踪等功能，I2C和UART双协议。",
+      "defaultVariant": "i2c",
+      "variants": [
+        {
+          "id": "i2c",
+          "name": "I2C接口",
+          "fullId": "lib-huskylensv2:huskylensv2:i2c",
+          "pinmapFile": "pinmaps/huskylensv2_i2c.json",
+          "protocol": "i2c",
+          "status": "available",
+          "isDefault": true,
+          "previewPins": ["VCC", "GND", "SDA", "SCL"]
+        },
+        {
+          "id": "uart",
+          "name": "UART接口",
+          "fullId": "lib-huskylensv2:huskylensv2:uart",
+          "pinmapFile": "pinmaps/huskylensv2_uart.json",
+          "protocol": "uart",
+          "status": "available",
+          "isDefault": false,
+          "previewPins": ["VCC", "GND", "TX", "RX"]
+        }
+      ]
+    }
+  ]
+}

@@ -11,21 +11,21 @@ Blockly library for building Modbus RTU slave devices over RS-485 serial communi
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `modbus_rtu_slave_create` | Statement | VAR(field_input), SERIAL(field_dropdown), DE_PIN(input_value), RE_PIN(input_value) | `modbus_rtu_slave_create("modbus", Serial1, math_number(-1), math_number(-1))` | `ModbusRTUSlave modbus(SERIAL, -1, -1);` |
-| `modbus_rtu_slave_set_response_delay` | Statement | VAR(field_variable), DELAY(input_value) | `modbus_rtu_slave_set_response_delay(variables_get($modbus), math_number(5))` | `modbus.setResponseDelay(5);` |
-| `modbus_rtu_slave_begin` | Statement | VAR(field_variable), UNIT_ID(field_number), BAUD(field_dropdown), CONFIG(field_dropdown) | `modbus_rtu_slave_begin(variables_get($modbus), 1, 9600, SERIAL_8N1)` | `SERIAL.begin(9600, SERIAL_8N1); modbus.begin(1, 9600, SERIAL_8N1);` |
-| `modbus_rtu_slave_poll` | Statement | VAR(field_variable), DO(input_statement) | `modbus_rtu_slave_poll(variables_get($modbus)) @DO: ...` | `if (modbus.poll()) { ... }` |
-| `modbus_rtu_slave_bind_coils` | Statement | VAR(field_variable), ARRAY(field_input), LENGTH(field_number) | `modbus_rtu_slave_bind_coils(variables_get($modbus), "coils", 2)` | `bool coils[2]={false}; modbus.configureCoils(coils,2);` |
-| `modbus_rtu_slave_bind_discrete` | Statement | VAR(field_variable), ARRAY(field_input), LENGTH(field_number) | `modbus_rtu_slave_bind_discrete(variables_get($modbus), "discreteInputs", 2)` | `bool discreteInputs[2]={false}; modbus.configureDiscreteInputs(discreteInputs,2);` |
-| `modbus_rtu_slave_bind_holding` | Statement | VAR(field_variable), ARRAY(field_input), LENGTH(field_number) | `modbus_rtu_slave_bind_holding(variables_get($modbus), "holdingRegisters", 2)` | `uint16_t holdingRegisters[2]={0}; modbus.configureHoldingRegisters(holdingRegisters,2);` |
-| `modbus_rtu_slave_bind_input` | Statement | VAR(field_variable), ARRAY(field_input), LENGTH(field_number) | `modbus_rtu_slave_bind_input(variables_get($modbus), "inputRegisters", 2)` | `uint16_t inputRegisters[2]={0}; modbus.configureInputRegisters(inputRegisters,2);` |
-| `modbus_rtu_slave_coils_set` | Statement | ARRAY(field_variable), INDEX(input_value), VALUE(input_value) | `modbus_rtu_slave_coils_set(variables_get($coils), math_number(0), logic_boolean(TRUE))` | `coils[0] = true;` |
-| `modbus_rtu_slave_coils_get` | Value(Boolean) | ARRAY(field_variable), INDEX(input_value) | `modbus_rtu_slave_coils_get(variables_get($coils), math_number(0))` | `coils[0]` |
-| `modbus_rtu_slave_discrete_set` | Statement | ARRAY(field_variable), INDEX(input_value), VALUE(input_value) | `modbus_rtu_slave_discrete_set(variables_get($discreteInputs), math_number(0), logic_boolean(TRUE))` | `discreteInputs[0] = true;` |
-| `modbus_rtu_slave_discrete_get` | Value(Boolean) | ARRAY(field_variable), INDEX(input_value) | `modbus_rtu_slave_discrete_get(variables_get($discreteInputs), math_number(0))` | `discreteInputs[0]` |
-| `modbus_rtu_slave_holding_set` | Statement | ARRAY(field_variable), INDEX(input_value), VALUE(input_value) | `modbus_rtu_slave_holding_set(variables_get($holdingRegisters), math_number(0), math_number(123))` | `holdingRegisters[0] = 123;` |
-| `modbus_rtu_slave_holding_get` | Value(Number) | ARRAY(field_variable), INDEX(input_value) | `modbus_rtu_slave_holding_get(variables_get($holdingRegisters), math_number(0))` | `holdingRegisters[0]` |
-| `modbus_rtu_slave_input_set` | Statement | ARRAY(field_variable), INDEX(input_value), VALUE(input_value) | `modbus_rtu_slave_input_set(variables_get($inputRegisters), math_number(0), math_number(456))` | `inputRegisters[0] = 456;` |
-| `modbus_rtu_slave_input_get` | Value(Number) | ARRAY(field_variable), INDEX(input_value) | `modbus_rtu_slave_input_get(variables_get($inputRegisters), math_number(0))` | `inputRegisters[0]` |
+| `modbus_rtu_slave_set_response_delay` | Statement | VAR(field_variable), DELAY(input_value) | `modbus_rtu_slave_set_response_delay($modbus, math_number(5))` | `modbus.setResponseDelay(5);` |
+| `modbus_rtu_slave_begin` | Statement | VAR(field_variable), UNIT_ID(field_number), BAUD(field_dropdown), CONFIG(field_dropdown) | `modbus_rtu_slave_begin($modbus, 1, 9600, SERIAL_8N1)` | `SERIAL.begin(9600, SERIAL_8N1); modbus.begin(1, 9600, SERIAL_8N1);` |
+| `modbus_rtu_slave_poll` | Statement | VAR(field_variable), DO(input_statement) | `modbus_rtu_slave_poll($modbus) @DO: ...` | `if (modbus.poll()) { ... }` |
+| `modbus_rtu_slave_bind_coils` | Statement | VAR(field_variable), ARRAY(field_input), LENGTH(field_number) | `modbus_rtu_slave_bind_coils($modbus, "coils", 2)` | `bool coils[2]={false}; modbus.configureCoils(coils,2);` |
+| `modbus_rtu_slave_bind_discrete` | Statement | VAR(field_variable), ARRAY(field_input), LENGTH(field_number) | `modbus_rtu_slave_bind_discrete($modbus, "discreteInputs", 2)` | `bool discreteInputs[2]={false}; modbus.configureDiscreteInputs(discreteInputs,2);` |
+| `modbus_rtu_slave_bind_holding` | Statement | VAR(field_variable), ARRAY(field_input), LENGTH(field_number) | `modbus_rtu_slave_bind_holding($modbus, "holdingRegisters", 2)` | `uint16_t holdingRegisters[2]={0}; modbus.configureHoldingRegisters(holdingRegisters,2);` |
+| `modbus_rtu_slave_bind_input` | Statement | VAR(field_variable), ARRAY(field_input), LENGTH(field_number) | `modbus_rtu_slave_bind_input($modbus, "inputRegisters", 2)` | `uint16_t inputRegisters[2]={0}; modbus.configureInputRegisters(inputRegisters,2);` |
+| `modbus_rtu_slave_coils_set` | Statement | ARRAY(field_variable), INDEX(input_value), VALUE(input_value) | `modbus_rtu_slave_coils_set($coils, math_number(0), logic_boolean(TRUE))` | `coils[0] = true;` |
+| `modbus_rtu_slave_coils_get` | Value(Boolean) | ARRAY(field_variable), INDEX(input_value) | `modbus_rtu_slave_coils_get($coils, math_number(0))` | `coils[0]` |
+| `modbus_rtu_slave_discrete_set` | Statement | ARRAY(field_variable), INDEX(input_value), VALUE(input_value) | `modbus_rtu_slave_discrete_set($discreteInputs, math_number(0), logic_boolean(TRUE))` | `discreteInputs[0] = true;` |
+| `modbus_rtu_slave_discrete_get` | Value(Boolean) | ARRAY(field_variable), INDEX(input_value) | `modbus_rtu_slave_discrete_get($discreteInputs, math_number(0))` | `discreteInputs[0]` |
+| `modbus_rtu_slave_holding_set` | Statement | ARRAY(field_variable), INDEX(input_value), VALUE(input_value) | `modbus_rtu_slave_holding_set($holdingRegisters, math_number(0), math_number(123))` | `holdingRegisters[0] = 123;` |
+| `modbus_rtu_slave_holding_get` | Value(Number) | ARRAY(field_variable), INDEX(input_value) | `modbus_rtu_slave_holding_get($holdingRegisters, math_number(0))` | `holdingRegisters[0]` |
+| `modbus_rtu_slave_input_set` | Statement | ARRAY(field_variable), INDEX(input_value), VALUE(input_value) | `modbus_rtu_slave_input_set($inputRegisters, math_number(0), math_number(456))` | `inputRegisters[0] = 456;` |
+| `modbus_rtu_slave_input_get` | Value(Number) | ARRAY(field_variable), INDEX(input_value) | `modbus_rtu_slave_input_get($inputRegisters, math_number(0))` | `inputRegisters[0]` |
 
 ## Parameter Options
 
@@ -43,27 +43,27 @@ Blockly library for building Modbus RTU slave devices over RS-485 serial communi
 ```
 arduino_setup()
     modbus_rtu_slave_create("modbus", Serial1, math_number(-1), math_number(-1))
-    modbus_rtu_slave_bind_coils(variables_get($modbus), "coils", 4)
-    modbus_rtu_slave_bind_holding(variables_get($modbus), "holdingRegisters", 4)
-    modbus_rtu_slave_begin(variables_get($modbus), 1, 9600, SERIAL_8N1)
+    modbus_rtu_slave_bind_coils($modbus, "coils", 4)
+    modbus_rtu_slave_bind_holding($modbus, "holdingRegisters", 4)
+    modbus_rtu_slave_begin($modbus, 1, 9600, SERIAL_8N1)
 
 arduino_loop()
-    modbus_rtu_slave_poll(variables_get($modbus))
+    modbus_rtu_slave_poll($modbus)
         @DO:
-            digital_write(math_number(13), modbus_rtu_slave_coils_get(variables_get($coils), math_number(0)))
-            modbus_rtu_slave_input_set(variables_get($inputRegisters), math_number(0), analog_read(math_number(0)))
+            digital_write(math_number(13), modbus_rtu_slave_coils_get($coils, math_number(0)))
+            modbus_rtu_slave_input_set($inputRegisters, math_number(0), analog_read(math_number(0)))
 ```
 
 ### Slave with Response Delay (for slow DE/RE transceivers)
 ```
 arduino_setup()
     modbus_rtu_slave_create("modbus", Serial1, math_number(2), math_number(3))
-    modbus_rtu_slave_set_response_delay(variables_get($modbus), math_number(5))
-    modbus_rtu_slave_bind_holding(variables_get($modbus), "holdingRegisters", 2)
-    modbus_rtu_slave_begin(variables_get($modbus), 1, 38400, SERIAL_8N1)
+    modbus_rtu_slave_set_response_delay($modbus, math_number(5))
+    modbus_rtu_slave_bind_holding($modbus, "holdingRegisters", 2)
+    modbus_rtu_slave_begin($modbus, 1, 38400, SERIAL_8N1)
 
 arduino_loop()
-    modbus_rtu_slave_poll(variables_get($modbus))
+    modbus_rtu_slave_poll($modbus)
 ```
 
 ## Notes

@@ -11,13 +11,13 @@
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `analogwave_init` | Statement | VAR(field_input), PIN(dropdown) | `analogwave_init("wave", DAC)` | `` |
-| `analogwave_sine` | Statement | VAR(field_variable), FREQ(input_value) | `analogwave_sine(variables_get($wave), math_number(0))` | (dynamic code) |
-| `analogwave_square` | Statement | VAR(field_variable), FREQ(input_value) | `analogwave_square(variables_get($wave), math_number(0))` | (dynamic code) |
-| `analogwave_saw` | Statement | VAR(field_variable), FREQ(input_value) | `analogwave_saw(variables_get($wave), math_number(0))` | (dynamic code) |
-| `analogwave_freq` | Statement | VAR(field_variable), FREQ(input_value) | `analogwave_freq(variables_get($wave), math_number(0))` | (dynamic code) |
-| `analogwave_amplitude` | Statement | VAR(field_variable), AMP(input_value) | `analogwave_amplitude(variables_get($wave), math_number(0))` | (dynamic code) |
-| `analogwave_start` | Statement | VAR(field_variable) | `analogwave_start(variables_get($wave))` | (dynamic code) |
-| `analogwave_stop` | Statement | VAR(field_variable) | `analogwave_stop(variables_get($wave))` | (dynamic code) |
+| `analogwave_sine` | Statement | VAR(field_variable), FREQ(input_value) | `analogwave_sine($wave, math_number(0))` | (dynamic code) |
+| `analogwave_square` | Statement | VAR(field_variable), FREQ(input_value) | `analogwave_square($wave, math_number(0))` | (dynamic code) |
+| `analogwave_saw` | Statement | VAR(field_variable), FREQ(input_value) | `analogwave_saw($wave, math_number(0))` | (dynamic code) |
+| `analogwave_freq` | Statement | VAR(field_variable), FREQ(input_value) | `analogwave_freq($wave, math_number(0))` | (dynamic code) |
+| `analogwave_amplitude` | Statement | VAR(field_variable), AMP(input_value) | `analogwave_amplitude($wave, math_number(0))` | (dynamic code) |
+| `analogwave_start` | Statement | VAR(field_variable) | `analogwave_start($wave)` | (dynamic code) |
+| `analogwave_stop` | Statement | VAR(field_variable) | `analogwave_stop($wave)` | (dynamic code) |
 
 ## Parameter Options
 
@@ -39,6 +39,6 @@ arduino_loop()
 
 ## Notes
 
-1. **Variable Creation**: `analogwave_init("varName", ...)` creates variable `$varName`; reference with `variables_get($varName)`
+1. **Variable Creation**: `analogwave_init("varName", ...)` creates variable `$varName`; reference with `$varName`
 2. **Initialization**: Place init blocks inside `arduino_setup()`
 3. **Parameter Order**: Follows `block.json` args0 order

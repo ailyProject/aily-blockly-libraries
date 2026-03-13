@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "library": "@aily-project/lib-adafruit-PN532",
+  "displayName": "PN532 NFC 模块",
+  "type": "library",
+  "models": [
+    {
+      "id": "pn532",
+      "name": "PN532",
+      "description": "NFC/RFID读写模块，支持13.56MHz，兼容MIFARE、NTAG、FeliCa等多种标签，支持I2C和UART接口。",
+      "defaultVariant": "i2c",
+      "variants": [
+        {
+          "id": "i2c",
+          "name": "I2C 模式",
+          "fullId": "lib-adafruit-PN532:pn532:i2c",
+          "pinmapFile": "pinmaps/pn532_i2c.json",
+          "protocol": "i2c",
+          "status": "available",
+          "isDefault": true,
+          "previewPins": ["VCC", "GND", "SDA", "SCL"]
+        },
+        {
+          "id": "uart",
+          "name": "UART 模式",
+          "fullId": "lib-adafruit-PN532:pn532:uart",
+          "pinmapFile": "pinmaps/pn532_uart.json",
+          "protocol": "uart",
+          "status": "available",
+          "isDefault": false,
+          "previewPins": ["VCC", "GND", "TX", "RX"]
+        }
+      ]
+    }
+  ]
+}

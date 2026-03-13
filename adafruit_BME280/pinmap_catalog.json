@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "library": "@aily-project/lib-bme280",
+  "displayName": "BME280 环境传感器",
+  "type": "library",
+  "models": [
+    {
+      "id": "bme280",
+      "name": "BME280",
+      "description": "高精度温湿度气压复合传感器，温度量程-40~85°C，湿度量程0~100%RH，气压量程300~1100hPa，支持I2C和SPI接口。",
+      "defaultVariant": "i2c",
+      "variants": [
+        {
+          "id": "i2c",
+          "name": "I2C 模块",
+          "fullId": "lib-bme280:bme280:i2c",
+          "pinmapFile": "pinmaps/bme280_i2c.json",
+          "protocol": "i2c",
+          "status": "available",
+          "isDefault": true,
+          "previewPins": ["VCC", "GND", "SDA", "SCL"]
+        },
+        {
+          "id": "spi",
+          "name": "SPI 模块",
+          "fullId": "lib-bme280:bme280:spi",
+          "pinmapFile": "pinmaps/bme280_spi.json",
+          "protocol": "spi",
+          "status": "available",
+          "isDefault": false,
+          "previewPins": ["VCC", "GND", "SCK", "MOSI", "MISO", "CS"]
+        }
+      ]
+    }
+  ]
+}

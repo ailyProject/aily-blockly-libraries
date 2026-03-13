@@ -38,18 +38,18 @@ Arduino版小智AI，AI Vox语音交互引擎支持库，用于ESP32系列开发
 | `aivox_emotion` | Value | emotion(dropdown) | `aivox_emotion(happy)` | `emotion ==` |
 | `aivox_emotion_list` | Value | emotion(dropdown) | `aivox_emotion_list(happy)` | (dynamic code) |
 | `aivox_loop_state_change` | Hat | chat_state(dropdown), DO(input_statement) | `aivox_loop_state_change(Idle)` @DO: ... | `` |
-| `aivox_state` | Value | STATEVAR(field_variable), state(dropdown) | `aivox_state(variables_get($state), ai_vox::ChatState::kIdle)` | — |
+| `aivox_state` | Value | STATEVAR(field_variable), state(dropdown) | `aivox_state($state, ai_vox::ChatState::kIdle)` | — |
 | `aivox_loop_chat_message` | Hat | DO(input_statement) | `aivox_loop_chat_message()` @DO: ... | `` |
 | `aivox_loop_chat_message_role_var` | Value | chat_role(dropdown) | `aivox_loop_chat_message_role_var(assistant)` | `role ==` |
 | `aivox_loop_chat_message_msg_var` | Value | (none) | `aivox_loop_chat_message_msg_var()` | (dynamic code) |
 | `aivox_loop_mcp` | Hat | DO(input_statement) | `aivox_loop_mcp()` @DO: ... | `` |
 | `aivox_get_iot_message_event_name` | Value | ai_vox_mcp_control_name(input_value) | `aivox_get_iot_message_event_name(math_number(0))` | — |
-| `aivox_get_iot_message_event_name_new` | Value | VAR(field_variable) | `aivox_get_iot_message_event_name_new(variables_get($led))` | (dynamic code) |
+| `aivox_get_iot_message_event_name_new` | Value | VAR(field_variable) | `aivox_get_iot_message_event_name_new($led)` | (dynamic code) |
 | `aivox_state_control_message_event_fuction` | Value | ai_vox_mcp_control_name(input_value), ai_vox_mcp_control_state(input_value) | `aivox_state_control_message_event_fuction(math_number(0), math_number(0))` | — |
-| `aivox_control_message_event_fuction` | Value | VAR(field_variable), PVAR(field_variable) | `aivox_control_message_event_fuction(variables_get($led), variables_get($state))` | (dynamic code) |
+| `aivox_control_message_event_fuction` | Value | VAR(field_variable), PVAR(field_variable) | `aivox_control_message_event_fuction($led, $state)` | (dynamic code) |
 | `aivox_response_mcp_control_result` | Statement | ai_vox_mcp_control_name(input_value) | `aivox_response_mcp_control_result(math_number(0))` | — |
-| `aivox_response_mcp_control_result_new` | Statement | VAR(field_variable) | `aivox_response_mcp_control_result_new(variables_get($led))` | `ai_vox_engine.SendMcpCallResponse(id, true);\n` |
-| `aivox_update_mcp_control_state_new` | Statement | VAR(field_variable), PVAR(field_variable), STATE(input_value) | `aivox_update_mcp_control_state_new(variables_get($led), variables_get($state), math_number(0))` | `if (` |
+| `aivox_response_mcp_control_result_new` | Statement | VAR(field_variable) | `aivox_response_mcp_control_result_new($led)` | `ai_vox_engine.SendMcpCallResponse(id, true);\n` |
+| `aivox_update_mcp_control_state_new` | Statement | VAR(field_variable), PVAR(field_variable), STATE(input_value) | `aivox_update_mcp_control_state_new($led, $state, math_number(0))` | `if (` |
 
 ## Parameter Options
 

@@ -32,8 +32,8 @@
 | `tft_draw_triangle` | Statement | X0(input_value), Y0(input_value), X1(input_value), Y1(input_value), X2(input_value), Y2(input_value), COLOR(input_value) | `tft_draw_triangle(math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0))` | — |
 | `tft_fill_triangle` | Statement | X0(input_value), Y0(input_value), X1(input_value), Y1(input_value), X2(input_value), Y2(input_value), COLOR(input_value) | `tft_fill_triangle(math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0))` | — |
 | `tft_color565` | Value | R(input_value), G(input_value), B(input_value) | `tft_color565(math_number(0), math_number(0), math_number(0))` | `tft.color565(` |
-| `tft_create_canvas16` | Statement | NAME(field_variable), WIDTH(input_value), HEIGHT(input_value) | `tft_create_canvas16(variables_get($canvas16), math_number(0), math_number(0))` | `` |
-| `tft_create_canvas1` | Statement | NAME(field_variable), WIDTH(input_value), HEIGHT(input_value) | `tft_create_canvas1(variables_get($canvas1), math_number(0), math_number(0))` | `` |
+| `tft_create_canvas16` | Statement | NAME(field_variable), WIDTH(input_value), HEIGHT(input_value) | `tft_create_canvas16($canvas16, math_number(0), math_number(0))` | `` |
+| `tft_create_canvas1` | Statement | NAME(field_variable), WIDTH(input_value), HEIGHT(input_value) | `tft_create_canvas1($canvas1, math_number(0), math_number(0))` | `` |
 | `tft_get_buffer` | Value | CANVAS(input_value) | `tft_get_buffer(math_number(0))` | (dynamic code) |
 | `tft_bitmap_image` | Value | IMAGE_DATA(field_input) | `tft_bitmap_image("image_data")` | `...` |
 | `tft_image_file` | Statement | IMAGE_PREVIEW(field_image_preview) | `tft_image_file()` | `tft.drawRGBBitmap(..., ..., ..., ..., ...);\n` |
@@ -54,8 +54,8 @@
 ```
 arduino_setup()
     tft_init(ST7735)
-    tft_create_canvas16(variables_get($canvas16), math_number(0), math_number(0))
-    tft_create_canvas1(variables_get($canvas1), math_number(0), math_number(0))
+    tft_create_canvas16($canvas16, math_number(0), math_number(0))
+    tft_create_canvas1($canvas1, math_number(0), math_number(0))
     serial_begin(Serial, 9600)
 
 arduino_loop()

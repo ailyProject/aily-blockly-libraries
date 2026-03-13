@@ -10,17 +10,17 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `hx711_create` | Statement | VAR(field_variable) | `hx711_create(variables_get($scale))` | `` |
-| `hx711_begin` | Statement | VAR(field_variable), DATAPIN(dropdown), CLOCKPIN(dropdown) | `hx711_begin(variables_get($scale), DATAPIN, CLOCKPIN)` | (dynamic code) |
-| `hx711_tare` | Statement | VAR(field_variable), TIMES(field_number) | `hx711_tare(variables_get($scale), 10)` | (dynamic code) |
-| `hx711_set_scale` | Statement | VAR(field_variable), SCALE(input_value) | `hx711_set_scale(variables_get($scale), math_number(0))` | (dynamic code) |
-| `hx711_get_units` | Value | VAR(field_variable), TIMES(field_number) | `hx711_get_units(variables_get($scale), 1)` | (dynamic code) |
-| `hx711_read` | Value | VAR(field_variable) | `hx711_read(variables_get($scale))` | (dynamic code) |
-| `hx711_read_average` | Value | VAR(field_variable), TIMES(field_number) | `hx711_read_average(variables_get($scale), 10)` | (dynamic code) |
-| `hx711_power_down` | Statement | VAR(field_variable) | `hx711_power_down(variables_get($scale))` | (dynamic code) |
-| `hx711_power_up` | Statement | VAR(field_variable) | `hx711_power_up(variables_get($scale))` | (dynamic code) |
-| `hx711_set_gain` | Statement | VAR(field_variable), GAIN(dropdown) | `hx711_set_gain(variables_get($scale), HX711_CHANNEL_A_GAIN_128)` | (dynamic code) |
-| `hx711_calibrate_scale` | Statement | VAR(field_variable), WEIGHT(input_value), TIMES(field_number) | `hx711_calibrate_scale(variables_get($scale), math_number(0), 10)` | (dynamic code) |
+| `hx711_create` | Statement | VAR(field_variable) | `hx711_create($scale)` | `` |
+| `hx711_begin` | Statement | VAR(field_variable), DATAPIN(dropdown), CLOCKPIN(dropdown) | `hx711_begin($scale, DATAPIN, CLOCKPIN)` | (dynamic code) |
+| `hx711_tare` | Statement | VAR(field_variable), TIMES(field_number) | `hx711_tare($scale, 10)` | (dynamic code) |
+| `hx711_set_scale` | Statement | VAR(field_variable), SCALE(input_value) | `hx711_set_scale($scale, math_number(0))` | (dynamic code) |
+| `hx711_get_units` | Value | VAR(field_variable), TIMES(field_number) | `hx711_get_units($scale, 1)` | (dynamic code) |
+| `hx711_read` | Value | VAR(field_variable) | `hx711_read($scale)` | (dynamic code) |
+| `hx711_read_average` | Value | VAR(field_variable), TIMES(field_number) | `hx711_read_average($scale, 10)` | (dynamic code) |
+| `hx711_power_down` | Statement | VAR(field_variable) | `hx711_power_down($scale)` | (dynamic code) |
+| `hx711_power_up` | Statement | VAR(field_variable) | `hx711_power_up($scale)` | (dynamic code) |
+| `hx711_set_gain` | Statement | VAR(field_variable), GAIN(dropdown) | `hx711_set_gain($scale, HX711_CHANNEL_A_GAIN_128)` | (dynamic code) |
+| `hx711_calibrate_scale` | Statement | VAR(field_variable), WEIGHT(input_value), TIMES(field_number) | `hx711_calibrate_scale($scale, math_number(0), 10)` | (dynamic code) |
 
 ## Parameter Options
 
@@ -33,12 +33,12 @@
 ### Basic Usage
 ```
 arduino_setup()
-    hx711_create(variables_get($scale))
-    hx711_begin(variables_get($scale), DATAPIN, CLOCKPIN)
+    hx711_create($scale)
+    hx711_begin($scale, DATAPIN, CLOCKPIN)
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    serial_println(Serial, hx711_get_units(variables_get($scale), 1))
+    serial_println(Serial, hx711_get_units($scale, 1))
     time_delay(math_number(1000))
 ```
 

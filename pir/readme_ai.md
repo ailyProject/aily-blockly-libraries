@@ -11,8 +11,8 @@ Grove PIR运动传感器库，用于检测人体运动。
 | 块类型 | 连接类型 | 参数（args0顺序） | ABS格式 | 生成代码 |
 |--------|----------|-------------------|---------|----------|
 | `grove_pir_init` | Statement | VAR(field_input), PIN(input_value) | `grove_pir_init("pir", io_pin_digi(2))` | `int pir_pin = 2; pinMode(pir_pin, INPUT);` |
-| `grove_pir_read` | Value | VAR(field_variable) | `grove_pir_read(variables_get($pir))` | `digitalRead(pir_pin)` |
-| `grove_pir_motion_detected` | Value | VAR(field_variable) | `grove_pir_motion_detected(variables_get($pir))` | `digitalRead(pir_pin) == HIGH` |
+| `grove_pir_read` | Value | VAR(field_variable) | `grove_pir_read($pir)` | `digitalRead(pir_pin)` |
+| `grove_pir_motion_detected` | Value | VAR(field_variable) | `grove_pir_motion_detected($pir)` | `digitalRead(pir_pin) == HIGH` |
 
 ## 参数说明
 

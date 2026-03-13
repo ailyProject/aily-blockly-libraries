@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>调试uint32转换</title>
+    <style>
+        body { font-family: monospace; padding: 20px; }
+        .pattern { margin: 20px 0; }
+        .row { line-height: 1; }
+        .pixel { display: inline-block; width: 20px; height: 20px; margin: 1px; text-align: center; }
+        .on { background: #ffff00; color: #000; }
+        .off { background: #333; color: #fff; }
+        .debug { background: #f0f0f0; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Arduino R4 图标转换调试</h1>
+    
+    <div class="debug">
+        <h3>蓝牙图标原始数据：</h3>
+        <code>LEDMATRIX_BLUETOOTH[] = { 0x10428, 0xa4517ff0, 0x50088104, 66 }</code>
+    </div>
+    
+    <div id="output"></div>
+
+    <script>
+        // 正确的转换函数
+        function uint32ToMatrix(uint32Array) {
+            const matrix = [];
+            
+            // 初始化8x12矩阵
+            for (let row = 0; row < 8; row++) {
+                matrix[row] = [];
+                for (let col = 0; col < 12; col++) {
+                    matrix[row][col] = 0;
+                }
+            }
+            
+            // 将3个uint32_t值转换为96位
+            const bits = [];
+            for (let i = 0; i < 3; i++) {
+                const value = uint32Array[i] || 0;
+                // 从最高位开始提取
+                for (let bit = 31; bit >= 0; bit--) {
+                    bits.push((value >> bit) & 1);
+                }
+            }
+            
+            console.log('Bits array length:', bits.length);
+            console.log('First 32 bits:', bits.slice(0, 32).join(''));
+            
+            // 将96位映射到8x12矩阵 (按行填充)
+            for (let row = 0; row < 8; row++) {
+                for (let col = 0; col < 12; col++) {
+                    const bitIndex = row * 12 + col;
+                    if (bitIndex < bits.length) {
+                        matrix[row][col] = bits[bitIndex];
+                    }
+                }
+            }
+            
+            return matrix;
+        }
+
+        // 显示矩阵
+        function displayMatrix(name, uint32Array, matrix) {
+            let html = `<div class="pattern">`;
+            html += `<h3>${name}</h3>`;
+            html += `<p>原始: [${uint32Array.map(x => '0x' + x.toString(16)).join(', ')}]</p>`;
+            
+            // 显示二进制
+            html += `<p>二进制:</p>`;
+            for (let i = 0; i < 3; i++) {
+                const binary = uint32Array[i].toString(2).padStart(32, '0');
+                html += `<div>0x${uint32Array[i].toString(16)}: ${binary}</div>`;
+            }
+            
+            // 显示矩阵
+            html += `<div style="margin: 10px 0;">`;
+            for (let row = 0; row < 8; row++) {
+                html += `<div class="row">`;
+                for (let col = 0; col < 12; col++) {
+                    const pixel = matrix[row][col];
+                    html += `<div class="pixel ${pixel ? 'on' : 'off'}">${pixel}</div>`;
+                }
+                html += `</div>`;
+            }
+            html += `</div>`;
+            
+            // 显示JSON格式
+            html += `<details><summary>JSON格式</summary><pre>${JSON.stringify(matrix, null, 2)}</pre></details>`;
+            
+            html += `</div>`;
+            return html;
+        }
+
+        // 测试数据
+        const testIcons = {
+            "蓝牙": [0x10428, 0xa4517ff0, 0x50088104],
+            "开心笑脸": [0x19819, 0x80000001, 0x81f8000],
+            "芯片": [0x1503f, 0x81103181, 0x103f8150]
+        };
+
+        let output = '';
+        for (const [name, uint32Array] of Object.entries(testIcons)) {
+            const matrix = uint32ToMatrix(uint32Array);
+            output += displayMatrix(name, uint32Array, matrix);
+        }
+
+        document.getElementById('output').innerHTML = output;
+    </script>
+</body>
+</html>

@@ -11,7 +11,7 @@ Adafruit电机驱动板库，支持控制直流电机和步进电机，适用于
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `afmotor_dc_init` | Statement | MOTOR(dropdown), FREQ(dropdown) | `afmotor_dc_init(1, DC_MOTOR_PWM_RATE)` | `` |
-| `afmotor_dc_run` | Statement | MOTOR(dropdown), DIRECTION(dropdown), SPEED(input_value) | `afmotor_dc_run(1, FORWARD, math_number(9600))` | (dynamic code) |
+| `afmotor_dc_run` | Statement | MOTOR(dropdown), DIRECTION(dropdown), SPEED(input_value) | `afmotor_dc_run(1, FORWARD, math_number(100))` | (dynamic code) |
 | `afmotor_stepper_init` | Statement | STEPPER(dropdown), STEPS(input_value) | `afmotor_stepper_init(1, math_number(0))` | `` |
 | `afmotor_stepper_setspeed` | Statement | STEPPER(dropdown), RPM(input_value) | `afmotor_stepper_setspeed(1, math_number(0))` | (dynamic code) |
 | `afmotor_stepper_step` | Statement | STEPPER(dropdown), STEPS(input_value), DIRECTION(dropdown), STYLE(dropdown) | `afmotor_stepper_step(1, math_number(0), FORWARD, SINGLE)` | (dynamic code) |

@@ -12,11 +12,11 @@ DFRobot GM60二维码/条码扫描识别传感器控制库，支持I2C和UART通
 |------------|------------|--------------------------|------------|----------------|
 | `gm60_init_i2c` | Statement | VAR(field_input), ADDRESS(dropdown), WIRE(dropdown) | `gm60_init_i2c("gm60", 0x1A, WIRE)` | (dynamic code) |
 | `gm60_init_uart` | Statement | VAR(field_input), RX(input_value), TX(input_value) | `gm60_init_uart("gm60", math_number(0), math_number(0))` | `` |
-| `gm60_set_encode` | Statement | VAR(field_variable), ENCODE(dropdown) | `gm60_set_encode(variables_get($gm60), eUTF8)` | (dynamic code) |
-| `gm60_setup_code` | Statement | VAR(field_variable), ON(dropdown), CONTENT(dropdown) | `gm60_setup_code(variables_get($gm60), true, true)` | (dynamic code) |
-| `gm60_set_identify` | Statement | VAR(field_variable), BARCODE(dropdown) | `gm60_set_identify(variables_get($gm60), eEnableAllBarcode)` | (dynamic code) |
-| `gm60_reset` | Statement | VAR(field_variable) | `gm60_reset(variables_get($gm60))` | (dynamic code) |
-| `gm60_detection` | Value | VAR(field_variable) | `gm60_detection(variables_get($gm60))` | (dynamic code) |
+| `gm60_set_encode` | Statement | VAR(field_variable), ENCODE(dropdown) | `gm60_set_encode($gm60, eUTF8)` | (dynamic code) |
+| `gm60_setup_code` | Statement | VAR(field_variable), ON(dropdown), CONTENT(dropdown) | `gm60_setup_code($gm60, true, true)` | (dynamic code) |
+| `gm60_set_identify` | Statement | VAR(field_variable), BARCODE(dropdown) | `gm60_set_identify($gm60, eEnableAllBarcode)` | (dynamic code) |
+| `gm60_reset` | Statement | VAR(field_variable) | `gm60_reset($gm60)` | (dynamic code) |
+| `gm60_detection` | Value | VAR(field_variable) | `gm60_detection($gm60)` | (dynamic code) |
 
 ## Parameter Options
 
@@ -35,16 +35,16 @@ DFRobot GM60二维码/条码扫描识别传感器控制库，支持I2C和UART通
 arduino_setup()
     gm60_init_i2c("gm60", 0x1A, WIRE)
     gm60_init_uart("gm60", math_number(0), math_number(0))
-    gm60_setup_code(variables_get($gm60), true, true)
+    gm60_setup_code($gm60, true, true)
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    serial_println(Serial, gm60_detection(variables_get($gm60)))
+    serial_println(Serial, gm60_detection($gm60))
     time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. **Variable Creation**: `gm60_init_i2c("varName", ...)` creates variable `$varName`; reference with `variables_get($varName)`
+1. **Variable Creation**: `gm60_init_i2c("varName", ...)` creates variable `$varName`; reference with `$varName`
 2. **Initialization**: Place init blocks inside `arduino_setup()`
 3. **Parameter Order**: Follows `block.json` args0 order

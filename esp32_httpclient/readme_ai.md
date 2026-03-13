@@ -11,33 +11,33 @@ ESP32 HTTP客户端库，支持HTTP/HTTPS请求和响应处理
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `esp32_httpclient_create` | Statement | VAR(field_input) | `esp32_httpclient_create("http")` | `HTTPClient` |
-| `esp32_httpclient_begin_url` | Statement | VAR(field_variable), URL(input_value) | `esp32_httpclient_begin_url(variables_get($http), math_number(0))` | (dynamic code) |
-| `esp32_httpclient_begin_host` | Statement | VAR(field_variable), HOST(input_value), PORT(input_value), URI(input_value) | `esp32_httpclient_begin_host(variables_get($http), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
-| `esp32_httpclient_begin_secure` | Statement | VAR(field_variable), URL(input_value), CA_CERT(input_value) | `esp32_httpclient_begin_secure(variables_get($http), math_number(0), math_number(0))` | (dynamic code) |
-| `esp32_httpclient_begin_secure_full` | Statement | VAR(field_variable), URL(input_value), CA_CERT(input_value), CLIENT_CERT(input_value), CLIENT_KEY(input_value) | `esp32_httpclient_begin_secure_full(variables_get($http), math_number(0), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
-| `esp32_httpclient_end` | Statement | VAR(field_variable) | `esp32_httpclient_end(variables_get($http))` | (dynamic code) |
-| `esp32_httpclient_set_user_agent` | Statement | VAR(field_variable), USER_AGENT(input_value) | `esp32_httpclient_set_user_agent(variables_get($http), math_number(0))` | (dynamic code) |
-| `esp32_httpclient_set_authorization` | Statement | VAR(field_variable), USER(input_value), PASSWORD(input_value) | `esp32_httpclient_set_authorization(variables_get($http), math_number(0), math_number(0))` | (dynamic code) |
-| `esp32_httpclient_set_authorization_token` | Statement | VAR(field_variable), TOKEN(input_value) | `esp32_httpclient_set_authorization_token(variables_get($http), math_number(0))` | (dynamic code) |
-| `esp32_httpclient_set_timeout` | Statement | VAR(field_variable), TIMEOUT(input_value) | `esp32_httpclient_set_timeout(variables_get($http), math_number(1000))` | (dynamic code) |
-| `esp32_httpclient_set_connect_timeout` | Statement | VAR(field_variable), TIMEOUT(input_value) | `esp32_httpclient_set_connect_timeout(variables_get($http), math_number(1000))` | (dynamic code) |
-| `esp32_httpclient_set_reuse` | Statement | VAR(field_variable), REUSE(dropdown) | `esp32_httpclient_set_reuse(variables_get($http), true)` | (dynamic code) |
-| `esp32_httpclient_set_follow_redirects` | Statement | VAR(field_variable), FOLLOW(dropdown) | `esp32_httpclient_set_follow_redirects(variables_get($http), HTTPC_DISABLE_FOLLOW_REDIRECTS)` | (dynamic code) |
-| `esp32_httpclient_set_redirect_limit` | Statement | VAR(field_variable), LIMIT(input_value) | `esp32_httpclient_set_redirect_limit(variables_get($http), math_number(0))` | (dynamic code) |
-| `esp32_httpclient_add_header` | Statement | VAR(field_variable), NAME(input_value), VALUE(input_value) | `esp32_httpclient_add_header(variables_get($http), math_number(0), math_number(0))` | (dynamic code) |
-| `esp32_httpclient_get` | Statement | VAR(field_variable) | `esp32_httpclient_get(variables_get($http))` | `int httpCode =` |
-| `esp32_httpclient_post` | Statement | VAR(field_variable), DATA(input_value) | `esp32_httpclient_post(variables_get($http), math_number(0))` | `int httpCode =` |
-| `esp32_httpclient_put` | Statement | VAR(field_variable), DATA(input_value) | `esp32_httpclient_put(variables_get($http), math_number(0))` | `int httpCode =` |
-| `esp32_httpclient_patch` | Statement | VAR(field_variable), DATA(input_value) | `esp32_httpclient_patch(variables_get($http), math_number(0))` | `int httpCode =` |
+| `esp32_httpclient_begin_url` | Statement | VAR(field_variable), URL(input_value) | `esp32_httpclient_begin_url($http, math_number(0))` | (dynamic code) |
+| `esp32_httpclient_begin_host` | Statement | VAR(field_variable), HOST(input_value), PORT(input_value), URI(input_value) | `esp32_httpclient_begin_host($http, math_number(0), math_number(0), math_number(0))` | (dynamic code) |
+| `esp32_httpclient_begin_secure` | Statement | VAR(field_variable), URL(input_value), CA_CERT(input_value) | `esp32_httpclient_begin_secure($http, math_number(0), math_number(0))` | (dynamic code) |
+| `esp32_httpclient_begin_secure_full` | Statement | VAR(field_variable), URL(input_value), CA_CERT(input_value), CLIENT_CERT(input_value), CLIENT_KEY(input_value) | `esp32_httpclient_begin_secure_full($http, math_number(0), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
+| `esp32_httpclient_end` | Statement | VAR(field_variable) | `esp32_httpclient_end($http)` | (dynamic code) |
+| `esp32_httpclient_set_user_agent` | Statement | VAR(field_variable), USER_AGENT(input_value) | `esp32_httpclient_set_user_agent($http, math_number(0))` | (dynamic code) |
+| `esp32_httpclient_set_authorization` | Statement | VAR(field_variable), USER(input_value), PASSWORD(input_value) | `esp32_httpclient_set_authorization($http, math_number(0), math_number(0))` | (dynamic code) |
+| `esp32_httpclient_set_authorization_token` | Statement | VAR(field_variable), TOKEN(input_value) | `esp32_httpclient_set_authorization_token($http, math_number(0))` | (dynamic code) |
+| `esp32_httpclient_set_timeout` | Statement | VAR(field_variable), TIMEOUT(input_value) | `esp32_httpclient_set_timeout($http, math_number(1000))` | (dynamic code) |
+| `esp32_httpclient_set_connect_timeout` | Statement | VAR(field_variable), TIMEOUT(input_value) | `esp32_httpclient_set_connect_timeout($http, math_number(1000))` | (dynamic code) |
+| `esp32_httpclient_set_reuse` | Statement | VAR(field_variable), REUSE(dropdown) | `esp32_httpclient_set_reuse($http, true)` | (dynamic code) |
+| `esp32_httpclient_set_follow_redirects` | Statement | VAR(field_variable), FOLLOW(dropdown) | `esp32_httpclient_set_follow_redirects($http, HTTPC_DISABLE_FOLLOW_REDIRECTS)` | (dynamic code) |
+| `esp32_httpclient_set_redirect_limit` | Statement | VAR(field_variable), LIMIT(input_value) | `esp32_httpclient_set_redirect_limit($http, math_number(0))` | (dynamic code) |
+| `esp32_httpclient_add_header` | Statement | VAR(field_variable), NAME(input_value), VALUE(input_value) | `esp32_httpclient_add_header($http, math_number(0), math_number(0))` | (dynamic code) |
+| `esp32_httpclient_get` | Statement | VAR(field_variable) | `esp32_httpclient_get($http)` | `int httpCode =` |
+| `esp32_httpclient_post` | Statement | VAR(field_variable), DATA(input_value) | `esp32_httpclient_post($http, math_number(0))` | `int httpCode =` |
+| `esp32_httpclient_put` | Statement | VAR(field_variable), DATA(input_value) | `esp32_httpclient_put($http, math_number(0))` | `int httpCode =` |
+| `esp32_httpclient_patch` | Statement | VAR(field_variable), DATA(input_value) | `esp32_httpclient_patch($http, math_number(0))` | `int httpCode =` |
 | `esp32_httpclient_get_response_code` | Value | (none) | `esp32_httpclient_get_response_code()` | `httpCode` |
 | `esp32_httpclient_code_list` | Value | CODE(dropdown) | `esp32_httpclient_code_list(HTTP_CODE_CONTINUE)` | (dynamic code) |
-| `esp32_httpclient_get_size` | Value | VAR(field_variable) | `esp32_httpclient_get_size(variables_get($http))` | (dynamic code) |
-| `esp32_httpclient_get_string` | Value | VAR(field_variable) | `esp32_httpclient_get_string(variables_get($http))` | (dynamic code) |
-| `esp32_httpclient_get_header` | Value | VAR(field_variable), NAME(input_value) | `esp32_httpclient_get_header(variables_get($http), math_number(0))` | (dynamic code) |
-| `esp32_httpclient_get_location` | Value | VAR(field_variable) | `esp32_httpclient_get_location(variables_get($http))` | (dynamic code) |
-| `esp32_httpclient_get_stream` | Value | VAR(field_variable) | `esp32_httpclient_get_stream(variables_get($http))` | (dynamic code) |
-| `esp32_httpclient_connected` | Value | VAR(field_variable) | `esp32_httpclient_connected(variables_get($http))` | (dynamic code) |
-| `esp32_httpclient_error_to_string` | Value | VAR(field_variable), ERROR_CODE(input_value) | `esp32_httpclient_error_to_string(variables_get($http), math_number(0))` | (dynamic code) |
+| `esp32_httpclient_get_size` | Value | VAR(field_variable) | `esp32_httpclient_get_size($http)` | (dynamic code) |
+| `esp32_httpclient_get_string` | Value | VAR(field_variable) | `esp32_httpclient_get_string($http)` | (dynamic code) |
+| `esp32_httpclient_get_header` | Value | VAR(field_variable), NAME(input_value) | `esp32_httpclient_get_header($http, math_number(0))` | (dynamic code) |
+| `esp32_httpclient_get_location` | Value | VAR(field_variable) | `esp32_httpclient_get_location($http)` | (dynamic code) |
+| `esp32_httpclient_get_stream` | Value | VAR(field_variable) | `esp32_httpclient_get_stream($http)` | (dynamic code) |
+| `esp32_httpclient_connected` | Value | VAR(field_variable) | `esp32_httpclient_connected($http)` | (dynamic code) |
+| `esp32_httpclient_error_to_string` | Value | VAR(field_variable), ERROR_CODE(input_value) | `esp32_httpclient_error_to_string($http, math_number(0))` | (dynamic code) |
 
 ## Parameter Options
 
@@ -53,10 +53,10 @@ ESP32 HTTP客户端库，支持HTTP/HTTPS请求和响应处理
 ```
 arduino_setup()
     esp32_httpclient_create("http")
-    esp32_httpclient_begin_url(variables_get($http), math_number(0))
-    esp32_httpclient_begin_host(variables_get($http), math_number(0), math_number(0), math_number(0))
-    esp32_httpclient_begin_secure(variables_get($http), math_number(0), math_number(0))
-    esp32_httpclient_begin_secure_full(variables_get($http), math_number(0), math_number(0), math_number(0), math_number(0))
+    esp32_httpclient_begin_url($http, math_number(0))
+    esp32_httpclient_begin_host($http, math_number(0), math_number(0), math_number(0))
+    esp32_httpclient_begin_secure($http, math_number(0), math_number(0))
+    esp32_httpclient_begin_secure_full($http, math_number(0), math_number(0), math_number(0), math_number(0))
     serial_begin(Serial, 9600)
 
 arduino_loop()
@@ -66,6 +66,6 @@ arduino_loop()
 
 ## Notes
 
-1. **Variable Creation**: `esp32_httpclient_create("varName", ...)` creates variable `$varName`; reference with `variables_get($varName)`
+1. **Variable Creation**: `esp32_httpclient_create("varName", ...)` creates variable `$varName`; reference with `$varName`
 2. **Initialization**: Place init blocks inside `arduino_setup()`
 3. **Parameter Order**: Follows `block.json` args0 order

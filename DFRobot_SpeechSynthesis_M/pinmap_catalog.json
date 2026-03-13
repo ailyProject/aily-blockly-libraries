@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "library": "@aily-project/lib-speech-synthesis",
+  "displayName": "语音合成模块",
+  "type": "library",
+  "models": [
+    {
+      "id": "tts_module",
+      "name": "语音合成模块",
+      "description": "DFRobot语音合成模块，支持I2C和UART两种通信方式，可将文字转换为语音输出。",
+      "defaultVariant": "i2c",
+      "variants": [
+        {
+          "id": "i2c",
+          "name": "I2C接口",
+          "fullId": "lib-speech-synthesis:tts_module:i2c",
+          "pinmapFile": "pinmaps/tts_module_i2c.json",
+          "protocol": "i2c",
+          "status": "available",
+          "isDefault": true,
+          "previewPins": ["VCC", "GND", "SDA", "SCL"]
+        },
+        {
+          "id": "uart",
+          "name": "UART接口",
+          "fullId": "lib-speech-synthesis:tts_module:uart",
+          "pinmapFile": "pinmaps/tts_module_uart.json",
+          "protocol": "uart",
+          "status": "available",
+          "isDefault": false,
+          "previewPins": ["VCC", "GND", "TX", "RX"]
+        }
+      ]
+    }
+  ]
+}

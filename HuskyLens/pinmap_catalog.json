@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "library": "@aily-project/lib-huskylens",
+  "displayName": "HuskyLens AI 视觉传感器",
+  "type": "library",
+  "models": [
+    {
+      "id": "huskylens",
+      "name": "HuskyLens",
+      "description": "DFRobot AI视觉传感器，内置多种视觉算法（人脸识别、物体追踪、颜色识别等），支持I2C和UART接口。",
+      "defaultVariant": "i2c",
+      "variants": [
+        {
+          "id": "i2c",
+          "name": "I2C 模式",
+          "fullId": "lib-huskylens:huskylens:i2c",
+          "pinmapFile": "pinmaps/huskylens_i2c.json",
+          "protocol": "i2c",
+          "status": "available",
+          "isDefault": true,
+          "previewPins": ["VCC", "GND", "SDA", "SCL"]
+        },
+        {
+          "id": "uart",
+          "name": "UART 模式",
+          "fullId": "lib-huskylens:huskylens:uart",
+          "pinmapFile": "pinmaps/huskylens_uart.json",
+          "protocol": "uart",
+          "status": "available",
+          "isDefault": false,
+          "previewPins": ["VCC", "GND", "TX", "RX"]
+        }
+      ]
+    }
+  ]
+}

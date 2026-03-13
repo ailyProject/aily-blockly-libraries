@@ -12,7 +12,7 @@
 |------------|------------|--------------------------|------------|----------------|
 | `led_matrix_init` | Statement | (none) | `led_matrix_init()` | `matrix.begin();\n` |
 | `led_matrix_clear` | Statement | (none) | `led_matrix_clear()` | `matrix.clear();\n` |
-| `led_matrix_display_text` | Statement | TEXT(input_value), DIRECTION(dropdown), SPEED(input_value) | `led_matrix_display_text(text("hello"), SCROLL_LEFT, math_number(9600))` | `matrix.beginDraw();\n` |
+| `led_matrix_display_text` | Statement | TEXT(input_value), DIRECTION(dropdown), SPEED(input_value) | `led_matrix_display_text(text("hello"), SCROLL_LEFT, math_number(100))` | `matrix.beginDraw();\n` |
 | `led_matrix_display_frame` | Statement | FRAME(input_value) | `led_matrix_display_frame(math_number(0))` | (dynamic code) |
 | `led_matrix_preset_pattern` | Value | PATTERN(field_led_pattern_selector) | `led_matrix_preset_pattern()` | (dynamic code) |
 | `led_matrix_preset_animation` | Statement | PATTERN(field_led_pattern_selector) | `led_matrix_preset_animation()` | (dynamic code) |

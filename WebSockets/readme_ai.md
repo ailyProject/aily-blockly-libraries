@@ -11,26 +11,26 @@ WebSocket客户端和服务器库，基于RFC6455标准，支持ESP32/ESP8266等
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `websocket_client_create` | Statement | VAR(field_input) | `websocket_client_create("wsClient")` | `` |
-| `websocket_client_begin` | Statement | VAR(field_variable), HOST(input_value), PORT(input_value), URL(input_value) | `websocket_client_begin(variables_get($wsClient), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
-| `websocket_client_begin_ssl` | Statement | VAR(field_variable), HOST(input_value), PORT(input_value), URL(input_value) | `websocket_client_begin_ssl(variables_get($wsClient), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
-| `websocket_client_on_event` | Statement | VAR(field_variable) | `websocket_client_on_event(variables_get($wsClient))` | `` |
-| `websocket_client_send_text` | Statement | VAR(field_variable), TEXT(input_value) | `websocket_client_send_text(variables_get($wsClient), text("hello"))` | (dynamic code) |
-| `websocket_client_send_binary` | Statement | VAR(field_variable), DATA(input_value) | `websocket_client_send_binary(variables_get($wsClient), math_number(0))` | (dynamic code) |
-| `websocket_client_disconnect` | Statement | VAR(field_variable) | `websocket_client_disconnect(variables_get($wsClient))` | (dynamic code) |
-| `websocket_client_is_connected` | Value | VAR(field_variable) | `websocket_client_is_connected(variables_get($wsClient))` | (dynamic code) |
-| `websocket_client_set_reconnect` | Statement | VAR(field_variable), INTERVAL(input_value) | `websocket_client_set_reconnect(variables_get($wsClient), math_number(1000))` | (dynamic code) |
-| `websocket_client_enable_heartbeat` | Statement | VAR(field_variable), PING_INTERVAL(input_value), PONG_TIMEOUT(input_value), DISCONNECT_COUNT(input_value) | `websocket_client_enable_heartbeat(variables_get($wsClient), math_number(2), math_number(1000), math_number(0))` | (dynamic code) |
+| `websocket_client_begin` | Statement | VAR(field_variable), HOST(input_value), PORT(input_value), URL(input_value) | `websocket_client_begin($wsClient, math_number(0), math_number(0), math_number(0))` | (dynamic code) |
+| `websocket_client_begin_ssl` | Statement | VAR(field_variable), HOST(input_value), PORT(input_value), URL(input_value) | `websocket_client_begin_ssl($wsClient, math_number(0), math_number(0), math_number(0))` | (dynamic code) |
+| `websocket_client_on_event` | Statement | VAR(field_variable) | `websocket_client_on_event($wsClient)` | `` |
+| `websocket_client_send_text` | Statement | VAR(field_variable), TEXT(input_value) | `websocket_client_send_text($wsClient, text("hello"))` | (dynamic code) |
+| `websocket_client_send_binary` | Statement | VAR(field_variable), DATA(input_value) | `websocket_client_send_binary($wsClient, math_number(0))` | (dynamic code) |
+| `websocket_client_disconnect` | Statement | VAR(field_variable) | `websocket_client_disconnect($wsClient)` | (dynamic code) |
+| `websocket_client_is_connected` | Value | VAR(field_variable) | `websocket_client_is_connected($wsClient)` | (dynamic code) |
+| `websocket_client_set_reconnect` | Statement | VAR(field_variable), INTERVAL(input_value) | `websocket_client_set_reconnect($wsClient, math_number(1000))` | (dynamic code) |
+| `websocket_client_enable_heartbeat` | Statement | VAR(field_variable), PING_INTERVAL(input_value), PONG_TIMEOUT(input_value), DISCONNECT_COUNT(input_value) | `websocket_client_enable_heartbeat($wsClient, math_number(2), math_number(1000), math_number(0))` | (dynamic code) |
 | `websocket_server_create` | Statement | VAR(field_input), PORT(input_value) | `websocket_server_create("wsServer", math_number(0))` | `` |
-| `websocket_server_begin` | Statement | VAR(field_variable) | `websocket_server_begin(variables_get($wsServer))` | (dynamic code) |
-| `websocket_server_on_event` | Statement | VAR(field_variable) | `websocket_server_on_event(variables_get($wsServer))` | `` |
-| `websocket_server_send_text` | Statement | VAR(field_variable), CLIENT_NUM(input_value), TEXT(input_value) | `websocket_server_send_text(variables_get($wsServer), math_number(0), text("hello"))` | (dynamic code) |
-| `websocket_server_broadcast_text` | Statement | VAR(field_variable), TEXT(input_value) | `websocket_server_broadcast_text(variables_get($wsServer), text("hello"))` | (dynamic code) |
-| `websocket_server_send_binary` | Statement | VAR(field_variable), CLIENT_NUM(input_value), DATA(input_value) | `websocket_server_send_binary(variables_get($wsServer), math_number(0), math_number(0))` | (dynamic code) |
-| `websocket_server_broadcast_binary` | Statement | VAR(field_variable), DATA(input_value) | `websocket_server_broadcast_binary(variables_get($wsServer), math_number(0))` | (dynamic code) |
-| `websocket_server_disconnect` | Statement | VAR(field_variable), CLIENT_NUM(input_value) | `websocket_server_disconnect(variables_get($wsServer), math_number(0))` | (dynamic code) |
-| `websocket_server_disconnect_all` | Statement | VAR(field_variable) | `websocket_server_disconnect_all(variables_get($wsServer))` | (dynamic code) |
-| `websocket_server_connected_clients` | Value | VAR(field_variable) | `websocket_server_connected_clients(variables_get($wsServer))` | (dynamic code) |
-| `websocket_server_client_connected` | Value | VAR(field_variable), CLIENT_NUM(input_value) | `websocket_server_client_connected(variables_get($wsServer), math_number(0))` | (dynamic code) |
+| `websocket_server_begin` | Statement | VAR(field_variable) | `websocket_server_begin($wsServer)` | (dynamic code) |
+| `websocket_server_on_event` | Statement | VAR(field_variable) | `websocket_server_on_event($wsServer)` | `` |
+| `websocket_server_send_text` | Statement | VAR(field_variable), CLIENT_NUM(input_value), TEXT(input_value) | `websocket_server_send_text($wsServer, math_number(0), text("hello"))` | (dynamic code) |
+| `websocket_server_broadcast_text` | Statement | VAR(field_variable), TEXT(input_value) | `websocket_server_broadcast_text($wsServer, text("hello"))` | (dynamic code) |
+| `websocket_server_send_binary` | Statement | VAR(field_variable), CLIENT_NUM(input_value), DATA(input_value) | `websocket_server_send_binary($wsServer, math_number(0), math_number(0))` | (dynamic code) |
+| `websocket_server_broadcast_binary` | Statement | VAR(field_variable), DATA(input_value) | `websocket_server_broadcast_binary($wsServer, math_number(0))` | (dynamic code) |
+| `websocket_server_disconnect` | Statement | VAR(field_variable), CLIENT_NUM(input_value) | `websocket_server_disconnect($wsServer, math_number(0))` | (dynamic code) |
+| `websocket_server_disconnect_all` | Statement | VAR(field_variable) | `websocket_server_disconnect_all($wsServer)` | (dynamic code) |
+| `websocket_server_connected_clients` | Value | VAR(field_variable) | `websocket_server_connected_clients($wsServer)` | (dynamic code) |
+| `websocket_server_client_connected` | Value | VAR(field_variable), CLIENT_NUM(input_value) | `websocket_server_client_connected($wsServer, math_number(0))` | (dynamic code) |
 | `websocket_event_type` | Value | TYPE(dropdown) | `websocket_event_type(WStype_DISCONNECTED)` | `WStype_DISCONNECTED` |
 | `websocket_event_payload` | Value | PAYLOAD(dropdown) | `websocket_event_payload(TYPE)` | `type` |
 | `websocket_event_payload_length` | Value | (none) | `websocket_event_payload_length()` | `length` |
@@ -49,19 +49,19 @@ WebSocket客户端和服务器库，基于RFC6455标准，支持ESP32/ESP8266等
 ```
 arduino_setup()
     websocket_client_create("wsClient")
-    websocket_client_begin(variables_get($wsClient), math_number(0), math_number(0), math_number(0))
-    websocket_client_begin_ssl(variables_get($wsClient), math_number(0), math_number(0), math_number(0))
+    websocket_client_begin($wsClient, math_number(0), math_number(0), math_number(0))
+    websocket_client_begin_ssl($wsClient, math_number(0), math_number(0), math_number(0))
     websocket_server_create("wsServer", math_number(0))
-    websocket_server_begin(variables_get($wsServer))
+    websocket_server_begin($wsServer)
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    serial_println(Serial, websocket_client_is_connected(variables_get($wsClient)))
+    serial_println(Serial, websocket_client_is_connected($wsClient))
     time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. **Variable Creation**: `websocket_client_create("varName", ...)` creates variable `$varName`; reference with `variables_get($varName)`
+1. **Variable Creation**: `websocket_client_create("varName", ...)` creates variable `$varName`; reference with `$varName`
 2. **Initialization**: Place init blocks inside `arduino_setup()`
 3. **Parameter Order**: Follows `block.json` args0 order

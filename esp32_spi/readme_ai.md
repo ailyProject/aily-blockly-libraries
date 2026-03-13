@@ -51,6 +51,6 @@ arduino_loop()
 
 ## Notes
 
-1. **Variable Creation**: `esp32_spi_create("varName", ...)` creates variable `$varName`; reference with `variables_get($varName)`
+1. **Variable Creation**: `esp32_spi_create("varName", ...)` creates variable `$varName`; reference with `$varName`
 2. **Initialization**: Place init blocks inside `arduino_setup()`
 3. **Parameter Order**: Follows `block.json` args0 order

@@ -10,7 +10,7 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `servo360_write` | Statement | PIN(dropdown), SPEED(input_value), DIRECTION(dropdown) | `servo360_write(PIN, math_number(9600), true)` | (dynamic code) |
+| `servo360_write` | Statement | PIN(dropdown), SPEED(input_value), DIRECTION(dropdown) | `servo360_write(PIN, math_number(50), true)` | (dynamic code) |
 | `servo360_speed` | Value | SPEED(field_slider) | `servo360_speed()` | (dynamic code) |
 
 ## Parameter Options

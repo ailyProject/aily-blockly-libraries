@@ -11,9 +11,9 @@ LTR308数字光照强度传感器控制库，适用于掌控板3.0等ESP32开发
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `ltr308_init_with_wire` | Statement | VAR(field_input), GAIN(dropdown), INTEGRATION_TIME(dropdown), MEASUREMENT_RATE(dropdown), WIRE(dropdown) | `ltr308_init_with_wire("ltr308", LTR308_GAIN_1, LTR308_INTEGRATION_25MS, LTR308_RATE_25MS, WIRE)` | (dynamic code) |
-| `ltr308_read_light_level` | Value | VAR(field_variable) | `ltr308_read_light_level(variables_get($ltr308))` | (dynamic code) |
-| `ltr308_read_raw_data` | Value | VAR(field_variable) | `ltr308_read_raw_data(variables_get($ltr308))` | (dynamic code) |
-| `ltr308_is_data_ready` | Value | VAR(field_variable) | `ltr308_is_data_ready(variables_get($ltr308))` | (dynamic code) |
+| `ltr308_read_light_level` | Value | VAR(field_variable) | `ltr308_read_light_level($ltr308)` | (dynamic code) |
+| `ltr308_read_raw_data` | Value | VAR(field_variable) | `ltr308_read_raw_data($ltr308)` | (dynamic code) |
+| `ltr308_is_data_ready` | Value | VAR(field_variable) | `ltr308_is_data_ready($ltr308)` | (dynamic code) |
 
 ## Parameter Options
 
@@ -32,12 +32,12 @@ arduino_setup()
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    serial_println(Serial, ltr308_read_light_level(variables_get($ltr308)))
+    serial_println(Serial, ltr308_read_light_level($ltr308))
     time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. **Variable Creation**: `ltr308_init_with_wire("varName", ...)` creates variable `$varName`; reference with `variables_get($varName)`
+1. **Variable Creation**: `ltr308_init_with_wire("varName", ...)` creates variable `$varName`; reference with `$varName`
 2. **Initialization**: Place init blocks inside `arduino_setup()`
 3. **Parameter Order**: Follows `block.json` args0 order

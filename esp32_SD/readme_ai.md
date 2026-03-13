@@ -15,12 +15,12 @@ SD卡及文件系统操作库,通过SPI实现对SD卡的文件读写操作，简
 | `esp32_sd_init` | Statement | SPI(dropdown), SS(input_value), FREQUENCY(input_value) | `esp32_sd_init(SPI, math_number(0), math_number(0))` | `` |
 | `esp32_sd_card_info` | Value | INFO(dropdown) | `esp32_sd_card_info(cardType)` | (dynamic code) |
 | `esp32_sd_file_exists` | Value | PATH(input_value) | `esp32_sd_file_exists(math_number(0))` | `SD.exists(` |
-| `esp32_sd_open_file` | Value | VAR(field_variable), PATH(input_value), MODE(dropdown) | `esp32_sd_open_file(variables_get($file), math_number(0), FILE_READ)` | (dynamic code) |
-| `esp32_sd_close_file` | Statement | VAR(field_variable) | `esp32_sd_close_file(variables_get($file))` | (dynamic code) |
-| `esp32_sd_write_file` | Statement | VAR(field_variable), CONTENT(input_value) | `esp32_sd_write_file(variables_get($file), math_number(0))` | (dynamic code) |
-| `esp32_sd_read_file` | Value | VAR(field_variable) | `esp32_sd_read_file(variables_get($file))` | (dynamic code) |
-| `esp32_sd_file_available` | Value | VAR(field_variable) | `esp32_sd_file_available(variables_get($file))` | (dynamic code) |
-| `esp32_sd_file_size` | Value | VAR(field_variable) | `esp32_sd_file_size(variables_get($file))` | (dynamic code) |
+| `esp32_sd_open_file` | Value | VAR(field_variable), PATH(input_value), MODE(dropdown) | `esp32_sd_open_file($file, math_number(0), FILE_READ)` | (dynamic code) |
+| `esp32_sd_close_file` | Statement | VAR(field_variable) | `esp32_sd_close_file($file)` | (dynamic code) |
+| `esp32_sd_write_file` | Statement | VAR(field_variable), CONTENT(input_value) | `esp32_sd_write_file($file, math_number(0))` | (dynamic code) |
+| `esp32_sd_read_file` | Value | VAR(field_variable) | `esp32_sd_read_file($file)` | (dynamic code) |
+| `esp32_sd_file_available` | Value | VAR(field_variable) | `esp32_sd_file_available($file)` | (dynamic code) |
+| `esp32_sd_file_size` | Value | VAR(field_variable) | `esp32_sd_file_size($file)` | (dynamic code) |
 | `esp32_sd_write_file_quick` | Statement | PATH(input_value), CONTENT(input_value) | `esp32_sd_write_file_quick(math_number(0), math_number(0))` | (dynamic code) |
 | `esp32_sd_read_file_quick` | Value | PATH(input_value) | `esp32_sd_read_file_quick(math_number(0))` | (dynamic code) |
 | `esp32_sd_append_file` | Statement | PATH(input_value), CONTENT(input_value) | `esp32_sd_append_file(math_number(0), math_number(0))` | (dynamic code) |

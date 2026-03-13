@@ -11,8 +11,8 @@ HC-SR04超声波距离传感器的Aily Blockly库,支持2-400cm距离测量
 | 块类型 | 连接类型 | 参数(args0顺序) | ABS格式 | 生成代码 |
 |--------|----------|----------------|---------|----------|
 | `sr04_setup` | Statement | VAR(field_input), TRIG_PIN(input_value), ECHO_PIN(input_value), MAX_DISTANCE(field_number) | `sr04_setup("sr04", io_pin_digi(2), io_pin_digi(3), 400)` | `UltraSonicDistanceSensor sr04(2, 3, 400);` |
-| `sr04_measure_distance` | Value | VAR(field_variable) | `sr04_measure_distance(variables_get($sr04))` | `sr04.measureDistanceCm()` |
-| `sr04_measure_distance_with_temp` | Value | VAR(field_variable), TEMPERATURE(input_value) | `sr04_measure_distance_with_temp(variables_get($sr04), math_number(25))` | `sr04.measureDistanceCm(25)` |
+| `sr04_measure_distance` | Value | VAR(field_variable) | `sr04_measure_distance($sr04)` | `sr04.measureDistanceCm()` |
+| `sr04_measure_distance_with_temp` | Value | VAR(field_variable), TEMPERATURE(input_value) | `sr04_measure_distance_with_temp($sr04, math_number(25))` | `sr04.measureDistanceCm(25)` |
 | `sr04_measure_quick` | Value | TRIG_PIN(input_value), ECHO_PIN(input_value) | `sr04_measure_quick(io_pin_digi(2), io_pin_digi(3))` | `sr04_quick_measure(2, 3)` |
 
 ## 参数选项

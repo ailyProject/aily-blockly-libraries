@@ -11,14 +11,14 @@ CHSC6X电容式触摸屏控制器驱动库，支持单点触摸和旋转配置(I
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `chsc6x_setup` | Statement | VAR(field_input), WIRE(dropdown), ADDRESS(input_value), PIN(input_value), WIDTH(input_value), HEIGHT(input_value), ROTATION(dropdown) | `chsc6x_setup("touch", WIRE, math_number(0), math_number(2), math_number(0), math_number(0), 0)` | (dynamic code) |
-| `chsc6x_is_pressed` | Value | VAR(field_variable) | `chsc6x_is_pressed(variables_get($touch))` | (dynamic code) |
-| `chsc6x_get_x` | Value | VAR(field_variable) | `chsc6x_get_x(variables_get($touch))` | (dynamic code) |
-| `chsc6x_get_y` | Value | VAR(field_variable) | `chsc6x_get_y(variables_get($touch))` | (dynamic code) |
-| `chsc6x_get_xy` | Value | VAR(field_variable), X(input_value), Y(input_value) | `chsc6x_get_xy(variables_get($touch), math_number(0), math_number(0))` | (dynamic code) |
-| `chsc6x_set_rotation` | Statement | VAR(field_variable), ROTATION(input_value) | `chsc6x_set_rotation(variables_get($touch), math_number(0))` | (dynamic code) |
-| `chsc6x_get_rotation` | Value | VAR(field_variable) | `chsc6x_get_rotation(variables_get($touch))` | (dynamic code) |
-| `chsc6x_set_screen_size` | Statement | VAR(field_variable), WIDTH(input_value), HEIGHT(input_value) | `chsc6x_set_screen_size(variables_get($touch), math_number(0), math_number(0))` | (dynamic code) |
-| `chsc6x_run` | Value | VAR(field_variable) | `chsc6x_run(variables_get($touch))` | (dynamic code) |
+| `chsc6x_is_pressed` | Value | VAR(field_variable) | `chsc6x_is_pressed($touch)` | (dynamic code) |
+| `chsc6x_get_x` | Value | VAR(field_variable) | `chsc6x_get_x($touch)` | (dynamic code) |
+| `chsc6x_get_y` | Value | VAR(field_variable) | `chsc6x_get_y($touch)` | (dynamic code) |
+| `chsc6x_get_xy` | Value | VAR(field_variable), X(input_value), Y(input_value) | `chsc6x_get_xy($touch, math_number(0), math_number(0))` | (dynamic code) |
+| `chsc6x_set_rotation` | Statement | VAR(field_variable), ROTATION(input_value) | `chsc6x_set_rotation($touch, math_number(0))` | (dynamic code) |
+| `chsc6x_get_rotation` | Value | VAR(field_variable) | `chsc6x_get_rotation($touch)` | (dynamic code) |
+| `chsc6x_set_screen_size` | Statement | VAR(field_variable), WIDTH(input_value), HEIGHT(input_value) | `chsc6x_set_screen_size($touch, math_number(0), math_number(0))` | (dynamic code) |
+| `chsc6x_run` | Value | VAR(field_variable) | `chsc6x_run($touch)` | (dynamic code) |
 
 ## Parameter Options
 
@@ -35,12 +35,12 @@ arduino_setup()
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    serial_println(Serial, chsc6x_is_pressed(variables_get($touch)))
+    serial_println(Serial, chsc6x_is_pressed($touch))
     time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. **Variable Creation**: `chsc6x_setup("varName", ...)` creates variable `$varName`; reference with `variables_get($varName)`
+1. **Variable Creation**: `chsc6x_setup("varName", ...)` creates variable `$varName`; reference with `$varName`
 2. **Initialization**: Place init blocks inside `arduino_setup()`
 3. **Parameter Order**: Follows `block.json` args0 order

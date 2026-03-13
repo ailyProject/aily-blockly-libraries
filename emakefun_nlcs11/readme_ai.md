@@ -11,8 +11,8 @@ Emakefun NLCS11 颜色传感器，支持 RGBC 颜色检测、增益和积分时�
 | 块类型 | 连接类型 | 参数 (args0顺序) | ABS格式 | 生成代码 |
 |--------|----------|------------------|---------|----------|
 | `nlcs11_init` | Statement | VAR(field_input), GAIN(dropdown), INTEGRATION_TIME(dropdown) | `nlcs11_init("colorSensor", kGain1X, kIntegrationTime10ms)` | `emakefun::ColorSensorNlcs11 var(gain, time); var.Initialize();` |
-| `nlcs11_get_color` | Value(Boolean) | VAR(field_variable) | `nlcs11_get_color(variables_get($colorSensor))` | `var.GetColor(&var_color)` |
-| `nlcs11_color_value` | Value(Number) | VAR(field_variable), CHANNEL(dropdown) | `nlcs11_color_value(variables_get($colorSensor), r)` | `var_color.r` |
+| `nlcs11_get_color` | Value(Boolean) | VAR(field_variable) | `nlcs11_get_color($colorSensor)` | `var.GetColor(&var_color)` |
+| `nlcs11_color_value` | Value(Number) | VAR(field_variable), CHANNEL(dropdown) | `nlcs11_color_value($colorSensor, r)` | `var_color.r` |
 
 **说明**: `nlcs11_init` 会自动创建 `ColorSensorNlcs11` 类型变量和对应的 `Color` 结构体变量，后续用 `$变量名` 引用。
 

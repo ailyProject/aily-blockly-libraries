@@ -10,12 +10,12 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `Arduino_FFT_init` | Statement | REAL_ARRAY(field_variable), IMAG_ARRAY(field_variable), SAMPLES_COUNT(input_value), SAMPLING_FREQUENCY(input_value) | `Arduino_FFT_init(variables_get($vReal), variables_get($vImag), math_number(0), math_number(0))` | — |
-| `Arduino_FFT_windowing` | Statement | ARRAY(field_variable), WINDOW_TYPE(dropdown), DIRECTION(dropdown) | `Arduino_FFT_windowing(variables_get($vReal), FFT_WIN_TYP_RECTANGLE, FFT_FORWARD)` | — |
-| `Arduino_FFT_compute` | Statement | REAL_ARRAY(field_variable), IMAG_ARRAY(field_variable), SAMPLES_COUNT(input_value), DIRECTION(dropdown) | `Arduino_FFT_compute(variables_get($vReal), variables_get($vImag), math_number(0), FFT_FORWARD)` | — |
-| `Arduino_FFT_complex_to_magnitude` | Statement | REAL_ARRAY(field_variable), IMAG_ARRAY(field_variable), SAMPLES_COUNT(input_value) | `Arduino_FFT_complex_to_magnitude(variables_get($vReal), variables_get($vImag), math_number(0))` | — |
-| `Arduino_FFT_major_peak` | Value | MAGNITUDE_ARRAY(field_variable), SAMPLES_COUNT(input_value), SAMPLING_FREQUENCY(input_value) | `Arduino_FFT_major_peak(variables_get($vReal), math_number(0), math_number(0))` | — |
-| `Arduino_FFT_get_band` | Value | MAGNITUDE_ARRAY(field_variable), SAMPLES_COUNT(input_value), SAMPLING_FREQUENCY(input_value), BAND_INDEX(input_value) | `Arduino_FFT_get_band(variables_get($vReal), math_number(0), math_number(0), math_number(0))` | — |
+| `Arduino_FFT_init` | Statement | REAL_ARRAY(field_variable), IMAG_ARRAY(field_variable), SAMPLES_COUNT(input_value), SAMPLING_FREQUENCY(input_value) | `Arduino_FFT_init($vReal, $vImag, math_number(0), math_number(0))` | — |
+| `Arduino_FFT_windowing` | Statement | ARRAY(field_variable), WINDOW_TYPE(dropdown), DIRECTION(dropdown) | `Arduino_FFT_windowing($vReal, FFT_WIN_TYP_RECTANGLE, FFT_FORWARD)` | — |
+| `Arduino_FFT_compute` | Statement | REAL_ARRAY(field_variable), IMAG_ARRAY(field_variable), SAMPLES_COUNT(input_value), DIRECTION(dropdown) | `Arduino_FFT_compute($vReal, $vImag, math_number(0), FFT_FORWARD)` | — |
+| `Arduino_FFT_complex_to_magnitude` | Statement | REAL_ARRAY(field_variable), IMAG_ARRAY(field_variable), SAMPLES_COUNT(input_value) | `Arduino_FFT_complex_to_magnitude($vReal, $vImag, math_number(0))` | — |
+| `Arduino_FFT_major_peak` | Value | MAGNITUDE_ARRAY(field_variable), SAMPLES_COUNT(input_value), SAMPLING_FREQUENCY(input_value) | `Arduino_FFT_major_peak($vReal, math_number(0), math_number(0))` | — |
+| `Arduino_FFT_get_band` | Value | MAGNITUDE_ARRAY(field_variable), SAMPLES_COUNT(input_value), SAMPLING_FREQUENCY(input_value), BAND_INDEX(input_value) | `Arduino_FFT_get_band($vReal, math_number(0), math_number(0), math_number(0))` | — |
 
 ## Parameter Options
 
@@ -29,11 +29,11 @@
 ### Basic Usage
 ```
 arduino_setup()
-    Arduino_FFT_init(variables_get($vReal), variables_get($vImag), math_number(0), math_number(0))
+    Arduino_FFT_init($vReal, variables_get($vImag), math_number(0), math_number(0))
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    serial_println(Serial, Arduino_FFT_major_peak(variables_get($vReal), math_number(0), math_number(0)))
+    serial_println(Serial, Arduino_FFT_major_peak($vReal, math_number(0), math_number(0)))
     time_delay(math_number(1000))
 ```
 

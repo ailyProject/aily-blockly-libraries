@@ -11,7 +11,7 @@ IOBOX电机驱动控制库，支持M1和M2两个直流电机，适用于microbit
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `iobox_motor_init` | Statement | (none) | `iobox_motor_init()` | `` |
-| `iobox_motor_run` | Statement | INDEX(dropdown), DIRECTION(dropdown), SPEED(input_value) | `iobox_motor_run(0, 0, math_number(9600))` | `motor.motorRun(` |
+| `iobox_motor_run` | Statement | INDEX(dropdown), DIRECTION(dropdown), SPEED(input_value) | `iobox_motor_run(0, 0, math_number(100))` | `motor.motorRun(` |
 | `iobox_motor_stop` | Statement | INDEX(dropdown) | `iobox_motor_stop(0)` | `motor.motorStop(` |
 
 ## Parameter Options

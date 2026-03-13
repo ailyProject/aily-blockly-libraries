@@ -17,7 +17,7 @@ LIS3DHTR加速度传感器支持库，支持Arduino UNO、MEGA、ESP8266、ESP32
 | `lis3dhtr_get_acceleration_y` | Value | (none) | `lis3dhtr_get_acceleration_y()` | `accel_sensor.getAccelerationY()` |
 | `lis3dhtr_get_acceleration_z` | Value | (none) | `lis3dhtr_get_acceleration_z()` | `accel_sensor.getAccelerationZ()` |
 | `lis3dhtr_get_acceleration` | Value | AXIS(dropdown) | `lis3dhtr_get_acceleration(X)` | (dynamic code) |
-| `lis3dhtr_get_acceleration_xyz` | Statement | X_VAR(field_variable), Y_VAR(field_variable), Z_VAR(field_variable) | `lis3dhtr_get_acceleration_xyz(variables_get($x), variables_get($y), variables_get($z))` | `accel_sensor.getAcceleration(&` |
+| `lis3dhtr_get_acceleration_xyz` | Statement | X_VAR(field_variable), Y_VAR(field_variable), Z_VAR(field_variable) | `lis3dhtr_get_acceleration_xyz($x, $y, $z)` | `accel_sensor.getAcceleration(&` |
 | `lis3dhtr_open_temp` | Statement | (none) | `lis3dhtr_open_temp()` | `accel_sensor.openTemp();\n` |
 | `lis3dhtr_close_temp` | Statement | (none) | `lis3dhtr_close_temp()` | `accel_sensor.closeTemp();\n` |
 | `lis3dhtr_get_temperature` | Value | (none) | `lis3dhtr_get_temperature()` | `accel_sensor.getTemperature()` |

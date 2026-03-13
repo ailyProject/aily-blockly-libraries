@@ -11,11 +11,11 @@ Emakefun NLCS21 颜色传感器，支持 RGBC 颜色检测、增益和积分时�
 | 块类型 | 连接类型 | 参数 (args0顺序) | ABS格式 | 生成代码 |
 |--------|----------|------------------|---------|----------|
 | `nlcs21_init` | Statement | VAR(field_input), GAIN(dropdown), INTEGRATION_TIME(dropdown) | `nlcs21_init("colorSensor", kGain1X, kIntegrationTime132ms)` | `emakefun::ColorSensorNlcs21 var(gain, time); var.Initialize();` |
-| `nlcs21_get_color` | Value(Boolean) | VAR(field_variable) | `nlcs21_get_color(variables_get($colorSensor))` | `var.GetColor(&var_color)` |
-| `nlcs21_color_value` | Value(Number) | VAR(field_variable), CHANNEL(dropdown) | `nlcs21_color_value(variables_get($colorSensor), r)` | `var_color.r` |
-| `nlcs21_set_threshold` | Statement | VAR(field_variable), LOW(input_value), HIGH(input_value) | `nlcs21_set_threshold(variables_get($colorSensor), math_number(0), math_number(150))` | `var.SetThreshold(low, high);` |
-| `nlcs21_get_interrupt` | Value(Number) | VAR(field_variable) | `nlcs21_get_interrupt(variables_get($colorSensor))` | `var.GetInterruptStatus()` |
-| `nlcs21_clear_interrupt` | Statement | VAR(field_variable) | `nlcs21_clear_interrupt(variables_get($colorSensor))` | `var.ClearInterrupt();` |
+| `nlcs21_get_color` | Value(Boolean) | VAR(field_variable) | `nlcs21_get_color($colorSensor)` | `var.GetColor(&var_color)` |
+| `nlcs21_color_value` | Value(Number) | VAR(field_variable), CHANNEL(dropdown) | `nlcs21_color_value($colorSensor, r)` | `var_color.r` |
+| `nlcs21_set_threshold` | Statement | VAR(field_variable), LOW(input_value), HIGH(input_value) | `nlcs21_set_threshold($colorSensor, math_number(0), math_number(150))` | `var.SetThreshold(low, high);` |
+| `nlcs21_get_interrupt` | Value(Number) | VAR(field_variable) | `nlcs21_get_interrupt($colorSensor)` | `var.GetInterruptStatus()` |
+| `nlcs21_clear_interrupt` | Statement | VAR(field_variable) | `nlcs21_clear_interrupt($colorSensor)` | `var.ClearInterrupt();` |
 
 **说明**: `nlcs21_init` 会自动创建 `ColorSensorNlcs21` 类型变量和对应的 `Color` 结构体变量，后续用 `$变量名` 引用。
 

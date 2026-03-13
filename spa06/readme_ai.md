@@ -12,19 +12,19 @@ SPA06-003气压温度传感器库，支持I2C和SPI通信，提供高精度压�
 |------------|------------|--------------------------|------------|----------------|
 | `spa06_create_i2c` | Statement | VAR(field_input), ADDR(dropdown) | `spa06_create_i2c("spa06", 0x76)` | `` |
 | `spa06_create_spi` | Statement | VAR(field_input), PIN(field_input) | `spa06_create_spi("spa06", "SS")` | (dynamic code) |
-| `spa06_set_pressure_sampling` | Statement | VAR(field_variable), RATE(dropdown), OVERSAMPLE(dropdown) | `spa06_set_pressure_sampling(variables_get($spa06), SPL07_1HZ, SPL07_1SAMPLE)` | `....setPressureConfig(..., ...);\n` |
-| `spa06_set_temperature_sampling` | Statement | VAR(field_variable), RATE(dropdown), OVERSAMPLE(dropdown) | `spa06_set_temperature_sampling(variables_get($spa06), SPL07_1HZ, SPL07_1SAMPLE)` | `....setTemperatureConfig(..., ...);\n` |
-| `spa06_set_mode` | Statement | VAR(field_variable), MODE(dropdown) | `spa06_set_mode(variables_get($spa06), SPL07_IDLE)` | `....setMode(...);\n` |
-| `spa06_set_temperature_source` | Statement | VAR(field_variable), SOURCE(dropdown) | `spa06_set_temperature_source(variables_get($spa06), SPL07_TSRC_ASIC)` | `....setTemperatureSource(...);\n` |
-| `spa06_read_pressure` | Value | VAR(field_variable) | `spa06_read_pressure(variables_get($spa06))` | `....readPressure()` |
-| `spa06_read_temperature` | Value | VAR(field_variable) | `spa06_read_temperature(variables_get($spa06))` | `....readTemperature()` |
-| `spa06_calc_altitude` | Value | VAR(field_variable) | `spa06_calc_altitude(variables_get($spa06))` | `....calcAltitude()` |
-| `spa06_pressure_available` | Value | VAR(field_variable) | `spa06_pressure_available(variables_get($spa06))` | `....pressureAvailable()` |
-| `spa06_temperature_available` | Value | VAR(field_variable) | `spa06_temperature_available(variables_get($spa06))` | `....temperatureAvailable()` |
-| `spa06_set_interrupt` | Statement | VAR(field_variable), INTERRUPT(dropdown) | `spa06_set_interrupt(variables_get($spa06), SPL07_INT_OFF)` | `....configureInterrupt(...);\n` |
-| `spa06_get_interrupt_status` | Value | VAR(field_variable) | `spa06_get_interrupt_status(variables_get($spa06))` | `....getInterruptStatus()` |
-| `spa06_set_pressure_offset` | Statement | VAR(field_variable), OFFSET(input_value) | `spa06_set_pressure_offset(variables_get($spa06), math_number(0))` | `....setPressureOffset(...);\n` |
-| `spa06_set_temperature_offset` | Statement | VAR(field_variable), OFFSET(input_value) | `spa06_set_temperature_offset(variables_get($spa06), math_number(0))` | `....setTemperatureOffset(...);\n` |
+| `spa06_set_pressure_sampling` | Statement | VAR(field_variable), RATE(dropdown), OVERSAMPLE(dropdown) | `spa06_set_pressure_sampling($spa06, SPL07_1HZ, SPL07_1SAMPLE)` | `....setPressureConfig(..., ...);\n` |
+| `spa06_set_temperature_sampling` | Statement | VAR(field_variable), RATE(dropdown), OVERSAMPLE(dropdown) | `spa06_set_temperature_sampling($spa06, SPL07_1HZ, SPL07_1SAMPLE)` | `....setTemperatureConfig(..., ...);\n` |
+| `spa06_set_mode` | Statement | VAR(field_variable), MODE(dropdown) | `spa06_set_mode($spa06, SPL07_IDLE)` | `....setMode(...);\n` |
+| `spa06_set_temperature_source` | Statement | VAR(field_variable), SOURCE(dropdown) | `spa06_set_temperature_source($spa06, SPL07_TSRC_ASIC)` | `....setTemperatureSource(...);\n` |
+| `spa06_read_pressure` | Value | VAR(field_variable) | `spa06_read_pressure($spa06)` | `....readPressure()` |
+| `spa06_read_temperature` | Value | VAR(field_variable) | `spa06_read_temperature($spa06)` | `....readTemperature()` |
+| `spa06_calc_altitude` | Value | VAR(field_variable) | `spa06_calc_altitude($spa06)` | `....calcAltitude()` |
+| `spa06_pressure_available` | Value | VAR(field_variable) | `spa06_pressure_available($spa06)` | `....pressureAvailable()` |
+| `spa06_temperature_available` | Value | VAR(field_variable) | `spa06_temperature_available($spa06)` | `....temperatureAvailable()` |
+| `spa06_set_interrupt` | Statement | VAR(field_variable), INTERRUPT(dropdown) | `spa06_set_interrupt($spa06, SPL07_INT_OFF)` | `....configureInterrupt(...);\n` |
+| `spa06_get_interrupt_status` | Value | VAR(field_variable) | `spa06_get_interrupt_status($spa06)` | `....getInterruptStatus()` |
+| `spa06_set_pressure_offset` | Statement | VAR(field_variable), OFFSET(input_value) | `spa06_set_pressure_offset($spa06, math_number(0))` | `....setPressureOffset(...);\n` |
+| `spa06_set_temperature_offset` | Statement | VAR(field_variable), OFFSET(input_value) | `spa06_set_temperature_offset($spa06, math_number(0))` | `....setTemperatureOffset(...);\n` |
 
 ## Parameter Options
 
@@ -47,12 +47,12 @@ arduino_setup()
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    serial_println(Serial, spa06_read_pressure(variables_get($spa06)))
+    serial_println(Serial, spa06_read_pressure($spa06))
     time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. **Variable Creation**: `spa06_create_i2c("varName", ...)` creates variable `$varName`; reference with `variables_get($varName)`
+1. **Variable Creation**: `spa06_create_i2c("varName", ...)` creates variable `$varName`; reference with `$varName`
 2. **Initialization**: Place init blocks inside `arduino_setup()`
 3. **Parameter Order**: Follows `block.json` args0 order

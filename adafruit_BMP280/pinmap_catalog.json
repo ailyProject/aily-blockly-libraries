@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "library": "@aily-project/lib-bmp280",
+  "displayName": "BMP280 气压传感器",
+  "type": "library",
+  "models": [
+    {
+      "id": "bmp280",
+      "name": "BMP280",
+      "description": "数字气压温度传感器，气压量程300~1100hPa（精度±1hPa），温度量程-40~85°C，支持I2C和SPI接口。",
+      "defaultVariant": "i2c",
+      "variants": [
+        {
+          "id": "i2c",
+          "name": "I2C 模块",
+          "fullId": "lib-bmp280:bmp280:i2c",
+          "pinmapFile": "pinmaps/bmp280_i2c.json",
+          "protocol": "i2c",
+          "status": "available",
+          "isDefault": true,
+          "previewPins": ["VCC", "GND", "SDA", "SCL"]
+        },
+        {
+          "id": "spi",
+          "name": "SPI 模块",
+          "fullId": "lib-bmp280:bmp280:spi",
+          "pinmapFile": "pinmaps/bmp280_spi.json",
+          "protocol": "spi",
+          "status": "available",
+          "isDefault": false,
+          "previewPins": ["VCC", "GND", "SCK", "MOSI", "MISO", "CS"]
+        }
+      ]
+    }
+  ]
+}

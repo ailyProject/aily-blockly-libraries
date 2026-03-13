@@ -30,7 +30,7 @@ Seeed SSCMA微控制器AI推理核心库，专为ESP32-S3优化的本地AI视觉
 | `sscma_core_get_keypoints_points` | Statement | (none) | `sscma_core_get_keypoints_points()` | (dynamic code) |
 | `sscma_core_get_keypoints_points_info` | Value | PROPERTY(dropdown) | `sscma_core_get_keypoints_points_info(x)` | (dynamic code) |
 | `sscma_core_get_perf` | Statement | VAR(field_input) | `sscma_core_get_perf("perf")` | (dynamic code) |
-| `sscma_core_get_perf_info` | Value | VAR(field_variable), PROPERTY(dropdown) | `sscma_core_get_perf_info(variables_get($perf), preprocess)` | (dynamic code) |
+| `sscma_core_get_perf_info` | Value | VAR(field_variable), PROPERTY(dropdown) | `sscma_core_get_perf_info($perf, preprocess)` | (dynamic code) |
 
 ## Parameter Options
 

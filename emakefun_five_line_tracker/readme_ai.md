@@ -11,14 +11,14 @@ emakefun 五路巡线传感器模块 v3，I2C接口，支持模拟值和数字�
 | 块类型 | 连接类型 | 参数 (args0顺序) | ABS格式 | 生成的代码 |
 |--------|----------|------------------|---------|------------|
 | `five_line_tracker_v3_setup` | Statement | VAR(field_input), I2C_ADDRESS(dropdown) | `five_line_tracker_v3_setup("lineTracker", 0x50)` | `emakefun::FiveLineTracker lineTracker(Wire, 0x50);` + `Wire.begin();` + `lineTracker.Initialize();` |
-| `five_line_tracker_v3_get_device_id` | Value | VAR(field_variable) | `five_line_tracker_v3_get_device_id(variables_get($lineTracker))` | `lineTracker.DeviceId()` |
-| `five_line_tracker_v3_get_firmware_version` | Value | VAR(field_variable) | `five_line_tracker_v3_get_firmware_version(variables_get($lineTracker))` | `lineTracker.FirmwareVersion()` |
-| `five_line_tracker_v3_set_high_threshold` | Statement | VAR(field_variable), CHANNEL(dropdown), THRESHOLD(input_value) | `five_line_tracker_v3_set_high_threshold(variables_get($lineTracker), 0, math_number(850))` | `lineTracker.HighThreshold(0, 850);` |
-| `five_line_tracker_v3_set_low_threshold` | Statement | VAR(field_variable), CHANNEL(dropdown), THRESHOLD(input_value) | `five_line_tracker_v3_set_low_threshold(variables_get($lineTracker), 0, math_number(800))` | `lineTracker.LowThreshold(0, 800);` |
-| `five_line_tracker_v3_get_analog_value` | Value | VAR(field_variable), CHANNEL(dropdown) | `five_line_tracker_v3_get_analog_value(variables_get($lineTracker), 0)` | `lineTracker.AnalogValue(0)` |
-| `five_line_tracker_v3_get_digital_value` | Value | VAR(field_variable), CHANNEL(dropdown) | `five_line_tracker_v3_get_digital_value(variables_get($lineTracker), 0)` | `lineTracker.DigitalValue(0)` |
-| `five_line_tracker_v3_get_all_digital_values` | Value | VAR(field_variable) | `five_line_tracker_v3_get_all_digital_values(variables_get($lineTracker))` | `lineTracker.DigitalValues()` |
-| `five_line_tracker_v3_check_error` | Value | VAR(field_variable) | `five_line_tracker_v3_check_error(variables_get($lineTracker))` | `(emakefun::FiveLineTracker::kOK == lineTracker.Initialize())` |
+| `five_line_tracker_v3_get_device_id` | Value | VAR(field_variable) | `five_line_tracker_v3_get_device_id($lineTracker)` | `lineTracker.DeviceId()` |
+| `five_line_tracker_v3_get_firmware_version` | Value | VAR(field_variable) | `five_line_tracker_v3_get_firmware_version($lineTracker)` | `lineTracker.FirmwareVersion()` |
+| `five_line_tracker_v3_set_high_threshold` | Statement | VAR(field_variable), CHANNEL(dropdown), THRESHOLD(input_value) | `five_line_tracker_v3_set_high_threshold($lineTracker, 0, math_number(850))` | `lineTracker.HighThreshold(0, 850);` |
+| `five_line_tracker_v3_set_low_threshold` | Statement | VAR(field_variable), CHANNEL(dropdown), THRESHOLD(input_value) | `five_line_tracker_v3_set_low_threshold($lineTracker, 0, math_number(800))` | `lineTracker.LowThreshold(0, 800);` |
+| `five_line_tracker_v3_get_analog_value` | Value | VAR(field_variable), CHANNEL(dropdown) | `five_line_tracker_v3_get_analog_value($lineTracker, 0)` | `lineTracker.AnalogValue(0)` |
+| `five_line_tracker_v3_get_digital_value` | Value | VAR(field_variable), CHANNEL(dropdown) | `five_line_tracker_v3_get_digital_value($lineTracker, 0)` | `lineTracker.DigitalValue(0)` |
+| `five_line_tracker_v3_get_all_digital_values` | Value | VAR(field_variable) | `five_line_tracker_v3_get_all_digital_values($lineTracker)` | `lineTracker.DigitalValues()` |
+| `five_line_tracker_v3_check_error` | Value | VAR(field_variable) | `five_line_tracker_v3_check_error($lineTracker)` | `(emakefun::FiveLineTracker::kOK == lineTracker.Initialize())` |
 
 ## 参数选项
 

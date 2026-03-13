@@ -12,10 +12,10 @@ ESP32 Summer Board智能小车综合控制库，支持编码电机、舵机等
 |------------|------------|--------------------------|------------|----------------|
 | `car_is_key_pressed` | Value | KEY(dropdown) | `car_is_key_pressed(0)` | `(readKeyEvent() == ...)` |
 | `car_servo_angle` | Statement | PIN(dropdown), ANGLE(input_value) | `car_servo_angle(0, math_number(0))` | `STM32_I2C.servoAngle(..., ...);\n` |
-| `car_motor_control_single` | Statement | MOTOR_ID(dropdown), DIRECTION(dropdown), SPEED(input_value) | `car_motor_control_single(0, 0, math_number(9600))` | `STM32_I2C.motorControl(..., ..., constrain(..., 0, 255));\n` |
+| `car_motor_control_single` | Statement | MOTOR_ID(dropdown), DIRECTION(dropdown), SPEED(input_value) | `car_motor_control_single(0, 0, math_number(100))` | `STM32_I2C.motorControl(..., ..., constrain(..., 0, 255));\n` |
 | `car_motor_stop_single` | Statement | MOTOR_ID(dropdown) | `car_motor_stop_single(0)` | `STM32_I2C.motorStop(...);\n` |
-| `car_stepper_control` | Statement | STEPPER_NUM(dropdown), DIRECTION(dropdown), DEGREES(input_value), SPEED(input_value) | `car_stepper_control(0, 0, math_number(0), math_number(9600))` | `STM32_I2C.stepperControlSpeed(..., ..., ..., ...);\n` |
-| `car_stepper_control_turns` | Statement | STEPPER_NUM(dropdown), DIRECTION(dropdown), TURNS(input_value), SPEED(input_value) | `car_stepper_control_turns(0, 0, math_number(0), math_number(9600))` | `STM32_I2C.stepperControlTurns(..., ..., ..., ...);\n` |
+| `car_stepper_control` | Statement | STEPPER_NUM(dropdown), DIRECTION(dropdown), DEGREES(input_value), SPEED(input_value) | `car_stepper_control(0, 0, math_number(0), math_number(5))` | `STM32_I2C.stepperControlSpeed(..., ..., ..., ...);\n` |
+| `car_stepper_control_turns` | Statement | STEPPER_NUM(dropdown), DIRECTION(dropdown), TURNS(input_value), SPEED(input_value) | `car_stepper_control_turns(0, 0, math_number(0), math_number(5))` | `STM32_I2C.stepperControlTurns(..., ..., ..., ...);\n` |
 | `jy61p_set_zero` | Statement | (none) | `jy61p_set_zero()` | `STM32_I2C.jy61pSetZero();\n` |
 | `jy61p_get_angle` | Value | ANGLE_TYPE(dropdown) | `jy61p_get_angle(YAW)` | `STM32_I2C.jy61pGetAngle(` |
 | `jy61p_get_acceleration` | Value | AXIS(dropdown) | `jy61p_get_acceleration(X)` | `STM32_I2C.jy61pGetAcceleration(` |

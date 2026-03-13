@@ -24,9 +24,9 @@
 | `fastled_hsv` | Value | HUE(input_value), SATURATION(input_value), VALUE(input_value) | `fastled_hsv(math_number(0), math_number(0), math_number(0))` | — |
 | `fastled_rainbow` | Statement | DATA_PIN(dropdown), INITIAL_HUE(input_value), DELTA_HUE(input_value) | `fastled_rainbow(DATA_PIN, math_number(0), math_number(0))` | — |
 | `fastled_fire_effect` | Statement | DATA_PIN(dropdown), HEAT(input_value), COOLING(input_value) | `fastled_fire_effect(DATA_PIN, math_number(0), math_number(0))` | — |
-| `fastled_meteor` | Statement | DATA_PIN(dropdown), COLOR(input_value), SIZE(input_value), DECAY(input_value), SPEED(input_value) | `fastled_meteor(DATA_PIN, math_number(0), math_number(0), math_number(0), math_number(9600))` | — |
-| `fastled_palette_cycle` | Statement | DATA_PIN(dropdown), PALETTE(dropdown), SPEED(input_value) | `fastled_palette_cycle(DATA_PIN, RainbowColors_p, math_number(9600))` | — |
-| `fastled_breathing` | Statement | DATA_PIN(dropdown), COLOR(input_value), SPEED(input_value) | `fastled_breathing(DATA_PIN, math_number(0), math_number(9600))` | — |
+| `fastled_meteor` | Statement | DATA_PIN(dropdown), COLOR(input_value), SIZE(input_value), DECAY(input_value), SPEED(input_value) | `fastled_meteor(DATA_PIN, math_number(0), math_number(0), math_number(0), math_number(5))` | — |
+| `fastled_palette_cycle` | Statement | DATA_PIN(dropdown), PALETTE(dropdown), SPEED(input_value) | `fastled_palette_cycle(DATA_PIN, RainbowColors_p, math_number(10))` | — |
+| `fastled_breathing` | Statement | DATA_PIN(dropdown), COLOR(input_value), SPEED(input_value) | `fastled_breathing(DATA_PIN, math_number(0), math_number(10))` | — |
 | `fastled_twinkle` | Statement | DATA_PIN(dropdown), COUNT(input_value), BACKGROUND(input_value), COLOR(input_value) | `fastled_twinkle(DATA_PIN, math_number(0), math_number(0), math_number(0))` | — |
 
 ## Parameter Options

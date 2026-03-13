@@ -50,20 +50,20 @@ Arduino版小智AI，基于AI Vox语音交互引擎支持库，适用于ESP32、
 | `esp32ai_loop_mcp` | Hat | (none) | `esp32ai_loop_mcp()` | `` |
 | `esp32ai_loop_mcp_new` | Hat | MODE(dropdown) | `esp32ai_loop_mcp_new(regular)` | `cJSON_AddItemToObject(root,` |
 | `aivox_get_iot_message_event_name` | Value | ai_vox_mcp_control_name(input_value) | `aivox_get_iot_message_event_name(math_number(0))` | — |
-| `aivox_get_iot_message_event_name_new` | Value | VAR(field_variable) | `aivox_get_iot_message_event_name_new(variables_get($led))` | (dynamic code) |
+| `aivox_get_iot_message_event_name_new` | Value | VAR(field_variable) | `aivox_get_iot_message_event_name_new($led)` | (dynamic code) |
 | `aivox_state_control_message_event_fuction` | Value | ai_vox_mcp_control_name(input_value), ai_vox_mcp_control_state(input_value) | `aivox_state_control_message_event_fuction(math_number(0), math_number(0))` | — |
-| `aivox_control_message_event_fuction` | Value | VAR(field_variable), PVAR(field_variable) | `aivox_control_message_event_fuction(variables_get($led), variables_get($state))` | `(event.param<...>(` |
+| `aivox_control_message_event_fuction` | Value | VAR(field_variable), PVAR(field_variable) | `aivox_control_message_event_fuction($led, $state)` | `(event.param<...>(` |
 | `aivox_response_mcp_control_result` | Statement | ai_vox_mcp_control_name(input_value) | `aivox_response_mcp_control_result(math_number(0))` | — |
-| `aivox_response_mcp_control_result_new` | Statement | VAR(field_variable) | `aivox_response_mcp_control_result_new(variables_get($led))` | `ai_vox_engine.SendMcpCallResponse(id, true);\n` |
-| `aivox_update_mcp_control_state_new` | Statement | VAR(field_variable), PVAR(field_variable), STATE(input_value) | `aivox_update_mcp_control_state_new(variables_get($led), variables_get($state), math_number(0))` | `// Error: Parameter` |
-| `aivox_calculateupdate_mcp_control_state` | Statement | VAR(field_variable), PVAR(field_variable) | `aivox_calculateupdate_mcp_control_state(variables_get($led), variables_get($state))` | (dynamic code) |
-| `esp32ai_selget_mcp_control` | Statement | VAR(field_variable) | `esp32ai_selget_mcp_control(variables_get($led))` | (dynamic code) |
+| `aivox_response_mcp_control_result_new` | Statement | VAR(field_variable) | `aivox_response_mcp_control_result_new($led)` | `ai_vox_engine.SendMcpCallResponse(id, true);\n` |
+| `aivox_update_mcp_control_state_new` | Statement | VAR(field_variable), PVAR(field_variable), STATE(input_value) | `aivox_update_mcp_control_state_new($led, $state, math_number(0))` | `// Error: Parameter` |
+| `aivox_calculateupdate_mcp_control_state` | Statement | VAR(field_variable), PVAR(field_variable) | `aivox_calculateupdate_mcp_control_state($led, $state)` | (dynamic code) |
+| `esp32ai_selget_mcp_control` | Statement | VAR(field_variable) | `esp32ai_selget_mcp_control($led)` | (dynamic code) |
 | `lvgl_port_lock` | Value | TIMEOUT_MS(field_number) | `lvgl_port_lock(1000)` | `lvgl_port_lock(` |
 | `lvgl_port_unlock` | Statement | (none) | `lvgl_port_unlock()` | `lvgl_port_unlock();\n` |
-| `esp32ai_lvgl_obj_set_style_text_font` | Statement | VAR(field_variable), FONT(dropdown) | `esp32ai_lvgl_obj_set_style_text_font(variables_get($obj), font_puhui_14_1)` | `lv_obj_set_style_text_font(..., ..., 0);\n` |
+| `esp32ai_lvgl_obj_set_style_text_font` | Statement | VAR(field_variable), FONT(dropdown) | `esp32ai_lvgl_obj_set_style_text_font($obj, font_puhui_14_1)` | `lv_obj_set_style_text_font(..., ..., 0);\n` |
 | `esp32ai_emotion_select` | Value | CATEGORY(dropdown) | `esp32ai_emotion_select(EMOJI)` | (dynamic code) |
-| `lvgl_label_set_text_emotion` | Statement | VAR(field_variable), TEXT(input_value) | `lvgl_label_set_text_emotion(variables_get($label), text("hello"))` | `lv_label_set_text(` |
-| `lvgl_label_set_text_cpemotion` | Statement | VAR(field_variable), TEXT(input_value) | `lvgl_label_set_text_cpemotion(variables_get($label), text("hello"))` | `😶` |
+| `lvgl_label_set_text_emotion` | Statement | VAR(field_variable), TEXT(input_value) | `lvgl_label_set_text_emotion($label, text("hello"))` | `lv_label_set_text(` |
+| `lvgl_label_set_text_cpemotion` | Statement | VAR(field_variable), TEXT(input_value) | `lvgl_label_set_text_cpemotion($label, text("hello"))` | `😶` |
 | `aivox3_init_es8311` | Statement | (none) | `aivox3_init_es8311()` | `` |
 | `esp32ai_init_es8388` | Statement | (none) | `esp32ai_init_es8388()` | `` |
 

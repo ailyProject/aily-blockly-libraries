@@ -12,24 +12,24 @@ DFRobot语音合成模块库，支持中英文混合播报、多种发音人、�
 |------------|------------|--------------------------|------------|----------------|
 | `speech_init_i2c` | Statement | VAR(field_input), WIRE(dropdown), VERSION(dropdown) | `speech_init_i2c("tts", WIRE, eV1)` | (dynamic code) |
 | `speech_init_uart` | Statement | VAR(field_input), SERIAL(dropdown), VERSION(dropdown) | `speech_init_uart("tts", SERIAL, eV1)` | `` |
-| `speech_speak` | Statement | VAR(field_variable), TEXT(input_value) | `speech_speak(variables_get($tts), text("hello"))` | (dynamic code) |
-| `speech_set_volume` | Statement | VAR(field_variable), VOLUME(dropdown) | `speech_set_volume(variables_get($tts), 0)` | (dynamic code) |
-| `speech_set_speed` | Statement | VAR(field_variable), SPEED(dropdown) | `speech_set_speed(variables_get($tts), 0)` | (dynamic code) |
-| `speech_set_tone` | Statement | VAR(field_variable), TONE(dropdown) | `speech_set_tone(variables_get($tts), 0)` | (dynamic code) |
-| `speech_set_sound_type` | Statement | VAR(field_variable), TYPE(dropdown) | `speech_set_sound_type(variables_get($tts), eFemale1)` | (dynamic code) |
-| `speech_set_english_pron` | Statement | VAR(field_variable), PRON(dropdown) | `speech_set_english_pron(variables_get($tts), eWord)` | (dynamic code) |
-| `speech_set_language` | Statement | VAR(field_variable), LANG(dropdown) | `speech_set_language(variables_get($tts), eAutoJudgel)` | (dynamic code) |
-| `speech_set_digital_pron` | Statement | VAR(field_variable), PRON(dropdown) | `speech_set_digital_pron(variables_get($tts), eAutoJudged)` | (dynamic code) |
-| `speech_set_style` | Statement | VAR(field_variable), STYLE(dropdown) | `speech_set_style(variables_get($tts), eSmooth)` | (dynamic code) |
-| `speech_enable_rhythm` | Statement | VAR(field_variable), ENABLE(dropdown) | `speech_enable_rhythm(variables_get($tts), true)` | (dynamic code) |
-| `speech_enable_pinyin` | Statement | VAR(field_variable), ENABLE(dropdown) | `speech_enable_pinyin(variables_get($tts), true)` | (dynamic code) |
-| `speech_stop` | Statement | VAR(field_variable) | `speech_stop(variables_get($tts))` | (dynamic code) |
-| `speech_pause` | Statement | VAR(field_variable) | `speech_pause(variables_get($tts))` | (dynamic code) |
-| `speech_resume` | Statement | VAR(field_variable) | `speech_resume(variables_get($tts))` | (dynamic code) |
-| `speech_wait` | Statement | VAR(field_variable) | `speech_wait(variables_get($tts))` | (dynamic code) |
-| `speech_reset` | Statement | VAR(field_variable) | `speech_reset(variables_get($tts))` | (dynamic code) |
-| `speech_sleep` | Statement | VAR(field_variable) | `speech_sleep(variables_get($tts))` | (dynamic code) |
-| `speech_wakeup` | Statement | VAR(field_variable) | `speech_wakeup(variables_get($tts))` | (dynamic code) |
+| `speech_speak` | Statement | VAR(field_variable), TEXT(input_value) | `speech_speak($tts, text("hello"))` | (dynamic code) |
+| `speech_set_volume` | Statement | VAR(field_variable), VOLUME(dropdown) | `speech_set_volume($tts, 0)` | (dynamic code) |
+| `speech_set_speed` | Statement | VAR(field_variable), SPEED(dropdown) | `speech_set_speed($tts, 0)` | (dynamic code) |
+| `speech_set_tone` | Statement | VAR(field_variable), TONE(dropdown) | `speech_set_tone($tts, 0)` | (dynamic code) |
+| `speech_set_sound_type` | Statement | VAR(field_variable), TYPE(dropdown) | `speech_set_sound_type($tts, eFemale1)` | (dynamic code) |
+| `speech_set_english_pron` | Statement | VAR(field_variable), PRON(dropdown) | `speech_set_english_pron($tts, eWord)` | (dynamic code) |
+| `speech_set_language` | Statement | VAR(field_variable), LANG(dropdown) | `speech_set_language($tts, eAutoJudgel)` | (dynamic code) |
+| `speech_set_digital_pron` | Statement | VAR(field_variable), PRON(dropdown) | `speech_set_digital_pron($tts, eAutoJudged)` | (dynamic code) |
+| `speech_set_style` | Statement | VAR(field_variable), STYLE(dropdown) | `speech_set_style($tts, eSmooth)` | (dynamic code) |
+| `speech_enable_rhythm` | Statement | VAR(field_variable), ENABLE(dropdown) | `speech_enable_rhythm($tts, true)` | (dynamic code) |
+| `speech_enable_pinyin` | Statement | VAR(field_variable), ENABLE(dropdown) | `speech_enable_pinyin($tts, true)` | (dynamic code) |
+| `speech_stop` | Statement | VAR(field_variable) | `speech_stop($tts)` | (dynamic code) |
+| `speech_pause` | Statement | VAR(field_variable) | `speech_pause($tts)` | (dynamic code) |
+| `speech_resume` | Statement | VAR(field_variable) | `speech_resume($tts)` | (dynamic code) |
+| `speech_wait` | Statement | VAR(field_variable) | `speech_wait($tts)` | (dynamic code) |
+| `speech_reset` | Statement | VAR(field_variable) | `speech_reset($tts)` | (dynamic code) |
+| `speech_sleep` | Statement | VAR(field_variable) | `speech_sleep($tts)` | (dynamic code) |
+| `speech_wakeup` | Statement | VAR(field_variable) | `speech_wakeup($tts)` | (dynamic code) |
 
 ## Parameter Options
 
@@ -60,6 +60,6 @@ arduino_loop()
 
 ## Notes
 
-1. **Variable Creation**: `speech_init_i2c("varName", ...)` creates variable `$varName`; reference with `variables_get($varName)`
+1. **Variable Creation**: `speech_init_i2c("varName", ...)` creates variable `$varName`; reference with `$varName`
 2. **Initialization**: Place init blocks inside `arduino_setup()`
 3. **Parameter Order**: Follows `block.json` args0 order

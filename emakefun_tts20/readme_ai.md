@@ -35,8 +35,8 @@ arduino_setup()
     emakefun_tts20_init("tts20", 0x40, Wire)
 
 arduino_loop()
-    emakefun_tts20_play(variables_get($tts20), text("你好世界"))
-    emakefun_tts20_wait_finish(variables_get($tts20))
+    emakefun_tts20_play($tts20, text("你好世界"))
+    emakefun_tts20_wait_finish($tts20)
     time_delay(math_number(2000))
 ```
 
@@ -46,8 +46,8 @@ arduino_setup()
     emakefun_tts20_init("tts20", 0x40, Wire)
 
 arduino_loop()
-    emakefun_tts20_play_sound(variables_get($tts20), ring_1)
-    emakefun_tts20_wait_finish(variables_get($tts20))
+    emakefun_tts20_play_sound($tts20, ring_1)
+    emakefun_tts20_wait_finish($tts20)
     time_delay(math_number(2000))
 ```
 
@@ -57,13 +57,13 @@ arduino_setup()
     emakefun_tts20_init("tts20", 0x40, Wire)
 
 arduino_loop()
-    emakefun_tts20_play(variables_get($tts20), text("一二三四五六七八九十"))
+    emakefun_tts20_play($tts20, text("一二三四五六七八九十"))
     time_delay(math_number(1000))
-    emakefun_tts20_pause(variables_get($tts20))
+    emakefun_tts20_pause($tts20)
     time_delay(math_number(1000))
-    emakefun_tts20_resume(variables_get($tts20))
+    emakefun_tts20_resume($tts20)
     time_delay(math_number(1000))
-    emakefun_tts20_stop(variables_get($tts20))
+    emakefun_tts20_stop($tts20)
 ```
 
 ### 使用播放状态判断
@@ -72,8 +72,8 @@ arduino_setup()
     emakefun_tts20_init("tts20", 0x40, Wire)
 
 arduino_loop()
-    emakefun_tts20_play(variables_get($tts20), text("你好"))
-    controls_whileUntil(emakefun_tts20_is_busy(variables_get($tts20)), WHILE)
+    emakefun_tts20_play($tts20, text("你好"))
+    controls_whileUntil(emakefun_tts20_is_busy($tts20), WHILE)
         time_delay(math_number(100))
 ```
 

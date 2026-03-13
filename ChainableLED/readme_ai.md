@@ -11,10 +11,10 @@
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `chainableled_setup` | Statement | VAR(field_input), CLK_PIN(input_value), DATA_PIN(input_value), NUM_LEDS(input_value) | `chainableled_setup("leds", math_number(2), math_number(2), math_number(0))` | (dynamic code) |
-| `chainableled_init` | Statement | VAR(field_variable) | `chainableled_init(variables_get($leds))` | (dynamic code) |
-| `chainableled_set_color_rgb` | Statement | VAR(field_variable), LED_INDEX(input_value), RED(input_value), GREEN(input_value), BLUE(input_value) | `chainableled_set_color_rgb(variables_get($leds), math_number(0), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
-| `chainableled_set_color_hsl` | Statement | VAR(field_variable), LED_INDEX(input_value), HUE(input_value), SATURATION(input_value), LIGHTNESS(input_value) | `chainableled_set_color_hsl(variables_get($leds), math_number(0), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
-| `chainableled_set_color` | Statement | VAR(field_variable), LED_INDEX(input_value), COLOR(field_colour_hsv_sliders) | `chainableled_set_color(variables_get($leds), math_number(0))` | (dynamic code) |
+| `chainableled_init` | Statement | VAR(field_variable) | `chainableled_init($leds)` | (dynamic code) |
+| `chainableled_set_color_rgb` | Statement | VAR(field_variable), LED_INDEX(input_value), RED(input_value), GREEN(input_value), BLUE(input_value) | `chainableled_set_color_rgb($leds, math_number(0), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
+| `chainableled_set_color_hsl` | Statement | VAR(field_variable), LED_INDEX(input_value), HUE(input_value), SATURATION(input_value), LIGHTNESS(input_value) | `chainableled_set_color_hsl($leds, math_number(0), math_number(0), math_number(0), math_number(0))` | (dynamic code) |
+| `chainableled_set_color` | Statement | VAR(field_variable), LED_INDEX(input_value), COLOR(field_colour_hsv_sliders) | `chainableled_set_color($leds, math_number(0))` | (dynamic code) |
 
 ## ABS Examples
 
@@ -22,7 +22,7 @@
 ```
 arduino_setup()
     chainableled_setup("leds", math_number(2), math_number(2), math_number(0))
-    chainableled_init(variables_get($leds))
+    chainableled_init($leds)
     serial_begin(Serial, 9600)
 
 arduino_loop()
@@ -31,6 +31,6 @@ arduino_loop()
 
 ## Notes
 
-1. **Variable Creation**: `chainableled_setup("varName", ...)` creates variable `$varName`; reference with `variables_get($varName)`
+1. **Variable Creation**: `chainableled_setup("varName", ...)` creates variable `$varName`; reference with `$varName`
 2. **Initialization**: Place init blocks inside `arduino_setup()`
 3. **Parameter Order**: Follows `block.json` args0 order

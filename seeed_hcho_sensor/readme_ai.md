@@ -11,10 +11,10 @@
 | 积木块类型 | 连接类型 | 参数(args0顺序) | ABS格式 | 生成代码 |
 |------------|----------|-----------------|---------|----------|
 | `grove_hcho_init` | Statement | VAR(field_input), PIN(dropdown), R0(field_number) | `grove_hcho_init("name", A0, 34.28)` | `GroveHCHO name(A0, 34.28);` |
-| `grove_hcho_read_raw` | Value | VAR(field_variable) | `grove_hcho_read_raw(variables_get($name))` | `name.readRaw()` |
-| `grove_hcho_read_rs` | Value | VAR(field_variable) | `grove_hcho_read_rs(variables_get($name))` | `name.getRs()` |
-| `grove_hcho_read_ppm` | Value | VAR(field_variable) | `grove_hcho_read_ppm(variables_get($name))` | `name.getPPM()` |
-| `grove_hcho_calibrate_r0` | Value | VAR(field_variable) | `grove_hcho_calibrate_r0(variables_get($name))` | `name.calibrateR0()` |
+| `grove_hcho_read_raw` | Value | VAR(field_variable) | `grove_hcho_read_raw($name)` | `name.readRaw()` |
+| `grove_hcho_read_rs` | Value | VAR(field_variable) | `grove_hcho_read_rs($name)` | `name.getRs()` |
+| `grove_hcho_read_ppm` | Value | VAR(field_variable) | `grove_hcho_read_ppm($name)` | `name.getPPM()` |
+| `grove_hcho_calibrate_r0` | Value | VAR(field_variable) | `grove_hcho_calibrate_r0($name)` | `name.calibrateR0()` |
 
 ## 参数选项
 

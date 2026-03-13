@@ -12,11 +12,11 @@
 |------------|------------|--------------------------|------------|----------------|
 | `can_begin` | Statement | BITRATE(dropdown) | `can_begin(CanBitRate::BR_125k)` | `CAN1.begin(` |
 | `can_available` | Value | (none) | `can_available()` | `CAN1.available()` |
-| `can_read` | Statement | VAR(field_variable) | `can_read(variables_get($canMsg))` | (dynamic code) |
+| `can_read` | Statement | VAR(field_variable) | `can_read($canMsg)` | (dynamic code) |
 | `can_create_message` | Value | ID(input_value), DATA(input_value) | `can_create_message(math_number(0), math_number(0))` | `CANMessage(` |
 | `can_write` | Statement | MSG(input_value) | `can_write(text("hello"))` | `CAN1.write(` |
-| `can_get_message_id` | Value | VAR(field_variable) | `can_get_message_id(variables_get($canMsg))` | (dynamic code) |
-| `can_get_message_data` | Value | VAR(field_variable), INDEX(input_value) | `can_get_message_data(variables_get($canMsg), math_number(0))` | (dynamic code) |
+| `can_get_message_id` | Value | VAR(field_variable) | `can_get_message_id($canMsg)` | (dynamic code) |
+| `can_get_message_data` | Value | VAR(field_variable), INDEX(input_value) | `can_get_message_data($canMsg, math_number(0))` | (dynamic code) |
 | `can_set_filter_mask` | Statement | TYPE(dropdown), MASK(input_value) | `can_set_filter_mask(Standard, math_number(0))` | `CAN.setFilterMask_` |
 | `can_set_filter_id` | Statement | TYPE(dropdown), ID(input_value) | `can_set_filter_id(Standard, math_number(0))` | `CAN.setFilterId_` |
 
