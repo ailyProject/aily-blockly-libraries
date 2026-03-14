@@ -1,6 +1,7 @@
 [
     {
         "type": "nmbs_client_create",
+        "icon": "fa-light fa-upload",
         "message0": "初始化Modbus RTU客户端 %1 串口 %2 波特率 %3",
         "args0": [
             {
@@ -25,7 +26,44 @@
         "tooltip": "初始化nanoModbus RTU客户端，选择串口和波特率"
     },
     {
+        "type": "nmbs_client_tcp_create",
+        "icon": "fa-light fa-upload",
+        "message0": "初始化Modbus TCP客户端 %1 WiFi名称 %2 WiFi密码 %3 服务器IP %4 端口 %5",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "modbusClient"
+            },
+            {
+                "type": "input_value",
+                "name": "SSID",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "PASS",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "IP",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "PORT",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#2196F3",
+        "tooltip": "初始化nanoModbus TCP客户端，通过WiFi连接到Modbus TCP服务器"
+    },
+    {
         "type": "nmbs_set_dest_address",
+        "icon": "fa-light fa-upload",
         "message0": "%1 设置目标设备地址 %2",
         "args0": [
             {
@@ -50,6 +88,7 @@
     },
     {
         "type": "nmbs_set_timeout",
+        "icon": "fa-light fa-upload",
         "message0": "%1 设置超时 读取 %2 ms 字节 %3 ms",
         "args0": [
             {
@@ -79,6 +118,7 @@
     },
     {
         "type": "nmbs_read_holding_register",
+        "icon": "fa-light fa-upload",
         "message0": "%1 读取保持寄存器 地址 %2",
         "args0": [
             {
@@ -102,6 +142,7 @@
     },
     {
         "type": "nmbs_read_input_register",
+        "icon": "fa-light fa-upload",
         "message0": "%1 读取输入寄存器 地址 %2",
         "args0": [
             {
@@ -125,6 +166,7 @@
     },
     {
         "type": "nmbs_read_coil",
+        "icon": "fa-light fa-upload",
         "message0": "%1 读取线圈 地址 %2",
         "args0": [
             {
@@ -148,6 +190,7 @@
     },
     {
         "type": "nmbs_read_discrete_input",
+        "icon": "fa-light fa-upload",
         "message0": "%1 读取离散输入 地址 %2",
         "args0": [
             {
@@ -171,6 +214,7 @@
     },
     {
         "type": "nmbs_write_single_coil",
+        "icon": "fa-light fa-upload",
         "message0": "%1 写入线圈 地址 %2 值 %3",
         "args0": [
             {
@@ -200,6 +244,7 @@
     },
     {
         "type": "nmbs_write_single_register",
+        "icon": "fa-light fa-upload",
         "message0": "%1 写入寄存器 地址 %2 值 %3",
         "args0": [
             {
@@ -229,6 +274,7 @@
     },
     {
         "type": "nmbs_server_create",
+        "icon": "fa-light fa-server",
         "message0": "初始化Modbus RTU服务器 %1 串口 %2 波特率 %3 地址 %4",
         "args0": [
             {
@@ -294,7 +340,41 @@
         "tooltip": "初始化nanoModbus RTU服务器，设置串口、波特率和设备地址"
     },
     {
+        "type": "nmbs_server_tcp_create",
+        "icon": "fa-light fa-server",
+        "message0": "初始化Modbus TCP服务器 %1 WiFi名称 %2 WiFi密码 %3 端口 %4",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "modbusServer"
+            },
+            {
+                "type": "input_value",
+                "name": "SSID",
+                "check": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "PASS",
+                "check": "String"
+            },
+            {
+                "type": "field_number",
+                "name": "PORT",
+                "value": 502,
+                "min": 1,
+                "max": 65535
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#2196F3",
+        "tooltip": "初始化nanoModbus TCP服务器，通过WiFi提供Modbus TCP服务"
+    },
+    {
         "type": "nmbs_server_poll",
+        "icon": "fa-light fa-server",
         "message0": "%1 处理Modbus请求",
         "args0": [
             {
@@ -310,10 +390,31 @@
         "previousStatement": null,
         "nextStatement": null,
         "colour": "#2196F3",
-        "tooltip": "处理收到的Modbus请求，应在loop()中循环调用"
+        "tooltip": "处理收到的Modbus RTU请求，应在loop()中循环调用"
+    },
+    {
+        "type": "nmbs_server_tcp_poll",
+        "icon": "fa-light fa-server",
+        "message0": "%1 处理TCP Modbus请求",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "modbusServer",
+                "variableTypes": [
+                    "NanoModbus"
+                ],
+                "defaultType": "NanoModbus"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#2196F3",
+        "tooltip": "处理TCP Modbus请求，管理客户端连接，应在loop()中循环调用"
     },
     {
         "type": "nmbs_server_set_coil",
+        "icon": "fa-light fa-server",
         "message0": "设置服务器线圈 地址 %1 值 %2",
         "args0": [
             {
@@ -334,6 +435,7 @@
     },
     {
         "type": "nmbs_server_get_coil",
+        "icon": "fa-light fa-server",
         "message0": "获取服务器线圈 地址 %1",
         "args0": [
             {
@@ -348,6 +450,7 @@
     },
     {
         "type": "nmbs_server_set_register",
+        "icon": "fa-light fa-server",
         "message0": "设置服务器保持寄存器 地址 %1 值 %2",
         "args0": [
             {
@@ -368,6 +471,7 @@
     },
     {
         "type": "nmbs_server_get_register",
+        "icon": "fa-light fa-server",
         "message0": "获取服务器保持寄存器 地址 %1",
         "args0": [
             {
@@ -382,6 +486,7 @@
     },
     {
         "type": "nmbs_server_set_input_register",
+        "icon": "fa-light fa-server",
         "message0": "设置服务器输入寄存器 地址 %1 值 %2",
         "args0": [
             {
@@ -399,5 +504,56 @@
         "nextStatement": null,
         "colour": "#2196F3",
         "tooltip": "设置服务器数据模型中的输入寄存器值(客户端通过FC04读取)"
+    },
+    {
+        "type": "nmbs_server_get_input_register",
+        "icon": "fa-light fa-server",
+        "message0": "获取服务器输入寄存器 地址 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "ADDRESS",
+                "check": "Number"
+            }
+        ],
+        "output": "Number",
+        "colour": "#2196F3",
+        "tooltip": "获取服务器数据模型中的输入寄存器值"
+    },
+    {
+        "type": "nmbs_server_set_discrete_input",
+        "icon": "fa-light fa-server",
+        "message0": "设置服务器离散输入 地址 %1 值 %2",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "ADDRESS",
+                "check": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Boolean"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#2196F3",
+        "tooltip": "设置服务器数据模型中的离散输入值(客户端通过FC02读取)"
+    },
+    {
+        "type": "nmbs_server_get_discrete_input",
+        "icon": "fa-light fa-server",
+        "message0": "获取服务器离散输入 地址 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "ADDRESS",
+                "check": "Number"
+            }
+        ],
+        "output": "Boolean",
+        "colour": "#2196F3",
+        "tooltip": "获取服务器数据模型中的离散输入值"
     }
 ]

@@ -1,5 +1,60 @@
 // ============== Helper Functions ==============
 
+// Ensure WiFi library is included based on board type
+function nmbs_ensureWiFiLib(generator) {
+  var boardConfig = window['boardConfig'];
+  if (boardConfig && boardConfig.core && boardConfig.core.indexOf('renesas_uno') > -1) {
+    generator.addLibrary('WiFi', '#include <WiFiS3.h>');
+  } else {
+    generator.addLibrary('WiFi', '#include <WiFi.h>');
+  }
+}
+
+// Add TCP read/write callback functions
+function nmbs_addTcpCallbacks(generator) {
+  var readFunc = '';
+  readFunc += 'int32_t nmbs_read_tcp(uint8_t* buf, uint16_t count, int32_t byte_timeout_ms, void* arg) {\n';
+  readFunc += '  WiFiClient* client = (WiFiClient*) arg;\n';
+  readFunc += '  unsigned long start = millis();\n';
+  readFunc += '  unsigned long timeout = (byte_timeout_ms < 0) ? 0xFFFFFFFF : (unsigned long) byte_timeout_ms;\n';
+  readFunc += '  while (client->available() < (int) count) {\n';
+  readFunc += '    if (millis() - start >= timeout) return 0;\n';
+  readFunc += '    if (!client->connected()) return -1;\n';
+  readFunc += '    delay(1);\n';
+  readFunc += '  }\n';
+  readFunc += '  return client->readBytes(buf, count);\n';
+  readFunc += '}\n';
+  generator.addFunction('nmbs_read_tcp', readFunc);
+
+  var writeFunc = '';
+  writeFunc += 'int32_t nmbs_write_tcp(const uint8_t* buf, uint16_t count, int32_t byte_timeout_ms, void* arg) {\n';
+  writeFunc += '  WiFiClient* client = (WiFiClient*) arg;\n';
+  writeFunc += '  (void) byte_timeout_ms;\n';
+  writeFunc += '  if (!client->connected()) return -1;\n';
+  writeFunc += '  return client->write(buf, count);\n';
+  writeFunc += '}\n';
+  generator.addFunction('nmbs_write_tcp', writeFunc);
+}
+
+// Add TCP server poll helper function
+function nmbs_addTcpServerPollHelper(generator) {
+  var func = '';
+  func += 'void nmbs_tcp_server_poll(nmbs_t* nmbs, WiFiServer* server, WiFiClient* client) {\n';
+  func += '  WiFiClient newClient = server->available();\n';
+  func += '  if (newClient) {\n';
+  func += '    *client = newClient;\n';
+  func += '  }\n';
+  func += '  if (*client && client->connected()) {\n';
+  func += '    if (client->available()) {\n';
+  func += '      nmbs_server_poll(nmbs);\n';
+  func += '    }\n';
+  func += '  } else if (*client) {\n';
+  func += '    client->stop();\n';
+  func += '  }\n';
+  func += '}\n';
+  generator.addFunction('nmbs_tcp_server_poll', func);
+}
+
 // Add serial read/write callback functions for a specific serial port
 function nmbs_addSerialCallbacks(generator, serialPort) {
   var readFunc = '';
@@ -56,6 +111,7 @@ function nmbs_addClientHelpers(generator) {
 // Add server data model and callback functions
 function nmbs_addServerModel(generator) {
   generator.addVariable('nmbs_srv_coils', 'nmbs_bitfield nmbs_srv_coils = {0};');
+  generator.addVariable('nmbs_srv_discrete_inputs', 'nmbs_bitfield nmbs_srv_discrete_inputs = {0};');
   generator.addVariable('nmbs_srv_holding_regs', 'uint16_t nmbs_srv_holding_regs[33] = {0};');
   generator.addVariable('nmbs_srv_input_regs', 'uint16_t nmbs_srv_input_regs[33] = {0};');
 
@@ -115,6 +171,16 @@ function nmbs_addServerModel(generator) {
   writeMultiRegsCb += '}\n';
   generator.addFunction('nmbs_cb_write_multi_regs', writeMultiRegsCb);
 
+  var readDiscreteInputsCb = '';
+  readDiscreteInputsCb += 'nmbs_error nmbs_cb_read_discrete_inputs(uint16_t address, uint16_t quantity, nmbs_bitfield inputs_out, uint8_t unit_id, void* arg) {\n';
+  readDiscreteInputsCb += '  if (address + quantity > 101) return NMBS_EXCEPTION_ILLEGAL_DATA_ADDRESS;\n';
+  readDiscreteInputsCb += '  for (uint16_t i = 0; i < quantity; i++) {\n';
+  readDiscreteInputsCb += '    nmbs_bitfield_write(inputs_out, i, nmbs_bitfield_read(nmbs_srv_discrete_inputs, address + i));\n';
+  readDiscreteInputsCb += '  }\n';
+  readDiscreteInputsCb += '  return NMBS_ERROR_NONE;\n';
+  readDiscreteInputsCb += '}\n';
+  generator.addFunction('nmbs_cb_read_discrete_inputs', readDiscreteInputsCb);
+
   var readInputRegsCb = '';
   readInputRegsCb += 'nmbs_error nmbs_cb_read_input_regs(uint16_t address, uint16_t quantity, uint16_t* registers_out, uint8_t unit_id, void* arg) {\n';
   readInputRegsCb += '  if (address + quantity > 33) return NMBS_EXCEPTION_ILLEGAL_DATA_ADDRESS;\n';
@@ -173,6 +239,61 @@ Arduino.forBlock['nmbs_client_create'] = function(block, generator) {
   code += '}\n';
   code += 'nmbs_set_read_timeout(&' + varName + ', 1000);\n';
   code += 'nmbs_set_byte_timeout(&' + varName + ', 100);\n';
+
+  return code;
+};
+
+// TCP Client Create
+Arduino.forBlock['nmbs_client_tcp_create'] = function(block, generator) {
+  // Variable rename listener
+  if (!block._nmbsVarMonitorAttached) {
+    block._nmbsVarMonitorAttached = true;
+    block._nmbsVarLastName = block.getFieldValue('VAR') || 'modbusClient';
+    registerVariableToBlockly(block._nmbsVarLastName, 'NanoModbus');
+    var varField = block.getField('VAR');
+    if (varField) {
+      var originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        var workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        var oldName = block._nmbsVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'NanoModbus');
+          block._nmbsVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  var varName = block.getFieldValue('VAR') || 'modbusClient';
+  var ssid = generator.valueToCode(block, 'SSID', generator.ORDER_ATOMIC) || '"your_ssid"';
+  var pass = generator.valueToCode(block, 'PASS', generator.ORDER_ATOMIC) || '"your_password"';
+  var ip = generator.valueToCode(block, 'IP', generator.ORDER_ATOMIC) || '"192.168.1.100"';
+  var port = generator.valueToCode(block, 'PORT', generator.ORDER_ATOMIC) || '502';
+
+  generator.addLibrary('nanomodbus', '#include <nanomodbus.h>');
+  nmbs_ensureWiFiLib(generator);
+  nmbs_addTcpCallbacks(generator);
+  registerVariableToBlockly(varName, 'NanoModbus');
+  generator.addVariable(varName, 'nmbs_t ' + varName + ';');
+  generator.addObject('nmbs_wc_' + varName, 'WiFiClient nmbs_wc_' + varName + ';');
+
+  var code = '';
+  code += 'WiFi.begin(' + ssid + ', ' + pass + ');\n';
+  code += 'while (WiFi.status() != WL_CONNECTED) { delay(500); }\n';
+  code += 'nmbs_wc_' + varName + '.connect(' + ip + ', ' + port + ');\n';
+  code += '{\n';
+  code += '  nmbs_platform_conf platform_conf;\n';
+  code += '  nmbs_platform_conf_create(&platform_conf);\n';
+  code += '  platform_conf.transport = NMBS_TRANSPORT_TCP;\n';
+  code += '  platform_conf.read = nmbs_read_tcp;\n';
+  code += '  platform_conf.write = nmbs_write_tcp;\n';
+  code += '  platform_conf.arg = &nmbs_wc_' + varName + ';\n';
+  code += '  nmbs_client_create(&' + varName + ', &platform_conf);\n';
+  code += '}\n';
+  code += 'nmbs_set_read_timeout(&' + varName + ', 1000);\n';
 
   return code;
 };
@@ -329,6 +450,7 @@ Arduino.forBlock['nmbs_server_create'] = function(block, generator) {
   code += '  callbacks.read_holding_registers = nmbs_cb_read_holding_regs;\n';
   code += '  callbacks.write_single_register = nmbs_cb_write_single_reg;\n';
   code += '  callbacks.write_multiple_registers = nmbs_cb_write_multi_regs;\n';
+  code += '  callbacks.read_discrete_inputs = nmbs_cb_read_discrete_inputs;\n';
   code += '  callbacks.read_input_registers = nmbs_cb_read_input_regs;\n';
   code += '  nmbs_server_create(&' + varName + ', ' + address + ', &platform_conf, &callbacks);\n';
   code += '}\n';
@@ -338,7 +460,7 @@ Arduino.forBlock['nmbs_server_create'] = function(block, generator) {
   return code;
 };
 
-// Server Poll
+// Server Poll (RTU)
 Arduino.forBlock['nmbs_server_poll'] = function(block, generator) {
   var varField = block.getField('VAR');
   var varName = varField ? varField.getText() : 'modbusServer';
@@ -346,6 +468,83 @@ Arduino.forBlock['nmbs_server_poll'] = function(block, generator) {
   generator.addLibrary('nanomodbus', '#include <nanomodbus.h>');
 
   return 'nmbs_server_poll(&' + varName + ');\n';
+};
+
+// TCP Server Create
+Arduino.forBlock['nmbs_server_tcp_create'] = function(block, generator) {
+  // Variable rename listener
+  if (!block._nmbsVarMonitorAttached) {
+    block._nmbsVarMonitorAttached = true;
+    block._nmbsVarLastName = block.getFieldValue('VAR') || 'modbusServer';
+    registerVariableToBlockly(block._nmbsVarLastName, 'NanoModbus');
+    var varField = block.getField('VAR');
+    if (varField) {
+      var originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        var workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        var oldName = block._nmbsVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'NanoModbus');
+          block._nmbsVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  var varName = block.getFieldValue('VAR') || 'modbusServer';
+  var ssid = generator.valueToCode(block, 'SSID', generator.ORDER_ATOMIC) || '"your_ssid"';
+  var pass = generator.valueToCode(block, 'PASS', generator.ORDER_ATOMIC) || '"your_password"';
+  var port = block.getFieldValue('PORT') || 502;
+
+  generator.addLibrary('nanomodbus', '#include <nanomodbus.h>');
+  nmbs_ensureWiFiLib(generator);
+  nmbs_addTcpCallbacks(generator);
+  nmbs_addServerModel(generator);
+  nmbs_addTcpServerPollHelper(generator);
+  registerVariableToBlockly(varName, 'NanoModbus');
+  generator.addVariable(varName, 'nmbs_t ' + varName + ';');
+  generator.addObject('nmbs_ws_' + varName, 'WiFiServer nmbs_ws_' + varName + '(' + port + ');');
+  generator.addObject('nmbs_wcc_' + varName, 'WiFiClient nmbs_wcc_' + varName + ';');
+
+  var code = '';
+  code += 'WiFi.begin(' + ssid + ', ' + pass + ');\n';
+  code += 'while (WiFi.status() != WL_CONNECTED) { delay(500); }\n';
+  code += 'nmbs_ws_' + varName + '.begin();\n';
+  code += '{\n';
+  code += '  nmbs_platform_conf platform_conf;\n';
+  code += '  nmbs_platform_conf_create(&platform_conf);\n';
+  code += '  platform_conf.transport = NMBS_TRANSPORT_TCP;\n';
+  code += '  platform_conf.read = nmbs_read_tcp;\n';
+  code += '  platform_conf.write = nmbs_write_tcp;\n';
+  code += '  platform_conf.arg = &nmbs_wcc_' + varName + ';\n';
+  code += '  nmbs_callbacks callbacks;\n';
+  code += '  nmbs_callbacks_create(&callbacks);\n';
+  code += '  callbacks.read_coils = nmbs_cb_read_coils;\n';
+  code += '  callbacks.write_single_coil = nmbs_cb_write_single_coil;\n';
+  code += '  callbacks.write_multiple_coils = nmbs_cb_write_multi_coils;\n';
+  code += '  callbacks.read_holding_registers = nmbs_cb_read_holding_regs;\n';
+  code += '  callbacks.write_single_register = nmbs_cb_write_single_reg;\n';
+  code += '  callbacks.write_multiple_registers = nmbs_cb_write_multi_regs;\n';
+  code += '  callbacks.read_discrete_inputs = nmbs_cb_read_discrete_inputs;\n';
+  code += '  callbacks.read_input_registers = nmbs_cb_read_input_regs;\n';
+  code += '  nmbs_server_create(&' + varName + ', 0, &platform_conf, &callbacks);\n';
+  code += '}\n';
+  code += 'nmbs_set_read_timeout(&' + varName + ', 1000);\n';
+
+  return code;
+};
+
+// TCP Server Poll
+Arduino.forBlock['nmbs_server_tcp_poll'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'modbusServer';
+
+  generator.addLibrary('nanomodbus', '#include <nanomodbus.h>');
+
+  return 'nmbs_tcp_server_poll(&' + varName + ', &nmbs_ws_' + varName + ', &nmbs_wcc_' + varName + ');\n';
 };
 
 // Server Set Coil
@@ -394,4 +593,32 @@ Arduino.forBlock['nmbs_server_set_input_register'] = function(block, generator) 
   generator.addLibrary('nanomodbus', '#include <nanomodbus.h>');
 
   return 'nmbs_srv_input_regs[' + address + '] = ' + value + ';\n';
+};
+
+// Server Get Input Register
+Arduino.forBlock['nmbs_server_get_input_register'] = function(block, generator) {
+  var address = generator.valueToCode(block, 'ADDRESS', generator.ORDER_ATOMIC) || '0';
+
+  generator.addLibrary('nanomodbus', '#include <nanomodbus.h>');
+
+  return ['nmbs_srv_input_regs[' + address + ']', generator.ORDER_MEMBER];
+};
+
+// Server Set Discrete Input
+Arduino.forBlock['nmbs_server_set_discrete_input'] = function(block, generator) {
+  var address = generator.valueToCode(block, 'ADDRESS', generator.ORDER_ATOMIC) || '0';
+  var value = generator.valueToCode(block, 'VALUE', generator.ORDER_ATOMIC) || 'false';
+
+  generator.addLibrary('nanomodbus', '#include <nanomodbus.h>');
+
+  return 'nmbs_bitfield_write(nmbs_srv_discrete_inputs, ' + address + ', ' + value + ');\n';
+};
+
+// Server Get Discrete Input
+Arduino.forBlock['nmbs_server_get_discrete_input'] = function(block, generator) {
+  var address = generator.valueToCode(block, 'ADDRESS', generator.ORDER_ATOMIC) || '0';
+
+  generator.addLibrary('nanomodbus', '#include <nanomodbus.h>');
+
+  return ['nmbs_bitfield_read(nmbs_srv_discrete_inputs, ' + address + ')', generator.ORDER_FUNCTION_CALL];
 };
