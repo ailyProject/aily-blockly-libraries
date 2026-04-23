@@ -1,5 +1,24 @@
 // CREATE_VARIABLE 功能已禁用
 
+/**
+ * 判断工具箱中某项是否为「变量」分类：适用于 languageTree 的 category（name / contents）
+ * 与 getToolboxItems() 返回的项（name_ / getContents）。
+ * @param {Object} itemOrCategory
+ * @returns {boolean}
+ */
+function isVariableToolboxCategory(itemOrCategory) {
+  if (itemOrCategory == null) return false;
+  if (itemOrCategory.name_ === "Variables" || itemOrCategory.name === "Variables") {
+    return true;
+  }
+  if (typeof itemOrCategory.getContents === "function") {
+    const contents = itemOrCategory.getContents();
+    return Array.isArray(contents) && contents.some(c => c.type === "variable_define");
+  }
+  const contents = itemOrCategory.contents;
+  return Array.isArray(contents) && contents.some(item => item.type === "variable_define");
+}
+
 Blockly.getMainWorkspace().addChangeListener((event) => {
   // 当工作区完成加载时调用
   if (event.type === Blockly.Events.FINISHED_LOADING) {
@@ -18,9 +37,10 @@ Blockly.getMainWorkspace().addChangeListener((event) => {
     // 找到变量类别并更新其内容
     for (let category of originalToolboxDef.contents) {
       // 通过检查是否包含 variable_define 块来识别变量分类
-      const isVariableCategory = category.name === "Variables" ||
-        (category.contents && category.contents.some(item => item.type === "variable_define"));
-      if (isVariableCategory) {
+      if (isVariableToolboxCategory(category)) {
+        if (!Array.isArray(category.contents)) {
+          category.contents = [];
+        }
 
         // 首先过滤删除的变量
         category.contents = category.contents.filter(item => {
@@ -215,10 +235,7 @@ addVariableToToolbox = function (block, varName) {
     if (!toolbox) return;
 
     const allCategories = toolbox.getToolboxItems();
-    const variableCategory = allCategories.find(item =>
-      item.name_ === "Variables" || 
-      (item.getContents && item.getContents().some(c => c.type === "variable_define"))
-    );
+    const variableCategory = allCategories.find(isVariableToolboxCategory);
 
     // 确保变量存在，如果不存在则创建
     // 使用 getAllVariables 查找任意类型的变量（getVariable 需要类型匹配）
@@ -243,9 +260,10 @@ addVariableToToolbox = function (block, varName) {
     let variableCategoryFound = false;
     for (let category of originalToolboxDef.contents) {
       // 通过检查是否包含 variable_define 块来识别变量分类
-      const isVariableCategory = category.name === "Variables" ||
-        (category.contents && category.contents.some(item => item.type === "variable_define"));
-      if (isVariableCategory) {
+      if (isVariableToolboxCategory(category)) {
+        if (!Array.isArray(category.contents)) {
+          category.contents = [];
+        }
         variableCategoryFound = true;
         if (category.contents.length <= 1) {
           category.contents = [
@@ -355,9 +373,10 @@ function loadExistingVariablesToToolbox(workspace) {
   // 找到变量类别
   for (let category of originalToolboxDef.contents) {
     // 通过检查是否包含 variable_define 块来识别变量分类
-    const isVariableCategory = category.name === "Variables" ||
-      (category.contents && category.contents.some(item => item.type === "variable_define"));
-    if (isVariableCategory) {
+    if (isVariableToolboxCategory(category)) {
+      if (!Array.isArray(category.contents)) {
+        category.contents = [];
+      }
 
       // 确保类别内容包含基本的变量块
       if (category.contents.length <= 1) {
@@ -430,11 +449,9 @@ function refreshToolbox(oldWorkspace, openVariableItem = true) {
 
   const workspace = Blockly.getMainWorkspace();
   const toolbox = workspace.getToolbox();
+  if (!toolbox) return;
   const allCategories = toolbox.getToolboxItems();
-  const variableCategory = allCategories.find(item =>
-    item.name_ === "Variables" ||
-    (item.getContents && item.getContents().some(c => c.type === "variable_define"))
-  );
+  const variableCategory = allCategories.find(isVariableToolboxCategory);
   if (toolbox.isVisible_ && openVariableItem) {
     toolbox.setSelectedItem(variableCategory);
   }
@@ -500,10 +517,7 @@ function renameVariable(block, oldName, newName, vtype) {
     if (!toolbox) return;
 
     const allCategories = toolbox.getToolboxItems();
-    const variableCategory = allCategories.find(item =>
-      item.name_ === "Variables" ||
-      (item.getContents && item.getContents().some(c => c.type === "variable_define"))
-    );
+    const variableCategory = allCategories.find(isVariableToolboxCategory);
 
     // 获取原始工具箱定义
     const originalToolboxDef = workspace.options.languageTree;
@@ -549,9 +563,10 @@ function renameVariable(block, oldName, newName, vtype) {
     for (let category of originalToolboxDef.contents) {
       // console.log("category: ", category);
       // 通过检查是否包含 variable_define 块来识别变量分类
-      const isVariableCategory = category.name === "Variables" ||
-        (category.contents && category.contents.some(item => item.type === "variable_define"));
-      if (isVariableCategory) {
+      if (isVariableToolboxCategory(category)) {
+        if (!Array.isArray(category.contents)) {
+          category.contents = [];
+        }
 
         // console.log("isOldVarStillReferenced: ", isOldVarStillReferenced);
         if (isOldVarStillReferenced) {
