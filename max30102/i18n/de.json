@@ -1,10 +1,212 @@
 {
   "toolbox_name": "MAX30102",
-  "max30102_init": {"message0": "MAX30102 Pulsoximeter initialisieren SDA %1 SCL %2 INT %3", "tooltip": "Initialisiert den MAX30102. SDA/SCL werden mit I2C verbunden, INT mit dem gewaehlten Digitalpin. ESP32 initialisiert Wire mit den gewaehlten SDA/SCL-Pins.", "args0": [{"options": "${board.digitalPins}"}, {"options": "${board.digitalPins}"}, {"options": "${board.digitalPins}"}]},
-  "max30102_measure": {"message0": "MAX30102 einmal messen und berechnen Timeout(ms) %1", "tooltip": "Liest einen FIFO-Datensatz und berechnet SpO2, Herzfrequenz, Temperatur und Signalqualitaet. 0 bedeutet kein Timeout."},
-  "max30102_get_value": {"message0": "MAX30102 %1 lesen", "tooltip": "Liest Daten aus der letzten Messung.", "args0": [{"options": [["SpO2(%)", "SPO2"], ["Herzfrequenz(BPM)", "HEART_RATE"], ["Temperatur(C)", "TEMPERATURE"], ["Rohwert Rot", "RED"], ["Rohwert IR", "IR"], ["R-Wert", "RATIO"], ["Korrelation", "CORRELATION"]]}]},
-  "max30102_is_valid": {"message0": "MAX30102 %1 gueltig", "tooltip": "Prueft, ob Messung, SpO2, Herzfrequenz oder Fingererkennung gueltig ist.", "args0": [{"options": [["Messung", "MEASURE"], ["SpO2", "SPO2"], ["Herzfrequenz", "HEART_RATE"], ["Finger erkannt", "FINGER"]]}]},
-  "max30102_reset": {"message0": "MAX30102 zuruecksetzen", "tooltip": "Sendet einen Software-Reset. Danach normalerweise erneut initialisieren."},
-  "max30102_set_led_amplitude": {"message0": "MAX30102 LED1-Staerke %1 LED2-Staerke %2 setzen", "tooltip": "Setzt die Pulsamplitude von LED1 und LED2 im Bereich 0-255. Standard ist 36."},
-  "max30102_config_spo2": {"message0": "MAX30102 Sampling konfigurieren Mittelung %1 ADC-Bereich %2 Rate %3 Pulsbreite %4", "tooltip": "Erweiterte Konfiguration. Der Standardalgorithmus erwartet ca. 4 Sekunden bei effektiv 25Hz.", "args0": [{"options": [["keine", "NO_AVERAGING"], ["2 Samples", "AVG_2"], ["4 Samples", "AVG_4"], ["8 Samples", "AVG_8"], ["16 Samples", "AVG_16"], ["32 Samples", "AVG_32"]]}, {"options": [["2048nA", "ADC_RANGE_2048"], ["4096nA", "ADC_RANGE_4096"], ["8192nA", "ADC_RANGE_8192"], ["16384nA", "ADC_RANGE_16384"]]}, {"options": [["50Hz", "SPO2_RATE_50"], ["100Hz", "SPO2_RATE_100"], ["200Hz", "SPO2_RATE_200"], ["400Hz", "SPO2_RATE_400"], ["800Hz", "SPO2_RATE_800"], ["1000Hz", "SPO2_RATE_1000"], ["1600Hz", "SPO2_RATE_1600"], ["3200Hz", "SPO2_RATE_3200"]]}, {"options": [["69us/15bit", "PW_69"], ["118us/16bit", "PW_118"], ["215us/17bit", "PW_215"], ["411us/18bit", "PW_411"]]}]}
+  "max30102_init": {
+    "message0": "MAX30102 Pulsoximeter initialisieren SDA %1 SCL %2 INT %3",
+    "tooltip": "Initialisiert den MAX30102. SDA/SCL werden mit I2C verbunden, INT mit dem gewaehlten Digitalpin. ESP32 initialisiert Wire mit den gewaehlten SDA/SCL-Pins.",
+    "args0": [
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "max30102_measure": {
+    "message0": "MAX30102 einmal messen und berechnen Timeout(ms) %1",
+    "tooltip": "Liest einen FIFO-Datensatz und berechnet SpO2, Herzfrequenz, Temperatur und Signalqualitaet. Der Timeout gilt fuer die gesamte Erfassung; 0 bedeutet kein Timeout."
+  },
+  "max30102_get_value": {
+    "message0": "MAX30102 %1 lesen",
+    "tooltip": "Liest Daten aus der letzten Messung.",
+    "args0": [
+      {
+        "options": [
+          [
+            "SpO2(%)",
+            "SPO2"
+          ],
+          [
+            "Herzfrequenz(BPM)",
+            "HEART_RATE"
+          ],
+          [
+            "Temperatur(C)",
+            "TEMPERATURE"
+          ],
+          [
+            "Rohwert Rot",
+            "RED"
+          ],
+          [
+            "Rohwert IR",
+            "IR"
+          ],
+          [
+            "R-Wert",
+            "RATIO"
+          ],
+          [
+            "Korrelation",
+            "CORRELATION"
+          ]
+        ]
+      }
+    ]
+  },
+  "max30102_is_valid": {
+    "message0": "MAX30102 %1 gueltig",
+    "tooltip": "Prueft, ob Initialisierung, letzte Messung, SpO2, Herzfrequenz oder Fingererkennung gueltig ist.",
+    "args0": [
+      {
+        "options": [
+          [
+            "Messung",
+            "MEASURE"
+          ],
+          [
+            "Initialisierung",
+            "INIT"
+          ],
+          [
+            "SpO2",
+            "SPO2"
+          ],
+          [
+            "Herzfrequenz",
+            "HEART_RATE"
+          ],
+          [
+            "Finger erkannt",
+            "FINGER"
+          ]
+        ]
+      }
+    ]
+  },
+  "max30102_reset": {
+    "message0": "MAX30102 zuruecksetzen",
+    "tooltip": "Sendet einen Software-Reset. Danach normalerweise erneut initialisieren."
+  },
+  "max30102_set_led_amplitude": {
+    "message0": "MAX30102 LED1-Staerke %1 LED2-Staerke %2 setzen",
+    "tooltip": "Setzt die Pulsamplitude von LED1 und LED2 im Bereich 0-255. Standard ist 36."
+  },
+  "max30102_config_spo2": {
+    "message0": "MAX30102 Sampling konfigurieren Mittelung %1 ADC-Bereich %2 Rate %3 Pulsbreite %4",
+    "tooltip": "Erweiterte Konfiguration. Kann vor oder nach der Initialisierung stehen; vorher wird sie gespeichert, danach sofort angewendet. Der Standardalgorithmus erwartet etwa 4 Sekunden bei effektiv 25Hz.",
+    "args0": [
+      {
+        "options": [
+          [
+            "keine",
+            "NO_AVERAGING"
+          ],
+          [
+            "2 Samples",
+            "AVG_2"
+          ],
+          [
+            "4 Samples",
+            "AVG_4"
+          ],
+          [
+            "8 Samples",
+            "AVG_8"
+          ],
+          [
+            "16 Samples",
+            "AVG_16"
+          ],
+          [
+            "32 Samples",
+            "AVG_32"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "2048nA",
+            "ADC_RANGE_2048"
+          ],
+          [
+            "4096nA",
+            "ADC_RANGE_4096"
+          ],
+          [
+            "8192nA",
+            "ADC_RANGE_8192"
+          ],
+          [
+            "16384nA",
+            "ADC_RANGE_16384"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "50Hz",
+            "SPO2_RATE_50"
+          ],
+          [
+            "100Hz",
+            "SPO2_RATE_100"
+          ],
+          [
+            "200Hz",
+            "SPO2_RATE_200"
+          ],
+          [
+            "400Hz",
+            "SPO2_RATE_400"
+          ],
+          [
+            "800Hz",
+            "SPO2_RATE_800"
+          ],
+          [
+            "1000Hz",
+            "SPO2_RATE_1000"
+          ],
+          [
+            "1600Hz",
+            "SPO2_RATE_1600"
+          ],
+          [
+            "3200Hz",
+            "SPO2_RATE_3200"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "69us/15bit",
+            "PW_69"
+          ],
+          [
+            "118us/16bit",
+            "PW_118"
+          ],
+          [
+            "215us/17bit",
+            "PW_215"
+          ],
+          [
+            "411us/18bit",
+            "PW_411"
+          ]
+        ]
+      }
+    ]
+  },
+  "max30102_set_finger_threshold": {
+    "message0": "MAX30102 Finger-Schwellwert %1 setzen",
+    "tooltip": "Setzt den IR-Rohwert-Schwellwert fuer die Fingererkennung. Standard ist 50000; hoehere Werte sind strenger."
+  }
 }

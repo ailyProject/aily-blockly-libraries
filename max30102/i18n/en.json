@@ -3,21 +3,89 @@
   "max30102_init": {
     "message0": "initialize MAX30102 pulse oximeter SDA %1 SCL %2 INT %3",
     "tooltip": "Initialize the MAX30102 pulse oximeter. SDA/SCL connect to I2C, and INT connects to the selected digital pin. ESP32 initializes Wire with the selected SDA/SCL pins.",
-    "args0": [{"options": "${board.digitalPins}"}, {"options": "${board.digitalPins}"}, {"options": "${board.digitalPins}"}]
+    "args0": [
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
   },
   "max30102_measure": {
     "message0": "MAX30102 sample and calculate once timeout(ms) %1",
-    "tooltip": "Collect one FIFO batch and calculate SpO2, heart rate, temperature, and signal quality. Use 0 for no wait timeout."
+    "tooltip": "Collect one FIFO batch and calculate SpO2, heart rate, temperature, and signal quality. Timeout is the maximum wait for the whole collection; use 0 for no timeout."
   },
   "max30102_get_value": {
     "message0": "MAX30102 read %1",
     "tooltip": "Read data from the latest sample calculation.",
-    "args0": [{"options": [["SpO2(%)", "SPO2"], ["heart rate(BPM)", "HEART_RATE"], ["temperature(C)", "TEMPERATURE"], ["raw red", "RED"], ["raw IR", "IR"], ["R ratio", "RATIO"], ["correlation", "CORRELATION"]]}]
+    "args0": [
+      {
+        "options": [
+          [
+            "SpO2(%)",
+            "SPO2"
+          ],
+          [
+            "heart rate(BPM)",
+            "HEART_RATE"
+          ],
+          [
+            "temperature(C)",
+            "TEMPERATURE"
+          ],
+          [
+            "raw red",
+            "RED"
+          ],
+          [
+            "raw IR",
+            "IR"
+          ],
+          [
+            "R ratio",
+            "RATIO"
+          ],
+          [
+            "correlation",
+            "CORRELATION"
+          ]
+        ]
+      }
+    ]
   },
   "max30102_is_valid": {
     "message0": "MAX30102 is %1 valid",
-    "tooltip": "Check whether the latest measurement, SpO2, heart rate, or finger detection state is valid.",
-    "args0": [{"options": [["measurement", "MEASURE"], ["SpO2", "SPO2"], ["heart rate", "HEART_RATE"], ["finger detected", "FINGER"]]}]
+    "tooltip": "Check whether initialization, the latest measurement, SpO2, heart rate, or finger detection state is valid.",
+    "args0": [
+      {
+        "options": [
+          [
+            "measurement",
+            "MEASURE"
+          ],
+          [
+            "initialization",
+            "INIT"
+          ],
+          [
+            "SpO2",
+            "SPO2"
+          ],
+          [
+            "heart rate",
+            "HEART_RATE"
+          ],
+          [
+            "finger detected",
+            "FINGER"
+          ]
+        ]
+      }
+    ]
   },
   "max30102_reset": {
     "message0": "reset MAX30102",
@@ -29,12 +97,116 @@
   },
   "max30102_config_spo2": {
     "message0": "configure MAX30102 sampling average %1 ADC range %2 sample rate %3 pulse width %4",
-    "tooltip": "Advanced configuration. The default algorithm expects about 4 seconds at an effective 25Hz sample rate; changing rate or averaging can affect results.",
+    "tooltip": "Advanced configuration. It can be placed before or after initialization; before initialization it is cached, after initialization it is applied immediately. The default algorithm expects about 4 seconds at an effective 25Hz sample rate; changing rate or averaging can affect results.",
     "args0": [
-      {"options": [["none", "NO_AVERAGING"], ["2 samples", "AVG_2"], ["4 samples", "AVG_4"], ["8 samples", "AVG_8"], ["16 samples", "AVG_16"], ["32 samples", "AVG_32"]]},
-      {"options": [["2048nA", "ADC_RANGE_2048"], ["4096nA", "ADC_RANGE_4096"], ["8192nA", "ADC_RANGE_8192"], ["16384nA", "ADC_RANGE_16384"]]},
-      {"options": [["50Hz", "SPO2_RATE_50"], ["100Hz", "SPO2_RATE_100"], ["200Hz", "SPO2_RATE_200"], ["400Hz", "SPO2_RATE_400"], ["800Hz", "SPO2_RATE_800"], ["1000Hz", "SPO2_RATE_1000"], ["1600Hz", "SPO2_RATE_1600"], ["3200Hz", "SPO2_RATE_3200"]]},
-      {"options": [["69us/15bit", "PW_69"], ["118us/16bit", "PW_118"], ["215us/17bit", "PW_215"], ["411us/18bit", "PW_411"]]}
+      {
+        "options": [
+          [
+            "none",
+            "NO_AVERAGING"
+          ],
+          [
+            "2 samples",
+            "AVG_2"
+          ],
+          [
+            "4 samples",
+            "AVG_4"
+          ],
+          [
+            "8 samples",
+            "AVG_8"
+          ],
+          [
+            "16 samples",
+            "AVG_16"
+          ],
+          [
+            "32 samples",
+            "AVG_32"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "2048nA",
+            "ADC_RANGE_2048"
+          ],
+          [
+            "4096nA",
+            "ADC_RANGE_4096"
+          ],
+          [
+            "8192nA",
+            "ADC_RANGE_8192"
+          ],
+          [
+            "16384nA",
+            "ADC_RANGE_16384"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "50Hz",
+            "SPO2_RATE_50"
+          ],
+          [
+            "100Hz",
+            "SPO2_RATE_100"
+          ],
+          [
+            "200Hz",
+            "SPO2_RATE_200"
+          ],
+          [
+            "400Hz",
+            "SPO2_RATE_400"
+          ],
+          [
+            "800Hz",
+            "SPO2_RATE_800"
+          ],
+          [
+            "1000Hz",
+            "SPO2_RATE_1000"
+          ],
+          [
+            "1600Hz",
+            "SPO2_RATE_1600"
+          ],
+          [
+            "3200Hz",
+            "SPO2_RATE_3200"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "69us/15bit",
+            "PW_69"
+          ],
+          [
+            "118us/16bit",
+            "PW_118"
+          ],
+          [
+            "215us/17bit",
+            "PW_215"
+          ],
+          [
+            "411us/18bit",
+            "PW_411"
+          ]
+        ]
+      }
     ]
+  },
+  "max30102_set_finger_threshold": {
+    "message0": "set MAX30102 finger threshold %1",
+    "tooltip": "Set the raw IR threshold used for finger detection. Default is 50000; higher values are stricter."
   }
 }
