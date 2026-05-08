@@ -1,0 +1,124 @@
+[
+  {
+    "type": "kwh018_init",
+    "message0": "初始化 KWH018ST01 TFT %1 SPI %2 DC %3 CS %4 BL %5 频率 %6",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "tft" },
+      { "type": "field_dropdown", "name": "SPI", "options": "${board.spi}" },
+      { "type": "input_value", "name": "DC", "check": "Number" },
+      { "type": "input_value", "name": "CS", "check": "Number" },
+      { "type": "input_value", "name": "BL", "check": "Number" },
+      { "type": "input_value", "name": "FREQ", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 180,
+    "tooltip": "初始化 SparkFun KWH018ST01 1.8 寸 TFT 显示屏"
+  },
+  {
+    "type": "kwh018_clear",
+    "message0": "KWH018ST01 %1 清屏",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "tft", "variableTypes": ["KWH018ST01_4WSPI"], "defaultType": "KWH018ST01_4WSPI" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 180,
+    "tooltip": "清空显示屏"
+  },
+  {
+    "type": "kwh018_set_backlight",
+    "message0": "KWH018ST01 %1 背光 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tft", "variableTypes": ["KWH018ST01_4WSPI"], "defaultType": "KWH018ST01_4WSPI" },
+      { "type": "input_value", "name": "BRIGHTNESS", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 180,
+    "tooltip": "设置背光亮度 0-255"
+  },
+  {
+    "type": "kwh018_pixel",
+    "message0": "KWH018ST01 %1 画点 x %2 y %3 RGB %4 %5 %6",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tft", "variableTypes": ["KWH018ST01_4WSPI"], "defaultType": "KWH018ST01_4WSPI" },
+      { "type": "input_value", "name": "X", "check": "Number" },
+      { "type": "input_value", "name": "Y", "check": "Number" },
+      { "type": "input_value", "name": "R", "check": "Number" },
+      { "type": "input_value", "name": "G", "check": "Number" },
+      { "type": "input_value", "name": "B", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 180,
+    "tooltip": "绘制单个彩色像素"
+  },
+  {
+    "type": "kwh018_line",
+    "message0": "KWH018ST01 %1 画线 x0 %2 y0 %3 x1 %4 y1 %5 宽 %6 RGB %7 %8 %9",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tft", "variableTypes": ["KWH018ST01_4WSPI"], "defaultType": "KWH018ST01_4WSPI" },
+      { "type": "input_value", "name": "X0", "check": "Number" },
+      { "type": "input_value", "name": "Y0", "check": "Number" },
+      { "type": "input_value", "name": "X1", "check": "Number" },
+      { "type": "input_value", "name": "Y1", "check": "Number" },
+      { "type": "input_value", "name": "WIDTH", "check": "Number" },
+      { "type": "input_value", "name": "R", "check": "Number" },
+      { "type": "input_value", "name": "G", "check": "Number" },
+      { "type": "input_value", "name": "B", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 180,
+    "tooltip": "绘制彩色直线"
+  },
+  {
+    "type": "kwh018_rectangle",
+    "message0": "KWH018ST01 %1 矩形 x0 %2 y0 %3 x1 %4 y1 %5 填充 %6 RGB %7 %8 %9",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tft", "variableTypes": ["KWH018ST01_4WSPI"], "defaultType": "KWH018ST01_4WSPI" },
+      { "type": "input_value", "name": "X0", "check": "Number" },
+      { "type": "input_value", "name": "Y0", "check": "Number" },
+      { "type": "input_value", "name": "X1", "check": "Number" },
+      { "type": "input_value", "name": "Y1", "check": "Number" },
+      { "type": "field_dropdown", "name": "FILLED", "options": [["是", "true"], ["否", "false"]] },
+      { "type": "input_value", "name": "R", "check": "Number" },
+      { "type": "input_value", "name": "G", "check": "Number" },
+      { "type": "input_value", "name": "B", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 180,
+    "tooltip": "绘制矩形或填充矩形"
+  },
+  {
+    "type": "kwh018_fill",
+    "message0": "KWH018ST01 %1 填充 RGB %2 %3 %4",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tft", "variableTypes": ["KWH018ST01_4WSPI"], "defaultType": "KWH018ST01_4WSPI" },
+      { "type": "input_value", "name": "R", "check": "Number" },
+      { "type": "input_value", "name": "G", "check": "Number" },
+      { "type": "input_value", "name": "B", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 180,
+    "tooltip": "用指定颜色填充当前窗口"
+  },
+  {
+    "type": "kwh018_print",
+    "message0": "KWH018ST01 %1 在 x %2 y %3 打印 %4 RGB %5 %6 %7",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tft", "variableTypes": ["KWH018ST01_4WSPI"], "defaultType": "KWH018ST01_4WSPI" },
+      { "type": "input_value", "name": "X", "check": "Number" },
+      { "type": "input_value", "name": "Y", "check": "Number" },
+      { "type": "input_value", "name": "TEXT" },
+      { "type": "input_value", "name": "R", "check": "Number" },
+      { "type": "input_value", "name": "G", "check": "Number" },
+      { "type": "input_value", "name": "B", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 180,
+    "tooltip": "在指定坐标打印文本"
+  }
+]
