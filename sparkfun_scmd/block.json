@@ -1,0 +1,39 @@
+[
+  {
+    "type": "scmd_init",
+    "message0": "初始化 SCMD 电机驱动 %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "scmd" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "创建并初始化 SCMD 串行控制电机驱动"
+  },
+  {
+    "type": "scmd_set_drive",
+    "message0": "SCMD %1 电机 %2 方向 %3 速度 %4",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "scmd", "variableTypes": ["SCMD"], "defaultType": "SCMD" },
+      { "type": "input_value", "name": "MOTOR", "check": "Number" },
+      { "type": "field_dropdown", "name": "DIR", "options": [["正转", "0"], ["反转", "1"]] },
+      { "type": "input_value", "name": "LEVEL", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "设置 SCMD 电机转向和速度（0-255）"
+  },
+  {
+    "type": "scmd_enable",
+    "message0": "SCMD %1 启用输出",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "scmd", "variableTypes": ["SCMD"], "defaultType": "SCMD" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "启用 SCMD 所有电机输出"
+  }
+]

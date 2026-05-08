@@ -1,0 +1,158 @@
+[
+  {
+    "type": "micro_oled_init",
+    "message0": "初始化 MicroOLED %1 复位引脚 %2 DC引脚 %3",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "oled" },
+      { "type": "field_number", "name": "RST_PIN", "value": 9, "min": 0, "max": 70 },
+      { "type": "field_number", "name": "DC_PIN", "value": 1, "min": 0, "max": 1 }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "创建并初始化 SparkFun MicroOLED 64x48 OLED 显示屏（I2C 模式）"
+  },
+  {
+    "type": "micro_oled_clear",
+    "message0": "MicroOLED %1 清除 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["MicroOLED"], "defaultType": "MicroOLED" },
+      { "type": "field_dropdown", "name": "MODE", "options": [["全部(ALL)", "ALL"], ["页缓冲(PAGE)", "PAGE"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "清除 MicroOLED 显示内容"
+  },
+  {
+    "type": "micro_oled_display",
+    "message0": "MicroOLED %1 刷新显示",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["MicroOLED"], "defaultType": "MicroOLED" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "将缓冲区内容发送到 MicroOLED 屏幕"
+  },
+  {
+    "type": "micro_oled_set_cursor",
+    "message0": "MicroOLED %1 设置光标 X %2 Y %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["MicroOLED"], "defaultType": "MicroOLED" },
+      { "type": "input_value", "name": "X", "check": "Number" },
+      { "type": "input_value", "name": "Y", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "设置 MicroOLED 文字光标位置"
+  },
+  {
+    "type": "micro_oled_print",
+    "message0": "MicroOLED %1 打印 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["MicroOLED"], "defaultType": "MicroOLED" },
+      { "type": "input_value", "name": "TEXT" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "在 MicroOLED 当前光标位置打印文本"
+  },
+  {
+    "type": "micro_oled_set_font",
+    "message0": "MicroOLED %1 字体 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["MicroOLED"], "defaultType": "MicroOLED" },
+      { "type": "field_dropdown", "name": "FONT", "options": [["小号(5x7)", "0"], ["中号(8x16)", "1"], ["大数字", "2"], ["超大字母", "3"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "设置 MicroOLED 显示字体类型"
+  },
+  {
+    "type": "micro_oled_pixel",
+    "message0": "MicroOLED %1 画点 X %2 Y %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["MicroOLED"], "defaultType": "MicroOLED" },
+      { "type": "input_value", "name": "X", "check": "Number" },
+      { "type": "input_value", "name": "Y", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "在 MicroOLED 上画一个像素点"
+  },
+  {
+    "type": "micro_oled_line",
+    "message0": "MicroOLED %1 画线 从(%2,%3) 到(%4,%5)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["MicroOLED"], "defaultType": "MicroOLED" },
+      { "type": "input_value", "name": "X0", "check": "Number" },
+      { "type": "input_value", "name": "Y0", "check": "Number" },
+      { "type": "input_value", "name": "X1", "check": "Number" },
+      { "type": "input_value", "name": "Y1", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "在 MicroOLED 上画一条线"
+  },
+  {
+    "type": "micro_oled_rect",
+    "message0": "MicroOLED %1 画矩形 X %2 Y %3 宽 %4 高 %5 填充 %6",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["MicroOLED"], "defaultType": "MicroOLED" },
+      { "type": "input_value", "name": "X", "check": "Number" },
+      { "type": "input_value", "name": "Y", "check": "Number" },
+      { "type": "input_value", "name": "W", "check": "Number" },
+      { "type": "input_value", "name": "H", "check": "Number" },
+      { "type": "field_dropdown", "name": "FILL", "options": [["空心", "0"], ["填充", "1"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "在 MicroOLED 上画矩形"
+  },
+  {
+    "type": "micro_oled_circle",
+    "message0": "MicroOLED %1 画圆 X %2 Y %3 半径 %4 填充 %5",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["MicroOLED"], "defaultType": "MicroOLED" },
+      { "type": "input_value", "name": "X", "check": "Number" },
+      { "type": "input_value", "name": "Y", "check": "Number" },
+      { "type": "input_value", "name": "R", "check": "Number" },
+      { "type": "field_dropdown", "name": "FILL", "options": [["空心", "0"], ["填充", "1"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "在 MicroOLED 上画圆"
+  },
+  {
+    "type": "micro_oled_invert",
+    "message0": "MicroOLED %1 反色 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["MicroOLED"], "defaultType": "MicroOLED" },
+      { "type": "field_dropdown", "name": "INV", "options": [["开启", "true"], ["关闭", "false"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "设置 MicroOLED 反色显示"
+  },
+  {
+    "type": "micro_oled_contrast",
+    "message0": "MicroOLED %1 对比度 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["MicroOLED"], "defaultType": "MicroOLED" },
+      { "type": "input_value", "name": "CONTRAST", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "设置 MicroOLED 对比度 (0~255)"
+  }
+]

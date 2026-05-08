@@ -1,0 +1,90 @@
+[
+  {
+    "type": "tmp102_init",
+    "message0": "初始化 TMP102 %1 I2C地址 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "tmp" },
+      { "type": "field_dropdown", "name": "ADDR", "options": [["0x48 (默认)", "0x48"], ["0x49", "0x49"], ["0x4A", "0x4A"], ["0x4B", "0x4B"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "创建并初始化 TMP102 I2C 温度传感器"
+  },
+  {
+    "type": "tmp102_read_temp_c",
+    "message0": "TMP102 %1 温度 (°C)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tmp", "variableTypes": ["TMP102"], "defaultType": "TMP102" }
+    ],
+    "output": "Number",
+    "colour": "#FF5722",
+    "tooltip": "读取 TMP102 摄氏温度"
+  },
+  {
+    "type": "tmp102_read_temp_f",
+    "message0": "TMP102 %1 温度 (°F)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tmp", "variableTypes": ["TMP102"], "defaultType": "TMP102" }
+    ],
+    "output": "Number",
+    "colour": "#FF5722",
+    "tooltip": "读取 TMP102 华氏温度"
+  },
+  {
+    "type": "tmp102_sleep",
+    "message0": "TMP102 %1 休眠",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tmp", "variableTypes": ["TMP102"], "defaultType": "TMP102" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "使 TMP102 进入低功耗休眠模式"
+  },
+  {
+    "type": "tmp102_wakeup",
+    "message0": "TMP102 %1 唤醒",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tmp", "variableTypes": ["TMP102"], "defaultType": "TMP102" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "从休眠模式唤醒 TMP102"
+  },
+  {
+    "type": "tmp102_alert",
+    "message0": "TMP102 %1 告警状态",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tmp", "variableTypes": ["TMP102"], "defaultType": "TMP102" }
+    ],
+    "output": "Boolean",
+    "colour": "#FF5722",
+    "tooltip": "读取 TMP102 告警引脚状态"
+  },
+  {
+    "type": "tmp102_set_high_temp_c",
+    "message0": "TMP102 %1 设置高温阈值 %2 °C",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tmp", "variableTypes": ["TMP102"], "defaultType": "TMP102" },
+      { "type": "input_value", "name": "TEMP", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "设置 TMP102 高温告警阈值（°C）"
+  },
+  {
+    "type": "tmp102_set_low_temp_c",
+    "message0": "TMP102 %1 设置低温阈值 %2 °C",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tmp", "variableTypes": ["TMP102"], "defaultType": "TMP102" },
+      { "type": "input_value", "name": "TEMP", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "设置 TMP102 低温告警阈值（°C）"
+  }
+]

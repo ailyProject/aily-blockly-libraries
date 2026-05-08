@@ -1,0 +1,44 @@
+[
+  {
+    "type": "i2cgps_init",
+    "message0": "初始化 I2C GPS %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "gps" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化 SparkFun I2C GPS 模块（MT3333），使用默认 Wire 和标准速度"
+  },
+  {
+    "type": "i2cgps_available",
+    "message0": "I2C GPS %1 有可用字节",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "gps", "variableTypes": ["I2CGPS"], "defaultType": "I2CGPS" }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50",
+    "tooltip": "返回 GPS 缓冲区中可用字节数（若为 0 则自动执行 check()）"
+  },
+  {
+    "type": "i2cgps_read",
+    "message0": "I2C GPS %1 读取一字节",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "gps", "variableTypes": ["I2CGPS"], "defaultType": "I2CGPS" }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50",
+    "tooltip": "从 GPS 缓冲区中读取下一个可用字节"
+  },
+  {
+    "type": "i2cgps_check",
+    "message0": "I2C GPS %1 检查新数据",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "gps", "variableTypes": ["I2CGPS"], "defaultType": "I2CGPS" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "主动检查 GPS 模块是否有新数据到达"
+  }
+]

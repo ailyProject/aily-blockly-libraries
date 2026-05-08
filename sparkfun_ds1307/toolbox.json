@@ -1,0 +1,24 @@
+{
+  "kind": "category",
+  "name": "DS1307 RTC",
+  "colour": "#9C27B0",
+  "contents": [
+    { "kind": "block", "type": "ds1307_begin" },
+    { "kind": "block", "type": "ds1307_auto_time" },
+    {
+      "kind": "block",
+      "type": "ds1307_set_time",
+      "inputs": {
+        "SEC":   { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "MIN":   { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "HOUR":  { "shadow": { "type": "math_number", "fields": { "NUM": 12 } } },
+        "DAY":   { "shadow": { "type": "math_number", "fields": { "NUM": 2 } } },
+        "DATE":  { "shadow": { "type": "math_number", "fields": { "NUM": 1 } } },
+        "MONTH": { "shadow": { "type": "math_number", "fields": { "NUM": 1 } } },
+        "YEAR":  { "shadow": { "type": "math_number", "fields": { "NUM": 24 } } }
+      }
+    },
+    { "kind": "block", "type": "ds1307_update" },
+    { "kind": "block", "type": "ds1307_get_time" }
+  ]
+}

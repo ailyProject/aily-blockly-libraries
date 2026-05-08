@@ -1,7 +1,7 @@
 function adxl345EnsureLibrary(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
   generator.addLibrary('SPI', '#include <SPI.h>');
-  generator.addLibrary('ADXL345', '#include <SparkFun_ADXL345_Arduino_Library/SparkFun_ADXL345.h>');
+  generator.addLibrary('ADXL345', '#include <SparkFun_ADXL345.h>');
 }
 
 function adxl345GetVar(block) {

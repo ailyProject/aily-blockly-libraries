@@ -1,0 +1,79 @@
+[
+  {
+    "type": "lsm9ds1_init",
+    "message0": "初始化 LSM9DS1 IMU %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "imu" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "初始化 LSM9DS1 九轴 IMU（I2C 默认地址）"
+  },
+  {
+    "type": "lsm9ds1_read_gyro",
+    "message0": "LSM9DS1 %1 读取陀螺仪",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["LSM9DS1"], "defaultType": "LSM9DS1" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "读取陀螺仪数据（结果存入 gx/gy/gz）"
+  },
+  {
+    "type": "lsm9ds1_read_accel",
+    "message0": "LSM9DS1 %1 读取加速度计",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["LSM9DS1"], "defaultType": "LSM9DS1" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "读取加速度计数据（结果存入 ax/ay/az）"
+  },
+  {
+    "type": "lsm9ds1_read_mag",
+    "message0": "LSM9DS1 %1 读取磁力计",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["LSM9DS1"], "defaultType": "LSM9DS1" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "读取磁力计数据（结果存入 mx/my/mz）"
+  },
+  {
+    "type": "lsm9ds1_get_gyro_axis",
+    "message0": "LSM9DS1 %1 陀螺仪 %2 轴 (dps)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["LSM9DS1"], "defaultType": "LSM9DS1" },
+      { "type": "field_dropdown", "name": "AXIS", "options": [["X", "X"], ["Y", "Y"], ["Z", "Z"]] }
+    ],
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "返回陀螺仪指定轴的值（单位 dps，需先调用「读取陀螺仪」）"
+  },
+  {
+    "type": "lsm9ds1_get_accel_axis",
+    "message0": "LSM9DS1 %1 加速度 %2 轴 (g)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["LSM9DS1"], "defaultType": "LSM9DS1" },
+      { "type": "field_dropdown", "name": "AXIS", "options": [["X", "X"], ["Y", "Y"], ["Z", "Z"]] }
+    ],
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "返回加速度计指定轴的值（单位 g，需先调用「读取加速度计」）"
+  },
+  {
+    "type": "lsm9ds1_get_mag_axis",
+    "message0": "LSM9DS1 %1 磁力 %2 轴 (Gauss)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["LSM9DS1"], "defaultType": "LSM9DS1" },
+      { "type": "field_dropdown", "name": "AXIS", "options": [["X", "X"], ["Y", "Y"], ["Z", "Z"]] }
+    ],
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "返回磁力计指定轴的值（单位 Gauss，需先调用「读取磁力计」）"
+  }
+]

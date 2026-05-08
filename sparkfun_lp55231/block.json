@@ -1,0 +1,71 @@
+[
+  {
+    "type": "lp55231_init",
+    "message0": "初始化 LP55231 %1 I2C地址 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "ledDriver" },
+      { "type": "field_dropdown", "name": "ADDR", "options": [
+        ["0x32 (默认)", "0x32"],
+        ["0x33", "0x33"],
+        ["0x34", "0x34"],
+        ["0x35", "0x35"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "初始化 LP55231 9 通道 LED 驱动器（I2C）"
+  },
+  {
+    "type": "lp55231_set_channel_pwm",
+    "message0": "LP55231 %1 通道 %2 亮度 %3 (0-255)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ledDriver", "variableTypes": ["LP55231"], "defaultType": "LP55231" },
+      { "type": "input_value", "name": "CHANNEL", "check": "Number" },
+      { "type": "input_value", "name": "VALUE", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置指定通道（0-8）的 PWM 亮度值（0-255）"
+  },
+  {
+    "type": "lp55231_set_master_fader",
+    "message0": "LP55231 %1 主 Fader %2 值 %3 (0-255)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ledDriver", "variableTypes": ["LP55231"], "defaultType": "LP55231" },
+      { "type": "field_dropdown", "name": "FADER", "options": [
+        ["Fader 0", "0"],
+        ["Fader 1", "1"],
+        ["Fader 2", "2"]
+      ]},
+      { "type": "input_value", "name": "VALUE", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置主 Fader 的值（影响绑定到该 Fader 的所有通道）"
+  },
+  {
+    "type": "lp55231_enable",
+    "message0": "LP55231 %1 使能",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ledDriver", "variableTypes": ["LP55231"], "defaultType": "LP55231" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "使能 LP55231 输出"
+  },
+  {
+    "type": "lp55231_disable",
+    "message0": "LP55231 %1 禁用",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ledDriver", "variableTypes": ["LP55231"], "defaultType": "LP55231" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "禁用 LP55231 输出（低功耗模式）"
+  }
+]

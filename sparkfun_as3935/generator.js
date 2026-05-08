@@ -1,7 +1,7 @@
 function as3935EnsureLibrary(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
   generator.addLibrary('SPI', '#include <SPI.h>');
-  generator.addLibrary('AS3935', '#include <SparkFun_AS3935_Lightning_Detector_Arduino_Library/SparkFun_AS3935.h>');
+  generator.addLibrary('AS3935', '#include <SparkFun_AS3935.h>');
 }
 
 function as3935GetVar(block) {

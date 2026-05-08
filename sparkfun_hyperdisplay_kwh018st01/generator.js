@@ -1,6 +1,6 @@
 function kwhEnsureLibrary(generator) {
   generator.addLibrary('SPI', '#include <SPI.h>');
-  generator.addLibrary('HyperDisplay_KWH018ST01_4WSPI', '#include <HyperDisplay_KWH018ST01_4WSPI_ArduinoLibrary/HyperDisplay_KWH018ST01_4WSPI.h>');
+  generator.addLibrary('HyperDisplay_KWH018ST01_4WSPI', '#include <HyperDisplay_KWH018ST01_4WSPI.h>');
 }
 
 function kwhGetVar(block) {

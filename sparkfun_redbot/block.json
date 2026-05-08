@@ -1,0 +1,107 @@
+[
+  {
+    "type": "redbot_motors_init",
+    "message0": "初始化 RedBot 电机 %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "motors" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "创建 RedBot 双轮驱动电机控制对象"
+  },
+  {
+    "type": "redbot_motors_drive",
+    "message0": "RedBot %1 前进速度 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "motors", "variableTypes": ["RedBotMotors"], "defaultType": "RedBotMotors" },
+      { "type": "input_value", "name": "SPEED", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "以指定速度向前行驶（-255~255，负值后退）"
+  },
+  {
+    "type": "redbot_motors_pivot",
+    "message0": "RedBot %1 旋转速度 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "motors", "variableTypes": ["RedBotMotors"], "defaultType": "RedBotMotors" },
+      { "type": "input_value", "name": "SPEED", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "原地旋转（正值顺时针，负值逆时针）"
+  },
+  {
+    "type": "redbot_motors_stop",
+    "message0": "RedBot %1 停止",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "motors", "variableTypes": ["RedBotMotors"], "defaultType": "RedBotMotors" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "停止 RedBot 两个驱动电机"
+  },
+  {
+    "type": "redbot_motors_brake",
+    "message0": "RedBot %1 刹车",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "motors", "variableTypes": ["RedBotMotors"], "defaultType": "RedBotMotors" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "快速刹停 RedBot"
+  },
+  {
+    "type": "redbot_sensor_init",
+    "message0": "初始化 RedBot 传感器 %1 引脚 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "sensor1" },
+      { "type": "input_value", "name": "PIN", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "创建 RedBot 反射传感器对象"
+  },
+  {
+    "type": "redbot_sensor_read",
+    "message0": "RedBot 传感器 %1 读取值",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "sensor1", "variableTypes": ["RedBotSensor"], "defaultType": "RedBotSensor" }
+    ],
+    "output": "Number",
+    "colour": "#FF5722",
+    "tooltip": "读取 RedBot 反射传感器模拟值"
+  },
+  {
+    "type": "redbot_bumper_init",
+    "message0": "初始化 RedBot 碰撞传感器 %1 引脚 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "bumper1" },
+      { "type": "input_value", "name": "PIN", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "创建 RedBot 碰撞传感器对象"
+  },
+  {
+    "type": "redbot_bumper_read",
+    "message0": "RedBot 碰撞 %1 已触碰",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bumper1", "variableTypes": ["RedBotBumper"], "defaultType": "RedBotBumper" }
+    ],
+    "output": "Boolean",
+    "colour": "#FF5722",
+    "tooltip": "检查 RedBot 碰撞传感器是否被触发"
+  }
+]

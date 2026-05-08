@@ -1,5 +1,5 @@
 function sevsegEnsureLibrary(generator) {
-  generator.addLibrary('SevSeg', '#include <SevSeg/SevSeg.h>');
+  generator.addLibrary('SevSeg', '#include <SevSeg.h>');
 }
 
 function sevsegGetVar(block) {

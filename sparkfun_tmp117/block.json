@@ -1,0 +1,80 @@
+[
+  {
+    "type": "tmp117_init",
+    "message0": "初始化 TMP117 %1 I2C地址 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "tmp117" },
+      { "type": "field_dropdown", "name": "ADDR", "options": [["0x48 (默认)", "0x48"], ["0x49", "0x49"], ["0x4A", "0x4A"], ["0x4B", "0x4B"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "创建并初始化 TMP117 高精度 I2C 温度传感器"
+  },
+  {
+    "type": "tmp117_read_temp_c",
+    "message0": "TMP117 %1 温度 (°C)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tmp117", "variableTypes": ["TMP117"], "defaultType": "TMP117" }
+    ],
+    "output": "Number",
+    "colour": "#E91E63",
+    "tooltip": "读取 TMP117 摄氏温度（分辨率 0.0078125°C）"
+  },
+  {
+    "type": "tmp117_read_temp_f",
+    "message0": "TMP117 %1 温度 (°F)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tmp117", "variableTypes": ["TMP117"], "defaultType": "TMP117" }
+    ],
+    "output": "Number",
+    "colour": "#E91E63",
+    "tooltip": "读取 TMP117 华氏温度"
+  },
+  {
+    "type": "tmp117_data_ready",
+    "message0": "TMP117 %1 数据就绪",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tmp117", "variableTypes": ["TMP117"], "defaultType": "TMP117" }
+    ],
+    "output": "Boolean",
+    "colour": "#E91E63",
+    "tooltip": "检查 TMP117 是否有新温度数据可读"
+  },
+  {
+    "type": "tmp117_set_conversion_mode",
+    "message0": "TMP117 %1 转换模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tmp117", "variableTypes": ["TMP117"], "defaultType": "TMP117" },
+      { "type": "field_dropdown", "name": "MODE", "options": [["连续", "CONTINUOUS"], ["单次", "ONESHOT"], ["关机", "SHUTDOWN"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置 TMP117 转换模式"
+  },
+  {
+    "type": "tmp117_set_high_limit",
+    "message0": "TMP117 %1 高温限值 %2 °C",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tmp117", "variableTypes": ["TMP117"], "defaultType": "TMP117" },
+      { "type": "input_value", "name": "TEMP", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置 TMP117 高温告警限值"
+  },
+  {
+    "type": "tmp117_set_low_limit",
+    "message0": "TMP117 %1 低温限值 %2 °C",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "tmp117", "variableTypes": ["TMP117"], "defaultType": "TMP117" },
+      { "type": "input_value", "name": "TEMP", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置 TMP117 低温告警限值"
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "type": "ms5803_init",
+    "message0": "初始化 MS5803 %1 I2C地址 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "ms5803" },
+      { "type": "field_dropdown", "name": "ADDRESS", "options": [["0x76 (HIGH)", "ADDRESS_HIGH"], ["0x77 (LOW)", "ADDRESS_LOW"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "创建并初始化 SparkFun MS5803 气压传感器"
+  },
+  {
+    "type": "ms5803_get_temperature",
+    "message0": "MS5803 %1 读取温度 单位 %2 精度 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ms5803", "variableTypes": ["MS5803"], "defaultType": "MS5803" },
+      { "type": "field_dropdown", "name": "UNIT", "options": [["摄氏度", "CELSIUS"], ["华氏度", "FAHRENHEIT"]] },
+      { "type": "field_dropdown", "name": "PREC", "options": [["ADC_256", "ADC_256"], ["ADC_512", "ADC_512"], ["ADC_1024", "ADC_1024"], ["ADC_2048", "ADC_2048"], ["ADC_4096", "ADC_4096"]] }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取 MS5803 温度值"
+  },
+  {
+    "type": "ms5803_get_pressure",
+    "message0": "MS5803 %1 读取气压 精度 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ms5803", "variableTypes": ["MS5803"], "defaultType": "MS5803" },
+      { "type": "field_dropdown", "name": "PREC", "options": [["ADC_256", "ADC_256"], ["ADC_512", "ADC_512"], ["ADC_1024", "ADC_1024"], ["ADC_2048", "ADC_2048"], ["ADC_4096", "ADC_4096"]] }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取 MS5803 气压值（mbar）"
+  }
+]

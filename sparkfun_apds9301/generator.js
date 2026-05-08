@@ -1,6 +1,6 @@
 function apds9301EnsureLibrary(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('APDS9301', '#include <SparkFun_APDS9301_Library/Sparkfun_APDS9301_Library.h>');
+  generator.addLibrary('APDS9301', '#include <Sparkfun_APDS9301_Library.h>');
 }
 
 function apds9301GetVar(block) {

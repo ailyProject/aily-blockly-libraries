@@ -1,0 +1,75 @@
+[
+  {
+    "type": "minigen_init",
+    "message0": "初始化 MiniGen %1 FSYNC引脚 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "minigen" },
+      { "type": "field_number", "name": "FSYNC_PIN", "value": 10, "min": 0, "max": 70 }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 45,
+    "tooltip": "创建 SparkFun MiniGen 信号发生器对象"
+  },
+  {
+    "type": "minigen_reset",
+    "message0": "MiniGen %1 复位",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "minigen", "variableTypes": ["MiniGen"], "defaultType": "MiniGen" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 45,
+    "tooltip": "复位 MiniGen 模块"
+  },
+  {
+    "type": "minigen_set_mode",
+    "message0": "MiniGen %1 波形 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "minigen", "variableTypes": ["MiniGen"], "defaultType": "MiniGen" },
+      { "type": "field_dropdown", "name": "MODE", "options": [["正弦波", "MiniGen::SINE"], ["三角波", "MiniGen::TRIANGLE"], ["方波", "MiniGen::SQUARE"], ["方波/2", "MiniGen::SQUARE_2"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 45,
+    "tooltip": "设置 MiniGen 输出波形类型"
+  },
+  {
+    "type": "minigen_set_freq",
+    "message0": "MiniGen %1 频率寄存器 %2 设置频率 %3 Hz",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "minigen", "variableTypes": ["MiniGen"], "defaultType": "MiniGen" },
+      { "type": "field_dropdown", "name": "REG", "options": [["FREQ0", "MiniGen::FREQ0"], ["FREQ1", "MiniGen::FREQ1"]] },
+      { "type": "input_value", "name": "FREQ", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 45,
+    "tooltip": "设置 MiniGen 输出频率（单位 Hz）"
+  },
+  {
+    "type": "minigen_select_freq_reg",
+    "message0": "MiniGen %1 使用频率寄存器 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "minigen", "variableTypes": ["MiniGen"], "defaultType": "MiniGen" },
+      { "type": "field_dropdown", "name": "REG", "options": [["FREQ0", "MiniGen::FREQ0"], ["FREQ1", "MiniGen::FREQ1"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 45,
+    "tooltip": "选择 MiniGen 使用的频率寄存器"
+  },
+  {
+    "type": "minigen_set_phase",
+    "message0": "MiniGen %1 相位寄存器 %2 设置相移 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "minigen", "variableTypes": ["MiniGen"], "defaultType": "MiniGen" },
+      { "type": "field_dropdown", "name": "REG", "options": [["PHASE0", "MiniGen::PHASE0"], ["PHASE1", "MiniGen::PHASE1"]] },
+      { "type": "input_value", "name": "PHASE", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 45,
+    "tooltip": "设置 MiniGen 相位偏移（0~4095）"
+  }
+]

@@ -1,0 +1,93 @@
+[
+  {
+    "type": "max30105_init",
+    "message0": "初始化 MAX30105 传感器 %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "heartSensor" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "初始化 MAX30105 心率/血氧传感器（I2C 地址 0x57）"
+  },
+  {
+    "type": "max30105_setup",
+    "message0": "MAX30105 %1 配置 LED功率 %2 采样平均 %3 LED模式 %4 采样率 %5 脉冲宽度 %6 ADC量程 %7",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "heartSensor", "variableTypes": ["MAX30105"], "defaultType": "MAX30105" },
+      { "type": "field_dropdown", "name": "LED_PWR", "options": [["60mA", "60"], ["20mA", "20"], ["6mA", "6"]] },
+      { "type": "field_dropdown", "name": "SAMPLE_AVG", "options": [["4", "4"], ["8", "8"], ["1", "1"], ["16", "16"], ["32", "32"]] },
+      { "type": "field_dropdown", "name": "LED_MODE", "options": [["红光+红外", "2"], ["红光", "1"], ["红光+红外+绿", "3"]] },
+      { "type": "field_dropdown", "name": "SAMPLE_RATE", "options": [["100 Hz", "100"], ["400 Hz", "400"], ["800 Hz", "800"], ["1000 Hz", "1000"]] },
+      { "type": "field_dropdown", "name": "PULSE_WIDTH", "options": [["411 μs", "411"], ["118 μs", "118"], ["215 μs", "215"]] },
+      { "type": "field_dropdown", "name": "ADC_RANGE", "options": [["16384", "16384"], ["4096", "4096"], ["8192", "8192"], ["32768", "32768"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "配置 MAX30105 传感器参数"
+  },
+  {
+    "type": "max30105_safe_check",
+    "message0": "MAX30105 %1 等待数据 超时 %2 ms",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "heartSensor", "variableTypes": ["MAX30105"], "defaultType": "MAX30105" },
+      { "type": "input_value", "name": "TIMEOUT", "check": "Number" }
+    ],
+    "output": "Boolean",
+    "colour": "#F44336",
+    "tooltip": "在指定时间内等待新数据，有数据返回 true"
+  },
+  {
+    "type": "max30105_get_red",
+    "message0": "MAX30105 %1 红光数值",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "heartSensor", "variableTypes": ["MAX30105"], "defaultType": "MAX30105" }
+    ],
+    "output": "Number",
+    "colour": "#F44336",
+    "tooltip": "读取红光 LED 通道的原始值"
+  },
+  {
+    "type": "max30105_get_ir",
+    "message0": "MAX30105 %1 红外数值",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "heartSensor", "variableTypes": ["MAX30105"], "defaultType": "MAX30105" }
+    ],
+    "output": "Number",
+    "colour": "#F44336",
+    "tooltip": "读取红外 LED 通道的原始值"
+  },
+  {
+    "type": "max30105_get_green",
+    "message0": "MAX30105 %1 绿光数值",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "heartSensor", "variableTypes": ["MAX30105"], "defaultType": "MAX30105" }
+    ],
+    "output": "Number",
+    "colour": "#F44336",
+    "tooltip": "读取绿光 LED 通道的原始值（仅 MAX30105）"
+  },
+  {
+    "type": "max30105_shutdown",
+    "message0": "MAX30105 %1 进入低功耗",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "heartSensor", "variableTypes": ["MAX30105"], "defaultType": "MAX30105" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "将 MAX30105 置于低功耗关断模式"
+  },
+  {
+    "type": "max30105_wakeup",
+    "message0": "MAX30105 %1 唤醒",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "heartSensor", "variableTypes": ["MAX30105"], "defaultType": "MAX30105" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "从低功耗模式唤醒 MAX30105"
+  }
+]

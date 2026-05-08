@@ -1,6 +1,6 @@
 function veml6030EnsureLibrary(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('VEML6030', '#include <SparkFun_Ambient_Light_Sensor_Arduino_Library/SparkFun_VEML6030_Ambient_Light_Sensor.h>');
+  generator.addLibrary('VEML6030', '#include <SparkFun_VEML6030_Ambient_Light_Sensor.h>');
 }
 
 function veml6030GetVar(block) {

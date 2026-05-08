@@ -1,0 +1,52 @@
+[
+  {
+    "type": "lidarv4_init",
+    "message0": "初始化 LIDAR-Lite v4 %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "lidar" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "初始化 LIDAR-Lite v4 传感器（I2C 默认地址 0x62）"
+  },
+  {
+    "type": "lidarv4_get_distance",
+    "message0": "LIDAR-Lite v4 %1 读取距离 (cm)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "lidar", "variableTypes": ["LIDARv4"], "defaultType": "LIDARv4" }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "触发测量并返回距离值（厘米）"
+  },
+  {
+    "type": "lidarv4_configure",
+    "message0": "LIDAR-Lite v4 %1 配置模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "lidar", "variableTypes": ["LIDARv4"], "defaultType": "LIDARv4" },
+      { "type": "field_dropdown", "name": "MODE", "options": [
+        ["默认", "0"],
+        ["短距高速", "1"],
+        ["短距高精", "2"],
+        ["最大距", "3"],
+        ["高灵敏", "4"],
+        ["低灵敏", "5"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "配置 LIDAR 测量模式"
+  },
+  {
+    "type": "lidarv4_is_connected",
+    "message0": "LIDAR-Lite v4 %1 已连接",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "lidar", "variableTypes": ["LIDARv4"], "defaultType": "LIDARv4" }
+    ],
+    "output": "Boolean",
+    "colour": "#9C27B0",
+    "tooltip": "检查 LIDAR 传感器是否响应 I2C 通信"
+  }
+]

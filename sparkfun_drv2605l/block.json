@@ -1,0 +1,94 @@
+[
+  {
+    "type": "drv2605l_init",
+    "message0": "初始化 DRV2605L 触感驱动 %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "haptic" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "初始化 DRV2605L 触感电机驱动器（I2C）"
+  },
+  {
+    "type": "drv2605l_mode",
+    "message0": "DRV2605L %1 设置模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "haptic", "variableTypes": ["DRV2605L"], "defaultType": "DRV2605L" },
+      { "type": "field_dropdown", "name": "MODE", "options": [
+        ["内部触发 (Internal Trigger)", "0x00"],
+        ["外部触发-边沿 (External Edge)", "0x01"],
+        ["外部触发-电平 (External Level)", "0x02"],
+        ["PWM+模拟输出", "0x03"],
+        ["音频转振动 (Audio2Vibe)", "0x04"],
+        ["实时播放 (RTP)", "0x05"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "设置 DRV2605L 的工作模式"
+  },
+  {
+    "type": "drv2605l_motor_select",
+    "message0": "DRV2605L %1 电机类型 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "haptic", "variableTypes": ["DRV2605L"], "defaultType": "DRV2605L" },
+      { "type": "field_dropdown", "name": "TYPE", "options": [
+        ["ERM 偏心转子", "0x00"],
+        ["LRA 线性谐振", "0x08"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "选择电机类型（ERM 或 LRA）"
+  },
+  {
+    "type": "drv2605l_library",
+    "message0": "DRV2605L %1 波形库 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "haptic", "variableTypes": ["DRV2605L"], "defaultType": "DRV2605L" },
+      { "type": "field_number", "name": "LIB", "value": 1, "min": 0, "max": 7 }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "选择波形库（1-6 ERM，7 LRA）"
+  },
+  {
+    "type": "drv2605l_waveform",
+    "message0": "DRV2605L %1 序列 %2 波形 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "haptic", "variableTypes": ["DRV2605L"], "defaultType": "DRV2605L" },
+      { "type": "field_number", "name": "SEQ", "value": 0, "min": 0, "max": 7 },
+      { "type": "field_number", "name": "WAV", "value": 1, "min": 0, "max": 123 }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "设置播放序列中指定位置的波形效果编号（0=停止）"
+  },
+  {
+    "type": "drv2605l_go",
+    "message0": "DRV2605L %1 开始播放",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "haptic", "variableTypes": ["DRV2605L"], "defaultType": "DRV2605L" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "开始播放已设置的触感波形序列"
+  },
+  {
+    "type": "drv2605l_stop",
+    "message0": "DRV2605L %1 停止播放",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "haptic", "variableTypes": ["DRV2605L"], "defaultType": "DRV2605L" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "停止当前触感播放"
+  }
+]

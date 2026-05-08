@@ -1,5 +1,5 @@
 function fpsEnsureLibrary(generator) {
-  generator.addLibrary('FPS_GT511C3', '#include <Fingerprint_Scanner-TTL/FPS_GT511C3.h>');
+  generator.addLibrary('FPS_GT511C3', '#include <FPS_GT511C3.h>');
 }
 
 function fpsGetVar(block) {

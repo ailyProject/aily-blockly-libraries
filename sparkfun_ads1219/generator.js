@@ -1,6 +1,6 @@
 function ads1219EnsureLibrary(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('ADS1219', '#include <SparkFun_ADS1219_Arduino_Library/SparkFun_ADS1219.h>');
+  generator.addLibrary('ADS1219', '#include <SparkFun_ADS1219.h>');
 }
 
 function ads1219GetVar(block) {

@@ -1,6 +1,6 @@
 function as7331EnsureLibrary(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('AS7331', '#include <SparkFun_AS7331_Arduino_Library/SparkFun_AS7331.h>');
+  generator.addLibrary('AS7331', '#include <SparkFun_AS7331.h>');
 }
 
 function as7331GetVar(block) {
