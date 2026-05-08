@@ -1,6 +1,6 @@
 function apds9960EnsureLibrary(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('APDS9960', '#include <SparkFun_APDS-9960_Sensor_Arduino_Library/SparkFun_APDS9960.h>');
+  generator.addLibrary('APDS9960', '#include <SparkFun_APDS9960.h>');
 }
 
 function apds9960GetVar(block) {

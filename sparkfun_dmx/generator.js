@@ -1,5 +1,5 @@
 function dmxEnsureLibrary(generator) {
-  generator.addLibrary('SparkFunDMX', '#include <SparkFunDMX/SparkFunDMX.h>');
+  generator.addLibrary('SparkFunDMX', '#include <SparkFunDMX.h>');
 }
 
 function dmxGetVar(block) {

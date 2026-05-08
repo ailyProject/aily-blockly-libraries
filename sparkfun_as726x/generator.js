@@ -1,6 +1,6 @@
 function as726xEnsureLibrary(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('AS726X', '#include <SparkFun_AS726X_Arduino_Library/AS726X.h>');
+  generator.addLibrary('AS726X', '#include <AS726X.h>');
 }
 
 function as726xGetVar(block) {

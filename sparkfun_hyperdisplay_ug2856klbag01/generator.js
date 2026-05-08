@@ -1,5 +1,5 @@
 function ugEnsureLibrary(generator) {
-  generator.addLibrary('HyperDisplay_UG2856KLBAG01', '#include <HyperDisplay_UG2856KLBAG01_ArduinoLibrary/HyperDisplay_UG2856KLBAG01.h>');
+  generator.addLibrary('HyperDisplay_UG2856KLBAG01', '#include <HyperDisplay_UG2856KLBAG01.h>');
 }
 
 function ugGetVar(block) {

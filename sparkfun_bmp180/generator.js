@@ -1,6 +1,6 @@
 function bmp180EnsureLibraries(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('SFE_BMP180', '#include <BMP180_Breakout_Arduino_Library/SFE_BMP180.h>');
+  generator.addLibrary('SFE_BMP180', '#include <SFE_BMP180.h>');
 }
 
 function bmp180GetVar(block) {

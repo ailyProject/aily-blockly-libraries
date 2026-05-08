@@ -1,6 +1,6 @@
 function as7265xEnsureLibrary(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('AS7265X', '#include <SparkFun_AS7265x_Arduino_Library/SparkFun_AS7265X.h>');
+  generator.addLibrary('AS7265X', '#include <SparkFun_AS7265X.h>');
 }
 
 function as7265xGetVar(block) {
