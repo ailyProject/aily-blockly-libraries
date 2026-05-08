@@ -1,0 +1,37 @@
+{
+  "kind": "category",
+  "name": "ESP8266 WiFi",
+  "colour": "#2196F3",
+  "contents": [
+    { "kind": "block", "type": "esp8266at_begin" },
+    { "kind": "label", "text": "网络" },
+    {
+      "kind": "block",
+      "type": "esp8266at_connect",
+      "inputs": {
+        "SSID": { "shadow": { "type": "text", "fields": { "TEXT": "MySSID" } } },
+        "PWD": { "shadow": { "type": "text", "fields": { "TEXT": "MyPassword" } } }
+      }
+    },
+    { "kind": "block", "type": "esp8266at_disconnect" },
+    { "kind": "block", "type": "esp8266at_is_connected" },
+    { "kind": "block", "type": "esp8266at_local_ip" },
+    { "kind": "label", "text": "TCP" },
+    {
+      "kind": "block",
+      "type": "esp8266at_tcp_connect",
+      "inputs": {
+        "HOST": { "shadow": { "type": "text", "fields": { "TEXT": "example.com" } } },
+        "PORT": { "shadow": { "type": "math_number", "fields": { "NUM": 80 } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp8266at_tcp_send",
+      "inputs": {
+        "DATA": { "shadow": { "type": "text", "fields": { "TEXT": "Hello" } } }
+      }
+    },
+    { "kind": "block", "type": "esp8266at_close" }
+  ]
+}

@@ -646,7 +646,7 @@ function getClientName(block, def) {
 For a library with the outer directory `adafruit_libname/`, the source code (`src/`) layout MUST follow this convention:
 
 ```
-adafruit_libname/
+brand_libname/
 ├─ block.json
 ├─ generator.js
 ├─ toolbox.json

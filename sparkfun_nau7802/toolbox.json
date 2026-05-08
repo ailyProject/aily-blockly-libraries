@@ -1,0 +1,24 @@
+{
+  "kind": "category",
+  "name": "NAU7802 称重传感器",
+  "colour": "#FF9800",
+  "contents": [
+    { "kind": "block", "type": "nau7802_init" },
+    { "kind": "label", "text": "校准" },
+    { "kind": "block", "type": "nau7802_tare" },
+    { "kind": "block", "type": "nau7802_calibrate",
+      "inputs": { "WEIGHT": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } } }
+    },
+    { "kind": "block", "type": "nau7802_set_cal_factor",
+      "inputs": { "FACTOR": { "shadow": { "type": "math_number", "fields": { "NUM": 1.0 } } } }
+    },
+    { "kind": "block", "type": "nau7802_get_cal_factor" },
+    { "kind": "label", "text": "读取" },
+    { "kind": "block", "type": "nau7802_is_available" },
+    { "kind": "block", "type": "nau7802_get_weight" },
+    { "kind": "block", "type": "nau7802_get_reading" },
+    { "kind": "block", "type": "nau7802_get_average",
+      "inputs": { "SAMPLES": { "shadow": { "type": "math_number", "fields": { "NUM": 8 } } } }
+    }
+  ]
+}

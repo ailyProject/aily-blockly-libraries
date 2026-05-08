@@ -1,0 +1,45 @@
+[
+  {
+    "type": "lsm6dso_init",
+    "message0": "初始化 LSM6DSO IMU %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "imu" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "初始化 LSM6DSO 六轴 IMU（I2C 默认地址 0x6B），自动调用 begin() 和 initialize(BASIC_SETTINGS)"
+  },
+  {
+    "type": "lsm6dso_get_accel",
+    "message0": "LSM6DSO %1 加速度 %2 轴 (g)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["LSM6DSO"], "defaultType": "LSM6DSO" },
+      { "type": "field_dropdown", "name": "AXIS", "options": [["X", "X"], ["Y", "Y"], ["Z", "Z"]] }
+    ],
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "读取加速度计指定轴的浮点值（单位 g）"
+  },
+  {
+    "type": "lsm6dso_get_gyro",
+    "message0": "LSM6DSO %1 陀螺仪 %2 轴 (dps)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["LSM6DSO"], "defaultType": "LSM6DSO" },
+      { "type": "field_dropdown", "name": "AXIS", "options": [["X", "X"], ["Y", "Y"], ["Z", "Z"]] }
+    ],
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "读取陀螺仪指定轴的浮点值（单位 dps）"
+  },
+  {
+    "type": "lsm6dso_get_temp_c",
+    "message0": "LSM6DSO %1 温度 (°C)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["LSM6DSO"], "defaultType": "LSM6DSO" }
+    ],
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "读取温度值（单位 °C）"
+  }
+]

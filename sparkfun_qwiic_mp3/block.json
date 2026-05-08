@@ -1,0 +1,103 @@
+[
+  {
+    "type": "qwiic_mp3_init",
+    "message0": "初始化 Qwiic MP3 播放器 %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "mp3" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "初始化 Qwiic MP3 Trigger（I2C 默认地址 0x37）"
+  },
+  {
+    "type": "qwiic_mp3_play_track",
+    "message0": "MP3 %1 播放第 %2 首",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "mp3", "variableTypes": ["QwiicMP3"], "defaultType": "QwiicMP3" },
+      { "type": "input_value", "name": "TRACK", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "按轨道编号播放（按 SD 卡文件顺序，从 1 开始）"
+  },
+  {
+    "type": "qwiic_mp3_play_file",
+    "message0": "MP3 %1 播放文件 F%2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "mp3", "variableTypes": ["QwiicMP3"], "defaultType": "QwiicMP3" },
+      { "type": "input_value", "name": "FILENUM", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "播放指定编号的文件（如编号3播放 F003xxx.mp3）"
+  },
+  {
+    "type": "qwiic_mp3_play_next",
+    "message0": "MP3 %1 播放下一首",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "mp3", "variableTypes": ["QwiicMP3"], "defaultType": "QwiicMP3" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "播放下一首曲目"
+  },
+  {
+    "type": "qwiic_mp3_play_prev",
+    "message0": "MP3 %1 播放上一首",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "mp3", "variableTypes": ["QwiicMP3"], "defaultType": "QwiicMP3" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "播放上一首曲目"
+  },
+  {
+    "type": "qwiic_mp3_pause",
+    "message0": "MP3 %1 暂停/继续",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "mp3", "variableTypes": ["QwiicMP3"], "defaultType": "QwiicMP3" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "暂停当前播放，或恢复已暂停的播放"
+  },
+  {
+    "type": "qwiic_mp3_stop",
+    "message0": "MP3 %1 停止",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "mp3", "variableTypes": ["QwiicMP3"], "defaultType": "QwiicMP3" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "停止播放当前曲目"
+  },
+  {
+    "type": "qwiic_mp3_set_volume",
+    "message0": "MP3 %1 音量 %2 (0-31)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "mp3", "variableTypes": ["QwiicMP3"], "defaultType": "QwiicMP3" },
+      { "type": "input_value", "name": "VOLUME", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置音量（0=静音，31=最大）"
+  },
+  {
+    "type": "qwiic_mp3_is_playing",
+    "message0": "MP3 %1 正在播放",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "mp3", "variableTypes": ["QwiicMP3"], "defaultType": "QwiicMP3" }
+    ],
+    "output": "Boolean",
+    "colour": "#E91E63",
+    "tooltip": "返回 true 表示正在播放"
+  }
+]
