@@ -1,0 +1,108 @@
+[
+  {
+    "type": "5p49v60_init",
+    "message0": "初始化 5P49V60 时钟发生器 %1 地址 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "clockGen" },
+      { "type": "field_dropdown", "name": "ADDRESS", "options": [
+        ["0x6A (默认)", "DEF"],
+        ["0x68", "ALT"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "初始化 SparkFun 5P49V60 可编程时钟发生器（I2C）"
+  },
+  {
+    "type": "5p49v60_set_vco",
+    "message0": "5P49V60 %1 设置 VCO 频率 %2 MHz",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "clockGen", "variableTypes": ["5P49V60"], "defaultType": "5P49V60" },
+      { "type": "input_value", "name": "FREQ", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "设置内部 VCO 频率（MHz），建议范围 600-1600MHz"
+  },
+  {
+    "type": "5p49v60_mux_pll_to_fod",
+    "message0": "5P49V60 %1 将 PLL 连接到时钟通道 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "clockGen", "variableTypes": ["5P49V60"], "defaultType": "5P49V60" },
+      { "type": "field_dropdown", "name": "CHANNEL", "options": [
+        ["通道 1", "1"],
+        ["通道 2", "2"],
+        ["通道 3", "3"],
+        ["通道 4", "4"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "将 PLL 输出连接到指定时钟通道的 FOD 分频器"
+  },
+  {
+    "type": "5p49v60_set_clock_freq",
+    "message0": "5P49V60 %1 设置时钟通道 %2 频率 %3 MHz",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "clockGen", "variableTypes": ["5P49V60"], "defaultType": "5P49V60" },
+      { "type": "field_dropdown", "name": "CHANNEL", "options": [
+        ["通道 1", "1"],
+        ["通道 2", "2"],
+        ["通道 3", "3"],
+        ["通道 4", "4"]
+      ]},
+      { "type": "input_value", "name": "FREQ", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "设置指定时钟通道的输出频率（MHz）"
+  },
+  {
+    "type": "5p49v60_set_clock_mode",
+    "message0": "5P49V60 %1 设置时钟通道 %2 输出模式 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "clockGen", "variableTypes": ["5P49V60"], "defaultType": "5P49V60" },
+      { "type": "field_dropdown", "name": "CHANNEL", "options": [
+        ["通道 1", "1"],
+        ["通道 2", "2"],
+        ["通道 3", "3"],
+        ["通道 4", "4"]
+      ]},
+      { "type": "field_dropdown", "name": "MODE", "options": [
+        ["LVPECL", "0"],
+        ["CMOS", "1"],
+        ["HCSL 3.3V", "2"],
+        ["LVDS", "3"],
+        ["CMOS2", "4"],
+        ["CMOSD", "5"],
+        ["HCSL 2.5V", "6"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "设置指定时钟通道的信号输出模式"
+  },
+  {
+    "type": "5p49v60_skew_clock",
+    "message0": "5P49V60 %1 设置时钟通道 %2 相位偏移 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "clockGen", "variableTypes": ["5P49V60"], "defaultType": "5P49V60" },
+      { "type": "field_dropdown", "name": "CHANNEL", "options": [
+        ["通道 1", "1"],
+        ["通道 2", "2"],
+        ["通道 3", "3"],
+        ["通道 4", "4"]
+      ]},
+      { "type": "input_value", "name": "SKEW", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "设置指定时钟通道的相位偏移值"
+  }
+]

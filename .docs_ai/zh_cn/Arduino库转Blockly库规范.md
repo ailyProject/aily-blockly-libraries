@@ -626,6 +626,7 @@ function getClientName(block, def) {
   "nickname": "显示名称",
   "description": "简洁功能描述（<50字）",
   "version": "语义化版本",
+  "author": "库源码作者（未知时填写 \"ailyProject\"）",
   "compatibility": {
     "core": [
       "arduino:avr",           // Arduino UNO/Nano/Pro Mini等
@@ -644,6 +645,42 @@ function getClientName(block, def) {
   "url": "原库链接"
 }
 ```
+
+### 字段规范
+
+- **`name`**: 必须遵循 `@aily-project/lib-libname` 格式。
+  - 如果该库来自某个知名硬件厂家（如 `adafruit`、`sparkfun`、`dfrobot`、`seeed` 等），需在库名前加厂家前缀：`@aily-project/lib-adafruit-libname`。
+  - 对应的外层工作区目录名必须与之匹配，使用下划线分隔：`adafruit_libname/`。
+- **`author`**: 必须为**库源码的原始作者**。若原作者未知或无法确定，则填写 `"ailyProject"`。
+- **`url`**: 应指向原始上游库仓库地址。
+
+### 库目录与源码组织结构
+
+以外层目录 `adafruit_libname/` 为例，`src/` 目录下的源码组织必须遵循如下规范：
+
+```
+adafruit_libname/
+├─ block.json
+├─ generator.js
+├─ toolbox.json
+├─ package.json
+├─ README.md
+├─ README_AI.md
+└─ src/
+   ├─ libname/                 // 实际上游库源码必须放在以库名命名的子目录中
+   │  ├─ libname.h
+   │  ├─ libname.cpp
+   │  └─ ...
+   ├─ dependency-lib-1/        // 额外的依赖源码库（如有）
+   │  └─ ...
+   └─ dependency-lib-2/
+      └─ ...
+```
+
+**规则**：
+- 上游库源码必须放在 `src/<libname>/` 子目录下（以库名命名），**不可**直接散放在 `src/` 根目录下。
+- 当库依赖其他源码库时，`src/` 下可以有多个并列的子目录，每个依赖库一个独立子目录。
+- 厂家前缀（如 `adafruit_`）只出现在**外层**目录名以及 npm `name` 中；内部的 `src/<libname>/` 子目录使用不带前缀的库本名。
 
 **常用板卡配置示例**：
 - **通用库**: `"core": []` (空数组表示支持所有板卡)

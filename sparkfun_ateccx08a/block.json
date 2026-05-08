@@ -1,0 +1,134 @@
+[
+  {
+    "type": "ateccx08a_init",
+    "message0": "初始化 ATECCX08A %1 地址 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "atecc" },
+      { "type": "field_dropdown", "name": "ADDRESS", "options": [["0x60 默认", "ATECC508A_ADDRESS_DEFAULT"], ["0x60", "0x60"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 160,
+    "tooltip": "初始化 Microchip ATECCX08A 加密协处理器"
+  },
+  {
+    "type": "ateccx08a_is_ready",
+    "message0": "ATECCX08A %1 初始化成功",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "atecc", "variableTypes": ["ATECCX08A"], "defaultType": "ATECCX08A" }
+    ],
+    "output": "Boolean",
+    "colour": 160,
+    "tooltip": "返回初始化块保存的 ATECCX08A 初始化状态"
+  },
+  {
+    "type": "ateccx08a_wakeup",
+    "message0": "ATECCX08A %1 唤醒成功",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "atecc", "variableTypes": ["ATECCX08A"], "defaultType": "ATECCX08A" }
+    ],
+    "output": "Boolean",
+    "colour": 160,
+    "tooltip": "唤醒 ATECCX08A 并返回是否成功"
+  },
+  {
+    "type": "ateccx08a_sleep",
+    "message0": "ATECCX08A %1 睡眠",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "atecc", "variableTypes": ["ATECCX08A"], "defaultType": "ATECCX08A" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 160,
+    "tooltip": "让 ATECCX08A 进入睡眠模式"
+  },
+  {
+    "type": "ateccx08a_read_config",
+    "message0": "读取 ATECCX08A %1 配置区",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "atecc", "variableTypes": ["ATECCX08A"], "defaultType": "ATECCX08A" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 160,
+    "tooltip": "读取配置区并更新序列号、版本号和锁定状态缓存"
+  },
+  {
+    "type": "ateccx08a_lock_status",
+    "message0": "ATECCX08A %1 锁定状态 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "atecc", "variableTypes": ["ATECCX08A"], "defaultType": "ATECCX08A" },
+      { "type": "field_dropdown", "name": "FIELD", "options": [["配置区", "CONFIG"], ["Data/OTP", "DATA_OTP"], ["槽 0", "SLOT0"]] }
+    ],
+    "output": "Boolean",
+    "colour": 160,
+    "tooltip": "读取最近一次配置区缓存中的锁定状态"
+  },
+  {
+    "type": "ateccx08a_random",
+    "message0": "ATECCX08A %1 随机 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "atecc", "variableTypes": ["ATECCX08A"], "defaultType": "ATECCX08A" },
+      { "type": "field_dropdown", "name": "TYPE", "options": [["byte", "BYTE"], ["int", "INT"], ["long", "LONG"]] }
+    ],
+    "output": "Number",
+    "colour": 160,
+    "tooltip": "从 ATECCX08A 获取随机数"
+  },
+  {
+    "type": "ateccx08a_update_random",
+    "message0": "更新 ATECCX08A %1 32字节随机缓存",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "atecc", "variableTypes": ["ATECCX08A"], "defaultType": "ATECCX08A" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 160,
+    "tooltip": "读取 32 字节随机数到对象 random32Bytes 缓存"
+  },
+  {
+    "type": "ateccx08a_create_key_pair",
+    "message0": "ATECCX08A %1 创建密钥对 槽 %2 成功",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "atecc", "variableTypes": ["ATECCX08A"], "defaultType": "ATECCX08A" },
+      { "type": "input_value", "name": "SLOT", "check": "Number" }
+    ],
+    "output": "Boolean",
+    "colour": 160,
+    "tooltip": "在指定槽创建新的密钥对"
+  },
+  {
+    "type": "ateccx08a_generate_public_key",
+    "message0": "ATECCX08A %1 生成公钥 槽 %2 成功",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "atecc", "variableTypes": ["ATECCX08A"], "defaultType": "ATECCX08A" },
+      { "type": "input_value", "name": "SLOT", "check": "Number" }
+    ],
+    "output": "Boolean",
+    "colour": 160,
+    "tooltip": "生成或读取指定槽的公钥到 publicKey64Bytes 缓存"
+  },
+  {
+    "type": "ateccx08a_write_config_sparkfun",
+    "message0": "写入 ATECCX08A %1 SparkFun 标准配置",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "atecc", "variableTypes": ["ATECCX08A"], "defaultType": "ATECCX08A" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 160,
+    "tooltip": "写入 SparkFun 标准配置；配置和锁定操作可能不可逆"
+  },
+  {
+    "type": "ateccx08a_lock_zone",
+    "message0": "锁定 ATECCX08A %1 区域 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "atecc", "variableTypes": ["ATECCX08A"], "defaultType": "ATECCX08A" },
+      { "type": "field_dropdown", "name": "ZONE", "options": [["配置区", "CONFIG"], ["Data/OTP", "DATA_OTP"], ["槽 0", "SLOT0"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 160,
+    "tooltip": "永久锁定指定区域，请只在确认配置正确后使用"
+  }
+]

@@ -1,0 +1,60 @@
+[
+  {
+    "type": "sevseg_init",
+    "message0": "初始化七段数码管 %1 类型 %2 位数 %3",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "display" },
+      { "type": "field_dropdown", "name": "MODE", "options": [["共阴", "COMMON_CATHODE"], ["共阳", "COMMON_ANODE"]] },
+      { "type": "input_value", "name": "DIGITS", "check": "Number" }
+    ],
+    "message1": "位选引脚 D1 %1 D2 %2 D3 %3 D4 %4",
+    "args1": [
+      { "type": "input_value", "name": "D1", "check": "Number" },
+      { "type": "input_value", "name": "D2", "check": "Number" },
+      { "type": "input_value", "name": "D3", "check": "Number" },
+      { "type": "input_value", "name": "D4", "check": "Number" }
+    ],
+    "message2": "段引脚 A %1 B %2 C %3 D %4 E %5 F %6 G %7 DP %8 亮度 %9",
+    "args2": [
+      { "type": "input_value", "name": "A", "check": "Number" },
+      { "type": "input_value", "name": "B", "check": "Number" },
+      { "type": "input_value", "name": "C", "check": "Number" },
+      { "type": "input_value", "name": "D", "check": "Number" },
+      { "type": "input_value", "name": "E", "check": "Number" },
+      { "type": "input_value", "name": "F", "check": "Number" },
+      { "type": "input_value", "name": "G", "check": "Number" },
+      { "type": "input_value", "name": "DP", "check": "Number" },
+      { "type": "input_value", "name": "BRIGHTNESS", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": false,
+    "colour": 45,
+    "tooltip": "初始化最多四位七段数码管的位选和段选引脚"
+  },
+  {
+    "type": "sevseg_display_text",
+    "message0": "七段数码管 %1 显示 %2 小数点位置 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "display", "variableTypes": ["SevSeg"], "defaultType": "SevSeg" },
+      { "type": "input_value", "name": "TEXT" },
+      { "type": "input_value", "name": "DECIMAL", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 45,
+    "tooltip": "显示最多四个字符；需要在 loop 中反复调用以保持刷新"
+  },
+  {
+    "type": "sevseg_set_brightness",
+    "message0": "七段数码管 %1 设置亮度 %2 %",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "display", "variableTypes": ["SevSeg"], "defaultType": "SevSeg" },
+      { "type": "input_value", "name": "BRIGHTNESS", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 45,
+    "tooltip": "设置数码管亮度百分比"
+  }
+]

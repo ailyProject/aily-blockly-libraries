@@ -1,0 +1,28 @@
+{
+  "kind": "category",
+  "name": "BMP180",
+  "colour": "#4C97FF",
+  "contents": [
+    { "kind": "block", "type": "bmp180_init" },
+    { "kind": "block", "type": "bmp180_is_ready" },
+    { "kind": "block", "type": "bmp180_read_temperature" },
+    { "kind": "block", "type": "bmp180_read_pressure" },
+    {
+      "kind": "block",
+      "type": "bmp180_sea_level",
+      "inputs": {
+        "PRESSURE": { "shadow": { "type": "math_number", "fields": { "NUM": 1013.25 } } },
+        "ALTITUDE": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "bmp180_altitude",
+      "inputs": {
+        "PRESSURE": { "shadow": { "type": "math_number", "fields": { "NUM": 1013.25 } } },
+        "BASELINE": { "shadow": { "type": "math_number", "fields": { "NUM": 1013.25 } } }
+      }
+    },
+    { "kind": "block", "type": "bmp180_get_error" }
+  ]
+}

@@ -1,0 +1,127 @@
+[
+  {
+    "type": "fps_init",
+    "message0": "初始化指纹模块 %1 RX %2 TX %3",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "fps" },
+      { "type": "field_number", "name": "RX", "value": 4, "min": 0, "precision": 1 },
+      { "type": "field_number", "name": "TX", "value": 5, "min": 0, "precision": 1 }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 20,
+    "tooltip": "创建 GT-511C3/GT-521F 系列 TTL 指纹模块对象并打开连接"
+  },
+  {
+    "type": "fps_led",
+    "message0": "指纹模块 %1 LED %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "fps", "variableTypes": ["FPS_GT511C3"], "defaultType": "FPS_GT511C3" },
+      { "type": "field_dropdown", "name": "STATE", "options": [["打开", "true"], ["关闭", "false"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 20,
+    "tooltip": "打开或关闭指纹模块 LED"
+  },
+  {
+    "type": "fps_enroll_count",
+    "message0": "指纹模块 %1 已录入数量",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "fps", "variableTypes": ["FPS_GT511C3"], "defaultType": "FPS_GT511C3" }],
+    "output": "Number",
+    "colour": 20,
+    "tooltip": "读取已录入指纹数量"
+  },
+  {
+    "type": "fps_is_pressed",
+    "message0": "指纹模块 %1 有手指按下",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "fps", "variableTypes": ["FPS_GT511C3"], "defaultType": "FPS_GT511C3" }],
+    "output": "Boolean",
+    "colour": 20,
+    "tooltip": "检测传感器上是否有手指"
+  },
+  {
+    "type": "fps_capture",
+    "message0": "指纹模块 %1 采集指纹 质量 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "fps", "variableTypes": ["FPS_GT511C3"], "defaultType": "FPS_GT511C3" },
+      { "type": "field_dropdown", "name": "QUALITY", "options": [["高", "true"], ["快速", "false"]] }
+    ],
+    "output": "Boolean",
+    "colour": 20,
+    "tooltip": "采集当前按下的指纹图像"
+  },
+  {
+    "type": "fps_identify",
+    "message0": "指纹模块 %1 识别当前指纹 ID",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "fps", "variableTypes": ["FPS_GT511C3"], "defaultType": "FPS_GT511C3" }],
+    "output": "Number",
+    "colour": 20,
+    "tooltip": "在数据库中识别当前指纹，未识别通常返回 200 或 3000"
+  },
+  {
+    "type": "fps_verify",
+    "message0": "指纹模块 %1 验证当前指纹 ID %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "fps", "variableTypes": ["FPS_GT511C3"], "defaultType": "FPS_GT511C3" },
+      { "type": "input_value", "name": "ID", "check": "Number" }
+    ],
+    "output": "Number",
+    "colour": 20,
+    "tooltip": "将当前指纹与指定 ID 做 1:1 验证"
+  },
+  {
+    "type": "fps_check_enrolled",
+    "message0": "指纹模块 %1 ID %2 已录入",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "fps", "variableTypes": ["FPS_GT511C3"], "defaultType": "FPS_GT511C3" },
+      { "type": "input_value", "name": "ID", "check": "Number" }
+    ],
+    "output": "Boolean",
+    "colour": 20,
+    "tooltip": "检查指定 ID 是否已存在"
+  },
+  {
+    "type": "fps_enroll_start",
+    "message0": "指纹模块 %1 开始录入 ID %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "fps", "variableTypes": ["FPS_GT511C3"], "defaultType": "FPS_GT511C3" },
+      { "type": "input_value", "name": "ID", "check": "Number" }
+    ],
+    "output": "Number",
+    "colour": 20,
+    "tooltip": "开始指定 ID 的指纹录入流程"
+  },
+  {
+    "type": "fps_enroll_step",
+    "message0": "指纹模块 %1 执行录入步骤 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "fps", "variableTypes": ["FPS_GT511C3"], "defaultType": "FPS_GT511C3" },
+      { "type": "field_dropdown", "name": "STEP", "options": [["第 1 次", "Enroll1"], ["第 2 次", "Enroll2"], ["第 3 次并保存", "Enroll3"]] }
+    ],
+    "output": "Number",
+    "colour": 20,
+    "tooltip": "执行录入流程中的一次扫描步骤"
+  },
+  {
+    "type": "fps_delete_id",
+    "message0": "指纹模块 %1 删除 ID %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "fps", "variableTypes": ["FPS_GT511C3"], "defaultType": "FPS_GT511C3" },
+      { "type": "input_value", "name": "ID", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 20,
+    "tooltip": "删除指定 ID 的指纹"
+  },
+  {
+    "type": "fps_delete_all",
+    "message0": "指纹模块 %1 删除全部指纹",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "fps", "variableTypes": ["FPS_GT511C3"], "defaultType": "FPS_GT511C3" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 20,
+    "tooltip": "清空模块中的全部指纹模板"
+  }
+]

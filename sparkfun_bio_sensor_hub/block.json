@@ -1,0 +1,118 @@
+[
+  {
+    "type": "biohub_init",
+    "message0": "初始化 Bio Sensor Hub %1 reset %2 mfio %3",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "bioHub" },
+      { "type": "field_number", "name": "RESET_PIN", "value": 4, "min": -1, "precision": 1 },
+      { "type": "field_number", "name": "MFIO_PIN", "value": 13, "min": -1, "precision": 1 }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "初始化 SparkFun Bio Sensor Hub MAX32664/MAX30101"
+  },
+  {
+    "type": "biohub_is_ready",
+    "message0": "Bio Sensor Hub %1 初始化成功",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bioHub", "variableTypes": ["SparkFun_Bio_Sensor_Hub"], "defaultType": "SparkFun_Bio_Sensor_Hub" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "返回初始化块保存的 Bio Sensor Hub 初始化状态"
+  },
+  {
+    "type": "biohub_config_bpm",
+    "message0": "配置 Bio Sensor Hub %1 BPM 模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bioHub", "variableTypes": ["SparkFun_Bio_Sensor_Hub"], "defaultType": "SparkFun_Bio_Sensor_Hub" },
+      { "type": "field_dropdown", "name": "MODE", "options": [["模式一", "MODE_ONE"], ["模式二", "MODE_TWO"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "配置心率和血氧算法输出"
+  },
+  {
+    "type": "biohub_config_sensor_bpm",
+    "message0": "配置 Bio Sensor Hub %1 传感器+BPM 模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bioHub", "variableTypes": ["SparkFun_Bio_Sensor_Hub"], "defaultType": "SparkFun_Bio_Sensor_Hub" },
+      { "type": "field_dropdown", "name": "MODE", "options": [["模式一", "MODE_ONE"], ["模式二", "MODE_TWO"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "配置 LED 原始数据和 BPM 算法输出"
+  },
+  {
+    "type": "biohub_read_bpm",
+    "message0": "读取 Bio Sensor Hub %1 BPM 数据",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bioHub", "variableTypes": ["SparkFun_Bio_Sensor_Hub"], "defaultType": "SparkFun_Bio_Sensor_Hub" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "读取心率、置信度、血氧和状态到缓存"
+  },
+  {
+    "type": "biohub_read_sensor_bpm",
+    "message0": "读取 Bio Sensor Hub %1 传感器+BPM 数据",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bioHub", "variableTypes": ["SparkFun_Bio_Sensor_Hub"], "defaultType": "SparkFun_Bio_Sensor_Hub" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "读取 LED 和生物算法数据到缓存"
+  },
+  {
+    "type": "biohub_value",
+    "message0": "Bio Sensor Hub %1 数据 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bioHub", "variableTypes": ["SparkFun_Bio_Sensor_Hub"], "defaultType": "SparkFun_Bio_Sensor_Hub" },
+      { "type": "field_dropdown", "name": "FIELD", "options": [["心率", "heartRate"], ["血氧", "oxygen"], ["置信度", "confidence"], ["状态", "status"], ["IR LED", "irLed"], ["红光 LED", "redLed"], ["R 值", "rValue"]] }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取最近一次缓存的 bioData 字段"
+  },
+  {
+    "type": "biohub_set_pulse_width",
+    "message0": "设置 Bio Sensor Hub %1 LED 脉宽 %2 us",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bioHub", "variableTypes": ["SparkFun_Bio_Sensor_Hub"], "defaultType": "SparkFun_Bio_Sensor_Hub" },
+      { "type": "field_dropdown", "name": "WIDTH", "options": [["69", "69"], ["118", "118"], ["215", "215"], ["411", "411"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 MAX30101 LED 脉宽"
+  },
+  {
+    "type": "biohub_set_sample_rate",
+    "message0": "设置 Bio Sensor Hub %1 采样率 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bioHub", "variableTypes": ["SparkFun_Bio_Sensor_Hub"], "defaultType": "SparkFun_Bio_Sensor_Hub" },
+      { "type": "field_dropdown", "name": "RATE", "options": [["50", "50"], ["100", "100"], ["200", "200"], ["400", "400"], ["800", "800"], ["1000", "1000"], ["1600", "1600"], ["3200", "3200"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 MAX30101 采样率"
+  },
+  {
+    "type": "biohub_set_adc_range",
+    "message0": "设置 Bio Sensor Hub %1 ADC 范围 %2 nA",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bioHub", "variableTypes": ["SparkFun_Bio_Sensor_Hub"], "defaultType": "SparkFun_Bio_Sensor_Hub" },
+      { "type": "field_dropdown", "name": "RANGE", "options": [["2048", "2048"], ["4096", "4096"], ["8192", "8192"], ["16384", "16384"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 MAX30101 ADC 动态范围"
+  }
+]

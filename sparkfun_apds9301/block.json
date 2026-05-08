@@ -1,0 +1,106 @@
+[
+  {
+    "type": "apds9301_init",
+    "message0": "初始化 APDS9301 %1 地址 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "apds9301" },
+      { "type": "field_dropdown", "name": "ADDRESS", "options": [["0x39", "0x39"], ["0x29", "0x29"], ["0x49", "0x49"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "创建并初始化 SparkFun APDS9301 光照传感器"
+  },
+  {
+    "type": "apds9301_is_ready",
+    "message0": "APDS9301 %1 初始化成功",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9301", "variableTypes": ["APDS9301"], "defaultType": "APDS9301" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "返回初始化块保存的 APDS9301 初始化状态"
+  },
+  {
+    "type": "apds9301_read_lux",
+    "message0": "APDS9301 %1 读取 lux",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9301", "variableTypes": ["APDS9301"], "defaultType": "APDS9301" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取计算后的 lux 光照值"
+  },
+  {
+    "type": "apds9301_read_channel",
+    "message0": "APDS9301 %1 读取通道 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9301", "variableTypes": ["APDS9301"], "defaultType": "APDS9301" },
+      { "type": "field_dropdown", "name": "CHANNEL", "options": [["CH0 可见+红外", "readCH0Level"], ["CH1 红外", "readCH1Level"]] }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取 APDS9301 原始通道值"
+  },
+  {
+    "type": "apds9301_set_gain",
+    "message0": "设置 APDS9301 %1 增益 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9301", "variableTypes": ["APDS9301"], "defaultType": "APDS9301" },
+      { "type": "field_dropdown", "name": "GAIN", "options": [["低", "APDS9301::LOW_GAIN"], ["高", "APDS9301::HIGH_GAIN"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 APDS9301 增益"
+  },
+  {
+    "type": "apds9301_set_integration_time",
+    "message0": "设置 APDS9301 %1 积分时间 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9301", "variableTypes": ["APDS9301"], "defaultType": "APDS9301" },
+      { "type": "field_dropdown", "name": "TIME", "options": [["13.7 ms", "APDS9301::INT_TIME_13_7_MS"], ["101 ms", "APDS9301::INT_TIME_101_MS"], ["402 ms", "APDS9301::INT_TIME_402_MS"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 APDS9301 积分时间"
+  },
+  {
+    "type": "apds9301_enable_interrupt",
+    "message0": "APDS9301 %1 中断 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9301", "variableTypes": ["APDS9301"], "defaultType": "APDS9301" },
+      { "type": "field_dropdown", "name": "STATE", "options": [["启用", "APDS9301::INT_ON"], ["禁用", "APDS9301::INT_OFF"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "启用或禁用 APDS9301 中断输出"
+  },
+  {
+    "type": "apds9301_set_threshold",
+    "message0": "设置 APDS9301 %1 中断 %2 阈值 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9301", "variableTypes": ["APDS9301"], "defaultType": "APDS9301" },
+      { "type": "field_dropdown", "name": "BOUND", "options": [["下限", "LOW"], ["上限", "HIGH"]] },
+      { "type": "input_value", "name": "THRESHOLD", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 APDS9301 中断阈值"
+  },
+  {
+    "type": "apds9301_power",
+    "message0": "APDS9301 %1 电源 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9301", "variableTypes": ["APDS9301"], "defaultType": "APDS9301" },
+      { "type": "field_dropdown", "name": "STATE", "options": [["开启", "APDS9301::POW_ON"], ["关闭", "APDS9301::POW_OFF"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "打开或关闭 APDS9301 电源"
+  }
+]

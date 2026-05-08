@@ -1,10 +1,212 @@
 {
   "toolbox_name": "MAX30102",
-  "max30102_init": {"message0": "MAX30102 산소포화도 센서 초기화 SDA %1 SCL %2 INT %3", "tooltip": "MAX30102를 초기화합니다. SDA/SCL은 I2C에 연결하고 INT는 선택한 디지털 핀에 연결합니다. ESP32는 선택한 SDA/SCL로 Wire를 초기화합니다.", "args0": [{"options": "${board.digitalPins}"}, {"options": "${board.digitalPins}"}, {"options": "${board.digitalPins}"}]},
-  "max30102_measure": {"message0": "MAX30102 한 번 샘플링 및 계산 타임아웃(ms) %1", "tooltip": "FIFO 데이터를 수집하고 SpO2, 심박수, 온도, 신호 품질을 계산합니다. 0은 타임아웃 없음입니다."},
-  "max30102_get_value": {"message0": "MAX30102 %1 읽기", "tooltip": "최근 측정 계산 결과를 읽습니다.", "args0": [{"options": [["SpO2(%)", "SPO2"], ["심박수(BPM)", "HEART_RATE"], ["온도(C)", "TEMPERATURE"], ["raw red", "RED"], ["raw IR", "IR"], ["R 값", "RATIO"], ["상관 계수", "CORRELATION"]]}]},
-  "max30102_is_valid": {"message0": "MAX30102 %1 유효 여부", "tooltip": "최근 측정, SpO2, 심박수 또는 손가락 감지 상태가 유효한지 확인합니다.", "args0": [{"options": [["측정", "MEASURE"], ["SpO2", "SPO2"], ["심박수", "HEART_RATE"], ["손가락 감지", "FINGER"]]}]},
-  "max30102_reset": {"message0": "MAX30102 리셋", "tooltip": "MAX30102 소프트웨어 리셋 명령을 보냅니다. 리셋 후 다시 초기화하세요."},
-  "max30102_set_led_amplitude": {"message0": "MAX30102 LED1 세기 %1 LED2 세기 %2 설정", "tooltip": "LED1과 LED2 펄스 세기를 0-255로 설정합니다. 기본 초기값은 36입니다."},
-  "max30102_config_spo2": {"message0": "MAX30102 샘플링 설정 평균 %1 ADC 범위 %2 샘플 속도 %3 펄스 폭 %4", "tooltip": "고급 설정입니다. 기본 알고리즘은 유효 25Hz에서 약 4초 샘플을 기대합니다.", "args0": [{"options": [["없음", "NO_AVERAGING"], ["2회", "AVG_2"], ["4회", "AVG_4"], ["8회", "AVG_8"], ["16회", "AVG_16"], ["32회", "AVG_32"]]}, {"options": [["2048nA", "ADC_RANGE_2048"], ["4096nA", "ADC_RANGE_4096"], ["8192nA", "ADC_RANGE_8192"], ["16384nA", "ADC_RANGE_16384"]]}, {"options": [["50Hz", "SPO2_RATE_50"], ["100Hz", "SPO2_RATE_100"], ["200Hz", "SPO2_RATE_200"], ["400Hz", "SPO2_RATE_400"], ["800Hz", "SPO2_RATE_800"], ["1000Hz", "SPO2_RATE_1000"], ["1600Hz", "SPO2_RATE_1600"], ["3200Hz", "SPO2_RATE_3200"]]}, {"options": [["69us/15bit", "PW_69"], ["118us/16bit", "PW_118"], ["215us/17bit", "PW_215"], ["411us/18bit", "PW_411"]]}]}
+  "max30102_init": {
+    "message0": "MAX30102 산소포화도 센서 초기화 SDA %1 SCL %2 INT %3",
+    "tooltip": "MAX30102를 초기화합니다. SDA/SCL은 I2C에 연결하고 INT는 선택한 디지털 핀에 연결합니다. ESP32는 선택한 SDA/SCL로 Wire를 초기화합니다.",
+    "args0": [
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "max30102_measure": {
+    "message0": "MAX30102 한 번 샘플링 및 계산 타임아웃(ms) %1",
+    "tooltip": "FIFO 데이터를 한 묶음 수집하고 SpO2, 심박수, 온도, 신호 품질을 계산합니다. 타임아웃은 전체 수집의 최대 대기 시간이며 0은 타임아웃 없음입니다."
+  },
+  "max30102_get_value": {
+    "message0": "MAX30102 %1 읽기",
+    "tooltip": "최근 측정 계산 결과를 읽습니다.",
+    "args0": [
+      {
+        "options": [
+          [
+            "SpO2(%)",
+            "SPO2"
+          ],
+          [
+            "심박수(BPM)",
+            "HEART_RATE"
+          ],
+          [
+            "온도(C)",
+            "TEMPERATURE"
+          ],
+          [
+            "raw red",
+            "RED"
+          ],
+          [
+            "raw IR",
+            "IR"
+          ],
+          [
+            "R 값",
+            "RATIO"
+          ],
+          [
+            "상관 계수",
+            "CORRELATION"
+          ]
+        ]
+      }
+    ]
+  },
+  "max30102_is_valid": {
+    "message0": "MAX30102 %1 유효 여부",
+    "tooltip": "초기화, 최근 측정, SpO2, 심박수 또는 손가락 감지 상태가 유효한지 확인합니다.",
+    "args0": [
+      {
+        "options": [
+          [
+            "측정",
+            "MEASURE"
+          ],
+          [
+            "초기화",
+            "INIT"
+          ],
+          [
+            "SpO2",
+            "SPO2"
+          ],
+          [
+            "심박수",
+            "HEART_RATE"
+          ],
+          [
+            "손가락 감지",
+            "FINGER"
+          ]
+        ]
+      }
+    ]
+  },
+  "max30102_reset": {
+    "message0": "MAX30102 리셋",
+    "tooltip": "MAX30102 소프트웨어 리셋 명령을 보냅니다. 리셋 후 다시 초기화하세요."
+  },
+  "max30102_set_led_amplitude": {
+    "message0": "MAX30102 LED1 세기 %1 LED2 세기 %2 설정",
+    "tooltip": "LED1과 LED2 펄스 세기를 0-255로 설정합니다. 기본 초기값은 36입니다."
+  },
+  "max30102_config_spo2": {
+    "message0": "MAX30102 샘플링 설정 평균 %1 ADC 범위 %2 샘플 속도 %3 펄스 폭 %4",
+    "tooltip": "고급 설정입니다. 초기화 전후 어디에나 둘 수 있으며, 초기화 전에는 설정을 저장하고 초기화 후에는 즉시 적용합니다. 기본 알고리즘은 유효 25Hz에서 약 4초 샘플을 기대합니다.",
+    "args0": [
+      {
+        "options": [
+          [
+            "없음",
+            "NO_AVERAGING"
+          ],
+          [
+            "2회",
+            "AVG_2"
+          ],
+          [
+            "4회",
+            "AVG_4"
+          ],
+          [
+            "8회",
+            "AVG_8"
+          ],
+          [
+            "16회",
+            "AVG_16"
+          ],
+          [
+            "32회",
+            "AVG_32"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "2048nA",
+            "ADC_RANGE_2048"
+          ],
+          [
+            "4096nA",
+            "ADC_RANGE_4096"
+          ],
+          [
+            "8192nA",
+            "ADC_RANGE_8192"
+          ],
+          [
+            "16384nA",
+            "ADC_RANGE_16384"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "50Hz",
+            "SPO2_RATE_50"
+          ],
+          [
+            "100Hz",
+            "SPO2_RATE_100"
+          ],
+          [
+            "200Hz",
+            "SPO2_RATE_200"
+          ],
+          [
+            "400Hz",
+            "SPO2_RATE_400"
+          ],
+          [
+            "800Hz",
+            "SPO2_RATE_800"
+          ],
+          [
+            "1000Hz",
+            "SPO2_RATE_1000"
+          ],
+          [
+            "1600Hz",
+            "SPO2_RATE_1600"
+          ],
+          [
+            "3200Hz",
+            "SPO2_RATE_3200"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "69us/15bit",
+            "PW_69"
+          ],
+          [
+            "118us/16bit",
+            "PW_118"
+          ],
+          [
+            "215us/17bit",
+            "PW_215"
+          ],
+          [
+            "411us/18bit",
+            "PW_411"
+          ]
+        ]
+      }
+    ]
+  },
+  "max30102_set_finger_threshold": {
+    "message0": "MAX30102 손가락 감지 임계값 %1 설정",
+    "tooltip": "손가락 감지에 사용할 IR 원시값 임계값을 설정합니다. 기본값은 50000이며 값이 높을수록 엄격합니다."
+  }
 }

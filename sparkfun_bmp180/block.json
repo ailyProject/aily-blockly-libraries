@@ -1,0 +1,78 @@
+[
+  {
+    "type": "bmp180_init",
+    "message0": "初始化 BMP180 气压传感器 %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "bmp180" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "创建并初始化 SparkFun BMP180 气压/温度传感器对象"
+  },
+  {
+    "type": "bmp180_is_ready",
+    "message0": "BMP180 %1 初始化成功",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmp180", "variableTypes": ["SFE_BMP180"], "defaultType": "SFE_BMP180" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "返回初始化块保存的 BMP180 初始化状态"
+  },
+  {
+    "type": "bmp180_read_temperature",
+    "message0": "读取 BMP180 %1 温度 °C",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmp180", "variableTypes": ["SFE_BMP180"], "defaultType": "SFE_BMP180" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "启动并读取 BMP180 温度测量，单位为摄氏度"
+  },
+  {
+    "type": "bmp180_read_pressure",
+    "message0": "读取 BMP180 %1 气压 mbar 过采样 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmp180", "variableTypes": ["SFE_BMP180"], "defaultType": "SFE_BMP180" },
+      { "type": "field_dropdown", "name": "OVERSAMPLING", "options": [["低功耗", "0"], ["标准", "1"], ["高分辨率", "2"], ["超高分辨率", "3"]] }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取 BMP180 绝对气压，单位为 mbar/hPa"
+  },
+  {
+    "type": "bmp180_sea_level",
+    "message0": "BMP180 %1 海平面气压 气压 %2 mbar 海拔 %3 m",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmp180", "variableTypes": ["SFE_BMP180"], "defaultType": "SFE_BMP180" },
+      { "type": "input_value", "name": "PRESSURE", "check": "Number" },
+      { "type": "input_value", "name": "ALTITUDE", "check": "Number" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "根据当前海拔将绝对气压换算为海平面气压"
+  },
+  {
+    "type": "bmp180_altitude",
+    "message0": "BMP180 %1 计算海拔 气压 %2 mbar 基准气压 %3 mbar",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmp180", "variableTypes": ["SFE_BMP180"], "defaultType": "SFE_BMP180" },
+      { "type": "input_value", "name": "PRESSURE", "check": "Number" },
+      { "type": "input_value", "name": "BASELINE", "check": "Number" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "根据绝对气压和基准气压计算海拔，单位为米"
+  },
+  {
+    "type": "bmp180_get_error",
+    "message0": "BMP180 %1 最近错误码",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmp180", "variableTypes": ["SFE_BMP180"], "defaultType": "SFE_BMP180" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取 Wire/I2C 层最近错误码"
+  }
+]
