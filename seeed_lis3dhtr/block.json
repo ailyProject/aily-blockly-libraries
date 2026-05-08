@@ -1,0 +1,339 @@
+
+[
+  {
+    "type": "lis3dhtr_begin",
+    "message0": "初始化LIS3DHTR加速度计（I2C模式） 地址 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "ADDRESS",
+        "text": "0x19"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_set_datarate",
+    "message0": "设置输出数据速率 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DATARATE",
+        "options": [
+          [
+            "100Hz",
+            "LIS3DHTR_DATARATE_100HZ"
+          ],
+          [
+            "50Hz",
+            "LIS3DHTR_DATARATE_50HZ"
+          ],
+          [
+            "400Hz",
+            "LIS3DHTR_DATARATE_400HZ"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_set_resolution",
+    "message0": "设置高分辨率模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ENABLE",
+        "options": [
+          [
+            "开启",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_get_acceleration_x",
+    "message0": "读取X轴加速度",
+    "output": "Number",
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_get_acceleration_y",
+    "message0": "读取Y轴加速度",
+    "output": "Number",
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_get_acceleration_z",
+    "message0": "读取Z轴加速度",
+    "output": "Number",
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_get_acceleration",
+    "message0": "读取 %1 轴加速度",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_get_acceleration_xyz",
+    "message0": "获取三轴加速度并存储到变量中  X: %1  Y: %2  Z: %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "X_VAR",
+        "variable": "x"
+      },
+      {
+        "type": "field_variable",
+        "name": "Y_VAR",
+        "variable": "y"
+      },
+      {
+        "type": "field_variable",
+        "name": "Z_VAR",
+        "variable": "z"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_open_temp",
+    "message0": "开启温度传感器",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_close_temp",
+    "message0": "关闭温度传感器",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_get_temperature",
+    "message0": "读取温度数据",
+    "output": "Number",
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_get_temperature_simple",
+    "message0": "读取温度数据（自动开启传感器）",
+    "output": "Number",
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_read_adc1",
+    "message0": "读取ADC1通道数据",
+    "output": "Number",
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_read_adc2",
+    "message0": "读取ADC2通道数据",
+    "output": "Number",
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_read_adc3",
+    "message0": "读取ADC3通道数据",
+    "output": "Number",
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_read_adc",
+    "message0": "读取ADC通道 %1 数据",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_is_connection",
+    "message0": "检查传感器连接状态",
+    "output": "Boolean",
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_get_device_id",
+    "message0": "获取设备ID",
+    "output": "Number",
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_set_full_scale_range",
+    "message0": "设置传感器量程范围 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "RANGE",
+        "options": [
+          [
+            "2G",
+            "LIS3DHTR_RANGE_2G"
+          ],
+          [
+            "4G",
+            "LIS3DHTR_RANGE_4G"
+          ],
+          [
+            "8G",
+            "LIS3DHTR_RANGE_8G"
+          ],
+          [
+            "16G",
+            "LIS3DHTR_RANGE_16G"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_set_power_mode",
+    "message0": "设置电源模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "正常",
+            "LIS3DHTR_POWER_NORMAL"
+          ],
+          [
+            "低功耗",
+            "LIS3DHTR_POWER_LOW"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_init_simplified",
+    "message0": "一体化初始化和配置 地址 %1 数据速率 %2 量程 %3 高分辨率 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "ADDRESS",
+        "text": "LIS3DHTR_DEFAULT_ADDRESS"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATARATE",
+        "options": [
+          [
+            "100Hz",
+            "LIS3DHTR_DATARATE_100HZ"
+          ],
+          [
+            "50Hz",
+            "LIS3DHTR_DATARATE_50HZ"
+          ],
+          [
+            "400Hz",
+            "LIS3DHTR_DATARATE_400HZ"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RANGE",
+        "options": [
+          [
+            "2G",
+            "LIS3DHTR_RANGE_2G"
+          ],
+          [
+            "4G",
+            "LIS3DHTR_RANGE_4G"
+          ],
+          [
+            "8G",
+            "LIS3DHTR_RANGE_8G"
+          ],
+          [
+            "16G",
+            "LIS3DHTR_RANGE_16G"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "HIGHRES",
+        "options": [
+          [
+            "开启",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50"
+  }
+]
