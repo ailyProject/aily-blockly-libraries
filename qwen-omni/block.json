@@ -400,5 +400,306 @@
     "tooltip": "根据文字描述生成图片，使用默认设置，返回图片URL链接，可配合TFT屏幕显示",
     "helpUrl": "",
     "icon": "fa-regular fa-image"
+  },
+  {
+    "type": "qwen_omni_tts",
+    "message0": "通义TTS语音合成 %1 待合成文本 %2 %3 音色 %4 %5 模型 %6 %7 语种 %8",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {"type": "inputsInline"},
+      {"type": "field_dropdown", "name": "VOICE", "options": [
+        ["Cherry (甜美女声)", "Cherry"],
+        ["Ethan (阳光男声)", "Ethan"],
+        ["Chelsie (温柔女声)", "Chelsie"],
+        ["Serena (甜美小姐姐)", "Serena"],
+        ["Chelsie (客服女声)", "Chelsie"],
+        ["Dylan (北京话男声)", "Dylan"],
+        ["Jada (上海话女声)", "Jada"],
+        ["Sunny (四川话女声)", "Sunny"]
+      ]},
+      {"type": "inputsInline"},
+      {"type": "field_dropdown", "name": "MODEL", "options": [
+        ["qwen3-tts-flash (推荐)", "qwen3-tts-flash"],
+        ["qwen3-tts-instruct-flash (指令控制)", "qwen3-tts-instruct-flash"],
+        ["qwen-tts", "qwen-tts"]
+      ]},
+      {"type": "inputsInline"},
+      {"type": "field_dropdown", "name": "LANGUAGE", "options": [
+        ["中文", "Chinese"],
+        ["英文", "English"],
+        ["日文", "Japanese"],
+        ["韩文", "Korean"],
+        ["法文", "French"],
+        ["德文", "German"],
+        ["西班牙文", "Spanish"],
+        ["俄文", "Russian"],
+        ["葡萄牙文", "Portuguese"],
+        ["意大利文", "Italian"]
+      ]}
+    ],
+    "output": "String",
+    "colour": "#FF6B35",
+    "tooltip": "使用通义TTS模型将文本合成为语音，返回Base64编码的WAV音频数据(24kHz 16bit 单声道)",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
+  },
+  {
+    "type": "qwen_omni_tts_play",
+    "message0": "通义TTS播放音频 %1 I2S对象 %2 %3 Base64音频 %4",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "field_variable", "name": "VAR", "variable": "i2s"},
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "BASE64_AUDIO", "check": "String"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "将通义TTS返回的Base64音频数据解码并通过I2S播放。需要先初始化I2S对象(24kHz 16bit 单声道)",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
+  },
+  {
+    "type": "qwen_omni_tts_and_play",
+    "message0": "通义TTS合成并播放 %1 I2S对象 %2 %3 文本 %4 %5 音色 %6 %7 模型 %8 %9 语种 %10",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "field_variable", "name": "VAR", "variable": "i2s"},
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {"type": "inputsInline"},
+      {"type": "field_dropdown", "name": "VOICE", "options": [
+        ["Cherry (甜美女声)", "Cherry"],
+        ["Ethan (阳光男声)", "Ethan"],
+        ["Chelsie (温柔女声)", "Chelsie"],
+        ["Serena (甜美小姐姐)", "Serena"],
+        ["Dylan (北京话男声)", "Dylan"],
+        ["Jada (上海话女声)", "Jada"],
+        ["Sunny (四川话女声)", "Sunny"]
+      ]},
+      {"type": "inputsInline"},
+      {"type": "field_dropdown", "name": "MODEL", "options": [
+        ["qwen3-tts-flash (推荐)", "qwen3-tts-flash"],
+        ["qwen3-tts-instruct-flash (指令控制)", "qwen3-tts-instruct-flash"],
+        ["qwen-tts", "qwen-tts"]
+      ]},
+      {"type": "inputsInline"},
+      {"type": "field_dropdown", "name": "LANGUAGE", "options": [
+        ["中文", "Chinese"],
+        ["英文", "English"],
+        ["日文", "Japanese"],
+        ["韩文", "Korean"],
+        ["法文", "French"],
+        ["德文", "German"],
+        ["西班牙文", "Spanish"],
+        ["俄文", "Russian"],
+        ["葡萄牙文", "Portuguese"],
+        ["意大利文", "Italian"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "使用通义TTS非流式合成语音并通过I2S播放。等待完整音频返回后解码播放，音质稳定",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
+  },
+  {
+    "type": "qwen_omni_tts_stream_play",
+    "message0": "通义TTS流式合成并播放 %1 I2S对象 %2 %3 文本 %4 %5 音色 %6 %7 模型 %8 %9 语种 %10",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "field_variable", "name": "VAR", "variable": "i2s"},
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {"type": "inputsInline"},
+      {"type": "field_dropdown", "name": "VOICE", "options": [
+        ["Cherry (甜美女声)", "Cherry"],
+        ["Ethan (阳光男声)", "Ethan"],
+        ["Chelsie (温柔女声)", "Chelsie"],
+        ["Serena (甜美小姐姐)", "Serena"],
+        ["Dylan (北京话男声)", "Dylan"],
+        ["Jada (上海话女声)", "Jada"],
+        ["Sunny (四川话女声)", "Sunny"]
+      ]},
+      {"type": "inputsInline"},
+      {"type": "field_dropdown", "name": "MODEL", "options": [
+        ["qwen3-tts-flash (推荐)", "qwen3-tts-flash"],
+        ["qwen3-tts-instruct-flash (指令控制)", "qwen3-tts-instruct-flash"],
+        ["qwen-tts", "qwen-tts"]
+      ]},
+      {"type": "inputsInline"},
+      {"type": "field_dropdown", "name": "LANGUAGE", "options": [
+        ["中文", "Chinese"],
+        ["英文", "English"],
+        ["日文", "Japanese"],
+        ["韩文", "Korean"],
+        ["法文", "French"],
+        ["德文", "German"],
+        ["西班牙文", "Spanish"],
+        ["俄文", "Russian"],
+        ["葡萄牙文", "Portuguese"],
+        ["意大利文", "Italian"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "使用通义TTS流式合成语音并通过I2S播放。边接收边解码，延迟更低，语音连续流畅",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
+  },
+  {
+    "type": "qwen_omni_omni_text",
+    "message0": "通义全模态对话(仅文字) %1 用户消息 %2 %3 模型 %4",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {"type": "inputsInline"},
+      {"type": "field_dropdown", "name": "MODEL", "options": [
+        ["qwen3.5-omni-plus (推荐)", "qwen3.5-omni-plus"],
+        ["qwen3-omni-flash", "qwen3-omni-flash"],
+        ["qwen-omni-turbo", "qwen-omni-turbo"]
+      ]}
+    ],
+    "output": "String",
+    "colour": "#FF6B35",
+    "tooltip": "使用全模态模型进行对话，仅返回文字回复",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
+  },
+  {
+    "type": "qwen_omni_omni_and_play",
+    "message0": "通义全模态对话并播放 %1 I2S对象 %2 %3 消息 %4 %5 模型 %6 %7 音色 %8",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "field_variable", "name": "VAR", "variable": "i2s"},
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {"type": "inputsInline"},
+      {"type": "field_dropdown", "name": "MODEL", "options": [
+        ["qwen3.5-omni-plus (推荐)", "qwen3.5-omni-plus"],
+        ["qwen3-omni-flash", "qwen3-omni-flash"],
+        ["qwen-omni-turbo", "qwen-omni-turbo"]
+      ]},
+      {"type": "inputsInline"},
+      {"type": "field_dropdown", "name": "VOICE", "options": [
+        ["Tina (甜甜)", "Tina"],
+        ["Ethan (晨煦)", "Ethan"],
+        ["Serena (苏瑶)", "Serena"],
+        ["Raymond (林川野)", "Raymond"],
+        ["Cindy (林欣宜)", "Cindy"],
+        ["Liora Mira (清欢)", "Liora Mira"],
+        ["Sunnybobi (知芝)", "Sunnybobi"],
+        ["Theo Calm (予安)", "Theo Calm"],
+        ["Harvey (厚)", "Harvey"],
+        ["Maia (四月)", "Maia"],
+        ["Evan (江晨)", "Evan"],
+        ["Momo (茉兔)", "Momo"],
+        ["Dylan (晓东)", "Dylan"],
+        ["Sunny (晴儿)", "Sunny"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "全模态对话返回文字和语音，语音通过I2S播放。非流式模式，等待完整回复后播放",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
+  },
+  {
+    "type": "qwen_omni_omni_stream_play",
+    "message0": "通义全模态流式对话并播放 %1 I2S对象 %2 %3 消息 %4 %5 模型 %6 %7 音色 %8",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "field_variable", "name": "VAR", "variable": "i2s"},
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {"type": "inputsInline"},
+      {"type": "field_dropdown", "name": "MODEL", "options": [
+        ["qwen3.5-omni-plus (推荐)", "qwen3.5-omni-plus"],
+        ["qwen3-omni-flash", "qwen3-omni-flash"],
+        ["qwen-omni-turbo", "qwen-omni-turbo"]
+      ]},
+      {"type": "inputsInline"},
+      {"type": "field_dropdown", "name": "VOICE", "options": [
+        ["Tina (甜甜)", "Tina"],
+        ["Ethan (晨煦)", "Ethan"],
+        ["Serena (苏瑶)", "Serena"],
+        ["Raymond (林川野)", "Raymond"],
+        ["Cindy (林欣宜)", "Cindy"],
+        ["Liora Mira (清欢)", "Liora Mira"],
+        ["Sunnybobi (知芝)", "Sunnybobi"],
+        ["Theo Calm (予安)", "Theo Calm"],
+        ["Harvey (厚)", "Harvey"],
+        ["Maia (四月)", "Maia"],
+        ["Evan (江晨)", "Evan"],
+        ["Momo (茉兔)", "Momo"],
+        ["Dylan (晓东)", "Dylan"],
+        ["Sunny (晴儿)", "Sunny"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "全模态流式对话，文字实时输出，语音收集完成后通过I2S播放。流式模式延迟更低",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
+  },
+  {
+    "type": "qwen_omni_omni_get_audio",
+    "message0": "获取通义全模态音频数据",
+    "output": "String",
+    "colour": "#FF6B35",
+    "tooltip": "获取全模态对话返回的Base64音频数据(在非流式全模态对话后使用)",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
+  },
+  {
+    "type": "qwen_omni_tts_voice_design",
+    "message0": "通义TTS音色设计合成 %1 I2S对象 %2 %3 文本 %4 %5 音色描述 %6",
+    "args0": [
+      {"type": "inputsInline"},
+      {"type": "field_variable", "name": "VAR", "variable": "i2s"},
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "VOICE_DESC", "check": "String"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "使用音色设计模型，通过文字描述自定义音色并合成播放。例如:温柔的年轻女声，语速稍快",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
+  },
+  {
+    "type": "qwen_omni_omni_voice_chat",
+    "message0": "通义全模态语音对话 I2S对象 %1 %2 录音 %3 秒 %4 模型 %5 音色 %6 %7 提问(可选) %8",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "i2s"},
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "DURATION", "check": "Number"},
+      {"type": "inputsInline"},
+      {"type": "field_dropdown", "name": "MODEL", "options": [
+        ["qwen2.5-omni-7b", "qwen2.5-omni-7b"],
+        ["qwen2.5-omni-3b", "qwen2.5-omni-3b"]
+      ]},
+      {"type": "field_dropdown", "name": "VOICE", "options": [
+        ["Chelsie", "Chelsie"],
+        ["Ethan", "Ethan"],
+        ["Aria", "Aria"],
+        ["Cindy", "Cindy"]
+      ]},
+      {"type": "inputsInline"},
+      {"type": "input_value", "name": "PROMPT", "check": "String"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "从I2S麦克风录音，发送到通义全模态对话API，播放返回的语音回复。录音格式为24kHz 16bit单声道",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
   }
 ]

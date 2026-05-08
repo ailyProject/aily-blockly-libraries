@@ -17,6 +17,8 @@ Arduino.forBlock['qwen_omni_config'] = function(block, generator) {
   generator.addVariable('qwen_chat_history', 'String qwen_chat_history = "";');
   generator.addVariable('qwen_stream_chunk', 'String qwen_stream_chunk = "";');
   generator.addVariable('qwen_stream_callback', 'void (*qwen_stream_callback)(void) = NULL;');
+  generator.addVariable('qwen_omni_audio_data', 'String qwen_omni_audio_data = "";');
+  generator.addVariable('qwen_tts_data', 'String qwen_tts_data = "";');
 
   generator.addFunction('qwen_escape_json', String.raw`
 String qwen_escape_json(String input) {
@@ -937,6 +939,1035 @@ String qwen_image_generate(String model, String prompt, String size) {
 
   const code = `qwen_image_generate("wanx2.1-t2i-turbo", ${prompt}, "1024*1024")`;
   return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+Arduino.forBlock['qwen_omni_tts'] = function(block, generator) {
+  const text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC) || '""';
+  const voice = block.getFieldValue('VOICE');
+  const model = block.getFieldValue('MODEL');
+  const language = block.getFieldValue('LANGUAGE');
+
+  generator.addFunction('qwen_tts_request', `
+String qwen_tts_request(String text, String voice, String model, String language) {
+  Serial.println("=== 通义TTS语音合成开始(流式) ===");
+  Serial.println("文本: " + text);
+  Serial.println("音色: " + voice);
+  Serial.println("模型: " + model);
+  Serial.println("语种: " + language);
+
+  if (WiFi.status() != WL_CONNECTED) {
+    qwen_last_success = false;
+    qwen_last_error = "WiFi not connected";
+    return "";
+  }
+
+  HTTPClient http;
+  String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation";
+  http.begin(url);
+  http.setTimeout(120000);
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("Authorization", "Bearer " + qwen_api_key);
+  http.addHeader("X-DashScope-SSE", "enable");
+
+  String safeText = qwen_escape_json(text);
+  String requestBody = "{\\"model\\":\\"" + model + "\\",";
+  requestBody += "\\"input\\":{\\"text\\":\\"" + safeText + "\\",";
+  requestBody += "\\"voice\\":\\"" + voice + "\\",";
+  requestBody += "\\"language_type\\":\\"" + language + "\\"},";
+  requestBody += "\\"stream\\":true}";
+
+  Serial.println("发送TTS流式请求...");
+  int httpResponseCode = http.POST(requestBody);
+  Serial.println("HTTP响应码: " + String(httpResponseCode));
+  String response = "";
+
+  if (httpResponseCode == 200) {
+    WiFiClient* stream = http.getStreamPtr();
+    String fullAudio = "";
+    String buffer = "";
+    
+    while (http.connected() || stream->available()) {
+      if (stream->available()) {
+        char c = stream->read();
+        buffer += c;
+        
+        if (c == '\\n') {
+          buffer.trim();
+          if (buffer.startsWith("data:")) {
+            String data = buffer.substring(5);
+            data.trim();
+            
+            if (data == "[DONE]") {
+              Serial.println();
+              Serial.println("TTS流式传输完成");
+              break;
+            }
+            
+            int audioStart = data.indexOf("\\"audio\\":{\\"data\\":\\"");
+            if (audioStart >= 0) {
+              audioStart += 18;
+              int audioEnd = data.indexOf("\\"", audioStart);
+              if (audioEnd > audioStart) {
+                String audioChunk = data.substring(audioStart, audioEnd);
+                fullAudio += audioChunk;
+                Serial.print(".");
+              }
+            }
+          }
+          buffer = "";
+        }
+      }
+      delay(1);
+    }
+    
+    if (fullAudio.length() > 0) {
+      response = fullAudio;
+      qwen_last_success = true;
+      qwen_last_error = "";
+    } else {
+      Serial.println("TTS流式解析失败");
+      qwen_last_success = false;
+      qwen_last_error = "Stream parse error";
+    }
+  } else {
+    String errorResponse = http.getString();
+    Serial.println("HTTP错误: " + errorResponse);
+    qwen_last_success = false;
+    qwen_last_error = "HTTP " + String(httpResponseCode);
+  }
+
+  http.end();
+  Serial.println("=== 通义TTS语音合成结束 ===");
+  return response;
+}`);
+
+  const code = `qwen_tts_request(${text}, "${voice}", "${model}", "${language}")`;
+  return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+Arduino.forBlock['qwen_omni_tts_play'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s';
+  const base64Audio = generator.valueToCode(block, 'BASE64_AUDIO', Arduino.ORDER_ATOMIC) || '""';
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+  generator.addLibrary('mbedtls_base64', '#include <mbedtls/base64.h>');
+
+  generator.addFunction('qwen_base64_decode_to_buffer', `
+size_t qwen_base64_decode_to_buffer(const char* input, uint8_t* output, size_t outputMax) {
+  size_t outLen = 0;
+  int ret = mbedtls_base64_decode(output, outputMax, &outLen, (const unsigned char*)input, strlen(input));
+  if (ret != 0) {
+    Serial.println("Base64解码失败: " + String(ret));
+    return 0;
+  }
+  return outLen;
+}`);
+
+  generator.addFunction('qwen_play_pcm_via_i2s', `
+void qwen_play_pcm_via_i2s(I2SClass &i2s, const uint8_t* pcmData, size_t pcmLen) {
+  Serial.println("=== 播放PCM音频 ===");
+  Serial.println("PCM数据大小: " + String(pcmLen) + " bytes");
+  
+  size_t bytesWritten = 0;
+  size_t chunkSize = 1024;
+  while (bytesWritten < pcmLen) {
+    size_t toWrite = min(chunkSize, pcmLen - bytesWritten);
+    i2s.write(pcmData + bytesWritten, toWrite);
+    bytesWritten += toWrite;
+  }
+  Serial.println("播放完成!");
+}`);
+
+  generator.addFunction('qwen_play_base64_pcm', `
+void qwen_play_base64_pcm(I2SClass &i2s, String base64Audio) {
+  Serial.println("=== 播放TTS音频 ===");
+  Serial.println("Base64数据长度: " + String(base64Audio.length()));
+
+  size_t decodedMax = (base64Audio.length() * 3) / 4 + 4;
+  uint8_t* pcmBuf = (uint8_t*)malloc(decodedMax);
+  if (!pcmBuf) {
+    Serial.println("内存分配失败!");
+    qwen_last_success = false;
+    qwen_last_error = "Memory alloc failed";
+    return;
+  }
+
+  size_t pcmLen = qwen_base64_decode_to_buffer(base64Audio.c_str(), pcmBuf, decodedMax);
+  Serial.println("PCM数据大小: " + String(pcmLen) + " bytes");
+
+  if (pcmLen < 2) {
+    Serial.println("PCM数据太短!");
+    free(pcmBuf);
+    qwen_last_success = false;
+    qwen_last_error = "Invalid PCM data";
+    return;
+  }
+
+  qwen_play_pcm_via_i2s(i2s, pcmBuf, pcmLen);
+  free(pcmBuf);
+  qwen_last_success = true;
+  qwen_last_error = "";
+}`);
+
+  return `qwen_play_base64_pcm(${varName}, ${base64Audio});\n`;
+};
+
+Arduino.forBlock['qwen_omni_tts_and_play'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s';
+  const text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC) || '""';
+  const voice = block.getFieldValue('VOICE');
+  const model = block.getFieldValue('MODEL');
+  const language = block.getFieldValue('LANGUAGE');
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+  generator.addLibrary('mbedtls_base64', '#include <mbedtls/base64.h>');
+
+  generator.addFunction('qwen_tts_request', null);
+  generator.addFunction('qwen_base64_decode_to_buffer', null);
+  generator.addFunction('qwen_play_pcm_via_i2s', null);
+
+  var code = '{\n';
+  code += '  qwen_tts_data = qwen_tts_request(' + text + ', "' + voice + '", "' + model + '", "' + language + '");\n';
+  code += '  if (qwen_last_success && qwen_tts_data.length() > 0) {\n';
+  code += '    size_t decodedMax = (qwen_tts_data.length() * 3) / 4 + 4;\n';
+  code += '    uint8_t* pcmBuf = (uint8_t*)malloc(decodedMax);\n';
+  code += '    if (pcmBuf) {\n';
+  code += '      size_t pcmLen = qwen_base64_decode_to_buffer(qwen_tts_data.c_str(), pcmBuf, decodedMax);\n';
+  code += '      if (pcmLen > 0) {\n';
+  code += '        qwen_play_pcm_via_i2s(' + varName + ', pcmBuf, pcmLen);\n';
+  code += '      }\n';
+  code += '      free(pcmBuf);\n';
+  code += '    }\n';
+  code += '  }\n';
+  code += '}\n';
+  return code;
+};
+
+Arduino.forBlock['qwen_omni_tts_stream_play'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s';
+  const text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC) || '""';
+  const voice = block.getFieldValue('VOICE');
+  const model = block.getFieldValue('MODEL');
+  const language = block.getFieldValue('LANGUAGE');
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+  generator.addLibrary('mbedtls_base64', '#include <mbedtls/base64.h>');
+
+  generator.addFunction('qwen_tts_stream_play_impl', `
+void qwen_tts_stream_play_impl(I2SClass &i2s, String text, String voice, String model, String language) {
+  Serial.println("=== 通义TTS流式合成并播放开始 ===");
+  Serial.println("文本: " + text);
+  Serial.println("音色: " + voice);
+  Serial.println("模型: " + model);
+  Serial.println("语种: " + language);
+
+  if (WiFi.status() != WL_CONNECTED) {
+    qwen_last_success = false;
+    qwen_last_error = "WiFi not connected";
+    return;
+  }
+
+  HTTPClient http;
+  String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation";
+  http.begin(url);
+  http.setTimeout(120000);
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("Authorization", "Bearer " + qwen_api_key);
+  http.addHeader("X-DashScope-SSE", "enable");
+
+  String safeText = qwen_escape_json(text);
+  String requestBody = "{\\"model\\":\\"" + model + "\\",";
+  requestBody += "\\"input\\":{\\"text\\":\\"" + safeText + "\\",";
+  requestBody += "\\"voice\\":\\"" + voice + "\\",";
+  requestBody += "\\"language_type\\":\\"" + language + "\\"},";
+  requestBody += "\\"stream\\":true}";
+
+  Serial.println("发送TTS流式请求...");
+  int httpResponseCode = http.POST(requestBody);
+  Serial.println("HTTP响应码: " + String(httpResponseCode));
+
+  if (httpResponseCode != 200) {
+    String errorResponse = http.getString();
+    Serial.println("HTTP错误: " + errorResponse);
+    qwen_last_success = false;
+    qwen_last_error = "HTTP " + String(httpResponseCode);
+    http.end();
+    return;
+  }
+
+  WiFiClient *stream = http.getStreamPtr();
+  int totalBytes = 0;
+  String lineBuffer = "";
+  qwen_last_success = true;
+  qwen_last_error = "";
+
+  while (http.connected() || stream->available()) {
+    if (!stream->available()) {
+      delay(1);
+      continue;
+    }
+    char c = stream->read();
+    if (c == '\\n') {
+      lineBuffer.trim();
+      if (lineBuffer.startsWith("data:")) {
+        String data = lineBuffer.substring(5);
+        data.trim();
+        if (data == "[DONE]") break;
+        
+        int audioPos = data.indexOf("\\"audio\\":{\\"data\\":\\"");
+        if (audioPos >= 0) {
+          audioPos += 18;
+          int audioEnd = data.indexOf("\\"", audioPos);
+          if (audioEnd > audioPos) {
+            String b64Chunk = data.substring(audioPos, audioEnd);
+            int bufLen = (b64Chunk.length() * 3) / 4 + 16;
+            uint8_t *pcmBuf = (uint8_t *)malloc(bufLen);
+            if (pcmBuf) {
+              size_t outLen = 0;
+              int ret = mbedtls_base64_decode(pcmBuf, bufLen, &outLen, (const unsigned char*)b64Chunk.c_str(), b64Chunk.length());
+              if (ret == 0 && outLen > 0) {
+                i2s.write(pcmBuf, outLen);
+                totalBytes += outLen;
+                Serial.print(".");
+              }
+              free(pcmBuf);
+            }
+          }
+        }
+      }
+      lineBuffer = "";
+    } else if (c != '\\r') {
+      lineBuffer += c;
+    }
+  }
+
+  http.end();
+  Serial.println("");
+  Serial.println("流式播放完成，总字节数: " + String(totalBytes));
+  Serial.println("=== 通义TTS流式合成并播放结束 ===");
+}`);
+
+  var code = 'qwen_tts_stream_play_impl(' + varName + ', ' + text + ', "' + voice + '", "' + model + '", "' + language + '");\n';
+  return code;
+};
+
+Arduino.forBlock['qwen_omni_omni_text'] = function(block, generator) {
+  const message = generator.valueToCode(block, 'MESSAGE', Arduino.ORDER_ATOMIC) || '""';
+  const model = block.getFieldValue('MODEL');
+
+  generator.addFunction('qwen_omni_text_request', `
+String qwen_omni_text_request(String model, String message) {
+  Serial.println("=== 通义全模态对话开始(仅文字/流式) ===");
+  Serial.println("模型: " + model);
+  Serial.println("消息: " + message);
+
+  if (WiFi.status() != WL_CONNECTED) {
+    qwen_last_success = false;
+    qwen_last_error = "WiFi not connected";
+    return "";
+  }
+
+  HTTPClient http;
+  String url = qwen_base_url + "/chat/completions";
+  http.begin(url);
+  http.setTimeout(120000);
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("Authorization", "Bearer " + qwen_api_key);
+
+  String safeMessage = qwen_escape_json(message);
+  String requestBody = "{\\"model\\":\\"" + model + "\\",";
+  requestBody += "\\"messages\\":[{\\"role\\":\\"user\\",\\"content\\":\\"" + safeMessage + "\\"}],";
+  requestBody += "\\"modalities\\":[\\"text\\"],";
+  requestBody += "\\"stream\\":true}";
+
+  Serial.println("发送全模态文字请求...");
+  int httpResponseCode = http.POST(requestBody);
+  Serial.println("HTTP响应码: " + String(httpResponseCode));
+  String response = "";
+
+  if (httpResponseCode == 200) {
+    WiFiClient* stream = http.getStreamPtr();
+    String fullContent = "";
+    String buffer = "";
+    
+    while (http.connected() || stream->available()) {
+      if (stream->available()) {
+        char c = stream->read();
+        buffer += c;
+        
+        if (c == '\\n') {
+          buffer.trim();
+          if (buffer.startsWith("data:")) {
+            String data = buffer.substring(5);
+            data.trim();
+            
+            if (data == "[DONE]") {
+              Serial.println();
+              Serial.println("全模态文字流式传输完成");
+              break;
+            }
+            
+            int contentStart = data.indexOf("\\"content\\":\\"");
+            if (contentStart >= 0) {
+              contentStart += 11;
+              int contentEnd = data.indexOf("\\"", contentStart);
+              if (contentEnd > contentStart) {
+                String content = data.substring(contentStart, contentEnd);
+                Serial.print(content);
+                fullContent += content;
+                if (qwen_stream_callback != NULL) {
+                  qwen_stream_chunk = content;
+                  qwen_stream_callback();
+                }
+              }
+            }
+          }
+          buffer = "";
+        }
+      }
+      delay(1);
+    }
+    
+    if (fullContent.length() > 0) {
+      response = fullContent;
+      qwen_last_success = true;
+      qwen_last_error = "";
+    } else {
+      Serial.println("全模态文字流式解析失败");
+      qwen_last_success = false;
+      qwen_last_error = "Stream parse error";
+    }
+  } else {
+    String errorResponse = http.getString();
+    Serial.println("HTTP错误: " + errorResponse);
+    qwen_last_success = false;
+    qwen_last_error = "HTTP " + String(httpResponseCode);
+  }
+
+  http.end();
+  Serial.println("=== 通义全模态对话结束 ===");
+  return response;
+}`);
+
+  const code = `qwen_omni_text_request("${model}", ${message})`;
+  return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+Arduino.forBlock['qwen_omni_omni_and_play'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s';
+  const message = generator.valueToCode(block, 'MESSAGE', Arduino.ORDER_ATOMIC) || '""';
+  const model = block.getFieldValue('MODEL');
+  const voice = block.getFieldValue('VOICE');
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+  generator.addLibrary('mbedtls_base64', '#include <mbedtls/base64.h>');
+
+  generator.addFunction('qwen_omni_and_play_request', `
+void qwen_omni_and_play_request(I2SClass &i2s, String model, String message, String voice) {
+  Serial.println("=== 通义全模态对话并播放开始(流式) ===");
+  Serial.println("模型: " + model);
+  Serial.println("消息: " + message);
+  Serial.println("音色: " + voice);
+
+  if (WiFi.status() != WL_CONNECTED) {
+    qwen_last_success = false;
+    qwen_last_error = "WiFi not connected";
+    return;
+  }
+
+  HTTPClient http;
+  String url = qwen_base_url + "/chat/completions";
+  http.begin(url);
+  http.setTimeout(120000);
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("Authorization", "Bearer " + qwen_api_key);
+
+  String safeMessage = qwen_escape_json(message);
+  String requestBody = "{\\"model\\":\\"" + model + "\\",";
+  requestBody += "\\"messages\\":[{\\"role\\":\\"user\\",\\"content\\":\\"" + safeMessage + "\\"}],";
+  requestBody += "\\"modalities\\":[\\"text\\",\\"audio\\"],";
+  requestBody += "\\"audio\\":{\\"voice\\":\\"" + voice + "\\",\\"format\\":\\"wav\\"},";
+  requestBody += "\\"stream\\":true}";
+
+  Serial.println("发送全模态请求...");
+  int httpResponseCode = http.POST(requestBody);
+  Serial.println("HTTP响应码: " + String(httpResponseCode));
+
+  if (httpResponseCode != 200) {
+    String errorResponse = http.getString();
+    Serial.println("HTTP错误: " + errorResponse);
+    qwen_last_success = false;
+    qwen_last_error = "HTTP " + String(httpResponseCode);
+    http.end();
+    return;
+  }
+
+  WiFiClient *stream = http.getStreamPtr();
+  String fullText = "";
+  String fullAudio = "";
+  String lineBuffer = "";
+
+  while (http.connected() || stream->available()) {
+    if (!stream->available()) {
+      delay(1);
+      continue;
+    }
+    char c = stream->read();
+    if (c == '\\n') {
+      lineBuffer.trim();
+      if (lineBuffer.startsWith("data:")) {
+        String data = lineBuffer.substring(5);
+        data.trim();
+        if (data == "[DONE]") break;
+        
+        int contentStart = data.indexOf("\\"content\\":\\"");
+        if (contentStart >= 0) {
+          contentStart += 11;
+          int contentEnd = data.indexOf("\\"", contentStart);
+          if (contentEnd > contentStart) {
+            String content = data.substring(contentStart, contentEnd);
+            Serial.print(content);
+            fullText += content;
+          }
+        }
+        
+        int audioPos = data.indexOf("\\"audio\\":{\\"data\\":\\"");
+        if (audioPos >= 0) {
+          audioPos += 18;
+          int audioEnd = data.indexOf("\\"", audioPos);
+          if (audioEnd > audioPos) {
+            fullAudio += data.substring(audioPos, audioEnd);
+            Serial.print(".");
+          }
+        }
+      }
+      lineBuffer = "";
+    } else if (c != '\\r') {
+      lineBuffer += c;
+    }
+  }
+
+  http.end();
+  Serial.println("");
+
+  if (fullAudio.length() > 0) {
+    size_t decodedMax = (fullAudio.length() * 3) / 4 + 4;
+    uint8_t* pcmBuf = (uint8_t*)malloc(decodedMax);
+    if (pcmBuf) {
+      size_t outLen = 0;
+      int ret = mbedtls_base64_decode(pcmBuf, decodedMax, &outLen, (const unsigned char*)fullAudio.c_str(), fullAudio.length());
+      if (ret == 0 && outLen > 0) {
+        Serial.println("播放音频，大小: " + String(outLen) + " bytes");
+        size_t bytesWritten = 0;
+        while (bytesWritten < outLen) {
+          size_t toWrite = min((size_t)1024, outLen - bytesWritten);
+          i2s.write(pcmBuf + bytesWritten, toWrite);
+          bytesWritten += toWrite;
+        }
+      }
+      free(pcmBuf);
+    }
+    qwen_omni_audio_data = fullAudio;
+    qwen_last_success = true;
+    qwen_last_error = "";
+    Serial.println("全模态对话并播放完成");
+  } else {
+    qwen_last_success = false;
+    qwen_last_error = "No audio data";
+    Serial.println("未收到音频数据");
+  }
+  Serial.println("=== 通义全模态对话并播放结束 ===");
+}`);
+
+  var code = 'qwen_omni_and_play_request(' + varName + ', "' + model + '", ' + message + ', "' + voice + '");\n';
+  return code;
+};
+
+Arduino.forBlock['qwen_omni_omni_stream_play'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s';
+  const message = generator.valueToCode(block, 'MESSAGE', Arduino.ORDER_ATOMIC) || '""';
+  const model = block.getFieldValue('MODEL');
+  const voice = block.getFieldValue('VOICE');
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+  generator.addLibrary('mbedtls_base64', '#include <mbedtls/base64.h>');
+
+  generator.addFunction('qwen_omni_stream_play_request', `
+void qwen_omni_stream_play_request(I2SClass &i2s, String model, String message, String voice) {
+  Serial.println("=== 通义全模态流式对话并播放开始 ===");
+  Serial.println("模型: " + model);
+  Serial.println("消息: " + message);
+  Serial.println("音色: " + voice);
+
+  if (WiFi.status() != WL_CONNECTED) {
+    qwen_last_success = false;
+    qwen_last_error = "WiFi not connected";
+    return;
+  }
+
+  HTTPClient http;
+  String url = qwen_base_url + "/chat/completions";
+  http.begin(url);
+  http.setTimeout(120000);
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("Authorization", "Bearer " + qwen_api_key);
+
+  String safeMessage = qwen_escape_json(message);
+  String requestBody = "{\\"model\\":\\"" + model + "\\",";
+  requestBody += "\\"messages\\":[{\\"role\\":\\"user\\",\\"content\\":\\"" + safeMessage + "\\"}],";
+  requestBody += "\\"modalities\\":[\\"text\\",\\"audio\\"],";
+  requestBody += "\\"audio\\":{\\"voice\\":\\"" + voice + "\\",\\"format\\":\\"wav\\"},";
+  requestBody += "\\"stream\\":true}";
+
+  Serial.println("发送全模态流式请求...");
+  int httpResponseCode = http.POST(requestBody);
+  Serial.println("HTTP响应码: " + String(httpResponseCode));
+
+  if (httpResponseCode != 200) {
+    String errorResponse = http.getString();
+    Serial.println("HTTP错误: " + errorResponse);
+    qwen_last_success = false;
+    qwen_last_error = "HTTP " + String(httpResponseCode);
+    http.end();
+    return;
+  }
+
+  WiFiClient *stream = http.getStreamPtr();
+  String fullText = "";
+  String fullAudio = "";
+  String lineBuffer = "";
+
+  while (http.connected() || stream->available()) {
+    if (!stream->available()) {
+      delay(1);
+      continue;
+    }
+    char c = stream->read();
+    if (c == '\\n') {
+      lineBuffer.trim();
+      if (lineBuffer.startsWith("data:")) {
+        String data = lineBuffer.substring(5);
+        data.trim();
+        if (data == "[DONE]") break;
+        
+        int contentStart = data.indexOf("\\"content\\":\\"");
+        if (contentStart >= 0) {
+          contentStart += 11;
+          int contentEnd = data.indexOf("\\"", contentStart);
+          if (contentEnd > contentStart) {
+            String content = data.substring(contentStart, contentEnd);
+            Serial.print(content);
+            fullText += content;
+            if (qwen_stream_callback != NULL) {
+              qwen_stream_chunk = content;
+              qwen_stream_callback();
+            }
+          }
+        }
+        
+        int audioPos = data.indexOf("\\"audio\\":{\\"data\\":\\"");
+        if (audioPos >= 0) {
+          audioPos += 18;
+          int audioEnd = data.indexOf("\\"", audioPos);
+          if (audioEnd > audioPos) {
+            fullAudio += data.substring(audioPos, audioEnd);
+            Serial.print(".");
+          }
+        }
+      }
+      lineBuffer = "";
+    } else if (c != '\\r') {
+      lineBuffer += c;
+    }
+  }
+
+  http.end();
+  Serial.println("");
+
+  if (fullAudio.length() > 0) {
+    Serial.println("收集到音频数据: " + String(fullAudio.length()) + " 字符");
+    size_t decodedMax = (fullAudio.length() * 3) / 4 + 4;
+    uint8_t* pcmBuf = (uint8_t*)malloc(decodedMax);
+    if (pcmBuf) {
+      size_t outLen = 0;
+      int ret = mbedtls_base64_decode(pcmBuf, decodedMax, &outLen, (const unsigned char*)fullAudio.c_str(), fullAudio.length());
+      if (ret == 0 && outLen > 0) {
+        Serial.println("播放音频，大小: " + String(outLen) + " bytes");
+        size_t bytesWritten = 0;
+        while (bytesWritten < outLen) {
+          size_t toWrite = min((size_t)1024, outLen - bytesWritten);
+          i2s.write(pcmBuf + bytesWritten, toWrite);
+          bytesWritten += toWrite;
+        }
+        Serial.println("播放完成!");
+      }
+      free(pcmBuf);
+    }
+    qwen_omni_audio_data = fullAudio;
+    qwen_last_success = true;
+    qwen_last_error = "";
+  } else {
+    qwen_last_success = false;
+    qwen_last_error = "No audio data";
+    Serial.println("未收到音频数据");
+  }
+  Serial.println("=== 通义全模态流式对话并播放结束 ===");
+}`);
+
+  var code = 'qwen_omni_stream_play_request(' + varName + ', "' + model + '", ' + message + ', "' + voice + '");\n';
+  return code;
+};
+
+Arduino.forBlock['qwen_omni_omni_get_audio'] = function(block, generator) {
+  return ['qwen_omni_audio_data', Arduino.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['qwen_omni_tts_voice_design'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s';
+  const text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC) || '""';
+  const voiceDesc = generator.valueToCode(block, 'VOICE_DESC', Arduino.ORDER_ATOMIC) || '""';
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+  generator.addLibrary('mbedtls_base64', '#include <mbedtls/base64.h>');
+
+  generator.addFunction('qwen_tts_voice_design_request', `
+void qwen_tts_voice_design_request(I2SClass &i2s, String text, String voiceDesc) {
+  Serial.println("=== 通义TTS音色设计合成开始(流式) ===");
+  Serial.println("文本: " + text);
+  Serial.println("音色描述: " + voiceDesc);
+
+  if (WiFi.status() != WL_CONNECTED) {
+    qwen_last_success = false;
+    qwen_last_error = "WiFi not connected";
+    return;
+  }
+
+  HTTPClient http;
+  String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation";
+  http.begin(url);
+  http.setTimeout(120000);
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("Authorization", "Bearer " + qwen_api_key);
+  http.addHeader("X-DashScope-SSE", "enable");
+
+  String safeText = qwen_escape_json(text);
+  String safeVoiceDesc = qwen_escape_json(voiceDesc);
+  String requestBody = "{\\"model\\":\\"qwen3-tts-vd\\",";
+  requestBody += "\\"input\\":{\\"text\\":\\"" + safeText + "\\",";
+  requestBody += "\\"voice\\":\\"" + safeVoiceDesc + "\\"},";
+  requestBody += "\\"stream\\":true}";
+
+  Serial.println("发送TTS音色设计请求...");
+  int httpResponseCode = http.POST(requestBody);
+  Serial.println("HTTP响应码: " + String(httpResponseCode));
+
+  if (httpResponseCode != 200) {
+    String errorResponse = http.getString();
+    Serial.println("HTTP错误: " + errorResponse);
+    qwen_last_success = false;
+    qwen_last_error = "HTTP " + String(httpResponseCode);
+    http.end();
+    return;
+  }
+
+  WiFiClient *stream = http.getStreamPtr();
+  int totalBytes = 0;
+  String lineBuffer = "";
+  qwen_last_success = true;
+  qwen_last_error = "";
+
+  while (http.connected() || stream->available()) {
+    if (!stream->available()) {
+      delay(1);
+      continue;
+    }
+    char c = stream->read();
+    if (c == '\\n') {
+      lineBuffer.trim();
+      if (lineBuffer.startsWith("data:")) {
+        String data = lineBuffer.substring(5);
+        data.trim();
+        if (data == "[DONE]") break;
+        
+        int audioPos = data.indexOf("\\"audio\\":{\\"data\\":\\"");
+        if (audioPos >= 0) {
+          audioPos += 18;
+          int audioEnd = data.indexOf("\\"", audioPos);
+          if (audioEnd > audioPos) {
+            String b64Chunk = data.substring(audioPos, audioEnd);
+            int bufLen = (b64Chunk.length() * 3) / 4 + 16;
+            uint8_t *pcmBuf = (uint8_t *)malloc(bufLen);
+            if (pcmBuf) {
+              size_t outLen = 0;
+              int ret = mbedtls_base64_decode(pcmBuf, bufLen, &outLen, (const unsigned char*)b64Chunk.c_str(), b64Chunk.length());
+              if (ret == 0 && outLen > 0) {
+                i2s.write(pcmBuf, outLen);
+                totalBytes += outLen;
+                Serial.print(".");
+              }
+              free(pcmBuf);
+            }
+          }
+        }
+      }
+      lineBuffer = "";
+    } else if (c != '\\r') {
+      lineBuffer += c;
+    }
+  }
+
+  http.end();
+  Serial.println("");
+  Serial.println("音色设计合成播放完成，总字节数: " + String(totalBytes));
+  Serial.println("=== 通义TTS音色设计合成结束 ===");
+}`);
+
+  var code = 'qwen_tts_voice_design_request(' + varName + ', ' + text + ', ' + voiceDesc + ');\n';
+  return code;
+};
+
+Arduino.forBlock['qwen_omni_omni_voice_chat'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s';
+  const duration = generator.valueToCode(block, 'DURATION', Arduino.ORDER_ATOMIC) || '3';
+  const model = block.getFieldValue('MODEL');
+  const voice = block.getFieldValue('VOICE');
+  const prompt = generator.valueToCode(block, 'PROMPT', Arduino.ORDER_ATOMIC) || '""';
+
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+  generator.addLibrary('mbedtls_base64', '#include <mbedtls/base64.h>');
+
+  generator.addFunction('qwen_voice_chat_build_wav_header', String.raw`
+void qwen_voice_chat_build_wav_header(uint8_t* header, uint32_t dataSize, uint32_t sampleRate) {
+  memset(header, 0, 44);
+  memcpy(header, "RIFF", 4);
+  uint32_t fileSize = dataSize + 36;
+  header[4] = fileSize & 0xFF; header[5] = (fileSize >> 8) & 0xFF;
+  header[6] = (fileSize >> 16) & 0xFF; header[7] = (fileSize >> 24) & 0xFF;
+  memcpy(header + 8, "WAVE", 4);
+  memcpy(header + 12, "fmt ", 4);
+  header[16] = 16; header[17] = 0; header[18] = 0; header[19] = 0;
+  header[20] = 1; header[21] = 0;
+  header[22] = 1; header[23] = 0;
+  header[24] = sampleRate & 0xFF; header[25] = (sampleRate >> 8) & 0xFF;
+  header[26] = (sampleRate >> 16) & 0xFF; header[27] = (sampleRate >> 24) & 0xFF;
+  uint32_t byteRate = sampleRate * 2;
+  header[28] = byteRate & 0xFF; header[29] = (byteRate >> 8) & 0xFF;
+  header[30] = (byteRate >> 16) & 0xFF; header[31] = (byteRate >> 24) & 0xFF;
+  header[32] = 2; header[33] = 0;
+  header[34] = 16; header[35] = 0;
+  memcpy(header + 36, "data", 4);
+  header[40] = dataSize & 0xFF; header[41] = (dataSize >> 8) & 0xFF;
+  header[42] = (dataSize >> 16) & 0xFF; header[43] = (dataSize >> 24) & 0xFF;
+}`);
+
+  generator.addFunction('qwen_omni_voice_chat_request', `
+void qwen_omni_voice_chat_request(I2SClass &i2s, String model, String voice, String prompt, float duration) {
+  Serial.println("=== 通义全模态语音对话开始 ===");
+  Serial.println("模型: " + model);
+  Serial.println("音色: " + voice);
+  Serial.println("提问: " + prompt);
+  Serial.println("录音时长: " + String(duration) + "秒");
+
+  qwen_last_success = false;
+  qwen_last_error = "";
+  qwen_omni_audio_data = "";
+
+  if (WiFi.status() != WL_CONNECTED) {
+    qwen_last_error = "WiFi not connected";
+    Serial.println("错误: WiFi未连接");
+    return;
+  }
+
+  uint32_t sampleRate = 24000;
+  size_t totalSamples = (size_t)(sampleRate * duration);
+  size_t pcmBytes = totalSamples * sizeof(int16_t);
+  size_t wavBytes = 44 + pcmBytes;
+
+  Serial.println("配置I2S RX通道...");
+  i2s.configureRX(sampleRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO);
+
+  Serial.println("开始录音... 采样数: " + String(totalSamples));
+  uint8_t* pcmBuf = (uint8_t*)malloc(pcmBytes);
+  if (!pcmBuf) {
+    qwen_last_error = "PCM alloc failed";
+    Serial.println("错误: PCM内存分配失败");
+    return;
+  }
+
+  size_t bytesRead = 0;
+  unsigned long recordStart = millis();
+  while (bytesRead < pcmBytes) {
+    size_t toRead = min((size_t)4096, pcmBytes - bytesRead);
+    size_t n = i2s.readBytes((char*)(pcmBuf + bytesRead), toRead);
+    if (n > 0) {
+      bytesRead += n;
+    }
+    if (millis() - recordStart > (unsigned long)(duration * 1000 + 2000)) {
+      Serial.println("录音超时");
+      break;
+    }
+  }
+  Serial.println("录音完成: " + String(bytesRead) + " bytes");
+  pcmBytes = bytesRead;
+  wavBytes = 44 + pcmBytes;
+
+  size_t base64Len = ((wavBytes + 2) / 3) * 4 + 4;
+  uint8_t* wavBuf = (uint8_t*)malloc(wavBytes);
+  if (!wavBuf) {
+    free(pcmBuf);
+    qwen_last_error = "WAV alloc failed";
+    return;
+  }
+  qwen_voice_chat_build_wav_header(wavBuf, (uint32_t)pcmBytes, sampleRate);
+  memcpy(wavBuf + 44, pcmBuf, pcmBytes);
+  free(pcmBuf);
+
+  char* b64Buf = (char*)malloc(base64Len);
+  if (!b64Buf) {
+    free(wavBuf);
+    qwen_last_error = "Base64 alloc failed";
+    return;
+  }
+  size_t outLen = 0;
+  int ret = mbedtls_base64_encode((unsigned char*)b64Buf, base64Len, &outLen, wavBuf, wavBytes);
+  free(wavBuf);
+  if (ret != 0) {
+    free(b64Buf);
+    qwen_last_error = "Base64 encode failed";
+    return;
+  }
+  b64Buf[outLen] = '\\0';
+  String audioBase64 = String(b64Buf);
+  free(b64Buf);
+  Serial.println("Base64编码完成: " + String(audioBase64.length()) + " 字符");
+
+  String safePrompt = qwen_escape_json(prompt);
+  String contentJson;
+  if (prompt.length() > 0) {
+    contentJson = "[{\\"type\\":\\"input_audio\\",\\"input_audio\\":{\\"data\\":\\"data:;base64," + audioBase64 + "\\",\\"format\\":\\"wav\\"}},{\\"type\\":\\"text\\",\\"text\\":\\"" + safePrompt + "\\"}]";
+  } else {
+    contentJson = "[{\\"type\\":\\"input_audio\\",\\"input_audio\\":{\\"data\\":\\"data:;base64," + audioBase64 + "\\",\\"format\\":\\"wav\\"}}]";
+  }
+
+  HTTPClient http;
+  String url = qwen_base_url + "/chat/completions";
+  http.begin(url);
+  http.setTimeout(120000);
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("Authorization", "Bearer " + qwen_api_key);
+
+  String requestBody = "{\\"model\\":\\"" + model + "\\",";
+  requestBody += "\\"messages\\":[{\\"role\\":\\"user\\",\\"content\\":" + contentJson + "}],";
+  requestBody += "\\"modalities\\":[\\"text\\",\\"audio\\"],";
+  requestBody += "\\"audio\\":{\\"voice\\":\\"" + voice + "\\",\\"format\\":\\"wav\\"},";
+  requestBody += "\\"stream\\":true}";
+
+  Serial.println("发送全模态语音请求...");
+  int httpResponseCode = http.POST(requestBody);
+  Serial.println("HTTP响应码: " + String(httpResponseCode));
+
+  if (httpResponseCode != 200) {
+    String errBody = http.getString();
+    if (errBody.length() > 200) errBody = errBody.substring(0, 200);
+    Serial.println("HTTP错误: " + errBody);
+    qwen_last_error = "HTTP " + String(httpResponseCode) + ": " + errBody;
+    http.end();
+    return;
+  }
+
+  WiFiClient *stream = http.getStreamPtr();
+  String fullText = "";
+  String fullAudio = "";
+  String lineBuffer = "";
+
+  while (http.connected() || stream->available()) {
+    if (!stream->available()) {
+      delay(1);
+      continue;
+    }
+    char c = stream->read();
+    if (c == '\\n') {
+      lineBuffer.trim();
+      if (lineBuffer.startsWith("data:")) {
+        String data = lineBuffer.substring(5);
+        data.trim();
+        if (data == "[DONE]") break;
+
+        int contentStart = data.indexOf("\\"content\\":\\"");
+        if (contentStart >= 0) {
+          contentStart += 11;
+          int contentEnd = data.indexOf("\\"", contentStart);
+          if (contentEnd > contentStart) {
+            String content = data.substring(contentStart, contentEnd);
+            fullText += content;
+            Serial.print(content);
+            if (qwen_stream_callback != NULL) {
+              qwen_stream_chunk = content;
+              qwen_stream_callback();
+            }
+          }
+        }
+
+        int audioPos = data.indexOf("\\"audio\\":{\\"data\\":\\"");
+        if (audioPos >= 0) {
+          audioPos += 18;
+          int audioEnd = data.indexOf("\\"", audioPos);
+          if (audioEnd > audioPos) {
+            fullAudio += data.substring(audioPos, audioEnd);
+            Serial.print(".");
+          }
+        }
+      }
+      lineBuffer = "";
+    } else if (c != '\\r') {
+      lineBuffer += c;
+    }
+  }
+
+  http.end();
+  Serial.println("");
+
+  if (fullAudio.length() > 0) {
+    Serial.println("收集到音频数据: " + String(fullAudio.length()) + " 字符");
+    size_t decodedMax = (fullAudio.length() * 3) / 4 + 4;
+    uint8_t* playBuf = (uint8_t*)malloc(decodedMax);
+    if (playBuf) {
+      size_t playLen = 0;
+      int dret = mbedtls_base64_decode(playBuf, decodedMax, &playLen, (const unsigned char*)fullAudio.c_str(), fullAudio.length());
+      if (dret == 0 && playLen > 0) {
+        Serial.println("播放语音回复，大小: " + String(playLen) + " bytes");
+        size_t written = 0;
+        while (written < playLen) {
+          size_t toWrite = min((size_t)1024, playLen - written);
+          i2s.write(playBuf + written, toWrite);
+          written += toWrite;
+        }
+        Serial.println("播放完成!");
+      }
+      free(playBuf);
+    }
+    qwen_omni_audio_data = fullAudio;
+    qwen_last_success = true;
+    qwen_last_error = "";
+  } else {
+    qwen_last_success = false;
+    qwen_last_error = "No audio response";
+    Serial.println("未收到音频数据");
+  }
+
+  Serial.println("回复文本: " + fullText);
+  Serial.println("=== 通义全模态语音对话结束 ===");
+}`);
+
+  var code = 'qwen_omni_voice_chat_request(' + varName + ', "' + model + '", "' + voice + '", ' + prompt + ', ' + duration + ');\n';
+  return code;
 };
 
 

@@ -4,7 +4,7 @@
 
 ## Library Info
 - **Name**: @aily-project/lib-qwen-omni
-- **Version**: 0.0.2
+- **Version**: 0.0.3
 
 ## Block Definitions
 
@@ -27,6 +27,16 @@
 | `qwen_omni_vision_url_chat` | Value | IMAGE_URL(input_value), MESSAGE(input_value), MODEL(dropdown) | `qwen_omni_vision_url_chat(math_number(0), text("hello"), qwen3-vl-plus)` | (dynamic code) |
 | `qwen_omni_image_generate` | Value | PROMPT(input_value), MODEL(dropdown), SIZE(dropdown) | `qwen_omni_image_generate(math_number(0), wanx2.1-t2i-turbo, 1024*1024)` | (dynamic code) |
 | `qwen_omni_image_generate_simple` | Value | PROMPT(input_value) | `qwen_omni_image_generate_simple(math_number(0))` | (dynamic code) |
+| `qwen_omni_tts` | Value | TEXT(input_value), VOICE(dropdown), MODEL(dropdown), LANGUAGE(dropdown) | `qwen_omni_tts(text("hello"), Cherry, qwen3-tts-flash, Chinese)` | `qwen_tts_request(` |
+| `qwen_omni_tts_play` | Statement | I2S_OBJ(input_value), AUDIO(input_value) | `qwen_omni_tts_play(math_number(0), text("base64..."))` | `qwen_play_base64_pcm(` |
+| `qwen_omni_tts_and_play` | Statement | I2S_OBJ(input_value), TEXT(input_value), VOICE(dropdown), MODEL(dropdown), LANGUAGE(dropdown) | `qwen_omni_tts_and_play(math_number(0), text("hello"), Cherry, qwen3-tts-flash, Chinese)` | (dynamic code) |
+| `qwen_omni_tts_stream_play` | Statement | I2S_OBJ(input_value), TEXT(input_value), VOICE(dropdown), MODEL(dropdown), LANGUAGE(dropdown) | `qwen_omni_tts_stream_play(math_number(0), text("hello"), Cherry, qwen3-tts-flash, Chinese)` | (dynamic code) |
+| `qwen_omni_tts_voice_design` | Statement | I2S_OBJ(input_value), TEXT(input_value), VOICE_DESC(input_value) | `qwen_omni_tts_voice_design(math_number(0), text("hello"), text("温柔女声"))` | (dynamic code) |
+| `qwen_omni_omni_text` | Value | MESSAGE(input_value), MODEL(dropdown) | `qwen_omni_omni_text(text("hello"), qwen3.5-omni-plus)` | `qwen_omni_text_request(` |
+| `qwen_omni_omni_and_play` | Statement | I2S_OBJ(input_value), MESSAGE(input_value), MODEL(dropdown), VOICE(dropdown) | `qwen_omni_omni_and_play(math_number(0), text("hello"), qwen3.5-omni-plus, Tina)` | (dynamic code) |
+| `qwen_omni_omni_stream_play` | Statement | I2S_OBJ(input_value), MESSAGE(input_value), MODEL(dropdown), VOICE(dropdown) | `qwen_omni_omni_stream_play(math_number(0), text("hello"), qwen3.5-omni-plus, Tina)` | (dynamic code) |
+| `qwen_omni_omni_get_audio` | Value | (none) | `qwen_omni_omni_get_audio()` | `qwen_omni_audio_data` |
+| `qwen_omni_omni_voice_chat` | Statement | VAR(field_variable), DURATION(input_value), MODEL(dropdown), VOICE(dropdown), PROMPT(input_value) | `qwen_omni_omni_voice_chat($i2s, math_number(3), qwen2.5-omni-7b, Chelsie, text("描述一下"))` | `qwen_omni_voice_chat_request(i2s, "qwen2.5-omni-7b", "Chelsie", "描述一下", 3);` |
 
 ## Parameter Options
 
@@ -34,6 +44,11 @@
 |-----------|--------|-------------|
 | MODEL | qwen-turbo, qwen-plus, qwen-max, qwen-long, qwen3-max, qwen-omni-turbo, qwen3-omni-flash | qwen-turbo (快速) / qwen-plus / qwen-max / qwen-long / qwen3-max / qwen-omni-turbo / qwen3-omni-flash |
 | SIZE | 1024*1024, 720*1280, 1280*720 | 1024x1024 / 720x1280 / 1280x720 |
+| TTS_MODEL | qwen3-tts-flash, qwen3-tts-instruct-flash, qwen-tts | qwen3-tts-flash (推荐) / qwen3-tts-instruct-flash (指令控制) / qwen-tts |
+| TTS_VOICE | Cherry, Ethan, Chelsie, Serena, Dylan, Jada, Sunny | 甜美女声 / 阳光男声 / 温柔女声 / 甜美小姐姐 / 北京话 / 上海话 / 四川话 |
+| TTS_LANGUAGE | Chinese, English, Japanese, Korean, French, German, Spanish, Russian, Portuguese, Italian | 语种选择 |
+| OMNI_MODEL | qwen3.5-omni-plus, qwen3-omni-flash, qwen-omni-turbo | qwen3.5-omni-plus (推荐) / qwen3-omni-flash / qwen-omni-turbo |
+| OMNI_VOICE | Tina, Ethan, Serena, Raymond, Cindy, Liora Mira, Sunnybobi, Theo Calm, Harvey, Maia, Evan, Momo, Dylan, Sunny | 全模态音色 |
 
 ## ABS Examples
 
@@ -47,7 +62,34 @@ arduino_loop()
     time_delay(math_number(1000))
 ```
 
+### TTS Synthesis & Play (requires I2S object)
+```
+arduino_setup()
+    I2S_OBJ begin()
+    qwen_omni_config(sk-key, https://dashscope.aliyuncs.com/compatible-mode/v1)
+
+arduino_loop()
+    qwen_omni_tts_stream_play(I2S_OBJ, text("你好世界"), Cherry, qwen3-tts-flash, Chinese)
+```
+
+### Omni Dialog with Audio (requires I2S object)
+```
+arduino_setup()
+    I2S_OBJ begin()
+    qwen_omni_config(sk-key, https://dashscope.aliyuncs.com/compatible-mode/v1)
+
+arduino_loop()
+    qwen_omni_omni_stream_play(I2S_OBJ, text("你好"), qwen3.5-omni-plus, Tina)
+```
+
+### TTS Voice Design
+```
+qwen_omni_tts_voice_design(I2S_OBJ, text("今天天气真好"), text("温柔的年轻女声，语速稍快"))
+```
+
 ## Notes
 
 1. **Initialization**: Place init/setup blocks inside `arduino_setup()`
 2. **Parameter Order**: Follows `block.json` args0 order
+3. **I2S**: TTS and Omni audio require an initialized I2S object (24kHz 16bit mono PCM)
+4. **Streaming**: TTS stream play decodes and plays PCM chunks in real-time for lower latency
