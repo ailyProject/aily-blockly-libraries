@@ -1,0 +1,152 @@
+[
+  {
+    "type": "ug2856_init_i2c",
+    "message0": "初始化 UG2856 透明 OLED(I2C) %1 使用 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "oled" },
+      { "type": "field_dropdown", "name": "WIRE", "options": "${board.i2c}" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "使用 I2C 初始化 WiseChip UG2856KLBAG01 透明 OLED"
+  },
+  {
+    "type": "ug2856_init_spi",
+    "message0": "初始化 UG2856 透明 OLED(SPI) %1 SPI %2 CS %3 DC %4",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "oled" },
+      { "type": "field_dropdown", "name": "SPI", "options": "${board.spi}" },
+      { "type": "input_value", "name": "CS", "check": "Number" },
+      { "type": "input_value", "name": "DC", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "使用 SPI 初始化 WiseChip UG2856KLBAG01 透明 OLED"
+  },
+  {
+    "type": "ug2856_clear",
+    "message0": "UG2856 OLED %1 清屏",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["UG2856KLBAG01"], "defaultType": "UG2856KLBAG01" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "清空 OLED 显示"
+  },
+  {
+    "type": "ug2856_pixel",
+    "message0": "UG2856 OLED %1 像素 %2 x %3 y %4",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["UG2856KLBAG01"], "defaultType": "UG2856KLBAG01" },
+      { "type": "field_dropdown", "name": "ACTION", "options": [["点亮", "Set"], ["熄灭", "Clear"]] },
+      { "type": "input_value", "name": "X", "check": "Number" },
+      { "type": "input_value", "name": "Y", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "点亮或熄灭单个像素"
+  },
+  {
+    "type": "ug2856_line",
+    "message0": "UG2856 OLED %1 线条 %2 x0 %3 y0 %4 x1 %5 y1 %6 宽 %7",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["UG2856KLBAG01"], "defaultType": "UG2856KLBAG01" },
+      { "type": "field_dropdown", "name": "ACTION", "options": [["点亮", "Set"], ["熄灭", "Clear"]] },
+      { "type": "input_value", "name": "X0", "check": "Number" },
+      { "type": "input_value", "name": "Y0", "check": "Number" },
+      { "type": "input_value", "name": "X1", "check": "Number" },
+      { "type": "input_value", "name": "Y1", "check": "Number" },
+      { "type": "input_value", "name": "WIDTH", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "绘制或擦除直线"
+  },
+  {
+    "type": "ug2856_rectangle",
+    "message0": "UG2856 OLED %1 矩形 %2 x0 %3 y0 %4 x1 %5 y1 %6 填充 %7",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["UG2856KLBAG01"], "defaultType": "UG2856KLBAG01" },
+      { "type": "field_dropdown", "name": "ACTION", "options": [["点亮", "Set"], ["熄灭", "Clear"]] },
+      { "type": "input_value", "name": "X0", "check": "Number" },
+      { "type": "input_value", "name": "Y0", "check": "Number" },
+      { "type": "input_value", "name": "X1", "check": "Number" },
+      { "type": "input_value", "name": "Y1", "check": "Number" },
+      { "type": "field_dropdown", "name": "FILLED", "options": [["是", "true"], ["否", "false"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "绘制或擦除矩形"
+  },
+  {
+    "type": "ug2856_circle",
+    "message0": "UG2856 OLED %1 圆形 %2 x %3 y %4 半径 %5 填充 %6",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["UG2856KLBAG01"], "defaultType": "UG2856KLBAG01" },
+      { "type": "field_dropdown", "name": "ACTION", "options": [["点亮", "Set"], ["熄灭", "Clear"]] },
+      { "type": "input_value", "name": "X", "check": "Number" },
+      { "type": "input_value", "name": "Y", "check": "Number" },
+      { "type": "input_value", "name": "RADIUS", "check": "Number" },
+      { "type": "field_dropdown", "name": "FILLED", "options": [["是", "true"], ["否", "false"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "绘制或擦除圆形"
+  },
+  {
+    "type": "ug2856_print",
+    "message0": "UG2856 OLED %1 文本颜色 %2 x %3 y %4 内容 %5",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["UG2856KLBAG01"], "defaultType": "UG2856KLBAG01" },
+      { "type": "field_dropdown", "name": "COLOR", "options": [["点亮", "Set"], ["熄灭", "Clear"]] },
+      { "type": "input_value", "name": "X", "check": "Number" },
+      { "type": "input_value", "name": "Y", "check": "Number" },
+      { "type": "input_value", "name": "TEXT" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "在指定坐标打印文本"
+  },
+  {
+    "type": "ug2856_contrast",
+    "message0": "UG2856 OLED %1 对比度 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["UG2856KLBAG01"], "defaultType": "UG2856KLBAG01" },
+      { "type": "input_value", "name": "VALUE", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "设置 OLED 对比度 0-255"
+  },
+  {
+    "type": "ug2856_invert",
+    "message0": "UG2856 OLED %1 反相 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["UG2856KLBAG01"], "defaultType": "UG2856KLBAG01" },
+      { "type": "field_dropdown", "name": "ON", "options": [["开启", "true"], ["关闭", "false"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "开启或关闭显示反相"
+  },
+  {
+    "type": "ug2856_power",
+    "message0": "UG2856 OLED %1 电源 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["UG2856KLBAG01"], "defaultType": "UG2856KLBAG01" },
+      { "type": "field_dropdown", "name": "ON", "options": [["开启", "true"], ["关闭", "false"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "打开或关闭 OLED 显示电源"
+  }
+]
