@@ -1,0 +1,109 @@
+[
+  {
+    "type": "adxl345_init",
+    "message0": "初始化 ADXL345 %1 通信 %2 CS %3 量程 %4 速率 Hz %5",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "adxl345" },
+      { "type": "field_dropdown", "name": "BUS", "options": [["I2C", "I2C"], ["SPI", "SPI"]] },
+      { "type": "field_number", "name": "CS", "value": 10, "min": 0, "precision": 1 },
+      { "type": "field_dropdown", "name": "RANGE", "options": [["±2g", "2"], ["±4g", "4"], ["±8g", "8"], ["±16g", "16"]] },
+      { "type": "field_dropdown", "name": "RATE", "options": [["25", "25.0"], ["50", "50.0"], ["100", "100.0"], ["200", "200.0"], ["400", "400.0"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "创建并上电 ADXL345，加速度读数可选 I2C 或 SPI"
+  },
+  {
+    "type": "adxl345_read_axis",
+    "message0": "ADXL345 %1 读取原始轴 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "adxl345", "variableTypes": ["ADXL345"], "defaultType": "ADXL345" },
+      { "type": "field_dropdown", "name": "AXIS", "options": [["X", "0"], ["Y", "1"], ["Z", "2"]] }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取 ADXL345 指定轴的原始加速度计数"
+  },
+  {
+    "type": "adxl345_read_g_axis",
+    "message0": "ADXL345 %1 读取 g 值轴 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "adxl345", "variableTypes": ["ADXL345"], "defaultType": "ADXL345" },
+      { "type": "field_dropdown", "name": "AXIS", "options": [["X", "0"], ["Y", "1"], ["Z", "2"]] }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取 ADXL345 指定轴的 g 值"
+  },
+  {
+    "type": "adxl345_set_range",
+    "message0": "设置 ADXL345 %1 量程 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "adxl345", "variableTypes": ["ADXL345"], "defaultType": "ADXL345" },
+      { "type": "field_dropdown", "name": "RANGE", "options": [["±2g", "2"], ["±4g", "4"], ["±8g", "8"], ["±16g", "16"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 ADXL345 测量量程"
+  },
+  {
+    "type": "adxl345_set_rate",
+    "message0": "设置 ADXL345 %1 数据速率 Hz %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "adxl345", "variableTypes": ["ADXL345"], "defaultType": "ADXL345" },
+      { "type": "field_dropdown", "name": "RATE", "options": [["25", "25.0"], ["50", "50.0"], ["100", "100.0"], ["200", "200.0"], ["400", "400.0"], ["800", "800.0"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 ADXL345 数据速率"
+  },
+  {
+    "type": "adxl345_set_activity_threshold",
+    "message0": "设置 ADXL345 %1 活动阈值 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "adxl345", "variableTypes": ["ADXL345"], "defaultType": "ADXL345" },
+      { "type": "input_value", "name": "THRESHOLD", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置活动检测阈值，单位约 62.5mg/步"
+  },
+  {
+    "type": "adxl345_set_tap_threshold",
+    "message0": "设置 ADXL345 %1 敲击阈值 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "adxl345", "variableTypes": ["ADXL345"], "defaultType": "ADXL345" },
+      { "type": "input_value", "name": "THRESHOLD", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置单击/双击检测阈值"
+  },
+  {
+    "type": "adxl345_get_interrupt_source",
+    "message0": "ADXL345 %1 中断源",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "adxl345", "variableTypes": ["ADXL345"], "defaultType": "ADXL345" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取并清除 ADXL345 当前中断源位"
+  },
+  {
+    "type": "adxl345_interrupt_triggered",
+    "message0": "ADXL345 %1 中断源 %2 触发 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "adxl345", "variableTypes": ["ADXL345"], "defaultType": "ADXL345" },
+      { "type": "input_value", "name": "INTERRUPTS", "check": "Number" },
+      { "type": "field_dropdown", "name": "SOURCE", "options": [["活动", "ADXL345_ACTIVITY"], ["静止", "ADXL345_INACTIVITY"], ["自由落体", "ADXL345_FREE_FALL"], ["单击", "ADXL345_SINGLE_TAP"], ["双击", "ADXL345_DOUBLE_TAP"], ["数据就绪", "ADXL345_DATA_READY"]] }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "判断给定中断源值中是否包含指定事件"
+  }
+]

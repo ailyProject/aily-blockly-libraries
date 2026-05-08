@@ -1,0 +1,78 @@
+[
+  {
+    "type": "dmx_init",
+    "message0": "初始化 DMX %1 ESP32 UART %2 EN %3 通道数 %4 模式 %5",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "dmx" },
+      { "type": "field_number", "name": "UART", "value": 2, "min": 0, "max": 2, "precision": 1 },
+      { "type": "input_value", "name": "EN", "check": "Number" },
+      { "type": "input_value", "name": "CHANNELS", "check": "Number" },
+      { "type": "field_dropdown", "name": "DIR", "options": [["发送", "DMX_WRITE_DIR"], ["接收", "DMX_READ_DIR"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 260,
+    "tooltip": "初始化 SparkFun ESP32 DMX Shield，创建 DMX 对象和 HardwareSerial 对象"
+  },
+  {
+    "type": "dmx_set_dir",
+    "message0": "DMX %1 设置模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "dmx", "variableTypes": ["SparkFunDMX"], "defaultType": "SparkFunDMX" },
+      { "type": "field_dropdown", "name": "DIR", "options": [["发送", "DMX_WRITE_DIR"], ["接收", "DMX_READ_DIR"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 260,
+    "tooltip": "切换 DMX 通信方向"
+  },
+  {
+    "type": "dmx_write_byte",
+    "message0": "DMX %1 写入通道 %2 值 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "dmx", "variableTypes": ["SparkFunDMX"], "defaultType": "SparkFunDMX" },
+      { "type": "input_value", "name": "CHANNEL", "check": "Number" },
+      { "type": "input_value", "name": "VALUE", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 260,
+    "tooltip": "向指定 DMX 通道写入 0-255 的值"
+  },
+  {
+    "type": "dmx_read_byte",
+    "message0": "DMX %1 读取通道 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "dmx", "variableTypes": ["SparkFunDMX"], "defaultType": "SparkFunDMX" },
+      { "type": "input_value", "name": "CHANNEL", "check": "Number" }
+    ],
+    "output": "Number",
+    "colour": 260,
+    "tooltip": "读取指定 DMX 通道的 0-255 值"
+  },
+  {
+    "type": "dmx_data_available",
+    "message0": "DMX %1 有新数据",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "dmx", "variableTypes": ["SparkFunDMX"], "defaultType": "SparkFunDMX" }],
+    "output": "Boolean",
+    "colour": 260,
+    "tooltip": "接收模式下检查是否有新 DMX 数据"
+  },
+  {
+    "type": "dmx_update",
+    "message0": "DMX %1 更新",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "dmx", "variableTypes": ["SparkFunDMX"], "defaultType": "SparkFunDMX" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 260,
+    "tooltip": "发送模式下发送缓冲区，接收模式下检查新数据"
+  },
+  {
+    "type": "dmx_update_ok",
+    "message0": "DMX %1 更新成功",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "dmx", "variableTypes": ["SparkFunDMX"], "defaultType": "SparkFunDMX" }],
+    "output": "Boolean",
+    "colour": 260,
+    "tooltip": "调用 update 并返回是否成功"
+  }
+]

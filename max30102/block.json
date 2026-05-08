@@ -39,7 +39,7 @@
     "nextStatement": null,
     "inputsInline": true,
     "colour": "#D94C6A",
-    "tooltip": "采集一批FIFO数据并计算血氧、心率、温度和信号质量。0表示等待时不超时。"
+    "tooltip": "采集一批FIFO数据并计算血氧、心率、温度和信号质量。超时为整次采集的最长等待时间，0表示不超时。"
   },
   {
     "type": "max30102_get_value",
@@ -72,6 +72,7 @@
         "name": "TARGET",
         "options": [
           ["本次测量", "MEASURE"],
+          ["初始化", "INIT"],
           ["血氧", "SPO2"],
           ["心率", "HEART_RATE"],
           ["检测到手指", "FINGER"]
@@ -80,7 +81,7 @@
     ],
     "output": "Boolean",
     "colour": "#D94C6A",
-    "tooltip": "判断最近一次测量、血氧、心率或手指检测状态是否有效。"
+    "tooltip": "判断初始化、最近一次测量、血氧、心率或手指检测状态是否有效。"
   },
   {
     "type": "max30102_reset",
@@ -167,6 +168,22 @@
     "nextStatement": null,
     "inputsInline": false,
     "colour": "#D94C6A",
-    "tooltip": "高级配置。默认算法按4秒、25Hz有效采样设计，修改采样率或平均次数可能影响血氧和心率计算。"
+    "tooltip": "高级配置。可放在初始化前或初始化后；初始化前会缓存配置，初始化后会立即应用。默认算法按4秒、25Hz有效采样设计，修改采样率或平均次数可能影响血氧和心率计算。"
+  },
+  {
+    "type": "max30102_set_finger_threshold",
+    "message0": "设置 MAX30102 手指检测阈值 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "THRESHOLD",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#D94C6A",
+    "tooltip": "设置用于判断是否检测到手指的红外原始值阈值。默认50000，阈值越高越严格。"
   }
 ]

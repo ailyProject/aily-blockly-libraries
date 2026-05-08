@@ -1,10 +1,212 @@
 {
   "toolbox_name": "MAX30102",
-  "max30102_init": {"message0": "inicializar MAX30102 SDA %1 SCL %2 INT %3", "tooltip": "Inicializa el MAX30102. SDA/SCL se conectan al bus I2C e INT al pin digital elegido. ESP32 inicializa Wire con los pines SDA/SCL seleccionados.", "args0": [{"options": "${board.digitalPins}"}, {"options": "${board.digitalPins}"}, {"options": "${board.digitalPins}"}]},
-  "max30102_measure": {"message0": "MAX30102 muestrear y calcular una vez tiempo(ms) %1", "tooltip": "Recoge un lote FIFO y calcula SpO2, frecuencia cardiaca, temperatura y calidad de senal. 0 desactiva el tiempo limite."},
-  "max30102_get_value": {"message0": "MAX30102 leer %1", "tooltip": "Lee datos del ultimo calculo.", "args0": [{"options": [["SpO2(%)", "SPO2"], ["frecuencia cardiaca(BPM)", "HEART_RATE"], ["temperatura(C)", "TEMPERATURE"], ["rojo bruto", "RED"], ["IR bruto", "IR"], ["relacion R", "RATIO"], ["correlacion", "CORRELATION"]]}]},
-  "max30102_is_valid": {"message0": "MAX30102 %1 es valido", "tooltip": "Comprueba si la medicion, SpO2, frecuencia cardiaca o deteccion de dedo es valida.", "args0": [{"options": [["medicion", "MEASURE"], ["SpO2", "SPO2"], ["frecuencia cardiaca", "HEART_RATE"], ["dedo detectado", "FINGER"]]}]},
-  "max30102_reset": {"message0": "reiniciar MAX30102", "tooltip": "Envia un reinicio por software. Normalmente se debe inicializar de nuevo."},
-  "max30102_set_led_amplitude": {"message0": "ajustar MAX30102 LED1 %1 LED2 %2", "tooltip": "Ajusta la amplitud de pulso LED1 y LED2 de 0 a 255. El valor predeterminado es 36."},
-  "max30102_config_spo2": {"message0": "configurar MAX30102 promedio %1 rango ADC %2 tasa %3 ancho de pulso %4", "tooltip": "Configuracion avanzada. El algoritmo predeterminado espera unos 4 segundos a 25Hz efectivos.", "args0": [{"options": [["ninguno", "NO_AVERAGING"], ["2 muestras", "AVG_2"], ["4 muestras", "AVG_4"], ["8 muestras", "AVG_8"], ["16 muestras", "AVG_16"], ["32 muestras", "AVG_32"]]}, {"options": [["2048nA", "ADC_RANGE_2048"], ["4096nA", "ADC_RANGE_4096"], ["8192nA", "ADC_RANGE_8192"], ["16384nA", "ADC_RANGE_16384"]]}, {"options": [["50Hz", "SPO2_RATE_50"], ["100Hz", "SPO2_RATE_100"], ["200Hz", "SPO2_RATE_200"], ["400Hz", "SPO2_RATE_400"], ["800Hz", "SPO2_RATE_800"], ["1000Hz", "SPO2_RATE_1000"], ["1600Hz", "SPO2_RATE_1600"], ["3200Hz", "SPO2_RATE_3200"]]}, {"options": [["69us/15bit", "PW_69"], ["118us/16bit", "PW_118"], ["215us/17bit", "PW_215"], ["411us/18bit", "PW_411"]]}]}
+  "max30102_init": {
+    "message0": "inicializar MAX30102 SDA %1 SCL %2 INT %3",
+    "tooltip": "Inicializa el MAX30102. SDA/SCL se conectan al bus I2C e INT al pin digital elegido. ESP32 inicializa Wire con los pines SDA/SCL seleccionados.",
+    "args0": [
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "max30102_measure": {
+    "message0": "MAX30102 muestrear y calcular una vez tiempo(ms) %1",
+    "tooltip": "Recoge un lote FIFO y calcula SpO2, frecuencia cardiaca, temperatura y calidad de senal. El tiempo limite aplica a toda la captura; 0 lo desactiva."
+  },
+  "max30102_get_value": {
+    "message0": "MAX30102 leer %1",
+    "tooltip": "Lee datos del ultimo calculo.",
+    "args0": [
+      {
+        "options": [
+          [
+            "SpO2(%)",
+            "SPO2"
+          ],
+          [
+            "frecuencia cardiaca(BPM)",
+            "HEART_RATE"
+          ],
+          [
+            "temperatura(C)",
+            "TEMPERATURE"
+          ],
+          [
+            "rojo bruto",
+            "RED"
+          ],
+          [
+            "IR bruto",
+            "IR"
+          ],
+          [
+            "relacion R",
+            "RATIO"
+          ],
+          [
+            "correlacion",
+            "CORRELATION"
+          ]
+        ]
+      }
+    ]
+  },
+  "max30102_is_valid": {
+    "message0": "MAX30102 %1 es valido",
+    "tooltip": "Comprueba si la inicializacion, la ultima medicion, SpO2, frecuencia cardiaca o deteccion de dedo es valida.",
+    "args0": [
+      {
+        "options": [
+          [
+            "medicion",
+            "MEASURE"
+          ],
+          [
+            "inicializacion",
+            "INIT"
+          ],
+          [
+            "SpO2",
+            "SPO2"
+          ],
+          [
+            "frecuencia cardiaca",
+            "HEART_RATE"
+          ],
+          [
+            "dedo detectado",
+            "FINGER"
+          ]
+        ]
+      }
+    ]
+  },
+  "max30102_reset": {
+    "message0": "reiniciar MAX30102",
+    "tooltip": "Envia un reinicio por software. Normalmente se debe inicializar de nuevo."
+  },
+  "max30102_set_led_amplitude": {
+    "message0": "ajustar MAX30102 LED1 %1 LED2 %2",
+    "tooltip": "Ajusta la amplitud de pulso LED1 y LED2 de 0 a 255. El valor predeterminado es 36."
+  },
+  "max30102_config_spo2": {
+    "message0": "configurar MAX30102 promedio %1 rango ADC %2 tasa %3 ancho de pulso %4",
+    "tooltip": "Configuracion avanzada. Puede ir antes o despues de inicializar; antes se guarda, despues se aplica de inmediato. El algoritmo predeterminado espera unos 4 segundos a 25Hz efectivos.",
+    "args0": [
+      {
+        "options": [
+          [
+            "ninguno",
+            "NO_AVERAGING"
+          ],
+          [
+            "2 muestras",
+            "AVG_2"
+          ],
+          [
+            "4 muestras",
+            "AVG_4"
+          ],
+          [
+            "8 muestras",
+            "AVG_8"
+          ],
+          [
+            "16 muestras",
+            "AVG_16"
+          ],
+          [
+            "32 muestras",
+            "AVG_32"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "2048nA",
+            "ADC_RANGE_2048"
+          ],
+          [
+            "4096nA",
+            "ADC_RANGE_4096"
+          ],
+          [
+            "8192nA",
+            "ADC_RANGE_8192"
+          ],
+          [
+            "16384nA",
+            "ADC_RANGE_16384"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "50Hz",
+            "SPO2_RATE_50"
+          ],
+          [
+            "100Hz",
+            "SPO2_RATE_100"
+          ],
+          [
+            "200Hz",
+            "SPO2_RATE_200"
+          ],
+          [
+            "400Hz",
+            "SPO2_RATE_400"
+          ],
+          [
+            "800Hz",
+            "SPO2_RATE_800"
+          ],
+          [
+            "1000Hz",
+            "SPO2_RATE_1000"
+          ],
+          [
+            "1600Hz",
+            "SPO2_RATE_1600"
+          ],
+          [
+            "3200Hz",
+            "SPO2_RATE_3200"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "69us/15bit",
+            "PW_69"
+          ],
+          [
+            "118us/16bit",
+            "PW_118"
+          ],
+          [
+            "215us/17bit",
+            "PW_215"
+          ],
+          [
+            "411us/18bit",
+            "PW_411"
+          ]
+        ]
+      }
+    ]
+  },
+  "max30102_set_finger_threshold": {
+    "message0": "ajustar umbral de dedo MAX30102 %1",
+    "tooltip": "Ajusta el umbral IR bruto para detectar el dedo. Predeterminado 50000; valores mas altos son mas estrictos."
+  }
 }

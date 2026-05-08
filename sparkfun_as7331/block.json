@@ -1,0 +1,113 @@
+[
+  {
+    "type": "as7331_init",
+    "message0": "初始化 AS7331 %1 地址 %2 模式 %3",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "as7331" },
+      { "type": "field_dropdown", "name": "ADDRESS", "options": [["0x74", "0x74"], ["0x75", "0x75"], ["0x76", "0x76"], ["0x77", "0x77"]] },
+      { "type": "field_dropdown", "name": "MODE", "options": [["命令单次", "MEAS_MODE_CMD"], ["连续", "MEAS_MODE_CONT"], ["同步开始", "MEAS_MODE_SYNS"], ["同步开始结束", "MEAS_MODE_SYND"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "创建并初始化 AS7331 紫外光谱传感器"
+  },
+  {
+    "type": "as7331_is_ready",
+    "message0": "AS7331 %1 初始化成功",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7331", "variableTypes": ["SfeAS7331ArdI2C"], "defaultType": "SfeAS7331ArdI2C" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "返回初始化块保存的 AS7331 初始化状态"
+  },
+  {
+    "type": "as7331_is_connected",
+    "message0": "AS7331 %1 已连接",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7331", "variableTypes": ["SfeAS7331ArdI2C"], "defaultType": "SfeAS7331ArdI2C" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "检查 AS7331 连接与设备 ID"
+  },
+  {
+    "type": "as7331_take_measurement",
+    "message0": "AS7331 %1 启动并读取 UV",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7331", "variableTypes": ["SfeAS7331ArdI2C"], "defaultType": "SfeAS7331ArdI2C" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "启动一次测量，等待转换时间并读取 UVA/UVB/UVC"
+  },
+  {
+    "type": "as7331_read_uv",
+    "message0": "AS7331 %1 最近 UV %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7331", "variableTypes": ["SfeAS7331ArdI2C"], "defaultType": "SfeAS7331ArdI2C" },
+      { "type": "field_dropdown", "name": "CHANNEL", "options": [["UVA", "getUVA"], ["UVB", "getUVB"], ["UVC", "getUVC"]] }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取最近一次 AS7331 UV 测量值"
+  },
+  {
+    "type": "as7331_read_temperature",
+    "message0": "AS7331 %1 温度 °C",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7331", "variableTypes": ["SfeAS7331ArdI2C"], "defaultType": "SfeAS7331ArdI2C" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取并返回 AS7331 最近温度值"
+  },
+  {
+    "type": "as7331_data_ready",
+    "message0": "AS7331 %1 数据就绪",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7331", "variableTypes": ["SfeAS7331ArdI2C"], "defaultType": "SfeAS7331ArdI2C" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "读取测量状态寄存器的新数据标志"
+  },
+  {
+    "type": "as7331_prepare_measurement",
+    "message0": "设置 AS7331 %1 测量模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7331", "variableTypes": ["SfeAS7331ArdI2C"], "defaultType": "SfeAS7331ArdI2C" },
+      { "type": "field_dropdown", "name": "MODE", "options": [["命令单次", "MEAS_MODE_CMD"], ["连续", "MEAS_MODE_CONT"], ["同步开始", "MEAS_MODE_SYNS"], ["同步开始结束", "MEAS_MODE_SYND"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "准备 AS7331 测量模式并切换到测量状态"
+  },
+  {
+    "type": "as7331_set_gain",
+    "message0": "设置 AS7331 %1 增益 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7331", "variableTypes": ["SfeAS7331ArdI2C"], "defaultType": "SfeAS7331ArdI2C" },
+      { "type": "field_dropdown", "name": "GAIN", "options": [["1x", "GAIN_1"], ["2x", "GAIN_2"], ["4x", "GAIN_4"], ["8x", "GAIN_8"], ["16x", "GAIN_16"], ["32x", "GAIN_32"], ["64x", "GAIN_64"], ["128x", "GAIN_128"], ["256x", "GAIN_256"], ["512x", "GAIN_512"], ["1024x", "GAIN_1024"], ["2048x", "GAIN_2048"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 AS7331 UV 传感器增益"
+  },
+  {
+    "type": "as7331_set_conversion_time",
+    "message0": "设置 AS7331 %1 转换时间 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7331", "variableTypes": ["SfeAS7331ArdI2C"], "defaultType": "SfeAS7331ArdI2C" },
+      { "type": "field_dropdown", "name": "TIME", "options": [["1 ms", "TIME_1MS"], ["2 ms", "TIME_2MS"], ["4 ms", "TIME_4MS"], ["8 ms", "TIME_8MS"], ["16 ms", "TIME_16MS"], ["32 ms", "TIME_32MS"], ["64 ms", "TIME_64MS"], ["128 ms", "TIME_128MS"], ["256 ms", "TIME_256MS"], ["512 ms", "TIME_512MS"], ["1024 ms", "TIME_1024MS"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 AS7331 转换时间"
+  }
+]

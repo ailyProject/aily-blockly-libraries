@@ -23,9 +23,34 @@ function ensureMAX30102Support(generator) {
   generator.addVariable('max30102_spo2_valid', 'int8_t _ailyMax30102SpO2Valid = 0;');
   generator.addVariable('max30102_hr_valid', 'int8_t _ailyMax30102HeartRateValid = 0;');
   generator.addVariable('max30102_last_ok', 'bool _ailyMax30102LastOK = false;');
+  generator.addVariable('max30102_initialized', 'bool _ailyMax30102Initialized = false;');
+  generator.addVariable('max30102_finger_threshold', 'uint32_t _ailyMax30102FingerThreshold = 50000;');
+  generator.addVariable('max30102_sample_averaging', 'SampleAveraging _ailyMax30102SampleAveraging = AVG_4;');
+  generator.addVariable('max30102_adc_range', 'SPO2_ADC_Range _ailyMax30102AdcRange = ADC_RANGE_4096;');
+  generator.addVariable('max30102_sample_rate', 'SPO2_SampleRate _ailyMax30102SampleRate = SPO2_RATE_100;');
+  generator.addVariable('max30102_pulse_width', 'SPO2_PulseWidth _ailyMax30102PulseWidth = PW_411;');
 
   const helperCode =
-`bool ailyMax30102Configure() {
+`bool ailyMax30102ApplySpO2Config() {
+  if (!setSampleAveraging(_ailyMax30102SampleAveraging)) return false;
+  if (!setSPO2ADCRange(_ailyMax30102AdcRange)) return false;
+  if (!setSPO2SampleRate(_ailyMax30102SampleRate)) return false;
+  if (!setSPO2PulseWidth(_ailyMax30102PulseWidth)) return false;
+  return true;
+}
+
+bool ailyMax30102SetSpO2Config(SampleAveraging averaging, SPO2_ADC_Range adcRange, SPO2_SampleRate sampleRate, SPO2_PulseWidth pulseWidth) {
+  _ailyMax30102SampleAveraging = averaging;
+  _ailyMax30102AdcRange = adcRange;
+  _ailyMax30102SampleRate = sampleRate;
+  _ailyMax30102PulseWidth = pulseWidth;
+  if (!_ailyMax30102Initialized) {
+    return true;
+  }
+  return ailyMax30102ApplySpO2Config();
+}
+
+bool ailyMax30102Configure() {
   maxim_max30102_reset();
   delay(1000);
 
@@ -37,9 +62,10 @@ function ensureMAX30102Support(generator) {
   if (!maxim_max30102_write_reg(REG_FIFO_WR_PTR, 0x00)) return false;
   if (!maxim_max30102_write_reg(REG_OVF_COUNTER, 0x00)) return false;
   if (!maxim_max30102_write_reg(REG_FIFO_RD_PTR, 0x00)) return false;
-  if (!maxim_max30102_write_reg(REG_FIFO_CONFIG, 0x4f)) return false;
+  if (!maxim_max30102_write_reg(REG_FIFO_CONFIG, 0x0f)) return false;
   if (!maxim_max30102_write_reg(REG_MODE_CONFIG, 0x03)) return false;
-  if (!maxim_max30102_write_reg(REG_SPO2_CONFIG, 0x27)) return false;
+  if (!maxim_max30102_write_reg(REG_SPO2_CONFIG, 0x00)) return false;
+  if (!ailyMax30102ApplySpO2Config()) return false;
   if (!maxim_max30102_write_reg(REG_LED1_PA, 0x24)) return false;
   if (!maxim_max30102_write_reg(REG_LED2_PA, 0x24)) return false;
   if (!maxim_max30102_write_reg(REG_PILOT_PA, 0x7f)) return false;
@@ -57,20 +83,21 @@ bool ailyMax30102Begin(uint8_t sdaPin, uint8_t sclPin, uint8_t intPin) {
   Wire.begin();
 #endif
   Wire.setClock(400000L);
-  _ailyMax30102LastOK = ailyMax30102Configure();
-  return _ailyMax30102LastOK;
+  _ailyMax30102Initialized = ailyMax30102Configure();
+  _ailyMax30102LastOK = _ailyMax30102Initialized;
+  return _ailyMax30102Initialized;
 }
 
 bool ailyMax30102Measure(uint32_t timeoutMs) {
-  if (_ailyMax30102IntPin < 0) {
+  if (!_ailyMax30102Initialized || _ailyMax30102IntPin < 0) {
     _ailyMax30102LastOK = false;
     return false;
   }
 
+  uint32_t measureStartMs = millis();
   for (int32_t i = 0; i < BUFFER_SIZE; i++) {
-    uint32_t startMs = millis();
     while (digitalRead(_ailyMax30102IntPin) == HIGH) {
-      if (timeoutMs > 0 && (millis() - startMs) > timeoutMs) {
+      if (timeoutMs > 0 && (millis() - measureStartMs) > timeoutMs) {
         _ailyMax30102LastOK = false;
         return false;
       }
@@ -143,9 +170,10 @@ Arduino.forBlock['max30102_is_valid'] = function(block, generator) {
   const target = block.getFieldValue('TARGET') || 'MEASURE';
   const validMap = {
     MEASURE: '_ailyMax30102LastOK',
+    INIT: '_ailyMax30102Initialized',
     SPO2: '(_ailyMax30102SpO2Valid == 1)',
     HEART_RATE: '(_ailyMax30102HeartRateValid == 1)',
-    FINGER: '(_ailyMax30102LastIr > 50000)'
+    FINGER: '(_ailyMax30102LastIr > _ailyMax30102FingerThreshold)'
   };
   return [validMap[target] || '_ailyMax30102LastOK', generator.ORDER_ATOMIC];
 };
@@ -169,8 +197,11 @@ Arduino.forBlock['max30102_config_spo2'] = function(block, generator) {
   const adcRange = block.getFieldValue('ADC_RANGE') || 'ADC_RANGE_4096';
   const sampleRate = block.getFieldValue('SAMPLE_RATE') || 'SPO2_RATE_100';
   const pulseWidth = block.getFieldValue('PULSE_WIDTH') || 'PW_411';
-  return 'setSampleAveraging(' + averaging + ');\n' +
-    'setSPO2ADCRange(' + adcRange + ');\n' +
-    'setSPO2SampleRate(' + sampleRate + ');\n' +
-    'setSPO2PulseWidth(' + pulseWidth + ');\n';
+  return 'ailyMax30102SetSpO2Config(' + averaging + ', ' + adcRange + ', ' + sampleRate + ', ' + pulseWidth + ');\n';
+};
+
+Arduino.forBlock['max30102_set_finger_threshold'] = function(block, generator) {
+  ensureMAX30102Support(generator);
+  const threshold = generator.valueToCode(block, 'THRESHOLD', generator.ORDER_ATOMIC) || '50000';
+  return '_ailyMax30102FingerThreshold = (uint32_t)(' + threshold + ');\n';
 };

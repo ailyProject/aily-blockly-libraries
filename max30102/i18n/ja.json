@@ -1,10 +1,212 @@
 {
   "toolbox_name": "MAX30102",
-  "max30102_init": {"message0": "MAX30102 パルスオキシメータを初期化 SDA %1 SCL %2 INT %3", "tooltip": "MAX30102を初期化します。SDA/SCLはI2Cへ接続し、INTは指定したデジタルピンに接続します。ESP32では選択したSDA/SCLでWireを初期化します。", "args0": [{"options": "${board.digitalPins}"}, {"options": "${board.digitalPins}"}, {"options": "${board.digitalPins}"}]},
-  "max30102_measure": {"message0": "MAX30102 を1回サンプリングして計算 タイムアウト(ms) %1", "tooltip": "FIFOデータを取得し、SpO2、心拍数、温度、信号品質を計算します。0はタイムアウトなしです。"},
-  "max30102_get_value": {"message0": "MAX30102 の %1 を読む", "tooltip": "直近の測定結果を読み取ります。", "args0": [{"options": [["SpO2(%)", "SPO2"], ["心拍数(BPM)", "HEART_RATE"], ["温度(C)", "TEMPERATURE"], ["赤色の生値", "RED"], ["IRの生値", "IR"], ["R値", "RATIO"], ["相関係数", "CORRELATION"]]}]},
-  "max30102_is_valid": {"message0": "MAX30102 %1 は有効", "tooltip": "直近の測定、SpO2、心拍数、指検出が有効か確認します。", "args0": [{"options": [["測定", "MEASURE"], ["SpO2", "SPO2"], ["心拍数", "HEART_RATE"], ["指を検出", "FINGER"]]}]},
-  "max30102_reset": {"message0": "MAX30102 をリセット", "tooltip": "MAX30102のソフトリセットを送ります。リセット後は再初期化してください。"},
-  "max30102_set_led_amplitude": {"message0": "MAX30102 LED1強度 %1 LED2強度 %2 を設定", "tooltip": "LED1とLED2のパルス強度を0から255で設定します。初期値は36です。"},
-  "max30102_config_spo2": {"message0": "MAX30102 サンプリング設定 平均 %1 ADC範囲 %2 レート %3 パルス幅 %4", "tooltip": "高度な設定です。既定アルゴリズムは実効25Hzで約4秒のサンプルを想定しています。", "args0": [{"options": [["なし", "NO_AVERAGING"], ["2回", "AVG_2"], ["4回", "AVG_4"], ["8回", "AVG_8"], ["16回", "AVG_16"], ["32回", "AVG_32"]]}, {"options": [["2048nA", "ADC_RANGE_2048"], ["4096nA", "ADC_RANGE_4096"], ["8192nA", "ADC_RANGE_8192"], ["16384nA", "ADC_RANGE_16384"]]}, {"options": [["50Hz", "SPO2_RATE_50"], ["100Hz", "SPO2_RATE_100"], ["200Hz", "SPO2_RATE_200"], ["400Hz", "SPO2_RATE_400"], ["800Hz", "SPO2_RATE_800"], ["1000Hz", "SPO2_RATE_1000"], ["1600Hz", "SPO2_RATE_1600"], ["3200Hz", "SPO2_RATE_3200"]]}, {"options": [["69us/15bit", "PW_69"], ["118us/16bit", "PW_118"], ["215us/17bit", "PW_215"], ["411us/18bit", "PW_411"]]}]}
+  "max30102_init": {
+    "message0": "MAX30102 パルスオキシメータを初期化 SDA %1 SCL %2 INT %3",
+    "tooltip": "MAX30102を初期化します。SDA/SCLはI2Cへ接続し、INTは指定したデジタルピンに接続します。ESP32では選択したSDA/SCLでWireを初期化します。",
+    "args0": [
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "max30102_measure": {
+    "message0": "MAX30102 を1回サンプリングして計算 タイムアウト(ms) %1",
+    "tooltip": "FIFOデータを1バッチ収集し、SpO2、心拍数、温度、信号品質を計算します。タイムアウトは収集全体の最大待ち時間です。0はタイムアウトなしです。"
+  },
+  "max30102_get_value": {
+    "message0": "MAX30102 の %1 を読む",
+    "tooltip": "直近の測定結果を読み取ります。",
+    "args0": [
+      {
+        "options": [
+          [
+            "SpO2(%)",
+            "SPO2"
+          ],
+          [
+            "心拍数(BPM)",
+            "HEART_RATE"
+          ],
+          [
+            "温度(C)",
+            "TEMPERATURE"
+          ],
+          [
+            "赤色の生値",
+            "RED"
+          ],
+          [
+            "IRの生値",
+            "IR"
+          ],
+          [
+            "R値",
+            "RATIO"
+          ],
+          [
+            "相関係数",
+            "CORRELATION"
+          ]
+        ]
+      }
+    ]
+  },
+  "max30102_is_valid": {
+    "message0": "MAX30102 %1 は有効",
+    "tooltip": "初期化、最新測定、SpO2、心拍数、または指検出状態が有効か確認します。",
+    "args0": [
+      {
+        "options": [
+          [
+            "測定",
+            "MEASURE"
+          ],
+          [
+            "初期化",
+            "INIT"
+          ],
+          [
+            "SpO2",
+            "SPO2"
+          ],
+          [
+            "心拍数",
+            "HEART_RATE"
+          ],
+          [
+            "指を検出",
+            "FINGER"
+          ]
+        ]
+      }
+    ]
+  },
+  "max30102_reset": {
+    "message0": "MAX30102 をリセット",
+    "tooltip": "MAX30102のソフトリセットを送ります。リセット後は再初期化してください。"
+  },
+  "max30102_set_led_amplitude": {
+    "message0": "MAX30102 LED1強度 %1 LED2強度 %2 を設定",
+    "tooltip": "LED1とLED2のパルス強度を0から255で設定します。初期値は36です。"
+  },
+  "max30102_config_spo2": {
+    "message0": "MAX30102 サンプリング設定 平均 %1 ADC範囲 %2 レート %3 パルス幅 %4",
+    "tooltip": "高度な設定です。初期化前にも後にも置けます。初期化前は設定を保持し、初期化後はすぐに適用します。既定のアルゴリズムは有効25Hzで約4秒のサンプルを想定しています。",
+    "args0": [
+      {
+        "options": [
+          [
+            "なし",
+            "NO_AVERAGING"
+          ],
+          [
+            "2回",
+            "AVG_2"
+          ],
+          [
+            "4回",
+            "AVG_4"
+          ],
+          [
+            "8回",
+            "AVG_8"
+          ],
+          [
+            "16回",
+            "AVG_16"
+          ],
+          [
+            "32回",
+            "AVG_32"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "2048nA",
+            "ADC_RANGE_2048"
+          ],
+          [
+            "4096nA",
+            "ADC_RANGE_4096"
+          ],
+          [
+            "8192nA",
+            "ADC_RANGE_8192"
+          ],
+          [
+            "16384nA",
+            "ADC_RANGE_16384"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "50Hz",
+            "SPO2_RATE_50"
+          ],
+          [
+            "100Hz",
+            "SPO2_RATE_100"
+          ],
+          [
+            "200Hz",
+            "SPO2_RATE_200"
+          ],
+          [
+            "400Hz",
+            "SPO2_RATE_400"
+          ],
+          [
+            "800Hz",
+            "SPO2_RATE_800"
+          ],
+          [
+            "1000Hz",
+            "SPO2_RATE_1000"
+          ],
+          [
+            "1600Hz",
+            "SPO2_RATE_1600"
+          ],
+          [
+            "3200Hz",
+            "SPO2_RATE_3200"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "69us/15bit",
+            "PW_69"
+          ],
+          [
+            "118us/16bit",
+            "PW_118"
+          ],
+          [
+            "215us/17bit",
+            "PW_215"
+          ],
+          [
+            "411us/18bit",
+            "PW_411"
+          ]
+        ]
+      }
+    ]
+  },
+  "max30102_set_finger_threshold": {
+    "message0": "MAX30102 指検出しきい値 %1 を設定",
+    "tooltip": "指検出に使うIR生値のしきい値を設定します。既定は50000で、値が高いほど厳しくなります。"
+  }
 }

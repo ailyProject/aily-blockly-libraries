@@ -1,0 +1,123 @@
+[
+  {
+    "type": "bmv080_init_i2c",
+    "message0": "初始化 BMV080 %1 地址 %2 模式 %3",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "bmv080" },
+      { "type": "field_dropdown", "name": "ADDRESS", "options": [["0x57 默认", "SF_BMV080_DEFAULT_ADDRESS"], ["0x57", "0x57"]] },
+      { "type": "field_dropdown", "name": "MODE", "options": [["连续", "SF_BMV080_MODE_CONTINUOUS"], ["周期", "SF_BMV080_MODE_DUTY_CYCLE"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "通过 I2C 初始化 BMV080，并执行 init 与模式设置"
+  },
+  {
+    "type": "bmv080_is_ready",
+    "message0": "BMV080 %1 初始化成功",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["SparkFunBMV080"], "defaultType": "SparkFunBMV080" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "返回初始化块保存的 BMV080 初始化状态"
+  },
+  {
+    "type": "bmv080_read_sensor",
+    "message0": "BMV080 %1 读取传感器成功",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["SparkFunBMV080"], "defaultType": "SparkFunBMV080" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "读取新颗粒物数据，并更新 PM 缓存"
+  },
+  {
+    "type": "bmv080_pm1",
+    "message0": "BMV080 %1 PM1 ug/m3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["SparkFunBMV080"], "defaultType": "SparkFunBMV080" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取最近一次 PM1 浓度"
+  },
+  {
+    "type": "bmv080_pm25",
+    "message0": "BMV080 %1 PM2.5 ug/m3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["SparkFunBMV080"], "defaultType": "SparkFunBMV080" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取最近一次 PM2.5 浓度"
+  },
+  {
+    "type": "bmv080_pm10",
+    "message0": "BMV080 %1 PM10 ug/m3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["SparkFunBMV080"], "defaultType": "SparkFunBMV080" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取最近一次 PM10 浓度"
+  },
+  {
+    "type": "bmv080_is_obstructed",
+    "message0": "BMV080 %1 被遮挡",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["SparkFunBMV080"], "defaultType": "SparkFunBMV080" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "检查最近一次读数是否报告遮挡"
+  },
+  {
+    "type": "bmv080_set_mode",
+    "message0": "设置 BMV080 %1 模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["SparkFunBMV080"], "defaultType": "SparkFunBMV080" },
+      { "type": "field_dropdown", "name": "MODE", "options": [["连续", "SF_BMV080_MODE_CONTINUOUS"], ["周期", "SF_BMV080_MODE_DUTY_CYCLE"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 BMV080 测量模式"
+  },
+  {
+    "type": "bmv080_set_duty_cycle",
+    "message0": "设置 BMV080 %1 周期秒数 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["SparkFunBMV080"], "defaultType": "SparkFunBMV080" },
+      { "type": "input_value", "name": "SECONDS", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置周期测量模式下的测量间隔秒数"
+  },
+  {
+    "type": "bmv080_set_obstruction_detection",
+    "message0": "设置 BMV080 %1 遮挡检测 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["SparkFunBMV080"], "defaultType": "SparkFunBMV080" },
+      { "type": "field_dropdown", "name": "STATE", "options": [["开启", "TRUE"], ["关闭", "FALSE"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "启用或禁用遮挡检测"
+  },
+  {
+    "type": "bmv080_set_vibration_filtering",
+    "message0": "设置 BMV080 %1 振动滤波 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["SparkFunBMV080"], "defaultType": "SparkFunBMV080" },
+      { "type": "field_dropdown", "name": "STATE", "options": [["开启", "TRUE"], ["关闭", "FALSE"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "启用或禁用振动滤波"
+  }
+]
