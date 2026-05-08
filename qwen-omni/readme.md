@@ -4,7 +4,7 @@
 
 ## 库信息
 - **库名**: @aily-project/lib-qwen-omni
-- **版本**: 0.0.2
+- **版本**: 0.0.3
 - **兼容**: esp32:esp32
 
 ## 块定义
@@ -24,6 +24,15 @@
 | `qwen_omni_set_system_prompt` | 语句块 | SYSTEM_PROMPT(input_value) | 无字段 | 设置系统提示词 |
 | `qwen_omni_get_response_status` | 值块 | 无 | 无字段 | 获取响应状态 |
 | `qwen_omni_get_error_message` | 值块 | 无 | 无字段 | 获取错误信息 |
+| `qwen_omni_tts` | 值块 | TEXT(input_value), VOICE(dropdown), MODEL(dropdown), LANGUAGE(dropdown) | `"VOICE": "Cherry"` | TTS语音合成，返回Base64音频 |
+| `qwen_omni_tts_play` | 语句块 | I2S_OBJ(input_value), AUDIO(input_value) | 无字段 | 播放Base64音频数据 |
+| `qwen_omni_tts_and_play` | 语句块 | I2S_OBJ(input_value), TEXT(input_value), VOICE(dropdown), MODEL(dropdown), LANGUAGE(dropdown) | `"VOICE": "Cherry"` | TTS合成并播放(非流式) |
+| `qwen_omni_tts_stream_play` | 语句块 | I2S_OBJ(input_value), TEXT(input_value), VOICE(dropdown), MODEL(dropdown), LANGUAGE(dropdown) | `"VOICE": "Cherry"` | TTS流式合成并播放 |
+| `qwen_omni_tts_voice_design` | 语句块 | I2S_OBJ(input_value), TEXT(input_value), VOICE_DESC(input_value) | 无字段 | 音色设计合成并播放 |
+| `qwen_omni_omni_text` | 值块 | MESSAGE(input_value), MODEL(dropdown) | `"MODEL": "qwen3.5-omni-plus"` | 全模态对话(仅文字) |
+| `qwen_omni_omni_and_play` | 语句块 | I2S_OBJ(input_value), MESSAGE(input_value), MODEL(dropdown), VOICE(dropdown) | `"MODEL": "qwen3.5-omni-plus"` | 全模态对话并播放音频 |
+| `qwen_omni_omni_stream_play` | 语句块 | I2S_OBJ(input_value), MESSAGE(input_value), MODEL(dropdown), VOICE(dropdown) | `"MODEL": "qwen3.5-omni-plus"` | 全模态流式对话并播放 |
+| `qwen_omni_omni_get_audio` | 值块 | 无 | 无字段 | 获取全模态音频数据 |
 
 ## 字段类型映射
 
@@ -136,6 +145,36 @@
 - 1024x1024 (默认，正方形)
 - 720x1280, 1280x720 (竖版/横版)
 
+### TTS模型 (语音合成)
+- qwen3-tts-flash (推荐，快速)
+- qwen3-tts-instruct-flash (支持指令控制)
+- qwen-tts
+
+### TTS音色
+- Cherry (甜美女声)
+- Ethan (阳光男声)
+- Chelsie (温柔女声)
+- Serena (甜美小姐姐)
+- Dylan (北京话男声)
+- Jada (上海话女声)
+- Sunny (四川话女声)
+
+### TTS语种
+Chinese, English, Japanese, Korean, French, German, Spanish, Russian, Portuguese, Italian
+
+### 全模态(Omni)模型
+- qwen3.5-omni-plus (推荐)
+- qwen3-omni-flash
+- qwen-omni-turbo
+
+### 全模态(Omni)音色
+- Tina (甜甜), Ethan (晨煦), Serena (苏瑶), Raymond (林川野), Cindy (林欣宜)
+- Liora Mira (清欢), Sunnybobi (知芝), Theo Calm (予安), Harvey (厚)
+- Maia (四月), Evan (江晨), Momo (茉兔), Dylan (晓东), Sunny (晴儿)
+
+### 音色设计模型
+- qwen3-tts-vd (通过文字描述自定义音色)
+
 ## 特殊说明
 
 - 多轮对话会自动保存对话历史，使用`清空对话历史`块重置
@@ -145,3 +184,11 @@
 - 错误信息通过`qwen_last_error`变量获取
 - 图像生成使用异步API，会自动轮询等待结果
 - 图片URL可配合adafruit_GFX库的"下载URL图片并显示"积木在TFT屏幕上显示
+- **TTS音频格式**: 24kHz 16bit 单声道PCM，需配合ESP_I2S库初始化I2S对象
+- **流式TTS**: 边接收边解码播放，延迟更低，语音连续流畅；非流式先收集完整音频再播放，音质更稳定
+- **全模态对话**: 支持返回文字+语音，需要初始化I2S对象用于音频播放
+- **I2S依赖**: 使用TTS和全模态音频功能时需要先在arduino_setup中初始化I2S对象
+- **音色设计**: 使用`qwen3-tts-vd`模型，通过文字描述音色特征来生成自定义音色
+- **语音对话**: `qwen_omni_omni_voice_chat` 从I2S麦克风录音→WAV封装→Base64编码→发送`input_audio`到Omni API→流式接收文字+音频→播放语音回复
+- **语音对话录音格式**: 24kHz 16bit 单声道PCM，录音后自动封装为WAV并Base64编码上传
+- **语音对话模型**: qwen3.5-omni-plus (推荐), qwen3-omni-flash, qwen-omni-turbo
