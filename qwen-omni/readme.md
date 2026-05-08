@@ -191,4 +191,4 @@ Chinese, English, Japanese, Korean, French, German, Spanish, Russian, Portuguese
 - **音色设计**: 使用`qwen3-tts-vd`模型，通过文字描述音色特征来生成自定义音色
 - **语音对话**: `qwen_omni_omni_voice_chat` 从I2S麦克风录音→WAV封装→Base64编码→发送`input_audio`到Omni API→流式接收文字+音频→播放语音回复
 - **语音对话录音格式**: 24kHz 16bit 单声道PCM，录音后自动封装为WAV并Base64编码上传
-- **语音对话模型**: qwen2.5-omni-7b, qwen2.5-omni-3b
+- **语音对话模型**: qwen3.5-omni-plus (推荐), qwen3-omni-flash, qwen-omni-turbo

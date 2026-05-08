@@ -36,7 +36,7 @@
 | `qwen_omni_omni_and_play` | Statement | I2S_OBJ(input_value), MESSAGE(input_value), MODEL(dropdown), VOICE(dropdown) | `qwen_omni_omni_and_play(math_number(0), text("hello"), qwen3.5-omni-plus, Tina)` | (dynamic code) |
 | `qwen_omni_omni_stream_play` | Statement | I2S_OBJ(input_value), MESSAGE(input_value), MODEL(dropdown), VOICE(dropdown) | `qwen_omni_omni_stream_play(math_number(0), text("hello"), qwen3.5-omni-plus, Tina)` | (dynamic code) |
 | `qwen_omni_omni_get_audio` | Value | (none) | `qwen_omni_omni_get_audio()` | `qwen_omni_audio_data` |
-| `qwen_omni_omni_voice_chat` | Statement | VAR(field_variable), DURATION(input_value), MODEL(dropdown), VOICE(dropdown), PROMPT(input_value) | `qwen_omni_omni_voice_chat($i2s, math_number(3), qwen2.5-omni-7b, Chelsie, text("描述一下"))` | `qwen_omni_voice_chat_request(i2s, "qwen2.5-omni-7b", "Chelsie", "描述一下", 3);` |
+| `qwen_omni_omni_voice_chat` | Statement | VAR(field_variable), DURATION(input_value), MODEL(dropdown), VOICE(dropdown), PROMPT(input_value) | `qwen_omni_omni_voice_chat($i2s, math_number(3), qwen3.5-omni-plus, Chelsie, text("描述一下"))` | `qwen_omni_voice_chat_request(i2s, "qwen3.5-omni-plus", "Chelsie", "描述一下", 3);` |
 
 ## Parameter Options
 
