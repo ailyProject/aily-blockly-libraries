@@ -1,0 +1,275 @@
+{
+  "kind": "category",
+  "name": "Seeed RPC BLE",
+  "icon": "fa-light fa-bluetooth",
+  "colour": "#1976D2",
+  "contents": [
+    {
+      "kind": "category",
+      "name": "设备管理",
+      "icon": "fa-light fa-bluetooth",
+      "colour": "#1976D2",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_init",
+          "inputs": { "NAME": { "shadow": { "type": "text", "fields": { "TEXT": "Wio BLE" } } } }
+        },
+        { "kind": "block", "type": "seeed_rpcble_deinit" },
+        { "kind": "block", "type": "seeed_rpcble_is_initialized" },
+        { "kind": "block", "type": "seeed_rpcble_get_address" },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_set_mtu",
+          "inputs": { "MTU": { "shadow": { "type": "math_number", "fields": { "NUM": 23 } } } }
+        },
+        { "kind": "block", "type": "seeed_rpcble_get_mtu" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "GATT服务端",
+      "icon": "fa-light fa-server",
+      "colour": "#2E7D32",
+      "contents": [
+        { "kind": "block", "type": "seeed_rpcble_create_server" },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_server_create_service",
+          "inputs": { "UUID": { "shadow": { "type": "text", "fields": { "TEXT": "180f" } } } }
+        },
+        { "kind": "block", "type": "seeed_rpcble_service_start" },
+        { "kind": "block", "type": "seeed_rpcble_service_stop" },
+        { "kind": "block", "type": "seeed_rpcble_server_connected_count" },
+        { "kind": "block", "type": "seeed_rpcble_server_set_callbacks" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "特征值与事件",
+      "icon": "fa-light fa-waveform-lines",
+      "colour": "#6A1B9A",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_create_characteristic",
+          "inputs": { "UUID": { "shadow": { "type": "text", "fields": { "TEXT": "2a19" } } } }
+        },
+        { "kind": "block", "type": "seeed_rpcble_characteristic_set_permissions" },
+        { "kind": "block", "type": "seeed_rpcble_characteristic_add_notify_descriptor" },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_characteristic_add_descriptor",
+          "inputs": {
+            "UUID": { "shadow": { "type": "text", "fields": { "TEXT": "4545" } } },
+            "MAX_LEN": { "shadow": { "type": "math_number", "fields": { "NUM": 2 } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_characteristic_set_value",
+          "inputs": { "VALUE": { "shadow": { "type": "text", "fields": { "TEXT": "Hello from Wio Terminal" } } } }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_characteristic_set_byte",
+          "inputs": { "VALUE": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } } }
+        },
+        { "kind": "block", "type": "seeed_rpcble_characteristic_get_value" },
+        { "kind": "block", "type": "seeed_rpcble_characteristic_notify" },
+        { "kind": "block", "type": "seeed_rpcble_characteristic_indicate" },
+        { "kind": "block", "type": "seeed_rpcble_characteristic_set_callbacks" },
+        { "kind": "block", "type": "seeed_rpcble_characteristic_received_value" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "广播",
+      "icon": "fa-light fa-tower-broadcast",
+      "colour": "#EF6C00",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_advertising_add_service_uuid",
+          "inputs": { "UUID": { "shadow": { "type": "text", "fields": { "TEXT": "180f" } } } }
+        },
+        { "kind": "block", "type": "seeed_rpcble_advertising_set_scan_response" },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_advertising_set_preferred",
+          "inputs": {
+            "MIN": { "shadow": { "type": "math_number", "fields": { "NUM": 6 } } },
+            "MAX": { "shadow": { "type": "math_number", "fields": { "NUM": 18 } } }
+          }
+        },
+        { "kind": "block", "type": "seeed_rpcble_start_advertising" },
+        { "kind": "block", "type": "seeed_rpcble_stop_advertising" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "扫描",
+      "icon": "fa-light fa-radar",
+      "colour": "#00838F",
+      "contents": [
+        { "kind": "block", "type": "seeed_rpcble_scan_create" },
+        { "kind": "block", "type": "seeed_rpcble_scan_set_active" },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_scan_set_interval",
+          "inputs": { "INTERVAL": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } } }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_scan_set_window",
+          "inputs": { "WINDOW": { "shadow": { "type": "math_number", "fields": { "NUM": 99 } } } }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_scan_start",
+          "inputs": { "DURATION": { "shadow": { "type": "math_number", "fields": { "NUM": 5 } } } }
+        },
+        { "kind": "block", "type": "seeed_rpcble_scan_stop" },
+        { "kind": "block", "type": "seeed_rpcble_scan_clear_results" },
+        { "kind": "block", "type": "seeed_rpcble_scan_results_count" },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_scan_result_name",
+          "inputs": { "INDEX": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } } }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_scan_result_address",
+          "inputs": { "INDEX": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } } }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_scan_result_rssi",
+          "inputs": { "INDEX": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } } }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_scan_result_service_uuid",
+          "inputs": { "INDEX": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } } }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_scan_result_info",
+          "inputs": { "INDEX": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } } }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_scan_result_has_service",
+          "inputs": {
+            "INDEX": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+            "UUID": { "shadow": { "type": "text", "fields": { "TEXT": "180f" } } }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "客户端",
+      "icon": "fa-light fa-mobile-signal",
+      "colour": "#00695C",
+      "contents": [
+        { "kind": "block", "type": "seeed_rpcble_create_client" },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_client_connect",
+          "inputs": { "ADDRESS": { "shadow": { "type": "text", "fields": { "TEXT": "00:00:00:00:00:00" } } } }
+        },
+        { "kind": "block", "type": "seeed_rpcble_client_disconnect" },
+        { "kind": "block", "type": "seeed_rpcble_client_is_connected" },
+        { "kind": "block", "type": "seeed_rpcble_client_rssi" },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_client_get_service",
+          "inputs": { "UUID": { "shadow": { "type": "text", "fields": { "TEXT": "180f" } } } }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_remote_service_get_characteristic",
+          "inputs": { "UUID": { "shadow": { "type": "text", "fields": { "TEXT": "2a19" } } } }
+        },
+        { "kind": "block", "type": "seeed_rpcble_remote_characteristic_read" },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_remote_characteristic_write",
+          "inputs": { "VALUE": { "shadow": { "type": "text", "fields": { "TEXT": "Hello BLE" } } } }
+        },
+        { "kind": "block", "type": "seeed_rpcble_remote_characteristic_can_read" },
+        { "kind": "block", "type": "seeed_rpcble_remote_characteristic_can_write" },
+        { "kind": "block", "type": "seeed_rpcble_remote_characteristic_can_notify" },
+        { "kind": "block", "type": "seeed_rpcble_remote_characteristic_register_notify" },
+        { "kind": "block", "type": "seeed_rpcble_remote_notify_value" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "BLE UART",
+      "icon": "fa-light fa-message-lines",
+      "colour": "#C2185B",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_uart_begin",
+          "inputs": { "NAME": { "shadow": { "type": "text", "fields": { "TEXT": "UART Service" } } } }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_uart_send",
+          "inputs": { "DATA": { "shadow": { "type": "text", "fields": { "TEXT": "Hello UART" } } } }
+        },
+        { "kind": "block", "type": "seeed_rpcble_uart_connected" },
+        { "kind": "block", "type": "seeed_rpcble_uart_received" },
+        { "kind": "block", "type": "seeed_rpcble_uart_on_receive" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "Web Bluetooth",
+      "icon": "fa-light fa-browser",
+      "colour": "#AD1457",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_web_battery_begin",
+          "inputs": {
+            "NAME": { "shadow": { "type": "text", "fields": { "TEXT": "BLE Battery" } } },
+            "LEVEL": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_web_battery_set_level",
+          "inputs": { "LEVEL": { "shadow": { "type": "math_number", "fields": { "NUM": 50 } } } }
+        },
+        { "kind": "block", "type": "seeed_rpcble_web_battery_level" },
+        { "kind": "block", "type": "seeed_rpcble_web_battery_connected" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "iBeacon",
+      "icon": "fa-light fa-location-dot",
+      "colour": "#7B1FA2",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "seeed_rpcble_ibeacon_begin",
+          "inputs": {
+            "NAME": { "shadow": { "type": "text", "fields": { "TEXT": "wio" } } },
+            "UUID": { "shadow": { "type": "text", "fields": { "TEXT": "8ec76ea3-6668-48da-9866-75be8bc86f4d" } } },
+            "MAJOR": { "shadow": { "type": "math_number", "fields": { "NUM": 123 } } },
+            "MINOR": { "shadow": { "type": "math_number", "fields": { "NUM": 456 } } },
+            "MANUFACTURER": { "shadow": { "type": "math_number", "fields": { "NUM": 19456 } } },
+            "POWER": { "shadow": { "type": "math_number", "fields": { "NUM": -59 } } },
+            "INFO": { "shadow": { "type": "text", "fields": { "TEXT": "door-1" } } }
+          }
+        },
+        { "kind": "block", "type": "seeed_rpcble_ibeacon_stop" }
+      ]
+    }
+  ]
+}
