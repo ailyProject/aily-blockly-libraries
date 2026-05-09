@@ -1,0 +1,99 @@
+[
+  {
+    "type": "wio_mic_read",
+    "message0": "读取麦克风音量",
+    "args0": [],
+    "output": "Number",
+    "colour": "#00C7B1",
+    "tooltip": "读取 Wio Terminal 内置麦克风的模拟值（0~1023），值越大声音越强",
+    "icon": "fa-light fa-microphone"
+  },
+  {
+    "type": "wio_mic_is_loud",
+    "message0": "声音超过阈值 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "THRESHOLD",
+        "check": "Number"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#00C7B1",
+    "tooltip": "当麦克风读取值超过指定阈值时返回 true，可用于检测环境声音",
+    "icon": "fa-light fa-microphone"
+  },
+  {
+    "type": "wio_buzzer_on",
+    "message0": "蜂鸣器开启 占空比 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DUTY",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "通过 analogWrite 驱动蜂鸣器，占空比范围 0~255（建议使用 128）",
+    "icon": "fa-light fa-volume"
+  },
+  {
+    "type": "wio_buzzer_off",
+    "message0": "蜂鸣器关闭",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "停止 analogWrite 驱动，关闭蜂鸣器",
+    "icon": "fa-light fa-volume-slash"
+  },
+  {
+    "type": "wio_buzzer_tone",
+    "message0": "蜂鸣器播放频率 %1 Hz",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "FREQUENCY",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "使用 tone() 持续播放指定频率的音调，直到调用停止",
+    "icon": "fa-light fa-music"
+  },
+  {
+    "type": "wio_buzzer_tone_duration",
+    "message0": "蜂鸣器播放频率 %1 Hz 持续 %2 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "FREQUENCY",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "使用 tone() 播放指定频率的音调，持续指定毫秒后自动停止",
+    "icon": "fa-light fa-music"
+  },
+  {
+    "type": "wio_buzzer_no_tone",
+    "message0": "停止蜂鸣器",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "停止 tone() 输出，关闭蜂鸣器",
+    "icon": "fa-light fa-volume-slash"
+  }
+]

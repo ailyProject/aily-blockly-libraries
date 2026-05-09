@@ -1,27 +1,41 @@
 
 {
   "kind": "category",
-  "name": "LIS3DHTR",
+  "name": "LIS3DHTR加速度计",
   "contents": [
+    { "kind": "label", "text": "初始化与配置" },
     { "kind": "block", "type": "lis3dhtr_begin" },
+    { "kind": "block", "type": "lis3dhtr_set_datarate" },
+    { "kind": "block", "type": "lis3dhtr_set_full_scale_range" },
+    { "kind": "block", "type": "lis3dhtr_set_resolution" },
+    { "kind": "block", "type": "lis3dhtr_set_power_mode" },
+    { "kind": "block", "type": "lis3dhtr_reset" },
+    { "kind": "label", "text": "加速度读取" },
+    { "kind": "block", "type": "lis3dhtr_get_acceleration_x" },
+    { "kind": "block", "type": "lis3dhtr_get_acceleration_y" },
+    { "kind": "block", "type": "lis3dhtr_get_acceleration_z" },
+    { "kind": "block", "type": "lis3dhtr_get_acceleration" },
+    { "kind": "block", "type": "lis3dhtr_get_acceleration_xyz" },
+    { "kind": "block", "type": "lis3dhtr_available" },
+    { "kind": "label", "text": "敲击检测" },
     {
       "kind": "block",
-      "type": "lis3dhtr_set_full_scale_range"
+      "type": "lis3dhtr_on_tap",
+      "inputs": {
+        "THRESHOLD": {
+          "shadow": { "type": "math_number", "fields": { "NUM": 40 } }
+        }
+      }
     },
+    { "kind": "label", "text": "温度传感器" },
     { "kind": "block", "type": "lis3dhtr_open_temp" },
     { "kind": "block", "type": "lis3dhtr_close_temp" },
     { "kind": "block", "type": "lis3dhtr_get_temperature" },
-    {
-      "kind": "block",
-      "type": "lis3dhtr_get_acceleration_x"
-    },
-    {
-      "kind": "block",
-      "type": "lis3dhtr_get_acceleration_y"
-    },
-    {
-      "kind": "block",
-      "type": "lis3dhtr_get_acceleration_z"
-    }
+    { "kind": "block", "type": "lis3dhtr_get_temperature_simple" },
+    { "kind": "label", "text": "ADC 读取" },
+    { "kind": "block", "type": "lis3dhtr_read_adc" },
+    { "kind": "label", "text": "状态与信息" },
+    { "kind": "block", "type": "lis3dhtr_is_connection" },
+    { "kind": "block", "type": "lis3dhtr_get_device_id" }
   ]
 }

@@ -2,8 +2,16 @@
 [
   {
     "type": "lis3dhtr_begin",
-    "message0": "初始化LIS3DHTR加速度计（I2C模式） 地址 %1",
+    "message0": "初始化LIS3DHTR加速度计（I2C模式） 总线 %1 地址 %2",
     "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": [
+          ["Wire1 (Wio Terminal)", "Wire1"],
+          ["Wire", "Wire"]
+        ]
+      },
       {
         "type": "field_input",
         "name": "ADDRESS",
@@ -22,18 +30,16 @@
         "type": "field_dropdown",
         "name": "DATARATE",
         "options": [
-          [
-            "100Hz",
-            "LIS3DHTR_DATARATE_100HZ"
-          ],
-          [
-            "50Hz",
-            "LIS3DHTR_DATARATE_50HZ"
-          ],
-          [
-            "400Hz",
-            "LIS3DHTR_DATARATE_400HZ"
-          ]
+          ["断电", "LIS3DHTR_DATARATE_POWERDOWN"],
+          ["1Hz", "LIS3DHTR_DATARATE_1HZ"],
+          ["10Hz", "LIS3DHTR_DATARATE_10HZ"],
+          ["25Hz", "LIS3DHTR_DATARATE_25HZ"],
+          ["50Hz", "LIS3DHTR_DATARATE_50HZ"],
+          ["100Hz", "LIS3DHTR_DATARATE_100HZ"],
+          ["200Hz", "LIS3DHTR_DATARATE_200HZ"],
+          ["400Hz", "LIS3DHTR_DATARATE_400HZ"],
+          ["1.6KHz", "LIS3DHTR_DATARATE_1_6KH"],
+          ["5KHz", "LIS3DHTR_DATARATE_5KHZ"]
         ]
       }
     ],
@@ -335,5 +341,48 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4CAF50"
+  },
+  {
+    "type": "lis3dhtr_available",
+    "message0": "加速度计数据已就绪",
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "检查是否有新的加速度计数据可读取"
+  },
+  {
+    "type": "lis3dhtr_reset",
+    "message0": "复位LIS3DHTR传感器",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "复位传感器至默认状态"
+  },
+  {
+    "type": "lis3dhtr_on_tap",
+    "message0": "当检测到 %1 敲击（阈值 %2）时执行",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CLICK_TYPE",
+        "options": [
+          ["单击", "1"],
+          ["双击", "2"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "THRESHOLD",
+        "check": "Number"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#FF9800",
+    "tooltip": "配置敲击检测并设置中断处理程序。阈值范围建议：2G量程40-80，4G量程20-40，8G量程10-20，16G量程5-10"
   }
 ]

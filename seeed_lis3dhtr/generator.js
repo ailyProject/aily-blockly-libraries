@@ -8,10 +8,11 @@ Arduino.forBlock['lis3dhtr_begin'] = function(block, generator) {
   generator.addLibrary('LIS3DHTR_H', '#include <LIS3DHTR.h>\n#include <Wire.h>');
   generator.addVariable('accel_sensor', 'LIS3DHTR<TwoWire> accel_sensor;');
   
+  var wire = block.getFieldValue('WIRE') || 'Wire1';
   var address = block.getFieldValue('ADDRESS') || 'LIS3DHTR_DEFAULT_ADDRESS';
   
   // 在setup中添加初始化代码
-  var code = 'accel_sensor.begin(Wire, ' + address + ');\n';
+  var code = 'accel_sensor.begin(' + wire + ', ' + address + ');\n';
   
   return code;
 };
@@ -217,14 +218,50 @@ Arduino.forBlock['lis3dhtr_init_simplified'] = function(block, generator) {
   generator.addVariable('accel_sensor', 'LIS3DHTR<TwoWire> accel_sensor;');
   
   var address = block.getFieldValue('ADDRESS') || 'LIS3DHTR_DEFAULT_ADDRESS';
-  var dataRate = block.getFieldValue('DATARATE') || 'LIS3DHTR_DATARATE_100HZ';
-  var range = block.getFieldValue('RANGE') || 'LIS3DHTR_RANGE_4G';
+  var dataRate = block.getFieldValue('DATARATE') || 'LIS3DHTR_DATARATE_25HZ';
+  var range = block.getFieldValue('RANGE') || 'LIS3DHTR_RANGE_2G';
   var highRes = block.getFieldValue('HIGHRES') || 'true';
   
-  var code = 'accel_sensor.begin(Wire, ' + address + ');\n';
+  var code = 'accel_sensor.begin(Wire1, ' + address + ');\n';
   code += 'accel_sensor.setOutputDataRate(' + dataRate + ');\n';
   code += 'accel_sensor.setFullScaleRange(' + range + ');\n';
   code += 'accel_sensor.setHighSolution(' + highRes + ');\n';
   
   return code;
+};
+
+/**
+ * 检查数据是否就绪
+ */
+Arduino.forBlock['lis3dhtr_available'] = function(block, generator) {
+  var code = 'accel_sensor.available()';
+  return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+/**
+ * 复位传感器
+ */
+Arduino.forBlock['lis3dhtr_reset'] = function(block, generator) {
+  var code = 'accel_sensor.reset();\n';
+  return code;
+};
+
+/**
+ * 敲击检测事件（帽式块）
+ * 自动配置click()和attachInterrupt()，生成ISR函数
+ */
+Arduino.forBlock['lis3dhtr_on_tap'] = function(block, generator) {
+  var clickType = block.getFieldValue('CLICK_TYPE') || '1';
+  var threshold = generator.valueToCode(block, 'THRESHOLD', Arduino.ORDER_ATOMIC) || '40';
+  var handlerCode = generator.statementToCode(block, 'HANDLER') || '';
+
+  var callbackName = 'lis3dhtr_tap_isr';
+  var functionDef = 'void ' + callbackName + '() {\n' + handlerCode + '}\n';
+  generator.addFunction(callbackName, functionDef);
+
+  var setupCode = 'accel_sensor.click(' + clickType + ', ' + threshold + ');\n' +
+    'attachInterrupt(digitalPinToInterrupt(GYROSCOPE_INT1), ' + callbackName + ', RISING);\n';
+  generator.addSetupEnd(setupCode, setupCode);
+
+  return '';
 };
