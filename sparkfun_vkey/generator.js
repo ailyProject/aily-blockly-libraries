@@ -1,5 +1,5 @@
 function vkeyEnsureLib(generator) {
-  generator.addLibrary('SparkFun_VKey', '#include <SparkFun_VKey.h>');
+  generator.addLibrary('SparkFun_VKey', '#include <SparkFunVKeyVoltageKeypad.h>');
 }
 
 function vkeyGetVar(block) {

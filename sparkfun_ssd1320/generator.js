@@ -1,6 +1,6 @@
 function ssd1320EnsureLib(generator) {
   generator.addLibrary('SPI', '#include <SPI.h>');
-  generator.addLibrary('SparkFun_SSD1320', '#include <SFE_SSD1320.h>');
+  generator.addLibrary('SparkFun_SSD1320', '#include <SSD1320_OLED.h>');
 }
 
 function ssd1320GetVar(block) {

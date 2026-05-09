@@ -8,7 +8,7 @@ Seeed SAMD21/SAMD51 RTC Blockly 库，支持校时、读 DateTime 和闹钟。
 |---|---|
 | 包名 | @aily-project/lib-seeed-rtc |
 | 版本 | 1.0.0 |
-| 作者 | Seeed Studio |
+| 作者 | SeeedStudio |
 | 源码 | https://github.com/Seeed-Studio/Seeed_Arduino_RTC |
 | License | MIT / LGPL-2.1 |
 

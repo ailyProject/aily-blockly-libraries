@@ -1,6 +1,6 @@
 function soilMoistureEnsureLib(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('SparkFun_Soil_Moisture', '#include <SparkFun_Soil_Moisture_Sensor_Arduino_Library.h>');
+  generator.addLibrary('SparkFun_Soil_Moisture', '#include <SparkFun_Soil_Moisture_Sensor.h>');
 }
 
 function soilMoistureGetVar(block) {

@@ -1,6 +1,6 @@
 function zxSensorEnsureLib(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('SparkFun_ZX_Sensor', '#include <SparkFun_ZX_Distance_and_Gesture_Sensor.h>');
+  generator.addLibrary('SparkFun_ZX_Sensor', '#include <ZX_Sensor.h>');
 }
 
 function zxSensorGetVar(block) {

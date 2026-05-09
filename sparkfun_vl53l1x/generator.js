@@ -1,6 +1,6 @@
 function vl53l1xEnsureLib(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('SparkFun_VL53L1X', '#include <SparkFun_VL53L1X_Arduino_Library.h>');
+  generator.addLibrary('SparkFun_VL53L1X', '#include <SparkFun_VL53L1X.h>');
 }
 
 function vl53l1xGetVar(block) {

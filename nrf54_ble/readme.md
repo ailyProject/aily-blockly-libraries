@@ -8,7 +8,7 @@ nRF54L15低功耗蓝牙(BLE)库，支持广播、连接、GATT服务、Nordic UA
 |-------|-------|
 | Package | @aily-project/lib-nrf54_ble |
 | Version | 1.0.0 |
-| Author | Nordic Semiconductor / Seeed Studio |
+| Author | Nordic Semiconductor / SeeedStudio |
 | License | MIT |
 
 ## Supported Boards

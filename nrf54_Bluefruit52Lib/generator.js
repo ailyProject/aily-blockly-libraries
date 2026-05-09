@@ -426,7 +426,7 @@ Arduino.forBlock['bluefruit52_bleuart_peripheral_quick'] = function(block, gener
   code += 'Bluefruit.begin(1, 0);\n';
   code += 'Bluefruit.setName(String(' + name + ').c_str());\n';
   code += 'Bluefruit.configPrphBandwidth(BANDWIDTH_MAX);\n';
-  code += '_bluefruit52_quick_dis.setManufacturer("Seeed Studio");\n';
+  code += '_bluefruit52_quick_dis.setManufacturer("SeeedStudio");\n';
   code += '_bluefruit52_quick_dis.setModel("XIAO nRF54L15");\n';
   code += '_bluefruit52_quick_dis.begin();\n';
   code += '_bluefruit52_quick_uart.begin();\n';
@@ -560,7 +560,7 @@ Arduino.forBlock['bluefruit52_dis_create'] = function(block, generator) {
 Arduino.forBlock['bluefruit52_dis_set'] = function(block, generator) {
   const varName = bluefruit52GetVar(block, 'bledis');
   const field = block.getFieldValue('FIELD') || 'setManufacturer';
-  const value = bluefruit52Value(block, generator, 'VALUE', '"Seeed Studio"');
+  const value = bluefruit52Value(block, generator, 'VALUE', '"SeeedStudio"');
   const safe = bluefruit52SafeName(varName + '_' + field);
   ensureBluefruit52Lib(generator);
   generator.addVariable('_bluefruit52_dis_' + safe, 'static char _bluefruit52_dis_' + safe + '[64] = {0};');

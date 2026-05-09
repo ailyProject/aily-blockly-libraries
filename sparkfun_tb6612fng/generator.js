@@ -1,5 +1,5 @@
 function tb6612fngEnsureLib(generator) {
-  generator.addLibrary('SparkFun_TB6612FNG', '#include <SparkFun_TB6612FNG.h>');
+  generator.addLibrary('SparkFun_TB6612FNG', '#include <SparkFun_TB6612.h>');
 }
 
 function tb6612fngGetVar(block) {

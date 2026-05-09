@@ -9,7 +9,7 @@ Wio Terminal RPC WiFi Blockly 支持无线联网与物联网开发。
 |------|------|
 | 包名 | @aily-project/lib-seeed-rpcwifi |
 | 版本 | 1.0.0 |
-| 作者 | Seeed Studio |
+| 作者 | SeeedStudio |
 | 源码 | https://github.com/Seeed-Studio/Seeed_Arduino_rpcWiFi |
 | License | LGPL-2.1 / MIT 混合上游协议 |
 

@@ -1,6 +1,6 @@
 # Grove Motor Driver TB6612FNG
 
-基于 Seeed Studio Grove TB6612FNG 电机驱动模块的 Blockly 库，支持驱动两路直流电机或一个步进电机。
+基于 SeeedStudio Grove TB6612FNG 电机驱动模块的 Blockly 库，支持驱动两路直流电机或一个步进电机。
 
 ## Library Info
 
@@ -8,7 +8,7 @@
 |-------|-------|
 | Package | @aily-project/lib-seeed_tb6612fng |
 | Version | 0.0.1 |
-| Author | Seeed Studio |
+| Author | SeeedStudio |
 | Source | https://github.com/Seeed-Studio/Grove_Motor_Driver_TB6612FNG |
 | License | MIT |
 
