@@ -1,0 +1,98 @@
+[
+  {
+    "type": "ads1115_init",
+    "message0": "初始化ADS1115 I2C地址 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ADDRESS",
+        "options": [
+          ["0x48 (ADDR接GND)", "ADS1115_GND_ADDRESS"],
+          ["0x49 (ADDR接VDD)", "ADS1115_VDD_ADDRESS"],
+          ["0x4A (ADDR接SDA)", "ADS1115_SDA_ADDRESS"],
+          ["0x4B (ADDR接SCL)", "ADS1115_SCL_ADDRESS"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "初始化ADS1115 16位ADC模块，设置I2C地址"
+  },
+  {
+    "type": "ads1115_set_gain",
+    "message0": "设置增益量程 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "GAIN",
+        "options": [
+          ["±6.144V", "ADS1115_PGA_6_144"],
+          ["±4.096V", "ADS1115_PGA_4_096"],
+          ["±2.048V (默认)", "ADS1115_PGA_2_048"],
+          ["±1.024V", "ADS1115_PGA_1_024"],
+          ["±0.512V", "ADS1115_PGA_0_512"],
+          ["±0.256V", "ADS1115_PGA_0_256"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置可编程增益放大器（PGA）量程"
+  },
+  {
+    "type": "ads1115_read_raw",
+    "message0": "读取通道 %1 原始值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          ["AIN0 (单端)", "channel0"],
+          ["AIN1 (单端)", "channel1"],
+          ["AIN2 (单端)", "channel2"],
+          ["AIN3 (单端)", "channel3"],
+          ["AIN0-AIN1 (差分)", "channel01"],
+          ["AIN0-AIN3 (差分)", "channel03"],
+          ["AIN1-AIN3 (差分)", "channel13"],
+          ["AIN2-AIN3 (差分)", "channel23"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "读取指定通道的原始ADC值（16位有符号整数）"
+  },
+  {
+    "type": "ads1115_read_voltage",
+    "message0": "读取通道 %1 电压 (V) 量程 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          ["AIN0 (单端)", "channel0"],
+          ["AIN1 (单端)", "channel1"],
+          ["AIN2 (单端)", "channel2"],
+          ["AIN3 (单端)", "channel3"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VRANGE",
+        "options": [
+          ["±6.144V", "6.144"],
+          ["±4.096V", "4.096"],
+          ["±2.048V (默认)", "2.048"],
+          ["±1.024V", "1.024"],
+          ["±0.512V", "0.512"],
+          ["±0.256V", "0.256"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "读取指定通道的电压值（伏特）"
+  }
+]
