@@ -1,0 +1,63 @@
+[
+  {
+    "type": "zx_sensor_init",
+    "message0": "初始化 ZX 手势传感器 %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "gesture" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "创建并初始化 ZX 距离与手势传感器（I2C）"
+  },
+  {
+    "type": "zx_sensor_position_available",
+    "message0": "ZX %1 位置数据就绪",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "gesture", "variableTypes": ["ZX_Sensor"], "defaultType": "ZX_Sensor" }
+    ],
+    "output": "Boolean",
+    "colour": "#673AB7",
+    "tooltip": "检查 ZX 传感器是否有新的位置数据"
+  },
+  {
+    "type": "zx_sensor_gesture_available",
+    "message0": "ZX %1 手势数据就绪",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "gesture", "variableTypes": ["ZX_Sensor"], "defaultType": "ZX_Sensor" }
+    ],
+    "output": "Boolean",
+    "colour": "#673AB7",
+    "tooltip": "检查 ZX 传感器是否有新的手势数据"
+  },
+  {
+    "type": "zx_sensor_read_x",
+    "message0": "ZX %1 X 位置",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "gesture", "variableTypes": ["ZX_Sensor"], "defaultType": "ZX_Sensor" }
+    ],
+    "output": "Number",
+    "colour": "#673AB7",
+    "tooltip": "读取 ZX 传感器 X 轴位置（0-240）"
+  },
+  {
+    "type": "zx_sensor_read_z",
+    "message0": "ZX %1 Z 高度",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "gesture", "variableTypes": ["ZX_Sensor"], "defaultType": "ZX_Sensor" }
+    ],
+    "output": "Number",
+    "colour": "#673AB7",
+    "tooltip": "读取 ZX 传感器 Z 轴高度（0-240）"
+  },
+  {
+    "type": "zx_sensor_read_gesture",
+    "message0": "ZX %1 手势类型",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "gesture", "variableTypes": ["ZX_Sensor"], "defaultType": "ZX_Sensor" }
+    ],
+    "output": "Number",
+    "colour": "#673AB7",
+    "tooltip": "读取 ZX 传感器识别的手势类型（1=右滑 2=左滑 3=上推 4=悬停）"
+  }
+]

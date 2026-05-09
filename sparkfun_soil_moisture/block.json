@@ -1,0 +1,45 @@
+[
+  {
+    "type": "soil_moisture_init",
+    "message0": "初始化土壤湿度传感器 %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "soilSensor" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "创建并初始化 SparkFun I2C 土壤湿度传感器"
+  },
+  {
+    "type": "soil_moisture_read_value",
+    "message0": "土壤湿度 %1 原始值",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "soilSensor", "variableTypes": ["SparkFunSoilMoistureSensor"], "defaultType": "SparkFunSoilMoistureSensor" }
+    ],
+    "output": "Number",
+    "colour": "#795548",
+    "tooltip": "读取土壤湿度原始 ADC 值（0-1023）"
+  },
+  {
+    "type": "soil_moisture_read_percentage",
+    "message0": "土壤湿度 %1 百分比 (%)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "soilSensor", "variableTypes": ["SparkFunSoilMoistureSensor"], "defaultType": "SparkFunSoilMoistureSensor" }
+    ],
+    "output": "Number",
+    "colour": "#795548",
+    "tooltip": "读取土壤湿度百分比（0-100%）"
+  },
+  {
+    "type": "soil_moisture_led",
+    "message0": "土壤湿度 %1 LED %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "soilSensor", "variableTypes": ["SparkFunSoilMoistureSensor"], "defaultType": "SparkFunSoilMoistureSensor" },
+      { "type": "field_dropdown", "name": "STATE", "options": [["开启", "ON"], ["关闭", "OFF"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "控制土壤湿度传感器上的 LED"
+  }
+]

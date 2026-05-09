@@ -1,0 +1,25 @@
+{
+  "kind": "category",
+  "name": "DS3234 RTC",
+  "colour": "#673AB7",
+  "contents": [
+    { "kind": "block", "type": "ds3234_begin" },
+    { "kind": "block", "type": "ds3234_auto_time" },
+    {
+      "kind": "block",
+      "type": "ds3234_set_time",
+      "inputs": {
+        "SEC":   { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "MIN":   { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "HOUR":  { "shadow": { "type": "math_number", "fields": { "NUM": 12 } } },
+        "DAY":   { "shadow": { "type": "math_number", "fields": { "NUM": 2 } } },
+        "DATE":  { "shadow": { "type": "math_number", "fields": { "NUM": 1 } } },
+        "MONTH": { "shadow": { "type": "math_number", "fields": { "NUM": 1 } } },
+        "YEAR":  { "shadow": { "type": "math_number", "fields": { "NUM": 24 } } }
+      }
+    },
+    { "kind": "block", "type": "ds3234_update" },
+    { "kind": "block", "type": "ds3234_get_time" },
+    { "kind": "block", "type": "ds3234_get_temperature" }
+  ]
+}

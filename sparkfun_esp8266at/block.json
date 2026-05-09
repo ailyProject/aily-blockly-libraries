@@ -1,0 +1,95 @@
+[
+  {
+    "type": "esp8266at_begin",
+    "message0": "初始化 ESP8266 WiFi 模块 波特率 %1 接口 %2",
+    "args0": [
+      { "type": "field_dropdown", "name": "BAUD", "options": [
+        ["9600", "9600"],
+        ["115200", "115200"],
+        ["57600", "57600"],
+        ["19200", "19200"]
+      ]},
+      { "type": "field_dropdown", "name": "PORT", "options": [
+        ["软件串口 (SW)", "0"],
+        ["硬件串口 (HW)", "1"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "初始化 SparkFun ESP8266 AT WiFi 扩展板，使用全局 esp8266 对象"
+  },
+  {
+    "type": "esp8266at_connect",
+    "message0": "ESP8266 连接 WiFi SSID %1 密码 %2",
+    "args0": [
+      { "type": "input_value", "name": "SSID", "check": "String" },
+      { "type": "input_value", "name": "PWD", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "连接到指定 WiFi 网络"
+  },
+  {
+    "type": "esp8266at_disconnect",
+    "message0": "ESP8266 断开 WiFi",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "断开当前 WiFi 连接"
+  },
+  {
+    "type": "esp8266at_is_connected",
+    "message0": "ESP8266 已连接",
+    "args0": [],
+    "output": "Boolean",
+    "colour": "#2196F3",
+    "tooltip": "检查 ESP8266 是否已连接到 WiFi"
+  },
+  {
+    "type": "esp8266at_local_ip",
+    "message0": "ESP8266 本地 IP 地址",
+    "args0": [],
+    "output": "String",
+    "colour": "#2196F3",
+    "tooltip": "返回 ESP8266 的本地 IP 地址字符串"
+  },
+  {
+    "type": "esp8266at_tcp_connect",
+    "message0": "ESP8266 TCP 连接 链接ID %1 服务器 %2 端口 %3",
+    "args0": [
+      { "type": "field_number", "name": "LINK_ID", "value": 0, "min": 0, "max": 4 },
+      { "type": "input_value", "name": "HOST", "check": "String" },
+      { "type": "input_value", "name": "PORT", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "建立 TCP 连接到指定服务器和端口"
+  },
+  {
+    "type": "esp8266at_tcp_send",
+    "message0": "ESP8266 TCP 发送 链接ID %1 数据 %2",
+    "args0": [
+      { "type": "field_number", "name": "LINK_ID", "value": 0, "min": 0, "max": 4 },
+      { "type": "input_value", "name": "DATA", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "通过指定 TCP 链接发送字符串数据"
+  },
+  {
+    "type": "esp8266at_close",
+    "message0": "ESP8266 关闭链接 %1",
+    "args0": [
+      { "type": "field_number", "name": "LINK_ID", "value": 0, "min": 0, "max": 4 }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "关闭指定 TCP/UDP 链接"
+  }
+]

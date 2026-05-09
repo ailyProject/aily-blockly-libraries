@@ -1,0 +1,43 @@
+[
+  {
+    "type": "haptic_da7280_init",
+    "message0": "初始化触觉驱动 DA7280 %1 电机类型 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "haptic" },
+      { "type": "field_dropdown", "name": "MOTOR_TYPE", "options": [["LRA", "0"], ["ERM", "1"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "初始化 DA7280 触觉驱动器（I2C 默认地址 0x4A），选择 LRA 或 ERM 电机类型"
+  },
+  {
+    "type": "haptic_da7280_set_mode",
+    "message0": "DA7280 %1 设置运行模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "haptic", "variableTypes": ["HapticDA7280"], "defaultType": "HapticDA7280" },
+      { "type": "field_dropdown", "name": "MODE", "options": [
+        ["DRO (直接)", "1"],
+        ["RTWM (实时波形)", "3"],
+        ["ETWM (事件触发)", "4"],
+        ["停用", "0"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "设置 DA7280 操作模式：DRO（直接寄存器输出）、RTWM、ETWM 或停用"
+  },
+  {
+    "type": "haptic_da7280_enable_accel",
+    "message0": "DA7280 %1 加速反馈 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "haptic", "variableTypes": ["HapticDA7280"], "defaultType": "HapticDA7280" },
+      { "type": "field_dropdown", "name": "STATE", "options": [["启用", "true"], ["禁用", "false"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "启用或禁用 DA7280 的加速度反馈算法"
+  }
+]

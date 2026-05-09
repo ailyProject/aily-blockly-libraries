@@ -1,0 +1,49 @@
+[
+  {
+    "type": "hih4030_init",
+    "message0": "初始化 HIH4030 %1 引脚 %2 电压 %3",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "hih4030" },
+      { "type": "field_number", "name": "PIN", "value": 0, "min": 0, "max": 15 },
+      { "type": "field_dropdown", "name": "VOLTAGE", "options": [
+        ["5.0V", "5.0"],
+        ["3.3V", "3.3"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "初始化 HIH4030 模拟湿度传感器，指定模拟引脚和供电电压"
+  },
+  {
+    "type": "hih4030_get_rh",
+    "message0": "HIH4030 %1 传感器湿度 (%RH)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "hih4030", "variableTypes": ["HIH4030"], "defaultType": "HIH4030" }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "读取 HIH4030 传感器的原始相对湿度值"
+  },
+  {
+    "type": "hih4030_get_true_rh",
+    "message0": "HIH4030 %1 校正湿度 温度补偿 %2 °C",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "hih4030", "variableTypes": ["HIH4030"], "defaultType": "HIH4030" },
+      { "type": "input_value", "name": "TEMP", "check": "Number" }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "通过温度补偿读取 HIH4030 的真实相对湿度值"
+  },
+  {
+    "type": "hih4030_vout",
+    "message0": "HIH4030 %1 输出电压 (V)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "hih4030", "variableTypes": ["HIH4030"], "defaultType": "HIH4030" }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "读取 HIH4030 传感器的模拟输出电压"
+  }
+]

@@ -1,0 +1,84 @@
+[
+  {
+    "type": "qwiic_openlog_init",
+    "message0": "初始化 Qwiic OpenLog %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "logger" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "初始化 Qwiic OpenLog 数据记录器（I2C 默认地址 0x2A）"
+  },
+  {
+    "type": "qwiic_openlog_append",
+    "message0": "OpenLog %1 打开/追加文件 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "logger", "variableTypes": ["QwiicOpenLog"], "defaultType": "QwiicOpenLog" },
+      { "type": "input_value", "name": "FILENAME", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "打开指定文件用于追加写入（文件不存在则创建）"
+  },
+  {
+    "type": "qwiic_openlog_print",
+    "message0": "OpenLog %1 写入 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "logger", "variableTypes": ["QwiicOpenLog"], "defaultType": "QwiicOpenLog" },
+      { "type": "input_value", "name": "DATA" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "向当前打开的文件写入数据（不换行）"
+  },
+  {
+    "type": "qwiic_openlog_println",
+    "message0": "OpenLog %1 写入行 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "logger", "variableTypes": ["QwiicOpenLog"], "defaultType": "QwiicOpenLog" },
+      { "type": "input_value", "name": "DATA" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "向当前打开的文件写入数据并换行"
+  },
+  {
+    "type": "qwiic_openlog_sync",
+    "message0": "OpenLog %1 同步文件",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "logger", "variableTypes": ["QwiicOpenLog"], "defaultType": "QwiicOpenLog" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "同步（刷新）当前打开的文件到 SD 卡"
+  },
+  {
+    "type": "qwiic_openlog_mkdir",
+    "message0": "OpenLog %1 创建目录 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "logger", "variableTypes": ["QwiicOpenLog"], "defaultType": "QwiicOpenLog" },
+      { "type": "input_value", "name": "DIRNAME", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "在 SD 卡上创建指定目录"
+  },
+  {
+    "type": "qwiic_openlog_cd",
+    "message0": "OpenLog %1 切换目录 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "logger", "variableTypes": ["QwiicOpenLog"], "defaultType": "QwiicOpenLog" },
+      { "type": "input_value", "name": "DIRNAME", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "切换到指定目录"
+  }
+]
