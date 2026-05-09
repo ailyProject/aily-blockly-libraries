@@ -29,6 +29,7 @@ String qwen_escape_json(String input) {
   return input;
 }`);
 
+
   // 添加流式HTTP请求函数
   generator.addFunction('qwen_simple_request', `
 String qwen_simple_request(String model, String message, bool enableThinking) {
@@ -985,10 +986,12 @@ String qwen_tts_request(String text, String voice, String model, String language
     WiFiClient* stream = http.getStreamPtr();
     String fullAudio = "";
     String buffer = "";
+    unsigned long lastDataTime = millis();
     
     while (http.connected() || stream->available()) {
       if (stream->available()) {
         char c = stream->read();
+        lastDataTime = millis();
         buffer += c;
         
         if (c == '\\n') {
@@ -1003,12 +1006,13 @@ String qwen_tts_request(String text, String voice, String model, String language
               break;
             }
             
-            int audioStart = data.indexOf("\\"audio\\":{\\"data\\":\\"");
-            if (audioStart >= 0) {
-              audioStart += 18;
-              int audioEnd = data.indexOf("\\"", audioStart);
-              if (audioEnd > audioStart) {
-                String audioChunk = data.substring(audioStart, audioEnd);
+            Serial.println("SSE: " + data.substring(0, min((int)data.length(), 80)));
+            int outputAudioDataPos = data.indexOf("\\"audio\\":{\\"data\\":\\"");
+            if (outputAudioDataPos >= 0) {
+              outputAudioDataPos += 17;
+              int endPos = data.indexOf("\\"", outputAudioDataPos);
+              if (endPos > outputAudioDataPos) {
+                String audioChunk = data.substring(outputAudioDataPos, endPos);
                 fullAudio += audioChunk;
                 Serial.print(".");
               }
@@ -1016,8 +1020,13 @@ String qwen_tts_request(String text, String voice, String model, String language
           }
           buffer = "";
         }
+      } else {
+        if (millis() - lastDataTime > 30000) {
+          Serial.println("TTS流式超时");
+          break;
+        }
+        delay(1);
       }
-      delay(1);
     }
     
     if (fullAudio.length() > 0) {
@@ -1062,6 +1071,35 @@ size_t qwen_base64_decode_to_buffer(const char* input, uint8_t* output, size_t o
     return 0;
   }
   return outLen;
+}`);
+
+  generator.addFunction('qwen_omni_parse_wav_and_config_tx', `
+bool qwen_omni_parse_wav_and_config_tx(I2SClass &i2s, const uint8_t* data, size_t totalLen, uint8_t** pcmOut, size_t* pcmLenOut) {
+  uint32_t sampleRate = 24000;
+  i2s_data_bit_width_t bitWidth = I2S_DATA_BIT_WIDTH_16BIT;
+  i2s_slot_mode_t slotMode = I2S_SLOT_MODE_MONO;
+  int headerLen = 0;
+
+  if (totalLen > 44 && data[0] == 'R' && data[1] == 'I' && data[2] == 'F' && data[3] == 'F') {
+    uint16_t numChannels = data[22] | (data[23] << 8);
+    sampleRate = data[24] | (data[25] << 8) | (data[26] << 16) | (data[27] << 24);
+    uint16_t bitsPerSample = data[34] | (data[35] << 8);
+    slotMode = (numChannels == 2) ? I2S_SLOT_MODE_STEREO : I2S_SLOT_MODE_MONO;
+    bitWidth = (bitsPerSample == 32) ? I2S_DATA_BIT_WIDTH_32BIT : I2S_DATA_BIT_WIDTH_16BIT;
+    headerLen = 44;
+    int fmtSize = data[16] | (data[17] << 8) | (data[18] << 16) | (data[19] << 24);
+    if (fmtSize > 16) headerLen = 44 + (fmtSize - 16);
+    Serial.println("WAV: " + String(sampleRate) + "Hz " + String(bitsPerSample) + "bit " + String(numChannels) + "ch");
+  } else {
+    Serial.println("PCM: " + String(sampleRate) + "Hz 16bit mono");
+  }
+
+  i2s.end();
+  i2s.begin(I2S_MODE_STD, sampleRate, bitWidth, slotMode);
+
+  *pcmOut = (uint8_t*)data + headerLen;
+  *pcmLenOut = totalLen - headerLen;
+  return headerLen > 0;
 }`);
 
   generator.addFunction('qwen_play_pcm_via_i2s', `
@@ -1219,7 +1257,7 @@ void qwen_tts_stream_play_impl(I2SClass &i2s, String text, String voice, String 
         
         int audioPos = data.indexOf("\\"audio\\":{\\"data\\":\\"");
         if (audioPos >= 0) {
-          audioPos += 18;
+          audioPos += 17;
           int audioEnd = data.indexOf("\\"", audioPos);
           if (audioEnd > audioPos) {
             String b64Chunk = data.substring(audioPos, audioEnd);
@@ -1366,6 +1404,35 @@ Arduino.forBlock['qwen_omni_omni_and_play'] = function(block, generator) {
   generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
   generator.addLibrary('mbedtls_base64', '#include <mbedtls/base64.h>');
 
+  generator.addFunction('qwen_omni_parse_wav_and_config_tx', `
+bool qwen_omni_parse_wav_and_config_tx(I2SClass &i2s, const uint8_t* data, size_t totalLen, uint8_t** pcmOut, size_t* pcmLenOut) {
+  uint32_t sampleRate = 24000;
+  i2s_data_bit_width_t bitWidth = I2S_DATA_BIT_WIDTH_16BIT;
+  i2s_slot_mode_t slotMode = I2S_SLOT_MODE_MONO;
+  int headerLen = 0;
+
+  if (totalLen > 44 && data[0] == 'R' && data[1] == 'I' && data[2] == 'F' && data[3] == 'F') {
+    uint16_t numChannels = data[22] | (data[23] << 8);
+    sampleRate = data[24] | (data[25] << 8) | (data[26] << 16) | (data[27] << 24);
+    uint16_t bitsPerSample = data[34] | (data[35] << 8);
+    slotMode = (numChannels == 2) ? I2S_SLOT_MODE_STEREO : I2S_SLOT_MODE_MONO;
+    bitWidth = (bitsPerSample == 32) ? I2S_DATA_BIT_WIDTH_32BIT : I2S_DATA_BIT_WIDTH_16BIT;
+    headerLen = 44;
+    int fmtSize = data[16] | (data[17] << 8) | (data[18] << 16) | (data[19] << 24);
+    if (fmtSize > 16) headerLen = 44 + (fmtSize - 16);
+    Serial.println("WAV: " + String(sampleRate) + "Hz " + String(bitsPerSample) + "bit " + String(numChannels) + "ch");
+  } else {
+    Serial.println("PCM: " + String(sampleRate) + "Hz 16bit mono");
+  }
+
+  i2s.end();
+  i2s.begin(I2S_MODE_STD, sampleRate, bitWidth, slotMode);
+
+  *pcmOut = (uint8_t*)data + headerLen;
+  *pcmLenOut = totalLen - headerLen;
+  return headerLen > 0;
+}`);
+
   generator.addFunction('qwen_omni_and_play_request', `
 void qwen_omni_and_play_request(I2SClass &i2s, String model, String message, String voice) {
   Serial.println("=== 通义全模态对话并播放开始(流式) ===");
@@ -1437,7 +1504,7 @@ void qwen_omni_and_play_request(I2SClass &i2s, String model, String message, Str
         
         int audioPos = data.indexOf("\\"audio\\":{\\"data\\":\\"");
         if (audioPos >= 0) {
-          audioPos += 18;
+          audioPos += 17;
           int audioEnd = data.indexOf("\\"", audioPos);
           if (audioEnd > audioPos) {
             fullAudio += data.substring(audioPos, audioEnd);
@@ -1461,16 +1528,21 @@ void qwen_omni_and_play_request(I2SClass &i2s, String model, String message, Str
       size_t outLen = 0;
       int ret = mbedtls_base64_decode(pcmBuf, decodedMax, &outLen, (const unsigned char*)fullAudio.c_str(), fullAudio.length());
       if (ret == 0 && outLen > 0) {
-        Serial.println("播放音频，大小: " + String(outLen) + " bytes");
+        uint8_t* playData = pcmBuf;
+        size_t playLen = outLen;
+        qwen_omni_parse_wav_and_config_tx(i2s, pcmBuf, outLen, &playData, &playLen);
+        Serial.println("播放音频，大小: " + String(playLen) + " bytes");
         size_t bytesWritten = 0;
-        while (bytesWritten < outLen) {
-          size_t toWrite = min((size_t)1024, outLen - bytesWritten);
-          i2s.write(pcmBuf + bytesWritten, toWrite);
+        while (bytesWritten < playLen) {
+          size_t toWrite = min((size_t)1024, playLen - bytesWritten);
+          i2s.write(playData + bytesWritten, toWrite);
           bytesWritten += toWrite;
         }
       }
       free(pcmBuf);
     }
+    i2s.end();
+    i2s.begin(I2S_MODE_STD, 24000, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO);
     qwen_omni_audio_data = fullAudio;
     qwen_last_success = true;
     qwen_last_error = "";
@@ -1496,6 +1568,35 @@ Arduino.forBlock['qwen_omni_omni_stream_play'] = function(block, generator) {
 
   generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
   generator.addLibrary('mbedtls_base64', '#include <mbedtls/base64.h>');
+
+  generator.addFunction('qwen_omni_parse_wav_and_config_tx', `
+bool qwen_omni_parse_wav_and_config_tx(I2SClass &i2s, const uint8_t* data, size_t totalLen, uint8_t** pcmOut, size_t* pcmLenOut) {
+  uint32_t sampleRate = 24000;
+  i2s_data_bit_width_t bitWidth = I2S_DATA_BIT_WIDTH_16BIT;
+  i2s_slot_mode_t slotMode = I2S_SLOT_MODE_MONO;
+  int headerLen = 0;
+
+  if (totalLen > 44 && data[0] == 'R' && data[1] == 'I' && data[2] == 'F' && data[3] == 'F') {
+    uint16_t numChannels = data[22] | (data[23] << 8);
+    sampleRate = data[24] | (data[25] << 8) | (data[26] << 16) | (data[27] << 24);
+    uint16_t bitsPerSample = data[34] | (data[35] << 8);
+    slotMode = (numChannels == 2) ? I2S_SLOT_MODE_STEREO : I2S_SLOT_MODE_MONO;
+    bitWidth = (bitsPerSample == 32) ? I2S_DATA_BIT_WIDTH_32BIT : I2S_DATA_BIT_WIDTH_16BIT;
+    headerLen = 44;
+    int fmtSize = data[16] | (data[17] << 8) | (data[18] << 16) | (data[19] << 24);
+    if (fmtSize > 16) headerLen = 44 + (fmtSize - 16);
+    Serial.println("WAV: " + String(sampleRate) + "Hz " + String(bitsPerSample) + "bit " + String(numChannels) + "ch");
+  } else {
+    Serial.println("PCM: " + String(sampleRate) + "Hz 16bit mono");
+  }
+
+  i2s.end();
+  i2s.begin(I2S_MODE_STD, sampleRate, bitWidth, slotMode);
+
+  *pcmOut = (uint8_t*)data + headerLen;
+  *pcmLenOut = totalLen - headerLen;
+  return headerLen > 0;
+}`);
 
   generator.addFunction('qwen_omni_stream_play_request', `
 void qwen_omni_stream_play_request(I2SClass &i2s, String model, String message, String voice) {
@@ -1537,10 +1638,16 @@ void qwen_omni_stream_play_request(I2SClass &i2s, String model, String message, 
     return;
   }
 
+  i2s.end();
+  i2s.begin(I2S_MODE_STD, 24000, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO);
+
   WiFiClient *stream = http.getStreamPtr();
   String fullText = "";
-  String fullAudio = "";
   String lineBuffer = "";
+  bool headerParsed = false;
+  size_t totalPlayed = 0;
+  uint8_t* decodeBuf = (uint8_t*)malloc(16384);
+  if (!decodeBuf) Serial.println("Warning: decode buffer alloc failed");
 
   while (http.connected() || stream->available()) {
     if (!stream->available()) {
@@ -1572,11 +1679,45 @@ void qwen_omni_stream_play_request(I2SClass &i2s, String model, String message, 
         
         int audioPos = data.indexOf("\\"audio\\":{\\"data\\":\\"");
         if (audioPos >= 0) {
-          audioPos += 18;
+          audioPos += 17;
           int audioEnd = data.indexOf("\\"", audioPos);
           if (audioEnd > audioPos) {
-            fullAudio += data.substring(audioPos, audioEnd);
-            Serial.print(".");
+            String b64Chunk = data.substring(audioPos, audioEnd);
+            if (b64Chunk.length() > 0 && decodeBuf) {
+              size_t pcmLen = 0;
+              int dret = mbedtls_base64_decode(decodeBuf, 16384, &pcmLen, (const unsigned char*)b64Chunk.c_str(), b64Chunk.length());
+              if (dret == 0 && pcmLen > 0) {
+                uint8_t* pcmPtr = decodeBuf;
+                size_t toPlay = pcmLen;
+                if (!headerParsed && pcmLen > 44 && decodeBuf[0] == 'R' && decodeBuf[1] == 'I' && decodeBuf[2] == 'F' && decodeBuf[3] == 'F') {
+                  headerParsed = true;
+                  int hdrLen = 44;
+                  int fmtSz = decodeBuf[16] | (decodeBuf[17] << 8) | (decodeBuf[18] << 16) | (decodeBuf[19] << 24);
+                  if (fmtSz > 16) hdrLen = 44 + (fmtSz - 16);
+                  pcmPtr = decodeBuf + hdrLen;
+                  toPlay = pcmLen - hdrLen;
+                  uint16_t numCh = decodeBuf[22] | (decodeBuf[23] << 8);
+                  uint32_t sr = decodeBuf[24] | (decodeBuf[25] << 8) | (decodeBuf[26] << 16) | (decodeBuf[27] << 24);
+                  uint16_t bps = decodeBuf[34] | (decodeBuf[35] << 8);
+                  if (sr != 24000 || numCh != 1 || bps != 16) {
+                    i2s.end();
+                    i2s.begin(I2S_MODE_STD, sr, (bps == 32) ? I2S_DATA_BIT_WIDTH_32BIT : I2S_DATA_BIT_WIDTH_16BIT, (numCh == 2) ? I2S_SLOT_MODE_STEREO : I2S_SLOT_MODE_MONO);
+                  }
+                  Serial.println("WAV: " + String(sr) + "Hz " + String(bps) + "bit " + String(numCh) + "ch");
+                } else if (!headerParsed) {
+                  headerParsed = true;
+                }
+                if (toPlay > 0) {
+                  size_t w = 0;
+                  while (w < toPlay) {
+                    size_t tw = min((size_t)512, toPlay - w);
+                    i2s.write(pcmPtr + w, tw);
+                    w += tw;
+                  }
+                  totalPlayed += toPlay;
+                }
+              }
+            }
           }
         }
       }
@@ -1586,29 +1727,15 @@ void qwen_omni_stream_play_request(I2SClass &i2s, String model, String message, 
     }
   }
 
+  if (decodeBuf) free(decodeBuf);
   http.end();
   Serial.println("");
+  Serial.println("流式播放完成，总字节数: " + String(totalPlayed));
 
-  if (fullAudio.length() > 0) {
-    Serial.println("收集到音频数据: " + String(fullAudio.length()) + " 字符");
-    size_t decodedMax = (fullAudio.length() * 3) / 4 + 4;
-    uint8_t* pcmBuf = (uint8_t*)malloc(decodedMax);
-    if (pcmBuf) {
-      size_t outLen = 0;
-      int ret = mbedtls_base64_decode(pcmBuf, decodedMax, &outLen, (const unsigned char*)fullAudio.c_str(), fullAudio.length());
-      if (ret == 0 && outLen > 0) {
-        Serial.println("播放音频，大小: " + String(outLen) + " bytes");
-        size_t bytesWritten = 0;
-        while (bytesWritten < outLen) {
-          size_t toWrite = min((size_t)1024, outLen - bytesWritten);
-          i2s.write(pcmBuf + bytesWritten, toWrite);
-          bytesWritten += toWrite;
-        }
-        Serial.println("播放完成!");
-      }
-      free(pcmBuf);
-    }
-    qwen_omni_audio_data = fullAudio;
+  i2s.end();
+  i2s.begin(I2S_MODE_STD, 24000, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO);
+
+  if (totalPlayed > 0) {
     qwen_last_success = true;
     qwen_last_error = "";
   } else {
@@ -1697,7 +1824,7 @@ void qwen_tts_voice_design_request(I2SClass &i2s, String text, String voiceDesc)
         
         int audioPos = data.indexOf("\\"audio\\":{\\"data\\":\\"");
         if (audioPos >= 0) {
-          audioPos += 18;
+          audioPos += 17;
           int audioEnd = data.indexOf("\\"", audioPos);
           if (audioEnd > audioPos) {
             String b64Chunk = data.substring(audioPos, audioEnd);
@@ -1742,6 +1869,35 @@ Arduino.forBlock['qwen_omni_omni_voice_chat'] = function(block, generator) {
 
   generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
   generator.addLibrary('mbedtls_base64', '#include <mbedtls/base64.h>');
+
+  generator.addFunction('qwen_omni_parse_wav_and_config_tx', `
+bool qwen_omni_parse_wav_and_config_tx(I2SClass &i2s, const uint8_t* data, size_t totalLen, uint8_t** pcmOut, size_t* pcmLenOut) {
+  uint32_t sampleRate = 24000;
+  i2s_data_bit_width_t bitWidth = I2S_DATA_BIT_WIDTH_16BIT;
+  i2s_slot_mode_t slotMode = I2S_SLOT_MODE_MONO;
+  int headerLen = 0;
+
+  if (totalLen > 44 && data[0] == 'R' && data[1] == 'I' && data[2] == 'F' && data[3] == 'F') {
+    uint16_t numChannels = data[22] | (data[23] << 8);
+    sampleRate = data[24] | (data[25] << 8) | (data[26] << 16) | (data[27] << 24);
+    uint16_t bitsPerSample = data[34] | (data[35] << 8);
+    slotMode = (numChannels == 2) ? I2S_SLOT_MODE_STEREO : I2S_SLOT_MODE_MONO;
+    bitWidth = (bitsPerSample == 32) ? I2S_DATA_BIT_WIDTH_32BIT : I2S_DATA_BIT_WIDTH_16BIT;
+    headerLen = 44;
+    int fmtSize = data[16] | (data[17] << 8) | (data[18] << 16) | (data[19] << 24);
+    if (fmtSize > 16) headerLen = 44 + (fmtSize - 16);
+    Serial.println("WAV: " + String(sampleRate) + "Hz " + String(bitsPerSample) + "bit " + String(numChannels) + "ch");
+  } else {
+    Serial.println("PCM: " + String(sampleRate) + "Hz 16bit mono");
+  }
+
+  i2s.end();
+  i2s.begin(I2S_MODE_STD, sampleRate, bitWidth, slotMode);
+
+  *pcmOut = (uint8_t*)data + headerLen;
+  *pcmLenOut = totalLen - headerLen;
+  return headerLen > 0;
+}`);
 
   generator.addFunction('qwen_voice_chat_build_wav_header', String.raw`
 void qwen_voice_chat_build_wav_header(uint8_t* header, uint32_t dataSize, uint32_t sampleRate) {
@@ -1917,7 +2073,7 @@ void qwen_omni_voice_chat_request(I2SClass &i2s, String model, String voice, Str
 
         int audioPos = data.indexOf("\\"audio\\":{\\"data\\":\\"");
         if (audioPos >= 0) {
-          audioPos += 18;
+          audioPos += 17;
           int audioEnd = data.indexOf("\\"", audioPos);
           if (audioEnd > audioPos) {
             fullAudio += data.substring(audioPos, audioEnd);
@@ -1942,11 +2098,14 @@ void qwen_omni_voice_chat_request(I2SClass &i2s, String model, String voice, Str
       size_t playLen = 0;
       int dret = mbedtls_base64_decode(playBuf, decodedMax, &playLen, (const unsigned char*)fullAudio.c_str(), fullAudio.length());
       if (dret == 0 && playLen > 0) {
-        Serial.println("播放语音回复，大小: " + String(playLen) + " bytes");
+        uint8_t* pcmPlay = playBuf;
+        size_t pcmLen = playLen;
+        qwen_omni_parse_wav_and_config_tx(i2s, playBuf, playLen, &pcmPlay, &pcmLen);
+        Serial.println("播放语音回复，大小: " + String(pcmLen) + " bytes");
         size_t written = 0;
-        while (written < playLen) {
-          size_t toWrite = min((size_t)1024, playLen - written);
-          i2s.write(playBuf + written, toWrite);
+        while (written < pcmLen) {
+          size_t toWrite = min((size_t)1024, pcmLen - written);
+          i2s.write(pcmPlay + written, toWrite);
           written += toWrite;
         }
         Serial.println("播放完成!");
