@@ -1,6 +1,6 @@
-# SparkFun CAP1203
+# SparkFun CAP1203 Touch Slider
 
-SparkFun CAP1203 capacitive touch slider Blockly library.
+Blockly wrapper for the SparkFun CAP1203 capacitive touch slider.
 
 ## Library Info
 
@@ -8,18 +8,19 @@ SparkFun CAP1203 capacitive touch slider Blockly library.
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-cap1203 |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/Qwiic_Capacitive_Touch_Slider_Arduino_Library |
-| License | Beerware |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, ESP32, and other Wire-compatible boards.
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-This library wraps the SparkFun CAP1203 Qwiic touch slider for Blockly. It supports initialization, touch and swipe detection, sensitivity, interrupt clearing, and power-button configuration.
+Blockly wrapper for the SparkFun CAP1203 capacitive touch slider.
 
 ## Quick Start
 
-Connect the slider by Qwiic/I2C, call `cap1203_init` in setup, then use `cap1203_touched` or `cap1203_swipe` in loop.
+1. Enable `@aily-project/lib-sparkfun-cap1203` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

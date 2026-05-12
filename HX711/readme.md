@@ -1,6 +1,6 @@
-# HX711称重传感器库
+# HX711 load cell library
 
-用于控制HX711称重传感器模块，支持校准、去皮和读取重量功能，支持差分输入和可编程增益，需要软件校准实现重量到数值的转换。
+Used to control the HX711 load cell module. It supports calibration, tare and weight reading functions. It supports differential input and programmable gain. Software calibration is required to convert weight to numer...
 
 ## Library Info
 
@@ -10,18 +10,17 @@
 | Version | 0.5.2 |
 | Author | bogde |
 | Source | https://github.com/bogde/HX711 |
-| License | MIT |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino AVR (UNO/Nano/Mega), ESP32
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-用于控制HX711称重传感器模块，支持校准、去皮和读取重量功能，支持差分输入和可编程增益，需要软件校准实现重量到数值的转换。
-
-This library provides 11 Blockly blocks.
+Used to control the HX711 load cell module. It supports calibration, tare and weight reading functions. It supports differential input and programmable gain. Software calibration is required to convert weight to numer...
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-hx711` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

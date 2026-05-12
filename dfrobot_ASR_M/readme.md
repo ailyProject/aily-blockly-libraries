@@ -1,27 +1,26 @@
-# DFRobot语音识别模块
+# DFRobot speech recognition module
 
-DFRobot_ASR_M语音识别模块控制库，适用于Arduino、ESP32等开发板。使用I2C接口进行通信，支持循环模式、指令模式和按钮模式三种识别模式，可添加自定义语音词条并识别返回对应的识别号。
+DFRobot_ASR_M speech recognition module control library, suitable for Arduino, ESP32 and other development boards. It uses the I2C interface for communication and supports three recognition modes: loop mode, command m...
 
 ## Library Info
 
 | Field | Value |
 |-------|-------|
-| Package | @aily-project/lib-dfrobot_asr_m |
+| Package | @aily-project/lib-dfrobot-asr-m |
 | Version | 0.0.1 |
 | Author | Vonweller |
 | Source | https://github.com/DFRobot/DFRobot_ASR_M |
-| License | MIT |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino AVR (UNO/Nano/Mega), ESP32
+Arduino AVR, ESP32
 
 ## Description
 
-DFRobot_ASR_M语音识别模块控制库，适用于Arduino、ESP32等开发板。使用I2C接口进行通信，支持循环模式、指令模式和按钮模式三种识别模式，可添加自定义语音词条并识别返回对应的识别号。
-
-This library provides 5 Blockly blocks.
+DFRobot_ASR_M speech recognition module control library, suitable for Arduino, ESP32 and other development boards. It uses the I2C interface for communication and supports three recognition modes: loop mode, command m...
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-dfrobot-asr-m` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

@@ -1,26 +1,26 @@
-# AHT温湿度传感器
+# AHT temperature and humidity sensor
 
-适用于AHT10、AHT20温湿度传感器
+Applicable to AHT10, AHT20 temperature and humidity sensors
 
 ## Library Info
 
 | Field | Value |
 |-------|-------|
-| Package | @aily-project/lib-aht-sensor |
+| Package | @aily-project/lib-adafruit-ahtx0 |
 | Version | 0.0.1 |
 | Author | Adafruit |
-| License | MIT |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, ESP32
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-适用于AHT10、AHT20温湿度传感器
-
-This library provides 4 Blockly blocks.
+Applicable to AHT10, AHT20 temperature and humidity sensors
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-adafruit-ahtx0` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

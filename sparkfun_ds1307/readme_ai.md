@@ -1,6 +1,6 @@
-# SparkFun DS1307 实时时钟
+# SparkFun DS1307 Real-Time Clock
 
-I2C 接口实时时钟库，使用库内置的全局 `rtc` 对象，无需用户声明变量。
+Blockly wrapper for the SparkFun DS1307 I2C real-time clock module.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-ds1307
@@ -10,36 +10,32 @@ I2C 接口实时时钟库，使用库内置的全局 `rtc` 对象，无需用户
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `ds1307_begin` | Statement | — | `ds1307_begin()` | `Wire.begin(); rtc.begin();` |
-| `ds1307_auto_time` | Statement | — | `ds1307_auto_time()` | `rtc.autoTime();` |
-| `ds1307_set_time` | Statement | SEC, MIN, HOUR, DAY, DATE, MONTH, YEAR (all input_value) | `ds1307_set_time(math_number(0), math_number(0), math_number(12), math_number(2), math_number(1), math_number(1), math_number(24))` | `rtc.setTime(0, 0, 12, 2, 1, 1, 24);` |
-| `ds1307_update` | Statement | — | `ds1307_update()` | `rtc.update();` |
-| `ds1307_get_time` | Value | FIELD(field_dropdown) | `ds1307_get_time(SECOND)` | `rtc.second()` |
+| `ds1307_begin` | Statement | (none) | `ds1307_begin()` | Wire.begin();\nrtc.begin();\n |
+| `ds1307_auto_time` | Statement | (none) | `ds1307_auto_time()` | rtc.autoTime();\n |
+| `ds1307_set_time` | Statement | SEC(input_value), MIN(input_value), HOUR(input_value), DAY(input_value), DATE(input_value), MONTH(input_value), YEAR(input_value) | `ds1307_set_time(math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0))` | rtc.setTime( |
+| `ds1307_update` | Statement | (none) | `ds1307_update()` | rtc.update();\n |
+| `ds1307_get_time` | Value | FIELD(dropdown) | `ds1307_get_time(second)` | rtc. |
 
 ## Parameter Options
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| FIELD | second, minute, hour, day, date, month, year | 读取的时间字段 |
+| FIELD | second, minute, hour, day, date, month, year | ds1307_get_time |
 
 ## ABS Examples
 
+### Basic Usage
 ```
 arduino_setup()
     ds1307_begin()
-    ds1307_auto_time()
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    ds1307_update()
-    serial_print(Serial, ds1307_get_time(HOUR))
-    serial_print(Serial, text(":"))
-    serial_println(Serial, ds1307_get_time(MINUTE))
+    serial_println(Serial, ds1307_get_time(second))
     time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. **全局对象**: 库已声明全局 `rtc` 对象，无需初始化积木创建变量
-2. **读取顺序**: 先调用 `ds1307_update()`，再调用 `ds1307_get_time()`
-3. **年份**: year() 返回两位年份（如 2024 年返回 24）
+1. **Parameter order**: ABS parameters follow `block.json` args order.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

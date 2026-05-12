@@ -1,6 +1,6 @@
-# SparkFun AS726X
+# SparkFun AS726X spectral sensor
 
-SparkFun AS726X six-channel spectral sensor Blockly library.
+Blockly wrapper for the SparkFun AS726X six-channel spectral sensor.
 
 ## Library Info
 
@@ -9,17 +9,18 @@ SparkFun AS726X six-channel spectral sensor Blockly library.
 | Package | @aily-project/lib-sparkfun-as726x |
 | Version | 0.0.1 |
 | Author | Andrew England / SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_AS726X_Arduino_Library |
-| License | MIT-style / SparkFun original |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, ESP32, and other Wire-compatible boards.
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-This library wraps AS726X visible/NIR spectral sensors. It supports measurement, raw and calibrated channel reads, temperature, gain, measurement mode, integration time, and bulb control.
+Blockly wrapper for the SparkFun AS726X six-channel spectral sensor.
 
 ## Quick Start
 
-Initialize, call `as726x_take_measurements`, then read calibrated channels.
+1. Enable `@aily-project/lib-sparkfun-as726x` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

@@ -1,26 +1,26 @@
-# WOL 网络唤醒
+# WOL Wake-on-LAN
 
-通过发送 Wake-on-LAN (WOL) 魔术包，唤醒局域网内的设备（PC、NAS、服务器等）。
+Wake-on-LAN library for sending magic packets to wake up devices on the local network (PC, NAS, server, etc.)
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|------|
-| 包名 | @aily-project/lib-wol |
-| 版本 | 0.0.1 |
-| 作者 | ailyProject |
-| 源库 | https://github.com/coloz/wol-library |
-| 许可证 | MIT |
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-wol |
+| Version | 0.0.1 |
+| Author | ailyProject |
+| Source | https://github.com/coloz/wol-library |
+| License | Original license |
 
-## 支持的开发板
+## Supported Boards
 
-ESP32 系列、Arduino UNO R4 WiFi、Raspberry Pi Pico W
+ESP32, Arduino UNO R4, RP2040
 
-## 说明
+## Description
 
-基于 ArduinoWOL 库封装，支持通过 WiFi 发送标准 WOL 魔术包。用户只需提供目标设备的 MAC 地址，即可一键唤醒局域网设备。支持自定义广播地址和端口号。
+Wake-on-LAN library for sending magic packets to wake up devices on the local network (PC, NAS, server, etc.)
 
-## 快速开始
+## Quick Start
 
-1. 确保开发板已连接 WiFi
-2. 使用"发送WOL唤醒包"积木，填入目标设备的 MAC 地址即可
+1. Enable `@aily-project/lib-wol` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

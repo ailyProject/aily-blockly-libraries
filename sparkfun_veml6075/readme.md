@@ -1,6 +1,6 @@
-# SparkFun VEML6075 紫外线传感器
+# SparkFun VEML6075 UV Sensor
 
-UVA/UVB 紫外线传感器 Blockly 库。
+Blockly wrapper for the SparkFun VEML6075 UVA/UVB UV index sensor.
 
 ## Library Info
 
@@ -8,20 +8,19 @@ UVA/UVB 紫外线传感器 Blockly 库。
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-veml6075 |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfunX/SparkFun_VEML6075_Arduino_Library |
-| License | GPL-3.0 |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, ESP32（3.3V）
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-VEML6075 通过测量 UVA 和 UVB 辐照度来计算 UV 指数，I2C 接口（地址 0x10）。
+Blockly wrapper for the SparkFun VEML6075 UVA/UVB UV index sensor.
 
 ## Quick Start
 
-1. 通过 I2C 连接传感器
-2. 使用"初始化 VEML6075"积木
-3. 读取 UV 指数或 UVA/UVB 值
+1. Enable `@aily-project/lib-sparkfun-veml6075` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

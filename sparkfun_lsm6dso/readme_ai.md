@@ -1,6 +1,6 @@
-# SparkFun LSM6DSO 六轴 IMU
+# SparkFun LSM6DSO 6DoF IMU
 
-SparkFun Qwiic LSM6DSO 六轴惯性测量单元（加速度计 + 陀螺仪）的 Blockly 封装库。
+Blockly wrapper for SparkFun LSM6DSO 6DoF IMU (accel, gyro, temperature) via I2C.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-lsm6dso
@@ -10,34 +10,32 @@ SparkFun Qwiic LSM6DSO 六轴惯性测量单元（加速度计 + 陀螺仪）的
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `lsm6dso_init` | Statement | VAR(field_input) | `lsm6dso_init("imu")` | `LSM6DSO imu; imu.begin(); imu.initialize(BASIC_SETTINGS);` |
-| `lsm6dso_get_accel` | Value→Number | VAR(field_variable), AXIS(dropdown) | `lsm6dso_get_accel(variables_get($imu), X)` | `imu.readFloatAccelX()` |
-| `lsm6dso_get_gyro` | Value→Number | VAR(field_variable), AXIS(dropdown) | `lsm6dso_get_gyro(variables_get($imu), X)` | `imu.readFloatGyroX()` |
-| `lsm6dso_get_temp_c` | Value→Number | VAR(field_variable) | `lsm6dso_get_temp_c(variables_get($imu))` | `imu.readTempC()` |
+| `lsm6dso_init` | Statement | VAR(field_input) | `lsm6dso_init("imu")` | Dynamic code |
+| `lsm6dso_get_accel` | Value | VAR(field_variable), AXIS(dropdown) | `lsm6dso_get_accel(variables_get($imu), X)` | Dynamic code |
+| `lsm6dso_get_gyro` | Value | VAR(field_variable), AXIS(dropdown) | `lsm6dso_get_gyro(variables_get($imu), X)` | Dynamic code |
+| `lsm6dso_get_temp_c` | Value | VAR(field_variable) | `lsm6dso_get_temp_c(variables_get($imu))` | Dynamic code |
 
 ## Parameter Options
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| AXIS | X, Y, Z | 传感器轴向 |
-
-## Notes
-
-1. `lsm6dso_init("varName")` 在全局声明 `LSM6DSO varName;`，并在 setup 中调用 `begin()` 和 `initialize(BASIC_SETTINGS)`
-2. 读取块每次调用都直接从传感器获取实时值，无需额外调用读取函数
-3. 默认 I2C 地址为 0x6B；使用备用地址 0x6A 需修改代码
+| AXIS | X, Y, Z | lsm6dso_get_accel, lsm6dso_get_gyro |
 
 ## ABS Examples
 
-### 基本读取
+### Basic Usage
 ```
 arduino_setup()
     lsm6dso_init("imu")
-    serial_begin(Serial, 115200)
+    serial_begin(Serial, 9600)
 
 arduino_loop()
     serial_println(Serial, lsm6dso_get_accel(variables_get($imu), X))
-    serial_println(Serial, lsm6dso_get_gyro(variables_get($imu), Z))
-    serial_println(Serial, lsm6dso_get_temp_c(variables_get($imu)))
-    time_delay(math_number(500))
+    time_delay(math_number(1000))
 ```
+
+## Notes
+
+1. **Variable**: `lsm6dso_init("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

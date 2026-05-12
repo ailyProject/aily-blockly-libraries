@@ -1,29 +1,26 @@
-# Arduino Gamepad 库
+# USB analog handle
 
-## 介绍
-这是一个用于将 Arduino 模拟成 USB 游戏手柄的库。支持 ESP32-S3 和 ESP32-C3 开发板，可以实现按键、摇杆、扳机和方向键控制功能。
+Simulate ESP32 as a USB game controller, supporting button, joystick, trigger and direction key control
 
-## 支持的功能
-- 按键控制（1-32个按键）
-- 左右摇杆控制
-- 左右扳机控制
-- 方向键控制
-- 重置手柄状态
+## Library Info
 
-## 兼容性
-- ESP32-S3
-- ESP32-C3
-- 需要支持 USB OTG 模式
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-esp32-usb-gamepad |
+| Version | 1.0.0 |
+| Author | espressif |
+| Source | N/A |
+| License | Original license |
 
-## 使用方法
-1. 首先使用"初始化游戏手柄"块进行初始化
-2. 使用各种控制块来模拟游戏手柄操作
-3. 按键编号从1开始，最多支持32个按键
-4. 摇杆和扳机值范围根据具体需求设定
+## Supported Boards
 
-## 示例
-参考示例程序，可以通过按下开发板上的 BOOT 按钮来测试各种游戏手柄功能。
+ESP32
 
-## 注意事项
-- 需要在 Arduino IDE 中设置 USB 模式为 "USB-OTG (TinyUSB)"
-- 仅支持具有原生 USB 接口的 ESP32 芯片
+## Description
+
+Simulate ESP32 as a USB game controller, supporting button, joystick, trigger and direction key control
+
+## Quick Start
+
+1. Enable `@aily-project/lib-esp32-usb-gamepad` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

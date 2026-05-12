@@ -1,6 +1,6 @@
-# Bluefruit52Lib
+# Bluefruit
 
-Bluefruit-compatible BLE blocks for the XIAO nRF54L15 clean core.
+Bluefruit-compatible BLE library for nrf54l15 with advertising, BLE UART, GATT services, scanning, central role, and HID
 
 ## Library Info
 
@@ -8,19 +8,19 @@ Bluefruit-compatible BLE blocks for the XIAO nRF54L15 clean core.
 |-------|-------|
 | Package | @aily-project/lib-bluefruit52lib |
 | Version | 0.6.48 |
-| Author | lolren |
-| Source | https://github.com/lolren/nrf54-arduino-core |
-| License | Not specified |
+| Author | adafruit |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-- XIAO nRF54L15 clean core (`nrf54l15clean:nrf54l15clean`)
+nrf54l15clean:nrf54l15clean
 
 ## Description
 
-This library exposes the Bluefruit-style BLE API as Aily Blockly blocks. It covers BLE initialization, advertising, BLE UART, custom GATT services, scanning/central mode, HID keyboard/mouse actions, and beacon payloads.
+Bluefruit-compatible BLE library for nrf54l15 with advertising, BLE UART, GATT services, scanning, central role, and HID
 
 ## Quick Start
 
-1. Add `bluefruit52_bleuart_peripheral_quick(text("Bluefruit52-UART"))` in `arduino_setup()`.
-2. Use the quick receive/send blocks in `arduino_loop()` to echo BLE UART data.
+1. Enable `@aily-project/lib-bluefruit52lib` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

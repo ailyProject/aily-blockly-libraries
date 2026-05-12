@@ -1,6 +1,6 @@
-# USB模拟鼠标
+# USB analog mouse
 
-将Arduino模拟成USB鼠标，可以实现鼠标点击、移动等功能
+Simulate Arduino as a USB mouse, which can realize mouse clicks, movements and other functions
 
 ## Library Info
 - **Name**: @aily-project/lib-mouse
@@ -10,18 +10,18 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `mouse_begin` | Statement | (none) | `mouse_begin()` | `` |
-| `mouse_click` | Statement | BUTTON(dropdown) | `mouse_click(MOUSE_LEFT)` | `Mouse.click(` |
-| `mouse_move` | Statement | X(input_value), Y(input_value), WHEEL(input_value) | `mouse_move(math_number(0), math_number(0), math_number(0))` | `Mouse.move(` |
-| `mouse_press` | Statement | BUTTON(dropdown) | `mouse_press(MOUSE_LEFT)` | `Mouse.press(` |
-| `mouse_release` | Statement | BUTTON(dropdown) | `mouse_release(MOUSE_LEFT)` | `Mouse.release(` |
-| `mouse_is_pressed` | Value | BUTTON(dropdown) | `mouse_is_pressed(MOUSE_LEFT)` | `Mouse.isPressed(` |
+| `mouse_begin` | Statement | (none) | `mouse_begin()` | Dynamic code |
+| `mouse_click` | Statement | BUTTON(dropdown) | `mouse_click(MOUSE_LEFT)` | Mouse.click( |
+| `mouse_move` | Statement | X(input_value), Y(input_value), WHEEL(input_value) | `mouse_move(math_number(0), math_number(0), math_number(0))` | Mouse.move( |
+| `mouse_press` | Statement | BUTTON(dropdown) | `mouse_press(MOUSE_LEFT)` | Mouse.press( |
+| `mouse_release` | Statement | BUTTON(dropdown) | `mouse_release(MOUSE_LEFT)` | Mouse.release( |
+| `mouse_is_pressed` | Value | BUTTON(dropdown) | `mouse_is_pressed(MOUSE_LEFT)` | Mouse.isPressed( |
 
 ## Parameter Options
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| BUTTON | MOUSE_LEFT, MOUSE_RIGHT, MOUSE_MIDDLE, MOUSE_ALL | 左键 / 右键 / 中键 / 所有按键 |
+| BUTTON | MOUSE_LEFT, MOUSE_RIGHT, MOUSE_MIDDLE, MOUSE_ALL | mouse_click, mouse_press, mouse_release |
 
 ## ABS Examples
 
@@ -38,5 +38,5 @@ arduino_loop()
 
 ## Notes
 
-1. **Initialization**: Place init/setup blocks inside `arduino_setup()`
-2. **Parameter Order**: Follows `block.json` args0 order
+1. **Parameter order**: ABS parameters follow `block.json` args order.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

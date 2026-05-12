@@ -1,6 +1,6 @@
-# SparkFun VEML7700 环境光传感器
+# SparkFun VEML7700 Ambient Light Sensor
 
-高精度 I2C 环境光传感器 Blockly 库。
+Blockly wrapper for the SparkFun VEML7700 high-accuracy I2C ambient light sensor.
 
 ## Library Info
 
@@ -8,20 +8,19 @@
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-veml7700 |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_VEML7700_Arduino_Library |
-| License | MIT |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, ESP32（3.3V）
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-VEML7700 是 Vishay 出品的高精度 I2C 环境光传感器，支持 0~120,000 lux 测量范围，I2C 地址 0x10。
+Blockly wrapper for the SparkFun VEML7700 high-accuracy I2C ambient light sensor.
 
 ## Quick Start
 
-1. 通过 Qwiic/I2C 连接传感器
-2. 使用"初始化 VEML7700"积木
-3. 读取 getLux() 获取 lux 值
+1. Enable `@aily-project/lib-sparkfun-veml7700` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

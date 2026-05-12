@@ -1,6 +1,6 @@
-# IIC电机驱动库
+# IIC motor driver library
 
-适配openjumper IIC-MS驱动板，通过I2C协议实现4路可调速电机控制、4路舵机控制，支持多路电机独立控制、转速调节、正反转切换、刹车功能，兼容多种主流开发板。
+Adapted to the openjumper IIC-MS driver board, it realizes 4-channel adjustable speed motor control and 4-channel steering gear control through the I2C protocol. It supports independent control of multiple motors, spe...
 
 ## Library Info
 
@@ -9,18 +9,18 @@
 | Package | @aily-project/lib-iicmotordriver |
 | Version | 0.0.1 |
 | Author | K2L |
-| License | MIT |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino AVR (UNO/Nano/Mega), ESP32
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-适配openjumper IIC-MS驱动板，通过I2C协议实现4路可调速电机控制、4路舵机控制，支持多路电机独立控制、转速调节、正反转切换、刹车功能，兼容多种主流开发板。
-
-This library provides 8 Blockly blocks.
+Adapted to the openjumper IIC-MS driver board, it realizes 4-channel adjustable speed motor control and 4-channel steering gear control through the I2C protocol. It supports independent control of multiple motors, spe...
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-iicmotordriver` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

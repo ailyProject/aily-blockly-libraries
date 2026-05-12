@@ -1,6 +1,6 @@
-# SparkFun BQ27441
+# SparkFun BQ27441 LiPo Fuel Gauge
 
-SparkFun BQ27441 LiPo fuel gauge Blockly library.
+Blockly wrapper for the SparkFun BQ27441 LiPo fuel gauge.
 
 ## Library Info
 
@@ -8,18 +8,19 @@ SparkFun BQ27441 LiPo fuel gauge Blockly library.
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-bq27441 |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_BQ27441_Arduino_Library |
-| License | Beerware |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, ESP32, and other Wire-compatible boards.
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-This library wraps the SparkFun BQ27441 global `lipo` object for Blockly. It supports initialization, design capacity, voltage, current, capacity, power, state of charge, state of health, temperature, flags, and GPOUT settings.
+Blockly wrapper for the SparkFun BQ27441 LiPo fuel gauge.
 
 ## Quick Start
 
-Call `bq27441_begin` with your battery capacity in mAh, then read `bq27441_soc`, `bq27441_voltage`, or other battery values in loop.
+1. Enable `@aily-project/lib-sparkfun-bq27441` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

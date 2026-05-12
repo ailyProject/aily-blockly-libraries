@@ -1,6 +1,6 @@
-# SparkFun ATECCX08A
+# SparkFun ATECCX08A Crypto Co-processor
 
-SparkFun ATECCX08A cryptographic co-processor Blockly library.
+Blockly wrapper for the SparkFun ATECCX08A cryptographic co-processor.
 
 ## Library Info
 
@@ -8,18 +8,19 @@ SparkFun ATECCX08A cryptographic co-processor Blockly library.
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-ateccx08a |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_ATECCX08a_Arduino_Library |
-| License | GPL-3.0 |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, ESP32, and other Wire-compatible boards.
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-This library wraps the SparkFun ATECCX08A Arduino library for Blockly. It supports I2C initialization, wake/sleep, configuration-zone reads, lock-status fields, random values, key-pair creation, public-key generation, and explicit configuration/lock commands.
+Blockly wrapper for the SparkFun ATECCX08A cryptographic co-processor.
 
 ## Quick Start
 
-Connect by Qwiic/I2C, call `ateccx08a_init`, then use random, key, or configuration blocks. Locking blocks are permanent device operations.
+1. Enable `@aily-project/lib-sparkfun-ateccx08a` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

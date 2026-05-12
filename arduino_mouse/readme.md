@@ -1,6 +1,6 @@
-# USB模拟鼠标
+# USB analog mouse
 
-将Arduino模拟成USB鼠标，可以实现鼠标点击、移动等功能
+Simulate Arduino as a USB mouse, which can realize mouse clicks, movements and other functions
 
 ## Library Info
 
@@ -9,18 +9,18 @@
 | Package | @aily-project/lib-mouse |
 | Version | 1.0.0 |
 | Author | Arduino |
-| License | MIT |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-ESP32, renesas_uno:minima, renesas_uno:unor4wifi
+Arduino AVR, Arduino UNO R4, ESP32
 
 ## Description
 
-将Arduino模拟成USB鼠标，可以实现鼠标点击、移动等功能
-
-This library provides 6 Blockly blocks.
+Simulate Arduino as a USB mouse, which can realize mouse clicks, movements and other functions
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-mouse` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

@@ -1,6 +1,6 @@
-# SparkFun APDS9960
+# SparkFun APDS9960 RGB gesture sensor
 
-SparkFun APDS9960 RGB, proximity, ambient light, and gesture sensor Blockly library.
+Blockly wrapper for the SparkFun APDS9960 RGB, proximity and gesture sensor.
 
 ## Library Info
 
@@ -8,18 +8,19 @@ SparkFun APDS9960 RGB, proximity, ambient light, and gesture sensor Blockly libr
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-apds9960 |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_APDS-9960_Sensor_Arduino_Library |
-| License | Beerware / public-domain style |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, ESP32, and other Wire-compatible 3.3V boards.
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-This library wraps APDS9960 light, RGB, proximity, and gesture features. It exposes setup blocks, sensor enables, light/proximity/gesture reads, and gain settings.
+Blockly wrapper for the SparkFun APDS9960 RGB, proximity and gesture sensor.
 
 ## Quick Start
 
-Initialize APDS9960, enable the needed sensor mode, then read values.
+1. Enable `@aily-project/lib-sparkfun-apds9960` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

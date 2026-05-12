@@ -1,6 +1,6 @@
-# SparkFun HIH4030 湿度传感器
+# SparkFun HIH4030 Humidity Sensor
 
-模拟接口湿度传感器库，通过 `HIH4030` 对象读取相对湿度。
+Blockly wrapper for the SparkFun HIH4030 analog humidity sensor.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-hih4030
@@ -10,18 +10,32 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `hih4030_init` | Statement | VAR(field_input), PIN(field_number), VOLTAGE(field_dropdown) | `hih4030_init("hih4030", 0, 5.0)` | `HIH4030 hih4030(0, 5.0);` |
-| `hih4030_get_rh` | Value | VAR(field_variable) | `hih4030_get_rh(variables_get($hih4030))` | `hih4030.getSensorRH()` |
-| `hih4030_get_true_rh` | Value | VAR(field_variable), TEMP(input_value) | `hih4030_get_true_rh(variables_get($hih4030), math_number(25))` | `hih4030.getTrueRH(25)` |
-| `hih4030_vout` | Value | VAR(field_variable) | `hih4030_vout(variables_get($hih4030))` | `hih4030.vout()` |
+| `hih4030_init` | Statement | VAR(field_input), PIN(field_number), VOLTAGE(dropdown) | `hih4030_init("hih4030", 0, "5.0")` | Dynamic code |
+| `hih4030_get_rh` | Value | VAR(field_variable) | `hih4030_get_rh(variables_get($hih4030))` | Dynamic code |
+| `hih4030_get_true_rh` | Value | VAR(field_variable), TEMP(input_value) | `hih4030_get_true_rh(variables_get($hih4030), math_number(0))` | Dynamic code |
+| `hih4030_vout` | Value | VAR(field_variable) | `hih4030_vout(variables_get($hih4030))` | Dynamic code |
 
 ## Parameter Options
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| VOLTAGE | 5.0, 3.3 | 传感器供电电压 |
+| VOLTAGE | 5.0, 3.3 | hih4030_init |
+
+## ABS Examples
+
+### Basic Usage
+```
+arduino_setup()
+    hih4030_init("hih4030", 0, "5.0")
+    serial_begin(Serial, 9600)
+
+arduino_loop()
+    serial_println(Serial, hih4030_get_rh(variables_get($hih4030)))
+    time_delay(math_number(1000))
+```
 
 ## Notes
 
-1. **初始化**: `hih4030_init` 在全局变量区声明对象，不生成 setup 代码
-2. **温度补偿**: 使用 `hih4030_get_true_rh` 配合温度传感器获得更精确的湿度值
+1. **Variable**: `hih4030_init("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

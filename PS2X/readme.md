@@ -1,80 +1,26 @@
-# PS2X 控制器库
+# PS2 Controller Library
 
-这是一个用于Arduino的PS2控制器库，基于Bill Porter的PS2X库开发，支持PlayStation 2控制器的完整功能。
+Library for reading PlayStation 2 controller input, supporting analog sticks, button detection, pressure sensing and vibration feedback
 
-## 功能特性
+## Library Info
 
-- 支持DualShock控制器的所有按钮检测
-- 支持模拟摇杆读取
-- 支持按钮压力感应(如果控制器支持)
-- 支持震动反馈控制
-- 支持控制器连接状态检测
-- 支持多种按钮状态检测(按下、释放、状态变化)
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-ps2x |
+| Version | 1.1.0 |
+| Author | Bill Porter |
+| Source | N/A |
+| License | Original license |
 
-## 硬件连接
+## Supported Boards
 
-| PS2控制器接口 | Arduino引脚 | 功能 |
-|---------------|-------------|------|
-| DAT           | 数字引脚    | 数据线 |
-| CMD           | 数字引脚    | 命令线 |
-| ATT           | 数字引脚    | 注意线 |
-| CLK           | 数字引脚    | 时钟线 |
-| VCC           | 3.3V/5V     | 电源 |
-| GND           | GND         | 地线 |
+Arduino AVR, ESP32, Arduino UNO R4
 
-## 使用方法
+## Description
 
-### 1. 初始化控制器
+Library for reading PlayStation 2 controller input, supporting analog sticks, button detection, pressure sensing and vibration feedback
 
-使用"初始化PS2控制器"块来设置控制器的连接引脚和功能选项。
+## Quick Start
 
-### 2. 读取控制器状态
-
-在主循环中使用"读取PS2控制器状态"块来更新控制器的状态。
-
-### 3. 按钮检测
-
-- 使用"PS2按钮被按下"检测按钮是否被持续按下
-- 使用"PS2按钮刚被按下"检测按钮刚被按下的瞬间
-- 使用"PS2按钮刚被释放"检测按钮刚被释放的瞬间
-
-### 4. 模拟量读取
-
-- 使用"PS2模拟量"读取摇杆的位置值(0-255)
-- 使用"PS2按钮压力值"读取支持压力感应的按钮的压力值
-
-## 示例代码
-
-基于提供的Arduino示例，该库支持以下功能：
-
-1. **基本按钮检测** - 检测所有标准PS2按钮
-2. **模拟摇杆控制** - 读取左右摇杆的X/Y轴数值
-3. **鼠标键盘模拟** - 将PS2控制器输入转换为鼠标和键盘操作
-4. **震动反馈** - 根据按钮压力控制震动强度
-5. **控制器类型检测** - 识别DualShock、GuitarHero等不同类型控制器
-
-## 支持的开发板
-
-- Arduino UNO/Nano/Pro Mini
-- Arduino Mega
-- ESP32系列
-- ESP32-C3
-- ESP32-S3
-- Arduino UNO R4 Minima
-- Arduino UNO R4 WiFi
-
-## 依赖库
-
-需要安装PS2X_lib库到Arduino IDE中。
-
-## 注意事项
-
-1. 确保控制器电源电压与开发板兼容(3.3V或5V)
-2. 连接线要尽量短，避免信号干扰
-3. 初始化后需要等待一段时间让控制器稳定
-4. 在循环中定期调用读取状态函数以更新控制器状态
-
-## 版本历史
-
-- v1.1.0 - 增加完整的PS2控制器功能支持，包括压力感应和震动反馈
-- v1.0.0 - 基础版本，支持基本按钮和摇杆功能
+1. Enable `@aily-project/lib-ps2x` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

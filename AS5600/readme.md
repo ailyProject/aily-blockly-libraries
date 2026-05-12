@@ -1,37 +1,26 @@
-# AS5600磁性角度传感器库
+# AS5600 Magnetic Angle Sensor Library
 
-## 简介
-AS5600磁性角度传感器库是基于Rob Tillaart的AS5600 Arduino库开发的Aily Blockly库，支持AS5600和AS5600L磁性旋转角度传感器。
+AS5600/AS5600L magnetic rotation angle sensor support library supports angle reading, angular velocity measurement, cumulative position calculation and other functions
 
-## 功能特性
-- 支持AS5600和AS5600L两种型号
-- 12位角度分辨率(0-4095)
-- 支持角度、弧度、原始值等多种单位
-- 角速度测量(度/秒、弧度/秒、转/分)
-- 累积位置计算和多圈计数
-- 磁铁检测和强度状态监测
-- 可配置功耗模式和输出模式
-- 角度偏移设置
-- I2C通信接口
+## Library Info
 
-## 硬件连接
-- VCC: 3.3V或5V
-- GND: 地线
-- SDA: I2C数据线
-- SCL: I2C时钟线
-- DIR: 方向控制引脚(可选)
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-as5600 |
+| Version | 0.1.0 |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
-## 使用说明
-1. 首先使用"初始化AS5600传感器"块进行初始化
-2. 使用"AS5600已连接"块检测传感器连接状态
-3. 使用各种读取块获取角度、角速度等数据
-4. 可根据需要配置传感器参数
+## Supported Boards
 
-## 原始库信息
-- 原始库: AS5600 by Rob Tillaart
-- 版本: 0.6.6
-- 许可证: MIT
-- 项目地址: https://github.com/RobTillaart/AS5600
+Arduino-compatible boards supported by this package.
 
-## 版本历史
-- v0.1.0: 初始版本，支持基本的角度读取和配置功能
+## Description
+
+AS5600/AS5600L magnetic rotation angle sensor support library supports angle reading, angular velocity measurement, cumulative position calculation and other functions
+
+## Quick Start
+
+1. Enable `@aily-project/lib-as5600` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

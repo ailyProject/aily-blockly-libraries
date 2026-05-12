@@ -1,22 +1,26 @@
-# 自定义函数核心库
+# Custom function
 
-Arduino 自定义函数库，提供函数定义、调用和参数管理功能。
+Provides building blocks for defining and using custom functions, supporting multiple parameter types and return values
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
-| 包名 | @aily-project/lib-core-functions |
-| 版本 | 1.0.1 |
-| 作者 | aily Project |
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-core-functions |
+| Version | 1.0.1 |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
-## 说明
+## Supported Boards
 
-提供完整的自定义函数系统，支持多参数、多种返回类型、有无返回值函数调用。函数定义块使用 mutator（点击 `+` 添加参数，`-` 删除参数），调用块自动与定义同步参数标签。支持中文函数名（代码生成时自动转为拼音）。
+Arduino-compatible boards supported by this package.
 
-## 快速开始
+## Description
 
-1. 将 `自定义函数定义` 块拖到工作区**顶层**（不放在 setup/loop 内）
-2. 设置函数名、返回类型，点击 `+` 添加所需参数
-3. 在函数体中编写逻辑；工具箱"自定义函数"分类中会自动出现调用块
-4. 无需返回值用 `调用函数`（语句块），需要返回值用 `调用函数(返回值)`（值块）
+Provides building blocks for defining and using custom functions, supporting multiple parameter types and return values
+
+## Quick Start
+
+1. Enable `@aily-project/lib-core-functions` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

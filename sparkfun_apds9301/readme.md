@@ -1,6 +1,6 @@
-# SparkFun APDS9301
+# SparkFun APDS9301 lux sensor
 
-SparkFun APDS9301 lux sensor Blockly library.
+Blockly wrapper for the SparkFun APDS9301 lux sensor.
 
 ## Library Info
 
@@ -8,18 +8,19 @@ SparkFun APDS9301 lux sensor Blockly library.
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-apds9301 |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_APDS9301_Library |
-| License | Beerware / public-domain style |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, ESP32, and other Wire-compatible boards.
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-This library wraps APDS9301 visible/IR light readings. It supports lux calculation, raw channels, gain, integration time, interrupt thresholds, and power control.
+Blockly wrapper for the SparkFun APDS9301 lux sensor.
 
 ## Quick Start
 
-Initialize at `0x39`, set gain/time, then read lux.
+1. Enable `@aily-project/lib-sparkfun-apds9301` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

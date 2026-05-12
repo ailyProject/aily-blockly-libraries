@@ -1,6 +1,6 @@
-# SparkFun VKey 模拟电压键盘
+# SparkFun VKey Voltage Keypad
 
-通过单个模拟引脚读取 12 个按键的模拟键盘 Blockly 库。
+Blockly wrapper for the SparkFun VKey voltage-based analog keypad.
 
 ## Library Info
 
@@ -8,16 +8,19 @@
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-vkey |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_VKey_Voltage_Keypad_Arduino_Library |
-| License | MIT |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
+
+## Supported Boards
+
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-VKey 通过电阻分压网络，使用一个模拟引脚即可读取 12 个按键状态，适合节省 GPIO 资源的场景。
+Blockly wrapper for the SparkFun VKey voltage-based analog keypad.
 
 ## Quick Start
 
-1. 将 VKey 信号脚接模拟输入
-2. 使用"初始化 VKey"积木，指定引脚号
-3. 读取"按键值"积木获得 0-12 的按键编号
+1. Enable `@aily-project/lib-sparkfun-vkey` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

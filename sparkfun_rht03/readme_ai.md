@@ -1,6 +1,6 @@
-# SparkFun RHT03 温湿度传感器
+# SparkFun RHT03 Humidity and Temperature Sensor
 
-单总线 RHT03（DHT22）温湿度传感器 Blockly 库。
+Blockly wrapper for the SparkFun RHT03 single-wire humidity and temperature sensor.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-rht03
@@ -10,40 +10,27 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `rht03_init` | Statement | VAR(field_input), PIN(field_number) | `rht03_init("rht", 2)` | `RHT03 rht; rht.begin(2);` |
-| `rht03_update` | Value→Number | VAR(field_variable) | `rht03_update(variables_get($rht))` | `rht.update()` |
-| `rht03_temp_c` | Value→Number | VAR(field_variable) | `rht03_temp_c(variables_get($rht))` | `rht.tempC()` |
-| `rht03_temp_f` | Value→Number | VAR(field_variable) | `rht03_temp_f(variables_get($rht))` | `rht.tempF()` |
-| `rht03_humidity` | Value→Number | VAR(field_variable) | `rht03_humidity(variables_get($rht))` | `rht.humidity()` |
+| `rht03_init` | Statement | VAR(field_input), PIN(field_number) | `rht03_init("rht", 2)` | Dynamic code |
+| `rht03_update` | Value | VAR(field_variable) | `rht03_update(variables_get($rht))` | Dynamic code |
+| `rht03_temp_c` | Value | VAR(field_variable) | `rht03_temp_c(variables_get($rht))` | Dynamic code |
+| `rht03_temp_f` | Value | VAR(field_variable) | `rht03_temp_f(variables_get($rht))` | Dynamic code |
+| `rht03_humidity` | Value | VAR(field_variable) | `rht03_humidity(variables_get($rht))` | Dynamic code |
 
-## Usage Example
+## ABS Examples
 
+### Basic Usage
 ```
 arduino_setup()
-  rht03_init("rht", 2)
+    rht03_init("rht", 2)
+    serial_begin(Serial, 9600)
 
 arduino_loop()
-  variables_set($result, rht03_update(variables_get($rht)))
-  serial_println(Serial, rht03_temp_c(variables_get($rht)))
-  serial_println(Serial, rht03_humidity(variables_get($rht)))
-  delay(1000)
-```
-
-Generated code:
-```cpp
-#include <SparkFun_RHT03.h>
-RHT03 rht;
-void setup() {
-  rht.begin(2);
-}
-void loop() {
-  int result = rht.update();
-  Serial.println(rht.tempC());
-  Serial.println(rht.humidity());
-  delay(1000);
-}
+    serial_println(Serial, rht03_update(variables_get($rht)))
+    time_delay(math_number(1000))
 ```
 
 ## Notes
-- `rht03_update` 返回值：1 成功，负数为错误码
-- 两次更新间隔至少 1000ms（RHT_READ_INTERVAL_MS）
+
+1. **Variable**: `rht03_init("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

@@ -1,6 +1,6 @@
-# SparkFun TMP102 温度传感器
+# SparkFun TMP102 Temperature Sensor
 
-I2C 数字温度传感器 Blockly 库。
+Blockly wrapper for the SparkFun TMP102 I2C digital temperature sensor.
 
 ## Library Info
 
@@ -8,20 +8,19 @@ I2C 数字温度传感器 Blockly 库。
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-tmp102 |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_TMP102_Arduino_Library |
-| License | MIT |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, Arduino Mega, ESP32
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-TMP102 是一款高精度 I2C 数字温度传感器，精度 ±0.5°C，支持低功耗休眠模式和可配置告警输出。
+Blockly wrapper for the SparkFun TMP102 I2C digital temperature sensor.
 
 ## Quick Start
 
-1. 通过 I2C（SDA/SCL）连接传感器
-2. 使用"初始化 TMP102"积木（选择 I2C 地址）
-3. 在循环中读取温度值
+1. Enable `@aily-project/lib-sparkfun-tmp102` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

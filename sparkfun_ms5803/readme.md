@@ -1,6 +1,6 @@
-# SparkFun MS5803 气压传感器
+# SparkFun MS5803 Pressure Sensor
 
-SparkFun MS5803-14BA I2C 气压与温度传感器 Blockly 库。
+Blockly wrapper for the SparkFun MS5803-14BA I2C pressure and temperature sensor.
 
 ## Library Info
 
@@ -8,20 +8,19 @@ SparkFun MS5803-14BA I2C 气压与温度传感器 Blockly 库。
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-ms5803 |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/MS5803-14BA_Breakout |
-| License | MIT |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, Arduino Mega, ESP32
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-MS5803-14BA 是一款高精度 I2C 气压和温度传感器，气压量程 0~14bar，分辨率可通过 ADC 精度参数调节。支持摄氏度/华氏度温度输出。
+Blockly wrapper for the SparkFun MS5803-14BA I2C pressure and temperature sensor.
 
 ## Quick Start
 
-1. 将传感器通过 I2C 连接（SDA/SCL），设置地址跳线
-2. 使用「初始化 MS5803」块创建传感器对象
-3. 读取温度或气压数值
+1. Enable `@aily-project/lib-sparkfun-ms5803` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

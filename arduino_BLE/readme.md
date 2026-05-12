@@ -1,26 +1,26 @@
 # ArduinoBLE
 
-ArduinoBLE支持库，支持Arduino及ESP系列
+ArduinoBLE support library, supports Arduino and ESP series
 
 ## Library Info
 
 | Field | Value |
 |-------|-------|
-| Package | @aily-project/lib-arduino_ble |
+| Package | @aily-project/lib-arduino-ble |
 | Version | 0.0.1 |
 | Author | Arduino |
-| License | MIT |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino AVR (UNO/Nano/Mega)
+Arduino AVR, ESP32
 
 ## Description
 
-ArduinoBLE支持库，支持Arduino及ESP系列
-
-This library provides 6 Blockly blocks.
+ArduinoBLE support library, supports Arduino and ESP series
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-arduino-ble` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

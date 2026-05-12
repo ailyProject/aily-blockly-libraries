@@ -1,25 +1,26 @@
-# HMC5883L 三轴数字罗盘
+# Seeed Hmc5883l
 
-Grove三轴数字罗盘，基于HMC5883L芯片，通过I2C接口读取三轴磁场数据和计算航向角。
+Blockly library for Seeed Hmc5883l.
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
+| Field | Value |
+|-------|-------|
 | Package | @aily-project/lib-seeed-hmc5883l |
 | Version | 1.0.0 |
 | Author | SeeedStudio |
 | Source | https://github.com/Seeed-Studio/Grove_3Axis_Digital_Compass_HMC5883L |
-| License | LGPL-2.1 |
+| License | Original license |
 
-## 支持的开发板
+## Supported Boards
 
-Arduino UNO/Nano/MEGA、ESP32、ESP8266、RP2040等支持I2C的开发板
+Arduino AVR, Arduino SAMD, ESP32, RP2040
 
-## 说明
+## Description
 
-通过I2C接口（默认地址0x1E）连接HMC5883L磁力计，可读取X/Y/Z三轴磁场强度，并计算水平罗盘航向角（0~360度）。
+Blockly library for Seeed Hmc5883l.
 
-## 快速开始
+## Quick Start
 
-将HMC5883L模块的SDA/SCL连接到开发板的I2C引脚，在setup中调用初始化块，在loop中读取航向角。
+1. Enable `@aily-project/lib-seeed-hmc5883l` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

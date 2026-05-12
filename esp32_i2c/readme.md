@@ -1,90 +1,26 @@
-# ESP32 I2C通信库
+# ESP32 I2C Communication Library
 
-这是一个专为ESP32平台设计的I2C通信Blockly库，提供了简单易用的图形化编程接口来控制I2C设备。
+ESP32 dedicated I2C communication support library provides master-slave mode communication, device scanning and other functions, and supports custom pin configuration
 
-## 功能特性
+## Library Info
 
-### 主模式功能
-- **I2C初始化**：支持默认引脚和自定义引脚初始化
-- **设备扫描**：自动扫描并发现总线上的I2C设备
-- **数据传输**：支持字节和字符串数据的发送
-- **数据接收**：从I2C设备读取指定字节数的数据
-- **简化操作**：提供常用I2C设备的快速操作blocks
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-esp32-i2c |
+| Version | 1.0.0 |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
-### 从模式功能
-- **从设备模式**：将ESP32配置为I2C从设备
-- **数据接收回调**：当接收到主设备数据时触发
-- **数据请求回调**：当主设备请求数据时响应
-- **数据发送**：从设备向主设备发送数据
+## Supported Boards
 
-## 支持的开发板
-- ESP32
-- ESP32-S2
-- ESP32-S3
-- ESP32-C3
-- ESP32-C6
-- ESP32-H2
+ESP32
 
-## 使用示例
+## Description
 
-### 基础主模式通信
-```blockly
-初始化I2C通信（使用默认引脚）
-扫描I2C设备
-向设备 0x3C 写入数据 "Hello World"
-```
+ESP32 dedicated I2C communication support library provides master-slave mode communication, device scanning and other functions, and supports custom pin configuration
 
-### 自定义引脚初始化
-```blockly
-初始化I2C通信 SDA引脚21 SCL引脚22 频率400000Hz
-```
+## Quick Start
 
-### 从模式响应
-```blockly
-初始化I2C从模式 地址0x55 SDA引脚21 SCL引脚22
-当主设备请求数据时
-  从设备发送字符串 "ESP32 Slave Response"
-```
-
-## 常用I2C设备地址
-- **0x3C**: OLED显示屏
-- **0x48**: ADS1115 ADC转换器
-- **0x68**: MPU6050 陀螺仪加速度计
-- **0x76/0x77**: BMP280 气压传感器
-
-## 技术细节
-
-### 引脚配置
-- **默认SDA引脚**: GPIO21
-- **默认SCL引脚**: GPIO22
-- **支持自定义引脚**: 任何GPIO引脚（建议使用外部上拉电阻）
-
-### 通信频率
-- **标准模式**: 100kHz
-- **快速模式**: 400kHz
-- **快速模式+**: 1MHz
-
-## 注意事项
-
-1. **上拉电阻**: I2C总线需要外部上拉电阻（通常为4.7kΩ-10kΩ）
-2. **电压匹配**: 确保所有I2C设备工作在相同电压水平
-3. **地址冲突**: 确保总线上每个设备都有唯一的I2C地址
-4. **线缆长度**: I2C是短距离通信协议，建议线缆长度不超过1米
-
-## 错误代码说明
-
-`结束数据发送`块返回的错误代码：
-- **0**: 成功
-- **1**: 数据太长，超出发送缓冲区
-- **2**: 发送地址时收到NACK
-- **3**: 发送数据时收到NACK
-- **4**: 其他错误
-- **5**: 超时
-
-## 源码信息
-
-本库基于ESP32 Arduino Core的Wire库，兼容Arduino标准I2C接口。
-
-## 许可证
-
-本库遵循MIT许可证。
+1. Enable `@aily-project/lib-esp32-i2c` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

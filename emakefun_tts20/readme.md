@@ -1,12 +1,12 @@
-# Emakefun TTS20 语音合成模块
+# TTS20 speech synthesis module
 
-易创空间TTS20语音合成模块的Blockly积木库，支持通过I2C接口进行文本转语音播放。
+Easy Space TTS20 speech synthesis module library supports text-to-speech playback, built-in prompt tone playback, playback process control, and communicates through I2C interface
 
 ## Library Info
 
 | Field | Value |
 |-------|-------|
-| Package | @aily-project/lib-emakefun_tts20 |
+| Package | @aily-project/lib-emakefun-tts20 |
 | Version | 1.0.0 |
 | Author | Emakefun |
 | Source | https://github.com/emakefun-arduino-library/em_tts20 |
@@ -14,15 +14,13 @@
 
 ## Supported Boards
 
-- Arduino 系列 (AVR, MegaAVR)
-- ESP32 系列
+Arduino AVR, ESP32
 
 ## Description
 
-该库封装了易创空间TTS20语音合成模块的核心功能，支持文本直接播放、15种内置提示音效播放（铃声/信息提示/警示音各5种）和播放流程控制（暂停/恢复/停止/等待完成），通过I2C接口通信，默认地址0x40。支持通过文本标注控制音量、语速、语调参数。
+Easy Space TTS20 speech synthesis module library supports text-to-speech playback, built-in prompt tone playback, playback process control, and communicates through I2C interface
 
 ## Quick Start
 
-1. 将TTS20模块通过I2C连接到开发板
-2. 在setup中使用"初始化TTS20语音合成模块"积木
-3. 使用"播放文本"积木进行语音播报
+1. Enable `@aily-project/lib-emakefun-tts20` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

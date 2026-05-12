@@ -1,6 +1,6 @@
-# SparkFun DS3234 实时时钟
+# SparkFun DS3234 Real-Time Clock
 
-SparkFun DeadOn RTC DS3234 的 Blockly 库，通过 SPI 接口设置和读取实时时钟。
+Blockly wrapper for the SparkFun DS3234 SPI real-time clock module.
 
 ## Library Info
 
@@ -8,20 +8,19 @@ SparkFun DeadOn RTC DS3234 的 Blockly 库，通过 SPI 接口设置和读取实
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-ds3234 |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_DS3234_RTC_Arduino_Library |
-| License | MIT |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, SparkFun RedBoard, ESP32
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-DS3234 是一款带 SRAM 的高精度 SPI 接口实时时钟。库使用全局 `rtc` 对象。支持设置时间、自动编译时间、读取时间及内置温度传感器。
+Blockly wrapper for the SparkFun DS3234 SPI real-time clock module.
 
 ## Quick Start
 
-1. 将 DS3234 CS 引脚连接到 Arduino（默认 D10）
-2. 在 setup 中调用 `初始化 DS3234 RTC`，指定 CS 引脚
-3. 在 loop 中先调用 `更新时间`，再读取时间值
+1. Enable `@aily-project/lib-sparkfun-ds3234` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

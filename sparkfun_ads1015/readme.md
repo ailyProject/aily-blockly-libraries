@@ -1,6 +1,6 @@
-# SparkFun ADS1015
+# SparkFun ADS1015 ADC
 
-SparkFun ADS1015 12-bit 4-channel I2C ADC Blockly library.
+Blockly wrapper for the SparkFun ADS1015 12-bit 4-channel I2C ADC.
 
 ## Library Info
 
@@ -8,18 +8,19 @@ SparkFun ADS1015 12-bit 4-channel I2C ADC Blockly library.
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-ads1015 |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_ADS1015_Arduino_Library |
-| License | GPL-3.0 |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, ESP32, and other Wire-compatible boards.
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-This library wraps the SparkFun ADS1015 ADC for Blockly. It supports I2C initialization, single-ended and differential readings, millivolt conversion, gain, sample rate, and conversion-ready status.
+Blockly wrapper for the SparkFun ADS1015 12-bit 4-channel I2C ADC.
 
 ## Quick Start
 
-Connect the sensor by Qwiic/I2C, call `ads1015_init` in setup, then read a single-ended channel in loop.
+1. Enable `@aily-project/lib-sparkfun-ads1015` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

@@ -1,6 +1,6 @@
-# SparkFun Qwiic XM125 脉冲相干雷达传感器
+# SparkFun Qwiic XM125 Pulsed Coherent Radar
 
-SparkFun Qwiic XM125 的 Blockly 封装库（存在检测模式）。
+Blockly wrapper for SparkFun Qwiic XM125 Pulsed Coherent Radar sensor.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-qwiic-xm125
@@ -10,25 +10,25 @@ SparkFun Qwiic XM125 的 Blockly 封装库（存在检测模式）。
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `xm125_presence_init` | Statement | VAR(field_input), START_MM(input_value), END_MM(input_value) | `xm125_presence_init("radar", math_number(500), math_number(3000))` | `SparkFunXM125Presence radar; radar.begin(); radar.detectorStart(500, 3000);` |
-| `xm125_is_detected` | Value(Boolean) | VAR(field_variable) | `xm125_is_detected(variables_get($radar))` | `([&](){ radar.getDetectorPresenceDetected(_xm125_presence_radar); return _xm125_presence_radar != 0; })()` |
-| `xm125_get_distance` | Value(Number) | VAR(field_variable) | `xm125_get_distance(variables_get($radar))` | `([&](){ radar.getDistance(_xm125_dist_radar); return (int)_xm125_dist_radar; })()` |
-
-## Notes
-
-1. 使用 `SparkFunXM125Presence` 类（存在检测模式），非距离测量类
-2. `detectorStart(start_mm, end_mm)` 参数单位为毫米（默认范围 500~3000mm）
-3. `getDetectorPresenceDetected()` 返回 uint32_t，非零表示检测到存在
-4. 距离单位为毫米
+| `xm125_presence_init` | Statement | VAR(field_input), START_MM(input_value), END_MM(input_value) | `xm125_presence_init("radar", math_number(0), math_number(0))` | Dynamic code |
+| `xm125_is_detected` | Value | VAR(field_variable) | `xm125_is_detected(variables_get($radar))` | + presVar + |
+| `xm125_get_distance` | Value | VAR(field_variable) | `xm125_get_distance(variables_get($radar))` | Dynamic code |
 
 ## ABS Examples
 
+### Basic Usage
 ```
 arduino_setup()
-    xm125_presence_init("radar", math_number(500), math_number(3000))
+    xm125_presence_init("radar", math_number(0), math_number(0))
+    serial_begin(Serial, 9600)
 
 arduino_loop()
-    if xm125_is_detected(variables_get($radar))
-        serial_println(Serial, xm125_get_distance(variables_get($radar)))
-    time_delay(math_number(200))
+    serial_println(Serial, xm125_is_detected(variables_get($radar)))
+    time_delay(math_number(1000))
 ```
+
+## Notes
+
+1. **Variable**: `xm125_presence_init("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

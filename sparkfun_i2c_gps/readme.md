@@ -1,6 +1,6 @@
-# SparkFun I2C GPS
+# SparkFun I2C GPS Module
 
-通过 I2C 接口读取 GPS NMEA 数据流的 Arduino 库。
+Blockly wrapper for SparkFun I2C GPS library, reads NMEA data over I2C.
 
 ## Library Info
 
@@ -8,20 +8,19 @@
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-i2c-gps |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_I2C_GPS_Arduino_Library |
-| License | GPL-3.0 |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO、Arduino Mega、ESP32
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-本库支持 SparkFun I2C GPS 模块（MediaTek MT3333），通过 I2C 接口获取 GPS NMEA 数据，再由 TinyGPS++ 等库进行解析。
+Blockly wrapper for SparkFun I2C GPS library, reads NMEA data over I2C.
 
 ## Quick Start
 
-1. 连接 GPS 模块到 I2C 总线（SDA/SCL）
-2. 在 Setup 中调用初始化块
-3. 在 Loop 中使用「可用字节」和「读取字节」循环读取 NMEA 数据
+1. Enable `@aily-project/lib-sparkfun-i2c-gps` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

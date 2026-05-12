@@ -1,6 +1,6 @@
-# SparkFun VCNL4040 接近与环境光传感器
+# SparkFun VCNL4040 Proximity and Ambient Light Sensor
 
-I2C 接近传感器和环境光传感器 Blockly 库。
+Blockly wrapper for the SparkFun VCNL4040 I2C proximity and ambient light sensor.
 
 ## Library Info
 
@@ -8,20 +8,19 @@ I2C 接近传感器和环境光传感器 Blockly 库。
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-vcnl4040 |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_VCNL4040_Arduino_Library |
-| License | MIT |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, ESP32
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-VCNL4040 集成了接近传感器（IR）和环境光传感器（ALS），可定性检测约 20cm 内的物体，并测量环境光强度。
+Blockly wrapper for the SparkFun VCNL4040 I2C proximity and ambient light sensor.
 
 ## Quick Start
 
-1. 通过 Qwiic/I2C 连接传感器
-2. 使用"初始化 VCNL4040"积木（自动开启接近和光照传感器）
-3. 在循环中读取接近值或环境光值
+1. Enable `@aily-project/lib-sparkfun-vcnl4040` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

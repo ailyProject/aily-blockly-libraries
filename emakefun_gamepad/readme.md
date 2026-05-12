@@ -1,31 +1,26 @@
-# Emakefun游戏手柄
+# Emakefun remote control handle
 
-Emakefun游戏手柄Arduino库的Aily Blockly封装，支持按键检测、摇杆读取、陀螺仪数据获取及2.4G/BLE无线通信。
+Emakefun remote controller library supports buttons, joysticks, gyroscopes and 2.4G/BLE wireless communication
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
-| 包名 | @aily-project/lib-emakefun_gamepad |
-| 版本 | 1.0.0 |
-| 作者 | Emakefun |
-| 来源 | https://github.com/emakefun-arduino-library/emakefun_gamepad |
-| 许可证 | MIT |
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-emakefun-gamepad |
+| Version | 1.0.0 |
+| Author | Emakefun |
+| Source | https://github.com/emakefun-arduino-library/emakefun_gamepad |
+| License | MIT |
 
-## 支持的开发板
+## Supported Boards
 
-- Arduino UNO
-- Arduino Nano
-- Arduino Mega
+Arduino AVR, ESP32
 
-## 功能描述
+## Description
 
-本库为易创空间游戏手柄提供可视化编程支持，可读取9个按键状态（摇杆按键、L/R/Select/Mode/A/B/C/D）、摇杆XY坐标、MPU6050陀螺仪重力加速度数据，并支持通过2.4G RF24模块或BLE蓝牙进行无线数据传输。手柄端使用Gamepad + Publisher发送数据，接收端使用Subscriber接收数据并绑定到GamepadModel读取状态。
+Emakefun remote controller library supports buttons, joysticks, gyroscopes and 2.4G/BLE wireless communication
 
-## 快速开始
+## Quick Start
 
-1. 使用"初始化游戏手柄"积木初始化手柄
-2. 使用"创建游戏手柄模型"积木创建数据模型，再用"绑定模型"连接
-3. 使用"按键事件"积木处理按键按下/释放操作
-4. 使用"摇杆与传感器"积木读取摇杆坐标和陀螺仪数据
-5. 如需无线通信，使用"2.4G无线通信"或"BLE蓝牙通信"积木配对发送/接收端
+1. Enable `@aily-project/lib-emakefun-gamepad` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

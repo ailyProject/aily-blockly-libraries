@@ -1,6 +1,6 @@
-# SparkFun LSM303C 六轴 IMU
+# SparkFun LSM303C 6DOF IMU
 
-读取 LSM303C 三轴加速度计和三轴磁力计数据。
+Blockly wrapper for SparkFun LSM303C 6DOF IMU (accel + mag).
 
 ## Library Info
 
@@ -8,20 +8,19 @@
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-lsm303c |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_LSM303C_6_DOF_IMU_Breakout_Arduino_Library |
-| License | MIT |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO、ESP32（I2C 模式）
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-LSM303C 集成三轴加速度计和三轴磁力计，通过 I2C 直接读取浮点值（mg 和 Gauss）。
+Blockly wrapper for SparkFun LSM303C 6DOF IMU (accel + mag).
 
 ## Quick Start
 
-1. 连接到 I2C 总线
-2. 在 Setup 中调用初始化块
-3. 直接调用各轴读取块获取数值
+1. Enable `@aily-project/lib-sparkfun-lsm303c` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

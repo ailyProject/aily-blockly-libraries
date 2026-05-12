@@ -16,6 +16,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const yaml = require('js-yaml');
+const readmeCompliance = require('../.scripts/check-readme-compliance.js');
 
 class LibraryValidator {
   constructor(configPath = null) {
@@ -841,68 +842,40 @@ class LibraryValidator {
   // 6. README规范检测
   async checkReadmeCompliance(libraryPath) {
     console.log('\n📚 检测README规范...');
-    
-    let readmePath = path.join(libraryPath, 'README.md');
-    if (!fs.existsSync(readmePath)) {
-      readmePath = path.join(libraryPath, 'readme.md');
-    }
-    
-    if (!fs.existsSync(readmePath)) {
-      this.addFailure(3);
-      this.addIssue('warning', 'README', 'README文件不存在', '创建README.md并按照轻量化规范编写');
-      console.log(`  ⚠️  README文件不存在`);
-      return;
-    }
 
     try {
-      const content = fs.readFileSync(readmePath, 'utf8');
-      
-      // 检测文件大小（5KB限制）
-      const sizeKB = Buffer.byteLength(content, 'utf8') / 1024;
-      if (sizeKB <= 5) {
-        this.addSuccess();
-        console.log(`  ✅ 文件大小合规 (${sizeKB.toFixed(1)}KB)`);
-      } else {
-        this.addFailure();
-        this.addIssue('warning', 'README', `文件过大: ${sizeKB.toFixed(1)}KB > 5KB`, '精简内容，遵循轻量化原则');
-        console.log(`  ⚠️  文件过大: ${sizeKB.toFixed(1)}KB`);
-      }
-
-      // 检测必需段落
-      const requiredSections = [
-        { name: '库信息', pattern: /##\s*库信息/ },
-        { name: '块定义', pattern: /##\s*块定义/ },
-        { name: '字段类型映射', pattern: /##\s*字段类型映射/ },
-        { name: '连接规则', pattern: /##\s*连接规则/ },
-        { name: '使用示例', pattern: /##\s*使用示例/ },
-        { name: '重要规则', pattern: /##\s*重要规则/ }
+      const packagePath = path.join(libraryPath, 'package.json');
+      const blockPath = path.join(libraryPath, 'block.json');
+      const packageJson = fs.existsSync(packagePath) ? JSON.parse(fs.readFileSync(packagePath, 'utf8').replace(/^\uFEFF/, '')) : {};
+      const blocks = fs.existsSync(blockPath) ? JSON.parse(fs.readFileSync(blockPath, 'utf8').replace(/^\uFEFF/, '')) : [];
+      const blockList = Array.isArray(blocks) ? blocks : [];
+      const issues = [
+        ...readmeCompliance.validateHumanReadme(libraryPath, packageJson, blockList),
+        ...readmeCompliance.validateAiReadme(libraryPath, packageJson, blockList)
       ];
+      const errors = issues.filter(issue => issue.level !== 'info');
+      const infos = issues.filter(issue => issue.level === 'info');
 
-      for (const section of requiredSections) {
-        if (section.pattern.test(content)) {
-          this.addSuccess();
-          console.log(`  ✅ ${section.name} 段落存在`);
-        } else {
-          this.addFailure();
-          this.addIssue('warning', 'README', `缺少${section.name}段落`, `添加 ## ${section.name} 段落`);
-          console.log(`  ⚠️  缺少${section.name}段落`);
+      if (errors.length === 0) {
+        this.addSuccess(6);
+        console.log('  ✅ readme.md 符合人类文档规范');
+        console.log('  ✅ readme_ai.md 符合ABS参考规范');
+      } else {
+        this.addFailure(errors.length);
+        for (const issue of errors) {
+          this.addIssue('warning', 'README', issue.message, '运行 npm run readme:fix 自动修复README文档');
+          console.log(`  ⚠️  ${issue.message}`);
         }
       }
 
-      // 检测块定义表格格式
-      if (/\|\s*块类型\s*\|\s*连接\s*\|\s*字段\/输入\s*\|\s*\.abi格式\s*\|\s*生成代码\s*\|/.test(content)) {
-        this.addSuccess();
-        console.log(`  ✅ 块定义表格格式正确`);
-      } else {
-        this.addFailure();
-        this.addIssue('warning', 'README', '块定义表格格式不正确', '使用标准的5列表格格式');
-        console.log(`  ⚠️  块定义表格格式不正确`);
+      for (const info of infos) {
+        this.addIssue('info', 'README', info.message, '复杂库允许 readme_ai.md 最大15KB');
+        console.log(`  💡 ${info.message}`);
       }
-
     } catch (error) {
       this.addFailure();
-      this.addIssue('error', 'README', `读取README失败: ${error.message}`, '检查文件编码和权限');
-      console.log(`  ❌ 读取失败: ${error.message}`);
+      this.addIssue('error', 'README', `README规范检测失败: ${error.message}`, '检查package.json、block.json和README文件');
+      console.log(`  ❌ README规范检测失败: ${error.message}`);
     }
   }
 

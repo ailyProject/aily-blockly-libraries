@@ -1,27 +1,26 @@
-# DM11电机驱动
+# DM11 motor driver
 
-DM11 I2C电机驱动模块库，支持双电机PWM控制
+Emakefun DM11 motor driver module supports dual motor PWM control
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
-| 包名 | @aily-project/lib-dm11 |
-| 版本 | 1.0.0 |
-| 作者 | Emakefun |
-| 来源 | https://github.com/emakefun-arduino-library/em_dm11 |
-| 许可证 | MIT |
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-emakefun-dm11 |
+| Version | 1.0.0 |
+| Author | Emakefun |
+| Source | https://github.com/emakefun-arduino-library/em_dm11 |
+| License | Original license |
 
-## 支持的开发板
+## Supported Boards
 
-Arduino UNO、ESP32、ESP8266、Arduino UNO R4 WiFi等支持I2C的开发板
+Arduino AVR, ESP32
 
-## 描述
+## Description
 
-DM11是使用I2C协议驱动4路PWM从而驱动2路电机的模块，默认I2C地址为0x15。支持PWM频率1-10000Hz，占空比范围0-4095。
+Emakefun DM11 motor driver module supports dual motor PWM control
 
-## 快速开始
+## Quick Start
 
-1. 将DM11模块连接到开发板的I2C接口（SDA、SCL）
-2. 连接电机到模块的电机接口
-3. 使用初始化块配置模块，然后使用电机控制块驱动电机
+1. Enable `@aily-project/lib-emakefun-dm11` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

@@ -1,6 +1,6 @@
-# Seeed Arduino FS
+# Seeed SD Card File System Library
 
-A Blockly library for SD card file system operations on Seeed development boards.
+Seeed SD card file system operation library. Supports file read/write, append, delete, rename, and directory management on SD cards. Compatible with Seeed development boards (e.g. Wio Terminal, SAMD21) via SPI.
 
 ## Library Info
 
@@ -10,18 +10,17 @@ A Blockly library for SD card file system operations on Seeed development boards
 | Version | 1.0.0 |
 | Author | Hongtai.liu |
 | Source | https://github.com/Seeed-Studio/Seeed_Arduino_FS |
-| License | GNU GPL v3 |
+| License | Original license |
 
 ## Supported Boards
 
-Seeed Wio Terminal, SAMD21-based Seeed boards, ESP32, ESP8266, RP2040
+Arduino SAMD, Arduino AVR, ESP32, RP2040
 
 ## Description
 
-Wraps the Seeed_Arduino_FS library for visual programming. Provides blocks for initializing an SPI-connected SD card and performing file/directory operations (read, write, append, delete, rename, list). Uses the FatFs-based `SD` global object via `#include <Seeed_Arduino_FS.h>`.
+Seeed SD card file system operation library. Supports file read/write, append, delete, rename, and directory management on SD cards. Compatible with Seeed development boards (e.g. Wio Terminal, SAMD21) via SPI.
 
 ## Quick Start
 
-1. Connect SD card to SPI pins (default: SDCARD_SS_PIN / SDCARD_SPI).
-2. Add "初始化SD卡 (默认SPI引脚)" block in `setup`.
-3. Use quick file operation blocks to read/write files.
+1. Enable `@aily-project/lib-seeed-fs` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

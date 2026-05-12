@@ -1,6 +1,6 @@
-# 舵机驱动
+# Servo drive
 
-舵机控制支持库，通过PWM信号精准控制舵机的转动角度，支持多通道舵机控制、角度设定、速度调节，适用于Arduino UNO、MEGA、UNO R4等开发板
+The servo control support library accurately controls the rotation angle of the servo through PWM signals. It supports multi-channel servo control, angle setting, and speed adjustment. It is suitable for Arduino UNO,...
 
 ## Library Info
 - **Name**: @aily-project/lib-servo
@@ -10,15 +10,16 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `servo_write` | Statement | PIN(dropdown), ANGLE(input_value) | `servo_write(PIN, math_number(0))` | (dynamic code) |
-| `servo_read` | Value | PIN(dropdown) | `servo_read(PIN)` | (dynamic code) |
-| `servo_angle` | Value | ANGLE(field_angle180) | `servo_angle()` | (dynamic code) |
+| `servo_write` | Statement | PIN(dropdown), ANGLE(input_value) | `servo_write(PIN, math_number(90))` | Dynamic code |
+| `servo_read` | Value | PIN(dropdown) | `servo_read(PIN)` | Dynamic code |
+| `servo_angle` | Value | ANGLE(field_angle180) | `servo_angle()` | Dynamic code |
 
 ## ABS Examples
 
 ### Basic Usage
 ```
 arduino_setup()
+    servo_write(PIN, math_number(90))
     serial_begin(Serial, 9600)
 
 arduino_loop()
@@ -28,5 +29,5 @@ arduino_loop()
 
 ## Notes
 
-1. **Initialization**: Place init/setup blocks inside `arduino_setup()`
-2. **Parameter Order**: Follows `block.json` args0 order
+1. **Parameter order**: ABS parameters follow `block.json` args order.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

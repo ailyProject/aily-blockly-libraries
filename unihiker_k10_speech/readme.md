@@ -1,27 +1,26 @@
-# K10语音识别/合成
+# K10 Speech Recognition & Synthesis
 
-UNIHIKER K10 语音识别与合成库，支持语音唤醒、命令词识别和 TTS 语音播报。
+UNIHIKER K10 speech recognition and synthesis library, supports Chinese/English speech recognition, command detection and TTS
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
-| 包名 | @aily-project/lib-unihiker-k10-speech |
-| 版本 | 0.1.0 |
-| 作者 | DFRobot |
-| 来源 | https://github.com/DFRobot/UNIHIKER_K10 |
-| 许可证 | MIT |
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-unihiker-k10-speech |
+| Version | 0.1.0 |
+| Author | DFRobot |
+| Source | N/A |
+| License | Original license |
 
-## 支持的开发板
+## Supported Boards
 
-UNIHIKER K10 (DFR0992)
+UNIHIKER:esp32:k10
 
-## 说明
+## Description
 
-K10 开发板集成语音识别和语音合成（TTS）功能，支持中英文语音唤醒、自定义命令词识别和语音播报。可设置播报速度。
+UNIHIKER K10 speech recognition and synthesis library, supports Chinese/English speech recognition, command detection and TTS
 
-## 快速开始
+## Quick Start
 
-1. 使用「初始化语音识别」积木初始化 ASR 模块
-2. 使用「添加语音命令」积木注册自定义命令词
-3. 在循环中检测唤醒状态和命令词识别结果
+1. Enable `@aily-project/lib-unihiker-k10-speech` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

@@ -1,4 +1,6 @@
-# SparkFun SSD1320 OLED 显示屏
+# SparkFun SSD1320 OLED Display
+
+Blockly wrapper for the SparkFun SSD1320 SPI monochrome OLED display.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-ssd1320
@@ -8,7 +10,26 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `ssd1320_init` | Statement | VAR(field_input), RST/DC/CS(value) | `ssd1320_init("oled", 9, 8, 10)` | `SSD1320_OLED oled(9, 8, 10); oled.begin();` |
-| `ssd1320_clear` | Statement | VAR(field_variable) | `ssd1320_clear(variables_get($oled))` | `oled.clear(PAGE); oled.display();` |
-| `ssd1320_print` | Statement | VAR(field_variable), X/Y(value), TEXT(value) | `ssd1320_print(variables_get($oled), 0, 0, "Hello")` | `oled.setCursor(0,0); oled.print("Hello"); oled.display();` |
-| `ssd1320_draw_rect` | Statement | VAR(field_variable), X/Y/W/H(value) | `ssd1320_draw_rect(variables_get($oled), 0, 0, 20, 10)` | `oled.rect(0,0,20,10); oled.display();` |
+| `ssd1320_init` | Statement | VAR(field_input), RST(input_value), DC(input_value), CS(input_value) | `ssd1320_init("oled", math_number(0), math_number(0), math_number(0))` | Dynamic code |
+| `ssd1320_clear` | Statement | VAR(field_variable) | `ssd1320_clear(variables_get($oled))` | Dynamic code |
+| `ssd1320_print` | Statement | VAR(field_variable), X(input_value), Y(input_value), TEXT(input_value) | `ssd1320_print(variables_get($oled), math_number(0), math_number(0), text("value"))` | Dynamic code |
+| `ssd1320_draw_rect` | Statement | VAR(field_variable), X(input_value), Y(input_value), W(input_value), H(input_value) | `ssd1320_draw_rect(variables_get($oled), math_number(0), math_number(0), math_number(0), math_number(0))` | Dynamic code |
+
+## ABS Examples
+
+### Basic Usage
+```
+arduino_setup()
+    ssd1320_init("oled", math_number(0), math_number(0), math_number(0))
+    serial_begin(Serial, 9600)
+
+arduino_loop()
+    ssd1320_clear(variables_get($oled))
+    time_delay(math_number(1000))
+```
+
+## Notes
+
+1. **Variable**: `ssd1320_init("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

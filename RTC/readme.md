@@ -1,27 +1,26 @@
-# RTC 实时时钟
+# RTC real time clock
 
-支持 DS3231/DS1307/DS1302/PCF8563 多种芯片的实时时钟 Blockly 库。
+Real-time clock library that supports multiple RTC chips of DS3231/DS1307/DS1302/PCF8563, providing time reading, setting, formatting and chip-specific functions
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
+| Field | Value |
+|-------|-------|
 | Package | @aily-project/lib-rtc |
 | Version | 1.0.0 |
 | Author | Michael C. Miller (Makuna) |
 | Source | https://github.com/Makuna/Rtc |
 | License | LGPL-3.0 |
 
-## 支持的开发板
+## Supported Boards
 
-Arduino UNO, Mega, SAMD, ESP32, ESP8266, RP2040
+Arduino AVR, Arduino SAMD, ESP32, RP2040
 
-## 说明
+## Description
 
-基于 Makuna/Rtc 库，统一支持 DS3231（I2C，含温度传感器）、DS1307（I2C）、DS1302（三线协议）和 PCF8563（I2C）四种常见 RTC 芯片。提供时间读取、设置、格式化及芯片专有功能。
+Real-time clock library that supports multiple RTC chips of DS3231/DS1307/DS1302/PCF8563, providing time reading, setting, formatting and chip-specific functions
 
-## 快速开始
+## Quick Start
 
-1. 在 setup 中使用"初始化RTC时钟"积木，选择芯片型号
-2. 使用"设置为编译时间"积木进行首次校准
-3. 在 loop 中使用"获取当前时间"和时间组件积木读取时间
+1. Enable `@aily-project/lib-rtc` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

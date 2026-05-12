@@ -1,27 +1,26 @@
-# TLx5012B 磁性角度传感器
+# TLx5012B Magnetic Angle Sensor
 
-Infineon XENSIV TLx5012B 磁性角度传感器的 Blockly 积木库，支持 360° 角度测量。
+Infineon TLx5012B magnetic angle sensor control library, suitable for Arduino, ESP32 and other development boards. Use the SPI interface to read 360° angle, angular velocity, number of rotations and temperature, suita...
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|------|
+| Field | Value |
+|-------|-------|
 | Package | @aily-project/lib-infineon-tlx5012 |
 | Version | 0.0.1 |
-| Author | Infineon Technologies AG |
+| Author | ailyProject |
 | Source | https://github.com/Infineon/arduino-xensiv-angle-sensor-tlx5012 |
-| License | MIT |
+| License | Original license |
 
-## 支持的开发板
+## Supported Boards
 
-Arduino UNO, Arduino Mega, ESP32, ESP32-S3
+Arduino AVR, ESP32
 
-## 简介
+## Description
 
-TLx5012B 是一款预校准的 360° 磁性角度传感器，使用 SPI 接口通信。支持读取角度值、角速度、旋转圈数和温度。适用于电机控制、机器人、旋钮编码等应用场景。
+Infineon TLx5012B magnetic angle sensor control library, suitable for Arduino, ESP32 and other development boards. Use the SPI interface to read 360° angle, angular velocity, number of rotations and temperature, suita...
 
-## 快速开始
+## Quick Start
 
-1. 将传感器的 SPI 引脚连接到开发板（MISO、MOSI、SCK、CS）
-2. 使用"初始化 TLx5012B"积木设置 CS 引脚
-3. 使用"读取角度值"等积木获取传感器数据
+1. Enable `@aily-project/lib-infineon-tlx5012` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

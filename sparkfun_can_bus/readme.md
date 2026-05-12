@@ -1,6 +1,6 @@
-# SparkFun CAN-Bus
+# SparkFun CAN-Bus Shield
 
-SparkFun CAN-Bus Shield Blockly library for MCP2515 communication.
+Blockly wrapper for the SparkFun CAN-Bus Shield and MCP2515 controller.
 
 ## Library Info
 
@@ -8,18 +8,19 @@ SparkFun CAN-Bus Shield Blockly library for MCP2515 communication.
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-can-bus |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics / Sukking Pang |
-| Source | https://github.com/sparkfun/SparkFun_CAN-Bus_Arduino_Library |
-| License | BSD / CC-BY-SA |
+| Author | SparkFun Electronics, Sukking Pang |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino AVR boards supported by the upstream CAN-Bus Shield library.
+Arduino AVR, ESP32, RP2040
 
 ## Description
 
-This library wraps the SparkFun CAN-Bus Shield for Blockly. It supports CAN speed setup, ready status, test transmit, custom frame transmit, receive caching, byte access, and common OBD-II PID text requests.
+Blockly wrapper for the SparkFun CAN-Bus Shield and MCP2515 controller.
 
 ## Quick Start
 
-Call `canbus_init`, then use `canbus_read_message` before reading cached ID, length, or data bytes. Use `canbus_send_message` for custom frames.
+1. Enable `@aily-project/lib-sparkfun-can-bus` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

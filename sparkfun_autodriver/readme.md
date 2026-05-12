@@ -1,6 +1,6 @@
 # SparkFun L6470 AutoDriver
 
-SparkFun L6470 AutoDriver stepper motor Blockly library.
+Blockly wrapper for the SparkFun L6470 AutoDriver stepper motor driver.
 
 ## Library Info
 
@@ -8,18 +8,19 @@ SparkFun L6470 AutoDriver stepper motor Blockly library.
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-autodriver |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_AutoDriver_Arduino_Library |
-| License | Beerware |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino AVR and other SPI-compatible boards supported by the upstream library.
+Arduino AVR, ESP32, RP2040
 
 ## Description
 
-This library wraps the SparkFun L6470 AutoDriver for Blockly. It supports object creation, SPI setup, microstepping, speed, acceleration, KVAL, run, move, go-to, position, status, stop, high-impedance, and reset commands.
+Blockly wrapper for the SparkFun L6470 AutoDriver stepper motor driver.
 
 ## Quick Start
 
-Wire the AutoDriver SPI pins, call `autodriver_init`, configure step mode and speed, then call `autodriver_move` or `autodriver_run`.
+1. Enable `@aily-project/lib-sparkfun-autodriver` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

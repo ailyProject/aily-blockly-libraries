@@ -1,6 +1,6 @@
-# SparkFun LSM6DSO 六轴 IMU
+# SparkFun LSM6DSO 6DoF IMU
 
-SparkFun Qwiic LSM6DSO 六轴惯性测量单元（加速度计 + 陀螺仪）的 Blockly 封装库。
+Blockly wrapper for SparkFun LSM6DSO 6DoF IMU (accel, gyro, temperature) via I2C.
 
 ## Library Info
 
@@ -8,20 +8,19 @@ SparkFun Qwiic LSM6DSO 六轴惯性测量单元（加速度计 + 陀螺仪）的
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-lsm6dso |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_Qwiic_6DoF_LSM6DSO_Arduino_Library |
-| License | MIT |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, Mega, ESP32, SAMD21 等支持 I2C 的板子。
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-LSM6DSO 是一款集成加速度计和陀螺仪的六轴 IMU，通过 I2C 通信（默认地址 0x6B）。支持读取三轴加速度（g）、三轴角速度（dps）及板载温度（°C）。
+Blockly wrapper for SparkFun LSM6DSO 6DoF IMU (accel, gyro, temperature) via I2C.
 
 ## Quick Start
 
-1. 通过 Qwiic 连接 LSM6DSO 模块
-2. 使用「初始化 LSM6DSO IMU」块进行初始化
-3. 使用加速度/陀螺仪读取块获取数据
+1. Enable `@aily-project/lib-sparkfun-lsm6dso` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

@@ -1,6 +1,6 @@
-# 粉尘传感器驱动库
+# Dust sensor driver library
 
-读取GP2Y1010AU0F粉尘传感器的值，并计算和打印粉尘浓度
+Read the value of the GP2Y1010AU0F dust sensor and calculate and print the dust concentration
 
 ## Library Info
 - **Name**: @aily-project/lib-gp2y1010au0f
@@ -10,8 +10,8 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `gp2y1010au0f_init` | Statement | LED_PIN(dropdown), MEASURE_PIN(dropdown) | `gp2y1010au0f_init(LED_PIN, MEASURE_PIN)` | `` |
-| `gp2y1010au0f_read` | Value | (none) | `gp2y1010au0f_read()` | `dustSensor.read()` |
+| `gp2y1010au0f_init` | Statement | LED_PIN(dropdown), MEASURE_PIN(dropdown) | `gp2y1010au0f_init(LED_PIN, MEASURE_PIN)` | Dynamic code |
+| `gp2y1010au0f_read` | Value | (none) | `gp2y1010au0f_read()` | dustSensor.read() |
 
 ## ABS Examples
 
@@ -28,5 +28,5 @@ arduino_loop()
 
 ## Notes
 
-1. **Initialization**: Place init/setup blocks inside `arduino_setup()`
-2. **Parameter Order**: Follows `block.json` args0 order
+1. **Parameter order**: ABS parameters follow `block.json` args order.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

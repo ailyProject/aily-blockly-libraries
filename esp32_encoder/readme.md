@@ -1,26 +1,26 @@
-# ESP32旋转编码器库
+# ESP32 Rotary Encoder Library
 
-ESP32旋转编码器驱动库适用于esp32，通过I2C通信，实现对旋转编码器信号的高效采集与处理，简化编码器应用开发流程。支持多通道编码器输入、旋转方向与步数精准检测，兼容多种编码器类型。
+The ESP32 rotary encoder driver library is suitable for esp32. Through I2C communication, it can realize efficient collection and processing of rotary encoder signals and simplify the encoder application development p...
 
 ## Library Info
 
 | Field | Value |
 |-------|-------|
-| Package | @aily-project/lib-esp32_encoder |
+| Package | @aily-project/lib-esp32-encoder |
 | Version | 0.0.1 |
 | Author | OpenJumper |
-| License | MIT |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-esp32:esp, ESP32
+ESP32
 
 ## Description
 
-ESP32旋转编码器驱动库适用于esp32，通过I2C通信，实现对旋转编码器信号的高效采集与处理，简化编码器应用开发流程。支持多通道编码器输入、旋转方向与步数精准检测，兼容多种编码器类型。
-
-This library provides 6 Blockly blocks.
+The ESP32 rotary encoder driver library is suitable for esp32. Through I2C communication, it can realize efficient collection and processing of rotary encoder signals and simplify the encoder application development p...
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-esp32-encoder` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

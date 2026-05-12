@@ -1,6 +1,6 @@
-# HM3301 PM2.5传感器
+# HM3301 PM2.5 sensor
 
-HM3301激光粉尘传感器，I2C通讯，可检测PM1.0、PM2.5、PM10颗粒物浓度
+HM3301 laser dust sensor, I2C communication, can detect PM1.0, PM2.5, PM10 particle concentration
 
 ## Library Info
 - **Name**: @aily-project/lib-seeed-hm3301
@@ -10,14 +10,14 @@ HM3301激光粉尘传感器，I2C通讯，可检测PM1.0、PM2.5、PM10颗粒物
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `hm3301_init` | Statement | (none, ESP32 has SDA_PIN/SCL_PIN) | `hm3301_init()` | `hm3301_sensor.init();` |
-| `hm3301_read` | Value | TYPE(dropdown) | `hm3301_read(PM2_5_STD)` | `hm3301_read_value(3)` |
+| `hm3301_init` | Statement | (none) | `hm3301_init()` | Dynamic code |
+| `hm3301_read` | Value | TYPE(dropdown) | `hm3301_read(PM1_0_STD)` | hm3301_read_value( |
 
 ## Parameter Options
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| TYPE | PM1_0_STD, PM2_5_STD, PM10_STD, PM1_0_ATM, PM2_5_ATM, PM10_ATM | PM1.0/PM2.5/PM10 标准颗粒物或大气环境浓度 |
+| TYPE | PM1_0_STD, PM2_5_STD, PM10_STD, PM1_0_ATM, PM2_5_ATM, PM10_ATM | hm3301_read |
 
 ## ABS Examples
 
@@ -28,17 +28,12 @@ arduino_setup()
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    serial_print(Serial, text("PM2.5: "))
-    serial_println(Serial, hm3301_read(PM2_5_STD))
-    serial_print(Serial, text("PM10: "))
-    serial_println(Serial, hm3301_read(PM10_STD))
-    time_delay(math_number(5000))
+    serial_println(Serial, hm3301_read(PM1_0_STD))
+    time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. **Initialization**: Place `hm3301_init` inside `arduino_setup()`
-2. **I2C Address**: Fixed at 0x40, no configuration needed
-3. **Board Adaptation**: ESP32 allows SDA/SCL pin selection; UNO/Mega use fixed I2C pins
-4. **Data Types**: Standard (CF=1) for lab calibration; Atmospheric for real environment readings
-5. **Read Interval**: Recommended minimum 5 seconds between readings
+1. **Parameter order**: ABS parameters follow `block.json` args order.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+3. **Dynamic fields**: `hm3301_init` may add fields at runtime through Blockly extensions.

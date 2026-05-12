@@ -1,6 +1,6 @@
 # SparkFun ESP32 DMX
 
-用于 SparkFun ESP32 DMX Shield 的 Blockly 库。
+Blockly wrapper for SparkFun ESP32 DMX Shield.
 
 ## Library Info
 
@@ -8,18 +8,19 @@
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-dmx |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFunDMX |
-| License | MIT |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-ESP32 开发板，需使用 HardwareSerial 和 SparkFun DMX Shield。
+ESP32
 
 ## Description
 
-该库封装 DMX512 发送与接收流程，支持设置方向、写入单通道、读取单通道、检查接收数据和 update 刷新。
+Blockly wrapper for SparkFun ESP32 DMX Shield.
 
 ## Quick Start
 
-先初始化 UART、EN 引脚和通道数；发送模式下写入通道值后调用更新，接收模式下持续更新并检查新数据。
+1. Enable `@aily-project/lib-sparkfun-dmx` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

@@ -1,6 +1,6 @@
-# SparkFun Qwiic Twist RGB 旋转编码器
+# SparkFun Qwiic Twist RGB Rotary Encoder
 
-SparkFun Qwiic Twist（DEV-15083）的 Blockly 封装库，支持旋转计数、按钮检测和 RGB LED 控制，通过 I2C（默认地址 0x3F）连接。
+Blockly wrapper for SparkFun Qwiic Twist RGB rotary encoder.
 
 ## Library Info
 
@@ -8,11 +8,19 @@ SparkFun Qwiic Twist（DEV-15083）的 Blockly 封装库，支持旋转计数、
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-qwiic-twist |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
+
+## Supported Boards
+
+Arduino-compatible boards supported by this package.
+
+## Description
+
+Blockly wrapper for SparkFun Qwiic Twist RGB rotary encoder.
 
 ## Quick Start
 
-1. 通过 Qwiic 连接模块
-2. 初始化编码器
-3. 在循环中读取计数、检测旋转/点击
-4. 可设置 RGB LED 颜色作为视觉反馈
+1. Enable `@aily-project/lib-sparkfun-qwiic-twist` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

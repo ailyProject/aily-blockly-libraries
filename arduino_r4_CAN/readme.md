@@ -1,6 +1,6 @@
-# R4 CAN总线通信库
+# R4 CAN bus communication library
 
-用于Arduino UNO R4的CAN总线通信库，支持CAN消息的发送和接收
+CAN bus communication library for Arduino UNO R4, supporting sending and receiving of CAN messages
 
 ## Library Info
 
@@ -9,18 +9,18 @@
 | Package | @aily-project/lib-r4-can |
 | Version | 1.0.0 |
 | Author | Arduino |
-| License | MIT |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-renesas_uno:minima, renesas_uno:unor4wifi
+Arduino UNO R4
 
 ## Description
 
-用于Arduino UNO R4的CAN总线通信库，支持CAN消息的发送和接收
-
-This library provides 9 Blockly blocks.
+CAN bus communication library for Arduino UNO R4, supporting sending and receiving of CAN messages
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-r4-can` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

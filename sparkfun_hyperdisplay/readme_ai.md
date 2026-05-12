@@ -1,6 +1,6 @@
-# SparkFun HyperDisplay 图形框架库
+# SparkFun HyperDisplay Graphics Framework
 
-抽象图形库，提供统一绘图 API，需配合派生的具体显示屏驱动使用。变量名字段应与实际显示对象名一致。
+Blockly wrapper for the SparkFun HyperDisplay abstract graphics framework library.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-hyperdisplay
@@ -10,28 +10,35 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `hyperdisplay_include` | Statement | — | `hyperdisplay_include()` | `#include <SparkFun_HyperDisplay/hyperdisplay.h>` (via addLibrary) |
-| `hyperdisplay_fill_window` | Statement | VAR(field_input) | `hyperdisplay_fill_window("myDisplay")` | `myDisplay.fillWindow();` |
-| `hyperdisplay_pixel` | Statement | VAR(field_input), X(input_value), Y(input_value) | `hyperdisplay_pixel("myDisplay", math_number(0), math_number(0))` | `myDisplay.pixel(0, 0);` |
-| `hyperdisplay_line` | Statement | VAR(field_input), X0, Y0, X1, Y1, WIDTH(field_number) | `hyperdisplay_line("myDisplay", ...)` | `myDisplay.line(x0, y0, x1, y1, width);` |
-| `hyperdisplay_rectangle` | Statement | VAR(field_input), X0, Y0, X1, Y1, FILLED(dropdown) | `hyperdisplay_rectangle("myDisplay", ...)` | `myDisplay.rectangle(x0, y0, x1, y1, false);` |
-| `hyperdisplay_circle` | Statement | VAR(field_input), X, Y, R, FILLED(dropdown) | `hyperdisplay_circle("myDisplay", ...)` | `myDisplay.circle(x, y, r, false);` |
-| `hyperdisplay_print` | Statement | VAR(field_input), X, Y, TEXT(input_value) | `hyperdisplay_print("myDisplay", math_number(0), math_number(0), text("Hello"))` | `myDisplay.setTextCursor(0, 0); myDisplay.print("Hello");` |
+| `hyperdisplay_include` | Statement | (none) | `hyperdisplay_include()` | Dynamic code |
+| `hyperdisplay_fill_window` | Statement | VAR(field_input) | `hyperdisplay_fill_window("myDisplay")` | Dynamic code |
+| `hyperdisplay_pixel` | Statement | VAR(field_input), X(input_value), Y(input_value) | `hyperdisplay_pixel("myDisplay", math_number(0), math_number(0))` | Dynamic code |
+| `hyperdisplay_line` | Statement | VAR(field_input), X0(input_value), Y0(input_value), X1(input_value), Y1(input_value), WIDTH(field_number) | `hyperdisplay_line("myDisplay", math_number(0), math_number(0), math_number(0), math_number(0), 1)` | Dynamic code |
+| `hyperdisplay_rectangle` | Statement | VAR(field_input), X0(input_value), Y0(input_value), X1(input_value), Y1(input_value), FILLED(dropdown) | `hyperdisplay_rectangle("myDisplay", math_number(0), math_number(0), math_number(0), math_number(0), false)` | Dynamic code |
+| `hyperdisplay_circle` | Statement | VAR(field_input), X(input_value), Y(input_value), R(input_value), FILLED(dropdown) | `hyperdisplay_circle("myDisplay", math_number(0), math_number(0), math_number(0), false)` | Dynamic code |
+| `hyperdisplay_print` | Statement | VAR(field_input), X(input_value), Y(input_value), TEXT(input_value) | `hyperdisplay_print("myDisplay", math_number(0), math_number(0), text("value"))` | Dynamic code |
 
-## Notes
+## Parameter Options
 
-1. **抽象基类**: `hyperdisplay` 类是纯虚抽象类，无法直接实例化，需使用具体派生类（如 HyperDisplay_SSD1309）
-2. **变量名字段**: 所有积木使用 `field_input` 而非 `field_variable`，因为显示对象由其他具体驱动库创建
-3. **绘图坐标**: 使用窗口坐标系（`hd_extent_t` = double 类型）
+| Parameter | Values | Description |
+|-----------|--------|-------------|
+| FILLED | false, true | hyperdisplay_rectangle, hyperdisplay_circle |
 
 ## ABS Examples
 
+### Basic Usage
 ```
 arduino_setup()
     hyperdisplay_include()
-    // 具体显示屏初始化由对应驱动库积木完成
+    serial_begin(Serial, 9600)
+
 arduino_loop()
     hyperdisplay_fill_window("myDisplay")
-    hyperdisplay_rectangle("myDisplay", math_number(10), math_number(10), math_number(50), math_number(50), true)
-    hyperdisplay_print("myDisplay", math_number(0), math_number(0), text("Hello!"))
+    time_delay(math_number(1000))
 ```
+
+## Notes
+
+1. **Variable**: `hyperdisplay_fill_window("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

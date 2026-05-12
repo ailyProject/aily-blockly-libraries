@@ -1,4 +1,6 @@
-# SparkFun WiFly WiFi 扩展板
+# SparkFun WiFly Shield
+
+Blockly wrapper for the SparkFun WiFly WiFi Shield.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-wifly
@@ -8,9 +10,27 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `wifly_init` | Statement | (none) | `wifly_init()` | `SoftwareSerial _wiflySerial(2,3); WiFly.begin(_wiflySerial);` |
-| `wifly_join` | Value→Boolean | SSID(value), PASS(value) | `wifly_join("mySSID", "myPass")` | `WiFly.join("mySSID", "myPass")` |
-| `wifly_connected` | Value→Boolean | (none) | `wifly_connected()` | `WiFly.isConnected()` |
-| `wifly_open` | Value→Boolean | HOST(value), PORT(value) | `wifly_open("example.com", 80)` | `WiFly.open("example.com", 80)` |
-| `wifly_print` | Statement | DATA(value) | `wifly_print("GET /\r\n")` | `WiFly.print("GET /\r\n");` |
-| `wifly_available` | Value→Boolean | (none) | `wifly_available()` | `WiFly.available()` |
+| `wifly_init` | Statement | (none) | `wifly_init()` | _wiflySerial.begin(9600);\nWiFly.begin(_wiflySerial);\n |
+| `wifly_join` | Value | SSID(input_value), PASS(input_value) | `wifly_join(text("value"), math_number(0))` | WiFly.join( |
+| `wifly_connected` | Value | (none) | `wifly_connected()` | WiFly.isConnected() |
+| `wifly_open` | Value | HOST(input_value), PORT(input_value) | `wifly_open(text("value"), math_number(0))` | WiFly.open( |
+| `wifly_print` | Statement | DATA(input_value) | `wifly_print(math_number(0))` | WiFly.print( |
+| `wifly_available` | Value | (none) | `wifly_available()` | WiFly.available() |
+
+## ABS Examples
+
+### Basic Usage
+```
+arduino_setup()
+    wifly_init()
+    serial_begin(Serial, 9600)
+
+arduino_loop()
+    serial_println(Serial, wifly_join(text("value"), math_number(0)))
+    time_delay(math_number(1000))
+```
+
+## Notes
+
+1. **Parameter order**: ABS parameters follow `block.json` args order.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

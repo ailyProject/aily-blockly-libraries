@@ -1,28 +1,29 @@
-# ESP32旋转编码器库
+# ESP32 Rotary Encoder Library
 
-ESP32旋转编码器驱动库适用于esp32，通过I2C通信，实现对旋转编码器信号的高效采集与处理，简化编码器应用开发流程。支持多通道编码器输入、旋转方向与步数精准检测，兼容多种编码器类型。
+The ESP32 rotary encoder driver library is suitable for esp32. Through I2C communication, it can realize efficient collection and processing of rotary encoder signals and simplify the encoder application development p...
 
 ## Library Info
-- **Name**: @aily-project/lib-esp32_encoder
+- **Name**: @aily-project/lib-esp32-encoder
 - **Version**: 0.0.1
 
 ## Block Definitions
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `rotary_encoder_init` | Statement | CLK_PIN(field_number), DT_PIN(field_number), SW_PIN(field_number) | `rotary_encoder_init(6, 7, 8)` | `` |
-| `rotary_encoder_read` | Value | (none) | `rotary_encoder_read()` | `displayPos` |
-| `rotary_encoder_value_changed` | Value | (none) | `rotary_encoder_value_changed()` | `positionChanged` |
-| `rotary_encoder_state_change` | Statement | STATE(dropdown), DO(input_statement) | `rotary_encoder_state_change(CHANGED)` @DO: ... | (dynamic code) |
-| `rotary_encoder_get_property` | Value | PROPERTY(dropdown) | `rotary_encoder_get_property(POSITION)` | (dynamic code) |
-| `rotary_encoder_set_property` | Statement | PROPERTY(dropdown), VALUE(input_value) | `rotary_encoder_set_property(POSITION, math_number(0))` | (dynamic code) |
+| `rotary_encoder_init` | Statement | CLK_PIN(field_number), DT_PIN(field_number), SW_PIN(field_number) | `rotary_encoder_init(6, 7, 8)` | Dynamic code |
+| `rotary_encoder_read` | Value | (none) | `rotary_encoder_read()` | displayPos |
+| `rotary_encoder_value_changed` | Value | (none) | `rotary_encoder_value_changed()` | positionChanged |
+| `rotary_encoder_state_change` | Statement | STATE(dropdown), DO(input_statement) | `rotary_encoder_state_change(CHANGED) @DO: child_block()` | Dynamic code |
+| `rotary_encoder_get_property` | Value | PROPERTY(dropdown) | `rotary_encoder_get_property(POSITION)` | Dynamic code |
+| `rotary_encoder_set_property` | Statement | PROPERTY(dropdown), VALUE(input_value) | `rotary_encoder_set_property(POSITION, math_number(0))` | Dynamic code |
 
 ## Parameter Options
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| STATE | CHANGED, LEFT, RIGHT, ABOVE_LIMIT, BELOW_LIMIT | 位置改变 / 向左旋转 / 向右旋转 / 高于上限 / 低于下限 |
-| PROPERTY | POSITION, DIRECTION, INCREMENT, UPPER_LIMIT, LOWER_LIMIT | 位置 / 方向 / 增量 / 上限 / 下限 |
+| STATE | CHANGED, LEFT, RIGHT, ABOVE_LIMIT, BELOW_LIMIT | rotary_encoder_state_change |
+| PROPERTY | POSITION, DIRECTION, INCREMENT, UPPER_LIMIT, LOWER_LIMIT | rotary_encoder_get_property |
+| PROPERTY | POSITION, INCREMENT, UPPER_LIMIT, LOWER_LIMIT | rotary_encoder_set_property |
 
 ## ABS Examples
 
@@ -39,5 +40,5 @@ arduino_loop()
 
 ## Notes
 
-1. **Initialization**: Place init/setup blocks inside `arduino_setup()`
-2. **Parameter Order**: Follows `block.json` args0 order
+1. **Parameter order**: ABS parameters follow `block.json` args order.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

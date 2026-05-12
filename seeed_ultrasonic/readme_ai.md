@@ -1,6 +1,6 @@
-# Grove超声波测距
+# Grove ultrasonic ranging
 
-SeeedStudio超声波测距传感器库，支持厘米、毫米、英寸三种单位测量
+SeeedStudio ultrasonic distance sensor library supports measurement in centimeters, millimeters, and inches.
 
 ## Library Info
 - **Name**: @aily-project/lib-seeed-ultrasonic
@@ -10,10 +10,10 @@ SeeedStudio超声波测距传感器库，支持厘米、毫米、英寸三种单
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `ultrasonic_create` | Statement | VAR(field_input), PIN(dropdown) | `ultrasonic_create("ultrasonic", PIN)` | `` |
-| `ultrasonic_measure_cm` | Value | VAR(field_variable) | `ultrasonic_measure_cm($ultrasonic)` | (dynamic code) |
-| `ultrasonic_measure_mm` | Value | VAR(field_variable) | `ultrasonic_measure_mm($ultrasonic)` | (dynamic code) |
-| `ultrasonic_measure_inch` | Value | VAR(field_variable) | `ultrasonic_measure_inch($ultrasonic)` | (dynamic code) |
+| `ultrasonic_create` | Statement | VAR(field_input), PIN(dropdown) | `ultrasonic_create("ultrasonic", PIN)` | Dynamic code |
+| `ultrasonic_measure_cm` | Value | VAR(field_variable) | `ultrasonic_measure_cm(variables_get($ultrasonic))` | Dynamic code |
+| `ultrasonic_measure_mm` | Value | VAR(field_variable) | `ultrasonic_measure_mm(variables_get($ultrasonic))` | Dynamic code |
+| `ultrasonic_measure_inch` | Value | VAR(field_variable) | `ultrasonic_measure_inch(variables_get($ultrasonic))` | Dynamic code |
 
 ## ABS Examples
 
@@ -24,12 +24,12 @@ arduino_setup()
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    serial_println(Serial, ultrasonic_measure_cm($ultrasonic))
+    serial_println(Serial, ultrasonic_measure_cm(variables_get($ultrasonic)))
     time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. **Variable Creation**: `ultrasonic_create("varName", ...)` creates variable `$varName`; reference with `$varName`
-2. **Initialization**: Place init blocks inside `arduino_setup()`
-3. **Parameter Order**: Follows `block.json` args0 order
+1. **Variable**: `ultrasonic_create("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

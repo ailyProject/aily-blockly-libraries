@@ -1,6 +1,6 @@
-# SparkFun LIDAR-Lite v4
+# SparkFun LIDAR-Lite v4 Distance Sensor
 
-通过 I2C 获取激光测距距离值（厘米）。
+Blockly wrapper for SparkFun LIDAR-Lite v4 LED distance sensor.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-lidar-v4
@@ -10,20 +10,20 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `lidarv4_init` | Statement | VAR(field_input) | `lidarv4_init("lidar")` | `LIDARLite_v4LED lidar; Wire.begin(); lidar.begin();` |
-| `lidarv4_configure` | Statement | VAR(field_variable), MODE(dropdown) | `lidarv4_configure(variables_get($lidar), 0)` | `lidar.configure(0);` |
-| `lidarv4_get_distance` | Value→Number | VAR(field_variable) | `lidarv4_get_distance(variables_get($lidar))` | `lidar.getDistance()` |
-| `lidarv4_is_connected` | Value→Boolean | VAR(field_variable) | `lidarv4_is_connected(variables_get($lidar))` | `lidar.isConnected()` |
+| `lidarv4_init` | Statement | VAR(field_input) | `lidarv4_init("lidar")` | Wire.begin();\n |
+| `lidarv4_get_distance` | Value | VAR(field_variable) | `lidarv4_get_distance(variables_get($lidar))` | Dynamic code |
+| `lidarv4_configure` | Statement | VAR(field_variable), MODE(dropdown) | `lidarv4_configure(variables_get($lidar), "0")` | Dynamic code |
+| `lidarv4_is_connected` | Value | VAR(field_variable) | `lidarv4_is_connected(variables_get($lidar))` | Dynamic code |
 
 ## Parameter Options
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| MODE | 0,1,2,3,4,5 | 0=默认；1=短距高速；2=短距高精；3=最大距；4=高灵敏；5=低灵敏 |
+| MODE | 0, 1, 2, 3, 4, 5 | lidarv4_configure |
 
 ## ABS Examples
 
-### 循环读取距离
+### Basic Usage
 ```
 arduino_setup()
     lidarv4_init("lidar")
@@ -31,10 +31,11 @@ arduino_setup()
 
 arduino_loop()
     serial_println(Serial, lidarv4_get_distance(variables_get($lidar)))
-    time_delay(math_number(100))
+    time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. **初始化**: 在 `arduino_setup()` 中调用，需已执行 `Wire.begin()`（初始化块内含）
-2. **getDistance()**: 封装了「触发→等待→读取」三步，是最简单的使用方式
+1. **Variable**: `lidarv4_init("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

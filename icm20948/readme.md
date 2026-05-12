@@ -1,6 +1,6 @@
-# ICM20948九轴传感器
+# ICM20948 nine-axis sensor
 
-ICM20948九轴传感器支持库，支持加速度计、陀螺仪、磁力计和AHRS姿态解算
+ICM20948 nine-axis sensor support library supports accelerometer, gyroscope, magnetometer and AHRS attitude calculation
 
 ## Library Info
 
@@ -8,19 +8,19 @@ ICM20948九轴传感器支持库，支持加速度计、陀螺仪、磁力计和
 |-------|-------|
 | Package | @aily-project/lib-icm20948 |
 | Version | 1.0.0 |
-| Author | aily Project |
-| License | MIT |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino AVR (UNO/Nano/Mega), ESP32, renesas_uno:minima, renesas_uno:unor4wifi
+Arduino AVR, ESP32, Arduino UNO R4
 
 ## Description
 
-ICM20948九轴传感器支持库，支持加速度计、陀螺仪、磁力计和AHRS姿态解算
-
-This library provides 15 Blockly blocks.
+ICM20948 nine-axis sensor support library supports accelerometer, gyroscope, magnetometer and AHRS attitude calculation
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-icm20948` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

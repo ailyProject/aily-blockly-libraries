@@ -1,119 +1,26 @@
-# L298N 电机驱动库
+# L298N motor driver
 
-L298N双H桥直流电机驱动模块库，支持速度和方向控制，适用于Arduino及兼容开发板。
+L298N dual H-bridge DC motor drive module library, supporting speed and direction control
 
-## 库信息
+## Library Info
 
-- **库名**: @aily-project/lib-l298n
-- **版本**: 1.0.0
-- **兼容性**: Arduino AVR, ESP32, ESP8266, SAMD, RP2040等主流开发板
-- **原库**: [AndreaLombardo/L298N](https://github.com/AndreaLombardo/L298N)
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-l298n |
+| Version | 1.0.0 |
+| Author | AndreaLombardo |
+| Source | https://github.com/AndreaLombardo/L298N |
+| License | MIT |
 
-## 功能特性
+## Supported Boards
 
-- ✅ 支持单电机和双电机控制
-- ✅ PWM速度调节（0-255）
-- ✅ 正转、反转、停止控制
-- ✅ 定时运行功能
-- ✅ 状态查询（速度、方向、运动状态）
-- ✅ 简单易用的图形化积木块
+Arduino-compatible boards supported by this package.
 
-## 硬件连接
+## Description
 
-### 带PWM调速（推荐）
-- **EN**: PWM引脚（如Arduino UNO的3, 5, 6, 9, 10, 11）
-- **IN1**: 数字引脚
-- **IN2**: 数字引脚
+L298N dual H-bridge DC motor drive module library, supporting speed and direction control
 
-### 无PWM调速
-- **IN1**: 数字引脚
-- **IN2**: 数字引脚
-- **EN**: 通过跳线帽连接到5V
+## Quick Start
 
-## 使用示例
-
-### 基础示例：电机正转5秒
-```cpp
-#include <L298N.h>
-
-L298N motor(3, 4, 5);  // EN=3, IN1=4, IN2=5
-
-void setup() {
-  motor.setSpeed(200);  // 设置速度
-  motor.forward();      // 正转
-}
-
-void loop() {
-  
-}
-```
-
-### 定时运行示例
-```cpp
-#include <L298N.h>
-
-L298N motor(3, 4, 5);
-
-void setup() {
-  motor.setSpeed(150);
-  motor.forwardFor(5000);  // 正转5秒
-}
-
-void loop() {
-  
-}
-```
-
-## 块说明
-
-### 初始化块
-
-| 块名称 | 功能 | 参数 |
-|--------|------|------|
-| 初始化电机 | 创建电机对象（带PWM调速） | EN引脚、IN1引脚、IN2引脚 |
-| 初始化电机（无调速） | 创建电机对象（无PWM） | IN1引脚、IN2引脚 |
-
-### 控制块
-
-| 块名称 | 功能 | 参数 |
-|--------|------|------|
-| 设置速度 | 设置PWM速度值 | 速度值（0-255） |
-| 前进 | 电机正转 | 无 |
-| 后退 | 电机反转 | 无 |
-| 停止 | 停止电机 | 无 |
-| 运行 | 按指定方向运行 | 方向（前进/后退/停止） |
-
-### 定时块
-
-| 块名称 | 功能 | 参数 |
-|--------|------|------|
-| 前进（定时） | 正转指定时间 | 时间（毫秒） |
-| 后退（定时） | 反转指定时间 | 时间（毫秒） |
-| 运行（定时） | 按指定方向运行指定时间 | 方向、时间（毫秒） |
-
-### 状态查询块
-
-| 块名称 | 返回类型 | 功能 |
-|--------|----------|------|
-| 获取速度 | Number | 返回当前速度值（0-255） |
-| 正在运动 | Boolean | 返回电机是否正在运动 |
-| 获取方向 | Number | 返回当前方向（0=前进, 1=后退, -1=停止） |
-
-## 常见问题
-
-**Q: 速度范围是多少？**
-A: 0-255，其中0为停止，255为最大速度。
-
-**Q: 如何控制两个电机？**
-A: 创建两个电机对象，分别初始化和控制。
-
-**Q: 定时运行后电机不转了？**
-A: 使用定时运行后需要调用`复位`块重新启用电机运动。
-
-## 许可证
-
-MIT License
-
-## 致谢
-
-基于 [AndreaLombardo/L298N](https://github.com/AndreaLombardo/L298N) 库开发
+1. Enable `@aily-project/lib-l298n` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

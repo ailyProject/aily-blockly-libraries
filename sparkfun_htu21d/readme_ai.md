@@ -1,6 +1,6 @@
-# SparkFun HTU21D 温湿度传感器
+# SparkFun HTU21D Humidity & Temperature Sensor
 
-I2C 接口温湿度传感器库，通过 `HTU21D` 对象读取温度和相对湿度。
+Blockly wrapper for the SparkFun HTU21D I2C humidity and temperature sensor.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-htu21d
@@ -10,34 +10,32 @@ I2C 接口温湿度传感器库，通过 `HTU21D` 对象读取温度和相对湿
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `htu21d_init` | Statement | VAR(field_input) | `htu21d_init("htu21d")` | `HTU21D htu21d; Wire.begin(); htu21d.begin();` |
-| `htu21d_read_humidity` | Value | VAR(field_variable) | `htu21d_read_humidity(variables_get($htu21d))` | `htu21d.readHumidity()` |
-| `htu21d_read_temperature` | Value | VAR(field_variable) | `htu21d_read_temperature(variables_get($htu21d))` | `htu21d.readTemperature()` |
-| `htu21d_set_resolution` | Statement | VAR(field_variable), RES(field_dropdown) | `htu21d_set_resolution(variables_get($htu21d), RH12_TEMP14)` | `htu21d.setResolution(0x00);` |
+| `htu21d_init` | Statement | VAR(field_input) | `htu21d_init("htu21d")` | Wire.begin();\n |
+| `htu21d_read_humidity` | Value | VAR(field_variable) | `htu21d_read_humidity(variables_get($htu21d))` | Dynamic code |
+| `htu21d_read_temperature` | Value | VAR(field_variable) | `htu21d_read_temperature(variables_get($htu21d))` | Dynamic code |
+| `htu21d_set_resolution` | Statement | VAR(field_variable), RES(dropdown) | `htu21d_set_resolution(variables_get($htu21d), "0x00")` | Dynamic code |
 
 ## Parameter Options
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| RES | RH12_TEMP14(0x00), RH8_TEMP12(0x01), RH10_TEMP13(0x80), RH11_TEMP11(0x81) | 测量分辨率 |
+| RES | 0x00, 0x01, 0x80, 0x81 | htu21d_set_resolution |
 
 ## ABS Examples
 
-### 基本用法
+### Basic Usage
 ```
 arduino_setup()
-    htu21d_init("sensor")
+    htu21d_init("htu21d")
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    serial_print(Serial, text("湿度: "))
-    serial_println(Serial, htu21d_read_humidity(variables_get($sensor)))
-    serial_print(Serial, text("温度: "))
-    serial_println(Serial, htu21d_read_temperature(variables_get($sensor)))
+    serial_println(Serial, htu21d_read_humidity(variables_get($htu21d)))
     time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. **初始化**: 在 `arduino_setup()` 中调用 `htu21d_init`，已自动包含 `Wire.begin()`
-2. **变量引用**: 使用 `variables_get($name)` 在值槽中引用变量
+1. **Variable**: `htu21d_init("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

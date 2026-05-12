@@ -1,6 +1,6 @@
 # MPU6050
 
-MPU6050六轴(加速度计+陀螺仪)传感器库，适用于Arduino UNO R3
+MPU6050 six-axis (accelerometer + gyroscope) sensor library for Arduino UNO R3
 
 ## Library Info
 
@@ -9,18 +9,18 @@ MPU6050六轴(加速度计+陀螺仪)传感器库，适用于Arduino UNO R3
 | Package | @aily-project/lib-mpu6050 |
 | Version | 1.0.0 |
 | Author | Adafruit |
-| License | MIT |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino AVR (UNO/Nano/Mega)
+Arduino AVR, Arduino SAMD, ESP32, RP2040, Arduino UNO R4
 
 ## Description
 
-MPU6050六轴(加速度计+陀螺仪)传感器库，适用于Arduino UNO R3
-
-This library provides 7 Blockly blocks.
+MPU6050 six-axis (accelerometer + gyroscope) sensor library for Arduino UNO R3
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-mpu6050` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

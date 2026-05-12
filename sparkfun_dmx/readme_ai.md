@@ -1,6 +1,6 @@
 # SparkFun ESP32 DMX
 
-SparkFunDMX ABS 参考。
+Blockly wrapper for SparkFun ESP32 DMX Shield.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-dmx
@@ -10,35 +10,35 @@ SparkFunDMX ABS 参考。
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `dmx_init` | Statement | VAR(field_input), UART(field_number), EN(input_value), CHANNELS(input_value), DIR(dropdown) | `dmx_init("dmx", 2, math_number(21), math_number(1), DMX_WRITE_DIR)` | `SparkFunDMX dmx; HardwareSerial dmxSerial(2); dmx.begin(...);` |
-| `dmx_set_dir` | Statement | VAR(field_variable), DIR(dropdown) | `dmx_set_dir($dmx, DMX_READ_DIR)` | `dmx.setComDir(DMX_READ_DIR);` |
-| `dmx_write_byte` | Statement | VAR(field_variable), CHANNEL(input_value), VALUE(input_value) | `dmx_write_byte($dmx, math_number(1), math_number(255))` | `dmx.writeByte(value, channel);` |
-| `dmx_read_byte` | Value(Number) | VAR(field_variable), CHANNEL(input_value) | `dmx_read_byte($dmx, math_number(1))` | `dmx.readByte(channel)` |
-| `dmx_data_available` | Value(Boolean) | VAR(field_variable) | `dmx_data_available($dmx)` | `dmx.dataAvailable()` |
-| `dmx_update` | Statement | VAR(field_variable) | `dmx_update($dmx)` | `dmx.update();` |
-| `dmx_update_ok` | Value(Boolean) | VAR(field_variable) | `dmx_update_ok($dmx)` | `dmx.update()` |
+| `dmx_init` | Statement | VAR(field_input), UART(field_number), EN(input_value), CHANNELS(input_value), DIR(dropdown) | `dmx_init("dmx", 2, math_number(0), math_number(0), DMX_WRITE_DIR)` | Dynamic code |
+| `dmx_set_dir` | Statement | VAR(field_variable), DIR(dropdown) | `dmx_set_dir(variables_get($dmx), DMX_WRITE_DIR)` | Dynamic code |
+| `dmx_write_byte` | Statement | VAR(field_variable), CHANNEL(input_value), VALUE(input_value) | `dmx_write_byte(variables_get($dmx), math_number(0), math_number(0))` | Dynamic code |
+| `dmx_read_byte` | Value | VAR(field_variable), CHANNEL(input_value) | `dmx_read_byte(variables_get($dmx), math_number(0))` | Dynamic code |
+| `dmx_data_available` | Value | VAR(field_variable) | `dmx_data_available(variables_get($dmx))` | Dynamic code |
+| `dmx_update` | Statement | VAR(field_variable) | `dmx_update(variables_get($dmx))` | Dynamic code |
+| `dmx_update_ok` | Value | VAR(field_variable) | `dmx_update_ok(variables_get($dmx))` | Dynamic code |
 
 ## Parameter Options
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| DIR | DMX_WRITE_DIR, DMX_READ_DIR | 发送或接收方向 |
-| UART | 0, 1, 2 | ESP32 HardwareSerial 编号 |
+| DIR | DMX_WRITE_DIR, DMX_READ_DIR | dmx_init, dmx_set_dir |
 
 ## ABS Examples
 
-```text
+### Basic Usage
+```
 arduino_setup()
-    dmx_init("dmx", 2, math_number(21), math_number(1), DMX_WRITE_DIR)
+    dmx_init("dmx", 2, math_number(0), math_number(0), DMX_WRITE_DIR)
+    serial_begin(Serial, 9600)
 
 arduino_loop()
-    dmx_write_byte($dmx, math_number(1), math_number(128))
-    dmx_update($dmx)
-    time_delay(math_number(100))
+    serial_println(Serial, dmx_read_byte(variables_get($dmx), math_number(0)))
+    time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. `dmx_init("name", ...)` creates variable `$name` and a `HardwareSerial` named `nameSerial`.
-2. Send mode requires `dmx_update` after writing channel values.
-3. Receive mode requires repeated `dmx_update` calls before checking `dmx_data_available`.
+1. **Variable**: `dmx_init("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

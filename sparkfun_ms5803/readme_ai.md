@@ -1,6 +1,6 @@
-# SparkFun MS5803 气压传感器
+# SparkFun MS5803 Pressure Sensor
 
-SparkFun MS5803-14BA I2C 气压与温度传感器 Blockly 库。
+Blockly wrapper for the SparkFun MS5803-14BA I2C pressure and temperature sensor.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-ms5803
@@ -10,22 +10,33 @@ SparkFun MS5803-14BA I2C 气压与温度传感器 Blockly 库。
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `ms5803_init` | Statement | VAR(field_input), ADDRESS(field_dropdown) | `ms5803_init("ms5803", ADDRESS_HIGH)` | `MS5803 ms5803(ADDRESS_HIGH); Wire.begin(); ms5803.reset(); ms5803.begin();` |
-| `ms5803_get_temperature` | Value | VAR(field_variable), UNIT(field_dropdown), PREC(field_dropdown) | `ms5803_get_temperature(variables_get($ms5803), CELSIUS, ADC_512)` | `ms5803.getTemperature(CELSIUS, ADC_512)` |
-| `ms5803_get_pressure` | Value | VAR(field_variable), PREC(field_dropdown) | `ms5803_get_pressure(variables_get($ms5803), ADC_512)` | `ms5803.getPressure(ADC_512)` |
+| `ms5803_init` | Statement | VAR(field_input), ADDRESS(dropdown) | `ms5803_init("ms5803", ADDRESS_HIGH)` | Wire.begin();\n |
+| `ms5803_get_temperature` | Value | VAR(field_variable), UNIT(dropdown), PREC(dropdown) | `ms5803_get_temperature(variables_get($ms5803), CELSIUS, ADC_256)` | Dynamic code |
+| `ms5803_get_pressure` | Value | VAR(field_variable), PREC(dropdown) | `ms5803_get_pressure(variables_get($ms5803), ADC_256)` | Dynamic code |
 
 ## Parameter Options
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| ADDRESS | ADDRESS_HIGH, ADDRESS_LOW | I2C 地址 0x76 (HIGH) 或 0x77 (LOW) |
-| UNIT | CELSIUS, FAHRENHEIT | 温度单位 |
-| PREC | ADC_256, ADC_512, ADC_1024, ADC_2048, ADC_4096 | ADC 转换精度（越高越慢越准） |
+| ADDRESS | ADDRESS_HIGH, ADDRESS_LOW | ms5803_init |
+| UNIT | CELSIUS, FAHRENHEIT | ms5803_get_temperature |
+| PREC | ADC_256, ADC_512, ADC_1024, ADC_2048, ADC_4096 | ms5803_get_temperature, ms5803_get_pressure |
 
-## Usage Example
+## ABS Examples
 
+### Basic Usage
 ```
-ms5803_init("ms5803", ADDRESS_HIGH)
-variables_set($temp, ms5803_get_temperature(variables_get($ms5803), CELSIUS, ADC_512))
-variables_set($pres, ms5803_get_pressure(variables_get($ms5803), ADC_512))
+arduino_setup()
+    ms5803_init("ms5803", ADDRESS_HIGH)
+    serial_begin(Serial, 9600)
+
+arduino_loop()
+    serial_println(Serial, ms5803_get_temperature(variables_get($ms5803), CELSIUS, ADC_256))
+    time_delay(math_number(1000))
 ```
+
+## Notes
+
+1. **Variable**: `ms5803_init("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

@@ -1,6 +1,6 @@
-# SparkFun BMP180
+# SparkFun BMP180 pressure sensor
 
-用于 Bosch BMP180 气压/温度传感器的 Blockly 库。
+Blockly wrapper for SparkFun BMP180 pressure and temperature sensor.
 
 ## Library Info
 
@@ -8,18 +8,19 @@
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-bmp180 |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/BMP180_Breakout_Arduino_Library |
-| License | Beerware |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO、Mega、ESP32 等支持 I2C 的开发板。BMP180 供电为 3.3V。
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-该库封装 BMP180 的初始化、温度读取、气压读取、海平面气压换算和海拔计算。读取气压前会自动完成温度测量流程。
+Blockly wrapper for SparkFun BMP180 pressure and temperature sensor.
 
 ## Quick Start
 
-将 VDD 接 3.3V，GND 接地，SDA/SCL 接开发板 I2C。先在 setup 中初始化，再在 loop 中读取温度或气压。
+1. Enable `@aily-project/lib-sparkfun-bmp180` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

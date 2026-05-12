@@ -1,109 +1,63 @@
-# Web服务器 (WebServer) - AI参考文档
+# Pico Web Server
 
-## 快速参考
+Raspberry Pi Pico W WebServer library for creating a simple web server to handle HTTP requests
 
-本库为树莓派 Pico W 提供HTTP服务器功能，支持路由注册、请求处理、响应发送等功能。
+## Library Info
+- **Name**: @aily-project/lib-rp-webserver
+- **Version**: 1.0.0
 
-## 块类型速查
+## Block Definitions
 
-### 初始化类
-| 块类型 | 说明 | 关键字段 |
-|--------|------|----------|
-| `rp_webserver_create` | 创建服务器 | VAR(field_input), PORT(field_number) |
-| `rp_webserver_begin` | 启动服务器 | VAR(field_variable) |
-| `rp_webserver_handle_client` | 处理请求(loop中调用) | VAR(field_variable) |
-| `rp_webserver_stop` | 停止服务器 | VAR(field_variable) |
+| Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
+|------------|------------|--------------------------|------------|----------------|
+| `rp_webserver_create` | Statement | VAR(field_input), PORT(field_number) | `rp_webserver_create("server", 80)` | Dynamic code |
+| `rp_webserver_begin` | Statement | VAR(field_variable) | `rp_webserver_begin(variables_get($server))` | Dynamic code |
+| `rp_webserver_handle_client` | Statement | VAR(field_variable) | `rp_webserver_handle_client(variables_get($server))` | Dynamic code |
+| `rp_webserver_on` | Hat | VAR(field_variable), METHOD(dropdown), PATH(input_value), HANDLER(input_statement) | `rp_webserver_on(variables_get($server), HTTP_ANY, text("value")) @HANDLER: child_block()` | Dynamic code |
+| `rp_webserver_on_not_found` | Hat | VAR(field_variable), HANDLER(input_statement) | `rp_webserver_on_not_found(variables_get($server)) @HANDLER: child_block()` | Dynamic code |
+| `rp_webserver_send` | Statement | VAR(field_variable), CODE(input_value), CONTENT_TYPE(dropdown), CONTENT(input_value) | `rp_webserver_send(variables_get($server), math_number(0), "text/plain", text("value"))` | Dynamic code |
+| `rp_webserver_send_custom_type` | Statement | VAR(field_variable), CODE(input_value), CONTENT_TYPE(input_value), CONTENT(input_value) | `rp_webserver_send_custom_type(variables_get($server), math_number(0), text("value"), text("value"))` | Dynamic code |
+| `rp_webserver_send_header` | Statement | VAR(field_variable), NAME(input_value), VALUE(input_value) | `rp_webserver_send_header(variables_get($server), text("value"), text("value"))` | Dynamic code |
+| `rp_webserver_uri` | Value | VAR(field_variable) | `rp_webserver_uri(variables_get($server))` | Dynamic code |
+| `rp_webserver_method` | Value | VAR(field_variable) | `rp_webserver_method(variables_get($server))` | Dynamic code |
+| `rp_webserver_method_is` | Value | VAR(field_variable), METHOD(dropdown) | `rp_webserver_method_is(variables_get($server), HTTP_GET)` | Dynamic code |
+| `rp_webserver_arg_by_name` | Value | VAR(field_variable), NAME(input_value) | `rp_webserver_arg_by_name(variables_get($server), text("value"))` | Dynamic code |
+| `rp_webserver_arg_by_index` | Value | VAR(field_variable), INDEX(input_value) | `rp_webserver_arg_by_index(variables_get($server), math_number(0))` | Dynamic code |
+| `rp_webserver_arg_name` | Value | VAR(field_variable), INDEX(input_value) | `rp_webserver_arg_name(variables_get($server), math_number(0))` | Dynamic code |
+| `rp_webserver_args_count` | Value | VAR(field_variable) | `rp_webserver_args_count(variables_get($server))` | Dynamic code |
+| `rp_webserver_has_arg` | Value | VAR(field_variable), NAME(input_value) | `rp_webserver_has_arg(variables_get($server), text("value"))` | Dynamic code |
+| `rp_webserver_header` | Value | VAR(field_variable), NAME(input_value) | `rp_webserver_header(variables_get($server), text("value"))` | Dynamic code |
+| `rp_webserver_has_header` | Value | VAR(field_variable), NAME(input_value) | `rp_webserver_has_header(variables_get($server), text("value"))` | Dynamic code |
+| `rp_webserver_host_header` | Value | VAR(field_variable) | `rp_webserver_host_header(variables_get($server))` | Dynamic code |
+| `rp_webserver_collect_headers` | Statement | VAR(field_variable), HEADERS(input_value) | `rp_webserver_collect_headers(variables_get($server), text("value"))` | Dynamic code |
+| `rp_webserver_enable_cors` | Statement | VAR(field_variable) | `rp_webserver_enable_cors(variables_get($server))` | Dynamic code |
+| `rp_webserver_stop` | Statement | VAR(field_variable) | `rp_webserver_stop(variables_get($server))` | Dynamic code |
+| `rp_webserver_authenticate` | Value | VAR(field_variable), USERNAME(input_value), PASSWORD(input_value) | `rp_webserver_authenticate(variables_get($server), text("value"), text("value"))` | Dynamic code |
+| `rp_webserver_request_authentication` | Statement | VAR(field_variable), REALM(input_value) | `rp_webserver_request_authentication(variables_get($server), text("value"))` | Dynamic code |
 
-### 路由处理类 (Hat块)
-| 块类型 | 说明 | 关键字段 |
-|--------|------|----------|
-| `rp_webserver_on` | 注册路由 | VAR, METHOD, PATH(input), HANDLER(statement) |
-| `rp_webserver_on_not_found` | 404处理 | VAR, HANDLER(statement) |
+## Parameter Options
 
-### 响应类
-| 块类型 | 说明 | 关键字段 |
-|--------|------|----------|
-| `rp_webserver_send` | 发送响应 | VAR, CODE(input), CONTENT_TYPE(dropdown), CONTENT(input) |
-| `rp_webserver_send_custom_type` | 自定义类型响应 | VAR, CODE, CONTENT_TYPE(input), CONTENT |
-| `rp_webserver_send_header` | 发送响应头 | VAR, NAME(input), VALUE(input) |
+| Parameter | Values | Description |
+|-----------|--------|-------------|
+| METHOD | HTTP_ANY, HTTP_GET, HTTP_POST, HTTP_PUT, HTTP_DELETE, HTTP_PATCH | rp_webserver_on |
+| CONTENT_TYPE | text/plain, text/html, application/json, application/xml | rp_webserver_send |
+| METHOD | HTTP_GET, HTTP_POST, HTTP_PUT, HTTP_DELETE, HTTP_PATCH | rp_webserver_method_is |
 
-### 请求信息类 (值块)
-| 块类型 | 返回类型 | 说明 |
-|--------|----------|------|
-| `rp_webserver_uri` | String | 请求URI |
-| `rp_webserver_method` | String | 请求方法 |
-| `rp_webserver_method_is` | Boolean | 判断方法 |
-| `rp_webserver_arg_by_name` | String | 按名称获取参数 |
-| `rp_webserver_arg_by_index` | String | 按索引获取参数 |
-| `rp_webserver_arg_name` | String | 获取参数名 |
-| `rp_webserver_args_count` | Number | 参数数量 |
-| `rp_webserver_has_arg` | Boolean | 检查参数存在 |
-| `rp_webserver_header` | String | 获取请求头 |
-| `rp_webserver_has_header` | Boolean | 检查请求头存在 |
-| `rp_webserver_host_header` | String | Host头 |
+## ABS Examples
 
-### 高级功能类
-| 块类型 | 说明 |
-|--------|------|
-| `rp_webserver_collect_headers` | 收集指定请求头 |
-| `rp_webserver_enable_cors` | 启用跨域 |
-| `rp_webserver_authenticate` | HTTP认证验证(值块) |
-| `rp_webserver_request_authentication` | 请求认证 |
+### Basic Usage
+```
+arduino_setup()
+    rp_webserver_create("server", 80)
+    serial_begin(Serial, 9600)
 
-## .abi格式要点
-
-### 变量字段格式
-```json
-// 创建时(field_input)
-"fields": {"VAR": "server", "PORT": 80}
-
-// 引用时(field_variable)  
-"fields": {"VAR": {"id": "server_var_id"}}
+arduino_loop()
+    serial_println(Serial, rp_webserver_uri(variables_get($server)))
+    time_delay(math_number(1000))
 ```
 
-### METHOD下拉选项
-```json
-"fields": {"METHOD": "HTTP_GET"}  // HTTP_ANY, HTTP_GET, HTTP_POST, HTTP_PUT, HTTP_DELETE, HTTP_PATCH
-```
+## Notes
 
-### CONTENT_TYPE下拉选项
-```json
-"fields": {"CONTENT_TYPE": "text/html"}  // text/plain, text/html, application/json, application/xml
-```
-
-### Hat块结构(rp_webserver_on)
-```json
-{
-  "type": "rp_webserver_on",
-  "id": "unique_id",
-  "fields": {"VAR": {"id": "var_id"}, "METHOD": "HTTP_GET"},
-  "inputs": {
-    "PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/"}}},
-    "HANDLER": {"block": {...}}  // 内部语句块
-  }
-}
-```
-
-## 代码生成模式
-
-### 服务器创建
-```cpp
-WebServer server(80);  // 全局对象声明
-```
-
-### 路由注册(setup中)
-```cpp
-server.on("/", HTTP_GET, handle_server_root_get);  // 自动生成回调函数
-```
-
-### 请求处理(loop中)
-```cpp
-server.handleClient();  // 必须持续调用
-```
-
-## 关键规则
-
-1. **变量类型**: `WebServer`
-2. **handleClient**: 必须在loop中调用
-3. **Hat块**: `rp_webserver_on`和`rp_webserver_on_not_found`无previousStatement/nextStatement
-4. **回调函数**: 自动生成，命名格式`handle_{varName}_{path}_{method}`
+1. **Variable**: `rp_webserver_create("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

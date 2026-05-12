@@ -1,27 +1,26 @@
-# Adafruit LED Backpack
+# LED Backpack Display
 
-基于HT16K33芯片的多种LED显示模块（I2C接口）的Blockly积木库。支持4位7段数码管、4位14段字符数码管、8x8/8x16点阵、双色点阵和24段条形图。
+Adafruit LED Backpack driver library based on HT16K33 chip, supports multiple display modules via I2C: 4-digit 7-segment, 4-digit 14-segment alphanumeric, 8x8 matrix, 8x16 matrix, bi-color matrix, and 24-bar bargraph.
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
+| Field | Value |
+|-------|-------|
 | Package | @aily-project/lib-adafruit-ledbackpack |
 | Version | 1.5.1 |
 | Author | Adafruit |
-| Source | https://github.com/adafruit/Adafruit_LED_Backpack |
-| License | MIT / BSD |
+| Source | N/A |
+| License | Original license |
 
-## 支持的开发板
+## Supported Boards
 
-Arduino UNO, Mega, Leonardo, ESP32, ESP8266, SAMD 等支持I2C的开发板。依赖 `Adafruit GFX Library` 与 `Adafruit BusIO`。
+Arduino-compatible boards supported by this package.
 
-## 说明
+## Description
 
-通过I2C与HT16K33驱动芯片通信，选择不同的显示类型（7段/14段/点阵/条形图）后即可使用统一的亮度、闪烁控制，以及每种显示特有的打印/绘图积木。
+Adafruit LED Backpack driver library based on HT16K33 chip, supports multiple display modules via I2C: 4-digit 7-segment, 4-digit 14-segment alphanumeric, 8x8 matrix, 8x16 matrix, bi-color matrix, and 24-bar bargraph.
 
-## 快速开始
+## Quick Start
 
-1. 将模块的 SDA/SCL 连接到开发板的 I2C 引脚（地址默认 0x70）
-2. 使用"初始化LED Backpack"积木选择显示类型
-3. 调用对应显示类型的绘制/打印积木，必要时使用"刷新显示缓冲"
+1. Enable `@aily-project/lib-adafruit-ledbackpack` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

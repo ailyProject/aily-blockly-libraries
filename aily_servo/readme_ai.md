@@ -1,35 +1,36 @@
-# Aily 舵机控制库
+# Aily steering gear control library
 
-基于Servo库封装的舵机控制支持库，适用于Arduino UNO、MEGA、UNO R4、ESP32等开发板，支持角度控制、脉宽控制等功能
+Servo control support library based on Servo library package, suitable for Arduino UNO, MEGA, UNO R4, ESP32 and other development boards, supporting functions such as angle control and pulse width control
 
 ## Library Info
-- **Name**: @aily-project/lib-aily_servo
+- **Name**: @aily-project/lib-aily-servo
 - **Version**: 0.0.1
 
 ## Block Definitions
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `servo_attach` | Statement | PIN(dropdown) | `servo_attach(PIN)` | `// 引脚` |
-| `servo_attach_advanced` | Statement | PIN(dropdown), MIN_PULSE_WIDTH(input_value), MAX_PULSE_WIDTH(input_value) | `servo_attach_advanced(PIN, math_number(0), math_number(0))` | `// 引脚` |
-| `servo_attach_full` | Statement | PIN(dropdown), MIN_ANGLE(input_value), MAX_ANGLE(input_value), MIN_PULSE_WIDTH(input_value), MAX_PULSE_WIDTH(input_value) | `servo_attach_full(PIN, math_number(0), math_number(0), math_number(0), math_number(0))` | `// 引脚` |
-| `servo_write` | Statement | PIN(dropdown), ANGLE(input_value) | `servo_write(PIN, math_number(0))` | (dynamic code) |
-| `servo_write_float` | Statement | PIN(dropdown), ANGLE(input_value) | `servo_write_float(PIN, math_number(0))` | (dynamic code) |
-| `servo_write_microseconds` | Statement | PIN(dropdown), MICROSECONDS(input_value) | `servo_write_microseconds(PIN, math_number(0))` | (dynamic code) |
-| `servo_read` | Value | PIN(dropdown) | `servo_read(PIN)` | (dynamic code) |
-| `servo_read_microseconds` | Value | PIN(dropdown) | `servo_read_microseconds(PIN)` | (dynamic code) |
-| `servo_attached` | Value | PIN(dropdown) | `servo_attached(PIN)` | (dynamic code) |
-| `servo_detach` | Statement | PIN(dropdown) | `servo_detach(PIN)` | (dynamic code) |
-| `servo_get_pin` | Value | PIN(dropdown) | `servo_get_pin(PIN)` | (dynamic code) |
-| `servo_map_angle` | Value | VALUE(input_value), FROM_MIN(input_value), FROM_MAX(input_value), TO_MIN(input_value), TO_MAX(input_value) | `servo_map_angle(math_number(0), math_number(0), math_number(0), math_number(0), math_number(0))` | `map(` |
-| `servo_sweep` | Statement | PIN(dropdown), START_ANGLE(input_value), END_ANGLE(input_value), DELAY_MS(input_value) | `servo_sweep(PIN, math_number(0), math_number(0), math_number(1000))` | (dynamic code) |
-| `servo_angle` | Value | ANGLE(field_angle) | `servo_angle(90)` | (dynamic code) |
+| `servo_attach` | Statement | PIN(dropdown) | `servo_attach(PIN)` | Dynamic code |
+| `servo_attach_advanced` | Statement | PIN(dropdown), MIN_PULSE_WIDTH(input_value), MAX_PULSE_WIDTH(input_value) | `servo_attach_advanced(PIN, math_number(0), math_number(0))` | Dynamic code |
+| `servo_attach_full` | Statement | PIN(dropdown), MIN_ANGLE(input_value), MAX_ANGLE(input_value), MIN_PULSE_WIDTH(input_value), MAX_PULSE_WIDTH(input_value) | `servo_attach_full(PIN, math_number(90), math_number(90), math_number(0), math_number(0))` | Dynamic code |
+| `servo_write` | Statement | PIN(dropdown), ANGLE(input_value) | `servo_write(PIN, math_number(90))` | Dynamic code |
+| `servo_write_float` | Statement | PIN(dropdown), ANGLE(input_value) | `servo_write_float(PIN, math_number(90))` | Dynamic code |
+| `servo_write_microseconds` | Statement | PIN(dropdown), MICROSECONDS(input_value) | `servo_write_microseconds(PIN, math_number(0))` | Dynamic code |
+| `servo_read` | Value | PIN(dropdown) | `servo_read(PIN)` | Dynamic code |
+| `servo_read_microseconds` | Value | PIN(dropdown) | `servo_read_microseconds(PIN)` | Dynamic code |
+| `servo_attached` | Value | PIN(dropdown) | `servo_attached(PIN)` | Dynamic code |
+| `servo_detach` | Statement | PIN(dropdown) | `servo_detach(PIN)` | Dynamic code |
+| `servo_get_pin` | Value | PIN(dropdown) | `servo_get_pin(PIN)` | Dynamic code |
+| `servo_map_angle` | Value | VALUE(input_value), FROM_MIN(input_value), FROM_MAX(input_value), TO_MIN(input_value), TO_MAX(input_value) | `servo_map_angle(math_number(0), math_number(0), math_number(0), math_number(0), math_number(0))` | map( |
+| `servo_sweep` | Statement | PIN(dropdown), START_ANGLE(input_value), END_ANGLE(input_value), DELAY_MS(input_value) | `servo_sweep(PIN, math_number(90), math_number(90), math_number(1000))` | Dynamic code |
+| `servo_angle` | Value | ANGLE(field_angle) | `servo_angle(90)` | Dynamic code |
 
 ## ABS Examples
 
 ### Basic Usage
 ```
 arduino_setup()
+    servo_attach(PIN)
     serial_begin(Serial, 9600)
 
 arduino_loop()
@@ -39,5 +40,5 @@ arduino_loop()
 
 ## Notes
 
-1. **Initialization**: Place init/setup blocks inside `arduino_setup()`
-2. **Parameter Order**: Follows `block.json` args0 order
+1. **Parameter order**: ABS parameters follow `block.json` args order.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

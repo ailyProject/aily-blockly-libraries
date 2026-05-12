@@ -1,35 +1,26 @@
-# 9轴IMU传感器库
+# 9-axis IMU sensor
 
-适用于掌控板3.0的9轴IMU传感器库，支持QMI8658A六轴传感器(加速度计+陀螺仪)和MMC5603NJ三轴磁力传感器。
+9-axis IMU sensor library, supports QMI8658A six-axis sensor (accelerometer + gyroscope) and MMC5603NJ three-axis magnetic sensor, suitable for control board 3.0
 
-## 功能特性
+## Library Info
 
-- 支持QMI8658A六轴传感器
-  - 3轴加速度计
-  - 3轴陀螺仪
-- 支持MMC5603NJ三轴磁力传感器
-- I2C通信接口
-- 支持姿态角计算（欧拉角）
-- 支持传感器校准
-- 适用于掌控板3.0等ESP32开发板
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-imu9dof |
+| Version | 0.0.1 |
+| Author | VonWell |
+| Source | https://github.com/deneyapkart/deneyap-9-eksen-ataletsel-olcum-birimi-arduino-library |
+| License | Original license |
 
-## 使用方法
+## Supported Boards
 
-1. 初始化IMU传感器
-2. 读取加速度、角速度、磁场强度数据
-3. 获取姿态角（俯仰角、横滚角、航向角）
+ESP32
 
-## 硬件连接
+## Description
 
-掌控板3.0已内置IMU传感器，无需额外连接：
-- QMI8658A (I2C地址: 0x6B)
-  - SDA: GPIO44
-  - SCL: GPIO43
-- MMC5603NJ (I2C地址: 0x30)
-  - SDA: GPIO44
-  - SCL: GPIO43
+9-axis IMU sensor library, supports QMI8658A six-axis sensor (accelerometer + gyroscope) and MMC5603NJ three-axis magnetic sensor, suitable for control board 3.0
 
-## 兼容性
+## Quick Start
 
-- ESP32-S3
-- 工作电压：3.3V
+1. Enable `@aily-project/lib-imu9dof` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

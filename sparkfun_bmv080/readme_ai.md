@@ -1,6 +1,6 @@
-# SparkFun BMV080
+# SparkFun BMV080 Particulate Matter Sensor
 
-PM1/PM2.5/PM10 particulate matter blocks for BMV080.
+Blockly wrapper for the SparkFun BMV080 PM1/PM2.5/PM10 particulate matter sensor.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-bmv080
@@ -10,39 +10,41 @@ PM1/PM2.5/PM10 particulate matter blocks for BMV080.
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `bmv080_init_i2c` | Statement | VAR(field_input), ADDRESS(dropdown), MODE(dropdown) | `bmv080_init_i2c("bmv080", SF_BMV080_DEFAULT_ADDRESS, SF_BMV080_MODE_CONTINUOUS)` | `SparkFunBMV080 bmv080; bmv080.begin(addr, Wire); bmv080.init(); bmv080.setMode(mode);` |
-| `bmv080_is_ready` | Value | VAR(field_variable) | `bmv080_is_ready(variables_get($bmv080))` | `bmv080_ready` |
-| `bmv080_read_sensor` | Value | VAR(field_variable) | `bmv080_read_sensor(variables_get($bmv080))` | `bmv080.readSensor()` |
-| `bmv080_pm1` | Value | VAR(field_variable) | `bmv080_pm1(variables_get($bmv080))` | `bmv080.PM1()` |
-| `bmv080_pm25` | Value | VAR(field_variable) | `bmv080_pm25(variables_get($bmv080))` | `bmv080.PM25()` |
-| `bmv080_pm10` | Value | VAR(field_variable) | `bmv080_pm10(variables_get($bmv080))` | `bmv080.PM10()` |
-| `bmv080_is_obstructed` | Value | VAR(field_variable) | `bmv080_is_obstructed(variables_get($bmv080))` | `bmv080.isObstructed()` |
-| `bmv080_set_mode` | Statement | VAR(field_variable), MODE(dropdown) | `bmv080_set_mode(variables_get($bmv080), SF_BMV080_MODE_DUTY_CYCLE)` | `bmv080.setMode(mode);` |
-| `bmv080_set_duty_cycle` | Statement | VAR(field_variable), SECONDS(input_value) | `bmv080_set_duty_cycle(variables_get($bmv080), math_number(30))` | `bmv080.setDutyCyclingPeriod(30);` |
-| `bmv080_set_obstruction_detection` | Statement | VAR(field_variable), STATE(dropdown) | `bmv080_set_obstruction_detection(variables_get($bmv080), TRUE)` | `bmv080.setDoObstructionDetection(true);` |
-| `bmv080_set_vibration_filtering` | Statement | VAR(field_variable), STATE(dropdown) | `bmv080_set_vibration_filtering(variables_get($bmv080), TRUE)` | `bmv080.setDoVibrationFiltering(true);` |
+| `bmv080_init_i2c` | Statement | VAR(field_input), ADDRESS(dropdown), MODE(dropdown) | `bmv080_init_i2c("bmv080", SF_BMV080_DEFAULT_ADDRESS, SF_BMV080_MODE_CONTINUOUS)` | Wire.begin();\n |
+| `bmv080_is_ready` | Value | VAR(field_variable) | `bmv080_is_ready(variables_get($bmv080))` | Dynamic code |
+| `bmv080_read_sensor` | Value | VAR(field_variable) | `bmv080_read_sensor(variables_get($bmv080))` | Dynamic code |
+| `bmv080_pm1` | Value | VAR(field_variable) | `bmv080_pm1(variables_get($bmv080))` | Dynamic code |
+| `bmv080_pm25` | Value | VAR(field_variable) | `bmv080_pm25(variables_get($bmv080))` | Dynamic code |
+| `bmv080_pm10` | Value | VAR(field_variable) | `bmv080_pm10(variables_get($bmv080))` | Dynamic code |
+| `bmv080_is_obstructed` | Value | VAR(field_variable) | `bmv080_is_obstructed(variables_get($bmv080))` | Dynamic code |
+| `bmv080_set_mode` | Statement | VAR(field_variable), MODE(dropdown) | `bmv080_set_mode(variables_get($bmv080), SF_BMV080_MODE_CONTINUOUS)` | Dynamic code |
+| `bmv080_set_duty_cycle` | Statement | VAR(field_variable), SECONDS(input_value) | `bmv080_set_duty_cycle(variables_get($bmv080), math_number(0))` | Dynamic code |
+| `bmv080_set_obstruction_detection` | Statement | VAR(field_variable), STATE(dropdown) | `bmv080_set_obstruction_detection(variables_get($bmv080), TRUE)` | Dynamic code |
+| `bmv080_set_vibration_filtering` | Statement | VAR(field_variable), STATE(dropdown) | `bmv080_set_vibration_filtering(variables_get($bmv080), TRUE)` | Dynamic code |
 
 ## Parameter Options
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| ADDRESS | SF_BMV080_DEFAULT_ADDRESS, 0x57 | I2C address |
-| MODE | SF_BMV080_MODE_CONTINUOUS, SF_BMV080_MODE_DUTY_CYCLE | Measurement mode |
-| STATE | TRUE, FALSE | Boolean setting |
+| ADDRESS | SF_BMV080_DEFAULT_ADDRESS, 0x57 | bmv080_init_i2c |
+| MODE | SF_BMV080_MODE_CONTINUOUS, SF_BMV080_MODE_DUTY_CYCLE | bmv080_init_i2c, bmv080_set_mode |
+| STATE | TRUE, FALSE | bmv080_set_obstruction_detection, bmv080_set_vibration_filtering |
 
 ## ABS Examples
 
-```text
+### Basic Usage
+```
 arduino_setup()
     bmv080_init_i2c("bmv080", SF_BMV080_DEFAULT_ADDRESS, SF_BMV080_MODE_CONTINUOUS)
+    serial_begin(Serial, 9600)
 
 arduino_loop()
-    controls_if()
-        @IF0: bmv080_read_sensor(variables_get($bmv080))
-        @DO0:
-            serial_println(Serial, bmv080_pm25(variables_get($bmv080)))
+    serial_println(Serial, bmv080_is_ready(variables_get($bmv080)))
+    time_delay(math_number(1000))
 ```
 
 ## Notes
 
-`bmv080_init_i2c("name", ...)` creates variable `$name`. The upstream Arduino library requires the Bosch BMV080 SDK and SparkFun Toolkit.
+1. **Variable**: `bmv080_init_i2c("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

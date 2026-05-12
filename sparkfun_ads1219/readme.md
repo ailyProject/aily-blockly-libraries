@@ -1,6 +1,6 @@
-# SparkFun ADS1219
+# SparkFun ADS1219 ADC
 
-SparkFun ADS1219 24-bit 4-channel I2C ADC Blockly library.
+Blockly wrapper for the SparkFun ADS1219 24-bit 4-channel I2C ADC.
 
 ## Library Info
 
@@ -8,18 +8,19 @@ SparkFun ADS1219 24-bit 4-channel I2C ADC Blockly library.
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-ads1219 |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_ADS1219_Arduino_Library |
-| License | MIT |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, ESP32, and other Wire-compatible boards.
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-This library wraps the SparkFun ADS1219 24-bit ADC. It supports address selection, input multiplexer, gain, data rate, voltage reference, single-shot read helpers, and power-down.
+Blockly wrapper for the SparkFun ADS1219 24-bit 4-channel I2C ADC.
 
 ## Quick Start
 
-Connect by Qwiic/I2C, initialize with address `0x40`, choose an input mux, then read millivolts.
+1. Enable `@aily-project/lib-sparkfun-ads1219` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

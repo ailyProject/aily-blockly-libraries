@@ -1,56 +1,26 @@
-# ESP32蓝牙游戏手柄库
+# ESP32 Bluetooth controller
 
-这是一个用于aily blockly的ESP32蓝牙游戏手柄库，可以将ESP32开发板转换为蓝牙游戏手柄，支持按键、摇杆、方向键和特殊按键等功能。
+ESP32 Bluetooth game controller library supports buttons, joysticks, special buttons and other functions
 
-## 功能特性
+## Library Info
 
-- 支持多达16个标准按键
-- 支持摇杆轴控制（X、Y、Z、RX、RY、RZ）
-- 支持方向键（HAT）控制
-- 支持特殊按键（开始、选择、菜单、主页等）
-- 支持模拟输入映射到摇杆轴
-- 支持物理按键映射到游戏手柄按键
-- 自动处理去抖动
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-esp32-ble-gamepad |
+| Version | 1.0.0 |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
-## 使用说明
+## Supported Boards
 
-### 1. 初始化游戏手柄
-使用"初始化ESP32蓝牙游戏手柄"块来设置蓝牙游戏手柄，可以自定义设备名称。
+ESP32
 
-### 2. 检查连接状态
-使用"蓝牙游戏手柄已连接"块来检查是否有设备连接到游戏手柄。
+## Description
 
-### 3. 按键控制
-- 使用"按下按键"和"释放按键"块来控制特定按键
-- 使用"当引脚按键被按下时"块将物理按键映射到游戏手柄按键
+ESP32 Bluetooth game controller library supports buttons, joysticks, special buttons and other functions
 
-### 4. 摇杆控制
-- 使用"设置摇杆轴"块来控制摇杆位置
-- 使用"将引脚模拟输入映射到摇杆轴"块将电位器等模拟输入映射到摇杆
+## Quick Start
 
-### 5. 方向键控制
-使用"设置方向键"块来控制游戏手柄的方向键。
-
-### 6. 特殊按键
-使用特殊按键相关的块来控制开始、选择、菜单等特殊按键。
-
-## 兼容性
-
-- 支持ESP32、ESP32-C3、ESP32-S3开发板
-- 工作电压：3.3V
-- 兼容Windows、Android、iOS等支持蓝牙游戏手柄的系统
-
-## 注意事项
-
-1. 确保ESP32开发板支持蓝牙功能
-2. 某些系统可能需要手动配对蓝牙设备
-3. 游戏手柄功能需要目标设备支持HID（人机接口设备）协议
-
-## 示例
-
-本库基于以下开源项目：
-- ESP32-BLE-Gamepad by lemmingDev
-
-## 许可证
-
-本库遵循原始项目的许可证。
+1. Enable `@aily-project/lib-esp32-ble-gamepad` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

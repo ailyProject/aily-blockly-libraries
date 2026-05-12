@@ -1,26 +1,26 @@
-# 五路巡线传感器 v3
+# Five-way line tracking sensor
 
-emakefun 五路巡线传感器模块 v3，I2C接口，支持模拟值和数字值读取
+Emakefun five-channel line-following sensor module v3 supports analog and digital value reading
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
-| 包名 | @aily-project/lib-five_line_tracker_v3 |
-| 版本 | 1.0.0 |
-| 作者 | emakefun |
-| 来源 | https://github.com/emakefun-arduino-library/emakefun_five_line_tracker_v3 |
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-emakefun-five-line-tracker |
+| Version | 1.0.0 |
+| Author | Emakefun |
+| Source | https://github.com/emakefun-arduino-library/emakefun_five_line_tracker_v3 |
+| License | Original license |
 
-## 支持的开发板
+## Supported Boards
 
-所有支持 I2C 接口的 Arduino 开发板
+Arduino AVR, ESP32
 
-## 描述
+## Description
 
-五路巡线传感器模块，通过 I2C 接口与 Arduino 通信。可同时读取 5 个通道的模拟值(0-1023)和数字值(0或1)。支持设置高低阈值来调整数字转换的灵敏度。
+Emakefun five-channel line-following sensor module v3 supports analog and digital value reading
 
-## 快速开始
+## Quick Start
 
-1. 将传感器连接到 I2C 接口（SDA、SCL、VCC、GND）
-2. 使用"初始化五路巡线传感器"积木块初始化
-3. 使用"读取模拟值"或"读取数字值"获取传感器数据
+1. Enable `@aily-project/lib-emakefun-five-line-tracker` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

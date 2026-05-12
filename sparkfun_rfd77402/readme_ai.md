@@ -1,4 +1,6 @@
-# SparkFun RFD77402 激光测距传感器
+# SparkFun RFD77402 I2C Laser Distance Sensor
+
+Blockly wrapper for the SparkFun RFD77402 I2C laser distance sensor.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-rfd77402
@@ -8,8 +10,27 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `rfd77402_init` | Statement | VAR(field_input) | `rfd77402_init("tof")` | `RFD77402 tof; tof.begin();` |
-| `rfd77402_take_measurement` | Statement | VAR(field_variable) | `rfd77402_take_measurement(variables_get($tof))` | `tof.takeMeasurement();` |
-| `rfd77402_get_distance` | Value→Number | VAR(field_variable) | `rfd77402_get_distance(variables_get($tof))` | `tof.getDistance()` |
-| `rfd77402_get_valid_pixels` | Value→Number | VAR(field_variable) | `rfd77402_get_valid_pixels(variables_get($tof))` | `tof.getValidPixels()` |
-| `rfd77402_get_confidence` | Value→Number | VAR(field_variable) | `rfd77402_get_confidence(variables_get($tof))` | `tof.getConfidenceValue()` |
+| `rfd77402_init` | Statement | VAR(field_input) | `rfd77402_init("tof")` | Wire.begin();\n |
+| `rfd77402_take_measurement` | Statement | VAR(field_variable) | `rfd77402_take_measurement(variables_get($tof))` | Dynamic code |
+| `rfd77402_get_distance` | Value | VAR(field_variable) | `rfd77402_get_distance(variables_get($tof))` | Dynamic code |
+| `rfd77402_get_valid_pixels` | Value | VAR(field_variable) | `rfd77402_get_valid_pixels(variables_get($tof))` | Dynamic code |
+| `rfd77402_get_confidence` | Value | VAR(field_variable) | `rfd77402_get_confidence(variables_get($tof))` | Dynamic code |
+
+## ABS Examples
+
+### Basic Usage
+```
+arduino_setup()
+    rfd77402_init("tof")
+    serial_begin(Serial, 9600)
+
+arduino_loop()
+    serial_println(Serial, rfd77402_get_distance(variables_get($tof)))
+    time_delay(math_number(1000))
+```
+
+## Notes
+
+1. **Variable**: `rfd77402_init("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

@@ -1,6 +1,6 @@
-# SparkFun LSM303C 六轴 IMU
+# SparkFun LSM303C 6DOF IMU
 
-读取三轴加速度和三轴磁力数据。
+Blockly wrapper for SparkFun LSM303C 6DOF IMU (accel + mag).
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-lsm303c
@@ -10,18 +10,32 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `lsm303c_init` | Statement | VAR(field_input) | `lsm303c_init("imu6")` | `LSM303C imu6; imu6.begin();` |
-| `lsm303c_read_accel` | Value→Number | VAR(field_variable), AXIS(dropdown) | `lsm303c_read_accel(variables_get($imu6), X)` | `imu6.readAccelX()` |
-| `lsm303c_read_mag` | Value→Number | VAR(field_variable), AXIS(dropdown) | `lsm303c_read_mag(variables_get($imu6), X)` | `imu6.readMagX()` |
-| `lsm303c_read_temp_c` | Value→Number | VAR(field_variable) | `lsm303c_read_temp_c(variables_get($imu6))` | `imu6.readTempC()` |
+| `lsm303c_init` | Statement | VAR(field_input) | `lsm303c_init("imu6")` | Dynamic code |
+| `lsm303c_read_accel` | Value | VAR(field_variable), AXIS(dropdown) | `lsm303c_read_accel(variables_get($imu6), X)` | Dynamic code |
+| `lsm303c_read_mag` | Value | VAR(field_variable), AXIS(dropdown) | `lsm303c_read_mag(variables_get($imu6), X)` | Dynamic code |
+| `lsm303c_read_temp_c` | Value | VAR(field_variable) | `lsm303c_read_temp_c(variables_get($imu6))` | Dynamic code |
 
 ## Parameter Options
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| AXIS | X, Y, Z | 传感器轴向 |
+| AXIS | X, Y, Z | lsm303c_read_accel, lsm303c_read_mag |
+
+## ABS Examples
+
+### Basic Usage
+```
+arduino_setup()
+    lsm303c_init("imu6")
+    serial_begin(Serial, 9600)
+
+arduino_loop()
+    serial_println(Serial, lsm303c_read_accel(variables_get($imu6), X))
+    time_delay(math_number(1000))
+```
 
 ## Notes
 
-1. 加速度计单位为 mg（毫g），磁力计单位为 Gauss
-2. 每次调用读取块即自动触发新的测量并返回最新值（无需单独调用 read）
+1. **Variable**: `lsm303c_init("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

@@ -1,6 +1,6 @@
 # SparkFun Bio Sensor Hub
 
-Heart-rate, SpO2, confidence, status, and LED data blocks for MAX32664 Bio Sensor Hub.
+Blockly wrapper for the SparkFun MAX32664 Bio Sensor Hub and MAX30101 pulse oximeter.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-bio-sensor-hub
@@ -10,40 +10,42 @@ Heart-rate, SpO2, confidence, status, and LED data blocks for MAX32664 Bio Senso
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `biohub_init` | Statement | VAR(field_input), RESET_PIN(field_number), MFIO_PIN(field_number) | `biohub_init("bioHub", 4, 13)` | `SparkFun_Bio_Sensor_Hub bioHub; bioHub.begin(Wire, 4, 13);` |
-| `biohub_is_ready` | Value | VAR(field_variable) | `biohub_is_ready(variables_get($bioHub))` | `bioHub_ready` |
-| `biohub_config_bpm` | Statement | VAR(field_variable), MODE(dropdown) | `biohub_config_bpm(variables_get($bioHub), MODE_ONE)` | `bioHub.configBpm(MODE_ONE);` |
-| `biohub_config_sensor_bpm` | Statement | VAR(field_variable), MODE(dropdown) | `biohub_config_sensor_bpm(variables_get($bioHub), MODE_ONE)` | `bioHub.configSensorBpm(MODE_ONE);` |
-| `biohub_read_bpm` | Statement | VAR(field_variable) | `biohub_read_bpm(variables_get($bioHub))` | `bioHub_data = bioHub.readBpm();` |
-| `biohub_read_sensor_bpm` | Statement | VAR(field_variable) | `biohub_read_sensor_bpm(variables_get($bioHub))` | `bioHub_data = bioHub.readSensorBpm();` |
-| `biohub_value` | Value | VAR(field_variable), FIELD(dropdown) | `biohub_value(variables_get($bioHub), heartRate)` | `bioHub_data.heartRate` |
-| `biohub_set_pulse_width` | Statement | VAR(field_variable), WIDTH(dropdown) | `biohub_set_pulse_width(variables_get($bioHub), 69)` | `bioHub.setPulseWidth(69);` |
-| `biohub_set_sample_rate` | Statement | VAR(field_variable), RATE(dropdown) | `biohub_set_sample_rate(variables_get($bioHub), 100)` | `bioHub.setSampleRate(100);` |
-| `biohub_set_adc_range` | Statement | VAR(field_variable), RANGE(dropdown) | `biohub_set_adc_range(variables_get($bioHub), 2048)` | `bioHub.setAdcRange(2048);` |
+| `biohub_init` | Statement | VAR(field_input), RESET_PIN(field_number), MFIO_PIN(field_number) | `biohub_init("bioHub", 4, 13)` | Wire.begin();\n |
+| `biohub_is_ready` | Value | VAR(field_variable) | `biohub_is_ready(variables_get($bioHub))` | Dynamic code |
+| `biohub_config_bpm` | Statement | VAR(field_variable), MODE(dropdown) | `biohub_config_bpm(variables_get($bioHub), MODE_ONE)` | Dynamic code |
+| `biohub_config_sensor_bpm` | Statement | VAR(field_variable), MODE(dropdown) | `biohub_config_sensor_bpm(variables_get($bioHub), MODE_ONE)` | Dynamic code |
+| `biohub_read_bpm` | Statement | VAR(field_variable) | `biohub_read_bpm(variables_get($bioHub))` | Dynamic code |
+| `biohub_read_sensor_bpm` | Statement | VAR(field_variable) | `biohub_read_sensor_bpm(variables_get($bioHub))` | Dynamic code |
+| `biohub_value` | Value | VAR(field_variable), FIELD(dropdown) | `biohub_value(variables_get($bioHub), heartRate)` | Dynamic code |
+| `biohub_set_pulse_width` | Statement | VAR(field_variable), WIDTH(dropdown) | `biohub_set_pulse_width(variables_get($bioHub), "69")` | Dynamic code |
+| `biohub_set_sample_rate` | Statement | VAR(field_variable), RATE(dropdown) | `biohub_set_sample_rate(variables_get($bioHub), "50")` | Dynamic code |
+| `biohub_set_adc_range` | Statement | VAR(field_variable), RANGE(dropdown) | `biohub_set_adc_range(variables_get($bioHub), "2048")` | Dynamic code |
 
 ## Parameter Options
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| MODE | MODE_ONE, MODE_TWO | Algorithm output mode |
-| FIELD | heartRate, oxygen, confidence, status, irLed, redLed, rValue | Cached `bioData` field |
-| WIDTH | 69, 118, 215, 411 | LED pulse width in microseconds |
-| RATE | 50, 100, 200, 400, 800, 1000, 1600, 3200 | Sample rate |
-| RANGE | 2048, 4096, 8192, 16384 | ADC dynamic range nA |
+| MODE | MODE_ONE, MODE_TWO | biohub_config_bpm, biohub_config_sensor_bpm |
+| FIELD | heartRate, oxygen, confidence, status, irLed, redLed, rValue | biohub_value |
+| WIDTH | 69, 118, 215, 411 | biohub_set_pulse_width |
+| RATE | 50, 100, 200, 400, 800, 1000, 1600, 3200 | biohub_set_sample_rate |
+| RANGE | 2048, 4096, 8192, 16384 | biohub_set_adc_range |
 
 ## ABS Examples
 
-```text
+### Basic Usage
+```
 arduino_setup()
     biohub_init("bioHub", 4, 13)
-    biohub_config_bpm(variables_get($bioHub), MODE_ONE)
-    time_delay(math_number(4000))
+    serial_begin(Serial, 9600)
 
 arduino_loop()
-    biohub_read_bpm(variables_get($bioHub))
-    serial_println(Serial, biohub_value(variables_get($bioHub), heartRate))
+    serial_println(Serial, biohub_is_ready(variables_get($bioHub)))
+    time_delay(math_number(1000))
 ```
 
 ## Notes
 
-`biohub_init("name", ...)` creates variable `$name` and cached struct `$name_data` internally. Read a data block before using `biohub_value`.
+1. **Variable**: `biohub_init("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

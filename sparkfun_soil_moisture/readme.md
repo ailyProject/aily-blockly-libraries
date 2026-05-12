@@ -1,6 +1,6 @@
-# SparkFun 土壤湿度传感器
+# SparkFun Soil Moisture Sensor
 
-I2C 土壤湿度传感器 Blockly 库，适用于植物监测项目。
+Blockly wrapper for the SparkFun I2C soil moisture sensor.
 
 ## Library Info
 
@@ -8,16 +8,19 @@ I2C 土壤湿度传感器 Blockly 库，适用于植物监测项目。
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-soil-moisture |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_Soil_Moisture_Arduino_Library |
-| License | MIT |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
+
+## Supported Boards
+
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-通过 I2C 接口读取土壤湿度，支持原始 ADC 值和百分比，内置 LED 指示灯。
+Blockly wrapper for the SparkFun I2C soil moisture sensor.
 
 ## Quick Start
 
-1. 通过 Qwiic/I2C 连接
-2. 使用"初始化土壤湿度传感器"积木
-3. 读取"百分比"获取 0-100% 湿度值
+1. Enable `@aily-project/lib-sparkfun-soil-moisture` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

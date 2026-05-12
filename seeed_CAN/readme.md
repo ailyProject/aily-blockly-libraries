@@ -1,6 +1,6 @@
 # Seeed CAN
 
-SeeedStudio CAN总线通信库，支持MCP2515和MCP2518FD控制器
+SeeedStudio CAN bus communication library, supports MCP2515 and MCP2518FD controllers
 
 ## Library Info
 
@@ -10,18 +10,17 @@ SeeedStudio CAN总线通信库，支持MCP2515和MCP2518FD控制器
 | Version | 1.0.0 |
 | Author | SeeedStudio |
 | Source | https://github.com/Seeed-Studio/Seeed_CAN |
-| License | MIT |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino AVR (UNO/Nano/Mega), Arduino Mega AVR, Arduino SAMD, ESP32, ESP8266, renesas_uno:unor4wifi, Raspberry Pi Pico
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-SeeedStudio CAN总线通信库，支持MCP2515和MCP2518FD控制器
-
-This library provides 12 Blockly blocks.
+SeeedStudio CAN bus communication library, supports MCP2515 and MCP2518FD controllers
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-seeed-can` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

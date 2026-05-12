@@ -1,27 +1,26 @@
-# K10摄像头与AI识别
+# K10 Camera & AI Recognition
 
-UNIHIKER K10 摄像头与 AI 识别库，支持拍照、人脸/猫脸检测、运动检测、二维码扫描和人脸识别。
+UNIHIKER K10 camera and AI recognition library, supports photo, face detection/recognition, pet detection, motion detection, QR code scanning
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
-| 包名 | @aily-project/lib-unihiker-k10-camera-ai |
-| 版本 | 0.1.0 |
-| 作者 | DFRobot |
-| 来源 | https://github.com/DFRobot/UNIHIKER_K10 |
-| 许可证 | MIT |
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-unihiker-k10-camera-ai |
+| Version | 0.1.0 |
+| Author | DFRobot |
+| Source | N/A |
+| License | Original license |
 
-## 支持的开发板
+## Supported Boards
 
-UNIHIKER K10 (DFR0992)
+UNIHIKER:esp32:k10
 
-## 说明
+## Description
 
-K10 开发板集成 200W 像素摄像头和 AI 视觉处理能力，支持五种 AI 模式：人脸检测、猫脸检测、运动检测、二维码识别和人脸识别（录入/比对）。支持拍照保存到 TF 卡。
+UNIHIKER K10 camera and AI recognition library, supports photo, face detection/recognition, pet detection, motion detection, QR code scanning
 
-## 快速开始
+## Quick Start
 
-1. 使用「初始化摄像头」积木初始化摄像头
-2. 使用「初始化AI功能」积木选择 AI 模式
-3. 在循环中使用「AI检测到目标」检查结果并获取数据
+1. Enable `@aily-project/lib-unihiker-k10-camera-ai` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

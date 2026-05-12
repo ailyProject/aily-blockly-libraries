@@ -1,6 +1,6 @@
-# R4看门狗
+# R4 watchdog
 
-适用于Arduino UNO R4的看门狗库
+Watchdog library for Arduino UNO R4
 
 ## Library Info
 - **Name**: @aily-project/lib-r4-wdt
@@ -10,9 +10,9 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `wdt_begin` | Statement | TIMEOUT(field_number) | `wdt_begin(2000)` | `WDT.begin(` |
-| `wdt_refresh` | Statement | (none) | `wdt_refresh()` | `WDT.refresh();\n` |
-| `wdt_gettimeout` | Value | (none) | `wdt_gettimeout()` | `WDT.getTimeout()` |
+| `wdt_begin` | Statement | TIMEOUT(field_number) | `wdt_begin(2000)` | WDT.begin( |
+| `wdt_refresh` | Statement | (none) | `wdt_refresh()` | WDT.refresh();\n |
+| `wdt_gettimeout` | Value | (none) | `wdt_gettimeout()` | WDT.getTimeout() |
 
 ## ABS Examples
 
@@ -29,5 +29,5 @@ arduino_loop()
 
 ## Notes
 
-1. **Initialization**: Place init/setup blocks inside `arduino_setup()`
-2. **Parameter Order**: Follows `block.json` args0 order
+1. **Parameter order**: ABS parameters follow `block.json` args order.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

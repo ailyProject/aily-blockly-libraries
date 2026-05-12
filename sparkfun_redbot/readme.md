@@ -1,6 +1,6 @@
-# SparkFun RedBot 机器人平台
+# SparkFun RedBot Robot Platform
 
-面向 RedBot 机器人小车的 Blockly 库，支持电机驱动、反射传感器和碰撞检测。
+Blockly wrapper for the SparkFun RedBot robotics platform.
 
 ## Library Info
 
@@ -8,16 +8,19 @@
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-redbot |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_RedBot_Arduino_Library |
-| License | MIT |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
+
+## Supported Boards
+
+Arduino AVR
 
 ## Description
 
-RedBot 是 SparkFun 教育用机器人套件，本库提供双轮驱动、线循传感器和碰撞检测的封装。
+Blockly wrapper for the SparkFun RedBot robotics platform.
 
 ## Quick Start
 
-1. 使用"初始化 RedBot 电机"积木
-2. 用"前进"积木控制速度（-255~255）
-3. 使用"传感器"和"碰撞"积木检测障碍物
+1. Enable `@aily-project/lib-sparkfun-redbot` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

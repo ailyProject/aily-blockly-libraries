@@ -1,6 +1,6 @@
-# SparkFun SevSeg
+# SparkFun SevSeg display
 
-用于七段数码管的 Blockly 库。
+Blockly wrapper for SevSeg seven-segment displays.
 
 ## Library Info
 
@@ -9,17 +9,18 @@
 | Package | @aily-project/lib-sparkfun-sevseg |
 | Version | 0.0.1 |
 | Author | Dean Reading / SparkFun Electronics |
-| Source | https://github.com/sparkfun/SevSeg |
-| License | Public domain / Beerware |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO 等 AVR 开发板。需要按位选和段选引脚接线。
+Arduino AVR, ESP32, RP2040
 
 ## Description
 
-该库用于控制 1 到 4 位七段数码管，支持共阴/共阳、亮度调节和字符串显示。显示刷新需要在 loop 中反复调用显示积木。
+Blockly wrapper for SevSeg seven-segment displays.
 
 ## Quick Start
 
-先初始化显示类型、位选引脚和段选引脚，再在 loop 中持续调用显示积木。
+1. Enable `@aily-project/lib-sparkfun-sevseg` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

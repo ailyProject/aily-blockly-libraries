@@ -1,6 +1,6 @@
-# SparkFun LIS3DH 加速度计
+# SparkFun LIS3DH Accelerometer
 
-读取 LIS3DH 三轴加速度计 X/Y/Z 轴数据（g）。
+Blockly wrapper for SparkFun LIS3DH 3-axis accelerometer.
 
 ## Library Info
 
@@ -8,20 +8,19 @@
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-lis3dh |
 | Version | 0.0.1 |
-| Author | SparkFun Electronics |
-| Source | https://github.com/sparkfun/SparkFun_LIS3DH_Arduino_Library |
-| License | MIT |
+| Author | SparkFun |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO、ESP32（I2C 模式）
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-LIS3DH 是 ST 的三轴加速度计，支持 I2C/SPI 接口，量程可配置（±2/4/8/16g），支持多种输出数据速率。本库封装了基于 I2C 模式的初始化和读取操作。
+Blockly wrapper for SparkFun LIS3DH 3-axis accelerometer.
 
 ## Quick Start
 
-1. 连接 LIS3DH 到 I2C 总线（SDA/SCL）
-2. 在 Setup 中调用初始化块
-3. 在 Loop 中读取 X/Y/Z 轴加速度值
+1. Enable `@aily-project/lib-sparkfun-lis3dh` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
