@@ -170,16 +170,16 @@ jobs:
           # 去掉可能存在的尾部斜杠
           REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2_NO_PROTO" | sed 's/\/$//')
           
-          # 在仓库根目录生成 .npmrc，子包发布时会继承该配置
-          echo "registry=$REGISTRY_2" > .npmrc
-          echo "//$REGISTRY_2_NO_PROTO/:_authToken=$TOKEN_2" >> .npmrc
-          trap 'rm -f .npmrc' EXIT
-
           mapfile -t PACKAGES < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
           for package_dir in "${PACKAGES[@]}"; do
             echo "Publishing $package_dir to Registry 2"
             (
               cd "$package_dir"
+              # 在包目录生成临时 .npmrc，避免覆盖 setup-node 在仓库根目录生成的默认 registry 鉴权配置
+              echo "registry=$REGISTRY_2" > .npmrc
+              echo "//$REGISTRY_2_NO_PROTO/:_authToken=$TOKEN_2" >> .npmrc
+              trap 'rm -f .npmrc' EXIT
+
               CURRENT_VERSION=$(node -p "require('./package.json').version")
               PACKAGE_NAME=$(node -p "require('./package.json').name")
               echo "Current version: $CURRENT_VERSION"
@@ -263,14 +263,14 @@ jobs:
             } >> "$GITHUB_STEP_SUMMARY"
           }
 
-          # 确保清理掉可能残留的 .npmrc
-          rm -f .npmrc
-
           mapfile -t PACKAGES < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
           for package_dir in "${PACKAGES[@]}"; do
             echo "Publishing $package_dir to default registry"
             (
               cd "$package_dir"
+              # 清理包目录里的临时 registry 配置，保留仓库根目录中 setup-node 生成的默认 registry 鉴权配置
+              rm -f .npmrc
+
               # 获取当前版本号
               CURRENT_VERSION=$(node -p "require('./package.json').version")
               PACKAGE_NAME=$(node -p "require('./package.json').name")
@@ -391,6 +391,10 @@ jobs:
             local dir="$1"
             (
               cd "$dir"
+              echo "registry=$REGISTRY_2" > .npmrc
+              echo "//$REGISTRY_2_NO_PROTO/:_authToken=$TOKEN_2" >> .npmrc
+              trap 'rm -f .npmrc' EXIT
+
               echo "发布 $dir 到 Registry 2"
               CURRENT_VERSION=$(node -p "require('./package.json').version")
               PACKAGE_NAME=$(node -p "require('./package.json').name")
@@ -414,10 +418,6 @@ jobs:
           REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2" | sed 's/^https\?:\/\///')
           # 去掉可能存在的尾部斜杠
           REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2_NO_PROTO" | sed 's/\/$//')
-          
-          # 在当前目录生成 .npmrc
-          echo "registry=$REGISTRY_2" > .npmrc
-          echo "//$REGISTRY_2_NO_PROTO/:_authToken=$TOKEN_2" >> .npmrc
 
           PACKAGE_DIRS=$(find . -name "package.json" -not -path "*/node_modules/*" -not -path "./package.json" -exec dirname {} \; | sed 's/^\.\///')
           echo "Found packages: $PACKAGE_DIRS"
@@ -463,9 +463,6 @@ jobs:
             exit 1
           fi
           
-          # 清理
-          rm .npmrc
-
       - name: Notify cache bump for Registry 2
         if: steps.check-update-all.outputs.should_run == 'true'
         env:
@@ -535,6 +532,8 @@ jobs:
             local dir="$1"
             (
               cd "$dir"
+              rm -f .npmrc
+
               echo "发布 $dir"
               CURRENT_VERSION=$(node -p "require('./package.json').version")
               PACKAGE_NAME=$(node -p "require('./package.json').name")
@@ -559,9 +558,6 @@ jobs:
               fi
             )
           }
-
-          # 确保清理掉可能残留的 .npmrc
-          rm -f .npmrc
 
           PACKAGE_DIRS=$(find . -name "package.json" -not -path "*/node_modules/*" -not -path "./package.json" -exec dirname {} \; | sed 's/^\.\///')
           echo "Found packages: $PACKAGE_DIRS"
