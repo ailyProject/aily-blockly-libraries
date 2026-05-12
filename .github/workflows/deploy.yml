@@ -49,18 +49,31 @@ jobs:
           fi
           
           if [ ${#CHANGED_PACKAGES[@]} -eq 0 ]; then
-            echo "matrix={\"package\":[]}" >> $GITHUB_OUTPUT
+            echo "matrix={\"include\":[]}" >> $GITHUB_OUTPUT
             echo "No packages changed"
           else
-            JSON_ARRAY=$(printf '"%s",' "${CHANGED_PACKAGES[@]}" | sed 's/,$//')
-            echo "matrix={\"package\":[$JSON_ARRAY]}" >> $GITHUB_OUTPUT
+            MATRIX_JSON=$(printf '%s\n' "${CHANGED_PACKAGES[@]}" | node -e '
+              const fs = require("fs");
+              const packages = fs.readFileSync(0, "utf8").split(/\r?\n/).filter(Boolean);
+              const batchSize = 64;
+              const batches = [];
+              for (let offset = 0; offset < packages.length; offset += batchSize) {
+                batches.push({
+                  batch_index: Math.floor(offset / batchSize) + 1,
+                  packages_json: JSON.stringify(packages.slice(offset, offset + batchSize))
+                });
+              }
+              process.stdout.write(JSON.stringify({ include: batches }));
+            ')
+            echo "matrix=$MATRIX_JSON" >> $GITHUB_OUTPUT
             echo "Changed packages: ${CHANGED_PACKAGES[@]}"
+            echo "Created $(( (${#CHANGED_PACKAGES[@]} + 63) / 64 )) publish batch(es)"
           fi
       
 
   build-and-publish:
     needs: detect-changes
-    if: ${{ github.event_name == 'push' && needs.detect-changes.outputs.matrix != '{"package":[]}' && github.ref == 'refs/heads/deploy' }}
+    if: ${{ github.event_name == 'push' && needs.detect-changes.outputs.matrix != '{"include":[]}' && github.ref == 'refs/heads/deploy' }}
     runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
@@ -107,15 +120,24 @@ jobs:
       
       - name: Build package
         if: steps.check-update-all.outputs.should_skip != 'true'
+        env:
+          PACKAGES_JSON: ${{ matrix.packages_json }}
         run: |
-          cd ${{ matrix.package }}
-          npm run build --if-present
+          mapfile -t PACKAGES < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
+          for package_dir in "${PACKAGES[@]}"; do
+            echo "Building $package_dir"
+            (
+              cd "$package_dir"
+              npm run build --if-present
+            )
+          done
       
       - name: Publish to Registry 2
         if: steps.check-update-all.outputs.should_skip != 'true'
         env:
           REGISTRY_2: ${{ secrets.REGISTRY_URL_2 }}
           TOKEN_2: ${{ secrets.NPM_TOKEN_2 }}
+          PACKAGES_JSON: ${{ matrix.packages_json }}
         run: |
           retry_with_backoff() {
             local max_attempts="$1"
@@ -140,12 +162,6 @@ jobs:
             exit 0
           fi
 
-          cd ${{ matrix.package }}
-          
-          CURRENT_VERSION=$(node -p "require('./package.json').version")
-          PACKAGE_NAME=$(node -p "require('./package.json').name")
-          echo "Current version: $CURRENT_VERSION"
-
           echo "----------------------------------------"
           echo "Processing second registry: $REGISTRY_2"
           
@@ -154,22 +170,31 @@ jobs:
           # 去掉可能存在的尾部斜杠
           REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2_NO_PROTO" | sed 's/\/$//')
           
-          # 在当前目录生成 .npmrc，确保优先级最高且配置准确
+          # 在仓库根目录生成 .npmrc，子包发布时会继承该配置
           echo "registry=$REGISTRY_2" > .npmrc
           echo "//$REGISTRY_2_NO_PROTO/:_authToken=$TOKEN_2" >> .npmrc
-          
-          # 检查是否存在
-          if npm view $PACKAGE_NAME@$CURRENT_VERSION version &> /dev/null; then
-            echo "Version $CURRENT_VERSION exists on $REGISTRY_2, unpublishing..."
-            retry_with_backoff 3 3 npm unpublish $PACKAGE_NAME@$CURRENT_VERSION --force
-            sleep 5
-          fi
-          
-          # 发布
-          retry_with_backoff 5 5 npm publish --access public
-          
-          # 清理临时配置文件
-          rm .npmrc
+          trap 'rm -f .npmrc' EXIT
+
+          mapfile -t PACKAGES < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
+          for package_dir in "${PACKAGES[@]}"; do
+            echo "Publishing $package_dir to Registry 2"
+            (
+              cd "$package_dir"
+              CURRENT_VERSION=$(node -p "require('./package.json').version")
+              PACKAGE_NAME=$(node -p "require('./package.json').name")
+              echo "Current version: $CURRENT_VERSION"
+
+              # 检查是否存在
+              if npm view $PACKAGE_NAME@$CURRENT_VERSION version &> /dev/null; then
+                echo "Version $CURRENT_VERSION exists on $REGISTRY_2, unpublishing..."
+                retry_with_backoff 3 3 npm unpublish $PACKAGE_NAME@$CURRENT_VERSION --force
+                sleep 5
+              fi
+
+              # 发布
+              retry_with_backoff 5 5 npm publish --access public
+            )
+          done
 
       - name: Notify cache bump for Registry 2
         if: steps.check-update-all.outputs.should_skip != 'true'
@@ -203,6 +228,7 @@ jobs:
         if: steps.check-update-all.outputs.should_skip != 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          PACKAGES_JSON: ${{ matrix.packages_json }}
         run: |
           retry_with_backoff() {
             local max_attempts="$1"
@@ -237,34 +263,44 @@ jobs:
             } >> "$GITHUB_STEP_SUMMARY"
           }
 
-          cd ${{ matrix.package }}
           # 确保清理掉可能残留的 .npmrc
           rm -f .npmrc
-          
-          # 获取当前版本号
-          CURRENT_VERSION=$(node -p "require('./package.json').version")
-          PACKAGE_NAME=$(node -p "require('./package.json').name")
-          echo "Current version: $CURRENT_VERSION"
-          
-          # 检查当前版本是否已在 NPM registry 上发布
-          if npm view $PACKAGE_NAME@$CURRENT_VERSION version &> /dev/null; then
-            echo "版本 $CURRENT_VERSION 已存在，尝试取消发布..."
-            retry_with_backoff 3 3 npm unpublish $PACKAGE_NAME@$CURRENT_VERSION --force
-            sleep 5
-          fi
-          
-          # 发布
-          set +e
-          timeout 5m bash -lc 'retry_with_backoff 5 5 npm publish --access public'
-          STATUS=$?
-          set -e
-          if [ "$STATUS" -ne 0 ]; then
-            if [ "$STATUS" -eq 124 ]; then
-              mark_manual_publish "$PACKAGE_NAME" "$CURRENT_VERSION" "${{ matrix.package }}"
-              exit 0
+
+          mapfile -t PACKAGES < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
+          for package_dir in "${PACKAGES[@]}"; do
+            echo "Publishing $package_dir to default registry"
+            (
+              cd "$package_dir"
+              # 获取当前版本号
+              CURRENT_VERSION=$(node -p "require('./package.json').version")
+              PACKAGE_NAME=$(node -p "require('./package.json').name")
+              echo "Current version: $CURRENT_VERSION"
+
+              # 检查当前版本是否已在 NPM registry 上发布
+              if npm view $PACKAGE_NAME@$CURRENT_VERSION version &> /dev/null; then
+                echo "版本 $CURRENT_VERSION 已存在，尝试取消发布..."
+                retry_with_backoff 3 3 npm unpublish $PACKAGE_NAME@$CURRENT_VERSION --force
+                sleep 5
+              fi
+
+              # 发布
+              set +e
+              timeout 5m bash -lc 'retry_with_backoff 5 5 npm publish --access public'
+              STATUS=$?
+              set -e
+              if [ "$STATUS" -ne 0 ]; then
+                if [ "$STATUS" -eq 124 ]; then
+                  mark_manual_publish "$PACKAGE_NAME" "$CURRENT_VERSION" "$package_dir"
+                  exit 0
+                fi
+                exit "$STATUS"
+              fi
+            )
+            STATUS=$?
+            if [ "$STATUS" -ne 0 ]; then
+              exit "$STATUS"
             fi
-            exit "$STATUS"
-          fi
+          done
 
       - name: Notify cache bump
         if: steps.check-update-all.outputs.should_skip != 'true'
