@@ -1,0 +1,61 @@
+{
+  "toolbox_name": "BLEOTA",
+  "toolbox_labels": {
+    "常用": "常用",
+    "配置": "配置",
+    "运行": "运行",
+    "事件": "事件"
+  },
+  "bleota_begin_auto": {
+    "message0": "一键启动 BLE OTA 设备名 %1",
+    "tooltip": "用默认对象创建 BLE 服务端、添加 BLEOTA 服务、启动广播并自动在 loop 中处理更新"
+  },
+  "bleota_setup": {
+    "message0": "配置 BLE OTA 对象 %1 服务端 %2 设备名 %3 安全模式 %4",
+    "tooltip": "创建 BLEOTA 对象和 BLE 服务端，并调用 begin；安全模式需要在启动服务前设置公钥",
+    "args0": [null, null, null, { "options": [["关闭", "false"], ["开启", "true"]] }]
+  },
+  "bleota_set_public_key": {
+    "message0": "BLE OTA %1 设置 RSA 公钥 %2",
+    "tooltip": "为安全 BLE OTA 设置 RSA-2048 公钥内容"
+  },
+  "bleota_set_device_info": {
+    "message0": "BLE OTA %1 设置设备信息 %2 为 %3",
+    "tooltip": "设置设备信息服务 DIS 中显示的型号、版本或制造商字段",
+    "args0": [null, { "options": [["型号", "MODEL"], ["序列号", "SERIAL_NUMBER"], ["固件版本", "FW_VERSION"], ["硬件版本", "HW_VERSION"], ["制造商", "MANUFACTURER"]] }, null]
+  },
+  "bleota_start_service": {
+    "message0": "启动 BLE OTA %1 服务端 %2 扫描响应 %3 更新后自动重启 %4",
+    "tooltip": "初始化 BLEOTA 服务、加入广播并自动在 loop 中处理连接和更新流程",
+    "args0": [null, null, { "options": [["关闭", "false"], ["开启", "true"]] }, { "options": [["开启", "true"], ["关闭", "false"]] }]
+  },
+  "bleota_process": {
+    "message0": "处理 BLE OTA %1 更新后自动重启 %2",
+    "tooltip": "手动调用 BLEOTA.process，处理接收、校验、写入和回调队列",
+    "args0": [null, { "options": [["开启", "true"], ["关闭", "false"]] }]
+  },
+  "bleota_abort": {
+    "message0": "中止 BLE OTA %1 更新",
+    "tooltip": "中止当前正在进行的 BLE OTA 写入"
+  },
+  "bleota_is_running": {
+    "message0": "BLE OTA %1 正在更新",
+    "tooltip": "返回当前是否正在接收并写入 OTA 数据"
+  },
+  "bleota_progress": {
+    "message0": "BLE OTA %1 进度百分比",
+    "tooltip": "返回当前 OTA 写入进度百分比，未开始时为 0"
+  },
+  "bleota_uuid": {
+    "message0": "BLE OTA %1 服务 UUID",
+    "tooltip": "返回 BLE OTA GATT 服务 UUID，可用于自定义广播"
+  },
+  "bleota_on_events": {
+    "message0": "当 BLE OTA %1 事件发生",
+    "message1": "开始固件更新前 %1",
+    "message2": "开始文件系统更新前 %1",
+    "message3": "更新完成后 %1",
+    "message4": "更新中止后 %1",
+    "tooltip": "注册 BLE OTA 生命周期回调，可在更新前后执行自定义代码"
+  }
+}
