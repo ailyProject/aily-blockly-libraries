@@ -23,4 +23,5 @@ ArduinoOTA network firmware update library for WiFi and Ethernet uploads
 ## Quick Start
 
 1. Enable `@aily-project/lib-arduinoota` in Aily Blockly.
-2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+2. Connect WiFi first, then place the quick start OTA block in `arduino_setup()` to start OTA and auto-add polling.
+3. For manual control, place the normal initialization block in `arduino_setup()` and the poll block in `arduino_loop()`.

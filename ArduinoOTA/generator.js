@@ -156,16 +156,26 @@ void arduinoota_pc_on_error_callback(int code, const char* message) {
   generator.addFunction('arduinoota_pc_events', functionDef);
 }
 
-Arduino.forBlock['arduinoota_config_begin'] = function(block, generator) {
+function arduinootaBeginCode(generator, autoPoll) {
   const networkObject = arduinootaEnsureLibrary(generator, 'WIFI_AUTO', 'MDNS');
   arduinootaEnsurePcEvents(generator);
-  generator.addLoopBegin('arduinoota_poll', 'ArduinoOTA.poll();');
+  if (autoPoll) {
+    generator.addLoopBegin('arduinoota_poll', 'ArduinoOTA.poll();');
+  }
 
   return 'ArduinoOTA.onStart(arduinoota_pc_on_start_callback);\n' +
     'ArduinoOTA.beforeApply(arduinoota_pc_before_apply_callback);\n' +
     'ArduinoOTA.onError(arduinoota_pc_on_error_callback);\n' +
     'ArduinoOTA.begin(' + networkObject + '.localIP(), ' + ARDUINOOTA_DEFAULT_NAME + ', ' + ARDUINOOTA_DEFAULT_PASSWORD + ', InternalStorage);\n' +
     'arduinoota_pc_ready(' + networkObject + '.localIP());\n';
+}
+
+Arduino.forBlock['arduinoota_config_auto'] = function(block, generator) {
+  return arduinootaBeginCode(generator, true);
+};
+
+Arduino.forBlock['arduinoota_begin'] = function(block, generator) {
+  return arduinootaBeginCode(generator, false);
 };
 
 Arduino.forBlock['arduinoota_poll'] = function(block, generator) {

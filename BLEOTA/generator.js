@@ -146,8 +146,12 @@ function bleotaAdvertisingCode(otaName, scanResponse) {
     'BLEDevice::startAdvertising();\n';
 }
 
+function bleotaInitServiceCode(otaName, scanResponse) {
+  return otaName + '.init();\n' + bleotaAdvertisingCode(otaName, scanResponse);
+}
+
 Arduino.forBlock['bleota_begin_auto'] = function(block, generator) {
-  const deviceName = bleotaValueToCode(block, generator, 'DEVICE_NAME', '"ESP32-BLE-OTA"');
+  const deviceName = '"ESP32-BLE-OTA"';
   const otaName = 'BLEOTA';
   const serverName = 'pServer';
 
@@ -165,8 +169,7 @@ Arduino.forBlock['bleota_begin_auto'] = function(block, generator) {
     serverName + ' = BLEDevice::createServer();\n' +
     serverName + '->setCallbacks(new ' + callbackInfo.callbackClass + '());\n' +
     otaName + '.begin(' + serverName + ', false);\n' +
-    otaName + '.init();\n' +
-    bleotaAdvertisingCode(otaName, 'false') +
+    bleotaInitServiceCode(otaName, 'false') +
     'Serial.println("BLE OTA ready");\n';
 };
 
@@ -216,6 +219,16 @@ Arduino.forBlock['bleota_set_device_info'] = function(block, generator) {
   return otaName + '.' + (setters[info] || 'setModel') + '(' + value + ');\n';
 };
 
+Arduino.forBlock['bleota_init'] = function(block, generator) {
+  bleotaAttachInputVarMonitor(block, 'VAR', 'BLEOTAClass', 'BLEOTA', 'InitOta');
+
+  const otaName = bleotaSafeIdentifier(block.getFieldValue('VAR') || 'BLEOTA', 'BLEOTA');
+  const scanResponse = block.getFieldValue('SCAN_RESPONSE') || 'false';
+
+  bleotaEnsureLibrary(generator);
+  return bleotaInitServiceCode(otaName, scanResponse);
+};
+
 Arduino.forBlock['bleota_start_service'] = function(block, generator) {
   const otaName = bleotaGetVariableName(block, 'VAR', 'BLEOTA');
   const serverName = bleotaGetVariableName(block, 'SERVER', 'pServer');
@@ -227,7 +240,7 @@ Arduino.forBlock['bleota_start_service'] = function(block, generator) {
   bleotaEnsureLoopHelper(generator);
   generator.addLoopBegin('bleota_loop_' + serverName, 'bleota_loop_service(' + otaName + ', ' + serverName + ', ' + callbackInfo.connectedVar + ', ' + callbackInfo.oldConnectedVar + ', ' + autoReset + ');');
 
-  return otaName + '.init();\n' + bleotaAdvertisingCode(otaName, scanResponse);
+  return bleotaInitServiceCode(otaName, scanResponse);
 };
 
 Arduino.forBlock['bleota_process'] = function(block, generator) {

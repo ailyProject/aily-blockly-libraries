@@ -1,18 +1,11 @@
 [
   {
     "type": "bleota_begin_auto",
-    "message0": "一键启动 BLE OTA 设备名 %1",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "DEVICE_NAME",
-        "check": "String"
-      }
-    ],
+    "message0": "快速启动 BLE OTA",
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#1976D2",
-    "tooltip": "用默认对象创建 BLE 服务端、添加 BLEOTA 服务、启动广播并自动在 loop 中处理更新",
+    "tooltip": "使用默认设备名和默认对象创建 BLE 服务端、启动 BLE OTA 服务、启动广播并自动在 loop 中处理更新，一个块即可启用 OTA",
     "icon": "fa-light fa-bluetooth"
   },
   {
@@ -105,6 +98,30 @@
     "colour": "#00897B",
     "tooltip": "设置设备信息服务 DIS 中显示的型号、版本或制造商字段",
     "icon": "fa-light fa-circle-info"
+  },
+  {
+    "type": "bleota_init",
+    "message0": "初始化 BLE OTA %1 扫描响应 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "BLEOTA"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SCAN_RESPONSE",
+        "options": [
+          ["关闭", "false"],
+          ["开启", "true"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "初始化 BLEOTA 服务并加入广播；不自动向 loop 添加处理，请在 loop 中使用处理块",
+    "icon": "fa-light fa-bluetooth"
   },
   {
     "type": "bleota_start_service",
