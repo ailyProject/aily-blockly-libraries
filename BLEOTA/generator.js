@@ -63,14 +63,6 @@ function bleotaEnsureLibrary(generator) {
   generator.addLibrary('BLEOTA', '#include <BLEOTA.h>');
 }
 
-function bleotaEnsureSerial(generator) {
-  if (typeof ensureSerialBegin === 'function') {
-    ensureSerialBegin('Serial', generator, '115200');
-  } else {
-    generator.addSetupBegin('bleota_serial_begin', 'Serial.begin(115200);');
-  }
-}
-
 function bleotaEnsureObjects(generator, otaName, serverName) {
   generator.addObject('bleota_object_' + otaName, 'BLEOTAClass ' + otaName + ';');
   generator.addObject('bleota_server_' + serverName, 'BLEServer* ' + serverName + ' = NULL;');
@@ -151,12 +143,11 @@ function bleotaInitServiceCode(otaName, scanResponse) {
 }
 
 Arduino.forBlock['bleota_begin_auto'] = function(block, generator) {
-  const deviceName = '"ESP32-BLE-OTA"';
+  const deviceName = JSON.stringify(window['boardConfig'].name);
   const otaName = 'BLEOTA';
   const serverName = 'pServer';
 
   bleotaEnsureLibrary(generator);
-  bleotaEnsureSerial(generator);
   bleotaRegisterVariable(otaName, 'BLEOTAClass');
   bleotaRegisterVariable(serverName, 'BLEServer');
   generator.addObject('bleota_object_' + otaName, 'BLEOTAClass ' + otaName + ';');
@@ -169,8 +160,7 @@ Arduino.forBlock['bleota_begin_auto'] = function(block, generator) {
     serverName + ' = BLEDevice::createServer();\n' +
     serverName + '->setCallbacks(new ' + callbackInfo.callbackClass + '());\n' +
     otaName + '.begin(' + serverName + ', false);\n' +
-    bleotaInitServiceCode(otaName, 'false') +
-    'Serial.println("BLE OTA ready");\n';
+    bleotaInitServiceCode(otaName, 'true');
 };
 
 Arduino.forBlock['bleota_setup'] = function(block, generator) {
