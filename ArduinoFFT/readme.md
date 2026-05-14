@@ -1,14 +1,14 @@
-# Arduino-FFT
+# ArduinoFFT
 
-Fast Fourier Transform function library based on arduinoFFT library
+arduinoFFT blocks for sampling signals, running FFT, and reading frequency peaks.
 
 ## Library Info
 
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-arduino-fft |
-| Version | 0.0.2 |
-| Author | Enrique Condes, ericoding |
+| Version | 0.1.0 |
+| Author | Enrique Condes, Didier Longueville, Bim Overbohm |
 | Source | https://github.com/kosme/arduinoFFT |
 | License | GPL-3.0-or-later |
 
@@ -18,9 +18,8 @@ Arduino-compatible boards supported by this package.
 
 ## Description
 
-Fast Fourier Transform function library based on arduinoFFT library
+This wrapper creates FFT objects with managed real and imaginary buffers. It supports analog sampling, synthetic tone generation, windowing, FFT processing, peak detection, bin lookup, band magnitudes, and serial bin printing.
 
 ## Quick Start
 
-1. Enable `@aily-project/lib-arduino-fft` in Aily Blockly.
-2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+Enable `@aily-project/lib-arduino-fft`, create an FFT object in `arduino_setup()`, fill samples in `arduino_loop()`, run the forward pipeline, then read the major peak frequency.

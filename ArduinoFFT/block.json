@@ -1,30 +1,33 @@
 [
   {
-    "type": "Arduino_FFT_init",
-    "message0": "初始化 FFT 对象 实部数组 %1 虚部数组 %2 样本数 %3 采样频率(Hz) %4",
+    "type": "arduino_fft_init",
+    "message0": "create FFT %1 type %2 samples %3 sampling frequency %4 Hz",
     "args0": [
       {
-        "type": "field_variable",
-        "name": "REAL_ARRAY",
-        "variable": "vReal",
-        "variableTypes": [
-          "double[]"
-        ],
-        "defaultType": "double[]"
+        "type": "field_input",
+        "name": "VAR",
+        "text": "fft"
       },
       {
-        "type": "field_variable",
-        "name": "IMAG_ARRAY",
-        "variable": "vImag",
-        "variableTypes": [
-          "double[]"
-        ],
-        "defaultType": "double[]"
+        "type": "field_dropdown",
+        "name": "DATA_TYPE",
+        "options": [
+          ["double", "double"],
+          ["float", "float"]
+        ]
       },
       {
-        "type": "input_value",
-        "name": "SAMPLES_COUNT",
-        "check": "Number"
+        "type": "field_dropdown",
+        "name": "SAMPLES",
+        "options": [
+          ["16", "16"],
+          ["32", "32"],
+          ["64", "64"],
+          ["128", "128"],
+          ["256", "256"],
+          ["512", "512"],
+          ["1024", "1024"]
+        ]
       },
       {
         "type": "input_value",
@@ -32,240 +35,480 @@
         "check": "Number"
       }
     ],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4280D7",
-    "tooltip": "%{BKY_FFT_INIT_TOOLTIP}",
+    "tooltip": "Create an arduinoFFT object and its real/imaginary sample buffers.",
     "helpUrl": "https://github.com/kosme/arduinoFFT",
     "icon": "fa-regular fa-wave-square"
   },
   {
-    "type": "Arduino_FFT_windowing",
-    "message0": "对数组 %1 应用窗口 %2 方向 %3",
+    "type": "arduino_fft_set_sample",
+    "message0": "FFT %1 set sample index %2 real %3 imaginary %4",
     "args0": [
       {
         "type": "field_variable",
-        "name": "ARRAY",
-        "variable": "vReal",
-        "variableTypes": [
-          "double[]"
-        ],
-        "defaultType": "double[]"
+        "name": "VAR",
+        "variable": "fft",
+        "variableTypes": ["ArduinoFFT"],
+        "defaultType": "ArduinoFFT"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "REAL",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "IMAG",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4280D7",
+    "tooltip": "Write one real/imaginary sample into the FFT buffers.",
+    "helpUrl": "https://github.com/kosme/arduinoFFT",
+    "icon": "fa-regular fa-wave-square"
+  },
+  {
+    "type": "arduino_fft_clear_samples",
+    "message0": "FFT %1 clear all samples",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "fft",
+        "variableTypes": ["ArduinoFFT"],
+        "defaultType": "ArduinoFFT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4280D7",
+    "tooltip": "Set all real and imaginary samples to zero.",
+    "helpUrl": "https://github.com/kosme/arduinoFFT",
+    "icon": "fa-regular fa-wave-square"
+  },
+  {
+    "type": "arduino_fft_sample_analog",
+    "message0": "FFT %1 sample analog pin %2 offset %3 scale %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "fft",
+        "variableTypes": ["ArduinoFFT"],
+        "defaultType": "ArduinoFFT"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "OFFSET",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SCALE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4280D7",
+    "tooltip": "Fill the FFT buffers from analogRead at the configured sampling frequency.",
+    "helpUrl": "https://github.com/kosme/arduinoFFT",
+    "icon": "fa-regular fa-wave-square"
+  },
+  {
+    "type": "arduino_fft_generate_tone",
+    "message0": "FFT %1 generate tone frequency %2 Hz amplitude %3 offset %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "fft",
+        "variableTypes": ["ArduinoFFT"],
+        "defaultType": "ArduinoFFT"
+      },
+      {
+        "type": "input_value",
+        "name": "FREQUENCY",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "AMPLITUDE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "OFFSET",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4280D7",
+    "tooltip": "Generate a sine-wave test signal into the FFT buffers.",
+    "helpUrl": "https://github.com/kosme/arduinoFFT",
+    "icon": "fa-regular fa-wave-square"
+  },
+  {
+    "type": "arduino_fft_dc_removal",
+    "message0": "FFT %1 remove DC offset",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "fft",
+        "variableTypes": ["ArduinoFFT"],
+        "defaultType": "ArduinoFFT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4280D7",
+    "tooltip": "Subtract the mean value from the real sample buffer.",
+    "helpUrl": "https://github.com/kosme/arduinoFFT",
+    "icon": "fa-regular fa-wave-square"
+  },
+  {
+    "type": "arduino_fft_windowing",
+    "message0": "FFT %1 apply window %2 direction %3 compensate %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "fft",
+        "variableTypes": ["ArduinoFFT"],
+        "defaultType": "ArduinoFFT"
       },
       {
         "type": "field_dropdown",
         "name": "WINDOW_TYPE",
         "options": [
-          [
-            "矩形",
-            "FFT_WIN_TYP_RECTANGLE"
-          ],
-          [
-            "汉明",
-            "FFT_WIN_TYP_HAMMING"
-          ],
-          [
-            "汉宁",
-            "FFT_WIN_TYP_HANN"
-          ],
-          [
-            "三角",
-            "FFT_WIN_TYP_TRIANGLE"
-          ],
-          [
-            "纳特尔",
-            "FFT_WIN_TYP_NUTTALL"
-          ],
-          [
-            "布莱克曼",
-            "FFT_WIN_TYP_BLACKMAN"
-          ],
-          [
-            "布莱克曼-纳特尔",
-            "FFT_WIN_TYP_BLACKMAN_NUTTALL"
-          ],
-          [
-            "布莱克曼-哈里斯",
-            "FFT_WIN_TYP_BLACKMAN_HARRIS"
-          ],
-          [
-            "平顶",
-            "FFT_WIN_TYP_FLT_TOP"
-          ],
-          [
-            "Welch",
-            "FFT_WIN_TYP_WELCH"
-          ]
+          ["rectangle", "FFT_WIN_TYP_RECTANGLE"],
+          ["hamming", "FFT_WIN_TYP_HAMMING"],
+          ["hann", "FFT_WIN_TYP_HANN"],
+          ["triangle", "FFT_WIN_TYP_TRIANGLE"],
+          ["nuttall", "FFT_WIN_TYP_NUTTALL"],
+          ["blackman", "FFT_WIN_TYP_BLACKMAN"],
+          ["blackman nuttall", "FFT_WIN_TYP_BLACKMAN_NUTTALL"],
+          ["blackman harris", "FFT_WIN_TYP_BLACKMAN_HARRIS"],
+          ["flat top", "FFT_WIN_TYP_FLT_TOP"],
+          ["welch", "FFT_WIN_TYP_WELCH"]
         ]
       },
       {
         "type": "field_dropdown",
         "name": "DIRECTION",
         "options": [
-          [
-            "正向",
-            "FFT_FORWARD"
-          ],
-          [
-            "逆向",
-            "FFT_REVERSE"
-          ]
+          ["forward", "FFT_FORWARD"],
+          ["reverse", "FFT_REVERSE"]
         ]
+      },
+      {
+        "type": "field_checkbox",
+        "name": "COMPENSATION",
+        "checked": false
       }
     ],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4280D7",
-    "tooltip": "%{BKY_FFT_WINDOWING_TOOLTIP}",
+    "tooltip": "Apply one of the arduinoFFT window functions to the real buffer.",
     "helpUrl": "https://github.com/kosme/arduinoFFT",
     "icon": "fa-regular fa-wave-square"
   },
   {
-    "type": "Arduino_FFT_compute",
-    "message0": "计算 FFT 实部 %1 虚部 %2 样本数 %3 方向 %4",
+    "type": "arduino_fft_compute",
+    "message0": "FFT %1 compute direction %2",
     "args0": [
       {
         "type": "field_variable",
-        "name": "REAL_ARRAY",
-        "variable": "vReal",
-        "variableTypes": [
-          "double[]"
-        ],
-        "defaultType": "double[]"
-      },
-      {
-        "type": "field_variable",
-        "name": "IMAG_ARRAY",
-        "variable": "vImag",
-        "variableTypes": [
-          "double[]"
-        ],
-        "defaultType": "double[]"
-      },
-      {
-        "type": "input_value",
-        "name": "SAMPLES_COUNT",
-        "check": "Number"
+        "name": "VAR",
+        "variable": "fft",
+        "variableTypes": ["ArduinoFFT"],
+        "defaultType": "ArduinoFFT"
       },
       {
         "type": "field_dropdown",
         "name": "DIRECTION",
         "options": [
-          [
-            "正向",
-            "FFT_FORWARD"
-          ],
-          [
-            "逆向",
-            "FFT_REVERSE"
-          ]
+          ["forward", "FFT_FORWARD"],
+          ["reverse", "FFT_REVERSE"]
         ]
       }
     ],
+    "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4280D7",
-    "tooltip": "%{BKY_FFT_COMPUTE_TOOLTIP}",
+    "tooltip": "Run the FFT calculation on the configured buffers.",
     "helpUrl": "https://github.com/kosme/arduinoFFT",
     "icon": "fa-regular fa-wave-square"
   },
   {
-    "type": "Arduino_FFT_complex_to_magnitude",
-    "message0": "复数转幅值 实部 %1 虚部 %2 样本数 %3",
+    "type": "arduino_fft_complex_to_magnitude",
+    "message0": "FFT %1 complex to magnitude",
     "args0": [
       {
         "type": "field_variable",
-        "name": "REAL_ARRAY",
-        "variable": "vReal",
-        "variableTypes": [
-          "double[]"
-        ],
-        "defaultType": "double[]"
-      },
-      {
-        "type": "field_variable",
-        "name": "IMAG_ARRAY",
-        "variable": "vImag",
-        "variableTypes": [
-          "double[]"
-        ],
-        "defaultType": "double[]"
-      },
-      {
-        "type": "input_value",
-        "name": "SAMPLES_COUNT",
-        "check": "Number"
+        "name": "VAR",
+        "variable": "fft",
+        "variableTypes": ["ArduinoFFT"],
+        "defaultType": "ArduinoFFT"
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4280D7",
-    "tooltip": "%{BKY_FFT_COMPLEX_TO_MAGNITUDE_TOOLTIP}",
+    "tooltip": "Convert the complex FFT result into magnitudes stored in the real buffer.",
     "helpUrl": "https://github.com/kosme/arduinoFFT",
     "icon": "fa-regular fa-wave-square"
   },
   {
-    "type": "Arduino_FFT_major_peak",
-    "message0": "从幅度数组 %1 （样本数 %2 采样频率 %3）获取主频率",
+    "type": "arduino_fft_process",
+    "message0": "FFT %1 run forward pipeline window %2 remove DC %3 compensate %4",
     "args0": [
       {
         "type": "field_variable",
-        "name": "MAGNITUDE_ARRAY",
-        "variable": "vReal",
-        "variableTypes": [
-          "double[]"
-        ],
-        "defaultType": "double[]"
+        "name": "VAR",
+        "variable": "fft",
+        "variableTypes": ["ArduinoFFT"],
+        "defaultType": "ArduinoFFT"
       },
       {
-        "type": "input_value",
-        "name": "SAMPLES_COUNT",
-        "check": "Number"
+        "type": "field_dropdown",
+        "name": "WINDOW_TYPE",
+        "options": [
+          ["rectangle", "FFT_WIN_TYP_RECTANGLE"],
+          ["hamming", "FFT_WIN_TYP_HAMMING"],
+          ["hann", "FFT_WIN_TYP_HANN"],
+          ["triangle", "FFT_WIN_TYP_TRIANGLE"],
+          ["nuttall", "FFT_WIN_TYP_NUTTALL"],
+          ["blackman", "FFT_WIN_TYP_BLACKMAN"],
+          ["blackman nuttall", "FFT_WIN_TYP_BLACKMAN_NUTTALL"],
+          ["blackman harris", "FFT_WIN_TYP_BLACKMAN_HARRIS"],
+          ["flat top", "FFT_WIN_TYP_FLT_TOP"],
+          ["welch", "FFT_WIN_TYP_WELCH"]
+        ]
       },
       {
-        "type": "input_value",
-        "name": "SAMPLING_FREQUENCY",
-        "check": "Number"
+        "type": "field_checkbox",
+        "name": "REMOVE_DC",
+        "checked": true
+      },
+      {
+        "type": "field_checkbox",
+        "name": "COMPENSATION",
+        "checked": false
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4280D7",
+    "tooltip": "Run the common dcRemoval, windowing, compute, and complexToMagnitude sequence.",
+    "helpUrl": "https://github.com/kosme/arduinoFFT",
+    "icon": "fa-regular fa-wave-square"
+  },
+  {
+    "type": "arduino_fft_major_peak",
+    "message0": "FFT %1 major peak frequency",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "fft",
+        "variableTypes": ["ArduinoFFT"],
+        "defaultType": "ArduinoFFT"
       }
     ],
     "output": "Number",
     "colour": "#4280D7",
-    "tooltip": "%{BKY_FFT_MAJOR_PEAK_TOOLTIP}",
+    "tooltip": "Return the dominant frequency after magnitude conversion.",
     "helpUrl": "https://github.com/kosme/arduinoFFT",
     "icon": "fa-regular fa-wave-square"
   },
   {
-    "type": "Arduino_FFT_get_band",
-    "message0": "从幅度数组 %1 （样本数 %2 采样频率 %3）获取第 %4 段(共8段)幅值",
+    "type": "arduino_fft_major_peak_parabola",
+    "message0": "FFT %1 parabolic peak frequency",
     "args0": [
       {
         "type": "field_variable",
-        "name": "MAGNITUDE_ARRAY",
-        "variable": "vReal",
-        "variableTypes": [
-          "double[]"
-        ],
-        "defaultType": "double[]"
+        "name": "VAR",
+        "variable": "fft",
+        "variableTypes": ["ArduinoFFT"],
+        "defaultType": "ArduinoFFT"
+      }
+    ],
+    "output": "Number",
+    "colour": "#4280D7",
+    "tooltip": "Return the dominant frequency using parabolic interpolation.",
+    "helpUrl": "https://github.com/kosme/arduinoFFT",
+    "icon": "fa-regular fa-wave-square"
+  },
+  {
+    "type": "arduino_fft_peak_magnitude",
+    "message0": "FFT %1 major peak magnitude",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "fft",
+        "variableTypes": ["ArduinoFFT"],
+        "defaultType": "ArduinoFFT"
+      }
+    ],
+    "output": "Number",
+    "colour": "#4280D7",
+    "tooltip": "Return the magnitude estimate for the dominant peak.",
+    "helpUrl": "https://github.com/kosme/arduinoFFT",
+    "icon": "fa-regular fa-wave-square"
+  },
+  {
+    "type": "arduino_fft_bin_frequency",
+    "message0": "FFT %1 frequency of bin %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "fft",
+        "variableTypes": ["ArduinoFFT"],
+        "defaultType": "ArduinoFFT"
       },
       {
         "type": "input_value",
-        "name": "SAMPLES_COUNT",
+        "name": "INDEX",
         "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#4280D7",
+    "tooltip": "Convert a FFT bin index into its frequency in Hz.",
+    "helpUrl": "https://github.com/kosme/arduinoFFT",
+    "icon": "fa-regular fa-wave-square"
+  },
+  {
+    "type": "arduino_fft_bin_magnitude",
+    "message0": "FFT %1 magnitude of bin %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "fft",
+        "variableTypes": ["ArduinoFFT"],
+        "defaultType": "ArduinoFFT"
       },
       {
         "type": "input_value",
-        "name": "SAMPLING_FREQUENCY",
+        "name": "INDEX",
         "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#4280D7",
+    "tooltip": "Read a magnitude value from the real buffer by FFT bin index.",
+    "helpUrl": "https://github.com/kosme/arduinoFFT",
+    "icon": "fa-regular fa-wave-square"
+  },
+  {
+    "type": "arduino_fft_band_magnitude",
+    "message0": "FFT %1 magnitude of band %2 in %3 bands",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "fft",
+        "variableTypes": ["ArduinoFFT"],
+        "defaultType": "ArduinoFFT"
       },
       {
         "type": "input_value",
         "name": "BAND_INDEX",
         "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BAND_COUNT",
+        "options": [
+          ["4", "4"],
+          ["8", "8"],
+          ["16", "16"]
+        ]
       }
     ],
+    "inputsInline": true,
     "output": "Number",
     "colour": "#4280D7",
-    "tooltip": "%{BKY_FFT_GET_BAND_TOOLTIP}",
+    "tooltip": "Return the maximum magnitude inside a coarse frequency band.",
+    "helpUrl": "https://github.com/kosme/arduinoFFT",
+    "icon": "fa-regular fa-wave-square"
+  },
+  {
+    "type": "arduino_fft_print_bins",
+    "message0": "FFT %1 print bins to %2 from %3 to %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "fft",
+        "variableTypes": ["ArduinoFFT"],
+        "defaultType": "ArduinoFFT"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": [
+          ["Serial", "Serial"],
+          ["Serial1", "Serial1"],
+          ["Serial2", "Serial2"],
+          ["Serial3", "Serial3"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "START_INDEX",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "END_INDEX",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4280D7",
+    "tooltip": "Print frequency and magnitude pairs for a range of FFT bins.",
+    "helpUrl": "https://github.com/kosme/arduinoFFT",
+    "icon": "fa-regular fa-wave-square"
+  },
+  {
+    "type": "arduino_fft_revision",
+    "message0": "arduinoFFT library revision",
+    "output": "Number",
+    "colour": "#4280D7",
+    "tooltip": "Return the arduinoFFT revision macro value.",
     "helpUrl": "https://github.com/kosme/arduinoFFT",
     "icon": "fa-regular fa-wave-square"
   }
