@@ -1,88 +1,26 @@
-# ESPUI网页界面库
+# ESPUI web interface library
 
-基于开源ESPUI库的积木化封装，为ESP32和ESP8266提供简单易用的网页界面创建功能。
+ESP32/ESP8266 web interface library based on ESPUI, supports the creation of buttons, sliders, switches and other Web UI controls
 
-## 功能特性
+## Library Info
 
-- 🎨 **丰富的UI控件**: 支持标签、按钮、开关、滑条、文本输入框、数字输入框、图表、仪表盘等
-- 🌈 **22种预设颜色主题**: 从蓝绿色到暗色，提供丰富的视觉选择
-- 📱 **响应式设计**: 基于Skeleton CSS，适配各种屏幕尺寸
-- ⚡ **实时交互**: 使用WebSocket实现控件的实时更新和事件处理
-- 🔒 **访问控制**: 支持用户名密码认证
-- 📶 **独立运行**: 无需互联网连接，所有资源从ESP内存加载
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-espui |
+| Version | 1.0.0 |
+| Author | ericoding |
+| Source | N/A |
+| License | Original license |
 
-## 支持的开发板
+## Supported Boards
 
-- ESP32系列开发板
-- ESP8266系列开发板
+ESP32
 
-## 依赖库
+## Description
 
-本库基于以下开源库构建：
+ESP32/ESP8266 web interface library based on ESPUI, supports the creation of buttons, sliders, switches and other Web UI controls
 
-- **ESPUI** (v2.2.4+) - 主要UI库 ([GitHub](https://github.com/s00500/ESPUI))
-- **ESP Async WebServer** (v1.2.3+) - 异步Web服务器
-- **ArduinoJson** (v6.21.3+) - JSON数据处理
+## Quick Start
 
-## 安装说明
-
-1. 在Arduino IDE中安装依赖库：
-   - 打开 工具 > 管理库
-   - 搜索并安装 "ESPUI"
-   - 搜索并安装 "ESP Async WebServer"
-   - 搜索并安装 "ArduinoJson"
-
-2. 在aily-blockly中加载本库即可使用
-
-## 基本使用
-
-1. **初始化界面**: 使用"初始化ESPUI界面"积木块设置标题和访问凭据
-2. **创建控件**: 使用各种UI控件积木块创建界面元素
-3. **处理事件**: 使用"当控件事件触发时"积木块处理用户交互
-4. **更新控件**: 使用更新积木块动态修改控件的值和标签
-
-## 示例项目
-
-### 基础LED控制界面
-```cpp
-// 创建一个简单的LED控制界面
-// 包含开关控制LED，滑条调节亮度，标签显示状态
-```
-
-### 传感器数据监控
-```cpp
-// 显示传感器数据的仪表盘界面
-// 包含数值显示、图表绘制、实时更新
-```
-
-## 颜色主题
-
-库提供22种预设颜色主题：
-- 蓝绿色 (Turquoise)
-- 翠绿色 (Emerald)  
-- 彼得河蓝 (Peter River)
-- 紫水晶 (Amethyst)
-- 湿沥青 (Wet Asphalt)
-- 等等...
-
-## 事件类型
-
-- **按下** (B_DOWN): 按钮按下事件
-- **松开** (B_UP): 按钮松开事件  
-- **改变** (S_ACTIVE): 开关/滑条数值改变事件
-
-## 注意事项
-
-1. 确保ESP32/ESP8266已连接到WiFi网络或开启热点模式
-2. 访问界面地址通常为 `http://[ESP IP地址]/`
-3. 控件ID在创建后会自动分配，用于后续的更新和事件处理
-4. 建议在setup()中创建所有UI控件，在loop()中处理数据更新
-
-## 技术支持
-
-- 基于ESPUI开源库: https://github.com/s00500/ESPUI
-- 更多文档和示例请参考原库说明
-
-## 版本历史
-
-- v1.0.0: 初始版本，支持基础UI控件和事件处理
+1. Enable `@aily-project/lib-espui` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

@@ -1,0 +1,305 @@
+{
+  "kind": "category",
+  "name": "WS2812 RGB点阵",
+  "name_en": "WS2812 RGB Matrix",
+  "icon": "iconfont icon-ws2812",
+  "colour": "#26A69A",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_init"
+    },
+    {
+      "kind": "label",
+      "text": "基础控制"
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_show"
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_clear"
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_set_brightness",
+      "inputs": {
+        "BRIGHTNESS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 50
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "颜色"
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_color_picker"
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_color_rgb",
+      "inputs": {
+        "RED": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 255
+            }
+          }
+        },
+        "GREEN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "BLUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "像素绘制"
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_set_pixel_xy",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "COLOR": {
+          "shadow": {
+            "type": "ws2812_matrix_color_picker",
+            "fields": {
+              "COLOR": "#ff0000"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_set_pixel_index",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "COLOR": {
+          "shadow": {
+            "type": "ws2812_matrix_color_picker",
+            "fields": {
+              "COLOR": "#00ff00"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_fill_color",
+      "inputs": {
+        "COLOR": {
+          "shadow": {
+            "type": "ws2812_matrix_color_picker",
+            "fields": {
+              "COLOR": "#ffffff"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "图形与文字"
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_draw_image",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_draw_line",
+      "inputs": {
+        "X0": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}},
+        "Y0": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}},
+        "X1": {"shadow": {"type": "math_number", "fields": {"NUM": 7}}},
+        "Y1": {"shadow": {"type": "math_number", "fields": {"NUM": 7}}},
+        "COLOR": {"shadow": {"type": "ws2812_matrix_color_picker", "fields": {"COLOR": "#ff0000"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_draw_rect",
+      "inputs": {
+        "X": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}},
+        "Y": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}},
+        "WIDTH": {"shadow": {"type": "math_number", "fields": {"NUM": 8}}},
+        "HEIGHT": {"shadow": {"type": "math_number", "fields": {"NUM": 8}}},
+        "COLOR": {"shadow": {"type": "ws2812_matrix_color_picker", "fields": {"COLOR": "#00ff00"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_draw_circle",
+      "inputs": {
+        "X": {"shadow": {"type": "math_number", "fields": {"NUM": 3}}},
+        "Y": {"shadow": {"type": "math_number", "fields": {"NUM": 3}}},
+        "RADIUS": {"shadow": {"type": "math_number", "fields": {"NUM": 3}}},
+        "COLOR": {"shadow": {"type": "ws2812_matrix_color_picker", "fields": {"COLOR": "#0000ff"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_draw_text",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "HI"
+            }
+          }
+        },
+        "X": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}},
+        "Y": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}},
+        "COLOR": {"shadow": {"type": "ws2812_matrix_color_picker", "fields": {"COLOR": "#ffffff"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_scroll_text",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "HELLO"
+            }
+          }
+        },
+        "COLOR": {"shadow": {"type": "ws2812_matrix_color_picker", "fields": {"COLOR": "#ffffff"}}},
+        "BACKGROUND": {"shadow": {"type": "ws2812_matrix_color_picker", "fields": {"COLOR": "#000000"}}},
+        "WAIT": {"shadow": {"type": "math_number", "fields": {"NUM": 80}}}
+      }
+    },
+    {
+      "kind": "label",
+      "text": "动画效果"
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_color_wipe",
+      "inputs": {
+        "COLOR": {"shadow": {"type": "ws2812_matrix_color_picker", "fields": {"COLOR": "#ff0000"}}},
+        "WAIT": {"shadow": {"type": "math_number", "fields": {"NUM": 30}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_rainbow",
+      "inputs": {
+        "WAIT": {"shadow": {"type": "math_number", "fields": {"NUM": 20}}},
+        "CYCLES": {"shadow": {"type": "math_number", "fields": {"NUM": 1}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_theater_chase",
+      "inputs": {
+        "COLOR": {"shadow": {"type": "ws2812_matrix_color_picker", "fields": {"COLOR": "#ffffff"}}},
+        "WAIT": {"shadow": {"type": "math_number", "fields": {"NUM": 70}}},
+        "CYCLES": {"shadow": {"type": "math_number", "fields": {"NUM": 10}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_run_effect",
+      "inputs": {
+        "COLOR": {"shadow": {"type": "ws2812_matrix_color_picker", "fields": {"COLOR": "#00ff00"}}},
+        "WAIT": {"shadow": {"type": "math_number", "fields": {"NUM": 80}}},
+        "CYCLES": {"shadow": {"type": "math_number", "fields": {"NUM": 1}}}
+      }
+    },
+    {
+      "kind": "label",
+      "text": "状态与工具"
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_xy_to_index",
+      "inputs": {
+        "X": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}},
+        "Y": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_get_width"
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_get_height"
+    },
+    {
+      "kind": "block",
+      "type": "ws2812_matrix_get_count"
+    }
+  ]
+}

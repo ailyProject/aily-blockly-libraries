@@ -1,56 +1,26 @@
-# 逐飞科技4路有刷电机驱动库
+# Seekfree B1 Controller
 
-逐飞科技制作的4路有刷电机驱动库，支持前后左右移动、旋转，以及按照设置的路程运行，系统需要安装有6轴传感器。
+Blockly library for Seekfree B1 Controller.
 
-## 库信息
-- **库名**: @aily-project/lib-seekfree_four_driver
-- **昵称**: 4路有刷电机驱动
-- **作者**: 逐飞科技
-- **描述**: 支持连接四路有刷电机，从而构建一辆麦轮车，实现麦轮车模的基础控制。
-- **版本**: 1.0.0
-- **兼容**: Arduino 平台（参见 `package.json` 中的 `compatibility`）
+## Library Info
 
-## 块定义
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-seekfree-b1-controller |
+| Version | 0.0.1 |
+| Author | 逐飞科技 |
+| Source | N/A |
+| License | Original license |
 
-| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
-|--------|------|----------|----------|----------|
+## Supported Boards
 
+ESP32
 
-## 字段类型映射
+## Description
 
-| 类型 | .abi格式 | 示例 |
+Blockly library for Seekfree B1 Controller.
 
+## Quick Start
 
-## 连接规则
-
-
-
-## 使用示例
-
-### 电机初始化
-
-
-生成代码片段（示意）:
-
-
-### 文本显示示例（简化）
-
-
-生成代码（示意）:
-
-
-### 位图显示（使用库内位图块）
-
-
-生成代码（示意）:
-
-
-## 重要规则
-
-
-## 支持的选项（节选）
-
-
----
-
-说明：本 README 基于 `block.json` 与 `generator.js`（位于同目录）生成，已尽量以 `.abi` 示例和生成器行为对齐。若后续更新 `block.json` 或 `generator.js`，请同步更新此 README。
+1. Enable `@aily-project/lib-seekfree-b1-controller` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

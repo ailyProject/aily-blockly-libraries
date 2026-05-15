@@ -1,6 +1,6 @@
-# ESP32看门狗
+# ESP32 watchdog
 
-适用于ESP32的任务看门狗定时器库，支持任务和用户级别的看门狗监控
+Task watchdog timer library for ESP32, supporting task and user level watchdog monitoring
 
 ## Library Info
 
@@ -8,8 +8,9 @@
 |-------|-------|
 | Package | @aily-project/lib-esp32-wdt |
 | Version | 0.0.1 |
-| Author | aily Project |
-| License | MIT |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
@@ -17,10 +18,9 @@ ESP32
 
 ## Description
 
-适用于ESP32的任务看门狗定时器库，支持任务和用户级别的看门狗监控
-
-This library provides 8 Blockly blocks.
+Task watchdog timer library for ESP32, supporting task and user level watchdog monitoring
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-esp32-wdt` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

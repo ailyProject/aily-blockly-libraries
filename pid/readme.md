@@ -1,87 +1,26 @@
-# PID控制器库
+# PID controller library
 
-PID控制器支持库，提供比例-积分-微分控制算法，支持Arduino UNO、MEGA、ESP8266、ESP32等开发板。
+The optimized PID controller library provides functions such as quick setup, parameter preset, temperature control, motor speed regulation, etc., and supports various Arduino development boards.
 
-## 优化特性
+## Library Info
 
-### 🚀 快速开始模式
-- **快速PID控制**：一键设置输入输出引脚，自动选择适合的参数预设
-- **温度PID控制**：专门针对温度控制优化，内置LM35传感器支持
-- **电机速度PID控制**：集成编码器读取和转速计算，适用于电机调速
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-pid |
+| Version | 0.1.0 |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
-### 📋 参数预设
-- **温度控制预设**：P=2.0, I=0.1, D=0.5（适用于加热器控制）
-- **电机速度预设**：P=1.5, I=0.8, D=0.2（适用于直流电机调速）
-- **位置控制预设**：P=3.0, I=0.05, D=1.0（适用于舵机定位）
-- **液位控制预设**：P=1.8, I=0.3, D=0.4（适用于水位控制）
-- **自定义预设**：P=2.0, I=5.0, D=1.0（通用参数）
+## Supported Boards
 
-### 🔧 简化操作
-- **参数预设切换**：初始化block中可选择应用场景，自动设置合适参数
-- **影子blocks**：输入框预填充常用数值，减少用户配置工作
-- **控制循环模板**：提供读取输入、执行输出的结构化编程模板
+Arduino-compatible boards supported by this package.
 
-## 功能特性
+## Description
 
-- **基础PID控制**：提供完整的PID控制器初始化和计算功能
-- **自适应参数调节**：根据与目标值的距离自动调整PID参数
-- **简化控制模式**：针对特定应用场景的一体化控制blocks
-- **参数实时调节**：支持运行时修改PID参数和输出限制
-- **状态监控**：提供误差计算、目标值达成判断等功能
+The optimized PID controller library provides functions such as quick setup, parameter preset, temperature control, motor speed regulation, etc., and supports various Arduino development boards.
 
-## 使用说明
+## Quick Start
 
-### 快速开始（推荐）
-
-1. **选择应用场景block**：
-   - 温度控制：选择"温度PID控制"
-   - 电机调速：选择"电机速度PID控制" 
-   - 通用控制：选择"快速PID控制"
-
-2. **设置引脚和目标值**：
-   - 输入引脚：连接传感器的模拟输入引脚
-   - 输出引脚：连接执行器的PWM输出引脚
-   - 目标值：期望达到的控制目标
-
-3. **放入主循环**：将控制block放入loop中即可开始工作
-
-### 高级控制
-
-1. **初始化PID控制器**
-   - 选择参数预设或自定义参数
-   - 设置输入、输出、目标值变量
-   - 配置P、I、D参数和控制方向
-
-2. **使用控制循环模板**
-   - 在"读取输入"部分添加传感器读取代码
-   - 在"执行输出"部分添加执行器控制代码
-
-## Arduino库依赖
-
-本库基于Arduino PID_v1库，需要在Arduino IDE中安装：
-- 库管理器搜索"PID"
-- 安装"PID by Brett Beauregard"
-
-## 优化说明
-
-根据库规范的优化要求，本次更新包含：
-
-1. **影子blocks填充**：为所有输入值提供默认的影子blocks
-2. **预设参数系统**：提供5种常见应用场景的参数预设
-3. **简化控制blocks**：温度控制、电机控制等一体化blocks
-4. **智能扩展**：参数预设切换时自动更新PID参数值
-5. **重新组织toolbox**：将最常用的快速开始blocks放在顶部
-
-## 技术参数
-
-- **支持开发板**：Arduino UNO、MEGA、ESP8266、ESP32等
-- **工作电压**：3.3V / 5V
-- **参数精度**：0.01
-- **输出范围**：可配置最小值和最大值（默认0-255）
-
-## 注意事项
-
-1. PID参数需要根据具体应用进行微调
-2. 采样时间会影响PID性能，建议保持稳定的循环周期
-3. 温度控制block假设使用LM35传感器，其他传感器需要修改转换函数
-4. 电机速度控制需要编码器反馈，每转一个脉冲
+1. Enable `@aily-project/lib-pid` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

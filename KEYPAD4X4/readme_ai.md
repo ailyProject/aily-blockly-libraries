@@ -1,6 +1,6 @@
-# 键盘矩阵库
+# keyboard matrix library
 
-4x4矩阵键盘控制库，支持ESP32开发板
+4x4 matrix keyboard control library, supporting ESP32 development board
 
 ## Library Info
 - **Name**: @aily-project/lib-keypad
@@ -10,9 +10,9 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `keypad_initialize` | Statement | ROW1(input_value), ROW2(input_value), ROW3(input_value), ROW4(input_value), COL1(input_value), COL2(input_value), COL3(input_value), COL4(input_value) | `keypad_initialize(math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0))` | `keypad_initalize(keypad_pins);\n` |
-| `keypad_getkey` | Value | (none) | `keypad_getkey()` | `keypad_getkey()` |
-| `keypad_delete` | Statement | (none) | `keypad_delete()` | `keypad_delete();\n` |
+| `keypad_initialize` | Statement | ROW1(input_value), ROW2(input_value), ROW3(input_value), ROW4(input_value), COL1(input_value), COL2(input_value), COL3(input_value), COL4(input_value) | `keypad_initialize(math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0))` | keypad_initalize(keypad_pins);\n |
+| `keypad_getkey` | Value | (none) | `keypad_getkey()` | keypad_getkey() |
+| `keypad_delete` | Statement | (none) | `keypad_delete()` | keypad_delete();\n |
 
 ## ABS Examples
 
@@ -29,5 +29,5 @@ arduino_loop()
 
 ## Notes
 
-1. **Initialization**: Place init/setup blocks inside `arduino_setup()`
-2. **Parameter Order**: Follows `block.json` args0 order
+1. **Parameter order**: ABS parameters follow `block.json` args order.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

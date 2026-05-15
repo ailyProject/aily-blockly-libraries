@@ -2,201 +2,204 @@
 
 ## 概述
 
-本规范提供轻量化、自包含的Blockly库README标准格式。目标是让大模型无需外部规范即可理解库功能并生成正确的.abi文件，同时保持文档简洁（目标控制在5KB以内）。
+本规范定义了Blockly库文档的标准格式。每个库必须提供**两个文件**：
 
-## 核心设计原则
+| 文件 | 读者 | 大小上限 | 用途 |
+|------|------|----------|------|
+| `readme.md` | 人类 | ≤1KB | 库介绍、作者/来源信息、快速入门 |
+| `readme_ai.md` | 大模型 | ≤5KB（必要时≤15KB） | 用于代码生成的ABS块参考 |
 
-1. **自包含**: 包含所有必要信息，无需外部规范文档
-2. **轻量化**: 信息密度高，避免冗余描述
-3. **表格驱动**: 用表格压缩信息，提高可读性
-4. **实用导向**: 重点突出.abi格式和连接规则
+**设计原则**：自包含、ABS优先、表格驱动、实用导向
 
-## 标准README结构
+---
 
-### 1. 标题与基本信息
-```markdown
-# [库名] 
+## ABS语法参考
 
-[一句话功能描述]
+### 块连接类型
 
-## 库信息
-- **库名**: package.json中的name
-- **版本**: package.json中的version  
-- **兼容**: package.json中的compatibility.core（简化描述）
+| 类型 | 角色 | 语法 |
+|------|------|------|
+| **Value（值块）** | 返回一个值，作为参数嵌入其他块中 | `block(p1, p2, ...)` — 所有参数放在括号内 |
+| **Statement（语句块）** | 独立的可执行语句行 | 参数放在括号内；`input_statement` 插槽使用 `@NAME:` |
+| **Hat（帽块）** | 程序入口点（`arduino_setup`、`arduino_loop` 等） | 与语句块相同 |
+
+### ABS中的参数类型
+
+| 参数来源 | ABS语法 | 示例 |
+|---------|---------|------|
+| `field_input`（文本） | `"字符串"` | `"dht"`、`"sensor"` |
+| `field_number` | 裸数字 | `9600`、`13` |
+| `field_dropdown` / 枚举 | `ENUM_VALUE`（大写） | `HIGH`、`EQ`、`Serial` |
+| `field_variable` | `$varName` | `$count`、`$temp` |
+| `input_value` — 数字 | `math_number(n)` | `math_number(1000)` |
+| `input_value` — 文本 | `text("s")` | `text("Hello")` |
+| `input_value` — 布尔 | `logic_boolean(TRUE\|FALSE)` | `logic_boolean(TRUE)` |
+| `input_value` — 变量读取 | `variables_get($varName)` 或 `$varName` | `variables_get($x)` |
+| `input_value` — 嵌套块 | `block(args)` | `logic_compare($a, EQ, $b)` |
+| `input_statement` | `@NAME:` + 缩进的子块 | `@DO0:\n    action()` |
+
+> `$varName` 用于 `input_value` 插槽时是 `variables_get($varName)` 的简写。两种形式均可接受；在ABS格式示例中推荐使用 `variables_get($varName)` 以保持清晰。
+
+### ⚠️ 参数顺序规则
+
+参数遵循 **`block.json` `args0` 定义的顺序** —— 字段和值输入可能交错排列。务必按此顺序记录和调用。
+
+```
+# args0: [A(input_value), OP(field_dropdown), B(input_value)]
+✅ logic_compare(variables_get($a), EQ, math_number(10))
+❌ logic_compare(EQ, variables_get($a), math_number(10))  — OP在前是错误的
 ```
 
-### 2. 块定义核心表格（关键部分）
+### `input_statement` 与带 `@NAME:` 的 `input_value`
+
+- **`input_statement`** 插槽始终使用 `@NAME:` + 缩进的子块。
+- **部分块的某些 `input_value` 插槽**（例如 `controls_if` 的条件输入）也使用 `@NAME:`——需查看该块的 args0 结构。
+- **值块**从不使用 `@NAME:`——所有参数直接写在括号内。
+
+```
+# controls_if: @IFn: 是 input_value（条件），@DOn: 和 @ELSE: 是 input_statement
+controls_if()
+    @IF0: logic_compare(variables_get($temp), GT, math_number(30))
+    @DO0:
+        serial_println(Serial, text("Hot"))
+    @IF1: logic_compare(variables_get($temp), GT, math_number(20))
+    @DO1:
+        serial_println(Serial, text("Warm"))
+    @ELSE:
+        serial_println(Serial, text("Cool"))
+
+# 循环块：语句体直接缩进（body不使用 @NAME:）
+controls_repeat_ext(math_number(10))
+    serial_println(Serial, text("Loop"))
+
+controls_for($i, math_number(0), math_number(10), math_number(1))
+    serial_println(Serial, variables_get($i))
+```
+
+---
+
+## 文件一：`readme.md` 结构（≤1KB）
+
+面向人类的介绍文档，保持简洁。
+
+```markdown
+# [库名]
+
+[一句话描述该库的功能]
+
+## 库信息
+
+| 字段 | 值 |
+|------|----|
+| 包名 | @aily-project/lib-xxx |
+| 版本 | x.x.x |
+| 作者 | [作者或组织] |
+| 来源 | [原始 Arduino/GitHub 库链接] |
+| 许可证 | MIT / Apache-2.0 / ... |
+
+## 支持的板卡
+
+[列出兼容的板卡，例如 Arduino UNO、ESP32 等]
+
+## 描述
+
+[2–4句话：该库的功能、支持的硬件、主要特性]
+
+## 快速入门
+
+[1–3个步骤，或关键的接线/代码说明]
+```
+
+---
+
+## 文件二：`readme_ai.md` 结构（≤5KB，复杂库可达15KB）
+
+面向大模型的ABS参考文档。以下每个小节均对应此文件的内容。
+
+### 必需章节
+
+#### 1. 标题与库信息
+```markdown
+# [库名]
+
+[一句话描述]
+
+## 库信息
+- **名称**: @aily-project/lib-xxx
+- **版本**: x.x.x
+```
+
+#### 2. 块定义（必需）
+
+记录库中的**每一个块**。"参数（args0顺序）"列必须按 `block.json` args0 的精确顺序列出参数——这决定了ABS调用顺序。
+
 ```markdown
 ## 块定义
 
-| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
-|--------|------|----------|----------|----------|
-| `block_type` | 语句块/值块/Hat块 | 字段类型+输入类型 | 关键字段格式 | 核心代码片段 |
+| 块类型 | 连接 | 参数（args0顺序） | ABS格式 | 生成代码 |
+|--------|------|-----------------|---------|----------|
+| `xxx_init` | 语句块 | VAR(field_input), TYPE(dropdown), PIN(field_number) | `xxx_init("name", TYPE_A, 2)` | `Xxx var(pin);` |
+| `xxx_read` | 值块 | VAR(field_variable) | `xxx_read(variables_get($name))` | `var.read()` |
+| `xxx_write` | 语句块 | VAR(field_variable), VALUE(input_value) | `xxx_write(variables_get($name), math_number(100))` | `var.write(val);` |
+| `xxx_if_ready` | 语句块 | VAR(field_variable), DO(input_statement) | `xxx_if_ready(variables_get($name)) @DO0: action()` | `if (var.ready()) { action(); }` |
 ```
 
-**表格填写规则**:
-- **连接**: 语句块/值块/Hat块（3选1，简洁明了）
-- **字段/输入**: 格式为`字段名(字段类型), 输入名(input)`
-- **.abi格式**: 只列出关键字段的格式
-- **生成代码**: 核心代码，不超过一行
-
-### 3. 字段类型映射（必需参考表）
+#### 3. 参数选项（存在枚举时必需）
 ```markdown
-## 字段类型映射
+## 参数选项
 
-| 类型 | .abi格式 | 示例 |
-|------|----------|------|
-| field_input | 字符串 | `"FIELD": "value"` |
-| field_dropdown | 字符串 | `"TYPE": "option"` |
-| field_dropdown(动态) | 字符串 | `"PORT": "Wire"` (从board.json获取) |
-| field_variable | 对象 | `"VAR": {"id": "var_id"}` |
-| input_value | 块连接 | `"inputs": {"INPUT": {"block": {...}}}` |
-| input_statement | 块连接 | `"inputs": {"DO": {"block": {...}}}` |
+| 参数 | 可选值 | 说明 |
+|------|--------|------|
+| TYPE | TYPE_A, TYPE_B | 传感器类型 |
+| OP | EQ, NE, LT, LTE, GT, GTE | 比较运算符 |
 ```
 
-### 4. 连接规则（必需说明）
+### 可选章节
+
+#### 4. ABS示例（复杂库必须包含）
+
+当库需要多块组合、初始化模式或非显而易见的用法时包含此节。推荐提供完整的程序框架。
+
 ```markdown
-## 连接规则
+## ABS示例
 
-- **语句块**: 有previousStatement/nextStatement，通过`next`字段连接
-- **值块**: 有output，连接到`inputs`中，无`next`字段
-- **Hat块**: 无连接属性，通过`inputs`连接内部语句
-- **特殊规则**: [库特有的连接规则，如变量ID格式等]
+### 基本用法
+arduino_setup()
+    xxx_init("sensor", TYPE_A, 2)
+    serial_begin(Serial, 9600)
 
-### 动态选项处理
-当遇到`"options": "${board.xxx}"`格式的dropdown字段时：
-1. 需要从**board.json**文件中获取对应的选项数组
-2. 使用`board.xxx`中的xxx作为key，获取对应的value数组
-3. 在.abi文件中使用数组中的具体选项值，而非模板字符串
-
-**示例**：
-- block.json中：`"options": "${board.i2c}"`
-- board.json中：`"i2c": [["I2C", "Wire"], ["I2C1", "Wire1"]]`
-- .abi中使用：`"PORT": "Wire"` (选择数组中某组的value，即第二个元素)
+arduino_loop()
+    controls_if()
+        @IF0: xxx_is_ready(variables_get($sensor))
+        @DO0:
+            serial_println(Serial, xxx_read(variables_get($sensor)))
+    time_delay(math_number(1000))
 ```
 
-### 5. 使用示例（1-2个典型示例）
+#### 5. 注意事项（存在非显而易见的约束时包含）
 ```markdown
-## 使用示例
+## 注意事项
 
-### [场景名称]
-```json
-{
-  "type": "block_type",
-  "id": "block_id",
-  "fields": {"FIELD": "value"},
-  "inputs": {"INPUT": {"block": {...}}}
-}
+1. **初始化**: 在 `arduino_setup()` 内调用 `xxx_init`
+2. **变量引用**: 在值插槽中使用 `variables_get($name)` 读取变量
+3. **参数顺序**: 遵循 `block.json` args0 顺序——字段和输入可能交错排列
+4. **常见错误**: ❌ 在 input_value 插槽中使用裸数字（应使用 `math_number(n)`）
 ```
 
-### [复杂场景]（可选）
-[完整的程序示例，展示块之间的连接]
+---
+
+## 特殊模式
+
+### 自动创建变量
+当一个块自动创建变量时（例如 `xxx_init("name", ...)`），应记录如下：
+```
+**变量**: `xxx_init("varName", ...)` 创建变量 `$varName`；之后通过 `variables_get($varName)` 引用它。
 ```
 
-### 6. 重要规则（必需）
-```markdown
-## 重要规则
-
-1. **必须遵守**: [关键限制，如ID唯一性等]
-2. **连接限制**: [连接相关的限制]
-3. **常见错误**: [❌ 错误示例]
-
-## 支持的[关键参数]
-[如数据类型、板卡类型等关键选项]
+### 动态字段
+当块根据下拉选项动态改变其输入时：
 ```
-
-## 信息压缩策略
-
-### 删除的冗余内容
-- ❌ 详细的generator.js代码实现
-- ❌ 完整的block.json结构定义  
-- ❌ 过度详细的字段说明
-- ❌ 重复的概念解释
-- ❌ 复杂的技术实现细节
-
-### 保留的核心内容
-- ✅ 完整的字段类型映射
-- ✅ 清晰的连接规则
-- ✅ 典型的.abi格式示例
-- ✅ 关键的使用限制
-- ✅ 库特有的重要规则
-
-### 表格驱动设计
-将复杂信息压缩到表格中：
-- **块定义表**: 一行一个块，包含所有关键信息
-- **字段映射表**: 标准化的字段类型参考
-- **示例代码**: 直接可用的.abi片段
-
-## 质量标准
-
-### 内容完整性
-- [ ] 包含toolbox.json中的所有块类型
-- [ ] 覆盖所有字段类型和输入类型
-- [ ] 提供典型的连接示例
-- [ ] 说明库特有的规则
-
-### 格式规范性
-- [ ] 使用标准表格格式
-- [ ] 代码块正确标记为json
-- [ ] 信息层次清晰
-- [ ] 无冗余描述
-
-### 大模型友好性
-- [ ] 自包含，无需外部文档
-- [ ] 提供直接可用的.abi示例
-- [ ] 明确说明连接规则
-- [ ] 突出重要限制和错误避免
-
-### 轻量化要求
-- [ ] 总体积控制在5KB以内
-- [ ] 信息密度高，无冗余内容
-- [ ] 重点突出实用信息
-- [ ] 避免过度详细的技术描述
-
-## 特殊库类型处理
-
-### Hat块库（如OneButton）
-重点说明：
-- 事件驱动的特性
-- 回调函数的处理方式
-- 自动添加到loop的机制
-
-### 通信库（如MQTT）
-重点说明：
-- 板卡适配规则
-- 回调参数的变量处理
-- 连接状态的管理
-
-### 核心库（如Variables）
-重点说明：
-- 变量ID的处理规则
-- 作用域的判断逻辑
-- 字段类型的区别
-
-## 示例对比
-
-### ❌ 冗余写法
-```markdown
-**🎯 块结构**
-```json
-{详细的block.json结构...}
-```
-
-**🏷️ 字段详解**
-- `FIELD` (field_type): 详细描述...
-  - 数据格式：...
-  - .abi格式：...
-  - 默认值：...
-
-**💻 代码生成逻辑 (generator.js)**
-```javascript
-完整的generator代码...
-```
-```
-
-### ✅ 简洁写法
-```markdown
-| `block_type` | 语句块 | FIELD(field_type), INPUT(input) | `"FIELD":"value"` | `code();` |
+**动态字段**: `dht_init` 在选择 DHT11/DHT22 时显示 PIN 字段，选择其他类型时显示 WIRE 字段。
 ```
 
 ## 模板应用指南

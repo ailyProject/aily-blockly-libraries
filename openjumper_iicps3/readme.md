@@ -1,6 +1,6 @@
-# PS3无线接收器
+# PS3 wireless receiver
 
-适配openjumper PS3无线接收器（编号ojmoBhp4039 ），通过该库解析IICPS3手柄接收模块的数据，支持获取手柄的按键状态、摇杆位置。
+Adapted to the openjumper PS3 wireless receiver (No. ojmoBhp4039), the library parses the data of the IICPS3 handle receiving module and supports obtaining the button status and joystick position of the handle.
 
 ## Library Info
 
@@ -9,18 +9,18 @@
 | Package | @aily-project/lib-openjumper-iicps3 |
 | Version | 0.0.1 |
 | Author | OpenJumper |
-| License | MIT |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, ESP32
+Arduino AVR, ESP32
 
 ## Description
 
-适配openjumper PS3无线接收器（编号ojmoBhp4039 ），通过该库解析IICPS3手柄接收模块的数据，支持获取手柄的按键状态、摇杆位置。
-
-This library provides 4 Blockly blocks.
+Adapted to the openjumper PS3 wireless receiver (No. ojmoBhp4039), the library parses the data of the IICPS3 handle receiving module and supports obtaining the button status and joystick position of the handle.
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-openjumper-iicps3` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

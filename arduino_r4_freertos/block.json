@@ -1,0 +1,590 @@
+[
+  {
+    "type": "r4_freertos_task_create",
+    "message0": "创建任务 %1 栈深度 %2 字 优先级 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "TaskBlink"
+      },
+      {
+        "type": "field_number",
+        "name": "STACK_SIZE",
+        "value": 128,
+        "min": 64,
+        "max": 4096
+      },
+      {
+        "type": "field_number",
+        "name": "PRIORITY",
+        "value": 1,
+        "min": 0,
+        "max": 4
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "创建一个 Arduino R4 FreeRTOS 任务，并自动生成任务句柄；调度器会自动在 setup 末尾启动",
+    "icon": "fa-regular fa-microchip"
+  },
+  {
+    "type": "r4_freertos_task_function",
+    "message0": "任务 %1 执行",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TaskBlink",
+        "variableTypes": ["R4FreeRTOSTask"],
+        "defaultType": "R4FreeRTOSTask"
+      }
+    ],
+    "message1": "循环执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "TASK_CODE"
+      }
+    ],
+    "inputsInline": false,
+    "colour": "#1565C0",
+    "tooltip": "定义 Arduino R4 FreeRTOS 任务函数，内部自动包含无限循环",
+    "icon": "fa-regular fa-microchip"
+  },
+  {
+    "type": "r4_freertos_start_scheduler",
+    "message0": "启动 FreeRTOS 调度器",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00897B",
+    "tooltip": "在 setup 末尾启动 FreeRTOS 调度器；任务创建块也会自动添加此动作",
+    "icon": "fa-regular fa-play"
+  },
+  {
+    "type": "r4_freertos_task_delay_ms",
+    "message0": "任务延时 %1 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "按毫秒延时当前任务，会通过 pdMS_TO_TICKS 转换为 FreeRTOS tick",
+    "icon": "fa-regular fa-clock"
+  },
+  {
+    "type": "r4_freertos_task_delay_ticks",
+    "message0": "任务延时 %1 ticks",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TICKS",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "按 FreeRTOS tick 数延时当前任务",
+    "icon": "fa-regular fa-clock"
+  },
+  {
+    "type": "r4_freertos_task_suspend",
+    "message0": "挂起任务 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TaskBlink",
+        "variableTypes": ["R4FreeRTOSTask"],
+        "defaultType": "R4FreeRTOSTask"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "挂起指定任务",
+    "icon": "fa-regular fa-pause"
+  },
+  {
+    "type": "r4_freertos_task_resume",
+    "message0": "恢复任务 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TaskBlink",
+        "variableTypes": ["R4FreeRTOSTask"],
+        "defaultType": "R4FreeRTOSTask"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "恢复指定任务",
+    "icon": "fa-regular fa-play"
+  },
+  {
+    "type": "r4_freertos_task_delete",
+    "message0": "删除任务 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TaskBlink",
+        "variableTypes": ["R4FreeRTOSTask"],
+        "defaultType": "R4FreeRTOSTask"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "删除指定任务并清空任务句柄",
+    "icon": "fa-regular fa-trash"
+  },
+  {
+    "type": "r4_freertos_task_delete_current",
+    "message0": "删除当前任务",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "删除当前正在运行的任务",
+    "icon": "fa-regular fa-trash"
+  },
+  {
+    "type": "r4_freertos_task_notify",
+    "message0": "通知任务 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TaskBlink",
+        "variableTypes": ["R4FreeRTOSTask"],
+        "defaultType": "R4FreeRTOSTask"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#558B2F",
+    "tooltip": "向指定任务发送普通任务通知",
+    "icon": "fa-regular fa-bell"
+  },
+  {
+    "type": "r4_freertos_task_notify_from_isr",
+    "message0": "在中断中通知任务 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TaskBlink",
+        "variableTypes": ["R4FreeRTOSTask"],
+        "defaultType": "R4FreeRTOSTask"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#558B2F",
+    "tooltip": "在中断服务函数中安全地通知指定任务",
+    "icon": "fa-regular fa-bell"
+  },
+  {
+    "type": "r4_freertos_task_wait_notification",
+    "message0": "等待任务通知 %1 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WAIT_MODE",
+        "options": [
+          ["最多等待", "MS"],
+          ["一直等待", "FOREVER"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT_MS",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#558B2F",
+    "tooltip": "等待当前任务收到通知，返回是否收到",
+    "icon": "fa-regular fa-bell"
+  },
+  {
+    "type": "r4_freertos_queue_create",
+    "message0": "创建队列 %1 长度 %2 数据类型 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "sensorQueue"
+      },
+      {
+        "type": "field_number",
+        "name": "QUEUE_LENGTH",
+        "value": 10,
+        "min": 1,
+        "max": 32
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA_TYPE",
+        "options": [
+          ["整数 int", "int"],
+          ["长整数 long", "long"],
+          ["32位无符号 uint32_t", "uint32_t"],
+          ["32位有符号 int32_t", "int32_t"],
+          ["浮点 float", "float"],
+          ["双精度 double", "double"],
+          ["字节 uint8_t", "uint8_t"],
+          ["布尔 bool", "bool"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0277BD",
+    "tooltip": "创建 FreeRTOS 队列，用于任务间传递固定大小的数据",
+    "icon": "fa-regular fa-list"
+  },
+  {
+    "type": "r4_freertos_queue_send",
+    "message0": "向队列 %1 发送 %2 类型 %3 等待 %4 %5 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sensorQueue",
+        "variableTypes": ["R4FreeRTOSQueue"],
+        "defaultType": "R4FreeRTOSQueue"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA_TYPE",
+        "options": [
+          ["整数 int", "int"],
+          ["长整数 long", "long"],
+          ["32位无符号 uint32_t", "uint32_t"],
+          ["32位有符号 int32_t", "int32_t"],
+          ["浮点 float", "float"],
+          ["双精度 double", "double"],
+          ["字节 uint8_t", "uint8_t"],
+          ["布尔 bool", "bool"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WAIT_MODE",
+        "options": [
+          ["最多等待", "MS"],
+          ["一直等待", "FOREVER"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT_MS",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0277BD",
+    "tooltip": "向队列发送一条数据，发送值会先存入临时变量再交给 FreeRTOS",
+    "icon": "fa-regular fa-list"
+  },
+  {
+    "type": "r4_freertos_queue_receive_do",
+    "message0": "从队列 %1 接收类型 %2 到变量 %3 等待 %4 %5 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sensorQueue",
+        "variableTypes": ["R4FreeRTOSQueue"],
+        "defaultType": "R4FreeRTOSQueue"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA_TYPE",
+        "options": [
+          ["整数 int", "int"],
+          ["长整数 long", "long"],
+          ["32位无符号 uint32_t", "uint32_t"],
+          ["32位有符号 int32_t", "int32_t"],
+          ["浮点 float", "float"],
+          ["双精度 double", "double"],
+          ["字节 uint8_t", "uint8_t"],
+          ["布尔 bool", "bool"]
+        ]
+      },
+      {
+        "type": "field_input",
+        "name": "ITEM_VAR",
+        "text": "queueValue"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WAIT_MODE",
+        "options": [
+          ["最多等待", "MS"],
+          ["一直等待", "FOREVER"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT_MS",
+        "check": "Number"
+      }
+    ],
+    "message1": "接收成功执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0277BD",
+    "tooltip": "从队列接收数据，成功时执行内部积木，内部可使用接收变量名",
+    "icon": "fa-regular fa-list"
+  },
+  {
+    "type": "r4_freertos_queue_messages_waiting",
+    "message0": "队列 %1 等待消息数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sensorQueue",
+        "variableTypes": ["R4FreeRTOSQueue"],
+        "defaultType": "R4FreeRTOSQueue"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#0277BD",
+    "tooltip": "获取队列中等待读取的消息数量",
+    "icon": "fa-regular fa-list"
+  },
+  {
+    "type": "r4_freertos_semaphore_create",
+    "message0": "创建信号量 %1 类型 %2 最大计数 %3 初始计数 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "syncSem"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SEMAPHORE_TYPE",
+        "options": [
+          ["二进制", "BINARY"],
+          ["计数", "COUNTING"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "MAX_COUNT",
+        "value": 10,
+        "min": 1,
+        "max": 65535
+      },
+      {
+        "type": "field_number",
+        "name": "INITIAL_COUNT",
+        "value": 0,
+        "min": 0,
+        "max": 65535
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A1B9A",
+    "tooltip": "创建二进制信号量或计数信号量；最大/初始计数仅用于计数信号量",
+    "icon": "fa-regular fa-lock"
+  },
+  {
+    "type": "r4_freertos_semaphore_take",
+    "message0": "获取信号量 %1 等待 %2 %3 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "syncSem",
+        "variableTypes": ["R4FreeRTOSSemaphore"],
+        "defaultType": "R4FreeRTOSSemaphore"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WAIT_MODE",
+        "options": [
+          ["最多等待", "MS"],
+          ["一直等待", "FOREVER"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT_MS",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#6A1B9A",
+    "tooltip": "尝试获取信号量，返回是否成功",
+    "icon": "fa-regular fa-lock"
+  },
+  {
+    "type": "r4_freertos_semaphore_give",
+    "message0": "释放信号量 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "syncSem",
+        "variableTypes": ["R4FreeRTOSSemaphore"],
+        "defaultType": "R4FreeRTOSSemaphore"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A1B9A",
+    "tooltip": "释放信号量",
+    "icon": "fa-regular fa-lock"
+  },
+  {
+    "type": "r4_freertos_semaphore_give_from_isr",
+    "message0": "在中断中释放信号量 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "syncSem",
+        "variableTypes": ["R4FreeRTOSSemaphore"],
+        "defaultType": "R4FreeRTOSSemaphore"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A1B9A",
+    "tooltip": "在中断服务函数中安全地释放信号量",
+    "icon": "fa-regular fa-lock"
+  },
+  {
+    "type": "r4_freertos_attach_interrupt",
+    "message0": "配置中断 引脚 %1 触发 %2",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "PIN",
+        "value": 2,
+        "min": 0,
+        "max": 255
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["低电平", "LOW"],
+          ["上升沿", "RISING"],
+          ["下降沿", "FALLING"],
+          ["变化", "CHANGE"]
+        ]
+      }
+    ],
+    "message1": "中断执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "ISR_CODE"
+      }
+    ],
+    "inputsInline": false,
+    "colour": "#C62828",
+    "tooltip": "创建 Arduino 外部中断处理函数，适合配合 FromISR 块通知任务或释放信号量",
+    "icon": "fa-regular fa-bolt"
+  },
+  {
+    "type": "r4_freertos_get_tick_count",
+    "message0": "系统 tick 计数",
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#455A64",
+    "tooltip": "获取 FreeRTOS 当前 tick 计数",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "r4_freertos_get_task_count",
+    "message0": "当前任务数量",
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#455A64",
+    "tooltip": "获取 FreeRTOS 当前任务数量",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "r4_freertos_get_task_name",
+    "message0": "任务 %1 名称",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TaskBlink",
+        "variableTypes": ["R4FreeRTOSTask"],
+        "defaultType": "R4FreeRTOSTask"
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#455A64",
+    "tooltip": "获取指定任务的名称",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "r4_freertos_get_current_task_name",
+    "message0": "当前任务名称",
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#455A64",
+    "tooltip": "获取当前任务的名称",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "r4_freertos_get_free_heap_size",
+    "message0": "空闲堆内存字节数",
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#455A64",
+    "tooltip": "获取 FreeRTOS 当前可用堆内存字节数",
+    "icon": "fa-regular fa-gauge"
+  }
+]

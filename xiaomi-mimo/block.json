@@ -1,0 +1,555 @@
+[
+  {
+    "type": "mimo_config",
+    "message0": "配置小米MiMo API Key %1 Base URL %2",
+    "args0": [
+      {"type": "input_value", "name": "API_KEY", "check": "String"},
+      {"type": "input_value", "name": "BASE_URL", "check": "String"}
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "配置小米MiMo AI API的访问密钥和基础URL",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_chat",
+    "message0": "小米AI对话 用户消息 %1 模型 %2",
+    "args0": [
+      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["mimo-v2.5", "mimo-v2.5"],
+          ["mimo-v2-omni", "mimo-v2-omni"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "发送消息到小米MiMo AI并获取回复",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_chat_with_history",
+    "message0": "小米AI多轮对话 用户消息 %1 模型 %2",
+    "args0": [
+      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["mimo-v2.5", "mimo-v2.5"],
+          ["mimo-v2-omni", "mimo-v2-omni"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "支持多轮对话的小米MiMo AI",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_clear_history",
+    "message0": "清空小米AI对话历史",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "清空保存的对话历史记录",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_set_system_prompt",
+    "message0": "设置小米AI系统提示词 %1",
+    "args0": [
+      {"type": "input_value", "name": "SYSTEM_PROMPT", "check": "String"}
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "设置AI助手的角色和行为规则",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_image_understand_url",
+    "message0": "小米AI图片理解(URL) 图片URL %1 提示词 %2",
+    "args0": [
+      {"type": "input_value", "name": "IMAGE_URL", "check": "String"},
+      {"type": "input_value", "name": "MESSAGE", "check": "String"}
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "通过图片URL进行图片理解分析",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_image_understand_base64",
+    "message0": "小米AI图片理解(Base64) Base64图片 %1 提示词 %2",
+    "args0": [
+      {"type": "input_value", "name": "IMAGE_BASE64", "check": "String"},
+      {"type": "input_value", "name": "MESSAGE", "check": "String"}
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "通过Base64编码图片进行图片理解分析",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_image_understand_capture",
+    "message0": "小米AI图片理解(拍照) 提示词 %1",
+    "args0": [
+      {"type": "input_value", "name": "MESSAGE", "check": "String"}
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "直接从摄像头拍照并流式上传到小米AI进行图片理解",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_audio_understand",
+    "message0": "小米AI音频理解 音频URL %1 提示词 %2",
+    "args0": [
+      {"type": "input_value", "name": "AUDIO_URL", "check": "String"},
+      {"type": "input_value", "name": "MESSAGE", "check": "String"}
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "通过音频URL进行音频理解分析",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_audio_understand_base64",
+    "message0": "小米AI音频理解(Base64) Base64音频 %1 提示词 %2",
+    "args0": [
+      {"type": "input_value", "name": "AUDIO_BASE64", "check": "String"},
+      {"type": "input_value", "name": "MESSAGE", "check": "String"}
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "通过Base64编码音频进行音频理解分析",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_video_understand",
+    "message0": "小米AI视频理解 视频URL %1 提示词 %2 帧率 %3",
+    "args0": [
+      {"type": "input_value", "name": "VIDEO_URL", "check": "String"},
+      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {
+        "type": "field_dropdown",
+        "name": "FPS",
+        "options": [
+          ["2 (默认)", "2"],
+          ["1 (低)", "1"],
+          ["5 (高)", "5"],
+          ["10 (极高)", "10"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "通过视频URL进行视频理解分析，可控制抽帧率",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_video_understand_base64",
+    "message0": "小米AI视频理解(Base64) Base64视频 %1 提示词 %2 帧率 %3",
+    "args0": [
+      {"type": "input_value", "name": "VIDEO_BASE64", "check": "String"},
+      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {
+        "type": "field_dropdown",
+        "name": "FPS",
+        "options": [
+          ["2 (默认)", "2"],
+          ["1 (低)", "1"],
+          ["5 (高)", "5"],
+          ["10 (极高)", "10"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "通过Base64编码视频进行视频理解分析，可控制抽帧率",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_tts",
+    "message0": "小米AI语音合成 待合成文本 %1 音色 %2 模型 %3",
+    "args0": [
+      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {
+        "type": "field_dropdown",
+        "name": "VOICE",
+        "options": [
+          ["MiMo默认 (V2)", "mimo_default"],
+          ["中文女声 (V2)", "default_zh"],
+          ["英文女声 (V2)", "default_en"],
+          ["冰糖 (V2.5 中文女声)", "冰糖"],
+          ["茉莉 (V2.5 中文女声)", "茉莉"],
+          ["苏打 (V2.5 中文男声)", "苏打"],
+          ["白桦 (V2.5 中文男声)", "白桦"],
+          ["Mia (V2.5 英文女声)", "Mia"],
+          ["Chloe (V2.5 英文女声)", "Chloe"],
+          ["Milo (V2.5 英文男声)", "Milo"],
+          ["Dean (V2.5 英文男声)", "Dean"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["MiMo-V2.5-TTS", "mimo-v2.5-tts"],
+          ["MiMo-V2-TTS", "mimo-v2-tts"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "使用预置音色进行语音合成，返回Base64编码的WAV音频数据",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_tts_with_style",
+    "message0": "小米AI语音合成(带风格) 待合成文本 %1 音色 %2 风格指令 %3 模型 %4",
+    "args0": [
+      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {
+        "type": "field_dropdown",
+        "name": "VOICE",
+        "options": [
+          ["MiMo默认 (V2)", "mimo_default"],
+          ["中文女声 (V2)", "default_zh"],
+          ["英文女声 (V2)", "default_en"],
+          ["冰糖 (V2.5 中文女声)", "冰糖"],
+          ["茉莉 (V2.5 中文女声)", "茉莉"],
+          ["苏打 (V2.5 中文男声)", "苏打"],
+          ["白桦 (V2.5 中文男声)", "白桦"],
+          ["Mia (V2.5 英文女声)", "Mia"],
+          ["Chloe (V2.5 英文女声)", "Chloe"],
+          ["Milo (V2.5 英文男声)", "Milo"],
+          ["Dean (V2.5 英文男声)", "Dean"]
+        ]
+      },
+      {"type": "input_value", "name": "STYLE", "check": "String"},
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["MiMo-V2.5-TTS", "mimo-v2.5-tts"],
+          ["MiMo-V2-TTS", "mimo-v2-tts"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "使用预置音色和风格指令进行语音合成，返回Base64编码的WAV音频数据",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_tts_voice_design",
+    "message0": "小米AI音色设计合成 音色描述 %1 待合成文本 %2",
+    "args0": [
+      {"type": "input_value", "name": "VOICE_DESC", "check": "String"},
+      {"type": "input_value", "name": "TEXT", "check": "String"}
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "通过文本描述定制音色并进行语音合成，返回Base64编码的WAV音频数据",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_play_tts",
+    "message0": "播放TTS音频 I2S对象 %1 Base64音频 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {"type": "input_value", "name": "BASE64_AUDIO", "check": "String"}
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "将Base64编码的TTS音频数据解码并通过I2S播放(WAV 24kHz 16bit 单声道)",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_tts_and_play",
+    "message0": "小米AI语音合成并播放 I2S对象 %1 文本 %2 音色 %3 模型 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {
+        "type": "field_dropdown",
+        "name": "VOICE",
+        "options": [
+          ["MiMo默认 (V2)", "mimo_default"],
+          ["中文女声 (V2)", "default_zh"],
+          ["英文女声 (V2)", "default_en"],
+          ["冰糖 (V2.5 中文女声)", "冰糖"],
+          ["茉莉 (V2.5 中文女声)", "茉莉"],
+          ["苏打 (V2.5 中文男声)", "苏打"],
+          ["白桦 (V2.5 中文男声)", "白桦"],
+          ["Mia (V2.5 英文女声)", "Mia"],
+          ["Chloe (V2.5 英文女声)", "Chloe"],
+          ["Milo (V2.5 英文男声)", "Milo"],
+          ["Dean (V2.5 英文男声)", "Dean"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["MiMo-V2.5-TTS", "mimo-v2.5-tts"],
+          ["MiMo-V2-TTS", "mimo-v2-tts"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "使用预置音色合成语音并通过I2S直接播放，需先创建并初始化I2S对象",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_tts_and_play_with_style",
+    "message0": "小米AI语音合成并播放(带风格) I2S对象 %1 文本 %2 音色 %3 风格指令 %4 模型 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {
+        "type": "field_dropdown",
+        "name": "VOICE",
+        "options": [
+          ["MiMo默认 (V2)", "mimo_default"],
+          ["中文女声 (V2)", "default_zh"],
+          ["英文女声 (V2)", "default_en"],
+          ["冰糖 (V2.5 中文女声)", "冰糖"],
+          ["茉莉 (V2.5 中文女声)", "茉莉"],
+          ["苏打 (V2.5 中文男声)", "苏打"],
+          ["白桦 (V2.5 中文男声)", "白桦"],
+          ["Mia (V2.5 英文女声)", "Mia"],
+          ["Chloe (V2.5 英文女声)", "Chloe"],
+          ["Milo (V2.5 英文男声)", "Milo"],
+          ["Dean (V2.5 英文男声)", "Dean"]
+        ]
+      },
+      {"type": "input_value", "name": "STYLE", "check": "String"},
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          ["MiMo-V2.5-TTS", "mimo-v2.5-tts"],
+          ["MiMo-V2-TTS", "mimo-v2-tts"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "使用预置音色和风格指令合成语音并通过I2S直接播放",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_tts_and_play_voice_design",
+    "message0": "小米AI音色设计合成并播放 I2S对象 %1 音色描述 %2 文本 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {"type": "input_value", "name": "VOICE_DESC", "check": "String"},
+      {"type": "input_value", "name": "TEXT", "check": "String"}
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "通过文本描述定制音色并合成语音，通过I2S直接播放",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_tts_stream_play",
+    "message0": "小米AI流式语音合成并播放 I2S对象 %1 文本 %2 音色 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {
+        "type": "field_dropdown",
+        "name": "VOICE",
+        "options": [
+          ["MiMo默认", "mimo_default"],
+          ["中文女声", "default_zh"],
+          ["英文女声", "default_en"],
+          ["冰糖 (V2.5)", "冰糖"],
+          ["茉莉 (V2.5)", "茉莉"],
+          ["苏打 (V2.5)", "苏打"],
+          ["白桦 (V2.5)", "白桦"],
+          ["Mia (V2.5)", "Mia"],
+          ["Chloe (V2.5)", "Chloe"],
+          ["Milo (V2.5)", "Milo"],
+          ["Dean (V2.5)", "Dean"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "流式合成语音并边收边播，使用PCM16格式，延迟更低",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_tts_stream_play_with_style",
+    "message0": "小米AI流式语音合成并播放(带风格) I2S对象 %1 文本 %2 音色 %3 风格指令 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": ["I2SClass"],
+        "defaultType": "I2SClass"
+      },
+      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {
+        "type": "field_dropdown",
+        "name": "VOICE",
+        "options": [
+          ["MiMo默认", "mimo_default"],
+          ["中文女声", "default_zh"],
+          ["英文女声", "default_en"],
+          ["冰糖 (V2.5)", "冰糖"],
+          ["茉莉 (V2.5)", "茉莉"],
+          ["苏打 (V2.5)", "苏打"],
+          ["白桦 (V2.5)", "白桦"],
+          ["Mia (V2.5)", "Mia"],
+          ["Chloe (V2.5)", "Chloe"],
+          ["Milo (V2.5)", "Milo"],
+          ["Dean (V2.5)", "Dean"]
+        ]
+      },
+      {"type": "input_value", "name": "STYLE", "check": "String"}
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "流式合成语音并边收边播，支持风格控制，使用PCM16格式",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_get_response_status",
+    "message0": "获取小米AI响应状态",
+    "output": "Boolean",
+    "colour": "#FF6900",
+    "tooltip": "检查最后一次API调用是否成功",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_get_error_message",
+    "message0": "获取小米AI错误信息",
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "获取最后一次API调用的错误信息",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_set_stream_callback",
+    "message0": "设置小米AI流式回调 %1 %2",
+    "args0": [
+      {"type": "input_dummy"},
+      {"type": "input_statement", "name": "CALLBACK"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "设置流式回调函数，每收到一个文本片段时执行。使用'获取流式片段'块获取当前片段内容",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_get_stream_chunk",
+    "message0": "获取小米AI流式片段",
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "在流式回调中获取当前收到的文本片段",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_clear_stream_callback",
+    "message0": "清除小米AI流式回调",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "清除已设置的流式回调函数",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  }
+]

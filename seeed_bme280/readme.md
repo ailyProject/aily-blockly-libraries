@@ -1,27 +1,26 @@
-# BME280温湿度气压传感器
+# BME280 temperature, humidity and pressure sensor
 
-Grove BME280温湿度气压传感器库，支持读取温度、湿度、气压和海拔高度。
+Grove BME280 temperature, humidity and air pressure sensor library supports reading temperature, humidity, air pressure and altitude
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
-| 包名 | @aily-project/lib-bme280 |
-| 版本 | 1.0.0 |
-| 作者 | SeeedStudio |
-| 来源 | https://github.com/Seeed-Studio/Grove_BME280 |
-| 许可证 | MIT |
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-seeed-bme280 |
+| Version | 1.0.0 |
+| Author | SeeedStudio |
+| Source | https://github.com/Seeed-Studio/Grove_BME280 |
+| License | Original license |
 
-## 支持的开发板
+## Supported Boards
 
-Arduino UNO、ESP32、ESP8266、Arduino UNO R4 WiFi等所有支持I2C的开发板。
+Arduino-compatible boards supported by this package.
 
-## 描述
+## Description
 
-BME280是一款高精度环境传感器，可同时测量温度、湿度、气压。通过I2C接口通信，支持计算海拔高度。
+Grove BME280 temperature, humidity and air pressure sensor library supports reading temperature, humidity, air pressure and altitude
 
-## 快速开始
+## Quick Start
 
-1. 将BME280传感器连接到I2C接口（SDA、SCL、VCC、GND）
-2. 使用初始化块配置传感器
-3. 使用读取块获取温度、湿度、气压数据
+1. Enable `@aily-project/lib-seeed-bme280` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

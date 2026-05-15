@@ -1,6 +1,6 @@
-# NTC热敏电阻
+# NTC thermistor
 
-NTC热敏电阻库，支持Esp32等开发板，提供摄氏度、华氏度、开尔文温度读取，硬件可搭配ojmbBxx09ESP32-S3 AIOT综合板中NTC模块使用。
+The NTC thermistor library supports development boards such as Esp32 and provides temperature readings in degrees Celsius, Fahrenheit and Kelvin. The hardware can be used with the NTC module in the ojmbBxx09ESP32-S3 A...
 
 ## Library Info
 - **Name**: @aily-project/lib-ntc
@@ -10,10 +10,10 @@ NTC热敏电阻库，支持Esp32等开发板，提供摄氏度、华氏度、开
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `ntc_init` | Statement | PIN(dropdown), REF_RESISTANCE(field_number), NOMINAL_RESISTANCE(field_number), NOMINAL_TEMP(field_number), B_VALUE(field_number) | `ntc_init(PIN, 10000, 10000, 25, 3950)` | `` |
-| `ntc_read_celsius` | Value | PIN(dropdown) | `ntc_read_celsius(PIN)` | `...->readCelsius()` |
-| `ntc_read_fahrenheit` | Value | PIN(dropdown) | `ntc_read_fahrenheit(PIN)` | `...->readFahrenheit()` |
-| `ntc_read_kelvin` | Value | PIN(dropdown) | `ntc_read_kelvin(PIN)` | `...->readKelvin()` |
+| `ntc_init` | Statement | PIN(dropdown), REF_RESISTANCE(field_number), NOMINAL_RESISTANCE(field_number), NOMINAL_TEMP(field_number), B_VALUE(field_number) | `ntc_init(PIN, 10000, 10000, 25, 3950)` | Dynamic code |
+| `ntc_read_celsius` | Value | PIN(dropdown) | `ntc_read_celsius(PIN)` | ...->readCelsius() |
+| `ntc_read_fahrenheit` | Value | PIN(dropdown) | `ntc_read_fahrenheit(PIN)` | ...->readFahrenheit() |
+| `ntc_read_kelvin` | Value | PIN(dropdown) | `ntc_read_kelvin(PIN)` | ...->readKelvin() |
 
 ## ABS Examples
 
@@ -30,5 +30,5 @@ arduino_loop()
 
 ## Notes
 
-1. **Initialization**: Place init/setup blocks inside `arduino_setup()`
-2. **Parameter Order**: Follows `block.json` args0 order
+1. **Parameter order**: ABS parameters follow `block.json` args order.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

@@ -1,6 +1,6 @@
-# 步进电机驱动库
+# Stepper Motor Driver Library
 
-针对四相五线步进电机28BYJ-48的驱动库，常配合ULN2003等驱动板使用，,支持Arduino UNO,ESP32等开发板
+Driver library for four-phase five-wire stepper motor 28BYJ-48, often used with driver boards such as ULN2003, and supports Arduino UNO, ESP32 and other development boards
 
 ## Library Info
 
@@ -9,18 +9,18 @@
 | Package | @aily-project/lib-stepper |
 | Version | 0.0.1 |
 | Author | aily-project |
-| License | MIT |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino AVR (UNO/Nano/Mega), ESP32
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-针对四相五线步进电机28BYJ-48的驱动库，常配合ULN2003等驱动板使用，,支持Arduino UNO,ESP32等开发板
-
-This library provides 4 Blockly blocks.
+Driver library for four-phase five-wire stepper motor 28BYJ-48, often used with driver boards such as ULN2003, and supports Arduino UNO, ESP32 and other development boards
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-stepper` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

@@ -1,4 +1,4 @@
-# EEPROM存储库
+# EEPROM repository
 
 eeprom
 
@@ -10,15 +10,16 @@ eeprom
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `eeprom_read` | Value | ADDRESS(input_value) | `eeprom_read(math_number(0))` | — |
-| `eeprom_length` | Value | (none) | `eeprom_length()` | — |
-| `eeprom_write` | Statement | ADDRESS(input_value), VALUE(input_value) | `eeprom_write(math_number(0), math_number(0))` | — |
+| `eeprom_read` | Value | ADDRESS(input_value) | `eeprom_read(math_number(0))` | EEPROM.read(...) |
+| `eeprom_length` | Value | (none) | `eeprom_length()` | EEPROM.length() |
+| `eeprom_write` | Statement | ADDRESS(input_value), VALUE(input_value) | `eeprom_write(math_number(0), math_number(0))` | EEPROM.put(..., ...);\n |
 
 ## ABS Examples
 
 ### Basic Usage
 ```
 arduino_setup()
+    eeprom_write(math_number(0), math_number(0))
     serial_begin(Serial, 9600)
 
 arduino_loop()
@@ -28,5 +29,5 @@ arduino_loop()
 
 ## Notes
 
-1. **Initialization**: Place init/setup blocks inside `arduino_setup()`
-2. **Parameter Order**: Follows `block.json` args0 order
+1. **Parameter order**: ABS parameters follow `block.json` args order.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

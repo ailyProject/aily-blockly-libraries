@@ -1,0 +1,26 @@
+{
+  "kind": "category",
+  "name": "Qwiic OpenLog 数据记录",
+  "colour": "#795548",
+  "contents": [
+    { "kind": "block", "type": "qwiic_openlog_init" },
+    { "kind": "label", "text": "文件操作" },
+    { "kind": "block", "type": "qwiic_openlog_append",
+      "inputs": { "FILENAME": { "shadow": { "type": "text", "fields": { "TEXT": "log.csv" } } } }
+    },
+    { "kind": "block", "type": "qwiic_openlog_print",
+      "inputs": { "DATA": { "shadow": { "type": "text", "fields": { "TEXT": "data" } } } }
+    },
+    { "kind": "block", "type": "qwiic_openlog_println",
+      "inputs": { "DATA": { "shadow": { "type": "text", "fields": { "TEXT": "data" } } } }
+    },
+    { "kind": "block", "type": "qwiic_openlog_sync" },
+    { "kind": "label", "text": "目录操作" },
+    { "kind": "block", "type": "qwiic_openlog_mkdir",
+      "inputs": { "DIRNAME": { "shadow": { "type": "text", "fields": { "TEXT": "logs" } } } }
+    },
+    { "kind": "block", "type": "qwiic_openlog_cd",
+      "inputs": { "DIRNAME": { "shadow": { "type": "text", "fields": { "TEXT": "/" } } } }
+    }
+  ]
+}

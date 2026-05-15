@@ -1,0 +1,520 @@
+[
+  {
+    "type": "mbrick_motor_init",
+    "message0": "初始化电机 %1 引脚 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "motor1"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR",
+        "options": [
+          ["M1 (IN1:4, IN2:5)", "M1"],
+          ["M2 (IN1:6, IN2:7)", "M2"],
+          ["M3 (IN1:9, IN2:10)", "M3"],
+          ["M4 (IN1:21, IN2:20)", "M4"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化单个直流电机，自动配置引脚"
+  },
+  {
+    "type": "mbrick_motor_forward",
+    "message0": "电机 %1 正转 PWM %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor1",
+        "variableTypes": ["mBrickMotor"],
+        "defaultType": "mBrickMotor"
+      },
+      {
+        "type": "input_value",
+        "name": "PWM",
+        "check": ["Number", "math_number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "电机正转，PWM值范围0-255"
+  },
+  {
+    "type": "mbrick_motor_backward",
+    "message0": "电机 %1 反转 PWM %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor1",
+        "variableTypes": ["mBrickMotor"],
+        "defaultType": "mBrickMotor"
+      },
+      {
+        "type": "input_value",
+        "name": "PWM",
+        "check": ["Number", "math_number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "电机反转，PWM值范围0-255"
+  },
+  {
+    "type": "mbrick_motor_stop",
+    "message0": "电机 %1 停止 模式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor1",
+        "variableTypes": ["mBrickMotor"],
+        "defaultType": "mBrickMotor"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["滑行(COAST)", "COAST"],
+          ["刹车(BRAKE)", "BRAKE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "停止电机，COAST=滑行，BRAKE=刹车"
+  },
+  {
+    "type": "mbrick_motor_set_speed",
+    "message0": "电机 %1 设置速度 PWM %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor1",
+        "variableTypes": ["mBrickMotor"],
+        "defaultType": "mBrickMotor"
+      },
+      {
+        "type": "input_value",
+        "name": "PWM",
+        "check": ["Number", "math_number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置电机速度（电机需已运行），PWM值范围0-255"
+  },
+  {
+    "type": "mbrick_motor_is_running",
+    "message0": "电机 %1 正在运行?",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor1",
+        "variableTypes": ["mBrickMotor"],
+        "defaultType": "mBrickMotor"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "检查电机是否正在运行"
+  },
+  {
+    "type": "mbrick_car_init",
+    "message0": "初始化两轮车 %1 左电机 %2 右电机 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "car"
+      },
+      {
+        "type": "field_variable",
+        "name": "LEFT_MOTOR",
+        "variable": "motor1",
+        "variableTypes": ["mBrickMotor"],
+        "defaultType": "mBrickMotor"
+      },
+      {
+        "type": "field_variable",
+        "name": "RIGHT_MOTOR",
+        "variable": "motor2",
+        "variableTypes": ["mBrickMotor"],
+        "defaultType": "mBrickMotor"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "初始化两轮差速小车"
+  },
+  {
+    "type": "mbrick_car_forward",
+    "message0": "小车 %1 前进 速度 %2 %%",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car",
+        "variableTypes": ["mBrickCar"],
+        "defaultType": "mBrickCar"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": ["Number", "math_number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "小车前进，速度百分比0-100"
+  },
+  {
+    "type": "mbrick_car_backward",
+    "message0": "小车 %1 后退 速度 %2 %%",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car",
+        "variableTypes": ["mBrickCar"],
+        "defaultType": "mBrickCar"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": ["Number", "math_number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "小车后退，速度百分比0-100"
+  },
+  {
+    "type": "mbrick_car_turn_left",
+    "message0": "小车 %1 左转 速度 %2 %%",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car",
+        "variableTypes": ["mBrickCar"],
+        "defaultType": "mBrickCar"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": ["Number", "math_number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "小车左转，速度百分比0-100"
+  },
+  {
+    "type": "mbrick_car_turn_right",
+    "message0": "小车 %1 右转 速度 %2 %%",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car",
+        "variableTypes": ["mBrickCar"],
+        "defaultType": "mBrickCar"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": ["Number", "math_number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "小车右转，速度百分比0-100"
+  },
+  {
+    "type": "mbrick_car_stop",
+    "message0": "小车 %1 停止 模式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car",
+        "variableTypes": ["mBrickCar"],
+        "defaultType": "mBrickCar"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["滑行(COAST)", "COAST"],
+          ["刹车(BRAKE)", "BRAKE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "停止小车，COAST=滑行，BRAKE=刹车"
+  },
+  {
+    "type": "mbrick_car_set_speed",
+    "message0": "小车 %1 设置速度 %2 %%",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car",
+        "variableTypes": ["mBrickCar"],
+        "defaultType": "mBrickCar"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": ["Number", "math_number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置小车速度（小车需已运行），速度百分比0-100"
+  },
+  {
+    "type": "mbrick_car_set_min_pwm",
+    "message0": "小车 %1 设置最小PWM %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car",
+        "variableTypes": ["mBrickCar"],
+        "defaultType": "mBrickCar"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN_PWM",
+        "check": ["Number", "math_number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置最小PWM值，用于补偿电机启动死区"
+  },
+  {
+    "type": "mbrick_car4wd_init",
+    "message0": "初始化四轮车 %1 左前 %2 左后 %3 右前 %4 右后 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "car4wd"
+      },
+      {
+        "type": "field_variable",
+        "name": "LF",
+        "variable": "motor1",
+        "variableTypes": ["mBrickMotor"],
+        "defaultType": "mBrickMotor"
+      },
+      {
+        "type": "field_variable",
+        "name": "LR",
+        "variable": "motor2",
+        "variableTypes": ["mBrickMotor"],
+        "defaultType": "mBrickMotor"
+      },
+      {
+        "type": "field_variable",
+        "name": "RF",
+        "variable": "motor3",
+        "variableTypes": ["mBrickMotor"],
+        "defaultType": "mBrickMotor"
+      },
+      {
+        "type": "field_variable",
+        "name": "RR",
+        "variable": "motor4",
+        "variableTypes": ["mBrickMotor"],
+        "defaultType": "mBrickMotor"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "初始化四轮驱动小车"
+  },
+  {
+    "type": "mbrick_car4wd_forward",
+    "message0": "四轮车 %1 前进 速度 %2 %%",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car4wd",
+        "variableTypes": ["mBrickCar4WD"],
+        "defaultType": "mBrickCar4WD"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": ["Number", "math_number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "四轮车前进，速度百分比0-100"
+  },
+  {
+    "type": "mbrick_car4wd_backward",
+    "message0": "四轮车 %1 后退 速度 %2 %%",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car4wd",
+        "variableTypes": ["mBrickCar4WD"],
+        "defaultType": "mBrickCar4WD"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": ["Number", "math_number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "四轮车后退，速度百分比0-100"
+  },
+  {
+    "type": "mbrick_car4wd_turn_left",
+    "message0": "四轮车 %1 左转 速度 %2 %%",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car4wd",
+        "variableTypes": ["mBrickCar4WD"],
+        "defaultType": "mBrickCar4WD"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": ["Number", "math_number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "四轮车左转，速度百分比0-100"
+  },
+  {
+    "type": "mbrick_car4wd_turn_right",
+    "message0": "四轮车 %1 右转 速度 %2 %%",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car4wd",
+        "variableTypes": ["mBrickCar4WD"],
+        "defaultType": "mBrickCar4WD"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": ["Number", "math_number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "四轮车右转，速度百分比0-100"
+  },
+  {
+    "type": "mbrick_car4wd_stop",
+    "message0": "四轮车 %1 停止 模式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car4wd",
+        "variableTypes": ["mBrickCar4WD"],
+        "defaultType": "mBrickCar4WD"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["滑行(COAST)", "COAST"],
+          ["刹车(BRAKE)", "BRAKE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "停止四轮车，COAST=滑行，BRAKE=刹车"
+  },
+  {
+    "type": "mbrick_car4wd_set_speed",
+    "message0": "四轮车 %1 设置速度 %2 %%",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car4wd",
+        "variableTypes": ["mBrickCar4WD"],
+        "defaultType": "mBrickCar4WD"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": ["Number", "math_number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置四轮车速度（小车需已运行），速度百分比0-100"
+  },
+  {
+    "type": "mbrick_car4wd_set_min_pwm",
+    "message0": "四轮车 %1 设置最小PWM %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car4wd",
+        "variableTypes": ["mBrickCar4WD"],
+        "defaultType": "mBrickCar4WD"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN_PWM",
+        "check": ["Number", "math_number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置最小PWM值，用于补偿电机启动死区"
+  }
+]

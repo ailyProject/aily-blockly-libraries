@@ -1,27 +1,26 @@
-# Grove HCHO传感器
+# Grove HCHO sensor
 
-Grove HCHO传感器库，用于检测甲醛、苯、甲苯等挥发性有机化合物(VOC)。
+Grove HCHO formaldehyde sensor library, based on the WSP2110 semiconductor VOC gas sensor, can detect formaldehyde, benzene, toluene and other volatile organic compounds
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
-| 包名 | @aily-project/lib-grove-hcho-sensor |
-| 版本 | 1.0.0 |
-| 作者 | Aily Project |
-| 来源 | https://wiki.seeedstudio.com/Grove-HCHO_Sensor/ |
-| 许可证 | MIT |
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-seeed-hcho-sensor |
+| Version | 1.0.0 |
+| Author | SeeedStudio |
+| Source | https://wiki.seeedstudio.com/Grove-HCHO_Sensor/ |
+| License | Original license |
 
-## 支持的开发板
+## Supported Boards
 
-Arduino UNO/Nano/Mega、ESP32、ESP8266、Arduino UNO R4、Raspberry Pi Pico等
+Arduino-compatible boards supported by this package.
 
-## 描述
+## Description
 
-基于WSP2110半导体VOC气体传感器，检测范围1-50ppm。适用于室内空气质量监测。
+Grove HCHO formaldehyde sensor library, based on the WSP2110 semiconductor VOC gas sensor, can detect formaldehyde, benzene, toluene and other volatile organic compounds
 
-## 快速开始
+## Quick Start
 
-1. 将传感器连接到模拟引脚(如A0)
-2. 在清洁空气中运行校准程序获取R0值
-3. 将R0值填入初始化块中使用
+1. Enable `@aily-project/lib-seeed-hcho-sensor` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

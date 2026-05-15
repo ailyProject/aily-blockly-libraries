@@ -1,0 +1,62 @@
+{
+  "toolbox_name": "AVR FreeRTOS",
+  "toolbox_categories": ["任務管理", "佇列通訊", "訊號量同步", "通知與中斷", "系統資訊", "常用任務範本"],
+  "toolbox_labels": {
+    "常用任務模板": "常用任務範本"
+  },
+  "avr_freertos_task_create": { "message0": "建立任務 %1 堆疊大小 %2 優先級 %3", "tooltip": "建立 AVR FreeRTOS 任務並自動產生任務控制代碼" },
+  "avr_freertos_task_function": { "message0": "任務 %1 執行", "message1": "重複執行 %1", "tooltip": "定義任務函式，內部自動包含 FreeRTOS 任務迴圈" },
+  "avr_freertos_task_delay_ms": { "message0": "任務延時 %1 毫秒", "tooltip": "以毫秒延遲目前任務" },
+  "avr_freertos_task_delay_ticks": { "message0": "任務延時 %1 ticks", "tooltip": "依 FreeRTOS tick 延遲目前任務" },
+  "avr_freertos_task_suspend": { "message0": "暫停任務 %1", "tooltip": "暫停指定任務" },
+  "avr_freertos_task_resume": { "message0": "恢復任務 %1", "tooltip": "恢復指定任務" },
+  "avr_freertos_task_delete": { "message0": "刪除任務 %1", "tooltip": "刪除任務並清除其控制代碼" },
+  "avr_freertos_task_delete_current": { "message0": "刪除目前任務", "tooltip": "刪除目前正在執行的任務" },
+  "avr_freertos_task_notify": { "message0": "通知任務 %1", "tooltip": "傳送任務通知" },
+  "avr_freertos_task_notify_from_isr": { "message0": "在中斷中通知任務 %1", "tooltip": "在中斷中安全地通知任務" },
+  "avr_freertos_task_wait_notification": {
+    "message0": "等待任務通知 %1 %2 毫秒",
+    "tooltip": "等待目前任務收到通知",
+    "args0": [{ "options": [["最多等待", "MS"], ["一直等待", "FOREVER"]] }, null]
+  },
+  "avr_freertos_queue_create": {
+    "message0": "建立佇列 %1 長度 %2 資料型別 %3",
+    "tooltip": "建立 FreeRTOS 佇列以傳遞資料",
+    "args0": [null, null, { "options": [["整數 int", "int"], ["長整數 long", "long"], ["浮點 float", "float"], ["位元組 byte", "byte"], ["字元 char", "char"], ["布林 bool", "bool"]] }]
+  },
+  "avr_freertos_queue_send": {
+    "message0": "向佇列 %1 傳送 %2 型別 %3 等待 %4 %5 毫秒",
+    "tooltip": "使用暫存變數向佇列傳送一筆資料",
+    "args0": [null, null, { "options": [["整數 int", "int"], ["長整數 long", "long"], ["浮點 float", "float"], ["位元組 byte", "byte"], ["字元 char", "char"], ["布林 bool", "bool"]] }, { "options": [["最多等待", "MS"], ["一直等待", "FOREVER"]] }, null]
+  },
+  "avr_freertos_queue_receive_do": {
+    "message0": "從佇列 %1 接收型別 %2 到變數 %3 等待 %4 %5 毫秒",
+    "message1": "接收成功執行 %1",
+    "tooltip": "從佇列接收資料，成功時執行內部積木",
+    "args0": [null, { "options": [["整數 int", "int"], ["長整數 long", "long"], ["浮點 float", "float"], ["位元組 byte", "byte"], ["字元 char", "char"], ["布林 bool", "bool"]] }, null, { "options": [["最多等待", "MS"], ["一直等待", "FOREVER"]] }, null]
+  },
+  "avr_freertos_queue_messages_waiting": { "message0": "佇列 %1 等待訊息數", "tooltip": "取得佇列中等待的資料筆數" },
+  "avr_freertos_semaphore_create": {
+    "message0": "建立訊號量 %1 型別 %2 最大計數 %3 初始計數 %4",
+    "tooltip": "建立二進位訊號量、互斥鎖或計數訊號量",
+    "args0": [null, { "options": [["二進位", "BINARY"], ["互斥鎖", "MUTEX"], ["計數", "COUNTING"]] }, null, null]
+  },
+  "avr_freertos_semaphore_take": {
+    "message0": "取得訊號量 %1 等待 %2 %3 毫秒",
+    "tooltip": "嘗試取得訊號量",
+    "args0": [null, { "options": [["最多等待", "MS"], ["一直等待", "FOREVER"]] }, null]
+  },
+  "avr_freertos_semaphore_give": { "message0": "釋放訊號量 %1", "tooltip": "釋放訊號量或互斥鎖" },
+  "avr_freertos_semaphore_give_from_isr": { "message0": "在中斷中釋放訊號量 %1", "tooltip": "在中斷中安全地釋放訊號量" },
+  "avr_freertos_attach_interrupt": {
+    "message0": "設定中斷 腳位 %1 觸發 %2",
+    "message1": "中斷執行 %1",
+    "tooltip": "建立 Arduino 外部中斷處理函式",
+    "args0": [null, { "options": [["低電位", "LOW"], ["上升沿", "RISING"], ["下降沿", "FALLING"], ["變化", "CHANGE"]] }]
+  },
+  "avr_freertos_get_tick_count": { "message0": "系統 tick 計數", "tooltip": "取得目前 FreeRTOS tick 計數" },
+  "avr_freertos_get_task_count": { "message0": "目前任務數量", "tooltip": "取得目前任務數量" },
+  "avr_freertos_get_task_name": { "message0": "任務 %1 名稱", "tooltip": "取得指定任務名稱" },
+  "avr_freertos_get_current_task_name": { "message0": "目前任務名稱", "tooltip": "取得目前任務名稱" },
+  "avr_freertos_get_stack_high_water_mark": { "message0": "任務 %1 剩餘堆疊高水位", "tooltip": "取得任務剩餘堆疊高水位" }
+}

@@ -1,104 +1,26 @@
-# TM16xx数码管显示库
+# TM16xx digital tube display library
 
-这是一个用于Arduino Blockly的TM16xx系列七段数码管显示模块库。支持TM1637、TM1638、TM1640、TM1650、TM1668等多种芯片，专注于数字和文本的段位显示功能。
+TM16xx series chip driver library supports TM1637, TM1638, TM1640, TM1650, TM1668 and other digital tube display modules
 
-## 支持的芯片类型
+## Library Info
 
-| 芯片型号 | 段数×位数 | 按键支持 | 接口 | 说明 |
-|---------|-----------|----------|------|------|
-| TM1637  | 8×6       | 8×2      | DIO/CLK | 4位七段数码管 |
-| TM1638  | 10×8      | 8×3      | DIO/CLK/STB | 8位七段数码管+LED+按键 |
-| TM1640  | 8×16      | 无       | DIN/CLK | 16位七段数码管 |
-| TM1650  | 8×4       | 7×4      | DIO/CLK | 4位七段数码管 |
-| TM1668  | 10×7      | 10×2     | DIO/CLK/STB | 7位七段数码管+按键 |
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-tm16xx |
+| Version | 1.0.0 |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
-## 功能特性
+## Supported Boards
 
-- 🔧 **简单初始化**：支持简化版和完整版初始化
-- 📺 **数码管显示**：文本、数字、时间显示
-- 💡 **亮度控制**：8级亮度调节（0-7）
-- 🎯 **段码控制**：支持七段数码管段码直接控制
-- ⌨️ **按键检测**：支持多按键状态检测（部分芯片）
-- 🌟 **易于使用**：拖拽积木即可编程
+Arduino-compatible boards supported by this package.
 
-## 使用方法
+## Description
 
-### 基础使用
+TM16xx series chip driver library supports TM1637, TM1638, TM1640, TM1650, TM1668 and other digital tube display modules
 
-1. **初始化模块**
-   - 使用"初始化TM16xx数码管"积木
-   - 选择芯片类型（TM1637、TM1638等）
-   - 连接DIO、CLK引脚（某些芯片需要STB引脚）
+## Quick Start
 
-2. **显示内容**
-   - 使用"显示文本"积木显示字符串
-   - 使用"显示数字"积木显示数值
-   - 使用"显示时间"积木显示时间格式
-
-3. **控制亮度**
-   - 使用"设置亮度"积木调节显示亮度
-
-### 高级功能
-
-- **段码控制**：使用"设置段码"积木直接控制每一位数码管的显示段
-- **按键检测**：使用按键相关积木检测按键状态（仅支持按键的芯片）
-- **清空显示**：使用"清空显示"积木清除所有数码管内容
-
-## 接线说明
-
-### TM1637模块
-```
-TM1637    Arduino
-VCC   ->  5V 或 3.3V
-GND   ->  GND
-DIO   ->  数字引脚（如D2）
-CLK   ->  数字引脚（如D3）
-```
-
-### TM1638模块
-```
-TM1638    Arduino
-VCC   ->  5V
-GND   ->  GND
-DIO   ->  数字引脚（如D8）
-CLK   ->  数字引脚（如D9）
-STB   ->  数字引脚（如D7）
-```
-
-## 示例程序
-
-### 基础显示示例
-```
-初始化TM1637数码管 DIO引脚2 CLK引脚3
-显示文本"HELLO"
-等待1秒
-显示数字1234 小数点位置第2位
-```
-
-### 时钟显示示例
-```
-初始化TM1637数码管 DIO引脚2 CLK引脚3
-重复执行：
-  显示时间 时12 分30 显示冒号✓
-  等待500毫秒
-  显示时间 时12 分30 显示冒号✗
-  等待500毫秒
-```
-
-## 注意事项
-
-1. **电源要求**：大部分模块支持3.3V和5V供电
-2. **引脚连接**：确保DIO、CLK引脚连接正确
-3. **芯片选择**：根据实际使用的数码管模块选择正确的芯片类型
-4. **按键功能**：只有TM1638、TM1650、TM1668等芯片支持按键检测功能
-5. **显示位数**：不同芯片支持的显示位数不同，请根据实际模块选择
-
-## 开源说明
-
-本库基于开源的TM16xx Arduino库开发，专注于七段数码管的段位显示功能，感谢原作者的贡献。
-- 原始库：https://github.com/maxint-rd/TM16xx
-- 许可证：遵循原项目许可证
-
-## 版本历史
-
-- v1.0.0：初始版本，支持基础数码管显示和按键功能
+1. Enable `@aily-project/lib-tm16xx` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

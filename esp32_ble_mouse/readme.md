@@ -1,76 +1,26 @@
-# ESP32 BLE鼠标库
+# BLE bluetooth mouse
 
-## 简介
+BLE mouse library for ESP32, supporting mouse movement, click, wheel and other operations
 
-这是一个专门用于ESP32的蓝牙低功耗(BLE)鼠标库，可以让ESP32设备模拟成一个无线蓝牙鼠标，支持鼠标移动、点击和滚轮操作。
+## Library Info
 
-## 功能特性
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-esp32-ble-mouse |
+| Version | 1.0.0 |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
-- **鼠标移动**: 支持X、Y轴相对位移控制
-- **鼠标点击**: 支持左键、右键、中键的按下、释放和点击操作  
-- **鼠标滚轮**: 支持滚轮滚动控制
-- **连接状态**: 可检测BLE连接状态
-- **电池电量**: 支持电池电量显示
-- **设备信息**: 可自定义设备名称和制造商信息
+## Supported Boards
 
-## 支持的开发板
+ESP32
 
-- ESP32
-- ESP32-C3  
-- ESP32-S3
+## Description
 
-## 使用方法
+BLE mouse library for ESP32, supporting mouse movement, click, wheel and other operations
 
-### 基本步骤
+## Quick Start
 
-1. **初始化并启动BLE鼠标**: 一步完成设备名称、制造商、电池电量设置和启动
-2. **检查连接状态**: 确认设备已连接到主机
-3. **执行鼠标操作**: 进行移动、点击、滚轮等操作
-
-### 鼠标操作说明
-
-- **移动**: 使用相对坐标移动鼠标光标，正值向右/向下移动，负值向左/向上移动
-- **点击**: 支持左键、右键、中键的单独操作
-  - 按下: 按住鼠标按键不放
-  - 释放: 释放已按下的鼠标按键  
-  - 点击: 快速按下并释放鼠标按键
-- **滚轮**: 正值向上滚动，负值向下滚动
-
-## 示例应用
-
-常见的应用场景：
-
-- **无线鼠标**: 制作自定义无线鼠标
-- **GamepadAndMouse**: 手柄和鼠标组合使用  
-- **GamepadMouseKeyboard**: 三种设备同时使用
-- **DeferredReports**: 延迟发送报告的高级用法
-
-## 注意事项
-
-- **手势控制**: 通过传感器实现手势控制鼠标
-- **游戏控制器**: 为特定游戏制作专用控制器  
-- **无障碍设备**: 为行动不便人士制作辅助输入设备
-
-## 注意事项
-
-1. 使用前请确保目标设备支持蓝牙鼠标连接
-2. 首次连接可能需要在设备上进行配对
-3. 鼠标移动数值建议控制在合理范围内，过大的数值可能导致光标移动过快
-4. 同时只能连接一个蓝牙主机设备
-5. 建议在使用任何鼠标操作前检查BLE连接状态
-
-## 技术说明
-
-本库基于ESP32-BLE-Mouse开源库开发，感谢原作者的贡献。
-
-## 依赖库
-
-- ESP32-BLE-Mouse (已包含在src.7z中)
-
-## 开源协议
-
-本库基于开源ESP32 BLE Mouse库开发，遵循相应的开源协议。
-
-## 技术支持
-
-如有问题请访问: https://github.com/aily-project
+1. Enable `@aily-project/lib-esp32-ble-mouse` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

@@ -1,0 +1,62 @@
+{
+  "toolbox_name": "AVR FreeRTOS",
+  "toolbox_categories": ["إدارة المهام", "الطوابير", "مزامنة السمافورات", "الإشعارات والمقاطعات", "معلومات النظام", "قوالب المهام"],
+  "toolbox_labels": {
+    "常用任务模板": "قوالب المهام"
+  },
+  "avr_freertos_task_create": { "message0": "إنشاء مهمة %1 مكدس %2 أولوية %3", "tooltip": "ينشئ مهمة AVR FreeRTOS ومعرفها" },
+  "avr_freertos_task_function": { "message0": "تنفيذ المهمة %1", "message1": "كرر %1", "tooltip": "يعرّف دالة المهمة مع حلقة FreeRTOS تلقائية" },
+  "avr_freertos_task_delay_ms": { "message0": "تأخير المهمة %1 مللي ثانية", "tooltip": "يؤخر المهمة الحالية بالمللي ثانية" },
+  "avr_freertos_task_delay_ticks": { "message0": "تأخير المهمة %1 ticks", "tooltip": "يؤخر المهمة الحالية بعدد من تكتات FreeRTOS" },
+  "avr_freertos_task_suspend": { "message0": "تعليق المهمة %1", "tooltip": "يعلق مهمة" },
+  "avr_freertos_task_resume": { "message0": "استئناف المهمة %1", "tooltip": "يستأنف مهمة" },
+  "avr_freertos_task_delete": { "message0": "حذف المهمة %1", "tooltip": "يحذف المهمة ويمسح معرفها" },
+  "avr_freertos_task_delete_current": { "message0": "حذف المهمة الحالية", "tooltip": "يحذف المهمة التي تعمل حاليا" },
+  "avr_freertos_task_notify": { "message0": "إشعار المهمة %1", "tooltip": "يرسل إشعار مهمة" },
+  "avr_freertos_task_notify_from_isr": { "message0": "إشعار المهمة %1 من ISR", "tooltip": "يرسل إشعارا للمهمة بأمان من المقاطعة" },
+  "avr_freertos_task_wait_notification": {
+    "message0": "انتظار إشعار المهمة %1 %2 مللي ثانية",
+    "tooltip": "ينتظر حتى تستقبل المهمة الحالية إشعارا",
+    "args0": [{ "options": [["حتى", "MS"], ["باستمرار", "FOREVER"]] }, null]
+  },
+  "avr_freertos_queue_create": {
+    "message0": "إنشاء طابور %1 طول %2 نوع البيانات %3",
+    "tooltip": "ينشئ طابورا من FreeRTOS لنقل البيانات",
+    "args0": [null, null, { "options": [["عدد صحيح int", "int"], ["عدد صحيح طويل long", "long"], ["عدد عشري float", "float"], ["بايت byte", "byte"], ["محرف char", "char"], ["منطقي bool", "bool"]] }]
+  },
+  "avr_freertos_queue_send": {
+    "message0": "إرسال إلى الطابور %1 البيانات %2 النوع %3 الانتظار %4 %5 مللي ثانية",
+    "tooltip": "يرسل عنصرا واحدا إلى الطابور باستخدام متغير مؤقت ذي نوع محدد",
+    "args0": [null, null, { "options": [["عدد صحيح int", "int"], ["عدد صحيح طويل long", "long"], ["عدد عشري float", "float"], ["بايت byte", "byte"], ["محرف char", "char"], ["منطقي bool", "bool"]] }, { "options": [["حتى", "MS"], ["باستمرار", "FOREVER"]] }, null]
+  },
+  "avr_freertos_queue_receive_do": {
+    "message0": "استقبال من الطابور %1 النوع %2 إلى %3 الانتظار %4 %5 مللي ثانية",
+    "message1": "عند النجاح %1",
+    "tooltip": "يستقبل من طابور وينفذ الكتل عند النجاح",
+    "args0": [null, { "options": [["عدد صحيح int", "int"], ["عدد صحيح طويل long", "long"], ["عدد عشري float", "float"], ["بايت byte", "byte"], ["محرف char", "char"], ["منطقي bool", "bool"]] }, null, { "options": [["حتى", "MS"], ["باستمرار", "FOREVER"]] }, null]
+  },
+  "avr_freertos_queue_messages_waiting": { "message0": "عدد الرسائل المنتظرة في الطابور %1", "tooltip": "يعيد عدد العناصر المنتظرة في الطابور" },
+  "avr_freertos_semaphore_create": {
+    "message0": "إنشاء سمافور %1 النوع %2 الحد الاقصى %3 الابتدائي %4",
+    "tooltip": "ينشئ سمافورا ثنائيا أو mutex أو سمافور عداد",
+    "args0": [null, { "options": [["ثنائي", "BINARY"], ["موتكس", "MUTEX"], ["عداد", "COUNTING"]] }, null, null]
+  },
+  "avr_freertos_semaphore_take": {
+    "message0": "أخذ السمافور %1 الانتظار %2 %3 مللي ثانية",
+    "tooltip": "يحاول أخذ سمافور",
+    "args0": [null, { "options": [["حتى", "MS"], ["باستمرار", "FOREVER"]] }, null]
+  },
+  "avr_freertos_semaphore_give": { "message0": "تحرير السمافور %1", "tooltip": "يحرر سمافورا أو mutex" },
+  "avr_freertos_semaphore_give_from_isr": { "message0": "تحرير السمافور %1 من ISR", "tooltip": "يحرر السمافور بأمان من مقاطعة" },
+  "avr_freertos_attach_interrupt": {
+    "message0": "تهيئة المقاطعة الدبوس %1 النمط %2",
+    "message1": "نفذ %1",
+    "tooltip": "ينشئ معالج مقاطعة خارجية في Arduino",
+    "args0": [null, { "options": [["مستوى منخفض", "LOW"], ["حافة صاعدة", "RISING"], ["حافة هابطة", "FALLING"], ["تغيير", "CHANGE"]] }]
+  },
+  "avr_freertos_get_tick_count": { "message0": "عدد تكتات النظام", "tooltip": "يعيد عدد تكتات FreeRTOS الحالية" },
+  "avr_freertos_get_task_count": { "message0": "عدد المهام الحالي", "tooltip": "يعيد عدد المهام الحالي" },
+  "avr_freertos_get_task_name": { "message0": "اسم المهمة %1", "tooltip": "يعيد اسم مهمة" },
+  "avr_freertos_get_current_task_name": { "message0": "اسم المهمة الحالية", "tooltip": "يعيد اسم المهمة الحالية" },
+  "avr_freertos_get_stack_high_water_mark": { "message0": "الهامش المتبقي للمكدس للمهمة %1", "tooltip": "يعيد مقدار المكدس المتبقي للمهمة" }
+}

@@ -35,8 +35,8 @@ function filterPackageJson(packageJson, keysToExtract) {
 
 async function main() {
   try {
-    // 获取当前目录路径
-    const currentDir = __dirname;
+    // 脚本位于 .scripts/ 下，库目录和输出文件都在仓库根目录
+    const currentDir = path.join(__dirname, '..');
 
     // 设置要提取的键，可以根据需要修改这个数组
     // 如果要提取所有键，可以设置为null

@@ -1,6 +1,6 @@
-# 超声波传感器
+# ultrasonic sensor
 
-超声波传感器，驱动库支持SR04，通过发射和接收超声波信号实现非接触式距离测量，适配多种开发板。
+Ultrasonic sensor, the driver library supports SR04, achieves non-contact distance measurement by transmitting and receiving ultrasonic signals, and is suitable for a variety of development boards.
 
 ## Library Info
 - **Name**: @aily-project/lib-ultrasonic
@@ -10,7 +10,7 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `ultrasonic_ranging` | Value | PIN1(input_value), PIN2(input_value) | `ultrasonic_ranging(math_number(2), math_number(2))` | — |
+| `ultrasonic_ranging` | Value | PIN1(input_value), PIN2(input_value) | `ultrasonic_ranging(math_number(2), math_number(2))` | Dynamic code |
 
 ## ABS Examples
 
@@ -26,5 +26,5 @@ arduino_loop()
 
 ## Notes
 
-1. **Initialization**: Place init/setup blocks inside `arduino_setup()`
-2. **Parameter Order**: Follows `block.json` args0 order
+1. **Parameter order**: ABS parameters follow `block.json` args order.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

@@ -1,6 +1,6 @@
-# 键盘矩阵库
+# keyboard matrix library
 
-4x4矩阵键盘控制库，支持ESP32开发板
+4x4 matrix keyboard control library, supporting ESP32 development board
 
 ## Library Info
 
@@ -9,18 +9,18 @@
 | Package | @aily-project/lib-keypad |
 | Version | 0.0.1 |
 | Author | Aily |
-| License | MIT |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-ESP32
+Arduino AVR, Arduino SAMD, ESP32, RP2040, Arduino UNO R4
 
 ## Description
 
-4x4矩阵键盘控制库，支持ESP32开发板
-
-This library provides 3 Blockly blocks.
+4x4 matrix keyboard control library, supporting ESP32 development board
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-keypad` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

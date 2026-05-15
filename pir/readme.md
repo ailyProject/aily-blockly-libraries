@@ -1,27 +1,26 @@
-# PIR 运动传感器
+# PIR human motion sensor
 
-PIR运动传感器库，用于检测人体运动。
+PIR motion sensor library for detecting human movement
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
-| 包名 | @aily-project/lib-pir |
-| 版本 | 1.0.0 |
-| 作者 | ailyProject |
-| 来源 | - |
-| 许可证 | MIT |
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-pir |
+| Version | 1.0.0 |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
-## 支持的开发板
+## Supported Boards
 
-Arduino UNO, ESP32, ESP8266, Arduino Nano RP2040, Arduino UNO R4 WiFi 等主流开发板
+Arduino-compatible boards supported by this package.
 
-## 描述
+## Description
 
-PIR（被动红外）运动传感器用于检测人体运动。当有人在检测范围内移动时，传感器输出HIGH信号。检测距离可调（默认3米，最大6米），保持时间可调（1-25秒）。
+PIR motion sensor library for detecting human movement
 
-## 快速开始
+## Quick Start
 
-1. 将PIR传感器连接到数字引脚（如D2）
-2. 使用初始化块设置引脚
-3. 使用读取块检测运动状态
+1. Enable `@aily-project/lib-pir` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

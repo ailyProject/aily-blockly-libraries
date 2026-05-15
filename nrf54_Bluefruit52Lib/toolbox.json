@@ -1,0 +1,361 @@
+{
+  "kind": "category",
+  "name": "Bluefruit52 BLE",
+  "icon": "fa-light fa-bluetooth",
+  "colour": "#2196F3",
+  "contents": [
+    {
+      "kind": "category",
+      "name": "快速模式",
+      "icon": "fa-light fa-bolt",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "bluefruit52_bleuart_peripheral_quick",
+          "inputs": {
+            "NAME": { "shadow": { "type": "text", "fields": { "TEXT": "Bluefruit52-UART" } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_bleuart_quick_connected" },
+        { "kind": "block", "type": "bluefruit52_bleuart_quick_received_data" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_bleuart_quick_send",
+          "inputs": {
+            "DATA": { "shadow": { "type": "text", "fields": { "TEXT": "Hello BLE" } } }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "初始化与状态",
+      "icon": "fa-light fa-sliders",
+      "contents": [
+        { "kind": "block", "type": "bluefruit52_init" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_set_name",
+          "inputs": {
+            "NAME": { "shadow": { "type": "text", "fields": { "TEXT": "Bluefruit52" } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_set_tx_power" },
+        { "kind": "block", "type": "bluefruit52_auto_conn_led" },
+        { "kind": "block", "type": "bluefruit52_config_bandwidth" },
+        { "kind": "block", "type": "bluefruit52_connected" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_disconnect",
+          "inputs": {
+            "HANDLE": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "事件回调",
+      "icon": "fa-light fa-bolt",
+      "contents": [
+        { "kind": "block", "type": "bluefruit52_on_periph_connect" },
+        { "kind": "block", "type": "bluefruit52_on_periph_disconnect" },
+        { "kind": "block", "type": "bluefruit52_on_central_connect" },
+        { "kind": "block", "type": "bluefruit52_on_central_disconnect" },
+        { "kind": "block", "type": "bluefruit52_callback_conn_handle" },
+        { "kind": "block", "type": "bluefruit52_callback_disconnect_reason" },
+        { "kind": "block", "type": "bluefruit52_callback_data" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "广播",
+      "icon": "fa-light fa-tower-broadcast",
+      "contents": [
+        { "kind": "block", "type": "bluefruit52_adv_clear" },
+        { "kind": "block", "type": "bluefruit52_adv_add_flags" },
+        { "kind": "block", "type": "bluefruit52_adv_add_tx_power" },
+        { "kind": "block", "type": "bluefruit52_adv_add_name" },
+        { "kind": "block", "type": "bluefruit52_adv_add_service" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_adv_add_uuid",
+          "inputs": {
+            "UUID": { "shadow": { "type": "text", "fields": { "TEXT": "BEE0" } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_adv_add_appearance" },
+        { "kind": "block", "type": "bluefruit52_adv_restart_on_disconnect" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_adv_set_interval",
+          "inputs": {
+            "FAST": { "shadow": { "type": "math_number", "fields": { "NUM": 32 } } },
+            "SLOW": { "shadow": { "type": "math_number", "fields": { "NUM": 244 } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "bluefruit52_adv_set_initial_timeout",
+          "inputs": {
+            "SECONDS": { "shadow": { "type": "math_number", "fields": { "NUM": 30 } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "bluefruit52_adv_start",
+          "inputs": {
+            "TIMEOUT": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_adv_stop" },
+        { "kind": "block", "type": "bluefruit52_adv_is_running" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "BLE UART外设",
+      "icon": "fa-light fa-message-dots",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "bluefruit52_bleuart_create",
+          "inputs": {
+            "FIFO": { "shadow": { "type": "math_number", "fields": { "NUM": 256 } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_bleuart_begin" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_bleuart_write",
+          "inputs": {
+            "DATA": { "shadow": { "type": "text", "fields": { "TEXT": "Hello BLE" } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_bleuart_available" },
+        { "kind": "block", "type": "bluefruit52_bleuart_read" },
+        { "kind": "block", "type": "bluefruit52_bleuart_read_string" },
+        { "kind": "block", "type": "bluefruit52_bleuart_notify_enabled" },
+        { "kind": "block", "type": "bluefruit52_bleuart_on_receive" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "GATT服务",
+      "icon": "fa-light fa-diagram-project",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "bluefruit52_service_create",
+          "inputs": {
+            "UUID": { "shadow": { "type": "text", "fields": { "TEXT": "BEE0" } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_service_begin" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_characteristic_create",
+          "inputs": {
+            "UUID": { "shadow": { "type": "text", "fields": { "TEXT": "BEE1" } } },
+            "MAX_LEN": { "shadow": { "type": "math_number", "fields": { "NUM": 20 } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_characteristic_set_permission" },
+        { "kind": "block", "type": "bluefruit52_characteristic_begin" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_characteristic_write_text",
+          "inputs": {
+            "DATA": { "shadow": { "type": "text", "fields": { "TEXT": "value" } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "bluefruit52_characteristic_notify_text",
+          "inputs": {
+            "DATA": { "shadow": { "type": "text", "fields": { "TEXT": "notify" } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "bluefruit52_characteristic_indicate_text",
+          "inputs": {
+            "DATA": { "shadow": { "type": "text", "fields": { "TEXT": "indicate" } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_characteristic_read_string" },
+        { "kind": "block", "type": "bluefruit52_characteristic_notify_enabled" },
+        { "kind": "block", "type": "bluefruit52_characteristic_on_write" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "标准服务",
+      "icon": "fa-light fa-circle-info",
+      "contents": [
+        { "kind": "block", "type": "bluefruit52_dis_create" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_dis_set",
+          "inputs": {
+            "VALUE": { "shadow": { "type": "text", "fields": { "TEXT": "SeeedStudio" } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_dis_begin" },
+        { "kind": "block", "type": "bluefruit52_bas_create" },
+        { "kind": "block", "type": "bluefruit52_bas_begin" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_bas_write",
+          "inputs": {
+            "LEVEL": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "bluefruit52_bas_notify",
+          "inputs": {
+            "LEVEL": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "扫描与中心端",
+      "icon": "fa-light fa-magnifying-glass",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "bluefruit52_scanner_config",
+          "inputs": {
+            "INTERVAL": { "shadow": { "type": "math_number", "fields": { "NUM": 160 } } },
+            "WINDOW": { "shadow": { "type": "math_number", "fields": { "NUM": 80 } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "bluefruit52_scanner_start",
+          "inputs": {
+            "TIMEOUT": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_scanner_stop" },
+        { "kind": "block", "type": "bluefruit52_scanner_resume" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_scanner_filter_uuid",
+          "inputs": {
+            "UUID": { "shadow": { "type": "text", "fields": { "TEXT": "6E400001-B5A3-F393-E0A9-E50E24DCCA9E" } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_on_scan_report" },
+        { "kind": "block", "type": "bluefruit52_scan_report_rssi" },
+        { "kind": "block", "type": "bluefruit52_scan_report_address" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_scan_report_has_uuid",
+          "inputs": {
+            "UUID": { "shadow": { "type": "text", "fields": { "TEXT": "6E400001-B5A3-F393-E0A9-E50E24DCCA9E" } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_central_connect_report" },
+        { "kind": "block", "type": "bluefruit52_central_connected" },
+        { "kind": "block", "type": "bluefruit52_client_uart_create" },
+        { "kind": "block", "type": "bluefruit52_client_uart_begin" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_client_uart_discover",
+          "inputs": {
+            "HANDLE": { "shadow": { "type": "bluefruit52_callback_conn_handle" } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_client_uart_enable_txd" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_client_uart_write",
+          "inputs": {
+            "DATA": { "shadow": { "type": "text", "fields": { "TEXT": "Hello" } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_client_uart_read_string" },
+        { "kind": "block", "type": "bluefruit52_client_uart_on_receive" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "HID",
+      "icon": "fa-light fa-keyboard",
+      "contents": [
+        { "kind": "block", "type": "bluefruit52_hid_create" },
+        { "kind": "block", "type": "bluefruit52_hid_begin" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_hid_key_press",
+          "inputs": {
+            "CHAR": { "shadow": { "type": "text", "fields": { "TEXT": "A" } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_hid_key_release" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_hid_key_sequence",
+          "inputs": {
+            "TEXT": { "shadow": { "type": "text", "fields": { "TEXT": "Hello" } } },
+            "INTERVAL": { "shadow": { "type": "math_number", "fields": { "NUM": 5 } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "bluefruit52_hid_mouse_move",
+          "inputs": {
+            "X": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } },
+            "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_hid_mouse_press" },
+        { "kind": "block", "type": "bluefruit52_hid_mouse_release" },
+        {
+          "kind": "block",
+          "type": "bluefruit52_hid_mouse_scroll",
+          "inputs": {
+            "AMOUNT": { "shadow": { "type": "math_number", "fields": { "NUM": 1 } } }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "信标",
+      "icon": "fa-light fa-tower-broadcast",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "bluefruit52_beacon_create",
+          "inputs": {
+            "UUID": { "shadow": { "type": "text", "fields": { "TEXT": "01122334-4556-6778-899A-ABBCCDDEEFF0" } } },
+            "MAJOR": { "shadow": { "type": "math_number", "fields": { "NUM": 1 } } },
+            "MINOR": { "shadow": { "type": "math_number", "fields": { "NUM": 1 } } },
+            "RSSI": { "shadow": { "type": "math_number", "fields": { "NUM": -54 } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "bluefruit52_beacon_set_manufacturer",
+          "inputs": {
+            "COMPANY_ID": { "shadow": { "type": "math_number", "fields": { "NUM": 89 } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "bluefruit52_eddystone_create",
+          "inputs": {
+            "URL": { "shadow": { "type": "text", "fields": { "TEXT": "https://www.adafruit.com" } } },
+            "RSSI": { "shadow": { "type": "math_number", "fields": { "NUM": -40 } } }
+          }
+        },
+        { "kind": "block", "type": "bluefruit52_adv_set_beacon" }
+      ]
+    }
+  ]
+}

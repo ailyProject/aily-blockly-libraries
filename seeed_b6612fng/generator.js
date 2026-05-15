@@ -1,6 +1,6 @@
 /**
  * Grove Motor Driver TB6612FNG - Blockly Code Generator
- * Seeed Studio Grove I2C Motor Driver
+ * SeeedStudio Grove I2C Motor Driver
  */
 
 // Ensure required libraries are included

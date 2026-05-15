@@ -1,0 +1,26 @@
+{
+  "kind": "category",
+  "name": "5P49V60 时钟发生器",
+  "colour": "#00BCD4",
+  "contents": [
+    { "kind": "block", "type": "5p49v60_init" },
+    { "kind": "label", "text": "配置" },
+    {
+      "kind": "block",
+      "type": "5p49v60_set_vco",
+      "inputs": { "FREQ": { "shadow": { "type": "math_number", "fields": { "NUM": 1600 } } } }
+    },
+    { "kind": "block", "type": "5p49v60_mux_pll_to_fod" },
+    {
+      "kind": "block",
+      "type": "5p49v60_set_clock_freq",
+      "inputs": { "FREQ": { "shadow": { "type": "math_number", "fields": { "NUM": 16 } } } }
+    },
+    { "kind": "block", "type": "5p49v60_set_clock_mode" },
+    {
+      "kind": "block",
+      "type": "5p49v60_skew_clock",
+      "inputs": { "SKEW": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } } }
+    }
+  ]
+}

@@ -1,6 +1,6 @@
-# R4看门狗
+# R4 watchdog
 
-适用于Arduino UNO R4的看门狗库
+Watchdog library for Arduino UNO R4
 
 ## Library Info
 
@@ -9,18 +9,18 @@
 | Package | @aily-project/lib-r4-wdt |
 | Version | 1.0.0 |
 | Author | Arduino |
-| License | MIT |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-renesas_uno:minima, renesas_uno:unor4wifi
+Arduino UNO R4
 
 ## Description
 
-适用于Arduino UNO R4的看门狗库
-
-This library provides 3 Blockly blocks.
+Watchdog library for Arduino UNO R4
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-r4-wdt` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

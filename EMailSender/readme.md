@@ -1,6 +1,6 @@
-# 邮件发送器
+# mailer
 
-Arduino邮件发送库，通过SMTP协议发送电子邮件，支持附件功能和安全连接
+Arduino email sending library, sends emails through SMTP protocol, supports attachment function and secure connection
 
 ## Library Info
 
@@ -8,20 +8,19 @@ Arduino邮件发送库，通过SMTP协议发送电子邮件，支持附件功能
 |-------|-------|
 | Package | @aily-project/lib-emailsender |
 | Version | 0.0.1 |
-| Author | Aily |
+| Author | Unknown |
 | Source | https://github.com/xreef/EMailSender |
-| License | MIT |
+| License | Original license |
 
 ## Supported Boards
 
-ESP32, ESP8266, renesas_uno:unor4wifi, Arduino AVR (UNO/Nano/Mega), Arduino Mega AVR, Arduino SAMD, Raspberry Pi Pico
+Arduino AVR, ESP32, Arduino UNO R4
 
 ## Description
 
-Arduino邮件发送库，通过SMTP协议发送电子邮件，支持附件功能和安全连接
-
-This library provides 12 Blockly blocks.
+Arduino email sending library, sends emails through SMTP protocol, supports attachment function and secure connection
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-emailsender` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

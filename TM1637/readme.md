@@ -1,64 +1,26 @@
-# TM1637四位数码管驱动库
+# TM1637 four-digit digital tube
 
-## 简介
+TM1637 four-digit seven-segment display driver library supports functions such as displaying numbers, text, and setting brightness.
 
-TM1637是一款专门用于驱动LED数码管的芯片，本库为其提供了Arduino Blockly编程支持。通过简单的积木块，可以轻松控制4位7段数码管的显示。
+## Library Info
 
-## 功能特性
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-tm1637 |
+| Version | 1.0.0 |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
-- 支持数字和文本显示
-- 可调节亮度（9个亮度级别）
-- 支持冒号显示控制
-- 支持时间格式显示
-- 支持闪烁效果
-- 清屏功能
+## Supported Boards
 
-## 硬件连接
+Arduino-compatible boards supported by this package.
 
-- CLK引脚：连接Arduino数字引脚（推荐D4）
-- DIO引脚：连接Arduino数字引脚（推荐D5）
-- VCC：连接5V或3.3V电源
-- GND：连接地线
+## Description
 
-## 使用说明
+TM1637 four-digit seven-segment display driver library supports functions such as displaying numbers, text, and setting brightness.
 
-### 1. 初始化
-首先使用"初始化TM1637数码管"积木块设置CLK和DIO引脚。
+## Quick Start
 
-### 2. 显示内容
-- 使用"TM1637显示数字"显示数值
-- 使用"TM1637显示文本"显示文字
-- 使用"TM1637显示时间"显示时分格式
-
-### 3. 控制功能
-- 使用"TM1637设置亮度"调节显示亮度
-- 使用"TM1637冒号显示"控制中间冒号
-- 使用"TM1637闪烁显示"创建闪烁效果
-- 使用"TM1637清屏"清除显示内容
-
-## 示例程序
-
-基本显示示例：
-1. 初始化TM1637数码管（CLK=4，DIO=5）
-2. 设置亮度为100%
-3. 显示数字1234
-4. 延时1秒
-5. 清屏
-
-时间显示示例：
-1. 初始化TM1637数码管
-2. 开启冒号显示
-3. 显示时间（12:30）
-
-## 注意事项
-
-- 请确保正确连接CLK和DIO引脚
-- 显示文本时，超过4个字符会自动滚动
-- 数码管显示的字符有限，某些字母可能无法正确显示
-- 建议在setup()函数中进行初始化
-
-## 开源说明
-
-本库基于 SevenSegmentTM1637 库开发，原库作者：Bram Harmsen
-原库链接：https://github.com/bremme/arduino-tm1637
-许可证：GNU GENERAL PUBLIC LICENSE V2.0
+1. Enable `@aily-project/lib-tm1637` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

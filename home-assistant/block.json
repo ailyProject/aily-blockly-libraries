@@ -1,0 +1,904 @@
+[
+  {
+    "type": "ha_device_create",
+    "message0": "创建HA设备 %1 唯一ID %2",
+    "args0": [
+      {"type": "field_input", "name": "VAR", "text": "device"},
+      {"type": "field_input", "name": "UNIQUE_ID", "text": "ailyDevice"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "创建Home Assistant设备对象，唯一ID用于发现和实体归属",
+    "icon": "fa-light fa-house-signal"
+  },
+  {
+    "type": "ha_device_set_info",
+    "message0": "%1 设置设备信息 名称 %2 厂商 %3 型号 %4 软件版本 %5 配置URL %6",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "device", "variableTypes": ["HADevice"], "defaultType": "HADevice"},
+      {"type": "field_input", "name": "NAME", "text": "Arduino"},
+      {"type": "field_input", "name": "MANUFACTURER", "text": "ailyProject"},
+      {"type": "field_input", "name": "MODEL", "text": "ESP32"},
+      {"type": "field_input", "name": "SOFTWARE", "text": "1.0.0"},
+      {"type": "field_input", "name": "CONFIG_URL", "text": ""}
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "设置HA设备在Home Assistant中显示的基本信息",
+    "icon": "fa-light fa-house-signal"
+  },
+  {
+    "type": "ha_device_enable_availability",
+    "message0": "%1 启用共享可用性 %2 Last Will %3",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "device", "variableTypes": ["HADevice"], "defaultType": "HADevice"},
+      {"type": "field_dropdown", "name": "SHARED", "options": [["是", "true"], ["否", "false"]]},
+      {"type": "field_dropdown", "name": "LAST_WILL", "options": [["是", "true"], ["否", "false"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "启用设备在线/离线状态，Last Will会在异常断线时报告离线",
+    "icon": "fa-light fa-house-signal"
+  },
+  {
+    "type": "ha_mqtt_create",
+    "message0": "创建HA MQTT %1 网络客户端 %2 类型 %3 设备 %4 最大实体数 %5",
+    "args0": [
+      {"type": "field_input", "name": "VAR", "text": "mqtt"},
+      {"type": "field_input", "name": "CLIENT", "text": "client"},
+      {"type": "field_dropdown", "name": "NETWORK", "options": [["WiFi", "WIFI"], ["以太网", "ETHERNET"]]},
+      {"type": "field_variable", "name": "DEVICE", "variable": "device", "variableTypes": ["HADevice"], "defaultType": "HADevice"},
+      {"type": "field_number", "name": "MAX_DEVICES", "value": 24, "min": 1, "max": 64, "precision": 1}
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "创建HAMqtt对象并自动在loop中维护连接；请在实体创建块之前放置",
+    "icon": "fa-light fa-cloud-check"
+  },
+  {
+    "type": "ha_mqtt_begin",
+    "message0": "%1 连接MQTT 主机 %2 端口 %3 用户名 %4 密码 %5",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "mqtt", "variableTypes": ["HAMqtt"], "defaultType": "HAMqtt"},
+      {"type": "input_value", "name": "HOST", "check": ["String"]},
+      {"type": "input_value", "name": "PORT", "check": ["Number"]},
+      {"type": "input_value", "name": "USERNAME", "check": ["String"]},
+      {"type": "input_value", "name": "PASSWORD", "check": ["String"]}
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "设置MQTT服务器和认证信息，库会在loop中自动连接和重连",
+    "icon": "fa-light fa-cloud-check"
+  },
+  {
+    "type": "ha_mqtt_set_prefixes",
+    "message0": "%1 设置发现前缀 %2 数据前缀 %3",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "mqtt", "variableTypes": ["HAMqtt"], "defaultType": "HAMqtt"},
+      {"type": "field_input", "name": "DISCOVERY", "text": "homeassistant"},
+      {"type": "field_input", "name": "DATA", "text": "aha"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "设置Home Assistant发现主题前缀和数据主题前缀",
+    "icon": "fa-light fa-cloud-check"
+  },
+  {
+    "type": "ha_mqtt_set_keep_alive",
+    "message0": "%1 设置保活 %2 秒",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "mqtt", "variableTypes": ["HAMqtt"], "defaultType": "HAMqtt"},
+      {"type": "input_value", "name": "INTERVAL", "check": ["Number"]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "设置MQTT KeepAlive间隔，默认15秒",
+    "icon": "fa-light fa-cloud-check"
+  },
+  {
+    "type": "ha_mqtt_set_buffer_size",
+    "message0": "%1 设置缓冲区 %2 字节",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "mqtt", "variableTypes": ["HAMqtt"], "defaultType": "HAMqtt"},
+      {"type": "input_value", "name": "SIZE", "check": ["Number"]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "设置底层PubSubClient缓冲区大小，复杂发现配置可适当调大",
+    "icon": "fa-light fa-cloud-check"
+  },
+  {
+    "type": "ha_mqtt_loop",
+    "message0": "%1 处理HA MQTT通信",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "mqtt", "variableTypes": ["HAMqtt"], "defaultType": "HAMqtt"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "手动调用MQTT循环处理；创建块已默认自动添加",
+    "icon": "fa-light fa-cloud-check"
+  },
+  {
+    "type": "ha_mqtt_connected",
+    "message0": "%1 已连接HA MQTT",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "mqtt", "variableTypes": ["HAMqtt"], "defaultType": "HAMqtt"}
+    ],
+    "output": "Boolean",
+    "colour": "#03A9F4",
+    "tooltip": "返回HA MQTT是否已连接到服务器",
+    "icon": "fa-light fa-cloud-check"
+  },
+  {
+    "type": "ha_mqtt_state",
+    "message0": "%1 连接状态码",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "mqtt", "variableTypes": ["HAMqtt"], "defaultType": "HAMqtt"}
+    ],
+    "output": "Number",
+    "colour": "#03A9F4",
+    "tooltip": "返回HAMqtt连接状态码，0表示已连接",
+    "icon": "fa-light fa-cloud-check"
+  },
+  {
+    "type": "ha_mqtt_publish",
+    "message0": "%1 发布自定义主题 %2 内容 %3 保留 %4",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "mqtt", "variableTypes": ["HAMqtt"], "defaultType": "HAMqtt"},
+      {"type": "input_value", "name": "TOPIC", "check": ["String"]},
+      {"type": "input_value", "name": "PAYLOAD", "check": ["String"]},
+      {"type": "field_dropdown", "name": "RETAIN", "options": [["否", "false"], ["是", "true"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "通过HAMqtt发布自定义MQTT消息",
+    "icon": "fa-light fa-cloud-check"
+  },
+  {
+    "type": "ha_mqtt_subscribe",
+    "message0": "%1 订阅自定义主题 %2",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "mqtt", "variableTypes": ["HAMqtt"], "defaultType": "HAMqtt"},
+      {"type": "input_value", "name": "TOPIC", "check": ["String"]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "订阅自定义MQTT主题，通常在已连接回调中调用",
+    "icon": "fa-light fa-cloud-check"
+  },
+  {
+    "type": "ha_mqtt_disconnect",
+    "message0": "%1 断开HA MQTT",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "mqtt", "variableTypes": ["HAMqtt"], "defaultType": "HAMqtt"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "断开HAMqtt连接并停止自动重连，直到再次begin",
+    "icon": "fa-light fa-cloud-check"
+  },
+  {
+    "type": "ha_mqtt_on_connected",
+    "message0": "当 %1 连接成功时",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "mqtt", "variableTypes": ["HAMqtt"], "defaultType": "HAMqtt"}
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {"type": "input_statement", "name": "HANDLER"}
+    ],
+    "colour": "#03A9F4",
+    "tooltip": "注册MQTT连接成功回调，适合在重连后订阅自定义主题",
+    "icon": "fa-light fa-cloud-check"
+  },
+  {
+    "type": "ha_mqtt_on_message",
+    "message0": "当 %1 收到自定义MQTT消息时",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "mqtt", "variableTypes": ["HAMqtt"], "defaultType": "HAMqtt"}
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {"type": "input_statement", "name": "HANDLER"}
+    ],
+    "colour": "#03A9F4",
+    "tooltip": "注册自定义MQTT消息回调；主题、内容和长度可用对应值块读取",
+    "icon": "fa-light fa-cloud-check"
+  },
+  {
+    "type": "ha_mqtt_message_topic",
+    "message0": "HA MQTT回调主题",
+    "output": "String",
+    "colour": "#03A9F4",
+    "tooltip": "读取当前MQTT消息回调中的主题",
+    "icon": "fa-light fa-cloud-check"
+  },
+  {
+    "type": "ha_mqtt_message_payload",
+    "message0": "HA MQTT回调内容",
+    "output": "String",
+    "colour": "#03A9F4",
+    "tooltip": "读取当前MQTT消息回调中的内容文本",
+    "icon": "fa-light fa-cloud-check"
+  },
+  {
+    "type": "ha_mqtt_message_length",
+    "message0": "HA MQTT回调内容长度",
+    "output": "Number",
+    "colour": "#03A9F4",
+    "tooltip": "读取当前MQTT消息回调中的内容字节长度",
+    "icon": "fa-light fa-cloud-check"
+  },
+  {
+    "type": "ha_entity_set_info",
+    "message0": "%1 设置实体 名称 %2 对象ID %3 图标 %4",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "entity", "variableTypes": ["HASensor", "HASensorNumber", "HABinarySensor", "HASwitch", "HAButton", "HALight", "HANumber", "HASelect"], "defaultType": "HASensor"},
+      {"type": "field_input", "name": "NAME", "text": "My Entity"},
+      {"type": "field_input", "name": "OBJECT_ID", "text": ""},
+      {"type": "field_input", "name": "ICON", "text": ""}
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0288D1",
+    "tooltip": "设置HA实体的显示名称、对象ID和Material Design图标",
+    "icon": "fa-light fa-tags"
+  },
+  {
+    "type": "ha_entity_set_availability",
+    "message0": "%1 设置实体可用 %2",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "entity", "variableTypes": ["HASensor", "HASensorNumber", "HABinarySensor", "HASwitch", "HAButton", "HALight", "HANumber", "HASelect"], "defaultType": "HASensor"},
+      {"type": "input_value", "name": "ONLINE", "check": ["Boolean"]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0288D1",
+    "tooltip": "报告实体在线或离线状态",
+    "icon": "fa-light fa-tags"
+  },
+  {
+    "type": "ha_sensor_create_text",
+    "message0": "创建HA文本传感器 %1 唯一ID %2 功能 %3",
+    "args0": [
+      {"type": "field_input", "name": "VAR", "text": "sensor"},
+      {"type": "field_input", "name": "UNIQUE_ID", "text": "textSensor"},
+      {"type": "field_dropdown", "name": "FEATURES", "options": [["默认", "HASensor::DefaultFeatures"], ["JSON属性", "HASensor::JsonAttributesFeature"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "创建用于上报文本状态的Home Assistant传感器",
+    "icon": "fa-light fa-wave-pulse"
+  },
+  {
+    "type": "ha_sensor_create_number",
+    "message0": "创建HA数值传感器 %1 唯一ID %2 精度 %3 功能 %4",
+    "args0": [
+      {"type": "field_input", "name": "VAR", "text": "numSensor"},
+      {"type": "field_input", "name": "UNIQUE_ID", "text": "numSensor"},
+      {"type": "field_dropdown", "name": "PRECISION", "options": [["整数", "HASensorNumber::PrecisionP0"], ["1位小数", "HASensorNumber::PrecisionP1"], ["2位小数", "HASensorNumber::PrecisionP2"], ["3位小数", "HASensorNumber::PrecisionP3"]]},
+      {"type": "field_dropdown", "name": "FEATURES", "options": [["默认", "HASensor::DefaultFeatures"], ["JSON属性", "HASensor::JsonAttributesFeature"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "创建用于上报数字状态的Home Assistant传感器",
+    "icon": "fa-light fa-wave-pulse"
+  },
+  {
+    "type": "ha_sensor_settings",
+    "message0": "%1 设置传感器 类别 %2 状态类别 %3 单位 %4 过期 %5 秒 强制更新 %6",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "sensor", "variableTypes": ["HASensor", "HASensorNumber"], "defaultType": "HASensor"},
+      {"type": "field_input", "name": "DEVICE_CLASS", "text": ""},
+      {"type": "field_input", "name": "STATE_CLASS", "text": ""},
+      {"type": "field_input", "name": "UNIT", "text": ""},
+      {"type": "input_value", "name": "EXPIRE_AFTER", "check": ["Number"]},
+      {"type": "field_dropdown", "name": "FORCE_UPDATE", "options": [["否", "false"], ["是", "true"]]}
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "配置传感器设备类别、状态类别、单位、过期时间和强制更新",
+    "icon": "fa-light fa-wave-pulse"
+  },
+  {
+    "type": "ha_sensor_set_value",
+    "message0": "%1 上报文本值 %2",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "sensor", "variableTypes": ["HASensor"], "defaultType": "HASensor"},
+      {"type": "input_value", "name": "VALUE", "check": ["String"]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "向Home Assistant上报文本传感器值",
+    "icon": "fa-light fa-wave-pulse"
+  },
+  {
+    "type": "ha_sensor_set_json_attributes",
+    "message0": "%1 上报JSON属性 %2",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "sensor", "variableTypes": ["HASensor", "HASensorNumber"], "defaultType": "HASensor"},
+      {"type": "input_value", "name": "JSON", "check": ["String"]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "为启用JSON属性功能的传感器发布属性JSON",
+    "icon": "fa-light fa-wave-pulse"
+  },
+  {
+    "type": "ha_sensor_number_set_value",
+    "message0": "%1 上报数值 %2 强制 %3",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "numSensor", "variableTypes": ["HASensorNumber"], "defaultType": "HASensorNumber"},
+      {"type": "input_value", "name": "VALUE", "check": ["Number"]},
+      {"type": "field_dropdown", "name": "FORCE", "options": [["否", "false"], ["是", "true"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "向Home Assistant上报数值传感器值",
+    "icon": "fa-light fa-wave-pulse"
+  },
+  {
+    "type": "ha_binary_sensor_create",
+    "message0": "创建HA二元传感器 %1 唯一ID %2",
+    "args0": [
+      {"type": "field_input", "name": "VAR", "text": "binarySensor"},
+      {"type": "field_input", "name": "UNIQUE_ID", "text": "binarySensor"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "创建上报开/关状态的Home Assistant二元传感器",
+    "icon": "fa-light fa-toggle-on"
+  },
+  {
+    "type": "ha_binary_sensor_settings",
+    "message0": "%1 设置二元传感器类别 %2 过期 %3 秒",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "binarySensor", "variableTypes": ["HABinarySensor"], "defaultType": "HABinarySensor"},
+      {"type": "field_input", "name": "DEVICE_CLASS", "text": ""},
+      {"type": "input_value", "name": "EXPIRE_AFTER", "check": ["Number"]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "配置二元传感器类别和状态过期时间",
+    "icon": "fa-light fa-toggle-on"
+  },
+  {
+    "type": "ha_binary_sensor_set_state",
+    "message0": "%1 上报二元状态 %2 强制 %3",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "binarySensor", "variableTypes": ["HABinarySensor"], "defaultType": "HABinarySensor"},
+      {"type": "input_value", "name": "STATE", "check": ["Boolean"]},
+      {"type": "field_dropdown", "name": "FORCE", "options": [["否", "false"], ["是", "true"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "上报二元传感器开/关状态",
+    "icon": "fa-light fa-toggle-on"
+  },
+  {
+    "type": "ha_binary_sensor_get_state",
+    "message0": "%1 当前二元状态",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "binarySensor", "variableTypes": ["HABinarySensor"], "defaultType": "HABinarySensor"}
+    ],
+    "output": "Boolean",
+    "colour": "#009688",
+    "tooltip": "读取二元传感器当前状态",
+    "icon": "fa-light fa-toggle-on"
+  },
+  {
+    "type": "ha_switch_create",
+    "message0": "创建HA开关 %1 唯一ID %2",
+    "args0": [
+      {"type": "field_input", "name": "VAR", "text": "haSwitch"},
+      {"type": "field_input", "name": "UNIQUE_ID", "text": "switch"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "创建可从Home Assistant控制的开关实体",
+    "icon": "fa-light fa-toggle-large-on"
+  },
+  {
+    "type": "ha_switch_settings",
+    "message0": "%1 设置开关 类别 %2 保留命令 %3 乐观模式 %4",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "haSwitch", "variableTypes": ["HASwitch"], "defaultType": "HASwitch"},
+      {"type": "field_input", "name": "DEVICE_CLASS", "text": ""},
+      {"type": "field_dropdown", "name": "RETAIN", "options": [["否", "false"], ["是", "true"]]},
+      {"type": "field_dropdown", "name": "OPTIMISTIC", "options": [["否", "false"], ["是", "true"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "配置开关类别、命令保留和乐观模式",
+    "icon": "fa-light fa-toggle-large-on"
+  },
+  {
+    "type": "ha_switch_set_state",
+    "message0": "%1 上报开关状态 %2 强制 %3",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "haSwitch", "variableTypes": ["HASwitch"], "defaultType": "HASwitch"},
+      {"type": "input_value", "name": "STATE", "check": ["Boolean"]},
+      {"type": "field_dropdown", "name": "FORCE", "options": [["否", "false"], ["是", "true"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "上报开关状态到Home Assistant",
+    "icon": "fa-light fa-toggle-large-on"
+  },
+  {
+    "type": "ha_switch_get_state",
+    "message0": "%1 当前开关状态",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "haSwitch", "variableTypes": ["HASwitch"], "defaultType": "HASwitch"}
+    ],
+    "output": "Boolean",
+    "colour": "#8BC34A",
+    "tooltip": "读取开关当前状态",
+    "icon": "fa-light fa-toggle-large-on"
+  },
+  {
+    "type": "ha_switch_on_command",
+    "message0": "当 %1 收到开关命令时",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "haSwitch", "variableTypes": ["HASwitch"], "defaultType": "HASwitch"}
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {"type": "input_statement", "name": "HANDLER"}
+    ],
+    "colour": "#8BC34A",
+    "tooltip": "处理Home Assistant下发的开关命令，可用“命令布尔状态”读取目标状态",
+    "icon": "fa-light fa-toggle-large-on"
+  },
+  {
+    "type": "ha_button_create",
+    "message0": "创建HA按钮 %1 唯一ID %2",
+    "args0": [
+      {"type": "field_input", "name": "VAR", "text": "button"},
+      {"type": "field_input", "name": "UNIQUE_ID", "text": "button"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "创建Home Assistant面板按钮实体",
+    "icon": "fa-light fa-circle-dot"
+  },
+  {
+    "type": "ha_button_settings",
+    "message0": "%1 设置按钮 类别 %2 保留命令 %3",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "button", "variableTypes": ["HAButton"], "defaultType": "HAButton"},
+      {"type": "field_input", "name": "DEVICE_CLASS", "text": ""},
+      {"type": "field_dropdown", "name": "RETAIN", "options": [["否", "false"], ["是", "true"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "配置按钮类别和命令保留",
+    "icon": "fa-light fa-circle-dot"
+  },
+  {
+    "type": "ha_button_on_command",
+    "message0": "当 %1 按钮被按下时",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "button", "variableTypes": ["HAButton"], "defaultType": "HAButton"}
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {"type": "input_statement", "name": "HANDLER"}
+    ],
+    "colour": "#8BC34A",
+    "tooltip": "处理Home Assistant按钮点击命令",
+    "icon": "fa-light fa-circle-dot"
+  },
+  {
+    "type": "ha_light_create",
+    "message0": "创建HA灯 %1 唯一ID %2 功能 %3",
+    "args0": [
+      {"type": "field_input", "name": "VAR", "text": "light"},
+      {"type": "field_input", "name": "UNIQUE_ID", "text": "light"},
+      {"type": "field_dropdown", "name": "FEATURES", "options": [["仅开关", "HALight::DefaultFeatures"], ["亮度", "HALight::BrightnessFeature"], ["色温", "HALight::ColorTemperatureFeature"], ["RGB", "HALight::RGBFeature"], ["亮度+RGB", "HALight::BrightnessFeature | HALight::RGBFeature"], ["全部", "HALight::BrightnessFeature | HALight::ColorTemperatureFeature | HALight::RGBFeature"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFC107",
+    "tooltip": "创建Home Assistant灯实体，可选择亮度、色温和RGB功能",
+    "icon": "fa-light fa-lightbulb-on"
+  },
+  {
+    "type": "ha_light_settings",
+    "message0": "%1 设置灯 保留命令 %2 乐观模式 %3 亮度范围 %4 最小色温 %5 最大色温 %6",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "light", "variableTypes": ["HALight"], "defaultType": "HALight"},
+      {"type": "field_dropdown", "name": "RETAIN", "options": [["否", "false"], ["是", "true"]]},
+      {"type": "field_dropdown", "name": "OPTIMISTIC", "options": [["否", "false"], ["是", "true"]]},
+      {"type": "input_value", "name": "BRIGHTNESS_SCALE", "check": ["Number"]},
+      {"type": "input_value", "name": "MIN_MIREDS", "check": ["Number"]},
+      {"type": "input_value", "name": "MAX_MIREDS", "check": ["Number"]}
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFC107",
+    "tooltip": "配置灯的命令保留、乐观模式、亮度范围和色温范围",
+    "icon": "fa-light fa-lightbulb-on"
+  },
+  {
+    "type": "ha_light_set_state",
+    "message0": "%1 上报灯开关 %2 强制 %3",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "light", "variableTypes": ["HALight"], "defaultType": "HALight"},
+      {"type": "input_value", "name": "STATE", "check": ["Boolean"]},
+      {"type": "field_dropdown", "name": "FORCE", "options": [["否", "false"], ["是", "true"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFC107",
+    "tooltip": "上报灯开关状态",
+    "icon": "fa-light fa-lightbulb-on"
+  },
+  {
+    "type": "ha_light_set_brightness",
+    "message0": "%1 上报亮度 %2 强制 %3",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "light", "variableTypes": ["HALight"], "defaultType": "HALight"},
+      {"type": "input_value", "name": "BRIGHTNESS", "check": ["Number"]},
+      {"type": "field_dropdown", "name": "FORCE", "options": [["否", "false"], ["是", "true"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFC107",
+    "tooltip": "上报灯亮度，范围由亮度范围配置决定",
+    "icon": "fa-light fa-lightbulb-on"
+  },
+  {
+    "type": "ha_light_set_color_temperature",
+    "message0": "%1 上报色温 %2 mired 强制 %3",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "light", "variableTypes": ["HALight"], "defaultType": "HALight"},
+      {"type": "input_value", "name": "TEMPERATURE", "check": ["Number"]},
+      {"type": "field_dropdown", "name": "FORCE", "options": [["否", "false"], ["是", "true"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFC107",
+    "tooltip": "上报灯色温，单位为mired",
+    "icon": "fa-light fa-lightbulb-on"
+  },
+  {
+    "type": "ha_light_set_rgb",
+    "message0": "%1 上报RGB 红 %2 绿 %3 蓝 %4 强制 %5",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "light", "variableTypes": ["HALight"], "defaultType": "HALight"},
+      {"type": "input_value", "name": "RED", "check": ["Number"]},
+      {"type": "input_value", "name": "GREEN", "check": ["Number"]},
+      {"type": "input_value", "name": "BLUE", "check": ["Number"]},
+      {"type": "field_dropdown", "name": "FORCE", "options": [["否", "false"], ["是", "true"]]}
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFC107",
+    "tooltip": "上报灯RGB颜色，三个通道范围0-255",
+    "icon": "fa-light fa-lightbulb-on"
+  },
+  {
+    "type": "ha_light_get_state",
+    "message0": "%1 当前灯开关",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "light", "variableTypes": ["HALight"], "defaultType": "HALight"}
+    ],
+    "output": "Boolean",
+    "colour": "#FFC107",
+    "tooltip": "读取灯当前开关状态",
+    "icon": "fa-light fa-lightbulb-on"
+  },
+  {
+    "type": "ha_light_get_brightness",
+    "message0": "%1 当前亮度",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "light", "variableTypes": ["HALight"], "defaultType": "HALight"}
+    ],
+    "output": "Number",
+    "colour": "#FFC107",
+    "tooltip": "读取灯当前亮度",
+    "icon": "fa-light fa-lightbulb-on"
+  },
+  {
+    "type": "ha_light_on_state_command",
+    "message0": "当 %1 收到灯开关命令时",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "light", "variableTypes": ["HALight"], "defaultType": "HALight"}
+    ],
+    "message1": "执行 %1",
+    "args1": [{"type": "input_statement", "name": "HANDLER"}],
+    "colour": "#FFC107",
+    "tooltip": "处理灯开关命令，可用命令布尔状态值块读取目标状态",
+    "icon": "fa-light fa-lightbulb-on"
+  },
+  {
+    "type": "ha_light_on_brightness_command",
+    "message0": "当 %1 收到亮度命令时",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "light", "variableTypes": ["HALight"], "defaultType": "HALight"}
+    ],
+    "message1": "执行 %1",
+    "args1": [{"type": "input_statement", "name": "HANDLER"}],
+    "colour": "#FFC107",
+    "tooltip": "处理灯亮度命令，可用命令亮度值块读取目标亮度",
+    "icon": "fa-light fa-lightbulb-on"
+  },
+  {
+    "type": "ha_light_on_color_temperature_command",
+    "message0": "当 %1 收到色温命令时",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "light", "variableTypes": ["HALight"], "defaultType": "HALight"}
+    ],
+    "message1": "执行 %1",
+    "args1": [{"type": "input_statement", "name": "HANDLER"}],
+    "colour": "#FFC107",
+    "tooltip": "处理灯色温命令，可用命令色温值块读取目标色温",
+    "icon": "fa-light fa-lightbulb-on"
+  },
+  {
+    "type": "ha_light_on_rgb_command",
+    "message0": "当 %1 收到RGB命令时",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "light", "variableTypes": ["HALight"], "defaultType": "HALight"}
+    ],
+    "message1": "执行 %1",
+    "args1": [{"type": "input_statement", "name": "HANDLER"}],
+    "colour": "#FFC107",
+    "tooltip": "处理灯RGB命令，可用命令RGB值块读取目标颜色",
+    "icon": "fa-light fa-lightbulb-on"
+  },
+  {
+    "type": "ha_number_create",
+    "message0": "创建HA数字控件 %1 唯一ID %2 精度 %3",
+    "args0": [
+      {"type": "field_input", "name": "VAR", "text": "number"},
+      {"type": "field_input", "name": "UNIQUE_ID", "text": "number"},
+      {"type": "field_dropdown", "name": "PRECISION", "options": [["整数", "HANumber::PrecisionP0"], ["1位小数", "HANumber::PrecisionP1"], ["2位小数", "HANumber::PrecisionP2"], ["3位小数", "HANumber::PrecisionP3"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "创建Home Assistant数字输入/滑块实体",
+    "icon": "fa-light fa-sliders"
+  },
+  {
+    "type": "ha_number_settings",
+    "message0": "%1 设置数字 类别 %2 单位 %3 模式 %4 最小 %5 最大 %6 步长 %7 保留 %8 乐观 %9",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "number", "variableTypes": ["HANumber"], "defaultType": "HANumber"},
+      {"type": "field_input", "name": "DEVICE_CLASS", "text": ""},
+      {"type": "field_input", "name": "UNIT", "text": ""},
+      {"type": "field_dropdown", "name": "MODE", "options": [["自动", "HANumber::ModeAuto"], ["输入框", "HANumber::ModeBox"], ["滑块", "HANumber::ModeSlider"]]},
+      {"type": "input_value", "name": "MIN", "check": ["Number"]},
+      {"type": "input_value", "name": "MAX", "check": ["Number"]},
+      {"type": "input_value", "name": "STEP", "check": ["Number"]},
+      {"type": "field_dropdown", "name": "RETAIN", "options": [["否", "false"], ["是", "true"]]},
+      {"type": "field_dropdown", "name": "OPTIMISTIC", "options": [["否", "false"], ["是", "true"]]}
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "配置数字实体的类别、单位、显示模式、范围、步长和命令行为",
+    "icon": "fa-light fa-sliders"
+  },
+  {
+    "type": "ha_number_set_state",
+    "message0": "%1 上报数字状态 %2 强制 %3",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "number", "variableTypes": ["HANumber"], "defaultType": "HANumber"},
+      {"type": "input_value", "name": "VALUE", "check": ["Number"]},
+      {"type": "field_dropdown", "name": "FORCE", "options": [["否", "false"], ["是", "true"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "上报数字实体当前值",
+    "icon": "fa-light fa-sliders"
+  },
+  {
+    "type": "ha_number_get_state",
+    "message0": "%1 当前数字值",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "number", "variableTypes": ["HANumber"], "defaultType": "HANumber"}
+    ],
+    "output": "Number",
+    "colour": "#7E57C2",
+    "tooltip": "读取数字实体当前值",
+    "icon": "fa-light fa-sliders"
+  },
+  {
+    "type": "ha_number_on_command",
+    "message0": "当 %1 收到数字命令时",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "number", "variableTypes": ["HANumber"], "defaultType": "HANumber"}
+    ],
+    "message1": "执行 %1",
+    "args1": [{"type": "input_statement", "name": "HANDLER"}],
+    "colour": "#7E57C2",
+    "tooltip": "处理Home Assistant数字更改命令，可用数字命令值块读取目标值",
+    "icon": "fa-light fa-sliders"
+  },
+  {
+    "type": "ha_select_create",
+    "message0": "创建HA下拉选择 %1 唯一ID %2",
+    "args0": [
+      {"type": "field_input", "name": "VAR", "text": "select"},
+      {"type": "field_input", "name": "UNIQUE_ID", "text": "select"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "创建Home Assistant下拉选择实体",
+    "icon": "fa-light fa-list-dropdown"
+  },
+  {
+    "type": "ha_select_settings",
+    "message0": "%1 设置选项 %2 保留 %3 乐观 %4",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "select", "variableTypes": ["HASelect"], "defaultType": "HASelect"},
+      {"type": "field_input", "name": "OPTIONS", "text": "Auto;Heat;Cool"},
+      {"type": "field_dropdown", "name": "RETAIN", "options": [["否", "false"], ["是", "true"]]},
+      {"type": "field_dropdown", "name": "OPTIMISTIC", "options": [["否", "false"], ["是", "true"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "配置下拉选择选项，多个选项用英文分号分隔",
+    "icon": "fa-light fa-list-dropdown"
+  },
+  {
+    "type": "ha_select_set_state",
+    "message0": "%1 上报选择索引 %2 强制 %3",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "select", "variableTypes": ["HASelect"], "defaultType": "HASelect"},
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]},
+      {"type": "field_dropdown", "name": "FORCE", "options": [["否", "false"], ["是", "true"]]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "按选项索引上报当前选择，-1表示无选择",
+    "icon": "fa-light fa-list-dropdown"
+  },
+  {
+    "type": "ha_select_get_state",
+    "message0": "%1 当前选择索引",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "select", "variableTypes": ["HASelect"], "defaultType": "HASelect"}
+    ],
+    "output": "Number",
+    "colour": "#7E57C2",
+    "tooltip": "读取当前选择的索引",
+    "icon": "fa-light fa-list-dropdown"
+  },
+  {
+    "type": "ha_select_get_option",
+    "message0": "%1 当前选项文本",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "select", "variableTypes": ["HASelect"], "defaultType": "HASelect"}
+    ],
+    "output": "String",
+    "colour": "#7E57C2",
+    "tooltip": "读取当前选择的选项文本",
+    "icon": "fa-light fa-list-dropdown"
+  },
+  {
+    "type": "ha_select_on_command",
+    "message0": "当 %1 收到选择命令时",
+    "args0": [
+      {"type": "field_variable", "name": "VAR", "variable": "select", "variableTypes": ["HASelect"], "defaultType": "HASelect"}
+    ],
+    "message1": "执行 %1",
+    "args1": [{"type": "input_statement", "name": "HANDLER"}],
+    "colour": "#7E57C2",
+    "tooltip": "处理Home Assistant下拉选择命令，可用选择命令索引值块读取目标选项",
+    "icon": "fa-light fa-list-dropdown"
+  },
+  {
+    "type": "ha_command_bool_state",
+    "message0": "命令布尔状态",
+    "output": "Boolean",
+    "colour": "#607D8B",
+    "tooltip": "读取开关或灯开关命令中的目标布尔状态",
+    "icon": "fa-light fa-arrow-down-to-bracket"
+  },
+  {
+    "type": "ha_command_brightness",
+    "message0": "命令亮度",
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "读取灯亮度命令中的目标亮度",
+    "icon": "fa-light fa-arrow-down-to-bracket"
+  },
+  {
+    "type": "ha_command_color_temperature",
+    "message0": "命令色温",
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "读取灯色温命令中的目标色温",
+    "icon": "fa-light fa-arrow-down-to-bracket"
+  },
+  {
+    "type": "ha_command_rgb_red",
+    "message0": "命令RGB红色",
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "读取灯RGB命令中的红色通道",
+    "icon": "fa-light fa-arrow-down-to-bracket"
+  },
+  {
+    "type": "ha_command_rgb_green",
+    "message0": "命令RGB绿色",
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "读取灯RGB命令中的绿色通道",
+    "icon": "fa-light fa-arrow-down-to-bracket"
+  },
+  {
+    "type": "ha_command_rgb_blue",
+    "message0": "命令RGB蓝色",
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "读取灯RGB命令中的蓝色通道",
+    "icon": "fa-light fa-arrow-down-to-bracket"
+  },
+  {
+    "type": "ha_number_command_is_set",
+    "message0": "数字命令有值",
+    "output": "Boolean",
+    "colour": "#607D8B",
+    "tooltip": "读取数字命令是否携带有效值，重置命令会返回否",
+    "icon": "fa-light fa-arrow-down-to-bracket"
+  },
+  {
+    "type": "ha_number_command_value",
+    "message0": "数字命令值",
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "读取数字命令中的目标数值",
+    "icon": "fa-light fa-arrow-down-to-bracket"
+  },
+  {
+    "type": "ha_select_command_index",
+    "message0": "选择命令索引",
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "读取下拉选择命令中的目标选项索引",
+    "icon": "fa-light fa-arrow-down-to-bracket"
+  }
+]

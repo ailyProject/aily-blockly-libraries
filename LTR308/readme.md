@@ -1,30 +1,26 @@
-# LTR308光照传感器库
+# LTR308 light sensor
 
-基于 https://github.com/dantudose/LTR308 的Blockly积木块实现
+LTR308 digital light intensity sensor control library, suitable for ESP32 development boards such as control board 3.0
 
-## 功能特性
+## Library Info
 
-- 支持LTR308光照强度传感器
-- I2C通信接口
-- 测量范围：0.01 - 64,000 lux
-- 高精度16位ADC
-- 低功耗设计
-- 适用于掌控板3.0等ESP32开发板
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-ltr308 |
+| Version | 0.0.1 |
+| Author | VonWell |
+| Source | https://github.com/dantudose/LTR308 |
+| License | Original license |
 
-## 使用方法
+## Supported Boards
 
-1. 初始化LTR308传感器
-2. 读取光照强度值
+Arduino AVR, ESP32
 
-## 硬件连接
+## Description
 
-- VCC: 3.3V
-- GND: GND  
-- SDA: I2C数据线
-- SCL: I2C时钟线
+LTR308 digital light intensity sensor control library, suitable for ESP32 development boards such as control board 3.0
 
-## 兼容性
+## Quick Start
 
-- ESP32/ESP32-S3
-- Arduino
-- 工作电压：3.3V/5V
+1. Enable `@aily-project/lib-ltr308` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

@@ -1,6 +1,6 @@
-# WOL 网络唤醒
+# WOL Wake-on-LAN
 
-通过发送 Wake-on-LAN 魔术包唤醒局域网内的设备。
+Wake-on-LAN library for sending magic packets to wake up devices on the local network (PC, NAS, server, etc.)
 
 ## Library Info
 - **Name**: @aily-project/lib-wol
@@ -10,35 +10,23 @@
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `wol_send` | Statement | MAC(input_value/String), BROADCAST_IP(input_value/String), PORT(input_value/Number) | `wol_send(text("00:11:22:33:44:55"), text("255.255.255.255"), math_number(9))` | `wolSendMagicPacket("00:11:22:33:44:55", "255.255.255.255", 9);` |
-| `wol_send_result` | Value(Boolean) | MAC(input_value/String), BROADCAST_IP(input_value/String), PORT(input_value/Number) | `wol_send_result(text("00:11:22:33:44:55"), text("255.255.255.255"), math_number(9))` | `wolSendMagicPacket("00:11:22:33:44:55", "255.255.255.255", 9)` |
+| `wol_send` | Statement | MAC(input_value), BROADCAST_IP(input_value), PORT(input_value) | `wol_send(text("value"), text("value"), math_number(0))` | wolSendMagicPacket( |
+| `wol_send_result` | Value | MAC(input_value), BROADCAST_IP(input_value), PORT(input_value) | `wol_send_result(text("value"), text("value"), math_number(0))` | wolSendMagicPacket( |
 
 ## ABS Examples
 
-### 基本唤醒设备
+### Basic Usage
 ```
 arduino_setup()
+    wol_send(text("value"), text("value"), math_number(0))
     serial_begin(Serial, 9600)
-    wol_send(text("00:11:22:33:44:55"), text("255.255.255.255"), math_number(9))
-    serial_println(Serial, text("Magic Packet sent"))
-```
 
-### 唤醒并检查结果
-```
-arduino_setup()
-    serial_begin(Serial, 9600)
-    controls_if()
-        @IF0: wol_send_result(text("AA:BB:CC:DD:EE:FF"), text("192.168.1.255"), math_number(9))
-        @DO0:
-            serial_println(Serial, text("Wake up success"))
-        @ELSE:
-            serial_println(Serial, text("Wake up failed"))
+arduino_loop()
+    serial_println(Serial, wol_send_result(text("value"), text("value"), math_number(0)))
+    time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. **网络要求**: 使用前需确保开发板已通过 WiFi 连接到局域网
-2. **MAC 地址格式**: 支持 `00:11:22:33:44:55` 和 `00-11-22-33-44-55` 两种格式
-3. **广播地址**: 默认 `255.255.255.255`，某些路由器可能需要使用子网广播地址（如 `192.168.1.255`）
-4. **端口**: WOL 标准端口为 9，一般无需修改
-5. **快操作模式**: 自动创建 WiFiUDP 对象和辅助函数，无需手动管理
+1. **Parameter order**: ABS parameters follow `block.json` args order.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

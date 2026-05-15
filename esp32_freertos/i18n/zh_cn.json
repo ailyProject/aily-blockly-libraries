@@ -1,0 +1,73 @@
+{
+  "toolbox_name": "ESP32 FreeRTOS",
+  "toolbox_categories": ["任务管理", "队列通信", "信号量同步", "通知与中断", "系统信息", "常用任务模板"],
+  "esp32_freertos_task_create": {
+    "message0": "创建任务 %1 栈大小 %2 字节 优先级 %3 运行核心 %4",
+    "tooltip": "创建一个 ESP32 FreeRTOS 任务，并自动生成任务句柄；ESP32 调度器由 Arduino 核心自动运行",
+    "args0": [null, null, null, { "options": [["自动", "AUTO"], ["核心 0", "0"], ["核心 1", "1"]] }]
+  },
+  "esp32_freertos_task_function": {
+    "message0": "任务 %1 执行",
+    "message1": "循环执行 %1",
+    "tooltip": "定义 ESP32 FreeRTOS 任务函数，内部自动包含无限循环"
+  },
+  "esp32_freertos_task_delay_ms": { "message0": "任务延时 %1 毫秒", "tooltip": "按毫秒延时当前任务，会通过 pdMS_TO_TICKS 转换为 FreeRTOS tick" },
+  "esp32_freertos_task_delay_ticks": { "message0": "任务延时 %1 ticks", "tooltip": "按 FreeRTOS tick 数延时当前任务" },
+  "esp32_freertos_task_suspend": { "message0": "挂起任务 %1", "tooltip": "挂起指定任务" },
+  "esp32_freertos_task_resume": { "message0": "恢复任务 %1", "tooltip": "恢复指定任务" },
+  "esp32_freertos_task_delete": { "message0": "删除任务 %1", "tooltip": "删除指定任务并清空任务句柄" },
+  "esp32_freertos_task_delete_current": { "message0": "删除当前任务", "tooltip": "删除当前正在运行的任务" },
+  "esp32_freertos_task_notify": { "message0": "通知任务 %1", "tooltip": "向指定任务发送普通任务通知" },
+  "esp32_freertos_task_notify_from_isr": { "message0": "在中断中通知任务 %1", "tooltip": "在中断服务函数中安全地通知指定任务" },
+  "esp32_freertos_task_wait_notification": {
+    "message0": "等待任务通知 %1 %2 毫秒",
+    "tooltip": "等待当前任务收到通知，返回是否收到",
+    "args0": [
+      { "options": [["最多等待", "MS"], ["一直等待", "FOREVER"]] },
+      null
+    ]
+  },
+  "esp32_freertos_queue_create": {
+    "message0": "创建队列 %1 长度 %2 数据类型 %3",
+    "tooltip": "创建 FreeRTOS 队列，用于任务间传递固定大小的数据",
+    "args0": [null, null, { "options": [["整数 int", "int"], ["长整数 long", "long"], ["32位无符号 uint32_t", "uint32_t"], ["32位有符号 int32_t", "int32_t"], ["浮点 float", "float"], ["双精度 double", "double"], ["字节 uint8_t", "uint8_t"], ["布尔 bool", "bool"]] }]
+  },
+  "esp32_freertos_queue_send": {
+    "message0": "向队列 %1 发送 %2 类型 %3 等待 %4 %5 毫秒",
+    "tooltip": "向队列发送一条数据，发送值会先存入临时变量再交给 FreeRTOS",
+    "args0": [null, null, { "options": [["整数 int", "int"], ["长整数 long", "long"], ["32位无符号 uint32_t", "uint32_t"], ["32位有符号 int32_t", "int32_t"], ["浮点 float", "float"], ["双精度 double", "double"], ["字节 uint8_t", "uint8_t"], ["布尔 bool", "bool"]] }, { "options": [["最多等待", "MS"], ["一直等待", "FOREVER"]] }, null]
+  },
+  "esp32_freertos_queue_receive_do": {
+    "message0": "从队列 %1 接收类型 %2 到变量 %3 等待 %4 %5 毫秒",
+    "message1": "接收成功执行 %1",
+    "tooltip": "从队列接收数据，成功时执行内部积木，内部可使用接收变量名",
+    "args0": [null, { "options": [["整数 int", "int"], ["长整数 long", "long"], ["32位无符号 uint32_t", "uint32_t"], ["32位有符号 int32_t", "int32_t"], ["浮点 float", "float"], ["双精度 double", "double"], ["字节 uint8_t", "uint8_t"], ["布尔 bool", "bool"]] }, null, { "options": [["最多等待", "MS"], ["一直等待", "FOREVER"]] }, null]
+  },
+  "esp32_freertos_queue_messages_waiting": { "message0": "队列 %1 等待消息数", "tooltip": "获取队列中等待读取的消息数量" },
+  "esp32_freertos_semaphore_create": {
+    "message0": "创建信号量 %1 类型 %2 最大计数 %3 初始计数 %4",
+    "tooltip": "创建二进制信号量、互斥锁或计数信号量；最大/初始计数仅用于计数信号量",
+    "args0": [null, { "options": [["二进制", "BINARY"], ["互斥锁", "MUTEX"], ["计数", "COUNTING"]] }, null, null]
+  },
+  "esp32_freertos_semaphore_take": {
+    "message0": "获取信号量 %1 等待 %2 %3 毫秒",
+    "tooltip": "尝试获取信号量或互斥锁，返回是否成功",
+    "args0": [null, { "options": [["最多等待", "MS"], ["一直等待", "FOREVER"]] }, null]
+  },
+  "esp32_freertos_semaphore_give": { "message0": "释放信号量 %1", "tooltip": "释放信号量或互斥锁" },
+  "esp32_freertos_semaphore_give_from_isr": { "message0": "在中断中释放信号量 %1", "tooltip": "在中断服务函数中安全地释放信号量" },
+  "esp32_freertos_attach_interrupt": {
+    "message0": "配置中断 引脚 %1 触发 %2",
+    "message1": "中断执行 %1",
+    "tooltip": "创建 Arduino 外部中断处理函数，适合配合 FromISR 块通知任务或释放信号量",
+    "args0": [null, { "options": [["低电平", "LOW"], ["上升沿", "RISING"], ["下降沿", "FALLING"], ["变化", "CHANGE"]] }]
+  },
+  "esp32_freertos_get_tick_count": { "message0": "系统 tick 计数", "tooltip": "获取 FreeRTOS 当前 tick 计数" },
+  "esp32_freertos_get_task_count": { "message0": "当前任务数量", "tooltip": "获取 FreeRTOS 当前任务数量" },
+  "esp32_freertos_get_task_name": { "message0": "任务 %1 名称", "tooltip": "获取指定任务的名称" },
+  "esp32_freertos_get_current_task_name": { "message0": "当前任务名称", "tooltip": "获取当前任务的名称" },
+  "esp32_freertos_get_stack_high_water_mark": { "message0": "任务 %1 剩余栈高水位", "tooltip": "获取指定任务的剩余栈高水位，用于排查栈空间是否不足" },
+  "esp32_freertos_get_current_stack_high_water_mark": { "message0": "当前任务剩余栈高水位", "tooltip": "获取当前任务的剩余栈高水位" },
+  "esp32_freertos_get_free_heap_size": { "message0": "空闲堆内存字节数", "tooltip": "获取 FreeRTOS 当前可用堆内存字节数" },
+  "esp32_freertos_get_current_core": { "message0": "当前运行核心编号", "tooltip": "获取当前代码运行所在的 ESP32 CPU 核心编号" }
+}

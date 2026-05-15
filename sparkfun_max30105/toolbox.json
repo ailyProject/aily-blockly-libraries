@@ -1,0 +1,23 @@
+{
+  "kind": "category",
+  "name": "MAX30105 心率传感器",
+  "colour": "#F44336",
+  "contents": [
+    { "kind": "block", "type": "max30105_init" },
+    { "kind": "block", "type": "max30105_setup" },
+    { "kind": "label", "text": "读取数据" },
+    {
+      "kind": "block",
+      "type": "max30105_safe_check",
+      "inputs": {
+        "TIMEOUT": { "shadow": { "type": "math_number", "fields": { "NUM": 250 } } }
+      }
+    },
+    { "kind": "block", "type": "max30105_get_red" },
+    { "kind": "block", "type": "max30105_get_ir" },
+    { "kind": "block", "type": "max30105_get_green" },
+    { "kind": "label", "text": "电源管理" },
+    { "kind": "block", "type": "max30105_shutdown" },
+    { "kind": "block", "type": "max30105_wakeup" }
+  ]
+}

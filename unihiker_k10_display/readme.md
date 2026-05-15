@@ -1,35 +1,26 @@
-# K10屏幕显示
+# K10 Screen Display
 
-UNIHIKER K10 屏幕显示库，支持绘制点、线、圆、矩形、文字、图片和二维码。
+UNIHIKER K10 screen display library, supports drawing points, lines, circles, rectangles, text, images and QR codes
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
-| 包名 | @aily-project/lib-unihiker-k10-display |
-| 版本 | 0.1.0 |
-| 作者 | DFRobot |
-| 来源 | https://github.com/DFRobot/UNIHIKER_K10 |
-| 许可证 | MIT |
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-unihiker-k10-display |
+| Version | 0.1.0 |
+| Author | DFRobot |
+| Source | N/A |
+| License | Original license |
 
-## 支持的开发板
+## Supported Boards
 
-UNIHIKER K10 (DFR0992)
+UNIHIKER:esp32:k10
 
-## 说明
+## Description
 
-基于 DFRobot UNIHIKER K10 开发板的屏幕显示库。K10 配备 2.8 英寸 240×320 TFT 彩色屏幕，支持画布绘图（点、线、圆、矩形）、中英文文字显示、SD 卡图片加载、二维码生成等功能。屏幕方向可选正向/反向/横屏。
+UNIHIKER K10 screen display library, supports drawing points, lines, circles, rectangles, text, images and QR codes
 
-## 快速开始
+## Quick Start
 
-1. 使用「初始化K10屏幕」积木初始化屏幕和画布（setup 顶部）
-2. 使用绘图/文字积木绘制内容
-3. 使用「刷新画布」积木将内容显示到屏幕
-4. 需要获取屏幕宽高可用「屏幕宽度/高度」积木
-
-## 主要API说明
-
-- **k10_draw_text_simple**：在第 N 行显示文字，参数为行号、内容、颜色。
-- **k10_draw_text**：在指定坐标显示文字，支持字体、每行字数设置。
-- **k10_draw_bitmap**：显示内置图片，需输入图片数组名（如 image_data1）。
-- **k10_screen_size**：获取屏幕宽度/高度（240/320）。
+1. Enable `@aily-project/lib-unihiker-k10-display` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

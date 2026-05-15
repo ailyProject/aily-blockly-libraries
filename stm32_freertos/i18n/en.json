@@ -1,0 +1,78 @@
+{
+  "toolbox_name": "STM32 FreeRTOS",
+  "toolbox_categories": ["Tasks", "Queues", "Semaphores", "Notifications & Interrupts", "System Info", "Task Templates"],
+  "toolbox_labels": {
+    "常用任务模板": "Common task template"
+  },
+  "stm32_freertos_task_create": {
+    "message0": "create task %1 stack %2 priority %3",
+    "tooltip": "Create an STM32 FreeRTOS task and task handle; the scheduler is automatically started at the end of setup"
+  },
+  "stm32_freertos_task_function": {
+    "message0": "task %1 runs",
+    "message1": "repeat %1",
+    "tooltip": "Define the STM32 FreeRTOS task function with an automatic infinite loop"
+  },
+  "stm32_freertos_start_scheduler": {
+    "message0": "start FreeRTOS scheduler",
+    "tooltip": "Start the FreeRTOS scheduler at the end of setup; task creation also adds this automatically"
+  },
+  "stm32_freertos_task_delay_ms": { "message0": "task delay %1 ms", "tooltip": "Delay the current task in milliseconds using pdMS_TO_TICKS" },
+  "stm32_freertos_task_delay_ticks": { "message0": "task delay %1 ticks", "tooltip": "Delay the current task by FreeRTOS ticks" },
+  "stm32_freertos_task_suspend": { "message0": "suspend task %1", "tooltip": "Suspend a task" },
+  "stm32_freertos_task_resume": { "message0": "resume task %1", "tooltip": "Resume a task" },
+  "stm32_freertos_task_delete": { "message0": "delete task %1", "tooltip": "Delete a task and clear its handle" },
+  "stm32_freertos_task_delete_current": { "message0": "delete current task", "tooltip": "Delete the currently running task" },
+  "stm32_freertos_task_notify": { "message0": "notify task %1", "tooltip": "Send a task notification" },
+  "stm32_freertos_task_notify_from_isr": { "message0": "notify task %1 from ISR", "tooltip": "Safely notify a task from an interrupt" },
+  "stm32_freertos_task_wait_notification": {
+    "message0": "wait for task notification %1 %2 ms",
+    "tooltip": "Wait for the current task to receive a notification",
+    "args0": [
+      { "options": [["up to", "MS"], ["forever", "FOREVER"]] },
+      null
+    ]
+  },
+  "stm32_freertos_queue_create": {
+    "message0": "create queue %1 length %2 type %3",
+    "tooltip": "Create a FreeRTOS queue for fixed-size data items",
+    "args0": [null, null, { "options": [["int", "int"], ["long", "long"], ["uint32_t", "uint32_t"], ["int32_t", "int32_t"], ["float", "float"], ["double", "double"], ["uint8_t", "uint8_t"], ["bool", "bool"]] }]
+  },
+  "stm32_freertos_queue_send": {
+    "message0": "send to queue %1 data %2 type %3 wait %4 %5 ms",
+    "tooltip": "Send one item to a queue using a typed temporary variable",
+    "args0": [null, null, { "options": [["int", "int"], ["long", "long"], ["uint32_t", "uint32_t"], ["int32_t", "int32_t"], ["float", "float"], ["double", "double"], ["uint8_t", "uint8_t"], ["bool", "bool"]] }, { "options": [["up to", "MS"], ["forever", "FOREVER"]] }, null]
+  },
+  "stm32_freertos_queue_receive_do": {
+    "message0": "receive from queue %1 type %2 into %3 wait %4 %5 ms",
+    "message1": "on success %1",
+    "tooltip": "Receive from a queue and run blocks when successful",
+    "args0": [null, { "options": [["int", "int"], ["long", "long"], ["uint32_t", "uint32_t"], ["int32_t", "int32_t"], ["float", "float"], ["double", "double"], ["uint8_t", "uint8_t"], ["bool", "bool"]] }, null, { "options": [["up to", "MS"], ["forever", "FOREVER"]] }, null]
+  },
+  "stm32_freertos_queue_messages_waiting": { "message0": "queue %1 messages waiting", "tooltip": "Get queued item count" },
+  "stm32_freertos_semaphore_create": {
+    "message0": "create semaphore %1 type %2 max %3 initial %4",
+    "tooltip": "Create a binary semaphore, mutex, or counting semaphore",
+    "args0": [null, { "options": [["binary", "BINARY"], ["mutex", "MUTEX"], ["counting", "COUNTING"]] }, null, null]
+  },
+  "stm32_freertos_semaphore_take": {
+    "message0": "take semaphore %1 wait %2 %3 ms",
+    "tooltip": "Try to take a semaphore",
+    "args0": [null, { "options": [["up to", "MS"], ["forever", "FOREVER"]] }, null]
+  },
+  "stm32_freertos_semaphore_give": { "message0": "give semaphore %1", "tooltip": "Give a semaphore or mutex" },
+  "stm32_freertos_semaphore_give_from_isr": { "message0": "give semaphore %1 from ISR", "tooltip": "Safely give a semaphore from an interrupt" },
+  "stm32_freertos_attach_interrupt": {
+    "message0": "configure interrupt pin %1 mode %2",
+    "message1": "run %1",
+    "tooltip": "Create an Arduino external interrupt handler for FromISR blocks",
+    "args0": [null, { "options": [["low", "LOW"], ["rising", "RISING"], ["falling", "FALLING"], ["change", "CHANGE"]] }]
+  },
+  "stm32_freertos_get_tick_count": { "message0": "system tick count", "tooltip": "Get current FreeRTOS tick count" },
+  "stm32_freertos_get_task_count": { "message0": "current task count", "tooltip": "Get the current task count" },
+  "stm32_freertos_get_task_name": { "message0": "task %1 name", "tooltip": "Get a task name" },
+  "stm32_freertos_get_current_task_name": { "message0": "current task name", "tooltip": "Get the current task name" },
+  "stm32_freertos_get_stack_high_water_mark": { "message0": "task %1 stack high water mark", "tooltip": "Get a task's remaining stack high water mark" },
+  "stm32_freertos_get_idle_stack_high_water_mark": { "message0": "idle task stack high water mark", "tooltip": "Get the idle task remaining stack high water mark" },
+  "stm32_freertos_get_free_heap_size": { "message0": "free heap bytes", "tooltip": "Get current FreeRTOS free heap bytes" }
+}

@@ -1,0 +1,50 @@
+{
+  "toolbox_name": "逐飞麦轮车控制",
+  "toolbox_categories": ["运动控制", "声光输出", "按键输入", "灰度传感", "OpenART视觉", "机械臂"],
+  "four_driver_init": { "message0": "初始化麦轮车模电机驱动", "tooltip": "初始化四路有刷电机驱动" },
+  "four_driver_set_speed": { "message0": "设置电机速度 左前 %1 右前 %2 左后 %3 右后 %4 厘米/秒", "tooltip": "分别设置四个电机的速度，单位厘米每秒" },
+  "four_driver_move": {
+    "message0": "小车 %1 %2 厘米 速度 %3 厘米/秒",
+    "tooltip": "控制小车向设置方向移动指定距离",
+    "args0": [{ "options": [["前进", "0"], ["后退", "1"], ["左移", "2"], ["右移", "3"]] }, null, null]
+  },
+  "four_driver_keep_move": {
+    "message0": "小车 %1 速度 %2 厘米/秒",
+    "tooltip": "控制小车按设置方向持续移动",
+    "args0": [{ "options": [["前进", "0"], ["后退", "1"], ["左移", "2"], ["右移", "3"]] }, null]
+  },
+  "four_driver_turn": {
+    "message0": "小车 %1 %2 度 转向速度 %3 厘米/秒",
+    "tooltip": "按照指定的角度、方向、速度进行旋转",
+    "args0": [{ "options": [["左转", "1"], ["右转", "-1"]] }, null, null]
+  },
+  "four_driver_track": { "message0": "追踪目标的X坐标 %1 Y坐标 %2", "tooltip": "自动追踪目标，按照目标的方向前进，速度根据目标距离自动调整" },
+  "four_driver_calibration_gyro": { "message0": "校准陀螺仪静态偏差", "tooltip": "校准陀螺仪静态偏差，校准过程中请务必确保小车保持静止" },
+  "four_driver_calibration_head": { "message0": "校准航向角 %1 度", "tooltip": "校准航向角，将航向角设置为指定角度" },
+  "beep_begin": { "message0": "初始化蜂鸣器", "tooltip": "初始化蜂鸣器" },
+  "beep_set": { "message0": "设置蜂鸣器状态 %1", "tooltip": "控制蜂鸣器的状态，通常用于调试时便于判断状态", "args0": [{ "options": [["打开", "0"], ["关闭", "1"]] }] },
+  "led_begin": { "message0": "初始化LED", "tooltip": "初始化LED" },
+  "led_set": { "message0": "设置 %1 LED %2", "tooltip": "控制LED的状态，通常用于调试时便于判断状态", "args0": [{ "options": [["绿色", "35"], ["蓝色", "36"], ["红色", "37"]] }, { "options": [["打开", "0"], ["关闭", "1"]] }] },
+  "key_gpio_begin": { "message0": "初始化按键", "tooltip": "初始化板载按键" },
+  "key_gpio_read": { "message0": "获取按键 %1 状态 %2", "tooltip": "读取按键的状态", "args0": [{ "options": [["按键1", "0"], ["按键2", "1"], ["按键3", "2"], ["按键4", "3"]] }, { "options": [["未按下", "0"], ["已按下", "1"], ["长按中", "2"], ["按下并释放", "3"]] }] },
+  "photoelectricity_init": { "message0": "使用传感器接口 %1 初始化灰度传感器", "tooltip": "初始化高精度灰度传感器", "args0": [{ "options": [["1", "0"], ["2", "1"], ["3", "2"], ["4", "3"]] }] },
+  "photoelectricity_set_black": { "message0": "校准黑色背景 传感器ID %1", "tooltip": "将传感器放置在黑色线条上，然后调用此命令完成黑色校准", "args0": [{ "options": [["传感器1", "1"], ["传感器2", "2"], ["传感器3", "3"], ["传感器4", "4"]] }] },
+  "photoelectricity_set_white": { "message0": "校准白色背景 传感器ID %1", "tooltip": "将传感器放置在白色区域上，然后调用此命令完成白色校准", "args0": [{ "options": [["传感器1", "1"], ["传感器2", "2"], ["传感器3", "3"], ["传感器4", "4"]] }] },
+  "photoelectricity_get_position": { "message0": "获取偏差数据 传感器ID %1", "tooltip": "获取灰度传感器计算的偏差数据，主要用于循单线", "args0": [{ "options": [["传感器1", "1"], ["传感器2", "2"], ["传感器3", "3"], ["传感器4", "4"]] }] },
+  "photoelectricity_get_value": { "message0": "获取原始数据 传感器ID %1 通道 %2", "tooltip": "获取传感器的原始数据", "args0": [{ "options": [["传感器1", "1"], ["传感器2", "2"], ["传感器3", "3"], ["传感器4", "4"]] }, { "options": [["通道1", "0"], ["通道2", "1"], ["通道3", "2"], ["通道4", "3"], ["通道5", "4"], ["通道6", "5"], ["通道7", "6"], ["通道8", "7"]] }] },
+  "photoelectricity_get_value_bin": { "message0": "获取二值化数据 传感器ID %1 通道 %2", "tooltip": "获取传感器的二值化数据，1表示白色，0表示黑色", "args0": [{ "options": [["传感器1", "1"], ["传感器2", "2"], ["传感器3", "3"], ["传感器4", "4"]] }, { "options": [["通道1", "0"], ["通道2", "1"], ["通道3", "2"], ["通道4", "3"], ["通道5", "4"], ["通道6", "5"], ["通道7", "6"], ["通道8", "7"]] }] },
+  "photoelectricity_get_black_num": { "message0": "获取黑点数量 传感器ID %1", "tooltip": "获取传感器看到的黑色数量", "args0": [{ "options": [["传感器1", "1"], ["传感器2", "2"], ["传感器3", "3"], ["传感器4", "4"]] }] },
+  "photoelectricity_get_white_num": { "message0": "获取白点数量 传感器ID %1", "tooltip": "获取传感器看到的白色数量", "args0": [{ "options": [["传感器1", "1"], ["传感器2", "2"], ["传感器3", "3"], ["传感器4", "4"]] }] },
+  "openart_mini_begin": { "message0": "初始化OpenART mini视觉模块", "tooltip": "初始化视觉识别设备，主要通过串口进行通讯" },
+  "openart_mini_detection_object_easy": { "message0": "识别 %1 的物品", "tooltip": "发起识别物品的命令", "args0": [{ "options": [["黄色", "1"], ["绿色", "2"], ["红色", "3"], ["黑色", "4"]] }] },
+  "openart_mini_detection_object": { "message0": "识别 L_MIN:%1 L_MAX:%2 A_MIN:%3 A_MAX:%4 B_MIN:%5 B_MAX:%6 的物品", "tooltip": "发起自定义LAB阈值的物品识别命令" },
+  "openart_mini_detection_apriltag": { "message0": "识别AprilTag码", "tooltip": "发起检测AprilTag码的命令" },
+  "openart_mini_detection_stop": { "message0": "停止识别", "tooltip": "停止识别" },
+  "openart_mini_get_result": { "message0": "获取识别 %1 的状态", "tooltip": "获取识别的结果", "args0": [{ "options": [["物品", "1"], ["AprilTag码", "2"]] }] },
+  "openart_mini_get_coord_x": { "message0": "获取识别到 %1 的横坐标", "tooltip": "获取识别到的物品X坐标", "args0": [{ "options": [["物品", "1"], ["AprilTag码", "2"]] }] },
+  "openart_mini_get_coord_y": { "message0": "获取识别到 %1 的纵坐标", "tooltip": "获取识别到的物品Y坐标", "args0": [{ "options": [["物品", "1"], ["AprilTag码", "2"]] }] },
+  "robotic_arm_init": { "message0": "初始化舵机驱动板", "tooltip": "初始化机械臂" },
+  "robotic_arm_set_servo_motor_angle": { "message0": "设置通道 %1 舵机角度为 %2 度", "tooltip": "设置对应通道的舵机角度", "args0": [{ "options": [["1", "0"], ["2", "1"], ["3", "2"], ["4", "3"], ["5", "4"], ["6", "5"]] }, null] },
+  "robotic_arm_set_servo_motor_offset_angle": { "message0": "设置通道 %1 舵机角度偏移量为 %2 度", "tooltip": "设置对应通道的舵机角度偏移量", "args0": [{ "options": [["1", "0"], ["2", "1"], ["3", "2"], ["4", "3"], ["5", "4"], ["6", "5"]] }, null] },
+  "robotic_arm_get_servo_motor_angle": { "message0": "获取 %1 通道舵机当前角度", "tooltip": "获取指定通道的大臂角度", "args0": [{ "options": [["1", "0"], ["2", "1"], ["3", "2"], ["4", "3"], ["5", "4"], ["6", "5"]] }] }
+}

@@ -1,0 +1,33 @@
+{
+  "toolbox_name": "R4 FreeRTOS",
+  "toolbox_categories": ["태스크 관리", "큐 통신", "세마포어 동기화", "알림 및 인터럽트", "시스템 정보", "태스크 템플릿"],
+  "toolbox_labels": {
+    "常用任务模板": "태스크 템플릿"
+  },
+  "r4_freertos_task_create": { "message0": "태스크 %1 생성 스택 깊이 %2 워드 우선순위 %3", "tooltip": "Arduino R4 FreeRTOS 태스크와 핸들을 생성합니다. 스케줄러는 setup 끝에서 자동 시작됩니다" },
+  "r4_freertos_task_function": { "message0": "태스크 %1 실행", "message1": "반복 실행 %1", "tooltip": "Arduino R4 FreeRTOS 태스크 함수를 정의합니다" },
+  "r4_freertos_start_scheduler": { "message0": "FreeRTOS 스케줄러 시작", "tooltip": "setup 끝에서 FreeRTOS 스케줄러를 시작합니다" },
+  "r4_freertos_task_delay_ms": { "message0": "태스크 지연 %1 ms", "tooltip": "현재 태스크를 밀리초 단위로 지연합니다" },
+  "r4_freertos_task_delay_ticks": { "message0": "태스크 지연 %1 ticks", "tooltip": "현재 태스크를 FreeRTOS tick 단위로 지연합니다" },
+  "r4_freertos_task_suspend": { "message0": "태스크 %1 일시 중지", "tooltip": "지정한 태스크를 일시 중지합니다" },
+  "r4_freertos_task_resume": { "message0": "태스크 %1 재개", "tooltip": "지정한 태스크를 재개합니다" },
+  "r4_freertos_task_delete": { "message0": "태스크 %1 삭제", "tooltip": "태스크를 삭제하고 핸들을 비웁니다" },
+  "r4_freertos_task_delete_current": { "message0": "현재 태스크 삭제", "tooltip": "현재 실행 중인 태스크를 삭제합니다" },
+  "r4_freertos_task_notify": { "message0": "태스크 %1 알림", "tooltip": "태스크 알림을 보냅니다" },
+  "r4_freertos_task_notify_from_isr": { "message0": "ISR 에서 태스크 %1 알림", "tooltip": "인터럽트에서 안전하게 태스크를 알립니다" },
+  "r4_freertos_task_wait_notification": { "message0": "태스크 알림 대기 %1 %2 ms", "tooltip": "현재 태스크가 알림을 받을 때까지 기다립니다", "args0": [{ "options": [["최대 대기", "MS"], ["계속 대기", "FOREVER"]] }, null] },
+  "r4_freertos_queue_create": { "message0": "큐 %1 생성 길이 %2 자료형 %3", "tooltip": "고정 크기 데이터를 위한 FreeRTOS 큐를 생성합니다", "args0": [null, null, { "options": [["정수 int", "int"], ["긴 정수 long", "long"], ["32비트 부호 없음 uint32_t", "uint32_t"], ["32비트 부호 있음 int32_t", "int32_t"], ["실수 float", "float"], ["배정밀도 double", "double"], ["바이트 uint8_t", "uint8_t"], ["불리언 bool", "bool"]] }] },
+  "r4_freertos_queue_send": { "message0": "큐 %1 에 %2 전송 형식 %3 대기 %4 %5 ms", "tooltip": "형식이 있는 임시 변수를 사용해 큐에 한 항목을 보냅니다", "args0": [null, null, { "options": [["정수 int", "int"], ["긴 정수 long", "long"], ["32비트 부호 없음 uint32_t", "uint32_t"], ["32비트 부호 있음 int32_t", "int32_t"], ["실수 float", "float"], ["배정밀도 double", "double"], ["바이트 uint8_t", "uint8_t"], ["불리언 bool", "bool"]] }, { "options": [["최대 대기", "MS"], ["계속 대기", "FOREVER"]] }, null] },
+  "r4_freertos_queue_receive_do": { "message0": "큐 %1 에서 수신 형식 %2 변수 %3 대기 %4 %5 ms", "message1": "성공 시 실행 %1", "tooltip": "큐에서 데이터를 받고 성공하면 내부 블록을 실행합니다", "args0": [null, { "options": [["정수 int", "int"], ["긴 정수 long", "long"], ["32비트 부호 없음 uint32_t", "uint32_t"], ["32비트 부호 있음 int32_t", "int32_t"], ["실수 float", "float"], ["배정밀도 double", "double"], ["바이트 uint8_t", "uint8_t"], ["불리언 bool", "bool"]] }, null, { "options": [["최대 대기", "MS"], ["계속 대기", "FOREVER"]] }, null] },
+  "r4_freertos_queue_messages_waiting": { "message0": "큐 %1 대기 메시지 수", "tooltip": "큐에 대기 중인 항목 수를 가져옵니다" },
+  "r4_freertos_semaphore_create": { "message0": "세마포어 %1 생성 형식 %2 최대 %3 초기 %4", "tooltip": "바이너리 또는 카운팅 세마포어를 생성합니다", "args0": [null, { "options": [["바이너리", "BINARY"], ["카운팅", "COUNTING"]] }, null, null] },
+  "r4_freertos_semaphore_take": { "message0": "세마포어 %1 획득 대기 %2 %3 ms", "tooltip": "세마포어 획득을 시도합니다", "args0": [null, { "options": [["최대 대기", "MS"], ["계속 대기", "FOREVER"]] }, null] },
+  "r4_freertos_semaphore_give": { "message0": "세마포어 %1 반환", "tooltip": "세마포어를 해제합니다" },
+  "r4_freertos_semaphore_give_from_isr": { "message0": "ISR 에서 세마포어 %1 반환", "tooltip": "인터럽트에서 안전하게 세마포어를 해제합니다" },
+  "r4_freertos_attach_interrupt": { "message0": "인터럽트 설정 핀 %1 모드 %2", "message1": "인터럽트 실행 %1", "tooltip": "Arduino 외부 인터럽트 핸들러를 생성합니다", "args0": [null, { "options": [["낮음", "LOW"], ["상승 에지", "RISING"], ["하강 에지", "FALLING"], ["변화", "CHANGE"]] }] },
+  "r4_freertos_get_tick_count": { "message0": "시스템 tick 수", "tooltip": "현재 FreeRTOS tick 수를 가져옵니다" },
+  "r4_freertos_get_task_count": { "message0": "현재 태스크 수", "tooltip": "현재 태스크 수를 가져옵니다" },
+  "r4_freertos_get_task_name": { "message0": "태스크 %1 이름", "tooltip": "태스크 이름을 가져옵니다" },
+  "r4_freertos_get_current_task_name": { "message0": "현재 태스크 이름", "tooltip": "현재 태스크 이름을 가져옵니다" },
+  "r4_freertos_get_free_heap_size": { "message0": "가용 힙 바이트 수", "tooltip": "현재 FreeRTOS 가용 힙 바이트 수를 가져옵니다" }
+}

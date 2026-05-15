@@ -5,89 +5,232 @@
   "colour": "#4280D7",
   "contents": [
     {
+      "kind": "label",
+      "text": "Setup"
+    },
+    {
       "kind": "block",
-      "type": "Arduino_FFT_init",
+      "type": "arduino_fft_init",
       "inputs": {
-        "SAMPLES_COUNT": {
-          "shadow": {
-            "type": "math_number",
-            "fields": { "NUM": 64 }
-          }
-        },
         "SAMPLING_FREQUENCY": {
           "shadow": {
             "type": "math_number",
-            "fields": { "NUM": 4000 }
-          }
-        }
-      }
-    },
-    { "kind": "block", "type": "Arduino_FFT_windowing" },
-    {
-      "kind": "block",
-      "type": "Arduino_FFT_compute",
-      "inputs": {
-        "SAMPLES_COUNT": {
-          "shadow": {
-            "type": "math_number",
-            "fields": { "NUM": 64 }
+            "fields": {
+              "NUM": 5000
+            }
           }
         }
       }
     },
     {
-      "kind": "block",
-      "type": "Arduino_FFT_complex_to_magnitude",
-      "inputs": {
-        "SAMPLES_COUNT": {
-          "shadow": {
-            "type": "math_number",
-            "fields": { "NUM": 64 }
-          }
-        }
-      }
+      "kind": "label",
+      "text": "Sampling"
     },
     {
       "kind": "block",
-      "type": "Arduino_FFT_major_peak",
+      "type": "arduino_fft_sample_analog",
       "inputs": {
-        "SAMPLES_COUNT": {
+        "PIN": {
           "shadow": {
             "type": "math_number",
-            "fields": { "NUM": 64 }
+            "fields": {
+              "NUM": 0
+            }
           }
         },
-        "SAMPLING_FREQUENCY": {
+        "OFFSET": {
           "shadow": {
             "type": "math_number",
-            "fields": { "NUM": 4000 }
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "SCALE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
           }
         }
       }
     },
     {
       "kind": "block",
-      "type": "Arduino_FFT_get_band",
+      "type": "arduino_fft_generate_tone",
       "inputs": {
-        "SAMPLES_COUNT": {
+        "FREQUENCY": {
           "shadow": {
             "type": "math_number",
-            "fields": { "NUM": 64 }
+            "fields": {
+              "NUM": 1000
+            }
           }
         },
-        "SAMPLING_FREQUENCY": {
+        "AMPLITUDE": {
           "shadow": {
             "type": "math_number",
-            "fields": { "NUM": 4000 }
+            "fields": {
+              "NUM": 100
+            }
           }
         },
+        "OFFSET": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "arduino_fft_set_sample",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "REAL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "IMAG": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "arduino_fft_clear_samples"
+    },
+    {
+      "kind": "label",
+      "text": "Processing"
+    },
+    {
+      "kind": "block",
+      "type": "arduino_fft_process"
+    },
+    {
+      "kind": "block",
+      "type": "arduino_fft_dc_removal"
+    },
+    {
+      "kind": "block",
+      "type": "arduino_fft_windowing"
+    },
+    {
+      "kind": "block",
+      "type": "arduino_fft_compute"
+    },
+    {
+      "kind": "block",
+      "type": "arduino_fft_complex_to_magnitude"
+    },
+    {
+      "kind": "label",
+      "text": "Results"
+    },
+    {
+      "kind": "block",
+      "type": "arduino_fft_major_peak"
+    },
+    {
+      "kind": "block",
+      "type": "arduino_fft_major_peak_parabola"
+    },
+    {
+      "kind": "block",
+      "type": "arduino_fft_peak_magnitude"
+    },
+    {
+      "kind": "block",
+      "type": "arduino_fft_bin_frequency",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "arduino_fft_bin_magnitude",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "arduino_fft_band_magnitude",
+      "inputs": {
         "BAND_INDEX": {
           "shadow": {
             "type": "math_number",
-            "fields": { "NUM": 0 }
+            "fields": {
+              "NUM": 0
+            }
           }
         }
       }
+    },
+    {
+      "kind": "label",
+      "text": "Debug"
+    },
+    {
+      "kind": "block",
+      "type": "arduino_fft_print_bins",
+      "inputs": {
+        "START_INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        },
+        "END_INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 32
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "arduino_fft_revision"
     }
   ]
 }

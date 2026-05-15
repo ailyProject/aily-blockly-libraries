@@ -1,0 +1,56 @@
+[
+  {
+    "type": "bme68x_init",
+    "message0": "初始化BME68x环境传感器 I2C地址 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ADDRESS",
+        "options": [
+          ["0x76 (SDO接GND)", "0x76"],
+          ["0x77 (SDO接VDD)", "0x77"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "初始化BME680/BME688环境传感器（温度/压力/湿度/气体），使用I2C接口"
+  },
+  {
+    "type": "bme68x_read_temperature",
+    "message0": "读取BME68x温度 (°C)",
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "读取BME68x传感器的温度值（摄氏度）"
+  },
+  {
+    "type": "bme68x_read_humidity",
+    "message0": "读取BME68x湿度 (%RH)",
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "读取BME68x传感器的相对湿度值（百分比）"
+  },
+  {
+    "type": "bme68x_read_pressure",
+    "message0": "读取BME68x气压 (hPa)",
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "读取BME68x传感器的大气压力值（百帕）"
+  },
+  {
+    "type": "bme68x_read_gas",
+    "message0": "读取BME68x气体阻值 (Ω)",
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "读取BME68x传感器的气体阻力值（欧姆），可用于空气质量评估"
+  },
+  {
+    "type": "bme68x_update",
+    "message0": "更新BME68x传感器数据",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "触发一次传感器数据读取，更新所有数值"
+  }
+]

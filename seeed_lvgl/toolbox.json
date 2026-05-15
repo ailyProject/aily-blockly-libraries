@@ -1,0 +1,438 @@
+{
+  "kind": "category",
+  "name": "Seeed LVGL",
+  "colour": "#009688",
+  "icon": "fa-light fa-display-code",
+  "contents": [
+    {
+      "kind": "category",
+      "name": "GFX 图形",
+      "colour": "#009688",
+      "icon": "fa-light fa-pen-ruler",
+      "contents": [
+        {
+          "kind": "category",
+          "name": "初始化与屏幕",
+          "icon": "fa-light fa-display",
+          "contents": [
+            {
+              "kind": "block",
+              "type": "seeed_gfx_setup",
+              "inputs": {
+                "WIDTH": { "shadow": { "type": "math_number", "fields": { "NUM": 240 } } },
+                "HEIGHT": { "shadow": { "type": "math_number", "fields": { "NUM": 240 } } },
+                "MISO": { "shadow": { "type": "math_number", "fields": { "NUM": -1 } } },
+                "MOSI": { "shadow": { "type": "math_number", "fields": { "NUM": -1 } } },
+                "SCLK": { "shadow": { "type": "math_number", "fields": { "NUM": -1 } } },
+                "CS": { "shadow": { "type": "math_number", "fields": { "NUM": -1 } } },
+                "DC": { "shadow": { "type": "math_number", "fields": { "NUM": -1 } } },
+                "RST": { "shadow": { "type": "math_number", "fields": { "NUM": -1 } } },
+                "BL": { "shadow": { "type": "math_number", "fields": { "NUM": -1 } } }
+              }
+            },
+            { "kind": "block", "type": "seeed_gfx_set_rotation" },
+            { "kind": "block", "type": "seeed_gfx_invert_display" },
+            { "kind": "block", "type": "seeed_gfx_width" },
+            { "kind": "block", "type": "seeed_gfx_height" }
+          ]
+        },
+        {
+          "kind": "category",
+          "name": "基础绘图",
+          "icon": "fa-light fa-shapes",
+          "contents": [
+            {
+              "kind": "block",
+              "type": "seeed_gfx_fill_screen",
+              "inputs": { "COLOR": { "shadow": { "type": "seeed_gfx_color" } } }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_draw_pixel",
+              "inputs": {
+                "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "COLOR": { "shadow": { "type": "seeed_gfx_color" } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_draw_line",
+              "inputs": {
+                "X1": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "Y1": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "X2": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } },
+                "Y2": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } },
+                "COLOR": { "shadow": { "type": "seeed_gfx_color" } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_draw_rect",
+              "inputs": {
+                "X": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } },
+                "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } },
+                "W": { "shadow": { "type": "math_number", "fields": { "NUM": 80 } } },
+                "H": { "shadow": { "type": "math_number", "fields": { "NUM": 50 } } },
+                "COLOR": { "shadow": { "type": "seeed_gfx_color" } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_fill_rect",
+              "inputs": {
+                "X": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } },
+                "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } },
+                "W": { "shadow": { "type": "math_number", "fields": { "NUM": 80 } } },
+                "H": { "shadow": { "type": "math_number", "fields": { "NUM": 50 } } },
+                "COLOR": { "shadow": { "type": "seeed_gfx_color" } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_draw_circle",
+              "inputs": {
+                "X": { "shadow": { "type": "math_number", "fields": { "NUM": 60 } } },
+                "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 60 } } },
+                "RADIUS": { "shadow": { "type": "math_number", "fields": { "NUM": 25 } } },
+                "COLOR": { "shadow": { "type": "seeed_gfx_color" } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_fill_circle",
+              "inputs": {
+                "X": { "shadow": { "type": "math_number", "fields": { "NUM": 60 } } },
+                "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 60 } } },
+                "RADIUS": { "shadow": { "type": "math_number", "fields": { "NUM": 25 } } },
+                "COLOR": { "shadow": { "type": "seeed_gfx_color" } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_draw_triangle",
+              "inputs": {
+                "X1": { "shadow": { "type": "math_number", "fields": { "NUM": 60 } } },
+                "Y1": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } },
+                "X2": { "shadow": { "type": "math_number", "fields": { "NUM": 20 } } },
+                "Y2": { "shadow": { "type": "math_number", "fields": { "NUM": 80 } } },
+                "X3": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } },
+                "Y3": { "shadow": { "type": "math_number", "fields": { "NUM": 80 } } },
+                "COLOR": { "shadow": { "type": "seeed_gfx_color" } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_fill_triangle",
+              "inputs": {
+                "X1": { "shadow": { "type": "math_number", "fields": { "NUM": 60 } } },
+                "Y1": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } },
+                "X2": { "shadow": { "type": "math_number", "fields": { "NUM": 20 } } },
+                "Y2": { "shadow": { "type": "math_number", "fields": { "NUM": 80 } } },
+                "X3": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } },
+                "Y3": { "shadow": { "type": "math_number", "fields": { "NUM": 80 } } },
+                "COLOR": { "shadow": { "type": "seeed_gfx_color" } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_draw_round_rect",
+              "inputs": {
+                "X": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } },
+                "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } },
+                "W": { "shadow": { "type": "math_number", "fields": { "NUM": 80 } } },
+                "H": { "shadow": { "type": "math_number", "fields": { "NUM": 50 } } },
+                "RADIUS": { "shadow": { "type": "math_number", "fields": { "NUM": 8 } } },
+                "COLOR": { "shadow": { "type": "seeed_gfx_color" } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_fill_round_rect",
+              "inputs": {
+                "X": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } },
+                "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } },
+                "W": { "shadow": { "type": "math_number", "fields": { "NUM": 80 } } },
+                "H": { "shadow": { "type": "math_number", "fields": { "NUM": 50 } } },
+                "RADIUS": { "shadow": { "type": "math_number", "fields": { "NUM": 8 } } },
+                "COLOR": { "shadow": { "type": "seeed_gfx_color" } }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "category",
+          "name": "文字与颜色",
+          "icon": "fa-light fa-font",
+          "contents": [
+            { "kind": "block", "type": "seeed_gfx_color" },
+            { "kind": "block", "type": "seeed_gfx_color_rgb" },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_set_text_style",
+              "inputs": {
+                "TEXT_COLOR": { "shadow": { "type": "seeed_gfx_color", "fields": { "COLOR": "TFT_WHITE" } } },
+                "BG_COLOR": { "shadow": { "type": "seeed_gfx_color", "fields": { "COLOR": "TFT_BLACK" } } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_draw_string",
+              "inputs": {
+                "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "TEXT": { "shadow": { "type": "text", "fields": { "TEXT": "Hello Seeed" } } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_set_cursor",
+              "inputs": {
+                "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_print",
+              "inputs": { "TEXT": { "shadow": { "type": "text", "fields": { "TEXT": "Hello" } } } }
+            }
+          ]
+        },
+        {
+          "kind": "category",
+          "name": "触摸",
+          "icon": "fa-light fa-hand-pointer",
+          "contents": [
+            {
+              "kind": "block",
+              "type": "seeed_gfx_read_touch",
+              "inputs": { "THRESHOLD": { "shadow": { "type": "math_number", "fields": { "NUM": 600 } } } }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_touch_pressed",
+              "inputs": { "THRESHOLD": { "shadow": { "type": "math_number", "fields": { "NUM": 600 } } } }
+            }
+          ]
+        },
+        {
+          "kind": "category",
+          "name": "Sprite 精灵",
+          "icon": "fa-light fa-layer-group",
+          "contents": [
+            {
+              "kind": "block",
+              "type": "seeed_gfx_sprite_create",
+              "inputs": {
+                "WIDTH": { "shadow": { "type": "math_number", "fields": { "NUM": 80 } } },
+                "HEIGHT": { "shadow": { "type": "math_number", "fields": { "NUM": 80 } } }
+              }
+            },
+            { "kind": "block", "type": "seeed_gfx_sprite_set_depth" },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_sprite_fill",
+              "inputs": { "COLOR": { "shadow": { "type": "seeed_gfx_color" } } }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_sprite_push",
+              "inputs": {
+                "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+              }
+            },
+            { "kind": "block", "type": "seeed_gfx_sprite_delete" }
+          ]
+        },
+        {
+          "kind": "category",
+          "name": "E-Paper",
+          "icon": "fa-light fa-note-sticky",
+          "contents": [
+            { "kind": "block", "type": "seeed_gfx_epaper_setup" },
+            { "kind": "block", "type": "seeed_gfx_epaper_update" },
+            {
+              "kind": "block",
+              "type": "seeed_gfx_epaper_partial_update",
+              "inputs": {
+                "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "W": { "shadow": { "type": "math_number", "fields": { "NUM": 120 } } },
+                "H": { "shadow": { "type": "math_number", "fields": { "NUM": 60 } } }
+              }
+            },
+            { "kind": "block", "type": "seeed_gfx_epaper_sleep" },
+            { "kind": "block", "type": "seeed_gfx_epaper_wake" }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "LVGL 界面",
+      "colour": "#4CAF50",
+      "icon": "fa-light fa-window-restore",
+      "contents": [
+        {
+          "kind": "category",
+          "name": "初始化与输入",
+          "icon": "fa-light fa-gauge-high",
+          "contents": [
+            {
+              "kind": "block",
+              "type": "seeed_lvgl_init",
+              "inputs": {
+                "WIDTH": { "shadow": { "type": "math_number", "fields": { "NUM": 320 } } },
+                "HEIGHT": { "shadow": { "type": "math_number", "fields": { "NUM": 240 } } },
+                "BUFFER_LINES": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } },
+                "TICK_MS": { "shadow": { "type": "math_number", "fields": { "NUM": 5 } } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_lvgl_touch_input_create",
+              "inputs": { "THRESHOLD": { "shadow": { "type": "math_number", "fields": { "NUM": 600 } } } }
+            }
+          ]
+        },
+        {
+          "kind": "category",
+          "name": "屏幕与对象",
+          "icon": "fa-light fa-desktop",
+          "contents": [
+            { "kind": "block", "type": "seeed_lvgl_screen_create" },
+            { "kind": "block", "type": "seeed_lvgl_screen_load" },
+            { "kind": "block", "type": "seeed_lvgl_active_screen" },
+            {
+              "kind": "block",
+              "type": "seeed_lvgl_obj_set_pos",
+              "inputs": {
+                "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_lvgl_obj_set_size",
+              "inputs": {
+                "W": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } },
+                "H": { "shadow": { "type": "math_number", "fields": { "NUM": 40 } } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_lvgl_obj_align",
+              "inputs": {
+                "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+              }
+            },
+            { "kind": "block", "type": "seeed_lvgl_obj_set_hidden" },
+            { "kind": "block", "type": "seeed_lvgl_obj_delete" }
+          ]
+        },
+        {
+          "kind": "category",
+          "name": "控件",
+          "icon": "fa-light fa-wand-magic-sparkles",
+          "contents": [
+            { "kind": "label", "text": "标签与按钮" },
+            { "kind": "block", "type": "seeed_lvgl_label_create" },
+            {
+              "kind": "block",
+              "type": "seeed_lvgl_label_set_text",
+              "inputs": { "TEXT": { "shadow": { "type": "text", "fields": { "TEXT": "Hello LVGL" } } } }
+            },
+            { "kind": "block", "type": "seeed_lvgl_label_set_long_mode" },
+            { "kind": "block", "type": "seeed_lvgl_button_create" },
+            { "kind": "label", "text": "数值控件" },
+            { "kind": "block", "type": "seeed_lvgl_slider_create" },
+            {
+              "kind": "block",
+              "type": "seeed_lvgl_slider_set_range",
+              "inputs": {
+                "MIN": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "MAX": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_lvgl_slider_set_value",
+              "inputs": { "VALUE": { "shadow": { "type": "math_number", "fields": { "NUM": 50 } } } }
+            },
+            { "kind": "block", "type": "seeed_lvgl_slider_get_value" },
+            { "kind": "block", "type": "seeed_lvgl_bar_create" },
+            {
+              "kind": "block",
+              "type": "seeed_lvgl_bar_set_range",
+              "inputs": {
+                "MIN": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+                "MAX": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_lvgl_bar_set_value",
+              "inputs": { "VALUE": { "shadow": { "type": "math_number", "fields": { "NUM": 50 } } } }
+            },
+            { "kind": "label", "text": "输入与图像" },
+            { "kind": "block", "type": "seeed_lvgl_switch_create" },
+            { "kind": "block", "type": "seeed_lvgl_switch_set" },
+            { "kind": "block", "type": "seeed_lvgl_switch_get_state" },
+            {
+              "kind": "block",
+              "type": "seeed_lvgl_checkbox_create",
+              "inputs": { "TEXT": { "shadow": { "type": "text", "fields": { "TEXT": "Check" } } } }
+            },
+            { "kind": "block", "type": "seeed_lvgl_image_create" },
+            {
+              "kind": "block",
+              "type": "seeed_lvgl_image_set_src",
+              "inputs": { "SRC": { "shadow": { "type": "text", "fields": { "TEXT": "A:/image.bin" } } } }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_lvgl_image_set_transform",
+              "inputs": {
+                "ZOOM": { "shadow": { "type": "math_number", "fields": { "NUM": 256 } } },
+                "ANGLE": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "category",
+          "name": "样式与事件",
+          "icon": "fa-light fa-bolt",
+          "contents": [
+            {
+              "kind": "block",
+              "type": "seeed_lvgl_obj_set_event"
+            },
+            {
+              "kind": "block",
+              "type": "seeed_lvgl_style_color",
+              "inputs": { "COLOR": { "shadow": { "type": "seeed_lvgl_color" } } }
+            },
+            {
+              "kind": "block",
+              "type": "seeed_lvgl_style_number",
+              "inputs": { "VALUE": { "shadow": { "type": "math_number", "fields": { "NUM": 4 } } } }
+            }
+          ]
+        },
+        {
+          "kind": "category",
+          "name": "颜色",
+          "icon": "fa-light fa-palette",
+          "contents": [
+            { "kind": "block", "type": "seeed_lvgl_color" },
+            { "kind": "block", "type": "seeed_lvgl_color_rgb" }
+          ]
+        }
+      ]
+    }
+  ]
+}

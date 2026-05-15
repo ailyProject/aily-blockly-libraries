@@ -1,56 +1,26 @@
-# MT6701磁旋转编码器 Blockly库
+# MT6701 magnetic rotary encoder
 
-基于MT6701 Arduino库转换的Aily Blockly库，用于ESP32平台的MT6701磁旋转编码器控制。
+MT6701 magnetic rotary encoder library, supports angle reading, RPM calculation and revolution accumulation, suitable for ESP32 development board
 
-## 功能特性
+## Library Info
 
-- 支持角度读取（弧度和度数）
-- 支持RPM计算和转数累计
-- 支持I2C通信配置
-- 支持手动和自动数据更新
-- 内置移动平均滤波器
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-mt6701 |
+| Version | 1.0.0 |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
-## 支持的开发板
+## Supported Boards
 
-- ESP32
-- ESP32-C3
-- ESP32-S3
+ESP32
 
-## 块说明
+## Description
 
-### 初始化块
-- **初始化MT6701编码器**：使用默认配置初始化编码器
-- **初始化MT6701编码器(高级)**：可配置I2C地址和更新间隔
+MT6701 magnetic rotary encoder library, supports angle reading, RPM calculation and revolution accumulation, suitable for ESP32 development board
 
-### 角度读取块
-- **编码器角度(弧度)**：获取当前角度（0-2π弧度）
-- **编码器角度(度数)**：获取当前角度（0-360度）
+## Quick Start
 
-### 运动分析块
-- **编码器RPM**：获取转速（每分钟转数）
-- **编码器原始计数值**：获取原始计数值（0-16383）
-- **编码器完整转数**：获取完整转数（整数）
-- **编码器转数(浮点)**：获取转数（浮点数）
-- **编码器累计计数值**：获取累计计数值
-
-### 控制块
-- **编码器手动更新计数值**：手动更新计数值（非ESP32平台需要）
-
-## 原始库信息
-
-- 原始库：MT6701 v1.0.2
-- 作者：Noran Raskin
-- 许可证：GPL-3.0
-- 原始库地址：https://github.com/noranraskin/MT6701
-
-## 使用说明
-
-1. 首先使用初始化块初始化编码器
-2. 在主循环中使用相应的读取块获取数据
-3. ESP32平台会自动更新数据，其他平台需要手动调用更新块
-
-## 注意事项
-
-- 该库专为ESP32平台优化，使用FreeRTOS后台任务
-- I2C默认地址为0x06，可根据硬件配置调整
-- RPM计算需要较短的更新间隔以获得准确结果
+1. Enable `@aily-project/lib-mt6701` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

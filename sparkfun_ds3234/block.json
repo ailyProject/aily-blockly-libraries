@@ -1,0 +1,74 @@
+[
+  {
+    "type": "ds3234_begin",
+    "message0": "初始化 DS3234 RTC CS 引脚 %1",
+    "args0": [
+      { "type": "field_number", "name": "CS_PIN", "value": 10, "min": 0, "max": 53 }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "初始化 DS3234 实时时钟（SPI），指定片选引脚，使用全局 rtc 对象"
+  },
+  {
+    "type": "ds3234_auto_time",
+    "message0": "DS3234 自动设置编译时间",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "将 DS3234 时钟设置为编译时的时间"
+  },
+  {
+    "type": "ds3234_set_time",
+    "message0": "DS3234 设置时间 秒 %1 分 %2 时 %3 星期 %4 日 %5 月 %6 年 %7",
+    "args0": [
+      { "type": "input_value", "name": "SEC", "check": "Number" },
+      { "type": "input_value", "name": "MIN", "check": "Number" },
+      { "type": "input_value", "name": "HOUR", "check": "Number" },
+      { "type": "input_value", "name": "DAY", "check": "Number" },
+      { "type": "input_value", "name": "DATE", "check": "Number" },
+      { "type": "input_value", "name": "MONTH", "check": "Number" },
+      { "type": "input_value", "name": "YEAR", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "手动设置 DS3234 的时间和日期"
+  },
+  {
+    "type": "ds3234_update",
+    "message0": "DS3234 更新时间",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "从 DS3234 读取所有时间寄存器并更新缓存"
+  },
+  {
+    "type": "ds3234_get_time",
+    "message0": "DS3234 获取 %1",
+    "args0": [
+      { "type": "field_dropdown", "name": "FIELD", "options": [
+        ["秒 (second)", "second"],
+        ["分 (minute)", "minute"],
+        ["时 (hour)", "hour"],
+        ["星期 (day)", "day"],
+        ["日 (date)", "date"],
+        ["月 (month)", "month"],
+        ["年 (year)", "year"]
+      ]}
+    ],
+    "output": "Number",
+    "colour": "#673AB7",
+    "tooltip": "获取 DS3234 缓存中的指定时间值（需先调用更新积木）"
+  },
+  {
+    "type": "ds3234_get_temperature",
+    "message0": "DS3234 温度 (°C)",
+    "args0": [],
+    "output": "Number",
+    "colour": "#673AB7",
+    "tooltip": "读取 DS3234 内置温度传感器的温度值"
+  }
+]

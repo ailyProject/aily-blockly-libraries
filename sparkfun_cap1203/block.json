@@ -1,0 +1,147 @@
+[
+  {
+    "type": "cap1203_init",
+    "message0": "初始化 CAP1203 %1 地址 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "cap1203" },
+      { "type": "field_dropdown", "name": "ADDRESS", "options": [["0x28 默认", "CAP1203_I2C_ADDR"], ["0x28", "0x28"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "初始化 SparkFun CAP1203 Qwiic 电容触摸滑条"
+  },
+  {
+    "type": "cap1203_is_ready",
+    "message0": "CAP1203 %1 初始化成功",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "cap1203", "variableTypes": ["CAP1203"], "defaultType": "CAP1203" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "返回初始化块保存的 CAP1203 初始化状态"
+  },
+  {
+    "type": "cap1203_is_connected",
+    "message0": "CAP1203 %1 已连接",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "cap1203", "variableTypes": ["CAP1203"], "defaultType": "CAP1203" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "检查 CAP1203 是否响应 I2C"
+  },
+  {
+    "type": "cap1203_touched",
+    "message0": "CAP1203 %1 触摸 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "cap1203", "variableTypes": ["CAP1203"], "defaultType": "CAP1203" },
+      { "type": "field_dropdown", "name": "PAD", "options": [["任意", "ANY"], ["左", "LEFT"], ["中", "MIDDLE"], ["右", "RIGHT"]] }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "检查触摸面板是否被触摸"
+  },
+  {
+    "type": "cap1203_swipe",
+    "message0": "CAP1203 %1 滑动 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "cap1203", "variableTypes": ["CAP1203"], "defaultType": "CAP1203" },
+      { "type": "field_dropdown", "name": "DIRECTION", "options": [["向左", "LEFT"], ["向右", "RIGHT"]] }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "检查是否检测到滑动手势"
+  },
+  {
+    "type": "cap1203_set_sensitivity",
+    "message0": "设置 CAP1203 %1 灵敏度 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "cap1203", "variableTypes": ["CAP1203"], "defaultType": "CAP1203" },
+      { "type": "field_dropdown", "name": "SENSITIVITY", "options": [["128x 最敏感", "SENSITIVITY_128X"], ["64x", "SENSITIVITY_64X"], ["32x", "SENSITIVITY_32X"], ["16x", "SENSITIVITY_16X"], ["8x", "SENSITIVITY_8X"], ["4x", "SENSITIVITY_4X"], ["2x", "SENSITIVITY_2X"], ["1x 最低", "SENSITIVITY_1X"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 CAP1203 触摸灵敏度"
+  },
+  {
+    "type": "cap1203_get_sensitivity",
+    "message0": "CAP1203 %1 灵敏度",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "cap1203", "variableTypes": ["CAP1203"], "defaultType": "CAP1203" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取当前灵敏度设置"
+  },
+  {
+    "type": "cap1203_set_interrupt",
+    "message0": "设置 CAP1203 %1 中断 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "cap1203", "variableTypes": ["CAP1203"], "defaultType": "CAP1203" },
+      { "type": "field_dropdown", "name": "STATE", "options": [["启用", "ENABLE"], ["禁用", "DISABLE"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "启用或禁用触摸中断"
+  },
+  {
+    "type": "cap1203_clear_interrupt",
+    "message0": "清除 CAP1203 %1 中断",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "cap1203", "variableTypes": ["CAP1203"], "defaultType": "CAP1203" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "清除 CAP1203 INT 标志"
+  },
+  {
+    "type": "cap1203_set_power_button_pad",
+    "message0": "设置 CAP1203 %1 电源按钮触摸点 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "cap1203", "variableTypes": ["CAP1203"], "defaultType": "CAP1203" },
+      { "type": "field_dropdown", "name": "PAD", "options": [["左", "PWR_CS1"], ["中", "PWR_CS2"], ["右", "PWR_CS3"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "选择哪个触摸点作为电源按钮"
+  },
+  {
+    "type": "cap1203_set_power_button_time",
+    "message0": "设置 CAP1203 %1 电源按钮时间 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "cap1203", "variableTypes": ["CAP1203"], "defaultType": "CAP1203" },
+      { "type": "field_dropdown", "name": "TIME", "options": [["280 ms", "PWR_TIME_280_MS"], ["560 ms", "PWR_TIME_560_MS"], ["1120 ms", "PWR_TIME_1120_MS"], ["2240 ms", "PWR_TIME_2240_MS"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置触发电源按钮的保持时间"
+  },
+  {
+    "type": "cap1203_set_power_button_enabled",
+    "message0": "设置 CAP1203 %1 电源按钮 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "cap1203", "variableTypes": ["CAP1203"], "defaultType": "CAP1203" },
+      { "type": "field_dropdown", "name": "STATE", "options": [["启用", "ENABLE"], ["禁用", "DISABLE"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "启用或禁用电源按钮功能"
+  },
+  {
+    "type": "cap1203_power_button_touched",
+    "message0": "CAP1203 %1 电源按钮触发",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "cap1203", "variableTypes": ["CAP1203"], "defaultType": "CAP1203" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "检查电源按钮是否被触发"
+  }
+]

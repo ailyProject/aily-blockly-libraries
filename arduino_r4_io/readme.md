@@ -1,6 +1,6 @@
-# R4 I/O控制库
+# R4 I/O Control Library
 
-适用于Arduino UNO R4特殊I/O控制库，如ADC、DAC
+Suitable for Arduino UNO R4 special I/O control library, such as ADC, DAC
 
 ## Library Info
 
@@ -8,19 +8,19 @@
 |-------|-------|
 | Package | @aily-project/lib-r4-io |
 | Version | 0.0.1 |
-| Author | aily Project |
-| License | MIT |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-renesas_uno:minima, renesas_uno:unor4wifi
+Arduino UNO R4
 
 ## Description
 
-适用于Arduino UNO R4特殊I/O控制库，如ADC、DAC
-
-This library provides 7 Blockly blocks.
+Suitable for Arduino UNO R4 special I/O control library, such as ADC, DAC
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-r4-io` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

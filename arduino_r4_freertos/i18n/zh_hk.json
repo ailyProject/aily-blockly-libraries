@@ -1,0 +1,33 @@
+{
+  "toolbox_name": "R4 FreeRTOS",
+  "toolbox_categories": ["任務管理", "佇列通訊", "訊號量同步", "通知與中斷", "系統資訊", "常用任務範本"],
+  "toolbox_labels": {
+    "常用任务模板": "常用任務範本"
+  },
+  "r4_freertos_task_create": { "message0": "建立任務 %1 堆疊深度 %2 字 優先級 %3", "tooltip": "建立 Arduino R4 FreeRTOS 任務與任務控制代碼；排程器會在 setup 結尾自動啟動" },
+  "r4_freertos_task_function": { "message0": "任務 %1 執行", "message1": "重複執行 %1", "tooltip": "定義 Arduino R4 FreeRTOS 任務函式，內部自動包含無限迴圈" },
+  "r4_freertos_start_scheduler": { "message0": "啟動 FreeRTOS 排程器", "tooltip": "在 setup 結尾啟動 FreeRTOS 排程器；建立任務積木也會自動加入此動作" },
+  "r4_freertos_task_delay_ms": { "message0": "任務延時 %1 毫秒", "tooltip": "以毫秒延遲目前任務" },
+  "r4_freertos_task_delay_ticks": { "message0": "任務延時 %1 ticks", "tooltip": "以 FreeRTOS tick 延遲目前任務" },
+  "r4_freertos_task_suspend": { "message0": "暫停任務 %1", "tooltip": "暫停指定任務" },
+  "r4_freertos_task_resume": { "message0": "恢復任務 %1", "tooltip": "恢復指定任務" },
+  "r4_freertos_task_delete": { "message0": "刪除任務 %1", "tooltip": "刪除任務並清除其控制代碼" },
+  "r4_freertos_task_delete_current": { "message0": "刪除目前任務", "tooltip": "刪除目前正在執行的任務" },
+  "r4_freertos_task_notify": { "message0": "通知任務 %1", "tooltip": "傳送任務通知" },
+  "r4_freertos_task_notify_from_isr": { "message0": "在中斷中通知任務 %1", "tooltip": "在中斷中安全地通知任務" },
+  "r4_freertos_task_wait_notification": { "message0": "等待任務通知 %1 %2 毫秒", "tooltip": "等待目前任務收到通知", "args0": [{ "options": [["最多等待", "MS"], ["一直等待", "FOREVER"]] }, null] },
+  "r4_freertos_queue_create": { "message0": "建立佇列 %1 長度 %2 資料型別 %3", "tooltip": "建立 FreeRTOS 佇列以傳遞固定大小資料", "args0": [null, null, { "options": [["整數 int", "int"], ["長整數 long", "long"], ["32位元無符號 uint32_t", "uint32_t"], ["32位元有符號 int32_t", "int32_t"], ["浮點 float", "float"], ["雙精度 double", "double"], ["位元組 uint8_t", "uint8_t"], ["布林 bool", "bool"]] }] },
+  "r4_freertos_queue_send": { "message0": "向佇列 %1 傳送 %2 型別 %3 等待 %4 %5 毫秒", "tooltip": "使用型別暫存變數向佇列傳送一筆資料", "args0": [null, null, { "options": [["整數 int", "int"], ["長整數 long", "long"], ["32位元無符號 uint32_t", "uint32_t"], ["32位元有符號 int32_t", "int32_t"], ["浮點 float", "float"], ["雙精度 double", "double"], ["位元組 uint8_t", "uint8_t"], ["布林 bool", "bool"]] }, { "options": [["最多等待", "MS"], ["一直等待", "FOREVER"]] }, null] },
+  "r4_freertos_queue_receive_do": { "message0": "從佇列 %1 接收型別 %2 到變數 %3 等待 %4 %5 毫秒", "message1": "接收成功執行 %1", "tooltip": "從佇列接收資料，成功時執行內部積木", "args0": [null, { "options": [["整數 int", "int"], ["長整數 long", "long"], ["32位元無符號 uint32_t", "uint32_t"], ["32位元有符號 int32_t", "int32_t"], ["浮點 float", "float"], ["雙精度 double", "double"], ["位元組 uint8_t", "uint8_t"], ["布林 bool", "bool"]] }, null, { "options": [["最多等待", "MS"], ["一直等待", "FOREVER"]] }, null] },
+  "r4_freertos_queue_messages_waiting": { "message0": "佇列 %1 等待訊息數", "tooltip": "取得佇列中等待的資料筆數" },
+  "r4_freertos_semaphore_create": { "message0": "建立訊號量 %1 型別 %2 最大計數 %3 初始計數 %4", "tooltip": "建立二進位或計數訊號量；最大與初始計數僅用於計數型", "args0": [null, { "options": [["二進位", "BINARY"], ["計數", "COUNTING"]] }, null, null] },
+  "r4_freertos_semaphore_take": { "message0": "取得訊號量 %1 等待 %2 %3 毫秒", "tooltip": "嘗試取得訊號量", "args0": [null, { "options": [["最多等待", "MS"], ["一直等待", "FOREVER"]] }, null] },
+  "r4_freertos_semaphore_give": { "message0": "釋放訊號量 %1", "tooltip": "釋放訊號量" },
+  "r4_freertos_semaphore_give_from_isr": { "message0": "在中斷中釋放訊號量 %1", "tooltip": "在中斷中安全地釋放訊號量" },
+  "r4_freertos_attach_interrupt": { "message0": "設定中斷 腳位 %1 觸發 %2", "message1": "中斷執行 %1", "tooltip": "建立 Arduino 外部中斷處理函式，適合配合 FromISR 積木通知任務或釋放訊號量", "args0": [null, { "options": [["低電位", "LOW"], ["上升沿", "RISING"], ["下降沿", "FALLING"], ["變化", "CHANGE"]] }] },
+  "r4_freertos_get_tick_count": { "message0": "系統 tick 計數", "tooltip": "取得目前 FreeRTOS tick 計數" },
+  "r4_freertos_get_task_count": { "message0": "目前任務數量", "tooltip": "取得目前任務數量" },
+  "r4_freertos_get_task_name": { "message0": "任務 %1 名稱", "tooltip": "取得指定任務名稱" },
+  "r4_freertos_get_current_task_name": { "message0": "目前任務名稱", "tooltip": "取得目前任務名稱" },
+  "r4_freertos_get_free_heap_size": { "message0": "可用堆記憶體位元組數", "tooltip": "取得目前 FreeRTOS 可用堆記憶體位元組數" }
+}

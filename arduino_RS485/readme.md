@@ -1,166 +1,26 @@
-# Arduino RS485 Blockly库
+# RS485 communication library
 
-本库为aily blockly项目提供Arduino RS485通信功能支持，基于官方ArduinoRS485库开发。
+Optimized RS485 serial communication library supports one-click configuration, automatic initialization, master-slave communication and other simplified functions
 
-## 🚀 快速开始
+## Library Info
 
-### 最简单的使用方式
-1. 拖入"快速设置RS485"块，配置波特率和引脚
-2. 使用"RS485简单发送"发送数据  
-3. 使用"RS485接收到数据时"处理接收的数据
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-arduino-rs485 |
+| Version | 0.1.0 |
+| Author | Arduino |
+| Source | N/A |
+| License | Original license |
 
-```blockly
-快速设置RS485 波特率9600 发送引脚1 发送使能引脚2 接收使能引脚3
-RS485简单发送 "Hello World"
-RS485接收到数据时
-  串口打印 RS485接收的数据
-```
+## Supported Boards
 
-## 功能特性
+Arduino AVR, Arduino SAMD, Arduino UNO R4
 
-- ✅ **一键设置**: 快速设置RS485通信参数
-- ✅ **自动初始化**: 使用任何功能块时自动添加必要的初始化代码
-- ✅ **智能管理**: 自动处理发送/接收模式切换
-- ✅ **影子块**: 所有输入参数都有默认值，开箱即用
-- ✅ **主从通信**: 支持简单的主从设备地址通信
-- ✅ **兼容性强**: 支持所有Arduino开发板
-- ✅ **分层设计**: 从简单到复杂，满足不同需求
+## Description
 
-## 支持的开发板
+Optimized RS485 serial communication library supports one-click configuration, automatic initialization, master-slave communication and other simplified functions
 
-- Arduino UNO/MEGA (AVR系列)
-- Arduino MKR系列 (SAMD系列) 
-- ESP32/ESP32-S3/ESP32-C3系列
-- Arduino UNO R4 (Renesas系列)
+## Quick Start
 
-## 🎯 功能块分类
-
-### 🚀 快速开始 (推荐新手使用)
-- **快速设置RS485**: 一步完成所有配置
-- **RS485简单发送**: 自动处理传输控制的发送
-- **RS485接收到数据时**: 自动处理数据接收事件
-- **RS485接收的数据**: 获取接收到的数据
-
-### 📡 主从通信
-- **RS485主机发送数据到从机地址**: 带地址的主机发送
-- **RS485从机地址接收到数据时**: 从机按地址接收
-
-### ⚙️ 基础设置 (需要手动管理)
-- **初始化RS485通信**: 设置波特率
-- **设置RS485引脚**: 自定义引脚配置
-- **关闭RS485通信**: 停止通信
-
-### 📤 数据发送 (高级用户)
-- **开始RS485发送**: 手动启用发送模式
-- **RS485发送数据/打印/打印并换行**: 各种发送方式
-- **结束RS485发送**: 手动停止发送模式
-- **等待RS485发送完成**: 等待发送完成
-
-### 📥 数据接收 (高级用户)  
-- **启用/禁用RS485接收**: 手动控制接收模式
-- **RS485有数据可读**: 检查数据可用性
-- **读取RS485数据**: 读取字节数据
-- **查看RS485下一个字节**: 预览数据
-
-### 🔧 高级功能
-- **发送RS485中断信号**: 发送中断信号
-
-## 💡 使用示例
-
-### 示例1: 最简单的发送接收
-```blockly
-快速设置RS485 波特率9600 发送引脚1 发送使能引脚2 接收使能引脚3
-
-永远重复
-  RS485简单发送 "Hello"
-  延时 1000 毫秒
-  
-RS485接收到数据时
-  串口打印并换行 RS485接收的数据
-```
-
-### 示例2: 主从通信  
-主机代码:
-```blockly
-快速设置RS485 波特率9600 发送引脚1 发送使能引脚2 接收使能引脚3
-
-永远重复
-  RS485主机发送数据 "传感器数据" 到从机地址1
-  延时 2000 毫秒
-```
-
-从机代码:
-```blockly
-快速设置RS485 波特率9600 发送引脚1 发送使能引脚2 接收使能引脚3
-
-RS485从机地址1接收到数据时
-  串口打印并换行 连接字符串 "收到主机数据: " RS485接收的数据
-```
-
-### 示例3: 高级手动控制
-```blockly
-初始化RS485通信 波特率115200
-设置RS485引脚 发送引脚1 发送使能引脚2 接收使能引脚3
-启用RS485接收
-
-永远重复
-  如果 RS485有数据可读
-    将变量 data 设为 读取RS485数据
-    串口打印 data
-  
-  开始RS485发送
-  RS485打印 "手动控制发送"
-  结束RS485发送
-  等待RS485发送完成
-  
-  延时 1000 毫秒
-```
-
-## 🔌 硬件连接
-
-### MKR 485 Shield (推荐)
-- ISO GND → RS485设备的GND
-- A → RS485设备的A/Y  
-- B → RS485设备的B/Z
-- 设置终端电阻跳线
-
-### MAX3157等芯片
-| 引脚 | 连接 | 说明 |
-|------|------|------|
-| DI | Arduino TX引脚 | 数据输入 |
-| DE | Arduino数字引脚 | 发送使能 |
-| RE | Arduino数字引脚 | 接收使能 |
-| RO | Arduino RX引脚 | 数据输出 |
-| A, B | RS485总线 | 差分信号线 |
-
-## ⚠️ 重要说明
-
-### 自动初始化特性
-- 使用任何发送/接收功能块时，库会自动添加必要的初始化代码
-- 默认波特率为9600，可通过"初始化RS485通信"或"快速设置RS485"自定义
-- 无需手动调用begin()，简化使用流程
-
-### 最佳实践
-1. **新手推荐**: 使用"快速开始"分类中的功能块
-2. **自动管理**: 优先使用"简单发送"和"接收到数据时"
-3. **引脚设置**: 使用"快速设置RS485"或"设置RS485引脚"
-4. **主从通信**: 使用带地址的主从通信功能
-5. **高级控制**: 需要精确控制时才使用手动发送/接收块
-
-### 注意事项
-- RS485是半双工协议，同时只能发送或接收
-- 长距离通信需要终端电阻
-- 建议在噪声环境中降低波特率提高可靠性
-
-## 📦 依赖库
-
-```cpp
-#include <ArduinoRS485.h>  // 自动包含
-```
-
-## 📄 许可证
-
-遵循Arduino库开源许可协议
-
----
-*aily Project - 让编程更简单* 🎈
+1. Enable `@aily-project/lib-arduino-rs485` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

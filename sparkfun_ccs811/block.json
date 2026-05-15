@@ -1,0 +1,132 @@
+[
+  {
+    "type": "ccs811_init",
+    "message0": "初始化 CCS811 %1 地址 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "ccs811" },
+      { "type": "field_dropdown", "name": "ADDRESS", "options": [["0x5B 默认", "0x5B"], ["0x5A", "0x5A"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "初始化 SparkFun CCS811 eCO2/TVOC 空气质量传感器"
+  },
+  {
+    "type": "ccs811_is_ready",
+    "message0": "CCS811 %1 初始化成功",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ccs811", "variableTypes": ["CCS811"], "defaultType": "CCS811" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "返回初始化块保存的 CCS811 初始化状态"
+  },
+  {
+    "type": "ccs811_data_available",
+    "message0": "CCS811 %1 数据可用",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ccs811", "variableTypes": ["CCS811"], "defaultType": "CCS811" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "检查是否有新的算法结果"
+  },
+  {
+    "type": "ccs811_read_results",
+    "message0": "读取 CCS811 %1 算法结果",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ccs811", "variableTypes": ["CCS811"], "defaultType": "CCS811" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "读取并缓存 eCO2 和 TVOC 结果"
+  },
+  {
+    "type": "ccs811_get_co2",
+    "message0": "CCS811 %1 eCO2 ppm",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ccs811", "variableTypes": ["CCS811"], "defaultType": "CCS811" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取最近一次算法结果中的 eCO2 ppm"
+  },
+  {
+    "type": "ccs811_get_tvoc",
+    "message0": "CCS811 %1 TVOC ppb",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ccs811", "variableTypes": ["CCS811"], "defaultType": "CCS811" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取最近一次算法结果中的 TVOC ppb"
+  },
+  {
+    "type": "ccs811_set_drive_mode",
+    "message0": "设置 CCS811 %1 驱动模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ccs811", "variableTypes": ["CCS811"], "defaultType": "CCS811" },
+      { "type": "field_dropdown", "name": "MODE", "options": [["空闲", "0"], ["1 秒", "1"], ["10 秒", "2"], ["60 秒", "3"], ["RAW", "4"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 CCS811 测量间隔"
+  },
+  {
+    "type": "ccs811_set_environmental_data",
+    "message0": "设置 CCS811 %1 环境补偿 湿度 %2 温度 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ccs811", "variableTypes": ["CCS811"], "defaultType": "CCS811" },
+      { "type": "input_value", "name": "HUMIDITY", "check": "Number" },
+      { "type": "input_value", "name": "TEMPERATURE", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置相对湿度和摄氏温度以补偿 CCS811 读数"
+  },
+  {
+    "type": "ccs811_get_baseline",
+    "message0": "CCS811 %1 基准值",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ccs811", "variableTypes": ["CCS811"], "defaultType": "CCS811" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取传感器基准值"
+  },
+  {
+    "type": "ccs811_set_baseline",
+    "message0": "设置 CCS811 %1 基准值 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ccs811", "variableTypes": ["CCS811"], "defaultType": "CCS811" },
+      { "type": "input_value", "name": "BASELINE", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "恢复 CCS811 基准值"
+  },
+  {
+    "type": "ccs811_has_error",
+    "message0": "CCS811 %1 状态错误",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ccs811", "variableTypes": ["CCS811"], "defaultType": "CCS811" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "检查 CCS811 状态错误位"
+  },
+  {
+    "type": "ccs811_error_register",
+    "message0": "CCS811 %1 错误寄存器",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ccs811", "variableTypes": ["CCS811"], "defaultType": "CCS811" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取错误寄存器"
+  }
+]

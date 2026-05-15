@@ -1,0 +1,71 @@
+[
+  {
+    "type": "teensyview_init",
+    "message0": "初始化 TeensyView %1 RST引脚 %2 DC引脚 %3 CS引脚 %4 SCK引脚 %5 SDI引脚 %6",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "oled" },
+      { "type": "input_value", "name": "RST", "check": "Number" },
+      { "type": "input_value", "name": "DC", "check": "Number" },
+      { "type": "input_value", "name": "CS", "check": "Number" },
+      { "type": "input_value", "name": "SCK", "check": "Number" },
+      { "type": "input_value", "name": "SDI", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#263238",
+    "tooltip": "初始化 TeensyView SPI OLED（128×32）"
+  },
+  {
+    "type": "teensyview_clear",
+    "message0": "TeensyView %1 清屏",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["TeensyView"], "defaultType": "TeensyView" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#263238",
+    "tooltip": "清除 TeensyView 显示内容"
+  },
+  {
+    "type": "teensyview_print",
+    "message0": "TeensyView %1 X %2 Y %3 打印 %4",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["TeensyView"], "defaultType": "TeensyView" },
+      { "type": "input_value", "name": "X", "check": "Number" },
+      { "type": "input_value", "name": "Y", "check": "Number" },
+      { "type": "input_value", "name": "TEXT" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#263238",
+    "tooltip": "在 TeensyView 指定位置打印文字"
+  },
+  {
+    "type": "teensyview_pixel",
+    "message0": "TeensyView %1 像素 X %2 Y %3 颜色 %4",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["TeensyView"], "defaultType": "TeensyView" },
+      { "type": "input_value", "name": "X", "check": "Number" },
+      { "type": "input_value", "name": "Y", "check": "Number" },
+      { "type": "field_dropdown", "name": "COLOR", "options": [["亮", "1"], ["暗", "0"]] }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#263238",
+    "tooltip": "设置 TeensyView 指定像素"
+  },
+  {
+    "type": "teensyview_display",
+    "message0": "TeensyView %1 刷新显示",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "oled", "variableTypes": ["TeensyView"], "defaultType": "TeensyView" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#263238",
+    "tooltip": "将缓冲区内容刷新到 TeensyView 屏幕"
+  }
+]

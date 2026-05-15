@@ -1,0 +1,150 @@
+[
+  {
+    "type": "as7265x_init",
+    "message0": "初始化 AS7265X %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "as7265x" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "创建并初始化 AS7265X 18 通道光谱传感器"
+  },
+  {
+    "type": "as7265x_is_ready",
+    "message0": "AS7265X %1 初始化成功",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7265x", "variableTypes": ["AS7265X"], "defaultType": "AS7265X" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "返回初始化块保存的 AS7265X 初始化状态"
+  },
+  {
+    "type": "as7265x_is_connected",
+    "message0": "AS7265X %1 已连接",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7265x", "variableTypes": ["AS7265X"], "defaultType": "AS7265X" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "检查 AS7265X I2C 连接"
+  },
+  {
+    "type": "as7265x_take_measurements",
+    "message0": "AS7265X %1 采集测量 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7265x", "variableTypes": ["AS7265X"], "defaultType": "AS7265X" },
+      { "type": "field_dropdown", "name": "BULB", "options": [["不带灯", "NO"], ["带灯", "YES"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "执行一次阻塞式 18 通道光谱测量"
+  },
+  {
+    "type": "as7265x_data_available",
+    "message0": "AS7265X %1 数据就绪",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7265x", "variableTypes": ["AS7265X"], "defaultType": "AS7265X" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "检查 AS7265X 光谱数据是否就绪"
+  },
+  {
+    "type": "as7265x_read_calibrated",
+    "message0": "AS7265X %1 校准通道 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7265x", "variableTypes": ["AS7265X"], "defaultType": "AS7265X" },
+      { "type": "field_dropdown", "name": "CHANNEL", "options": [["A 410nm", "getCalibratedA"], ["B 435nm", "getCalibratedB"], ["C 460nm", "getCalibratedC"], ["D 485nm", "getCalibratedD"], ["E 510nm", "getCalibratedE"], ["F 535nm", "getCalibratedF"], ["G 560nm", "getCalibratedG"], ["H 585nm", "getCalibratedH"], ["I 610nm", "getCalibratedI"], ["J 645nm", "getCalibratedJ"], ["K 705nm", "getCalibratedK"], ["L 900nm", "getCalibratedL"], ["R", "getCalibratedR"], ["S", "getCalibratedS"], ["T", "getCalibratedT"], ["U", "getCalibratedU"], ["V", "getCalibratedV"], ["W", "getCalibratedW"]] }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取 AS7265X 校准光谱通道值"
+  },
+  {
+    "type": "as7265x_read_raw",
+    "message0": "AS7265X %1 原始通道 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7265x", "variableTypes": ["AS7265X"], "defaultType": "AS7265X" },
+      { "type": "field_dropdown", "name": "CHANNEL", "options": [["A 410nm", "getA"], ["B 435nm", "getB"], ["C 460nm", "getC"], ["D 485nm", "getD"], ["E 510nm", "getE"], ["F 535nm", "getF"], ["G 560nm", "getG"], ["H 585nm", "getH"], ["I 610nm", "getI"], ["J 645nm", "getJ"], ["K 705nm", "getK"], ["L 900nm", "getL"], ["R", "getR"], ["S", "getS"], ["T", "getT"], ["U", "getU"], ["V", "getV"], ["W", "getW"]] }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取 AS7265X 原始光谱通道值"
+  },
+  {
+    "type": "as7265x_read_temperature",
+    "message0": "AS7265X %1 温度 设备 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7265x", "variableTypes": ["AS7265X"], "defaultType": "AS7265X" },
+      { "type": "field_dropdown", "name": "DEVICE", "options": [["NIR", "AS72651_NIR"], ["VIS", "AS72652_VISIBLE"], ["UV", "AS72653_UV"]] }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取 AS7265X 指定内部设备温度"
+  },
+  {
+    "type": "as7265x_set_gain",
+    "message0": "设置 AS7265X %1 增益 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7265x", "variableTypes": ["AS7265X"], "defaultType": "AS7265X" },
+      { "type": "field_dropdown", "name": "GAIN", "options": [["1x", "AS7265X_GAIN_1X"], ["3.7x", "AS7265X_GAIN_37X"], ["16x", "AS7265X_GAIN_16X"], ["64x", "AS7265X_GAIN_64X"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 AS7265X 光谱增益"
+  },
+  {
+    "type": "as7265x_set_measurement_mode",
+    "message0": "设置 AS7265X %1 模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7265x", "variableTypes": ["AS7265X"], "defaultType": "AS7265X" },
+      { "type": "field_dropdown", "name": "MODE", "options": [["4 通道", "AS7265X_MEASUREMENT_MODE_4CHAN"], ["4 通道备用", "AS7265X_MEASUREMENT_MODE_4CHAN_2"], ["6 通道连续", "AS7265X_MEASUREMENT_MODE_6CHAN_CONTINUOUS"], ["6 通道单次", "AS7265X_MEASUREMENT_MODE_6CHAN_ONE_SHOT"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 AS7265X 测量模式"
+  },
+  {
+    "type": "as7265x_set_integration_cycles",
+    "message0": "设置 AS7265X %1 积分周期 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7265x", "variableTypes": ["AS7265X"], "defaultType": "AS7265X" },
+      { "type": "input_value", "name": "CYCLES", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置积分周期，积分时间约为 2.8ms x 周期"
+  },
+  {
+    "type": "as7265x_bulb",
+    "message0": "AS7265X %1 设备 %2 灯 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7265x", "variableTypes": ["AS7265X"], "defaultType": "AS7265X" },
+      { "type": "field_dropdown", "name": "DEVICE", "options": [["NIR", "AS72651_NIR"], ["VIS", "AS72652_VISIBLE"], ["UV", "AS72653_UV"]] },
+      { "type": "field_dropdown", "name": "STATE", "options": [["开启", "ON"], ["关闭", "OFF"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "打开或关闭 AS7265X 指定设备的照明 LED"
+  },
+  {
+    "type": "as7265x_set_bulb_current",
+    "message0": "设置 AS7265X %1 设备 %2 灯电流 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as7265x", "variableTypes": ["AS7265X"], "defaultType": "AS7265X" },
+      { "type": "field_dropdown", "name": "DEVICE", "options": [["NIR", "AS72651_NIR"], ["VIS", "AS72652_VISIBLE"], ["UV", "AS72653_UV"]] },
+      { "type": "field_dropdown", "name": "CURRENT", "options": [["12.5 mA", "AS7265X_LED_CURRENT_LIMIT_12_5MA"], ["25 mA", "AS7265X_LED_CURRENT_LIMIT_25MA"], ["50 mA", "AS7265X_LED_CURRENT_LIMIT_50MA"], ["100 mA", "AS7265X_LED_CURRENT_LIMIT_100MA"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 AS7265X 指定照明 LED 电流"
+  }
+]

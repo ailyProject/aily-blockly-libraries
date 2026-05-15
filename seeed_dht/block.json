@@ -1,0 +1,50 @@
+[
+  {
+    "type": "dht_init",
+    "message0": "初始化DHT传感器 引脚 %1 类型 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["DHT11", "DHT11"],
+          ["DHT22", "DHT22"],
+          ["DHT10 (I2C)", "DHT10"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化DHT温湿度传感器，指定数据引脚和传感器类型（DHT10使用I2C无需引脚）"
+  },
+  {
+    "type": "dht_read_temperature",
+    "message0": "读取温度 单位 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "UNIT",
+        "options": [
+          ["摄氏度 (°C)", "C"],
+          ["华氏度 (°F)", "F"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50",
+    "tooltip": "读取DHT传感器的温度值"
+  },
+  {
+    "type": "dht_read_humidity",
+    "message0": "读取湿度 (%RH)",
+    "output": "Number",
+    "colour": "#4CAF50",
+    "tooltip": "读取DHT传感器的相对湿度值（百分比）"
+  }
+]

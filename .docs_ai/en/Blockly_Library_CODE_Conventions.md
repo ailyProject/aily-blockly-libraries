@@ -613,6 +613,7 @@ function getClientName(block, def) {
   "nickname": "Display Name",
   "description": "Concise description (<50 chars)",
   "version": "semantic version",
+  "author": "original library source author (use \"ailyProject\" if unknown)",
   "compatibility": {
     "core": [
       "arduino:avr",           // Arduino UNO/Nano/Pro Mini etc.
@@ -631,6 +632,42 @@ function getClientName(block, def) {
   "url": "original library URL"
 }
 ```
+
+### Field Conventions
+
+- **`name`**: Must follow the format `@aily-project/lib-libname`.
+  - For libraries from a well-known hardware vendor (e.g. `adafruit`, `sparkfun`, `dfrobot`, `seeed`), prefix the library name with the vendor: `@aily-project/lib-adafruit-libname`.
+  - The corresponding outer workspace directory must mirror the vendor-prefixed name using an underscore separator: `adafruit_libname/`.
+- **`author`**: Must be the author of the **original (upstream) library source code**. If the original author is unknown or cannot be determined, use `"ailyProject"`.
+- **`url`**: Should point to the original upstream library repository.
+
+### Library Directory & Source Layout
+
+For a library with the outer directory `adafruit_libname/`, the source code (`src/`) layout MUST follow this convention:
+
+```
+brand_libname/
+├─ block.json
+├─ generator.js
+├─ toolbox.json
+├─ package.json
+├─ README.md
+├─ README_AI.md
+└─ src/
+   ├─ libname/                 // The actual upstream library source goes inside its own subfolder
+   │  ├─ libname.h
+   │  ├─ libname.cpp
+   │  └─ ...
+   ├─ dependency-lib-1/        // Additional dependency source libraries (if any)
+   │  └─ ...
+   └─ dependency-lib-2/
+      └─ ...
+```
+
+**Rules**:
+- The upstream library source MUST live under `src/<libname>/` (a subfolder named after the library), **not** placed loose directly in `src/`.
+- `src/` MAY contain multiple sibling subfolders when the library depends on additional source libraries — each dependency lives in its own subfolder under `src/`.
+- The vendor prefix (e.g. `adafruit_`) appears only in the **outer** directory name and the npm `name`; the inner `src/<libname>/` folder uses the bare library name without the vendor prefix.
 
 **Common board configuration examples**:
 - **Universal library**: `"core": []` (empty array = all boards supported)

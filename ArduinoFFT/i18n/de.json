@@ -1,103 +1,82 @@
 {
   "toolbox_name": "ArduinoFFT",
-  "Arduino_FFT_init": {
-    "message0": "初始化 FFT 对象 实部数组 %1 虚部数组 %2 样本数 %3 采样频率(Hz) %4",
-    "tooltip": "%{BKY_FFT_INIT_TOOLTIP}"
+  "toolbox_labels": {
+    "Setup": "Setup",
+    "Sampling": "Sampling",
+    "Processing": "Processing",
+    "Results": "Results",
+    "Debug": "Debug"
   },
-  "Arduino_FFT_windowing": {
-    "message0": "对数组 %1 应用窗口 %2 方向 %3",
-    "tooltip": "%{BKY_FFT_WINDOWING_TOOLTIP}",
-    "args0": [
-      null,
-      {
-        "options": [
-          [
-            "矩形",
-            "FFT_WIN_TYP_RECTANGLE"
-          ],
-          [
-            "汉明",
-            "FFT_WIN_TYP_HAMMING"
-          ],
-          [
-            "汉宁",
-            "FFT_WIN_TYP_HANN"
-          ],
-          [
-            "三角",
-            "FFT_WIN_TYP_TRIANGLE"
-          ],
-          [
-            "纳特尔",
-            "FFT_WIN_TYP_NUTTALL"
-          ],
-          [
-            "布莱克曼",
-            "FFT_WIN_TYP_BLACKMAN"
-          ],
-          [
-            "布莱克曼-纳特尔",
-            "FFT_WIN_TYP_BLACKMAN_NUTTALL"
-          ],
-          [
-            "布莱克曼-哈里斯",
-            "FFT_WIN_TYP_BLACKMAN_HARRIS"
-          ],
-          [
-            "平顶",
-            "FFT_WIN_TYP_FLT_TOP"
-          ],
-          [
-            "Welch",
-            "FFT_WIN_TYP_WELCH"
-          ]
-        ]
-      },
-      {
-        "options": [
-          [
-            "正向",
-            "FFT_FORWARD"
-          ],
-          [
-            "逆向",
-            "FFT_REVERSE"
-          ]
-        ]
-      }
-    ]
+  "arduino_fft_init": {
+    "message0": "create FFT %1 type %2 samples %3 sampling frequency %4 Hz",
+    "tooltip": "Create an arduinoFFT object and its real/imaginary sample buffers."
   },
-  "Arduino_FFT_compute": {
-    "message0": "计算 FFT 实部 %1 虚部 %2 样本数 %3 方向 %4",
-    "tooltip": "%{BKY_FFT_COMPUTE_TOOLTIP}",
-    "args0": [
-      null,
-      null,
-      null,
-      {
-        "options": [
-          [
-            "正向",
-            "FFT_FORWARD"
-          ],
-          [
-            "逆向",
-            "FFT_REVERSE"
-          ]
-        ]
-      }
-    ]
+  "arduino_fft_set_sample": {
+    "message0": "FFT %1 set sample index %2 real %3 imaginary %4",
+    "tooltip": "Write one real/imaginary sample into the FFT buffers."
   },
-  "Arduino_FFT_complex_to_magnitude": {
-    "message0": "复数转幅值 实部 %1 虚部 %2 样本数 %3",
-    "tooltip": "%{BKY_FFT_COMPLEX_TO_MAGNITUDE_TOOLTIP}"
+  "arduino_fft_clear_samples": {
+    "message0": "FFT %1 clear all samples",
+    "tooltip": "Set all real and imaginary samples to zero."
   },
-  "Arduino_FFT_major_peak": {
-    "message0": "从幅度数组 %1 （样本数 %2 采样频率 %3）获取主频率",
-    "tooltip": "%{BKY_FFT_MAJOR_PEAK_TOOLTIP}"
+  "arduino_fft_sample_analog": {
+    "message0": "FFT %1 sample analog pin %2 offset %3 scale %4",
+    "tooltip": "Fill the FFT buffers from analogRead at the configured sampling frequency."
   },
-  "Arduino_FFT_get_band": {
-    "message0": "从幅度数组 %1 （样本数 %2 采样频率 %3）获取第 %4 段(共8段)幅值",
-    "tooltip": "%{BKY_FFT_GET_BAND_TOOLTIP}"
+  "arduino_fft_generate_tone": {
+    "message0": "FFT %1 generate tone frequency %2 Hz amplitude %3 offset %4",
+    "tooltip": "Generate a sine-wave test signal into the FFT buffers."
+  },
+  "arduino_fft_dc_removal": {
+    "message0": "FFT %1 remove DC offset",
+    "tooltip": "Subtract the mean value from the real sample buffer."
+  },
+  "arduino_fft_windowing": {
+    "message0": "FFT %1 apply window %2 direction %3 compensate %4",
+    "tooltip": "Apply one of the arduinoFFT window functions to the real buffer."
+  },
+  "arduino_fft_compute": {
+    "message0": "FFT %1 compute direction %2",
+    "tooltip": "Run the FFT calculation on the configured buffers."
+  },
+  "arduino_fft_complex_to_magnitude": {
+    "message0": "FFT %1 complex to magnitude",
+    "tooltip": "Convert the complex FFT result into magnitudes stored in the real buffer."
+  },
+  "arduino_fft_process": {
+    "message0": "FFT %1 run forward pipeline window %2 remove DC %3 compensate %4",
+    "tooltip": "Run the common dcRemoval, windowing, compute, and complexToMagnitude sequence."
+  },
+  "arduino_fft_major_peak": {
+    "message0": "FFT %1 major peak frequency",
+    "tooltip": "Return the dominant frequency after magnitude conversion."
+  },
+  "arduino_fft_major_peak_parabola": {
+    "message0": "FFT %1 parabolic peak frequency",
+    "tooltip": "Return the dominant frequency using parabolic interpolation."
+  },
+  "arduino_fft_peak_magnitude": {
+    "message0": "FFT %1 major peak magnitude",
+    "tooltip": "Return the magnitude estimate for the dominant peak."
+  },
+  "arduino_fft_bin_frequency": {
+    "message0": "FFT %1 frequency of bin %2",
+    "tooltip": "Convert a FFT bin index into its frequency in Hz."
+  },
+  "arduino_fft_bin_magnitude": {
+    "message0": "FFT %1 magnitude of bin %2",
+    "tooltip": "Read a magnitude value from the real buffer by FFT bin index."
+  },
+  "arduino_fft_band_magnitude": {
+    "message0": "FFT %1 magnitude of band %2 in %3 bands",
+    "tooltip": "Return the maximum magnitude inside a coarse frequency band."
+  },
+  "arduino_fft_print_bins": {
+    "message0": "FFT %1 print bins to %2 from %3 to %4",
+    "tooltip": "Print frequency and magnitude pairs for a range of FFT bins."
+  },
+  "arduino_fft_revision": {
+    "message0": "arduinoFFT library revision",
+    "tooltip": "Return the arduinoFFT revision macro value."
   }
 }

@@ -1,27 +1,26 @@
-# K10传感器
+# K10 Sensor
 
-UNIHIKER K10 板载传感器库，支持加速度计、光线强度检测以及板载 AHT20 温湿度传感器读取。
+UNIHIKER K10 onboard sensor library, supports accelerometer, light intensity and AHT20 temperature & humidity
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
-| 包名 | @aily-project/lib-unihiker-k10-sensor |
-| 版本 | 0.1.0 |
-| 作者 | DFRobot |
-| 来源 | https://github.com/DFRobot/UNIHIKER_K10 |
-| 许可证 | MIT |
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-unihiker-k10-sensor |
+| Version | 0.1.0 |
+| Author | DFRobot |
+| Source | N/A |
+| License | Original license |
 
-## 支持的开发板
+## Supported Boards
 
-UNIHIKER K10 (DFR0992)
+UNIHIKER:esp32:k10
 
-## 说明
+## Description
 
-K10 开发板集成三轴加速度计（SC7A20H）、光线传感器（LTR303ALS）以及 AHT20 温湿度传感器（I2C 地址 0x38），可获取 X/Y/Z 轴加速度、光线强度，以及环境温度（℃/℉）和相对湿度（%RH）。
+UNIHIKER K10 onboard sensor library, supports accelerometer, light intensity and AHT20 temperature & humidity
 
-## 快速开始
+## Quick Start
 
-1. 使用「获取加速度计」积木读取 X/Y/Z 轴数据
-2. 使用「获取光线强度」积木读取环境传感器数据
-3. 在循环中先调用「AHT20 启动测量」积木，当返回 true 时再使用「AHT20 获取温度 / 获取相对湿度」积木读取数据
+1. Enable `@aily-project/lib-unihiker-k10-sensor` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

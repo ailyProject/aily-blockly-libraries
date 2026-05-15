@@ -1,6 +1,6 @@
-# DPS3xx 气压温度传感器
+# DPS3xx air pressure temperature sensor
 
-Infineon DPS3xx 高精度数字气压温度传感器 Blockly 积木库。
+Used for Infineon DPS3xx high-precision air pressure and temperature sensor, achieving high-precision measurement of air pressure (300-1200hPa) and temperature (-40~85°C) through I2C interface, suitable for Arduino, E...
 
 ## Library Info
 
@@ -9,19 +9,18 @@ Infineon DPS3xx 高精度数字气压温度传感器 Blockly 积木库。
 | Package | @aily-project/lib-dps3xx |
 | Version | 0.0.1 |
 | Author | aily-project |
-| Source | https://github.com/Infineon/arduino-xensiv-dps3xx |
-| License | MIT |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, Arduino Mega, ESP32, ESP32-S3, ESP32-C3
+Arduino AVR, ESP32
 
 ## Description
 
-DPS3xx 是英飞凌推出的高灵敏度气压温度传感器，可通过 I2C 或 SPI 接口连接。测量范围为 300-1200 hPa（气压）和 -40~85°C（温度）。支持可配置的过采样率，可在精度和速度之间灵活选择。
+Used for Infineon DPS3xx high-precision air pressure and temperature sensor, achieving high-precision measurement of air pressure (300-1200hPa) and temperature (-40~85°C) through I2C interface, suitable for Arduino, E...
 
 ## Quick Start
 
-1. 通过 I2C 连接 DPS3xx 传感器（默认地址 0x77）
-2. 在 setup 中放置"初始化 DPS3xx"积木
-3. 在 loop 中使用"读取温度"或"读取气压"积木获取数据
+1. Enable `@aily-project/lib-dps3xx` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

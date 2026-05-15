@@ -1,6 +1,6 @@
 # SimpleFOC
 
-A Field Oriented Control (FOC) library for BLDC and Stepper motors with Arduino
+BLDC and Stepper motor FOC control library
 
 ## Library Info
 
@@ -8,21 +8,19 @@ A Field Oriented Control (FOC) library for BLDC and Stepper motors with Arduino
 |-------|-------|
 | Package | @aily-project/lib-simplefoc |
 | Version | 2.4.0 |
-| Author | SimpleFOC Community |
+| Author | SimpleFOC |
 | Source | https://github.com/simplefoc/Arduino-FOC |
 | License | MIT |
 
 ## Supported Boards
 
-Arduino UNO, MEGA, DUE, ESP32, STM32, Teensy, RP2040 and many more
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-SimpleFOC is a cross-platform library implementing Field Oriented Control for BLDC and stepper motors. It provides smooth motor operation with high-degree of torque, velocity and position control. Supports multiple sensor types (encoders, magnetic sensors) and driver configurations (3PWM, 6PWM).
+BLDC and Stepper motor FOC control library
 
 ## Quick Start
 
-1. Create motor and driver objects, link them
-2. Initialize driver, sensor, and motor in setup
-3. Call `motor.loopFOC()` in loop (as fast as possible)
-4. Call `motor.move(target)` to set velocity/position/torque
+1. Enable `@aily-project/lib-simplefoc` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

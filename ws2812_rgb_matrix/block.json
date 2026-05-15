@@ -1,0 +1,750 @@
+[
+  {
+    "type": "ws2812_matrix_init",
+    "message0": "初始化 WS2812 RGB点阵 %1 引脚 %2 宽 %3 高 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "matrix"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_number",
+        "name": "WIDTH",
+        "value": 8,
+        "min": 1,
+        "max": 128,
+        "precision": 1
+      },
+      {
+        "type": "field_number",
+        "name": "HEIGHT",
+        "value": 8,
+        "min": 1,
+        "max": 128,
+        "precision": 1
+      }
+    ],
+    "message1": "走线 %1 LED类型 %2 亮度 %3",
+    "args1": [
+      {
+        "type": "field_dropdown",
+        "name": "SERPENTINE",
+        "options": [
+          ["逐行", "false"],
+          ["蛇形", "true"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["GRB 800KHz", "NEO_GRB + NEO_KHZ800"],
+          ["RGB 800KHz", "NEO_RGB + NEO_KHZ800"],
+          ["BRG 800KHz", "NEO_BRG + NEO_KHZ800"],
+          ["GRB 400KHz", "NEO_GRB + NEO_KHZ400"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "BRIGHTNESS",
+        "value": 50,
+        "min": 0,
+        "max": 255,
+        "precision": 1
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "创建并初始化 WS2812/NeoPixel RGB 点阵屏，可设置宽高和蛇形走线",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_show",
+    "message0": "%1 刷新显示",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "把缓冲区内容刷新到 WS2812 点阵屏",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_clear",
+    "message0": "%1 清屏 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SHOW",
+        "options": [
+          ["并刷新", "true"],
+          ["仅清缓存", "false"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "关闭所有像素，可选择是否立即刷新",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_set_brightness",
+    "message0": "%1 设置亮度 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      },
+      {
+        "type": "input_value",
+        "name": "BRIGHTNESS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "设置亮度，范围 0-255",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_color_picker",
+    "message0": "颜色 %1",
+    "args0": [
+      {
+        "type": "field_colour",
+        "name": "COLOR",
+        "colour": "#ff0000"
+      }
+    ],
+    "output": "Number",
+    "colour": "#80CBC4",
+    "tooltip": "选择一个 RGB 颜色值",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_color_rgb",
+    "message0": "RGB颜色 红 %1 绿 %2 蓝 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "RED",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "GREEN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BLUE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#80CBC4",
+    "tooltip": "用红绿蓝 0-255 分量生成颜色值",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_set_pixel_xy",
+    "message0": "%1 设置像素 X %2 Y %3 颜色 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "按点阵坐标设置单个像素颜色",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_set_pixel_index",
+    "message0": "%1 设置序号 %2 颜色 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "按一维 LED 序号设置颜色",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_fill_color",
+    "message0": "%1 填充颜色 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "用同一种颜色填满整个点阵缓冲区",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_draw_image",
+    "message0": "%1 显示RGB图案 %2 起点 X %3 Y %4 空像素 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      },
+      {
+        "type": "field_led_matrix_image",
+        "name": "IMAGE",
+        "mode": "rgb",
+        "width": 8,
+        "height": 8,
+        "minWidth": 1,
+        "maxWidth": 128,
+        "minHeight": 1,
+        "maxHeight": 128,
+        "fieldHeight": 64,
+        "selectedColour": "#ff3b30"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TRANSPARENT",
+        "options": [
+          ["透明", "true"],
+          ["熄灭", "false"]
+        ]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "使用 RGB 点阵编辑器绘制图案，支持透明空像素",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_draw_line",
+    "message0": "%1 画线 X1 %2 Y1 %3 X2 %4 Y2 %5 颜色 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      },
+      {
+        "type": "input_value",
+        "name": "X0",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y0",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "X1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "在点阵缓冲区绘制直线",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_draw_rect",
+    "message0": "%1 画矩形 X %2 Y %3 宽 %4 高 %5 %6 颜色 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "HEIGHT",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FILL",
+        "options": [
+          ["空心", "false"],
+          ["实心", "true"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "绘制空心或实心矩形",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_draw_circle",
+    "message0": "%1 画圆 X %2 Y %3 半径 %4 %5 颜色 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "RADIUS",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FILL",
+        "options": [
+          ["空心", "false"],
+          ["实心", "true"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "绘制空心或实心圆",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_draw_text",
+    "message0": "%1 显示文本 %2 X %3 Y %4 颜色 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "显示 5x7 英文字符、数字和常用符号",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_scroll_text",
+    "message0": "%1 滚动文本 %2 颜色 %3 背景 %4 延迟ms %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BACKGROUND",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "从右向左滚动显示文本",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_color_wipe",
+    "message0": "%1 逐点填充 颜色 %2 延迟ms %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "按 LED 序号逐个点亮颜色",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_rainbow",
+    "message0": "%1 彩虹动画 延迟ms %2 循环 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CYCLES",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "显示彩虹流动动画",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_theater_chase",
+    "message0": "%1 剧院追逐 颜色 %2 延迟ms %3 循环 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CYCLES",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "显示三相追逐灯动画",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_run_effect",
+    "message0": "%1 运行效果 %2 颜色 %3 延迟ms %4 循环 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "EFFECT",
+        "options": [
+          ["行扫描", "0"],
+          ["列扫描", "1"],
+          ["随机闪烁", "2"],
+          ["呼吸", "3"],
+          ["棋盘闪烁", "4"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "WAIT",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CYCLES",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "运行常用预设点阵效果",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_xy_to_index",
+    "message0": "%1 坐标 X %2 Y %3 对应序号",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#80CBC4",
+    "tooltip": "按当前宽高和走线方式把 XY 坐标转换为 LED 序号",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_get_width",
+    "message0": "%1 宽度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      }
+    ],
+    "output": "Number",
+    "colour": "#80CBC4",
+    "tooltip": "获取初始化时设置的点阵宽度",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_get_height",
+    "message0": "%1 高度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      }
+    ],
+    "output": "Number",
+    "colour": "#80CBC4",
+    "tooltip": "获取初始化时设置的点阵高度",
+    "icon": "iconfont icon-ws2812"
+  },
+  {
+    "type": "ws2812_matrix_get_count",
+    "message0": "%1 LED数量",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "matrix",
+        "variableTypes": ["WS2812RGBMatrix"],
+        "defaultType": "WS2812RGBMatrix"
+      }
+    ],
+    "output": "Number",
+    "colour": "#80CBC4",
+    "tooltip": "获取点阵屏的 LED 总数",
+    "icon": "iconfont icon-ws2812"
+  }
+]

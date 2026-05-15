@@ -1,321 +1,364 @@
 {
     "kind": "category",
     "name": "逐飞麦轮车控制",
+    "icon": "fa-light fa-tire-rugged",
     "colour": "#4CAF50",
     "contents": [
         {
-            "kind": "block",
-            "type": "four_driver_init"
+            "kind": "category",
+            "name": "运动控制",
+            "icon": "fa-light fa-route",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "four_driver_init"
+                },
+                {
+                    "kind": "block",
+                    "type": "four_driver_set_speed",
+                    "inputs": {
+                        "speed1": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        },
+                        "speed2": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        },
+                        "speed3": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        },
+                        "speed4": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "four_driver_move",
+                    "inputs": {
+                        "DISTANCE": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        },
+                        "SPEED": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "four_driver_keep_move",
+                    "inputs": {
+                        "SPEED": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "four_driver_turn",
+                    "inputs": {
+                        "ANGLE": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        },
+                        "SPEED": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "four_driver_track",
+                    "inputs": {
+                        "coord_x": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        },
+                        "coord_y": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "four_driver_calibration_gyro"
+                },
+                {
+                    "kind": "block",
+                    "type": "four_driver_calibration_head",
+                    "inputs": {
+                        "ANGLE": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
         },
         {
-            "kind": "block",
-            "type": "four_driver_set_speed",
-			"inputs": {
-				"speed1": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 0
-						}
-					}
-				},
-				"speed2": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 0
-						}
-					}
-				},
-				"speed3": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 0
-						}
-					}
-				},
-				"speed4": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 0
-						}
-					}
-				}
-			}
+            "kind": "category",
+            "name": "声光输出",
+            "icon": "fa-light fa-light-emergency",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "beep_begin"
+                },
+                {
+                    "kind": "block",
+                    "type": "beep_set"
+                },
+                {
+                    "kind": "block",
+                    "type": "led_begin"
+                },
+                {
+                    "kind": "block",
+                    "type": "led_set"
+                }
+            ]
         },
         {
-            "kind": "block",
-            "type": "four_driver_move",
-			"inputs": {
-				"DISTANCE": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 0
-						}
-					}
-				},
-				"SPEED": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 0
-						}
-					}
-				}
-			}
+            "kind": "category",
+            "name": "按键输入",
+            "icon": "fa-light fa-keyboard",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "key_gpio_begin"
+                },
+                {
+                    "kind": "block",
+                    "type": "key_gpio_read"
+                }
+            ]
         },
         {
-            "kind": "block",
-            "type": "four_driver_keep_move",
-			"inputs": {
-				"SPEED": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 0
-						}
-					}
-				}
-			}
+            "kind": "category",
+            "name": "灰度传感",
+            "icon": "fa-light fa-light-switch-off",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "photoelectricity_init"
+                },
+                {
+                    "kind": "block",
+                    "type": "photoelectricity_set_black"
+                },
+                {
+                    "kind": "block",
+                    "type": "photoelectricity_set_white"
+                },
+                {
+                    "kind": "block",
+                    "type": "photoelectricity_get_position"
+                },
+                {
+                    "kind": "block",
+                    "type": "photoelectricity_get_value"
+                },
+                {
+                    "kind": "block",
+                    "type": "photoelectricity_get_value_bin"
+                },
+                {
+                    "kind": "block",
+                    "type": "photoelectricity_get_black_num"
+                },
+                {
+                    "kind": "block",
+                    "type": "photoelectricity_get_white_num"
+                }
+            ]
         },
         {
-            "kind": "block",
-            "type": "four_driver_turn",
-			"inputs": {
-				"ANGLE": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 0
-						}
-					}
-				},
-				"SPEED": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 0
-						}
-					}
-				}
-			}
+            "kind": "category",
+            "name": "OpenART视觉",
+            "icon": "fa-light fa-camera-security",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "openart_mini_begin"
+                },
+                {
+                    "kind": "block",
+                    "type": "openart_mini_detection_object_easy"
+                },
+                {
+                    "kind": "block",
+                    "type": "openart_mini_detection_object",
+                    "inputs": {
+                        "L_MIN": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 39
+                                }
+                            }
+                        },
+                        "L_MAX": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 84
+                                }
+                            }
+                        },
+                        "A_MIN": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": -24
+                                }
+                            }
+                        },
+                        "A_MAX": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 41
+                                }
+                            }
+                        },
+                        "B_MIN": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 43
+                                }
+                            }
+                        },
+                        "B_MAX": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 82
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "openart_mini_detection_apriltag"
+                },
+                {
+                    "kind": "block",
+                    "type": "openart_mini_detection_stop"
+                },
+                {
+                    "kind": "block",
+                    "type": "openart_mini_get_result"
+                },
+                {
+                    "kind": "block",
+                    "type": "openart_mini_get_coord_x"
+                },
+                {
+                    "kind": "block",
+                    "type": "openart_mini_get_coord_y"
+                }
+            ]
         },
         {
-            "kind": "block",
-            "type": "four_driver_track",
-			"inputs": {
-				"coord_x": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 0
-						}
-					}
-				},
-				"coord_y": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 0
-						}
-					}
-				}
-			}
-        },		
-		{
-            "kind": "block",
-            "type": "four_driver_calibration_gyro"
-        },	
-		{
-            "kind": "block",
-            "type": "four_driver_calibration_head",
-			"inputs": {
-				"ANGLE": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 0
-						}
-					}
-				}
-			}
-        },
-		{
-            "kind": "block",
-            "type": "beep_begin"
-        },		
-		{
-            "kind": "block",
-            "type": "beep_set"
-        },		
-		{
-            "kind": "block",
-            "type": "led_begin"
-        },		
-		{
-            "kind": "block",
-            "type": "led_set"
-        },		
-		{
-            "kind": "block",
-            "type": "key_gpio_begin"
-        },
-        {
-            "kind": "block",
-            "type": "key_gpio_read"
-        },
-		{
-            "kind": "block",
-            "type": "photoelectricity_init"
-        },
-        {
-            "kind": "block",
-            "type": "photoelectricity_set_black"
-        },
-        {
-            "kind": "block",
-            "type": "photoelectricity_set_white"
-        },
-        {
-            "kind": "block",
-            "type": "photoelectricity_get_position"
-        },
-        {
-            "kind": "block",
-            "type": "photoelectricity_get_value"
-        },
-        {
-            "kind": "block",
-            "type": "photoelectricity_get_value_bin"
-        },
-        {
-            "kind": "block",
-            "type": "photoelectricity_get_black_num"
-        },
-        {
-            "kind": "block",
-            "type": "photoelectricity_get_white_num"
-        },
-        {
-            "kind": "block",
-            "type": "openart_mini_begin"
-        },
-        {
-            "kind": "block",
-            "type": "openart_mini_detection_object_easy"
-        },
-        {
-            "kind": "block",
-            "type": "openart_mini_detection_object",
-			"inputs": {
-				"L_MIN": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 39
-						}
-					}
-				},
-				"L_MAX": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 84
-						}
-					}
-				},
-				"A_MIN": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": -24
-						}
-					}
-				},
-				"A_MAX": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 41
-						}
-					}
-				},
-				"B_MIN": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 43
-						}
-					}
-				},
-				"B_MAX": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 82
-						}
-					}
-				}
-			}
-        },
-        {
-            "kind": "block",
-            "type": "openart_mini_detection_apriltag"
-        },
-        {
-            "kind": "block",
-            "type": "openart_mini_detection_stop"
-        },
-        {
-            "kind": "block",
-            "type": "openart_mini_get_result"
-        },
-        {
-            "kind": "block",
-            "type": "openart_mini_get_coord_x"
-        },
-        {
-            "kind": "block",
-            "type": "openart_mini_get_coord_y"
-        },
-        {
-            "kind": "block",
-            "type": "robotic_arm_init"
-        },
-        {
-            "kind": "block",
-            "type": "robotic_arm_set_servo_motor_angle",
-			"inputs": {
-				"angle": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 0
-						}
-					}
-				}
-			}
-        },
-        {
-            "kind": "block",
-            "type": "robotic_arm_set_servo_motor_offset_angle",
-			"inputs": {
-				"angle": {
-					"shadow": {
-						"type": "math_number",
-						"fields": {
-						  "NUM": 0
-						}
-					}
-				}
-			}
-        },
-        {
-            "kind": "block",
-            "type": "robotic_arm_get_servo_motor_angle"
+            "kind": "category",
+            "name": "机械臂",
+            "icon": "iconfont icon-servo",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "robotic_arm_init"
+                },
+                {
+                    "kind": "block",
+                    "type": "robotic_arm_set_servo_motor_angle",
+                    "inputs": {
+                        "angle": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "robotic_arm_set_servo_motor_offset_angle",
+                    "inputs": {
+                        "angle": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "robotic_arm_get_servo_motor_angle"
+                }
+            ]
         }
     ]
 }

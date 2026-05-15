@@ -1,0 +1,114 @@
+[
+  {
+    "type": "ads1015_init",
+    "message0": "初始化 ADS1015 %1 地址 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "ads1015" },
+      { "type": "field_dropdown", "name": "ADDRESS", "options": [["GND 0x48", "ADS1015_ADDRESS_GND"], ["VDD 0x49", "ADS1015_ADDRESS_VDD"], ["SDA 0x4A", "ADS1015_ADDRESS_SDA"], ["SCL 0x4B", "ADS1015_ADDRESS_SCL"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "创建并初始化 SparkFun ADS1015 12 位 ADC"
+  },
+  {
+    "type": "ads1015_is_ready",
+    "message0": "ADS1015 %1 初始化成功",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ads1015", "variableTypes": ["ADS1015"], "defaultType": "ADS1015" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "返回初始化块保存的 ADS1015 初始化状态"
+  },
+  {
+    "type": "ads1015_read_single",
+    "message0": "ADS1015 %1 读取单端通道 %2 原始值",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ads1015", "variableTypes": ["ADS1015"], "defaultType": "ADS1015" },
+      { "type": "field_dropdown", "name": "CHANNEL", "options": [["A0", "0"], ["A1", "1"], ["A2", "2"], ["A3", "3"]] }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取 ADS1015 单端通道原始 ADC 值"
+  },
+  {
+    "type": "ads1015_read_millivolts",
+    "message0": "ADS1015 %1 读取单端通道 %2 毫伏",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ads1015", "variableTypes": ["ADS1015"], "defaultType": "ADS1015" },
+      { "type": "field_dropdown", "name": "CHANNEL", "options": [["A0", "0"], ["A1", "1"], ["A2", "2"], ["A3", "3"]] }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取 ADS1015 单端通道电压，单位 mV"
+  },
+  {
+    "type": "ads1015_read_differential",
+    "message0": "ADS1015 %1 读取差分 %2 原始值",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ads1015", "variableTypes": ["ADS1015"], "defaultType": "ADS1015" },
+      { "type": "field_dropdown", "name": "MUX", "options": [["A0-A1", "ADS1015_CONFIG_MUX_DIFF_P0_N1"], ["A0-A3", "ADS1015_CONFIG_MUX_DIFF_P0_N3"], ["A1-A3", "ADS1015_CONFIG_MUX_DIFF_P1_N3"], ["A2-A3", "ADS1015_CONFIG_MUX_DIFF_P2_N3"]] }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取 ADS1015 差分输入原始值"
+  },
+  {
+    "type": "ads1015_read_differential_mv",
+    "message0": "ADS1015 %1 读取差分 %2 毫伏",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ads1015", "variableTypes": ["ADS1015"], "defaultType": "ADS1015" },
+      { "type": "field_dropdown", "name": "MUX", "options": [["A0-A1", "ADS1015_CONFIG_MUX_DIFF_P0_N1"], ["A0-A3", "ADS1015_CONFIG_MUX_DIFF_P0_N3"], ["A1-A3", "ADS1015_CONFIG_MUX_DIFF_P1_N3"], ["A2-A3", "ADS1015_CONFIG_MUX_DIFF_P2_N3"]] }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取 ADS1015 差分输入电压，单位 mV"
+  },
+  {
+    "type": "ads1015_set_gain",
+    "message0": "设置 ADS1015 %1 增益 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ads1015", "variableTypes": ["ADS1015"], "defaultType": "ADS1015" },
+      { "type": "field_dropdown", "name": "GAIN", "options": [["±6.144V", "ADS1015_CONFIG_PGA_TWOTHIRDS"], ["±4.096V", "ADS1015_CONFIG_PGA_1"], ["±2.048V", "ADS1015_CONFIG_PGA_2"], ["±1.024V", "ADS1015_CONFIG_PGA_4"], ["±0.512V", "ADS1015_CONFIG_PGA_8"], ["±0.256V", "ADS1015_CONFIG_PGA_16"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 ADS1015 可编程增益范围"
+  },
+  {
+    "type": "ads1015_set_sample_rate",
+    "message0": "设置 ADS1015 %1 采样率 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ads1015", "variableTypes": ["ADS1015"], "defaultType": "ADS1015" },
+      { "type": "field_dropdown", "name": "RATE", "options": [["128 Hz", "ADS1015_CONFIG_RATE_128HZ"], ["250 Hz", "ADS1015_CONFIG_RATE_250HZ"], ["490 Hz", "ADS1015_CONFIG_RATE_490HZ"], ["920 Hz", "ADS1015_CONFIG_RATE_920HZ"], ["1600 Hz", "ADS1015_CONFIG_RATE_1600HZ"], ["2400 Hz", "ADS1015_CONFIG_RATE_2400HZ"], ["3300 Hz", "ADS1015_CONFIG_RATE_3300HZ"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 ADS1015 采样率"
+  },
+  {
+    "type": "ads1015_set_mode",
+    "message0": "设置 ADS1015 %1 模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ads1015", "variableTypes": ["ADS1015"], "defaultType": "ADS1015" },
+      { "type": "field_dropdown", "name": "MODE", "options": [["连续", "ADS1015_CONFIG_MODE_CONT"], ["单次", "ADS1015_CONFIG_MODE_SINGLE"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 ADS1015 转换模式"
+  },
+  {
+    "type": "ads1015_conversion_ready",
+    "message0": "ADS1015 %1 转换完成",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ads1015", "variableTypes": ["ADS1015"], "defaultType": "ADS1015" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "读取 ADS1015 转换完成状态"
+  }
+]

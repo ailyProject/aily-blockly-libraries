@@ -1,127 +1,26 @@
-# HT16K33 四位七段数码管驱动库
+# HT16K33 four-digit seven-segment digital tube
 
-## 简介
-本库为HT16K33芯片驱动的四位七段数码管提供Blockly图形化编程支持。HT16K33是一款I2C接口的LED驱动芯片，常用于驱动四位七段数码管显示器。
+HT16K33 four-digit seven-segment digital tube driver library supports number, time, date display, brightness and flicker control, and includes practical combination functions such as sensor display and digital clock.
 
-## 功能特性
-- **智能显示**: 自动判断数据类型，选择最佳显示格式
-- **专用显示**: 温度、电压、时钟、倒计时等专用显示块
-- **实用组合**: 传感器显示、数字时钟、计数器、得分显示等常用场景组合
-- **自动初始化**: 无需手动初始化，首次使用任何显示块时自动完成初始化
-- **参数验证**: 自动验证和限制参数范围，防止显示错误
-- **简化操作**: 用户只需关注要显示的内容，无需复杂配置
-- 支持整数、浮点数、十六进制数显示
-- 支持时间和日期格式显示
-- 亮度控制（0-15级）
-- 闪烁模式控制
-- 冒号显示控制
-- 显示开关控制
-- 清屏功能
-- 显示测试功能
+## Library Info
 
-## 硬件连接
-- VCC: 连接到3.3V或5V电源
-- GND: 连接到地线
-- SDA: 连接到Arduino的SDA引脚
-- SCL: 连接到Arduino的SCL引脚
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-ht16k33 |
+| Version | 1.2.0 |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
-## I2C地址
-默认I2C地址为0x70，可选择0x70-0x77范围内的地址。
+## Supported Boards
 
-## 使用示例
+Arduino-compatible boards supported by this package.
 
-### 快速开始
-1. 直接使用"数码管显示"块，输入要显示的数字
-2. 系统会自动初始化数码管并选择合适的显示格式
-3. 无需额外配置即可正常显示
+## Description
 
-### 常用组合功能
-- **传感器显示**: 自动为不同类型传感器值添加相应标签（温度°C、湿度%、电压V等）
-- **数字时钟**: 基于系统时间的实时数字时钟，带闪烁冒号
-- **计数器**: 简单的递增、递减、重置计数器功能
-- **得分显示**: 专为游戏得分显示设计，支持0-9999分
+HT16K33 four-digit seven-segment digital tube driver library supports number, time, date display, brightness and flicker control, and includes practical combination functions such as sensor display and digital clock.
 
-### 专用显示功能
-- **温度显示**: 自动添加°C符号，专为温度显示优化
-- **电压显示**: 自动格式化电压值为合适的小数位数
-- **时钟显示**: 支持闪烁冒号，营造动态时钟效果
-- **倒计时显示**: 专为倒计时场景设计，格式为MM:SS
+## Quick Start
 
-### 基本显示类型
-- **显示整数**: 范围-999到9999
-- **显示小数**: 支持1-3位小数
-- **显示十六进制**: 范围0000到FFFF
-- **显示时间**: 格式HH:MM，可控制冒号显示
-- **显示日期**: 格式MM.DD
-
-### 控制功能
-- **智能亮度控制**: 支持数值输入，自动限制在有效范围内
-- **闪烁控制**: 关闭、快速、中速、慢速闪烁
-- **显示开关**: 可以关闭显示节省电能
-- **冒号控制**: 独立控制中间冒号的显示
-
-## 优化特性
-
-### 自动初始化
-- 使用任何显示块时会自动初始化数码管
-- 无需手动调用初始化块（除非要更改I2C地址）
-- 自动设置合适的亮度和显示参数
-
-### 智能显示
-- "数码管显示"块会自动判断输入数据类型
-- 整数自动使用整数显示格式
-- 浮点数自动使用浮点显示格式，保留2位小数
-
-### 参数保护
-- 亮度值自动限制在0-15范围内
-- 防止无效参数导致的显示错误
-
-### 参数保护
-- 亮度值自动限制在0-15范围内
-- 时间参数自动验证（小时0-23，分钟0-59）
-- 日期参数自动验证（月份1-12，日期1-31）
-- 倒计时最大限制为99分59秒
-- 防止无效参数导致的显示错误
-
-### 用户友好
-- 所有块都有预设的影子块，提供默认值
-- 工具箱按功能分组，便于查找
-- 简化的中文描述，降低使用门槛
-
-## 技术参数
-- 工作电压: 3.3V-5V
-- 接口: I2C
-- I2C地址: 0x70-0x77（可选择）
-- 显示位数: 4位七段数码管
-- 亮度级别: 16级（0-15）
-- 闪烁模式: 4种（关闭、快速、中速、慢速）
-- 默认亮度: 8（中等亮度）
-
-## 开源库信息
-本库基于Rob Tillaart的HT16K33开源库开发：
-- 项目地址: https://github.com/RobTillaart/HT16K33
-- 作者: Rob Tillaart
-- 版本: 0.4.1
-
-## 兼容性
-- 支持Arduino UNO、Nano、Pro Mini等AVR开发板
-- 支持ESP8266、ESP32等开发板
-- 支持Arduino MEGA等大型开发板
-- 工作电压: 3.3V和5V系统
-
-## 更新日志
-### v1.2.0 (优化版本)
-- 🎯 新增常用组合块：传感器显示、数字时钟、计数器、得分显示
-- 🛡️ 加强参数验证，自动限制参数范围防止错误
-- 📱 优化工具箱分组，提供更好的用户体验
-- 🔧 改进影子块配置，所有输入都有默认值
-- 📚 增强代码注释，生成的Arduino代码更易理解
-- ⚡ 优化自动初始化逻辑，确保稳定工作
-
-### v1.1.0
-- 添加智能显示块，自动判断数据类型
-- 新增专用显示块：温度、电压、时钟、倒计时
-- 实现自动初始化功能
-- 优化用户界面，添加分组标签
-- 改进亮度控制，支持数值输入
-- 添加参数保护机制
+1. Enable `@aily-project/lib-ht16k33` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

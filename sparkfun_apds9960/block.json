@@ -1,0 +1,124 @@
+[
+  {
+    "type": "apds9960_init",
+    "message0": "初始化 APDS9960 %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "apds9960" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "创建、初始化并打开 APDS9960 电源"
+  },
+  {
+    "type": "apds9960_is_ready",
+    "message0": "APDS9960 %1 初始化成功",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9960", "variableTypes": ["SparkFun_APDS9960"], "defaultType": "SparkFun_APDS9960" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "返回初始化块保存的 APDS9960 初始化状态"
+  },
+  {
+    "type": "apds9960_enable_light",
+    "message0": "APDS9960 %1 启用光传感 中断 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9960", "variableTypes": ["SparkFun_APDS9960"], "defaultType": "SparkFun_APDS9960" },
+      { "type": "field_dropdown", "name": "INTERRUPT", "options": [["否", "false"], ["是", "true"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "启用环境光/RGB 传感器"
+  },
+  {
+    "type": "apds9960_enable_proximity",
+    "message0": "APDS9960 %1 启用接近度 中断 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9960", "variableTypes": ["SparkFun_APDS9960"], "defaultType": "SparkFun_APDS9960" },
+      { "type": "field_dropdown", "name": "INTERRUPT", "options": [["否", "false"], ["是", "true"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "启用接近度传感器"
+  },
+  {
+    "type": "apds9960_enable_gesture",
+    "message0": "APDS9960 %1 启用手势 中断 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9960", "variableTypes": ["SparkFun_APDS9960"], "defaultType": "SparkFun_APDS9960" },
+      { "type": "field_dropdown", "name": "INTERRUPT", "options": [["是", "true"], ["否", "false"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "启用手势传感器"
+  },
+  {
+    "type": "apds9960_read_light",
+    "message0": "APDS9960 %1 读取光通道 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9960", "variableTypes": ["SparkFun_APDS9960"], "defaultType": "SparkFun_APDS9960" },
+      { "type": "field_dropdown", "name": "CHANNEL", "options": [["环境光", "0"], ["红", "1"], ["绿", "2"], ["蓝", "3"]] }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取环境光或 RGB 通道值"
+  },
+  {
+    "type": "apds9960_read_proximity",
+    "message0": "APDS9960 %1 接近度",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9960", "variableTypes": ["SparkFun_APDS9960"], "defaultType": "SparkFun_APDS9960" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取 APDS9960 接近度，范围 0-255"
+  },
+  {
+    "type": "apds9960_gesture_available",
+    "message0": "APDS9960 %1 手势可用",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9960", "variableTypes": ["SparkFun_APDS9960"], "defaultType": "SparkFun_APDS9960" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "检查是否有手势数据可读"
+  },
+  {
+    "type": "apds9960_read_gesture",
+    "message0": "APDS9960 %1 读取手势",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9960", "variableTypes": ["SparkFun_APDS9960"], "defaultType": "SparkFun_APDS9960" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取手势方向枚举：DIR_LEFT、DIR_RIGHT、DIR_UP、DIR_DOWN 等"
+  },
+  {
+    "type": "apds9960_set_ambient_gain",
+    "message0": "设置 APDS9960 %1 环境光增益 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9960", "variableTypes": ["SparkFun_APDS9960"], "defaultType": "SparkFun_APDS9960" },
+      { "type": "field_dropdown", "name": "GAIN", "options": [["1x", "AGAIN_1X"], ["4x", "AGAIN_4X"], ["16x", "AGAIN_16X"], ["64x", "AGAIN_64X"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置环境光/RGB 增益"
+  },
+  {
+    "type": "apds9960_set_proximity_gain",
+    "message0": "设置 APDS9960 %1 接近度增益 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "apds9960", "variableTypes": ["SparkFun_APDS9960"], "defaultType": "SparkFun_APDS9960" },
+      { "type": "field_dropdown", "name": "GAIN", "options": [["1x", "PGAIN_1X"], ["2x", "PGAIN_2X"], ["4x", "PGAIN_4X"], ["8x", "PGAIN_8X"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置接近度增益"
+  }
+]

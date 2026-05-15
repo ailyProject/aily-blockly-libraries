@@ -1,1 +1,0 @@
-https://github.com/sparkfun/SparkFun_BMI270_Arduino_Library

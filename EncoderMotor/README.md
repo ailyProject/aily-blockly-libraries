@@ -1,114 +1,26 @@
-# 编码电机库 README_AI.md
+# encoder motor
 
-## 库信息
-- **库名**: @aily-project/lib-encoder-motor
-- **版本**: 1.0.0
-- **兼容**: ESP32系列开发板
+ESP32 coding motor driver library supports PWM control and speed loop PID control
 
-## 块定义
+## Library Info
 
-| 块类型 | 连接 | 字段/输入 | .abi格式 | 生成代码 |
-|--------|------|----------|----------|----------|
-| `encoder_motor_create` | 语句块 | VAR(field_input), POS_PIN(input), NEG_PIN(input), A_PIN(input), B_PIN(input), PPR(input), REDUCTION(input), PHASE(field_dropdown) | `"VAR":"motor1","PHASE":"kAPhaseLeads"` | `em::EncoderMotor motor1(...); motor1.Init();` |
-| `encoder_motor_set_pid` | 语句块 | VAR(field_variable), P(input), I(input), D(input) | `"VAR":{"id":"var_id"}` | `motor1.SetSpeedPid(p,i,d);` |
-| `encoder_motor_run_pwm` | 语句块 | VAR(field_variable), PWM(input) | `"VAR":{"id":"var_id"}` | `motor1.RunPwmDuty(pwm);` |
-| `encoder_motor_run_speed` | 语句块 | VAR(field_variable), SPEED(input) | `"VAR":{"id":"var_id"}` | `motor1.RunSpeed(speed);` |
-| `encoder_motor_stop` | 语句块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `motor1.Stop();` |
-| `encoder_motor_get_speed` | 值块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `motor1.SpeedRpm()` |
-| `encoder_motor_get_pwm` | 值块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `motor1.PwmDuty()` |
-| `encoder_motor_get_pulse` | 值块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `motor1.EncoderPulseCount()` |
-| `encoder_motor_get_revolutions` | 值块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `motor1.GetRevolutions()` |
-| `encoder_motor_reset_pulse` | 语句块 | VAR(field_variable) | `"VAR":{"id":"var_id"}` | `motor1.ResetPulseCount();` |
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-encoder-motor |
+| Version | 1.1.1 |
+| Author | Emakefun |
+| Source | https://github.com/emakefun-arduino-library/em_esp32_encoder_motor |
+| License | Original license |
 
-## 字段类型映射
+## Supported Boards
 
-| 类型 | .abi格式 | 示例 |
-|------|----------|------|
-| field_input | 字符串 | `"VAR": "motor1"` |
-| field_dropdown | 字符串 | `"PHASE": "kAPhaseLeads"` |
-| field_variable | 对象 | `"VAR": {"id": "var_id"}` |
-| input_value | 块连接 | `"inputs": {"PWM": {"block": {...}}}` |
+Arduino AVR, ESP32, RP2040, Arduino UNO R4
 
-## 连接规则
+## Description
 
-- **语句块**: 有previousStatement/nextStatement，通过`next`字段连接
-- **值块**: 有output，连接到`inputs`中，无`next`字段
-- **变量块**: 使用field_variable引用已创建的EncoderMotor对象
-- **重要规则**: encoder_motor_create块必须首先使用，使用field_input创建新变量；其他块使用field_variable引用已创建的变量
+ESP32 coding motor driver library supports PWM control and speed loop PID control
 
-## 使用示例
+## Quick Start
 
-### 创建并配置电机
-```json
-{
-  "type": "encoder_motor_create",
-  "id": "create_motor",
-  "fields": {
-    "VAR": "motor1",
-    "PHASE": "kAPhaseLeads"
-  },
-  "inputs": {
-    "POS_PIN": {"block": {"type": "math_number", "fields": {"NUM": "27"}}},
-    "NEG_PIN": {"block": {"type": "math_number", "fields": {"NUM": "13"}}},
-    "A_PIN": {"block": {"type": "math_number", "fields": {"NUM": "18"}}},
-    "B_PIN": {"block": {"type": "math_number", "fields": {"NUM": "19"}}},
-    "PPR": {"block": {"type": "math_number", "fields": {"NUM": "12"}}},
-    "REDUCTION": {"block": {"type": "math_number", "fields": {"NUM": "90"}}}
-  }
-}
-```
-
-### PWM驱动
-```json
-{
-  "type": "encoder_motor_run_pwm",
-  "fields": {
-    "VAR": {"id": "motor1_var"}
-  },
-  "inputs": {
-    "PWM": {"block": {"type": "math_number", "fields": {"NUM": "500"}}}
-  }
-}
-```
-
-### 速度环驱动
-```json
-{
-  "type": "encoder_motor_set_pid",
-  "inputs": {
-    "P": {"block": {"type": "math_number", "fields": {"NUM": "0.5"}}},
-    "I": {"block": {"type": "math_number", "fields": {"NUM": "0.1"}}},
-    "D": {"block": {"type": "math_number", "fields": {"NUM": "0.01"}}}
-  }
-}
-```
-
-```json
-{
-  "type": "encoder_motor_run_speed",
-  "inputs": {
-    "SPEED": {"block": {"type": "math_number", "fields": {"NUM": "100"}}}
-  }
-}
-```
-
-## 重要规则
-
-1. **必须遵守**: encoder_motor_create块必须首先使用，且使用field_input创建变量名；后续所有块使用field_variable引用
-2. **变量类型**: 变量类型为EncoderMotor，所有非创建块必须引用已创建的EncoderMotor变量
-3. **构造参数**: PPR和减速比在创建时指定，不支持运行时修改
-4. **相位关系**: A相领先或B相领先，根据电机实际特性选择
-5. **常见错误**: 
-   - ❌ 使用encoder_motor_set_pid块创建变量（应使用encoder_motor_create）
-   - ❌ 在encoder_motor_create后使用field_input引用变量（应使用field_variable）
-   - ❌ 忘记设置PID参数就使用RunSpeed（可能控制效果不佳）
-
-## 技术说明
-
-- **PWM范围**: -1023到1023，正数正转，负数反转，0停止
-- **速度单位**: RPM（转/分钟）
-- **PID参数**: P、I、D为浮点数，需根据电机特性调优
-- **编码器**: 支持AB相编码器，相位差90度
-- **自动初始化**: 创建块自动添加Init()到setup
-- **圈数计算**: 圈数 = 编码器脉冲计数 / (PPR × 减速比)，正数表示正转，负数表示反转
-- **脉冲重置**: 重置脉冲计数会同时清零圈数统计
+1. Enable `@aily-project/lib-encoder-motor` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

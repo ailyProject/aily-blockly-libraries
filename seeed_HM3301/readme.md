@@ -1,27 +1,26 @@
-# Seeed HM3301 PM2.5 激光粉尘传感器
+# HM3301 PM2.5 sensor
 
-HM3301激光粉尘传感器的Aily Blockly图形化库，可检测空气中PM1.0、PM2.5、PM10颗粒物浓度。
+HM3301 laser dust sensor, I2C communication, can detect PM1.0, PM2.5, PM10 particle concentration
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
+| Field | Value |
+|-------|-------|
 | Package | @aily-project/lib-seeed-hm3301 |
 | Version | 1.0.0 |
 | Author | SeeedStudio |
 | Source | https://github.com/Seeed-Studio/Seeed_PM2_5_sensor_HM3301 |
-| License | MIT |
+| License | Original license |
 
-## 支持开发板
+## Supported Boards
 
-Arduino UNO, Arduino Mega2560, ESP32, ESP8266
+Arduino-compatible boards supported by this package.
 
-## 描述
+## Description
 
-HM3301是一款基于激光散射原理的数字粉尘传感器，通过I2C接口（地址0x40）通讯。可同时检测PM1.0、PM2.5和PM10三种颗粒物的浓度，支持标准颗粒物和大气环境两种数据格式。
+HM3301 laser dust sensor, I2C communication, can detect PM1.0, PM2.5, PM10 particle concentration
 
-## 快速开始
+## Quick Start
 
-1. 将HM3301的VCC/GND/SDA/SCL连接到开发板
-2. 在setup中放置初始化积木
-3. 在loop中使用读取积木获取PM数据
+1. Enable `@aily-project/lib-seeed-hm3301` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

@@ -1,0 +1,655 @@
+[
+  {
+    "type": "adafruit_mqtt_create",
+    "icon": "fa-light fa-satellite-dish",
+    "message0": "创建Adafruit MQTT客户端 %1 服务器 %2 端口 %3 用户名 %4 密钥/密码 %5 客户端ID %6",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "mqtt"
+      },
+      {
+        "type": "field_input",
+        "name": "SERVER",
+        "text": "io.adafruit.com"
+      },
+      {
+        "type": "field_number",
+        "name": "PORT",
+        "value": 1883,
+        "min": 1,
+        "max": 65535,
+        "precision": 1
+      },
+      {
+        "type": "field_input",
+        "name": "USERNAME",
+        "text": "username"
+      },
+      {
+        "type": "field_input",
+        "name": "PASSWORD",
+        "text": "aio_key"
+      },
+      {
+        "type": "field_input",
+        "name": "CLIENT_ID",
+        "text": ""
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00A8A8",
+    "tooltip": "创建基于WiFiClient的Adafruit MQTT客户端对象"
+  },
+  {
+    "type": "adafruit_mqtt_set_keep_alive",
+    "icon": "fa-light fa-satellite-dish",
+    "message0": "%1 设置MQTT保活间隔 %2 秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqtt",
+        "variableTypes": ["Adafruit_MQTT_Client"],
+        "defaultType": "Adafruit_MQTT_Client"
+      },
+      {
+        "type": "input_value",
+        "name": "INTERVAL",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00A8A8",
+    "tooltip": "设置MQTT连接的KeepAlive间隔，需在连接前调用"
+  },
+  {
+    "type": "adafruit_mqtt_set_will",
+    "icon": "fa-light fa-satellite-dish",
+    "message0": "%1 设置遗嘱主题 %2 内容 %3 QoS %4 保留 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqtt",
+        "variableTypes": ["Adafruit_MQTT_Client"],
+        "defaultType": "Adafruit_MQTT_Client"
+      },
+      {
+        "type": "input_value",
+        "name": "TOPIC",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PAYLOAD",
+        "check": ["String", "Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "QOS",
+        "options": [
+          ["0", "0"],
+          ["1", "1"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RETAIN",
+        "options": [
+          ["否", "false"],
+          ["是", "true"]
+        ]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00A8A8",
+    "tooltip": "设置MQTT Last Will遗嘱消息，需在连接前调用"
+  },
+  {
+    "type": "adafruit_mqtt_connect",
+    "icon": "fa-light fa-satellite-dish",
+    "message0": "%1 连接MQTT 重试 %2 次 间隔 %3 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqtt",
+        "variableTypes": ["Adafruit_MQTT_Client"],
+        "defaultType": "Adafruit_MQTT_Client"
+      },
+      {
+        "type": "input_value",
+        "name": "RETRIES",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "DELAY",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00A8A8",
+    "tooltip": "如果未连接，则尝试连接或重连MQTT服务器"
+  },
+  {
+    "type": "adafruit_mqtt_disconnect",
+    "icon": "fa-light fa-satellite-dish",
+    "message0": "%1 断开MQTT连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqtt",
+        "variableTypes": ["Adafruit_MQTT_Client"],
+        "defaultType": "Adafruit_MQTT_Client"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00A8A8",
+    "tooltip": "主动断开MQTT服务器连接"
+  },
+  {
+    "type": "adafruit_mqtt_connected",
+    "icon": "fa-light fa-satellite-dish",
+    "message0": "%1 MQTT已连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqtt",
+        "variableTypes": ["Adafruit_MQTT_Client"],
+        "defaultType": "Adafruit_MQTT_Client"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#00A8A8",
+    "tooltip": "返回MQTT客户端是否已连接"
+  },
+  {
+    "type": "adafruit_mqtt_last_error_code",
+    "icon": "fa-light fa-satellite-dish",
+    "message0": "%1 上次MQTT连接错误码",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqtt",
+        "variableTypes": ["Adafruit_MQTT_Client"],
+        "defaultType": "Adafruit_MQTT_Client"
+      }
+    ],
+    "output": "Number",
+    "colour": "#00A8A8",
+    "tooltip": "返回最近一次连接尝试的错误码，0表示成功"
+  },
+  {
+    "type": "adafruit_mqtt_last_error_text",
+    "icon": "fa-light fa-satellite-dish",
+    "message0": "%1 上次MQTT连接错误文本",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqtt",
+        "variableTypes": ["Adafruit_MQTT_Client"],
+        "defaultType": "Adafruit_MQTT_Client"
+      }
+    ],
+    "output": "String",
+    "colour": "#00A8A8",
+    "tooltip": "返回最近一次连接错误的可读说明"
+  },
+  {
+    "type": "adafruit_mqtt_ping",
+    "icon": "fa-light fa-satellite-dish",
+    "message0": "%1 MQTT Ping 尝试 %2 次成功",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqtt",
+        "variableTypes": ["Adafruit_MQTT_Client"],
+        "defaultType": "Adafruit_MQTT_Client"
+      },
+      {
+        "type": "input_value",
+        "name": "COUNT",
+        "check": ["Number"]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#00A8A8",
+    "tooltip": "向服务器发送Ping包并返回是否成功"
+  },
+  {
+    "type": "adafruit_mqtt_create_publisher",
+    "icon": "fa-light fa-paper-plane-top",
+    "message0": "创建MQTT发布器 %1 使用客户端 %2 主题 %3 QoS %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "publisher"
+      },
+      {
+        "type": "field_variable",
+        "name": "MQTT",
+        "variable": "mqtt",
+        "variableTypes": ["Adafruit_MQTT_Client"],
+        "defaultType": "Adafruit_MQTT_Client"
+      },
+      {
+        "type": "field_input",
+        "name": "TOPIC",
+        "text": "username/feeds/data"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "QOS",
+        "options": [
+          ["0", "0"],
+          ["1", "1"]
+        ]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00A8A8",
+    "tooltip": "创建绑定到固定主题的Adafruit MQTT发布器"
+  },
+  {
+    "type": "adafruit_mqtt_publish_text",
+    "icon": "fa-light fa-paper-plane-top",
+    "message0": "%1 发布文本 %2 保留 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "publisher",
+        "variableTypes": ["Adafruit_MQTT_Publish"],
+        "defaultType": "Adafruit_MQTT_Publish"
+      },
+      {
+        "type": "input_value",
+        "name": "PAYLOAD",
+        "check": ["String", "Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RETAIN",
+        "options": [
+          ["否", "false"],
+          ["是", "true"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00A8A8",
+    "tooltip": "通过发布器向固定主题发布文本消息"
+  },
+  {
+    "type": "adafruit_mqtt_publish_number",
+    "icon": "fa-light fa-paper-plane-top",
+    "message0": "%1 发布数字 %2 小数位 %3 保留 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "publisher",
+        "variableTypes": ["Adafruit_MQTT_Publish"],
+        "defaultType": "Adafruit_MQTT_Publish"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "PRECISION",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RETAIN",
+        "options": [
+          ["否", "false"],
+          ["是", "true"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00A8A8",
+    "tooltip": "通过发布器发布数字消息，可设置小数位数"
+  },
+  {
+    "type": "adafruit_mqtt_publish_bytes",
+    "icon": "fa-light fa-paper-plane-top",
+    "message0": "%1 发布原始字节 %2 长度 %3 保留 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "publisher",
+        "variableTypes": ["Adafruit_MQTT_Publish"],
+        "defaultType": "Adafruit_MQTT_Publish"
+      },
+      {
+        "type": "input_value",
+        "name": "BUFFER"
+      },
+      {
+        "type": "input_value",
+        "name": "LENGTH",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RETAIN",
+        "options": [
+          ["否", "false"],
+          ["是", "true"]
+        ]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00A8A8",
+    "tooltip": "发布uint8_t缓冲区，适合结构体或任意二进制数据包"
+  },
+  {
+    "type": "adafruit_mqtt_publish_topic",
+    "icon": "fa-light fa-paper-plane-top",
+    "message0": "%1 直接发布到主题 %2 内容 %3 QoS %4 保留 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqtt",
+        "variableTypes": ["Adafruit_MQTT_Client"],
+        "defaultType": "Adafruit_MQTT_Client"
+      },
+      {
+        "type": "input_value",
+        "name": "TOPIC",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PAYLOAD",
+        "check": ["String", "Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "QOS",
+        "options": [
+          ["0", "0"],
+          ["1", "1"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RETAIN",
+        "options": [
+          ["否", "false"],
+          ["是", "true"]
+        ]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00A8A8",
+    "tooltip": "不创建发布器，直接向指定主题发布文本消息"
+  },
+  {
+    "type": "adafruit_mqtt_create_subscriber",
+    "icon": "fa-light fa-inbox-in",
+    "message0": "创建MQTT订阅器 %1 使用客户端 %2 主题 %3 QoS %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "subscriber"
+      },
+      {
+        "type": "field_variable",
+        "name": "MQTT",
+        "variable": "mqtt",
+        "variableTypes": ["Adafruit_MQTT_Client"],
+        "defaultType": "Adafruit_MQTT_Client"
+      },
+      {
+        "type": "field_input",
+        "name": "TOPIC",
+        "text": "username/feeds/control"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "QOS",
+        "options": [
+          ["0", "0"],
+          ["1", "1"]
+        ]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00A8A8",
+    "tooltip": "创建并注册Adafruit MQTT订阅器，需在连接前执行"
+  },
+  {
+    "type": "adafruit_mqtt_subscribe",
+    "icon": "fa-light fa-inbox-in",
+    "message0": "%1 注册订阅器 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MQTT",
+        "variable": "mqtt",
+        "variableTypes": ["Adafruit_MQTT_Client"],
+        "defaultType": "Adafruit_MQTT_Client"
+      },
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "subscriber",
+        "variableTypes": ["Adafruit_MQTT_Subscribe"],
+        "defaultType": "Adafruit_MQTT_Subscribe"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00A8A8",
+    "tooltip": "向MQTT客户端注册订阅器，通常在连接前执行"
+  },
+  {
+    "type": "adafruit_mqtt_unsubscribe",
+    "icon": "fa-light fa-inbox-out",
+    "message0": "%1 取消订阅器 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MQTT",
+        "variable": "mqtt",
+        "variableTypes": ["Adafruit_MQTT_Client"],
+        "defaultType": "Adafruit_MQTT_Client"
+      },
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "subscriber",
+        "variableTypes": ["Adafruit_MQTT_Subscribe"],
+        "defaultType": "Adafruit_MQTT_Subscribe"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00A8A8",
+    "tooltip": "从MQTT客户端取消指定订阅器"
+  },
+  {
+    "type": "adafruit_mqtt_read_subscription",
+    "icon": "fa-light fa-inbox-in",
+    "message0": "%1 读取订阅 %2 超时 %3 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MQTT",
+        "variable": "mqtt",
+        "variableTypes": ["Adafruit_MQTT_Client"],
+        "defaultType": "Adafruit_MQTT_Client"
+      },
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "subscriber",
+        "variableTypes": ["Adafruit_MQTT_Subscribe"],
+        "defaultType": "Adafruit_MQTT_Subscribe"
+      },
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": ["Number"]
+      }
+    ],
+    "message1": "收到后 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00A8A8",
+    "tooltip": "轮询订阅消息，匹配指定订阅器时执行内部积木"
+  },
+  {
+    "type": "adafruit_mqtt_on_message",
+    "icon": "fa-light fa-inbox-in",
+    "message0": "当 %1 的订阅器 %2 收到消息 每轮处理 %3 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MQTT",
+        "variable": "mqtt",
+        "variableTypes": ["Adafruit_MQTT_Client"],
+        "defaultType": "Adafruit_MQTT_Client"
+      },
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "subscriber",
+        "variableTypes": ["Adafruit_MQTT_Subscribe"],
+        "defaultType": "Adafruit_MQTT_Subscribe"
+      },
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": ["Number"]
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#00A8A8",
+    "tooltip": "设置订阅回调，并自动在loop中处理MQTT数据包"
+  },
+  {
+    "type": "adafruit_mqtt_process_packets",
+    "icon": "fa-light fa-inbox-in",
+    "message0": "%1 处理订阅数据包 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqtt",
+        "variableTypes": ["Adafruit_MQTT_Client"],
+        "defaultType": "Adafruit_MQTT_Client"
+      },
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00A8A8",
+    "tooltip": "处理订阅数据包并触发已设置的订阅回调"
+  },
+  {
+    "type": "adafruit_mqtt_subscriber_payload",
+    "icon": "fa-light fa-inbox-in",
+    "message0": "%1 收到的消息文本",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "subscriber",
+        "variableTypes": ["Adafruit_MQTT_Subscribe"],
+        "defaultType": "Adafruit_MQTT_Subscribe"
+      }
+    ],
+    "output": "String",
+    "colour": "#00A8A8",
+    "tooltip": "读取订阅器最近收到的消息文本"
+  },
+  {
+    "type": "adafruit_mqtt_subscriber_payload_length",
+    "icon": "fa-light fa-inbox-in",
+    "message0": "%1 收到的消息长度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "subscriber",
+        "variableTypes": ["Adafruit_MQTT_Subscribe"],
+        "defaultType": "Adafruit_MQTT_Subscribe"
+      }
+    ],
+    "output": "Number",
+    "colour": "#00A8A8",
+    "tooltip": "读取订阅器最近收到的消息字节长度"
+  },
+  {
+    "type": "adafruit_mqtt_subscriber_has_message",
+    "icon": "fa-light fa-inbox-in",
+    "message0": "%1 有未读消息",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "subscriber",
+        "variableTypes": ["Adafruit_MQTT_Subscribe"],
+        "defaultType": "Adafruit_MQTT_Subscribe"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#00A8A8",
+    "tooltip": "返回订阅器是否有未读消息标记"
+  }
+]

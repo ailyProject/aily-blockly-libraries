@@ -1,0 +1,840 @@
+[
+  {
+    "type": "seeed_rpcwifi_set_mode",
+    "message0": "设置WiFi模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["站点(STA)", "WIFI_STA"],
+          ["热点(AP)", "WIFI_AP"],
+          ["站点+热点", "WIFI_AP_STA"],
+          ["关闭", "WIFI_OFF"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "设置Wio Terminal RTL8720 WiFi工作模式",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_begin",
+    "message0": "连接WiFi SSID %1 密码 %2",
+    "args0": [
+      { "type": "input_value", "name": "SSID", "check": "String" },
+      { "type": "input_value", "name": "PASSWORD", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "调用WiFi.begin开始连接WiFi",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_connect_wait",
+    "message0": "连接WiFi并等待 SSID %1 密码 %2 超时 %3 毫秒",
+    "args0": [
+      { "type": "input_value", "name": "SSID", "check": "String" },
+      { "type": "input_value", "name": "PASSWORD", "check": "String" },
+      { "type": "input_value", "name": "TIMEOUT", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "连接WiFi并阻塞等待到连接成功或超时",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_disconnect",
+    "message0": "断开WiFi %1 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIFI_OFF",
+        "options": [["保持WiFi开启", "FALSE"], ["关闭WiFi", "TRUE"]]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ERASE_AP",
+        "options": [["保留配置", "FALSE"], ["清除配置", "TRUE"]]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "断开当前WiFi连接",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_reconnect",
+    "message0": "重新连接WiFi",
+    "output": "Boolean",
+    "colour": "#00796B",
+    "tooltip": "调用WiFi.reconnect并返回是否发起成功",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_status",
+    "message0": "WiFi连接状态",
+    "output": "Number",
+    "colour": "#00796B",
+    "tooltip": "获取WiFi.status()状态码",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_status_type",
+    "message0": "WiFi状态常量 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATUS",
+        "options": [
+          ["空闲", "WL_IDLE_STATUS"],
+          ["无可用SSID", "WL_NO_SSID_AVAIL"],
+          ["扫描完成", "WL_SCAN_COMPLETED"],
+          ["已连接", "WL_CONNECTED"],
+          ["连接失败", "WL_CONNECT_FAILED"],
+          ["连接丢失", "WL_CONNECTION_LOST"],
+          ["断开连接", "WL_DISCONNECTED"],
+          ["无模块", "WL_NO_SHIELD"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#00796B",
+    "tooltip": "WiFi连接状态常量",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_is_connected",
+    "message0": "WiFi已连接",
+    "output": "Boolean",
+    "colour": "#00796B",
+    "tooltip": "判断WiFi是否已连接",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_wait_for_connect_result",
+    "message0": "等待WiFi连接结果",
+    "output": "Number",
+    "colour": "#00796B",
+    "tooltip": "调用WiFi.waitForConnectResult()",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_local_ip",
+    "message0": "本机IP地址",
+    "output": "String",
+    "colour": "#00796B",
+    "tooltip": "获取WiFi.localIP()字符串",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_mac_address",
+    "message0": "MAC地址",
+    "output": "String",
+    "colour": "#00796B",
+    "tooltip": "获取WiFi MAC地址",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_current_ssid",
+    "message0": "当前WiFi名称(SSID)",
+    "output": "String",
+    "colour": "#00796B",
+    "tooltip": "获取当前连接的SSID",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_rssi",
+    "message0": "信号强度(RSSI)",
+    "output": "Number",
+    "colour": "#00796B",
+    "tooltip": "获取当前WiFi信号强度",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_set_auto_reconnect",
+    "message0": "设置自动重连 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ENABLE",
+        "options": [["启用", "TRUE"], ["禁用", "FALSE"]]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "设置WiFi自动重连",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_mode_value",
+    "message0": "WiFi模式常量 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["站点(STA)", "WIFI_MODE_STA"],
+          ["热点(AP)", "WIFI_MODE_AP"],
+          ["站点+热点", "WIFI_MODE_APSTA"],
+          ["关闭", "WIFI_MODE_NULL"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#00796B",
+    "tooltip": "WiFi模式常量",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_firmware_version",
+    "message0": "RTL8720固件版本",
+    "output": "String",
+    "colour": "#00796B",
+    "tooltip": "读取RTL8720 eRPC固件版本",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "seeed_rpcwifi_scan_networks",
+    "message0": "扫描WiFi网络 %1 %2",
+    "args0": [
+      { "type": "field_dropdown", "name": "ASYNC", "options": [["同步", "FALSE"], ["异步", "TRUE"]] },
+      { "type": "field_dropdown", "name": "SHOW_HIDDEN", "options": [["隐藏网络不显示", "FALSE"], ["显示隐藏网络", "TRUE"]] }
+    ],
+    "output": "Number",
+    "colour": "#0097A7",
+    "tooltip": "扫描附近WiFi网络并返回数量",
+    "icon": "fa-light fa-radar"
+  },
+  {
+    "type": "seeed_rpcwifi_scan_complete",
+    "message0": "异步扫描完成结果",
+    "output": "Number",
+    "colour": "#0097A7",
+    "tooltip": "检查异步扫描状态或结果数量",
+    "icon": "fa-light fa-radar"
+  },
+  {
+    "type": "seeed_rpcwifi_scan_delete",
+    "message0": "清除扫描结果",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0097A7",
+    "tooltip": "释放WiFi扫描结果",
+    "icon": "fa-light fa-radar"
+  },
+  {
+    "type": "seeed_rpcwifi_scanned_ssid",
+    "message0": "扫描结果 %1 的SSID",
+    "args0": [{ "type": "input_value", "name": "INDEX", "check": "Number" }],
+    "output": "String",
+    "colour": "#0097A7",
+    "tooltip": "获取指定扫描结果的SSID",
+    "icon": "fa-light fa-radar"
+  },
+  {
+    "type": "seeed_rpcwifi_scanned_rssi",
+    "message0": "扫描结果 %1 的RSSI",
+    "args0": [{ "type": "input_value", "name": "INDEX", "check": "Number" }],
+    "output": "Number",
+    "colour": "#0097A7",
+    "tooltip": "获取指定扫描结果信号强度",
+    "icon": "fa-light fa-radar"
+  },
+  {
+    "type": "seeed_rpcwifi_scanned_encryption",
+    "message0": "扫描结果 %1 的加密类型",
+    "args0": [{ "type": "input_value", "name": "INDEX", "check": "Number" }],
+    "output": "Number",
+    "colour": "#0097A7",
+    "tooltip": "获取指定扫描结果的加密类型",
+    "icon": "fa-light fa-radar"
+  },
+  {
+    "type": "seeed_rpcwifi_scanned_channel",
+    "message0": "扫描结果 %1 的信道",
+    "args0": [{ "type": "input_value", "name": "INDEX", "check": "Number" }],
+    "output": "Number",
+    "colour": "#0097A7",
+    "tooltip": "获取指定扫描结果信道",
+    "icon": "fa-light fa-radar"
+  },
+  {
+    "type": "seeed_rpcwifi_encryption_type",
+    "message0": "加密类型常量 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["开放", "WIFI_AUTH_OPEN"],
+          ["WEP", "WIFI_AUTH_WEP"],
+          ["WPA_PSK", "WIFI_AUTH_WPA_PSK"],
+          ["WPA2_PSK", "WIFI_AUTH_WPA2_PSK"],
+          ["WPA/WPA2_PSK", "WIFI_AUTH_WPA_WPA2_PSK"],
+          ["WPA2_ENTERPRISE", "WIFI_AUTH_WPA2_ENTERPRISE"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#0097A7",
+    "tooltip": "WiFi加密类型常量",
+    "icon": "fa-light fa-shield-keyhole"
+  },
+  {
+    "type": "seeed_rpcwifi_multi_create",
+    "message0": "创建WiFiMulti对象 %1",
+    "args0": [{ "type": "field_input", "name": "VAR", "text": "wifiMulti" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "创建WiFiMulti对象用于多热点自动选择",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_multi_add_ap",
+    "message0": "WiFiMulti %1 添加AP SSID %2 密码 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "wifiMulti", "variableTypes": ["WiFiMulti"], "defaultType": "WiFiMulti" },
+      { "type": "input_value", "name": "SSID", "check": "String" },
+      { "type": "input_value", "name": "PASSWORD", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#26A69A",
+    "tooltip": "向WiFiMulti候选列表添加一个热点",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_multi_run",
+    "message0": "WiFiMulti %1 连接 超时 %2 毫秒",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "wifiMulti", "variableTypes": ["WiFiMulti"], "defaultType": "WiFiMulti" },
+      { "type": "input_value", "name": "TIMEOUT", "check": "Number" }
+    ],
+    "output": "Number",
+    "colour": "#26A69A",
+    "tooltip": "连接到候选列表中信号最好的WiFi",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifi_softap",
+    "message0": "创建WiFi热点 SSID %1 密码 %2 信道 %3 %4 最大连接 %5",
+    "args0": [
+      { "type": "input_value", "name": "SSID", "check": "String" },
+      { "type": "input_value", "name": "PASSWORD", "check": "String" },
+      { "type": "input_value", "name": "CHANNEL", "check": "Number" },
+      { "type": "field_dropdown", "name": "HIDDEN", "options": [["广播SSID", "FALSE"], ["隐藏SSID", "TRUE"]] },
+      { "type": "input_value", "name": "MAX_CONN", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#43A047",
+    "tooltip": "启动AP热点模式",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "seeed_rpcwifi_softap_config",
+    "message0": "配置热点IP %1 网关 %2 子网掩码 %3",
+    "args0": [
+      { "type": "field_input", "name": "IP", "text": "192.168.1.1" },
+      { "type": "field_input", "name": "GATEWAY", "text": "192.168.1.1" },
+      { "type": "field_input", "name": "SUBNET", "text": "255.255.255.0" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#43A047",
+    "tooltip": "配置AP热点IP、网关和子网掩码",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "seeed_rpcwifi_softap_disconnect",
+    "message0": "关闭WiFi热点 %1",
+    "args0": [{ "type": "field_dropdown", "name": "WIFI_OFF", "options": [["保持WiFi开启", "FALSE"], ["关闭WiFi", "TRUE"]] }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#43A047",
+    "tooltip": "关闭AP热点",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "seeed_rpcwifi_softap_station_count",
+    "message0": "热点连接设备数",
+    "output": "Number",
+    "colour": "#43A047",
+    "tooltip": "获取连接到AP的客户端数量",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "seeed_rpcwifi_softap_ip",
+    "message0": "热点IP地址",
+    "output": "String",
+    "colour": "#43A047",
+    "tooltip": "获取AP热点IP地址",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "seeed_rpcwifi_client_create",
+    "message0": "创建TCP客户端 %1 类型 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "client" },
+      { "type": "field_dropdown", "name": "SECURE", "options": [["普通", "NORMAL"], ["SSL/TLS", "SECURE"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5E35B1",
+    "tooltip": "创建WiFiClient或WiFiClientSecure对象",
+    "icon": "fa-light fa-network-wired"
+  },
+  {
+    "type": "seeed_rpcwifi_client_connect",
+    "message0": "TCP客户端 %1 连接主机 %2 端口 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "client", "variableTypes": ["WiFiClient", "WiFiClientSecure"], "defaultType": "WiFiClient" },
+      { "type": "input_value", "name": "HOST", "check": "String" },
+      { "type": "input_value", "name": "PORT", "check": "Number" }
+    ],
+    "output": "Boolean",
+    "colour": "#5E35B1",
+    "tooltip": "连接到TCP主机和端口",
+    "icon": "fa-light fa-network-wired"
+  },
+  {
+    "type": "seeed_rpcwifi_secure_set_ca",
+    "message0": "安全客户端 %1 设置CA证书 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "secureClient", "variableTypes": ["WiFiClientSecure"], "defaultType": "WiFiClientSecure" },
+      { "type": "input_value", "name": "CA_CERT", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5E35B1",
+    "tooltip": "为WiFiClientSecure设置根CA证书",
+    "icon": "fa-light fa-lock"
+  },
+  {
+    "type": "seeed_rpcwifi_client_print",
+    "message0": "TCP客户端 %1 发送 %2 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "client", "variableTypes": ["WiFiClient", "WiFiClientSecure"], "defaultType": "WiFiClient" },
+      { "type": "input_value", "name": "DATA" },
+      { "type": "field_dropdown", "name": "NEWLINE", "options": [["换行", "TRUE"], ["不换行", "FALSE"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5E35B1",
+    "tooltip": "向TCP连接发送数据",
+    "icon": "fa-light fa-paper-plane"
+  },
+  {
+    "type": "seeed_rpcwifi_client_available",
+    "message0": "TCP客户端 %1 可读字节数",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "client", "variableTypes": ["WiFiClient", "WiFiClientSecure"], "defaultType": "WiFiClient" }],
+    "output": "Number",
+    "colour": "#5E35B1",
+    "tooltip": "获取TCP客户端可读字节数",
+    "icon": "fa-light fa-network-wired"
+  },
+  {
+    "type": "seeed_rpcwifi_client_read_string",
+    "message0": "TCP客户端 %1 读取文本",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "client", "variableTypes": ["WiFiClient", "WiFiClientSecure"], "defaultType": "WiFiClient" }],
+    "output": "String",
+    "colour": "#5E35B1",
+    "tooltip": "读取TCP客户端缓冲区文本",
+    "icon": "fa-light fa-network-wired"
+  },
+  {
+    "type": "seeed_rpcwifi_client_connected",
+    "message0": "TCP客户端 %1 已连接",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "client", "variableTypes": ["WiFiClient", "WiFiClientSecure"], "defaultType": "WiFiClient" }],
+    "output": "Boolean",
+    "colour": "#5E35B1",
+    "tooltip": "判断TCP客户端连接状态",
+    "icon": "fa-light fa-network-wired"
+  },
+  {
+    "type": "seeed_rpcwifi_client_stop",
+    "message0": "停止TCP客户端 %1",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "client", "variableTypes": ["WiFiClient", "WiFiClientSecure"], "defaultType": "WiFiClient" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5E35B1",
+    "tooltip": "关闭TCP连接",
+    "icon": "fa-light fa-network-wired"
+  },
+  {
+    "type": "seeed_rpcwifi_udp_create",
+    "message0": "创建UDP对象 %1",
+    "args0": [{ "type": "field_input", "name": "VAR", "text": "udp" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3949AB",
+    "tooltip": "创建WiFiUDP对象",
+    "icon": "fa-light fa-network-wired"
+  },
+  {
+    "type": "seeed_rpcwifi_udp_begin",
+    "message0": "UDP %1 开始监听端口 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "udp", "variableTypes": ["WiFiUDP"], "defaultType": "WiFiUDP" },
+      { "type": "input_value", "name": "PORT", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3949AB",
+    "tooltip": "启动UDP监听",
+    "icon": "fa-light fa-network-wired"
+  },
+  {
+    "type": "seeed_rpcwifi_udp_send",
+    "message0": "UDP %1 发送到 %2 端口 %3 数据 %4",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "udp", "variableTypes": ["WiFiUDP"], "defaultType": "WiFiUDP" },
+      { "type": "input_value", "name": "HOST", "check": "String" },
+      { "type": "input_value", "name": "PORT", "check": "Number" },
+      { "type": "input_value", "name": "DATA" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3949AB",
+    "tooltip": "发送UDP数据包",
+    "icon": "fa-light fa-paper-plane"
+  },
+  {
+    "type": "seeed_rpcwifi_udp_parse_packet",
+    "message0": "UDP %1 接收包大小",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "udp", "variableTypes": ["WiFiUDP"], "defaultType": "WiFiUDP" }],
+    "output": "Number",
+    "colour": "#3949AB",
+    "tooltip": "解析UDP数据包并返回大小",
+    "icon": "fa-light fa-network-wired"
+  },
+  {
+    "type": "seeed_rpcwifi_udp_read_string",
+    "message0": "UDP %1 读取文本",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "udp", "variableTypes": ["WiFiUDP"], "defaultType": "WiFiUDP" }],
+    "output": "String",
+    "colour": "#3949AB",
+    "tooltip": "读取当前UDP包内容为文本",
+    "icon": "fa-light fa-network-wired"
+  },
+  {
+    "type": "seeed_rpcwifi_http_create",
+    "message0": "创建HTTPClient对象 %1",
+    "args0": [{ "type": "field_input", "name": "VAR", "text": "http" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF6C00",
+    "tooltip": "创建HTTPClient对象",
+    "icon": "fa-light fa-globe"
+  },
+  {
+    "type": "seeed_rpcwifi_http_begin",
+    "message0": "HTTPClient %1 打开URL %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "http", "variableTypes": ["HTTPClient"], "defaultType": "HTTPClient" },
+      { "type": "input_value", "name": "URL", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF6C00",
+    "tooltip": "配置HTTP URL",
+    "icon": "fa-light fa-globe"
+  },
+  {
+    "type": "seeed_rpcwifi_http_begin_https",
+    "message0": "HTTPClient %1 打开HTTPS URL %2 CA证书 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "http", "variableTypes": ["HTTPClient"], "defaultType": "HTTPClient" },
+      { "type": "input_value", "name": "URL", "check": "String" },
+      { "type": "input_value", "name": "CA_CERT", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF6C00",
+    "tooltip": "配置HTTPS URL和根CA证书",
+    "icon": "fa-light fa-lock"
+  },
+  {
+    "type": "seeed_rpcwifi_http_add_header",
+    "message0": "HTTPClient %1 添加请求头 %2 值 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "http", "variableTypes": ["HTTPClient"], "defaultType": "HTTPClient" },
+      { "type": "input_value", "name": "NAME", "check": "String" },
+      { "type": "input_value", "name": "VALUE", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF6C00",
+    "tooltip": "添加HTTP请求头",
+    "icon": "fa-light fa-globe"
+  },
+  {
+    "type": "seeed_rpcwifi_http_request",
+    "message0": "HTTPClient %1 请求 %2 数据 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "http", "variableTypes": ["HTTPClient"], "defaultType": "HTTPClient" },
+      { "type": "field_dropdown", "name": "METHOD", "options": [["GET", "GET"], ["POST", "POST"], ["PUT", "PUT"], ["PATCH", "PATCH"]] },
+      { "type": "input_value", "name": "DATA" }
+    ],
+    "output": "Number",
+    "colour": "#EF6C00",
+    "tooltip": "发送HTTP请求并返回响应码，GET会忽略数据参数",
+    "icon": "fa-light fa-globe"
+  },
+  {
+    "type": "seeed_rpcwifi_http_get_string",
+    "message0": "HTTPClient %1 响应文本",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "http", "variableTypes": ["HTTPClient"], "defaultType": "HTTPClient" }],
+    "output": "String",
+    "colour": "#EF6C00",
+    "tooltip": "读取HTTP响应文本",
+    "icon": "fa-light fa-globe"
+  },
+  {
+    "type": "seeed_rpcwifi_http_end",
+    "message0": "HTTPClient %1 结束请求",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "http", "variableTypes": ["HTTPClient"], "defaultType": "HTTPClient" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF6C00",
+    "tooltip": "释放HTTPClient资源",
+    "icon": "fa-light fa-globe"
+  },
+  {
+    "type": "seeed_rpcwifi_webserver_create",
+    "message0": "创建WebServer对象 %1 端口 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "server" },
+      { "type": "field_number", "name": "PORT", "value": 80 }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D84315",
+    "tooltip": "创建WebServer服务器对象",
+    "icon": "fa-light fa-server"
+  },
+  {
+    "type": "seeed_rpcwifi_webserver_begin",
+    "message0": "启动WebServer %1",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "server", "variableTypes": ["WebServer"], "defaultType": "WebServer" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D84315",
+    "tooltip": "启动WebServer服务",
+    "icon": "fa-light fa-server"
+  },
+  {
+    "type": "seeed_rpcwifi_webserver_on",
+    "message0": "WebServer %1 当路径 %2 方法 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "server", "variableTypes": ["WebServer"], "defaultType": "WebServer" },
+      { "type": "input_value", "name": "PATH", "check": "String" },
+      { "type": "field_dropdown", "name": "METHOD", "options": [["GET", "HTTP_GET"], ["POST", "HTTP_POST"], ["PUT", "HTTP_PUT"], ["DELETE", "HTTP_DELETE"], ["任意", "HTTP_ANY"]] }
+    ],
+    "message1": "执行 %1",
+    "args1": [{ "type": "input_statement", "name": "HANDLER" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D84315",
+    "tooltip": "注册WebServer路由回调",
+    "icon": "fa-light fa-server"
+  },
+  {
+    "type": "seeed_rpcwifi_webserver_send",
+    "message0": "WebServer %1 响应码 %2 类型 %3 内容 %4",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "server", "variableTypes": ["WebServer"], "defaultType": "WebServer" },
+      { "type": "input_value", "name": "CODE", "check": "Number" },
+      { "type": "input_value", "name": "TYPE", "check": "String" },
+      { "type": "input_value", "name": "CONTENT", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D84315",
+    "tooltip": "发送HTTP响应",
+    "icon": "fa-light fa-server"
+  },
+  {
+    "type": "seeed_rpcwifi_webserver_handle_client",
+    "message0": "WebServer %1 处理客户端",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "server", "variableTypes": ["WebServer"], "defaultType": "WebServer" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D84315",
+    "tooltip": "在loop中处理WebServer客户端请求",
+    "icon": "fa-light fa-server"
+  },
+  {
+    "type": "seeed_rpcwifi_dns_create",
+    "message0": "创建DNSServer对象 %1",
+    "args0": [{ "type": "field_input", "name": "VAR", "text": "dns" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "创建DNS服务器对象",
+    "icon": "fa-light fa-server"
+  },
+  {
+    "type": "seeed_rpcwifi_dns_start",
+    "message0": "DNSServer %1 启动 端口 %2 域名 %3 指向IP %4",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "dns", "variableTypes": ["DNSServer"], "defaultType": "DNSServer" },
+      { "type": "input_value", "name": "PORT", "check": "Number" },
+      { "type": "input_value", "name": "DOMAIN", "check": "String" },
+      { "type": "input_value", "name": "IP", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "启动DNS服务器并解析域名到指定IP",
+    "icon": "fa-light fa-server"
+  },
+  {
+    "type": "seeed_rpcwifi_dns_start_captive",
+    "message0": "DNSServer %1 启动强制门户DNS",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "dns", "variableTypes": ["DNSServer"], "defaultType": "DNSServer" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "将所有域名解析到当前AP IP",
+    "icon": "fa-light fa-server"
+  },
+  {
+    "type": "seeed_rpcwifi_dns_process",
+    "message0": "DNSServer %1 处理请求",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "dns", "variableTypes": ["DNSServer"], "defaultType": "DNSServer" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "在loop中处理DNS请求",
+    "icon": "fa-light fa-server"
+  },
+  {
+    "type": "seeed_rpcwifi_mdns_begin",
+    "message0": "启动mDNS主机名 %1",
+    "args0": [{ "type": "input_value", "name": "HOSTNAME", "check": "String" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00897B",
+    "tooltip": "启动mDNS响应器，例如WioTerminal.local",
+    "icon": "fa-light fa-globe"
+  },
+  {
+    "type": "seeed_rpcwifi_mdns_add_service",
+    "message0": "mDNS添加服务 %1 协议 %2 端口 %3",
+    "args0": [
+      { "type": "input_value", "name": "SERVICE", "check": "String" },
+      { "type": "field_dropdown", "name": "PROTO", "options": [["tcp", "tcp"], ["udp", "udp"]] },
+      { "type": "input_value", "name": "PORT", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00897B",
+    "tooltip": "向mDNS-SD广播服务",
+    "icon": "fa-light fa-globe"
+  },
+  {
+    "type": "seeed_rpcwifi_mdns_query_host",
+    "message0": "mDNS查询主机 %1 超时 %2 毫秒",
+    "args0": [
+      { "type": "input_value", "name": "HOST", "check": "String" },
+      { "type": "input_value", "name": "TIMEOUT", "check": "Number" }
+    ],
+    "output": "String",
+    "colour": "#00897B",
+    "tooltip": "查询.local主机名并返回IP字符串",
+    "icon": "fa-light fa-globe"
+  },
+  {
+    "type": "seeed_rpcwifi_mdns_query_service",
+    "message0": "mDNS查询服务 %1 协议 %2",
+    "args0": [
+      { "type": "input_value", "name": "SERVICE", "check": "String" },
+      { "type": "field_dropdown", "name": "PROTO", "options": [["tcp", "tcp"], ["udp", "udp"]] }
+    ],
+    "output": "Number",
+    "colour": "#00897B",
+    "tooltip": "查询指定mDNS服务并返回结果数量",
+    "icon": "fa-light fa-globe"
+  },
+  {
+    "type": "seeed_rpcwifi_wifimanager_create",
+    "message0": "创建WiFiManager对象 %1",
+    "args0": [{ "type": "field_input", "name": "VAR", "text": "wm" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "创建WiFiManager配网对象",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "seeed_rpcwifi_wifimanager_auto_connect",
+    "message0": "WiFiManager %1 自动连接 AP名称 %2 AP密码 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "wm", "variableTypes": ["WiFiManager"], "defaultType": "WiFiManager" },
+      { "type": "input_value", "name": "AP_NAME", "check": "String" },
+      { "type": "input_value", "name": "AP_PASSWORD", "check": "String" }
+    ],
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "自动连接已保存WiFi，失败时启动配置门户",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "seeed_rpcwifi_wifimanager_start_portal",
+    "message0": "WiFiManager %1 启动配置门户 AP名称 %2 AP密码 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "wm", "variableTypes": ["WiFiManager"], "defaultType": "WiFiManager" },
+      { "type": "input_value", "name": "AP_NAME", "check": "String" },
+      { "type": "input_value", "name": "AP_PASSWORD", "check": "String" }
+    ],
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "直接启动WiFi配置门户",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "seeed_rpcwifi_wifimanager_reset",
+    "message0": "WiFiManager %1 重置保存的WiFi",
+    "args0": [{ "type": "field_variable", "name": "VAR", "variable": "wm", "variableTypes": ["WiFiManager"], "defaultType": "WiFiManager" }],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E53935",
+    "tooltip": "清除已保存WiFi配置",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "seeed_rpcwifi_wifimanager_set_timeout",
+    "message0": "WiFiManager %1 设置 %2 超时 %3 秒",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "wm", "variableTypes": ["WiFiManager"], "defaultType": "WiFiManager" },
+      { "type": "field_dropdown", "name": "TYPE", "options": [["配置门户", "CONFIG"], ["连接", "CONNECT"]] },
+      { "type": "input_value", "name": "SECONDS", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置WiFiManager配置门户或连接超时",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "seeed_rpcwifi_wifimanager_get_info",
+    "message0": "WiFiManager %1 获取 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "wm", "variableTypes": ["WiFiManager"], "defaultType": "WiFiManager" },
+      { "type": "field_dropdown", "name": "INFO", "options": [["配置门户SSID", "PORTAL_SSID"], ["已保存SSID", "SSID"], ["已保存密码", "PASSWORD"]] }
+    ],
+    "output": "String",
+    "colour": "#4CAF50",
+    "tooltip": "读取WiFiManager当前保存的信息",
+    "icon": "fa-light fa-router"
+  }
+]

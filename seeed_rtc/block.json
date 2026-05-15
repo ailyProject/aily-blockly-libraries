@@ -1,0 +1,307 @@
+[
+  {
+    "type": "seeed_rtc_init",
+    "message0": "初始化 Seeed RTC %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "rtc"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5E7CE2",
+    "tooltip": "创建并初始化 Seeed SAMD21/SAMD51 内置 RTC 对象",
+    "icon": "fa-light fa-clock"
+  },
+  {
+    "type": "seeed_rtc_datetime",
+    "message0": "日期时间 年 %1 月 %2 日 %3 时 %4 分 %5 秒 %6",
+    "args0": [
+      { "type": "input_value", "name": "YEAR", "check": ["Number"] },
+      { "type": "input_value", "name": "MONTH", "check": ["Number"] },
+      { "type": "input_value", "name": "DAY", "check": ["Number"] },
+      { "type": "input_value", "name": "HOUR", "check": ["Number"] },
+      { "type": "input_value", "name": "MINUTE", "check": ["Number"] },
+      { "type": "input_value", "name": "SECOND", "check": ["Number"] }
+    ],
+    "inputsInline": true,
+    "output": "DateTime",
+    "colour": "#4CAF50",
+    "tooltip": "构造 DateTime 对象，年份范围 2000-2099",
+    "icon": "fa-light fa-calendar-clock"
+  },
+  {
+    "type": "seeed_rtc_build_time",
+    "message0": "编译时间 DateTime",
+    "output": "DateTime",
+    "colour": "#4CAF50",
+    "tooltip": "使用 __DATE__ 和 __TIME__ 构造编译时间",
+    "icon": "fa-light fa-calendar-clock"
+  },
+  {
+    "type": "seeed_rtc_set_time",
+    "message0": "%1 设置 RTC 时间为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["SeeedRTC"],
+        "defaultType": "SeeedRTC"
+      },
+      { "type": "input_value", "name": "DATETIME", "check": ["DateTime"] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5E7CE2",
+    "tooltip": "调用 adjust() 设置 RTC 当前时间",
+    "icon": "fa-light fa-clock"
+  },
+  {
+    "type": "seeed_rtc_now",
+    "message0": "%1 当前时间",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["SeeedRTC"],
+        "defaultType": "SeeedRTC"
+      }
+    ],
+    "output": "DateTime",
+    "colour": "#5E7CE2",
+    "tooltip": "读取 RTC 当前 DateTime",
+    "icon": "fa-light fa-clock"
+  },
+  {
+    "type": "seeed_rtc_datetime_get",
+    "message0": "日期时间 %1 获取 %2",
+    "args0": [
+      { "type": "input_value", "name": "TIME", "check": ["DateTime"] },
+      {
+        "type": "field_dropdown",
+        "name": "PART",
+        "options": [
+          ["年", "YEAR"],
+          ["月", "MONTH"],
+          ["日", "DAY"],
+          ["时", "HOUR"],
+          ["分", "MINUTE"],
+          ["秒", "SECOND"],
+          ["星期(0-6)", "DAY_OF_WEEK"],
+          ["12小时制小时", "TWELVE_HOUR"],
+          ["是否下午", "IS_PM"],
+          ["Unix时间戳", "UNIXTIME"],
+          ["2000年起秒数", "SECONDSTIME"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50",
+    "tooltip": "从 DateTime 对象读取指定字段",
+    "icon": "fa-light fa-calendar-clock"
+  },
+  {
+    "type": "seeed_rtc_timestamp",
+    "message0": "日期时间 %1 转为 %2 字符串",
+    "args0": [
+      { "type": "input_value", "name": "TIME", "check": ["DateTime"] },
+      {
+        "type": "field_dropdown",
+        "name": "FORMAT",
+        "options": [
+          ["完整日期时间", "FULL"],
+          ["仅时间", "TIME"],
+          ["仅日期", "DATE"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#4CAF50",
+    "tooltip": "调用 DateTime.timestamp() 输出字符串",
+    "icon": "fa-light fa-calendar-clock"
+  },
+  {
+    "type": "seeed_rtc_is_valid",
+    "message0": "日期时间 %1 有效",
+    "args0": [
+      { "type": "input_value", "name": "TIME", "check": ["DateTime"] }
+    ],
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "检查 DateTime 是否为有效日期时间",
+    "icon": "fa-light fa-calendar-check"
+  },
+  {
+    "type": "seeed_rtc_set_alarm",
+    "message0": "%1 设置闹钟 %2 时间 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["SeeedRTC"],
+        "defaultType": "SeeedRTC"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ALARM_ID",
+        "options": [["闹钟0", "0"], ["闹钟1(SAMD51)", "1"]]
+      },
+      { "type": "input_value", "name": "DATETIME", "check": ["DateTime"] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置 RTC 闹钟时间，SAMD21 忽略闹钟编号",
+    "icon": "fa-light fa-alarm-clock"
+  },
+  {
+    "type": "seeed_rtc_get_alarm",
+    "message0": "%1 读取闹钟 %2 时间",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["SeeedRTC"],
+        "defaultType": "SeeedRTC"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ALARM_ID",
+        "options": [["闹钟0", "0"], ["闹钟1(SAMD51)", "1"]]
+      }
+    ],
+    "output": "DateTime",
+    "colour": "#FF9800",
+    "tooltip": "读取 RTC 闹钟 DateTime，SAMD21 忽略闹钟编号",
+    "icon": "fa-light fa-alarm-clock"
+  },
+  {
+    "type": "seeed_rtc_enable_alarm",
+    "message0": "%1 启用闹钟 %2 匹配 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["SeeedRTC"],
+        "defaultType": "SeeedRTC"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ALARM_ID",
+        "options": [["闹钟0", "0"], ["闹钟1(SAMD51)", "1"]]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MATCH",
+        "options": [
+          ["关闭", "MATCH_OFF"],
+          ["每分钟(秒匹配)", "MATCH_SS"],
+          ["每小时(分秒匹配)", "MATCH_MMSS"],
+          ["每天(时分秒匹配)", "MATCH_HHMMSS"],
+          ["每月(日时分秒匹配)", "MATCH_DHHMMSS"],
+          ["每年(月日时分秒匹配)", "MATCH_MMDDHHMMSS"],
+          ["指定年月日时分秒", "MATCH_YYMMDDHHMMSS"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "启用 RTC 闹钟匹配规则",
+    "icon": "fa-light fa-alarm-clock"
+  },
+  {
+    "type": "seeed_rtc_disable_alarm",
+    "message0": "%1 关闭闹钟 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["SeeedRTC"],
+        "defaultType": "SeeedRTC"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ALARM_ID",
+        "options": [["闹钟0", "0"], ["闹钟1(SAMD51)", "1"]]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "关闭 RTC 闹钟，SAMD21 忽略闹钟编号",
+    "icon": "fa-light fa-alarm-clock"
+  },
+  {
+    "type": "seeed_rtc_on_alarm",
+    "message0": "当 %1 RTC 闹钟触发",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["SeeedRTC"],
+        "defaultType": "SeeedRTC"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      { "type": "input_statement", "name": "HANDLER" }
+    ],
+    "colour": "#FF9800",
+    "tooltip": "注册 RTC 闹钟中断回调，SAMD51 可用触发标志区分闹钟0/1",
+    "icon": "fa-light fa-alarm-clock"
+  },
+  {
+    "type": "seeed_rtc_alarm_flag",
+    "message0": "RTC 闹钟触发标志",
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "SAMD21 返回 1；SAMD51 返回 bit0/bit1 表示闹钟0/1",
+    "icon": "fa-light fa-flag"
+  },
+  {
+    "type": "seeed_rtc_detach_alarm",
+    "message0": "%1 取消闹钟回调",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["SeeedRTC"],
+        "defaultType": "SeeedRTC"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "取消 RTC 闹钟中断回调",
+    "icon": "fa-light fa-alarm-clock"
+  },
+  {
+    "type": "seeed_rtc_standby",
+    "message0": "%1 进入待机模式",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["SeeedRTC"],
+        "defaultType": "SeeedRTC"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "调用 standbyMode() 进入低功耗待机",
+    "icon": "fa-light fa-moon"
+  }
+]

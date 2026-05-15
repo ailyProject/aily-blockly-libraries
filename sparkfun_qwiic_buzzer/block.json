@@ -1,0 +1,62 @@
+[
+  {
+    "type": "qwiic_buzzer_init",
+    "message0": "初始化 Qwiic 蜂鸣器 %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "buzzer" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "初始化 SparkFun Qwiic 蜂鸣器（I2C 默认地址 0x34）"
+  },
+  {
+    "type": "qwiic_buzzer_on",
+    "message0": "蜂鸣器 %1 开启",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "buzzer", "variableTypes": ["QwiicBuzzer"], "defaultType": "QwiicBuzzer" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "开启蜂鸣器，使用当前配置的频率和音量"
+  },
+  {
+    "type": "qwiic_buzzer_off",
+    "message0": "蜂鸣器 %1 关闭",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "buzzer", "variableTypes": ["QwiicBuzzer"], "defaultType": "QwiicBuzzer" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "关闭蜂鸣器"
+  },
+  {
+    "type": "qwiic_buzzer_configure",
+    "message0": "蜂鸣器 %1 配置 频率 %2 Hz 时长 %3 ms 音量 %4",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "buzzer", "variableTypes": ["QwiicBuzzer"], "defaultType": "QwiicBuzzer" },
+      { "type": "input_value", "name": "FREQ", "check": "Number" },
+      { "type": "input_value", "name": "DURATION", "check": "Number" },
+      { "type": "field_dropdown", "name": "VOLUME", "options": [["最大(4)", "4"], ["中(3)", "3"], ["低(2)", "2"], ["最小(1)", "1"], ["静音(0)", "0"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "配置蜂鸣器：频率（Hz）、持续时间（ms，0=永久）、音量（0-4）"
+  },
+  {
+    "type": "qwiic_buzzer_sound_effect",
+    "message0": "蜂鸣器 %1 播放音效 %2 音量 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "buzzer", "variableTypes": ["QwiicBuzzer"], "defaultType": "QwiicBuzzer" },
+      { "type": "input_value", "name": "EFFECT", "check": "Number" },
+      { "type": "field_dropdown", "name": "VOLUME", "options": [["最大(4)", "4"], ["中(3)", "3"], ["低(2)", "2"], ["最小(1)", "1"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "播放预设音效（编号 0-8）"
+  }
+]

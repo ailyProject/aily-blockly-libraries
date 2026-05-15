@@ -1,103 +1,130 @@
 {
-  "toolbox_name": "ArduinoFFT",
-  "Arduino_FFT_init": {
-    "message0": "初始化 FFT 对象 实部数组 %1 虚部数组 %2 样本数 %3 采样频率(Hz) %4",
-    "tooltip": "%{BKY_FFT_INIT_TOOLTIP}"
+  "toolbox_name": "ArduinoFFT频谱分析",
+  "toolbox_labels": {
+    "Setup": "初始化",
+    "Sampling": "采样",
+    "Processing": "处理",
+    "Results": "结果",
+    "Debug": "调试"
   },
-  "Arduino_FFT_windowing": {
-    "message0": "对数组 %1 应用窗口 %2 方向 %3",
-    "tooltip": "%{BKY_FFT_WINDOWING_TOOLTIP}",
+  "arduino_fft_init": {
+    "message0": "创建 FFT %1 类型 %2 样本数 %3 采样频率 %4 Hz",
+    "tooltip": "创建 arduinoFFT 对象，并自动生成实部和虚部采样缓冲区。",
+    "args0": [
+      null,
+      { "options": [["double", "double"], ["float", "float"]] },
+      null,
+      null
+    ]
+  },
+  "arduino_fft_set_sample": {
+    "message0": "FFT %1 设置样本 序号 %2 实部 %3 虚部 %4",
+    "tooltip": "向 FFT 缓冲区写入一个实部/虚部样本。"
+  },
+  "arduino_fft_clear_samples": {
+    "message0": "FFT %1 清空全部样本",
+    "tooltip": "将实部和虚部缓冲区全部清零。"
+  },
+  "arduino_fft_sample_analog": {
+    "message0": "FFT %1 从模拟引脚 %2 采样 偏移 %3 缩放 %4",
+    "tooltip": "按已配置采样频率使用 analogRead 填充 FFT 缓冲区。"
+  },
+  "arduino_fft_generate_tone": {
+    "message0": "FFT %1 生成测试音 频率 %2 Hz 振幅 %3 偏移 %4",
+    "tooltip": "向 FFT 缓冲区生成正弦波测试信号。"
+  },
+  "arduino_fft_dc_removal": {
+    "message0": "FFT %1 去除直流偏移",
+    "tooltip": "从实部采样缓冲区中减去平均值。"
+  },
+  "arduino_fft_windowing": {
+    "message0": "FFT %1 应用窗口 %2 方向 %3 补偿 %4",
+    "tooltip": "对实部缓冲区应用 arduinoFFT 窗函数。",
     "args0": [
       null,
       {
         "options": [
-          [
-            "矩形",
-            "FFT_WIN_TYP_RECTANGLE"
-          ],
-          [
-            "汉明",
-            "FFT_WIN_TYP_HAMMING"
-          ],
-          [
-            "汉宁",
-            "FFT_WIN_TYP_HANN"
-          ],
-          [
-            "三角",
-            "FFT_WIN_TYP_TRIANGLE"
-          ],
-          [
-            "纳特尔",
-            "FFT_WIN_TYP_NUTTALL"
-          ],
-          [
-            "布莱克曼",
-            "FFT_WIN_TYP_BLACKMAN"
-          ],
-          [
-            "布莱克曼-纳特尔",
-            "FFT_WIN_TYP_BLACKMAN_NUTTALL"
-          ],
-          [
-            "布莱克曼-哈里斯",
-            "FFT_WIN_TYP_BLACKMAN_HARRIS"
-          ],
-          [
-            "平顶",
-            "FFT_WIN_TYP_FLT_TOP"
-          ],
-          [
-            "Welch",
-            "FFT_WIN_TYP_WELCH"
-          ]
+          ["矩形", "FFT_WIN_TYP_RECTANGLE"],
+          ["汉明", "FFT_WIN_TYP_HAMMING"],
+          ["汉宁", "FFT_WIN_TYP_HANN"],
+          ["三角", "FFT_WIN_TYP_TRIANGLE"],
+          ["纳特尔", "FFT_WIN_TYP_NUTTALL"],
+          ["布莱克曼", "FFT_WIN_TYP_BLACKMAN"],
+          ["布莱克曼-纳特尔", "FFT_WIN_TYP_BLACKMAN_NUTTALL"],
+          ["布莱克曼-哈里斯", "FFT_WIN_TYP_BLACKMAN_HARRIS"],
+          ["平顶", "FFT_WIN_TYP_FLT_TOP"],
+          ["Welch", "FFT_WIN_TYP_WELCH"]
         ]
       },
-      {
-        "options": [
-          [
-            "正向",
-            "FFT_FORWARD"
-          ],
-          [
-            "逆向",
-            "FFT_REVERSE"
-          ]
-        ]
-      }
+      { "options": [["正向", "FFT_FORWARD"], ["反向", "FFT_REVERSE"]] },
+      null
     ]
   },
-  "Arduino_FFT_compute": {
-    "message0": "计算 FFT 实部 %1 虚部 %2 样本数 %3 方向 %4",
-    "tooltip": "%{BKY_FFT_COMPUTE_TOOLTIP}",
+  "arduino_fft_compute": {
+    "message0": "FFT %1 计算 方向 %2",
+    "tooltip": "对已配置缓冲区执行 FFT 计算。",
     "args0": [
       null,
-      null,
+      { "options": [["正向", "FFT_FORWARD"], ["反向", "FFT_REVERSE"]] }
+    ]
+  },
+  "arduino_fft_complex_to_magnitude": {
+    "message0": "FFT %1 复数转幅值",
+    "tooltip": "将复数 FFT 结果转换为幅值，并存入实部缓冲区。"
+  },
+  "arduino_fft_process": {
+    "message0": "FFT %1 执行正向流程 窗口 %2 去直流 %3 补偿 %4",
+    "tooltip": "执行常用的去直流、加窗、正向 FFT、幅值转换流程。",
+    "args0": [
       null,
       {
         "options": [
-          [
-            "正向",
-            "FFT_FORWARD"
-          ],
-          [
-            "逆向",
-            "FFT_REVERSE"
-          ]
+          ["矩形", "FFT_WIN_TYP_RECTANGLE"],
+          ["汉明", "FFT_WIN_TYP_HAMMING"],
+          ["汉宁", "FFT_WIN_TYP_HANN"],
+          ["三角", "FFT_WIN_TYP_TRIANGLE"],
+          ["纳特尔", "FFT_WIN_TYP_NUTTALL"],
+          ["布莱克曼", "FFT_WIN_TYP_BLACKMAN"],
+          ["布莱克曼-纳特尔", "FFT_WIN_TYP_BLACKMAN_NUTTALL"],
+          ["布莱克曼-哈里斯", "FFT_WIN_TYP_BLACKMAN_HARRIS"],
+          ["平顶", "FFT_WIN_TYP_FLT_TOP"],
+          ["Welch", "FFT_WIN_TYP_WELCH"]
         ]
-      }
+      },
+      null,
+      null
     ]
   },
-  "Arduino_FFT_complex_to_magnitude": {
-    "message0": "复数转幅值 实部 %1 虚部 %2 样本数 %3",
-    "tooltip": "%{BKY_FFT_COMPLEX_TO_MAGNITUDE_TOOLTIP}"
+  "arduino_fft_major_peak": {
+    "message0": "FFT %1 主峰频率",
+    "tooltip": "在幅值转换后返回最主要的频率。"
   },
-  "Arduino_FFT_major_peak": {
-    "message0": "从幅度数组 %1 （样本数 %2 采样频率 %3）获取主频率",
-    "tooltip": "%{BKY_FFT_MAJOR_PEAK_TOOLTIP}"
+  "arduino_fft_major_peak_parabola": {
+    "message0": "FFT %1 抛物线插值主峰频率",
+    "tooltip": "使用抛物线插值返回最主要的频率。"
   },
-  "Arduino_FFT_get_band": {
-    "message0": "从幅度数组 %1 （样本数 %2 采样频率 %3）获取第 %4 段(共8段)幅值",
-    "tooltip": "%{BKY_FFT_GET_BAND_TOOLTIP}"
+  "arduino_fft_peak_magnitude": {
+    "message0": "FFT %1 主峰幅值",
+    "tooltip": "返回主峰的幅值估计。"
+  },
+  "arduino_fft_bin_frequency": {
+    "message0": "FFT %1 第 %2 个频点的频率",
+    "tooltip": "将 FFT 频点序号换算为 Hz。"
+  },
+  "arduino_fft_bin_magnitude": {
+    "message0": "FFT %1 第 %2 个频点的幅值",
+    "tooltip": "从幅值转换后的实部缓冲区读取指定频点幅值。"
+  },
+  "arduino_fft_band_magnitude": {
+    "message0": "FFT %1 第 %2 段幅值 共 %3 段",
+    "tooltip": "返回一个粗略频段中的最大幅值。"
+  },
+  "arduino_fft_print_bins": {
+    "message0": "FFT %1 输出频点到 %2 从 %3 到 %4",
+    "tooltip": "把指定范围内的频率/幅值数据输出到串口。"
+  },
+  "arduino_fft_revision": {
+    "message0": "arduinoFFT 库修订号",
+    "tooltip": "返回 arduinoFFT 的修订宏值。"
   }
 }

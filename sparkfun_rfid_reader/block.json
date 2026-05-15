@@ -1,0 +1,46 @@
+[
+  {
+    "type": "rfid_reader_init",
+    "message0": "初始化 RFID 读卡器 %1 硬件串口 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "rfid" },
+      { "type": "field_dropdown", "name": "PORT", "options": [["Serial1", "Serial1"], ["Serial2", "Serial2"], ["Serial3", "Serial3"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化 SparkFun UHF RFID 读卡器，通过硬件串口通信"
+  },
+  {
+    "type": "rfid_reader_start",
+    "message0": "RFID %1 开始扫描",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "rfid", "variableTypes": ["RFID"], "defaultType": "RFID" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "开始 RFID 连续读卡扫描"
+  },
+  {
+    "type": "rfid_reader_stop",
+    "message0": "RFID %1 停止扫描",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "rfid", "variableTypes": ["RFID"], "defaultType": "RFID" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "停止 RFID 连续读卡扫描"
+  },
+  {
+    "type": "rfid_reader_check_tag",
+    "message0": "RFID %1 检测到标签",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "rfid", "variableTypes": ["RFID"], "defaultType": "RFID" }
+    ],
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "检查是否有 RFID 标签被读到"
+  }
+]

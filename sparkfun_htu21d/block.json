@@ -1,0 +1,50 @@
+[
+  {
+    "type": "htu21d_init",
+    "message0": "初始化 HTU21D %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "htu21d" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化 HTU21D 温湿度传感器（I2C）"
+  },
+  {
+    "type": "htu21d_read_humidity",
+    "message0": "HTU21D %1 读取湿度 (%RH)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "htu21d", "variableTypes": ["HTU21D"], "defaultType": "HTU21D" }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50",
+    "tooltip": "读取 HTU21D 传感器的相对湿度（%RH）"
+  },
+  {
+    "type": "htu21d_read_temperature",
+    "message0": "HTU21D %1 读取温度 (°C)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "htu21d", "variableTypes": ["HTU21D"], "defaultType": "HTU21D" }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50",
+    "tooltip": "读取 HTU21D 传感器的摄氏温度"
+  },
+  {
+    "type": "htu21d_set_resolution",
+    "message0": "设置 HTU21D %1 分辨率 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "htu21d", "variableTypes": ["HTU21D"], "defaultType": "HTU21D" },
+      { "type": "field_dropdown", "name": "RES", "options": [
+        ["RH12/Temp14 (默认)", "0x00"],
+        ["RH8/Temp12", "0x01"],
+        ["RH10/Temp13", "0x80"],
+        ["RH11/Temp11", "0x81"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置 HTU21D 测量分辨率"
+  }
+]

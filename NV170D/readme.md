@@ -1,6 +1,6 @@
-# 特定语音播报
+# Specific voice broadcast
 
-硬件采用openjumper 语音播报模块(ojmoBph4010) 基于特定语音播报库，内置69端日常语音，通过一个IO驱动，实现文本内容的语音合成与播放。
+The hardware uses the openjumper voice broadcast module (ojmoBph4010) based on a specific voice broadcast library, with built-in 69 daily voices, and an IO driver to realize speech synthesis and playback of text content.
 
 ## Library Info
 
@@ -9,18 +9,18 @@
 | Package | @aily-project/lib-nv170d |
 | Version | 0.0.1 |
 | Author | K2L |
-| License | MIT |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino AVR (UNO/Nano/Mega), ESP32
+Arduino AVR, ESP32
 
 ## Description
 
-硬件采用openjumper 语音播报模块(ojmoBph4010) 基于特定语音播报库，内置69端日常语音，通过一个IO驱动，实现文本内容的语音合成与播放。
-
-This library provides 4 Blockly blocks.
+The hardware uses the openjumper voice broadcast module (ojmoBph4010) based on a specific voice broadcast library, with built-in 69 daily voices, and an IO driver to realize speech synthesis and playback of text content.
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-nv170d` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

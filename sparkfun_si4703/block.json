@@ -1,0 +1,55 @@
+[
+  {
+    "type": "si4703_init",
+    "message0": "初始化 Si4703 %1 RST引脚 %2 SDIO引脚 %3 SCLK引脚 %4",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "radio" },
+      { "type": "input_value", "name": "RST", "check": "Number" },
+      { "type": "input_value", "name": "SDIO", "check": "Number" },
+      { "type": "input_value", "name": "SCLK", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "初始化 Si4703 FM 收音机，指定硬件引脚并开机"
+  },
+  {
+    "type": "si4703_set_channel",
+    "message0": "Si4703 %1 频道 %2 (× 0.1 MHz)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "radio", "variableTypes": ["Si4703_Breakout"], "defaultType": "Si4703_Breakout" },
+      { "type": "input_value", "name": "CHANNEL", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置 Si4703 频道（频率 × 10，例如 1017 = 101.7MHz）"
+  },
+  {
+    "type": "si4703_seek",
+    "message0": "Si4703 %1 自动搜台 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "radio", "variableTypes": ["Si4703_Breakout"], "defaultType": "Si4703_Breakout" },
+      { "type": "field_dropdown", "name": "DIR", "options": [["向上", "UP"], ["向下", "DOWN"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "向上或向下自动搜索下一个有效电台"
+  },
+  {
+    "type": "si4703_set_volume",
+    "message0": "Si4703 %1 音量 %2 (0-15)",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "radio", "variableTypes": ["Si4703_Breakout"], "defaultType": "Si4703_Breakout" },
+      { "type": "input_value", "name": "VOLUME", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置 Si4703 音量（0=静音，15=最大）"
+  }
+]

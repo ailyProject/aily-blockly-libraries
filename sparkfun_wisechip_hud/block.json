@@ -1,0 +1,62 @@
+[
+  {
+    "type": "wisechip_hud_init",
+    "message0": "初始化 WiseChip HUD %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "hud" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6F00",
+    "tooltip": "创建并初始化 WiseChip HUD 抬头显示器（I2C）"
+  },
+  {
+    "type": "wisechip_hud_icon_level",
+    "message0": "HUD %1 图标编号 %2 等级 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "hud", "variableTypes": ["WiseChipHUD"], "defaultType": "WiseChipHUD" },
+      { "type": "input_value", "name": "ICON", "check": "Number" },
+      { "type": "input_value", "name": "LEVEL", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6F00",
+    "tooltip": "设置指定图标的显示等级（0-999）"
+  },
+  {
+    "type": "wisechip_hud_nav",
+    "message0": "HUD %1 导航 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "hud", "variableTypes": ["WiseChipHUD"], "defaultType": "WiseChipHUD" },
+      { "type": "field_dropdown", "name": "CMD", "options": [
+          ["左转", "nav_TurnLeft"],
+          ["右转", "nav_TurnRight"],
+          ["大左转", "nav_HardLeft"],
+          ["大右转", "nav_HardRight"],
+          ["保持左", "nav_KeepLeft"],
+          ["保持右", "nav_KeepRight"],
+          ["直行", "nav_Group"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6F00",
+    "tooltip": "显示导航方向提示图标（1=开启 0=关闭）"
+  },
+  {
+    "type": "wisechip_hud_compass",
+    "message0": "HUD %1 指南针 %2 方向 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "hud", "variableTypes": ["WiseChipHUD"], "defaultType": "WiseChipHUD" },
+      { "type": "field_dropdown", "name": "TYPE", "options": [["圆形", "compassCircle"], ["箭头", "compassArrows"]] },
+      { "type": "input_value", "name": "SELECT", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6F00",
+    "tooltip": "设置 HUD 指南针方向（compassCircle: 0-7 方位）"
+  }
+]

@@ -1,6 +1,6 @@
-# ESP32 CAN总线
+# ESP32 CAN bus
 
-ESP32 CAN(TWAI)通信库，支持发送和接收CAN消息，适用于ESP32系列开发板
+ESP32 CAN (TWAI) communication library supports sending and receiving CAN messages, suitable for ESP32 series development boards
 
 ## Library Info
 
@@ -8,8 +8,9 @@ ESP32 CAN(TWAI)通信库，支持发送和接收CAN消息，适用于ESP32系列
 |-------|-------|
 | Package | @aily-project/lib-esp32-twai |
 | Version | 0.0.1 |
-| Author | aily Project |
-| License | MIT |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
@@ -17,10 +18,9 @@ ESP32
 
 ## Description
 
-ESP32 CAN(TWAI)通信库，支持发送和接收CAN消息，适用于ESP32系列开发板
-
-This library provides 10 Blockly blocks.
+ESP32 CAN (TWAI) communication library supports sending and receiving CAN messages, suitable for ESP32 series development boards
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-esp32-twai` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

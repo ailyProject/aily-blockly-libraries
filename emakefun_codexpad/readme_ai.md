@@ -1,76 +1,48 @@
-# CodexPad 蓝牙手柄
+# CodexPad Bluetooth handle
 
-通过BLE连接CodexPad游戏手柄，读取按键和摇杆输入。
+Emakefun CodexPad Bluetooth game controller library supports connecting the controller via BLE and reading button and joystick input in real time
 
-## 库信息
-- **库名**: @aily-project/lib-codexpad
-- **版本**: 1.0.0
-- **兼容**: esp32:esp32
+## Library Info
+- **Name**: @aily-project/lib-codexpad
+- **Version**: 1.0.0
 
-## 块定义
+## Block Definitions
 
-| 块类型 | 连接 | 参数 | ABS格式 | 生成代码 |
-|--------|------|------|---------|----------|
-| `codexpad_init` | 语句块 | VAR(field_input), MAC(input_value) | `codexpad_init("pad", text("E4:66:E5:A2:24:5D"))` | `CodexPad pad; pad.Init(); pad.Connect(...)` |
-| `codexpad_is_connected` | 值块 | VAR(field_variable) | `codexpad_is_connected($pad)` | `pad.is_connected()` |
-| `codexpad_set_tx_power` | 语句块 | VAR(field_variable), POWER(dropdown) | `codexpad_set_tx_power($pad, k0dBm)` | `pad.set_tx_power(CodexPad::TxPower::k0dBm)` |
-| `codexpad_button_pressed` | 值块 | VAR(field_variable), BUTTON(dropdown) | `codexpad_button_pressed($pad, kCrossA)` | `pad.pressed(CodexPad::Button::kCrossA)` |
-| `codexpad_button_released` | 值块 | VAR(field_variable), BUTTON(dropdown) | `codexpad_button_released($pad, kCrossA)` | `pad.released(CodexPad::Button::kCrossA)` |
-| `codexpad_button_holding` | 值块 | VAR(field_variable), BUTTON(dropdown) | `codexpad_button_holding($pad, kCrossA)` | `pad.holding(CodexPad::Button::kCrossA)` |
-| `codexpad_button_state` | 值块 | VAR(field_variable), BUTTON(dropdown) | `codexpad_button_state($pad, kCrossA)` | `pad.button_state(CodexPad::Button::kCrossA)` |
-| `codexpad_axis_value` | 值块 | VAR(field_variable), AXIS(dropdown) | `codexpad_axis_value($pad, kLeftStickX)` | `pad.axis_value(CodexPad::Axis::kLeftStickX)` |
-| `codexpad_axis_changed` | 值块 | VAR(field_variable), AXIS(dropdown), THRESHOLD(input_value) | `codexpad_axis_changed($pad, kLeftStickX, math_number(2))` | `pad.HasAxisValueChanged(CodexPad::Axis::kLeftStickX, 2)` |
+| Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
+|------------|------------|--------------------------|------------|----------------|
+| `codexpad_init` | Statement | VAR(field_input), MAC(input_value) | `codexpad_init("pad", text("value"))` | Dynamic code |
+| `codexpad_is_connected` | Value | VAR(field_variable) | `codexpad_is_connected(variables_get($pad))` | Dynamic code |
+| `codexpad_set_tx_power` | Statement | VAR(field_variable), POWER(dropdown) | `codexpad_set_tx_power(variables_get($pad), kMinus16dBm)` | Dynamic code |
+| `codexpad_button_pressed` | Value | VAR(field_variable), BUTTON(dropdown) | `codexpad_button_pressed(variables_get($pad), kUp)` | Dynamic code |
+| `codexpad_button_released` | Value | VAR(field_variable), BUTTON(dropdown) | `codexpad_button_released(variables_get($pad), kUp)` | Dynamic code |
+| `codexpad_button_holding` | Value | VAR(field_variable), BUTTON(dropdown) | `codexpad_button_holding(variables_get($pad), kUp)` | Dynamic code |
+| `codexpad_button_state` | Value | VAR(field_variable), BUTTON(dropdown) | `codexpad_button_state(variables_get($pad), kUp)` | Dynamic code |
+| `codexpad_axis_value` | Value | VAR(field_variable), AXIS(dropdown) | `codexpad_axis_value(variables_get($pad), kLeftStickX)` | Dynamic code |
+| `codexpad_axis_changed` | Value | VAR(field_variable), AXIS(dropdown), THRESHOLD(input_value) | `codexpad_axis_changed(variables_get($pad), kLeftStickX, math_number(0))` | Dynamic code |
 
-## 参数选项
+## Parameter Options
 
-| 参数 | 可选值 | 说明 |
-|------|--------|------|
-| BUTTON | kUp, kDown, kLeft, kRight, kSquareX, kTriangleY, kCrossA, kCircleB, kL1, kL2, kL3, kR1, kR2, kR3, kSelect, kStart, kHome | 按键选择 |
-| AXIS | kLeftStickX, kLeftStickY, kRightStickX, kRightStickY | 摇杆轴选择 |
-| POWER | kMinus16dBm, kMinus12dBm, kMinus8dBm, kMinus5dBm, kMinus3dBm, kMinus1dBm, k0dBm, k1dBm, k2dBm, k3dBm, k4dBm, k5dBm, k6dBm | 发射功率 |
+| Parameter | Values | Description |
+|-----------|--------|-------------|
+| POWER | kMinus16dBm, kMinus12dBm, kMinus8dBm, kMinus5dBm, kMinus3dBm, kMinus1dBm, k0dBm, k1dBm, k2dBm, k3dBm, k4dBm, k5dBm, k6dBm | codexpad_set_tx_power |
+| BUTTON | kUp, kDown, kLeft, kRight, kSquareX, kTriangleY, kCrossA, kCircleB, kL1, kL2, kL3, kR1, kR2, kR3, kSelect, kStart, kHome | codexpad_button_pressed, codexpad_button_released, codexpad_button_holding |
+| AXIS | kLeftStickX, kLeftStickY, kRightStickX, kRightStickY | codexpad_axis_value, codexpad_axis_changed |
 
-## ABS 示例
+## ABS Examples
 
-### 基础轮询 - 读取按键和摇杆
+### Basic Usage
 ```
 arduino_setup()
-    codexpad_init("pad", text("E4:66:E5:A2:24:5D"))
-    codexpad_set_tx_power($pad, k0dBm)
-    serial_begin(Serial, 115200)
+    codexpad_init("pad", text("value"))
+    serial_begin(Serial, 9600)
 
 arduino_loop()
-    controls_if()
-        @IF0: codexpad_button_pressed($pad, kCrossA)
-        @DO0:
-            serial_println(Serial, text("A键被按下"))
-    serial_println(Serial, codexpad_axis_value($pad, kLeftStickX))
+    serial_println(Serial, codexpad_is_connected(variables_get($pad)))
+    time_delay(math_number(1000))
 ```
 
-### 按键事件检测
-```
-arduino_setup()
-    codexpad_init("pad", text("E4:66:E5:A2:24:5D"))
-    serial_begin(Serial, 115200)
+## Notes
 
-arduino_loop()
-    controls_if()
-        @IF0: codexpad_button_pressed($pad, kUp)
-        @DO0:
-            serial_println(Serial, text("上键按下"))
-    controls_if()
-        @IF0: codexpad_button_released($pad, kUp)
-        @DO0:
-            serial_println(Serial, text("上键释放"))
-    controls_if()
-        @IF0: codexpad_axis_changed($pad, kLeftStickX, math_number(2))
-        @DO0:
-            serial_println(Serial, codexpad_axis_value($pad, kLeftStickX))
-```
-
-## 注意事项
-
-1. **初始化**: `codexpad_init` 放在 `arduino_setup()` 中，会自动在loop中调用Update()
-2. **变量引用**: 初始化后用 `$pad` 引用手柄对象
-3. **仅ESP32**: 本库依赖ESP32 BLE，不支持其他平台
-4. **MAC地址**: 必须替换为实际手柄MAC地址
-5. **避免延时**: 主循环中不要使用delay，会导致手柄数据丢失
+1. **Variable**: `codexpad_init("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
+2. **Parameter order**: ABS parameters follow `block.json` args order.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

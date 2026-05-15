@@ -1,0 +1,250 @@
+{
+  "kind": "category",
+  "name": "ESP32 FreeRTOS",
+  "icon": "fa-regular fa-microchip",
+  "contents": [
+    {
+      "kind": "category",
+      "name": "任务管理",
+      "colour": "#1565C0",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "esp32_freertos_task_create"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_task_function"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_task_delay_ms",
+          "inputs": {
+            "MS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 1000
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_task_delay_ticks",
+          "inputs": {
+            "TICKS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 1
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_task_suspend"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_task_resume"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_task_delete"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_task_delete_current"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "队列通信",
+      "colour": "#0277BD",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "esp32_freertos_queue_create"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_queue_send",
+          "inputs": {
+            "DATA": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "WAIT_MS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 1000
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_queue_receive_do",
+          "inputs": {
+            "WAIT_MS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 1000
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_queue_messages_waiting"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "信号量同步",
+      "colour": "#6A1B9A",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "esp32_freertos_semaphore_create"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_semaphore_take",
+          "inputs": {
+            "WAIT_MS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 1000
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_semaphore_give"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_semaphore_give_from_isr"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "通知与中断",
+      "colour": "#C62828",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "esp32_freertos_task_notify"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_task_notify_from_isr"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_task_wait_notification",
+          "inputs": {
+            "WAIT_MS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 1000
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_attach_interrupt"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "系统信息",
+      "colour": "#455A64",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "esp32_freertos_get_tick_count"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_get_task_count"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_get_task_name"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_get_current_task_name"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_get_stack_high_water_mark"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_get_current_stack_high_water_mark"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_get_free_heap_size"
+        },
+        {
+          "kind": "block",
+          "type": "esp32_freertos_get_current_core"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "常用任务模板",
+      "colour": "#2E7D32",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "esp32_freertos_task_function",
+          "inputs": {
+            "TASK_CODE": {
+              "block": {
+                "type": "esp32_freertos_task_delay_ms",
+                "inputs": {
+                  "MS": {
+                    "shadow": {
+                      "type": "math_number",
+                      "fields": {
+                        "NUM": 1000
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

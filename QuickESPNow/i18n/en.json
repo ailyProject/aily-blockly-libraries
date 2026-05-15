@@ -1,0 +1,122 @@
+{
+  "toolbox_name": "QuickESPNow Communication",
+  "toolbox_labels": {
+    "初始化": "Initialize",
+    "发送": "Send",
+    "回调": "Callbacks",
+    "状态": "Status"
+  },
+  "quickespnow_init_current": {
+    "message0": "Initialize QuickESPNow on current WiFi channel interface %1 send mode %2",
+    "tooltip": "Start QuickESPNow on the current WiFi channel. Prefer this block when WiFi is connected or AP mode is already enabled.",
+    "args0": [
+      {
+        "options": [
+          ["Auto", "0"],
+          ["STA", "WIFI_IF_STA"],
+          ["AP", "WIFI_IF_AP"]
+        ]
+      },
+      {
+        "options": [
+          ["Synchronous ACK", "true"],
+          ["Asynchronous send", "false"]
+        ]
+      }
+    ]
+  },
+  "quickespnow_init_channel": {
+    "message0": "Initialize QuickESPNow channel %1 interface %2 send mode %3",
+    "tooltip": "Start QuickESPNow on the specified channel. When WiFi is not connected, the channel usually needs to be set explicitly.",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Auto", "0"],
+          ["STA", "WIFI_IF_STA"],
+          ["AP", "WIFI_IF_AP"]
+        ]
+      },
+      {
+        "options": [
+          ["Synchronous ACK", "true"],
+          ["Asynchronous send", "false"]
+        ]
+      }
+    ]
+  },
+  "quickespnow_stop": {
+    "message0": "Stop QuickESPNow",
+    "tooltip": "Stop QuickESPNow communication."
+  },
+  "quickespnow_set_channel": {
+    "message0": "QuickESPNow set channel %1",
+    "tooltip": "Switch the WiFi channel currently in use."
+  },
+  "quickespnow_enable_transmit": {
+    "message0": "QuickESPNow allow sending %1",
+    "tooltip": "Enable or pause sending queued data."
+  },
+  "quickespnow_send_text": {
+    "message0": "QuickESPNow send text to MAC %1 content %2",
+    "tooltip": "Send a text message to the specified MAC address."
+  },
+  "quickespnow_send_broadcast_text": {
+    "message0": "QuickESPNow broadcast text %1",
+    "tooltip": "Broadcast a text message to all devices on the current channel."
+  },
+  "quickespnow_on_received": {
+    "message0": "when QuickESPNow receives data",
+    "message1": "do %1",
+    "tooltip": "Register a callback for received data. In the callback, you can read the message, length, RSSI, broadcast flag and sender MAC."
+  },
+  "quickespnow_on_sent": {
+    "message0": "when QuickESPNow send completes",
+    "message1": "do %1",
+    "tooltip": "Register a send-complete callback. In the callback, you can read the target MAC and send status."
+  },
+  "quickespnow_ready_to_send": {
+    "message0": "QuickESPNow ready to send",
+    "tooltip": "Return whether it is currently suitable to send the next message."
+  },
+  "quickespnow_last_send_result": {
+    "message0": "QuickESPNow latest send call result",
+    "tooltip": "Return the latest send or sendBcast return value. 0 means success."
+  },
+  "quickespnow_get_max_message_length": {
+    "message0": "QuickESPNow maximum message length",
+    "tooltip": "Return the maximum message length supported by the current platform."
+  },
+  "quickespnow_get_address_length": {
+    "message0": "QuickESPNow address length",
+    "tooltip": "Return the MAC address byte length, usually 6."
+  },
+  "quickespnow_received_message": {
+    "message0": "received text",
+    "tooltip": "Read the received text message inside the receive callback."
+  },
+  "quickespnow_received_length": {
+    "message0": "received data length",
+    "tooltip": "Read the received data length inside the receive callback."
+  },
+  "quickespnow_received_rssi": {
+    "message0": "received message RSSI",
+    "tooltip": "Read the signal strength RSSI inside the receive callback."
+  },
+  "quickespnow_received_is_broadcast": {
+    "message0": "received message is broadcast",
+    "tooltip": "Check whether the message came from a broadcast inside the receive callback."
+  },
+  "quickespnow_received_sender_mac": {
+    "message0": "received message sender MAC",
+    "tooltip": "Read the sender MAC address inside the receive callback."
+  },
+  "quickespnow_sent_target_mac": {
+    "message0": "latest send callback target MAC",
+    "tooltip": "Read the target MAC address inside the send-complete callback."
+  },
+  "quickespnow_sent_status": {
+    "message0": "latest send callback status",
+    "tooltip": "Read the underlying send status inside the send-complete callback."
+  }
+}

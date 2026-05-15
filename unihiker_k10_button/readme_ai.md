@@ -1,6 +1,6 @@
-# K10按键
+# K10 Button
 
-UNIHIKER K10 板载按键库，支持 A/B 按键轮询和回调。
+UNIHIKER K10 onboard button library, supports A/B/AB button polling and interrupt callbacks
 
 ## Library Info
 - **Name**: @aily-project/lib-unihiker-k10-button
@@ -10,40 +10,29 @@ UNIHIKER K10 板载按键库，支持 A/B 按键轮询和回调。
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `k10_button_pressed` | Value(Boolean) | BTN(dropdown) | `k10_button_pressed(BtnA)` | `(k10.buttonA->isPressed())` |
-| `k10_button_callback` | Hat | BTN(dropdown), EVENT(dropdown), DO(input_statement) | `k10_button_callback(BtnA, pressed) @DO: action()` | `void onK10_BtnA_Pressed() { ... }` + `k10.buttonA->setPressedCallback(...)` |
+| `k10_button_pressed` | Value | BTN(dropdown) | `k10_button_pressed(buttonA)` | (k10. |
+| `k10_button_callback` | Hat | BTN(dropdown), EVENT(dropdown), DO(input_statement) | `k10_button_callback(buttonA, pressed) @DO: child_block()` | Dynamic code |
 
 ## Parameter Options
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| BTN | BtnA, BtnB | 按键选择 |
-| EVENT | pressed(按下), released(释放) | 触发事件 |
+| BTN | buttonA, buttonB, buttonAB | k10_button_pressed, k10_button_callback |
+| EVENT | pressed, released | k10_button_callback |
 
 ## ABS Examples
 
-### 轮询按键状态
+### Basic Usage
 ```
 arduino_setup()
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    controls_if()
-        @IF0: k10_button_pressed(BtnA)
-        @DO0:
-            serial_println(Serial, text("Button A pressed"))
-    time_delay(math_number(100))
-```
-
-### 按键回调
-```
-k10_button_callback(BtnA, pressed)
-    @DO:
-        serial_println(Serial, text("Button A!"))
+    serial_println(Serial, k10_button_pressed(buttonA))
+    time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. **无需额外初始化**: 使用按键积木时自动初始化 K10 开发板
-2. **回调机制**: `k10_button_callback` 会自动生成回调函数并在 `setup()` 中注册
-3. **按键名映射**: BtnA → `k10.buttonA`, BtnB → `k10.buttonB`
+1. **Parameter order**: ABS parameters follow `block.json` args order.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

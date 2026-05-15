@@ -1,6 +1,6 @@
-# MAX7219显示驱动库
+# MAX7219 display driver library
 
-段位LED显示器支持库，支持Arduino UNO、MEGA、ESP8266、ESP32等开发板
+Segment LED display support library, supports Arduino UNO, MEGA, ESP8266, ESP32 and other development boards
 
 ## Library Info
 
@@ -8,19 +8,19 @@
 |-------|-------|
 | Package | @aily-project/lib-max7219 |
 | Version | 0.0.1 |
-| Author | aily Project |
-| License | MIT |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino AVR (UNO/Nano/Mega), ESP32
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-段位LED显示器支持库，支持Arduino UNO、MEGA、ESP8266、ESP32等开发板
-
-This library provides 7 Blockly blocks.
+Segment LED display support library, supports Arduino UNO, MEGA, ESP8266, ESP32 and other development boards
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-max7219` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

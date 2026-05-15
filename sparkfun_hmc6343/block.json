@@ -1,0 +1,99 @@
+[
+  {
+    "type": "hmc6343_init",
+    "message0": "初始化 HMC6343 %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "compass" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3F51B5",
+    "tooltip": "初始化 HMC6343 三轴电子罗盘（I2C）"
+  },
+  {
+    "type": "hmc6343_read_heading",
+    "message0": "HMC6343 %1 读取航向",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "compass", "variableTypes": ["HMC6343"], "defaultType": "HMC6343" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3F51B5",
+    "tooltip": "读取 HMC6343 航向（heading/pitch/roll）数据"
+  },
+  {
+    "type": "hmc6343_read_mag",
+    "message0": "HMC6343 %1 读取磁场",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "compass", "variableTypes": ["HMC6343"], "defaultType": "HMC6343" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3F51B5",
+    "tooltip": "读取 HMC6343 三轴磁场数据"
+  },
+  {
+    "type": "hmc6343_read_accel",
+    "message0": "HMC6343 %1 读取加速度",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "compass", "variableTypes": ["HMC6343"], "defaultType": "HMC6343" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3F51B5",
+    "tooltip": "读取 HMC6343 三轴加速度数据"
+  },
+  {
+    "type": "hmc6343_get_value",
+    "message0": "HMC6343 %1 获取 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "compass", "variableTypes": ["HMC6343"], "defaultType": "HMC6343" },
+      { "type": "field_dropdown", "name": "FIELD", "options": [
+        ["航向 (heading)", "heading"],
+        ["俯仰 (pitch)", "pitch"],
+        ["横滚 (roll)", "roll"],
+        ["磁场 X", "magX"],
+        ["磁场 Y", "magY"],
+        ["磁场 Z", "magZ"],
+        ["加速度 X", "accelX"],
+        ["加速度 Y", "accelY"],
+        ["加速度 Z", "accelZ"],
+        ["温度", "temperature"]
+      ]}
+    ],
+    "output": "Number",
+    "colour": "#3F51B5",
+    "tooltip": "获取 HMC6343 指定测量值（需先调用对应读取积木）"
+  },
+  {
+    "type": "hmc6343_set_orientation",
+    "message0": "设置 HMC6343 %1 安装方向 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "compass", "variableTypes": ["HMC6343"], "defaultType": "HMC6343" },
+      { "type": "field_dropdown", "name": "ORIENT", "options": [
+        ["水平 (Level)", "0"],
+        ["侧立 (Sideways)", "1"],
+        ["正前朝下 (FlatFront)", "2"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3F51B5",
+    "tooltip": "设置 HMC6343 的安装方向"
+  },
+  {
+    "type": "hmc6343_sleep_control",
+    "message0": "HMC6343 %1 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "compass", "variableTypes": ["HMC6343"], "defaultType": "HMC6343" },
+      { "type": "field_dropdown", "name": "MODE", "options": [
+        ["进入休眠", "sleep"],
+        ["退出休眠", "wake"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#3F51B5",
+    "tooltip": "控制 HMC6343 的休眠状态"
+  }
+]

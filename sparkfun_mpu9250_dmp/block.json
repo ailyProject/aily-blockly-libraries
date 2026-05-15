@@ -1,0 +1,139 @@
+[
+  {
+    "type": "mpu9250_init",
+    "message0": "初始化 MPU-9250 %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "imu" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 120,
+    "tooltip": "创建并初始化 SparkFun MPU-9250 DMP 九轴 IMU"
+  },
+  {
+    "type": "mpu9250_set_sensors",
+    "message0": "MPU-9250 %1 启用传感器 加速度 %2 陀螺仪 %3 磁力计 %4",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["MPU9250_DMP"], "defaultType": "MPU9250_DMP" },
+      { "type": "field_dropdown", "name": "ACCEL", "options": [["开", "1"], ["关", "0"]] },
+      { "type": "field_dropdown", "name": "GYRO", "options": [["开", "1"], ["关", "0"]] },
+      { "type": "field_dropdown", "name": "COMPASS", "options": [["开", "1"], ["关", "0"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 120,
+    "tooltip": "选择 MPU-9250 启用的传感器"
+  },
+  {
+    "type": "mpu9250_set_gyro_fsr",
+    "message0": "MPU-9250 %1 陀螺仪量程 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["MPU9250_DMP"], "defaultType": "MPU9250_DMP" },
+      { "type": "field_dropdown", "name": "FSR", "options": [["±250 dps", "250"], ["±500 dps", "500"], ["±1000 dps", "1000"], ["±2000 dps", "2000"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 120,
+    "tooltip": "设置 MPU-9250 陀螺仪量程"
+  },
+  {
+    "type": "mpu9250_set_accel_fsr",
+    "message0": "MPU-9250 %1 加速度计量程 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["MPU9250_DMP"], "defaultType": "MPU9250_DMP" },
+      { "type": "field_dropdown", "name": "FSR", "options": [["±2g", "2"], ["±4g", "4"], ["±8g", "8"], ["±16g", "16"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 120,
+    "tooltip": "设置 MPU-9250 加速度计量程"
+  },
+  {
+    "type": "mpu9250_set_lpf",
+    "message0": "MPU-9250 %1 低通滤波 %2 Hz",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["MPU9250_DMP"], "defaultType": "MPU9250_DMP" },
+      { "type": "field_dropdown", "name": "LPF", "options": [["5", "5"], ["10", "10"], ["20", "20"], ["42", "42"], ["98", "98"], ["188", "188"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 120,
+    "tooltip": "设置 MPU-9250 数字低通滤波截止频率"
+  },
+  {
+    "type": "mpu9250_set_sample_rate",
+    "message0": "MPU-9250 %1 采样率 %2 Hz",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["MPU9250_DMP"], "defaultType": "MPU9250_DMP" },
+      { "type": "input_value", "name": "RATE", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 120,
+    "tooltip": "设置 MPU-9250 加速度/陀螺仪采样率（4~1000 Hz）"
+  },
+  {
+    "type": "mpu9250_data_ready",
+    "message0": "MPU-9250 %1 有新数据",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["MPU9250_DMP"], "defaultType": "MPU9250_DMP" }
+    ],
+    "output": "Boolean",
+    "colour": 120,
+    "tooltip": "检查 MPU-9250 是否有新的加速度/陀螺仪数据"
+  },
+  {
+    "type": "mpu9250_update",
+    "message0": "MPU-9250 %1 更新数据",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["MPU9250_DMP"], "defaultType": "MPU9250_DMP" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 120,
+    "tooltip": "从 MPU-9250 读取最新传感器数据（加速度+陀螺仪+磁力计）"
+  },
+  {
+    "type": "mpu9250_get_accel",
+    "message0": "MPU-9250 %1 加速度 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["MPU9250_DMP"], "defaultType": "MPU9250_DMP" },
+      { "type": "field_dropdown", "name": "AXIS", "options": [["X", "ax"], ["Y", "ay"], ["Z", "az"]] }
+    ],
+    "output": "Number",
+    "colour": 120,
+    "tooltip": "读取 MPU-9250 加速度原始值"
+  },
+  {
+    "type": "mpu9250_get_gyro",
+    "message0": "MPU-9250 %1 陀螺仪 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["MPU9250_DMP"], "defaultType": "MPU9250_DMP" },
+      { "type": "field_dropdown", "name": "AXIS", "options": [["X", "gx"], ["Y", "gy"], ["Z", "gz"]] }
+    ],
+    "output": "Number",
+    "colour": 120,
+    "tooltip": "读取 MPU-9250 陀螺仪原始值"
+  },
+  {
+    "type": "mpu9250_get_compass",
+    "message0": "MPU-9250 %1 磁力计 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["MPU9250_DMP"], "defaultType": "MPU9250_DMP" },
+      { "type": "field_dropdown", "name": "AXIS", "options": [["X", "mx"], ["Y", "my"], ["Z", "mz"]] }
+    ],
+    "output": "Number",
+    "colour": 120,
+    "tooltip": "读取 MPU-9250 磁力计原始值"
+  },
+  {
+    "type": "mpu9250_get_temperature",
+    "message0": "MPU-9250 %1 温度",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "imu", "variableTypes": ["MPU9250_DMP"], "defaultType": "MPU9250_DMP" }
+    ],
+    "output": "Number",
+    "colour": 120,
+    "tooltip": "读取 MPU-9250 片内温度值"
+  }
+]

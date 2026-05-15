@@ -1,0 +1,149 @@
+[
+  {
+    "type": "as3935_init_i2c",
+    "message0": "初始化 AS3935 I2C %1 地址 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "as3935" },
+      { "type": "field_dropdown", "name": "ADDRESS", "options": [["0x03", "0x03"], ["0x02", "0x02"], ["0x01", "0x01"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "通过 I2C 创建并初始化 AS3935 闪电检测器"
+  },
+  {
+    "type": "as3935_init_spi",
+    "message0": "初始化 AS3935 SPI %1 CS %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "as3935" },
+      { "type": "field_number", "name": "CS", "value": 10, "min": 0, "precision": 1 }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "通过 SPI 创建并初始化 AS3935 闪电检测器"
+  },
+  {
+    "type": "as3935_is_ready",
+    "message0": "AS3935 %1 初始化成功",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as3935", "variableTypes": ["SparkFun_AS3935"], "defaultType": "SparkFun_AS3935" }
+    ],
+    "output": "Boolean",
+    "colour": 200,
+    "tooltip": "返回初始化块保存的 AS3935 初始化状态"
+  },
+  {
+    "type": "as3935_set_environment",
+    "message0": "设置 AS3935 %1 环境 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as3935", "variableTypes": ["SparkFun_AS3935"], "defaultType": "SparkFun_AS3935" },
+      { "type": "field_dropdown", "name": "ENV", "options": [["室内", "INDOOR"], ["室外", "OUTDOOR"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置 AS3935 室内/室外灵敏度配置"
+  },
+  {
+    "type": "as3935_read_interrupt",
+    "message0": "AS3935 %1 中断状态",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as3935", "variableTypes": ["SparkFun_AS3935"], "defaultType": "SparkFun_AS3935" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取中断状态：LIGHTNING、DISTURBER_DETECT 或 NOISE_TO_HIGH"
+  },
+  {
+    "type": "as3935_distance",
+    "message0": "AS3935 %1 风暴距离 km",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as3935", "variableTypes": ["SparkFun_AS3935"], "defaultType": "SparkFun_AS3935" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取风暴距离估计，单位 km"
+  },
+  {
+    "type": "as3935_energy",
+    "message0": "AS3935 %1 闪电能量",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as3935", "variableTypes": ["SparkFun_AS3935"], "defaultType": "SparkFun_AS3935" }
+    ],
+    "output": "Number",
+    "colour": 200,
+    "tooltip": "读取最近闪电事件的 20 位能量值"
+  },
+  {
+    "type": "as3935_set_watchdog",
+    "message0": "设置 AS3935 %1 看门狗阈值 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as3935", "variableTypes": ["SparkFun_AS3935"], "defaultType": "SparkFun_AS3935" },
+      { "type": "input_value", "name": "VALUE", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置事件看门狗阈值，通常 1-10"
+  },
+  {
+    "type": "as3935_set_noise",
+    "message0": "设置 AS3935 %1 噪声水平 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as3935", "variableTypes": ["SparkFun_AS3935"], "defaultType": "SparkFun_AS3935" },
+      { "type": "input_value", "name": "VALUE", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置噪声阈值，范围 0-7"
+  },
+  {
+    "type": "as3935_set_spike",
+    "message0": "设置 AS3935 %1 尖峰拒绝 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as3935", "variableTypes": ["SparkFun_AS3935"], "defaultType": "SparkFun_AS3935" },
+      { "type": "input_value", "name": "VALUE", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置尖峰拒绝强度，范围 0-15"
+  },
+  {
+    "type": "as3935_set_lightning_threshold",
+    "message0": "设置 AS3935 %1 闪电阈值 %2 次",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as3935", "variableTypes": ["SparkFun_AS3935"], "defaultType": "SparkFun_AS3935" },
+      { "type": "field_dropdown", "name": "STRIKES", "options": [["1", "1"], ["5", "5"], ["9", "9"], ["16", "16"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "设置触发中断所需的闪电事件数"
+  },
+  {
+    "type": "as3935_mask_disturber",
+    "message0": "AS3935 %1 干扰屏蔽 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as3935", "variableTypes": ["SparkFun_AS3935"], "defaultType": "SparkFun_AS3935" },
+      { "type": "field_dropdown", "name": "STATE", "options": [["开启", "true"], ["关闭", "false"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "启用或关闭干扰事件屏蔽"
+  },
+  {
+    "type": "as3935_calibrate",
+    "message0": "AS3935 %1 校准振荡器",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "as3935", "variableTypes": ["SparkFun_AS3935"], "defaultType": "SparkFun_AS3935" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 200,
+    "tooltip": "校准 AS3935 内部振荡器"
+  }
+]

@@ -1,0 +1,100 @@
+{
+  "kind": "category",
+  "name": "MAX30102",
+  "colour": "#D94C6A",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "max30102_init",
+      "fields": {
+        "SDA_PIN": "0",
+        "SCL_PIN": "0",
+        "INT_PIN": "0"
+      }
+    },
+    {
+      "kind": "label",
+      "text": "测量"
+    },
+    {
+      "kind": "block",
+      "type": "max30102_measure",
+      "inputs": {
+        "TIMEOUT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 5000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "max30102_is_valid"
+    },
+    {
+      "kind": "block",
+      "type": "max30102_get_value"
+    },
+    {
+      "kind": "label",
+      "text": "高级配置"
+    },
+    {
+      "kind": "block",
+      "type": "max30102_set_led_amplitude",
+      "inputs": {
+        "LED1": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 36
+            }
+          }
+        },
+        "LED2": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 36
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "max30102_set_finger_threshold",
+      "inputs": {
+        "THRESHOLD": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 50000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "max30102_config_spo2",
+      "fields": {
+        "AVERAGING": "AVG_4",
+        "ADC_RANGE": "ADC_RANGE_4096",
+        "SAMPLE_RATE": "SPO2_RATE_100",
+        "PULSE_WIDTH": "PW_411"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "max30102_reset"
+    }
+  ]
+}

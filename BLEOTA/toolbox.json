@@ -1,0 +1,102 @@
+{
+  "kind": "category",
+  "name": "BLE OTA",
+  "icon": "fa-light fa-bluetooth",
+  "colour": "#1976D2",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "快速启动"
+    },
+    {
+      "kind": "block",
+      "type": "bleota_begin_auto"
+    },
+    {
+      "kind": "label",
+      "text": "配置"
+    },
+    {
+      "kind": "block",
+      "type": "bleota_setup",
+      "inputs": {
+        "DEVICE_NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "ESP32-BLE-OTA"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "bleota_set_public_key",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "-----BEGIN PUBLIC KEY-----\\n...\\n-----END PUBLIC KEY-----"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "bleota_set_device_info",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "1.0.0"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "bleota_init"
+    },
+    {
+      "kind": "block",
+      "type": "bleota_start_service"
+    },
+    {
+      "kind": "label",
+      "text": "运行"
+    },
+    {
+      "kind": "block",
+      "type": "bleota_process"
+    },
+    {
+      "kind": "block",
+      "type": "bleota_abort"
+    },
+    {
+      "kind": "block",
+      "type": "bleota_is_running"
+    },
+    {
+      "kind": "block",
+      "type": "bleota_progress"
+    },
+    {
+      "kind": "block",
+      "type": "bleota_uuid"
+    },
+    {
+      "kind": "label",
+      "text": "事件"
+    },
+    {
+      "kind": "block",
+      "type": "bleota_on_events"
+    }
+  ]
+}

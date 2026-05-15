@@ -1,6 +1,6 @@
-# 液晶显示屏
+# LCD screen
 
-LCD1602/2004 显示屏控制支持库，使用4线并行通信，支持Arduino UNO、MEGA、ESP8266、ESP32等开发板
+LCD1602/2004 display control support library, using 4-wire parallel communication, supports Arduino UNO, MEGA, ESP8266, ESP32 and other development boards
 
 ## Library Info
 
@@ -8,19 +8,19 @@ LCD1602/2004 显示屏控制支持库，使用4线并行通信，支持Arduino U
 |-------|-------|
 | Package | @aily-project/lib-liquidcrystal |
 | Version | 1.0.1 |
-| Author | aily Project |
-| License | MIT |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino AVR (UNO/Nano/Mega), ESP32
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-LCD1602/2004 显示屏控制支持库，使用4线并行通信，支持Arduino UNO、MEGA、ESP8266、ESP32等开发板
-
-This library provides 8 Blockly blocks.
+LCD1602/2004 display control support library, using 4-wire parallel communication, supports Arduino UNO, MEGA, ESP8266, ESP32 and other development boards
 
 ## Quick Start
 
-Add the library to your project and use the provided blocks in the Aily Blockly editor.
+1. Enable `@aily-project/lib-liquidcrystal` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

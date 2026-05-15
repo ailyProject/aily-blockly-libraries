@@ -1,38 +1,26 @@
-# LM35温度传感器库
-这是一个用于Arduino的LM35温度传感器库，提供简单易用的温度读取功能。LM35是一款精密集成电路温度传感器，其输出电压与摄氏温度成线性正比，提供±0.5°C的典型精度。
+# LM35 Temperature Sensor Library
 
-## 功能特点  
-简单的初始化配置
-直接读取摄氏温度值
-无需额外组件，直接连接到模拟引脚
-## 硬件连接  
-LM35有三个引脚：
+The LM35 temperature sensor library achieves accurate measurement of ambient temperature through analog signal output. It supports continuous temperature acquisition, low-power operation, linear output, no calibration...
 
-VCC：连接到3.3V或5V电源
-GND：连接到地
-OUT：连接到Arduino的模拟输入引脚
-## 使用方法  
-库提供两个简单的积木块：
+## Library Info
 
-设置LM35温度传感器连接到引脚 - 初始化LM35传感器并指定连接的模拟引脚
-读取LM35温度值(°C) - 读取当前温度值，返回摄氏度
-## 兼容性  
-支持的开发板：
-Arduino AVR系列（Uno、Nano、Mega等）
-ESP32系列
-ESP8266系列
-支持电压：3.3V和5V
-## 技术细节  
-LM35的输出电压与温度成正比，比率为10mV/°C。使用Arduino的10位ADC转换后，温度计算公式为：
-```c++
-temperature(°C) = (analogRead(pin) * 5.0 / 1024.0) * 100.0
-```
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-lm35 |
+| Version | 0.0.1 |
+| Author | ailyProject |
+| Source | N/A |
+| License | Original license |
 
-## 注意事项  
-确保在读取温度前先使用初始化块设置正确的引脚
-对于3.3V参考电压的开发板，测量精度可能略有差异
-许可证
-本库遵循MIT许可证
+## Supported Boards
 
-## 作者
-奈何col
+Arduino-compatible boards supported by this package.
+
+## Description
+
+The LM35 temperature sensor library achieves accurate measurement of ambient temperature through analog signal output. It supports continuous temperature acquisition, low-power operation, linear output, no calibration...
+
+## Quick Start
+
+1. Enable `@aily-project/lib-lm35` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

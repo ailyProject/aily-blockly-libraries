@@ -1,33 +1,26 @@
-# GPIO扩展板库
+# GPIO expansion board
 
-Emakefun GPIO扩展板的Aily Blockly库，通过I2C扩展8路GPIO引脚，支持数字输入输出、ADC采集、PWM输出和舵机控制。
+Emakefun GPIO expansion board library supports 8-channel GPIO, ADC, PWM and servo control
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
-| 包名 | @aily-project/lib-gpio_expansion_board |
-| 版本 | 1.0.0 |
-| 作者 | Emakefun |
-| 来源 | https://github.com/emakefun-arduino-library/emakefun_gpio_expansion_board |
-| 许可证 | MIT |
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-emakefun-gpio-expansion |
+| Version | 1.0.0 |
+| Author | Emakefun |
+| Source | https://github.com/emakefun-arduino-library/emakefun_gpio_expansion_board |
+| License | MIT |
 
-## 支持的开发板
+## Supported Boards
 
-Arduino UNO、ESP32、ESP8266等所有支持I2C的开发板
+Arduino AVR, ESP32
 
-## 功能说明
+## Description
 
-- 8路GPIO引脚(E0-E7)，支持多种工作模式
-- 数字输入输出(上拉/下拉/浮空)
-- ADC模拟输入(0-1023)
-- PWM输出(仅E1-E2支持，频率1-10000Hz)
-- 舵机控制(仅E1-E2支持，0-180度)
-- 默认I2C地址: 0x24
+Emakefun GPIO expansion board library supports 8-channel GPIO, ADC, PWM and servo control
 
-## 快速开始
+## Quick Start
 
-1. 连接扩展板的I2C引脚(SDA/SCL)到开发板
-2. 使用"初始化"块创建扩展板实例
-3. 使用"设置模式"块配置引脚工作模式
-4. 使用相应的控制块读取或输出信号
+1. Enable `@aily-project/lib-emakefun-gpio-expansion` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

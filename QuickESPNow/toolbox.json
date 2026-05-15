@@ -1,0 +1,161 @@
+{
+  "kind": "category",
+  "name": "QuickESPNow",
+  "icon": "fa-light fa-signal-stream",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_init_current"
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_init_channel",
+      "inputs": {
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_set_channel",
+      "inputs": {
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_enable_transmit",
+      "inputs": {
+        "ENABLE": {
+          "shadow": {
+            "type": "logic_boolean",
+            "fields": {
+              "BOOL": "TRUE"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_stop"
+    },
+    {
+      "kind": "label",
+      "text": "发送"
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_send_text",
+      "inputs": {
+        "MAC": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "12:34:56:78:90:12"
+            }
+          }
+        },
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello ESP-NOW!"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_send_broadcast_text",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello ESP-NOW!"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_ready_to_send"
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_last_send_result"
+    },
+    {
+      "kind": "label",
+      "text": "回调"
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_on_received"
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_received_message"
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_received_length"
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_received_rssi"
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_received_is_broadcast"
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_received_sender_mac"
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_on_sent"
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_sent_target_mac"
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_sent_status"
+    },
+    {
+      "kind": "label",
+      "text": "状态"
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_get_max_message_length"
+    },
+    {
+      "kind": "block",
+      "type": "quickespnow_get_address_length"
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+[
+  {
+    "type": "max30102_init",
+    "message0": "初始化 MAX30102 血氧传感器 SDA %1 SCL %2 INT %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SDA_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SCL_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INT_PIN",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#D94C6A",
+    "tooltip": "初始化MAX30102血氧与心率传感器。SDA/SCL连接I2C总线，INT连接到指定数字引脚。ESP32会按所选SDA/SCL初始化Wire。"
+  },
+  {
+    "type": "max30102_measure",
+    "message0": "MAX30102 采集并计算一次 超时(ms) %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#D94C6A",
+    "tooltip": "采集一批FIFO数据并计算血氧、心率、温度和信号质量。超时为整次采集的最长等待时间，0表示不超时。"
+  },
+  {
+    "type": "max30102_get_value",
+    "message0": "MAX30102 读取 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VALUE",
+        "options": [
+          ["血氧(%)", "SPO2"],
+          ["心率(BPM)", "HEART_RATE"],
+          ["温度(℃)", "TEMPERATURE"],
+          ["红光原始值", "RED"],
+          ["红外原始值", "IR"],
+          ["R值", "RATIO"],
+          ["相关系数", "CORRELATION"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#D94C6A",
+    "tooltip": "读取最近一次采集计算得到的数据。"
+  },
+  {
+    "type": "max30102_is_valid",
+    "message0": "MAX30102 %1 是否有效",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TARGET",
+        "options": [
+          ["本次测量", "MEASURE"],
+          ["初始化", "INIT"],
+          ["血氧", "SPO2"],
+          ["心率", "HEART_RATE"],
+          ["检测到手指", "FINGER"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#D94C6A",
+    "tooltip": "判断初始化、最近一次测量、血氧、心率或手指检测状态是否有效。"
+  },
+  {
+    "type": "max30102_reset",
+    "message0": "复位 MAX30102",
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#D94C6A",
+    "tooltip": "发送MAX30102软复位命令。复位后通常需要重新初始化。"
+  },
+  {
+    "type": "max30102_set_led_amplitude",
+    "message0": "设置 MAX30102 LED1强度 %1 LED2强度 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "LED1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LED2",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#D94C6A",
+    "tooltip": "设置LED1和LED2脉冲幅度，范围0-255。默认初始化值为36。"
+  },
+  {
+    "type": "max30102_config_spo2",
+    "message0": "配置 MAX30102 采样 平均 %1 ADC量程 %2 采样率 %3 脉宽 %4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AVERAGING",
+        "options": [
+          ["不平均", "NO_AVERAGING"],
+          ["2次", "AVG_2"],
+          ["4次", "AVG_4"],
+          ["8次", "AVG_8"],
+          ["16次", "AVG_16"],
+          ["32次", "AVG_32"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADC_RANGE",
+        "options": [
+          ["2048nA", "ADC_RANGE_2048"],
+          ["4096nA", "ADC_RANGE_4096"],
+          ["8192nA", "ADC_RANGE_8192"],
+          ["16384nA", "ADC_RANGE_16384"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SAMPLE_RATE",
+        "options": [
+          ["50Hz", "SPO2_RATE_50"],
+          ["100Hz", "SPO2_RATE_100"],
+          ["200Hz", "SPO2_RATE_200"],
+          ["400Hz", "SPO2_RATE_400"],
+          ["800Hz", "SPO2_RATE_800"],
+          ["1000Hz", "SPO2_RATE_1000"],
+          ["1600Hz", "SPO2_RATE_1600"],
+          ["3200Hz", "SPO2_RATE_3200"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PULSE_WIDTH",
+        "options": [
+          ["69us/15bit", "PW_69"],
+          ["118us/16bit", "PW_118"],
+          ["215us/17bit", "PW_215"],
+          ["411us/18bit", "PW_411"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": false,
+    "colour": "#D94C6A",
+    "tooltip": "高级配置。可放在初始化前或初始化后；初始化前会缓存配置，初始化后会立即应用。默认算法按4秒、25Hz有效采样设计，修改采样率或平均次数可能影响血氧和心率计算。"
+  },
+  {
+    "type": "max30102_set_finger_threshold",
+    "message0": "设置 MAX30102 手指检测阈值 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "THRESHOLD",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#D94C6A",
+    "tooltip": "设置用于判断是否检测到手指的红外原始值阈值。默认50000，阈值越高越严格。"
+  }
+]

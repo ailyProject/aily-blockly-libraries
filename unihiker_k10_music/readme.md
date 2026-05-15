@@ -1,27 +1,26 @@
-# K10音乐/音频
+# K10 Music & Audio
 
-UNIHIKER K10 音乐与音频库，支持内置音乐播放、音调播放、TF 卡录音和播放。
+UNIHIKER K10 music and audio library, supports built-in music, tone playback, TF card recording and playback
 
-## 库信息
+## Library Info
 
-| 字段 | 值 |
-|------|-----|
-| 包名 | @aily-project/lib-unihiker-k10-music |
-| 版本 | 0.1.0 |
-| 作者 | DFRobot |
-| 来源 | https://github.com/DFRobot/UNIHIKER_K10 |
-| 许可证 | MIT |
+| Field | Value |
+|-------|-------|
+| Package | @aily-project/lib-unihiker-k10-music |
+| Version | 0.1.0 |
+| Author | DFRobot |
+| Source | N/A |
+| License | Original license |
 
-## 支持的开发板
+## Supported Boards
 
-UNIHIKER K10 (DFR0992)
+UNIHIKER:esp32:k10
 
-## 说明
+## Description
 
-K10 开发板集成 I2S 音频输出，支持播放多首内置音乐（生日快乐、小星星等）、自定义频率音调播放、TF 卡 WAV 音频录制和播放。
+UNIHIKER K10 music and audio library, supports built-in music, tone playback, TF card recording and playback
 
-## 快速开始
+## Quick Start
 
-1. 使用「播放内置音乐」积木播放预设曲目
-2. 使用「播放音调」积木播放自定义频率的声音
-3. 使用「录音/播放TF卡音频」积木进行音频录放
+1. Enable `@aily-project/lib-unihiker-k10-music` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

@@ -1,0 +1,247 @@
+{
+  "kind": "category",
+  "name": "Home Assistant",
+  "icon": "fa-light fa-house-signal",
+  "colour": "#03A9F4",
+  "contents": [
+    {
+      "kind": "category",
+      "name": "设备与连接",
+      "icon": "fa-light fa-cloud-check",
+      "colour": "#03A9F4",
+      "contents": [
+        {"kind": "block", "type": "ha_device_create"},
+        {"kind": "block", "type": "ha_device_set_info"},
+        {"kind": "block", "type": "ha_device_enable_availability"},
+        {"kind": "block", "type": "ha_mqtt_create"},
+        {
+          "kind": "block",
+          "type": "ha_mqtt_begin",
+          "inputs": {
+            "HOST": {"shadow": {"type": "text", "fields": {"TEXT": "homeassistant.local"}}},
+            "PORT": {"shadow": {"type": "math_number", "fields": {"NUM": 1883}}},
+            "USERNAME": {"shadow": {"type": "text", "fields": {"TEXT": ""}}},
+            "PASSWORD": {"shadow": {"type": "text", "fields": {"TEXT": ""}}}
+          }
+        },
+        {"kind": "block", "type": "ha_mqtt_set_prefixes"},
+        {
+          "kind": "block",
+          "type": "ha_mqtt_set_keep_alive",
+          "inputs": {"INTERVAL": {"shadow": {"type": "math_number", "fields": {"NUM": 15}}}}
+        },
+        {
+          "kind": "block",
+          "type": "ha_mqtt_set_buffer_size",
+          "inputs": {"SIZE": {"shadow": {"type": "math_number", "fields": {"NUM": 512}}}}
+        },
+        {"kind": "block", "type": "ha_mqtt_loop"},
+        {"kind": "block", "type": "ha_mqtt_connected"},
+        {"kind": "block", "type": "ha_mqtt_state"},
+        {"kind": "block", "type": "ha_mqtt_disconnect"}
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "自定义MQTT",
+      "icon": "fa-light fa-message-lines",
+      "colour": "#0288D1",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "ha_mqtt_publish",
+          "inputs": {
+            "TOPIC": {"shadow": {"type": "text", "fields": {"TEXT": "device/data"}}},
+            "PAYLOAD": {"shadow": {"type": "text", "fields": {"TEXT": "hello"}}}
+          }
+        },
+        {
+          "kind": "block",
+          "type": "ha_mqtt_subscribe",
+          "inputs": {"TOPIC": {"shadow": {"type": "text", "fields": {"TEXT": "device/cmd"}}}}
+        },
+        {"kind": "block", "type": "ha_mqtt_on_connected"},
+        {"kind": "block", "type": "ha_mqtt_on_message"},
+        {"kind": "block", "type": "ha_mqtt_message_topic"},
+        {"kind": "block", "type": "ha_mqtt_message_payload"},
+        {"kind": "block", "type": "ha_mqtt_message_length"}
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "实体通用",
+      "icon": "fa-light fa-tags",
+      "colour": "#0288D1",
+      "contents": [
+        {"kind": "block", "type": "ha_entity_set_info"},
+        {
+          "kind": "block",
+          "type": "ha_entity_set_availability",
+          "inputs": {"ONLINE": {"shadow": {"type": "logic_boolean", "fields": {"BOOL": "TRUE"}}}}
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "传感器",
+      "icon": "fa-light fa-wave-pulse",
+      "colour": "#009688",
+      "contents": [
+        {"kind": "block", "type": "ha_sensor_create_text"},
+        {"kind": "block", "type": "ha_sensor_create_number"},
+        {
+          "kind": "block",
+          "type": "ha_sensor_settings",
+          "inputs": {"EXPIRE_AFTER": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}}}
+        },
+        {
+          "kind": "block",
+          "type": "ha_sensor_set_value",
+          "inputs": {"VALUE": {"shadow": {"type": "text", "fields": {"TEXT": "open"}}}}
+        },
+        {
+          "kind": "block",
+          "type": "ha_sensor_set_json_attributes",
+          "inputs": {"JSON": {"shadow": {"type": "text", "fields": {"TEXT": "{\"battery\":100}"}}}}
+        },
+        {
+          "kind": "block",
+          "type": "ha_sensor_number_set_value",
+          "inputs": {"VALUE": {"shadow": {"type": "math_number", "fields": {"NUM": 23.5}}}}
+        },
+        {"kind": "block", "type": "ha_binary_sensor_create"},
+        {
+          "kind": "block",
+          "type": "ha_binary_sensor_settings",
+          "inputs": {"EXPIRE_AFTER": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}}}
+        },
+        {
+          "kind": "block",
+          "type": "ha_binary_sensor_set_state",
+          "inputs": {"STATE": {"shadow": {"type": "logic_boolean", "fields": {"BOOL": "TRUE"}}}}
+        },
+        {"kind": "block", "type": "ha_binary_sensor_get_state"}
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "开关与按钮",
+      "icon": "fa-light fa-toggle-large-on",
+      "colour": "#8BC34A",
+      "contents": [
+        {"kind": "block", "type": "ha_switch_create"},
+        {"kind": "block", "type": "ha_switch_settings"},
+        {
+          "kind": "block",
+          "type": "ha_switch_set_state",
+          "inputs": {"STATE": {"shadow": {"type": "logic_boolean", "fields": {"BOOL": "TRUE"}}}}
+        },
+        {"kind": "block", "type": "ha_switch_get_state"},
+        {"kind": "block", "type": "ha_switch_on_command"},
+        {"kind": "block", "type": "ha_button_create"},
+        {"kind": "block", "type": "ha_button_settings"},
+        {"kind": "block", "type": "ha_button_on_command"}
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "灯光",
+      "icon": "fa-light fa-lightbulb-on",
+      "colour": "#FFC107",
+      "contents": [
+        {"kind": "block", "type": "ha_light_create"},
+        {
+          "kind": "block",
+          "type": "ha_light_settings",
+          "inputs": {
+            "BRIGHTNESS_SCALE": {"shadow": {"type": "math_number", "fields": {"NUM": 255}}},
+            "MIN_MIREDS": {"shadow": {"type": "math_number", "fields": {"NUM": 153}}},
+            "MAX_MIREDS": {"shadow": {"type": "math_number", "fields": {"NUM": 500}}}
+          }
+        },
+        {
+          "kind": "block",
+          "type": "ha_light_set_state",
+          "inputs": {"STATE": {"shadow": {"type": "logic_boolean", "fields": {"BOOL": "TRUE"}}}}
+        },
+        {
+          "kind": "block",
+          "type": "ha_light_set_brightness",
+          "inputs": {"BRIGHTNESS": {"shadow": {"type": "math_number", "fields": {"NUM": 255}}}}
+        },
+        {
+          "kind": "block",
+          "type": "ha_light_set_color_temperature",
+          "inputs": {"TEMPERATURE": {"shadow": {"type": "math_number", "fields": {"NUM": 250}}}}
+        },
+        {
+          "kind": "block",
+          "type": "ha_light_set_rgb",
+          "inputs": {
+            "RED": {"shadow": {"type": "math_number", "fields": {"NUM": 255}}},
+            "GREEN": {"shadow": {"type": "math_number", "fields": {"NUM": 255}}},
+            "BLUE": {"shadow": {"type": "math_number", "fields": {"NUM": 255}}}
+          }
+        },
+        {"kind": "block", "type": "ha_light_get_state"},
+        {"kind": "block", "type": "ha_light_get_brightness"},
+        {"kind": "block", "type": "ha_light_on_state_command"},
+        {"kind": "block", "type": "ha_light_on_brightness_command"},
+        {"kind": "block", "type": "ha_light_on_color_temperature_command"},
+        {"kind": "block", "type": "ha_light_on_rgb_command"}
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "数字与选择",
+      "icon": "fa-light fa-sliders",
+      "colour": "#7E57C2",
+      "contents": [
+        {"kind": "block", "type": "ha_number_create"},
+        {
+          "kind": "block",
+          "type": "ha_number_settings",
+          "inputs": {
+            "MIN": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}},
+            "MAX": {"shadow": {"type": "math_number", "fields": {"NUM": 100}}},
+            "STEP": {"shadow": {"type": "math_number", "fields": {"NUM": 1}}}
+          }
+        },
+        {
+          "kind": "block",
+          "type": "ha_number_set_state",
+          "inputs": {"VALUE": {"shadow": {"type": "math_number", "fields": {"NUM": 42}}}}
+        },
+        {"kind": "block", "type": "ha_number_get_state"},
+        {"kind": "block", "type": "ha_number_on_command"},
+        {"kind": "block", "type": "ha_select_create"},
+        {"kind": "block", "type": "ha_select_settings"},
+        {
+          "kind": "block",
+          "type": "ha_select_set_state",
+          "inputs": {"INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}}}
+        },
+        {"kind": "block", "type": "ha_select_get_state"},
+        {"kind": "block", "type": "ha_select_get_option"},
+        {"kind": "block", "type": "ha_select_on_command"}
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "命令值",
+      "icon": "fa-light fa-arrow-down-to-bracket",
+      "colour": "#607D8B",
+      "contents": [
+        {"kind": "block", "type": "ha_command_bool_state"},
+        {"kind": "block", "type": "ha_command_brightness"},
+        {"kind": "block", "type": "ha_command_color_temperature"},
+        {"kind": "block", "type": "ha_command_rgb_red"},
+        {"kind": "block", "type": "ha_command_rgb_green"},
+        {"kind": "block", "type": "ha_command_rgb_blue"},
+        {"kind": "block", "type": "ha_number_command_is_set"},
+        {"kind": "block", "type": "ha_number_command_value"},
+        {"kind": "block", "type": "ha_select_command_index"}
+      ]
+    }
+  ]
+}

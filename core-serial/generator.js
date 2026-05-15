@@ -101,6 +101,53 @@ function updateCustomSerialConfig(customName, serialPort, rxPin, txPin, baudRate
   }
 }
 
+function stripSerialPinInfo(displayName) {
+  return String(displayName || '')
+    .replace(/\(RX:[^)]*TX:[^)]+\)\s*(\(自定义\))?/g, '')
+    .replace(/\((UART\d+|SoftwareSerial|softwareSerial)\s+RX:[^)]*TX:[^)]+\)\s*(\(自定义\))?/g, '')
+    .trim();
+}
+
+function formatDefaultSerialDisplayName(displayName, pins) {
+  const cleanDisplayName = stripSerialPinInfo(displayName);
+  if (!pins || !Array.isArray(pins)) {
+    return cleanDisplayName;
+  }
+
+  const rxPin = pins.find(pin => pin[0] === 'RX');
+  const txPin = pins.find(pin => pin[0] === 'TX');
+  if (!rxPin || !txPin) {
+    return cleanDisplayName;
+  }
+
+  return `${cleanDisplayName}(RX:${rxPin[1]}, TX:${txPin[1]})`;
+}
+
+function formatCustomSerialDisplayName(customName, config) {
+  const cleanDisplayName = stripSerialPinInfo(customName);
+  if (!config) {
+    return cleanDisplayName;
+  }
+
+  const serialPort = config.serialPort || 'CustomSerial';
+  const rxPin = config.rxPin || '?';
+  const txPin = config.txPin || '?';
+  return `${cleanDisplayName}(${serialPort} RX:${rxPin}, TX:${txPin}) (自定义)`;
+}
+
+function generateDefaultSerialPortOptions(boardConfig) {
+  const originalSerialPorts = boardConfig.serialPortOriginal || boardConfig.serialPort || [];
+  const serialPins = boardConfig.serialPins;
+
+  return originalSerialPorts.map(([displayName, value]) => {
+    if (!serialPins || !serialPins[value]) {
+      return [stripSerialPinInfo(displayName), value];
+    }
+
+    return [formatDefaultSerialDisplayName(displayName, serialPins[value]), value];
+  });
+}
+
 Blockly.getMainWorkspace().addChangeListener((event) => {
   // 当工作区完成加载时调用
   if (event.type === Blockly.Events.FINISHED_LOADING) {
@@ -117,6 +164,67 @@ function isAVRCore() {
 function isESP32Core() {
   const boardConfig = window['boardConfig'];
   return boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1;
+}
+
+function isSTM32Core() {
+  const boardConfig = window['boardConfig'];
+  return boardConfig && boardConfig.core && boardConfig.core.indexOf('stm32') > -1;
+}
+
+function getSerialPinsFromBoard(serialPort) {
+  const boardConfig = window['boardConfig'];
+  if (!boardConfig || !boardConfig.serialPins || !boardConfig.serialPins[serialPort]) {
+    return null;
+  }
+
+  const pins = boardConfig.serialPins[serialPort];
+  const rxPin = pins.find(pin => pin[0] === 'RX');
+  const txPin = pins.find(pin => pin[0] === 'TX');
+
+  if (!rxPin || !txPin) {
+    return null;
+  }
+
+  return {
+    rxPin: rxPin[1],
+    txPin: txPin[1]
+  };
+}
+
+function hasSamePinsAsDefaultSerial(serialPort) {
+  if (!serialPort || serialPort === 'Serial') {
+    return false;
+  }
+
+  const defaultSerialPins = getSerialPinsFromBoard('Serial');
+  const targetSerialPins = getSerialPinsFromBoard(serialPort);
+  if (!defaultSerialPins || !targetSerialPins) {
+    return false;
+  }
+
+  return defaultSerialPins.rxPin === targetSerialPins.rxPin &&
+    defaultSerialPins.txPin === targetSerialPins.txPin;
+}
+
+function ensureSTM32HardwareSerial(serialPort, generator) {
+  if (!isSTM32Core() || !serialPort || serialPort === 'Serial') {
+    return;
+  }
+
+  if (hasSamePinsAsDefaultSerial(serialPort)) {
+    return;
+  }
+
+  const serialPins = getSerialPinsFromBoard(serialPort);
+  if (!serialPins) {
+    return;
+  }
+
+  generator.addLibrary(`stm32_hardware_serial_${serialPort}`, '#include <HardwareSerial.h>');
+  generator.addObject(
+    `stm32_hardware_serial_${serialPort}`,
+    `HardwareSerial ${serialPort}(${serialPins.rxPin}, ${serialPins.txPin});`
+  );
 }
 
 // 从 uploadParam 中获取 ESP32 芯片型号
@@ -604,12 +712,14 @@ function ensureSerialBegin(serialPort, generator, baudrate = 9600) {
     // 这是一个自定义串口，已通过serial_begin_esp32_custom初始化，跳过
     return;
   }
+
+  ensureSTM32HardwareSerial(serialPort, generator);
   
   // 检查这个串口是否已经添加过初始化代码（无论是用户设置的还是默认的）
   if (!Arduino.addedSerialInitCode.has(serialPort) || baudrate != 9600) {
     // console.log(`Adding default serial initialization for ${serialPort} at ${baudrate} baud.`);
     // 只有在没有添加过任何初始化代码时才添加默认初始化
-    generator.addSetupBegin(`serial_${serialPort}_begin`, `${serialPort}.begin(${baudrate});`);
+    generator.addSetupBegin(`serial_${serialPort}_begin`, `${serialPort}.begin(${baudrate});`, true);
     // 标记为已添加初始化代码
     Arduino.addedSerialInitCode.add(serialPort);
   } else {
@@ -1021,15 +1131,14 @@ function updateSerialBlocksWithCustomPorts() {
 
 // 生成带自定义串口信息的选项（不修改原始配置）
 function generateSerialPortOptionsWithCustom(boardConfig) {
-  const originalSerialPorts = boardConfig.serialPortOriginal || boardConfig.serialPort;
-  const result = [...originalSerialPorts]; // 复制原始选项
+  const result = generateDefaultSerialPortOptions(boardConfig);
   
   // 添加自定义串口选项
   const customSerialPorts = window['customSerialPorts'];
   if (customSerialPorts) {
     Object.keys(customSerialPorts).forEach(customName => {
       const config = customSerialPorts[customName];
-      const displayText = `${customName}(${config.serialPort} RX:${config.rxPin} TX:${config.txPin})`;
+      const displayText = formatCustomSerialDisplayName(customName, config);
       result.push([displayText, customName]);
     });
   }

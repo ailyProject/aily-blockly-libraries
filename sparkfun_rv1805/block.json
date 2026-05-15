@@ -1,0 +1,81 @@
+[
+  {
+    "type": "rv1805_init",
+    "message0": "初始化 RV1805 RTC %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "rtc" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "创建并初始化 RV1805 I2C 实时时钟"
+  },
+  {
+    "type": "rv1805_set_time",
+    "message0": "RV1805 %1 设置时间 年 %2 月 %3 日 %4 时 %5 分 %6 秒 %7",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "rtc", "variableTypes": ["RV1805"], "defaultType": "RV1805" },
+      { "type": "input_value", "name": "YEAR", "check": "Number" },
+      { "type": "input_value", "name": "MONTH", "check": "Number" },
+      { "type": "input_value", "name": "DATE", "check": "Number" },
+      { "type": "input_value", "name": "HOUR", "check": "Number" },
+      { "type": "input_value", "name": "MINUTE", "check": "Number" },
+      { "type": "input_value", "name": "SECOND", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "设置 RV1805 RTC 当前时间"
+  },
+  {
+    "type": "rv1805_update_time",
+    "message0": "RV1805 %1 更新时间",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "rtc", "variableTypes": ["RV1805"], "defaultType": "RV1805" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "从 RV1805 读取最新时间到缓冲区"
+  },
+  {
+    "type": "rv1805_get_time_field",
+    "message0": "RV1805 %1 获取 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "rtc", "variableTypes": ["RV1805"], "defaultType": "RV1805" },
+      { "type": "field_dropdown", "name": "FIELD", "options": [
+          ["秒", "Seconds"],
+          ["分", "Minutes"],
+          ["时", "Hours"],
+          ["日", "Date"],
+          ["月", "Month"],
+          ["年", "Year"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#00BCD4",
+    "tooltip": "读取 RV1805 时间字段（先调用更新时间）"
+  },
+  {
+    "type": "rv1805_string_time",
+    "message0": "RV1805 %1 时间字符串",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "rtc", "variableTypes": ["RV1805"], "defaultType": "RV1805" }
+    ],
+    "output": "String",
+    "colour": "#00BCD4",
+    "tooltip": "返回 RV1805 格式化时间字符串（HH:MM:SS）"
+  },
+  {
+    "type": "rv1805_string_date",
+    "message0": "RV1805 %1 日期字符串",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "rtc", "variableTypes": ["RV1805"], "defaultType": "RV1805" }
+    ],
+    "output": "String",
+    "colour": "#00BCD4",
+    "tooltip": "返回 RV1805 格式化日期字符串（DD/MM/YYYY）"
+  }
+]

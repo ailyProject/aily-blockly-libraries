@@ -1,6 +1,6 @@
-# K10语音识别/合成
+# K10 Speech Recognition & Synthesis
 
-UNIHIKER K10 语音识别与合成库，支持语音唤醒、命令词识别和 TTS 播报。
+UNIHIKER K10 speech recognition and synthesis library, supports Chinese/English speech recognition, command detection and TTS
 
 ## Library Info
 - **Name**: @aily-project/lib-unihiker-k10-speech
@@ -10,53 +10,33 @@ UNIHIKER K10 语音识别与合成库，支持语音唤醒、命令词识别和 
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `k10_asr_init` | Statement | (none) | `k10_asr_init()` | `asr.asrInit(CONTINUOUS, lang, timeout);` |
-| `k10_asr_add_command` | Statement | ID(input_value), KEYWORD(input_value) | `k10_asr_add_command(math_number(1), text("开灯"))` | `asr.addASRCommand(id, keyword);` |
-| `k10_asr_is_wakeup` | Value(Boolean) | (none) | `k10_asr_is_wakeup()` | `asr.isWakeUp()` |
-| `k10_asr_is_detected` | Value(Boolean) | ID(input_value) | `k10_asr_is_detected(math_number(1))` | `asr.isDetectCmdID(id)` |
-| `k10_asr_speak` | Statement | TEXT(input_value) | `k10_asr_speak(text("你好"))` | `asr.speak(text);` |
-| `k10_asr_set_speed` | Statement | SPEED(dropdown) | `k10_asr_set_speed(5)` | `asr.setAsrSpeed(speed);` |
+| `k10_asr_init` | Statement | (none) | `k10_asr_init()` | Dynamic code |
+| `k10_asr_add_command` | Statement | ID(input_value), KEYWORD(input_value) | `k10_asr_add_command(math_number(0), text("value"))` | asr.addASRCommand( |
+| `k10_asr_is_wakeup` | Value | (none) | `k10_asr_is_wakeup()` | asr.isWakeUp() |
+| `k10_asr_is_detected` | Value | ID(input_value) | `k10_asr_is_detected(math_number(0))` | asr.isDetectCmdID( |
+| `k10_asr_speak` | Statement | TEXT(input_value) | `k10_asr_speak(text("value"))` | asr.speak( |
+| `k10_asr_set_speed` | Statement | SPEED(dropdown) | `k10_asr_set_speed("1")` | asr.setAsrSpeed( |
 
 ## Parameter Options
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| SPEED | 1(很慢), 3(慢), 5(正常), 7(快), 9(很快) | TTS 播报速度 |
+| SPEED | 1, 3, 5, 7, 9 | k10_asr_set_speed |
 
 ## ABS Examples
 
-### 语音命令控制
+### Basic Usage
 ```
 arduino_setup()
     k10_asr_init()
-    k10_asr_add_command(math_number(1), text("开灯"))
-    k10_asr_add_command(math_number(2), text("关灯"))
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    controls_if()
-        @IF0: k10_asr_is_wakeup()
-        @DO0:
-            controls_if()
-                @IF0: k10_asr_is_detected(math_number(1))
-                @DO0:
-                    serial_println(Serial, text("开灯"))
-                    k10_asr_speak(text("好的，已开灯"))
-    time_delay(math_number(100))
-```
-
-### TTS 语音播报
-```
-arduino_setup()
-    k10_asr_init()
-    k10_asr_set_speed(5)
-    k10_asr_speak(text("你好，欢迎使用行空板K10"))
+    serial_println(Serial, k10_asr_is_wakeup())
+    time_delay(math_number(1000))
 ```
 
 ## Notes
 
-1. **初始化**: `k10_asr_init` 放在 `arduino_setup()` 中，会初始化 ASR 模块并等待就绪
-2. **唤醒机制**: 需先通过 `k10_asr_is_wakeup()` 检测唤醒，再检测命令词
-3. **命令词**: 使用 `k10_asr_add_command(ID, keyword)` 注册，ID 为数字标识，keyword 为中文或英文关键词
-4. **TTS 播报**: `k10_asr_speak` 支持中英文文字转语音播报
-5. **播报速度**: 通过 `k10_asr_set_speed` 设置，范围 1-9，默认 5（正常）
+1. **Parameter order**: ABS parameters follow `block.json` args order.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.

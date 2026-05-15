@@ -1,0 +1,712 @@
+{
+  "toolbox_name": "Bluefruit52 BLE",
+  "toolbox_categories": [
+    "快速模式",
+    "初始化与状态",
+    "事件回调",
+    "广播",
+    "BLE UART外设",
+    "GATT服务",
+    "标准服务",
+    "扫描与中心端",
+    "HID",
+    "信标"
+  ],
+  "bluefruit52_init": {
+    "message0": "初始化Bluefruit 外设连接数 %1 中心连接数 %2",
+    "tooltip": "初始化Bluefruit BLE协议栈并设置外设/中心端连接数量"
+  },
+  "bluefruit52_set_name": {
+    "message0": "设置BLE设备名称 %1",
+    "tooltip": "设置广播和GATT中使用的BLE设备名称"
+  },
+  "bluefruit52_set_tx_power": {
+    "message0": "设置BLE发射功率(dBm) %1",
+    "tooltip": "设置BLE无线电发射功率",
+    "args0": [
+      {
+        "options": [
+          [
+            "+8",
+            "8"
+          ],
+          [
+            "+4",
+            "4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "-4",
+            "-4"
+          ],
+          [
+            "-8",
+            "-8"
+          ],
+          [
+            "-12",
+            "-12"
+          ],
+          [
+            "-16",
+            "-16"
+          ],
+          [
+            "-20",
+            "-20"
+          ],
+          [
+            "-40",
+            "-40"
+          ]
+        ]
+      }
+    ]
+  },
+  "bluefruit52_auto_conn_led": {
+    "message0": "连接指示灯 %1",
+    "tooltip": "启用或关闭Bluefruit连接状态指示灯",
+    "args0": [
+      {
+        "options": [
+          [
+            "启用",
+            "true"
+          ],
+          [
+            "禁用",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "bluefruit52_config_bandwidth": {
+    "message0": "配置 %1 带宽 %2",
+    "tooltip": "配置外设或中心端连接的带宽档位",
+    "args0": [
+      {
+        "options": [
+          [
+            "外设",
+            "Prph"
+          ],
+          [
+            "中心端",
+            "Central"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "自动",
+            "BANDWIDTH_AUTO"
+          ],
+          [
+            "低",
+            "BANDWIDTH_LOW"
+          ],
+          [
+            "普通",
+            "BANDWIDTH_NORMAL"
+          ],
+          [
+            "高",
+            "BANDWIDTH_HIGH"
+          ],
+          [
+            "最大",
+            "BANDWIDTH_MAX"
+          ]
+        ]
+      }
+    ]
+  },
+  "bluefruit52_connected": {
+    "message0": "Bluefruit已连接?",
+    "tooltip": "返回当前是否存在BLE连接"
+  },
+  "bluefruit52_disconnect": {
+    "message0": "断开连接 句柄 %1",
+    "tooltip": "按连接句柄断开BLE连接"
+  },
+  "bluefruit52_callback_conn_handle": {
+    "message0": "当前BLE回调连接句柄",
+    "tooltip": "在连接、断开、UART或写入回调中读取当前连接句柄"
+  },
+  "bluefruit52_callback_disconnect_reason": {
+    "message0": "当前BLE断开原因",
+    "tooltip": "在断开回调中读取断开原因码"
+  },
+  "bluefruit52_callback_data": {
+    "message0": "当前BLE回调数据",
+    "tooltip": "读取BLE UART或特征写入回调缓存的文本数据"
+  },
+  "bluefruit52_on_periph_connect": {
+    "message0": "当Bluefruit外设连接时",
+    "message1": "执行 %1",
+    "tooltip": "注册外设角色的连接回调"
+  },
+  "bluefruit52_on_periph_disconnect": {
+    "message0": "当Bluefruit外设断开时",
+    "message1": "执行 %1",
+    "tooltip": "注册外设角色的断开回调"
+  },
+  "bluefruit52_on_central_connect": {
+    "message0": "当Bluefruit中心端连接时",
+    "message1": "执行 %1",
+    "tooltip": "注册中心端角色的连接回调"
+  },
+  "bluefruit52_on_central_disconnect": {
+    "message0": "当Bluefruit中心端断开时",
+    "message1": "执行 %1",
+    "tooltip": "注册中心端角色的断开回调"
+  },
+  "bluefruit52_adv_clear": {
+    "message0": "清空BLE广播数据 %1",
+    "tooltip": "清空广播包或扫描响应数据",
+    "args0": [
+      {
+        "options": [
+          [
+            "广播包",
+            "Advertising"
+          ],
+          [
+            "扫描响应",
+            "ScanResponse"
+          ],
+          [
+            "两者",
+            "Both"
+          ]
+        ]
+      }
+    ]
+  },
+  "bluefruit52_adv_add_flags": {
+    "message0": "广播添加通用发现Flags",
+    "tooltip": "向广播包添加LE Only General Discoverable标志"
+  },
+  "bluefruit52_adv_add_tx_power": {
+    "message0": "广播添加发射功率",
+    "tooltip": "向广播包添加TX Power字段"
+  },
+  "bluefruit52_adv_add_name": {
+    "message0": "%1 添加设备名称",
+    "tooltip": "向广播包或扫描响应添加设备名称",
+    "args0": [
+      {
+        "options": [
+          [
+            "广播包",
+            "Advertising"
+          ],
+          [
+            "扫描响应",
+            "ScanResponse"
+          ],
+          [
+            "两者",
+            "Both"
+          ]
+        ]
+      }
+    ]
+  },
+  "bluefruit52_adv_add_service": {
+    "message0": "广播添加服务 %1",
+    "tooltip": "将已创建的BLE服务UUID加入广播包"
+  },
+  "bluefruit52_adv_add_uuid": {
+    "message0": "广播添加UUID %1",
+    "tooltip": "按UUID字符串向广播包添加服务UUID"
+  },
+  "bluefruit52_adv_add_appearance": {
+    "message0": "广播添加外观 %1",
+    "tooltip": "向广播包添加BLE外观值",
+    "args0": [
+      {
+        "options": [
+          [
+            "通用时钟",
+            "BLE_APPEARANCE_GENERIC_CLOCK"
+          ],
+          [
+            "键盘",
+            "BLE_APPEARANCE_HID_KEYBOARD"
+          ],
+          [
+            "鼠标",
+            "BLE_APPEARANCE_HID_MOUSE"
+          ],
+          [
+            "游戏手柄",
+            "BLE_APPEARANCE_HID_GAMEPAD"
+          ]
+        ]
+      }
+    ]
+  },
+  "bluefruit52_adv_restart_on_disconnect": {
+    "message0": "断开后自动重新广播 %1",
+    "tooltip": "设置断开连接后是否自动恢复广播",
+    "args0": [
+      {
+        "options": [
+          [
+            "启用",
+            "true"
+          ],
+          [
+            "禁用",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "bluefruit52_adv_set_interval": {
+    "message0": "设置广播间隔 快速 %1 慢速 %2",
+    "tooltip": "设置广播快速/慢速间隔，单位为0.625ms"
+  },
+  "bluefruit52_adv_set_initial_timeout": {
+    "message0": "设置初始广播超时(秒) %1",
+    "tooltip": "设置快速广播持续秒数"
+  },
+  "bluefruit52_adv_start": {
+    "message0": "开始BLE广播 超时(秒) %1",
+    "tooltip": "开始BLE广播，0表示一直广播"
+  },
+  "bluefruit52_adv_stop": {
+    "message0": "停止BLE广播",
+    "tooltip": "停止当前BLE广播"
+  },
+  "bluefruit52_adv_is_running": {
+    "message0": "BLE正在广播?",
+    "tooltip": "返回广播是否正在运行"
+  },
+  "bluefruit52_bleuart_create": {
+    "message0": "创建BLE UART %1 接收缓冲 %2",
+    "tooltip": "创建Nordic UART Service外设对象"
+  },
+  "bluefruit52_bleuart_begin": {
+    "message0": "启动BLE UART %1",
+    "tooltip": "启动BLE UART服务"
+  },
+  "bluefruit52_bleuart_write": {
+    "message0": "BLE UART %1 发送 %2",
+    "tooltip": "通过BLE UART发送文本或数据"
+  },
+  "bluefruit52_bleuart_available": {
+    "message0": "BLE UART %1 可读字节数",
+    "tooltip": "返回BLE UART接收缓冲中的字节数"
+  },
+  "bluefruit52_bleuart_read": {
+    "message0": "BLE UART %1 读取1字节",
+    "tooltip": "从BLE UART读取一个字节，失败返回-1"
+  },
+  "bluefruit52_bleuart_read_string": {
+    "message0": "BLE UART %1 读取全部文本",
+    "tooltip": "读取BLE UART缓冲中的全部文本"
+  },
+  "bluefruit52_bleuart_notify_enabled": {
+    "message0": "BLE UART %1 通知已启用?",
+    "tooltip": "检查中心端是否已启用BLE UART通知"
+  },
+  "bluefruit52_bleuart_on_receive": {
+    "message0": "设置BLE UART %1 收到数据时",
+    "message1": "执行 %1",
+    "tooltip": "为BLE UART注册接收回调，回调数据可用当前BLE回调数据读取"
+  },
+  "bluefruit52_bleuart_peripheral_quick": {
+    "message0": "快速启动BLE UART外设 名称 %1",
+    "tooltip": "一键初始化Bluefruit、设备信息、BLE UART和标准广播"
+  },
+  "bluefruit52_bleuart_quick_send": {
+    "message0": "快速BLE UART发送 %1",
+    "tooltip": "使用快速模式创建的BLE UART发送数据"
+  },
+  "bluefruit52_bleuart_quick_received_data": {
+    "message0": "快速BLE UART收到的数据",
+    "tooltip": "读取快速模式BLE UART接收缓冲中的全部文本"
+  },
+  "bluefruit52_bleuart_quick_connected": {
+    "message0": "快速BLE UART已连接?",
+    "tooltip": "检查快速模式BLE UART是否已连接"
+  },
+  "bluefruit52_service_create": {
+    "message0": "创建BLE服务 %1 UUID %2",
+    "tooltip": "创建自定义GATT服务对象"
+  },
+  "bluefruit52_service_begin": {
+    "message0": "启动BLE服务 %1",
+    "tooltip": "注册并启动GATT服务"
+  },
+  "bluefruit52_characteristic_create": {
+    "message0": "创建BLE特征 %1 UUID %2 属性 %3 最大长度 %4",
+    "tooltip": "创建自定义GATT特征对象并配置属性和最大长度",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "读取",
+            "CHR_PROPS_READ"
+          ],
+          [
+            "写入",
+            "CHR_PROPS_WRITE"
+          ],
+          [
+            "无响应写入",
+            "CHR_PROPS_WRITE_WO_RESP"
+          ],
+          [
+            "通知",
+            "CHR_PROPS_NOTIFY"
+          ],
+          [
+            "指示",
+            "CHR_PROPS_INDICATE"
+          ],
+          [
+            "读写",
+            "CHR_PROPS_READ | CHR_PROPS_WRITE"
+          ],
+          [
+            "读写+通知",
+            "CHR_PROPS_READ | CHR_PROPS_WRITE | CHR_PROPS_NOTIFY"
+          ],
+          [
+            "读取+指示",
+            "CHR_PROPS_READ | CHR_PROPS_INDICATE"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "bluefruit52_characteristic_set_permission": {
+    "message0": "设置特征 %1 权限 读 %2 写 %3",
+    "tooltip": "设置特征读写安全权限",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "开放",
+            "SECMODE_OPEN"
+          ],
+          [
+            "禁止",
+            "SECMODE_NO_ACCESS"
+          ],
+          [
+            "加密",
+            "SECMODE_ENC_NO_MITM"
+          ],
+          [
+            "加密+MITM",
+            "SECMODE_ENC_WITH_MITM"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "开放",
+            "SECMODE_OPEN"
+          ],
+          [
+            "禁止",
+            "SECMODE_NO_ACCESS"
+          ],
+          [
+            "加密",
+            "SECMODE_ENC_NO_MITM"
+          ],
+          [
+            "加密+MITM",
+            "SECMODE_ENC_WITH_MITM"
+          ]
+        ]
+      }
+    ]
+  },
+  "bluefruit52_characteristic_begin": {
+    "message0": "启动BLE特征 %1",
+    "tooltip": "将特征加入最近启动的GATT服务"
+  },
+  "bluefruit52_characteristic_write_text": {
+    "message0": "特征 %1 写入文本 %2",
+    "tooltip": "写入特征本地值"
+  },
+  "bluefruit52_characteristic_notify_text": {
+    "message0": "特征 %1 通知文本 %2",
+    "tooltip": "向已订阅通知的中心端发送文本通知"
+  },
+  "bluefruit52_characteristic_indicate_text": {
+    "message0": "特征 %1 指示文本 %2",
+    "tooltip": "向已订阅指示的中心端发送需要确认的文本指示"
+  },
+  "bluefruit52_characteristic_read_string": {
+    "message0": "读取特征 %1 文本",
+    "tooltip": "读取特征当前值并转换为文本"
+  },
+  "bluefruit52_characteristic_notify_enabled": {
+    "message0": "特征 %1 通知已启用?",
+    "tooltip": "检查该特征通知是否已被中心端启用"
+  },
+  "bluefruit52_characteristic_on_write": {
+    "message0": "设置特征 %1 被写入时",
+    "message1": "执行 %1",
+    "tooltip": "注册特征写入回调，需放在特征启动前"
+  },
+  "bluefruit52_dis_create": {
+    "message0": "创建设备信息服务 %1",
+    "tooltip": "创建BLE设备信息服务对象"
+  },
+  "bluefruit52_dis_set": {
+    "message0": "设备信息服务 %1 设置 %2 为 %3",
+    "tooltip": "设置设备信息服务字段",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "制造商",
+            "setManufacturer"
+          ],
+          [
+            "型号",
+            "setModel"
+          ],
+          [
+            "序列号",
+            "setSerialNum"
+          ],
+          [
+            "固件版本",
+            "setFirmwareRev"
+          ],
+          [
+            "硬件版本",
+            "setHardwareRev"
+          ],
+          [
+            "软件版本",
+            "setSoftwareRev"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "bluefruit52_dis_begin": {
+    "message0": "启动设备信息服务 %1",
+    "tooltip": "启动BLE设备信息服务"
+  },
+  "bluefruit52_bas_create": {
+    "message0": "创建电池服务 %1",
+    "tooltip": "创建BLE电池服务对象"
+  },
+  "bluefruit52_bas_begin": {
+    "message0": "启动电池服务 %1",
+    "tooltip": "启动BLE电池服务"
+  },
+  "bluefruit52_bas_write": {
+    "message0": "电池服务 %1 写入电量 %2 %",
+    "tooltip": "更新电池服务电量值"
+  },
+  "bluefruit52_bas_notify": {
+    "message0": "电池服务 %1 通知电量 %2 %",
+    "tooltip": "通知电池电量变化"
+  },
+  "bluefruit52_scanner_config": {
+    "message0": "配置扫描 间隔 %1 窗口 %2 主动扫描 %3 断开重扫 %4",
+    "tooltip": "配置中心端扫描参数，单位为0.625ms",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "启用",
+            "true"
+          ],
+          [
+            "禁用",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "启用",
+            "true"
+          ],
+          [
+            "禁用",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "bluefruit52_scanner_start": {
+    "message0": "开始扫描 超时(秒) %1",
+    "tooltip": "开始BLE扫描，0表示持续扫描"
+  },
+  "bluefruit52_scanner_stop": {
+    "message0": "停止扫描",
+    "tooltip": "停止BLE扫描"
+  },
+  "bluefruit52_scanner_resume": {
+    "message0": "继续扫描",
+    "tooltip": "在扫描回调中恢复扫描"
+  },
+  "bluefruit52_scanner_filter_uuid": {
+    "message0": "扫描过滤UUID %1",
+    "tooltip": "仅扫描包含指定UUID的设备"
+  },
+  "bluefruit52_on_scan_report": {
+    "message0": "当扫描到BLE广播时",
+    "message1": "执行 %1",
+    "tooltip": "注册扫描回调，回调中可读取RSSI、地址和UUID匹配结果"
+  },
+  "bluefruit52_scan_report_rssi": {
+    "message0": "扫描报告RSSI",
+    "tooltip": "读取当前扫描报告的RSSI"
+  },
+  "bluefruit52_scan_report_address": {
+    "message0": "扫描报告地址",
+    "tooltip": "读取当前扫描报告的MAC地址"
+  },
+  "bluefruit52_scan_report_has_uuid": {
+    "message0": "扫描报告包含UUID %1 ?",
+    "tooltip": "检查当前扫描报告是否包含指定服务UUID"
+  },
+  "bluefruit52_central_connect_report": {
+    "message0": "连接当前扫描报告设备",
+    "tooltip": "中心端连接当前扫描回调中的设备"
+  },
+  "bluefruit52_central_connected": {
+    "message0": "中心端已连接?",
+    "tooltip": "检查中心端角色是否已连接"
+  },
+  "bluefruit52_client_uart_create": {
+    "message0": "创建中心端BLE UART %1",
+    "tooltip": "创建BLE UART中心端客户端对象"
+  },
+  "bluefruit52_client_uart_begin": {
+    "message0": "启动中心端BLE UART %1",
+    "tooltip": "初始化BLE UART客户端"
+  },
+  "bluefruit52_client_uart_discover": {
+    "message0": "中心端BLE UART %1 发现服务 连接句柄 %2",
+    "tooltip": "连接后发现远端Nordic UART Service"
+  },
+  "bluefruit52_client_uart_enable_txd": {
+    "message0": "中心端BLE UART %1 启用接收通知",
+    "tooltip": "启用远端TXD通知以接收数据"
+  },
+  "bluefruit52_client_uart_write": {
+    "message0": "中心端BLE UART %1 发送 %2",
+    "tooltip": "向已连接的BLE UART外设发送数据"
+  },
+  "bluefruit52_client_uart_read_string": {
+    "message0": "中心端BLE UART %1 读取全部文本",
+    "tooltip": "读取BLE UART客户端接收到的全部文本"
+  },
+  "bluefruit52_client_uart_on_receive": {
+    "message0": "设置中心端BLE UART %1 收到数据时",
+    "message1": "执行 %1",
+    "tooltip": "设置BLE UART客户端接收回调"
+  },
+  "bluefruit52_hid_create": {
+    "message0": "创建BLE HID %1",
+    "tooltip": "创建BLE HID键盘/鼠标服务对象"
+  },
+  "bluefruit52_hid_begin": {
+    "message0": "启动BLE HID %1",
+    "tooltip": "启动BLE HID服务"
+  },
+  "bluefruit52_hid_key_press": {
+    "message0": "BLE HID %1 按下字符 %2",
+    "tooltip": "发送一个键盘按下报告"
+  },
+  "bluefruit52_hid_key_release": {
+    "message0": "BLE HID %1 释放键盘按键",
+    "tooltip": "释放当前键盘按键"
+  },
+  "bluefruit52_hid_key_sequence": {
+    "message0": "BLE HID %1 输入文本 %2 间隔(ms) %3",
+    "tooltip": "按字符序列发送键盘输入"
+  },
+  "bluefruit52_hid_mouse_move": {
+    "message0": "BLE HID %1 鼠标移动 X %2 Y %3",
+    "tooltip": "发送鼠标相对移动报告"
+  },
+  "bluefruit52_hid_mouse_press": {
+    "message0": "BLE HID %1 鼠标按下 %2",
+    "tooltip": "按下鼠标按钮",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "左键",
+            "MOUSE_BUTTON_LEFT"
+          ],
+          [
+            "右键",
+            "MOUSE_BUTTON_RIGHT"
+          ],
+          [
+            "中键",
+            "MOUSE_BUTTON_MIDDLE"
+          ],
+          [
+            "后退",
+            "MOUSE_BUTTON_BACKWARD"
+          ],
+          [
+            "前进",
+            "MOUSE_BUTTON_FORWARD"
+          ]
+        ]
+      }
+    ]
+  },
+  "bluefruit52_hid_mouse_release": {
+    "message0": "BLE HID %1 释放鼠标按键",
+    "tooltip": "释放所有鼠标按钮"
+  },
+  "bluefruit52_hid_mouse_scroll": {
+    "message0": "BLE HID %1 鼠标滚轮 %2",
+    "tooltip": "发送鼠标滚轮报告"
+  },
+  "bluefruit52_beacon_create": {
+    "message0": "创建iBeacon %1 UUID %2 major %3 minor %4 RSSI %5",
+    "tooltip": "创建并配置iBeacon对象"
+  },
+  "bluefruit52_beacon_set_manufacturer": {
+    "message0": "iBeacon %1 设置厂商ID %2",
+    "tooltip": "设置iBeacon厂商ID"
+  },
+  "bluefruit52_eddystone_create": {
+    "message0": "创建Eddystone URL %1 URL %2 RSSI %3",
+    "tooltip": "创建并配置Eddystone URL信标对象"
+  },
+  "bluefruit52_adv_set_beacon": {
+    "message0": "广播设置信标 %1",
+    "tooltip": "将iBeacon或Eddystone对象写入广播包"
+  }
+}

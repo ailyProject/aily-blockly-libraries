@@ -1,0 +1,622 @@
+{
+  "kind": "category",
+  "name": "Seeed FS",
+  "icon": "fa-light fa-sd-card",
+  "colour": "#FF9800",
+  "contents": [
+    {
+      "name": "SD卡存储",
+      "icon": "fa-light fa-sd-card",
+      "colour": "#FF9800",
+      "kind": "category",
+      "contents": [
+        {
+          "kind": "label",
+          "text": "初始化"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_sd_begin"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_sd_begin_spi",
+          "inputs": {
+            "SS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "1"
+                }
+              }
+            },
+            "FREQUENCY": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "4000000"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "label",
+          "text": "卡信息"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_sd_card_info"
+        },
+        {
+          "kind": "label",
+          "text": "快速文件操作"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_write_quick",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/hello.txt"
+                }
+              }
+            },
+            "CONTENT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Hello World"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_read_quick",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/hello.txt"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_append_file",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/log.txt"
+                }
+              }
+            },
+            "CONTENT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "New data"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_delete_file",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/temp.txt"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_rename_file",
+          "inputs": {
+            "OLD_PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/old.txt"
+                }
+              }
+            },
+            "NEW_PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/new.txt"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "label",
+          "text": "文件操作"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_open_file",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/test.txt"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_close_file"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_write_file",
+          "inputs": {
+            "CONTENT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Hello SD Card"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_read_file"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_file_available"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_file_size"
+        },
+        {
+          "kind": "label",
+          "text": "目录操作"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_create_dir",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/mydir"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_remove_dir",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/mydir"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_list_dir",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/"
+                }
+              }
+            },
+            "LEVELS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "label",
+          "text": "文件检查"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_file_exists",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/test.txt"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "SFUD闪存文件系统",
+      "icon": "fa-light fa-memory",
+      "colour": "#FF5722",
+      "kind": "category",
+      "contents": [
+        {
+          "kind": "label",
+          "text": "初始化"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_fs_begin_qspi"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_fs_begin_spi",
+          "inputs": {
+            "SS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "4"
+                }
+              }
+            },
+            "FREQUENCY": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "4000000"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "label",
+          "text": "闪存信息"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_fs_flash_info"
+        },
+        {
+          "kind": "label",
+          "text": "快速文件操作"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_fs_write_quick",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/hello.txt"
+                }
+              }
+            },
+            "CONTENT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Hello Flash!"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_fs_read_quick",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/hello.txt"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_fs_append_file",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/log.txt"
+                }
+              }
+            },
+            "CONTENT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "New data"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_fs_delete_file",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/temp.txt"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_fs_rename_file",
+          "inputs": {
+            "OLD_PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/old.txt"
+                }
+              }
+            },
+            "NEW_PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/new.txt"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "label",
+          "text": "文件操作（与SD文件块共用）"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_fs_open_file",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/test.txt"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_close_file"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_write_file",
+          "inputs": {
+            "CONTENT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Hello Flash!"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_read_file"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_file_available"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_file_size"
+        },
+        {
+          "kind": "label",
+          "text": "目录操作"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_fs_create_dir",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/mydir"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_fs_remove_dir",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/mydir"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_fs_list_dir",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/"
+                }
+              }
+            },
+            "LEVELS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "label",
+          "text": "文件检查"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_fs_file_exists",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/test.txt"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "SFUD原始闪存",
+      "icon": "fa-light fa-microchip",
+      "colour": "#795548",
+      "kind": "category",
+      "contents": [
+        {
+          "kind": "label",
+          "text": "初始化"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_init"
+        },
+        {
+          "kind": "label",
+          "text": "读写操作"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_write_str",
+          "inputs": {
+            "ADDR": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "CONTENT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Hello Flash!"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_read_str",
+          "inputs": {
+            "ADDR": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "LENGTH": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "64"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_sfud_erase",
+          "inputs": {
+            "ADDR": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            },
+            "SIZE": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "4096"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

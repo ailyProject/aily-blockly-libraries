@@ -1,6 +1,6 @@
-# BMM150 三轴磁力计
+# BMM150 three-axis magnetometer
 
-用于读取BMM150三轴磁力数据和罗盘方向角的Blockly库
+Used to read BMM150 three-axis magnetic data and compass heading angle
 
 ## Library Info
 
@@ -10,18 +10,17 @@
 | Version | 0.0.1 |
 | Author | SeeedStudio |
 | Source | https://github.com/Seeed-Studio/Grove_3_Axis_Compass_V2.0_BMM150 |
-| License | MIT |
+| License | Original license |
 
 ## Supported Boards
 
-Arduino UNO, ESP32
+Arduino-compatible boards supported by this package.
 
 ## Description
 
-BMM150是一款低功耗、低噪声的三轴地磁传感器，通过I2C接口通信。本库提供BMM150传感器的初始化、三轴磁力数据读取以及罗盘方向角计算功能，适用于电子罗盘、导航等应用。
+Used to read BMM150 three-axis magnetic data and compass heading angle
 
 ## Quick Start
 
-1. 通过I2C（SCL/SDA）连接BMM150模块
-2. 在setup中放置初始化积木
-3. 在loop中读取磁力数据或罗盘方向角
+1. Enable `@aily-project/lib-seeed-bmm150` in Aily Blockly.
+2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
