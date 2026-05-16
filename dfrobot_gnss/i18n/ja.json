@@ -1,0 +1,92 @@
+{
+  "toolbox_name": "GNSS測位",
+  "gnss_i2c_init": {
+    "message0": "GNSSモジュール初期化 I2Cモード アドレス0x20",
+    "tooltip": "I2CモードでGNSS北斗測位モジュールを初期化"
+  },
+  "gnss_hs_init": {
+    "message0": "GNSSモジュール初期化 ハードウェアシリアル %1 RX(緑) %2 TX(青) %3",
+    "tooltip": "ハードウェアシリアルでGNSS北斗測位モジュールを初期化",
+    "args0": [
+      {
+        "options": [
+          ["HardwareSerial1", "Serial1"],
+          ["HardwareSerial2", "Serial2"]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "gnss_ss_init": {
+    "message0": "GNSSモジュール初期化 ソフトウェアシリアル %1 RX(緑) %2 TX(青) %3",
+    "tooltip": "ソフトウェアシリアルでGNSS北斗測位モジュールを初期化",
+    "args0": [
+      {
+        "options": [
+          ["SoftwareSerial", "SoftwareSerial"]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "gnss_read_data": {
+    "message0": "GNSSデータを1回読み取り結果を保存",
+    "tooltip": "GNSSデータを読み取り内部変数に保存"
+  },
+  "gnss_get_utc_date": {
+    "message0": "GNSS UTC日付取得 %1",
+    "tooltip": "GNSSデータからUTC日付を取得",
+    "args0": [
+      {
+        "options": [
+          ["年/月/日", "YMD"],
+          ["年", "YEAR"],
+          ["月", "MONTH"],
+          ["日", "DAY"]
+        ]
+      }
+    ]
+  },
+  "gnss_get_utc_time": {
+    "message0": "GNSS UTC時刻取得 %1",
+    "tooltip": "GNSSデータからUTC時刻を取得",
+    "args0": [
+      {
+        "options": [
+          ["時:分:秒", "HMS"],
+          ["時", "HOUR"],
+          ["分", "MINUTE"],
+          ["秒", "SECOND"]
+        ]
+      }
+    ]
+  },
+  "gnss_get_location": {
+    "message0": "GNSS %1 取得",
+    "tooltip": "GNSSデータから測位情報を取得",
+    "args0": [
+      {
+        "options": [
+          ["緯度", "LAT"],
+          ["緯度方向", "LAT_DIR"],
+          ["経度", "LON"],
+          ["経度方向", "LON_DIR"],
+          ["高度", "ALT"],
+          ["衛星数", "SAT_NUM"],
+          ["対地速度", "SOG"],
+          ["対地方位", "COG"]
+        ]
+      }
+    ]
+  }
+}

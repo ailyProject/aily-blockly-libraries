@@ -1,0 +1,92 @@
+{
+  "toolbox_name": "Positionnement GNSS",
+  "gnss_i2c_init": {
+    "message0": "Initialisation module GNSS mode I2C adresse 0x20",
+    "tooltip": "Initialiser le module de positionnement GNSS BeiDou en mode I2C"
+  },
+  "gnss_hs_init": {
+    "message0": "Initialisation module GNSS série matériel %1 RX(Vert) %2 TX(Bleu) %3",
+    "tooltip": "Initialiser le module de positionnement GNSS BeiDou via série matériel",
+    "args0": [
+      {
+        "options": [
+          ["HardwareSerial1", "Serial1"],
+          ["HardwareSerial2", "Serial2"]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "gnss_ss_init": {
+    "message0": "Initialisation module GNSS série logiciel %1 RX(Vert) %2 TX(Bleu) %3",
+    "tooltip": "Initialiser le module de positionnement GNSS BeiDou via série logiciel",
+    "args0": [
+      {
+        "options": [
+          ["SoftwareSerial", "SoftwareSerial"]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "gnss_read_data": {
+    "message0": "GNSS lire données une fois et sauvegarder",
+    "tooltip": "Lire les données GNSS et sauvegarder dans les variables internes"
+  },
+  "gnss_get_utc_date": {
+    "message0": "GNSS obtenir date UTC %1",
+    "tooltip": "Obtenir la date UTC des données GNSS",
+    "args0": [
+      {
+        "options": [
+          ["Année/Mois/Jour", "YMD"],
+          ["Année", "YEAR"],
+          ["Mois", "MONTH"],
+          ["Jour", "DAY"]
+        ]
+      }
+    ]
+  },
+  "gnss_get_utc_time": {
+    "message0": "GNSS obtenir heure UTC %1",
+    "tooltip": "Obtenir l'heure UTC des données GNSS",
+    "args0": [
+      {
+        "options": [
+          ["Heure:Minute:Seconde", "HMS"],
+          ["Heure", "HOUR"],
+          ["Minute", "MINUTE"],
+          ["Seconde", "SECOND"]
+        ]
+      }
+    ]
+  },
+  "gnss_get_location": {
+    "message0": "GNSS obtenir %1",
+    "tooltip": "Obtenir les informations de positionnement des données GNSS",
+    "args0": [
+      {
+        "options": [
+          ["Latitude", "LAT"],
+          ["Direction latitude", "LAT_DIR"],
+          ["Longitude", "LON"],
+          ["Direction longitude", "LON_DIR"],
+          ["Altitude", "ALT"],
+          ["Nombre de satellites", "SAT_NUM"],
+          ["Vitesse", "SOG"],
+          ["Cap", "COG"]
+        ]
+      }
+    ]
+  }
+}

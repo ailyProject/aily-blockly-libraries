@@ -1,0 +1,92 @@
+{
+  "toolbox_name": "Позиционирование GNSS",
+  "gnss_i2c_init": {
+    "message0": "Инициализация модуля GNSS режим I2C адрес 0x20",
+    "tooltip": "Инициализировать модуль позиционирования GNSS BeiDou в режиме I2C"
+  },
+  "gnss_hs_init": {
+    "message0": "Инициализация модуля GNSS аппаратный порт %1 RX(Зелёный) %2 TX(Синий) %3",
+    "tooltip": "Инициализировать модуль позиционирования GNSS BeiDou через аппаратный порт",
+    "args0": [
+      {
+        "options": [
+          ["HardwareSerial1", "Serial1"],
+          ["HardwareSerial2", "Serial2"]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "gnss_ss_init": {
+    "message0": "Инициализация модуля GNSS программный порт %1 RX(Зелёный) %2 TX(Синий) %3",
+    "tooltip": "Инициализировать модуль позиционирования GNSS BeiDou через программный порт",
+    "args0": [
+      {
+        "options": [
+          ["SoftwareSerial", "SoftwareSerial"]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "gnss_read_data": {
+    "message0": "GNSS прочитать данные один раз и сохранить",
+    "tooltip": "Прочитать данные GNSS и сохранить во внутренние переменные"
+  },
+  "gnss_get_utc_date": {
+    "message0": "GNSS получить дату UTC %1",
+    "tooltip": "Получить дату UTC из данных GNSS",
+    "args0": [
+      {
+        "options": [
+          ["Год/Месяц/День", "YMD"],
+          ["Год", "YEAR"],
+          ["Месяц", "MONTH"],
+          ["День", "DAY"]
+        ]
+      }
+    ]
+  },
+  "gnss_get_utc_time": {
+    "message0": "GNSS получить время UTC %1",
+    "tooltip": "Получить время UTC из данных GNSS",
+    "args0": [
+      {
+        "options": [
+          ["Час:Минута:Секунда", "HMS"],
+          ["Час", "HOUR"],
+          ["Минута", "MINUTE"],
+          ["Секунда", "SECOND"]
+        ]
+      }
+    ]
+  },
+  "gnss_get_location": {
+    "message0": "GNSS получить %1",
+    "tooltip": "Получить информацию о позиционировании из данных GNSS",
+    "args0": [
+      {
+        "options": [
+          ["Широта", "LAT"],
+          ["Направление широты", "LAT_DIR"],
+          ["Долгота", "LON"],
+          ["Направление долготы", "LON_DIR"],
+          ["Высота", "ALT"],
+          ["Количество спутников", "SAT_NUM"],
+          ["Скорость", "SOG"],
+          ["Курс", "COG"]
+        ]
+      }
+    ]
+  }
+}
