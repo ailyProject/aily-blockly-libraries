@@ -1,0 +1,92 @@
+{
+  "toolbox_name": "GNSS北斗定位",
+  "gnss_i2c_init": {
+    "message0": "GNSS模块初始化 I2C模式 地址0x20",
+    "tooltip": "使用I2C模式初始化GNSS北斗定位模块"
+  },
+  "gnss_hs_init": {
+    "message0": "GNSS模块初始化 硬串口模式 %1 RX(绿) %2 TX(蓝) %3",
+    "tooltip": "使用硬串口模式初始化GNSS北斗定位模块",
+    "args0": [
+      {
+        "options": [
+          ["HardwareSerial1", "Serial1"],
+          ["HardwareSerial2", "Serial2"]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "gnss_ss_init": {
+    "message0": "GNSS模块初始化 软串口模式 %1 RX(绿) %2 TX(蓝) %3",
+    "tooltip": "使用软串口模式初始化GNSS北斗定位模块",
+    "args0": [
+      {
+        "options": [
+          ["SoftwareSerial", "SoftwareSerial"]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "gnss_read_data": {
+    "message0": "GNSS读取一次数据并保存结果",
+    "tooltip": "读取GNSS数据并保存到内部变量"
+  },
+  "gnss_get_utc_date": {
+    "message0": "GNSS获取UTC日期 %1",
+    "tooltip": "从GNSS数据中获取UTC日期",
+    "args0": [
+      {
+        "options": [
+          ["年/月/日", "YMD"],
+          ["年", "YEAR"],
+          ["月", "MONTH"],
+          ["日", "DAY"]
+        ]
+      }
+    ]
+  },
+  "gnss_get_utc_time": {
+    "message0": "GNSS获取UTC时间 %1",
+    "tooltip": "从GNSS数据中获取UTC时间",
+    "args0": [
+      {
+        "options": [
+          ["时:分:秒", "HMS"],
+          ["时", "HOUR"],
+          ["分", "MINUTE"],
+          ["秒", "SECOND"]
+        ]
+      }
+    ]
+  },
+  "gnss_get_location": {
+    "message0": "GNSS获取%1",
+    "tooltip": "从GNSS数据中获取定位信息",
+    "args0": [
+      {
+        "options": [
+          ["纬度", "LAT"],
+          ["纬度方向", "LAT_DIR"],
+          ["经度", "LON"],
+          ["经度方向", "LON_DIR"],
+          ["高度", "ALT"],
+          ["卫星数量", "SAT_NUM"],
+          ["对地航速", "SOG"],
+          ["对地航向", "COG"]
+        ]
+      }
+    ]
+  }
+}

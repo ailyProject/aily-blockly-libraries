@@ -1,0 +1,92 @@
+{
+  "toolbox_name": "GNSS-Positionierung",
+  "gnss_i2c_init": {
+    "message0": "GNSS-Modul Initialisierung I2C-Modus Adresse 0x20",
+    "tooltip": "GNSS BeiDou-Positionierungsmodul im I2C-Modus initialisieren"
+  },
+  "gnss_hs_init": {
+    "message0": "GNSS-Modul Initialisierung Hardware-Seriell %1 RX(Grün) %2 TX(Blau) %3",
+    "tooltip": "GNSS BeiDou-Positionierungsmodul über Hardware-Seriell initialisieren",
+    "args0": [
+      {
+        "options": [
+          ["HardwareSerial1", "Serial1"],
+          ["HardwareSerial2", "Serial2"]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "gnss_ss_init": {
+    "message0": "GNSS-Modul Initialisierung Software-Seriell %1 RX(Grün) %2 TX(Blau) %3",
+    "tooltip": "GNSS BeiDou-Positionierungsmodul über Software-Seriell initialisieren",
+    "args0": [
+      {
+        "options": [
+          ["SoftwareSerial", "SoftwareSerial"]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "gnss_read_data": {
+    "message0": "GNSS Daten einmal lesen und Ergebnis speichern",
+    "tooltip": "GNSS-Daten lesen und in internen Variablen speichern"
+  },
+  "gnss_get_utc_date": {
+    "message0": "GNSS UTC-Datum abrufen %1",
+    "tooltip": "UTC-Datum aus GNSS-Daten abrufen",
+    "args0": [
+      {
+        "options": [
+          ["Jahr/Monat/Tag", "YMD"],
+          ["Jahr", "YEAR"],
+          ["Monat", "MONTH"],
+          ["Tag", "DAY"]
+        ]
+      }
+    ]
+  },
+  "gnss_get_utc_time": {
+    "message0": "GNSS UTC-Zeit abrufen %1",
+    "tooltip": "UTC-Zeit aus GNSS-Daten abrufen",
+    "args0": [
+      {
+        "options": [
+          ["Stunde:Minute:Sekunde", "HMS"],
+          ["Stunde", "HOUR"],
+          ["Minute", "MINUTE"],
+          ["Sekunde", "SECOND"]
+        ]
+      }
+    ]
+  },
+  "gnss_get_location": {
+    "message0": "GNSS %1 abrufen",
+    "tooltip": "Positionierungsinformationen aus GNSS-Daten abrufen",
+    "args0": [
+      {
+        "options": [
+          ["Breitengrad", "LAT"],
+          ["Breitengrad Richtung", "LAT_DIR"],
+          ["Längengrad", "LON"],
+          ["Längengrad Richtung", "LON_DIR"],
+          ["Höhe", "ALT"],
+          ["Satellitenanzahl", "SAT_NUM"],
+          ["Geschwindigkeit", "SOG"],
+          ["Kurs", "COG"]
+        ]
+      }
+    ]
+  }
+}

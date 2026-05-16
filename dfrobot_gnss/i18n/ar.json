@@ -1,0 +1,92 @@
+{
+  "toolbox_name": "تحديد الموقع GNSS",
+  "gnss_i2c_init": {
+    "message0": "تهيئة وحدة GNSS وضع I2C العنوان 0x20",
+    "tooltip": "تهيئة وحدة تحديد الموقع GNSS BeiDou في وضع I2C"
+  },
+  "gnss_hs_init": {
+    "message0": "تهيئة وحدة GNSS منفذ تسلسلي %1 RX(أخضر) %2 TX(أزرق) %3",
+    "tooltip": "تهيئة وحدة تحديد الموقع GNSS BeiDou عبر المنفذ التسلسلي",
+    "args0": [
+      {
+        "options": [
+          ["HardwareSerial1", "Serial1"],
+          ["HardwareSerial2", "Serial2"]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "gnss_ss_init": {
+    "message0": "تهيئة وحدة GNSS منفذ برمجي %1 RX(أخضر) %2 TX(أزرق) %3",
+    "tooltip": "تهيئة وحدة تحديد الموقع GNSS BeiDou عبر المنفذ البرمجي",
+    "args0": [
+      {
+        "options": [
+          ["SoftwareSerial", "SoftwareSerial"]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "gnss_read_data": {
+    "message0": "GNSS قراءة البيانات مرة واحدة وحفظ النتيجة",
+    "tooltip": "قراءة بيانات GNSS وحفظها في المتغيرات الداخلية"
+  },
+  "gnss_get_utc_date": {
+    "message0": "GNSS الحصول على تاريخ UTC %1",
+    "tooltip": "الحصول على تاريخ UTC من بيانات GNSS",
+    "args0": [
+      {
+        "options": [
+          ["سنة/شهر/يوم", "YMD"],
+          ["سنة", "YEAR"],
+          ["شهر", "MONTH"],
+          ["يوم", "DAY"]
+        ]
+      }
+    ]
+  },
+  "gnss_get_utc_time": {
+    "message0": "GNSS الحصول على وقت UTC %1",
+    "tooltip": "الحصول على وقت UTC من بيانات GNSS",
+    "args0": [
+      {
+        "options": [
+          ["ساعة:دقيقة:ثانية", "HMS"],
+          ["ساعة", "HOUR"],
+          ["دقيقة", "MINUTE"],
+          ["ثانية", "SECOND"]
+        ]
+      }
+    ]
+  },
+  "gnss_get_location": {
+    "message0": "GNSS الحصول على %1",
+    "tooltip": "الحصول على معلومات تحديد الموقع من بيانات GNSS",
+    "args0": [
+      {
+        "options": [
+          ["خط العرض", "LAT"],
+          ["اتجاه خط العرض", "LAT_DIR"],
+          ["خط الطول", "LON"],
+          ["اتجاه خط الطول", "LON_DIR"],
+          ["الارتفاع", "ALT"],
+          ["عدد الأقمار الصناعية", "SAT_NUM"],
+          ["السرعة", "SOG"],
+          ["الاتجاه", "COG"]
+        ]
+      }
+    ]
+  }
+}

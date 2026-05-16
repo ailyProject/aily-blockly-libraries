@@ -1,0 +1,92 @@
+{
+  "toolbox_name": "GNSS 위치측정",
+  "gnss_i2c_init": {
+    "message0": "GNSS 모듈 초기화 I2C 모드 주소 0x20",
+    "tooltip": "I2C 모드로 GNSS BeiDou 위치 모듈 초기화"
+  },
+  "gnss_hs_init": {
+    "message0": "GNSS 모듈 초기화 하드웨어 시리얼 %1 RX(녹색) %2 TX(파란색) %3",
+    "tooltip": "하드웨어 시리얼로 GNSS BeiDou 위치 모듈 초기화",
+    "args0": [
+      {
+        "options": [
+          ["HardwareSerial1", "Serial1"],
+          ["HardwareSerial2", "Serial2"]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "gnss_ss_init": {
+    "message0": "GNSS 모듈 초기화 소프트웨어 시리얼 %1 RX(녹색) %2 TX(파란색) %3",
+    "tooltip": "소프트웨어 시리얼로 GNSS BeiDou 위치 모듈 초기화",
+    "args0": [
+      {
+        "options": [
+          ["SoftwareSerial", "SoftwareSerial"]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "gnss_read_data": {
+    "message0": "GNSS 데이터 1회 읽기 및 결과 저장",
+    "tooltip": "GNSS 데이터를 읽고 내부 변수에 저장"
+  },
+  "gnss_get_utc_date": {
+    "message0": "GNSS UTC 날짜 가져오기 %1",
+    "tooltip": "GNSS 데이터에서 UTC 날짜 가져오기",
+    "args0": [
+      {
+        "options": [
+          ["년/월/일", "YMD"],
+          ["년", "YEAR"],
+          ["월", "MONTH"],
+          ["일", "DAY"]
+        ]
+      }
+    ]
+  },
+  "gnss_get_utc_time": {
+    "message0": "GNSS UTC 시간 가져오기 %1",
+    "tooltip": "GNSS 데이터에서 UTC 시간 가져오기",
+    "args0": [
+      {
+        "options": [
+          ["시:분:초", "HMS"],
+          ["시", "HOUR"],
+          ["분", "MINUTE"],
+          ["초", "SECOND"]
+        ]
+      }
+    ]
+  },
+  "gnss_get_location": {
+    "message0": "GNSS %1 가져오기",
+    "tooltip": "GNSS 데이터에서 위치 정보 가져오기",
+    "args0": [
+      {
+        "options": [
+          ["위도", "LAT"],
+          ["위도 방향", "LAT_DIR"],
+          ["경도", "LON"],
+          ["경도 방향", "LON_DIR"],
+          ["고도", "ALT"],
+          ["위성 수", "SAT_NUM"],
+          ["대지 속도", "SOG"],
+          ["대지 방위", "COG"]
+        ]
+      }
+    ]
+  }
+}

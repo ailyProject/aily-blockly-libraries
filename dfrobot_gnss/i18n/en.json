@@ -1,0 +1,92 @@
+{
+  "toolbox_name": "GNSS Positioning",
+  "gnss_i2c_init": {
+    "message0": "GNSS module init I2C mode address 0x20",
+    "tooltip": "Initialize GNSS BeiDou positioning module using I2C mode"
+  },
+  "gnss_hs_init": {
+    "message0": "GNSS module init Hardware Serial %1 RX(Green) %2 TX(Blue) %3",
+    "tooltip": "Initialize GNSS BeiDou positioning module using hardware serial",
+    "args0": [
+      {
+        "options": [
+          ["HardwareSerial1", "Serial1"],
+          ["HardwareSerial2", "Serial2"]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "gnss_ss_init": {
+    "message0": "GNSS module init Software Serial %1 RX(Green) %2 TX(Blue) %3",
+    "tooltip": "Initialize GNSS BeiDou positioning module using software serial",
+    "args0": [
+      {
+        "options": [
+          ["SoftwareSerial", "SoftwareSerial"]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "gnss_read_data": {
+    "message0": "GNSS read data once and save result",
+    "tooltip": "Read GNSS data and save to internal variables"
+  },
+  "gnss_get_utc_date": {
+    "message0": "GNSS get UTC date %1",
+    "tooltip": "Get UTC date from GNSS data",
+    "args0": [
+      {
+        "options": [
+          ["Year/Month/Day", "YMD"],
+          ["Year", "YEAR"],
+          ["Month", "MONTH"],
+          ["Day", "DAY"]
+        ]
+      }
+    ]
+  },
+  "gnss_get_utc_time": {
+    "message0": "GNSS get UTC time %1",
+    "tooltip": "Get UTC time from GNSS data",
+    "args0": [
+      {
+        "options": [
+          ["Hour:Minute:Second", "HMS"],
+          ["Hour", "HOUR"],
+          ["Minute", "MINUTE"],
+          ["Second", "SECOND"]
+        ]
+      }
+    ]
+  },
+  "gnss_get_location": {
+    "message0": "GNSS get %1",
+    "tooltip": "Get positioning information from GNSS data",
+    "args0": [
+      {
+        "options": [
+          ["Latitude", "LAT"],
+          ["Latitude Direction", "LAT_DIR"],
+          ["Longitude", "LON"],
+          ["Longitude Direction", "LON_DIR"],
+          ["Altitude", "ALT"],
+          ["Satellite Count", "SAT_NUM"],
+          ["Ground Speed", "SOG"],
+          ["Ground Course", "COG"]
+        ]
+      }
+    ]
+  }
+}
