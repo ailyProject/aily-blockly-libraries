@@ -1,0 +1,146 @@
+{
+  "toolbox_name": "Seeed AS5600磁性编码器",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "角度读取": "角度读取",
+    "磁铁状态": "磁铁状态",
+    "位置配置": "位置配置",
+    "高级配置": "高级配置",
+    "一次性烧录": "一次性烧录"
+  },
+  "seeed_as5600_init": {
+    "message0": "初始化 Seeed AS5600 编码器 %1",
+    "tooltip": "初始化 Grove/Seeed AS5600 12位磁性绝对值编码器"
+  },
+  "seeed_as5600_get_address": {
+    "message0": "编码器 %1 I2C地址",
+    "tooltip": "获取 AS5600 固定 I2C 地址，通常为 0x36"
+  },
+  "seeed_as5600_read_angle": {
+    "message0": "编码器 %1 读取 %2 角度 %3",
+    "tooltip": "读取原始或缩放后的角度值，可返回 0-4095 原始值或换算为角度",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["原始", "RAW"],
+          ["缩放", "SCALED"]
+        ]
+      },
+      {
+        "options": [
+          ["原始值", "RAW"],
+          ["角度(°)", "DEGREES"]
+        ]
+      }
+    ]
+  },
+  "seeed_as5600_detect_magnet": {
+    "message0": "编码器 %1 检测到磁铁",
+    "tooltip": "检测 AS5600 是否检测到磁铁"
+  },
+  "seeed_as5600_magnet_status": {
+    "message0": "编码器 %1 磁铁状态为 %2",
+    "tooltip": "判断磁铁强度状态：0未检测到、1过弱、2合适、3过强",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["未检测到", "NONE"],
+          ["过弱", "WEAK"],
+          ["合适", "GOOD"],
+          ["过强", "STRONG"]
+        ]
+      }
+    ]
+  },
+  "seeed_as5600_get_magnet_strength": {
+    "message0": "编码器 %1 磁铁强度状态值",
+    "tooltip": "读取磁铁强度状态值：0未检测到、1过弱、2合适、3过强"
+  },
+  "seeed_as5600_get_magnitude": {
+    "message0": "编码器 %1 磁场幅值",
+    "tooltip": "读取 AS5600 内部 CORDIC 磁场幅值"
+  },
+  "seeed_as5600_get_agc": {
+    "message0": "编码器 %1 自动增益 AGC",
+    "tooltip": "读取 AS5600 自动增益控制寄存器值"
+  },
+  "seeed_as5600_set_position_current": {
+    "message0": "编码器 %1 将当前位置设为 %2",
+    "tooltip": "使用当前磁铁位置设置起始位置、结束位置或最大角度",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["起始位置", "START"],
+          ["结束位置", "END"],
+          ["最大角度", "MAX"]
+        ]
+      }
+    ]
+  },
+  "seeed_as5600_set_position": {
+    "message0": "编码器 %1 设置 %2 为原始值 %3",
+    "tooltip": "设置起始位置、结束位置或最大角度寄存器，取值通常为 0-4095",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["起始位置", "START"],
+          ["结束位置", "END"],
+          ["最大角度", "MAX"]
+        ]
+      },
+      null
+    ]
+  },
+  "seeed_as5600_get_position": {
+    "message0": "编码器 %1 读取 %2",
+    "tooltip": "读取起始位置、结束位置或最大角度寄存器原始值",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["起始位置", "START"],
+          ["结束位置", "END"],
+          ["最大角度", "MAX"]
+        ]
+      }
+    ]
+  },
+  "seeed_as5600_set_output_mode": {
+    "message0": "编码器 %1 设置输出模式 %2",
+    "tooltip": "设置 AS5600 OUT 引脚输出模式",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["PWM", "0"],
+          ["模拟 0-100%", "1"],
+          ["模拟 10-90%", "2"]
+        ]
+      }
+    ]
+  },
+  "seeed_as5600_get_conf": {
+    "message0": "编码器 %1 配置寄存器",
+    "tooltip": "读取 AS5600 CONF 配置寄存器原始值"
+  },
+  "seeed_as5600_set_conf": {
+    "message0": "编码器 %1 设置配置寄存器 %2",
+    "tooltip": "写入 AS5600 CONF 配置寄存器原始值"
+  },
+  "seeed_as5600_get_burn_count": {
+    "message0": "编码器 %1 已烧录次数",
+    "tooltip": "读取 ZMCO 烧录计数，起止位置最多可烧录 3 次"
+  },
+  "seeed_as5600_burn_angle": {
+    "message0": "编码器 %1 烧录起止角度并返回状态码",
+    "tooltip": "将起始/结束位置永久烧录到芯片，返回 1 成功，负数为错误码。此操作次数有限"
+  },
+  "seeed_as5600_burn_settings": {
+    "message0": "编码器 %1 烧录最大角度和配置并返回状态码",
+    "tooltip": "将最大角度和配置永久烧录到芯片，只能执行一次，返回 1 成功，负数为错误码"
+  }
+}
