@@ -758,3 +758,56 @@ jobs:
         run: |
           git tag -f last-deploy ${{ github.sha }}
           git push -f origin last-deploy
+
+  refresh-library-ratings:
+    runs-on: ubuntu-latest
+    needs:
+      - update-last-deploy-tag
+    if: ${{ needs.update-last-deploy-tag.result == 'success' }}
+
+    steps:
+      - name: Trigger library ratings refresh
+        env:
+          REFRESH_URL_CN: ${{ secrets.LIBRARY_RATINGS_REFRESH_URL_CN }}
+          REFRESH_PASSWORD_CN: ${{ secrets.LIBRARY_RATINGS_REFRESH_PASSWORD_CN }}
+          REFRESH_URL_EU: ${{ secrets.LIBRARY_RATINGS_REFRESH_URL_EU }}
+          REFRESH_PASSWORD_EU: ${{ secrets.LIBRARY_RATINGS_REFRESH_PASSWORD_EU }}
+        run: |
+          if [ -z "$REFRESH_URL_CN" ] || [ -z "$REFRESH_PASSWORD_CN" ]; then
+            echo "LIBRARY_RATINGS_REFRESH_URL_CN or LIBRARY_RATINGS_REFRESH_PASSWORD_CN not set, skipping."
+            exit 0
+          fi
+
+          trigger_refresh() {
+            local target_name="$1"
+            local refresh_url="$2"
+            local refresh_password="$3"
+            local response_file="$4"
+
+            if [ -z "$refresh_url" ] || [ -z "$refresh_password" ]; then
+              echo "${target_name} refresh config not set, skipping."
+              return 0
+            fi
+
+            echo "Sending ${target_name} refresh request to $refresh_url"
+            set +e
+            HTTP_STATUS=$(curl -s -o "$response_file" -w "%{http_code}" --max-time 30 \
+              -X POST "$refresh_url" \
+              -H "X-Refresh-Password: $refresh_password" \
+              -H "Content-Type: application/json" \
+              -d '{}')
+            CURL_EXIT=$?
+            set -e
+
+            if [ "$CURL_EXIT" -ne 0 ]; then
+              echo "::warning::${target_name} refresh request failed (curl exit code $CURL_EXIT)"
+            elif [ "$HTTP_STATUS" -eq 202 ] || { [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; }; then
+              echo "${target_name} refresh accepted successfully (HTTP $HTTP_STATUS)"
+            else
+              echo "::warning::${target_name} refresh failed with HTTP status $HTTP_STATUS"
+              cat "$response_file" || true
+            fi
+          }
+
+          trigger_refresh "CN library ratings server" "$REFRESH_URL_CN" "$REFRESH_PASSWORD_CN" "/tmp/library_ratings_refresh_response_cn.txt"
+          trigger_refresh "EU library ratings server" "$REFRESH_URL_EU" "$REFRESH_PASSWORD_EU" "/tmp/library_ratings_refresh_response_eu.txt"
