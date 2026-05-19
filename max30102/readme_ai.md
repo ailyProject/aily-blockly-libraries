@@ -4,7 +4,7 @@ Blockly wrapper for the MAX30102_by_RF driver and RF algorithm. It initializes t
 
 ## Library Info
 - **Name**: @aily-project/lib-max30102
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 - **Compatible Cores**: esp32:esp32, esp32:esp32s3, arduino:samd
 
 ## Block Definitions
