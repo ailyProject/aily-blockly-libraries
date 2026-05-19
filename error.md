@@ -1,15 +1,9 @@
 # src.7z structure errors
 
-- arduino_iic
 - BH1750
-- emakefun_nlcs11
-- emakefun_nlcs21
-- emakefun_tts
-- emakefun_tts20
 - esp32_camera_webserver
 - esp32_task
 - esp32_WiFiManager
-- ESPUI
 - GP2Y1010AU0F
 - HT16K33
 - HuskyLens
@@ -17,10 +11,7 @@
 - icm20948
 - IICMotorDriver
 - IMU9DOF
-- LiquidCrystal
-- LiquidCrystal_I2C
 - LTR308
-- lvgl
 - MMA8653
 - ModbusRTUSlave
 - mp3player
@@ -31,15 +22,9 @@
 - openjumper_iicps3
 - pid
 - PS2X
-- QuickESPNow
 - radio
 - RFID
-- seeed_bmm150
-- seeed_mmwave
-- seeed_SSCMA_Core
-- servo
-- servo360
-- sparkfun_ads1219
+
 - sparkfun_as7331
 - TCS34725
 - TM1650
