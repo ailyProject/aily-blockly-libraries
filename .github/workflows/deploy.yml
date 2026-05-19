@@ -711,6 +711,31 @@ jobs:
           for file in libraries.json libraries-ai.json libraries-index.json tags.json; do
             aws --endpoint-url "$RUSTFS_ENDPOINT" s3 cp "$file" "s3://${RUSTFS_BUCKET}/${PREFIX}${file}" --no-progress
           done
+
+      - name: Upload AI docs to RustFS
+        env:
+          RUSTFS_ENDPOINT: ${{ secrets.RUSTFS_ENDPOINT }}
+          RUSTFS_ACCESS_KEY_ID: ${{ secrets.RUSTFS_ACCESS_KEY_ID }}
+          RUSTFS_SECRET_ACCESS_KEY: ${{ secrets.RUSTFS_SECRET_ACCESS_KEY }}
+          RUSTFS_BUCKET: ${{ secrets.RUSTFS_BUCKET }}
+        run: |
+          if [ -z "$RUSTFS_ENDPOINT" ] || [ -z "$RUSTFS_ACCESS_KEY_ID" ] || [ -z "$RUSTFS_SECRET_ACCESS_KEY" ] || [ -z "$RUSTFS_BUCKET" ]; then
+            echo "RustFS secrets not set, skipping."
+            exit 0
+          fi
+          if [ ! -d ".docs_ai" ]; then
+            echo ".docs_ai does not exist, skipping."
+            exit 0
+          fi
+          export AWS_ACCESS_KEY_ID="$RUSTFS_ACCESS_KEY_ID"
+          export AWS_SECRET_ACCESS_KEY="$RUSTFS_SECRET_ACCESS_KEY"
+          export AWS_DEFAULT_REGION="us-east-1"
+          if [ -d ".docs_ai/en" ]; then
+            aws --endpoint-url "$RUSTFS_ENDPOINT" s3 cp ".docs_ai/en" "s3://${RUSTFS_BUCKET}/files/" --recursive --no-progress
+          fi
+          find .docs_ai -maxdepth 1 -type f -print0 | while IFS= read -r -d '' file; do
+            aws --endpoint-url "$RUSTFS_ENDPOINT" s3 cp "$file" "s3://${RUSTFS_BUCKET}/files/$(basename "$file")" --no-progress
+          done
       
       - name: Prepare R2 Upload
         run: |
@@ -719,6 +744,18 @@ jobs:
           cp libraries-ai.json r2_json/
           cp libraries-index.json r2_json/
           cp tags.json r2_json/
+
+      - name: Prepare AI docs upload
+        run: |
+          if [ ! -d ".docs_ai" ]; then
+            echo ".docs_ai does not exist, skipping."
+            exit 0
+          fi
+          mkdir -p r2_docs
+          if [ -d ".docs_ai/en" ]; then
+            cp -R .docs_ai/en/. r2_docs/
+          fi
+          find .docs_ai -maxdepth 1 -type f -exec cp {} r2_docs/ \;
 
       - name: Upload to R2
         uses: jakejarvis/s3-sync-action@master
@@ -731,6 +768,19 @@ jobs:
           AWS_REGION: 'auto'
           SOURCE_DIR: 'r2_json'
           DEST_DIR: '${{ secrets.R2_JSON_TARGET }}'
+
+      - name: Upload AI docs to R2
+        if: ${{ hashFiles('.docs_ai/en/**', '.docs_ai/*') != '' }}
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com --acl public-read --follow-symlinks
+        env:
+          AWS_S3_BUCKET: ${{ secrets.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'auto'
+          SOURCE_DIR: 'r2_docs'
+          DEST_DIR: 'files'
       
   update-last-deploy-tag:
     runs-on: ubuntu-latest
