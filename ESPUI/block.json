@@ -1,12 +1,114 @@
 [
   {
+    "type": "espui_wifi_ap",
+    "message0": "ESPUI 开启热点 SSID %1 密码 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SSID",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "将 ESP 设备配置为 WiFi 热点，适合没有路由器的本地控制界面",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_wifi_sta",
+    "message0": "ESPUI 连接 WiFi SSID %1 密码 %2 超时(ms) %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SSID",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "连接到现有 WiFi 网络，并在指定超时时间后继续运行",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_wifi_auto",
+    "message0": "ESPUI 自动联网 STA SSID %1 STA 密码 %2 AP SSID %3 AP 密码 %4 超时(ms) %5",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "STA_SSID",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "STA_PASSWORD",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "AP_SSID",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "AP_PASSWORD",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "先尝试连接路由器，失败后自动创建热点",
+    "icon": "fa-light fa-window"
+  },
+  {
     "type": "espui_begin",
-    "message0": "初始化ESPUI界面 标题 %1 用户名 %2 密码 %3 端口 %4",
+    "message0": "启动 ESPUI 标题 %1 模式 %2 认证 %3 用户名 %4 密码 %5 端口 %6 滑条连续更新 %7 捕获门户 %8",
     "args0": [
       {
         "type": "input_value",
         "name": "TITLE",
         "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["内存资源", "MEMORY"],
+          ["LittleFS资源", "LITTLEFS"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AUTH",
+        "options": [
+          ["关闭", "FALSE"],
+          ["开启", "TRUE"]
+        ]
       },
       {
         "type": "input_value",
@@ -22,148 +124,156 @@
         "type": "input_value",
         "name": "PORT",
         "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SLIDER_CONTINUOUS",
+        "options": [
+          ["否", "FALSE"],
+          ["是", "TRUE"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CAPTIVE_PORTAL",
+        "options": [
+          ["开启", "TRUE"],
+          ["关闭", "FALSE"]
+        ]
       }
     ],
     "inputsInline": false,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#03a9f4",
-    "tooltip": "初始化ESPUI界面，设置标题/访问凭据/端口（v2.2.4）",
-    "icon": "fa-regular fa-window"
+    "colour": "#03A9F4",
+    "tooltip": "在创建控件后启动 ESPUI Web 服务；LittleFS 模式需要先准备文件系统",
+    "icon": "fa-light fa-window"
   },
   {
-    "type": "espui_separator",
-    "message0": "添加分隔线 文本 %1",
+    "type": "espui_prepare_filesystem",
+    "message0": "准备 ESPUI LittleFS 文件系统 格式化 %1",
     "args0": [
       {
+        "type": "field_dropdown",
+        "name": "FORMAT",
+        "options": [
+          ["是", "TRUE"],
+          ["否", "FALSE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "将 ESPUI 静态网页资源写入 LittleFS，通常只需单独运行一次",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_no_parent",
+    "message0": "无父控件",
+    "output": "Number",
+    "colour": "#03A9F4",
+    "tooltip": "表示控件不挂载到标签页或其他父控件下",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_control_id",
+    "message0": "ESPUI 控件 %1 的ID",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "statusLabel",
+        "variableTypes": ["ESPUIControl"],
+        "defaultType": "ESPUIControl"
+      }
+    ],
+    "output": "Number",
+    "colour": "#03A9F4",
+    "tooltip": "读取已创建 ESPUI 控件的 uint16_t ID",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_create_tab",
+    "message0": "创建标签页 ID %1 标题 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "mainTab"
+      },
+      {
         "type": "input_value",
-        "name": "TEXT",
+        "name": "TITLE",
         "check": "String"
       }
     ],
     "inputsInline": true,
-    "output": "Number",
-    "colour": "#03a9f4",
-    "tooltip": "创建分隔线控件（separator）",
-    "icon": "fa-regular fa-window"
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "创建一个 ESPUI 标签页，并保存控件ID供子控件使用",
+    "icon": "fa-light fa-window"
   },
   {
-    "type": "espui_tab",
-    "message0": "创建标签页 文本 %1",
+    "type": "espui_create_separator",
+    "message0": "创建分隔线 ID %1 文本 %2 父控件 %3",
     "args0": [
       {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "separator1"
+      },
+      {
         "type": "input_value",
-        "name": "TEXT",
+        "name": "LABEL",
         "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "PARENT",
+        "check": "Number"
       }
     ],
     "inputsInline": true,
-    "output": "Number",
-    "colour": "#03a9f4",
-    "tooltip": "创建一个标签页（作为父控件容器）",
-    "icon": "fa-regular fa-window"
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "创建用于分隔 UI 区域的文字分隔线",
+    "icon": "fa-light fa-window"
   },
   {
-    "type": "espui_panel",
-    "message0": "创建面板 文本 %1 颜色 %2 父控件(可选) %3",
+    "type": "espui_create_label",
+    "message0": "创建标签 ID %1 标题 %2 值 %3 颜色 %4 父控件 %5",
     "args0": [
       {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "statusLabel"
+      },
+      {
         "type": "input_value",
-        "name": "TEXT",
+        "name": "LABEL",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
         "check": "String"
       },
       {
         "type": "field_dropdown",
         "name": "COLOR",
         "options": [
-          [
-            "蓝绿色",
-            "Turquoise"
-          ],
-          [
-            "翠绿色",
-            "Emerald"
-          ],
-          [
-            "彼得河蓝",
-            "PeterRiver"
-          ],
-          [
-            "紫水晶",
-            "Amethyst"
-          ],
-          [
-            "湿沥青",
-            "WetAsphalt"
-          ],
-          [
-            "绿海",
-            "GreenSea"
-          ],
-          [
-            "海蓝宝石",
-            "Nephritis"
-          ],
-          [
-            "贝尔法斯特蓝",
-            "BelizeHole"
-          ],
-          [
-            "紫藤",
-            "Wisteria"
-          ],
-          [
-            "午夜蓝",
-            "MidnightBlue"
-          ],
-          [
-            "阳橙",
-            "Sunflower"
-          ],
-          [
-            "胡萝卜",
-            "Carrot"
-          ],
-          [
-            "茜红",
-            "Alizarin"
-          ],
-          [
-            "云朵",
-            "Clouds"
-          ],
-          [
-            "混凝土",
-            "Concrete"
-          ],
-          [
-            "橙色",
-            "Orange"
-          ],
-          [
-            "南瓜",
-            "Pumpkin"
-          ],
-          [
-            "石榴红",
-            "Pomegranate"
-          ],
-          [
-            "银色",
-            "Silver"
-          ],
-          [
-            "石墨",
-            "Asbestos"
-          ],
-          [
-            "暗色",
-            "Dark"
-          ],
-          [
-            "无",
-            "None"
-          ]
+          ["蓝绿色", "Turquoise"],
+          ["翠绿色", "Emerald"],
+          ["彼得河蓝", "Peterriver"],
+          ["湿沥青", "Wetasphalt"],
+          ["向日黄", "Sunflower"],
+          ["胡萝卜", "Carrot"],
+          ["茜红", "Alizarin"],
+          ["深色", "Dark"],
+          ["无", "None"]
         ]
       },
       {
@@ -173,117 +283,24 @@
       }
     ],
     "inputsInline": false,
-    "output": "Number",
-    "colour": "#03a9f4",
-    "tooltip": "创建一个面板容器（父控件，可承载子控件）",
-    "icon": "fa-regular fa-window"
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "创建只显示文本或HTML内容的标签控件",
+    "icon": "fa-light fa-window"
   },
   {
-    "type": "espui_select",
-    "message0": "创建选择器 文本 %1 颜色 %2 选项JSON %3 初始值 %4 父控件(可选) %5",
+    "type": "espui_create_button",
+    "message0": "创建按钮 ID %1 标题 %2 文本 %3 颜色 %4 父控件 %5",
     "args0": [
       {
-        "type": "input_value",
-        "name": "TEXT",
-        "check": "String"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "COLOR",
-        "options": [
-          [
-            "蓝绿色",
-            "Turquoise"
-          ],
-          [
-            "翠绿色",
-            "Emerald"
-          ],
-          [
-            "彼得河蓝",
-            "PeterRiver"
-          ],
-          [
-            "紫水晶",
-            "Amethyst"
-          ],
-          [
-            "湿沥青",
-            "WetAsphalt"
-          ],
-          [
-            "绿海",
-            "GreenSea"
-          ],
-          [
-            "海蓝宝石",
-            "Nephritis"
-          ],
-          [
-            "贝尔法斯特蓝",
-            "BelizeHole"
-          ],
-          [
-            "紫藤",
-            "Wisteria"
-          ],
-          [
-            "午夜蓝",
-            "MidnightBlue"
-          ],
-          [
-            "阳橙",
-            "Sunflower"
-          ],
-          [
-            "胡萝卜",
-            "Carrot"
-          ],
-          [
-            "茜红",
-            "Alizarin"
-          ],
-          [
-            "云朵",
-            "Clouds"
-          ],
-          [
-            "混凝土",
-            "Concrete"
-          ],
-          [
-            "橙色",
-            "Orange"
-          ],
-          [
-            "南瓜",
-            "Pumpkin"
-          ],
-          [
-            "石榴红",
-            "Pomegranate"
-          ],
-          [
-            "银色",
-            "Silver"
-          ],
-          [
-            "石墨",
-            "Asbestos"
-          ],
-          [
-            "暗色",
-            "Dark"
-          ],
-          [
-            "无",
-            "None"
-          ]
-        ]
+        "type": "field_input",
+        "name": "VAR",
+        "text": "button1"
       },
       {
         "type": "input_value",
-        "name": "OPTIONS_JSON",
+        "name": "LABEL",
         "check": "String"
       },
       {
@@ -292,25 +309,369 @@
         "check": "String"
       },
       {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["蓝绿色", "Turquoise"],
+          ["翠绿色", "Emerald"],
+          ["彼得河蓝", "Peterriver"],
+          ["湿沥青", "Wetasphalt"],
+          ["向日黄", "Sunflower"],
+          ["胡萝卜", "Carrot"],
+          ["茜红", "Alizarin"],
+          ["深色", "Dark"],
+          ["无", "None"]
+        ]
+      },
+      {
         "type": "input_value",
         "name": "PARENT",
         "check": "Number"
       }
     ],
+    "message1": "按下时 %1 松开时 %2",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DOWN"
+      },
+      {
+        "type": "input_statement",
+        "name": "UP"
+      }
+    ],
     "inputsInline": false,
-    "output": "Number",
-    "colour": "#03a9f4",
-    "tooltip": "创建下拉选择器，选项以JSON数组传入，如 [[\"显示A\",\"A\"],[\"显示B\",\"B\"]]",
-    "icon": "fa-regular fa-window"
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "创建按钮控件，并分别处理按下和松开事件",
+    "icon": "fa-light fa-window"
   },
   {
-    "type": "espui_update_select",
-    "message0": "更新选择器 ID %1 值 %2",
+    "type": "espui_create_switcher",
+    "message0": "创建开关 ID %1 标题 %2 初始状态 %3 颜色 %4 父控件 %5",
     "args0": [
       {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "switch1"
+      },
+      {
         "type": "input_value",
-        "name": "CONTROL_ID",
+        "name": "LABEL",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          ["关闭", "FALSE"],
+          ["开启", "TRUE"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["蓝绿色", "Turquoise"],
+          ["翠绿色", "Emerald"],
+          ["彼得河蓝", "Peterriver"],
+          ["湿沥青", "Wetasphalt"],
+          ["向日黄", "Sunflower"],
+          ["胡萝卜", "Carrot"],
+          ["茜红", "Alizarin"],
+          ["深色", "Dark"],
+          ["无", "None"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PARENT",
         "check": "Number"
+      }
+    ],
+    "message1": "开启时 %1 关闭时 %2",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "ON"
+      },
+      {
+        "type": "input_statement",
+        "name": "OFF"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "创建开关控件，并分别处理开启和关闭事件",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_create_slider",
+    "message0": "创建滑条 ID %1 标题 %2 值 %3 最小 %4 最大 %5 颜色 %6 父控件 %7",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "slider1"
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MAX",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["蓝绿色", "Turquoise"],
+          ["翠绿色", "Emerald"],
+          ["彼得河蓝", "Peterriver"],
+          ["湿沥青", "Wetasphalt"],
+          ["向日黄", "Sunflower"],
+          ["胡萝卜", "Carrot"],
+          ["茜红", "Alizarin"],
+          ["深色", "Dark"],
+          ["无", "None"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PARENT",
+        "check": "Number"
+      }
+    ],
+    "message1": "值变化时 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "CHANGE"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "创建滑条控件，变化时可用“事件控件值”读取新值",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_create_number",
+    "message0": "创建数字输入 ID %1 标题 %2 值 %3 最小 %4 最大 %5 颜色 %6 父控件 %7",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "number1"
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MAX",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["蓝绿色", "Turquoise"],
+          ["翠绿色", "Emerald"],
+          ["彼得河蓝", "Peterriver"],
+          ["湿沥青", "Wetasphalt"],
+          ["向日黄", "Sunflower"],
+          ["胡萝卜", "Carrot"],
+          ["茜红", "Alizarin"],
+          ["深色", "Dark"],
+          ["无", "None"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PARENT",
+        "check": "Number"
+      }
+    ],
+    "message1": "值变化时 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "CHANGE"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "创建数字输入控件，变化时可读取事件控件值",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_create_text",
+    "message0": "创建文本输入 ID %1 标题 %2 值 %3 类型 %4 颜色 %5 父控件 %6",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "text1"
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INPUT_TYPE",
+        "options": [
+          ["文本", "text"],
+          ["密码", "password"],
+          ["数字", "number"],
+          ["日期", "date"],
+          ["时间", "time"],
+          ["颜色", "color"],
+          ["邮箱", "email"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["蓝绿色", "Turquoise"],
+          ["翠绿色", "Emerald"],
+          ["彼得河蓝", "Peterriver"],
+          ["湿沥青", "Wetasphalt"],
+          ["向日黄", "Sunflower"],
+          ["胡萝卜", "Carrot"],
+          ["茜红", "Alizarin"],
+          ["深色", "Dark"],
+          ["无", "None"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PARENT",
+        "check": "Number"
+      }
+    ],
+    "message1": "内容变化时 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "CHANGE"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "创建文本输入控件，可设置 HTML input 类型",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_create_select",
+    "message0": "创建选择器 ID %1 标题 %2 初始值 %3 颜色 %4 父控件 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "select1"
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["蓝绿色", "Turquoise"],
+          ["翠绿色", "Emerald"],
+          ["彼得河蓝", "Peterriver"],
+          ["湿沥青", "Wetasphalt"],
+          ["向日黄", "Sunflower"],
+          ["胡萝卜", "Carrot"],
+          ["茜红", "Alizarin"],
+          ["深色", "Dark"],
+          ["无", "None"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PARENT",
+        "check": "Number"
+      }
+    ],
+    "message1": "选择变化时 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "CHANGE"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "创建下拉选择器；用“添加选择器选项”块添加选项",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_add_option",
+    "message0": "给选择器 %1 添加选项 标题 %2 值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "SELECT",
+        "variable": "select1",
+        "variableTypes": ["ESPUIControl"],
+        "defaultType": "ESPUIControl"
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
+        "check": "String"
       },
       {
         "type": "input_value",
@@ -321,112 +682,179 @@
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#03a9f4",
-    "tooltip": "更新选择器当前值（updateSelect）",
-    "icon": "fa-regular fa-window"
+    "colour": "#03A9F4",
+    "tooltip": "向已创建的 ESPUI 选择器添加一个选项",
+    "icon": "fa-light fa-window"
   },
   {
-    "type": "espui_file_display",
-    "message0": "创建文件显示 文本 %1 颜色 %2 文件名 %3 父控件(可选) %4",
+    "type": "espui_create_pad",
+    "message0": "创建方向板 ID %1 标题 %2 中心键 %3 颜色 %4 父控件 %5",
     "args0": [
       {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "pad1"
+      },
+      {
         "type": "input_value",
-        "name": "TEXT",
+        "name": "LABEL",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CENTER",
+        "options": [
+          ["开启", "TRUE"],
+          ["关闭", "FALSE"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["蓝绿色", "Turquoise"],
+          ["翠绿色", "Emerald"],
+          ["彼得河蓝", "Peterriver"],
+          ["湿沥青", "Wetasphalt"],
+          ["向日黄", "Sunflower"],
+          ["胡萝卜", "Carrot"],
+          ["茜红", "Alizarin"],
+          ["深色", "Dark"],
+          ["无", "None"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PARENT",
+        "check": "Number"
+      }
+    ],
+    "message1": "事件发生时 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "EVENT"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "创建方向控制板；在事件里用“如果 ESPUI 事件是”区分方向和按下/松开",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_create_graph",
+    "message0": "创建图表 ID %1 标题 %2 颜色 %3 父控件 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "graph1"
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
         "check": "String"
       },
       {
         "type": "field_dropdown",
         "name": "COLOR",
         "options": [
-          [
-            "蓝绿色",
-            "Turquoise"
-          ],
-          [
-            "翠绿色",
-            "Emerald"
-          ],
-          [
-            "彼得河蓝",
-            "PeterRiver"
-          ],
-          [
-            "紫水晶",
-            "Amethyst"
-          ],
-          [
-            "湿沥青",
-            "WetAsphalt"
-          ],
-          [
-            "绿海",
-            "GreenSea"
-          ],
-          [
-            "海蓝宝石",
-            "Nephritis"
-          ],
-          [
-            "贝尔法斯特蓝",
-            "BelizeHole"
-          ],
-          [
-            "紫藤",
-            "Wisteria"
-          ],
-          [
-            "午夜蓝",
-            "MidnightBlue"
-          ],
-          [
-            "阳橙",
-            "Sunflower"
-          ],
-          [
-            "胡萝卜",
-            "Carrot"
-          ],
-          [
-            "茜红",
-            "Alizarin"
-          ],
-          [
-            "云朵",
-            "Clouds"
-          ],
-          [
-            "混凝土",
-            "Concrete"
-          ],
-          [
-            "橙色",
-            "Orange"
-          ],
-          [
-            "南瓜",
-            "Pumpkin"
-          ],
-          [
-            "石榴红",
-            "Pomegranate"
-          ],
-          [
-            "银色",
-            "Silver"
-          ],
-          [
-            "石墨",
-            "Asbestos"
-          ],
-          [
-            "暗色",
-            "Dark"
-          ],
-          [
-            "无",
-            "None"
-          ]
+          ["蓝绿色", "Turquoise"],
+          ["翠绿色", "Emerald"],
+          ["彼得河蓝", "Peterriver"],
+          ["湿沥青", "Wetasphalt"],
+          ["向日黄", "Sunflower"],
+          ["胡萝卜", "Carrot"],
+          ["茜红", "Alizarin"],
+          ["深色", "Dark"],
+          ["无", "None"]
         ]
+      },
+      {
+        "type": "input_value",
+        "name": "PARENT",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "创建可动态添加数据点的图表控件",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_create_gauge",
+    "message0": "创建仪表盘 ID %1 标题 %2 值 %3 最小 %4 最大 %5 颜色 %6 父控件 %7",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "gauge1"
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MAX",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["蓝绿色", "Turquoise"],
+          ["翠绿色", "Emerald"],
+          ["彼得河蓝", "Peterriver"],
+          ["湿沥青", "Wetasphalt"],
+          ["向日黄", "Sunflower"],
+          ["胡萝卜", "Carrot"],
+          ["茜红", "Alizarin"],
+          ["深色", "Dark"],
+          ["无", "None"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PARENT",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "创建仪表盘控件，用于显示百分比或传感器数值",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_create_file_display",
+    "message0": "创建文件显示 ID %1 标题 %2 文件名 %3 颜色 %4 父控件 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "fileView1"
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
+        "check": "String"
       },
       {
         "type": "input_value",
@@ -434,118 +862,18 @@
         "check": "String"
       },
       {
-        "type": "input_value",
-        "name": "PARENT",
-        "check": "Number"
-      }
-    ],
-    "inputsInline": false,
-    "output": "Number",
-    "colour": "#03a9f4",
-    "tooltip": "显示 LITTLEFS 中的文件内容（需要已准备文件系统）",
-    "icon": "fa-regular fa-window"
-  },
-  {
-    "type": "espui_label",
-    "message0": "创建标签 文本 %1 颜色 %2 父控件(可选) %3",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "TEXT",
-        "check": "String"
-      },
-      {
         "type": "field_dropdown",
         "name": "COLOR",
         "options": [
-          [
-            "蓝绿色",
-            "Turquoise"
-          ],
-          [
-            "翠绿色",
-            "Emerald"
-          ],
-          [
-            "彼得河蓝",
-            "PeterRiver"
-          ],
-          [
-            "紫水晶",
-            "Amethyst"
-          ],
-          [
-            "湿沥青",
-            "WetAsphalt"
-          ],
-          [
-            "绿海",
-            "GreenSea"
-          ],
-          [
-            "海蓝宝石",
-            "Nephritis"
-          ],
-          [
-            "贝尔法斯特蓝",
-            "BelizeHole"
-          ],
-          [
-            "紫藤",
-            "Wisteria"
-          ],
-          [
-            "午夜蓝",
-            "MidnightBlue"
-          ],
-          [
-            "阳橙",
-            "Sunflower"
-          ],
-          [
-            "胡萝卜",
-            "Carrot"
-          ],
-          [
-            "茜红",
-            "Alizarin"
-          ],
-          [
-            "云朵",
-            "Clouds"
-          ],
-          [
-            "混凝土",
-            "Concrete"
-          ],
-          [
-            "橙色",
-            "Orange"
-          ],
-          [
-            "南瓜",
-            "Pumpkin"
-          ],
-          [
-            "石榴红",
-            "Pomegranate"
-          ],
-          [
-            "银色",
-            "Silver"
-          ],
-          [
-            "石墨",
-            "Asbestos"
-          ],
-          [
-            "暗色",
-            "Dark"
-          ],
-          [
-            "无",
-            "None"
-          ]
+          ["蓝绿色", "Turquoise"],
+          ["翠绿色", "Emerald"],
+          ["彼得河蓝", "Peterriver"],
+          ["湿沥青", "Wetasphalt"],
+          ["向日黄", "Sunflower"],
+          ["胡萝卜", "Carrot"],
+          ["茜红", "Alizarin"],
+          ["深色", "Dark"],
+          ["无", "None"]
         ]
       },
       {
@@ -555,858 +883,71 @@
       }
     ],
     "inputsInline": false,
-    "output": "Number",
-    "colour": "#03a9f4",
-    "tooltip": "创建一个文本标签（支持父控件）",
-    "icon": "fa-regular fa-window"
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "显示 LittleFS 中指定文件的内容，需要文件系统模式或已挂载文件系统",
+    "icon": "fa-light fa-window"
   },
   {
-    "type": "espui_button",
-    "message0": "创建按钮 文本 %1 颜色 %2 初始文本 %3",
+    "type": "espui_create_accelerometer",
+    "message0": "创建加速度输入 ID %1 标题 %2 颜色 %3 父控件 %4",
     "args0": [
       {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "accel1"
+      },
+      {
         "type": "input_value",
-        "name": "TEXT",
+        "name": "LABEL",
         "check": "String"
       },
       {
         "type": "field_dropdown",
         "name": "COLOR",
         "options": [
-          [
-            "蓝绿色",
-            "Turquoise"
-          ],
-          [
-            "翠绿色",
-            "Emerald"
-          ],
-          [
-            "彼得河蓝",
-            "PeterRiver"
-          ],
-          [
-            "紫水晶",
-            "Amethyst"
-          ],
-          [
-            "湿沥青",
-            "WetAsphalt"
-          ],
-          [
-            "绿海",
-            "GreenSea"
-          ],
-          [
-            "海蓝宝石",
-            "Nephritis"
-          ],
-          [
-            "贝尔法斯特蓝",
-            "BelizeHole"
-          ],
-          [
-            "紫藤",
-            "Wisteria"
-          ],
-          [
-            "午夜蓝",
-            "MidnightBlue"
-          ],
-          [
-            "阳橙",
-            "Sunflower"
-          ],
-          [
-            "胡萝卜",
-            "Carrot"
-          ],
-          [
-            "茜红",
-            "Alizarin"
-          ],
-          [
-            "云朵",
-            "Clouds"
-          ],
-          [
-            "混凝土",
-            "Concrete"
-          ],
-          [
-            "橙色",
-            "Orange"
-          ],
-          [
-            "南瓜",
-            "Pumpkin"
-          ],
-          [
-            "石榴红",
-            "Pomegranate"
-          ],
-          [
-            "银色",
-            "Silver"
-          ],
-          [
-            "石墨",
-            "Asbestos"
-          ],
-          [
-            "暗色",
-            "Dark"
-          ],
-          [
-            "无",
-            "None"
-          ]
+          ["蓝绿色", "Turquoise"],
+          ["翠绿色", "Emerald"],
+          ["彼得河蓝", "Peterriver"],
+          ["湿沥青", "Wetasphalt"],
+          ["向日黄", "Sunflower"],
+          ["胡萝卜", "Carrot"],
+          ["茜红", "Alizarin"],
+          ["深色", "Dark"],
+          ["无", "None"]
         ]
       },
       {
         "type": "input_value",
-        "name": "VALUE",
-        "check": "String"
+        "name": "PARENT",
+        "check": "Number"
+      }
+    ],
+    "message1": "数据变化时 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "CHANGE"
       }
     ],
     "inputsInline": false,
-    "output": "Number",
-    "colour": "#03a9f4",
-    "tooltip": "创建一个按钮控件（带初始文本）",
-    "icon": "fa-regular fa-window"
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "tooltip": "创建移动端加速度输入控件，变化时读取事件控件值",
+    "icon": "fa-light fa-window"
   },
   {
-    "type": "espui_switcher",
-    "message0": "创建开关 文本 %1 颜色 %2 初始状态 %3",
+    "type": "espui_update_value",
+    "message0": "更新控件 %1 的值 %2",
     "args0": [
       {
-        "type": "input_value",
-        "name": "TEXT",
-        "check": "String"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "COLOR",
-        "options": [
-          [
-            "蓝绿色",
-            "Turquoise"
-          ],
-          [
-            "翠绿色",
-            "Emerald"
-          ],
-          [
-            "彼得河蓝",
-            "PeterRiver"
-          ],
-          [
-            "紫水晶",
-            "Amethyst"
-          ],
-          [
-            "湿沥青",
-            "WetAsphalt"
-          ],
-          [
-            "绿海",
-            "GreenSea"
-          ],
-          [
-            "海蓝宝石",
-            "Nephritis"
-          ],
-          [
-            "贝尔法斯特蓝",
-            "BelizeHole"
-          ],
-          [
-            "紫藤",
-            "Wisteria"
-          ],
-          [
-            "午夜蓝",
-            "MidnightBlue"
-          ],
-          [
-            "阳橙",
-            "Sunflower"
-          ],
-          [
-            "胡萝卜",
-            "Carrot"
-          ],
-          [
-            "茜红",
-            "Alizarin"
-          ],
-          [
-            "云朵",
-            "Clouds"
-          ],
-          [
-            "混凝土",
-            "Concrete"
-          ],
-          [
-            "橙色",
-            "Orange"
-          ],
-          [
-            "南瓜",
-            "Pumpkin"
-          ],
-          [
-            "石榴红",
-            "Pomegranate"
-          ],
-          [
-            "银色",
-            "Silver"
-          ],
-          [
-            "石墨",
-            "Asbestos"
-          ],
-          [
-            "暗色",
-            "Dark"
-          ],
-          [
-            "无",
-            "None"
-          ]
-        ]
-      },
-      {
-        "type": "field_dropdown",
-        "name": "STATE",
-        "options": [
-          [
-            "关闭",
-            "false"
-          ],
-          [
-            "开启",
-            "true"
-          ]
-        ]
-      }
-    ],
-    "inputsInline": false,
-    "output": "Number",
-    "colour": "#03a9f4",
-    "tooltip": "创建一个开关控件",
-    "icon": "fa-regular fa-window"
-  },
-  {
-    "type": "espui_slider",
-    "message0": "创建滑条 文本 %1 颜色 %2 最小值 %3 最大值 %4 初始值 %5",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "TEXT",
-        "check": "String"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "COLOR",
-        "options": [
-          [
-            "蓝绿色",
-            "Turquoise"
-          ],
-          [
-            "翠绿色",
-            "Emerald"
-          ],
-          [
-            "彼得河蓝",
-            "PeterRiver"
-          ],
-          [
-            "紫水晶",
-            "Amethyst"
-          ],
-          [
-            "湿沥青",
-            "WetAsphalt"
-          ],
-          [
-            "绿海",
-            "GreenSea"
-          ],
-          [
-            "海蓝宝石",
-            "Nephritis"
-          ],
-          [
-            "贝尔法斯特蓝",
-            "BelizeHole"
-          ],
-          [
-            "紫藤",
-            "Wisteria"
-          ],
-          [
-            "午夜蓝",
-            "MidnightBlue"
-          ],
-          [
-            "阳橙",
-            "Sunflower"
-          ],
-          [
-            "胡萝卜",
-            "Carrot"
-          ],
-          [
-            "茜红",
-            "Alizarin"
-          ],
-          [
-            "云朵",
-            "Clouds"
-          ],
-          [
-            "混凝土",
-            "Concrete"
-          ],
-          [
-            "橙色",
-            "Orange"
-          ],
-          [
-            "南瓜",
-            "Pumpkin"
-          ],
-          [
-            "石榴红",
-            "Pomegranate"
-          ],
-          [
-            "银色",
-            "Silver"
-          ],
-          [
-            "石墨",
-            "Asbestos"
-          ],
-          [
-            "暗色",
-            "Dark"
-          ],
-          [
-            "无",
-            "None"
-          ]
-        ]
-      },
-      {
-        "type": "input_value",
-        "name": "MIN",
-        "check": "Number"
-      },
-      {
-        "type": "input_value",
-        "name": "MAX",
-        "check": "Number"
-      },
-      {
-        "type": "input_value",
-        "name": "VALUE",
-        "check": "Number"
-      }
-    ],
-    "inputsInline": false,
-    "output": "Number",
-    "colour": "#03a9f4",
-    "tooltip": "创建一个滑条控件",
-    "icon": "fa-regular fa-window"
-  },
-  {
-    "type": "espui_text",
-    "message0": "创建文本输入框 文本 %1 颜色 %2 初始值 %3",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "TEXT",
-        "check": "String"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "COLOR",
-        "options": [
-          [
-            "蓝绿色",
-            "Turquoise"
-          ],
-          [
-            "翠绿色",
-            "Emerald"
-          ],
-          [
-            "彼得河蓝",
-            "PeterRiver"
-          ],
-          [
-            "紫水晶",
-            "Amethyst"
-          ],
-          [
-            "湿沥青",
-            "WetAsphalt"
-          ],
-          [
-            "绿海",
-            "GreenSea"
-          ],
-          [
-            "海蓝宝石",
-            "Nephritis"
-          ],
-          [
-            "贝尔法斯特蓝",
-            "BelizeHole"
-          ],
-          [
-            "紫藤",
-            "Wisteria"
-          ],
-          [
-            "午夜蓝",
-            "MidnightBlue"
-          ],
-          [
-            "阳橙",
-            "Sunflower"
-          ],
-          [
-            "胡萝卜",
-            "Carrot"
-          ],
-          [
-            "茜红",
-            "Alizarin"
-          ],
-          [
-            "云朵",
-            "Clouds"
-          ],
-          [
-            "混凝土",
-            "Concrete"
-          ],
-          [
-            "橙色",
-            "Orange"
-          ],
-          [
-            "南瓜",
-            "Pumpkin"
-          ],
-          [
-            "石榴红",
-            "Pomegranate"
-          ],
-          [
-            "银色",
-            "Silver"
-          ],
-          [
-            "石墨",
-            "Asbestos"
-          ],
-          [
-            "暗色",
-            "Dark"
-          ],
-          [
-            "无",
-            "None"
-          ]
-        ]
-      },
-      {
-        "type": "input_value",
-        "name": "VALUE",
-        "check": "String"
-      }
-    ],
-    "inputsInline": false,
-    "output": "Number",
-    "colour": "#03a9f4",
-    "tooltip": "创建一个文本输入框",
-    "icon": "fa-regular fa-window"
-  },
-  {
-    "type": "espui_number",
-    "message0": "创建数字输入框 文本 %1 颜色 %2 最小值 %3 最大值 %4 初始值 %5",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "TEXT",
-        "check": "String"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "COLOR",
-        "options": [
-          [
-            "蓝绿色",
-            "Turquoise"
-          ],
-          [
-            "翠绿色",
-            "Emerald"
-          ],
-          [
-            "彼得河蓝",
-            "PeterRiver"
-          ],
-          [
-            "紫水晶",
-            "Amethyst"
-          ],
-          [
-            "湿沥青",
-            "WetAsphalt"
-          ],
-          [
-            "绿海",
-            "GreenSea"
-          ],
-          [
-            "海蓝宝石",
-            "Nephritis"
-          ],
-          [
-            "贝尔法斯特蓝",
-            "BelizeHole"
-          ],
-          [
-            "紫藤",
-            "Wisteria"
-          ],
-          [
-            "午夜蓝",
-            "MidnightBlue"
-          ],
-          [
-            "阳橙",
-            "Sunflower"
-          ],
-          [
-            "胡萝卜",
-            "Carrot"
-          ],
-          [
-            "茜红",
-            "Alizarin"
-          ],
-          [
-            "云朵",
-            "Clouds"
-          ],
-          [
-            "混凝土",
-            "Concrete"
-          ],
-          [
-            "橙色",
-            "Orange"
-          ],
-          [
-            "南瓜",
-            "Pumpkin"
-          ],
-          [
-            "石榴红",
-            "Pomegranate"
-          ],
-          [
-            "银色",
-            "Silver"
-          ],
-          [
-            "石墨",
-            "Asbestos"
-          ],
-          [
-            "暗色",
-            "Dark"
-          ],
-          [
-            "无",
-            "None"
-          ]
-        ]
-      },
-      {
-        "type": "input_value",
-        "name": "MIN",
-        "check": "Number"
-      },
-      {
-        "type": "input_value",
-        "name": "MAX",
-        "check": "Number"
-      },
-      {
-        "type": "input_value",
-        "name": "VALUE",
-        "check": "Number"
-      }
-    ],
-    "inputsInline": false,
-    "output": "Number",
-    "colour": "#03a9f4",
-    "tooltip": "创建一个数字输入框",
-    "icon": "fa-regular fa-window"
-  },
-  {
-    "type": "espui_graph",
-    "message0": "创建图表 文本 %1 颜色 %2",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "TEXT",
-        "check": "String"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "COLOR",
-        "options": [
-          [
-            "蓝绿色",
-            "Turquoise"
-          ],
-          [
-            "翠绿色",
-            "Emerald"
-          ],
-          [
-            "彼得河蓝",
-            "PeterRiver"
-          ],
-          [
-            "紫水晶",
-            "Amethyst"
-          ],
-          [
-            "湿沥青",
-            "WetAsphalt"
-          ],
-          [
-            "绿海",
-            "GreenSea"
-          ],
-          [
-            "海蓝宝石",
-            "Nephritis"
-          ],
-          [
-            "贝尔法斯特蓝",
-            "BelizeHole"
-          ],
-          [
-            "紫藤",
-            "Wisteria"
-          ],
-          [
-            "午夜蓝",
-            "MidnightBlue"
-          ],
-          [
-            "阳橙",
-            "Sunflower"
-          ],
-          [
-            "胡萝卜",
-            "Carrot"
-          ],
-          [
-            "茜红",
-            "Alizarin"
-          ],
-          [
-            "云朵",
-            "Clouds"
-          ],
-          [
-            "混凝土",
-            "Concrete"
-          ],
-          [
-            "橙色",
-            "Orange"
-          ],
-          [
-            "南瓜",
-            "Pumpkin"
-          ],
-          [
-            "石榴红",
-            "Pomegranate"
-          ],
-          [
-            "银色",
-            "Silver"
-          ],
-          [
-            "石墨",
-            "Asbestos"
-          ],
-          [
-            "暗色",
-            "Dark"
-          ],
-          [
-            "无",
-            "None"
-          ]
-        ]
-      }
-    ],
-    "inputsInline": true,
-    "output": "Number",
-    "colour": "#03a9f4",
-    "tooltip": "创建一个图表控件",
-    "icon": "fa-regular fa-window"
-  },
-  {
-    "type": "espui_gauge",
-    "message0": "创建仪表盘 文本 %1 颜色 %2 最小值 %3 最大值 %4 初始值 %5",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "TEXT",
-        "check": "String"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "COLOR",
-        "options": [
-          [
-            "蓝绿色",
-            "Turquoise"
-          ],
-          [
-            "翠绿色",
-            "Emerald"
-          ],
-          [
-            "彼得河蓝",
-            "PeterRiver"
-          ],
-          [
-            "紫水晶",
-            "Amethyst"
-          ],
-          [
-            "湿沥青",
-            "WetAsphalt"
-          ],
-          [
-            "绿海",
-            "GreenSea"
-          ],
-          [
-            "海蓝宝石",
-            "Nephritis"
-          ],
-          [
-            "贝尔法斯特蓝",
-            "BelizeHole"
-          ],
-          [
-            "紫藤",
-            "Wisteria"
-          ],
-          [
-            "午夜蓝",
-            "MidnightBlue"
-          ],
-          [
-            "阳橙",
-            "Sunflower"
-          ],
-          [
-            "胡萝卜",
-            "Carrot"
-          ],
-          [
-            "茜红",
-            "Alizarin"
-          ],
-          [
-            "云朵",
-            "Clouds"
-          ],
-          [
-            "混凝土",
-            "Concrete"
-          ],
-          [
-            "橙色",
-            "Orange"
-          ],
-          [
-            "南瓜",
-            "Pumpkin"
-          ],
-          [
-            "石榴红",
-            "Pomegranate"
-          ],
-          [
-            "银色",
-            "Silver"
-          ],
-          [
-            "石墨",
-            "Asbestos"
-          ],
-          [
-            "暗色",
-            "Dark"
-          ],
-          [
-            "无",
-            "None"
-          ]
-        ]
-      },
-      {
-        "type": "input_value",
-        "name": "MIN",
-        "check": "Number"
-      },
-      {
-        "type": "input_value",
-        "name": "MAX",
-        "check": "Number"
-      },
-      {
-        "type": "input_value",
-        "name": "VALUE",
-        "check": "Number"
-      }
-    ],
-    "inputsInline": false,
-    "output": "Number",
-    "colour": "#03a9f4",
-    "tooltip": "创建一个仪表盘控件",
-    "icon": "fa-regular fa-window"
-  },
-  {
-    "type": "espui_update_control",
-    "message0": "更新控件 ID %1 值 %2",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "CONTROL_ID",
-        "check": "Number"
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "statusLabel",
+        "variableTypes": ["ESPUIControl"],
+        "defaultType": "ESPUIControl"
       },
       {
         "type": "input_value",
@@ -1416,18 +957,20 @@
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#03a9f4",
-    "tooltip": "更新指定控件的值（v2.2.4：updateControlValue）",
-    "icon": "fa-regular fa-window"
+    "colour": "#00BCD4",
+    "tooltip": "调用 updateControlValue 更新任意控件的值",
+    "icon": "fa-light fa-window"
   },
   {
-    "type": "espui_update_label",
-    "message0": "更新控件标签 ID %1 标签 %2",
+    "type": "espui_update_control_label",
+    "message0": "更新控件 %1 的标题 %2",
     "args0": [
       {
-        "type": "input_value",
-        "name": "CONTROL_ID",
-        "check": "Number"
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "statusLabel",
+        "variableTypes": ["ESPUIControl"],
+        "defaultType": "ESPUIControl"
       },
       {
         "type": "input_value",
@@ -1438,92 +981,44 @@
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#03a9f4",
-    "tooltip": "更新指定控件的标签文本（v2.2.4：updateControlLabel）",
-    "icon": "fa-regular fa-window"
+    "colour": "#00BCD4",
+    "tooltip": "调用 updateControlLabel 修改控件标题文本",
+    "icon": "fa-light fa-window"
   },
   {
-    "type": "espui_on_event",
-    "message0": "当控件事件触发时 控件ID %1 事件类型 %2 %3 执行 %4",
+    "type": "espui_update_switcher",
+    "message0": "更新开关 %1 为 %2",
     "args0": [
       {
-        "type": "input_value",
-        "name": "CONTROL_ID",
-        "check": "Number"
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "switch1",
+        "variableTypes": ["ESPUIControl"],
+        "defaultType": "ESPUIControl"
       },
-      {
-        "type": "field_dropdown",
-        "name": "EVENT_TYPE",
-        "options": [
-          [
-            "按下",
-            "B_DOWN"
-          ],
-          [
-            "松开",
-            "B_UP"
-          ],
-          [
-            "改变/激活",
-            "S_ACTIVE"
-          ],
-          [
-            "未激活",
-            "S_INACTIVE"
-          ],
-          [
-            "滑条值",
-            "SL_VALUE"
-          ],
-          [
-            "数字值",
-            "N_VALUE"
-          ],
-          [
-            "文本值",
-            "T_VALUE"
-          ]
-        ]
-      },
-      {
-        "type": "input_dummy"
-      },
-      {
-        "type": "input_statement",
-        "name": "DO"
-      }
-    ],
-    "inputsInline": false,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#03a9f4",
-    "tooltip": "设置控件事件回调函数（对齐 v2.2.4 事件常量）",
-    "icon": "fa-regular fa-window"
-  },
-  {
-    "type": "espui_get_control_value",
-    "message0": "获取控件值 ID %1",
-    "args0": [
       {
         "type": "input_value",
-        "name": "CONTROL_ID",
-        "check": "Number"
+        "name": "STATE",
+        "check": "Boolean"
       }
     ],
     "inputsInline": true,
-    "output": "String",
-    "colour": "#03a9f4",
-    "tooltip": "获取指定控件的当前值",
-    "icon": "fa-regular fa-window"
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "用布尔值更新开关控件状态",
+    "icon": "fa-light fa-window"
   },
   {
-    "type": "espui_add_graph_point",
-    "message0": "添加图表数据点 图表ID %1 数值 %2",
+    "type": "espui_update_number",
+    "message0": "更新数值控件 %1 为 %2",
     "args0": [
       {
-        "type": "input_value",
-        "name": "CONTROL_ID",
-        "check": "Number"
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "slider1",
+        "variableTypes": ["ESPUIControl"],
+        "defaultType": "ESPUIControl"
       },
       {
         "type": "input_value",
@@ -1534,79 +1029,342 @@
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#03a9f4",
-    "tooltip": "向指定图表添加一个数据点",
-    "icon": "fa-regular fa-window"
+    "colour": "#00BCD4",
+    "tooltip": "更新滑条、数字输入或仪表盘等数值控件",
+    "icon": "fa-light fa-window"
   },
   {
-    "type": "espui_clear_graph",
-    "message0": "清空图表 图表ID %1",
+    "type": "espui_add_graph_point",
+    "message0": "给图表 %1 添加数据点 %2",
     "args0": [
       {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "graph1",
+        "variableTypes": ["ESPUIControl"],
+        "defaultType": "ESPUIControl"
+      },
+      {
         "type": "input_value",
-        "name": "CONTROL_ID",
+        "name": "VALUE",
         "check": "Number"
       }
     ],
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#03a9f4",
-    "tooltip": "清空指定图表的所有数据点",
-    "icon": "fa-regular fa-window"
+    "colour": "#00BCD4",
+    "tooltip": "向 ESPUI 图表追加一个数值点",
+    "icon": "fa-light fa-window"
   },
   {
-    "type": "espui_wifi_setup",
-    "message0": "WiFi设置 SSID %1 密码 %2 模式 %3",
+    "type": "espui_clear_graph",
+    "message0": "清空图表 %1",
     "args0": [
       {
-        "type": "input_value",
-        "name": "SSID",
-        "check": "String"
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "graph1",
+        "variableTypes": ["ESPUIControl"],
+        "defaultType": "ESPUIControl"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "清空 ESPUI 图表中的所有数据点",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_set_enabled",
+    "message0": "设置控件 %1 启用 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "button1",
+        "variableTypes": ["ESPUIControl"],
+        "defaultType": "ESPUIControl"
       },
       {
         "type": "input_value",
-        "name": "PASSWORD",
-        "check": "String"
+        "name": "ENABLED",
+        "check": "Boolean"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "启用或禁用控件并同步到网页端",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_set_visible",
+    "message0": "设置控件 %1 可见 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "statusLabel",
+        "variableTypes": ["ESPUIControl"],
+        "defaultType": "ESPUIControl"
       },
+      {
+        "type": "input_value",
+        "name": "VISIBLE",
+        "check": "Boolean"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "显示或隐藏控件并同步到网页端",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_set_layout",
+    "message0": "设置控件 %1 宽面板 %2 垂直布局 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "slider1",
+        "variableTypes": ["ESPUIControl"],
+        "defaultType": "ESPUIControl"
+      },
+      {
+        "type": "input_value",
+        "name": "WIDE",
+        "check": "Boolean"
+      },
+      {
+        "type": "input_value",
+        "name": "VERTICAL",
+        "check": "Boolean"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "设置控件面板宽度和垂直布局属性",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_set_style",
+    "message0": "设置控件 %1 样式位置 %2 CSS %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "statusLabel",
+        "variableTypes": ["ESPUIControl"],
+        "defaultType": "ESPUIControl"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TARGET",
+        "options": [
+          ["面板", "PANEL"],
+          ["元素", "ELEMENT"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CSS",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "设置控件面板或内部元素的内联 CSS 样式",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_set_input_type",
+    "message0": "设置文本控件 %1 输入类型 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "text1",
+        "variableTypes": ["ESPUIControl"],
+        "defaultType": "ESPUIControl"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INPUT_TYPE",
+        "options": [
+          ["文本", "text"],
+          ["密码", "password"],
+          ["数字", "number"],
+          ["日期", "date"],
+          ["时间", "time"],
+          ["颜色", "color"],
+          ["邮箱", "email"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "修改文本输入控件的 HTML input 类型",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_get_value",
+    "message0": "控件 %1 的值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "statusLabel",
+        "variableTypes": ["ESPUIControl"],
+        "defaultType": "ESPUIControl"
+      }
+    ],
+    "output": "String",
+    "colour": "#00BCD4",
+    "tooltip": "读取控件当前值，控件不存在时返回空字符串",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_sender_value",
+    "message0": "事件控件值",
+    "output": "String",
+    "colour": "#8BC34A",
+    "tooltip": "在 ESPUI 事件处理内部读取触发控件的字符串值",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_sender_value_number",
+    "message0": "事件控件数值",
+    "output": "Number",
+    "colour": "#8BC34A",
+    "tooltip": "在 ESPUI 事件处理内部读取触发控件的数值",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_sender_id",
+    "message0": "事件控件ID",
+    "output": "Number",
+    "colour": "#8BC34A",
+    "tooltip": "在 ESPUI 事件处理内部读取触发控件的ID",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_event_type",
+    "message0": "ESPUI事件类型",
+    "output": "Number",
+    "colour": "#8BC34A",
+    "tooltip": "在 ESPUI 事件处理内部读取当前事件类型常量",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_event_is",
+    "message0": "ESPUI事件是 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "EVENT",
+        "options": [
+          ["按钮按下", "B_DOWN"],
+          ["按钮松开", "B_UP"],
+          ["开关开启", "S_ACTIVE"],
+          ["开关关闭", "S_INACTIVE"],
+          ["滑条变化", "SL_VALUE"],
+          ["数字变化", "N_VALUE"],
+          ["文本变化", "T_VALUE"],
+          ["选择变化", "S_VALUE"],
+          ["左按下", "P_LEFT_DOWN"],
+          ["左松开", "P_LEFT_UP"],
+          ["右按下", "P_RIGHT_DOWN"],
+          ["右松开", "P_RIGHT_UP"],
+          ["前按下", "P_FOR_DOWN"],
+          ["前松开", "P_FOR_UP"],
+          ["后按下", "P_BACK_DOWN"],
+          ["后松开", "P_BACK_UP"],
+          ["中心按下", "P_CENTER_DOWN"],
+          ["中心松开", "P_CENTER_UP"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#8BC34A",
+    "tooltip": "在 ESPUI 事件处理内部判断当前事件类型",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_if_event",
+    "message0": "如果 ESPUI 事件是 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "EVENT",
+        "options": [
+          ["按钮按下", "B_DOWN"],
+          ["按钮松开", "B_UP"],
+          ["开关开启", "S_ACTIVE"],
+          ["开关关闭", "S_INACTIVE"],
+          ["滑条变化", "SL_VALUE"],
+          ["数字变化", "N_VALUE"],
+          ["文本变化", "T_VALUE"],
+          ["选择变化", "S_VALUE"],
+          ["左按下", "P_LEFT_DOWN"],
+          ["左松开", "P_LEFT_UP"],
+          ["右按下", "P_RIGHT_DOWN"],
+          ["右松开", "P_RIGHT_UP"],
+          ["前按下", "P_FOR_DOWN"],
+          ["前松开", "P_FOR_UP"],
+          ["后按下", "P_BACK_DOWN"],
+          ["后松开", "P_BACK_UP"],
+          ["中心按下", "P_CENTER_DOWN"],
+          ["中心松开", "P_CENTER_UP"]
+        ]
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8BC34A",
+    "tooltip": "在 ESPUI 回调内部按事件类型执行语句",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_wifi_connected",
+    "message0": "WiFi已连接",
+    "output": "Boolean",
+    "colour": "#03A9F4",
+    "tooltip": "返回 WiFi.status() 是否为 WL_CONNECTED",
+    "icon": "fa-light fa-window"
+  },
+  {
+    "type": "espui_ip_address",
+    "message0": "ESPUI IP地址 %1",
+    "args0": [
       {
         "type": "field_dropdown",
         "name": "MODE",
         "options": [
-          [
-            "连接模式",
-            "STA"
-          ],
-          [
-            "热点模式",
-            "AP"
-          ]
+          ["本地网络", "STA"],
+          ["热点", "AP"]
         ]
       }
     ],
-    "inputsInline": false,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#03a9f4",
-    "tooltip": "配置WiFi连接或热点模式",
-    "icon": "fa-regular fa-window"
-  },
-  {
-    "type": "espui_wifi_status",
-    "message0": "WiFi连接状态",
-    "inputsInline": true,
-    "output": "Boolean",
-    "colour": "#03a9f4",
-    "tooltip": "检查WiFi是否连接成功",
-    "icon": "fa-regular fa-window"
-  },
-  {
-    "type": "espui_get_ip",
-    "message0": "获取IP地址",
-    "inputsInline": true,
     "output": "String",
-    "colour": "#03a9f4",
-    "tooltip": "获取当前ESP设备的IP地址",
-    "icon": "fa-regular fa-window"
+    "colour": "#03A9F4",
+    "tooltip": "读取当前 WiFi 或热点模式的 IP 地址字符串",
+    "icon": "fa-light fa-window"
   }
 ]
