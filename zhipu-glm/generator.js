@@ -810,7 +810,7 @@ String zhipu_image_generate(String model, String prompt, String size) {
 }`);
 
   // 使用默认模型(免费)和尺寸
-  const code = `zhipu_image_generate("cogview-3-flash", ${prompt}, "1024x1024")`;
+  const code = `zhipu_image_generate("glm-image", ${prompt}, "1024x1024")`;
   return [code, Arduino.ORDER_FUNCTION_CALL];
 };
 
