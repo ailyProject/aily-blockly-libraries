@@ -87,9 +87,19 @@ Arduino.forBlock['lis3dhtr_get_acceleration'] = function(block, generator) {
  * 获取三轴加速度并存储到变量中
  */
 Arduino.forBlock['lis3dhtr_get_acceleration_xyz'] = function(block, generator) {
-  var varX = generator.valueToCode(block, 'X_VAR', Arduino.ORDER_ATOMIC) || 'x';
-  var varY = generator.valueToCode(block, 'Y_VAR', Arduino.ORDER_ATOMIC) || 'y';
-  var varZ = generator.valueToCode(block, 'Z_VAR', Arduino.ORDER_ATOMIC) || 'z';
+  var varX = generator.nameDB_.getName(block.getFieldValue('X_VAR'), 'VARIABLE');
+  var varY = generator.nameDB_.getName(block.getFieldValue('Y_VAR'), 'VARIABLE');
+  var varZ = generator.nameDB_.getName(block.getFieldValue('Z_VAR'), 'VARIABLE');
+
+  if (typeof addVariableToToolbox === 'function') {
+    addVariableToToolbox(block, varX);
+    addVariableToToolbox(block, varY);
+    addVariableToToolbox(block, varZ);
+  }
+
+  generator.addVariable(varX, 'float ' + varX + ';');
+  generator.addVariable(varY, 'float ' + varY + ';');
+  generator.addVariable(varZ, 'float ' + varZ + ';');
   
   var code = 'accel_sensor.getAcceleration(&' + varX + ', &' + varY + ', &' + varZ + ');\n';
   return code;
