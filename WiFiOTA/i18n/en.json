@@ -1,0 +1,55 @@
+{
+  "toolbox_name": "WiFi OTA",
+  "toolbox_labels": {
+    "快速启动": "Quick start",
+    "初始化": "Initialize",
+    "控制": "Control",
+    "事件": "Events"
+  },
+  "arduinoota_config_auto": {
+    "message0": "quick start WiFi OTA",
+    "tooltip": "Start WiFi OTA on the currently connected WiFi and add polling automatically"
+  },
+  "arduinoota_begin": {
+    "message0": "initialize WiFi OTA name %1 password %2",
+    "tooltip": "Start WiFi OTA on the currently connected WiFi with internal flash storage; polling must be called in loop"
+  },
+  "arduinoota_begin_advanced": {
+    "message0": "advanced initialize WiFi OTA network %1 storage %2 discovery %3 name %4 password %5",
+    "tooltip": "Start WiFi OTA with the selected network library, storage object, and mDNS discovery mode after the network is connected",
+    "args0": [
+      {"options": [["Auto WiFi", "WIFI_AUTO"], ["WiFiNINA", "WIFI_NINA"], ["WiFi101", "WIFI101"], ["WiFiS3", "WIFI_S3"], ["WiFiEspAT", "WIFI_ESP_AT"], ["Ethernet", "ETHERNET"], ["EthernetENC", "ETHERNET_ENC"]]},
+      {"options": [["Internal flash", "InternalStorage"], ["SD card", "SDStorage"]]},
+      {"options": [["Enable mDNS port", "MDNS"], ["Disable mDNS port", "NO_PORT"]]},
+      {},
+      {}
+    ]
+  },
+  "arduinoota_poll": {
+    "message0": "poll WiFi OTA update requests",
+    "tooltip": "Call repeatedly in loop to process WiFi OTA upload requests"
+  },
+  "arduinoota_handle": {
+    "message0": "handle WiFi OTA update requests",
+    "tooltip": "Process WiFi OTA update requests; equivalent to poll()"
+  },
+  "arduinoota_end": {
+    "message0": "stop WiFi OTA service",
+    "tooltip": "Stop the WiFi OTA listener and mDNS port response"
+  },
+  "arduinoota_on_start": {
+    "message0": "when WiFi OTA upload starts",
+    "message1": "%1",
+    "tooltip": "Run when a WiFi OTA upload request starts"
+  },
+  "arduinoota_before_apply": {
+    "message0": "before WiFi OTA applies update",
+    "message1": "%1",
+    "tooltip": "Run after firmware upload completes and before the update is applied"
+  },
+  "arduinoota_on_error": {
+    "message0": "when WiFi OTA error code variable %1 message variable %2",
+    "message1": "%1",
+    "tooltip": "Run when an OTA request fails; code is an HTTP status code and message is the status text"
+  }
+}

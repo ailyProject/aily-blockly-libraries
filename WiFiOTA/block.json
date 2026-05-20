@@ -1,0 +1,163 @@
+[
+  {
+    "type": "arduinoota_config_auto",
+    "message0": "快速启动 WiFi OTA",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "使用当前已连接的WiFi启动WiFi OTA服务，并自动添加轮询",
+    "icon": "fa-light fa-cloud-arrow-up"
+  },
+  {
+    "type": "arduinoota_begin",
+    "message0": "初始化 WiFi OTA 名称 %1 密码 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "使用当前已连接的WiFi和内部Flash存储启动WiFi OTA服务；需要在loop中轮询",
+    "icon": "fa-light fa-cloud-arrow-up"
+  },
+  {
+    "type": "arduinoota_begin_advanced",
+    "message0": "高级初始化 WiFi OTA 网络 %1 存储 %2 发现 %3 名称 %4 密码 %5",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "NETWORK",
+        "options": [
+          ["自动WiFi", "WIFI_AUTO"],
+          ["WiFiNINA", "WIFI_NINA"],
+          ["WiFi101", "WIFI101"],
+          ["WiFiS3", "WIFI_S3"],
+          ["WiFiEspAT", "WIFI_ESP_AT"],
+          ["Ethernet", "ETHERNET"],
+          ["EthernetENC", "ETHERNET_ENC"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STORAGE",
+        "options": [
+          ["内部Flash", "InternalStorage"],
+          ["SD卡", "SDStorage"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DISCOVERY",
+        "options": [
+          ["启用mDNS端口", "MDNS"],
+          ["禁用mDNS端口", "NO_PORT"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "选择网络库、存储对象和mDNS发现方式启动WiFi OTA服务；需要先完成网络连接",
+    "icon": "fa-light fa-cloud-arrow-up"
+  },
+  {
+    "type": "arduinoota_poll",
+    "message0": "轮询 WiFi OTA 更新请求",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "在loop中反复调用，处理WiFi OTA上传请求",
+    "icon": "fa-light fa-cloud-arrow-up"
+  },
+  {
+    "type": "arduinoota_handle",
+    "message0": "处理 WiFi OTA 更新请求",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "处理WiFi OTA更新请求，等价于poll()",
+    "icon": "fa-light fa-cloud-arrow-up"
+  },
+  {
+    "type": "arduinoota_end",
+    "message0": "停止 WiFi OTA 服务",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "停止WiFi OTA监听服务和mDNS端口响应",
+    "icon": "fa-light fa-cloud-arrow-up"
+  },
+  {
+    "type": "arduinoota_on_start",
+    "message0": "当 WiFi OTA 开始上传时",
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#E91E63",
+    "tooltip": "WiFi OTA上传请求开始处理时执行",
+    "icon": "fa-light fa-cloud-arrow-up"
+  },
+  {
+    "type": "arduinoota_before_apply",
+    "message0": "当 WiFi OTA 应用更新前",
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#E91E63",
+    "tooltip": "固件写入完成并即将应用更新前执行，可用于关闭外设或保存状态",
+    "icon": "fa-light fa-cloud-arrow-up"
+  },
+  {
+    "type": "arduinoota_on_error",
+    "message0": "当 WiFi OTA 出错 错误码变量 %1 消息变量 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "CODE_VAR",
+        "text": "code"
+      },
+      {
+        "type": "field_input",
+        "name": "MESSAGE_VAR",
+        "text": "message"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#E91E63",
+    "tooltip": "OTA请求失败时执行，错误码为HTTP状态码，消息为错误文本",
+    "icon": "fa-light fa-cloud-arrow-up"
+  }
+]

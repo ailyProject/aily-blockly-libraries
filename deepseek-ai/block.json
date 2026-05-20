@@ -1,0 +1,300 @@
+[
+  {
+    "type": "deepseek_ai_config",
+    "message0": "配置 DeepSeek API Key %1 Base URL %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "API_KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "BASE_URL",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0F766E",
+    "tooltip": "配置 DeepSeek API Key 和接口地址。默认 Base URL 为 https://api.deepseek.com。",
+    "helpUrl": "https://api-docs.deepseek.com/zh-cn/",
+    "icon": "fa-light fa-brain-circuit"
+  },
+  {
+    "type": "deepseek_ai_set_system_prompt",
+    "message0": "设置 DeepSeek 系统提示词 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SYSTEM_PROMPT",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0F766E",
+    "tooltip": "设置后续 DeepSeek 请求使用的 system 消息。",
+    "helpUrl": "https://api-docs.deepseek.com/zh-cn/api/create-chat-completion",
+    "icon": "fa-light fa-message-lines"
+  },
+  {
+    "type": "deepseek_ai_chat",
+    "message0": "DeepSeek 对话 消息 %1 模型 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "deepseek-v4-flash (推荐)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (兼容旧版)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#0F766E",
+    "tooltip": "发送单轮文本对话请求并返回模型回复。",
+    "helpUrl": "https://api-docs.deepseek.com/zh-cn/api/create-chat-completion",
+    "icon": "fa-light fa-comments"
+  },
+  {
+    "type": "deepseek_ai_thinking_chat",
+    "message0": "DeepSeek 思考对话 消息 %1 模型 %2 推理强度 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "deepseek-v4-pro (推荐)",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-reasoner (兼容旧版)",
+            "deepseek-reasoner"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "EFFORT",
+        "options": [
+          [
+            "high",
+            "high"
+          ],
+          [
+            "max",
+            "max"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#0F766E",
+    "tooltip": "启用 DeepSeek 思考模式，返回最终回答。可用“获取 DeepSeek 上次思考内容”查看 reasoning_content。",
+    "helpUrl": "https://api-docs.deepseek.com/zh-cn/guides/thinking_mode",
+    "icon": "fa-light fa-brain"
+  },
+  {
+    "type": "deepseek_ai_history_chat",
+    "message0": "DeepSeek 多轮对话 消息 %1 模型 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "deepseek-v4-flash (推荐)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (兼容旧版)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#0F766E",
+    "tooltip": "带历史上下文发送对话请求，并自动记录本轮用户消息和模型回复。",
+    "helpUrl": "https://api-docs.deepseek.com/zh-cn/guides/multi_round_chat",
+    "icon": "fa-light fa-messages"
+  },
+  {
+    "type": "deepseek_ai_json_chat",
+    "message0": "DeepSeek JSON 输出 消息 %1 模型 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "deepseek-v4-pro (推荐)",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#0F766E",
+    "tooltip": "启用 response_format=json_object。提示词中必须说明输出 JSON 格式。",
+    "helpUrl": "https://api-docs.deepseek.com/zh-cn/guides/json_mode",
+    "icon": "fa-light fa-brackets-curly"
+  },
+  {
+    "type": "deepseek_ai_stream_chat",
+    "message0": "DeepSeek 流式对话 消息 %1 模型 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "deepseek-v4-flash (推荐)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (兼容旧版)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0F766E",
+    "tooltip": "以流式方式请求模型。每收到一个文本片段时会触发已设置的流式回调。",
+    "helpUrl": "https://api-docs.deepseek.com/zh-cn/api/create-chat-completion",
+    "icon": "fa-light fa-wave-pulse"
+  },
+  {
+    "type": "deepseek_ai_set_stream_callback",
+    "message0": "设置 DeepSeek 流式回调 %1",
+    "args0": [
+      {
+        "type": "input_statement",
+        "name": "CALLBACK"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0F766E",
+    "tooltip": "设置 DeepSeek 流式片段到达时执行的积木。回调中可读取“DeepSeek 当前流式片段”。",
+    "helpUrl": "https://api-docs.deepseek.com/zh-cn/api/create-chat-completion",
+    "icon": "fa-light fa-bolt"
+  },
+  {
+    "type": "deepseek_ai_get_stream_chunk",
+    "message0": "DeepSeek 当前流式片段",
+    "output": "String",
+    "colour": "#0F766E",
+    "tooltip": "获取 DeepSeek 流式请求最近收到的文本片段。",
+    "helpUrl": "https://api-docs.deepseek.com/zh-cn/api/create-chat-completion",
+    "icon": "fa-light fa-align-left"
+  },
+  {
+    "type": "deepseek_ai_clear_stream_callback",
+    "message0": "清除 DeepSeek 流式回调",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0F766E",
+    "tooltip": "清除已设置的 DeepSeek 流式回调。",
+    "helpUrl": "https://api-docs.deepseek.com/zh-cn/api/create-chat-completion",
+    "icon": "fa-light fa-eraser"
+  },
+  {
+    "type": "deepseek_ai_clear_history",
+    "message0": "清空 DeepSeek 多轮对话历史",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0F766E",
+    "tooltip": "清空本地保存的多轮对话历史。",
+    "helpUrl": "https://api-docs.deepseek.com/zh-cn/guides/multi_round_chat",
+    "icon": "fa-light fa-trash-can"
+  },
+  {
+    "type": "deepseek_ai_get_response_status",
+    "message0": "DeepSeek 上次请求成功",
+    "output": "Boolean",
+    "colour": "#0F766E",
+    "tooltip": "返回 DeepSeek 上一次请求是否成功。",
+    "helpUrl": "https://api-docs.deepseek.com/zh-cn/api/create-chat-completion",
+    "icon": "fa-light fa-circle-check"
+  },
+  {
+    "type": "deepseek_ai_get_error_message",
+    "message0": "DeepSeek 上次错误消息",
+    "output": "String",
+    "colour": "#0F766E",
+    "tooltip": "获取 DeepSeek 上一次请求失败时记录的错误消息。",
+    "helpUrl": "https://api-docs.deepseek.com/zh-cn/quick_start/error_code",
+    "icon": "fa-light fa-triangle-exclamation"
+  },
+  {
+    "type": "deepseek_ai_get_reasoning",
+    "message0": "DeepSeek 上次思考内容",
+    "output": "String",
+    "colour": "#0F766E",
+    "tooltip": "获取思考模式返回的 reasoning_content。",
+    "helpUrl": "https://api-docs.deepseek.com/zh-cn/guides/thinking_mode",
+    "icon": "fa-light fa-lightbulb"
+  }
+]
