@@ -1,0 +1,55 @@
+{
+  "toolbox_name": "WiFi OTA",
+  "toolbox_labels": {
+    "快速启动": "快速啟動",
+    "初始化": "初始化",
+    "控制": "控制",
+    "事件": "事件"
+  },
+  "arduinoota_config_auto": {
+    "message0": "快速啟動 WiFi OTA",
+    "tooltip": "使用目前已連接的WiFi啟動WiFi OTA服務，並自動加入輪詢"
+  },
+  "arduinoota_begin": {
+    "message0": "初始化 WiFi OTA 名稱 %1 密碼 %2",
+    "tooltip": "使用目前已連接的WiFi和內部Flash儲存啟動WiFi OTA服務；需要在loop中輪詢"
+  },
+  "arduinoota_begin_advanced": {
+    "message0": "進階初始化 WiFi OTA 網絡 %1 儲存 %2 發現 %3 名稱 %4 密碼 %5",
+    "tooltip": "選擇網絡庫、儲存物件和mDNS發現方式啟動WiFi OTA服務；需要先完成網絡連接",
+    "args0": [
+      {"options": [["自動WiFi", "WIFI_AUTO"], ["WiFiNINA", "WIFI_NINA"], ["WiFi101", "WIFI101"], ["WiFiS3", "WIFI_S3"], ["WiFiEspAT", "WIFI_ESP_AT"], ["Ethernet", "ETHERNET"], ["EthernetENC", "ETHERNET_ENC"]]},
+      {"options": [["內部Flash", "InternalStorage"], ["SD卡", "SDStorage"]]},
+      {"options": [["啟用mDNS端口", "MDNS"], ["停用mDNS端口", "NO_PORT"]]},
+      {},
+      {}
+    ]
+  },
+  "arduinoota_poll": {
+    "message0": "輪詢 WiFi OTA 更新請求",
+    "tooltip": "在loop中反覆呼叫，處理WiFi OTA上傳請求"
+  },
+  "arduinoota_handle": {
+    "message0": "處理 WiFi OTA 更新請求",
+    "tooltip": "處理WiFi OTA更新請求，等同於poll()"
+  },
+  "arduinoota_end": {
+    "message0": "停止 WiFi OTA 服務",
+    "tooltip": "停止WiFi OTA監聽服務和mDNS端口回應"
+  },
+  "arduinoota_on_start": {
+    "message0": "當 WiFi OTA 開始上傳時",
+    "message1": "%1",
+    "tooltip": "WiFi OTA上傳請求開始處理時執行"
+  },
+  "arduinoota_before_apply": {
+    "message0": "當 WiFi OTA 套用更新前",
+    "message1": "%1",
+    "tooltip": "韌體寫入完成並即將套用更新前執行，可用於關閉外設或保存狀態"
+  },
+  "arduinoota_on_error": {
+    "message0": "當 WiFi OTA 出錯 錯誤碼變數 %1 訊息變數 %2",
+    "message1": "%1",
+    "tooltip": "OTA請求失敗時執行，錯誤碼為HTTP狀態碼，訊息為錯誤文字"
+  }
+}
