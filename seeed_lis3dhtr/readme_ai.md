@@ -10,7 +10,7 @@ LIS3DHTR acceleration sensor support library supports Arduino UNO, MEGA, ESP8266
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `lis3dhtr_begin` | Statement | WIRE(dropdown), ADDRESS(field_input) | `lis3dhtr_begin(Wire1, "0x19")` | accel_sensor.begin( |
+| `lis3dhtr_begin` | Statement | WIRE(dropdown), ADDRESS(field_input) | `lis3dhtr_begin(Wire, "0x19")` | accel_sensor.begin( |
 | `lis3dhtr_set_datarate` | Statement | DATARATE(dropdown) | `lis3dhtr_set_datarate(LIS3DHTR_DATARATE_POWERDOWN)` | accel_sensor.setOutputDataRate( |
 | `lis3dhtr_set_resolution` | Statement | ENABLE(dropdown) | `lis3dhtr_set_resolution(true)` | accel_sensor.setHighSolution( |
 | `lis3dhtr_get_acceleration_x` | Value | (none) | `lis3dhtr_get_acceleration_x()` | accel_sensor.getAccelerationX() |
@@ -29,33 +29,34 @@ LIS3DHTR acceleration sensor support library supports Arduino UNO, MEGA, ESP8266
 | `lis3dhtr_is_connection` | Value | (none) | `lis3dhtr_is_connection()` | accel_sensor.isConnection() |
 | `lis3dhtr_get_device_id` | Value | (none) | `lis3dhtr_get_device_id()` | accel_sensor.getDeviceID() |
 | `lis3dhtr_set_full_scale_range` | Statement | RANGE(dropdown) | `lis3dhtr_set_full_scale_range(LIS3DHTR_RANGE_2G)` | accel_sensor.setFullScaleRange( |
-| `lis3dhtr_set_power_mode` | Statement | MODE(dropdown) | `lis3dhtr_set_power_mode(LIS3DHTR_POWER_NORMAL)` | accel_sensor.setPowerMode( |
-| `lis3dhtr_init_simplified` | Statement | ADDRESS(field_input), DATARATE(dropdown), RANGE(dropdown), HIGHRES(dropdown) | `lis3dhtr_init_simplified("LIS3DHTR_DEFAULT_ADDRESS", LIS3DHTR_DATARATE_100HZ, LIS3DHTR_RANGE_2G, true)` | accel_sensor.begin(Wire1, |
+| `lis3dhtr_set_power_mode` | Statement | MODE(dropdown) | `lis3dhtr_set_power_mode(POWER_MODE_NORMAL)` | accel_sensor.setPowerMode( |
+| `lis3dhtr_init_simplified` | Statement | WIRE(dropdown), ADDRESS(field_input), DATARATE(dropdown), RANGE(dropdown), HIGHRES(dropdown) | `lis3dhtr_init_simplified(Wire, "LIS3DHTR_DEFAULT_ADDRESS", LIS3DHTR_DATARATE_100HZ, LIS3DHTR_RANGE_2G, true)` | accel_sensor.begin( |
 | `lis3dhtr_available` | Value | (none) | `lis3dhtr_available()` | accel_sensor.available() |
 | `lis3dhtr_reset` | Statement | (none) | `lis3dhtr_reset()` | accel_sensor.reset();\n |
-| `lis3dhtr_on_tap` | Hat | CLICK_TYPE(dropdown), THRESHOLD(input_value), HANDLER(input_statement) | `lis3dhtr_on_tap("1", math_number(0)) @HANDLER: child_block()` | Dynamic code |
+| `lis3dhtr_on_tap` | Hat | CLICK_TYPE(dropdown), THRESHOLD(input_value), INT_PIN(field_input), HANDLER(input_statement) | `lis3dhtr_on_tap("1", math_number(40), "2") @HANDLER: child_block()` | Dynamic code |
 
 ## Parameter Options
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| WIRE | Wire1, Wire | lis3dhtr_begin |
+| WIRE | Wire, Wire1 | lis3dhtr_begin, lis3dhtr_init_simplified |
 | DATARATE | LIS3DHTR_DATARATE_POWERDOWN, LIS3DHTR_DATARATE_1HZ, LIS3DHTR_DATARATE_10HZ, LIS3DHTR_DATARATE_25HZ, LIS3DHTR_DATARATE_50HZ, LIS3DHTR_DATARATE_100HZ, LIS3DHTR_DATARATE_200HZ, LIS3DHTR_DATARATE_400HZ, LIS3DHTR_DATARATE_... | lis3dhtr_set_datarate |
 | ENABLE | true, false | lis3dhtr_set_resolution |
 | AXIS | X, Y, Z | lis3dhtr_get_acceleration |
 | CHANNEL | 1, 2, 3 | lis3dhtr_read_adc |
 | RANGE | LIS3DHTR_RANGE_2G, LIS3DHTR_RANGE_4G, LIS3DHTR_RANGE_8G, LIS3DHTR_RANGE_16G | lis3dhtr_set_full_scale_range, lis3dhtr_init_simplified |
-| MODE | LIS3DHTR_POWER_NORMAL, LIS3DHTR_POWER_LOW | lis3dhtr_set_power_mode |
+| MODE | POWER_MODE_NORMAL, POWER_MODE_LOW | lis3dhtr_set_power_mode |
 | DATARATE | LIS3DHTR_DATARATE_100HZ, LIS3DHTR_DATARATE_50HZ, LIS3DHTR_DATARATE_400HZ | lis3dhtr_init_simplified |
 | HIGHRES | true, false | lis3dhtr_init_simplified |
 | CLICK_TYPE | 1, 2 | lis3dhtr_on_tap |
+| INT_PIN | Any interrupt-capable digital pin | lis3dhtr_on_tap |
 
 ## ABS Examples
 
 ### Basic Usage
 ```
 arduino_setup()
-    lis3dhtr_begin(Wire1, "0x19")
+    lis3dhtr_begin(Wire, "0x19")
     serial_begin(Serial, 9600)
 
 arduino_loop()
