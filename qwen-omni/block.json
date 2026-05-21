@@ -28,6 +28,94 @@
     "icon": "fa-regular fa-head-side-gear"
   },
   {
+    "type": "qwen_omni_i2s_speaker_init",
+    "message0": "I2S喇叭初始化 对象 %1 %2 BCLK %3 LRCLK %4 DIN %5 采样率 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s_spk",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "BCLK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LRCLK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SAMPLE_RATE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "初始化MAX98357A等I2S喇叭输出对象，并自动声明I2SClass对象",
+    "helpUrl": "",
+    "icon": "fa-regular fa-volume-high"
+  },
+  {
+    "type": "qwen_omni_i2s_mic_init",
+    "message0": "I2S麦克风初始化 对象 %1 %2 BCLK %3 LRCLK/WS %4 SD/DOUT %5 采样率 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s_mic",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "BCLK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LRCLK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SD",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SAMPLE_RATE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "初始化INMP441等标准I2S麦克风输入对象，并自动声明I2SClass对象",
+    "helpUrl": "",
+    "icon": "fa-regular fa-microphone"
+  },
+  {
     "type": "qwen_omni_chat",
     "message0": "通义千问对话 %1 用户消息 %2 %3 模型 %4",
     "args0": [
@@ -724,7 +812,7 @@
   },
   {
     "type": "qwen_omni_tts_play",
-    "message0": "通义TTS播放音频 %1 I2S对象 %2 %3 Base64音频 %4",
+    "message0": "通义TTS播放音频 %1 喇叭对象 %2 %3 Base64音频 %4",
     "args0": [
       {
         "type": "inputsInline"
@@ -732,7 +820,11 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "i2s"
+        "variable": "i2s_spk",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
       },
       {
         "type": "inputsInline"
@@ -752,7 +844,7 @@
   },
   {
     "type": "qwen_omni_tts_and_play",
-    "message0": "通义TTS合成并播放 %1 I2S对象 %2 %3 文本 %4 %5 音色 %6 %7 模型 %8 %9 语种 %10",
+    "message0": "通义TTS合成并播放 %1 喇叭对象 %2 %3 文本 %4 %5 音色 %6 %7 模型 %8 %9 语种 %10",
     "args0": [
       {
         "type": "inputsInline"
@@ -760,7 +852,11 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "i2s"
+        "variable": "i2s_spk",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
       },
       {
         "type": "inputsInline"
@@ -891,7 +987,7 @@
   },
   {
     "type": "qwen_omni_tts_stream_play",
-    "message0": "通义TTS流式合成并播放 %1 I2S对象 %2 %3 文本 %4 %5 音色 %6 %7 模型 %8 %9 语种 %10",
+    "message0": "通义TTS流式合成并播放 %1 喇叭对象 %2 %3 文本 %4 %5 音色 %6 %7 模型 %8 %9 语种 %10",
     "args0": [
       {
         "type": "inputsInline"
@@ -899,7 +995,11 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "i2s"
+        "variable": "i2s_spk",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
       },
       {
         "type": "inputsInline"
@@ -1074,7 +1174,7 @@
   },
   {
     "type": "qwen_omni_omni_and_play",
-    "message0": "通义全模态对话并播放 %1 I2S对象 %2 %3 消息 %4 %5 模型 %6 %7 音色 %8",
+    "message0": "通义全模态对话并播放 %1 喇叭对象 %2 %3 消息 %4 %5 模型 %6 %7 音色 %8",
     "args0": [
       {
         "type": "inputsInline"
@@ -1082,7 +1182,11 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "i2s"
+        "variable": "i2s_spk",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
       },
       {
         "type": "inputsInline"
@@ -1186,13 +1290,13 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#FF6B35",
-    "tooltip": "全模态对话返回文字和语音，语音通过I2S播放。非流式模式，等待完整回复后播放",
+    "tooltip": "全模态对话返回文字和语音，边接收边解码并通过I2S小缓冲流式播放",
     "helpUrl": "",
     "icon": "fa-regular fa-head-side-gear"
   },
   {
     "type": "qwen_omni_omni_stream_play",
-    "message0": "通义全模态流式对话并播放 %1 I2S对象 %2 %3 消息 %4 %5 模型 %6 %7 音色 %8",
+    "message0": "通义全模态流式对话并播放 %1 喇叭对象 %2 %3 消息 %4 %5 模型 %6 %7 音色 %8",
     "args0": [
       {
         "type": "inputsInline"
@@ -1200,7 +1304,11 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "i2s"
+        "variable": "i2s_spk",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
       },
       {
         "type": "inputsInline"
@@ -1304,7 +1412,7 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#FF6B35",
-    "tooltip": "全模态流式对话，文字实时输出，语音收集完成后通过I2S播放。流式模式延迟更低",
+    "tooltip": "全模态流式对话，文字实时输出，语音边接收边解码并通过I2S小缓冲播放",
     "helpUrl": "",
     "icon": "fa-regular fa-head-side-gear"
   },
@@ -1319,7 +1427,7 @@
   },
   {
     "type": "qwen_omni_tts_voice_design",
-    "message0": "通义TTS音色设计合成 %1 I2S对象 %2 %3 文本 %4 %5 音色描述 %6",
+    "message0": "通义TTS音色设计合成 %1 喇叭对象 %2 %3 文本 %4 %5 音色描述 %6",
     "args0": [
       {
         "type": "inputsInline"
@@ -1327,7 +1435,11 @@
       {
         "type": "field_variable",
         "name": "VAR",
-        "variable": "i2s"
+        "variable": "i2s_spk",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
       },
       {
         "type": "inputsInline"
@@ -1355,12 +1467,25 @@
   },
   {
     "type": "qwen_omni_omni_voice_chat",
-    "message0": "通义全模态语音对话 I2S对象 %1 %2 录音 %3 秒 %4 模型 %5 音色 %6 %7 提问(可选) %8",
+    "message0": "通义全模态语音对话 麦克风对象 %1 喇叭对象 %2 %3 录音 %4 秒 %5 模型 %6 音色 %7 提示音 %8 %9 提问(可选) %10",
     "args0": [
       {
         "type": "field_variable",
-        "name": "VAR",
-        "variable": "i2s"
+        "name": "MIC_VAR",
+        "variable": "i2s_mic",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "field_variable",
+        "name": "SPK_VAR",
+        "variable": "i2s_spk",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
       },
       {
         "type": "inputsInline"
@@ -1400,22 +1525,67 @@
         "name": "VOICE",
         "options": [
           [
-            "Chelsie",
-            "Chelsie"
+            "Tina (甜甜)",
+            "Tina"
           ],
           [
-            "Ethan",
+            "Ethan (晨煦)",
             "Ethan"
           ],
           [
-            "Aria",
-            "Aria"
+            "Serena (苏瑶)",
+            "Serena"
           ],
           [
-            "Cindy",
+            "Raymond (林川野)",
+            "Raymond"
+          ],
+          [
+            "Cindy (林欣宜)",
             "Cindy"
+          ],
+          [
+            "Liora Mira (清欢)",
+            "Liora Mira"
+          ],
+          [
+            "Sunnybobi (知芝)",
+            "Sunnybobi"
+          ],
+          [
+            "Theo Calm (予安)",
+            "Theo Calm"
+          ],
+          [
+            "Harvey (厚)",
+            "Harvey"
+          ],
+          [
+            "Maia (四月)",
+            "Maia"
+          ],
+          [
+            "Evan (江晨)",
+            "Evan"
+          ],
+          [
+            "Momo (茉兔)",
+            "Momo"
+          ],
+          [
+            "Dylan (晓东)",
+            "Dylan"
+          ],
+          [
+            "Sunny (晴儿)",
+            "Sunny"
           ]
         ]
+      },
+      {
+        "type": "field_checkbox",
+        "name": "BEEP",
+        "checked": true
       },
       {
         "type": "inputsInline"
@@ -1429,7 +1599,7 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#FF6B35",
-    "tooltip": "从I2S麦克风录音，发送到通义全模态对话API，播放返回的语音回复。录音格式为24kHz 16bit单声道",
+    "tooltip": "使用独立麦克风I2S对象录音、独立喇叭I2S对象边接收边解码播放回复。勾选提示音会在录音开始和结束各滴一声。录音格式为16kHz 16bit单声道",
     "helpUrl": "",
     "icon": "fa-regular fa-head-side-gear"
   }
