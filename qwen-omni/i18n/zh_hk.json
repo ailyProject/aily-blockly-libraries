@@ -4,6 +4,14 @@
     "message0": "配置通义千问API %1 API Key %2 %3 Base URL %4",
     "tooltip": "配置通义千问API的访问密钥和基础URL"
   },
+  "qwen_omni_i2s_speaker_init": {
+    "message0": "I2S喇叭初始化 對象 %1 %2 BCLK %3 LRCLK %4 DIN %5 採樣率 %6",
+    "tooltip": "初始化MAX98357A等I2S喇叭輸出對象，並自動聲明I2SClass對象"
+  },
+  "qwen_omni_i2s_mic_init": {
+    "message0": "I2S麥克風初始化 對象 %1 %2 BCLK %3 LRCLK/WS %4 SD/DOUT %5 採樣率 %6",
+    "tooltip": "初始化INMP441等標準I2S麥克風輸入對象，並自動聲明I2SClass對象"
+  },
   "qwen_omni_chat": {
     "message0": "通义千问对话 %1 用户消息 %2 %3 模型 %4",
     "tooltip": "发送消息到通义千问并获取回复",
@@ -464,11 +472,11 @@
     ]
   },
   "qwen_omni_tts_play": {
-    "message0": "通義TTS播放音頻 %1 I2S對象 %2 %3 Base64音頻 %4",
+    "message0": "通義TTS播放音頻 %1 喇叭對象 %2 %3 Base64音頻 %4",
     "tooltip": "將通義TTS返回的Base64音頻數據解碼並通過I2S播放(24kHz 16bit 單聲道)"
   },
   "qwen_omni_tts_and_play": {
-    "message0": "通義TTS合成並播放 %1 I2S對象 %2 %3 文本 %4 %5 音色 %6 %7 模型 %8 %9 語種 %10",
+    "message0": "通義TTS合成並播放 %1 喇叭對象 %2 %3 文本 %4 %5 音色 %6 %7 模型 %8 %9 語種 %10",
     "tooltip": "使用通義TTS流式合成語音並通過I2S播放。先收集完整音頻再播放，音質穩定",
     "args0": [
       null,
@@ -577,7 +585,7 @@
     ]
   },
   "qwen_omni_tts_stream_play": {
-    "message0": "通義TTS流式合成並播放 %1 I2S對象 %2 %3 文本 %4 %5 音色 %6 %7 模型 %8 %9 語種 %10",
+    "message0": "通義TTS流式合成並播放 %1 喇叭對象 %2 %3 文本 %4 %5 音色 %6 %7 模型 %8 %9 語種 %10",
     "tooltip": "使用通義TTS流式合成語音並通過I2S播放。邊接收邊解碼播放，延遲更低，語音連續流暢",
     "args0": [
       null,
@@ -715,8 +723,8 @@
     ]
   },
   "qwen_omni_omni_and_play": {
-    "message0": "通義全模態對話並播放 %1 I2S對象 %2 %3 消息 %4 %5 模型 %6 %7 音色 %8",
-    "tooltip": "全模態對話返回文字和語音，語音通過I2S播放。流式接收完成後播放音頻",
+    "message0": "通義全模態對話並播放 %1 喇叭對象 %2 %3 消息 %4 %5 模型 %6 %7 音色 %8",
+    "tooltip": "全模態對話返回文字和語音，邊接收邊解碼並通過I2S小緩衝流式播放",
     "args0": [
       null,
       null,
@@ -807,8 +815,8 @@
     ]
   },
   "qwen_omni_omni_stream_play": {
-    "message0": "通義全模態流式對話並播放 %1 I2S對象 %2 %3 消息 %4 %5 模型 %6 %7 音色 %8",
-    "tooltip": "全模態流式對話，文字實時輸出，語音收集完成後通過I2S播放。流式模式延遲更低",
+    "message0": "通義全模態流式對話並播放 %1 喇叭對象 %2 %3 消息 %4 %5 模型 %6 %7 音色 %8",
+    "tooltip": "全模態流式對話，文字實時輸出，語音邊接收邊解碼並通過I2S小緩衝播放",
     "args0": [
       null,
       null,
@@ -903,13 +911,14 @@
     "tooltip": "獲取全模態對話返回的Base64音頻數據(在全模態對話後使用)"
   },
   "qwen_omni_tts_voice_design": {
-    "message0": "通義TTS音色設計合成 %1 I2S對象 %2 %3 文本 %4 %5 音色描述 %6",
+    "message0": "通義TTS音色設計合成 %1 喇叭對象 %2 %3 文本 %4 %5 音色描述 %6",
     "tooltip": "使用音色設計模型，通過文字描述自定義音色並合成播放。例如:溫柔的年輕女聲，語速稍快"
   },
   "qwen_omni_omni_voice_chat": {
-    "message0": "通義全模態語音對話 I2S對象 %1 %2 錄音 %3 秒 %4 模型 %5 音色 %6 %7 提問(可選) %8",
-    "tooltip": "從I2S麥克風錄音，發送到通義全模態對話API，播放返回的語音回覆。錄音格式為24kHz 16bit單聲道",
+    "message0": "通義全模態語音對話 麥克風對象 %1 喇叭對象 %2 %3 錄音 %4 秒 %5 模型 %6 音色 %7 提示音 %8 %9 提問(可選) %10",
+    "tooltip": "使用獨立麥克風I2S對象錄音、獨立喇叭I2S對象邊接收邊解碼播放回覆。勾選提示音會在錄音開始和結束各滴一聲。錄音格式為16kHz 16bit單聲道",
     "args0": [
+      null,
       null,
       null,
       null,
@@ -937,23 +946,64 @@
       {
         "options": [
           [
-            "Chelsie (溫柔女聲)",
-            "Chelsie"
+            "Tina (甜甜)",
+            "Tina"
           ],
           [
-            "Ethan (陽光男聲)",
+            "Ethan (晨煦)",
             "Ethan"
           ],
           [
-            "Aria",
-            "Aria"
+            "Serena (蘇瑤)",
+            "Serena"
+          ],
+          [
+            "Raymond (林川野)",
+            "Raymond"
           ],
           [
             "Cindy (林欣宜)",
             "Cindy"
+          ],
+          [
+            "Liora Mira (清歡)",
+            "Liora Mira"
+          ],
+          [
+            "Sunnybobi (知芝)",
+            "Sunnybobi"
+          ],
+          [
+            "Theo Calm (予安)",
+            "Theo Calm"
+          ],
+          [
+            "Harvey (厚)",
+            "Harvey"
+          ],
+          [
+            "Maia (四月)",
+            "Maia"
+          ],
+          [
+            "Evan (江晨)",
+            "Evan"
+          ],
+          [
+            "Momo (茉兔)",
+            "Momo"
+          ],
+          [
+            "Dylan (曉東)",
+            "Dylan"
+          ],
+          [
+            "Sunny (晴兒)",
+            "Sunny"
           ]
         ]
       },
+      null,
       null,
       null
     ]
