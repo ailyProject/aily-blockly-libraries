@@ -4,13 +4,15 @@ Alibaba Cloud Tongyi Qwen large language model API library supports text dialogu
 
 ## Library Info
 - **Name**: @aily-project/lib-qwen-omni
-- **Version**: 0.0.3
+- **Version**: 0.0.4
 
 ## Block Definitions
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `qwen_omni_config` | Statement | API_KEY(input_value), BASE_URL(input_value) | `qwen_omni_config(text("value"), text("value"))` | Dynamic code |
+| `qwen_omni_i2s_speaker_init` | Statement | VAR(field_variable), BCLK(input_value), LRCLK(input_value), DIN(input_value), SAMPLE_RATE(input_value) | `qwen_omni_i2s_speaker_init(variables_get($i2s_spk), math_number(15), math_number(16), math_number(7), math_number(24000))` | qwen_i2s_begin_speaker( |
+| `qwen_omni_i2s_mic_init` | Statement | VAR(field_variable), BCLK(input_value), LRCLK(input_value), SD(input_value), SAMPLE_RATE(input_value) | `qwen_omni_i2s_mic_init(variables_get($i2s_mic), math_number(5), math_number(4), math_number(6), math_number(16000))` | qwen_i2s_begin_microphone( |
 | `qwen_omni_chat` | Value | MESSAGE(input_value), MODEL(dropdown) | `qwen_omni_chat(text("value"), qwen3.6-flash)` | qwen_simple_request("...", ..., false) |
 | `qwen_omni_chat_simple` | Value | MESSAGE(input_value) | `qwen_omni_chat_simple(text("value"))` | qwen_simple_request("qwen3.6-flash", ..., false) |
 | `qwen_omni_chat_with_thinking` | Value | MESSAGE(input_value), MODEL(dropdown) | `qwen_omni_chat_with_thinking(text("value"), qwen3-max)` | qwen_simple_request("...", ..., true) |
@@ -28,15 +30,15 @@ Alibaba Cloud Tongyi Qwen large language model API library supports text dialogu
 | `qwen_omni_image_generate` | Value | PROMPT(input_value), MODEL(dropdown), SIZE(dropdown) | `qwen_omni_image_generate(text("value"), wanx2.1-t2i-turbo, "1024*1024")` | qwen_image_generate("...", ..., "...") |
 | `qwen_omni_image_generate_simple` | Value | PROMPT(input_value) | `qwen_omni_image_generate_simple(text("value"))` | qwen_image_generate("wanx2.1-t2i-turbo", ..., "1024*1024") |
 | `qwen_omni_tts` | Value | TEXT(input_value), VOICE(dropdown), MODEL(dropdown), LANGUAGE(dropdown) | `qwen_omni_tts(text("value"), Cherry, qwen3-tts-flash, Chinese)` | qwen_tts_request_v2(..., "...", "...", "...") |
-| `qwen_omni_tts_play` | Statement | VAR(field_variable), BASE64_AUDIO(input_value) | `qwen_omni_tts_play(variables_get($i2s), text("value"))` | qwen_play_base64_pcm(..., ...);\n |
-| `qwen_omni_tts_and_play` | Statement | VAR(field_variable), TEXT(input_value), VOICE(dropdown), MODEL(dropdown), LANGUAGE(dropdown) | `qwen_omni_tts_and_play(variables_get($i2s), text("value"), Cherry, qwen3-tts-flash, Chinese)` | Dynamic code |
-| `qwen_omni_tts_stream_play` | Statement | VAR(field_variable), TEXT(input_value), VOICE(dropdown), MODEL(dropdown), LANGUAGE(dropdown) | `qwen_omni_tts_stream_play(variables_get($i2s), text("value"), Cherry, qwen3-tts-flash, Chinese)` | qwen_tts_stream_play_impl_v2( |
+| `qwen_omni_tts_play` | Statement | VAR(field_variable), BASE64_AUDIO(input_value) | `qwen_omni_tts_play(variables_get($i2s_spk), text("value"))` | qwen_play_base64_audio_to_i2s(..., ...);\n |
+| `qwen_omni_tts_and_play` | Statement | VAR(field_variable), TEXT(input_value), VOICE(dropdown), MODEL(dropdown), LANGUAGE(dropdown) | `qwen_omni_tts_and_play(variables_get($i2s_spk), text("value"), Cherry, qwen3-tts-flash, Chinese)` | Dynamic code |
+| `qwen_omni_tts_stream_play` | Statement | VAR(field_variable), TEXT(input_value), VOICE(dropdown), MODEL(dropdown), LANGUAGE(dropdown) | `qwen_omni_tts_stream_play(variables_get($i2s_spk), text("value"), Cherry, qwen3-tts-flash, Chinese)` | qwen_tts_stream_play_impl_v3( |
 | `qwen_omni_omni_text` | Value | MESSAGE(input_value), MODEL(dropdown) | `qwen_omni_omni_text(text("value"), qwen3.5-omni-plus)` | qwen_omni_text_request("...", ...) |
-| `qwen_omni_omni_and_play` | Statement | VAR(field_variable), MESSAGE(input_value), MODEL(dropdown), VOICE(dropdown) | `qwen_omni_omni_and_play(variables_get($i2s), text("value"), qwen3.5-omni-plus, Tina)` | qwen_omni_and_play_request_v2( |
-| `qwen_omni_omni_stream_play` | Statement | VAR(field_variable), MESSAGE(input_value), MODEL(dropdown), VOICE(dropdown) | `qwen_omni_omni_stream_play(variables_get($i2s), text("value"), qwen3.5-omni-plus, Tina)` | qwen_omni_stream_play_request_v2( |
+| `qwen_omni_omni_and_play` | Statement | VAR(field_variable), MESSAGE(input_value), MODEL(dropdown), VOICE(dropdown) | `qwen_omni_omni_and_play(variables_get($i2s_spk), text("value"), qwen3.5-omni-plus, Tina)` | qwen_omni_and_play_request_v3( |
+| `qwen_omni_omni_stream_play` | Statement | VAR(field_variable), MESSAGE(input_value), MODEL(dropdown), VOICE(dropdown) | `qwen_omni_omni_stream_play(variables_get($i2s_spk), text("value"), qwen3.5-omni-plus, Tina)` | qwen_omni_stream_play_request_v3( |
 | `qwen_omni_omni_get_audio` | Value | (none) | `qwen_omni_omni_get_audio()` | qwen_omni_audio_data |
-| `qwen_omni_tts_voice_design` | Statement | VAR(field_variable), TEXT(input_value), VOICE_DESC(input_value) | `qwen_omni_tts_voice_design(variables_get($i2s), text("value"), text("value"))` | qwen_tts_voice_design_request( |
-| `qwen_omni_omni_voice_chat` | Statement | VAR(field_variable), DURATION(input_value), MODEL(dropdown), VOICE(dropdown), PROMPT(input_value) | `qwen_omni_omni_voice_chat(variables_get($i2s), math_number(1000), qwen3.5-omni-plus, Chelsie, text("value"))` | qwen_omni_voice_chat_request( |
+| `qwen_omni_tts_voice_design` | Statement | VAR(field_variable), TEXT(input_value), VOICE_DESC(input_value) | `qwen_omni_tts_voice_design(variables_get($i2s_spk), text("value"), text("value"))` | qwen_tts_voice_design_request( |
+| `qwen_omni_omni_voice_chat` | Statement | MIC_VAR(field_variable), SPK_VAR(field_variable), DURATION(input_value), MODEL(dropdown), VOICE(dropdown), BEEP(field_checkbox), PROMPT(input_value) | `qwen_omni_omni_voice_chat(variables_get($i2s_mic), variables_get($i2s_spk), math_number(3), qwen3.5-omni-plus, Tina, TRUE, text("value"))` | qwen_omni_voice_chat_request_dual_i2s( |
 
 ## Parameter Options
 
@@ -52,8 +54,7 @@ Alibaba Cloud Tongyi Qwen large language model API library supports text dialogu
 | LANGUAGE | Chinese, English, Japanese, Korean, French, German, Spanish, Russian, Portuguese, Italian | qwen_omni_tts, qwen_omni_tts_and_play, qwen_omni_tts_stream_play |
 | VOICE | Cherry, Ethan, Chelsie, Serena, Dylan, Jada, Sunny | qwen_omni_tts_and_play, qwen_omni_tts_stream_play |
 | MODEL | qwen3.5-omni-plus, qwen3.5-omni-flash, qwen3-omni-flash, qwen-omni-turbo | qwen_omni_omni_text, qwen_omni_omni_and_play, qwen_omni_omni_stream_play |
-| VOICE | Tina, Ethan, Serena, Raymond, Cindy, Liora Mira, Sunnybobi, Theo Calm, Harvey, Maia, Evan, Momo, Dylan, Sunny | qwen_omni_omni_and_play, qwen_omni_omni_stream_play |
-| VOICE | Chelsie, Ethan, Aria, Cindy | qwen_omni_omni_voice_chat |
+| VOICE | Tina, Ethan, Serena, Raymond, Cindy, Liora Mira, Sunnybobi, Theo Calm, Harvey, Maia, Evan, Momo, Dylan, Sunny | qwen_omni_omni_and_play, qwen_omni_omni_stream_play, qwen_omni_omni_voice_chat |
 
 ## ABS Examples
 

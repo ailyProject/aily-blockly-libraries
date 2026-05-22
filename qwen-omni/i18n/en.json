@@ -4,6 +4,14 @@
     "message0": "配置通义千问API %1 API Key %2 %3 Base URL %4",
     "tooltip": "配置通义千问API的访问密钥和基础URL"
   },
+  "qwen_omni_i2s_speaker_init": {
+    "message0": "I2S speaker init object %1 %2 BCLK %3 LRCLK %4 DIN %5 sample rate %6",
+    "tooltip": "Initialize an I2S speaker output such as MAX98357A and declare the I2SClass object"
+  },
+  "qwen_omni_i2s_mic_init": {
+    "message0": "I2S microphone init object %1 %2 BCLK %3 LRCLK/WS %4 SD/DOUT %5 sample rate %6",
+    "tooltip": "Initialize a standard I2S microphone input such as INMP441 and declare the I2SClass object"
+  },
   "qwen_omni_chat": {
     "message0": "通义千问对话 %1 用户消息 %2 %3 模型 %4",
     "tooltip": "发送消息到通义千问并获取回复",
@@ -464,11 +472,11 @@
     ]
   },
   "qwen_omni_tts_play": {
-    "message0": "Qwen TTS Play Audio %1 I2S Object %2 %3 Base64 Audio %4",
+    "message0": "Qwen TTS Play Audio %1 Speaker object %2 %3 Base64 Audio %4",
     "tooltip": "Decode Base64 audio data from Qwen TTS and play via I2S (24kHz 16bit mono)"
   },
   "qwen_omni_tts_and_play": {
-    "message0": "Qwen TTS Synthesize & Play %1 I2S Object %2 %3 Text %4 %5 Voice %6 %7 Model %8 %9 Language %10",
+    "message0": "Qwen TTS Synthesize & Play %1 Speaker object %2 %3 Text %4 %5 Voice %6 %7 Model %8 %9 Language %10",
     "tooltip": "Synthesize speech with Qwen TTS and play via I2S. Collects full audio then plays for stable quality",
     "args0": [
       null,
@@ -577,7 +585,7 @@
     ]
   },
   "qwen_omni_tts_stream_play": {
-    "message0": "Qwen TTS Stream & Play %1 I2S Object %2 %3 Text %4 %5 Voice %6 %7 Model %8 %9 Language %10",
+    "message0": "Qwen TTS Stream & Play %1 Speaker object %2 %3 Text %4 %5 Voice %6 %7 Model %8 %9 Language %10",
     "tooltip": "Stream TTS synthesis with Qwen and play via I2S in real-time. Lower latency, continuous smooth audio",
     "args0": [
       null,
@@ -715,8 +723,8 @@
     ]
   },
   "qwen_omni_omni_and_play": {
-    "message0": "Qwen Omni Chat & Play %1 I2S Object %2 %3 Message %4 %5 Model %6 %7 Voice %8",
-    "tooltip": "Omni dialog returns text and audio, audio played via I2S after streaming completes",
+    "message0": "Qwen Omni Chat & Play %1 Speaker object %2 %3 Message %4 %5 Model %6 %7 Voice %8",
+    "tooltip": "Omni dialog returns text and audio, decoding while receiving and playing through a small I2S buffer",
     "args0": [
       null,
       null,
@@ -807,8 +815,8 @@
     ]
   },
   "qwen_omni_omni_stream_play": {
-    "message0": "Qwen Omni Stream & Play %1 I2S Object %2 %3 Message %4 %5 Model %6 %7 Voice %8",
-    "tooltip": "Omni streaming dialog, text output in real-time, audio collected and played via I2S. Lower latency",
+    "message0": "Qwen Omni Stream & Play %1 Speaker object %2 %3 Message %4 %5 Model %6 %7 Voice %8",
+    "tooltip": "Omni streaming dialog, text output in real time, audio decoded while receiving and played through a small I2S buffer",
     "args0": [
       null,
       null,
@@ -903,13 +911,14 @@
     "tooltip": "Get Base64 audio data returned by Omni dialog (use after Omni dialog)"
   },
   "qwen_omni_tts_voice_design": {
-    "message0": "Qwen TTS Voice Design %1 I2S Object %2 %3 Text %4 %5 Voice Description %6",
+    "message0": "Qwen TTS Voice Design %1 Speaker object %2 %3 Text %4 %5 Voice Description %6",
     "tooltip": "Custom voice by text description and synthesize. e.g. gentle young female voice, slightly fast"
   },
   "qwen_omni_omni_voice_chat": {
-    "message0": "Qwen Omni Voice Chat %1 I2S Object %2 %3 Record %4 s %5 Model %6 Voice %7 %8 Prompt (optional) %9",
-    "tooltip": "Record from I2S microphone, send to Qwen Omni API, play voice response. Recording format: 24kHz 16bit mono",
+    "message0": "Qwen Omni Voice Chat mic object %1 speaker object %2 %3 Record %4 s %5 Model %6 Voice %7 beep %8 %9 Prompt (optional) %10",
+    "tooltip": "Record with an independent microphone I2S object and decode/play the response through an independent speaker I2S object while receiving. When beep is checked, one short beep plays at recording start and end. Recording format: 16kHz 16bit mono",
     "args0": [
+      null,
       null,
       null,
       null,
@@ -937,23 +946,64 @@
       {
         "options": [
           [
-            "Chelsie",
-            "Chelsie"
+            "Tina",
+            "Tina"
           ],
           [
             "Ethan",
             "Ethan"
           ],
           [
-            "Aria",
-            "Aria"
+            "Serena",
+            "Serena"
+          ],
+          [
+            "Raymond",
+            "Raymond"
           ],
           [
             "Cindy",
             "Cindy"
+          ],
+          [
+            "Liora Mira",
+            "Liora Mira"
+          ],
+          [
+            "Sunnybobi",
+            "Sunnybobi"
+          ],
+          [
+            "Theo Calm",
+            "Theo Calm"
+          ],
+          [
+            "Harvey",
+            "Harvey"
+          ],
+          [
+            "Maia",
+            "Maia"
+          ],
+          [
+            "Evan",
+            "Evan"
+          ],
+          [
+            "Momo",
+            "Momo"
+          ],
+          [
+            "Dylan",
+            "Dylan"
+          ],
+          [
+            "Sunny",
+            "Sunny"
           ]
         ]
       },
+      null,
       null,
       null
     ]
