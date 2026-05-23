@@ -24,6 +24,7 @@ The monochrome display driver library based on u8g2 can drive a variety of OLED 
 | `u8g2_icon_32x32` | Value | CUSTOM_BITMAP(field_bitmap_u8g2) | `u8g2_icon_32x32()` | Dynamic code |
 | `u8g2_icon_64x64` | Value | CUSTOM_BITMAP(field_bitmap_u8g2) | `u8g2_icon_64x64()` | Dynamic code |
 | `u8g2_set_flip_mode` | Statement | MODE(dropdown) | `u8g2_set_flip_mode("0")` | u8g2.setFlipMode(...);\n |
+| `u8g2_set_display_mirror` | Statement | MODE(dropdown) | `u8g2_set_display_mirror("U8G2_MIRROR")` | u8g2.setDisplayRotation(...);\n |
 | `u8g2_set_power_save` | Statement | MODE(dropdown) | `u8g2_set_power_save("0")` | u8g2.setPowerSave(...);\n |
 | `u8g2_set_contrast` | Statement | VALUE(input_value) | `u8g2_set_contrast(math_number(0))` | u8g2.setContrast(...);\n |
 | `u8g2_set_bus_clock` | Statement | SPEED(dropdown) | `u8g2_set_bus_clock("100000")` | u8g2.setBusClock(...);\n |
@@ -43,6 +44,7 @@ The monochrome display driver library based on u8g2 can drive a variety of OLED 
 | TYPE | SSD1306, SSD1309, SH1106, SH1107, ST7305, ST7920 | u8g2_begin |
 | MODE | FULL_BUFFER, PAGE_BUFFER | u8g2_begin |
 | MODE | 0, 1 | u8g2_set_flip_mode, u8g2_set_power_save |
+| MODE | U8G2_R0, U8G2_MIRROR, U8G2_MIRROR_VERTICAL | u8g2_set_display_mirror |
 | SPEED | 100000, 400000, 1000000 | u8g2_set_bus_clock |
 | SIZE | 8, 14, 19, 25, 34, 42, 50, 58 | u8g2_set_font |
 | COLOR | 1, 0, 2 | u8g2_set_draw_color |
