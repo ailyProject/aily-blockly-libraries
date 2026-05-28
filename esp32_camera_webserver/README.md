@@ -7,7 +7,7 @@ ESP32 camera network server library supports multiple ESP32 development boards t
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-esp32-camera-webserver |
-| Version | 1.2.1 |
+| Version | 1.2.2 |
 | Author | Vonweller |
 | Source | N/A |
 | License | Original license |
