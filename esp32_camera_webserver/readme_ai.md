@@ -4,13 +4,14 @@ ESP32 camera network server library supports multiple ESP32 development boards t
 
 ## Library Info
 - **Name**: @aily-project/lib-esp32-camera-webserver
-- **Version**: 1.2.1
+- **Version**: 1.2.2
 
 ## Block Definitions
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `esp32_camera_webserver_init` | Statement | MODEL(dropdown), RESOLUTION(dropdown) | `esp32_camera_webserver_init(CAMERA_MODEL_AI_THINKER, FRAMESIZE_UXGA)` | Dynamic code |
+| `esp32_camera_print_diagnostics` | Statement | (none) | `esp32_camera_print_diagnostics()` | Print camera init/sensor diagnostics to Serial |
 | `esp32_camera_custom_pins` | Statement | DATA_PINS(input_value), XCLK(input_value), PCLK(input_value), VSYNC(input_value), HREF(input_value), SDA(input_value), SCL(input_value), PWDN(input_value), R... | `esp32_camera_custom_pins(text("value"), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0))` | Dynamic code |
 | `esp32_camera_set_quality` | Statement | QUALITY(field_number) | `esp32_camera_set_quality(10)` | { sensor_t * s = esp_camera_sensor_get(); s->set_quality(s, ...); } |
 | `esp32_camera_set_flip` | Statement | VFLIP(field_checkbox), HMIRROR(field_checkbox) | `esp32_camera_set_flip(FALSE, FALSE)` | { sensor_t * s = esp_camera_sensor_get(); s->set_vflip(s, ...); s->set_hmirror(s, ...); } |
