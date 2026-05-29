@@ -4,7 +4,7 @@ ESP32 camera network server library supports multiple ESP32 development boards t
 
 ## Library Info
 - **Name**: @aily-project/lib-esp32-camera-webserver
-- **Version**: 1.2.2
+- **Version**: 1.2.3
 
 ## Block Definitions
 
@@ -29,7 +29,7 @@ ESP32 camera network server library supports multiple ESP32 development boards t
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| MODEL | CAMERA_MODEL_AI_THINKER, CAMERA_MODEL_M5STACK_PSRAM, CAMERA_MODEL_M5STACK_WIDE, CAMERA_MODEL_ESP_EYE, CAMERA_MODEL_DFRobot_FireBeetle2_ESP32S3, CAMERA_MODEL_ESP32S3_EYE, CAMERA_MODEL_XIAO_ESP32S3, CAMERA_MODEL_ESP32S3_WROOM_CAM, CAMERA_MODEL_ESP32_AIOT_KIT, CUSTOM | esp32_camera_webserver_init |
+| MODEL | CAMERA_MODEL_AI_THINKER, CAMERA_MODEL_M5STACK_PSRAM, CAMERA_MODEL_M5STACK_WIDE, CAMERA_MODEL_ESP_EYE, CAMERA_MODEL_DFRobot_FireBeetle2_ESP32S3, CAMERA_MODEL_ESP32S3_EYE, CAMERA_MODEL_XIAO_ESP32S3, CAMERA_MODEL_ESP32S3_WROOM_CAM, CAMERA_MODEL_ESP32_AIOT_KIT, CAMERA_MODEL_ESP32_AIOT_KIT_GC2145, CUSTOM | esp32_camera_webserver_init |
 | RESOLUTION | FRAMESIZE_UXGA, FRAMESIZE_SXGA, FRAMESIZE_XGA, FRAMESIZE_SVGA, FRAMESIZE_VGA, FRAMESIZE_CIF, FRAMESIZE_QVGA, FRAMESIZE_HQVGA, FRAMESIZE_QQVGA | esp32_camera_webserver_init |
 
 ## ABS Examples
