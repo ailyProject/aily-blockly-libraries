@@ -29,6 +29,7 @@ void esp32_camera_print_error_diagnostics(esp_err_t err) {
   Serial.printf("[CAM] init error: 0x%x\\n", err);
   if (err == ESP_ERR_NOT_SUPPORTED) {
     Serial.println("[CAM] 0x106 ESP_ERR_NOT_SUPPORTED: sensor ID is not supported, or SCCB/I2C read got a bad ID.");
+    Serial.println("[CAM] GC2145 does not support native JPEG. Use the GC2145 preset so RGB565 is selected.");
     Serial.println("[CAM] Check real camera sensor model, FPC direction, SIOD/SIOC pins, XCLK, power and driver version.");
     Serial.println("[CAM] Supported examples: OV2640, OV3660, OV5640, OV7670, NT99141, GC2145, GC0308, GC032A, BF20A6, SC101IOT, SC030IOT, SC031GS.");
   } else if (err == ESP_ERR_NOT_FOUND) {
@@ -111,6 +112,9 @@ Arduino.forBlock['esp32_camera_custom_pins'] = function (block, generator) {
 Arduino.forBlock['esp32_camera_webserver_init'] = function (block, generator) {
   const model = block.getFieldValue('MODEL');
   const resolution = block.getFieldValue('RESOLUTION');
+  const isGc2145Aiot = model === 'CAMERA_MODEL_ESP32_AIOT_KIT_GC2145';
+  const pixelFormat = isGc2145Aiot ? 'PIXFORMAT_RGB565' : 'PIXFORMAT_JPEG';
+  const frameSize = isGc2145Aiot ? 'FRAMESIZE_VGA' : resolution;
 
   generator.addLibrary('esp_camera', '#include <esp_camera.h>');
   generator.addLibrary('WiFi', '#include <WiFi.h>');
@@ -190,8 +194,8 @@ Arduino.forBlock['esp32_camera_webserver_init'] = function (block, generator) {
   config.ledc_timer = LEDC_TIMER_0;
 ${pinConfig}
   config.xclk_freq_hz = 20000000;
-  config.frame_size = ${resolution};
-  config.pixel_format = PIXFORMAT_JPEG;
+  config.frame_size = ${frameSize};
+  config.pixel_format = ${pixelFormat};
   config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;
   config.fb_location = CAMERA_FB_IN_PSRAM;
   config.jpeg_quality = 12;
