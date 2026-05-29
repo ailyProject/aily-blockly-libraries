@@ -4,7 +4,7 @@ ESP32 camera network server library supports multiple ESP32 development boards t
 
 ## Library Info
 - **Name**: @aily-project/lib-esp32-camera-webserver
-- **Version**: 1.2.4
+- **Version**: 1.2.5
 
 ## Block Definitions
 
@@ -53,3 +53,7 @@ arduino_loop()
 ## GC2145 Note
 
 `CAMERA_MODEL_ESP32_AIOT_KIT_GC2145` uses `PIXFORMAT_RGB565` and `FRAMESIZE_VGA` because GC2145 does not support native JPEG output. Streaming still works through software JPEG conversion in the web server.
+
+## ESP32_AIOT_Kit GC2145 Pins
+
+`CAMERA_MODEL_ESP32_AIOT_KIT_GC2145` uses D0-D7: `16,17,18,12,8,9,10,11`, XCLK `15`, PCLK `13`, VSYNC `6`, HREF `7`, SIOD/SIOC `4/5`.
