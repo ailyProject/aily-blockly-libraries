@@ -1,0 +1,809 @@
+[
+  {
+    "type": "async_fs_webserver_create",
+    "icon": "fa-light fa-server",
+    "message0": "创建ESP32文件系统Web服务器 %1 文件系统 %2 端口 %3 主机名 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "server"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FS",
+        "options": [
+          ["LittleFS", "LittleFS"],
+          ["SPIFFS", "SPIFFS"],
+          ["FFat", "FFat"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "PORT",
+        "value": 80,
+        "min": 1,
+        "max": 65535,
+        "precision": 1
+      },
+      {
+        "type": "input_value",
+        "name": "HOST",
+        "check": ["String"]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "创建AsyncFsWebServer全局对象并注册变量，ESP32专用"
+  },
+  {
+    "type": "async_fs_webserver_mount_fs",
+    "icon": "fa-light fa-folder-tree",
+    "message0": "%1 挂载文件系统 %2 失败时自动格式化 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FS",
+        "options": [
+          ["LittleFS", "LittleFS"],
+          ["SPIFFS", "SPIFFS"],
+          ["FFat", "FFat"]
+        ]
+      },
+      {
+        "type": "field_checkbox",
+        "name": "FORMAT",
+        "checked": true
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "在setup中挂载ESP32文件系统，失败时可自动格式化并重启"
+  },
+  {
+    "type": "async_fs_webserver_print_files",
+    "icon": "fa-light fa-list-tree",
+    "message0": "%1 打印 %2 目录 %3 层级 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FS",
+        "options": [
+          ["LittleFS", "LittleFS"],
+          ["SPIFFS", "SPIFFS"],
+          ["FFat", "FFat"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DIR",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "LEVELS",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "通过Serial打印文件系统目录内容"
+  },
+  {
+    "type": "async_fs_webserver_connect_or_ap",
+    "icon": "fa-light fa-wifi",
+    "message0": "%1 连接已保存WiFi 超时 %2 毫秒 失败则开启AP %3 密码 %4 跳转 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "SSID",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "REDIRECT",
+        "check": ["String"]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00897B",
+    "tooltip": "先用已保存凭据连接WiFi，失败后启动配置热点和强制门户"
+  },
+  {
+    "type": "async_fs_webserver_start_wifi",
+    "icon": "fa-light fa-wifi",
+    "message0": "%1 连接已保存WiFi 超时 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00897B",
+    "tooltip": "使用文件系统中保存的WiFi凭据连接网络，返回前会等待指定超时"
+  },
+  {
+    "type": "async_fs_webserver_captive_portal",
+    "icon": "fa-light fa-router",
+    "message0": "%1 启动配置AP %2 密码 %3 跳转 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "SSID",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "REDIRECT",
+        "check": ["String"]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00897B",
+    "tooltip": "启动ESP32热点和强制门户，通常跳转到/setup页面"
+  },
+  {
+    "type": "async_fs_webserver_start_server",
+    "icon": "fa-light fa-play",
+    "message0": "启动 %1 Web服务器",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0D47A1",
+    "tooltip": "注册内置处理器并启动Web服务器"
+  },
+  {
+    "type": "async_fs_webserver_start_ws_server",
+    "icon": "fa-light fa-wave-pulse",
+    "message0": "启动 %1 Web服务器并启用/ws事件",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      }
+    ],
+    "message1": "当WebSocket事件发生 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0D47A1",
+    "tooltip": "启动服务器并在默认/ws路径注册WebSocket事件回调"
+  },
+  {
+    "type": "async_fs_webserver_file_editor",
+    "icon": "fa-light fa-file-code",
+    "message0": "%1 启用/edit文件编辑器",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5E35B1",
+    "tooltip": "启用内置ACE文件浏览、上传、编辑和删除页面"
+  },
+  {
+    "type": "async_fs_webserver_set_auth",
+    "icon": "fa-light fa-lock-keyhole",
+    "message0": "%1 设置/setup账号 %2 密码 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "USER",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6D4C41",
+    "tooltip": "给/setup管理页面设置Basic Auth账号和密码"
+  },
+  {
+    "type": "async_fs_webserver_require_auth",
+    "icon": "fa-light fa-shield-keyhole",
+    "message0": "%1 所有页面都需要认证 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "REQUIRE",
+        "checked": true
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6D4C41",
+    "tooltip": "开启后所有页面都需要Basic Auth认证"
+  },
+  {
+    "type": "async_fs_webserver_page_title",
+    "icon": "fa-light fa-heading",
+    "message0": "%1 设置/setup页面标题 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "TITLE",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5E35B1",
+    "tooltip": "设置/setup配置页面中显示的标题"
+  },
+  {
+    "type": "async_fs_webserver_firmware_version",
+    "icon": "fa-light fa-code-branch",
+    "message0": "%1 设置固件版本 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "VERSION",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5E35B1",
+    "tooltip": "设置/setup页面显示的当前固件版本"
+  },
+  {
+    "type": "async_fs_webserver_option_box",
+    "icon": "fa-light fa-square-list",
+    "message0": "%1 添加选项分组 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "TITLE",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5E35B1",
+    "tooltip": "在/setup页面添加一个应用配置选项分组"
+  },
+  {
+    "type": "async_fs_webserver_option_text",
+    "icon": "fa-light fa-input-text",
+    "message0": "%1 添加文本选项 标签 %2 默认值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5E35B1",
+    "tooltip": "在/setup页面添加文本配置项"
+  },
+  {
+    "type": "async_fs_webserver_option_number",
+    "icon": "fa-light fa-sliders",
+    "message0": "%1 添加数值选项 标签 %2 默认值 %3 最小 %4 最大 %5 步进 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "MIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "MAX",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "STEP",
+        "check": ["Number"]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5E35B1",
+    "tooltip": "在/setup页面添加带范围和步进的数值配置项"
+  },
+  {
+    "type": "async_fs_webserver_option_bool",
+    "icon": "fa-light fa-toggle-on",
+    "message0": "%1 添加开关选项 标签 %2 默认勾选 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
+        "check": ["String"]
+      },
+      {
+        "type": "field_checkbox",
+        "name": "VALUE",
+        "checked": false
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5E35B1",
+    "tooltip": "在/setup页面添加布尔开关配置项"
+  },
+  {
+    "type": "async_fs_webserver_option_comment",
+    "icon": "fa-light fa-message-lines",
+    "message0": "%1 为选项 %2 添加说明 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "COMMENT",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5E35B1",
+    "tooltip": "给/setup页面中的指定配置项添加帮助说明"
+  },
+  {
+    "type": "async_fs_webserver_route",
+    "icon": "fa-light fa-route",
+    "message0": "%1 添加HTTP路由 路径 %2 方法 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": ["String"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "METHOD",
+        "options": [
+          ["GET", "HTTP_GET"],
+          ["POST", "HTTP_POST"],
+          ["PUT", "HTTP_PUT"],
+          ["DELETE", "HTTP_DELETE"],
+          ["任意", "HTTP_ANY"]
+        ]
+      }
+    ],
+    "message1": "收到请求后 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#039BE5",
+    "tooltip": "为ESPAsyncWebServer添加自定义HTTP路由处理函数"
+  },
+  {
+    "type": "async_fs_webserver_response",
+    "icon": "fa-light fa-reply",
+    "message0": "响应请求 状态码 %1 类型 %2 内容 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "STATUS",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "CONTENT_TYPE",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "BODY",
+        "check": ["String"]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#039BE5",
+    "tooltip": "在HTTP路由处理块内部发送响应"
+  },
+  {
+    "type": "async_fs_webserver_response_ok",
+    "icon": "fa-light fa-circle-check",
+    "message0": "响应OK",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#039BE5",
+    "tooltip": "在HTTP路由处理块内部发送默认OK响应"
+  },
+  {
+    "type": "async_fs_webserver_request_arg",
+    "icon": "fa-light fa-input-pipe",
+    "message0": "请求参数 %1 来源 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": ["String"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SOURCE",
+        "options": [
+          ["查询参数", "false"],
+          ["表单POST", "true"]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#039BE5",
+    "tooltip": "在HTTP路由处理块内部读取请求参数"
+  },
+  {
+    "type": "async_fs_webserver_request_has_arg",
+    "icon": "fa-light fa-circle-question",
+    "message0": "请求包含参数 %1 来源 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": ["String"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SOURCE",
+        "options": [
+          ["查询参数", "false"],
+          ["表单POST", "true"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#039BE5",
+    "tooltip": "在HTTP路由处理块内部判断请求是否包含指定参数"
+  },
+  {
+    "type": "async_fs_webserver_request_path",
+    "icon": "fa-light fa-link",
+    "message0": "当前请求路径",
+    "output": "String",
+    "colour": "#039BE5",
+    "tooltip": "在HTTP路由处理块内部获取当前请求URL路径"
+  },
+  {
+    "type": "async_fs_webserver_ws_broadcast",
+    "icon": "fa-light fa-broadcast-tower",
+    "message0": "%1 WebSocket广播文本 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      },
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7B1FA2",
+    "tooltip": "向所有已连接WebSocket客户端广播文本消息"
+  },
+  {
+    "type": "async_fs_webserver_ws_reply",
+    "icon": "fa-light fa-reply-clock",
+    "message0": "回复当前WebSocket客户端 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7B1FA2",
+    "tooltip": "在WebSocket事件块内部向当前客户端发送文本消息"
+  },
+  {
+    "type": "async_fs_webserver_ws_event_is",
+    "icon": "fa-light fa-code-compare",
+    "message0": "WebSocket事件是 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "EVENT",
+        "options": [
+          ["连接", "WS_EVT_CONNECT"],
+          ["断开", "WS_EVT_DISCONNECT"],
+          ["收到数据", "WS_EVT_DATA"],
+          ["错误", "WS_EVT_ERROR"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#7B1FA2",
+    "tooltip": "在WebSocket事件块内部判断当前事件类型"
+  },
+  {
+    "type": "async_fs_webserver_ws_message",
+    "icon": "fa-light fa-message-dots",
+    "message0": "WebSocket收到的文本",
+    "output": "String",
+    "colour": "#7B1FA2",
+    "tooltip": "在WebSocket收到数据事件中获取文本消息"
+  },
+  {
+    "type": "async_fs_webserver_ws_client_id",
+    "icon": "fa-light fa-id-card",
+    "message0": "WebSocket客户端ID",
+    "output": "Number",
+    "colour": "#7B1FA2",
+    "tooltip": "在WebSocket事件块内部获取当前客户端ID"
+  },
+  {
+    "type": "async_fs_webserver_server_ip",
+    "icon": "fa-light fa-network-wired",
+    "message0": "%1 服务器IP地址",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      }
+    ],
+    "output": "String",
+    "colour": "#43A047",
+    "tooltip": "获取当前Web服务器IP地址字符串"
+  },
+  {
+    "type": "async_fs_webserver_is_ap_mode",
+    "icon": "fa-light fa-tower-broadcast",
+    "message0": "%1 当前是AP模式",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#43A047",
+    "tooltip": "判断服务器当前是否运行在热点AP模式"
+  },
+  {
+    "type": "async_fs_webserver_start_mdns",
+    "icon": "fa-light fa-globe",
+    "message0": "%1 启动mDNS服务",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#43A047",
+    "tooltip": "WiFi已连接时启动mDNS响应器，便于通过hostname.local访问"
+  },
+  {
+    "type": "async_fs_webserver_clear_saved_settings",
+    "icon": "fa-light fa-trash-can",
+    "message0": "%1 清除/setup保存的配置",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#43A047",
+    "tooltip": "删除/setup/config.json配置文件，返回值会被忽略"
+  },
+  {
+    "type": "async_fs_webserver_settings_file_name",
+    "icon": "fa-light fa-file-lines",
+    "message0": "%1 配置文件路径",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "server",
+        "variableTypes": ["AsyncFsWebServer"],
+        "defaultType": "AsyncFsWebServer"
+      }
+    ],
+    "output": "String",
+    "colour": "#43A047",
+    "tooltip": "获取/setup保存配置文件的路径"
+  }
+]

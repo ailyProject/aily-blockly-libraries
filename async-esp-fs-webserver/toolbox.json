@@ -1,0 +1,481 @@
+{
+  "kind": "category",
+  "name": "ESP32异步Web服务器",
+  "icon": "fa-light fa-server",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_create",
+      "inputs": {
+        "HOST": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "esphost"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_mount_fs"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_print_files",
+      "inputs": {
+        "DIR": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/"
+            }
+          }
+        },
+        "LEVELS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "WiFi与启动"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_connect_or_ap",
+      "inputs": {
+        "TIMEOUT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10000
+            }
+          }
+        },
+        "SSID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "ESP_AP"
+            }
+          }
+        },
+        "PASSWORD": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "123456789"
+            }
+          }
+        },
+        "REDIRECT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/setup"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_start_wifi",
+      "inputs": {
+        "TIMEOUT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_captive_portal",
+      "inputs": {
+        "SSID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "ESP_AP"
+            }
+          }
+        },
+        "PASSWORD": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "123456789"
+            }
+          }
+        },
+        "REDIRECT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/setup"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_start_server"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_start_ws_server"
+    },
+    {
+      "kind": "label",
+      "text": "管理页面"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_file_editor"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_set_auth",
+      "inputs": {
+        "USER": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "admin"
+            }
+          }
+        },
+        "PASSWORD": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "admin"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_require_auth"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_page_title",
+      "inputs": {
+        "TITLE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "ESP32 Web Server"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_firmware_version",
+      "inputs": {
+        "VERSION": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "1.0.0"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "配置选项"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_option_box",
+      "inputs": {
+        "TITLE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "应用设置"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_option_text",
+      "inputs": {
+        "LABEL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "设备名称"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "ESP32"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_option_number",
+      "inputs": {
+        "LABEL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "LED Pin"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 2
+            }
+          }
+        },
+        "MIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "MAX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 100
+            }
+          }
+        },
+        "STEP": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_option_bool",
+      "inputs": {
+        "LABEL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "启用功能"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_option_comment",
+      "inputs": {
+        "LABEL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "LED Pin"
+            }
+          }
+        },
+        "COMMENT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "GPIO编号"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "HTTP路由"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_route",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/api/status"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_response",
+      "inputs": {
+        "STATUS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 200
+            }
+          }
+        },
+        "CONTENT_TYPE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "text/plain"
+            }
+          }
+        },
+        "BODY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "OK"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_response_ok"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_request_arg",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_request_has_arg",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_request_path"
+    },
+    {
+      "kind": "label",
+      "text": "WebSocket"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_ws_broadcast",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "hello"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_ws_reply",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "pong"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_ws_event_is"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_ws_message"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_ws_client_id"
+    },
+    {
+      "kind": "label",
+      "text": "状态与维护"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_server_ip"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_is_ap_mode"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_start_mdns"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_clear_saved_settings"
+    },
+    {
+      "kind": "block",
+      "type": "async_fs_webserver_settings_file_name"
+    }
+  ]
+}
