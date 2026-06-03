@@ -1,0 +1,272 @@
+[
+  {
+    "type": "huoshan_ai_config",
+    "message0": "配置火山 AI 语音 豆包 App ID %1 豆包 Token %2 Coze Token %3 Coze Bot ID %4 用户 ID %5",
+    "args0": [
+      {"type": "input_value", "name": "DOUBAO_APP_ID", "check": "String"},
+      {"type": "input_value", "name": "DOUBAO_TOKEN", "check": "String"},
+      {"type": "input_value", "name": "COZE_TOKEN", "check": "String"},
+      {"type": "input_value", "name": "COZE_BOT_ID", "check": "String"},
+      {"type": "input_value", "name": "USER_ID", "check": "String"}
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65A2E",
+    "tooltip": "配置豆包 ASR/TTS 与 Coze 多轮对话所需参数，用户 ID 为空时使用芯片 ID",
+    "helpUrl": "",
+    "icon": "fa-solid fa-volcano"
+  },
+  {
+    "type": "huoshan_ai_wifi_connect",
+    "message0": "火山 AI 连接 WiFi SSID %1 密码 %2 超时(ms) %3",
+    "args0": [
+      {"type": "input_value", "name": "SSID", "check": "String"},
+      {"type": "input_value", "name": "PASSWORD", "check": "String"},
+      {"type": "input_value", "name": "TIMEOUT", "check": "Number"}
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65A2E",
+    "tooltip": "连接 WiFi，后续 ASR、Coze 和 TTS 都依赖网络",
+    "helpUrl": "",
+    "icon": "fa-solid fa-wifi"
+  },
+  {
+    "type": "huoshan_ai_mic_config",
+    "message0": "配置火山 AI I2S 麦克风 端口 %1 BCLK %2 WS/LRCLK %3 DIN %4 增益 %5 最长录音秒数 %6",
+    "args0": [
+      {"type": "field_dropdown", "name": "PORT", "options": [["I2S0", "I2S_NUM_0"], ["I2S1", "I2S_NUM_1"]]},
+      {"type": "input_value", "name": "BCLK", "check": "Number"},
+      {"type": "input_value", "name": "WS", "check": "Number"},
+      {"type": "input_value", "name": "DIN", "check": "Number"},
+      {"type": "input_value", "name": "GAIN", "check": "Number"},
+      {"type": "input_value", "name": "MAX_SECONDS", "check": "Number"}
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65A2E",
+    "tooltip": "配置 I2S 麦克风引脚和录音参数，采样率固定 16kHz 16bit 单声道",
+    "helpUrl": "",
+    "icon": "fa-solid fa-microphone"
+  },
+  {
+    "type": "huoshan_ai_speaker_config",
+    "message0": "配置火山 AI I2S 扬声器 端口 %1 BCLK %2 WS/LRCLK %3 DOUT %4 音量 %5",
+    "args0": [
+      {"type": "field_dropdown", "name": "PORT", "options": [["I2S0", "I2S_NUM_0"], ["I2S1", "I2S_NUM_1"]]},
+      {"type": "input_value", "name": "BCLK", "check": "Number"},
+      {"type": "input_value", "name": "WS", "check": "Number"},
+      {"type": "input_value", "name": "DOUT", "check": "Number"},
+      {"type": "input_value", "name": "VOLUME", "check": "Number"}
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65A2E",
+    "tooltip": "配置 MAX98357 等 I2S 扬声器，TTS PCM 以 16kHz 播放",
+    "helpUrl": "",
+    "icon": "fa-solid fa-volume-high"
+  },
+  {
+    "type": "huoshan_ai_begin",
+    "message0": "启动火山 AI 语音",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65A2E",
+    "tooltip": "初始化 I2S 麦克风和扬声器，准备语音对话",
+    "helpUrl": "",
+    "icon": "fa-solid fa-play"
+  },
+  {
+    "type": "huoshan_ai_start_listening",
+    "message0": "火山 AI 开始聆听",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65A2E",
+    "tooltip": "开始从 I2S 麦克风录音，通常放在按钮按下事件中",
+    "helpUrl": "",
+    "icon": "fa-solid fa-record-vinyl"
+  },
+  {
+    "type": "huoshan_ai_stop_listening_and_chat",
+    "message0": "火山 AI 结束聆听并对话",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65A2E",
+    "tooltip": "停止录音，调用豆包 ASR 识别，再发送给 Coze 并用豆包 TTS 播放回复",
+    "helpUrl": "",
+    "icon": "fa-solid fa-comments"
+  },
+  {
+    "type": "huoshan_ai_send_text",
+    "message0": "火山 AI 发送文本到 Coze 文本 %1 播放回复 %2",
+    "args0": [
+      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {"type": "field_dropdown", "name": "SPEAK", "options": [["是", "true"], ["否", "false"]]}
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65A2E",
+    "tooltip": "直接发送文本给 Coze 多轮对话，可选择是否用 TTS 播放回复",
+    "helpUrl": "",
+    "icon": "fa-solid fa-paper-plane"
+  },
+  {
+    "type": "huoshan_ai_tts_speak",
+    "message0": "火山 AI TTS 播放文本 %1",
+    "args0": [
+      {"type": "input_value", "name": "TEXT", "check": "String"}
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65A2E",
+    "tooltip": "使用豆包 TTS 合成文本并通过 I2S 扬声器播放",
+    "helpUrl": "",
+    "icon": "fa-solid fa-volume-high"
+  },
+  {
+    "type": "huoshan_ai_stop_audio",
+    "message0": "火山 AI 停止音频播放",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65A2E",
+    "tooltip": "清空 I2S DMA 缓冲并停止当前播放",
+    "helpUrl": "",
+    "icon": "fa-solid fa-stop"
+  },
+  {
+    "type": "huoshan_ai_clear_conversation",
+    "message0": "火山 AI 清空 Coze 会话",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65A2E",
+    "tooltip": "清空 conversation_id，让下一次请求从新会话开始",
+    "helpUrl": "",
+    "icon": "fa-solid fa-rotate-left"
+  },
+  {
+    "type": "huoshan_ai_set_voice",
+    "message0": "火山 AI 设置豆包音色 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VOICE",
+        "options": [
+          ["湾湾小何", "zh_female_wanwanxiaohe_moon_bigtts"],
+          ["四郎", "zh_male_silang_mars_bigtts"],
+          ["甜美小源", "zh_female_tianmeixiaoyuan_moon_bigtts"],
+          ["暖心体贴", "ICL_zh_male_nuanxintitie_tob"],
+          ["成熟姐姐", "ICL_zh_female_chengshujiejie_tob"],
+          ["妩媚御姐", "ICL_zh_female_wumeiyujie_tob"],
+          ["性感御姐", "ICL_zh_female_xingganyujie_tob"],
+          ["傲娇女友", "ICL_zh_female_aojiaonvyou_tob"],
+          ["猴哥", "zh_male_sunwukong_mars_bigtts"],
+          ["熊二", "zh_male_xionger_mars_bigtts"],
+          ["佩奇猪", "zh_female_peiqi_mars_bigtts"],
+          ["武则天", "zh_female_wuzetian_mars_bigtts"],
+          ["呆萌川妹", "zh_female_daimengchuanmei_moon_bigtts"],
+          ["北京小爷", "zh_male_beijingxiaoye_moon_bigtts"],
+          ["少年梓辛", "zh_male_shaonianzixin_moon_bigtts"],
+          ["魅力女友", "zh_female_meilinvyou_moon_bigtts"],
+          ["深夜播客", "zh_male_shenyeboke_moon_bigtts"],
+          ["柔美女友", "zh_female_sajiaonvyou_moon_bigtts"],
+          ["撒娇学妹", "zh_female_yuanqinvyou_moon_bigtts"],
+          ["广西远舟", "zh_male_guangxiyuanzhou_moon_bigtts"],
+          ["妹坨洁儿", "zh_female_meituojieer_moon_bigtts"],
+          ["豫州子轩", "zh_male_yuzhouzixuan_moon_bigtts"],
+          ["邻家女孩", "zh_female_linjianvhai_moon_bigtts"],
+          ["高冷御姐", "zh_female_gaolengyujie_moon_bigtts"],
+          ["渊博小叔", "zh_male_yuanboxiaoshu_moon_bigtts"],
+          ["阳光青年", "zh_male_yangguangqingnian_moon_bigtts"],
+          ["爽快思思", "zh_female_shuangkuaisisi_moon_bigtts"],
+          ["温暖阿虎", "zh_male_wennuanahu_moon_bigtts"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65A2E",
+    "tooltip": "设置豆包 TTS voice_type，例如 zh_female_wanwanxiaohe_moon_bigtts",
+    "helpUrl": "",
+    "icon": "fa-solid fa-user-voice"
+  },
+  {
+    "type": "huoshan_ai_set_volume",
+    "message0": "火山 AI 设置播放音量 %1",
+    "args0": [
+      {"type": "input_value", "name": "VOLUME", "check": "Number"}
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65A2E",
+    "tooltip": "设置本地 I2S 播放音量，建议 0.0 到 1.0",
+    "helpUrl": "",
+    "icon": "fa-solid fa-volume-low"
+  },
+  {
+    "type": "huoshan_ai_set_speed",
+    "message0": "火山 AI 设置 TTS 语速 %1",
+    "args0": [
+      {"type": "input_value", "name": "SPEED", "check": "Number"}
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65A2E",
+    "tooltip": "设置豆包 TTS speed_ratio，通常 0.8 到 1.2",
+    "helpUrl": "",
+    "icon": "fa-solid fa-gauge-high"
+  },
+  {
+    "type": "huoshan_ai_get_state",
+    "message0": "获取火山 AI 当前状态",
+    "output": "String",
+    "colour": "#E65A2E",
+    "tooltip": "返回 idle、listening、recognizing、thinking、speaking、error 等状态",
+    "helpUrl": "",
+    "icon": "fa-solid fa-circle-info"
+  },
+  {
+    "type": "huoshan_ai_is_wifi_connected",
+    "message0": "火山 AI WiFi 已连接",
+    "output": "Boolean",
+    "colour": "#E65A2E",
+    "tooltip": "检查 WiFi 是否已连接",
+    "helpUrl": "",
+    "icon": "fa-solid fa-wifi"
+  },
+  {
+    "type": "huoshan_ai_get_last_asr_text",
+    "message0": "获取火山 AI 最后识别文本",
+    "output": "String",
+    "colour": "#E65A2E",
+    "tooltip": "返回最近一次豆包 ASR 的最终识别文本",
+    "helpUrl": "",
+    "icon": "fa-solid fa-closed-captioning"
+  },
+  {
+    "type": "huoshan_ai_get_last_reply_text",
+    "message0": "获取火山 AI 最后回复文本",
+    "output": "String",
+    "colour": "#E65A2E",
+    "tooltip": "返回最近一次 Coze 回复文本",
+    "helpUrl": "",
+    "icon": "fa-solid fa-message"
+  },
+  {
+    "type": "huoshan_ai_get_last_error",
+    "message0": "获取火山 AI 最后错误",
+    "output": "String",
+    "colour": "#E65A2E",
+    "tooltip": "返回最近一次错误信息",
+    "helpUrl": "",
+    "icon": "fa-solid fa-triangle-exclamation"
+  }
+]
