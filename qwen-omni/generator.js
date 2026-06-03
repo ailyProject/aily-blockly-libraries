@@ -806,7 +806,7 @@ Arduino.forBlock['qwen_omni_chat'] = function(block, generator) {
 Arduino.forBlock['qwen_omni_chat_simple'] = function(block, generator) {
   const message = generator.valueToCode(block, 'MESSAGE', Arduino.ORDER_ATOMIC) || '""';
 
-  const code = `qwen_simple_request("qwen3.6-flash", ${message}, false)`;
+  const code = `qwen_simple_request("qwen3.7-plus", ${message}, false)`;
   return [code, Arduino.ORDER_FUNCTION_CALL];
 };
 
