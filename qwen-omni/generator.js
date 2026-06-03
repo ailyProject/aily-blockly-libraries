@@ -1,4 +1,4 @@
-﻿// 閫氫箟鍗冮棶Qwen-Omni API搴撲唬鐮佺敓鎴愬櫒
+// 通义千问Qwen-Omni API库代码生成器
 
 function ensureQwenOmniPlaybackHelpers(generator) {
   generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
@@ -515,11 +515,11 @@ Arduino.forBlock['qwen_omni_config'] = function(block, generator) {
   const apiKey = generator.valueToCode(block, 'API_KEY', Arduino.ORDER_ATOMIC) || '""';
   const baseUrl = generator.valueToCode(block, 'BASE_URL', Arduino.ORDER_ATOMIC) || '"https://dashscope.aliyuncs.com/compatible-mode/v1"';
 
-  // 娣诲姞蹇呰鐨勫簱寮曠敤
+  // 添加必要的库引用
   generator.addLibrary('qwen_wifi', '#include <WiFi.h>');
   generator.addLibrary('qwen_http', '#include <HTTPClient.h>');
 
-  // 娣诲姞鍏ㄥ眬鍙橀噺
+  // 添加全局变量
   generator.addVariable('qwen_api_key', 'String qwen_api_key = ' + apiKey + ';');
   generator.addVariable('qwen_base_url', 'String qwen_base_url = ' + baseUrl + ';');
   generator.addVariable('qwen_system_prompt', 'String qwen_system_prompt = "";');
@@ -565,12 +565,12 @@ String qwen_unescape_json_string(String input) {
 }`);
 
 
-  // 娣诲姞娴佸紡HTTP璇锋眰鍑芥暟
+  // 添加流式HTTP请求函数
   generator.addFunction('qwen_simple_request', `
 String qwen_simple_request(String model, String message, bool enableThinking) {
-  Serial.println("=== 閫氫箟鍗冮棶API璋冪敤寮€濮?娴佸紡) ===");
-  Serial.println("妯″瀷: " + model);
-  Serial.println("娑堟伅: " + message);
+  Serial.println("=== 通义千问API调用开始(流式) ===");
+  Serial.println("模型: " + model);
+  Serial.println("消息: " + message);
 
   if (WiFi.status() != WL_CONNECTED) {
     Serial.println("Error: WiFi not connected");
@@ -601,9 +601,9 @@ String qwen_simple_request(String model, String message, bool enableThinking) {
   }
   requestBody += "}";
 
-  Serial.println("鍙戦€佹祦寮忚姹?..");
+  Serial.println("发送流式请求...");
   int httpResponseCode = http.POST(requestBody);
-  Serial.println("HTTP鍝嶅簲鐮? " + String(httpResponseCode));
+  Serial.println("HTTP响应码: " + String(httpResponseCode));
   String response = "";
 
   if (httpResponseCode == 200) {
@@ -667,14 +667,14 @@ String qwen_simple_request(String model, String message, bool enableThinking) {
   }
 
   http.end();
-  Serial.println("=== 閫氫箟鍗冮棶API璋冪敤缁撴潫 ===");
+  Serial.println("=== 通义千问API调用结束 ===");
   return response;
 }`);
 
-  // 娣诲姞澶氳疆瀵硅瘽璇锋眰鍑芥暟锛堟祦寮忥級
+  // 添加多轮对话请求函数（流式）
   generator.addFunction('qwen_history_request', `
 String qwen_history_request(String model, String message) {
-  Serial.println("=== 閫氫箟鍗冮棶澶氳疆瀵硅瘽寮€濮?娴佸紡) ===");
+  Serial.println("=== 通义千问多轮对话开始(流式) ===");
 
   if (WiFi.status() != WL_CONNECTED) {
     qwen_last_success = false;
@@ -689,7 +689,7 @@ String qwen_history_request(String model, String message) {
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
 
-  // 娣诲姞鐢ㄦ埛娑堟伅鍒板巻鍙?
+  // 添加用户消息到历史
   String safeMessage = qwen_escape_json(message);
   if (qwen_chat_history.length() > 0) {
     qwen_chat_history += ",";
@@ -748,7 +748,7 @@ String qwen_history_request(String model, String message) {
     
     if (fullContent.length() > 0) {
       response = fullContent;
-      // 娣诲姞鍔╂墜鍥炲鍒板巻鍙?
+      // 添加助手回复到历史
       qwen_chat_history += ",{\\"role\\":\\"assistant\\",\\"content\\":\\"" + qwen_escape_json(response) + "\\"}";
       qwen_last_success = true;
       qwen_last_error = "";
@@ -762,7 +762,7 @@ String qwen_history_request(String model, String message) {
   }
 
   http.end();
-  Serial.println("=== 閫氫箟鍗冮棶澶氳疆瀵硅瘽缁撴潫 ===");
+  Serial.println("=== 通义千问多轮对话结束 ===");
   return response;
 }`);
 
@@ -871,9 +871,9 @@ Arduino.forBlock['qwen_omni_vision_chat'] = function(block, generator) {
 
   generator.addFunction('qwen_vision_request', `
 String qwen_vision_request(String model, String base64Image, String message) {
-  Serial.println("=== 閫氫箟鍗冮棶VL鍥剧墖瀵硅瘽寮€濮?娴佸紡) ===");
-  Serial.println("妯″瀷: " + model);
-  Serial.println("鎻愮ず璇? " + message);
+  Serial.println("=== 通义千问VL图片对话开始(流式) ===");
+  Serial.println("模型: " + model);
+  Serial.println("提示词: " + message);
 
   if (WiFi.status() != WL_CONNECTED) {
     qwen_last_success = false;
@@ -952,7 +952,7 @@ String qwen_vision_request(String model, String base64Image, String message) {
   }
 
   http.end();
-  Serial.println("=== 閫氫箟鍗冮棶VL鍥剧墖瀵硅瘽缁撴潫 ===");
+  Serial.println("=== 通义千问VL图片对话结束 ===");
   return response;
 }`);
 
@@ -1057,9 +1057,9 @@ void qwen_base64_write(Client &out, const uint8_t* data, size_t len) {
 
   generator.addFunction('qwen_vision_direct_capture_request', `
 String qwen_vision_direct_capture_request(String model, String message) {
-  Serial.println("=== 閫氫箟鍗冮棶VL鍥剧墖瀵硅瘽寮€濮?鐩存帴鎷嶇収/娴佸紡涓婁紶) ===");
-  Serial.println("妯″瀷: " + model);
-  Serial.println("鎻愮ず璇? " + message);
+  Serial.println("=== 通义千问VL图片对话开始(直接拍照/流式上传) ===");
+  Serial.println("模型: " + model);
+  Serial.println("提示词: " + message);
 
   if (WiFi.status() != WL_CONNECTED) {
     qwen_last_success = false;
@@ -1208,7 +1208,7 @@ String qwen_vision_direct_capture_request(String model, String message) {
     qwen_last_success = false;
     qwen_last_error = "Stream parse error";
   }
-  Serial.println("=== 閫氫箟鍗冮棶VL鍥剧墖瀵硅瘽缁撴潫 ===");
+  Serial.println("=== 通义千问VL图片对话结束 ===");
   return fullContent;
 }`);
 
@@ -1223,9 +1223,9 @@ Arduino.forBlock['qwen_omni_vision_url_chat'] = function(block, generator) {
 
   generator.addFunction('qwen_vision_url_request', `
 String qwen_vision_url_request(String model, String imageUrl, String message) {
-  Serial.println("=== 閫氫箟鍗冮棶VL鍥剧墖URL瀵硅瘽寮€濮?娴佸紡) ===");
-  Serial.println("妯″瀷: " + model);
-  Serial.println("鍥剧墖URL: " + imageUrl);
+  Serial.println("=== 通义千问VL图片URL对话开始(流式) ===");
+  Serial.println("模型: " + model);
+  Serial.println("图片URL: " + imageUrl);
 
   if (WiFi.status() != WL_CONNECTED) {
     qwen_last_success = false;
@@ -1304,7 +1304,7 @@ String qwen_vision_url_request(String model, String imageUrl, String message) {
   }
 
   http.end();
-  Serial.println("=== 閫氫箟鍗冮棶VL鍥剧墖URL瀵硅瘽缁撴潫 ===");
+  Serial.println("=== 通义千问VL图片URL对话结束 ===");
   return response;
 }`);
 
@@ -1320,10 +1320,10 @@ Arduino.forBlock['qwen_omni_image_generate'] = function(block, generator) {
 
   generator.addFunction('qwen_image_generate', `
 String qwen_image_generate(String model, String prompt, String size) {
-  Serial.println("=== 閫氫箟涓囩浉鍥惧儚鐢熸垚寮€濮?===");
-  Serial.println("妯″瀷: " + model);
-  Serial.println("鎻愮ず璇? " + prompt);
-  Serial.println("灏哄: " + size);
+  Serial.println("=== 通义万相图像生成开始 ===");
+  Serial.println("模型: " + model);
+  Serial.println("提示词: " + prompt);
+  Serial.println("尺寸: " + size);
 
   if (WiFi.status() != WL_CONNECTED) {
     qwen_last_success = false;
@@ -1332,10 +1332,10 @@ String qwen_image_generate(String model, String prompt, String size) {
   }
 
   HTTPClient http;
-  // 閫氫箟涓囩浉浣跨敤涓嶅悓鐨凙PI绔偣
+  // 通义万相使用不同的API端点
   String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis";
   http.begin(url);
-  http.setTimeout(120000); // 120绉掕秴鏃?
+  http.setTimeout(120000); // 120秒超时
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
   http.addHeader("X-DashScope-Async", "enable");
@@ -1346,28 +1346,28 @@ String qwen_image_generate(String model, String prompt, String size) {
   requestBody += "\\"input\\":{\\"prompt\\":\\"" + safePrompt + "\\"},";
   requestBody += "\\"parameters\\":{\\"size\\":\\"" + size + "\\"}}";
 
-  Serial.println("璇锋眰浣? " + requestBody);
+  Serial.println("请求体: " + requestBody);
   int httpResponseCode = http.POST(requestBody);
-  Serial.println("HTTP鍝嶅簲鐮? " + String(httpResponseCode));
+  Serial.println("HTTP响应码: " + String(httpResponseCode));
   String response = "";
 
   if (httpResponseCode == 200) {
     String payload = http.getString();
-    Serial.println("API鍝嶅簲: " + payload);
+    Serial.println("API响应: " + payload);
 
-    // 瑙ｆ瀽task_id鐢ㄤ簬鏌ヨ缁撴灉
+    // 解析task_id用于查询结果
     int taskStart = payload.indexOf("\\"task_id\\":\\"") + 12;
     int taskEnd = payload.indexOf("\\"", taskStart);
     if (taskStart > 11 && taskEnd > taskStart) {
       String taskId = payload.substring(taskStart, taskEnd);
-      Serial.println("浠诲姟ID: " + taskId);
+      Serial.println("任务ID: " + taskId);
       
-      // 杞鏌ヨ缁撴灉
+      // 轮询查询结果
       http.end();
-      delay(3000); // 绛夊緟3绉?
+      delay(3000); // 等待3秒
       
       String queryUrl = "https://dashscope.aliyuncs.com/api/v1/tasks/" + taskId;
-      for (int i = 0; i < 30; i++) { // 鏈€澶氱瓑寰?0绉?
+      for (int i = 0; i < 30; i++) { // 最多等待90秒
         http.begin(queryUrl);
         http.addHeader("Authorization", "Bearer " + qwen_api_key);
         int queryCode = http.GET();
@@ -1379,7 +1379,7 @@ String qwen_image_generate(String model, String prompt, String size) {
             int urlEnd = queryPayload.indexOf("\\"", urlStart);
             if (urlStart > 6 && urlEnd > urlStart) {
               response = queryPayload.substring(urlStart, urlEnd);
-              Serial.println("鍥剧墖URL: " + response);
+              Serial.println("图片URL: " + response);
               qwen_last_success = true;
               qwen_last_error = "";
               http.end();
@@ -1407,7 +1407,7 @@ String qwen_image_generate(String model, String prompt, String size) {
   }
 
   http.end();
-  Serial.println("=== 閫氫箟涓囩浉鍥惧儚鐢熸垚缁撴潫 ===");
+  Serial.println("=== 通义万相图像生成结束 ===");
   return response;
 }`);
 
@@ -1421,10 +1421,10 @@ Arduino.forBlock['qwen_omni_image_generate_simple'] = function(block, generator)
   // 澶嶇敤鍥惧儚鐢熸垚鍑芥暟
   generator.addFunction('qwen_image_generate', `
 String qwen_image_generate(String model, String prompt, String size) {
-  Serial.println("=== 閫氫箟涓囩浉鍥惧儚鐢熸垚寮€濮?===");
-  Serial.println("妯″瀷: " + model);
-  Serial.println("鎻愮ず璇? " + prompt);
-  Serial.println("灏哄: " + size);
+  Serial.println("=== 通义万相图像生成开始 ===");
+  Serial.println("模型: " + model);
+  Serial.println("提示词: " + prompt);
+  Serial.println("尺寸: " + size);
 
   if (WiFi.status() != WL_CONNECTED) {
     qwen_last_success = false;
@@ -1511,11 +1511,11 @@ Arduino.forBlock['qwen_omni_tts'] = function(block, generator) {
 
   generator.addFunction('qwen_tts_request', `
 String qwen_tts_request(String text, String voice, String model, String language) {
-  Serial.println("=== 閫氫箟TTS璇煶鍚堟垚寮€濮?娴佸紡) ===");
-  Serial.println("鏂囨湰: " + text);
-  Serial.println("闊宠壊: " + voice);
-  Serial.println("妯″瀷: " + model);
-  Serial.println("璇: " + language);
+  Serial.println("=== 通义TTS语音合成开始(流式) ===");
+  Serial.println("文本: " + text);
+  Serial.println("音色: " + voice);
+  Serial.println("模型: " + model);
+  Serial.println("语种: " + language);
 
   if (WiFi.status() != WL_CONNECTED) {
     qwen_last_success = false;
@@ -1538,9 +1538,9 @@ String qwen_tts_request(String text, String voice, String model, String language
   requestBody += "\\"language_type\\":\\"" + language + "\\"},";
   requestBody += "\\"stream\\":true}";
 
-  Serial.println("鍙戦€乀TS娴佸紡璇锋眰...");
+  Serial.println("发送TTS流式请求...");
   int httpResponseCode = http.POST(requestBody);
-  Serial.println("HTTP鍝嶅簲鐮? " + String(httpResponseCode));
+  Serial.println("HTTP响应码: " + String(httpResponseCode));
   String response = "";
 
   if (httpResponseCode == 200) {
@@ -1607,7 +1607,7 @@ String qwen_tts_request(String text, String voice, String model, String language
   }
 
   http.end();
-  Serial.println("=== 閫氫箟TTS璇煶鍚堟垚缁撴潫 ===");
+  Serial.println("=== 通义TTS语音合成结束 ===");
   return response;
 }`);
 
@@ -1698,7 +1698,7 @@ size_t qwen_base64_decode_to_buffer(const char* input, uint8_t* output, size_t o
   size_t outLen = 0;
   int ret = mbedtls_base64_decode(output, outputMax, &outLen, (const unsigned char*)input, strlen(input));
   if (ret != 0) {
-    Serial.println("Base64瑙ｇ爜澶辫触: " + String(ret));
+    Serial.println("Base64解码失败: " + String(ret));
     return 0;
   }
   return outLen;
@@ -1735,8 +1735,8 @@ bool qwen_omni_parse_wav_and_config_tx(I2SClass &i2s, const uint8_t* data, size_
 
   generator.addFunction('qwen_play_pcm_via_i2s', `
 void qwen_play_pcm_via_i2s(I2SClass &i2s, const uint8_t* pcmData, size_t pcmLen) {
-  Serial.println("=== 鎾斁PCM闊抽 ===");
-  Serial.println("PCM鏁版嵁澶у皬: " + String(pcmLen) + " bytes");
+  Serial.println("=== 播放PCM音频 ===");
+  Serial.println("PCM数据大小: " + String(pcmLen) + " bytes");
   
   size_t bytesWritten = 0;
   size_t chunkSize = 1024;
@@ -1745,7 +1745,7 @@ void qwen_play_pcm_via_i2s(I2SClass &i2s, const uint8_t* pcmData, size_t pcmLen)
     i2s.write(pcmData + bytesWritten, toWrite);
     bytesWritten += toWrite;
   }
-  Serial.println("鎾斁瀹屾垚!");
+  Serial.println("播放完成!");
 }`);
 
   generator.addFunction('qwen_play_wav_from_url', `
@@ -2012,8 +2012,8 @@ void qwen_tts_stream_play_impl(I2SClass &i2s, String text, String voice, String 
 
   generator.addFunction('qwen_play_base64_pcm', `
 void qwen_play_base64_pcm(I2SClass &i2s, String base64Audio) {
-  Serial.println("=== 鎾斁TTS闊抽 ===");
-  Serial.println("Base64鏁版嵁闀垮害: " + String(base64Audio.length()));
+  Serial.println("=== 播放TTS音频 ===");
+  Serial.println("Base64数据长度: " + String(base64Audio.length()));
 
   if (base64Audio.startsWith("URL:")) {
     String audioUrl = base64Audio.substring(4);
@@ -2037,14 +2037,14 @@ void qwen_play_base64_pcm(I2SClass &i2s, String base64Audio) {
   }
 
   size_t pcmLen = qwen_base64_decode_to_buffer(base64Audio.c_str(), pcmBuf, decodedMax);
-  Serial.println("PCM鏁版嵁澶у皬: " + String(pcmLen) + " bytes");
+  Serial.println("PCM数据大小: " + String(pcmLen) + " bytes");
 
   uint8_t* playData = pcmBuf;
   size_t playLen = pcmLen;
   qwen_omni_parse_wav_and_config_tx(i2s, pcmBuf, pcmLen, &playData, &playLen);
 
   if (playLen < 2) {
-    Serial.println("PCM鏁版嵁澶煭!");
+    Serial.println("PCM数据太短!");
     free(pcmBuf);
     qwen_last_success = false;
     qwen_last_error = "Invalid PCM data";
@@ -2668,11 +2668,11 @@ Arduino.forBlock['qwen_omni_tts_stream_play'] = function(block, generator) {
 
   generator.addFunction('qwen_tts_stream_play_impl', `
 void qwen_tts_stream_play_impl(I2SClass &i2s, String text, String voice, String model, String language) {
-  Serial.println("=== 閫氫箟TTS娴佸紡鍚堟垚骞舵挱鏀惧紑濮?===");
-  Serial.println("鏂囨湰: " + text);
-  Serial.println("闊宠壊: " + voice);
-  Serial.println("妯″瀷: " + model);
-  Serial.println("璇: " + language);
+  Serial.println("=== 通义TTS流式合成并播放开始 ===");
+  Serial.println("文本: " + text);
+  Serial.println("音色: " + voice);
+  Serial.println("模型: " + model);
+  Serial.println("语种: " + language);
 
   if (WiFi.status() != WL_CONNECTED) {
     qwen_last_success = false;
@@ -2695,9 +2695,9 @@ void qwen_tts_stream_play_impl(I2SClass &i2s, String text, String voice, String 
   requestBody += "\\"language_type\\":\\"" + language + "\\"},";
   requestBody += "\\"stream\\":true}";
 
-  Serial.println("鍙戦€乀TS娴佸紡璇锋眰...");
+  Serial.println("发送TTS流式请求...");
   int httpResponseCode = http.POST(requestBody);
-  Serial.println("HTTP鍝嶅簲鐮? " + String(httpResponseCode));
+  Serial.println("HTTP响应码: " + String(httpResponseCode));
 
   if (httpResponseCode != 200) {
     String errorResponse = http.getString();
@@ -2756,8 +2756,8 @@ void qwen_tts_stream_play_impl(I2SClass &i2s, String text, String voice, String 
 
   http.end();
   Serial.println("");
-  Serial.println("娴佸紡鎾斁瀹屾垚锛屾€诲瓧鑺傛暟: " + String(totalBytes));
-  Serial.println("=== 閫氫箟TTS娴佸紡鍚堟垚骞舵挱鏀剧粨鏉?===");
+  Serial.println("流式播放完成，总字节数: " + String(totalBytes));
+  Serial.println("=== 通义TTS流式合成并播放结束 ===");
 }`);
 
   generator.addFunction('qwen_tts_stream_play_impl_v2', `
@@ -2981,9 +2981,9 @@ Arduino.forBlock['qwen_omni_omni_text'] = function(block, generator) {
 
   generator.addFunction('qwen_omni_text_request', `
 String qwen_omni_text_request(String model, String message) {
-  Serial.println("=== 閫氫箟鍏ㄦā鎬佸璇濆紑濮?浠呮枃瀛?娴佸紡) ===");
-  Serial.println("妯″瀷: " + model);
-  Serial.println("娑堟伅: " + message);
+  Serial.println("=== 通义全模态对话开始(仅文字/流式) ===");
+  Serial.println("模型: " + model);
+  Serial.println("消息: " + message);
 
   if (WiFi.status() != WL_CONNECTED) {
     qwen_last_success = false;
@@ -3004,9 +3004,9 @@ String qwen_omni_text_request(String model, String message) {
   requestBody += "\\"modalities\\":[\\"text\\"],";
   requestBody += "\\"stream\\":true}";
 
-  Serial.println("鍙戦€佸叏妯℃€佹枃瀛楄姹?..");
+  Serial.println("发送全模态文字请求...");
   int httpResponseCode = http.POST(requestBody);
-  Serial.println("HTTP鍝嶅簲鐮? " + String(httpResponseCode));
+  Serial.println("HTTP响应码: " + String(httpResponseCode));
   String response = "";
 
   if (httpResponseCode == 200) {
@@ -3069,7 +3069,7 @@ String qwen_omni_text_request(String model, String message) {
   }
 
   http.end();
-  Serial.println("=== 閫氫箟鍏ㄦā鎬佸璇濈粨鏉?===");
+  Serial.println("=== 通义全模态对话结束 ===");
   return response;
 }`);
 
@@ -3394,10 +3394,10 @@ bool qwen_omni_parse_wav_and_config_tx(I2SClass &i2s, const uint8_t* data, size_
 
   generator.addFunction('qwen_omni_stream_play_request', `
 void qwen_omni_stream_play_request(I2SClass &i2s, String model, String message, String voice) {
-  Serial.println("=== 閫氫箟鍏ㄦā鎬佹祦寮忓璇濆苟鎾斁寮€濮?===");
-  Serial.println("妯″瀷: " + model);
-  Serial.println("娑堟伅: " + message);
-  Serial.println("闊宠壊: " + voice);
+  Serial.println("=== 通义全模态流式对话并播放开始 ===");
+  Serial.println("模型: " + model);
+  Serial.println("消息: " + message);
+  Serial.println("音色: " + voice);
 
   if (WiFi.status() != WL_CONNECTED) {
     qwen_last_success = false;
@@ -3419,9 +3419,9 @@ void qwen_omni_stream_play_request(I2SClass &i2s, String model, String message, 
   requestBody += "\\"audio\\":{\\"voice\\":\\"" + voice + "\\",\\"format\\":\\"wav\\"},";
   requestBody += "\\"stream\\":true}";
 
-  Serial.println("鍙戦€佸叏妯℃€佹祦寮忚姹?..");
+  Serial.println("发送全模态流式请求...");
   int httpResponseCode = http.POST(requestBody);
-  Serial.println("HTTP鍝嶅簲鐮? " + String(httpResponseCode));
+  Serial.println("HTTP响应码: " + String(httpResponseCode));
 
   if (httpResponseCode != 200) {
     String errorResponse = http.getString();
@@ -3524,7 +3524,7 @@ void qwen_omni_stream_play_request(I2SClass &i2s, String model, String message, 
   if (decodeBuf) free(decodeBuf);
   http.end();
   Serial.println("");
-  Serial.println("娴佸紡鎾斁瀹屾垚锛屾€诲瓧鑺傛暟: " + String(totalPlayed));
+  Serial.println("流式播放完成，总字节数: " + String(totalPlayed));
 
   i2s.end();
   i2s.begin(I2S_MODE_STD, 24000, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO);
@@ -3537,7 +3537,7 @@ void qwen_omni_stream_play_request(I2SClass &i2s, String model, String message, 
     qwen_last_error = "No audio data";
     Serial.println("No audio data received");
   }
-  Serial.println("=== 閫氫箟鍏ㄦā鎬佹祦寮忓璇濆苟鎾斁缁撴潫 ===");
+  Serial.println("=== 通义全模态流式对话并播放结束 ===");
 }`);
 
   generator.addFunction('qwen_omni_stream_play_request_v2', `
@@ -3786,9 +3786,9 @@ Arduino.forBlock['qwen_omni_tts_voice_design'] = function(block, generator) {
 
   generator.addFunction('qwen_tts_voice_design_request', `
 void qwen_tts_voice_design_request(I2SClass &i2s, String text, String voiceDesc) {
-  Serial.println("=== 閫氫箟TTS闊宠壊璁捐鍚堟垚寮€濮?娴佸紡) ===");
-  Serial.println("鏂囨湰: " + text);
-  Serial.println("闊宠壊鎻忚堪: " + voiceDesc);
+  Serial.println("=== 通义TTS音色设计合成开始(流式) ===");
+  Serial.println("文本: " + text);
+  Serial.println("音色描述: " + voiceDesc);
 
   if (WiFi.status() != WL_CONNECTED) {
     qwen_last_success = false;
@@ -3811,9 +3811,9 @@ void qwen_tts_voice_design_request(I2SClass &i2s, String text, String voiceDesc)
   requestBody += "\\"voice\\":\\"" + safeVoiceDesc + "\\"},";
   requestBody += "\\"stream\\":true}";
 
-  Serial.println("鍙戦€乀TS闊宠壊璁捐璇锋眰...");
+  Serial.println("发送TTS音色设计请求...");
   int httpResponseCode = http.POST(requestBody);
-  Serial.println("HTTP鍝嶅簲鐮? " + String(httpResponseCode));
+  Serial.println("HTTP响应码: " + String(httpResponseCode));
 
   if (httpResponseCode != 200) {
     String errorResponse = http.getString();
@@ -3872,8 +3872,8 @@ void qwen_tts_voice_design_request(I2SClass &i2s, String text, String voiceDesc)
 
   http.end();
   Serial.println("");
-  Serial.println("闊宠壊璁捐鍚堟垚鎾斁瀹屾垚锛屾€诲瓧鑺傛暟: " + String(totalBytes));
-  Serial.println("=== 閫氫箟TTS闊宠壊璁捐鍚堟垚缁撴潫 ===");
+  Serial.println("音色设计合成播放完成，总字节数: " + String(totalBytes));
+  Serial.println("=== 通义TTS音色设计合成结束 ===");
 }`);
 
   generator.addFunction('qwen_tts_voice_design_request_v2', `
@@ -3998,10 +3998,10 @@ void qwen_voice_chat_build_wav_header(uint8_t* header, uint32_t dataSize, uint32
 
   generator.addFunction('qwen_omni_voice_chat_request', `
 void qwen_omni_voice_chat_request(I2SClass &i2s, String model, String voice, String prompt, float duration) {
-  Serial.println("=== 閫氫箟鍏ㄦā鎬佽闊冲璇濆紑濮?===");
-  Serial.println("妯″瀷: " + model);
-  Serial.println("闊宠壊: " + voice);
-  Serial.println("鎻愰棶: " + prompt);
+  Serial.println("=== 通义全模态语音对话开始 ===");
+  Serial.println("模型: " + model);
+  Serial.println("音色: " + voice);
+  Serial.println("提问: " + prompt);
   Serial.println("Record duration: " + String(duration) + "s");
 
   qwen_last_success = false;
@@ -4019,10 +4019,10 @@ void qwen_omni_voice_chat_request(I2SClass &i2s, String model, String voice, Str
   size_t pcmBytes = totalSamples * sizeof(int16_t);
   size_t wavBytes = 44 + pcmBytes;
 
-  Serial.println("閰嶇疆I2S RX閫氶亾...");
+  Serial.println("配置I2S RX通道...");
   i2s.configureRX(sampleRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO);
 
-  Serial.println("寮€濮嬪綍闊?.. 閲囨牱鏁? " + String(totalSamples));
+  Serial.println("开始录音... 采样数: " + String(totalSamples));
   uint8_t* pcmBuf = (uint8_t*)malloc(pcmBytes);
   if (!pcmBuf) {
     qwen_last_error = "PCM alloc failed";
@@ -4039,11 +4039,11 @@ void qwen_omni_voice_chat_request(I2SClass &i2s, String model, String voice, Str
       bytesRead += n;
     }
     if (millis() - recordStart > (unsigned long)(duration * 1000 + 2000)) {
-      Serial.println("褰曢煶瓒呮椂");
+      Serial.println("录音超时");
       break;
     }
   }
-  Serial.println("褰曢煶瀹屾垚: " + String(bytesRead) + " bytes");
+  Serial.println("录音完成: " + String(bytesRead) + " bytes");
   pcmBytes = bytesRead;
   wavBytes = 44 + pcmBytes;
 
@@ -4075,7 +4075,7 @@ void qwen_omni_voice_chat_request(I2SClass &i2s, String model, String voice, Str
   b64Buf[outLen] = '\\0';
   String audioBase64 = String(b64Buf);
   free(b64Buf);
-  Serial.println("Base64缂栫爜瀹屾垚: " + String(audioBase64.length()) + " 瀛楃");
+  Serial.println("Base64编码完成: " + String(audioBase64.length()) + " 字符");
 
   String safePrompt = qwen_escape_json(prompt);
   String contentJson;
@@ -4098,9 +4098,9 @@ void qwen_omni_voice_chat_request(I2SClass &i2s, String model, String voice, Str
   requestBody += "\\"audio\\":{\\"voice\\":\\"" + voice + "\\",\\"format\\":\\"wav\\"},";
   requestBody += "\\"stream\\":true}";
 
-  Serial.println("鍙戦€佸叏妯℃€佽闊宠姹?..");
+  Serial.println("发送全模态语音请求...");
   int httpResponseCode = http.POST(requestBody);
-  Serial.println("HTTP鍝嶅簲鐮? " + String(httpResponseCode));
+  Serial.println("HTTP响应码: " + String(httpResponseCode));
 
   if (httpResponseCode != 200) {
     String errBody = http.getString();
@@ -4164,7 +4164,7 @@ void qwen_omni_voice_chat_request(I2SClass &i2s, String model, String voice, Str
   Serial.println("");
 
   if (fullAudio.length() > 0) {
-    Serial.println("鏀堕泦鍒伴煶棰戞暟鎹? " + String(fullAudio.length()) + " 瀛楃");
+    Serial.println("收集到音频数据: " + String(fullAudio.length()) + " 字符");
     size_t decodedMax = (fullAudio.length() * 3) / 4 + 4;
     uint8_t* playBuf = (uint8_t*)malloc(decodedMax);
     if (playBuf) {
@@ -4174,14 +4174,14 @@ void qwen_omni_voice_chat_request(I2SClass &i2s, String model, String voice, Str
         uint8_t* pcmPlay = playBuf;
         size_t pcmLen = playLen;
         qwen_omni_parse_wav_and_config_tx(i2s, playBuf, playLen, &pcmPlay, &pcmLen);
-        Serial.println("鎾斁璇煶鍥炲锛屽ぇ灏? " + String(pcmLen) + " bytes");
+        Serial.println("播放语音回复，大小: " + String(pcmLen) + " bytes");
         size_t written = 0;
         while (written < pcmLen) {
           size_t toWrite = min((size_t)1024, pcmLen - written);
           i2s.write(pcmPlay + written, toWrite);
           written += toWrite;
         }
-        Serial.println("鎾斁瀹屾垚!");
+        Serial.println("播放完成!");
       }
       free(playBuf);
     }
@@ -4194,8 +4194,8 @@ void qwen_omni_voice_chat_request(I2SClass &i2s, String model, String voice, Str
     Serial.println("No audio data received");
   }
 
-  Serial.println("鍥炲鏂囨湰: " + fullText);
-  Serial.println("=== 閫氫箟鍏ㄦā鎬佽闊冲璇濈粨鏉?===");
+  Serial.println("回复文本: " + fullText);
+  Serial.println("=== 通义全模态语音对话结束 ===");
 }`);
 
   generator.addFunction('qwen_omni_voice_chat_request_v2', `
