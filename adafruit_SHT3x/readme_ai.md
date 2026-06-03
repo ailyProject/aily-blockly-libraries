@@ -30,10 +30,10 @@ SHT30/SHT31/SHT35 temperature and humidity sensor library, I2C communication, in
 ```
 arduino_setup()
     sht31_init("sht31", "0x44", WIRE)
-    serial_begin(Serial, 9600)
+    sht31_heater_control(variables_get($sht31), false)
 
 arduino_loop()
-    serial_println(Serial, sht31_is_heater_enabled(variables_get($sht31)))
+    sht31_simple_read(variables_get($sht31), temperature)
     time_delay(math_number(1000))
 ```
 

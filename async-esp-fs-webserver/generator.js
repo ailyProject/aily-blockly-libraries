@@ -8,14 +8,6 @@ function asyncFsAddMacro(generator, key, code) {
   }
 }
 
-function asyncFsEnsureSerial(generator) {
-  if (typeof ensureSerialBegin === 'function') {
-    ensureSerialBegin('Serial', generator, 115200);
-  } else {
-    generator.addSetupBegin('asyncfs_serial_begin', 'Serial.begin(115200);');
-  }
-}
-
 function asyncFsEnsureFilesystemLibrary(generator, fsName) {
   if (fsName === 'SPIFFS') {
     generator.addLibrary('SPIFFS', '#include <SPIFFS.h>');
@@ -161,25 +153,10 @@ Arduino.forBlock['async_fs_webserver_mount_fs'] = function(block, generator) {
 
   asyncFsEnsureLibraries(generator, fsName);
   asyncFsEnsureServerObject(generator, varName, fsName);
-  asyncFsEnsureSerial(generator);
 
   return 'if (!' + fsName + '.begin(' + formatOnFail + ')) {\n' +
-    '  Serial.println("' + fsName + ' mount failed");\n' +
     '  ESP.restart();\n' +
     '}\n';
-};
-
-Arduino.forBlock['async_fs_webserver_print_files'] = function(block, generator) {
-  const varName = asyncFsGetVarName(block, 'VAR', 'server');
-  const fsName = block.getFieldValue('FS') || 'LittleFS';
-  const dirName = generator.valueToCode(block, 'DIR', generator.ORDER_ATOMIC) || '"/"';
-  const levels = generator.valueToCode(block, 'LEVELS', generator.ORDER_ATOMIC) || '1';
-
-  asyncFsEnsureLibraries(generator, fsName);
-  asyncFsEnsureServerObject(generator, varName, fsName);
-  asyncFsEnsureSerial(generator);
-
-  return varName + '.printFileList(' + fsName + ', ' + dirName + ', ' + levels + ', Serial);\n';
 };
 
 Arduino.forBlock['async_fs_webserver_connect_or_ap'] = function(block, generator) {
@@ -191,10 +168,8 @@ Arduino.forBlock['async_fs_webserver_connect_or_ap'] = function(block, generator
 
   asyncFsEnsureLibraries(generator, 'LittleFS');
   asyncFsEnsureServerObject(generator, varName, 'LittleFS');
-  asyncFsEnsureSerial(generator);
 
   return 'if (!' + varName + '.startWiFi(' + timeout + ')) {\n' +
-    '  Serial.println("WiFi not connected, starting AP mode");\n' +
     '  ' + varName + '.startCaptivePortal(' + ssid + ', ' + password + ', ' + redirect + ');\n' +
     '}\n';
 };
@@ -226,12 +201,9 @@ Arduino.forBlock['async_fs_webserver_start_server'] = function(block, generator)
 
   asyncFsEnsureLibraries(generator, 'LittleFS');
   asyncFsEnsureServerObject(generator, varName, 'LittleFS');
-  asyncFsEnsureSerial(generator);
   generator.addLoopBegin('asyncfs_loop_delay', 'delay(10);');
 
-  return varName + '.init();\n' +
-    'Serial.print("Async ESP FS WebServer IP: ");\n' +
-    'Serial.println(' + varName + '.getServerIP());\n';
+  return varName + '.init();\n';
 };
 
 Arduino.forBlock['async_fs_webserver_start_ws_server'] = function(block, generator) {
@@ -240,13 +212,10 @@ Arduino.forBlock['async_fs_webserver_start_ws_server'] = function(block, generat
 
   asyncFsEnsureLibraries(generator, 'LittleFS');
   asyncFsEnsureServerObject(generator, varName, 'LittleFS');
-  asyncFsEnsureSerial(generator);
   asyncFsAddWebSocketHandler(generator, block, callbackName);
   generator.addLoopBegin('asyncfs_loop_delay', 'delay(10);');
 
-  return varName + '.init(' + callbackName + ');\n' +
-    'Serial.print("Async ESP FS WebServer IP: ");\n' +
-    'Serial.println(' + varName + '.getServerIP());\n';
+  return varName + '.init(' + callbackName + ');\n';
 };
 
 Arduino.forBlock['async_fs_webserver_file_editor'] = function(block, generator) {
@@ -485,12 +454,9 @@ Arduino.forBlock['async_fs_webserver_start_mdns'] = function(block, generator) {
 
   asyncFsEnsureLibraries(generator, 'LittleFS');
   asyncFsEnsureServerObject(generator, varName, 'LittleFS');
-  asyncFsEnsureSerial(generator);
 
   return 'if (WiFi.status() == WL_CONNECTED) {\n' +
-    '  if (!' + varName + '.startMDNSResponder()) {\n' +
-    '    Serial.println("mDNS start failed");\n' +
-    '  }\n' +
+    '  (void)' + varName + '.startMDNSResponder();\n' +
     '}\n';
 };
 
