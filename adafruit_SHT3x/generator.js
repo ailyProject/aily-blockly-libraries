@@ -40,9 +40,6 @@ Arduino.forBlock['sht31_init'] = function (block, generator) {
     // 添加全局对象
     generator.addObject(varName, 'Adafruit_SHT31 ' + varName + ';');
 
-    // Serial初始化
-    ensureSerialBegin("Serial", generator);
-
     // 从WIRE字段读取I2C接口
     const wire = block.getFieldValue('WIRE') || 'Wire';
     
@@ -54,7 +51,6 @@ Arduino.forBlock['sht31_init'] = function (block, generator) {
     const addressHex = address.startsWith('0x') ? address : '0x' + parseInt(address).toString(16);
     
     const sensorInitCode = `if (!${varName}.begin(${addressHex})) {
-  Serial.println("Couldn't find SHT3x");
   while (1) delay(1);
 }
 `;

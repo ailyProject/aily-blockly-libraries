@@ -54,10 +54,11 @@ The color display driver library based on Adafruit GFX supports common driver ch
 ```
 arduino_setup()
     tft_init(ST7735, math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0))
-    serial_begin(Serial, 9600)
+    tft_clear_screen()
+    tft_set_text_size(math_number(2))
+    tft_print(math_number(0), math_number(0), text("Hello"))
 
 arduino_loop()
-    serial_println(Serial, tft_preset_color())
     time_delay(math_number(1000))
 ```
 

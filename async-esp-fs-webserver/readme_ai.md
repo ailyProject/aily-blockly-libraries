@@ -13,7 +13,6 @@ ESP32-only Blockly wrapper for AsyncFsWebServer.
 |------------|------------|--------------------------|------------|----------------|
 | `async_fs_webserver_create` | S | VAR, FS, PORT, HOST | `async_fs_webserver_create(...)` | object |
 | `async_fs_webserver_mount_fs` | S | VAR, FS, FORMAT | `async_fs_webserver_mount_fs(...)` | fs begin |
-| `async_fs_webserver_print_files` | S | VAR, FS, DIR, LEVELS | `async_fs_webserver_print_files(...)` | list fs |
 | `async_fs_webserver_connect_or_ap` | S | VAR, TIMEOUT, SSID, PASSWORD, REDIRECT | `async_fs_webserver_connect_or_ap(...)` | WiFi/AP |
 | `async_fs_webserver_start_wifi` | S | VAR, TIMEOUT | `async_fs_webserver_start_wifi(...)` | WiFi |
 | `async_fs_webserver_captive_portal` | S | VAR, SSID, PASSWORD, REDIRECT | `async_fs_webserver_captive_portal(...)` | AP |
