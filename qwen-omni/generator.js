@@ -476,6 +476,9 @@ function ensureQwenOmniI2SHelpers(generator) {
   generator.addVariable('qwen_i2s_mic_bclk_pin', 'int qwen_i2s_mic_bclk_pin = -1;');
   generator.addVariable('qwen_i2s_mic_lrclk_pin', 'int qwen_i2s_mic_lrclk_pin = -1;');
   generator.addVariable('qwen_i2s_mic_sd_pin', 'int qwen_i2s_mic_sd_pin = -1;');
+  generator.addVariable('qwen_i2s_mic_mode', 'int qwen_i2s_mic_mode = 0;');
+  generator.addVariable('qwen_i2s_mic_pdm_clk_pin', 'int qwen_i2s_mic_pdm_clk_pin = -1;');
+  generator.addVariable('qwen_i2s_mic_pdm_din_pin', 'int qwen_i2s_mic_pdm_din_pin = -1;');
   generator.addFunction('qwen_i2s_audio_helpers', String.raw`
 bool qwen_i2s_begin_speaker(I2SClass &i2s, int bclkPin, int lrclkPin, int dinPin, uint32_t sampleRate) {
   Serial.println("[I2S] speaker begin");
@@ -491,6 +494,9 @@ bool qwen_i2s_begin_microphone(I2SClass &i2s, int bclkPin, int lrclkPin, int sdP
   qwen_i2s_mic_bclk_pin = bclkPin;
   qwen_i2s_mic_lrclk_pin = lrclkPin;
   qwen_i2s_mic_sd_pin = sdPin;
+  qwen_i2s_mic_mode = 1;
+  qwen_i2s_mic_pdm_clk_pin = -1;
+  qwen_i2s_mic_pdm_din_pin = -1;
   i2s.end();
   i2s.setPins(bclkPin, lrclkPin, -1, sdPin, -1);
   bool ok = i2s.begin(I2S_MODE_STD, sampleRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_BOTH);
@@ -498,8 +504,33 @@ bool qwen_i2s_begin_microphone(I2SClass &i2s, int bclkPin, int lrclkPin, int sdP
   return ok;
 }
 
+bool qwen_i2s_begin_pdm_microphone(I2SClass &i2s, int clkPin, int dinPin, uint32_t sampleRate) {
+  Serial.println("[I2S] PDM microphone begin");
+#if defined(SOC_I2S_SUPPORTS_PDM_RX) && SOC_I2S_SUPPORTS_PDM_RX
+  qwen_i2s_mic_bclk_pin = -1;
+  qwen_i2s_mic_lrclk_pin = -1;
+  qwen_i2s_mic_sd_pin = -1;
+  qwen_i2s_mic_mode = 2;
+  qwen_i2s_mic_pdm_clk_pin = clkPin;
+  qwen_i2s_mic_pdm_din_pin = dinPin;
+  i2s.end();
+  delay(20);
+  i2s.setPinsPdmRx(clkPin, dinPin);
+  bool ok = i2s.begin(I2S_MODE_PDM_RX, sampleRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO);
+  Serial.println(ok ? "[I2S] PDM microphone ready" : "[I2S] PDM microphone begin failed");
+  return ok;
+#else
+  Serial.println("[I2S] PDM RX is not supported on this board/core");
+  return false;
+#endif
+}
+
 bool qwen_i2s_restart_microphone(I2SClass &i2s, uint32_t sampleRate) {
-  if (qwen_i2s_mic_bclk_pin >= 0 && qwen_i2s_mic_lrclk_pin >= 0 && qwen_i2s_mic_sd_pin >= 0) {
+  if (qwen_i2s_mic_mode == 2 && qwen_i2s_mic_pdm_clk_pin >= 0 && qwen_i2s_mic_pdm_din_pin >= 0) {
+    return qwen_i2s_begin_pdm_microphone(i2s, qwen_i2s_mic_pdm_clk_pin, qwen_i2s_mic_pdm_din_pin, sampleRate);
+  }
+
+  if (qwen_i2s_mic_mode == 1 && qwen_i2s_mic_bclk_pin >= 0 && qwen_i2s_mic_lrclk_pin >= 0 && qwen_i2s_mic_sd_pin >= 0) {
     return qwen_i2s_begin_microphone(i2s, qwen_i2s_mic_bclk_pin, qwen_i2s_mic_lrclk_pin, qwen_i2s_mic_sd_pin, sampleRate);
   }
 
@@ -793,6 +824,18 @@ Arduino.forBlock['qwen_omni_i2s_mic_init'] = function(block, generator) {
   ensureQwenOmniI2SObject(generator, varName);
   ensureQwenOmniI2SHelpers(generator);
   return 'qwen_i2s_begin_microphone(' + varName + ', ' + bclk + ', ' + lrclk + ', ' + sd + ', ' + sampleRate + ');\n';
+};
+
+Arduino.forBlock['qwen_omni_pdm_mic_init'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s_mic';
+  const clk = generator.valueToCode(block, 'CLK', Arduino.ORDER_ATOMIC) || '42';
+  const data = generator.valueToCode(block, 'DATA', Arduino.ORDER_ATOMIC) || '41';
+  const sampleRate = generator.valueToCode(block, 'SAMPLE_RATE', Arduino.ORDER_ATOMIC) || '16000';
+
+  ensureQwenOmniI2SObject(generator, varName);
+  ensureQwenOmniI2SHelpers(generator);
+  return 'qwen_i2s_begin_pdm_microphone(' + varName + ', ' + clk + ', ' + data + ', ' + sampleRate + ');\n';
 };
 
 Arduino.forBlock['qwen_omni_chat'] = function(block, generator) {
@@ -4299,6 +4342,178 @@ void qwen_omni_voice_chat_request_v2(I2SClass &i2s, String model, String voice, 
 
   var code = 'qwen_omni_voice_chat_request_v2(' + varName + ', "' + model + '", "' + voice + '", ' + prompt + ', ' + duration + ');\n';
   return code;
+};
+
+Arduino.forBlock['qwen_omni_omni_record_text'] = function(block, generator) {
+  var micField = block.getField('MIC_VAR');
+  var micName = micField ? micField.getText() : 'i2s_mic';
+  const duration = generator.valueToCode(block, 'DURATION', Arduino.ORDER_ATOMIC) || '3';
+  const model = block.getFieldValue('MODEL');
+  const prompt = generator.valueToCode(block, 'PROMPT', Arduino.ORDER_ATOMIC) || '""';
+
+  ensureQwenOmniI2SObject(generator, micName);
+  ensureQwenOmniI2SHelpers(generator);
+  ensureQwenOmniUploadHelpers(generator);
+
+  generator.addFunction('qwen_voice_chat_build_wav_header', String.raw`
+void qwen_voice_chat_build_wav_header(uint8_t* header, uint32_t dataSize, uint32_t sampleRate) {
+  memset(header, 0, 44);
+  memcpy(header, "RIFF", 4);
+  uint32_t fileSize = dataSize + 36;
+  header[4] = fileSize & 0xFF; header[5] = (fileSize >> 8) & 0xFF;
+  header[6] = (fileSize >> 16) & 0xFF; header[7] = (fileSize >> 24) & 0xFF;
+  memcpy(header + 8, "WAVE", 4);
+  memcpy(header + 12, "fmt ", 4);
+  header[16] = 16; header[17] = 0; header[18] = 0; header[19] = 0;
+  header[20] = 1; header[21] = 0;
+  header[22] = 1; header[23] = 0;
+  header[24] = sampleRate & 0xFF; header[25] = (sampleRate >> 8) & 0xFF;
+  header[26] = (sampleRate >> 16) & 0xFF; header[27] = (sampleRate >> 24) & 0xFF;
+  uint32_t byteRate = sampleRate * 2;
+  header[28] = byteRate & 0xFF; header[29] = (byteRate >> 8) & 0xFF;
+  header[30] = (byteRate >> 16) & 0xFF; header[31] = (byteRate >> 24) & 0xFF;
+  header[32] = 2; header[33] = 0;
+  header[34] = 16; header[35] = 0;
+  memcpy(header + 36, "data", 4);
+  header[40] = dataSize & 0xFF; header[41] = (dataSize >> 8) & 0xFF;
+  header[42] = (dataSize >> 16) & 0xFF; header[43] = (dataSize >> 24) & 0xFF;
+}`);
+
+  generator.addFunction('qwen_omni_record_text_request', String.raw`
+String qwen_omni_record_text_request(I2SClass &i2sMic, String model, String prompt, float duration) {
+  Serial.println("[OMNI-REC-TEXT] begin");
+  qwen_last_success = false;
+  qwen_last_error = "";
+
+  if (WiFi.status() != WL_CONNECTED) {
+    qwen_last_error = "WiFi not connected";
+    Serial.println("[OMNI-REC-TEXT] fail: WiFi not connected");
+    return "";
+  }
+
+  uint32_t sampleRate = 16000;
+  size_t totalSamples = (size_t)(sampleRate * duration);
+  size_t pcmBytes = totalSamples * sizeof(int16_t);
+  size_t wavBytes = 44 + pcmBytes;
+  uint8_t* wavBuf = (uint8_t*)qwen_audio_alloc_buffer(wavBytes, "record-text-wav");
+  if (!wavBuf) {
+    qwen_last_error = "WAV alloc failed";
+    return "";
+  }
+
+  if (!qwen_i2s_restart_microphone(i2sMic, sampleRate)) {
+    qwen_last_error = "Microphone begin failed";
+    free(wavBuf);
+    return "";
+  }
+
+  Serial.println("[OMNI-REC-TEXT] record " + String(duration) + "s");
+  size_t bytesRead = 0;
+  unsigned long recordStart = millis();
+  while (bytesRead < pcmBytes) {
+    size_t toRead = min((size_t)4096, pcmBytes - bytesRead);
+    size_t n = i2sMic.readBytes((char*)(wavBuf + 44 + bytesRead), toRead);
+    if (n > 0) bytesRead += n;
+    if (millis() - recordStart > (unsigned long)(duration * 1000 + 1000)) {
+      Serial.println("[OMNI-REC-TEXT] record timeout");
+      break;
+    }
+  }
+  if (bytesRead % sizeof(int16_t) != 0) bytesRead -= bytesRead % sizeof(int16_t);
+  qwen_voice_chat_build_wav_header(wavBuf, (uint32_t)bytesRead, sampleRate);
+  wavBytes = 44 + bytesRead;
+  i2sMic.end();
+  Serial.println("[OMNI-REC-TEXT] wav bytes: " + String(wavBytes));
+
+  String safeSystem = qwen_escape_json(qwen_system_prompt);
+  String safePrompt = qwen_escape_json(prompt.length() > 0 ? prompt : String("请只把音频内容转写成文字，不要回答、解释或补充。"));
+  String requestPrefix = "{\"model\":\"" + model + "\",\"messages\":[";
+  if (qwen_system_prompt.length() > 0) {
+    requestPrefix += "{\"role\":\"system\",\"content\":\"" + safeSystem + "\"},";
+  }
+  requestPrefix += "{\"role\":\"user\",\"content\":[{\"type\":\"input_audio\",\"input_audio\":{\"data\":\"data:;base64,";
+
+  String requestSuffix = "\",\"format\":\"wav\"}},{\"type\":\"text\",\"text\":\"" + safePrompt + "\"}]}],";
+  requestSuffix += "\"modalities\":[\"text\"],";
+  requestSuffix += "\"stream\":true,\"stream_options\":{\"include_usage\":true}}";
+
+  QwenBase64JsonStream requestStream(requestPrefix, wavBuf, wavBytes, requestSuffix);
+
+  HTTPClient http;
+  String url = qwen_base_url + "/chat/completions";
+  http.begin(url);
+  http.setTimeout(120000);
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("Accept", "text/event-stream");
+  http.addHeader("Authorization", "Bearer " + qwen_api_key);
+
+  Serial.println("[OMNI-REC-TEXT] request bytes: " + String(requestStream.contentLength()));
+  int httpResponseCode = http.sendRequest("POST", &requestStream, requestStream.contentLength());
+  free(wavBuf);
+  Serial.println("[OMNI-REC-TEXT] HTTP: " + String(httpResponseCode));
+
+  if (httpResponseCode != 200) {
+    String errBody = http.getString();
+    if (errBody.length() > 240) errBody = errBody.substring(0, 240);
+    qwen_last_error = "HTTP " + String(httpResponseCode) + ": " + errBody;
+    Serial.println(errBody);
+    http.end();
+    return "";
+  }
+
+  WiFiClient* stream = http.getStreamPtr();
+  String fullText = "";
+  String lineBuffer = "";
+  unsigned long lastDataMs = millis();
+  while (http.connected() || stream->available()) {
+    if (!stream->available()) {
+      if (millis() - lastDataMs > 120000) {
+        qwen_last_error = "Stream timeout";
+        Serial.println("[OMNI-REC-TEXT] stream timeout");
+        break;
+      }
+      delay(1);
+      continue;
+    }
+    lastDataMs = millis();
+    char c = stream->read();
+    if (c == '\n') {
+      lineBuffer.trim();
+      if (lineBuffer.startsWith("data:")) {
+        String data = lineBuffer.substring(5);
+        data.trim();
+        if (data == "[DONE]") break;
+        int contentStart = data.indexOf("\"content\":\"");
+        if (contentStart >= 0) {
+          contentStart += 11;
+          int contentEnd = data.indexOf("\"", contentStart);
+          if (contentEnd > contentStart) {
+            String content = qwen_unescape_json_string(data.substring(contentStart, contentEnd));
+            fullText += content;
+            Serial.print(content);
+            if (qwen_stream_callback != NULL) {
+              qwen_stream_chunk = content;
+              qwen_stream_callback();
+            }
+          }
+        }
+      }
+      lineBuffer = "";
+    } else if (c != '\r') {
+      lineBuffer += c;
+    }
+  }
+  http.end();
+  Serial.println("");
+
+  qwen_last_success = fullText.length() > 0;
+  qwen_last_error = fullText.length() > 0 ? "" : (qwen_last_error.length() > 0 ? qwen_last_error : "No text response");
+  Serial.println("[OMNI-REC-TEXT] text: " + fullText);
+  return fullText;
+}`);
+
+  const code = `qwen_omni_record_text_request(${micName}, "${model}", ${prompt}, ${duration})`;
+  return [code, Arduino.ORDER_FUNCTION_CALL];
 };
 
 Arduino.forBlock['qwen_omni_omni_voice_chat_dual_i2s'] = function(block, generator) {
