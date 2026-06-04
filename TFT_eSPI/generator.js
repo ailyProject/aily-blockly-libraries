@@ -410,6 +410,66 @@ Arduino.forBlock['tftespi_fill_rect'] = function(block, generator) {
   return code;
 };
 
+Arduino.forBlock['tftespi_draw_round_rect'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+  const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
+  const w = generator.valueToCode(block, 'W', generator.ORDER_ATOMIC) || '0';
+  const h = generator.valueToCode(block, 'H', generator.ORDER_ATOMIC) || '0';
+  const radius = generator.valueToCode(block, 'RADIUS', generator.ORDER_ATOMIC) || '0';
+  const color = generator.valueToCode(block, 'COLOR', generator.ORDER_ATOMIC) || '0';
+
+  let code = varName + '.drawRoundRect(' + x + ', ' + y + ', ' + w + ', ' + h + ', ' + radius + ', ' + color + ');\n';
+
+  return code;
+};
+
+Arduino.forBlock['tftespi_fill_round_rect'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+  const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
+  const w = generator.valueToCode(block, 'W', generator.ORDER_ATOMIC) || '0';
+  const h = generator.valueToCode(block, 'H', generator.ORDER_ATOMIC) || '0';
+  const radius = generator.valueToCode(block, 'RADIUS', generator.ORDER_ATOMIC) || '0';
+  const color = generator.valueToCode(block, 'COLOR', generator.ORDER_ATOMIC) || '0';
+
+  let code = varName + '.fillRoundRect(' + x + ', ' + y + ', ' + w + ', ' + h + ', ' + radius + ', ' + color + ');\n';
+
+  return code;
+};
+
+Arduino.forBlock['tftespi_fill_rect_v_gradient'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+  const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
+  const w = generator.valueToCode(block, 'W', generator.ORDER_ATOMIC) || '0';
+  const h = generator.valueToCode(block, 'H', generator.ORDER_ATOMIC) || '0';
+  const color1 = generator.valueToCode(block, 'COLOR1', generator.ORDER_ATOMIC) || '0';
+  const color2 = generator.valueToCode(block, 'COLOR2', generator.ORDER_ATOMIC) || '0';
+
+  let code = varName + '.fillRectVGradient(' + x + ', ' + y + ', ' + w + ', ' + h + ', ' + color1 + ', ' + color2 + ');\n';
+
+  return code;
+};
+
+Arduino.forBlock['tftespi_fill_rect_h_gradient'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+  const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
+  const w = generator.valueToCode(block, 'W', generator.ORDER_ATOMIC) || '0';
+  const h = generator.valueToCode(block, 'H', generator.ORDER_ATOMIC) || '0';
+  const color1 = generator.valueToCode(block, 'COLOR1', generator.ORDER_ATOMIC) || '0';
+  const color2 = generator.valueToCode(block, 'COLOR2', generator.ORDER_ATOMIC) || '0';
+
+  let code = varName + '.fillRectHGradient(' + x + ', ' + y + ', ' + w + ', ' + h + ', ' + color1 + ', ' + color2 + ');\n';
+
+  return code;
+};
+
 Arduino.forBlock['tftespi_draw_circle'] = function(block, generator) {
   const varField = block.getField('VAR');
   const varName = varField ? varField.getText() : 'tft';
@@ -432,6 +492,34 @@ Arduino.forBlock['tftespi_fill_circle'] = function(block, generator) {
   const color = generator.valueToCode(block, 'COLOR', generator.ORDER_ATOMIC) || '0';
 
   let code = varName + '.fillCircle(' + x + ', ' + y + ', ' + radius + ', ' + color + ');\n';
+
+  return code;
+};
+
+Arduino.forBlock['tftespi_draw_ellipse'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+  const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
+  const rx = generator.valueToCode(block, 'RX', generator.ORDER_ATOMIC) || '0';
+  const ry = generator.valueToCode(block, 'RY', generator.ORDER_ATOMIC) || '0';
+  const color = generator.valueToCode(block, 'COLOR', generator.ORDER_ATOMIC) || '0';
+
+  let code = varName + '.drawEllipse(' + x + ', ' + y + ', ' + rx + ', ' + ry + ', ' + color + ');\n';
+
+  return code;
+};
+
+Arduino.forBlock['tftespi_fill_ellipse'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+  const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
+  const rx = generator.valueToCode(block, 'RX', generator.ORDER_ATOMIC) || '0';
+  const ry = generator.valueToCode(block, 'RY', generator.ORDER_ATOMIC) || '0';
+  const color = generator.valueToCode(block, 'COLOR', generator.ORDER_ATOMIC) || '0';
+
+  let code = varName + '.fillEllipse(' + x + ', ' + y + ', ' + rx + ', ' + ry + ', ' + color + ');\n';
 
   return code;
 };
