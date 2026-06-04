@@ -8,8 +8,8 @@
         "type": "field_dropdown",
         "name": "WIRE",
         "options": [
-          ["Wire1 (Wio Terminal)", "Wire1"],
-          ["Wire", "Wire"]
+          ["Wire", "Wire"],
+          ["Wire1 (Wio Terminal)", "Wire1"]
         ]
       },
       {
@@ -261,11 +261,11 @@
         "options": [
           [
             "正常",
-            "LIS3DHTR_POWER_NORMAL"
+            "POWER_MODE_NORMAL"
           ],
           [
             "低功耗",
-            "LIS3DHTR_POWER_LOW"
+            "POWER_MODE_LOW"
           ]
         ]
       }
@@ -276,8 +276,16 @@
   },
   {
     "type": "lis3dhtr_init_simplified",
-    "message0": "一体化初始化和配置 地址 %1 数据速率 %2 量程 %3 高分辨率 %4",
+    "message0": "一体化初始化和配置 总线 %1 地址 %2 数据速率 %3 量程 %4 高分辨率 %5",
     "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": [
+          ["Wire", "Wire"],
+          ["Wire1 (Wio Terminal)", "Wire1"]
+        ]
+      },
       {
         "type": "field_input",
         "name": "ADDRESS",
@@ -359,7 +367,7 @@
   },
   {
     "type": "lis3dhtr_on_tap",
-    "message0": "当检测到 %1 敲击（阈值 %2）时执行",
+    "message0": "当检测到 %1 敲击（阈值 %2，中断引脚 %3）时执行",
     "args0": [
       {
         "type": "field_dropdown",
@@ -373,6 +381,11 @@
         "type": "input_value",
         "name": "THRESHOLD",
         "check": "Number"
+      },
+      {
+        "type": "field_input",
+        "name": "INT_PIN",
+        "text": "2"
       }
     ],
     "message1": "%1",

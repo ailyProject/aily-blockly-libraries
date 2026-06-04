@@ -6,7 +6,7 @@ TCA8418 I2C keyboard matrix and GPIO expander driver library, supports keyboard 
 
 | Field | Value |
 |-------|-------|
-| Package | @aily-project/adafruit-tca8418 |
+| Package | @aily-project/lib-adafruit-tca8418 |
 | Version | 1.0.0 |
 | Author | Unknown |
 | Source | N/A |
@@ -22,5 +22,5 @@ TCA8418 I2C keyboard matrix and GPIO expander driver library, supports keyboard 
 
 ## Quick Start
 
-1. Enable `@aily-project/adafruit-tca8418` in Aily Blockly.
+1. Enable `@aily-project/lib-adafruit-tca8418` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

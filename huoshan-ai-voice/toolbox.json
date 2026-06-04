@@ -1,0 +1,91 @@
+{
+  "kind": "category",
+  "name": "火山 AI 语音",
+  "icon": "fa-solid fa-volcano",
+  "contents": [
+    {"kind": "label", "text": "配置"},
+    {
+      "kind": "block",
+      "type": "huoshan_ai_config",
+      "inputs": {
+        "DOUBAO_APP_ID": {"shadow": {"type": "text", "fields": {"TEXT": "your-doubao-app-id"}}},
+        "DOUBAO_TOKEN": {"shadow": {"type": "text", "fields": {"TEXT": "your-doubao-access-token"}}},
+        "COZE_TOKEN": {"shadow": {"type": "text", "fields": {"TEXT": "your-coze-token"}}},
+        "COZE_BOT_ID": {"shadow": {"type": "text", "fields": {"TEXT": "your-coze-bot-id"}}},
+        "USER_ID": {"shadow": {"type": "text", "fields": {"TEXT": ""}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huoshan_ai_wifi_connect",
+      "inputs": {
+        "SSID": {"shadow": {"type": "text", "fields": {"TEXT": "your-wifi-ssid"}}},
+        "PASSWORD": {"shadow": {"type": "text", "fields": {"TEXT": "your-wifi-password"}}},
+        "TIMEOUT": {"shadow": {"type": "math_number", "fields": {"NUM": 20000}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huoshan_ai_mic_config",
+      "inputs": {
+        "BCLK": {"shadow": {"type": "math_number", "fields": {"NUM": 42}}},
+        "WS": {"shadow": {"type": "math_number", "fields": {"NUM": 2}}},
+        "DIN": {"shadow": {"type": "math_number", "fields": {"NUM": 1}}},
+        "GAIN": {"shadow": {"type": "math_number", "fields": {"NUM": 8}}},
+        "MAX_SECONDS": {"shadow": {"type": "math_number", "fields": {"NUM": 15}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huoshan_ai_speaker_config",
+      "inputs": {
+        "BCLK": {"shadow": {"type": "math_number", "fields": {"NUM": 39}}},
+        "WS": {"shadow": {"type": "math_number", "fields": {"NUM": 40}}},
+        "DOUT": {"shadow": {"type": "math_number", "fields": {"NUM": 38}}},
+        "VOLUME": {"shadow": {"type": "math_number", "fields": {"NUM": 0.9}}}
+      }
+    },
+    {"kind": "block", "type": "huoshan_ai_begin"},
+    {"kind": "label", "text": "语音对话"},
+    {"kind": "block", "type": "huoshan_ai_start_listening"},
+    {"kind": "block", "type": "huoshan_ai_stop_listening_and_chat"},
+    {
+      "kind": "block",
+      "type": "huoshan_ai_send_text",
+      "inputs": {
+        "TEXT": {"shadow": {"type": "text", "fields": {"TEXT": "你好"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huoshan_ai_tts_speak",
+      "inputs": {
+        "TEXT": {"shadow": {"type": "text", "fields": {"TEXT": "你好，我是火山 AI 语音助手"}}}
+      }
+    },
+    {"kind": "block", "type": "huoshan_ai_stop_audio"},
+    {"kind": "block", "type": "huoshan_ai_clear_conversation"},
+    {"kind": "label", "text": "参数"},
+    {"kind": "block", "type": "huoshan_ai_set_voice"},
+    {
+      "kind": "block",
+      "type": "huoshan_ai_set_volume",
+      "inputs": {
+        "VOLUME": {"shadow": {"type": "math_number", "fields": {"NUM": 0.9}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huoshan_ai_set_speed",
+      "inputs": {
+        "SPEED": {"shadow": {"type": "math_number", "fields": {"NUM": 1.0}}}
+      }
+    },
+    {"kind": "label", "text": "状态"},
+    {"kind": "block", "type": "huoshan_ai_get_state"},
+    {"kind": "block", "type": "huoshan_ai_is_wifi_connected"},
+    {"kind": "block", "type": "huoshan_ai_get_last_asr_text"},
+    {"kind": "block", "type": "huoshan_ai_get_last_reply_text"},
+    {"kind": "block", "type": "huoshan_ai_get_last_error"}
+  ]
+}

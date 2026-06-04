@@ -1,6 +1,73 @@
 // 全局变量用于存储自定义引脚配置
 var customPinConfig = null;
 
+function addCameraDiagnosticFunctions(generator) {
+  generator.addFunction('esp32_camera_print_pin_diagnostics', `
+void esp32_camera_print_pin_diagnostics(const camera_config_t* config, const char* modelName) {
+  if (!config) {
+    Serial.println("[CAM] config is null");
+    return;
+  }
+  Serial.println("[CAM] --- camera config ---");
+  Serial.printf("[CAM] model: %s\\n", modelName ? modelName : "CUSTOM");
+  Serial.printf("[CAM] D0-D7: %d,%d,%d,%d,%d,%d,%d,%d\\n",
+                config->pin_d0, config->pin_d1, config->pin_d2, config->pin_d3,
+                config->pin_d4, config->pin_d5, config->pin_d6, config->pin_d7);
+  Serial.printf("[CAM] XCLK=%d PCLK=%d VSYNC=%d HREF=%d\\n",
+                config->pin_xclk, config->pin_pclk, config->pin_vsync, config->pin_href);
+  Serial.printf("[CAM] SIOD=%d SIOC=%d PWDN=%d RESET=%d\\n",
+                config->pin_sccb_sda, config->pin_sccb_scl, config->pin_pwdn, config->pin_reset);
+  Serial.printf("[CAM] xclk_freq=%d frame_size=%d pixel_format=%d jpeg_quality=%d fb_count=%d\\n",
+                config->xclk_freq_hz, config->frame_size, config->pixel_format,
+                config->jpeg_quality, config->fb_count);
+  Serial.printf("[CAM] psram=%s fb_location=%d grab_mode=%d\\n",
+                psramFound() ? "yes" : "no", config->fb_location, config->grab_mode);
+}`);
+
+  generator.addFunction('esp32_camera_print_error_diagnostics', `
+void esp32_camera_print_error_diagnostics(esp_err_t err) {
+  Serial.printf("[CAM] init error: 0x%x\\n", err);
+  if (err == ESP_ERR_NOT_SUPPORTED) {
+    Serial.println("[CAM] 0x106 ESP_ERR_NOT_SUPPORTED: sensor ID is not supported, or SCCB/I2C read got a bad ID.");
+    Serial.println("[CAM] GC2145 does not support native JPEG. Use the GC2145 preset so RGB565 is selected.");
+    Serial.println("[CAM] Check real camera sensor model, FPC direction, SIOD/SIOC pins, XCLK, power and driver version.");
+    Serial.println("[CAM] Supported examples: OV2640, OV3660, OV5640, OV7670, NT99141, GC2145, GC0308, GC032A, BF20A6, SC101IOT, SC030IOT, SC031GS.");
+  } else if (err == ESP_ERR_NOT_FOUND) {
+    Serial.println("[CAM] ESP_ERR_NOT_FOUND: camera bus or sensor was not found. Check wiring, FPC and power.");
+  } else if (err == ESP_ERR_NO_MEM) {
+    Serial.println("[CAM] ESP_ERR_NO_MEM: not enough memory. Try lower resolution or enable PSRAM.");
+  } else if (err == ESP_ERR_INVALID_ARG) {
+    Serial.println("[CAM] ESP_ERR_INVALID_ARG: camera config has an invalid pin or option.");
+  } else {
+    Serial.println("[CAM] Unknown init error. Check pins, camera module, power and selected board.");
+  }
+}`);
+
+  generator.addFunction('esp32_camera_print_sensor_diagnostics', `
+void esp32_camera_print_sensor_diagnostics() {
+  sensor_t* s = esp_camera_sensor_get();
+  if (!s) {
+    Serial.println("[CAM] sensor is not available. Camera is not initialized or init failed.");
+    return;
+  }
+  Serial.println("[CAM] --- sensor ---");
+  Serial.printf("[CAM] PID=0x%04x VER=0x%02x MID=0x%02x%02x ADDR=0x%02x\\n",
+                (unsigned int)s->id.PID, (unsigned int)s->id.VER,
+                (unsigned int)s->id.MIDH, (unsigned int)s->id.MIDL,
+                (unsigned int)s->slv_addr);
+  camera_sensor_info_t* info = esp_camera_sensor_get_info(&s->id);
+  if (info) {
+    Serial.printf("[CAM] sensor name=%s max_frame=%d jpeg=%s\\n",
+                  info->name, info->max_size, info->support_jpeg ? "yes" : "no");
+  } else {
+    Serial.println("[CAM] sensor info is not in driver table.");
+  }
+  Serial.printf("[CAM] current frame_size=%d quality=%u pixformat=%d xclk=%d\\n",
+                s->status.framesize, (unsigned int)s->status.quality,
+                s->pixformat, s->xclk_freq_hz);
+}`);
+}
+
 Arduino.forBlock['esp32_camera_custom_pins'] = function (block, generator) {
   const dataPins = generator.valueToCode(block, 'DATA_PINS', generator.ORDER_ATOMIC) || '"11,12,13,14,15,16,17,18"';
   const xclk = generator.valueToCode(block, 'XCLK', generator.ORDER_ATOMIC) || '10';
@@ -45,9 +112,13 @@ Arduino.forBlock['esp32_camera_custom_pins'] = function (block, generator) {
 Arduino.forBlock['esp32_camera_webserver_init'] = function (block, generator) {
   const model = block.getFieldValue('MODEL');
   const resolution = block.getFieldValue('RESOLUTION');
+  const isGc2145Aiot = model === 'CAMERA_MODEL_ESP32_AIOT_KIT_GC2145';
+  const pixelFormat = isGc2145Aiot ? 'PIXFORMAT_RGB565' : 'PIXFORMAT_JPEG';
+  const frameSize = isGc2145Aiot ? 'FRAMESIZE_VGA' : resolution;
 
   generator.addLibrary('esp_camera', '#include <esp_camera.h>');
   generator.addLibrary('WiFi', '#include <WiFi.h>');
+  addCameraDiagnosticFunctions(generator);
 
   let pinConfig = '';
 
@@ -123,8 +194,8 @@ Arduino.forBlock['esp32_camera_webserver_init'] = function (block, generator) {
   config.ledc_timer = LEDC_TIMER_0;
 ${pinConfig}
   config.xclk_freq_hz = 20000000;
-  config.frame_size = ${resolution};
-  config.pixel_format = PIXFORMAT_JPEG;
+  config.frame_size = ${frameSize};
+  config.pixel_format = ${pixelFormat};
   config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;
   config.fb_location = CAMERA_FB_IN_PSRAM;
   config.jpeg_quality = 12;
@@ -151,13 +222,16 @@ ${pinConfig}
   pinMode(14, INPUT_PULLUP);
 #endif
 
+  esp32_camera_print_pin_diagnostics(&config, "${model}");
   esp_err_t err = esp_camera_init(&config);
   if (err != ESP_OK) {
-    Serial.printf("Camera init failed with error 0x%x", err);
+    Serial.printf("Camera init failed with error 0x%x\\n", err);
+    esp32_camera_print_error_diagnostics(err);
     return;
   }
 
   sensor_t * s = esp_camera_sensor_get();
+  esp32_camera_print_sensor_diagnostics();
   // 检查用户是否设置了翻转参数，如果没有则应用默认值
   // 注意：我们通过检查sensor的默认值来判断用户是否进行了设置
   if (s->id.PID == OV3660_PID) {
@@ -203,6 +277,13 @@ ${pinConfig}
   customPinConfig = null;
 
   return setupCode;
+};
+
+Arduino.forBlock['esp32_camera_print_diagnostics'] = function (block, generator) {
+  generator.addLibrary('esp_camera', '#include <esp_camera.h>');
+  addCameraDiagnosticFunctions(generator);
+  return `  esp32_camera_print_sensor_diagnostics();
+`;
 };
 
 // 设置块：这些块应该放在初始化块之后使用，直接获取sensor并调用API

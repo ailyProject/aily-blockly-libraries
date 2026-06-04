@@ -7,7 +7,7 @@ ESP32 camera network server library supports multiple ESP32 development boards t
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-esp32-camera-webserver |
-| Version | 1.2.0 |
+| Version | 1.2.5 |
 | Author | Vonweller |
 | Source | N/A |
 | License | Original license |
@@ -24,3 +24,11 @@ ESP32 camera network server library supports multiple ESP32 development boards t
 
 1. Enable `@aily-project/lib-esp32-camera-webserver` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+
+## Notes
+
+- Adds `ESP32_AIOT_Kit GC2145 DVP` preset for the 2MP GC2145 120-degree distortion-free DVP camera module.
+
+- GC2145 preset uses RGB565 because GC2145 does not support native JPEG output; the web server converts frames to JPEG when streaming.
+
+- GC2145 D0-D7 pin order is `16,17,18,12,8,9,10,11` for ESP32_AIOT_Kit GC2145 DVP.

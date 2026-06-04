@@ -83,11 +83,8 @@ Arduino.forBlock['tft_init'] = function(block, generator) {
       generator.addSetupBegin('tft_backlight', 'pinMode('+blk+', OUTPUT);\n  digitalWrite('+blk+', HIGH);  // 开启背光');
     }
     
-    // 添加串口调试信息
-    generator.addSetupBegin('tft_debug', 'Serial.begin(115200);\n  Serial.println("Initializing ST7789 display...");');
-    
     // ST7789初始化序列
-    generator.addSetupBegin('tft_init', 'tft.init('+width+', '+height+');\n  tft.setRotation(3);\n  Serial.println("ST7789 initialized successfully!");');
+    generator.addSetupBegin('tft_init', 'tft.init('+width+', '+height+');\n  tft.setRotation(3);');
     
   } else { // 默认为ST7735
     generator.addLibrary('Adafruit_ST7735', '#include <Adafruit_ST7735.h>');
@@ -1107,11 +1104,7 @@ bool tft_jpg_output(int16_t x, int16_t y, uint16_t w, uint16_t h, uint16_t* bitm
 }
 
 void tft_draw_url_image(String imageUrl, int x, int y, int maxWidth, int maxHeight) {
-  Serial.println("=== 下载并显示URL图片 ===");
-  Serial.println("URL: " + imageUrl);
-
   if (WiFi.status() != WL_CONNECTED) {
-    Serial.println("错误: WiFi未连接");
     return;
   }
 
@@ -1122,11 +1115,9 @@ void tft_draw_url_image(String imageUrl, int x, int y, int maxWidth, int maxHeig
 
   if (httpCode == HTTP_CODE_OK) {
     int len = http.getSize();
-    Serial.println("图片大小: " + String(len) + " bytes");
 
     // 检查图片大小，避免内存溢出
     if (len > 500000) {
-      Serial.println("错误: 图片太大，超过500KB限制");
       http.end();
       return;
     }
@@ -1141,17 +1132,13 @@ void tft_draw_url_image(String imageUrl, int x, int y, int maxWidth, int maxHeig
         if (available) {
           int readBytes = stream->readBytes(buffer + bytesRead, available);
           bytesRead += readBytes;
-        }
-        delay(1);
       }
-      
-      Serial.println("下载完成: " + String(bytesRead) + " bytes");
-      Serial.println("开始解码显示...");
+      delay(1);
+    }
       
       // 获取图片尺寸并计算缩放比例
       uint16_t imgW = 0, imgH = 0;
       TJpgDec.getJpgSize(&imgW, &imgH, buffer, len);
-      Serial.println("原始图片尺寸: " + String(imgW) + "x" + String(imgH));
       
       // 计算合适的缩放比例 (1, 2, 4, 8)
       uint8_t scale = 1;
@@ -1159,18 +1146,12 @@ void tft_draw_url_image(String imageUrl, int x, int y, int maxWidth, int maxHeig
       else if (imgW > maxWidth * 2 || imgH > maxHeight * 2) scale = 4;
       else if (imgW > maxWidth || imgH > maxHeight) scale = 2;
       
-      Serial.println("缩放比例: 1/" + String(scale));
       TJpgDec.setJpgScale(scale);
       TJpgDec.setCallback(tft_jpg_output);
       TJpgDec.drawJpg(x, y, buffer, len);
       
       free(buffer);
-      Serial.println("图片显示完成");
-    } else {
-      Serial.println("内存分配失败");
     }
-  } else {
-    Serial.println("HTTP错误: " + String(httpCode));
   }
 
   http.end();

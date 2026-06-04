@@ -1,0 +1,55 @@
+{
+  "toolbox_name": "WiFi OTA",
+  "toolbox_labels": {
+    "快速启动": "Demarrage rapide",
+    "初始化": "Initialiser",
+    "控制": "Controle",
+    "事件": "Evenements"
+  },
+  "arduinoota_config_auto": {
+    "message0": "demarrage rapide WiFi OTA",
+    "tooltip": "Demarre WiFi OTA sur le WiFi deja connecte et ajoute automatiquement le polling"
+  },
+  "arduinoota_begin": {
+    "message0": "initialiser WiFi OTA nom %1 mot de passe %2",
+    "tooltip": "Demarre WiFi OTA sur le WiFi deja connecte avec le stockage flash interne; le polling doit etre appele dans loop"
+  },
+  "arduinoota_begin_advanced": {
+    "message0": "initialiser WiFi OTA avance reseau %1 stockage %2 decouverte %3 nom %4 mot de passe %5",
+    "tooltip": "Demarre WiFi OTA avec la bibliotheque reseau, le stockage et le mode de decouverte mDNS choisis apres la connexion reseau",
+    "args0": [
+      {"options": [["WiFi auto", "WIFI_AUTO"], ["WiFiNINA", "WIFI_NINA"], ["WiFi101", "WIFI101"], ["WiFiS3", "WIFI_S3"], ["WiFiEspAT", "WIFI_ESP_AT"], ["Ethernet", "ETHERNET"], ["EthernetENC", "ETHERNET_ENC"]]},
+      {"options": [["Flash interne", "InternalStorage"], ["Carte SD", "SDStorage"]]},
+      {"options": [["Activer le port mDNS", "MDNS"], ["Desactiver le port mDNS", "NO_PORT"]]},
+      {},
+      {}
+    ]
+  },
+  "arduinoota_poll": {
+    "message0": "interroger les demandes de mise a jour WiFi OTA",
+    "tooltip": "Appeler regulierement dans loop pour traiter les demandes de televersement WiFi OTA"
+  },
+  "arduinoota_handle": {
+    "message0": "traiter les demandes de mise a jour WiFi OTA",
+    "tooltip": "Traite les demandes de mise a jour WiFi OTA; equivalent a poll()"
+  },
+  "arduinoota_end": {
+    "message0": "arreter le service WiFi OTA",
+    "tooltip": "Arrete l'ecoute WiFi OTA et la reponse du port mDNS"
+  },
+  "arduinoota_on_start": {
+    "message0": "quand le televersement WiFi OTA commence",
+    "message1": "%1",
+    "tooltip": "S'execute lorsqu'une demande de televersement WiFi OTA demarre"
+  },
+  "arduinoota_before_apply": {
+    "message0": "avant que WiFi OTA applique la mise a jour",
+    "message1": "%1",
+    "tooltip": "S'execute apres la fin du televersement du firmware et avant l'application de la mise a jour"
+  },
+  "arduinoota_on_error": {
+    "message0": "en cas d'erreur WiFi OTA variable code %1 variable message %2",
+    "message1": "%1",
+    "tooltip": "S'execute lorsqu'une demande OTA echoue; le code est le statut HTTP et le message est le texte de statut"
+  }
+}

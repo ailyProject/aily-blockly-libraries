@@ -1191,6 +1191,12 @@ Arduino.forBlock['u8g2_set_flip_mode'] = function (block, generator) {
   return `u8g2.setFlipMode(${mode});\n`;
 };
 
+// 设置屏幕镜像
+Arduino.forBlock['u8g2_set_display_mirror'] = function (block, generator) {
+  const mode = block.getFieldValue('MODE');
+  return `u8g2.setDisplayRotation(${mode});\n`;
+};
+
 // 设置电源管理
 Arduino.forBlock['u8g2_set_power_save'] = function (block, generator) {
   const mode = block.getFieldValue('MODE');
