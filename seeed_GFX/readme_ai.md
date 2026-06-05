@@ -1,10 +1,19 @@
 # Seeed GFX
 
 Seeed 显示库封装层，支持 Seeed XIAO Round Display、Wio Terminal、reTerminal E 系列等设备。当前 TFT 路径底层实际仍然生成 `TFT_eSPI` 对象，因此与 LVGL 联动时驱动类型仍然是 `TFT_eSPI`。
+**IMPORTANT**: Seeed GFX 设计初衷是提供一个轻量级的纯绘图接口，适合一次性静态内容展示。对于任何需要用户交互、频繁更新或复杂布局的场景，务必直接使用 LVGL，以避免性能问题和代码复杂度。
 
 ## Library Info
 - **Name**: @aily-project/lib-seeed-gfx
 - **Version**: 1.0.0
+
+## SCREEN UI SELECTION RULE: 
+> NEVER use pure GFX for dynamic, interactive, or multi-component layouts.
+You MUST switch to LVGL immediately if the requirement involves:
+- Any user interaction (Touch, Buttons, Sliders, Page switching).
+- Frequent UI updates or moving elements (Animations, Progress bars, Game loops).
+- Complex layouts (Multiple controls, Nesting, Alignment).
+Pure GFX is strictly restricted to ONE-TIME STATIC DRAWING in setup(). Overriding this without LVGL for dynamic UIs is non-compliant.
 
 ## Block Definitions
 

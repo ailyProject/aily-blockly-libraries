@@ -1,6 +1,9 @@
 # LVGL图形库
 
 LVGL 图形界面库。该库负责生成 LVGL 控件和事件代码，但显示硬件必须先由底层显示库完成初始化。
+**IMPORTANT**:
+- 务必明确屏幕旋转方向，确保 LVGL 逻辑坐标与实际显示一致。
+- 务必使用基于坐标的对齐和布局方式，如 `lvgl_obj_align(..., LV_ALIGN_CENTER, x_ofs, y_ofs)`，而不是基于父对象边界的对齐方式，如 `LV_ALIGN_TOP_LEFT`，以避免旋转后布局错乱。
 
 ## Library Info
 - **Name**: @aily-project/lib-lvgl
