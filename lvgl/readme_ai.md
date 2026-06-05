@@ -9,6 +9,13 @@ LVGL 图形界面库。该库负责生成 LVGL 控件和事件代码，但显示
 - **Name**: @aily-project/lib-lvgl
 - **Version**: 1.0.1
 
+### Common board configs
+
+| Board | Physical LCD | Common config |
+|-------|--------------|---------------|
+| Seeed XIAO Round Display | 240x240 | `lvgl_init(TFT_eSPI, math_number(240), math_number(240), LV_DISPLAY_ROTATION_270)` |
+| Wio Terminal | 320x240 | `lvgl_init(TFT_eSPI, math_number(240), math_number(320), LV_DISPLAY_ROTATION_270)` |
+
 ## Block Definitions
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
