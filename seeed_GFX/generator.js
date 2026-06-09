@@ -6,6 +6,7 @@
 if (!Arduino.seeed_gfx) {
   Arduino.seeed_gfx = true;
   Arduino.seeed_gfx_type = '';
+  Arduino.seeed_gfx_frequency = '';
 }
 // 监听块删除事件（将监听器绑定到工作区实例，避免重载/热替换时重复添加）
 if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
@@ -30,6 +31,7 @@ if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
             .then(() => console.log('✅ 宏定义已移除'))
             .catch(err => console.error('❌ 失败:', err));
           Arduino.seeed_gfx_type = '';
+          // Arduino.seeed_gfx_frequency = '';
         }
       }
     };
@@ -116,6 +118,7 @@ Arduino.forBlock['seeed_gfx_init'] = function(block, generator) {
   // const modelParts = modelType.split('_');
   // const model = modelParts.pop();
   const model = block.getFieldValue('MODEL') || '500';
+  const frequency = block.getFieldValue('FREQUENCY') || '40000000';
   // window.add();
   if (Arduino.seeed_gfx_type !== model) {
     Arduino.seeed_gfx_type = model;
@@ -126,10 +129,14 @@ Arduino.forBlock['seeed_gfx_init'] = function(block, generator) {
       window['projectService'].addMacro(`BOARD_SCREEN_COMBO=${model}`)
         .then(() => console.log('✅ 宏定义已更新'))
         .catch(err => console.error('❌ 失败:', err));
+      // window['projectService'].addMacro(`BOARD_SCREEN_FREQUENCY=${frequency}`)
+      //   .then(() => console.log('✅ 宏定义已更新'))
+      //   .catch(err => console.error('❌ 失败:', err));
     }
   }
 
   generator.addMacro('BOARD_SCREEN_COMBO', '#define BOARD_SCREEN_COMBO ' + model);
+  generator.addMacro('BOARD_SCREEN_FREQUENCY', '#define TFT_FREQUENCY ' + frequency);
 
   const messageData = {
     eventType: 'workspaceChanged',
@@ -221,7 +228,35 @@ Arduino.forBlock['seeed_gfx_fill_rect'] = function(block, generator) {
   return varName + '.fillRect(' + x + ', ' + y + ', ' + width + ', ' + height + ', ' + color + ');\n';
 };
 
-// 画矩形
+// 垂直渐变填充矩形
+Arduino.forBlock['seeed_gfx_fill_rect_v_gradient'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+  const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
+  const width = generator.valueToCode(block, 'WIDTH', generator.ORDER_ATOMIC) || '10';
+  const height = generator.valueToCode(block, 'HEIGHT', generator.ORDER_ATOMIC) || '10';
+  const color1 = generator.valueToCode(block, 'COLOR1', generator.ORDER_ATOMIC) || '0';
+  const color2 = generator.valueToCode(block, 'COLOR2', generator.ORDER_ATOMIC) || '0';
+
+  return varName + '.fillRectVGradient(' + x + ', ' + y + ', ' + width + ', ' + height + ', ' + color1 + ', ' + color2 + ');\n';
+};
+
+// 水平渐变填充矩形
+Arduino.forBlock['seeed_gfx_fill_rect_h_gradient'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+  const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
+  const width = generator.valueToCode(block, 'WIDTH', generator.ORDER_ATOMIC) || '10';
+  const height = generator.valueToCode(block, 'HEIGHT', generator.ORDER_ATOMIC) || '10';
+  const color1 = generator.valueToCode(block, 'COLOR1', generator.ORDER_ATOMIC) || '0';
+  const color2 = generator.valueToCode(block, 'COLOR2', generator.ORDER_ATOMIC) || '0';
+
+  return varName + '.fillRectHGradient(' + x + ', ' + y + ', ' + width + ', ' + height + ', ' + color1 + ', ' + color2 + ');\n';
+};
+
+// 画圆角矩形
 Arduino.forBlock['seeed_gfx_draw_round_rect'] = function(block, generator) {
   const varField = block.getField('VAR');
   const varName = varField ? varField.getText() : 'tft';
@@ -229,12 +264,13 @@ Arduino.forBlock['seeed_gfx_draw_round_rect'] = function(block, generator) {
   const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
   const width = generator.valueToCode(block, 'WIDTH', generator.ORDER_ATOMIC) || '10';
   const height = generator.valueToCode(block, 'HEIGHT', generator.ORDER_ATOMIC) || '10';
+  const radius = generator.valueToCode(block, 'RADIUS', generator.ORDER_ATOMIC) || '5';
   const color = generator.valueToCode(block, 'COLOR', generator.ORDER_ATOMIC) || '0';
   
-  return varName + '.drawRoundRect(' + x + ', ' + y + ', ' + width + ', ' + height + ', ' + color + ');\n';
+  return varName + '.drawRoundRect(' + x + ', ' + y + ', ' + width + ', ' + height + ', ' + radius + ', ' + color + ');\n';
 };
 
-// 填充矩形
+// 填充圆角矩形
 Arduino.forBlock['seeed_gfx_fill_round_rect'] = function(block, generator) {
   const varField = block.getField('VAR');
   const varName = varField ? varField.getText() : 'tft';
@@ -242,9 +278,10 @@ Arduino.forBlock['seeed_gfx_fill_round_rect'] = function(block, generator) {
   const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
   const width = generator.valueToCode(block, 'WIDTH', generator.ORDER_ATOMIC) || '10';
   const height = generator.valueToCode(block, 'HEIGHT', generator.ORDER_ATOMIC) || '10';
+  const radius = generator.valueToCode(block, 'RADIUS', generator.ORDER_ATOMIC) || '5';
   const color = generator.valueToCode(block, 'COLOR', generator.ORDER_ATOMIC) || '0';
   
-  return varName + '.fillRoundRect(' + x + ', ' + y + ', ' + width + ', ' + height + ', ' + color + ');\n';
+  return varName + '.fillRoundRect(' + x + ', ' + y + ', ' + width + ', ' + height + ', ' + radius + ', ' + color + ');\n';
 };
 
 // 画圆
@@ -269,6 +306,62 @@ Arduino.forBlock['seeed_gfx_fill_circle'] = function(block, generator) {
   const color = generator.valueToCode(block, 'COLOR', generator.ORDER_ATOMIC) || '0';
   
   return varName + '.fillCircle(' + x + ', ' + y + ', ' + radius + ', ' + color + ');\n';
+};
+
+// 画三角形
+Arduino.forBlock['seeed_gfx_draw_triangle'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+  const x1 = generator.valueToCode(block, 'X1', generator.ORDER_ATOMIC) || '0';
+  const y1 = generator.valueToCode(block, 'Y1', generator.ORDER_ATOMIC) || '0';
+  const x2 = generator.valueToCode(block, 'X2', generator.ORDER_ATOMIC) || '0';
+  const y2 = generator.valueToCode(block, 'Y2', generator.ORDER_ATOMIC) || '0';
+  const x3 = generator.valueToCode(block, 'X3', generator.ORDER_ATOMIC) || '0';
+  const y3 = generator.valueToCode(block, 'Y3', generator.ORDER_ATOMIC) || '0';
+  const color = generator.valueToCode(block, 'COLOR', generator.ORDER_ATOMIC) || '0';
+
+  return varName + '.drawTriangle(' + x1 + ', ' + y1 + ', ' + x2 + ', ' + y2 + ', ' + x3 + ', ' + y3 + ', ' + color + ');\n';
+};
+
+// 填充三角形
+Arduino.forBlock['seeed_gfx_fill_triangle'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+  const x1 = generator.valueToCode(block, 'X1', generator.ORDER_ATOMIC) || '0';
+  const y1 = generator.valueToCode(block, 'Y1', generator.ORDER_ATOMIC) || '0';
+  const x2 = generator.valueToCode(block, 'X2', generator.ORDER_ATOMIC) || '0';
+  const y2 = generator.valueToCode(block, 'Y2', generator.ORDER_ATOMIC) || '0';
+  const x3 = generator.valueToCode(block, 'X3', generator.ORDER_ATOMIC) || '0';
+  const y3 = generator.valueToCode(block, 'Y3', generator.ORDER_ATOMIC) || '0';
+  const color = generator.valueToCode(block, 'COLOR', generator.ORDER_ATOMIC) || '0';
+
+  return varName + '.fillTriangle(' + x1 + ', ' + y1 + ', ' + x2 + ', ' + y2 + ', ' + x3 + ', ' + y3 + ', ' + color + ');\n';
+};
+
+// 画椭圆
+Arduino.forBlock['seeed_gfx_draw_ellipse'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+  const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
+  const rx = generator.valueToCode(block, 'RX', generator.ORDER_ATOMIC) || '10';
+  const ry = generator.valueToCode(block, 'RY', generator.ORDER_ATOMIC) || '5';
+  const color = generator.valueToCode(block, 'COLOR', generator.ORDER_ATOMIC) || '0';
+
+  return varName + '.drawEllipse(' + x + ', ' + y + ', ' + rx + ', ' + ry + ', ' + color + ');\n';
+};
+
+// 填充椭圆
+Arduino.forBlock['seeed_gfx_fill_ellipse'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tft';
+  const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
+  const rx = generator.valueToCode(block, 'RX', generator.ORDER_ATOMIC) || '10';
+  const ry = generator.valueToCode(block, 'RY', generator.ORDER_ATOMIC) || '5';
+  const color = generator.valueToCode(block, 'COLOR', generator.ORDER_ATOMIC) || '0';
+
+  return varName + '.fillEllipse(' + x + ', ' + y + ', ' + rx + ', ' + ry + ', ' + color + ');\n';
 };
 
 // 设置文字颜色

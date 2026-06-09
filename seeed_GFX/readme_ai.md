@@ -1,27 +1,42 @@
 # Seeed GFX
 
 Seeed 显示库封装层，支持 Seeed XIAO Round Display、Wio Terminal、reTerminal E 系列等设备。当前 TFT 路径底层实际仍然生成 `TFT_eSPI` 对象，因此与 LVGL 联动时驱动类型仍然是 `TFT_eSPI`。
+**IMPORTANT**: Seeed GFX 设计初衷是提供一个轻量级的纯绘图接口，适合一次性静态内容展示。对于任何需要用户交互、频繁更新或复杂布局的场景，务必直接使用 LVGL，以避免性能问题和代码复杂度。
 
 ## Library Info
 - **Name**: @aily-project/lib-seeed-gfx
 - **Version**: 1.0.0
+
+## SCREEN UI SELECTION RULE: 
+> NEVER use pure GFX for dynamic, interactive, or multi-component layouts.
+You MUST switch to LVGL immediately if the requirement involves:
+- Any user interaction (Touch, Buttons, Sliders, Page switching).
+- Frequent UI updates or moving elements (Animations, Progress bars, Game loops).
+- Complex layouts (Multiple controls, Nesting, Alignment).
+Pure GFX is strictly restricted to ONE-TIME STATIC DRAWING in setup(). Overriding this without LVGL for dynamic UIs is non-compliant.
 
 ## Block Definitions
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `seeed_gfx_create_tft` | Statement | VAR(field_input) | `seeed_gfx_create_tft("tft")` | `TFT_eSPI tft = TFT_eSPI();` |
-| `seeed_gfx_init` | Statement | VAR(field_input), MODEL(dropdown) | `seeed_gfx_init("tft", 501)` | `#define BOARD_SCREEN_COMBO ...; TFT_eSPI tft = TFT_eSPI(); tft.init();` |
+| `seeed_gfx_init` | Statement | VAR(field_input), MODEL(dropdown), FREQUENCY(dropdown) | `seeed_gfx_init("tft", 501, 20000000)` | `#define BOARD_SCREEN_COMBO ...; TFT_eSPI tft = TFT_eSPI(); tft.init();` |
 | `seeed_gfx_fill_screen` | Statement | VAR(field_variable), COLOR(input_value) | `seeed_gfx_fill_screen($tft, seeed_gfx_color(TFT_BLACK))` | `tft.fillScreen(...);` |
 | `seeed_gfx_set_rotation` | Statement | VAR(field_variable), ROTATION(dropdown) | `seeed_gfx_set_rotation($tft, 3)` | `tft.setRotation(...);` |
 | `seeed_gfx_draw_pixel` | Statement | VAR(field_variable), X(input_value), Y(input_value), COLOR(input_value) | `seeed_gfx_draw_pixel($tft, math_number(10), math_number(10), seeed_gfx_color(TFT_WHITE))` | `tft.drawPixel(...);` |
 | `seeed_gfx_draw_line` | Statement | VAR(field_variable), X1(input_value), Y1(input_value), X2(input_value), Y2(input_value), COLOR(input_value) | `seeed_gfx_draw_line($tft, math_number(0), math_number(0), math_number(50), math_number(50), seeed_gfx_color(TFT_RED))` | `tft.drawLine(...);` |
 | `seeed_gfx_draw_rect` | Statement | VAR(field_variable), X(input_value), Y(input_value), WIDTH(input_value), HEIGHT(input_value), COLOR(input_value) | `seeed_gfx_draw_rect($tft, math_number(20), math_number(20), math_number(80), math_number(40), seeed_gfx_color(TFT_GREEN))` | `tft.drawRect(...);` |
 | `seeed_gfx_fill_rect` | Statement | VAR(field_variable), X(input_value), Y(input_value), WIDTH(input_value), HEIGHT(input_value), COLOR(input_value) | `seeed_gfx_fill_rect($tft, math_number(20), math_number(20), math_number(80), math_number(40), seeed_gfx_color(TFT_BLUE))` | `tft.fillRect(...);` |
+| `seeed_gfx_fill_rect_v_gradient` | Statement | VAR(field_variable), X(input_value), Y(input_value), WIDTH(input_value), HEIGHT(input_value), COLOR1(input_value), COLOR2(input_value) | `seeed_gfx_fill_rect_v_gradient($tft, math_number(20), math_number(20), math_number(80), math_number(40), seeed_gfx_color(TFT_RED), seeed_gfx_color(TFT_BLUE))` | `tft.fillRectVGradient(...);` |
+| `seeed_gfx_fill_rect_h_gradient` | Statement | VAR(field_variable), X(input_value), Y(input_value), WIDTH(input_value), HEIGHT(input_value), COLOR1(input_value), COLOR2(input_value) | `seeed_gfx_fill_rect_h_gradient($tft, math_number(20), math_number(20), math_number(80), math_number(40), seeed_gfx_color(TFT_GREEN), seeed_gfx_color(TFT_YELLOW))` | `tft.fillRectHGradient(...);` |
 | `seeed_gfx_draw_round_rect` | Statement | VAR(field_variable), X(input_value), Y(input_value), WIDTH(input_value), HEIGHT(input_value), RADIUS(input_value), COLOR(input_value) | `seeed_gfx_draw_round_rect($tft, math_number(10), math_number(10), math_number(100), math_number(50), math_number(8), seeed_gfx_color(TFT_ORANGE))` | `tft.drawRoundRect(...);` |
 | `seeed_gfx_fill_round_rect` | Statement | VAR(field_variable), X(input_value), Y(input_value), WIDTH(input_value), HEIGHT(input_value), RADIUS(input_value), COLOR(input_value) | `seeed_gfx_fill_round_rect($tft, math_number(10), math_number(10), math_number(100), math_number(50), math_number(8), seeed_gfx_color(TFT_CYAN))` | `tft.fillRoundRect(...);` |
 | `seeed_gfx_draw_circle` | Statement | VAR(field_variable), X(input_value), Y(input_value), RADIUS(input_value), COLOR(input_value) | `seeed_gfx_draw_circle($tft, math_number(60), math_number(60), math_number(20), seeed_gfx_color(TFT_YELLOW))` | `tft.drawCircle(...);` |
 | `seeed_gfx_fill_circle` | Statement | VAR(field_variable), X(input_value), Y(input_value), RADIUS(input_value), COLOR(input_value) | `seeed_gfx_fill_circle($tft, math_number(60), math_number(60), math_number(20), seeed_gfx_color(TFT_MAGENTA))` | `tft.fillCircle(...);` |
+| `seeed_gfx_draw_triangle` | Statement | VAR(field_variable), X1(input_value), Y1(input_value), X2(input_value), Y2(input_value), X3(input_value), Y3(input_value), COLOR(input_value) | `seeed_gfx_draw_triangle($tft, math_number(160), math_number(70), math_number(110), math_number(170), math_number(210), math_number(170), seeed_gfx_color(TFT_RED))` | `tft.drawTriangle(...);` |
+| `seeed_gfx_fill_triangle` | Statement | VAR(field_variable), X1(input_value), Y1(input_value), X2(input_value), Y2(input_value), X3(input_value), Y3(input_value), COLOR(input_value) | `seeed_gfx_fill_triangle($tft, math_number(160), math_number(70), math_number(110), math_number(170), math_number(210), math_number(170), seeed_gfx_color(TFT_CYAN))` | `tft.fillTriangle(...);` |
+| `seeed_gfx_draw_ellipse` | Statement | VAR(field_variable), X(input_value), Y(input_value), RX(input_value), RY(input_value), COLOR(input_value) | `seeed_gfx_draw_ellipse($tft, math_number(120), math_number(80), math_number(50), math_number(30), seeed_gfx_color(TFT_WHITE))` | `tft.drawEllipse(...);` |
+| `seeed_gfx_fill_ellipse` | Statement | VAR(field_variable), X(input_value), Y(input_value), RX(input_value), RY(input_value), COLOR(input_value) | `seeed_gfx_fill_ellipse($tft, math_number(120), math_number(80), math_number(40), math_number(24), seeed_gfx_color(TFT_ORANGE))` | `tft.fillEllipse(...);` |
 | `seeed_gfx_set_text_color` | Statement | VAR(field_variable), COLOR(input_value), BGCOLOR(input_value) | `seeed_gfx_set_text_color($tft, seeed_gfx_color(TFT_WHITE), seeed_gfx_color(TFT_BLACK))` | `tft.setTextColor(...);` |
 | `seeed_gfx_set_text_size` | Statement | VAR(field_variable), SIZE(dropdown) | `seeed_gfx_set_text_size($tft, 2)` | `tft.setTextSize(...);` |
 | `seeed_gfx_set_cursor` | Statement | VAR(field_variable), X(input_value), Y(input_value) | `seeed_gfx_set_cursor($tft, math_number(0), math_number(0))` | `tft.setCursor(...);` |
@@ -42,6 +57,7 @@ Seeed 显示库封装层，支持 Seeed XIAO Round Display、Wio Terminal、reTe
 | Parameter | Values | Description |
 |-----------|--------|-------------|
 | MODEL | 500, 501, 666 | 500=Wio Terminal(320x240) / 501=XIAO Round Display(240x240) / 666=Seeed XIAO ILI9341 |
+| FREQUENCY | 10000000, 20000000, 27000000, 40000000, 55000000, 80000000 | TFT 通信频率，单位 Hz，默认 27MHz |
 | ROTATION | 0, 1, 2, 3, 4, 5, 6, 7 | 0/1/2/3=0°/90°/180°/270°，4-7 为镜像或交换轴模式 |
 | SIZE | 1, 2, 3, 4, 5, 6, 7 | 文本大小 |
 | FONT | 1, 2, 4, 6, 7 | 绘制字符串时使用的字体编号 |
