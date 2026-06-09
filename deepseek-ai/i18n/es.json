@@ -1,0 +1,168 @@
+{
+  "name": "DeepSeek AI",
+  "description": "Biblioteca Blockly para el API oficial de DeepSeek, que admite chat, chat de varios turnos, transmisión, modo de pensamiento y salida JSON.",
+  "toolbox_name": "DeepSeek AI",
+  "toolbox_labels": {
+    "???": "Transmisión",
+    "????": "Estado"
+  },
+  "deepseek_ai_config": {
+    "message0": "configurar DeepSeek API Clave %1 Base URL %2",
+    "tooltip": "Configure la clave DeepSeek API y la dirección del punto final. La base predeterminada URL es https://api.deepseek.com."
+  },
+  "deepseek_ai_set_system_prompt": {
+    "message0": "configurar el mensaje del sistema DeepSeek %1",
+    "tooltip": "Configure el mensaje del sistema utilizado por las solicitudes posteriores de DeepSeek."
+  },
+  "deepseek_ai_chat": {
+    "message0": "Mensaje de chat de DeepSeek %1 modelo %2",
+    "tooltip": "Envíe una solicitud de chat de texto de un solo turno y devuelva la respuesta del modelo.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash (recomendado)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (compatible con versiones anteriores)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_thinking_chat": {
+    "message0": "Mensaje de chat de pensamiento de DeepSeek %1 modelo %2 esfuerzo de razonamiento %3",
+    "tooltip": "Habilite el modo de pensamiento DeepSeek y devuelva la respuesta final. Utilice el último bloque de contenido de razonamiento para leer reasoning_content.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-pro (recomendado)",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-reasoner (compatible con versiones anteriores)",
+            "deepseek-reasoner"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "alta",
+            "high"
+          ],
+          [
+            "máximo",
+            "max"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_history_chat": {
+    "message0": "Mensaje de chat de múltiples turnos de DeepSeek %1 modelo %2",
+    "tooltip": "Envíe una solicitud de chat con el historial de conversaciones y registre automáticamente este mensaje de usuario y la respuesta modelo.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash (recomendado)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (compatible con versiones anteriores)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_json_chat": {
+    "message0": "DeepSeek JSON mensaje de salida %1 modelo %2",
+    "tooltip": "Habilite response_format=json_object. El mensaje debe indicar que la salida debe ser JSON.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-pro (recomendado)",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_stream_chat": {
+    "message0": "Mensaje de chat de transmisión de DeepSeek %1 modelo %2",
+    "tooltip": "Solicita el modelo en modo streaming. Cada fragmento de texto recibido activa la devolución de llamada de transmisión configurada.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash (recomendado)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (compatible con versiones anteriores)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_set_stream_callback": {
+    "message0": "configurar la devolución de llamada de transmisión de DeepSeek %1",
+    "tooltip": "Configure los bloques para que se ejecuten cuando llegue un fragmento de transmisión de DeepSeek. Lea el fragmento actual dentro de la devolución de llamada."
+  },
+  "deepseek_ai_get_stream_chunk": {
+    "message0": "Fragmento de transmisión actual de DeepSeek",
+    "tooltip": "Obtenga el fragmento de texto más reciente recibido de una solicitud de transmisión de DeepSeek."
+  },
+  "deepseek_ai_clear_stream_callback": {
+    "message0": "borrar la devolución de llamada de transmisión de DeepSeek",
+    "tooltip": "Borre la devolución de llamada de transmisión de DeepSeek configurada."
+  },
+  "deepseek_ai_clear_history": {
+    "message0": "borrar el historial de chat de varios turnos de DeepSeek",
+    "tooltip": "Borre el historial de chat de varios turnos guardado localmente."
+  },
+  "deepseek_ai_get_response_status": {
+    "message0": "La última solicitud de DeepSeek fue exitosa",
+    "tooltip": "Devuelve si la solicitud anterior de DeepSeek tuvo éxito."
+  },
+  "deepseek_ai_get_error_message": {
+    "message0": "Último mensaje de error de DeepSeek",
+    "tooltip": "Obtenga el mensaje de error registrado cuando falló la solicitud anterior de DeepSeek."
+  },
+  "deepseek_ai_get_reasoning": {
+    "message0": "Contenido del último razonamiento de DeepSeek",
+    "tooltip": "Obtenga el reasoning_content devuelto mediante el modo de pensamiento."
+  }
+}

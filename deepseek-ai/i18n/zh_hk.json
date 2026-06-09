@@ -1,0 +1,168 @@
+{
+  "name": "DeepSeek AI",
+  "description": "DeepSeek API 官方的 Blockly 庫，支援聊天、多輪聊天、串流、思維模式和 JSON 輸出。",
+  "toolbox_name": "DeepSeek AI",
+  "toolbox_labels": {
+    "???": "串流媒體",
+    "????": "地位"
+  },
+  "deepseek_ai_config": {
+    "message0": "設定 DeepSeek API 金鑰 %1 基礎 URL %2",
+    "tooltip": "設定 DeepSeek API 金鑰和端點位址。 預設基礎 URL 是 https://api.deepseek.com."
+  },
+  "deepseek_ai_set_system_prompt": {
+    "message0": "設定 DeepSeek 系統提示字元 %1",
+    "tooltip": "設定後續 DeepSeek 請求使用的系統訊息。"
+  },
+  "deepseek_ai_chat": {
+    "message0": "DeepSeek 聊天訊息 %1 型號 %2",
+    "tooltip": "發送單輪文字聊天請求並返回模型回應。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash（建議）",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat（相容舊版）",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_thinking_chat": {
+    "message0": "DeepSeek 思維聊天訊息 %1 模型 %2 推理努力 %3",
+    "tooltip": "啟用DeepSeek思維模式並返回最終答案。 使用最後一個推理內容區塊讀取reasoning_content。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-pro（建議）",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-reasoner（相容舊版）",
+            "deepseek-reasoner"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "高的",
+            "high"
+          ],
+          [
+            "最大限度",
+            "max"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_history_chat": {
+    "message0": "DeepSeek多輪聊天訊息 %1 模型 %2",
+    "tooltip": "發送帶有對話歷史記錄的聊天請求，並自動記錄此用戶訊息和模型回應。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash（建議）",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat（相容舊版）",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_json_chat": {
+    "message0": "DeepSeek JSON 輸出訊息 %1 模型 %2",
+    "tooltip": "啟用 response_format=json_object。 提示必須聲明輸出應為 JSON。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-pro（建議）",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_stream_chat": {
+    "message0": "DeepSeek 串流聊天訊息 %1 模型 %2",
+    "tooltip": "以流模式請求模型。 每個收到的文字區塊都會觸發配置的流回調。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash（建議）",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat（相容舊版）",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_set_stream_callback": {
+    "message0": "設定 DeepSeek 串流回呼 %1",
+    "tooltip": "將區塊設定為在 DeepSeek 串流資料區塊到達時運行。 讀取回調中的目前區塊。"
+  },
+  "deepseek_ai_get_stream_chunk": {
+    "message0": "DeepSeek 目前串流資料塊",
+    "tooltip": "取得從 DeepSeek 串流請求接收的最新文字區塊。"
+  },
+  "deepseek_ai_clear_stream_callback": {
+    "message0": "清除 DeepSeek 串流回調",
+    "tooltip": "清除配置的 DeepSeek 串流回呼。"
+  },
+  "deepseek_ai_clear_history": {
+    "message0": "清除DeepSeek多輪聊天記錄",
+    "tooltip": "清除本地保存的多輪聊天記錄。"
+  },
+  "deepseek_ai_get_response_status": {
+    "message0": "DeepSeek 最後請求成功",
+    "tooltip": "返回前一個DeepSeek請求是否成功。"
+  },
+  "deepseek_ai_get_error_message": {
+    "message0": "DeepSeek 最後的錯誤訊息",
+    "tooltip": "取得上次DeepSeek請求失敗時記錄的錯誤訊息。"
+  },
+  "deepseek_ai_get_reasoning": {
+    "message0": "DeepSeek最後的推理內容",
+    "tooltip": "取得思維模式回傳的reasoning_content。"
+  }
+}

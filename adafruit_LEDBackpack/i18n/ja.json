@@ -1,0 +1,304 @@
+{
+  "toolbox_name": "LED バックパック",
+  "ledbp_init": {
+    "message0": "LED バックパック %1 I2C アドレス %2 を初期化します",
+    "tooltip": "I2C (デフォルトアドレス 0x70) 経由で Adafruit LED バックパック (HT16K33 ベース) を初期化します。",
+    "args0": [
+      {
+        "options": [
+          [
+            "4桁7セグメント",
+            "Adafruit_7segment"
+          ],
+          [
+            "4桁14セグメント英数字",
+            "Adafruit_AlphaNum4"
+          ],
+          [
+            "8x8 マトリックス",
+            "Adafruit_8x8matrix"
+          ],
+          [
+            "8x16 マトリックス",
+            "Adafruit_8x16matrix"
+          ],
+          [
+            "8x16 ミニマトリックス",
+            "Adafruit_8x16minimatrix"
+          ],
+          [
+            "2 色の 8x8 マトリックス",
+            "Adafruit_BicolorMatrix"
+          ],
+          [
+            "24セグメントバーグラフ",
+            "Adafruit_24bargraph"
+          ]
+        ]
+      }
+    ]
+  },
+  "ledbp_write_display": {
+    "message0": "表示バッファを更新する",
+    "tooltip": "バッファデータをディスプレイに書き込んで変更を適用します"
+  },
+  "ledbp_clear": {
+    "message0": "表示バッファをクリアする",
+    "tooltip": "表示バッファをクリアします(適用するにはrefreshを呼び出します)。"
+  },
+  "ledbp_set_brightness": {
+    "message0": "明るさを設定 %1",
+    "tooltip": "ディスプレイの明るさを設定します (0 が最も暗く、15 が最も明るく)"
+  },
+  "ledbp_blink_rate": {
+    "message0": "点滅速度を設定します %1",
+    "tooltip": "ディスプレイの点滅速度を設定する",
+    "args0": [
+      {
+        "options": [
+          [
+            "まばたきしない",
+            "HT16K33_BLINK_OFF"
+          ],
+          [
+            "2Hz",
+            "HT16K33_BLINK_2HZ"
+          ],
+          [
+            "1Hz",
+            "HT16K33_BLINK_1HZ"
+          ],
+          [
+            "0.5Hz",
+            "HT16K33_BLINK_HALFHZ"
+          ]
+        ]
+      }
+    ]
+  },
+  "ledbp_set_display_state": {
+    "message0": "表示を設定 %1",
+    "tooltip": "ディスプレイをオンまたはオフにする",
+    "args0": [
+      {
+        "options": [
+          [
+            "の上",
+            "true"
+          ],
+          [
+            "オフ",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "ledbp_seven_print_number": {
+    "message0": "7セグプリント番号%1",
+    "tooltip": "4 桁の 7 セグメント ディスプレイに数値 (整数または浮動小数点数) を表示し、更新します。"
+  },
+  "ledbp_seven_print_number_base": {
+    "message0": "7セグプリント番号 %1 ベース %2",
+    "tooltip": "指定された基数の整数を出力します",
+    "args0": [
+      {},
+      {
+        "options": [
+          [
+            "10進数",
+            "DEC"
+          ],
+          [
+            "16進数",
+            "HEX"
+          ],
+          [
+            "バイナリ",
+            "BIN"
+          ],
+          [
+            "8進数",
+            "OCT"
+          ]
+        ]
+      }
+    ]
+  },
+  "ledbp_seven_write_digit_num": {
+    "message0": "7 セグ位置 %1 桁 %2 ドット表示 %3",
+    "tooltip": "(0 ～ 4) の位置に 1 桁の数字を書き込みます。 位置 2 はコロンです",
+    "args0": [
+      {},
+      {},
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "ledbp_seven_draw_colon": {
+    "message0": "7 セグコロン %1",
+    "tooltip": "7セグメントディスプレイの中央のコロンをオンまたはオフにします",
+    "args0": [
+      {
+        "options": [
+          [
+            "の上",
+            "true"
+          ],
+          [
+            "オフ",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "ledbp_alpha_write_digit_ascii": {
+    "message0": "14 セグ位置 %1 char %2 show dot %3",
+    "tooltip": "14 セグメント ディスプレイの位置 (0 ～ 3) に ASCII 文字を表示します。",
+    "args0": [
+      {},
+      {},
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "ledbp_alpha_print_text": {
+    "message0": "14 セグ印刷テキスト %1",
+    "tooltip": "14 セグメントの英数字ディスプレイに最大 4 文字を印刷します"
+  },
+  "ledbp_matrix_color": {
+    "message0": "カラー%1",
+    "tooltip": "色を選択してください。 モノマトリックスはオン/オフを使用します。 2色とバーグラフは赤/黄/緑をサポート",
+    "args0": [
+      {
+        "options": [
+          [
+            "オン (モノラル)",
+            "LED_ON"
+          ],
+          [
+            "オフ",
+            "LED_OFF"
+          ],
+          [
+            "赤",
+            "LED_RED"
+          ],
+          [
+            "黄色",
+            "LED_YELLOW"
+          ],
+          [
+            "緑",
+            "LED_GREEN"
+          ]
+        ]
+      }
+    ]
+  },
+  "ledbp_matrix_draw_pixel": {
+    "message0": "マトリックス描画ピクセル X: %1 Y: %2 カラー %3",
+    "tooltip": "指定された座標にピクセルを描画します"
+  },
+  "ledbp_matrix_draw_line": {
+    "message0": "マトリックス X: %1 Y: %2 から X: %3 Y: %4 カラー %5",
+    "tooltip": "マトリックス上に直線を引く"
+  },
+  "ledbp_matrix_draw_rect": {
+    "message0": "マトリックス描画四角形 X: %1 Y: %2 W: %3 H: %4 カラー %5",
+    "tooltip": "外枠付きの長方形を描く"
+  },
+  "ledbp_matrix_fill_rect": {
+    "message0": "マトリックス塗りつぶし四角形 X: %1 Y: %2 W: %3 H: %4 カラー %5",
+    "tooltip": "塗りつぶされた長方形を描く"
+  },
+  "ledbp_matrix_draw_circle": {
+    "message0": "マトリックス描画円 X: %1 Y: %2 R: %3 カラー %4",
+    "tooltip": "白抜きの円を描く"
+  },
+  "ledbp_matrix_set_text_size": {
+    "message0": "マトリックスセットのテキストサイズ %1",
+    "tooltip": "文字サイズを設定します（通常は1）"
+  },
+  "ledbp_matrix_set_text_color": {
+    "message0": "マトリックス セットのテキストの色 %1",
+    "tooltip": "文字の色を設定する"
+  },
+  "ledbp_matrix_set_cursor": {
+    "message0": "マトリックス セット カーソル X: %1 Y: %2",
+    "tooltip": "テキストの印刷開始位置を設定する"
+  },
+  "ledbp_matrix_print": {
+    "message0": "マトリックス印刷 %1",
+    "tooltip": "現在のカーソル位置にあるテキストを印刷します"
+  },
+  "ledbp_matrix_set_rotation": {
+    "message0": "マトリックス セットの回転 %1",
+    "tooltip": "マトリックスの回転を設定する",
+    "args0": [
+      {
+        "options": [
+          [
+            "0°",
+            "0"
+          ],
+          [
+            "90°",
+            "1"
+          ],
+          [
+            "180°",
+            "2"
+          ],
+          [
+            "270°",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "ledbp_matrix_set_text_wrap": {
+    "message0": "マトリックステキストの回り込み %1",
+    "tooltip": "自動テキスト折り返しを有効または無効にする (スクロールの場合は無効)",
+    "args0": [
+      {
+        "options": [
+          [
+            "の上",
+            "true"
+          ],
+          [
+            "オフ",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "ledbp_bar_set_bar": {
+    "message0": "棒グラフ バー %1 カラー %2",
+    "tooltip": "24 棒グラフ上の 1 つの棒 (0 ～ 23) の色を設定します。"
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "name": "DeepSeek AI",
+  "description": "Blockly-Bibliothek für das offizielle DeepSeek API, unterstützt Chat, Multi-Turn-Chat, Streaming, Denkmodus und JSON-Ausgabe.",
+  "toolbox_name": "DeepSeek AI",
+  "toolbox_labels": {
+    "???": "Streaming",
+    "????": "Status"
+  },
+  "deepseek_ai_config": {
+    "message0": "Konfigurieren Sie DeepSeek API Schlüssel %1 Basis URL %2",
+    "tooltip": "Konfigurieren Sie den DeepSeek-API-Schlüssel und die Endpunktadresse. Die Standardbasis URL ist https://api.deepseek.com."
+  },
+  "deepseek_ai_set_system_prompt": {
+    "message0": "Legen Sie die DeepSeek-Systemaufforderung %1 fest",
+    "tooltip": "Legen Sie die Systemnachricht fest, die von nachfolgenden DeepSeek-Anfragen verwendet wird."
+  },
+  "deepseek_ai_chat": {
+    "message0": "DeepSeek-Chat-Nachricht %1 Modell %2",
+    "tooltip": "Senden Sie eine Single-Turn-Text-Chat-Anfrage und senden Sie die Musterantwort zurück.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash (empfohlen)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (Legacy-kompatibel)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_thinking_chat": {
+    "message0": "DeepSeek-Denk-Chat-Nachricht %1 Modell %2 Argumentationsaufwand %3",
+    "tooltip": "Aktivieren Sie den DeepSeek-Denkmodus und geben Sie die endgültige Antwort zurück. Verwenden Sie den letzten Argumentationsinhaltsblock, um reasoning_content zu lesen.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-pro (empfohlen)",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-reasoner (Legacy-kompatibel)",
+            "deepseek-reasoner"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "hoch",
+            "high"
+          ],
+          [
+            "max",
+            "max"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_history_chat": {
+    "message0": "DeepSeek-Multiturn-Chat-Nachricht %1, Modell %2",
+    "tooltip": "Senden Sie eine Chat-Anfrage mit Gesprächsverlauf und zeichnen Sie diese Benutzernachricht und Modellantwort automatisch auf.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash (empfohlen)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (Legacy-kompatibel)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_json_chat": {
+    "message0": "DeepSeek JSON gibt die Nachricht %1 Modell %2 aus",
+    "tooltip": "Aktivieren Sie response_format=json_object. Die Eingabeaufforderung muss angeben, dass die Ausgabe JSON sein soll.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-pro (empfohlen)",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_stream_chat": {
+    "message0": "DeepSeek-Streaming-Chat-Nachricht %1, Modell %2",
+    "tooltip": "Fordern Sie das Modell im Streaming-Modus an. Jeder empfangene Textblock löst den konfigurierten Streaming-Rückruf aus.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash (empfohlen)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (Legacy-kompatibel)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_set_stream_callback": {
+    "message0": "Legen Sie den DeepSeek-Streaming-Rückruf %1 fest",
+    "tooltip": "Legen Sie die Blöcke so fest, dass sie ausgeführt werden, wenn ein DeepSeek-Streaming-Block eintrifft. Lesen Sie den aktuellen Block im Rückruf."
+  },
+  "deepseek_ai_get_stream_chunk": {
+    "message0": "Aktueller DeepSeek-Streaming-Block",
+    "tooltip": "Rufen Sie den neuesten Textblock ab, der von einer DeepSeek-Streaming-Anfrage empfangen wurde."
+  },
+  "deepseek_ai_clear_stream_callback": {
+    "message0": "Deaktivieren Sie den DeepSeek-Streaming-Rückruf",
+    "tooltip": "Löschen Sie den konfigurierten DeepSeek-Streaming-Rückruf."
+  },
+  "deepseek_ai_clear_history": {
+    "message0": "Löschen Sie den DeepSeek-Multiturn-Chat-Verlauf",
+    "tooltip": "Löschen Sie den lokal gespeicherten Multi-Turn-Chat-Verlauf."
+  },
+  "deepseek_ai_get_response_status": {
+    "message0": "Die letzte DeepSeek-Anfrage war erfolgreich",
+    "tooltip": "Gibt zurück, ob die vorherige DeepSeek-Anfrage erfolgreich war."
+  },
+  "deepseek_ai_get_error_message": {
+    "message0": "Letzte Fehlermeldung von DeepSeek",
+    "tooltip": "Lassen Sie sich die Fehlermeldung aufzeichnen, wenn die vorherige DeepSeek-Anfrage fehlgeschlagen ist."
+  },
+  "deepseek_ai_get_reasoning": {
+    "message0": "Der letzte Inhalt von DeepSeek",
+    "tooltip": "Holen Sie sich das vom Denkmodus zurückgegebene reasoning_content."
+  }
+}

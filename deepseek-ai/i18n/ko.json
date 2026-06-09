@@ -1,0 +1,168 @@
+{
+  "name": "DeepSeek AI",
+  "description": "채팅, 멀티 턴 채팅, 스트리밍, 사고 모드 및 JSON 출력을 지원하는 공식 DeepSeek API용 Blockly 라이브러리입니다.",
+  "toolbox_name": "DeepSeek AI",
+  "toolbox_labels": {
+    "???": "스트리밍",
+    "????": "상태"
+  },
+  "deepseek_ai_config": {
+    "message0": "DeepSeek API 키 %1 기본 URL %2 구성",
+    "tooltip": "DeepSeek API 키와 엔드포인트 주소를 구성합니다. 기본 기본 URL는 https://api.deepseek.com.입니다."
+  },
+  "deepseek_ai_set_system_prompt": {
+    "message0": "DeepSeek 시스템 프롬프트 %1 설정",
+    "tooltip": "후속 DeepSeek 요청에 사용되는 시스템 메시지를 설정합니다."
+  },
+  "deepseek_ai_chat": {
+    "message0": "DeepSeek 채팅 메시지 %1 모델 %2",
+    "tooltip": "단일 턴 텍스트 채팅 요청을 보내고 모델 응답을 반환합니다.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash(권장)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat(레거시 호환)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_thinking_chat": {
+    "message0": "DeepSeek 사고 채팅 메시지 %1 모델 %2 추론 노력 %3",
+    "tooltip": "DeepSeek 사고 모드를 활성화하고 최종 답변을 반환합니다. 마지막 추론 콘텐츠 블록을 사용하여 reasoning_content를 읽습니다.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-pro(권장)",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-reasoner(레거시 호환)",
+            "deepseek-reasoner"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "높은",
+            "high"
+          ],
+          [
+            "최대",
+            "max"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_history_chat": {
+    "message0": "DeepSeek 다중 회전 채팅 메시지 %1 모델 %2",
+    "tooltip": "대화 기록과 함께 채팅 요청을 보내고 이 사용자 메시지와 모델 답변을 자동으로 녹음하세요.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash(권장)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat(레거시 호환)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_json_chat": {
+    "message0": "DeepSeek JSON 출력 메시지 %1 모델 %2",
+    "tooltip": "response_format=json_object를 활성화합니다. 프롬프트에는 출력이 JSON여야 함을 명시해야 합니다.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-pro(권장)",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_stream_chat": {
+    "message0": "DeepSeek 스트리밍 채팅 메시지 %1 모델 %2",
+    "tooltip": "스트리밍 모드에서 모델을 요청합니다. 수신된 각 텍스트 청크는 구성된 스트리밍 콜백을 트리거합니다.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash(권장)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat(레거시 호환)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_set_stream_callback": {
+    "message0": "DeepSeek 스트리밍 콜백 %1 설정",
+    "tooltip": "DeepSeek 스트리밍 청크가 도착할 때 실행할 블록을 설정합니다. 콜백 내부의 현재 청크를 읽습니다."
+  },
+  "deepseek_ai_get_stream_chunk": {
+    "message0": "DeepSeek 현재 스트리밍 청크",
+    "tooltip": "DeepSeek 스트리밍 요청에서 수신된 가장 최근의 텍스트 청크를 가져옵니다."
+  },
+  "deepseek_ai_clear_stream_callback": {
+    "message0": "DeepSeek 스트리밍 콜백 지우기",
+    "tooltip": "구성된 DeepSeek 스트리밍 콜백을 지웁니다."
+  },
+  "deepseek_ai_clear_history": {
+    "message0": "DeepSeek 다중 턴 채팅 기록 지우기",
+    "tooltip": "로컬에 저장된 다단계 채팅 기록을 지웁니다."
+  },
+  "deepseek_ai_get_response_status": {
+    "message0": "DeepSeek 마지막 요청이 성공했습니다.",
+    "tooltip": "이전 DeepSeek 요청이 성공했는지 여부를 반환합니다."
+  },
+  "deepseek_ai_get_error_message": {
+    "message0": "DeepSeek 마지막 오류 메시지",
+    "tooltip": "이전 DeepSeek 요청이 실패했을 때 기록된 오류 메시지를 가져옵니다."
+  },
+  "deepseek_ai_get_reasoning": {
+    "message0": "DeepSeek 최종 추론 콘텐츠",
+    "tooltip": "사고 모드에서 반환된 reasoning_content를 가져옵니다."
+  }
+}

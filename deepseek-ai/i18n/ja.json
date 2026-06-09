@@ -1,0 +1,168 @@
+{
+  "name": "ディープシーク AI",
+  "description": "公式 DeepSeek API 用の Blockly ライブラリ。チャット、マルチターン チャット、ストリーミング、シンキング モード、JSON 出力をサポートします。",
+  "toolbox_name": "ディープシーク AI",
+  "toolbox_labels": {
+    "???": "ストリーミング",
+    "????": "状態"
+  },
+  "deepseek_ai_config": {
+    "message0": "DeepSeek の構成 API キー %1 ベース URL %2",
+    "tooltip": "DeepSeek API キーとエンドポイント アドレスを構成します。 デフォルトのベース URL は https://api.deepseek.com. です。"
+  },
+  "deepseek_ai_set_system_prompt": {
+    "message0": "DeepSeek システム プロンプト %1 を設定します",
+    "tooltip": "後続の DeepSeek リクエストで使用されるシステム メッセージを設定します。"
+  },
+  "deepseek_ai_chat": {
+    "message0": "DeepSeek チャット メッセージ %1 モデル %2",
+    "tooltip": "シングルターンのテキスト チャット リクエストを送信し、モデルの返信を返します。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash (推奨)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (レガシー互換)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_thinking_chat": {
+    "message0": "DeepSeek 思考チャット メッセージ %1 モデル %2 推論努力 %3",
+    "tooltip": "Enable DeepSeek thinking mode and return the final answer. Use the last reasoning content block to read reasoning_content.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-pro (推奨)",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-reasoner (レガシー互換)",
+            "deepseek-reasoner"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "高い",
+            "high"
+          ],
+          [
+            "最大",
+            "max"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_history_chat": {
+    "message0": "DeepSeek マルチターン チャット メッセージ %1 モデル %2",
+    "tooltip": "会話履歴付きのチャット リクエストを送信し、このユーザー メッセージとモデルの返信を自動的に記録します。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash (推奨)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (レガシー互換)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_json_chat": {
+    "message0": "DeepSeek JSON 出力メッセージ %1 モデル %2",
+    "tooltip": "response_format=json_object を有効にします。 プロンプトには、出力が JSON であることが示されている必要があります。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-pro (推奨)",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_stream_chat": {
+    "message0": "DeepSeek ストリーミング チャット メッセージ %1 モデル %2",
+    "tooltip": "ストリーミング モードでモデルをリクエストします。 受信した各テキスト チャンクは、構成されたストリーミング コールバックをトリガーします。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash (推奨)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (レガシー互換)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_set_stream_callback": {
+    "message0": "DeepSeek ストリーミング コールバック %1 を設定します",
+    "tooltip": "DeepSeek ストリーミング チャンクが到着したときに実行するブロックを設定します。 コールバック内の現在のチャンクを読み取ります。"
+  },
+  "deepseek_ai_get_stream_chunk": {
+    "message0": "DeepSeek の現在のストリーミング チャンク",
+    "tooltip": "DeepSeek ストリーミング リクエストから受信した最新のテキスト チャンクを取得します。"
+  },
+  "deepseek_ai_clear_stream_callback": {
+    "message0": "DeepSeek ストリーミング コールバックをクリアする",
+    "tooltip": "設定された DeepSeek ストリーミング コールバックをクリアします。"
+  },
+  "deepseek_ai_clear_history": {
+    "message0": "DeepSeek のマルチターン チャット履歴をクリアする",
+    "tooltip": "ローカルに保存された複数ターンのチャット履歴をクリアします。"
+  },
+  "deepseek_ai_get_response_status": {
+    "message0": "DeepSeek の最後のリクエストは成功しました",
+    "tooltip": "前回の DeepSeek リクエストが成功したかどうかを返します。"
+  },
+  "deepseek_ai_get_error_message": {
+    "message0": "DeepSeek の最後のエラー メッセージ",
+    "tooltip": "前回の DeepSeek リクエストが失敗したときに記録されたエラー メッセージを取得します。"
+  },
+  "deepseek_ai_get_reasoning": {
+    "message0": "DeepSeek最後の推理コンテンツ",
+    "tooltip": "思考モードで返された reasoning_content を取得します。"
+  }
+}
