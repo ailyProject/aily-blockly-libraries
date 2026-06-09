@@ -1,0 +1,792 @@
+{
+  "toolbox_name": "H오메A보조",
+  "toolbox_labels": {
+    "设备与连接": "장치 및 연결",
+    "自定义MQTT": "맞춤MQTT",
+    "实体通用": "엔터티 유니버설",
+    "传感器": "감지기",
+    "开关与按钮": "스위치 및 버튼",
+    "灯光": "빛",
+    "数字与选择": "숫자와 선택",
+    "命令值": "명령값"
+  },
+  "ha_device_create": {
+    "message0": "HA장치 %1고유ID%2만들기",
+    "tooltip": "HomeA보조 장치 개체, 검색 및 엔터티 소유권에 사용되는 고유한ID만들기"
+  },
+  "ha_device_set_info": {
+    "message0": "%1장치 정보 설정 이름 %2제조업체 %3모델 %4소프트웨어 버전 %5구성URL%6",
+    "tooltip": "HomeA보조 장치에서HA장치가 표시하는 기본 정보를 설정합니다."
+  },
+  "ha_device_enable_availability": {
+    "message0": "%1공유 가용성 활성화 %2LastWill %3",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "예",
+            "true"
+          ],
+          [
+            "아니요",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "예",
+            "true"
+          ],
+          [
+            "아니요",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "장치 온라인/오프라인 상태를 활성화합니다.LastW은 비정상적인 연결 끊김 시 오프라인으로 보고합니다."
+  },
+  "ha_mqtt_create": {
+    "message0": "HAMQTT%1네트워크 클라이언트 %2유형 %3장치 %4최대 엔터티 수 %5만들기",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "W나는F나는",
+            "WIFI"
+          ],
+          [
+            "이더넷",
+            "ETHERNET"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "tooltip": "HAMqtt 객체를 생성하고 루프에서 자동으로 연결을 유지합니다. 엔터티 생성 블록 앞에 배치하십시오."
+  },
+  "ha_mqtt_begin": {
+    "message0": "%1연결MQTT호스트 %2포트 %3사용자 이름 %4비밀번호 %5",
+    "tooltip": "MQTT서버 및 인증 정보를 설정하면 라이브러리가 자동으로 루프에 연결되고 다시 연결됩니다."
+  },
+  "ha_mqtt_set_prefixes": {
+    "message0": "%1검색 접두사 설정 %2데이터 접두사 %3",
+    "tooltip": "HomeA보조 검색 주제 접두사 및 데이터 주제 접두사 설정"
+  },
+  "ha_mqtt_set_keep_alive": {
+    "message0": "%1연결 유지 설정 %2초",
+    "tooltip": "MQTTKeepA라이브 간격을 설정합니다. 기본값은 15초입니다."
+  },
+  "ha_mqtt_set_buffer_size": {
+    "message0": "%1버퍼 설정 %2바이트",
+    "tooltip": "하단 레이어PubSubC클라이언트 버퍼 크기를 설정합니다. 복잡한 검색 구성의 경우 크기를 적절하게 늘릴 수 있습니다."
+  },
+  "ha_mqtt_loop": {
+    "message0": "%1처리HAMQTT의사소통",
+    "tooltip": "MQTT루프 처리를 수동으로 호출합니다. 생성 블록은 기본적으로 자동 추가됩니다."
+  },
+  "ha_mqtt_connected": {
+    "message0": "%1연결됨HAMQTT",
+    "tooltip": "HAMQTT이 서버에 연결되어 있는지 여부를 반환합니다."
+  },
+  "ha_mqtt_state": {
+    "message0": "%1연결 상태 코드",
+    "tooltip": "HAMqtt 연결 상태 코드를 반환합니다. 0은 연결되었음을 의미합니다."
+  },
+  "ha_mqtt_publish": {
+    "message0": "%1사용자 정의 테마 게시 %2콘텐츠 %3예약됨 %4",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "HAMqtt를 통해 사용자 정의MQTT메시지 게시"
+  },
+  "ha_mqtt_subscribe": {
+    "message0": "%1맞춤 주제 구독 %2",
+    "tooltip": "일반적으로 연결된 콜백에서 호출되는 사용자 정의MQTT주제를 구독합니다."
+  },
+  "ha_mqtt_disconnect": {
+    "message0": "%1연결 끊기HAMQTT",
+    "tooltip": "HAMqtt 연결을 끊고 다시 시작할 때까지 자동 재연결을 중지합니다."
+  },
+  "ha_mqtt_on_connected": {
+    "message0": "%1이 성공적으로 연결되었을 때",
+    "message1": "%1실행",
+    "tooltip": "성공적인 연결을 위해MQTT콜백을 등록하세요. 다시 연결한 후 사용자 정의 주제를 구독하는 데 적합합니다."
+  },
+  "ha_mqtt_on_message": {
+    "message0": "%1이 사용자 정의MQTT메시지를 받는 경우",
+    "message1": "%1실행",
+    "tooltip": "사용자 정의MQTT메시지 콜백을 등록합니다. 주제, 내용, 길이는 해당 값 블록에서 읽을 수 있습니다."
+  },
+  "ha_mqtt_message_topic": {
+    "message0": "HAMQTT콜백 주제",
+    "tooltip": "현재MQTT메시지 콜백의 주제를 읽어보세요."
+  },
+  "ha_mqtt_message_payload": {
+    "message0": "HAMQTT콜백 콘텐츠",
+    "tooltip": "현재MQTT메시지 콜백에서 콘텐츠 텍스트를 읽습니다."
+  },
+  "ha_mqtt_message_length": {
+    "message0": "HAMQTT콜백 콘텐츠 길이",
+    "tooltip": "현재MQTT메시지 콜백에서 콘텐츠 바이트 길이를 읽습니다."
+  },
+  "ha_entity_set_info": {
+    "message0": "%1엔터티 이름 설정 %2개체ID%3아이콘 %4",
+    "tooltip": "HA엔터티, 객체ID및MaterialD디자인 아이콘의 표시 이름을 설정합니다."
+  },
+  "ha_entity_set_availability": {
+    "message0": "%1사용 가능한 엔터티 설정 %2",
+    "tooltip": "보고 엔터티의 온라인 또는 오프라인 상태"
+  },
+  "ha_sensor_create_text": {
+    "message0": "HA텍스트 센서 생성 %1고유ID%2기능 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "기본",
+            "HASensor::DefaultFeatures"
+          ],
+          [
+            "JSON속성",
+            "HASensor::JsonAttributesFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "텍스트 상태 보고를 위한HomeA보조 센서 생성"
+  },
+  "ha_sensor_create_number": {
+    "message0": "HA값 센서 생성 %1고유ID%2정확도 %3기능 %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "정수",
+            "HASensorNumber::PrecisionP0"
+          ],
+          [
+            "소수점 1자리",
+            "HASensorNumber::PrecisionP1"
+          ],
+          [
+            "소수점 2자리",
+            "HASensorNumber::PrecisionP2"
+          ],
+          [
+            "소수점 3자리",
+            "HASensorNumber::PrecisionP3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "기본",
+            "HASensor::DefaultFeatures"
+          ],
+          [
+            "JSON속성",
+            "HASensor::JsonAttributesFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "디지털 상태 보고를 위한HomeA보조 센서 생성"
+  },
+  "ha_sensor_settings": {
+    "message0": "%1센서 범주 설정 %2상태 범주 ​​%3단위 %4만료 %5초 강제 업데이트 %6",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "센서 장치 카테고리, 상태 카테고리, 단위, 만료 시간 및 강제 업데이트 구성"
+  },
+  "ha_sensor_set_value": {
+    "message0": "%1보고서 텍스트 값 %2",
+    "tooltip": "텍스트 센서 값을HomeA보조자에게 보고하세요."
+  },
+  "ha_sensor_set_json_attributes": {
+    "message0": "%1보고서JSON속성 ​​%2",
+    "tooltip": "JSON속성 ​​기능이 활성화된 센서에 대한 속성JSON게시"
+  },
+  "ha_sensor_number_set_value": {
+    "message0": "%1보고된 값 %2필수 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "숫자 센서 값을HomeAssistant에게 보고하세요."
+  },
+  "ha_binary_sensor_create": {
+    "message0": "HA바이너리 센서 %1고유ID%2생성",
+    "tooltip": "켜기/끄기 상태를 보고하는HomeA보조 바이너리 센서 만들기"
+  },
+  "ha_binary_sensor_settings": {
+    "message0": "%1바이너리 센서 클래스 설정 %2만료 %3초",
+    "tooltip": "바이너리 센서 카테고리 및 상태 만료 시간 구성"
+  },
+  "ha_binary_sensor_set_state": {
+    "message0": "%1바이너리 상태 보고 %2필수 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "바이너리 센서 켜짐/꺼짐 상태 보고"
+  },
+  "ha_binary_sensor_get_state": {
+    "message0": "%1현재 바이너리 상태",
+    "tooltip": "바이너리 센서의 현재 상태 읽기"
+  },
+  "ha_switch_create": {
+    "message0": "HA스위치 만들기 %1만ID%2",
+    "tooltip": "HomeA보조자에서 제어 가능한 스위치 엔터티를 만듭니다."
+  },
+  "ha_switch_settings": {
+    "message0": "%1스위치 범주 설정 %2예약된 명령 %3낙관적 모드 %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "스위치 클래스, 명령 보존 및 낙관적 모드 구성"
+  },
+  "ha_switch_set_state": {
+    "message0": "%1스위치 상태 보고 %2필수 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "스위치 상태를HomeA보조자에게 보고하세요."
+  },
+  "ha_switch_get_state": {
+    "message0": "%1현재 스위치 상태",
+    "tooltip": "스위치의 현재 상태 읽기"
+  },
+  "ha_switch_on_command": {
+    "message0": "%1이(가) 전환 명령을 받았을 때",
+    "message1": "%1실행",
+    "tooltip": "HomeA보조자가 실행한 스위치 명령을 처리합니다. \"Command Boolean Status\"를 사용하여 대상 상태를 읽을 수 있습니다."
+  },
+  "ha_button_create": {
+    "message0": "HA버튼 만들기 %1고유ID%2",
+    "tooltip": "HomeA보조 패널 버튼 엔터티 만들기"
+  },
+  "ha_button_settings": {
+    "message0": "%1버튼 범주 설정 %2예약된 명령 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "버튼 범주 및 명령 보존 구성"
+  },
+  "ha_button_on_command": {
+    "message0": "%1버튼을 눌렀을 때",
+    "message1": "%1실행",
+    "tooltip": "HomeA보조 버튼 클릭 명령 처리"
+  },
+  "ha_light_create": {
+    "message0": "HA램프 만들기 %1고유한ID%2기능 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "스위치만",
+            "HALight::DefaultFeatures"
+          ],
+          [
+            "명도",
+            "HALight::BrightnessFeature"
+          ],
+          [
+            "색온도",
+            "HALight::ColorTemperatureFeature"
+          ],
+          [
+            "RGB",
+            "HALight::RGBFeature"
+          ],
+          [
+            "밝기 +RGB",
+            "HALight::BrightnessFeature | HALight::RGBFeature"
+          ],
+          [
+            "모두",
+            "HALight::BrightnessFeature | HALight::ColorTemperatureFeature | HALight::RGBFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "HomeA보조 조명 엔터티, 선택 가능한 밝기, 색온도 및RGB기능 만들기"
+  },
+  "ha_light_settings": {
+    "message0": "%1램프 설정 예약 명령 %2낙관 모드 %3밝기 범위 %4최소 색 온도 %5최대 색 온도 %6",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ],
+    "tooltip": "조명의 명령 유지, 낙관적 모드, 밝기 범위 및 색온도 범위를 구성합니다."
+  },
+  "ha_light_set_state": {
+    "message0": "%1보고 전등 스위치 %2필수 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "전등 스위치 상태 보고"
+  },
+  "ha_light_set_brightness": {
+    "message0": "%1보고서 밝기 %2필수 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "조명 밝기를 보고하고 범위는 밝기 범위 구성에 따라 결정됩니다."
+  },
+  "ha_light_set_color_temperature": {
+    "message0": "%1색온도 보고 %2mired필수 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "램프 색 온도를 보고합니다. 단위는mired입니다."
+  },
+  "ha_light_set_rgb": {
+    "message0": "%1보고서RGB빨간색 %2녹색 %3파란색 %4필수 %5",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "보고서 조명RGB색상, 세 채널 범위 0-255"
+  },
+  "ha_light_get_state": {
+    "message0": "%1현재 전등 스위치",
+    "tooltip": "빛의 현재 스위치 상태를 읽으십시오"
+  },
+  "ha_light_get_brightness": {
+    "message0": "%1현재 밝기",
+    "tooltip": "현재 빛의 밝기를 읽습니다."
+  },
+  "ha_light_on_state_command": {
+    "message0": "%1이(가) 전등 스위치 명령을 받았을 때",
+    "message1": "%1실행",
+    "tooltip": "전등 스위치 명령을 처리하기 위해 명령 부울 상태 값 블록을 사용하여 대상 상태를 읽을 수 있습니다."
+  },
+  "ha_light_on_brightness_command": {
+    "message0": "%1이 밝기 명령을 수신할 때",
+    "message1": "%1실행",
+    "tooltip": "램프 밝기 명령을 처리하기 위해 명령 밝기 값 블록을 사용하여 목표 밝기를 읽을 수 있습니다."
+  },
+  "ha_light_on_color_temperature_command": {
+    "message0": "%1이 색온도 명령을 수신하는 경우",
+    "message1": "%1실행",
+    "tooltip": "램프 색온도 명령을 처리하려면 명령 색온도 값 블록을 사용하여 목표 색온도를 읽을 수 있습니다."
+  },
+  "ha_light_on_rgb_command": {
+    "message0": "%1이RGB명령을 받으면",
+    "message1": "%1실행",
+    "tooltip": "조명RGB명령을 처리하면RGB값 블록 명령을 사용하여 대상 색상을 읽을 수 있습니다."
+  },
+  "ha_number_create": {
+    "message0": "HA수치 제어 생성 %1고유ID%2정밀도 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "정수",
+            "HANumber::PrecisionP0"
+          ],
+          [
+            "소수점 1자리",
+            "HANumber::PrecisionP1"
+          ],
+          [
+            "소수점 2자리",
+            "HANumber::PrecisionP2"
+          ],
+          [
+            "소수점 3자리",
+            "HANumber::PrecisionP3"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "HomeA보조 숫자 입력/슬라이더 엔터티 만들기"
+  },
+  "ha_number_settings": {
+    "message0": "%1세트 번호 범주 %2단위 %3모드 %4최소 %5최대 %6단계 크기 %7예약됨 %8낙관적 %9",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "오토매틱",
+            "HANumber::ModeAuto"
+          ],
+          [
+            "입력 상자",
+            "HANumber::ModeBox"
+          ],
+          [
+            "슬라이더",
+            "HANumber::ModeSlider"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "디지털 엔터티의 범주, 단위, 표시 모드, 범위, 단계 크기 및 명령 동작을 구성합니다."
+  },
+  "ha_number_set_state": {
+    "message0": "%1디지털 상태 보고 %2필수 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "디지털 엔터티의 현재 가치 보고"
+  },
+  "ha_number_get_state": {
+    "message0": "%1현재 숫자 값",
+    "tooltip": "디지털 엔터티의 현재 가치 읽기"
+  },
+  "ha_number_on_command": {
+    "message0": "%1이 디지털 명령을 받을 때",
+    "message1": "%1실행",
+    "tooltip": "HomeA보조 디지털 변경 명령을 처리하면 디지털 명령 값 블록을 사용하여 목표 값을 읽을 수 있습니다."
+  },
+  "ha_select_create": {
+    "message0": "HA드롭다운 선택 만들기 %1고유ID%2",
+    "tooltip": "HomeA보조 드롭다운 선택 엔터티 만들기"
+  },
+  "ha_select_settings": {
+    "message0": "%1옵션 설정 %2예약됨 %3낙관적 %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "드롭다운 선택 옵션을 구성합니다. 여러 옵션은 영어 세미콜론으로 구분됩니다."
+  },
+  "ha_select_set_state": {
+    "message0": "%1보고서 선택 지수 %2필수 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "아니요",
+            "false"
+          ],
+          [
+            "예",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "옵션 인덱스로 현재 선택을 보고합니다. -1은 선택이 없음을 의미합니다."
+  },
+  "ha_select_get_state": {
+    "message0": "%1현재 선택 색인",
+    "tooltip": "현재 선택된 인덱스 읽기"
+  },
+  "ha_select_get_option": {
+    "message0": "%1현재 옵션 텍스트",
+    "tooltip": "현재 선택된 옵션 텍스트 읽기"
+  },
+  "ha_select_on_command": {
+    "message0": "%1이 선택 명령을 받으면",
+    "message1": "%1실행",
+    "tooltip": "HomeA보조 드롭다운 선택 명령을 처리하면 선택 명령 인덱스 값 블록을 사용하여 대상 옵션을 읽을 수 있습니다."
+  },
+  "ha_command_bool_state": {
+    "message0": "명령 부울 상태",
+    "tooltip": "스위치 또는 조명 스위치 명령에서 대상 부울 상태를 읽습니다."
+  },
+  "ha_command_brightness": {
+    "message0": "밝기 명령",
+    "tooltip": "램프 밝기 명령에서 목표 밝기를 읽으십시오."
+  },
+  "ha_command_color_temperature": {
+    "message0": "명령 색온도",
+    "tooltip": "램프 색온도 명령에서 목표 색온도를 읽습니다."
+  },
+  "ha_command_rgb_red": {
+    "message0": "명령RGB빨간색",
+    "tooltip": "빛RGB명령에서 빨간색 채널을 읽으십시오."
+  },
+  "ha_command_rgb_green": {
+    "message0": "명령RGB녹색",
+    "tooltip": "조명RGB명령에서 녹색 채널을 읽습니다."
+  },
+  "ha_command_rgb_blue": {
+    "message0": "명령RGB파란색",
+    "tooltip": "조명RGB명령에서 파란색 채널을 읽습니다."
+  },
+  "ha_number_command_is_set": {
+    "message0": "숫자 명령에는 값이 있습니다.",
+    "tooltip": "디지털 읽기 명령이 유효한 값을 전달하는지 여부, 재설정 명령은 no를 반환합니다."
+  },
+  "ha_number_command_value": {
+    "message0": "숫자 명령 값",
+    "tooltip": "숫자 명령으로 목표값 읽기"
+  },
+  "ha_select_command_index": {
+    "message0": "명령 인덱스 선택",
+    "tooltip": "드롭다운 선택 명령에서 대상 옵션 인덱스 읽기"
+  }
+}

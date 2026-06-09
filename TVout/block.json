@@ -1,0 +1,645 @@
+[
+  {
+    "type": "tvout_begin",
+    "message0": "initialize TVout %1 standard %2 width %3 height %4 font %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "TV"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["NTSC", "NTSC"],
+          ["PAL", "PAL"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "HEIGHT",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FONT",
+        "options": [
+          ["4x6", "font4x6"],
+          ["6x8", "font6x8"],
+          ["8x8", "font8x8"],
+          ["8x8 extended", "font8x8ext"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#455A64",
+    "tooltip": "Create and start a TVout video signal. Width should be divisible by 8.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-tv"
+  },
+  {
+    "type": "tvout_end",
+    "message0": "stop TVout %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#455A64",
+    "tooltip": "Stop video output and release the frame buffer.",
+    "icon": "fa-solid fa-power-off"
+  },
+  {
+    "type": "tvout_select_font",
+    "message0": "TVout %1 select font %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FONT",
+        "options": [
+          ["4x6", "font4x6"],
+          ["6x8", "font6x8"],
+          ["8x8", "font8x8"],
+          ["8x8 extended", "font8x8ext"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "Select the bitmap font used by TVout text printing.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-font"
+  },
+  {
+    "type": "tvout_clear",
+    "message0": "clear TVout %1 screen",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "Clear the TVout frame buffer to black.",
+    "icon": "fa-regular fa-square"
+  },
+  {
+    "type": "tvout_fill",
+    "message0": "TVout %1 fill screen %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["black", "BLACK"],
+          ["white", "WHITE"],
+          ["invert", "INVERT"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "Fill or invert the whole TVout frame buffer.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-fill-drip"
+  },
+  {
+    "type": "tvout_set_pixel",
+    "message0": "TVout %1 draw pixel x %2 y %3 color %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["white", "WHITE"],
+          ["black", "BLACK"],
+          ["invert", "INVERT"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00ACC1",
+    "tooltip": "Set, clear, or invert one pixel.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-location-dot"
+  },
+  {
+    "type": "tvout_get_pixel",
+    "message0": "TVout %1 pixel at x %2 y %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": ["Number"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#00ACC1",
+    "tooltip": "Read one pixel. Returns 0 for black and 1 for white.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-eye-dropper"
+  },
+  {
+    "type": "tvout_draw_line",
+    "message0": "TVout %1 draw line x1 %2 y1 %3 x2 %4 y2 %5 color %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      },
+      {
+        "type": "input_value",
+        "name": "X0",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "Y0",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "X1",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "Y1",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["white", "WHITE"],
+          ["black", "BLACK"],
+          ["invert", "INVERT"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00ACC1",
+    "tooltip": "Draw a straight line.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-slash"
+  },
+  {
+    "type": "tvout_draw_rect",
+    "message0": "TVout %1 draw rectangle x %2 y %3 width %4 height %5 outline %6 fill %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "HEIGHT",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["white", "WHITE"],
+          ["black", "BLACK"],
+          ["invert", "INVERT"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FILL",
+        "options": [
+          ["none", "NONE"],
+          ["black", "BLACK"],
+          ["white", "WHITE"],
+          ["invert", "INVERT"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00ACC1",
+    "tooltip": "Draw an outline or filled rectangle.",
+    "inputsInline": true,
+    "icon": "fa-regular fa-square"
+  },
+  {
+    "type": "tvout_draw_circle",
+    "message0": "TVout %1 draw circle x %2 y %3 radius %4 outline %5 fill %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "RADIUS",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["white", "WHITE"],
+          ["black", "BLACK"],
+          ["invert", "INVERT"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FILL",
+        "options": [
+          ["none", "NONE"],
+          ["black", "BLACK"],
+          ["white", "WHITE"],
+          ["invert", "INVERT"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00ACC1",
+    "tooltip": "Draw an outline or filled circle.",
+    "inputsInline": true,
+    "icon": "fa-regular fa-circle"
+  },
+  {
+    "type": "tvout_shift",
+    "message0": "TVout %1 shift %2 pixels %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      },
+      {
+        "type": "input_value",
+        "name": "DISTANCE",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIRECTION",
+        "options": [
+          ["up", "UP"],
+          ["down", "DOWN"],
+          ["left", "LEFT"],
+          ["right", "RIGHT"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00ACC1",
+    "tooltip": "Shift the frame buffer in one direction.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-up-down-left-right"
+  },
+  {
+    "type": "tvout_set_cursor",
+    "message0": "TVout %1 set cursor x %2 y %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "Move the text cursor.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-i-cursor"
+  },
+  {
+    "type": "tvout_print",
+    "message0": "TVout %1 print %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "Print text or a number at the current cursor.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-font"
+  },
+  {
+    "type": "tvout_println",
+    "message0": "TVout %1 println %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "Print text or a number followed by a new line.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-align-left"
+  },
+  {
+    "type": "tvout_print_at",
+    "message0": "TVout %1 print at x %2 y %3 text %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "Print text or a number at a screen position.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-font"
+  },
+  {
+    "type": "tvout_delay",
+    "message0": "TVout %1 delay %2 ms",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      },
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#78909C",
+    "tooltip": "Delay using TVout frame timing.",
+    "inputsInline": true,
+    "icon": "fa-regular fa-clock"
+  },
+  {
+    "type": "tvout_delay_frame",
+    "message0": "TVout %1 delay %2 frame(s)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      },
+      {
+        "type": "input_value",
+        "name": "FRAMES",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#78909C",
+    "tooltip": "Wait for complete video frames.",
+    "inputsInline": true,
+    "icon": "fa-regular fa-clock"
+  },
+  {
+    "type": "tvout_millis",
+    "message0": "TVout %1 millis",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      }
+    ],
+    "output": "Number",
+    "colour": "#78909C",
+    "tooltip": "Milliseconds since video output was started.",
+    "icon": "fa-regular fa-clock"
+  },
+  {
+    "type": "tvout_resolution",
+    "message0": "TVout %1 %2 resolution",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          ["horizontal", "hres"],
+          ["vertical", "vres"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#78909C",
+    "tooltip": "Read the current horizontal or vertical screen resolution.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-ruler-combined"
+  },
+  {
+    "type": "tvout_tone",
+    "message0": "TVout %1 tone frequency %2 Hz duration %3 ms",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      },
+      {
+        "type": "input_value",
+        "name": "FREQUENCY",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8D6E63",
+    "tooltip": "Play a tone on the TVout sound pin. Use duration 0 for continuous tone.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-volume-high"
+  },
+  {
+    "type": "tvout_no_tone",
+    "message0": "TVout %1 stop tone",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "TV",
+        "variableTypes": ["TVout"],
+        "defaultType": "TVout"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8D6E63",
+    "tooltip": "Stop TVout tone output.",
+    "icon": "fa-solid fa-volume-xmark"
+  }
+]

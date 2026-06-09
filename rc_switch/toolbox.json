@@ -1,0 +1,151 @@
+{
+  "kind": "category",
+  "name": "rc-switch",
+  "name_en": "rc-switch",
+  "icon": "fa-solid fa-satellite-dish",
+  "colour": "#6A1B9A",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "Setup"
+    },
+    {
+      "kind": "block",
+      "type": "rcswitch_create"
+    },
+    {
+      "kind": "block",
+      "type": "rcswitch_enable_transmit",
+      "inputs": {
+        "PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "10"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rcswitch_enable_receive",
+      "inputs": {
+        "INTERRUPT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "0"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rcswitch_set_protocol",
+      "inputs": {
+        "PROTOCOL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
+            }
+          }
+        },
+        "PULSE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "350"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rcswitch_set_repeat",
+      "inputs": {
+        "REPEAT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "10"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "Send"
+    },
+    {
+      "kind": "block",
+      "type": "rcswitch_send_decimal",
+      "inputs": {
+        "CODE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "5393"
+            }
+          }
+        },
+        "BITS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "24"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rcswitch_send_binary",
+      "inputs": {
+        "CODE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "000000000001010100010001"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "rcswitch_send_tristate",
+      "inputs": {
+        "CODE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "00000FFF0F0F"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "Receive"
+    },
+    {
+      "kind": "block",
+      "type": "rcswitch_available"
+    },
+    {
+      "kind": "block",
+      "type": "rcswitch_received_value"
+    },
+    {
+      "kind": "block",
+      "type": "rcswitch_reset_available"
+    }
+  ]
+}
