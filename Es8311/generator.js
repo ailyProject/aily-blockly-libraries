@@ -186,33 +186,10 @@ bool es8311_qwen_write_wav_as_base64(Client &out, ES8311Audio &audio) {
   return true;
 }`);
 
-  generator.addFunction('es8311_qwen_write_i2s_all', String.raw`
-bool es8311_qwen_write_i2s_all(const uint8_t* data, size_t len) {
-  size_t offset = 0;
-  while (offset < len) {
-    size_t sent = 0;
-    esp_err_t err = i2s_write(I2S_NUM_0, data + offset, len - offset, &sent, portMAX_DELAY);
-    if (err != ESP_OK) {
-      return false;
-    }
-    if (sent == 0) {
-      continue;
-    }
-    offset += sent;
-  }
-  return true;
-}`);
-
   generator.addFunction('es8311_qwen_play_audio_chunk', String.raw`
-bool es8311_qwen_play_audio_chunk(const char* base64Data) {
+bool es8311_qwen_play_audio_chunk(ES8311Audio &audio, const char* base64Data) {
   static uint8_t* decodedBuffer = nullptr;
   static size_t decodedCapacity = 0;
-  static int16_t leftoverSamples[2] = {0, 0};
-  static size_t leftoverCount = 0;
-  static int16_t* mergedBuffer = nullptr;
-  static size_t mergedCapacity = 0;
-  static int16_t* downsampledBuffer = nullptr;
-  static size_t downsampledCapacity = 0;
 
   if (base64Data == nullptr || base64Data[0] == '\0') {
     return true;
@@ -242,60 +219,13 @@ bool es8311_qwen_play_audio_chunk(const char* base64Data) {
     return false;
   }
 
-  size_t inputSampleCount = outputLength / sizeof(int16_t);
-  if (inputSampleCount == 0) {
+  size_t sampleCount = outputLength / sizeof(int16_t);
+  if (sampleCount == 0) {
     return true;
   }
 
-  size_t mergedCount = leftoverCount + inputSampleCount;
-  if (mergedCount > mergedCapacity) {
-    int16_t* newMerged = (int16_t*)realloc(mergedBuffer, mergedCount * sizeof(int16_t));
-    if (newMerged == nullptr) {
-      return false;
-    }
-    mergedBuffer = newMerged;
-    mergedCapacity = mergedCount;
-  }
-
-  for (size_t i = 0; i < leftoverCount; ++i) {
-    mergedBuffer[i] = leftoverSamples[i];
-  }
-  memcpy(mergedBuffer + leftoverCount, decodedBuffer, inputSampleCount * sizeof(int16_t));
-
-  size_t estimatedOutputCount = (mergedCount / 3) * 2 + 2;
-  if (estimatedOutputCount > downsampledCapacity) {
-    int16_t* newDownsampled = (int16_t*)realloc(downsampledBuffer, estimatedOutputCount * sizeof(int16_t));
-    if (newDownsampled == nullptr) {
-      return false;
-    }
-    downsampledBuffer = newDownsampled;
-    downsampledCapacity = estimatedOutputCount;
-  }
-
-  size_t outCount = 0;
-  size_t index = 0;
-  while (index + 2 < mergedCount) {
-    downsampledBuffer[outCount++] = mergedBuffer[index];
-    downsampledBuffer[outCount++] = (int16_t)(((int32_t)mergedBuffer[index + 1] + (int32_t)mergedBuffer[index + 2]) / 2);
-    index += 3;
-  }
-
-  leftoverCount = mergedCount - index;
-  for (size_t i = 0; i < leftoverCount; ++i) {
-    leftoverSamples[i] = mergedBuffer[index + i];
-  }
-
-  if (outCount == 0) {
-    return true;
-  }
-
-  return es8311_qwen_write_i2s_all((const uint8_t*)downsampledBuffer, outCount * sizeof(int16_t));
-}`);
-
-  generator.addFunction('es8311_qwen_restore_local_i2s', String.raw`
-void es8311_qwen_restore_local_i2s() {
-  i2s_set_clk(I2S_NUM_0, 16000, I2S_BITS_PER_SAMPLE_16BIT, I2S_CHANNEL_MONO);
-  i2s_zero_dma_buffer(I2S_NUM_0);
+  // Reuse the shared streaming engine: Qwen Omni emits 24kHz PCM, resampled to 16kHz inside streamWrite.
+  return audio.streamWrite((const int16_t*)decodedBuffer, sampleCount);
 }`);
 
   generator.addFunction('es8311_qwen_audio_chat_request', String.raw`
@@ -407,9 +337,11 @@ String es8311_qwen_audio_chat_request(ES8311Audio &audio, String model, String p
     }
     client.stop();
     es8311_qwen_last_error = errorBody.length() > 0 ? "HTTP " + String(httpCode) + ": " + errorBody : "HTTP " + String(httpCode);
-    es8311_qwen_restore_local_i2s();
+    audio.streamEnd();
     return "";
   }
+
+  audio.streamBegin(24000);
 
   bool gotResponseChunk = false;
   String lineBuffer = "";
@@ -419,7 +351,7 @@ String es8311_qwen_audio_chat_request(ES8311Audio &audio, String model, String p
     if (es8311_qwen_stop_requested) {
       client.stop();
       es8311_qwen_last_error = "Stopped";
-      es8311_qwen_restore_local_i2s();
+      audio.streamEnd();
       return "";
     }
 
@@ -456,10 +388,10 @@ String es8311_qwen_audio_chat_request(ES8311Audio &audio, String model, String p
               }
 
               if (audioData != nullptr && audioData[0] != '\0') {
-                if (!es8311_qwen_play_audio_chunk(audioData)) {
+                if (!es8311_qwen_play_audio_chunk(audio, audioData)) {
                   client.stop();
                   es8311_qwen_last_error = "Audio decode failed";
-                  es8311_qwen_restore_local_i2s();
+                  audio.streamEnd();
                   return "";
                 }
                 gotResponseChunk = true;
@@ -492,6 +424,139 @@ String es8311_qwen_audio_chat_request(ES8311Audio &audio, String model, String p
   es8311_qwen_last_success = true;
   es8311_qwen_last_error = "";
   return es8311_qwen_last_text;
+}`);
+}
+
+function ensureEs8311StreamUrlSupport(generator) {
+  ensureEs8311QwenState(generator);   // shares the es8311_qwen_stop_requested flag with es8311_stop
+
+  generator.addLibrary('WiFiClient', '#include <WiFiClient.h>');
+  generator.addLibrary('WiFiClientSecure', '#include <WiFiClientSecure.h>');
+  generator.addLibrary('ES8311Audio', '#include <ES8311Audio.h>');
+
+  generator.addFunction('es8311_stream_play_url', String.raw`
+bool es8311_stream_play_url(ES8311Audio &audio, String url, uint32_t srcRate) {
+  bool isHttps = url.startsWith("https://");
+  bool isHttp = url.startsWith("http://");
+  if (!isHttps && !isHttp) {
+    return false;
+  }
+
+  String rest = url.substring(isHttps ? 8 : 7);
+  int slash = rest.indexOf('/');
+  String hostPort = slash >= 0 ? rest.substring(0, slash) : rest;
+  String path = slash >= 0 ? rest.substring(slash) : "/";
+  uint16_t port = isHttps ? 443 : 80;
+  int colon = hostPort.indexOf(':');
+  String host = hostPort;
+  if (colon >= 0) {
+    host = hostPort.substring(0, colon);
+    port = (uint16_t)hostPort.substring(colon + 1).toInt();
+  }
+
+  WiFiClientSecure secureClient;
+  WiFiClient plainClient;
+  Client* client;
+  if (isHttps) {
+    secureClient.setInsecure();
+    secureClient.setTimeout(15000);
+    client = &secureClient;
+  } else {
+    plainClient.setTimeout(15000);
+    client = &plainClient;
+  }
+
+  if (!client->connect(host.c_str(), port)) {
+    return false;
+  }
+
+  client->print("GET ");
+  client->print(path);
+  client->print(" HTTP/1.1\r\n");
+  client->print("Host: ");
+  client->print(host);
+  client->print("\r\n");
+  client->print("User-Agent: Aily-ES8311\r\n");
+  client->print("Connection: close\r\n\r\n");
+
+  String statusLine = client->readStringUntil('\n');
+  statusLine.trim();
+  int httpCode = 0;
+  int firstSpace = statusLine.indexOf(' ');
+  if (firstSpace >= 0) {
+    int secondSpace = statusLine.indexOf(' ', firstSpace + 1);
+    if (secondSpace > firstSpace) {
+      httpCode = statusLine.substring(firstSpace + 1, secondSpace).toInt();
+    }
+  }
+  while (client->connected()) {
+    String headerLine = client->readStringUntil('\n');
+    if (headerLine == "\r" || headerLine.length() == 0) {
+      break;
+    }
+  }
+  if (httpCode != 200) {
+    client->stop();
+    return false;
+  }
+
+  es8311_qwen_stop_requested = false;
+  audio.streamBegin(srcRate);
+
+  uint8_t buf[1024];
+  size_t bufFill = 0;
+  bool headerChecked = false;
+
+  while (client->connected() || client->available()) {
+    if (es8311_qwen_stop_requested) {
+      break;
+    }
+    if (!client->available()) {
+      if (!client->connected()) {
+        break;
+      }
+      delay(1);
+      continue;
+    }
+
+    int n = client->read(buf + bufFill, sizeof(buf) - bufFill);
+    if (n <= 0) {
+      if (!client->connected()) {
+        break;
+      }
+      delay(1);
+      continue;
+    }
+    bufFill += (size_t)n;
+
+    uint8_t* p = buf;
+    size_t len = bufFill;
+
+    if (!headerChecked) {
+      if (bufFill < 44) {
+        continue;   // wait for enough bytes to test for a 44-byte WAV header
+      }
+      headerChecked = true;
+      if (memcmp(buf, "RIFF", 4) == 0 && memcmp(buf + 8, "WAVE", 4) == 0) {
+        p = buf + 44;
+        len = bufFill - 44;
+      }
+    }
+
+    size_t usable = len & ~((size_t)1);   // even byte count -> whole int16 samples
+    if (usable > 0) {
+      audio.streamWrite((const int16_t*)p, usable / sizeof(int16_t));
+    }
+    size_t leftover = len - usable;       // 0 or 1 dangling byte, carried to next read
+    if (leftover) {
+      buf[0] = p[usable];
+    }
+    bufFill = leftover;
+  }
+
+  client->stop();
+  audio.streamEnd();
+  return true;
 }`);
 }
 
@@ -633,6 +698,28 @@ Arduino.forBlock['es8311_play_loop'] = function(block) {
   const varField = block.getField('VAR');
   const varName = varField ? varField.getText() : 'audio';
   return varName + '.playLoop();\n';
+};
+
+Arduino.forBlock['es8311_stream_begin'] = function(block) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'audio';
+  const rate = block.getFieldValue('RATE') || '16000';
+  return varName + '.streamBegin(' + rate + ');\n';
+};
+
+Arduino.forBlock['es8311_stream_end'] = function(block) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'audio';
+  return varName + '.streamEnd();\n';
+};
+
+Arduino.forBlock['es8311_stream_play_url'] = function(block, generator) {
+  ensureEs8311StreamUrlSupport(generator);
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'audio';
+  const url = generator.valueToCode(block, 'URL', generator.ORDER_ATOMIC) || '""';
+  const rate = block.getFieldValue('RATE') || '16000';
+  return 'es8311_stream_play_url(' + varName + ', ' + url + ', ' + rate + ');\n';
 };
 
 Arduino.forBlock['es8311_qwen_config'] = function(block, generator) {
