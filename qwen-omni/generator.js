@@ -42,12 +42,58 @@ size_t qwen_base64_encoded_len(size_t len) {
 }`);
 
   generator.addFunction('qwen_stream_playback_helpers', String.raw`
-#define QWEN_PLAYBACK_BUFFER_SIZE 98304
-#define QWEN_PLAYBACK_PREBUFFER_SIZE 16000
-#define QWEN_PLAYBACK_CHUNK_SIZE 1024
+#define QWEN_PLAYBACK_BUFFER_SIZE 196608
+#define QWEN_PLAYBACK_PREBUFFER_SIZE 48000
+#define QWEN_PLAYBACK_CHUNK_SIZE 2048
 #define QWEN_DECODE_BUF_SIZE 16384
 
 bool qwen_i2s_prepare_es8311_playback(I2SClass &i2s, uint32_t sampleRate, i2s_data_bit_width_t bitWidth, i2s_slot_mode_t slotMode);
+
+void qwen_play_prompt_tone(I2SClass &i2s, int freq, int durationMs) {
+  const uint32_t toneRate = 16000;
+  if (!qwen_i2s_prepare_es8311_playback(i2s, toneRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO)) {
+    if (qwen_i2s_speaker_bclk_pin >= 0 && qwen_i2s_speaker_lrclk_pin >= 0 && qwen_i2s_speaker_din_pin >= 0) {
+      i2s.end();
+      delay(20);
+      i2s.setPins(qwen_i2s_speaker_bclk_pin, qwen_i2s_speaker_lrclk_pin, qwen_i2s_speaker_din_pin, -1, -1);
+      i2s.begin(I2S_MODE_STD, toneRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_BOTH);
+    } else {
+      i2s.end();
+      delay(20);
+      i2s.begin(I2S_MODE_STD, toneRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_BOTH);
+    }
+  } else if (qwen_i2s_mic_mode != 3 && qwen_i2s_speaker_bclk_pin >= 0 && qwen_i2s_speaker_lrclk_pin >= 0 && qwen_i2s_speaker_din_pin >= 0) {
+    i2s.end();
+    delay(20);
+    i2s.setPins(qwen_i2s_speaker_bclk_pin, qwen_i2s_speaker_lrclk_pin, qwen_i2s_speaker_din_pin, -1, -1);
+    i2s.begin(I2S_MODE_STD, toneRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_BOTH);
+  }
+  size_t samples = toneRate * durationMs / 1000;
+  int16_t* buf = (int16_t*)malloc(samples * sizeof(int16_t));
+  if (!buf) {
+    Serial.println("[QWEN-AUDIO] prompt tone alloc failed");
+    return;
+  }
+  for (size_t i = 0; i < samples; i++) {
+    float t = (float)i / toneRate;
+    buf[i] = (int16_t)(sin(2.0f * 3.1415926f * freq * t) * 7000);
+  }
+  size_t bytes = samples * sizeof(int16_t);
+  size_t written = 0;
+  unsigned long startMs = millis();
+  while (written < bytes) {
+    if (millis() - startMs > (unsigned long)(durationMs + 1000)) {
+      Serial.println("[QWEN-AUDIO] prompt tone timeout");
+      break;
+    }
+    size_t n = i2s.write((uint8_t*)buf + written, bytes - written);
+    if (n == 0) delay(1);
+    else written += n;
+  }
+  free(buf);
+  delay(durationMs + 20);
+  Serial.println("[QWEN-AUDIO] prompt tone done, bytes: " + String(written));
+}
 
 void qwen_playback_task_entry(void* param) {
   uint8_t chunk[QWEN_PLAYBACK_CHUNK_SIZE];
@@ -120,7 +166,7 @@ bool qwen_start_stream_playback() {
   }
 
   BaseType_t taskOk = xTaskCreate(
-    qwen_playback_task_entry, "qwen_tts_play", 4096, NULL, 2, &qwen_playback_task_handle);
+    qwen_playback_task_entry, "qwen_tts_play", 4096, NULL, 3, &qwen_playback_task_handle);
   if (taskOk != pdPASS) {
     qwen_playback_task_handle = NULL;
     Serial.println("[QWEN-AUDIO] playback task create failed");
@@ -139,7 +185,7 @@ bool qwen_queue_stream_playback(const uint8_t* data, size_t len) {
   while (sentTotal < len) {
     size_t toSend = min((size_t)4096, len - sentTotal);
     size_t sent = xStreamBufferSend(
-      qwen_playback_stream, data + sentTotal, toSend, pdMS_TO_TICKS(1000));
+      qwen_playback_stream, data + sentTotal, toSend, pdMS_TO_TICKS(3000));
     if (sent == 0) {
       Serial.println("[QWEN-AUDIO] playback buffer timeout");
       return false;
@@ -160,7 +206,7 @@ size_t qwen_finish_stream_playback() {
   }
   qwen_playback_done = true;
   unsigned long startMs = millis();
-  while (qwen_playback_task_handle && millis() - startMs < 20000) {
+  while (qwen_playback_task_handle && millis() - startMs < 60000) {
     delay(10);
   }
   if (qwen_playback_task_handle) {
@@ -392,6 +438,7 @@ size_t qwen_stream_http_audio_to_i2s(HTTPClient &http, I2SClass &i2s, String *fu
 }`);
 }
 
+
 function ensureQwenOmniUploadHelpers(generator) {
   ensureQwenOmniPlaybackHelpers(generator);
 
@@ -483,6 +530,9 @@ function ensureQwenOmniI2SHelpers(generator) {
   generator.addVariable('qwen_i2s_mic_bclk_pin', 'int qwen_i2s_mic_bclk_pin = -1;');
   generator.addVariable('qwen_i2s_mic_lrclk_pin', 'int qwen_i2s_mic_lrclk_pin = -1;');
   generator.addVariable('qwen_i2s_mic_sd_pin', 'int qwen_i2s_mic_sd_pin = -1;');
+  generator.addVariable('qwen_i2s_speaker_bclk_pin', 'int qwen_i2s_speaker_bclk_pin = -1;');
+  generator.addVariable('qwen_i2s_speaker_lrclk_pin', 'int qwen_i2s_speaker_lrclk_pin = -1;');
+  generator.addVariable('qwen_i2s_speaker_din_pin', 'int qwen_i2s_speaker_din_pin = -1;');
   generator.addVariable('qwen_i2s_mic_mode', 'int qwen_i2s_mic_mode = 0;');
   generator.addVariable('qwen_i2s_mic_pdm_clk_pin', 'int qwen_i2s_mic_pdm_clk_pin = -1;');
   generator.addVariable('qwen_i2s_mic_pdm_din_pin', 'int qwen_i2s_mic_pdm_din_pin = -1;');
@@ -612,6 +662,9 @@ bool qwen_es8311_begin(uint8_t address, int sdaPin, int sclPin, uint8_t micGainR
 
 bool qwen_i2s_begin_speaker(I2SClass &i2s, int bclkPin, int lrclkPin, int dinPin, uint32_t sampleRate) {
   Serial.println("[I2S] speaker begin");
+  qwen_i2s_speaker_bclk_pin = bclkPin;
+  qwen_i2s_speaker_lrclk_pin = lrclkPin;
+  qwen_i2s_speaker_din_pin = dinPin;
   i2s.end();
   i2s.setPins(bclkPin, lrclkPin, dinPin, -1, -1);
   bool ok = i2s.begin(I2S_MODE_STD, sampleRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_BOTH);
@@ -732,35 +785,6 @@ bool qwen_i2s_prepare_es8311_playback(I2SClass &i2s, uint32_t sampleRate, i2s_da
   return codecOk && i2sOk;
 }
 
-void qwen_es8311_test_tone(I2SClass &i2s, int freq, int durationMs) {
-  const uint32_t toneRate = 16000;
-  if (!qwen_i2s_prepare_es8311_playback(i2s, toneRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO)) {
-    Serial.println("[ES8311] test tone playback begin failed");
-    return;
-  }
-  size_t samples = toneRate * durationMs / 1000;
-  int16_t* buf = (int16_t*)malloc(samples * sizeof(int16_t));
-  if (!buf) {
-    Serial.println("[ES8311] test tone alloc failed");
-    return;
-  }
-  for (size_t i = 0; i < samples; i++) {
-    float t = (float)i / toneRate;
-    int16_t sample = (int16_t)(sin(2.0f * 3.1415926f * freq * t) * 9000);
-    buf[i] = sample;
-  }
-  size_t bytes = samples * sizeof(int16_t);
-  size_t written = 0;
-  while (written < bytes) {
-    size_t n = i2s.write((uint8_t*)buf + written, bytes - written);
-    if (n == 0) delay(1);
-    else written += n;
-  }
-  free(buf);
-  delay(durationMs + 20);
-  Serial.println("[ES8311] test tone done, bytes: " + String(written));
-}
-
 bool qwen_i2s_restart_microphone(I2SClass &i2s, uint32_t sampleRate) {
   if (qwen_i2s_mic_mode == 3 && qwen_i2s_mic_es8311_sda_pin >= 0 && qwen_i2s_mic_es8311_scl_pin >= 0 && qwen_i2s_mic_bclk_pin >= 0 && qwen_i2s_mic_lrclk_pin >= 0 && qwen_i2s_mic_sd_pin >= 0) {
     if (qwen_i2s_mic_es8311_dac_pin >= 0) {
@@ -782,6 +806,28 @@ bool qwen_i2s_restart_microphone(I2SClass &i2s, uint32_t sampleRate) {
   delay(20);
   i2s.configureRX(sampleRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO);
   return true;
+}
+
+size_t qwen_i2s_record_pcm(I2SClass &i2s, uint8_t* pcmBuf, size_t pcmBytes, float durationSeconds, const char* tag) {
+  i2s.setTimeout(20);
+  size_t bytesRead = 0;
+  unsigned long recordStart = millis();
+  unsigned long maxMs = (unsigned long)(durationSeconds * 1000 + 1200);
+  while (bytesRead < pcmBytes) {
+    if (millis() - recordStart > maxMs) {
+      Serial.println(String("[") + tag + "] record timeout");
+      break;
+    }
+    size_t toRead = min((size_t)512, pcmBytes - bytesRead);
+    size_t n = i2s.readBytes((char*)(pcmBuf + bytesRead), toRead);
+    if (n > 0) {
+      bytesRead += n;
+    } else {
+      delay(1);
+    }
+  }
+  if (bytesRead % sizeof(int16_t) != 0) bytesRead -= bytesRead % sizeof(int16_t);
+  return bytesRead;
 }`);
 }
 
@@ -1127,7 +1173,18 @@ Arduino.forBlock['qwen_omni_es8311_test_tone'] = function(block, generator) {
 
   ensureQwenOmniI2SObject(generator, varName);
   ensureQwenOmniI2SHelpers(generator);
-  return 'qwen_es8311_test_tone(' + varName + ', ' + freq + ', ' + duration + ');\n';
+  return 'qwen_play_prompt_tone(' + varName + ', ' + freq + ', ' + duration + ');\n';
+};
+
+Arduino.forBlock['qwen_omni_i2s_prompt_tone'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s_spk';
+  const freq = generator.valueToCode(block, 'FREQ', Arduino.ORDER_ATOMIC) || '1000';
+  const duration = generator.valueToCode(block, 'DURATION', Arduino.ORDER_ATOMIC) || '300';
+
+  ensureQwenOmniI2SObject(generator, varName);
+  ensureQwenOmniPlaybackHelpers(generator);
+  return 'qwen_play_prompt_tone(' + varName + ', ' + freq + ', ' + duration + ');\n';
 };
 
 Arduino.forBlock['qwen_omni_chat'] = function(block, generator) {
@@ -1670,7 +1727,7 @@ String qwen_image_generate(String model, String prompt, String size) {
   // 通义万相使用不同的API端点
   String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis";
   http.begin(url);
-  http.setTimeout(120000); // 120秒超时
+  http.setTimeout(180000); // 120秒超时
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
   http.addHeader("X-DashScope-Async", "enable");
@@ -1770,7 +1827,7 @@ String qwen_image_generate(String model, String prompt, String size) {
   HTTPClient http;
   String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
   http.addHeader("X-DashScope-Async", "enable");
@@ -1861,7 +1918,7 @@ String qwen_tts_request(String text, String voice, String model, String language
   HTTPClient http;
   String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
   http.addHeader("X-DashScope-SSE", "enable");
@@ -2100,7 +2157,7 @@ bool qwen_play_wav_from_url(I2SClass &i2s, String audioUrl) {
     Serial.println("[TTS] url begin fail");
     return false;
   }
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   int httpCode = http.GET();
   if (httpCode != 200) {
     Serial.println("[TTS] url GET fail: " + String(httpCode));
@@ -2210,7 +2267,7 @@ void qwen_tts_stream_play_impl(I2SClass &i2s, String text, String voice, String 
   HTTPClient http;
   String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
   http.addHeader("X-DashScope-SSE", "enable");
@@ -2429,7 +2486,7 @@ void qwen_tts_stream_play_impl(I2SClass &i2s, String text, String voice, String 
   HTTPClient http;
   String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
   http.addHeader("X-DashScope-SSE", "enable");
@@ -2577,7 +2634,7 @@ void qwen_tts_stream_play_impl_v3(I2SClass &i2s, String text, String voice, Stri
   HTTPClient http;
   String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Accept", "text/event-stream");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
@@ -2720,7 +2777,7 @@ bool qwen_play_wav_from_url(I2SClass &i2s, String audioUrl) {
     Serial.println("[TTS] url begin fail");
     return false;
   }
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   int httpCode = http.GET();
   if (httpCode != 200) {
     Serial.println("[TTS] url GET fail: " + String(httpCode));
@@ -2869,7 +2926,7 @@ bool qwen_play_wav_from_url(I2SClass &i2s, String audioUrl) {
     Serial.println("[OMNI] url begin fail");
     return false;
   }
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   int httpCode = http.GET();
   if (httpCode != 200) {
     Serial.println("[OMNI] url GET fail: " + String(httpCode));
@@ -3018,7 +3075,7 @@ void qwen_tts_stream_play_impl(I2SClass &i2s, String text, String voice, String 
   HTTPClient http;
   String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
   http.addHeader("X-DashScope-SSE", "enable");
@@ -3108,7 +3165,7 @@ void qwen_tts_stream_play_impl_v2(I2SClass &i2s, String text, String voice, Stri
   HTTPClient http;
   String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
   http.addHeader("X-DashScope-SSE", "enable");
@@ -3272,7 +3329,7 @@ void qwen_tts_stream_play_impl_v3(I2SClass &i2s, String text, String voice, Stri
   HTTPClient http;
   String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Accept", "text/event-stream");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
@@ -3329,7 +3386,7 @@ String qwen_omni_text_request(String model, String message) {
   HTTPClient http;
   String url = qwen_base_url + "/chat/completions";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
 
@@ -3466,13 +3523,14 @@ void qwen_omni_and_play_request_v2(I2SClass &i2s, String model, String message, 
   HTTPClient http;
   String url = qwen_base_url + "/chat/completions";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
 
   String safeMessage = qwen_escape_json(message);
+  String safeSystem = qwen_escape_json("\u8bf7\u7528\u9002\u5408\u8bed\u97f3\u64ad\u653e\u7684\u7b80\u77ed\u4e2d\u6587\u56de\u7b54\uff0c\u4f18\u5148\u63a7\u5236\u572860\u5b57\u4ee5\u5185\uff1b\u5982\u679c\u4fe1\u606f\u5f88\u591a\uff0c\u5148\u7ed9\u7ed3\u8bba\u548c\u6700\u591a3\u4e2a\u8981\u70b9\uff0c\u4e0d\u8981\u5c55\u5f00\u957f\u7bc7\u5217\u8868\u3002");
   String requestBody = "{\\"model\\":\\"" + model + "\\",";
-  requestBody += "\\"messages\\":[{\\"role\\":\\"user\\",\\"content\\":\\"" + safeMessage + "\\"}],";
+  requestBody += "\\"messages\\":[{\\"role\\":\\"system\\",\\"content\\":\\"" + safeSystem + "\\"},{\\"role\\":\\"user\\",\\"content\\":\\"" + safeMessage + "\\"}],";
   requestBody += "\\"modalities\\":[\\"text\\",\\"audio\\"],";
   requestBody += "\\"audio\\":{\\"voice\\":\\"" + voice + "\\",\\"format\\":\\"wav\\"},";
   requestBody += "\\"stream\\":true}";
@@ -3648,14 +3706,15 @@ void qwen_omni_and_play_request_v3(I2SClass &i2s, String model, String message, 
   HTTPClient http;
   String url = qwen_base_url + "/chat/completions";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Accept", "text/event-stream");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
 
   String safeMessage = qwen_escape_json(message);
+  String safeSystem = qwen_escape_json("\u8bf7\u7528\u9002\u5408\u8bed\u97f3\u64ad\u653e\u7684\u7b80\u77ed\u4e2d\u6587\u56de\u7b54\uff0c\u4f18\u5148\u63a7\u5236\u572860\u5b57\u4ee5\u5185\uff1b\u5982\u679c\u4fe1\u606f\u5f88\u591a\uff0c\u5148\u7ed9\u7ed3\u8bba\u548c\u6700\u591a3\u4e2a\u8981\u70b9\uff0c\u4e0d\u8981\u5c55\u5f00\u957f\u7bc7\u5217\u8868\u3002");
   String requestBody = "{\\"model\\":\\"" + model + "\\",";
-  requestBody += "\\"messages\\":[{\\"role\\":\\"user\\",\\"content\\":\\"" + safeMessage + "\\"}],";
+  requestBody += "\\"messages\\":[{\\"role\\":\\"system\\",\\"content\\":\\"" + safeSystem + "\\"},{\\"role\\":\\"user\\",\\"content\\":\\"" + safeMessage + "\\"}],";
   requestBody += "\\"modalities\\":[\\"text\\",\\"audio\\"],";
   requestBody += "\\"audio\\":{\\"voice\\":\\"" + voice + "\\",\\"format\\":\\"wav\\"},";
   requestBody += "\\"stream\\":true,\\"stream_options\\":{\\"include_usage\\":true}}";
@@ -3743,7 +3802,7 @@ void qwen_omni_stream_play_request(I2SClass &i2s, String model, String message, 
   HTTPClient http;
   String url = qwen_base_url + "/chat/completions";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
 
@@ -3888,7 +3947,7 @@ void qwen_omni_stream_play_request_v2(I2SClass &i2s, String model, String messag
   HTTPClient http;
   String url = qwen_base_url + "/chat/completions";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
 
@@ -4067,7 +4126,7 @@ void qwen_omni_stream_play_request_v3(I2SClass &i2s, String model, String messag
   HTTPClient http;
   String url = qwen_base_url + "/chat/completions";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Accept", "text/event-stream");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
@@ -4134,7 +4193,7 @@ void qwen_tts_voice_design_request(I2SClass &i2s, String text, String voiceDesc)
   HTTPClient http;
   String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
   http.addHeader("X-DashScope-SSE", "enable");
@@ -4223,7 +4282,7 @@ void qwen_tts_voice_design_request_v2(I2SClass &i2s, String text, String voiceDe
   HTTPClient http;
   String url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Accept", "text/event-stream");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
@@ -4423,7 +4482,7 @@ void qwen_omni_voice_chat_request(I2SClass &i2s, String model, String voice, Str
   HTTPClient http;
   String url = qwen_base_url + "/chat/completions";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
 
@@ -4576,11 +4635,9 @@ void qwen_omni_voice_chat_request_v2(I2SClass &i2s, String model, String voice, 
   Serial.println("[VOICE-CHAT] wav bytes: " + String(wavBytes));
 
   String safePrompt = qwen_escape_json(prompt);
-  String safeSystem = qwen_escape_json(qwen_system_prompt);
+  String safeSystem = qwen_escape_json((qwen_system_prompt.length() > 0 ? qwen_system_prompt + "\\n" : "") + "\u8bf7\u7528\u9002\u5408\u8bed\u97f3\u64ad\u653e\u7684\u7b80\u77ed\u4e2d\u6587\u56de\u7b54\uff0c\u4f18\u5148\u63a7\u5236\u572860\u5b57\u4ee5\u5185\uff1b\u5982\u679c\u4fe1\u606f\u5f88\u591a\uff0c\u5148\u7ed9\u7ed3\u8bba\u548c\u6700\u591a3\u4e2a\u8981\u70b9\uff0c\u4e0d\u8981\u5c55\u5f00\u957f\u7bc7\u5217\u8868\u3002");
   String requestPrefix = "{\\"model\\":\\"" + model + "\\",\\"messages\\":[";
-  if (qwen_system_prompt.length() > 0) {
-    requestPrefix += "{\\"role\\":\\"system\\",\\"content\\":\\"" + safeSystem + "\\"},";
-  }
+  requestPrefix += "{\\"role\\":\\"system\\",\\"content\\":\\"" + safeSystem + "\\"},";
   requestPrefix += "{\\"role\\":\\"user\\",\\"content\\":[{\\"type\\":\\"input_audio\\",\\"input_audio\\":{\\"data\\":\\"data:;base64,";
 
   String requestSuffix = "\\",\\"format\\":\\"wav\\"}}";
@@ -4597,7 +4654,7 @@ void qwen_omni_voice_chat_request_v2(I2SClass &i2s, String model, String voice, 
   HTTPClient http;
   String url = qwen_base_url + "/chat/completions";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Accept", "text/event-stream");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
@@ -4700,18 +4757,7 @@ String qwen_omni_record_text_request(I2SClass &i2sMic, String model, String prom
   }
 
   Serial.println("[OMNI-REC-TEXT] record " + String(duration) + "s");
-  size_t bytesRead = 0;
-  unsigned long recordStart = millis();
-  while (bytesRead < pcmBytes) {
-    size_t toRead = min((size_t)4096, pcmBytes - bytesRead);
-    size_t n = i2sMic.readBytes((char*)(wavBuf + 44 + bytesRead), toRead);
-    if (n > 0) bytesRead += n;
-    if (millis() - recordStart > (unsigned long)(duration * 1000 + 1000)) {
-      Serial.println("[OMNI-REC-TEXT] record timeout");
-      break;
-    }
-  }
-  if (bytesRead % sizeof(int16_t) != 0) bytesRead -= bytesRead % sizeof(int16_t);
+  size_t bytesRead = qwen_i2s_record_pcm(i2sMic, wavBuf + 44, pcmBytes, duration, "OMNI-REC-TEXT");
   qwen_voice_chat_build_wav_header(wavBuf, (uint32_t)bytesRead, sampleRate);
   wavBytes = 44 + bytesRead;
   i2sMic.end();
@@ -4734,7 +4780,7 @@ String qwen_omni_record_text_request(I2SClass &i2sMic, String model, String prom
   HTTPClient http;
   String url = qwen_base_url + "/chat/completions";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Accept", "text/event-stream");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
@@ -4850,27 +4896,6 @@ void qwen_voice_chat_build_wav_header(uint8_t* header, uint32_t dataSize, uint32
   header[42] = (dataSize >> 16) & 0xFF; header[43] = (dataSize >> 24) & 0xFF;
 }`);
 
-  generator.addFunction('qwen_omni_voice_chat_beep', String.raw`
-void qwen_omni_voice_chat_beep(I2SClass &i2s, int freq, int durationMs) {
-  const uint32_t beepRate = 16000;
-  size_t samples = beepRate * durationMs / 1000;
-  int16_t* buf = (int16_t*)malloc(samples * sizeof(int16_t));
-  if (!buf) return;
-
-  i2s.end();
-  i2s.begin(I2S_MODE_STD, beepRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_BOTH);
-
-  for (size_t i = 0; i < samples; i++) {
-    float t = (float)i / beepRate;
-    buf[i] = (int16_t)(sin(2.0f * 3.1415926f * freq * t) * 3000);
-  }
-
-  i2s.write((uint8_t*)buf, samples * sizeof(int16_t));
-  free(buf);
-  delay(durationMs + 10);
-  i2s.end();
-}`);
-
   generator.addFunction('qwen_omni_voice_chat_request_dual_i2s', `
 void qwen_omni_voice_chat_request_dual_i2s(I2SClass &i2sMic, I2SClass &i2sSpk, String model, String voice, String prompt, float duration, bool beep) {
   Serial.println("[VOICE-CHAT-2I2S] begin");
@@ -4894,27 +4919,25 @@ void qwen_omni_voice_chat_request_dual_i2s(I2SClass &i2sMic, I2SClass &i2sSpk, S
     return;
   }
 
+  Serial.println("[VOICE-CHAT-2I2S] record " + String(duration) + "s");
+  if (beep) qwen_play_prompt_tone(i2sSpk, 1000, 50);
+
   if (!qwen_i2s_restart_microphone(i2sMic, sampleRate)) {
     qwen_last_error = "Microphone begin failed";
     free(wavBuf);
     return;
   }
-  Serial.println("[VOICE-CHAT-2I2S] record " + String(duration) + "s");
-  if (beep) qwen_omni_voice_chat_beep(i2sSpk, 1000, 50);
+  delay(30);
 
-  size_t bytesRead = 0;
-  unsigned long recordStart = millis();
-  while (bytesRead < pcmBytes) {
-    size_t toRead = min((size_t)4096, pcmBytes - bytesRead);
-    size_t n = i2sMic.readBytes((char*)(wavBuf + 44 + bytesRead), toRead);
-    if (n > 0) bytesRead += n;
-    if (millis() - recordStart > (unsigned long)(duration * 1000 + 1000)) {
-      Serial.println("[VOICE-CHAT-2I2S] record timeout");
-      break;
-    }
+  size_t bytesRead = qwen_i2s_record_pcm(i2sMic, wavBuf + 44, pcmBytes, duration, "VOICE-CHAT-2I2S");
+  if (beep) qwen_play_prompt_tone(i2sSpk, 800, 50);
+
+  if (bytesRead == 0) {
+    qwen_last_error = "No microphone audio captured";
+    Serial.println("[VOICE-CHAT-2I2S] fail: no microphone audio captured");
+    free(wavBuf);
+    return;
   }
-  if (bytesRead % sizeof(int16_t) != 0) bytesRead -= bytesRead % sizeof(int16_t);
-  if (beep) qwen_omni_voice_chat_beep(i2sSpk, 800, 50);
 
   uint32_t peakAbs = 0;
   uint64_t sumAbs = 0;
@@ -4934,11 +4957,9 @@ void qwen_omni_voice_chat_request_dual_i2s(I2SClass &i2sMic, I2SClass &i2sSpk, S
   i2sMic.end();
 
   String safePrompt = qwen_escape_json(prompt);
-  String safeSystem = qwen_escape_json(qwen_system_prompt);
+  String safeSystem = qwen_escape_json((qwen_system_prompt.length() > 0 ? qwen_system_prompt + "\\n" : "") + "\u8bf7\u7528\u9002\u5408\u8bed\u97f3\u64ad\u653e\u7684\u7b80\u77ed\u4e2d\u6587\u56de\u7b54\uff0c\u4f18\u5148\u63a7\u5236\u572860\u5b57\u4ee5\u5185\uff1b\u5982\u679c\u4fe1\u606f\u5f88\u591a\uff0c\u5148\u7ed9\u7ed3\u8bba\u548c\u6700\u591a3\u4e2a\u8981\u70b9\uff0c\u4e0d\u8981\u5c55\u5f00\u957f\u7bc7\u5217\u8868\u3002");
   String requestPrefix = "{\\"model\\":\\"" + model + "\\",\\"messages\\":[";
-  if (qwen_system_prompt.length() > 0) {
-    requestPrefix += "{\\"role\\":\\"system\\",\\"content\\":\\"" + safeSystem + "\\"},";
-  }
+  requestPrefix += "{\\"role\\":\\"system\\",\\"content\\":\\"" + safeSystem + "\\"},";
   requestPrefix += "{\\"role\\":\\"user\\",\\"content\\":[{\\"type\\":\\"input_audio\\",\\"input_audio\\":{\\"data\\":\\"data:;base64,";
 
   String requestSuffix = "\\",\\"format\\":\\"wav\\"}}";
@@ -4955,7 +4976,7 @@ void qwen_omni_voice_chat_request_dual_i2s(I2SClass &i2sMic, I2SClass &i2sSpk, S
   HTTPClient http;
   String url = qwen_base_url + "/chat/completions";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Accept", "text/event-stream");
   http.addHeader("Authorization", "Bearer " + qwen_api_key);
