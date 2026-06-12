@@ -8,8 +8,14 @@
       null,
       {
         "options": [
-          ["0x18 (預設)", "0x18"],
-          ["0x30", "0x30"]
+          [
+            "0x18 (預設)",
+            "0x18"
+          ],
+          [
+            "0x30",
+            "0x30"
+          ]
         ]
       }
     ]
@@ -42,10 +48,6 @@
     "message0": "ES8311 %1 停止錄音/播放",
     "tooltip": "停止當前錄音或播放，清零 I2S DMA 緩衝區"
   },
-  "es8311_sound_detected": {
-    "message0": "ES8311 %1 檢測到聲音 閾值 %2",
-    "tooltip": "檢測當前環境聲音是否超過閾值（0~100），超過返回 true"
-  },
   "es8311_mute": {
     "message0": "ES8311 %1 %2",
     "tooltip": "控制 ES8311 靜音狀態",
@@ -53,10 +55,22 @@
       null,
       {
         "options": [
-          ["取消靜音", "0"],
-          ["輸出靜音", "1"],
-          ["麥克風靜音", "2"],
-          ["全部靜音", "3"]
+          [
+            "取消靜音",
+            "0"
+          ],
+          [
+            "輸出靜音",
+            "1"
+          ],
+          [
+            "麥克風靜音",
+            "2"
+          ],
+          [
+            "全部靜音",
+            "3"
+          ]
         ]
       }
     ]
@@ -72,8 +86,14 @@
       null,
       {
         "options": [
-          ["開啟", "true"],
-          ["關閉", "false"]
+          [
+            "開啟",
+            "true"
+          ],
+          [
+            "關閉",
+            "false"
+          ]
         ]
       }
     ]
@@ -95,16 +115,38 @@
     "tooltip": "配置 DashScope API Key 與相容模式 Base URL，不包含 WiFi 連線邏輯"
   },
   "es8311_qwen_audio_chat": {
-    "message0": "ES8311 %1 上傳目前錄音到通義千問 提示詞 %2 模型 %3",
-    "tooltip": "將目前錄音上傳到通義千問 Omni，即時播放語音回覆並保存最終文字結果",
+    "message0": "ES8311 %1 上傳當前錄音到通義千問 提示詞 %2 模型 %3 音色 %4 回覆播放 %5",
+    "tooltip": "將當前錄音上傳到通義千問 Omni，流式播放語音回覆並保存文本結果。後台播放模式下收完數據立即返回，可用停止塊打斷",
     "args0": [
       null,
       null,
       {
         "options": [
-          ["qwen3.5-omni-plus（推薦）", "qwen3.5-omni-plus"],
-          ["qwen-omni-turbo", "qwen-omni-turbo"],
-          ["qwen3-omni-flash", "qwen3-omni-flash"]
+          [
+            "qwen3.5-omni-plus（推薦）",
+            "qwen3.5-omni-plus"
+          ],
+          [
+            "qwen-omni-turbo",
+            "qwen-omni-turbo"
+          ],
+          [
+            "qwen3-omni-flash",
+            "qwen3-omni-flash"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "等待播完",
+            "WAIT"
+          ],
+          [
+            "後台播放(可打斷)",
+            "BACKGROUND"
+          ]
         ]
       }
     ]
@@ -120,5 +162,37 @@
   "es8311_qwen_get_last_error": {
     "message0": "取得 ES8311 AI 最後錯誤資訊",
     "tooltip": "回傳最近一次雲端音訊理解請求的錯誤資訊"
+  },
+  "es8311_record_start": {
+    "message0": "ES8311 %1 開始錄音(後台)",
+    "tooltip": "開始後台錄音，立即返回不阻塞程式；調用停止錄音結束，或錄滿緩衝自動停止"
+  },
+  "es8311_record_stop": {
+    "message0": "ES8311 %1 停止錄音",
+    "tooltip": "停止後台錄音並保存實際長度（不足0.1秒視為無效錄音）"
+  },
+  "es8311_is_recording": {
+    "message0": "ES8311 %1 正在錄音",
+    "tooltip": "後台錄音是否進行中（錄滿緩衝會自動停止）"
+  },
+  "es8311_is_speaking": {
+    "message0": "ES8311 %1 正在播放語音",
+    "tooltip": "流式/後台語音是否還在播放中"
+  },
+  "es8311_sound_level": {
+    "message0": "ES8311 %1 當前聲音強度",
+    "tooltip": "實時從麥克風採集一小段音頻，返回聲音強度（0~100，需先配置 I2S）"
+  },
+  "es8311_stream_begin": {
+    "message0": "ES8311 %1 開始流式播放 源採樣率 %2",
+    "tooltip": "開始流式播放：按所選源採樣率實時重採樣到16kHz輸出"
+  },
+  "es8311_stream_end": {
+    "message0": "ES8311 %1 結束流式播放",
+    "tooltip": "結束流式播放並清零 I2S DMA 緩衝區"
+  },
+  "es8311_stream_play_url": {
+    "message0": "ES8311 %1 流式播放網絡音頻 URL %2 源採樣率 %3",
+    "tooltip": "從 http(s) 地址邊下載邊播放 16bit 單聲道 PCM/WAV 音頻（需先連接 WiFi）"
   }
 }
