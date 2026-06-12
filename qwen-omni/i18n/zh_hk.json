@@ -16,6 +16,18 @@
     "message0": "PDM麥克風初始化 對象 %1 %2 CLK %3 DATA %4 採樣率 %5",
     "tooltip": "初始化PDM麥克風輸入對象，適用於XIAO ESP32S3 Sense板載麥克風等。XIAO ESP32S3 Sense默認CLK為42、DATA為41"
   },
+  "qwen_omni_es8311_mic_init": {
+    "message0": "ES8311麥克風初始化 對象 %1 %2 SDA %3 SCL %4 地址 %5 BCLK %6 LRCLK %7 SDOUT %8 MCLK %9 採樣率 %10 增益寄存器 %11",
+    "tooltip": "初始化ES8311音頻編解碼器的麥克風輸入，先通過I2C配置ADC/麥克風路徑，再初始化I2S錄音對象。默認地址0x18(十進制24)，默認增益寄存器0x24(十進制36)"
+  },
+  "qwen_omni_es8311_audio_init": {
+    "message0": "ES8311麥克風+喇叭初始化 對象 %1 %2 SDA %3 SCL %4 地址 %5 BCLK/SCLK %6 LR %7 DI/DAC輸入 %8 DO/ADC輸出 %9 MCK %10 採樣率 %11 增益寄存器 %12 PA_EN %13",
+    "tooltip": "初始化ES8311音頻編解碼器的麥克風和喇叭通道，適合Microphone + Audio Amplifier板。圖中默認: SCLK39, LR2, DI38, DO40, MCK46, SDA41, SCL42。ES8311供電3V3，NS4150B功放供電5V。PA_EN默认-1表示不控制；如果板子有功放使能脚，填入GPIO后会拉高"
+  },
+  "qwen_omni_es8311_test_tone": {
+    "message0": "ES8311播放測試音 對象 %1 %2 頻率Hz %3 時長ms %4",
+    "tooltip": "通過ES8311喇叭通道播放一段正弦測試音，用於確認DI/DAC、功放5V和喇叭接線是否正常"
+  },
   "qwen_omni_chat": {
     "message0": "通义千问对话 %1 用户消息 %2 %3 模型 %4",
     "tooltip": "发送消息到通义千问并获取回复",

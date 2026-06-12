@@ -1,6 +1,7 @@
 // 通义千问Qwen-Omni API库代码生成器
 
 function ensureQwenOmniPlaybackHelpers(generator) {
+  ensureQwenOmniI2SHelpers(generator);
   generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
   generator.addLibrary('mbedtls_base64', '#include <mbedtls/base64.h>');
   generator.addLibrary('qwen_heap_caps', '#include <esp_heap_caps.h>');
@@ -45,6 +46,8 @@ size_t qwen_base64_encoded_len(size_t len) {
 #define QWEN_PLAYBACK_PREBUFFER_SIZE 16000
 #define QWEN_PLAYBACK_CHUNK_SIZE 1024
 #define QWEN_DECODE_BUF_SIZE 16384
+
+bool qwen_i2s_prepare_es8311_playback(I2SClass &i2s, uint32_t sampleRate, i2s_data_bit_width_t bitWidth, i2s_slot_mode_t slotMode);
 
 void qwen_playback_task_entry(void* param) {
   uint8_t chunk[QWEN_PLAYBACK_CHUNK_SIZE];
@@ -105,10 +108,12 @@ bool qwen_start_stream_playback() {
   if (!qwen_playback_i2s) return false;
 
   qwen_playback_i2s->end();
-  bool ok = qwen_playback_i2s->begin(I2S_MODE_STD, qwen_playback_sample_rate,
-    (qwen_playback_bits_per_sample == 32) ? I2S_DATA_BIT_WIDTH_32BIT : I2S_DATA_BIT_WIDTH_16BIT,
-    (qwen_playback_channels == 2) ? I2S_SLOT_MODE_STEREO : I2S_SLOT_MODE_MONO,
-    I2S_STD_SLOT_BOTH);
+  i2s_data_bit_width_t bitWidth = (qwen_playback_bits_per_sample == 32) ? I2S_DATA_BIT_WIDTH_32BIT : I2S_DATA_BIT_WIDTH_16BIT;
+  i2s_slot_mode_t slotMode = (qwen_playback_channels == 2) ? I2S_SLOT_MODE_STEREO : I2S_SLOT_MODE_MONO;
+  bool ok = qwen_i2s_prepare_es8311_playback(*qwen_playback_i2s, qwen_playback_sample_rate, bitWidth, slotMode);
+  if (ok && !(qwen_i2s_mic_mode == 3 && qwen_i2s_mic_es8311_dac_pin >= 0)) {
+    ok = qwen_playback_i2s->begin(I2S_MODE_STD, qwen_playback_sample_rate, bitWidth, slotMode, I2S_STD_SLOT_BOTH);
+  }
   if (!ok) {
     Serial.println("[QWEN-AUDIO] I2S begin failed");
     return false;
@@ -473,13 +478,138 @@ function ensureQwenOmniI2SObject(generator, varName) {
 
 function ensureQwenOmniI2SHelpers(generator) {
   generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+  generator.addLibrary('Wire', '#include <Wire.h>');
+  generator.addLibrary('qwen_math', '#include <math.h>');
   generator.addVariable('qwen_i2s_mic_bclk_pin', 'int qwen_i2s_mic_bclk_pin = -1;');
   generator.addVariable('qwen_i2s_mic_lrclk_pin', 'int qwen_i2s_mic_lrclk_pin = -1;');
   generator.addVariable('qwen_i2s_mic_sd_pin', 'int qwen_i2s_mic_sd_pin = -1;');
   generator.addVariable('qwen_i2s_mic_mode', 'int qwen_i2s_mic_mode = 0;');
   generator.addVariable('qwen_i2s_mic_pdm_clk_pin', 'int qwen_i2s_mic_pdm_clk_pin = -1;');
   generator.addVariable('qwen_i2s_mic_pdm_din_pin', 'int qwen_i2s_mic_pdm_din_pin = -1;');
+  generator.addVariable('qwen_i2s_mic_es8311_sda_pin', 'int qwen_i2s_mic_es8311_sda_pin = -1;');
+  generator.addVariable('qwen_i2s_mic_es8311_scl_pin', 'int qwen_i2s_mic_es8311_scl_pin = -1;');
+  generator.addVariable('qwen_i2s_mic_es8311_addr', 'uint8_t qwen_i2s_mic_es8311_addr = 0x18;');
+  generator.addVariable('qwen_i2s_mic_es8311_mclk_pin', 'int qwen_i2s_mic_es8311_mclk_pin = -1;');
+  generator.addVariable('qwen_i2s_mic_es8311_dac_pin', 'int qwen_i2s_mic_es8311_dac_pin = -1;');
+  generator.addVariable('qwen_i2s_mic_es8311_pa_pin', 'int qwen_i2s_mic_es8311_pa_pin = -1;');
+  generator.addVariable('qwen_i2s_mic_es8311_gain_reg', 'uint8_t qwen_i2s_mic_es8311_gain_reg = 0x24;');
   generator.addFunction('qwen_i2s_audio_helpers', String.raw`
+void qwen_es8311_set_pa(int paPin, bool enabled) {
+  if (paPin < 0) return;
+  pinMode(paPin, OUTPUT);
+  digitalWrite(paPin, enabled ? HIGH : LOW);
+  Serial.println("[ES8311] PA_EN pin " + String(paPin) + (enabled ? " HIGH" : " LOW"));
+}
+
+bool qwen_es8311_write_reg(uint8_t address, uint8_t reg, uint8_t value) {
+  Wire.beginTransmission(address);
+  Wire.write(reg);
+  Wire.write(value);
+  return Wire.endTransmission() == 0;
+}
+
+int qwen_es8311_read_reg(uint8_t address, uint8_t reg) {
+  Wire.beginTransmission(address);
+  Wire.write(reg);
+  if (Wire.endTransmission(false) != 0) return -1;
+  if (Wire.requestFrom((int)address, 1) != 1) return -1;
+  return Wire.read();
+}
+
+bool qwen_es8311_config_clock(uint8_t address, uint32_t sampleRate, bool useMclk) {
+  uint32_t mclk = sampleRate * 256;
+  uint8_t preDiv = 1;
+  uint8_t preMulti = 1;
+  uint8_t adcDiv = 1;
+  uint8_t dacDiv = 1;
+  uint8_t fsMode = 0;
+  uint8_t lrckH = 0x00;
+  uint8_t lrckL = 0xFF;
+  uint8_t bclkDiv = 4;
+  uint8_t adcOsr = 0x10;
+  uint8_t dacOsr = 0x10;
+
+  if (!useMclk) {
+    mclk = 0;
+  } else {
+    preDiv = 1;
+    preMulti = 1;
+  }
+
+  uint8_t multiBits = 0;
+  if (preMulti == 2) multiBits = 1;
+  else if (preMulti == 4) multiBits = 2;
+  else if (preMulti == 8) multiBits = 3;
+
+  bool ok = true;
+  uint8_t reg02 = (useMclk ? 0x00 : 0x80) | ((preDiv - 1) << 5) | (multiBits << 3);
+  ok &= qwen_es8311_write_reg(address, 0x02, reg02);
+  ok &= qwen_es8311_write_reg(address, 0x05, ((adcDiv - 1) << 4) | (dacDiv - 1));
+  ok &= qwen_es8311_write_reg(address, 0x03, (fsMode << 6) | adcOsr);
+  ok &= qwen_es8311_write_reg(address, 0x04, dacOsr);
+  ok &= qwen_es8311_write_reg(address, 0x07, lrckH);
+  ok &= qwen_es8311_write_reg(address, 0x08, lrckL);
+  ok &= qwen_es8311_write_reg(address, 0x06, (bclkDiv < 19) ? (bclkDiv - 1) : bclkDiv);
+
+  Serial.println("[ES8311] clock config rate=" + String(sampleRate) + " mclk=" + String(mclk) + " reg02=" + String(reg02, HEX));
+  return ok;
+}
+
+bool qwen_es8311_begin(uint8_t address, int sdaPin, int sclPin, uint8_t micGainReg, bool useMclk) {
+  Serial.println("[ES8311] codec begin");
+  Wire.begin(sdaPin, sclPin);
+  Wire.setClock(100000);
+  delay(20);
+
+  bool ok = true;
+  ok &= qwen_es8311_write_reg(address, 0x00, 0x80);
+  delay(20);
+  ok &= qwen_es8311_write_reg(address, 0x01, 0x30);
+  ok &= qwen_es8311_write_reg(address, 0x02, 0x00);
+  ok &= qwen_es8311_write_reg(address, 0x03, 0x10);
+  ok &= qwen_es8311_write_reg(address, 0x16, 0x24);
+  ok &= qwen_es8311_write_reg(address, 0x04, 0x10);
+  ok &= qwen_es8311_write_reg(address, 0x05, 0x00);
+  ok &= qwen_es8311_write_reg(address, 0x0B, 0x00);
+  ok &= qwen_es8311_write_reg(address, 0x0C, 0x00);
+  ok &= qwen_es8311_write_reg(address, 0x10, 0x1F);
+  ok &= qwen_es8311_write_reg(address, 0x11, 0x7F);
+  ok &= qwen_es8311_write_reg(address, 0x00, 0x80);
+  ok &= qwen_es8311_write_reg(address, 0x00, 0x80);
+  ok &= qwen_es8311_write_reg(address, 0x01, useMclk ? 0x3F : 0xBF);
+  ok &= qwen_es8311_write_reg(address, 0x02, 0x00);
+  ok &= qwen_es8311_write_reg(address, 0x03, 0x10);
+  ok &= qwen_es8311_write_reg(address, 0x04, 0x10);
+  ok &= qwen_es8311_write_reg(address, 0x05, 0x00);
+  ok &= qwen_es8311_write_reg(address, 0x06, 0x03);
+  ok &= qwen_es8311_write_reg(address, 0x07, 0x00);
+  ok &= qwen_es8311_write_reg(address, 0x08, 0xFF);
+  ok &= qwen_es8311_write_reg(address, 0x09, 0x0C);
+  ok &= qwen_es8311_write_reg(address, 0x0A, 0x0C);
+  ok &= qwen_es8311_write_reg(address, 0x13, 0x10);
+  ok &= qwen_es8311_write_reg(address, 0x1B, 0x0A);
+  ok &= qwen_es8311_write_reg(address, 0x1C, 0x6A);
+  ok &= qwen_es8311_write_reg(address, 0x44, 0x08);
+  ok &= qwen_es8311_write_reg(address, 0x31, 0x00);
+  ok &= qwen_es8311_write_reg(address, 0x32, 0xC0);
+  ok &= qwen_es8311_write_reg(address, 0x17, 0xBF);
+  ok &= qwen_es8311_write_reg(address, 0x0E, 0x02);
+  ok &= qwen_es8311_write_reg(address, 0x12, 0x00);
+  ok &= qwen_es8311_write_reg(address, 0x14, 0x1A);
+  ok &= qwen_es8311_write_reg(address, 0x0D, 0x01);
+  ok &= qwen_es8311_write_reg(address, 0x15, 0x40);
+  ok &= qwen_es8311_write_reg(address, 0x16, micGainReg);
+  ok &= qwen_es8311_write_reg(address, 0x37, 0x08);
+  ok &= qwen_es8311_write_reg(address, 0x45, 0x00);
+  ok &= qwen_es8311_config_clock(address, 16000, useMclk);
+
+  Serial.println("[ES8311] DAC enabled, volume 192");
+  Serial.println("[ES8311] clock source: " + String(useMclk ? "MCLK" : "BCLK/LRCLK"));
+  Serial.println("[ES8311] reg09=" + String(qwen_es8311_read_reg(address, 0x09), HEX) + " reg31=" + String(qwen_es8311_read_reg(address, 0x31), HEX) + " reg32=" + String(qwen_es8311_read_reg(address, 0x32), HEX));
+  Serial.println(ok ? "[ES8311] codec ready" : "[ES8311] codec begin failed");
+  return ok;
+}
+
 bool qwen_i2s_begin_speaker(I2SClass &i2s, int bclkPin, int lrclkPin, int dinPin, uint32_t sampleRate) {
   Serial.println("[I2S] speaker begin");
   i2s.end();
@@ -497,6 +627,11 @@ bool qwen_i2s_begin_microphone(I2SClass &i2s, int bclkPin, int lrclkPin, int sdP
   qwen_i2s_mic_mode = 1;
   qwen_i2s_mic_pdm_clk_pin = -1;
   qwen_i2s_mic_pdm_din_pin = -1;
+  qwen_i2s_mic_es8311_sda_pin = -1;
+  qwen_i2s_mic_es8311_scl_pin = -1;
+  qwen_i2s_mic_es8311_mclk_pin = -1;
+  qwen_i2s_mic_es8311_dac_pin = -1;
+  qwen_i2s_mic_es8311_pa_pin = -1;
   i2s.end();
   i2s.setPins(bclkPin, lrclkPin, -1, sdPin, -1);
   bool ok = i2s.begin(I2S_MODE_STD, sampleRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_BOTH);
@@ -513,6 +648,10 @@ bool qwen_i2s_begin_pdm_microphone(I2SClass &i2s, int clkPin, int dinPin, uint32
   qwen_i2s_mic_mode = 2;
   qwen_i2s_mic_pdm_clk_pin = clkPin;
   qwen_i2s_mic_pdm_din_pin = dinPin;
+  qwen_i2s_mic_es8311_sda_pin = -1;
+  qwen_i2s_mic_es8311_scl_pin = -1;
+  qwen_i2s_mic_es8311_mclk_pin = -1;
+  qwen_i2s_mic_es8311_dac_pin = -1;
   i2s.end();
   delay(20);
   i2s.setPinsPdmRx(clkPin, dinPin);
@@ -525,7 +664,111 @@ bool qwen_i2s_begin_pdm_microphone(I2SClass &i2s, int clkPin, int dinPin, uint32
 #endif
 }
 
+bool qwen_i2s_begin_es8311_microphone(I2SClass &i2s, int sdaPin, int sclPin, uint8_t address, int bclkPin, int lrclkPin, int sdoutPin, int mclkPin, uint32_t sampleRate, uint8_t micGainReg) {
+  Serial.println("[I2S] ES8311 microphone begin");
+  qwen_i2s_mic_bclk_pin = bclkPin;
+  qwen_i2s_mic_lrclk_pin = lrclkPin;
+  qwen_i2s_mic_sd_pin = sdoutPin;
+  qwen_i2s_mic_mode = 3;
+  qwen_i2s_mic_pdm_clk_pin = -1;
+  qwen_i2s_mic_pdm_din_pin = -1;
+  qwen_i2s_mic_es8311_sda_pin = sdaPin;
+  qwen_i2s_mic_es8311_scl_pin = sclPin;
+  qwen_i2s_mic_es8311_addr = address;
+  qwen_i2s_mic_es8311_mclk_pin = mclkPin;
+  qwen_i2s_mic_es8311_dac_pin = -1;
+  qwen_i2s_mic_es8311_pa_pin = -1;
+  qwen_i2s_mic_es8311_gain_reg = micGainReg;
+
+  bool codecOk = qwen_es8311_begin(address, sdaPin, sclPin, micGainReg, mclkPin >= 0);
+  codecOk &= qwen_es8311_config_clock(address, sampleRate, mclkPin >= 0);
+  i2s.end();
+  delay(20);
+  i2s.setPins(bclkPin, lrclkPin, -1, sdoutPin, mclkPin);
+  bool i2sOk = i2s.begin(I2S_MODE_STD, sampleRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_BOTH);
+  Serial.println((codecOk && i2sOk) ? "[I2S] ES8311 microphone ready" : "[I2S] ES8311 microphone begin failed");
+  return codecOk && i2sOk;
+}
+
+bool qwen_i2s_begin_es8311_audio(I2SClass &i2s, int sdaPin, int sclPin, uint8_t address, int bclkPin, int lrclkPin, int dacDinPin, int adcDoutPin, int mclkPin, uint32_t sampleRate, uint8_t micGainReg, int paPin) {
+  Serial.println("[I2S] ES8311 audio codec begin");
+  qwen_i2s_mic_bclk_pin = bclkPin;
+  qwen_i2s_mic_lrclk_pin = lrclkPin;
+  qwen_i2s_mic_sd_pin = adcDoutPin;
+  qwen_i2s_mic_mode = 3;
+  qwen_i2s_mic_pdm_clk_pin = -1;
+  qwen_i2s_mic_pdm_din_pin = -1;
+  qwen_i2s_mic_es8311_sda_pin = sdaPin;
+  qwen_i2s_mic_es8311_scl_pin = sclPin;
+  qwen_i2s_mic_es8311_addr = address;
+  qwen_i2s_mic_es8311_mclk_pin = mclkPin;
+  qwen_i2s_mic_es8311_dac_pin = dacDinPin;
+  qwen_i2s_mic_es8311_pa_pin = paPin;
+  qwen_i2s_mic_es8311_gain_reg = micGainReg;
+
+  bool codecOk = qwen_es8311_begin(address, sdaPin, sclPin, micGainReg, mclkPin >= 0);
+  codecOk &= qwen_es8311_config_clock(address, sampleRate, mclkPin >= 0);
+  qwen_es8311_set_pa(paPin, true);
+  i2s.end();
+  delay(20);
+  i2s.setPins(bclkPin, lrclkPin, dacDinPin, adcDoutPin, mclkPin);
+  bool i2sOk = i2s.begin(I2S_MODE_STD, sampleRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_BOTH);
+  Serial.println((codecOk && i2sOk) ? "[I2S] ES8311 audio codec ready" : "[I2S] ES8311 audio codec begin failed");
+  return codecOk && i2sOk;
+}
+
+bool qwen_i2s_prepare_es8311_playback(I2SClass &i2s, uint32_t sampleRate, i2s_data_bit_width_t bitWidth, i2s_slot_mode_t slotMode) {
+  if (qwen_i2s_mic_mode != 3 || qwen_i2s_mic_es8311_dac_pin < 0) return true;
+  if (qwen_i2s_mic_es8311_sda_pin < 0 || qwen_i2s_mic_es8311_scl_pin < 0 || qwen_i2s_mic_bclk_pin < 0 || qwen_i2s_mic_lrclk_pin < 0) return false;
+
+  bool codecOk = qwen_es8311_begin(qwen_i2s_mic_es8311_addr, qwen_i2s_mic_es8311_sda_pin, qwen_i2s_mic_es8311_scl_pin, qwen_i2s_mic_es8311_gain_reg, qwen_i2s_mic_es8311_mclk_pin >= 0);
+  codecOk &= qwen_es8311_config_clock(qwen_i2s_mic_es8311_addr, sampleRate, qwen_i2s_mic_es8311_mclk_pin >= 0);
+  qwen_es8311_set_pa(qwen_i2s_mic_es8311_pa_pin, true);
+  i2s.end();
+  delay(20);
+  i2s.setPins(qwen_i2s_mic_bclk_pin, qwen_i2s_mic_lrclk_pin, qwen_i2s_mic_es8311_dac_pin, qwen_i2s_mic_sd_pin, qwen_i2s_mic_es8311_mclk_pin);
+  bool i2sOk = i2s.begin(I2S_MODE_STD, sampleRate, bitWidth, slotMode, I2S_STD_SLOT_BOTH);
+  Serial.println((codecOk && i2sOk) ? "[I2S] ES8311 playback ready" : "[I2S] ES8311 playback begin failed");
+  return codecOk && i2sOk;
+}
+
+void qwen_es8311_test_tone(I2SClass &i2s, int freq, int durationMs) {
+  const uint32_t toneRate = 16000;
+  if (!qwen_i2s_prepare_es8311_playback(i2s, toneRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO)) {
+    Serial.println("[ES8311] test tone playback begin failed");
+    return;
+  }
+  size_t samples = toneRate * durationMs / 1000;
+  int16_t* buf = (int16_t*)malloc(samples * sizeof(int16_t));
+  if (!buf) {
+    Serial.println("[ES8311] test tone alloc failed");
+    return;
+  }
+  for (size_t i = 0; i < samples; i++) {
+    float t = (float)i / toneRate;
+    int16_t sample = (int16_t)(sin(2.0f * 3.1415926f * freq * t) * 9000);
+    buf[i] = sample;
+  }
+  size_t bytes = samples * sizeof(int16_t);
+  size_t written = 0;
+  while (written < bytes) {
+    size_t n = i2s.write((uint8_t*)buf + written, bytes - written);
+    if (n == 0) delay(1);
+    else written += n;
+  }
+  free(buf);
+  delay(durationMs + 20);
+  Serial.println("[ES8311] test tone done, bytes: " + String(written));
+}
+
 bool qwen_i2s_restart_microphone(I2SClass &i2s, uint32_t sampleRate) {
+  if (qwen_i2s_mic_mode == 3 && qwen_i2s_mic_es8311_sda_pin >= 0 && qwen_i2s_mic_es8311_scl_pin >= 0 && qwen_i2s_mic_bclk_pin >= 0 && qwen_i2s_mic_lrclk_pin >= 0 && qwen_i2s_mic_sd_pin >= 0) {
+    if (qwen_i2s_mic_es8311_dac_pin >= 0) {
+      return qwen_i2s_begin_es8311_audio(i2s, qwen_i2s_mic_es8311_sda_pin, qwen_i2s_mic_es8311_scl_pin, qwen_i2s_mic_es8311_addr, qwen_i2s_mic_bclk_pin, qwen_i2s_mic_lrclk_pin, qwen_i2s_mic_es8311_dac_pin, qwen_i2s_mic_sd_pin, qwen_i2s_mic_es8311_mclk_pin, sampleRate, qwen_i2s_mic_es8311_gain_reg, qwen_i2s_mic_es8311_pa_pin);
+    }
+    return qwen_i2s_begin_es8311_microphone(i2s, qwen_i2s_mic_es8311_sda_pin, qwen_i2s_mic_es8311_scl_pin, qwen_i2s_mic_es8311_addr, qwen_i2s_mic_bclk_pin, qwen_i2s_mic_lrclk_pin, qwen_i2s_mic_sd_pin, qwen_i2s_mic_es8311_mclk_pin, sampleRate, qwen_i2s_mic_es8311_gain_reg);
+  }
+
   if (qwen_i2s_mic_mode == 2 && qwen_i2s_mic_pdm_clk_pin >= 0 && qwen_i2s_mic_pdm_din_pin >= 0) {
     return qwen_i2s_begin_pdm_microphone(i2s, qwen_i2s_mic_pdm_clk_pin, qwen_i2s_mic_pdm_din_pin, sampleRate);
   }
@@ -836,6 +1079,55 @@ Arduino.forBlock['qwen_omni_pdm_mic_init'] = function(block, generator) {
   ensureQwenOmniI2SObject(generator, varName);
   ensureQwenOmniI2SHelpers(generator);
   return 'qwen_i2s_begin_pdm_microphone(' + varName + ', ' + clk + ', ' + data + ', ' + sampleRate + ');\n';
+};
+
+Arduino.forBlock['qwen_omni_es8311_mic_init'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s_mic';
+  const sda = generator.valueToCode(block, 'SDA', Arduino.ORDER_ATOMIC) || '41';
+  const scl = generator.valueToCode(block, 'SCL', Arduino.ORDER_ATOMIC) || '42';
+  const address = generator.valueToCode(block, 'I2C_ADDRESS', Arduino.ORDER_ATOMIC) || '0x18';
+  const bclk = generator.valueToCode(block, 'BCLK', Arduino.ORDER_ATOMIC) || '39';
+  const lrclk = generator.valueToCode(block, 'LRCLK', Arduino.ORDER_ATOMIC) || '2';
+  const sdout = generator.valueToCode(block, 'SDOUT', Arduino.ORDER_ATOMIC) || '40';
+  const mclk = generator.valueToCode(block, 'MCLK', Arduino.ORDER_ATOMIC) || '46';
+  const sampleRate = generator.valueToCode(block, 'SAMPLE_RATE', Arduino.ORDER_ATOMIC) || '16000';
+  const micGain = generator.valueToCode(block, 'MIC_GAIN', Arduino.ORDER_ATOMIC) || '0x24';
+
+  ensureQwenOmniI2SObject(generator, varName);
+  ensureQwenOmniI2SHelpers(generator);
+  return 'qwen_i2s_begin_es8311_microphone(' + varName + ', ' + sda + ', ' + scl + ', (uint8_t)(' + address + '), ' + bclk + ', ' + lrclk + ', ' + sdout + ', ' + mclk + ', ' + sampleRate + ', (uint8_t)(' + micGain + '));\n';
+};
+
+Arduino.forBlock['qwen_omni_es8311_audio_init'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s_audio';
+  const sda = generator.valueToCode(block, 'SDA', Arduino.ORDER_ATOMIC) || '41';
+  const scl = generator.valueToCode(block, 'SCL', Arduino.ORDER_ATOMIC) || '42';
+  const address = generator.valueToCode(block, 'I2C_ADDRESS', Arduino.ORDER_ATOMIC) || '0x18';
+  const bclk = generator.valueToCode(block, 'BCLK', Arduino.ORDER_ATOMIC) || '39';
+  const lrclk = generator.valueToCode(block, 'LRCLK', Arduino.ORDER_ATOMIC) || '2';
+  const dacDin = generator.valueToCode(block, 'DAC_DIN', Arduino.ORDER_ATOMIC) || '38';
+  const adcDout = generator.valueToCode(block, 'ADC_DOUT', Arduino.ORDER_ATOMIC) || '40';
+  const mclk = generator.valueToCode(block, 'MCLK', Arduino.ORDER_ATOMIC) || '46';
+  const sampleRate = generator.valueToCode(block, 'SAMPLE_RATE', Arduino.ORDER_ATOMIC) || '16000';
+  const micGain = generator.valueToCode(block, 'MIC_GAIN', Arduino.ORDER_ATOMIC) || '0x24';
+  const paEn = generator.valueToCode(block, 'PA_EN', Arduino.ORDER_ATOMIC) || '-1';
+
+  ensureQwenOmniI2SObject(generator, varName);
+  ensureQwenOmniI2SHelpers(generator);
+  return 'qwen_i2s_begin_es8311_audio(' + varName + ', ' + sda + ', ' + scl + ', (uint8_t)(' + address + '), ' + bclk + ', ' + lrclk + ', ' + dacDin + ', ' + adcDout + ', ' + mclk + ', ' + sampleRate + ', (uint8_t)(' + micGain + '), ' + paEn + ');\n';
+};
+
+Arduino.forBlock['qwen_omni_es8311_test_tone'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s_audio';
+  const freq = generator.valueToCode(block, 'FREQ', Arduino.ORDER_ATOMIC) || '1000';
+  const duration = generator.valueToCode(block, 'DURATION', Arduino.ORDER_ATOMIC) || '800';
+
+  ensureQwenOmniI2SObject(generator, varName);
+  ensureQwenOmniI2SHelpers(generator);
+  return 'qwen_es8311_test_tone(' + varName + ', ' + freq + ', ' + duration + ');\n';
 };
 
 Arduino.forBlock['qwen_omni_chat'] = function(block, generator) {
