@@ -4,7 +4,7 @@ Alibaba Cloud Tongyi Qwen large language model API library supports text dialogu
 
 ## Library Info
 - **Name**: @aily-project/lib-qwen-omni
-- **Version**: 0.0.4
+- **Version**: 0.0.6
 
 ## Block Definitions
 
@@ -14,6 +14,9 @@ Alibaba Cloud Tongyi Qwen large language model API library supports text dialogu
 | `qwen_omni_i2s_speaker_init` | Statement | VAR(field_variable), BCLK(input_value), LRCLK(input_value), DIN(input_value), SAMPLE_RATE(input_value) | `qwen_omni_i2s_speaker_init(variables_get($i2s_spk), math_number(15), math_number(16), math_number(7), math_number(24000))` | qwen_i2s_begin_speaker( |
 | `qwen_omni_i2s_mic_init` | Statement | VAR(field_variable), BCLK(input_value), LRCLK(input_value), SD(input_value), SAMPLE_RATE(input_value) | `qwen_omni_i2s_mic_init(variables_get($i2s_mic), math_number(5), math_number(4), math_number(6), math_number(16000))` | qwen_i2s_begin_microphone( |
 | `qwen_omni_pdm_mic_init` | Statement | VAR(field_variable), CLK(input_value), DATA(input_value), SAMPLE_RATE(input_value) | `qwen_omni_pdm_mic_init(variables_get($i2s_mic), math_number(42), math_number(41), math_number(16000))` | qwen_i2s_begin_pdm_microphone( |
+| `qwen_omni_es8311_mic_init` | Statement | VAR(field_variable), SDA(input_value), SCL(input_value), I2C_ADDRESS(input_value), BCLK(input_value), LRCLK(input_value), SDOUT(input_value), MCLK(input_value), SAMPLE_RATE(input_value), MIC_GAIN(input_value) | `qwen_omni_es8311_mic_init(variables_get($i2s_mic), math_number(41), math_number(42), math_number(24), math_number(39), math_number(2), math_number(40), math_number(46), math_number(16000), math_number(36))` | qwen_i2s_begin_es8311_microphone( |
+| `qwen_omni_es8311_audio_init` | Statement | VAR(field_variable), SDA(input_value), SCL(input_value), I2C_ADDRESS(input_value), BCLK(input_value), LRCLK(input_value), DAC_DIN(input_value), ADC_DOUT(input_value), MCLK(input_value), SAMPLE_RATE(input_value), MIC_GAIN(input_value), PA_EN(input_value) | `qwen_omni_es8311_audio_init(variables_get($i2s_audio), math_number(41), math_number(42), math_number(24), math_number(39), math_number(2), math_number(38), math_number(40), math_number(46), math_number(16000), math_number(36), math_number(-1))` | qwen_i2s_begin_es8311_audio( |
+| `qwen_omni_es8311_test_tone` | Statement | VAR(field_variable), FREQ(input_value), DURATION(input_value) | `qwen_omni_es8311_test_tone(variables_get($i2s_audio), math_number(1000), math_number(800))` | qwen_es8311_test_tone( |
 | `qwen_omni_chat` | Value | MESSAGE(input_value), MODEL(dropdown) | `qwen_omni_chat(text("value"), qwen3.7-plus)` | qwen_simple_request("...", ..., false) |
 | `qwen_omni_chat_simple` | Value | MESSAGE(input_value) | `qwen_omni_chat_simple(text("value"))` | qwen_simple_request("qwen3.7-plus", ..., false) |
 | `qwen_omni_chat_with_thinking` | Value | MESSAGE(input_value), MODEL(dropdown) | `qwen_omni_chat_with_thinking(text("value"), qwen3.7-max)` | qwen_simple_request("...", ..., true) |
@@ -56,6 +59,8 @@ Alibaba Cloud Tongyi Qwen large language model API library supports text dialogu
 | VOICE | Cherry, Ethan, Chelsie, Serena, Dylan, Jada, Sunny | qwen_omni_tts_and_play, qwen_omni_tts_stream_play |
 | MODEL | qwen3.5-omni-plus, qwen3.5-omni-flash, qwen3-omni-flash, qwen-omni-turbo | qwen_omni_omni_text, qwen_omni_omni_and_play, qwen_omni_omni_stream_play |
 | VOICE | Tina, Ethan, Serena, Raymond, Cindy, Liora Mira, Sunnybobi, Theo Calm, Harvey, Maia, Evan, Momo, Dylan, Sunny | qwen_omni_omni_and_play, qwen_omni_omni_stream_play, qwen_omni_omni_voice_chat |
+| MIC_GAIN | 36 (0x24 default raw ES8311 ADC gain register) | qwen_omni_es8311_mic_init |
+| PA_EN | -1 for no GPIO control, or a GPIO number to drive the external amplifier enable pin high | qwen_omni_es8311_audio_init |
 
 ## ABS Examples
 
@@ -74,3 +79,7 @@ arduino_loop()
 
 1. **Parameter order**: ABS parameters follow `block.json` args order.
 2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+3. **ES8311 microphone**: use `qwen_omni_es8311_mic_init` before recording-only blocks. The I2C address default is decimal `24` (`0x18`) and the gain register default is decimal `36` (`0x24`).
+4. **ES8311 microphone + speaker board**: prefer `qwen_omni_es8311_audio_init` for the board marked Microphone + Audio Amplifier. Use the same I2S variable for microphone and speaker fields in voice-chat/playback blocks, because DI and DO share SCLK/LR/MCK on one ES8311 codec. The tested ESP32 AIOT Basic wiring uses MCK GPIO 46.
+5. **ES8311 PA enable**: leave `PA_EN` at `-1` when the amplifier enable is hardwired. If the carrier board exposes an NS4150/PA enable GPIO, set `PA_EN` to that GPIO so generated code drives it high before playback.
+6. **ES8311 test tone**: after `qwen_omni_es8311_audio_init`, run `qwen_omni_es8311_test_tone` to verify local speaker output before testing Qwen playback.
