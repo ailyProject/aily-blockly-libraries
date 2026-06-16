@@ -1,0 +1,792 @@
+{
+  "toolbox_name": "HomeAssistant",
+  "toolbox_labels": {
+    "设备与连接": "裝置與連接",
+    "自定义MQTT": "自訂MQTT",
+    "实体通用": "實體通用",
+    "传感器": "感應器",
+    "开关与按钮": "開關與按鈕",
+    "灯光": "燈光",
+    "数字与选择": "數位與選擇",
+    "命令值": "命令值"
+  },
+  "ha_device_create": {
+    "message0": "建立HA設備 %1唯一ID%2",
+    "tooltip": "建立HomeAssistant設備對象，唯一ID用於發現和實體歸屬"
+  },
+  "ha_device_set_info": {
+    "message0": "%1設定設備資訊 名稱 %2廠商 %3型號 %4軟體版本 %5配置URL%6",
+    "tooltip": "設定HA設備在HomeAssistant中顯示的基本訊息"
+  },
+  "ha_device_enable_availability": {
+    "message0": "%1啟用共享可用性 %2LastWill %3",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "是",
+            "true"
+          ],
+          [
+            "否",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "是",
+            "true"
+          ],
+          [
+            "否",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "啟用設備在線/離線狀態，LastWill會在異常斷線時報告離線"
+  },
+  "ha_mqtt_create": {
+    "message0": "建立HAMQTT%1網路用戶端 %2類型 %3設備 %4最大實體數 %5",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "WiFi",
+            "WIFI"
+          ],
+          [
+            "乙太網路",
+            "ETHERNET"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "tooltip": "建立HAMqtt物件並自動在loop中維護連接；請在實體建立區塊之前放置"
+  },
+  "ha_mqtt_begin": {
+    "message0": "%1連線MQTT主機 %2連接埠 %3使用者名稱 %4密碼 %5",
+    "tooltip": "設定MQTT伺服器和認證訊息，庫會在loop中自動連接和重連"
+  },
+  "ha_mqtt_set_prefixes": {
+    "message0": "%1設定發現前綴 %2資料前綴 %3",
+    "tooltip": "設定HomeAssistant發現主題前綴與資料主題前綴"
+  },
+  "ha_mqtt_set_keep_alive": {
+    "message0": "%1設定保活 %2秒",
+    "tooltip": "設定MQTTKeepAlive間隔，預設15秒"
+  },
+  "ha_mqtt_set_buffer_size": {
+    "message0": "%1設定緩衝區 %2位元組",
+    "tooltip": "設定底層PubSubClient緩衝區大小，複雜發現配置可適當調大"
+  },
+  "ha_mqtt_loop": {
+    "message0": "%1處理HAMQTT通信",
+    "tooltip": "手動呼叫MQTT循環處理；建立區塊已預設自動添加"
+  },
+  "ha_mqtt_connected": {
+    "message0": "%1已連接HAMQTT",
+    "tooltip": "傳回HAMQTT是否已連線到伺服器"
+  },
+  "ha_mqtt_state": {
+    "message0": "%1連線狀態碼",
+    "tooltip": "返回HAMqtt連接狀態碼，0表示已連接"
+  },
+  "ha_mqtt_publish": {
+    "message0": "%1發佈自訂主題 %2內容 %3保留 %4",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "透過HAMqtt發布自訂MQTT訊息"
+  },
+  "ha_mqtt_subscribe": {
+    "message0": "%1訂閱自訂主題 %2",
+    "tooltip": "訂閱自訂MQTT主題，通常在已連接回呼中調用"
+  },
+  "ha_mqtt_disconnect": {
+    "message0": "%1斷開HAMQTT",
+    "tooltip": "斷開HAMqtt連接並停止自動重連，直到再次begin"
+  },
+  "ha_mqtt_on_connected": {
+    "message0": "當 %1連線成功時",
+    "message1": "執行 %1",
+    "tooltip": "註冊MQTT連線成功回調，適合在重連後訂閱自訂主題"
+  },
+  "ha_mqtt_on_message": {
+    "message0": "當 %1收到自訂MQTT訊息時",
+    "message1": "執行 %1",
+    "tooltip": "註冊自訂MQTT訊息回呼；主題、內容和長度可用對應值區塊讀取"
+  },
+  "ha_mqtt_message_topic": {
+    "message0": "HAMQTT回呼主題",
+    "tooltip": "讀取目前MQTT訊息回呼中的主題"
+  },
+  "ha_mqtt_message_payload": {
+    "message0": "HAMQTT回呼內容",
+    "tooltip": "讀取目前MQTT訊息回呼中的內容文本"
+  },
+  "ha_mqtt_message_length": {
+    "message0": "HAMQTT回呼內容長度",
+    "tooltip": "讀取目前MQTT訊息回呼中的內容位元組長度"
+  },
+  "ha_entity_set_info": {
+    "message0": "%1設定實體 名稱 %2物件ID%3圖示 %4",
+    "tooltip": "設定HA實體的顯示名稱、物件ID和MaterialDesign圖標"
+  },
+  "ha_entity_set_availability": {
+    "message0": "%1設定實體可用 %2",
+    "tooltip": "報告實體在線或離線狀態"
+  },
+  "ha_sensor_create_text": {
+    "message0": "建立HA文字感測器 %1唯一ID%2功能 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "預設",
+            "HASensor::DefaultFeatures"
+          ],
+          [
+            "JSON屬性",
+            "HASensor::JsonAttributesFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "建立用於上報文字狀態的HomeAssistant感測器"
+  },
+  "ha_sensor_create_number": {
+    "message0": "建立HA數值感測器 %1唯一ID%2精度 %3功能 %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "整數",
+            "HASensorNumber::PrecisionP0"
+          ],
+          [
+            "1位小數",
+            "HASensorNumber::PrecisionP1"
+          ],
+          [
+            "2位小數",
+            "HASensorNumber::PrecisionP2"
+          ],
+          [
+            "3位小數",
+            "HASensorNumber::PrecisionP3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "預設",
+            "HASensor::DefaultFeatures"
+          ],
+          [
+            "JSON屬性",
+            "HASensor::JsonAttributesFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "建立用於上報數字狀態的HomeAssistant感測器"
+  },
+  "ha_sensor_settings": {
+    "message0": "%1設定感測器 類別 %2狀態類別 %3單位 %4過期 %5秒 強制更新 %6",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "配置感測器設備類別、狀態類別、單位、過期時間和強制更新"
+  },
+  "ha_sensor_set_value": {
+    "message0": "%1回報文字值 %2",
+    "tooltip": "向HomeAssistant回報文字感測器值"
+  },
+  "ha_sensor_set_json_attributes": {
+    "message0": "%1回報JSON屬性 %2",
+    "tooltip": "為啟用JSON屬性功能的感測器發佈屬性JSON"
+  },
+  "ha_sensor_number_set_value": {
+    "message0": "%1回報數值 %2強制 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "向HomeAssistant回報數值感測器值"
+  },
+  "ha_binary_sensor_create": {
+    "message0": "建立HA二元感測器 %1唯一ID%2",
+    "tooltip": "建立上報開/關狀態的HomeAssistant二元感測器"
+  },
+  "ha_binary_sensor_settings": {
+    "message0": "%1設定二元感測器類別 %2過期 %3秒",
+    "tooltip": "配置二元感測器類別和狀態過期時間"
+  },
+  "ha_binary_sensor_set_state": {
+    "message0": "%1回報二元狀態 %2強制 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "上報二元感測器開/關狀態"
+  },
+  "ha_binary_sensor_get_state": {
+    "message0": "%1目前二元狀態",
+    "tooltip": "讀取二元感測器當前狀態"
+  },
+  "ha_switch_create": {
+    "message0": "建立HA開關 %1唯一ID%2",
+    "tooltip": "建立可從HomeAssistant控制的開關實體"
+  },
+  "ha_switch_settings": {
+    "message0": "%1設定開關 類別 %2保留指令 %3樂觀模式 %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "配置開關類別、命令保留和樂觀模式"
+  },
+  "ha_switch_set_state": {
+    "message0": "%1回報開關狀態 %2強制 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "上報開關狀態到HomeAssistant"
+  },
+  "ha_switch_get_state": {
+    "message0": "%1目前開關狀態",
+    "tooltip": "讀取開關當前狀態"
+  },
+  "ha_switch_on_command": {
+    "message0": "當 %1收到開關指令時",
+    "message1": "執行 %1",
+    "tooltip": "處理HomeAssistant下發的開關指令，可用「指令布林狀態」讀取目標狀態"
+  },
+  "ha_button_create": {
+    "message0": "建立HA按鈕 %1唯一ID%2",
+    "tooltip": "建立HomeAssistant面板按鈕實體"
+  },
+  "ha_button_settings": {
+    "message0": "%1設定按鈕 類別 %2保留指令 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "配置按鈕類別和命令保留"
+  },
+  "ha_button_on_command": {
+    "message0": "當 %1按鈕被按下時",
+    "message1": "執行 %1",
+    "tooltip": "處理HomeAssistant按鈕點選指令"
+  },
+  "ha_light_create": {
+    "message0": "建立HA燈 %1唯一ID%2功能 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "僅開關",
+            "HALight::DefaultFeatures"
+          ],
+          [
+            "亮度",
+            "HALight::BrightnessFeature"
+          ],
+          [
+            "色溫",
+            "HALight::ColorTemperatureFeature"
+          ],
+          [
+            "RGB",
+            "HALight::RGBFeature"
+          ],
+          [
+            "亮度+RGB",
+            "HALight::BrightnessFeature | HALight::RGBFeature"
+          ],
+          [
+            "全部",
+            "HALight::BrightnessFeature | HALight::ColorTemperatureFeature | HALight::RGBFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "建立HomeAssistant燈實體，可選擇亮度、色溫和RGB功能"
+  },
+  "ha_light_settings": {
+    "message0": "%1設定燈 保留指令 %2樂觀模式 %3亮度範圍 %4最小色溫 %5最大色溫 %6",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ],
+    "tooltip": "配置燈的命令保留、樂觀模式、亮度範圍和色溫範圍"
+  },
+  "ha_light_set_state": {
+    "message0": "%1上報燈開關 %2強制 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "上報燈開關狀態"
+  },
+  "ha_light_set_brightness": {
+    "message0": "%1回報亮度 %2強制 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "上報燈亮度，範圍由亮度範圍配置決定"
+  },
+  "ha_light_set_color_temperature": {
+    "message0": "%1回報色溫 %2mired強制 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "回報燈色溫，單位為mired"
+  },
+  "ha_light_set_rgb": {
+    "message0": "%1回報RGB紅 %2綠色 %3藍色 %4強制 %5",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "上報燈RGB顏色，三個頻道範圍0-255"
+  },
+  "ha_light_get_state": {
+    "message0": "%1目前燈開關",
+    "tooltip": "讀取燈當前開關狀態"
+  },
+  "ha_light_get_brightness": {
+    "message0": "%1目前亮度",
+    "tooltip": "讀取燈當前亮度"
+  },
+  "ha_light_on_state_command": {
+    "message0": "當 %1收到燈開關指令時",
+    "message1": "執行 %1",
+    "tooltip": "處理燈開關指令，可用指令布林狀態值區塊讀取目標狀態"
+  },
+  "ha_light_on_brightness_command": {
+    "message0": "當 %1收到亮度指令時",
+    "message1": "執行 %1",
+    "tooltip": "處理燈亮度指令，可用指令亮度值區塊讀取目標亮度"
+  },
+  "ha_light_on_color_temperature_command": {
+    "message0": "當 %1收到色溫指令時",
+    "message1": "執行 %1",
+    "tooltip": "處理燈色溫指令，可用指令色溫值區塊讀取目標色溫"
+  },
+  "ha_light_on_rgb_command": {
+    "message0": "當 %1收到RGB指令時",
+    "message1": "執行 %1",
+    "tooltip": "處理燈RGB指令，可用指令RGB值區塊讀取目標顏色"
+  },
+  "ha_number_create": {
+    "message0": "建立HA數字控制項 %1唯一ID%2精確度 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "整數",
+            "HANumber::PrecisionP0"
+          ],
+          [
+            "1位小數",
+            "HANumber::PrecisionP1"
+          ],
+          [
+            "2位小數",
+            "HANumber::PrecisionP2"
+          ],
+          [
+            "3位小數",
+            "HANumber::PrecisionP3"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "建立HomeAssistant數位輸入/滑桿實體"
+  },
+  "ha_number_settings": {
+    "message0": "%1設定數字 類別 %2單位 %3模式 %4最小 %5最大 %6步長 %7保留 %8樂觀 %9",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "自動",
+            "HANumber::ModeAuto"
+          ],
+          [
+            "輸入框",
+            "HANumber::ModeBox"
+          ],
+          [
+            "滑桿",
+            "HANumber::ModeSlider"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "配置數位實體的類別、單位、顯示模式、範圍、步長和命令行為"
+  },
+  "ha_number_set_state": {
+    "message0": "%1回報數字狀態 %2強制 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "上報數字實體目前值"
+  },
+  "ha_number_get_state": {
+    "message0": "%1目前數字值",
+    "tooltip": "讀取數字實體目前值"
+  },
+  "ha_number_on_command": {
+    "message0": "當 %1收到數字指令時",
+    "message1": "執行 %1",
+    "tooltip": "處理HomeAssistant數字變更指令，可用數字指令值區塊讀取目標值"
+  },
+  "ha_select_create": {
+    "message0": "建立HA下拉選擇 %1唯一ID%2",
+    "tooltip": "建立HomeAssistant下拉選擇實體"
+  },
+  "ha_select_settings": {
+    "message0": "%1設定選項 %2保留 %3樂觀 %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "配置下拉選擇選項，多個選項以英文分號分隔"
+  },
+  "ha_select_set_state": {
+    "message0": "%1回報選擇索引 %2強制 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "按選項索引上報目前選擇，-1表示無選擇"
+  },
+  "ha_select_get_state": {
+    "message0": "%1目前選擇索引",
+    "tooltip": "讀取目前選擇的索引"
+  },
+  "ha_select_get_option": {
+    "message0": "%1目前選項文本",
+    "tooltip": "讀取目前選擇的選項文本"
+  },
+  "ha_select_on_command": {
+    "message0": "當 %1收到選擇指令時",
+    "message1": "執行 %1",
+    "tooltip": "處理HomeAssistant下拉選擇命令，可用選擇命令索引值區塊讀取目標選項"
+  },
+  "ha_command_bool_state": {
+    "message0": "命令布林狀態",
+    "tooltip": "讀取開關或燈開關指令中的目標布林狀態"
+  },
+  "ha_command_brightness": {
+    "message0": "命令亮度",
+    "tooltip": "讀取燈亮度指令中的目標亮度"
+  },
+  "ha_command_color_temperature": {
+    "message0": "指令色溫",
+    "tooltip": "讀取燈色溫命令中的目標色溫"
+  },
+  "ha_command_rgb_red": {
+    "message0": "指令RGB紅色",
+    "tooltip": "讀取燈RGB指令中的紅色頻道"
+  },
+  "ha_command_rgb_green": {
+    "message0": "指令RGB綠色",
+    "tooltip": "讀取燈RGB指令中的綠色通道"
+  },
+  "ha_command_rgb_blue": {
+    "message0": "指令RGB藍色",
+    "tooltip": "讀取燈RGB指令中的藍色通道"
+  },
+  "ha_number_command_is_set": {
+    "message0": "數字指令有值",
+    "tooltip": "讀取數字指令是否攜帶有效值，重置指令會回傳否"
+  },
+  "ha_number_command_value": {
+    "message0": "數字命令值",
+    "tooltip": "讀取數字指令中的目標數值"
+  },
+  "ha_select_command_index": {
+    "message0": "選擇命令索引",
+    "tooltip": "讀取下拉選擇命令中的目標選項索引"
+  }
+}

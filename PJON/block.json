@@ -1,0 +1,204 @@
+[
+  {
+    "type": "pjon_sbb_begin",
+    "message0": "PJON SoftwareBitBang bus %1 device id %2 pin %3",
+    "message0_zh": "PJON SoftwareBitBang 总线 %1 设备 ID %2 引脚 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "bus"
+      },
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PIN",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Create a PJON SoftwareBitBang bus and add update/receive polling to loop.",
+    "tooltip_zh": "创建 PJON SoftwareBitBang 总线，并自动在 loop 中轮询。",
+    "generated": "PJONSoftwareBitBang bus(id); bus.strategy.set_pin(pin); bus.begin();"
+  },
+  {
+    "type": "pjon_sbb_update_receive",
+    "message0": "PJON bus %1 update and receive timeout %2 us",
+    "message0_zh": "PJON 总线 %1 更新并接收 超时 %2 微秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "bus",
+        "variableTypes": [
+          "PJONSoftwareBitBang"
+        ],
+        "defaultType": "PJONSoftwareBitBang"
+      },
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Manually run update() and receive(timeout).",
+    "tooltip_zh": "手动执行 update() 和 receive(timeout)。"
+  },
+  {
+    "type": "pjon_sbb_send_text",
+    "message0": "PJON bus %1 send text %2 to device %3",
+    "message0_zh": "PJON 总线 %1 发送文本 %2 到设备 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "bus",
+        "variableTypes": [
+          "PJONSoftwareBitBang"
+        ],
+        "defaultType": "PJONSoftwareBitBang"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DEVICE",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "Send a text payload to another PJON device.",
+    "tooltip_zh": "向另一个 PJON 设备发送文本。"
+  },
+  {
+    "type": "pjon_sbb_send_repeated_text",
+    "message0": "PJON bus %1 send repeated text %2 to device %3 every %4 us",
+    "message0_zh": "PJON 总线 %1 周期发送文本 %2 到设备 %3 间隔 %4 微秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "bus",
+        "variableTypes": [
+          "PJONSoftwareBitBang"
+        ],
+        "defaultType": "PJONSoftwareBitBang"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DEVICE",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "INTERVAL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "Schedule repeated text transmission.",
+    "tooltip_zh": "设置周期文本发送。"
+  },
+  {
+    "type": "pjon_sbb_reply_text",
+    "message0": "PJON bus %1 reply text %2",
+    "message0_zh": "PJON 总线 %1 回复文本 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "bus",
+        "variableTypes": [
+          "PJONSoftwareBitBang"
+        ],
+        "defaultType": "PJONSoftwareBitBang"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "Reply to the sender from inside a receive callback.",
+    "tooltip_zh": "在接收回调中回复发送方。"
+  },
+  {
+    "type": "pjon_sbb_on_receive",
+    "message0": "when PJON bus %1 receives first byte variable %2 length variable %3",
+    "message0_zh": "当 PJON 总线 %1 收到数据 首字节变量 %2 长度变量 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "bus",
+        "variableTypes": [
+          "PJONSoftwareBitBang"
+        ],
+        "defaultType": "PJONSoftwareBitBang"
+      },
+      {
+        "type": "field_input",
+        "name": "BYTEVAR",
+        "text": "pjonByte"
+      },
+      {
+        "type": "field_input",
+        "name": "LENVAR",
+        "text": "pjonLength"
+      }
+    ],
+    "message1": "do %1",
+    "message1_zh": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "colour": "#EF6C00",
+    "tooltip": "Register a packet receive callback.",
+    "tooltip_zh": "注册 PJON 数据包接收回调。"
+  }
+]

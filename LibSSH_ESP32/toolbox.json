@@ -1,0 +1,98 @@
+{
+  "kind": "category",
+  "name": "LibSSH ESP32",
+  "name_en": "LibSSH ESP32",
+  "icon": "fa-solid fa-terminal",
+  "colour": "#263238",
+  "contents": [
+    { "kind": "label", "text": "Connection" },
+    { "kind": "block", "type": "libssh_begin" },
+    {
+      "kind": "block",
+      "type": "libssh_connect_password",
+      "inputs": {
+        "HOST": { "shadow": { "type": "text", "fields": { "TEXT": "192.168.1.10" } } },
+        "USER": { "shadow": { "type": "text", "fields": { "TEXT": "user" } } },
+        "PASSWORD": { "shadow": { "type": "text", "fields": { "TEXT": "password" } } },
+        "PORT": { "shadow": { "type": "math_number", "fields": { "NUM": "22" } } },
+        "TIMEOUT": { "shadow": { "type": "math_number", "fields": { "NUM": "10" } } }
+      }
+    },
+    { "kind": "block", "type": "libssh_session_create" },
+    {
+      "kind": "block",
+      "type": "libssh_session_set_options",
+      "inputs": {
+        "HOST": { "shadow": { "type": "text", "fields": { "TEXT": "192.168.1.10" } } },
+        "USER": { "shadow": { "type": "text", "fields": { "TEXT": "user" } } },
+        "PORT": { "shadow": { "type": "math_number", "fields": { "NUM": "22" } } },
+        "TIMEOUT": { "shadow": { "type": "math_number", "fields": { "NUM": "10" } } }
+      }
+    },
+    { "kind": "block", "type": "libssh_session_connect" },
+    {
+      "kind": "block",
+      "type": "libssh_session_auth_password",
+      "inputs": {
+        "USER": { "shadow": { "type": "text", "fields": { "TEXT": "user" } } },
+        "PASSWORD": { "shadow": { "type": "text", "fields": { "TEXT": "password" } } }
+      }
+    },
+    { "kind": "block", "type": "libssh_session_connected" },
+    { "kind": "block", "type": "libssh_session_error" },
+    { "kind": "block", "type": "libssh_session_disconnect" },
+    { "kind": "label", "text": "Channel" },
+    { "kind": "block", "type": "libssh_channel_create" },
+    {
+      "kind": "block",
+      "type": "libssh_channel_exec",
+      "inputs": {
+        "COMMAND": { "shadow": { "type": "text", "fields": { "TEXT": "ls" } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "libssh_channel_read",
+      "inputs": {
+        "MAX_BYTES": { "shadow": { "type": "math_number", "fields": { "NUM": "512" } } },
+        "TIMEOUT": { "shadow": { "type": "math_number", "fields": { "NUM": "1000" } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "libssh_channel_write",
+      "inputs": {
+        "DATA": { "shadow": { "type": "text", "fields": { "TEXT": "" } } }
+      }
+    },
+    { "kind": "block", "type": "libssh_channel_close" },
+    { "kind": "label", "text": "SCP" },
+    {
+      "kind": "block",
+      "type": "libssh_scp_open",
+      "inputs": {
+        "LOCATION": { "shadow": { "type": "text", "fields": { "TEXT": "/tmp" } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "libssh_scp_read_text",
+      "inputs": {
+        "MAX_BYTES": { "shadow": { "type": "math_number", "fields": { "NUM": "1024" } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "libssh_scp_write_text",
+      "inputs": {
+        "FILENAME": { "shadow": { "type": "text", "fields": { "TEXT": "file.txt" } } },
+        "TEXT": { "shadow": { "type": "text", "fields": { "TEXT": "hello" } } },
+        "PERMS": { "shadow": { "type": "math_number", "fields": { "NUM": "0644" } } }
+      }
+    },
+    { "kind": "block", "type": "libssh_scp_last_size" },
+    { "kind": "block", "type": "libssh_scp_close" },
+    { "kind": "label", "text": "Constants" },
+    { "kind": "block", "type": "libssh_status_code" }
+  ]
+}

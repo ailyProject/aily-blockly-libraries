@@ -1,0 +1,196 @@
+[
+  {
+    "type": "firmata_begin",
+    "message0": "Firmata begin baud %1 auto process %2",
+    "message0_zh": "Firmata 开始 波特率 %1 自动处理 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "BAUD",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_checkbox",
+        "name": "AUTO",
+        "checked": true
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "Begin Firmata and optionally auto-process input in loop.",
+    "tooltip_zh": "启动 Firmata，并可自动在 loop 中处理输入。",
+    "generated": "Firmata.begin(baud); Firmata.processInput();"
+  },
+  {
+    "type": "firmata_process",
+    "message0": "Firmata process input while available",
+    "message0_zh": "Firmata 处理所有可用输入",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "Process pending Firmata input bytes.",
+    "tooltip_zh": "处理待处理的 Firmata 输入字节。"
+  },
+  {
+    "type": "firmata_available",
+    "message0": "Firmata available",
+    "message0_zh": "Firmata 有可读数据",
+    "output": "Number",
+    "colour": "#FB8C00",
+    "tooltip": "Return available Firmata input bytes.",
+    "tooltip_zh": "返回 Firmata 可读输入字节数。"
+  },
+  {
+    "type": "firmata_send_analog",
+    "message0": "Firmata send analog pin %1 value %2",
+    "message0_zh": "Firmata 发送模拟 引脚 %1 值 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PIN",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FB8C00",
+    "tooltip": "Send analog value.",
+    "tooltip_zh": "发送模拟值。"
+  },
+  {
+    "type": "firmata_send_digital_port",
+    "message0": "Firmata send digital port %1 value %2",
+    "message0_zh": "Firmata 发送数字端口 %1 值 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FB8C00",
+    "tooltip": "Send digital port value.",
+    "tooltip_zh": "发送数字端口值。"
+  },
+  {
+    "type": "firmata_send_string",
+    "message0": "Firmata send string %1",
+    "message0_zh": "Firmata 发送字符串 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FB8C00",
+    "tooltip": "Send a Firmata string message.",
+    "tooltip_zh": "发送 Firmata 字符串消息。"
+  },
+  {
+    "type": "firmata_on_digital_message",
+    "message0": "when Firmata digital message port var %1 value var %2",
+    "message0_zh": "当 Firmata 数字消息 端口变量 %1 值变量 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "PORTVAR",
+        "text": "firmataPort"
+      },
+      {
+        "type": "field_input",
+        "name": "VALUEVAR",
+        "text": "firmataValue"
+      }
+    ],
+    "message1": "do %1",
+    "message1_zh": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "colour": "#FF9800",
+    "tooltip": "Attach DIGITAL_MESSAGE callback.",
+    "tooltip_zh": "绑定 DIGITAL_MESSAGE 回调。"
+  },
+  {
+    "type": "firmata_on_pin_mode",
+    "message0": "when Firmata set pin mode pin var %1 mode var %2",
+    "message0_zh": "当 Firmata 设置引脚模式 引脚变量 %1 模式变量 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "PINVAR",
+        "text": "firmataPin"
+      },
+      {
+        "type": "field_input",
+        "name": "MODEVAR",
+        "text": "firmataMode"
+      }
+    ],
+    "message1": "do %1",
+    "message1_zh": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "colour": "#FF9800",
+    "tooltip": "Attach SET_PIN_MODE callback.",
+    "tooltip_zh": "绑定 SET_PIN_MODE 回调。"
+  },
+  {
+    "type": "firmata_on_string",
+    "message0": "when Firmata string variable %1",
+    "message0_zh": "当 Firmata 字符串 变量 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "TEXTVAR",
+        "text": "firmataText"
+      }
+    ],
+    "message1": "do %1",
+    "message1_zh": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "colour": "#FF9800",
+    "tooltip": "Attach STRING_DATA callback.",
+    "tooltip_zh": "绑定 STRING_DATA 回调。"
+  }
+]

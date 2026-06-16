@@ -1,4 +1,168 @@
 {
   "name": "DeepSeek AI",
-  "description": "DeepSeek 官方 API 积木库，支持对话、多轮、流式、思考和 JSON 输出。"
+  "description": "DeepSeek API 官方的 Blockly 库，支持聊天、多轮聊天、流式传输、思维模式和 JSON 输出。",
+  "toolbox_name": "DeepSeek AI",
+  "toolbox_labels": {
+    "流式": "流式",
+    "状态": "状态"
+  },
+  "deepseek_ai_config": {
+    "message0": "配置 DeepSeek API 密钥 %1 基础 URL %2",
+    "tooltip": "配置 DeepSeek API 密钥和端点地址。 默认基础 URL 是 https://api.deepseek.com."
+  },
+  "deepseek_ai_set_system_prompt": {
+    "message0": "设置 DeepSeek 系统提示符 %1",
+    "tooltip": "设置后续 DeepSeek 请求使用的系统消息。"
+  },
+  "deepseek_ai_chat": {
+    "message0": "DeepSeek 聊天消息 %1 型号 %2",
+    "tooltip": "发送单轮文本聊天请求并返回模型回复。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash（推荐）",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat（兼容旧版）",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_thinking_chat": {
+    "message0": "DeepSeek 思维聊天消息 %1 模型 %2 推理努力 %3",
+    "tooltip": "启用DeepSeek思维模式并返回最终答案。 使用最后一个推理内容块读取reasoning_content。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-pro（推荐）",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-reasoner（兼容旧版）",
+            "deepseek-reasoner"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "高的",
+            "high"
+          ],
+          [
+            "最大限度",
+            "max"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_history_chat": {
+    "message0": "DeepSeek多轮聊天消息 %1 模型 %2",
+    "tooltip": "发送带有对话历史记录的聊天请求，并自动记录此用户消息和模型回复。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash（推荐）",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat（兼容旧版）",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_json_chat": {
+    "message0": "DeepSeek JSON 输出消息 %1 模型 %2",
+    "tooltip": "启用 response_format=json_object。 提示必须声明输出应为 JSON。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-pro（推荐）",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_stream_chat": {
+    "message0": "DeepSeek 流式聊天消息 %1 模型 %2",
+    "tooltip": "以流模式请求模型。 每个收到的文本块都会触发配置的流回调。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash（推荐）",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat（兼容旧版）",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_set_stream_callback": {
+    "message0": "设置 DeepSeek 流式回调 %1",
+    "tooltip": "将块设置为在 DeepSeek 流数据块到达时运行。 读取回调中的当前块。"
+  },
+  "deepseek_ai_get_stream_chunk": {
+    "message0": "DeepSeek 当前流数据块",
+    "tooltip": "获取从 DeepSeek 流请求接收的最新文本块。"
+  },
+  "deepseek_ai_clear_stream_callback": {
+    "message0": "清除 DeepSeek 流式回调",
+    "tooltip": "清除配置的 DeepSeek 流回调。"
+  },
+  "deepseek_ai_clear_history": {
+    "message0": "清除DeepSeek多轮聊天记录",
+    "tooltip": "清除本地保存的多轮聊天记录。"
+  },
+  "deepseek_ai_get_response_status": {
+    "message0": "DeepSeek 最后请求成功",
+    "tooltip": "返回前一个DeepSeek请求是否成功。"
+  },
+  "deepseek_ai_get_error_message": {
+    "message0": "DeepSeek 最后的错误消息",
+    "tooltip": "获取上次DeepSeek请求失败时记录的错误消息。"
+  },
+  "deepseek_ai_get_reasoning": {
+    "message0": "DeepSeek最后的推理内容",
+    "tooltip": "获取思维模式返回的reasoning_content。"
+  }
 }

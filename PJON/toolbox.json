@@ -1,0 +1,123 @@
+{
+  "kind": "category",
+  "name": "PJON",
+  "name_en": "PJON",
+  "icon": "fa-solid fa-network-wired",
+  "colour": "#2E7D32",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "Setup"
+    },
+    {
+      "kind": "block",
+      "type": "pjon_sbb_begin",
+      "inputs": {
+        "ID": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "44"
+            }
+          }
+        },
+        "PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "12"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "pjon_sbb_update_receive",
+      "inputs": {
+        "TIMEOUT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1000"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "Communication"
+    },
+    {
+      "kind": "block",
+      "type": "pjon_sbb_send_text",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "B"
+            }
+          }
+        },
+        "DEVICE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "45"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "pjon_sbb_send_repeated_text",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "B"
+            }
+          }
+        },
+        "DEVICE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "45"
+            }
+          }
+        },
+        "INTERVAL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1000000"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "pjon_sbb_reply_text",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "OK"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "pjon_sbb_on_receive"
+    }
+  ]
+}

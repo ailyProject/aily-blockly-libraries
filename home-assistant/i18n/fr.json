@@ -1,0 +1,792 @@
+{
+  "toolbox_name": "Home Assistant",
+  "toolbox_labels": {
+    "设备与连接": "Appareils et connexions",
+    "自定义MQTT": "自定义MQTT",
+    "实体通用": "Entité universelle",
+    "传感器": "capteur",
+    "开关与按钮": "Commutateurs et boutons",
+    "灯光": "lumière",
+    "数字与选择": "Nombres et choix",
+    "命令值": "valeur de commande"
+  },
+  "ha_device_create": {
+    "message0": "Créer un périphérique HA %1 unique ID %2",
+    "tooltip": "Créez un objet périphérique Home Assistant, ID unique est utilisé pour la découverte et la propriété de l'entité."
+  },
+  "ha_device_set_info": {
+    "message0": "%1 Définir les informations sur l'appareil Nom %2 Fabricant %3 Modèle %4 Version du logiciel %5 Configurer URL %6",
+    "tooltip": "Définissez les informations de base affichées par le périphérique HA dans Home Assistant"
+  },
+  "ha_device_enable_availability": {
+    "message0": "%1 Activer la disponibilité du partage %2 Last Will %3",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Oui",
+            "true"
+          ],
+          [
+            "Non",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Oui",
+            "true"
+          ],
+          [
+            "Non",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Activer l'état en ligne/hors ligne de l'appareil, Last Will signalera hors ligne en cas de déconnexion anormale"
+  },
+  "ha_mqtt_create": {
+    "message0": "Créer HA MQTT %1 Client réseau %2 Type %3 Périphérique %4 Nombre maximum d'entités %5",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "WiFi",
+            "WIFI"
+          ],
+          [
+            "Ethernet",
+            "ETHERNET"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "tooltip": "Créez des objets HAMqtt et maintenez automatiquement les connexions dans la boucle; veuillez le placer avant le bloc de création d'entité"
+  },
+  "ha_mqtt_begin": {
+    "message0": "%1 se connecte à l'hôte MQTT port %2 nom d'utilisateur %3 mot de passe %4 %5",
+    "tooltip": "Définissez le serveur MQTT et les informations d'authentification, et la bibliothèque se connectera et se reconnectera automatiquement dans la boucle"
+  },
+  "ha_mqtt_set_prefixes": {
+    "message0": "%1 définit le préfixe de découverte %2 préfixe de données %3",
+    "tooltip": "Définir le préfixe du sujet de découverte Home Assistant et le préfixe du sujet de données"
+  },
+  "ha_mqtt_set_keep_alive": {
+    "message0": "%1 définit le maintien en vie pendant %2 secondes",
+    "tooltip": "Définissez l'intervalle entre MQTT KeepAlive, la valeur par défaut est de 15 secondes"
+  },
+  "ha_mqtt_set_buffer_size": {
+    "message0": "%1 définit le tampon %2 octets",
+    "tooltip": "Définissez la taille du tampon PubSubClient sous-jacent. Les configurations de découverte complexes peuvent être augmentées de manière appropriée."
+  },
+  "ha_mqtt_loop": {
+    "message0": "%1 gère la communication HA MQTT",
+    "tooltip": "Appelez manuellement le traitement de la boucle MQTT; le bloc de création a été automatiquement ajouté par défaut"
+  },
+  "ha_mqtt_connected": {
+    "message0": "%1 est connecté à HA MQTT",
+    "tooltip": "Renvoie si HA MQTT est connecté au serveur"
+  },
+  "ha_mqtt_state": {
+    "message0": "code d'état de connexion %1",
+    "tooltip": "Renvoie le code d'état de connexion HAMqtt, 0 signifie connecté"
+  },
+  "ha_mqtt_publish": {
+    "message0": "%1 Publier un thème personnalisé %2 Contenu %3 Réserver %4",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Publier un message MQTT personnalisé via HAMqtt"
+  },
+  "ha_mqtt_subscribe": {
+    "message0": "%1 Abonnez-vous au sujet personnalisé %2",
+    "tooltip": "Abonnez-vous au sujet personnalisé MQTT, généralement appelé dans le rappel connecté"
+  },
+  "ha_mqtt_disconnect": {
+    "message0": "%1 déconnecter HA MQTT",
+    "tooltip": "Déconnectez la connexion HAMqtt et arrêtez la reconnexion automatique jusqu'à ce que vous recommencez"
+  },
+  "ha_mqtt_on_connected": {
+    "message0": "Lorsque la connexion %1 réussit",
+    "message1": "Exécuter %1",
+    "tooltip": "Enregistrez le rappel de réussite de la connexion MQTT, adapté à l'abonnement à des sujets personnalisés après la reconnexion"
+  },
+  "ha_mqtt_on_message": {
+    "message0": "Lorsque %1 reçoit le message personnalisé MQTT",
+    "message1": "Exécuter %1",
+    "tooltip": "Enregistrez un rappel de message MQTT personnalisé; le sujet, le contenu et la longueur peuvent être lus dans les blocs de valeurs correspondants"
+  },
+  "ha_mqtt_message_topic": {
+    "message0": "sujet de rappel HA MQTT",
+    "tooltip": "Lire le sujet dans le rappel du message MQTT actuel"
+  },
+  "ha_mqtt_message_payload": {
+    "message0": "HA MQTT contenu de rappel",
+    "tooltip": "Lire le texte du contenu dans le rappel du message MQTT actuel"
+  },
+  "ha_mqtt_message_length": {
+    "message0": "HA MQTT longueur du contenu du rappel",
+    "tooltip": "Lire la longueur en octets du contenu dans le rappel du message MQTT actuel"
+  },
+  "ha_entity_set_info": {
+    "message0": "%1 Définir le nom de l'entité %2 Objet ID %3 Icône %4",
+    "tooltip": "Définir le nom d'affichage de l'entité HA, de l'objet ID et de l'icône Material Design"
+  },
+  "ha_entity_set_availability": {
+    "message0": "%1 définit l'entité disponible sur %2",
+    "tooltip": "Signaler l'état en ligne ou hors ligne de l'entité"
+  },
+  "ha_sensor_create_text": {
+    "message0": "Créer un capteur de texte HA %1 fonction unique ID %2 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "défaut",
+            "HASensor::DefaultFeatures"
+          ],
+          [
+            "attribut JSON",
+            "HASensor::JsonAttributesFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Créer un capteur Home Assistant pour signaler l'état du texte"
+  },
+  "ha_sensor_create_number": {
+    "message0": "Créer un capteur de valeur HA %1 Unique ID %2 Précision %3 Fonction %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "entier",
+            "HASensorNumber::PrecisionP0"
+          ],
+          [
+            "1 décimale",
+            "HASensorNumber::PrecisionP1"
+          ],
+          [
+            "2 décimales",
+            "HASensorNumber::PrecisionP2"
+          ],
+          [
+            "3 décimales",
+            "HASensorNumber::PrecisionP3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "défaut",
+            "HASensor::DefaultFeatures"
+          ],
+          [
+            "attribut JSON",
+            "HASensor::JsonAttributesFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Créer un capteur Home Assistant pour signaler l'état numérique"
+  },
+  "ha_sensor_settings": {
+    "message0": "%1 Définir la catégorie du capteur %2 Catégorie d'état %3 Unité %4 Expire %5 secondes Forcer la mise à jour %6",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Configurer la catégorie de périphérique de capteur, la catégorie d'état, les unités, le délai d'expiration et les mises à jour forcées"
+  },
+  "ha_sensor_set_value": {
+    "message0": "%1 rapporte la valeur du texte %2",
+    "tooltip": "Signaler la valeur du capteur de texte à Home Assistant"
+  },
+  "ha_sensor_set_json_attributes": {
+    "message0": "%1 signale les attributs JSON %2",
+    "tooltip": "Publier l'attribut JSON pour les capteurs avec la fonctionnalité d'attribut JSON activée"
+  },
+  "ha_sensor_number_set_value": {
+    "message0": "%1 valeur signalée %2 obligatoire %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Signaler la valeur numérique du capteur à Home Assistant"
+  },
+  "ha_binary_sensor_create": {
+    "message0": "Créer un capteur binaire HA %1 unique ID %2",
+    "tooltip": "Créer un capteur binaire Home Assistant qui signale l'état marche/arrêt"
+  },
+  "ha_binary_sensor_settings": {
+    "message0": "%1 Définir la catégorie du capteur binaire %2 Expire %3 secondes",
+    "tooltip": "Configurer la catégorie du capteur binaire et le délai d'expiration de l'état"
+  },
+  "ha_binary_sensor_set_state": {
+    "message0": "%1 signale l'état binaire %2 obligatoire %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Signaler l'état marche/arrêt du capteur binaire"
+  },
+  "ha_binary_sensor_get_state": {
+    "message0": "statut binaire actuel de %1",
+    "tooltip": "Lire l'état actuel du capteur binaire"
+  },
+  "ha_switch_create": {
+    "message0": "Créer un commutateur HA %1 unique ID %2",
+    "tooltip": "Créer une entité de commutation contrôlable depuis Home Assistant"
+  },
+  "ha_switch_settings": {
+    "message0": "%1 Commutateur de réglage Catégorie %2 Commande réservée %3 Mode optimiste %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Configuration des classes de commutateurs, de la conservation des commandes et du mode optimiste"
+  },
+  "ha_switch_set_state": {
+    "message0": "%1 signale l'état du commutateur %2 obligatoire %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Signaler l'état du commutateur à Home Assistant"
+  },
+  "ha_switch_get_state": {
+    "message0": "%1 état actuel du commutateur",
+    "tooltip": "Lire l'état actuel du commutateur"
+  },
+  "ha_switch_on_command": {
+    "message0": "Lorsque %1 reçoit la commande switch",
+    "message1": "Exécuter %1",
+    "tooltip": "Traitez la commande switch émise par Home Assistant et utilisez \"Command Boolean Status\" pour lire l'état de la cible"
+  },
+  "ha_button_create": {
+    "message0": "Créer un bouton HA %1 unique ID %2",
+    "tooltip": "Créer une entité de bouton de panneau Home Assistant"
+  },
+  "ha_button_settings": {
+    "message0": "%1 Définir la catégorie du bouton %2 Commande réservée %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Configurer les catégories de boutons et la conservation des commandes"
+  },
+  "ha_button_on_command": {
+    "message0": "Lorsque le bouton %1 est enfoncé",
+    "message1": "Exécuter %1",
+    "tooltip": "Gérer la commande de clic sur le bouton Home Assistant"
+  },
+  "ha_light_create": {
+    "message0": "créer HA lumière %1 unique ID %2 fonction %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "interrupteur uniquement",
+            "HALight::DefaultFeatures"
+          ],
+          [
+            "luminosité",
+            "HALight::BrightnessFeature"
+          ],
+          [
+            "température de couleur",
+            "HALight::ColorTemperatureFeature"
+          ],
+          [
+            "RGB",
+            "HALight::RGBFeature"
+          ],
+          [
+            "luminosité+RGB",
+            "HALight::BrightnessFeature | HALight::RGBFeature"
+          ],
+          [
+            "tous",
+            "HALight::BrightnessFeature | HALight::ColorTemperatureFeature | HALight::RGBFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Créez l'entité lumineuse Home Assistant et sélectionnez les fonctions de luminosité, de température de couleur et RGB."
+  },
+  "ha_light_settings": {
+    "message0": "%1 Régler la lumière Commande réservée %2 Mode optimiste %3 Plage de luminosité %4 Température de couleur minimale %5 Température de couleur maximale %6",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ],
+    "tooltip": "Configurez le maintien des commandes de la lumière, le mode optimiste, la plage de luminosité et la plage de température de couleur."
+  },
+  "ha_light_set_state": {
+    "message0": "%1 signalant l'interrupteur d'éclairage %2 obligatoire %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Signaler l'état de l'interrupteur d'éclairage"
+  },
+  "ha_light_set_brightness": {
+    "message0": "%1 signale la luminosité %2 obligatoire %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Rapport sur la luminosité de la lumière, la plage est déterminée par la configuration de la plage de luminosité"
+  },
+  "ha_light_set_color_temperature": {
+    "message0": "%1 signale la température de couleur %2 mired obligatoire %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Rapporter la température de couleur de la lampe, l'unité est mired"
+  },
+  "ha_light_set_rgb": {
+    "message0": "%1 rapporte RGB rouge %2 vert %3 bleu %4 obligatoire %5",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Signaler la couleur du voyant RGB, plage à trois canaux 0-255"
+  },
+  "ha_light_get_state": {
+    "message0": "interrupteur d'éclairage actuel %1",
+    "tooltip": "Lire l'état actuel de l'interrupteur de la lumière"
+  },
+  "ha_light_get_brightness": {
+    "message0": "%1 luminosité actuelle",
+    "tooltip": "Lire la luminosité actuelle de la lumière"
+  },
+  "ha_light_on_state_command": {
+    "message0": "Lorsque %1 reçoit la commande d'interrupteur d'éclairage",
+    "message1": "Exécuter %1",
+    "tooltip": "Pour gérer les commandes d'interrupteur d'éclairage, l'état cible peut être lu à l'aide de la commande boolean status value block"
+  },
+  "ha_light_on_brightness_command": {
+    "message0": "Lorsque %1 reçoit la commande de luminosité",
+    "message1": "Exécuter %1",
+    "tooltip": "Pour traiter la commande de luminosité de la lampe, la luminosité cible peut être lue à l'aide du bloc de valeur de luminosité de commande."
+  },
+  "ha_light_on_color_temperature_command": {
+    "message0": "Lorsque %1 reçoit la commande de température de couleur",
+    "message1": "Exécuter %1",
+    "tooltip": "Pour traiter la commande de température de couleur de la lampe, la température de couleur cible peut être lue à l'aide du bloc de valeur de température de couleur de commande."
+  },
+  "ha_light_on_rgb_command": {
+    "message0": "Lorsque %1 reçoit la commande RGB",
+    "message1": "Exécuter %1",
+    "tooltip": "Pour traiter la commande light RGB, vous pouvez utiliser le bloc de valeur de la commande RGB pour lire la couleur cible"
+  },
+  "ha_number_create": {
+    "message0": "Créer HA contrôle numérique %1 unique ID %2 précision %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "entier",
+            "HANumber::PrecisionP0"
+          ],
+          [
+            "1 décimale",
+            "HANumber::PrecisionP1"
+          ],
+          [
+            "2 décimales",
+            "HANumber::PrecisionP2"
+          ],
+          [
+            "3 décimales",
+            "HANumber::PrecisionP3"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Créer une entité d'entrée/curseur numérique Home Assistant"
+  },
+  "ha_number_settings": {
+    "message0": "%1 Numéro de réglage Catégorie %2 Unité %3 Mode %4 Minimum %5 Maximum %6 Taille de pas %7 Réservé %8 Optimiste %9",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "automatique",
+            "HANumber::ModeAuto"
+          ],
+          [
+            "Zone de saisie",
+            "HANumber::ModeBox"
+          ],
+          [
+            "curseur",
+            "HANumber::ModeSlider"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Configurer la catégorie, l'unité, le mode d'affichage, la plage, la taille du pas et le comportement des commandes des entités numériques"
+  },
+  "ha_number_set_state": {
+    "message0": "%1 signale l'état numérique %2 obligatoire %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Signaler la valeur actuelle d’une entité numérique"
+  },
+  "ha_number_get_state": {
+    "message0": "%1 valeur numérique actuelle",
+    "tooltip": "Lire la valeur actuelle d'une entité numérique"
+  },
+  "ha_number_on_command": {
+    "message0": "Lorsque %1 reçoit une commande numérique",
+    "message1": "Exécuter %1",
+    "tooltip": "Traitez la commande de changement numérique Home Assistant et le bloc de valeur de commande numérique peut être utilisé pour lire la valeur cible"
+  },
+  "ha_select_create": {
+    "message0": "Créer une sélection déroulante HA %1 unique ID %2",
+    "tooltip": "Créer une entité de sélection déroulante Home Assistant"
+  },
+  "ha_select_settings": {
+    "message0": "options de configuration %1 %2 réservé %3 optimiste %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Configurez les options de sélection déroulante. Plusieurs options sont séparées par des points-virgules anglais."
+  },
+  "ha_select_set_state": {
+    "message0": "%1 Index de sélection du rapport %2 obligatoire %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Signaler la sélection actuelle par index d'option, -1 signifie aucune sélection"
+  },
+  "ha_select_get_state": {
+    "message0": "%1 indice de sélection actuel",
+    "tooltip": "Lire l'index actuellement sélectionné"
+  },
+  "ha_select_get_option": {
+    "message0": "%1 texte de l'option actuelle",
+    "tooltip": "Lire le texte de l'option actuellement sélectionnée"
+  },
+  "ha_select_on_command": {
+    "message0": "Lorsque %1 reçoit la commande select",
+    "message1": "Exécuter %1",
+    "tooltip": "Traitez la commande de sélection déroulante Home Assistant et vous pouvez utiliser le bloc de valeur d'index de la commande de sélection pour lire l'option cible"
+  },
+  "ha_command_bool_state": {
+    "message0": "commande état booléen",
+    "tooltip": "Lire l'état booléen cible dans une commande d'interrupteur ou d'interrupteur d'éclairage"
+  },
+  "ha_command_brightness": {
+    "message0": "luminosité de commande",
+    "tooltip": "Lire la luminosité cible dans la commande de luminosité de la lampe"
+  },
+  "ha_command_color_temperature": {
+    "message0": "Température de couleur de commande",
+    "tooltip": "Lire la température de couleur cible dans la commande de température de couleur de la lampe"
+  },
+  "ha_command_rgb_red": {
+    "message0": "Commande RGB rouge",
+    "tooltip": "Lisez le canal rouge dans la commande light RGB"
+  },
+  "ha_command_rgb_green": {
+    "message0": "Commande RGB vert",
+    "tooltip": "Lisez le canal vert dans la commande light RGB"
+  },
+  "ha_command_rgb_blue": {
+    "message0": "Commande RGB bleu",
+    "tooltip": "Lisez le canal bleu dans la commande light RGB"
+  },
+  "ha_number_command_is_set": {
+    "message0": "Les commandes numériques ont des valeurs",
+    "tooltip": "Que la commande numérique de lecture porte une valeur valide, la commande de réinitialisation ne renverra aucun"
+  },
+  "ha_number_command_value": {
+    "message0": "Valeur de commande numérique",
+    "tooltip": "Lire la valeur cible dans une commande numérique"
+  },
+  "ha_select_command_index": {
+    "message0": "Sélectionner l'index des commandes",
+    "tooltip": "Lire l'index des options cible dans la commande de sélection déroulante"
+  }
+}

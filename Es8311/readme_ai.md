@@ -25,6 +25,9 @@ ES8311 audio codec driver library, supports I2S recording and playback, volume/g
 | `es8311_record_slot` | Statement | VAR(field_variable), SLOT(dropdown) | `es8311_record_slot(variables_get($audio), "0")` | Dynamic code |
 | `es8311_play_slot` | Statement | VAR(field_variable), SLOT(dropdown) | `es8311_play_slot(variables_get($audio), "0")` | Dynamic code |
 | `es8311_play_loop` | Statement | VAR(field_variable) | `es8311_play_loop(variables_get($audio))` | Dynamic code |
+| `es8311_stream_begin` | Statement | VAR(field_variable), RATE(dropdown) | `es8311_stream_begin(variables_get($audio), "16000")` | `audio.streamBegin(16000);` |
+| `es8311_stream_end` | Statement | VAR(field_variable) | `es8311_stream_end(variables_get($audio))` | `audio.streamEnd();` |
+| `es8311_stream_play_url` | Statement | VAR(field_variable), URL(input_value), RATE(dropdown) | `es8311_stream_play_url(variables_get($audio), text("http://..."), "16000")` | `es8311_stream_play_url(audio, "...", 16000);` |
 | `es8311_qwen_config` | Statement | API_KEY(input_value), BASE_URL(input_value) | `es8311_qwen_config(text("value"), text("value"))` | Dynamic code |
 | `es8311_qwen_audio_chat` | Statement | VAR(field_variable), PROMPT(input_value), MODEL(dropdown) | `es8311_qwen_audio_chat(variables_get($audio), text("value"), qwen3.5-omni-plus)` | es8311_qwen_audio_chat_request( |
 | `es8311_qwen_get_last_text` | Value | (none) | `es8311_qwen_get_last_text()` | es8311_qwen_last_text |
@@ -40,6 +43,7 @@ ES8311 audio codec driver library, supports I2S recording and playback, volume/g
 | MODE | 0, 1, 2, 3 | es8311_mute |
 | ENABLE | true, false | es8311_alc_enable |
 | SLOT | 0, 1, 2, 3 | es8311_record_slot, es8311_play_slot |
+| RATE | 16000, 24000, 8000, 22050, 44100, 48000 | es8311_stream_begin, es8311_stream_play_url (source sample rate, resampled to 16kHz) |
 | MODEL | qwen3.5-omni-plus, qwen-omni-turbo, qwen3-omni-flash | es8311_qwen_audio_chat |
 
 ## ABS Examples

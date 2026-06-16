@@ -16,6 +16,18 @@
     "message0": "PDM麦克风初始化 对象 %1 %2 CLK %3 DATA %4 采样率 %5",
     "tooltip": "初始化PDM麦克风输入对象，适用于XIAO ESP32S3 Sense板载麦克风等。XIAO ESP32S3 Sense默认CLK为42、DATA为41"
   },
+  "qwen_omni_es8311_mic_init": {
+    "message0": "ES8311麦克风初始化 对象 %1 %2 SDA %3 SCL %4 地址 %5 BCLK %6 LRCLK %7 SDOUT %8 MCLK %9 采样率 %10 增益寄存器 %11",
+    "tooltip": "初始化ES8311音频编解码器的麦克风输入，先通过I2C配置ADC/麦克风路径，再初始化I2S录音对象。默认地址0x18(十进制24)，默认增益寄存器0x24(十进制36)"
+  },
+  "qwen_omni_es8311_audio_init": {
+    "message0": "ES8311麦克风+喇叭初始化 对象 %1 %2 SDA %3 SCL %4 地址 %5 BCLK/SCLK %6 LR %7 DI/DAC输入 %8 DO/ADC输出 %9 MCK %10 采样率 %11 增益寄存器 %12 PA_EN %13",
+    "tooltip": "初始化ES8311音频编解码器的麦克风和喇叭通道，适合Microphone + Audio Amplifier板。图中默认: SCLK39, LR2, DI38, DO40, MCK46, SDA41, SCL42。ES8311供电3V3，NS4150B功放供电5V。PA_EN默认-1表示不控制；如果板子有功放使能脚，填入GPIO后会拉高"
+  },
+  "qwen_omni_es8311_test_tone": {
+    "message0": "播放提示音 对象 %1 %2 频率Hz %3 时长ms %4",
+    "tooltip": "通过当前I2S/ES8311喇叭对象播放一段短提示音，用于开始录音、结束录音或检查喇叭输出"
+  },
   "qwen_omni_chat": {
     "message0": "通义千问对话 %1 用户消息 %2 %3 模型 %4",
     "tooltip": "发送消息到通义千问并获取回复",
@@ -935,5 +947,9 @@
       null,
       null
     ]
+  },
+  "qwen_omni_i2s_prompt_tone": {
+    "message0": "播放提示音 对象 %1 %2 频率Hz %3 时长ms %4",
+    "tooltip": "通过当前I2S/ES8311喇叭对象播放一段短提示音，用于开始录音、结束录音或检查喇叭输出"
   }
 }

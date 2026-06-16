@@ -1,0 +1,792 @@
+{
+  "toolbox_name": "Home Assistant",
+  "toolbox_labels": {
+    "设备与连接": "Geräte und Verbindungen",
+    "自定义MQTT": "Benutzerdefinierte MQTT",
+    "实体通用": "Entität universal",
+    "传感器": "Sensor",
+    "开关与按钮": "Schalter und Knöpfe",
+    "灯光": "Licht",
+    "数字与选择": "Zahlen und Entscheidungen",
+    "命令值": "Befehlswert"
+  },
+  "ha_device_create": {
+    "message0": "Erstellen Sie das eindeutige HA-Gerät %1 ID %2",
+    "tooltip": "Erstellen Sie das Geräteobjekt Home Assistant. Das eindeutige ID wird für die Erkennung und den Besitz der Entität verwendet"
+  },
+  "ha_device_set_info": {
+    "message0": "%1 Geräteinformationen festlegen Name %2 Hersteller %3 Modell %4 Softwareversion %5 Konfigurieren Sie URL %6",
+    "tooltip": "Legen Sie die vom Gerät HA angezeigten Grundinformationen in Home Assistant fest"
+  },
+  "ha_device_enable_availability": {
+    "message0": "%1 Freigabeverfügbarkeit aktivieren %2 Last Will %3",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Ja",
+            "true"
+          ],
+          [
+            "NEIN",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Ja",
+            "true"
+          ],
+          [
+            "NEIN",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Aktivieren Sie den Online-/Offline-Status des Geräts. Last Will meldet „Offline“, wenn die Verbindung abnormal unterbrochen wird"
+  },
+  "ha_mqtt_create": {
+    "message0": "Erstellen Sie HA, MQTT, %1, Netzwerk-Client, %2, Typ %3, Gerät %4. Maximale Anzahl von Entitäten, %5",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "WiFi",
+            "WIFI"
+          ],
+          [
+            "Ethernet",
+            "ETHERNET"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "tooltip": "Erstellen Sie HAMqtt-Objekte und pflegen Sie automatisch Verbindungen in der Schleife. Bitte platzieren Sie es vor dem Entitätserstellungsblock"
+  },
+  "ha_mqtt_begin": {
+    "message0": "%1 stellt eine Verbindung zum MQTT-Host her, %2-Port, %3, Benutzername, %4, Passwort %5",
+    "tooltip": "Legen Sie den MQTT-Server und die Authentifizierungsinformationen fest, und die Bibliothek stellt automatisch eine Verbindung her und stellt die Verbindung in der Schleife wieder her"
+  },
+  "ha_mqtt_set_prefixes": {
+    "message0": "%1 legt das Erkennungspräfix %2 und das Datenpräfix %3 fest",
+    "tooltip": "Legen Sie das Erkennungsthemenpräfix Home Assistant und das Datenthemenpräfix fest"
+  },
+  "ha_mqtt_set_keep_alive": {
+    "message0": "%1 legt den Keep-Alive für %2 Sekunden fest",
+    "tooltip": "Legen Sie das Intervall zwischen MQTT und KeepAlive fest. Der Standardwert beträgt 15 Sekunden"
+  },
+  "ha_mqtt_set_buffer_size": {
+    "message0": "%1 setzt den Puffer %2 Bytes",
+    "tooltip": "Legen Sie die zugrunde liegende Puffergröße PubSubClient fest. Komplexe Discovery-Konfigurationen können entsprechend erweitert werden."
+  },
+  "ha_mqtt_loop": {
+    "message0": "%1 übernimmt die Kommunikation mit HA und MQTT",
+    "tooltip": "Rufen Sie die Schleifenverarbeitung MQTT manuell auf. Der Erstellungsblock wurde standardmäßig automatisch hinzugefügt"
+  },
+  "ha_mqtt_connected": {
+    "message0": "%1 ist mit HA und MQTT verbunden",
+    "tooltip": "Gibt zurück, ob HA MQTT mit dem Server verbunden ist"
+  },
+  "ha_mqtt_state": {
+    "message0": "%1 Verbindungsstatuscode",
+    "tooltip": "Gibt den Verbindungsstatuscode HAMqtt zurück. 0 bedeutet verbunden"
+  },
+  "ha_mqtt_publish": {
+    "message0": "%1 Benutzerdefiniertes Design veröffentlichen %2 Inhalt %3 %4 reservieren",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Veröffentlichen Sie eine benutzerdefinierte MQTT-Nachricht über HAMqtt"
+  },
+  "ha_mqtt_subscribe": {
+    "message0": "%1 Abonnieren Sie das benutzerdefinierte Thema %2",
+    "tooltip": "Abonnieren Sie das benutzerdefinierte Thema MQTT, das normalerweise im verbundenen Rückruf aufgerufen wird"
+  },
+  "ha_mqtt_disconnect": {
+    "message0": "%1 trennen HA MQTT",
+    "tooltip": "Trennen Sie die HAMqtt-Verbindung und stoppen Sie die automatische Wiederverbindung, bis Sie erneut beginnen"
+  },
+  "ha_mqtt_on_connected": {
+    "message0": "Wenn die %1-Verbindung erfolgreich ist",
+    "message1": "Führen Sie %1 aus",
+    "tooltip": "Registrieren Sie den Rückruf für den erfolgreichen Verbindungsaufbau mit MQTT. Er eignet sich zum Abonnieren benutzerdefinierter Themen nach der Wiederherstellung der Verbindung"
+  },
+  "ha_mqtt_on_message": {
+    "message0": "Wenn %1 die benutzerdefinierte MQTT-Nachricht empfängt",
+    "message1": "Führen Sie %1 aus",
+    "tooltip": "Registrieren Sie einen benutzerdefinierten MQTT-Nachrichtenrückruf. Betreff, Inhalt und Länge können in entsprechenden Werteblöcken abgelesen werden"
+  },
+  "ha_mqtt_message_topic": {
+    "message0": "HA MQTT Rückrufthema",
+    "tooltip": "Lesen Sie das Thema im aktuellen Rückruf der MQTT-Nachricht"
+  },
+  "ha_mqtt_message_payload": {
+    "message0": "HA MQTT Rückrufinhalt",
+    "tooltip": "Lesen Sie den Inhaltstext im aktuellen Rückruf der MQTT-Nachricht"
+  },
+  "ha_mqtt_message_length": {
+    "message0": "HA MQTT Länge des Rückrufinhalts",
+    "tooltip": "Lesen Sie die Länge des Inhaltsbytes im aktuellen Rückruf der MQTT-Nachricht"
+  },
+  "ha_entity_set_info": {
+    "message0": "%1 Entitätsnamen festlegen %2 Objekt ID %3 Symbol %4",
+    "tooltip": "Legen Sie den Anzeigenamen der Entität HA, des Objekts ID und des Symbols Material Design fest"
+  },
+  "ha_entity_set_availability": {
+    "message0": "%1 legt die verfügbare Entität für %2 fest",
+    "tooltip": "Melden Sie den Online- oder Offline-Status der Entität"
+  },
+  "ha_sensor_create_text": {
+    "message0": "Erstellen Sie den Textsensor HA, die eindeutige Funktion ID, %2, %1, %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Standard",
+            "HASensor::DefaultFeatures"
+          ],
+          [
+            "JSON-Attribut",
+            "HASensor::JsonAttributesFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Erstellen Sie einen Home Assistant-Sensor für die Meldung des Textstatus"
+  },
+  "ha_sensor_create_number": {
+    "message0": "Erstellen Sie den Wertsensor HA. %1 Eindeutig ID %2 Genauigkeit %3 Funktion %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "ganze Zahl",
+            "HASensorNumber::PrecisionP0"
+          ],
+          [
+            "1 Dezimalstelle",
+            "HASensorNumber::PrecisionP1"
+          ],
+          [
+            "2 Dezimalstellen",
+            "HASensorNumber::PrecisionP2"
+          ],
+          [
+            "3 Dezimalstellen",
+            "HASensorNumber::PrecisionP3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Standard",
+            "HASensor::DefaultFeatures"
+          ],
+          [
+            "JSON-Attribut",
+            "HASensor::JsonAttributesFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Erstellen Sie einen Home Assistant-Sensor zur Meldung des digitalen Status"
+  },
+  "ha_sensor_settings": {
+    "message0": "%1 Sensorkategorie festlegen %2 Statuskategorie %3 Einheit %4 Läuft in %5 Sekunden ab Aktualisierung erzwingen %6",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Konfigurieren Sie Sensorgerätekategorie, Statuskategorie, Einheiten, Ablaufzeit und erzwungene Aktualisierungen"
+  },
+  "ha_sensor_set_value": {
+    "message0": "%1 meldet den Textwert %2",
+    "tooltip": "Textsensorwert an Home Assistant melden"
+  },
+  "ha_sensor_set_json_attributes": {
+    "message0": "%1 meldet JSON-Attribute %2",
+    "tooltip": "Veröffentlichen Sie das Attribut JSON für Sensoren mit aktivierter Attributfunktionalität JSON"
+  },
+  "ha_sensor_number_set_value": {
+    "message0": "%1 gemeldeter Wert %2 obligatorisch %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Numerischen Sensorwert an Home Assistant melden"
+  },
+  "ha_binary_sensor_create": {
+    "message0": "Erstellen Sie den Binärsensor HA, den eindeutigen %1, ID und %2",
+    "tooltip": "Erstellen Sie einen Binärsensor Home Assistant, der den Ein-/Aus-Status meldet"
+  },
+  "ha_binary_sensor_settings": {
+    "message0": "%1 Binäre Sensorkategorie festlegen %2 Läuft in %3 Sekunden ab",
+    "tooltip": "Konfigurieren Sie die binäre Sensorkategorie und die Statusablaufzeit"
+  },
+  "ha_binary_sensor_set_state": {
+    "message0": "%1 meldet binären Status, %2 obligatorisch, %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Melden Sie den Ein-/Aus-Status des Binärsensors"
+  },
+  "ha_binary_sensor_get_state": {
+    "message0": "%1 aktueller Binärstatus",
+    "tooltip": "Lesen Sie den aktuellen Status des Binärsensors"
+  },
+  "ha_switch_create": {
+    "message0": "Erstellen Sie den eindeutigen Schalter HA %1 ID %2",
+    "tooltip": "Erstellen Sie eine Switch-Entität, die von Home Assistant aus gesteuert werden kann"
+  },
+  "ha_switch_settings": {
+    "message0": "%1 Einstellungsschalter Kategorie %2 Reservierter Befehl %3 Optimistischer Modus %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Konfigurieren von Schalterklassen, Befehlsaufbewahrung und optimistischem Modus"
+  },
+  "ha_switch_set_state": {
+    "message0": "%1 meldet den Schalterstatus %2 obligatorisch %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Melden Sie den Schalterstatus an Home Assistant"
+  },
+  "ha_switch_get_state": {
+    "message0": "%1 aktueller Schalterstatus",
+    "tooltip": "Lesen Sie den aktuellen Status des Schalters"
+  },
+  "ha_switch_on_command": {
+    "message0": "Wenn %1 den Umschaltbefehl empfängt",
+    "message1": "Führen Sie %1 aus",
+    "tooltip": "Verarbeiten Sie den von Home Assistant ausgegebenen Schaltbefehl und lesen Sie den Zielstatus mit „Command Boolean Status“."
+  },
+  "ha_button_create": {
+    "message0": "Erstellen Sie die Schaltfläche HA, %1 eindeutig, ID und %2",
+    "tooltip": "Erstellen Sie die Panel-Schaltflächenentität Home Assistant"
+  },
+  "ha_button_settings": {
+    "message0": "%1 Schaltflächenkategorie festlegen %2 Reservierter Befehl %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Konfigurieren Sie Schaltflächenkategorien und Befehlsspeicherung"
+  },
+  "ha_button_on_command": {
+    "message0": "Wenn die Schaltfläche %1 gedrückt wird",
+    "message1": "Führen Sie %1 aus",
+    "tooltip": "Behandelt den Klickbefehl für die Schaltfläche „Home Assistant“."
+  },
+  "ha_light_create": {
+    "message0": "Erstellen Sie die Funktion HA light, %1, eindeutig ID, %2, die Funktion %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Nur Schalter",
+            "HALight::DefaultFeatures"
+          ],
+          [
+            "Helligkeit",
+            "HALight::BrightnessFeature"
+          ],
+          [
+            "Farbtemperatur",
+            "HALight::ColorTemperatureFeature"
+          ],
+          [
+            "RGB",
+            "HALight::RGBFeature"
+          ],
+          [
+            "Helligkeit+RGB",
+            "HALight::BrightnessFeature | HALight::RGBFeature"
+          ],
+          [
+            "alle",
+            "HALight::BrightnessFeature | HALight::ColorTemperatureFeature | HALight::RGBFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Erstellen Sie die Lichteinheit Home Assistant und wählen Sie Helligkeit, Farbtemperatur und RGB-Funktionen aus"
+  },
+  "ha_light_settings": {
+    "message0": "%1 Licht einstellen Reservierter Befehl %2 Optimistischer Modus %3 Helligkeitsbereich %4 Minimale Farbtemperatur %5 Maximale Farbtemperatur %6",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ],
+    "tooltip": "Konfigurieren Sie die Befehlshaltefunktion, den Optimismusmodus, den Helligkeitsbereich und den Farbtemperaturbereich des Lichts"
+  },
+  "ha_light_set_state": {
+    "message0": "%1 meldet Lichtschalter %2 obligatorisch %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Lichtschalterstatus melden"
+  },
+  "ha_light_set_brightness": {
+    "message0": "%1 meldet Helligkeit, %2 obligatorisch, %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Melden Sie die Helligkeit des Lichts. Der Bereich wird durch die Konfiguration des Helligkeitsbereichs bestimmt"
+  },
+  "ha_light_set_color_temperature": {
+    "message0": "%1 meldet die Farbtemperatur, %2, mired obligatorisch, %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Melden Sie die Farbtemperatur der Lampe, die Einheit ist mired"
+  },
+  "ha_light_set_rgb": {
+    "message0": "%1 meldet RGB rot %2 grün %3 blau %4 obligatorisch %5",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Melden Sie die Farbe des Lichts RGB, dreikanaliger Bereich 0-255"
+  },
+  "ha_light_get_state": {
+    "message0": "%1 aktueller Lichtschalter",
+    "tooltip": "Lesen Sie den aktuellen Schaltzustand der Leuchte ab"
+  },
+  "ha_light_get_brightness": {
+    "message0": "%1 aktuelle Helligkeit",
+    "tooltip": "Lesen Sie die aktuelle Helligkeit des Lichts ab"
+  },
+  "ha_light_on_state_command": {
+    "message0": "Wenn %1 den Lichtschaltbefehl empfängt",
+    "message1": "Führen Sie %1 aus",
+    "tooltip": "Zur Verarbeitung von Lichtschaltbefehlen kann der Zielzustand über den Befehl boolean status value block ausgelesen werden"
+  },
+  "ha_light_on_brightness_command": {
+    "message0": "Wenn %1 den Helligkeitsbefehl empfängt",
+    "message1": "Führen Sie %1 aus",
+    "tooltip": "Zur Verarbeitung des Lampenhelligkeitsbefehls kann die Sollhelligkeit über den Befehlshelligkeitswerteblock ausgelesen werden."
+  },
+  "ha_light_on_color_temperature_command": {
+    "message0": "Wenn %1 den Farbtemperaturbefehl empfängt",
+    "message1": "Führen Sie %1 aus",
+    "tooltip": "Um den Farbtemperaturbefehl der Lampe zu verarbeiten, kann die Zielfarbtemperatur mithilfe des Befehlsfarbtemperatur-Werteblocks gelesen werden."
+  },
+  "ha_light_on_rgb_command": {
+    "message0": "Wenn %1 den Befehl RGB empfängt",
+    "message1": "Führen Sie %1 aus",
+    "tooltip": "Um den Befehl „light RGB“ zu verarbeiten, können Sie den Befehl „RGB value block“ verwenden, um die Zielfarbe auszulesen"
+  },
+  "ha_number_create": {
+    "message0": "Erstellen Sie das numerische Steuerelement HA, %1, eindeutig, ID, %2 und die Genauigkeit %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "ganze Zahl",
+            "HANumber::PrecisionP0"
+          ],
+          [
+            "1 Dezimalstelle",
+            "HANumber::PrecisionP1"
+          ],
+          [
+            "2 Dezimalstellen",
+            "HANumber::PrecisionP2"
+          ],
+          [
+            "3 Dezimalstellen",
+            "HANumber::PrecisionP3"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Erstellen Sie die numerische Eingabe-/Schiebereglereinheit Home Assistant"
+  },
+  "ha_number_settings": {
+    "message0": "%1 Nummernkategorie festlegen %2 Einheit %3 Modus %4 Minimum %5 Maximum %6 Schrittgröße %7 Reserviert %8 Optimistisch %9",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "automatisch",
+            "HANumber::ModeAuto"
+          ],
+          [
+            "Eingabefeld",
+            "HANumber::ModeBox"
+          ],
+          [
+            "Schieberegler",
+            "HANumber::ModeSlider"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Konfigurieren Sie Kategorie, Einheit, Anzeigemodus, Bereich, Schrittgröße und Befehlsverhalten digitaler Einheiten"
+  },
+  "ha_number_set_state": {
+    "message0": "%1 meldet digitalen Status, %2 obligatorisch, %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Melden Sie den aktuellen Wert einer digitalen Einheit"
+  },
+  "ha_number_get_state": {
+    "message0": "%1 aktueller numerischer Wert",
+    "tooltip": "Lesen Sie den aktuellen Wert einer digitalen Entität"
+  },
+  "ha_number_on_command": {
+    "message0": "Wenn %1 einen numerischen Befehl empfängt",
+    "message1": "Führen Sie %1 aus",
+    "tooltip": "Verarbeiten Sie den numerischen Änderungsbefehl Home Assistant, und der numerische Befehlswertblock kann zum Lesen des Zielwerts verwendet werden"
+  },
+  "ha_select_create": {
+    "message0": "Erstellen Sie die Dropdown-Auswahl „HA“, „%1“, eindeutig „ID“, „%2“.",
+    "tooltip": "Erstellen Sie die Dropdown-Auswahleinheit Home Assistant"
+  },
+  "ha_select_settings": {
+    "message0": "%1 Einstellungsoptionen %2 reserviert %3 optimistisch %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Konfigurieren Sie Dropdown-Auswahloptionen. Mehrere Optionen werden durch englische Semikolons getrennt."
+  },
+  "ha_select_set_state": {
+    "message0": "%1 Berichtsauswahlindex %2 obligatorisch %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "NEIN",
+            "false"
+          ],
+          [
+            "Ja",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Melden Sie die aktuelle Auswahl nach Optionsindex. -1 bedeutet keine Auswahl"
+  },
+  "ha_select_get_state": {
+    "message0": "%1 aktueller Auswahlindex",
+    "tooltip": "Liest den aktuell ausgewählten Index"
+  },
+  "ha_select_get_option": {
+    "message0": "%1 aktueller Optionstext",
+    "tooltip": "Lesen Sie den aktuell ausgewählten Optionstext"
+  },
+  "ha_select_on_command": {
+    "message0": "Wenn %1 den Auswahlbefehl empfängt",
+    "message1": "Führen Sie %1 aus",
+    "tooltip": "Verarbeiten Sie den Dropdown-Auswahlbefehl Home Assistant, und Sie können den Indexwertblock des Auswahlbefehls verwenden, um die Zieloption zu lesen"
+  },
+  "ha_command_bool_state": {
+    "message0": "Befehl boolescher Status",
+    "tooltip": "Lesen Sie den booleschen Zielzustand in einem Schalter- oder Lichtschalterbefehl"
+  },
+  "ha_command_brightness": {
+    "message0": "Befehlshelligkeit",
+    "tooltip": "Lesen Sie die Zielhelligkeit im Lampenhelligkeitsbefehl ab"
+  },
+  "ha_command_color_temperature": {
+    "message0": "Farbtemperatur befehlen",
+    "tooltip": "Lesen Sie die Zielfarbtemperatur im Befehl zur Lampenfarbtemperatur ab"
+  },
+  "ha_command_rgb_red": {
+    "message0": "Befehl RGB rot",
+    "tooltip": "Lesen Sie den roten Kanal im hellen Befehl RGB"
+  },
+  "ha_command_rgb_green": {
+    "message0": "Befehl RGB grün",
+    "tooltip": "Lesen Sie den grünen Kanal im hellen Befehl RGB"
+  },
+  "ha_command_rgb_blue": {
+    "message0": "Befehl RGB blau",
+    "tooltip": "Lesen Sie den blauen Kanal im hellen Befehl RGB"
+  },
+  "ha_number_command_is_set": {
+    "message0": "Numerische Befehle haben Werte",
+    "tooltip": "Unabhängig davon, ob der digitale Lesebefehl einen gültigen Wert enthält, gibt der Reset-Befehl „Nein“ zurück"
+  },
+  "ha_number_command_value": {
+    "message0": "Numerischer Befehlswert",
+    "tooltip": "Lesen Sie den Zielwert in einem numerischen Befehl"
+  },
+  "ha_select_command_index": {
+    "message0": "Befehlsindex auswählen",
+    "tooltip": "Zieloptionsindex im Dropdown-Auswahlbefehl lesen"
+  }
+}
