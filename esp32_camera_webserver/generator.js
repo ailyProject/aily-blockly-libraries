@@ -112,9 +112,10 @@ Arduino.forBlock['esp32_camera_custom_pins'] = function (block, generator) {
 Arduino.forBlock['esp32_camera_webserver_init'] = function (block, generator) {
   const model = block.getFieldValue('MODEL');
   const resolution = block.getFieldValue('RESOLUTION');
+  const selectedPixelFormat = block.getFieldValue('PIXEL_FORMAT') || 'PIXFORMAT_JPEG';
   const isGc2145Aiot = model === 'CAMERA_MODEL_ESP32_AIOT_KIT_GC2145';
-  const pixelFormat = isGc2145Aiot ? 'PIXFORMAT_RGB565' : 'PIXFORMAT_JPEG';
-  const frameSize = isGc2145Aiot ? 'FRAMESIZE_VGA' : resolution;
+  const pixelFormat = isGc2145Aiot && selectedPixelFormat === 'PIXFORMAT_JPEG' ? 'PIXFORMAT_RGB565' : selectedPixelFormat;
+  const frameSize = isGc2145Aiot && selectedPixelFormat === 'PIXFORMAT_JPEG' ? 'FRAMESIZE_VGA' : resolution;
 
   generator.addLibrary('esp_camera', '#include <esp_camera.h>');
   generator.addLibrary('WiFi', '#include <WiFi.h>');
@@ -211,7 +212,9 @@ ${pinConfig}
       config.fb_location = CAMERA_FB_IN_DRAM;
     }
   } else {
-    config.frame_size = FRAMESIZE_240X240;
+    if(!psramFound()){
+      config.fb_location = CAMERA_FB_IN_DRAM;
+    }
 #if CONFIG_IDF_TARGET_ESP32S3
     config.fb_count = 2;
 #endif
@@ -366,16 +369,29 @@ Arduino.forBlock['esp32_camera_send_serial'] = function (block, generator) {
   return `  camera_fb_t* _fb = (camera_fb_t*)${frame};
   if(_fb) {
     if(_fb->buf && _fb->len > 0) {
-      // 发送帧开始标识
-      Serial.println("===FRAME_START===");
-      // 发送帧长度信息
-      Serial.print("LEN:");
-      Serial.println(_fb->len);
-      // 发送JPEG数据
-      Serial.write(_fb->buf, _fb->len);
-      // 发送帧结束标识
-      Serial.println("===FRAME_END===");
-      Serial.flush();
+      uint8_t* _jpg_buf = _fb->buf;
+      size_t _jpg_len = _fb->len;
+      bool _jpg_allocated = false;
+      if(_fb->format != PIXFORMAT_JPEG) {
+        _jpg_buf = NULL;
+        _jpg_len = 0;
+        _jpg_allocated = frame2jpg(_fb, 80, &_jpg_buf, &_jpg_len);
+      }
+      if(_jpg_buf && _jpg_len > 0) {
+        // 发送帧开始标识
+        Serial.println("===FRAME_START===");
+        // 发送帧长度信息
+        Serial.print("LEN:");
+        Serial.println(_jpg_len);
+        // 发送JPEG数据
+        Serial.write(_jpg_buf, _jpg_len);
+        // 发送帧结束标识
+        Serial.println("===FRAME_END===");
+        Serial.flush();
+      }
+      if(_jpg_allocated && _jpg_buf) {
+        free(_jpg_buf);
+      }
     }
     // 自动释放帧内存
     esp_camera_fb_return(_fb);
@@ -432,8 +448,24 @@ String capture_and_encode_base64() {
     return String("");
   }
 
-  size_t required = 4 * ((fb->len + 2) / 3);
+  uint8_t* jpg_buf = fb->buf;
+  size_t jpg_len = fb->len;
+  bool jpg_allocated = false;
+  if (fb->format != PIXFORMAT_JPEG) {
+    jpg_buf = nullptr;
+    jpg_len = 0;
+    jpg_allocated = frame2jpg(fb, 80, &jpg_buf, &jpg_len);
+    if (!jpg_allocated || !jpg_buf || jpg_len == 0) {
+      esp_camera_fb_return(fb);
+      return String("");
+    }
+  }
+
+  size_t required = 4 * ((jpg_len + 2) / 3);
   if (required == 0) {
+    if (jpg_allocated) {
+      free(jpg_buf);
+    }
     esp_camera_fb_return(fb);
     return String("");
   }
@@ -448,11 +480,17 @@ String capture_and_encode_base64() {
   }
 
   if (!base64_buf) {
+    if (jpg_allocated) {
+      free(jpg_buf);
+    }
     esp_camera_fb_return(fb);
     return String("");
   }
 
-  size_t out_len = esp32_cam_base64_encode(fb->buf, fb->len, base64_buf);
+  size_t out_len = esp32_cam_base64_encode(jpg_buf, jpg_len, base64_buf);
+  if (jpg_allocated) {
+    free(jpg_buf);
+  }
   esp_camera_fb_return(fb);
 
   if (out_len == 0 || out_len > required) {
