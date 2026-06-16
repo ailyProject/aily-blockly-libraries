@@ -8,8 +8,14 @@
       null,
       {
         "options": [
-          ["0x18 (デフォルト)", "0x18"],
-          ["0x30", "0x30"]
+          [
+            "0x18 (デフォルト)",
+            "0x18"
+          ],
+          [
+            "0x30",
+            "0x30"
+          ]
         ]
       }
     ]
@@ -42,10 +48,6 @@
     "message0": "ES8311 %1 録音/再生停止",
     "tooltip": "現在の録音または再生を停止し、I2S DMAバッファをクリア"
   },
-  "es8311_sound_detected": {
-    "message0": "ES8311 %1 音検出 しきい値 %2",
-    "tooltip": "環境音がしきい値（0~100）を超えたか検出、超えた場合trueを返す"
-  },
   "es8311_mute": {
     "message0": "ES8311 %1 %2",
     "tooltip": "ES8311 ミュート状態を制御",
@@ -53,10 +55,22 @@
       null,
       {
         "options": [
-          ["ミュート解除", "0"],
-          ["出力ミュート", "1"],
-          ["マイクミュート", "2"],
-          ["全ミュート", "3"]
+          [
+            "ミュート解除",
+            "0"
+          ],
+          [
+            "出力ミュート",
+            "1"
+          ],
+          [
+            "マイクミュート",
+            "2"
+          ],
+          [
+            "全ミュート",
+            "3"
+          ]
         ]
       }
     ]
@@ -72,8 +86,14 @@
       null,
       {
         "options": [
-          ["有効", "true"],
-          ["無効", "false"]
+          [
+            "有効",
+            "true"
+          ],
+          [
+            "無効",
+            "false"
+          ]
         ]
       }
     ]
@@ -95,16 +115,38 @@
     "tooltip": "DashScope の API Key と互換モード Base URL を設定します。WiFi 接続は既存の WiFi ブロックで行います"
   },
   "es8311_qwen_audio_chat": {
-    "message0": "ES8311 %1 現在の録音を Qwen に送信 プロンプト %2 モデル %3",
-    "tooltip": "現在の録音を Qwen Omni に送信し、音声返信をリアルタイム再生して最終テキスト結果を保存します",
+    "message0": "ES8311 %1 録音を通義千問に送信 プロンプト %2 モデル %3 音声 %4 再生 %5",
+    "tooltip": "録音をQwen Omniにアップロードし、音声返答をストリーミング再生してテキストを保存。バックグラウンドモードは受信後すぐ戻り、停止ブロックで中断可能",
     "args0": [
       null,
       null,
       {
         "options": [
-          ["qwen3.5-omni-plus (推奨)", "qwen3.5-omni-plus"],
-          ["qwen-omni-turbo", "qwen-omni-turbo"],
-          ["qwen3-omni-flash", "qwen3-omni-flash"]
+          [
+            "qwen3.5-omni-plus (推奨)",
+            "qwen3.5-omni-plus"
+          ],
+          [
+            "qwen-omni-turbo",
+            "qwen-omni-turbo"
+          ],
+          [
+            "qwen3-omni-flash",
+            "qwen3-omni-flash"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "再生完了まで待つ",
+            "WAIT"
+          ],
+          [
+            "バックグラウンド(中断可)",
+            "BACKGROUND"
+          ]
         ]
       }
     ]
@@ -120,5 +162,37 @@
   "es8311_qwen_get_last_error": {
     "message0": "ES8311 AI の最後のエラー情報を取得",
     "tooltip": "直近のクラウド音声理解リクエストのエラー情報を返します"
+  },
+  "es8311_record_start": {
+    "message0": "ES8311 %1 録音開始(バックグラウンド)",
+    "tooltip": "バックグラウンド録音を開始しすぐ戻ります。録音停止ブロックで終了、バッファ満杯で自動停止"
+  },
+  "es8311_record_stop": {
+    "message0": "ES8311 %1 録音停止",
+    "tooltip": "バックグラウンド録音を停止し実際の長さを保存（0.1秒未満は無効）"
+  },
+  "es8311_is_recording": {
+    "message0": "ES8311 %1 録音中",
+    "tooltip": "バックグラウンド録音が進行中かどうか"
+  },
+  "es8311_is_speaking": {
+    "message0": "ES8311 %1 音声再生中",
+    "tooltip": "ストリーミング/バックグラウンド音声が再生中かどうか"
+  },
+  "es8311_sound_level": {
+    "message0": "ES8311 %1 現在の音量レベル",
+    "tooltip": "マイクをリアルタイムにサンプリングしレベル（0~100）を返す（I2S設定が必要）"
+  },
+  "es8311_stream_begin": {
+    "message0": "ES8311 %1 ストリーミング再生開始 サンプルレート %2",
+    "tooltip": "ストリーミング再生を開始し16kHzへリサンプリング"
+  },
+  "es8311_stream_end": {
+    "message0": "ES8311 %1 ストリーミング再生終了",
+    "tooltip": "ストリーミング再生を終了しI2S DMAバッファをクリア"
+  },
+  "es8311_stream_play_url": {
+    "message0": "ES8311 %1 URLから音声をストリーミング再生 %2 サンプルレート %3",
+    "tooltip": "http(s)から16bitモノラルPCM/WAVをダウンロードしながら再生（WiFi必須）"
   }
 }

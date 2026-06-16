@@ -90,6 +90,72 @@
     "tooltip": "开始录音，时长由初始化块设置"
   },
   {
+    "type": "es8311_record_start",
+    "message0": "ES8311 %1 开始录音(后台)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "audio",
+        "variableTypes": ["ES8311"],
+        "defaultType": "ES8311"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "开始后台录音，立即返回不阻塞程序；调用停止录音结束，或录满缓冲自动停止。实际录音长度会被记录，播放/上传只用实际部分"
+  },
+  {
+    "type": "es8311_record_stop",
+    "message0": "ES8311 %1 停止录音",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "audio",
+        "variableTypes": ["ES8311"],
+        "defaultType": "ES8311"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "停止后台录音并保存实际长度（不足0.1秒视为无效录音）"
+  },
+  {
+    "type": "es8311_is_recording",
+    "message0": "ES8311 %1 正在录音",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "audio",
+        "variableTypes": ["ES8311"],
+        "defaultType": "ES8311"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#9C27B0",
+    "tooltip": "后台录音是否进行中（录满缓冲会自动停止）"
+  },
+  {
+    "type": "es8311_is_speaking",
+    "message0": "ES8311 %1 正在播放语音",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "audio",
+        "variableTypes": ["ES8311"],
+        "defaultType": "ES8311"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#9C27B0",
+    "tooltip": "流式/后台语音是否还在播放中（配合后台播放模式使用）"
+  },
+  {
     "type": "es8311_play",
     "message0": "ES8311 %1 开始播放",
     "args0": [
@@ -195,8 +261,8 @@
     "tooltip": "停止当前录音或播放，清零 I2S DMA 缓冲区"
   },
   {
-    "type": "es8311_sound_detected",
-    "message0": "ES8311 %1 检测到声音 阈值 %2",
+    "type": "es8311_sound_level",
+    "message0": "ES8311 %1 当前声音强度",
     "args0": [
       {
         "type": "field_variable",
@@ -204,18 +270,11 @@
         "variable": "audio",
         "variableTypes": ["ES8311"],
         "defaultType": "ES8311"
-      },
-      {
-        "type": "field_number",
-        "name": "THRESHOLD",
-        "value": 30,
-        "min": 0,
-        "max": 100
       }
     ],
-    "output": "Boolean",
+    "output": "Number",
     "colour": "#00BCD4",
-    "tooltip": "实时从麦克风采集一小段音频，判断当前声音是否超过阈值（0~100），超过返回 true（需先配置 I2S）"
+    "tooltip": "实时从麦克风采集一小段音频，返回当前声音强度数值（0~100，需先配置 I2S）"
   },
   {
     "type": "es8311_mute",
@@ -476,7 +535,7 @@
   },
   {
     "type": "es8311_qwen_audio_chat",
-    "message0": "ES8311 %1 上传当前录音到通义千问 提示词 %2 模型 %3",
+    "message0": "ES8311 %1 上传当前录音到通义千问 提示词 %2 模型 %3 音色 %4 回复播放 %5",
     "args0": [
       {
         "type": "field_variable",
@@ -498,13 +557,32 @@
           ["qwen-omni-turbo", "qwen-omni-turbo"],
           ["qwen3-omni-flash", "qwen3-omni-flash"]
         ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VOICE",
+        "options": [
+          ["Tina", "Tina"],
+          ["Cherry", "Cherry"],
+          ["Serena", "Serena"],
+          ["Ethan", "Ethan"],
+          ["Chelsie", "Chelsie"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PLAY_MODE",
+        "options": [
+          ["等待播完", "WAIT"],
+          ["后台播放(可打断)", "BACKGROUND"]
+        ]
       }
     ],
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#FF6B35",
-    "tooltip": "将当前录音上传到通义千问 Omni，实时播放语音回复并保存最终文本结果",
+    "tooltip": "将当前录音上传到通义千问 Omni，流式播放语音回复并保存文本结果。后台播放模式下收完数据立即返回，语音继续播，可用停止块打断",
     "icon": "fa-regular fa-head-side-gear"
   },
   {

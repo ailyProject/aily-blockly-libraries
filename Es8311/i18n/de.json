@@ -8,8 +8,14 @@
       null,
       {
         "options": [
-          ["0x18 (Standard)", "0x18"],
-          ["0x30", "0x30"]
+          [
+            "0x18 (Standard)",
+            "0x18"
+          ],
+          [
+            "0x30",
+            "0x30"
+          ]
         ]
       }
     ]
@@ -42,10 +48,6 @@
     "message0": "ES8311 %1 Aufnahme/Wiedergabe stoppen",
     "tooltip": "Aktuelle Aufnahme oder Wiedergabe stoppen, I2S DMA-Puffer leeren"
   },
-  "es8311_sound_detected": {
-    "message0": "ES8311 %1 Ton erkannt Schwellenwert %2",
-    "tooltip": "Erkennen, ob Umgebungsgeräusch den Schwellenwert (0~100) überschreitet, gibt true zurück"
-  },
   "es8311_mute": {
     "message0": "ES8311 %1 %2",
     "tooltip": "ES8311 Stummschaltung steuern",
@@ -53,10 +55,22 @@
       null,
       {
         "options": [
-          ["Stummschaltung aufheben", "0"],
-          ["Ausgang stumm", "1"],
-          ["Mikrofon stumm", "2"],
-          ["Alles stumm", "3"]
+          [
+            "Stummschaltung aufheben",
+            "0"
+          ],
+          [
+            "Ausgang stumm",
+            "1"
+          ],
+          [
+            "Mikrofon stumm",
+            "2"
+          ],
+          [
+            "Alles stumm",
+            "3"
+          ]
         ]
       }
     ]
@@ -72,8 +86,14 @@
       null,
       {
         "options": [
-          ["Aktivieren", "true"],
-          ["Deaktivieren", "false"]
+          [
+            "Aktivieren",
+            "true"
+          ],
+          [
+            "Deaktivieren",
+            "false"
+          ]
         ]
       }
     ]
@@ -95,16 +115,38 @@
     "tooltip": "Konfiguriert den DashScope API-Key und die kompatible Base URL. Die WLAN-Verbindung erfolgt mit vorhandenen WiFi-Blöcken"
   },
   "es8311_qwen_audio_chat": {
-    "message0": "ES8311 %1 aktuelle Aufnahme an Qwen senden Prompt %2 Modell %3",
-    "tooltip": "Sendet die aktuelle Aufnahme an Qwen Omni, spielt die Sprachantwort in Echtzeit ab und speichert das endgültige Textergebnis",
+    "message0": "ES8311 %1 Aufnahme an Qwen senden Prompt %2 Modell %3 Stimme %4 Wiedergabe %5",
+    "tooltip": "Lädt die Aufnahme zu Qwen Omni hoch, streamt die Sprachantwort und speichert den Text. Hintergrundmodus kehrt nach Empfang zurück; mit dem Stopp-Block unterbrechen",
     "args0": [
       null,
       null,
       {
         "options": [
-          ["qwen3.5-omni-plus (Empfohlen)", "qwen3.5-omni-plus"],
-          ["qwen-omni-turbo", "qwen-omni-turbo"],
-          ["qwen3-omni-flash", "qwen3-omni-flash"]
+          [
+            "qwen3.5-omni-plus (Empfohlen)",
+            "qwen3.5-omni-plus"
+          ],
+          [
+            "qwen-omni-turbo",
+            "qwen-omni-turbo"
+          ],
+          [
+            "qwen3-omni-flash",
+            "qwen3-omni-flash"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "warten bis fertig",
+            "WAIT"
+          ],
+          [
+            "Hintergrund (unterbrechbar)",
+            "BACKGROUND"
+          ]
         ]
       }
     ]
@@ -120,5 +162,37 @@
   "es8311_qwen_get_last_error": {
     "message0": "letzte ES8311-AI-Fehlermeldung abrufen",
     "tooltip": "Gibt die Fehlermeldung der letzten Cloud-Audioverständnis-Anfrage zurück"
+  },
+  "es8311_record_start": {
+    "message0": "ES8311 %1 Aufnahme starten (Hintergrund)",
+    "tooltip": "Startet die Hintergrundaufnahme und kehrt sofort zurück; mit Aufnahme-stoppen beenden, stoppt automatisch bei vollem Puffer"
+  },
+  "es8311_record_stop": {
+    "message0": "ES8311 %1 Aufnahme stoppen",
+    "tooltip": "Stoppt die Hintergrundaufnahme und speichert die tatsächliche Länge (unter 0,1s gilt als keine Aufnahme)"
+  },
+  "es8311_is_recording": {
+    "message0": "ES8311 %1 nimmt auf",
+    "tooltip": "Ob die Hintergrundaufnahme läuft"
+  },
+  "es8311_is_speaking": {
+    "message0": "ES8311 %1 spielt Sprache ab",
+    "tooltip": "Ob Streaming-/Hintergrundaudio noch abgespielt wird"
+  },
+  "es8311_sound_level": {
+    "message0": "ES8311 %1 aktueller Geräuschpegel",
+    "tooltip": "Misst das Mikrofon in Echtzeit und liefert den Pegel (0~100, I2S muss konfiguriert sein)"
+  },
+  "es8311_stream_begin": {
+    "message0": "ES8311 %1 Streaming-Wiedergabe starten Quellrate %2",
+    "tooltip": "Startet die Streaming-Wiedergabe, Quellrate wird auf 16kHz umgerechnet"
+  },
+  "es8311_stream_end": {
+    "message0": "ES8311 %1 Streaming-Wiedergabe beenden",
+    "tooltip": "Beendet die Streaming-Wiedergabe und leert den I2S-DMA-Puffer"
+  },
+  "es8311_stream_play_url": {
+    "message0": "ES8311 %1 Audio von URL streamen %2 Quellrate %3",
+    "tooltip": "Lädt 16-Bit-Mono-PCM/WAV von http(s) und spielt es während des Downloads ab (WLAN erforderlich)"
   }
 }

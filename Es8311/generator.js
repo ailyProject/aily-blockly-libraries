@@ -229,7 +229,7 @@ bool es8311_qwen_play_audio_chunk(ES8311Audio &audio, const char* base64Data) {
 }`);
 
   generator.addFunction('es8311_qwen_audio_chat_request', String.raw`
-String es8311_qwen_audio_chat_request(ES8311Audio &audio, String model, String prompt) {
+String es8311_qwen_audio_chat_request(ES8311Audio &audio, String model, String prompt, String voice, bool backgroundPlay) {
   es8311_qwen_last_success = false;
   es8311_qwen_last_error = "";
   es8311_qwen_last_text = "";
@@ -273,7 +273,7 @@ String es8311_qwen_audio_chat_request(ES8311Audio &audio, String model, String p
   String safePrompt = es8311_qwen_json_escape(prompt);
 
   String jsonPrefix = "{\"model\":\"" + model + "\",\"messages\":[{\"role\":\"user\",\"content\":[{\"type\":\"input_audio\",\"input_audio\":{\"data\":\"data:;base64,";
-  String jsonSuffix = "\",\"format\":\"wav\"}},{\"type\":\"text\",\"text\":\"" + safePrompt + "\"}]}],\"modalities\":[\"text\",\"audio\"],\"audio\":{\"voice\":\"Tina\",\"format\":\"wav\"},\"stream\":true,\"stream_options\":{\"include_usage\":true}}";
+  String jsonSuffix = "\",\"format\":\"wav\"}},{\"type\":\"text\",\"text\":\"" + safePrompt + "\"}]}],\"modalities\":[\"text\",\"audio\"],\"audio\":{\"voice\":\"" + voice + "\",\"format\":\"wav\"},\"stream\":true,\"stream_options\":{\"include_usage\":true}}";
   size_t contentLength = (size_t)jsonPrefix.length() + base64Length + (size_t)jsonSuffix.length();
 
   WiFiClientSecure client;
@@ -322,10 +322,15 @@ String es8311_qwen_audio_chat_request(ES8311Audio &audio, String model, String p
     }
   }
 
+  bool isChunked = false;
   while (client.connected()) {
     String headerLine = client.readStringUntil('\n');
     if (headerLine == "\r" || headerLine.length() == 0) {
       break;
+    }
+    headerLine.toLowerCase();
+    if (headerLine.startsWith("transfer-encoding:") && headerLine.indexOf("chunked") >= 0) {
+      isChunked = true;
     }
   }
 
@@ -344,77 +349,182 @@ String es8311_qwen_audio_chat_request(ES8311Audio &audio, String model, String p
   audio.streamBegin(24000);
 
   bool gotResponseChunk = false;
-  String lineBuffer = "";
-  unsigned long lastDataMs = millis();
+  bool streamDone = false;
 
-  while (client.connected() || client.available()) {
+  size_t lineCap = 32768;          // grows on demand: Qwen audio delta lines can exceed 100KB
+  const size_t LINE_CAP_MAX = 2097152;
+  char* lineBuf = (char*)malloc(lineCap);
+  if (lineBuf == nullptr) {
+    client.stop();
+    audio.streamEnd();
+    es8311_qwen_last_error = "Out of memory";
+    return "";
+  }
+  size_t lineLen = 0;
+  bool lineOverflow = false;
+
+  // HTTP chunked transfer decoding state
+  long chunkSize = 0;
+  long chunkRemaining = 0;
+  int chunkState = 0;        // 0=size line, 1=payload, 2=skip CRLF after payload
+  bool inChunkExt = false;
+
+  unsigned long lastDataMs = millis();
+  static uint8_t readBuf[1024];
+
+  while (!streamDone && (client.connected() || client.available())) {
     if (es8311_qwen_stop_requested) {
       client.stop();
+      free(lineBuf);
       es8311_qwen_last_error = "Stopped";
       audio.streamEnd();
       return "";
     }
 
-    if (client.available()) {
-      char ch = (char)client.read();
-      lineBuffer += ch;
-
-      if (ch == '\n') {
-        String line = lineBuffer;
-        lineBuffer = "";
-        line.trim();
-
-        if (line.startsWith("data:")) {
-          String data = line.substring(5);
-          data.trim();
-
-          if (data == "[DONE]") {
-            break;
-          }
-
-          JsonDocument doc;
-          DeserializationError error = deserializeJson(doc, data);
-          if (!error) {
-            JsonArray choices = doc["choices"].as<JsonArray>();
-            if (!choices.isNull() && choices.size() > 0) {
-              JsonObject delta = choices[0]["delta"].as<JsonObject>();
-              const char* content = delta["content"];
-              const char* audioData = delta["audio"]["data"];
-
-              if (content != nullptr && content[0] != '\0') {
-                es8311_qwen_last_text += String(content);
-                Serial.print(content);
-                gotResponseChunk = true;
-              }
-
-              if (audioData != nullptr && audioData[0] != '\0') {
-                if (!es8311_qwen_play_audio_chunk(audio, audioData)) {
-                  client.stop();
-                  es8311_qwen_last_error = "Audio decode failed";
-                  audio.streamEnd();
-                  return "";
-                }
-                gotResponseChunk = true;
-              }
-            }
-          }
-        }
-      }
-
-      lastDataMs = millis();
-    } else {
+    int availBytes = client.available();
+    if (availBytes <= 0) {
       if (!client.connected()) {
         break;
       }
-      if (millis() - lastDataMs > 65000) {
+      if (millis() - lastDataMs > 20000) {
         break;
       }
       delay(1);
+      continue;
+    }
+
+    int n = client.read(readBuf, availBytes > (int)sizeof(readBuf) ? (int)sizeof(readBuf) : availBytes);
+    if (n <= 0) {
+      delay(1);
+      continue;
+    }
+    lastDataMs = millis();
+
+    for (int bi = 0; bi < n; bi++) {
+      uint8_t byteVal = readBuf[bi];
+
+      // strip HTTP chunked framing so chunk-size headers never corrupt SSE lines
+      if (isChunked) {
+        if (chunkState == 0) {
+          if (byteVal == '\n') {
+            if (chunkSize == 0) {
+              streamDone = true;
+              break;
+            }
+            chunkRemaining = chunkSize;
+            chunkSize = 0;
+            inChunkExt = false;
+            chunkState = 1;
+          } else if (byteVal == ';') {
+            inChunkExt = true;
+          } else if (!inChunkExt) {
+            if (byteVal >= '0' && byteVal <= '9') chunkSize = chunkSize * 16 + (byteVal - '0');
+            else if (byteVal >= 'a' && byteVal <= 'f') chunkSize = chunkSize * 16 + (byteVal - 'a' + 10);
+            else if (byteVal >= 'A' && byteVal <= 'F') chunkSize = chunkSize * 16 + (byteVal - 'A' + 10);
+          }
+          continue;
+        }
+        if (chunkState == 2) {
+          if (byteVal == '\n') {
+            chunkState = 0;
+          }
+          continue;
+        }
+        // chunkState == 1: payload byte, falls through below
+        if (--chunkRemaining == 0) {
+          chunkState = 2;
+        }
+      }
+
+      char ch = (char)byteVal;
+      if (ch != '\n') {
+        if (lineLen >= lineCap - 1 && !lineOverflow) {
+          if (lineCap < LINE_CAP_MAX) {
+            size_t newCap = lineCap * 2;
+            char* newBuf = (char*)realloc(lineBuf, newCap);
+            if (newBuf != nullptr) {
+              lineBuf = newBuf;
+              lineCap = newCap;
+            } else {
+              lineOverflow = true;
+            }
+          } else {
+            lineOverflow = true;
+          }
+        }
+        if (!lineOverflow) {
+          lineBuf[lineLen++] = ch;
+        }
+        continue;
+      }
+
+      // full line assembled
+      if (lineOverflow) {
+        Serial.println("[ES8311] SSE line too long, dropped");
+        lineLen = 0;
+        lineOverflow = false;
+        continue;
+      }
+      lineBuf[lineLen] = '\0';
+      while (lineLen > 0 && (lineBuf[lineLen - 1] == '\r' || lineBuf[lineLen - 1] == ' ')) {
+        lineBuf[--lineLen] = '\0';
+      }
+      char* linePtr = lineBuf;
+      while (*linePtr == ' ') linePtr++;
+      bool isDataLine = (strncmp(linePtr, "data:", 5) == 0);
+      char* dataPtr = linePtr + 5;
+      lineLen = 0;
+
+      if (!isDataLine) {
+        continue;
+      }
+      while (*dataPtr == ' ') dataPtr++;
+
+      if (strcmp(dataPtr, "[DONE]") == 0) {
+        streamDone = true;
+        break;
+      }
+
+      JsonDocument doc;
+      DeserializationError jsonError = deserializeJson(doc, dataPtr);
+      if (jsonError) {
+        Serial.println("[ES8311] SSE parse fail");
+        continue;
+      }
+      JsonArray choices = doc["choices"].as<JsonArray>();
+      if (choices.isNull() || choices.size() == 0) {
+        continue;
+      }
+      JsonObject delta = choices[0]["delta"].as<JsonObject>();
+      const char* content = delta["content"];
+      const char* audioData = delta["audio"]["data"];
+
+      if (content != nullptr && content[0] != '\0') {
+        es8311_qwen_last_text += String(content);
+        Serial.print(content);
+        gotResponseChunk = true;
+      }
+
+      if (audioData != nullptr && audioData[0] != '\0') {
+        if (!es8311_qwen_play_audio_chunk(audio, audioData)) {
+          client.stop();
+          free(lineBuf);
+          es8311_qwen_last_error = "Audio decode failed";
+          audio.streamEnd();
+          return "";
+        }
+        gotResponseChunk = true;
+      }
     }
   }
 
   client.stop();
-  es8311_qwen_restore_local_i2s();
+  free(lineBuf);
+  if (backgroundPlay) {
+    audio.streamFinishAsync();   // return now; the rest keeps playing in the background
+  } else {
+    audio.streamEnd();           // block until playback finishes
+  }
 
   if (!gotResponseChunk) {
     es8311_qwen_last_error = "Empty response";
@@ -472,7 +582,7 @@ bool es8311_stream_play_url(ES8311Audio &audio, String url, uint32_t srcRate) {
 
   client->print("GET ");
   client->print(path);
-  client->print(" HTTP/1.1\r\n");
+  client->print(" HTTP/1.0\r\n");   // HTTP/1.0: server must not use chunked framing, keeps the PCM byte stream clean
   client->print("Host: ");
   client->print(host);
   client->print("\r\n");
@@ -618,6 +728,30 @@ Arduino.forBlock['es8311_record'] = function(block) {
   return varName + '.record();\n';
 };
 
+Arduino.forBlock['es8311_record_start'] = function(block) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'audio';
+  return varName + '.recordStart();\n';
+};
+
+Arduino.forBlock['es8311_record_stop'] = function(block) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'audio';
+  return varName + '.recordStop();\n';
+};
+
+Arduino.forBlock['es8311_is_recording'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'audio';
+  return [varName + '.isRecording()', generator.ORDER_FUNCTION_CALL];
+};
+
+Arduino.forBlock['es8311_is_speaking'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'audio';
+  return [varName + '.isStreaming()', generator.ORDER_FUNCTION_CALL];
+};
+
 Arduino.forBlock['es8311_play'] = function(block) {
   const varField = block.getField('VAR');
   const varName = varField ? varField.getText() : 'audio';
@@ -651,11 +785,10 @@ Arduino.forBlock['es8311_stop'] = function(block, generator) {
   return 'es8311_qwen_stop_requested = true;\n' + varName + '.stop();\n';
 };
 
-Arduino.forBlock['es8311_sound_detected'] = function(block, generator) {
+Arduino.forBlock['es8311_sound_level'] = function(block, generator) {
   const varField = block.getField('VAR');
   const varName = varField ? varField.getText() : 'audio';
-  const threshold = block.getFieldValue('THRESHOLD');
-  return [varName + '.soundDetected(' + threshold + ')', generator.ORDER_FUNCTION_CALL];
+  return [varName + '.getSoundLevel()', generator.ORDER_FUNCTION_CALL];
 };
 
 Arduino.forBlock['es8311_mute'] = function(block) {
@@ -743,7 +876,10 @@ Arduino.forBlock['es8311_qwen_audio_chat'] = function(block, generator) {
   const varName = varField ? varField.getText() : 'audio';
   const prompt = generator.valueToCode(block, 'PROMPT', generator.ORDER_ATOMIC) || '"What does this audio say?"';
   const model = block.getFieldValue('MODEL') || 'qwen3.5-omni-plus';
-  return 'es8311_qwen_audio_chat_request(' + varName + ', "' + model + '", ' + prompt + ');\n';
+  const voice = block.getFieldValue('VOICE') || 'Tina';
+  const playMode = block.getFieldValue('PLAY_MODE') || 'WAIT';
+  const background = playMode === 'BACKGROUND' ? 'true' : 'false';
+  return 'es8311_qwen_audio_chat_request(' + varName + ', "' + model + '", ' + prompt + ', "' + voice + '", ' + background + ');\n';
 };
 
 Arduino.forBlock['es8311_qwen_get_last_text'] = function(block, generator) {
