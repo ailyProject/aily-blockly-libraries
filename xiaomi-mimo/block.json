@@ -3,8 +3,16 @@
     "type": "mimo_config",
     "message0": "配置小米MiMo API Key %1 Base URL %2",
     "args0": [
-      {"type": "input_value", "name": "API_KEY", "check": "String"},
-      {"type": "input_value", "name": "BASE_URL", "check": "String"}
+      {
+        "type": "input_value",
+        "name": "API_KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "BASE_URL",
+        "check": "String"
+      }
     ],
     "inputsInline": true,
     "previousStatement": null,
@@ -15,16 +23,520 @@
     "icon": "fa-brands fa-xing"
   },
   {
-    "type": "mimo_chat",
-    "message0": "小米AI对话 用户消息 %1 模型 %2",
+    "type": "mimo_i2s_speaker_init",
+    "message0": "I2S喇叭初始化 对象 %1 %2 BCLK %3 LRCLK %4 DIN %5 采样率 %6",
     "args0": [
-      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s_spk",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "BCLK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LRCLK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SAMPLE_RATE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "初始化MAX98357A等I2S喇叭输出对象，并自动声明I2SClass对象",
+    "helpUrl": "",
+    "icon": "fa-regular fa-volume-high"
+  },
+  {
+    "type": "mimo_i2s_mic_init",
+    "message0": "I2S麦克风初始化 对象 %1 %2 BCLK %3 LRCLK/WS %4 SD/DOUT %5 采样率 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s_mic",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "BCLK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LRCLK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SD",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SAMPLE_RATE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "初始化INMP441等标准I2S麦克风输入对象，并自动声明I2SClass对象",
+    "helpUrl": "",
+    "icon": "fa-regular fa-microphone"
+  },
+  {
+    "type": "mimo_pdm_mic_init",
+    "message0": "PDM麦克风初始化 对象 %1 %2 CLK %3 DATA %4 采样率 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s_mic",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "CLK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SAMPLE_RATE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "初始化PDM麦克风输入对象，适用于XIAO ESP32S3 Sense板载麦克风等。XIAO ESP32S3 Sense默认CLK为42、DATA为41",
+    "helpUrl": "",
+    "icon": "fa-regular fa-microphone-lines"
+  },
+  {
+    "type": "mimo_es8311_mic_init",
+    "message0": "ES8311麦克风初始化 对象 %1 %2 SDA %3 SCL %4 地址 %5 BCLK %6 LRCLK %7 SDOUT %8 MCLK %9 采样率 %10 增益寄存器 %11",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s_mic",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "SDA",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SCL",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "I2C_ADDRESS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BCLK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LRCLK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SDOUT",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MCLK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SAMPLE_RATE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MIC_GAIN",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "初始化ES8311音频编解码器的麦克风输入，先通过I2C配置ADC/麦克风路径，再初始化I2S录音对象。默认地址0x18(十进制24)，默认增益寄存器0x24(十进制36)",
+    "helpUrl": "",
+    "icon": "fa-regular fa-microphone-lines"
+  },
+  {
+    "type": "mimo_es8311_audio_init",
+    "message0": "ES8311麦克风+喇叭初始化 对象 %1 %2 SDA %3 SCL %4 地址 %5 BCLK/SCLK %6 LR %7 DI/DAC输入 %8 DO/ADC输出 %9 MCK %10 采样率 %11 增益寄存器 %12 PA_EN %13",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s_audio",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "SDA",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SCL",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "I2C_ADDRESS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BCLK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LRCLK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DAC_DIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ADC_DOUT",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MCLK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SAMPLE_RATE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MIC_GAIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PA_EN",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "初始化ES8311音频编解码器的麦克风和喇叭通道，适合Microphone + Audio Amplifier板。图中默认: SCLK39, LR2, DI38, DO40, MCK46, SDA41, SCL42。ES8311供电3V3，NS4150B功放供电5V。PA_EN默认-1表示不控制；如果板子有功放使能脚，填入GPIO后会拉高",
+    "helpUrl": "",
+    "icon": "fa-regular fa-waveform-lines"
+  },
+  {
+    "type": "mimo_i2s_prompt_tone",
+    "message0": "播放提示音 对象 %1 %2 频率Hz %3 时长ms %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s_spk",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "FREQ",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "通过当前I2S/ES8311喇叭对象播放一段短提示音，用于开始录音、结束录音或检查喇叭输出",
+    "helpUrl": "",
+    "icon": "fa-regular fa-bell"
+  },
+  {
+    "type": "mimo_i2s_record_text",
+    "message0": "小米MiMo录音转文字 麦克风对象 %1 %2 录音 %3 秒 %4 模型 %5 %6 转写提示(可选) %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MIC_VAR",
+        "variable": "i2s_mic",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": "Number"
+      },
+      {
+        "type": "inputsInline"
+      },
       {
         "type": "field_dropdown",
         "name": "MODEL",
         "options": [
-          ["mimo-v2.5", "mimo-v2.5"],
-          ["mimo-v2-omni", "mimo-v2-omni"]
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ],
+          [
+            "mimo-v2-omni",
+            "mimo-v2-omni"
+          ]
+        ]
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "PROMPT",
+        "check": "String"
+      }
+    ],
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "使用I2S麦克风录音并调用小米MiMo音频理解，只返回识别/理解后的文字。录音格式为16kHz 16bit单声道",
+    "helpUrl": "",
+    "icon": "fa-regular fa-microphone-lines"
+  },
+  {
+    "type": "mimo_voice_chat",
+    "message0": "小米MiMo语音对话 麦克风对象 %1 喇叭对象 %2 %3 录音 %4 秒 %5 理解模型 %6 音色 %7 TTS模型 %8 提示音 %9 %10 提问(可选) %11",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MIC_VAR",
+        "variable": "i2s_mic",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "field_variable",
+        "name": "SPK_VAR",
+        "variable": "i2s_spk",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": "Number"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ],
+          [
+            "mimo-v2-omni",
+            "mimo-v2-omni"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VOICE",
+        "options": [
+          [
+            "MiMo默认 (V2)",
+            "mimo_default"
+          ],
+          [
+            "中文女声 (V2)",
+            "default_zh"
+          ],
+          [
+            "英文女声 (V2)",
+            "default_en"
+          ],
+          [
+            "冰糖 (V2.5 中文女声)",
+            "冰糖"
+          ],
+          [
+            "茉莉 (V2.5 中文女声)",
+            "茉莉"
+          ],
+          [
+            "苏打 (V2.5 中文男声)",
+            "苏打"
+          ],
+          [
+            "白桦 (V2.5 中文男声)",
+            "白桦"
+          ],
+          [
+            "Mia (V2.5 英文女声)",
+            "Mia"
+          ],
+          [
+            "Chloe (V2.5 英文女声)",
+            "Chloe"
+          ],
+          [
+            "Milo (V2.5 英文男声)",
+            "Milo"
+          ],
+          [
+            "Dean (V2.5 英文男声)",
+            "Dean"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TTS_MODEL",
+        "options": [
+          [
+            "MiMo-V2.5-TTS",
+            "mimo-v2.5-tts"
+          ],
+          [
+            "MiMo-V2-TTS",
+            "mimo-v2-tts"
+          ]
+        ]
+      },
+      {
+        "type": "field_checkbox",
+        "name": "BEEP",
+        "checked": true
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "PROMPT",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "先用I2S麦克风录音并让小米MiMo理解，再把回答通过TTS合成并用I2S喇叭播放。提示音会在录音开始和结束各滴一声",
+    "helpUrl": "",
+    "icon": "fa-regular fa-head-side-gear"
+  },
+  {
+    "type": "mimo_chat",
+    "message0": "小米AI对话 用户消息 %1 模型 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ],
+          [
+            "mimo-v2-omni",
+            "mimo-v2-omni"
+          ]
         ]
       }
     ],
@@ -39,13 +551,23 @@
     "type": "mimo_chat_with_history",
     "message0": "小米AI多轮对话 用户消息 %1 模型 %2",
     "args0": [
-      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      },
       {
         "type": "field_dropdown",
         "name": "MODEL",
         "options": [
-          ["mimo-v2.5", "mimo-v2.5"],
-          ["mimo-v2-omni", "mimo-v2-omni"]
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ],
+          [
+            "mimo-v2-omni",
+            "mimo-v2-omni"
+          ]
         ]
       }
     ],
@@ -70,7 +592,11 @@
     "type": "mimo_set_system_prompt",
     "message0": "设置小米AI系统提示词 %1",
     "args0": [
-      {"type": "input_value", "name": "SYSTEM_PROMPT", "check": "String"}
+      {
+        "type": "input_value",
+        "name": "SYSTEM_PROMPT",
+        "check": "String"
+      }
     ],
     "inputsInline": true,
     "previousStatement": null,
@@ -84,8 +610,16 @@
     "type": "mimo_image_understand_url",
     "message0": "小米AI图片理解(URL) 图片URL %1 提示词 %2",
     "args0": [
-      {"type": "input_value", "name": "IMAGE_URL", "check": "String"},
-      {"type": "input_value", "name": "MESSAGE", "check": "String"}
+      {
+        "type": "input_value",
+        "name": "IMAGE_URL",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      }
     ],
     "inputsInline": true,
     "output": "String",
@@ -98,8 +632,16 @@
     "type": "mimo_image_understand_base64",
     "message0": "小米AI图片理解(Base64) Base64图片 %1 提示词 %2",
     "args0": [
-      {"type": "input_value", "name": "IMAGE_BASE64", "check": "String"},
-      {"type": "input_value", "name": "MESSAGE", "check": "String"}
+      {
+        "type": "input_value",
+        "name": "IMAGE_BASE64",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      }
     ],
     "inputsInline": true,
     "output": "String",
@@ -112,7 +654,11 @@
     "type": "mimo_image_understand_capture",
     "message0": "小米AI图片理解(拍照) 提示词 %1",
     "args0": [
-      {"type": "input_value", "name": "MESSAGE", "check": "String"}
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      }
     ],
     "inputsInline": true,
     "output": "String",
@@ -125,8 +671,16 @@
     "type": "mimo_audio_understand",
     "message0": "小米AI音频理解 音频URL %1 提示词 %2",
     "args0": [
-      {"type": "input_value", "name": "AUDIO_URL", "check": "String"},
-      {"type": "input_value", "name": "MESSAGE", "check": "String"}
+      {
+        "type": "input_value",
+        "name": "AUDIO_URL",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      }
     ],
     "inputsInline": true,
     "output": "String",
@@ -139,8 +693,16 @@
     "type": "mimo_audio_understand_base64",
     "message0": "小米AI音频理解(Base64) Base64音频 %1 提示词 %2",
     "args0": [
-      {"type": "input_value", "name": "AUDIO_BASE64", "check": "String"},
-      {"type": "input_value", "name": "MESSAGE", "check": "String"}
+      {
+        "type": "input_value",
+        "name": "AUDIO_BASE64",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      }
     ],
     "inputsInline": true,
     "output": "String",
@@ -153,16 +715,36 @@
     "type": "mimo_video_understand",
     "message0": "小米AI视频理解 视频URL %1 提示词 %2 帧率 %3",
     "args0": [
-      {"type": "input_value", "name": "VIDEO_URL", "check": "String"},
-      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {
+        "type": "input_value",
+        "name": "VIDEO_URL",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      },
       {
         "type": "field_dropdown",
         "name": "FPS",
         "options": [
-          ["2 (默认)", "2"],
-          ["1 (低)", "1"],
-          ["5 (高)", "5"],
-          ["10 (极高)", "10"]
+          [
+            "2 (默认)",
+            "2"
+          ],
+          [
+            "1 (低)",
+            "1"
+          ],
+          [
+            "5 (高)",
+            "5"
+          ],
+          [
+            "10 (极高)",
+            "10"
+          ]
         ]
       }
     ],
@@ -177,16 +759,36 @@
     "type": "mimo_video_understand_base64",
     "message0": "小米AI视频理解(Base64) Base64视频 %1 提示词 %2 帧率 %3",
     "args0": [
-      {"type": "input_value", "name": "VIDEO_BASE64", "check": "String"},
-      {"type": "input_value", "name": "MESSAGE", "check": "String"},
+      {
+        "type": "input_value",
+        "name": "VIDEO_BASE64",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      },
       {
         "type": "field_dropdown",
         "name": "FPS",
         "options": [
-          ["2 (默认)", "2"],
-          ["1 (低)", "1"],
-          ["5 (高)", "5"],
-          ["10 (极高)", "10"]
+          [
+            "2 (默认)",
+            "2"
+          ],
+          [
+            "1 (低)",
+            "1"
+          ],
+          [
+            "5 (高)",
+            "5"
+          ],
+          [
+            "10 (极高)",
+            "10"
+          ]
         ]
       }
     ],
@@ -201,30 +803,73 @@
     "type": "mimo_tts",
     "message0": "小米AI语音合成 待合成文本 %1 音色 %2 模型 %3",
     "args0": [
-      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      },
       {
         "type": "field_dropdown",
         "name": "VOICE",
         "options": [
-          ["MiMo默认 (V2)", "mimo_default"],
-          ["中文女声 (V2)", "default_zh"],
-          ["英文女声 (V2)", "default_en"],
-          ["冰糖 (V2.5 中文女声)", "冰糖"],
-          ["茉莉 (V2.5 中文女声)", "茉莉"],
-          ["苏打 (V2.5 中文男声)", "苏打"],
-          ["白桦 (V2.5 中文男声)", "白桦"],
-          ["Mia (V2.5 英文女声)", "Mia"],
-          ["Chloe (V2.5 英文女声)", "Chloe"],
-          ["Milo (V2.5 英文男声)", "Milo"],
-          ["Dean (V2.5 英文男声)", "Dean"]
+          [
+            "MiMo默认 (V2)",
+            "mimo_default"
+          ],
+          [
+            "中文女声 (V2)",
+            "default_zh"
+          ],
+          [
+            "英文女声 (V2)",
+            "default_en"
+          ],
+          [
+            "冰糖 (V2.5 中文女声)",
+            "冰糖"
+          ],
+          [
+            "茉莉 (V2.5 中文女声)",
+            "茉莉"
+          ],
+          [
+            "苏打 (V2.5 中文男声)",
+            "苏打"
+          ],
+          [
+            "白桦 (V2.5 中文男声)",
+            "白桦"
+          ],
+          [
+            "Mia (V2.5 英文女声)",
+            "Mia"
+          ],
+          [
+            "Chloe (V2.5 英文女声)",
+            "Chloe"
+          ],
+          [
+            "Milo (V2.5 英文男声)",
+            "Milo"
+          ],
+          [
+            "Dean (V2.5 英文男声)",
+            "Dean"
+          ]
         ]
       },
       {
         "type": "field_dropdown",
         "name": "MODEL",
         "options": [
-          ["MiMo-V2.5-TTS", "mimo-v2.5-tts"],
-          ["MiMo-V2-TTS", "mimo-v2-tts"]
+          [
+            "MiMo-V2.5-TTS",
+            "mimo-v2.5-tts"
+          ],
+          [
+            "MiMo-V2-TTS",
+            "mimo-v2-tts"
+          ]
         ]
       }
     ],
@@ -239,31 +884,78 @@
     "type": "mimo_tts_with_style",
     "message0": "小米AI语音合成(带风格) 待合成文本 %1 音色 %2 风格指令 %3 模型 %4",
     "args0": [
-      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      },
       {
         "type": "field_dropdown",
         "name": "VOICE",
         "options": [
-          ["MiMo默认 (V2)", "mimo_default"],
-          ["中文女声 (V2)", "default_zh"],
-          ["英文女声 (V2)", "default_en"],
-          ["冰糖 (V2.5 中文女声)", "冰糖"],
-          ["茉莉 (V2.5 中文女声)", "茉莉"],
-          ["苏打 (V2.5 中文男声)", "苏打"],
-          ["白桦 (V2.5 中文男声)", "白桦"],
-          ["Mia (V2.5 英文女声)", "Mia"],
-          ["Chloe (V2.5 英文女声)", "Chloe"],
-          ["Milo (V2.5 英文男声)", "Milo"],
-          ["Dean (V2.5 英文男声)", "Dean"]
+          [
+            "MiMo默认 (V2)",
+            "mimo_default"
+          ],
+          [
+            "中文女声 (V2)",
+            "default_zh"
+          ],
+          [
+            "英文女声 (V2)",
+            "default_en"
+          ],
+          [
+            "冰糖 (V2.5 中文女声)",
+            "冰糖"
+          ],
+          [
+            "茉莉 (V2.5 中文女声)",
+            "茉莉"
+          ],
+          [
+            "苏打 (V2.5 中文男声)",
+            "苏打"
+          ],
+          [
+            "白桦 (V2.5 中文男声)",
+            "白桦"
+          ],
+          [
+            "Mia (V2.5 英文女声)",
+            "Mia"
+          ],
+          [
+            "Chloe (V2.5 英文女声)",
+            "Chloe"
+          ],
+          [
+            "Milo (V2.5 英文男声)",
+            "Milo"
+          ],
+          [
+            "Dean (V2.5 英文男声)",
+            "Dean"
+          ]
         ]
       },
-      {"type": "input_value", "name": "STYLE", "check": "String"},
+      {
+        "type": "input_value",
+        "name": "STYLE",
+        "check": "String"
+      },
       {
         "type": "field_dropdown",
         "name": "MODEL",
         "options": [
-          ["MiMo-V2.5-TTS", "mimo-v2.5-tts"],
-          ["MiMo-V2-TTS", "mimo-v2-tts"]
+          [
+            "MiMo-V2.5-TTS",
+            "mimo-v2.5-tts"
+          ],
+          [
+            "MiMo-V2-TTS",
+            "mimo-v2-tts"
+          ]
         ]
       }
     ],
@@ -278,8 +970,16 @@
     "type": "mimo_tts_voice_design",
     "message0": "小米AI音色设计合成 音色描述 %1 待合成文本 %2",
     "args0": [
-      {"type": "input_value", "name": "VOICE_DESC", "check": "String"},
-      {"type": "input_value", "name": "TEXT", "check": "String"}
+      {
+        "type": "input_value",
+        "name": "VOICE_DESC",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      }
     ],
     "inputsInline": true,
     "output": "String",
@@ -296,10 +996,16 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "i2s",
-        "variableTypes": ["I2SClass"],
+        "variableTypes": [
+          "I2SClass"
+        ],
         "defaultType": "I2SClass"
       },
-      {"type": "input_value", "name": "BASE64_AUDIO", "check": "String"}
+      {
+        "type": "input_value",
+        "name": "BASE64_AUDIO",
+        "check": "String"
+      }
     ],
     "inputsInline": true,
     "previousStatement": null,
@@ -317,33 +1023,78 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "i2s",
-        "variableTypes": ["I2SClass"],
+        "variableTypes": [
+          "I2SClass"
+        ],
         "defaultType": "I2SClass"
       },
-      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      },
       {
         "type": "field_dropdown",
         "name": "VOICE",
         "options": [
-          ["MiMo默认 (V2)", "mimo_default"],
-          ["中文女声 (V2)", "default_zh"],
-          ["英文女声 (V2)", "default_en"],
-          ["冰糖 (V2.5 中文女声)", "冰糖"],
-          ["茉莉 (V2.5 中文女声)", "茉莉"],
-          ["苏打 (V2.5 中文男声)", "苏打"],
-          ["白桦 (V2.5 中文男声)", "白桦"],
-          ["Mia (V2.5 英文女声)", "Mia"],
-          ["Chloe (V2.5 英文女声)", "Chloe"],
-          ["Milo (V2.5 英文男声)", "Milo"],
-          ["Dean (V2.5 英文男声)", "Dean"]
+          [
+            "MiMo默认 (V2)",
+            "mimo_default"
+          ],
+          [
+            "中文女声 (V2)",
+            "default_zh"
+          ],
+          [
+            "英文女声 (V2)",
+            "default_en"
+          ],
+          [
+            "冰糖 (V2.5 中文女声)",
+            "冰糖"
+          ],
+          [
+            "茉莉 (V2.5 中文女声)",
+            "茉莉"
+          ],
+          [
+            "苏打 (V2.5 中文男声)",
+            "苏打"
+          ],
+          [
+            "白桦 (V2.5 中文男声)",
+            "白桦"
+          ],
+          [
+            "Mia (V2.5 英文女声)",
+            "Mia"
+          ],
+          [
+            "Chloe (V2.5 英文女声)",
+            "Chloe"
+          ],
+          [
+            "Milo (V2.5 英文男声)",
+            "Milo"
+          ],
+          [
+            "Dean (V2.5 英文男声)",
+            "Dean"
+          ]
         ]
       },
       {
         "type": "field_dropdown",
         "name": "MODEL",
         "options": [
-          ["MiMo-V2.5-TTS", "mimo-v2.5-tts"],
-          ["MiMo-V2-TTS", "mimo-v2-tts"]
+          [
+            "MiMo-V2.5-TTS",
+            "mimo-v2.5-tts"
+          ],
+          [
+            "MiMo-V2-TTS",
+            "mimo-v2-tts"
+          ]
         ]
       }
     ],
@@ -363,34 +1114,83 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "i2s",
-        "variableTypes": ["I2SClass"],
+        "variableTypes": [
+          "I2SClass"
+        ],
         "defaultType": "I2SClass"
       },
-      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      },
       {
         "type": "field_dropdown",
         "name": "VOICE",
         "options": [
-          ["MiMo默认 (V2)", "mimo_default"],
-          ["中文女声 (V2)", "default_zh"],
-          ["英文女声 (V2)", "default_en"],
-          ["冰糖 (V2.5 中文女声)", "冰糖"],
-          ["茉莉 (V2.5 中文女声)", "茉莉"],
-          ["苏打 (V2.5 中文男声)", "苏打"],
-          ["白桦 (V2.5 中文男声)", "白桦"],
-          ["Mia (V2.5 英文女声)", "Mia"],
-          ["Chloe (V2.5 英文女声)", "Chloe"],
-          ["Milo (V2.5 英文男声)", "Milo"],
-          ["Dean (V2.5 英文男声)", "Dean"]
+          [
+            "MiMo默认 (V2)",
+            "mimo_default"
+          ],
+          [
+            "中文女声 (V2)",
+            "default_zh"
+          ],
+          [
+            "英文女声 (V2)",
+            "default_en"
+          ],
+          [
+            "冰糖 (V2.5 中文女声)",
+            "冰糖"
+          ],
+          [
+            "茉莉 (V2.5 中文女声)",
+            "茉莉"
+          ],
+          [
+            "苏打 (V2.5 中文男声)",
+            "苏打"
+          ],
+          [
+            "白桦 (V2.5 中文男声)",
+            "白桦"
+          ],
+          [
+            "Mia (V2.5 英文女声)",
+            "Mia"
+          ],
+          [
+            "Chloe (V2.5 英文女声)",
+            "Chloe"
+          ],
+          [
+            "Milo (V2.5 英文男声)",
+            "Milo"
+          ],
+          [
+            "Dean (V2.5 英文男声)",
+            "Dean"
+          ]
         ]
       },
-      {"type": "input_value", "name": "STYLE", "check": "String"},
+      {
+        "type": "input_value",
+        "name": "STYLE",
+        "check": "String"
+      },
       {
         "type": "field_dropdown",
         "name": "MODEL",
         "options": [
-          ["MiMo-V2.5-TTS", "mimo-v2.5-tts"],
-          ["MiMo-V2-TTS", "mimo-v2-tts"]
+          [
+            "MiMo-V2.5-TTS",
+            "mimo-v2.5-tts"
+          ],
+          [
+            "MiMo-V2-TTS",
+            "mimo-v2-tts"
+          ]
         ]
       }
     ],
@@ -410,11 +1210,21 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "i2s",
-        "variableTypes": ["I2SClass"],
+        "variableTypes": [
+          "I2SClass"
+        ],
         "defaultType": "I2SClass"
       },
-      {"type": "input_value", "name": "VOICE_DESC", "check": "String"},
-      {"type": "input_value", "name": "TEXT", "check": "String"}
+      {
+        "type": "input_value",
+        "name": "VOICE_DESC",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      }
     ],
     "inputsInline": true,
     "previousStatement": null,
@@ -432,25 +1242,64 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "i2s",
-        "variableTypes": ["I2SClass"],
+        "variableTypes": [
+          "I2SClass"
+        ],
         "defaultType": "I2SClass"
       },
-      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      },
       {
         "type": "field_dropdown",
         "name": "VOICE",
         "options": [
-          ["MiMo默认", "mimo_default"],
-          ["中文女声", "default_zh"],
-          ["英文女声", "default_en"],
-          ["冰糖 (V2.5)", "冰糖"],
-          ["茉莉 (V2.5)", "茉莉"],
-          ["苏打 (V2.5)", "苏打"],
-          ["白桦 (V2.5)", "白桦"],
-          ["Mia (V2.5)", "Mia"],
-          ["Chloe (V2.5)", "Chloe"],
-          ["Milo (V2.5)", "Milo"],
-          ["Dean (V2.5)", "Dean"]
+          [
+            "MiMo默认",
+            "mimo_default"
+          ],
+          [
+            "中文女声",
+            "default_zh"
+          ],
+          [
+            "英文女声",
+            "default_en"
+          ],
+          [
+            "冰糖 (V2.5)",
+            "冰糖"
+          ],
+          [
+            "茉莉 (V2.5)",
+            "茉莉"
+          ],
+          [
+            "苏打 (V2.5)",
+            "苏打"
+          ],
+          [
+            "白桦 (V2.5)",
+            "白桦"
+          ],
+          [
+            "Mia (V2.5)",
+            "Mia"
+          ],
+          [
+            "Chloe (V2.5)",
+            "Chloe"
+          ],
+          [
+            "Milo (V2.5)",
+            "Milo"
+          ],
+          [
+            "Dean (V2.5)",
+            "Dean"
+          ]
         ]
       }
     ],
@@ -470,28 +1319,71 @@
         "type": "field_variable",
         "name": "VAR",
         "variable": "i2s",
-        "variableTypes": ["I2SClass"],
+        "variableTypes": [
+          "I2SClass"
+        ],
         "defaultType": "I2SClass"
       },
-      {"type": "input_value", "name": "TEXT", "check": "String"},
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      },
       {
         "type": "field_dropdown",
         "name": "VOICE",
         "options": [
-          ["MiMo默认", "mimo_default"],
-          ["中文女声", "default_zh"],
-          ["英文女声", "default_en"],
-          ["冰糖 (V2.5)", "冰糖"],
-          ["茉莉 (V2.5)", "茉莉"],
-          ["苏打 (V2.5)", "苏打"],
-          ["白桦 (V2.5)", "白桦"],
-          ["Mia (V2.5)", "Mia"],
-          ["Chloe (V2.5)", "Chloe"],
-          ["Milo (V2.5)", "Milo"],
-          ["Dean (V2.5)", "Dean"]
+          [
+            "MiMo默认",
+            "mimo_default"
+          ],
+          [
+            "中文女声",
+            "default_zh"
+          ],
+          [
+            "英文女声",
+            "default_en"
+          ],
+          [
+            "冰糖 (V2.5)",
+            "冰糖"
+          ],
+          [
+            "茉莉 (V2.5)",
+            "茉莉"
+          ],
+          [
+            "苏打 (V2.5)",
+            "苏打"
+          ],
+          [
+            "白桦 (V2.5)",
+            "白桦"
+          ],
+          [
+            "Mia (V2.5)",
+            "Mia"
+          ],
+          [
+            "Chloe (V2.5)",
+            "Chloe"
+          ],
+          [
+            "Milo (V2.5)",
+            "Milo"
+          ],
+          [
+            "Dean (V2.5)",
+            "Dean"
+          ]
         ]
       },
-      {"type": "input_value", "name": "STYLE", "check": "String"}
+      {
+        "type": "input_value",
+        "name": "STYLE",
+        "check": "String"
+      }
     ],
     "inputsInline": true,
     "previousStatement": null,
@@ -523,8 +1415,13 @@
     "type": "mimo_set_stream_callback",
     "message0": "设置小米AI流式回调 %1 %2",
     "args0": [
-      {"type": "input_dummy"},
-      {"type": "input_statement", "name": "CALLBACK"}
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "CALLBACK"
+      }
     ],
     "previousStatement": null,
     "nextStatement": null,
