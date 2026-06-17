@@ -1,6 +1,6 @@
 'use strict';
 
-const ARDUINOOTA_DEFAULT_NAME = JSON.stringify(window['boardConfig'].name);;
+const ARDUINOOTA_DEFAULT_NAME = JSON.stringify(window['boardConfig'].name);
 const ARDUINOOTA_DEFAULT_PASSWORD = '"password"';
 
 function arduinootaGetBoardConfig() {
