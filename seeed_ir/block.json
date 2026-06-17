@@ -188,7 +188,7 @@
   },
   {
     "type": "seeed_ir_receiver_create",
-    "message0": "创建红外接收器 %1 解码器 %2 引脚 %3",
+    "message0": "创建红外接收器 %1 解码器 %2 协议 %3 引脚 %4",
     "args0": [
       {
         "type": "field_input",
@@ -201,6 +201,24 @@
         "text": "irDecoder"
       },
       {
+        "type": "field_dropdown",
+        "name": "PROTOCOL",
+        "options": [
+          ["NEC", "NEC"],
+          ["Sony", "SONY"],
+          ["RC5", "RC5"],
+          ["RC6", "RC6"],
+          ["Panasonic Old", "PANASONIC_OLD"],
+          ["JVC", "JVC"],
+          ["NECx", "NECX"],
+          ["Samsung36", "SAMSUNG36"],
+          ["GI Cable", "GICABLE"],
+          ["DirecTV", "DIRECTV"],
+          ["RCMM", "RCMM"],
+          ["CYKM", "CYKM"]
+        ]
+      },
+      {
         "type": "field_number",
         "name": "PIN",
         "value": 2,
@@ -211,7 +229,7 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#4E9F8F",
-    "tooltip": "创建 IRrecvPCI 接收器和 IRdecode 解码器对象，接收器使用指定数字输入引脚",
+    "tooltip": "创建 IRrecvPCI 接收器和 IRdecode 解码器对象，并只加载所选 IRLib2 协议；接收器使用指定数字输入引脚",
     "icon": "fa-light fa-signal-stream"
   },
   {
