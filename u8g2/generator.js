@@ -1331,26 +1331,42 @@ if (Blockly.Extensions.isRegistered('u8g2_animation_play_dynamic_inputs')) {
 }
 
 Blockly.Extensions.register('u8g2_animation_play_dynamic_inputs', function () {
-  this.getLoopInput_ = function () {
+  let renderScheduled = false;
+
+  const getLoopInput = () => {
     return this.inputList.find(input => input.fieldRow && input.fieldRow.some(field => field.name === 'LOOP'));
   };
 
-  this.updatePlaybackMode_ = function (modeValue) {
-    const loopInput = this.getLoopInput_();
+  const scheduleRender = () => {
+    if (!this.rendered || renderScheduled) {
+      return;
+    }
+    renderScheduled = true;
+    Promise.resolve().then(() => {
+      renderScheduled = false;
+      const rootBlock = typeof this.getRootBlock === 'function' ? this.getRootBlock() : this;
+      if (rootBlock && rootBlock.rendered) {
+        rootBlock.render();
+      } else if (this.rendered) {
+        this.render();
+      }
+    });
+  };
+
+  const updatePlaybackMode = (modeValue) => {
+    const loopInput = getLoopInput();
     if (loopInput) {
       loopInput.setVisible(modeValue === 'NON_BLOCKING');
     }
-    if (this.rendered) {
-      this.render();
-    }
+    scheduleRender();
   };
 
   this.getField('PLAY_MODE').setValidator(option => {
-    this.updatePlaybackMode_(option);
+    updatePlaybackMode(option);
     return option;
   });
 
-  this.updatePlaybackMode_(this.getFieldValue('PLAY_MODE'));
+  updatePlaybackMode(this.getFieldValue('PLAY_MODE'));
 });
 
 // 设置屏幕翻转
