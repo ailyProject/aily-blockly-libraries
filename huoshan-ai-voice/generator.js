@@ -14,6 +14,8 @@ function huoshanAiEnsureRuntime(generator) {
   generator.addLibrary('huoshan_ai_gpio', '#include <driver/gpio.h>');
   generator.addLibrary('huoshan_ai_semphr', '#include <freertos/semphr.h>');
   generator.addLibrary('huoshan_ai_queue', '#include <freertos/queue.h>');
+  generator.addLibrary('huoshan_ai_ringbuf', '#include <freertos/ringbuf.h>');
+  generator.addLibrary('huoshan_ai_task', '#include <freertos/task.h>');
   generator.addLibrary('huoshan_ai_heap_caps', '#include <esp_heap_caps.h>');
   generator.addLibrary('huoshan_ai_esp_system', '#include <esp_system.h>');
   generator.addLibrary('huoshan_ai_esp_mac', '#include <esp_mac.h>');
@@ -26,13 +28,16 @@ function huoshanAiEnsureRuntime(generator) {
 static const uint8_t HUOSHAN_AI_FULL_CLIENT_HEADER[] = {0x11, 0x10, 0x10, 0x00};
 static const uint8_t HUOSHAN_AI_AUDIO_ONLY_HEADER[] = {0x11, 0x20, 0x10, 0x00};
 static const uint8_t HUOSHAN_AI_LAST_AUDIO_HEADER[] = {0x11, 0x22, 0x10, 0x00};
-static const size_t HUOSHAN_AI_ASR_CHUNK_BYTES = 3200;
-static const uint8_t HUOSHAN_AI_ASR_QUEUE_LENGTH = 16;
-
-struct HuoshanAIAsrAudioPacket {
-  uint8_t index;
-  uint16_t size;
-};
+static const size_t HUOSHAN_AI_CAPTURE_FRAME_BYTES = 320;
+// Keep the full WebSocket payload below the library's 1400-byte single-write path.
+static const size_t HUOSHAN_AI_ASR_PACKET_BYTES = 1280;
+static const size_t HUOSHAN_AI_ASR_RING_BYTES = 512 * 1024;
+static const size_t HUOSHAN_AI_ASR_RING_FALLBACK_BYTES = 32 * 1024;
+static const uint8_t HUOSHAN_AI_ASR_FULL_UPLOAD_ATTEMPTS = 2;
+static const uint8_t HUOSHAN_AI_ASR_PACKET_YIELD_MS = 10;
+static const uint8_t HUOSHAN_AI_TTS_WS_ATTEMPTS = 2;
+static const uint8_t HUOSHAN_AI_TTS_PREBUFFER_PACKETS = 3;
+static const bool HUOSHAN_AI_VERBOSE_LOG = false;
 
 struct HuoshanAITtsAudioTask {
   size_t bytes;
@@ -59,7 +64,7 @@ int huoshan_ai_mic_din = 1;
 int huoshan_ai_speaker_bclk = 39;
 int huoshan_ai_speaker_ws = 40;
 int huoshan_ai_speaker_dout = 38;
-int huoshan_ai_mic_gain = 8;
+int huoshan_ai_mic_gain = 4;
 int huoshan_ai_max_record_seconds = 15;
 double huoshan_ai_volume = 0.9;
 double huoshan_ai_speed = 1.0;
@@ -75,19 +80,26 @@ std::vector<int16_t> huoshan_ai_record_buffer;
 uint32_t huoshan_ai_record_peak_abs = 0;
 uint64_t huoshan_ai_record_abs_sum = 0;
 size_t huoshan_ai_record_sample_count = 0;
+size_t huoshan_ai_record_clipped_samples = 0;
 int16_t huoshan_ai_record_min_sample = INT16_MAX;
 int16_t huoshan_ai_record_max_sample = INT16_MIN;
+unsigned long huoshan_ai_record_start_ms = 0;
 volatile bool huoshan_ai_asr_stream_finish_requested = false;
 volatile bool huoshan_ai_asr_stream_started = false;
+volatile bool huoshan_ai_asr_retry_full_pending = false;
+volatile bool huoshan_ai_asr_request_active = false;
 size_t huoshan_ai_asr_stream_samples_sent = 0;
 uint32_t huoshan_ai_asr_stream_packets_sent = 0;
 uint32_t huoshan_ai_asr_stream_dropped_packets = 0;
+uint32_t huoshan_ai_asr_send_total_ms = 0;
+uint32_t huoshan_ai_asr_send_max_ms = 0;
 unsigned long huoshan_ai_asr_stream_finish_ms = 0;
-QueueHandle_t huoshan_ai_asr_audio_queue = NULL;
-QueueHandle_t huoshan_ai_asr_free_queue = NULL;
-uint8_t *huoshan_ai_asr_packet_pool[HUOSHAN_AI_ASR_QUEUE_LENGTH] = {NULL};
-uint8_t huoshan_ai_asr_chunk_buffer[HUOSHAN_AI_ASR_CHUNK_BYTES];
-size_t huoshan_ai_asr_chunk_used = 0;
+RingbufHandle_t huoshan_ai_asr_ring_buffer = NULL;
+size_t huoshan_ai_asr_ring_bytes = 0;
+uint32_t huoshan_ai_asr_reconnect_count = 0;
+bool huoshan_ai_asr_client_started = false;
+std::vector<uint8_t> huoshan_ai_asr_fragment_buffer;
+bool huoshan_ai_asr_fragment_active = false;
 
 WebSocketsClient huoshan_ai_asr_ws;
 WebSocketsClient huoshan_ai_tts_ws;
@@ -97,14 +109,27 @@ volatile bool huoshan_ai_asr_done = false;
 volatile bool huoshan_ai_tts_done = false;
 QueueHandle_t huoshan_ai_tts_audio_queue = NULL;
 TaskHandle_t huoshan_ai_tts_audio_task_handle = NULL;
+TaskHandle_t huoshan_ai_tts_connect_task_handle = NULL;
 volatile uint32_t huoshan_ai_tts_audio_pending = 0;
 uint32_t huoshan_ai_tts_audio_packets = 0;
 uint32_t huoshan_ai_tts_audio_dropped = 0;
 uint32_t huoshan_ai_tts_audio_bytes = 0;
+uint32_t huoshan_ai_tts_audio_underruns = 0;
+uint32_t huoshan_ai_tts_request_packet_start = 0;
 bool huoshan_ai_tts_final_received = false;
+volatile bool huoshan_ai_tts_request_active = false;
+bool huoshan_ai_tts_sequence_active = false;
+volatile bool huoshan_ai_tts_sequence_input_done = true;
+bool huoshan_ai_tts_playback_primed = false;
+uint32_t huoshan_ai_tts_reconnect_count = 0;
+unsigned long huoshan_ai_tts_request_start_ms = 0;
+unsigned long huoshan_ai_tts_first_audio_ms = 0;
+std::vector<uint8_t> huoshan_ai_tts_fragment_buffer;
+bool huoshan_ai_tts_fragment_active = false;
 
 void huoshan_ai_asr_stream_task(void *arg);
 void huoshan_ai_tts_audio_task(void *arg);
+void huoshan_ai_tts_connect_task(void *arg);
 
 void huoshan_ai_set_state(const String &state) {
   if (huoshan_ai_state == state) return;
@@ -154,6 +179,11 @@ void huoshan_ai_append_u32(std::vector<uint8_t> &out, uint32_t value) {
 
 void huoshan_ai_append_bytes(std::vector<uint8_t> &out, const uint8_t *data, size_t len) {
   out.insert(out.end(), data, data + len);
+}
+
+void huoshan_ai_asr_disconnect() {
+  huoshan_ai_asr_request_active = false;
+  huoshan_ai_asr_ws.disconnect();
 }
 
 String huoshan_ai_bytes_to_string(const uint8_t *data, size_t len) {
@@ -223,12 +253,60 @@ int huoshan_ai_find_sentence_end(const String &input) {
   return best;
 }
 
+bool huoshan_ai_has_readable_text(const String &input) {
+  const uint8_t *bytes = (const uint8_t *)input.c_str();
+  size_t length = input.length();
+  size_t offset = 0;
+  while (offset < length) {
+    uint32_t codepoint = 0;
+    uint8_t first = bytes[offset];
+    if (first < 0x80) {
+      codepoint = first;
+      offset++;
+    } else if ((first & 0xE0) == 0xC0 && offset + 1 < length) {
+      codepoint = ((uint32_t)(first & 0x1F) << 6)
+          | (uint32_t)(bytes[offset + 1] & 0x3F);
+      offset += 2;
+    } else if ((first & 0xF0) == 0xE0 && offset + 2 < length) {
+      codepoint = ((uint32_t)(first & 0x0F) << 12)
+          | ((uint32_t)(bytes[offset + 1] & 0x3F) << 6)
+          | (uint32_t)(bytes[offset + 2] & 0x3F);
+      offset += 3;
+    } else if ((first & 0xF8) == 0xF0 && offset + 3 < length) {
+      codepoint = ((uint32_t)(first & 0x07) << 18)
+          | ((uint32_t)(bytes[offset + 1] & 0x3F) << 12)
+          | ((uint32_t)(bytes[offset + 2] & 0x3F) << 6)
+          | (uint32_t)(bytes[offset + 3] & 0x3F);
+      offset += 4;
+    } else {
+      offset++;
+      continue;
+    }
+
+    bool asciiAlphaNumeric = (codepoint >= '0' && codepoint <= '9')
+        || (codepoint >= 'A' && codepoint <= 'Z')
+        || (codepoint >= 'a' && codepoint <= 'z');
+    bool latinExtended = codepoint >= 0x00C0 && codepoint <= 0x02AF;
+    bool japanese = codepoint >= 0x3040 && codepoint <= 0x30FF;
+    bool cjk = (codepoint >= 0x3400 && codepoint <= 0x4DBF)
+        || (codepoint >= 0x4E00 && codepoint <= 0x9FFF);
+    bool korean = codepoint >= 0xAC00 && codepoint <= 0xD7AF;
+    if (asciiAlphaNumeric || latinExtended || japanese || cjk || korean) return true;
+  }
+  return false;
+}
+
 void huoshan_ai_config(String appId, String doubaoToken, String cozeToken, String cozeBotId, String userId) {
+  bool doubaoConfigChanged = huoshan_ai_doubao_token != doubaoToken;
   huoshan_ai_doubao_app_id = appId;
   huoshan_ai_doubao_token = doubaoToken;
   huoshan_ai_coze_token = cozeToken;
   huoshan_ai_coze_bot_id = cozeBotId;
   huoshan_ai_user_id = userId;
+  if (doubaoConfigChanged) {
+    huoshan_ai_asr_client_started = false;
+    huoshan_ai_asr_disconnect();
+  }
 }
 
 void huoshan_ai_uninstall_mic_driver() {
@@ -248,7 +326,11 @@ void huoshan_ai_uninstall_speaker_driver() {
 }
 
 bool huoshan_ai_connect_wifi(String ssid, String password, uint32_t timeoutMs) {
+  WiFi.useStaticBuffers(true);
+  WiFi.persistent(false);
+  WiFi.setAutoReconnect(true);
   WiFi.mode(WIFI_STA);
+  WiFi.setSleep(false);
   WiFi.begin(ssid.c_str(), password.c_str());
   unsigned long start = millis();
   Serial.println("[HuoshanAI] connecting WiFi: " + ssid);
@@ -266,6 +348,9 @@ bool huoshan_ai_connect_wifi(String ssid, String password, uint32_t timeoutMs) {
   huoshan_ai_last_error = "";
   huoshan_ai_set_state("wifi_connected");
   Serial.println("[HuoshanAI] WiFi IP: " + WiFi.localIP().toString());
+  if (HUOSHAN_AI_VERBOSE_LOG) {
+    Serial.println("[HuoshanAI] WiFi static buffers: on, auto reconnect: on, power save: off");
+  }
   return true;
 }
 
@@ -275,7 +360,7 @@ void huoshan_ai_config_mic(i2s_port_t port, int bclk, int ws, int din, int gain,
   huoshan_ai_mic_bclk = bclk;
   huoshan_ai_mic_ws = ws;
   huoshan_ai_mic_din = din;
-  huoshan_ai_mic_gain = gain;
+  huoshan_ai_mic_gain = gain < 1 ? 1 : (gain > 16 ? 16 : gain);
   huoshan_ai_max_record_seconds = maxSeconds > 0 ? maxSeconds : 15;
 }
 
@@ -414,7 +499,7 @@ void huoshan_ai_play_pcm16(const uint8_t *payload, size_t payloadSize) {
 
 bool huoshan_ai_tts_init_audio_queue() {
   if (huoshan_ai_tts_audio_queue == NULL) {
-    huoshan_ai_tts_audio_queue = xQueueCreate(30, sizeof(HuoshanAITtsAudioTask));
+    huoshan_ai_tts_audio_queue = xQueueCreate(80, sizeof(HuoshanAITtsAudioTask));
   }
   if (huoshan_ai_tts_audio_queue == NULL) return false;
   if (huoshan_ai_tts_audio_task_handle == NULL) {
@@ -426,14 +511,33 @@ bool huoshan_ai_tts_init_audio_queue() {
 void huoshan_ai_tts_audio_task(void *arg) {
   HuoshanAITtsAudioTask task;
   while (true) {
+    if (!huoshan_ai_tts_playback_primed) {
+      UBaseType_t queuedPackets = uxQueueMessagesWaiting(huoshan_ai_tts_audio_queue);
+      bool hasPrebuffer = queuedPackets >= HUOSHAN_AI_TTS_PREBUFFER_PACKETS;
+      if (queuedPackets == 0
+          || (!hasPrebuffer && !huoshan_ai_tts_sequence_input_done)) {
+        vTaskDelay(pdMS_TO_TICKS(2));
+        continue;
+      }
+      huoshan_ai_tts_playback_primed = true;
+      if (HUOSHAN_AI_VERBOSE_LOG) {
+        Serial.printf("[HuoshanAI] TTS playback primed: %u packets\n",
+                      (unsigned)queuedPackets);
+      }
+    }
     if (xQueueReceive(huoshan_ai_tts_audio_queue, &task, portMAX_DELAY) == pdTRUE) {
       if (task.data != NULL && task.bytes > 0) {
         huoshan_ai_play_pcm16((const uint8_t *)task.data, task.bytes);
         free(task.data);
       }
       if (huoshan_ai_tts_audio_pending > 0) huoshan_ai_tts_audio_pending--;
+      if (uxQueueMessagesWaiting(huoshan_ai_tts_audio_queue) == 0) {
+        if (huoshan_ai_tts_sequence_active && !huoshan_ai_tts_sequence_input_done) {
+          huoshan_ai_tts_audio_underruns++;
+        }
+        huoshan_ai_tts_playback_primed = false;
+      }
     }
-    vTaskDelay(1);
   }
 }
 
@@ -460,7 +564,7 @@ bool huoshan_ai_tts_enqueue_audio(const uint8_t *payload, size_t payloadSize) {
   task.bytes = payloadSize;
   task.data = copy;
   huoshan_ai_tts_audio_pending++;
-  if (xQueueSend(huoshan_ai_tts_audio_queue, &task, pdMS_TO_TICKS(100)) != pdTRUE) {
+  if (xQueueSend(huoshan_ai_tts_audio_queue, &task, pdMS_TO_TICKS(500)) != pdTRUE) {
     huoshan_ai_tts_audio_pending--;
     huoshan_ai_tts_audio_dropped++;
     free(copy);
@@ -479,6 +583,8 @@ void huoshan_ai_tts_wait_audio_done(uint32_t timeoutMs) {
 }
 
 void huoshan_ai_stop_audio() {
+  huoshan_ai_tts_sequence_input_done = true;
+  huoshan_ai_tts_playback_primed = false;
   if (huoshan_ai_speaker_ready) {
     i2s_zero_dma_buffer(huoshan_ai_speaker_port);
   }
@@ -491,93 +597,102 @@ void huoshan_ai_stop_audio() {
   }
 }
 
-bool huoshan_ai_asr_queue_packet(const uint8_t *data, size_t size, TickType_t waitTicks) {
-  if (huoshan_ai_asr_audio_queue == NULL || huoshan_ai_asr_free_queue == NULL || data == NULL || size == 0) return false;
-  uint8_t index = 0;
-  if (xQueueReceive(huoshan_ai_asr_free_queue, &index, waitTicks) != pdTRUE || index >= HUOSHAN_AI_ASR_QUEUE_LENGTH || huoshan_ai_asr_packet_pool[index] == NULL) {
-    huoshan_ai_asr_stream_dropped_packets++;
-    return false;
-  }
-  HuoshanAIAsrAudioPacket packet;
-  packet.index = index;
-  packet.size = size > HUOSHAN_AI_ASR_CHUNK_BYTES ? HUOSHAN_AI_ASR_CHUNK_BYTES : size;
-  memcpy(huoshan_ai_asr_packet_pool[index], data, packet.size);
-  if (xQueueSend(huoshan_ai_asr_audio_queue, &packet, 0) != pdTRUE) {
-    xQueueSend(huoshan_ai_asr_free_queue, &index, 0);
-    huoshan_ai_asr_stream_dropped_packets++;
-    return false;
-  }
-  return true;
+bool huoshan_ai_asr_should_retry_full() {
+  return huoshan_ai_asr_retry_full_pending
+      || huoshan_ai_last_error == "ASR connect timeout"
+      || huoshan_ai_last_error == "ASR header send failed"
+      || huoshan_ai_last_error == "ASR ring buffer send failed"
+      || huoshan_ai_last_error == "ASR audio send failed"
+      || huoshan_ai_last_error == "ASR final packet send failed"
+      || huoshan_ai_last_error == "ASR websocket disconnected"
+      || huoshan_ai_last_error == "ASR result timeout";
 }
 
-void huoshan_ai_asr_queue_pcm_sample(int16_t sample) {
-  uint8_t *bytes = (uint8_t *)&sample;
-  huoshan_ai_asr_chunk_buffer[huoshan_ai_asr_chunk_used++] = bytes[0];
-  huoshan_ai_asr_chunk_buffer[huoshan_ai_asr_chunk_used++] = bytes[1];
-  if (huoshan_ai_asr_chunk_used >= HUOSHAN_AI_ASR_CHUNK_BYTES) {
-    huoshan_ai_asr_queue_packet(huoshan_ai_asr_chunk_buffer, huoshan_ai_asr_chunk_used, pdMS_TO_TICKS(200));
-    huoshan_ai_asr_chunk_used = 0;
-  }
+bool huoshan_ai_asr_is_retryable_error() {
+  return huoshan_ai_last_error == "ASR connect timeout"
+      || huoshan_ai_last_error == "ASR header send failed"
+      || huoshan_ai_last_error == "ASR audio send failed"
+      || huoshan_ai_last_error == "ASR final packet send failed"
+      || huoshan_ai_last_error == "ASR websocket disconnected"
+      || huoshan_ai_last_error == "ASR result timeout";
 }
 
-void huoshan_ai_asr_flush_chunk() {
-  if (huoshan_ai_asr_chunk_used > 0) {
-    huoshan_ai_asr_queue_packet(huoshan_ai_asr_chunk_buffer, huoshan_ai_asr_chunk_used, pdMS_TO_TICKS(500));
-    huoshan_ai_asr_chunk_used = 0;
+void huoshan_ai_asr_drain_ring_buffer() {
+  if (huoshan_ai_asr_ring_buffer == NULL) return;
+  size_t itemSize = 0;
+  void *item = NULL;
+  while ((item = xRingbufferReceive(huoshan_ai_asr_ring_buffer, &itemSize, 0)) != NULL) {
+    vRingbufferReturnItem(huoshan_ai_asr_ring_buffer, item);
   }
 }
 
-void huoshan_ai_asr_release_queued_packets() {
-  if (huoshan_ai_asr_audio_queue == NULL || huoshan_ai_asr_free_queue == NULL) return;
-  HuoshanAIAsrAudioPacket packet;
-  while (xQueueReceive(huoshan_ai_asr_audio_queue, &packet, 0) == pdTRUE) {
-    if (packet.index < HUOSHAN_AI_ASR_QUEUE_LENGTH) {
-      xQueueSend(huoshan_ai_asr_free_queue, &packet.index, 0);
-    }
-  }
-}
-
-bool huoshan_ai_asr_init_audio_queues() {
-  if (huoshan_ai_asr_audio_queue == NULL) {
-    huoshan_ai_asr_audio_queue = xQueueCreate(HUOSHAN_AI_ASR_QUEUE_LENGTH, sizeof(HuoshanAIAsrAudioPacket));
-  }
-  if (huoshan_ai_asr_free_queue == NULL) {
-    huoshan_ai_asr_free_queue = xQueueCreate(HUOSHAN_AI_ASR_QUEUE_LENGTH, sizeof(uint8_t));
-  }
-  if (huoshan_ai_asr_audio_queue == NULL || huoshan_ai_asr_free_queue == NULL) return false;
-
-  for (uint8_t i = 0; i < HUOSHAN_AI_ASR_QUEUE_LENGTH; i++) {
-    if (huoshan_ai_asr_packet_pool[i] == NULL) {
+bool huoshan_ai_asr_init_audio_ring() {
+  if (huoshan_ai_asr_ring_buffer == NULL) {
 #if defined(BOARD_HAS_PSRAM)
-      huoshan_ai_asr_packet_pool[i] = (uint8_t *)heap_caps_malloc(HUOSHAN_AI_ASR_CHUNK_BYTES, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
+    huoshan_ai_asr_ring_buffer = xRingbufferCreateWithCaps(
+        HUOSHAN_AI_ASR_RING_BYTES,
+        RINGBUF_TYPE_BYTEBUF,
+        MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
+    if (huoshan_ai_asr_ring_buffer != NULL) {
+      huoshan_ai_asr_ring_bytes = HUOSHAN_AI_ASR_RING_BYTES;
+    }
 #endif
-      if (huoshan_ai_asr_packet_pool[i] == NULL) {
-        huoshan_ai_asr_packet_pool[i] = (uint8_t *)heap_caps_malloc(HUOSHAN_AI_ASR_CHUNK_BYTES, MALLOC_CAP_8BIT);
+    if (huoshan_ai_asr_ring_buffer == NULL) {
+      huoshan_ai_asr_ring_buffer = xRingbufferCreate(
+          HUOSHAN_AI_ASR_RING_FALLBACK_BYTES,
+          RINGBUF_TYPE_BYTEBUF);
+      if (huoshan_ai_asr_ring_buffer != NULL) {
+        huoshan_ai_asr_ring_bytes = HUOSHAN_AI_ASR_RING_FALLBACK_BYTES;
       }
-      if (huoshan_ai_asr_packet_pool[i] == NULL) return false;
+    }
+    if (huoshan_ai_asr_ring_buffer != NULL) {
+      if (HUOSHAN_AI_VERBOSE_LOG) {
+        Serial.printf("[HuoshanAI] ASR ring buffer: %u bytes\n", (unsigned)huoshan_ai_asr_ring_bytes);
+      }
     }
   }
-
-  xQueueReset(huoshan_ai_asr_audio_queue);
-  xQueueReset(huoshan_ai_asr_free_queue);
-  for (uint8_t i = 0; i < HUOSHAN_AI_ASR_QUEUE_LENGTH; i++) {
-    xQueueSend(huoshan_ai_asr_free_queue, &i, 0);
-  }
+  if (huoshan_ai_asr_ring_buffer == NULL) return false;
+  huoshan_ai_asr_drain_ring_buffer();
   return true;
+}
+
+void huoshan_ai_asr_drain_while_recording() {
+  while (huoshan_ai_recording) {
+    size_t itemSize = 0;
+    void *item = xRingbufferReceive(
+        huoshan_ai_asr_ring_buffer,
+        &itemSize,
+        pdMS_TO_TICKS(100));
+    if (item != NULL) {
+      vRingbufferReturnItem(huoshan_ai_asr_ring_buffer, item);
+    }
+    vTaskDelay(1);
+  }
+  huoshan_ai_asr_drain_ring_buffer();
 }
 
 void huoshan_ai_record_task(void *arg) {
+  if (HUOSHAN_AI_VERBOSE_LOG) {
+    Serial.printf("[HuoshanAI] record task: core=%d priority=%u\n",
+                  (int)xPortGetCoreID(),
+                  (unsigned)uxTaskPriorityGet(NULL));
+  }
   int16_t buffer[160];
   size_t bytesRead = 0;
   const size_t maxSamples = (size_t)16000 * (size_t)huoshan_ai_max_record_seconds;
   while (huoshan_ai_recording) {
-    esp_err_t err = i2s_read(huoshan_ai_mic_port, buffer, sizeof(buffer), &bytesRead, pdMS_TO_TICKS(100));
+    esp_err_t err = i2s_read(huoshan_ai_mic_port, buffer, HUOSHAN_AI_CAPTURE_FRAME_BYTES, &bytesRead, portMAX_DELAY);
     if (err == ESP_OK && bytesRead > 0) {
       size_t samples = bytesRead / sizeof(int16_t);
       for (size_t i = 0; i < samples; i++) {
         int32_t amplified = (int32_t)buffer[i] * huoshan_ai_mic_gain;
-        if (amplified > INT16_MAX) amplified = INT16_MAX;
-        if (amplified < INT16_MIN) amplified = INT16_MIN;
+        if (amplified > INT16_MAX) {
+          amplified = INT16_MAX;
+          huoshan_ai_record_clipped_samples++;
+        } else if (amplified < INT16_MIN) {
+          amplified = INT16_MIN;
+          huoshan_ai_record_clipped_samples++;
+        }
         int16_t sample = (int16_t)amplified;
         buffer[i] = sample;
         uint32_t absSample = sample < 0 ? (uint32_t)(-(int32_t)sample) : (uint32_t)sample;
@@ -586,7 +701,6 @@ void huoshan_ai_record_task(void *arg) {
         huoshan_ai_record_sample_count++;
         if (sample < huoshan_ai_record_min_sample) huoshan_ai_record_min_sample = sample;
         if (sample > huoshan_ai_record_max_sample) huoshan_ai_record_max_sample = sample;
-        huoshan_ai_asr_queue_pcm_sample(sample);
       }
       bool bufferFull = false;
       if (huoshan_ai_record_mutex != NULL) xSemaphoreTake(huoshan_ai_record_mutex, portMAX_DELAY);
@@ -597,13 +711,16 @@ void huoshan_ai_record_task(void *arg) {
       }
       if (huoshan_ai_record_buffer.size() >= maxSamples) bufferFull = true;
       if (huoshan_ai_record_mutex != NULL) xSemaphoreGive(huoshan_ai_record_mutex);
+      if (huoshan_ai_asr_ring_buffer != NULL
+          && xRingbufferSend(huoshan_ai_asr_ring_buffer, buffer, bytesRead, 0) != pdTRUE) {
+        huoshan_ai_asr_stream_dropped_packets++;
+        huoshan_ai_asr_retry_full_pending = true;
+      }
       if (bufferFull) {
         huoshan_ai_recording = false;
       }
     }
-    vTaskDelay(1);
   }
-  huoshan_ai_asr_flush_chunk();
   huoshan_ai_record_task_handle = NULL;
   vTaskDelete(NULL);
 }
@@ -619,7 +736,7 @@ void huoshan_ai_start_listening() {
   if (huoshan_ai_record_mutex == NULL) {
     huoshan_ai_record_mutex = xSemaphoreCreateMutex();
   }
-  bool asrQueueReady = huoshan_ai_asr_init_audio_queues();
+  bool asrRingReady = huoshan_ai_asr_init_audio_ring();
   if (huoshan_ai_record_mutex != NULL) xSemaphoreTake(huoshan_ai_record_mutex, portMAX_DELAY);
   huoshan_ai_record_buffer.clear();
   huoshan_ai_record_buffer.reserve(16000 * huoshan_ai_max_record_seconds);
@@ -627,61 +744,145 @@ void huoshan_ai_start_listening() {
   huoshan_ai_record_peak_abs = 0;
   huoshan_ai_record_abs_sum = 0;
   huoshan_ai_record_sample_count = 0;
+  huoshan_ai_record_clipped_samples = 0;
   huoshan_ai_record_min_sample = INT16_MAX;
   huoshan_ai_record_max_sample = INT16_MIN;
   huoshan_ai_asr_stream_finish_requested = false;
   huoshan_ai_asr_stream_started = false;
+  huoshan_ai_asr_retry_full_pending = false;
   huoshan_ai_asr_stream_samples_sent = 0;
   huoshan_ai_asr_stream_packets_sent = 0;
   huoshan_ai_asr_stream_dropped_packets = 0;
+  huoshan_ai_asr_send_total_ms = 0;
+  huoshan_ai_asr_send_max_ms = 0;
+  huoshan_ai_asr_reconnect_count = 0;
   huoshan_ai_asr_stream_finish_ms = 0;
-  huoshan_ai_asr_chunk_used = 0;
   huoshan_ai_last_error = "";
   i2s_zero_dma_buffer(huoshan_ai_mic_port);
+  huoshan_ai_record_start_ms = millis();
   huoshan_ai_recording = true;
   huoshan_ai_last_asr_text = "";
   huoshan_ai_last_reply_text = "";
   huoshan_ai_set_state("listening");
-  xTaskCreate(huoshan_ai_record_task, "huoshanRecord", 4096, NULL, 2, &huoshan_ai_record_task_handle);
-  if (asrQueueReady) {
-    xTaskCreate(huoshan_ai_asr_stream_task, "huoshanASR", 8192, NULL, 3, &huoshan_ai_asr_stream_task_handle);
+  xTaskCreate(
+      huoshan_ai_record_task,
+      "huoshanRecord",
+      4096,
+      NULL,
+      1,
+      &huoshan_ai_record_task_handle);
+  if (asrRingReady) {
+    xTaskCreate(
+        huoshan_ai_asr_stream_task,
+        "huoshanASR",
+        16384,
+        NULL,
+        1,
+        &huoshan_ai_asr_stream_task_handle);
   } else {
-    Serial.println("[HuoshanAI] warning: ASR queue unavailable, fallback to upload after recording");
+    Serial.println("[HuoshanAI] warning: ASR ring buffer unavailable, fallback to upload after recording");
   }
 }
 
 void huoshan_ai_stop_recording() {
+  unsigned long stopRequestMs = millis();
   huoshan_ai_recording = false;
   unsigned long start = millis();
   while (huoshan_ai_record_task_handle != NULL && millis() - start < 2000) {
     delay(10);
   }
   uint32_t avgAbs = huoshan_ai_record_sample_count > 0 ? (uint32_t)(huoshan_ai_record_abs_sum / huoshan_ai_record_sample_count) : 0;
+  uint32_t clippedPermille = huoshan_ai_record_sample_count > 0
+      ? (uint32_t)(((uint64_t)huoshan_ai_record_clipped_samples * 1000ULL) / huoshan_ai_record_sample_count)
+      : 0;
+  uint32_t recordDurationMs = huoshan_ai_record_start_ms > 0
+      ? (uint32_t)(stopRequestMs - huoshan_ai_record_start_ms)
+      : 0;
+  uint32_t expectedSamples = (uint32_t)(((uint64_t)recordDurationMs * 16000ULL) / 1000ULL);
+  uint32_t capturePermille = expectedSamples > 0
+      ? (uint32_t)(((uint64_t)huoshan_ai_record_sample_count * 1000ULL) / expectedSamples)
+      : 0;
   size_t recordedSamples = 0;
   if (huoshan_ai_record_mutex != NULL) xSemaphoreTake(huoshan_ai_record_mutex, portMAX_DELAY);
   recordedSamples = huoshan_ai_record_buffer.size();
   if (huoshan_ai_record_mutex != NULL) xSemaphoreGive(huoshan_ai_record_mutex);
-  Serial.printf("[HuoshanAI] recorded samples: %u, bytes: %u, peak=%u, avgAbs=%u, min=%d, max=%d\n",
-                (unsigned)recordedSamples,
-                (unsigned)(recordedSamples * sizeof(int16_t)),
-                (unsigned)huoshan_ai_record_peak_abs,
-                (unsigned)avgAbs,
-                (int)huoshan_ai_record_min_sample,
-                (int)huoshan_ai_record_max_sample);
+  if (HUOSHAN_AI_VERBOSE_LOG) {
+    Serial.printf("[HuoshanAI] recorded samples: %u, bytes: %u, duration=%u ms, capture=%u.%u%%, peak=%u, avgAbs=%u, min=%d, max=%d, clipped=%u.%u%%\n",
+                  (unsigned)recordedSamples,
+                  (unsigned)(recordedSamples * sizeof(int16_t)),
+                  (unsigned)recordDurationMs,
+                  (unsigned)(capturePermille / 10),
+                  (unsigned)(capturePermille % 10),
+                  (unsigned)huoshan_ai_record_peak_abs,
+                  (unsigned)avgAbs,
+                  (int)huoshan_ai_record_min_sample,
+                  (int)huoshan_ai_record_max_sample,
+                  (unsigned)(clippedPermille / 10),
+                  (unsigned)(clippedPermille % 10));
+  }
   if (huoshan_ai_record_sample_count > 0 && huoshan_ai_record_peak_abs < 128) {
     Serial.println("[HuoshanAI] warning: recorded audio is nearly silent");
+  }
+  if (capturePermille < 900) {
+    Serial.println("[HuoshanAI] warning: recording capture is incomplete");
+  }
+  if (clippedPermille >= 10) {
+    Serial.println("[HuoshanAI] warning: microphone audio is clipping; reduce mic gain");
   }
 }
 
 void huoshan_ai_asr_event(WStype_t type, uint8_t *payload, size_t length) {
   if (type == WStype_ERROR || type == WStype_DISCONNECTED) {
-    if (!huoshan_ai_asr_done && (huoshan_ai_state == "recognizing" || huoshan_ai_asr_stream_task_handle != NULL)) {
-      huoshan_ai_last_error = "ASR websocket disconnected";
+    huoshan_ai_asr_fragment_buffer.clear();
+    huoshan_ai_asr_fragment_active = false;
+    if (!huoshan_ai_asr_done && huoshan_ai_asr_request_active) {
+      if (huoshan_ai_last_asr_text.length() > 0) {
+        huoshan_ai_last_error = "";
+      } else {
+        huoshan_ai_last_error = "ASR websocket disconnected";
+        huoshan_ai_asr_retry_full_pending = huoshan_ai_asr_stream_started;
+      }
       huoshan_ai_asr_done = true;
-      huoshan_ai_recording = false;
+    }
+    huoshan_ai_asr_request_active = false;
+    return;
+  }
+
+  if (type == WStype_FRAGMENT_BIN_START) {
+    huoshan_ai_asr_fragment_buffer.clear();
+    huoshan_ai_asr_fragment_buffer.reserve(length + 4096);
+    if (payload != NULL && length > 0) {
+      huoshan_ai_asr_fragment_buffer.insert(
+          huoshan_ai_asr_fragment_buffer.end(),
+          payload,
+          payload + length);
+    }
+    huoshan_ai_asr_fragment_active = true;
+    return;
+  }
+  if (type == WStype_FRAGMENT) {
+    if (huoshan_ai_asr_fragment_active && payload != NULL && length > 0) {
+      huoshan_ai_asr_fragment_buffer.insert(
+          huoshan_ai_asr_fragment_buffer.end(),
+          payload,
+          payload + length);
     }
     return;
   }
+  if (type == WStype_FRAGMENT_FIN) {
+    if (!huoshan_ai_asr_fragment_active) return;
+    if (payload != NULL && length > 0) {
+      huoshan_ai_asr_fragment_buffer.insert(
+          huoshan_ai_asr_fragment_buffer.end(),
+          payload,
+          payload + length);
+    }
+    huoshan_ai_asr_fragment_active = false;
+    payload = huoshan_ai_asr_fragment_buffer.data();
+    length = huoshan_ai_asr_fragment_buffer.size();
+    type = WStype_BIN;
+  }
+
   if (type != WStype_BIN || payload == NULL || length < 8) return;
 
   uint8_t messageType = payload[1] >> 4;
@@ -704,7 +905,7 @@ void huoshan_ai_asr_event(WStype_t type, uint8_t *payload, size_t length) {
       JsonArray result = doc["result"].as<JsonArray>();
       for (JsonObject item : result) {
         String text = item["text"] | "";
-        if (text.length() > 0) huoshan_ai_last_asr_text = text;
+        if (sequence < 0 && text.length() > 0) huoshan_ai_last_asr_text = text;
       }
     } else {
       huoshan_ai_last_error = String("ASR code ") + String(code);
@@ -760,10 +961,27 @@ std::vector<uint8_t> huoshan_ai_build_asr_audio_request(const uint8_t *audio, si
   return request;
 }
 
+void huoshan_ai_asr_begin_client() {
+  String nextHeaders = "Authorization: Bearer; " + huoshan_ai_doubao_token;
+  if (huoshan_ai_asr_client_started && huoshan_ai_asr_headers == nextHeaders) return;
+
+  if (huoshan_ai_asr_ws.isConnected()) {
+    huoshan_ai_asr_disconnect();
+  }
+  huoshan_ai_asr_headers = nextHeaders;
+  huoshan_ai_asr_ws.setExtraHeaders(huoshan_ai_asr_headers.c_str());
+  huoshan_ai_asr_ws.setReconnectInterval(250);
+  huoshan_ai_asr_ws.beginSSL("openspeech.bytedance.com", 443, "/api/v2/asr");
+  huoshan_ai_asr_ws.onEvent(huoshan_ai_asr_event);
+  huoshan_ai_asr_client_started = true;
+}
+
 bool huoshan_ai_asr_open_stream() {
   huoshan_ai_last_asr_text = "";
   huoshan_ai_last_error = "";
   huoshan_ai_asr_done = false;
+  huoshan_ai_asr_fragment_buffer.clear();
+  huoshan_ai_asr_fragment_active = false;
 
   if (huoshan_ai_doubao_app_id.length() == 0 || huoshan_ai_doubao_token.length() == 0) {
     huoshan_ai_last_error = "Doubao config missing";
@@ -774,11 +992,7 @@ bool huoshan_ai_asr_open_stream() {
     return false;
   }
 
-  huoshan_ai_asr_ws.disconnect();
-  huoshan_ai_asr_headers = "Authorization: Bearer; " + huoshan_ai_doubao_token;
-  huoshan_ai_asr_ws.setExtraHeaders(huoshan_ai_asr_headers.c_str());
-  huoshan_ai_asr_ws.beginSSL("openspeech.bytedance.com", 443, "/api/v2/asr");
-  huoshan_ai_asr_ws.onEvent(huoshan_ai_asr_event);
+  huoshan_ai_asr_begin_client();
 
   unsigned long connectStart = millis();
   while (!huoshan_ai_asr_ws.isConnected() && millis() - connectStart < 10000) {
@@ -787,25 +1001,34 @@ bool huoshan_ai_asr_open_stream() {
   }
   if (!huoshan_ai_asr_ws.isConnected()) {
     huoshan_ai_last_error = "ASR connect timeout";
-    huoshan_ai_asr_ws.disconnect();
+    huoshan_ai_asr_disconnect();
     return false;
   }
 
   std::vector<uint8_t> fullRequest = huoshan_ai_build_asr_full_request();
   if (!huoshan_ai_asr_ws.sendBIN(fullRequest.data(), fullRequest.size())) {
     huoshan_ai_last_error = "ASR header send failed";
-    huoshan_ai_asr_ws.disconnect();
+    huoshan_ai_asr_disconnect();
     return false;
   }
-  Serial.printf("[HuoshanAI] ASR stream connected in %u ms\n", (unsigned)(millis() - connectStart));
+  huoshan_ai_asr_request_active = true;
+  if (HUOSHAN_AI_VERBOSE_LOG) {
+    Serial.printf("[HuoshanAI] ASR stream connected in %u ms\n", (unsigned)(millis() - connectStart));
+  }
   return true;
 }
 
 bool huoshan_ai_asr_send_audio(const uint8_t *audio, size_t size, bool lastPacket) {
   std::vector<uint8_t> request = huoshan_ai_build_asr_audio_request(audio, size, lastPacket);
+  unsigned long sendStart = millis();
   if (!huoshan_ai_asr_ws.sendBIN(request.data(), request.size())) {
     huoshan_ai_last_error = lastPacket ? "ASR final packet send failed" : "ASR audio send failed";
     return false;
+  }
+  uint32_t sendMs = millis() - sendStart;
+  if (!lastPacket) {
+    huoshan_ai_asr_send_total_ms += sendMs;
+    if (sendMs > huoshan_ai_asr_send_max_ms) huoshan_ai_asr_send_max_ms = sendMs;
   }
   huoshan_ai_asr_ws.loop();
   return true;
@@ -817,7 +1040,7 @@ String huoshan_ai_asr_wait_result(uint32_t timeoutMs) {
     huoshan_ai_asr_ws.loop();
     delay(1);
   }
-  huoshan_ai_asr_ws.disconnect();
+  huoshan_ai_asr_disconnect();
   if (!huoshan_ai_asr_done && huoshan_ai_last_error.length() == 0) {
     huoshan_ai_last_error = "ASR result timeout";
   }
@@ -830,100 +1053,259 @@ String huoshan_ai_asr_wait_result(uint32_t timeoutMs) {
 }
 
 void huoshan_ai_asr_stream_task(void *arg) {
+  if (HUOSHAN_AI_VERBOSE_LOG) {
+    Serial.printf("[HuoshanAI] ASR task: core=%d priority=%u\n",
+                  (int)xPortGetCoreID(),
+                  (unsigned)uxTaskPriorityGet(NULL));
+  }
   unsigned long taskStart = millis();
+  unsigned long finishStart = 0;
   huoshan_ai_asr_stream_started = false;
   huoshan_ai_asr_stream_samples_sent = 0;
   huoshan_ai_asr_stream_packets_sent = 0;
   huoshan_ai_asr_stream_dropped_packets = 0;
+  huoshan_ai_asr_send_total_ms = 0;
+  huoshan_ai_asr_send_max_ms = 0;
 
-  if (!huoshan_ai_asr_open_stream()) {
-    Serial.println("[HuoshanAI] ASR stream failed: " + huoshan_ai_last_error);
-    huoshan_ai_recording = false;
-    huoshan_ai_asr_release_queued_packets();
-    huoshan_ai_set_state("error");
-    huoshan_ai_asr_stream_task_handle = NULL;
-    vTaskDelete(NULL);
-    return;
-  }
-  huoshan_ai_asr_stream_started = true;
+  huoshan_ai_asr_begin_client();
+  uint8_t uploadBuffer[HUOSHAN_AI_ASR_PACKET_BYTES];
+  size_t uploadUsed = 0;
+  bool firstPacket = true;
+  bool transportFailed = false;
 
   while (true) {
-    HuoshanAIAsrAudioPacket packet;
-    if (huoshan_ai_asr_audio_queue != NULL && xQueueReceive(huoshan_ai_asr_audio_queue, &packet, pdMS_TO_TICKS(10)) == pdTRUE) {
-      bool sent = false;
-      if (packet.index < HUOSHAN_AI_ASR_QUEUE_LENGTH && huoshan_ai_asr_packet_pool[packet.index] != NULL && packet.size > 0) {
-        sent = huoshan_ai_asr_send_audio(huoshan_ai_asr_packet_pool[packet.index], packet.size, false);
+    size_t itemSize = 0;
+    uint8_t *item = NULL;
+    if (huoshan_ai_asr_ring_buffer != NULL) {
+      item = (uint8_t *)xRingbufferReceive(
+          huoshan_ai_asr_ring_buffer,
+          &itemSize,
+          pdMS_TO_TICKS(500));
+    }
+    if (item != NULL) {
+      size_t offset = 0;
+      bool sent = true;
+      while (offset < itemSize) {
+        size_t available = HUOSHAN_AI_ASR_PACKET_BYTES - uploadUsed;
+        size_t current = itemSize - offset;
+        if (current > available) current = available;
+        memcpy(uploadBuffer + uploadUsed, item + offset, current);
+        uploadUsed += current;
+        offset += current;
+        if (uploadUsed == HUOSHAN_AI_ASR_PACKET_BYTES) {
+          if (firstPacket) {
+            if (!huoshan_ai_asr_open_stream()) {
+              sent = false;
+              break;
+            }
+            huoshan_ai_asr_stream_started = true;
+            firstPacket = false;
+          }
+          if (!huoshan_ai_asr_send_audio(uploadBuffer, uploadUsed, false)) {
+            sent = false;
+            break;
+          }
+          huoshan_ai_asr_stream_samples_sent += uploadUsed / sizeof(int16_t);
+          huoshan_ai_asr_stream_packets_sent++;
+          uploadUsed = 0;
+          vTaskDelay(pdMS_TO_TICKS(HUOSHAN_AI_ASR_PACKET_YIELD_MS));
+        }
       }
-      if (packet.index < HUOSHAN_AI_ASR_QUEUE_LENGTH && huoshan_ai_asr_free_queue != NULL) {
-        xQueueSend(huoshan_ai_asr_free_queue, &packet.index, 0);
+      vRingbufferReturnItem(huoshan_ai_asr_ring_buffer, item);
+      if (!sent) {
+        transportFailed = true;
+        if (huoshan_ai_recording) huoshan_ai_asr_drain_while_recording();
+        break;
       }
-      if (!sent) break;
-      huoshan_ai_asr_stream_samples_sent += packet.size / sizeof(int16_t);
-      huoshan_ai_asr_stream_packets_sent++;
-      vTaskDelay(pdMS_TO_TICKS(1));
       continue;
     }
-    if (huoshan_ai_asr_stream_finish_requested && !huoshan_ai_recording) break;
+    if (!huoshan_ai_recording) {
+      finishStart = millis();
+      break;
+    }
     huoshan_ai_asr_ws.loop();
     vTaskDelay(pdMS_TO_TICKS(1));
   }
 
-  if (huoshan_ai_last_error.length() == 0) {
-    uint8_t finalPayload = 0;
-    huoshan_ai_asr_send_audio(&finalPayload, 1, true);
+  if (!transportFailed && uploadUsed > 0) {
+    if (firstPacket) {
+      if (huoshan_ai_asr_open_stream()) {
+        huoshan_ai_asr_stream_started = true;
+        firstPacket = false;
+      } else {
+        transportFailed = true;
+      }
+    }
+    if (!transportFailed && huoshan_ai_asr_send_audio(uploadBuffer, uploadUsed, false)) {
+      huoshan_ai_asr_stream_samples_sent += uploadUsed / sizeof(int16_t);
+      huoshan_ai_asr_stream_packets_sent++;
+      uploadUsed = 0;
+    } else {
+      transportFailed = true;
+    }
   }
-  unsigned long afterStop = huoshan_ai_asr_stream_finish_ms > 0 ? millis() - huoshan_ai_asr_stream_finish_ms : 0;
-  Serial.printf("[HuoshanAI] ASR stream sent: %u packets, %u bytes, elapsed=%u ms, afterStop=%u ms, dropped=%u\n",
-                (unsigned)huoshan_ai_asr_stream_packets_sent,
-                (unsigned)(huoshan_ai_asr_stream_samples_sent * sizeof(int16_t)),
-                (unsigned)(millis() - taskStart),
-                (unsigned)afterStop,
-                (unsigned)huoshan_ai_asr_stream_dropped_packets);
-  if (huoshan_ai_last_error.length() == 0) {
+
+  if (!transportFailed && !firstPacket && huoshan_ai_last_error.length() == 0) {
+    uint8_t finalPayload = 0;
+    if (!huoshan_ai_asr_send_audio(&finalPayload, 1, true)) {
+      transportFailed = true;
+    }
+  } else if (!transportFailed && firstPacket) {
+    huoshan_ai_last_error = "ASR no audio packet sent";
+    transportFailed = true;
+  }
+  unsigned long afterStop = finishStart > 0 ? millis() - finishStart : 0;
+  uint32_t avgSendMs = huoshan_ai_asr_stream_packets_sent > 0
+      ? huoshan_ai_asr_send_total_ms / huoshan_ai_asr_stream_packets_sent
+      : 0;
+  if (HUOSHAN_AI_VERBOSE_LOG) {
+    Serial.printf("[HuoshanAI] ASR stream sent: %u packets, %u bytes, elapsed=%u ms, afterStop=%u ms, dropped=%u, sendAvg=%u ms, sendMax=%u ms\n",
+                  (unsigned)huoshan_ai_asr_stream_packets_sent,
+                  (unsigned)(huoshan_ai_asr_stream_samples_sent * sizeof(int16_t)),
+                  (unsigned)(millis() - taskStart),
+                  (unsigned)afterStop,
+                  (unsigned)huoshan_ai_asr_stream_dropped_packets,
+                  (unsigned)avgSendMs,
+                  (unsigned)huoshan_ai_asr_send_max_ms);
+  }
+
+  if (!transportFailed && huoshan_ai_last_error.length() == 0) {
     huoshan_ai_asr_wait_result(15000);
   } else {
-    huoshan_ai_asr_ws.disconnect();
+    huoshan_ai_asr_disconnect();
     Serial.println("[HuoshanAI] ASR failed: " + huoshan_ai_last_error);
-    huoshan_ai_set_state("error");
   }
-  huoshan_ai_asr_release_queued_packets();
+  huoshan_ai_asr_drain_ring_buffer();
+  huoshan_ai_asr_stream_started = false;
   huoshan_ai_asr_stream_task_handle = NULL;
   vTaskDelete(NULL);
 }
 
 String huoshan_ai_asr_recognize(uint8_t *audio, size_t size) {
-  Serial.printf("[HuoshanAI] ASR start, audio bytes: %u\n", (unsigned)size);
+  if (HUOSHAN_AI_VERBOSE_LOG) {
+    Serial.printf("[HuoshanAI] ASR start, audio bytes: %u\n", (unsigned)size);
+  }
 
+  huoshan_ai_asr_send_total_ms = 0;
+  huoshan_ai_asr_send_max_ms = 0;
   if (!huoshan_ai_asr_open_stream()) return "";
 
+  unsigned long sendStart = millis();
   size_t offset = 0;
+  uint32_t packetsSent = 0;
   while (offset < size) {
-    size_t current = (size - offset) < HUOSHAN_AI_ASR_CHUNK_BYTES ? (size - offset) : HUOSHAN_AI_ASR_CHUNK_BYTES;
+    if (huoshan_ai_asr_done && huoshan_ai_last_asr_text.length() > 0) {
+      huoshan_ai_last_error = "";
+      break;
+    }
+    size_t current = (size - offset) < HUOSHAN_AI_ASR_PACKET_BYTES ? (size - offset) : HUOSHAN_AI_ASR_PACKET_BYTES;
     if (!huoshan_ai_asr_send_audio(audio + offset, current, false)) {
+      if (huoshan_ai_last_asr_text.length() > 0) {
+        huoshan_ai_last_error = "";
+      }
       break;
     }
     offset += current;
-    delay(1);
+    packetsSent++;
+    if (huoshan_ai_asr_done && huoshan_ai_last_asr_text.length() > 0) {
+      huoshan_ai_last_error = "";
+      break;
+    }
+    vTaskDelay(pdMS_TO_TICKS(HUOSHAN_AI_ASR_PACKET_YIELD_MS));
   }
-  if (huoshan_ai_last_error.length() == 0) {
+  if (huoshan_ai_last_error.length() == 0 && !huoshan_ai_asr_done) {
     uint8_t finalPayload = 0;
     huoshan_ai_asr_send_audio(&finalPayload, 1, true);
   }
-  Serial.printf("[HuoshanAI] ASR audio sent: %u bytes\n", (unsigned)offset);
+  uint32_t avgSendMs = packetsSent > 0 ? huoshan_ai_asr_send_total_ms / packetsSent : 0;
+  if (HUOSHAN_AI_VERBOSE_LOG) {
+    Serial.printf("[HuoshanAI] ASR audio sent: %u bytes, packets=%u, elapsed=%u ms, sendAvg=%u ms, sendMax=%u ms\n",
+                  (unsigned)offset,
+                  (unsigned)packetsSent,
+                  (unsigned)(millis() - sendStart),
+                  (unsigned)avgSendMs,
+                  (unsigned)huoshan_ai_asr_send_max_ms);
+  }
+  if (huoshan_ai_last_error.length() > 0) {
+    huoshan_ai_asr_disconnect();
+    Serial.println("[HuoshanAI] ASR failed: " + huoshan_ai_last_error);
+    return "";
+  }
   return huoshan_ai_asr_wait_result(15000);
+}
+
+String huoshan_ai_asr_recognize_with_reconnect(uint8_t *audio, size_t size) {
+  String text = "";
+  for (uint8_t attempt = 1; attempt <= HUOSHAN_AI_ASR_FULL_UPLOAD_ATTEMPTS; attempt++) {
+    if (attempt > 1) huoshan_ai_asr_reconnect_count++;
+    Serial.printf("[HuoshanAI] ASR full upload attempt %u/%u\n",
+                  (unsigned)attempt,
+                  (unsigned)HUOSHAN_AI_ASR_FULL_UPLOAD_ATTEMPTS);
+    huoshan_ai_last_error = "";
+    huoshan_ai_asr_retry_full_pending = false;
+    text = huoshan_ai_asr_recognize(audio, size);
+    if (text.length() > 0) return text;
+
+    bool retryable = huoshan_ai_asr_is_retryable_error();
+    huoshan_ai_asr_disconnect();
+    if (attempt < HUOSHAN_AI_ASR_FULL_UPLOAD_ATTEMPTS) {
+      if (!retryable) break;
+      Serial.println("[HuoshanAI] ASR transport failed; reconnecting before complete retry");
+      delay(250);
+    }
+  }
+  return text;
 }
 
 void huoshan_ai_tts_event(WStype_t type, uint8_t *payload, size_t length) {
   if (type == WStype_ERROR || type == WStype_DISCONNECTED) {
-    if (!huoshan_ai_tts_done && huoshan_ai_state == "speaking") {
-      if (huoshan_ai_tts_audio_packets == 0) {
+    huoshan_ai_tts_fragment_buffer.clear();
+    huoshan_ai_tts_fragment_active = false;
+    if (!huoshan_ai_tts_done && huoshan_ai_tts_request_active) {
+      if (huoshan_ai_tts_audio_packets == huoshan_ai_tts_request_packet_start) {
         huoshan_ai_last_error = "TTS websocket disconnected before audio";
       } else if (!huoshan_ai_tts_final_received) {
         huoshan_ai_last_error = "TTS websocket disconnected before final audio";
       }
       huoshan_ai_tts_done = true;
     }
+    huoshan_ai_tts_request_active = false;
     return;
+  }
+
+  if (type == WStype_FRAGMENT_BIN_START) {
+    huoshan_ai_tts_fragment_buffer.clear();
+    huoshan_ai_tts_fragment_buffer.reserve(length + 16384);
+    if (payload != NULL && length > 0) {
+      huoshan_ai_tts_fragment_buffer.insert(
+          huoshan_ai_tts_fragment_buffer.end(),
+          payload,
+          payload + length);
+    }
+    huoshan_ai_tts_fragment_active = true;
+    return;
+  }
+  if (type == WStype_FRAGMENT) {
+    if (huoshan_ai_tts_fragment_active && payload != NULL && length > 0) {
+      huoshan_ai_tts_fragment_buffer.insert(
+          huoshan_ai_tts_fragment_buffer.end(),
+          payload,
+          payload + length);
+    }
+    return;
+  }
+  if (type == WStype_FRAGMENT_FIN) {
+    if (!huoshan_ai_tts_fragment_active) return;
+    if (payload != NULL && length > 0) {
+      huoshan_ai_tts_fragment_buffer.insert(
+          huoshan_ai_tts_fragment_buffer.end(),
+          payload,
+          payload + length);
+    }
+    huoshan_ai_tts_fragment_active = false;
+    payload = huoshan_ai_tts_fragment_buffer.data();
+    length = huoshan_ai_tts_fragment_buffer.size();
+    type = WStype_BIN;
   }
   if (type != WStype_BIN || payload == NULL || length < 8) return;
 
@@ -936,14 +1318,27 @@ void huoshan_ai_tts_event(WStype_t type, uint8_t *payload, size_t length) {
     uint32_t payloadSize = huoshan_ai_read_i32(body + 4);
     if (payloadSize > length - 12) return;
     if (payloadSize > 0) {
+      if (huoshan_ai_tts_first_audio_ms == 0) {
+        huoshan_ai_tts_first_audio_ms = millis();
+        if (HUOSHAN_AI_VERBOSE_LOG) {
+          Serial.printf("[HuoshanAI] TTS first audio in %u ms\n",
+                        (unsigned)(huoshan_ai_tts_first_audio_ms - huoshan_ai_tts_request_start_ms));
+        }
+      }
       if (!huoshan_ai_tts_enqueue_audio(body + 8, payloadSize)) {
-        huoshan_ai_last_error = "TTS audio queue full";
-        huoshan_ai_tts_done = true;
+        if (huoshan_ai_tts_audio_packets == huoshan_ai_tts_request_packet_start) {
+          huoshan_ai_last_error = "TTS audio queue full";
+          huoshan_ai_tts_done = true;
+          huoshan_ai_tts_request_active = false;
+        } else {
+          Serial.println("[HuoshanAI] TTS audio packet dropped");
+        }
       }
     }
     if (sequence < 0) {
       huoshan_ai_tts_final_received = true;
       huoshan_ai_tts_done = true;
+      huoshan_ai_tts_request_active = false;
     }
   } else if (messageType == 0b1111) {
     if (length < 12) return;
@@ -953,6 +1348,7 @@ void huoshan_ai_tts_event(WStype_t type, uint8_t *payload, size_t length) {
     String msg = huoshan_ai_bytes_to_string(body + 8, messageSize);
     huoshan_ai_last_error = "TTS error " + String(errorCode) + ": " + msg;
     huoshan_ai_tts_done = true;
+    huoshan_ai_tts_request_active = false;
   }
 }
 
@@ -1000,6 +1396,9 @@ bool huoshan_ai_tts_speak_http(String text) {
 
   unsigned long start = millis();
   int code = http.POST(body);
+  if (HUOSHAN_AI_VERBOSE_LOG) {
+    Serial.printf("[HuoshanAI] TTS HTTP code: %d\n", code);
+  }
   if (code <= 0 || code >= 400) {
     huoshan_ai_last_error = "TTS HTTP " + String(code);
     String err = http.getString();
@@ -1061,7 +1460,9 @@ bool huoshan_ai_tts_speak_http(String text) {
     return false;
   }
 
-  Serial.printf("[HuoshanAI] TTS HTTP audio: %u bytes in %u ms\n", (unsigned)actualLen, (unsigned)(millis() - start));
+  if (HUOSHAN_AI_VERBOSE_LOG) {
+    Serial.printf("[HuoshanAI] TTS HTTP audio: %u bytes in %u ms\n", (unsigned)actualLen, (unsigned)(millis() - start));
+  }
   huoshan_ai_play_pcm16(pcm, actualLen);
   free(pcm);
   huoshan_ai_last_error = "";
@@ -1095,20 +1496,20 @@ std::vector<uint8_t> huoshan_ai_build_tts_request(String text) {
 bool huoshan_ai_tts_connect() {
   if (huoshan_ai_doubao_app_id.length() == 0 || huoshan_ai_doubao_token.length() == 0) {
     huoshan_ai_last_error = "Doubao config missing";
-    huoshan_ai_set_state("error");
     return false;
   }
   if (WiFi.status() != WL_CONNECTED) {
     huoshan_ai_last_error = "WiFi not connected";
-    huoshan_ai_set_state("error");
     return false;
   }
   if (!huoshan_ai_speaker_ready && !huoshan_ai_init_speaker()) return false;
   if (huoshan_ai_tts_ws.isConnected()) return true;
 
+  huoshan_ai_tts_request_active = false;
   huoshan_ai_tts_ws.disconnect();
   huoshan_ai_tts_headers = "Authorization: Bearer; " + huoshan_ai_doubao_token;
   huoshan_ai_tts_ws.setExtraHeaders(huoshan_ai_tts_headers.c_str());
+  huoshan_ai_tts_ws.setReconnectInterval(1000);
   huoshan_ai_tts_ws.beginSSL("openspeech.bytedance.com", 443, "/api/v1/tts/ws_binary");
   huoshan_ai_tts_ws.onEvent(huoshan_ai_tts_event);
 
@@ -1120,64 +1521,155 @@ bool huoshan_ai_tts_connect() {
   if (!huoshan_ai_tts_ws.isConnected()) {
     huoshan_ai_last_error = "TTS connect timeout";
     huoshan_ai_tts_ws.disconnect();
-    huoshan_ai_set_state("error");
     return false;
   }
-  Serial.printf("[HuoshanAI] TTS connected in %u ms\n", (unsigned)(millis() - connectStart));
+  huoshan_ai_last_error = "";
+  if (HUOSHAN_AI_VERBOSE_LOG) {
+    Serial.printf("[HuoshanAI] TTS connected in %u ms\n", (unsigned)(millis() - connectStart));
+  }
   return true;
 }
 
-void huoshan_ai_tts_speak_internal(String text, bool disconnectAfter) {
-  if (text.length() == 0) return;
-  huoshan_ai_tts_done = false;
-  huoshan_ai_tts_final_received = false;
-  if (disconnectAfter && huoshan_ai_tts_audio_pending == 0) {
-    huoshan_ai_tts_audio_packets = 0;
-    huoshan_ai_tts_audio_dropped = 0;
-    huoshan_ai_tts_audio_bytes = 0;
-  }
-  huoshan_ai_set_state("speaking");
-  if (huoshan_ai_tts_speak_http(text)) {
-    if (disconnectAfter) huoshan_ai_set_state("idle");
-    return;
-  }
-  if (huoshan_ai_last_error.length() > 0) return;
-  if (!huoshan_ai_tts_connect()) return;
+void huoshan_ai_tts_connect_task(void *arg) {
+  huoshan_ai_tts_connect();
+  huoshan_ai_tts_connect_task_handle = NULL;
+  vTaskDelete(NULL);
+}
 
-  std::vector<uint8_t> request = huoshan_ai_build_tts_request(text);
-  if (!huoshan_ai_tts_ws.sendBIN(request.data(), request.size())) {
-    huoshan_ai_last_error = "TTS request send failed";
-    huoshan_ai_tts_ws.disconnect();
-    huoshan_ai_set_state("error");
-    return;
-  }
+void huoshan_ai_tts_preconnect() {
+  if (huoshan_ai_tts_ws.isConnected() || huoshan_ai_tts_connect_task_handle != NULL) return;
+  xTaskCreate(
+      huoshan_ai_tts_connect_task,
+      "huoshanTtsConnect",
+      6144,
+      NULL,
+      1,
+      &huoshan_ai_tts_connect_task_handle);
+}
 
-  unsigned long waitStart = millis();
-  while (!huoshan_ai_tts_done && millis() - waitStart < 120000) {
-    huoshan_ai_tts_ws.loop();
+bool huoshan_ai_tts_wait_preconnect(uint32_t timeoutMs) {
+  unsigned long start = millis();
+  while (huoshan_ai_tts_connect_task_handle != NULL
+         && !huoshan_ai_tts_ws.isConnected()
+         && millis() - start < timeoutMs) {
     delay(1);
   }
-  if (!huoshan_ai_tts_done && huoshan_ai_last_error.length() == 0) {
-    huoshan_ai_last_error = "TTS result timeout";
-    huoshan_ai_set_state("error");
-    huoshan_ai_tts_ws.disconnect();
-    return;
-  }
-  if (disconnectAfter) {
-    huoshan_ai_tts_ws.disconnect();
-  }
-  if (disconnectAfter && (huoshan_ai_last_error.length() == 0 || huoshan_ai_tts_audio_packets > 0)) {
-    huoshan_ai_tts_wait_audio_done(120000);
-    Serial.printf("[HuoshanAI] TTS audio queued: %u packets, %u bytes, pending=%u, dropped=%u, final=%u\n",
+  if (huoshan_ai_tts_ws.isConnected()) return true;
+  return huoshan_ai_tts_connect();
+}
+
+void huoshan_ai_tts_begin_sequence() {
+  if (huoshan_ai_tts_sequence_active) return;
+  huoshan_ai_tts_sequence_active = true;
+  huoshan_ai_tts_sequence_input_done = false;
+  huoshan_ai_tts_playback_primed = false;
+  huoshan_ai_tts_audio_packets = 0;
+  huoshan_ai_tts_audio_dropped = 0;
+  huoshan_ai_tts_audio_bytes = 0;
+  huoshan_ai_tts_audio_underruns = 0;
+  huoshan_ai_tts_reconnect_count = 0;
+}
+
+void huoshan_ai_tts_finish_sequence() {
+  huoshan_ai_tts_request_active = false;
+  huoshan_ai_tts_ws.disconnect();
+  huoshan_ai_tts_sequence_input_done = true;
+  huoshan_ai_tts_wait_audio_done(120000);
+  if (HUOSHAN_AI_VERBOSE_LOG) {
+    Serial.printf("[HuoshanAI] TTS stream complete: %u packets, %u bytes, pending=%u, dropped=%u, underruns=%u, reconnects=%u\n",
                   (unsigned)huoshan_ai_tts_audio_packets,
                   (unsigned)huoshan_ai_tts_audio_bytes,
                   (unsigned)huoshan_ai_tts_audio_pending,
                   (unsigned)huoshan_ai_tts_audio_dropped,
-                  huoshan_ai_tts_final_received ? 1 : 0);
-    if (huoshan_ai_last_error.length() == 0 || huoshan_ai_tts_audio_packets > 0) {
-      huoshan_ai_last_error = "";
-      huoshan_ai_set_state("idle");
+                  (unsigned)huoshan_ai_tts_audio_underruns,
+                  (unsigned)huoshan_ai_tts_reconnect_count);
+  }
+  huoshan_ai_tts_sequence_active = false;
+  if (huoshan_ai_last_error.length() == 0 || huoshan_ai_tts_audio_packets > 0) {
+    huoshan_ai_last_error = "";
+    huoshan_ai_set_state("idle");
+  }
+}
+
+void huoshan_ai_tts_speak_internal(String text, bool disconnectAfter) {
+  text.trim();
+  if (!huoshan_ai_has_readable_text(text)) {
+    Serial.println("[HuoshanAI] TTS skipped unreadable text");
+    if (disconnectAfter && huoshan_ai_tts_sequence_active) {
+      huoshan_ai_tts_finish_sequence();
     }
+    return;
+  }
+  huoshan_ai_tts_begin_sequence();
+  huoshan_ai_set_state("speaking");
+  uint32_t sentencePacketStart = huoshan_ai_tts_audio_packets;
+  bool websocketCompleted = false;
+
+  for (uint8_t attempt = 1; attempt <= HUOSHAN_AI_TTS_WS_ATTEMPTS; attempt++) {
+    huoshan_ai_tts_done = false;
+    huoshan_ai_tts_final_received = false;
+    huoshan_ai_tts_request_packet_start = huoshan_ai_tts_audio_packets;
+    huoshan_ai_tts_first_audio_ms = 0;
+    huoshan_ai_last_error = "";
+
+    if (!huoshan_ai_tts_wait_preconnect(10000)) {
+      if (attempt < HUOSHAN_AI_TTS_WS_ATTEMPTS) {
+        huoshan_ai_tts_reconnect_count++;
+        delay(250);
+        continue;
+      }
+      break;
+    }
+
+    std::vector<uint8_t> request = huoshan_ai_build_tts_request(text);
+    huoshan_ai_tts_request_start_ms = millis();
+    huoshan_ai_tts_request_active = true;
+    if (!huoshan_ai_tts_ws.sendBIN(request.data(), request.size())) {
+      huoshan_ai_tts_request_active = false;
+      huoshan_ai_last_error = "TTS request send failed";
+    } else {
+      unsigned long waitStart = millis();
+      while (!huoshan_ai_tts_done && millis() - waitStart < 120000) {
+        huoshan_ai_tts_ws.loop();
+        delay(1);
+      }
+      if (!huoshan_ai_tts_done && huoshan_ai_last_error.length() == 0) {
+        huoshan_ai_last_error = "TTS result timeout";
+      }
+      if (huoshan_ai_tts_final_received && huoshan_ai_last_error.length() == 0) {
+        websocketCompleted = true;
+        break;
+      }
+    }
+
+    huoshan_ai_tts_request_active = false;
+    huoshan_ai_tts_ws.disconnect();
+    bool audioStarted = huoshan_ai_tts_audio_packets > sentencePacketStart;
+    if (audioStarted || attempt >= HUOSHAN_AI_TTS_WS_ATTEMPTS) break;
+    huoshan_ai_tts_reconnect_count++;
+    Serial.println("[HuoshanAI] TTS transport failed before audio; reconnecting");
+    delay(250);
+  }
+
+  if (!websocketCompleted && huoshan_ai_tts_audio_packets == sentencePacketStart) {
+    Serial.println("[HuoshanAI] TTS WebSocket unavailable before audio; falling back to HTTP");
+    huoshan_ai_last_error = "";
+    if (huoshan_ai_tts_speak_http(text)) {
+      if (disconnectAfter) huoshan_ai_tts_finish_sequence();
+      return;
+    }
+  }
+
+  if (!websocketCompleted) {
+    if (huoshan_ai_last_error.length() == 0) {
+      huoshan_ai_last_error = "TTS websocket ended before final audio";
+    }
+    huoshan_ai_set_state("error");
+    return;
+  }
+
+  if (disconnectAfter) {
+    huoshan_ai_tts_finish_sequence();
   }
 }
 
@@ -1212,14 +1704,12 @@ String huoshan_ai_coze_chat(String input, bool speakReply) {
   }
 
   huoshan_ai_set_state("thinking");
-  WiFiClientSecure client;
-  client.setInsecure();
   HTTPClient http;
   String url = "https://api.coze.cn/v3/chat";
   if (huoshan_ai_conversation_id.length() > 0) {
     url += "?conversation_id=" + huoshan_ai_conversation_id;
   }
-  if (!http.begin(client, url)) {
+  if (!http.begin(url)) {
     huoshan_ai_last_error = "Coze HTTP begin failed";
     huoshan_ai_set_state("error");
     return "";
@@ -1227,9 +1717,11 @@ String huoshan_ai_coze_chat(String input, bool speakReply) {
   http.setTimeout(120000);
   http.addHeader("Authorization", "Bearer " + huoshan_ai_coze_token);
   http.addHeader("Content-Type", "application/json");
+  http.addHeader("Accept", "text/event-stream");
 
   JsonDocument doc;
   doc["stream"] = true;
+  doc["auto_save_history"] = true;
   doc["bot_id"] = huoshan_ai_coze_bot_id;
   doc["user_id"] = huoshan_ai_effective_user_id();
   JsonArray messages = doc["additional_messages"].to<JsonArray>();
@@ -1241,6 +1733,9 @@ String huoshan_ai_coze_chat(String input, bool speakReply) {
   serializeJson(doc, body);
 
   int code = http.POST(body);
+  if (HUOSHAN_AI_VERBOSE_LOG) {
+    Serial.printf("[HuoshanAI] Coze HTTP code: %d\n", code);
+  }
   if (code <= 0 || code >= 400) {
     huoshan_ai_last_error = "Coze HTTP " + String(code);
     String err = http.getString();
@@ -1252,55 +1747,148 @@ String huoshan_ai_coze_chat(String input, bool speakReply) {
     huoshan_ai_set_state("error");
     return "";
   }
+  if (speakReply) {
+    huoshan_ai_tts_begin_sequence();
+  }
   WiFiClient *stream = http.getStreamPtr();
+  stream->setTimeout(2000);
   String ttsBuffer = "";
   String lastEvent = "";
   unsigned long lastData = millis();
-  while (http.connected() || stream->available()) {
-    if (!stream->available()) {
-      if (millis() - lastData > 120000) break;
-      delay(10);
-      continue;
+  bool cozeAnswerCompleted = false;
+  uint32_t cozeDataLines = 0;
+  uint32_t cozeAnswerLines = 0;
+  uint32_t cozeParseErrors = 0;
+  uint32_t cozeSkippedData = 0;
+  bool ttsPreconnectStarted = false;
+  bool cozeSseTimedOut = false;
+  while (stream->connected() || stream->available()) {
+    while (!stream->available()) {
+      if (millis() - lastData > 30000 && cozeDataLines == 0) {
+        huoshan_ai_last_error = "Coze SSE first data timeout";
+        cozeSseTimedOut = true;
+        break;
+      }
+      if (millis() - lastData > 120000) {
+        cozeSseTimedOut = true;
+        break;
+      }
+      vTaskDelay(pdMS_TO_TICKS(10));
     }
+    if (cozeSseTimedOut || !stream->available()) break;
     String line = stream->readStringUntil('\n');
+    lastData = millis();
     line.trim();
     if (line.length() == 0) continue;
-    lastData = millis();
     if (line.startsWith("event:")) {
       lastEvent = line;
-      if (line == "event:conversation.message.completed" && huoshan_ai_last_reply_text.length() > 0) break;
       continue;
     }
-    if (!line.startsWith("data:")) continue;
+    if (!line.startsWith("data:")) {
+      if (line.startsWith("{")) {
+        int previewLen = line.length() > 240 ? 240 : line.length();
+        Serial.println("[HuoshanAI] Coze non-SSE: " + line.substring(0, previewLen));
+        JsonDocument errorDoc;
+        DeserializationError parseError = deserializeJson(errorDoc, line);
+        if (!parseError) {
+          int errCode = errorDoc["code"] | 0;
+          String errMsg = errorDoc["msg"] | "";
+          if (errMsg.length() == 0) errMsg = errorDoc["message"] | "";
+          if (errCode != 0 || errMsg.length() > 0) {
+            huoshan_ai_last_error = "Coze API " + String(errCode);
+            if (errMsg.length() > 0) huoshan_ai_last_error += ": " + errMsg;
+          } else {
+            huoshan_ai_last_error = "Coze returned non-SSE response";
+          }
+        } else {
+          huoshan_ai_last_error = "Coze returned non-SSE response";
+        }
+        break;
+      }
+      continue;
+    }
+    cozeDataLines++;
     String data = line.substring(5);
     data.trim();
     if (data.length() == 0 || data == "[DONE]") continue;
     JsonDocument chunk;
     DeserializationError err = deserializeJson(chunk, data);
-    if (err) continue;
+    if (err) {
+      cozeParseErrors++;
+      if (HUOSHAN_AI_VERBOSE_LOG && cozeParseErrors <= 2) {
+        Serial.println("[HuoshanAI] Coze JSON parse failed");
+      }
+      continue;
+    }
     String role = chunk["role"] | "";
     String type = chunk["type"] | "";
-    if (role != "assistant" || type != "answer") continue;
     String content = chunk["content"] | "";
     String cid = chunk["conversation_id"] | "";
     if (cid.length() > 0) huoshan_ai_conversation_id = cid;
-    if (content.length() > 0) {
-      huoshan_ai_last_reply_text += content;
-      if (speakReply) {
-        ttsBuffer += content;
+    if (role != "assistant" || type != "answer") {
+      cozeSkippedData++;
+      continue;
+    }
+    cozeAnswerLines++;
+    if (speakReply && !ttsPreconnectStarted) {
+      huoshan_ai_tts_preconnect();
+      ttsPreconnectStarted = true;
+    }
+    bool completedEvent = lastEvent == "event:conversation.message.completed";
+    String contentToAppend = content;
+    if (completedEvent) {
+      cozeAnswerCompleted = true;
+      if (content.length() >= huoshan_ai_last_reply_text.length()
+          && content.startsWith(huoshan_ai_last_reply_text)) {
+        contentToAppend = content.substring(huoshan_ai_last_reply_text.length());
+      } else if (huoshan_ai_last_reply_text.length() > 0) {
+        contentToAppend = "";
       }
     }
+    if (contentToAppend.length() > 0) {
+      huoshan_ai_last_reply_text += contentToAppend;
+      if (speakReply) {
+        ttsBuffer += contentToAppend;
+        huoshan_ai_speak_buffered_sentences(ttsBuffer);
+      }
+    }
+    if (cozeAnswerCompleted && huoshan_ai_last_reply_text.length() > 0) break;
   }
   http.end();
+  if (HUOSHAN_AI_VERBOSE_LOG) {
+    Serial.printf("[HuoshanAI] Coze lines: data=%u answer=%u skipped=%u parseErr=%u\n",
+                  (unsigned)cozeDataLines,
+                  (unsigned)cozeAnswerLines,
+                  (unsigned)cozeSkippedData,
+                  (unsigned)cozeParseErrors);
+    Serial.printf("[HuoshanAI] Coze reply chars: %u\n", (unsigned)huoshan_ai_last_reply_text.length());
+  }
+  if (huoshan_ai_last_reply_text.length() == 0 && huoshan_ai_last_error.length() == 0) {
+    if (cozeSseTimedOut) {
+      huoshan_ai_last_error = cozeDataLines == 0
+          ? "Coze SSE first data timeout"
+          : "Coze SSE response timeout";
+    } else if (cozeDataLines == 0) {
+      huoshan_ai_last_error = "Coze returned no SSE data";
+    } else if (cozeAnswerLines == 0) {
+      huoshan_ai_last_error = "Coze returned no answer";
+    } else {
+      huoshan_ai_last_error = "Coze reply is empty";
+    }
+  }
   if (speakReply) {
     ttsBuffer.trim();
     if (ttsBuffer.length() > 0) {
       huoshan_ai_tts_speak_internal(ttsBuffer, true);
     } else {
-      huoshan_ai_tts_ws.disconnect();
+      huoshan_ai_tts_finish_sequence();
     }
   }
-  if (huoshan_ai_last_error.length() == 0) huoshan_ai_set_state("idle");
+  if (huoshan_ai_last_reply_text.length() == 0 && huoshan_ai_last_error.length() > 0) {
+    huoshan_ai_report_error();
+  } else if (!speakReply && huoshan_ai_last_error.length() == 0) {
+    huoshan_ai_set_state("idle");
+  }
   return huoshan_ai_last_reply_text;
 }
 
@@ -1317,23 +1905,36 @@ void huoshan_ai_stop_listening_and_chat() {
   }
   huoshan_ai_set_state("recognizing");
   String text = "";
+  bool shouldRetryFull = false;
   if (huoshan_ai_asr_stream_task_handle != NULL) {
     unsigned long waitStart = millis();
     huoshan_ai_asr_stream_finish_requested = true;
     huoshan_ai_asr_stream_finish_ms = waitStart;
-    while (huoshan_ai_asr_stream_task_handle != NULL && millis() - waitStart < 20000) {
+    while (huoshan_ai_asr_stream_task_handle != NULL && millis() - waitStart < 30000) {
       delay(10);
     }
+    bool streamFinished = huoshan_ai_asr_stream_task_handle == NULL;
     if (huoshan_ai_asr_stream_task_handle != NULL) {
       huoshan_ai_last_error = "ASR stream finish timeout";
-      huoshan_ai_asr_ws.disconnect();
-      huoshan_ai_asr_stream_task_handle = NULL;
+      huoshan_ai_set_state("error");
+      return;
     }
-    text = huoshan_ai_last_asr_text;
+    if (streamFinished) {
+      text = huoshan_ai_last_asr_text;
+      shouldRetryFull = text.length() == 0 && huoshan_ai_asr_should_retry_full();
+    }
   } else if (huoshan_ai_last_error.length() == 0) {
-    if (huoshan_ai_record_mutex != NULL) xSemaphoreTake(huoshan_ai_record_mutex, portMAX_DELAY);
-    text = huoshan_ai_asr_recognize((uint8_t *)huoshan_ai_record_buffer.data(), huoshan_ai_record_buffer.size() * sizeof(int16_t));
-    if (huoshan_ai_record_mutex != NULL) xSemaphoreGive(huoshan_ai_record_mutex);
+    huoshan_ai_last_error = "ASR stream task not running";
+    shouldRetryFull = true;
+  } else {
+    shouldRetryFull = huoshan_ai_asr_should_retry_full();
+  }
+  if (text.length() == 0 && shouldRetryFull) {
+    Serial.println("[HuoshanAI] ASR stream incomplete; retrying complete recording");
+    huoshan_ai_last_error = "";
+    text = huoshan_ai_asr_recognize_with_reconnect(
+        (uint8_t *)huoshan_ai_record_buffer.data(),
+        recordedSamples * sizeof(int16_t));
   }
   if (huoshan_ai_record_mutex != NULL) xSemaphoreTake(huoshan_ai_record_mutex, portMAX_DELAY);
   huoshan_ai_record_buffer.clear();
@@ -1414,7 +2015,7 @@ Arduino.forBlock['huoshan_ai_mic_config'] = function(block, generator) {
   const bclk = generator.valueToCode(block, 'BCLK', Arduino.ORDER_ATOMIC) || '42';
   const ws = generator.valueToCode(block, 'WS', Arduino.ORDER_ATOMIC) || '2';
   const din = generator.valueToCode(block, 'DIN', Arduino.ORDER_ATOMIC) || '1';
-  const gain = generator.valueToCode(block, 'GAIN', Arduino.ORDER_ATOMIC) || '8';
+  const gain = generator.valueToCode(block, 'GAIN', Arduino.ORDER_ATOMIC) || '4';
   const maxSeconds = generator.valueToCode(block, 'MAX_SECONDS', Arduino.ORDER_ATOMIC) || '15';
   return `HuoshanAIVoice.configMic(${port}, ${bclk}, ${ws}, ${din}, ${gain}, ${maxSeconds});\n`;
 };

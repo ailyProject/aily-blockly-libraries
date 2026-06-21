@@ -18,7 +18,7 @@ ESP32 and ESP32-S3 WiFi boards with I2S microphone and I2S speaker.
 
 ## Description
 
-This first version removes screen/LVGL code and keeps the core voice loop: WiFi, recording, ASR, Coze multi-turn chat, TTS, and playback. I2S pins are configured by blocks.
+This library removes screen/LVGL code and keeps the core voice loop: WiFi, recording, ASR, Coze multi-turn chat, TTS, and playback. Audio uses a lossless FreeRTOS recording buffer, streaming ASR, sentence-level Coze/TTS overlap, WebSocket PCM playback, and bounded reconnect fallback. I2S pins are configured by blocks.
 
 ## Quick Start
 
