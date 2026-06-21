@@ -3,11 +3,11 @@
     "type": "huoshan_ai_config",
     "message0": "配置火山 AI 语音 豆包 App ID %1 豆包 Token %2 Coze Token %3 Coze Bot ID %4 用户 ID %5",
     "args0": [
-      {"type": "input_value", "name": "DOUBAO_APP_ID", "check": "String"},
-      {"type": "input_value", "name": "DOUBAO_TOKEN", "check": "String"},
-      {"type": "input_value", "name": "COZE_TOKEN", "check": "String"},
-      {"type": "input_value", "name": "COZE_BOT_ID", "check": "String"},
-      {"type": "input_value", "name": "USER_ID", "check": "String"}
+      { "type": "input_value", "name": "DOUBAO_APP_ID", "check": "String" },
+      { "type": "input_value", "name": "DOUBAO_TOKEN", "check": "String" },
+      { "type": "input_value", "name": "COZE_TOKEN", "check": "String" },
+      { "type": "input_value", "name": "COZE_BOT_ID", "check": "String" },
+      { "type": "input_value", "name": "USER_ID", "check": "String" }
     ],
     "inputsInline": false,
     "previousStatement": null,
@@ -21,9 +21,9 @@
     "type": "huoshan_ai_wifi_connect",
     "message0": "火山 AI 连接 WiFi SSID %1 密码 %2 超时(ms) %3",
     "args0": [
-      {"type": "input_value", "name": "SSID", "check": "String"},
-      {"type": "input_value", "name": "PASSWORD", "check": "String"},
-      {"type": "input_value", "name": "TIMEOUT", "check": "Number"}
+      { "type": "input_value", "name": "SSID", "check": "String" },
+      { "type": "input_value", "name": "PASSWORD", "check": "String" },
+      { "type": "input_value", "name": "TIMEOUT", "check": "Number" }
     ],
     "inputsInline": true,
     "previousStatement": null,
@@ -37,18 +37,25 @@
     "type": "huoshan_ai_mic_config",
     "message0": "配置火山 AI I2S 麦克风 端口 %1 BCLK %2 WS/LRCLK %3 DIN %4 增益 %5 最长录音秒数 %6",
     "args0": [
-      {"type": "field_dropdown", "name": "PORT", "options": [["I2S0", "I2S_NUM_0"], ["I2S1", "I2S_NUM_1"]]},
-      {"type": "input_value", "name": "BCLK", "check": "Number"},
-      {"type": "input_value", "name": "WS", "check": "Number"},
-      {"type": "input_value", "name": "DIN", "check": "Number"},
-      {"type": "input_value", "name": "GAIN", "check": "Number"},
-      {"type": "input_value", "name": "MAX_SECONDS", "check": "Number"}
+      {
+        "type": "field_dropdown",
+        "name": "PORT",
+        "options": [
+          ["I2S0", "I2S_NUM_0"],
+          ["I2S1", "I2S_NUM_1"]
+        ]
+      },
+      { "type": "input_value", "name": "BCLK", "check": "Number" },
+      { "type": "input_value", "name": "WS", "check": "Number" },
+      { "type": "input_value", "name": "DIN", "check": "Number" },
+      { "type": "input_value", "name": "GAIN", "check": "Number" },
+      { "type": "input_value", "name": "MAX_SECONDS", "check": "Number" }
     ],
     "inputsInline": false,
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#E65A2E",
-    "tooltip": "配置 I2S 麦克风引脚和录音参数，采样率固定 16kHz 16bit 单声道",
+    "tooltip": "配置 I2S 麦克风引脚和录音参数，采样率固定 16kHz 16bit 单声道；推荐增益 4，若日志提示 clipping 请降低增益",
     "helpUrl": "",
     "icon": "fa-solid fa-microphone"
   },
@@ -56,11 +63,18 @@
     "type": "huoshan_ai_speaker_config",
     "message0": "配置火山 AI I2S 扬声器 端口 %1 BCLK %2 WS/LRCLK %3 DOUT %4 音量 %5",
     "args0": [
-      {"type": "field_dropdown", "name": "PORT", "options": [["I2S0", "I2S_NUM_0"], ["I2S1", "I2S_NUM_1"]]},
-      {"type": "input_value", "name": "BCLK", "check": "Number"},
-      {"type": "input_value", "name": "WS", "check": "Number"},
-      {"type": "input_value", "name": "DOUT", "check": "Number"},
-      {"type": "input_value", "name": "VOLUME", "check": "Number"}
+      {
+        "type": "field_dropdown",
+        "name": "PORT",
+        "options": [
+          ["I2S0", "I2S_NUM_0"],
+          ["I2S1", "I2S_NUM_1"]
+        ]
+      },
+      { "type": "input_value", "name": "BCLK", "check": "Number" },
+      { "type": "input_value", "name": "WS", "check": "Number" },
+      { "type": "input_value", "name": "DOUT", "check": "Number" },
+      { "type": "input_value", "name": "VOLUME", "check": "Number" }
     ],
     "inputsInline": false,
     "previousStatement": null,
@@ -104,8 +118,15 @@
     "type": "huoshan_ai_send_text",
     "message0": "火山 AI 发送文本到 Coze 文本 %1 播放回复 %2",
     "args0": [
-      {"type": "input_value", "name": "TEXT", "check": "String"},
-      {"type": "field_dropdown", "name": "SPEAK", "options": [["是", "true"], ["否", "false"]]}
+      { "type": "input_value", "name": "TEXT", "check": "String" },
+      {
+        "type": "field_dropdown",
+        "name": "SPEAK",
+        "options": [
+          ["是", "true"],
+          ["否", "false"]
+        ]
+      }
     ],
     "inputsInline": true,
     "previousStatement": null,
@@ -118,9 +139,7 @@
   {
     "type": "huoshan_ai_tts_speak",
     "message0": "火山 AI TTS 播放文本 %1",
-    "args0": [
-      {"type": "input_value", "name": "TEXT", "check": "String"}
-    ],
+    "args0": [{ "type": "input_value", "name": "TEXT", "check": "String" }],
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
@@ -199,9 +218,7 @@
   {
     "type": "huoshan_ai_set_volume",
     "message0": "火山 AI 设置播放音量 %1",
-    "args0": [
-      {"type": "input_value", "name": "VOLUME", "check": "Number"}
-    ],
+    "args0": [{ "type": "input_value", "name": "VOLUME", "check": "Number" }],
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
@@ -213,9 +230,7 @@
   {
     "type": "huoshan_ai_set_speed",
     "message0": "火山 AI 设置 TTS 语速 %1",
-    "args0": [
-      {"type": "input_value", "name": "SPEED", "check": "Number"}
-    ],
+    "args0": [{ "type": "input_value", "name": "SPEED", "check": "Number" }],
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
