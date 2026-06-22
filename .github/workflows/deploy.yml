@@ -20,9 +20,13 @@ jobs:
         id: set-matrix
         run: |
           # 获取最后一次成功运行的提交SHA或默认为一个空树
-          git fetch origin tag last-deploy --force 2>/dev/null || true
-          if git rev-parse -q --verify refs/tags/last-deploy >/dev/null; then
-            BASE_SHA=$(git rev-parse refs/tags/last-deploy)
+          echo "Origin: $(git remote get-url origin)"
+          BASE_SHA=$(git ls-remote origin "refs/tags/last-deploy^{}" | awk 'NR == 1 { print $1 }')
+          if [ -z "$BASE_SHA" ]; then
+            BASE_SHA=$(git ls-remote origin "refs/tags/last-deploy" | awk 'NR == 1 { print $1 }')
+          fi
+
+          if [ -n "$BASE_SHA" ]; then
             echo "Using last successful deploy tag as base: $BASE_SHA"
           else
             echo "No last-deploy tag found, using first commit in history"
@@ -334,6 +338,8 @@ jobs:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/deploy' }}
     runs-on: ubuntu-latest
     timeout-minutes: 240
+    outputs:
+      should_run: ${{ steps.check-update-all.outputs.should_run }}
     env:
       NPM_CONFIG_FETCH_RETRIES: 5
       NPM_CONFIG_FETCH_RETRY_MINTIMEOUT: 10000
@@ -806,7 +812,11 @@ jobs:
         needs.detect-changes.result == 'success' &&
         contains(fromJson('["success","skipped"]'), needs.build-and-publish.result) &&
         contains(fromJson('["success","skipped"]'), needs.build-and-publish-all.result) &&
-        needs.genJson-and-upload.result == 'success'
+        needs.genJson-and-upload.result == 'success' &&
+        (
+          (needs.detect-changes.outputs.matrix != '{"include":[]}' && needs.build-and-publish.result == 'success') ||
+          (needs.build-and-publish-all.outputs.should_run == 'true' && needs.build-and-publish-all.result == 'success')
+        )
       }}
 
     steps:
