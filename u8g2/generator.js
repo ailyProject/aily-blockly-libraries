@@ -1185,6 +1185,190 @@ Arduino.forBlock['u8g2_draw_bitmap'] = function (block, generator) {
   return code;
 };
 
+function getU8g2AnimationData(block) {
+  let animationData = block.getFieldValue('CUSTOM_ANIMATION');
+
+  if (typeof animationData === 'string') {
+    try {
+      animationData = JSON.parse(animationData);
+    } catch (error) {
+      console.error('[u8g2_animation] Failed to parse animation field value:', error);
+      return null;
+    }
+  }
+
+  if (!animationData || !Array.isArray(animationData.frames) || animationData.frames.length === 0) {
+    return null;
+  }
+
+  const width = Number(animationData.width);
+  const height = Number(animationData.height);
+  const fps = Number(animationData.fps);
+  if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+    return null;
+  }
+
+  return {
+    width: Math.floor(width),
+    height: Math.floor(height),
+    fps: Number.isFinite(fps) && fps > 0 ? Math.floor(fps) : 10,
+    frames: animationData.frames
+  };
+}
+
+Arduino.forBlock['u8g2_animation'] = function (block, generator) {
+  const animationData = getU8g2AnimationData(block);
+  if (!animationData) {
+    console.error('[u8g2_animation] No valid animation data');
+    return ['', Arduino.ORDER_ATOMIC];
+  }
+
+  const { width, height, fps, frames } = animationData;
+  const animationVarName = `animation_${block.id.replace(/[^a-zA-Z0-9]/g, '')}`;
+  const frameNames = [];
+  const frameDeclarations = [];
+
+  for (let i = 0; i < frames.length; i++) {
+    const xbmResult = convertBitmapToXBM(frames[i]);
+    if (!xbmResult) {
+      console.error(`[u8g2_animation] Failed to convert frame ${i}`);
+      continue;
+    }
+
+    const frameName = `${animationVarName}_frame_${i}`;
+    frameNames.push(frameName);
+    frameDeclarations.push(`static const unsigned char ${frameName}[] PROGMEM = {
+${xbmResult.formattedXbmData}
+};`);
+  }
+
+  if (frameNames.length === 0) {
+    return ['', Arduino.ORDER_ATOMIC];
+  }
+
+  const frameDelay = Math.max(1, Math.round(1000 / fps));
+  const animationDeclaration = `// U8g2 animation frames (${width}x${height}, ${frameNames.length} frames, ${fps} FPS)
+${frameDeclarations.join('\n\n')}
+static const unsigned char* const ${animationVarName}_frames[] = {
+  ${frameNames.join(',\n  ')}
+};
+const int ${animationVarName}_width = ${width};
+const int ${animationVarName}_height = ${height};
+const uint16_t ${animationVarName}_frame_count = ${frameNames.length};
+const unsigned long ${animationVarName}_frame_delay = ${frameDelay};`;
+
+  generator.addVariable(animationVarName, animationDeclaration);
+  return [`${animationVarName}_frames`, Arduino.ORDER_ATOMIC];
+};
+
+function addU8g2AnimationRenderHelper(generator) {
+  generator.addFunction('u8g2_draw_animation_frame', `void u8g2DrawAnimationFrame(int x, int y, int width, int height, const unsigned char *frame) {
+  u8g2.setDrawColor(0);
+  u8g2.drawBox(x, y, width, height);
+  u8g2.setDrawColor(1);
+  u8g2.drawXBMP(x, y, width, height, frame);
+}`);
+}
+
+Arduino.forBlock['u8g2_play_animation'] = function (block, generator) {
+  const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC) || '0';
+  const animationCode = generator.valueToCode(block, 'ANIMATION', Arduino.ORDER_ATOMIC);
+
+  if (!animationCode) {
+    return '// No animation data\n';
+  }
+
+  addU8g2AnimationRenderHelper(generator);
+
+  const animationVarPrefix = animationCode.replace('_frames', '');
+  const needSendBuffer = !hasFollowingSendBuffer(block) && !isPageBufferMode(block);
+  const playMode = block.getFieldValue('PLAY_MODE') || 'BLOCKING';
+  const loop = block.getFieldValue('LOOP') === 'TRUE';
+
+  if (playMode === 'NON_BLOCKING') {
+    const stateVarName = `animation_state_${block.id.replace(/[^a-zA-Z0-9]/g, '')}`;
+    generator.addVariable(`${stateVarName}_frame`, `uint16_t ${stateVarName}_frame = 0;`);
+    generator.addVariable(`${stateVarName}_last_ms`, `unsigned long ${stateVarName}_last_ms = 0;`);
+    generator.addVariable(`${stateVarName}_started`, `bool ${stateVarName}_started = false;`);
+    generator.addVariable(`${stateVarName}_done`, `bool ${stateVarName}_done = false;`);
+
+    let code = `if (!${stateVarName}_done) {\n`;
+    code += `  unsigned long ${stateVarName}_now = millis();\n`;
+    code += `  if (!${stateVarName}_started || ${stateVarName}_now - ${stateVarName}_last_ms >= ${animationVarPrefix}_frame_delay) {\n`;
+    code += `    u8g2DrawAnimationFrame(${x}, ${y}, ${animationVarPrefix}_width, ${animationVarPrefix}_height, ${animationVarPrefix}_frames[${stateVarName}_frame]);\n`;
+    if (needSendBuffer) {
+      code += '    u8g2.sendBuffer();\n';
+    }
+    code += `    ${stateVarName}_last_ms = ${stateVarName}_now;\n`;
+    code += `    ${stateVarName}_started = true;\n`;
+    code += `    ${stateVarName}_frame++;\n`;
+    code += `    if (${stateVarName}_frame >= ${animationVarPrefix}_frame_count) {\n`;
+    if (loop) {
+      code += `      ${stateVarName}_frame = 0;\n`;
+    } else {
+      code += `      ${stateVarName}_frame = ${animationVarPrefix}_frame_count - 1;\n`;
+      code += `      ${stateVarName}_done = true;\n`;
+    }
+    code += '    }\n';
+    code += '  }\n';
+    code += '}\n';
+    return code;
+  }
+
+  let code = `for (uint16_t i = 0; i < ${animationVarPrefix}_frame_count; i++) {\n`;
+  code += `  u8g2DrawAnimationFrame(${x}, ${y}, ${animationVarPrefix}_width, ${animationVarPrefix}_height, ${animationVarPrefix}_frames[i]);\n`;
+  if (needSendBuffer) {
+    code += '  u8g2.sendBuffer();\n';
+  }
+  code += `  delay(${animationVarPrefix}_frame_delay);\n`;
+  code += '}\n';
+  return code;
+};
+
+if (Blockly.Extensions.isRegistered('u8g2_animation_play_dynamic_inputs')) {
+  Blockly.Extensions.unregister('u8g2_animation_play_dynamic_inputs');
+}
+
+Blockly.Extensions.register('u8g2_animation_play_dynamic_inputs', function () {
+  let renderScheduled = false;
+
+  const getLoopInput = () => {
+    return this.inputList.find(input => input.fieldRow && input.fieldRow.some(field => field.name === 'LOOP'));
+  };
+
+  const scheduleRender = () => {
+    if (!this.rendered || renderScheduled) {
+      return;
+    }
+    renderScheduled = true;
+    Promise.resolve().then(() => {
+      renderScheduled = false;
+      const rootBlock = typeof this.getRootBlock === 'function' ? this.getRootBlock() : this;
+      if (rootBlock && rootBlock.rendered) {
+        rootBlock.render();
+      } else if (this.rendered) {
+        this.render();
+      }
+    });
+  };
+
+  const updatePlaybackMode = (modeValue) => {
+    const loopInput = getLoopInput();
+    if (loopInput) {
+      loopInput.setVisible(modeValue === 'NON_BLOCKING');
+    }
+    scheduleRender();
+  };
+
+  this.getField('PLAY_MODE').setValidator(option => {
+    updatePlaybackMode(option);
+    return option;
+  });
+
+  updatePlaybackMode(this.getFieldValue('PLAY_MODE'));
+});
+
 // 设置屏幕翻转
 Arduino.forBlock['u8g2_set_flip_mode'] = function (block, generator) {
   const mode = block.getFieldValue('MODE');

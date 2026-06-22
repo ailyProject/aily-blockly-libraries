@@ -1,0 +1,219 @@
+[
+  {
+    "type": "tinygsm_setup",
+    "message0": "TinyGSM modem %1 AT serial %2 baud %3",
+    "message0_zh": "TinyGSM 模块 %1 AT 串口 %2 波特率 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODEM",
+        "options": [
+          [
+            "SIM800",
+            "TINY_GSM_MODEM_SIM800"
+          ],
+          [
+            "SIM7600",
+            "TINY_GSM_MODEM_SIM7600"
+          ],
+          [
+            "SIM7000",
+            "TINY_GSM_MODEM_SIM7000"
+          ],
+          [
+            "SIM7080",
+            "TINY_GSM_MODEM_SIM7080"
+          ],
+          [
+            "A7672X",
+            "TINY_GSM_MODEM_A7672X"
+          ],
+          [
+            "BG96",
+            "TINY_GSM_MODEM_BG96"
+          ],
+          [
+            "ESP8266 AT",
+            "TINY_GSM_MODEM_ESP8266"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      },
+      {
+        "type": "input_value",
+        "name": "BAUD",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00695C",
+    "tooltip": "Configure modem type and AT serial port.",
+    "tooltip_zh": "配置模块类型和 AT 串口。",
+    "generated": "#define TINY_GSM_MODEM_*; TinyGsm modem(SerialAT);"
+  },
+  {
+    "type": "tinygsm_restart",
+    "message0": "TinyGSM restart modem",
+    "message0_zh": "TinyGSM 重启模块",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00796B",
+    "tooltip": "Restart the modem.",
+    "tooltip_zh": "重启模块。"
+  },
+  {
+    "type": "tinygsm_wait_network",
+    "message0": "TinyGSM wait network timeout %1 ms",
+    "message0_zh": "TinyGSM 等待网络 超时 %1 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#00796B",
+    "tooltip": "Wait for cellular network registration.",
+    "tooltip_zh": "等待蜂窝网络注册。"
+  },
+  {
+    "type": "tinygsm_gprs_connect",
+    "message0": "TinyGSM GPRS connect apn %1 user %2 password %3",
+    "message0_zh": "TinyGSM GPRS 连接 APN %1 用户 %2 密码 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "APN",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "USER",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PASS",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#00796B",
+    "tooltip": "Connect GPRS data service.",
+    "tooltip_zh": "连接 GPRS 数据服务。"
+  },
+  {
+    "type": "tinygsm_is_network_connected",
+    "message0": "TinyGSM network connected",
+    "message0_zh": "TinyGSM 网络已连接",
+    "output": "Boolean",
+    "colour": "#00796B",
+    "tooltip": "Return network registration status.",
+    "tooltip_zh": "返回网络注册状态。"
+  },
+  {
+    "type": "tinygsm_is_gprs_connected",
+    "message0": "TinyGSM GPRS connected",
+    "message0_zh": "TinyGSM GPRS 已连接",
+    "output": "Boolean",
+    "colour": "#00796B",
+    "tooltip": "Return GPRS connection status.",
+    "tooltip_zh": "返回 GPRS 连接状态。"
+  },
+  {
+    "type": "tinygsm_modem_info",
+    "message0": "TinyGSM modem info",
+    "message0_zh": "TinyGSM 模块信息",
+    "output": "String",
+    "colour": "#00838F",
+    "tooltip": "Return modem information string.",
+    "tooltip_zh": "返回模块信息字符串。"
+  },
+  {
+    "type": "tinygsm_local_ip",
+    "message0": "TinyGSM local IP",
+    "message0_zh": "TinyGSM 本地 IP",
+    "output": "String",
+    "colour": "#00838F",
+    "tooltip": "Return local IP as String.",
+    "tooltip_zh": "返回本地 IP 字符串。"
+  },
+  {
+    "type": "tinygsm_client_connect",
+    "message0": "TinyGSM TCP connect host %1 port %2",
+    "message0_zh": "TinyGSM TCP 连接 主机 %1 端口 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "HOST",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#00838F",
+    "tooltip": "Connect the shared TinyGsmClient.",
+    "tooltip_zh": "连接共享 TinyGsmClient。"
+  },
+  {
+    "type": "tinygsm_client_print",
+    "message0": "TinyGSM TCP print %1",
+    "message0_zh": "TinyGSM TCP 发送 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00838F",
+    "tooltip": "Print data to the shared TCP client.",
+    "tooltip_zh": "向共享 TCP 客户端发送数据。"
+  },
+  {
+    "type": "tinygsm_client_available",
+    "message0": "TinyGSM TCP available",
+    "message0_zh": "TinyGSM TCP 可读字节",
+    "output": "Number",
+    "colour": "#00838F",
+    "tooltip": "Return available bytes from TCP client.",
+    "tooltip_zh": "返回 TCP 客户端可读字节数。"
+  },
+  {
+    "type": "tinygsm_client_read",
+    "message0": "TinyGSM TCP read byte",
+    "message0_zh": "TinyGSM TCP 读取字节",
+    "output": "Number",
+    "colour": "#00838F",
+    "tooltip": "Read one byte from TCP client.",
+    "tooltip_zh": "从 TCP 客户端读取一个字节。"
+  }
+]

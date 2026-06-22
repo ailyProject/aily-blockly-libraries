@@ -10,7 +10,7 @@ ESP32 camera network server library supports multiple ESP32 development boards t
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `esp32_camera_webserver_init` | Statement | MODEL(dropdown), RESOLUTION(dropdown) | `esp32_camera_webserver_init(CAMERA_MODEL_AI_THINKER, FRAMESIZE_UXGA)` | Dynamic code |
+| `esp32_camera_webserver_init` | Statement | MODEL(dropdown), RESOLUTION(dropdown), PIXEL_FORMAT(dropdown) | `esp32_camera_webserver_init(CAMERA_MODEL_AI_THINKER, FRAMESIZE_UXGA, PIXFORMAT_JPEG)` | Dynamic code |
 | `esp32_camera_print_diagnostics` | Statement | (none) | `esp32_camera_print_diagnostics()` | Print camera init/sensor diagnostics to Serial |
 | `esp32_camera_custom_pins` | Statement | DATA_PINS(input_value), XCLK(input_value), PCLK(input_value), VSYNC(input_value), HREF(input_value), SDA(input_value), SCL(input_value), PWDN(input_value), R... | `esp32_camera_custom_pins(text("value"), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0), math_number(0))` | Dynamic code |
 | `esp32_camera_set_quality` | Statement | QUALITY(field_number) | `esp32_camera_set_quality(10)` | { sensor_t * s = esp_camera_sensor_get(); s->set_quality(s, ...); } |
@@ -31,6 +31,7 @@ ESP32 camera network server library supports multiple ESP32 development boards t
 |-----------|--------|-------------|
 | MODEL | CAMERA_MODEL_AI_THINKER, CAMERA_MODEL_M5STACK_PSRAM, CAMERA_MODEL_M5STACK_WIDE, CAMERA_MODEL_ESP_EYE, CAMERA_MODEL_DFRobot_FireBeetle2_ESP32S3, CAMERA_MODEL_ESP32S3_EYE, CAMERA_MODEL_XIAO_ESP32S3, CAMERA_MODEL_ESP32S3_WROOM_CAM, CAMERA_MODEL_ESP32_AIOT_KIT, CAMERA_MODEL_ESP32_AIOT_KIT_GC2145, CUSTOM | esp32_camera_webserver_init |
 | RESOLUTION | FRAMESIZE_UXGA, FRAMESIZE_SXGA, FRAMESIZE_XGA, FRAMESIZE_SVGA, FRAMESIZE_VGA, FRAMESIZE_CIF, FRAMESIZE_QVGA, FRAMESIZE_HQVGA, FRAMESIZE_QQVGA | esp32_camera_webserver_init |
+| PIXEL_FORMAT | PIXFORMAT_JPEG, PIXFORMAT_RGB565, PIXFORMAT_YUV422, PIXFORMAT_GRAYSCALE | esp32_camera_webserver_init |
 
 ## ABS Examples
 

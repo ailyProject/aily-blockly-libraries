@@ -542,5 +542,37 @@
       },
       null
     ]
+  },
+  "mimo_i2s_speaker_init": {
+    "message0": "I2S喇叭初始化 对象 %1 %2 BCLK %3 LRCLK %4 DIN %5 采样率 %6",
+    "tooltip": "初始化MAX98357A等I2S喇叭输出对象，并自动声明I2SClass对象"
+  },
+  "mimo_i2s_mic_init": {
+    "message0": "I2S麦克风初始化 对象 %1 %2 BCLK %3 LRCLK/WS %4 SD/DOUT %5 采样率 %6",
+    "tooltip": "初始化INMP441等标准I2S麦克风输入对象，并自动声明I2SClass对象"
+  },
+  "mimo_pdm_mic_init": {
+    "message0": "PDM麦克风初始化 对象 %1 %2 CLK %3 DATA %4 采样率 %5",
+    "tooltip": "初始化PDM麦克风输入对象，适用于XIAO ESP32S3 Sense板载麦克风等。XIAO ESP32S3 Sense默认CLK为42、DATA为41"
+  },
+  "mimo_es8311_mic_init": {
+    "message0": "ES8311麦克风初始化 对象 %1 %2 SDA %3 SCL %4 地址 %5 BCLK %6 LRCLK %7 SDOUT %8 MCLK %9 采样率 %10 增益寄存器 %11",
+    "tooltip": "初始化ES8311音频编解码器的麦克风输入，先通过I2C配置ADC/麦克风路径，再初始化I2S录音对象。默认地址0x18(十进制24)，默认增益寄存器0x24(十进制36)"
+  },
+  "mimo_es8311_audio_init": {
+    "message0": "ES8311麦克风+喇叭初始化 对象 %1 %2 SDA %3 SCL %4 地址 %5 BCLK/SCLK %6 LR %7 DI/DAC输入 %8 DO/ADC输出 %9 MCK %10 采样率 %11 增益寄存器 %12 PA_EN %13",
+    "tooltip": "初始化ES8311音频编解码器的麦克风和喇叭通道，适合Microphone + Audio Amplifier板。图中默认: SCLK39, LR2, DI38, DO40, MCK46, SDA41, SCL42。ES8311供电3V3，NS4150B功放供电5V。PA_EN默认-1表示不控制；如果板子有功放使能脚，填入GPIO后会拉高"
+  },
+  "mimo_i2s_prompt_tone": {
+    "message0": "播放提示音 对象 %1 %2 频率Hz %3 时长ms %4",
+    "tooltip": "通过当前I2S/ES8311喇叭对象播放一段短提示音，用于开始录音、结束录音或检查喇叭输出"
+  },
+  "mimo_i2s_record_text": {
+    "message0": "小米MiMo录音转文字 麦克风对象 %1 %2 录音 %3 秒 %4 模型 %5 %6 转写提示(可选) %7",
+    "tooltip": "使用I2S麦克风录音并调用小米MiMo音频理解，只返回识别/理解后的文字。录音格式为16kHz 16bit单声道"
+  },
+  "mimo_voice_chat": {
+    "message0": "小米MiMo语音对话 麦克风对象 %1 喇叭对象 %2 %3 录音 %4 秒 %5 理解模型 %6 音色 %7 TTS模型 %8 提示音 %9 %10 提问(可选) %11",
+    "tooltip": "先用I2S麦克风录音并让小米MiMo理解，再把回答通过TTS合成并用I2S喇叭播放。提示音会在录音开始和结束各滴一声"
   }
 }

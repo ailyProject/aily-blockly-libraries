@@ -1,0 +1,263 @@
+[
+  {
+    "type": "blynk_setup_wifi",
+    "message0": "Blynk WiFi template id %1 name %2 auth %3 ssid %4 password %5 transport %6 server %7 port %8 debug %9",
+    "args0": [
+      {"type": "field_input", "name": "TEMPLATE_ID", "text": "TMPxxxxxx"},
+      {"type": "field_input", "name": "TEMPLATE_NAME", "text": "Device"},
+      {"type": "field_input", "name": "AUTH", "text": "YourAuthToken"},
+      {"type": "input_value", "name": "SSID", "check": ["String"]},
+      {"type": "input_value", "name": "PASS", "check": ["String"]},
+      {
+        "type": "field_dropdown",
+        "name": "TRANSPORT",
+        "options": [
+          ["auto", "AUTO"],
+          ["ESP32 WiFi", "ESP32"],
+          ["ESP8266 WiFi", "ESP8266"],
+          ["WiFiNINA", "WIFI_NINA"],
+          ["Arduino WiFi shield", "ARDUINO_WIFI"]
+        ]
+      },
+      {"type": "input_value", "name": "SERVER", "check": ["String"]},
+      {"type": "input_value", "name": "PORT", "check": ["Number"]},
+      {"type": "field_checkbox", "name": "DEBUG", "checked": true}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2EA44F",
+    "tooltip": "Connect Blynk through WiFi and automatically run Blynk.run() in loop.",
+    "inputsInline": false,
+    "icon": "fa-solid fa-cloud"
+  },
+  {
+    "type": "blynk_setup_ethernet",
+    "message0": "Blynk Ethernet template id %1 name %2 auth %3 server %4 port %5 disable SD pin 4 %6 debug %7",
+    "args0": [
+      {"type": "field_input", "name": "TEMPLATE_ID", "text": "TMPxxxxxx"},
+      {"type": "field_input", "name": "TEMPLATE_NAME", "text": "Device"},
+      {"type": "field_input", "name": "AUTH", "text": "YourAuthToken"},
+      {"type": "input_value", "name": "SERVER", "check": ["String"]},
+      {"type": "input_value", "name": "PORT", "check": ["Number"]},
+      {"type": "field_checkbox", "name": "DISABLE_SD", "checked": true},
+      {"type": "field_checkbox", "name": "DEBUG", "checked": true}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2EA44F",
+    "tooltip": "Connect Blynk through a W5100/W5500 Ethernet shield and automatically run Blynk.run() in loop.",
+    "inputsInline": false,
+    "icon": "fa-solid fa-ethernet"
+  },
+  {
+    "type": "blynk_run",
+    "message0": "Blynk run",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2EA44F",
+    "tooltip": "Process Blynk communication. Usually placed in loop; setup blocks add it automatically.",
+    "icon": "fa-solid fa-rotate"
+  },
+  {
+    "type": "blynk_connected",
+    "message0": "Blynk connected",
+    "output": "Boolean",
+    "colour": "#2EA44F",
+    "tooltip": "Return true when connected to Blynk Cloud.",
+    "icon": "fa-solid fa-link"
+  },
+  {
+    "type": "blynk_connect",
+    "message0": "Blynk connect timeout %1 ms",
+    "args0": [
+      {"type": "input_value", "name": "TIMEOUT", "check": ["Number"]}
+    ],
+    "output": "Boolean",
+    "colour": "#2EA44F",
+    "tooltip": "Try to connect to Blynk Cloud with a timeout.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-plug-circle-check"
+  },
+  {
+    "type": "blynk_disconnect",
+    "message0": "Blynk disconnect",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2EA44F",
+    "tooltip": "Disconnect from Blynk Cloud.",
+    "icon": "fa-solid fa-plug-circle-xmark"
+  },
+  {
+    "type": "blynk_virtual_write",
+    "message0": "Blynk virtual write V %1 value %2",
+    "args0": [
+      {"type": "field_number", "name": "VPIN", "value": 0, "min": 0, "precision": 1},
+      {"type": "input_value", "name": "VALUE"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1E88E5",
+    "tooltip": "Send a value to a Blynk virtual pin.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-paper-plane"
+  },
+  {
+    "type": "blynk_sync_virtual",
+    "message0": "Blynk sync virtual pin V %1",
+    "args0": [
+      {"type": "field_number", "name": "VPIN", "value": 0, "min": 0, "precision": 1}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1E88E5",
+    "tooltip": "Ask Blynk to send the current value of a virtual pin.",
+    "icon": "fa-solid fa-arrows-rotate"
+  },
+  {
+    "type": "blynk_sync_all",
+    "message0": "Blynk sync all virtual pins",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1E88E5",
+    "tooltip": "Ask Blynk to send current values for all widgets.",
+    "icon": "fa-solid fa-arrows-rotate"
+  },
+  {
+    "type": "blynk_set_property",
+    "message0": "Blynk set V %1 property %2 value %3",
+    "args0": [
+      {"type": "field_number", "name": "VPIN", "value": 0, "min": 0, "precision": 1},
+      {
+        "type": "field_dropdown",
+        "name": "PROPERTY",
+        "options": [
+          ["label", "label"],
+          ["color", "color"],
+          ["min", "min"],
+          ["max", "max"],
+          ["isDisabled", "isDisabled"],
+          ["onLabel", "onLabel"],
+          ["offLabel", "offLabel"]
+        ]
+      },
+      {"type": "input_value", "name": "VALUE"}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1E88E5",
+    "tooltip": "Set a Blynk widget property.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-sliders"
+  },
+  {
+    "type": "blynk_log_event",
+    "message0": "Blynk log event %1 description %2",
+    "args0": [
+      {"type": "input_value", "name": "EVENT", "check": ["String"]},
+      {"type": "input_value", "name": "DESCRIPTION", "check": ["String"]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7B1FA2",
+    "tooltip": "Log a Blynk device event.",
+    "inputsInline": false,
+    "icon": "fa-solid fa-bell"
+  },
+  {
+    "type": "blynk_resolve_event",
+    "message0": "Blynk resolve event %1 mode %2",
+    "args0": [
+      {"type": "input_value", "name": "EVENT", "check": ["String"]},
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["latest", "ONE"],
+          ["all", "ALL"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7B1FA2",
+    "tooltip": "Resolve one or all logged events with the given event code.",
+    "inputsInline": true,
+    "icon": "fa-solid fa-bell-slash"
+  },
+  {
+    "type": "blynk_on_virtual_write",
+    "message0": "when Blynk writes V %1 as %2 variable %3",
+    "args0": [
+      {"type": "field_number", "name": "VPIN", "value": 0, "min": 0, "precision": 1},
+      {
+        "type": "field_dropdown",
+        "name": "VALUE_TYPE",
+        "options": [
+          ["integer", "INT"],
+          ["float", "FLOAT"],
+          ["double", "DOUBLE"],
+          ["string", "STRING"]
+        ]
+      },
+      {"type": "field_input", "name": "VAR", "text": "blynkValue"}
+    ],
+    "message1": "do %1",
+    "args1": [
+      {"type": "input_statement", "name": "DO"}
+    ],
+    "colour": "#F57C00",
+    "tooltip": "Handle incoming writes from a Blynk virtual pin.",
+    "inputsInline": false,
+    "icon": "fa-solid fa-bolt"
+  },
+  {
+    "type": "blynk_on_connected",
+    "message0": "when Blynk connected",
+    "message1": "do %1",
+    "args1": [
+      {"type": "input_statement", "name": "DO"}
+    ],
+    "colour": "#F57C00",
+    "tooltip": "Run code when the device connects to Blynk Cloud.",
+    "icon": "fa-solid fa-cloud-arrow-up"
+  },
+  {
+    "type": "blynk_param_int",
+    "message0": "Blynk incoming value as integer",
+    "output": "Number",
+    "colour": "#F57C00",
+    "tooltip": "Read param.asInt() inside a BLYNK_WRITE handler.",
+    "icon": "fa-solid fa-hashtag"
+  },
+  {
+    "type": "blynk_param_float",
+    "message0": "Blynk incoming value as float",
+    "output": "Number",
+    "colour": "#F57C00",
+    "tooltip": "Read param.asFloat() inside a BLYNK_WRITE handler.",
+    "icon": "fa-solid fa-hashtag"
+  },
+  {
+    "type": "blynk_param_string",
+    "message0": "Blynk incoming value as string",
+    "output": "String",
+    "colour": "#F57C00",
+    "tooltip": "Read param.asStr() inside a BLYNK_WRITE handler.",
+    "icon": "fa-solid fa-quote-left"
+  },
+  {
+    "type": "blynk_timer_every",
+    "message0": "Blynk timer every %1 ms",
+    "args0": [
+      {"type": "input_value", "name": "INTERVAL", "check": ["Number"]}
+    ],
+    "message1": "do %1",
+    "args1": [
+      {"type": "input_statement", "name": "DO"}
+    ],
+    "colour": "#00897B",
+    "tooltip": "Create a BlynkTimer interval callback and run the timer automatically in loop.",
+    "inputsInline": false,
+    "icon": "fa-regular fa-clock"
+  }
+]

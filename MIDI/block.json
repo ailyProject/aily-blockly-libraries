@@ -1,0 +1,307 @@
+[
+  {
+    "type": "midi_begin",
+    "message0": "MIDI begin channel %1",
+    "message0_zh": "MIDI 开始 通道 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#512DA8",
+    "tooltip": "Create default MIDI instance and begin listening on a channel.",
+    "tooltip_zh": "创建默认 MIDI 实例并监听指定通道。",
+    "generated": "MIDI_CREATE_DEFAULT_INSTANCE(); MIDI.begin(channel);"
+  },
+  {
+    "type": "midi_read",
+    "message0": "MIDI read",
+    "message0_zh": "MIDI 读取",
+    "output": "Boolean",
+    "colour": "#512DA8",
+    "tooltip": "Read incoming MIDI and dispatch callbacks.",
+    "tooltip_zh": "读取 MIDI 输入并分发回调。"
+  },
+  {
+    "type": "midi_send_note_on",
+    "message0": "MIDI note on note %1 velocity %2 channel %3",
+    "message0_zh": "MIDI 音符开 音符 %1 力度 %2 通道 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NOTE",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VELOCITY",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "Send MIDI Note On.",
+    "tooltip_zh": "发送 MIDI Note On。"
+  },
+  {
+    "type": "midi_send_note_off",
+    "message0": "MIDI note off note %1 velocity %2 channel %3",
+    "message0_zh": "MIDI 音符关 音符 %1 力度 %2 通道 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NOTE",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VELOCITY",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "Send MIDI Note Off.",
+    "tooltip_zh": "发送 MIDI Note Off。"
+  },
+  {
+    "type": "midi_send_control_change",
+    "message0": "MIDI control change cc %1 value %2 channel %3",
+    "message0_zh": "MIDI 控制改变 CC %1 值 %2 通道 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "CC",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "Send MIDI Control Change.",
+    "tooltip_zh": "发送 MIDI Control Change。"
+  },
+  {
+    "type": "midi_send_program_change",
+    "message0": "MIDI program change program %1 channel %2",
+    "message0_zh": "MIDI 程序改变 程序 %1 通道 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PROGRAM",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "Send MIDI Program Change.",
+    "tooltip_zh": "发送 MIDI Program Change。"
+  },
+  {
+    "type": "midi_send_pitch_bend",
+    "message0": "MIDI pitch bend value %1 channel %2",
+    "message0_zh": "MIDI 弯音 值 %1 通道 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#673AB7",
+    "tooltip": "Send MIDI Pitch Bend.",
+    "tooltip_zh": "发送 MIDI Pitch Bend。"
+  },
+  {
+    "type": "midi_get_data",
+    "message0": "MIDI get %1",
+    "message0_zh": "MIDI 获取 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FIELD",
+        "options": [
+          [
+            "type",
+            "getType"
+          ],
+          [
+            "channel",
+            "getChannel"
+          ],
+          [
+            "data1",
+            "getData1"
+          ],
+          [
+            "data2",
+            "getData2"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#7E57C2",
+    "tooltip": "Read field from last MIDI message.",
+    "tooltip_zh": "读取上一条 MIDI 消息字段。"
+  },
+  {
+    "type": "midi_turn_thru",
+    "message0": "MIDI thru %1",
+    "message0_zh": "MIDI 直通 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "on",
+            "turnThruOn"
+          ],
+          [
+            "off",
+            "turnThruOff"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "Enable or disable MIDI thru.",
+    "tooltip_zh": "启用或关闭 MIDI thru。"
+  },
+  {
+    "type": "midi_on_note_on",
+    "message0": "when MIDI note on channel var %1 note var %2 velocity var %3",
+    "message0_zh": "当 MIDI 音符开 通道变量 %1 音符变量 %2 力度变量 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "CHANNELVAR",
+        "text": "midiChannel"
+      },
+      {
+        "type": "field_input",
+        "name": "NOTEVAR",
+        "text": "midiNote"
+      },
+      {
+        "type": "field_input",
+        "name": "VELOCITYVAR",
+        "text": "midiVelocity"
+      }
+    ],
+    "message1": "do %1",
+    "message1_zh": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "colour": "#9575CD",
+    "tooltip": "Handle incoming Note On messages.",
+    "tooltip_zh": "处理收到的 Note On 消息。"
+  },
+  {
+    "type": "midi_on_control_change",
+    "message0": "when MIDI control change channel var %1 cc var %2 value var %3",
+    "message0_zh": "当 MIDI 控制改变 通道变量 %1 CC 变量 %2 值变量 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "CHANNELVAR",
+        "text": "midiChannel"
+      },
+      {
+        "type": "field_input",
+        "name": "CCVAR",
+        "text": "midiCC"
+      },
+      {
+        "type": "field_input",
+        "name": "VALUEVAR",
+        "text": "midiValue"
+      }
+    ],
+    "message1": "do %1",
+    "message1_zh": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "colour": "#9575CD",
+    "tooltip": "Handle incoming Control Change messages.",
+    "tooltip_zh": "处理收到的 Control Change 消息。"
+  }
+]

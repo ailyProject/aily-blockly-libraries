@@ -1,5 +1,1025 @@
 // 小米MiMo AI API库代码生成器
 
+function ensureMimoPlaybackHelpers(generator) {
+  ensureMimoBaseHelpers(generator);
+  ensureMimoI2SHelpers(generator);
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+  generator.addLibrary('mbedtls_base64', '#include <mbedtls/base64.h>');
+  generator.addLibrary('mimo_heap_caps', '#include <esp_heap_caps.h>');
+  generator.addLibrary('mimo_freertos', '#include <freertos/FreeRTOS.h>');
+  generator.addLibrary('mimo_freertos_task', '#include <freertos/task.h>');
+  generator.addLibrary('mimo_freertos_stream_buffer', '#include <freertos/stream_buffer.h>');
+
+  generator.addVariable('mimo_playback_storage', 'uint8_t* mimo_playback_storage = NULL;');
+  generator.addVariable('mimo_playback_stream_struct', 'StaticStreamBuffer_t mimo_playback_stream_struct;');
+  generator.addVariable('mimo_playback_stream', 'StreamBufferHandle_t mimo_playback_stream = NULL;');
+  generator.addVariable('mimo_playback_task_handle', 'TaskHandle_t mimo_playback_task_handle = NULL;');
+  generator.addVariable('mimo_playback_i2s', 'I2SClass* mimo_playback_i2s = NULL;');
+  generator.addVariable('mimo_playback_done', 'volatile bool mimo_playback_done = false;');
+  generator.addVariable('mimo_playback_total_played', 'volatile size_t mimo_playback_total_played = 0;');
+  generator.addVariable('mimo_playback_started', 'bool mimo_playback_started = false;');
+  generator.addVariable('mimo_playback_buffered', 'size_t mimo_playback_buffered = 0;');
+  generator.addVariable('mimo_playback_sample_rate', 'uint32_t mimo_playback_sample_rate = 24000;');
+  generator.addVariable('mimo_playback_bits_per_sample', 'uint16_t mimo_playback_bits_per_sample = 16;');
+  generator.addVariable('mimo_playback_channels', 'uint16_t mimo_playback_channels = 1;');
+
+  generator.addFunction('mimo_audio_alloc_buffer', String.raw`
+void* mimo_audio_alloc_buffer(size_t len, const char* tag) {
+  void* ptr = NULL;
+  if (psramFound()) {
+    ptr = heap_caps_malloc(len, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
+  }
+  if (!ptr) {
+    ptr = heap_caps_malloc(len, MALLOC_CAP_8BIT);
+  }
+  if (!ptr) {
+    Serial.println("[MIMO-AUDIO] alloc failed: " + String(tag) + " " + String(len));
+  }
+  return ptr;
+}
+
+size_t mimo_base64_encoded_len(size_t len) {
+  return ((len + 2) / 3) * 4;
+}`);
+
+  generator.addFunction('mimo_stream_playback_helpers', String.raw`
+#define MIMO_PLAYBACK_BUFFER_SIZE 196608
+#define MIMO_PLAYBACK_PREBUFFER_SIZE 48000
+#define MIMO_PLAYBACK_CHUNK_SIZE 2048
+#define MIMO_DECODE_BUF_SIZE 16384
+
+bool mimo_i2s_prepare_es8311_playback(I2SClass &i2s, uint32_t sampleRate, i2s_data_bit_width_t bitWidth, i2s_slot_mode_t slotMode);
+
+void mimo_play_prompt_tone(I2SClass &i2s, int freq, int durationMs) {
+  const uint32_t toneRate = 16000;
+  if (!mimo_i2s_prepare_es8311_playback(i2s, toneRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO)) {
+    if (mimo_i2s_speaker_bclk_pin >= 0 && mimo_i2s_speaker_lrclk_pin >= 0 && mimo_i2s_speaker_din_pin >= 0) {
+      i2s.end();
+      delay(20);
+      i2s.setPins(mimo_i2s_speaker_bclk_pin, mimo_i2s_speaker_lrclk_pin, mimo_i2s_speaker_din_pin, -1, -1);
+      i2s.begin(I2S_MODE_STD, toneRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_BOTH);
+    } else {
+      i2s.end();
+      delay(20);
+      i2s.begin(I2S_MODE_STD, toneRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_BOTH);
+    }
+  } else if (mimo_i2s_mic_mode != 3 && mimo_i2s_speaker_bclk_pin >= 0 && mimo_i2s_speaker_lrclk_pin >= 0 && mimo_i2s_speaker_din_pin >= 0) {
+    i2s.end();
+    delay(20);
+    i2s.setPins(mimo_i2s_speaker_bclk_pin, mimo_i2s_speaker_lrclk_pin, mimo_i2s_speaker_din_pin, -1, -1);
+    i2s.begin(I2S_MODE_STD, toneRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_BOTH);
+  }
+  size_t samples = toneRate * durationMs / 1000;
+  int16_t* buf = (int16_t*)malloc(samples * sizeof(int16_t));
+  if (!buf) {
+    Serial.println("[MIMO-AUDIO] prompt tone alloc failed");
+    return;
+  }
+  for (size_t i = 0; i < samples; i++) {
+    float t = (float)i / toneRate;
+    buf[i] = (int16_t)(sin(2.0f * 3.1415926f * freq * t) * 7000);
+  }
+  size_t bytes = samples * sizeof(int16_t);
+  size_t written = 0;
+  unsigned long startMs = millis();
+  while (written < bytes) {
+    if (millis() - startMs > (unsigned long)(durationMs + 1000)) {
+      Serial.println("[MIMO-AUDIO] prompt tone timeout");
+      break;
+    }
+    size_t n = i2s.write((uint8_t*)buf + written, bytes - written);
+    if (n == 0) delay(1);
+    else written += n;
+  }
+  free(buf);
+  delay(durationMs + 20);
+  Serial.println("[MIMO-AUDIO] prompt tone done, bytes: " + String(written));
+}
+
+void mimo_playback_task_entry(void* param) {
+  uint8_t chunk[MIMO_PLAYBACK_CHUNK_SIZE];
+  while (!mimo_playback_done || xStreamBufferBytesAvailable(mimo_playback_stream) > 0) {
+    size_t n = xStreamBufferReceive(mimo_playback_stream, chunk, sizeof(chunk), pdMS_TO_TICKS(20));
+    if (n == 0) {
+      delay(1);
+      continue;
+    }
+    size_t writtenTotal = 0;
+    while (writtenTotal < n) {
+      if (!mimo_playback_i2s) break;
+      size_t written = mimo_playback_i2s->write(chunk + writtenTotal, n - writtenTotal);
+      if (written == 0) {
+        delay(1);
+      } else {
+        writtenTotal += written;
+        mimo_playback_total_played += written;
+      }
+    }
+    delay(0);
+  }
+  mimo_playback_task_handle = NULL;
+  vTaskDelete(NULL);
+}
+
+bool mimo_prepare_stream_playback(I2SClass &i2s) {
+  mimo_playback_i2s = &i2s;
+  mimo_playback_done = false;
+  mimo_playback_total_played = 0;
+  mimo_playback_started = false;
+  mimo_playback_buffered = 0;
+  mimo_playback_sample_rate = 24000;
+  mimo_playback_bits_per_sample = 16;
+  mimo_playback_channels = 1;
+
+  if (!mimo_playback_storage) {
+    mimo_playback_storage = (uint8_t*)mimo_audio_alloc_buffer(MIMO_PLAYBACK_BUFFER_SIZE, "playback-stream");
+    if (!mimo_playback_storage) return false;
+  }
+
+  if (!mimo_playback_stream) {
+    mimo_playback_stream = xStreamBufferCreateStatic(
+      MIMO_PLAYBACK_BUFFER_SIZE, 1, mimo_playback_storage, &mimo_playback_stream_struct);
+  } else {
+    xStreamBufferReset(mimo_playback_stream);
+  }
+
+  if (!mimo_playback_stream) {
+    Serial.println("[MIMO-AUDIO] stream buffer create failed");
+    return false;
+  }
+  return true;
+}
+
+bool mimo_start_stream_playback() {
+  if (mimo_playback_started) return true;
+  if (!mimo_playback_i2s) return false;
+
+  mimo_playback_i2s->end();
+  i2s_data_bit_width_t bitWidth = (mimo_playback_bits_per_sample == 32) ? I2S_DATA_BIT_WIDTH_32BIT : I2S_DATA_BIT_WIDTH_16BIT;
+  i2s_slot_mode_t slotMode = (mimo_playback_channels == 2) ? I2S_SLOT_MODE_STEREO : I2S_SLOT_MODE_MONO;
+  bool ok = mimo_i2s_prepare_es8311_playback(*mimo_playback_i2s, mimo_playback_sample_rate, bitWidth, slotMode);
+  if (ok && !(mimo_i2s_mic_mode == 3 && mimo_i2s_mic_es8311_dac_pin >= 0)) {
+    ok = mimo_playback_i2s->begin(I2S_MODE_STD, mimo_playback_sample_rate, bitWidth, slotMode, I2S_STD_SLOT_BOTH);
+  }
+  if (!ok) {
+    Serial.println("[MIMO-AUDIO] I2S begin failed");
+    return false;
+  }
+
+  BaseType_t taskOk = xTaskCreate(
+    mimo_playback_task_entry, "mimo_tts_play", 4096, NULL, 3, &mimo_playback_task_handle);
+  if (taskOk != pdPASS) {
+    mimo_playback_task_handle = NULL;
+    Serial.println("[MIMO-AUDIO] playback task create failed");
+    return false;
+  }
+
+  mimo_playback_started = true;
+  Serial.println("[MIMO-AUDIO] prebuffer ready, play");
+  return true;
+}
+
+bool mimo_queue_stream_playback(const uint8_t* data, size_t len) {
+  if (!mimo_playback_stream || len == 0) return false;
+
+  size_t sentTotal = 0;
+  while (sentTotal < len) {
+    size_t toSend = min((size_t)4096, len - sentTotal);
+    size_t sent = xStreamBufferSend(
+      mimo_playback_stream, data + sentTotal, toSend, pdMS_TO_TICKS(3000));
+    if (sent == 0) {
+      Serial.println("[MIMO-AUDIO] playback buffer timeout");
+      return false;
+    }
+
+    sentTotal += sent;
+    mimo_playback_buffered += sent;
+    if (!mimo_playback_started && mimo_playback_buffered >= MIMO_PLAYBACK_PREBUFFER_SIZE) {
+      if (!mimo_start_stream_playback()) return false;
+    }
+  }
+  return true;
+}
+
+size_t mimo_finish_stream_playback() {
+  if (mimo_playback_stream && !mimo_playback_started && mimo_playback_buffered > 0) {
+    mimo_start_stream_playback();
+  }
+  mimo_playback_done = true;
+  unsigned long startMs = millis();
+  while (mimo_playback_task_handle && millis() - startMs < 60000) {
+    delay(10);
+  }
+  if (mimo_playback_task_handle) {
+    Serial.println("[MIMO-AUDIO] wait playback timeout");
+  }
+  return mimo_playback_total_played;
+}
+
+void mimo_play_decoded_audio(I2SClass &i2s, uint8_t* decodeBuf, size_t outLen, bool &headerParsed, size_t &queuedAudio) {
+  if (outLen == 0) return;
+
+  uint8_t* pcmPtr = decodeBuf;
+  size_t playLen = outLen;
+  if (!headerParsed) {
+    if (outLen > 44 && decodeBuf[0] == 'R' && decodeBuf[1] == 'I' && decodeBuf[2] == 'F' && decodeBuf[3] == 'F') {
+      int hdrLen = 44;
+      int fmtSize = decodeBuf[16] | (decodeBuf[17] << 8) | (decodeBuf[18] << 16) | (decodeBuf[19] << 24);
+      if (fmtSize > 16) hdrLen = 44 + (fmtSize - 16);
+      mimo_playback_channels = decodeBuf[22] | (decodeBuf[23] << 8);
+      mimo_playback_sample_rate = decodeBuf[24] | (decodeBuf[25] << 8) | (decodeBuf[26] << 16) | (decodeBuf[27] << 24);
+      mimo_playback_bits_per_sample = decodeBuf[34] | (decodeBuf[35] << 8);
+      if (hdrLen < (int)outLen) {
+        pcmPtr = decodeBuf + hdrLen;
+        playLen = outLen - hdrLen;
+      } else {
+        playLen = 0;
+      }
+      Serial.println("[MIMO-AUDIO] WAV: " + String(mimo_playback_sample_rate) + "Hz " + String(mimo_playback_bits_per_sample) + "bit " + String(mimo_playback_channels) + "ch");
+    } else {
+      mimo_playback_sample_rate = 24000;
+      mimo_playback_bits_per_sample = 16;
+      mimo_playback_channels = 1;
+      Serial.println("[MIMO-AUDIO] PCM: 24000Hz 16bit mono");
+    }
+    headerParsed = true;
+  }
+
+  if (playLen > 0 && mimo_queue_stream_playback(pcmPtr, playLen)) {
+    queuedAudio += playLen;
+  }
+}
+
+void mimo_decode_and_queue_base64(I2SClass &i2s, String &b64Data, uint8_t* decodeBuf, bool &headerParsed, size_t &queuedAudio) {
+  if (b64Data.length() == 0) return;
+  while ((b64Data.length() % 4) != 0) b64Data += "=";
+
+  const size_t maxB64In = (MIMO_DECODE_BUF_SIZE / 3) * 4;
+  size_t offset = 0;
+  while (offset < b64Data.length()) {
+    size_t remaining = b64Data.length() - offset;
+    size_t partLen = min(maxB64In, remaining);
+    if (partLen < remaining) {
+      partLen = (partLen / 4) * 4;
+    }
+    if (partLen == 0) break;
+
+    size_t outLen = 0;
+    int ret = mbedtls_base64_decode(
+      decodeBuf, MIMO_DECODE_BUF_SIZE, &outLen, (const unsigned char*)b64Data.c_str() + offset, partLen);
+    if (ret == 0) {
+      mimo_play_decoded_audio(i2s, decodeBuf, outLen, headerParsed, queuedAudio);
+    } else {
+      Serial.println("[MIMO-AUDIO] base64 decode failed: " + String(ret));
+    }
+    offset += partLen;
+  }
+}
+
+bool mimo_play_base64_audio_to_i2s(I2SClass &i2s, String base64Audio) {
+  Serial.println("[MIMO-AUDIO] play base64 len: " + String(base64Audio.length()));
+  if (base64Audio.length() == 0 || base64Audio.startsWith("URL:")) {
+    mimo_last_success = false;
+    mimo_last_error = base64Audio.startsWith("URL:") ? "URL audio needs URL player" : "Empty audio";
+    return false;
+  }
+
+  if (!mimo_prepare_stream_playback(i2s)) {
+    mimo_last_success = false;
+    mimo_last_error = "Playback buffer init failed";
+    return false;
+  }
+
+  uint8_t* decodeBuf = (uint8_t*)mimo_audio_alloc_buffer(MIMO_DECODE_BUF_SIZE, "decode");
+  if (!decodeBuf) {
+    mimo_playback_done = true;
+    mimo_last_success = false;
+    mimo_last_error = "Decode alloc failed";
+    return false;
+  }
+
+  bool headerParsed = false;
+  size_t queuedAudio = 0;
+  String cleanAudio = mimo_sanitize_base64(base64Audio);
+  mimo_decode_and_queue_base64(i2s, cleanAudio, decodeBuf, headerParsed, queuedAudio);
+  free(decodeBuf);
+  size_t played = mimo_finish_stream_playback();
+
+  mimo_last_success = played > 0;
+  mimo_last_error = played > 0 ? "" : "No audio data";
+  Serial.println("[MIMO-AUDIO] queued: " + String(queuedAudio) + ", played: " + String(played));
+  return played > 0;
+}`);
+
+  generator.addFunction('mimo_sse_audio_sink', String.raw`
+class MimoSseAudioSink : public Stream {
+public:
+  MimoSseAudioSink(I2SClass &i2s, uint8_t* decodeBuf, String* fullText, size_t &queuedAudio)
+    : i2s_(i2s), decodeBuf_(decodeBuf), fullText_(fullText), queuedAudio_(queuedAudio), done_(false), headerParsed_(false) {
+  }
+
+  int available() override { return 0; }
+  int read() override { return -1; }
+  int peek() override { return -1; }
+  void flush() override {}
+
+  size_t write(uint8_t b) override {
+    if (!done_) {
+      char c = (char)b;
+      if (c == '\n') {
+        processLine();
+      } else if (c != '\r') {
+        lineBuf_ += c;
+      }
+    }
+    return 1;
+  }
+
+  size_t write(const uint8_t* buffer, size_t size) override {
+    for (size_t i = 0; i < size; i++) write(buffer[i]);
+    return size;
+  }
+
+private:
+  I2SClass &i2s_;
+  uint8_t* decodeBuf_;
+  String* fullText_;
+  size_t &queuedAudio_;
+  String lineBuf_;
+  bool done_;
+  bool headerParsed_;
+
+  void processLine() {
+    lineBuf_.trim();
+    if (!lineBuf_.startsWith("data:")) {
+      lineBuf_ = "";
+      return;
+    }
+
+    String data = lineBuf_.substring(5);
+    data.trim();
+    lineBuf_ = "";
+
+    if (data == "[DONE]") {
+      done_ = true;
+      return;
+    }
+
+    if (data.indexOf("\"error\"") >= 0) {
+      String marker = "\"message\":\"";
+      int start = data.indexOf(marker);
+      if (start >= 0) {
+        start += marker.length();
+        int end = data.indexOf("\"", start);
+        mimo_last_error = (end > start) ? data.substring(start, end) : data.substring(0, min((int)data.length(), 240));
+      } else {
+        mimo_last_error = data.substring(0, min((int)data.length(), 240));
+      }
+      Serial.println("[MIMO-AUDIO] API error: " + mimo_last_error);
+      done_ = true;
+      return;
+    }
+
+    int contentStart = data.indexOf("\"content\":\"");
+    if (contentStart >= 0) {
+      contentStart += 11;
+      int contentEnd = data.indexOf("\"", contentStart);
+      if (contentEnd > contentStart) {
+        String content = data.substring(contentStart, contentEnd);
+        Serial.print(content);
+        if (fullText_ != NULL) *fullText_ += content;
+        if (mimo_stream_callback != NULL) {
+          mimo_stream_chunk = content;
+          mimo_stream_callback();
+        }
+      }
+    }
+
+    int audioObj = data.indexOf("\"audio\"");
+    if (audioObj >= 0) {
+      String audioMarker = "\"data\":\"";
+      int audioPos = data.indexOf(audioMarker, audioObj);
+      if (audioPos >= 0) {
+        audioPos += audioMarker.length();
+        int audioEnd = data.indexOf("\"", audioPos);
+        if (audioEnd > audioPos) {
+          String b64Data = mimo_sanitize_base64(data.substring(audioPos, audioEnd));
+          mimo_decode_and_queue_base64(i2s_, b64Data, decodeBuf_, headerParsed_, queuedAudio_);
+        }
+      }
+    }
+  }
+};
+
+size_t mimo_stream_http_audio_to_i2s(HTTPClient &http, I2SClass &i2s, String *fullText, const char* tag) {
+  if (!mimo_prepare_stream_playback(i2s)) {
+    mimo_last_error = "Playback buffer init failed";
+    return 0;
+  }
+
+  uint8_t* decodeBuf = (uint8_t*)mimo_audio_alloc_buffer(MIMO_DECODE_BUF_SIZE, "decode");
+  if (!decodeBuf) {
+    mimo_playback_done = true;
+    mimo_last_error = "Decode alloc failed";
+    return 0;
+  }
+
+  size_t queuedAudio = 0;
+  MimoSseAudioSink sink(i2s, decodeBuf, fullText, queuedAudio);
+  int streamResult = http.writeToStream(&sink);
+  if (streamResult < 0) {
+    mimo_last_error = HTTPClient::errorToString(streamResult);
+    Serial.println(String("[") + tag + "] stream error: " + mimo_last_error);
+  }
+
+  free(decodeBuf);
+  size_t played = mimo_finish_stream_playback();
+  Serial.println(String("[") + tag + "] queued: " + String(queuedAudio) + ", played: " + String(played));
+  return played;
+}`);
+}
+
+
+
+
+
+function ensureMimoTtsHelpers(generator) {
+  generator.addFunction('mimo_tts_request', String.raw`
+String mimo_tts_request(String text, String voice, String model) {
+  Serial.println("[MIMO-TTS] synth begin");
+  if (WiFi.status() != WL_CONNECTED) {
+    mimo_last_success = false;
+    mimo_last_error = "WiFi not connected";
+    return "";
+  }
+
+  HTTPClient http;
+  String url = mimo_base_url + "/chat/completions";
+  http.begin(url);
+  http.setTimeout(120000);
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("api-key", mimo_api_key);
+
+  String safeText = mimo_escape_json(text);
+  String requestBody = "{\"model\":\"" + model + "\",\"messages\":[";
+  requestBody += "{\"role\":\"assistant\",\"content\":\"" + safeText + "\"}";
+  requestBody += "],\"audio\":{\"format\":\"wav\",\"voice\":\"" + voice + "\"}}";
+
+  int httpResponseCode = http.POST(requestBody);
+  Serial.println("[MIMO-TTS] HTTP: " + String(httpResponseCode));
+  String response = "";
+  if (httpResponseCode == 200) {
+    String payload = http.getString();
+    int dataStart = payload.indexOf("\"data\":\"");
+    if (dataStart >= 0) {
+      dataStart += 8;
+      int dataEnd = payload.indexOf("\"", dataStart);
+      if (dataEnd > dataStart) {
+        response = mimo_sanitize_base64(payload.substring(dataStart, dataEnd));
+        mimo_last_success = response.length() > 0;
+        mimo_last_error = response.length() > 0 ? "" : "No audio data";
+      }
+    }
+    if (response.length() == 0 && mimo_last_error.length() == 0) {
+      mimo_last_success = false;
+      mimo_last_error = "Parse error";
+    }
+  } else {
+    String err = http.getString();
+    if (err.length() > 200) err = err.substring(0, 200);
+    mimo_last_success = false;
+    mimo_last_error = "HTTP " + String(httpResponseCode) + ": " + err;
+  }
+  http.end();
+  return response;
+}
+`);
+
+  generator.addFunction('mimo_tts_with_style_request', String.raw`
+String mimo_tts_with_style_request(String text, String voice, String style, String model) {
+  String styledText = "<style>" + style + "</style>" + text;
+  return mimo_tts_request(styledText, voice, model);
+}
+`);
+
+  generator.addFunction('mimo_tts_voice_design_request', String.raw`
+String mimo_tts_voice_design_request(String voiceDesc, String text) {
+  Serial.println("[MIMO-TTS] voice design begin");
+  if (WiFi.status() != WL_CONNECTED) {
+    mimo_last_success = false;
+    mimo_last_error = "WiFi not connected";
+    return "";
+  }
+
+  HTTPClient http;
+  String url = mimo_base_url + "/chat/completions";
+  http.begin(url);
+  http.setTimeout(120000);
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("api-key", mimo_api_key);
+
+  String safeDesc = mimo_escape_json(voiceDesc);
+  String safeText = mimo_escape_json(text);
+  String requestBody = "{\"model\":\"mimo-v2.5-tts-voicedesign\",\"messages\":[";
+  requestBody += "{\"role\":\"user\",\"content\":\"" + safeDesc + "\"},";
+  requestBody += "{\"role\":\"assistant\",\"content\":\"" + safeText + "\"}";
+  requestBody += "],\"audio\":{\"format\":\"wav\"}}";
+
+  int httpResponseCode = http.POST(requestBody);
+  Serial.println("[MIMO-TTS] HTTP: " + String(httpResponseCode));
+  String response = "";
+  if (httpResponseCode == 200) {
+    String payload = http.getString();
+    int dataStart = payload.indexOf("\"data\":\"");
+    if (dataStart >= 0) {
+      dataStart += 8;
+      int dataEnd = payload.indexOf("\"", dataStart);
+      if (dataEnd > dataStart) response = mimo_sanitize_base64(payload.substring(dataStart, dataEnd));
+    }
+    mimo_last_success = response.length() > 0;
+    mimo_last_error = response.length() > 0 ? "" : "No audio data";
+  } else {
+    String err = http.getString();
+    if (err.length() > 200) err = err.substring(0, 200);
+    mimo_last_success = false;
+    mimo_last_error = "HTTP " + String(httpResponseCode) + ": " + err;
+  }
+  http.end();
+  return response;
+}
+`);
+}
+
+function ensureMimoTtsStreamHelpers(generator) {
+  ensureMimoPlaybackHelpers(generator);
+  ensureMimoTtsHelpers(generator);
+  generator.addFunction('mimo_tts_stream_play_impl', String.raw`
+void mimo_tts_stream_play_impl(I2SClass &i2s, String text, String voice) {
+  Serial.println("[MIMO-TTS-STREAM] begin");
+  if (WiFi.status() != WL_CONNECTED) {
+    mimo_last_success = false;
+    mimo_last_error = "WiFi not connected";
+    return;
+  }
+
+  HTTPClient http;
+  String url = mimo_base_url + "/chat/completions";
+  http.begin(url);
+  http.setTimeout(180000);
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("api-key", mimo_api_key);
+
+  String safeText = mimo_escape_json(text);
+  String requestBody = "{\"model\":\"mimo-v2-tts\",\"messages\":[";
+  requestBody += "{\"role\":\"assistant\",\"content\":\"" + safeText + "\"}";
+  requestBody += "],\"audio\":{\"format\":\"pcm16\",\"voice\":\"" + voice + "\"},\"stream\":true}";
+
+  int httpResponseCode = http.POST(requestBody);
+  Serial.println("[MIMO-TTS-STREAM] HTTP: " + String(httpResponseCode));
+  if (httpResponseCode != 200) {
+    String err = http.getString();
+    if (err.length() > 200) err = err.substring(0, 200);
+    mimo_last_success = false;
+    mimo_last_error = "HTTP " + String(httpResponseCode) + ": " + err;
+    http.end();
+    return;
+  }
+
+  String fullText = "";
+  size_t played = mimo_stream_http_audio_to_i2s(http, i2s, &fullText, "MIMO-TTS-STREAM");
+  http.end();
+  mimo_last_success = played > 0;
+  mimo_last_error = played > 0 ? "" : (mimo_last_error.length() > 0 ? mimo_last_error : "No audio data");
+}
+`);
+
+  generator.addFunction('mimo_tts_stream_play_with_style_impl', String.raw`
+void mimo_tts_stream_play_with_style_impl(I2SClass &i2s, String text, String voice, String style) {
+  String styledText = "<style>" + style + "</style>" + text;
+  mimo_tts_stream_play_impl(i2s, styledText, voice);
+}
+`);
+}
+
+function ensureMimoBaseHelpers(generator) {
+  generator.addFunction('mimo_sanitize_base64', String.raw`
+String mimo_sanitize_base64(String input) {
+  String out = "";
+  out.reserve(input.length());
+  for (size_t i = 0; i < input.length(); i++) {
+    char ch = input.charAt(i);
+    bool isAlphaNum = (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9');
+    if (isAlphaNum || ch == '+' || ch == '/' || ch == '=') {
+      out += ch;
+    }
+  }
+  return out;
+}`);
+
+  generator.addFunction('mimo_unescape_json_string', String.raw`
+String mimo_unescape_json_string(String input) {
+  input.replace("\\/", "/");
+  input.replace("\\u0026", "&");
+  input.replace("\\u003d", "=");
+  input.replace("\\u002b", "+");
+  input.replace("\\u002f", "/");
+  return input;
+}`);
+}
+
+function ensureMimoUploadHelpers(generator) {
+  ensureMimoPlaybackHelpers(generator);
+
+  generator.addFunction('mimo_base64_json_stream', String.raw`
+class MimoBase64JsonStream : public Stream {
+public:
+  MimoBase64JsonStream(const String& prefix, const uint8_t* data, size_t dataLen, const String& suffix)
+    : prefix_(prefix), data_(data), dataLen_(dataLen), suffix_(suffix), pos_(0) {
+    b64Len_ = mimo_base64_encoded_len(dataLen_);
+    totalLen_ = prefix_.length() + b64Len_ + suffix_.length();
+  }
+
+  size_t contentLength() const { return totalLen_; }
+  int available() override {
+    size_t left = totalLen_ - pos_;
+    return left > 0x7fffffff ? 0x7fffffff : (int)left;
+  }
+  int read() override {
+    if (pos_ >= totalLen_) return -1;
+    char ch = charAt(pos_);
+    pos_++;
+    return (uint8_t)ch;
+  }
+  int peek() override {
+    if (pos_ >= totalLen_) return -1;
+    return (uint8_t)charAt(pos_);
+  }
+  void flush() override {}
+  size_t write(uint8_t) override { return 0; }
+
+private:
+  String prefix_;
+  const uint8_t* data_;
+  size_t dataLen_;
+  String suffix_;
+  size_t b64Len_;
+  size_t totalLen_;
+  size_t pos_;
+
+  char charAt(size_t absolutePos) const {
+    size_t prefixLen = prefix_.length();
+    if (absolutePos < prefixLen) return prefix_.charAt(absolutePos);
+
+    size_t b64Pos = absolutePos - prefixLen;
+    if (b64Pos < b64Len_) return base64CharAt(b64Pos);
+    return suffix_.charAt(b64Pos - b64Len_);
+  }
+
+  char base64CharAt(size_t b64Pos) const {
+    static const char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    size_t group = b64Pos / 4;
+    size_t slot = b64Pos % 4;
+    size_t src = group * 3;
+    size_t remain = dataLen_ - src;
+    uint8_t b0 = data_[src];
+    uint8_t b1 = remain > 1 ? data_[src + 1] : 0;
+    uint8_t b2 = remain > 2 ? data_[src + 2] : 0;
+    switch (slot) {
+      case 0: return alphabet[b0 >> 2];
+      case 1: return alphabet[((b0 & 0x03) << 4) | (b1 >> 4)];
+      case 2: return remain > 1 ? alphabet[((b1 & 0x0F) << 2) | (b2 >> 6)] : '=';
+      default: return remain > 2 ? alphabet[b2 & 0x3F] : '=';
+    }
+  }
+};`);
+}
+
+function mimoOmniI2SKey(varName) {
+  return String(varName).replace(/[^A-Za-z0-9_]/g, '_');
+}
+
+function mimoOmniVoiceChatPromptCode(prompt) {
+  const promptCode = String(prompt || '""').trim();
+  if (promptCode === '"请描述一下你听到的内容"' || promptCode === "'请描述一下你听到的内容'") {
+    return '"请用简短友好的方式回答，适合语音播报"';
+  }
+  return promptCode;
+}
+
+function ensureMimoI2SObject(generator, varName) {
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+  generator.addVariable('I2SClass_' + mimoOmniI2SKey(varName), 'I2SClass ' + varName + ';');
+}
+
+function ensureMimoI2SHelpers(generator) {
+  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
+  generator.addLibrary('Wire', '#include <Wire.h>');
+  generator.addLibrary('mimo_math', '#include <math.h>');
+  generator.addVariable('mimo_i2s_mic_bclk_pin', 'int mimo_i2s_mic_bclk_pin = -1;');
+  generator.addVariable('mimo_i2s_mic_lrclk_pin', 'int mimo_i2s_mic_lrclk_pin = -1;');
+  generator.addVariable('mimo_i2s_mic_sd_pin', 'int mimo_i2s_mic_sd_pin = -1;');
+  generator.addVariable('mimo_i2s_speaker_bclk_pin', 'int mimo_i2s_speaker_bclk_pin = -1;');
+  generator.addVariable('mimo_i2s_speaker_lrclk_pin', 'int mimo_i2s_speaker_lrclk_pin = -1;');
+  generator.addVariable('mimo_i2s_speaker_din_pin', 'int mimo_i2s_speaker_din_pin = -1;');
+  generator.addVariable('mimo_i2s_mic_mode', 'int mimo_i2s_mic_mode = 0;');
+  generator.addVariable('mimo_i2s_mic_pdm_clk_pin', 'int mimo_i2s_mic_pdm_clk_pin = -1;');
+  generator.addVariable('mimo_i2s_mic_pdm_din_pin', 'int mimo_i2s_mic_pdm_din_pin = -1;');
+  generator.addVariable('mimo_i2s_mic_es8311_sda_pin', 'int mimo_i2s_mic_es8311_sda_pin = -1;');
+  generator.addVariable('mimo_i2s_mic_es8311_scl_pin', 'int mimo_i2s_mic_es8311_scl_pin = -1;');
+  generator.addVariable('mimo_i2s_mic_es8311_addr', 'uint8_t mimo_i2s_mic_es8311_addr = 0x18;');
+  generator.addVariable('mimo_i2s_mic_es8311_mclk_pin', 'int mimo_i2s_mic_es8311_mclk_pin = -1;');
+  generator.addVariable('mimo_i2s_mic_es8311_dac_pin', 'int mimo_i2s_mic_es8311_dac_pin = -1;');
+  generator.addVariable('mimo_i2s_mic_es8311_pa_pin', 'int mimo_i2s_mic_es8311_pa_pin = -1;');
+  generator.addVariable('mimo_i2s_mic_es8311_gain_reg', 'uint8_t mimo_i2s_mic_es8311_gain_reg = 0x24;');
+  generator.addFunction('mimo_i2s_audio_helpers', String.raw`
+void mimo_es8311_set_pa(int paPin, bool enabled) {
+  if (paPin < 0) return;
+  pinMode(paPin, OUTPUT);
+  digitalWrite(paPin, enabled ? HIGH : LOW);
+  Serial.println("[ES8311] PA_EN pin " + String(paPin) + (enabled ? " HIGH" : " LOW"));
+}
+
+bool mimo_es8311_write_reg(uint8_t address, uint8_t reg, uint8_t value) {
+  Wire.beginTransmission(address);
+  Wire.write(reg);
+  Wire.write(value);
+  return Wire.endTransmission() == 0;
+}
+
+int mimo_es8311_read_reg(uint8_t address, uint8_t reg) {
+  Wire.beginTransmission(address);
+  Wire.write(reg);
+  if (Wire.endTransmission(false) != 0) return -1;
+  if (Wire.requestFrom((int)address, 1) != 1) return -1;
+  return Wire.read();
+}
+
+bool mimo_es8311_config_clock(uint8_t address, uint32_t sampleRate, bool useMclk) {
+  uint32_t mclk = sampleRate * 256;
+  uint8_t preDiv = 1;
+  uint8_t preMulti = 1;
+  uint8_t adcDiv = 1;
+  uint8_t dacDiv = 1;
+  uint8_t fsMode = 0;
+  uint8_t lrckH = 0x00;
+  uint8_t lrckL = 0xFF;
+  uint8_t bclkDiv = 4;
+  uint8_t adcOsr = 0x10;
+  uint8_t dacOsr = 0x10;
+
+  if (!useMclk) {
+    mclk = 0;
+  } else {
+    preDiv = 1;
+    preMulti = 1;
+  }
+
+  uint8_t multiBits = 0;
+  if (preMulti == 2) multiBits = 1;
+  else if (preMulti == 4) multiBits = 2;
+  else if (preMulti == 8) multiBits = 3;
+
+  bool ok = true;
+  uint8_t reg02 = (useMclk ? 0x00 : 0x80) | ((preDiv - 1) << 5) | (multiBits << 3);
+  ok &= mimo_es8311_write_reg(address, 0x02, reg02);
+  ok &= mimo_es8311_write_reg(address, 0x05, ((adcDiv - 1) << 4) | (dacDiv - 1));
+  ok &= mimo_es8311_write_reg(address, 0x03, (fsMode << 6) | adcOsr);
+  ok &= mimo_es8311_write_reg(address, 0x04, dacOsr);
+  ok &= mimo_es8311_write_reg(address, 0x07, lrckH);
+  ok &= mimo_es8311_write_reg(address, 0x08, lrckL);
+  ok &= mimo_es8311_write_reg(address, 0x06, (bclkDiv < 19) ? (bclkDiv - 1) : bclkDiv);
+
+  Serial.println("[ES8311] clock config rate=" + String(sampleRate) + " mclk=" + String(mclk) + " reg02=" + String(reg02, HEX));
+  return ok;
+}
+
+bool mimo_es8311_begin(uint8_t address, int sdaPin, int sclPin, uint8_t micGainReg, bool useMclk) {
+  Serial.println("[ES8311] codec begin");
+  Wire.begin(sdaPin, sclPin);
+  Wire.setClock(100000);
+  delay(20);
+
+  bool ok = true;
+  ok &= mimo_es8311_write_reg(address, 0x00, 0x80);
+  delay(20);
+  ok &= mimo_es8311_write_reg(address, 0x01, 0x30);
+  ok &= mimo_es8311_write_reg(address, 0x02, 0x00);
+  ok &= mimo_es8311_write_reg(address, 0x03, 0x10);
+  ok &= mimo_es8311_write_reg(address, 0x16, 0x24);
+  ok &= mimo_es8311_write_reg(address, 0x04, 0x10);
+  ok &= mimo_es8311_write_reg(address, 0x05, 0x00);
+  ok &= mimo_es8311_write_reg(address, 0x0B, 0x00);
+  ok &= mimo_es8311_write_reg(address, 0x0C, 0x00);
+  ok &= mimo_es8311_write_reg(address, 0x10, 0x1F);
+  ok &= mimo_es8311_write_reg(address, 0x11, 0x7F);
+  ok &= mimo_es8311_write_reg(address, 0x00, 0x80);
+  ok &= mimo_es8311_write_reg(address, 0x00, 0x80);
+  ok &= mimo_es8311_write_reg(address, 0x01, useMclk ? 0x3F : 0xBF);
+  ok &= mimo_es8311_write_reg(address, 0x02, 0x00);
+  ok &= mimo_es8311_write_reg(address, 0x03, 0x10);
+  ok &= mimo_es8311_write_reg(address, 0x04, 0x10);
+  ok &= mimo_es8311_write_reg(address, 0x05, 0x00);
+  ok &= mimo_es8311_write_reg(address, 0x06, 0x03);
+  ok &= mimo_es8311_write_reg(address, 0x07, 0x00);
+  ok &= mimo_es8311_write_reg(address, 0x08, 0xFF);
+  ok &= mimo_es8311_write_reg(address, 0x09, 0x0C);
+  ok &= mimo_es8311_write_reg(address, 0x0A, 0x0C);
+  ok &= mimo_es8311_write_reg(address, 0x13, 0x10);
+  ok &= mimo_es8311_write_reg(address, 0x1B, 0x0A);
+  ok &= mimo_es8311_write_reg(address, 0x1C, 0x6A);
+  ok &= mimo_es8311_write_reg(address, 0x44, 0x08);
+  ok &= mimo_es8311_write_reg(address, 0x31, 0x00);
+  ok &= mimo_es8311_write_reg(address, 0x32, 0xC0);
+  ok &= mimo_es8311_write_reg(address, 0x17, 0xBF);
+  ok &= mimo_es8311_write_reg(address, 0x0E, 0x02);
+  ok &= mimo_es8311_write_reg(address, 0x12, 0x00);
+  ok &= mimo_es8311_write_reg(address, 0x14, 0x1A);
+  ok &= mimo_es8311_write_reg(address, 0x0D, 0x01);
+  ok &= mimo_es8311_write_reg(address, 0x15, 0x40);
+  ok &= mimo_es8311_write_reg(address, 0x16, micGainReg);
+  ok &= mimo_es8311_write_reg(address, 0x37, 0x08);
+  ok &= mimo_es8311_write_reg(address, 0x45, 0x00);
+  ok &= mimo_es8311_config_clock(address, 16000, useMclk);
+
+  Serial.println("[ES8311] DAC enabled, volume 192");
+  Serial.println("[ES8311] clock source: " + String(useMclk ? "MCLK" : "BCLK/LRCLK"));
+  Serial.println("[ES8311] reg09=" + String(mimo_es8311_read_reg(address, 0x09), HEX) + " reg31=" + String(mimo_es8311_read_reg(address, 0x31), HEX) + " reg32=" + String(mimo_es8311_read_reg(address, 0x32), HEX));
+  Serial.println(ok ? "[ES8311] codec ready" : "[ES8311] codec begin failed");
+  return ok;
+}
+
+bool mimo_i2s_begin_speaker(I2SClass &i2s, int bclkPin, int lrclkPin, int dinPin, uint32_t sampleRate) {
+  Serial.println("[I2S] speaker begin");
+  mimo_i2s_speaker_bclk_pin = bclkPin;
+  mimo_i2s_speaker_lrclk_pin = lrclkPin;
+  mimo_i2s_speaker_din_pin = dinPin;
+  i2s.end();
+  i2s.setPins(bclkPin, lrclkPin, dinPin, -1, -1);
+  bool ok = i2s.begin(I2S_MODE_STD, sampleRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_BOTH);
+  Serial.println(ok ? "[I2S] speaker ready" : "[I2S] speaker begin failed");
+  return ok;
+}
+
+bool mimo_i2s_begin_microphone(I2SClass &i2s, int bclkPin, int lrclkPin, int sdPin, uint32_t sampleRate) {
+  Serial.println("[I2S] microphone begin");
+  mimo_i2s_mic_bclk_pin = bclkPin;
+  mimo_i2s_mic_lrclk_pin = lrclkPin;
+  mimo_i2s_mic_sd_pin = sdPin;
+  mimo_i2s_mic_mode = 1;
+  mimo_i2s_mic_pdm_clk_pin = -1;
+  mimo_i2s_mic_pdm_din_pin = -1;
+  mimo_i2s_mic_es8311_sda_pin = -1;
+  mimo_i2s_mic_es8311_scl_pin = -1;
+  mimo_i2s_mic_es8311_mclk_pin = -1;
+  mimo_i2s_mic_es8311_dac_pin = -1;
+  mimo_i2s_mic_es8311_pa_pin = -1;
+  i2s.end();
+  i2s.setPins(bclkPin, lrclkPin, -1, sdPin, -1);
+  bool ok = i2s.begin(I2S_MODE_STD, sampleRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_BOTH);
+  Serial.println(ok ? "[I2S] microphone ready" : "[I2S] microphone begin failed");
+  return ok;
+}
+
+bool mimo_i2s_begin_pdm_microphone(I2SClass &i2s, int clkPin, int dinPin, uint32_t sampleRate) {
+  Serial.println("[I2S] PDM microphone begin");
+#if defined(SOC_I2S_SUPPORTS_PDM_RX) && SOC_I2S_SUPPORTS_PDM_RX
+  mimo_i2s_mic_bclk_pin = -1;
+  mimo_i2s_mic_lrclk_pin = -1;
+  mimo_i2s_mic_sd_pin = -1;
+  mimo_i2s_mic_mode = 2;
+  mimo_i2s_mic_pdm_clk_pin = clkPin;
+  mimo_i2s_mic_pdm_din_pin = dinPin;
+  mimo_i2s_mic_es8311_sda_pin = -1;
+  mimo_i2s_mic_es8311_scl_pin = -1;
+  mimo_i2s_mic_es8311_mclk_pin = -1;
+  mimo_i2s_mic_es8311_dac_pin = -1;
+  i2s.end();
+  delay(20);
+  i2s.setPinsPdmRx(clkPin, dinPin);
+  bool ok = i2s.begin(I2S_MODE_PDM_RX, sampleRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO);
+  Serial.println(ok ? "[I2S] PDM microphone ready" : "[I2S] PDM microphone begin failed");
+  return ok;
+#else
+  Serial.println("[I2S] PDM RX is not supported on this board/core");
+  return false;
+#endif
+}
+
+bool mimo_i2s_begin_es8311_microphone(I2SClass &i2s, int sdaPin, int sclPin, uint8_t address, int bclkPin, int lrclkPin, int sdoutPin, int mclkPin, uint32_t sampleRate, uint8_t micGainReg) {
+  Serial.println("[I2S] ES8311 microphone begin");
+  mimo_i2s_mic_bclk_pin = bclkPin;
+  mimo_i2s_mic_lrclk_pin = lrclkPin;
+  mimo_i2s_mic_sd_pin = sdoutPin;
+  mimo_i2s_mic_mode = 3;
+  mimo_i2s_mic_pdm_clk_pin = -1;
+  mimo_i2s_mic_pdm_din_pin = -1;
+  mimo_i2s_mic_es8311_sda_pin = sdaPin;
+  mimo_i2s_mic_es8311_scl_pin = sclPin;
+  mimo_i2s_mic_es8311_addr = address;
+  mimo_i2s_mic_es8311_mclk_pin = mclkPin;
+  mimo_i2s_mic_es8311_dac_pin = -1;
+  mimo_i2s_mic_es8311_pa_pin = -1;
+  mimo_i2s_mic_es8311_gain_reg = micGainReg;
+
+  bool codecOk = mimo_es8311_begin(address, sdaPin, sclPin, micGainReg, mclkPin >= 0);
+  codecOk &= mimo_es8311_config_clock(address, sampleRate, mclkPin >= 0);
+  i2s.end();
+  delay(20);
+  i2s.setPins(bclkPin, lrclkPin, -1, sdoutPin, mclkPin);
+  bool i2sOk = i2s.begin(I2S_MODE_STD, sampleRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_BOTH);
+  Serial.println((codecOk && i2sOk) ? "[I2S] ES8311 microphone ready" : "[I2S] ES8311 microphone begin failed");
+  return codecOk && i2sOk;
+}
+
+bool mimo_i2s_begin_es8311_audio(I2SClass &i2s, int sdaPin, int sclPin, uint8_t address, int bclkPin, int lrclkPin, int dacDinPin, int adcDoutPin, int mclkPin, uint32_t sampleRate, uint8_t micGainReg, int paPin) {
+  Serial.println("[I2S] ES8311 audio codec begin");
+  mimo_i2s_mic_bclk_pin = bclkPin;
+  mimo_i2s_mic_lrclk_pin = lrclkPin;
+  mimo_i2s_mic_sd_pin = adcDoutPin;
+  mimo_i2s_mic_mode = 3;
+  mimo_i2s_mic_pdm_clk_pin = -1;
+  mimo_i2s_mic_pdm_din_pin = -1;
+  mimo_i2s_mic_es8311_sda_pin = sdaPin;
+  mimo_i2s_mic_es8311_scl_pin = sclPin;
+  mimo_i2s_mic_es8311_addr = address;
+  mimo_i2s_mic_es8311_mclk_pin = mclkPin;
+  mimo_i2s_mic_es8311_dac_pin = dacDinPin;
+  mimo_i2s_mic_es8311_pa_pin = paPin;
+  mimo_i2s_mic_es8311_gain_reg = micGainReg;
+
+  bool codecOk = mimo_es8311_begin(address, sdaPin, sclPin, micGainReg, mclkPin >= 0);
+  codecOk &= mimo_es8311_config_clock(address, sampleRate, mclkPin >= 0);
+  mimo_es8311_set_pa(paPin, true);
+  i2s.end();
+  delay(20);
+  i2s.setPins(bclkPin, lrclkPin, dacDinPin, adcDoutPin, mclkPin);
+  bool i2sOk = i2s.begin(I2S_MODE_STD, sampleRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO, I2S_STD_SLOT_BOTH);
+  Serial.println((codecOk && i2sOk) ? "[I2S] ES8311 audio codec ready" : "[I2S] ES8311 audio codec begin failed");
+  return codecOk && i2sOk;
+}
+
+bool mimo_i2s_prepare_es8311_playback(I2SClass &i2s, uint32_t sampleRate, i2s_data_bit_width_t bitWidth, i2s_slot_mode_t slotMode) {
+  if (mimo_i2s_mic_mode != 3 || mimo_i2s_mic_es8311_dac_pin < 0) return true;
+  if (mimo_i2s_mic_es8311_sda_pin < 0 || mimo_i2s_mic_es8311_scl_pin < 0 || mimo_i2s_mic_bclk_pin < 0 || mimo_i2s_mic_lrclk_pin < 0) return false;
+
+  bool codecOk = mimo_es8311_begin(mimo_i2s_mic_es8311_addr, mimo_i2s_mic_es8311_sda_pin, mimo_i2s_mic_es8311_scl_pin, mimo_i2s_mic_es8311_gain_reg, mimo_i2s_mic_es8311_mclk_pin >= 0);
+  codecOk &= mimo_es8311_config_clock(mimo_i2s_mic_es8311_addr, sampleRate, mimo_i2s_mic_es8311_mclk_pin >= 0);
+  mimo_es8311_set_pa(mimo_i2s_mic_es8311_pa_pin, true);
+  i2s.end();
+  delay(20);
+  i2s.setPins(mimo_i2s_mic_bclk_pin, mimo_i2s_mic_lrclk_pin, mimo_i2s_mic_es8311_dac_pin, mimo_i2s_mic_sd_pin, mimo_i2s_mic_es8311_mclk_pin);
+  bool i2sOk = i2s.begin(I2S_MODE_STD, sampleRate, bitWidth, slotMode, I2S_STD_SLOT_BOTH);
+  Serial.println((codecOk && i2sOk) ? "[I2S] ES8311 playback ready" : "[I2S] ES8311 playback begin failed");
+  return codecOk && i2sOk;
+}
+
+bool mimo_i2s_restart_microphone(I2SClass &i2s, uint32_t sampleRate) {
+  if (mimo_i2s_mic_mode == 3 && mimo_i2s_mic_es8311_sda_pin >= 0 && mimo_i2s_mic_es8311_scl_pin >= 0 && mimo_i2s_mic_bclk_pin >= 0 && mimo_i2s_mic_lrclk_pin >= 0 && mimo_i2s_mic_sd_pin >= 0) {
+    if (mimo_i2s_mic_es8311_dac_pin >= 0) {
+      return mimo_i2s_begin_es8311_audio(i2s, mimo_i2s_mic_es8311_sda_pin, mimo_i2s_mic_es8311_scl_pin, mimo_i2s_mic_es8311_addr, mimo_i2s_mic_bclk_pin, mimo_i2s_mic_lrclk_pin, mimo_i2s_mic_es8311_dac_pin, mimo_i2s_mic_sd_pin, mimo_i2s_mic_es8311_mclk_pin, sampleRate, mimo_i2s_mic_es8311_gain_reg, mimo_i2s_mic_es8311_pa_pin);
+    }
+    return mimo_i2s_begin_es8311_microphone(i2s, mimo_i2s_mic_es8311_sda_pin, mimo_i2s_mic_es8311_scl_pin, mimo_i2s_mic_es8311_addr, mimo_i2s_mic_bclk_pin, mimo_i2s_mic_lrclk_pin, mimo_i2s_mic_sd_pin, mimo_i2s_mic_es8311_mclk_pin, sampleRate, mimo_i2s_mic_es8311_gain_reg);
+  }
+
+  if (mimo_i2s_mic_mode == 2 && mimo_i2s_mic_pdm_clk_pin >= 0 && mimo_i2s_mic_pdm_din_pin >= 0) {
+    return mimo_i2s_begin_pdm_microphone(i2s, mimo_i2s_mic_pdm_clk_pin, mimo_i2s_mic_pdm_din_pin, sampleRate);
+  }
+
+  if (mimo_i2s_mic_mode == 1 && mimo_i2s_mic_bclk_pin >= 0 && mimo_i2s_mic_lrclk_pin >= 0 && mimo_i2s_mic_sd_pin >= 0) {
+    return mimo_i2s_begin_microphone(i2s, mimo_i2s_mic_bclk_pin, mimo_i2s_mic_lrclk_pin, mimo_i2s_mic_sd_pin, sampleRate);
+  }
+
+  Serial.println("[I2S] microphone pins not cached, configure RX only");
+  i2s.end();
+  delay(20);
+  i2s.configureRX(sampleRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO);
+  return true;
+}
+
+size_t mimo_i2s_record_pcm(I2SClass &i2s, uint8_t* pcmBuf, size_t pcmBytes, float durationSeconds, const char* tag) {
+  i2s.setTimeout(20);
+  size_t bytesRead = 0;
+  unsigned long recordStart = millis();
+  unsigned long maxMs = (unsigned long)(durationSeconds * 1000 + 1200);
+  while (bytesRead < pcmBytes) {
+    if (millis() - recordStart > maxMs) {
+      Serial.println(String("[") + tag + "] record timeout");
+      break;
+    }
+    size_t toRead = min((size_t)512, pcmBytes - bytesRead);
+    size_t n = i2s.readBytes((char*)(pcmBuf + bytesRead), toRead);
+    if (n > 0) {
+      bytesRead += n;
+    } else {
+      delay(1);
+    }
+  }
+  if (bytesRead % sizeof(int16_t) != 0) bytesRead -= bytesRead % sizeof(int16_t);
+  return bytesRead;
+}`);
+}
+
+
 Arduino.forBlock['mimo_config'] = function(block, generator) {
   var apiKey = generator.valueToCode(block, 'API_KEY', Arduino.ORDER_ATOMIC) || '""';
   var baseUrl = generator.valueToCode(block, 'BASE_URL', Arduino.ORDER_ATOMIC) || '"https://api.xiaomimimo.com/v1"';
@@ -142,6 +1162,88 @@ String mimo_simple_request(String model, String message, bool useHistory) {
 }`);
 
   return '';
+};
+
+
+Arduino.forBlock['mimo_i2s_speaker_init'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s_spk';
+  const bclk = generator.valueToCode(block, 'BCLK', Arduino.ORDER_ATOMIC) || '15';
+  const lrclk = generator.valueToCode(block, 'LRCLK', Arduino.ORDER_ATOMIC) || '16';
+  const din = generator.valueToCode(block, 'DIN', Arduino.ORDER_ATOMIC) || '7';
+  const sampleRate = generator.valueToCode(block, 'SAMPLE_RATE', Arduino.ORDER_ATOMIC) || '24000';
+  ensureMimoI2SObject(generator, varName);
+  ensureMimoI2SHelpers(generator);
+  return 'mimo_i2s_begin_speaker(' + varName + ', ' + bclk + ', ' + lrclk + ', ' + din + ', ' + sampleRate + ');\n';
+};
+
+Arduino.forBlock['mimo_i2s_mic_init'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s_mic';
+  const bclk = generator.valueToCode(block, 'BCLK', Arduino.ORDER_ATOMIC) || '5';
+  const lrclk = generator.valueToCode(block, 'LRCLK', Arduino.ORDER_ATOMIC) || '4';
+  const sd = generator.valueToCode(block, 'SD', Arduino.ORDER_ATOMIC) || '6';
+  const sampleRate = generator.valueToCode(block, 'SAMPLE_RATE', Arduino.ORDER_ATOMIC) || '16000';
+  ensureMimoI2SObject(generator, varName);
+  ensureMimoI2SHelpers(generator);
+  return 'mimo_i2s_begin_microphone(' + varName + ', ' + bclk + ', ' + lrclk + ', ' + sd + ', ' + sampleRate + ');\n';
+};
+
+Arduino.forBlock['mimo_pdm_mic_init'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s_mic';
+  const clk = generator.valueToCode(block, 'CLK', Arduino.ORDER_ATOMIC) || '42';
+  const data = generator.valueToCode(block, 'DATA', Arduino.ORDER_ATOMIC) || '41';
+  const sampleRate = generator.valueToCode(block, 'SAMPLE_RATE', Arduino.ORDER_ATOMIC) || '16000';
+  ensureMimoI2SObject(generator, varName);
+  ensureMimoI2SHelpers(generator);
+  return 'mimo_i2s_begin_pdm_microphone(' + varName + ', ' + clk + ', ' + data + ', ' + sampleRate + ');\n';
+};
+
+Arduino.forBlock['mimo_es8311_mic_init'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s_mic';
+  const sda = generator.valueToCode(block, 'SDA', Arduino.ORDER_ATOMIC) || '41';
+  const scl = generator.valueToCode(block, 'SCL', Arduino.ORDER_ATOMIC) || '42';
+  const address = generator.valueToCode(block, 'I2C_ADDRESS', Arduino.ORDER_ATOMIC) || '0x18';
+  const bclk = generator.valueToCode(block, 'BCLK', Arduino.ORDER_ATOMIC) || '39';
+  const lrclk = generator.valueToCode(block, 'LRCLK', Arduino.ORDER_ATOMIC) || '2';
+  const sdout = generator.valueToCode(block, 'SDOUT', Arduino.ORDER_ATOMIC) || '40';
+  const mclk = generator.valueToCode(block, 'MCLK', Arduino.ORDER_ATOMIC) || '46';
+  const sampleRate = generator.valueToCode(block, 'SAMPLE_RATE', Arduino.ORDER_ATOMIC) || '16000';
+  const micGain = generator.valueToCode(block, 'MIC_GAIN', Arduino.ORDER_ATOMIC) || '0x24';
+  ensureMimoI2SObject(generator, varName);
+  ensureMimoI2SHelpers(generator);
+  return 'mimo_i2s_begin_es8311_microphone(' + varName + ', ' + sda + ', ' + scl + ', (uint8_t)(' + address + '), ' + bclk + ', ' + lrclk + ', ' + sdout + ', ' + mclk + ', ' + sampleRate + ', (uint8_t)(' + micGain + '));\n';
+};
+
+Arduino.forBlock['mimo_es8311_audio_init'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s_audio';
+  const sda = generator.valueToCode(block, 'SDA', Arduino.ORDER_ATOMIC) || '41';
+  const scl = generator.valueToCode(block, 'SCL', Arduino.ORDER_ATOMIC) || '42';
+  const address = generator.valueToCode(block, 'I2C_ADDRESS', Arduino.ORDER_ATOMIC) || '0x18';
+  const bclk = generator.valueToCode(block, 'BCLK', Arduino.ORDER_ATOMIC) || '39';
+  const lrclk = generator.valueToCode(block, 'LRCLK', Arduino.ORDER_ATOMIC) || '2';
+  const dacDin = generator.valueToCode(block, 'DAC_DIN', Arduino.ORDER_ATOMIC) || '38';
+  const adcDout = generator.valueToCode(block, 'ADC_DOUT', Arduino.ORDER_ATOMIC) || '40';
+  const mclk = generator.valueToCode(block, 'MCLK', Arduino.ORDER_ATOMIC) || '46';
+  const sampleRate = generator.valueToCode(block, 'SAMPLE_RATE', Arduino.ORDER_ATOMIC) || '16000';
+  const micGain = generator.valueToCode(block, 'MIC_GAIN', Arduino.ORDER_ATOMIC) || '0x24';
+  const paEn = generator.valueToCode(block, 'PA_EN', Arduino.ORDER_ATOMIC) || '-1';
+  ensureMimoI2SObject(generator, varName);
+  ensureMimoI2SHelpers(generator);
+  return 'mimo_i2s_begin_es8311_audio(' + varName + ', ' + sda + ', ' + scl + ', (uint8_t)(' + address + '), ' + bclk + ', ' + lrclk + ', ' + dacDin + ', ' + adcDout + ', ' + mclk + ', ' + sampleRate + ', (uint8_t)(' + micGain + '), ' + paEn + ');\n';
+};
+
+Arduino.forBlock['mimo_i2s_prompt_tone'] = function(block, generator) {
+  var varField = block.getField('VAR');
+  var varName = varField ? varField.getText() : 'i2s_spk';
+  const freq = generator.valueToCode(block, 'FREQ', Arduino.ORDER_ATOMIC) || '1000';
+  const duration = generator.valueToCode(block, 'DURATION', Arduino.ORDER_ATOMIC) || '300';
+  ensureMimoI2SObject(generator, varName);
+  ensureMimoPlaybackHelpers(generator);
+  return 'mimo_play_prompt_tone(' + varName + ', ' + freq + ', ' + duration + ');\n';
 };
 
 Arduino.forBlock['mimo_chat'] = function(block, generator) {
@@ -982,67 +2084,8 @@ Arduino.forBlock['mimo_tts'] = function(block, generator) {
   var voice = block.getFieldValue('VOICE');
   var model = block.getFieldValue('MODEL');
 
-  generator.addFunction('mimo_tts_request', `
-String mimo_tts_request(String text, String voice, String model) {
-  Serial.println("=== 小米MiMo语音合成开始 ===");
-  Serial.println("文本: " + text);
-  Serial.println("音色: " + voice);
-  Serial.println("模型: " + model);
-
-  if (WiFi.status() != WL_CONNECTED) {
-    mimo_last_success = false;
-    mimo_last_error = "WiFi not connected";
-    return "";
-  }
-
-  HTTPClient http;
-  String url = mimo_base_url + "/chat/completions";
-  http.begin(url);
-  http.setTimeout(120000);
-  http.addHeader("Content-Type", "application/json");
-  http.addHeader("api-key", mimo_api_key);
-
-  String safeText = mimo_escape_json(text);
-  String requestBody = "{\\"model\\":\\"" + model + "\\",\\"messages\\":[";
-  requestBody += "{\\"role\\":\\"assistant\\",\\"content\\":\\"" + safeText + "\\"}";
-  requestBody += "],\\"audio\\":{\\"format\\":\\"wav\\",\\"voice\\":\\"" + voice + "\\"}}";
-
-  Serial.println("发送语音合成请求...");
-  int httpResponseCode = http.POST(requestBody);
-  Serial.println("HTTP响应码: " + String(httpResponseCode));
-  String response = "";
-
-  if (httpResponseCode == 200) {
-    String payload = http.getString();
-    int dataStart = payload.indexOf("\\"data\\":\\"");
-    if (dataStart >= 0) {
-      dataStart += 8;
-      int dataEnd = payload.indexOf("\\"", dataStart);
-      if (dataEnd > dataStart) {
-        response = payload.substring(dataStart, dataEnd);
-        Serial.println("语音合成成功，数据长度: " + String(response.length()));
-        mimo_last_success = true;
-        mimo_last_error = "";
-      } else {
-        mimo_last_success = false;
-        mimo_last_error = "Parse error";
-      }
-    } else {
-      mimo_last_success = false;
-      mimo_last_error = "No audio data";
-    }
-  } else {
-    String errorResponse = http.getString();
-    Serial.println("HTTP错误: " + errorResponse);
-    mimo_last_success = false;
-    mimo_last_error = "HTTP " + String(httpResponseCode);
-  }
-
-  http.end();
-  Serial.println("=== 小米MiMo语音合成结束 ===");
-  return response;
-}`);
-
+  ensureMimoBaseHelpers(generator);
+  ensureMimoTtsHelpers(generator);
   var code = 'mimo_tts_request(' + text + ', "' + voice + '", "' + model + '")';
   return [code, Arduino.ORDER_FUNCTION_CALL];
 };
@@ -1053,64 +2096,8 @@ Arduino.forBlock['mimo_tts_with_style'] = function(block, generator) {
   var model = block.getFieldValue('MODEL');
   var style = generator.valueToCode(block, 'STYLE', Arduino.ORDER_ATOMIC) || '""';
 
-  generator.addFunction('mimo_tts_with_style_request', `
-String mimo_tts_with_style_request(String text, String voice, String style, String model) {
-  Serial.println("=== 小米MiMo语音合成开始(带风格) ===");
-  Serial.println("文本: " + text);
-  Serial.println("音色: " + voice);
-  Serial.println("风格: " + style);
-  Serial.println("模型: " + model);
-
-  if (WiFi.status() != WL_CONNECTED) {
-    mimo_last_success = false;
-    mimo_last_error = "WiFi not connected";
-    return "";
-  }
-
-  HTTPClient http;
-  String url = mimo_base_url + "/chat/completions";
-  http.begin(url);
-  http.setTimeout(120000);
-  http.addHeader("Content-Type", "application/json");
-  http.addHeader("api-key", mimo_api_key);
-
-  String safeText = mimo_escape_json(text);
-  String safeStyle = mimo_escape_json(style);
-  String requestBody = "{\\"model\\":\\"" + model + "\\",\\"messages\\":[";
-  requestBody += "{\\"role\\":\\"user\\",\\"content\\":\\"" + safeStyle + "\\"},";
-  requestBody += "{\\"role\\":\\"assistant\\",\\"content\\":\\"" + safeText + "\\"}";
-  requestBody += "],\\"audio\\":{\\"format\\":\\"wav\\",\\"voice\\":\\"" + voice + "\\"}}";
-
-  int httpResponseCode = http.POST(requestBody);
-  String response = "";
-
-  if (httpResponseCode == 200) {
-    String payload = http.getString();
-    int dataStart = payload.indexOf("\\"data\\":\\"");
-    if (dataStart >= 0) {
-      dataStart += 8;
-      int dataEnd = payload.indexOf("\\"", dataStart);
-      if (dataEnd > dataStart) {
-        response = payload.substring(dataStart, dataEnd);
-        mimo_last_success = true;
-        mimo_last_error = "";
-      } else {
-        mimo_last_success = false;
-        mimo_last_error = "Parse error";
-      }
-    } else {
-      mimo_last_success = false;
-      mimo_last_error = "No audio data";
-    }
-  } else {
-    mimo_last_success = false;
-    mimo_last_error = "HTTP " + String(httpResponseCode);
-  }
-
-  http.end();
-  return response;
-}`);
-
+  ensureMimoBaseHelpers(generator);
+  ensureMimoTtsHelpers(generator);
   var code = 'mimo_tts_with_style_request(' + text + ', "' + voice + '", ' + style + ', "' + model + '")';
   return [code, Arduino.ORDER_FUNCTION_CALL];
 };
@@ -1119,195 +2106,38 @@ Arduino.forBlock['mimo_tts_voice_design'] = function(block, generator) {
   var voiceDesc = generator.valueToCode(block, 'VOICE_DESC', Arduino.ORDER_ATOMIC) || '""';
   var text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC) || '""';
 
-  generator.addFunction('mimo_tts_voice_design_request', `
-String mimo_tts_voice_design_request(String voiceDesc, String text) {
-  Serial.println("=== 小米MiMo音色设计合成开始 ===");
-  Serial.println("音色描述: " + voiceDesc);
-  Serial.println("文本: " + text);
-
-  if (WiFi.status() != WL_CONNECTED) {
-    mimo_last_success = false;
-    mimo_last_error = "WiFi not connected";
-    return "";
-  }
-
-  HTTPClient http;
-  String url = mimo_base_url + "/chat/completions";
-  http.begin(url);
-  http.setTimeout(120000);
-  http.addHeader("Content-Type", "application/json");
-  http.addHeader("api-key", mimo_api_key);
-
-  String safeDesc = mimo_escape_json(voiceDesc);
-  String safeText = mimo_escape_json(text);
-  String requestBody = "{\\"model\\":\\"mimo-v2.5-tts-voicedesign\\",\\"messages\\":[";
-  requestBody += "{\\"role\\":\\"user\\",\\"content\\":\\"" + safeDesc + "\\"},";
-  requestBody += "{\\"role\\":\\"assistant\\",\\"content\\":\\"" + safeText + "\\"}";
-  requestBody += "],\\"audio\\":{\\"format\\":\\"wav\\"}}";
-
-  int httpResponseCode = http.POST(requestBody);
-  String response = "";
-
-  if (httpResponseCode == 200) {
-    String payload = http.getString();
-    int dataStart = payload.indexOf("\\"data\\":\\"");
-    if (dataStart >= 0) {
-      dataStart += 8;
-      int dataEnd = payload.indexOf("\\"", dataStart);
-      if (dataEnd > dataStart) {
-        response = payload.substring(dataStart, dataEnd);
-        mimo_last_success = true;
-        mimo_last_error = "";
-      } else {
-        mimo_last_success = false;
-        mimo_last_error = "Parse error";
-      }
-    } else {
-      mimo_last_success = false;
-      mimo_last_error = "No audio data";
-    }
-  } else {
-    mimo_last_success = false;
-    mimo_last_error = "HTTP " + String(httpResponseCode);
-  }
-
-  http.end();
-  return response;
-}`);
-
+  ensureMimoBaseHelpers(generator);
+  ensureMimoTtsHelpers(generator);
   var code = 'mimo_tts_voice_design_request(' + voiceDesc + ', ' + text + ')';
   return [code, Arduino.ORDER_FUNCTION_CALL];
 };
 
 Arduino.forBlock['mimo_play_tts'] = function(block, generator) {
   var varField = block.getField('VAR');
-  var varName = varField ? varField.getText() : 'i2s';
+  var varName = varField ? varField.getText() : 'i2s_spk';
   var base64Audio = generator.valueToCode(block, 'BASE64_AUDIO', Arduino.ORDER_ATOMIC) || '""';
 
-  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
-  generator.addVariable('mimo_last_success', 'bool mimo_last_success = false;');
-  generator.addVariable('mimo_last_error', 'String mimo_last_error = "";');
-
-  generator.addFunction('mimo_base64_decode_to_buffer', `
-size_t mimo_base64_decode_to_buffer(const char* input, uint8_t* output, size_t maxLen) {
-  static const unsigned char d[] = {
-    64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,
-    64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,62,64,64,64,63,
-    52,53,54,55,56,57,58,59,60,61,64,64,64,64,64,64,64, 0, 1, 2, 3, 4, 5, 6,
-     7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,64,64,64,64,64,
-    64,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,
-    49,50,51,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,
-    64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,
-    64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,
-    64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,
-    64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,
-    64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64
-  };
-  size_t len = strlen(input);
-  size_t outIdx = 0;
-  uint32_t accum = 0;
-  int bits = 0;
-  for (size_t i = 0; i < len && outIdx < maxLen; i++) {
-    unsigned char c = (unsigned char)input[i];
-    if (c > 127 || d[c] == 64) continue;
-    accum = (accum << 6) | d[c];
-    bits += 6;
-    if (bits >= 8) {
-      bits -= 8;
-      output[outIdx++] = (uint8_t)((accum >> bits) & 0xFF);
-    }
-  }
-  return outIdx;
-}`);
-
-  generator.addFunction('mimo_play_base64_wav', `
-void mimo_play_base64_wav(I2SClass &i2s, String base64Audio) {
-  Serial.println("=== 播放TTS音频 ===");
-  Serial.println("Base64数据长度: " + String(base64Audio.length()));
-
-  size_t decodedMax = (base64Audio.length() * 3) / 4 + 4;
-  uint8_t* wavBuf = (uint8_t*)malloc(decodedMax);
-  if (!wavBuf) {
-    Serial.println("内存分配失败!");
-    mimo_last_success = false;
-    mimo_last_error = "Memory alloc failed";
-    return;
-  }
-
-  size_t wavLen = mimo_base64_decode_to_buffer(base64Audio.c_str(), wavBuf, decodedMax);
-  Serial.println("WAV数据大小: " + String(wavLen) + " bytes");
-
-  if (wavLen < 44) {
-    Serial.println("WAV数据太短!");
-    free(wavBuf);
-    mimo_last_success = false;
-    mimo_last_error = "Invalid WAV data";
-    return;
-  }
-
-  uint32_t sampleRate = wavBuf[24] | (wavBuf[25] << 8) | (wavBuf[26] << 16) | (wavBuf[27] << 24);
-  uint16_t channels = wavBuf[22] | (wavBuf[23] << 8);
-  uint16_t bitsPerSample = wavBuf[34] | (wavBuf[35] << 8);
-  Serial.println("采样率: " + String(sampleRate) + " Hz, 声道: " + String(channels) + ", 位深: " + String(bitsPerSample) + " bit");
-
-  uint16_t fmtChunkSize = wavBuf[16] | (wavBuf[17] << 8) | (wavBuf[18] << 16) | (wavBuf[19] << 24);
-  size_t dataOffset = 20 + fmtChunkSize;
-  if (dataOffset + 8 <= wavLen) {
-    if (wavBuf[dataOffset] == 'd' && wavBuf[dataOffset+1] == 'a' && wavBuf[dataOffset+2] == 't' && wavBuf[dataOffset+3] == 'a') {
-      dataOffset += 8;
-    }
-  }
-
-  uint8_t* pcmData = wavBuf + dataOffset;
-  size_t pcmLen = wavLen - dataOffset;
-  Serial.println("PCM数据偏移: " + String(dataOffset) + ", PCM大小: " + String(pcmLen) + " bytes");
-
-  i2s.end();
-  delay(50);
-  if (!i2s.begin(I2S_MODE_STD, sampleRate, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO)) {
-    Serial.println("I2S重新初始化失败!");
-    free(wavBuf);
-    mimo_last_success = false;
-    mimo_last_error = "I2S reinit failed";
-    return;
-  }
-
-  size_t bytesWritten = 0;
-  size_t chunkSize = 1024;
-  while (bytesWritten < pcmLen) {
-    size_t toWrite = min(chunkSize, pcmLen - bytesWritten);
-    i2s.write(pcmData + bytesWritten, toWrite);
-    bytesWritten += toWrite;
-  }
-
-  Serial.println("\\n播放完成!");
-  free(wavBuf);
-  mimo_last_success = true;
-  mimo_last_error = "";
-}`);
-
-  return 'mimo_play_base64_wav(' + varName + ', ' + base64Audio + ');\n';
+  ensureMimoI2SObject(generator, varName);
+  ensureMimoPlaybackHelpers(generator);
+  return 'mimo_play_base64_audio_to_i2s(' + varName + ', ' + base64Audio + ');\n';
 };
 
 Arduino.forBlock['mimo_tts_and_play'] = function(block, generator) {
   var varField = block.getField('VAR');
-  var varName = varField ? varField.getText() : 'i2s';
+  var varName = varField ? varField.getText() : 'i2s_spk';
   var text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC) || '""';
   var voice = block.getFieldValue('VOICE');
   var model = block.getFieldValue('MODEL');
 
-  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
-  generator.addVariable('mimo_last_success', 'bool mimo_last_success = false;');
-  generator.addVariable('mimo_last_error', 'String mimo_last_error = "";');
-
-  generator.addFunction('mimo_tts_request', null);
-  generator.addFunction('mimo_base64_decode_to_buffer', null);
-  generator.addFunction('mimo_play_base64_wav', null);
+  ensureMimoI2SObject(generator, varName);
+  ensureMimoBaseHelpers(generator);
+  ensureMimoTtsHelpers(generator);
+  ensureMimoPlaybackHelpers(generator);
 
   var code = '{\n';
   code += '  String _ttsData = mimo_tts_request(' + text + ', "' + voice + '", "' + model + '");\n';
   code += '  if (mimo_last_success && _ttsData.length() > 0) {\n';
-  code += '    mimo_play_base64_wav(' + varName + ', _ttsData);\n';
+  code += '    mimo_play_base64_audio_to_i2s(' + varName + ', _ttsData);\n';
   code += '  }\n';
   code += '}\n';
   return code;
@@ -1315,24 +2145,21 @@ Arduino.forBlock['mimo_tts_and_play'] = function(block, generator) {
 
 Arduino.forBlock['mimo_tts_and_play_with_style'] = function(block, generator) {
   var varField = block.getField('VAR');
-  var varName = varField ? varField.getText() : 'i2s';
+  var varName = varField ? varField.getText() : 'i2s_spk';
   var text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC) || '""';
   var voice = block.getFieldValue('VOICE');
   var model = block.getFieldValue('MODEL');
   var style = generator.valueToCode(block, 'STYLE', Arduino.ORDER_ATOMIC) || '""';
 
-  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
-  generator.addVariable('mimo_last_success', 'bool mimo_last_success = false;');
-  generator.addVariable('mimo_last_error', 'String mimo_last_error = "";');
-
-  generator.addFunction('mimo_tts_with_style_request', null);
-  generator.addFunction('mimo_base64_decode_to_buffer', null);
-  generator.addFunction('mimo_play_base64_wav', null);
+  ensureMimoI2SObject(generator, varName);
+  ensureMimoBaseHelpers(generator);
+  ensureMimoTtsHelpers(generator);
+  ensureMimoPlaybackHelpers(generator);
 
   var code = '{\n';
   code += '  String _ttsData = mimo_tts_with_style_request(' + text + ', "' + voice + '", ' + style + ', "' + model + '");\n';
   code += '  if (mimo_last_success && _ttsData.length() > 0) {\n';
-  code += '    mimo_play_base64_wav(' + varName + ', _ttsData);\n';
+  code += '    mimo_play_base64_audio_to_i2s(' + varName + ', _ttsData);\n';
   code += '  }\n';
   code += '}\n';
   return code;
@@ -1340,22 +2167,19 @@ Arduino.forBlock['mimo_tts_and_play_with_style'] = function(block, generator) {
 
 Arduino.forBlock['mimo_tts_and_play_voice_design'] = function(block, generator) {
   var varField = block.getField('VAR');
-  var varName = varField ? varField.getText() : 'i2s';
+  var varName = varField ? varField.getText() : 'i2s_spk';
   var voiceDesc = generator.valueToCode(block, 'VOICE_DESC', Arduino.ORDER_ATOMIC) || '""';
   var text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC) || '""';
 
-  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
-  generator.addVariable('mimo_last_success', 'bool mimo_last_success = false;');
-  generator.addVariable('mimo_last_error', 'String mimo_last_error = "";');
-
-  generator.addFunction('mimo_tts_request', null);
-  generator.addFunction('mimo_base64_decode_to_buffer', null);
-  generator.addFunction('mimo_play_base64_wav', null);
+  ensureMimoI2SObject(generator, varName);
+  ensureMimoBaseHelpers(generator);
+  ensureMimoTtsHelpers(generator);
+  ensureMimoPlaybackHelpers(generator);
 
   var code = '{\n';
   code += '  String _ttsData = mimo_tts_voice_design_request(' + voiceDesc + ', ' + text + ');\n';
   code += '  if (mimo_last_success && _ttsData.length() > 0) {\n';
-  code += '    mimo_play_base64_wav(' + varName + ', _ttsData);\n';
+  code += '    mimo_play_base64_audio_to_i2s(' + varName + ', _ttsData);\n';
   code += '  }\n';
   code += '}\n';
   return code;
@@ -1363,208 +2187,237 @@ Arduino.forBlock['mimo_tts_and_play_voice_design'] = function(block, generator) 
 
 Arduino.forBlock['mimo_tts_stream_play'] = function(block, generator) {
   var varField = block.getField('VAR');
-  var varName = varField ? varField.getText() : 'i2s';
+  var varName = varField ? varField.getText() : 'i2s_spk';
   var text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC) || '""';
   var voice = block.getFieldValue('VOICE');
 
-  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
-  generator.addVariable('mimo_last_success', 'bool mimo_last_success = false;');
-  generator.addVariable('mimo_last_error', 'String mimo_last_error = "";');
-
-  generator.addFunction('mimo_base64_decode_to_buffer', null);
-  generator.addFunction('mimo_escape_json', null);
-
-  generator.addFunction('mimo_tts_stream_play_impl', `
-void mimo_tts_stream_play_impl(I2SClass &i2s, String text, String voice) {
-  Serial.println("=== 小米MiMo流式语音合成开始 ===");
-  Serial.println("文本: " + text);
-  Serial.println("音色: " + voice);
-
-  if (WiFi.status() != WL_CONNECTED) {
-    mimo_last_success = false;
-    mimo_last_error = "WiFi not connected";
-    return;
-  }
-
-  HTTPClient http;
-  String url = mimo_base_url + "/chat/completions";
-  http.begin(url);
-  http.setTimeout(120000);
-  http.addHeader("Content-Type", "application/json");
-  http.addHeader("api-key", mimo_api_key);
-
-  String safeText = mimo_escape_json(text);
-  String requestBody = "{\\"model\\":\\"mimo-v2-tts\\",\\"messages\\":[";
-  requestBody += "{\\"role\\":\\"assistant\\",\\"content\\":\\"" + safeText + "\\"}";
-  requestBody += "],\\"audio\\":{\\"format\\":\\"pcm16\\",\\"voice\\":\\"" + voice + "\\"},\\"stream\\":true}";
-
-  Serial.println("发送流式语音合成请求...");
-  int httpResponseCode = http.POST(requestBody);
-  Serial.println("HTTP响应码: " + String(httpResponseCode));
-
-  if (httpResponseCode != 200) {
-    String errorResponse = http.getString();
-    Serial.println("HTTP错误: " + errorResponse);
-    mimo_last_success = false;
-    mimo_last_error = "HTTP " + String(httpResponseCode);
-    http.end();
-    return;
-  }
-
-  WiFiClient *stream = http.getStreamPtr();
-  int totalBytes = 0;
-  String lineBuffer = "";
-  mimo_last_success = true;
-  mimo_last_error = "";
-
-  while (http.connected() || stream->available()) {
-    if (!stream->available()) {
-      delay(1);
-      continue;
-    }
-    char c = stream->read();
-    if (c == '\\n') {
-      lineBuffer.trim();
-      if (lineBuffer.startsWith("data: ")) {
-        String data = lineBuffer.substring(6);
-        if (data == "[DONE]") break;
-        int audioPos = data.indexOf("\\"audio\\":{\\"data\\":\\"");
-        if (audioPos >= 0) {
-          audioPos += 18;
-          int audioEnd = data.indexOf("\\"", audioPos);
-          if (audioEnd > audioPos) {
-            String b64Chunk = data.substring(audioPos, audioEnd);
-            int bufLen = (b64Chunk.length() * 3) / 4 + 16;
-            uint8_t *pcmBuf = (uint8_t *)malloc(bufLen);
-            if (pcmBuf) {
-              int decodedLen = mimo_base64_decode_to_buffer(b64Chunk.c_str(), pcmBuf, bufLen);
-              if (decodedLen > 0) {
-                i2s.write(pcmBuf, decodedLen);
-                totalBytes += decodedLen;
-              }
-              free(pcmBuf);
-            }
-          }
-        }
-      }
-      lineBuffer = "";
-    } else if (c != '\\r') {
-      lineBuffer += c;
-    }
-  }
-
-  http.end();
-  Serial.println("流式播放完成，总字节数: " + String(totalBytes));
-  Serial.println("=== 小米MiMo流式语音合成结束 ===");
-}`);
-
-  var code = 'mimo_tts_stream_play_impl(' + varName + ', ' + text + ', "' + voice + '");\n';
-  return code;
+  ensureMimoI2SObject(generator, varName);
+  ensureMimoBaseHelpers(generator);
+  ensureMimoTtsStreamHelpers(generator);
+  return 'mimo_tts_stream_play_impl(' + varName + ', ' + text + ', "' + voice + '");\n';
 };
 
 Arduino.forBlock['mimo_tts_stream_play_with_style'] = function(block, generator) {
   var varField = block.getField('VAR');
-  var varName = varField ? varField.getText() : 'i2s';
+  var varName = varField ? varField.getText() : 'i2s_spk';
   var text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC) || '""';
   var voice = block.getFieldValue('VOICE');
   var style = generator.valueToCode(block, 'STYLE', Arduino.ORDER_ATOMIC) || '""';
 
-  generator.addLibrary('ESP_I2S', '#include <ESP_I2S.h>');
-  generator.addVariable('mimo_last_success', 'bool mimo_last_success = false;');
-  generator.addVariable('mimo_last_error', 'String mimo_last_error = "";');
+  ensureMimoI2SObject(generator, varName);
+  ensureMimoBaseHelpers(generator);
+  ensureMimoTtsStreamHelpers(generator);
+  return 'mimo_tts_stream_play_with_style_impl(' + varName + ', ' + text + ', "' + voice + '", ' + style + ');\n';
+};
 
-  generator.addFunction('mimo_base64_decode_to_buffer', null);
-  generator.addFunction('mimo_escape_json', null);
+function ensureMimoRecordTextHelpers(generator) {
+  generator.addFunction('mimo_voice_chat_build_wav_header', String.raw`
+void mimo_voice_chat_build_wav_header(uint8_t* header, uint32_t dataSize, uint32_t sampleRate) {
+  memset(header, 0, 44);
+  memcpy(header, "RIFF", 4);
+  uint32_t fileSize = dataSize + 36;
+  header[4] = fileSize & 0xFF; header[5] = (fileSize >> 8) & 0xFF;
+  header[6] = (fileSize >> 16) & 0xFF; header[7] = (fileSize >> 24) & 0xFF;
+  memcpy(header + 8, "WAVE", 4);
+  memcpy(header + 12, "fmt ", 4);
+  header[16] = 16; header[17] = 0; header[18] = 0; header[19] = 0;
+  header[20] = 1; header[21] = 0;
+  header[22] = 1; header[23] = 0;
+  header[24] = sampleRate & 0xFF; header[25] = (sampleRate >> 8) & 0xFF;
+  header[26] = (sampleRate >> 16) & 0xFF; header[27] = (sampleRate >> 24) & 0xFF;
+  uint32_t byteRate = sampleRate * 2;
+  header[28] = byteRate & 0xFF; header[29] = (byteRate >> 8) & 0xFF;
+  header[30] = (byteRate >> 16) & 0xFF; header[31] = (byteRate >> 24) & 0xFF;
+  header[32] = 2; header[33] = 0;
+  header[34] = 16; header[35] = 0;
+  memcpy(header + 36, "data", 4);
+  header[40] = dataSize & 0xFF; header[41] = (dataSize >> 8) & 0xFF;
+  header[42] = (dataSize >> 16) & 0xFF; header[43] = (dataSize >> 24) & 0xFF;
+}`);
 
-  generator.addFunction('mimo_tts_stream_play_with_style_impl', `
-void mimo_tts_stream_play_with_style_impl(I2SClass &i2s, String text, String voice, String style) {
-  Serial.println("=== 小米MiMo流式语音合成开始(带风格) ===");
-  Serial.println("文本: " + text);
-  Serial.println("音色: " + voice);
-  Serial.println("风格: " + style);
+  generator.addFunction('mimo_i2s_record_text_request', String.raw`
+String mimo_i2s_record_text_request(I2SClass &i2sMic, String model, String prompt, float duration) {
+  Serial.println("[MIMO-REC-TEXT] begin");
+  mimo_last_success = false;
+  mimo_last_error = "";
 
   if (WiFi.status() != WL_CONNECTED) {
-    mimo_last_success = false;
     mimo_last_error = "WiFi not connected";
-    return;
+    return "";
   }
 
+  uint32_t sampleRate = 16000;
+  size_t totalSamples = (size_t)(sampleRate * duration);
+  size_t pcmBytes = totalSamples * sizeof(int16_t);
+  size_t wavBytes = 44 + pcmBytes;
+  uint8_t* wavBuf = (uint8_t*)mimo_audio_alloc_buffer(wavBytes, "record-text-wav");
+  if (!wavBuf) {
+    mimo_last_error = "WAV alloc failed";
+    return "";
+  }
+
+  if (!mimo_i2s_restart_microphone(i2sMic, sampleRate)) {
+    mimo_last_error = "Microphone begin failed";
+    free(wavBuf);
+    return "";
+  }
+
+  Serial.println("[MIMO-REC-TEXT] record " + String(duration) + "s");
+  size_t bytesRead = mimo_i2s_record_pcm(i2sMic, wavBuf + 44, pcmBytes, duration, "MIMO-REC-TEXT");
+  if (bytesRead == 0) {
+    mimo_last_error = "No microphone audio captured";
+    free(wavBuf);
+    i2sMic.end();
+    return "";
+  }
+
+  mimo_voice_chat_build_wav_header(wavBuf, (uint32_t)bytesRead, sampleRate);
+  wavBytes = 44 + bytesRead;
+  i2sMic.end();
+  Serial.println("[MIMO-REC-TEXT] wav bytes: " + String(wavBytes));
+
+  String finalPrompt = prompt.length() > 0 ? prompt : String("\u8bf7\u53ea\u628a\u97f3\u9891\u5185\u5bb9\u8f6c\u5199\u6210\u6587\u5b57\uff0c\u4e0d\u8981\u56de\u7b54\u3001\u89e3\u91ca\u6216\u8865\u5145\u3002");
+  String safeSystem = mimo_escape_json(mimo_system_prompt);
+  String safePrompt = mimo_escape_json(finalPrompt);
+  String requestPrefix = "{\"model\":\"" + model + "\",\"messages\":[";
+  if (mimo_system_prompt.length() > 0) {
+    requestPrefix += "{\"role\":\"system\",\"content\":\"" + safeSystem + "\"},";
+  }
+  requestPrefix += "{\"role\":\"user\",\"content\":[{\"type\":\"input_audio\",\"input_audio\":{\"data\":\"data:audio/wav;base64,";
+  String requestSuffix = "\",\"format\":\"wav\"}},{\"type\":\"text\",\"text\":\"" + safePrompt + "\"}]}],\"stream\":true,\"max_completion_tokens\":2048}";
+
+  MimoBase64JsonStream requestStream(requestPrefix, wavBuf, wavBytes, requestSuffix);
   HTTPClient http;
   String url = mimo_base_url + "/chat/completions";
   http.begin(url);
-  http.setTimeout(120000);
+  http.setTimeout(180000);
   http.addHeader("Content-Type", "application/json");
+  http.addHeader("Accept", "text/event-stream");
   http.addHeader("api-key", mimo_api_key);
 
-  String safeText = mimo_escape_json(text);
-  String safeStyle = mimo_escape_json(style);
-  String styledContent = "<style>" + safeStyle + "</style>" + safeText;
-  String requestBody = "{\\"model\\":\\"mimo-v2-tts\\",\\"messages\\":[";
-  requestBody += "{\\"role\\":\\"assistant\\",\\"content\\":\\"" + styledContent + "\\"}";
-  requestBody += "],\\"audio\\":{\\"format\\":\\"pcm16\\",\\"voice\\":\\"" + voice + "\\"},\\"stream\\":true}";
-
-  Serial.println("发送流式语音合成请求...");
-  int httpResponseCode = http.POST(requestBody);
-  Serial.println("HTTP响应码: " + String(httpResponseCode));
+  Serial.println("[MIMO-REC-TEXT] request bytes: " + String(requestStream.contentLength()));
+  int httpResponseCode = http.sendRequest("POST", &requestStream, requestStream.contentLength());
+  free(wavBuf);
+  Serial.println("[MIMO-REC-TEXT] HTTP: " + String(httpResponseCode));
 
   if (httpResponseCode != 200) {
-    String errorResponse = http.getString();
-    Serial.println("HTTP错误: " + errorResponse);
-    mimo_last_success = false;
-    mimo_last_error = "HTTP " + String(httpResponseCode);
+    String errBody = http.getString();
+    if (errBody.length() > 240) errBody = errBody.substring(0, 240);
+    mimo_last_error = "HTTP " + String(httpResponseCode) + ": " + errBody;
     http.end();
-    return;
+    return "";
   }
 
-  WiFiClient *stream = http.getStreamPtr();
-  int totalBytes = 0;
+  WiFiClient* stream = http.getStreamPtr();
+  String fullText = "";
   String lineBuffer = "";
-  mimo_last_success = true;
-  mimo_last_error = "";
-
+  unsigned long lastDataMs = millis();
   while (http.connected() || stream->available()) {
     if (!stream->available()) {
+      if (millis() - lastDataMs > 120000) {
+        mimo_last_error = "Stream timeout";
+        break;
+      }
       delay(1);
       continue;
     }
+    lastDataMs = millis();
     char c = stream->read();
-    if (c == '\\n') {
+    if (c == '\n') {
       lineBuffer.trim();
-      if (lineBuffer.startsWith("data: ")) {
-        String data = lineBuffer.substring(6);
+      if (lineBuffer.startsWith("data:")) {
+        String data = lineBuffer.substring(5);
+        data.trim();
         if (data == "[DONE]") break;
-        int audioPos = data.indexOf("\\"audio\\":{\\"data\\":\\"");
-        if (audioPos >= 0) {
-          audioPos += 18;
-          int audioEnd = data.indexOf("\\"", audioPos);
-          if (audioEnd > audioPos) {
-            String b64Chunk = data.substring(audioPos, audioEnd);
-            int bufLen = (b64Chunk.length() * 3) / 4 + 16;
-            uint8_t *pcmBuf = (uint8_t *)malloc(bufLen);
-            if (pcmBuf) {
-              int decodedLen = mimo_base64_decode_to_buffer(b64Chunk.c_str(), pcmBuf, bufLen);
-              if (decodedLen > 0) {
-                i2s.write(pcmBuf, decodedLen);
-                totalBytes += decodedLen;
-              }
-              free(pcmBuf);
+        int contentStart = data.indexOf("\"content\":\"");
+        if (contentStart >= 0) {
+          contentStart += 11;
+          int contentEnd = data.indexOf("\"", contentStart);
+          if (contentEnd > contentStart) {
+            String content = mimo_unescape_json_string(data.substring(contentStart, contentEnd));
+            fullText += content;
+            Serial.print(content);
+            if (mimo_stream_callback != NULL) {
+              mimo_stream_chunk = content;
+              mimo_stream_callback();
             }
           }
         }
       }
       lineBuffer = "";
-    } else if (c != '\\r') {
+    } else if (c != '\r') {
       lineBuffer += c;
     }
   }
-
   http.end();
-  Serial.println("流式播放完成，总字节数: " + String(totalBytes));
-  Serial.println("=== 小米MiMo流式语音合成结束 ===");
+  Serial.println("");
+
+  mimo_last_success = fullText.length() > 0;
+  mimo_last_error = fullText.length() > 0 ? "" : (mimo_last_error.length() > 0 ? mimo_last_error : "No text response");
+  Serial.println("[MIMO-REC-TEXT] text: " + fullText);
+  return fullText;
 }`);
 
-  var code = 'mimo_tts_stream_play_with_style_impl(' + varName + ', ' + text + ', "' + voice + '", ' + style + ');\n';
-  return code;
+}
+
+Arduino.forBlock['mimo_i2s_record_text'] = function(block, generator) {
+  var micField = block.getField('MIC_VAR');
+  var micName = micField ? micField.getText() : 'i2s_mic';
+  const duration = generator.valueToCode(block, 'DURATION', Arduino.ORDER_ATOMIC) || '3';
+  const model = block.getFieldValue('MODEL');
+  const prompt = generator.valueToCode(block, 'PROMPT', Arduino.ORDER_ATOMIC) || '""';
+
+  ensureMimoI2SObject(generator, micName);
+  ensureMimoI2SHelpers(generator);
+  ensureMimoUploadHelpers(generator);
+
+  ensureMimoRecordTextHelpers(generator);
+  const code = `mimo_i2s_record_text_request(${micName}, "${model}", ${prompt}, ${duration})`;
+  return [code, Arduino.ORDER_FUNCTION_CALL];
+};
+
+Arduino.forBlock['mimo_voice_chat'] = function(block, generator) {
+  var micField = block.getField('MIC_VAR');
+  var spkField = block.getField('SPK_VAR');
+  var micName = micField ? micField.getText() : 'i2s_mic';
+  var spkName = spkField ? spkField.getText() : 'i2s_spk';
+  const duration = generator.valueToCode(block, 'DURATION', Arduino.ORDER_ATOMIC) || '3';
+  const model = block.getFieldValue('MODEL');
+  const voice = block.getFieldValue('VOICE');
+  const ttsModel = block.getFieldValue('TTS_MODEL');
+  const beep = block.getFieldValue('BEEP') !== 'FALSE';
+  const prompt = generator.valueToCode(block, 'PROMPT', Arduino.ORDER_ATOMIC) || '""';
+
+  ensureMimoI2SObject(generator, micName);
+  ensureMimoI2SObject(generator, spkName);
+  ensureMimoI2SHelpers(generator);
+  ensureMimoUploadHelpers(generator);
+  ensureMimoTtsHelpers(generator);
+  ensureMimoPlaybackHelpers(generator);
+  ensureMimoRecordTextHelpers(generator);
+
+  generator.addFunction('mimo_voice_chat_request', String.raw`
+void mimo_voice_chat_request(I2SClass &i2sMic, I2SClass &i2sSpk, String model, String voice, String ttsModel, String prompt, float duration, bool beep) {
+  Serial.println("[MIMO-VOICE-CHAT] begin");
+  String finalPrompt = prompt.length() > 0 ? prompt : String("\u8bf7\u7528\u7b80\u77ed\u53cb\u597d\u7684\u65b9\u5f0f\u56de\u7b54\u97f3\u9891\u4e2d\u7684\u95ee\u9898\uff0c\u9002\u5408\u8bed\u97f3\u64ad\u62a5\u3002");
+  if (beep) mimo_play_prompt_tone(i2sSpk, 1000, 50);
+  String answer = mimo_i2s_record_text_request(i2sMic, model, finalPrompt, duration);
+  if (beep) mimo_play_prompt_tone(i2sSpk, 800, 50);
+
+  if (!mimo_last_success || answer.length() == 0) {
+    Serial.println("[MIMO-VOICE-CHAT] record/text failed: " + mimo_last_error);
+    return;
+  }
+
+  String audio = mimo_tts_request(answer, voice, ttsModel);
+  if (mimo_last_success && audio.length() > 0) {
+    mimo_play_base64_audio_to_i2s(i2sSpk, audio);
+  } else {
+    Serial.println("[MIMO-VOICE-CHAT] tts failed: " + mimo_last_error);
+  }
+}`);
+
+  return 'mimo_voice_chat_request(' + micName + ', ' + spkName + ', "' + model + '", "' + voice + '", "' + ttsModel + '", ' + prompt + ', ' + duration + ', ' + (beep ? 'true' : 'false') + ');\n';
 };
 
 Arduino.forBlock['mimo_get_response_status'] = function() {

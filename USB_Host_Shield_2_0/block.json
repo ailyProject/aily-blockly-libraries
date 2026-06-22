@@ -1,0 +1,240 @@
+[
+  {
+    "type": "usbhost_begin",
+    "message0": "USB Host begin halt on error %1",
+    "message0_zh": "USB Host 初始化 出错停止 %1",
+    "args0": [
+      {
+        "type": "field_checkbox",
+        "name": "HALT",
+        "checked": true
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#37474F",
+    "tooltip": "Create USB object, initialize host shield, and add Usb.Task() to loop.",
+    "tooltip_zh": "创建 USB 对象、初始化主机盾，并自动在 loop 中执行 Usb.Task()。",
+    "generated": "USB Usb; Usb.Init(); Usb.Task();"
+  },
+  {
+    "type": "usbhost_task",
+    "message0": "USB Host task",
+    "message0_zh": "USB Host 任务",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#37474F",
+    "tooltip": "Run Usb.Task().",
+    "tooltip_zh": "执行 Usb.Task()。"
+  },
+  {
+    "type": "usbhost_ps4_begin",
+    "message0": "USB Host PS4 controller begin halt on error %1",
+    "message0_zh": "USB Host PS4 手柄初始化 出错停止 %1",
+    "args0": [
+      {
+        "type": "field_checkbox",
+        "name": "HALT",
+        "checked": true
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#455A64",
+    "tooltip": "Create PS4USB controller object and initialize USB host.",
+    "tooltip_zh": "创建 PS4USB 手柄对象并初始化 USB Host。"
+  },
+  {
+    "type": "usbhost_ps4_connected",
+    "message0": "USB Host PS4 connected",
+    "message0_zh": "USB Host PS4 已连接",
+    "output": "Boolean",
+    "colour": "#455A64",
+    "tooltip": "Return true when a PS4 controller is connected.",
+    "tooltip_zh": "PS4 手柄连接时返回真。"
+  },
+  {
+    "type": "usbhost_ps4_button",
+    "message0": "USB Host PS4 button %1 mode %2",
+    "message0_zh": "USB Host PS4 按键 %1 模式 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "Cross",
+            "CROSS"
+          ],
+          [
+            "Circle",
+            "CIRCLE"
+          ],
+          [
+            "Square",
+            "SQUARE"
+          ],
+          [
+            "Triangle",
+            "TRIANGLE"
+          ],
+          [
+            "Up",
+            "UP"
+          ],
+          [
+            "Down",
+            "DOWN"
+          ],
+          [
+            "Left",
+            "LEFT"
+          ],
+          [
+            "Right",
+            "RIGHT"
+          ],
+          [
+            "L1",
+            "L1"
+          ],
+          [
+            "R1",
+            "R1"
+          ],
+          [
+            "Share",
+            "SHARE"
+          ],
+          [
+            "Options",
+            "OPTIONS"
+          ],
+          [
+            "PS",
+            "PS"
+          ],
+          [
+            "Touchpad",
+            "TOUCHPAD"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "click",
+            "getButtonClick"
+          ],
+          [
+            "press",
+            "getButtonPress"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#455A64",
+    "tooltip": "Read a PS4 button click or pressed state.",
+    "tooltip_zh": "读取 PS4 按键点击或按下状态。"
+  },
+  {
+    "type": "usbhost_ps4_hat",
+    "message0": "USB Host PS4 hat %1",
+    "message0_zh": "USB Host PS4 摇杆 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "HAT",
+        "options": [
+          [
+            "Left X",
+            "LeftHatX"
+          ],
+          [
+            "Left Y",
+            "LeftHatY"
+          ],
+          [
+            "Right X",
+            "RightHatX"
+          ],
+          [
+            "Right Y",
+            "RightHatY"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#455A64",
+    "tooltip": "Read a PS4 analog stick axis.",
+    "tooltip_zh": "读取 PS4 摇杆轴。"
+  },
+  {
+    "type": "usbhost_ps4_rumble",
+    "message0": "USB Host PS4 rumble low %1 high %2",
+    "message0_zh": "USB Host PS4 震动 低频 %1 高频 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "LOW",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "HIGH",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#455A64",
+    "tooltip": "Set PS4 controller rumble.",
+    "tooltip_zh": "设置 PS4 手柄震动。"
+  },
+  {
+    "type": "usbhost_ps4_led",
+    "message0": "USB Host PS4 LED %1",
+    "message0_zh": "USB Host PS4 LED %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          [
+            "red",
+            "Red"
+          ],
+          [
+            "green",
+            "Green"
+          ],
+          [
+            "blue",
+            "Blue"
+          ],
+          [
+            "yellow",
+            "Yellow"
+          ],
+          [
+            "white",
+            "White"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#455A64",
+    "tooltip": "Set PS4 controller LED color.",
+    "tooltip_zh": "设置 PS4 手柄灯颜色。"
+  }
+]

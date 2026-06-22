@@ -30,5 +30,6 @@ ESP32 camera network server library supports multiple ESP32 development boards t
 - Adds `ESP32_AIOT_Kit GC2145 DVP` preset for the 2MP GC2145 120-degree distortion-free DVP camera module.
 
 - GC2145 preset uses RGB565 because GC2145 does not support native JPEG output; the web server converts frames to JPEG when streaming.
+- The init block exposes `pixel_format` selection: JPEG, RGB565, YUV422, and GRAYSCALE.
 
 - GC2145 D0-D7 pin order is `16,17,18,12,8,9,10,11` for ESP32_AIOT_Kit GC2145 DVP.

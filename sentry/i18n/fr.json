@@ -1,0 +1,1270 @@
+{
+  "toolbox_name": "Capteur de vision Sentry",
+  "toolbox_categories": [
+    "Sentry2",
+    "Blocs de réglage",
+    "Blocs d'exécution",
+    "Sentry1",
+    "Blocs de réglage",
+    "Blocs d'exécution"
+  ],
+  "sentry2_begin": {
+    "message0": "Initialiser Sentry2 port %1 adresse %2",
+    "tooltip": "Initialiser Sentry2 capteur de vision",
+    "args0": [
+      {
+        "options": [
+          [
+            "I2C",
+            "Wire"
+          ],
+          [
+            "Serial",
+            "Serial"
+          ],
+          [
+            "Serial1",
+            "Serial1"
+          ],
+          [
+            "Serial2",
+            "Serial2"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "0x60",
+            "0x60"
+          ],
+          [
+            "0x61",
+            "0x61"
+          ],
+          [
+            "0x62",
+            "0x62"
+          ],
+          [
+            "0x63",
+            "0x63"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_set_default": {
+    "message0": "Sentry2 restaurer les paramètres par défaut",
+    "tooltip": "Restaure l'état de l'algorithme du capteur par défaut"
+  },
+  "sentry2_set_vision_status": {
+    "message0": "Sentry2 %1 algorithme %2",
+    "tooltip": "Sentry2 algorithme définir",
+    "args0": [
+      {
+        "options": [
+          [
+            "Activer",
+            "Begin"
+          ],
+          [
+            "Désactiver",
+            "End"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Reconnaissance des couleurs",
+            "Sentry2::kVisionColor"
+          ],
+          [
+            "Détection de bloc de couleur",
+            "Sentry2::kVisionBlob"
+          ],
+          [
+            "Reconnaissance de tag",
+            "Sentry2::kVisionAprilTag"
+          ],
+          [
+            "Détection de ligne",
+            "Sentry2::kVisionLine"
+          ],
+          [
+            "Apprentissage profond",
+            "Sentry2::kVisionLearning"
+          ],
+          [
+            "Reconnaissance de carte",
+            "Sentry2::kVisionCard"
+          ],
+          [
+            "Reconnaissance faciale",
+            "Sentry2::kVisionFace"
+          ],
+          [
+            "Objets 20 classes",
+            "Sentry2::kVision20Classes"
+          ],
+          [
+            "QR code",
+            "Sentry2::kVisionQrCode"
+          ],
+          [
+            "Personnalisé",
+            "Sentry2::kVisionCustom"
+          ],
+          [
+            "Objet en mouvement",
+            "Sentry2::kVisionMotionDetect"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_set_awb": {
+    "message0": "Sentry2 mode balance des blancs %1",
+    "tooltip": "Sentry2 mode balance des blancs",
+    "args0": [
+      {
+        "options": [
+          [
+            "Auto",
+            "kAutoWhiteBalance"
+          ],
+          [
+            "Verrouiller",
+            "kLockWhiteBalance"
+          ],
+          [
+            "Lumière blanche",
+            "kWhiteLight"
+          ],
+          [
+            "Lumière jaune",
+            "kYellowLight"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_set_param_num": {
+    "message0": "Sentry2 algorithme %1 définir %2 groupes de paramètres",
+    "tooltip": "Sentry2 définir algorithme groupes de paramètres",
+    "args0": [
+      {
+        "options": [
+          [
+            "Reconnaissance des couleurs",
+            "Sentry2::kVisionColor"
+          ],
+          [
+            "Détection de bloc de couleur",
+            "Sentry2::kVisionBlob"
+          ],
+          [
+            "Personnalisé",
+            "Sentry2::kVisionCustom"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_set_color_param": {
+    "message0": "Sentry2 reconnaissance des couleurs centre X %1 Y %2 largeur %3 hauteur %4 groupe de paramètres %5",
+    "tooltip": "Sentry2 reconnaissance des couleurs groupe de paramètres définir"
+  },
+  "sentry2_set_blob_param": {
+    "message0": "Sentry2 détection de bloc de couleur largeur min. %1 hauteur %2 couleur %3 groupe de paramètres %4",
+    "tooltip": "Sentry2 détection de bloc de couleur groupe de paramètres définir",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Noir",
+            "Sentry2::kColorBlack"
+          ],
+          [
+            "Blanc",
+            "Sentry2::kColorWhite"
+          ],
+          [
+            "Rouge",
+            "Sentry2::kColorRed"
+          ],
+          [
+            "Vert",
+            "Sentry2::kColorGreen"
+          ],
+          [
+            "Bleu",
+            "Sentry2::kColorBlue"
+          ],
+          [
+            "Jaune",
+            "Sentry2::kColorYellow"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_set_custom_param": {
+    "message0": "Sentry2 algorithme %1 paramètre 1 %2 paramètre 2 %3 paramètre 3 %4 paramètre 4 %5 paramètre 5 %6 groupe de paramètres %7",
+    "tooltip": "Sentry2 personnalisé groupe de paramètres définir",
+    "args0": [
+      {
+        "options": [
+          [
+            "Personnalisé",
+            "Sentry2::kVisionCustom"
+          ],
+          [
+            "Reconnaissance des couleurs",
+            "Sentry2::kVisionColor"
+          ],
+          [
+            "Détection de bloc de couleur",
+            "Sentry2::kVisionBlob"
+          ],
+          [
+            "Apprentissage profond",
+            "Sentry2::kVisionLearning"
+          ],
+          [
+            "Reconnaissance faciale",
+            "Sentry2::kVisionFace"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "sentry2_detected_count": {
+    "message0": "Sentry2 algorithme %1 renvoyer le nombre de résultats",
+    "tooltip": "Sentry2 renvoyer le nombre de résultats",
+    "args0": [
+      {
+        "options": [
+          [
+            "Reconnaissance des couleurs",
+            "Sentry2::kVisionColor"
+          ],
+          [
+            "Détection de bloc de couleur",
+            "Sentry2::kVisionBlob"
+          ],
+          [
+            "Reconnaissance de tag",
+            "Sentry2::kVisionAprilTag"
+          ],
+          [
+            "Détection de ligne",
+            "Sentry2::kVisionLine"
+          ],
+          [
+            "Apprentissage profond",
+            "Sentry2::kVisionLearning"
+          ],
+          [
+            "Reconnaissance de carte",
+            "Sentry2::kVisionCard"
+          ],
+          [
+            "Reconnaissance faciale",
+            "Sentry2::kVisionFace"
+          ],
+          [
+            "Objets 20 classes",
+            "Sentry2::kVision20Classes"
+          ],
+          [
+            "QR code",
+            "Sentry2::kVisionQrCode"
+          ],
+          [
+            "Personnalisé",
+            "Sentry2::kVisionCustom"
+          ],
+          [
+            "Objet en mouvement",
+            "Sentry2::kVisionMotionDetect"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_get_value": {
+    "message0": "Sentry2 algorithme %1 renvoyer %2 index %3 valeur",
+    "tooltip": "Obtient le résultat correspondant à l'algorithme sélectionné",
+    "args0": [
+      {
+        "options": [
+          [
+            "Détection de bloc de couleur",
+            "Sentry2::kVisionBlob"
+          ],
+          [
+            "Reconnaissance de tag",
+            "Sentry2::kVisionAprilTag"
+          ],
+          [
+            "Apprentissage profond",
+            "Sentry2::kVisionLearning"
+          ],
+          [
+            "Reconnaissance de carte",
+            "Sentry2::kVisionCard"
+          ],
+          [
+            "Reconnaissance faciale",
+            "Sentry2::kVisionFace"
+          ],
+          [
+            "Objets 20 classes",
+            "Sentry2::kVision20Classes"
+          ],
+          [
+            "Objet en mouvement",
+            "Sentry2::kVisionMotionDetect"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Coordonnée X",
+            "kXValue"
+          ],
+          [
+            "Coordonnée Y",
+            "kYValue"
+          ],
+          [
+            "Largeur",
+            "kWidthValue"
+          ],
+          [
+            "Hauteur",
+            "kHeightValue"
+          ],
+          [
+            "Étiquette",
+            "kLabel"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_get_color_value": {
+    "message0": "Sentry2 reconnaissance des couleurs renvoyer %1 index %2 valeur",
+    "tooltip": "Sentry2 reconnaissance des couleurs renvoyer valeur",
+    "args0": [
+      {
+        "options": [
+          [
+            "Étiquette",
+            "kLabel"
+          ],
+          [
+            "Canal rouge",
+            "kRValue"
+          ],
+          [
+            "Canal vert",
+            "kGValue"
+          ],
+          [
+            "Canal bleu",
+            "kBValue"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_get_line_value": {
+    "message0": "Sentry2 détection de ligne renvoyer %1 index %2 valeur",
+    "tooltip": "Sentry2 détection de ligne renvoyer valeur",
+    "args0": [
+      {
+        "options": [
+          [
+            "Coordonnée X de fin",
+            "kXValue"
+          ],
+          [
+            "Coordonnée Y de fin",
+            "kYValue"
+          ],
+          [
+            "Coordonnée X de début",
+            "kWidthValue"
+          ],
+          [
+            "Coordonnée Y de début",
+            "kHeightValue"
+          ],
+          [
+            "Angle d'inclinaison",
+            "kLabel"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_get_qr_value": {
+    "message0": "Sentry2 QR code renvoyer la chaîne de résultat",
+    "tooltip": "Sentry2 QR code renvoyer la chaîne de résultat"
+  },
+  "sentry2_get_qr_position": {
+    "message0": "Sentry2 QR code renvoyer %1 index %2 valeur",
+    "tooltip": "Sentry2 QR code renvoyer valeur",
+    "args0": [
+      {
+        "options": [
+          [
+            "Coordonnée X",
+            "kXValue"
+          ],
+          [
+            "Coordonnée Y",
+            "kYValue"
+          ],
+          [
+            "Largeur",
+            "kWidthValue"
+          ],
+          [
+            "Hauteur",
+            "kHeightValue"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_get_custom_value": {
+    "message0": "Sentry2 personnalisé renvoyer %1 index %2 valeur",
+    "tooltip": "Sentry2 personnalisé renvoyer valeur",
+    "args0": [
+      {
+        "options": [
+          [
+            "Donnée 1",
+            "kXValue"
+          ],
+          [
+            "Donnée 2",
+            "kYValue"
+          ],
+          [
+            "Donnée 3",
+            "kWidthValue"
+          ],
+          [
+            "Donnée 4",
+            "kHeightValue"
+          ],
+          [
+            "Donnée 5",
+            "kLabel"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_check_blob_color": {
+    "message0": "Sentry2 bloc de couleur détecté %1 index %2",
+    "tooltip": "Renvoie True si détecté, sinon False",
+    "args0": [
+      {
+        "options": [
+          [
+            "Noir",
+            "Sentry2::kColorBlack"
+          ],
+          [
+            "Blanc",
+            "Sentry2::kColorWhite"
+          ],
+          [
+            "Rouge",
+            "Sentry2::kColorRed"
+          ],
+          [
+            "Vert",
+            "Sentry2::kColorGreen"
+          ],
+          [
+            "Bleu",
+            "Sentry2::kColorBlue"
+          ],
+          [
+            "Jaune",
+            "Sentry2::kColorYellow"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_check_card": {
+    "message0": "Sentry2 carte reconnue %1 index %2",
+    "tooltip": "Renvoie True si détecté, sinon False",
+    "args0": [
+      {
+        "options": [
+          [
+            "Avancer",
+            "Sentry2::kCardForward"
+          ],
+          [
+            "Tourner à gauche",
+            "Sentry2::kCardLeft"
+          ],
+          [
+            "Tourner à droite",
+            "Sentry2::kCardRight"
+          ],
+          [
+            "Demi-tour",
+            "Sentry2::kCardTurnAround"
+          ],
+          [
+            "Stationner",
+            "Sentry2::kCardPark"
+          ],
+          [
+            "Feu vert",
+            "Sentry2::kCardGreenLight"
+          ],
+          [
+            "Feu rouge",
+            "Sentry2::kCardRedLight"
+          ],
+          [
+            "Limite 40",
+            "Sentry2::kCardSpeed40"
+          ],
+          [
+            "Limite 60",
+            "Sentry2::kCardSpeed60"
+          ],
+          [
+            "Limite 80",
+            "Sentry2::kCardSpeed80"
+          ],
+          [
+            "✔",
+            "Sentry2::kCardCheck"
+          ],
+          [
+            "☓",
+            "Sentry2::kCardCross"
+          ],
+          [
+            "◯",
+            "Sentry2::kCardCircle"
+          ],
+          [
+            "☐",
+            "Sentry2::kCardSquare"
+          ],
+          [
+            "△",
+            "Sentry2::kCardTriangle"
+          ],
+          [
+            "+",
+            "Sentry2::kCardPlus"
+          ],
+          [
+            "-",
+            "Sentry2::kCardMinus"
+          ],
+          [
+            "÷",
+            "Sentry2::kCardDivide"
+          ],
+          [
+            "=",
+            "Sentry2::kCardEqual"
+          ],
+          [
+            "0",
+            "Sentry2::kCardZero"
+          ],
+          [
+            "1",
+            "Sentry2::kCardOne"
+          ],
+          [
+            "2",
+            "Sentry2::kCardTwo"
+          ],
+          [
+            "3",
+            "Sentry2::kCardThree"
+          ],
+          [
+            "4",
+            "Sentry2::kCardFour"
+          ],
+          [
+            "5",
+            "Sentry2::kCardFive"
+          ],
+          [
+            "6",
+            "Sentry2::kCardSix"
+          ],
+          [
+            "7",
+            "Sentry2::kCardSeven"
+          ],
+          [
+            "8",
+            "Sentry2::kCardEight"
+          ],
+          [
+            "9",
+            "Sentry2::kCardNine"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_check_20class": {
+    "message0": "Sentry2 objet 20 classes détecté %1 index %2",
+    "tooltip": "Renvoie True si détecté, sinon False",
+    "args0": [
+      {
+        "options": [
+          [
+            "Avion",
+            "Sentry2::kAirplane"
+          ],
+          [
+            "Vélo",
+            "Sentry2::kBicycle"
+          ],
+          [
+            "Oiseau",
+            "Sentry2::kBird"
+          ],
+          [
+            "Bateau",
+            "Sentry2::kBoat"
+          ],
+          [
+            "Bouteille",
+            "Sentry2::kBottle"
+          ],
+          [
+            "Bus",
+            "Sentry2::kBus"
+          ],
+          [
+            "Voiture",
+            "Sentry2::kCar"
+          ],
+          [
+            "Chat",
+            "Sentry2::kCat"
+          ],
+          [
+            "Chaise",
+            "Sentry2::kChair"
+          ],
+          [
+            "Vache",
+            "Sentry2::kCow"
+          ],
+          [
+            "Table à manger",
+            "Sentry2::kDiningTable"
+          ],
+          [
+            "Chien",
+            "Sentry2::kDog"
+          ],
+          [
+            "Cheval",
+            "Sentry2::kHorse"
+          ],
+          [
+            "Moto",
+            "Sentry2::kMotorBike"
+          ],
+          [
+            "Personne",
+            "Sentry2::kPerson"
+          ],
+          [
+            "Plante en pot",
+            "Sentry2::kPottedPlant"
+          ],
+          [
+            "Mouton",
+            "Sentry2::kSheep"
+          ],
+          [
+            "Canapé",
+            "Sentry2::kSofa"
+          ],
+          [
+            "Train",
+            "Sentry2::kTrain"
+          ],
+          [
+            "Moniteur",
+            "Sentry2::kTvMonitor"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_rows": {
+    "message0": "Sentry2 lignes de l'image",
+    "tooltip": "Sentry2 lignes de l'image"
+  },
+  "sentry2_cols": {
+    "message0": "Sentry2 colonnes de l'image",
+    "tooltip": "Sentry2 colonnes de l'image"
+  },
+  "sentry1_begin": {
+    "message0": "Initialiser Sentry1 port %1 adresse %2",
+    "tooltip": "Initialiser Sentry1 capteur de vision",
+    "args0": [
+      {
+        "options": [
+          [
+            "I2C",
+            "Wire"
+          ],
+          [
+            "Serial",
+            "Serial"
+          ],
+          [
+            "Serial1",
+            "Serial1"
+          ],
+          [
+            "Serial2",
+            "Serial2"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "0x60",
+            "0x60"
+          ],
+          [
+            "0x61",
+            "0x61"
+          ],
+          [
+            "0x62",
+            "0x62"
+          ],
+          [
+            "0x63",
+            "0x63"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry1_set_default": {
+    "message0": "Sentry1 restaurer les paramètres par défaut",
+    "tooltip": "Restaure l'état de l'algorithme du capteur par défaut"
+  },
+  "sentry1_led_set_color": {
+    "message0": "Sentry1 LED quand une cible est détectée %1 sinon %2 luminosité %3",
+    "tooltip": "Le noir éteint la LED ; deux couleurs identiques activent le mode LED manuel",
+    "args0": [
+      {
+        "options": [
+          [
+            "Éteint",
+            "kLedClose"
+          ],
+          [
+            "Rouge",
+            "kLedRed"
+          ],
+          [
+            "Vert",
+            "kLedGreen"
+          ],
+          [
+            "Jaune",
+            "kLedYellow"
+          ],
+          [
+            "Bleu",
+            "kLedBlue"
+          ],
+          [
+            "Violet",
+            "kLedPurple"
+          ],
+          [
+            "Cyan",
+            "kLedCyan"
+          ],
+          [
+            "Blanc",
+            "kLedWhite"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Éteint",
+            "kLedClose"
+          ],
+          [
+            "Rouge",
+            "kLedRed"
+          ],
+          [
+            "Vert",
+            "kLedGreen"
+          ],
+          [
+            "Jaune",
+            "kLedYellow"
+          ],
+          [
+            "Bleu",
+            "kLedBlue"
+          ],
+          [
+            "Violet",
+            "kLedPurple"
+          ],
+          [
+            "Cyan",
+            "kLedCyan"
+          ],
+          [
+            "Blanc",
+            "kLedWhite"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry1_set_vision_status": {
+    "message0": "Sentry1 %1 algorithme %2",
+    "tooltip": "Sentry1 algorithme définir",
+    "args0": [
+      {
+        "options": [
+          [
+            "Activer",
+            "Begin"
+          ],
+          [
+            "Désactiver",
+            "End"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Reconnaissance des couleurs",
+            "Sentry1::kVisionColor"
+          ],
+          [
+            "Détection de bloc de couleur",
+            "Sentry1::kVisionBlob"
+          ],
+          [
+            "Reconnaissance de balle",
+            "Sentry1::kVisionBall"
+          ],
+          [
+            "Détection de ligne",
+            "Sentry1::kVisionLine"
+          ],
+          [
+            "Reconnaissance de carte",
+            "Sentry1::kVisionCard"
+          ],
+          [
+            "Détection du corps",
+            "Sentry1::kVisionBody"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry1_set_awb": {
+    "message0": "Sentry1 mode balance des blancs %1",
+    "tooltip": "Sentry1 mode balance des blancs",
+    "args0": [
+      {
+        "options": [
+          [
+            "Auto",
+            "kAutoWhiteBalance"
+          ],
+          [
+            "Verrouiller",
+            "kLockWhiteBalance"
+          ],
+          [
+            "Lumière blanche",
+            "kWhiteLight"
+          ],
+          [
+            "Lumière jaune",
+            "kYellowLight"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry1_set_param_num": {
+    "message0": "Sentry1 algorithme %1 définir %2 groupes de paramètres",
+    "tooltip": "Sentry1 définir algorithme groupes de paramètres",
+    "args0": [
+      {
+        "options": [
+          [
+            "Reconnaissance des couleurs",
+            "Sentry1::kVisionColor"
+          ],
+          [
+            "Détection de bloc de couleur",
+            "Sentry1::kVisionBlob"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry1_set_color_param": {
+    "message0": "Sentry1 reconnaissance des couleurs centre X %1 Y %2 largeur %3 hauteur %4",
+    "tooltip": "Sentry1 reconnaissance des couleurs groupe de paramètres définir"
+  },
+  "sentry1_set_blob_param": {
+    "message0": "Sentry1 détection de bloc de couleur largeur min. %1 hauteur %2 couleur %3",
+    "tooltip": "Sentry1 détection de bloc de couleur groupe de paramètres définir",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Noir",
+            "Sentry1::kColorBlack"
+          ],
+          [
+            "Blanc",
+            "Sentry1::kColorWhite"
+          ],
+          [
+            "Rouge",
+            "Sentry1::kColorRed"
+          ],
+          [
+            "Vert",
+            "Sentry1::kColorGreen"
+          ],
+          [
+            "Bleu",
+            "Sentry1::kColorBlue"
+          ],
+          [
+            "Jaune",
+            "Sentry1::kColorYellow"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry1_detected_count": {
+    "message0": "Sentry1 algorithme %1 renvoyer le nombre de résultats",
+    "tooltip": "Sentry1 renvoyer le nombre de résultats",
+    "args0": [
+      {
+        "options": [
+          [
+            "Reconnaissance des couleurs",
+            "Sentry1::kVisionColor"
+          ],
+          [
+            "Détection de bloc de couleur",
+            "Sentry1::kVisionBlob"
+          ],
+          [
+            "Reconnaissance de balle",
+            "Sentry1::kVisionBall"
+          ],
+          [
+            "Détection de ligne",
+            "Sentry1::kVisionLine"
+          ],
+          [
+            "Reconnaissance de carte",
+            "Sentry1::kVisionCard"
+          ],
+          [
+            "Détection du corps",
+            "Sentry1::kVisionBody"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry1_get_value": {
+    "message0": "Sentry1 algorithme %1 renvoyer %2 index %3 valeur",
+    "tooltip": "Obtient le résultat correspondant à l'algorithme sélectionné",
+    "args0": [
+      {
+        "options": [
+          [
+            "Détection de bloc de couleur",
+            "Sentry1::kVisionBlob"
+          ],
+          [
+            "Reconnaissance de balle",
+            "Sentry1::kVisionBall"
+          ],
+          [
+            "Reconnaissance de carte",
+            "Sentry1::kVisionCard"
+          ],
+          [
+            "Détection du corps",
+            "Sentry1::kVisionBody"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Coordonnée X",
+            "kXValue"
+          ],
+          [
+            "Coordonnée Y",
+            "kYValue"
+          ],
+          [
+            "Largeur",
+            "kWidthValue"
+          ],
+          [
+            "Hauteur",
+            "kHeightValue"
+          ],
+          [
+            "Étiquette",
+            "kLabel"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry1_get_color_value": {
+    "message0": "Sentry1 reconnaissance des couleurs renvoyer %1 index %2 valeur",
+    "tooltip": "Sentry1 reconnaissance des couleurs renvoyer valeur",
+    "args0": [
+      {
+        "options": [
+          [
+            "Étiquette",
+            "kLabel"
+          ],
+          [
+            "Canal rouge",
+            "kRValue"
+          ],
+          [
+            "Canal vert",
+            "kGValue"
+          ],
+          [
+            "Canal bleu",
+            "kBValue"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry1_get_line_value": {
+    "message0": "Sentry1 détection de ligne renvoyer %1 index %2 valeur",
+    "tooltip": "Sentry1 détection de ligne renvoyer valeur",
+    "args0": [
+      {
+        "options": [
+          [
+            "Coordonnée X de fin",
+            "kXValue"
+          ],
+          [
+            "Coordonnée Y de fin",
+            "kYValue"
+          ],
+          [
+            "Coordonnée X de début",
+            "kWidthValue"
+          ],
+          [
+            "Coordonnée Y de début",
+            "kHeightValue"
+          ],
+          [
+            "Angle d'inclinaison",
+            "kLabel"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry1_get_qr_value": {
+    "message0": "Sentry1 QR code renvoyer la chaîne de résultat",
+    "tooltip": "Sentry1 QR code renvoyer la chaîne de résultat"
+  },
+  "sentry1_get_qr_position": {
+    "message0": "Sentry1 QR code renvoyer %1 index %2 valeur",
+    "tooltip": "Sentry1 QR code renvoyer valeur",
+    "args0": [
+      {
+        "options": [
+          [
+            "Coordonnée X",
+            "kXValue"
+          ],
+          [
+            "Coordonnée Y",
+            "kYValue"
+          ],
+          [
+            "Largeur",
+            "kWidthValue"
+          ],
+          [
+            "Hauteur",
+            "kHeightValue"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry1_check_blob_color": {
+    "message0": "Sentry1 bloc de couleur détecté %1 index %2",
+    "tooltip": "Renvoie True si détecté, sinon False",
+    "args0": [
+      {
+        "options": [
+          [
+            "Noir",
+            "Sentry1::kColorBlack"
+          ],
+          [
+            "Blanc",
+            "Sentry1::kColorWhite"
+          ],
+          [
+            "Rouge",
+            "Sentry1::kColorRed"
+          ],
+          [
+            "Vert",
+            "Sentry1::kColorGreen"
+          ],
+          [
+            "Bleu",
+            "Sentry1::kColorBlue"
+          ],
+          [
+            "Jaune",
+            "Sentry1::kColorYellow"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry1_check_card": {
+    "message0": "Sentry1 carte reconnue %1 index %2",
+    "tooltip": "Renvoie True si détecté, sinon False",
+    "args0": [
+      {
+        "options": [
+          [
+            "Avancer",
+            "Sentry1::kCardForward"
+          ],
+          [
+            "Tourner à gauche",
+            "Sentry1::kCardLeft"
+          ],
+          [
+            "Tourner à droite",
+            "Sentry1::kCardRight"
+          ],
+          [
+            "Demi-tour",
+            "Sentry1::kCardTurnAround"
+          ],
+          [
+            "Stationner",
+            "Sentry1::kCardPark"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry1_check_ball": {
+    "message0": "Sentry1 balle reconnue %1 index %2",
+    "tooltip": "Renvoie True si détecté, sinon False",
+    "args0": [
+      {
+        "options": [
+          [
+            "Balle de ping-pong",
+            "Sentry1::kBallTableTennis"
+          ],
+          [
+            "Balle de tennis",
+            "Sentry1::kBallTennis"
+          ]
+        ]
+      },
+      null
+    ]
+  }
+}

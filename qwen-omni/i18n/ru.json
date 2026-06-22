@@ -323,5 +323,21 @@
   "qwen_omni_pdm_mic_init": {
     "message0": "PDM microphone init object %1 %2 CLK %3 DATA %4 sample rate %5",
     "tooltip": "Initialize a PDM microphone input such as the built-in XIAO ESP32S3 Sense microphone. XIAO ESP32S3 Sense defaults: CLK 42, DATA 41"
+  },
+  "qwen_omni_es8311_mic_init": {
+    "message0": "ES8311 microphone init object %1 %2 SDA %3 SCL %4 address %5 BCLK %6 LRCLK %7 SDOUT %8 MCLK %9 sample rate %10 gain register %11",
+    "tooltip": "Initialize ES8311 codec microphone input by configuring the ADC path over I2C, then initializing the I2S recording object. Default address is 0x18 (decimal 24); default gain register is 0x24 (decimal 36)"
+  },
+  "qwen_omni_es8311_audio_init": {
+    "message0": "ES8311 microphone + speaker init object %1 %2 SDA %3 SCL %4 address %5 BCLK/SCLK %6 LR %7 DI/DAC input %8 DO/ADC output %9 MCK %10 sample rate %11 gain register %12 PA_EN %13",
+    "tooltip": "Initialize ES8311 codec microphone and speaker paths for the Microphone + Audio Amplifier board. Defaults from the silkscreen: SCLK 39, LR 2, DI 38, DO 40, MCK46, SDA 41, SCL 42. ES8311 uses 3V3; NS4150B amplifier uses 5V PA_EN defaults to -1 for no control; set a GPIO to drive an external amplifier enable pin high."
+  },
+  "qwen_omni_es8311_test_tone": {
+    "message0": "play prompt tone object %1 %2 frequency Hz %3 duration ms %4",
+    "tooltip": "Play a short prompt tone through the current I2S/ES8311 speaker object for record start/end cues or speaker checks"
+  },
+  "qwen_omni_i2s_prompt_tone": {
+    "message0": "play prompt tone object %1 %2 frequency Hz %3 duration ms %4",
+    "tooltip": "Play a short prompt tone through the current I2S/ES8311 speaker object for record start/end cues or speaker checks"
   }
 }

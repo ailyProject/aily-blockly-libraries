@@ -1,0 +1,186 @@
+[
+  {
+    "type": "homespan_begin",
+    "message0": "HomeSpan begin category %1 name %2 serial debug %3",
+    "message0_zh": "HomeSpan 开始 类型 %1 名称 %2 串口调试 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CATEGORY",
+        "options": [
+          [
+            "Lighting",
+            "Category::Lighting"
+          ],
+          [
+            "Bridges",
+            "Category::Bridges"
+          ],
+          [
+            "Fans",
+            "Category::Fans"
+          ],
+          [
+            "Outlets",
+            "Category::Outlets"
+          ],
+          [
+            "Sensors",
+            "Category::Sensors"
+          ],
+          [
+            "Switches",
+            "Category::Switches"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "field_checkbox",
+        "name": "SERIAL",
+        "checked": true
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Initialize HomeSpan and add homeSpan.poll() to loop.",
+    "tooltip_zh": "初始化 HomeSpan，并自动在 loop 中添加 homeSpan.poll()。"
+  },
+  {
+    "type": "homespan_poll",
+    "message0": "HomeSpan poll",
+    "message0_zh": "HomeSpan 轮询",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Run HomeSpan polling.",
+    "tooltip_zh": "执行 HomeSpan 轮询。"
+  },
+  {
+    "type": "homespan_accessory_info",
+    "message0": "HomeSpan accessory name %1 manufacturer %2 model %3",
+    "message0_zh": "HomeSpan 配件 名称 %1 厂商 %2 型号 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MANUFACTURER",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MODEL",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#388E3C",
+    "tooltip": "Create a new accessory with AccessoryInformation.",
+    "tooltip_zh": "创建带配件信息的新配件。"
+  },
+  {
+    "type": "homespan_lightbulb_service",
+    "message0": "HomeSpan lightbulb service initial on %1",
+    "message0_zh": "HomeSpan 灯泡服务 初始开 %1",
+    "args0": [
+      {
+        "type": "field_checkbox",
+        "name": "ON",
+        "checked": false
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#388E3C",
+    "tooltip": "Add a basic LightBulb service with On characteristic.",
+    "tooltip_zh": "添加带 On 特征的基础灯泡服务。"
+  },
+  {
+    "type": "homespan_led_lightbulb_service",
+    "message0": "HomeSpan LED lightbulb pin %1",
+    "message0_zh": "HomeSpan LED 灯泡 引脚 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PIN",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#388E3C",
+    "tooltip": "Add a LightBulb service that writes HomeKit On state to a GPIO pin.",
+    "tooltip_zh": "添加将 HomeKit 开关状态写到 GPIO 的灯泡服务。"
+  },
+  {
+    "type": "homespan_outlet_service",
+    "message0": "HomeSpan outlet service initial on %1",
+    "message0_zh": "HomeSpan 插座服务 初始开 %1",
+    "args0": [
+      {
+        "type": "field_checkbox",
+        "name": "ON",
+        "checked": false
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#388E3C",
+    "tooltip": "Add a basic Outlet service.",
+    "tooltip_zh": "添加基础插座服务。"
+  },
+  {
+    "type": "homespan_set_pairing_code",
+    "message0": "HomeSpan pairing code %1",
+    "message0_zh": "HomeSpan 配对码 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "CODE",
+        "text": "11122333"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#689F38",
+    "tooltip": "Set HomeKit pairing code.",
+    "tooltip_zh": "设置 HomeKit 配对码。"
+  },
+  {
+    "type": "homespan_set_qr_id",
+    "message0": "HomeSpan QR id %1",
+    "message0_zh": "HomeSpan 二维码 ID %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "QRID",
+        "text": "HSPN"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#689F38",
+    "tooltip": "Set HomeSpan QR setup id.",
+    "tooltip_zh": "设置 HomeSpan 二维码配置 ID。"
+  }
+]

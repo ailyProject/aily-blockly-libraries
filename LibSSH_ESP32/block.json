@@ -1,0 +1,290 @@
+[
+  {
+    "type": "libssh_begin",
+    "message0": "LibSSH begin",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#263238",
+    "tooltip": "Initialize the LibSSH ESP32 runtime once before using SSH sessions.",
+    "icon": "fa-solid fa-terminal"
+  },
+  {
+    "type": "libssh_connect_password",
+    "message0": "SSH connect session %1 host %2 user %3 password %4 port %5 timeout s %6 log %7",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "sshSession" },
+      { "type": "input_value", "name": "HOST", "check": ["String"] },
+      { "type": "input_value", "name": "USER", "check": ["String"] },
+      { "type": "input_value", "name": "PASSWORD", "check": ["String"] },
+      { "type": "input_value", "name": "PORT", "check": ["Number"] },
+      { "type": "input_value", "name": "TIMEOUT", "check": ["Number"] },
+      {
+        "type": "field_dropdown",
+        "name": "LOG",
+        "options": [["none", "0"], ["warning", "1"], ["protocol", "2"], ["packet", "3"], ["function", "4"]]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "Create, configure, connect, and password-authenticate an SSH session.",
+    "icon": "fa-solid fa-lock"
+  },
+  {
+    "type": "libssh_session_create",
+    "message0": "create SSH session %1",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "sshSession" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "Create an empty ssh_session handle.",
+    "icon": "fa-solid fa-circle-plus"
+  },
+  {
+    "type": "libssh_session_set_options",
+    "message0": "set SSH session %1 host %2 user %3 port %4 timeout s %5 log %6",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "sshSession", "variableTypes": ["ssh_session"], "defaultType": "ssh_session" },
+      { "type": "input_value", "name": "HOST", "check": ["String"] },
+      { "type": "input_value", "name": "USER", "check": ["String"] },
+      { "type": "input_value", "name": "PORT", "check": ["Number"] },
+      { "type": "input_value", "name": "TIMEOUT", "check": ["Number"] },
+      {
+        "type": "field_dropdown",
+        "name": "LOG",
+        "options": [["none", "0"], ["warning", "1"], ["protocol", "2"], ["packet", "3"], ["function", "4"]]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "Set host, user, port, timeout, and log verbosity on an SSH session.",
+    "icon": "fa-solid fa-sliders"
+  },
+  {
+    "type": "libssh_session_connect",
+    "message0": "SSH session %1 connect succeeds",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "sshSession", "variableTypes": ["ssh_session"], "defaultType": "ssh_session" }
+    ],
+    "output": "Boolean",
+    "colour": "#2E7D32",
+    "tooltip": "Connect an SSH session and return true on success.",
+    "icon": "fa-solid fa-link"
+  },
+  {
+    "type": "libssh_session_auth_password",
+    "message0": "SSH session %1 password auth user %2 password %3 succeeds",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "sshSession", "variableTypes": ["ssh_session"], "defaultType": "ssh_session" },
+      { "type": "input_value", "name": "USER", "check": ["String"] },
+      { "type": "input_value", "name": "PASSWORD", "check": ["String"] }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#2E7D32",
+    "tooltip": "Authenticate an SSH session with username and password.",
+    "icon": "fa-solid fa-key"
+  },
+  {
+    "type": "libssh_session_connected",
+    "message0": "SSH session %1 is connected",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "sshSession", "variableTypes": ["ssh_session"], "defaultType": "ssh_session" }
+    ],
+    "output": "Boolean",
+    "colour": "#2E7D32",
+    "tooltip": "Return true when the SSH session is connected.",
+    "icon": "fa-solid fa-signal"
+  },
+  {
+    "type": "libssh_session_error",
+    "message0": "SSH session %1 error text",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "sshSession", "variableTypes": ["ssh_session"], "defaultType": "ssh_session" }
+    ],
+    "output": "String",
+    "colour": "#C62828",
+    "tooltip": "Return the current libssh error text for this session.",
+    "icon": "fa-solid fa-triangle-exclamation"
+  },
+  {
+    "type": "libssh_session_disconnect",
+    "message0": "SSH session %1 disconnect free %2 finalize %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "sshSession", "variableTypes": ["ssh_session"], "defaultType": "ssh_session" },
+      { "type": "field_checkbox", "name": "FREE", "checked": true },
+      { "type": "field_checkbox", "name": "FINALIZE", "checked": false }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C62828",
+    "tooltip": "Disconnect a session, optionally free the handle and finalize libssh.",
+    "icon": "fa-solid fa-link-slash"
+  },
+  {
+    "type": "libssh_channel_create",
+    "message0": "create SSH channel %1 for session %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "sshChannel" },
+      { "type": "field_variable", "name": "SESSION", "variable": "sshSession", "variableTypes": ["ssh_session"], "defaultType": "ssh_session" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00695C",
+    "tooltip": "Create a channel handle for an SSH session.",
+    "icon": "fa-solid fa-stream"
+  },
+  {
+    "type": "libssh_channel_exec",
+    "message0": "SSH channel %1 exec command %2 succeeds",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "sshChannel", "variableTypes": ["ssh_channel"], "defaultType": "ssh_channel" },
+      { "type": "input_value", "name": "COMMAND", "check": ["String"] }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#00695C",
+    "tooltip": "Open a session channel and request remote command execution.",
+    "icon": "fa-solid fa-terminal"
+  },
+  {
+    "type": "libssh_channel_read",
+    "message0": "read SSH channel %1 max bytes %2 timeout ms %3 stream %4",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "sshChannel", "variableTypes": ["ssh_channel"], "defaultType": "ssh_channel" },
+      { "type": "input_value", "name": "MAX_BYTES", "check": ["Number"] },
+      { "type": "input_value", "name": "TIMEOUT", "check": ["Number"] },
+      {
+        "type": "field_dropdown",
+        "name": "STREAM",
+        "options": [["stdout", "0"], ["stderr", "1"]]
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#00695C",
+    "tooltip": "Read text from an SSH channel. Timeout -1 uses blocking read.",
+    "icon": "fa-solid fa-download"
+  },
+  {
+    "type": "libssh_channel_write",
+    "message0": "write SSH channel %1 data %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "sshChannel", "variableTypes": ["ssh_channel"], "defaultType": "ssh_channel" },
+      { "type": "input_value", "name": "DATA", "check": ["String"] }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00695C",
+    "tooltip": "Write text to an SSH channel.",
+    "icon": "fa-solid fa-upload"
+  },
+  {
+    "type": "libssh_channel_close",
+    "message0": "close SSH channel %1",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "sshChannel", "variableTypes": ["ssh_channel"], "defaultType": "ssh_channel" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00695C",
+    "tooltip": "Send EOF, close, free, and clear an SSH channel handle.",
+    "icon": "fa-solid fa-xmark"
+  },
+  {
+    "type": "libssh_scp_open",
+    "message0": "open SCP %1 session %2 mode %3 location %4",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "sshScp" },
+      { "type": "field_variable", "name": "SESSION", "variable": "sshSession", "variableTypes": ["ssh_session"], "defaultType": "ssh_session" },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [["read", "SSH_SCP_READ"], ["write", "SSH_SCP_WRITE"]]
+      },
+      { "type": "input_value", "name": "LOCATION", "check": ["String"] }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A1B9A",
+    "tooltip": "Create and initialize an SCP handle for a remote location.",
+    "icon": "fa-solid fa-file-arrow-down"
+  },
+  {
+    "type": "libssh_scp_read_text",
+    "message0": "read SCP %1 text max bytes %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "sshScp", "variableTypes": ["ssh_scp"], "defaultType": "ssh_scp" },
+      { "type": "input_value", "name": "MAX_BYTES", "check": ["Number"] }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#6A1B9A",
+    "tooltip": "Accept the next SCP file request and read text up to the byte limit.",
+    "icon": "fa-solid fa-file-lines"
+  },
+  {
+    "type": "libssh_scp_write_text",
+    "message0": "write SCP %1 file %2 text %3 perms %4 succeeds",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "sshScp", "variableTypes": ["ssh_scp"], "defaultType": "ssh_scp" },
+      { "type": "input_value", "name": "FILENAME", "check": ["String"] },
+      { "type": "input_value", "name": "TEXT", "check": ["String"] },
+      { "type": "input_value", "name": "PERMS", "check": ["Number"] }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#6A1B9A",
+    "tooltip": "Push one text file through an initialized write-mode SCP handle.",
+    "icon": "fa-solid fa-file-arrow-up"
+  },
+  {
+    "type": "libssh_scp_last_size",
+    "message0": "last SCP file size",
+    "output": "Number",
+    "colour": "#6A1B9A",
+    "tooltip": "Return the file size captured by the last SCP read request.",
+    "icon": "fa-solid fa-ruler"
+  },
+  {
+    "type": "libssh_scp_close",
+    "message0": "close SCP %1",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "sshScp", "variableTypes": ["ssh_scp"], "defaultType": "ssh_scp" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A1B9A",
+    "tooltip": "Close, free, and clear an SCP handle.",
+    "icon": "fa-solid fa-folder-closed"
+  },
+  {
+    "type": "libssh_status_code",
+    "message0": "LibSSH status %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CODE",
+        "options": [
+          ["SSH_OK", "SSH_OK"],
+          ["SSH_ERROR", "SSH_ERROR"],
+          ["SSH_AUTH_SUCCESS", "SSH_AUTH_SUCCESS"],
+          ["SSH_AUTH_DENIED", "SSH_AUTH_DENIED"],
+          ["SSH_SCP_REQUEST_NEWFILE", "SSH_SCP_REQUEST_NEWFILE"],
+          ["SSH_SCP_REQUEST_EOF", "SSH_SCP_REQUEST_EOF"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#455A64",
+    "tooltip": "Return a libssh status or SCP request constant.",
+    "icon": "fa-solid fa-hashtag"
+  }
+]

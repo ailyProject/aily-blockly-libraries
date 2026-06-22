@@ -1,0 +1,792 @@
+{
+  "toolbox_name": "Home Assistant",
+  "toolbox_labels": {
+    "设备与连接": "デバイスと接続",
+    "自定义MQTT": "カスタムMQTT",
+    "实体通用": "エンティティユニバーサル",
+    "传感器": "センサー",
+    "开关与按钮": "スイッチとボタン",
+    "灯光": "ライト",
+    "数字与选择": "数字と選択肢",
+    "命令值": "指令値"
+  },
+  "ha_device_create": {
+    "message0": "HA デバイスの作成 %1 一意の ID %2",
+    "tooltip": "Home Assistant デバイス オブジェクトを作成します。一意の ID が検出とエンティティの所有権に使用されます。"
+  },
+  "ha_device_set_info": {
+    "message0": "%1 デバイス情報の設定 名前 %2 メーカー %3 モデル %4 ソフトウェアバージョン %5 URL の設定 %6",
+    "tooltip": "Home AssistantにはHAデバイスが表示する基本情報を設定します"
+  },
+  "ha_device_enable_availability": {
+    "message0": "%1 共有の可用性を有効にする %2 Last Will %3",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "はい",
+            "true"
+          ],
+          [
+            "いいえ",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "はい",
+            "true"
+          ],
+          [
+            "いいえ",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "デバイスのオンライン/オフライン ステータスを有効にします。異常な切断時に Last Will がオフラインを報告します。"
+  },
+  "ha_mqtt_create": {
+    "message0": "作成 HA MQTT %1 ネットワーク クライアント %2 タイプ %3 デバイス %4 エンティティの最大数 %5",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "WiFi",
+            "WIFI"
+          ],
+          [
+            "イーサネット",
+            "ETHERNET"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "tooltip": "HAMqtt オブジェクトを作成し、ループ内の接続を自動的に維持します。エンティティ作成ブロックの前に配置してください"
+  },
+  "ha_mqtt_begin": {
+    "message0": "%1 は MQTT に接続します ホスト %2 ポート %3 ユーザー名 %4 パスワード %5",
+    "tooltip": "MQTT サーバーと認証情報を設定すると、ライブラリはループ内で自動的に接続と再接続を行います。"
+  },
+  "ha_mqtt_set_prefixes": {
+    "message0": "%1 は検出プレフィックス %2 データ プレフィックス %3 を設定します",
+    "tooltip": "Home Assistant 検出トピック プレフィックスとデータ トピック プレフィックスを設定します"
+  },
+  "ha_mqtt_set_keep_alive": {
+    "message0": "%1 は、%2 秒間キープアライブを設定します",
+    "tooltip": "MQTT から KeepAlive までの間隔を設定します。デフォルトは 15 秒です。"
+  },
+  "ha_mqtt_set_buffer_size": {
+    "message0": "%1 バッファ %2 バイトを設定します",
+    "tooltip": "基礎となる PubSubClient バッファ サイズを設定します。複雑な検出構成は、適切に増やすことができます。"
+  },
+  "ha_mqtt_loop": {
+    "message0": "%1 は HA MQTT 通信を処理します",
+    "tooltip": "MQTT ループ処理を手動で呼び出します。作成ブロックはデフォルトで自動的に追加されます"
+  },
+  "ha_mqtt_connected": {
+    "message0": "%1 已连接HA MQTT",
+    "tooltip": "HA MQTT がサーバーに接続されているかどうかを返します"
+  },
+  "ha_mqtt_state": {
+    "message0": "%1 接続ステータス コード",
+    "tooltip": "HAMqtt 接続ステータス コードを返します。0 は接続済みを意味します"
+  },
+  "ha_mqtt_publish": {
+    "message0": "%1 カスタム テーマを公開 %2 コンテンツ %3 %4 を予約",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "通过HAMqtt发布自定义MQTT消息"
+  },
+  "ha_mqtt_subscribe": {
+    "message0": "%1 カスタム トピック %2 を購読する",
+    "tooltip": "カスタム MQTT トピックをサブスクライブします。通常、接続されたコールバックで呼び出されます。"
+  },
+  "ha_mqtt_disconnect": {
+    "message0": "%1 断开HA MQTT",
+    "tooltip": "断开HAMqtt连接并停止自动重连，直到再次begin"
+  },
+  "ha_mqtt_on_connected": {
+    "message0": "%1 接続成功時",
+    "message1": "%1を実行",
+    "tooltip": "注册MQTT连接成功回调，适合在重连后订阅自定义主题"
+  },
+  "ha_mqtt_on_message": {
+    "message0": "%1 がカスタム MQTT メッセージを受信したとき",
+    "message1": "%1を実行",
+    "tooltip": "カスタム MQTT メッセージ コールバックを登録します。件名、内容、長さを対応する値ブロックで読み取ることができます"
+  },
+  "ha_mqtt_message_topic": {
+    "message0": "HA MQTT コールバック トピック",
+    "tooltip": "读取当前MQTT消息回调中的主题"
+  },
+  "ha_mqtt_message_payload": {
+    "message0": "HA MQTT コールバック コンテンツ",
+    "tooltip": "現在の MQTT メッセージ コールバックのコンテンツ テキストを読み取ります。"
+  },
+  "ha_mqtt_message_length": {
+    "message0": "HA MQTT コールバック コンテンツの長さ",
+    "tooltip": "現在の MQTT メッセージ コールバックでコンテンツのバイト長を読み取ります。"
+  },
+  "ha_entity_set_info": {
+    "message0": "%1 エンティティ名を設定 %2 オブジェクト ID %3 アイコン %4",
+    "tooltip": "HA エンティティ、オブジェクト ID、および Material Design アイコンの表示名を設定します。"
+  },
+  "ha_entity_set_availability": {
+    "message0": "%1 设置实体可用 %2",
+    "tooltip": "エンティティのオンラインまたはオフラインのステータスを報告する"
+  },
+  "ha_sensor_create_text": {
+    "message0": "HA テキスト センサーの作成 %1 一意の ID %2 関数 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "デフォルト",
+            "HASensor::DefaultFeatures"
+          ],
+          [
+            "JSON 属性",
+            "HASensor::JsonAttributesFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "テキストステータスを報告するためのHome Assistantセンサーを作成します"
+  },
+  "ha_sensor_create_number": {
+    "message0": "HA 値センサーの作成 %1 一意の ID %2 精度 %3 関数 %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "整数",
+            "HASensorNumber::PrecisionP0"
+          ],
+          [
+            "小数点第1位",
+            "HASensorNumber::PrecisionP1"
+          ],
+          [
+            "小数点以下2桁",
+            "HASensorNumber::PrecisionP2"
+          ],
+          [
+            "小数点以下3桁",
+            "HASensorNumber::PrecisionP3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "デフォルト",
+            "HASensor::DefaultFeatures"
+          ],
+          [
+            "JSON 属性",
+            "HASensor::JsonAttributesFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "デジタル ステータスを報告するための Home Assistant センサーを作成します"
+  },
+  "ha_sensor_settings": {
+    "message0": "%1 センサー カテゴリの設定 %2 ステータス カテゴリ %3 ユニット %4 有効期限 %5 秒 強制更新 %6",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "センサーデバイスのカテゴリ、ステータスカテゴリ、単位、有効期限、強制更新を設定します"
+  },
+  "ha_sensor_set_value": {
+    "message0": "%1 はテキスト値 %2 を報告します",
+    "tooltip": "テキスト センサー値を Home Assistant に報告します"
+  },
+  "ha_sensor_set_json_attributes": {
+    "message0": "%1 は JSON 属性を報告します %2",
+    "tooltip": "JSON 属性機能が有効になっているセンサーの属性 JSON を公開します。"
+  },
+  "ha_sensor_number_set_value": {
+    "message0": "%1 報告された値 %2 必須 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "センサーの数値をHome Assistantに報告します"
+  },
+  "ha_binary_sensor_create": {
+    "message0": "HA バイナリ センサーの作成 %1 一意の ID %2",
+    "tooltip": "オン/オフ ステータスを報告する Home Assistant バイナリ センサーを作成します"
+  },
+  "ha_binary_sensor_settings": {
+    "message0": "%1 バイナリ センサー カテゴリを設定します。 %2 有効期限は %3 秒です。",
+    "tooltip": "バイナリ センサー カテゴリとステータスの有効期限を構成する"
+  },
+  "ha_binary_sensor_set_state": {
+    "message0": "%1 はバイナリステータスを報告します %2 必須 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "バイナリセンサーのオン/オフステータスをレポートします"
+  },
+  "ha_binary_sensor_get_state": {
+    "message0": "%1 の現在のバイナリ ステータス",
+    "tooltip": "バイナリセンサーの現在のステータスを読み取ります"
+  },
+  "ha_switch_create": {
+    "message0": "HA スイッチ %1 の一意の ID %2 を作成します",
+    "tooltip": "Home Assistantから制御可能なスイッチエンティティを作成します"
+  },
+  "ha_switch_settings": {
+    "message0": "%1 設定スイッチ カテゴリ %2 予約コマンド %3 楽観モード %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "スイッチクラス、コマンド保持、およびオプティミスティックモードの設定"
+  },
+  "ha_switch_set_state": {
+    "message0": "%1 はスイッチのステータスを報告します %2 必須 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "スイッチのステータスを Home Assistant に報告します"
+  },
+  "ha_switch_get_state": {
+    "message0": "%1 現在のスイッチのステータス",
+    "tooltip": "スイッチの現在のステータスを読み取る"
+  },
+  "ha_switch_on_command": {
+    "message0": "%1が切り替えコマンドを受信したとき",
+    "message1": "%1を実行",
+    "tooltip": "Home Assistant が発行したスイッチコマンドを処理し、「Command Boolean Status」を使用してターゲットのステータスを読み取ります"
+  },
+  "ha_button_create": {
+    "message0": "HA ボタンの作成 %1 一意の ID %2",
+    "tooltip": "Home Assistant パネル ボタン エンティティを作成する"
+  },
+  "ha_button_settings": {
+    "message0": "%1 ボタン カテゴリの設定 %2 予約コマンド %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "ボタンのカテゴリとコマンドの保持を構成する"
+  },
+  "ha_button_on_command": {
+    "message0": "%1ボタン押下時",
+    "message1": "%1を実行",
+    "tooltip": "Home Assistant ボタンのクリック コマンドを処理します"
+  },
+  "ha_light_create": {
+    "message0": "HA の作成 ライト %1 固有の ID %2 関数 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "スイッチのみ",
+            "HALight::DefaultFeatures"
+          ],
+          [
+            "輝度",
+            "HALight::BrightnessFeature"
+          ],
+          [
+            "色温度",
+            "HALight::ColorTemperatureFeature"
+          ],
+          [
+            "RGB",
+            "HALight::RGBFeature"
+          ],
+          [
+            "亮度+RGB",
+            "HALight::BrightnessFeature | HALight::RGBFeature"
+          ],
+          [
+            "全て",
+            "HALight::BrightnessFeature | HALight::ColorTemperatureFeature | HALight::RGBFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Home Assistant ライト エンティティを作成し、明るさ、色温度、RGB 関数を選択します"
+  },
+  "ha_light_settings": {
+    "message0": "%1 ライトの設定 予約コマンド %2 楽観モード %3 輝度範囲 %4 最小色温度 %5 最大色温度 %6",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ],
+    "tooltip": "ライトのコマンドホールド、オプティミスティックモード、輝度範囲、色温度範囲を設定します。"
+  },
+  "ha_light_set_state": {
+    "message0": "%1 レポート ライト スイッチ %2 必須 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "ライトスイッチのステータスをレポートする"
+  },
+  "ha_light_set_brightness": {
+    "message0": "%1 は明るさを報告します %2 必須 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "ライトの明るさをレポートします。範囲は明るさの範囲設定によって決まります。"
+  },
+  "ha_light_set_color_temperature": {
+    "message0": "%1 は色温度を報告します %2 mired 必須 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "ランプの色温度をレポートします。単位は mired です。"
+  },
+  "ha_light_set_rgb": {
+    "message0": "%1 レポート RGB 赤 %2 緑 %3 青 %4 必須 %5",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "レポートライト RGB の色、3 つのチャネル範囲 0 ～ 255"
+  },
+  "ha_light_get_state": {
+    "message0": "%1 現在のライト スイッチ",
+    "tooltip": "ライトの現在のスイッチ状態を読み取ります"
+  },
+  "ha_light_get_brightness": {
+    "message0": "%1 現在の明るさ",
+    "tooltip": "現在のライトの明るさを読み取ります"
+  },
+  "ha_light_on_state_command": {
+    "message0": "%1がライトスイッチコマンドを受信したとき",
+    "message1": "%1を実行",
+    "tooltip": "ライトスイッチコマンドを処理するには、コマンドブールステータス値ブロックを使用してターゲットの状態を読み取ることができます。"
+  },
+  "ha_light_on_brightness_command": {
+    "message0": "%1が明るさコマンドを受信したとき",
+    "message1": "%1を実行",
+    "tooltip": "ランプ輝度コマンドを処理するには、コマンド輝度値ブロックを使用して目標輝度を読み取ることができます。"
+  },
+  "ha_light_on_color_temperature_command": {
+    "message0": "%1が色温度コマンドを受信した場合",
+    "message1": "%1を実行",
+    "tooltip": "ランプ色温度コマンドを処理するには、コマンド色温度値ブロックを使用して目標色温度を読み取ることができます。"
+  },
+  "ha_light_on_rgb_command": {
+    "message0": "%1がRGBコマンドを受信したとき",
+    "message1": "%1を実行",
+    "tooltip": "ライト RGB コマンドを処理するには、コマンド RGB value block を使用してターゲット カラーを読み取ることができます。"
+  },
+  "ha_number_create": {
+    "message0": "HA 数値制御の作成 %1 一意の ID %2 精度 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "整数",
+            "HANumber::PrecisionP0"
+          ],
+          [
+            "小数点第1位",
+            "HANumber::PrecisionP1"
+          ],
+          [
+            "小数点以下2桁",
+            "HANumber::PrecisionP2"
+          ],
+          [
+            "小数点以下3桁",
+            "HANumber::PrecisionP3"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Home Assistant 数値入力/スライダー エンティティを作成する"
+  },
+  "ha_number_settings": {
+    "message0": "%1 セット番号 カテゴリ %2 ユニット %3 モード %4 最小 %5 最大 %6 ステップ サイズ %7 予約済み %8 楽観的 %9",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "自動",
+            "HANumber::ModeAuto"
+          ],
+          [
+            "入力ボックス",
+            "HANumber::ModeBox"
+          ],
+          [
+            "スライダー",
+            "HANumber::ModeSlider"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "デジタル エンティティのカテゴリ、単位、表示モード、範囲、ステップ サイズ、およびコマンド動作を構成します。"
+  },
+  "ha_number_set_state": {
+    "message0": "%1 はデジタル ステータスを報告します %2 必須 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "デジタルエンティティの現在の価値を報告する"
+  },
+  "ha_number_get_state": {
+    "message0": "%1 現在の数値",
+    "tooltip": "デジタル エンティティの現在の値を読み取る"
+  },
+  "ha_number_on_command": {
+    "message0": "%1 が数値コマンドを受信した場合",
+    "message1": "%1を実行",
+    "tooltip": "Home Assistant 数値変更コマンドを処理すると、数値コマンド値ブロックを使用してターゲット値を読み取ることができます"
+  },
+  "ha_select_create": {
+    "message0": "HA ドロップダウン選択の作成 %1 一意の ID %2",
+    "tooltip": "Home Assistant ドロップダウン選択エンティティを作成する"
+  },
+  "ha_select_settings": {
+    "message0": "%1 設定オプション %2 予約済み %3 楽観的 %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "ドロップダウン選択オプションを構成します。複数のオプションは英語のセミコロンで区切られます。"
+  },
+  "ha_select_set_state": {
+    "message0": "%1 レポート選択インデックス %2 必須 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "いいえ",
+            "false"
+          ],
+          [
+            "はい",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "オプションのインデックスによって現在の選択をレポートします。-1 は選択なしを意味します"
+  },
+  "ha_select_get_state": {
+    "message0": "%1 現在の選択インデックス",
+    "tooltip": "現在選択されているインデックスを読み取ります"
+  },
+  "ha_select_get_option": {
+    "message0": "%1 現在のオプションのテキスト",
+    "tooltip": "現在選択されているオプションのテキストを読みます"
+  },
+  "ha_select_on_command": {
+    "message0": "%1がselectコマンドを受信したとき",
+    "message1": "%1を実行",
+    "tooltip": "Home Assistant ドロップダウン選択コマンドを処理すると、選択コマンドのインデックス値ブロックを使用してターゲット オプションを読み取ることができます"
+  },
+  "ha_command_bool_state": {
+    "message0": "コマンドのブールステータス",
+    "tooltip": "スイッチまたはライトスイッチコマンドでターゲットのブール状態を読み取ります。"
+  },
+  "ha_command_brightness": {
+    "message0": "コマンドの明るさ",
+    "tooltip": "ランプ輝度コマンドで目標輝度を読み取る"
+  },
+  "ha_command_color_temperature": {
+    "message0": "コマンド色温度",
+    "tooltip": "ランプ色温度コマンドで目標色温度を読み取ります。"
+  },
+  "ha_command_rgb_red": {
+    "message0": "コマンド RGB 赤",
+    "tooltip": "ライト RGB コマンドで赤のチャネルを読み取ります"
+  },
+  "ha_command_rgb_green": {
+    "message0": "命令RGB绿色",
+    "tooltip": "ライト RGB コマンドで緑のチャネルを読み取ります"
+  },
+  "ha_command_rgb_blue": {
+    "message0": "命令RGB蓝色",
+    "tooltip": "ライト RGB コマンドで青のチャネルを読み取ります"
+  },
+  "ha_number_command_is_set": {
+    "message0": "数値コマンドには値があります",
+    "tooltip": "読み取りデジタルコマンドが有効な値を運ぶかどうかに関係なく、リセットコマンドは「いいえ」を返します。"
+  },
+  "ha_number_command_value": {
+    "message0": "数値指令値",
+    "tooltip": "数値コマンドで目標値を読み取る"
+  },
+  "ha_select_command_index": {
+    "message0": "コマンドインデックスの選択",
+    "tooltip": "ドロップダウン選択コマンドでターゲット オプション インデックスを読み取る"
+  }
+}

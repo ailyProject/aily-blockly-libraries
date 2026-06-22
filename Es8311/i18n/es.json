@@ -8,8 +8,14 @@
       null,
       {
         "options": [
-          ["0x18 (predeterminado)", "0x18"],
-          ["0x30", "0x30"]
+          [
+            "0x18 (predeterminado)",
+            "0x18"
+          ],
+          [
+            "0x30",
+            "0x30"
+          ]
         ]
       }
     ]
@@ -42,10 +48,6 @@
     "message0": "ES8311 %1 detener grabación/reproducción",
     "tooltip": "Detener grabación o reproducción actual, limpiar búfer DMA I2S"
   },
-  "es8311_sound_detected": {
-    "message0": "ES8311 %1 sonido detectado umbral %2",
-    "tooltip": "Detectar si el sonido ambiental supera el umbral (0~100), devuelve true si se supera"
-  },
   "es8311_mute": {
     "message0": "ES8311 %1 %2",
     "tooltip": "Controlar estado de silencio ES8311",
@@ -53,10 +55,22 @@
       null,
       {
         "options": [
-          ["Activar sonido", "0"],
-          ["Silenciar salida", "1"],
-          ["Silenciar micrófono", "2"],
-          ["Silenciar todo", "3"]
+          [
+            "Activar sonido",
+            "0"
+          ],
+          [
+            "Silenciar salida",
+            "1"
+          ],
+          [
+            "Silenciar micrófono",
+            "2"
+          ],
+          [
+            "Silenciar todo",
+            "3"
+          ]
         ]
       }
     ]
@@ -72,8 +86,14 @@
       null,
       {
         "options": [
-          ["Activar", "true"],
-          ["Desactivar", "false"]
+          [
+            "Activar",
+            "true"
+          ],
+          [
+            "Desactivar",
+            "false"
+          ]
         ]
       }
     ]
@@ -95,16 +115,38 @@
     "tooltip": "Configura la API Key de DashScope y la URL base en modo compatible. La conexión WiFi se gestiona con los bloques WiFi existentes"
   },
   "es8311_qwen_audio_chat": {
-    "message0": "ES8311 %1 subir grabación actual a Qwen texto %2 modelo %3",
-    "tooltip": "Sube la grabación actual a Qwen Omni, reproduce la respuesta de voz en tiempo real y guarda el resultado final en texto",
+    "message0": "ES8311 %1 enviar grabación a Qwen prompt %2 modelo %3 voz %4 reproducción %5",
+    "tooltip": "Sube la grabación a Qwen Omni, reproduce la respuesta de voz en streaming y guarda el texto. El modo segundo plano retorna al recibir los datos; interrumpa con el bloque de detener",
     "args0": [
       null,
       null,
       {
         "options": [
-          ["qwen3.5-omni-plus (Recomendado)", "qwen3.5-omni-plus"],
-          ["qwen-omni-turbo", "qwen-omni-turbo"],
-          ["qwen3-omni-flash", "qwen3-omni-flash"]
+          [
+            "qwen3.5-omni-plus (Recomendado)",
+            "qwen3.5-omni-plus"
+          ],
+          [
+            "qwen-omni-turbo",
+            "qwen-omni-turbo"
+          ],
+          [
+            "qwen3-omni-flash",
+            "qwen3-omni-flash"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "esperar a terminar",
+            "WAIT"
+          ],
+          [
+            "segundo plano (interrumpible)",
+            "BACKGROUND"
+          ]
         ]
       }
     ]
@@ -120,5 +162,37 @@
   "es8311_qwen_get_last_error": {
     "message0": "obtener último error de ES8311 AI",
     "tooltip": "Devuelve el mensaje de error de la solicitud más reciente de comprensión de audio en la nube"
+  },
+  "es8311_record_start": {
+    "message0": "ES8311 %1 iniciar grabación (segundo plano)",
+    "tooltip": "Inicia la grabación en segundo plano y retorna de inmediato; deténgala con el bloque de detener grabación, se detiene al llenarse el búfer"
+  },
+  "es8311_record_stop": {
+    "message0": "ES8311 %1 detener grabación",
+    "tooltip": "Detiene la grabación y guarda la longitud real (menos de 0,1s no cuenta como grabación)"
+  },
+  "es8311_is_recording": {
+    "message0": "ES8311 %1 está grabando",
+    "tooltip": "Si la grabación en segundo plano está en curso"
+  },
+  "es8311_is_speaking": {
+    "message0": "ES8311 %1 está reproduciendo voz",
+    "tooltip": "Si el audio en streaming/segundo plano sigue reproduciéndose"
+  },
+  "es8311_sound_level": {
+    "message0": "ES8311 %1 nivel de sonido actual",
+    "tooltip": "Muestrea el micrófono en tiempo real y devuelve el nivel (0~100, requiere I2S configurado)"
+  },
+  "es8311_stream_begin": {
+    "message0": "ES8311 %1 iniciar reproducción en streaming frecuencia %2",
+    "tooltip": "Inicia la reproducción en streaming remuestreando a 16kHz"
+  },
+  "es8311_stream_end": {
+    "message0": "ES8311 %1 terminar reproducción en streaming",
+    "tooltip": "Termina la reproducción en streaming y limpia el búfer DMA I2S"
+  },
+  "es8311_stream_play_url": {
+    "message0": "ES8311 %1 reproducir audio desde URL %2 frecuencia %3",
+    "tooltip": "Descarga y reproduce PCM/WAV mono de 16 bits desde http(s) en streaming (requiere WiFi)"
   }
 }

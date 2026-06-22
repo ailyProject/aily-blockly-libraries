@@ -1,0 +1,168 @@
+{
+  "name": "DeepSeek AI",
+  "description": "Блочная библиотека для официального DeepSeek API, поддерживающая чат, многоходовой чат, потоковую передачу, режим мышления и вывод JSON.",
+  "toolbox_name": "DeepSeek AI",
+  "toolbox_labels": {
+    "流式": "Потоковая передача",
+    "状态": "Статус"
+  },
+  "deepseek_ai_config": {
+    "message0": "настроить DeepSeek API Ключ %1 База URL %2",
+    "tooltip": "Настройте ключ DeepSeek API и адрес конечной точки. Базовый URL по умолчанию — https://api.deepseek.com.."
+  },
+  "deepseek_ai_set_system_prompt": {
+    "message0": "установить системное приглашение DeepSeek %1",
+    "tooltip": "Установите системное сообщение, используемое последующими запросами DeepSeek."
+  },
+  "deepseek_ai_chat": {
+    "message0": "Сообщение чата DeepSeek %1, модель %2",
+    "tooltip": "Отправьте одноразовый запрос в текстовый чат и верните ответ модели.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash (рекомендуется)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (совместим с устаревшими версиями)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_thinking_chat": {
+    "message0": "Мыслительное сообщение DeepSeek в чате %1 модель %2 усилие рассуждения %3",
+    "tooltip": "Включите режим мышления DeepSeek и верните окончательный ответ. Используйте последний блок содержимого рассуждений, чтобы прочитать reasoning_content.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-pro (рекомендуется)",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-reasoner (совместим с устаревшими версиями)",
+            "deepseek-reasoner"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "высокий",
+            "high"
+          ],
+          [
+            "Макс",
+            "max"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_history_chat": {
+    "message0": "Многоходовое сообщение чата DeepSeek %1, модель %2",
+    "tooltip": "Отправьте запрос в чат с историей разговоров и автоматически запишите это сообщение пользователя и ответ модели.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash (рекомендуется)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (совместим с устаревшими версиями)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_json_chat": {
+    "message0": "Выходное сообщение DeepSeek JSON %1 модель %2",
+    "tooltip": "Включите response_format=json_object. В приглашении должно быть указано, что вывод должен быть JSON.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-pro (рекомендуется)",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_stream_chat": {
+    "message0": "Потоковое сообщение чата DeepSeek %1, модель %2",
+    "tooltip": "Запросите модель в потоковом режиме. Каждый полученный фрагмент текста запускает настроенный обратный вызов потоковой передачи.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash (рекомендуется)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (совместим с устаревшими версиями)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_set_stream_callback": {
+    "message0": "установить обратный вызов потоковой передачи DeepSeek %1",
+    "tooltip": "Настройте блоки для запуска при поступлении потокового фрагмента DeepSeek. Прочитайте текущий фрагмент внутри обратного вызова."
+  },
+  "deepseek_ai_get_stream_chunk": {
+    "message0": "Текущий фрагмент потоковой передачи DeepSeek",
+    "tooltip": "Получите самый последний фрагмент текста, полученный по запросу потоковой передачи DeepSeek."
+  },
+  "deepseek_ai_clear_stream_callback": {
+    "message0": "очистить обратный вызов потоковой передачи DeepSeek",
+    "tooltip": "Очистите настроенный обратный вызов потоковой передачи DeepSeek."
+  },
+  "deepseek_ai_clear_history": {
+    "message0": "очистить историю многоходового чата DeepSeek",
+    "tooltip": "Очистите локально сохраненную историю многоходового чата."
+  },
+  "deepseek_ai_get_response_status": {
+    "message0": "Последний запрос DeepSeek удался",
+    "tooltip": "Возвращает информацию о том, был ли успешным предыдущий запрос DeepSeek."
+  },
+  "deepseek_ai_get_error_message": {
+    "message0": "Последнее сообщение об ошибке DeepSeek",
+    "tooltip": "Получите сообщение об ошибке, записанное в случае сбоя предыдущего запроса DeepSeek."
+  },
+  "deepseek_ai_get_reasoning": {
+    "message0": "DeepSeek последние рассуждения",
+    "tooltip": "Получите reasoning_content, возвращенный в режиме мышления."
+  }
+}
