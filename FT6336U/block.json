@@ -1,0 +1,289 @@
+[
+  {
+    "type": "ft6336u_init",
+    "message0": "初始化 FT6336U %1 RST引脚 %2 INT引脚 %3",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "touch" },
+      { "type": "input_value", "name": "RST", "check": ["Number"] },
+      { "type": "input_value", "name": "INT", "check": ["Number"] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "使用默认 Wire 总线创建并初始化 FT6336U 电容触摸控制器",
+    "icon": "fa-solid fa-hand-pointer"
+  },
+  {
+    "type": "ft6336u_init_with_pins",
+    "message0": "初始化 FT6336U %1 SDA %2 SCL %3 RST引脚 %4 INT引脚 %5",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "touch" },
+      { "type": "input_value", "name": "SDA", "check": ["Number"] },
+      { "type": "input_value", "name": "SCL", "check": ["Number"] },
+      { "type": "input_value", "name": "RST", "check": ["Number"] },
+      { "type": "input_value", "name": "INT", "check": ["Number"] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "使用自定义 SDA/SCL 引脚初始化 FT6336U；不支持自定义 I2C 引脚的板卡会退回默认 Wire",
+    "icon": "fa-solid fa-hand-pointer"
+  },
+  {
+    "type": "ft6336u_touch_count",
+    "message0": "FT6336U %1 当前触摸点数",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "touch", "variableTypes": ["FT6336U"], "defaultType": "FT6336U" }
+    ],
+    "output": "Number",
+    "colour": "#FF6B6B",
+    "tooltip": "读取当前检测到的触摸点数量",
+    "icon": "fa-solid fa-list-ol"
+  },
+  {
+    "type": "ft6336u_read_gesture",
+    "message0": "FT6336U %1 手势ID",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "touch", "variableTypes": ["FT6336U"], "defaultType": "FT6336U" }
+    ],
+    "output": "Number",
+    "colour": "#FF6B6B",
+    "tooltip": "读取 FT6336U 手势 ID 原始值",
+    "icon": "fa-solid fa-hand-back-fist"
+  },
+  {
+    "type": "ft6336u_read_touch",
+    "message0": "FT6336U %1 读取触摸点 %2 的 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "touch", "variableTypes": ["FT6336U"], "defaultType": "FT6336U" },
+      {
+        "type": "field_dropdown",
+        "name": "TOUCH",
+        "options": [["1", "1"], ["2", "2"]]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FIELD",
+        "options": [
+          ["X坐标", "x"],
+          ["Y坐标", "y"],
+          ["事件", "event"],
+          ["ID", "id"],
+          ["权重", "weight"],
+          ["杂项", "misc"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B6B",
+    "tooltip": "直接读取指定触摸点的坐标、事件、ID、权重或杂项寄存器",
+    "icon": "fa-solid fa-crosshairs"
+  },
+  {
+    "type": "ft6336u_scan",
+    "message0": "FT6336U %1 扫描并更新触摸缓存",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "touch", "variableTypes": ["FT6336U"], "defaultType": "FT6336U" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "调用 scan() 扫描多点触摸，并把结果保存到该对象的缓存变量中",
+    "icon": "fa-solid fa-rotate"
+  },
+  {
+    "type": "ft6336u_scan_touch_count",
+    "message0": "FT6336U %1 缓存触摸点数",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "touch", "variableTypes": ["FT6336U"], "defaultType": "FT6336U" }
+    ],
+    "output": "Number",
+    "colour": "#FF6B6B",
+    "tooltip": "读取最近一次 scan() 保存的触摸点数量",
+    "icon": "fa-solid fa-list-ol"
+  },
+  {
+    "type": "ft6336u_scan_point",
+    "message0": "FT6336U %1 缓存点 %2 的 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "touch", "variableTypes": ["FT6336U"], "defaultType": "FT6336U" },
+      {
+        "type": "field_dropdown",
+        "name": "POINT",
+        "options": [["1", "0"], ["2", "1"]]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FIELD",
+        "options": [["状态", "status"], ["X坐标", "x"], ["Y坐标", "y"]]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B6B",
+    "tooltip": "读取最近一次 scan() 缓存中指定触摸点的状态或坐标",
+    "icon": "fa-solid fa-location-dot"
+  },
+  {
+    "type": "ft6336u_scan_point_pressed",
+    "message0": "FT6336U %1 缓存点 %2 正在触摸",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "touch", "variableTypes": ["FT6336U"], "defaultType": "FT6336U" },
+      {
+        "type": "field_dropdown",
+        "name": "POINT",
+        "options": [["1", "0"], ["2", "1"]]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF6B6B",
+    "tooltip": "判断最近一次 scan() 缓存中的指定触摸点是否处于 touch 或 stream 状态",
+    "icon": "fa-solid fa-check"
+  },
+  {
+    "type": "ft6336u_set_device_mode",
+    "message0": "FT6336U %1 设置设备模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "touch", "variableTypes": ["FT6336U"], "defaultType": "FT6336U" },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [["工作模式", "working_mode"], ["工厂模式", "factory_mode"]]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置 FT6336U 设备模式",
+    "icon": "fa-solid fa-gear"
+  },
+  {
+    "type": "ft6336u_set_ctrl_mode",
+    "message0": "FT6336U %1 设置控制模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "touch", "variableTypes": ["FT6336U"], "defaultType": "FT6336U" },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [["保持活动", "keep_active_mode"], ["切换到监视模式", "switch_to_monitor_mode"]]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置控制模式，决定是否进入监视模式",
+    "icon": "fa-solid fa-sliders"
+  },
+  {
+    "type": "ft6336u_set_g_mode",
+    "message0": "FT6336U %1 设置中断模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "touch", "variableTypes": ["FT6336U"], "defaultType": "FT6336U" },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [["轮询模式", "pollingMode"], ["触发模式", "triggerMode"]]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置 FT6336U G_MODE 中断输出模式",
+    "icon": "fa-solid fa-bolt"
+  },
+  {
+    "type": "ft6336u_read_mode_param",
+    "message0": "FT6336U %1 读取模式参数 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "touch", "variableTypes": ["FT6336U"], "defaultType": "FT6336U" },
+      {
+        "type": "field_dropdown",
+        "name": "PARAM",
+        "options": [
+          ["触摸阈值", "threshold"],
+          ["滤波系数", "filter"],
+          ["控制模式", "ctrl"],
+          ["进入监视时间", "monitor_time"],
+          ["活动刷新率", "active_rate"],
+          ["监视刷新率", "monitor_rate"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B6B",
+    "tooltip": "读取 FT6336U 模式参数寄存器",
+    "icon": "fa-solid fa-gauge"
+  },
+  {
+    "type": "ft6336u_read_gesture_param",
+    "message0": "FT6336U %1 读取手势参数 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "touch", "variableTypes": ["FT6336U"], "defaultType": "FT6336U" },
+      {
+        "type": "field_dropdown",
+        "name": "PARAM",
+        "options": [
+          ["弧度值", "radian"],
+          ["左右偏移", "offset_lr"],
+          ["上下偏移", "offset_ud"],
+          ["左右距离", "distance_lr"],
+          ["上下距离", "distance_ud"],
+          ["缩放距离", "distance_zoom"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B6B",
+    "tooltip": "读取 FT6336U 手势识别参数",
+    "icon": "fa-solid fa-hand"
+  },
+  {
+    "type": "ft6336u_write_gesture_param",
+    "message0": "FT6336U %1 设置手势参数 %2 为 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "touch", "variableTypes": ["FT6336U"], "defaultType": "FT6336U" },
+      {
+        "type": "field_dropdown",
+        "name": "PARAM",
+        "options": [
+          ["弧度值", "radian"],
+          ["左右偏移", "offset_lr"],
+          ["上下偏移", "offset_ud"],
+          ["左右距离", "distance_lr"],
+          ["上下距离", "distance_ud"],
+          ["缩放距离", "distance_zoom"]
+        ]
+      },
+      { "type": "input_value", "name": "VALUE", "check": ["Number"] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "写入 FT6336U 手势识别参数",
+    "icon": "fa-solid fa-pen"
+  },
+  {
+    "type": "ft6336u_read_system_info",
+    "message0": "FT6336U %1 读取系统信息 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "touch", "variableTypes": ["FT6336U"], "defaultType": "FT6336U" },
+      {
+        "type": "field_dropdown",
+        "name": "PARAM",
+        "options": [
+          ["库版本", "library_version"],
+          ["芯片ID", "chip_id"],
+          ["中断模式", "g_mode"],
+          ["电源模式", "power_mode"],
+          ["固件ID", "firmware_id"],
+          ["FocalTech ID", "focaltech_id"],
+          ["发布代码ID", "release_code_id"],
+          ["状态", "state"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B6B",
+    "tooltip": "读取 FT6336U 系统和版本信息",
+    "icon": "fa-solid fa-circle-info"
+  }
+]
