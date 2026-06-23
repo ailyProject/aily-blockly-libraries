@@ -1,3 +1,20 @@
+var U8G2_I18N_PACKAGE_NAME = '@aily-project/lib-u8g2';
+
+function getU8g2I18n() {
+  return (typeof window !== 'undefined' && window.__BLOCKLY_LIB_I18N__)
+    ? window.__BLOCKLY_LIB_I18N__[U8G2_I18N_PACKAGE_NAME] || {}
+    : {};
+}
+
+function getU8g2ExtensionI18n(extensionName) {
+  var extensions = getU8g2I18n().extensions;
+  return (extensions && extensions[extensionName]) || {};
+}
+
+function getU8g2Text(i18n, key, fallback) {
+  return (i18n && i18n[key]) || fallback;
+}
+
 // 检测是否为ESP32核心
 function isESP32Core() {
   const boardConfig = window['boardConfig'];
@@ -16,6 +33,23 @@ if (Blockly.Extensions.isRegistered('u8g2_font_dynamic_inputs')) {
 
 Blockly.Extensions.register('u8g2_font_dynamic_inputs', function () {
   // 动态字体选择：字体大小 -> 字体类型 -> 具体字体
+  const i18n = getU8g2ExtensionI18n('u8g2_font_dynamic_inputs');
+  const text = (key, fallback) => getU8g2Text(i18n, key, fallback);
+  const localizeFontTypeOptions = options => options.map(([label, value]) => [
+    value === 'CHINESE' ? text('chinese', '中文') : label,
+    value
+  ]);
+  const localizeFontOptions = options => options.map(([label, value]) => {
+    const fullSetMatch = label.match(/^(\d+px) 全字符集$/);
+    if (fullSetMatch) {
+      return [`${fullSetMatch[1]} ${text('full_character_set', '全字符集')}`, value];
+    }
+    const wqyMatch = label.match(/^文泉驿 (.+)\(约(\d+)字\)$/);
+    if (wqyMatch) {
+      return [`${text('wenquanyi', '文泉驿')} ${wqyMatch[1]} (${text('about', '约')}${wqyMatch[2]}${text('characters', '字')})`, value];
+    }
+    return [label, value];
+  });
   
   // 辅助函数：移除字体选择输入
   this.removeFontInputs_ = function() {
@@ -96,9 +130,11 @@ Blockly.Extensions.register('u8g2_font_dynamic_inputs', function () {
         return;
     }
     
+    fontTypeOptions = localizeFontTypeOptions(fontTypeOptions);
+
     // 添加字体类型下拉框
     this.appendDummyInput('FONT_TYPE')
-      .appendField('字体类型')
+      .appendField(text('font_type', '字体类型'))
       .appendField(new Blockly.FieldDropdown(fontTypeOptions), 'FONT_TYPE');
     
     // 为字体类型字段添加验证器
@@ -385,9 +421,10 @@ Blockly.Extensions.register('u8g2_font_dynamic_inputs', function () {
     }
     
     if (fontOptions.length > 0) {
+      fontOptions = localizeFontOptions(fontOptions);
       // 添加具体字体下拉框
       this.appendDummyInput('FONT_NAME')
-        .appendField('字体')
+        .appendField(text('font', '字体'))
         .appendField(new Blockly.FieldDropdown(fontOptions), 'FONT');
     }
   };
@@ -408,6 +445,22 @@ if (Blockly.Extensions.isRegistered('u8g2_init_dynamic_inputs')) {
 
 Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
   // 重新设计动态输入流程：屏幕类型 -> 分辨率 -> 通信协议 -> 引脚配置
+  const i18n = getU8g2ExtensionI18n('u8g2_init_dynamic_inputs');
+  const text = (key, fallback) => getU8g2Text(i18n, key, fallback);
+  const protocolLabels = {
+    _HW_I2C: text('i2c_hardware', 'I2C(硬件)'),
+    _SW_I2C: text('i2c_software', 'I2C(软件)'),
+    _3W_HW_SPI: text('spi3_hardware', 'SPI 3线(硬件)'),
+    _3W_SW_SPI: text('spi3_software', 'SPI 3线(软件)'),
+    _4W_HW_SPI: text('spi4_hardware', 'SPI 4线(硬件)'),
+    _4W_SW_SPI: text('spi4_software', 'SPI 4线(软件)'),
+    _HW_SPI: text('spi_hardware', 'SPI(硬件)'),
+    _SW_SPI: text('spi_software', 'SPI(软件)')
+  };
+  const localizeProtocolOptions = options => options.map(([label, value]) => [
+    protocolLabels[value] || label,
+    value
+  ]);
   let isESP32 = isESP32Core();
   
   // 辅助函数：移除所有输入
@@ -435,7 +488,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
     switch (typeValue) {
       case 'SSD1306':
         this.appendDummyInput('RESOLUTION')
-          .appendField('分辨率')
+          .appendField(text('resolution', '分辨率'))
           .appendField(new Blockly.FieldDropdown([
             ['128x64', '128X64_NONAME'],
             ['128x32', '128X32_UNIVISION']
@@ -443,7 +496,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
         break;
       case 'SSD1309':
         this.appendDummyInput('RESOLUTION')
-          .appendField('分辨率')
+          .appendField(text('resolution', '分辨率'))
           .appendField(new Blockly.FieldDropdown([
             ['128x64 NONAME0', '128X64_NONAME0'],
             ['128x64 NONAME2', '128X64_NONAME2']
@@ -451,14 +504,14 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
         break;
       case 'SH1106':
         this.appendDummyInput('RESOLUTION')
-          .appendField('分辨率')
+          .appendField(text('resolution', '分辨率'))
           .appendField(new Blockly.FieldDropdown([
             ['128x64', '128X64_NONAME']
           ]), 'RESOLUTION');
         break;
       case 'SH1107':
         this.appendDummyInput('RESOLUTION')
-          .appendField('分辨率')
+          .appendField(text('resolution', '分辨率'))
           .appendField(new Blockly.FieldDropdown([
             ['64x128', '64X128'],
             ['128x128', '128X128'],
@@ -469,7 +522,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
         break;
       case 'ST7305':
         this.appendDummyInput('RESOLUTION')
-          .appendField('分辨率')
+          .appendField(text('resolution', '分辨率'))
           .appendField(new Blockly.FieldDropdown([
             ['122X250', '122X250'],
             ['200X200', '200X200'],
@@ -478,7 +531,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
         break;
       case 'ST7920':
         this.appendDummyInput('RESOLUTION')
-          .appendField('分辨率')
+          .appendField(text('resolution', '分辨率'))
           .appendField(new Blockly.FieldDropdown([
             ['128x32', '128X32'],
             ['128x64', '128X64']
@@ -584,9 +637,11 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
         return;
     }
     
+    protocolOptions = localizeProtocolOptions(protocolOptions);
+
     // 添加协议下拉框
     this.appendDummyInput('PROTOCOL')
-      .appendField('通信')
+      .appendField(text('communication', '通信'))
       .appendField(new Blockly.FieldDropdown(protocolOptions), 'PROTOCOL');
     
     // 为协议字段添加验证器
@@ -608,7 +663,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
       case '_HW_I2C':
         if (isESP32) {
           this.appendDummyInput('I2C_PINS')
-            .appendField('引脚SCL')
+            .appendField(text('pin_scl', '引脚SCL'))
             .appendField(new Blockly.FieldTextInput('SCL'), 'SCL_PIN')
             .appendField('SDA')
             .appendField(new Blockly.FieldTextInput('SDA'), 'SDA_PIN')
@@ -616,13 +671,13 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
             .appendField(new Blockly.FieldTextInput('U8X8_PIN_NONE'), 'RESET_PIN');
         } else {
           this.appendDummyInput('I2C_PINS')
-            .appendField('引脚RST')
+            .appendField(text('pin_rst', '引脚RST'))
             .appendField(new Blockly.FieldTextInput('U8X8_PIN_NONE'), 'RESET_PIN');
         }
         break;
       case '_SW_I2C':
         this.appendDummyInput('SW_I2C_PINS')
-          .appendField('引脚SCL')
+          .appendField(text('pin_scl', '引脚SCL'))
           .appendField(new Blockly.FieldTextInput('13'), 'CLOCK_PIN')
           .appendField('SDA')
           .appendField(new Blockly.FieldTextInput('11'), 'DATA_PIN')
@@ -631,14 +686,14 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
         break;
       case '_3W_HW_SPI':
         this.appendDummyInput('3W_SPI_PINS')
-          .appendField('引脚CS')
+          .appendField(text('pin_cs', '引脚CS'))
           .appendField(new Blockly.FieldTextInput('10'), 'CS_PIN')
           .appendField('RST')
           .appendField(new Blockly.FieldTextInput('8'), 'RESET_PIN');
         break;
       case '_3W_SW_SPI':
         this.appendDummyInput('3W_SW_SPI_PINS')
-          .appendField('引脚CLK')
+          .appendField(text('pin_clk', '引脚CLK'))
           .appendField(new Blockly.FieldTextInput('13'), 'CLOCK_PIN')
           .appendField('DATA')
           .appendField(new Blockly.FieldTextInput('11'), 'DATA_PIN')
@@ -649,7 +704,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
         break;
       case '_4W_HW_SPI':
         this.appendDummyInput('4W_SPI_PINS')
-          .appendField('引脚CS')
+          .appendField(text('pin_cs', '引脚CS'))
           .appendField(new Blockly.FieldTextInput('10'), 'CS_PIN')
           .appendField('DC')
           .appendField(new Blockly.FieldTextInput('9'), 'DC_PIN')
@@ -658,7 +713,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
         break;
       case '_4W_SW_SPI':
         this.appendDummyInput('4W_SW_SPI_PINS')
-          .appendField('引脚CLK')
+          .appendField(text('pin_clk', '引脚CLK'))
           .appendField(new Blockly.FieldTextInput('13'), 'CLOCK_PIN')
           .appendField('DATA')
           .appendField(new Blockly.FieldTextInput('11'), 'DATA_PIN')
@@ -672,7 +727,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
       case '_HW_SPI':
         // ST7920 硬件SPI
         this.appendDummyInput('ST7920_SPI_PINS')
-          .appendField('引脚CS')
+          .appendField(text('pin_cs', '引脚CS'))
           .appendField(new Blockly.FieldTextInput('17'), 'CS_PIN')
           .appendField('RST')
           .appendField(new Blockly.FieldTextInput('U8X8_PIN_NONE'), 'RESET_PIN');
@@ -680,7 +735,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
       case '_SW_SPI':
         // ST7920 SPI模式
         this.appendDummyInput('ST7920_SPI_PINS')
-          .appendField('引脚CLK')
+          .appendField(text('pin_clk', '引脚CLK'))
           .appendField(new Blockly.FieldTextInput('18'), 'CLOCK_PIN')
           .appendField('DATA')
           .appendField(new Blockly.FieldTextInput('16'), 'DATA_PIN')
