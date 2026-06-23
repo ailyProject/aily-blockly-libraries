@@ -78,7 +78,7 @@ jobs:
   build-and-publish:
     needs: detect-changes
     if: ${{ github.event_name == 'push' && needs.detect-changes.outputs.matrix != '{"include":[]}' && github.ref == 'refs/heads/deploy' }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, ailydeMac-mini, macOS, ARM64]
     timeout-minutes: 120
     env:
       NPM_CONFIG_FETCH_RETRIES: 5
@@ -127,7 +127,10 @@ jobs:
         env:
           PACKAGES_JSON: ${{ matrix.packages_json }}
         run: |
-          mapfile -t PACKAGES < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
+          PACKAGES=()
+          while IFS= read -r package_dir; do
+            PACKAGES+=("$package_dir")
+          done < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
           for package_dir in "${PACKAGES[@]}"; do
             echo "Building $package_dir"
             (
@@ -136,98 +139,6 @@ jobs:
             )
           done
       
-      - name: Publish to Registry 2
-        if: ${{ false }}
-        env:
-          REGISTRY_2: ${{ secrets.REGISTRY_URL_2 }}
-          TOKEN_2: ${{ secrets.NPM_TOKEN_2 }}
-          PACKAGES_JSON: ${{ matrix.packages_json }}
-        run: |
-          retry_with_backoff() {
-            local max_attempts="$1"
-            local sleep_seconds="$2"
-            shift 2
-            local attempt=1
-
-            until "$@"; do
-              if [ "$attempt" -ge "$max_attempts" ]; then
-                echo "Command failed after ${max_attempts} attempts: $*"
-                return 1
-              fi
-              echo "Attempt ${attempt}/${max_attempts} failed. Retrying in ${sleep_seconds}s: $*"
-              sleep "$sleep_seconds"
-              attempt=$((attempt + 1))
-              sleep_seconds=$((sleep_seconds * 2))
-            done
-          }
-
-          if [ -z "$REGISTRY_2" ] || [ -z "$TOKEN_2" ]; then
-            echo "Registry 2 secrets not set, skipping."
-            exit 0
-          fi
-
-          echo "----------------------------------------"
-          echo "Processing second registry: $REGISTRY_2"
-          
-          # 去掉协议头获取 host
-          REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2" | sed 's/^https\?:\/\///')
-          # 去掉可能存在的尾部斜杠
-          REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2_NO_PROTO" | sed 's/\/$//')
-          
-          mapfile -t PACKAGES < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
-          for package_dir in "${PACKAGES[@]}"; do
-            echo "Publishing $package_dir to Registry 2"
-            (
-              cd "$package_dir"
-              # 在包目录生成临时 .npmrc，避免覆盖 setup-node 在仓库根目录生成的默认 registry 鉴权配置
-              echo "registry=$REGISTRY_2" > .npmrc
-              echo "//$REGISTRY_2_NO_PROTO/:_authToken=$TOKEN_2" >> .npmrc
-              trap 'rm -f .npmrc' EXIT
-
-              CURRENT_VERSION=$(node -p "require('./package.json').version")
-              PACKAGE_NAME=$(node -p "require('./package.json').name")
-              echo "Current version: $CURRENT_VERSION"
-
-              # 检查是否存在
-              if npm view $PACKAGE_NAME@$CURRENT_VERSION version &> /dev/null; then
-                echo "Version $CURRENT_VERSION exists on $REGISTRY_2, unpublishing..."
-                retry_with_backoff 3 3 npm unpublish $PACKAGE_NAME@$CURRENT_VERSION --force
-                sleep 5
-              fi
-
-              # 发布
-              retry_with_backoff 5 5 npm publish --access public
-            )
-          done
-
-      - name: Notify cache bump for Registry 2
-        if: ${{ false }}
-        env:
-          NOTIFY_URL: ${{ secrets.NOTIFY_URL_2 }}
-          NOTIFY_TOKEN: ${{ secrets.NOTIFY_TOKEN_2 }}
-        run: |
-          if [ -z "$NOTIFY_URL" ] || [ -z "$NOTIFY_TOKEN" ]; then
-            echo "NOTIFY_URL_2 or NOTIFY_TOKEN_2 not set, skipping."
-            exit 0
-          fi
-          echo "Sending POST request to $NOTIFY_URL"
-          set +e
-          HTTP_STATUS=$(curl -s -o /tmp/notify_response_2.txt -w "%{http_code}" --max-time 30 \
-            -X POST "$NOTIFY_URL" \
-            -H "Authorization: Bearer $NOTIFY_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d '{}')
-          CURL_EXIT=$?
-          set -e
-          if [ "$CURL_EXIT" -ne 0 ]; then
-            echo "::warning::Notification (Registry 2) request failed (curl exit code $CURL_EXIT)"
-          elif [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
-            echo "Notification (Registry 2) sent successfully (HTTP $HTTP_STATUS)"
-          else
-            echo "::warning::Notification (Registry 2) failed with HTTP status $HTTP_STATUS"
-            cat /tmp/notify_response_2.txt || true
-          fi
-
       - name: Publish to Default Registry
         if: steps.check-update-all.outputs.should_skip != 'true'
         env:
@@ -253,21 +164,10 @@ jobs:
           }
           export -f retry_with_backoff
 
-          mark_manual_publish() {
-            local package_name="$1"
-            local package_version="$2"
-            local package_dir="$3"
-
-            echo "::warning::Default registry publish timed out after 5 minutes for ${package_name}@${package_version} (${package_dir}). Please publish it manually."
-            {
-              echo "### Manual publish required"
-              echo "- Package: ${package_name}@${package_version}"
-              echo "- Directory: ${package_dir}"
-              echo "- Reason: publish to default registry timed out after 5 minutes"
-            } >> "$GITHUB_STEP_SUMMARY"
-          }
-
-          mapfile -t PACKAGES < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
+          PACKAGES=()
+          while IFS= read -r package_dir; do
+            PACKAGES+=("$package_dir")
+          done < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
           for package_dir in "${PACKAGES[@]}"; do
             echo "Publishing $package_dir to default registry"
             (
@@ -288,17 +188,7 @@ jobs:
               fi
 
               # 发布
-              set +e
-              timeout 5m bash -lc 'retry_with_backoff 5 5 npm publish --access public'
-              STATUS=$?
-              set -e
-              if [ "$STATUS" -ne 0 ]; then
-                if [ "$STATUS" -eq 124 ]; then
-                  mark_manual_publish "$PACKAGE_NAME" "$CURRENT_VERSION" "$package_dir"
-                  exit 0
-                fi
-                exit "$STATUS"
-              fi
+              retry_with_backoff 5 5 npm publish --access public
             )
             STATUS=$?
             if [ "$STATUS" -ne 0 ]; then
@@ -337,7 +227,7 @@ jobs:
   publish-registry2:
     needs: detect-changes
     if: ${{ github.event_name == 'push' && needs.detect-changes.outputs.matrix != '{"include":[]}' && github.ref == 'refs/heads/deploy' }}
-    runs-on: [self-hosted, ailydeMac-mini, macOS, ARM64]
+    runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
       NPM_CONFIG_FETCH_RETRIES: 5
@@ -476,7 +366,7 @@ jobs:
   
   build-and-publish-all:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/deploy' }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, ailydeMac-mini, macOS, ARM64]
     timeout-minutes: 240
     outputs:
       should_run: ${{ steps.check-update-all.outputs.should_run }}
@@ -508,140 +398,10 @@ jobs:
           node-version: '18'
           registry-url: ${{ secrets.REGISTRY_URL }}
       
-      - name: Publish All to Registry 2
-        if: ${{ false }}
-        env:
-          REGISTRY_2: ${{ secrets.REGISTRY_URL_2 }}
-          TOKEN_2: ${{ secrets.NPM_TOKEN_2 }}
-          NPM_PUBLISH_PARALLEL: 4
-        run: |
-          retry_with_backoff() {
-            local max_attempts="$1"
-            local sleep_seconds="$2"
-            shift 2
-            local attempt=1
-
-            until "$@"; do
-              if [ "$attempt" -ge "$max_attempts" ]; then
-                echo "Command failed after ${max_attempts} attempts: $*"
-                return 1
-              fi
-              echo "Attempt ${attempt}/${max_attempts} failed. Retrying in ${sleep_seconds}s: $*"
-              sleep "$sleep_seconds"
-              attempt=$((attempt + 1))
-              sleep_seconds=$((sleep_seconds * 2))
-            done
-          }
-
-          publish_registry2_one() {
-            local dir="$1"
-            (
-              cd "$dir"
-              echo "registry=$REGISTRY_2" > .npmrc
-              echo "//$REGISTRY_2_NO_PROTO/:_authToken=$TOKEN_2" >> .npmrc
-              trap 'rm -f .npmrc' EXIT
-
-              echo "发布 $dir 到 Registry 2"
-              CURRENT_VERSION=$(node -p "require('./package.json').version")
-              PACKAGE_NAME=$(node -p "require('./package.json').name")
-              echo "当前版本: $CURRENT_VERSION"
-
-              if npm view $PACKAGE_NAME@$CURRENT_VERSION version &> /dev/null; then
-                echo "Version $CURRENT_VERSION exists on $REGISTRY_2, unpublishing..."
-                retry_with_backoff 3 3 npm unpublish $PACKAGE_NAME@$CURRENT_VERSION --force
-                sleep 5
-              fi
-
-              retry_with_backoff 5 5 npm publish --access public
-            )
-          }
-
-          if [ -z "$REGISTRY_2" ] || [ -z "$TOKEN_2" ]; then
-            echo "Registry 2 secrets not set, skipping."
-            exit 0
-          fi
-
-          REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2" | sed 's/^https\?:\/\///')
-          # 去掉可能存在的尾部斜杠
-          REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2_NO_PROTO" | sed 's/\/$//')
-
-          PACKAGE_DIRS=$(find . -name "package.json" -not -path "*/node_modules/*" -not -path "./package.json" -exec dirname {} \; | sed 's/^\.\///')
-          echo "Found packages: $PACKAGE_DIRS"
-          # 仅保留一级目录
-          FIRST_LEVEL_DIRS=()
-          for dir in $PACKAGE_DIRS; do
-            if [[ "$dir" != *"/"* ]]; then
-              FIRST_LEVEL_DIRS+=("$dir")
-            fi
-          done
-          
-          echo "要发布的一级目录包: ${FIRST_LEVEL_DIRS[*]}"
-
-          PARALLEL=${NPM_PUBLISH_PARALLEL:-4}
-          FAIL=0
-          PIDS=()
-
-          for dir in "${FIRST_LEVEL_DIRS[@]}"; do
-            if [ ! -d "$dir" ]; then
-              echo "目录 $dir 不存在，跳过..."
-              continue
-            fi
-
-            publish_registry2_one "$dir" &
-            PIDS+=("$!")
-
-            if [ "${#PIDS[@]}" -ge "$PARALLEL" ]; then
-              if ! wait -n; then
-                FAIL=1
-              fi
-              PIDS=($(jobs -pr))
-            fi
-          done
-
-          for pid in "${PIDS[@]}"; do
-            if ! wait "$pid"; then
-              FAIL=1
-            fi
-          done
-
-          if [ "$FAIL" -ne 0 ]; then
-            echo "One or more package publishes failed on Registry 2"
-            exit 1
-          fi
-          
-      - name: Notify cache bump for Registry 2
-        if: ${{ false }}
-        env:
-          NOTIFY_URL: ${{ secrets.NOTIFY_URL_2 }}
-          NOTIFY_TOKEN: ${{ secrets.NOTIFY_TOKEN_2 }}
-        run: |
-          if [ -z "$NOTIFY_URL" ] || [ -z "$NOTIFY_TOKEN" ]; then
-            echo "NOTIFY_URL_2 or NOTIFY_TOKEN_2 not set, skipping."
-            exit 0
-          fi
-          echo "Sending POST request to $NOTIFY_URL"
-          set +e
-          HTTP_STATUS=$(curl -s -o /tmp/notify_response_2.txt -w "%{http_code}" --max-time 30 \
-            -X POST "$NOTIFY_URL" \
-            -H "Authorization: Bearer $NOTIFY_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d '{}')
-          CURL_EXIT=$?
-          set -e
-          if [ "$CURL_EXIT" -ne 0 ]; then
-            echo "::warning::Notification (Registry 2) request failed (curl exit code $CURL_EXIT)"
-          elif [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
-            echo "Notification (Registry 2) sent successfully (HTTP $HTTP_STATUS)"
-          else
-            echo "::warning::Notification (Registry 2) failed with HTTP status $HTTP_STATUS"
-            cat /tmp/notify_response_2.txt || true
-          fi
-      
       - name: Publish All to Default Registry
         if: steps.check-update-all.outputs.should_run == 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_PUBLISH_PARALLEL: 4
         run: |
           retry_with_backoff() {
             local max_attempts="$1"
@@ -662,18 +422,6 @@ jobs:
           }
           export -f retry_with_backoff
 
-          MANUAL_LOG="$RUNNER_TEMP/manual-default-publish.txt"
-          : > "$MANUAL_LOG"
-
-          mark_manual_publish() {
-            local package_name="$1"
-            local package_version="$2"
-            local package_dir="$3"
-
-            echo "::warning::Default registry publish timed out after 5 minutes for ${package_name}@${package_version} (${package_dir}). Please publish it manually."
-            printf '%s\n' "${package_name}@${package_version} | ${package_dir} | publish to default registry timed out after 5 minutes" >> "$MANUAL_LOG"
-          }
-
           publish_default_one() {
             local dir="$1"
             (
@@ -691,17 +439,7 @@ jobs:
                 sleep 5
               fi
 
-              set +e
-              timeout 5m bash -lc 'retry_with_backoff 5 5 npm publish --access public'
-              STATUS=$?
-              set -e
-              if [ "$STATUS" -ne 0 ]; then
-                if [ "$STATUS" -eq 124 ]; then
-                  mark_manual_publish "$PACKAGE_NAME" "$CURRENT_VERSION" "$dir"
-                  exit 0
-                fi
-                exit "$STATUS"
-              fi
+              retry_with_backoff 5 5 npm publish --access public
             )
           }
 
@@ -717,46 +455,14 @@ jobs:
           
           echo "要发布的一级目录包: ${FIRST_LEVEL_DIRS[*]}"
 
-          PARALLEL=${NPM_PUBLISH_PARALLEL:-4}
-          FAIL=0
-          PIDS=()
-
           for dir in "${FIRST_LEVEL_DIRS[@]}"; do
             if [ ! -d "$dir" ]; then
               echo "目录 $dir 不存在，跳过..."
               continue
             fi
 
-            publish_default_one "$dir" &
-            PIDS+=("$!")
-
-            if [ "${#PIDS[@]}" -ge "$PARALLEL" ]; then
-              if ! wait -n; then
-                FAIL=1
-              fi
-              PIDS=($(jobs -pr))
-            fi
+            publish_default_one "$dir"
           done
-
-          for pid in "${PIDS[@]}"; do
-            if ! wait "$pid"; then
-              FAIL=1
-            fi
-          done
-
-          if [ "$FAIL" -ne 0 ]; then
-            echo "One or more package publishes failed on default registry"
-            exit 1
-          fi
-
-          if [ -s "$MANUAL_LOG" ]; then
-            {
-              echo "### Manual publish required"
-              while IFS= read -r line; do
-                echo "- $line"
-              done < "$MANUAL_LOG"
-            } >> "$GITHUB_STEP_SUMMARY"
-          fi
 
       - name: Notify cache bump
         if: steps.check-update-all.outputs.should_run == 'true'
@@ -788,7 +494,7 @@ jobs:
 
   publish-registry2-all:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/deploy' }}
-    runs-on: [self-hosted, ailydeMac-mini, macOS, ARM64]
+    runs-on: ubuntu-latest
     timeout-minutes: 240
     outputs:
       should_run: ${{ steps.check-update-all.outputs.should_run }}
