@@ -148,6 +148,7 @@ function generateDefaultSerialPortOptions(boardConfig) {
   });
 }
 
+// 此函数可以在后续版本移除，临时兼容旧主程序0.9.61版本之前需要的串口块加载 ！！
 Blockly.getMainWorkspace().addChangeListener((event) => {
   // 当工作区完成加载时调用
   if (event.type === Blockly.Events.FINISHED_LOADING) {
@@ -376,6 +377,39 @@ function loadExistingSerialBlockToToolbox(workspace) {
     workspace.updateToolbox(originalToolboxDef);
   }
 
+}
+
+window.loadExistingSerialBlockToToolbox = loadExistingSerialBlockToToolbox;
+
+function ensureSerialToolboxListener(workspace) {
+  if (!workspace || workspace._serialToolboxListenerAttached) {
+    return;
+  }
+
+  workspace._serialToolboxListenerAttached = true;
+  workspace.addChangeListener(function(event) {
+    if (event.type === Blockly.Events.FINISHED_LOADING) {
+      loadExistingSerialBlockToToolbox(workspace);
+    }
+  });
+}
+
+window.ensureSerialToolboxListener = ensureSerialToolboxListener;
+
+try {
+  const initialWorkspace = typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace();
+  if (initialWorkspace) {
+    ensureSerialToolboxListener(initialWorkspace);
+  } else if (typeof Blockly !== 'undefined') {
+    setTimeout(function() {
+      const delayedWorkspace = Blockly.getMainWorkspace && Blockly.getMainWorkspace();
+      if (delayedWorkspace) {
+        ensureSerialToolboxListener(delayedWorkspace);
+      }
+    }, 500);
+  }
+} catch (e) {
+  // 静默处理错误
 }
 
 // 跟踪已初始化的串口
