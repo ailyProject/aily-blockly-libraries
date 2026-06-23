@@ -1,237 +1,259 @@
 'use strict';
 
-// Seeed CAN库代码生成器
-// 支持MCP2515和MCP2518FD CAN控制器
+function seeedCanAddLibrary(generator) {
+  generator.addLibrary('SPI', '#include <SPI.h>');
+  generator.addLibrary('Seeed_CAN', '#include <mcp2515_can.h>');
+}
 
-// 创建CAN对象
-Arduino.forBlock['seeed_can_create'] = function(block, generator) {
-  // 设置变量重命名监听
-  if (!block._seeedCanVarMonitorAttached) {
-    block._seeedCanVarMonitorAttached = true;
-    block._seeedCanVarLastName = block.getFieldValue('VAR') || 'can';
-    // 初次注册变量到 Blockly 系统（仅执行一次）
-    registerVariableToBlockly(block._seeedCanVarLastName, 'MCP_CAN');
-    const varField = block.getField('VAR');
-    if (varField) {
-      const originalFinishEditing = varField.onFinishEditing_;
-      varField.onFinishEditing_ = function(newName) {
-        if (typeof originalFinishEditing === 'function') {
-          originalFinishEditing.call(this, newName);
-        }
-        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-        const oldName = block._seeedCanVarLastName;
-        if (workspace && newName && newName !== oldName) {
-          renameVariableInBlockly(block, oldName, newName, 'MCP_CAN');
-          block._seeedCanVarLastName = newName;
-        }
-      };
+function seeedCanOrder(generator, name, fallback) {
+  if (generator && typeof generator[name] === 'number') {
+    return generator[name];
+  }
+  if (typeof Arduino !== 'undefined' && typeof Arduino[name] === 'number') {
+    return Arduino[name];
+  }
+  return fallback;
+}
+
+function seeedCanFieldText(block, fieldName, fallback) {
+  var field = block.getField(fieldName);
+  if (field && typeof field.getText === 'function') {
+    var text = field.getText();
+    if (text) {
+      return text;
     }
   }
 
-  const varName = block.getFieldValue('VAR') || 'can';
-  const csPin = block.getFieldValue('CS_PIN');
+  var value = block.getFieldValue(fieldName);
+  return value || fallback;
+}
 
-  // 添加库文件
-  generator.addLibrary('SPI', '#include <SPI.h>');
-  generator.addLibrary('Seeed_CAN', '#include <mcp2515_can.h>');
-  
-  // 注册变量到Blockly系统
-  
-  // 声明CAN对象变量
+function seeedCanRegisterVariable(varName, varType) {
+  if (typeof globalThis !== 'undefined' && typeof globalThis.registerVariableToBlockly === 'function') {
+    globalThis.registerVariableToBlockly(varName, varType);
+  }
+}
+
+function seeedCanRenameVariable(block, oldName, newName, varType) {
+  if (typeof globalThis !== 'undefined' && typeof globalThis.renameVariableInBlockly === 'function') {
+    globalThis.renameVariableInBlockly(block, oldName, newName, varType);
+  }
+}
+
+function seeedCanAttachVarMonitor(block, varType) {
+  if (block._seeedCanVarMonitorAttached) {
+    return;
+  }
+
+  block._seeedCanVarMonitorAttached = true;
+  block._seeedCanVarLastName = seeedCanFieldText(block, 'VAR', 'can');
+  seeedCanRegisterVariable(block._seeedCanVarLastName, varType);
+
+  var varField = block.getField('VAR');
+  if (!varField) {
+    return;
+  }
+
+  var originalFinishEditing = varField.onFinishEditing_;
+  varField.onFinishEditing_ = function(newName) {
+    if (typeof originalFinishEditing === 'function') {
+      originalFinishEditing.call(this, newName);
+    }
+
+    var workspace = block.workspace ||
+      (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+    var oldName = block._seeedCanVarLastName;
+    var nextName = newName || seeedCanFieldText(block, 'VAR', oldName);
+
+    if (workspace && nextName && nextName !== oldName) {
+      seeedCanRenameVariable(block, oldName, nextName, varType);
+    }
+
+    if (nextName) {
+      block._seeedCanVarLastName = nextName;
+    }
+  };
+}
+
+function seeedCanUnquoteStringLiteral(code) {
+  var trimmed = (code || '').trim();
+  if (trimmed.length < 2) {
+    return null;
+  }
+
+  var quote = trimmed.charAt(0);
+  if ((quote !== '"' && quote !== "'") || trimmed.charAt(trimmed.length - 1) !== quote) {
+    return null;
+  }
+
+  return trimmed.slice(1, -1)
+    .replace(/\\(["'\\])/g, '$1')
+    .replace(/\\n/g, '\n')
+    .replace(/\\r/g, '\r')
+    .replace(/\\t/g, '\t');
+}
+
+function seeedCanDataInitializer(dataCode) {
+  var code = (dataCode || '').trim();
+  if (!code) {
+    return '{0,0,0,0,0,0,0,0}';
+  }
+
+  if (code.charAt(0) === '{' && code.charAt(code.length - 1) === '}') {
+    return code;
+  }
+
+  var text = seeedCanUnquoteStringLiteral(code);
+  if (text === null) {
+    return null;
+  }
+
+  var trimmedText = text.trim();
+  if (trimmedText.charAt(0) === '{' && trimmedText.charAt(trimmedText.length - 1) === '}') {
+    return trimmedText;
+  }
+
+  if (trimmedText.indexOf(',') !== -1) {
+    return '{' + trimmedText + '}';
+  }
+
+  return null;
+}
+
+function seeedCanTempName(block, name) {
+  var id = block && block.id ? String(block.id) : 'tmp';
+  return 'seeed_can_' + name + '_' + id.replace(/[^A-Za-z0-9_]/g, '_');
+}
+
+Arduino.forBlock['seeed_can_create'] = function(block, generator) {
+  var varName = seeedCanFieldText(block, 'VAR', 'can');
+  var csPin = block.getFieldValue('CS_PIN') || '9';
+
+  seeedCanAttachVarMonitor(block, 'MCP_CAN');
+  seeedCanAddLibrary(generator);
+
   generator.addVariable(varName, 'mcp2515_can ' + varName + '(' + csPin + ');');
-
   return '';
 };
 
-// 初始化CAN总线
 Arduino.forBlock['seeed_can_begin'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'can';
-  const speed = block.getFieldValue('SPEED');
-  const clock = block.getFieldValue('CLOCK');
+  var varName = seeedCanFieldText(block, 'VAR', 'can');
+  var speed = block.getFieldValue('SPEED') || 'CAN_5KBPS';
+  var clock = block.getFieldValue('CLOCK') || 'MCP_8MHz';
 
-  // 添加库文件
-// 发送CAN消息
+  seeedCanAddLibrary(generator);
+  return varName + '.begin(' + speed + ', ' + clock + ');\n';
+};
+
 Arduino.forBlock['seeed_can_send'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'can';
-  const id = generator.valueToCode(block, 'ID', generator.ORDER_ATOMIC) || '0x00';
-  const ext = block.getFieldValue('EXT');
-  const data = generator.valueToCode(block, 'DATA', generator.ORDER_ATOMIC) || '{0,0,0,0,0,0,0,0}';
+  var varName = seeedCanFieldText(block, 'VAR', 'can');
+  var atomicOrder = seeedCanOrder(generator, 'ORDER_ATOMIC', 0);
+  var id = generator.valueToCode(block, 'ID', atomicOrder) || '0x00';
+  var ext = block.getFieldValue('EXT') || '0';
+  var data = generator.valueToCode(block, 'DATA', atomicOrder) || '{0,0,0,0,0,0,0,0}';
+  var initializer = seeedCanDataInitializer(data);
+  var dataExpr = data;
+  var code = '';
 
-  // 添加库文件
-  generator.addLibrary('SPI', '#include <SPI.h>');
-  generator.addLibrary('Seeed_CAN', '#include <mcp2515_can.h>');
+  seeedCanAddLibrary(generator);
 
-  // 生成发送代码
-  const code = varName + '.sendMsgBuf(' + id + ', ' + ext + ', 8, ' + data + ');\n';
+  if (initializer) {
+    dataExpr = seeedCanTempName(block, 'data');
+    code += 'byte ' + dataExpr + '[8] = ' + initializer + ';\n';
+  }
+
+  code += varName + '.sendMsgBuf(' + id + ', ' + ext + ', 8, ' + dataExpr + ');\n';
   return code;
 };
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'can';
-  const id = generator.valueToCode(block, 'ID', generator.ORDER_ATOMIC) || '0x00';
-  const ext = block.getFieldValue('EXT');
-// 读取接收到的CAN消息
+
+Arduino.forBlock['seeed_can_receive_check'] = function(block, generator) {
+  var varName = seeedCanFieldText(block, 'VAR', 'can');
+  var equalityOrder = seeedCanOrder(
+    generator,
+    'ORDER_EQUALITY',
+    seeedCanOrder(generator, 'ORDER_FUNCTION_CALL', 0)
+  );
+
+  seeedCanAddLibrary(generator);
+  return ['(' + varName + '.checkReceive() == CAN_MSGAVAIL)', equalityOrder];
+};
+
 Arduino.forBlock['seeed_can_receive'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'can';
-  
-  const lenField = block.getField('LEN');
-  const lenVar = lenField ? lenField.getText() : 'len';
-  
-  const idField = block.getField('ID');
-  const idVar = idField ? idField.getText() : 'id';
-  
-  const dataField = block.getField('DATA');
-  const dataVar = dataField ? dataField.getText() : 'data';
+  var varName = seeedCanFieldText(block, 'VAR', 'can');
+  var lenVar = seeedCanFieldText(block, 'LEN', 'len');
+  var idVar = seeedCanFieldText(block, 'ID', 'id');
+  var dataVar = seeedCanFieldText(block, 'DATA', 'data');
 
-  // 添加库文件
-  generator.addLibrary('SPI', '#include <SPI.h>');
-  generator.addLibrary('Seeed_CAN', '#include <mcp2515_can.h>');
+  seeedCanAddLibrary(generator);
 
-  // 声明变量
   generator.addVariable(lenVar, 'byte ' + lenVar + ' = 0;');
   generator.addVariable(dataVar, 'byte ' + dataVar + '[8];');
   generator.addVariable(idVar, 'unsigned long ' + idVar + ' = 0;');
 
-  // 生成读取代码
-  let code = '';
-  code += varName + '.readMsgBuf(&' + lenVar + ', ' + dataVar + ');\n';
-  code += idVar + ' = ' + varName + '.getCanId();\n';
-
-  return code;
-};
-Arduino.forBlock['seeed_can_receive'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'can';
-  
-  const lenField = block.getField('LEN');
-  const lenVar = lenField ? lenField.getText() : 'len';
-  
-  const idField = block.getField('ID');
-  const idVar = idField ? idField.getText() : 'id';
-  
-  const dataField = block.getField('DATA');
-  const dataVar = dataField ? dataField.getText() : 'data';
-
-  // 添加库文件
-  generator.addLibrary('SPI', '#include <SPI.h>');
-  generator.addLibrary('Seeed_CAN', '#include <mcp2515_can.h>');
-
-  // 声明变量
-  generator.addVariable(lenVar, 'byte ' + lenVar + ' = 0;');
-  generator.addVariable(dataVar, 'byte ' + dataVar + '[8];');
-  generator.addVariable(idVar, 'unsigned long ' + idVar + ' = 0;');
-
-  // 生成读取代码
-  let code = '';
-  code += varName + '.readMsgBuf(&' + lenVar + ', ' + dataVar + ');\n';
-  code += idVar + ' = ' + varName + '.getCanId();\n';
-
-  return code;
+  return varName + '.readMsgBuf(&' + lenVar + ', ' + dataVar + ');\n' +
+    idVar + ' = ' + varName + '.getCanId();\n';
 };
 
-// 获取消息ID
 Arduino.forBlock['seeed_can_get_id'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'can';
+  var varName = seeedCanFieldText(block, 'VAR', 'can');
+  var functionOrder = seeedCanOrder(generator, 'ORDER_FUNCTION_CALL', 0);
 
-  // 添加库文件
-  generator.addLibrary('SPI', '#include <SPI.h>');
-  generator.addLibrary('Seeed_CAN', '#include <mcp2515_can.h>');
-
-  // 生成获取ID代码
-  const code = varName + '.getCanId()';
-  return [code, generator.ORDER_FUNCTION_CALL];
+  seeedCanAddLibrary(generator);
+  return [varName + '.getCanId()', functionOrder];
 };
 
-// 设置掩码
 Arduino.forBlock['seeed_can_init_mask'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'can';
-  const num = block.getFieldValue('NUM');
-  const ext = block.getFieldValue('EXT');
-  const mask = generator.valueToCode(block, 'MASK', generator.ORDER_ATOMIC) || '0x000';
+  var varName = seeedCanFieldText(block, 'VAR', 'can');
+  var atomicOrder = seeedCanOrder(generator, 'ORDER_ATOMIC', 0);
+  var num = block.getFieldValue('NUM') || '0';
+  var ext = block.getFieldValue('EXT') || '0';
+  var mask = generator.valueToCode(block, 'MASK', atomicOrder) || '0x000';
 
-  // 添加库文件
-  generator.addLibrary('SPI', '#include <SPI.h>');
-  generator.addLibrary('Seeed_CAN', '#include <mcp2515_can.h>');
-
-  // 生成设置掩码代码
-  const code = varName + '.init_Mask(' + num + ', ' + ext + ', ' + mask + ');\n';
-  return code;
+  seeedCanAddLibrary(generator);
+  return varName + '.init_Mask(' + num + ', ' + ext + ', ' + mask + ');\n';
 };
 
-// 设置过滤器
 Arduino.forBlock['seeed_can_init_filter'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'can';
-  const num = block.getFieldValue('NUM');
-  const ext = block.getFieldValue('EXT');
-  const filter = generator.valueToCode(block, 'FILTER', generator.ORDER_ATOMIC) || '0x000';
+  var varName = seeedCanFieldText(block, 'VAR', 'can');
+  var atomicOrder = seeedCanOrder(generator, 'ORDER_ATOMIC', 0);
+  var num = block.getFieldValue('NUM') || '0';
+  var ext = block.getFieldValue('EXT') || '0';
+  var filter = generator.valueToCode(block, 'FILTER', atomicOrder) || '0x000';
 
-  // 添加库文件
-  generator.addLibrary('SPI', '#include <SPI.h>');
-  generator.addLibrary('Seeed_CAN', '#include <mcp2515_can.h>');
-
-  // 生成设置过滤器代码
-  const code = varName + '.init_Filt(' + num + ', ' + ext + ', ' + filter + ');\n';
-  return code;
+  seeedCanAddLibrary(generator);
+  return varName + '.init_Filt(' + num + ', ' + ext + ', ' + filter + ');\n';
 };
 
-// 设置工作模式
 Arduino.forBlock['seeed_can_set_mode'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'can';
-  const mode = block.getFieldValue('MODE');
+  var varName = seeedCanFieldText(block, 'VAR', 'can');
+  var mode = block.getFieldValue('MODE') || 'MODE_NORMAL';
 
-  // 添加库文件
-  generator.addLibrary('SPI', '#include <SPI.h>');
-  generator.addLibrary('Seeed_CAN', '#include <mcp2515_can.h>');
+  if (mode === 'MODE_LISTEN') {
+    mode = 'MODE_LISTENONLY';
+  }
 
-  // 生成设置模式代码
-  const code = varName + '.setMode(' + mode + ');\n';
-  return code;
+  seeedCanAddLibrary(generator);
+  return varName + '.setMode(' + mode + ');\n';
 };
 
-// 进入睡眠模式
 Arduino.forBlock['seeed_can_sleep'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'can';
+  var varName = seeedCanFieldText(block, 'VAR', 'can');
 
-  // 添加库文件
-  generator.addLibrary('SPI', '#include <SPI.h>');
-  generator.addLibrary('Seeed_CAN', '#include <mcp2515_can.h>');
-
-  // 生成睡眠代码
-  const code = varName + '.sleep();\n';
-  return code;
+  seeedCanAddLibrary(generator);
+  return varName + '.sleep();\n';
 };
 
-// 唤醒
 Arduino.forBlock['seeed_can_wake'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'can';
+  var varName = seeedCanFieldText(block, 'VAR', 'can');
 
-  // 添加库文件
-  generator.addLibrary('SPI', '#include <SPI.h>');
-  generator.addLibrary('Seeed_CAN', '#include <mcp2515_can.h>');
-
-  // 生成唤醒代码
-  const code = varName + '.wake();\n';
-  return code;
+  seeedCanAddLibrary(generator);
+  return varName + '.wake();\n';
 };
 
-// 检查错误
 Arduino.forBlock['seeed_can_check_error'] = function(block, generator) {
-  const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'can';
+  var varName = seeedCanFieldText(block, 'VAR', 'can');
+  var functionOrder = seeedCanOrder(generator, 'ORDER_FUNCTION_CALL', 0);
 
-  // 添加库文件
-  generator.addLibrary('SPI', '#include <SPI.h>');
-  generator.addLibrary('Seeed_CAN', '#include <mcp2515_can.h>');
-
-  // 生成检查错误代码
-  const code = varName + '.checkError()';
-  return [code, generator.ORDER_FUNCTION_CALL];
+  seeedCanAddLibrary(generator);
+  return [varName + '.checkError()', functionOrder];
 };
