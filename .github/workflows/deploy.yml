@@ -78,7 +78,7 @@ jobs:
   build-and-publish:
     needs: detect-changes
     if: ${{ github.event_name == 'push' && needs.detect-changes.outputs.matrix != '{"include":[]}' && github.ref == 'refs/heads/deploy' }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, ailydeMac-mini, macOS, ARM64]
     timeout-minutes: 120
     env:
       NPM_CONFIG_FETCH_RETRIES: 5
@@ -337,7 +337,7 @@ jobs:
   publish-registry2:
     needs: detect-changes
     if: ${{ github.event_name == 'push' && needs.detect-changes.outputs.matrix != '{"include":[]}' && github.ref == 'refs/heads/deploy' }}
-    runs-on: [self-hosted, ailydeMac-mini, macOS, ARM64]
+    runs-on: ubuntu-latest
     timeout-minutes: 120
     env:
       NPM_CONFIG_FETCH_RETRIES: 5
@@ -476,7 +476,7 @@ jobs:
   
   build-and-publish-all:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/deploy' }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, ailydeMac-mini, macOS, ARM64]
     timeout-minutes: 240
     outputs:
       should_run: ${{ steps.check-update-all.outputs.should_run }}
@@ -788,7 +788,7 @@ jobs:
 
   publish-registry2-all:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/deploy' }}
-    runs-on: [self-hosted, ailydeMac-mini, macOS, ARM64]
+    runs-on: ubuntu-latest
     timeout-minutes: 240
     outputs:
       should_run: ${{ steps.check-update-all.outputs.should_run }}
