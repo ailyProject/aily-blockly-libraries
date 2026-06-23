@@ -277,6 +277,80 @@
   },
   {
     "inputsInline": true,
+    "message0": "动画 %1",
+    "type": "u8g2_animation",
+    "args0": [
+      {
+        "type": "field_u8g2_animation",
+        "name": "CUSTOM_ANIMATION",
+        "width": 128,
+        "height": 64,
+        "fps": 10,
+        "maxFrames": 30,
+        "dither": false,
+        "threshold": 127,
+        "fieldHeight": 32
+      }
+    ],
+    "output": "Animation",
+    "colour": "#4CAF66",
+    "tooltip": "上传 GIF、MP4 或 PNG 并取模为 u8g2 动画帧",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "u8g2_play_animation",
+    "message0": "播放动画 坐标 x%1 y%2 动画 %3 模式 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ANIMATION",
+        "check": "Animation"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PLAY_MODE",
+        "options": [
+          [
+            "阻塞播放",
+            "BLOCKING"
+          ],
+          [
+            "不阻塞播放",
+            "NON_BLOCKING"
+          ]
+        ]
+      }
+    ],
+    "message1": "循环播放 %1",
+    "args1": [
+      {
+        "type": "field_checkbox",
+        "name": "LOOP",
+        "checked": false
+      }
+    ],
+    "extensions": [
+      "u8g2_animation_play_dynamic_inputs"
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4DB6AC",
+    "tooltip": "播放 u8g2 动画；不阻塞模式每次 loop 到达帧间隔时播放下一帧",
+    "inputsInline": true,
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "inputsInline": true,
     "message0": "小图标16×16 %1",
     "type": "u8g2_icon_16x16",
     "args0": [
@@ -349,6 +423,36 @@
     "nextStatement": null,
     "colour": "#4DB6AC",
     "tooltip": "设置屏幕显示方向，0=正常 1=180度翻转",
+    "inputsInline": true,
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "u8g2_set_display_mirror",
+    "message0": "设置屏幕镜像 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "正常",
+            "U8G2_R0"
+          ],
+          [
+            "水平镜像（左右）",
+            "U8G2_MIRROR"
+          ],
+          [
+            "垂直镜像（上下）",
+            "U8G2_MIRROR_VERTICAL"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4DB6AC",
+    "tooltip": "使用U8g2镜像显示方向，正常=不镜像，水平镜像=左右翻转，垂直镜像=上下翻转",
     "inputsInline": true,
     "icon": "iconfont icon-oled12864"
   },

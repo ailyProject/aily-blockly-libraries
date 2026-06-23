@@ -1,0 +1,168 @@
+{
+  "name": "DeepSeek AI",
+  "description": "Blockly library for the official DeepSeek API, supporting chat, multi-turn chat, streaming, thinking mode and JSON output.",
+  "toolbox_name": "DeepSeek AI",
+  "toolbox_labels": {
+    "流式": "Streaming",
+    "状态": "Status"
+  },
+  "deepseek_ai_config": {
+    "message0": "configure DeepSeek API Key %1 Base URL %2",
+    "tooltip": "Configure the DeepSeek API Key and endpoint address. The default Base URL is https://api.deepseek.com."
+  },
+  "deepseek_ai_set_system_prompt": {
+    "message0": "set DeepSeek system prompt %1",
+    "tooltip": "Set the system message used by subsequent DeepSeek requests."
+  },
+  "deepseek_ai_chat": {
+    "message0": "DeepSeek chat message %1 model %2",
+    "tooltip": "Send a single-turn text chat request and return the model reply.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash (recommended)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (legacy compatible)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_thinking_chat": {
+    "message0": "DeepSeek thinking chat message %1 model %2 reasoning effort %3",
+    "tooltip": "Enable DeepSeek thinking mode and return the final answer. Use the last reasoning content block to read reasoning_content.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-pro (recommended)",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-reasoner (legacy compatible)",
+            "deepseek-reasoner"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "high",
+            "high"
+          ],
+          [
+            "max",
+            "max"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_history_chat": {
+    "message0": "DeepSeek multi-turn chat message %1 model %2",
+    "tooltip": "Send a chat request with conversation history and automatically record this user message and model reply.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash (recommended)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (legacy compatible)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_json_chat": {
+    "message0": "DeepSeek JSON output message %1 model %2",
+    "tooltip": "Enable response_format=json_object. The prompt must state that the output should be JSON.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-pro (recommended)",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-v4-flash",
+            "deepseek-v4-flash"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_stream_chat": {
+    "message0": "DeepSeek streaming chat message %1 model %2",
+    "tooltip": "Request the model in streaming mode. Each received text chunk triggers the configured streaming callback.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "deepseek-v4-flash (recommended)",
+            "deepseek-v4-flash"
+          ],
+          [
+            "deepseek-v4-pro",
+            "deepseek-v4-pro"
+          ],
+          [
+            "deepseek-chat (legacy compatible)",
+            "deepseek-chat"
+          ]
+        ]
+      }
+    ]
+  },
+  "deepseek_ai_set_stream_callback": {
+    "message0": "set DeepSeek streaming callback %1",
+    "tooltip": "Set the blocks to run when a DeepSeek streaming chunk arrives. Read the current chunk inside the callback."
+  },
+  "deepseek_ai_get_stream_chunk": {
+    "message0": "DeepSeek current streaming chunk",
+    "tooltip": "Get the most recent text chunk received from a DeepSeek streaming request."
+  },
+  "deepseek_ai_clear_stream_callback": {
+    "message0": "clear DeepSeek streaming callback",
+    "tooltip": "Clear the configured DeepSeek streaming callback."
+  },
+  "deepseek_ai_clear_history": {
+    "message0": "clear DeepSeek multi-turn chat history",
+    "tooltip": "Clear the locally saved multi-turn chat history."
+  },
+  "deepseek_ai_get_response_status": {
+    "message0": "DeepSeek last request succeeded",
+    "tooltip": "Return whether the previous DeepSeek request succeeded."
+  },
+  "deepseek_ai_get_error_message": {
+    "message0": "DeepSeek last error message",
+    "tooltip": "Get the error message recorded when the previous DeepSeek request failed."
+  },
+  "deepseek_ai_get_reasoning": {
+    "message0": "DeepSeek last reasoning content",
+    "tooltip": "Get the reasoning_content returned by thinking mode."
+  }
+}

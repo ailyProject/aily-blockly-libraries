@@ -1,0 +1,356 @@
+[
+  {
+    "type": "seeed_as5600_init",
+    "message0": "初始化 Seeed AS5600 编码器 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "as5600"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "初始化 Grove/Seeed AS5600 12位磁性绝对值编码器"
+  },
+  {
+    "type": "seeed_as5600_get_address",
+    "message0": "编码器 %1 I2C地址",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "as5600",
+        "variableTypes": ["AMS_5600"],
+        "defaultType": "AMS_5600"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "获取 AS5600 固定 I2C 地址，通常为 0x36"
+  },
+  {
+    "type": "seeed_as5600_read_angle",
+    "message0": "编码器 %1 读取 %2 角度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "as5600",
+        "variableTypes": ["AMS_5600"],
+        "defaultType": "AMS_5600"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ANGLE_TYPE",
+        "options": [
+          ["原始", "RAW"],
+          ["缩放", "SCALED"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "UNIT",
+        "options": [
+          ["原始值", "RAW"],
+          ["角度(°)", "DEGREES"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "读取原始或缩放后的角度值，可返回 0-4095 原始值或换算为角度"
+  },
+  {
+    "type": "seeed_as5600_detect_magnet",
+    "message0": "编码器 %1 检测到磁铁",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "as5600",
+        "variableTypes": ["AMS_5600"],
+        "defaultType": "AMS_5600"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#2E7D32",
+    "tooltip": "检测 AS5600 是否检测到磁铁"
+  },
+  {
+    "type": "seeed_as5600_magnet_status",
+    "message0": "编码器 %1 磁铁状态为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "as5600",
+        "variableTypes": ["AMS_5600"],
+        "defaultType": "AMS_5600"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STATUS",
+        "options": [
+          ["未检测到", "NONE"],
+          ["过弱", "WEAK"],
+          ["合适", "GOOD"],
+          ["过强", "STRONG"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#2E7D32",
+    "tooltip": "判断磁铁强度状态：0未检测到、1过弱、2合适、3过强"
+  },
+  {
+    "type": "seeed_as5600_get_magnet_strength",
+    "message0": "编码器 %1 磁铁强度状态值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "as5600",
+        "variableTypes": ["AMS_5600"],
+        "defaultType": "AMS_5600"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "读取磁铁强度状态值：0未检测到、1过弱、2合适、3过强"
+  },
+  {
+    "type": "seeed_as5600_get_magnitude",
+    "message0": "编码器 %1 磁场幅值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "as5600",
+        "variableTypes": ["AMS_5600"],
+        "defaultType": "AMS_5600"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "读取 AS5600 内部 CORDIC 磁场幅值"
+  },
+  {
+    "type": "seeed_as5600_get_agc",
+    "message0": "编码器 %1 自动增益 AGC",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "as5600",
+        "variableTypes": ["AMS_5600"],
+        "defaultType": "AMS_5600"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "读取 AS5600 自动增益控制寄存器值"
+  },
+  {
+    "type": "seeed_as5600_set_position_current",
+    "message0": "编码器 %1 将当前位置设为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "as5600",
+        "variableTypes": ["AMS_5600"],
+        "defaultType": "AMS_5600"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TARGET",
+        "options": [
+          ["起始位置", "START"],
+          ["结束位置", "END"],
+          ["最大角度", "MAX"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "使用当前磁铁位置设置起始位置、结束位置或最大角度"
+  },
+  {
+    "type": "seeed_as5600_set_position",
+    "message0": "编码器 %1 设置 %2 为原始值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "as5600",
+        "variableTypes": ["AMS_5600"],
+        "defaultType": "AMS_5600"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TARGET",
+        "options": [
+          ["起始位置", "START"],
+          ["结束位置", "END"],
+          ["最大角度", "MAX"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "设置起始位置、结束位置或最大角度寄存器，取值通常为 0-4095"
+  },
+  {
+    "type": "seeed_as5600_get_position",
+    "message0": "编码器 %1 读取 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "as5600",
+        "variableTypes": ["AMS_5600"],
+        "defaultType": "AMS_5600"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TARGET",
+        "options": [
+          ["起始位置", "START"],
+          ["结束位置", "END"],
+          ["最大角度", "MAX"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "读取起始位置、结束位置或最大角度寄存器原始值"
+  },
+  {
+    "type": "seeed_as5600_set_output_mode",
+    "message0": "编码器 %1 设置输出模式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "as5600",
+        "variableTypes": ["AMS_5600"],
+        "defaultType": "AMS_5600"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["PWM", "0"],
+          ["模拟 0-100%", "1"],
+          ["模拟 10-90%", "2"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "设置 AS5600 OUT 引脚输出模式"
+  },
+  {
+    "type": "seeed_as5600_get_conf",
+    "message0": "编码器 %1 配置寄存器",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "as5600",
+        "variableTypes": ["AMS_5600"],
+        "defaultType": "AMS_5600"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "读取 AS5600 CONF 配置寄存器原始值"
+  },
+  {
+    "type": "seeed_as5600_set_conf",
+    "message0": "编码器 %1 设置配置寄存器 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "as5600",
+        "variableTypes": ["AMS_5600"],
+        "defaultType": "AMS_5600"
+      },
+      {
+        "type": "input_value",
+        "name": "CONFIG",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "写入 AS5600 CONF 配置寄存器原始值"
+  },
+  {
+    "type": "seeed_as5600_get_burn_count",
+    "message0": "编码器 %1 已烧录次数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "as5600",
+        "variableTypes": ["AMS_5600"],
+        "defaultType": "AMS_5600"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "读取 ZMCO 烧录计数，起止位置最多可烧录 3 次"
+  },
+  {
+    "type": "seeed_as5600_burn_angle",
+    "message0": "编码器 %1 烧录起止角度并返回状态码",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "as5600",
+        "variableTypes": ["AMS_5600"],
+        "defaultType": "AMS_5600"
+      }
+    ],
+    "output": "Number",
+    "colour": "#C62828",
+    "tooltip": "将起始/结束位置永久烧录到芯片，返回 1 成功，负数为错误码。此操作次数有限"
+  },
+  {
+    "type": "seeed_as5600_burn_settings",
+    "message0": "编码器 %1 烧录最大角度和配置并返回状态码",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "as5600",
+        "variableTypes": ["AMS_5600"],
+        "defaultType": "AMS_5600"
+      }
+    ],
+    "output": "Number",
+    "colour": "#C62828",
+    "tooltip": "将最大角度和配置永久烧录到芯片，只能执行一次，返回 1 成功，负数为错误码"
+  }
+]

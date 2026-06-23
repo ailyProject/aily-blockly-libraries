@@ -3,7 +3,7 @@
 TCA8418 I2C keyboard matrix and GPIO expander driver library, supports keyboard matrix scanning and GPIO control
 
 ## Library Info
-- **Name**: @aily-project/adafruit-tca8418
+- **Name**: @aily-project/lib-adafruit-tca8418
 - **Version**: 1.0.0
 
 ## Block Definitions

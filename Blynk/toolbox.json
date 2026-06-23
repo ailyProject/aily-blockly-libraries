@@ -1,0 +1,84 @@
+{
+  "kind": "category",
+  "name": "Blynk",
+  "name_en": "Blynk",
+  "icon": "fa-solid fa-cloud",
+  "colour": "#2EA44F",
+  "contents": [
+    {"kind": "label", "text": "Connection"},
+    {
+      "kind": "block",
+      "type": "blynk_setup_wifi",
+      "inputs": {
+        "SSID": {"shadow": {"type": "text", "fields": {"TEXT": "YourNetworkName"}}},
+        "PASS": {"shadow": {"type": "text", "fields": {"TEXT": "YourPassword"}}},
+        "SERVER": {"shadow": {"type": "text", "fields": {"TEXT": "blynk.cloud"}}},
+        "PORT": {"shadow": {"type": "math_number", "fields": {"NUM": "80"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "blynk_setup_ethernet",
+      "inputs": {
+        "SERVER": {"shadow": {"type": "text", "fields": {"TEXT": "blynk.cloud"}}},
+        "PORT": {"shadow": {"type": "math_number", "fields": {"NUM": "80"}}}
+      }
+    },
+    {"kind": "block", "type": "blynk_run"},
+    {"kind": "block", "type": "blynk_connected"},
+    {
+      "kind": "block",
+      "type": "blynk_connect",
+      "inputs": {
+        "TIMEOUT": {"shadow": {"type": "math_number", "fields": {"NUM": "30000"}}}
+      }
+    },
+    {"kind": "block", "type": "blynk_disconnect"},
+    {"kind": "label", "text": "Virtual Pins"},
+    {
+      "kind": "block",
+      "type": "blynk_virtual_write",
+      "inputs": {
+        "VALUE": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
+      }
+    },
+    {"kind": "block", "type": "blynk_sync_virtual"},
+    {"kind": "block", "type": "blynk_sync_all"},
+    {
+      "kind": "block",
+      "type": "blynk_set_property",
+      "inputs": {
+        "VALUE": {"shadow": {"type": "text", "fields": {"TEXT": "Value"}}}
+      }
+    },
+    {"kind": "label", "text": "Events"},
+    {
+      "kind": "block",
+      "type": "blynk_log_event",
+      "inputs": {
+        "EVENT": {"shadow": {"type": "text", "fields": {"TEXT": "event_code"}}},
+        "DESCRIPTION": {"shadow": {"type": "text", "fields": {"TEXT": ""}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "blynk_resolve_event",
+      "inputs": {
+        "EVENT": {"shadow": {"type": "text", "fields": {"TEXT": "event_code"}}}
+      }
+    },
+    {"kind": "block", "type": "blynk_on_virtual_write"},
+    {"kind": "block", "type": "blynk_on_connected"},
+    {"kind": "block", "type": "blynk_param_int"},
+    {"kind": "block", "type": "blynk_param_float"},
+    {"kind": "block", "type": "blynk_param_string"},
+    {"kind": "label", "text": "Timer"},
+    {
+      "kind": "block",
+      "type": "blynk_timer_every",
+      "inputs": {
+        "INTERVAL": {"shadow": {"type": "math_number", "fields": {"NUM": "1000"}}}
+      }
+    }
+  ]
+}

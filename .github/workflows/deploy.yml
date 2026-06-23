@@ -20,9 +20,13 @@ jobs:
         id: set-matrix
         run: |
           # 获取最后一次成功运行的提交SHA或默认为一个空树
-          git fetch origin tag last-deploy --force 2>/dev/null || true
-          if git rev-parse -q --verify refs/tags/last-deploy >/dev/null; then
-            BASE_SHA=$(git rev-parse refs/tags/last-deploy)
+          echo "Origin: $(git remote get-url origin)"
+          BASE_SHA=$(git ls-remote origin "refs/tags/last-deploy^{}" | awk 'NR == 1 { print $1 }')
+          if [ -z "$BASE_SHA" ]; then
+            BASE_SHA=$(git ls-remote origin "refs/tags/last-deploy" | awk 'NR == 1 { print $1 }')
+          fi
+
+          if [ -n "$BASE_SHA" ]; then
             echo "Using last successful deploy tag as base: $BASE_SHA"
           else
             echo "No last-deploy tag found, using first commit in history"
@@ -74,7 +78,7 @@ jobs:
   build-and-publish:
     needs: detect-changes
     if: ${{ github.event_name == 'push' && needs.detect-changes.outputs.matrix != '{"include":[]}' && github.ref == 'refs/heads/deploy' }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, ailydeMac-mini, macOS, ARM64]
     timeout-minutes: 120
     env:
       NPM_CONFIG_FETCH_RETRIES: 5
@@ -123,7 +127,10 @@ jobs:
         env:
           PACKAGES_JSON: ${{ matrix.packages_json }}
         run: |
-          mapfile -t PACKAGES < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
+          PACKAGES=()
+          while IFS= read -r package_dir; do
+            PACKAGES+=("$package_dir")
+          done < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
           for package_dir in "${PACKAGES[@]}"; do
             echo "Building $package_dir"
             (
@@ -132,98 +139,6 @@ jobs:
             )
           done
       
-      - name: Publish to Registry 2
-        if: steps.check-update-all.outputs.should_skip != 'true'
-        env:
-          REGISTRY_2: ${{ secrets.REGISTRY_URL_2 }}
-          TOKEN_2: ${{ secrets.NPM_TOKEN_2 }}
-          PACKAGES_JSON: ${{ matrix.packages_json }}
-        run: |
-          retry_with_backoff() {
-            local max_attempts="$1"
-            local sleep_seconds="$2"
-            shift 2
-            local attempt=1
-
-            until "$@"; do
-              if [ "$attempt" -ge "$max_attempts" ]; then
-                echo "Command failed after ${max_attempts} attempts: $*"
-                return 1
-              fi
-              echo "Attempt ${attempt}/${max_attempts} failed. Retrying in ${sleep_seconds}s: $*"
-              sleep "$sleep_seconds"
-              attempt=$((attempt + 1))
-              sleep_seconds=$((sleep_seconds * 2))
-            done
-          }
-
-          if [ -z "$REGISTRY_2" ] || [ -z "$TOKEN_2" ]; then
-            echo "Registry 2 secrets not set, skipping."
-            exit 0
-          fi
-
-          echo "----------------------------------------"
-          echo "Processing second registry: $REGISTRY_2"
-          
-          # 去掉协议头获取 host
-          REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2" | sed 's/^https\?:\/\///')
-          # 去掉可能存在的尾部斜杠
-          REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2_NO_PROTO" | sed 's/\/$//')
-          
-          mapfile -t PACKAGES < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
-          for package_dir in "${PACKAGES[@]}"; do
-            echo "Publishing $package_dir to Registry 2"
-            (
-              cd "$package_dir"
-              # 在包目录生成临时 .npmrc，避免覆盖 setup-node 在仓库根目录生成的默认 registry 鉴权配置
-              echo "registry=$REGISTRY_2" > .npmrc
-              echo "//$REGISTRY_2_NO_PROTO/:_authToken=$TOKEN_2" >> .npmrc
-              trap 'rm -f .npmrc' EXIT
-
-              CURRENT_VERSION=$(node -p "require('./package.json').version")
-              PACKAGE_NAME=$(node -p "require('./package.json').name")
-              echo "Current version: $CURRENT_VERSION"
-
-              # 检查是否存在
-              if npm view $PACKAGE_NAME@$CURRENT_VERSION version &> /dev/null; then
-                echo "Version $CURRENT_VERSION exists on $REGISTRY_2, unpublishing..."
-                retry_with_backoff 3 3 npm unpublish $PACKAGE_NAME@$CURRENT_VERSION --force
-                sleep 5
-              fi
-
-              # 发布
-              retry_with_backoff 5 5 npm publish --access public
-            )
-          done
-
-      - name: Notify cache bump for Registry 2
-        if: steps.check-update-all.outputs.should_skip != 'true'
-        env:
-          NOTIFY_URL: ${{ secrets.NOTIFY_URL_2 }}
-          NOTIFY_TOKEN: ${{ secrets.NOTIFY_TOKEN_2 }}
-        run: |
-          if [ -z "$NOTIFY_URL" ] || [ -z "$NOTIFY_TOKEN" ]; then
-            echo "NOTIFY_URL_2 or NOTIFY_TOKEN_2 not set, skipping."
-            exit 0
-          fi
-          echo "Sending POST request to $NOTIFY_URL"
-          set +e
-          HTTP_STATUS=$(curl -s -o /tmp/notify_response_2.txt -w "%{http_code}" --max-time 30 \
-            -X POST "$NOTIFY_URL" \
-            -H "Authorization: Bearer $NOTIFY_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d '{}')
-          CURL_EXIT=$?
-          set -e
-          if [ "$CURL_EXIT" -ne 0 ]; then
-            echo "::warning::Notification (Registry 2) request failed (curl exit code $CURL_EXIT)"
-          elif [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
-            echo "Notification (Registry 2) sent successfully (HTTP $HTTP_STATUS)"
-          else
-            echo "::warning::Notification (Registry 2) failed with HTTP status $HTTP_STATUS"
-            cat /tmp/notify_response_2.txt || true
-          fi
-
       - name: Publish to Default Registry
         if: steps.check-update-all.outputs.should_skip != 'true'
         env:
@@ -249,21 +164,10 @@ jobs:
           }
           export -f retry_with_backoff
 
-          mark_manual_publish() {
-            local package_name="$1"
-            local package_version="$2"
-            local package_dir="$3"
-
-            echo "::warning::Default registry publish timed out after 5 minutes for ${package_name}@${package_version} (${package_dir}). Please publish it manually."
-            {
-              echo "### Manual publish required"
-              echo "- Package: ${package_name}@${package_version}"
-              echo "- Directory: ${package_dir}"
-              echo "- Reason: publish to default registry timed out after 5 minutes"
-            } >> "$GITHUB_STEP_SUMMARY"
-          }
-
-          mapfile -t PACKAGES < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
+          PACKAGES=()
+          while IFS= read -r package_dir; do
+            PACKAGES+=("$package_dir")
+          done < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
           for package_dir in "${PACKAGES[@]}"; do
             echo "Publishing $package_dir to default registry"
             (
@@ -284,17 +188,7 @@ jobs:
               fi
 
               # 发布
-              set +e
-              timeout 5m bash -lc 'retry_with_backoff 5 5 npm publish --access public'
-              STATUS=$?
-              set -e
-              if [ "$STATUS" -ne 0 ]; then
-                if [ "$STATUS" -eq 124 ]; then
-                  mark_manual_publish "$PACKAGE_NAME" "$CURRENT_VERSION" "$package_dir"
-                  exit 0
-                fi
-                exit "$STATUS"
-              fi
+              retry_with_backoff 5 5 npm publish --access public
             )
             STATUS=$?
             if [ "$STATUS" -ne 0 ]; then
@@ -329,11 +223,153 @@ jobs:
             echo "::warning::Notification failed with HTTP status $HTTP_STATUS"
             cat /tmp/notify_response.txt || true
           fi
+
+  publish-registry2:
+    needs: detect-changes
+    if: ${{ github.event_name == 'push' && needs.detect-changes.outputs.matrix != '{"include":[]}' && github.ref == 'refs/heads/deploy' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      NPM_CONFIG_FETCH_RETRIES: 5
+      NPM_CONFIG_FETCH_RETRY_MINTIMEOUT: 10000
+      NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT: 120000
+      NPM_CONFIG_FETCH_TIMEOUT: 300000
+    strategy:
+      matrix: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
+      max-parallel: 1
+      fail-fast: false
+    steps:
+      - name: Check UPDATE_ALL flag
+        id: check-update-all
+        run: |
+          if [[ "${{ secrets.UPDATE_ALL }}" == "true" ]]; then
+            echo "should_skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "should_skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout code
+        if: steps.check-update-all.outputs.should_skip != 'true'
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GHB_TOKEN }}
+
+      - name: Setup Node.js
+        if: steps.check-update-all.outputs.should_skip != 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Build package
+        if: steps.check-update-all.outputs.should_skip != 'true'
+        env:
+          PACKAGES_JSON: ${{ matrix.packages_json }}
+        run: |
+          PACKAGES=()
+          while IFS= read -r package_dir; do
+            PACKAGES+=("$package_dir")
+          done < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
+          for package_dir in "${PACKAGES[@]}"; do
+            echo "Building $package_dir"
+            (
+              cd "$package_dir"
+              npm run build --if-present
+            )
+          done
+
+      - name: Publish to Registry 2
+        if: steps.check-update-all.outputs.should_skip != 'true'
+        env:
+          REGISTRY_2: ${{ secrets.REGISTRY_URL_2 }}
+          TOKEN_2: ${{ secrets.NPM_TOKEN_2 }}
+          PACKAGES_JSON: ${{ matrix.packages_json }}
+        run: |
+          retry_with_backoff() {
+            local max_attempts="$1"
+            local sleep_seconds="$2"
+            shift 2
+            local attempt=1
+
+            until "$@"; do
+              if [ "$attempt" -ge "$max_attempts" ]; then
+                echo "Command failed after ${max_attempts} attempts: $*"
+                return 1
+              fi
+              echo "Attempt ${attempt}/${max_attempts} failed. Retrying in ${sleep_seconds}s: $*"
+              sleep "$sleep_seconds"
+              attempt=$((attempt + 1))
+              sleep_seconds=$((sleep_seconds * 2))
+            done
+          }
+
+          if [ -z "$REGISTRY_2" ] || [ -z "$TOKEN_2" ]; then
+            echo "Registry 2 secrets not set, skipping."
+            exit 0
+          fi
+
+          REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2" | sed 's/^https\?:\/\///')
+          REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2_NO_PROTO" | sed 's/\/$//')
+
+          PACKAGES=()
+          while IFS= read -r package_dir; do
+            PACKAGES+=("$package_dir")
+          done < <(node -e 'for (const item of JSON.parse(process.env.PACKAGES_JSON)) console.log(item)')
+          for package_dir in "${PACKAGES[@]}"; do
+            echo "Publishing $package_dir to Registry 2"
+            (
+              cd "$package_dir"
+              echo "registry=$REGISTRY_2" > .npmrc
+              echo "//$REGISTRY_2_NO_PROTO/:_authToken=$TOKEN_2" >> .npmrc
+              trap 'rm -f .npmrc' EXIT
+
+              CURRENT_VERSION=$(node -p "require('./package.json').version")
+              PACKAGE_NAME=$(node -p "require('./package.json').name")
+              echo "Current version: $CURRENT_VERSION"
+
+              if npm view $PACKAGE_NAME@$CURRENT_VERSION version &> /dev/null; then
+                echo "Version $CURRENT_VERSION exists on $REGISTRY_2, unpublishing..."
+                retry_with_backoff 3 3 npm unpublish $PACKAGE_NAME@$CURRENT_VERSION --force
+                sleep 5
+              fi
+
+              retry_with_backoff 5 5 npm publish --access public
+            )
+          done
+
+      - name: Notify cache bump for Registry 2
+        if: steps.check-update-all.outputs.should_skip != 'true'
+        env:
+          NOTIFY_URL: ${{ secrets.NOTIFY_URL_2 }}
+          NOTIFY_TOKEN: ${{ secrets.NOTIFY_TOKEN_2 }}
+        run: |
+          if [ -z "$NOTIFY_URL" ] || [ -z "$NOTIFY_TOKEN" ]; then
+            echo "NOTIFY_URL_2 or NOTIFY_TOKEN_2 not set, skipping."
+            exit 0
+          fi
+          echo "Sending POST request to $NOTIFY_URL"
+          set +e
+          HTTP_STATUS=$(curl -s -o /tmp/notify_response_2.txt -w "%{http_code}" --max-time 30 \
+            -X POST "$NOTIFY_URL" \
+            -H "Authorization: Bearer $NOTIFY_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{}')
+          CURL_EXIT=$?
+          set -e
+          if [ "$CURL_EXIT" -ne 0 ]; then
+            echo "::warning::Notification (Registry 2) request failed (curl exit code $CURL_EXIT)"
+          elif [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
+            echo "Notification (Registry 2) sent successfully (HTTP $HTTP_STATUS)"
+          else
+            echo "::warning::Notification (Registry 2) failed with HTTP status $HTTP_STATUS"
+            cat /tmp/notify_response_2.txt || true
+          fi
   
   build-and-publish-all:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/deploy' }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, ailydeMac-mini, macOS, ARM64]
     timeout-minutes: 240
+    outputs:
+      should_run: ${{ steps.check-update-all.outputs.should_run }}
     env:
       NPM_CONFIG_FETCH_RETRIES: 5
       NPM_CONFIG_FETCH_RETRY_MINTIMEOUT: 10000
@@ -362,140 +398,10 @@ jobs:
           node-version: '18'
           registry-url: ${{ secrets.REGISTRY_URL }}
       
-      - name: Publish All to Registry 2
-        if: steps.check-update-all.outputs.should_run == 'true'
-        env:
-          REGISTRY_2: ${{ secrets.REGISTRY_URL_2 }}
-          TOKEN_2: ${{ secrets.NPM_TOKEN_2 }}
-          NPM_PUBLISH_PARALLEL: 4
-        run: |
-          retry_with_backoff() {
-            local max_attempts="$1"
-            local sleep_seconds="$2"
-            shift 2
-            local attempt=1
-
-            until "$@"; do
-              if [ "$attempt" -ge "$max_attempts" ]; then
-                echo "Command failed after ${max_attempts} attempts: $*"
-                return 1
-              fi
-              echo "Attempt ${attempt}/${max_attempts} failed. Retrying in ${sleep_seconds}s: $*"
-              sleep "$sleep_seconds"
-              attempt=$((attempt + 1))
-              sleep_seconds=$((sleep_seconds * 2))
-            done
-          }
-
-          publish_registry2_one() {
-            local dir="$1"
-            (
-              cd "$dir"
-              echo "registry=$REGISTRY_2" > .npmrc
-              echo "//$REGISTRY_2_NO_PROTO/:_authToken=$TOKEN_2" >> .npmrc
-              trap 'rm -f .npmrc' EXIT
-
-              echo "发布 $dir 到 Registry 2"
-              CURRENT_VERSION=$(node -p "require('./package.json').version")
-              PACKAGE_NAME=$(node -p "require('./package.json').name")
-              echo "当前版本: $CURRENT_VERSION"
-
-              if npm view $PACKAGE_NAME@$CURRENT_VERSION version &> /dev/null; then
-                echo "Version $CURRENT_VERSION exists on $REGISTRY_2, unpublishing..."
-                retry_with_backoff 3 3 npm unpublish $PACKAGE_NAME@$CURRENT_VERSION --force
-                sleep 5
-              fi
-
-              retry_with_backoff 5 5 npm publish --access public
-            )
-          }
-
-          if [ -z "$REGISTRY_2" ] || [ -z "$TOKEN_2" ]; then
-            echo "Registry 2 secrets not set, skipping."
-            exit 0
-          fi
-
-          REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2" | sed 's/^https\?:\/\///')
-          # 去掉可能存在的尾部斜杠
-          REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2_NO_PROTO" | sed 's/\/$//')
-
-          PACKAGE_DIRS=$(find . -name "package.json" -not -path "*/node_modules/*" -not -path "./package.json" -exec dirname {} \; | sed 's/^\.\///')
-          echo "Found packages: $PACKAGE_DIRS"
-          # 仅保留一级目录
-          FIRST_LEVEL_DIRS=()
-          for dir in $PACKAGE_DIRS; do
-            if [[ "$dir" != *"/"* ]]; then
-              FIRST_LEVEL_DIRS+=("$dir")
-            fi
-          done
-          
-          echo "要发布的一级目录包: ${FIRST_LEVEL_DIRS[*]}"
-
-          PARALLEL=${NPM_PUBLISH_PARALLEL:-4}
-          FAIL=0
-          PIDS=()
-
-          for dir in "${FIRST_LEVEL_DIRS[@]}"; do
-            if [ ! -d "$dir" ]; then
-              echo "目录 $dir 不存在，跳过..."
-              continue
-            fi
-
-            publish_registry2_one "$dir" &
-            PIDS+=("$!")
-
-            if [ "${#PIDS[@]}" -ge "$PARALLEL" ]; then
-              if ! wait -n; then
-                FAIL=1
-              fi
-              PIDS=($(jobs -pr))
-            fi
-          done
-
-          for pid in "${PIDS[@]}"; do
-            if ! wait "$pid"; then
-              FAIL=1
-            fi
-          done
-
-          if [ "$FAIL" -ne 0 ]; then
-            echo "One or more package publishes failed on Registry 2"
-            exit 1
-          fi
-          
-      - name: Notify cache bump for Registry 2
-        if: steps.check-update-all.outputs.should_run == 'true'
-        env:
-          NOTIFY_URL: ${{ secrets.NOTIFY_URL_2 }}
-          NOTIFY_TOKEN: ${{ secrets.NOTIFY_TOKEN_2 }}
-        run: |
-          if [ -z "$NOTIFY_URL" ] || [ -z "$NOTIFY_TOKEN" ]; then
-            echo "NOTIFY_URL_2 or NOTIFY_TOKEN_2 not set, skipping."
-            exit 0
-          fi
-          echo "Sending POST request to $NOTIFY_URL"
-          set +e
-          HTTP_STATUS=$(curl -s -o /tmp/notify_response_2.txt -w "%{http_code}" --max-time 30 \
-            -X POST "$NOTIFY_URL" \
-            -H "Authorization: Bearer $NOTIFY_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d '{}')
-          CURL_EXIT=$?
-          set -e
-          if [ "$CURL_EXIT" -ne 0 ]; then
-            echo "::warning::Notification (Registry 2) request failed (curl exit code $CURL_EXIT)"
-          elif [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
-            echo "Notification (Registry 2) sent successfully (HTTP $HTTP_STATUS)"
-          else
-            echo "::warning::Notification (Registry 2) failed with HTTP status $HTTP_STATUS"
-            cat /tmp/notify_response_2.txt || true
-          fi
-      
       - name: Publish All to Default Registry
         if: steps.check-update-all.outputs.should_run == 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_PUBLISH_PARALLEL: 4
         run: |
           retry_with_backoff() {
             local max_attempts="$1"
@@ -516,18 +422,6 @@ jobs:
           }
           export -f retry_with_backoff
 
-          MANUAL_LOG="$RUNNER_TEMP/manual-default-publish.txt"
-          : > "$MANUAL_LOG"
-
-          mark_manual_publish() {
-            local package_name="$1"
-            local package_version="$2"
-            local package_dir="$3"
-
-            echo "::warning::Default registry publish timed out after 5 minutes for ${package_name}@${package_version} (${package_dir}). Please publish it manually."
-            printf '%s\n' "${package_name}@${package_version} | ${package_dir} | publish to default registry timed out after 5 minutes" >> "$MANUAL_LOG"
-          }
-
           publish_default_one() {
             local dir="$1"
             (
@@ -545,17 +439,7 @@ jobs:
                 sleep 5
               fi
 
-              set +e
-              timeout 5m bash -lc 'retry_with_backoff 5 5 npm publish --access public'
-              STATUS=$?
-              set -e
-              if [ "$STATUS" -ne 0 ]; then
-                if [ "$STATUS" -eq 124 ]; then
-                  mark_manual_publish "$PACKAGE_NAME" "$CURRENT_VERSION" "$dir"
-                  exit 0
-                fi
-                exit "$STATUS"
-              fi
+              retry_with_backoff 5 5 npm publish --access public
             )
           }
 
@@ -571,46 +455,14 @@ jobs:
           
           echo "要发布的一级目录包: ${FIRST_LEVEL_DIRS[*]}"
 
-          PARALLEL=${NPM_PUBLISH_PARALLEL:-4}
-          FAIL=0
-          PIDS=()
-
           for dir in "${FIRST_LEVEL_DIRS[@]}"; do
             if [ ! -d "$dir" ]; then
               echo "目录 $dir 不存在，跳过..."
               continue
             fi
 
-            publish_default_one "$dir" &
-            PIDS+=("$!")
-
-            if [ "${#PIDS[@]}" -ge "$PARALLEL" ]; then
-              if ! wait -n; then
-                FAIL=1
-              fi
-              PIDS=($(jobs -pr))
-            fi
+            publish_default_one "$dir"
           done
-
-          for pid in "${PIDS[@]}"; do
-            if ! wait "$pid"; then
-              FAIL=1
-            fi
-          done
-
-          if [ "$FAIL" -ne 0 ]; then
-            echo "One or more package publishes failed on default registry"
-            exit 1
-          fi
-
-          if [ -s "$MANUAL_LOG" ]; then
-            {
-              echo "### Manual publish required"
-              while IFS= read -r line; do
-                echo "- $line"
-              done < "$MANUAL_LOG"
-            } >> "$GITHUB_STEP_SUMMARY"
-          fi
 
       - name: Notify cache bump
         if: steps.check-update-all.outputs.should_run == 'true'
@@ -638,6 +490,138 @@ jobs:
           else
             echo "::warning::Notification failed with HTTP status $HTTP_STATUS"
             cat /tmp/notify_response.txt || true
+          fi
+
+  publish-registry2-all:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/deploy' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    outputs:
+      should_run: ${{ steps.check-update-all.outputs.should_run }}
+    env:
+      NPM_CONFIG_FETCH_RETRIES: 5
+      NPM_CONFIG_FETCH_RETRY_MINTIMEOUT: 10000
+      NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT: 120000
+      NPM_CONFIG_FETCH_TIMEOUT: 300000
+    steps:
+      - name: Check UPDATE_ALL flag
+        id: check-update-all
+        run: |
+          if [[ "${{ secrets.UPDATE_ALL }}" == "true" ]]; then
+            echo "should_run=true" >> $GITHUB_OUTPUT
+          else
+            echo "should_run=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout code
+        if: steps.check-update-all.outputs.should_run == 'true'
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GHB_TOKEN }}
+
+      - name: Setup Node.js
+        if: steps.check-update-all.outputs.should_run == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Publish All to Registry 2
+        if: steps.check-update-all.outputs.should_run == 'true'
+        env:
+          REGISTRY_2: ${{ secrets.REGISTRY_URL_2 }}
+          TOKEN_2: ${{ secrets.NPM_TOKEN_2 }}
+        run: |
+          retry_with_backoff() {
+            local max_attempts="$1"
+            local sleep_seconds="$2"
+            shift 2
+            local attempt=1
+
+            until "$@"; do
+              if [ "$attempt" -ge "$max_attempts" ]; then
+                echo "Command failed after ${max_attempts} attempts: $*"
+                return 1
+              fi
+              echo "Attempt ${attempt}/${max_attempts} failed. Retrying in ${sleep_seconds}s: $*"
+              sleep "$sleep_seconds"
+              attempt=$((attempt + 1))
+              sleep_seconds=$((sleep_seconds * 2))
+            done
+          }
+
+          if [ -z "$REGISTRY_2" ] || [ -z "$TOKEN_2" ]; then
+            echo "Registry 2 secrets not set, skipping."
+            exit 0
+          fi
+
+          REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2" | sed 's/^https\?:\/\///')
+          REGISTRY_2_NO_PROTO=$(echo "$REGISTRY_2_NO_PROTO" | sed 's/\/$//')
+
+          PACKAGE_DIRS=$(find . -name "package.json" -not -path "*/node_modules/*" -not -path "./package.json" -exec dirname {} \; | sed 's/^\.\///')
+          echo "Found packages: $PACKAGE_DIRS"
+
+          FIRST_LEVEL_DIRS=()
+          for dir in $PACKAGE_DIRS; do
+            if [[ "$dir" != *"/"* ]]; then
+              FIRST_LEVEL_DIRS+=("$dir")
+            fi
+          done
+
+          echo "要发布的一级目录包: ${FIRST_LEVEL_DIRS[*]}"
+
+          for dir in "${FIRST_LEVEL_DIRS[@]}"; do
+            if [ ! -d "$dir" ]; then
+              echo "目录 $dir 不存在，跳过..."
+              continue
+            fi
+
+            (
+              cd "$dir"
+              echo "registry=$REGISTRY_2" > .npmrc
+              echo "//$REGISTRY_2_NO_PROTO/:_authToken=$TOKEN_2" >> .npmrc
+              trap 'rm -f .npmrc' EXIT
+
+              echo "发布 $dir 到 Registry 2"
+              CURRENT_VERSION=$(node -p "require('./package.json').version")
+              PACKAGE_NAME=$(node -p "require('./package.json').name")
+              echo "当前版本: $CURRENT_VERSION"
+
+              if npm view $PACKAGE_NAME@$CURRENT_VERSION version &> /dev/null; then
+                echo "Version $CURRENT_VERSION exists on $REGISTRY_2, unpublishing..."
+                retry_with_backoff 3 3 npm unpublish $PACKAGE_NAME@$CURRENT_VERSION --force
+                sleep 5
+              fi
+
+              retry_with_backoff 5 5 npm publish --access public
+            )
+          done
+
+      - name: Notify cache bump for Registry 2
+        if: steps.check-update-all.outputs.should_run == 'true'
+        env:
+          NOTIFY_URL: ${{ secrets.NOTIFY_URL_2 }}
+          NOTIFY_TOKEN: ${{ secrets.NOTIFY_TOKEN_2 }}
+        run: |
+          if [ -z "$NOTIFY_URL" ] || [ -z "$NOTIFY_TOKEN" ]; then
+            echo "NOTIFY_URL_2 or NOTIFY_TOKEN_2 not set, skipping."
+            exit 0
+          fi
+          echo "Sending POST request to $NOTIFY_URL"
+          set +e
+          HTTP_STATUS=$(curl -s -o /tmp/notify_response_2.txt -w "%{http_code}" --max-time 30 \
+            -X POST "$NOTIFY_URL" \
+            -H "Authorization: Bearer $NOTIFY_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{}')
+          CURL_EXIT=$?
+          set -e
+          if [ "$CURL_EXIT" -ne 0 ]; then
+            echo "::warning::Notification (Registry 2) request failed (curl exit code $CURL_EXIT)"
+          elif [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; then
+            echo "Notification (Registry 2) sent successfully (HTTP $HTTP_STATUS)"
+          else
+            echo "::warning::Notification (Registry 2) failed with HTTP status $HTTP_STATUS"
+            cat /tmp/notify_response_2.txt || true
           fi
 
   genJson-and-upload:
@@ -711,6 +695,31 @@ jobs:
           for file in libraries.json libraries-ai.json libraries-index.json tags.json; do
             aws --endpoint-url "$RUSTFS_ENDPOINT" s3 cp "$file" "s3://${RUSTFS_BUCKET}/${PREFIX}${file}" --no-progress
           done
+
+      - name: Upload AI docs to RustFS
+        env:
+          RUSTFS_ENDPOINT: ${{ secrets.RUSTFS_ENDPOINT }}
+          RUSTFS_ACCESS_KEY_ID: ${{ secrets.RUSTFS_ACCESS_KEY_ID }}
+          RUSTFS_SECRET_ACCESS_KEY: ${{ secrets.RUSTFS_SECRET_ACCESS_KEY }}
+          RUSTFS_BUCKET: ${{ secrets.RUSTFS_BUCKET }}
+        run: |
+          if [ -z "$RUSTFS_ENDPOINT" ] || [ -z "$RUSTFS_ACCESS_KEY_ID" ] || [ -z "$RUSTFS_SECRET_ACCESS_KEY" ] || [ -z "$RUSTFS_BUCKET" ]; then
+            echo "RustFS secrets not set, skipping."
+            exit 0
+          fi
+          if [ ! -d ".docs_ai" ]; then
+            echo ".docs_ai does not exist, skipping."
+            exit 0
+          fi
+          export AWS_ACCESS_KEY_ID="$RUSTFS_ACCESS_KEY_ID"
+          export AWS_SECRET_ACCESS_KEY="$RUSTFS_SECRET_ACCESS_KEY"
+          export AWS_DEFAULT_REGION="us-east-1"
+          if [ -d ".docs_ai/en" ]; then
+            aws --endpoint-url "$RUSTFS_ENDPOINT" s3 cp ".docs_ai/en" "s3://${RUSTFS_BUCKET}/files/" --recursive --no-progress
+          fi
+          find .docs_ai -maxdepth 1 -type f -print0 | while IFS= read -r -d '' file; do
+            aws --endpoint-url "$RUSTFS_ENDPOINT" s3 cp "$file" "s3://${RUSTFS_BUCKET}/files/$(basename "$file")" --no-progress
+          done
       
       - name: Prepare R2 Upload
         run: |
@@ -720,7 +729,43 @@ jobs:
           cp libraries-index.json r2_json/
           cp tags.json r2_json/
 
-      - name: Upload to R2
+      - name: Prepare AI docs upload
+        run: |
+          if [ ! -d ".docs_ai" ]; then
+            echo ".docs_ai does not exist, skipping."
+            exit 0
+          fi
+          mkdir -p r2_docs
+          if [ -d ".docs_ai/en" ]; then
+            cp -R .docs_ai/en/. r2_docs/
+          fi
+          find .docs_ai -maxdepth 1 -type f -exec cp {} r2_docs/ \;
+
+      - name: Upload JSON files to R2
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'auto'
+          R2_JSON_TARGET: ${{ secrets.R2_JSON_TARGET }}
+        run: |
+          R2_ENDPOINT="https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+          TARGET="${R2_JSON_TARGET%/}"
+          PREFIX="${TARGET:+${TARGET}/}"
+          CACHE_CONTROL="no-store, no-cache, must-revalidate, max-age=0"
+
+          for file in r2_json/*.json; do
+            name="$(basename "$file")"
+            aws --endpoint-url "$R2_ENDPOINT" s3 cp "$file" "s3://${R2_BUCKET}/${PREFIX}${name}" \
+              --acl public-read \
+              --content-type "application/json" \
+              --cache-control "$CACHE_CONTROL" \
+              --no-progress
+          done
+
+      - name: Upload AI docs to R2
+        if: ${{ hashFiles('.docs_ai/en/**', '.docs_ai/*') != '' }}
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com --acl public-read --follow-symlinks
@@ -729,23 +774,39 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           AWS_REGION: 'auto'
-          SOURCE_DIR: 'r2_json'
-          DEST_DIR: '${{ secrets.R2_JSON_TARGET }}'
+          SOURCE_DIR: 'r2_docs'
+          DEST_DIR: 'files'
       
   update-last-deploy-tag:
     runs-on: ubuntu-latest
     needs:
       - detect-changes
       - build-and-publish
+      - publish-registry2
       - build-and-publish-all
+      - publish-registry2-all
       - genJson-and-upload
     if: >-
       ${{
         always() &&
         needs.detect-changes.result == 'success' &&
         contains(fromJson('["success","skipped"]'), needs.build-and-publish.result) &&
+        contains(fromJson('["success","skipped"]'), needs.publish-registry2.result) &&
         contains(fromJson('["success","skipped"]'), needs.build-and-publish-all.result) &&
-        needs.genJson-and-upload.result == 'success'
+        contains(fromJson('["success","skipped"]'), needs.publish-registry2-all.result) &&
+        needs.genJson-and-upload.result == 'success' &&
+        (
+          (
+            needs.detect-changes.outputs.matrix != '{"include":[]}' &&
+            needs.build-and-publish.result == 'success' &&
+            needs.publish-registry2.result == 'success'
+          ) ||
+          (
+            needs.build-and-publish-all.outputs.should_run == 'true' &&
+            needs.build-and-publish-all.result == 'success' &&
+            needs.publish-registry2-all.result == 'success'
+          )
+        )
       }}
 
     steps:
@@ -758,3 +819,56 @@ jobs:
         run: |
           git tag -f last-deploy ${{ github.sha }}
           git push -f origin last-deploy
+
+  refresh-library-ratings:
+    runs-on: ubuntu-latest
+    needs:
+      - update-last-deploy-tag
+    if: ${{ needs.update-last-deploy-tag.result == 'success' }}
+
+    steps:
+      - name: Trigger library ratings refresh
+        env:
+          REFRESH_URL_CN: ${{ secrets.LIBRARY_RATINGS_REFRESH_URL_CN }}
+          REFRESH_PASSWORD_CN: ${{ secrets.LIBRARY_RATINGS_REFRESH_PASSWORD_CN }}
+          REFRESH_URL_EU: ${{ secrets.LIBRARY_RATINGS_REFRESH_URL_EU }}
+          REFRESH_PASSWORD_EU: ${{ secrets.LIBRARY_RATINGS_REFRESH_PASSWORD_EU }}
+        run: |
+          if [ -z "$REFRESH_URL_CN" ] || [ -z "$REFRESH_PASSWORD_CN" ]; then
+            echo "LIBRARY_RATINGS_REFRESH_URL_CN or LIBRARY_RATINGS_REFRESH_PASSWORD_CN not set, skipping."
+            exit 0
+          fi
+
+          trigger_refresh() {
+            local target_name="$1"
+            local refresh_url="$2"
+            local refresh_password="$3"
+            local response_file="$4"
+
+            if [ -z "$refresh_url" ] || [ -z "$refresh_password" ]; then
+              echo "${target_name} refresh config not set, skipping."
+              return 0
+            fi
+
+            echo "Sending ${target_name} refresh request to $refresh_url"
+            set +e
+            HTTP_STATUS=$(curl -s -o "$response_file" -w "%{http_code}" --max-time 30 \
+              -X POST "$refresh_url" \
+              -H "X-Refresh-Password: $refresh_password" \
+              -H "Content-Type: application/json" \
+              -d '{}')
+            CURL_EXIT=$?
+            set -e
+
+            if [ "$CURL_EXIT" -ne 0 ]; then
+              echo "::warning::${target_name} refresh request failed (curl exit code $CURL_EXIT)"
+            elif [ "$HTTP_STATUS" -eq 202 ] || { [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 300 ]; }; then
+              echo "${target_name} refresh accepted successfully (HTTP $HTTP_STATUS)"
+            else
+              echo "::warning::${target_name} refresh failed with HTTP status $HTTP_STATUS"
+              cat "$response_file" || true
+            fi
+          }
+
+          trigger_refresh "CN library ratings server" "$REFRESH_URL_CN" "$REFRESH_PASSWORD_CN" "/tmp/library_ratings_refresh_response_cn.txt"
+          trigger_refresh "EU library ratings server" "$REFRESH_URL_EU" "$REFRESH_PASSWORD_EU" "/tmp/library_ratings_refresh_response_eu.txt"

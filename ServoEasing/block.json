@@ -1,0 +1,969 @@
+[
+  {
+    "type": "servoeasing_create",
+    "message0": "create ServoEasing %1 on pin %2 start at %3 degree",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "servoEase"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "INITIAL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "Create a ServoEasing object, attach it to a servo pin, and write the initial position.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_create_custom",
+    "message0": "create ServoEasing %1 on pin %2 start %3 map %4 us to %5 us as %6 to %7 degree",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "servoEase"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "INITIAL",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "LOW_US",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "HIGH_US",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "LOW_DEGREE",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "HIGH_DEGREE",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": false,
+    "colour": "#FF6B35",
+    "tooltip": "Attach a servo with custom pulse-width and logical degree mapping.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_set_easing",
+    "message0": "ServoEasing %1 set easing %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "EASING",
+        "options": [
+          [
+            "linear",
+            "EASE_LINEAR"
+          ],
+          [
+            "quadratic in-out",
+            "EASE_QUADRATIC_IN_OUT"
+          ],
+          [
+            "quadratic in",
+            "EASE_QUADRATIC_IN"
+          ],
+          [
+            "quadratic out",
+            "EASE_QUADRATIC_OUT"
+          ],
+          [
+            "cubic in-out",
+            "EASE_CUBIC_IN_OUT"
+          ],
+          [
+            "cubic in",
+            "EASE_CUBIC_IN"
+          ],
+          [
+            "cubic out",
+            "EASE_CUBIC_OUT"
+          ],
+          [
+            "quartic in-out",
+            "EASE_QUARTIC_IN_OUT"
+          ],
+          [
+            "sine in-out",
+            "EASE_SINE_IN_OUT"
+          ],
+          [
+            "circular in-out",
+            "EASE_CIRCULAR_IN_OUT"
+          ],
+          [
+            "back out",
+            "EASE_BACK_OUT"
+          ],
+          [
+            "elastic out",
+            "EASE_ELASTIC_OUT"
+          ],
+          [
+            "bounce out",
+            "EASE_BOUNCE_OUT"
+          ],
+          [
+            "precision in",
+            "EASE_PRECISION_IN"
+          ],
+          [
+            "precision out",
+            "EASE_PRECISION_OUT"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7C4DFF",
+    "tooltip": "Select the easing curve used for the servo's next eased movement.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_set_speed",
+    "message0": "ServoEasing %1 set speed %2 degree per second",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7C4DFF",
+    "tooltip": "Set the default movement speed in degrees per second.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_write",
+    "message0": "ServoEasing %1 write %2 immediately",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "Write a target angle or microsecond value immediately without easing.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_ease_to",
+    "message0": "ServoEasing %1 ease to %2 at speed %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Blocking eased move to a target angle or microsecond value at the selected speed.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_ease_to_duration",
+    "message0": "ServoEasing %1 ease to %2 in %3 ms",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Blocking eased move that completes in the specified duration.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_start_ease_to",
+    "message0": "ServoEasing %1 start ease to %2 at speed %3 update %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "UPDATE",
+        "options": [
+          [
+            "by interrupt",
+            "START_UPDATE_BY_INTERRUPT"
+          ],
+          [
+            "manual update",
+            "DO_NOT_START_UPDATE_BY_INTERRUPT"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Start a non-blocking eased move. Use manual update mode when you will call update yourself.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_start_ease_to_duration",
+    "message0": "ServoEasing %1 start ease to %2 in %3 ms update %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "UPDATE",
+        "options": [
+          [
+            "by interrupt",
+            "START_UPDATE_BY_INTERRUPT"
+          ],
+          [
+            "manual update",
+            "DO_NOT_START_UPDATE_BY_INTERRUPT"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Start a non-blocking eased move that completes in the specified duration.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_update",
+    "message0": "ServoEasing %1 update and reached target",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#009688",
+    "tooltip": "Update one servo manually and return true when the servo has stopped.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_is_moving",
+    "message0": "ServoEasing %1 is moving",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#009688",
+    "tooltip": "Return true while this servo is still moving.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_read",
+    "message0": "ServoEasing %1 read angle",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      }
+    ],
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "Read the current servo angle.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_current_microseconds",
+    "message0": "ServoEasing %1 current microseconds",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      }
+    ],
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "Read the current servo pulse width in microseconds.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_get_speed",
+    "message0": "ServoEasing %1 speed",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      }
+    ],
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "Return the configured speed in degrees per second.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_get_move_duration",
+    "message0": "ServoEasing %1 current move duration ms",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      }
+    ],
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "Return the computed duration of the current or last move.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_stop",
+    "message0": "ServoEasing %1 stop",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "Stop the active movement for this servo.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_pause",
+    "message0": "ServoEasing %1 pause",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "Pause the active movement for this servo.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_resume",
+    "message0": "ServoEasing %1 resume %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "with interrupts",
+            "INTERRUPTS"
+          ],
+          [
+            "manual update",
+            "MANUAL"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "Resume a paused servo movement.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_detach",
+    "message0": "ServoEasing %1 detach",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "Detach the servo so no servo signal is generated.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_reattach",
+    "message0": "ServoEasing %1 reattach",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "Reattach a previously detached servo using its saved pin and range.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_set_trim",
+    "message0": "ServoEasing %1 set trim %2 write now %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      },
+      {
+        "type": "input_value",
+        "name": "TRIM",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WRITE_NOW",
+        "options": [
+          [
+            "yes",
+            "TRUE"
+          ],
+          [
+            "no",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "Set a trim offset that is added to requested positions.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_set_reverse",
+    "message0": "ServoEasing %1 reverse operation %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ENABLE",
+        "options": [
+          [
+            "on",
+            "TRUE"
+          ],
+          [
+            "off",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "Reverse the servo operation direction.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_set_min_max",
+    "message0": "ServoEasing %1 constrain from %2 to %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      },
+      {
+        "type": "input_value",
+        "name": "MINIMUM",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MAXIMUM",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "Limit requested servo positions to a safe min and max range.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_on_reached",
+    "message0": "when ServoEasing %1 reaches target",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servoEase",
+        "variableTypes": [
+          "ServoEasing"
+        ],
+        "defaultType": "ServoEasing"
+      }
+    ],
+    "message1": "do %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#00BCD4",
+    "tooltip": "Run blocks when a non-blocking movement reaches its target.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_all_set_easing",
+    "message0": "all ServoEasing set easing %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "EASING",
+        "options": [
+          [
+            "linear",
+            "EASE_LINEAR"
+          ],
+          [
+            "quadratic in-out",
+            "EASE_QUADRATIC_IN_OUT"
+          ],
+          [
+            "cubic in-out",
+            "EASE_CUBIC_IN_OUT"
+          ],
+          [
+            "sine in-out",
+            "EASE_SINE_IN_OUT"
+          ],
+          [
+            "bounce out",
+            "EASE_BOUNCE_OUT"
+          ],
+          [
+            "precision out",
+            "EASE_PRECISION_OUT"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "Set the easing type for all attached ServoEasing objects.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_all_set_speed",
+    "message0": "all ServoEasing set speed %1 degree per second",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "Set the movement speed for all attached ServoEasing objects.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_all_set_targets_2",
+    "message0": "all ServoEasing set 2 targets %1 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TARGET1",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET2",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "Set target positions for the first two attached servos in attach order.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_all_set_targets_3",
+    "message0": "all ServoEasing set 3 targets %1 %2 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TARGET1",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET2",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET3",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "Set target positions for the first three attached servos in attach order.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_all_set_targets_4",
+    "message0": "all ServoEasing set 4 targets %1 %2 %3 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TARGET1",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET2",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET3",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET4",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "Set target positions for the first four attached servos in attach order.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_all_start_synchronized",
+    "message0": "all ServoEasing start synchronized at speed %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "Start all queued target moves synchronized and update by interrupt.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_all_wait_synchronized",
+    "message0": "all ServoEasing move synchronized and wait at speed %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "Start all queued target moves synchronized and block until all servos stop.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_all_update",
+    "message0": "all ServoEasing update and all stopped",
+    "output": "Boolean",
+    "colour": "#795548",
+    "tooltip": "Update all servos manually and return true when all have stopped.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_all_is_moving",
+    "message0": "any ServoEasing is moving",
+    "output": "Boolean",
+    "colour": "#795548",
+    "tooltip": "Return true when at least one attached ServoEasing object is moving.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_all_stop",
+    "message0": "all ServoEasing stop",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "Stop all active ServoEasing movements.",
+    "icon": "iconfont icon-servo"
+  }
+]

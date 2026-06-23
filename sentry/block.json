@@ -1,0 +1,819 @@
+[
+  {
+    "type": "sentry2_begin",
+    "icon": "fa-light fa-camera",
+    "message0": "初始化 Sentry2 端口 %1 地址 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PORT",
+        "options": [
+          ["I2C", "Wire"],
+          ["Serial", "Serial"],
+          ["Serial1", "Serial1"],
+          ["Serial2", "Serial2"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDR",
+        "options": [
+          ["0x60", "0x60"],
+          ["0x61", "0x61"],
+          ["0x62", "0x62"],
+          ["0x63", "0x63"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF5411",
+    "tooltip": "初始化Sentry2视觉传感器"
+  },
+  {
+    "type": "sentry2_set_default",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 恢复默认参数",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF5411",
+    "tooltip": "传感器算法状态恢复默认"
+  },
+  {
+    "type": "sentry2_set_vision_status",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 %1 算法 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATUS",
+        "options": [
+          ["开启", "Begin"],
+          ["关闭", "End"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          ["颜色识别", "Sentry2::kVisionColor"],
+          ["色块检测", "Sentry2::kVisionBlob"],
+          ["标签识别", "Sentry2::kVisionAprilTag"],
+          ["线条检测", "Sentry2::kVisionLine"],
+          ["深度学习", "Sentry2::kVisionLearning"],
+          ["卡片识别", "Sentry2::kVisionCard"],
+          ["人脸识别", "Sentry2::kVisionFace"],
+          ["20类物体", "Sentry2::kVision20Classes"],
+          ["二维码", "Sentry2::kVisionQrCode"],
+          ["自定义", "Sentry2::kVisionCustom"],
+          ["运动物体", "Sentry2::kVisionMotionDetect"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF5411"
+  },
+  {
+    "type": "sentry2_set_awb",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 白平衡模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AWB",
+        "options": [
+          ["自动", "kAutoWhiteBalance"],
+          ["锁定", "kLockWhiteBalance"],
+          ["白光", "kWhiteLight"],
+          ["黄光", "kYellowLight"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF5411"
+  },
+  {
+    "type": "sentry2_set_param_num",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 算法 %1 设置 %2 组参数",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          ["颜色识别", "Sentry2::kVisionColor"],
+          ["色块检测", "Sentry2::kVisionBlob"],
+          ["自定义", "Sentry2::kVisionCustom"]
+        ]
+      },
+      {"type": "input_value", "name": "NUM", "check": ["Number"]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF5411"
+  },
+  {
+    "type": "sentry2_set_color_param",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 颜色识别 中心X %1 Y %2 宽 %3 高 %4 参数组 %5",
+    "args0": [
+      {"type": "input_value", "name": "X", "check": ["Number"]},
+      {"type": "input_value", "name": "Y", "check": ["Number"]},
+      {"type": "input_value", "name": "W", "check": ["Number"]},
+      {"type": "input_value", "name": "H", "check": ["Number"]},
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF5411"
+  },
+  {
+    "type": "sentry2_set_blob_param",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 色块检测 最小宽 %1 高 %2 颜色 %3 参数组 %4",
+    "args0": [
+      {"type": "input_value", "name": "W", "check": ["Number"]},
+      {"type": "input_value", "name": "H", "check": ["Number"]},
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["黑色", "Sentry2::kColorBlack"],
+          ["白色", "Sentry2::kColorWhite"],
+          ["红色", "Sentry2::kColorRed"],
+          ["绿色", "Sentry2::kColorGreen"],
+          ["蓝色", "Sentry2::kColorBlue"],
+          ["黄色", "Sentry2::kColorYellow"]
+        ]
+      },
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF5411"
+  },
+  {
+    "type": "sentry2_set_custom_param",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 算法 %1 参数1 %2 参数2 %3 参数3 %4 参数4 %5 参数5 %6 参数组 %7",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          ["自定义", "Sentry2::kVisionCustom"],
+          ["颜色识别", "Sentry2::kVisionColor"],
+          ["色块检测", "Sentry2::kVisionBlob"],
+          ["深度学习", "Sentry2::kVisionLearning"],
+          ["人脸识别", "Sentry2::kVisionFace"]
+        ]
+      },
+      {"type": "input_value", "name": "X", "check": ["Number"]},
+      {"type": "input_value", "name": "Y", "check": ["Number"]},
+      {"type": "input_value", "name": "W", "check": ["Number"]},
+      {"type": "input_value", "name": "H", "check": ["Number"]},
+      {"type": "input_value", "name": "LABEL", "check": ["Number"]},
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF5411"
+  },
+  {
+    "type": "sentry2_detected_count",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 算法 %1 返回结果数量",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          ["颜色识别", "Sentry2::kVisionColor"],
+          ["色块检测", "Sentry2::kVisionBlob"],
+          ["标签识别", "Sentry2::kVisionAprilTag"],
+          ["线条检测", "Sentry2::kVisionLine"],
+          ["深度学习", "Sentry2::kVisionLearning"],
+          ["卡片识别", "Sentry2::kVisionCard"],
+          ["人脸识别", "Sentry2::kVisionFace"],
+          ["20类物体", "Sentry2::kVision20Classes"],
+          ["二维码", "Sentry2::kVisionQrCode"],
+          ["自定义", "Sentry2::kVisionCustom"],
+          ["运动物体", "Sentry2::kVisionMotionDetect"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry2_get_value",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 算法 %1 返回 %2 索引 %3 的值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          ["色块检测", "Sentry2::kVisionBlob"],
+          ["标签识别", "Sentry2::kVisionAprilTag"],
+          ["深度学习", "Sentry2::kVisionLearning"],
+          ["卡片识别", "Sentry2::kVisionCard"],
+          ["人脸识别", "Sentry2::kVisionFace"],
+          ["20类物体", "Sentry2::kVision20Classes"],
+          ["运动物体", "Sentry2::kVisionMotionDetect"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VALUE",
+        "options": [
+          ["横坐标", "kXValue"],
+          ["纵坐标", "kYValue"],
+          ["宽度", "kWidthValue"],
+          ["高度", "kHeightValue"],
+          ["标签", "kLabel"]
+        ]
+      },
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "Number",
+    "colour": "#EAA20A",
+    "tooltip": "获取算法对应结果"
+  },
+  {
+    "type": "sentry2_get_color_value",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 颜色识别 返回 %1 索引 %2 的值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VALUE",
+        "options": [
+          ["标签", "kLabel"],
+          ["红色分量", "kRValue"],
+          ["绿色分量", "kGValue"],
+          ["蓝色分量", "kBValue"]
+        ]
+      },
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "Number",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry2_get_line_value",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 线条检测 返回 %1 索引 %2 的值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VALUE",
+        "options": [
+          ["终点横坐标", "kXValue"],
+          ["终点纵坐标", "kYValue"],
+          ["起点横坐标", "kWidthValue"],
+          ["起点纵坐标", "kHeightValue"],
+          ["倾斜角度", "kLabel"]
+        ]
+      },
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "Number",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry2_get_qr_value",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 二维码 返回结果字符串",
+    "output": "String",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry2_get_qr_position",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 二维码 返回 %1 索引 %2 的值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VALUE",
+        "options": [
+          ["横坐标", "kXValue"],
+          ["纵坐标", "kYValue"],
+          ["宽度", "kWidthValue"],
+          ["高度", "kHeightValue"]
+        ]
+      },
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "Number",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry2_get_custom_value",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 自定义 返回 %1 索引 %2 的值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VALUE",
+        "options": [
+          ["数据1", "kXValue"],
+          ["数据2", "kYValue"],
+          ["数据3", "kWidthValue"],
+          ["数据4", "kHeightValue"],
+          ["数据5", "kLabel"]
+        ]
+      },
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "Number",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry2_check_blob_color",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 色块检测到 %1 索引 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["黑色", "Sentry2::kColorBlack"],
+          ["白色", "Sentry2::kColorWhite"],
+          ["红色", "Sentry2::kColorRed"],
+          ["绿色", "Sentry2::kColorGreen"],
+          ["蓝色", "Sentry2::kColorBlue"],
+          ["黄色", "Sentry2::kColorYellow"]
+        ]
+      },
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "Boolean",
+    "colour": "#EAA20A",
+    "tooltip": "检测到返回True，否则False"
+  },
+  {
+    "type": "sentry2_check_card",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 卡片识别到 %1 索引 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CARD",
+        "options": [
+          ["前进", "Sentry2::kCardForward"],
+          ["左转", "Sentry2::kCardLeft"],
+          ["右转", "Sentry2::kCardRight"],
+          ["掉头", "Sentry2::kCardTurnAround"],
+          ["停车", "Sentry2::kCardPark"],
+          ["绿灯", "Sentry2::kCardGreenLight"],
+          ["红灯", "Sentry2::kCardRedLight"],
+          ["限速40", "Sentry2::kCardSpeed40"],
+          ["限速60", "Sentry2::kCardSpeed60"],
+          ["限速80", "Sentry2::kCardSpeed80"],
+          ["✔", "Sentry2::kCardCheck"],
+          ["☓", "Sentry2::kCardCross"],
+          ["◯", "Sentry2::kCardCircle"],
+          ["☐", "Sentry2::kCardSquare"],
+          ["△", "Sentry2::kCardTriangle"],
+          ["+", "Sentry2::kCardPlus"],
+          ["-", "Sentry2::kCardMinus"],
+          ["÷", "Sentry2::kCardDivide"],
+          ["=", "Sentry2::kCardEqual"],
+          ["0", "Sentry2::kCardZero"],
+          ["1", "Sentry2::kCardOne"],
+          ["2", "Sentry2::kCardTwo"],
+          ["3", "Sentry2::kCardThree"],
+          ["4", "Sentry2::kCardFour"],
+          ["5", "Sentry2::kCardFive"],
+          ["6", "Sentry2::kCardSix"],
+          ["7", "Sentry2::kCardSeven"],
+          ["8", "Sentry2::kCardEight"],
+          ["9", "Sentry2::kCardNine"]
+        ]
+      },
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "Boolean",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry2_check_20class",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 20类识别到 %1 索引 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CLASS",
+        "options": [
+          ["飞机", "Sentry2::kAirplane"],
+          ["自行车", "Sentry2::kBicycle"],
+          ["鸟", "Sentry2::kBird"],
+          ["船", "Sentry2::kBoat"],
+          ["瓶子", "Sentry2::kBottle"],
+          ["公交车", "Sentry2::kBus"],
+          ["汽车", "Sentry2::kCar"],
+          ["猫", "Sentry2::kCat"],
+          ["椅子", "Sentry2::kChair"],
+          ["牛", "Sentry2::kCow"],
+          ["餐桌", "Sentry2::kDiningTable"],
+          ["狗", "Sentry2::kDog"],
+          ["马", "Sentry2::kHorse"],
+          ["摩托车", "Sentry2::kMotorBike"],
+          ["人", "Sentry2::kPerson"],
+          ["盆栽", "Sentry2::kPottedPlant"],
+          ["羊", "Sentry2::kSheep"],
+          ["沙发", "Sentry2::kSofa"],
+          ["火车", "Sentry2::kTrain"],
+          ["显示器", "Sentry2::kTvMonitor"]
+        ]
+      },
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "Boolean",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry2_rows",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 画面行数",
+    "output": "Number",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry2_cols",
+    "icon": "fa-light fa-camera",
+    "message0": "Sentry2 画面列数",
+    "output": "Number",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry1_begin",
+    "icon": "fa-light fa-camera-security",
+    "message0": "初始化 Sentry1 端口 %1 地址 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PORT",
+        "options": [
+          ["I2C", "Wire"],
+          ["Serial", "Serial"],
+          ["Serial1", "Serial1"],
+          ["Serial2", "Serial2"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDR",
+        "options": [
+          ["0x60", "0x60"],
+          ["0x61", "0x61"],
+          ["0x62", "0x62"],
+          ["0x63", "0x63"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF5411",
+    "tooltip": "初始化Sentry1视觉传感器"
+  },
+  {
+    "type": "sentry1_set_default",
+    "icon": "fa-light fa-camera-security",
+    "message0": "Sentry1 恢复默认参数",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF5411"
+  },
+  {
+    "type": "sentry1_led_set_color",
+    "icon": "fa-light fa-camera-security",
+    "message0": "Sentry1 检测到目标时LED %1 否则 %2 亮度 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "COLOR1",
+        "options": [
+          ["关闭", "kLedClose"],
+          ["红色", "kLedRed"],
+          ["绿色", "kLedGreen"],
+          ["黄色", "kLedYellow"],
+          ["蓝色", "kLedBlue"],
+          ["紫色", "kLedPurple"],
+          ["青色", "kLedCyan"],
+          ["白色", "kLedWhite"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COLOR2",
+        "options": [
+          ["关闭", "kLedClose"],
+          ["红色", "kLedRed"],
+          ["绿色", "kLedGreen"],
+          ["黄色", "kLedYellow"],
+          ["蓝色", "kLedBlue"],
+          ["紫色", "kLedPurple"],
+          ["青色", "kLedCyan"],
+          ["白色", "kLedWhite"]
+        ]
+      },
+      {"type": "input_value", "name": "LEVEL", "check": ["Number"]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF5411",
+    "tooltip": "黑色为关闭LED，两色相同时LED为手动模式"
+  },
+  {
+    "type": "sentry1_set_vision_status",
+    "icon": "fa-light fa-camera-security",
+    "message0": "Sentry1 %1 算法 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATUS",
+        "options": [
+          ["开启", "Begin"],
+          ["关闭", "End"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          ["颜色识别", "Sentry1::kVisionColor"],
+          ["色块检测", "Sentry1::kVisionBlob"],
+          ["球体识别", "Sentry1::kVisionBall"],
+          ["线条检测", "Sentry1::kVisionLine"],
+          ["卡片识别", "Sentry1::kVisionCard"],
+          ["人体检测", "Sentry1::kVisionBody"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF5411"
+  },
+  {
+    "type": "sentry1_set_awb",
+    "icon": "fa-light fa-camera-security",
+    "message0": "Sentry1 白平衡模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AWB",
+        "options": [
+          ["自动", "kAutoWhiteBalance"],
+          ["锁定", "kLockWhiteBalance"],
+          ["白光", "kWhiteLight"],
+          ["黄光", "kYellowLight"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF5411"
+  },
+  {
+    "type": "sentry1_set_param_num",
+    "icon": "fa-light fa-camera-security",
+    "message0": "Sentry1 算法 %1 设置 %2 组参数",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          ["颜色识别", "Sentry1::kVisionColor"],
+          ["色块检测", "Sentry1::kVisionBlob"]
+        ]
+      },
+      {"type": "input_value", "name": "NUM", "check": ["Number"]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF5411"
+  },
+  {
+    "type": "sentry1_set_color_param",
+    "icon": "fa-light fa-camera-security",
+    "message0": "Sentry1 颜色识别 中心X %1 Y %2 宽 %3 高 %4",
+    "args0": [
+      {"type": "input_value", "name": "X", "check": ["Number"]},
+      {"type": "input_value", "name": "Y", "check": ["Number"]},
+      {"type": "input_value", "name": "W", "check": ["Number"]},
+      {"type": "input_value", "name": "H", "check": ["Number"]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF5411"
+  },
+  {
+    "type": "sentry1_set_blob_param",
+    "icon": "fa-light fa-camera-security",
+    "message0": "Sentry1 色块检测 最小宽 %1 高 %2 颜色 %3",
+    "args0": [
+      {"type": "input_value", "name": "W", "check": ["Number"]},
+      {"type": "input_value", "name": "H", "check": ["Number"]},
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["黑色", "Sentry1::kColorBlack"],
+          ["白色", "Sentry1::kColorWhite"],
+          ["红色", "Sentry1::kColorRed"],
+          ["绿色", "Sentry1::kColorGreen"],
+          ["蓝色", "Sentry1::kColorBlue"],
+          ["黄色", "Sentry1::kColorYellow"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF5411"
+  },
+  {
+    "type": "sentry1_detected_count",
+    "icon": "fa-light fa-camera-security",
+    "message0": "Sentry1 算法 %1 返回结果数量",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          ["颜色识别", "Sentry1::kVisionColor"],
+          ["色块检测", "Sentry1::kVisionBlob"],
+          ["球体识别", "Sentry1::kVisionBall"],
+          ["线条检测", "Sentry1::kVisionLine"],
+          ["卡片识别", "Sentry1::kVisionCard"],
+          ["人体检测", "Sentry1::kVisionBody"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry1_get_value",
+    "icon": "fa-light fa-camera-security",
+    "message0": "Sentry1 算法 %1 返回 %2 索引 %3 的值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          ["色块检测", "Sentry1::kVisionBlob"],
+          ["球体识别", "Sentry1::kVisionBall"],
+          ["卡片识别", "Sentry1::kVisionCard"],
+          ["人体检测", "Sentry1::kVisionBody"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VALUE",
+        "options": [
+          ["横坐标", "kXValue"],
+          ["纵坐标", "kYValue"],
+          ["宽度", "kWidthValue"],
+          ["高度", "kHeightValue"],
+          ["标签", "kLabel"]
+        ]
+      },
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "Number",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry1_get_color_value",
+    "icon": "fa-light fa-camera-security",
+    "message0": "Sentry1 颜色识别 返回 %1 索引 %2 的值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VALUE",
+        "options": [
+          ["标签", "kLabel"],
+          ["红色分量", "kRValue"],
+          ["绿色分量", "kGValue"],
+          ["蓝色分量", "kBValue"]
+        ]
+      },
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "Number",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry1_get_line_value",
+    "icon": "fa-light fa-camera-security",
+    "message0": "Sentry1 线条检测 返回 %1 索引 %2 的值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VALUE",
+        "options": [
+          ["终点横坐标", "kXValue"],
+          ["终点纵坐标", "kYValue"],
+          ["起点横坐标", "kWidthValue"],
+          ["起点纵坐标", "kHeightValue"],
+          ["倾斜角度", "kLabel"]
+        ]
+      },
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "Number",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry1_get_qr_value",
+    "icon": "fa-light fa-camera-security",
+    "message0": "Sentry1 二维码 返回结果字符串",
+    "output": "String",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry1_get_qr_position",
+    "icon": "fa-light fa-camera-security",
+    "message0": "Sentry1 二维码 返回 %1 索引 %2 的值",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VALUE",
+        "options": [
+          ["横坐标", "kXValue"],
+          ["纵坐标", "kYValue"],
+          ["宽度", "kWidthValue"],
+          ["高度", "kHeightValue"]
+        ]
+      },
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "Number",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry1_check_blob_color",
+    "icon": "fa-light fa-camera-security",
+    "message0": "Sentry1 色块检测到 %1 索引 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["黑色", "Sentry1::kColorBlack"],
+          ["白色", "Sentry1::kColorWhite"],
+          ["红色", "Sentry1::kColorRed"],
+          ["绿色", "Sentry1::kColorGreen"],
+          ["蓝色", "Sentry1::kColorBlue"],
+          ["黄色", "Sentry1::kColorYellow"]
+        ]
+      },
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "Boolean",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry1_check_card",
+    "icon": "fa-light fa-camera-security",
+    "message0": "Sentry1 卡片识别到 %1 索引 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CARD",
+        "options": [
+          ["前进", "Sentry1::kCardForward"],
+          ["左转", "Sentry1::kCardLeft"],
+          ["右转", "Sentry1::kCardRight"],
+          ["掉头", "Sentry1::kCardTurnAround"],
+          ["停车", "Sentry1::kCardPark"]
+        ]
+      },
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "Boolean",
+    "colour": "#EAA20A"
+  },
+  {
+    "type": "sentry1_check_ball",
+    "icon": "fa-light fa-camera-security",
+    "message0": "Sentry1 球体识别到 %1 索引 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BALL",
+        "options": [
+          ["乒乓球", "Sentry1::kBallTableTennis"],
+          ["网球", "Sentry1::kBallTennis"]
+        ]
+      },
+      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+    ],
+    "output": "Boolean",
+    "colour": "#EAA20A"
+  }
+]

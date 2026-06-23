@@ -1,0 +1,143 @@
+{
+  "kind": "category",
+  "name": "TinyGSM",
+  "name_en": "TinyGSM",
+  "icon": "fa-solid fa-tower-cell",
+  "colour": "#00695C",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "Modem"
+    },
+    {
+      "kind": "block",
+      "type": "tinygsm_setup",
+      "inputs": {
+        "BAUD": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "9600"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tinygsm_restart"
+    },
+    {
+      "kind": "block",
+      "type": "tinygsm_wait_network",
+      "inputs": {
+        "TIMEOUT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "60000"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tinygsm_modem_info"
+    },
+    {
+      "kind": "block",
+      "type": "tinygsm_local_ip"
+    },
+    {
+      "kind": "label",
+      "text": "GPRS"
+    },
+    {
+      "kind": "block",
+      "type": "tinygsm_gprs_connect",
+      "inputs": {
+        "APN": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "internet"
+            }
+          }
+        },
+        "USER": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        },
+        "PASS": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tinygsm_is_network_connected"
+    },
+    {
+      "kind": "block",
+      "type": "tinygsm_is_gprs_connected"
+    },
+    {
+      "kind": "label",
+      "text": "TCP"
+    },
+    {
+      "kind": "block",
+      "type": "tinygsm_client_connect",
+      "inputs": {
+        "HOST": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "example.com"
+            }
+          }
+        },
+        "PORT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "80"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tinygsm_client_print",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "GET / HTTP/1.0\\r\\n\\r\\n"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tinygsm_client_available"
+    },
+    {
+      "kind": "block",
+      "type": "tinygsm_client_read"
+    }
+  ]
+}

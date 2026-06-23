@@ -16,7 +16,7 @@ Blockly wrapper for Seeed_Arduino_IR with Wio Terminal built-in IR sending, IRLi
 | `seeed_ir_send_nec` | Statement | VAR(field_variable), DATA(input_value), KHZ(input_value) | `seeed_ir_send_nec(variables_get($irSender), math_number(0), math_number(0))` | Dynamic code |
 | `seeed_ir_wio_send` | Statement | PROTOCOL(dropdown), DATA(input_value), DATA2(input_value), KHZ(input_value) | `seeed_ir_wio_send(NEC, math_number(0), math_number(0), math_number(0))` | ailyWioIrSender.send( |
 | `seeed_ir_send_raw` | Statement | VAR(field_variable), DATA(input_value), KHZ(input_value) | `seeed_ir_send_raw(variables_get($rawSender), text("value"), math_number(0))` | Dynamic code |
-| `seeed_ir_receiver_create` | Statement | VAR(field_input), DECODER(field_input), PIN(field_number) | `seeed_ir_receiver_create("irReceiver", "irDecoder", 2)` | Dynamic code |
+| `seeed_ir_receiver_create` | Statement | VAR(field_input), DECODER(field_input), PROTOCOL(dropdown), PIN(field_number) | `seeed_ir_receiver_create("irReceiver", "irDecoder", NEC, 2)` | Dynamic code |
 | `seeed_ir_receiver_enable` | Statement | VAR(field_variable) | `seeed_ir_receiver_enable(variables_get($irReceiver))` | Dynamic code |
 | `seeed_ir_on_receive` | Statement | VAR(field_variable), DECODER(field_variable), DO(input_statement) | `seeed_ir_on_receive(variables_get($irReceiver), variables_get($irDecoder)) @DO: child_block()` | if ( |
 | `seeed_ir_receiver_available` | Value | VAR(field_variable) | `seeed_ir_receiver_available(variables_get($irReceiver))` | Dynamic code |
@@ -30,7 +30,7 @@ Blockly wrapper for Seeed_Arduino_IR with Wio Terminal built-in IR sending, IRLi
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| PROTOCOL | NEC, SONY, RC5, RC6, PANASONIC_OLD, JVC, NECX, SAMSUNG36, GICABLE, DIRECTV, RCMM, CYKM | seeed_ir_send, seeed_ir_wio_send |
+| PROTOCOL | NEC, SONY, RC5, RC6, PANASONIC_OLD, JVC, NECX, SAMSUNG36, GICABLE, DIRECTV, RCMM, CYKM | seeed_ir_send, seeed_ir_wio_send, seeed_ir_receiver_create |
 | FIELD | PROTOCOL, VALUE, ADDRESS, BITS | seeed_ir_decoder_get |
 | VERBOSE | true, false | seeed_ir_decoder_dump |
 

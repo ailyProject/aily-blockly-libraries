@@ -1,0 +1,792 @@
+{
+  "toolbox_name": "Home Assistant",
+  "toolbox_labels": {
+    "设备与连接": "Devices and connections",
+    "自定义MQTT": "Custom MQTT",
+    "实体通用": "Entity universal",
+    "传感器": "sensor",
+    "开关与按钮": "Switches and Buttons",
+    "灯光": "light",
+    "数字与选择": "Numbers and Choices",
+    "命令值": "command value"
+  },
+  "ha_device_create": {
+    "message0": "Create HA device %1 unique ID %2",
+    "tooltip": "Create Home Assistant device object, unique ID is used for discovery and entity ownership"
+  },
+  "ha_device_set_info": {
+    "message0": "%1 Set device information Name %2 Manufacturer %3 Model %4 Software version %5 Configure URL %6",
+    "tooltip": "Set the basic information displayed by the HA device in Home Assistant"
+  },
+  "ha_device_enable_availability": {
+    "message0": "%1 Enable share availability %2 Last Will %3",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "yes",
+            "true"
+          ],
+          [
+            "no",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "yes",
+            "true"
+          ],
+          [
+            "no",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Enable device online/offline status, Last Will will report offline when abnormal disconnection"
+  },
+  "ha_mqtt_create": {
+    "message0": "Create HA MQTT %1 Network client %2 Type %3 Device %4 Maximum number of entities %5",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "WiFi",
+            "WIFI"
+          ],
+          [
+            "Ethernet",
+            "ETHERNET"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "tooltip": "Create HAMqtt objects and automatically maintain connections in the loop; please place before the entity creation block"
+  },
+  "ha_mqtt_begin": {
+    "message0": "%1 connects to MQTT host %2 port %3 user name %4 password %5",
+    "tooltip": "Set the MQTT server and authentication information, and the library will automatically connect and reconnect in the loop"
+  },
+  "ha_mqtt_set_prefixes": {
+    "message0": "%1 sets the discovery prefix %2 data prefix %3",
+    "tooltip": "Set Home Assistant discovery topic prefix and data topic prefix"
+  },
+  "ha_mqtt_set_keep_alive": {
+    "message0": "%1 sets keep-alive for %2 seconds",
+    "tooltip": "Set the interval between MQTT KeepAlive, the default is 15 seconds"
+  },
+  "ha_mqtt_set_buffer_size": {
+    "message0": "%1 set buffer %2 bytes",
+    "tooltip": "Set the underlying PubSubClient buffer size. Complex discovery configurations can be appropriately increased."
+  },
+  "ha_mqtt_loop": {
+    "message0": "%1 handles HA MQTT communication",
+    "tooltip": "Manually call MQTT loop processing; the creation block has been automatically added by default"
+  },
+  "ha_mqtt_connected": {
+    "message0": "%1 is connected to HA MQTT",
+    "tooltip": "Return whether HA MQTT is connected to the server"
+  },
+  "ha_mqtt_state": {
+    "message0": "%1 connection status code",
+    "tooltip": "Returns HAMqtt connection status code, 0 means connected"
+  },
+  "ha_mqtt_publish": {
+    "message0": "%1 Publish custom theme %2 Content %3 Reserve %4",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Publish custom MQTT message via HAMqtt"
+  },
+  "ha_mqtt_subscribe": {
+    "message0": "%1 Subscribe to custom topic %2",
+    "tooltip": "Subscribe to the custom MQTT topic, usually called in the connected callback"
+  },
+  "ha_mqtt_disconnect": {
+    "message0": "%1 disconnect HA MQTT",
+    "tooltip": "Disconnect HAMqtt connection and stop automatic reconnection until begin again"
+  },
+  "ha_mqtt_on_connected": {
+    "message0": "When %1 connection is successful",
+    "message1": "Execute %1",
+    "tooltip": "Register MQTT connection success callback, suitable for subscribing to custom topics after reconnection"
+  },
+  "ha_mqtt_on_message": {
+    "message0": "When %1 receives the custom MQTT message",
+    "message1": "Execute %1",
+    "tooltip": "Register a custom MQTT message callback; the subject, content and length can be read in corresponding value blocks"
+  },
+  "ha_mqtt_message_topic": {
+    "message0": "HA MQTT callback topic",
+    "tooltip": "Read the topic in the current MQTT message callback"
+  },
+  "ha_mqtt_message_payload": {
+    "message0": "HA MQTT callback content",
+    "tooltip": "Read the content text in the current MQTT message callback"
+  },
+  "ha_mqtt_message_length": {
+    "message0": "HA MQTT callback content length",
+    "tooltip": "Read the content byte length in the current MQTT message callback"
+  },
+  "ha_entity_set_info": {
+    "message0": "%1 Set entity name %2 Object ID %3 Icon %4",
+    "tooltip": "Set the display name of the HA entity, the object ID and the Material Design icon"
+  },
+  "ha_entity_set_availability": {
+    "message0": "%1 sets the entity available to %2",
+    "tooltip": "Report entity online or offline status"
+  },
+  "ha_sensor_create_text": {
+    "message0": "Create HA text sensor %1 unique ID %2 function %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "default",
+            "HASensor::DefaultFeatures"
+          ],
+          [
+            "JSON attribute",
+            "HASensor::JsonAttributesFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Create Home Assistant sensor for reporting text status"
+  },
+  "ha_sensor_create_number": {
+    "message0": "Create HA value sensor %1 Unique ID %2 Accuracy %3 Function %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "integer",
+            "HASensorNumber::PrecisionP0"
+          ],
+          [
+            "1 decimal place",
+            "HASensorNumber::PrecisionP1"
+          ],
+          [
+            "2 decimal places",
+            "HASensorNumber::PrecisionP2"
+          ],
+          [
+            "3 decimal places",
+            "HASensorNumber::PrecisionP3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "default",
+            "HASensor::DefaultFeatures"
+          ],
+          [
+            "JSON attribute",
+            "HASensor::JsonAttributesFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Create Home Assistant sensor for reporting digital status"
+  },
+  "ha_sensor_settings": {
+    "message0": "%1 Set Sensor Category %2 Status Category %3 Unit %4 Expires %5 seconds Force update %6",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Configure sensor device category, status category, units, expiration time, and forced updates"
+  },
+  "ha_sensor_set_value": {
+    "message0": "%1 reports text value %2",
+    "tooltip": "Report text sensor value to Home Assistant"
+  },
+  "ha_sensor_set_json_attributes": {
+    "message0": "%1 reports JSON attributes %2",
+    "tooltip": "Publish attribute JSON for sensors with JSON attribute functionality enabled"
+  },
+  "ha_sensor_number_set_value": {
+    "message0": "%1 reported value %2 mandatory %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Report numerical sensor value to Home Assistant"
+  },
+  "ha_binary_sensor_create": {
+    "message0": "Create HA binary sensor %1 unique ID %2",
+    "tooltip": "Create Home Assistant binary sensor that reports on/off status"
+  },
+  "ha_binary_sensor_settings": {
+    "message0": "%1 Set binary sensor category %2 Expires %3 seconds",
+    "tooltip": "Configure binary sensor category and status expiration time"
+  },
+  "ha_binary_sensor_set_state": {
+    "message0": "%1 reports binary status %2 mandatory %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Report binary sensor on/off status"
+  },
+  "ha_binary_sensor_get_state": {
+    "message0": "%1 current binary status",
+    "tooltip": "Read the current status of the binary sensor"
+  },
+  "ha_switch_create": {
+    "message0": "Create HA switch %1 unique ID %2",
+    "tooltip": "Create a switch entity controllable from Home Assistant"
+  },
+  "ha_switch_settings": {
+    "message0": "%1 Setting switch Category %2 Reserved command %3 Optimistic mode %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Configuring switch classes, command retention, and optimistic mode"
+  },
+  "ha_switch_set_state": {
+    "message0": "%1 reports switch status %2 mandatory %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Report the switch status to Home Assistant"
+  },
+  "ha_switch_get_state": {
+    "message0": "%1 current switch status",
+    "tooltip": "Read the current status of the switch"
+  },
+  "ha_switch_on_command": {
+    "message0": "When %1 receives the switch command",
+    "message1": "Execute %1",
+    "tooltip": "Process the switch command issued by Home Assistant, and use \"Command Boolean Status\" to read the target status"
+  },
+  "ha_button_create": {
+    "message0": "Create HA button %1 unique ID %2",
+    "tooltip": "Create Home Assistant panel button entity"
+  },
+  "ha_button_settings": {
+    "message0": "%1 Set Button Category %2 Reserved Command %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Configure button categories and command retention"
+  },
+  "ha_button_on_command": {
+    "message0": "When %1 button is pressed",
+    "message1": "Execute %1",
+    "tooltip": "Handle Home Assistant button click command"
+  },
+  "ha_light_create": {
+    "message0": "create HA light %1 unique ID %2 function %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "switch only",
+            "HALight::DefaultFeatures"
+          ],
+          [
+            "brightness",
+            "HALight::BrightnessFeature"
+          ],
+          [
+            "color temperature",
+            "HALight::ColorTemperatureFeature"
+          ],
+          [
+            "RGB",
+            "HALight::RGBFeature"
+          ],
+          [
+            "brightness+RGB",
+            "HALight::BrightnessFeature | HALight::RGBFeature"
+          ],
+          [
+            "all",
+            "HALight::BrightnessFeature | HALight::ColorTemperatureFeature | HALight::RGBFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Create Home Assistant light entity and select brightness, color temperature and RGB functions"
+  },
+  "ha_light_settings": {
+    "message0": "%1 Set light Reserved command %2 Optimistic mode %3 Brightness range %4 Minimum color temperature %5 Maximum color temperature %6",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ],
+    "tooltip": "Configure the light's command hold, optimistic mode, brightness range, and color temperature range"
+  },
+  "ha_light_set_state": {
+    "message0": "%1 reporting light switch %2 mandatory %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Report light switch status"
+  },
+  "ha_light_set_brightness": {
+    "message0": "%1 reports brightness %2 mandatory %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Report light brightness, the range is determined by the brightness range configuration"
+  },
+  "ha_light_set_color_temperature": {
+    "message0": "%1 reports color temperature %2 mired mandatory %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Report lamp color temperature, unit is mired"
+  },
+  "ha_light_set_rgb": {
+    "message0": "%1 reports RGB red %2 green %3 blue %4 mandatory %5",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Report light RGB color, three channel range 0-255"
+  },
+  "ha_light_get_state": {
+    "message0": "%1 current light switch",
+    "tooltip": "Read the current switch status of the light"
+  },
+  "ha_light_get_brightness": {
+    "message0": "%1 current brightness",
+    "tooltip": "Read the current brightness of the light"
+  },
+  "ha_light_on_state_command": {
+    "message0": "When %1 receives the light switch command",
+    "message1": "Execute %1",
+    "tooltip": "To handle light switch commands, the target state can be read using the command boolean status value block"
+  },
+  "ha_light_on_brightness_command": {
+    "message0": "When %1 receives the brightness command",
+    "message1": "Execute %1",
+    "tooltip": "To process the lamp brightness command, the target brightness can be read using the command brightness value block."
+  },
+  "ha_light_on_color_temperature_command": {
+    "message0": "When %1 receives the color temperature command",
+    "message1": "Execute %1",
+    "tooltip": "To process the lamp color temperature command, the target color temperature can be read using the command color temperature value block."
+  },
+  "ha_light_on_rgb_command": {
+    "message0": "When %1 receives the RGB command",
+    "message1": "Execute %1",
+    "tooltip": "To process the light RGB command, you can use the command RGB value block to read the target color"
+  },
+  "ha_number_create": {
+    "message0": "Create HA numeric control %1 unique ID %2 precision %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "integer",
+            "HANumber::PrecisionP0"
+          ],
+          [
+            "1 decimal place",
+            "HANumber::PrecisionP1"
+          ],
+          [
+            "2 decimal places",
+            "HANumber::PrecisionP2"
+          ],
+          [
+            "3 decimal places",
+            "HANumber::PrecisionP3"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Create Home Assistant numeric input/slider entity"
+  },
+  "ha_number_settings": {
+    "message0": "%1 Set Number Category %2 Unit %3 Mode %4 Minimum %5 Maximum %6 Step Size %7 Reserved %8 Optimistic %9",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "automatic",
+            "HANumber::ModeAuto"
+          ],
+          [
+            "Input box",
+            "HANumber::ModeBox"
+          ],
+          [
+            "slider",
+            "HANumber::ModeSlider"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Configure the category, unit, display mode, range, step size, and command behavior of digital entities"
+  },
+  "ha_number_set_state": {
+    "message0": "%1 reports digital status %2 mandatory %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Report the current value of a digital entity"
+  },
+  "ha_number_get_state": {
+    "message0": "%1 current numeric value",
+    "tooltip": "Read the current value of a digital entity"
+  },
+  "ha_number_on_command": {
+    "message0": "When %1 receives a numeric command",
+    "message1": "Execute %1",
+    "tooltip": "Process the Home Assistant numeric change command, and the numeric command value block can be used to read the target value"
+  },
+  "ha_select_create": {
+    "message0": "Create HA drop-down selection %1 unique ID %2",
+    "tooltip": "Create Home Assistant drop-down selection entity"
+  },
+  "ha_select_settings": {
+    "message0": "%1 setting options %2 reserved %3 optimistic %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Configure drop-down selection options. Multiple options are separated by English semicolons."
+  },
+  "ha_select_set_state": {
+    "message0": "%1 Report selection index %2 mandatory %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "no",
+            "false"
+          ],
+          [
+            "yes",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Report the current selection by option index, -1 means no selection"
+  },
+  "ha_select_get_state": {
+    "message0": "%1 current selection index",
+    "tooltip": "Read the currently selected index"
+  },
+  "ha_select_get_option": {
+    "message0": "%1 current option text",
+    "tooltip": "Read the currently selected option text"
+  },
+  "ha_select_on_command": {
+    "message0": "When %1 receives the select command",
+    "message1": "Execute %1",
+    "tooltip": "Process the Home Assistant drop-down selection command, and you can use the selection command index value block to read the target option"
+  },
+  "ha_command_bool_state": {
+    "message0": "command boolean status",
+    "tooltip": "Read the target boolean state in a switch or light switch command"
+  },
+  "ha_command_brightness": {
+    "message0": "command brightness",
+    "tooltip": "Read the target brightness in the lamp brightness command"
+  },
+  "ha_command_color_temperature": {
+    "message0": "Command color temperature",
+    "tooltip": "Read the target color temperature in the lamp color temperature command"
+  },
+  "ha_command_rgb_red": {
+    "message0": "Command RGB red",
+    "tooltip": "Read the red channel in the light RGB command"
+  },
+  "ha_command_rgb_green": {
+    "message0": "Command RGB green",
+    "tooltip": "Read the green channel in the light RGB command"
+  },
+  "ha_command_rgb_blue": {
+    "message0": "Command RGB blue",
+    "tooltip": "Read the blue channel in the light RGB command"
+  },
+  "ha_number_command_is_set": {
+    "message0": "Numeric commands have values",
+    "tooltip": "Whether the read digital command carries a valid value, the reset command will return no"
+  },
+  "ha_number_command_value": {
+    "message0": "Numeric command value",
+    "tooltip": "Read the target value in a numeric command"
+  },
+  "ha_select_command_index": {
+    "message0": "Select command index",
+    "tooltip": "Read target option index in drop-down selection command"
+  }
+}

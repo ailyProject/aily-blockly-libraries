@@ -1,0 +1,205 @@
+[
+    {
+        "type": "gnss_i2c_init",
+        "message0": "GNSS模块初始化 I2C模式 地址0x20",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4169E1",
+        "tooltip": "使用I2C模式初始化GNSS北斗定位模块",
+        "icon": "fa-regular fa-satellite"
+    },
+    {
+        "type": "gnss_hs_init",
+        "message0": "GNSS模块初始化 硬串口模式 %1 RX(绿) %2 TX(蓝) %3",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "HS",
+                "options": [
+                    [
+                        "HardwareSerial1",
+                        "Serial1"
+                    ],
+                    [
+                        "HardwareSerial2",
+                        "Serial2"
+                    ]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "RX",
+                "options": "${board.digitalPins}"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TX",
+                "options": "${board.digitalPins}"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4169E1",
+        "tooltip": "使用硬串口模式初始化GNSS北斗定位模块",
+        "icon": "fa-regular fa-satellite"
+    },
+    {
+        "type": "gnss_ss_init",
+        "message0": "GNSS模块初始化 软串口模式 %1 RX(绿) %2 TX(蓝) %3",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "SS",
+                "options": [
+                    [
+                        "SoftwareSerial",
+                        "SoftwareSerial"
+                    ]
+                ]
+            },
+            {
+                "type": "field_dropdown",
+                "name": "RX",
+                "options": "${board.digitalPins}"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TX",
+                "options": "${board.digitalPins}"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4169E1",
+        "tooltip": "使用软串口模式初始化GNSS北斗定位模块",
+        "icon": "fa-regular fa-satellite"
+    },
+    {
+        "type": "gnss_read_data",
+        "message0": "GNSS读取一次数据并保存结果",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4169E1",
+        "tooltip": "读取GNSS数据并保存到内部变量",
+        "icon": "fa-regular fa-satellite"
+    },
+    {
+        "type": "gnss_get_utc_date",
+        "message0": "GNSS获取UTC日期 %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "DATE",
+                "options": [
+                    [
+                        "年/月/日",
+                        "YMD"
+                    ],
+                    [
+                        "年",
+                        "YEAR"
+                    ],
+                    [
+                        "月",
+                        "MONTH"
+                    ],
+                    [
+                        "日",
+                        "DAY"
+                    ]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "output": "String",
+        "colour": "#4169E1",
+        "tooltip": "从GNSS数据中获取UTC日期",
+        "icon": "fa-regular fa-satellite"
+    },
+    {
+        "type": "gnss_get_utc_time",
+        "message0": "GNSS获取UTC时间 %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "TIME",
+                "options": [
+                    [
+                        "时:分:秒",
+                        "HMS"
+                    ],
+                    [
+                        "时",
+                        "HOUR"
+                    ],
+                    [
+                        "分",
+                        "MINUTE"
+                    ],
+                    [
+                        "秒",
+                        "SECOND"
+                    ]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "output": "String",
+        "colour": "#4169E1",
+        "tooltip": "从GNSS数据中获取UTC时间",
+        "icon": "fa-regular fa-satellite"
+    },
+    {
+        "type": "gnss_get_location",
+        "message0": "GNSS获取%1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "DATA",
+                "options": [
+                    [
+                        "纬度",
+                        "LAT"
+                    ],
+                    [
+                        "纬度方向",
+                        "LAT_DIR"
+                    ],
+                    [
+                        "经度",
+                        "LON"
+                    ],
+                    [
+                        "经度方向",
+                        "LON_DIR"
+                    ],
+                    [
+                        "高度",
+                        "ALT"
+                    ],
+                    [
+                        "卫星数量",
+                        "SAT_NUM"
+                    ],
+                    [
+                        "对地航速",
+                        "SOG"
+                    ],
+                    [
+                        "对地航向",
+                        "COG"
+                    ]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "output": "String",
+        "colour": "#4169E1",
+        "tooltip": "从GNSS数据中获取定位信息",
+        "icon": "fa-regular fa-satellite"
+    }
+]

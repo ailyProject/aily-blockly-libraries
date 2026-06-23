@@ -1,0 +1,792 @@
+{
+  "toolbox_name": "Home Assistant",
+  "toolbox_labels": {
+    "设备与连接": "الأجهزة والاتصالات",
+    "自定义MQTT": "مخصص MQTT",
+    "实体通用": "الكيان العالمي",
+    "传感器": "الاستشعار",
+    "开关与按钮": "المفاتيح والأزرار",
+    "灯光": "ضوء",
+    "数字与选择": "الأرقام والاختيارات",
+    "命令值": "قيمة الأمر"
+  },
+  "ha_device_create": {
+    "message0": "إنشاء جهاز HA %1 فريد ID %2",
+    "tooltip": "قم بإنشاء كائن جهاز Home Assistant، ويتم استخدام ID الفريد للاكتشاف وملكية الكيان"
+  },
+  "ha_device_set_info": {
+    "message0": "%1 تعيين معلومات الجهاز الاسم %2 الشركة المصنعة %3 الطراز %4 إصدار البرنامج %5 تكوين URL %6",
+    "tooltip": "قم بتعيين المعلومات الأساسية التي يعرضها جهاز HA في Home Assistant"
+  },
+  "ha_device_enable_availability": {
+    "message0": "%1 تمكين توفر المشاركة %2 Last Will %3",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "نعم",
+            "true"
+          ],
+          [
+            "لا",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "نعم",
+            "true"
+          ],
+          [
+            "لا",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "تمكين حالة الجهاز متصل/غير متصل بالإنترنت، وسيقوم Last Will بالإبلاغ عن عدم الاتصال بالإنترنت عند انقطاع الاتصال بشكل غير طبيعي"
+  },
+  "ha_mqtt_create": {
+    "message0": "إنشاء HA MQTT %1 عميل الشبكة %2 النوع %3 الجهاز %4 الحد الأقصى لعدد الكيانات %5",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "WiFi",
+            "WIFI"
+          ],
+          [
+            "إيثرنت",
+            "ETHERNET"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "tooltip": "إنشاء كائنات HAMqtt والحفاظ تلقائيًا على الاتصالات في الحلقة؛ يرجى وضعه قبل كتلة إنشاء الكيان"
+  },
+  "ha_mqtt_begin": {
+    "message0": "يتصل %1 بمضيف MQTT منفذ %2 %3 اسم المستخدم %4 كلمة المرور %5",
+    "tooltip": "قم بتعيين خادم MQTT ومعلومات المصادقة، وسوف تتصل المكتبة تلقائيًا وتعيد الاتصال في الحلقة"
+  },
+  "ha_mqtt_set_prefixes": {
+    "message0": "يقوم %1 بتعيين بادئة الاكتشاف %2 وبادئة البيانات %3",
+    "tooltip": "قم بتعيين بادئة موضوع الاكتشاف Home Assistant وبادئة موضوع البيانات"
+  },
+  "ha_mqtt_set_keep_alive": {
+    "message0": "يقوم %1 بتعيين البقاء على قيد الحياة لمدة %2 ثانية",
+    "tooltip": "قم بتعيين الفاصل الزمني بين MQTT KeepAlive، الافتراضي هو 15 ثانية"
+  },
+  "ha_mqtt_set_buffer_size": {
+    "message0": "%1 تعيين المخزن المؤقت %2 بايت",
+    "tooltip": "قم بتعيين حجم المخزن المؤقت الأساسي PubSubClient. يمكن زيادة تكوينات الاكتشاف المعقدة بشكل مناسب."
+  },
+  "ha_mqtt_loop": {
+    "message0": "يتعامل %1 مع اتصال HA MQTT",
+    "tooltip": "استدعاء معالجة حلقة MQTT يدويًا؛ تمت إضافة كتلة الإنشاء تلقائيًا بشكل افتراضي"
+  },
+  "ha_mqtt_connected": {
+    "message0": "%1 متصل بـ HA MQTT",
+    "tooltip": "قم بإرجاع ما إذا كان HA MQTT متصلاً بالخادم"
+  },
+  "ha_mqtt_state": {
+    "message0": "رمز حالة الاتصال %1",
+    "tooltip": "يُرجع رمز حالة الاتصال HAMqtt، 0 يعني أنه متصل"
+  },
+  "ha_mqtt_publish": {
+    "message0": "%1 نشر موضوع مخصص %2 المحتوى %3 حجز %4",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "نشر رسالة MQTT مخصصة عبر HAMqtt"
+  },
+  "ha_mqtt_subscribe": {
+    "message0": "%1 اشترك في الموضوع المخصص %2",
+    "tooltip": "اشترك في موضوع MQTT المخصص، والذي يتم استدعاؤه عادةً في رد الاتصال المتصل"
+  },
+  "ha_mqtt_disconnect": {
+    "message0": "%1 قطع الاتصال HA MQTT",
+    "tooltip": "افصل اتصال HAMqtt وأوقف إعادة الاتصال التلقائي حتى تبدأ مرة أخرى"
+  },
+  "ha_mqtt_on_connected": {
+    "message0": "عندما ينجح اتصال %1",
+    "message1": "تنفيذ %1",
+    "tooltip": "سجل رد الاتصال بنجاح اتصال MQTT، وهو مناسب للاشتراك في المواضيع المخصصة بعد إعادة الاتصال"
+  },
+  "ha_mqtt_on_message": {
+    "message0": "عندما يتلقى %1 رسالة MQTT المخصصة",
+    "message1": "تنفيذ %1",
+    "tooltip": "تسجيل رد اتصال مخصص لرسالة MQTT؛ يمكن قراءة الموضوع والمحتوى والطول في كتل القيمة المقابلة"
+  },
+  "ha_mqtt_message_topic": {
+    "message0": "موضوع رد الاتصال HA MQTT",
+    "tooltip": "اقرأ الموضوع في رد اتصال الرسالة MQTT الحالي"
+  },
+  "ha_mqtt_message_payload": {
+    "message0": "محتوى رد الاتصال HA MQTT",
+    "tooltip": "اقرأ نص المحتوى في رد اتصال الرسالة MQTT الحالي"
+  },
+  "ha_mqtt_message_length": {
+    "message0": "طول محتوى رد الاتصال HA MQTT",
+    "tooltip": "اقرأ طول بايت المحتوى في رد اتصال الرسالة MQTT الحالي"
+  },
+  "ha_entity_set_info": {
+    "message0": "%1 تعيين اسم الكيان %2 الكائن ID %3 أيقونة %4",
+    "tooltip": "قم بتعيين اسم العرض للكيان HA والكائن ID وأيقونة Material Design"
+  },
+  "ha_entity_set_availability": {
+    "message0": "يقوم %1 بتعيين الكيان المتاح لـ %2",
+    "tooltip": "الإبلاغ عن حالة الكيان متصل أو غير متصل"
+  },
+  "ha_sensor_create_text": {
+    "message0": "إنشاء مستشعر النص HA %1 وظيفة ID الفريدة %2 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "تقصير",
+            "HASensor::DefaultFeatures"
+          ],
+          [
+            "سمة JSON",
+            "HASensor::JsonAttributesFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "قم بإنشاء مستشعر Home Assistant للإبلاغ عن حالة النص"
+  },
+  "ha_sensor_create_number": {
+    "message0": "إنشاء مستشعر قيمة HA %1 فريد ID %2 دقة %3 وظيفة %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "عدد صحيح",
+            "HASensorNumber::PrecisionP0"
+          ],
+          [
+            "1 منزلة عشرية",
+            "HASensorNumber::PrecisionP1"
+          ],
+          [
+            "2 منزلة عشرية",
+            "HASensorNumber::PrecisionP2"
+          ],
+          [
+            "3 منازل عشرية",
+            "HASensorNumber::PrecisionP3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "تقصير",
+            "HASensor::DefaultFeatures"
+          ],
+          [
+            "سمة JSON",
+            "HASensor::JsonAttributesFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "قم بإنشاء مستشعر Home Assistant للإبلاغ عن الحالة الرقمية"
+  },
+  "ha_sensor_settings": {
+    "message0": "%1 تعيين فئة المستشعر %2 فئة الحالة %3 الوحدة %4 انتهاء الصلاحية %5 ثانية فرض التحديث %6",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "قم بتكوين فئة جهاز الاستشعار وفئة الحالة والوحدات ووقت انتهاء الصلاحية والتحديثات القسرية"
+  },
+  "ha_sensor_set_value": {
+    "message0": "يُبلغ %1 عن القيمة النصية %2",
+    "tooltip": "قم بالإبلاغ عن قيمة مستشعر النص إلى Home Assistant"
+  },
+  "ha_sensor_set_json_attributes": {
+    "message0": "تقارير %1 سمات JSON %2",
+    "tooltip": "نشر السمة JSON لأجهزة الاستشعار مع تمكين وظيفة السمة JSON"
+  },
+  "ha_sensor_number_set_value": {
+    "message0": "%1 القيمة المبلغ عنها %2 إلزامية %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "قم بالإبلاغ عن قيمة المستشعر الرقمي إلى Home Assistant"
+  },
+  "ha_binary_sensor_create": {
+    "message0": "إنشاء مستشعر ثنائي HA %1 فريد ID %2",
+    "tooltip": "قم بإنشاء مستشعر ثنائي Home Assistant يُبلغ عن حالة التشغيل/الإيقاف"
+  },
+  "ha_binary_sensor_settings": {
+    "message0": "%1 قم بتعيين فئة المستشعر الثنائي %2 تنتهي صلاحيته بـ %3 ثانية",
+    "tooltip": "تكوين فئة المستشعر الثنائي ووقت انتهاء الحالة"
+  },
+  "ha_binary_sensor_set_state": {
+    "message0": "يُبلغ %1 عن الحالة الثنائية %2 إلزامية %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "الإبلاغ عن حالة تشغيل/إيقاف المستشعر الثنائي"
+  },
+  "ha_binary_sensor_get_state": {
+    "message0": "%1 الحالة الثنائية الحالية",
+    "tooltip": "قراءة الوضع الحالي للمستشعر الثنائي"
+  },
+  "ha_switch_create": {
+    "message0": "إنشاء رمز التبديل HA %1 الفريد ID %2",
+    "tooltip": "قم بإنشاء كيان تبديل يمكن التحكم فيه من Home Assistant"
+  },
+  "ha_switch_settings": {
+    "message0": "%1 فئة التبديل %2 الأمر المحجوز %3 الوضع المتفائل %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "تكوين فئات التبديل، والاحتفاظ بالأوامر، والوضع المتفائل"
+  },
+  "ha_switch_set_state": {
+    "message0": "تقارير %1 حالة التبديل %2 إلزامية %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "قم بالإبلاغ عن حالة التبديل إلى Home Assistant"
+  },
+  "ha_switch_get_state": {
+    "message0": "%1 حالة التبديل الحالية",
+    "tooltip": "قراءة الوضع الحالي للمفتاح"
+  },
+  "ha_switch_on_command": {
+    "message0": "عندما يتلقى %1 أمر التبديل",
+    "message1": "تنفيذ %1",
+    "tooltip": "قم بمعالجة أمر التبديل الصادر عن Home Assistant، واستخدم \"Command Boolean Status\" لقراءة حالة الهدف"
+  },
+  "ha_button_create": {
+    "message0": "إنشاء زر HA %1 فريد ID %2",
+    "tooltip": "قم بإنشاء كيان زر لوحة Home Assistant"
+  },
+  "ha_button_settings": {
+    "message0": "%1 تعيين فئة الزر %2 الأمر المحجوز %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "تكوين فئات الأزرار والاحتفاظ بالأوامر"
+  },
+  "ha_button_on_command": {
+    "message0": "عند الضغط على زر %1",
+    "message1": "تنفيذ %1",
+    "tooltip": "التعامل مع زر Home Assistant انقر فوق الأمر"
+  },
+  "ha_light_create": {
+    "message0": "إنشاء HA ضوء %1 وظيفة ID فريدة من نوعها %2 %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "التبديل فقط",
+            "HALight::DefaultFeatures"
+          ],
+          [
+            "سطوع",
+            "HALight::BrightnessFeature"
+          ],
+          [
+            "درجة حرارة اللون",
+            "HALight::ColorTemperatureFeature"
+          ],
+          [
+            "RGB",
+            "HALight::RGBFeature"
+          ],
+          [
+            "السطوع+RGB",
+            "HALight::BrightnessFeature | HALight::RGBFeature"
+          ],
+          [
+            "الجميع",
+            "HALight::BrightnessFeature | HALight::ColorTemperatureFeature | HALight::RGBFeature"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "قم بإنشاء كيان ضوئي Home Assistant وحدد السطوع ودرجة حرارة اللون ووظائف RGB"
+  },
+  "ha_light_settings": {
+    "message0": "%1 تعيين أمر الضوء المحجوز %2 الوضع المتفائل %3 نطاق السطوع %4 الحد الأدنى لدرجة حرارة اللون %5 درجة حرارة اللون القصوى %6",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ],
+    "tooltip": "قم بتكوين زر التحكم في الضوء، والوضع المتفائل، ونطاق السطوع، ونطاق درجة حرارة اللون"
+  },
+  "ha_light_set_state": {
+    "message0": "%1 مفتاح ضوء الإبلاغ %2 إلزامي %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "الإبلاغ عن حالة مفتاح الضوء"
+  },
+  "ha_light_set_brightness": {
+    "message0": "%1 تقارير السطوع %2 إلزامية %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "تقرير سطوع الضوء، يتم تحديد النطاق من خلال تكوين نطاق السطوع"
+  },
+  "ha_light_set_color_temperature": {
+    "message0": "تقارير %1 درجة حرارة اللون %2 mired إلزامية %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "تقرير درجة حرارة لون المصباح، الوحدة هي mired"
+  },
+  "ha_light_set_rgb": {
+    "message0": "%1 تقارير RGB أحمر %2 أخضر %3 أزرق %4 إلزامي %5",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "تقرير ضوء RGB اللون، نطاق ثلاث قنوات 0-255"
+  },
+  "ha_light_get_state": {
+    "message0": "%1 مفتاح الضوء الحالي",
+    "tooltip": "قراءة حالة التبديل الحالية للضوء"
+  },
+  "ha_light_get_brightness": {
+    "message0": "%1 السطوع الحالي",
+    "tooltip": "قراءة السطوع الحالي للضوء"
+  },
+  "ha_light_on_state_command": {
+    "message0": "عندما يتلقى %1 أمر مفتاح الضوء",
+    "message1": "تنفيذ %1",
+    "tooltip": "للتعامل مع أوامر مفتاح الضوء، يمكن قراءة الحالة المستهدفة باستخدام كتلة قيمة الحالة المنطقية للأمر"
+  },
+  "ha_light_on_brightness_command": {
+    "message0": "عندما يتلقى %1 أمر السطوع",
+    "message1": "تنفيذ %1",
+    "tooltip": "لمعالجة أمر سطوع المصباح، يمكن قراءة سطوع الهدف باستخدام كتلة قيمة سطوع الأمر."
+  },
+  "ha_light_on_color_temperature_command": {
+    "message0": "عندما يتلقى %1 أمر درجة حرارة اللون",
+    "message1": "تنفيذ %1",
+    "tooltip": "لمعالجة أمر درجة حرارة لون المصباح، يمكن قراءة درجة حرارة اللون المستهدفة باستخدام كتلة قيمة درجة حرارة لون الأمر."
+  },
+  "ha_light_on_rgb_command": {
+    "message0": "عندما يتلقى %1 الأمر RGB",
+    "message1": "تنفيذ %1",
+    "tooltip": "لمعالجة أمر Light RGB، يمكنك استخدام كتلة قيمة الأمر RGB لقراءة اللون المستهدف"
+  },
+  "ha_number_create": {
+    "message0": "إنشاء تحكم رقمي HA %1 فريد ID %2 الدقة %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "عدد صحيح",
+            "HANumber::PrecisionP0"
+          ],
+          [
+            "1 منزلة عشرية",
+            "HANumber::PrecisionP1"
+          ],
+          [
+            "2 منزلة عشرية",
+            "HANumber::PrecisionP2"
+          ],
+          [
+            "3 منازل عشرية",
+            "HANumber::PrecisionP3"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "قم بإنشاء كيان الإدخال/التمرير الرقمي Home Assistant"
+  },
+  "ha_number_settings": {
+    "message0": "%1 تعيين رقم الفئة %2 الوحدة %3 الوضع %4 الحد الأدنى %5 الحد الأقصى %6 حجم الخطوة %7 محجوز %8 متفائل %9",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "تلقائي",
+            "HANumber::ModeAuto"
+          ],
+          [
+            "مربع الإدخال",
+            "HANumber::ModeBox"
+          ],
+          [
+            "المنزلق",
+            "HANumber::ModeSlider"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "قم بتكوين الفئة والوحدة ووضع العرض والنطاق وحجم الخطوة وسلوك الأمر للكيانات الرقمية"
+  },
+  "ha_number_set_state": {
+    "message0": "%1 تقارير الحالة الرقمية %2 إلزامية %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "الإبلاغ عن القيمة الحالية للكيان الرقمي"
+  },
+  "ha_number_get_state": {
+    "message0": "%1 القيمة الرقمية الحالية",
+    "tooltip": "قراءة القيمة الحالية للكيان الرقمي"
+  },
+  "ha_number_on_command": {
+    "message0": "عندما يتلقى %1 أمرًا رقميًا",
+    "message1": "تنفيذ %1",
+    "tooltip": "قم بمعالجة أمر التغيير الرقمي Home Assistant، ويمكن استخدام كتلة قيمة الأمر الرقمي لقراءة القيمة المستهدفة"
+  },
+  "ha_select_create": {
+    "message0": "إنشاء تحديد منسدل HA %1 فريد ID %2",
+    "tooltip": "قم بإنشاء كيان التحديد المنسدل Home Assistant"
+  },
+  "ha_select_settings": {
+    "message0": "خيارات الإعداد %1 %2 محجوزة %3 متفائل %4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "تكوين خيارات التحديد المنسدلة. يتم فصل الخيارات المتعددة بفواصل منقوطة باللغة الإنجليزية."
+  },
+  "ha_select_set_state": {
+    "message0": "%1 فهرس اختيار التقرير %2 إلزامي %3",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لا",
+            "false"
+          ],
+          [
+            "نعم",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "قم بالإبلاغ عن التحديد الحالي حسب فهرس الخيارات، -1 يعني عدم وجود تحديد"
+  },
+  "ha_select_get_state": {
+    "message0": "%1 فهرس التحديد الحالي",
+    "tooltip": "اقرأ الفهرس المحدد حاليًا"
+  },
+  "ha_select_get_option": {
+    "message0": "%1 نص الخيار الحالي",
+    "tooltip": "اقرأ نص الخيار المحدد حاليًا"
+  },
+  "ha_select_on_command": {
+    "message0": "عندما يتلقى %1 أمر التحديد",
+    "message1": "تنفيذ %1",
+    "tooltip": "处理Home Assistant下拉选择命令，可用选择命令索引值块读取目标选项"
+  },
+  "ha_command_bool_state": {
+    "message0": "الوضع المنطقي للأمر",
+    "tooltip": "اقرأ الحالة المنطقية المستهدفة في أمر التبديل أو مفتاح الضوء"
+  },
+  "ha_command_brightness": {
+    "message0": "سطوع الأمر",
+    "tooltip": "اقرأ سطوع الهدف في أمر سطوع المصباح"
+  },
+  "ha_command_color_temperature": {
+    "message0": "التحكم في درجة حرارة اللون",
+    "tooltip": "اقرأ درجة حرارة اللون المستهدفة في أمر درجة حرارة لون المصباح"
+  },
+  "ha_command_rgb_red": {
+    "message0": "الأمر RGB باللون الأحمر",
+    "tooltip": "اقرأ القناة الحمراء في أمر Light RGB"
+  },
+  "ha_command_rgb_green": {
+    "message0": "الأمر RGB باللون الأخضر",
+    "tooltip": "اقرأ القناة الخضراء في أمر Light RGB"
+  },
+  "ha_command_rgb_blue": {
+    "message0": "الأمر RGB باللون الأزرق",
+    "tooltip": "اقرأ القناة الزرقاء في أمر Light RGB"
+  },
+  "ha_number_command_is_set": {
+    "message0": "الأوامر الرقمية لها قيم",
+    "tooltip": "ما إذا كان أمر القراءة الرقمي يحمل قيمة صالحة، فإن أمر إعادة التعيين سيرجع لا"
+  },
+  "ha_number_command_value": {
+    "message0": "قيمة الأمر الرقمي",
+    "tooltip": "اقرأ القيمة المستهدفة في أمر رقمي"
+  },
+  "ha_select_command_index": {
+    "message0": "حدد فهرس الأوامر",
+    "tooltip": "قراءة فهرس خيار الهدف في أمر التحديد المنسدل"
+  }
+}

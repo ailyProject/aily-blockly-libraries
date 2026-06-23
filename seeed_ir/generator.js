@@ -1,32 +1,66 @@
 "use strict";
 
+(function registerSeeedIrGenerators() {
 const SEEED_IR_PROTOCOLS = [
-  ["P01_NEC", "#include <IRLib_P01_NEC.h>"],
-  ["P02_Sony", "#include <IRLib_P02_Sony.h>"],
-  ["P03_RC5", "#include <IRLib_P03_RC5.h>"],
-  ["P04_RC6", "#include <IRLib_P04_RC6.h>"],
-  ["P05_PanasonicOld", "#include <IRLib_P05_Panasonic_Old.h>"],
-  ["P06_JVC", "#include <IRLib_P06_JVC.h>"],
-  ["P07_NECx", "#include <IRLib_P07_NECx.h>"],
-  ["P08_Samsung36", "#include <IRLib_P08_Samsung36.h>"],
-  ["P09_GICable", "#include <IRLib_P09_GICable.h>"],
-  ["P10_DirecTV", "#include <IRLib_P10_DirecTV.h>"],
-  ["P11_RCMM", "#include <IRLib_P11_RCMM.h>"],
-  ["P12_CYKM", "#include <IRLib_P12_CYKM.h>"]
+  { value: "NEC", key: "P01_NEC", include: "#include <IRLib_P01_NEC.h>" },
+  { value: "SONY", key: "P02_Sony", include: "#include <IRLib_P02_Sony.h>" },
+  { value: "RC5", key: "P03_RC5", include: "#include <IRLib_P03_RC5.h>" },
+  { value: "RC6", key: "P04_RC6", include: "#include <IRLib_P04_RC6.h>" },
+  { value: "PANASONIC_OLD", key: "P05_PanasonicOld", include: "#include <IRLib_P05_Panasonic_Old.h>" },
+  { value: "JVC", key: "P06_JVC", include: "#include <IRLib_P06_JVC.h>" },
+  { value: "NECX", key: "P07_NECx", include: "#include <IRLib_P07_NECx.h>" },
+  { value: "SAMSUNG36", key: "P08_Samsung36", include: "#include <IRLib_P08_Samsung36.h>" },
+  { value: "GICABLE", key: "P09_GICable", include: "#include <IRLib_P09_GICable.h>" },
+  { value: "DIRECTV", key: "P10_DirecTV", include: "#include <IRLib_P10_DirecTV.h>" },
+  { value: "RCMM", key: "P11_RCMM", include: "#include <IRLib_P11_RCMM.h>" },
+  { value: "CYKM", key: "P12_CYKM", include: "#include <IRLib_P12_CYKM.h>" }
 ];
+
+function getSeeedIrProtocol(protocol) {
+  const normalized = String(protocol || "NEC").toUpperCase();
+  return SEEED_IR_PROTOCOLS.find(function(item) {
+    return item.value === normalized;
+  }) || SEEED_IR_PROTOCOLS[0];
+}
+
+function getSeeedIrState(generator) {
+  if (!generator._seeedIrProtocolIncludes) {
+    generator._seeedIrProtocolIncludes = Object.create(null);
+  }
+  return generator._seeedIrProtocolIncludes;
+}
+
+function updateSeeedIrProtocolIncludes(generator) {
+  const selected = getSeeedIrState(generator);
+  const includes = SEEED_IR_PROTOCOLS.filter(function(item) {
+    return selected[item.value];
+  }).map(function(item) {
+    return item.include;
+  });
+  generator.addLibrary("SeeedIR_Protocols", includes.join("\n"), true);
+}
 
 function ensureSeeedIrCore(generator) {
   generator.addLibrary("SeeedIR_SendBase", "#include <IRLibSendBase.h>");
   generator.addLibrary("SeeedIR_DecodeBase", "#include <IRLibDecodeBase.h>");
+  generator.addLibrary("SeeedIR_Protocols", "");
   generator.addLibrary("SeeedIR_HashRaw", "#include <IRLib_HashRaw.h>");
-  SEEED_IR_PROTOCOLS.forEach(function(item) {
-    generator.addLibrary("SeeedIR_" + item[0], item[1]);
-  });
   generator.addLibrary("SeeedIR_Combo", "#include <IRLibCombo.h>");
 }
 
-function ensureSeeedIrReceive(generator) {
+function ensureSeeedIrProtocol(generator, protocol) {
+  const selected = getSeeedIrProtocol(protocol);
   ensureSeeedIrCore(generator);
+  getSeeedIrState(generator)[selected.value] = true;
+  updateSeeedIrProtocolIncludes(generator);
+}
+
+function ensureSeeedIrReceive(generator, protocol) {
+  if (protocol) {
+    ensureSeeedIrProtocol(generator, protocol);
+  } else {
+    ensureSeeedIrCore(generator);
+  }
   generator.addLibrary("SeeedIR_RecvPCI", "#include <IRLibRecvPCI.h>");
 }
 
@@ -136,7 +170,7 @@ Arduino.forBlock["seeed_ir_send"] = function(block, generator) {
   const data = valueCode(generator, block, "DATA", "0");
   const data2 = valueCode(generator, block, "DATA2", "0");
   const khz = valueCode(generator, block, "KHZ", "38");
-  ensureSeeedIrCore(generator);
+  ensureSeeedIrProtocol(generator, protocol);
   return varName + ".send(" + protocol + ", " + data + ", " + data2 + ", " + khz + ");\n";
 };
 
@@ -144,7 +178,7 @@ Arduino.forBlock["seeed_ir_send_nec"] = function(block, generator) {
   const varName = getVarNameFromVAR(block, "irSender");
   const data = valueCode(generator, block, "DATA", "1637937167");
   const khz = valueCode(generator, block, "KHZ", "38");
-  ensureSeeedIrCore(generator);
+  ensureSeeedIrProtocol(generator, "NEC");
   return varName + ".send(NEC, " + data + ", 0, " + khz + ");\n";
 };
 
@@ -153,7 +187,7 @@ Arduino.forBlock["seeed_ir_wio_send"] = function(block, generator) {
   const data = valueCode(generator, block, "DATA", "1637937167");
   const data2 = valueCode(generator, block, "DATA2", "0");
   const khz = valueCode(generator, block, "KHZ", "38");
-  ensureSeeedIrCore(generator);
+  ensureSeeedIrProtocol(generator, protocol);
   addGlobalDeclaration(generator, "seeed_ir_wio_sender", "IRsend ailyWioIrSender;");
   ensureWioTerminalBoardHint();
   return "ailyWioIrSender.send(" + protocol + ", " + data + ", " + data2 + ", " + khz + ");\n";
@@ -173,10 +207,11 @@ Arduino.forBlock["seeed_ir_send_raw"] = function(block, generator) {
 Arduino.forBlock["seeed_ir_receiver_create"] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || "irReceiver";
   const decoderName = block.getFieldValue("DECODER") || "irDecoder";
+  const protocol = block.getFieldValue("PROTOCOL") || "NEC";
   const pin = block.getFieldValue("PIN") || "2";
   attachFieldInputVarMonitor(block, "VAR", "IRrecvPCI", "irReceiver", "_seeedIrReceiverVarMonitorAttached");
   attachFieldInputVarMonitor(block, "DECODER", "IRdecode", "irDecoder", "_seeedIrDecoderVarMonitorAttached");
-  ensureSeeedIrReceive(generator);
+  ensureSeeedIrReceive(generator, protocol);
   addGlobalDeclaration(generator, "seeed_ir_receiver_" + varName, "IRrecvPCI " + varName + "(" + pin + ");");
   addGlobalDeclaration(generator, "seeed_ir_decoder_" + decoderName, "IRdecode " + decoderName + ";");
   return "";
@@ -244,3 +279,4 @@ Arduino.forBlock["seeed_ir_receiver_resume"] = function(block, generator) {
   ensureSeeedIrReceive(generator);
   return varName + ".enableIRIn();\n";
 };
+})();

@@ -1,295 +1,91 @@
 {
-    "toolbox_name": "LIS3DHTR Accelerometer",
-    "lis3dhtr_begin":  {
-                           "message0":  "Init LIS3DHTR accelerometer (I2C) bus %1 address %2",
-                           "args0":  [
-                                         {
-                                             "options":  [
-                                                             [
-                                                                 "Wire1 (Wio Terminal)",
-                                                                 "Wire1"
-                                                             ],
-                                                             [
-                                                                 "Wire",
-                                                                 "Wire"
-                                                             ]
-                                                         ]
-                                         }
-                                     ]
-                       },
-    "lis3dhtr_set_datarate":  {
-                                  "message0":  "设置输出数据速率 %1",
-                                  "args0":  [
-                                                {
-                                                    "options":  [
-                                                                    [
-                                                                        "Power Down",
-                                                                        "LIS3DHTR_DATARATE_POWERDOWN"
-                                                                    ],
-                                                                    [
-                                                                        "1Hz",
-                                                                        "LIS3DHTR_DATARATE_1HZ"
-                                                                    ],
-                                                                    [
-                                                                        "10Hz",
-                                                                        "LIS3DHTR_DATARATE_10HZ"
-                                                                    ],
-                                                                    [
-                                                                        "25Hz",
-                                                                        "LIS3DHTR_DATARATE_25HZ"
-                                                                    ],
-                                                                    [
-                                                                        "50Hz",
-                                                                        "LIS3DHTR_DATARATE_50HZ"
-                                                                    ],
-                                                                    [
-                                                                        "100Hz",
-                                                                        "LIS3DHTR_DATARATE_100HZ"
-                                                                    ],
-                                                                    [
-                                                                        "200Hz",
-                                                                        "LIS3DHTR_DATARATE_200HZ"
-                                                                    ],
-                                                                    [
-                                                                        "400Hz",
-                                                                        "LIS3DHTR_DATARATE_400HZ"
-                                                                    ],
-                                                                    [
-                                                                        "1.6KHz",
-                                                                        "LIS3DHTR_DATARATE_1_6KH"
-                                                                    ],
-                                                                    [
-                                                                        "5KHz",
-                                                                        "LIS3DHTR_DATARATE_5KHZ"
-                                                                    ]
-                                                                ]
-                                                }
-                                            ]
-                              },
-    "lis3dhtr_set_resolution":  {
-                                    "message0":  "设置高分辨率模式 %1",
-                                    "args0":  [
-                                                  {
-                                                      "options":  [
-                                                                      [
-                                                                          "开启",
-                                                                          "true"
-                                                                      ],
-                                                                      [
-                                                                          "关闭",
-                                                                          "false"
-                                                                      ]
-                                                                  ]
-                                                  }
-                                              ]
-                                },
-    "lis3dhtr_get_acceleration_x":  {
-                                        "message0":  "读取X轴加速度"
-                                    },
-    "lis3dhtr_get_acceleration_y":  {
-                                        "message0":  "读取Y轴加速度"
-                                    },
-    "lis3dhtr_get_acceleration_z":  {
-                                        "message0":  "读取Z轴加速度"
-                                    },
-    "lis3dhtr_get_acceleration":  {
-                                      "message0":  "读取 %1 轴加速度",
-                                      "args0":  [
-                                                    {
-                                                        "options":  [
-                                                                        [
-                                                                            "X",
-                                                                            "X"
-                                                                        ],
-                                                                        [
-                                                                            "Y",
-                                                                            "Y"
-                                                                        ],
-                                                                        [
-                                                                            "Z",
-                                                                            "Z"
-                                                                        ]
-                                                                    ]
-                                                    }
-                                                ]
-                                  },
-    "lis3dhtr_get_acceleration_xyz":  {
-                                          "message0":  "获取三轴加速度并存储到变量中  X: %1  Y: %2  Z: %3"
-                                      },
-    "lis3dhtr_open_temp":  {
-                               "message0":  "开启温度传感器"
-                           },
-    "lis3dhtr_close_temp":  {
-                                "message0":  "关闭温度传感器"
-                            },
-    "lis3dhtr_get_temperature":  {
-                                     "message0":  "读取温度数据"
-                                 },
-    "lis3dhtr_get_temperature_simple":  {
-                                            "message0":  "读取温度数据（自动开启传感器）"
-                                        },
-    "lis3dhtr_read_adc1":  {
-                               "message0":  "读取ADC1通道数据"
-                           },
-    "lis3dhtr_read_adc2":  {
-                               "message0":  "读取ADC2通道数据"
-                           },
-    "lis3dhtr_read_adc3":  {
-                               "message0":  "读取ADC3通道数据"
-                           },
-    "lis3dhtr_read_adc":  {
-                              "message0":  "读取ADC通道 %1 数据",
-                              "args0":  [
-                                            {
-                                                "options":  [
-                                                                [
-                                                                    "1",
-                                                                    "1"
-                                                                ],
-                                                                [
-                                                                    "2",
-                                                                    "2"
-                                                                ],
-                                                                [
-                                                                    "3",
-                                                                    "3"
-                                                                ]
-                                                            ]
-                                            }
-                                        ]
-                          },
-    "lis3dhtr_is_connection":  {
-                                   "message0":  "检查传感器连接状态"
-                               },
-    "lis3dhtr_get_device_id":  {
-                                   "message0":  "获取设备ID"
-                               },
-    "lis3dhtr_set_full_scale_range":  {
-                                          "message0":  "设置传感器量程范围 %1",
-                                          "args0":  [
-                                                        {
-                                                            "options":  [
-                                                                            [
-                                                                                "2G",
-                                                                                "LIS3DHTR_RANGE_2G"
-                                                                            ],
-                                                                            [
-                                                                                "4G",
-                                                                                "LIS3DHTR_RANGE_4G"
-                                                                            ],
-                                                                            [
-                                                                                "8G",
-                                                                                "LIS3DHTR_RANGE_8G"
-                                                                            ],
-                                                                            [
-                                                                                "16G",
-                                                                                "LIS3DHTR_RANGE_16G"
-                                                                            ]
-                                                                        ]
-                                                        }
-                                                    ]
-                                      },
-    "lis3dhtr_set_power_mode":  {
-                                    "message0":  "设置电源模式 %1",
-                                    "args0":  [
-                                                  {
-                                                      "options":  [
-                                                                      [
-                                                                          "正常",
-                                                                          "LIS3DHTR_POWER_NORMAL"
-                                                                      ],
-                                                                      [
-                                                                          "低功耗",
-                                                                          "LIS3DHTR_POWER_LOW"
-                                                                      ]
-                                                                  ]
-                                                  }
-                                              ]
-                                },
-    "lis3dhtr_init_simplified":  {
-                                     "message0":  "一体化初始化和配置 地址 %1 数据速率 %2 量程 %3 高分辨率 %4",
-                                     "args0":  [
-                                                   null,
-                                                   {
-                                                       "options":  [
-                                                                       [
-                                                                           "100Hz",
-                                                                           "LIS3DHTR_DATARATE_100HZ"
-                                                                       ],
-                                                                       [
-                                                                           "50Hz",
-                                                                           "LIS3DHTR_DATARATE_50HZ"
-                                                                       ],
-                                                                       [
-                                                                           "400Hz",
-                                                                           "LIS3DHTR_DATARATE_400HZ"
-                                                                       ]
-                                                                   ]
-                                                   },
-                                                   {
-                                                       "options":  [
-                                                                       [
-                                                                           "2G",
-                                                                           "LIS3DHTR_RANGE_2G"
-                                                                       ],
-                                                                       [
-                                                                           "4G",
-                                                                           "LIS3DHTR_RANGE_4G"
-                                                                       ],
-                                                                       [
-                                                                           "8G",
-                                                                           "LIS3DHTR_RANGE_8G"
-                                                                       ],
-                                                                       [
-                                                                           "16G",
-                                                                           "LIS3DHTR_RANGE_16G"
-                                                                       ]
-                                                                   ]
-                                                   },
-                                                   {
-                                                       "options":  [
-                                                                       [
-                                                                           "开启",
-                                                                           "true"
-                                                                       ],
-                                                                       [
-                                                                           "关闭",
-                                                                           "false"
-                                                                       ]
-                                                                   ]
-                                                   }
-                                               ]
-                                 },
-    "lis3dhtr_available":  {
-                               "message0":  "Accelerometer data available"
-                           },
-    "lis3dhtr_reset":  {
-                           "message0":  "Reset LIS3DHTR sensor"
-                       },
-    "lis3dhtr_on_tap":  {
-                            "message1":  "%1",
-                            "args0":  [
-                                          {
-                                              "options":  [
-                                                              [
-                                                                  "Single",
-                                                                  "1"
-                                                              ],
-                                                              [
-                                                                  "Double",
-                                                                  "2"
-                                                              ]
-                                                          ]
-                                          }
-                                      ],
-                            "message0":  "When %1 tap detected (threshold %2) do"
-                        },
-    "toolbox_labels":  {
-                           "初始化与配置":  "Init \u0026 Config",
-                           "加速度读取":  "Acceleration",
-                           "敲击检测":  "Tap Detection",
-                           "温度传感器":  "Temperature",
-                           "ADC 读取":  "ADC",
-                           "状态与信息":  "Status \u0026 Info"
-                       }
+  "toolbox_name": "LIS3DHTR Accelerometer",
+  "toolbox_labels": {
+    "初始化与配置": "Init & Config",
+    "加速度读取": "Acceleration",
+    "敲击检测": "Tap Detection",
+    "温度传感器": "Temperature",
+    "ADC 读取": "ADC Read",
+    "状态与信息": "Status & Info"
+  },
+  "lis3dhtr_init": {
+    "message0": "init LIS3DHTR accelerometer I2C %1 address %2",
+    "tooltip": "Initialize LIS3DHTR accelerometer (I2C mode), default address 0x18. ⚠️ Wio Terminal must use Wire1"
+  },
+  "lis3dhtr_init_simplified": {
+    "message0": "all-in-one init LIS3DHTR I2C %1 address %2 data rate %3 range %4 high res %5",
+    "tooltip": "One-step LIS3DHTR init and config: init + data rate + range + high resolution. Recommended read interval ≥ 50ms"
+  },
+  "lis3dhtr_set_datarate": {
+    "message0": "set output data rate %1",
+    "tooltip": "Set accelerometer output data rate"
+  },
+  "lis3dhtr_set_full_scale_range": {
+    "message0": "set full scale range %1",
+    "tooltip": "Set accelerometer measurement range"
+  },
+  "lis3dhtr_set_resolution": {
+    "message0": "set high resolution mode %1",
+    "tooltip": "Enable/disable high resolution output mode"
+  },
+  "lis3dhtr_set_power_mode": {
+    "message0": "set power mode %1",
+    "tooltip": "Set sensor power mode"
+  },
+  "lis3dhtr_get_acceleration": {
+    "message0": "read %1 axis acceleration (g)",
+    "tooltip": "Read acceleration value for the specified axis (unit: g)"
+  },
+  "lis3dhtr_get_acceleration_x": {
+    "message0": "read X axis acceleration (g)",
+    "tooltip": "Read X axis acceleration value"
+  },
+  "lis3dhtr_get_acceleration_y": {
+    "message0": "read Y axis acceleration (g)",
+    "tooltip": "Read Y axis acceleration value"
+  },
+  "lis3dhtr_get_acceleration_z": {
+    "message0": "read Z axis acceleration (g)",
+    "tooltip": "Read Z axis acceleration value"
+  },
+  "lis3dhtr_get_acceleration_xyz": {
+    "message0": "get 3-axis acceleration X: %1 Y: %2 Z: %3",
+    "tooltip": "Read all three axes at once and store to specified variables"
+  },
+  "lis3dhtr_available": {
+    "message0": "accelerometer data ready",
+    "tooltip": "Check if new accelerometer data is available"
+  },
+  "lis3dhtr_open_temp": {
+    "message0": "enable temperature sensor",
+    "tooltip": "Enable LIS3DHTR built-in temperature sensor"
+  },
+  "lis3dhtr_close_temp": {
+    "message0": "disable temperature sensor",
+    "tooltip": "Disable LIS3DHTR built-in temperature sensor"
+  },
+  "lis3dhtr_get_temperature": {
+    "message0": "read temperature (°C)",
+    "tooltip": "Read temperature data, enable temperature sensor first"
+  },
+  "lis3dhtr_read_adc": {
+    "message0": "read ADC channel %1",
+    "tooltip": "Read specified ADC channel data"
+  },
+  "lis3dhtr_is_connection": {
+    "message0": "sensor connected",
+    "tooltip": "Check if LIS3DHTR sensor is properly connected (device ID == 0x33)"
+  },
+  "lis3dhtr_get_device_id": {
+    "message0": "get device ID",
+    "tooltip": "Read LIS3DHTR device ID (normal value 0x33)"
+  },
+  "lis3dhtr_reset": {
+    "message0": "reset sensor",
+    "tooltip": "Reset LIS3DHTR sensor to default state"
+  },
+  "lis3dhtr_on_tap": {
+    "message0": "on %1 tap detected threshold %2 interrupt pin %3",
+    "tooltip": "Configure tap detection and interrupt handler. Recommended thresholds: 2G range 40-80, 4G 20-40, 8G 10-20, 16G 5-10"
+  }
 }

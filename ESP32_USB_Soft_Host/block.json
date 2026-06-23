@@ -1,0 +1,175 @@
+[
+  {
+    "type": "esp32_usb_soft_host_begin",
+    "message0": "ESP32 USB Soft Host begin D+0 %1 D-0 %2 D+1 %3 D-1 %4 D+2 %5 D-2 %6 D+3 %7 D-3 %8",
+    "args0": [
+      { "type": "input_value", "name": "DP0", "check": ["Number"] },
+      { "type": "input_value", "name": "DM0", "check": ["Number"] },
+      { "type": "input_value", "name": "DP1", "check": ["Number"] },
+      { "type": "input_value", "name": "DM1", "check": ["Number"] },
+      { "type": "input_value", "name": "DP2", "check": ["Number"] },
+      { "type": "input_value", "name": "DM2", "check": ["Number"] },
+      { "type": "input_value", "name": "DP3", "check": ["Number"] },
+      { "type": "input_value", "name": "DM3", "check": ["Number"] }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "Initialize the software USB host with up to four D+/D- GPIO pairs. Use -1 to disable an unused port.",
+    "icon": "fa-brands fa-usb"
+  },
+  {
+    "type": "esp32_usb_soft_host_task_options",
+    "message0": "USB Soft Host task core %1 priority %2 blink pin %3 interrupt %4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CORE",
+        "options": [["core 0", "0"], ["core 1", "1"]]
+      },
+      { "type": "input_value", "name": "PRIORITY", "check": ["Number"] },
+      { "type": "input_value", "name": "BLINK_PIN", "check": ["Number"] },
+      {
+        "type": "field_dropdown",
+        "name": "ISR_FLAG",
+        "options": [
+          ["IRAM", "ESP_INTR_FLAG_IRAM"],
+          ["level 1", "ESP_INTR_FLAG_LEVEL1"],
+          ["level 2", "ESP_INTR_FLAG_LEVEL2"],
+          ["level 3", "ESP_INTR_FLAG_LEVEL3"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "Configure task core, priority, activity LED pin, and interrupt allocation flag before initialization.",
+    "icon": "fa-solid fa-sliders"
+  },
+  {
+    "type": "esp32_usb_soft_host_descriptor_log",
+    "message0": "USB Soft Host enable descriptor log",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "Attach the library default descriptor callbacks to print USB configuration, interface, HID, and endpoint descriptors.",
+    "icon": "fa-solid fa-list"
+  },
+  {
+    "type": "esp32_usb_soft_host_on_detect",
+    "message0": "when USB device detected port %1 vendor %2 product %3 class %4 %5 %6",
+    "args0": [
+      { "type": "field_input", "name": "PORT_VAR", "text": "usbPort" },
+      { "type": "field_input", "name": "VENDOR_VAR", "text": "usbVendorId" },
+      { "type": "field_input", "name": "PRODUCT_VAR", "text": "usbProductId" },
+      { "type": "field_input", "name": "CLASS_VAR", "text": "usbDeviceClass" },
+      { "type": "input_dummy" },
+      { "type": "input_statement", "name": "HANDLER" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00897B",
+    "tooltip": "Register a callback that runs when the software USB host detects a device.",
+    "icon": "fa-brands fa-usb"
+  },
+  {
+    "type": "esp32_usb_soft_host_on_disconnect",
+    "message0": "when USB device disconnected port %1 %2 %3",
+    "args0": [
+      { "type": "field_input", "name": "PORT_VAR", "text": "usbPort" },
+      { "type": "input_dummy" },
+      { "type": "input_statement", "name": "HANDLER" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00897B",
+    "tooltip": "Register a callback that runs when a USB device disconnects.",
+    "icon": "fa-solid fa-plug-circle-xmark"
+  },
+  {
+    "type": "esp32_usb_soft_host_on_data",
+    "message0": "when USB data received port %1 length %2 hex %3 %4 %5",
+    "args0": [
+      { "type": "field_input", "name": "PORT_VAR", "text": "usbPort" },
+      { "type": "field_input", "name": "LEN_VAR", "text": "usbDataLength" },
+      { "type": "field_input", "name": "HEX_VAR", "text": "usbDataHex" },
+      { "type": "input_dummy" },
+      { "type": "input_statement", "name": "HANDLER" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00897B",
+    "tooltip": "Register a callback that runs when HID report bytes arrive. The last report is also available through value blocks.",
+    "icon": "fa-solid fa-keyboard"
+  },
+  {
+    "type": "esp32_usb_soft_host_on_tick",
+    "message0": "when USB Soft Host tick %1",
+    "args0": [
+      { "type": "input_statement", "name": "HANDLER" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00897B",
+    "tooltip": "Register a callback called from the USB host timer task.",
+    "icon": "fa-solid fa-clock"
+  },
+  {
+    "type": "esp32_usb_soft_host_timer",
+    "message0": "USB Soft Host timer %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [["pause", "PAUSE"], ["resume", "RESUME"]]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5E35B1",
+    "tooltip": "Pause or resume the USB soft-host timer around timing-sensitive filesystem or flash work.",
+    "icon": "fa-solid fa-pause"
+  },
+  {
+    "type": "esp32_usb_soft_host_last_value",
+    "message0": "USB Soft Host last %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VALUE",
+        "options": [
+          ["port", "PORT"],
+          ["data length", "LENGTH"],
+          ["vendor id", "VENDOR"],
+          ["product id", "PRODUCT"],
+          ["device class", "CLASS"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#546E7A",
+    "tooltip": "Read a numeric value from the most recent USB event.",
+    "icon": "fa-solid fa-circle-info"
+  },
+  {
+    "type": "esp32_usb_soft_host_last_data_hex",
+    "message0": "USB Soft Host last data hex",
+    "output": "String",
+    "colour": "#546E7A",
+    "tooltip": "Read the latest HID report bytes as a space-separated hexadecimal string.",
+    "icon": "fa-solid fa-code"
+  },
+  {
+    "type": "esp32_usb_soft_host_data_byte",
+    "message0": "USB Soft Host data byte index %1",
+    "args0": [
+      { "type": "input_value", "name": "INDEX", "check": ["Number"] }
+    ],
+    "output": "Number",
+    "colour": "#546E7A",
+    "tooltip": "Read one byte from the latest HID report buffer. Index starts at 0.",
+    "icon": "fa-solid fa-arrow-down-1-9"
+  }
+]

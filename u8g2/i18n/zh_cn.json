@@ -1,5 +1,13 @@
 {
   "toolbox_name": "单色显示屏",
+  "toolbox_labels": {
+    "u8g2初始化": "u8g2初始化",
+    "u8g2全缓冲区模式": "u8g2全缓冲区模式",
+    "u8g2页面缓冲区模式": "u8g2页面缓冲区模式",
+    "u8g2绘制": "u8g2绘制",
+    "u8g2设置": "u8g2设置",
+    "u8x8": "u8x8"
+  },
   "u8g2_begin": {
     "message0": "初始化显示屏 型号 %1 模式 %2",
     "tooltip": "初始化U8G2显示设备",
@@ -48,6 +56,7 @@
   },
   "u8g2_page_buffer": {
     "message0": "页面缓冲区模式",
+    "message1": "绘图 %1",
     "tooltip": "使用页面缓冲区模式进行绘图操作"
   },
   "u8g2_clear": {
@@ -79,7 +88,34 @@
     "tooltip": "显示图像"
   },
   "u8g2_bitmap": {
-    "message0": "图像 %1"
+    "message0": "图像 %1",
+    "tooltip": "u8g2图像数据"
+  },
+  "u8g2_animation": {
+    "message0": "动画 %1",
+    "tooltip": "上传 GIF、MP4 或 PNG 并取模为 u8g2 动画帧"
+  },
+  "u8g2_play_animation": {
+    "message0": "播放动画 坐标 x%1 y%2 动画 %3 模式 %4",
+    "message1": "循环播放 %1",
+    "tooltip": "播放 u8g2 动画；不阻塞模式每次 loop 到达帧间隔时播放下一帧",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "阻塞播放",
+            "BLOCKING"
+          ],
+          [
+            "不阻塞播放",
+            "NON_BLOCKING"
+          ]
+        ]
+      }
+    ]
   },
   "u8g2_icon_16x16": {
     "message0": "小图标16×16 %1",
@@ -106,6 +142,28 @@
           [
             "180度翻转",
             "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_set_display_mirror": {
+    "message0": "设置屏幕镜像 %1",
+    "tooltip": "使用U8g2镜像显示方向，正常=不镜像，水平镜像=左右翻转，垂直镜像=上下翻转",
+    "args0": [
+      {
+        "options": [
+          [
+            "正常",
+            "U8G2_R0"
+          ],
+          [
+            "水平镜像（左右）",
+            "U8G2_MIRROR"
+          ],
+          [
+            "垂直镜像（上下）",
+            "U8G2_MIRROR_VERTICAL"
           ]
         ]
       }
@@ -282,5 +340,33 @@
   "u8x8_draw_str": {
     "message0": "U8x8 显示文本 坐标 x%1 y%2 文本%3 反色%4",
     "tooltip": "显示文本"
+  },
+  "extensions": {
+    "u8g2_font_dynamic_inputs": {
+      "font_type": "字体类型",
+      "font": "字体",
+      "chinese": "中文",
+      "full_character_set": "全字符集",
+      "wenquanyi": "文泉驿",
+      "about": "约",
+      "characters": "字"
+    },
+    "u8g2_init_dynamic_inputs": {
+      "resolution": "分辨率",
+      "communication": "通信",
+      "i2c_hardware": "I2C(硬件)",
+      "i2c_software": "I2C(软件)",
+      "spi3_hardware": "SPI 3线(硬件)",
+      "spi3_software": "SPI 3线(软件)",
+      "spi4_hardware": "SPI 4线(硬件)",
+      "spi4_software": "SPI 4线(软件)",
+      "spi_hardware": "SPI(硬件)",
+      "spi_software": "SPI(软件)",
+      "pin_scl": "引脚SCL",
+      "pin_rst": "引脚RST",
+      "pin_cs": "引脚CS",
+      "pin_clk": "引脚CLK"
+    },
+    "u8g2_animation_play_dynamic_inputs": {}
   }
 }

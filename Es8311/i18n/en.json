@@ -8,8 +8,14 @@
       null,
       {
         "options": [
-          ["0x18 (default)", "0x18"],
-          ["0x30", "0x30"]
+          [
+            "0x18 (default)",
+            "0x18"
+          ],
+          [
+            "0x30",
+            "0x30"
+          ]
         ]
       }
     ]
@@ -42,10 +48,6 @@
     "message0": "ES8311 %1 stop record/play",
     "tooltip": "Stop current recording or playback, clear I2S DMA buffer"
   },
-  "es8311_sound_detected": {
-    "message0": "ES8311 %1 sound detected threshold %2",
-    "tooltip": "Detect if ambient sound exceeds threshold (0~100), returns true if exceeded"
-  },
   "es8311_mute": {
     "message0": "ES8311 %1 %2",
     "tooltip": "Control ES8311 mute state",
@@ -53,10 +55,22 @@
       null,
       {
         "options": [
-          ["Unmute", "0"],
-          ["Mute output", "1"],
-          ["Mute mic", "2"],
-          ["Mute all", "3"]
+          [
+            "Unmute",
+            "0"
+          ],
+          [
+            "Mute output",
+            "1"
+          ],
+          [
+            "Mute mic",
+            "2"
+          ],
+          [
+            "Mute all",
+            "3"
+          ]
         ]
       }
     ]
@@ -72,8 +86,14 @@
       null,
       {
         "options": [
-          ["Enable", "true"],
-          ["Disable", "false"]
+          [
+            "Enable",
+            "true"
+          ],
+          [
+            "Disable",
+            "false"
+          ]
         ]
       }
     ]
@@ -95,16 +115,38 @@
     "tooltip": "Configure the DashScope API key and compatible-mode base URL. WiFi connection is handled by existing WiFi blocks"
   },
   "es8311_qwen_audio_chat": {
-    "message0": "ES8311 %1 upload current recording to Qwen prompt %2 model %3",
-    "tooltip": "Upload the current recording to Qwen Omni, play the voice reply in real time, and save the final text result",
+    "message0": "ES8311 %1 send recording to Qwen prompt %2 model %3 voice %4 playback %5",
+    "tooltip": "Uploads the recording to Qwen Omni, streams the voice reply and stores the text result. Background mode returns once data is received; interrupt with the stop block",
     "args0": [
       null,
       null,
       {
         "options": [
-          ["qwen3.5-omni-plus (Recommended)", "qwen3.5-omni-plus"],
-          ["qwen-omni-turbo", "qwen-omni-turbo"],
-          ["qwen3-omni-flash", "qwen3-omni-flash"]
+          [
+            "qwen3.5-omni-plus (Recommended)",
+            "qwen3.5-omni-plus"
+          ],
+          [
+            "qwen-omni-turbo",
+            "qwen-omni-turbo"
+          ],
+          [
+            "qwen3-omni-flash",
+            "qwen3-omni-flash"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "wait until done",
+            "WAIT"
+          ],
+          [
+            "background (interruptible)",
+            "BACKGROUND"
+          ]
         ]
       }
     ]
@@ -120,5 +162,37 @@
   "es8311_qwen_get_last_error": {
     "message0": "get ES8311 AI last error message",
     "tooltip": "Return the error message from the most recent cloud audio understanding request"
+  },
+  "es8311_record_start": {
+    "message0": "ES8311 %1 start recording (background)",
+    "tooltip": "Starts background recording and returns immediately; stop with the stop-recording block, auto-stops when the buffer is full"
+  },
+  "es8311_record_stop": {
+    "message0": "ES8311 %1 stop recording",
+    "tooltip": "Stops background recording and keeps the actual length (under 0.1s counts as no recording)"
+  },
+  "es8311_is_recording": {
+    "message0": "ES8311 %1 is recording",
+    "tooltip": "Whether background recording is in progress"
+  },
+  "es8311_is_speaking": {
+    "message0": "ES8311 %1 is playing voice",
+    "tooltip": "Whether streaming/background audio is still playing"
+  },
+  "es8311_sound_level": {
+    "message0": "ES8311 %1 current sound level",
+    "tooltip": "Samples the microphone in real time and returns the level (0~100, I2S must be configured)"
+  },
+  "es8311_stream_begin": {
+    "message0": "ES8311 %1 start streaming playback source rate %2",
+    "tooltip": "Starts streaming playback, resampling the source rate to 16kHz"
+  },
+  "es8311_stream_end": {
+    "message0": "ES8311 %1 end streaming playback",
+    "tooltip": "Ends streaming playback and clears the I2S DMA buffer"
+  },
+  "es8311_stream_play_url": {
+    "message0": "ES8311 %1 stream audio from URL %2 source rate %3",
+    "tooltip": "Downloads and plays 16-bit mono PCM/WAV from http(s) while streaming (WiFi required)"
   }
 }

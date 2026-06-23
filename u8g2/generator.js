@@ -1,3 +1,20 @@
+var U8G2_I18N_PACKAGE_NAME = '@aily-project/lib-u8g2';
+
+function getU8g2I18n() {
+  return (typeof window !== 'undefined' && window.__BLOCKLY_LIB_I18N__)
+    ? window.__BLOCKLY_LIB_I18N__[U8G2_I18N_PACKAGE_NAME] || {}
+    : {};
+}
+
+function getU8g2ExtensionI18n(extensionName) {
+  var extensions = getU8g2I18n().extensions;
+  return (extensions && extensions[extensionName]) || {};
+}
+
+function getU8g2Text(i18n, key, fallback) {
+  return (i18n && i18n[key]) || fallback;
+}
+
 // 检测是否为ESP32核心
 function isESP32Core() {
   const boardConfig = window['boardConfig'];
@@ -16,6 +33,23 @@ if (Blockly.Extensions.isRegistered('u8g2_font_dynamic_inputs')) {
 
 Blockly.Extensions.register('u8g2_font_dynamic_inputs', function () {
   // 动态字体选择：字体大小 -> 字体类型 -> 具体字体
+  const i18n = getU8g2ExtensionI18n('u8g2_font_dynamic_inputs');
+  const text = (key, fallback) => getU8g2Text(i18n, key, fallback);
+  const localizeFontTypeOptions = options => options.map(([label, value]) => [
+    value === 'CHINESE' ? text('chinese', '中文') : label,
+    value
+  ]);
+  const localizeFontOptions = options => options.map(([label, value]) => {
+    const fullSetMatch = label.match(/^(\d+px) 全字符集$/);
+    if (fullSetMatch) {
+      return [`${fullSetMatch[1]} ${text('full_character_set', '全字符集')}`, value];
+    }
+    const wqyMatch = label.match(/^文泉驿 (.+)\(约(\d+)字\)$/);
+    if (wqyMatch) {
+      return [`${text('wenquanyi', '文泉驿')} ${wqyMatch[1]} (${text('about', '约')}${wqyMatch[2]}${text('characters', '字')})`, value];
+    }
+    return [label, value];
+  });
   
   // 辅助函数：移除字体选择输入
   this.removeFontInputs_ = function() {
@@ -96,9 +130,11 @@ Blockly.Extensions.register('u8g2_font_dynamic_inputs', function () {
         return;
     }
     
+    fontTypeOptions = localizeFontTypeOptions(fontTypeOptions);
+
     // 添加字体类型下拉框
     this.appendDummyInput('FONT_TYPE')
-      .appendField('字体类型')
+      .appendField(text('font_type', '字体类型'))
       .appendField(new Blockly.FieldDropdown(fontTypeOptions), 'FONT_TYPE');
     
     // 为字体类型字段添加验证器
@@ -385,9 +421,10 @@ Blockly.Extensions.register('u8g2_font_dynamic_inputs', function () {
     }
     
     if (fontOptions.length > 0) {
+      fontOptions = localizeFontOptions(fontOptions);
       // 添加具体字体下拉框
       this.appendDummyInput('FONT_NAME')
-        .appendField('字体')
+        .appendField(text('font', '字体'))
         .appendField(new Blockly.FieldDropdown(fontOptions), 'FONT');
     }
   };
@@ -408,6 +445,22 @@ if (Blockly.Extensions.isRegistered('u8g2_init_dynamic_inputs')) {
 
 Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
   // 重新设计动态输入流程：屏幕类型 -> 分辨率 -> 通信协议 -> 引脚配置
+  const i18n = getU8g2ExtensionI18n('u8g2_init_dynamic_inputs');
+  const text = (key, fallback) => getU8g2Text(i18n, key, fallback);
+  const protocolLabels = {
+    _HW_I2C: text('i2c_hardware', 'I2C(硬件)'),
+    _SW_I2C: text('i2c_software', 'I2C(软件)'),
+    _3W_HW_SPI: text('spi3_hardware', 'SPI 3线(硬件)'),
+    _3W_SW_SPI: text('spi3_software', 'SPI 3线(软件)'),
+    _4W_HW_SPI: text('spi4_hardware', 'SPI 4线(硬件)'),
+    _4W_SW_SPI: text('spi4_software', 'SPI 4线(软件)'),
+    _HW_SPI: text('spi_hardware', 'SPI(硬件)'),
+    _SW_SPI: text('spi_software', 'SPI(软件)')
+  };
+  const localizeProtocolOptions = options => options.map(([label, value]) => [
+    protocolLabels[value] || label,
+    value
+  ]);
   let isESP32 = isESP32Core();
   
   // 辅助函数：移除所有输入
@@ -435,7 +488,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
     switch (typeValue) {
       case 'SSD1306':
         this.appendDummyInput('RESOLUTION')
-          .appendField('分辨率')
+          .appendField(text('resolution', '分辨率'))
           .appendField(new Blockly.FieldDropdown([
             ['128x64', '128X64_NONAME'],
             ['128x32', '128X32_UNIVISION']
@@ -443,7 +496,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
         break;
       case 'SSD1309':
         this.appendDummyInput('RESOLUTION')
-          .appendField('分辨率')
+          .appendField(text('resolution', '分辨率'))
           .appendField(new Blockly.FieldDropdown([
             ['128x64 NONAME0', '128X64_NONAME0'],
             ['128x64 NONAME2', '128X64_NONAME2']
@@ -451,14 +504,14 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
         break;
       case 'SH1106':
         this.appendDummyInput('RESOLUTION')
-          .appendField('分辨率')
+          .appendField(text('resolution', '分辨率'))
           .appendField(new Blockly.FieldDropdown([
             ['128x64', '128X64_NONAME']
           ]), 'RESOLUTION');
         break;
       case 'SH1107':
         this.appendDummyInput('RESOLUTION')
-          .appendField('分辨率')
+          .appendField(text('resolution', '分辨率'))
           .appendField(new Blockly.FieldDropdown([
             ['64x128', '64X128'],
             ['128x128', '128X128'],
@@ -469,7 +522,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
         break;
       case 'ST7305':
         this.appendDummyInput('RESOLUTION')
-          .appendField('分辨率')
+          .appendField(text('resolution', '分辨率'))
           .appendField(new Blockly.FieldDropdown([
             ['122X250', '122X250'],
             ['200X200', '200X200'],
@@ -478,7 +531,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
         break;
       case 'ST7920':
         this.appendDummyInput('RESOLUTION')
-          .appendField('分辨率')
+          .appendField(text('resolution', '分辨率'))
           .appendField(new Blockly.FieldDropdown([
             ['128x32', '128X32'],
             ['128x64', '128X64']
@@ -584,9 +637,11 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
         return;
     }
     
+    protocolOptions = localizeProtocolOptions(protocolOptions);
+
     // 添加协议下拉框
     this.appendDummyInput('PROTOCOL')
-      .appendField('通信')
+      .appendField(text('communication', '通信'))
       .appendField(new Blockly.FieldDropdown(protocolOptions), 'PROTOCOL');
     
     // 为协议字段添加验证器
@@ -608,7 +663,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
       case '_HW_I2C':
         if (isESP32) {
           this.appendDummyInput('I2C_PINS')
-            .appendField('引脚SCL')
+            .appendField(text('pin_scl', '引脚SCL'))
             .appendField(new Blockly.FieldTextInput('SCL'), 'SCL_PIN')
             .appendField('SDA')
             .appendField(new Blockly.FieldTextInput('SDA'), 'SDA_PIN')
@@ -616,13 +671,13 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
             .appendField(new Blockly.FieldTextInput('U8X8_PIN_NONE'), 'RESET_PIN');
         } else {
           this.appendDummyInput('I2C_PINS')
-            .appendField('引脚RST')
+            .appendField(text('pin_rst', '引脚RST'))
             .appendField(new Blockly.FieldTextInput('U8X8_PIN_NONE'), 'RESET_PIN');
         }
         break;
       case '_SW_I2C':
         this.appendDummyInput('SW_I2C_PINS')
-          .appendField('引脚SCL')
+          .appendField(text('pin_scl', '引脚SCL'))
           .appendField(new Blockly.FieldTextInput('13'), 'CLOCK_PIN')
           .appendField('SDA')
           .appendField(new Blockly.FieldTextInput('11'), 'DATA_PIN')
@@ -631,14 +686,14 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
         break;
       case '_3W_HW_SPI':
         this.appendDummyInput('3W_SPI_PINS')
-          .appendField('引脚CS')
+          .appendField(text('pin_cs', '引脚CS'))
           .appendField(new Blockly.FieldTextInput('10'), 'CS_PIN')
           .appendField('RST')
           .appendField(new Blockly.FieldTextInput('8'), 'RESET_PIN');
         break;
       case '_3W_SW_SPI':
         this.appendDummyInput('3W_SW_SPI_PINS')
-          .appendField('引脚CLK')
+          .appendField(text('pin_clk', '引脚CLK'))
           .appendField(new Blockly.FieldTextInput('13'), 'CLOCK_PIN')
           .appendField('DATA')
           .appendField(new Blockly.FieldTextInput('11'), 'DATA_PIN')
@@ -649,7 +704,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
         break;
       case '_4W_HW_SPI':
         this.appendDummyInput('4W_SPI_PINS')
-          .appendField('引脚CS')
+          .appendField(text('pin_cs', '引脚CS'))
           .appendField(new Blockly.FieldTextInput('10'), 'CS_PIN')
           .appendField('DC')
           .appendField(new Blockly.FieldTextInput('9'), 'DC_PIN')
@@ -658,7 +713,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
         break;
       case '_4W_SW_SPI':
         this.appendDummyInput('4W_SW_SPI_PINS')
-          .appendField('引脚CLK')
+          .appendField(text('pin_clk', '引脚CLK'))
           .appendField(new Blockly.FieldTextInput('13'), 'CLOCK_PIN')
           .appendField('DATA')
           .appendField(new Blockly.FieldTextInput('11'), 'DATA_PIN')
@@ -672,7 +727,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
       case '_HW_SPI':
         // ST7920 硬件SPI
         this.appendDummyInput('ST7920_SPI_PINS')
-          .appendField('引脚CS')
+          .appendField(text('pin_cs', '引脚CS'))
           .appendField(new Blockly.FieldTextInput('17'), 'CS_PIN')
           .appendField('RST')
           .appendField(new Blockly.FieldTextInput('U8X8_PIN_NONE'), 'RESET_PIN');
@@ -680,7 +735,7 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
       case '_SW_SPI':
         // ST7920 SPI模式
         this.appendDummyInput('ST7920_SPI_PINS')
-          .appendField('引脚CLK')
+          .appendField(text('pin_clk', '引脚CLK'))
           .appendField(new Blockly.FieldTextInput('18'), 'CLOCK_PIN')
           .appendField('DATA')
           .appendField(new Blockly.FieldTextInput('16'), 'DATA_PIN')
@@ -1185,10 +1240,200 @@ Arduino.forBlock['u8g2_draw_bitmap'] = function (block, generator) {
   return code;
 };
 
+function getU8g2AnimationData(block) {
+  let animationData = block.getFieldValue('CUSTOM_ANIMATION');
+
+  if (typeof animationData === 'string') {
+    try {
+      animationData = JSON.parse(animationData);
+    } catch (error) {
+      console.error('[u8g2_animation] Failed to parse animation field value:', error);
+      return null;
+    }
+  }
+
+  if (!animationData || !Array.isArray(animationData.frames) || animationData.frames.length === 0) {
+    return null;
+  }
+
+  const width = Number(animationData.width);
+  const height = Number(animationData.height);
+  const fps = Number(animationData.fps);
+  if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+    return null;
+  }
+
+  return {
+    width: Math.floor(width),
+    height: Math.floor(height),
+    fps: Number.isFinite(fps) && fps > 0 ? Math.floor(fps) : 10,
+    frames: animationData.frames
+  };
+}
+
+Arduino.forBlock['u8g2_animation'] = function (block, generator) {
+  const animationData = getU8g2AnimationData(block);
+  if (!animationData) {
+    console.error('[u8g2_animation] No valid animation data');
+    return ['', Arduino.ORDER_ATOMIC];
+  }
+
+  const { width, height, fps, frames } = animationData;
+  const animationVarName = `animation_${block.id.replace(/[^a-zA-Z0-9]/g, '')}`;
+  const frameNames = [];
+  const frameDeclarations = [];
+
+  for (let i = 0; i < frames.length; i++) {
+    const xbmResult = convertBitmapToXBM(frames[i]);
+    if (!xbmResult) {
+      console.error(`[u8g2_animation] Failed to convert frame ${i}`);
+      continue;
+    }
+
+    const frameName = `${animationVarName}_frame_${i}`;
+    frameNames.push(frameName);
+    frameDeclarations.push(`static const unsigned char ${frameName}[] PROGMEM = {
+${xbmResult.formattedXbmData}
+};`);
+  }
+
+  if (frameNames.length === 0) {
+    return ['', Arduino.ORDER_ATOMIC];
+  }
+
+  const frameDelay = Math.max(1, Math.round(1000 / fps));
+  const animationDeclaration = `// U8g2 animation frames (${width}x${height}, ${frameNames.length} frames, ${fps} FPS)
+${frameDeclarations.join('\n\n')}
+static const unsigned char* const ${animationVarName}_frames[] = {
+  ${frameNames.join(',\n  ')}
+};
+const int ${animationVarName}_width = ${width};
+const int ${animationVarName}_height = ${height};
+const uint16_t ${animationVarName}_frame_count = ${frameNames.length};
+const unsigned long ${animationVarName}_frame_delay = ${frameDelay};`;
+
+  generator.addVariable(animationVarName, animationDeclaration);
+  return [`${animationVarName}_frames`, Arduino.ORDER_ATOMIC];
+};
+
+function addU8g2AnimationRenderHelper(generator) {
+  generator.addFunction('u8g2_draw_animation_frame', `void u8g2DrawAnimationFrame(int x, int y, int width, int height, const unsigned char *frame) {
+  u8g2.setDrawColor(0);
+  u8g2.drawBox(x, y, width, height);
+  u8g2.setDrawColor(1);
+  u8g2.drawXBMP(x, y, width, height, frame);
+}`);
+}
+
+Arduino.forBlock['u8g2_play_animation'] = function (block, generator) {
+  const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC) || '0';
+  const animationCode = generator.valueToCode(block, 'ANIMATION', Arduino.ORDER_ATOMIC);
+
+  if (!animationCode) {
+    return '// No animation data\n';
+  }
+
+  addU8g2AnimationRenderHelper(generator);
+
+  const animationVarPrefix = animationCode.replace('_frames', '');
+  const needSendBuffer = !hasFollowingSendBuffer(block) && !isPageBufferMode(block);
+  const playMode = block.getFieldValue('PLAY_MODE') || 'BLOCKING';
+  const loop = block.getFieldValue('LOOP') === 'TRUE';
+
+  if (playMode === 'NON_BLOCKING') {
+    const stateVarName = `animation_state_${block.id.replace(/[^a-zA-Z0-9]/g, '')}`;
+    generator.addVariable(`${stateVarName}_frame`, `uint16_t ${stateVarName}_frame = 0;`);
+    generator.addVariable(`${stateVarName}_last_ms`, `unsigned long ${stateVarName}_last_ms = 0;`);
+    generator.addVariable(`${stateVarName}_started`, `bool ${stateVarName}_started = false;`);
+    generator.addVariable(`${stateVarName}_done`, `bool ${stateVarName}_done = false;`);
+
+    let code = `if (!${stateVarName}_done) {\n`;
+    code += `  unsigned long ${stateVarName}_now = millis();\n`;
+    code += `  if (!${stateVarName}_started || ${stateVarName}_now - ${stateVarName}_last_ms >= ${animationVarPrefix}_frame_delay) {\n`;
+    code += `    u8g2DrawAnimationFrame(${x}, ${y}, ${animationVarPrefix}_width, ${animationVarPrefix}_height, ${animationVarPrefix}_frames[${stateVarName}_frame]);\n`;
+    if (needSendBuffer) {
+      code += '    u8g2.sendBuffer();\n';
+    }
+    code += `    ${stateVarName}_last_ms = ${stateVarName}_now;\n`;
+    code += `    ${stateVarName}_started = true;\n`;
+    code += `    ${stateVarName}_frame++;\n`;
+    code += `    if (${stateVarName}_frame >= ${animationVarPrefix}_frame_count) {\n`;
+    if (loop) {
+      code += `      ${stateVarName}_frame = 0;\n`;
+    } else {
+      code += `      ${stateVarName}_frame = ${animationVarPrefix}_frame_count - 1;\n`;
+      code += `      ${stateVarName}_done = true;\n`;
+    }
+    code += '    }\n';
+    code += '  }\n';
+    code += '}\n';
+    return code;
+  }
+
+  let code = `for (uint16_t i = 0; i < ${animationVarPrefix}_frame_count; i++) {\n`;
+  code += `  u8g2DrawAnimationFrame(${x}, ${y}, ${animationVarPrefix}_width, ${animationVarPrefix}_height, ${animationVarPrefix}_frames[i]);\n`;
+  if (needSendBuffer) {
+    code += '  u8g2.sendBuffer();\n';
+  }
+  code += `  delay(${animationVarPrefix}_frame_delay);\n`;
+  code += '}\n';
+  return code;
+};
+
+if (Blockly.Extensions.isRegistered('u8g2_animation_play_dynamic_inputs')) {
+  Blockly.Extensions.unregister('u8g2_animation_play_dynamic_inputs');
+}
+
+Blockly.Extensions.register('u8g2_animation_play_dynamic_inputs', function () {
+  let renderScheduled = false;
+
+  const getLoopInput = () => {
+    return this.inputList.find(input => input.fieldRow && input.fieldRow.some(field => field.name === 'LOOP'));
+  };
+
+  const scheduleRender = () => {
+    if (!this.rendered || renderScheduled) {
+      return;
+    }
+    renderScheduled = true;
+    Promise.resolve().then(() => {
+      renderScheduled = false;
+      const rootBlock = typeof this.getRootBlock === 'function' ? this.getRootBlock() : this;
+      if (rootBlock && rootBlock.rendered) {
+        rootBlock.render();
+      } else if (this.rendered) {
+        this.render();
+      }
+    });
+  };
+
+  const updatePlaybackMode = (modeValue) => {
+    const loopInput = getLoopInput();
+    if (loopInput) {
+      loopInput.setVisible(modeValue === 'NON_BLOCKING');
+    }
+    scheduleRender();
+  };
+
+  this.getField('PLAY_MODE').setValidator(option => {
+    updatePlaybackMode(option);
+    return option;
+  });
+
+  updatePlaybackMode(this.getFieldValue('PLAY_MODE'));
+});
+
 // 设置屏幕翻转
 Arduino.forBlock['u8g2_set_flip_mode'] = function (block, generator) {
   const mode = block.getFieldValue('MODE');
   return `u8g2.setFlipMode(${mode});\n`;
+};
+
+// 设置屏幕镜像
+Arduino.forBlock['u8g2_set_display_mirror'] = function (block, generator) {
+  const mode = block.getFieldValue('MODE');
+  return `u8g2.setDisplayRotation(${mode});\n`;
 };
 
 // 设置电源管理

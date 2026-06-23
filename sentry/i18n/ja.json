@@ -1,0 +1,1270 @@
+{
+  "toolbox_name": "Sentryビジョンセンサー",
+  "toolbox_categories": [
+    "Sentry2",
+    "設定ブロック",
+    "実行ブロック",
+    "Sentry1",
+    "設定ブロック",
+    "実行ブロック"
+  ],
+  "sentry2_begin": {
+    "message0": "初期化 Sentry2 ポート %1 アドレス %2",
+    "tooltip": "初期化 Sentry2 ビジョンセンサー",
+    "args0": [
+      {
+        "options": [
+          [
+            "I2C",
+            "Wire"
+          ],
+          [
+            "Serial",
+            "Serial"
+          ],
+          [
+            "Serial1",
+            "Serial1"
+          ],
+          [
+            "Serial2",
+            "Serial2"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "0x60",
+            "0x60"
+          ],
+          [
+            "0x61",
+            "0x61"
+          ],
+          [
+            "0x62",
+            "0x62"
+          ],
+          [
+            "0x63",
+            "0x63"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_set_default": {
+    "message0": "Sentry2 既定パラメータを復元",
+    "tooltip": "センサーのアルゴリズム状態を既定に戻します"
+  },
+  "sentry2_set_vision_status": {
+    "message0": "Sentry2 %1 アルゴリズム %2",
+    "tooltip": "Sentry2 アルゴリズム 設定",
+    "args0": [
+      {
+        "options": [
+          [
+            "有効",
+            "Begin"
+          ],
+          [
+            "無効",
+            "End"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "色認識",
+            "Sentry2::kVisionColor"
+          ],
+          [
+            "色ブロック検出",
+            "Sentry2::kVisionBlob"
+          ],
+          [
+            "タグ認識",
+            "Sentry2::kVisionAprilTag"
+          ],
+          [
+            "ライン検出",
+            "Sentry2::kVisionLine"
+          ],
+          [
+            "ディープラーニング",
+            "Sentry2::kVisionLearning"
+          ],
+          [
+            "カード認識",
+            "Sentry2::kVisionCard"
+          ],
+          [
+            "顔認識",
+            "Sentry2::kVisionFace"
+          ],
+          [
+            "20クラス物体",
+            "Sentry2::kVision20Classes"
+          ],
+          [
+            "QRコード",
+            "Sentry2::kVisionQrCode"
+          ],
+          [
+            "カスタム",
+            "Sentry2::kVisionCustom"
+          ],
+          [
+            "移動物体",
+            "Sentry2::kVisionMotionDetect"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_set_awb": {
+    "message0": "Sentry2 ホワイトバランスモード %1",
+    "tooltip": "Sentry2 ホワイトバランスモード",
+    "args0": [
+      {
+        "options": [
+          [
+            "自動",
+            "kAutoWhiteBalance"
+          ],
+          [
+            "固定",
+            "kLockWhiteBalance"
+          ],
+          [
+            "白色光",
+            "kWhiteLight"
+          ],
+          [
+            "黄色光",
+            "kYellowLight"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_set_param_num": {
+    "message0": "Sentry2 アルゴリズム %1 設定 %2 パラメータグループ数",
+    "tooltip": "Sentry2 設定 アルゴリズム パラメータグループ数",
+    "args0": [
+      {
+        "options": [
+          [
+            "色認識",
+            "Sentry2::kVisionColor"
+          ],
+          [
+            "色ブロック検出",
+            "Sentry2::kVisionBlob"
+          ],
+          [
+            "カスタム",
+            "Sentry2::kVisionCustom"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_set_color_param": {
+    "message0": "Sentry2 色認識 中心X %1 Y %2 幅 %3 高さ %4 パラメータグループ %5",
+    "tooltip": "Sentry2 色認識 パラメータグループ 設定"
+  },
+  "sentry2_set_blob_param": {
+    "message0": "Sentry2 色ブロック検出 最小幅 %1 高さ %2 色 %3 パラメータグループ %4",
+    "tooltip": "Sentry2 色ブロック検出 パラメータグループ 設定",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "黒",
+            "Sentry2::kColorBlack"
+          ],
+          [
+            "白",
+            "Sentry2::kColorWhite"
+          ],
+          [
+            "赤",
+            "Sentry2::kColorRed"
+          ],
+          [
+            "緑",
+            "Sentry2::kColorGreen"
+          ],
+          [
+            "青",
+            "Sentry2::kColorBlue"
+          ],
+          [
+            "黄",
+            "Sentry2::kColorYellow"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_set_custom_param": {
+    "message0": "Sentry2 アルゴリズム %1 パラメータ1 %2 パラメータ2 %3 パラメータ3 %4 パラメータ4 %5 パラメータ5 %6 パラメータグループ %7",
+    "tooltip": "Sentry2 カスタム パラメータグループ 設定",
+    "args0": [
+      {
+        "options": [
+          [
+            "カスタム",
+            "Sentry2::kVisionCustom"
+          ],
+          [
+            "色認識",
+            "Sentry2::kVisionColor"
+          ],
+          [
+            "色ブロック検出",
+            "Sentry2::kVisionBlob"
+          ],
+          [
+            "ディープラーニング",
+            "Sentry2::kVisionLearning"
+          ],
+          [
+            "顔認識",
+            "Sentry2::kVisionFace"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "sentry2_detected_count": {
+    "message0": "Sentry2 アルゴリズム %1 結果数を返す",
+    "tooltip": "Sentry2 結果数を返す",
+    "args0": [
+      {
+        "options": [
+          [
+            "色認識",
+            "Sentry2::kVisionColor"
+          ],
+          [
+            "色ブロック検出",
+            "Sentry2::kVisionBlob"
+          ],
+          [
+            "タグ認識",
+            "Sentry2::kVisionAprilTag"
+          ],
+          [
+            "ライン検出",
+            "Sentry2::kVisionLine"
+          ],
+          [
+            "ディープラーニング",
+            "Sentry2::kVisionLearning"
+          ],
+          [
+            "カード認識",
+            "Sentry2::kVisionCard"
+          ],
+          [
+            "顔認識",
+            "Sentry2::kVisionFace"
+          ],
+          [
+            "20クラス物体",
+            "Sentry2::kVision20Classes"
+          ],
+          [
+            "QRコード",
+            "Sentry2::kVisionQrCode"
+          ],
+          [
+            "カスタム",
+            "Sentry2::kVisionCustom"
+          ],
+          [
+            "移動物体",
+            "Sentry2::kVisionMotionDetect"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_get_value": {
+    "message0": "Sentry2 アルゴリズム %1 返す %2 インデックス %3 の値",
+    "tooltip": "選択したアルゴリズムの結果を取得します",
+    "args0": [
+      {
+        "options": [
+          [
+            "色ブロック検出",
+            "Sentry2::kVisionBlob"
+          ],
+          [
+            "タグ認識",
+            "Sentry2::kVisionAprilTag"
+          ],
+          [
+            "ディープラーニング",
+            "Sentry2::kVisionLearning"
+          ],
+          [
+            "カード認識",
+            "Sentry2::kVisionCard"
+          ],
+          [
+            "顔認識",
+            "Sentry2::kVisionFace"
+          ],
+          [
+            "20クラス物体",
+            "Sentry2::kVision20Classes"
+          ],
+          [
+            "移動物体",
+            "Sentry2::kVisionMotionDetect"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "X座標",
+            "kXValue"
+          ],
+          [
+            "Y座標",
+            "kYValue"
+          ],
+          [
+            "幅",
+            "kWidthValue"
+          ],
+          [
+            "高さ",
+            "kHeightValue"
+          ],
+          [
+            "ラベル",
+            "kLabel"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_get_color_value": {
+    "message0": "Sentry2 色認識 返す %1 インデックス %2 の値",
+    "tooltip": "Sentry2 色認識 返す の値",
+    "args0": [
+      {
+        "options": [
+          [
+            "ラベル",
+            "kLabel"
+          ],
+          [
+            "赤成分",
+            "kRValue"
+          ],
+          [
+            "緑成分",
+            "kGValue"
+          ],
+          [
+            "青成分",
+            "kBValue"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_get_line_value": {
+    "message0": "Sentry2 ライン検出 返す %1 インデックス %2 の値",
+    "tooltip": "Sentry2 ライン検出 返す の値",
+    "args0": [
+      {
+        "options": [
+          [
+            "終点X座標",
+            "kXValue"
+          ],
+          [
+            "終点Y座標",
+            "kYValue"
+          ],
+          [
+            "始点X座標",
+            "kWidthValue"
+          ],
+          [
+            "始点Y座標",
+            "kHeightValue"
+          ],
+          [
+            "傾き角度",
+            "kLabel"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_get_qr_value": {
+    "message0": "Sentry2 QRコード 結果文字列を返す",
+    "tooltip": "Sentry2 QRコード 結果文字列を返す"
+  },
+  "sentry2_get_qr_position": {
+    "message0": "Sentry2 QRコード 返す %1 インデックス %2 の値",
+    "tooltip": "Sentry2 QRコード 返す の値",
+    "args0": [
+      {
+        "options": [
+          [
+            "X座標",
+            "kXValue"
+          ],
+          [
+            "Y座標",
+            "kYValue"
+          ],
+          [
+            "幅",
+            "kWidthValue"
+          ],
+          [
+            "高さ",
+            "kHeightValue"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_get_custom_value": {
+    "message0": "Sentry2 カスタム 返す %1 インデックス %2 の値",
+    "tooltip": "Sentry2 カスタム 返す の値",
+    "args0": [
+      {
+        "options": [
+          [
+            "データ1",
+            "kXValue"
+          ],
+          [
+            "データ2",
+            "kYValue"
+          ],
+          [
+            "データ3",
+            "kWidthValue"
+          ],
+          [
+            "データ4",
+            "kHeightValue"
+          ],
+          [
+            "データ5",
+            "kLabel"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_check_blob_color": {
+    "message0": "Sentry2 色ブロックを検出 %1 インデックス %2",
+    "tooltip": "検出時はTrue、そうでなければFalseを返します",
+    "args0": [
+      {
+        "options": [
+          [
+            "黒",
+            "Sentry2::kColorBlack"
+          ],
+          [
+            "白",
+            "Sentry2::kColorWhite"
+          ],
+          [
+            "赤",
+            "Sentry2::kColorRed"
+          ],
+          [
+            "緑",
+            "Sentry2::kColorGreen"
+          ],
+          [
+            "青",
+            "Sentry2::kColorBlue"
+          ],
+          [
+            "黄",
+            "Sentry2::kColorYellow"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_check_card": {
+    "message0": "Sentry2 カードを認識 %1 インデックス %2",
+    "tooltip": "検出時はTrue、そうでなければFalseを返します",
+    "args0": [
+      {
+        "options": [
+          [
+            "前進",
+            "Sentry2::kCardForward"
+          ],
+          [
+            "左折",
+            "Sentry2::kCardLeft"
+          ],
+          [
+            "右折",
+            "Sentry2::kCardRight"
+          ],
+          [
+            "Uターン",
+            "Sentry2::kCardTurnAround"
+          ],
+          [
+            "停止",
+            "Sentry2::kCardPark"
+          ],
+          [
+            "青信号",
+            "Sentry2::kCardGreenLight"
+          ],
+          [
+            "赤信号",
+            "Sentry2::kCardRedLight"
+          ],
+          [
+            "速度制限40",
+            "Sentry2::kCardSpeed40"
+          ],
+          [
+            "速度制限60",
+            "Sentry2::kCardSpeed60"
+          ],
+          [
+            "速度制限80",
+            "Sentry2::kCardSpeed80"
+          ],
+          [
+            "✔",
+            "Sentry2::kCardCheck"
+          ],
+          [
+            "☓",
+            "Sentry2::kCardCross"
+          ],
+          [
+            "◯",
+            "Sentry2::kCardCircle"
+          ],
+          [
+            "☐",
+            "Sentry2::kCardSquare"
+          ],
+          [
+            "△",
+            "Sentry2::kCardTriangle"
+          ],
+          [
+            "+",
+            "Sentry2::kCardPlus"
+          ],
+          [
+            "-",
+            "Sentry2::kCardMinus"
+          ],
+          [
+            "÷",
+            "Sentry2::kCardDivide"
+          ],
+          [
+            "=",
+            "Sentry2::kCardEqual"
+          ],
+          [
+            "0",
+            "Sentry2::kCardZero"
+          ],
+          [
+            "1",
+            "Sentry2::kCardOne"
+          ],
+          [
+            "2",
+            "Sentry2::kCardTwo"
+          ],
+          [
+            "3",
+            "Sentry2::kCardThree"
+          ],
+          [
+            "4",
+            "Sentry2::kCardFour"
+          ],
+          [
+            "5",
+            "Sentry2::kCardFive"
+          ],
+          [
+            "6",
+            "Sentry2::kCardSix"
+          ],
+          [
+            "7",
+            "Sentry2::kCardSeven"
+          ],
+          [
+            "8",
+            "Sentry2::kCardEight"
+          ],
+          [
+            "9",
+            "Sentry2::kCardNine"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_check_20class": {
+    "message0": "Sentry2 20クラス物体を認識 %1 インデックス %2",
+    "tooltip": "検出時はTrue、そうでなければFalseを返します",
+    "args0": [
+      {
+        "options": [
+          [
+            "飛行機",
+            "Sentry2::kAirplane"
+          ],
+          [
+            "自転車",
+            "Sentry2::kBicycle"
+          ],
+          [
+            "鳥",
+            "Sentry2::kBird"
+          ],
+          [
+            "船",
+            "Sentry2::kBoat"
+          ],
+          [
+            "ボトル",
+            "Sentry2::kBottle"
+          ],
+          [
+            "バス",
+            "Sentry2::kBus"
+          ],
+          [
+            "車",
+            "Sentry2::kCar"
+          ],
+          [
+            "猫",
+            "Sentry2::kCat"
+          ],
+          [
+            "椅子",
+            "Sentry2::kChair"
+          ],
+          [
+            "牛",
+            "Sentry2::kCow"
+          ],
+          [
+            "ダイニングテーブル",
+            "Sentry2::kDiningTable"
+          ],
+          [
+            "犬",
+            "Sentry2::kDog"
+          ],
+          [
+            "馬",
+            "Sentry2::kHorse"
+          ],
+          [
+            "オートバイ",
+            "Sentry2::kMotorBike"
+          ],
+          [
+            "人",
+            "Sentry2::kPerson"
+          ],
+          [
+            "鉢植え",
+            "Sentry2::kPottedPlant"
+          ],
+          [
+            "羊",
+            "Sentry2::kSheep"
+          ],
+          [
+            "ソファ",
+            "Sentry2::kSofa"
+          ],
+          [
+            "列車",
+            "Sentry2::kTrain"
+          ],
+          [
+            "モニター",
+            "Sentry2::kTvMonitor"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_rows": {
+    "message0": "Sentry2 画面行数",
+    "tooltip": "Sentry2 画面行数"
+  },
+  "sentry2_cols": {
+    "message0": "Sentry2 画面列数",
+    "tooltip": "Sentry2 画面列数"
+  },
+  "sentry1_begin": {
+    "message0": "初期化 Sentry1 ポート %1 アドレス %2",
+    "tooltip": "初期化 Sentry1 ビジョンセンサー",
+    "args0": [
+      {
+        "options": [
+          [
+            "I2C",
+            "Wire"
+          ],
+          [
+            "Serial",
+            "Serial"
+          ],
+          [
+            "Serial1",
+            "Serial1"
+          ],
+          [
+            "Serial2",
+            "Serial2"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "0x60",
+            "0x60"
+          ],
+          [
+            "0x61",
+            "0x61"
+          ],
+          [
+            "0x62",
+            "0x62"
+          ],
+          [
+            "0x63",
+            "0x63"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry1_set_default": {
+    "message0": "Sentry1 既定パラメータを復元",
+    "tooltip": "センサーのアルゴリズム状態を既定に戻します"
+  },
+  "sentry1_led_set_color": {
+    "message0": "Sentry1 ターゲット検出時LED %1 それ以外 %2 明るさ %3",
+    "tooltip": "黒はLEDオフ、2色が同じ場合はLED手動モードです",
+    "args0": [
+      {
+        "options": [
+          [
+            "オフ",
+            "kLedClose"
+          ],
+          [
+            "赤",
+            "kLedRed"
+          ],
+          [
+            "緑",
+            "kLedGreen"
+          ],
+          [
+            "黄",
+            "kLedYellow"
+          ],
+          [
+            "青",
+            "kLedBlue"
+          ],
+          [
+            "紫",
+            "kLedPurple"
+          ],
+          [
+            "シアン",
+            "kLedCyan"
+          ],
+          [
+            "白",
+            "kLedWhite"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "オフ",
+            "kLedClose"
+          ],
+          [
+            "赤",
+            "kLedRed"
+          ],
+          [
+            "緑",
+            "kLedGreen"
+          ],
+          [
+            "黄",
+            "kLedYellow"
+          ],
+          [
+            "青",
+            "kLedBlue"
+          ],
+          [
+            "紫",
+            "kLedPurple"
+          ],
+          [
+            "シアン",
+            "kLedCyan"
+          ],
+          [
+            "白",
+            "kLedWhite"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry1_set_vision_status": {
+    "message0": "Sentry1 %1 アルゴリズム %2",
+    "tooltip": "Sentry1 アルゴリズム 設定",
+    "args0": [
+      {
+        "options": [
+          [
+            "有効",
+            "Begin"
+          ],
+          [
+            "無効",
+            "End"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "色認識",
+            "Sentry1::kVisionColor"
+          ],
+          [
+            "色ブロック検出",
+            "Sentry1::kVisionBlob"
+          ],
+          [
+            "ボール認識",
+            "Sentry1::kVisionBall"
+          ],
+          [
+            "ライン検出",
+            "Sentry1::kVisionLine"
+          ],
+          [
+            "カード認識",
+            "Sentry1::kVisionCard"
+          ],
+          [
+            "人体検出",
+            "Sentry1::kVisionBody"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry1_set_awb": {
+    "message0": "Sentry1 ホワイトバランスモード %1",
+    "tooltip": "Sentry1 ホワイトバランスモード",
+    "args0": [
+      {
+        "options": [
+          [
+            "自動",
+            "kAutoWhiteBalance"
+          ],
+          [
+            "固定",
+            "kLockWhiteBalance"
+          ],
+          [
+            "白色光",
+            "kWhiteLight"
+          ],
+          [
+            "黄色光",
+            "kYellowLight"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry1_set_param_num": {
+    "message0": "Sentry1 アルゴリズム %1 設定 %2 パラメータグループ数",
+    "tooltip": "Sentry1 設定 アルゴリズム パラメータグループ数",
+    "args0": [
+      {
+        "options": [
+          [
+            "色認識",
+            "Sentry1::kVisionColor"
+          ],
+          [
+            "色ブロック検出",
+            "Sentry1::kVisionBlob"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry1_set_color_param": {
+    "message0": "Sentry1 色認識 中心X %1 Y %2 幅 %3 高さ %4",
+    "tooltip": "Sentry1 色認識 パラメータグループ 設定"
+  },
+  "sentry1_set_blob_param": {
+    "message0": "Sentry1 色ブロック検出 最小幅 %1 高さ %2 色 %3",
+    "tooltip": "Sentry1 色ブロック検出 パラメータグループ 設定",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "黒",
+            "Sentry1::kColorBlack"
+          ],
+          [
+            "白",
+            "Sentry1::kColorWhite"
+          ],
+          [
+            "赤",
+            "Sentry1::kColorRed"
+          ],
+          [
+            "緑",
+            "Sentry1::kColorGreen"
+          ],
+          [
+            "青",
+            "Sentry1::kColorBlue"
+          ],
+          [
+            "黄",
+            "Sentry1::kColorYellow"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry1_detected_count": {
+    "message0": "Sentry1 アルゴリズム %1 結果数を返す",
+    "tooltip": "Sentry1 結果数を返す",
+    "args0": [
+      {
+        "options": [
+          [
+            "色認識",
+            "Sentry1::kVisionColor"
+          ],
+          [
+            "色ブロック検出",
+            "Sentry1::kVisionBlob"
+          ],
+          [
+            "ボール認識",
+            "Sentry1::kVisionBall"
+          ],
+          [
+            "ライン検出",
+            "Sentry1::kVisionLine"
+          ],
+          [
+            "カード認識",
+            "Sentry1::kVisionCard"
+          ],
+          [
+            "人体検出",
+            "Sentry1::kVisionBody"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry1_get_value": {
+    "message0": "Sentry1 アルゴリズム %1 返す %2 インデックス %3 の値",
+    "tooltip": "選択したアルゴリズムの結果を取得します",
+    "args0": [
+      {
+        "options": [
+          [
+            "色ブロック検出",
+            "Sentry1::kVisionBlob"
+          ],
+          [
+            "ボール認識",
+            "Sentry1::kVisionBall"
+          ],
+          [
+            "カード認識",
+            "Sentry1::kVisionCard"
+          ],
+          [
+            "人体検出",
+            "Sentry1::kVisionBody"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "X座標",
+            "kXValue"
+          ],
+          [
+            "Y座標",
+            "kYValue"
+          ],
+          [
+            "幅",
+            "kWidthValue"
+          ],
+          [
+            "高さ",
+            "kHeightValue"
+          ],
+          [
+            "ラベル",
+            "kLabel"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry1_get_color_value": {
+    "message0": "Sentry1 色認識 返す %1 インデックス %2 の値",
+    "tooltip": "Sentry1 色認識 返す の値",
+    "args0": [
+      {
+        "options": [
+          [
+            "ラベル",
+            "kLabel"
+          ],
+          [
+            "赤成分",
+            "kRValue"
+          ],
+          [
+            "緑成分",
+            "kGValue"
+          ],
+          [
+            "青成分",
+            "kBValue"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry1_get_line_value": {
+    "message0": "Sentry1 ライン検出 返す %1 インデックス %2 の値",
+    "tooltip": "Sentry1 ライン検出 返す の値",
+    "args0": [
+      {
+        "options": [
+          [
+            "終点X座標",
+            "kXValue"
+          ],
+          [
+            "終点Y座標",
+            "kYValue"
+          ],
+          [
+            "始点X座標",
+            "kWidthValue"
+          ],
+          [
+            "始点Y座標",
+            "kHeightValue"
+          ],
+          [
+            "傾き角度",
+            "kLabel"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry1_get_qr_value": {
+    "message0": "Sentry1 QRコード 結果文字列を返す",
+    "tooltip": "Sentry1 QRコード 結果文字列を返す"
+  },
+  "sentry1_get_qr_position": {
+    "message0": "Sentry1 QRコード 返す %1 インデックス %2 の値",
+    "tooltip": "Sentry1 QRコード 返す の値",
+    "args0": [
+      {
+        "options": [
+          [
+            "X座標",
+            "kXValue"
+          ],
+          [
+            "Y座標",
+            "kYValue"
+          ],
+          [
+            "幅",
+            "kWidthValue"
+          ],
+          [
+            "高さ",
+            "kHeightValue"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry1_check_blob_color": {
+    "message0": "Sentry1 色ブロックを検出 %1 インデックス %2",
+    "tooltip": "検出時はTrue、そうでなければFalseを返します",
+    "args0": [
+      {
+        "options": [
+          [
+            "黒",
+            "Sentry1::kColorBlack"
+          ],
+          [
+            "白",
+            "Sentry1::kColorWhite"
+          ],
+          [
+            "赤",
+            "Sentry1::kColorRed"
+          ],
+          [
+            "緑",
+            "Sentry1::kColorGreen"
+          ],
+          [
+            "青",
+            "Sentry1::kColorBlue"
+          ],
+          [
+            "黄",
+            "Sentry1::kColorYellow"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry1_check_card": {
+    "message0": "Sentry1 カードを認識 %1 インデックス %2",
+    "tooltip": "検出時はTrue、そうでなければFalseを返します",
+    "args0": [
+      {
+        "options": [
+          [
+            "前進",
+            "Sentry1::kCardForward"
+          ],
+          [
+            "左折",
+            "Sentry1::kCardLeft"
+          ],
+          [
+            "右折",
+            "Sentry1::kCardRight"
+          ],
+          [
+            "Uターン",
+            "Sentry1::kCardTurnAround"
+          ],
+          [
+            "停止",
+            "Sentry1::kCardPark"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry1_check_ball": {
+    "message0": "Sentry1 ボールを認識 %1 インデックス %2",
+    "tooltip": "検出時はTrue、そうでなければFalseを返します",
+    "args0": [
+      {
+        "options": [
+          [
+            "卓球ボール",
+            "Sentry1::kBallTableTennis"
+          ],
+          [
+            "テニスボール",
+            "Sentry1::kBallTennis"
+          ]
+        ]
+      },
+      null
+    ]
+  }
+}

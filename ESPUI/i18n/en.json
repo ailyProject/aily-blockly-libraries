@@ -1,89 +1,1087 @@
 {
-    "toolbox_name": "ESPUI Web Interface",
-    "ESPUI_BEGIN_MESSAGE0": "Initialize ESPUI Interface Title %1 Username %2 Password %3",
-    "ESPUI_BEGIN_TOOLTIP": "Initialize ESPUI interface with title and access credentials",
-    
-    "ESPUI_LABEL_MESSAGE0": "Create Label Text %1 Color %2",
-    "ESPUI_LABEL_TOOLTIP": "Create a text label",
-    
-    "ESPUI_BUTTON_MESSAGE0": "Create Button Text %1 Color %2",
-    "ESPUI_BUTTON_TOOLTIP": "Create a button control",
-    
-    "ESPUI_SWITCHER_MESSAGE0": "Create Switch Text %1 Color %2 Initial State %3",
-    "ESPUI_SWITCHER_TOOLTIP": "Create a switch control",
-    
-    "ESPUI_SLIDER_MESSAGE0": "Create Slider Text %1 Color %2 Min %3 Max %4 Initial Value %5",
-    "ESPUI_SLIDER_TOOLTIP": "Create a slider control",
-    
-    "ESPUI_TEXT_MESSAGE0": "Create Text Input Text %1 Color %2 Initial Value %3",
-    "ESPUI_TEXT_TOOLTIP": "Create a text input field",
-    
-    "ESPUI_NUMBER_MESSAGE0": "Create Number Input Text %1 Color %2 Min %3 Max %4 Initial Value %5",
-    "ESPUI_NUMBER_TOOLTIP": "Create a number input field",
-    
-    "ESPUI_GRAPH_MESSAGE0": "Create Graph Text %1 Color %2",
-    "ESPUI_GRAPH_TOOLTIP": "Create a graph control",
-    
-    "ESPUI_GAUGE_MESSAGE0": "Create Gauge Text %1 Color %2 Min %3 Max %4 Initial Value %5",
-    "ESPUI_GAUGE_TOOLTIP": "Create a gauge control",
-    
-    "ESPUI_UPDATE_CONTROL_MESSAGE0": "Update Control ID %1 Value %2",
-    "ESPUI_UPDATE_CONTROL_TOOLTIP": "Update the value of specified control",
-    
-    "ESPUI_UPDATE_LABEL_MESSAGE0": "Update Control Label ID %1 Label %2",
-    "ESPUI_UPDATE_LABEL_TOOLTIP": "Update the label text of specified control",
-    
-    "ESPUI_ON_EVENT_MESSAGE0": "When Control Event Triggered Control ID %1 Event Type %2 %3 Execute %4",
-    "ESPUI_ON_EVENT_TOOLTIP": "Set control event callback function",
-    
-    "COLOR_TURQUOISE": "Turquoise",
-    "COLOR_EMERALD": "Emerald", 
-    "COLOR_PETERRIVER": "Peter River",
-    "COLOR_AMETHYST": "Amethyst",
-    "COLOR_WETASPHALT": "Wet Asphalt",
-    "COLOR_GREENSEA": "Green Sea",
-    "COLOR_NEPHRITIS": "Nephritis",
-    "COLOR_BELIZEHOLE": "Belize Hole",
-    "COLOR_WISTERIA": "Wisteria",
-    "COLOR_MIDNIGHTBLUE": "Midnight Blue",
-    "COLOR_SUNFLOWER": "Sunflower",
-    "COLOR_CARROT": "Carrot",
-    "COLOR_ALIZARIN": "Alizarin",
-    "COLOR_CLOUDS": "Clouds",
-    "COLOR_CONCRETE": "Concrete",
-    "COLOR_ORANGE": "Orange",
-    "COLOR_PUMPKIN": "Pumpkin",
-    "COLOR_POMEGRANATE": "Pomegranate",
-    "COLOR_SILVER": "Silver",
-    "COLOR_ASBESTOS": "Asbestos",
-    "COLOR_DARK": "Dark",
-    "COLOR_NONE": "None",
-    
-    "STATE_ON": "On",
-    "STATE_OFF": "Off",
-    
-    "EVENT_B_DOWN": "Press",
-    "EVENT_B_UP": "Release", 
-    "EVENT_S_ACTIVE": "Change",
-    
-    "ESPUI_GET_VALUE_MESSAGE0": "Get Control Value ID %1",
-    "ESPUI_GET_VALUE_TOOLTIP": "Get the current value of specified control",
-    
-    "ESPUI_ADD_GRAPH_POINT_MESSAGE0": "Add Graph Point Graph ID %1 Value %2",
-    "ESPUI_ADD_GRAPH_POINT_TOOLTIP": "Add a data point to specified graph",
-    
-    "ESPUI_CLEAR_GRAPH_MESSAGE0": "Clear Graph Graph ID %1",
-    "ESPUI_CLEAR_GRAPH_TOOLTIP": "Clear all data points from specified graph",
-    
-    "ESPUI_WIFI_SETUP_MESSAGE0": "WiFi Setup SSID %1 Password %2 Mode %3",
-    "ESPUI_WIFI_SETUP_TOOLTIP": "Configure WiFi connection or hotspot mode",
-    
-    "ESPUI_WIFI_STATUS_MESSAGE0": "WiFi Connection Status",
-    "ESPUI_WIFI_STATUS_TOOLTIP": "Check if WiFi is connected successfully",
-    
-    "ESPUI_GET_IP_MESSAGE0": "Get IP Address",
-    "ESPUI_GET_IP_TOOLTIP": "Get current ESP device IP address",
-    
-    "WIFI_STA_MODE": "Station Mode",
-    "WIFI_AP_MODE": "Access Point Mode"
+  "toolbox_name": "ESPUI Web UI",
+  "toolbox_labels": {
+    "网络与启动": "Network & Start",
+    "控件ID": "Control IDs",
+    "容器": "Containers",
+    "控件创建": "Create Controls",
+    "更新与样式": "Update & Style",
+    "事件值": "Event Values"
+  },
+  "espui_wifi_ap": {
+    "message0": "ESPUI start hotspot SSID %1 password %2",
+    "tooltip": "Configure the ESP device as a WiFi access point for local control without a router"
+  },
+  "espui_wifi_sta": {
+    "message0": "ESPUI connect WiFi SSID %1 password %2 timeout(ms) %3",
+    "tooltip": "Connect to an existing WiFi network and continue after the timeout"
+  },
+  "espui_wifi_auto": {
+    "message0": "ESPUI auto network STA SSID %1 STA password %2 AP SSID %3 AP password %4 timeout(ms) %5",
+    "tooltip": "Try station mode first, then create a hotspot when connection fails"
+  },
+  "espui_begin": {
+    "message0": "start ESPUI title %1 mode %2 auth %3 username %4 password %5 port %6 continuous slider %7 captive portal %8",
+    "tooltip": "Start the ESPUI web server after controls are created; LittleFS mode requires filesystem preparation first",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Memory assets",
+            "MEMORY"
+          ],
+          [
+            "LittleFS assets",
+            "LITTLEFS"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Off",
+            "FALSE"
+          ],
+          [
+            "On",
+            "TRUE"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "No",
+            "FALSE"
+          ],
+          [
+            "Yes",
+            "TRUE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "On",
+            "TRUE"
+          ],
+          [
+            "Off",
+            "FALSE"
+          ]
+        ]
+      }
+    ]
+  },
+  "espui_prepare_filesystem": {
+    "message0": "prepare ESPUI LittleFS filesystem format %1",
+    "tooltip": "Write ESPUI static web assets into LittleFS, usually as a one-time preparation sketch",
+    "args0": [
+      {
+        "options": [
+          [
+            "Yes",
+            "TRUE"
+          ],
+          [
+            "No",
+            "FALSE"
+          ]
+        ]
+      }
+    ]
+  },
+  "espui_no_parent": {
+    "message0": "no parent control",
+    "tooltip": "Use this when a control is not mounted under a tab or parent control"
+  },
+  "espui_control_id": {
+    "message0": "ESPUI control %1 ID",
+    "tooltip": "Read the uint16_t ID of a created ESPUI control"
+  },
+  "espui_create_tab": {
+    "message0": "create tab ID %1 title %2",
+    "tooltip": "Create an ESPUI tab and save its control ID for child controls"
+  },
+  "espui_create_separator": {
+    "message0": "create separator ID %1 text %2 parent %3",
+    "tooltip": "Create a text separator for UI sections"
+  },
+  "espui_create_label": {
+    "message0": "create label ID %1 title %2 value %3 color %4 parent %5",
+    "tooltip": "Create a display-only text or HTML label control",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Turquoise",
+            "Turquoise"
+          ],
+          [
+            "Emerald",
+            "Emerald"
+          ],
+          [
+            "Peter river",
+            "Peterriver"
+          ],
+          [
+            "Wet asphalt",
+            "Wetasphalt"
+          ],
+          [
+            "Sunflower",
+            "Sunflower"
+          ],
+          [
+            "Carrot",
+            "Carrot"
+          ],
+          [
+            "Alizarin",
+            "Alizarin"
+          ],
+          [
+            "Dark",
+            "Dark"
+          ],
+          [
+            "None",
+            "None"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "espui_create_button": {
+    "message0": "create button ID %1 title %2 text %3 color %4 parent %5",
+    "tooltip": "Create a button control with separate press and release handlers",
+    "message1": "on press %1 on release %2",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Turquoise",
+            "Turquoise"
+          ],
+          [
+            "Emerald",
+            "Emerald"
+          ],
+          [
+            "Peter river",
+            "Peterriver"
+          ],
+          [
+            "Wet asphalt",
+            "Wetasphalt"
+          ],
+          [
+            "Sunflower",
+            "Sunflower"
+          ],
+          [
+            "Carrot",
+            "Carrot"
+          ],
+          [
+            "Alizarin",
+            "Alizarin"
+          ],
+          [
+            "Dark",
+            "Dark"
+          ],
+          [
+            "None",
+            "None"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "espui_create_switcher": {
+    "message0": "create switch ID %1 title %2 initial state %3 color %4 parent %5",
+    "tooltip": "Create a switch control with active and inactive handlers",
+    "message1": "on active %1 on inactive %2",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Off",
+            "FALSE"
+          ],
+          [
+            "On",
+            "TRUE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Turquoise",
+            "Turquoise"
+          ],
+          [
+            "Emerald",
+            "Emerald"
+          ],
+          [
+            "Peter river",
+            "Peterriver"
+          ],
+          [
+            "Wet asphalt",
+            "Wetasphalt"
+          ],
+          [
+            "Sunflower",
+            "Sunflower"
+          ],
+          [
+            "Carrot",
+            "Carrot"
+          ],
+          [
+            "Alizarin",
+            "Alizarin"
+          ],
+          [
+            "Dark",
+            "Dark"
+          ],
+          [
+            "None",
+            "None"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "espui_create_slider": {
+    "message0": "create slider ID %1 title %2 value %3 min %4 max %5 color %6 parent %7",
+    "tooltip": "Create a slider control; use event control value to read the new value",
+    "message1": "on value change %1",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Turquoise",
+            "Turquoise"
+          ],
+          [
+            "Emerald",
+            "Emerald"
+          ],
+          [
+            "Peter river",
+            "Peterriver"
+          ],
+          [
+            "Wet asphalt",
+            "Wetasphalt"
+          ],
+          [
+            "Sunflower",
+            "Sunflower"
+          ],
+          [
+            "Carrot",
+            "Carrot"
+          ],
+          [
+            "Alizarin",
+            "Alizarin"
+          ],
+          [
+            "Dark",
+            "Dark"
+          ],
+          [
+            "None",
+            "None"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "espui_create_number": {
+    "message0": "create number input ID %1 title %2 value %3 min %4 max %5 color %6 parent %7",
+    "tooltip": "Create a number input control; use event control value inside the handler",
+    "message1": "on value change %1",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Turquoise",
+            "Turquoise"
+          ],
+          [
+            "Emerald",
+            "Emerald"
+          ],
+          [
+            "Peter river",
+            "Peterriver"
+          ],
+          [
+            "Wet asphalt",
+            "Wetasphalt"
+          ],
+          [
+            "Sunflower",
+            "Sunflower"
+          ],
+          [
+            "Carrot",
+            "Carrot"
+          ],
+          [
+            "Alizarin",
+            "Alizarin"
+          ],
+          [
+            "Dark",
+            "Dark"
+          ],
+          [
+            "None",
+            "None"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "espui_create_text": {
+    "message0": "create text input ID %1 title %2 value %3 type %4 color %5 parent %6",
+    "tooltip": "Create a text input control with a selectable HTML input type",
+    "message1": "on text change %1",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Text",
+            "text"
+          ],
+          [
+            "Password",
+            "password"
+          ],
+          [
+            "Number",
+            "number"
+          ],
+          [
+            "Date",
+            "date"
+          ],
+          [
+            "Time",
+            "time"
+          ],
+          [
+            "Color",
+            "color"
+          ],
+          [
+            "Email",
+            "email"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Turquoise",
+            "Turquoise"
+          ],
+          [
+            "Emerald",
+            "Emerald"
+          ],
+          [
+            "Peter river",
+            "Peterriver"
+          ],
+          [
+            "Wet asphalt",
+            "Wetasphalt"
+          ],
+          [
+            "Sunflower",
+            "Sunflower"
+          ],
+          [
+            "Carrot",
+            "Carrot"
+          ],
+          [
+            "Alizarin",
+            "Alizarin"
+          ],
+          [
+            "Dark",
+            "Dark"
+          ],
+          [
+            "None",
+            "None"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "espui_create_select": {
+    "message0": "create select ID %1 title %2 initial value %3 color %4 parent %5",
+    "tooltip": "Create a select dropdown; add choices with the add select option block",
+    "message1": "on selection change %1",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Turquoise",
+            "Turquoise"
+          ],
+          [
+            "Emerald",
+            "Emerald"
+          ],
+          [
+            "Peter river",
+            "Peterriver"
+          ],
+          [
+            "Wet asphalt",
+            "Wetasphalt"
+          ],
+          [
+            "Sunflower",
+            "Sunflower"
+          ],
+          [
+            "Carrot",
+            "Carrot"
+          ],
+          [
+            "Alizarin",
+            "Alizarin"
+          ],
+          [
+            "Dark",
+            "Dark"
+          ],
+          [
+            "None",
+            "None"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "espui_add_option": {
+    "message0": "add option to select %1 title %2 value %3",
+    "tooltip": "Add one option to an existing ESPUI select control"
+  },
+  "espui_create_pad": {
+    "message0": "create pad ID %1 title %2 center button %3 color %4 parent %5",
+    "tooltip": "Create a direction pad; use if ESPUI event is blocks to handle directions and press/release events",
+    "message1": "on event %1",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "On",
+            "TRUE"
+          ],
+          [
+            "Off",
+            "FALSE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Turquoise",
+            "Turquoise"
+          ],
+          [
+            "Emerald",
+            "Emerald"
+          ],
+          [
+            "Peter river",
+            "Peterriver"
+          ],
+          [
+            "Wet asphalt",
+            "Wetasphalt"
+          ],
+          [
+            "Sunflower",
+            "Sunflower"
+          ],
+          [
+            "Carrot",
+            "Carrot"
+          ],
+          [
+            "Alizarin",
+            "Alizarin"
+          ],
+          [
+            "Dark",
+            "Dark"
+          ],
+          [
+            "None",
+            "None"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "espui_create_graph": {
+    "message0": "create graph ID %1 title %2 color %3 parent %4",
+    "tooltip": "Create a graph control that can receive live data points",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Turquoise",
+            "Turquoise"
+          ],
+          [
+            "Emerald",
+            "Emerald"
+          ],
+          [
+            "Peter river",
+            "Peterriver"
+          ],
+          [
+            "Wet asphalt",
+            "Wetasphalt"
+          ],
+          [
+            "Sunflower",
+            "Sunflower"
+          ],
+          [
+            "Carrot",
+            "Carrot"
+          ],
+          [
+            "Alizarin",
+            "Alizarin"
+          ],
+          [
+            "Dark",
+            "Dark"
+          ],
+          [
+            "None",
+            "None"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "espui_create_gauge": {
+    "message0": "create gauge ID %1 title %2 value %3 min %4 max %5 color %6 parent %7",
+    "tooltip": "Create a gauge control for percentages or sensor values",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Turquoise",
+            "Turquoise"
+          ],
+          [
+            "Emerald",
+            "Emerald"
+          ],
+          [
+            "Peter river",
+            "Peterriver"
+          ],
+          [
+            "Wet asphalt",
+            "Wetasphalt"
+          ],
+          [
+            "Sunflower",
+            "Sunflower"
+          ],
+          [
+            "Carrot",
+            "Carrot"
+          ],
+          [
+            "Alizarin",
+            "Alizarin"
+          ],
+          [
+            "Dark",
+            "Dark"
+          ],
+          [
+            "None",
+            "None"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "espui_create_file_display": {
+    "message0": "create file display ID %1 title %2 filename %3 color %4 parent %5",
+    "tooltip": "Display a file from LittleFS; requires filesystem mode or a mounted filesystem",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Turquoise",
+            "Turquoise"
+          ],
+          [
+            "Emerald",
+            "Emerald"
+          ],
+          [
+            "Peter river",
+            "Peterriver"
+          ],
+          [
+            "Wet asphalt",
+            "Wetasphalt"
+          ],
+          [
+            "Sunflower",
+            "Sunflower"
+          ],
+          [
+            "Carrot",
+            "Carrot"
+          ],
+          [
+            "Alizarin",
+            "Alizarin"
+          ],
+          [
+            "Dark",
+            "Dark"
+          ],
+          [
+            "None",
+            "None"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "espui_create_accelerometer": {
+    "message0": "create accelerometer input ID %1 title %2 color %3 parent %4",
+    "tooltip": "Create a mobile-device accelerometer input and read its value in the handler",
+    "message1": "on data change %1",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Turquoise",
+            "Turquoise"
+          ],
+          [
+            "Emerald",
+            "Emerald"
+          ],
+          [
+            "Peter river",
+            "Peterriver"
+          ],
+          [
+            "Wet asphalt",
+            "Wetasphalt"
+          ],
+          [
+            "Sunflower",
+            "Sunflower"
+          ],
+          [
+            "Carrot",
+            "Carrot"
+          ],
+          [
+            "Alizarin",
+            "Alizarin"
+          ],
+          [
+            "Dark",
+            "Dark"
+          ],
+          [
+            "None",
+            "None"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "espui_update_value": {
+    "message0": "update control %1 value %2",
+    "tooltip": "Update any control value with updateControlValue"
+  },
+  "espui_update_control_label": {
+    "message0": "update control %1 title %2",
+    "tooltip": "Change a control title with updateControlLabel"
+  },
+  "espui_update_switcher": {
+    "message0": "update switch %1 to %2",
+    "tooltip": "Update a switch control state with a boolean value"
+  },
+  "espui_update_number": {
+    "message0": "update numeric control %1 to %2",
+    "tooltip": "Update a slider, number input, gauge, or other numeric control"
+  },
+  "espui_add_graph_point": {
+    "message0": "add graph point to %1 value %2",
+    "tooltip": "Append one numeric point to an ESPUI graph"
+  },
+  "espui_clear_graph": {
+    "message0": "clear graph %1",
+    "tooltip": "Clear all points from an ESPUI graph"
+  },
+  "espui_set_enabled": {
+    "message0": "set control %1 enabled %2",
+    "tooltip": "Enable or disable a control and sync the web UI"
+  },
+  "espui_set_visible": {
+    "message0": "set control %1 visible %2",
+    "tooltip": "Show or hide a control and sync the web UI"
+  },
+  "espui_set_layout": {
+    "message0": "set control %1 wide panel %2 vertical layout %3",
+    "tooltip": "Set control panel width and vertical layout flags"
+  },
+  "espui_set_style": {
+    "message0": "set control %1 style target %2 CSS %3",
+    "tooltip": "Set inline CSS on the control panel or inner element",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Panel",
+            "PANEL"
+          ],
+          [
+            "Element",
+            "ELEMENT"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "espui_set_input_type": {
+    "message0": "set text control %1 input type %2",
+    "tooltip": "Change the HTML input type for a text control",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Text",
+            "text"
+          ],
+          [
+            "Password",
+            "password"
+          ],
+          [
+            "Number",
+            "number"
+          ],
+          [
+            "Date",
+            "date"
+          ],
+          [
+            "Time",
+            "time"
+          ],
+          [
+            "Color",
+            "color"
+          ],
+          [
+            "Email",
+            "email"
+          ]
+        ]
+      }
+    ]
+  },
+  "espui_get_value": {
+    "message0": "control %1 value",
+    "tooltip": "Read the current control value, returning an empty string when the control is missing"
+  },
+  "espui_sender_value": {
+    "message0": "event control value",
+    "tooltip": "Read the triggering control string value inside an ESPUI event handler"
+  },
+  "espui_sender_value_number": {
+    "message0": "event control number",
+    "tooltip": "Read the triggering control value as a number inside an ESPUI event handler"
+  },
+  "espui_sender_id": {
+    "message0": "event control ID",
+    "tooltip": "Read the triggering control ID inside an ESPUI event handler"
+  },
+  "espui_event_type": {
+    "message0": "ESPUI event type",
+    "tooltip": "Read the current event type constant inside an ESPUI event handler"
+  },
+  "espui_event_is": {
+    "message0": "ESPUI event is %1",
+    "tooltip": "Check the current event type inside an ESPUI event handler",
+    "args0": [
+      {
+        "options": [
+          [
+            "Button down",
+            "B_DOWN"
+          ],
+          [
+            "Button up",
+            "B_UP"
+          ],
+          [
+            "Switch on",
+            "S_ACTIVE"
+          ],
+          [
+            "Switch off",
+            "S_INACTIVE"
+          ],
+          [
+            "Slider changed",
+            "SL_VALUE"
+          ],
+          [
+            "Number changed",
+            "N_VALUE"
+          ],
+          [
+            "Text changed",
+            "T_VALUE"
+          ],
+          [
+            "Selection changed",
+            "S_VALUE"
+          ],
+          [
+            "Left down",
+            "P_LEFT_DOWN"
+          ],
+          [
+            "Left up",
+            "P_LEFT_UP"
+          ],
+          [
+            "Right down",
+            "P_RIGHT_DOWN"
+          ],
+          [
+            "Right up",
+            "P_RIGHT_UP"
+          ],
+          [
+            "Forward down",
+            "P_FOR_DOWN"
+          ],
+          [
+            "Forward up",
+            "P_FOR_UP"
+          ],
+          [
+            "Back down",
+            "P_BACK_DOWN"
+          ],
+          [
+            "Back up",
+            "P_BACK_UP"
+          ],
+          [
+            "Center down",
+            "P_CENTER_DOWN"
+          ],
+          [
+            "Center up",
+            "P_CENTER_UP"
+          ]
+        ]
+      }
+    ]
+  },
+  "espui_if_event": {
+    "message0": "if ESPUI event is %1",
+    "tooltip": "Run statements for a selected ESPUI event type inside a callback",
+    "message1": "%1",
+    "args0": [
+      {
+        "options": [
+          [
+            "Button down",
+            "B_DOWN"
+          ],
+          [
+            "Button up",
+            "B_UP"
+          ],
+          [
+            "Switch on",
+            "S_ACTIVE"
+          ],
+          [
+            "Switch off",
+            "S_INACTIVE"
+          ],
+          [
+            "Slider changed",
+            "SL_VALUE"
+          ],
+          [
+            "Number changed",
+            "N_VALUE"
+          ],
+          [
+            "Text changed",
+            "T_VALUE"
+          ],
+          [
+            "Selection changed",
+            "S_VALUE"
+          ],
+          [
+            "Left down",
+            "P_LEFT_DOWN"
+          ],
+          [
+            "Left up",
+            "P_LEFT_UP"
+          ],
+          [
+            "Right down",
+            "P_RIGHT_DOWN"
+          ],
+          [
+            "Right up",
+            "P_RIGHT_UP"
+          ],
+          [
+            "Forward down",
+            "P_FOR_DOWN"
+          ],
+          [
+            "Forward up",
+            "P_FOR_UP"
+          ],
+          [
+            "Back down",
+            "P_BACK_DOWN"
+          ],
+          [
+            "Back up",
+            "P_BACK_UP"
+          ],
+          [
+            "Center down",
+            "P_CENTER_DOWN"
+          ],
+          [
+            "Center up",
+            "P_CENTER_UP"
+          ]
+        ]
+      }
+    ]
+  },
+  "espui_wifi_connected": {
+    "message0": "WiFi is connected",
+    "tooltip": "Return whether WiFi.status() is WL_CONNECTED"
+  },
+  "espui_ip_address": {
+    "message0": "ESPUI IP address %1",
+    "tooltip": "Read the current station or access-point IP address string",
+    "args0": [
+      {
+        "options": [
+          [
+            "Station",
+            "STA"
+          ],
+          [
+            "Access point",
+            "AP"
+          ]
+        ]
+      }
+    ]
+  }
 }

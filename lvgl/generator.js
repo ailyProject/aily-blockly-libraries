@@ -1008,10 +1008,13 @@ Arduino.forBlock['lvgl_obj_set_style_text_font'] = function(block, generator) {
   const font = block.getFieldValue('FONT');
   let setFont = '';
 
-  if (font === 'LV_FONT_DEFAULT') {
-    // 默认字体不需要设置
-    return '';
-  }
+  // if (font === 'LV_FONT_DEFAULT') {
+  //   // 默认字体不需要设置
+  //   return '';
+  // }
+  // if (font === 'LV_FONT_MONTSERRAT_14') {
+  //   setFont = '&lv_font_montserrat_14';
+  // }
 
   if (font === 'LV_FONT_SOURCE_HAN_SANS_SC_14_CJK') {
     setFont = '&lv_font_source_han_sans_sc_14_cjk';
@@ -1027,6 +1030,15 @@ Arduino.forBlock['lvgl_obj_set_style_text_font'] = function(block, generator) {
     if (window['projectService']) {
       window['projectService'].addMacro('LV_FONT_SOURCE_HAN_SANS_SC_16_CJK=1')
         .then(() => console.log('Font macro added: LV_FONT_SOURCE_HAN_SANS_SC_16_CJK'))
+        .catch((err) => console.error('Error adding font macro:', err));
+    }
+  } else {
+    // 小写的font值直接使用
+    setFont = '&' + font.toLowerCase();
+
+    if (window['projectService']) {
+      window['projectService'].addMacro(font + '=1')
+        .then(() => console.log('Font macro added: ' + font))
         .catch((err) => console.error('Error adding font macro:', err));
     }
   }

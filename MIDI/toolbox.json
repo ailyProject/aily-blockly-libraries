@@ -1,0 +1,189 @@
+{
+  "kind": "category",
+  "name": "MIDI",
+  "name_en": "MIDI",
+  "icon": "fa-solid fa-sliders",
+  "colour": "#512DA8",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "Setup"
+    },
+    {
+      "kind": "block",
+      "type": "midi_begin",
+      "inputs": {
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "midi_read"
+    },
+    {
+      "kind": "block",
+      "type": "midi_turn_thru"
+    },
+    {
+      "kind": "label",
+      "text": "Send"
+    },
+    {
+      "kind": "block",
+      "type": "midi_send_note_on",
+      "inputs": {
+        "NOTE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "60"
+            }
+          }
+        },
+        "VELOCITY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "127"
+            }
+          }
+        },
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "midi_send_note_off",
+      "inputs": {
+        "NOTE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "60"
+            }
+          }
+        },
+        "VELOCITY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "0"
+            }
+          }
+        },
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "midi_send_control_change",
+      "inputs": {
+        "CC": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "7"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "100"
+            }
+          }
+        },
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "midi_send_program_change",
+      "inputs": {
+        "PROGRAM": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
+            }
+          }
+        },
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "midi_send_pitch_bend",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "0"
+            }
+          }
+        },
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "Receive"
+    },
+    {
+      "kind": "block",
+      "type": "midi_get_data"
+    },
+    {
+      "kind": "block",
+      "type": "midi_on_note_on"
+    },
+    {
+      "kind": "block",
+      "type": "midi_on_control_change"
+    }
+  ]
+}
