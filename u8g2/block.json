@@ -350,6 +350,99 @@
     "icon": "iconfont icon-oled12864"
   },
   {
+    "type": "u8g2_draw_animation_frame",
+    "message0": "显示动画帧 坐标 x%1 y%2 动画 %3 帧 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ANIMATION",
+        "check": "Animation"
+      },
+      {
+        "type": "input_value",
+        "name": "FRAME",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4DB6AC",
+    "tooltip": "按指定帧号显示 u8g2 动画；帧号可接变量，超出范围会自动限制到有效帧",
+    "inputsInline": true,
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "u8g2_animation_frame_count",
+    "message0": "获取动画 %1 总帧数",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ANIMATION",
+        "check": "Animation"
+      }
+    ],
+    "output": "Number",
+    "colour": "#4CAF66",
+    "tooltip": "获取 u8g2 动画的总帧数",
+    "inputsInline": true,
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "u8g2_step_animation_frame",
+    "message0": "让帧变量 %1 向目标帧 %2 移动一步 总帧数 %3 方向 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "FRAME_VAR",
+        "variable": "animationFrame"
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "FRAME_COUNT",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIRECTION",
+        "options": [
+          [
+            "自动",
+            "AUTO"
+          ],
+          [
+            "正向",
+            "FORWARD"
+          ],
+          [
+            "反向",
+            "BACKWARD"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4DB6AC",
+    "tooltip": "每执行一次，让帧变量向目标帧推进一帧；正向和反向会在首尾循环，自动方向会根据当前帧和目标帧决定方向",
+    "inputsInline": true,
+    "icon": "iconfont icon-oled12864"
+  },
+  {
     "inputsInline": true,
     "message0": "小图标16×16 %1",
     "type": "u8g2_icon_16x16",

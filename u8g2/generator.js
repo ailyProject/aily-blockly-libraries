@@ -1325,6 +1325,38 @@ function addU8g2AnimationRenderHelper(generator) {
 }`);
 }
 
+function addU8g2AnimationFrameByIndexHelper(generator) {
+  addU8g2AnimationRenderHelper(generator);
+  generator.addFunction('u8g2_draw_animation_frame_by_index', `void u8g2DrawAnimationFrameByIndex(int x, int y, int width, int height, const unsigned char * const frames[], uint16_t frameCount, int frameIndex) {
+  if (frameCount == 0) {
+    return;
+  }
+  if (frameIndex < 0) {
+    frameIndex = 0;
+  }
+  if (frameIndex >= (int)frameCount) {
+    frameIndex = frameCount - 1;
+  }
+  u8g2DrawAnimationFrame(x, y, width, height, frames[frameIndex]);
+}`);
+}
+
+function getU8g2VariableCodeName(block, generator, fieldName, fallbackName) {
+  const fieldValue = block.getFieldValue(fieldName);
+  const variable = block.workspace && typeof block.workspace.getVariableById === 'function'
+    ? block.workspace.getVariableById(fieldValue)
+    : null;
+  if (variable && variable.name) {
+    return variable.name;
+  }
+
+  if (fieldValue && generator.nameDB_ && typeof generator.nameDB_.getName === 'function') {
+    return generator.nameDB_.getName(fieldValue, Blockly.Variables.NAME_TYPE);
+  }
+
+  return fallbackName;
+}
+
 Arduino.forBlock['u8g2_play_animation'] = function (block, generator) {
   const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC) || '0';
   const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC) || '0';
@@ -1377,6 +1409,77 @@ Arduino.forBlock['u8g2_play_animation'] = function (block, generator) {
     code += '  u8g2.sendBuffer();\n';
   }
   code += `  delay(${animationVarPrefix}_frame_delay);\n`;
+  code += '}\n';
+  return code;
+};
+
+Arduino.forBlock['u8g2_draw_animation_frame'] = function (block, generator) {
+  const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC) || '0';
+  const frame = generator.valueToCode(block, 'FRAME', Arduino.ORDER_ATOMIC) || '0';
+  const animationCode = generator.valueToCode(block, 'ANIMATION', Arduino.ORDER_ATOMIC);
+
+  if (!animationCode) {
+    return '// No animation data\n';
+  }
+
+  addU8g2AnimationFrameByIndexHelper(generator);
+
+  const animationVarPrefix = animationCode.replace('_frames', '');
+  let code = `u8g2DrawAnimationFrameByIndex(${x}, ${y}, ${animationVarPrefix}_width, ${animationVarPrefix}_height, ${animationVarPrefix}_frames, ${animationVarPrefix}_frame_count, ${frame});\n`;
+  if (!hasFollowingSendBuffer(block) && !isPageBufferMode(block)) {
+    code += 'u8g2.sendBuffer();\n';
+  }
+  return code;
+};
+
+Arduino.forBlock['u8g2_animation_frame_count'] = function (block, generator) {
+  const animationCode = generator.valueToCode(block, 'ANIMATION', Arduino.ORDER_ATOMIC);
+
+  if (!animationCode) {
+    return ['0', Arduino.ORDER_ATOMIC];
+  }
+
+  const animationVarPrefix = animationCode.replace('_frames', '');
+  return [`${animationVarPrefix}_frame_count`, Arduino.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['u8g2_step_animation_frame'] = function (block, generator) {
+  const frameVar = getU8g2VariableCodeName(block, generator, 'FRAME_VAR', 'animationFrame');
+  const target = generator.valueToCode(block, 'TARGET', Arduino.ORDER_ATOMIC) || '0';
+  const frameCount = generator.valueToCode(block, 'FRAME_COUNT', Arduino.ORDER_ATOMIC) || '1';
+  const direction = block.getFieldValue('DIRECTION') || 'AUTO';
+  const targetVar = `animation_target_${block.id.replace(/[^a-zA-Z0-9]/g, '')}`;
+  const frameCountVar = `animation_frame_count_${block.id.replace(/[^a-zA-Z0-9]/g, '')}`;
+
+  let code = `int ${frameCountVar} = (int)(${frameCount});\n`;
+  code += `if (${frameCountVar} > 0) {\n`;
+  code += `  int ${targetVar} = constrain((int)(${target}), 0, ${frameCountVar} - 1);\n`;
+  code += `  ${frameVar} = constrain((int)${frameVar}, 0, ${frameCountVar} - 1);\n`;
+
+  if (direction === 'FORWARD') {
+    code += `  if (${frameVar} != ${targetVar}) {\n`;
+    code += `    ${frameVar}++;\n`;
+    code += `    if (${frameVar} >= ${frameCountVar}) {\n`;
+    code += `      ${frameVar} = 0;\n`;
+    code += '    }\n';
+    code += '  }\n';
+  } else if (direction === 'BACKWARD') {
+    code += `  if (${frameVar} != ${targetVar}) {\n`;
+    code += `    if (${frameVar} <= 0) {\n`;
+    code += `      ${frameVar} = ${frameCountVar} - 1;\n`;
+    code += '    } else {\n';
+    code += `      ${frameVar}--;\n`;
+    code += '    }\n';
+    code += '  }\n';
+  } else {
+    code += `  if (${frameVar} < ${targetVar}) {\n`;
+    code += `    ${frameVar}++;\n`;
+    code += `  } else if (${frameVar} > ${targetVar}) {\n`;
+    code += `    ${frameVar}--;\n`;
+    code += '  }\n';
+  }
+
   code += '}\n';
   return code;
 };
