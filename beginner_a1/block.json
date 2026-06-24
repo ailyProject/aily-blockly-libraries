@@ -1,0 +1,132 @@
+[
+  {
+    "type": "beginner_a1_init",
+    "message0": "初始化 Beginner A1 小车 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "car"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "创建并初始化小车对象：通信、电机、舵机、LED 与电池，并自动按遥控行驶、刷新状态",
+    "icon": "fa-solid fa-robot"
+  },
+  {
+    "type": "beginner_a1_button",
+    "message0": "%1 遥控按键 %2 被按下",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car",
+        "variableTypes": ["BeginnerA1Car"],
+        "defaultType": "BeginnerA1Car"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INDEX",
+        "options": [
+          ["A", "0"],
+          ["B", "1"],
+          ["C", "2"],
+          ["D", "3"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#00897B",
+    "tooltip": "判断遥控器按键 A/B/C/D 是否被按下",
+    "icon": "fa-solid fa-gamepad"
+  },
+  {
+    "type": "beginner_a1_servo",
+    "message0": "%1 %2 舵机转到 %3 度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car",
+        "variableTypes": ["BeginnerA1Car"],
+        "defaultType": "BeginnerA1Car"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WHICH",
+        "options": [
+          ["SERVO_20", "0"],
+          ["SERVO_21", "1"]
+        ]
+      },
+      {
+        "type": "field_angle",
+        "name": "ANGLE",
+        "angle": 90,
+        "min": 0,
+        "max": 360,
+        "precision": 1
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0288D1",
+    "tooltip": "定位舵机平滑转到指定角度，范围 0~360 度",
+    "icon": "fa-solid fa-gear"
+  },
+  {
+    "type": "beginner_a1_servo_rotate",
+    "message0": "%1 %2 舵机 %3 速度 %4 转 %5 秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car",
+        "variableTypes": ["BeginnerA1Car"],
+        "defaultType": "BeginnerA1Car"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WHICH",
+        "options": [
+          ["SERVO_20", "0"],
+          ["SERVO_21", "1"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          ["正转", "1"],
+          ["反转", "-1"]
+        ]
+      },
+      {
+        "type": "field_slider",
+        "name": "SPEED",
+        "value": 50,
+        "min": 0,
+        "max": 100
+      },
+      {
+        "type": "field_slider",
+        "name": "SECONDS",
+        "value": 1,
+        "min": 0,
+        "max": 10,
+        "precision": 0.1
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "连续旋转舵机：按方向和速度转动指定秒数后自动停（速度 0~100），非阻塞",
+    "icon": "fa-solid fa-arrows-rotate"
+  }
+]
