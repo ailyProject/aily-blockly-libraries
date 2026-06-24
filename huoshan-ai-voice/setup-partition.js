@@ -16,22 +16,14 @@ const screenDependencyBlockTypes = {
   '@aily-project/lib-tft-espi': []
 };
 
-const screenFontHeaderName = 'huoshan_ai_screen_font.h';
-const screenFontSourceName = 'HuoshanAI_CN_15.c';
-const screenFontSymbol = 'HuoshanAI_CN_15';
+const lvglCjkScreenFontSymbol = 'lv_font_source_han_sans_sc_14_cjk';
 const legacyScreenFontSymbols = [
-  'AlibabaPuHuiTi_Regular_15',
-  'lv_font_source_han_sans_sc_14_cjk'
+  'HuoshanAI_CN_15',
+  'AlibabaPuHuiTi_Regular_15'
 ];
 const legacyScreenFontSources = [
+  'HuoshanAI_CN_15.c',
   'AlibabaPuHuiTi_Regular_15.c'
-];
-const screenFontCoverageMarkers = [
-  '0x00A0-0x00FF',
-  '0x2000-0x206F',
-  '0x2100-0x214F',
-  '0x3400-0x4DBF',
-  '0x4E00-0x9FFF'
 ];
 
 function findProjectRoot() {
@@ -333,52 +325,6 @@ function find7za() {
   return null;
 }
 
-function readFilePrefix(filePath, byteLength) {
-  const fd = fs.openSync(filePath, 'r');
-  try {
-    const buffer = Buffer.alloc(byteLength);
-    const bytesRead = fs.readSync(fd, buffer, 0, byteLength, 0);
-    return buffer.toString('utf8', 0, bytesRead);
-  } finally {
-    fs.closeSync(fd);
-  }
-}
-
-function hasCurrentScreenFontSource(headerPath, fontPath) {
-  if (!fs.existsSync(headerPath) || !fs.existsSync(fontPath)) return false;
-
-  try {
-    const header = fs.readFileSync(headerPath, 'utf8');
-    const fontPrefix = readFilePrefix(fontPath, 4096);
-    return header.includes(`LV_FONT_DECLARE(${screenFontSymbol})`)
-        && fontPrefix.includes(`--lv-font-name ${screenFontSymbol}`)
-        && screenFontCoverageMarkers.every(marker => fontPrefix.includes(marker));
-  } catch (error) {
-    return false;
-  }
-}
-
-function unpackBundledSource() {
-  const srcDir = path.join(__dirname, 'src');
-  const headerPath = path.join(srcDir, screenFontHeaderName);
-  const fontPath = path.join(srcDir, screenFontSourceName);
-  const shouldRefresh = !hasCurrentScreenFontSource(headerPath, fontPath);
-  if (!shouldRefresh) return;
-
-  const archivePath = path.join(__dirname, 'src.7z');
-  if (!fs.existsSync(archivePath)) return;
-
-  const za7 = find7za();
-  if (!za7) {
-    console.warn('[huoshan-ai-voice] bundled screen font source not unpacked: 7za.exe was not found.');
-    return;
-  }
-
-  fs.mkdirSync(srcDir, { recursive: true });
-  execFileSync(za7, ['x', archivePath, `-o${srcDir}`, '-y'], { stdio: 'ignore' });
-  console.log('[huoshan-ai-voice] unpacked/refreshed bundled screen font source.');
-}
-
 function removeLegacyFontSourcesInDir(dir) {
   if (!dir || !fs.existsSync(dir)) return false;
   let changed = false;
@@ -537,25 +483,24 @@ function patchTempLvglConfig(projectRoot) {
 
     const current = fs.readFileSync(confPath, 'utf8');
     let next = current.replace(
-      /^(\s*#define\s+LV_FONT_FMT_TXT_LARGE\s+)\d+(\s*(?:\/\/.*)?)$/m,
+      /^(\s*#define\s+LV_FONT_SOURCE_HAN_SANS_SC_14_CJK\s+)\d+(\s*(?:\/\/.*)?)$/m,
       (match, prefix, suffix) => `${prefix}1${suffix}`
     );
     next = next.replace(
-      /^(\s*#define\s+LV_USE_FONT_COMPRESSED\s+)\d+(\s*(?:\/\/.*)?)$/m,
+      /^(\s*#define\s+LV_FONT_FMT_TXT_LARGE\s+)\d+(\s*(?:\/\/.*)?)$/m,
       (match, prefix, suffix) => `${prefix}1${suffix}`
     );
+    if (!/^\s*#define\s+LV_FONT_SOURCE_HAN_SANS_SC_14_CJK\b/m.test(next)) {
+      next = next.replace(
+        /(\r?\n\s*#define\s+LV_FONT_MONTSERRAT_48\s+\d+\s*(?:\/\/.*)?\r?\n)/,
+        `$1#define LV_FONT_SOURCE_HAN_SANS_SC_14_CJK 1\n`
+      );
+    }
 
     if (!/^\s*#define\s+LV_FONT_FMT_TXT_LARGE\b/m.test(next)) {
       next = next.replace(
         /(\r?\n\s*#define\s+LV_USE_FONT_COMPRESSED\s+\d+\s*(?:\/\/.*)?\r?\n)/,
         `$1#define LV_FONT_FMT_TXT_LARGE 1\n`
-      );
-    }
-
-    if (!/^\s*#define\s+LV_USE_FONT_COMPRESSED\b/m.test(next)) {
-      next = next.replace(
-        /(\r?\n\s*#define\s+LV_FONT_FMT_TXT_LARGE\s+\d+\s*(?:\/\/.*)?\r?\n)/,
-        `$1#define LV_USE_FONT_COMPRESSED 1\n`
       );
     }
 
@@ -566,27 +511,24 @@ function patchTempLvglConfig(projectRoot) {
   }
 
   if (changed) {
-    console.log('[huoshan-ai-voice] enabled LVGL large and compressed font support for bundled Chinese screen font.');
+    console.log('[huoshan-ai-voice] enabled LVGL Source Han Sans SC screen font support.');
   }
 }
 
 function patchLegacyScreenFontCode(code) {
   let next = String(code || '');
   if (!next.includes('HUOSHAN_AI_SCREEN_ENABLED')
-      || (next.includes(screenFontSymbol)
-        && !legacyScreenFontSymbols.some(symbol => next.includes(symbol)))) {
+      || !legacyScreenFontSymbols.some(symbol => next.includes(symbol))) {
     return next;
   }
 
-  if (!next.includes(`#include <${screenFontHeaderName}>`)) {
-    if (next.includes('#include <lvgl.h>')) {
-      next = next.replace(
-        '#include <lvgl.h>',
-        `#include <lvgl.h>\n#include <${screenFontHeaderName}>`
-      );
-    } else {
-      next = `#include <${screenFontHeaderName}>\n` + next;
-    }
+  next = next.replace(/(^|\r?\n)#include\s+<huoshan_ai_screen_font\.h>\s*(?=\r?\n|$)/g, '$1');
+
+  if (!next.includes('LV_FONT_SOURCE_HAN_SANS_SC_14_CJK')) {
+    next = next.replace(
+      /#define\s+LV_USE_TFT_ESPI\s+1\s*\r?\n/,
+      '#define LV_USE_TFT_ESPI 1\n#define LV_FONT_SOURCE_HAN_SANS_SC_14_CJK 1\n'
+    );
   }
   if (!next.includes('LV_FONT_FMT_TXT_LARGE')) {
     next = next.replace(
@@ -595,10 +537,16 @@ function patchLegacyScreenFontCode(code) {
     );
   }
 
-  next = next.replace(/lv_font_source_han_sans_sc_14_cjk/g, screenFontSymbol);
-  next = next.replace(/AlibabaPuHuiTi_Regular_15/g, screenFontSymbol);
-  next = next.replace(/LV_FONT_SOURCE_HAN_SANS_SC_14_CJK/g, 'HUOSHAN_AI_UNUSED_OLD_FONT_MACRO');
-  next = next.replace(/^\s*#define\s+HUOSHAN_AI_UNUSED_OLD_FONT_MACRO(?:\s+\S+)?\s*\r?\n/gm, '');
+  for (const symbol of legacyScreenFontSymbols) {
+    next = next.replace(new RegExp(symbol, 'g'), lvglCjkScreenFontSymbol);
+  }
+
+  if (!next.includes(`LV_FONT_DECLARE(${lvglCjkScreenFontSymbol})`)) {
+    next = next.replace(
+      /#if\s+HUOSHAN_AI_SCREEN_ENABLED\s*\r?\n/,
+      `#if HUOSHAN_AI_SCREEN_ENABLED\n\nLV_FONT_DECLARE(${lvglCjkScreenFontSymbol});\n`
+    );
+  }
   return next;
 }
 
@@ -681,7 +629,7 @@ function patchLegacyScreenTouchCode(code) {
 
 function patchLegacyScreenMacroCode(code) {
   let next = String(code || '');
-  if (next.includes(screenFontSymbol) && !next.includes('LV_FONT_FMT_TXT_LARGE')) {
+  if (next.includes(lvglCjkScreenFontSymbol) && !next.includes('LV_FONT_FMT_TXT_LARGE')) {
     next = next.replace(
       /#define\s+LV_USE_TFT_ESPI\s+1\s*\r?\n/,
       '#define LV_USE_TFT_ESPI 1\n#define LV_FONT_FMT_TXT_LARGE 1\n'
@@ -755,13 +703,11 @@ function patchLegacyTempScreenFont(projectRoot) {
   }
 
   if (changed) {
-    console.log('[huoshan-ai-voice] patched stale Aily temp screen code for early display init and bundled Chinese font.');
+    console.log('[huoshan-ai-voice] patched stale Aily temp screen code for early display init and LVGL Chinese font.');
   }
 }
 
 try {
-  unpackBundledSource();
-
   const projectRoot = findProjectRoot();
   if (!projectRoot) process.exit(0);
 
@@ -774,9 +720,12 @@ try {
   patchTempBuildConfig(projectRoot);
   patchTempPackageConfig(projectRoot);
   normalizeProjectLvglLocalLibrary(projectRoot);
-  patchTempLvglConfig(projectRoot);
-  removeLegacyFontSources(projectRoot);
-  patchLegacyTempScreenFont(projectRoot);
+  // The screen now uses the bundled full-coverage HuoshanAI_CN_15 font instead of
+  // the LVGL CJK radical subset, so we deliberately skip the legacy font/lv_conf
+  // rewrites that used to swap it out.
+  // patchTempLvglConfig(projectRoot);
+  // removeLegacyFontSources(projectRoot);
+  // patchLegacyTempScreenFont(projectRoot);
 } catch (error) {
   console.warn('[huoshan-ai-voice] setup skipped:', error.message);
 }
