@@ -16,6 +16,7 @@ I2C bus library, used to detect and output the address of the connected device, 
 | `wire_end` | Statement | (none) | `wire_end()` | Wire.end();\n |
 | `wire_begin_transmission` | Statement | ADDRESS(input_value) | `wire_begin_transmission(math_number(0))` | Wire.beginTransmission(...);\n |
 | `wire_end_transmission` | Statement | STOP(dropdown) | `wire_end_transmission(TRUE)` | Wire.endTransmission(...);\n |
+| `wire_end_transmission_result` | Value | STOP(dropdown) | `wire_end_transmission_result(TRUE)` | Wire.endTransmission(...) |
 | `wire_write` | Statement | DATA(input_value) | `wire_write(math_number(0))` | Wire.write(...);\n |
 | `wire_write_bytes` | Statement | DATA(input_value), LENGTH(input_value) | `wire_write_bytes(math_number(0), math_number(0))` | Wire.write(..., ...);\n |
 | `wire_request_from` | Statement | ADDRESS(input_value), QUANTITY(input_value), STOP(dropdown) | `wire_request_from(math_number(0), math_number(0), TRUE)` | Wire.requestFrom(..., ..., ...);\n |
@@ -25,7 +26,6 @@ I2C bus library, used to detect and output the address of the connected device, 
 | `wire_flush` | Statement | (none) | `wire_flush()` | Wire.flush();\n |
 | `wire_on_receive` | Statement | FUNCTION_NAME(field_input), CALLBACK(input_statement) | `wire_on_receive("onReceive") @CALLBACK: child_block()` | Dynamic code |
 | `wire_on_request` | Statement | FUNCTION_NAME(field_input), CALLBACK(input_statement) | `wire_on_request("onRequest") @CALLBACK: child_block()` | Dynamic code |
-| `wire_scan_devices` | Statement | DELAY(input_value) | `wire_scan_devices(math_number(1000))` | Dynamic code |
 | `wire_set_timeout` | Statement | TIMEOUT(input_value), RESET(dropdown) | `wire_set_timeout(math_number(1000), TRUE)` | Wire.setWireTimeout(..., ...);\n |
 | `wire_get_timeout_flag` | Value | (none) | `wire_get_timeout_flag()` | Wire.getWireTimeoutFlag() |
 | `wire_clear_timeout_flag` | Statement | (none) | `wire_clear_timeout_flag()` | Wire.clearWireTimeoutFlag();\n |

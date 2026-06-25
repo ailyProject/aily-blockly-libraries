@@ -29,6 +29,10 @@
     },
     {
       "kind": "block",
+      "type": "wire_end_transmission_result"
+    },
+    {
+      "kind": "block",
       "type": "wire_write"
     },
     {
@@ -64,8 +68,180 @@
       "type": "wire_on_request"
     },
     {
+      "kind": "label",
+      "text": "I2C扫描模板"
+    },
+    {
       "kind": "block",
-      "type": "wire_scan_devices"
+      "type": "wire_begin",
+      "next": {
+        "block": {
+          "type": "controls_for",
+          "fields": {
+            "VAR": {
+              "name": "address",
+              "id": "i2c_scan_address",
+              "type": ""
+            }
+          },
+          "inputs": {
+            "FROM": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 1
+                }
+              }
+            },
+            "TO": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 127
+                }
+              }
+            },
+            "BY": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 1
+                }
+              }
+            },
+            "DO": {
+              "block": {
+                "type": "wire_begin_transmission",
+                "inputs": {
+                  "ADDRESS": {
+                    "block": {
+                      "type": "variables_get",
+                      "fields": {
+                        "VAR": {
+                          "name": "address",
+                          "id": "i2c_scan_address",
+                          "type": ""
+                        }
+                      }
+                    }
+                  }
+                },
+                "next": {
+                  "block": {
+                    "type": "variables_set",
+                    "fields": {
+                      "VAR": {
+                        "name": "error",
+                        "id": "i2c_scan_error",
+                        "type": ""
+                      }
+                    },
+                    "inputs": {
+                      "VALUE": {
+                        "block": {
+                          "type": "wire_end_transmission_result",
+                          "fields": {
+                            "STOP": "TRUE"
+                          }
+                        }
+                      }
+                    },
+                    "next": {
+                      "block": {
+                        "type": "controls_if",
+                        "inputs": {
+                          "IF0": {
+                            "block": {
+                              "type": "logic_compare",
+                              "fields": {
+                                "OP": "EQ"
+                              },
+                              "inputs": {
+                                "A": {
+                                  "block": {
+                                    "type": "variables_get",
+                                    "fields": {
+                                      "VAR": {
+                                        "name": "error",
+                                        "id": "i2c_scan_error",
+                                        "type": ""
+                                      }
+                                    }
+                                  }
+                                },
+                                "B": {
+                                  "shadow": {
+                                    "type": "math_number",
+                                    "fields": {
+                                      "NUM": 0
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "next": {
+                          "block": {
+                            "type": "controls_if",
+                            "inputs": {
+                              "IF0": {
+                                "block": {
+                                  "type": "logic_compare",
+                                  "fields": {
+                                    "OP": "EQ"
+                                  },
+                                  "inputs": {
+                                    "A": {
+                                      "block": {
+                                        "type": "variables_get",
+                                        "fields": {
+                                          "VAR": {
+                                            "name": "error",
+                                            "id": "i2c_scan_error",
+                                            "type": ""
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "B": {
+                                      "shadow": {
+                                        "type": "math_number",
+                                        "fields": {
+                                          "NUM": 4
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "next": {
+            "block": {
+              "type": "time_delay",
+              "inputs": {
+                "DELAY_TIME": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 5000
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     {
       "kind": "block",
