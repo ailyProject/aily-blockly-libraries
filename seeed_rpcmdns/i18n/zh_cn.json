@@ -1,0 +1,166 @@
+{
+  "toolbox_name": "Seeed RPC mDNS",
+  "toolbox_categories": [
+    "启动与实例",
+    "服务广播",
+    "发现与结果"
+  ],
+  "toolbox_labels": {
+    "启动与实例": "启动与实例",
+    "服务广播": "服务广播",
+    "发现与结果": "发现与结果"
+  },
+  "seeed_rpcmdns_begin": {
+    "message0": "启动 mDNS 服务 主机名 %1",
+    "tooltip": "启动 Wio Terminal RPC mDNS 响应器，主机可通过 hostname.local 访问"
+  },
+  "seeed_rpcmdns_begin_or_print": {
+    "message0": "启动 mDNS 服务 主机名 %1 失败时打印错误",
+    "tooltip": "启动 mDNS 响应器并在启动失败时通过 Serial 输出错误信息"
+  },
+  "seeed_rpcmdns_end": {
+    "message0": "停止 mDNS 服务",
+    "tooltip": "释放并停止 mDNS 服务"
+  },
+  "seeed_rpcmdns_set_instance_name": {
+    "message0": "设置 mDNS 实例名 %1",
+    "tooltip": "设置服务实例显示名称，长度应不超过 63 个字符"
+  },
+  "seeed_rpcmdns_add_service": {
+    "message0": "注册 mDNS 服务 类型 %1 协议 %2 端口 %3",
+    "tooltip": "注册一个 mDNS-SD 服务，例如 http/tcp/80",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "TCP",
+            "tcp"
+          ],
+          [
+            "UDP",
+            "udp"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "seeed_rpcmdns_add_service_txt": {
+    "message0": "添加 mDNS 服务 TXT 服务 %1 协议 %2 键 %3 值 %4",
+    "tooltip": "为已注册的 mDNS 服务添加 TXT 记录",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "TCP",
+            "tcp"
+          ],
+          [
+            "UDP",
+            "udp"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "seeed_rpcmdns_enable_arduino": {
+    "message0": "启用 Arduino OTA mDNS 服务 端口 %1 %2",
+    "tooltip": "广播 _arduino._tcp 服务，供 Arduino 网络上传工具发现",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "无需认证",
+            "FALSE"
+          ],
+          [
+            "需要认证",
+            "TRUE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcmdns_disable_arduino": {
+    "message0": "停用 Arduino OTA mDNS 服务",
+    "tooltip": "移除 _arduino._tcp mDNS 服务广播"
+  },
+  "seeed_rpcmdns_enable_workstation": {
+    "message0": "启用工作站 mDNS 服务 网络接口 %1",
+    "tooltip": "广播 _workstation._tcp 服务，用于网络设备发现",
+    "args0": [
+      {
+        "options": [
+          [
+            "STA",
+            "ESP_IF_WIFI_STA"
+          ],
+          [
+            "AP",
+            "ESP_IF_WIFI_AP"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcmdns_disable_workstation": {
+    "message0": "停用工作站 mDNS 服务",
+    "tooltip": "移除 _workstation._tcp mDNS 服务广播"
+  },
+  "seeed_rpcmdns_query_host": {
+    "message0": "查询 mDNS 主机 %1 超时 %2 毫秒 的 IP",
+    "tooltip": "通过 mDNS 查询 hostname.local 并返回 IPv4 地址字符串"
+  },
+  "seeed_rpcmdns_query_service": {
+    "message0": "查询 mDNS 服务 类型 %1 协议 %2",
+    "tooltip": "查询指定 mDNS-SD 服务，返回发现的服务数量，并缓存结果供结果块读取",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "TCP",
+            "tcp"
+          ],
+          [
+            "UDP",
+            "udp"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcmdns_result_hostname": {
+    "message0": "mDNS 结果 %1 主机名",
+    "tooltip": "读取最近一次服务查询结果中指定索引的主机名"
+  },
+  "seeed_rpcmdns_result_ip": {
+    "message0": "mDNS 结果 %1 IPv4 地址",
+    "tooltip": "读取最近一次服务查询结果中指定索引的 IPv4 地址"
+  },
+  "seeed_rpcmdns_result_port": {
+    "message0": "mDNS 结果 %1 端口",
+    "tooltip": "读取最近一次服务查询结果中指定索引的端口号"
+  },
+  "seeed_rpcmdns_result_txt_count": {
+    "message0": "mDNS 结果 %1 TXT 数量",
+    "tooltip": "读取最近一次服务查询结果中指定索引的 TXT 记录数量"
+  },
+  "seeed_rpcmdns_result_has_txt": {
+    "message0": "mDNS 结果 %1 包含 TXT 键 %2",
+    "tooltip": "判断指定结果是否包含某个 TXT 键"
+  },
+  "seeed_rpcmdns_result_txt_by_key": {
+    "message0": "mDNS 结果 %1 TXT 键 %2 的值",
+    "tooltip": "读取指定结果中某个 TXT 键对应的值"
+  },
+  "seeed_rpcmdns_result_txt_by_index": {
+    "message0": "mDNS 结果 %1 第 %2 个 TXT 值",
+    "tooltip": "按 TXT 索引读取指定结果的 TXT 值"
+  }
+}
