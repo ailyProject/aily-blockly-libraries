@@ -1,6 +1,6 @@
 # Seeed RPC WiFi
 
-Blockly wrapper for Seeed Wio Terminal RPC WiFi, including WiFi connection, scan, AP mode, TCP/UDP, HTTP, WebServer, DNS, mDNS, and WiFiManager provisioning.
+Blockly wrapper for Seeed Wio Terminal RPC WiFi, including WiFi connection, scan, AP mode, TCP/UDP, HTTP, WebServer, and DNS.
 
 ## Library Info
 
@@ -18,7 +18,7 @@ Arduino SAMD, Seeeduino:samd
 
 ## Description
 
-Blockly wrapper for Seeed Wio Terminal RPC WiFi, including WiFi connection, scan, AP mode, TCP/UDP, HTTP, WebServer, DNS, mDNS, and WiFiManager provisioning.
+Blockly wrapper for Seeed Wio Terminal RPC WiFi, including WiFi connection, scan, AP mode, TCP/UDP, HTTP, WebServer, and DNS.
 
 ## Quick Start
 

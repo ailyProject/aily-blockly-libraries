@@ -233,11 +233,10 @@
     },
     {
       "kind": "category",
-      "name": "DNS与mDNS",
+      "name": "DNS",
       "icon": "fa-light fa-globe",
       "colour": "#00897B",
       "contents": [
-        { "kind": "label", "text": "DNS" },
         { "kind": "block", "type": "seeed_rpcwifi_dns_create" },
         {
           "kind": "block",
@@ -249,66 +248,7 @@
           }
         },
         { "kind": "block", "type": "seeed_rpcwifi_dns_start_captive" },
-        { "kind": "block", "type": "seeed_rpcwifi_dns_process" },
-        { "kind": "label", "text": "mDNS" },
-        {
-          "kind": "block",
-          "type": "seeed_rpcwifi_mdns_begin",
-          "inputs": { "HOSTNAME": { "shadow": { "type": "text", "fields": { "TEXT": "WioTerminal" } } } }
-        },
-        {
-          "kind": "block",
-          "type": "seeed_rpcwifi_mdns_add_service",
-          "inputs": {
-            "SERVICE": { "shadow": { "type": "text", "fields": { "TEXT": "http" } } },
-            "PORT": { "shadow": { "type": "math_number", "fields": { "NUM": 80 } } }
-          }
-        },
-        {
-          "kind": "block",
-          "type": "seeed_rpcwifi_mdns_query_host",
-          "inputs": {
-            "HOST": { "shadow": { "type": "text", "fields": { "TEXT": "WioTerminal" } } },
-            "TIMEOUT": { "shadow": { "type": "math_number", "fields": { "NUM": 2000 } } }
-          }
-        },
-        {
-          "kind": "block",
-          "type": "seeed_rpcwifi_mdns_query_service",
-          "inputs": { "SERVICE": { "shadow": { "type": "text", "fields": { "TEXT": "http" } } } }
-        }
-      ]
-    },
-    {
-      "kind": "category",
-      "name": "WiFiManager配网",
-      "icon": "fa-light fa-router",
-      "colour": "#4CAF50",
-      "contents": [
-        { "kind": "block", "type": "seeed_rpcwifi_wifimanager_create" },
-        {
-          "kind": "block",
-          "type": "seeed_rpcwifi_wifimanager_auto_connect",
-          "inputs": {
-            "AP_NAME": { "shadow": { "type": "text", "fields": { "TEXT": "AutoConnectAP" } } },
-            "AP_PASSWORD": { "shadow": { "type": "text", "fields": { "TEXT": "" } } }
-          }
-        },
-        {
-          "kind": "block",
-          "type": "seeed_rpcwifi_wifimanager_start_portal",
-          "inputs": {
-            "AP_NAME": { "shadow": { "type": "text", "fields": { "TEXT": "ConfigPortal" } } },
-            "AP_PASSWORD": { "shadow": { "type": "text", "fields": { "TEXT": "" } } }
-          }
-        },
-        { "kind": "block", "type": "seeed_rpcwifi_wifimanager_reset" },
-        {
-          "kind": "block",
-          "type": "seeed_rpcwifi_wifimanager_set_timeout",
-          "inputs": { "SECONDS": { "shadow": { "type": "math_number", "fields": { "NUM": 120 } } } }
-        },
-        { "kind": "block", "type": "seeed_rpcwifi_wifimanager_get_info" }
+        { "kind": "block", "type": "seeed_rpcwifi_dns_process" }
       ]
     }
   ]
