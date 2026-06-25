@@ -1,0 +1,388 @@
+{
+  "toolbox_name": "Seeed FreeRTOS",
+  "toolbox_categories": [
+    "Задачи и запуск",
+    "Управление задачами",
+    "Очереди",
+    "Синхронизация семафоров",
+    "Уведомления и прерывания",
+    "Диагностика",
+    "Шаблоны задач"
+  ],
+  "toolbox_labels": {
+    "任务与启动": "Задачи и запуск",
+    "任务控制": "Управление задачами",
+    "队列通信": "Очереди",
+    "信号量同步": "Синхронизация семафоров",
+    "通知与中断": "Уведомления и прерывания",
+    "诊断信息": "Диагностика",
+    "常用任务模板": "Шаблоны задач"
+  },
+  "seeed_freertos_task_create": {
+    "message0": "создать задачу %1 стек %2 приоритет %3",
+    "tooltip": "Создает задачу Seeed FreeRTOS и ее дескриптор; планировщик автоматически запускается в конце setup"
+  },
+  "seeed_freertos_task_function": {
+    "message0": "задача %1 выполняется",
+    "message1": "повторять %1",
+    "tooltip": "Определяет функцию задачи Seeed FreeRTOS"
+  },
+  "seeed_freertos_start_scheduler": {
+    "message0": "запустить планировщик FreeRTOS",
+    "tooltip": "Запускает планировщик FreeRTOS в конце setup"
+  },
+  "seeed_freertos_start_tinyusb_task": {
+    "message0": "запустить фоновую задачу TinyUSB",
+    "tooltip": "Запускает фоновую задачу TinyUSB Seeed FreeRTOS, когда на целевой плате включен USE_TINYUSB"
+  },
+  "seeed_freertos_task_delay_ms": {
+    "message0": "задержка задачи %1 мс",
+    "tooltip": "Задерживает текущую задачу в миллисекундах"
+  },
+  "seeed_freertos_task_delay_ticks": {
+    "message0": "задержка задачи %1 ticks",
+    "tooltip": "Задерживает текущую задачу на тики FreeRTOS"
+  },
+  "seeed_freertos_nop_delay_ms": {
+    "message0": "защитная задержка запуска %1 мс",
+    "tooltip": "Вызывает vNopDelayMS из Seeed FreeRTOS, часто используется как задержка стабилизации USB перед запуском планировщика"
+  },
+  "seeed_freertos_task_suspend": {
+    "message0": "приостановить задачу %1",
+    "tooltip": "Приостанавливает задачу"
+  },
+  "seeed_freertos_task_resume": {
+    "message0": "возобновить задачу %1",
+    "tooltip": "Возобновляет задачу"
+  },
+  "seeed_freertos_task_delete": {
+    "message0": "удалить задачу %1",
+    "tooltip": "Удаляет задачу и очищает ее дескриптор"
+  },
+  "seeed_freertos_task_delete_current": {
+    "message0": "удалить текущую задачу",
+    "tooltip": "Удаляет текущую выполняемую задачу"
+  },
+  "seeed_freertos_task_notify": {
+    "message0": "уведомить задачу %1",
+    "tooltip": "Отправляет уведомление задаче"
+  },
+  "seeed_freertos_task_notify_from_isr": {
+    "message0": "уведомить задачу %1 из ISR",
+    "tooltip": "Безопасно уведомляет задачу из прерывания"
+  },
+  "seeed_freertos_task_wait_notification": {
+    "message0": "ждать уведомление задачи %1 %2 мс",
+    "tooltip": "Ждет, пока текущая задача получит уведомление",
+    "args0": [
+      {
+        "options": [
+          [
+            "до",
+            "MS"
+          ],
+          [
+            "всегда",
+            "FOREVER"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "seeed_freertos_queue_create": {
+    "message0": "создать очередь %1 длина %2 тип %3",
+    "tooltip": "Создает очередь FreeRTOS для данных фиксированного размера",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "целое int",
+            "int"
+          ],
+          [
+            "длинное целое long",
+            "long"
+          ],
+          [
+            "беззнаковый uint32_t",
+            "uint32_t"
+          ],
+          [
+            "знаковый int32_t",
+            "int32_t"
+          ],
+          [
+            "число float",
+            "float"
+          ],
+          [
+            "double double",
+            "double"
+          ],
+          [
+            "байт uint8_t",
+            "uint8_t"
+          ],
+          [
+            "логический bool",
+            "bool"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_freertos_queue_send": {
+    "message0": "отправить в очередь %1 данные %2 тип %3 ждать %4 %5 мс",
+    "tooltip": "Отправляет элемент в очередь через временную переменную нужного типа",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "целое int",
+            "int"
+          ],
+          [
+            "длинное целое long",
+            "long"
+          ],
+          [
+            "беззнаковый uint32_t",
+            "uint32_t"
+          ],
+          [
+            "знаковый int32_t",
+            "int32_t"
+          ],
+          [
+            "число float",
+            "float"
+          ],
+          [
+            "double double",
+            "double"
+          ],
+          [
+            "байт uint8_t",
+            "uint8_t"
+          ],
+          [
+            "логический bool",
+            "bool"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "до",
+            "MS"
+          ],
+          [
+            "всегда",
+            "FOREVER"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "seeed_freertos_queue_receive_do": {
+    "message0": "получить из очереди %1 тип %2 в %3 ждать %4 %5 мс",
+    "message1": "при успехе %1",
+    "tooltip": "Получает данные из очереди и выполняет блоки при успехе",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "целое int",
+            "int"
+          ],
+          [
+            "длинное целое long",
+            "long"
+          ],
+          [
+            "беззнаковый uint32_t",
+            "uint32_t"
+          ],
+          [
+            "знаковый int32_t",
+            "int32_t"
+          ],
+          [
+            "число float",
+            "float"
+          ],
+          [
+            "double double",
+            "double"
+          ],
+          [
+            "байт uint8_t",
+            "uint8_t"
+          ],
+          [
+            "логический bool",
+            "bool"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "до",
+            "MS"
+          ],
+          [
+            "всегда",
+            "FOREVER"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "seeed_freertos_queue_messages_waiting": {
+    "message0": "очередь %1 ожидающих сообщений",
+    "tooltip": "Возвращает количество элементов в очереди"
+  },
+  "seeed_freertos_semaphore_create": {
+    "message0": "создать семафор %1 тип %2 макс %3 начальное %4",
+    "tooltip": "Создает бинарный, mutex или счетный семафор",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "бинарный",
+            "BINARY"
+          ],
+          [
+            "мьютекс",
+            "MUTEX"
+          ],
+          [
+            "счетный",
+            "COUNTING"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "seeed_freertos_semaphore_take": {
+    "message0": "взять семафор %1 ждать %2 %3 мс",
+    "tooltip": "Пытается взять семафор или mutex",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "до",
+            "MS"
+          ],
+          [
+            "всегда",
+            "FOREVER"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "seeed_freertos_semaphore_give": {
+    "message0": "освободить семафор %1",
+    "tooltip": "Освобождает семафор или mutex"
+  },
+  "seeed_freertos_semaphore_give_from_isr": {
+    "message0": "освободить семафор %1 из ISR",
+    "tooltip": "Безопасно освобождает семафор из прерывания"
+  },
+  "seeed_freertos_attach_interrupt": {
+    "message0": "настроить прерывание пин %1 режим %2",
+    "message1": "выполнить %1",
+    "tooltip": "Создает внешний обработчик прерывания Arduino",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "низкий уровень",
+            "LOW"
+          ],
+          [
+            "фронт вверх",
+            "RISING"
+          ],
+          [
+            "фронт вниз",
+            "FALLING"
+          ],
+          [
+            "изменение",
+            "CHANGE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_freertos_set_error_serial": {
+    "message0": "задать последовательный порт ошибок %1 скорость %2",
+    "tooltip": "Задает последовательный порт для вывода ошибок Seeed FreeRTOS assert, нехватки памяти или переполнения стека"
+  },
+  "seeed_freertos_set_error_led": {
+    "message0": "задать LED ошибки пин %1 активный уровень %2",
+    "tooltip": "Задает пин LED и активный уровень для мигания при критических ошибках FreeRTOS",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "высокий уровень",
+            "HIGH"
+          ],
+          [
+            "низкий уровень",
+            "LOW"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_freertos_get_tick_count": {
+    "message0": "счетчик системных тиков",
+    "tooltip": "Возвращает текущий счетчик тиков FreeRTOS"
+  },
+  "seeed_freertos_get_task_count": {
+    "message0": "текущее число задач",
+    "tooltip": "Возвращает текущее число задач"
+  },
+  "seeed_freertos_get_task_name": {
+    "message0": "имя задачи %1",
+    "tooltip": "Возвращает имя задачи"
+  },
+  "seeed_freertos_get_current_task_name": {
+    "message0": "имя текущей задачи",
+    "tooltip": "Возвращает имя текущей задачи"
+  },
+  "seeed_freertos_get_stack_high_water_mark": {
+    "message0": "запас стека задачи %1",
+    "tooltip": "Возвращает оставшийся запас стека задачи"
+  },
+  "seeed_freertos_get_idle_stack_high_water_mark": {
+    "message0": "запас стека idle-задачи",
+    "tooltip": "Возвращает оставшийся запас стека idle-задачи"
+  },
+  "seeed_freertos_get_free_heap_size": {
+    "message0": "свободные байты кучи",
+    "tooltip": "Возвращает текущие свободные байты кучи FreeRTOS"
+  }
+}
