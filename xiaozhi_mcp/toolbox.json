@@ -1,0 +1,198 @@
+{
+  "kind": "category",
+  "name": "小智 MCP",
+  "icon": "fa-light fa-robot",
+  "colour": "#4A90D9",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "连接"
+    },
+    {
+      "kind": "block",
+      "type": "xiaozhi_mcp_wifi_init",
+      "inputs": {
+        "SSID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "your-ssid"
+            }
+          }
+        },
+        "PASSWORD": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "your-password"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xiaozhi_mcp_init",
+      "inputs": {
+        "ENDPOINT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "wss://api.xiaozhi.me/mcp/?token=your_token"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xiaozhi_mcp_loop"
+    },
+    {
+      "kind": "label",
+      "text": "工具注册"
+    },
+    {
+      "kind": "block",
+      "type": "xiaozhi_mcp_add_tool_param",
+      "inputs": {
+        "TOOL_NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "my_tool"
+            }
+          }
+        },
+        "PARAM_NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "state"
+            }
+          }
+        },
+        "PARAM_TITLE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "状态"
+            }
+          }
+        },
+        "PARAM_DESC": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "on/off"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xiaozhi_mcp_register_tool",
+      "inputs": {
+        "TOOL_NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "my_tool"
+            }
+          }
+        },
+        "DESCRIPTION": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "控制设备"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "工具调用"
+    },
+    {
+      "kind": "block",
+      "type": "xiaozhi_mcp_on_tool",
+      "inputs": {
+        "TOOL_NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "my_tool"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xiaozhi_mcp_get_string",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "state"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xiaozhi_mcp_get_number",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xiaozhi_mcp_get_bool",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "enabled"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xiaozhi_mcp_return_result",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "success"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "logic_boolean",
+            "fields": {
+              "BOOL": "TRUE"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
