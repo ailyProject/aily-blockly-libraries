@@ -1,11 +1,11 @@
 # Huoshan AI Voice
 
-ESP32 voice conversation blocks for WiFi, I2S microphone/speaker, Doubao ASR/TTS, and Coze multi-turn chat.
+ESP32 voice conversation blocks for WiFi, I2S microphone/speaker, Doubao ASR/TTS, Coze multi-turn chat, and an optional LVGL touch screen panel.
 
 ## Library Info
 - **Name**: @aily-project/lib-huoshan-ai-voice
-- **Version**: 0.1.0
-- **Runtime**: ESP32/ESP32-S3, WiFi, ArduinoJson, WebSockets, legacy ESP-IDF I2S
+- **Version**: 0.2.5
+- **Runtime**: ESP32/ESP32-S3, WiFi, ArduinoJson, WebSockets, legacy ESP-IDF I2S; optional ST7789/TFT_eSPI + LVGL screen with direct FT6336U-compatible I2C touch reads
 
 ## Block Definitions
 
@@ -30,6 +30,12 @@ ESP32 voice conversation blocks for WiFi, I2S microphone/speaker, Doubao ASR/TTS
 | `huoshan_ai_get_last_asr_text` | Value | none | `huoshan_ai_get_last_asr_text()` | `HuoshanAIVoice.lastAsrText()` |
 | `huoshan_ai_get_last_reply_text` | Value | none | `huoshan_ai_get_last_reply_text()` | `HuoshanAIVoice.lastReplyText()` |
 | `huoshan_ai_get_last_error` | Value | none | `huoshan_ai_get_last_error()` | `HuoshanAIVoice.lastError()` |
+| `huoshan_ai_screen_config` | Statement | WIDTH(field_number), HEIGHT(field_number), ROTATION(dropdown), BRIGHTNESS(field_number), BL(field_number), MISO(field_number), MOSI(field_number), SCLK(field_number), CS(field_number), DC(field_number), RST(field_number), TOUCH_SDA(field_number), TOUCH_SCL(field_number), TOUCH_RST(field_number), TOUCH_INT(field_number) | `huoshan_ai_screen_config(240, 320, LV_DISPLAY_ROTATION_0, 80, 8, 15, 17, 16, 5, 7, 6, 10, 13, 9, 12)` | `HuoshanAIVoice.configScreen(width, height, brightness);` |
+| `huoshan_ai_screen_begin` | Statement | TOUCH_TO_TALK(dropdown), AUTO_MESSAGES(dropdown) | `huoshan_ai_screen_begin(true, true)` | `HuoshanAIVoice.beginScreen(touchToTalk, autoMessages);` |
+| `huoshan_ai_screen_set_brightness` | Statement | VALUE(input_value) | `huoshan_ai_screen_set_brightness(math_number(80))` | `HuoshanAIVoice.setScreenBrightness(value);` |
+| `huoshan_ai_screen_set_status` | Statement | TEXT(input_value) | `huoshan_ai_screen_set_status(text("准备就绪"))` | `HuoshanAIVoice.setScreenStatus(text);` |
+| `huoshan_ai_screen_add_message` | Statement | ROLE(dropdown), TEXT(input_value) | `huoshan_ai_screen_add_message(system, text("Ready"))` | `HuoshanAIVoice.addScreenMessage(role, text);` |
+| `huoshan_ai_screen_clear_messages` | Statement | none | `huoshan_ai_screen_clear_messages()` | `HuoshanAIVoice.clearScreenMessages();` |
 
 ## Parameter Options
 
@@ -37,6 +43,9 @@ ESP32 voice conversation blocks for WiFi, I2S microphone/speaker, Doubao ASR/TTS
 |-----------|--------|-------------|
 | PORT | `I2S_NUM_0`, `I2S_NUM_1` | ESP32 I2S peripheral port. Do not use the same port for microphone and speaker. |
 | SPEAK | `true`, `false` | Whether Coze replies are played with Doubao TTS. |
+| ROTATION | `LV_DISPLAY_ROTATION_0`, `LV_DISPLAY_ROTATION_90`, `LV_DISPLAY_ROTATION_180`, `LV_DISPLAY_ROTATION_270` | LVGL display rotation for the optional screen panel. |
+| TOUCH_TO_TALK, AUTO_MESSAGES | `true`, `false` | Enable touch press/release voice chat and automatic ASR/Coze message display. |
+| ROLE | `user`, `assistant`, `system` | Screen message role. |
 | VOICE | `zh_female_wanwanxiaohe_moon_bigtts`, `zh_male_silang_mars_bigtts`, `zh_female_tianmeixiaoyuan_moon_bigtts`, `ICL_zh_male_nuanxintitie_tob`, `ICL_zh_female_chengshujiejie_tob`, `ICL_zh_female_wumeiyujie_tob`, `ICL_zh_female_xingganyujie_tob`, `ICL_zh_female_aojiaonvyou_tob`, `zh_male_sunwukong_mars_bigtts`, `zh_male_xionger_mars_bigtts`, `zh_female_peiqi_mars_bigtts`, `zh_female_wuzetian_mars_bigtts`, `zh_female_daimengchuanmei_moon_bigtts`, `zh_male_beijingxiaoye_moon_bigtts`, `zh_male_shaonianzixin_moon_bigtts`, `zh_female_meilinvyou_moon_bigtts`, `zh_male_shenyeboke_moon_bigtts`, `zh_female_sajiaonvyou_moon_bigtts`, `zh_female_yuanqinvyou_moon_bigtts`, `zh_male_guangxiyuanzhou_moon_bigtts`, `zh_female_meituojieer_moon_bigtts`, `zh_male_yuzhouzixuan_moon_bigtts`, `zh_female_linjianvhai_moon_bigtts`, `zh_female_gaolengyujie_moon_bigtts`, `zh_male_yuanboxiaoshu_moon_bigtts`, `zh_male_yangguangqingnian_moon_bigtts`, `zh_female_shuangkuaisisi_moon_bigtts`, `zh_male_wennuanahu_moon_bigtts` | Doubao TTS voice_type. |
 
 ## ABS Examples
@@ -77,6 +86,25 @@ arduino_loop()
 
 Microphone gain is limited to 1-16. Start with 4. If the serial log warns that microphone audio is clipping, reduce the gain; only increase it after enabling verbose diagnostics and confirming that `peak` and `avgAbs` remain consistently low. The microphone task captures 10ms PCM frames, while the ASR task follows the source PIO ring-buffer model and aggregates them into 1280-byte upload packets. This keeps each binary WebSocket payload on the Aily WebSockets single-write path. On ESP32-S3 with PSRAM the ASR buffer is 512KB, enough for a full 15-second 16kHz PCM16 mono recording; boards without PSRAM fall back to 32KB. Network backpressure never blocks I2S capture.
 
+### Touch Screen Voice Panel
+
+This enables the optional ST7789/LVGL/FT6336U panel. Press and hold the bottom button to record; release it to run ASR, Coze chat, and optional TTS from a background task while LVGL keeps refreshing.
+
+```abs
+arduino_setup()
+    serial_begin(Serial, 115200)
+    huoshan_ai_config(text("doubao-app-id"), text("doubao-access-token"), text("coze-token"), text("coze-bot-id"), text(""))
+    huoshan_ai_wifi_connect(text("wifi-ssid"), text("wifi-password"), math_number(20000))
+    huoshan_ai_mic_config(I2S_NUM_1, math_number(42), math_number(2), math_number(1), math_number(4), math_number(15))
+    huoshan_ai_speaker_config(I2S_NUM_0, math_number(39), math_number(40), math_number(38), math_number(0.9))
+    huoshan_ai_begin()
+    huoshan_ai_screen_config(240, 320, LV_DISPLAY_ROTATION_0, 80, 8, 15, 17, 16, 5, 7, 6, 10, 13, 9, 12)
+    huoshan_ai_screen_begin(true, true)
+    huoshan_ai_screen_add_message(system, text("触摸按钮开始对话"))
+
+arduino_loop()
+```
+
 ### Text-Only Coze Chat With Optional Speech
 
 ```abs
@@ -91,13 +119,17 @@ arduino_setup()
 
 ## Notes
 
-1. **Initialization order**: call `huoshan_ai_config`, WiFi, I2S pin config, optional voice/volume/speed, then `huoshan_ai_begin`.
+1. **Initialization order**: call `huoshan_ai_config`, WiFi, I2S pin config, optional voice/volume/speed, then `huoshan_ai_begin`. For the screen panel, call `huoshan_ai_screen_config` and `huoshan_ai_screen_begin` after `huoshan_ai_begin`.
 2. **Credentials**: use `text("...")` for all tokens and IDs, including numeric-looking App ID or Bot ID values.
 3. **User ID**: pass `text("")` to use the ESP32 chip ID automatically. Configure USER_ID only if Coze requires a stable custom user id.
 4. **I2S defaults from the source project**: microphone `I2S_NUM_1/BCLK=42/WS=2/DIN=1`, speaker `I2S_NUM_0/BCLK=39/WS=40/DOUT=38`.
-5. **Audio format**: ASR input is 16kHz PCM16 mono; TTS output is 16kHz PCM converted to I2S 32-bit samples for MAX98357-style amplifiers.
-6. **Streaming behavior**: `huoshan_ai_start_listening` starts recording and opens a streaming ASR task. `huoshan_ai_stop_listening_and_chat` finalizes ASR, sends the recognized text to Coze, and sends each completed Coze sentence to WebSocket TTS while later text is still arriving.
-7. **Board/project config**: the package includes `partitions.csv` and a postinstall helper that sets a 16MB custom partition, OPI PSRAM, QIO flash mode, and 921600 upload speed for ESP32-S3 projects when installed in Aily.
-8. **Streaming ASR model**: ASR follows the source PIO project model. The recording task writes PCM into a FreeRTOS ring buffer, the ASR task sends small PCM packets, and after recording stops it sends the final audio marker and waits for the final `sequence < 0` recognition result. Full-recording retry is not used as the normal path; it is only used as a bounded recovery path when streaming ASR fails before producing final text.
-9. **Diagnostics**: default serial logs are concise: state changes, WiFi/IP, I2S readiness, recognized ASR text, warnings, and runtime errors. Detailed timing and packet metrics are still in the generated runtime behind `HUOSHAN_AI_VERBOSE_LOG`; set it to `true` temporarily when diagnosing capture percentage, ASR send timing, Coze/TTS latency, queue underruns, or reconnect counts. Pure punctuation or control-only Coze fragments are skipped instead of being sent to TTS. Use `huoshan_ai_get_last_error()` for the latest runtime error.
-10. **Common ABS error**: do not write bare strings for input_value slots. Use `text("ssid")`, `math_number(20000)`, and dropdown enum values exactly as listed.
+5. **Screen defaults from the source project**: `240x320`, `LV_DISPLAY_ROTATION_0`, brightness `80`, LCD `BL=8/MISO=15/MOSI=17/SCLK=16/CS=5/DC=7/RST=6`, touch `SDA=10/SCL=13/RST=9/INT=12`.
+6. **Screen dependencies are optional**: audio-only projects do not inject LVGL, TFT_eSPI, FT6336U, or screen build macros. Any screen block enables `HUOSHAN_AI_SCREEN_ENABLED=1`, `LV_USE_TFT_ESPI=1`, ST7789/TFT_eSPI macros, and the screen runtime.
+7. **Screen font**: the screen runtime uses LVGL's built-in `lv_font_source_han_sans_sc_14_cjk` Source Han Sans SC font. Screen blocks enable `LV_FONT_SOURCE_HAN_SANS_SC_14_CJK=1` and `LV_FONT_FMT_TXT_LARGE=1` so the font is compiled from the LVGL dependency without any `huoshan-ai-voice` private font header. Screen strings are sanitized before display to drop emoji, control characters, variation selectors, private-use glyphs, and invalid UTF-8 bytes that the font cannot render.
+8. **Audio format**: ASR input is 16kHz PCM16 mono; TTS output is 16kHz PCM converted to I2S 32-bit samples for MAX98357-style amplifiers.
+9. **Streaming behavior**: `huoshan_ai_start_listening` starts recording and opens a streaming ASR task. `huoshan_ai_stop_listening_and_chat` finalizes ASR, sends the recognized text to Coze, and sends each completed Coze sentence to WebSocket TTS while later text is still arriving.
+10. **Screen auto messages**: when `AUTO_MESSAGES` is true, recognized ASR text is appended as a user message and the Coze reply updates the active assistant message as streaming fragments arrive.
+11. **Board/project config**: the package includes `partitions.csv` and a postinstall helper that sets a 16MB custom partition, OPI PSRAM, QIO flash mode, and 921600 upload speed for ESP32-S3 projects when installed in Aily. The helper also ensures the project root `package.json` directly lists ArduinoJson, WebSockets, TFT_eSPI, and LVGL, because Aily preprocessing copies only direct project dependencies into `.temp/libraries`. It enables `LV_FONT_SOURCE_HAN_SANS_SC_14_CJK` and `LV_FONT_FMT_TXT_LARGE` in local/temp LVGL config for the screen Chinese font, removes stale limited/private font sources, and removes stale project-level screen/font macros from older `huoshan-ai-voice` builds before the current screen blocks add their active macros.
+12. **Streaming ASR model**: ASR follows the source PIO project model. The recording task writes PCM into a FreeRTOS ring buffer, the ASR task sends small PCM packets, and after recording stops it sends the final audio marker and waits for the final `sequence < 0` recognition result. Full-recording retry is not used as the normal path; it is only used as a bounded recovery path when streaming ASR fails before producing final text.
+13. **Diagnostics**: default serial logs are concise: state changes, WiFi/IP, I2S readiness, recognized ASR text, warnings, and runtime errors. Detailed timing and packet metrics are still in the generated runtime behind `HUOSHAN_AI_VERBOSE_LOG`; set it to `true` temporarily when diagnosing capture percentage, ASR send timing, Coze/TTS latency, queue underruns, or reconnect counts. Pure punctuation or control-only Coze fragments are skipped instead of being sent to TTS. Use `huoshan_ai_get_last_error()` for the latest runtime error.
+14. **Common ABS error**: do not write bare strings for input_value slots. Use `text("ssid")`, `math_number(20000)`, and dropdown enum values exactly as listed.

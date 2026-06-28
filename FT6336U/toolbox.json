@@ -1,0 +1,52 @@
+{
+  "kind": "category",
+  "name": "FT6336U触摸屏",
+  "name_en": "FT6336U Touch",
+  "icon": "fa-solid fa-hand-pointer",
+  "colour": "#FF6B6B",
+  "contents": [
+    { "kind": "label", "text": "初始化" },
+    {
+      "kind": "block",
+      "type": "ft6336u_init",
+      "inputs": {
+        "RST": { "shadow": { "type": "math_number", "fields": { "NUM": 21 } } },
+        "INT": { "shadow": { "type": "math_number", "fields": { "NUM": 34 } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ft6336u_init_with_pins",
+      "inputs": {
+        "SDA": { "shadow": { "type": "math_number", "fields": { "NUM": 22 } } },
+        "SCL": { "shadow": { "type": "math_number", "fields": { "NUM": 23 } } },
+        "RST": { "shadow": { "type": "math_number", "fields": { "NUM": 21 } } },
+        "INT": { "shadow": { "type": "math_number", "fields": { "NUM": 34 } } }
+      }
+    },
+    { "kind": "label", "text": "实时读取" },
+    { "kind": "block", "type": "ft6336u_touch_count" },
+    { "kind": "block", "type": "ft6336u_read_gesture" },
+    { "kind": "block", "type": "ft6336u_read_touch" },
+    { "kind": "label", "text": "扫描缓存" },
+    { "kind": "block", "type": "ft6336u_scan" },
+    { "kind": "block", "type": "ft6336u_scan_touch_count" },
+    { "kind": "block", "type": "ft6336u_scan_point" },
+    { "kind": "block", "type": "ft6336u_scan_point_pressed" },
+    { "kind": "label", "text": "配置" },
+    { "kind": "block", "type": "ft6336u_set_device_mode" },
+    { "kind": "block", "type": "ft6336u_set_ctrl_mode" },
+    { "kind": "block", "type": "ft6336u_set_g_mode" },
+    {
+      "kind": "block",
+      "type": "ft6336u_write_gesture_param",
+      "inputs": {
+        "VALUE": { "shadow": { "type": "math_number", "fields": { "NUM": 16 } } }
+      }
+    },
+    { "kind": "label", "text": "参数与信息" },
+    { "kind": "block", "type": "ft6336u_read_mode_param" },
+    { "kind": "block", "type": "ft6336u_read_gesture_param" },
+    { "kind": "block", "type": "ft6336u_read_system_info" }
+  ]
+}
