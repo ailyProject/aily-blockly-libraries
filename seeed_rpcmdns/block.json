@@ -1,0 +1,374 @@
+[
+  {
+    "type": "seeed_rpcmdns_begin",
+    "message0": "启动 mDNS 服务 主机名 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "HOSTNAME",
+        "check": "String"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#00897B",
+    "tooltip": "启动 Wio Terminal RPC mDNS 响应器，主机可通过 hostname.local 访问",
+    "icon": "fa-light fa-globe"
+  },
+  {
+    "type": "seeed_rpcmdns_begin_or_print",
+    "message0": "启动 mDNS 服务 主机名 %1 失败时打印错误",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "HOSTNAME",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00897B",
+    "tooltip": "启动 mDNS 响应器并在启动失败时通过 Serial 输出错误信息",
+    "icon": "fa-light fa-globe"
+  },
+  {
+    "type": "seeed_rpcmdns_end",
+    "message0": "停止 mDNS 服务",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00897B",
+    "tooltip": "释放并停止 mDNS 服务",
+    "icon": "fa-light fa-globe"
+  },
+  {
+    "type": "seeed_rpcmdns_set_instance_name",
+    "message0": "设置 mDNS 实例名 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00897B",
+    "tooltip": "设置服务实例显示名称，长度应不超过 63 个字符",
+    "icon": "fa-light fa-tag"
+  },
+  {
+    "type": "seeed_rpcmdns_add_service",
+    "message0": "注册 mDNS 服务 类型 %1 协议 %2 端口 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SERVICE",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROTO",
+        "options": [
+          [
+            "TCP",
+            "tcp"
+          ],
+          [
+            "UDP",
+            "udp"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00ACC1",
+    "tooltip": "注册一个 mDNS-SD 服务，例如 http/tcp/80",
+    "icon": "fa-light fa-broadcast-tower"
+  },
+  {
+    "type": "seeed_rpcmdns_add_service_txt",
+    "message0": "添加 mDNS 服务 TXT 服务 %1 协议 %2 键 %3 值 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SERVICE",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROTO",
+        "options": [
+          [
+            "TCP",
+            "tcp"
+          ],
+          [
+            "UDP",
+            "udp"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "String"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#00ACC1",
+    "tooltip": "为已注册的 mDNS 服务添加 TXT 记录",
+    "icon": "fa-light fa-list"
+  },
+  {
+    "type": "seeed_rpcmdns_enable_arduino",
+    "message0": "启用 Arduino OTA mDNS 服务 端口 %1 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AUTH",
+        "options": [
+          [
+            "无需认证",
+            "FALSE"
+          ],
+          [
+            "需要认证",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00ACC1",
+    "tooltip": "广播 _arduino._tcp 服务，供 Arduino 网络上传工具发现",
+    "icon": "fa-light fa-upload"
+  },
+  {
+    "type": "seeed_rpcmdns_disable_arduino",
+    "message0": "停用 Arduino OTA mDNS 服务",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00ACC1",
+    "tooltip": "移除 _arduino._tcp mDNS 服务广播",
+    "icon": "fa-light fa-upload"
+  },
+  {
+    "type": "seeed_rpcmdns_enable_workstation",
+    "message0": "启用工作站 mDNS 服务 网络接口 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "INTERFACE",
+        "options": [
+          [
+            "STA",
+            "ESP_IF_WIFI_STA"
+          ],
+          [
+            "AP",
+            "ESP_IF_WIFI_AP"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00ACC1",
+    "tooltip": "广播 _workstation._tcp 服务，用于网络设备发现",
+    "icon": "fa-light fa-desktop"
+  },
+  {
+    "type": "seeed_rpcmdns_disable_workstation",
+    "message0": "停用工作站 mDNS 服务",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00ACC1",
+    "tooltip": "移除 _workstation._tcp mDNS 服务广播",
+    "icon": "fa-light fa-desktop"
+  },
+  {
+    "type": "seeed_rpcmdns_query_host",
+    "message0": "查询 mDNS 主机 %1 超时 %2 毫秒 的 IP",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "HOST",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": "Number"
+      }
+    ],
+    "output": "String",
+    "colour": "#3949AB",
+    "tooltip": "通过 mDNS 查询 hostname.local 并返回 IPv4 地址字符串",
+    "icon": "fa-light fa-magnifying-glass"
+  },
+  {
+    "type": "seeed_rpcmdns_query_service",
+    "message0": "查询 mDNS 服务 类型 %1 协议 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SERVICE",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROTO",
+        "options": [
+          [
+            "TCP",
+            "tcp"
+          ],
+          [
+            "UDP",
+            "udp"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#3949AB",
+    "tooltip": "查询指定 mDNS-SD 服务，返回发现的服务数量，并缓存结果供结果块读取",
+    "icon": "fa-light fa-magnifying-glass"
+  },
+  {
+    "type": "seeed_rpcmdns_result_hostname",
+    "message0": "mDNS 结果 %1 主机名",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      }
+    ],
+    "output": "String",
+    "colour": "#5E35B1",
+    "tooltip": "读取最近一次服务查询结果中指定索引的主机名",
+    "icon": "fa-light fa-list"
+  },
+  {
+    "type": "seeed_rpcmdns_result_ip",
+    "message0": "mDNS 结果 %1 IPv4 地址",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      }
+    ],
+    "output": "String",
+    "colour": "#5E35B1",
+    "tooltip": "读取最近一次服务查询结果中指定索引的 IPv4 地址",
+    "icon": "fa-light fa-list"
+  },
+  {
+    "type": "seeed_rpcmdns_result_port",
+    "message0": "mDNS 结果 %1 端口",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#5E35B1",
+    "tooltip": "读取最近一次服务查询结果中指定索引的端口号",
+    "icon": "fa-light fa-list"
+  },
+  {
+    "type": "seeed_rpcmdns_result_txt_count",
+    "message0": "mDNS 结果 %1 TXT 数量",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#5E35B1",
+    "tooltip": "读取最近一次服务查询结果中指定索引的 TXT 记录数量",
+    "icon": "fa-light fa-list"
+  },
+  {
+    "type": "seeed_rpcmdns_result_has_txt",
+    "message0": "mDNS 结果 %1 包含 TXT 键 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5E35B1",
+    "tooltip": "判断指定结果是否包含某个 TXT 键",
+    "icon": "fa-light fa-list"
+  },
+  {
+    "type": "seeed_rpcmdns_result_txt_by_key",
+    "message0": "mDNS 结果 %1 TXT 键 %2 的值",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      }
+    ],
+    "output": "String",
+    "colour": "#5E35B1",
+    "tooltip": "读取指定结果中某个 TXT 键对应的值",
+    "icon": "fa-light fa-list"
+  },
+  {
+    "type": "seeed_rpcmdns_result_txt_by_index",
+    "message0": "mDNS 结果 %1 第 %2 个 TXT 值",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "TXT_INDEX",
+        "check": "Number"
+      }
+    ],
+    "output": "String",
+    "colour": "#5E35B1",
+    "tooltip": "按 TXT 索引读取指定结果的 TXT 值",
+    "icon": "fa-light fa-list"
+  }
+]

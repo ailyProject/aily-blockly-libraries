@@ -1,0 +1,388 @@
+{
+  "toolbox_name": "Seeed FreeRTOS",
+  "toolbox_categories": [
+    "المهام وبدء التشغيل",
+    "التحكم بالمهام",
+    "الطوابير",
+    "مزامنة السمافورات",
+    "الإشعارات والمقاطعات",
+    "التشخيص",
+    "قوالب المهام"
+  ],
+  "toolbox_labels": {
+    "任务与启动": "المهام وبدء التشغيل",
+    "任务控制": "التحكم بالمهام",
+    "队列通信": "الطوابير",
+    "信号量同步": "مزامنة السمافورات",
+    "通知与中断": "الإشعارات والمقاطعات",
+    "诊断信息": "التشخيص",
+    "常用任务模板": "قوالب المهام"
+  },
+  "seeed_freertos_task_create": {
+    "message0": "إنشاء مهمة %1 مكدس %2 الأولوية %3",
+    "tooltip": "ينشئ مهمة Seeed FreeRTOS ومعرفها؛ يبدأ المجدول تلقائيا في نهاية setup"
+  },
+  "seeed_freertos_task_function": {
+    "message0": "تنفيذ المهمة %1",
+    "message1": "كرر %1",
+    "tooltip": "يعرّف دالة مهمة Seeed FreeRTOS"
+  },
+  "seeed_freertos_start_scheduler": {
+    "message0": "بدء مجدول FreeRTOS",
+    "tooltip": "يبدأ مجدول FreeRTOS في نهاية setup"
+  },
+  "seeed_freertos_start_tinyusb_task": {
+    "message0": "بدء مهمة TinyUSB في الخلفية",
+    "tooltip": "يبدأ مهمة TinyUSB الخلفية في Seeed FreeRTOS عندما تفعل اللوحة الهدف USE_TINYUSB"
+  },
+  "seeed_freertos_task_delay_ms": {
+    "message0": "تأخير المهمة %1 مللي ثانية",
+    "tooltip": "يؤخر المهمة الحالية بالمللي ثانية"
+  },
+  "seeed_freertos_task_delay_ticks": {
+    "message0": "تأخير المهمة %1 ticks",
+    "tooltip": "يؤخر المهمة الحالية بعدد من تكتات FreeRTOS"
+  },
+  "seeed_freertos_nop_delay_ms": {
+    "message0": "تأخير حماية البدء %1 مللي ثانية",
+    "tooltip": "يستدعي vNopDelayMS من Seeed FreeRTOS، ويستخدم غالبا كتأخير لاستقرار USB قبل بدء المجدول"
+  },
+  "seeed_freertos_task_suspend": {
+    "message0": "تعليق المهمة %1",
+    "tooltip": "يعلق مهمة"
+  },
+  "seeed_freertos_task_resume": {
+    "message0": "استئناف المهمة %1",
+    "tooltip": "يستأنف مهمة"
+  },
+  "seeed_freertos_task_delete": {
+    "message0": "حذف المهمة %1",
+    "tooltip": "يحذف المهمة ويمسح معرفها"
+  },
+  "seeed_freertos_task_delete_current": {
+    "message0": "حذف المهمة الحالية",
+    "tooltip": "يحذف المهمة التي تعمل حاليا"
+  },
+  "seeed_freertos_task_notify": {
+    "message0": "إشعار المهمة %1",
+    "tooltip": "يرسل إشعار مهمة"
+  },
+  "seeed_freertos_task_notify_from_isr": {
+    "message0": "إشعار المهمة %1 من ISR",
+    "tooltip": "يرسل إشعارا للمهمة بأمان من المقاطعة"
+  },
+  "seeed_freertos_task_wait_notification": {
+    "message0": "انتظار إشعار المهمة %1 %2 مللي ثانية",
+    "tooltip": "ينتظر حتى تستقبل المهمة الحالية إشعارا",
+    "args0": [
+      {
+        "options": [
+          [
+            "حتى",
+            "MS"
+          ],
+          [
+            "باستمرار",
+            "FOREVER"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "seeed_freertos_queue_create": {
+    "message0": "إنشاء طابور %1 طول %2 نوع البيانات %3",
+    "tooltip": "ينشئ طابورا من FreeRTOS لبيانات ذات حجم ثابت",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "عدد صحيح int",
+            "int"
+          ],
+          [
+            "عدد صحيح طويل long",
+            "long"
+          ],
+          [
+            "uint32_t بدون إشارة",
+            "uint32_t"
+          ],
+          [
+            "int32_t بإشارة",
+            "int32_t"
+          ],
+          [
+            "عدد عشري float",
+            "float"
+          ],
+          [
+            "دقة مزدوجة double",
+            "double"
+          ],
+          [
+            "بايت uint8_t",
+            "uint8_t"
+          ],
+          [
+            "منطقي bool",
+            "bool"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_freertos_queue_send": {
+    "message0": "إرسال إلى الطابور %1 البيانات %2 النوع %3 الانتظار %4 %5 مللي ثانية",
+    "tooltip": "يرسل عنصرا واحدا إلى الطابور باستخدام متغير مؤقت ذي نوع محدد",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "عدد صحيح int",
+            "int"
+          ],
+          [
+            "عدد صحيح طويل long",
+            "long"
+          ],
+          [
+            "uint32_t بدون إشارة",
+            "uint32_t"
+          ],
+          [
+            "int32_t بإشارة",
+            "int32_t"
+          ],
+          [
+            "عدد عشري float",
+            "float"
+          ],
+          [
+            "دقة مزدوجة double",
+            "double"
+          ],
+          [
+            "بايت uint8_t",
+            "uint8_t"
+          ],
+          [
+            "منطقي bool",
+            "bool"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "حتى",
+            "MS"
+          ],
+          [
+            "باستمرار",
+            "FOREVER"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "seeed_freertos_queue_receive_do": {
+    "message0": "استقبال من الطابور %1 النوع %2 إلى %3 الانتظار %4 %5 مللي ثانية",
+    "message1": "عند النجاح %1",
+    "tooltip": "يستقبل من طابور وينفذ الكتل عند النجاح",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "عدد صحيح int",
+            "int"
+          ],
+          [
+            "عدد صحيح طويل long",
+            "long"
+          ],
+          [
+            "uint32_t بدون إشارة",
+            "uint32_t"
+          ],
+          [
+            "int32_t بإشارة",
+            "int32_t"
+          ],
+          [
+            "عدد عشري float",
+            "float"
+          ],
+          [
+            "دقة مزدوجة double",
+            "double"
+          ],
+          [
+            "بايت uint8_t",
+            "uint8_t"
+          ],
+          [
+            "منطقي bool",
+            "bool"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "حتى",
+            "MS"
+          ],
+          [
+            "باستمرار",
+            "FOREVER"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "seeed_freertos_queue_messages_waiting": {
+    "message0": "عدد الرسائل المنتظرة في الطابور %1",
+    "tooltip": "يعيد عدد العناصر المنتظرة في الطابور"
+  },
+  "seeed_freertos_semaphore_create": {
+    "message0": "إنشاء سمافور %1 النوع %2 الحد الاقصى %3 الابتدائي %4",
+    "tooltip": "ينشئ سمافورا ثنائيا أو mutex أو سمافور عداد",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "ثنائي",
+            "BINARY"
+          ],
+          [
+            "موتكس",
+            "MUTEX"
+          ],
+          [
+            "عداد",
+            "COUNTING"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "seeed_freertos_semaphore_take": {
+    "message0": "أخذ السمافور %1 الانتظار %2 %3 مللي ثانية",
+    "tooltip": "يحاول أخذ سمافور أو mutex",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "حتى",
+            "MS"
+          ],
+          [
+            "باستمرار",
+            "FOREVER"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "seeed_freertos_semaphore_give": {
+    "message0": "تحرير السمافور %1",
+    "tooltip": "يحرر سمافورا أو mutex"
+  },
+  "seeed_freertos_semaphore_give_from_isr": {
+    "message0": "تحرير السمافور %1 من ISR",
+    "tooltip": "يحرر السمافور بأمان من مقاطعة"
+  },
+  "seeed_freertos_attach_interrupt": {
+    "message0": "تهيئة المقاطعة الدبوس %1 النمط %2",
+    "message1": "نفذ %1",
+    "tooltip": "ينشئ معالج مقاطعة خارجية في Arduino",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "مستوى منخفض",
+            "LOW"
+          ],
+          [
+            "حافة صاعدة",
+            "RISING"
+          ],
+          [
+            "حافة هابطة",
+            "FALLING"
+          ],
+          [
+            "تغيير",
+            "CHANGE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_freertos_set_error_serial": {
+    "message0": "تعيين منفذ تسلسلي للأخطاء %1 معدل الباود %2",
+    "tooltip": "يضبط المنفذ التسلسلي المستخدم لإخراج أخطاء Seeed FreeRTOS مثل assert أو نفاد الذاكرة أو فيضان المكدس"
+  },
+  "seeed_freertos_set_error_led": {
+    "message0": "تعيين LED الخطأ الدبوس %1 المستوى النشط %2",
+    "tooltip": "يضبط دبوس LED والمستوى النشط للوميض عند أخطاء FreeRTOS الفادحة",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "مستوى عال",
+            "HIGH"
+          ],
+          [
+            "مستوى منخفض",
+            "LOW"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_freertos_get_tick_count": {
+    "message0": "عدد تكتات النظام",
+    "tooltip": "يعيد عدد تكتات FreeRTOS الحالية"
+  },
+  "seeed_freertos_get_task_count": {
+    "message0": "عدد المهام الحالي",
+    "tooltip": "يعيد عدد المهام الحالي"
+  },
+  "seeed_freertos_get_task_name": {
+    "message0": "اسم المهمة %1",
+    "tooltip": "يعيد اسم مهمة"
+  },
+  "seeed_freertos_get_current_task_name": {
+    "message0": "اسم المهمة الحالية",
+    "tooltip": "يعيد اسم المهمة الحالية"
+  },
+  "seeed_freertos_get_stack_high_water_mark": {
+    "message0": "الهامش المتبقي للمكدس للمهمة %1",
+    "tooltip": "يعيد مقدار المكدس المتبقي للمهمة"
+  },
+  "seeed_freertos_get_idle_stack_high_water_mark": {
+    "message0": "الهامش المتبقي لمكدس مهمة الخمول",
+    "tooltip": "يعيد مقدار المكدس المتبقي لمهمة الخمول"
+  },
+  "seeed_freertos_get_free_heap_size": {
+    "message0": "بايتات الهيب الحرة",
+    "tooltip": "يعيد بايتات الهيب الحرة الحالية في FreeRTOS"
+  }
+}

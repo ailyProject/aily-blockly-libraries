@@ -34,18 +34,6 @@ function seeedRpcWiFiEnsureDNS(generator) {
   generator.addLibrary('Seeed_DNSServer', '#include <DNSServer.h>');
 }
 
-function seeedRpcWiFiEnsureMDNS(generator) {
-  seeedRpcWiFiEnsureWiFi(generator);
-  generator.addLibrary('Seeed_RPCmDNS', '#include <RPCmDNS.h>');
-}
-
-function seeedRpcWiFiEnsureWiFiManager(generator) {
-  seeedRpcWiFiEnsureWiFi(generator);
-  generator.addLibrary('Seeed_DNSServer', '#include <DNSServer.h>');
-  generator.addLibrary('Seeed_WebServer', '#include <WebServer.h>');
-  generator.addLibrary('Seeed_WiFiManager', '#include <WiFiManager.h>');
-}
-
 function seeedRpcWiFiGetVar(block, fieldName, defaultName) {
   const varField = block.getField(fieldName);
   return varField ? varField.getText() : defaultName;
@@ -567,89 +555,4 @@ Arduino.forBlock['seeed_rpcwifi_dns_process'] = function(block, generator) {
   const varName = seeedRpcWiFiGetVar(block, 'VAR', 'dns');
   seeedRpcWiFiEnsureDNS(generator);
   return varName + '.processNextRequest();\n';
-};
-
-Arduino.forBlock['seeed_rpcwifi_mdns_begin'] = function(block, generator) {
-  const hostname = generator.valueToCode(block, 'HOSTNAME', generator.ORDER_ATOMIC) || '"WioTerminal"';
-  seeedRpcWiFiEnsureMDNS(generator);
-  ensureSerialBegin('Serial', generator);
-  let code = 'if (!MDNS.begin(String(' + hostname + ').c_str())) {\n';
-  code += '  Serial.println("Error starting mDNS");\n';
-  code += '}\n';
-  return code;
-};
-
-Arduino.forBlock['seeed_rpcwifi_mdns_add_service'] = function(block, generator) {
-  const service = generator.valueToCode(block, 'SERVICE', generator.ORDER_ATOMIC) || '"http"';
-  const proto = block.getFieldValue('PROTO') || 'tcp';
-  const port = generator.valueToCode(block, 'PORT', generator.ORDER_ATOMIC) || '80';
-  seeedRpcWiFiEnsureMDNS(generator);
-  return 'MDNS.addService(String(' + service + ').c_str(), "' + proto + '", ' + port + ');\n';
-};
-
-Arduino.forBlock['seeed_rpcwifi_mdns_query_host'] = function(block, generator) {
-  const host = generator.valueToCode(block, 'HOST', generator.ORDER_ATOMIC) || '"WioTerminal"';
-  const timeout = generator.valueToCode(block, 'TIMEOUT', generator.ORDER_ATOMIC) || '2000';
-  seeedRpcWiFiEnsureMDNS(generator);
-  return ['MDNS.queryHost(String(' + host + ').c_str(), ' + timeout + ').toString()', generator.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['seeed_rpcwifi_mdns_query_service'] = function(block, generator) {
-  const service = generator.valueToCode(block, 'SERVICE', generator.ORDER_ATOMIC) || '"http"';
-  const proto = block.getFieldValue('PROTO') || 'tcp';
-  seeedRpcWiFiEnsureMDNS(generator);
-  return ['MDNS.queryService(String(' + service + ').c_str(), "' + proto + '")', generator.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['seeed_rpcwifi_wifimanager_create'] = function(block, generator) {
-  const varName = seeedRpcWiFiAttachVarMonitor(block, 'WiFiManager', 'wm', '_seeedRpcWiFiManagerVarMonitor');
-  seeedRpcWiFiEnsureWiFiManager(generator);
-  generator.addObject(varName, 'WiFiManager ' + varName + ';');
-  return '';
-};
-
-Arduino.forBlock['seeed_rpcwifi_wifimanager_auto_connect'] = function(block, generator) {
-  const varName = seeedRpcWiFiGetVar(block, 'VAR', 'wm');
-  const apName = generator.valueToCode(block, 'AP_NAME', generator.ORDER_ATOMIC) || '"AutoConnectAP"';
-  const apPassword = generator.valueToCode(block, 'AP_PASSWORD', generator.ORDER_ATOMIC) || '""';
-  seeedRpcWiFiEnsureWiFiManager(generator);
-  return [varName + '.autoConnect(String(' + apName + ').c_str(), String(' + apPassword + ').c_str())', generator.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['seeed_rpcwifi_wifimanager_start_portal'] = function(block, generator) {
-  const varName = seeedRpcWiFiGetVar(block, 'VAR', 'wm');
-  const apName = generator.valueToCode(block, 'AP_NAME', generator.ORDER_ATOMIC) || '"ConfigPortal"';
-  const apPassword = generator.valueToCode(block, 'AP_PASSWORD', generator.ORDER_ATOMIC) || '""';
-  seeedRpcWiFiEnsureWiFiManager(generator);
-  return [varName + '.startConfigPortal(String(' + apName + ').c_str(), String(' + apPassword + ').c_str())', generator.ORDER_FUNCTION_CALL];
-};
-
-Arduino.forBlock['seeed_rpcwifi_wifimanager_reset'] = function(block, generator) {
-  const varName = seeedRpcWiFiGetVar(block, 'VAR', 'wm');
-  seeedRpcWiFiEnsureWiFiManager(generator);
-  return varName + '.resetSettings();\n';
-};
-
-Arduino.forBlock['seeed_rpcwifi_wifimanager_set_timeout'] = function(block, generator) {
-  const varName = seeedRpcWiFiGetVar(block, 'VAR', 'wm');
-  const type = block.getFieldValue('TYPE') || 'CONFIG';
-  const seconds = generator.valueToCode(block, 'SECONDS', generator.ORDER_ATOMIC) || '120';
-  seeedRpcWiFiEnsureWiFiManager(generator);
-  if (type === 'CONNECT') {
-    return varName + '.setConnectTimeout(' + seconds + ');\n';
-  }
-  return varName + '.setConfigPortalTimeout(' + seconds + ');\n';
-};
-
-Arduino.forBlock['seeed_rpcwifi_wifimanager_get_info'] = function(block, generator) {
-  const varName = seeedRpcWiFiGetVar(block, 'VAR', 'wm');
-  const info = block.getFieldValue('INFO') || 'SSID';
-  seeedRpcWiFiEnsureWiFiManager(generator);
-  if (info === 'PORTAL_SSID') {
-    return [varName + '.getConfigPortalSSID()', generator.ORDER_FUNCTION_CALL];
-  }
-  if (info === 'PASSWORD') {
-    return [varName + '.getPassword()', generator.ORDER_FUNCTION_CALL];
-  }
-  return [varName + '.getSSID()', generator.ORDER_FUNCTION_CALL];
 };

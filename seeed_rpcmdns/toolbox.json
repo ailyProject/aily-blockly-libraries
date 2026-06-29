@@ -1,0 +1,314 @@
+{
+  "kind": "category",
+  "name": "RPC mDNS",
+  "icon": "fa-light fa-globe",
+  "colour": "#00897B",
+  "contents": [
+    {
+      "kind": "category",
+      "name": "启动与实例",
+      "icon": "fa-light fa-globe",
+      "colour": "#00897B",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_begin",
+          "inputs": {
+            "HOSTNAME": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "WioTerminal"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_begin_or_print",
+          "inputs": {
+            "HOSTNAME": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "WioTerminal"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_set_instance_name",
+          "inputs": {
+            "NAME": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Wio Terminal"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_end"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "服务广播",
+      "icon": "fa-light fa-broadcast-tower",
+      "colour": "#00ACC1",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_add_service",
+          "inputs": {
+            "SERVICE": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "http"
+                }
+              }
+            },
+            "PORT": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 80
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_add_service_txt",
+          "inputs": {
+            "SERVICE": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "http"
+                }
+              }
+            },
+            "KEY": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "board"
+                }
+              }
+            },
+            "VALUE": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Wio Terminal"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_enable_arduino",
+          "inputs": {
+            "PORT": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 3232
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_disable_arduino"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_enable_workstation"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_disable_workstation"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "发现与结果",
+      "icon": "fa-light fa-magnifying-glass",
+      "colour": "#3949AB",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_query_host",
+          "inputs": {
+            "HOST": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "WioTerminal"
+                }
+              }
+            },
+            "TIMEOUT": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 2000
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_query_service",
+          "inputs": {
+            "SERVICE": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "http"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_result_hostname",
+          "inputs": {
+            "INDEX": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_result_ip",
+          "inputs": {
+            "INDEX": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_result_port",
+          "inputs": {
+            "INDEX": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_result_txt_count",
+          "inputs": {
+            "INDEX": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_result_has_txt",
+          "inputs": {
+            "INDEX": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "KEY": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "board"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_result_txt_by_key",
+          "inputs": {
+            "INDEX": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "KEY": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "board"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_rpcmdns_result_txt_by_index",
+          "inputs": {
+            "INDEX": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "TXT_INDEX": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

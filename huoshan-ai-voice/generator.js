@@ -1,5 +1,172 @@
 // Huoshan AI Voice generator for Aily Blockly.
 
+const HUOSHAN_AI_SCREEN_DEFAULTS = {
+  width: '240',
+  height: '320',
+  rotation: 'LV_DISPLAY_ROTATION_0',
+  brightness: '80',
+  bl: '8',
+  miso: '15',
+  mosi: '17',
+  sclk: '16',
+  cs: '5',
+  dc: '7',
+  rst: '6',
+  touchSda: '10',
+  touchScl: '13',
+  touchRst: '9',
+  touchInt: '12'
+};
+
+const HUOSHAN_AI_SCREEN_PROJECT_MACRO_NAMES = [
+  'HUOSHAN_AI_SCREEN_ENABLED',
+  'HUOSHAN_AI_SCREEN_WIDTH',
+  'HUOSHAN_AI_SCREEN_HEIGHT',
+  'HUOSHAN_AI_SCREEN_ROTATION',
+  'HUOSHAN_AI_SCREEN_BL',
+  'HUOSHAN_AI_SCREEN_TOUCH_SDA',
+  'HUOSHAN_AI_SCREEN_TOUCH_SCL',
+  'HUOSHAN_AI_SCREEN_TOUCH_RST',
+  'HUOSHAN_AI_SCREEN_TOUCH_INT',
+  'HUOSHAN_AI_STATUS_BAR_HEIGHT',
+  'HUOSHAN_AI_SPEAK_BUTTON_HEIGHT',
+  'HUOSHAN_AI_SYMBOL_MIC',
+  'LV_FONT_SOURCE_HAN_SANS_SC_14_CJK',
+  'ST7789_DRIVER',
+  'TFT_WIDTH',
+  'TFT_HEIGHT',
+  'TFT_INVERSION_OFF',
+  'TFT_RGB_ORDER',
+  'TFT_BL',
+  'TFT_BACKLIGHT_ON',
+  'TFT_MISO',
+  'TFT_MOSI',
+  'TFT_SCLK',
+  'TFT_CS',
+  'TFT_DC',
+  'TFT_RST',
+  'TOUCH_CS',
+  'SPI_FREQUENCY',
+  'TFT_FREQUENCY',
+  'USE_HSPI_PORT',
+  'LV_CONF_INCLUDE_SIMPLE',
+  'LV_LVGL_H_INCLUDE_SIMPLE',
+  'LV_USE_TFT_ESPI',
+  'LV_FONT_SOURCE_HAN_SANS_SC_14_CJK',
+  'LV_FONT_FMT_TXT_LARGE'
+];
+
+let huoshanAiProjectMacroPromise = null;
+
+function huoshanAiQueueProjectMacro(action, label) {
+  if (typeof window === 'undefined' || !window['projectService']) return;
+  const service = window['projectService'];
+  if (typeof action !== 'function') return;
+  if (!huoshanAiProjectMacroPromise) huoshanAiProjectMacroPromise = Promise.resolve();
+  huoshanAiProjectMacroPromise = huoshanAiProjectMacroPromise
+    .then(() => action(service))
+    .catch(err => {
+      if (typeof console !== 'undefined') console.error('huoshan-ai-voice macro failed:', label, err);
+    });
+}
+
+function huoshanAiAddProjectMacro(macro) {
+  huoshanAiQueueProjectMacro(service => {
+    if (service.addMacro) return service.addMacro(macro);
+    return null;
+  }, macro);
+}
+
+function huoshanAiRemoveProjectMacro(name) {
+  huoshanAiQueueProjectMacro(service => {
+    if (service.removeMacro) return service.removeMacro(name);
+    return null;
+  }, name);
+}
+
+function huoshanAiScreenField(block, name, fallback) {
+  const value = block.getFieldValue(name);
+  return String(value === null || value === undefined || value === '' ? fallback : value);
+}
+
+function huoshanAiAddScreenMacros(generator, config) {
+  const next = Object.assign({}, HUOSHAN_AI_SCREEN_DEFAULTS, config || {});
+  Arduino.huoshan_ai_screen_config = next;
+  Arduino.huoshan_ai_screen_configured = true;
+
+  HUOSHAN_AI_SCREEN_PROJECT_MACRO_NAMES.forEach(huoshanAiRemoveProjectMacro);
+
+  generator.addMacro('HUOSHAN_AI_SCREEN_ENABLED', '#define HUOSHAN_AI_SCREEN_ENABLED 1');
+  generator.addMacro('HUOSHAN_AI_SCREEN_WIDTH', `#define HUOSHAN_AI_SCREEN_WIDTH ${next.width}`);
+  generator.addMacro('HUOSHAN_AI_SCREEN_HEIGHT', `#define HUOSHAN_AI_SCREEN_HEIGHT ${next.height}`);
+  generator.addMacro('HUOSHAN_AI_SCREEN_ROTATION', `#define HUOSHAN_AI_SCREEN_ROTATION ${next.rotation}`);
+  generator.addMacro('HUOSHAN_AI_SCREEN_BL', `#define HUOSHAN_AI_SCREEN_BL ${next.bl}`);
+  generator.addMacro('HUOSHAN_AI_SCREEN_TOUCH_SDA', `#define HUOSHAN_AI_SCREEN_TOUCH_SDA ${next.touchSda}`);
+  generator.addMacro('HUOSHAN_AI_SCREEN_TOUCH_SCL', `#define HUOSHAN_AI_SCREEN_TOUCH_SCL ${next.touchScl}`);
+  generator.addMacro('HUOSHAN_AI_SCREEN_TOUCH_RST', `#define HUOSHAN_AI_SCREEN_TOUCH_RST ${next.touchRst}`);
+  generator.addMacro('HUOSHAN_AI_SCREEN_TOUCH_INT', `#define HUOSHAN_AI_SCREEN_TOUCH_INT ${next.touchInt}`);
+  generator.addMacro('ST7789_DRIVER', '#define ST7789_DRIVER 1');
+  generator.addMacro('TFT_WIDTH', `#define TFT_WIDTH ${next.width}`);
+  generator.addMacro('TFT_HEIGHT', `#define TFT_HEIGHT ${next.height}`);
+  generator.addMacro('TFT_INVERSION_OFF', '#define TFT_INVERSION_OFF');
+  generator.addMacro('TFT_RGB_ORDER', '#define TFT_RGB_ORDER TFT_BGR');
+  generator.addMacro('TFT_BL', `#define TFT_BL ${next.bl}`);
+  generator.addMacro('TFT_BACKLIGHT_ON', '#define TFT_BACKLIGHT_ON HIGH');
+  generator.addMacro('TFT_MISO', `#define TFT_MISO ${next.miso}`);
+  generator.addMacro('TFT_MOSI', `#define TFT_MOSI ${next.mosi}`);
+  generator.addMacro('TFT_SCLK', `#define TFT_SCLK ${next.sclk}`);
+  generator.addMacro('TFT_CS', `#define TFT_CS ${next.cs}`);
+  generator.addMacro('TFT_DC', `#define TFT_DC ${next.dc}`);
+  generator.addMacro('TFT_RST', `#define TFT_RST ${next.rst}`);
+  generator.addMacro('TOUCH_CS', '#define TOUCH_CS -1');
+  generator.addMacro('SPI_FREQUENCY', '#define SPI_FREQUENCY 27000000');
+  generator.addMacro('TFT_FREQUENCY', '#define TFT_FREQUENCY 27000000');
+  generator.addMacro('USE_HSPI_PORT', '#define USE_HSPI_PORT');
+  generator.addMacro('LV_CONF_INCLUDE_SIMPLE', '#define LV_CONF_INCLUDE_SIMPLE');
+  generator.addMacro('LV_LVGL_H_INCLUDE_SIMPLE', '#define LV_LVGL_H_INCLUDE_SIMPLE');
+  generator.addMacro('LV_USE_TFT_ESPI', '#define LV_USE_TFT_ESPI 1');
+  generator.addMacro('LV_FONT_FMT_TXT_LARGE', '#define LV_FONT_FMT_TXT_LARGE 1');
+
+  [
+    'HUOSHAN_AI_SCREEN_ENABLED=1',
+    `HUOSHAN_AI_SCREEN_WIDTH=${next.width}`,
+    `HUOSHAN_AI_SCREEN_HEIGHT=${next.height}`,
+    `HUOSHAN_AI_SCREEN_ROTATION=${next.rotation}`,
+    `HUOSHAN_AI_SCREEN_BL=${next.bl}`,
+    `HUOSHAN_AI_SCREEN_TOUCH_SDA=${next.touchSda}`,
+    `HUOSHAN_AI_SCREEN_TOUCH_SCL=${next.touchScl}`,
+    `HUOSHAN_AI_SCREEN_TOUCH_RST=${next.touchRst}`,
+    `HUOSHAN_AI_SCREEN_TOUCH_INT=${next.touchInt}`,
+    'ST7789_DRIVER=1',
+    `TFT_WIDTH=${next.width}`,
+    `TFT_HEIGHT=${next.height}`,
+    'TFT_INVERSION_OFF',
+    'TFT_RGB_ORDER=TFT_BGR',
+    `TFT_BL=${next.bl}`,
+    'TFT_BACKLIGHT_ON=HIGH',
+    `TFT_MISO=${next.miso}`,
+    `TFT_MOSI=${next.mosi}`,
+    `TFT_SCLK=${next.sclk}`,
+    `TFT_CS=${next.cs}`,
+    `TFT_DC=${next.dc}`,
+    `TFT_RST=${next.rst}`,
+    'TOUCH_CS=-1',
+    'SPI_FREQUENCY=27000000',
+    'TFT_FREQUENCY=27000000',
+    'USE_HSPI_PORT',
+    'LV_CONF_INCLUDE_SIMPLE',
+    'LV_LVGL_H_INCLUDE_SIMPLE',
+    'LV_USE_TFT_ESPI=1',
+    'LV_FONT_FMT_TXT_LARGE=1'
+  ].forEach(huoshanAiAddProjectMacro);
+}
+
+function huoshanAiEnsureScreenConfigured(generator) {
+  if (!Arduino.huoshan_ai_screen_configured) {
+    huoshanAiAddScreenMacros(generator, HUOSHAN_AI_SCREEN_DEFAULTS);
+  }
+}
+
 function huoshanAiEnsureRuntime(generator) {
   if (typeof ensureSerialBegin === 'function') {
     ensureSerialBegin('Serial', generator);
@@ -130,11 +297,33 @@ bool huoshan_ai_tts_fragment_active = false;
 void huoshan_ai_asr_stream_task(void *arg);
 void huoshan_ai_tts_audio_task(void *arg);
 void huoshan_ai_tts_connect_task(void *arg);
+void huoshan_ai_screen_on_state(const String &state);
+void huoshan_ai_screen_on_user_text(const String &text);
+void huoshan_ai_screen_on_reply_text(const String &text);
+void huoshan_ai_screen_config(int width, int height, int brightness);
+bool huoshan_ai_screen_begin(bool touchToTalk, bool autoMessages);
+void huoshan_ai_screen_set_brightness(int brightness);
+void huoshan_ai_screen_set_status(String text);
+void huoshan_ai_screen_add_message(String role, String text);
+void huoshan_ai_screen_clear_messages();
+
+#if !defined(HUOSHAN_AI_SCREEN_ENABLED) || !HUOSHAN_AI_SCREEN_ENABLED
+void huoshan_ai_screen_on_state(const String &state) {}
+void huoshan_ai_screen_on_user_text(const String &text) {}
+void huoshan_ai_screen_on_reply_text(const String &text) {}
+void huoshan_ai_screen_config(int width, int height, int brightness) {}
+bool huoshan_ai_screen_begin(bool touchToTalk, bool autoMessages) { return false; }
+void huoshan_ai_screen_set_brightness(int brightness) {}
+void huoshan_ai_screen_set_status(String text) {}
+void huoshan_ai_screen_add_message(String role, String text) {}
+void huoshan_ai_screen_clear_messages() {}
+#endif
 
 void huoshan_ai_set_state(const String &state) {
   if (huoshan_ai_state == state) return;
   huoshan_ai_state = state;
   Serial.println("[HuoshanAI] state: " + state);
+  huoshan_ai_screen_on_state(state);
 }
 
 void huoshan_ai_report_error() {
@@ -1703,6 +1892,7 @@ String huoshan_ai_coze_chat(String input, bool speakReply) {
     return "";
   }
 
+  huoshan_ai_screen_on_user_text(input);
   huoshan_ai_set_state("thinking");
   HTTPClient http;
   String url = "https://api.coze.cn/v3/chat";
@@ -1847,6 +2037,7 @@ String huoshan_ai_coze_chat(String input, bool speakReply) {
     }
     if (contentToAppend.length() > 0) {
       huoshan_ai_last_reply_text += contentToAppend;
+      huoshan_ai_screen_on_reply_text(huoshan_ai_last_reply_text);
       if (speakReply) {
         ttsBuffer += contentToAppend;
         huoshan_ai_speak_buffered_sentences(ttsBuffer);
@@ -1971,6 +2162,12 @@ public:
   void setVoice(String voice) { huoshan_ai_voice_type = voice; }
   void setVolume(double volume) { huoshan_ai_volume = volume; }
   void setSpeed(double speed) { huoshan_ai_speed = speed; }
+  void configScreen(int width, int height, int brightness) { huoshan_ai_screen_config(width, height, brightness); }
+  bool beginScreen(bool touchToTalk, bool autoMessages) { return huoshan_ai_screen_begin(touchToTalk, autoMessages); }
+  void setScreenBrightness(int brightness) { huoshan_ai_screen_set_brightness(brightness); }
+  void setScreenStatus(String text) { huoshan_ai_screen_set_status(text); }
+  void addScreenMessage(String role, String text) { huoshan_ai_screen_add_message(role, text); }
+  void clearScreenMessages() { huoshan_ai_screen_clear_messages(); }
   String state() { return huoshan_ai_state; }
   bool isWiFiConnected() { return WiFi.status() == WL_CONNECTED; }
   String lastAsrText() { return huoshan_ai_last_asr_text; }
@@ -1980,6 +2177,848 @@ public:
 
 HuoshanAIVoiceClass HuoshanAIVoice;
 `);
+}
+
+function huoshanAiEnsureScreenRuntime(generator) {
+  huoshanAiEnsureScreenConfigured(generator);
+  huoshanAiEnsureRuntime(generator);
+
+  generator.addLibrary('huoshan_ai_tft_espi', '#include <TFT_eSPI.h>');
+  generator.addLibrary('huoshan_ai_lvgl', '#include <lvgl.h>');
+  generator.addLibrary('huoshan_ai_wire', '#include <Wire.h>');
+  generator.addLibrary('huoshan_ai_screen_font', '#include <huoshan_ai_screen_font.h>');
+  generator.addFunction('huoshan_ai_screen_runtime', String.raw`
+#if HUOSHAN_AI_SCREEN_ENABLED
+
+static const int HUOSHAN_AI_STATUS_BAR_HEIGHT = 40;
+static const int HUOSHAN_AI_SPEAK_BUTTON_HEIGHT = 54;
+static const uint8_t HUOSHAN_AI_SCREEN_TOUCH_ADDR = 0x38;
+
+static uint32_t huoshan_ai_screen_draw_buf[
+    HUOSHAN_AI_SCREEN_WIDTH * HUOSHAN_AI_SCREEN_HEIGHT / 10 * (LV_COLOR_DEPTH / 8) / 4];
+
+class HuoshanAIScreenTouch {
+public:
+  HuoshanAIScreenTouch(int sda, int scl, int rst, int intr)
+      : sda_(sda), scl_(scl), rst_(rst), intr_(intr) {}
+
+  void begin() {
+    Wire.begin(sda_, scl_);
+    if (intr_ >= 0) pinMode(intr_, INPUT);
+    if (rst_ >= 0) {
+      pinMode(rst_, OUTPUT);
+      digitalWrite(rst_, LOW);
+      delay(10);
+      digitalWrite(rst_, HIGH);
+      delay(300);
+    }
+  }
+
+  uint8_t read_touch_number() {
+    return readByte(0x02) & 0x0F;
+  }
+
+  uint16_t read_touch1_x() {
+    return readCoord(0x03);
+  }
+
+  uint16_t read_touch1_y() {
+    return readCoord(0x05);
+  }
+
+private:
+  int sda_;
+  int scl_;
+  int rst_;
+  int intr_;
+
+  uint8_t readByte(uint8_t reg) {
+    Wire.beginTransmission(HUOSHAN_AI_SCREEN_TOUCH_ADDR);
+    Wire.write(reg);
+    if (Wire.endTransmission(false) != 0) return 0;
+    if (Wire.requestFrom((uint8_t)HUOSHAN_AI_SCREEN_TOUCH_ADDR, (uint8_t)1) != 1) return 0;
+    return Wire.read();
+  }
+
+  uint16_t readCoord(uint8_t reg) {
+    uint8_t high = readByte(reg);
+    uint8_t low = readByte(reg + 1);
+    return ((uint16_t)(high & 0x0F) << 8) | low;
+  }
+};
+
+HuoshanAIScreenTouch huoshan_ai_screen_touch(
+    HUOSHAN_AI_SCREEN_TOUCH_SDA,
+    HUOSHAN_AI_SCREEN_TOUCH_SCL,
+    HUOSHAN_AI_SCREEN_TOUCH_RST,
+    HUOSHAN_AI_SCREEN_TOUCH_INT);
+
+SemaphoreHandle_t huoshan_ai_screen_lock = NULL;
+TaskHandle_t huoshan_ai_screen_loop_task_handle = NULL;
+TaskHandle_t huoshan_ai_screen_chat_task_handle = NULL;
+lv_obj_t *huoshan_ai_screen_home = NULL;
+lv_obj_t *huoshan_ai_screen_status_label = NULL;
+lv_obj_t *huoshan_ai_screen_wifi_label = NULL;
+lv_obj_t *huoshan_ai_screen_message_list = NULL;
+lv_obj_t *huoshan_ai_screen_tip_card = NULL;
+lv_obj_t *huoshan_ai_screen_speak_button = NULL;
+lv_obj_t *huoshan_ai_screen_speak_label = NULL;
+lv_obj_t *huoshan_ai_screen_active_reply_row = NULL;
+lv_obj_t *huoshan_ai_screen_active_reply_label = NULL;
+uint8_t huoshan_ai_screen_brightness = 80;
+bool huoshan_ai_screen_ready = false;
+bool huoshan_ai_screen_touch_to_talk = true;
+bool huoshan_ai_screen_auto_messages = true;
+uint8_t huoshan_ai_screen_message_count = 0;
+
+bool huoshan_ai_screen_take(TickType_t ticks) {
+  return huoshan_ai_screen_lock != NULL
+      && xSemaphoreTakeRecursive(huoshan_ai_screen_lock, ticks) == pdTRUE;
+}
+
+void huoshan_ai_screen_give() {
+  if (huoshan_ai_screen_lock != NULL) xSemaphoreGiveRecursive(huoshan_ai_screen_lock);
+}
+
+uint32_t huoshan_ai_screen_tick() {
+  return millis();
+}
+
+String huoshan_ai_screen_state_label(const String &state) {
+  if (state == "idle") return "待命中...";
+  if (state == "wifi_connected") return "连网成功";
+  if (state == "listening") return "正在聆听...";
+  if (state == "recognizing") return "正在识别...";
+  if (state == "thinking") return "正在思考...";
+  if (state == "speaking") return "正在说话...";
+  if (state == "error") return "出错";
+  return state;
+}
+
+void huoshan_ai_screen_append_utf8(String &out, uint32_t codepoint) {
+  if (codepoint <= 0x7F) {
+    out += (char)codepoint;
+  } else if (codepoint <= 0x7FF) {
+    out += (char)(0xC0 | (codepoint >> 6));
+    out += (char)(0x80 | (codepoint & 0x3F));
+  } else if (codepoint <= 0xFFFF) {
+    out += (char)(0xE0 | (codepoint >> 12));
+    out += (char)(0x80 | ((codepoint >> 6) & 0x3F));
+    out += (char)(0x80 | (codepoint & 0x3F));
+  }
+}
+
+bool huoshan_ai_screen_is_supported_codepoint(uint32_t codepoint) {
+  if (codepoint == '\n' || codepoint == '\t') return true;
+  if (codepoint >= 0x20 && codepoint <= 0x7E) return true;
+  if (codepoint >= 0x00A0 && codepoint <= 0x00FF) return true;
+  if (codepoint >= 0x2000 && codepoint <= 0x206F) return true;
+  if (codepoint >= 0x2100 && codepoint <= 0x214F) return true;
+  if (codepoint >= 0x3000 && codepoint <= 0x303F) return true;
+  if (codepoint >= 0x3400 && codepoint <= 0x4DBF) return true;
+  if (codepoint >= 0x4E00 && codepoint <= 0x9FFF) return true;
+  if (codepoint >= 0xFF00 && codepoint <= 0xFFEF) return true;
+  return false;
+}
+
+String huoshan_ai_screen_sanitize_text(const String &input) {
+  String out = "";
+  const uint8_t *bytes = (const uint8_t *)input.c_str();
+  size_t length = input.length();
+  size_t offset = 0;
+  while (offset < length) {
+    uint32_t codepoint = 0;
+    uint8_t first = bytes[offset];
+    if (first < 0x80) {
+      codepoint = first;
+      offset++;
+    } else if ((first & 0xE0) == 0xC0 && offset + 1 < length
+        && (bytes[offset + 1] & 0xC0) == 0x80) {
+      codepoint = ((uint32_t)(first & 0x1F) << 6)
+          | (uint32_t)(bytes[offset + 1] & 0x3F);
+      offset += 2;
+    } else if ((first & 0xF0) == 0xE0 && offset + 2 < length
+        && (bytes[offset + 1] & 0xC0) == 0x80
+        && (bytes[offset + 2] & 0xC0) == 0x80) {
+      codepoint = ((uint32_t)(first & 0x0F) << 12)
+          | ((uint32_t)(bytes[offset + 1] & 0x3F) << 6)
+          | (uint32_t)(bytes[offset + 2] & 0x3F);
+      offset += 3;
+    } else if ((first & 0xF8) == 0xF0 && offset + 3 < length
+        && (bytes[offset + 1] & 0xC0) == 0x80
+        && (bytes[offset + 2] & 0xC0) == 0x80
+        && (bytes[offset + 3] & 0xC0) == 0x80) {
+      // The bundled 15px font does not cover emoji or supplementary-plane glyphs.
+      offset += 4;
+      continue;
+    } else {
+      offset++;
+      continue;
+    }
+
+    if (codepoint == '\r') continue;
+    if (codepoint == '\n' || codepoint == '\t') {
+      out += ' ';
+      continue;
+    }
+    if (codepoint >= 0x200B && codepoint <= 0x200F) continue;
+    if (codepoint >= 0x202A && codepoint <= 0x202E) continue;
+    if (codepoint >= 0x2060 && codepoint <= 0x206F) continue;
+    if (codepoint >= 0xFE00 && codepoint <= 0xFE0F) continue;
+    if (codepoint >= 0xE000 && codepoint <= 0xF8FF) continue;
+    if (!huoshan_ai_screen_is_supported_codepoint(codepoint)) continue;
+    huoshan_ai_screen_append_utf8(out, codepoint);
+  }
+  out.trim();
+  return out;
+}
+
+void huoshan_ai_screen_set_brightness(int brightness) {
+  if (brightness < 0) brightness = 0;
+  if (brightness > 100) brightness = 100;
+  huoshan_ai_screen_brightness = (uint8_t)brightness;
+#if HUOSHAN_AI_SCREEN_BL >= 0
+  pinMode(HUOSHAN_AI_SCREEN_BL, OUTPUT);
+  digitalWrite(HUOSHAN_AI_SCREEN_BL, brightness > 0 ? TFT_BACKLIGHT_ON : !TFT_BACKLIGHT_ON);
+  analogWrite(HUOSHAN_AI_SCREEN_BL, map(brightness, 0, 100, 0, 255));
+#endif
+}
+
+void huoshan_ai_screen_touch_read(lv_indev_t *indev, lv_indev_data_t *data) {
+  uint8_t touches = huoshan_ai_screen_touch.read_touch_number();
+  if (touches == 0) {
+    data->state = LV_INDEV_STATE_RELEASED;
+    return;
+  }
+
+  data->state = LV_INDEV_STATE_PRESSED;
+  data->point.x = huoshan_ai_screen_touch.read_touch1_x();
+  data->point.y = huoshan_ai_screen_touch.read_touch1_y();
+}
+
+void huoshan_ai_screen_loop_task(void *arg) {
+  while (true) {
+    if (huoshan_ai_screen_take(portMAX_DELAY)) {
+      lv_timer_handler();
+      huoshan_ai_screen_give();
+    }
+    vTaskDelay(pdMS_TO_TICKS(5));
+  }
+}
+
+void huoshan_ai_screen_chat_task(void *arg) {
+  huoshan_ai_stop_listening_and_chat();
+  huoshan_ai_screen_chat_task_handle = NULL;
+  vTaskDelete(NULL);
+}
+
+void huoshan_ai_screen_speak_event(lv_event_t *event) {
+  if (!huoshan_ai_screen_touch_to_talk) return;
+  lv_event_code_t code = lv_event_get_code(event);
+  if (code == LV_EVENT_PRESSED) {
+    huoshan_ai_start_listening();
+  } else if (code == LV_EVENT_RELEASED || code == LV_EVENT_PRESS_LOST) {
+    if (huoshan_ai_recording && huoshan_ai_screen_chat_task_handle == NULL) {
+      xTaskCreate(
+          huoshan_ai_screen_chat_task,
+          "huoshanScreenChat",
+          12288,
+          NULL,
+          1,
+          &huoshan_ai_screen_chat_task_handle);
+    }
+  }
+}
+
+void huoshan_ai_screen_plain_obj(lv_obj_t *obj) {
+  lv_obj_set_style_border_width(obj, 0, 0);
+  lv_obj_set_style_radius(obj, 0, 0);
+  lv_obj_set_style_pad_all(obj, 0, 0);
+  lv_obj_set_style_bg_opa(obj, LV_OPA_TRANSP, 0);
+  lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+}
+
+void huoshan_ai_screen_apply_button_style(uint32_t leftColor, uint32_t rightColor) {
+  if (huoshan_ai_screen_speak_button == NULL) return;
+  lv_obj_set_style_bg_color(huoshan_ai_screen_speak_button, lv_color_hex(leftColor), 0);
+  lv_obj_set_style_bg_grad_color(huoshan_ai_screen_speak_button, lv_color_hex(rightColor), 0);
+  lv_obj_set_style_bg_grad_dir(huoshan_ai_screen_speak_button, LV_GRAD_DIR_HOR, 0);
+}
+
+void huoshan_ai_screen_create_mic_icon(lv_obj_t *parent) {
+  // Clean microphone glyph: capsule body, U-shaped stand, short stem, base.
+  lv_obj_t *icon = lv_obj_create(parent);
+  huoshan_ai_screen_plain_obj(icon);
+  lv_obj_set_size(icon, 26, 30);
+
+  // Capsule mic body.
+  lv_obj_t *body = lv_obj_create(icon);
+  huoshan_ai_screen_plain_obj(body);
+  lv_obj_set_size(body, 12, 18);
+  lv_obj_align(body, LV_ALIGN_TOP_MID, 0, 0);
+  lv_obj_set_style_radius(body, 6, 0);
+  lv_obj_set_style_bg_opa(body, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(body, lv_color_hex(0xFFFFFF), 0);
+
+  // U-shaped stand made from a hollow ring: thin outline rounded rect with
+  // the top half clipped by an overlay matching the button gradient. Using a
+  // simple two-bar approximation keeps it crisp on the small panel.
+  lv_obj_t *armL = lv_obj_create(icon);
+  huoshan_ai_screen_plain_obj(armL);
+  lv_obj_set_size(armL, 2, 8);
+  lv_obj_align(armL, LV_ALIGN_TOP_LEFT, 2, 12);
+  lv_obj_set_style_radius(armL, 1, 0);
+  lv_obj_set_style_bg_opa(armL, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(armL, lv_color_hex(0xFFFFFF), 0);
+
+  lv_obj_t *armR = lv_obj_create(icon);
+  huoshan_ai_screen_plain_obj(armR);
+  lv_obj_set_size(armR, 2, 8);
+  lv_obj_align(armR, LV_ALIGN_TOP_RIGHT, -2, 12);
+  lv_obj_set_style_radius(armR, 1, 0);
+  lv_obj_set_style_bg_opa(armR, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(armR, lv_color_hex(0xFFFFFF), 0);
+
+  lv_obj_t *cradle = lv_obj_create(icon);
+  huoshan_ai_screen_plain_obj(cradle);
+  lv_obj_set_size(cradle, 22, 2);
+  lv_obj_align(cradle, LV_ALIGN_TOP_MID, 0, 20);
+  lv_obj_set_style_radius(cradle, 1, 0);
+  lv_obj_set_style_bg_opa(cradle, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(cradle, lv_color_hex(0xFFFFFF), 0);
+
+  // Short stem connecting the cradle to the base.
+  lv_obj_t *stem = lv_obj_create(icon);
+  huoshan_ai_screen_plain_obj(stem);
+  lv_obj_set_size(stem, 2, 4);
+  lv_obj_align(stem, LV_ALIGN_TOP_MID, 0, 22);
+  lv_obj_set_style_radius(stem, 1, 0);
+  lv_obj_set_style_bg_opa(stem, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(stem, lv_color_hex(0xFFFFFF), 0);
+
+  // Base.
+  lv_obj_t *base = lv_obj_create(icon);
+  huoshan_ai_screen_plain_obj(base);
+  lv_obj_set_size(base, 14, 2);
+  lv_obj_align(base, LV_ALIGN_TOP_MID, 0, 26);
+  lv_obj_set_style_radius(base, 1, 0);
+  lv_obj_set_style_bg_opa(base, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(base, lv_color_hex(0xFFFFFF), 0);
+}
+
+lv_obj_t *huoshan_ai_screen_create_avatar(lv_obj_t *parent, bool user) {
+  // The reference mock uses a small flame-shaped mascot avatar for the AI replies
+  // and no avatar for the user. We always return a wrapper so the caller can keep
+  // the same layout, but only paint when the assistant avatar is requested.
+  lv_obj_t *avatar = lv_obj_create(parent);
+  huoshan_ai_screen_plain_obj(avatar);
+  lv_obj_set_size(avatar, 30, 30);
+
+  if (user) {
+    // Mockup omits the user avatar; keep an invisible placeholder for spacing.
+    lv_obj_set_size(avatar, 0, 0);
+    return avatar;
+  }
+
+  // White rounded base so the flame sits on a clean card-like circle.
+  lv_obj_set_style_radius(avatar, 15, 0);
+  lv_obj_set_style_bg_opa(avatar, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(avatar, lv_color_hex(0xFFFFFF), 0);
+  lv_obj_set_style_shadow_width(avatar, 8, 0);
+  lv_obj_set_style_shadow_opa(avatar, LV_OPA_20, 0);
+  lv_obj_set_style_shadow_color(avatar, lv_color_hex(0x4F7DF6), 0);
+
+  // Flame body: cyan-to-blue vertical gradient droplet.
+  lv_obj_t *flame = lv_obj_create(avatar);
+  huoshan_ai_screen_plain_obj(flame);
+  lv_obj_set_size(flame, 20, 22);
+  lv_obj_align(flame, LV_ALIGN_CENTER, 0, 0);
+  lv_obj_set_style_radius(flame, 10, 0);
+  lv_obj_set_style_bg_opa(flame, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(flame, lv_color_hex(0x8DD7F7), 0);
+  lv_obj_set_style_bg_grad_color(flame, lv_color_hex(0x4F8BFF), 0);
+  lv_obj_set_style_bg_grad_dir(flame, LV_GRAD_DIR_VER, 0);
+
+  // Tiny tip on top of the flame for a droplet silhouette.
+  lv_obj_t *tip = lv_obj_create(avatar);
+  huoshan_ai_screen_plain_obj(tip);
+  lv_obj_set_size(tip, 6, 6);
+  lv_obj_align(tip, LV_ALIGN_TOP_MID, 0, 3);
+  lv_obj_set_style_radius(tip, 3, 0);
+  lv_obj_set_style_bg_opa(tip, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(tip, lv_color_hex(0x8DD7F7), 0);
+
+  // Two dot eyes.
+  lv_obj_t *eyeL = lv_obj_create(avatar);
+  huoshan_ai_screen_plain_obj(eyeL);
+  lv_obj_set_size(eyeL, 3, 3);
+  lv_obj_align(eyeL, LV_ALIGN_CENTER, -4, 1);
+  lv_obj_set_style_radius(eyeL, 2, 0);
+  lv_obj_set_style_bg_opa(eyeL, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(eyeL, lv_color_hex(0x0B2A55), 0);
+
+  lv_obj_t *eyeR = lv_obj_create(avatar);
+  huoshan_ai_screen_plain_obj(eyeR);
+  lv_obj_set_size(eyeR, 3, 3);
+  lv_obj_align(eyeR, LV_ALIGN_CENTER, 4, 1);
+  lv_obj_set_style_radius(eyeR, 2, 0);
+  lv_obj_set_style_bg_opa(eyeR, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(eyeR, lv_color_hex(0x0B2A55), 0);
+
+  // Small smile / cheek dot.
+  lv_obj_t *mouth = lv_obj_create(avatar);
+  huoshan_ai_screen_plain_obj(mouth);
+  lv_obj_set_size(mouth, 5, 2);
+  lv_obj_align(mouth, LV_ALIGN_CENTER, 0, 6);
+  lv_obj_set_style_radius(mouth, 1, 0);
+  lv_obj_set_style_bg_opa(mouth, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(mouth, lv_color_hex(0x0B2A55), 0);
+
+  return avatar;
+}
+
+lv_obj_t *huoshan_ai_screen_add_message_locked(const String &role, const String &text) {
+  if (huoshan_ai_screen_message_list == NULL) return NULL;
+  String displayText = huoshan_ai_screen_sanitize_text(text);
+  if (displayText.length() == 0) return NULL;
+
+  bool isUser = role == "user";
+  bool isAssistant = role == "assistant";
+  if (!isAssistant) {
+    huoshan_ai_screen_active_reply_row = NULL;
+    huoshan_ai_screen_active_reply_label = NULL;
+  }
+
+  // Hide the floating tip card once the first real message appears.
+  if ((isUser || isAssistant) && huoshan_ai_screen_tip_card != NULL) {
+    lv_obj_add_flag(huoshan_ai_screen_tip_card, LV_OBJ_FLAG_HIDDEN);
+  }
+
+  lv_obj_t *row = lv_obj_create(huoshan_ai_screen_message_list);
+  huoshan_ai_screen_plain_obj(row);
+  lv_obj_set_size(row, lv_pct(100), LV_SIZE_CONTENT);
+  lv_obj_set_style_pad_top(row, isAssistant || isUser ? 6 : 4, 0);
+  lv_obj_set_style_pad_bottom(row, isAssistant || isUser ? 6 : 4, 0);
+  lv_obj_set_style_pad_column(row, 6, 0);
+  lv_obj_set_layout(row, LV_LAYOUT_FLEX);
+  lv_obj_set_flex_flow(row, LV_FLEX_FLOW_ROW);
+
+  if (!isAssistant && !isUser) {
+    lv_obj_set_flex_align(row, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_t *label = lv_label_create(row);
+    lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);
+    lv_obj_set_width(label, LV_HOR_RES - 60);
+    lv_obj_set_style_text_font(label, &HuoshanAI_CN_15, 0);
+    lv_obj_set_style_text_color(label, lv_color_hex(0x72819A), 0);
+    lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, 0);
+    lv_label_set_text(label, displayText.c_str());
+    huoshan_ai_screen_message_count++;
+    lv_obj_scroll_to_y(huoshan_ai_screen_message_list, LV_COORD_MAX, LV_ANIM_ON);
+    return label;
+  }
+
+  // User row is right-aligned with no avatar; AI row is left-aligned with the flame avatar.
+  lv_obj_set_flex_align(
+      row,
+      isUser ? LV_FLEX_ALIGN_END : LV_FLEX_ALIGN_START,
+      LV_FLEX_ALIGN_START,
+      LV_FLEX_ALIGN_START);
+
+  if (isAssistant) huoshan_ai_screen_create_avatar(row, false);
+
+  // Width logic: user bubbles hug their text; AI bubbles take most of the row.
+  int avatarWidth = isAssistant ? 36 : 0;
+  int maxBubbleWidth = LV_HOR_RES - 32 - avatarWidth;
+  if (maxBubbleWidth < 120) maxBubbleWidth = LV_HOR_RES - 32;
+  int bubbleWidth = isUser
+      ? ((int)displayText.length() * 3 + 48)
+      : maxBubbleWidth;
+  if (bubbleWidth > maxBubbleWidth) bubbleWidth = maxBubbleWidth;
+  if (bubbleWidth < 90) bubbleWidth = 90;
+
+  lv_obj_t *bubble = lv_obj_create(row);
+  huoshan_ai_screen_plain_obj(bubble);
+  lv_obj_set_size(bubble, bubbleWidth, LV_SIZE_CONTENT);
+  lv_obj_set_style_radius(bubble, 16, 0);
+  lv_obj_set_style_bg_opa(bubble, LV_OPA_COVER, 0);
+  // User: soft blue card; assistant: clean white card with a very soft shadow.
+  lv_obj_set_style_bg_color(bubble, lv_color_hex(isUser ? 0xD9E6FB : 0xFFFFFF), 0);
+  if (!isUser) {
+    lv_obj_set_style_shadow_width(bubble, 10, 0);
+    lv_obj_set_style_shadow_opa(bubble, LV_OPA_10, 0);
+    lv_obj_set_style_shadow_color(bubble, lv_color_hex(0x4F7DF6), 0);
+    lv_obj_set_style_shadow_ofs_y(bubble, 2, 0);
+  }
+  lv_obj_set_style_pad_left(bubble, 14, 0);
+  lv_obj_set_style_pad_right(bubble, 14, 0);
+  lv_obj_set_style_pad_top(bubble, 11, 0);
+  lv_obj_set_style_pad_bottom(bubble, 11, 0);
+
+  lv_obj_t *label = lv_label_create(bubble);
+  lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);
+  lv_obj_set_width(label, bubbleWidth - 28);
+  lv_obj_set_style_text_font(label, &HuoshanAI_CN_15, 0);
+  lv_obj_set_style_text_color(label, lv_color_hex(0x1F2D44), 0);
+  lv_obj_set_style_text_line_space(label, 5, 0);
+  lv_label_set_text(label, displayText.c_str());
+
+  if (isAssistant) huoshan_ai_screen_active_reply_row = row;
+
+  huoshan_ai_screen_message_count++;
+
+  while (huoshan_ai_screen_message_count > 24) {
+    lv_obj_t *first = lv_obj_get_child(huoshan_ai_screen_message_list, 0);
+    if (first == NULL) break;
+    if (first == huoshan_ai_screen_active_reply_row) {
+      huoshan_ai_screen_active_reply_row = NULL;
+      huoshan_ai_screen_active_reply_label = NULL;
+    }
+    lv_obj_delete(first);
+    huoshan_ai_screen_message_count--;
+  }
+
+  lv_obj_scroll_to_y(huoshan_ai_screen_message_list, LV_COORD_MAX, LV_ANIM_ON);
+  return label;
+}
+
+void huoshan_ai_screen_set_status(String text) {
+  if (!huoshan_ai_screen_ready || huoshan_ai_screen_status_label == NULL) return;
+  String displayText = huoshan_ai_screen_sanitize_text(text);
+  if (displayText.length() == 0) return;
+  if (huoshan_ai_screen_take(pdMS_TO_TICKS(100))) {
+    lv_label_set_text(huoshan_ai_screen_status_label, displayText.c_str());
+    if (huoshan_ai_screen_wifi_label != NULL) {
+      lv_label_set_text(huoshan_ai_screen_wifi_label, WiFi.status() == WL_CONNECTED ? "WiFi" : "--");
+    }
+    huoshan_ai_screen_give();
+  }
+}
+
+void huoshan_ai_screen_add_message(String role, String text) {
+  if (!huoshan_ai_screen_ready || text.length() == 0) return;
+  // Skip the legacy duplicate that older user code sends in via
+  // addScreenMessage("system", ...) -- the same hint already lives in the
+  // floating tip card above the chat area.
+  if (role == "system") {
+    String trimmed = text;
+    trimmed.trim();
+    if (trimmed == "长按底部按钮开始对话") return;
+  }
+  if (huoshan_ai_screen_take(pdMS_TO_TICKS(200))) {
+    huoshan_ai_screen_add_message_locked(role, text);
+    huoshan_ai_screen_give();
+  }
+}
+
+void huoshan_ai_screen_clear_messages() {
+  if (!huoshan_ai_screen_ready || huoshan_ai_screen_message_list == NULL) return;
+  if (huoshan_ai_screen_take(pdMS_TO_TICKS(200))) {
+    while (lv_obj_get_child_count(huoshan_ai_screen_message_list) > 0) {
+      lv_obj_delete(lv_obj_get_child(huoshan_ai_screen_message_list, 0));
+    }
+    huoshan_ai_screen_active_reply_row = NULL;
+    huoshan_ai_screen_active_reply_label = NULL;
+    huoshan_ai_screen_message_count = 0;
+    if (huoshan_ai_screen_tip_card != NULL) {
+      lv_obj_remove_flag(huoshan_ai_screen_tip_card, LV_OBJ_FLAG_HIDDEN);
+    }
+    huoshan_ai_screen_give();
+  }
+}
+
+void huoshan_ai_screen_on_state(const String &state) {
+  huoshan_ai_screen_set_status(huoshan_ai_screen_state_label(state));
+  if (!huoshan_ai_screen_ready || huoshan_ai_screen_speak_label == NULL) return;
+  if (huoshan_ai_screen_take(pdMS_TO_TICKS(100))) {
+    if (state == "listening") {
+      lv_label_set_text(huoshan_ai_screen_speak_label, "松开开始对话");
+      huoshan_ai_screen_apply_button_style(0xFF5C66, 0xF97316);
+    } else if (state == "recognizing" || state == "thinking" || state == "speaking") {
+      lv_label_set_text(huoshan_ai_screen_speak_label, "处理中...");
+      huoshan_ai_screen_apply_button_style(0x7C8AA5, 0x94A3B8);
+    } else {
+      lv_label_set_text(huoshan_ai_screen_speak_label, "按住说话");
+      huoshan_ai_screen_apply_button_style(0x4F7DF6, 0x6FE0E2);
+    }
+    huoshan_ai_screen_give();
+  }
+}
+
+void huoshan_ai_screen_on_user_text(const String &text) {
+  if (!huoshan_ai_screen_auto_messages) return;
+  huoshan_ai_screen_add_message("user", text);
+}
+
+void huoshan_ai_screen_on_reply_text(const String &text) {
+  if (!huoshan_ai_screen_auto_messages || !huoshan_ai_screen_ready || text.length() == 0) return;
+  String displayText = huoshan_ai_screen_sanitize_text(text);
+  if (displayText.length() == 0) return;
+  if (huoshan_ai_screen_take(pdMS_TO_TICKS(200))) {
+    if (huoshan_ai_screen_active_reply_label == NULL) {
+      huoshan_ai_screen_active_reply_label = huoshan_ai_screen_add_message_locked("assistant", displayText);
+    } else {
+      lv_label_set_text(huoshan_ai_screen_active_reply_label, displayText.c_str());
+      lv_obj_scroll_to_y(huoshan_ai_screen_message_list, LV_COORD_MAX, LV_ANIM_ON);
+    }
+    huoshan_ai_screen_give();
+  }
+}
+
+void huoshan_ai_screen_config(int width, int height, int brightness) {
+  huoshan_ai_screen_set_brightness(brightness);
+}
+
+void huoshan_ai_screen_create_ui() {
+  // Outer page: soft sky-blue gradient backdrop similar to the reference mock.
+  huoshan_ai_screen_home = lv_obj_create(NULL);
+  lv_obj_remove_flag(huoshan_ai_screen_home, LV_OBJ_FLAG_SCROLLABLE);
+  lv_obj_set_style_pad_all(huoshan_ai_screen_home, 0, 0);
+  lv_obj_set_style_bg_opa(huoshan_ai_screen_home, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(huoshan_ai_screen_home, lv_color_hex(0xE7F0FF), 0);
+  lv_obj_set_style_bg_grad_color(huoshan_ai_screen_home, lv_color_hex(0xF6FBFF), 0);
+  lv_obj_set_style_bg_grad_dir(huoshan_ai_screen_home, LV_GRAD_DIR_VER, 0);
+  lv_obj_set_style_text_font(huoshan_ai_screen_home, &HuoshanAI_CN_15, 0);
+
+  // --- Floating status card (white rounded pill) at the top.
+  const int statusCardWidth = LV_HOR_RES - 16;
+  const int statusCardHeight = HUOSHAN_AI_STATUS_BAR_HEIGHT;
+  lv_obj_t *statusCard = lv_obj_create(huoshan_ai_screen_home);
+  lv_obj_remove_flag(statusCard, LV_OBJ_FLAG_SCROLLABLE);
+  lv_obj_set_size(statusCard, statusCardWidth, statusCardHeight);
+  lv_obj_align(statusCard, LV_ALIGN_TOP_MID, 0, 8);
+  lv_obj_set_style_pad_top(statusCard, 0, 0);
+  lv_obj_set_style_pad_bottom(statusCard, 0, 0);
+  lv_obj_set_style_pad_left(statusCard, 10, 0);
+  lv_obj_set_style_pad_right(statusCard, 10, 0);
+  lv_obj_set_style_pad_column(statusCard, 8, 0);
+  lv_obj_set_style_radius(statusCard, statusCardHeight / 2, 0);
+  lv_obj_set_style_border_width(statusCard, 0, 0);
+  lv_obj_set_style_bg_opa(statusCard, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(statusCard, lv_color_hex(0xFFFFFF), 0);
+  lv_obj_set_style_shadow_width(statusCard, 12, 0);
+  lv_obj_set_style_shadow_opa(statusCard, LV_OPA_10, 0);
+  lv_obj_set_style_shadow_color(statusCard, lv_color_hex(0x4F7DF6), 0);
+  lv_obj_set_style_shadow_ofs_y(statusCard, 2, 0);
+  lv_obj_set_style_text_font(statusCard, &HuoshanAI_CN_15, 0);
+  // Flex row keeps title (left), status (center, grows), wifi (right) from overlapping.
+  lv_obj_set_layout(statusCard, LV_LAYOUT_FLEX);
+  lv_obj_set_flex_flow(statusCard, LV_FLEX_FLOW_ROW);
+  lv_obj_set_flex_align(statusCard, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+
+  // Title group (flame badge + 火山 AI).
+  lv_obj_t *titleGroup = lv_obj_create(statusCard);
+  huoshan_ai_screen_plain_obj(titleGroup);
+  lv_obj_set_size(titleGroup, LV_SIZE_CONTENT, statusCardHeight);
+  lv_obj_set_layout(titleGroup, LV_LAYOUT_FLEX);
+  lv_obj_set_flex_flow(titleGroup, LV_FLEX_FLOW_ROW);
+  lv_obj_set_flex_align(titleGroup, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+  lv_obj_set_style_pad_column(titleGroup, 6, 0);
+
+  // Mini flame mascot inside the status bar.
+  huoshan_ai_screen_create_avatar(titleGroup, false);
+
+  lv_obj_t *title = lv_label_create(titleGroup);
+  lv_obj_set_style_text_font(title, &HuoshanAI_CN_15, 0);
+  lv_obj_set_style_text_color(title, lv_color_hex(0x0B2A55), 0);
+  lv_label_set_long_mode(title, LV_LABEL_LONG_CLIP);
+  lv_label_set_text(title, "火山 AI");
+
+  // Center status label (cyan accent in the mockup). Grows to fill remaining
+  // space; vertical alignment is handled by the status card's flex container,
+  // so the label baseline matches the left title.
+  huoshan_ai_screen_status_label = lv_label_create(statusCard);
+  lv_obj_set_style_text_font(huoshan_ai_screen_status_label, &HuoshanAI_CN_15, 0);
+  lv_obj_set_style_text_color(huoshan_ai_screen_status_label, lv_color_hex(0x36BFC6), 0);
+  lv_label_set_long_mode(huoshan_ai_screen_status_label, LV_LABEL_LONG_DOT);
+  lv_obj_set_style_text_align(huoshan_ai_screen_status_label, LV_TEXT_ALIGN_CENTER, 0);
+  lv_obj_set_flex_grow(huoshan_ai_screen_status_label, 1);
+  lv_label_set_text(huoshan_ai_screen_status_label, huoshan_ai_screen_state_label(huoshan_ai_state).c_str());
+
+  // WiFi group on the right: text + 3-arc vector icon.
+  lv_obj_t *wifiGroup = lv_obj_create(statusCard);
+  huoshan_ai_screen_plain_obj(wifiGroup);
+  lv_obj_set_size(wifiGroup, LV_SIZE_CONTENT, statusCardHeight);
+  lv_obj_set_layout(wifiGroup, LV_LAYOUT_FLEX);
+  lv_obj_set_flex_flow(wifiGroup, LV_FLEX_FLOW_ROW);
+  lv_obj_set_flex_align(wifiGroup, LV_FLEX_ALIGN_END, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+  lv_obj_set_style_pad_column(wifiGroup, 5, 0);
+
+  huoshan_ai_screen_wifi_label = lv_label_create(wifiGroup);
+  lv_obj_set_style_text_font(huoshan_ai_screen_wifi_label, &HuoshanAI_CN_15, 0);
+  lv_obj_set_style_text_color(huoshan_ai_screen_wifi_label, lv_color_hex(0x4F8BFF), 0);
+  lv_label_set_text(huoshan_ai_screen_wifi_label, WiFi.status() == WL_CONNECTED ? "WiFi" : "--");
+
+  lv_obj_t *wifiMark = lv_obj_create(wifiGroup);
+  huoshan_ai_screen_plain_obj(wifiMark);
+  lv_obj_set_size(wifiMark, 18, 16);
+  lv_obj_t *wifiDot = lv_obj_create(wifiMark);
+  huoshan_ai_screen_plain_obj(wifiDot);
+  lv_obj_set_size(wifiDot, 4, 4);
+  lv_obj_align(wifiDot, LV_ALIGN_BOTTOM_MID, 0, 0);
+  lv_obj_set_style_radius(wifiDot, 2, 0);
+  lv_obj_set_style_bg_opa(wifiDot, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(wifiDot, lv_color_hex(0x4F8BFF), 0);
+  lv_obj_t *wifiMid = lv_obj_create(wifiMark);
+  huoshan_ai_screen_plain_obj(wifiMid);
+  lv_obj_set_size(wifiMid, 11, 4);
+  lv_obj_align(wifiMid, LV_ALIGN_BOTTOM_MID, 0, -5);
+  lv_obj_set_style_radius(wifiMid, 3, 0);
+  lv_obj_set_style_bg_opa(wifiMid, LV_OPA_70, 0);
+  lv_obj_set_style_bg_color(wifiMid, lv_color_hex(0x4F8BFF), 0);
+  lv_obj_t *wifiTop = lv_obj_create(wifiMark);
+  huoshan_ai_screen_plain_obj(wifiTop);
+  lv_obj_set_size(wifiTop, 18, 4);
+  lv_obj_align(wifiTop, LV_ALIGN_BOTTOM_MID, 0, -10);
+  lv_obj_set_style_radius(wifiTop, 3, 0);
+  lv_obj_set_style_bg_opa(wifiTop, LV_OPA_40, 0);
+  lv_obj_set_style_bg_color(wifiTop, lv_color_hex(0x4F8BFF), 0);
+
+  // --- Floating tip card: "长按底部按钮开始对话". Auto-hidden after first message.
+  const int tipCardTop = 8 + statusCardHeight + 6;
+  const int tipCardHeight = 32;
+  huoshan_ai_screen_tip_card = lv_obj_create(huoshan_ai_screen_home);
+  lv_obj_remove_flag(huoshan_ai_screen_tip_card, LV_OBJ_FLAG_SCROLLABLE);
+  lv_obj_set_size(huoshan_ai_screen_tip_card, LV_HOR_RES - 24, tipCardHeight);
+  lv_obj_align(huoshan_ai_screen_tip_card, LV_ALIGN_TOP_MID, 0, tipCardTop);
+  lv_obj_set_style_pad_all(huoshan_ai_screen_tip_card, 0, 0);
+  lv_obj_set_style_radius(huoshan_ai_screen_tip_card, tipCardHeight / 2, 0);
+  lv_obj_set_style_border_width(huoshan_ai_screen_tip_card, 0, 0);
+  lv_obj_set_style_bg_opa(huoshan_ai_screen_tip_card, LV_OPA_60, 0);
+  lv_obj_set_style_bg_color(huoshan_ai_screen_tip_card, lv_color_hex(0xF1F4FA), 0);
+
+  // Hand-cursor glyph rendered as a tiny rounded square + finger.
+  lv_obj_t *handIcon = lv_obj_create(huoshan_ai_screen_tip_card);
+  huoshan_ai_screen_plain_obj(handIcon);
+  lv_obj_set_size(handIcon, 14, 14);
+  lv_obj_align(handIcon, LV_ALIGN_LEFT_MID, 22, 0);
+  lv_obj_set_style_radius(handIcon, 3, 0);
+  lv_obj_set_style_bg_opa(handIcon, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(handIcon, lv_color_hex(0xB7C2D9), 0);
+  lv_obj_t *handTip = lv_obj_create(handIcon);
+  huoshan_ai_screen_plain_obj(handTip);
+  lv_obj_set_size(handTip, 4, 6);
+  lv_obj_align(handTip, LV_ALIGN_TOP_MID, 0, -3);
+  lv_obj_set_style_radius(handTip, 2, 0);
+  lv_obj_set_style_bg_opa(handTip, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(handTip, lv_color_hex(0xB7C2D9), 0);
+
+  lv_obj_t *tipLabel = lv_label_create(huoshan_ai_screen_tip_card);
+  lv_obj_set_style_text_font(tipLabel, &HuoshanAI_CN_15, 0);
+  lv_obj_set_style_text_color(tipLabel, lv_color_hex(0x8A95AD), 0);
+  lv_obj_align(tipLabel, LV_ALIGN_CENTER, 8, 0);
+  lv_label_set_text(tipLabel, "长按底部按钮开始对话");
+
+  // --- Light-gray chat card that hosts the scrollable message list.
+  const int chatTop = tipCardTop + tipCardHeight + 8;
+  const int chatBottomMargin = HUOSHAN_AI_SPEAK_BUTTON_HEIGHT + 22;
+  huoshan_ai_screen_message_list = lv_obj_create(huoshan_ai_screen_home);
+  lv_obj_set_size(
+      huoshan_ai_screen_message_list,
+      LV_HOR_RES - 16,
+      LV_VER_RES - chatTop - chatBottomMargin);
+  lv_obj_align(huoshan_ai_screen_message_list, LV_ALIGN_TOP_MID, 0, chatTop);
+  lv_obj_set_style_border_width(huoshan_ai_screen_message_list, 0, 0);
+  lv_obj_set_style_radius(huoshan_ai_screen_message_list, 22, 0);
+  lv_obj_set_style_bg_opa(huoshan_ai_screen_message_list, LV_OPA_COVER, 0);
+  lv_obj_set_style_bg_color(huoshan_ai_screen_message_list, lv_color_hex(0xF1F4FA), 0);
+  lv_obj_set_style_text_font(huoshan_ai_screen_message_list, &HuoshanAI_CN_15, 0);
+  lv_obj_set_style_pad_top(huoshan_ai_screen_message_list, 14, 0);
+  lv_obj_set_style_pad_bottom(huoshan_ai_screen_message_list, 14, 0);
+  lv_obj_set_style_pad_left(huoshan_ai_screen_message_list, 12, 0);
+  lv_obj_set_style_pad_right(huoshan_ai_screen_message_list, 12, 0);
+  lv_obj_set_style_pad_row(huoshan_ai_screen_message_list, 4, 0);
+  lv_obj_set_layout(huoshan_ai_screen_message_list, LV_LAYOUT_FLEX);
+  lv_obj_set_flex_flow(huoshan_ai_screen_message_list, LV_FLEX_FLOW_COLUMN);
+  lv_obj_set_scroll_dir(huoshan_ai_screen_message_list, LV_DIR_VER);
+  lv_obj_set_scrollbar_mode(huoshan_ai_screen_message_list, LV_SCROLLBAR_MODE_AUTO);
+  lv_obj_set_style_width(huoshan_ai_screen_message_list, 3, LV_PART_SCROLLBAR);
+  lv_obj_set_style_bg_color(huoshan_ai_screen_message_list, lv_color_hex(0xBFC9DC), LV_PART_SCROLLBAR);
+  lv_obj_set_style_bg_opa(huoshan_ai_screen_message_list, LV_OPA_70, LV_PART_SCROLLBAR);
+  lv_obj_set_style_radius(huoshan_ai_screen_message_list, 3, LV_PART_SCROLLBAR);
+
+  // --- Bottom press-to-talk button: blue→cyan horizontal gradient capsule with shadow.
+  huoshan_ai_screen_speak_button = lv_button_create(huoshan_ai_screen_home);
+  lv_obj_set_size(huoshan_ai_screen_speak_button, LV_HOR_RES - 32, HUOSHAN_AI_SPEAK_BUTTON_HEIGHT);
+  lv_obj_align(huoshan_ai_screen_speak_button, LV_ALIGN_BOTTOM_MID, 0, -12);
+  lv_obj_set_style_border_width(huoshan_ai_screen_speak_button, 0, 0);
+  lv_obj_set_style_radius(huoshan_ai_screen_speak_button, HUOSHAN_AI_SPEAK_BUTTON_HEIGHT / 2, 0);
+  lv_obj_set_style_shadow_width(huoshan_ai_screen_speak_button, 18, 0);
+  lv_obj_set_style_shadow_opa(huoshan_ai_screen_speak_button, LV_OPA_30, 0);
+  lv_obj_set_style_shadow_color(huoshan_ai_screen_speak_button, lv_color_hex(0x4F7DF6), 0);
+  lv_obj_set_style_shadow_ofs_y(huoshan_ai_screen_speak_button, 4, 0);
+  lv_obj_set_style_pad_all(huoshan_ai_screen_speak_button, 0, 0);
+  lv_obj_set_style_pad_column(huoshan_ai_screen_speak_button, 12, 0);
+  lv_obj_set_layout(huoshan_ai_screen_speak_button, LV_LAYOUT_FLEX);
+  lv_obj_set_flex_flow(huoshan_ai_screen_speak_button, LV_FLEX_FLOW_ROW);
+  lv_obj_set_flex_align(huoshan_ai_screen_speak_button, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+  huoshan_ai_screen_apply_button_style(0x4F7DF6, 0x6FE0E2);
+  lv_obj_add_event_cb(huoshan_ai_screen_speak_button, huoshan_ai_screen_speak_event, LV_EVENT_ALL, NULL);
+
+  huoshan_ai_screen_create_mic_icon(huoshan_ai_screen_speak_button);
+  huoshan_ai_screen_speak_label = lv_label_create(huoshan_ai_screen_speak_button);
+  lv_obj_set_style_text_font(huoshan_ai_screen_speak_label, &HuoshanAI_CN_15, 0);
+  lv_obj_set_style_text_color(huoshan_ai_screen_speak_label, lv_color_hex(0xFFFFFF), 0);
+  lv_label_set_text(huoshan_ai_screen_speak_label, "按住说话");
+
+  lv_screen_load(huoshan_ai_screen_home);
+}
+
+bool huoshan_ai_screen_begin(bool touchToTalk, bool autoMessages) {
+  huoshan_ai_screen_touch_to_talk = touchToTalk;
+  huoshan_ai_screen_auto_messages = autoMessages;
+  if (huoshan_ai_screen_ready) return true;
+
+  if (huoshan_ai_screen_lock == NULL) {
+    huoshan_ai_screen_lock = xSemaphoreCreateRecursiveMutex();
+  }
+  if (huoshan_ai_screen_lock == NULL) {
+    huoshan_ai_last_error = "Screen mutex failed";
+    huoshan_ai_set_state("error");
+    return false;
+  }
+
+  huoshan_ai_screen_set_brightness(huoshan_ai_screen_brightness);
+  lv_init();
+  huoshan_ai_screen_touch.begin();
+  lv_tick_set_cb(huoshan_ai_screen_tick);
+
+  lv_display_t *disp = lv_tft_espi_create(
+      HUOSHAN_AI_SCREEN_WIDTH,
+      HUOSHAN_AI_SCREEN_HEIGHT,
+      huoshan_ai_screen_draw_buf,
+      sizeof(huoshan_ai_screen_draw_buf));
+  lv_display_set_rotation(disp, HUOSHAN_AI_SCREEN_ROTATION);
+
+  lv_indev_t *indev = lv_indev_create();
+  lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
+  lv_indev_set_read_cb(indev, huoshan_ai_screen_touch_read);
+
+  if (huoshan_ai_screen_take(portMAX_DELAY)) {
+    huoshan_ai_screen_create_ui();
+    huoshan_ai_screen_ready = true;
+    huoshan_ai_screen_give();
+  }
+
+  xTaskCreate(
+      huoshan_ai_screen_loop_task,
+      "huoshanScreen",
+      8192,
+      NULL,
+      1,
+      &huoshan_ai_screen_loop_task_handle);
+  return true;
+}
+
+#endif
+`);
+
+  if (typeof generator.addSetupBegin === 'function') {
+    generator.addSetupBegin(
+      'huoshan_ai_screen_auto_begin',
+      'HuoshanAIVoice.beginScreen(true, true);',
+      true
+    );
+  }
 }
 
 function huoshanAiEnsureWiFiLib(generator) {
@@ -2109,4 +3148,58 @@ Arduino.forBlock['huoshan_ai_get_last_reply_text'] = function(block, generator) 
 Arduino.forBlock['huoshan_ai_get_last_error'] = function(block, generator) {
   huoshanAiEnsureRuntime(generator);
   return ['HuoshanAIVoice.lastError()', Arduino.ORDER_FUNCTION_CALL];
+};
+
+Arduino.forBlock['huoshan_ai_screen_config'] = function(block, generator) {
+  const config = {
+    width: huoshanAiScreenField(block, 'WIDTH', HUOSHAN_AI_SCREEN_DEFAULTS.width),
+    height: huoshanAiScreenField(block, 'HEIGHT', HUOSHAN_AI_SCREEN_DEFAULTS.height),
+    rotation: block.getFieldValue('ROTATION') || HUOSHAN_AI_SCREEN_DEFAULTS.rotation,
+    brightness: huoshanAiScreenField(block, 'BRIGHTNESS', HUOSHAN_AI_SCREEN_DEFAULTS.brightness),
+    bl: huoshanAiScreenField(block, 'BL', HUOSHAN_AI_SCREEN_DEFAULTS.bl),
+    miso: huoshanAiScreenField(block, 'MISO', HUOSHAN_AI_SCREEN_DEFAULTS.miso),
+    mosi: huoshanAiScreenField(block, 'MOSI', HUOSHAN_AI_SCREEN_DEFAULTS.mosi),
+    sclk: huoshanAiScreenField(block, 'SCLK', HUOSHAN_AI_SCREEN_DEFAULTS.sclk),
+    cs: huoshanAiScreenField(block, 'CS', HUOSHAN_AI_SCREEN_DEFAULTS.cs),
+    dc: huoshanAiScreenField(block, 'DC', HUOSHAN_AI_SCREEN_DEFAULTS.dc),
+    rst: huoshanAiScreenField(block, 'RST', HUOSHAN_AI_SCREEN_DEFAULTS.rst),
+    touchSda: huoshanAiScreenField(block, 'TOUCH_SDA', HUOSHAN_AI_SCREEN_DEFAULTS.touchSda),
+    touchScl: huoshanAiScreenField(block, 'TOUCH_SCL', HUOSHAN_AI_SCREEN_DEFAULTS.touchScl),
+    touchRst: huoshanAiScreenField(block, 'TOUCH_RST', HUOSHAN_AI_SCREEN_DEFAULTS.touchRst),
+    touchInt: huoshanAiScreenField(block, 'TOUCH_INT', HUOSHAN_AI_SCREEN_DEFAULTS.touchInt)
+  };
+  huoshanAiAddScreenMacros(generator, config);
+  huoshanAiEnsureScreenRuntime(generator);
+  return `HuoshanAIVoice.configScreen(${config.width}, ${config.height}, ${config.brightness});\n`;
+};
+
+Arduino.forBlock['huoshan_ai_screen_begin'] = function(block, generator) {
+  huoshanAiEnsureScreenRuntime(generator);
+  const touchToTalk = block.getFieldValue('TOUCH_TO_TALK') || 'true';
+  const autoMessages = block.getFieldValue('AUTO_MESSAGES') || 'true';
+  return `HuoshanAIVoice.beginScreen(${touchToTalk}, ${autoMessages});\n`;
+};
+
+Arduino.forBlock['huoshan_ai_screen_set_brightness'] = function(block, generator) {
+  huoshanAiEnsureScreenRuntime(generator);
+  const value = generator.valueToCode(block, 'VALUE', Arduino.ORDER_ATOMIC) || '80';
+  return `HuoshanAIVoice.setScreenBrightness(${value});\n`;
+};
+
+Arduino.forBlock['huoshan_ai_screen_set_status'] = function(block, generator) {
+  huoshanAiEnsureScreenRuntime(generator);
+  const text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC) || '""';
+  return `HuoshanAIVoice.setScreenStatus(${text});\n`;
+};
+
+Arduino.forBlock['huoshan_ai_screen_add_message'] = function(block, generator) {
+  huoshanAiEnsureScreenRuntime(generator);
+  const role = JSON.stringify(block.getFieldValue('ROLE') || 'system');
+  const text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC) || '""';
+  return `HuoshanAIVoice.addScreenMessage(${role}, ${text});\n`;
+};
+
+Arduino.forBlock['huoshan_ai_screen_clear_messages'] = function(block, generator) {
+  huoshanAiEnsureScreenRuntime(generator);
+  return 'HuoshanAIVoice.clearScreenMessages();\n';
 };

@@ -1,6 +1,6 @@
 # Seeed RPC WiFi
 
-Blockly wrapper for Seeed Wio Terminal RPC WiFi, including WiFi connection, scan, AP mode, TCP/UDP, HTTP, WebServer, DNS, mDNS, and WiFiManager provisioning.
+Blockly wrapper for Seeed Wio Terminal RPC WiFi, including WiFi connection, scan, AP mode, TCP/UDP, HTTP, WebServer, and DNS.
 
 ## Library Info
 - **Name**: @aily-project/lib-seeed-rpcwifi
@@ -71,16 +71,6 @@ Blockly wrapper for Seeed Wio Terminal RPC WiFi, including WiFi connection, scan
 | `seeed_rpcwifi_dns_start` | Statement | VAR(field_variable), PORT(input_value), DOMAIN(input_value), IP(input_value) | `seeed_rpcwifi_dns_start(variables_get($dns), math_number(0), text("value"), text("value"))` | Dynamic code |
 | `seeed_rpcwifi_dns_start_captive` | Statement | VAR(field_variable) | `seeed_rpcwifi_dns_start_captive(variables_get($dns))` | Dynamic code |
 | `seeed_rpcwifi_dns_process` | Statement | VAR(field_variable) | `seeed_rpcwifi_dns_process(variables_get($dns))` | Dynamic code |
-| `seeed_rpcwifi_mdns_begin` | Statement | HOSTNAME(input_value) | `seeed_rpcwifi_mdns_begin(text("value"))` | if (!MDNS.begin(String( |
-| `seeed_rpcwifi_mdns_add_service` | Statement | SERVICE(input_value), PROTO(dropdown), PORT(input_value) | `seeed_rpcwifi_mdns_add_service(text("value"), tcp, math_number(0))` | MDNS.addService(String( |
-| `seeed_rpcwifi_mdns_query_host` | Value | HOST(input_value), TIMEOUT(input_value) | `seeed_rpcwifi_mdns_query_host(text("value"), math_number(1000))` | MDNS.queryHost(String( |
-| `seeed_rpcwifi_mdns_query_service` | Value | SERVICE(input_value), PROTO(dropdown) | `seeed_rpcwifi_mdns_query_service(text("value"), tcp)` | MDNS.queryService(String( |
-| `seeed_rpcwifi_wifimanager_create` | Statement | VAR(field_input) | `seeed_rpcwifi_wifimanager_create("wm")` | Dynamic code |
-| `seeed_rpcwifi_wifimanager_auto_connect` | Value | VAR(field_variable), AP_NAME(input_value), AP_PASSWORD(input_value) | `seeed_rpcwifi_wifimanager_auto_connect(variables_get($wm), text("value"), text("value"))` | Dynamic code |
-| `seeed_rpcwifi_wifimanager_start_portal` | Value | VAR(field_variable), AP_NAME(input_value), AP_PASSWORD(input_value) | `seeed_rpcwifi_wifimanager_start_portal(variables_get($wm), text("value"), text("value"))` | Dynamic code |
-| `seeed_rpcwifi_wifimanager_reset` | Statement | VAR(field_variable) | `seeed_rpcwifi_wifimanager_reset(variables_get($wm))` | Dynamic code |
-| `seeed_rpcwifi_wifimanager_set_timeout` | Statement | VAR(field_variable), TYPE(dropdown), SECONDS(input_value) | `seeed_rpcwifi_wifimanager_set_timeout(variables_get($wm), CONFIG, math_number(0))` | Dynamic code |
-| `seeed_rpcwifi_wifimanager_get_info` | Value | VAR(field_variable), INFO(dropdown) | `seeed_rpcwifi_wifimanager_get_info(variables_get($wm), PORTAL_SSID)` | Dynamic code |
 
 ## Parameter Options
 
@@ -100,9 +90,6 @@ Blockly wrapper for Seeed Wio Terminal RPC WiFi, including WiFi connection, scan
 | NEWLINE | TRUE, FALSE | seeed_rpcwifi_client_print |
 | METHOD | GET, POST, PUT, PATCH | seeed_rpcwifi_http_request |
 | METHOD | HTTP_GET, HTTP_POST, HTTP_PUT, HTTP_DELETE, HTTP_ANY | seeed_rpcwifi_webserver_on |
-| PROTO | tcp, udp | seeed_rpcwifi_mdns_add_service, seeed_rpcwifi_mdns_query_service |
-| TYPE | CONFIG, CONNECT | seeed_rpcwifi_wifimanager_set_timeout |
-| INFO | PORTAL_SSID, SSID, PASSWORD | seeed_rpcwifi_wifimanager_get_info |
 
 ## ABS Examples
 

@@ -1,0 +1,677 @@
+[
+  {
+    "type": "seeed_rpcwifimanager_create",
+    "message0": "创建 WiFiManager 对象 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "wifiManager"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "创建一个 Seeed RPC WiFiManager 对象，用于自动连接和配置门户",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "seeed_rpcwifimanager_auto_connect",
+    "message0": "WiFiManager %1 自动连接 配置热点 %2 密码 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      },
+      {
+        "type": "input_value",
+        "name": "AP_NAME",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "AP_PASSWORD",
+        "check": "String"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#2E7D32",
+    "tooltip": "尝试连接已保存 WiFi，失败时启动指定名称的配置门户",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "seeed_rpcwifimanager_auto_connect_default",
+    "message0": "WiFiManager %1 自动连接 默认配置热点",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#2E7D32",
+    "tooltip": "尝试连接已保存 WiFi，失败时使用设备 ID 生成默认配置热点",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "seeed_rpcwifimanager_start_portal",
+    "message0": "WiFiManager %1 启动配置门户 热点 %2 密码 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      },
+      {
+        "type": "input_value",
+        "name": "AP_NAME",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "AP_PASSWORD",
+        "check": "String"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#EF6C00",
+    "tooltip": "直接启动配置门户，不先尝试连接已保存 WiFi",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifimanager_start_portal_default",
+    "message0": "WiFiManager %1 启动默认配置门户",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#EF6C00",
+    "tooltip": "使用设备 ID 生成默认热点名称并启动配置门户",
+    "icon": "fa-light fa-wifi"
+  },
+  {
+    "type": "seeed_rpcwifimanager_reset_settings",
+    "message0": "WiFiManager %1 清除已保存 WiFi 设置",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C62828",
+    "tooltip": "清除 WiFiManager 保存的 WiFi 配置",
+    "icon": "fa-light fa-rotate-left"
+  },
+  {
+    "type": "seeed_rpcwifimanager_set_portal_timeout",
+    "message0": "WiFiManager %1 设置配置门户超时 %2 秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      },
+      {
+        "type": "input_value",
+        "name": "SECONDS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#558B2F",
+    "tooltip": "设置配置门户等待用户配置的最长时间，单位为秒",
+    "icon": "fa-light fa-clock"
+  },
+  {
+    "type": "seeed_rpcwifimanager_set_connect_timeout",
+    "message0": "WiFiManager %1 设置连接超时 %2 秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      },
+      {
+        "type": "input_value",
+        "name": "SECONDS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#558B2F",
+    "tooltip": "设置尝试连接 WiFi 的最长时间，单位为秒",
+    "icon": "fa-light fa-clock"
+  },
+  {
+    "type": "seeed_rpcwifimanager_set_debug_output",
+    "message0": "WiFiManager %1 调试输出 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ENABLE",
+        "options": [
+          [
+            "启用",
+            "TRUE"
+          ],
+          [
+            "禁用",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#558B2F",
+    "tooltip": "启用或禁用 WiFiManager 的 Serial 调试输出",
+    "icon": "fa-light fa-bug"
+  },
+  {
+    "type": "seeed_rpcwifimanager_set_min_quality",
+    "message0": "WiFiManager %1 最低信号质量 %2 %",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      },
+      {
+        "type": "input_value",
+        "name": "QUALITY",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#558B2F",
+    "tooltip": "过滤配置页面中低于指定信号质量的 WiFi 网络",
+    "icon": "fa-light fa-signal"
+  },
+  {
+    "type": "seeed_rpcwifimanager_set_remove_duplicate_aps",
+    "message0": "WiFiManager %1 重复热点 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "REMOVE",
+        "options": [
+          [
+            "隐藏",
+            "TRUE"
+          ],
+          [
+            "显示",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#558B2F",
+    "tooltip": "配置扫描列表中是否移除相同 SSID 的重复热点",
+    "icon": "fa-light fa-list"
+  },
+  {
+    "type": "seeed_rpcwifimanager_set_break_after_save",
+    "message0": "WiFiManager %1 配置后退出门户 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ENABLE",
+        "options": [
+          [
+            "是",
+            "TRUE"
+          ],
+          [
+            "否",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#558B2F",
+    "tooltip": "保存配置后即使连接失败也退出配置门户",
+    "icon": "fa-light fa-right-from-bracket"
+  },
+  {
+    "type": "seeed_rpcwifimanager_set_ap_static_ip",
+    "message0": "WiFiManager %1 设置门户 IP %2 网关 %3 子网掩码 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      },
+      {
+        "type": "input_value",
+        "name": "IP",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "GATEWAY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "SUBNET",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A1B9A",
+    "tooltip": "设置配置门户 AP 模式下的静态 IP、网关和子网掩码",
+    "icon": "fa-light fa-network-wired"
+  },
+  {
+    "type": "seeed_rpcwifimanager_set_sta_static_ip",
+    "message0": "WiFiManager %1 设置连接后 IP %2 网关 %3 子网掩码 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      },
+      {
+        "type": "input_value",
+        "name": "IP",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "GATEWAY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "SUBNET",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A1B9A",
+    "tooltip": "设置连接到目标 WiFi 后使用的静态 IP、网关和子网掩码",
+    "icon": "fa-light fa-network-wired"
+  },
+  {
+    "type": "seeed_rpcwifimanager_set_custom_head",
+    "message0": "WiFiManager %1 设置页面 head HTML %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      },
+      {
+        "type": "field_input",
+        "name": "HTML",
+        "text": "<style>body{font-family:sans-serif;}</style>"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A1B9A",
+    "tooltip": "向配置门户页面 head 中注入自定义 HTML、CSS 或脚本片段",
+    "icon": "fa-light fa-code"
+  },
+  {
+    "type": "seeed_rpcwifimanager_get_portal_ssid",
+    "message0": "WiFiManager %1 配置门户 SSID",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      }
+    ],
+    "output": "String",
+    "colour": "#1565C0",
+    "tooltip": "获取当前配置门户热点名称",
+    "icon": "fa-light fa-circle-info"
+  },
+  {
+    "type": "seeed_rpcwifimanager_get_ssid",
+    "message0": "WiFiManager %1 已配置 SSID",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      }
+    ],
+    "output": "String",
+    "colour": "#1565C0",
+    "tooltip": "读取 WiFiManager 当前保存或刚输入的 SSID",
+    "icon": "fa-light fa-circle-info"
+  },
+  {
+    "type": "seeed_rpcwifimanager_get_password",
+    "message0": "WiFiManager %1 已配置密码",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      }
+    ],
+    "output": "String",
+    "colour": "#1565C0",
+    "tooltip": "读取 WiFiManager 当前保存或刚输入的 WiFi 密码",
+    "icon": "fa-light fa-circle-info"
+  },
+  {
+    "type": "seeed_rpcwifimanager_parameter_create",
+    "message0": "创建 WiFiManager 参数 %1 ID %2 标签 %3 默认值 %4 长度 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "mqttServerParam"
+      },
+      {
+        "type": "field_input",
+        "name": "ID",
+        "text": "server"
+      },
+      {
+        "type": "field_input",
+        "name": "LABEL",
+        "text": "MQTT server"
+      },
+      {
+        "type": "field_input",
+        "name": "DEFAULT_VALUE",
+        "text": "iot.eclipse.org"
+      },
+      {
+        "type": "field_number",
+        "name": "LENGTH",
+        "value": 40,
+        "min": 1,
+        "precision": 1
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00838F",
+    "tooltip": "创建一个自定义输入参数，可添加到配置门户表单",
+    "icon": "fa-light fa-sliders"
+  },
+  {
+    "type": "seeed_rpcwifimanager_parameter_create_html",
+    "message0": "创建 WiFiManager HTML 参数 %1 HTML %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "noticeParam"
+      },
+      {
+        "type": "field_input",
+        "name": "HTML",
+        "text": "<p>Device settings</p>"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00838F",
+    "tooltip": "创建一个只包含自定义 HTML 的配置门户参数",
+    "icon": "fa-light fa-code"
+  },
+  {
+    "type": "seeed_rpcwifimanager_add_parameter",
+    "message0": "WiFiManager %1 添加参数 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MANAGER",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      },
+      {
+        "type": "field_variable",
+        "name": "PARAM",
+        "variable": "mqttServerParam",
+        "variableTypes": [
+          "WiFiManagerParameter"
+        ],
+        "defaultType": "WiFiManagerParameter"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00838F",
+    "tooltip": "把自定义参数添加到 WiFiManager 配置门户表单",
+    "icon": "fa-light fa-plus"
+  },
+  {
+    "type": "seeed_rpcwifimanager_parameter_value",
+    "message0": "WiFiManager 参数 %1 的值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "PARAM",
+        "variable": "mqttServerParam",
+        "variableTypes": [
+          "WiFiManagerParameter"
+        ],
+        "defaultType": "WiFiManagerParameter"
+      }
+    ],
+    "output": "String",
+    "colour": "#00838F",
+    "tooltip": "读取配置门户提交后的自定义参数值",
+    "icon": "fa-light fa-sliders"
+  },
+  {
+    "type": "seeed_rpcwifimanager_parameter_id",
+    "message0": "WiFiManager 参数 %1 的 ID",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "PARAM",
+        "variable": "mqttServerParam",
+        "variableTypes": [
+          "WiFiManagerParameter"
+        ],
+        "defaultType": "WiFiManagerParameter"
+      }
+    ],
+    "output": "String",
+    "colour": "#00838F",
+    "tooltip": "读取自定义参数 ID",
+    "icon": "fa-light fa-sliders"
+  },
+  {
+    "type": "seeed_rpcwifimanager_parameter_placeholder",
+    "message0": "WiFiManager 参数 %1 的标签",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "PARAM",
+        "variable": "mqttServerParam",
+        "variableTypes": [
+          "WiFiManagerParameter"
+        ],
+        "defaultType": "WiFiManagerParameter"
+      }
+    ],
+    "output": "String",
+    "colour": "#00838F",
+    "tooltip": "读取自定义参数在页面上显示的标签",
+    "icon": "fa-light fa-sliders"
+  },
+  {
+    "type": "seeed_rpcwifimanager_parameter_length",
+    "message0": "WiFiManager 参数 %1 的长度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "PARAM",
+        "variable": "mqttServerParam",
+        "variableTypes": [
+          "WiFiManagerParameter"
+        ],
+        "defaultType": "WiFiManagerParameter"
+      }
+    ],
+    "output": "Number",
+    "colour": "#00838F",
+    "tooltip": "读取自定义参数允许保存的最大长度",
+    "icon": "fa-light fa-sliders"
+  },
+  {
+    "type": "seeed_rpcwifimanager_on_portal_start",
+    "message0": "当 WiFiManager %1 进入配置门户",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#7B1FA2",
+    "tooltip": "注册进入 AP 配置门户时触发的回调",
+    "icon": "fa-light fa-bell"
+  },
+  {
+    "type": "seeed_rpcwifimanager_on_save_success",
+    "message0": "当 WiFiManager %1 保存配置并连接成功",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "wifiManager",
+        "variableTypes": [
+          "WiFiManager"
+        ],
+        "defaultType": "WiFiManager"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#7B1FA2",
+    "tooltip": "注册用户保存自定义配置且 WiFi 连接成功后的回调",
+    "icon": "fa-light fa-bell"
+  }
+]
