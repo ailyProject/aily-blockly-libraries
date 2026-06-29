@@ -58,3 +58,4 @@ arduino_loop()
 1. **Variable**: `mbrick_motor_init("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+4. **PWM channels**: the bundled driver binds motors to high LEDC channels first, avoiding ESP32Servo's default low-channel allocation.
