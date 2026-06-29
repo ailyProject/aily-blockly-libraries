@@ -1,0 +1,311 @@
+{
+  "toolbox_name": "C4002 毫米波雷达",
+  "dfrobot_c4002_init": {
+    "message0": "初始化 C4002 雷达 %1 串口 %2 波特率 %3 RX %4 TX %5 OUT 引脚 %6",
+    "tooltip": "初始化 DFRobot C4002。ESP32 使用所选硬串口和 RX/TX 引脚，UNO/ESP8266 使用 SoftwareSerial，OUT 引脚 255 表示不使用。"
+  },
+  "dfrobot_c4002_update": {
+    "message0": "C4002 %1 更新通知数据",
+    "tooltip": "调用 getNoteInfo，刷新通知类型、校准倒计时和检测结果。"
+  },
+  "dfrobot_c4002_get_note": {
+    "message0": "C4002 %1 通知 %2",
+    "tooltip": "读取最近一次更新得到的通知类型或校准倒计时。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "通知类型",
+            "NOTE_TYPE"
+          ],
+          [
+            "校准倒计时",
+            "CALIB_COUNTDOWN"
+          ]
+        ]
+      }
+    ]
+  },
+  "dfrobot_c4002_get_value": {
+    "message0": "C4002 %1 读取 %2",
+    "tooltip": "读取雷达检测结果或配置值。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "目标状态",
+            "TARGET_STATE"
+          ],
+          [
+            "光照强度 lux",
+            "LIGHT"
+          ],
+          [
+            "存在倒计时 s",
+            "PRESENCE_COUNTDOWN"
+          ],
+          [
+            "存在距离门索引",
+            "PRESENCE_GATE_INDEX"
+          ],
+          [
+            "存在目标距离 m",
+            "PRESENCE_DISTANCE"
+          ],
+          [
+            "存在目标能量",
+            "PRESENCE_ENERGY"
+          ],
+          [
+            "运动目标距离 m",
+            "MOTION_DISTANCE"
+          ],
+          [
+            "运动目标速度 m/s",
+            "MOTION_SPEED"
+          ],
+          [
+            "运动目标能量",
+            "MOTION_ENERGY"
+          ],
+          [
+            "运动方向",
+            "MOTION_DIRECTION"
+          ],
+          [
+            "OUT 目标状态",
+            "OUT_TARGET_STATE"
+          ],
+          [
+            "光照阈值",
+            "LIGHT_THRESHOLD"
+          ],
+          [
+            "最近检测距离 cm",
+            "RANGE_CLOSEST"
+          ],
+          [
+            "最远检测距离 cm",
+            "RANGE_FARTHEST"
+          ],
+          [
+            "目标消失延迟 s",
+            "DISAPPEAR_DELAY"
+          ],
+          [
+            "OUT 引脚模式",
+            "OUT_PIN_MODE"
+          ],
+          [
+            "分辨率模式",
+            "RESOLUTION_MODE"
+          ],
+          [
+            "运动灵敏度",
+            "MOTION_SENSITIVITY"
+          ],
+          [
+            "存在灵敏度",
+            "PRESENCE_SENSITIVITY"
+          ]
+        ]
+      }
+    ]
+  },
+  "dfrobot_c4002_set_led": {
+    "message0": "C4002 %1 设置 %2 LED %3",
+    "tooltip": "设置运行灯或输出灯开关。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "运行",
+            "RUN"
+          ],
+          [
+            "输出",
+            "OUT"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "关闭",
+            "eLedOff"
+          ],
+          [
+            "开启",
+            "eLedOn"
+          ]
+        ]
+      }
+    ]
+  },
+  "dfrobot_c4002_set_out_pin_mode": {
+    "message0": "C4002 %1 设置 OUT 模式 %2",
+    "tooltip": "设置 OUT 引脚输出条件。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "仅运动",
+            "eOutpinMode1"
+          ],
+          [
+            "仅存在",
+            "eOutpinMode2"
+          ],
+          [
+            "运动或存在",
+            "eOutpinMode3"
+          ]
+        ]
+      }
+    ]
+  },
+  "dfrobot_c4002_set_resolution": {
+    "message0": "C4002 %1 设置分辨率 %2",
+    "tooltip": "设置距离门分辨率。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "80 cm",
+            "eResolution80Cm"
+          ],
+          [
+            "20 cm",
+            "eResolution20Cm"
+          ]
+        ]
+      }
+    ]
+  },
+  "dfrobot_c4002_set_detect_range": {
+    "message0": "C4002 %1 检测范围 最近 cm %2 最远 cm %3",
+    "tooltip": "设置检测距离范围，单位 cm，常用 0 到 1100。"
+  },
+  "dfrobot_c4002_set_report_period": {
+    "message0": "C4002 %1 上报周期 0.1s 倍数 %2",
+    "tooltip": "设置通知上报周期，10 表示 1 秒。"
+  },
+  "dfrobot_c4002_set_light_threshold": {
+    "message0": "C4002 %1 光照阈值 lux %2",
+    "tooltip": "设置环境光阈值，0 表示不受光照限制。"
+  },
+  "dfrobot_c4002_set_target_disappear_delay": {
+    "message0": "C4002 %1 目标消失延迟 s %2",
+    "tooltip": "设置目标消失后状态保持时间。"
+  },
+  "dfrobot_c4002_set_lock_time": {
+    "message0": "C4002 %1 锁定时间 s %2",
+    "tooltip": "设置从有人到无人时的检测锁定时间。"
+  },
+  "dfrobot_c4002_set_sensitivity": {
+    "message0": "C4002 %1 设置 %2 灵敏度 %3",
+    "tooltip": "设置运动或存在检测灵敏度组。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "运动门",
+            "eMotionDistGate"
+          ],
+          [
+            "存在门",
+            "ePresenceDistGate"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "低",
+            "eLowThreshGroup"
+          ],
+          [
+            "中",
+            "eMidThreshGroup"
+          ],
+          [
+            "高",
+            "eHighThreshGroup"
+          ],
+          [
+            "自定义",
+            "eCustomThreshGroup"
+          ]
+        ]
+      }
+    ]
+  },
+  "dfrobot_c4002_configure_all_gates": {
+    "message0": "C4002 %1 将全部 %2 设置为 %3",
+    "tooltip": "批量启用或禁用 25 个距离门。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "运动门",
+            "eMotionDistGate"
+          ],
+          [
+            "存在门",
+            "ePresenceDistGate"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "启用",
+            "C4002_ENABLE"
+          ],
+          [
+            "禁用",
+            "C4002_DISABLE"
+          ]
+        ]
+      }
+    ]
+  },
+  "dfrobot_c4002_set_gate_threshold_all": {
+    "message0": "C4002 %1 全部 %2 阈值 %3",
+    "tooltip": "批量设置 25 个距离门阈值，范围 0 到 99。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "运动门",
+            "eMotionDistGate"
+          ],
+          [
+            "存在门",
+            "ePresenceDistGate"
+          ]
+        ]
+      }
+    ]
+  },
+  "dfrobot_c4002_start_calibration": {
+    "message0": "C4002 %1 环境校准 延迟 s %2 持续 s %3",
+    "tooltip": "启动环境噪声校准。"
+  },
+  "dfrobot_c4002_factory_reset": {
+    "message0": "C4002 %1 恢复出厂设置",
+    "tooltip": "恢复传感器出厂设置。"
+  },
+  "dfrobot_c4002_set_baudrate": {
+    "message0": "C4002 %1 设置波特率 %2",
+    "tooltip": "修改传感器串口波特率，成功后重启生效。"
+  }
+}
