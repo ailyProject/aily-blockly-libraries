@@ -1,0 +1,715 @@
+[
+  {
+    "type": "dfrobot_c4002_init",
+    "icon": "fa-light fa-satellite-dish",
+    "message0": "初始化 C4002 雷达 %1 串口 %2 波特率 %3 RX %4 TX %5 OUT 引脚 %6",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "c4002"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": [
+          [
+            "Serial1",
+            "Serial1"
+          ],
+          [
+            "Serial2",
+            "Serial2"
+          ],
+          [
+            "Serial",
+            "Serial"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "BAUD",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "RX",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "TX",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "OUT_PIN",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "初始化 DFRobot C4002。ESP32 使用所选硬串口和 RX/TX 引脚，UNO/ESP8266 使用 SoftwareSerial，OUT 引脚 255 表示不使用。"
+  },
+  {
+    "type": "dfrobot_c4002_update",
+    "icon": "fa-light fa-satellite-dish",
+    "message0": "C4002 %1 更新通知数据",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "调用 getNoteInfo，刷新通知类型、校准倒计时和检测结果。"
+  },
+  {
+    "type": "dfrobot_c4002_get_note",
+    "icon": "fa-light fa-satellite-dish",
+    "message0": "C4002 %1 通知 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "NOTE",
+        "options": [
+          [
+            "通知类型",
+            "NOTE_TYPE"
+          ],
+          [
+            "校准倒计时",
+            "CALIB_COUNTDOWN"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#1976D2",
+    "tooltip": "读取最近一次更新得到的通知类型或校准倒计时。"
+  },
+  {
+    "type": "dfrobot_c4002_get_value",
+    "icon": "fa-light fa-satellite-dish",
+    "message0": "C4002 %1 读取 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VALUE",
+        "options": [
+          [
+            "目标状态",
+            "TARGET_STATE"
+          ],
+          [
+            "光照强度 lux",
+            "LIGHT"
+          ],
+          [
+            "存在倒计时 s",
+            "PRESENCE_COUNTDOWN"
+          ],
+          [
+            "存在距离门索引",
+            "PRESENCE_GATE_INDEX"
+          ],
+          [
+            "存在目标距离 m",
+            "PRESENCE_DISTANCE"
+          ],
+          [
+            "存在目标能量",
+            "PRESENCE_ENERGY"
+          ],
+          [
+            "运动目标距离 m",
+            "MOTION_DISTANCE"
+          ],
+          [
+            "运动目标速度 m/s",
+            "MOTION_SPEED"
+          ],
+          [
+            "运动目标能量",
+            "MOTION_ENERGY"
+          ],
+          [
+            "运动方向",
+            "MOTION_DIRECTION"
+          ],
+          [
+            "OUT 目标状态",
+            "OUT_TARGET_STATE"
+          ],
+          [
+            "光照阈值",
+            "LIGHT_THRESHOLD"
+          ],
+          [
+            "最近检测距离 cm",
+            "RANGE_CLOSEST"
+          ],
+          [
+            "最远检测距离 cm",
+            "RANGE_FARTHEST"
+          ],
+          [
+            "目标消失延迟 s",
+            "DISAPPEAR_DELAY"
+          ],
+          [
+            "OUT 引脚模式",
+            "OUT_PIN_MODE"
+          ],
+          [
+            "分辨率模式",
+            "RESOLUTION_MODE"
+          ],
+          [
+            "运动灵敏度",
+            "MOTION_SENSITIVITY"
+          ],
+          [
+            "存在灵敏度",
+            "PRESENCE_SENSITIVITY"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#1976D2",
+    "tooltip": "读取雷达检测结果或配置值。"
+  },
+  {
+    "type": "dfrobot_c4002_set_led",
+    "icon": "fa-light fa-lightbulb",
+    "message0": "C4002 %1 设置 %2 LED %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "LED",
+        "options": [
+          [
+            "运行",
+            "RUN"
+          ],
+          [
+            "输出",
+            "OUT"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "关闭",
+            "eLedOff"
+          ],
+          [
+            "开启",
+            "eLedOn"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置运行灯或输出灯开关。"
+  },
+  {
+    "type": "dfrobot_c4002_set_out_pin_mode",
+    "icon": "fa-light fa-toggle-on",
+    "message0": "C4002 %1 设置 OUT 模式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "仅运动",
+            "eOutpinMode1"
+          ],
+          [
+            "仅存在",
+            "eOutpinMode2"
+          ],
+          [
+            "运动或存在",
+            "eOutpinMode3"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置 OUT 引脚输出条件。"
+  },
+  {
+    "type": "dfrobot_c4002_set_resolution",
+    "icon": "fa-light fa-ruler",
+    "message0": "C4002 %1 设置分辨率 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "80 cm",
+            "eResolution80Cm"
+          ],
+          [
+            "20 cm",
+            "eResolution20Cm"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置距离门分辨率。"
+  },
+  {
+    "type": "dfrobot_c4002_set_detect_range",
+    "icon": "fa-light fa-arrows-left-right",
+    "message0": "C4002 %1 检测范围 最近 cm %2 最远 cm %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      },
+      {
+        "type": "input_value",
+        "name": "CLOSEST",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "FARTHEST",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置检测距离范围，单位 cm，常用 0 到 1100。"
+  },
+  {
+    "type": "dfrobot_c4002_set_report_period",
+    "icon": "fa-light fa-clock",
+    "message0": "C4002 %1 上报周期 0.1s 倍数 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      },
+      {
+        "type": "input_value",
+        "name": "PERIOD",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置通知上报周期，10 表示 1 秒。"
+  },
+  {
+    "type": "dfrobot_c4002_set_light_threshold",
+    "icon": "fa-light fa-sun",
+    "message0": "C4002 %1 光照阈值 lux %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      },
+      {
+        "type": "input_value",
+        "name": "THRESHOLD",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置环境光阈值，0 表示不受光照限制。"
+  },
+  {
+    "type": "dfrobot_c4002_set_target_disappear_delay",
+    "icon": "fa-light fa-hourglass-end",
+    "message0": "C4002 %1 目标消失延迟 s %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      },
+      {
+        "type": "input_value",
+        "name": "SECONDS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置目标消失后状态保持时间。"
+  },
+  {
+    "type": "dfrobot_c4002_set_lock_time",
+    "icon": "fa-light fa-lock",
+    "message0": "C4002 %1 锁定时间 s %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      },
+      {
+        "type": "input_value",
+        "name": "SECONDS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置从有人到无人时的检测锁定时间。"
+  },
+  {
+    "type": "dfrobot_c4002_set_sensitivity",
+    "icon": "fa-light fa-sliders",
+    "message0": "C4002 %1 设置 %2 灵敏度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "GATE",
+        "options": [
+          [
+            "运动门",
+            "eMotionDistGate"
+          ],
+          [
+            "存在门",
+            "ePresenceDistGate"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SENSITIVITY",
+        "options": [
+          [
+            "低",
+            "eLowThreshGroup"
+          ],
+          [
+            "中",
+            "eMidThreshGroup"
+          ],
+          [
+            "高",
+            "eHighThreshGroup"
+          ],
+          [
+            "自定义",
+            "eCustomThreshGroup"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置运动或存在检测灵敏度组。"
+  },
+  {
+    "type": "dfrobot_c4002_configure_all_gates",
+    "icon": "fa-light fa-grip-lines",
+    "message0": "C4002 %1 将全部 %2 设置为 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "GATE",
+        "options": [
+          [
+            "运动门",
+            "eMotionDistGate"
+          ],
+          [
+            "存在门",
+            "ePresenceDistGate"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "启用",
+            "C4002_ENABLE"
+          ],
+          [
+            "禁用",
+            "C4002_DISABLE"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "批量启用或禁用 25 个距离门。"
+  },
+  {
+    "type": "dfrobot_c4002_set_gate_threshold_all",
+    "icon": "fa-light fa-wave-square",
+    "message0": "C4002 %1 全部 %2 阈值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "GATE",
+        "options": [
+          [
+            "运动门",
+            "eMotionDistGate"
+          ],
+          [
+            "存在门",
+            "ePresenceDistGate"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "THRESHOLD",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "批量设置 25 个距离门阈值，范围 0 到 99。"
+  },
+  {
+    "type": "dfrobot_c4002_start_calibration",
+    "icon": "fa-light fa-bullseye",
+    "message0": "C4002 %1 环境校准 延迟 s %2 持续 s %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      },
+      {
+        "type": "input_value",
+        "name": "DELAY_TIME",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CONT_TIME",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "启动环境噪声校准。"
+  },
+  {
+    "type": "dfrobot_c4002_factory_reset",
+    "icon": "fa-light fa-rotate-left",
+    "message0": "C4002 %1 恢复出厂设置",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "恢复传感器出厂设置。"
+  },
+  {
+    "type": "dfrobot_c4002_set_baudrate",
+    "icon": "fa-light fa-gauge-high",
+    "message0": "C4002 %1 设置波特率 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "c4002",
+        "variableTypes": [
+          "DFRobot_C4002"
+        ],
+        "defaultType": "DFRobot_C4002"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BAUD",
+        "options": [
+          [
+            "57600",
+            "eBaud57600"
+          ],
+          [
+            "115200",
+            "eBaud115200"
+          ],
+          [
+            "230400",
+            "eBaud230400"
+          ],
+          [
+            "460800",
+            "eBaud460800"
+          ],
+          [
+            "500000",
+            "eBaud500000"
+          ],
+          [
+            "921600",
+            "eBaud921600"
+          ],
+          [
+            "1000000",
+            "eBaud1000000"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "修改传感器串口波特率，成功后重启生效。"
+  }
+]

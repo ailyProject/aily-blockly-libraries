@@ -1,0 +1,311 @@
+{
+  "toolbox_name": "C4002 mmWave Radar",
+  "dfrobot_c4002_init": {
+    "message0": "init C4002 radar %1 serial %2 baud %3 RX %4 TX %5 OUT pin %6",
+    "tooltip": "Initialize DFRobot C4002. ESP32 uses the selected hardware serial and RX/TX pins; UNO/ESP8266 use SoftwareSerial. OUT pin 255 means unused."
+  },
+  "dfrobot_c4002_update": {
+    "message0": "C4002 %1 update notification data",
+    "tooltip": "Call getNoteInfo to refresh note type, calibration countdown, and detection data."
+  },
+  "dfrobot_c4002_get_note": {
+    "message0": "C4002 %1 note %2",
+    "tooltip": "Read note type or calibration countdown from the latest update.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "note type",
+            "NOTE_TYPE"
+          ],
+          [
+            "calibration countdown",
+            "CALIB_COUNTDOWN"
+          ]
+        ]
+      }
+    ]
+  },
+  "dfrobot_c4002_get_value": {
+    "message0": "C4002 %1 read %2",
+    "tooltip": "Read radar result or configuration values.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "target state",
+            "TARGET_STATE"
+          ],
+          [
+            "light lux",
+            "LIGHT"
+          ],
+          [
+            "presence countdown s",
+            "PRESENCE_COUNTDOWN"
+          ],
+          [
+            "presence gate index",
+            "PRESENCE_GATE_INDEX"
+          ],
+          [
+            "presence distance m",
+            "PRESENCE_DISTANCE"
+          ],
+          [
+            "presence energy",
+            "PRESENCE_ENERGY"
+          ],
+          [
+            "motion distance m",
+            "MOTION_DISTANCE"
+          ],
+          [
+            "motion speed m/s",
+            "MOTION_SPEED"
+          ],
+          [
+            "motion energy",
+            "MOTION_ENERGY"
+          ],
+          [
+            "motion direction",
+            "MOTION_DIRECTION"
+          ],
+          [
+            "OUT target state",
+            "OUT_TARGET_STATE"
+          ],
+          [
+            "light threshold",
+            "LIGHT_THRESHOLD"
+          ],
+          [
+            "closest range cm",
+            "RANGE_CLOSEST"
+          ],
+          [
+            "farthest range cm",
+            "RANGE_FARTHEST"
+          ],
+          [
+            "target disappear delay s",
+            "DISAPPEAR_DELAY"
+          ],
+          [
+            "OUT pin mode",
+            "OUT_PIN_MODE"
+          ],
+          [
+            "resolution mode",
+            "RESOLUTION_MODE"
+          ],
+          [
+            "motion sensitivity",
+            "MOTION_SENSITIVITY"
+          ],
+          [
+            "presence sensitivity",
+            "PRESENCE_SENSITIVITY"
+          ]
+        ]
+      }
+    ]
+  },
+  "dfrobot_c4002_set_led": {
+    "message0": "C4002 %1 set %2 LED %3",
+    "tooltip": "Turn the run LED or output LED on or off.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "run",
+            "RUN"
+          ],
+          [
+            "output",
+            "OUT"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "off",
+            "eLedOff"
+          ],
+          [
+            "on",
+            "eLedOn"
+          ]
+        ]
+      }
+    ]
+  },
+  "dfrobot_c4002_set_out_pin_mode": {
+    "message0": "C4002 %1 set OUT mode %2",
+    "tooltip": "Set the OUT pin trigger condition.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "motion only",
+            "eOutpinMode1"
+          ],
+          [
+            "presence only",
+            "eOutpinMode2"
+          ],
+          [
+            "motion or presence",
+            "eOutpinMode3"
+          ]
+        ]
+      }
+    ]
+  },
+  "dfrobot_c4002_set_resolution": {
+    "message0": "C4002 %1 set resolution %2",
+    "tooltip": "Set distance gate resolution.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "80 cm",
+            "eResolution80Cm"
+          ],
+          [
+            "20 cm",
+            "eResolution20Cm"
+          ]
+        ]
+      }
+    ]
+  },
+  "dfrobot_c4002_set_detect_range": {
+    "message0": "C4002 %1 detect range closest cm %2 farthest cm %3",
+    "tooltip": "Set detection range in cm, commonly 0 to 1100."
+  },
+  "dfrobot_c4002_set_report_period": {
+    "message0": "C4002 %1 report period in 0.1s units %2",
+    "tooltip": "Set report period. 10 means 1 second."
+  },
+  "dfrobot_c4002_set_light_threshold": {
+    "message0": "C4002 %1 light threshold lux %2",
+    "tooltip": "Set ambient light threshold. 0 disables light gating."
+  },
+  "dfrobot_c4002_set_target_disappear_delay": {
+    "message0": "C4002 %1 target disappear delay s %2",
+    "tooltip": "Set how long target state is kept after disappearance."
+  },
+  "dfrobot_c4002_set_lock_time": {
+    "message0": "C4002 %1 lock time s %2",
+    "tooltip": "Set the detection lock time when switching from occupied to unoccupied."
+  },
+  "dfrobot_c4002_set_sensitivity": {
+    "message0": "C4002 %1 set %2 sensitivity %3",
+    "tooltip": "Set motion or presence sensitivity group.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "motion gate",
+            "eMotionDistGate"
+          ],
+          [
+            "presence gate",
+            "ePresenceDistGate"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "low",
+            "eLowThreshGroup"
+          ],
+          [
+            "mid",
+            "eMidThreshGroup"
+          ],
+          [
+            "high",
+            "eHighThreshGroup"
+          ],
+          [
+            "custom",
+            "eCustomThreshGroup"
+          ]
+        ]
+      }
+    ]
+  },
+  "dfrobot_c4002_configure_all_gates": {
+    "message0": "C4002 %1 set all %2 to %3",
+    "tooltip": "Enable or disable all 25 distance gates.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "motion gate",
+            "eMotionDistGate"
+          ],
+          [
+            "presence gate",
+            "ePresenceDistGate"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "enable",
+            "C4002_ENABLE"
+          ],
+          [
+            "disable",
+            "C4002_DISABLE"
+          ]
+        ]
+      }
+    ]
+  },
+  "dfrobot_c4002_set_gate_threshold_all": {
+    "message0": "C4002 %1 all %2 threshold %3",
+    "tooltip": "Set all 25 gate thresholds, range 0 to 99.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "motion gate",
+            "eMotionDistGate"
+          ],
+          [
+            "presence gate",
+            "ePresenceDistGate"
+          ]
+        ]
+      }
+    ]
+  },
+  "dfrobot_c4002_start_calibration": {
+    "message0": "C4002 %1 environment calibration delay s %2 duration s %3",
+    "tooltip": "Start environment noise calibration."
+  },
+  "dfrobot_c4002_factory_reset": {
+    "message0": "C4002 %1 factory reset",
+    "tooltip": "Restore sensor factory settings."
+  },
+  "dfrobot_c4002_set_baudrate": {
+    "message0": "C4002 %1 set baudrate %2",
+    "tooltip": "Change sensor UART baudrate. Restart is required after success."
+  }
+}
