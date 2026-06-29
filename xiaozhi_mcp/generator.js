@@ -1,8 +1,5 @@
 'use strict';
 
-var xiaozhiMcpPendingParamsByTool = {};
-var xiaozhiMcpToolRegistrations = {};
-
 function xiaozhiMcpOrder(generator) {
   if (generator && generator.ORDER_ATOMIC !== undefined) return generator.ORDER_ATOMIC;
   if (typeof Arduino !== 'undefined' && Arduino.ORDER_ATOMIC !== undefined) return Arduino.ORDER_ATOMIC;
@@ -12,6 +9,39 @@ function xiaozhiMcpOrder(generator) {
 function xiaozhiMcpValueToCode(block, generator, name, fallback) {
   return generator.valueToCode(block, name, xiaozhiMcpOrder(generator)) || fallback;
 }
+
+function xiaozhiMcpResetState(generator) {
+  generator._xiaozhiMcpState = {
+    pendingParamsByTool: {},
+    toolRegistrations: {},
+    toolHandlers: {}
+  };
+}
+
+function xiaozhiMcpState(generator) {
+  if (!generator._xiaozhiMcpState) {
+    xiaozhiMcpResetState(generator);
+  }
+  return generator._xiaozhiMcpState;
+}
+
+function xiaozhiMcpInstallGenerationReset() {
+  if (typeof Arduino === 'undefined' || Arduino._xiaozhiMcpGenerationResetInstalled) {
+    return;
+  }
+  if (typeof Arduino.workspaceToCode !== 'function') {
+    return;
+  }
+
+  Arduino._xiaozhiMcpGenerationResetInstalled = true;
+  const originalWorkspaceToCode = Arduino.workspaceToCode;
+  Arduino.workspaceToCode = function(workspace) {
+    xiaozhiMcpResetState(this);
+    return originalWorkspaceToCode.call(this, workspace);
+  };
+}
+
+xiaozhiMcpInstallGenerationReset();
 
 function xiaozhiMcpLiteralFromCode(code) {
   const text = String(code || '').trim();
@@ -71,7 +101,7 @@ function xiaozhiMcpEnsureGlobals(generator) {
   generator.addObject('xiaozhi_mcp_client', 'WebSocketMCP xiaozhiMcpClient;');
   generator.addObject('xiaozhi_mcp_state', `String xiaozhiMcpCurrentArgs = "";
 String xiaozhiMcpReturnValue = "{}";
-StaticJsonDocument<1024> xiaozhiMcpDoc;`);
+JsonDocument xiaozhiMcpDoc;`);
   generator.addFunction('xiaozhi_mcp_helpers', `void xiaozhiMcpParseArgs() {
   xiaozhiMcpDoc.clear();
   deserializeJson(xiaozhiMcpDoc, xiaozhiMcpCurrentArgs);
@@ -91,8 +121,9 @@ bool xiaozhiMcpGetBoolParam(const char* key) {
 }`);
 }
 
-function xiaozhiMcpBuildSchema(toolName) {
-  const params = xiaozhiMcpPendingParamsByTool[toolName] || [];
+function xiaozhiMcpBuildSchema(generator, toolName) {
+  const state = xiaozhiMcpState(generator);
+  const params = state.pendingParamsByTool[toolName] || [];
   const properties = {};
   const required = [];
   params.forEach((param) => {
@@ -103,13 +134,25 @@ function xiaozhiMcpBuildSchema(toolName) {
     properties[param.name] = definition;
     required.push(param.name);
   });
-  delete xiaozhiMcpPendingParamsByTool[toolName];
+  delete state.pendingParamsByTool[toolName];
   return JSON.stringify({ type: 'object', properties, required });
 }
 
+function xiaozhiMcpEnsureToolHandler(generator, toolName, body) {
+  const state = xiaozhiMcpState(generator);
+  const callbackName = 'onXiaozhiMcpTool_' + xiaozhiMcpSafeIdentifier(toolName, 'tool');
+  state.toolHandlers[callbackName] = body || '';
+  generator.addFunction(callbackName + '_prototype', `void ${callbackName}();`, true);
+  generator.addFunction(callbackName, `void ${callbackName}() {
+${state.toolHandlers[callbackName]}}`, true);
+  return callbackName;
+}
+
 function xiaozhiMcpEnsureRegisterFunction(generator) {
-  const registrations = Object.keys(xiaozhiMcpToolRegistrations).map((key) => xiaozhiMcpToolRegistrations[key]);
+  const state = xiaozhiMcpState(generator);
+  const registrations = Object.keys(state.toolRegistrations).map((key) => state.toolRegistrations[key]);
   const body = registrations.length ? registrations.join('\n\n  ') : '// No MCP tools registered yet.';
+  generator.addFunction('registerAllXiaozhiMcpTools_prototype', 'void registerAllXiaozhiMcpTools();', true);
   generator.addFunction('registerAllXiaozhiMcpTools', `void registerAllXiaozhiMcpTools() {
   ${body}
 }`, true);
@@ -183,7 +226,8 @@ Arduino.forBlock['xiaozhi_mcp_add_tool_param'] = function(block, generator) {
   const paramType = block.getFieldValue('PARAM_TYPE') || 'string';
 
   if (!toolName || !paramName) return '';
-  const params = xiaozhiMcpPendingParamsByTool[toolName] || [];
+  const state = xiaozhiMcpState(generator);
+  const params = state.pendingParamsByTool[toolName] || [];
   const existingIndex = params.findIndex((item) => item.name === paramName);
   const nextParam = {
     name: paramName,
@@ -197,7 +241,7 @@ Arduino.forBlock['xiaozhi_mcp_add_tool_param'] = function(block, generator) {
   } else {
     params.push(nextParam);
   }
-  xiaozhiMcpPendingParamsByTool[toolName] = params;
+  state.pendingParamsByTool[toolName] = params;
   return '';
 };
 
@@ -205,13 +249,13 @@ Arduino.forBlock['xiaozhi_mcp_register_tool'] = function(block, generator) {
   const toolNameCode = xiaozhiMcpValueToCode(block, generator, 'TOOL_NAME', '"my_tool"');
   const descriptionCode = xiaozhiMcpValueToCode(block, generator, 'DESCRIPTION', '"Control device"');
   const toolName = xiaozhiMcpLiteralFromCode(toolNameCode);
-  const callbackName = 'onXiaozhiMcpTool_' + xiaozhiMcpSafeIdentifier(toolName, 'tool');
-  const schema = xiaozhiMcpBuildSchema(toolName);
+  const state = xiaozhiMcpState(generator);
+  const handlerName = 'onXiaozhiMcpTool_' + xiaozhiMcpSafeIdentifier(toolName, 'tool');
+  const callbackName = xiaozhiMcpEnsureToolHandler(generator, toolName, state.toolHandlers[handlerName] || '');
+  const schema = xiaozhiMcpBuildSchema(generator, toolName);
 
   xiaozhiMcpEnsureGlobals(generator);
-  generator.addFunction(callbackName, `void ${callbackName}() {
-}`, false);
-  xiaozhiMcpToolRegistrations[toolName] = `xiaozhiMcpClient.registerTool(${toolNameCode}, ${descriptionCode}, R"json(${schema})json", [](const String& args) -> WebSocketMCP::ToolResponse {
+  state.toolRegistrations[toolName] = `xiaozhiMcpClient.registerTool(${toolNameCode}, ${descriptionCode}, R"json(${schema})json", [](const String& args) -> WebSocketMCP::ToolResponse {
     xiaozhiMcpCurrentArgs = args;
     xiaozhiMcpReturnValue = "{}";
     xiaozhiMcpParseArgs();
@@ -224,11 +268,9 @@ Arduino.forBlock['xiaozhi_mcp_register_tool'] = function(block, generator) {
 
 Arduino.forBlock['xiaozhi_mcp_on_tool'] = function(block, generator) {
   const toolName = xiaozhiMcpLiteralFromCode(xiaozhiMcpValueToCode(block, generator, 'TOOL_NAME', '"my_tool"'));
-  const callbackName = 'onXiaozhiMcpTool_' + xiaozhiMcpSafeIdentifier(toolName, 'tool');
   const body = generator.statementToCode(block, 'DO') || '';
   xiaozhiMcpEnsureGlobals(generator);
-  generator.addFunction(callbackName, `void ${callbackName}() {
-${body}}`, true);
+  xiaozhiMcpEnsureToolHandler(generator, toolName, body);
   return '';
 };
 
@@ -255,7 +297,7 @@ Arduino.forBlock['xiaozhi_mcp_return_result'] = function(block, generator) {
   const value = xiaozhiMcpValueToCode(block, generator, 'VALUE', '"ok"');
   xiaozhiMcpEnsureGlobals(generator);
   return `{
-  StaticJsonDocument<256> xiaozhiMcpResultDoc;
+  JsonDocument xiaozhiMcpResultDoc;
   xiaozhiMcpResultDoc["${xiaozhiMcpJsonEscape(key)}"] = ${value};
   serializeJson(xiaozhiMcpResultDoc, xiaozhiMcpReturnValue);
 }
