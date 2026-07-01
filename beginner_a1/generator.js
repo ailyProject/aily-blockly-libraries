@@ -27,7 +27,6 @@ Arduino.forBlock['beginner_a1_init'] = function (block, generator) {
 
   const varName = block.getFieldValue('VAR') || 'car';
 
-
   // 本库仅适用于 Beginner A1（基于 ESP32-C3）开发板
   const boardConfig = window['boardConfig'];
   if (boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1) {
@@ -39,9 +38,10 @@ Arduino.forBlock['beginner_a1_init'] = function (block, generator) {
 
   // 调试串口（核心库函数，自动去重、避免与其他库波特率冲突）
   ensureSerialBegin("Serial", generator);
-  // 初始化与主循环刷新（driveByRemote 在前、update 在后做安全保护）
-  generator.addSetupBegin('ba1_begin_' + varName, varName + '.begin();');
-  generator.addLoopBegin('ba1_loop_' + varName, varName + '.driveByRemote();\n  ' + varName + '.update();');
+  // 初始化与主循环刷新（刷新电机平滑、舵机、LED 状态机、电池、配对；含断连保护）
+  const maxSpeed = block.getFieldValue('MAXSPEED');
+  generator.addSetupBegin('ba1_begin_' + varName, varName + '.begin(' + maxSpeed + ');');
+  generator.addLoopBegin('ba1_loop_' + varName, varName + '.update();');
 
   return '';
 };
@@ -53,6 +53,43 @@ Arduino.forBlock['beginner_a1_button'] = function (block, generator) {
   const varName = varField ? varField.getText() : 'car';
   const index = block.getFieldValue('INDEX');
   return [`${varName}.remoteButton(${index})`, generator.ORDER_ATOMIC];
+};
+
+// 读取遥控摇杆（值块）
+Arduino.forBlock['beginner_a1_joystick'] = function (block, generator) {
+  generator.addLibrary('beginner_a1', '#include <BeginnerA1.h>');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'car';
+  const channel = block.getFieldValue('CHANNEL');
+  return [`${varName}.joystick(${channel})`, generator.ORDER_ATOMIC];
+};
+
+// 差速行驶（语句块）
+Arduino.forBlock['beginner_a1_drive'] = function (block, generator) {
+  generator.addLibrary('beginner_a1', '#include <BeginnerA1.h>');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'car';
+  const forward = generator.valueToCode(block, 'FORWARD', generator.ORDER_ATOMIC) || '0';
+  const turn = generator.valueToCode(block, 'TURN', generator.ORDER_ATOMIC) || '0';
+  return `${varName}.drive(${forward}, ${turn});\n`;
+};
+
+// 单独设置左/右电机速度（语句块）
+Arduino.forBlock['beginner_a1_motor'] = function (block, generator) {
+  generator.addLibrary('beginner_a1', '#include <BeginnerA1.h>');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'car';
+  const which = block.getFieldValue('WHICH');
+  const speed = generator.valueToCode(block, 'SPEED', generator.ORDER_ATOMIC) || '0';
+  return `${varName}.setMotor(${which}, ${speed});\n`;
+};
+
+// 停止小车（语句块）
+Arduino.forBlock['beginner_a1_stop'] = function (block, generator) {
+  generator.addLibrary('beginner_a1', '#include <BeginnerA1.h>');
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'car';
+  return `${varName}.stop();\n`;
 };
 
 // 定位舵机转到角度（语句块）
