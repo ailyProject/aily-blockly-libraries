@@ -97,6 +97,12 @@ Blockly.getMainWorkspace().addChangeListener((event) => {
       'variables_set_dynamic'
     ];
 
+    // 循环块中的循环变量（field_variable，非 get/set 块）
+    const loopVarBlockTypes = [
+      'controls_for',
+      'controls_forEach'
+    ];
+
     // 递归从 oldJson 中提取所有被删除的变量相关块的变量名
     function extractDeletedVarNames(blockJson, varNames = []) {
       if (!blockJson) return varNames;
@@ -167,6 +173,15 @@ Blockly.getMainWorkspace().addChangeListener((event) => {
 
         // 检查变量设置块
         if (block.type === 'variables_set' || block.type === 'variables_set_dynamic') {
+          const varField = block.getField('VAR');
+          if (varField && varField.getText() === deletedVarName) {
+            isVariableUsed = true;
+            break;
+          }
+        }
+
+        // 检查循环块中的循环变量
+        if (loopVarBlockTypes.includes(block.type)) {
           const varField = block.getField('VAR');
           if (varField && varField.getText() === deletedVarName) {
             isVariableUsed = true;
