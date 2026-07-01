@@ -10,7 +10,7 @@ Robot control library based on Arduino UNO R3, supporting dual motor drive, serv
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `robotxlab_motor` | Statement | DIRECTION(dropdown), SPEED(input_value) | `robotxlab_motor("0", math_number(9600))` | run( |
+| `robotxlab_motor` | Statement | DIRECTION(dropdown), SPEED(input_value) | `robotxlab_motor("0", math_number(255))` | run( |
 | `robotxlab_servo` | Statement | ANGLE(input_value) | `robotxlab_servo(math_number(90))` | myservo.write( |
 | `robotxlab_servo_pulse` | Statement | ANGLE(input_value) | `robotxlab_servo_pulse(math_number(90))` | servopulse( |
 | `robotxlab_led` | Statement | STATE(dropdown) | `robotxlab_led(HIGH)` | digitalWrite(led, |
@@ -39,14 +39,14 @@ Robot control library based on Arduino UNO R3, supporting dual motor drive, serv
 | KEY | 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10, 11, 12, 13, 14, 15, 16 | robotxlab_ir_remote |
 | KEY | 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 | robotxlab_ps2_button |
 | ROCKER | 0, 1 | robotxlab_ps2_rocker |
-| DIR | 0, 1, 2, 3, -1 | robotxlab_ps2_rocker |
+| DIR | 0, 2, -1 | robotxlab_ps2_rocker |
 
 ## ABS Examples
 
 ### Basic Usage
 ```
 arduino_setup()
-    robotxlab_motor("0", math_number(9600))
+    robotxlab_motor("0", math_number(255))
     serial_begin(Serial, 9600)
 
 arduino_loop()
