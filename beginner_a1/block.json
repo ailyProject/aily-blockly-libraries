@@ -1,19 +1,26 @@
 [
   {
     "type": "beginner_a1_init",
-    "message0": "初始化 Beginner A1 小车 %1",
+    "message0": "初始化 Beginner A1 小车 %1 最大速度 %2",
     "args0": [
       {
         "type": "field_input",
         "name": "VAR",
         "text": "car"
+      },
+      {
+        "type": "field_slider",
+        "name": "MAXSPEED",
+        "value": 120,
+        "min": 0,
+        "max": 255
       }
     ],
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#1565C0",
-    "tooltip": "创建并初始化小车对象：通信、电机、舵机、LED 与电池，并自动按遥控行驶、刷新状态",
+    "tooltip": "创建并初始化小车对象：通信、电机、舵机、LED 与电池，并在循环中自动刷新状态",
     "icon": "fa-solid fa-robot"
   },
   {
@@ -43,6 +50,114 @@
     "colour": "#00897B",
     "tooltip": "判断遥控器按键 A/B/C/D 是否被按下",
     "icon": "fa-solid fa-gamepad"
+  },
+  {
+    "type": "beginner_a1_joystick",
+    "message0": "%1 遥控摇杆 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car",
+        "variableTypes": ["BeginnerA1Car"],
+        "defaultType": "BeginnerA1Car"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          ["左摇杆X", "0"],
+          ["左摇杆Y", "1"],
+          ["右摇杆X", "2"],
+          ["右摇杆Y", "3"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#00897B",
+    "tooltip": "读取遥控器摇杆值，范围 -127~127（未连接时为 0）",
+    "icon": "fa-solid fa-gamepad"
+  },
+  {
+    "type": "beginner_a1_drive",
+    "message0": "%1 小车行驶 前进 %2 转向 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car",
+        "variableTypes": ["BeginnerA1Car"],
+        "defaultType": "BeginnerA1Car"
+      },
+      {
+        "type": "input_value",
+        "name": "FORWARD",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "TURN",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "差速行驶：前进量与转向量范围 -127~127",
+    "icon": "fa-solid fa-robot"
+  },
+  {
+    "type": "beginner_a1_motor",
+    "message0": "%1 设置 %2 电机速度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car",
+        "variableTypes": ["BeginnerA1Car"],
+        "defaultType": "BeginnerA1Car"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WHICH",
+        "options": [
+          ["左", "0"],
+          ["右", "1"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "单独设置左/右电机速度，范围 -120~120，负值反转",
+    "icon": "fa-solid fa-robot"
+  },
+  {
+    "type": "beginner_a1_stop",
+    "message0": "%1 停止小车",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "car",
+        "variableTypes": ["BeginnerA1Car"],
+        "defaultType": "BeginnerA1Car"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "两路电机停止",
+    "icon": "fa-solid fa-robot"
   },
   {
     "type": "beginner_a1_servo",
