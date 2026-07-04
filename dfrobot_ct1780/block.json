@@ -1,0 +1,72 @@
+[
+  {
+    "type": "ct1780_init",
+    "message0": "初始化 CT1780 %1 数据引脚 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "ct1780" },
+      { "type": "input_value", "name": "PIN", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "初始化 CT1780 1-Wire 总线对象，并创建一个缓存设备地址。",
+    "icon": "fa-light fa-temperature-high"
+  },
+  {
+    "type": "ct1780_reset_search",
+    "message0": "CT1780 %1 重置搜索",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ct1780", "variableTypes": ["DFRobot_CT1780"], "defaultType": "DFRobot_CT1780" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "重置 1-Wire 设备搜索状态，用于重新从第一个设备开始搜索。",
+    "icon": "fa-light fa-temperature-high"
+  },
+  {
+    "type": "ct1780_search_device",
+    "message0": "CT1780 %1 搜索下一个设备",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ct1780", "variableTypes": ["DFRobot_CT1780"], "defaultType": "DFRobot_CT1780" }
+    ],
+    "output": "Boolean",
+    "colour": "#1976D2",
+    "tooltip": "搜索下一个 CT1780 设备，并把唯一地址保存到缓存地址。找到设备返回 true。",
+    "icon": "fa-light fa-temperature-high"
+  },
+  {
+    "type": "ct1780_read_temperature",
+    "message0": "CT1780 %1 缓存设备温度 C",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ct1780", "variableTypes": ["DFRobot_CT1780"], "defaultType": "DFRobot_CT1780" }
+    ],
+    "output": "Number",
+    "colour": "#1976D2",
+    "tooltip": "读取缓存设备地址对应的摄氏温度，失败返回 NAN。",
+    "icon": "fa-light fa-temperature-high"
+  },
+  {
+    "type": "ct1780_config_addr",
+    "message0": "CT1780 %1 缓存设备配置地址",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ct1780", "variableTypes": ["DFRobot_CT1780"], "defaultType": "DFRobot_CT1780" }
+    ],
+    "output": "Number",
+    "colour": "#1976D2",
+    "tooltip": "读取缓存设备地址对应的拨码配置地址，失败返回 -1。",
+    "icon": "fa-light fa-temperature-high"
+  },
+  {
+    "type": "ct1780_address_byte",
+    "message0": "CT1780 %1 缓存唯一地址 字节 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "ct1780", "variableTypes": ["DFRobot_CT1780"], "defaultType": "DFRobot_CT1780" },
+      { "type": "input_value", "name": "INDEX", "check": "Number" }
+    ],
+    "output": "Number",
+    "colour": "#1976D2",
+    "tooltip": "读取缓存唯一地址的指定字节，索引 0-7。",
+    "icon": "fa-light fa-temperature-high"
+  }
+]
