@@ -1,0 +1,109 @@
+[
+  {
+    "type": "dtof64x8_init_uart",
+    "message0": "初始化 64x8 dTOF %1 串口 %2 RX %3 TX %4",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "dtof64x8" },
+      { "type": "field_dropdown", "name": "SERIAL", "options": [["Serial1", "Serial1"], ["Serial2", "Serial2"]] },
+      { "type": "input_value", "name": "RX", "check": "Number" },
+      { "type": "input_value", "name": "TX", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "通过 ESP32 硬件串口初始化 64x8 dTOF，传感器波特率固定为 921600。",
+    "icon": "fa-light fa-grid"
+  },
+  {
+    "type": "dtof64x8_config_frame_single",
+    "message0": "64x8 dTOF %1 配置单帧模式",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "dtof64x8", "variableTypes": ["DFRobot_64x8DTOF"], "defaultType": "DFRobot_64x8DTOF" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "配置传感器为单帧模式。官方库暂未实现连续模式。",
+    "icon": "fa-light fa-grid"
+  },
+  {
+    "type": "dtof64x8_config_full",
+    "message0": "64x8 dTOF %1 配置全帧输出",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "dtof64x8", "variableTypes": ["DFRobot_64x8DTOF"], "defaultType": "DFRobot_64x8DTOF" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "配置输出全部 64*8 个测距点。",
+    "icon": "fa-light fa-grid"
+  },
+  {
+    "type": "dtof64x8_config_line",
+    "message0": "64x8 dTOF %1 配置单行输出 行 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "dtof64x8", "variableTypes": ["DFRobot_64x8DTOF"], "defaultType": "DFRobot_64x8DTOF" },
+      { "type": "input_value", "name": "LINE", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "配置输出指定行的 64 个点，行号范围 1-8。",
+    "icon": "fa-light fa-grid"
+  },
+  {
+    "type": "dtof64x8_config_point",
+    "message0": "64x8 dTOF %1 配置单点输出 行 %2 点 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "dtof64x8", "variableTypes": ["DFRobot_64x8DTOF"], "defaultType": "DFRobot_64x8DTOF" },
+      { "type": "input_value", "name": "LINE", "check": "Number" },
+      { "type": "input_value", "name": "POINT", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "配置输出指定行列的单个点，行号 1-8，点号 1-64。",
+    "icon": "fa-light fa-grid"
+  },
+  {
+    "type": "dtof64x8_config_points",
+    "message0": "64x8 dTOF %1 配置一段点输出 行 %2 起点 %3 终点 %4",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "dtof64x8", "variableTypes": ["DFRobot_64x8DTOF"], "defaultType": "DFRobot_64x8DTOF" },
+      { "type": "input_value", "name": "LINE", "check": "Number" },
+      { "type": "input_value", "name": "START", "check": "Number" },
+      { "type": "input_value", "name": "END", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "配置输出指定行内连续的一段点，行号 1-8，点号 1-64。",
+    "icon": "fa-light fa-grid"
+  },
+  {
+    "type": "dtof64x8_read_data",
+    "message0": "64x8 dTOF %1 刷新数据 超时 %2 ms",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "dtof64x8", "variableTypes": ["DFRobot_64x8DTOF"], "defaultType": "DFRobot_64x8DTOF" },
+      { "type": "input_value", "name": "TIMEOUT", "check": "Number" }
+    ],
+    "output": "Number",
+    "colour": "#1976D2",
+    "tooltip": "触发并读取一帧数据，返回解析到的点数；失败或超时返回负数。",
+    "icon": "fa-light fa-grid"
+  },
+  {
+    "type": "dtof64x8_point_value",
+    "message0": "64x8 dTOF %1 缓存索引 %2 的 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "dtof64x8", "variableTypes": ["DFRobot_64x8DTOF"], "defaultType": "DFRobot_64x8DTOF" },
+      { "type": "input_value", "name": "INDEX", "check": "Number" },
+      { "type": "field_dropdown", "name": "DATA", "options": [["X 坐标 mm", "X"], ["Y 坐标 mm", "Y"], ["Z 距离 mm", "Z"], ["强度", "I"]] }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#1976D2",
+    "tooltip": "读取上一次刷新后缓存中的点数据。索引从 0 开始。",
+    "icon": "fa-light fa-grid"
+  }
+]

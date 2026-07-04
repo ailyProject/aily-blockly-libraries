@@ -1,0 +1,76 @@
+{
+  "toolbox_name": "64x8 dTOF Matrix",
+  "dtof64x8_init_uart": {
+    "message0": "init 64x8 dTOF %1 serial %2 RX %3 TX %4",
+    "tooltip": "Initialize the 64x8 dTOF sensor over ESP32 hardware UART at fixed 921600 baud.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Serial1",
+            "Serial1"
+          ],
+          [
+            "Serial2",
+            "Serial2"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "dtof64x8_config_frame_single": {
+    "message0": "64x8 dTOF %1 configure single frame mode",
+    "tooltip": "Configure the sensor for single-frame mode. Continuous mode is not implemented in the upstream library."
+  },
+  "dtof64x8_config_full": {
+    "message0": "64x8 dTOF %1 configure full-frame output",
+    "tooltip": "Configure output for all 64*8 ranging points."
+  },
+  "dtof64x8_config_line": {
+    "message0": "64x8 dTOF %1 configure line output line %2",
+    "tooltip": "Configure output for all 64 points in one line. Line range is 1-8."
+  },
+  "dtof64x8_config_point": {
+    "message0": "64x8 dTOF %1 configure single point line %2 point %3",
+    "tooltip": "Configure output for one point. Line range is 1-8 and point range is 1-64."
+  },
+  "dtof64x8_config_points": {
+    "message0": "64x8 dTOF %1 configure point range line %2 start %3 end %4",
+    "tooltip": "Configure output for a continuous point range in one line. Line range is 1-8 and point range is 1-64."
+  },
+  "dtof64x8_read_data": {
+    "message0": "64x8 dTOF %1 refresh data timeout %2 ms",
+    "tooltip": "Trigger and read one frame. Returns parsed point count; negative values mean error or timeout."
+  },
+  "dtof64x8_point_value": {
+    "message0": "64x8 dTOF %1 cached index %2 %3",
+    "tooltip": "Read cached point data after the last refresh. Index starts from 0.",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "X mm",
+            "X"
+          ],
+          [
+            "Y mm",
+            "Y"
+          ],
+          [
+            "Z distance mm",
+            "Z"
+          ],
+          [
+            "intensity",
+            "I"
+          ]
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "kind": "category",
+  "icon": "fa-light fa-grid",
+  "name": "64x8 dTOF 矩阵测距",
+  "colour": "#1976D2",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "dtof64x8_init_uart",
+      "inputs": {
+        "RX": { "shadow": { "type": "math_number", "fields": { "NUM": 25 } } },
+        "TX": { "shadow": { "type": "math_number", "fields": { "NUM": 26 } } }
+      }
+    },
+    { "kind": "block", "type": "dtof64x8_config_frame_single" },
+    { "kind": "block", "type": "dtof64x8_config_full" },
+    {
+      "kind": "block",
+      "type": "dtof64x8_config_line",
+      "inputs": {
+        "LINE": { "shadow": { "type": "math_number", "fields": { "NUM": 4 } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "dtof64x8_config_point",
+      "inputs": {
+        "LINE": { "shadow": { "type": "math_number", "fields": { "NUM": 4 } } },
+        "POINT": { "shadow": { "type": "math_number", "fields": { "NUM": 32 } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "dtof64x8_config_points",
+      "inputs": {
+        "LINE": { "shadow": { "type": "math_number", "fields": { "NUM": 3 } } },
+        "START": { "shadow": { "type": "math_number", "fields": { "NUM": 1 } } },
+        "END": { "shadow": { "type": "math_number", "fields": { "NUM": 64 } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "dtof64x8_read_data",
+      "inputs": {
+        "TIMEOUT": { "shadow": { "type": "math_number", "fields": { "NUM": 300 } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "dtof64x8_point_value",
+      "inputs": {
+        "INDEX": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+      }
+    }
+  ]
+}
