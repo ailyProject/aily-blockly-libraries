@@ -1,0 +1,309 @@
+[
+  {
+    "type": "stcc4_init",
+    "message0": "初始化 STCC4 %1 I2C %2 地址 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "stcc4"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDRESS",
+        "options": [
+          [
+            "0x64 (默认)",
+            "0x64"
+          ],
+          [
+            "0x65",
+            "0x65"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#228B22",
+    "tooltip": "创建并初始化 STCC4 CO2 传感器，唤醒后启动连续测量。",
+    "icon": "fa-light fa-cloud"
+  },
+  {
+    "type": "stcc4_read",
+    "message0": "STCC4 %1 读取数据成功",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stcc4",
+        "variableTypes": [
+          "DFRobot_STCC4_I2C"
+        ],
+        "defaultType": "DFRobot_STCC4_I2C"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#228B22",
+    "tooltip": "读取一次 CO2、温度、湿度和状态数据，成功时返回 true。",
+    "icon": "fa-light fa-cloud"
+  },
+  {
+    "type": "stcc4_get_data",
+    "message0": "STCC4 %1 数据 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stcc4",
+        "variableTypes": [
+          "DFRobot_STCC4_I2C"
+        ],
+        "defaultType": "DFRobot_STCC4_I2C"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "CO2 浓度 ppm",
+            "CO2"
+          ],
+          [
+            "温度 °C",
+            "TEMPERATURE"
+          ],
+          [
+            "湿度 %RH",
+            "HUMIDITY"
+          ],
+          [
+            "传感器状态",
+            "STATUS"
+          ],
+          [
+            "强制校准修正值",
+            "FRC_CORRECTION"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#228B22",
+    "tooltip": "读取最近一次测量或校准得到的数据。",
+    "icon": "fa-light fa-cloud"
+  },
+  {
+    "type": "stcc4_get_id",
+    "message0": "STCC4 %1 传感器 ID",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stcc4",
+        "variableTypes": [
+          "DFRobot_STCC4_I2C"
+        ],
+        "defaultType": "DFRobot_STCC4_I2C"
+      }
+    ],
+    "output": "Number",
+    "colour": "#228B22",
+    "tooltip": "读取 STCC4 传感器 ID。",
+    "icon": "fa-light fa-cloud"
+  },
+  {
+    "type": "stcc4_measurement_control",
+    "message0": "STCC4 %1 测量控制 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stcc4",
+        "variableTypes": [
+          "DFRobot_STCC4_I2C"
+        ],
+        "defaultType": "DFRobot_STCC4_I2C"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "开始连续测量",
+            "startMeasurement"
+          ],
+          [
+            "停止连续测量",
+            "stopMeasurement"
+          ],
+          [
+            "单次测量",
+            "singleMeasurement"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#228B22",
+    "tooltip": "控制 STCC4 连续测量或触发一次单次测量。",
+    "icon": "fa-light fa-cloud"
+  },
+  {
+    "type": "stcc4_power_control",
+    "message0": "STCC4 %1 电源控制 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stcc4",
+        "variableTypes": [
+          "DFRobot_STCC4_I2C"
+        ],
+        "defaultType": "DFRobot_STCC4_I2C"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "唤醒",
+            "wakeup"
+          ],
+          [
+            "睡眠",
+            "sleep"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#228B22",
+    "tooltip": "唤醒传感器或进入睡眠模式。",
+    "icon": "fa-light fa-cloud"
+  },
+  {
+    "type": "stcc4_reset",
+    "message0": "STCC4 %1 复位 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stcc4",
+        "variableTypes": [
+          "DFRobot_STCC4_I2C"
+        ],
+        "defaultType": "DFRobot_STCC4_I2C"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "软复位",
+            "softRest"
+          ],
+          [
+            "恢复出厂设置",
+            "factoryReset"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#228B22",
+    "tooltip": "对 STCC4 执行软复位或恢复出厂设置。",
+    "icon": "fa-light fa-cloud"
+  },
+  {
+    "type": "stcc4_set_rht_compensation",
+    "message0": "STCC4 %1 设置温湿度补偿 温度 °C %2 湿度 %RH %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stcc4",
+        "variableTypes": [
+          "DFRobot_STCC4_I2C"
+        ],
+        "defaultType": "DFRobot_STCC4_I2C"
+      },
+      {
+        "type": "input_value",
+        "name": "TEMPERATURE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "HUMIDITY",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#228B22",
+    "tooltip": "设置温湿度补偿，温度范围 10-40°C，湿度范围 20-80%RH。",
+    "icon": "fa-light fa-cloud"
+  },
+  {
+    "type": "stcc4_set_pressure_compensation",
+    "message0": "STCC4 %1 设置气压补偿 hPa %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stcc4",
+        "variableTypes": [
+          "DFRobot_STCC4_I2C"
+        ],
+        "defaultType": "DFRobot_STCC4_I2C"
+      },
+      {
+        "type": "input_value",
+        "name": "PRESSURE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#228B22",
+    "tooltip": "设置气压补偿，范围 400-1100 hPa。",
+    "icon": "fa-light fa-cloud"
+  },
+  {
+    "type": "stcc4_forced_recalibration",
+    "message0": "STCC4 %1 强制校准 目标 ppm %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stcc4",
+        "variableTypes": [
+          "DFRobot_STCC4_I2C"
+        ],
+        "defaultType": "DFRobot_STCC4_I2C"
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET_PPM",
+        "check": "Number"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#228B22",
+    "tooltip": "执行强制校准，目标值范围 0-32000 ppm，成功后可读取强制校准修正值。",
+    "icon": "fa-light fa-cloud"
+  }
+]

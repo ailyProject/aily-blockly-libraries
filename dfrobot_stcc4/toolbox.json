@@ -1,0 +1,86 @@
+{
+  "kind": "category",
+  "icon": "fa-light fa-cloud",
+  "name": "STCC4 CO2",
+  "colour": "#228B22",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "stcc4_init"
+    },
+    {
+      "kind": "block",
+      "type": "stcc4_read"
+    },
+    {
+      "kind": "block",
+      "type": "stcc4_get_data"
+    },
+    {
+      "kind": "block",
+      "type": "stcc4_get_id"
+    },
+    {
+      "kind": "block",
+      "type": "stcc4_measurement_control"
+    },
+    {
+      "kind": "block",
+      "type": "stcc4_power_control"
+    },
+    {
+      "kind": "block",
+      "type": "stcc4_reset"
+    },
+    {
+      "kind": "block",
+      "type": "stcc4_set_rht_compensation",
+      "inputs": {
+        "TEMPERATURE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 25
+            }
+          }
+        },
+        "HUMIDITY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 50
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "stcc4_set_pressure_compensation",
+      "inputs": {
+        "PRESSURE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1013
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "stcc4_forced_recalibration",
+      "inputs": {
+        "TARGET_PPM": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 400
+            }
+          }
+        }
+      }
+    }
+  ]
+}
