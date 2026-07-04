@@ -1,0 +1,150 @@
+[
+  {
+    "type": "bmp58x_init_i2c",
+    "message0": "初始化 BMP58X I2C %1 总线 %2 地址 %3",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "bmp58x" },
+      { "type": "field_dropdown", "name": "WIRE", "options": "${board.i2c}" },
+      { "type": "field_dropdown", "name": "ADDRESS", "options": [["0x47", "0x47"], ["0x46", "0x46"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "通过 I2C 初始化 BMP58X 气压温度传感器。",
+    "icon": "fa-light fa-gauge-high"
+  },
+  {
+    "type": "bmp58x_init_spi",
+    "message0": "初始化 BMP58X SPI %1 总线 %2 CS %3",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "bmp58x" },
+      { "type": "field_dropdown", "name": "SPI", "options": "${board.spi}" },
+      { "type": "input_value", "name": "CS", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "通过 SPI 初始化 BMP58X 气压温度传感器。",
+    "icon": "fa-light fa-gauge-high"
+  },
+  {
+    "type": "bmp58x_init_uart",
+    "message0": "初始化 BMP58X UART %1 串口 %2 地址 %3 RX %4 TX %5",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "bmp58x" },
+      { "type": "field_dropdown", "name": "SERIAL", "options": [["Serial1", "Serial1"], ["Serial2", "Serial2"], ["Serial", "Serial"]] },
+      { "type": "field_dropdown", "name": "ADDRESS", "options": [["0x47", "0x47"], ["0x46", "0x46"]] },
+      { "type": "input_value", "name": "RX", "check": "Number" },
+      { "type": "input_value", "name": "TX", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "通过 UART/Modbus RTU 初始化 BMP58X，默认波特率 9600。",
+    "icon": "fa-light fa-gauge-high"
+  },
+  {
+    "type": "bmp58x_read_value",
+    "message0": "BMP58X %1 读取 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmp58x", "variableTypes": ["DFRobot_BMP58X"], "defaultType": "DFRobot_BMP58X" },
+      { "type": "field_dropdown", "name": "DATA", "options": [["温度 C", "TEMP"], ["气压 Pa", "PRESS"], ["海拔 m", "ALT"]] }
+    ],
+    "output": "Number",
+    "colour": "#1976D2",
+    "tooltip": "读取温度、气压或根据气压计算的海拔。",
+    "icon": "fa-light fa-gauge-high"
+  },
+  {
+    "type": "bmp58x_set_measure_mode",
+    "message0": "BMP58X %1 设置测量模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmp58x", "variableTypes": ["DFRobot_BMP58X"], "defaultType": "DFRobot_BMP58X" },
+      { "type": "field_dropdown", "name": "MODE", "options": [["普通测量", "eNormal"], ["单次测量", "eSingleShot"], ["连续测量", "eContinuous"], ["睡眠", "eSleep"], ["深度睡眠", "eDeepSleep"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置 BMP58X 的测量/电源模式。",
+    "icon": "fa-light fa-gauge-high"
+  },
+  {
+    "type": "bmp58x_set_odr",
+    "message0": "BMP58X %1 设置输出速率 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmp58x", "variableTypes": ["DFRobot_BMP58X"], "defaultType": "DFRobot_BMP58X" },
+      { "type": "field_dropdown", "name": "ODR", "options": [["240 Hz", "eOdr240Hz"], ["100.2 Hz", "eOdr100_2Hz"], ["50 Hz", "eOdr50Hz"], ["25 Hz", "eOdr25Hz"], ["10 Hz", "eOdr10Hz"], ["5 Hz", "eOdr5Hz"], ["1 Hz", "eOdr1Hz"], ["0.5 Hz", "eOdr0_5Hz"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置输出数据速率 ODR。",
+    "icon": "fa-light fa-gauge-high"
+  },
+  {
+    "type": "bmp58x_set_osr",
+    "message0": "BMP58X %1 设置过采样 温度 %2 气压 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmp58x", "variableTypes": ["DFRobot_BMP58X"], "defaultType": "DFRobot_BMP58X" },
+      { "type": "field_dropdown", "name": "TEMP", "options": [["1x", "eOverSampling1"], ["2x", "eOverSampling2"], ["4x", "eOverSampling4"], ["8x", "eOverSampling8"], ["16x", "eOverSampling16"], ["32x", "eOverSampling32"], ["64x", "eOverSampling64"], ["128x", "eOverSampling128"]] },
+      { "type": "field_dropdown", "name": "PRESS", "options": [["1x", "eOverSampling1"], ["2x", "eOverSampling2"], ["4x", "eOverSampling4"], ["8x", "eOverSampling8"], ["16x", "eOverSampling16"], ["32x", "eOverSampling32"], ["64x", "eOverSampling64"], ["128x", "eOverSampling128"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置温度和气压过采样倍率。",
+    "icon": "fa-light fa-gauge-high"
+  },
+  {
+    "type": "bmp58x_set_iir",
+    "message0": "BMP58X %1 设置 IIR 温度 %2 气压 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmp58x", "variableTypes": ["DFRobot_BMP58X"], "defaultType": "DFRobot_BMP58X" },
+      { "type": "field_dropdown", "name": "TEMP", "options": [["关闭", "eFilterBypass"], ["1", "eFilter1"], ["3", "eFilter3"], ["7", "eFilter7"], ["15", "eFilter15"], ["31", "eFilter31"], ["63", "eFilter63"], ["127", "eFilter127"]] },
+      { "type": "field_dropdown", "name": "PRESS", "options": [["关闭", "eFilterBypass"], ["1", "eFilter1"], ["3", "eFilter3"], ["7", "eFilter7"], ["15", "eFilter15"], ["31", "eFilter31"], ["63", "eFilter63"], ["127", "eFilter127"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置温度和气压 IIR 滤波系数。",
+    "icon": "fa-light fa-gauge-high"
+  },
+  {
+    "type": "bmp58x_calibrate_altitude",
+    "message0": "BMP58X %1 按当前海拔 %2 m 校准绝对差",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmp58x", "variableTypes": ["DFRobot_BMP58X"], "defaultType": "DFRobot_BMP58X" },
+      { "type": "input_value", "name": "ALTITUDE", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "使用当前已知海拔校准绝对测量差。",
+    "icon": "fa-light fa-gauge-high"
+  },
+  {
+    "type": "bmp58x_set_uart_baud",
+    "message0": "BMP58X UART %1 设置波特率 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmp58x", "variableTypes": ["DFRobot_BMP58X"], "defaultType": "DFRobot_BMP58X" },
+      { "type": "field_dropdown", "name": "BAUD", "options": [["2400", "e2400"], ["4800", "e4800"], ["9600", "e9600"], ["14400", "e14400"], ["19200", "e19200"], ["38400", "e38400"], ["57600", "e57600"], ["115200", "e115200"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "仅 UART 版本可用，修改传感器 UART 波特率。",
+    "icon": "fa-light fa-gauge-high"
+  },
+  {
+    "type": "bmp58x_reset",
+    "message0": "BMP58X %1 软件复位",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmp58x", "variableTypes": ["DFRobot_BMP58X"], "defaultType": "DFRobot_BMP58X" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "执行 BMP58X 软件复位。",
+    "icon": "fa-light fa-gauge-high"
+  }
+]
