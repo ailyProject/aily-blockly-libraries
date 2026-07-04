@@ -1,0 +1,68 @@
+{
+  "kind": "category",
+  "icon": "fa-light fa-satellite-dish",
+  "name": "C4001 毫米波雷达",
+  "colour": "#1976D2",
+  "contents": [
+    { "kind": "block", "type": "c4001_init_i2c" },
+    {
+      "kind": "block",
+      "type": "c4001_init_uart",
+      "inputs": {
+        "RX": { "shadow": { "type": "math_number", "fields": { "NUM": 26 } } },
+        "TX": { "shadow": { "type": "math_number", "fields": { "NUM": 25 } } }
+      }
+    },
+    { "kind": "block", "type": "c4001_set_mode" },
+    { "kind": "block", "type": "c4001_sensor_command" },
+    { "kind": "block", "type": "c4001_get_status" },
+    { "kind": "block", "type": "c4001_motion_detected" },
+    {
+      "kind": "block",
+      "type": "c4001_set_presence_range",
+      "inputs": {
+        "MIN": { "shadow": { "type": "math_number", "fields": { "NUM": 30 } } },
+        "MAX": { "shadow": { "type": "math_number", "fields": { "NUM": 1000 } } },
+        "TRIG": { "shadow": { "type": "math_number", "fields": { "NUM": 1000 } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "c4001_set_sensitivity",
+      "inputs": {
+        "SENSITIVITY": { "shadow": { "type": "math_number", "fields": { "NUM": 5 } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "c4001_set_delay",
+      "inputs": {
+        "TRIG": { "shadow": { "type": "math_number", "fields": { "NUM": 100 } } },
+        "KEEP": { "shadow": { "type": "math_number", "fields": { "NUM": 4 } } }
+      }
+    },
+    { "kind": "block", "type": "c4001_get_presence_config" },
+    { "kind": "block", "type": "c4001_set_io_polarity" },
+    {
+      "kind": "block",
+      "type": "c4001_set_pwm",
+      "inputs": {
+        "PWM1": { "shadow": { "type": "math_number", "fields": { "NUM": 50 } } },
+        "PWM2": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "TIMER": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } }
+      }
+    },
+    { "kind": "block", "type": "c4001_get_target" },
+    {
+      "kind": "block",
+      "type": "c4001_set_speed_threshold",
+      "inputs": {
+        "MIN": { "shadow": { "type": "math_number", "fields": { "NUM": 30 } } },
+        "MAX": { "shadow": { "type": "math_number", "fields": { "NUM": 1200 } } },
+        "THRESHOLD": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } }
+      }
+    },
+    { "kind": "block", "type": "c4001_set_micro_motion" },
+    { "kind": "block", "type": "c4001_get_speed_config" }
+  ]
+}
