@@ -24,5 +24,3 @@ For Arduino UNO R4 Wifi LED matrix, supports display of text, pattern and animat
 
 1. Enable `@aily-project/lib-r4-led-matrix` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
-
-testtest123123123
