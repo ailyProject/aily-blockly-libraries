@@ -1,0 +1,223 @@
+[
+  {
+    "type": "c4001_init_i2c",
+    "message0": "初始化 C4001 I2C %1 总线 %2 地址 %3",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "c4001" },
+      { "type": "field_dropdown", "name": "WIRE", "options": "${board.i2c}" },
+      { "type": "field_dropdown", "name": "ADDRESS", "options": [["0x2A (默认)", "DEVICE_ADDR_0"], ["0x2B", "DEVICE_ADDR_1"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "通过 I2C 初始化 C4001 雷达。",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "c4001_init_uart",
+    "message0": "初始化 C4001 UART %1 串口 %2 RX %3 TX %4",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "c4001" },
+      { "type": "field_dropdown", "name": "SERIAL", "options": [["Serial1", "Serial1"], ["Serial2", "Serial2"], ["Serial", "Serial"]] },
+      { "type": "input_value", "name": "RX", "check": "Number" },
+      { "type": "input_value", "name": "TX", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "通过 UART 初始化 C4001 雷达，波特率固定 9600。",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "c4001_motion_detected",
+    "message0": "C4001 %1 检测到人体存在",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "c4001", "variableTypes": ["DFRobot_C4001"], "defaultType": "DFRobot_C4001" }
+    ],
+    "output": "Boolean",
+    "colour": "#1976D2",
+    "tooltip": "存在检测模式下读取是否检测到人体或运动目标。",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "c4001_set_mode",
+    "message0": "C4001 %1 设置工作模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "c4001", "variableTypes": ["DFRobot_C4001"], "defaultType": "DFRobot_C4001" },
+      { "type": "field_dropdown", "name": "MODE", "options": [["存在检测", "eExitMode"], ["测距测速", "eSpeedMode"]] }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "切换 C4001 工作模式。",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "c4001_sensor_command",
+    "message0": "C4001 %1 执行 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "c4001", "variableTypes": ["DFRobot_C4001"], "defaultType": "DFRobot_C4001" },
+      { "type": "field_dropdown", "name": "COMMAND", "options": [["开始采集", "eStartSen"], ["停止采集", "eStopSen"], ["复位传感器", "eResetSen"], ["恢复默认参数", "eRecoverSen"], ["保存配置", "eSaveParams"], ["切换模式", "eChangeMode"]] }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "执行 C4001 传感器控制命令。",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "c4001_get_status",
+    "message0": "C4001 %1 状态 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "c4001", "variableTypes": ["DFRobot_C4001"], "defaultType": "DFRobot_C4001" },
+      { "type": "field_dropdown", "name": "STATUS", "options": [["工作状态", "WORK"], ["工作模式", "MODE"], ["初始化状态", "INIT"]] }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#1976D2",
+    "tooltip": "读取状态：工作状态 0/1、工作模式 0/1、初始化状态 0/1。",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "c4001_set_presence_range",
+    "message0": "C4001 %1 存在检测范围 最小 cm %2 最大 cm %3 触发 cm %4",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "c4001", "variableTypes": ["DFRobot_C4001"], "defaultType": "DFRobot_C4001" },
+      { "type": "input_value", "name": "MIN", "check": "Number" },
+      { "type": "input_value", "name": "MAX", "check": "Number" },
+      { "type": "input_value", "name": "TRIG", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置存在检测范围，最小 30-2000cm，最大 240-2000cm，触发距离不超过范围。",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "c4001_set_sensitivity",
+    "message0": "C4001 %1 设置 %2 灵敏度 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "c4001", "variableTypes": ["DFRobot_C4001"], "defaultType": "DFRobot_C4001" },
+      { "type": "field_dropdown", "name": "TYPE", "options": [["触发", "TRIG"], ["保持", "KEEP"]] },
+      { "type": "input_value", "name": "SENSITIVITY", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置触发或保持灵敏度，范围 0-9。",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "c4001_set_delay",
+    "message0": "C4001 %1 延时 触发(0.01s) %2 保持(0.5s) %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "c4001", "variableTypes": ["DFRobot_C4001"], "defaultType": "DFRobot_C4001" },
+      { "type": "input_value", "name": "TRIG", "check": "Number" },
+      { "type": "input_value", "name": "KEEP", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置触发延时和保持超时。触发单位 0.01s，保持单位 0.5s。",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "c4001_get_presence_config",
+    "message0": "C4001 %1 存在配置 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "c4001", "variableTypes": ["DFRobot_C4001"], "defaultType": "DFRobot_C4001" },
+      { "type": "field_dropdown", "name": "DATA", "options": [["最小距离 cm", "MIN"], ["最大距离 cm", "MAX"], ["触发距离 cm", "TRIG_RANGE"], ["触发灵敏度", "TRIG_SENS"], ["保持灵敏度", "KEEP_SENS"], ["触发延时", "TRIG_DELAY"], ["保持超时", "KEEP_TIMEOUT"], ["IO 极性", "IO_POLARITY"], ["PWM 无目标占空比", "PWM1"], ["PWM 有目标占空比", "PWM2"], ["PWM 渐变时间", "PWM_TIMER"]] }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#1976D2",
+    "tooltip": "读取存在检测相关配置。",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "c4001_set_io_polarity",
+    "message0": "C4001 %1 设置 IO 极性 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "c4001", "variableTypes": ["DFRobot_C4001"], "defaultType": "DFRobot_C4001" },
+      { "type": "field_dropdown", "name": "POLARITY", "options": [["有目标输出低电平", "0"], ["有目标输出高电平", "1"]] }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置 OUT 引脚检测到目标后的输出极性。UART 模式有效。",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "c4001_set_pwm",
+    "message0": "C4001 %1 设置 PWM 无目标 %2 有目标 %3 渐变时间 %4",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "c4001", "variableTypes": ["DFRobot_C4001"], "defaultType": "DFRobot_C4001" },
+      { "type": "input_value", "name": "PWM1", "check": "Number" },
+      { "type": "input_value", "name": "PWM2", "check": "Number" },
+      { "type": "input_value", "name": "TIMER", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置 OUT 引脚 PWM，占空比 0-100，渐变时间单位为 64ms。UART 模式有效。",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "c4001_get_target",
+    "message0": "C4001 %1 目标数据 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "c4001", "variableTypes": ["DFRobot_C4001"], "defaultType": "DFRobot_C4001" },
+      { "type": "field_dropdown", "name": "DATA", "options": [["目标数量", "NUMBER"], ["目标速度 m/s", "SPEED"], ["目标距离 m", "RANGE"], ["目标能量", "ENERGY"]] }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#1976D2",
+    "tooltip": "读取测距测速模式下的目标数量、速度、距离和能量。先读取目标数量可刷新内部缓存。",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "c4001_set_speed_threshold",
+    "message0": "C4001 %1 测距测速阈值 最小 cm %2 最大 cm %3 阈值 %4",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "c4001", "variableTypes": ["DFRobot_C4001"], "defaultType": "DFRobot_C4001" },
+      { "type": "input_value", "name": "MIN", "check": "Number" },
+      { "type": "input_value", "name": "MAX", "check": "Number" },
+      { "type": "input_value", "name": "THRESHOLD", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置测距测速模式的距离范围和目标检测阈值。",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "c4001_set_micro_motion",
+    "message0": "C4001 %1 微动检测 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "c4001", "variableTypes": ["DFRobot_C4001"], "defaultType": "DFRobot_C4001" },
+      { "type": "field_dropdown", "name": "STATE", "options": [["开启", "eON"], ["关闭", "eOFF"]] }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "开启或关闭测距测速模式的微动检测。",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "c4001_get_speed_config",
+    "message0": "C4001 %1 测距测速配置 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "c4001", "variableTypes": ["DFRobot_C4001"], "defaultType": "DFRobot_C4001" },
+      { "type": "field_dropdown", "name": "DATA", "options": [["最小距离 cm", "MIN"], ["最大距离 cm", "MAX"], ["检测阈值", "THRESHOLD"], ["微动检测", "MICRO_MOTION"]] }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#1976D2",
+    "tooltip": "读取测距测速模式配置。",
+    "icon": "fa-light fa-satellite-dish"
+  }
+]
