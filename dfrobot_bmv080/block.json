@@ -1,0 +1,132 @@
+[
+  {
+    "type": "bmv080_init_i2c",
+    "message0": "初始化 BMV080 I2C %1 总线 %2 地址 %3",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "bmv080" },
+      { "type": "field_dropdown", "name": "WIRE", "options": "${board.i2c}" },
+      { "type": "field_dropdown", "name": "ADDRESS", "options": [["0x57", "0x57"], ["0x56", "0x56"], ["0x55", "0x55"], ["0x54", "0x54"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "通过 I2C 初始化并打开 BMV080 颗粒物传感器。",
+    "icon": "fa-light fa-wind"
+  },
+  {
+    "type": "bmv080_init_spi",
+    "message0": "初始化 BMV080 SPI %1 总线 %2 CS %3",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "bmv080" },
+      { "type": "field_dropdown", "name": "SPI", "options": "${board.spi}" },
+      { "type": "input_value", "name": "CS", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "通过 SPI 初始化并打开 BMV080 颗粒物传感器。",
+    "icon": "fa-light fa-wind"
+  },
+  {
+    "type": "bmv080_set_mode",
+    "message0": "BMV080 %1 设置测量模式 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["DFRobot_BMV080"], "defaultType": "DFRobot_BMV080" },
+      { "type": "field_dropdown", "name": "MODE", "options": [["连续测量", "CONTINUOUS_MODE"], ["占空周期测量", "DUTY_CYCLE_MODE"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "启动连续测量或占空周期测量。",
+    "icon": "fa-light fa-wind"
+  },
+  {
+    "type": "bmv080_set_duty_cycle",
+    "message0": "BMV080 %1 设置占空周期 %2 秒 积分时间 %3 秒",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["DFRobot_BMV080"], "defaultType": "DFRobot_BMV080" },
+      { "type": "input_value", "name": "PERIOD", "check": "Number" },
+      { "type": "input_value", "name": "INTEGRATION", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置占空周期模式参数。周期至少 12 秒，积分时间至少 1 秒，并且周期需比积分时间多至少 2 秒。",
+    "icon": "fa-light fa-wind"
+  },
+  {
+    "type": "bmv080_set_algorithm",
+    "message0": "BMV080 %1 设置测量算法 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["DFRobot_BMV080"], "defaultType": "DFRobot_BMV080" },
+      { "type": "field_dropdown", "name": "ALGORITHM", "options": [["快速响应", "FAST_RESPONSE"], ["均衡", "BALANCED"], ["高精度", "HIGH_PRECISION"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "设置 PM 测量算法。",
+    "icon": "fa-light fa-wind"
+  },
+  {
+    "type": "bmv080_set_feature",
+    "message0": "BMV080 %1 设置 %2 %3",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["DFRobot_BMV080"], "defaultType": "DFRobot_BMV080" },
+      { "type": "field_dropdown", "name": "FEATURE", "options": [["遮挡检测", "OBSTRUCTION"], ["振动过滤", "VIBRATION"]] },
+      { "type": "field_dropdown", "name": "STATE", "options": [["开启", "true"], ["关闭", "false"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "开启或关闭遮挡检测、振动过滤功能。",
+    "icon": "fa-light fa-wind"
+  },
+  {
+    "type": "bmv080_read_data",
+    "message0": "BMV080 %1 刷新 PM 数据",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["DFRobot_BMV080"], "defaultType": "DFRobot_BMV080" }
+    ],
+    "output": "Boolean",
+    "colour": "#1976D2",
+    "tooltip": "读取并缓存 PM1、PM2.5、PM10。数据就绪返回 true，未就绪返回 false。",
+    "icon": "fa-light fa-wind"
+  },
+  {
+    "type": "bmv080_pm_value",
+    "message0": "BMV080 %1 缓存值 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["DFRobot_BMV080"], "defaultType": "DFRobot_BMV080" },
+      { "type": "field_dropdown", "name": "DATA", "options": [["PM1 ug/m3", "PM1"], ["PM2.5 ug/m3", "PM25"], ["PM10 ug/m3", "PM10"]] }
+    ],
+    "output": "Number",
+    "colour": "#1976D2",
+    "tooltip": "读取上一次刷新后的 PM 缓存值。",
+    "icon": "fa-light fa-wind"
+  },
+  {
+    "type": "bmv080_get_status",
+    "message0": "BMV080 %1 状态/配置 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["DFRobot_BMV080"], "defaultType": "DFRobot_BMV080" },
+      { "type": "field_dropdown", "name": "DATA", "options": [["当前算法", "ALGORITHM"], ["积分时间", "INTEGRATION"], ["占空周期", "PERIOD"], ["遮挡检测开关", "OBSTRUCTION_FEATURE"], ["振动过滤开关", "VIBRATION_FEATURE"], ["是否被遮挡", "OBSTRUCTED"]] }
+    ],
+    "output": "Number",
+    "colour": "#1976D2",
+    "tooltip": "读取 BMV080 的配置或遮挡状态。",
+    "icon": "fa-light fa-wind"
+  },
+  {
+    "type": "bmv080_command",
+    "message0": "BMV080 %1 执行 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "bmv080", "variableTypes": ["DFRobot_BMV080"], "defaultType": "DFRobot_BMV080" },
+      { "type": "field_dropdown", "name": "COMMAND", "options": [["停止测量", "STOP"], ["复位", "RESET"], ["关闭传感器", "CLOSE"]] }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1976D2",
+    "tooltip": "停止测量、复位或关闭 BMV080。",
+    "icon": "fa-light fa-wind"
+  }
+]

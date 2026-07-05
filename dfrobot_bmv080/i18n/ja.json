@@ -1,0 +1,197 @@
+{
+  "toolbox_name": "BMV080 PM Sensor",
+  "bmv080_init_i2c": {
+    "message0": "init BMV080 I2C %1 bus %2 address %3",
+    "tooltip": "Initialize and open the BMV080 particulate matter sensor over I2C.",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "0x57",
+            "0x57"
+          ],
+          [
+            "0x56",
+            "0x56"
+          ],
+          [
+            "0x55",
+            "0x55"
+          ],
+          [
+            "0x54",
+            "0x54"
+          ]
+        ]
+      }
+    ]
+  },
+  "bmv080_init_spi": {
+    "message0": "init BMV080 SPI %1 bus %2 CS %3",
+    "tooltip": "Initialize and open the BMV080 particulate matter sensor over SPI."
+  },
+  "bmv080_set_mode": {
+    "message0": "BMV080 %1 set measurement mode %2",
+    "tooltip": "Start continuous or duty-cycle measurement.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "continuous",
+            "CONTINUOUS_MODE"
+          ],
+          [
+            "duty cycle",
+            "DUTY_CYCLE_MODE"
+          ]
+        ]
+      }
+    ]
+  },
+  "bmv080_set_duty_cycle": {
+    "message0": "BMV080 %1 set duty period %2 s integration %3 s",
+    "tooltip": "Set duty-cycle mode parameters. Period must be at least 12 s; integration time must be at least 1 s and at least 2 s shorter than period."
+  },
+  "bmv080_set_algorithm": {
+    "message0": "BMV080 %1 set algorithm %2",
+    "tooltip": "Set the PM measurement algorithm.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "fast response",
+            "FAST_RESPONSE"
+          ],
+          [
+            "balanced",
+            "BALANCED"
+          ],
+          [
+            "high precision",
+            "HIGH_PRECISION"
+          ]
+        ]
+      }
+    ]
+  },
+  "bmv080_set_feature": {
+    "message0": "BMV080 %1 set %2 %3",
+    "tooltip": "Enable or disable obstruction detection or vibration filtering.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "obstruction detection",
+            "OBSTRUCTION"
+          ],
+          [
+            "vibration filtering",
+            "VIBRATION"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "on",
+            "true"
+          ],
+          [
+            "off",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "bmv080_read_data": {
+    "message0": "BMV080 %1 refresh PM data",
+    "tooltip": "Read and cache PM1, PM2.5, and PM10. Returns true when new data is ready."
+  },
+  "bmv080_pm_value": {
+    "message0": "BMV080 %1 cached value %2",
+    "tooltip": "Read the PM value cached by the last refresh.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "PM1 ug/m3",
+            "PM1"
+          ],
+          [
+            "PM2.5 ug/m3",
+            "PM25"
+          ],
+          [
+            "PM10 ug/m3",
+            "PM10"
+          ]
+        ]
+      }
+    ]
+  },
+  "bmv080_get_status": {
+    "message0": "BMV080 %1 status/config %2",
+    "tooltip": "Read BMV080 configuration or obstruction status.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "algorithm",
+            "ALGORITHM"
+          ],
+          [
+            "integration time",
+            "INTEGRATION"
+          ],
+          [
+            "duty period",
+            "PERIOD"
+          ],
+          [
+            "obstruction setting",
+            "OBSTRUCTION_FEATURE"
+          ],
+          [
+            "vibration setting",
+            "VIBRATION_FEATURE"
+          ],
+          [
+            "is obstructed",
+            "OBSTRUCTED"
+          ]
+        ]
+      }
+    ]
+  },
+  "bmv080_command": {
+    "message0": "BMV080 %1 run %2",
+    "tooltip": "Stop measurement, reset, or close the BMV080.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "stop measurement",
+            "STOP"
+          ],
+          [
+            "reset",
+            "RESET"
+          ],
+          [
+            "close sensor",
+            "CLOSE"
+          ]
+        ]
+      }
+    ]
+  }
+}
