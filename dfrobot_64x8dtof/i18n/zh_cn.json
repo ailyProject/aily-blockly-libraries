@@ -1,0 +1,76 @@
+{
+  "toolbox_name": "64x8 dTOF 矩阵测距",
+  "dtof64x8_init_uart": {
+    "message0": "初始化 64x8 dTOF %1 串口 %2 RX %3 TX %4",
+    "tooltip": "通过 ESP32 硬件串口初始化 64x8 dTOF，传感器波特率固定为 921600。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Serial1",
+            "Serial1"
+          ],
+          [
+            "Serial2",
+            "Serial2"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "dtof64x8_config_frame_single": {
+    "message0": "64x8 dTOF %1 配置单帧模式",
+    "tooltip": "配置传感器为单帧模式。官方库暂未实现连续模式。"
+  },
+  "dtof64x8_config_full": {
+    "message0": "64x8 dTOF %1 配置全帧输出",
+    "tooltip": "配置输出全部 64*8 个测距点。"
+  },
+  "dtof64x8_config_line": {
+    "message0": "64x8 dTOF %1 配置单行输出 行 %2",
+    "tooltip": "配置输出指定行的 64 个点，行号范围 1-8。"
+  },
+  "dtof64x8_config_point": {
+    "message0": "64x8 dTOF %1 配置单点输出 行 %2 点 %3",
+    "tooltip": "配置输出指定行列的单个点，行号 1-8，点号 1-64。"
+  },
+  "dtof64x8_config_points": {
+    "message0": "64x8 dTOF %1 配置一段点输出 行 %2 起点 %3 终点 %4",
+    "tooltip": "配置输出指定行内连续的一段点，行号 1-8，点号 1-64。"
+  },
+  "dtof64x8_read_data": {
+    "message0": "64x8 dTOF %1 刷新数据 超时 %2 ms",
+    "tooltip": "触发并读取一帧数据，返回解析到的点数；失败或超时返回负数。"
+  },
+  "dtof64x8_point_value": {
+    "message0": "64x8 dTOF %1 缓存索引 %2 的 %3",
+    "tooltip": "读取上一次刷新后缓存中的点数据。索引从 0 开始。",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "X 坐标 mm",
+            "X"
+          ],
+          [
+            "Y 坐标 mm",
+            "Y"
+          ],
+          [
+            "Z 距离 mm",
+            "Z"
+          ],
+          [
+            "强度",
+            "I"
+          ]
+        ]
+      }
+    ]
+  }
+}
