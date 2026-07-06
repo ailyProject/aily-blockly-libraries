@@ -1,0 +1,655 @@
+[
+  {
+    "type": "gxepd2_setup",
+    "message0": "initialize e-paper %1 panel %2 CS %3 DC %4 RST %5 BUSY %6 serial %7 reset %8 initial refresh %9 reset pulldown %10",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "display"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PANEL",
+        "options": [
+          ["1.54\" BW GDEH0154D67 200x200", "BW_GDEH0154D67"],
+          ["2.13\" BW GDEY0213B74 122x250", "BW_GDEY0213B74"],
+          ["2.66\" BW DEPG0266BN 152x296", "BW_DEPG0266BN"],
+          ["2.9\" BW GDEM029T94 128x296", "BW_GDEM029T94"],
+          ["4.2\" BW GDEW042T2 400x300", "BW_GDEW042T2"],
+          ["7.5\" BW GDEW075T7 800x480", "BW_GDEW075T7"],
+          ["1.54\" 3-color GDEH0154Z90", "C3_GDEH0154Z90"],
+          ["2.13\" 3-color GDEY0213Z98", "C3_GDEY0213Z98"],
+          ["2.9\" 3-color GDEM029C90", "C3_GDEM029C90"],
+          ["4.2\" 3-color GDEW042Z15", "C3_GDEW042Z15"],
+          ["5.83\" 3-color GDEW0583Z83", "C3_GDEW0583Z83"],
+          ["7.5\" 3-color GDEW075Z08", "C3_GDEW075Z08"],
+          ["3.00\" 4-color Waveshare", "C4_WS300"],
+          ["5.65\" 7-color Waveshare", "C7_WS565"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DC",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "RST",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BUSY",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BAUD",
+        "options": [
+          ["off", "0"],
+          ["115200", "115200"],
+          ["9600", "9600"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RESET_DURATION",
+        "options": [
+          ["2 ms", "2"],
+          ["10 ms", "10"],
+          ["20 ms", "20"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INITIAL",
+        "options": [
+          ["yes", "TRUE"],
+          ["no", "FALSE"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PULLDOWN",
+        "options": [
+          ["off", "FALSE"],
+          ["on", "TRUE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-tablet-screen-button",
+    "tooltip": "Create and initialize a GxEPD2 e-paper display object."
+  },
+  {
+    "type": "gxepd2_page_update",
+    "message0": "e-paper %1 paged refresh %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WINDOW",
+        "options": [
+          ["full screen", "FULL"],
+          ["current window", "CURRENT"]
+        ]
+      }
+    ],
+    "message1": "draw %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DRAW"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-repeat",
+    "tooltip": "Refresh the e-paper display with GxEPD2 firstPage/nextPage paged drawing."
+  },
+  {
+    "type": "gxepd2_clear_display",
+    "message0": "e-paper %1 clear and refresh color %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-eraser",
+    "tooltip": "Fill the full e-paper screen with one color and refresh it."
+  },
+  {
+    "type": "gxepd2_set_partial_window",
+    "message0": "e-paper %1 partial window X %2 Y %3 W %4 H %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "W",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-crop-simple",
+    "tooltip": "Set the GxEPD2 partial update window."
+  },
+  {
+    "type": "gxepd2_fill_screen",
+    "message0": "e-paper %1 fill buffer color %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-fill-drip",
+    "tooltip": "Fill the current display buffer; use inside a paged refresh block."
+  },
+  {
+    "type": "gxepd2_set_rotation",
+    "message0": "e-paper %1 rotation %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ROTATION",
+        "options": [
+          ["0 degrees", "0"],
+          ["90 degrees", "1"],
+          ["180 degrees", "2"],
+          ["270 degrees", "3"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-rotate",
+    "tooltip": "Set display rotation."
+  },
+  {
+    "type": "gxepd2_set_text_color",
+    "message0": "e-paper %1 text color %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-font",
+    "tooltip": "Set the text drawing color."
+  },
+  {
+    "type": "gxepd2_set_text_size",
+    "message0": "e-paper %1 text size %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SIZE",
+        "options": [
+          ["1", "1"],
+          ["2", "2"],
+          ["3", "3"],
+          ["4", "4"],
+          ["5", "5"],
+          ["6", "6"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-text-size",
+    "tooltip": "Set the built-in Adafruit_GFX text scale."
+  },
+  {
+    "type": "gxepd2_set_font",
+    "message0": "e-paper %1 font %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FONT",
+        "options": [
+          ["classic 5x7", "NULL"],
+          ["FreeMono 9", "&FreeMono9pt7b"],
+          ["FreeMono Bold 9", "&FreeMonoBold9pt7b"],
+          ["FreeSans 9", "&FreeSans9pt7b"],
+          ["FreeSans Bold 12", "&FreeSansBold12pt7b"],
+          ["FreeSerif 9", "&FreeSerif9pt7b"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-font-case",
+    "tooltip": "Set the Adafruit_GFX font used by print text blocks."
+  },
+  {
+    "type": "gxepd2_set_cursor",
+    "message0": "e-paper %1 cursor X %2 Y %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-i-cursor",
+    "tooltip": "Set the text cursor position."
+  },
+  {
+    "type": "gxepd2_print",
+    "message0": "e-paper %1 print %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-keyboard",
+    "tooltip": "Print text or a value at the current cursor position."
+  },
+  {
+    "type": "gxepd2_draw_pixel",
+    "message0": "e-paper %1 pixel X %2 Y %3 color %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-location-dot",
+    "tooltip": "Draw one pixel in the current buffer."
+  },
+  {
+    "type": "gxepd2_draw_line",
+    "message0": "e-paper %1 line X1 %2 Y1 %3 X2 %4 Y2 %5 color %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "X1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "X2",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y2",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-slash",
+    "tooltip": "Draw a line in the current buffer."
+  },
+  {
+    "type": "gxepd2_draw_rect",
+    "message0": "e-paper %1 rectangle X %2 Y %3 W %4 H %5 color %6 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "W",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FILL",
+        "options": [
+          ["outline", "OUTLINE"],
+          ["filled", "FILLED"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-square",
+    "tooltip": "Draw an outline or filled rectangle."
+  },
+  {
+    "type": "gxepd2_draw_circle",
+    "message0": "e-paper %1 circle X %2 Y %3 radius %4 color %5 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "RADIUS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FILL",
+        "options": [
+          ["outline", "OUTLINE"],
+          ["filled", "FILLED"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-circle",
+    "tooltip": "Draw an outline or filled circle."
+  },
+  {
+    "type": "gxepd2_refresh",
+    "message0": "e-paper %1 refresh %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["full", "FULL"],
+          ["partial", "PARTIAL"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-arrows-rotate",
+    "tooltip": "Refresh the controller memory to the e-paper panel."
+  },
+  {
+    "type": "gxepd2_sleep",
+    "message0": "e-paper %1 power %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["power off", "POWER_OFF"],
+          ["hibernate", "HIBERNATE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-power-off",
+    "tooltip": "Power off or hibernate the e-paper display."
+  },
+  {
+    "type": "gxepd2_width",
+    "message0": "e-paper %1 width",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      }
+    ],
+    "output": "Number",
+    "colour": "#546E7A",
+    "icon": "fa-light fa-arrows-left-right",
+    "tooltip": "Get the current display width after rotation."
+  },
+  {
+    "type": "gxepd2_height",
+    "message0": "e-paper %1 height",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      }
+    ],
+    "output": "Number",
+    "colour": "#546E7A",
+    "icon": "fa-light fa-arrows-up-down",
+    "tooltip": "Get the current display height after rotation."
+  },
+  {
+    "type": "gxepd2_color",
+    "message0": "e-paper color %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["black", "GxEPD_BLACK"],
+          ["white", "GxEPD_WHITE"],
+          ["red", "GxEPD_RED"],
+          ["yellow", "GxEPD_YELLOW"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#546E7A",
+    "icon": "fa-light fa-palette",
+    "tooltip": "GxEPD2 color constant."
+  }
+]
