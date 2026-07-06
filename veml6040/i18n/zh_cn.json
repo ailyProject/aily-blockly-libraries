@@ -1,0 +1,60 @@
+{
+  "toolbox_name": "VEML6040",
+  "veml6040_init": {
+    "message0": "初始化颜色传感器 %1 I2C %2 积分时间 %3",
+    "tooltip": "初始化 VEML6040 RGBW 颜色传感器（I2C 地址 0x10）；可选择 I2C 总线；积分时间越长越灵敏但越慢",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          ["40ms", "VEML6040_IT_40MS"],
+          ["80ms", "VEML6040_IT_80MS"],
+          ["160ms", "VEML6040_IT_160MS"],
+          ["320ms", "VEML6040_IT_320MS"],
+          ["640ms", "VEML6040_IT_640MS"],
+          ["1280ms", "VEML6040_IT_1280MS"]
+        ]
+      }
+    ]
+  },
+  "veml6040_read": {
+    "message0": "%1 读取 %2",
+    "tooltip": "读取颜色传感器通道值：红/绿/蓝/白为原始值，色温单位 K，环境光单位 lux",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["红光(R)", "getRed"],
+          ["绿光(G)", "getGreen"],
+          ["蓝光(B)", "getBlue"],
+          ["白光(W)", "getWhite"],
+          ["色温(CCT)", "getCCT"],
+          ["环境光(lux)", "getAmbientLight"]
+        ]
+      }
+    ]
+  },
+  "veml6040_get_color": {
+    "message0": "%1 识别颜色名称",
+    "tooltip": "根据 RGBW 自动识别当前颜色，返回文本：red/green/blue/yellow/cyan/white/dark"
+  },
+  "veml6040_is_color": {
+    "message0": "%1 检测到 %2",
+    "tooltip": "判断当前识别到的颜色是否为指定颜色",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["红色", "red"],
+          ["绿色", "green"],
+          ["蓝色", "blue"],
+          ["黄色", "yellow"],
+          ["青色", "cyan"],
+          ["白色", "white"],
+          ["暗/无光", "dark"]
+        ]
+      }
+    ]
+  }
+}
