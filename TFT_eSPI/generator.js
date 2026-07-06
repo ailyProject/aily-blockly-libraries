@@ -18,6 +18,15 @@ function isESP32Core() {
   return boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1;
 }
 
+function ensureTftEspiLibraries(generator) {
+  generator.addLibrary('TFT_eSPI', '#include <TFT_eSPI.h>');
+
+  if (isESP32Core()) {
+    generator.addLibrary('FS', '#include <FS.h>');
+    generator.addLibrary('SPIFFS', '#include <SPIFFS.h>');
+  }
+}
+
 // 清理值中的外层括号（如将"(-1)"转为"-1"）
 function cleanValue(value) {
   if (typeof value === 'string') {
@@ -317,7 +326,7 @@ Arduino.forBlock['tftespi_setup'] = function(block, generator) {
     generator.addMacro("USE_HSPI_PORT", '#define USE_HSPI_PORT');
   }
 
-  generator.addLibrary('TFT_eSPI', '#include <TFT_eSPI.h>');
+  ensureTftEspiLibraries(generator);
   generator.addVariable(varName, 'TFT_eSPI ' + varName + ' = TFT_eSPI();');
 
   let code = varName + '.init();\n';

@@ -35,6 +35,7 @@ lib-xxx/
 ```json
 {
   "toolbox_name": "Toolbox display name",
+  "toolbox_labels": { "Original label text": "Translated label text" },  // Optional - translations for toolbox entries with "kind": "label"
   "toolbox_categories": ["Sub-cat 1", "Sub-cat 2"],  // Optional — translated sub-category names, in order
   "block_type_1": {
     "message0": "Block display text %1 param %2",
@@ -160,9 +161,57 @@ The order is: 初始化 → 屏显示 → 预内置 → 自定义 → 控制 (de
 
 ---
 
-## 4. Static Block Translations
+## 4. Toolbox Label Translations
 
-### 3.1 Basic Blocks
+When a library's `toolbox.json` contains label entries, their `text` fields must be translated via the `toolbox_labels` key.
+
+### 4.1 How It Works
+
+- `toolbox_labels` is an **object** of original label text to translated label text.
+- It is used only for toolbox entries whose object contains `"kind": "label"`.
+- Each object key must exactly match the original `text` value in `toolbox.json`.
+- Each object value must be translated into the target locale.
+
+**toolbox.json:**
+```json
+{
+  "kind": "category",
+  "name": "Core I/O",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "引脚配置"
+    },
+    {
+      "kind": "block",
+      "type": "io_pin_mode"
+    }
+  ]
+}
+```
+
+**en.json:**
+```json
+{
+  "toolbox_name": "Core I/O",
+  "toolbox_labels": {
+    "引脚配置": "Pin Configuration"
+  }
+}
+```
+
+### 4.2 When to Use `toolbox_labels`
+
+- **Required** when `toolbox.json` contains `"kind": "label"` entries.
+- **Omit** when the toolbox has no `"kind": "label"` entries.
+- Do **not** use `toolbox_labels` for nested `"kind": "category"` names.
+- Use `toolbox_categories` for nested toolbox category names.
+
+---
+
+## 5. Static Block Translations
+
+### 5.1 Basic Blocks
 
 ```json
 {
@@ -173,7 +222,7 @@ The order is: 初始化 → 屏显示 → 预内置 → 自定义 → 控制 (de
 }
 ```
 
-### 3.2 Blocks with Dropdowns
+### 5.2 Blocks with Dropdowns
 
 Dropdown options are translated via the `args0` array using the `options` field:
 
@@ -202,11 +251,11 @@ Dropdown options are translated via the `args0` array using the `options` field:
 
 ---
 
-## 5. Dynamic Extension Translations
+## 6. Dynamic Extension Translations
 
 Dynamic extensions come in two types:
 
-### 5.1 Dynamic Tooltip Extension
+### 6.1 Dynamic Tooltip Extension
 
 Used when the tooltip needs to change dynamically based on a dropdown selection.
 
@@ -262,7 +311,7 @@ Blockly.Extensions.register('math_single_tooltip', function() {
 });
 ```
 
-### 5.2 Dynamic UI Extension
+### 6.2 Dynamic UI Extension
 
 Used when a block's inputs or fields need to change dynamically based on a selection.
 
@@ -313,7 +362,7 @@ Blockly.Extensions.register('dht_init_dynamic', function () {
 
 ---
 
-## 6. Accessing i18n at Runtime
+## 7. Accessing i18n at Runtime
 
 **Global object path:**
 ```javascript
@@ -334,9 +383,9 @@ const label = extI18n.key || 'default';
 
 ---
 
-## 7. Translation Reference
+## 8. Translation Reference
 
-### 7.1 Common UI Element Translations
+### 8.1 Common UI Element Translations
 
 | English | Chinese | Japanese | Korean | German | French |
 |---------|---------|----------|--------|--------|--------|
@@ -349,7 +398,7 @@ const label = extI18n.key || 'default';
 | Humidity | 湿度 | 湿度 | 습도 | Feuchtigkeit | Humidité |
 | Sensor | 传感器 | センサー | 센서 | Sensor | Capteur |
 
-### 7.2 Math Operation Translations
+### 8.2 Math Operation Translations
 
 | Operation | English | Chinese | Japanese | Korean |
 |-----------|---------|---------|----------|--------|
@@ -362,7 +411,7 @@ const label = extI18n.key || 'default';
 
 ---
 
-## 8. Implementation Checklist
+## 9. Implementation Checklist
 
 When adding i18n support to a library, follow these steps:
 
@@ -370,16 +419,17 @@ When adding i18n support to a library, follow these steps:
 - [ ] 2. Create all 11 language JSON files
 - [ ] 3. Add `toolbox_name` translations
 - [ ] 4. If toolbox has sub-categories, add `toolbox_categories` array (order must match depth-first traversal of `toolbox.json`)
-- [ ] 5. Add `message0` and `tooltip` for every block
-- [ ] 6. Add `args0.options` translations for all dropdowns
-- [ ] 7. Identify all `extensions` references in `block.json`
-- [ ] 8. Add `extensions.xxx` translations for each extension
-- [ ] 9. Update extension code in `generator.js` to read from `window.__BLOCKLY_LIB_I18N__`
-- [ ] 10. Ensure all hardcoded strings have fallback default values
+- [ ] 5. If toolbox has `"kind": "label"` entries, add `toolbox_labels` translations
+- [ ] 6. Add `message0` and `tooltip` for every block
+- [ ] 7. Add `args0.options` translations for all dropdowns
+- [ ] 8. Identify all `extensions` references in `block.json`
+- [ ] 9. Add `extensions.xxx` translations for each extension
+- [ ] 10. Update extension code in `generator.js` to read from `window.__BLOCKLY_LIB_I18N__`
+- [ ] 11. Ensure all hardcoded strings have fallback default values
 
 ---
 
-## 9. Important Notes
+## 10. Important Notes
 
 1. **Always provide fallbacks**: All i18n accesses must include a default value to prevent errors when translations are missing
 2. **Keep key names consistent**: Keys in extensions must match exactly what is used in the code
@@ -387,3 +437,4 @@ When adding i18n support to a library, follow these steps:
 4. **Package name must match**: The key in `window.__BLOCKLY_LIB_I18N__` must exactly match the `name` field in `package.json`
 5. **Do not use `Blockly.Msg`**: This project does not use `Blockly.Msg[key]`; always use `window.__BLOCKLY_LIB_I18N__` instead
 6. **Sub-category order must match toolbox.json**: The `toolbox_categories` array elements must follow the exact depth-first order of nested categories in `toolbox.json`. The runtime replaces sub-category names by index
+7. **Do not mix categories and labels**: Use `toolbox_categories` for `"kind": "category"` names and `toolbox_labels` only for `"kind": "label"` text
