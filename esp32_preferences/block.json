@@ -1,7 +1,7 @@
 [
   {
     "type": "esp32_preferences_begin",
-    "message0": "打开存储空间 命名空间 %1 只读 %2",
+    "message0": "打开 Preferences 命名空间 %1 只读 %2",
     "args0": [
       {
         "type": "input_value",
@@ -12,35 +12,77 @@
         "type": "field_dropdown",
         "name": "READONLY",
         "options": [
-          ["否", "false"],
-          ["是", "true"]
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
         ]
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#9C27B0",
-    "tooltip": "打开NVS存储空间，指定命名空间和读写模式",
+    "tooltip": "调用 Preferences.begin(name, readOnly) 打开默认 NVS 分区中的命名空间。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_begin_partition",
+    "message0": "打开 Preferences 命名空间 %1 只读 %2 分区 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NAMESPACE",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "READONLY",
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PARTITION",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.begin(name, readOnly, partition_label) 打开指定 NVS 分区中的命名空间。",
     "helpUrl": "",
     "icon": "fa-regular fa-database"
   },
   {
     "type": "esp32_preferences_end",
-    "message0": "关闭存储空间",
+    "message0": "关闭 Preferences",
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#9C27B0",
-    "tooltip": "关闭NVS存储空间",
+    "tooltip": "调用 Preferences.end() 关闭当前命名空间。",
     "helpUrl": "",
     "icon": "fa-regular fa-database"
   },
   {
     "type": "esp32_preferences_clear",
-    "message0": "清除当前命名空间所有数据",
+    "message0": "清空当前命名空间",
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#9C27B0",
-    "tooltip": "清除当前命名空间下的所有键值对",
+    "tooltip": "调用 Preferences.clear() 删除当前命名空间中的所有键。",
     "helpUrl": "",
     "icon": "fa-regular fa-database"
   },
@@ -57,13 +99,101 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#9C27B0",
-    "tooltip": "删除指定键的数据",
+    "tooltip": "调用 Preferences.remove(key) 删除指定键。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_put_char",
+    "message0": "写入 int8 键 %1 值 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.putChar() 写入 int8。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_put_uchar",
+    "message0": "写入 uint8 键 %1 值 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.putUChar() 写入 uint8。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_put_short",
+    "message0": "写入 int16 键 %1 值 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.putShort() 写入 int16。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_put_ushort",
+    "message0": "写入 uint16 键 %1 值 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.putUShort() 写入 uint16。",
     "helpUrl": "",
     "icon": "fa-regular fa-database"
   },
   {
     "type": "esp32_preferences_put_int",
-    "message0": "存储整数 键 %1 值 %2",
+    "message0": "写入 int32 键 %1 值 %2",
     "args0": [
       {
         "type": "input_value",
@@ -79,13 +209,123 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#9C27B0",
-    "tooltip": "存储一个整数值",
+    "tooltip": "调用 Preferences.putInt() 写入 int32。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_put_uint",
+    "message0": "写入 uint32 键 %1 值 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.putUInt() 写入 uint32。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_put_long",
+    "message0": "写入 long 键 %1 值 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.putLong() 写入 long。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_put_ulong",
+    "message0": "写入 unsigned long 键 %1 值 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.putULong() 写入 unsigned long。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_put_long64",
+    "message0": "写入 int64 键 %1 值 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.putLong64() 写入 int64。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_put_ulong64",
+    "message0": "写入 uint64 键 %1 值 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.putULong64() 写入 uint64。",
     "helpUrl": "",
     "icon": "fa-regular fa-database"
   },
   {
     "type": "esp32_preferences_put_float",
-    "message0": "存储浮点数 键 %1 值 %2",
+    "message0": "写入 float 键 %1 值 %2",
     "args0": [
       {
         "type": "input_value",
@@ -101,13 +341,35 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#9C27B0",
-    "tooltip": "存储一个浮点数值",
+    "tooltip": "调用 Preferences.putFloat() 写入 float。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_put_double",
+    "message0": "写入 double 键 %1 值 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.putDouble() 写入 double。",
     "helpUrl": "",
     "icon": "fa-regular fa-database"
   },
   {
     "type": "esp32_preferences_put_bool",
-    "message0": "存储布尔值 键 %1 值 %2",
+    "message0": "写入 布尔值 键 %1 值 %2",
     "args0": [
       {
         "type": "input_value",
@@ -123,13 +385,13 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#9C27B0",
-    "tooltip": "存储一个布尔值",
+    "tooltip": "调用 Preferences.putBool() 写入 布尔值。",
     "helpUrl": "",
     "icon": "fa-regular fa-database"
   },
   {
     "type": "esp32_preferences_put_string",
-    "message0": "存储字符串 键 %1 值 %2",
+    "message0": "写入 字符串 键 %1 值 %2",
     "args0": [
       {
         "type": "input_value",
@@ -145,13 +407,124 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#9C27B0",
-    "tooltip": "存储一个字符串值",
+    "tooltip": "调用 Preferences.putString() 写入 字符串。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_put_bytes",
+    "message0": "写入字节 键 %1 缓冲区 %2 长度 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "field_input",
+        "name": "BUFFER",
+        "text": "buffer"
+      },
+      {
+        "type": "input_value",
+        "name": "LENGTH",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.putBytes(key, buffer, len) 写入字节缓冲区；缓冲区填写 C++ 变量名或表达式。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_get_char",
+    "message0": "读取 int8 键 %1 默认 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "DEFAULT",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.getChar() 读取 int8；键不存在时返回默认值。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_get_uchar",
+    "message0": "读取 uint8 键 %1 默认 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "DEFAULT",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.getUChar() 读取 uint8；键不存在时返回默认值。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_get_short",
+    "message0": "读取 int16 键 %1 默认 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "DEFAULT",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.getShort() 读取 int16；键不存在时返回默认值。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_get_ushort",
+    "message0": "读取 uint16 键 %1 默认 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "DEFAULT",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.getUShort() 读取 uint16；键不存在时返回默认值。",
     "helpUrl": "",
     "icon": "fa-regular fa-database"
   },
   {
     "type": "esp32_preferences_get_int",
-    "message0": "读取整数 键 %1 默认值 %2",
+    "message0": "读取 int32 键 %1 默认 %2",
     "args0": [
       {
         "type": "input_value",
@@ -166,13 +539,118 @@
     ],
     "output": "Number",
     "colour": "#9C27B0",
-    "tooltip": "读取一个整数值，不存在则返回默认值",
+    "tooltip": "调用 Preferences.getInt() 读取 int32；键不存在时返回默认值。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_get_uint",
+    "message0": "读取 uint32 键 %1 默认 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "DEFAULT",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.getUInt() 读取 uint32；键不存在时返回默认值。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_get_long",
+    "message0": "读取 long 键 %1 默认 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "DEFAULT",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.getLong() 读取 long；键不存在时返回默认值。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_get_ulong",
+    "message0": "读取 unsigned long 键 %1 默认 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "DEFAULT",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.getULong() 读取 unsigned long；键不存在时返回默认值。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_get_long64",
+    "message0": "读取 int64 键 %1 默认 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "DEFAULT",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.getLong64() 读取 int64；键不存在时返回默认值。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_get_ulong64",
+    "message0": "读取 uint64 键 %1 默认 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "DEFAULT",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.getULong64() 读取 uint64；键不存在时返回默认值。",
     "helpUrl": "",
     "icon": "fa-regular fa-database"
   },
   {
     "type": "esp32_preferences_get_float",
-    "message0": "读取浮点数 键 %1 默认值 %2",
+    "message0": "读取 float 键 %1 默认 %2",
     "args0": [
       {
         "type": "input_value",
@@ -187,13 +665,34 @@
     ],
     "output": "Number",
     "colour": "#9C27B0",
-    "tooltip": "读取一个浮点数值，不存在则返回默认值",
+    "tooltip": "调用 Preferences.getFloat() 读取 float；键不存在时返回默认值。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_get_double",
+    "message0": "读取 double 键 %1 默认 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "DEFAULT",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.getDouble() 读取 double；键不存在时返回默认值。",
     "helpUrl": "",
     "icon": "fa-regular fa-database"
   },
   {
     "type": "esp32_preferences_get_bool",
-    "message0": "读取布尔值 键 %1 默认值 %2",
+    "message0": "读取 布尔值 键 %1 默认 %2",
     "args0": [
       {
         "type": "input_value",
@@ -208,13 +707,13 @@
     ],
     "output": "Boolean",
     "colour": "#9C27B0",
-    "tooltip": "读取一个布尔值，不存在则返回默认值",
+    "tooltip": "调用 Preferences.getBool() 读取 布尔值；键不存在时返回默认值。",
     "helpUrl": "",
     "icon": "fa-regular fa-database"
   },
   {
     "type": "esp32_preferences_get_string",
-    "message0": "读取字符串 键 %1 默认值 %2",
+    "message0": "读取 字符串 键 %1 默认 %2",
     "args0": [
       {
         "type": "input_value",
@@ -229,7 +728,65 @@
     ],
     "output": "String",
     "colour": "#9C27B0",
-    "tooltip": "读取一个字符串值，不存在则返回默认值",
+    "tooltip": "调用 Preferences.getString() 读取 字符串；键不存在时返回默认值。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_get_bytes",
+    "message0": "读取字节 键 %1 到缓冲区 %2 最大长度 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "field_input",
+        "name": "BUFFER",
+        "text": "buffer"
+      },
+      {
+        "type": "input_value",
+        "name": "MAX_LENGTH",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.getBytes(key, buffer, maxLen) 读取字节缓冲区并返回读取长度。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_get_string_length",
+    "message0": "字符串键 %1 长度",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.getStringLength(key) 获取字符串长度。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_get_bytes_length",
+    "message0": "字节键 %1 长度",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.getBytesLength(key) 获取字节数据长度。",
     "helpUrl": "",
     "icon": "fa-regular fa-database"
   },
@@ -245,16 +802,93 @@
     ],
     "output": "Boolean",
     "colour": "#9C27B0",
-    "tooltip": "检查指定键是否存在",
+    "tooltip": "调用 Preferences.isKey(key) 检查键是否存在。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_get_type",
+    "message0": "键 %1 的 Preferences 类型",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "调用 Preferences.getType(key) 获取 PreferenceType 枚举值。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-database"
+  },
+  {
+    "type": "esp32_preferences_type_constant",
+    "message0": "Preferences 类型 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "PT_I8",
+            "PT_I8"
+          ],
+          [
+            "PT_U8",
+            "PT_U8"
+          ],
+          [
+            "PT_I16",
+            "PT_I16"
+          ],
+          [
+            "PT_U16",
+            "PT_U16"
+          ],
+          [
+            "PT_I32",
+            "PT_I32"
+          ],
+          [
+            "PT_U32",
+            "PT_U32"
+          ],
+          [
+            "PT_I64",
+            "PT_I64"
+          ],
+          [
+            "PT_U64",
+            "PT_U64"
+          ],
+          [
+            "PT_STR",
+            "PT_STR"
+          ],
+          [
+            "PT_BLOB",
+            "PT_BLOB"
+          ],
+          [
+            "PT_INVALID",
+            "PT_INVALID"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "输出 Preferences.h 中定义的 PreferenceType 枚举常量。",
     "helpUrl": "",
     "icon": "fa-regular fa-database"
   },
   {
     "type": "esp32_preferences_free_entries",
-    "message0": "剩余可用存储条目数",
+    "message0": "剩余可用 NVS 条目数",
     "output": "Number",
     "colour": "#9C27B0",
-    "tooltip": "获取剩余可用的存储条目数量",
+    "tooltip": "调用 Preferences.freeEntries() 获取默认 NVS 分区剩余可用条目数。",
     "helpUrl": "",
     "icon": "fa-regular fa-database"
   }

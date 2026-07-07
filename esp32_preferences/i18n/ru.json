@@ -1,24 +1,44 @@
 {
-  "toolbox_name": "Preferences存储",
+  "toolbox_name": "Preferences storage",
   "toolbox_labels": {
-    "存储空间管理": "Управление складскими помещениями",
-    "写入数据": "Запись данных",
-    "读取数据": "Чтение данных",
-    "检查状态": "проверить статус"
+    "命名空间": "Namespace",
+    "写入标量": "Write scalar values",
+    "读取标量": "Read scalar values",
+    "字节与长度": "Bytes and lengths",
+    "查询与维护": "Queries and maintenance"
   },
   "esp32_preferences_begin": {
-    "message0": "打开存储空间 命名空间 %1 只读 %2",
-    "tooltip": "打开NVS存储空间，指定命名空间和读写模式",
+    "message0": "open Preferences namespace %1 read-only %2",
+    "tooltip": "Call Preferences.begin(name, readOnly) to open a namespace in the default NVS partition.",
     "args0": [
       null,
       {
         "options": [
           [
-            "否",
+            "No",
             "false"
           ],
           [
-            "是",
+            "Yes",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_preferences_begin_partition": {
+    "message0": "open Preferences namespace %1 read-only %2 partition %3",
+    "tooltip": "Call Preferences.begin(name, readOnly, partition_label) to open a namespace in a selected NVS partition.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "No",
+            "false"
+          ],
+          [
+            "Yes",
             "true"
           ]
         ]
@@ -26,55 +46,159 @@
     ]
   },
   "esp32_preferences_end": {
-    "message0": "关闭存储空间",
-    "tooltip": "关闭NVS存储空间"
+    "message0": "close Preferences",
+    "tooltip": "Call Preferences.end() to close the current namespace."
   },
   "esp32_preferences_clear": {
-    "message0": "清除当前命名空间所有数据",
-    "tooltip": "清除当前命名空间下的所有键值对"
+    "message0": "clear current namespace",
+    "tooltip": "Call Preferences.clear() to erase every key in the current namespace."
   },
   "esp32_preferences_remove": {
-    "message0": "删除键 %1",
-    "tooltip": "删除指定键的数据"
+    "message0": "remove key %1",
+    "tooltip": "Call Preferences.remove(key) to erase one key."
+  },
+  "esp32_preferences_put_char": {
+    "message0": "put int8 key %1 value %2",
+    "tooltip": "Call Preferences.putChar() to write a int8 value."
+  },
+  "esp32_preferences_put_uchar": {
+    "message0": "put uint8 key %1 value %2",
+    "tooltip": "Call Preferences.putUChar() to write a uint8 value."
+  },
+  "esp32_preferences_put_short": {
+    "message0": "put int16 key %1 value %2",
+    "tooltip": "Call Preferences.putShort() to write a int16 value."
+  },
+  "esp32_preferences_put_ushort": {
+    "message0": "put uint16 key %1 value %2",
+    "tooltip": "Call Preferences.putUShort() to write a uint16 value."
   },
   "esp32_preferences_put_int": {
-    "message0": "存储整数 键 %1 值 %2",
-    "tooltip": "存储一个整数值"
+    "message0": "put int32 key %1 value %2",
+    "tooltip": "Call Preferences.putInt() to write a int32 value."
+  },
+  "esp32_preferences_put_uint": {
+    "message0": "put uint32 key %1 value %2",
+    "tooltip": "Call Preferences.putUInt() to write a uint32 value."
+  },
+  "esp32_preferences_put_long": {
+    "message0": "put long key %1 value %2",
+    "tooltip": "Call Preferences.putLong() to write a long value."
+  },
+  "esp32_preferences_put_ulong": {
+    "message0": "put unsigned long key %1 value %2",
+    "tooltip": "Call Preferences.putULong() to write a unsigned long value."
+  },
+  "esp32_preferences_put_long64": {
+    "message0": "put int64 key %1 value %2",
+    "tooltip": "Call Preferences.putLong64() to write a int64 value."
+  },
+  "esp32_preferences_put_ulong64": {
+    "message0": "put uint64 key %1 value %2",
+    "tooltip": "Call Preferences.putULong64() to write a uint64 value."
   },
   "esp32_preferences_put_float": {
-    "message0": "存储浮点数 键 %1 值 %2",
-    "tooltip": "存储一个浮点数值"
+    "message0": "put float key %1 value %2",
+    "tooltip": "Call Preferences.putFloat() to write a float value."
+  },
+  "esp32_preferences_put_double": {
+    "message0": "put double key %1 value %2",
+    "tooltip": "Call Preferences.putDouble() to write a double value."
   },
   "esp32_preferences_put_bool": {
-    "message0": "存储布尔值 键 %1 值 %2",
-    "tooltip": "存储一个布尔值"
+    "message0": "put boolean key %1 value %2",
+    "tooltip": "Call Preferences.putBool() to write a boolean value."
   },
   "esp32_preferences_put_string": {
-    "message0": "存储字符串 键 %1 值 %2",
-    "tooltip": "存储一个字符串值"
+    "message0": "put string key %1 value %2",
+    "tooltip": "Call Preferences.putString() to write a string value."
+  },
+  "esp32_preferences_put_bytes": {
+    "message0": "put bytes key %1 buffer %2 length %3",
+    "tooltip": "Call Preferences.putBytes(key, buffer, len) to write a byte buffer; buffer is a raw C++ variable name or expression."
+  },
+  "esp32_preferences_get_char": {
+    "message0": "get int8 key %1 default %2",
+    "tooltip": "Call Preferences.getChar() to read a int8 value, returning the default when the key is missing."
+  },
+  "esp32_preferences_get_uchar": {
+    "message0": "get uint8 key %1 default %2",
+    "tooltip": "Call Preferences.getUChar() to read a uint8 value, returning the default when the key is missing."
+  },
+  "esp32_preferences_get_short": {
+    "message0": "get int16 key %1 default %2",
+    "tooltip": "Call Preferences.getShort() to read a int16 value, returning the default when the key is missing."
+  },
+  "esp32_preferences_get_ushort": {
+    "message0": "get uint16 key %1 default %2",
+    "tooltip": "Call Preferences.getUShort() to read a uint16 value, returning the default when the key is missing."
   },
   "esp32_preferences_get_int": {
-    "message0": "读取整数 键 %1 默认值 %2",
-    "tooltip": "读取一个整数值，不存在则返回默认值"
+    "message0": "get int32 key %1 default %2",
+    "tooltip": "Call Preferences.getInt() to read a int32 value, returning the default when the key is missing."
+  },
+  "esp32_preferences_get_uint": {
+    "message0": "get uint32 key %1 default %2",
+    "tooltip": "Call Preferences.getUInt() to read a uint32 value, returning the default when the key is missing."
+  },
+  "esp32_preferences_get_long": {
+    "message0": "get long key %1 default %2",
+    "tooltip": "Call Preferences.getLong() to read a long value, returning the default when the key is missing."
+  },
+  "esp32_preferences_get_ulong": {
+    "message0": "get unsigned long key %1 default %2",
+    "tooltip": "Call Preferences.getULong() to read a unsigned long value, returning the default when the key is missing."
+  },
+  "esp32_preferences_get_long64": {
+    "message0": "get int64 key %1 default %2",
+    "tooltip": "Call Preferences.getLong64() to read a int64 value, returning the default when the key is missing."
+  },
+  "esp32_preferences_get_ulong64": {
+    "message0": "get uint64 key %1 default %2",
+    "tooltip": "Call Preferences.getULong64() to read a uint64 value, returning the default when the key is missing."
   },
   "esp32_preferences_get_float": {
-    "message0": "读取浮点数 键 %1 默认值 %2",
-    "tooltip": "读取一个浮点数值，不存在则返回默认值"
+    "message0": "get float key %1 default %2",
+    "tooltip": "Call Preferences.getFloat() to read a float value, returning the default when the key is missing."
+  },
+  "esp32_preferences_get_double": {
+    "message0": "get double key %1 default %2",
+    "tooltip": "Call Preferences.getDouble() to read a double value, returning the default when the key is missing."
   },
   "esp32_preferences_get_bool": {
-    "message0": "读取布尔值 键 %1 默认值 %2",
-    "tooltip": "读取一个布尔值，不存在则返回默认值"
+    "message0": "get boolean key %1 default %2",
+    "tooltip": "Call Preferences.getBool() to read a boolean value, returning the default when the key is missing."
   },
   "esp32_preferences_get_string": {
-    "message0": "读取字符串 键 %1 默认值 %2",
-    "tooltip": "读取一个字符串值，不存在则返回默认值"
+    "message0": "get string key %1 default %2",
+    "tooltip": "Call Preferences.getString() to read a string value, returning the default when the key is missing."
+  },
+  "esp32_preferences_get_bytes": {
+    "message0": "get bytes key %1 into buffer %2 max length %3",
+    "tooltip": "Call Preferences.getBytes(key, buffer, maxLen) and return the number of bytes read."
+  },
+  "esp32_preferences_get_string_length": {
+    "message0": "string key %1 length",
+    "tooltip": "Call Preferences.getStringLength(key) to get the stored string length."
+  },
+  "esp32_preferences_get_bytes_length": {
+    "message0": "bytes key %1 length",
+    "tooltip": "Call Preferences.getBytesLength(key) to get the stored byte length."
   },
   "esp32_preferences_is_key": {
-    "message0": "键 %1 是否存在",
-    "tooltip": "检查指定键是否存在"
+    "message0": "key %1 exists",
+    "tooltip": "Call Preferences.isKey(key) to check whether a key exists."
+  },
+  "esp32_preferences_get_type": {
+    "message0": "Preferences type of key %1",
+    "tooltip": "Call Preferences.getType(key) to return a PreferenceType enum value."
+  },
+  "esp32_preferences_type_constant": {
+    "message0": "Preferences type %1",
+    "tooltip": "Return a PreferenceType enum constant defined by Preferences.h."
   },
   "esp32_preferences_free_entries": {
-    "message0": "剩余可用存储条目数",
-    "tooltip": "获取剩余可用的存储条目数量"
+    "message0": "free NVS entries",
+    "tooltip": "Call Preferences.freeEntries() to get the free-entry count for the default NVS partition."
   }
 }
