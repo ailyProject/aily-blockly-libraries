@@ -1557,6 +1557,11 @@ Arduino.forBlock['u8g2_set_bus_clock'] = function (block, generator) {
   return `u8g2.setBusClock(${speed});\n`;
 };
 
+Arduino.forBlock['u8g2_set_i2c_address'] = function (block, generator) {
+  const address = (block.getFieldValue('ADDRESS') || '0x78').trim();
+  return `u8g2.setI2CAddress(${address});\n`;
+};
+
 // 设置字体
 // Arduino.forBlock['u8g2_set_font'] = function (block, generator) {
 //   const font = block.getFieldValue('FONT');

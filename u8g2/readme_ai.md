@@ -4,7 +4,7 @@ The monochrome display driver library based on u8g2 can drive a variety of OLED 
 
 ## Library Info
 - **Name**: @aily-project/lib-u8g2
-- **Version**: 1.0.7
+- **Version**: 1.0.8
 
 ## Block Definitions
 
@@ -33,6 +33,7 @@ The monochrome display driver library based on u8g2 can drive a variety of OLED 
 | `u8g2_set_power_save` | Statement | MODE(dropdown) | `u8g2_set_power_save("0")` | u8g2.setPowerSave(...);\n |
 | `u8g2_set_contrast` | Statement | VALUE(input_value) | `u8g2_set_contrast(math_number(0))` | u8g2.setContrast(...);\n |
 | `u8g2_set_bus_clock` | Statement | SPEED(dropdown) | `u8g2_set_bus_clock("100000")` | u8g2.setBusClock(...);\n |
+| `u8g2_set_i2c_address` | Statement | ADDRESS(field_input) | `u8g2_set_i2c_address("0x78")` | u8g2.setI2CAddress(...);\n |
 | `u8g2_set_font` | Statement | SIZE(dropdown) | `u8g2_set_font("8")` | u8g2.setFont(...);\n |
 | `u8g2_set_draw_color` | Statement | COLOR(dropdown) | `u8g2_set_draw_color("1")` | u8g2.setDrawColor(...);\n |
 | `u8g2_set_font_mode` | Statement | MODE(dropdown) | `u8g2_set_font_mode("1")` | u8g2.setFontMode(...);\n |
@@ -54,6 +55,7 @@ The monochrome display driver library based on u8g2 can drive a variety of OLED 
 | LOOP | TRUE, FALSE | u8g2_play_animation |
 | DIRECTION | AUTO, FORWARD, BACKWARD | u8g2_step_animation_frame |
 | SPEED | 100000, 400000, 1000000 | u8g2_set_bus_clock |
+| ADDRESS | Exact I2C/IIC address value passed to u8g2.setI2CAddress(), for example 0x78 | u8g2_set_i2c_address |
 | SIZE | 8, 14, 19, 25, 34, 42, 50, 58 | u8g2_set_font |
 | COLOR | 1, 0, 2 | u8g2_set_draw_color |
 | MODE | 1, 0 | u8g2_set_font_mode |
@@ -64,6 +66,7 @@ The monochrome display driver library based on u8g2 can drive a variety of OLED 
 ### Basic Usage
 ```
 arduino_setup()
+    u8g2_set_i2c_address("0x78")
     u8g2_begin(SSD1306, FULL_BUFFER)
     serial_begin(Serial, 9600)
 
@@ -105,6 +108,7 @@ Use `FORWARD` to move one frame forward each run and wrap from the last frame to
 
 1. **Parameter order**: ABS parameters follow `block.json` args order.
 2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
-3. **Dynamic fields**: `u8g2_begin`, `u8g2_set_font`, `u8x8_begin` may add fields at runtime through Blockly extensions.
-4. **Animation value reuse**: `u8g2_animation()` is the value block that holds the user-uploaded animation. Connect it to `u8g2_play_animation`, `u8g2_draw_animation_frame`, and `u8g2_animation_frame_count` as needed.
-5. **Controlled playback pattern**: For variable-controlled playback, declare an integer frame variable, draw that frame with `u8g2_draw_animation_frame`, then update the variable with `u8g2_step_animation_frame`. The target frame may be a number, variable, sensor reading, or expression.
+3. **I2C address**: `u8g2_set_i2c_address` passes the user-entered value directly to `u8g2.setI2CAddress()` with no automatic shift or conversion. Place it before `u8g2_begin`.
+4. **Dynamic fields**: `u8g2_begin`, `u8g2_set_font`, `u8x8_begin` may add fields at runtime through Blockly extensions.
+5. **Animation value reuse**: `u8g2_animation()` is the value block that holds the user-uploaded animation. Connect it to `u8g2_play_animation`, `u8g2_draw_animation_frame`, and `u8g2_animation_frame_count` as needed.
+6. **Controlled playback pattern**: For variable-controlled playback, declare an integer frame variable, draw that frame with `u8g2_draw_animation_frame`, then update the variable with `u8g2_step_animation_frame`. The target frame may be a number, variable, sensor reading, or expression.
