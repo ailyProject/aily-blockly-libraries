@@ -1,0 +1,129 @@
+{
+  "toolbox_name": "MLX90642 紅外熱成像",
+  "mlx90642_init": {
+    "message0": "初始化 MLX90642 %1 SDA %2 SCL %3 位址 %4 模式 %5 刷新率 %6 輸出 %7",
+    "tooltip": "透過 ESP32 I2C 腳位初始化 MLX90642 32x24 紅外熱成像感測器。",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "連續測量",
+            "MLX90642_CONT_MEAS_MODE"
+          ],
+          [
+            "單步測量",
+            "MLX90642_STEP_MEAS_MODE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "2 Hz",
+            "MLX90642_REF_RATE_2HZ"
+          ],
+          [
+            "4 Hz",
+            "MLX90642_REF_RATE_4HZ"
+          ],
+          [
+            "8 Hz",
+            "MLX90642_REF_RATE_8HZ"
+          ],
+          [
+            "16 Hz",
+            "MLX90642_REF_RATE_16HZ"
+          ],
+          [
+            "32 Hz",
+            "MLX90642_REF_RATE_32HZ"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "溫度",
+            "MLX90642_TEMPERATURE_OUTPUT"
+          ],
+          [
+            "歸一化資料",
+            "MLX90642_NORMALIZED_DATA_OUTPUT"
+          ]
+        ]
+      }
+    ]
+  },
+  "mlx90642_data_ready": {
+    "message0": "MLX90642 %1 資料已就緒",
+    "tooltip": "檢查 MLX90642 是否有新一幀熱成像資料可讀。"
+  },
+  "mlx90642_read_frame": {
+    "message0": "MLX90642 %1 讀取一幀到快取",
+    "tooltip": "讀取目前 32x24 影像幀到快取。"
+  },
+  "mlx90642_measure_now": {
+    "message0": "MLX90642 %1 立即測量並快取一幀",
+    "tooltip": "觸發一次測量並等待資料返回，成功返回 true。"
+  },
+  "mlx90642_pixel_value": {
+    "message0": "MLX90642 %1 快取像素 X %2 Y %3 讀取 %4",
+    "tooltip": "讀取上一幀快取中的指定像素，X 範圍 0-31，Y 範圍 0-23。",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "溫度 ℃",
+            "C"
+          ],
+          [
+            "原始值",
+            "RAW"
+          ]
+        ]
+      }
+    ]
+  },
+  "mlx90642_frame_stat": {
+    "message0": "MLX90642 %1 快取幀 %2 溫度 ℃",
+    "tooltip": "計算上一幀快取的最低、最高或平均溫度。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "最低",
+            "MIN"
+          ],
+          [
+            "最高",
+            "MAX"
+          ],
+          [
+            "平均",
+            "AVG"
+          ]
+        ]
+      }
+    ]
+  },
+  "mlx90642_progress": {
+    "message0": "MLX90642 %1 測量進度 %",
+    "tooltip": "讀取目前測量進度百分比。"
+  },
+  "mlx90642_print_frame_csv": {
+    "message0": "MLX90642 %1 將快取幀以 CSV 輸出到 %2 baud %3",
+    "tooltip": "把上一幀 32x24 溫度快取按 24 行 CSV 輸出到序列埠。"
+  },
+  "mlx90642_sleep": {
+    "message0": "MLX90642 %1 進入睡眠",
+    "tooltip": "讓 MLX90642 進入低功耗睡眠模式。"
+  }
+}
