@@ -1,0 +1,601 @@
+[
+  {
+    "type": "ui_begin",
+    "message0": "UI动画 初始化 TFT %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "TFT",
+        "variable": "tft",
+        "variableTypes": [
+          "TFT_eSPI"
+        ],
+        "defaultType": "TFT_eSPI"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "初始化UI动画模块，绑定TFT屏",
+    "icon": "fa-regular fa-display"
+  },
+  {
+    "type": "ui_set_font",
+    "message0": "UI动画 设置字体 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "FONT",
+        "text": "chinese_city_gb2312"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置中文字体变量名",
+    "icon": "fa-regular fa-font"
+  },
+  {
+    "type": "ui_welcome",
+    "message0": "开机动画 标题 %1 名称 %2 副标题 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "TITLE",
+        "text": "Powered by"
+      },
+      {
+        "type": "field_input",
+        "name": "NAME",
+        "text": "Bryan"
+      },
+      {
+        "type": "field_input",
+        "name": "SUBTITLE",
+        "text": "WEATHER STATION"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "播放开机动画：彩虹条+力量动画(需先设置)+文字展示",
+    "icon": "fa-regular fa-flag-checkered"
+  },
+  {
+    "type": "ui_walk_init",
+    "message0": "行走动画 初始化 X %1 Y %2 宽 %3 高 %4 间隔ms %5",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "W",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "FPS",
+        "check": [
+          "Number",
+          "int"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "初始化行走精灵动画，创建Sprite缓冲区",
+    "icon": "fa-regular fa-person-walking"
+  },
+  {
+    "type": "ui_walk_frames",
+    "message0": "行走动画 设置帧数据 数组名 %1 帧数 %2 源宽 %3 源高 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "ARR",
+        "text": "epd_bitmap_allArray"
+      },
+      {
+        "type": "input_value",
+        "name": "COUNT",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SW",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SH",
+        "check": [
+          "Number",
+          "int"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置行走动画的帧数据数组(需配合img头文件使用)",
+    "icon": "fa-regular fa-film"
+  },
+  {
+    "type": "ui_walk_update",
+    "message0": "行走动画 更新",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "在loop中调用，自动更新行走动画帧",
+    "icon": "fa-regular fa-arrows-rotate"
+  },
+  {
+    "type": "ui_strength_init",
+    "message0": "力量动画 初始化 X %1 Y %2 宽 %3 高 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "W",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": [
+          "Number",
+          "int"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "初始化力量展示动画的位置和尺寸",
+    "icon": "fa-regular fa-dumbbell"
+  },
+  {
+    "type": "ui_strength_frames",
+    "message0": "力量动画 设置帧数据 数组名 %1 帧数 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "ARR",
+        "text": "strongFrames"
+      },
+      {
+        "type": "input_value",
+        "name": "COUNT",
+        "check": [
+          "Number",
+          "int"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置力量动画的帧数据数组",
+    "icon": "fa-regular fa-images"
+  },
+  {
+    "type": "ui_strength_play",
+    "message0": "力量动画 播放 循环 %1 次 间隔 %2 ms",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "CYCLES",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DELAY",
+        "check": [
+          "Number",
+          "int"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "播放力量展示动画",
+    "icon": "fa-regular fa-play"
+  },
+  {
+    "type": "ui_set_fg_color",
+    "message0": "设置文字颜色 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": [
+          "Number",
+          "int"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置U8g2中文文字的前景色",
+    "icon": "fa-solid fa-palette"
+  },
+  {
+    "type": "ui_print_cn",
+    "message0": "中文输出 X %1 Y %2 内容 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "在指定坐标输出中文文字(使用已设置的字体和前景色)",
+    "icon": "fa-solid fa-language"
+  },
+  {
+    "type": "ui_draw_bg",
+    "message0": "绘制夜空背景 X %1 Y %2 宽 %3 高 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "W",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": [
+          "Number",
+          "int"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "绘制夜空渐变背景(深蓝→黑色)",
+    "icon": "fa-regular fa-image"
+  },
+  {
+    "type": "ui_draw_stars",
+    "message0": "绘制星空",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "在背景上绘制随机星点",
+    "icon": "fa-regular fa-star"
+  },
+  {
+    "type": "ui_btn_add",
+    "message0": "按键 注册 按钮 %1 引脚 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ID",
+        "options": [
+          [
+            "左(LEFT)",
+            "0"
+          ],
+          [
+            "右(RIGHT)",
+            "1"
+          ],
+          [
+            "上(UP)",
+            "2"
+          ],
+          [
+            "下(DOWN)",
+            "3"
+          ],
+          [
+            "A",
+            "4"
+          ],
+          [
+            "B",
+            "5"
+          ]
+        ]
+      },
+      {
+        "type": "field_input",
+        "name": "PIN",
+        "text": "27"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "注册一个按钮到指定引脚(自动设为INPUT_PULLUP)",
+    "icon": "fa-regular fa-circle-dot"
+  },
+  {
+    "type": "ui_btn_scan",
+    "message0": "按键 扫描",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "扫描所有注册的按钮状态(含去抖)",
+    "icon": "fa-regular fa-magnifying-glass"
+  },
+  {
+    "type": "ui_btn_pressed",
+    "message0": "按键 %1 刚按下",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ID",
+        "options": [
+          [
+            "左(LEFT)",
+            "0"
+          ],
+          [
+            "右(RIGHT)",
+            "1"
+          ],
+          [
+            "上(UP)",
+            "2"
+          ],
+          [
+            "下(DOWN)",
+            "3"
+          ],
+          [
+            "A",
+            "4"
+          ],
+          [
+            "B",
+            "5"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#E91E63",
+    "tooltip": "检测指定按钮是否刚被按下(边沿触发)",
+    "icon": "fa-regular fa-hand-pointer"
+  },
+  {
+    "type": "ui_btn_is_pressed",
+    "message0": "按键 %1 正在按下",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ID",
+        "options": [
+          [
+            "左(LEFT)",
+            "0"
+          ],
+          [
+            "右(RIGHT)",
+            "1"
+          ],
+          [
+            "上(UP)",
+            "2"
+          ],
+          [
+            "下(DOWN)",
+            "3"
+          ],
+          [
+            "A",
+            "4"
+          ],
+          [
+            "B",
+            "5"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#E91E63",
+    "tooltip": "检测指定按钮当前是否处于按下状态(电平触发)",
+    "icon": "fa-regular fa-hand"
+  },
+  {
+    "type": "ui_btn_set_debounce",
+    "message0": "按键 去抖时间 %1 ms",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": [
+          "Number",
+          "int"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置按键去抖间隔(默认200ms)",
+    "icon": "fa-regular fa-stopwatch"
+  },
+  {
+    "type": "ui_page_count",
+    "message0": "页面 设置总数 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "COUNT",
+        "check": [
+          "Number",
+          "int"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "设置页面总数(用于循环导航)",
+    "icon": "fa-regular fa-clone"
+  },
+  {
+    "type": "ui_page_current",
+    "message0": "页面 当前页码",
+    "output": "Number",
+    "colour": "#E91E63",
+    "tooltip": "获取当前页面编号(从0开始)",
+    "icon": "fa-regular fa-file"
+  },
+  {
+    "type": "ui_page_changed",
+    "message0": "页面 已切换",
+    "output": "Boolean",
+    "colour": "#E91E63",
+    "tooltip": "判断页面是否刚发生变化",
+    "icon": "fa-regular fa-arrows-left-right"
+  },
+  {
+    "type": "ui_page_next",
+    "message0": "页面 下一页",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "切换到下一页(循环到末尾回开头)",
+    "icon": "fa-regular fa-arrow-right"
+  },
+  {
+    "type": "ui_page_prev",
+    "message0": "页面 上一页",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "切换到上一页(循环到开头回末尾)",
+    "icon": "fa-regular fa-arrow-left"
+  },
+  {
+    "type": "ui_page_set",
+    "message0": "页面 设置当前 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PAGE",
+        "check": [
+          "Number",
+          "int"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "直接设置当前页面编号",
+    "icon": "fa-regular fa-hand-pointer"
+  }
+]
