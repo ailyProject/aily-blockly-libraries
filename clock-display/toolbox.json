@@ -1,0 +1,146 @@
+{
+  "kind": "category",
+  "name": "时钟显示",
+  "colour": "#7C4DFF",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "── 初始化 ──"
+    },
+    {
+      "kind": "block",
+      "type": "clk_begin",
+      "fields": {
+        "TFT": "tft",
+        "FONT": "chinese_city_gb2312"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "clk_sync_ntp",
+      "fields": {
+        "TZ": "8",
+        "NTP1": "ntp1.aliyun.com",
+        "NTP2": "ntp2.aliyun.com",
+        "NTP3": "ntp3.aliyun.com"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "clk_show"
+    },
+    {
+      "kind": "block",
+      "type": "clk_force_redraw"
+    },
+    {
+      "kind": "label",
+      "text": "── 室内温度 ──"
+    },
+    {
+      "kind": "block",
+      "type": "clk_read_temp",
+      "fields": {
+        "PIN": "39"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "clk_get_temp"
+    },
+    {
+      "kind": "block",
+      "type": "clk_show_temp"
+    },
+    {
+      "kind": "label",
+      "text": "── 时间获取 ──"
+    },
+    {
+      "kind": "block",
+      "type": "clk_get_year"
+    },
+    {
+      "kind": "block",
+      "type": "clk_get_month"
+    },
+    {
+      "kind": "block",
+      "type": "clk_get_day"
+    },
+    {
+      "kind": "block",
+      "type": "clk_get_hour"
+    },
+    {
+      "kind": "block",
+      "type": "clk_get_minute"
+    },
+    {
+      "kind": "block",
+      "type": "clk_get_second"
+    },
+    {
+      "kind": "block",
+      "type": "clk_get_weekday"
+    },
+    {
+      "kind": "block",
+      "type": "clk_get_time_str"
+    },
+    {
+      "kind": "block",
+      "type": "clk_get_date_str"
+    },
+    {
+      "kind": "block",
+      "type": "clk_get_weekday_str"
+    },
+    {
+      "kind": "label",
+      "text": "── 背景绘制 ──"
+    },
+    {
+      "kind": "block",
+      "type": "clk_draw_bg",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "W": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 160
+            }
+          }
+        },
+        "H": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 128
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "clk_draw_stars"
+    }
+  ]
+}
