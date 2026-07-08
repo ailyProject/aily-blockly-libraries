@@ -1,0 +1,156 @@
+[
+  {
+    "type": "ws_auto_connect",
+    "message0": "天气站 自动连接WiFi AP名称 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "AP_SSID",
+        "text": "WeatherConfig"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "从NVS加载WiFi配置并自动连接，失败则开启AP配置热点",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "ws_config_loop",
+    "message0": "处理配置门户请求",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "在配置模式下处理DNS和HTTP请求，需放在loop中",
+    "icon": "fa-regular fa-rotate"
+  },
+  {
+    "type": "ws_is_config_mode",
+    "message0": "配置模式中",
+    "output": "Boolean",
+    "colour": "#00BCD4",
+    "tooltip": "判断当前是否处于WiFi配置(AP)模式",
+    "icon": "fa-regular fa-circle-question"
+  },
+  {
+    "type": "ws_fetch_weather",
+    "message0": "获取天气数据",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "从yytianqi API获取最新天气数据",
+    "icon": "fa-regular fa-cloud-sun"
+  },
+  {
+    "type": "ws_fetch_weather_result",
+    "message0": "获取天气数据(返回是否成功)",
+    "output": "Boolean",
+    "colour": "#00BCD4",
+    "tooltip": "从API获取天气数据，返回是否成功",
+    "icon": "fa-regular fa-cloud-sun-rain"
+  },
+  {
+    "type": "ws_get_city",
+    "message0": "天气 城市",
+    "output": "String",
+    "colour": "#00BCD4",
+    "tooltip": "获取天气城市名称",
+    "icon": "fa-regular fa-city"
+  },
+  {
+    "type": "ws_get_temp",
+    "message0": "天气 温度",
+    "output": "String",
+    "colour": "#00BCD4",
+    "tooltip": "获取当前温度",
+    "icon": "fa-regular fa-temperature-half"
+  },
+  {
+    "type": "ws_get_humidity",
+    "message0": "天气 湿度",
+    "output": "String",
+    "colour": "#00BCD4",
+    "tooltip": "获取当前湿度(含%)",
+    "icon": "fa-regular fa-droplet"
+  },
+  {
+    "type": "ws_get_weather",
+    "message0": "天气 天气",
+    "output": "String",
+    "colour": "#00BCD4",
+    "tooltip": "获取天气状况描述",
+    "icon": "fa-regular fa-cloud"
+  },
+  {
+    "type": "ws_get_wind",
+    "message0": "天气 风力",
+    "output": "String",
+    "colour": "#00BCD4",
+    "tooltip": "获取风力描述",
+    "icon": "fa-regular fa-wind"
+  },
+  {
+    "type": "ws_get_wind_dir",
+    "message0": "天气 风向",
+    "output": "String",
+    "colour": "#00BCD4",
+    "tooltip": "获取风向描述",
+    "icon": "fa-regular fa-compass"
+  },
+  {
+    "type": "ws_is_wifi_connected",
+    "message0": "WiFi已连接",
+    "output": "Boolean",
+    "colour": "#00BCD4",
+    "tooltip": "判断WiFi是否已连接",
+    "icon": "fa-regular fa-wifi"
+  },
+  {
+    "type": "ws_get_ip",
+    "message0": "本机IP地址",
+    "output": "String",
+    "colour": "#00BCD4",
+    "tooltip": "获取WiFi连接后的本机IP地址",
+    "icon": "fa-regular fa-network-wired"
+  },
+  {
+    "type": "ws_save_config",
+    "message0": "保存WiFi配置 SSID %1 密码 %2 API Key %3 城市 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SSID",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PASS",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "APIKEY",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CITY",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "手动保存WiFi和天气API配置到NVS",
+    "icon": "fa-regular fa-floppy-disk"
+  }
+]
