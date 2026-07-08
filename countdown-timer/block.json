@@ -1,0 +1,230 @@
+[
+  {
+    "type": "cd_begin",
+    "message0": "倒计时 初始化 TFT %1 蜂鸣器引脚 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "TFT",
+        "variable": "tft",
+        "variableTypes": [
+          "TFT_eSPI"
+        ],
+        "defaultType": "TFT_eSPI"
+      },
+      {
+        "type": "field_input",
+        "name": "PIN",
+        "text": "14"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "初始化倒计时模块，绑定TFT和蜂鸣器引脚",
+    "icon": "fa-regular fa-hourglass-start"
+  },
+  {
+    "type": "cd_set_font",
+    "message0": "倒计时 设置字体 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "FONT",
+        "text": "chinese_city_gb2312"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "设置中文字体变量名",
+    "icon": "fa-regular fa-font"
+  },
+  {
+    "type": "cd_update",
+    "message0": "倒计时 刷新",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "在loop中调用，自动处理倒计时、显示和音乐播放",
+    "icon": "fa-regular fa-rotate"
+  },
+  {
+    "type": "cd_show",
+    "message0": "倒计时 显示界面",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "手动刷新倒计时显示界面",
+    "icon": "fa-regular fa-eye"
+  },
+  {
+    "type": "cd_force_redraw",
+    "message0": "倒计时 强制重绘",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "强制下次刷新时完全重绘",
+    "icon": "fa-regular fa-arrows-rotate"
+  },
+  {
+    "type": "cd_start",
+    "message0": "倒计时 开始 分钟数 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MIN",
+        "check": [
+          "Number",
+          "int"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "开始倒计时，指定分钟数",
+    "icon": "fa-regular fa-play"
+  },
+  {
+    "type": "cd_pause",
+    "message0": "倒计时 暂停",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "暂停正在运行的倒计时",
+    "icon": "fa-regular fa-pause"
+  },
+  {
+    "type": "cd_resume",
+    "message0": "倒计时 继续",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "继续已暂停的倒计时",
+    "icon": "fa-regular fa-forward"
+  },
+  {
+    "type": "cd_cancel",
+    "message0": "倒计时 取消",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "取消倒计时并停止蜂鸣器",
+    "icon": "fa-regular fa-stop"
+  },
+  {
+    "type": "cd_reset",
+    "message0": "倒计时 重置",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "重置倒计时到IDLE状态",
+    "icon": "fa-regular fa-arrow-rotate-left"
+  },
+  {
+    "type": "cd_add_minutes",
+    "message0": "倒计时 调整分钟 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DELTA",
+        "check": [
+          "Number",
+          "int"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "在IDLE状态下增减设定分钟数(范围1-99)",
+    "icon": "fa-regular fa-plus-minus"
+  },
+  {
+    "type": "cd_get_state",
+    "message0": "倒计时 状态(数字)",
+    "output": "Number",
+    "colour": "#FF5722",
+    "tooltip": "获取倒计时状态: 0=待机 1=运行 2=暂停 3=完成",
+    "icon": "fa-regular fa-circle-info"
+  },
+  {
+    "type": "cd_get_state_str",
+    "message0": "倒计时 状态字符串",
+    "output": "String",
+    "colour": "#FF5722",
+    "tooltip": "获取状态字符串(IDLE/RUN/PAUSE/DONE)",
+    "icon": "fa-regular fa-tag"
+  },
+  {
+    "type": "cd_get_remain_min",
+    "message0": "倒计时 剩余分钟",
+    "output": "Number",
+    "colour": "#FF5722",
+    "tooltip": "获取剩余分钟数",
+    "icon": "fa-regular fa-clock"
+  },
+  {
+    "type": "cd_get_remain_sec",
+    "message0": "倒计时 剩余秒",
+    "output": "Number",
+    "colour": "#FF5722",
+    "tooltip": "获取剩余秒数(0-59)",
+    "icon": "fa-regular fa-stopwatch"
+  },
+  {
+    "type": "cd_get_time_str",
+    "message0": "倒计时 时间字符串 MM:SS",
+    "output": "String",
+    "colour": "#FF5722",
+    "tooltip": "获取格式化的剩余时间字符串",
+    "icon": "fa-regular fa-clock"
+  },
+  {
+    "type": "cd_get_set_min",
+    "message0": "倒计时 设定分钟数",
+    "output": "Number",
+    "colour": "#FF5722",
+    "tooltip": "获取当前设定的倒计时分钟数",
+    "icon": "fa-regular fa-hourglass"
+  },
+  {
+    "type": "cd_btn_up",
+    "message0": "倒计时 按钮 上",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "模拟按上键(IDLE时+1分钟)",
+    "icon": "fa-regular fa-chevron-up"
+  },
+  {
+    "type": "cd_btn_down",
+    "message0": "倒计时 按钮 下",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "模拟按下键(IDLE时-1分钟)",
+    "icon": "fa-regular fa-chevron-down"
+  },
+  {
+    "type": "cd_btn_a",
+    "message0": "倒计时 按钮 A",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "模拟按A键(IDLE=开始/RUN=暂停/PAUSE=继续/DONE=重置)",
+    "icon": "fa-regular fa-circle-play"
+  },
+  {
+    "type": "cd_btn_b",
+    "message0": "倒计时 按钮 B",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "模拟按B键(取消/停止蜂鸣)",
+    "icon": "fa-regular fa-circle-xmark"
+  }
+]
