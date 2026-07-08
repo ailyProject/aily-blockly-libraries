@@ -1,6 +1,6 @@
 # K10 Sensor
 
-UNIHIKER K10 onboard sensor library, supports accelerometer, light intensity and AHT20 temperature & humidity
+UNIHIKER K10 onboard sensor library, supports accelerometer, light intensity and direct AHT20 temperature & humidity reads
 
 ## Library Info
 
@@ -18,7 +18,7 @@ UNIHIKER:esp32:k10
 
 ## Description
 
-UNIHIKER K10 onboard sensor library, supports accelerometer, light intensity and AHT20 temperature & humidity
+UNIHIKER K10 onboard sensor library, supports accelerometer, light intensity and direct AHT20 temperature & humidity reads
 
 ## Quick Start
 
