@@ -1,0 +1,112 @@
+{
+  "kind": "category",
+  "name": "天气站",
+  "colour": "#00BCD4",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "── WiFi 连接 ──"
+    },
+    {
+      "kind": "block",
+      "type": "ws_auto_connect",
+      "fields": {
+        "AP_SSID": "WeatherConfig"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ws_config_loop"
+    },
+    {
+      "kind": "block",
+      "type": "ws_is_config_mode"
+    },
+    {
+      "kind": "block",
+      "type": "ws_is_wifi_connected"
+    },
+    {
+      "kind": "block",
+      "type": "ws_get_ip"
+    },
+    {
+      "kind": "label",
+      "text": "── 天气数据 ──"
+    },
+    {
+      "kind": "block",
+      "type": "ws_fetch_weather"
+    },
+    {
+      "kind": "block",
+      "type": "ws_fetch_weather_result"
+    },
+    {
+      "kind": "block",
+      "type": "ws_get_city"
+    },
+    {
+      "kind": "block",
+      "type": "ws_get_temp"
+    },
+    {
+      "kind": "block",
+      "type": "ws_get_humidity"
+    },
+    {
+      "kind": "block",
+      "type": "ws_get_weather"
+    },
+    {
+      "kind": "block",
+      "type": "ws_get_wind"
+    },
+    {
+      "kind": "block",
+      "type": "ws_get_wind_dir"
+    },
+    {
+      "kind": "label",
+      "text": "── 手动配置 ──"
+    },
+    {
+      "kind": "block",
+      "type": "ws_save_config",
+      "inputs": {
+        "SSID": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "MyWiFi"
+            }
+          }
+        },
+        "PASS": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "password"
+            }
+          }
+        },
+        "APIKEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "your_api_key"
+            }
+          }
+        },
+        "CITY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "101010100"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
