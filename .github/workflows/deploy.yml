@@ -651,10 +651,13 @@ jobs:
       
       - name: Generate libraries index
         run: node .scripts_git_action/generate-libraries-index.js
+
+      - name: Generate package folder map
+        run: node .scripts_git_action/generate-package-folder-map.js
       
       - name: Check if JSON file exists
         run: |
-          for file in libraries.json libraries-ai.json; do
+          for file in libraries.json libraries-ai.json package-folder-map.json; do
             if [ -f "./$file" ]; then
               echo "$file exists"
               head -n 10 "./$file"
@@ -692,7 +695,7 @@ jobs:
           export AWS_SECRET_ACCESS_KEY="$RUSTFS_SECRET_ACCESS_KEY"
           export AWS_DEFAULT_REGION="us-east-1"
           PREFIX="${RUSTFS_TARGET:+${RUSTFS_TARGET}/}"
-          for file in libraries.json libraries-ai.json libraries-index.json tags.json; do
+          for file in libraries.json libraries-ai.json libraries-index.json package-folder-map.json tags.json; do
             aws --endpoint-url "$RUSTFS_ENDPOINT" s3 cp "$file" "s3://${RUSTFS_BUCKET}/${PREFIX}${file}" --no-progress
           done
 
@@ -727,6 +730,7 @@ jobs:
           cp libraries.json r2_json/
           cp libraries-ai.json r2_json/
           cp libraries-index.json r2_json/
+          cp package-folder-map.json r2_json/
           cp tags.json r2_json/
 
       - name: Prepare AI docs upload

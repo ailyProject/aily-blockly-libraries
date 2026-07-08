@@ -1,0 +1,484 @@
+[
+  {
+    "type": "xueersi_esp32_button_setup",
+    "message0": "初始化小喵ESP32全部按键",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "初始化上、下、左、右、A、B六个板载按键，并在主循环自动更新状态",
+    "icon": "fa-regular fa-circle-dot"
+  },
+  {
+    "type": "xueersi_esp32_button_is_pressed",
+    "message0": "小喵按键 %1 被按下",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "上",
+            "UP"
+          ],
+          [
+            "下",
+            "DOWN"
+          ],
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "B",
+            "B"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF6B6B",
+    "tooltip": "检测指定板载按键当前是否处于按下状态",
+    "icon": "fa-regular fa-circle-dot"
+  },
+  {
+    "type": "xueersi_esp32_button_on_event",
+    "message0": "当小喵按键 %1 %2 时",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "上",
+            "UP"
+          ],
+          [
+            "下",
+            "DOWN"
+          ],
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "B",
+            "B"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "EVENT",
+        "options": [
+          [
+            "单击",
+            "CLICK"
+          ],
+          [
+            "双击",
+            "DOUBLE_CLICK"
+          ],
+          [
+            "多次点击",
+            "MULTI_CLICK"
+          ],
+          [
+            "按下",
+            "PRESS"
+          ],
+          [
+            "长按开始",
+            "LONG_PRESS_START"
+          ],
+          [
+            "长按期间",
+            "DURING_LONG_PRESS"
+          ],
+          [
+            "长按结束",
+            "LONG_PRESS_STOP"
+          ]
+        ]
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "colour": "#FF6B6B",
+    "tooltip": "使用OneButton事件语义处理指定板载按键",
+    "icon": "fa-regular fa-circle-dot"
+  },
+  {
+    "type": "xueersi_esp32_button_set_debounce_ms",
+    "message0": "小喵按键 %1 设置防抖时间 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "上",
+            "UP"
+          ],
+          [
+            "下",
+            "DOWN"
+          ],
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "B",
+            "B"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置指定按键的防抖时间",
+    "icon": "fa-regular fa-circle-dot"
+  },
+  {
+    "type": "xueersi_esp32_button_set_click_ms",
+    "message0": "小喵按键 %1 设置单击时间 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "上",
+            "UP"
+          ],
+          [
+            "下",
+            "DOWN"
+          ],
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "B",
+            "B"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置单击和双击判定时间",
+    "icon": "fa-regular fa-circle-dot"
+  },
+  {
+    "type": "xueersi_esp32_button_set_press_ms",
+    "message0": "小喵按键 %1 设置长按时间 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "上",
+            "UP"
+          ],
+          [
+            "下",
+            "DOWN"
+          ],
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "B",
+            "B"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置长按判定时间",
+    "icon": "fa-regular fa-circle-dot"
+  },
+  {
+    "type": "xueersi_esp32_button_set_long_press_interval_ms",
+    "message0": "小喵按键 %1 设置长按间隔 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "上",
+            "UP"
+          ],
+          [
+            "下",
+            "DOWN"
+          ],
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "B",
+            "B"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "设置长按期间回调的触发间隔",
+    "icon": "fa-regular fa-circle-dot"
+  },
+  {
+    "type": "xueersi_esp32_button_is_long_pressed",
+    "message0": "小喵按键 %1 正在长按",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "上",
+            "UP"
+          ],
+          [
+            "下",
+            "DOWN"
+          ],
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "B",
+            "B"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF6B6B",
+    "tooltip": "检测指定按键是否处于长按状态",
+    "icon": "fa-regular fa-circle-dot"
+  },
+  {
+    "type": "xueersi_esp32_button_get_pressed_ms",
+    "message0": "小喵按键 %1 按下时长",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "上",
+            "UP"
+          ],
+          [
+            "下",
+            "DOWN"
+          ],
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "B",
+            "B"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B6B",
+    "tooltip": "获取指定按键当前按下的持续时间，单位毫秒",
+    "icon": "fa-regular fa-circle-dot"
+  },
+  {
+    "type": "xueersi_esp32_button_get_number_clicks",
+    "message0": "小喵按键 %1 点击次数",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "上",
+            "UP"
+          ],
+          [
+            "下",
+            "DOWN"
+          ],
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "B",
+            "B"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B6B",
+    "tooltip": "获取OneButton记录的最近点击次数",
+    "icon": "fa-regular fa-circle-dot"
+  },
+  {
+    "type": "xueersi_esp32_button_reset",
+    "message0": "重置小喵按键 %1 状态",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          [
+            "上",
+            "UP"
+          ],
+          [
+            "下",
+            "DOWN"
+          ],
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "B",
+            "B"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B6B",
+    "tooltip": "重置指定按键的OneButton状态机",
+    "icon": "fa-regular fa-circle-dot"
+  }
+]
