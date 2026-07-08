@@ -1,12 +1,12 @@
 {
   "kind": "category",
-  "name": "Preferences存储",
+  "name": "Preferences 存储",
   "icon": "fa-light fa-database",
   "colour": "#9C27B0",
   "contents": [
     {
       "kind": "label",
-      "text": "存储空间管理"
+      "text": "命名空间"
     },
     {
       "kind": "block",
@@ -24,29 +24,121 @@
     },
     {
       "kind": "block",
-      "type": "esp32_preferences_end"
-    },
-    {
-      "kind": "block",
-      "type": "esp32_preferences_clear"
-    },
-    {
-      "kind": "block",
-      "type": "esp32_preferences_remove",
+      "type": "esp32_preferences_begin_partition",
       "inputs": {
-        "KEY": {
+        "NAMESPACE": {
           "shadow": {
             "type": "text",
             "fields": {
-              "TEXT": "myKey"
+              "TEXT": "storage"
+            }
+          }
+        },
+        "PARTITION": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "nvs"
             }
           }
         }
       }
     },
     {
+      "kind": "block",
+      "type": "esp32_preferences_end"
+    },
+    {
       "kind": "label",
-      "text": "写入数据"
+      "text": "写入标量"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_put_char",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_put_uchar",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_put_short",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_put_ushort",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
     },
     {
       "kind": "block",
@@ -56,7 +148,117 @@
           "shadow": {
             "type": "text",
             "fields": {
-              "TEXT": "counter"
+              "TEXT": "value"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_put_uint",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_put_long",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_put_ulong",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_put_long64",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_put_ulong64",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
             }
           }
         },
@@ -78,7 +280,7 @@
           "shadow": {
             "type": "text",
             "fields": {
-              "TEXT": "temperature"
+              "TEXT": "value"
             }
           }
         },
@@ -86,7 +288,29 @@
           "shadow": {
             "type": "math_number",
             "fields": {
-              "NUM": 0.0
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_put_double",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
             }
           }
         }
@@ -138,7 +362,95 @@
     },
     {
       "kind": "label",
-      "text": "读取数据"
+      "text": "读取标量"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_get_char",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "DEFAULT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_get_uchar",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "DEFAULT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_get_short",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "DEFAULT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_get_ushort",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "DEFAULT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
     },
     {
       "kind": "block",
@@ -148,7 +460,117 @@
           "shadow": {
             "type": "text",
             "fields": {
-              "TEXT": "counter"
+              "TEXT": "value"
+            }
+          }
+        },
+        "DEFAULT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_get_uint",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "DEFAULT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_get_long",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "DEFAULT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_get_ulong",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "DEFAULT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_get_long64",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "DEFAULT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_get_ulong64",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
             }
           }
         },
@@ -170,7 +592,7 @@
           "shadow": {
             "type": "text",
             "fields": {
-              "TEXT": "temperature"
+              "TEXT": "value"
             }
           }
         },
@@ -178,7 +600,29 @@
           "shadow": {
             "type": "math_number",
             "fields": {
-              "NUM": 0.0
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_get_double",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        },
+        "DEFAULT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
             }
           }
         }
@@ -230,7 +674,101 @@
     },
     {
       "kind": "label",
-      "text": "检查状态"
+      "text": "字节与长度"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_put_bytes",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "blob"
+            }
+          }
+        },
+        "LENGTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 16
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_get_bytes",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "blob"
+            }
+          }
+        },
+        "MAX_LENGTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 16
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_get_string_length",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "name"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_get_bytes_length",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "blob"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "查询与维护"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_clear"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_remove",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        }
+      }
     },
     {
       "kind": "block",
@@ -240,11 +778,29 @@
           "shadow": {
             "type": "text",
             "fields": {
-              "TEXT": "myKey"
+              "TEXT": "value"
             }
           }
         }
       }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_get_type",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "value"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_preferences_type_constant"
     },
     {
       "kind": "block",

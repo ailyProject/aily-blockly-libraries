@@ -1,13 +1,13 @@
 # ESP32 Preferences storage
 
-ESP32 NVS non-volatile memory library supports access to integers, floats, booleans and strings
+ESP32 NVS non-volatile storage library aligned with the ESP32 Arduino Preferences API, including namespaces, partitions, typed key-value data, byte blobs, type queries, and free-entry checks.
 
 ## Library Info
 
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-esp32-preferences |
-| Version | 0.0.1 |
+| Version | 0.0.2 |
 | Author | ailyProject |
 | Source | N/A |
 | License | Original license |
@@ -18,7 +18,7 @@ ESP32
 
 ## Description
 
-ESP32 NVS non-volatile memory library supports access to integers, floats, booleans and strings
+ESP32 NVS non-volatile storage library aligned with the ESP32 Arduino Preferences API, including namespaces, partitions, typed key-value data, byte blobs, type queries, and free-entry checks.
 
 ## Quick Start
 

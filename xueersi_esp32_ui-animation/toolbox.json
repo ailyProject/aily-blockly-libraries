@@ -1,0 +1,432 @@
+{
+  "kind": "category",
+  "name": "UI动画",
+  "colour": "#E91E63",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "── 初始化 ──"
+    },
+    {
+      "kind": "block",
+      "type": "ui_begin",
+      "fields": {
+        "TFT": "tft"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ui_set_font",
+      "fields": {
+        "FONT": "chinese_city_gb2312"
+      }
+    },
+    {
+      "kind": "label",
+      "text": "── 开机动画 ──"
+    },
+    {
+      "kind": "block",
+      "type": "ui_welcome",
+      "fields": {
+        "TITLE": "Powered by",
+        "NAME": "Bryan",
+        "SUBTITLE": "WEATHER STATION"
+      }
+    },
+    {
+      "kind": "label",
+      "text": "── 行走动画 ──"
+    },
+    {
+      "kind": "block",
+      "type": "ui_walk_init",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 70
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 4
+            }
+          }
+        },
+        "W": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 60
+            }
+          }
+        },
+        "H": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 90
+            }
+          }
+        },
+        "FPS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 80
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ui_walk_frames",
+      "fields": {
+        "ARR": "epd_bitmap_allArray"
+      },
+      "inputs": {
+        "COUNT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 7
+            }
+          }
+        },
+        "SW": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 80
+            }
+          }
+        },
+        "SH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 120
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ui_walk_update"
+    },
+    {
+      "kind": "label",
+      "text": "── 力量动画 ──"
+    },
+    {
+      "kind": "block",
+      "type": "ui_strength_init",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 40
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 4
+            }
+          }
+        },
+        "W": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 80
+            }
+          }
+        },
+        "H": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 120
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ui_strength_frames",
+      "fields": {
+        "ARR": "strongFrames"
+      },
+      "inputs": {
+        "COUNT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 4
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ui_strength_play",
+      "inputs": {
+        "CYCLES": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 3
+            }
+          }
+        },
+        "DELAY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 150
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "── 背景绘制 ──"
+    },
+    {
+      "kind": "block",
+      "type": "ui_draw_bg",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "W": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 160
+            }
+          }
+        },
+        "H": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 128
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ui_draw_stars"
+    },
+    {
+      "kind": "label",
+      "text": "── 中文输出 ──"
+    },
+    {
+      "kind": "block",
+      "type": "ui_set_fg_color",
+      "inputs": {
+        "COLOR": {
+          "shadow": {
+            "type": "tftscr_color",
+            "fields": {
+              "COLOR": "TFT_WHITE"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ui_print_cn",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "── 按键管理 ──"
+    },
+    {
+      "kind": "block",
+      "type": "ui_btn_add",
+      "fields": {
+        "ID": "0",
+        "PIN": "27"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ui_btn_add",
+      "fields": {
+        "ID": "1",
+        "PIN": "35"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ui_btn_add",
+      "fields": {
+        "ID": "2",
+        "PIN": "2"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ui_btn_add",
+      "fields": {
+        "ID": "3",
+        "PIN": "13"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ui_btn_add",
+      "fields": {
+        "ID": "4",
+        "PIN": "34"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ui_btn_add",
+      "fields": {
+        "ID": "5",
+        "PIN": "12"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ui_btn_scan"
+    },
+    {
+      "kind": "block",
+      "type": "ui_btn_pressed",
+      "fields": {
+        "ID": "0"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ui_btn_is_pressed",
+      "fields": {
+        "ID": "4"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ui_btn_set_debounce",
+      "inputs": {
+        "MS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 200
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "── 页面导航 ──"
+    },
+    {
+      "kind": "block",
+      "type": "ui_page_count",
+      "inputs": {
+        "COUNT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 3
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ui_page_current"
+    },
+    {
+      "kind": "block",
+      "type": "ui_page_changed"
+    },
+    {
+      "kind": "block",
+      "type": "ui_page_next"
+    },
+    {
+      "kind": "block",
+      "type": "ui_page_prev"
+    },
+    {
+      "kind": "block",
+      "type": "ui_page_set",
+      "inputs": {
+        "PAGE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    }
+  ]
+}

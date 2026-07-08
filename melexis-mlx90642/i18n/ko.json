@@ -1,0 +1,129 @@
+{
+  "toolbox_name": "MLX90642 Thermal Imaging",
+  "mlx90642_init": {
+    "message0": "init MLX90642 %1 SDA %2 SCL %3 address %4 mode %5 refresh %6 output %7",
+    "tooltip": "Initialize the MLX90642 32x24 thermal imaging sensor over ESP32 I2C.",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "continuous",
+            "MLX90642_CONT_MEAS_MODE"
+          ],
+          [
+            "step",
+            "MLX90642_STEP_MEAS_MODE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "2 Hz",
+            "MLX90642_REF_RATE_2HZ"
+          ],
+          [
+            "4 Hz",
+            "MLX90642_REF_RATE_4HZ"
+          ],
+          [
+            "8 Hz",
+            "MLX90642_REF_RATE_8HZ"
+          ],
+          [
+            "16 Hz",
+            "MLX90642_REF_RATE_16HZ"
+          ],
+          [
+            "32 Hz",
+            "MLX90642_REF_RATE_32HZ"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "temperature",
+            "MLX90642_TEMPERATURE_OUTPUT"
+          ],
+          [
+            "normalized data",
+            "MLX90642_NORMALIZED_DATA_OUTPUT"
+          ]
+        ]
+      }
+    ]
+  },
+  "mlx90642_data_ready": {
+    "message0": "MLX90642 %1 data ready",
+    "tooltip": "Check whether a new thermal frame is ready."
+  },
+  "mlx90642_read_frame": {
+    "message0": "MLX90642 %1 read frame to cache",
+    "tooltip": "Read the current 32x24 image frame into the cache."
+  },
+  "mlx90642_measure_now": {
+    "message0": "MLX90642 %1 measure now and cache frame",
+    "tooltip": "Trigger one measurement and wait for the frame. Returns true on success."
+  },
+  "mlx90642_pixel_value": {
+    "message0": "MLX90642 %1 cached pixel X %2 Y %3 read %4",
+    "tooltip": "Read one pixel from the cached frame. X range 0-31, Y range 0-23.",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "temperature C",
+            "C"
+          ],
+          [
+            "raw value",
+            "RAW"
+          ]
+        ]
+      }
+    ]
+  },
+  "mlx90642_frame_stat": {
+    "message0": "MLX90642 %1 cached frame %2 temperature C",
+    "tooltip": "Calculate minimum, maximum, or average temperature from the cached frame.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "minimum",
+            "MIN"
+          ],
+          [
+            "maximum",
+            "MAX"
+          ],
+          [
+            "average",
+            "AVG"
+          ]
+        ]
+      }
+    ]
+  },
+  "mlx90642_progress": {
+    "message0": "MLX90642 %1 measurement progress %",
+    "tooltip": "Read current measurement progress percent."
+  },
+  "mlx90642_print_frame_csv": {
+    "message0": "MLX90642 %1 print cached frame as CSV to %2 baud %3",
+    "tooltip": "Print the cached 32x24 temperature frame as 24 CSV rows."
+  },
+  "mlx90642_sleep": {
+    "message0": "MLX90642 %1 sleep",
+    "tooltip": "Put the MLX90642 into low-power sleep mode."
+  }
+}
