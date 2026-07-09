@@ -9,6 +9,9 @@ on:
       - '*/generator.js'
       - '*/toolbox.json'
       - '*/readme.md'
+      - '*/README.md'
+      - '*/readme_ai.md'
+      - '*/README_AI.md'
   push:
     branches: [ main, develop ]
     paths:
@@ -17,6 +20,9 @@ on:
       - '*/generator.js'
       - '*/toolbox.json'
       - '*/readme.md'
+      - '*/README.md'
+      - '*/readme_ai.md'
+      - '*/README_AI.md'
 
 # GitHub Actions权限配置
 permissions:
@@ -55,9 +61,17 @@ jobs:
       id: validation
       run: |
         echo "开始检测变更的库..."
+
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          VALIDATE_CMD=(node .scripts_git_action/validate-library-compliance.js --changed --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.event.pull_request.head.sha }}")
+        elif [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+          VALIDATE_CMD=(node .scripts_git_action/validate-library-compliance.js --changed --base "${{ github.event.before }}" --head "${{ github.sha }}")
+        else
+          VALIDATE_CMD=(node .scripts_git_action/validate-library-compliance.js --changed)
+        fi
         
         # 使用统一的检测脚本，自动读取配置文件
-        if ! node .scripts_git_action/validate-library-compliance.js --changed; then
+        if ! "${VALIDATE_CMD[@]}"; then
           echo "validation_passed=false" >> $GITHUB_OUTPUT
           echo "💥 库规范检测失败，请查看详细报告并修复问题"
           exit 1

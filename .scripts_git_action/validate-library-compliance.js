@@ -14,7 +14,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
 const yaml = require('js-yaml');
 const readmeCompliance = require('../.scripts/check-readme-compliance.js');
 
@@ -1036,23 +1036,39 @@ class LibraryValidator {
   }
 
   // 获取 git 变更的文件列表
-  getChangedFiles() {
+  getChangedFiles(options = {}) {
     try {
-      // 尝试获取与 main 分支的差异（适用于 PR）
-      let changedFiles;
-      try {
-        changedFiles = execSync('git diff --name-only origin/main...HEAD', { encoding: 'utf8' });
-      } catch (e) {
-        // 如果没有 origin/main，尝试与本地 main 比较
+      const runGitDiff = (range) => execFileSync('git', ['diff', '--name-only', range], { encoding: 'utf8' });
+
+      let changedFiles = '';
+      if (options.base && options.head) {
+        const range = `${options.base}...${options.head}`;
+        console.log(`📌 使用指定变更范围: ${range}`);
         try {
-          changedFiles = execSync('git diff --name-only main...HEAD', { encoding: 'utf8' });
-        } catch (e2) {
-          // 如果都失败，获取最近一次提交的变更
-          changedFiles = execSync('git diff --name-only HEAD~1 HEAD', { encoding: 'utf8' });
+          changedFiles = runGitDiff(range);
+        } catch (error) {
+          throw new Error(`无法获取指定范围的 git 变更: ${range}\n${error.message}`);
+        }
+      } else {
+        // 尝试获取与 main 分支的差异（适用于本地或 push fallback）
+        try {
+          changedFiles = runGitDiff('origin/main...HEAD');
+        } catch (e) {
+          // 如果没有 origin/main，尝试与本地 main 比较
+          try {
+            changedFiles = runGitDiff('main...HEAD');
+          } catch (e2) {
+            // 如果都失败，获取最近一次提交的变更
+            changedFiles = execFileSync('git', ['diff', '--name-only', 'HEAD~1', 'HEAD'], { encoding: 'utf8' });
+          }
         }
       }
       return changedFiles.trim().split('\n').filter(f => f);
     } catch (error) {
+      if (options.base && options.head) {
+        throw error;
+      }
+
       console.error('⚠️  无法获取 git 变更信息:', error.message);
       console.error('   请确保在 git 仓库中运行此命令');
       return [];
@@ -1062,6 +1078,7 @@ class LibraryValidator {
   // 从变更文件中提取库目录
   extractLibrariesFromChangedFiles(changedFiles) {
     const libraries = new Set();
+    const currentDir = process.cwd();
     
     for (const file of changedFiles) {
       // 跳过根目录文件
@@ -1077,6 +1094,13 @@ class LibraryValidator {
       if (libraryName.startsWith('.') || libraryName === 'node_modules') {
         continue;
       }
+
+      const libraryPath = path.join(currentDir, libraryName);
+      const hasPackageJson = fs.existsSync(path.join(libraryPath, 'package.json'));
+      const hasBlockJson = fs.existsSync(path.join(libraryPath, 'block.json'));
+      if (!hasPackageJson && !hasBlockJson) {
+        continue;
+      }
       
       libraries.add(libraryName);
     }
@@ -1085,12 +1109,12 @@ class LibraryValidator {
   }
 
   // 验证 PR 中变更的库
-  async validateChangedLibraries() {
+  async validateChangedLibraries(options = {}) {
     const currentDir = process.cwd();
     
     console.log('🔍 检测 PR 中的变更文件...\n');
     
-    const changedFiles = this.getChangedFiles();
+    const changedFiles = this.getChangedFiles(options);
     
     if (changedFiles.length === 0) {
       console.log('ℹ️  未检测到文件变更');
@@ -1185,6 +1209,12 @@ class LibraryValidator {
 }
 
 // 主函数
+function getOptionValue(args, name) {
+  const index = args.indexOf(name);
+  if (index === -1) return null;
+  return args[index + 1] || null;
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const validator = new LibraryValidator();
@@ -1197,6 +1227,7 @@ Arduino库转Blockly库规范检测工具
   node validate-library-compliance.js [库名]       检测指定库
   node validate-library-compliance.js --all        检测所有库
   node validate-library-compliance.js --changed    检测PR中变更的库 (推荐用于CI/CD)
+  node validate-library-compliance.js --changed --base <sha> --head <sha>
   node validate-library-compliance.js --help       显示帮助
 
 检测范围:
@@ -1219,7 +1250,10 @@ CI/CD 集成:
   if (args[0] === '--all') {
     await validator.validateAllLibraries();
   } else if (args[0] === '--changed') {
-    await validator.validateChangedLibraries();
+    await validator.validateChangedLibraries({
+      base: getOptionValue(args, '--base'),
+      head: getOptionValue(args, '--head')
+    });
   } else {
     const libraryName = args[0];
     const libraryPath = path.resolve(libraryName);
@@ -1251,7 +1285,10 @@ CI/CD 集成:
 
 // 运行主函数
 if (require.main === module) {
-  main().catch(console.error);
+  main().catch(error => {
+    console.error(error.message || error);
+    process.exitCode = 1;
+  });
 }
 
 module.exports = LibraryValidator;
