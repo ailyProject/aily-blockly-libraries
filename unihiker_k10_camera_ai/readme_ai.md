@@ -4,7 +4,7 @@ UNIHIKER K10 camera and AI recognition library, supports photo, face detection/r
 
 ## Library Info
 - **Name**: @aily-project/lib-unihiker-k10-camera-ai
-- **Version**: 0.1.3
+- **Version**: 0.1.6
 
 ## Block Definitions
 
@@ -12,6 +12,7 @@ UNIHIKER K10 camera and AI recognition library, supports photo, face detection/r
 |------------|------------|--------------------------|------------|----------------|
 | `k10_camera_init` | Statement | (none) | `k10_camera_init()` | Dynamic code |
 | `k10_camera_show` | Statement | (none) | `k10_camera_show()` | k10.setBgCamerImage(true);\n |
+| `k10_camera_hide` | Statement | (none) | `k10_camera_hide()` | k10.setBgCamerImage(false);\n |
 | `k10_photo_save` | Statement | FILENAME(input_value) | `k10_photo_save(text("value"))` | k10.photoSaveToTFCard( |
 | `k10_photo_base64` | Value | (none) | `k10_photo_base64()` | k10CameraPhotoBase64() |
 | `k10_ai_init` | Statement | MODE(dropdown) | `k10_ai_init(Face)` | Dynamic code |
@@ -62,3 +63,4 @@ arduino_loop()
 2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
 3. `k10_photo_base64` returns a raw JPEG Base64 string without a `data:image/jpeg;base64,` prefix, so it can connect directly to `qwen_omni_vision_chat`.
 4. `k10_photo_base64` temporarily hides the camera preview, drops stale frames, captures a fresh frame, then restores the preview only when it was visible before capture. It prints `[K10-CAM]` diagnostics to `Serial`.
+5. Use `k10_camera_hide` before K10 voice playback or cloud voice chat when live camera preview makes audio stutter. It hides the preview and stops LVGL camera-frame refresh; use `k10_camera_show` to resume preview later.

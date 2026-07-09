@@ -148,11 +148,16 @@ Arduino.forBlock['k10_camera_init'] = function(block, generator) {
 
 // ========== 显示摄像头画面 ==========
 Arduino.forBlock['k10_camera_show'] = function(block, generator) {
-  ensureK10(generator);
+  ensureCameraRuntime(generator);
   return 'k10.setBgCamerImage(true);\n';
 };
 
 // ========== 拍照保存 ==========
+Arduino.forBlock['k10_camera_hide'] = function(block, generator) {
+  ensureCameraRuntime(generator);
+  return 'k10.setBgCamerImage(false);\n';
+};
+
 Arduino.forBlock['k10_photo_save'] = function(block, generator) {
   var path = generator.valueToCode(block, 'FILENAME', generator.ORDER_ATOMIC) || '"S:/photo.bmp"';
   ensureK10(generator);
