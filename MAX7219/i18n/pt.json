@@ -1,66 +1,142 @@
 {
-  "toolbox_name": "MAX7219",
-  "max7219_begin": {
-    "message0": "MAX7219 初始化",
-    "tooltip": "初始化MAX7219显示屏"
+  "toolbox_name": "Matriz MAX7219",
+  "toolbox_labels": {
+    "???": "Inicializacao",
+    "????": "Controle basico",
+    "?????": "Padroes e texto"
+  },
+  "max7219_matrix_init": {
+    "message0": "inicializar matriz MAX7219 %1 pino DIN(MOSI) # %2 %3 pino CS # %4 %5 pino CLK(SCK) # %6 %7 matrizes horizontais %8 %9 matrizes verticais %10",
+    "tooltip": "Inicializa matrizes LED MAX7219 8x8 com pinos DIN, CS, CLK e contagens em cascata"
+  },
+  "max7219_set_pixel": {
+    "message0": "tipo de matriz %1 X %2 Y %3 definir como %4",
+    "tooltip": "Define um pixel global; HIGH acende e LOW apaga",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "HIGH",
+            "true"
+          ],
+          [
+            "LOW",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "max7219_set_rotation": {
+    "message0": "tipo de matriz %1 indice da tela %2 girar %3",
+    "tooltip": "Define a rotacao de uma tela 8x8. O indice comeca em 0",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "0?",
+            "0"
+          ],
+          [
+            "90?",
+            "1"
+          ],
+          [
+            "180?",
+            "2"
+          ],
+          [
+            "270?",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "max7219_draw_screen_pixel": {
+    "message0": "tipo de matriz %1 indice da tela %2 X %3 Y %4",
+    "tooltip": "Acende um pixel na tela selecionada"
+  },
+  "max7219_scroll_text": {
+    "message0": "tipo de matriz %1 mostrar texto %2 velocidade %3",
+    "tooltip": "Rola texto da direita para a esquerda; velocidade em ms por quadro"
+  },
+  "max7219_display_pattern": {
+    "message0": "tipo de matriz %1 indice da tela %2 array de padrao %3",
+    "tooltip": "Mostra um padrao 8x8 na tela selecionada"
+  },
+  "max7219_matrix_pattern": {
+    "message0": "variavel de array %1 %2",
+    "tooltip": "Gera um padrao MAX7219 com o editor 8x8"
+  },
+  "max7219_preset_pattern": {
+    "message0": "padrao predefinido %1",
+    "tooltip": "Escolhe um padrao 8x8 integrado",
+    "args0": [
+      {
+        "options": [
+          [
+            "?",
+            "ARROW_UP"
+          ],
+          [
+            "?",
+            "ARROW_DOWN"
+          ],
+          [
+            "?",
+            "ARROW_LEFT"
+          ],
+          [
+            "?",
+            "ARROW_RIGHT"
+          ],
+          [
+            "Coracao",
+            "HEART"
+          ],
+          [
+            "Sorriso",
+            "SMILE"
+          ],
+          [
+            "Verificar",
+            "CHECK"
+          ],
+          [
+            "Cruz",
+            "CROSS"
+          ]
+        ]
+      }
+    ]
+  },
+  "max7219_fill": {
+    "message0": "tipo de matriz %1 definir como %2",
+    "tooltip": "Liga ou desliga todas as matrizes MAX7219",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "tudo ligado",
+            "true"
+          ],
+          [
+            "tudo desligado",
+            "false"
+          ]
+        ]
+      }
+    ]
   },
   "max7219_set_brightness": {
-    "message0": "设置MAX7219亮度为 %1",
-    "tooltip": "设置显示屏亮度 (0-15)"
-  },
-  "max7219_display_char": {
-    "message0": "在位 %1 显示字符 %2, 小数点 %3",
-    "tooltip": "在指定位置显示指定字符",
-    "args0": [
-      null,
-      null,
-      {
-        "options": [
-          [
-            "点亮",
-            "1"
-          ],
-          [
-            "不点亮",
-            "0"
-          ]
-        ]
-      }
-    ]
-  },
-  "max7219_clear": {
-    "message0": "清空MAX7219显示屏",
-    "tooltip": "清空显示屏"
-  },
-  "max7219_display_test_start": {
-    "message0": "开始MAX7219显示测试模式",
-    "tooltip": "进入显示测试模式"
-  },
-  "max7219_display_test_stop": {
-    "message0": "停止MAX7219显示测试模式",
-    "tooltip": "退出显示测试模式"
-  },
-  "max7219_display_text": {
-    "message0": "显示文本 %1, 对齐方式 %2",
-    "tooltip": "在显示屏上显示文本",
-    "args0": [
-      null,
-      {
-        "options": [
-          [
-            "左",
-            "0"
-          ],
-          [
-            "中",
-            "1"
-          ],
-          [
-            "右",
-            "2"
-          ]
-        ]
-      }
-    ]
+    "message0": "tipo de matriz %1 brilho %2",
+    "tooltip": "Define o brilho MAX7219 de 0 a 15"
   }
 }

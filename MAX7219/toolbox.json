@@ -1,35 +1,86 @@
 {
   "kind": "category",
-  "icon": "iconfont icon-digital-tube",
-  "name": "MAX7219",
+  "icon": "iconfont icon-a-8x8lattice",
+  "name": "MAX7219点阵",
+  "name_en": "MAX7219 Matrix",
+  "colour": "#5AA6A6",
   "contents": [
     {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
       "kind": "block",
-      "type": "max7219_begin"
+      "type": "max7219_matrix_init"
+    },
+    {
+      "kind": "label",
+      "text": "基础控制"
+    },
+    {
+      "kind": "block",
+      "type": "max7219_set_pixel"
+    },
+    {
+      "kind": "block",
+      "type": "max7219_draw_screen_pixel"
+    },
+    {
+      "kind": "block",
+      "type": "max7219_set_rotation"
+    },
+    {
+      "kind": "block",
+      "type": "max7219_fill"
     },
     {
       "kind": "block",
       "type": "max7219_set_brightness"
     },
     {
-      "kind": "block",
-      "type": "max7219_display_char"
+      "kind": "label",
+      "text": "图案与文字"
     },
     {
       "kind": "block",
-      "type": "max7219_clear"
+      "type": "max7219_display_pattern",
+      "inputs": {
+        "PATTERN": {
+          "shadow": {
+            "type": "max7219_matrix_pattern"
+          }
+        }
+      }
     },
     {
       "kind": "block",
-      "type": "max7219_display_test_start"
+      "type": "max7219_matrix_pattern"
     },
     {
       "kind": "block",
-      "type": "max7219_display_test_stop"
+      "type": "max7219_preset_pattern"
     },
     {
       "kind": "block",
-      "type": "max7219_display_text"
+      "type": "max7219_scroll_text",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Mixly"
+            }
+          }
+        },
+        "SPEED": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 300
+            }
+          }
+        }
+      }
     }
   ]
 }

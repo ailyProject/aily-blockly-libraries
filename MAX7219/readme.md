@@ -1,16 +1,16 @@
-# MAX7219 display driver library
+# MAX7219 LED Matrix
 
-Segment LED display support library, supports Arduino UNO, MEGA, ESP8266, ESP32 and other development boards
+Blockly driver for MAX7219 8x8 LED matrix modules with cascaded screens, pixels, rotation, brightness, patterns and scrolling text.
 
 ## Library Info
 
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-max7219 |
-| Version | 0.0.1 |
+| Version | 0.1.0 |
 | Author | ailyProject |
-| Source | N/A |
-| License | Original license |
+| Source | https://github.com/wayoda/LedControl |
+| License | MIT |
 
 ## Supported Boards
 
@@ -18,9 +18,9 @@ Arduino-compatible boards supported by this package.
 
 ## Description
 
-Segment LED display support library, supports Arduino UNO, MEGA, ESP8266, ESP32 and other development boards
+This package bundles LedControl 1.0.6 and uses its MAX7219 row, brightness and shutdown primitives. Blockly adds cascaded matrix coordinates, rotation, patterns and scrolling text.
 
 ## Quick Start
 
 1. Enable `@aily-project/lib-max7219` in Aily Blockly.
-2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+2. Add `max7219_matrix_init` in `arduino_setup()`, then use pixel, pattern, brightness or scrolling text blocks in `arduino_loop()`.

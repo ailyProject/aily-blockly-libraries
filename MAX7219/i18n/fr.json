@@ -1,66 +1,142 @@
 {
-  "toolbox_name": "MAX7219",
-  "max7219_begin": {
-    "message0": "MAX7219 初始化",
-    "tooltip": "初始化MAX7219显示屏"
+  "toolbox_name": "Matrice MAX7219",
+  "toolbox_labels": {
+    "???": "Initialisation",
+    "????": "Controle de base",
+    "?????": "Motifs et texte"
+  },
+  "max7219_matrix_init": {
+    "message0": "initialiser la matrice MAX7219 %1 broche DIN(MOSI) # %2 %3 broche CS # %4 %5 broche CLK(SCK) # %6 %7 matrices horizontales %8 %9 matrices verticales %10",
+    "tooltip": "Initialise les matrices LED MAX7219 8x8 avec les broches DIN, CS, CLK et le nombre de modules en cascade"
+  },
+  "max7219_set_pixel": {
+    "message0": "type de matrice %1 X %2 Y %3 mettre a %4",
+    "tooltip": "Definit un pixel global; HIGH allume et LOW eteint",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "HIGH",
+            "true"
+          ],
+          [
+            "LOW",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "max7219_set_rotation": {
+    "message0": "type de matrice %1 index ecran %2 rotation %3",
+    "tooltip": "Definit la rotation dun ecran 8x8. Lindex commence a 0",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "0?",
+            "0"
+          ],
+          [
+            "90?",
+            "1"
+          ],
+          [
+            "180?",
+            "2"
+          ],
+          [
+            "270?",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "max7219_draw_screen_pixel": {
+    "message0": "type de matrice %1 index ecran %2 X %3 Y %4",
+    "tooltip": "Allume un pixel dans lecran selectionne"
+  },
+  "max7219_scroll_text": {
+    "message0": "type de matrice %1 afficher le texte %2 vitesse %3",
+    "tooltip": "Fait defiler le texte de droite a gauche; vitesse en ms par image"
+  },
+  "max7219_display_pattern": {
+    "message0": "type de matrice %1 index ecran %2 tableau de motif %3",
+    "tooltip": "Affiche un motif 8x8 sur lecran selectionne"
+  },
+  "max7219_matrix_pattern": {
+    "message0": "variable tableau %1 %2",
+    "tooltip": "Genere un motif MAX7219 avec lediteur 8x8"
+  },
+  "max7219_preset_pattern": {
+    "message0": "motif predefini %1",
+    "tooltip": "Choisit un motif 8x8 integre",
+    "args0": [
+      {
+        "options": [
+          [
+            "?",
+            "ARROW_UP"
+          ],
+          [
+            "?",
+            "ARROW_DOWN"
+          ],
+          [
+            "?",
+            "ARROW_LEFT"
+          ],
+          [
+            "?",
+            "ARROW_RIGHT"
+          ],
+          [
+            "Coeur",
+            "HEART"
+          ],
+          [
+            "Sourire",
+            "SMILE"
+          ],
+          [
+            "Coche",
+            "CHECK"
+          ],
+          [
+            "Croix",
+            "CROSS"
+          ]
+        ]
+      }
+    ]
+  },
+  "max7219_fill": {
+    "message0": "type de matrice %1 mettre a %2",
+    "tooltip": "Allume ou eteint toutes les matrices MAX7219",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "tout allume",
+            "true"
+          ],
+          [
+            "tout eteint",
+            "false"
+          ]
+        ]
+      }
+    ]
   },
   "max7219_set_brightness": {
-    "message0": "设置MAX7219亮度为 %1",
-    "tooltip": "设置显示屏亮度 (0-15)"
-  },
-  "max7219_display_char": {
-    "message0": "在位 %1 显示字符 %2, 小数点 %3",
-    "tooltip": "在指定位置显示指定字符",
-    "args0": [
-      null,
-      null,
-      {
-        "options": [
-          [
-            "点亮",
-            "1"
-          ],
-          [
-            "不点亮",
-            "0"
-          ]
-        ]
-      }
-    ]
-  },
-  "max7219_clear": {
-    "message0": "清空MAX7219显示屏",
-    "tooltip": "清空显示屏"
-  },
-  "max7219_display_test_start": {
-    "message0": "开始MAX7219显示测试模式",
-    "tooltip": "进入显示测试模式"
-  },
-  "max7219_display_test_stop": {
-    "message0": "停止MAX7219显示测试模式",
-    "tooltip": "退出显示测试模式"
-  },
-  "max7219_display_text": {
-    "message0": "显示文本 %1, 对齐方式 %2",
-    "tooltip": "在显示屏上显示文本",
-    "args0": [
-      null,
-      {
-        "options": [
-          [
-            "左",
-            "0"
-          ],
-          [
-            "中",
-            "1"
-          ],
-          [
-            "右",
-            "2"
-          ]
-        ]
-      }
-    ]
+    "message0": "type de matrice %1 luminosite %2",
+    "tooltip": "Regle la luminosite MAX7219 de 0 a 15"
   }
 }
