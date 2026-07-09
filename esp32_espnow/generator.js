@@ -11,7 +11,220 @@ function ensureWiFiLib(generator) {
 
 // 确保ESP-NOW库被引用
 function ensureEspNowLib(generator) {
-  generator.addLibrary('ESP32_NOW', '#include <ESP32_NOW.h>');
+  generator.addLibrary('ESP32_NOW', String.raw`
+#if __has_include(<ESP32_NOW.h>)
+#include <ESP32_NOW.h>
+#else
+#include <WiFi.h>
+#include <esp_now.h>
+#include <esp_wifi.h>
+#include <esp_mac.h>
+#include <string.h>
+
+struct esp_now_recv_info_t {
+  const uint8_t *src_addr;
+  const uint8_t *des_addr;
+};
+
+class ESP_NOW_Peer;
+
+static void esp_now_compat_rx_cb(const uint8_t *mac_addr, const uint8_t *data, int len);
+static void esp_now_compat_tx_cb(const uint8_t *mac_addr, esp_now_send_status_t status);
+
+static void (*esp_now_compat_new_cb)(const esp_now_recv_info_t *info, const uint8_t *data, int len, void *arg) = nullptr;
+static void *esp_now_compat_new_arg = nullptr;
+static bool esp_now_compat_started = false;
+static ESP_NOW_Peer *esp_now_compat_peers[ESP_NOW_MAX_TOTAL_PEER_NUM] = {};
+static const uint8_t esp_now_compat_broadcast_addr[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+
+class ESP_NOW_Class {
+public:
+  const uint8_t BROADCAST_ADDR[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+
+  bool begin(const uint8_t *pmk = nullptr) {
+    if (esp_now_compat_started) {
+      return true;
+    }
+    esp_err_t err = esp_wifi_start();
+    if (err != ESP_OK) {
+      Serial.printf("esp_wifi_start failed: 0x%x\n", err);
+      return false;
+    }
+    err = esp_now_init();
+    if (err != ESP_OK && err != ESP_ERR_ESPNOW_EXIST) {
+      Serial.printf("esp_now_init failed: 0x%x\n", err);
+      return false;
+    }
+    if (pmk && esp_now_set_pmk(pmk) != ESP_OK) {
+      Serial.println("esp_now_set_pmk failed");
+      return false;
+    }
+    memset(esp_now_compat_peers, 0, sizeof(esp_now_compat_peers));
+    esp_now_register_recv_cb(esp_now_compat_rx_cb);
+    esp_now_register_send_cb(esp_now_compat_tx_cb);
+    esp_now_compat_started = true;
+    return true;
+  }
+
+  bool end() {
+    if (!esp_now_compat_started) {
+      return true;
+    }
+    esp_now_deinit();
+    esp_now_compat_started = false;
+    memset(esp_now_compat_peers, 0, sizeof(esp_now_compat_peers));
+    return true;
+  }
+
+  int getTotalPeerCount() const {
+    esp_now_peer_num_t num;
+    return esp_now_get_peer_num(&num) == ESP_OK ? num.total_num : -1;
+  }
+
+  int getEncryptedPeerCount() const {
+    esp_now_peer_num_t num;
+    return esp_now_get_peer_num(&num) == ESP_OK ? num.encrypt_num : -1;
+  }
+
+  int getMaxDataLen() const {
+    return ESP_NOW_MAX_DATA_LEN;
+  }
+
+  int getVersion() const {
+    uint32_t version = 0;
+    return esp_now_get_version(&version) == ESP_OK ? (int)version : -1;
+  }
+
+  void onNewPeer(void (*cb)(const esp_now_recv_info_t *info, const uint8_t *data, int len, void *arg), void *arg) {
+    esp_now_compat_new_cb = cb;
+    esp_now_compat_new_arg = arg;
+  }
+
+  bool removePeer(ESP_NOW_Peer &peer);
+};
+
+class ESP_NOW_Peer {
+private:
+  uint8_t mac[6];
+  uint8_t chan;
+  wifi_interface_t ifc;
+  bool encrypt;
+  uint8_t key[16];
+
+protected:
+  bool added;
+
+  bool add() {
+    if (!esp_now_compat_started) {
+      return false;
+    }
+    if (added) {
+      return true;
+    }
+    esp_now_peer_info_t peer;
+    memset(&peer, 0, sizeof(peer));
+    memcpy(peer.peer_addr, mac, 6);
+    peer.channel = chan;
+    peer.ifidx = ifc;
+    peer.encrypt = encrypt;
+    if (encrypt) {
+      memcpy(peer.lmk, key, 16);
+    }
+    esp_err_t err = esp_now_add_peer(&peer);
+    if (err != ESP_OK && err != ESP_ERR_ESPNOW_EXIST) {
+      Serial.printf("esp_now_add_peer failed: 0x%x\n", err);
+      return false;
+    }
+    for (uint8_t i = 0; i < ESP_NOW_MAX_TOTAL_PEER_NUM; i++) {
+      if (esp_now_compat_peers[i] == nullptr) {
+        esp_now_compat_peers[i] = this;
+        break;
+      }
+    }
+    added = true;
+    return true;
+  }
+
+  bool remove() {
+    if (!esp_now_compat_started) {
+      return false;
+    }
+    if (!added) {
+      return true;
+    }
+    esp_now_del_peer(mac);
+    for (uint8_t i = 0; i < ESP_NOW_MAX_TOTAL_PEER_NUM; i++) {
+      if (esp_now_compat_peers[i] == this) {
+        esp_now_compat_peers[i] = nullptr;
+      }
+    }
+    added = false;
+    return true;
+  }
+
+  size_t send(const uint8_t *data, int len) {
+    if (!esp_now_compat_started || !added) {
+      return 0;
+    }
+    if (len > ESP_NOW_MAX_DATA_LEN) {
+      len = ESP_NOW_MAX_DATA_LEN;
+    }
+    return esp_now_send(mac, data, len) == ESP_OK ? (size_t)len : 0;
+  }
+
+  ESP_NOW_Peer(const uint8_t *mac_addr, uint8_t channel = 0, wifi_interface_t iface = WIFI_IF_STA, const uint8_t *lmk = nullptr)
+    : chan(channel), ifc(iface), encrypt(lmk != nullptr), added(false) {
+    memcpy(mac, mac_addr, 6);
+    if (encrypt) {
+      memcpy(key, lmk, 16);
+    }
+  }
+
+public:
+  virtual ~ESP_NOW_Peer() {}
+
+  const uint8_t *addr() const {
+    return mac;
+  }
+
+  virtual void onReceive(const uint8_t *data, size_t len, bool broadcast) {}
+
+  virtual void onSent(bool success) {}
+
+  friend class ESP_NOW_Class;
+};
+
+bool ESP_NOW_Class::removePeer(ESP_NOW_Peer &peer) {
+  return peer.remove();
+}
+
+static ESP_NOW_Class ESP_NOW;
+
+static void esp_now_compat_rx_cb(const uint8_t *mac_addr, const uint8_t *data, int len) {
+  esp_now_recv_info_t info = {mac_addr, esp_now_compat_broadcast_addr};
+  for (uint8_t i = 0; i < ESP_NOW_MAX_TOTAL_PEER_NUM; i++) {
+    ESP_NOW_Peer *peer = esp_now_compat_peers[i];
+    if (peer && memcmp(peer->addr(), mac_addr, 6) == 0) {
+      peer->onReceive(data, len, false);
+      return;
+    }
+  }
+  if (esp_now_compat_new_cb) {
+    esp_now_compat_new_cb(&info, data, len, esp_now_compat_new_arg);
+  }
+}
+
+static void esp_now_compat_tx_cb(const uint8_t *mac_addr, esp_now_send_status_t status) {
+  for (uint8_t i = 0; i < ESP_NOW_MAX_TOTAL_PEER_NUM; i++) {
+    ESP_NOW_Peer *peer = esp_now_compat_peers[i];
+    if (peer && memcmp(peer->addr(), mac_addr, 6) == 0) {
+      peer->onSent(status == ESP_NOW_SEND_SUCCESS);
+      return;
+    }
+  }
+}
+#endif
+`);
 }
 
 // 确保ESP-NOW Serial库被引用
@@ -25,6 +238,37 @@ function ensureEspMacLib(generator) {
   generator.addLibrary('esp_mac', '#include <esp_mac.h>');
 }
 
+function ensureEspWifiLib(generator) {
+  generator.addLibrary('esp_wifi', '#include <esp_wifi.h>');
+}
+
+function ensureWiFiCompatFunctions(generator) {
+  ensureEspWifiLib(generator);
+
+  const funcDef =
+'bool espNowWaitWifiMode(wifi_mode_t mode) {\n' +
+'  for (uint8_t i = 0; i < 50; i++) {\n' +
+'    if ((WiFi.getMode() & mode) == mode) {\n' +
+'      return true;\n' +
+'    }\n' +
+'    delay(20);\n' +
+'  }\n' +
+'  return (WiFi.getMode() & mode) == mode;\n' +
+'}\n' +
+'\n' +
+'void espNowSetWifiChannel(uint8_t channel) {\n' +
+'  if (channel == 0) {\n' +
+'    return;\n' +
+'  }\n' +
+'  esp_err_t err = esp_wifi_set_channel(channel, WIFI_SECOND_CHAN_NONE);\n' +
+'  if (err != ESP_OK) {\n' +
+'    Serial.printf("esp_wifi_set_channel failed: 0x%x\\n", err);\n' +
+'  }\n' +
+'}\n';
+
+  generator.addFunction('esp_now_wifi_compat', funcDef);
+}
+
 // 确保vector库
 function ensureVectorLib(generator) {
   generator.addLibrary('vector', '#include <vector>');
@@ -33,24 +277,16 @@ function ensureVectorLib(generator) {
 // 确保WiFi初始化
 function ensureWiFiInit(generator, mode, channel) {
   ensureWiFiLib(generator);
+  ensureWiFiCompatFunctions(generator);
   
   const wifiMode = mode || 'WIFI_STA';
   const setupKey = 'wifi_init_' + wifiMode;
   
   let wifiSetup = 'WiFi.mode(' + wifiMode + ');\n';
   if (channel) {
-    wifiSetup += 'WiFi.setChannel(' + channel + ', WIFI_SECOND_CHAN_NONE);\n';
+    wifiSetup += 'espNowSetWifiChannel(' + channel + ');\n';
   }
-  
-  if (wifiMode === 'WIFI_STA' || wifiMode === 'WIFI_AP_STA') {
-    wifiSetup += 'while (!WiFi.STA.started()) {\n';
-    wifiSetup += '  delay(100);\n';
-    wifiSetup += '}\n';
-  } else if (wifiMode === 'WIFI_AP') {
-    wifiSetup += 'while (!WiFi.AP.started()) {\n';
-    wifiSetup += '  delay(100);\n';
-    wifiSetup += '}\n';
-  }
+  wifiSetup += 'espNowWaitWifiMode(' + wifiMode + ');\n';
   
   generator.addSetup(setupKey, wifiSetup);
 }
@@ -215,6 +451,7 @@ Arduino.forBlock['esp_now_master_init'] = function(block, generator) {
   
   ensureEspNowLib(generator);
   ensureWiFiLib(generator);
+  ensureWiFiCompatFunctions(generator);
   ensureSimpleBroadcastPeerClass(generator);
   ensureSerialBegin('Serial', generator);
   
@@ -224,10 +461,8 @@ Arduino.forBlock['esp_now_master_init'] = function(block, generator) {
   // WiFi初始化
   let setupCode = '// ESP-NOW 主机模式初始化\n';
   setupCode += 'WiFi.mode(WIFI_STA);\n';
-  setupCode += 'WiFi.setChannel(' + channel + ', WIFI_SECOND_CHAN_NONE);\n';
-  setupCode += 'while (!WiFi.STA.started()) {\n';
-  setupCode += '  delay(100);\n';
-  setupCode += '}\n';
+  setupCode += 'espNowSetWifiChannel(' + channel + ');\n';
+  setupCode += 'espNowWaitWifiMode(WIFI_STA);\n';
   setupCode += 'Serial.println("ESP-NOW Master Mode");\n';
   setupCode += 'Serial.println("MAC: " + WiFi.macAddress());\n';
   setupCode += 'Serial.printf("Channel: %d\\n", ' + channel + ');\n';
@@ -258,6 +493,7 @@ Arduino.forBlock['esp_now_slave_init'] = function(block, generator) {
   
   ensureEspNowLib(generator);
   ensureWiFiLib(generator);
+  ensureWiFiCompatFunctions(generator);
   ensureEspMacLib(generator);
   ensureVectorLib(generator);
   ensureMacToStringFunction(generator);  // 先添加辅助函数
@@ -316,10 +552,8 @@ Arduino.forBlock['esp_now_slave_init'] = function(block, generator) {
   // WiFi和ESP-NOW初始化
   let setupCode = '// ESP-NOW 从机模式初始化\n';
   setupCode += 'WiFi.mode(WIFI_STA);\n';
-  setupCode += 'WiFi.setChannel(' + channel + ', WIFI_SECOND_CHAN_NONE);\n';
-  setupCode += 'while (!WiFi.STA.started()) {\n';
-  setupCode += '  delay(100);\n';
-  setupCode += '}\n';
+  setupCode += 'espNowSetWifiChannel(' + channel + ');\n';
+  setupCode += 'espNowWaitWifiMode(WIFI_STA);\n';
   setupCode += 'Serial.println("ESP-NOW Slave Mode");\n';
   setupCode += 'Serial.println("MAC: " + WiFi.macAddress());\n';
   setupCode += 'Serial.printf("Channel: %d\\n", ' + channel + ');\n';
@@ -451,6 +685,7 @@ Arduino.forBlock['esp_now_node_init'] = function(block, generator) {
   
   ensureEspNowLib(generator);
   ensureWiFiLib(generator);
+  ensureWiFiCompatFunctions(generator);
   ensureEspMacLib(generator);
   ensureVectorLib(generator);
   ensureMacToStringFunction(generator);
@@ -508,10 +743,8 @@ Arduino.forBlock['esp_now_node_init'] = function(block, generator) {
   // 初始化代码
   let setupCode = '// ESP-NOW 双向节点模式初始化\n';
   setupCode += 'WiFi.mode(WIFI_STA);\n';
-  setupCode += 'WiFi.setChannel(' + channel + ', WIFI_SECOND_CHAN_NONE);\n';
-  setupCode += 'while (!WiFi.STA.started()) {\n';
-  setupCode += '  delay(100);\n';
-  setupCode += '}\n';
+  setupCode += 'espNowSetWifiChannel(' + channel + ');\n';
+  setupCode += 'espNowWaitWifiMode(WIFI_STA);\n';
   setupCode += 'Serial.println("ESP-NOW Node Mode");\n';
   setupCode += 'Serial.println("MAC: " + WiFi.macAddress());\n';
   setupCode += 'Serial.printf("Channel: %d\\n", ' + channel + ');\n';
@@ -657,8 +890,9 @@ Arduino.forBlock['esp_now_create_peer'] = function(block, generator) {
   let setupCode = 'parseMacAddress(' + mac + ', ' + varName + '_mac);\n';
   generator.addSetup('esp_now_peer_mac_' + varName, setupCode);
   
-  // 声明对象指针
-  generator.addVariable(varName, className + '* ' + varName + ' = nullptr;');
+  // 声明对象指针。该类型由上面的 addObject 类定义产生，必须同样放在 object 区，
+  // 否则变量区会先于类定义输出，导致 ESP_NOW_Peer_xxx does not name a type。
+  generator.addObject(varName + '_peer_pointer', className + '* ' + varName + ' = nullptr;');
   
   let createCode = varName + ' = new ' + className + '(' + varName + '_mac);\n';
   createCode += 'if (!' + varName + '->add()) {\n';
@@ -739,7 +973,7 @@ Arduino.forBlock['esp_now_create_peer_advanced'] = function(block, generator) {
   
   // 声明对象指针
   const lmkCode = lmk === '""' ? 'nullptr' : '(const uint8_t *)' + lmk + '.c_str()';
-  generator.addVariable(varName, className + '* ' + varName + ' = nullptr;');
+  generator.addObject(varName + '_peer_pointer', className + '* ' + varName + ' = nullptr;');
   
   let createCode = varName + ' = new ' + className + '(' + varName + '_mac, ' + channel + ', WIFI_IF_STA, ' + lmkCode + ');\n';
   createCode += 'if (!' + varName + '->add()) {\n';
@@ -775,8 +1009,8 @@ Arduino.forBlock['esp_now_create_broadcast_peer'] = function(block, generator) {
     registerVariableToBlockly(varName, 'ESP_NOW_Peer');
   }
   
-  // 声明对象指针
-  generator.addVariable(varName, 'ESP_NOW_Broadcast_Peer* ' + varName + ' = nullptr;');
+  // 声明对象指针。ESP_NOW_Broadcast_Peer 也是 object 区生成的类定义。
+  generator.addObject(varName + '_peer_pointer', 'ESP_NOW_Broadcast_Peer* ' + varName + ' = nullptr;');
   
   let createCode = varName + ' = new ESP_NOW_Broadcast_Peer();\n';
   createCode += 'if (!' + varName + '->add()) {\n';
@@ -990,6 +1224,7 @@ Arduino.forBlock['esp_now_serial_create'] = function(block, generator) {
   
   ensureEspNowSerialLib(generator);
   ensureWiFiLib(generator);
+  ensureWiFiCompatFunctions(generator);
   
   // 注册变量到Blockly
   if (typeof registerVariableToBlockly === 'function') {
@@ -1010,10 +1245,8 @@ Arduino.forBlock['esp_now_serial_create'] = function(block, generator) {
 
   // WiFi初始化
   let wifiSetup = 'WiFi.mode(' + mode + ');\n';
-  wifiSetup += 'WiFi.setChannel(' + channel + ', WIFI_SECOND_CHAN_NONE);\n';
-  wifiSetup += 'while (!(WiFi.STA.started() || WiFi.AP.started())) {\n';
-  wifiSetup += '  delay(100);\n';
-  wifiSetup += '}\n';
+  wifiSetup += 'espNowSetWifiChannel(' + channel + ');\n';
+  wifiSetup += 'espNowWaitWifiMode(' + mode + ');\n';
   wifiSetup += '\n';
   wifiSetup += '// ESP-NOW初始化\n';
   wifiSetup += varName + '.begin(115200);\n';
@@ -1127,6 +1360,7 @@ Arduino.forBlock['esp_now_quick_broadcast'] = function(block, generator) {
   
   ensureEspNowLib(generator);
   ensureWiFiLib(generator);
+  ensureWiFiCompatFunctions(generator);
   ensureSerialBegin('Serial', generator);
   
   // 添加快速广播辅助函数
@@ -1142,10 +1376,8 @@ Arduino.forBlock['esp_now_quick_broadcast'] = function(block, generator) {
 'void espNowQuickBroadcast(const String& msg, uint8_t channel) {\n' +
 '  if (!esp_now_quick_broadcast_init) {\n' +
 '    WiFi.mode(WIFI_STA);\n' +
-'    WiFi.setChannel(channel, WIFI_SECOND_CHAN_NONE);\n' +
-'    while (!WiFi.STA.started()) {\n' +
-'      delay(100);\n' +
-'    }\n' +
+'    espNowSetWifiChannel(channel);\n' +
+'    espNowWaitWifiMode(WIFI_STA);\n' +
 '    if (!ESP_NOW.begin()) {\n' +
 '      Serial.println("Failed to initialize ESP-NOW");\n' +
 '      return;\n' +
@@ -1173,6 +1405,7 @@ Arduino.forBlock['esp_now_quick_send'] = function(block, generator) {
   
   ensureEspNowLib(generator);
   ensureWiFiLib(generator);
+  ensureWiFiCompatFunctions(generator);
   ensureMacParseFunction(generator);
   ensureSerialBegin('Serial', generator);
   
@@ -1188,10 +1421,8 @@ Arduino.forBlock['esp_now_quick_send'] = function(block, generator) {
 'void espNowQuickSend(const String& macStr, const String& msg, uint8_t channel) {\n' +
 '  if (!esp_now_quick_send_init) {\n' +
 '    WiFi.mode(WIFI_STA);\n' +
-'    WiFi.setChannel(channel, WIFI_SECOND_CHAN_NONE);\n' +
-'    while (!WiFi.STA.started()) {\n' +
-'      delay(100);\n' +
-'    }\n' +
+'    espNowSetWifiChannel(channel);\n' +
+'    espNowWaitWifiMode(WIFI_STA);\n' +
 '    if (!ESP_NOW.begin()) {\n' +
 '      Serial.println("Failed to initialize ESP-NOW");\n' +
 '      return;\n' +

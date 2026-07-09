@@ -7,7 +7,7 @@ ESP32 ESP-NOW wireless communication support library supports point-to-point com
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-esp32-espnow |
-| Version | 1.0.1 |
+| Version | 1.0.2 |
 | Author | ailyProject |
 | Source | N/A |
 | License | Original license |
