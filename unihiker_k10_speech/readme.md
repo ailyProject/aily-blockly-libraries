@@ -1,6 +1,6 @@
 # K10 Speech Recognition & Synthesis
 
-UNIHIKER K10 speech recognition and synthesis library, supports Chinese/English speech recognition, command detection and TTS
+UNIHIKER K10 speech recognition and synthesis library, supports Chinese/English speech recognition, command detection and TTS. The speak block automatically initializes TTS with the slow default speed and guards rapid repeated playback.
 
 ## Library Info
 
@@ -18,7 +18,7 @@ UNIHIKER:esp32:k10
 
 ## Description
 
-UNIHIKER K10 speech recognition and synthesis library, supports Chinese/English speech recognition, command detection and TTS
+UNIHIKER K10 speech recognition and synthesis library, supports Chinese/English speech recognition, command detection and TTS. The speak block automatically initializes TTS with the slow default speed and guards rapid repeated playback.
 
 ## Quick Start
 
