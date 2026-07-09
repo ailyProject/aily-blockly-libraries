@@ -4,7 +4,7 @@ UNIHIKER K10 camera and AI recognition library, supports photo, face detection/r
 
 ## Library Info
 - **Name**: @aily-project/lib-unihiker-k10-camera-ai
-- **Version**: 0.1.0
+- **Version**: 0.1.3
 
 ## Block Definitions
 
@@ -13,6 +13,7 @@ UNIHIKER K10 camera and AI recognition library, supports photo, face detection/r
 | `k10_camera_init` | Statement | (none) | `k10_camera_init()` | Dynamic code |
 | `k10_camera_show` | Statement | (none) | `k10_camera_show()` | k10.setBgCamerImage(true);\n |
 | `k10_photo_save` | Statement | FILENAME(input_value) | `k10_photo_save(text("value"))` | k10.photoSaveToTFCard( |
+| `k10_photo_base64` | Value | (none) | `k10_photo_base64()` | k10CameraPhotoBase64() |
 | `k10_ai_init` | Statement | MODE(dropdown) | `k10_ai_init(Face)` | Dynamic code |
 | `k10_ai_switch_mode` | Statement | MODE(dropdown) | `k10_ai_switch_mode(Face)` | ai.switchAiMode(AIRecognition:: |
 | `k10_ai_is_detected` | Value | TYPE(dropdown) | `k10_ai_is_detected(Face)` | ai.isDetectContent(AIRecognition:: |
@@ -46,7 +47,18 @@ arduino_loop()
     time_delay(math_number(1000))
 ```
 
+### Qwen Vision Usage
+```
+arduino_setup()
+    k10_camera_init()
+
+arduino_loop()
+    variables_set(photo_base64, k10_photo_base64())
+```
+
 ## Notes
 
 1. **Parameter order**: ABS parameters follow `block.json` args order.
 2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+3. `k10_photo_base64` returns a raw JPEG Base64 string without a `data:image/jpeg;base64,` prefix, so it can connect directly to `qwen_omni_vision_chat`.
+4. `k10_photo_base64` temporarily hides the camera preview, drops stale frames, captures a fresh frame, then restores the preview only when it was visible before capture. It prints `[K10-CAM]` diagnostics to `Serial`.
