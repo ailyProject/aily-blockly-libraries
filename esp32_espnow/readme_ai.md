@@ -4,7 +4,7 @@ ESP32 ESP-NOW wireless communication support library supports point-to-point com
 
 ## Library Info
 - **Name**: @aily-project/lib-esp32-espnow
-- **Version**: 1.0.1
+- **Version**: 1.0.2
 
 ## Block Definitions
 
@@ -79,3 +79,4 @@ arduino_loop()
 1. **Variable**: `esp_now_create_peer("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+4. **Peer declaration order**: peer pointer declarations are emitted in the object section after the generated peer class definition, so create-peer blocks can be placed in setup without C++ type-order errors.
