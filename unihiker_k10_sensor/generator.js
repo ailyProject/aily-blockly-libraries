@@ -1,12 +1,16 @@
 function ensureK10(generator) {
-  generator.addLibrary('unihiker_k10', '#include "unihiker_k10.h"');
+  generator.addLibrary('SPIFFS', '#include <SPIFFS.h>');
+  generator.addLibrary('unihiker_k10', '#include <unihiker_k10.h>');
   generator.addVariable('k10', 'UNIHIKER_K10 k10;');
   generator.addSetupBegin('k10_begin', 'k10.begin();');
 }
 
 // ========== 获取加速度 ==========
 Arduino.forBlock['k10_get_accelerometer'] = function(block, generator) {
-  var axis = block.getFieldValue('AXIS');
+  var axis = String(block.getFieldValue('AXIS') || 'X').toUpperCase();
+  if (axis !== 'X' && axis !== 'Y' && axis !== 'Z') {
+    axis = 'X';
+  }
   ensureK10(generator);
   return ['(k10.getAccelerometer' + axis + '())', generator.ORDER_ATOMIC];
 };

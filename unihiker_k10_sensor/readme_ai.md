@@ -10,7 +10,7 @@ UNIHIKER K10 onboard sensor library, supports accelerometer, light intensity and
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `k10_get_accelerometer` | Value | AXIS(dropdown) | `k10_get_accelerometer(X)` | (k10.getAccelerometer |
+| `k10_get_accelerometer` | Value | AXIS(dropdown) | `k10_get_accelerometer(X)` | `(k10.getAccelerometerX/Y/Z())` |
 | `k10_get_strength` | Value | (none) | `k10_get_strength()` | (k10.readALS()) |
 | `k10_aht20_measure` | Value | CRC(dropdown) | `k10_aht20_measure(true)` | (aht20.startMeasurementReady( |
 | `k10_aht20_get_temperature` | Value | UNIT(dropdown) | `k10_aht20_get_temperature(C)` | (aht20.getTemperature_F()) |
@@ -40,3 +40,4 @@ arduino_loop()
 
 1. **Parameter order**: ABS parameters follow `block.json` args order.
 2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+3. **Axis values**: accelerometer axis values are normalized to uppercase before generating SDK calls, so localized dropdown values still emit `getAccelerometerX/Y/Z()`.
