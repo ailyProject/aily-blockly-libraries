@@ -4,7 +4,7 @@ Alibaba Cloud Tongyi Qwen large language model API library supports text dialogu
 
 ## Library Info
 - **Name**: @aily-project/lib-qwen-omni
-- **Version**: 0.0.10
+- **Version**: 0.0.13
 
 ## Block Definitions
 
@@ -42,6 +42,7 @@ Alibaba Cloud Tongyi Qwen large language model API library supports text dialogu
 | `qwen_omni_omni_text` | Value | MESSAGE(input_value), MODEL(dropdown) | `qwen_omni_omni_text(text("value"), qwen3.5-omni-plus)` | qwen_omni_text_request("...", ...) |
 | `qwen_omni_omni_and_play` | Statement | VAR(field_variable), MESSAGE(input_value), MODEL(dropdown), VOICE(dropdown) | `qwen_omni_omni_and_play(variables_get($i2s_spk), text("value"), qwen3.5-omni-plus, Tina)` | qwen_omni_and_play_request_v3( |
 | `qwen_omni_omni_stream_play` | Statement | VAR(field_variable), MESSAGE(input_value), MODEL(dropdown), VOICE(dropdown) | `qwen_omni_omni_stream_play(variables_get($i2s_spk), text("value"), qwen3.5-omni-plus, Tina)` | qwen_omni_stream_play_request_v3( |
+| `qwen_omni_omni_record_text` | Value | MIC_VAR(field_variable), DURATION(input_value), MODEL(dropdown), PROMPT(input_value) | `qwen_omni_omni_record_text(variables_get($i2s_mic), math_number(3), qwen3.5-omni-plus, text("value"))` | qwen_omni_record_text_request( |
 | `qwen_omni_omni_get_audio` | Value | (none) | `qwen_omni_omni_get_audio()` | qwen_omni_audio_data |
 | `qwen_omni_tts_voice_design` | Statement | VAR(field_variable), TEXT(input_value), VOICE_DESC(input_value) | `qwen_omni_tts_voice_design(variables_get($i2s_spk), text("value"), text("value"))` | qwen_tts_voice_design_request( |
 | `qwen_omni_omni_voice_chat` | Statement | MIC_VAR(field_variable), SPK_VAR(field_variable), DURATION(input_value), MODEL(dropdown), VOICE(dropdown), BEEP(field_checkbox), PROMPT(input_value) | `qwen_omni_omni_voice_chat(variables_get($i2s_mic), variables_get($i2s_spk), math_number(3), qwen3.5-omni-plus, Tina, TRUE, text("value"))` | qwen_omni_voice_chat_request_dual_i2s( |
@@ -82,11 +83,11 @@ arduino_loop()
 1. **Parameter order**: ABS parameters follow `block.json` args order.
 2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
 3. **UNIHIKER K10 built-in audio**: use `qwen_omni_k10_audio_init` once in setup, then select the same `i2s_k10` variable for both microphone and speaker fields in `qwen_omni_omni_voice_chat`. Pins are fixed by the K10 SDK: BCLK `0`, LRCK `38`, MIC DIN `39`, speaker DOUT `45`, MCLK `3`, and amplifier enable `eAmp_Gain`. K10 mode reuses the SDK-installed I2S driver when available instead of reinstalling it, which avoids disturbing camera preview/audio state.
-4. **K10 audio format**: K10 recording is captured from the board I2S bus and converted to 16kHz 16bit mono WAV for Qwen. Qwen mono playback is duplicated to stereo before writing to the built-in speaker.
+4. **K10 audio format**: K10 recording is captured from the board I2S bus in SDK-style 6400-byte stereo chunks, converted to 16kHz 16bit mono WAV for Qwen, and protected with the SDK I2S mutex. Qwen mono playback is duplicated to stereo before writing to the built-in speaker.
 5. **ES8311 microphone**: use `qwen_omni_es8311_mic_init` before recording-only blocks. The I2C address default is decimal `24` (`0x18`) and the gain register default is decimal `36` (`0x24`).
 6. **ES8311 microphone + speaker board**: prefer `qwen_omni_es8311_audio_init` for the board marked Microphone + Audio Amplifier. Use the same I2S variable for microphone and speaker fields in voice-chat/playback blocks, because DI and DO share SCLK/LR/MCK on one ES8311 codec. The tested ESP32 AIOT Basic wiring uses MCK GPIO 46.
 7. **ES8311 PA enable**: leave `PA_EN` at `-1` when the amplifier enable is hardwired. If the carrier board exposes an NS4150/PA enable GPIO, set `PA_EN` to that GPIO so generated code drives it high before playback.
 8. **Prompt tone**: use the single toolbox block `qwen_omni_i2s_prompt_tone` for normal I2S, K10 built-in audio, and ES8311 speaker objects. `qwen_omni_es8311_test_tone` remains only as a hidden legacy-compatible alias for old projects.
-9. **Streaming stability**: audio playback uses a larger stream buffer and longer final-drain timeout. Omni audio requests include a short-answer system instruction to reduce very long cloud responses.
+9. **Streaming stability**: audio playback uses a larger stream buffer, a balanced startup prebuffer, a higher-priority pinned playback task with extra stack, and a longer final-drain timeout. K10 stereo conversion uses static scratch storage to avoid playback-task stack overflow. Omni voice-chat audio requests include a short-answer system instruction and `enable_thinking:false` to reduce very long or text-only cloud responses.
 10. **Vision streaming diagnostics**: image chat requests use SSE headers and `stream_options`; generated code prints HTTP elapsed time and first stream chunk elapsed time. A slow first chunk usually means the cloud model is still processing the image before it can emit text.
-11. **Audio streaming diagnostics**: TTS and omni audio streams print the number of audio chunks, decoded/queued bytes, and played bytes. `audio chunks > 0, queued > 0, played = 0` points to playback/I2S; `audio chunks = 0` points to the API response not containing stream audio data.
+11. **Audio streaming diagnostics**: TTS and omni audio streams print the number of audio chunks, decoded/queued bytes, played bytes, and playback underruns. `audio chunks > 0, queued > 0, played = 0` points to playback/I2S; high `underruns` points to cloud/network audio chunks arriving slower than real-time playback. K10 voice chat also prints expected vs captured PCM bytes; 3 seconds at 16kHz mono should be close to 96000 bytes.

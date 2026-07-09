@@ -18,6 +18,7 @@ function ensureQwenOmniPlaybackHelpers(generator) {
   generator.addVariable('qwen_playback_total_played', 'volatile size_t qwen_playback_total_played = 0;');
   generator.addVariable('qwen_playback_started', 'bool qwen_playback_started = false;');
   generator.addVariable('qwen_playback_buffered', 'size_t qwen_playback_buffered = 0;');
+  generator.addVariable('qwen_playback_underruns', 'volatile uint32_t qwen_playback_underruns = 0;');
   generator.addVariable('qwen_playback_sample_rate', 'uint32_t qwen_playback_sample_rate = 24000;');
   generator.addVariable('qwen_playback_bits_per_sample', 'uint16_t qwen_playback_bits_per_sample = 16;');
   generator.addVariable('qwen_playback_channels', 'uint16_t qwen_playback_channels = 1;');
@@ -44,8 +45,8 @@ size_t qwen_base64_encoded_len(size_t len) {
 
   generator.addFunction('qwen_stream_playback_helpers', String.raw`
 #define QWEN_PLAYBACK_BUFFER_SIZE 196608
-#define QWEN_PLAYBACK_PREBUFFER_SIZE 48000
-#define QWEN_PLAYBACK_CHUNK_SIZE 2048
+#define QWEN_PLAYBACK_PREBUFFER_SIZE 32768
+#define QWEN_PLAYBACK_CHUNK_SIZE 4096
 #define QWEN_DECODE_BUF_SIZE 16384
 
 bool qwen_i2s_prepare_es8311_playback(I2SClass &i2s, uint32_t sampleRate, i2s_data_bit_width_t bitWidth, i2s_slot_mode_t slotMode);
@@ -108,6 +109,7 @@ void qwen_playback_task_entry(void* param) {
   while (!qwen_playback_done || xStreamBufferBytesAvailable(qwen_playback_stream) > 0) {
     size_t n = xStreamBufferReceive(qwen_playback_stream, chunk, sizeof(chunk), pdMS_TO_TICKS(20));
     if (n == 0) {
+      if (!qwen_playback_done) qwen_playback_underruns++;
       delay(1);
       continue;
     }
@@ -139,6 +141,7 @@ bool qwen_prepare_stream_playback(I2SClass &i2s) {
   qwen_playback_total_played = 0;
   qwen_playback_started = false;
   qwen_playback_buffered = 0;
+  qwen_playback_underruns = 0;
   qwen_playback_sample_rate = 24000;
   qwen_playback_bits_per_sample = 16;
   qwen_playback_channels = 1;
@@ -181,8 +184,8 @@ bool qwen_start_stream_playback() {
   }
   Serial.println("[QWEN-AUDIO] playback start: " + String(qwen_playback_sample_rate) + "Hz " + String(qwen_playback_bits_per_sample) + "bit " + String(qwen_playback_channels) + "ch");
 
-  BaseType_t taskOk = xTaskCreate(
-    qwen_playback_task_entry, "qwen_tts_play", 4096, NULL, 3, &qwen_playback_task_handle);
+  BaseType_t taskOk = xTaskCreatePinnedToCore(
+    qwen_playback_task_entry, "qwen_tts_play", 12288, NULL, 6, &qwen_playback_task_handle, ARDUINO_RUNNING_CORE);
   if (taskOk != pdPASS) {
     qwen_playback_task_handle = NULL;
     Serial.println("[QWEN-AUDIO] playback task create failed");
@@ -459,7 +462,10 @@ size_t qwen_stream_http_audio_to_i2s(HTTPClient &http, I2SClass &i2s, String *fu
 
   free(decodeBuf);
   size_t played = qwen_finish_stream_playback();
-  Serial.println(String("[") + tag + "] audio chunks: " + String(qwen_audio_stream_chunks) + ", queued: " + String(queuedAudio) + ", played: " + String(played));
+  Serial.println(String("[") + tag + "] audio chunks: " + String(qwen_audio_stream_chunks) + ", queued: " + String(queuedAudio) + ", played: " + String(played) + ", underruns: " + String(qwen_playback_underruns));
+  if (qwen_audio_stream_chunks == 0 && fullText != NULL && fullText->length() > 0) {
+    Serial.println(String("[") + tag + "] text received but no audio.data in stream");
+  }
   return played;
 }`);
 }
@@ -936,14 +942,19 @@ size_t qwen_k10_record_mono_pcm(uint8_t* pcmBuf, size_t pcmBytes, float duration
   size_t bytesRead = 0;
   unsigned long recordStart = millis();
   unsigned long maxMs = (unsigned long)(durationSeconds * 1000 + 1200);
-  int16_t stereoBuf[256];
+  uint8_t* stereoBuf = (uint8_t*)qwen_audio_alloc_buffer(6400, "k10-rec");
+  if (!stereoBuf) return 0;
+  if (xI2SMutex) xSemaphoreTake(xI2SMutex, portMAX_DELAY);
+  qwen_k10_set_amp(true);
   while (bytesRead + sizeof(int16_t) <= pcmBytes) {
     if (millis() - recordStart > maxMs) {
       Serial.println(String("[") + tag + "] K10 record timeout");
       break;
     }
     size_t got = 0;
-    esp_err_t err = i2s_read(I2S_NUM_0, stereoBuf, sizeof(stereoBuf), &got, pdMS_TO_TICKS(20));
+    size_t want = min((size_t)6400, ((pcmBytes - bytesRead) / sizeof(int16_t)) * sizeof(int16_t) * 2);
+    if (want == 0) break;
+    esp_err_t err = i2s_read(I2S_NUM_0, stereoBuf, want, &got, pdMS_TO_TICKS(250));
     if (err != ESP_OK || got < sizeof(int16_t) * 2) {
       delay(1);
       continue;
@@ -952,14 +963,19 @@ size_t qwen_k10_record_mono_pcm(uint8_t* pcmBuf, size_t pcmBytes, float duration
     int16_t* out = (int16_t*)(pcmBuf + bytesRead);
     size_t room = (pcmBytes - bytesRead) / sizeof(int16_t);
     size_t toCopy = min(pairs, room);
+    int16_t* in = (int16_t*)stereoBuf;
     for (size_t i = 0; i < toCopy; i++) {
-      int32_t left = stereoBuf[i * 2];
-      int32_t right = stereoBuf[i * 2 + 1];
+      int32_t left = in[i * 2];
+      int32_t right = in[i * 2 + 1];
       out[i] = (int16_t)((left + right) / 2);
     }
     bytesRead += toCopy * sizeof(int16_t);
   }
+  qwen_k10_set_amp(false);
+  if (xI2SMutex) xSemaphoreGive(xI2SMutex);
+  free(stereoBuf);
   if (bytesRead % sizeof(int16_t) != 0) bytesRead -= bytesRead % sizeof(int16_t);
+  Serial.println(String("[") + tag + "] K10 expected PCM bytes: " + String((size_t)(durationSeconds * 16000) * sizeof(int16_t)) + ", captured: " + String(bytesRead));
   return bytesRead;
 #else
   (void)pcmBuf;
@@ -974,14 +990,18 @@ size_t qwen_k10_write_pcm(const uint8_t* data, size_t len, uint16_t channels, ui
 #if __has_include(<unihiker_k10.h>)
   if (len == 0) return 0;
   qwen_k10_set_amp(true);
+  if (xI2SMutex) xSemaphoreTake(xI2SMutex, portMAX_DELAY);
   if (bitsPerSample == 16 && channels == 1) {
-    if (len < sizeof(int16_t)) return len;
+    if (len < sizeof(int16_t)) {
+      if (xI2SMutex) xSemaphoreGive(xI2SMutex);
+      return len;
+    }
     const int16_t* mono = (const int16_t*)data;
     size_t samples = len / sizeof(int16_t);
-    int16_t stereoBuf[256];
+    static int16_t stereoBuf[1024];
     size_t done = 0;
     while (done < samples) {
-      size_t n = min((size_t)128, samples - done);
+      size_t n = min((size_t)512, samples - done);
       for (size_t i = 0; i < n; i++) {
         int16_t v = mono[done + i];
         stereoBuf[i * 2] = v;
@@ -992,10 +1012,12 @@ size_t qwen_k10_write_pcm(const uint8_t* data, size_t len, uint16_t channels, ui
       if (written == 0) break;
       done += written / (sizeof(int16_t) * 2);
     }
+    if (xI2SMutex) xSemaphoreGive(xI2SMutex);
     return done * sizeof(int16_t);
   }
   size_t written = 0;
   i2s_write(I2S_NUM_0, data, len, &written, pdMS_TO_TICKS(200));
+  if (xI2SMutex) xSemaphoreGive(xI2SMutex);
   return written;
 #else
   (void)data;
@@ -4997,6 +5019,7 @@ void qwen_omni_voice_chat_request_v2(I2SClass &i2s, String model, String voice, 
   requestSuffix += "]}],";
   requestSuffix += "\\"modalities\\":[\\"text\\",\\"audio\\"],";
   requestSuffix += "\\"audio\\":{\\"voice\\":\\"" + voice + "\\",\\"format\\":\\"wav\\"},";
+  requestSuffix += "\\"enable_thinking\\":false,";
   requestSuffix += "\\"stream\\":true,\\"stream_options\\":{\\"include_usage\\":true}}";
 
   QwenBase64JsonStream requestStream(requestPrefix, wavBuf, wavBytes, requestSuffix);
@@ -5319,6 +5342,7 @@ void qwen_omni_voice_chat_request_dual_i2s(I2SClass &i2sMic, I2SClass &i2sSpk, S
   requestSuffix += "]}],";
   requestSuffix += "\\"modalities\\":[\\"text\\",\\"audio\\"],";
   requestSuffix += "\\"audio\\":{\\"voice\\":\\"" + voice + "\\",\\"format\\":\\"wav\\"},";
+  requestSuffix += "\\"enable_thinking\\":false,";
   requestSuffix += "\\"stream\\":true,\\"stream_options\\":{\\"include_usage\\":true}}";
 
   QwenBase64JsonStream requestStream(requestPrefix, wavBuf, wavBytes, requestSuffix);
