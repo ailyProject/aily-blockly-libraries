@@ -114,6 +114,14 @@ function ensureMacToStringFunction(generator) {
   generator.addFunction('macToString', funcDef);
 }
 
+function ensureMessageForwardDeclarations(generator) {
+  const declarations =
+'String macToString(const uint8_t* mac);\n' +
+'void esp_now_on_message_handler();\n';
+
+  generator.addObject('esp_now_message_forward_declarations', declarations);
+}
+
 // 设置变量重命名监听
 function setupVarMonitor(block, fieldName, varType) {
   const monitorKey = '_espNow_' + fieldName + '_MonitorAttached';
@@ -154,6 +162,8 @@ function ensureSimpleBroadcastPeerClass(generator) {
 '    : ESP_NOW_Peer(ESP_NOW.BROADCAST_ADDR, channel, iface, lmk) {}\n' +
 '  \n' +
 '  ~ESP_NOW_Broadcast_Peer() { remove(); }\n' +
+'  \n' +
+'  bool addPeer() { return add(); }\n' +
 '  \n' +
 '  bool begin() {\n' +
 '    if (!ESP_NOW.begin() || !add()) {\n' +
@@ -275,6 +285,7 @@ Arduino.forBlock['esp_now_slave_init'] = function(block, generator) {
     generator.addFunction('esp_now_on_message_handler', 'void esp_now_on_message_handler() {\n  // 用户回调将覆盖此函数\n}\n');
   }
   // 现在添加类定义（类中会调用上面的函数和变量）
+  ensureMessageForwardDeclarations(generator);
   ensureSimpleReceiverPeerClass(generator);
   
   // vector在类之后
@@ -472,6 +483,7 @@ Arduino.forBlock['esp_now_node_init'] = function(block, generator) {
   }
   
   // 接收Peer类
+  ensureMessageForwardDeclarations(generator);
   ensureSimpleReceiverPeerClass(generator);
   
   generator.addObject('esp_now_masters', 'std::vector<ESP_NOW_Receiver_Peer*> esp_now_masters;');
@@ -618,6 +630,17 @@ Arduino.forBlock['esp_now_create_peer'] = function(block, generator) {
 'public:\n' +
 '  ' + className + '(const uint8_t *mac_addr, uint8_t channel = 0, wifi_interface_t iface = WIFI_IF_STA, const uint8_t *lmk = nullptr)\n' +
 '    : ESP_NOW_Peer(mac_addr, channel, iface, lmk) {}\n' +
+'  ~' + className + '() { remove(); }\n' +
+'  \n' +
+'  bool addPeer() { return add(); }\n' +
+'  \n' +
+'  bool sendMessage(const String& msg) {\n' +
+'    return send((const uint8_t *)msg.c_str(), msg.length());\n' +
+'  }\n' +
+'  \n' +
+'  size_t sendData(const uint8_t* data, int len) {\n' +
+'    return send(data, len);\n' +
+'  }\n' +
 '  \n' +
 '  String esp_now_data;\n' +
 '  size_t esp_now_len;\n' +
@@ -661,7 +684,7 @@ Arduino.forBlock['esp_now_create_peer'] = function(block, generator) {
   generator.addVariable(varName, className + '* ' + varName + ' = nullptr;');
   
   let createCode = varName + ' = new ' + className + '(' + varName + '_mac);\n';
-  createCode += 'if (!' + varName + '->add()) {\n';
+  createCode += 'if (!' + varName + '->addPeer()) {\n';
   createCode += '  Serial.println("Failed to register peer: ' + varName + '");\n';
   createCode += '}\n';
   
@@ -698,6 +721,17 @@ Arduino.forBlock['esp_now_create_peer_advanced'] = function(block, generator) {
 'public:\n' +
 '  ' + className + '(const uint8_t *mac_addr, uint8_t channel, wifi_interface_t iface, const uint8_t *lmk)\n' +
 '    : ESP_NOW_Peer(mac_addr, channel, iface, lmk) {}\n' +
+'  ~' + className + '() { remove(); }\n' +
+'  \n' +
+'  bool addPeer() { return add(); }\n' +
+'  \n' +
+'  bool sendMessage(const String& msg) {\n' +
+'    return send((const uint8_t *)msg.c_str(), msg.length());\n' +
+'  }\n' +
+'  \n' +
+'  size_t sendData(const uint8_t* data, int len) {\n' +
+'    return send(data, len);\n' +
+'  }\n' +
 '  \n' +
 '  String esp_now_data;\n' +
 '  size_t esp_now_len;\n' +
@@ -742,7 +776,7 @@ Arduino.forBlock['esp_now_create_peer_advanced'] = function(block, generator) {
   generator.addVariable(varName, className + '* ' + varName + ' = nullptr;');
   
   let createCode = varName + ' = new ' + className + '(' + varName + '_mac, ' + channel + ', WIFI_IF_STA, ' + lmkCode + ');\n';
-  createCode += 'if (!' + varName + '->add()) {\n';
+  createCode += 'if (!' + varName + '->addPeer()) {\n';
   createCode += '  Serial.println("Failed to register peer: ' + varName + '");\n';
   createCode += '}\n';
   
@@ -779,7 +813,7 @@ Arduino.forBlock['esp_now_create_broadcast_peer'] = function(block, generator) {
   generator.addVariable(varName, 'ESP_NOW_Broadcast_Peer* ' + varName + ' = nullptr;');
   
   let createCode = varName + ' = new ESP_NOW_Broadcast_Peer();\n';
-  createCode += 'if (!' + varName + '->add()) {\n';
+  createCode += 'if (!' + varName + '->addPeer()) {\n';
   createCode += '  Serial.println("Failed to register broadcast peer: ' + varName + '");\n';
   createCode += '}\n';
 
@@ -800,7 +834,6 @@ Arduino.forBlock['esp_now_remove_peer'] = function(block, generator) {
   ensureEspNowLib(generator);
   
   let code = 'if (' + varName + ' != nullptr) {\n';
-  code += '  ESP_NOW.removePeer(*' + varName + ');\n';
   code += '  delete ' + varName + ';\n';
   code += '  ' + varName + ' = nullptr;\n';
   code += '}\n';
@@ -821,7 +854,7 @@ Arduino.forBlock['esp_now_send'] = function(block, generator) {
   ensureEspNowLib(generator);
   
   let code = 'if (' + varName + ' != nullptr) {\n';
-  code += '  ' + varName + '->send((const uint8_t *)' + message + '.c_str(), ' + message + '.length());\n';
+  code += '  ' + varName + '->sendMessage(' + message + ');\n';
   code += '}\n';
   
   return code;
@@ -837,7 +870,7 @@ Arduino.forBlock['esp_now_send_data'] = function(block, generator) {
   ensureEspNowLib(generator);
   
   let code = 'if (' + varName + ' != nullptr) {\n';
-  code += '  ' + varName + '->send((const uint8_t *)&(' + data + '), ' + len + ');\n';
+  code += '  ' + varName + '->sendData((const uint8_t *)&(' + data + '), ' + len + ');\n';
   code += '}\n';
   
   return code;
@@ -1134,6 +1167,10 @@ Arduino.forBlock['esp_now_quick_broadcast'] = function(block, generator) {
 'class ESP_NOW_Quick_Broadcast : public ESP_NOW_Peer {\n' +
 'public:\n' +
 '  ESP_NOW_Quick_Broadcast() : ESP_NOW_Peer(ESP_NOW.BROADCAST_ADDR, 0, WIFI_IF_STA, nullptr) {}\n' +
+'  bool addPeer() { return add(); }\n' +
+'  bool sendMessage(const String& msg) {\n' +
+'    return send((const uint8_t *)msg.c_str(), msg.length());\n' +
+'  }\n' +
 '};\n' +
 '\n' +
 'bool esp_now_quick_broadcast_init = false;\n' +
@@ -1151,13 +1188,13 @@ Arduino.forBlock['esp_now_quick_broadcast'] = function(block, generator) {
 '      return;\n' +
 '    }\n' +
 '    esp_now_quick_broadcast_peer = new ESP_NOW_Quick_Broadcast();\n' +
-'    if (!esp_now_quick_broadcast_peer->add()) {\n' +
+'    if (!esp_now_quick_broadcast_peer->addPeer()) {\n' +
 '      Serial.println("Failed to add broadcast peer");\n' +
 '      return;\n' +
 '    }\n' +
 '    esp_now_quick_broadcast_init = true;\n' +
 '  }\n' +
-'  esp_now_quick_broadcast_peer->send((const uint8_t *)msg.c_str(), msg.length());\n' +
+'  esp_now_quick_broadcast_peer->sendMessage(msg);\n' +
 '}\n';
   
   generator.addFunction('espNowQuickBroadcast', funcDef);
@@ -1181,6 +1218,11 @@ Arduino.forBlock['esp_now_quick_send'] = function(block, generator) {
 'class ESP_NOW_Quick_Peer : public ESP_NOW_Peer {\n' +
 'public:\n' +
 '  ESP_NOW_Quick_Peer(const uint8_t *mac_addr) : ESP_NOW_Peer(mac_addr, 0, WIFI_IF_STA, nullptr) {}\n' +
+'  ~ESP_NOW_Quick_Peer() { remove(); }\n' +
+'  bool addPeer() { return add(); }\n' +
+'  bool sendMessage(const String& msg) {\n' +
+'    return send((const uint8_t *)msg.c_str(), msg.length());\n' +
+'  }\n' +
 '};\n' +
 '\n' +
 'bool esp_now_quick_send_init = false;\n' +
@@ -1205,8 +1247,8 @@ Arduino.forBlock['esp_now_quick_send'] = function(block, generator) {
 '  }\n' +
 '  \n' +
 '  ESP_NOW_Quick_Peer* peer = new ESP_NOW_Quick_Peer(mac);\n' +
-'  if (peer->add()) {\n' +
-'    peer->send((const uint8_t *)msg.c_str(), msg.length());\n' +
+'  if (peer->addPeer()) {\n' +
+'    peer->sendMessage(msg);\n' +
 '  }\n' +
 '  delete peer;\n' +
 '}\n';
