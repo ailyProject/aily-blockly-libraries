@@ -8,8 +8,8 @@ Blockly driver for MAX7219 8x8 LED matrix modules with cascaded screens, pixels,
 |-------|-------|
 | Package | @aily-project/lib-max7219 |
 | Version | 0.1.0 |
-| Author | ailyProject |
-| Source | https://github.com/wayoda/LedControl |
+| Author | wayoda |
+| Source | https://github.com/coloz/LedControl |
 | License | MIT |
 
 ## Supported Boards
