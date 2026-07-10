@@ -1,0 +1,73 @@
+[
+  {
+    "type": "simple_keypad_init",
+    "message0": "Initialize matrix keypad %1 layout %2 key characters %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "keypad"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "LAYOUT",
+        "options": [
+          [
+            "4×4",
+            "4x4"
+          ],
+          [
+            "4×3",
+            "4x3"
+          ],
+          [
+            "3×4",
+            "3x4"
+          ],
+          [
+            "3×3",
+            "3x3"
+          ],
+          [
+            "3×1",
+            "3x1"
+          ],
+          [
+            "1×3",
+            "1x3"
+          ]
+        ]
+      },
+      {
+        "type": "field_input",
+        "name": "KEYMAP",
+        "text": "123A456B789C*0#D"
+      }
+    ],
+    "extensions": [
+      "simple_keypad_dynamic_pins"
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#42A5F5",
+    "tooltip": "Initialize a matrix keypad with specified layout and pin connections"
+  },
+  {
+    "type": "simple_keypad_get_key",
+    "message0": "get key from %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "keypad",
+        "variableTypes": [
+          "SimpleKeypad"
+        ],
+        "defaultType": "SimpleKeypad"
+      }
+    ],
+    "output": "String",
+    "colour": "#66BB6A",
+    "tooltip": "Returns the currently pressed key as a string, empty string if no key is pressed"
+  }
+]
