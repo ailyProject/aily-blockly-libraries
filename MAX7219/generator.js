@@ -481,37 +481,37 @@ Arduino.forBlock['max7219_matrix_init'] = function(block, generator) {
 
 Arduino.forBlock['max7219_set_pixel'] = function(block, generator) {
   max7219EnsureRuntime(generator);
-  const x = block.getFieldValue('X') || '0';
-  const y = block.getFieldValue('Y') || '0';
-  const state = block.getFieldValue('STATE') === 'false' ? 'false' : 'true';
+  const x = max7219ValueToCode(block, generator, 'X', '0');
+  const y = max7219ValueToCode(block, generator, 'Y', '0');
+  const state = max7219ValueToCode(block, generator, 'STATE', 'true');
   return 'max7219SetPixel(' + x + ', ' + y + ', ' + state + ');\n';
 };
 
 Arduino.forBlock['max7219_set_rotation'] = function(block, generator) {
   max7219EnsureRuntime(generator);
-  const device = block.getFieldValue('DEVICE') || '0';
-  const rotation = block.getFieldValue('ROTATION') || '0';
+  const device = max7219ValueToCode(block, generator, 'DEVICE', '0');
+  const rotation = max7219ValueToCode(block, generator, 'ROTATION', '0');
   return 'max7219SetRotation(' + device + ', ' + rotation + ');\n';
 };
 
 Arduino.forBlock['max7219_draw_screen_pixel'] = function(block, generator) {
   max7219EnsureRuntime(generator);
-  const device = block.getFieldValue('DEVICE') || '0';
-  const x = block.getFieldValue('X') || '0';
-  const y = block.getFieldValue('Y') || '0';
+  const device = max7219ValueToCode(block, generator, 'DEVICE', '0');
+  const x = max7219ValueToCode(block, generator, 'X', '0');
+  const y = max7219ValueToCode(block, generator, 'Y', '0');
   return 'max7219SetDevicePixel(' + device + ', ' + x + ', ' + y + ', true);\n';
 };
 
 Arduino.forBlock['max7219_scroll_text'] = function(block, generator) {
   max7219EnsureRuntime(generator);
-  const text = max7219ValueToCode(block, generator, 'TEXT', '"Mixly"');
+  const text = max7219ValueToCode(block, generator, 'TEXT', '"Hello"');
   const speed = max7219ValueToCode(block, generator, 'SPEED', '300');
   return 'max7219ScrollText(String(' + text + '), ' + speed + ');\n';
 };
 
 Arduino.forBlock['max7219_display_pattern'] = function(block, generator) {
   max7219EnsureRuntime(generator);
-  const device = block.getFieldValue('DEVICE') || '0';
+  const device = max7219ValueToCode(block, generator, 'DEVICE', '0');
   let pattern = generator.valueToCode(block, 'PATTERN', max7219Order(generator));
   if (!pattern) {
     pattern = max7219AddPresetPattern(generator, 'ARROW_UP');
@@ -534,12 +534,12 @@ Arduino.forBlock['max7219_preset_pattern'] = function(block, generator) {
 
 Arduino.forBlock['max7219_fill'] = function(block, generator) {
   max7219EnsureRuntime(generator);
-  const state = block.getFieldValue('STATE') === 'false' ? 'false' : 'true';
+  const state = max7219ValueToCode(block, generator, 'STATE', 'true');
   return 'max7219Fill(' + state + ');\n';
 };
 
 Arduino.forBlock['max7219_set_brightness'] = function(block, generator) {
   max7219EnsureRuntime(generator);
-  const brightness = block.getFieldValue('BRIGHTNESS') || '5';
+  const brightness = max7219ValueToCode(block, generator, 'BRIGHTNESS', '5');
   return 'max7219SetIntensity(' + brightness + ');\n';
 };

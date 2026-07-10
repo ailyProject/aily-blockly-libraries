@@ -19,23 +19,43 @@
     },
     {
       "kind": "block",
-      "type": "max7219_set_pixel"
+      "type": "max7219_set_pixel",
+      "inputs": {
+        "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "STATE": { "shadow": { "type": "logic_boolean", "fields": { "BOOL": "TRUE" } } }
+      }
     },
     {
       "kind": "block",
-      "type": "max7219_draw_screen_pixel"
+      "type": "max7219_draw_screen_pixel",
+      "inputs": {
+        "DEVICE": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+      }
     },
     {
       "kind": "block",
-      "type": "max7219_set_rotation"
+      "type": "max7219_set_rotation",
+      "inputs": {
+        "DEVICE": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "ROTATION": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+      }
     },
     {
       "kind": "block",
-      "type": "max7219_fill"
+      "type": "max7219_fill",
+      "inputs": {
+        "STATE": { "shadow": { "type": "logic_boolean", "fields": { "BOOL": "TRUE" } } }
+      }
     },
     {
       "kind": "block",
-      "type": "max7219_set_brightness"
+      "type": "max7219_set_brightness",
+      "inputs": {
+        "BRIGHTNESS": { "shadow": { "type": "math_number", "fields": { "NUM": 5 } } }
+      }
     },
     {
       "kind": "label",
@@ -45,6 +65,14 @@
       "kind": "block",
       "type": "max7219_display_pattern",
       "inputs": {
+        "DEVICE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
         "PATTERN": {
           "shadow": {
             "type": "max7219_matrix_pattern"
@@ -68,7 +96,7 @@
           "shadow": {
             "type": "text",
             "fields": {
-              "TEXT": "Mixly"
+              "TEXT": "Hello"
             }
           }
         },

@@ -13,15 +13,15 @@ Blockly driver for MAX7219 8x8 LED matrix modules with cascaded screens, pixel c
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `max7219_matrix_init` | Statement | DATA_PIN(dropdown), CS_PIN(dropdown), CLK_PIN(dropdown), HORIZONTAL(field_number), VERTICAL(field_number) | `max7219_matrix_init(23, 0, 18, 1, 1)` | `max7219Begin(5);` |
-| `max7219_set_pixel` | Statement | TYPE(dropdown), X(field_number), Y(field_number), STATE(dropdown) | `max7219_set_pixel(MAX7219, 0, 0, true)` | `max7219SetPixel(x, y, state);` |
-| `max7219_set_rotation` | Statement | TYPE(dropdown), DEVICE(field_number), ROTATION(dropdown) | `max7219_set_rotation(MAX7219, 0, 0)` | `max7219SetRotation(device, rotation);` |
-| `max7219_draw_screen_pixel` | Statement | TYPE(dropdown), DEVICE(field_number), X(field_number), Y(field_number) | `max7219_draw_screen_pixel(MAX7219, 0, 0, 0)` | `max7219SetDevicePixel(device, x, y, true);` |
-| `max7219_scroll_text` | Statement | TYPE(dropdown), TEXT(input_value), SPEED(input_value) | `max7219_scroll_text(MAX7219, text("Mixly"), math_number(300))` | `max7219ScrollText(String(text), speed);` |
-| `max7219_display_pattern` | Statement | TYPE(dropdown), DEVICE(field_number), PATTERN(input_value) | `max7219_display_pattern(MAX7219, 0, max7219_matrix_pattern($LedArray1, ...))` | `max7219DrawBitmap(device, pattern);` |
+| `max7219_set_pixel` | Statement | TYPE(dropdown), X(input_value), Y(input_value), STATE(input_value) | `max7219_set_pixel(MAX7219, math_number(0), math_number(0), logic_boolean(TRUE))` | `max7219SetPixel(x, y, state);` |
+| `max7219_set_rotation` | Statement | TYPE(dropdown), DEVICE(input_value), ROTATION(input_value) | `max7219_set_rotation(MAX7219, math_number(0), math_number(0))` | `max7219SetRotation(device, rotation);` |
+| `max7219_draw_screen_pixel` | Statement | TYPE(dropdown), DEVICE(input_value), X(input_value), Y(input_value) | `max7219_draw_screen_pixel(MAX7219, math_number(0), math_number(0), math_number(0))` | `max7219SetDevicePixel(device, x, y, true);` |
+| `max7219_scroll_text` | Statement | TYPE(dropdown), TEXT(input_value), SPEED(input_value) | `max7219_scroll_text(MAX7219, text("Hello"), math_number(300))` | `max7219ScrollText(String(text), speed);` |
+| `max7219_display_pattern` | Statement | TYPE(dropdown), DEVICE(input_value), PATTERN(input_value) | `max7219_display_pattern(MAX7219, math_number(0), max7219_matrix_pattern($LedArray1, ...))` | `max7219DrawBitmap(device, pattern);` |
 | `max7219_matrix_pattern` | Value | VAR(field_variable), MATRIX(field_led_matrix) | `max7219_matrix_pattern(variables_get($LedArray1), matrix)` | returns a generated `const uint8_t[8]` pattern name |
 | `max7219_preset_pattern` | Value | PATTERN(dropdown) | `max7219_preset_pattern(ARROW_UP)` | returns a generated preset pattern name |
-| `max7219_fill` | Statement | TYPE(dropdown), STATE(dropdown) | `max7219_fill(MAX7219, true)` | `max7219Fill(state);` |
-| `max7219_set_brightness` | Statement | TYPE(dropdown), BRIGHTNESS(field_number) | `max7219_set_brightness(MAX7219, 5)` | `max7219SetIntensity(brightness);` |
+| `max7219_fill` | Statement | TYPE(dropdown), STATE(input_value) | `max7219_fill(MAX7219, logic_boolean(TRUE))` | `max7219Fill(state);` |
+| `max7219_set_brightness` | Statement | TYPE(dropdown), BRIGHTNESS(input_value) | `max7219_set_brightness(MAX7219, math_number(5))` | `max7219SetIntensity(brightness);` |
 
 ## Parameter Options
 
@@ -40,9 +40,9 @@ arduino_setup()
     max7219_matrix_init(23, 0, 18, 1, 1)
 
 arduino_loop()
-    max7219_set_brightness(MAX7219, 5)
-    max7219_display_pattern(MAX7219, 0, max7219_preset_pattern(ARROW_UP))
-    max7219_scroll_text(MAX7219, text("Mixly"), math_number(300))
+    max7219_set_brightness(MAX7219, math_number(5))
+    max7219_display_pattern(MAX7219, math_number(0), max7219_preset_pattern(ARROW_UP))
+    max7219_scroll_text(MAX7219, text("Hello"), math_number(300))
 ```
 
 ## Notes
