@@ -48,10 +48,12 @@ function gxepd2ValueToCode(block, generator, name, fallback) {
 }
 
 function gxepd2AddMacro(generator, key, code) {
-  if (generator && typeof generator.addMacro === 'function') {
-    generator.addMacro(key, code);
-  } else if (generator && typeof generator.addVariable === 'function') {
+  // 注意：aily-builder 的 addMacro 会转成命令行 -D，无法正确定义带参数(EPD)或多行 #if 的宏，
+  // 会导致 GXEPD2_MAX_HEIGHT_COLOR(EPD) 展开失败。这里改用 addVariable 把宏作为源码 #define 写入。
+  if (generator && typeof generator.addVariable === 'function') {
     generator.addVariable(key, code);
+  } else if (generator && typeof generator.addMacro === 'function') {
+    generator.addMacro(key, code);
   }
 }
 
@@ -92,32 +94,10 @@ function gxepd2AddCore(generator) {
   generator.addLibrary('GxEPD2_FreeSansBold12', '#include <Fonts/FreeSansBold12pt7b.h>');
   generator.addLibrary('GxEPD2_FreeSerif9', '#include <Fonts/FreeSerif9pt7b.h>');
 
-  gxepd2AddMacro(generator, 'GXEPD2_MAX_DISPLAY_BUFFER_SIZE',
-`#ifndef GXEPD2_MAX_DISPLAY_BUFFER_SIZE
-#if defined(ARDUINO_ARCH_AVR)
-#define GXEPD2_MAX_DISPLAY_BUFFER_SIZE 800
-#elif defined(ARDUINO_ARCH_ESP32)
-#define GXEPD2_MAX_DISPLAY_BUFFER_SIZE 65536ul
-#elif defined(ARDUINO_ARCH_ESP8266)
-#define GXEPD2_MAX_DISPLAY_BUFFER_SIZE (81920ul - 34000ul - 5000ul)
-#elif defined(ARDUINO_ARCH_RP2040)
-#define GXEPD2_MAX_DISPLAY_BUFFER_SIZE 131072ul
-#else
-#define GXEPD2_MAX_DISPLAY_BUFFER_SIZE ${fallbackBufferSize}
-#endif
-#endif`);
-  gxepd2AddMacro(generator, 'GXEPD2_MAX_HEIGHT_BW',
-`#ifndef GXEPD2_MAX_HEIGHT_BW
-#define GXEPD2_MAX_HEIGHT_BW(EPD) (EPD::HEIGHT <= GXEPD2_MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8) ? EPD::HEIGHT : GXEPD2_MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8))
-#endif`);
-  gxepd2AddMacro(generator, 'GXEPD2_MAX_HEIGHT_COLOR',
-`#ifndef GXEPD2_MAX_HEIGHT_COLOR
-#define GXEPD2_MAX_HEIGHT_COLOR(EPD) (EPD::HEIGHT <= (GXEPD2_MAX_DISPLAY_BUFFER_SIZE / 2) / (EPD::WIDTH / 8) ? EPD::HEIGHT : (GXEPD2_MAX_DISPLAY_BUFFER_SIZE / 2) / (EPD::WIDTH / 8))
-#endif`);
-  gxepd2AddMacro(generator, 'GXEPD2_MAX_HEIGHT_7C',
-`#ifndef GXEPD2_MAX_HEIGHT_7C
-#define GXEPD2_MAX_HEIGHT_7C(EPD) (EPD::HEIGHT <= GXEPD2_MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 2) ? EPD::HEIGHT : GXEPD2_MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 2))
-#endif`);
+// NOTE: The build system extracts #define as -D compiler flags,
+// which breaks parameterized macros like GXEPD2_MAX_HEIGHT_COLOR(EPD).
+// Instead, we use EPD::HEIGHT directly in declarations.
+// On ESP32 (65536 buffer), HEIGHT always fits, so the macro is unnecessary.
 }
 
 function gxepd2AttachVarMonitor(block) {
@@ -175,7 +155,7 @@ Arduino.forBlock['gxepd2_setup'] = function(block, generator) {
     ensureSerialBegin('Serial', generator, baud);
   }
 
-  var declaration = panel.displayClass + '<' + panel.driver + ', ' + panel.heightMacro + '(' + panel.driver + ')> ' +
+  var declaration = panel.displayClass + '<' + panel.driver + ', ' + panel.driver + '::HEIGHT> ' +
     varName + '(' + panel.driver + '(' + cs + ', ' + dc + ', ' + rst + ', ' + busy + '));';
   generator.addVariable(varName, declaration);
 
@@ -328,4 +308,67 @@ Arduino.forBlock['gxepd2_color'] = function(block, generator) {
   gxepd2AddCore(generator);
   var color = block.getFieldValue('COLOR') || 'GxEPD_BLACK';
   return [color, generator.ORDER_ATOMIC];
+};
+
+// ===== U8g2 中文字体（U8g2_for_Adafruit_GFX）=====
+
+function gxepd2AddU8g2(generator) {
+  generator.addLibrary('U8g2_for_Adafruit_GFX', '#include <U8g2_for_Adafruit_GFX.h>');
+  generator.addObject('u8g2Fonts', 'U8G2_FOR_ADAFRUIT_GFX u8g2Fonts;');
+}
+
+// 绑定字体引擎到墨水屏（setup 用一次）
+Arduino.forBlock['gxepd2_u8g2_begin'] = function(block, generator) {
+  gxepd2AddCore(generator);
+  gxepd2AddU8g2(generator);
+  var varName = gxepd2GetVarName(block, 'display');
+  var code = 'u8g2Fonts.begin(' + varName + ');\n';
+  code += 'u8g2Fonts.setFontMode(1);\n';
+  code += 'u8g2Fonts.setFontDirection(0);\n';
+  return code;
+};
+
+// 设置字体
+Arduino.forBlock['gxepd2_u8g2_font'] = function(block, generator) {
+  gxepd2AddU8g2(generator);
+  var font = block.getFieldValue('FONT') || 'u8g2_font_wqy12_t_gb2312a';
+  return 'u8g2Fonts.setFont(' + font + ');\n';
+};
+
+// 设置前景/背景色
+Arduino.forBlock['gxepd2_u8g2_color'] = function(block, generator) {
+  gxepd2AddCore(generator);
+  gxepd2AddU8g2(generator);
+  var fg = block.getFieldValue('FG') || 'GxEPD_BLACK';
+  var bg = block.getFieldValue('BG') || 'GxEPD_WHITE';
+  return 'u8g2Fonts.setForegroundColor(' + fg + ');\n' +
+         'u8g2Fonts.setBackgroundColor(' + bg + ');\n';
+};
+
+// 背景模式（透明/实心）
+Arduino.forBlock['gxepd2_u8g2_mode'] = function(block, generator) {
+  gxepd2AddU8g2(generator);
+  var mode = block.getFieldValue('MODE') || '1';
+  return 'u8g2Fonts.setFontMode(' + mode + ');\n';
+};
+
+// 定位显示文字（支持中文 UTF-8）
+Arduino.forBlock['gxepd2_u8g2_text'] = function(block, generator) {
+  gxepd2AddU8g2(generator);
+  var x = gxepd2ValueToCode(block, generator, 'X', '0');
+  var y = gxepd2ValueToCode(block, generator, 'Y', '0');
+  var text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
+  return 'u8g2Fonts.setCursor(' + x + ', ' + y + ');\n' +
+         'u8g2Fonts.print(' + text + ');\n';
+};
+
+// 重映射 SPI 引脚（ESP32/ESP32-C3 自定义 SCK/MOSI/MISO/CS）
+Arduino.forBlock['gxepd2_spi_pins'] = function(block, generator) {
+  generator.addLibrary('SPI', '#include <SPI.h>');
+  var sck = gxepd2ValueToCode(block, generator, 'SCK', '-1');
+  var miso = gxepd2ValueToCode(block, generator, 'MISO', '-1');
+  var mosi = gxepd2ValueToCode(block, generator, 'MOSI', '-1');
+  var cs = gxepd2ValueToCode(block, generator, 'CS', '-1');
+  return 'SPI.end();\n' +
+         'SPI.begin(' + sck + ', ' + miso + ', ' + mosi + ', ' + cs + ');\n';
 };

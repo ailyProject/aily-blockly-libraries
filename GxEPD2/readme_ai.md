@@ -30,6 +30,12 @@ GxEPD2 Blockly blocks for SPI e-paper displays from Good Display and Waveshare.
 | `gxepd2_width` | Value | VAR(field_variable) | `gxepd2_width($display)` | `display.width()` |
 | `gxepd2_height` | Value | VAR(field_variable) | `gxepd2_height($display)` | `display.height()` |
 | `gxepd2_color` | Value | COLOR(dropdown) | `gxepd2_color(GxEPD_BLACK)` | `GxEPD_BLACK` |
+| `gxepd2_spi_pins` | Statement | SCK(input), MISO(input), MOSI(input), CS(input) | `gxepd2_spi_pins(math_number(6), math_number(5), math_number(7), math_number(10))` | `SPI.end(); SPI.begin(sck, miso, mosi, cs);` |
+| `gxepd2_u8g2_begin` | Statement | VAR(field_variable) | `gxepd2_u8g2_begin($display)` | `u8g2Fonts.begin(display); u8g2Fonts.setFontMode(1);` |
+| `gxepd2_u8g2_font` | Statement | FONT(dropdown) | `gxepd2_u8g2_font(u8g2_font_wqy12_t_gb2312a)` | `u8g2Fonts.setFont(font);` |
+| `gxepd2_u8g2_color` | Statement | FG(dropdown), BG(dropdown) | `gxepd2_u8g2_color(GxEPD_BLACK, GxEPD_WHITE)` | `u8g2Fonts.setForegroundColor(fg); u8g2Fonts.setBackgroundColor(bg);` |
+| `gxepd2_u8g2_mode` | Statement | MODE(dropdown) | `gxepd2_u8g2_mode(1)` | `u8g2Fonts.setFontMode(mode);` |
+| `gxepd2_u8g2_text` | Statement | X(input), Y(input), TEXT(input) | `gxepd2_u8g2_text(math_number(4), math_number(20), text("你好"))` | `u8g2Fonts.setCursor(x,y); u8g2Fonts.print(text);` |
 
 ## Parameter Options
 
