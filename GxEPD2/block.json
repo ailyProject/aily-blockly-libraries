@@ -651,5 +651,155 @@
     "colour": "#546E7A",
     "icon": "fa-light fa-palette",
     "tooltip": "GxEPD2 color constant."
+  },
+  {
+    "type": "gxepd2_u8g2_begin",
+    "message0": "中文字体引擎 绑定到 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": ["GxEPD2"],
+        "defaultType": "GxEPD2"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "icon": "fa-light fa-language",
+    "tooltip": "初始化 U8g2 中文字体引擎并绑定到墨水屏（整个程序用一次即可）"
+  },
+  {
+    "type": "gxepd2_u8g2_font",
+    "message0": "中文字体 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FONT",
+        "options": [
+          ["中文 12号", "u8g2_font_wqy12_t_gb2312a"],
+          ["中文 14号", "u8g2_font_wqy14_t_gb2312a"],
+          ["中文 16号", "u8g2_font_wqy16_t_gb2312a"],
+          ["英文 6x12", "u8g2_font_6x12_tf"],
+          ["英文 10x20", "u8g2_font_10x20_tf"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "icon": "fa-light fa-font",
+    "tooltip": "设置文字字体（中文用文泉驿 wqy 字体）"
+  },
+  {
+    "type": "gxepd2_u8g2_color",
+    "message0": "中文文字 前景 %1 背景 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FG",
+        "options": [
+          ["黑", "GxEPD_BLACK"],
+          ["白", "GxEPD_WHITE"],
+          ["红", "GxEPD_RED"],
+          ["黄", "GxEPD_YELLOW"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BG",
+        "options": [
+          ["白", "GxEPD_WHITE"],
+          ["黑", "GxEPD_BLACK"],
+          ["红", "GxEPD_RED"],
+          ["黄", "GxEPD_YELLOW"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "icon": "fa-light fa-palette",
+    "tooltip": "设置文字前景色与背景色"
+  },
+  {
+    "type": "gxepd2_u8g2_mode",
+    "message0": "中文文字 背景模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["透明（只画字）", "1"],
+          ["实心（填背景）", "0"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "icon": "fa-light fa-fill-drip",
+    "tooltip": "透明只画文字；实心会填充背景色（黑底白字/红底白字需要实心）"
+  },
+  {
+    "type": "gxepd2_u8g2_text",
+    "message0": "中文文字 在 X %1 Y %2 显示 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "icon": "fa-light fa-language",
+    "tooltip": "在指定坐标显示文字（支持中文 UTF-8）；坐标是文字左下角基线"
+  },
+  {
+    "type": "gxepd2_spi_pins",
+    "message0": "重映射 SPI 引脚 SCK %1 MISO %2 MOSI %3 CS %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SCK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MISO",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MOSI",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CS",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-microchip",
+    "tooltip": "自定义 SPI 引脚（ESP32 / ESP32-C3 用）；放在“初始化墨水屏”之后。墨水屏不用 MISO，可随便填一个空脚"
   }
 ]
