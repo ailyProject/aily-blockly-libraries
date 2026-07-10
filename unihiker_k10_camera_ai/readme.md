@@ -7,7 +7,7 @@ UNIHIKER K10 camera and AI recognition library, supports photo saving, JPEG Base
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-unihiker-k10-camera-ai |
-| Version | 0.1.3 |
+| Version | 0.1.6 |
 | Author | DFRobot |
 | Source | N/A |
 | License | Original license |
@@ -20,7 +20,7 @@ UNIHIKER:esp32:k10
 
 UNIHIKER K10 camera and AI recognition library, supports photo saving, JPEG Base64 capture for vision models, face detection/recognition, pet detection, motion detection, and QR code scanning.
 
-The JPEG Base64 capture block temporarily pauses the camera preview, clears stale frames, captures a fresh frame, and restores the preview only if it was already visible before capture.
+Use the hide preview block before voice playback or voice chat when the live camera display causes audio stutter.
 
 ## Quick Start
 
