@@ -1,10 +1,10 @@
 # Monochrome display
 
-The monochrome display driver library based on u8g2 can drive a variety of OLED and LCD monochrome displays, and supports common driver chips such as SSD1306, SSD1309, SH1106, SH1107, ST7305, and ST7920.
+The monochrome display driver library based on u8g2 can drive a variety of OLED and LCD monochrome displays, and supports common driver chips such as SSD1306, SSD1309, SH1106, SH1107, ST7305, ST7567, and ST7920.
 
 ## Library Info
 - **Name**: @aily-project/lib-u8g2
-- **Version**: 1.0.8
+- **Version**: 1.0.10
 
 ## Block Definitions
 
@@ -47,7 +47,7 @@ The monochrome display driver library based on u8g2 can drive a variety of OLED 
 
 | Parameter | Values | Description |
 |-----------|--------|-------------|
-| TYPE | SSD1306, SSD1309, SH1106, SH1107, ST7305, ST7920 | u8g2_begin |
+| TYPE | SSD1306, SSD1309, SH1106, SH1107, ST7305, ST7567, ST7920 | u8g2_begin |
 | MODE | FULL_BUFFER, PAGE_BUFFER | u8g2_begin |
 | MODE | 0, 1 | u8g2_set_flip_mode, u8g2_set_power_save |
 | MODE | U8G2_R0, U8G2_MIRROR, U8G2_MIRROR_VERTICAL | u8g2_set_display_mirror |
@@ -59,7 +59,7 @@ The monochrome display driver library based on u8g2 can drive a variety of OLED 
 | SIZE | 8, 14, 19, 25, 34, 42, 50, 58 | u8g2_set_font |
 | COLOR | 1, 0, 2 | u8g2_set_draw_color |
 | MODE | 1, 0 | u8g2_set_font_mode |
-| TYPE | SSD1306, SSD1309, SH1106, SH1107, ST7920 | u8x8_begin |
+| TYPE | SSD1306, SSD1309, SH1106, SH1107, ST7567, ST7920 | u8x8_begin |
 
 ## ABS Examples
 

@@ -529,6 +529,25 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
             ['168X384', '168X384']
           ]), 'RESOLUTION');
         break;
+      case 'ST7567':
+        this.appendDummyInput('RESOLUTION')
+          .appendField(text('resolution', '分辨率'))
+          .appendField(new Blockly.FieldDropdown([
+            ['JLX12864 (128x64)', 'JLX12864'],
+            ['ENH DG128064 (128x64)', 'ENH_DG128064'],
+            ['ENH DG128064I (128x64)', 'ENH_DG128064I'],
+            ['OS12864 (128x64)', 'OS12864'],
+            ['ERC12864 (128x64)', 'ERC12864'],
+            ['PI (132x64)', 'PI_132X64'],
+            ['ERC13232 (132x32)', 'ERC13232'],
+            ['122x32', '122X32'],
+            ['LW12832 (128x32)', 'LW12832'],
+            ['YXD12832 (128x32)', 'YXD12832'],
+            ['HEM6432 (64x32)', 'HEM6432'],
+            ['64x32', '64X32'],
+            ['96x65', '96X65']
+          ]), 'RESOLUTION');
+        break;
       case 'ST7920':
         this.appendDummyInput('RESOLUTION')
           .appendField(text('resolution', '分辨率'))
@@ -619,6 +638,19 @@ Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
             ['SPI 4线(硬件)', '_4W_HW_SPI'],
             ['SPI 4线(软件)', '_4W_SW_SPI']
           ];
+        }
+        break;
+      case 'ST7567':
+        protocolOptions = [
+          ['I2C(硬件)', '_HW_I2C'],
+          ['I2C(软件)', '_SW_I2C'],
+          ['SPI 3线(硬件)', '_3W_HW_SPI'],
+          ['SPI 3线(软件)', '_3W_SW_SPI'],
+          ['SPI 4线(硬件)', '_4W_HW_SPI'],
+          ['SPI 4线(软件)', '_4W_SW_SPI']
+        ];
+        if (resolutionValue === 'ERC12864' || resolutionValue === 'YXD12832') {
+          protocolOptions = protocolOptions.slice(2);
         }
         break;
       case 'ST7920':
@@ -791,6 +823,9 @@ Arduino.forBlock['u8g2_begin'] = function (block, generator) {
         break;
       case 'SH1107':
         resolution = '64X128';
+        break;
+      case 'ST7567':
+        resolution = 'JLX12864';
         break;
       case 'ST7920':
         resolution = '128X32';
@@ -1612,6 +1647,9 @@ Arduino.forBlock['u8x8_begin'] = function (block, generator) {
         break;
       case 'SH1107':
         resolution = '64X128';
+        break;
+      case 'ST7567':
+        resolution = 'JLX12864';
         break;
       case 'ST7920':
         resolution = '128X32';
