@@ -620,3 +620,441 @@ Arduino.forBlock['seeed_gfx_get_height'] = function(block, generator) {
   
   return [varName + '.height()', generator.ORDER_ATOMIC];
 };
+
+function seeedGfxEnsureAnimationLibraries(generator) {
+  generator.addLibrary('TFT_eSPI', '#include <TFT_eSPI.h>');
+  generator.addLibrary('SPI', '#include <SPI.h>');
+}
+
+function seeedGfxDecodeBase64Frame(frameValue, expectedByteLength, frameIndex) {
+  if (typeof frameValue !== 'string') {
+    console.error(`[seeed_gfx_animation] Frame ${frameIndex} is not a Base64 string`);
+    return null;
+  }
+
+  const base64 = frameValue.trim();
+  const base64Pattern = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
+  if (!base64 || base64.length % 4 !== 0 || !base64Pattern.test(base64)) {
+    console.error(`[seeed_gfx_animation] Frame ${frameIndex} contains invalid Base64 data`);
+    return null;
+  }
+
+  try {
+    let bytes;
+    if (typeof atob === 'function') {
+      const binary = atob(base64);
+      bytes = Uint8Array.from(binary, character => character.charCodeAt(0));
+    } else if (typeof Buffer !== 'undefined') {
+      bytes = Uint8Array.from(Buffer.from(base64, 'base64'));
+    } else {
+      console.error('[seeed_gfx_animation] Base64 decoder is unavailable');
+      return null;
+    }
+
+    if (bytes.length !== expectedByteLength) {
+      console.error(`[seeed_gfx_animation] Frame ${frameIndex} has ${bytes.length} bytes; expected ${expectedByteLength}`);
+      return null;
+    }
+    return bytes;
+  } catch (error) {
+    console.error(`[seeed_gfx_animation] Failed to decode frame ${frameIndex}:`, error);
+    return null;
+  }
+}
+
+function seeedGfxFormatRgb565Frame(bytes) {
+  const values = [];
+  for (let offset = 0; offset < bytes.length; offset += 2) {
+    const value = (bytes[offset] << 8) | bytes[offset + 1];
+    values.push(`0x${value.toString(16).padStart(4, '0').toUpperCase()}`);
+  }
+
+  const lines = [];
+  for (let index = 0; index < values.length; index += 12) {
+    lines.push(`  ${values.slice(index, index + 12).join(', ')}`);
+  }
+  return lines.join(',\n');
+}
+
+function seeedGfxGetAnimationSignature(width, height, fps, encodedFrames) {
+  let hash1 = 0x811C9DC5;
+  let hash2 = 0x9E3779B9;
+  const updateHash = (value) => {
+    const text = String(value);
+    for (let index = 0; index < text.length; index++) {
+      const code = text.charCodeAt(index);
+      hash1 = Math.imul(hash1 ^ code, 0x01000193);
+      hash2 = Math.imul(hash2 ^ code, 0x85EBCA77);
+    }
+  };
+
+  updateHash(`${width}:${height}:${fps}:${encodedFrames.length}|`);
+  for (const encodedFrame of encodedFrames) {
+    updateHash(encodedFrame);
+    updateHash('|');
+  }
+  return `${(hash1 >>> 0).toString(16).padStart(8, '0')}${(hash2 >>> 0).toString(16).padStart(8, '0')}`;
+}
+
+function seeedGfxGetAnimationData(block) {
+  let animationData = block.getFieldValue('CUSTOM_ANIMATION');
+
+  if (typeof animationData === 'string') {
+    try {
+      animationData = JSON.parse(animationData);
+    } catch (error) {
+      console.error('[seeed_gfx_animation] Failed to parse animation field value:', error);
+      return null;
+    }
+  }
+
+  if (!animationData || typeof animationData !== 'object') {
+    console.error('[seeed_gfx_animation] Animation data is missing');
+    return null;
+  }
+  if (animationData.version !== 1 || animationData.format !== 'rgb565' || animationData.encoding !== 'rgb565-be-base64') {
+    console.error('[seeed_gfx_animation] Unsupported animation version, format, or encoding');
+    return null;
+  }
+
+  const width = animationData.width;
+  const height = animationData.height;
+  const fps = animationData.fps;
+  if (!Number.isInteger(width) || width <= 0 || width > 65535 ||
+      !Number.isInteger(height) || height <= 0 || height > 65535) {
+    console.error('[seeed_gfx_animation] Width and height must be positive 16-bit integers');
+    return null;
+  }
+  if (!Number.isFinite(fps) || fps <= 0) {
+    console.error('[seeed_gfx_animation] FPS must be a positive number');
+    return null;
+  }
+  if (!Array.isArray(animationData.frames)) {
+    console.error('[seeed_gfx_animation] Animation frames must be an array');
+    return null;
+  }
+  // A newly dragged block intentionally starts empty until a GIF or MP4 is uploaded.
+  if (animationData.frames.length === 0) {
+    return null;
+  }
+  if (animationData.frames.length > 65535) {
+    console.error('[seeed_gfx_animation] Animation cannot contain more than 65535 frames');
+    return null;
+  }
+
+  const expectedByteLength = width * height * 2;
+  if (!Number.isSafeInteger(expectedByteLength)) {
+    console.error('[seeed_gfx_animation] Animation dimensions are too large');
+    return null;
+  }
+
+  const frames = [];
+  for (let index = 0; index < animationData.frames.length; index++) {
+    const binary = seeedGfxDecodeBase64Frame(animationData.frames[index], expectedByteLength, index);
+    if (binary === null) {
+      return null;
+    }
+    frames.push(seeedGfxFormatRgb565Frame(binary));
+  }
+
+  return {
+    width,
+    height,
+    fps,
+    signature: seeedGfxGetAnimationSignature(width, height, fps, animationData.frames),
+    frames
+  };
+}
+
+function seeedGfxGetBlockSymbolSuffix(block) {
+  const suffix = String(block.id || 'block').replace(/[^a-zA-Z0-9]/g, '');
+  return suffix || 'block';
+}
+
+function seeedGfxGetVariableCodeName(block, fieldName, fallbackName) {
+  const field = block.getField(fieldName);
+  if (field && typeof field.getText === 'function') {
+    const fieldText = field.getText();
+    if (fieldText) {
+      return fieldText;
+    }
+  }
+
+  const fieldValue = block.getFieldValue(fieldName);
+  const variable = block.workspace && typeof block.workspace.getVariableById === 'function'
+    ? block.workspace.getVariableById(fieldValue)
+    : null;
+  return variable && variable.name ? variable.name : fallbackName;
+}
+
+function seeedGfxGetFrameVariableCodeName(block, generator) {
+  if (generator && typeof generator.getValue === 'function') {
+    const generatedName = generator.getValue(block, 'FRAME_VAR', 'field_variable');
+    if (generatedName && generatedName !== '?') {
+      return generatedName;
+    }
+  }
+
+  const variableId = block.getFieldValue('FRAME_VAR');
+  if (variableId && generator && generator.nameDB_ && typeof generator.nameDB_.getName === 'function') {
+    return generator.nameDB_.getName(variableId, 'VARIABLE');
+  }
+
+  return seeedGfxGetVariableCodeName(block, 'FRAME_VAR', 'seeedGfxAnimationFrame');
+}
+
+function seeedGfxGetAnimationPrefix(block, generator) {
+  if (typeof block.getInputTargetBlock === 'function') {
+    const animationBlock = block.getInputTargetBlock('ANIMATION');
+    if (!animationBlock || animationBlock.type !== 'seeed_gfx_animation') {
+      console.error('[Seeed GFX animation] The animation input must be connected directly to a Seeed GFX animation data block');
+      return null;
+    }
+  }
+
+  const animationCode = generator.valueToCode(block, 'ANIMATION', generator.ORDER_ATOMIC);
+  if (!animationCode) {
+    return null;
+  }
+
+  const match = String(animationCode).trim().match(/^(seeed_gfx_animation_[0-9a-f]{16})_frames$/);
+  if (!match) {
+    console.error('[Seeed GFX animation] The animation input must be connected directly to a Seeed GFX animation data block');
+    return null;
+  }
+  return match[1];
+}
+
+Arduino.forBlock['seeed_gfx_animation'] = function(block, generator) {
+  seeedGfxEnsureAnimationLibraries(generator);
+  const animationData = seeedGfxGetAnimationData(block);
+  if (!animationData) {
+    return ['', generator.ORDER_ATOMIC];
+  }
+
+  const { width, height, fps, signature, frames } = animationData;
+  const symbolPrefix = `seeed_gfx_animation_${signature}`;
+  const frameNames = [];
+  const frameDeclarations = [];
+  const frameNameByData = new Map();
+
+  for (let index = 0; index < frames.length; index++) {
+    const existingFrameName = frameNameByData.get(frames[index]);
+    if (existingFrameName) {
+      frameNames.push(existingFrameName);
+      continue;
+    }
+
+    const frameName = `${symbolPrefix}_frame_${index}`;
+    frameNameByData.set(frames[index], frameName);
+    frameNames.push(frameName);
+    frameDeclarations.push(`static const uint16_t ${frameName}[] PROGMEM = {
+${frames[index]}
+};`);
+  }
+
+  const frameDelay = Math.max(1, Math.round(1000 / fps));
+  const animationDeclaration = `// Seeed GFX animation (${width}x${height}, ${frameNames.length} frames, ${frameDeclarations.length} unique, ${fps} FPS, RGB565)
+${frameDeclarations.join('\n\n')}
+static const uint16_t* const ${symbolPrefix}_frames[] = {
+  ${frameNames.join(',\n  ')}
+};
+static const uint16_t ${symbolPrefix}_width = ${width};
+static const uint16_t ${symbolPrefix}_height = ${height};
+static const uint16_t ${symbolPrefix}_frame_count = ${frameNames.length};
+static const uint32_t ${symbolPrefix}_frame_delay = ${frameDelay};`;
+
+  generator.addVariable(symbolPrefix, animationDeclaration);
+  return [`${symbolPrefix}_frames`, generator.ORDER_ATOMIC];
+};
+
+function seeedGfxAddAnimationRenderHelper(generator) {
+  generator.addFunction('seeed_gfx_draw_animation_frame', `void seeedGfxDrawAnimationFrame(TFT_eSPI &seeedGfxDisplay, int32_t seeedGfxX, int32_t seeedGfxY, uint16_t seeedGfxWidth, uint16_t seeedGfxHeight, const uint16_t *seeedGfxFrame) {
+  bool seeedGfxPreviousSwapBytes = seeedGfxDisplay.getSwapBytes();
+  // RGB565 constants are native-endian uint16_t values; swap bytes for TFT transport.
+  seeedGfxDisplay.setSwapBytes(true);
+  seeedGfxDisplay.pushImage(seeedGfxX, seeedGfxY, seeedGfxWidth, seeedGfxHeight, seeedGfxFrame);
+  seeedGfxDisplay.setSwapBytes(seeedGfxPreviousSwapBytes);
+}`);
+}
+
+function seeedGfxAddAnimationFrameByIndexHelper(generator) {
+  seeedGfxAddAnimationRenderHelper(generator);
+  generator.addFunction('seeed_gfx_draw_animation_frame_by_index', `void seeedGfxDrawAnimationFrameByIndex(TFT_eSPI &seeedGfxDisplay, int32_t seeedGfxX, int32_t seeedGfxY, uint16_t seeedGfxWidth, uint16_t seeedGfxHeight, const uint16_t * const seeedGfxFrames[], uint16_t seeedGfxFrameCount, int32_t seeedGfxFrameIndex) {
+  if (seeedGfxFrameCount == 0) {
+    return;
+  }
+  if (seeedGfxFrameIndex < 0) {
+    seeedGfxFrameIndex = 0;
+  }
+  if (seeedGfxFrameIndex >= (int32_t)seeedGfxFrameCount) {
+    seeedGfxFrameIndex = seeedGfxFrameCount - 1;
+  }
+  seeedGfxDrawAnimationFrame(seeedGfxDisplay, seeedGfxX, seeedGfxY, seeedGfxWidth, seeedGfxHeight, seeedGfxFrames[seeedGfxFrameIndex]);
+}`);
+}
+
+Arduino.forBlock['seeed_gfx_play_animation'] = function(block, generator) {
+  seeedGfxEnsureAnimationLibraries(generator);
+  const display = seeedGfxGetVariableCodeName(block, 'VAR', 'tft');
+  const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
+  const animationPrefix = seeedGfxGetAnimationPrefix(block, generator);
+  if (!animationPrefix) {
+    return '// No Seeed GFX animation data\n';
+  }
+
+  seeedGfxAddAnimationRenderHelper(generator);
+  const playMode = block.getFieldValue('PLAY_MODE') || 'BLOCKING';
+  const loop = block.getFieldValue('LOOP') === 'TRUE';
+
+  if (playMode === 'NON_BLOCKING') {
+    const statePrefix = `seeed_gfx_animation_state_${seeedGfxGetBlockSymbolSuffix(block)}`;
+    generator.addVariable(`${statePrefix}_frame`, `uint16_t ${statePrefix}_frame = 0;`);
+    generator.addVariable(`${statePrefix}_last_ms`, `uint32_t ${statePrefix}_last_ms = 0;`);
+    generator.addVariable(`${statePrefix}_started`, `bool ${statePrefix}_started = false;`);
+    generator.addVariable(`${statePrefix}_done`, `bool ${statePrefix}_done = false;`);
+
+    let code = `if (!${statePrefix}_done) {\n`;
+    code += `  uint32_t ${statePrefix}_now = millis();\n`;
+    code += `  if (!${statePrefix}_started || ${statePrefix}_now - ${statePrefix}_last_ms >= ${animationPrefix}_frame_delay) {\n`;
+    code += `    seeedGfxDrawAnimationFrame(${display}, ${x}, ${y}, ${animationPrefix}_width, ${animationPrefix}_height, ${animationPrefix}_frames[${statePrefix}_frame]);\n`;
+    code += `    ${statePrefix}_last_ms = ${statePrefix}_now;\n`;
+    code += `    ${statePrefix}_started = true;\n`;
+    code += `    ${statePrefix}_frame++;\n`;
+    code += `    if (${statePrefix}_frame >= ${animationPrefix}_frame_count) {\n`;
+    if (loop) {
+      code += `      ${statePrefix}_frame = 0;\n`;
+    } else {
+      code += `      ${statePrefix}_frame = ${animationPrefix}_frame_count - 1;\n`;
+      code += `      ${statePrefix}_done = true;\n`;
+    }
+    code += '    }\n';
+    code += '  }\n';
+    code += '}\n';
+    return code;
+  }
+
+  let code = `for (uint16_t seeedGfxFrameIndex = 0; seeedGfxFrameIndex < ${animationPrefix}_frame_count; seeedGfxFrameIndex++) {\n`;
+  code += '  uint32_t seeedGfxFrameStartedAt = millis();\n';
+  code += `  seeedGfxDrawAnimationFrame(${display}, ${x}, ${y}, ${animationPrefix}_width, ${animationPrefix}_height, ${animationPrefix}_frames[seeedGfxFrameIndex]);\n`;
+  code += '  uint32_t seeedGfxFrameRenderTime = millis() - seeedGfxFrameStartedAt;\n';
+  code += `  if (seeedGfxFrameRenderTime < ${animationPrefix}_frame_delay) {\n`;
+  code += `    delay(${animationPrefix}_frame_delay - seeedGfxFrameRenderTime);\n`;
+  code += '  }\n';
+  code += '}\n';
+  return code;
+};
+
+Arduino.forBlock['seeed_gfx_draw_animation_frame'] = function(block, generator) {
+  seeedGfxEnsureAnimationLibraries(generator);
+  const display = seeedGfxGetVariableCodeName(block, 'VAR', 'tft');
+  const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
+  const frame = generator.valueToCode(block, 'FRAME', generator.ORDER_ATOMIC) || '0';
+  const animationPrefix = seeedGfxGetAnimationPrefix(block, generator);
+  if (!animationPrefix) {
+    return '// No Seeed GFX animation data\n';
+  }
+
+  seeedGfxAddAnimationFrameByIndexHelper(generator);
+  return `seeedGfxDrawAnimationFrameByIndex(${display}, ${x}, ${y}, ${animationPrefix}_width, ${animationPrefix}_height, ${animationPrefix}_frames, ${animationPrefix}_frame_count, ${frame});\n`;
+};
+
+Arduino.forBlock['seeed_gfx_animation_frame_count'] = function(block, generator) {
+  seeedGfxEnsureAnimationLibraries(generator);
+  const animationPrefix = seeedGfxGetAnimationPrefix(block, generator);
+  if (!animationPrefix) {
+    return ['0', generator.ORDER_ATOMIC];
+  }
+
+  return [`${animationPrefix}_frame_count`, generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['seeed_gfx_step_animation_frame'] = function(block, generator) {
+  seeedGfxEnsureAnimationLibraries(generator);
+  const frameVariable = seeedGfxGetFrameVariableCodeName(block, generator);
+  const target = generator.valueToCode(block, 'TARGET', generator.ORDER_ATOMIC) || '0';
+  const frameCount = generator.valueToCode(block, 'FRAME_COUNT', generator.ORDER_ATOMIC) || '1';
+  const direction = block.getFieldValue('DIRECTION') || 'AUTO';
+  const symbolSuffix = seeedGfxGetBlockSymbolSuffix(block);
+  const targetVariable = `seeed_gfx_animation_target_${symbolSuffix}`;
+  const countVariable = `seeed_gfx_animation_frame_count_${symbolSuffix}`;
+
+  let code = `int32_t ${countVariable} = (int32_t)(${frameCount});\n`;
+  code += `if (${countVariable} > 0) {\n`;
+  code += `  int32_t ${targetVariable} = constrain((int32_t)(${target}), 0, ${countVariable} - 1);\n`;
+  code += `  ${frameVariable} = constrain((int32_t)${frameVariable}, 0, ${countVariable} - 1);\n`;
+
+  if (direction === 'FORWARD') {
+    code += `  if (${frameVariable} != ${targetVariable}) {\n`;
+    code += `    ${frameVariable}++;\n`;
+    code += `    if (${frameVariable} >= ${countVariable}) {\n`;
+    code += `      ${frameVariable} = 0;\n`;
+    code += '    }\n';
+    code += '  }\n';
+  } else if (direction === 'BACKWARD') {
+    code += `  if (${frameVariable} != ${targetVariable}) {\n`;
+    code += `    if (${frameVariable} <= 0) {\n`;
+    code += `      ${frameVariable} = ${countVariable} - 1;\n`;
+    code += '    } else {\n';
+    code += `      ${frameVariable}--;\n`;
+    code += '    }\n';
+    code += '  }\n';
+  } else {
+    code += `  if (${frameVariable} < ${targetVariable}) {\n`;
+    code += `    ${frameVariable}++;\n`;
+    code += `  } else if (${frameVariable} > ${targetVariable}) {\n`;
+    code += `    ${frameVariable}--;\n`;
+    code += '  }\n';
+  }
+
+  code += '}\n';
+  return code;
+};
+
+if (Blockly.Extensions.isRegistered('seeed_gfx_animation_play_dynamic_inputs')) {
+  Blockly.Extensions.unregister('seeed_gfx_animation_play_dynamic_inputs');
+}
+
+Blockly.Extensions.register('seeed_gfx_animation_play_dynamic_inputs', function() {
+  let renderScheduled = false;
+
+  const getLoopInput = () => {
+    return this.inputList.find(input => input.fieldRow && input.fieldRow.some(field => field.name === 'LOOP'));
+  };
+
+  const scheduleRender = () => {
+    if (!this.rendered || renderScheduled) {
+      return;
+    }
+    renderScheduled = true;
+    Promise.resolve().then(() => {
+      renderScheduled = false;
+      const rootBlock = typeof this.getRootBlock === 'function' ? this.getRootBlock() : this;
+      if (rootBlock && rootBlock.rendered) {
+        rootBlock.render();
+      } else if (this.rendered) {
+        this.render();
+      }
+    });
+  };
+
+  const updatePlaybackMode = modeValue => {
+    const loopInput = getLoopInput();
+    if (loopInput) {
+      loopInput.setVisible(modeValue === 'NON_BLOCKING');
+    }
+    scheduleRender();
+  };
+
+  const playModeField = this.getField('PLAY_MODE');
+  if (playModeField) {
+    playModeField.setValidator(option => {
+      updatePlaybackMode(option);
+      return option;
+    });
+  }
+
+  updatePlaybackMode(this.getFieldValue('PLAY_MODE'));
+});
