@@ -7,7 +7,7 @@
   },
   "k10_camera_init": {
     "message0": "init camera",
-    "tooltip": "Initialize K10 camera"
+    "tooltip": "Initialize the K10 camera with preview hidden"
   },
   "k10_camera_show": {
     "message0": "show camera view",
@@ -23,12 +23,12 @@
   },
   "k10_ai_init": {
     "message0": "init AI mode %1",
-    "tooltip": "Initialize AI vision",
+    "tooltip": "Initialize AI vision with camera preview hidden",
     "args0": [
       {
         "options": [
           [
-            "Face detection",
+            "Face detection/recognition",
             "Face"
           ],
           [
@@ -42,10 +42,6 @@
           [
             "QR code scan",
             "Code"
-          ],
-          [
-            "Face recognition",
-            "Face"
           ]
         ]
       }
@@ -58,7 +54,7 @@
       {
         "options": [
           [
-            "Face detection",
+            "Face detection/recognition",
             "Face"
           ],
           [
@@ -72,10 +68,6 @@
           [
             "QR code scan",
             "Code"
-          ],
-          [
-            "Face recognition",
-            "Face"
           ]
         ]
       }
@@ -128,6 +120,46 @@
           [
             "Height",
             "Width"
+          ],
+          [
+            "Left eye X",
+            "LeftEyeX"
+          ],
+          [
+            "Left eye Y",
+            "LeftEyeY"
+          ],
+          [
+            "Right eye X",
+            "RightEyeX"
+          ],
+          [
+            "Right eye Y",
+            "RightEyeY"
+          ],
+          [
+            "Nose X",
+            "NoseX"
+          ],
+          [
+            "Nose Y",
+            "NoseY"
+          ],
+          [
+            "Left mouth corner X",
+            "LeftMouthX"
+          ],
+          [
+            "Left mouth corner Y",
+            "LeftMouthY"
+          ],
+          [
+            "Right mouth corner X",
+            "RightMouthX"
+          ],
+          [
+            "Right mouth corner Y",
+            "RightMouthY"
           ]
         ]
       }
@@ -168,30 +200,33 @@
     "tooltip": "Set motion detection sensitivity threshold"
   },
   "k10_ai_face_recognized": {
-    "message0": "face recognized",
-    "tooltip": "Return whether a face has been recognized"
+    "message0": "face recognition completed",
+    "tooltip": "Return whether a face recognition command completed with a result"
   },
   "k10_ai_get_face_id": {
     "message0": "get recognized face ID",
     "tooltip": "Get recognized face ID"
   },
   "k10_ai_face_cmd": {
-    "message0": "face recognition %1 ID %2",
-    "tooltip": "Add or delete face",
+    "message0": "face action %1",
+    "tooltip": "Learn a face, trigger one recognition attempt, or clear all learned faces",
     "args0": [
       {
         "options": [
           [
-            "Add face",
+            "Learn face",
             "ENROLL"
           ],
           [
-            "Delete face",
-            "DELETE"
+            "Recognize face",
+            "RECOGNIZE"
+          ],
+          [
+            "Clear learned faces",
+            "DELETEALL"
           ]
         ]
-      },
-      null
+      }
     ]
   },
   "k10_camera_hide": {
