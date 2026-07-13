@@ -6,7 +6,7 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#E91E63",
-    "tooltip": "初始化K10摄像头",
+    "tooltip": "初始化K10摄像头，预览默认保持隐藏",
     "icon": "fa-light fa-camera"
   },
   {
@@ -21,7 +21,7 @@
   },
   {
     "type": "k10_camera_hide",
-    "message0": "关闭摄像头画面",
+    "message0": "隐藏摄像头画面",
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
@@ -64,7 +64,7 @@
         "name": "MODE",
         "options": [
           [
-            "人脸检测",
+            "人脸检测/识别",
             "Face"
           ],
           [
@@ -78,10 +78,6 @@
           [
             "二维码识别",
             "Code"
-          ],
-          [
-            "人脸识别",
-            "Face"
           ]
         ]
       }
@@ -90,7 +86,7 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#E91E63",
-    "tooltip": "初始化AI视觉功能",
+    "tooltip": "初始化AI视觉功能，摄像头预览默认保持隐藏",
     "icon": "fa-light fa-camera"
   },
   {
@@ -102,7 +98,7 @@
         "name": "MODE",
         "options": [
           [
-            "人脸检测",
+            "人脸检测/识别",
             "Face"
           ],
           [
@@ -116,10 +112,6 @@
           [
             "二维码识别",
             "Code"
-          ],
-          [
-            "人脸识别",
-            "Face"
           ]
         ]
       }
@@ -187,6 +179,46 @@
           [
             "高度",
             "Width"
+          ],
+          [
+            "左眼X坐标",
+            "LeftEyeX"
+          ],
+          [
+            "左眼Y坐标",
+            "LeftEyeY"
+          ],
+          [
+            "右眼X坐标",
+            "RightEyeX"
+          ],
+          [
+            "右眼Y坐标",
+            "RightEyeY"
+          ],
+          [
+            "鼻子X坐标",
+            "NoseX"
+          ],
+          [
+            "鼻子Y坐标",
+            "NoseY"
+          ],
+          [
+            "左嘴角X坐标",
+            "LeftMouthX"
+          ],
+          [
+            "左嘴角Y坐标",
+            "LeftMouthY"
+          ],
+          [
+            "右嘴角X坐标",
+            "RightMouthX"
+          ],
+          [
+            "右嘴角Y坐标",
+            "RightMouthY"
           ]
         ]
       }
@@ -258,11 +290,11 @@
   },
   {
     "type": "k10_ai_face_recognized",
-    "message0": "人脸已被识别",
+    "message0": "人脸识别完成",
     "inputsInline": true,
     "output": "Boolean",
     "colour": "#E91E63",
-    "tooltip": "返回人脸是否已被识别（人脸识别模式）",
+    "tooltip": "返回一次识别人脸命令是否已完成并产生结果",
     "icon": "fa-light fa-camera"
   },
   {
@@ -276,33 +308,32 @@
   },
   {
     "type": "k10_ai_face_cmd",
-    "message0": "人脸识别 %1 ID %2",
+    "message0": "人脸操作 %1",
     "args0": [
       {
         "type": "field_dropdown",
         "name": "CMD",
         "options": [
           [
-            "录入人脸",
+            "学习人脸",
             "ENROLL"
           ],
           [
-            "删除人脸",
-            "DELETE"
+            "识别人脸",
+            "RECOGNIZE"
+          ],
+          [
+            "清空已学习人脸",
+            "DELETEALL"
           ]
         ]
-      },
-      {
-        "type": "input_value",
-        "name": "ID",
-        "check": "Number"
       }
     ],
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#E91E63",
-    "tooltip": "录入或删除人脸",
+    "tooltip": "学习人脸、触发一次人脸识别，或清空全部已学习人脸",
     "icon": "fa-light fa-camera"
   }
 ]
