@@ -74,11 +74,11 @@ tester.test('检查配置文件', () => {
 
 // 测试核心检测脚本
 tester.test('检查检测脚本', () => {
-  if (!fs.existsSync('validate-library-compliance.js')) {
+  if (!fs.existsSync('.scripts_git_action/validate-library-compliance.js')) {
     throw new Error('核心检测脚本不存在');
   }
   
-  if (!fs.existsSync('github-actions-validator.js')) {
+  if (!fs.existsSync('.scripts_git_action/github-actions-validator.js')) {
     throw new Error('GitHub Actions验证脚本不存在');
   }
 });
@@ -87,8 +87,8 @@ tester.test('检查检测脚本', () => {
 tester.test('测试检测脚本可执行性', () => {
   try {
     // 测试帮助信息
-    execSync('node validate-library-compliance.js --help', { stdio: 'pipe' });
-    execSync('node github-actions-validator.js --help', { stdio: 'pipe' });
+    execSync('node .scripts_git_action/validate-library-compliance.js --help', { stdio: 'pipe' });
+    execSync('node .scripts_git_action/github-actions-validator.js --help', { stdio: 'pipe' });
   } catch (error) {
     throw new Error('检测脚本无法正常运行');
   }
@@ -111,7 +111,7 @@ tester.test('测试示例库检测', () => {
   
   try {
     // 运行检测（允许失败，只要不崩溃即可）
-    execSync(`node validate-library-compliance.js ${testLib}`, { stdio: 'pipe' });
+    execSync(`node .scripts_git_action/validate-library-compliance.js ${testLib}`, { stdio: 'pipe' });
   } catch (error) {
     // 检测可能失败，但脚本应该正常运行
     if (error.status === undefined) {
