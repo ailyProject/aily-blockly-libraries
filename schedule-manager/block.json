@@ -1,0 +1,212 @@
+[
+  {
+    "type": "sched_begin",
+    "message0": "课程表 初始化 TFT %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "TFT",
+        "variable": "tft",
+        "variableTypes": [
+          "TFT_eSPI"
+        ],
+        "defaultType": "TFT_eSPI"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "初始化课程表模块，绑定TFT屏",
+    "icon": "fa-regular fa-calendar-days"
+  },
+  {
+    "type": "sched_load",
+    "message0": "课程表 从Flash加载",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "从Flash读取课程表数据（上课/暑假/寒假模式）",
+    "icon": "fa-regular fa-download"
+  },
+  {
+    "type": "sched_show",
+    "message0": "课程表 显示",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "在屏幕上绘制课程表界面",
+    "icon": "fa-regular fa-display"
+  },
+  {
+    "type": "sched_set_defaults",
+    "message0": "课程表 设置默认课程 周一 %1 周二 %2 周三 %3 周四 %4 周五 %5 周六 %6 周日 %7",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "D0",
+        "text": "数学,英语,体育,语文,科学,地理,道法,数拓"
+      },
+      {
+        "type": "field_input",
+        "name": "D1",
+        "text": "语文,英语,数学,信息,音乐,地理,心理,体锻"
+      },
+      {
+        "type": "field_input",
+        "name": "D2",
+        "text": "英语,道法,语文,数学,体育,劳动,语文,英探2"
+      },
+      {
+        "type": "field_input",
+        "name": "D3",
+        "text": "语文,数学,体育,音乐,美术,英探1,综实,理拓"
+      },
+      {
+        "type": "field_input",
+        "name": "D4",
+        "text": "数学,英探1,语文,体育,科学,班会,跨学,跨学"
+      },
+      {
+        "type": "field_input",
+        "name": "D5",
+        "text": ""
+      },
+      {
+        "type": "field_input",
+        "name": "D6",
+        "text": ""
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置默认课程表，每天8节课，用逗号分隔。在load之前调用",
+    "icon": "fa-regular fa-list"
+  },
+  {
+    "type": "sched_start_server",
+    "message0": "课程表 启动Web服务 端口 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": [
+          "Number",
+          "int"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "启动WiFi Web服务器，用于手机/电脑浏览器配置课程表",
+    "icon": "fa-regular fa-globe"
+  },
+  {
+    "type": "sched_handle_client",
+    "message0": "课程表 处理Web请求",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "处理来自浏览器的HTTP请求，放在loop中调用",
+    "icon": "fa-regular fa-sync"
+  },
+  {
+    "type": "sched_day_prev",
+    "message0": "课程表 上一日",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "切换到前一天的课程",
+    "icon": "fa-regular fa-chevron-left"
+  },
+  {
+    "type": "sched_day_next",
+    "message0": "课程表 下一日",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "切换到后一天的课程",
+    "icon": "fa-regular fa-chevron-right"
+  },
+  {
+    "type": "sched_set_weekday",
+    "message0": "课程表 设置今天星期 %1",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "WD",
+        "value": 1,
+        "min": 0,
+        "max": 6
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置当前星期几(0=周一,6=周日)，用于标记当前课程",
+    "icon": "fa-regular fa-calendar-check"
+  },
+  {
+    "type": "sched_is_dirty",
+    "message0": "课程表 需要刷新",
+    "args0": [],
+    "output": "Boolean",
+    "colour": "#2196F3",
+    "tooltip": "返回是否需要刷新屏幕（Web配置后模式变更或保存后为true）",
+    "icon": "fa-regular fa-arrows-rotate"
+  },
+  {
+    "type": "sched_clear_dirty",
+    "message0": "课程表 清除刷新标记",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "清除刷新标记，配合is_dirty使用",
+    "icon": "fa-regular fa-check"
+  },
+  {
+    "type": "sched_get_mode",
+    "message0": "课程表 当前模式",
+    "args0": [],
+    "output": "Number",
+    "colour": "#2196F3",
+    "tooltip": "返回当前模式(0=上课,1=暑假,2=寒假)",
+    "icon": "fa-regular fa-circle-info"
+  },
+  {
+    "type": "sched_set_mode",
+    "message0": "课程表 设置模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "上课",
+            "0"
+          ],
+          [
+            "暑假",
+            "1"
+          ],
+          [
+            "寒假",
+            "2"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "手动设置课程表模式(上课/暑假/寒假)",
+    "icon": "fa-regular fa-toggle-on"
+  }
+]
