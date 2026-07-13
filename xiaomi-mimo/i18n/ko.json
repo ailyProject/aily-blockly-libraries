@@ -11,14 +11,159 @@
     "语音合成": "음성 합성",
     "I2S播放": "I2S 플레이",
     "流式回调": "스트리밍 콜백",
-    "状态管理": "현황관리"
+    "状态管理": "현황관리",
+    "语音识别": "음성 인식"
   },
   "mimo_config": {
     "message0": "샤오미 MiMo API Key 설정 %1 Base URL %2",
     "tooltip": "샤오미 MiMo AI API 키와 기본 URL 설정"
   },
+  "mimo_k10_audio_init": {
+    "message0": "K10 내장 마이크+스피커 초기화 객체 %1 %2 샘플레이트 %3",
+    "tooltip": "UNIHIKER K10 내장 마이크와 스피커를 초기화하고 녹음과 재생에 같은 객체를 사용합니다."
+  },
+  "mimo_i2s_speaker_init": {
+    "message0": "I2S speaker init object %1 %2 BCLK %3 LRCLK %4 DIN %5 sample rate %6",
+    "tooltip": "Initialize a standard I2S speaker output object such as MAX98357A."
+  },
+  "mimo_i2s_mic_init": {
+    "message0": "I2S microphone init object %1 %2 BCLK %3 LRCLK/WS %4 SD/DOUT %5 sample rate %6",
+    "tooltip": "Initialize a standard I2S microphone input object such as INMP441."
+  },
+  "mimo_pdm_mic_init": {
+    "message0": "PDM microphone init object %1 %2 CLK %3 DATA %4 sample rate %5",
+    "tooltip": "Initialize a PDM microphone input object."
+  },
+  "mimo_es8311_mic_init": {
+    "message0": "ES8311 microphone init object %1 %2 SDA %3 SCL %4 address %5 BCLK %6 LRCLK %7 SDOUT %8 MCLK %9 sample rate %10 gain register %11",
+    "tooltip": "Initialize ES8311 microphone input."
+  },
+  "mimo_es8311_audio_init": {
+    "message0": "ES8311 mic+speaker init object %1 %2 SDA %3 SCL %4 address %5 BCLK/SCLK %6 LR %7 DI/DAC in %8 DO/ADC out %9 MCK %10 sample rate %11 gain register %12 PA_EN %13",
+    "tooltip": "Initialize ES8311 microphone and speaker channels."
+  },
+  "mimo_i2s_prompt_tone": {
+    "message0": "play prompt tone object %1 %2 frequency Hz %3 duration ms %4",
+    "tooltip": "Play a short prompt tone through the current I2S or ES8311 speaker."
+  },
+  "mimo_i2s_record_text": {
+    "message0": "Xiaomi MiMo record to text microphone %1 %2 record %3 seconds %4 model %5 %6 transcription prompt(optional) %7",
+    "tooltip": "Record from an I2S microphone and send it to Xiaomi MiMo audio understanding, returning text only.",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "mimo_i2s_asr": {
+    "message0": "Xiaomi MiMo 음성 인식 마이크 %1 %2 녹음 %3 초 %4 언어 %5",
+    "tooltip": "I2S 마이크로 녹음하고 mimo-v2.5-asr로 텍스트를 변환합니다.",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "자동 감지",
+            "auto"
+          ],
+          [
+            "중국어",
+            "zh"
+          ],
+          [
+            "영어",
+            "en"
+          ]
+        ]
+      }
+    ]
+  },
+  "mimo_voice_chat": {
+    "message0": "Xiaomi MiMo voice chat microphone %1 speaker %2 %3 record %4 seconds %5 understanding model %6 voice %7 TTS model %8 beep %9 %10 prompt(optional) %11",
+    "tooltip": "Record audio, ask Xiaomi MiMo to understand it, synthesize the answer, and play it through I2S.",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "MiMo 기본",
+            "mimo_default"
+          ],
+          [
+            "冰糖 (V2.5)",
+            "冰糖"
+          ],
+          [
+            "茉莉 (V2.5)",
+            "茉莉"
+          ],
+          [
+            "苏打 (V2.5)",
+            "苏打"
+          ],
+          [
+            "白桦 (V2.5)",
+            "白桦"
+          ],
+          [
+            "Mia (V2.5)",
+            "Mia"
+          ],
+          [
+            "Chloe (V2.5)",
+            "Chloe"
+          ],
+          [
+            "Milo (V2.5)",
+            "Milo"
+          ],
+          [
+            "Dean (V2.5)",
+            "Dean"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "MiMo-V2.5-TTS",
+            "mimo-v2.5-tts"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
   "mimo_chat": {
-    "message0": "샤오미 AI 대화 사용자 메시지 %1 모델 %2",
+    "message0": "샤오미 AI 대화 사용자 메시지 %1 모델 %2 심층 사고 %3",
     "tooltip": "샤오미 MiMo AI에 메시지를 보내고 응답 받기",
     "args0": [
       null,
@@ -29,15 +174,27 @@
             "mimo-v2.5"
           ],
           [
-            "mimo-v2-omni",
-            "mimo-v2-omni"
+            "mimo-v2.5-pro",
+            "mimo-v2.5-pro"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "끄기",
+            "disabled"
+          ],
+          [
+            "켜기",
+            "enabled"
           ]
         ]
       }
     ]
   },
   "mimo_chat_with_history": {
-    "message0": "샤오미 AI 다중턴 대화 사용자 메시지 %1 모델 %2",
+    "message0": "샤오미 AI 다중턴 대화 사용자 메시지 %1 모델 %2 심층 사고 %3",
     "tooltip": "다중턴 대화를 지원하는 샤오미 MiMo AI",
     "args0": [
       null,
@@ -48,8 +205,20 @@
             "mimo-v2.5"
           ],
           [
-            "mimo-v2-omni",
-            "mimo-v2-omni"
+            "mimo-v2.5-pro",
+            "mimo-v2.5-pro"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "끄기",
+            "disabled"
+          ],
+          [
+            "켜기",
+            "enabled"
           ]
         ]
       }
@@ -64,27 +233,121 @@
     "tooltip": "AI 어시스턴트의 역할과 동작 규칙 설정"
   },
   "mimo_image_understand_url": {
-    "message0": "샤오미 AI 이미지 이해(URL) 이미지 URL %1 프롬프트 %2",
-    "tooltip": "이미지 URL을 통한 이미지 이해 분석"
+    "message0": "샤오미 AI 이미지 이해(URL) 이미지 URL %1 프롬프트 %2 모델 %3",
+    "tooltip": "이미지 URL을 통한 이미지 이해 분석",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
+      }
+    ]
   },
   "mimo_image_understand_base64": {
-    "message0": "샤오미 AI 이미지 이해(Base64) Base64 이미지 %1 프롬프트 %2",
-    "tooltip": "Base64 인코딩 이미지를 통한 이미지 이해 분석"
+    "message0": "샤오미 AI 이미지 이해(Base64) Base64 이미지 %1 프롬프트 %2 모델 %3",
+    "tooltip": "Base64 인코딩 이미지를 통한 이미지 이해 분석",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
+      }
+    ]
   },
   "mimo_image_understand_capture": {
-    "message0": "샤오미 AI 이미지 이해(캡처) 프롬프트 %1",
-    "tooltip": "카메라에서 직접 촬영하여 샤오미 AI로 스트림 업로드"
+    "message0": "샤오미 AI 이미지 이해(캡처) 프롬프트 %1 모델 %2",
+    "tooltip": "카메라에서 직접 촬영하여 샤오미 AI로 스트림 업로드",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
+      }
+    ]
   },
   "mimo_audio_understand": {
-    "message0": "샤오미 AI 오디오 이해 오디오 URL %1 프롬프트 %2",
-    "tooltip": "오디오 URL을 통한 오디오 이해 분석"
+    "message0": "샤오미 AI 오디오 이해 오디오 URL %1 프롬프트 %2 모델 %3",
+    "tooltip": "오디오 URL을 통한 오디오 이해 분석",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
+      }
+    ]
   },
   "mimo_audio_understand_base64": {
-    "message0": "샤오미 AI 오디오 이해(Base64) Base64 오디오 %1 프롬프트 %2",
-    "tooltip": "Base64 인코딩 오디오를 통한 오디오 이해 분석"
+    "message0": "샤오미 AI 오디오 이해(Base64) Base64 오디오 %1 프롬프트 %2 모델 %3",
+    "tooltip": "Base64 인코딩 오디오를 통한 오디오 이해 분석",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
+      }
+    ]
+  },
+  "mimo_asr_base64": {
+    "message0": "Xiaomi MiMo 음성 인식 Base64 오디오 %1 형식 %2 언어 %3",
+    "tooltip": "Base64 WAV 또는 MP3 오디오를 텍스트로 변환합니다.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "WAV",
+            "wav"
+          ],
+          [
+            "MP3",
+            "mp3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "자동 감지",
+            "auto"
+          ],
+          [
+            "중국어",
+            "zh"
+          ],
+          [
+            "영어",
+            "en"
+          ]
+        ]
+      }
+    ]
   },
   "mimo_video_understand": {
-    "message0": "샤오미 AI 비디오 이해 비디오 URL %1 프롬프트 %2 프레임률 %3",
+    "message0": "샤오미 AI 비디오 이해 비디오 URL %1 프롬프트 %2 프레임률 %3 모델 %4",
     "tooltip": "비디오 URL을 통한 비디오 이해 분석, 프레임률 제어 가능",
     "args0": [
       null,
@@ -108,11 +371,19 @@
             "10"
           ]
         ]
+      },
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
       }
     ]
   },
   "mimo_video_understand_base64": {
-    "message0": "샤오미 AI 비디오 이해(Base64) Base64 비디오 %1 프롬프트 %2 프레임률 %3",
+    "message0": "샤오미 AI 비디오 이해(Base64) Base64 비디오 %1 프롬프트 %2 프레임률 %3 모델 %4",
     "tooltip": "Base64 인코딩 비디오를 통한 비디오 이해 분석, 프레임률 제어 가능",
     "args0": [
       null,
@@ -136,6 +407,14 @@
             "10"
           ]
         ]
+      },
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
       }
     ]
   },
@@ -147,47 +426,39 @@
       {
         "options": [
           [
-            "MiMo 기본 (V2)",
+            "MiMo 기본",
             "mimo_default"
           ],
           [
-            "중국어 여성 (V2)",
-            "default_zh"
-          ],
-          [
-            "영어 여성 (V2)",
-            "default_en"
-          ],
-          [
-            "冰糖 (V2.5 중국어 여성)",
+            "冰糖 (V2.5)",
             "冰糖"
           ],
           [
-            "茉莉 (V2.5 중국어 여성)",
+            "茉莉 (V2.5)",
             "茉莉"
           ],
           [
-            "苏打 (V2.5 중국어 남성)",
+            "苏打 (V2.5)",
             "苏打"
           ],
           [
-            "白桦 (V2.5 중국어 남성)",
+            "白桦 (V2.5)",
             "白桦"
           ],
           [
-            "Mia (V2.5 영어 여성)",
+            "Mia (V2.5)",
             "Mia"
           ],
           [
-            "Chloe (V2.5 영어 여성)",
+            "Chloe (V2.5)",
             "Chloe"
           ],
           [
-            "Milo (V2.5 영어 남성)",
+            "Milo (V2.5)",
             "Milo"
           ],
           [
-            "Dean (V2.5 영어 남성)",
+            "Dean (V2.5)",
             "Dean"
           ]
         ]
@@ -197,86 +468,91 @@
           [
             "MiMo-V2.5-TTS",
             "mimo-v2.5-tts"
-          ],
-          [
-            "MiMo-V2-TTS",
-            "mimo-v2-tts"
           ]
         ]
       }
     ]
   },
   "mimo_tts_with_style": {
-    "message0": "샤오미 AI 음성 합성(스타일 포함) 텍스트 %1 음색 %2 모델 %3 스타일 %4",
+    "message0": "Xiaomi AI 음성 합성(스타일) 텍스트 %1 음색 %2 스타일 %3 모델 %4",
     "tooltip": "프리셋 음성과 스타일 지시로 음성 합성, Base64 WAV 반환",
     "args0": [
       null,
       {
         "options": [
           [
-            "MiMo 기본 (V2)",
+            "MiMo 기본",
             "mimo_default"
           ],
           [
-            "중국어 여성 (V2)",
-            "default_zh"
-          ],
-          [
-            "영어 여성 (V2)",
-            "default_en"
-          ],
-          [
-            "冰糖 (V2.5 중국어 여성)",
+            "冰糖 (V2.5)",
             "冰糖"
           ],
           [
-            "茉莉 (V2.5 중국어 여성)",
+            "茉莉 (V2.5)",
             "茉莉"
           ],
           [
-            "苏打 (V2.5 중국어 남성)",
+            "苏打 (V2.5)",
             "苏打"
           ],
           [
-            "白桦 (V2.5 중국어 남성)",
+            "白桦 (V2.5)",
             "白桦"
           ],
           [
-            "Mia (V2.5 영어 여성)",
+            "Mia (V2.5)",
             "Mia"
           ],
           [
-            "Chloe (V2.5 영어 여성)",
+            "Chloe (V2.5)",
             "Chloe"
           ],
           [
-            "Milo (V2.5 영어 남성)",
+            "Milo (V2.5)",
             "Milo"
           ],
           [
-            "Dean (V2.5 영어 남성)",
+            "Dean (V2.5)",
             "Dean"
           ]
         ]
       },
+      null,
       {
         "options": [
           [
             "MiMo-V2.5-TTS",
             "mimo-v2.5-tts"
-          ],
-          [
-            "MiMo-V2-TTS",
-            "mimo-v2-tts"
           ]
         ]
-      },
-      null
+      }
     ]
   },
   "mimo_tts_voice_design": {
     "message0": "샤오미 AI 음성 디자인 합성 음성 설명 %1 텍스트 %2",
     "tooltip": "텍스트 설명으로 맞춤 음성을 설계하고 음성 합성, Base64 WAV 반환"
+  },
+  "mimo_tts_voice_clone": {
+    "message0": "Xiaomi AI 음색 복제 샘플 Base64 %1 형식 %2 스타일(선택) %3 합성 텍스트 %4",
+    "tooltip": "오디오 샘플에서 음색을 복제하고 Base64 WAV를 반환합니다.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "WAV",
+            "wav"
+          ],
+          [
+            "MP3",
+            "mp3"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
   },
   "mimo_play_tts": {
     "message0": "TTS 오디오 재생 I2S 객체 %1 Base64 오디오 %2",
@@ -291,47 +567,39 @@
       {
         "options": [
           [
-            "MiMo 기본 (V2)",
+            "MiMo 기본",
             "mimo_default"
           ],
           [
-            "중국어 여성 (V2)",
-            "default_zh"
-          ],
-          [
-            "영어 여성 (V2)",
-            "default_en"
-          ],
-          [
-            "冰糖 (V2.5 중국어 여성)",
+            "冰糖 (V2.5)",
             "冰糖"
           ],
           [
-            "茉莉 (V2.5 중국어 여성)",
+            "茉莉 (V2.5)",
             "茉莉"
           ],
           [
-            "苏打 (V2.5 중국어 남성)",
+            "苏打 (V2.5)",
             "苏打"
           ],
           [
-            "白桦 (V2.5 중국어 남성)",
+            "白桦 (V2.5)",
             "白桦"
           ],
           [
-            "Mia (V2.5 영어 여성)",
+            "Mia (V2.5)",
             "Mia"
           ],
           [
-            "Chloe (V2.5 영어 여성)",
+            "Chloe (V2.5)",
             "Chloe"
           ],
           [
-            "Milo (V2.5 영어 남성)",
+            "Milo (V2.5)",
             "Milo"
           ],
           [
-            "Dean (V2.5 영어 남성)",
+            "Dean (V2.5)",
             "Dean"
           ]
         ]
@@ -341,17 +609,13 @@
           [
             "MiMo-V2.5-TTS",
             "mimo-v2.5-tts"
-          ],
-          [
-            "MiMo-V2-TTS",
-            "mimo-v2-tts"
           ]
         ]
       }
     ]
   },
   "mimo_tts_and_play_with_style": {
-    "message0": "샤오미 AI 음성 합성 재생(스타일) I2S 객체 %1 텍스트 %2 음색 %3 모델 %4 스타일 %5",
+    "message0": "Xiaomi AI 음성 합성 및 재생(스타일) I2S 객체 %1 텍스트 %2 음색 %3 스타일 %4 모델 %5",
     "tooltip": "프리셋 음성과 스타일로 음성 합성 후 I2S로 직접 재생",
     "args0": [
       null,
@@ -359,89 +623,79 @@
       {
         "options": [
           [
-            "MiMo 기본 (V2)",
+            "MiMo 기본",
             "mimo_default"
           ],
           [
-            "중국어 여성 (V2)",
-            "default_zh"
-          ],
-          [
-            "영어 여성 (V2)",
-            "default_en"
-          ],
-          [
-            "冰糖 (V2.5 중국어 여성)",
+            "冰糖 (V2.5)",
             "冰糖"
           ],
           [
-            "茉莉 (V2.5 중국어 여성)",
+            "茉莉 (V2.5)",
             "茉莉"
           ],
           [
-            "苏打 (V2.5 중국어 남성)",
+            "苏打 (V2.5)",
             "苏打"
           ],
           [
-            "白桦 (V2.5 중국어 남성)",
+            "白桦 (V2.5)",
             "白桦"
           ],
           [
-            "Mia (V2.5 영어 여성)",
+            "Mia (V2.5)",
             "Mia"
           ],
           [
-            "Chloe (V2.5 영어 여성)",
+            "Chloe (V2.5)",
             "Chloe"
           ],
           [
-            "Milo (V2.5 영어 남성)",
+            "Milo (V2.5)",
             "Milo"
           ],
           [
-            "Dean (V2.5 영어 남성)",
+            "Dean (V2.5)",
             "Dean"
           ]
         ]
       },
+      null,
       {
         "options": [
           [
             "MiMo-V2.5-TTS",
             "mimo-v2.5-tts"
-          ],
-          [
-            "MiMo-V2-TTS",
-            "mimo-v2-tts"
           ]
         ]
-      },
-      null
+      }
     ]
   },
   "mimo_tts_and_play_voice_design": {
     "message0": "샤오미 AI 음성 디자인 합성 재생 I2S 객체 %1 음성 설명 %2 텍스트 %3",
     "tooltip": "텍스트 설명으로 맞춤 음성을 설계하고 I2S로 직접 재생"
   },
-  "mimo_get_response_status": {
-    "message0": "샤오미 AI 응답 상태 확인",
-    "tooltip": "마지막 API 호출이 성공했는지 확인"
-  },
-  "mimo_get_error_message": {
-    "message0": "샤오미 AI 오류 메시지 확인",
-    "tooltip": "마지막 API 호출의 오류 메시지 확인"
-  },
-  "mimo_set_stream_callback": {
-    "message0": "샤오미 AI 스트림 콜백 설정 %1 %2",
-    "tooltip": "텍스트 청크 수신 시 실행되는 스트림 콜백 설정"
-  },
-  "mimo_get_stream_chunk": {
-    "message0": "샤오미 AI 스트림 청크 가져오기",
-    "tooltip": "스트림 콜백에서 현재 텍스트 청크 가져오기"
-  },
-  "mimo_clear_stream_callback": {
-    "message0": "샤오미 AI 스트림 콜백 초기화",
-    "tooltip": "설정된 스트림 콜백 초기화"
+  "mimo_tts_and_play_voice_clone": {
+    "message0": "Xiaomi AI 음색 복제 및 재생 I2S 객체 %1 샘플 Base64 %2 형식 %3 스타일(선택) %4 텍스트 %5",
+    "tooltip": "음색을 복제해 음성을 합성하고 I2S로 재생합니다.",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "WAV",
+            "wav"
+          ],
+          [
+            "MP3",
+            "mp3"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
   },
   "mimo_tts_stream_play": {
     "message0": "샤오미 AI 스트림 음성 합성 재생 I2S 객체 %1 텍스트 %2 음색 %3",
@@ -452,16 +706,8 @@
       {
         "options": [
           [
-            "MiMo 기본 (V2)",
+            "MiMo 기본",
             "mimo_default"
-          ],
-          [
-            "중국어 여성 (V2)",
-            "default_zh"
-          ],
-          [
-            "영어 여성 (V2)",
-            "default_en"
           ],
           [
             "冰糖 (V2.5)",
@@ -508,16 +754,8 @@
       {
         "options": [
           [
-            "MiMo 기본 (V2)",
+            "MiMo 기본",
             "mimo_default"
-          ],
-          [
-            "중국어 여성 (V2)",
-            "default_zh"
-          ],
-          [
-            "영어 여성 (V2)",
-            "default_en"
           ],
           [
             "冰糖 (V2.5)",
@@ -556,36 +794,24 @@
       null
     ]
   },
-  "mimo_i2s_speaker_init": {
-    "message0": "I2S speaker init object %1 %2 BCLK %3 LRCLK %4 DIN %5 sample rate %6",
-    "tooltip": "Initialize a standard I2S speaker output object such as MAX98357A."
+  "mimo_get_response_status": {
+    "message0": "샤오미 AI 응답 상태 확인",
+    "tooltip": "마지막 API 호출이 성공했는지 확인"
   },
-  "mimo_i2s_mic_init": {
-    "message0": "I2S microphone init object %1 %2 BCLK %3 LRCLK/WS %4 SD/DOUT %5 sample rate %6",
-    "tooltip": "Initialize a standard I2S microphone input object such as INMP441."
+  "mimo_get_error_message": {
+    "message0": "샤오미 AI 오류 메시지 확인",
+    "tooltip": "마지막 API 호출의 오류 메시지 확인"
   },
-  "mimo_pdm_mic_init": {
-    "message0": "PDM microphone init object %1 %2 CLK %3 DATA %4 sample rate %5",
-    "tooltip": "Initialize a PDM microphone input object."
+  "mimo_set_stream_callback": {
+    "message0": "샤오미 AI 스트림 콜백 설정 %1 %2",
+    "tooltip": "텍스트 청크 수신 시 실행되는 스트림 콜백 설정"
   },
-  "mimo_es8311_mic_init": {
-    "message0": "ES8311 microphone init object %1 %2 SDA %3 SCL %4 address %5 BCLK %6 LRCLK %7 SDOUT %8 MCLK %9 sample rate %10 gain register %11",
-    "tooltip": "Initialize ES8311 microphone input."
+  "mimo_get_stream_chunk": {
+    "message0": "샤오미 AI 스트림 청크 가져오기",
+    "tooltip": "스트림 콜백에서 현재 텍스트 청크 가져오기"
   },
-  "mimo_es8311_audio_init": {
-    "message0": "ES8311 mic+speaker init object %1 %2 SDA %3 SCL %4 address %5 BCLK/SCLK %6 LR %7 DI/DAC in %8 DO/ADC out %9 MCK %10 sample rate %11 gain register %12 PA_EN %13",
-    "tooltip": "Initialize ES8311 microphone and speaker channels."
-  },
-  "mimo_i2s_prompt_tone": {
-    "message0": "play prompt tone object %1 %2 frequency Hz %3 duration ms %4",
-    "tooltip": "Play a short prompt tone through the current I2S or ES8311 speaker."
-  },
-  "mimo_i2s_record_text": {
-    "message0": "Xiaomi MiMo record to text microphone %1 %2 record %3 seconds %4 model %5 %6 transcription prompt(optional) %7",
-    "tooltip": "Record from an I2S microphone and send it to Xiaomi MiMo audio understanding, returning text only."
-  },
-  "mimo_voice_chat": {
-    "message0": "Xiaomi MiMo voice chat microphone %1 speaker %2 %3 record %4 seconds %5 understanding model %6 voice %7 TTS model %8 beep %9 %10 prompt(optional) %11",
-    "tooltip": "Record audio, ask Xiaomi MiMo to understand it, synthesize the answer, and play it through I2S."
+  "mimo_clear_stream_callback": {
+    "message0": "샤오미 AI 스트림 콜백 초기화",
+    "tooltip": "설정된 스트림 콜백 초기화"
   }
 }

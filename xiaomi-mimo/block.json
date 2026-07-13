@@ -23,6 +23,35 @@
     "icon": "fa-brands fa-xing"
   },
   {
+    "type": "mimo_k10_audio_init",
+    "message0": "K10内置麦克风+喇叭初始化 对象 %1 %2 采样率 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s_k10",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "SAMPLE_RATE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "初始化UNIHIKER K10板载麦克风和喇叭。MiMo语音识别、语音对话与播放块的麦克风和喇叭对象都选择这个对象即可。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-waveform-lines"
+  },
+  {
     "type": "mimo_i2s_speaker_init",
     "message0": "I2S喇叭初始化 对象 %1 %2 BCLK %3 LRCLK %4 DIN %5 采样率 %6",
     "args0": [
@@ -362,10 +391,6 @@
           [
             "mimo-v2.5",
             "mimo-v2.5"
-          ],
-          [
-            "mimo-v2-omni",
-            "mimo-v2-omni"
           ]
         ]
       },
@@ -383,6 +408,55 @@
     "tooltip": "使用I2S麦克风录音并调用小米MiMo音频理解，只返回识别/理解后的文字。录音格式为16kHz 16bit单声道",
     "helpUrl": "",
     "icon": "fa-regular fa-microphone-lines"
+  },
+  {
+    "type": "mimo_i2s_asr",
+    "message0": "小米MiMo语音识别 麦克风对象 %1 %2 录音 %3 秒 %4 语言 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "MIC_VAR",
+        "variable": "i2s_mic",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": "Number"
+      },
+      {
+        "type": "inputsInline"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "LANGUAGE",
+        "options": [
+          [
+            "自动识别",
+            "auto"
+          ],
+          [
+            "中文",
+            "zh"
+          ],
+          [
+            "English",
+            "en"
+          ]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "使用I2S麦克风录音并调用mimo-v2.5-asr进行语音转文字，支持中英双语和多种中国方言。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-waveform-lines"
   },
   {
     "type": "mimo_voice_chat",
@@ -424,10 +498,6 @@
           [
             "mimo-v2.5",
             "mimo-v2.5"
-          ],
-          [
-            "mimo-v2-omni",
-            "mimo-v2-omni"
           ]
         ]
       },
@@ -436,16 +506,8 @@
         "name": "VOICE",
         "options": [
           [
-            "MiMo默认 (V2)",
+            "MiMo默认",
             "mimo_default"
-          ],
-          [
-            "中文女声 (V2)",
-            "default_zh"
-          ],
-          [
-            "英文女声 (V2)",
-            "default_en"
           ],
           [
             "冰糖 (V2.5 中文女声)",
@@ -488,10 +550,6 @@
           [
             "MiMo-V2.5-TTS",
             "mimo-v2.5-tts"
-          ],
-          [
-            "MiMo-V2-TTS",
-            "mimo-v2-tts"
           ]
         ]
       },
@@ -518,7 +576,7 @@
   },
   {
     "type": "mimo_chat",
-    "message0": "小米AI对话 用户消息 %1 模型 %2",
+    "message0": "小米AI对话 用户消息 %1 模型 %2 深度思考 %3",
     "args0": [
       {
         "type": "input_value",
@@ -534,8 +592,22 @@
             "mimo-v2.5"
           ],
           [
-            "mimo-v2-omni",
-            "mimo-v2-omni"
+            "mimo-v2.5-pro",
+            "mimo-v2.5-pro"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "THINKING",
+        "options": [
+          [
+            "关闭",
+            "disabled"
+          ],
+          [
+            "开启",
+            "enabled"
           ]
         ]
       }
@@ -543,13 +615,13 @@
     "inputsInline": true,
     "output": "String",
     "colour": "#FF6900",
-    "tooltip": "发送消息到小米MiMo AI并获取回复",
+    "tooltip": "发送消息到小米MiMo AI并获取回复。深度思考会提高复杂任务质量，但增加延迟和输出长度。",
     "helpUrl": "",
     "icon": "fa-brands fa-xing"
   },
   {
     "type": "mimo_chat_with_history",
-    "message0": "小米AI多轮对话 用户消息 %1 模型 %2",
+    "message0": "小米AI多轮对话 用户消息 %1 模型 %2 深度思考 %3",
     "args0": [
       {
         "type": "input_value",
@@ -565,8 +637,22 @@
             "mimo-v2.5"
           ],
           [
-            "mimo-v2-omni",
-            "mimo-v2-omni"
+            "mimo-v2.5-pro",
+            "mimo-v2.5-pro"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "THINKING",
+        "options": [
+          [
+            "关闭",
+            "disabled"
+          ],
+          [
+            "开启",
+            "enabled"
           ]
         ]
       }
@@ -574,7 +660,7 @@
     "inputsInline": true,
     "output": "String",
     "colour": "#FF6900",
-    "tooltip": "支持多轮对话的小米MiMo AI",
+    "tooltip": "支持多轮上下文的小米MiMo AI。深度思考会提高复杂任务质量，但增加延迟和输出长度。",
     "helpUrl": "",
     "icon": "fa-brands fa-xing"
   },
@@ -608,7 +694,7 @@
   },
   {
     "type": "mimo_image_understand_url",
-    "message0": "小米AI图片理解(URL) 图片URL %1 提示词 %2",
+    "message0": "小米AI图片理解(URL) 图片URL %1 提示词 %2 模型 %3",
     "args0": [
       {
         "type": "input_value",
@@ -619,18 +705,28 @@
         "type": "input_value",
         "name": "MESSAGE",
         "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
       }
     ],
     "inputsInline": true,
     "output": "String",
     "colour": "#FF6900",
-    "tooltip": "通过图片URL进行图片理解分析",
+    "tooltip": "通过图片URL进行图片理解分析，可显式选择当前支持的mimo-v2.5模型",
     "helpUrl": "",
     "icon": "fa-brands fa-xing"
   },
   {
     "type": "mimo_image_understand_base64",
-    "message0": "小米AI图片理解(Base64) Base64图片 %1 提示词 %2",
+    "message0": "小米AI图片理解(Base64) Base64图片 %1 提示词 %2 模型 %3",
     "args0": [
       {
         "type": "input_value",
@@ -641,35 +737,55 @@
         "type": "input_value",
         "name": "MESSAGE",
         "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
       }
     ],
     "inputsInline": true,
     "output": "String",
     "colour": "#FF6900",
-    "tooltip": "通过Base64编码图片进行图片理解分析",
+    "tooltip": "通过Base64编码图片进行图片理解分析，可显式选择当前支持的mimo-v2.5模型",
     "helpUrl": "",
     "icon": "fa-brands fa-xing"
   },
   {
     "type": "mimo_image_understand_capture",
-    "message0": "小米AI图片理解(拍照) 提示词 %1",
+    "message0": "小米AI图片理解(拍照) 提示词 %1 模型 %2",
     "args0": [
       {
         "type": "input_value",
         "name": "MESSAGE",
         "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
       }
     ],
     "inputsInline": true,
     "output": "String",
     "colour": "#FF6900",
-    "tooltip": "直接从摄像头拍照并流式上传到小米AI进行图片理解",
+    "tooltip": "直接从摄像头拍照并流式上传到小米AI进行图片理解，可显式选择当前支持的mimo-v2.5模型",
     "helpUrl": "",
     "icon": "fa-brands fa-xing"
   },
   {
     "type": "mimo_audio_understand",
-    "message0": "小米AI音频理解 音频URL %1 提示词 %2",
+    "message0": "小米AI音频理解 音频URL %1 提示词 %2 模型 %3",
     "args0": [
       {
         "type": "input_value",
@@ -680,18 +796,28 @@
         "type": "input_value",
         "name": "MESSAGE",
         "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
       }
     ],
     "inputsInline": true,
     "output": "String",
     "colour": "#FF6900",
-    "tooltip": "通过音频URL进行音频理解分析",
+    "tooltip": "通过音频URL进行音频理解分析，可显式选择当前支持的mimo-v2.5模型",
     "helpUrl": "",
     "icon": "fa-brands fa-xing"
   },
   {
     "type": "mimo_audio_understand_base64",
-    "message0": "小米AI音频理解(Base64) Base64音频 %1 提示词 %2",
+    "message0": "小米AI音频理解(Base64) Base64音频 %1 提示词 %2 模型 %3",
     "args0": [
       {
         "type": "input_value",
@@ -702,18 +828,77 @@
         "type": "input_value",
         "name": "MESSAGE",
         "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
       }
     ],
     "inputsInline": true,
     "output": "String",
     "colour": "#FF6900",
-    "tooltip": "通过Base64编码音频进行音频理解分析",
+    "tooltip": "通过Base64编码音频进行音频理解分析，可显式选择当前支持的mimo-v2.5模型",
     "helpUrl": "",
     "icon": "fa-brands fa-xing"
   },
   {
+    "type": "mimo_asr_base64",
+    "message0": "小米MiMo语音识别 Base64音频 %1 格式 %2 语言 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "AUDIO_BASE64",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FORMAT",
+        "options": [
+          [
+            "WAV",
+            "wav"
+          ],
+          [
+            "MP3",
+            "mp3"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "LANGUAGE",
+        "options": [
+          [
+            "自动识别",
+            "auto"
+          ],
+          [
+            "中文",
+            "zh"
+          ],
+          [
+            "English",
+            "en"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "调用mimo-v2.5-asr识别WAV或MP3的Base64音频，返回转写文字。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-waveform-lines"
+  },
+  {
     "type": "mimo_video_understand",
-    "message0": "小米AI视频理解 视频URL %1 提示词 %2 帧率 %3",
+    "message0": "小米AI视频理解 视频URL %1 提示词 %2 帧率 %3 模型 %4",
     "args0": [
       {
         "type": "input_value",
@@ -746,18 +931,28 @@
             "10"
           ]
         ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
       }
     ],
     "inputsInline": true,
     "output": "String",
     "colour": "#FF6900",
-    "tooltip": "通过视频URL进行视频理解分析，可控制抽帧率",
+    "tooltip": "通过视频URL进行视频理解分析，可控制抽帧率，并可显式选择当前支持的mimo-v2.5模型",
     "helpUrl": "",
     "icon": "fa-brands fa-xing"
   },
   {
     "type": "mimo_video_understand_base64",
-    "message0": "小米AI视频理解(Base64) Base64视频 %1 提示词 %2 帧率 %3",
+    "message0": "小米AI视频理解(Base64) Base64视频 %1 提示词 %2 帧率 %3 模型 %4",
     "args0": [
       {
         "type": "input_value",
@@ -790,12 +985,22 @@
             "10"
           ]
         ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
       }
     ],
     "inputsInline": true,
     "output": "String",
     "colour": "#FF6900",
-    "tooltip": "通过Base64编码视频进行视频理解分析，可控制抽帧率",
+    "tooltip": "通过Base64编码视频进行视频理解分析，可控制抽帧率，并可显式选择当前支持的mimo-v2.5模型",
     "helpUrl": "",
     "icon": "fa-brands fa-xing"
   },
@@ -813,16 +1018,8 @@
         "name": "VOICE",
         "options": [
           [
-            "MiMo默认 (V2)",
+            "MiMo默认",
             "mimo_default"
-          ],
-          [
-            "中文女声 (V2)",
-            "default_zh"
-          ],
-          [
-            "英文女声 (V2)",
-            "default_en"
           ],
           [
             "冰糖 (V2.5 中文女声)",
@@ -865,10 +1062,6 @@
           [
             "MiMo-V2.5-TTS",
             "mimo-v2.5-tts"
-          ],
-          [
-            "MiMo-V2-TTS",
-            "mimo-v2-tts"
           ]
         ]
       }
@@ -894,16 +1087,8 @@
         "name": "VOICE",
         "options": [
           [
-            "MiMo默认 (V2)",
+            "MiMo默认",
             "mimo_default"
-          ],
-          [
-            "中文女声 (V2)",
-            "default_zh"
-          ],
-          [
-            "英文女声 (V2)",
-            "default_en"
           ],
           [
             "冰糖 (V2.5 中文女声)",
@@ -951,10 +1136,6 @@
           [
             "MiMo-V2.5-TTS",
             "mimo-v2.5-tts"
-          ],
-          [
-            "MiMo-V2-TTS",
-            "mimo-v2-tts"
           ]
         ]
       }
@@ -985,6 +1166,47 @@
     "output": "String",
     "colour": "#FF6900",
     "tooltip": "通过文本描述定制音色并进行语音合成，返回Base64编码的WAV音频数据",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
+    "type": "mimo_tts_voice_clone",
+    "message0": "小米AI音色克隆合成 音色样本Base64 %1 格式 %2 风格指令(可选) %3 待合成文本 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "VOICE_AUDIO_BASE64",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FORMAT",
+        "options": [
+          [
+            "WAV",
+            "wav"
+          ],
+          [
+            "MP3",
+            "mp3"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "STYLE",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      }
+    ],
+    "inputsInline": false,
+    "output": "String",
+    "colour": "#FF6900",
+    "tooltip": "使用mimo-v2.5-tts-voiceclone从WAV或MP3音色样本克隆音色并合成语音，返回Base64 WAV音频。",
     "helpUrl": "",
     "icon": "fa-brands fa-xing"
   },
@@ -1038,16 +1260,8 @@
         "name": "VOICE",
         "options": [
           [
-            "MiMo默认 (V2)",
+            "MiMo默认",
             "mimo_default"
-          ],
-          [
-            "中文女声 (V2)",
-            "default_zh"
-          ],
-          [
-            "英文女声 (V2)",
-            "default_en"
           ],
           [
             "冰糖 (V2.5 中文女声)",
@@ -1090,10 +1304,6 @@
           [
             "MiMo-V2.5-TTS",
             "mimo-v2.5-tts"
-          ],
-          [
-            "MiMo-V2-TTS",
-            "mimo-v2-tts"
           ]
         ]
       }
@@ -1129,16 +1339,8 @@
         "name": "VOICE",
         "options": [
           [
-            "MiMo默认 (V2)",
+            "MiMo默认",
             "mimo_default"
-          ],
-          [
-            "中文女声 (V2)",
-            "default_zh"
-          ],
-          [
-            "英文女声 (V2)",
-            "default_en"
           ],
           [
             "冰糖 (V2.5 中文女声)",
@@ -1186,10 +1388,6 @@
           [
             "MiMo-V2.5-TTS",
             "mimo-v2.5-tts"
-          ],
-          [
-            "MiMo-V2-TTS",
-            "mimo-v2-tts"
           ]
         ]
       }
@@ -1235,6 +1433,57 @@
     "icon": "fa-brands fa-xing"
   },
   {
+    "type": "mimo_tts_and_play_voice_clone",
+    "message0": "小米AI音色克隆合成并播放 I2S对象 %1 音色样本Base64 %2 格式 %3 风格指令(可选) %4 文本 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2s",
+        "variableTypes": [
+          "I2SClass"
+        ],
+        "defaultType": "I2SClass"
+      },
+      {
+        "type": "input_value",
+        "name": "VOICE_AUDIO_BASE64",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FORMAT",
+        "options": [
+          [
+            "WAV",
+            "wav"
+          ],
+          [
+            "MP3",
+            "mp3"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "STYLE",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6900",
+    "tooltip": "从WAV或MP3音色样本克隆音色、合成语音并通过普通I2S、ES8311或K10板载喇叭播放。",
+    "helpUrl": "",
+    "icon": "fa-brands fa-xing"
+  },
+  {
     "type": "mimo_tts_stream_play",
     "message0": "小米AI流式语音合成并播放 I2S对象 %1 文本 %2 音色 %3",
     "args0": [
@@ -1259,14 +1508,6 @@
           [
             "MiMo默认",
             "mimo_default"
-          ],
-          [
-            "中文女声",
-            "default_zh"
-          ],
-          [
-            "英文女声",
-            "default_en"
           ],
           [
             "冰糖 (V2.5)",
@@ -1336,14 +1577,6 @@
           [
             "MiMo默认",
             "mimo_default"
-          ],
-          [
-            "中文女声",
-            "default_zh"
-          ],
-          [
-            "英文女声",
-            "default_en"
           ],
           [
             "冰糖 (V2.5)",

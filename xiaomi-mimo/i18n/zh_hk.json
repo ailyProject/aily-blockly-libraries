@@ -11,14 +11,159 @@
     "语音合成": "語音合成",
     "I2S播放": "I2S播放",
     "流式回调": "串流回調",
-    "状态管理": "狀態管理"
+    "状态管理": "狀態管理",
+    "语音识别": "語音識別"
   },
   "mimo_config": {
     "message0": "配置小米MiMo API Key %1 Base URL %2",
     "tooltip": "配置小米MiMo AI API的訪問密鑰和基礎URL"
   },
+  "mimo_k10_audio_init": {
+    "message0": "K10內置麥克風+喇叭初始化 物件 %1 %2 採樣率 %3",
+    "tooltip": "初始化UNIHIKER K10板載麥克風和喇叭；錄音、語音對話和播放均使用同一物件。"
+  },
+  "mimo_i2s_speaker_init": {
+    "message0": "I2S喇叭初始化 对象 %1 %2 BCLK %3 LRCLK %4 DIN %5 采样率 %6",
+    "tooltip": "初始化MAX98357A等I2S喇叭输出对象，并自动声明I2SClass对象"
+  },
+  "mimo_i2s_mic_init": {
+    "message0": "I2S麦克风初始化 对象 %1 %2 BCLK %3 LRCLK/WS %4 SD/DOUT %5 采样率 %6",
+    "tooltip": "初始化INMP441等标准I2S麦克风输入对象，并自动声明I2SClass对象"
+  },
+  "mimo_pdm_mic_init": {
+    "message0": "PDM麦克风初始化 对象 %1 %2 CLK %3 DATA %4 采样率 %5",
+    "tooltip": "初始化PDM麦克风输入对象，适用于XIAO ESP32S3 Sense板载麦克风等。XIAO ESP32S3 Sense默认CLK为42、DATA为41"
+  },
+  "mimo_es8311_mic_init": {
+    "message0": "ES8311麦克风初始化 对象 %1 %2 SDA %3 SCL %4 地址 %5 BCLK %6 LRCLK %7 SDOUT %8 MCLK %9 采样率 %10 增益寄存器 %11",
+    "tooltip": "初始化ES8311音频编解码器的麦克风输入，先通过I2C配置ADC/麦克风路径，再初始化I2S录音对象。默认地址0x18(十进制24)，默认增益寄存器0x24(十进制36)"
+  },
+  "mimo_es8311_audio_init": {
+    "message0": "ES8311麦克风+喇叭初始化 对象 %1 %2 SDA %3 SCL %4 地址 %5 BCLK/SCLK %6 LR %7 DI/DAC输入 %8 DO/ADC输出 %9 MCK %10 采样率 %11 增益寄存器 %12 PA_EN %13",
+    "tooltip": "初始化ES8311音频编解码器的麦克风和喇叭通道，适合Microphone + Audio Amplifier板。图中默认: SCLK39, LR2, DI38, DO40, MCK46, SDA41, SCL42。ES8311供电3V3，NS4150B功放供电5V。PA_EN默认-1表示不控制；如果板子有功放使能脚，填入GPIO后会拉高"
+  },
+  "mimo_i2s_prompt_tone": {
+    "message0": "播放提示音 对象 %1 %2 频率Hz %3 时长ms %4",
+    "tooltip": "通过当前I2S/ES8311喇叭对象播放一段短提示音，用于开始录音、结束录音或检查喇叭输出"
+  },
+  "mimo_i2s_record_text": {
+    "message0": "小米MiMo录音转文字 麦克风对象 %1 %2 录音 %3 秒 %4 模型 %5 %6 转写提示(可选) %7",
+    "tooltip": "使用I2S麦克风录音并调用小米MiMo音频理解，只返回识别/理解后的文字。录音格式为16kHz 16bit单声道",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "mimo_i2s_asr": {
+    "message0": "小米MiMo語音識別 麥克風物件 %1 %2 錄音 %3 秒 %4 語言 %5",
+    "tooltip": "使用I2S麥克風錄音並呼叫mimo-v2.5-asr轉換為文字。",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "自動識別",
+            "auto"
+          ],
+          [
+            "中文",
+            "zh"
+          ],
+          [
+            "English",
+            "en"
+          ]
+        ]
+      }
+    ]
+  },
+  "mimo_voice_chat": {
+    "message0": "小米MiMo语音对话 麦克风对象 %1 喇叭对象 %2 %3 录音 %4 秒 %5 理解模型 %6 音色 %7 TTS模型 %8 提示音 %9 %10 提问(可选) %11",
+    "tooltip": "先用I2S麦克风录音并让小米MiMo理解，再把回答通过TTS合成并用I2S喇叭播放。提示音会在录音开始和结束各滴一声",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "MiMo預設",
+            "mimo_default"
+          ],
+          [
+            "冰糖 (V2.5)",
+            "冰糖"
+          ],
+          [
+            "茉莉 (V2.5)",
+            "茉莉"
+          ],
+          [
+            "蘇打 (V2.5)",
+            "苏打"
+          ],
+          [
+            "白樺 (V2.5)",
+            "白桦"
+          ],
+          [
+            "Mia (V2.5)",
+            "Mia"
+          ],
+          [
+            "Chloe (V2.5)",
+            "Chloe"
+          ],
+          [
+            "Milo (V2.5)",
+            "Milo"
+          ],
+          [
+            "Dean (V2.5)",
+            "Dean"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "MiMo-V2.5-TTS",
+            "mimo-v2.5-tts"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
   "mimo_chat": {
-    "message0": "小米AI對話 用戶消息 %1 模型 %2",
+    "message0": "小米AI對話 用戶消息 %1 模型 %2 深度思考 %3",
     "tooltip": "發送消息到小米MiMo AI並獲取回覆",
     "args0": [
       null,
@@ -29,15 +174,27 @@
             "mimo-v2.5"
           ],
           [
-            "mimo-v2-omni",
-            "mimo-v2-omni"
+            "mimo-v2.5-pro",
+            "mimo-v2.5-pro"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "關閉",
+            "disabled"
+          ],
+          [
+            "開啟",
+            "enabled"
           ]
         ]
       }
     ]
   },
   "mimo_chat_with_history": {
-    "message0": "小米AI多輪對話 用戶消息 %1 模型 %2",
+    "message0": "小米AI多輪對話 用戶消息 %1 模型 %2 深度思考 %3",
     "tooltip": "支持多輪對話的小米MiMo AI",
     "args0": [
       null,
@@ -48,8 +205,20 @@
             "mimo-v2.5"
           ],
           [
-            "mimo-v2-omni",
-            "mimo-v2-omni"
+            "mimo-v2.5-pro",
+            "mimo-v2.5-pro"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "關閉",
+            "disabled"
+          ],
+          [
+            "開啟",
+            "enabled"
           ]
         ]
       }
@@ -64,27 +233,121 @@
     "tooltip": "設定AI助手的角色和行為規則"
   },
   "mimo_image_understand_url": {
-    "message0": "小米AI圖片理解(URL) 圖片URL %1 提示詞 %2",
-    "tooltip": "通過圖片URL進行圖片理解分析"
+    "message0": "小米AI圖片理解(URL) 圖片URL %1 提示詞 %2 模型 %3",
+    "tooltip": "通過圖片URL進行圖片理解分析",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
+      }
+    ]
   },
   "mimo_image_understand_base64": {
-    "message0": "小米AI圖片理解(Base64) Base64圖片 %1 提示詞 %2",
-    "tooltip": "通過Base64編碼圖片進行圖片理解分析"
+    "message0": "小米AI圖片理解(Base64) Base64圖片 %1 提示詞 %2 模型 %3",
+    "tooltip": "通過Base64編碼圖片進行圖片理解分析",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
+      }
+    ]
   },
   "mimo_image_understand_capture": {
-    "message0": "小米AI圖片理解(拍照) 提示詞 %1",
-    "tooltip": "直接從攝像頭拍照並流式上傳到小米AI進行圖片理解"
+    "message0": "小米AI圖片理解(拍照) 提示詞 %1 模型 %2",
+    "tooltip": "直接從攝像頭拍照並流式上傳到小米AI進行圖片理解",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
+      }
+    ]
   },
   "mimo_audio_understand": {
-    "message0": "小米AI音頻理解 音頻URL %1 提示詞 %2",
-    "tooltip": "通過音頻URL進行音頻理解分析"
+    "message0": "小米AI音頻理解 音頻URL %1 提示詞 %2 模型 %3",
+    "tooltip": "通過音頻URL進行音頻理解分析",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
+      }
+    ]
   },
   "mimo_audio_understand_base64": {
-    "message0": "小米AI音頻理解(Base64) Base64音頻 %1 提示詞 %2",
-    "tooltip": "通過Base64編碼音頻進行音頻理解分析"
+    "message0": "小米AI音頻理解(Base64) Base64音頻 %1 提示詞 %2 模型 %3",
+    "tooltip": "通過Base64編碼音頻進行音頻理解分析",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
+      }
+    ]
+  },
+  "mimo_asr_base64": {
+    "message0": "小米MiMo語音識別 Base64音訊 %1 格式 %2 語言 %3",
+    "tooltip": "識別WAV或MP3的Base64音訊並返回文字。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "WAV",
+            "wav"
+          ],
+          [
+            "MP3",
+            "mp3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "自動識別",
+            "auto"
+          ],
+          [
+            "中文",
+            "zh"
+          ],
+          [
+            "English",
+            "en"
+          ]
+        ]
+      }
+    ]
   },
   "mimo_video_understand": {
-    "message0": "小米AI視頻理解 視頻URL %1 提示詞 %2 幀率 %3",
+    "message0": "小米AI視頻理解 視頻URL %1 提示詞 %2 幀率 %3 模型 %4",
     "tooltip": "通過視頻URL進行視頻理解分析，可控制抽幀率",
     "args0": [
       null,
@@ -108,11 +371,19 @@
             "10"
           ]
         ]
+      },
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
       }
     ]
   },
   "mimo_video_understand_base64": {
-    "message0": "小米AI視頻理解(Base64) Base64視頻 %1 提示詞 %2 幀率 %3",
+    "message0": "小米AI視頻理解(Base64) Base64視頻 %1 提示詞 %2 幀率 %3 模型 %4",
     "tooltip": "通過Base64編碼視頻進行視頻理解分析，可控制抽幀率",
     "args0": [
       null,
@@ -136,6 +407,14 @@
             "10"
           ]
         ]
+      },
+      {
+        "options": [
+          [
+            "mimo-v2.5",
+            "mimo-v2.5"
+          ]
+        ]
       }
     ]
   },
@@ -147,47 +426,39 @@
       {
         "options": [
           [
-            "MiMo默認 (V2)",
+            "MiMo預設",
             "mimo_default"
           ],
           [
-            "中文女聲 (V2)",
-            "default_zh"
-          ],
-          [
-            "英文女聲 (V2)",
-            "default_en"
-          ],
-          [
-            "冰糖 (V2.5 中文女聲)",
+            "冰糖 (V2.5)",
             "冰糖"
           ],
           [
-            "茉莉 (V2.5 中文女聲)",
+            "茉莉 (V2.5)",
             "茉莉"
           ],
           [
-            "蘇打 (V2.5 中文男聲)",
+            "蘇打 (V2.5)",
             "苏打"
           ],
           [
-            "白樺 (V2.5 中文男聲)",
+            "白樺 (V2.5)",
             "白桦"
           ],
           [
-            "Mia (V2.5 英文女聲)",
+            "Mia (V2.5)",
             "Mia"
           ],
           [
-            "Chloe (V2.5 英文女聲)",
+            "Chloe (V2.5)",
             "Chloe"
           ],
           [
-            "Milo (V2.5 英文男聲)",
+            "Milo (V2.5)",
             "Milo"
           ],
           [
-            "Dean (V2.5 英文男聲)",
+            "Dean (V2.5)",
             "Dean"
           ]
         ]
@@ -197,86 +468,91 @@
           [
             "MiMo-V2.5-TTS",
             "mimo-v2.5-tts"
-          ],
-          [
-            "MiMo-V2-TTS",
-            "mimo-v2-tts"
           ]
         ]
       }
     ]
   },
   "mimo_tts_with_style": {
-    "message0": "小米AI語音合成(帶風格) 待合成文本 %1 音色 %2 模型 %3 風格指令 %4",
+    "message0": "小米AI語音合成(帶風格) 待合成文字 %1 音色 %2 風格指令 %3 模型 %4",
     "tooltip": "使用預置音色和風格指令進行語音合成，返回Base64編碼的WAV音頻數據",
     "args0": [
       null,
       {
         "options": [
           [
-            "MiMo默認 (V2)",
+            "MiMo預設",
             "mimo_default"
           ],
           [
-            "中文女聲 (V2)",
-            "default_zh"
-          ],
-          [
-            "英文女聲 (V2)",
-            "default_en"
-          ],
-          [
-            "冰糖 (V2.5 中文女聲)",
+            "冰糖 (V2.5)",
             "冰糖"
           ],
           [
-            "茉莉 (V2.5 中文女聲)",
+            "茉莉 (V2.5)",
             "茉莉"
           ],
           [
-            "蘇打 (V2.5 中文男聲)",
+            "蘇打 (V2.5)",
             "苏打"
           ],
           [
-            "白樺 (V2.5 中文男聲)",
+            "白樺 (V2.5)",
             "白桦"
           ],
           [
-            "Mia (V2.5 英文女聲)",
+            "Mia (V2.5)",
             "Mia"
           ],
           [
-            "Chloe (V2.5 英文女聲)",
+            "Chloe (V2.5)",
             "Chloe"
           ],
           [
-            "Milo (V2.5 英文男聲)",
+            "Milo (V2.5)",
             "Milo"
           ],
           [
-            "Dean (V2.5 英文男聲)",
+            "Dean (V2.5)",
             "Dean"
           ]
         ]
       },
+      null,
       {
         "options": [
           [
             "MiMo-V2.5-TTS",
             "mimo-v2.5-tts"
-          ],
-          [
-            "MiMo-V2-TTS",
-            "mimo-v2-tts"
           ]
         ]
-      },
-      null
+      }
     ]
   },
   "mimo_tts_voice_design": {
     "message0": "小米AI音色設計合成 音色描述 %1 待合成文本 %2",
     "tooltip": "通過文本描述定製音色並進行語音合成，返回Base64編碼的WAV音頻數據"
+  },
+  "mimo_tts_voice_clone": {
+    "message0": "小米AI音色克隆合成 音色樣本Base64 %1 格式 %2 風格指令(可選) %3 待合成文字 %4",
+    "tooltip": "從音訊樣本克隆音色並合成Base64 WAV音訊。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "WAV",
+            "wav"
+          ],
+          [
+            "MP3",
+            "mp3"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
   },
   "mimo_play_tts": {
     "message0": "播放TTS音頻 I2S對象 %1 Base64音頻 %2",
@@ -291,47 +567,39 @@
       {
         "options": [
           [
-            "MiMo默認 (V2)",
+            "MiMo預設",
             "mimo_default"
           ],
           [
-            "中文女聲 (V2)",
-            "default_zh"
-          ],
-          [
-            "英文女聲 (V2)",
-            "default_en"
-          ],
-          [
-            "冰糖 (V2.5 中文女聲)",
+            "冰糖 (V2.5)",
             "冰糖"
           ],
           [
-            "茉莉 (V2.5 中文女聲)",
+            "茉莉 (V2.5)",
             "茉莉"
           ],
           [
-            "蘇打 (V2.5 中文男聲)",
+            "蘇打 (V2.5)",
             "苏打"
           ],
           [
-            "白樺 (V2.5 中文男聲)",
+            "白樺 (V2.5)",
             "白桦"
           ],
           [
-            "Mia (V2.5 英文女聲)",
+            "Mia (V2.5)",
             "Mia"
           ],
           [
-            "Chloe (V2.5 英文女聲)",
+            "Chloe (V2.5)",
             "Chloe"
           ],
           [
-            "Milo (V2.5 英文男聲)",
+            "Milo (V2.5)",
             "Milo"
           ],
           [
-            "Dean (V2.5 英文男聲)",
+            "Dean (V2.5)",
             "Dean"
           ]
         ]
@@ -341,17 +609,13 @@
           [
             "MiMo-V2.5-TTS",
             "mimo-v2.5-tts"
-          ],
-          [
-            "MiMo-V2-TTS",
-            "mimo-v2-tts"
           ]
         ]
       }
     ]
   },
   "mimo_tts_and_play_with_style": {
-    "message0": "小米AI語音合成並播放(帶風格) I2S對象 %1 文本 %2 音色 %3 模型 %4 風格指令 %5",
+    "message0": "小米AI語音合成並播放(帶風格) I2S物件 %1 文字 %2 音色 %3 風格指令 %4 模型 %5",
     "tooltip": "使用預置音色和風格指令合成語音並通過I2S直接播放",
     "args0": [
       null,
@@ -359,89 +623,79 @@
       {
         "options": [
           [
-            "MiMo默認 (V2)",
+            "MiMo預設",
             "mimo_default"
           ],
           [
-            "中文女聲 (V2)",
-            "default_zh"
-          ],
-          [
-            "英文女聲 (V2)",
-            "default_en"
-          ],
-          [
-            "冰糖 (V2.5 中文女聲)",
+            "冰糖 (V2.5)",
             "冰糖"
           ],
           [
-            "茉莉 (V2.5 中文女聲)",
+            "茉莉 (V2.5)",
             "茉莉"
           ],
           [
-            "蘇打 (V2.5 中文男聲)",
+            "蘇打 (V2.5)",
             "苏打"
           ],
           [
-            "白樺 (V2.5 中文男聲)",
+            "白樺 (V2.5)",
             "白桦"
           ],
           [
-            "Mia (V2.5 英文女聲)",
+            "Mia (V2.5)",
             "Mia"
           ],
           [
-            "Chloe (V2.5 英文女聲)",
+            "Chloe (V2.5)",
             "Chloe"
           ],
           [
-            "Milo (V2.5 英文男聲)",
+            "Milo (V2.5)",
             "Milo"
           ],
           [
-            "Dean (V2.5 英文男聲)",
+            "Dean (V2.5)",
             "Dean"
           ]
         ]
       },
+      null,
       {
         "options": [
           [
             "MiMo-V2.5-TTS",
             "mimo-v2.5-tts"
-          ],
-          [
-            "MiMo-V2-TTS",
-            "mimo-v2-tts"
           ]
         ]
-      },
-      null
+      }
     ]
   },
   "mimo_tts_and_play_voice_design": {
     "message0": "小米AI音色設計合成並播放 I2S對象 %1 音色描述 %2 文本 %3",
     "tooltip": "通過文本描述定製音色並合成語音，通過I2S直接播放"
   },
-  "mimo_get_response_status": {
-    "message0": "獲取小米AI響應狀態",
-    "tooltip": "檢查最後一次API調用是否成功"
-  },
-  "mimo_get_error_message": {
-    "message0": "獲取小米AI錯誤信息",
-    "tooltip": "獲取最後一次API調用的錯誤信息"
-  },
-  "mimo_set_stream_callback": {
-    "message0": "設定小米AI流式回調 %1 %2",
-    "tooltip": "設定流式回調函數，每收到一個文本片段時執行"
-  },
-  "mimo_get_stream_chunk": {
-    "message0": "獲取小米AI流式片段",
-    "tooltip": "在流式回調中獲取當前收到的文本片段"
-  },
-  "mimo_clear_stream_callback": {
-    "message0": "清除小米AI流式回調",
-    "tooltip": "清除已設定的流式回調函數"
+  "mimo_tts_and_play_voice_clone": {
+    "message0": "小米AI音色克隆合成並播放 I2S物件 %1 音色樣本Base64 %2 格式 %3 風格指令(可選) %4 文字 %5",
+    "tooltip": "從音訊樣本克隆音色、合成語音並透過I2S播放。",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "WAV",
+            "wav"
+          ],
+          [
+            "MP3",
+            "mp3"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
   },
   "mimo_tts_stream_play": {
     "message0": "小米AI流式語音合成並播放 I2S對象 %1 文本 %2 音色 %3",
@@ -452,16 +706,8 @@
       {
         "options": [
           [
-            "MiMo默認 (V2)",
+            "MiMo預設",
             "mimo_default"
-          ],
-          [
-            "中文女聲 (V2)",
-            "default_zh"
-          ],
-          [
-            "英文女聲 (V2)",
-            "default_en"
           ],
           [
             "冰糖 (V2.5)",
@@ -508,16 +754,8 @@
       {
         "options": [
           [
-            "MiMo默認 (V2)",
+            "MiMo預設",
             "mimo_default"
-          ],
-          [
-            "中文女聲 (V2)",
-            "default_zh"
-          ],
-          [
-            "英文女聲 (V2)",
-            "default_en"
           ],
           [
             "冰糖 (V2.5)",
@@ -556,36 +794,24 @@
       null
     ]
   },
-  "mimo_i2s_speaker_init": {
-    "message0": "I2S喇叭初始化 对象 %1 %2 BCLK %3 LRCLK %4 DIN %5 采样率 %6",
-    "tooltip": "初始化MAX98357A等I2S喇叭输出对象，并自动声明I2SClass对象"
+  "mimo_get_response_status": {
+    "message0": "獲取小米AI響應狀態",
+    "tooltip": "檢查最後一次API調用是否成功"
   },
-  "mimo_i2s_mic_init": {
-    "message0": "I2S麦克风初始化 对象 %1 %2 BCLK %3 LRCLK/WS %4 SD/DOUT %5 采样率 %6",
-    "tooltip": "初始化INMP441等标准I2S麦克风输入对象，并自动声明I2SClass对象"
+  "mimo_get_error_message": {
+    "message0": "獲取小米AI錯誤信息",
+    "tooltip": "獲取最後一次API調用的錯誤信息"
   },
-  "mimo_pdm_mic_init": {
-    "message0": "PDM麦克风初始化 对象 %1 %2 CLK %3 DATA %4 采样率 %5",
-    "tooltip": "初始化PDM麦克风输入对象，适用于XIAO ESP32S3 Sense板载麦克风等。XIAO ESP32S3 Sense默认CLK为42、DATA为41"
+  "mimo_set_stream_callback": {
+    "message0": "設定小米AI流式回調 %1 %2",
+    "tooltip": "設定流式回調函數，每收到一個文本片段時執行"
   },
-  "mimo_es8311_mic_init": {
-    "message0": "ES8311麦克风初始化 对象 %1 %2 SDA %3 SCL %4 地址 %5 BCLK %6 LRCLK %7 SDOUT %8 MCLK %9 采样率 %10 增益寄存器 %11",
-    "tooltip": "初始化ES8311音频编解码器的麦克风输入，先通过I2C配置ADC/麦克风路径，再初始化I2S录音对象。默认地址0x18(十进制24)，默认增益寄存器0x24(十进制36)"
+  "mimo_get_stream_chunk": {
+    "message0": "獲取小米AI流式片段",
+    "tooltip": "在流式回調中獲取當前收到的文本片段"
   },
-  "mimo_es8311_audio_init": {
-    "message0": "ES8311麦克风+喇叭初始化 对象 %1 %2 SDA %3 SCL %4 地址 %5 BCLK/SCLK %6 LR %7 DI/DAC输入 %8 DO/ADC输出 %9 MCK %10 采样率 %11 增益寄存器 %12 PA_EN %13",
-    "tooltip": "初始化ES8311音频编解码器的麦克风和喇叭通道，适合Microphone + Audio Amplifier板。图中默认: SCLK39, LR2, DI38, DO40, MCK46, SDA41, SCL42。ES8311供电3V3，NS4150B功放供电5V。PA_EN默认-1表示不控制；如果板子有功放使能脚，填入GPIO后会拉高"
-  },
-  "mimo_i2s_prompt_tone": {
-    "message0": "播放提示音 对象 %1 %2 频率Hz %3 时长ms %4",
-    "tooltip": "通过当前I2S/ES8311喇叭对象播放一段短提示音，用于开始录音、结束录音或检查喇叭输出"
-  },
-  "mimo_i2s_record_text": {
-    "message0": "小米MiMo录音转文字 麦克风对象 %1 %2 录音 %3 秒 %4 模型 %5 %6 转写提示(可选) %7",
-    "tooltip": "使用I2S麦克风录音并调用小米MiMo音频理解，只返回识别/理解后的文字。录音格式为16kHz 16bit单声道"
-  },
-  "mimo_voice_chat": {
-    "message0": "小米MiMo语音对话 麦克风对象 %1 喇叭对象 %2 %3 录音 %4 秒 %5 理解模型 %6 音色 %7 TTS模型 %8 提示音 %9 %10 提问(可选) %11",
-    "tooltip": "先用I2S麦克风录音并让小米MiMo理解，再把回答通过TTS合成并用I2S喇叭播放。提示音会在录音开始和结束各滴一声"
+  "mimo_clear_stream_callback": {
+    "message0": "清除小米AI流式回調",
+    "tooltip": "清除已設定的流式回調函數"
   }
 }
