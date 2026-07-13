@@ -161,6 +161,19 @@ Arduino.forBlock['k10_clear_canvas'] = function(block, generator) {
   }
 };
 
+// ========== 清除画布指定行 ==========
+Arduino.forBlock['k10_clear_canvas_row'] = function(block, generator) {
+  var line = generator.valueToCode(block, 'LINE', generator.ORDER_ATOMIC) || '1';
+  ensureScreenInit(generator, '2');
+  return 'k10.canvas->canvasClear(' + line + ');\n';
+};
+
+// ========== 清除二维码 ==========
+Arduino.forBlock['k10_clear_qrcode'] = function(block, generator) {
+  ensureScreenInit(generator, '2');
+  return 'k10.clearCode();\n';
+};
+
 // ========== 屏幕宽度 / 高度（常量）==========
 Arduino.forBlock['k10_screen_size'] = function(block, generator) {
   var which = block.getFieldValue('WHICH');
