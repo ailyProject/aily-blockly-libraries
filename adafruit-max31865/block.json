@@ -1,0 +1,251 @@
+[
+  {
+    "type": "max31865_init",
+    "message0": "初始化 MAX31865 %1 SPI模式 %2 CS引脚 %3 线制 %4 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "rtd"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SPI_MODE",
+        "options": [
+          [
+            "硬件SPI",
+            "HW"
+          ],
+          [
+            "软件SPI",
+            "SW"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CS_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRES",
+        "options": [
+          [
+            "2线",
+            "MAX31865_2WIRE"
+          ],
+          [
+            "3线",
+            "MAX31865_3WIRE"
+          ],
+          [
+            "4线",
+            "MAX31865_4WIRE"
+          ]
+        ]
+      },
+      {
+        "type": "input_dummy",
+        "name": "SW_PINS"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "初始化 MAX31865 RTD温度传感器，设置SPI接口和线制",
+    "extensions": [
+      "max31865_spi_mode_extension"
+    ]
+  },
+  {
+    "type": "max31865_read_temperature",
+    "message0": "%1 读取温度 RTD标称值 %2 参考电阻 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtd",
+        "variableTypes": [
+          "Adafruit_MAX31865"
+        ],
+        "defaultType": "Adafruit_MAX31865"
+      },
+      {
+        "type": "input_value",
+        "name": "RTD_NOMINAL",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "REF_RESISTOR",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "读取摄氏温度。PT100标称值为100，PT1000为1000；PT100参考电阻为430，PT1000为4300"
+  },
+  {
+    "type": "max31865_read_rtd",
+    "message0": "%1 读取原始RTD值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtd",
+        "variableTypes": [
+          "Adafruit_MAX31865"
+        ],
+        "defaultType": "Adafruit_MAX31865"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "读取16位原始RTD值（非温度值）"
+  },
+  {
+    "type": "max31865_read_fault",
+    "message0": "%1 读取故障状态",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtd",
+        "variableTypes": [
+          "Adafruit_MAX31865"
+        ],
+        "defaultType": "Adafruit_MAX31865"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "读取8位故障状态寄存器"
+  },
+  {
+    "type": "max31865_clear_fault",
+    "message0": "%1 清除故障",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtd",
+        "variableTypes": [
+          "Adafruit_MAX31865"
+        ],
+        "defaultType": "Adafruit_MAX31865"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "清除故障状态寄存器中的所有故障"
+  },
+  {
+    "type": "max31865_set_wires",
+    "message0": "%1 设置线制 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtd",
+        "variableTypes": [
+          "Adafruit_MAX31865"
+        ],
+        "defaultType": "Adafruit_MAX31865"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRES",
+        "options": [
+          [
+            "2线",
+            "MAX31865_2WIRE"
+          ],
+          [
+            "3线",
+            "MAX31865_3WIRE"
+          ],
+          [
+            "4线",
+            "MAX31865_4WIRE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "设置RTD线制（2线、3线或4线）"
+  },
+  {
+    "type": "max31865_auto_convert",
+    "message0": "%1 自动转换 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtd",
+        "variableTypes": [
+          "Adafruit_MAX31865"
+        ],
+        "defaultType": "Adafruit_MAX31865"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ENABLE",
+        "options": [
+          [
+            "启用",
+            "TRUE"
+          ],
+          [
+            "禁用",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "启用或禁用连续自动转换模式"
+  },
+  {
+    "type": "max31865_enable_50hz",
+    "message0": "%1 50Hz滤波 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtd",
+        "variableTypes": [
+          "Adafruit_MAX31865"
+        ],
+        "defaultType": "Adafruit_MAX31865"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ENABLE",
+        "options": [
+          [
+            "启用",
+            "TRUE"
+          ],
+          [
+            "禁用",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "启用50Hz噪声滤波（禁用时默认为60Hz）"
+  }
+]

@@ -1,0 +1,74 @@
+{
+  "kind": "category",
+  "name": "MAX31865 RTD温度传感器",
+  "icon": "iconfont icon-temperature",
+  "colour": "#FF6B35",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "max31865_init"
+    },
+    {
+      "kind": "label",
+      "text": "读取数据"
+    },
+    {
+      "kind": "block",
+      "type": "max31865_read_temperature",
+      "inputs": {
+        "RTD_NOMINAL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "100"
+            }
+          }
+        },
+        "REF_RESISTOR": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "430"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "max31865_read_rtd"
+    },
+    {
+      "kind": "label",
+      "text": "故障管理"
+    },
+    {
+      "kind": "block",
+      "type": "max31865_read_fault"
+    },
+    {
+      "kind": "block",
+      "type": "max31865_clear_fault"
+    },
+    {
+      "kind": "label",
+      "text": "配置"
+    },
+    {
+      "kind": "block",
+      "type": "max31865_set_wires"
+    },
+    {
+      "kind": "block",
+      "type": "max31865_auto_convert"
+    },
+    {
+      "kind": "block",
+      "type": "max31865_enable_50hz"
+    }
+  ]
+}
