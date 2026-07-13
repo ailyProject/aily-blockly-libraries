@@ -4,7 +4,7 @@ UNIHIKER K10 screen display library, supports drawing points, lines, circles, re
 
 ## Library Info
 - **Name**: @aily-project/lib-unihiker-k10-display
-- **Version**: 0.1.0
+- **Version**: 0.3.1
 
 ## Block Definitions
 
@@ -24,6 +24,8 @@ UNIHIKER K10 screen display library, supports drawing points, lines, circles, re
 | `k10_draw_qrcode` | Statement | CONTENT(input_value) | `k10_draw_qrcode(text("value"))` | k10.canvasDrawCode( |
 | `k10_update_canvas` | Statement | (none) | `k10_update_canvas()` | k10.canvas->updateCanvas();\n |
 | `k10_clear_canvas` | Statement | MODE(dropdown) | `k10_clear_canvas("0")` | k10.canvas->canvasClear();\n |
+| `k10_clear_canvas_row` | Statement | LINE(input_value) | `k10_clear_canvas_row(math_number(1))` | `k10.canvas->canvasClear(1);` |
+| `k10_clear_qrcode` | Statement | (none) | `k10_clear_qrcode()` | `k10.clearCode();` |
 | `k10_screen_size` | Value | WHICH(dropdown) | `k10_screen_size(W)` | Dynamic code |
 
 ## Parameter Options
@@ -32,7 +34,7 @@ UNIHIKER K10 screen display library, supports drawing points, lines, circles, re
 |-----------|--------|-------------|
 | DIR | 2, 0, 1, 3 | k10_init_screen |
 | FONT | eCNAndENFont16, eCNAndENFont24 | k10_draw_text |
-| MODE | 0, 1 | k10_clear_canvas |
+| MODE | 0, 1 | Clear all rows or clear row 1; saved value `1` remains compatible |
 | WHICH | W, H | k10_screen_size |
 
 ## ABS Examples
@@ -52,3 +54,6 @@ arduino_loop()
 
 1. **Parameter order**: ABS parameters follow `block.json` args order.
 2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+3. Both text blocks accept `String` and `Number` values because the K10 SDK provides overloads for both types.
+4. `k10_clear_canvas_row` accepts rows 1 through 7. Refresh the canvas after clearing when the updated display is not immediately visible.
+5. `k10_clear_qrcode` removes the QR-code object created by `k10_draw_qrcode`; clearing the canvas alone does not replace this action.

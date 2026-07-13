@@ -7,7 +7,7 @@ UNIHIKER K10 screen display library, supports drawing points, lines, circles, re
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-unihiker-k10-display |
-| Version | 0.1.0 |
+| Version | 0.3.1 |
 | Author | DFRobot |
 | Source | N/A |
 | License | Original license |
@@ -18,7 +18,7 @@ UNIHIKER:esp32:k10
 
 ## Description
 
-UNIHIKER K10 screen display library, supports drawing points, lines, circles, rectangles, text, images and QR codes
+UNIHIKER K10 screen display library. Text blocks accept strings and numbers, and canvas controls can clear all content, one row, or the QR code layer.
 
 ## Quick Start
 
