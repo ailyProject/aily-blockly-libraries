@@ -676,7 +676,16 @@ function seeedGfxFormatRgb565Frame(bytes) {
   return lines.join(',\n');
 }
 
-function seeedGfxGetAnimationSignature(width, height, fps, encodedFrames) {
+function seeedGfxFormatRgb332Frame(bytes) {
+  const values = Array.from(bytes, value => `0x${value.toString(16).padStart(2, '0').toUpperCase()}`);
+  const lines = [];
+  for (let index = 0; index < values.length; index += 16) {
+    lines.push(`  ${values.slice(index, index + 16).join(', ')}`);
+  }
+  return lines.join(',\n');
+}
+
+function seeedGfxGetAnimationSignature(format, encoding, width, height, fps, encodedFrames) {
   let hash1 = 0x811C9DC5;
   let hash2 = 0x9E3779B9;
   const updateHash = (value) => {
@@ -688,7 +697,7 @@ function seeedGfxGetAnimationSignature(width, height, fps, encodedFrames) {
     }
   };
 
-  updateHash(`${width}:${height}:${fps}:${encodedFrames.length}|`);
+  updateHash(`${format}:${encoding}:${width}:${height}:${fps}:${encodedFrames.length}|`);
   for (const encodedFrame of encodedFrames) {
     updateHash(encodedFrame);
     updateHash('|');
@@ -712,7 +721,11 @@ function seeedGfxGetAnimationData(block) {
     console.error('[seeed_gfx_animation] Animation data is missing');
     return null;
   }
-  if (animationData.version !== 1 || animationData.format !== 'rgb565' || animationData.encoding !== 'rgb565-be-base64') {
+  const format = animationData.format;
+  const encoding = animationData.encoding;
+  const isRgb565 = format === 'rgb565' && encoding === 'rgb565-be-base64';
+  const isRgb332 = format === 'rgb332' && encoding === 'rgb332-base64';
+  if (animationData.version !== 1 || (!isRgb565 && !isRgb332)) {
     console.error('[seeed_gfx_animation] Unsupported animation version, format, or encoding');
     return null;
   }
@@ -742,7 +755,7 @@ function seeedGfxGetAnimationData(block) {
     return null;
   }
 
-  const expectedByteLength = width * height * 2;
+  const expectedByteLength = width * height * (isRgb332 ? 1 : 2);
   if (!Number.isSafeInteger(expectedByteLength)) {
     console.error('[seeed_gfx_animation] Animation dimensions are too large');
     return null;
@@ -754,14 +767,15 @@ function seeedGfxGetAnimationData(block) {
     if (binary === null) {
       return null;
     }
-    frames.push(seeedGfxFormatRgb565Frame(binary));
+    frames.push(isRgb332 ? seeedGfxFormatRgb332Frame(binary) : seeedGfxFormatRgb565Frame(binary));
   }
 
   return {
     width,
     height,
     fps,
-    signature: seeedGfxGetAnimationSignature(width, height, fps, animationData.frames),
+    format,
+    signature: seeedGfxGetAnimationSignature(format, encoding, width, height, fps, animationData.frames),
     frames
   };
 }
@@ -832,8 +846,10 @@ Arduino.forBlock['seeed_gfx_animation'] = function(block, generator) {
     return ['', generator.ORDER_ATOMIC];
   }
 
-  const { width, height, fps, signature, frames } = animationData;
+  const { width, height, fps, format, signature, frames } = animationData;
   const symbolPrefix = `seeed_gfx_animation_${signature}`;
+  const frameType = format === 'rgb332' ? 'uint8_t' : 'uint16_t';
+  const formatLabel = format.toUpperCase();
   const frameNames = [];
   const frameDeclarations = [];
   const frameNameByData = new Map();
@@ -848,15 +864,15 @@ Arduino.forBlock['seeed_gfx_animation'] = function(block, generator) {
     const frameName = `${symbolPrefix}_frame_${index}`;
     frameNameByData.set(frames[index], frameName);
     frameNames.push(frameName);
-    frameDeclarations.push(`static const uint16_t ${frameName}[] PROGMEM = {
+    frameDeclarations.push(`static const ${frameType} ${frameName}[] PROGMEM = {
 ${frames[index]}
 };`);
   }
 
   const frameDelay = Math.max(1, Math.round(1000 / fps));
-  const animationDeclaration = `// Seeed GFX animation (${width}x${height}, ${frameNames.length} frames, ${frameDeclarations.length} unique, ${fps} FPS, RGB565)
+  const animationDeclaration = `// Seeed GFX animation (${width}x${height}, ${frameNames.length} frames, ${frameDeclarations.length} unique, ${fps} FPS, ${formatLabel})
 ${frameDeclarations.join('\n\n')}
-static const uint16_t* const ${symbolPrefix}_frames[] = {
+static const ${frameType}* const ${symbolPrefix}_frames[] = {
   ${frameNames.join(',\n  ')}
 };
 static const uint16_t ${symbolPrefix}_width = ${width};
@@ -875,12 +891,29 @@ function seeedGfxAddAnimationRenderHelper(generator) {
   seeedGfxDisplay.setSwapBytes(true);
   seeedGfxDisplay.pushImage(seeedGfxX, seeedGfxY, seeedGfxWidth, seeedGfxHeight, seeedGfxFrame);
   seeedGfxDisplay.setSwapBytes(seeedGfxPreviousSwapBytes);
+}
+
+void seeedGfxDrawAnimationFrame(TFT_eSPI &seeedGfxDisplay, int32_t seeedGfxX, int32_t seeedGfxY, uint16_t seeedGfxWidth, uint16_t seeedGfxHeight, const uint8_t *seeedGfxFrame) {
+  seeedGfxDisplay.pushImage(seeedGfxX, seeedGfxY, seeedGfxWidth, seeedGfxHeight, seeedGfxFrame, true);
 }`);
 }
 
 function seeedGfxAddAnimationFrameByIndexHelper(generator) {
   seeedGfxAddAnimationRenderHelper(generator);
   generator.addFunction('seeed_gfx_draw_animation_frame_by_index', `void seeedGfxDrawAnimationFrameByIndex(TFT_eSPI &seeedGfxDisplay, int32_t seeedGfxX, int32_t seeedGfxY, uint16_t seeedGfxWidth, uint16_t seeedGfxHeight, const uint16_t * const seeedGfxFrames[], uint16_t seeedGfxFrameCount, int32_t seeedGfxFrameIndex) {
+  if (seeedGfxFrameCount == 0) {
+    return;
+  }
+  if (seeedGfxFrameIndex < 0) {
+    seeedGfxFrameIndex = 0;
+  }
+  if (seeedGfxFrameIndex >= (int32_t)seeedGfxFrameCount) {
+    seeedGfxFrameIndex = seeedGfxFrameCount - 1;
+  }
+  seeedGfxDrawAnimationFrame(seeedGfxDisplay, seeedGfxX, seeedGfxY, seeedGfxWidth, seeedGfxHeight, seeedGfxFrames[seeedGfxFrameIndex]);
+}
+
+void seeedGfxDrawAnimationFrameByIndex(TFT_eSPI &seeedGfxDisplay, int32_t seeedGfxX, int32_t seeedGfxY, uint16_t seeedGfxWidth, uint16_t seeedGfxHeight, const uint8_t * const seeedGfxFrames[], uint16_t seeedGfxFrameCount, int32_t seeedGfxFrameIndex) {
   if (seeedGfxFrameCount == 0) {
     return;
   }

@@ -1,7 +1,7 @@
 # Seeed GFX
 
 Seeed 显示库封装层，支持 Seeed XIAO Round Display、Wio Terminal、reTerminal E 系列等设备。当前 TFT 路径底层实际仍然生成 `TFT_eSPI` 对象，因此与 LVGL 联动时驱动类型仍然是 `TFT_eSPI`。
-**IMPORTANT**: Seeed GFX 适合一次性静态绘图和短小的预转换 RGB565 帧动画。需要用户交互、持续数据驱动更新、多组件动画或复杂布局时，务必直接使用 LVGL，以避免性能问题和代码复杂度。
+**IMPORTANT**: Seeed GFX 适合一次性静态绘图和短小的预转换 RGB565/RGB332 帧动画。需要用户交互、持续数据驱动更新、多组件动画或复杂布局时，务必直接使用 LVGL，以避免性能问题和代码复杂度。
 
 ## Library Info
 - **Name**: @aily-project/lib-seeed-gfx
@@ -13,7 +13,7 @@ You MUST switch to LVGL immediately if the requirement involves:
 - Any user interaction (Touch, Buttons, Sliders, Page switching).
 - Frequent application-driven updates (Progress bars, Game loops, Multiple independently moving elements).
 - Complex layouts (Multiple controls, Nesting, Alignment).
-The Seeed GFX animation blocks are an explicit exception for short, self-contained GIF/MP4 clips converted to RGB565 frames. Interactive or composited animation still belongs in LVGL.
+The Seeed GFX animation blocks are an explicit exception for short, self-contained GIF/MP4 clips converted to RGB565 or RGB332 frames. Interactive or composited animation still belongs in LVGL.
 
 ## Block Definitions
 
@@ -42,7 +42,7 @@ The Seeed GFX animation blocks are an explicit exception for short, self-contain
 | `seeed_gfx_set_cursor` | Statement | VAR(field_variable), X(input_value), Y(input_value) | `seeed_gfx_set_cursor($tft, math_number(0), math_number(0))` | `tft.setCursor(...);` |
 | `seeed_gfx_print` | Statement | VAR(field_variable), TEXT(input_value) | `seeed_gfx_print($tft, text("hello"))` | `tft.print(...);` |
 | `seeed_gfx_draw_string` | Statement | VAR(field_variable), TEXT(input_value), X(input_value), Y(input_value), FONT(dropdown) | `seeed_gfx_draw_string($tft, text("hello"), math_number(10), math_number(10), 2)` | `tft.drawString(...);` |
-| `seeed_gfx_animation` | Value | CUSTOM_ANIMATION(field_tftespi_animation) | `seeed_gfx_animation()` | RGB565 `PROGMEM` frame arrays |
+| `seeed_gfx_animation` | Value | CUSTOM_ANIMATION(field_tftespi_animation) | `seeed_gfx_animation()` | RGB565 or RGB332 `PROGMEM` frame arrays |
 | `seeed_gfx_play_animation` | Statement | VAR(field_variable), X(input_value), Y(input_value), ANIMATION(input_value), PLAY_MODE(dropdown), LOOP(field_checkbox) | `seeed_gfx_play_animation($tft, math_number(0), math_number(0), seeed_gfx_animation(), NON_BLOCKING, TRUE)` | Timed `pushImage()` playback |
 | `seeed_gfx_draw_animation_frame` | Statement | VAR(field_variable), X(input_value), Y(input_value), ANIMATION(input_value), FRAME(input_value) | `seeed_gfx_draw_animation_frame($tft, math_number(0), math_number(0), seeed_gfx_animation(), variables_get(frame))` | Clamped selected-frame drawing |
 | `seeed_gfx_animation_frame_count` | Value | ANIMATION(input_value) | `seeed_gfx_animation_frame_count(seeed_gfx_animation())` | Generated frame-count constant |
@@ -213,10 +213,10 @@ arduino_loop()
 6. **Rotation changes logical axes**: 当 LVGL 使用 `ROTATION_90/270` 时，业务层应按旋转后的逻辑坐标写边界和位置
 7. **Fix the right layer**: 若画面和输入方向已经正确，则优先修对象坐标范围，而不是重写 LVGL 初始化组合
 8. **Parameter order**: 所有 ABS 参数顺序严格遵循 `block.json` 的 `args0` 顺序
-9. **Animation conversion**: GIF 和 MP4 在 Blockly 编辑器中转换为 RGB565 Base64；固件生成 `PROGMEM` 帧数组并通过 `pushImage()` 绘制
-10. **Resource budget**: 动画字段默认 160×120、10 FPS、10 帧，序列化 RGB565 数据上限为 2 MiB；若程序过大，请降低宽高、FPS 或帧数
+9. **Animation conversion**: GIF 和 MP4 在 Blockly 编辑器中可选择转换为 RGB565 或 RGB332 Base64；固件生成对应的 `uint16_t` 或 `uint8_t` `PROGMEM` 帧数组，并自动使用匹配的 `pushImage()` 重载绘制
+10. **Resource budget**: 动画字段默认 160×120、10 FPS、10 帧，序列化动画数据上限为 8 MiB；同分辨率下 RGB332 的帧容量约为 RGB565 的两倍。若程序过大，请降低宽高、FPS 或帧数
 11. **Deduplication**: 相同动画数据和同一动画内的相同帧会复用生成的 `PROGMEM` 数组
 12. **MP4 codec and audio**: MP4 解码依赖 Electron/Chromium WebCodecs 支持，音轨会被忽略
 13. **Long video**: 动画块只适合短片段；长视频应使用 SD/MJPEG 等流式方案
 14. **One-shot playback**: `NON_BLOCKING + LOOP=FALSE` 启动后只播放一次；需要重播、跳转或逻辑控制时使用指定帧与帧步进积木
-15. **Display throughput**: FPS 是目标值；当 RGB565 传输耗时超过帧间隔时，实际播放会变慢
+15. **Display throughput**: FPS 是目标值；当颜色转换和屏幕传输耗时超过帧间隔时，实际播放会变慢

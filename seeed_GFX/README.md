@@ -27,4 +27,4 @@ Seeed graphics display library supports the drawing functions of various TFT and
 
 ## GIF and MP4 Animation
 
-Upload GIF/MP4 to generate RGB565 `PROGMEM` frames for `pushImage()`. TFT supports blocking, non-blocking, looping, and selected-frame playback. Keep clips short; audio is ignored.
+Upload GIF/MP4 and choose RGB565 for higher colour fidelity or RGB332 for roughly twice the frame capacity. The generated `PROGMEM` frames use the matching `pushImage()` overload automatically. TFT supports blocking, non-blocking, looping, and selected-frame playback. Keep clips short; audio is ignored.
