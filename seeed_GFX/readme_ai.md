@@ -1,11 +1,11 @@
 # Seeed GFX
 
 Seeed 显示库封装层，支持 Seeed XIAO Round Display、Wio Terminal、reTerminal E 系列等设备。当前 TFT 路径底层实际仍然生成 `TFT_eSPI` 对象，因此与 LVGL 联动时驱动类型仍然是 `TFT_eSPI`。
-**IMPORTANT**: Seeed GFX 适合一次性静态绘图和短小的预转换 RGB565/RGB332 帧动画。需要用户交互、持续数据驱动更新、多组件动画或复杂布局时，务必直接使用 LVGL，以避免性能问题和代码复杂度。
+**IMPORTANT**: Seeed GFX 适合一次性静态绘图、短小的预转换 RGB565/RGB332 帧动画，以及从 SD 卡顺序读取的 AILY 取模视频。需要用户交互、持续数据驱动更新、多组件动画或复杂布局时，务必直接使用 LVGL，以避免性能问题和代码复杂度。
 
 ## Library Info
 - **Name**: @aily-project/lib-seeed-gfx
-- **Version**: 1.0.0
+- **Version**: 1.0.5
 
 ## SCREEN UI SELECTION RULE: 
 > Use pure GFX only for static drawing or the dedicated short-animation blocks.
@@ -13,7 +13,7 @@ You MUST switch to LVGL immediately if the requirement involves:
 - Any user interaction (Touch, Buttons, Sliders, Page switching).
 - Frequent application-driven updates (Progress bars, Game loops, Multiple independently moving elements).
 - Complex layouts (Multiple controls, Nesting, Alignment).
-The Seeed GFX animation blocks are an explicit exception for short, self-contained GIF/MP4 clips converted to RGB565 or RGB332 frames. Interactive or composited animation still belongs in LVGL.
+The Seeed GFX animation blocks are an explicit exception for short, self-contained GIF/MP4 clips converted to RGB565 or RGB332 frames. `seeed_gfx_play_sd_video` is the long-video path for AILY files stored on SD. Interactive or composited animation still belongs in LVGL.
 
 ## Block Definitions
 
@@ -44,6 +44,7 @@ The Seeed GFX animation blocks are an explicit exception for short, self-contain
 | `seeed_gfx_draw_string` | Statement | VAR(field_variable), TEXT(input_value), X(input_value), Y(input_value), FONT(dropdown) | `seeed_gfx_draw_string($tft, text("hello"), math_number(10), math_number(10), 2)` | `tft.drawString(...);` |
 | `seeed_gfx_animation` | Value | CUSTOM_ANIMATION(field_tftespi_animation) | `seeed_gfx_animation()` | RGB565 or RGB332 `PROGMEM` frame arrays |
 | `seeed_gfx_play_animation` | Statement | VAR(field_variable), X(input_value), Y(input_value), ANIMATION(input_value), PLAY_MODE(dropdown), LOOP(field_checkbox) | `seeed_gfx_play_animation($tft, math_number(0), math_number(0), seeed_gfx_animation(), NON_BLOCKING, TRUE)` | Timed `pushImage()` playback |
+| `seeed_gfx_play_sd_video` | Statement | VAR(field_variable), FILENAME(input_value String), BUFFER_KB(input_value Number) | `seeed_gfx_play_sd_video($tft, text("/video.rgb565v"), math_number(5))` | Validated AILY playback with a user-selected fixed payload buffer |
 | `seeed_gfx_draw_animation_frame` | Statement | VAR(field_variable), X(input_value), Y(input_value), ANIMATION(input_value), FRAME(input_value) | `seeed_gfx_draw_animation_frame($tft, math_number(0), math_number(0), seeed_gfx_animation(), variables_get(frame))` | Clamped selected-frame drawing |
 | `seeed_gfx_animation_frame_count` | Value | ANIMATION(input_value) | `seeed_gfx_animation_frame_count(seeed_gfx_animation())` | Generated frame-count constant |
 | `seeed_gfx_step_animation_frame` | Statement | FRAME_VAR(field_variable), TARGET(input_value), FRAME_COUNT(input_value), DIRECTION(dropdown) | `seeed_gfx_step_animation_frame(frame, math_number(10), seeed_gfx_animation_frame_count(seeed_gfx_animation()), AUTO)` | Variable-controlled frame stepping |
@@ -68,6 +69,7 @@ The Seeed GFX animation blocks are an explicit exception for short, self-contain
 | FONT | 1, 2, 4, 6, 7 | 绘制字符串时使用的字体编号 |
 | PLAY_MODE | BLOCKING, NON_BLOCKING | `seeed_gfx_play_animation` 的阻塞或非阻塞播放模式 |
 | LOOP | TRUE, FALSE | 非阻塞动画是否循环播放 |
+| BUFFER_KB | 正整数，默认 5 | SD 视频单次申请的有效载荷缓冲大小，单位 KiB；应按设备实际可用 RAM 手动设置 |
 | DIRECTION | AUTO, FORWARD, BACKWARD | 帧变量的自动、正向或反向步进方式 |
 | COLOR | TFT_WHITE, TFT_BLACK, TFT_RED, TFT_GREEN, TFT_BLUE, TFT_YELLOW, TFT_MAGENTA, TFT_CYAN, TFT_ORANGE, TFT_PINK, TFT_PURPLE, TFT_BROWN, TFT_DARKGREY, TFT_LIGHTGREY, TFT_GOLD, TFT_SILVER, TFT_SKYBLUE, TFT_VIOLET, TFT_OLIVE, TFT_NAVY, TFT_DARKGREEN, TFT_DARKCYAN, TFT_MAROON, TFT_GREENYELLOW | 常用颜色宏 |
 
@@ -159,7 +161,16 @@ arduino_loop()
     seeed_gfx_step_animation_frame(frame, math_number(10), seeed_gfx_animation_frame_count(seeed_gfx_animation()), AUTO)
 ```
 
-### Recipe 4: Seeed GFX + LVGL 触摸界面
+### Recipe 4: 从 SD 卡播放 AILY 取模视频
+```
+arduino_setup()
+    seeed_gfx_init("tft", 500, 40000000)
+    seeed_gfx_play_sd_video($tft, text("/video.rgb565v"), math_number(5))
+
+arduino_loop()
+```
+
+### Recipe 5: Seeed GFX + LVGL 触摸界面
 ```
 arduino_setup()
     seeed_gfx_init("tft", 501)
@@ -193,7 +204,7 @@ arduino_loop()
     time_delay(math_number(5))
 ```
 
-### Recipe 5: EPaper 基本使用
+### Recipe 6: EPaper 基本使用
 ```
 arduino_setup()
     seeed_gfx_epaper_begin("epaper", 502)
@@ -217,6 +228,11 @@ arduino_loop()
 10. **Resource budget**: 动画字段默认 160×120、10 FPS、10 帧，序列化动画数据上限为 8 MiB；同分辨率下 RGB332 的帧容量约为 RGB565 的两倍。若程序过大，请降低宽高、FPS 或帧数
 11. **Deduplication**: 相同动画数据和同一动画内的相同帧会复用生成的 `PROGMEM` 数组
 12. **MP4 codec and audio**: MP4 解码依赖 Electron/Chromium WebCodecs 支持，音轨会被忽略
-13. **Long video**: 动画块只适合短片段；长视频应使用 SD/MJPEG 等流式方案
+13. **Long video**: 动画字段只适合短片段；`.rgb565v`、`.rgb332v`、`.monov` 长视频应使用 `seeed_gfx_play_sd_video` 从 SD 卡顺序播放
 14. **One-shot playback**: `NON_BLOCKING + LOOP=FALSE` 启动后只播放一次；需要重播、跳转或逻辑控制时使用指定帧与帧步进积木
 15. **Display throughput**: FPS 是目标值；当颜色转换和屏幕传输耗时超过帧间隔时，实际播放会变慢
+16. **SD initialization**: Wio Terminal 条件编译为公开入口 `Seeed_Arduino_FS.h`（内部提供 `Seeed_FS.h` + `SD/Seeed_SD.h`）；文件打开失败时先探测 SD 根目录，仅在尚未挂载时使用 `SD.begin(SDCARD_SS_PIN, SDCARD_SPI, 4000000UL)` 自动初始化一次并重试，因此可不放单独的 SD 初始化积木，也不会因文件名错误反复占用驱动槽。ESP32 使用其核心 `FS.h` + `SD.h`，因 CS 引脚取决于开发板与接线，播放前仍需使用原生 `esp32_SD` 等积木初始化，不能混用 Seeed FS 初始化积木
+17. **Chunked playback**: `BUFFER_KB` 是用户指定的单块有效载荷缓冲上限，例如 `5` 表示申请 5 KiB；播放器按完整行组或行内像素段读取后立即绘制，再继续读取下一段，不要求一帧或完整视频能放入 RAM
+18. **AILY validation**: 播放前会验证 40 字节文件头、像素格式、帧大小、数据大小和文件长度；RGB565 按小端序读取，RGB332 直接绘制，MONO1_XBM 使用白色前景和黑色背景
+19. **Playback count**: `seeed_gfx_play_sd_video` 是阻塞、单次播放；文件头 `flags bit 0` 仅为循环建议，不会让该积木无限阻塞。需要循环时在 Blockly 流程中重复调用
+20. **Filesystem compatibility**: 播放器会把 Wio Terminal 文件名规范为无开头 `/`，把 ESP32 文件名规范为有开头 `/`；定位视频数据时检查 `position()`，不要依赖 Wio Terminal 文件系统中与标准布尔语义不一致的 `seek()` 返回值
