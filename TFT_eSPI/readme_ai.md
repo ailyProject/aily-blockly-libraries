@@ -32,6 +32,11 @@ TFT_eSPI - Arduino library, graphics and font library supporting multiple TFT di
 | `tftespi_set_text_color` | Statement | VAR(field_variable), COLOR(input_value) | `tftespi_set_text_color(variables_get($tft), math_number(0))` | Dynamic code |
 | `tftespi_set_text_size` | Statement | VAR(field_variable), SIZE(dropdown) | `tftespi_set_text_size(variables_get($tft), "1")` | Dynamic code |
 | `tftespi_set_text_font` | Statement | VAR(field_variable), FONT(dropdown) | `tftespi_set_text_font(variables_get($tft), "1")` | Dynamic code |
+| `tftespi_animation` | Value | CUSTOM_ANIMATION(field_tftespi_animation) | `tftespi_animation()` | RGB565 or RGB332 `PROGMEM` frame arrays |
+| `tftespi_play_animation` | Statement | VAR(field_variable), X(input_value), Y(input_value), ANIMATION(input_value), PLAY_MODE(dropdown), LOOP(field_checkbox) | `tftespi_play_animation(variables_get($tft), math_number(0), math_number(0), tftespi_animation(), NON_BLOCKING, TRUE)` | Dynamic code |
+| `tftespi_draw_animation_frame` | Statement | VAR(field_variable), X(input_value), Y(input_value), ANIMATION(input_value), FRAME(input_value) | `tftespi_draw_animation_frame(variables_get($tft), math_number(0), math_number(0), tftespi_animation(), variables_get(frame))` | Dynamic code |
+| `tftespi_animation_frame_count` | Value | ANIMATION(input_value) | `tftespi_animation_frame_count(tftespi_animation())` | Generated frame-count constant |
+| `tftespi_step_animation_frame` | Statement | FRAME_VAR(field_variable), TARGET(input_value), FRAME_COUNT(input_value), DIRECTION(dropdown) | `tftespi_step_animation_frame(frame, math_number(10), tftespi_animation_frame_count(tftespi_animation()), AUTO)` | Dynamic code |
 | `tftespi_color_rgb565` | Value | VAR(field_variable), COLOR(field_colour_hsv_sliders) | `tftespi_color_rgb565(variables_get($tft))` | Dynamic code |
 | `tftespi_color` | Value | COLOR(dropdown) | `tftespi_color(TFT_BLACK)` | Dynamic code |
 
@@ -47,6 +52,9 @@ TFT_eSPI - Arduino library, graphics and font library supporting multiple TFT di
 | INVERT | true, false | tftespi_invert_display |
 | SIZE | 1, 2, 3, 4, 5, 6, 7 | tftespi_set_text_size |
 | FONT | 1, 2, 4, 6, 7, 8 | tftespi_set_text_font |
+| PLAY_MODE | BLOCKING, NON_BLOCKING | tftespi_play_animation |
+| LOOP | TRUE, FALSE | tftespi_play_animation |
+| DIRECTION | AUTO, FORWARD, BACKWARD | tftespi_step_animation_frame |
 | COLOR | TFT_BLACK, TFT_WHITE, TFT_RED, TFT_GREEN, TFT_BLUE, TFT_YELLOW, TFT_CYAN, TFT_MAGENTA, TFT_ORANGE, TFT_LIGHTGREY, TFT_DARKGREY | tftespi_color |
 
 ## ABS Examples
@@ -62,8 +70,34 @@ arduino_loop()
     time_delay(math_number(1000))
 ```
 
+### Non-blocking GIF or MP4 Animation
+```
+arduino_setup()
+    tftespi_setup("tft", ILI9341_DRIVER, "40000000", math_number(240), math_number(320), math_number(-1), math_number(23), math_number(18), math_number(5), math_number(2), math_number(4), math_number(15), HIGH, TFT_RGB)
+
+arduino_loop()
+    tftespi_play_animation(variables_get($tft), math_number(0), math_number(0), tftespi_animation(), NON_BLOCKING, TRUE)
+```
+
+### Controlled Animation Frame
+```
+arduino_setup()
+    tftespi_setup("tft", ILI9341_DRIVER, "40000000", math_number(240), math_number(320), math_number(-1), math_number(23), math_number(18), math_number(5), math_number(2), math_number(4), math_number(15), HIGH, TFT_RGB)
+    variable_define(frame, int, math_number(0))
+
+arduino_loop()
+    tftespi_draw_animation_frame(variables_get($tft), math_number(0), math_number(0), tftespi_animation(), variables_get(frame))
+    tftespi_step_animation_frame(frame, math_number(10), tftespi_animation_frame_count(tftespi_animation()), AUTO)
+```
+
 ## Notes
 
 1. **Variable**: `tftespi_setup("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+4. **Animation conversion**: GIF and MP4 are decoded in the Blockly editor as selectable RGB565 or RGB332 Base64 frames; generated firmware uses matching `uint16_t` or `uint8_t` `PROGMEM` arrays and automatically calls the matching `pushImage()` overload.
+5. **Resource budget**: the editor defaults to 160x120 and 10 frames and caps the serialized animation payload at 8 MiB. RGB332 uses one byte per pixel and therefore fits roughly twice as many frames as RGB565 at the same dimensions. The selected board may have much less application flash, so reduce width, height, FPS, or total frames if compilation reports that the program is too large. Identical converted frames and identical animation data blocks share generated `PROGMEM` arrays.
+6. **MP4 codec and audio**: MP4 decoding depends on the Electron/Chromium WebCodecs codec support. Audio tracks are ignored.
+7. **Long video**: this block is for short self-contained animations. Long videos should use a separate SD/MJPEG streaming workflow rather than embedding raw frames.
+8. **One-shot playback**: non-blocking playback with `LOOP=FALSE` runs once after startup; use controlled-frame blocks when application logic must restart or seek an animation.
+9. **Display throughput**: requested FPS is a target. Large frames may play more slowly when conversion and display transfer time exceed the selected frame interval.
