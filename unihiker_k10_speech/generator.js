@@ -1,3 +1,4 @@
+(function registerK10SpeechGenerator() {
 if (typeof Blockly !== 'undefined' && Blockly.Extensions) {
   const legacyIntervalExtension = 'k10_asr_speak_legacy_interval';
   if (Blockly.Extensions.isRegistered && Blockly.Extensions.isRegistered(legacyIntervalExtension)) {
@@ -158,3 +159,4 @@ Arduino.forBlock['k10_asr_set_speed'] = function(block, generator) {
   ensureASRStarted(generator);
   return 'if (k10_asr_ready) { asr.setAsrSpeed(' + speed + '); }\n';
 };
+})();
