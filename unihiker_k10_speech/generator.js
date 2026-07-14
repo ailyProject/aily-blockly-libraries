@@ -8,10 +8,15 @@ if (typeof Blockly !== 'undefined' && Blockly.Extensions) {
     // Versions <= 0.3.0 saved INTERVAL as a value input. Keep an invisible
     // connection so those projects can be restored, while the visible block
     // uses the inline field_number added in 0.3.1.
-    if (!this.getInput('INTERVAL')) {
-      this.appendValueInput('INTERVAL').setCheck('Number');
+    let legacyIntervalInput = this.getInput('INTERVAL');
+    if (!legacyIntervalInput) {
+      legacyIntervalInput = this.appendValueInput('INTERVAL').setCheck('Number');
     }
-    this.getInput('INTERVAL').setVisible(false);
+    // Input#setVisible expects a RenderedConnection. Toolbox search and other
+    // serialization tasks create headless blocks with plain Connections.
+    if (this.rendered) {
+      legacyIntervalInput.setVisible(false);
+    }
   });
 }
 
