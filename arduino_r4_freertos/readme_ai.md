@@ -4,7 +4,7 @@ FreeRTOS multitasking support for Arduino UNO R4
 
 ## Library Info
 - **Name**: @aily-project/lib-arduino-freertos
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 
@@ -12,9 +12,9 @@ FreeRTOS multitasking support for Arduino UNO R4
 |------------|------------|--------------------------|------------|----------------|
 | `r4_freertos_task_create` | Statement | VAR(field_input), STACK_SIZE(field_number), PRIORITY(field_number) | `r4_freertos_task_create("TaskBlink", 128, 1)` | xTaskCreate(\n |
 | `r4_freertos_task_function` | Hat | VAR(field_variable), TASK_CODE(input_statement) | `r4_freertos_task_function(variables_get($TaskBlink)) @TASK_CODE: child_block()` | Dynamic code |
-| `r4_freertos_start_scheduler` | Statement | (none) | `r4_freertos_start_scheduler()` | Dynamic code |
+| `r4_freertos_start_scheduler` | Statement | (none) | `r4_freertos_start_scheduler()` | setup end: vTaskStartScheduler(); |
 | `r4_freertos_task_delay_ms` | Statement | MS(input_value) | `r4_freertos_task_delay_ms(math_number(1000))` | vTaskDelay(pdMS_TO_TICKS( |
-| `r4_freertos_task_delay_ticks` | Statement | TICKS(input_value) | `r4_freertos_task_delay_ticks(math_number(0))` | vTaskDelay( |
+| `r4_freertos_task_delay_ticks` | Statement | TICKS(input_value) | `r4_freertos_task_delay_ticks(math_number(1))` | vTaskDelay( |
 | `r4_freertos_task_suspend` | Statement | VAR(field_variable) | `r4_freertos_task_suspend(variables_get($TaskBlink))` | vTaskSuspend( |
 | `r4_freertos_task_resume` | Statement | VAR(field_variable) | `r4_freertos_task_resume(variables_get($TaskBlink))` | vTaskResume( |
 | `r4_freertos_task_delete` | Statement | VAR(field_variable) | `r4_freertos_task_delete(variables_get($TaskBlink))` | vTaskDelete( |
@@ -52,15 +52,16 @@ FreeRTOS multitasking support for Arduino UNO R4
 ```
 arduino_setup()
     r4_freertos_task_create("TaskBlink", 128, 1)
-    serial_begin(Serial, 9600)
 
-arduino_loop()
-    serial_println(Serial, r4_freertos_task_wait_notification(MS, math_number(1000)))
-    time_delay(math_number(1000))
+r4_freertos_task_function(variables_get($TaskBlink)) @TASK_CODE:
+    r4_freertos_task_delay_ms(math_arithmetic(math_number(750), ADD, math_number(250)))
 ```
 
 ## Notes
 
 1. **Variable**: `r4_freertos_task_create("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
-3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+3. **Number inputs**: `MS`, `TICKS`, and `WAIT_MS` accept `math_number(n)`, arithmetic, numeric variables, or any Number-output block; other inputs follow their block's declared check.
+4. **Scheduler**: task creation adds the setup-end action automatically. Use `r4_freertos_start_scheduler()` only for explicit control; both paths share one key, so `vTaskStartScheduler();` is deduplicated.
+5. **Execution**: put runtime logic in `r4_freertos_task_function`; the scheduler starts at the end of setup and does not continue into the normal Arduino loop.
+6. **Upgrade**: legacy projects using generic `freertos_*` block IDs have no automatic migration; recreate those blocks with the corresponding `r4_freertos_*` types.
