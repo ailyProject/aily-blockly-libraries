@@ -906,7 +906,19 @@ bool seeedGfxPlaySdVideo(TFT_eSPI &display, const String &fileName, int32_t buff
       return false;
     }
     autoInitAttempted = true;
-    if (!SD.begin(SDCARD_SS_PIN, SDCARD_SPI, 4000000UL)) {
+    // Discard any failed or incompatible mount (for example SPI instead of
+    // Wio Terminal's dedicated SDCARD_SPI) before selecting the video clock.
+    SD.end();
+    bool sdMounted = SD.begin(SDCARD_SS_PIN, SDCARD_SPI, 24000000UL);
+    if (!sdMounted) {
+      SD.end();
+      sdMounted = SD.begin(SDCARD_SS_PIN, SDCARD_SPI, 16000000UL);
+    }
+    if (!sdMounted) {
+      SD.end();
+      sdMounted = SD.begin(SDCARD_SS_PIN, SDCARD_SPI, 4000000UL);
+    }
+    if (!sdMounted) {
       SD.end();
       return false;
     }
@@ -1096,7 +1108,7 @@ bool seeedGfxPlaySdVideo(TFT_eSPI &display, const String &fileName, int32_t buff
 Arduino.forBlock['seeed_gfx_play_sd_video'] = function(block, generator) {
   const display = seeedGfxGetVariableCodeName(block, 'VAR', 'tft');
   const fileName = generator.valueToCode(block, 'FILENAME', generator.ORDER_ATOMIC) || '"/video.rgb565v"';
-  const bufferSizeKb = generator.valueToCode(block, 'BUFFER_KB', generator.ORDER_ATOMIC) || '5';
+  const bufferSizeKb = generator.valueToCode(block, 'BUFFER_KB', generator.ORDER_ATOMIC) || '15';
   seeedGfxAddSdVideoPlayer(generator);
   return `seeedGfxPlaySdVideo(${display}, String(${fileName}), (int32_t)(${bufferSizeKb}));\n`;
 };
