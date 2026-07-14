@@ -22,13 +22,13 @@ Arduino.forBlock['seeed_fs_sd_begin'] = function(block, generator) {
 
 Arduino.forBlock['seeed_fs_sd_begin_spi'] = function(block, generator) {
   const ss = generator.valueToCode(block, 'SS', generator.ORDER_ATOMIC) || '1';
-  const frequency = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC) || '4000000';
+  const frequency = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC) || '4';
 
   ensureSeeedFS(generator);
   ensureSerialBegin('Serial', generator);
 
   let code = '';
-  code += 'if (!SD.begin(' + ss + ', SPI, ' + frequency + ')) {\n';
+  code += 'if (!SD.begin(' + ss + ', SPI, (' + frequency + ') * 1000000UL)) {\n';
   code += '  Serial.println("Card Mount Failed");\n';
   code += '  return;\n';
   code += '}\n';
@@ -356,13 +356,13 @@ Arduino.forBlock['seeed_sfud_fs_begin_qspi'] = function(block, generator) {
 
 Arduino.forBlock['seeed_sfud_fs_begin_spi'] = function(block, generator) {
   const ss = generator.valueToCode(block, 'SS', generator.ORDER_ATOMIC) || '4';
-  const frequency = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC) || '4000000';
+  const frequency = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC) || '4';
 
   ensureSeeedSFUD(generator);
   ensureSerialBegin('Serial', generator);
 
   let code = '';
-  code += 'while (!SFUD.begin(' + ss + ', SPI, ' + frequency + ')) {\n';
+  code += 'while (!SFUD.begin(' + ss + ', SPI, (' + frequency + ') * 1000000UL)) {\n';
   code += '  Serial.println("Flash Mount Failed");\n';
   code += '  delay(500);\n';
   code += '}\n';
