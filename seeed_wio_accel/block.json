@@ -1,0 +1,188 @@
+[
+  {
+    "type": "wio_accel_init",
+    "message0": "初始化 Wio Terminal 加速度计 数据率 %1 量程 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DATARATE",
+        "options": [
+          ["1 Hz", "LIS3DHTR_DATARATE_1HZ"],
+          ["10 Hz", "LIS3DHTR_DATARATE_10HZ"],
+          ["25 Hz（推荐）", "LIS3DHTR_DATARATE_25HZ"],
+          ["50 Hz", "LIS3DHTR_DATARATE_50HZ"],
+          ["100 Hz", "LIS3DHTR_DATARATE_100HZ"],
+          ["200 Hz", "LIS3DHTR_DATARATE_200HZ"],
+          ["400 Hz", "LIS3DHTR_DATARATE_400HZ"],
+          ["1.6 kHz", "LIS3DHTR_DATARATE_1_6KH"],
+          ["5 kHz", "LIS3DHTR_DATARATE_5KHZ"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RANGE",
+        "options": [
+          ["±2 g（推荐）", "LIS3DHTR_RANGE_2G"],
+          ["±4 g", "LIS3DHTR_RANGE_4G"],
+          ["±8 g", "LIS3DHTR_RANGE_8G"],
+          ["±16 g", "LIS3DHTR_RANGE_16G"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "使用板载 Wire1 初始化 LIS3DHTR；Seeed 示例推荐 25 Hz 和 ±2 g",
+    "helpUrl": "https://wiki.seeedstudio.com/Wio-Terminal-IMU-Basic/",
+    "icon": "fa-light fa-gauge-high"
+  },
+  {
+    "type": "wio_accel_set_datarate",
+    "message0": "设置加速度计数据率 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DATARATE",
+        "options": [
+          ["断电", "LIS3DHTR_DATARATE_POWERDOWN"],
+          ["1 Hz", "LIS3DHTR_DATARATE_1HZ"],
+          ["10 Hz", "LIS3DHTR_DATARATE_10HZ"],
+          ["25 Hz", "LIS3DHTR_DATARATE_25HZ"],
+          ["50 Hz", "LIS3DHTR_DATARATE_50HZ"],
+          ["100 Hz", "LIS3DHTR_DATARATE_100HZ"],
+          ["200 Hz", "LIS3DHTR_DATARATE_200HZ"],
+          ["400 Hz", "LIS3DHTR_DATARATE_400HZ"],
+          ["1.6 kHz", "LIS3DHTR_DATARATE_1_6KH"],
+          ["5 kHz", "LIS3DHTR_DATARATE_5KHZ"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "设置 LIS3DHTR 输出数据率",
+    "helpUrl": "https://wiki.seeedstudio.com/Wio-Terminal-IMU-Basic/",
+    "icon": "fa-light fa-wave-square"
+  },
+  {
+    "type": "wio_accel_set_range",
+    "message0": "设置加速度计量程 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "RANGE",
+        "options": [
+          ["±2 g", "LIS3DHTR_RANGE_2G"],
+          ["±4 g", "LIS3DHTR_RANGE_4G"],
+          ["±8 g", "LIS3DHTR_RANGE_8G"],
+          ["±16 g", "LIS3DHTR_RANGE_16G"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "设置 LIS3DHTR 满量程范围",
+    "helpUrl": "https://wiki.seeedstudio.com/Wio-Terminal-IMU-Basic/",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "wio_accel_read_axis",
+    "message0": "读取 %1 轴加速度 (g)",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          ["X", "X"],
+          ["Y", "Y"],
+          ["Z", "Z"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#00C7B1",
+    "tooltip": "读取所选轴的加速度，单位为 g",
+    "helpUrl": "https://wiki.seeedstudio.com/Wio-Terminal-IMU-Basic/",
+    "icon": "fa-light fa-arrows-up-down-left-right"
+  },
+  {
+    "type": "wio_accel_read_xyz",
+    "message0": "读取三轴加速度到 X %1 Y %2 Z %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "X_VAR",
+        "variable": "accelX"
+      },
+      {
+        "type": "field_variable",
+        "name": "Y_VAR",
+        "variable": "accelY"
+      },
+      {
+        "type": "field_variable",
+        "name": "Z_VAR",
+        "variable": "accelZ"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "一次读取 X、Y、Z 三轴加速度并保存到变量，单位为 g",
+    "helpUrl": "https://wiki.seeedstudio.com/Wio-Terminal-IMU-Basic/",
+    "icon": "fa-light fa-arrows-up-down-left-right"
+  },
+  {
+    "type": "wio_accel_data_ready",
+    "message0": "加速度计有新数据",
+    "output": "Boolean",
+    "colour": "#00C7B1",
+    "tooltip": "检查 LIS3DHTR 是否有新的加速度数据可读",
+    "helpUrl": "https://wiki.seeedstudio.com/Wio-Terminal-IMU-Basic/",
+    "icon": "fa-light fa-signal-stream"
+  },
+  {
+    "type": "wio_accel_is_connected",
+    "message0": "加速度计连接正常",
+    "output": "Boolean",
+    "colour": "#00C7B1",
+    "tooltip": "检查 Wio Terminal 板载 LIS3DHTR 是否可通信",
+    "helpUrl": "https://wiki.seeedstudio.com/Wio-Terminal-IMU-Basic/",
+    "icon": "fa-light fa-link"
+  },
+  {
+    "type": "wio_accel_on_tap",
+    "message0": "当检测到 %1 阈值 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CLICK_TYPE",
+        "options": [
+          ["单击", "1"],
+          ["双击", "2"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "THRESHOLD",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#FF9800",
+    "tooltip": "使用 GYROSCOPE_INT1 检测敲击。建议阈值：±2g 为 40~80，±4g 为 20~40，±8g 为 10~20，±16g 为 5~10",
+    "helpUrl": "https://wiki.seeedstudio.com/Wio-Terminal-IMU-Tapping/",
+    "icon": "fa-light fa-hand-pointer"
+  }
+]
