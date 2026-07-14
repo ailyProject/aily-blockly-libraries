@@ -1,0 +1,236 @@
+{
+  "toolbox_name": "Wio Terminal Echtzeituhr",
+  "toolbox_labels": {
+    "基础": "Grundlagen",
+    "DateTime": "Datum und Uhrzeit",
+    "闹钟": "Alarme"
+  },
+  "seeed_wio_rtc_init": {
+    "message0": "Wio Terminal RTC %1 initialisieren",
+    "tooltip": "Erstellt und initialisiert das integrierte SAMD51-RTC-Objekt des Wio Terminal"
+  },
+  "seeed_wio_rtc_datetime": {
+    "message0": "Datum/Uhrzeit Jahr %1 Monat %2 Tag %3 Stunde %4 Minute %5 Sekunde %6",
+    "tooltip": "Erstellt ein DateTime-Objekt; die Wio Terminal RTC unterstützt 2000 bis 2063"
+  },
+  "seeed_wio_rtc_build_time": {
+    "message0": "Kompilierzeit als DateTime",
+    "tooltip": "Erstellt mit __DATE__ und __TIME__ die Kompilierzeit"
+  },
+  "seeed_wio_rtc_set_time": {
+    "message0": "%1 RTC-Zeit auf %2 setzen",
+    "tooltip": "Setzt mit adjust() die aktuelle RTC-Zeit"
+  },
+  "seeed_wio_rtc_now": {
+    "message0": "%1 aktuelle Zeit",
+    "tooltip": "Liest das aktuelle DateTime der RTC"
+  },
+  "seeed_wio_rtc_datetime_get": {
+    "message0": "aus Datum/Uhrzeit %1 %2 lesen",
+    "tooltip": "Liest das ausgewählte Feld aus einem DateTime-Objekt",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Jahr",
+            "YEAR"
+          ],
+          [
+            "Monat",
+            "MONTH"
+          ],
+          [
+            "Tag",
+            "DAY"
+          ],
+          [
+            "Stunde",
+            "HOUR"
+          ],
+          [
+            "Minute",
+            "MINUTE"
+          ],
+          [
+            "Sekunde",
+            "SECOND"
+          ],
+          [
+            "Wochentag (0-6)",
+            "DAY_OF_WEEK"
+          ],
+          [
+            "Stunde im 12-Stunden-Format",
+            "TWELVE_HOUR"
+          ],
+          [
+            "ist nachmittags",
+            "IS_PM"
+          ],
+          [
+            "Unix-Zeitstempel",
+            "UNIXTIME"
+          ],
+          [
+            "Sekunden seit 2000",
+            "SECONDSTIME"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_wio_rtc_timestamp": {
+    "message0": "Datum/Uhrzeit %1 als %2 Zeichenfolge",
+    "tooltip": "Wandelt DateTime in eine Zeitstempel-Zeichenfolge um",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Datum und Uhrzeit",
+            "FULL"
+          ],
+          [
+            "nur Uhrzeit",
+            "TIME"
+          ],
+          [
+            "nur Datum",
+            "DATE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_wio_rtc_is_valid": {
+    "message0": "Datum/Uhrzeit %1 ist gültig",
+    "tooltip": "Prüft, ob DateTime gültig ist"
+  },
+  "seeed_wio_rtc_set_alarm": {
+    "message0": "%1 Zeit von Alarm %2 auf %3 setzen",
+    "tooltip": "Setzt die Auslösezeit des ausgewählten Wio Terminal RTC-Alarms",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Alarm 0",
+            "0"
+          ],
+          [
+            "Alarm 1",
+            "1"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "seeed_wio_rtc_get_alarm": {
+    "message0": "%1 Zeit von Alarm %2 lesen",
+    "tooltip": "Liest DateTime des ausgewählten Wio Terminal RTC-Alarms",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Alarm 0",
+            "0"
+          ],
+          [
+            "Alarm 1",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_wio_rtc_enable_alarm": {
+    "message0": "%1 Alarm %2 mit %3 aktivieren",
+    "tooltip": "Aktiviert den ausgewählten RTC-Alarm mit einer Vergleichsregel",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Alarm 0",
+            "0"
+          ],
+          [
+            "Alarm 1",
+            "1"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "aus",
+            "MATCH_OFF"
+          ],
+          [
+            "jede Minute (Sekunde)",
+            "MATCH_SS"
+          ],
+          [
+            "jede Stunde (Minute und Sekunde)",
+            "MATCH_MMSS"
+          ],
+          [
+            "jeden Tag (Uhrzeit)",
+            "MATCH_HHMMSS"
+          ],
+          [
+            "jeden Monat (Tag und Uhrzeit)",
+            "MATCH_DHHMMSS"
+          ],
+          [
+            "jedes Jahr (Monat, Tag und Uhrzeit)",
+            "MATCH_MMDDHHMMSS"
+          ],
+          [
+            "bestimmtes Datum und Uhrzeit",
+            "MATCH_YYMMDDHHMMSS"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_wio_rtc_disable_alarm": {
+    "message0": "%1 Alarm %2 deaktivieren",
+    "tooltip": "Deaktiviert den ausgewählten Wio Terminal RTC-Alarm",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Alarm 0",
+            "0"
+          ],
+          [
+            "Alarm 1",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_wio_rtc_on_alarm": {
+    "message0": "wenn %1 RTC-Alarm auslöst",
+    "tooltip": "Registriert einen RTC-Alarm-Interrupt-Callback; das Auslöseflag unterscheidet Alarm 0 und 1",
+    "message1": "ausführen %1"
+  },
+  "seeed_wio_rtc_alarm_flag": {
+    "message0": "RTC-Alarm-Auslöseflag",
+    "tooltip": "Gibt das Auslöseflag zurück; bit0 und bit1 stehen für Alarm 0 und Alarm 1"
+  },
+  "seeed_wio_rtc_detach_alarm": {
+    "message0": "%1 Alarm-Callback entfernen",
+    "tooltip": "Entfernt den RTC-Alarm-Interrupt-Callback"
+  },
+  "seeed_wio_rtc_standby": {
+    "message0": "%1 in Standby wechseln",
+    "tooltip": "Wechselt mit standbyMode() in den stromsparenden Standby-Modus"
+  }
+}
