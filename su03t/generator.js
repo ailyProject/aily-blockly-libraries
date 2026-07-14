@@ -1,6 +1,15 @@
 'use strict';
 
 // SU-03T语音识别模块代码生成器
+function su03tUsesEsp32HardwareSerial() {
+  const boardConfig = typeof window !== 'undefined' ? window['boardConfig'] : null;
+  const core = boardConfig && boardConfig.core ? boardConfig.core : '';
+  return core.indexOf('esp32') > -1;
+}
+
+function su03tSerialObject(mode) {
+  return su03tUsesEsp32HardwareSerial() || mode === 'software' ? 'su03tSerial' : 'Serial2';
+}
 
 // 初始化语音识别模块
 Arduino.forBlock['su03t_init'] = function(block, generator) {
@@ -9,7 +18,15 @@ Arduino.forBlock['su03t_init'] = function(block, generator) {
   const txPin = generator.valueToCode(block, 'TX_PIN', generator.ORDER_ATOMIC) || '3';
 
   // 添加必要的库和变量定义
-  if (mode === 'software') {
+  const useEsp32HardwareSerial = su03tUsesEsp32HardwareSerial();
+  const serialObject = su03tSerialObject(mode);
+  if (useEsp32HardwareSerial) {
+    generator.addLibrary('HardwareSerial', '#include <HardwareSerial.h>');
+    generator.addVariable('su03t_serial', 'HardwareSerial su03tSerial(1);');
+    generator.addVariable('su03t_result', 'volatile int su03tResult = 0;');
+    generator.addSetup('su03t_serial_begin', 'su03tSerial.begin(9600, SERIAL_8N1, ' + rxPin + ', ' + txPin + ');');
+    generator.addSetup('su03t_result_init', 'su03tResult = 0;');
+  } else if (mode === 'software') {
     generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
     generator.addVariable('su03t_serial', 'SoftwareSerial su03tSerial(' + rxPin + ',' + txPin + ');');
     generator.addVariable('su03t_result', 'volatile int su03tResult = 0;');
@@ -93,7 +110,7 @@ typedef union {
 // SU-03T串口发送函数实现
 void su03t_uart_send_impl(unsigned char* buff, int len) {
   for(int i = 0; i < len; i++) {
-    ${mode === 'software' ? 'su03tSerial' : 'Serial2'}.write(buff[i]);
+    ${serialObject}.write(buff[i]);
   }
 }
 
@@ -138,10 +155,11 @@ void su03t_float_to_double(su03t_uart_param_t* param) {
 // 刷新语音识别结果
 Arduino.forBlock['su03t_refresh'] = function(block, generator) {
   const mode = block.getFieldValue('MODE');
+  const serialObject = su03tSerialObject(mode);
   
   const code = `
-if (${mode === 'software' ? 'su03tSerial' : 'Serial2'}.available() > 0) {
-  su03tResult = ${mode === 'software' ? 'su03tSerial' : 'Serial2'}.read();
+if (${serialObject}.available() > 0) {
+  su03tResult = ${serialObject}.read();
   Serial.println(su03tResult, HEX);
 }
 `;

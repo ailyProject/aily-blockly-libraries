@@ -292,6 +292,12 @@ Arduino.forBlock['esp32_wifi_set_auto_reconnect'] = function(block, generator) {
   return code;
 };
 
+// 立即尝试重新连接到已保存的WiFi网络
+Arduino.forBlock['esp32_wifi_reconnect'] = function(block, generator) {
+  ensureWiFiLib(generator);
+  return 'WiFi.reconnect();\n';
+};
+
 // 等待连接结果块
 Arduino.forBlock['esp32_wifi_wait_for_connect_result'] = function(block, generator) {
   const timeout = generator.valueToCode(block, 'TIMEOUT', generator.ORDER_ATOMIC) || '60000';

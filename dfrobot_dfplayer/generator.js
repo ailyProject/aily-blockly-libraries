@@ -1,5 +1,10 @@
 
 // DFRobotDFPlayerMini库的generator函数
+function dfplayerUsesHardwareSerial() {
+  const boardConfig = typeof window !== 'undefined' ? window['boardConfig'] : null;
+  const core = boardConfig && boardConfig.core ? boardConfig.core : '';
+  return core.indexOf('esp32') > -1;
+}
 
 // 初始化DFPlayer模块
 Arduino.forBlock['dfplayer_begin'] = function(block, generator) {
@@ -33,11 +38,17 @@ Arduino.forBlock['dfplayer_begin'] = function(block, generator) {
   // 注册Blockly变量，类型为DFPlayer
   
   generator.addLibrary('dfplayer', '#include <DFRobotDFPlayerMini.h>');
-  generator.addLibrary('softwareserial', '#include <SoftwareSerial.h>');
   generator.addVariable('dfplayer_' + varName, 'DFRobotDFPlayerMini ' + varName + ';');
-  generator.addVariable('dfplayer_serial_' + varName, 'SoftwareSerial ' + varName + 'Serial(' + serial_pin_rx + ', ' + serial_pin_tx + ');');
-  
-  var code = varName + 'Serial.begin(9600);\n';
+  let code;
+  if (dfplayerUsesHardwareSerial()) {
+    generator.addLibrary('hardwareserial', '#include <HardwareSerial.h>');
+    generator.addVariable('dfplayer_serial_' + varName, 'HardwareSerial ' + varName + 'Serial(1);');
+    code = varName + 'Serial.begin(9600, SERIAL_8N1, ' + serial_pin_rx + ', ' + serial_pin_tx + ');\n';
+  } else {
+    generator.addLibrary('softwareserial', '#include <SoftwareSerial.h>');
+    generator.addVariable('dfplayer_serial_' + varName, 'SoftwareSerial ' + varName + 'Serial(' + serial_pin_rx + ', ' + serial_pin_tx + ');');
+    code = varName + 'Serial.begin(9600);\n';
+  }
   code += 'if (!' + varName + '.begin(' + varName + 'Serial)) {\n';
   code += '  Serial.println(F("Unable to begin:"));\n';
   code += '  Serial.println(F("1.Please recheck the connection!"));\n';
@@ -358,11 +369,17 @@ Arduino.forBlock['dfplayer_simple_play'] = function(block, generator) {
   var file_number = generator.valueToCode(block, 'FILE', Arduino.ORDER_ATOMIC);
   
   generator.addLibrary('dfplayer', '#include <DFRobotDFPlayerMini.h>');
-  generator.addLibrary('softwareserial', '#include <SoftwareSerial.h>');
   generator.addVariable('dfplayer_simple', 'DFRobotDFPlayerMini myDFPlayer;');
-  generator.addVariable('dfplayer_simple_serial', 'SoftwareSerial myDFPlayerSerial(' + rx_pin + ', ' + tx_pin + ');');
-  
-  var setup_code = 'myDFPlayerSerial.begin(9600);\n';
+  let setup_code;
+  if (dfplayerUsesHardwareSerial()) {
+    generator.addLibrary('hardwareserial', '#include <HardwareSerial.h>');
+    generator.addVariable('dfplayer_simple_serial', 'HardwareSerial myDFPlayerSerial(1);');
+    setup_code = 'myDFPlayerSerial.begin(9600, SERIAL_8N1, ' + rx_pin + ', ' + tx_pin + ');\n';
+  } else {
+    generator.addLibrary('softwareserial', '#include <SoftwareSerial.h>');
+    generator.addVariable('dfplayer_simple_serial', 'SoftwareSerial myDFPlayerSerial(' + rx_pin + ', ' + tx_pin + ');');
+    setup_code = 'myDFPlayerSerial.begin(9600);\n';
+  }
   setup_code += 'if (!myDFPlayer.begin(myDFPlayerSerial)) {\n';
   setup_code += '  Serial.println(F("Unable to begin DFPlayer"));\n';
   setup_code += '}\n';

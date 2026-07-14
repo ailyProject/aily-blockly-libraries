@@ -66,6 +66,26 @@ Arduino.forBlock['a2dp_sink_start'] = function(block, generator) {
   return varName + '.start(' + name + ');\n';
 };
 
+// 配置蓝牙音频接收器使用的外部I2S DAC引脚
+Arduino.forBlock['a2dp_sink_config_i2s_pins'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'a2dp_sink';
+  const bck = generator.valueToCode(block, 'BCK', generator.ORDER_ATOMIC) || '26';
+  const ws = generator.valueToCode(block, 'WS', generator.ORDER_ATOMIC) || '25';
+  const data = generator.valueToCode(block, 'DATA', generator.ORDER_ATOMIC) || '22';
+  const i2sVarName = varName + '_i2s';
+  const configVarName = i2sVarName + '_config';
+
+  generator.addLibrary('AudioTools', '#include "AudioTools.h"');
+  return `{
+  auto ${configVarName} = ${i2sVarName}.defaultConfig(TX_MODE);
+  ${configVarName}.pin_bck = ${bck};
+  ${configVarName}.pin_ws = ${ws};
+  ${configVarName}.pin_data = ${data};
+  ${i2sVarName}.begin(${configVarName});
+}\n`;
+};
+
 // 设置音量
 Arduino.forBlock['a2dp_sink_set_volume'] = function(block, generator) {
   const varField = block.getField('VAR');

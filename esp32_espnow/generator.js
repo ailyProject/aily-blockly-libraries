@@ -1368,6 +1368,8 @@ Arduino.forBlock['esp_now_quick_broadcast'] = function(block, generator) {
 'class ESP_NOW_Quick_Broadcast : public ESP_NOW_Peer {\n' +
 'public:\n' +
 '  ESP_NOW_Quick_Broadcast() : ESP_NOW_Peer(ESP_NOW.BROADCAST_ADDR, 0, WIFI_IF_STA, nullptr) {}\n' +
+'  bool begin() { return add(); }\n' +
+'  size_t sendMessage(const uint8_t *data, size_t len) { return send(data, len); }\n' +
 '};\n' +
 '\n' +
 'bool esp_now_quick_broadcast_init = false;\n' +
@@ -1383,13 +1385,13 @@ Arduino.forBlock['esp_now_quick_broadcast'] = function(block, generator) {
 '      return;\n' +
 '    }\n' +
 '    esp_now_quick_broadcast_peer = new ESP_NOW_Quick_Broadcast();\n' +
-'    if (!esp_now_quick_broadcast_peer->add()) {\n' +
+'    if (!esp_now_quick_broadcast_peer->begin()) {\n' +
 '      Serial.println("Failed to add broadcast peer");\n' +
 '      return;\n' +
 '    }\n' +
 '    esp_now_quick_broadcast_init = true;\n' +
 '  }\n' +
-'  esp_now_quick_broadcast_peer->send((const uint8_t *)msg.c_str(), msg.length());\n' +
+'  esp_now_quick_broadcast_peer->sendMessage((const uint8_t *)msg.c_str(), msg.length());\n' +
 '}\n';
   
   generator.addFunction('espNowQuickBroadcast', funcDef);
@@ -1414,6 +1416,8 @@ Arduino.forBlock['esp_now_quick_send'] = function(block, generator) {
 'class ESP_NOW_Quick_Peer : public ESP_NOW_Peer {\n' +
 'public:\n' +
 '  ESP_NOW_Quick_Peer(const uint8_t *mac_addr) : ESP_NOW_Peer(mac_addr, 0, WIFI_IF_STA, nullptr) {}\n' +
+'  bool begin() { return add(); }\n' +
+'  size_t sendMessage(const uint8_t *data, size_t len) { return send(data, len); }\n' +
 '};\n' +
 '\n' +
 'bool esp_now_quick_send_init = false;\n' +
@@ -1436,8 +1440,8 @@ Arduino.forBlock['esp_now_quick_send'] = function(block, generator) {
 '  }\n' +
 '  \n' +
 '  ESP_NOW_Quick_Peer* peer = new ESP_NOW_Quick_Peer(mac);\n' +
-'  if (peer->add()) {\n' +
-'    peer->send((const uint8_t *)msg.c_str(), msg.length());\n' +
+'  if (peer->begin()) {\n' +
+'    peer->sendMessage((const uint8_t *)msg.c_str(), msg.length());\n' +
 '  }\n' +
 '  delete peer;\n' +
 '}\n';
