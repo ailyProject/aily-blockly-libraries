@@ -1,0 +1,252 @@
+{
+  "kind": "category",
+  "name": "SD卡存储",
+  "icon": "fa-light fa-sd-card",
+  "colour": "#FF9800",
+  "contents": [
+        {
+          "kind": "label",
+          "text": "Wio Terminal 板载 SD 初始化"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_sd_begin",
+          "inputs": {
+            "FREQUENCY": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "25"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "label",
+          "text": "卡信息"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_sd_card_info"
+        },
+        {
+          "kind": "label",
+          "text": "快速文件操作"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_write_quick",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/hello.txt"
+                }
+              }
+            },
+            "CONTENT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Hello World"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_read_quick",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/hello.txt"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_append_file",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/log.txt"
+                }
+              }
+            },
+            "CONTENT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "New data"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_delete_file",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/temp.txt"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_rename_file",
+          "inputs": {
+            "OLD_PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/old.txt"
+                }
+              }
+            },
+            "NEW_PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/new.txt"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "label",
+          "text": "文件操作"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_open_file",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/test.txt"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_close_file"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_write_file",
+          "inputs": {
+            "CONTENT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Hello SD Card"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_read_file"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_file_available"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_file_size"
+        },
+        {
+          "kind": "label",
+          "text": "目录操作"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_create_dir",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/mydir"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_remove_dir",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/mydir"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_list_dir",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/"
+                }
+              }
+            },
+            "LEVELS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": "0"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "label",
+          "text": "文件检查"
+        },
+        {
+          "kind": "block",
+          "type": "seeed_fs_file_exists",
+          "inputs": {
+            "PATH": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "/test.txt"
+                }
+              }
+            }
+          }
+        }
+  ]
+}
