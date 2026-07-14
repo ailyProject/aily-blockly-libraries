@@ -1,0 +1,144 @@
+[
+  {
+    "type": "wio_ir_send_nec",
+    "message0": "Wio红外发送 NEC 数据 %1 载波频率 %2 kHz",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "KHZ",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "通过 Wio Terminal 内置红外发射器发送 NEC 码；默认示例数据为电视电源码 0x61A0F00F，载波为 38 kHz",
+    "helpUrl": "https://wiki.seeedstudio.com/Wio-Terminal-Infrared-Emitter/",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "wio_ir_send",
+    "message0": "Wio红外发送 协议 %1 数据 %2 附加参数/位数 %3 载波频率 %4 kHz",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PROTOCOL",
+        "options": [
+          [
+            "NEC",
+            "NEC"
+          ],
+          [
+            "Sony",
+            "SONY"
+          ],
+          [
+            "RC5",
+            "RC5"
+          ],
+          [
+            "RC6",
+            "RC6"
+          ],
+          [
+            "Panasonic Old",
+            "PANASONIC_OLD"
+          ],
+          [
+            "JVC",
+            "JVC"
+          ],
+          [
+            "NECx",
+            "NECX"
+          ],
+          [
+            "Samsung36",
+            "SAMSUNG36"
+          ],
+          [
+            "GI Cable",
+            "GICABLE"
+          ],
+          [
+            "DirecTV",
+            "DIRECTV"
+          ],
+          [
+            "RCMM",
+            "RCMM"
+          ],
+          [
+            "CYKM",
+            "CYKM"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DATA2",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "KHZ",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "通过 Wio Terminal 内置红外发射器发送所选 IRLib2 协议；附加参数通常为位数、地址或首次发送标记，具体含义由协议决定",
+    "helpUrl": "https://wiki.seeedstudio.com/Wio-Terminal-Infrared-Emitter/",
+    "icon": "fa-light fa-satellite-dish"
+  },
+  {
+    "type": "wio_ir_send_raw",
+    "message0": "Wio红外发送 Raw 时序 %1 载波频率 %2 kHz",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DATA",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "KHZ",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "按微秒发送逗号分隔的 Raw 红外时序，例如 9000,4500,560,560；最多 255 项，每个值必须在 1~65535 之间",
+    "helpUrl": "https://github.com/Seeed-Studio/Seeed_Arduino_IR/tree/master/examples/rawSend",
+    "icon": "fa-light fa-wave-square"
+  }
+]
