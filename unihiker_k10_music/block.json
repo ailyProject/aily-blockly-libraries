@@ -7,10 +7,28 @@
         "type": "field_dropdown",
         "name": "MUSIC",
         "options": [
-          ["生日快乐", "birthday"],
-          ["小星星", "littlestar"],
-          ["铃儿响叮当", "jinglebells"],
-          ["欢乐颂", "odeTojoy"]
+          ["生日快乐", "BIRTHDAY"],
+          ["欢乐颂", "ODE"],
+          ["小星星（生成）", "AILY_LITTLE_STAR"],
+          ["铃儿响叮当（生成）", "AILY_JINGLE_BELLS"],
+          ["哒哒哒咚", "DADADADUM"],
+          ["艺人", "ENTERTAINER"],
+          ["前奏曲", "PRELUDE"],
+          ["彩虹猫", "NYAN"],
+          ["铃声", "RINGTONE"],
+          ["放克", "FUNK"],
+          ["布鲁斯", "BLUES"],
+          ["婚礼进行曲", "WEDDING"],
+          ["葬礼进行曲", "FUNERAL"],
+          ["笑点", "PUNCHLINE"],
+          ["坏蛋登场", "BADDY"],
+          ["追逐", "CHASE"],
+          ["叮", "BA_DING"],
+          ["哇哇哇", "WAWAWAWAA"],
+          ["跳跃上升", "JUMP_UP"],
+          ["跳跃下降", "JUMP_DOWN"],
+          ["能量上升", "POWER_UP"],
+          ["能量下降", "POWER_DOWN"]
         ]
       }
     ],
@@ -18,12 +36,23 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#795548",
-    "tooltip": "播放K10内置音乐",
+    "tooltip": "播放K10 SDK内置旋律；小星星和铃儿响叮当由代码生成，无需音频文件",
+    "icon": "fa-light fa-music"
+  },
+  {
+    "type": "k10_music_stop_builtin",
+    "message0": "停止播放内置音乐",
+    "args0": [],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "停止正在后台播放的K10内置音乐",
     "icon": "fa-light fa-music"
   },
   {
     "type": "k10_music_play_tone",
-    "message0": "播放音调 频率 %1 时长(ms) %2",
+    "message0": "播放音调 频率 %1 节拍采样数 %2",
     "args0": [
       {
         "type": "input_value",
@@ -40,32 +69,29 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#795548",
-    "tooltip": "播放指定频率和时长的音调",
+    "tooltip": "播放指定频率的音调，SDK中1拍为8000个采样",
     "icon": "fa-light fa-music"
   },
   {
     "type": "k10_music_record",
-    "message0": "录音 %1 文件名 %2",
+    "message0": "录音到TF卡 文件名 %1 时长(秒) %2",
     "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "CMD",
-        "options": [
-          ["开始", "start"],
-          ["停止", "stop"]
-        ]
-      },
       {
         "type": "input_value",
         "name": "FILENAME",
         "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": "Number"
       }
     ],
     "inputsInline": true,
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#795548",
-    "tooltip": "录音并保存到TF卡",
+    "tooltip": "录制指定秒数的WAV音频并保存到TF卡",
     "icon": "fa-light fa-music"
   },
   {
@@ -83,6 +109,17 @@
     "nextStatement": null,
     "colour": "#795548",
     "tooltip": "播放TF卡上的音频文件",
+    "icon": "fa-light fa-music"
+  },
+  {
+    "type": "k10_music_stop_tf",
+    "message0": "停止播放TF卡音频",
+    "args0": [],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "停止正在播放的TF卡音频",
     "icon": "fa-light fa-music"
   }
 ]
