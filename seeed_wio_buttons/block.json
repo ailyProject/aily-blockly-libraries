@@ -1,5 +1,14 @@
 [
   {
+    "type": "wio_buttons_setup",
+    "message0": "初始化全部按键",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "初始化 A/B/C 按键和5向开关，并在主循环中自动更新 OneButton 状态",
+    "icon": "fa-light fa-joystick"
+  },
+  {
     "type": "wio_button_is_pressed",
     "message0": "按键 %1 被按下",
     "args0": [
@@ -15,7 +24,8 @@
     ],
     "output": "Boolean",
     "colour": "#00C7B1",
-    "tooltip": "检测指定按键是否被按下，返回布尔值"
+    "tooltip": "检测指定按键是否经过防抖后处于按下状态",
+    "icon": "fa-light fa-joystick"
   },
   {
     "type": "wio_switch_is_pressed",
@@ -35,6 +45,227 @@
     ],
     "output": "Boolean",
     "colour": "#00C7B1",
-    "tooltip": "检测 5 向开关指定方向是否被拨动，返回布尔值"
+    "tooltip": "检测5向开关指定方向是否经过防抖后处于按下状态",
+    "icon": "fa-light fa-joystick"
+  },
+  {
+    "type": "wio_control_on_event",
+    "message0": "当 Wio 按键 %1 %2 时",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CONTROL",
+        "options": [
+          ["A", "WIO_KEY_A"],
+          ["B", "WIO_KEY_B"],
+          ["C", "WIO_KEY_C"],
+          ["↑", "WIO_5S_UP"],
+          ["↓", "WIO_5S_DOWN"],
+          ["←", "WIO_5S_LEFT"],
+          ["→", "WIO_5S_RIGHT"],
+          ["●", "WIO_5S_PRESS"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "EVENT",
+        "options": [
+          ["单击", "CLICK"],
+          ["双击", "DOUBLE_CLICK"],
+          ["多次点击", "MULTI_CLICK"],
+          ["按下", "PRESS"],
+          ["长按开始", "LONG_PRESS_START"],
+          ["长按期间", "DURING_LONG_PRESS"],
+          ["长按结束", "LONG_PRESS_STOP"]
+        ]
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "colour": "#00C7B1",
+    "tooltip": "使用 OneButton 事件语义处理指定按键或5向开关方向",
+    "icon": "fa-light fa-joystick"
+  },
+  {
+    "type": "wio_control_set_debounce_ms",
+    "message0": "Wio 按键 %1 设置防抖时间 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CONTROL",
+        "options": [
+          ["A", "WIO_KEY_A"], ["B", "WIO_KEY_B"], ["C", "WIO_KEY_C"],
+          ["↑", "WIO_5S_UP"], ["↓", "WIO_5S_DOWN"], ["←", "WIO_5S_LEFT"],
+          ["→", "WIO_5S_RIGHT"], ["●", "WIO_5S_PRESS"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "设置指定按键的防抖时间",
+    "icon": "fa-light fa-joystick"
+  },
+  {
+    "type": "wio_control_set_click_ms",
+    "message0": "Wio 按键 %1 设置点击间隔 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CONTROL",
+        "options": [
+          ["A", "WIO_KEY_A"], ["B", "WIO_KEY_B"], ["C", "WIO_KEY_C"],
+          ["↑", "WIO_5S_UP"], ["↓", "WIO_5S_DOWN"], ["←", "WIO_5S_LEFT"],
+          ["→", "WIO_5S_RIGHT"], ["●", "WIO_5S_PRESS"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "设置单击、双击和多击的判定间隔",
+    "icon": "fa-light fa-joystick"
+  },
+  {
+    "type": "wio_control_set_press_ms",
+    "message0": "Wio 按键 %1 设置长按时间 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CONTROL",
+        "options": [
+          ["A", "WIO_KEY_A"], ["B", "WIO_KEY_B"], ["C", "WIO_KEY_C"],
+          ["↑", "WIO_5S_UP"], ["↓", "WIO_5S_DOWN"], ["←", "WIO_5S_LEFT"],
+          ["→", "WIO_5S_RIGHT"], ["●", "WIO_5S_PRESS"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "设置长按开始事件的判定时间",
+    "icon": "fa-light fa-joystick"
+  },
+  {
+    "type": "wio_control_set_long_press_interval_ms",
+    "message0": "Wio 按键 %1 设置长按回调间隔 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CONTROL",
+        "options": [
+          ["A", "WIO_KEY_A"], ["B", "WIO_KEY_B"], ["C", "WIO_KEY_C"],
+          ["↑", "WIO_5S_UP"], ["↓", "WIO_5S_DOWN"], ["←", "WIO_5S_LEFT"],
+          ["→", "WIO_5S_RIGHT"], ["●", "WIO_5S_PRESS"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "设置长按期间事件的重复触发间隔",
+    "icon": "fa-light fa-joystick"
+  },
+  {
+    "type": "wio_control_is_long_pressed",
+    "message0": "Wio 按键 %1 正在长按",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CONTROL",
+        "options": [
+          ["A", "WIO_KEY_A"], ["B", "WIO_KEY_B"], ["C", "WIO_KEY_C"],
+          ["↑", "WIO_5S_UP"], ["↓", "WIO_5S_DOWN"], ["←", "WIO_5S_LEFT"],
+          ["→", "WIO_5S_RIGHT"], ["●", "WIO_5S_PRESS"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#00C7B1",
+    "tooltip": "检测指定按键是否处于 OneButton 长按状态",
+    "icon": "fa-light fa-joystick"
+  },
+  {
+    "type": "wio_control_get_pressed_ms",
+    "message0": "Wio 按键 %1 按下时长",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CONTROL",
+        "options": [
+          ["A", "WIO_KEY_A"], ["B", "WIO_KEY_B"], ["C", "WIO_KEY_C"],
+          ["↑", "WIO_5S_UP"], ["↓", "WIO_5S_DOWN"], ["←", "WIO_5S_LEFT"],
+          ["→", "WIO_5S_RIGHT"], ["●", "WIO_5S_PRESS"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#00C7B1",
+    "tooltip": "获取指定按键当前按下的持续时间，单位为毫秒",
+    "icon": "fa-light fa-joystick"
+  },
+  {
+    "type": "wio_control_get_number_clicks",
+    "message0": "Wio 按键 %1 点击次数",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CONTROL",
+        "options": [
+          ["A", "WIO_KEY_A"], ["B", "WIO_KEY_B"], ["C", "WIO_KEY_C"],
+          ["↑", "WIO_5S_UP"], ["↓", "WIO_5S_DOWN"], ["←", "WIO_5S_LEFT"],
+          ["→", "WIO_5S_RIGHT"], ["●", "WIO_5S_PRESS"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#00C7B1",
+    "tooltip": "获取 OneButton 最近记录的点击次数",
+    "icon": "fa-light fa-joystick"
+  },
+  {
+    "type": "wio_control_reset",
+    "message0": "重置 Wio 按键 %1 状态",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CONTROL",
+        "options": [
+          ["A", "WIO_KEY_A"], ["B", "WIO_KEY_B"], ["C", "WIO_KEY_C"],
+          ["↑", "WIO_5S_UP"], ["↓", "WIO_5S_DOWN"], ["←", "WIO_5S_LEFT"],
+          ["→", "WIO_5S_RIGHT"], ["●", "WIO_5S_PRESS"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C7B1",
+    "tooltip": "重置指定按键的 OneButton 状态机",
+    "icon": "fa-light fa-joystick"
   }
 ]

@@ -2,34 +2,173 @@
   "toolbox_name": "Wio 按鍵",
   "toolbox_labels": {
     "可配置按键": "可配置按鍵",
-    "5向开关": "5向開關"
+    "5向开关": "5向開關",
+    "初始化": "初始化",
+    "事件处理": "事件處理",
+    "状态查询": "狀態查詢",
+    "参数设置": "參數設定",
+    "控制": "控制"
+  },
+  "wio_buttons_setup": {
+    "message0": "初始化全部按鍵",
+    "tooltip": "初始化 A/B/C 按鍵和5向開關，並在主循環中自動更新 OneButton 狀態"
   },
   "wio_button_is_pressed": {
     "message0": "按鍵 %1 被按下",
-    "tooltip": "檢測指定按鍵是否被按下，返回布林值",
+    "tooltip": "檢測指定按鍵是否經過防抖後處於按下狀態",
     "args0": [
       {
         "options": [
-          ["A", "WIO_KEY_A"],
-          ["B", "WIO_KEY_B"],
-          ["C", "WIO_KEY_C"]
+          [
+            "A",
+            "WIO_KEY_A"
+          ],
+          [
+            "B",
+            "WIO_KEY_B"
+          ],
+          [
+            "C",
+            "WIO_KEY_C"
+          ]
         ]
       }
     ]
   },
   "wio_switch_is_pressed": {
     "message0": "5向開關 %1 被按下",
-    "tooltip": "檢測 5 向開關指定方向是否被撥動，返回布林值",
+    "tooltip": "檢測5向開關指定方向是否經過防抖後處於按下狀態",
     "args0": [
       {
         "options": [
-          ["上", "WIO_5S_UP"],
-          ["下", "WIO_5S_DOWN"],
-          ["左", "WIO_5S_LEFT"],
-          ["右", "WIO_5S_RIGHT"],
-          ["按壓", "WIO_5S_PRESS"]
+          [
+            "上",
+            "WIO_5S_UP"
+          ],
+          [
+            "下",
+            "WIO_5S_DOWN"
+          ],
+          [
+            "左",
+            "WIO_5S_LEFT"
+          ],
+          [
+            "右",
+            "WIO_5S_RIGHT"
+          ],
+          [
+            "按壓",
+            "WIO_5S_PRESS"
+          ]
         ]
       }
     ]
+  },
+  "wio_control_on_event": {
+    "message0": "當 Wio 按鍵 %1 %2 時",
+    "tooltip": "使用 OneButton 事件語義處理指定按鍵或5向開關方向",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "WIO_KEY_A"
+          ],
+          [
+            "B",
+            "WIO_KEY_B"
+          ],
+          [
+            "C",
+            "WIO_KEY_C"
+          ],
+          [
+            "↑",
+            "WIO_5S_UP"
+          ],
+          [
+            "↓",
+            "WIO_5S_DOWN"
+          ],
+          [
+            "←",
+            "WIO_5S_LEFT"
+          ],
+          [
+            "→",
+            "WIO_5S_RIGHT"
+          ],
+          [
+            "●",
+            "WIO_5S_PRESS"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "單擊",
+            "CLICK"
+          ],
+          [
+            "雙擊",
+            "DOUBLE_CLICK"
+          ],
+          [
+            "多次點擊",
+            "MULTI_CLICK"
+          ],
+          [
+            "按下",
+            "PRESS"
+          ],
+          [
+            "長按開始",
+            "LONG_PRESS_START"
+          ],
+          [
+            "長按期間",
+            "DURING_LONG_PRESS"
+          ],
+          [
+            "長按結束",
+            "LONG_PRESS_STOP"
+          ]
+        ]
+      }
+    ]
+  },
+  "wio_control_set_debounce_ms": {
+    "message0": "Wio 按鍵 %1 設定防抖時間 %2 毫秒",
+    "tooltip": "設定指定按鍵的防抖時間"
+  },
+  "wio_control_set_click_ms": {
+    "message0": "Wio 按鍵 %1 設定點擊間隔 %2 毫秒",
+    "tooltip": "設定單擊、雙擊和多擊的判定間隔"
+  },
+  "wio_control_set_press_ms": {
+    "message0": "Wio 按鍵 %1 設定長按時間 %2 毫秒",
+    "tooltip": "設定長按開始事件的判定時間"
+  },
+  "wio_control_set_long_press_interval_ms": {
+    "message0": "Wio 按鍵 %1 設定長按回調間隔 %2 毫秒",
+    "tooltip": "設定長按期間事件的重複觸發間隔"
+  },
+  "wio_control_is_long_pressed": {
+    "message0": "Wio 按鍵 %1 正在長按",
+    "tooltip": "檢測指定按鍵是否處於 OneButton 長按狀態"
+  },
+  "wio_control_get_pressed_ms": {
+    "message0": "Wio 按鍵 %1 按下時長",
+    "tooltip": "取得指定按鍵目前按下的持續時間，單位為毫秒"
+  },
+  "wio_control_get_number_clicks": {
+    "message0": "Wio 按鍵 %1 點擊次數",
+    "tooltip": "取得 OneButton 最近記錄的點擊次數"
+  },
+  "wio_control_reset": {
+    "message0": "重置 Wio 按鍵 %1 狀態",
+    "tooltip": "重置指定按鍵的 OneButton 狀態機"
   }
 }

@@ -1,35 +1,139 @@
-/**
- * Wio Terminal Buttons & 5-Way Switch Generator
- * @description 代码生成器 - Wio Terminal 按键与5向开关
- *
- * 硬件说明：
- *   - 三个可配置按键：WIO_KEY_A, WIO_KEY_B, WIO_KEY_C（低电平有效，上拉输入）
- *   - 5向开关：WIO_5S_UP, WIO_5S_DOWN, WIO_5S_LEFT, WIO_5S_RIGHT, WIO_5S_PRESS（低电平有效，上拉输入）
- *   - 宏定义已内置于 Wio Terminal 开发板包，无需额外库
- */
-
 'use strict';
 
-// ========== 检测可配置按键是否被按下 ==========
-Arduino.forBlock['wio_button_is_pressed'] = function(block, generator) {
-  const button = block.getFieldValue('BUTTON') || 'WIO_KEY_A';
-
-  // 自动确保对应引脚已初始化（用唯一 tag 去重）
-  const pinModeCode = 'pinMode(' + button + ', INPUT_PULLUP);';
-  generator.addSetupEnd(pinModeCode, pinModeCode);
-
-  // 按下时 digitalRead 返回 LOW
-  return ['(digitalRead(' + button + ') == LOW)', generator.ORDER_ATOMIC];
+// Wio Terminal buttons are active-low and use the board package's built-in pin macros.
+var WIO_CONTROLS = {
+  WIO_KEY_A: { name: 'KeyA', object: 'wioButtonKeyA' },
+  WIO_KEY_B: { name: 'KeyB', object: 'wioButtonKeyB' },
+  WIO_KEY_C: { name: 'KeyC', object: 'wioButtonKeyC' },
+  WIO_5S_UP: { name: 'Up', object: 'wioButtonUp' },
+  WIO_5S_DOWN: { name: 'Down', object: 'wioButtonDown' },
+  WIO_5S_LEFT: { name: 'Left', object: 'wioButtonLeft' },
+  WIO_5S_RIGHT: { name: 'Right', object: 'wioButtonRight' },
+  WIO_5S_PRESS: { name: 'Press', object: 'wioButtonPress' }
 };
 
-// ========== 检测5向开关方向是否被拨动 ==========
+var WIO_CONTROL_EVENTS = {
+  CLICK: { method: 'attachClick', suffix: 'Click' },
+  DOUBLE_CLICK: { method: 'attachDoubleClick', suffix: 'DoubleClick' },
+  MULTI_CLICK: { method: 'attachMultiClick', suffix: 'MultiClick' },
+  PRESS: { method: 'attachPress', suffix: 'Press' },
+  LONG_PRESS_START: { method: 'attachLongPressStart', suffix: 'LongPressStart' },
+  DURING_LONG_PRESS: { method: 'attachDuringLongPress', suffix: 'DuringLongPress' },
+  LONG_PRESS_STOP: { method: 'attachLongPressStop', suffix: 'LongPressStop' }
+};
+
+function wioControlInfo(key) {
+  const resolvedKey = WIO_CONTROLS[key] ? key : 'WIO_KEY_A';
+  return Object.assign({ key: resolvedKey }, WIO_CONTROLS[resolvedKey]);
+}
+
+function wioEnsureControl(generator, key) {
+  const control = wioControlInfo(key);
+  generator.addLibrary('wio_buttons_onebutton', '#include <OneButton.h>');
+  generator.addVariable(control.object, 'OneButton ' + control.object + ';');
+  generator.addSetupBegin(
+    'wio_buttons_setup_' + control.key,
+    control.object + '.setup(' + control.key + ', INPUT_PULLUP, true);'
+  );
+  generator.addLoopBegin(
+    'wio_buttons_tick_' + control.key,
+    control.object + '.tick();'
+  );
+  return control;
+}
+
+function wioEnsureAllControls(generator) {
+  Object.keys(WIO_CONTROLS).forEach(function(key) {
+    wioEnsureControl(generator, key);
+  });
+}
+
+function wioValueToCode(block, generator, name, fallback) {
+  return generator.valueToCode(block, name, generator.ORDER_ATOMIC) || fallback;
+}
+
+Arduino.forBlock['wio_buttons_setup'] = function(block, generator) {
+  wioEnsureAllControls(generator);
+  return '';
+};
+
+// Retain the original block ids so existing projects remain compatible.
+Arduino.forBlock['wio_button_is_pressed'] = function(block, generator) {
+  const key = block.getFieldValue('BUTTON') || 'WIO_KEY_A';
+  const control = wioEnsureControl(generator, key);
+  return [control.object + '.debouncedValue()', generator.ORDER_ATOMIC];
+};
+
 Arduino.forBlock['wio_switch_is_pressed'] = function(block, generator) {
-  const direction = block.getFieldValue('DIRECTION') || 'WIO_5S_UP';
+  const key = block.getFieldValue('DIRECTION') || 'WIO_5S_UP';
+  const control = wioEnsureControl(generator, key);
+  return [control.object + '.debouncedValue()', generator.ORDER_ATOMIC];
+};
 
-  // 自动确保对应引脚已初始化（用唯一 tag 去重）
-  const pinModeCode = 'pinMode(' + direction + ', INPUT_PULLUP);';
-  generator.addSetupEnd(pinModeCode, pinModeCode);
+Arduino.forBlock['wio_control_on_event'] = function(block, generator) {
+  const key = block.getFieldValue('CONTROL') || 'WIO_KEY_A';
+  const eventKey = block.getFieldValue('EVENT') || 'CLICK';
+  const control = wioEnsureControl(generator, key);
+  const event = WIO_CONTROL_EVENTS[eventKey] || WIO_CONTROL_EVENTS.CLICK;
+  const handlerCode = generator.statementToCode(block, 'DO') || '';
+  const callbackName = 'onWio' + control.name + event.suffix;
 
-  // 拨动时 digitalRead 返回 LOW
-  return ['(digitalRead(' + direction + ') == LOW)', generator.ORDER_ATOMIC];
+  generator.addFunction(callbackName, 'void ' + callbackName + '() {\n' + handlerCode + '}\n');
+  generator.addSetupEnd(
+    'wio_buttons_' + control.key + '_' + eventKey + '_register',
+    control.object + '.' + event.method + '(' + callbackName + ');'
+  );
+  return '';
+};
+
+Arduino.forBlock['wio_control_set_debounce_ms'] = function(block, generator) {
+  const key = block.getFieldValue('CONTROL') || 'WIO_KEY_A';
+  const control = wioEnsureControl(generator, key);
+  const ms = wioValueToCode(block, generator, 'MS', '50');
+  return control.object + '.setDebounceMs(' + ms + ');\n';
+};
+
+Arduino.forBlock['wio_control_set_click_ms'] = function(block, generator) {
+  const key = block.getFieldValue('CONTROL') || 'WIO_KEY_A';
+  const control = wioEnsureControl(generator, key);
+  const ms = wioValueToCode(block, generator, 'MS', '400');
+  return control.object + '.setClickMs(' + ms + ');\n';
+};
+
+Arduino.forBlock['wio_control_set_press_ms'] = function(block, generator) {
+  const key = block.getFieldValue('CONTROL') || 'WIO_KEY_A';
+  const control = wioEnsureControl(generator, key);
+  const ms = wioValueToCode(block, generator, 'MS', '800');
+  return control.object + '.setPressMs(' + ms + ');\n';
+};
+
+Arduino.forBlock['wio_control_set_long_press_interval_ms'] = function(block, generator) {
+  const key = block.getFieldValue('CONTROL') || 'WIO_KEY_A';
+  const control = wioEnsureControl(generator, key);
+  const ms = wioValueToCode(block, generator, 'MS', '1000');
+  return control.object + '.setLongPressIntervalMs(' + ms + ');\n';
+};
+
+Arduino.forBlock['wio_control_is_long_pressed'] = function(block, generator) {
+  const key = block.getFieldValue('CONTROL') || 'WIO_KEY_A';
+  const control = wioEnsureControl(generator, key);
+  return [control.object + '.isLongPressed()', generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['wio_control_get_pressed_ms'] = function(block, generator) {
+  const key = block.getFieldValue('CONTROL') || 'WIO_KEY_A';
+  const control = wioEnsureControl(generator, key);
+  return [control.object + '.getPressedMs()', generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['wio_control_get_number_clicks'] = function(block, generator) {
+  const key = block.getFieldValue('CONTROL') || 'WIO_KEY_A';
+  const control = wioEnsureControl(generator, key);
+  return [control.object + '.getNumberClicks()', generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['wio_control_reset'] = function(block, generator) {
+  const key = block.getFieldValue('CONTROL') || 'WIO_KEY_A';
+  const control = wioEnsureControl(generator, key);
+  return control.object + '.reset();\n';
 };

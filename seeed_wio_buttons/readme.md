@@ -1,26 +1,28 @@
 # Wio Terminal Buttons
 
-Library for Wio Terminal built-in buttons (A/B/C) and 5-way switch
+Wio Terminal buttons and 5-way switch with OneButton events.
 
 ## Library Info
 
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-seeed-wio-buttons |
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Author | SeeedStudio |
 | Source | https://wiki.seeedstudio.com/Wio-Terminal-Buttons/ |
 | License | MIT |
 
 ## Supported Boards
 
-Seeeduino:samd
+Seeeduino:samd:seeed_wio_terminal
 
 ## Description
 
-Library for Wio Terminal built-in buttons (A/B/C) and 5-way switch
+Supports A/B/C and five switch inputs. OneButton adds click, double-click, multi-click, press, and long-press events. Setup and tick calls are automatic.
 
 ## Quick Start
 
 1. Enable `@aily-project/lib-seeed-wio-buttons` in Aily Blockly.
-2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+2. Add an event block and select a control and event. The setup block optionally initializes all eight inputs.
+
+See also: [5-way switch](https://wiki.seeedstudio.com/Wio-Terminal-Switch/) and [OneButton](https://github.com/mathertel/OneButton).

@@ -2,34 +2,173 @@
   "toolbox_name": "Wio ボタン",
   "toolbox_labels": {
     "可配置按键": "設定可能なボタン",
-    "5向开关": "5方向スイッチ"
+    "5向开关": "5方向スイッチ",
+    "初始化": "初期化",
+    "事件处理": "イベント",
+    "状态查询": "状態",
+    "参数设置": "設定",
+    "控制": "制御"
+  },
+  "wio_buttons_setup": {
+    "message0": "すべてのボタンを初期化",
+    "tooltip": "A/B/C と5方向スイッチを初期化し、メインループで OneButton を自動更新します"
   },
   "wio_button_is_pressed": {
     "message0": "ボタン %1 が押されている",
-    "tooltip": "指定したボタンが押されているか確認し、ブール値を返します",
+    "tooltip": "選択したボタンのデバウンス後の状態を確認します",
     "args0": [
       {
         "options": [
-          ["A", "WIO_KEY_A"],
-          ["B", "WIO_KEY_B"],
-          ["C", "WIO_KEY_C"]
+          [
+            "A",
+            "WIO_KEY_A"
+          ],
+          [
+            "B",
+            "WIO_KEY_B"
+          ],
+          [
+            "C",
+            "WIO_KEY_C"
+          ]
         ]
       }
     ]
   },
   "wio_switch_is_pressed": {
     "message0": "5方向スイッチ %1 が押されている",
-    "tooltip": "5方向スイッチの指定方向が押されているか確認し、ブール値を返します",
+    "tooltip": "選択した方向のデバウンス後の状態を確認します",
     "args0": [
       {
         "options": [
-          ["上", "WIO_5S_UP"],
-          ["下", "WIO_5S_DOWN"],
-          ["左", "WIO_5S_LEFT"],
-          ["右", "WIO_5S_RIGHT"],
-          ["押す", "WIO_5S_PRESS"]
+          [
+            "上",
+            "WIO_5S_UP"
+          ],
+          [
+            "下",
+            "WIO_5S_DOWN"
+          ],
+          [
+            "左",
+            "WIO_5S_LEFT"
+          ],
+          [
+            "右",
+            "WIO_5S_RIGHT"
+          ],
+          [
+            "押す",
+            "WIO_5S_PRESS"
+          ]
         ]
       }
     ]
+  },
+  "wio_control_on_event": {
+    "message0": "Wio ボタン %1 が %2 のとき",
+    "tooltip": "選択したボタンまたは方向を OneButton イベントで処理します",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "WIO_KEY_A"
+          ],
+          [
+            "B",
+            "WIO_KEY_B"
+          ],
+          [
+            "C",
+            "WIO_KEY_C"
+          ],
+          [
+            "↑",
+            "WIO_5S_UP"
+          ],
+          [
+            "↓",
+            "WIO_5S_DOWN"
+          ],
+          [
+            "←",
+            "WIO_5S_LEFT"
+          ],
+          [
+            "→",
+            "WIO_5S_RIGHT"
+          ],
+          [
+            "●",
+            "WIO_5S_PRESS"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "クリック",
+            "CLICK"
+          ],
+          [
+            "ダブルクリック",
+            "DOUBLE_CLICK"
+          ],
+          [
+            "マルチクリック",
+            "MULTI_CLICK"
+          ],
+          [
+            "押した",
+            "PRESS"
+          ],
+          [
+            "長押し開始",
+            "LONG_PRESS_START"
+          ],
+          [
+            "長押し中",
+            "DURING_LONG_PRESS"
+          ],
+          [
+            "長押し終了",
+            "LONG_PRESS_STOP"
+          ]
+        ]
+      }
+    ]
+  },
+  "wio_control_set_debounce_ms": {
+    "message0": "Wio ボタン %1 のデバウンス時間を %2 ミリ秒に設定",
+    "tooltip": "選択したボタンのデバウンス時間を設定します"
+  },
+  "wio_control_set_click_ms": {
+    "message0": "Wio ボタン %1 のクリック間隔を %2 ミリ秒に設定",
+    "tooltip": "シングル、ダブル、マルチクリックの判定間隔を設定します"
+  },
+  "wio_control_set_press_ms": {
+    "message0": "Wio ボタン %1 の長押し時間を %2 ミリ秒に設定",
+    "tooltip": "長押し開始までの時間を設定します"
+  },
+  "wio_control_set_long_press_interval_ms": {
+    "message0": "Wio ボタン %1 の長押しコールバック間隔を %2 ミリ秒に設定",
+    "tooltip": "長押し中の繰り返し間隔を設定します"
+  },
+  "wio_control_is_long_pressed": {
+    "message0": "Wio ボタン %1 は長押し中",
+    "tooltip": "選択したボタンが長押し状態か確認します"
+  },
+  "wio_control_get_pressed_ms": {
+    "message0": "Wio ボタン %1 の押下時間",
+    "tooltip": "現在の押下時間をミリ秒で取得します"
+  },
+  "wio_control_get_number_clicks": {
+    "message0": "Wio ボタン %1 のクリック回数",
+    "tooltip": "OneButton が直近に記録したクリック回数を取得します"
+  },
+  "wio_control_reset": {
+    "message0": "Wio ボタン %1 の状態をリセット",
+    "tooltip": "選択したボタンの OneButton 状態機械をリセットします"
   }
 }

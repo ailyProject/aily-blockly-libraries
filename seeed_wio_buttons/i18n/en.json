@@ -2,34 +2,173 @@
   "toolbox_name": "Wio Buttons",
   "toolbox_labels": {
     "可配置按键": "Configurable Buttons",
-    "5向开关": "5-Way Switch"
+    "5向开关": "5-Way Switch",
+    "初始化": "Initialization",
+    "事件处理": "Events",
+    "状态查询": "Status",
+    "参数设置": "Settings",
+    "控制": "Control"
+  },
+  "wio_buttons_setup": {
+    "message0": "initialize all buttons",
+    "tooltip": "Initialize A/B/C and the 5-way switch, then tick OneButton automatically in the main loop"
   },
   "wio_button_is_pressed": {
     "message0": "button %1 is pressed",
-    "tooltip": "Check if the specified button is pressed, returns boolean",
+    "tooltip": "Check the debounced state of the selected button",
     "args0": [
       {
         "options": [
-          ["A", "WIO_KEY_A"],
-          ["B", "WIO_KEY_B"],
-          ["C", "WIO_KEY_C"]
+          [
+            "A",
+            "WIO_KEY_A"
+          ],
+          [
+            "B",
+            "WIO_KEY_B"
+          ],
+          [
+            "C",
+            "WIO_KEY_C"
+          ]
         ]
       }
     ]
   },
   "wio_switch_is_pressed": {
     "message0": "5-way switch %1 is pressed",
-    "tooltip": "Check if the specified 5-way switch direction is pressed, returns boolean",
+    "tooltip": "Check the debounced state of the selected 5-way switch direction",
     "args0": [
       {
         "options": [
-          ["Up", "WIO_5S_UP"],
-          ["Down", "WIO_5S_DOWN"],
-          ["Left", "WIO_5S_LEFT"],
-          ["Right", "WIO_5S_RIGHT"],
-          ["Press", "WIO_5S_PRESS"]
+          [
+            "Up",
+            "WIO_5S_UP"
+          ],
+          [
+            "Down",
+            "WIO_5S_DOWN"
+          ],
+          [
+            "Left",
+            "WIO_5S_LEFT"
+          ],
+          [
+            "Right",
+            "WIO_5S_RIGHT"
+          ],
+          [
+            "Press",
+            "WIO_5S_PRESS"
+          ]
         ]
       }
     ]
+  },
+  "wio_control_on_event": {
+    "message0": "when Wio button %1 is %2",
+    "tooltip": "Handle the selected button or switch direction with OneButton events",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "WIO_KEY_A"
+          ],
+          [
+            "B",
+            "WIO_KEY_B"
+          ],
+          [
+            "C",
+            "WIO_KEY_C"
+          ],
+          [
+            "↑",
+            "WIO_5S_UP"
+          ],
+          [
+            "↓",
+            "WIO_5S_DOWN"
+          ],
+          [
+            "←",
+            "WIO_5S_LEFT"
+          ],
+          [
+            "→",
+            "WIO_5S_RIGHT"
+          ],
+          [
+            "●",
+            "WIO_5S_PRESS"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "clicked",
+            "CLICK"
+          ],
+          [
+            "double-clicked",
+            "DOUBLE_CLICK"
+          ],
+          [
+            "multi-clicked",
+            "MULTI_CLICK"
+          ],
+          [
+            "pressed",
+            "PRESS"
+          ],
+          [
+            "long press starts",
+            "LONG_PRESS_START"
+          ],
+          [
+            "during long press",
+            "DURING_LONG_PRESS"
+          ],
+          [
+            "long press stops",
+            "LONG_PRESS_STOP"
+          ]
+        ]
+      }
+    ]
+  },
+  "wio_control_set_debounce_ms": {
+    "message0": "set Wio button %1 debounce time to %2 ms",
+    "tooltip": "Set the debounce time for the selected button"
+  },
+  "wio_control_set_click_ms": {
+    "message0": "set Wio button %1 click interval to %2 ms",
+    "tooltip": "Set the detection interval for single, double and multiple clicks"
+  },
+  "wio_control_set_press_ms": {
+    "message0": "set Wio button %1 long press time to %2 ms",
+    "tooltip": "Set the time before a long press starts"
+  },
+  "wio_control_set_long_press_interval_ms": {
+    "message0": "set Wio button %1 long press callback interval to %2 ms",
+    "tooltip": "Set the repeated callback interval during a long press"
+  },
+  "wio_control_is_long_pressed": {
+    "message0": "Wio button %1 is long pressed",
+    "tooltip": "Check whether the selected button is in the OneButton long-pressed state"
+  },
+  "wio_control_get_pressed_ms": {
+    "message0": "Wio button %1 pressed duration",
+    "tooltip": "Get the current pressed duration in milliseconds"
+  },
+  "wio_control_get_number_clicks": {
+    "message0": "Wio button %1 click count",
+    "tooltip": "Get the most recent click count recorded by OneButton"
+  },
+  "wio_control_reset": {
+    "message0": "reset Wio button %1 state",
+    "tooltip": "Reset the OneButton state machine for the selected button"
   }
 }

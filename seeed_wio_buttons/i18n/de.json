@@ -2,34 +2,173 @@
   "toolbox_name": "Wio Tasten",
   "toolbox_labels": {
     "可配置按键": "Konfigurierbare Tasten",
-    "5向开关": "5-Wege-Schalter"
+    "5向开关": "5-Wege-Schalter",
+    "初始化": "Initialisierung",
+    "事件处理": "Ereignisse",
+    "状态查询": "Status",
+    "参数设置": "Einstellungen",
+    "控制": "Steuerung"
+  },
+  "wio_buttons_setup": {
+    "message0": "alle Tasten initialisieren",
+    "tooltip": "Initialisiert A/B/C und den 5-Wege-Schalter und aktualisiert OneButton automatisch in der Hauptschleife"
   },
   "wio_button_is_pressed": {
     "message0": "Taste %1 ist gedrückt",
-    "tooltip": "Prüft, ob die angegebene Taste gedrückt ist, gibt Boolean zurück",
+    "tooltip": "Prüft den entprellten Zustand der angegebenen Taste",
     "args0": [
       {
         "options": [
-          ["A", "WIO_KEY_A"],
-          ["B", "WIO_KEY_B"],
-          ["C", "WIO_KEY_C"]
+          [
+            "A",
+            "WIO_KEY_A"
+          ],
+          [
+            "B",
+            "WIO_KEY_B"
+          ],
+          [
+            "C",
+            "WIO_KEY_C"
+          ]
         ]
       }
     ]
   },
   "wio_switch_is_pressed": {
     "message0": "5-Wege-Schalter %1 ist gedrückt",
-    "tooltip": "Prüft, ob die angegebene Richtung des 5-Wege-Schalters gedrückt ist, gibt Boolean zurück",
+    "tooltip": "Prüft den entprellten Zustand der angegebenen Schalterrichtung",
     "args0": [
       {
         "options": [
-          ["Oben", "WIO_5S_UP"],
-          ["Unten", "WIO_5S_DOWN"],
-          ["Links", "WIO_5S_LEFT"],
-          ["Rechts", "WIO_5S_RIGHT"],
-          ["Drücken", "WIO_5S_PRESS"]
+          [
+            "Oben",
+            "WIO_5S_UP"
+          ],
+          [
+            "Unten",
+            "WIO_5S_DOWN"
+          ],
+          [
+            "Links",
+            "WIO_5S_LEFT"
+          ],
+          [
+            "Rechts",
+            "WIO_5S_RIGHT"
+          ],
+          [
+            "Drücken",
+            "WIO_5S_PRESS"
+          ]
         ]
       }
     ]
+  },
+  "wio_control_on_event": {
+    "message0": "wenn Wio-Taste %1 %2 wird",
+    "tooltip": "Verarbeitet die gewählte Taste oder Schalterrichtung mit OneButton-Ereignissen",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "WIO_KEY_A"
+          ],
+          [
+            "B",
+            "WIO_KEY_B"
+          ],
+          [
+            "C",
+            "WIO_KEY_C"
+          ],
+          [
+            "↑",
+            "WIO_5S_UP"
+          ],
+          [
+            "↓",
+            "WIO_5S_DOWN"
+          ],
+          [
+            "←",
+            "WIO_5S_LEFT"
+          ],
+          [
+            "→",
+            "WIO_5S_RIGHT"
+          ],
+          [
+            "●",
+            "WIO_5S_PRESS"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "geklickt",
+            "CLICK"
+          ],
+          [
+            "doppelt geklickt",
+            "DOUBLE_CLICK"
+          ],
+          [
+            "mehrfach geklickt",
+            "MULTI_CLICK"
+          ],
+          [
+            "gedrückt",
+            "PRESS"
+          ],
+          [
+            "Langdruck beginnt",
+            "LONG_PRESS_START"
+          ],
+          [
+            "während Langdruck",
+            "DURING_LONG_PRESS"
+          ],
+          [
+            "Langdruck endet",
+            "LONG_PRESS_STOP"
+          ]
+        ]
+      }
+    ]
+  },
+  "wio_control_set_debounce_ms": {
+    "message0": "Entprellzeit der Wio-Taste %1 auf %2 ms setzen",
+    "tooltip": "Legt die Entprellzeit der gewählten Taste fest"
+  },
+  "wio_control_set_click_ms": {
+    "message0": "Klickintervall der Wio-Taste %1 auf %2 ms setzen",
+    "tooltip": "Legt das Erkennungsintervall für Einzel-, Doppel- und Mehrfachklicks fest"
+  },
+  "wio_control_set_press_ms": {
+    "message0": "Langdruckzeit der Wio-Taste %1 auf %2 ms setzen",
+    "tooltip": "Legt die Erkennungszeit für den Beginn eines Langdrucks fest"
+  },
+  "wio_control_set_long_press_interval_ms": {
+    "message0": "Langdruck-Rückrufintervall der Wio-Taste %1 auf %2 ms setzen",
+    "tooltip": "Legt das Wiederholungsintervall während eines Langdrucks fest"
+  },
+  "wio_control_is_long_pressed": {
+    "message0": "Wio-Taste %1 wird lange gedrückt",
+    "tooltip": "Prüft, ob die gewählte Taste lange gedrückt wird"
+  },
+  "wio_control_get_pressed_ms": {
+    "message0": "Druckdauer der Wio-Taste %1",
+    "tooltip": "Gibt die aktuelle Druckdauer der gewählten Taste in Millisekunden zurück"
+  },
+  "wio_control_get_number_clicks": {
+    "message0": "Klickanzahl der Wio-Taste %1",
+    "tooltip": "Gibt die zuletzt von OneButton erfasste Klickanzahl zurück"
+  },
+  "wio_control_reset": {
+    "message0": "Status der Wio-Taste %1 zurücksetzen",
+    "tooltip": "Setzt den OneButton-Zustandsautomaten der gewählten Taste zurück"
   }
 }

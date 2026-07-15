@@ -2,34 +2,173 @@
   "toolbox_name": "Boutons Wio",
   "toolbox_labels": {
     "可配置按键": "Boutons configurables",
-    "5向开关": "Commutateur 5 directions"
+    "5向开关": "Commutateur 5 directions",
+    "初始化": "Initialisation",
+    "事件处理": "Événements",
+    "状态查询": "État",
+    "参数设置": "Réglages",
+    "控制": "Contrôle"
+  },
+  "wio_buttons_setup": {
+    "message0": "initialiser tous les boutons",
+    "tooltip": "Initialise A/B/C et le commutateur 5 directions, puis actualise OneButton automatiquement dans la boucle principale"
   },
   "wio_button_is_pressed": {
     "message0": "le bouton %1 est pressé",
-    "tooltip": "Vérifie si le bouton spécifié est pressé, retourne un booléen",
+    "tooltip": "Vérifie l'état anti-rebond du bouton sélectionné",
     "args0": [
       {
         "options": [
-          ["A", "WIO_KEY_A"],
-          ["B", "WIO_KEY_B"],
-          ["C", "WIO_KEY_C"]
+          [
+            "A",
+            "WIO_KEY_A"
+          ],
+          [
+            "B",
+            "WIO_KEY_B"
+          ],
+          [
+            "C",
+            "WIO_KEY_C"
+          ]
         ]
       }
     ]
   },
   "wio_switch_is_pressed": {
     "message0": "le commutateur 5 directions %1 est pressé",
-    "tooltip": "Vérifie si la direction spécifiée du commutateur 5 directions est pressée, retourne un booléen",
+    "tooltip": "Vérifie l'état anti-rebond de la direction sélectionnée",
     "args0": [
       {
         "options": [
-          ["Haut", "WIO_5S_UP"],
-          ["Bas", "WIO_5S_DOWN"],
-          ["Gauche", "WIO_5S_LEFT"],
-          ["Droite", "WIO_5S_RIGHT"],
-          ["Appuyer", "WIO_5S_PRESS"]
+          [
+            "Haut",
+            "WIO_5S_UP"
+          ],
+          [
+            "Bas",
+            "WIO_5S_DOWN"
+          ],
+          [
+            "Gauche",
+            "WIO_5S_LEFT"
+          ],
+          [
+            "Droite",
+            "WIO_5S_RIGHT"
+          ],
+          [
+            "Appuyer",
+            "WIO_5S_PRESS"
+          ]
         ]
       }
     ]
+  },
+  "wio_control_on_event": {
+    "message0": "quand le bouton Wio %1 est %2",
+    "tooltip": "Gère le bouton ou la direction sélectionnée avec les événements OneButton",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "WIO_KEY_A"
+          ],
+          [
+            "B",
+            "WIO_KEY_B"
+          ],
+          [
+            "C",
+            "WIO_KEY_C"
+          ],
+          [
+            "↑",
+            "WIO_5S_UP"
+          ],
+          [
+            "↓",
+            "WIO_5S_DOWN"
+          ],
+          [
+            "←",
+            "WIO_5S_LEFT"
+          ],
+          [
+            "→",
+            "WIO_5S_RIGHT"
+          ],
+          [
+            "●",
+            "WIO_5S_PRESS"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "cliqué",
+            "CLICK"
+          ],
+          [
+            "double-cliqué",
+            "DOUBLE_CLICK"
+          ],
+          [
+            "multi-cliqué",
+            "MULTI_CLICK"
+          ],
+          [
+            "pressé",
+            "PRESS"
+          ],
+          [
+            "début d'appui long",
+            "LONG_PRESS_START"
+          ],
+          [
+            "pendant l'appui long",
+            "DURING_LONG_PRESS"
+          ],
+          [
+            "fin d'appui long",
+            "LONG_PRESS_STOP"
+          ]
+        ]
+      }
+    ]
+  },
+  "wio_control_set_debounce_ms": {
+    "message0": "régler l'anti-rebond du bouton Wio %1 à %2 ms",
+    "tooltip": "Règle la durée anti-rebond du bouton sélectionné"
+  },
+  "wio_control_set_click_ms": {
+    "message0": "régler l'intervalle de clic du bouton Wio %1 à %2 ms",
+    "tooltip": "Règle l'intervalle de détection des clics simple, double et multiple"
+  },
+  "wio_control_set_press_ms": {
+    "message0": "régler l'appui long du bouton Wio %1 à %2 ms",
+    "tooltip": "Règle la durée avant le début d'un appui long"
+  },
+  "wio_control_set_long_press_interval_ms": {
+    "message0": "régler l'intervalle d'appui long du bouton Wio %1 à %2 ms",
+    "tooltip": "Règle l'intervalle de rappel pendant un appui long"
+  },
+  "wio_control_is_long_pressed": {
+    "message0": "le bouton Wio %1 est en appui long",
+    "tooltip": "Vérifie si le bouton sélectionné est en appui long"
+  },
+  "wio_control_get_pressed_ms": {
+    "message0": "durée d'appui du bouton Wio %1",
+    "tooltip": "Obtient la durée d'appui actuelle en millisecondes"
+  },
+  "wio_control_get_number_clicks": {
+    "message0": "nombre de clics du bouton Wio %1",
+    "tooltip": "Obtient le dernier nombre de clics enregistré par OneButton"
+  },
+  "wio_control_reset": {
+    "message0": "réinitialiser l'état du bouton Wio %1",
+    "tooltip": "Réinitialise la machine d'état OneButton du bouton sélectionné"
   }
 }

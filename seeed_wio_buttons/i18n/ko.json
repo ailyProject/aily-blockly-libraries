@@ -2,34 +2,173 @@
   "toolbox_name": "Wio 버튼",
   "toolbox_labels": {
     "可配置按键": "설정 가능한 버튼",
-    "5向开关": "5방향 스위치"
+    "5向开关": "5방향 스위치",
+    "初始化": "초기화",
+    "事件处理": "이벤트",
+    "状态查询": "상태",
+    "参数设置": "설정",
+    "控制": "제어"
+  },
+  "wio_buttons_setup": {
+    "message0": "모든 버튼 초기화",
+    "tooltip": "A/B/C와 5방향 스위치를 초기화하고 메인 루프에서 OneButton 상태를 자동으로 갱신합니다"
   },
   "wio_button_is_pressed": {
     "message0": "버튼 %1 이 눌렸다",
-    "tooltip": "지정한 버튼이 눌렸는지 확인하여 불리언 값을 반환합니다",
+    "tooltip": "선택한 버튼의 디바운스된 상태를 확인합니다",
     "args0": [
       {
         "options": [
-          ["A", "WIO_KEY_A"],
-          ["B", "WIO_KEY_B"],
-          ["C", "WIO_KEY_C"]
+          [
+            "A",
+            "WIO_KEY_A"
+          ],
+          [
+            "B",
+            "WIO_KEY_B"
+          ],
+          [
+            "C",
+            "WIO_KEY_C"
+          ]
         ]
       }
     ]
   },
   "wio_switch_is_pressed": {
     "message0": "5방향 스위치 %1 이 눌렸다",
-    "tooltip": "5방향 스위치의 지정 방향이 눌렸는지 확인하여 불리언 값을 반환합니다",
+    "tooltip": "선택한 스위치 방향의 디바운스된 상태를 확인합니다",
     "args0": [
       {
         "options": [
-          ["위", "WIO_5S_UP"],
-          ["아래", "WIO_5S_DOWN"],
-          ["왼쪽", "WIO_5S_LEFT"],
-          ["오른쪽", "WIO_5S_RIGHT"],
-          ["누름", "WIO_5S_PRESS"]
+          [
+            "위",
+            "WIO_5S_UP"
+          ],
+          [
+            "아래",
+            "WIO_5S_DOWN"
+          ],
+          [
+            "왼쪽",
+            "WIO_5S_LEFT"
+          ],
+          [
+            "오른쪽",
+            "WIO_5S_RIGHT"
+          ],
+          [
+            "누름",
+            "WIO_5S_PRESS"
+          ]
         ]
       }
     ]
+  },
+  "wio_control_on_event": {
+    "message0": "Wio 버튼 %1 이 %2 때",
+    "tooltip": "선택한 버튼 또는 스위치 방향을 OneButton 이벤트로 처리합니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "WIO_KEY_A"
+          ],
+          [
+            "B",
+            "WIO_KEY_B"
+          ],
+          [
+            "C",
+            "WIO_KEY_C"
+          ],
+          [
+            "↑",
+            "WIO_5S_UP"
+          ],
+          [
+            "↓",
+            "WIO_5S_DOWN"
+          ],
+          [
+            "←",
+            "WIO_5S_LEFT"
+          ],
+          [
+            "→",
+            "WIO_5S_RIGHT"
+          ],
+          [
+            "●",
+            "WIO_5S_PRESS"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "클릭",
+            "CLICK"
+          ],
+          [
+            "더블 클릭",
+            "DOUBLE_CLICK"
+          ],
+          [
+            "다중 클릭",
+            "MULTI_CLICK"
+          ],
+          [
+            "눌림",
+            "PRESS"
+          ],
+          [
+            "길게 누르기 시작",
+            "LONG_PRESS_START"
+          ],
+          [
+            "길게 누르는 동안",
+            "DURING_LONG_PRESS"
+          ],
+          [
+            "길게 누르기 종료",
+            "LONG_PRESS_STOP"
+          ]
+        ]
+      }
+    ]
+  },
+  "wio_control_set_debounce_ms": {
+    "message0": "Wio 버튼 %1 디바운스 시간을 %2 ms로 설정",
+    "tooltip": "선택한 버튼의 디바운스 시간을 설정합니다"
+  },
+  "wio_control_set_click_ms": {
+    "message0": "Wio 버튼 %1 클릭 간격을 %2 ms로 설정",
+    "tooltip": "단일, 더블 및 다중 클릭 판정 간격을 설정합니다"
+  },
+  "wio_control_set_press_ms": {
+    "message0": "Wio 버튼 %1 길게 누르기 시간을 %2 ms로 설정",
+    "tooltip": "길게 누르기 시작 시간을 설정합니다"
+  },
+  "wio_control_set_long_press_interval_ms": {
+    "message0": "Wio 버튼 %1 길게 누르기 콜백 간격을 %2 ms로 설정",
+    "tooltip": "길게 누르는 동안 반복 호출 간격을 설정합니다"
+  },
+  "wio_control_is_long_pressed": {
+    "message0": "Wio 버튼 %1 길게 누르는 중",
+    "tooltip": "선택한 버튼이 길게 누르기 상태인지 확인합니다"
+  },
+  "wio_control_get_pressed_ms": {
+    "message0": "Wio 버튼 %1 누른 시간",
+    "tooltip": "현재 누른 시간을 밀리초로 가져옵니다"
+  },
+  "wio_control_get_number_clicks": {
+    "message0": "Wio 버튼 %1 클릭 횟수",
+    "tooltip": "OneButton이 최근 기록한 클릭 횟수를 가져옵니다"
+  },
+  "wio_control_reset": {
+    "message0": "Wio 버튼 %1 상태 재설정",
+    "tooltip": "선택한 버튼의 OneButton 상태 머신을 재설정합니다"
   }
 }

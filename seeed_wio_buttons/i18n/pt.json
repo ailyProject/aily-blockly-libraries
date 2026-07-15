@@ -2,34 +2,173 @@
   "toolbox_name": "Botões Wio",
   "toolbox_labels": {
     "可配置按键": "Botões configuráveis",
-    "5向开关": "Chave de 5 direções"
+    "5向开关": "Chave de 5 direções",
+    "初始化": "Inicialização",
+    "事件处理": "Eventos",
+    "状态查询": "Estado",
+    "参数设置": "Definições",
+    "控制": "Controlo"
+  },
+  "wio_buttons_setup": {
+    "message0": "inicializar todos os botões",
+    "tooltip": "Inicializa A/B/C e a chave de 5 direções e atualiza OneButton automaticamente no ciclo principal"
   },
   "wio_button_is_pressed": {
     "message0": "o botão %1 está pressionado",
-    "tooltip": "Verifica se o botão especificado está pressionado, retorna booleano",
+    "tooltip": "Verifica o estado sem ressalto do botão selecionado",
     "args0": [
       {
         "options": [
-          ["A", "WIO_KEY_A"],
-          ["B", "WIO_KEY_B"],
-          ["C", "WIO_KEY_C"]
+          [
+            "A",
+            "WIO_KEY_A"
+          ],
+          [
+            "B",
+            "WIO_KEY_B"
+          ],
+          [
+            "C",
+            "WIO_KEY_C"
+          ]
         ]
       }
     ]
   },
   "wio_switch_is_pressed": {
     "message0": "a chave de 5 direções %1 está pressionada",
-    "tooltip": "Verifica se a direção especificada da chave de 5 direções está pressionada, retorna booleano",
+    "tooltip": "Verifica o estado sem ressalto da direção selecionada",
     "args0": [
       {
         "options": [
-          ["Cima", "WIO_5S_UP"],
-          ["Baixo", "WIO_5S_DOWN"],
-          ["Esquerda", "WIO_5S_LEFT"],
-          ["Direita", "WIO_5S_RIGHT"],
-          ["Pressionar", "WIO_5S_PRESS"]
+          [
+            "Cima",
+            "WIO_5S_UP"
+          ],
+          [
+            "Baixo",
+            "WIO_5S_DOWN"
+          ],
+          [
+            "Esquerda",
+            "WIO_5S_LEFT"
+          ],
+          [
+            "Direita",
+            "WIO_5S_RIGHT"
+          ],
+          [
+            "Pressionar",
+            "WIO_5S_PRESS"
+          ]
         ]
       }
     ]
+  },
+  "wio_control_on_event": {
+    "message0": "quando o botão Wio %1 recebe %2",
+    "tooltip": "Trata o botão ou direção selecionada com eventos OneButton",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "WIO_KEY_A"
+          ],
+          [
+            "B",
+            "WIO_KEY_B"
+          ],
+          [
+            "C",
+            "WIO_KEY_C"
+          ],
+          [
+            "↑",
+            "WIO_5S_UP"
+          ],
+          [
+            "↓",
+            "WIO_5S_DOWN"
+          ],
+          [
+            "←",
+            "WIO_5S_LEFT"
+          ],
+          [
+            "→",
+            "WIO_5S_RIGHT"
+          ],
+          [
+            "●",
+            "WIO_5S_PRESS"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "clique",
+            "CLICK"
+          ],
+          [
+            "clique duplo",
+            "DOUBLE_CLICK"
+          ],
+          [
+            "cliques múltiplos",
+            "MULTI_CLICK"
+          ],
+          [
+            "pressionado",
+            "PRESS"
+          ],
+          [
+            "início de pressão longa",
+            "LONG_PRESS_START"
+          ],
+          [
+            "durante pressão longa",
+            "DURING_LONG_PRESS"
+          ],
+          [
+            "fim de pressão longa",
+            "LONG_PRESS_STOP"
+          ]
+        ]
+      }
+    ]
+  },
+  "wio_control_set_debounce_ms": {
+    "message0": "definir antirressalto do botão Wio %1 para %2 ms",
+    "tooltip": "Define o tempo de antirressalto do botão selecionado"
+  },
+  "wio_control_set_click_ms": {
+    "message0": "definir intervalo de clique do botão Wio %1 para %2 ms",
+    "tooltip": "Define o intervalo para cliques simples, duplos e múltiplos"
+  },
+  "wio_control_set_press_ms": {
+    "message0": "definir pressão longa do botão Wio %1 para %2 ms",
+    "tooltip": "Define o tempo para iniciar uma pressão longa"
+  },
+  "wio_control_set_long_press_interval_ms": {
+    "message0": "definir intervalo de pressão longa do botão Wio %1 para %2 ms",
+    "tooltip": "Define o intervalo repetido durante uma pressão longa"
+  },
+  "wio_control_is_long_pressed": {
+    "message0": "o botão Wio %1 está em pressão longa",
+    "tooltip": "Verifica se o botão selecionado está em pressão longa"
+  },
+  "wio_control_get_pressed_ms": {
+    "message0": "duração de pressão do botão Wio %1",
+    "tooltip": "Obtém a duração atual em milissegundos"
+  },
+  "wio_control_get_number_clicks": {
+    "message0": "contagem de cliques do botão Wio %1",
+    "tooltip": "Obtém a última contagem registada pelo OneButton"
+  },
+  "wio_control_reset": {
+    "message0": "repor estado do botão Wio %1",
+    "tooltip": "Repõe a máquina de estados OneButton do botão selecionado"
   }
 }
