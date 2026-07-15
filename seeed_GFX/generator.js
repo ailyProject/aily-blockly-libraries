@@ -857,6 +857,55 @@ static bool seeedGfxReadVideoData(fs::File &file, uint8_t *buffer, size_t length
   return true;
 }
 
+#if defined(SEEED_GFX_WIO_TERMINAL_DMA)
+static bool seeedGfxPlayRgb565DmaFrame(
+    TFT_eSPI &display,
+    fs::File &file,
+    uint8_t *bufferA,
+    uint8_t *bufferB,
+    size_t bufferSize,
+    uint16_t width,
+    uint16_t height,
+    uint32_t frameSize) {
+  if (bufferA == nullptr || bufferB == nullptr || bufferSize < 2 || (bufferSize & 1) != 0) {
+    return false;
+  }
+
+  uint8_t *currentBuffer = bufferA;
+  uint8_t *nextBuffer = bufferB;
+  uint32_t remainingBytes = frameSize;
+  size_t currentBytes = remainingBytes > bufferSize ? bufferSize : (size_t)remainingBytes;
+  if (!seeedGfxReadVideoData(file, currentBuffer, currentBytes)) {
+    return false;
+  }
+
+  bool success = true;
+  display.startWrite();
+  display.setAddrWindow(0, 0, width, height);
+
+  while (remainingBytes > 0 && success) {
+    display.pushPixelsDMA(reinterpret_cast<uint16_t *>(currentBuffer), currentBytes / 2);
+    remainingBytes -= (uint32_t)currentBytes;
+    if (remainingBytes == 0) {
+      break;
+    }
+
+    const size_t nextBytes = remainingBytes > bufferSize ? bufferSize : (size_t)remainingBytes;
+    success = seeedGfxReadVideoData(file, nextBuffer, nextBytes);
+    if (success) {
+      uint8_t *completedBuffer = currentBuffer;
+      currentBuffer = nextBuffer;
+      nextBuffer = completedBuffer;
+      currentBytes = nextBytes;
+    }
+  }
+
+  display.dmaWait();
+  display.endWrite();
+  return success && remainingBytes == 0;
+}
+#endif
+
 static void seeedGfxWaitVideoFrame(uint32_t frameStartedAt, uint64_t frameIntervalUs) {
   uint64_t elapsedUs = (uint32_t)(micros() - frameStartedAt);
   if (elapsedUs >= frameIntervalUs) {
@@ -995,11 +1044,36 @@ bool seeedGfxPlaySdVideo(TFT_eSPI &display, const String &fileName, int32_t buff
     }
   }
 
-  uint8_t *buffer = seeedGfxAllocateVideoBuffer(bufferSize);
+  const size_t activeBufferSize = bufferSize;
+  uint8_t *buffer = seeedGfxAllocateVideoBuffer(activeBufferSize);
+
   if (buffer == nullptr) {
     file.close();
     return false;
   }
+
+#if defined(SEEED_GFX_WIO_TERMINAL_DMA)
+  // A SAMD DMA descriptor can transfer at most 65,535 bytes. RGB565 chunks
+  // must also contain a whole number of pixels, hence the 65,534-byte cap.
+  size_t dmaBufferSize = activeBufferSize - activeBufferSize % 2;
+  if (dmaBufferSize > 65534) dmaBufferSize = 65534;
+  uint8_t *dmaBuffer = nullptr;
+  bool dmaEnabled = false;
+  const bool dmaFrameFitsViewport = display.getViewportX() == 0
+    && display.getViewportY() == 0
+    && (uint32_t)width <= (uint32_t)display.getViewportWidth()
+    && (uint32_t)height <= (uint32_t)display.getViewportHeight();
+  if (pixelFormat == AILY_RGB565_LE && dmaBufferSize >= 2 && dmaFrameFitsViewport) {
+    dmaBuffer = seeedGfxAllocateVideoBuffer(dmaBufferSize);
+    if (dmaBuffer != nullptr) {
+      dmaEnabled = display.initDMA();
+      if (!dmaEnabled) {
+        free(dmaBuffer);
+        dmaBuffer = nullptr;
+      }
+    }
+  }
+#endif
 
   uint64_t frameIntervalUs = 1000000ULL * fpsDenominator / fpsNumerator;
   if (frameIntervalUs == 0) frameIntervalUs = 1;
@@ -1013,12 +1087,28 @@ bool seeedGfxPlaySdVideo(TFT_eSPI &display, const String &fileName, int32_t buff
   while (framesPlayed < frameCount && success) {
     uint32_t frameStartedAt = micros();
 
-    if (pixelFormat == AILY_MONO1_XBM) {
+    bool framePlayedWithDma = false;
+#if defined(SEEED_GFX_WIO_TERMINAL_DMA)
+    if (dmaEnabled) {
+      success = seeedGfxPlayRgb565DmaFrame(
+        display,
+        file,
+        buffer,
+        dmaBuffer,
+        dmaBufferSize,
+        width,
+        height,
+        frameSize);
+      framePlayedWithDma = true;
+    }
+#endif
+
+    if (!framePlayedWithDma && pixelFormat == AILY_MONO1_XBM) {
       const uint32_t rowBytes = ((uint32_t)width + 7) / 8;
       uint32_t y = 0;
       while (y < height && success) {
-        if (bufferSize >= rowBytes) {
-          const size_t rowsInBuffer = bufferSize / rowBytes;
+        if (activeBufferSize >= rowBytes) {
+          const size_t rowsInBuffer = activeBufferSize / rowBytes;
           const uint32_t remainingRows = (uint32_t)height - y;
           const uint32_t rows = rowsInBuffer > remainingRows
             ? remainingRows
@@ -1033,7 +1123,7 @@ bool seeedGfxPlaySdVideo(TFT_eSPI &display, const String &fileName, int32_t buff
           uint32_t byteX = 0;
           while (byteX < rowBytes && success) {
             size_t bytes = rowBytes - byteX;
-            if (bytes > bufferSize) bytes = bufferSize;
+            if (bytes > activeBufferSize) bytes = activeBufferSize;
             success = seeedGfxReadVideoData(file, buffer, bytes);
             if (success) {
               uint32_t x = byteX * 8;
@@ -1046,13 +1136,13 @@ bool seeedGfxPlaySdVideo(TFT_eSPI &display, const String &fileName, int32_t buff
           y++;
         }
       }
-    } else {
+    } else if (!framePlayedWithDma) {
       const uint32_t bytesPerPixel = pixelFormat == AILY_RGB565_LE ? 2 : 1;
       const uint32_t rowBytes = (uint32_t)width * bytesPerPixel;
       uint32_t y = 0;
       while (y < height && success) {
-        if (bufferSize >= rowBytes) {
-          const size_t rowsInBuffer = bufferSize / rowBytes;
+        if (activeBufferSize >= rowBytes) {
+          const size_t rowsInBuffer = activeBufferSize / rowBytes;
           const uint32_t remainingRows = (uint32_t)height - y;
           const uint32_t rows = rowsInBuffer > remainingRows
             ? remainingRows
@@ -1068,7 +1158,7 @@ bool seeedGfxPlaySdVideo(TFT_eSPI &display, const String &fileName, int32_t buff
             y += rows;
           }
         } else {
-          const size_t usableBytes = bufferSize - bufferSize % bytesPerPixel;
+          const size_t usableBytes = activeBufferSize - activeBufferSize % bytesPerPixel;
           if (usableBytes == 0) {
             success = false;
             break;
@@ -1106,6 +1196,14 @@ bool seeedGfxPlaySdVideo(TFT_eSPI &display, const String &fileName, int32_t buff
   if (pixelFormat == AILY_RGB565_LE) {
     display.setSwapBytes(previousSwapBytes);
   }
+#if defined(SEEED_GFX_WIO_TERMINAL_DMA)
+  if (dmaEnabled) {
+    display.deInitDMA();
+  }
+  if (dmaBuffer != nullptr) {
+    free(dmaBuffer);
+  }
+#endif
   free(buffer);
   file.close();
   return success && framesPlayed == frameCount;
