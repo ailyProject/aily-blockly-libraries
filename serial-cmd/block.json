@@ -1,0 +1,117 @@
+[
+  {
+    "type": "serial_cmd_init",
+    "message0": "初始化串口指令解析 端口 %1 波特率 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PORT",
+        "options": [
+          [
+            "Serial (TX:PA2, RX:PA3)",
+            "Serial"
+          ],
+          [
+            "Serial1 (TX:PA9, RX:PA10)",
+            "Serial1"
+          ],
+          [
+            "Serial2 (TX:PA2, RX:PA3)",
+            "Serial2"
+          ],
+          [
+            "Serial3 (TX:PB10, RX:PB11)",
+            "Serial3"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SPEED",
+        "options": "${board.serialSpeed}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#48c2c4",
+    "tooltip": "初始化串口指令解析，自动处理非阻塞读取和解析"
+  },
+  {
+    "type": "serial_cmd_on_received",
+    "message0": "当收到完整串口指令时",
+    "args0": [],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#5CB85C",
+    "tooltip": "事件：当串口接收到以换行符结尾的完整指令时触发"
+  },
+  {
+    "type": "serial_cmd_get_cmd",
+    "message0": "获取当前指令文本",
+    "output": "String",
+    "colour": "#48c2c4",
+    "tooltip": "返回当前接收到的完整指令字符串"
+  },
+  {
+    "type": "serial_cmd_get_param_int",
+    "message0": "从指令中解析整数参数 索引 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#48c2c4",
+    "tooltip": "从指令中按索引解析整数参数（0-based）"
+  },
+  {
+    "type": "serial_cmd_get_cmd_type",
+    "message0": "获取指令类型",
+    "output": "String",
+    "colour": "#48c2c4",
+    "tooltip": "返回指令前缀（如'STEP'、'DWR'等）"
+  },
+  {
+    "type": "serial_cmd_reply_ok",
+    "message0": "串口回复成功 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MSG",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#48c2c4",
+    "tooltip": "串口输出OK前缀和消息"
+  },
+  {
+    "type": "serial_cmd_reply_err",
+    "message0": "串口回复错误 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MSG",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "串口输出ERR前缀和错误消息"
+  }
+]
