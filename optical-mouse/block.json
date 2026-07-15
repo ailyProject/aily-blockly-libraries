@@ -1,0 +1,135 @@
+[
+  {
+    "type": "optical_mouse_init",
+    "message0": "init optical mouse %1 SCLK %2 DIO %3 CS %4 resolution(mm/LSB) %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "mouse"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SCLK",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIO",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CS",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_input",
+        "name": "RESOLUTION",
+        "text": "0.0405"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Initialize optical mouse sensor with SCLK, DIO, CS pins and resolution"
+  },
+  {
+    "type": "optical_mouse_update",
+    "message0": "read %1 update position",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mouse",
+        "variableTypes": [
+          "OpticalMouse"
+        ],
+        "defaultType": "OpticalMouse"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Read sensor data and update accumulated position"
+  },
+  {
+    "type": "optical_mouse_get_x",
+    "message0": "%1 position X (mm)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mouse",
+        "variableTypes": [
+          "OpticalMouse"
+        ],
+        "defaultType": "OpticalMouse"
+      }
+    ],
+    "output": [
+      "Number"
+    ],
+    "colour": "#2196F3",
+    "tooltip": "Get accumulated X position in mm"
+  },
+  {
+    "type": "optical_mouse_get_y",
+    "message0": "%1 position Y (mm)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mouse",
+        "variableTypes": [
+          "OpticalMouse"
+        ],
+        "defaultType": "OpticalMouse"
+      }
+    ],
+    "output": [
+      "Number"
+    ],
+    "colour": "#2196F3",
+    "tooltip": "Get accumulated Y position in mm"
+  },
+  {
+    "type": "optical_mouse_has_motion",
+    "message0": "%1 has motion",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mouse",
+        "variableTypes": [
+          "OpticalMouse"
+        ],
+        "defaultType": "OpticalMouse"
+      }
+    ],
+    "output": [
+      "Boolean"
+    ],
+    "colour": "#FF9800",
+    "tooltip": "Returns true if motion was detected in last update"
+  },
+  {
+    "type": "optical_mouse_reset",
+    "message0": "reset %1 position to zero",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mouse",
+        "variableTypes": [
+          "OpticalMouse"
+        ],
+        "defaultType": "OpticalMouse"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "Reset accumulated position to zero"
+  }
+]
