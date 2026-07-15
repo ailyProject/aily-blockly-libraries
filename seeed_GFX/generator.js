@@ -157,7 +157,14 @@ Arduino.forBlock['seeed_gfx_init'] = function(block, generator) {
   generator.addObject(varName, 'TFT_eSPI ' + varName + ' = TFT_eSPI();');
   
   // 生成初始化代码
-  return varName + '.init();\n';
+  let code = varName + '.init();\n';
+  // Seeed_GFX does not apply the GC9A01 MADCTL value during init().
+  // Explicitly apply rotation 0 so the XIAO Round Display starts with the
+  // same BGR colour-order configuration used by every setRotation() path.
+  if (model === '501') {
+    code += varName + '.setRotation(0);\n';
+  }
+  return code;
 };
 
 // 填充屏幕
