@@ -1,20 +1,15 @@
 [
   {
     "type": "seeed_fs_sd_begin",
-    "message0": "初始化板载 SD 卡存储 频率：%1 MHz",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "FREQUENCY",
-        "check": ["Number"]
-      }
-    ],
-    "inputsInline": true,
+    "message0": "初始化 SD 卡存储",
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#FF9800",
-    "tooltip": "使用 SDCARD_SS_PIN 和 SDCARD_SPI 初始化板载 SD 卡存储；频率单位为 MHz，默认 25 MHz（当前 HAL 上限）",
-    "icon": "fa-regular fa-sd-card"
+    "tooltip": "使用 SDCARD_SS_PIN 和 SDCARD_SPI 以固定 24 MHz 初始化 SD 卡存储",
+    "icon": "fa-regular fa-sd-card",
+    "extensions": [
+      "seeed_wio_sd_legacy_frequency_input"
+    ]
   },
   {
     "type": "seeed_fs_sd_card_info",

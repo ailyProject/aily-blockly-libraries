@@ -17,18 +17,30 @@
   },
   {
     "type": "seeed_gfx_init",
-    "message0": "初始化屏幕 %1",
+    "message0": "初始化屏幕 %1 SPI 频率 %2",
     "args0": [
       {
         "type": "field_input",
         "name": "VAR",
         "text": "tft"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FREQUENCY",
+        "options": [
+          ["MAX (CPU/2)", "(F_CPU / 2)"],
+          ["50 MHz", "50000000"],
+          ["40 MHz", "40000000"],
+          ["27 MHz", "27000000"],
+          ["20 MHz", "20000000"],
+          ["10 MHz", "10000000"]
+        ]
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#2196F3",
-    "tooltip": "以最高 SPI 频率初始化屏幕",
+    "tooltip": "使用所选 SPI 频率初始化屏幕，默认 50 MHz；MAX 为 CPU/2，仅供测试，可能导致花屏",
     "icon": "iconfont icon-oled12864"
   },
   {
@@ -925,7 +937,7 @@
   },
   {
     "type": "seeed_gfx_animation",
-    "message0": "Seeed GFX 动画 %1",
+    "message0": "动画 %1",
     "args0": [
       {
         "type": "field_tftespi_animation",
@@ -1028,7 +1040,7 @@
     "nextStatement": null,
     "colour": "#2196F3",
     "icon": "fa-regular fa-sd-card",
-    "tooltip": "播放 SD 卡中的 AILY 取模视频；RGB565 使用双缓冲 DMA，播放前请先使用 Seeed FS 初始化 SD 卡",
+    "tooltip": "播放 SD 卡中的 AILY 取模视频；按缓存大小分段读取并同步显示，播放前请先使用 Seeed FS 初始化 SD 卡",
     "inputsInline": true
   },
   {
@@ -1190,30 +1202,6 @@
     "output": "Number",
     "colour": "#2196F3",
     "tooltip": "屏幕常用颜色宏定义",
-    "icon": "iconfont icon-oled12864"
-  },
-  {
-    "type": "seeed_gfx_rgb565",
-    "message0": "屏幕 %1 颜色转换 %2",
-    "args0": [
-      {
-        "type": "field_variable",
-        "name": "VAR",
-        "variable": "tft",
-        "variableTypes": [
-          "TFT"
-        ],
-        "defaultType": "TFT"
-      },
-      {
-        "type": "field_colour_hsv_sliders",
-        "name": "COLOR",
-        "colour": "#ffffff"
-      }
-    ],
-    "output": "Number",
-    "colour": "#2196F3",
-    "tooltip": "将RGB颜色转换为RGB565格式",
     "icon": "iconfont icon-oled12864"
   },
   {

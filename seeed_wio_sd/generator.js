@@ -1,20 +1,50 @@
 'use strict';
 
+// Keep the removed FREQUENCY connection available only for restoring projects
+// created with versions <= 1.0.1. The generator intentionally ignores it.
+if (typeof Blockly !== 'undefined' && Blockly.Extensions) {
+  const legacyFrequencyExtension = 'seeed_wio_sd_legacy_frequency_input';
+  if (Blockly.Extensions.isRegistered && Blockly.Extensions.isRegistered(legacyFrequencyExtension)) {
+    Blockly.Extensions.unregister(legacyFrequencyExtension);
+  }
+  Blockly.Extensions.register(legacyFrequencyExtension, function() {
+    let legacyInput = this.getInput('FREQUENCY');
+    if (!legacyInput) {
+      legacyInput = this.appendValueInput('FREQUENCY').setCheck('Number');
+    }
+
+    const hideLegacyInput = () => {
+      if (!this.rendered || !this.getInput('FREQUENCY')) {
+        return;
+      }
+      legacyInput.setVisible(false);
+      if (typeof this.render === 'function') {
+        this.render();
+      }
+    };
+
+    if (this.rendered) {
+      hideLegacyInput();
+    } else if (typeof Promise !== 'undefined') {
+      Promise.resolve().then(hideLegacyInput);
+    }
+  });
+}
+
 // Helper: add Seeed_Arduino_FS library include
 function ensureSeeedFS(generator) {
   generator.addLibrary('Seeed_Arduino_FS', '#include <Seeed_Arduino_FS.h>');
   generator.addLibrary('SPI', '#include <SPI.h>');
 }
 
-function seeedFsGenerateOnboardSdBegin(generator, frequency) {
-  const frequencyMhz = frequency || '25';
+function seeedFsGenerateOnboardSdBegin(generator) {
   generator.addMacro(
     'AILY_SEEED_FS_ONBOARD_SD_INIT',
     '#define AILY_SEEED_FS_ONBOARD_SD_INIT 1'
   );
 
   let code = '';
-  code += 'if (!SD.begin(SDCARD_SS_PIN, SDCARD_SPI, (' + frequencyMhz + ') * 1000000UL)) {\n';
+  code += 'if (!SD.begin(SDCARD_SS_PIN, SDCARD_SPI, 24000000UL)) {\n';
   code += '  Serial.println("Card Mount Failed");\n';
   code += '  return;\n';
   code += '}\n';
@@ -23,10 +53,9 @@ function seeedFsGenerateOnboardSdBegin(generator, frequency) {
 }
 
 Arduino.forBlock['seeed_fs_sd_begin'] = function(block, generator) {
-  const frequency = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC) || '25';
   ensureSeeedFS(generator);
   ensureSerialBegin('Serial', generator);
-  return seeedFsGenerateOnboardSdBegin(generator, frequency);
+  return seeedFsGenerateOnboardSdBegin(generator);
 };
 
 Arduino.forBlock['seeed_fs_sd_card_info'] = function(block, generator) {
