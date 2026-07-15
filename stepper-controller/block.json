@@ -1,0 +1,377 @@
+[
+  {
+    "type": "stepper_ctrl_init",
+    "message0": "初始化步进电机 %1 脉冲引脚 %2 方向引脚 %3 速度(μs) %4 前限位引脚 %5 后限位引脚 %6",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "stepper1"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STEP_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FRONT_LIMIT_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BACK_LIMIT_PIN",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "初始化步进电机控制器，配置引脚和速度"
+  },
+  {
+    "type": "stepper_ctrl_start",
+    "message0": "%1 启动 目标步数 %2 方向 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper1",
+        "variableTypes": [
+          "StepperController"
+        ],
+        "defaultType": "StepperController"
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          [
+            "FORWARD",
+            "FORWARD"
+          ],
+          [
+            "REVERSE",
+            "REVERSE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "设置目标步数和方向后启动步进电机"
+  },
+  {
+    "type": "stepper_ctrl_stop",
+    "message0": "%1 停止",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper1",
+        "variableTypes": [
+          "StepperController"
+        ],
+        "defaultType": "StepperController"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "停止步进电机"
+  },
+  {
+    "type": "stepper_ctrl_set_speed",
+    "message0": "%1 设置速度(μs) %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper1",
+        "variableTypes": [
+          "StepperController"
+        ],
+        "defaultType": "StepperController"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "设置步进脉冲间隔（微秒），值越小速度越快，范围200~5000"
+  },
+  {
+    "type": "stepper_ctrl_set_rpm",
+    "message0": "%1 设置转速(RPM) %2 每圈步数 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper1",
+        "variableTypes": [
+          "StepperController"
+        ],
+        "defaultType": "StepperController"
+      },
+      {
+        "type": "input_value",
+        "name": "RPM",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SPR",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "通过转速和每圈步数设置速度"
+  },
+  {
+    "type": "stepper_ctrl_set_direction",
+    "message0": "%1 设置方向 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper1",
+        "variableTypes": [
+          "StepperController"
+        ],
+        "defaultType": "StepperController"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          [
+            "FORWARD",
+            "FORWARD"
+          ],
+          [
+            "REVERSE",
+            "REVERSE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "设置电机旋转方向"
+  },
+  {
+    "type": "stepper_ctrl_tick",
+    "message0": "%1 执行一步",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper1",
+        "variableTypes": [
+          "StepperController"
+        ],
+        "defaultType": "StepperController"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "在loop中调用，驱动电机并自动检测限位和目标"
+  },
+  {
+    "type": "stepper_ctrl_is_running",
+    "message0": "%1 运行中",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper1",
+        "variableTypes": [
+          "StepperController"
+        ],
+        "defaultType": "StepperController"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF6B35",
+    "tooltip": "判断步进电机是否正在运行"
+  },
+  {
+    "type": "stepper_ctrl_get_steps",
+    "message0": "%1 已走步数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper1",
+        "variableTypes": [
+          "StepperController"
+        ],
+        "defaultType": "StepperController"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "获取当前已走步数"
+  },
+  {
+    "type": "stepper_ctrl_reset_steps",
+    "message0": "%1 清零步数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper1",
+        "variableTypes": [
+          "StepperController"
+        ],
+        "defaultType": "StepperController"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "将步数计数器清零"
+  },
+  {
+    "type": "stepper_ctrl_is_front_limit",
+    "message0": "%1 前限位触发",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper1",
+        "variableTypes": [
+          "StepperController"
+        ],
+        "defaultType": "StepperController"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF6B35",
+    "tooltip": "判断前限位开关是否触发"
+  },
+  {
+    "type": "stepper_ctrl_is_back_limit",
+    "message0": "%1 后限位触发",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper1",
+        "variableTypes": [
+          "StepperController"
+        ],
+        "defaultType": "StepperController"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF6B35",
+    "tooltip": "判断后限位开关是否触发"
+  },
+  {
+    "type": "stepper_ctrl_on_target_done",
+    "message0": "当 %1 目标步数完成时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper1",
+        "variableTypes": [
+          "StepperController"
+        ],
+        "defaultType": "StepperController"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#5CB85C",
+    "tooltip": "事件：目标步数完成时触发"
+  },
+  {
+    "type": "stepper_ctrl_on_front_limit",
+    "message0": "当 %1 前限位触发时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper1",
+        "variableTypes": [
+          "StepperController"
+        ],
+        "defaultType": "StepperController"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#5CB85C",
+    "tooltip": "事件：前限位开关触发时"
+  },
+  {
+    "type": "stepper_ctrl_on_back_limit",
+    "message0": "当 %1 后限位触发时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "stepper1",
+        "variableTypes": [
+          "StepperController"
+        ],
+        "defaultType": "StepperController"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#5CB85C",
+    "tooltip": "事件：后限位开关触发时"
+  }
+]
