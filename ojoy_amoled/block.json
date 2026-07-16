@@ -1,0 +1,3128 @@
+[
+  {
+    "type": "chamoled_setup",
+    "message0": "【① 初始化屏幕(必需·放最前)】 AMOLED屏幕 %1 QSPI频率 %2 旋转 %3 亮度 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "gfx"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FREQ",
+        "options": [
+          [
+            "40MHz",
+            "40000000UL"
+          ],
+          [
+            "60MHz",
+            "60000000UL"
+          ],
+          [
+            "80MHz",
+            "80000000UL"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ROTATION",
+        "options": [
+          [
+            "0°",
+            "0"
+          ],
+          [
+            "90°",
+            "1"
+          ],
+          [
+            "180°",
+            "2"
+          ],
+          [
+            "270°",
+            "3"
+          ]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "BRIGHT",
+        "value": 255
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8E44AD",
+    "tooltip": "初始化 OJoy AMOLED 屏幕(引脚已按板卡固定, 需 ESP32-S3 + PSRAM)",
+    "helpUrl": "",
+    "icon": "fa-light fa-power-off",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_panel",
+    "message0": "【面板控制】 屏幕 %1 执行 %2 值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "设置亮度(0-255)",
+            "setBrightness"
+          ],
+          [
+            "睡眠(1开/0关)",
+            "sleep"
+          ],
+          [
+            "显示(1开/0关)",
+            "displayOn"
+          ],
+          [
+            "反色(1开/0关)",
+            "invertDisplay"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8E44AD",
+    "tooltip": "面板控制：亮度/睡眠/显示开关/反色",
+    "helpUrl": "",
+    "icon": "fa-light fa-sliders",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_set_rotation",
+    "message0": "【设置屏幕旋转】 屏幕 %1 旋转 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ROTATION",
+        "options": [
+          [
+            "0°",
+            "0"
+          ],
+          [
+            "90°",
+            "1"
+          ],
+          [
+            "180°",
+            "2"
+          ],
+          [
+            "270°",
+            "3"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8E44AD",
+    "tooltip": "设置屏幕旋转方向",
+    "helpUrl": "",
+    "icon": "fa-light fa-rotate",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_refresh",
+    "message0": "【② 刷新到屏幕(绘制后必需)】 屏幕 %1 方式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "局部刷新(脏矩形,快)",
+            "update"
+          ],
+          [
+            "整屏刷新",
+            "display"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8E44AD",
+    "tooltip": "把帧缓冲推送到屏幕(所有绘制后需刷新)",
+    "helpUrl": "",
+    "icon": "fa-light fa-arrows-rotate",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_dimension",
+    "message0": "【读取屏幕尺寸】 屏幕 %1 的 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WHICH",
+        "options": [
+          [
+            "宽度",
+            "width"
+          ],
+          [
+            "高度",
+            "height"
+          ],
+          [
+            "旋转方向",
+            "getRotation"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#8E44AD",
+    "tooltip": "获取屏幕宽/高/旋转",
+    "helpUrl": "",
+    "icon": "fa-light fa-ruler-combined",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_fill_screen",
+    "message0": "【清屏/整屏填充】 屏幕 %1 填充颜色 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86C1",
+    "tooltip": "用颜色填充整屏",
+    "helpUrl": "",
+    "icon": "fa-light fa-fill-drip",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_draw_pixel",
+    "message0": "【画点】 屏幕 %1 X %2 Y %3 颜色 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86C1",
+    "tooltip": "画点",
+    "helpUrl": "",
+    "icon": "fa-light fa-braille",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_draw_line",
+    "message0": "【画线】 屏幕 %1 样式 %2 起X %3 起Y %4 终X %5 终Y %6 颜色 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STYLE",
+        "options": [
+          [
+            "实线",
+            "drawLine"
+          ],
+          [
+            "虚线",
+            "drawDashedLine"
+          ],
+          [
+            "点线",
+            "drawDottedLine"
+          ],
+          [
+            "抗锯齿线",
+            "drawLineAA"
+          ],
+          [
+            "箭头",
+            "drawArrow"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X0"
+      },
+      {
+        "type": "input_value",
+        "name": "Y0"
+      },
+      {
+        "type": "input_value",
+        "name": "X1"
+      },
+      {
+        "type": "input_value",
+        "name": "Y1"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86C1",
+    "tooltip": "画直线(可选样式)",
+    "helpUrl": "",
+    "icon": "fa-light fa-slash",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_rect",
+    "message0": "【画矩形】 屏幕 %1 方式 %2 X %3 Y %4 宽 %5 高 %6 颜色 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "描边",
+            "drawRect"
+          ],
+          [
+            "填充",
+            "fillRect"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "W"
+      },
+      {
+        "type": "input_value",
+        "name": "H"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86C1",
+    "tooltip": "矩形(描边/填充)",
+    "helpUrl": "",
+    "icon": "fa-light fa-square",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_round_rect",
+    "message0": "【画圆角矩形】 屏幕 %1 方式 %2 X %3 Y %4 宽 %5 高 %6 圆角 %7 颜色 %8",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "描边",
+            "drawRoundRect"
+          ],
+          [
+            "填充",
+            "fillRoundRect"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "W"
+      },
+      {
+        "type": "input_value",
+        "name": "H"
+      },
+      {
+        "type": "input_value",
+        "name": "R"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86C1",
+    "tooltip": "圆角矩形(描边/填充)",
+    "helpUrl": "",
+    "icon": "fa-light fa-square-dashed",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_circle",
+    "message0": "【画圆】 屏幕 %1 方式 %2 中心X %3 中心Y %4 半径 %5 颜色 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "描边",
+            "drawCircle"
+          ],
+          [
+            "填充",
+            "fillCircle"
+          ],
+          [
+            "描边(抗锯齿)",
+            "drawCircleAA"
+          ],
+          [
+            "填充(抗锯齿)",
+            "fillCircleAA"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CX"
+      },
+      {
+        "type": "input_value",
+        "name": "CY"
+      },
+      {
+        "type": "input_value",
+        "name": "R"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86C1",
+    "tooltip": "圆(描边/填充/抗锯齿)",
+    "helpUrl": "",
+    "icon": "fa-light fa-circle",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_ellipse",
+    "message0": "【画椭圆】 屏幕 %1 方式 %2 中心X %3 中心Y %4 半径X %5 半径Y %6 颜色 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "描边",
+            "drawEllipse"
+          ],
+          [
+            "填充",
+            "fillEllipse"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CX"
+      },
+      {
+        "type": "input_value",
+        "name": "CY"
+      },
+      {
+        "type": "input_value",
+        "name": "RX"
+      },
+      {
+        "type": "input_value",
+        "name": "RY"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86C1",
+    "tooltip": "椭圆(描边/填充)",
+    "helpUrl": "",
+    "icon": "fa-light fa-circle-half-stroke",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_triangle",
+    "message0": "【画三角形】 屏幕 %1 方式 %2 点1X %3 点1Y %4 点2X %5 点2Y %6 点3X %7 点3Y %8 颜色 %9",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "描边",
+            "drawTriangle"
+          ],
+          [
+            "填充",
+            "fillTriangle"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X0"
+      },
+      {
+        "type": "input_value",
+        "name": "Y0"
+      },
+      {
+        "type": "input_value",
+        "name": "X1"
+      },
+      {
+        "type": "input_value",
+        "name": "Y1"
+      },
+      {
+        "type": "input_value",
+        "name": "X2"
+      },
+      {
+        "type": "input_value",
+        "name": "Y2"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86C1",
+    "tooltip": "三角形(描边/填充)",
+    "helpUrl": "",
+    "icon": "fa-light fa-triangle",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_arc",
+    "message0": "【画圆弧】 屏幕 %1 方式 %2 中心X %3 中心Y %4 内半径 %5 外半径 %6 起角 %7 终角 %8 颜色 %9",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "描边",
+            "drawArc"
+          ],
+          [
+            "填充",
+            "fillArc"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CX"
+      },
+      {
+        "type": "input_value",
+        "name": "CY"
+      },
+      {
+        "type": "input_value",
+        "name": "RIN"
+      },
+      {
+        "type": "input_value",
+        "name": "ROUT"
+      },
+      {
+        "type": "input_value",
+        "name": "START"
+      },
+      {
+        "type": "input_value",
+        "name": "END"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86C1",
+    "tooltip": "圆弧/扇环(描边/填充), 0°=12点方向顺时针",
+    "helpUrl": "",
+    "icon": "fa-light fa-circle-notch",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_sector",
+    "message0": "【画扇形】 屏幕 %1 方式 %2 中心X %3 中心Y %4 半径 %5 起角 %6 终角 %7 颜色 %8",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "描边",
+            "drawSector"
+          ],
+          [
+            "填充",
+            "fillSector"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CX"
+      },
+      {
+        "type": "input_value",
+        "name": "CY"
+      },
+      {
+        "type": "input_value",
+        "name": "R"
+      },
+      {
+        "type": "input_value",
+        "name": "START"
+      },
+      {
+        "type": "input_value",
+        "name": "END"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86C1",
+    "tooltip": "扇形(描边/填充)",
+    "helpUrl": "",
+    "icon": "fa-light fa-chart-pie-simple",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_star",
+    "message0": "【画星形】 屏幕 %1 中心X %2 中心Y %3 外半径 %4 内半径 %5 角数 %6 颜色 %7 填充 %8",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "CX"
+      },
+      {
+        "type": "input_value",
+        "name": "CY"
+      },
+      {
+        "type": "input_value",
+        "name": "ROUT"
+      },
+      {
+        "type": "input_value",
+        "name": "RIN"
+      },
+      {
+        "type": "field_number",
+        "name": "POINTS",
+        "value": 5
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "FILL",
+        "checked": true
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86C1",
+    "tooltip": "星形",
+    "helpUrl": "",
+    "icon": "fa-light fa-star",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_rect_gradient",
+    "message0": "【渐变矩形】 屏幕 %1 方向 %2 X %3 Y %4 宽 %5 高 %6 起色 %7 终色 %8",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          [
+            "垂直",
+            "true"
+          ],
+          [
+            "水平",
+            "false"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "W"
+      },
+      {
+        "type": "input_value",
+        "name": "H"
+      },
+      {
+        "type": "input_value",
+        "name": "C1"
+      },
+      {
+        "type": "input_value",
+        "name": "C2"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86C1",
+    "tooltip": "矩形渐变填充(水平/垂直)",
+    "helpUrl": "",
+    "icon": "fa-light fa-panorama",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_radial_gradient",
+    "message0": "【径向渐变圆】 屏幕 %1 中心X %2 中心Y %3 半径 %4 内色 %5 外色 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "CX"
+      },
+      {
+        "type": "input_value",
+        "name": "CY"
+      },
+      {
+        "type": "input_value",
+        "name": "R"
+      },
+      {
+        "type": "input_value",
+        "name": "CIN"
+      },
+      {
+        "type": "input_value",
+        "name": "COUT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86C1",
+    "tooltip": "径向渐变填充圆",
+    "helpUrl": "",
+    "icon": "fa-light fa-circle-dot",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_set_text_color",
+    "message0": "【设置文字颜色】 屏幕 %1 文字颜色 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#16A085",
+    "tooltip": "设置文字颜色",
+    "helpUrl": "",
+    "icon": "fa-light fa-palette",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_set_text_size",
+    "message0": "【设置文字大小】 屏幕 %1 倍数 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_number",
+        "name": "SIZE",
+        "value": 2
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#16A085",
+    "tooltip": "设置文字放大倍数",
+    "helpUrl": "",
+    "icon": "fa-light fa-text-height",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_set_text_align",
+    "message0": "【设置文字对齐】 屏幕 %1 水平 %2 垂直 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "H",
+        "options": [
+          [
+            "左",
+            "CH_ALIGN_LEFT"
+          ],
+          [
+            "中",
+            "CH_ALIGN_CENTER"
+          ],
+          [
+            "右",
+            "CH_ALIGN_RIGHT"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "V",
+        "options": [
+          [
+            "上",
+            "CH_ALIGN_TOP"
+          ],
+          [
+            "中",
+            "CH_ALIGN_MIDDLE"
+          ],
+          [
+            "下",
+            "CH_ALIGN_BOTTOM"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#16A085",
+    "tooltip": "设置文字对齐(相对锚点)",
+    "helpUrl": "",
+    "icon": "fa-light fa-align-center",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_set_cursor",
+    "message0": "【设置光标】 屏幕 %1 X %2 Y %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#16A085",
+    "tooltip": "设置光标位置",
+    "helpUrl": "",
+    "icon": "fa-light fa-i-cursor",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_draw_text",
+    "message0": "【显示文字】 屏幕 %1 X %2 Y %3 文字 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#16A085",
+    "tooltip": "按对齐方式绘制文字",
+    "helpUrl": "",
+    "icon": "fa-light fa-font",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_text_effect",
+    "message0": "【显示特效文字(阴影/描边)】 屏幕 %1 效果 %2 X %3 Y %4 文字 %5 主色 %6 副色 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STYLE",
+        "options": [
+          [
+            "阴影",
+            "drawTextShadow"
+          ],
+          [
+            "描边",
+            "drawTextOutline"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR2"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#16A085",
+    "tooltip": "带阴影/描边的文字",
+    "helpUrl": "",
+    "icon": "fa-light fa-wand-magic-sparkles",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_seg_text",
+    "message0": "【显示七段数字(时钟)】 屏幕 %1 X %2 Y %3 高 %4 文字 %5 颜色 %6 背景 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "H"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      },
+      {
+        "type": "input_value",
+        "name": "BG"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#16A085",
+    "tooltip": "七段矢量大数字(时钟/仪表), 支持 0-9 A-F : . -",
+    "helpUrl": "",
+    "icon": "fa-light fa-clock",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_print",
+    "message0": "【打印文字(支持中文)】 屏幕 %1 X %2 Y %3 文字 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#16A085",
+    "tooltip": "在光标处 print(支持中文/UTF-8, 配合中文字体块)",
+    "helpUrl": "",
+    "icon": "fa-light fa-language",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_set_cn_font",
+    "message0": "【选择中文字体】 屏幕 %1 中文字体 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FONT",
+        "options": [
+          [
+            "关闭",
+            "0"
+          ],
+          [
+            "16px",
+            "16"
+          ],
+          [
+            "24px",
+            "24"
+          ],
+          [
+            "32px",
+            "32"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#16A085",
+    "tooltip": "切换中文点阵字体(需较大 APP 分区)",
+    "helpUrl": "",
+    "icon": "fa-light fa-language",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_color",
+    "message0": "【取颜色】 颜色 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          [
+            "黑",
+            "CH_BLACK"
+          ],
+          [
+            "白",
+            "CH_WHITE"
+          ],
+          [
+            "红",
+            "CH_RED"
+          ],
+          [
+            "绿",
+            "CH_GREEN"
+          ],
+          [
+            "蓝",
+            "CH_BLUE"
+          ],
+          [
+            "黄",
+            "CH_YELLOW"
+          ],
+          [
+            "青",
+            "CH_CYAN"
+          ],
+          [
+            "洋红",
+            "CH_MAGENTA"
+          ],
+          [
+            "橙",
+            "CH_ORANGE"
+          ],
+          [
+            "粉",
+            "CH_PINK"
+          ],
+          [
+            "紫",
+            "CH_PURPLE"
+          ],
+          [
+            "紫罗兰",
+            "CH_VIOLET"
+          ],
+          [
+            "金",
+            "CH_GOLD"
+          ],
+          [
+            "天蓝",
+            "CH_SKYBLUE"
+          ],
+          [
+            "海军蓝",
+            "CH_NAVY"
+          ],
+          [
+            "深青",
+            "CH_DARKCYAN"
+          ],
+          [
+            "深绿",
+            "CH_DARKGREEN"
+          ],
+          [
+            "深灰",
+            "CH_DARKGREY"
+          ],
+          [
+            "浅灰",
+            "CH_LIGHTGREY"
+          ],
+          [
+            "银",
+            "CH_SILVER"
+          ],
+          [
+            "橄榄",
+            "CH_OLIVE"
+          ],
+          [
+            "栗",
+            "CH_MAROON"
+          ],
+          [
+            "黄绿",
+            "CH_GREENYELLOW"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E67E22",
+    "tooltip": "预设颜色",
+    "helpUrl": "",
+    "icon": "fa-light fa-palette",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_color_rgb",
+    "message0": "【取RGB颜色】 红 %1 绿 %2 蓝 %3",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "R",
+        "value": 255
+      },
+      {
+        "type": "field_number",
+        "name": "G",
+        "value": 128
+      },
+      {
+        "type": "field_number",
+        "name": "B",
+        "value": 0
+      }
+    ],
+    "output": "Number",
+    "colour": "#E67E22",
+    "tooltip": "RGB 转 565 颜色",
+    "helpUrl": "",
+    "icon": "fa-light fa-eye-dropper",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_palette",
+    "message0": "【取调色板颜色】 调色板 %1 位置 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PAL",
+        "options": [
+          [
+            "彩虹",
+            "rainbow"
+          ],
+          [
+            "热力",
+            "heat"
+          ],
+          [
+            "Jet",
+            "jet"
+          ],
+          [
+            "Turbo",
+            "turbo"
+          ],
+          [
+            "Viridis",
+            "viridis"
+          ],
+          [
+            "灰阶",
+            "grayscale"
+          ]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "T",
+        "value": 128
+      }
+    ],
+    "output": "Number",
+    "colour": "#E67E22",
+    "tooltip": "调色板取色(t=0-255)",
+    "helpUrl": "",
+    "icon": "fa-light fa-swatchbook",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_set_blend",
+    "message0": "【设置混合模式】 屏幕 %1 方式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "正常",
+            "CH_BLEND_NORMAL"
+          ],
+          [
+            "叠加(Add)",
+            "CH_BLEND_ADD"
+          ],
+          [
+            "正片叠底",
+            "CH_BLEND_MULTIPLY"
+          ],
+          [
+            "滤色",
+            "CH_BLEND_SCREEN"
+          ],
+          [
+            "变暗",
+            "CH_BLEND_DARKEN"
+          ],
+          [
+            "变亮",
+            "CH_BLEND_LIGHTEN"
+          ],
+          [
+            "叠加(Overlay)",
+            "CH_BLEND_OVERLAY"
+          ],
+          [
+            "减去",
+            "CH_BLEND_SUBTRACT"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7F8C8D",
+    "tooltip": "设置混合模式(影响后续绘制)",
+    "helpUrl": "",
+    "icon": "fa-light fa-layer-group",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_set_alpha",
+    "message0": "【设置透明度】 屏幕 %1 透明度 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_number",
+        "name": "ALPHA",
+        "value": 128
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7F8C8D",
+    "tooltip": "设置全局透明度(0-255)",
+    "helpUrl": "",
+    "icon": "fa-light fa-droplet",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_clip",
+    "message0": "【设置裁剪区域】 屏幕 %1 方式 %2 X/中心X %3 Y/中心Y %4 宽/半径 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "矩形裁剪",
+            "rect"
+          ],
+          [
+            "圆形裁剪",
+            "circle"
+          ],
+          [
+            "取消裁剪",
+            "clear"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "W"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7F8C8D",
+    "tooltip": "裁剪区域(后续绘制仅在区域内)",
+    "helpUrl": "",
+    "icon": "fa-light fa-crop",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_color_filter",
+    "message0": "【区域颜色滤镜】 屏幕 %1 滤镜 %2 X %3 Y %4 宽 %5 高 %6 强度 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FILTER",
+        "options": [
+          [
+            "灰度",
+            "CH_FILTER_GRAY"
+          ],
+          [
+            "怀旧",
+            "CH_FILTER_SEPIA"
+          ],
+          [
+            "反色",
+            "CH_FILTER_INVERT"
+          ],
+          [
+            "亮度",
+            "CH_FILTER_BRIGHTNESS"
+          ],
+          [
+            "对比度",
+            "CH_FILTER_CONTRAST"
+          ],
+          [
+            "饱和度",
+            "CH_FILTER_SATURATION"
+          ],
+          [
+            "着色",
+            "CH_FILTER_TINT"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "W"
+      },
+      {
+        "type": "input_value",
+        "name": "H"
+      },
+      {
+        "type": "field_number",
+        "name": "AMOUNT",
+        "value": 0
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C0392B",
+    "tooltip": "区域颜色滤镜",
+    "helpUrl": "",
+    "icon": "fa-light fa-filter",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_effect_rect",
+    "message0": "【区域特效(调暗/模糊/内阴影)】 屏幕 %1 特效 %2 X %3 Y %4 宽 %5 高 %6 强度 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "调暗",
+            "dimRect"
+          ],
+          [
+            "模糊",
+            "blurRect"
+          ],
+          [
+            "内阴影",
+            "innerShadowRect"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "W"
+      },
+      {
+        "type": "input_value",
+        "name": "H"
+      },
+      {
+        "type": "field_number",
+        "name": "AMOUNT",
+        "value": 2
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C0392B",
+    "tooltip": "区域特效：调暗/模糊/内阴影",
+    "helpUrl": "",
+    "icon": "fa-light fa-wand-magic-sparkles",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_vignette",
+    "message0": "【全屏暗角】 屏幕 %1 强度 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_number",
+        "name": "STRENGTH",
+        "value": 160
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C0392B",
+    "tooltip": "全屏暗角",
+    "helpUrl": "",
+    "icon": "fa-light fa-circle-dot",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_spotlight",
+    "message0": "【聚光灯】 屏幕 %1 中心X %2 中心Y %3 半径 %4 外部暗度 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "CX"
+      },
+      {
+        "type": "input_value",
+        "name": "CY"
+      },
+      {
+        "type": "input_value",
+        "name": "R"
+      },
+      {
+        "type": "field_number",
+        "name": "DIM",
+        "value": 180
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C0392B",
+    "tooltip": "聚光灯(区域外调暗)",
+    "helpUrl": "",
+    "icon": "fa-light fa-lightbulb",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_glow_circle",
+    "message0": "【发光圆】 屏幕 %1 中心X %2 中心Y %3 半径 %4 颜色 %5 光晕宽 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "CX"
+      },
+      {
+        "type": "input_value",
+        "name": "CY"
+      },
+      {
+        "type": "input_value",
+        "name": "R"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      },
+      {
+        "type": "field_number",
+        "name": "GLOWW",
+        "value": 12
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C0392B",
+    "tooltip": "发光圆",
+    "helpUrl": "",
+    "icon": "fa-light fa-sun",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_draw_bitmap",
+    "message0": "【显示位图】 屏幕 %1 位图 %2 X %3 Y %4 数据 %5 宽 %6 高 %7 单色前景 %8",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "彩色(RGB565)",
+            "rgb"
+          ],
+          [
+            "单色",
+            "mono"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "field_input",
+        "name": "BMP",
+        "text": "myBitmap"
+      },
+      {
+        "type": "input_value",
+        "name": "W"
+      },
+      {
+        "type": "input_value",
+        "name": "H"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2980B9",
+    "tooltip": "绘制位图(彩色 RGB565 数组 / 单色数组)",
+    "helpUrl": "",
+    "icon": "fa-light fa-image",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_draw_icon",
+    "message0": "【显示图标】 屏幕 %1 图标 %2 X %3 Y %4 大小 %5 颜色 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ICON",
+        "options": [
+          [
+            "电池",
+            "CH_ICON_BATTERY"
+          ],
+          [
+            "电池充电",
+            "CH_ICON_BATTERY_CHARGE"
+          ],
+          [
+            "WiFi",
+            "CH_ICON_WIFI"
+          ],
+          [
+            "WiFi关",
+            "CH_ICON_WIFI_OFF"
+          ],
+          [
+            "蓝牙",
+            "CH_ICON_BLUETOOTH"
+          ],
+          [
+            "GPS",
+            "CH_ICON_GPS"
+          ],
+          [
+            "USB",
+            "CH_ICON_USB"
+          ],
+          [
+            "音量",
+            "CH_ICON_VOLUME"
+          ],
+          [
+            "静音",
+            "CH_ICON_MUTE"
+          ],
+          [
+            "播放",
+            "CH_ICON_PLAY"
+          ],
+          [
+            "暂停",
+            "CH_ICON_PAUSE"
+          ],
+          [
+            "停止",
+            "CH_ICON_STOP"
+          ],
+          [
+            "铃铛",
+            "CH_ICON_BELL"
+          ],
+          [
+            "心形",
+            "CH_ICON_HEART"
+          ],
+          [
+            "时钟",
+            "CH_ICON_CLOCK"
+          ],
+          [
+            "设置",
+            "CH_ICON_SETTINGS"
+          ],
+          [
+            "文件夹",
+            "CH_ICON_FOLDER"
+          ],
+          [
+            "相机",
+            "CH_ICON_CAMERA"
+          ],
+          [
+            "太阳",
+            "CH_ICON_SUN"
+          ],
+          [
+            "月亮",
+            "CH_ICON_MOON"
+          ],
+          [
+            "云",
+            "CH_ICON_CLOUD"
+          ],
+          [
+            "雨",
+            "CH_ICON_RAIN"
+          ],
+          [
+            "成功",
+            "CH_ICON_SUCCESS"
+          ],
+          [
+            "警告",
+            "CH_ICON_WARNING"
+          ],
+          [
+            "错误",
+            "CH_ICON_ERROR"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "field_number",
+        "name": "SIZE",
+        "value": 48
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F39C12",
+    "tooltip": "绘制内置矢量图标",
+    "helpUrl": "",
+    "icon": "fa-light fa-icons",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_progress_bar",
+    "message0": "【进度条】 屏幕 %1 X %2 Y %3 宽 %4 高 %5 百分比 %6 前景 %7 背景 %8",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "W"
+      },
+      {
+        "type": "input_value",
+        "name": "H"
+      },
+      {
+        "type": "input_value",
+        "name": "PCT"
+      },
+      {
+        "type": "input_value",
+        "name": "FG"
+      },
+      {
+        "type": "input_value",
+        "name": "BG"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#27AE60",
+    "tooltip": "进度条",
+    "helpUrl": "",
+    "icon": "fa-light fa-bars-progress",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_button",
+    "message0": "【按钮】 屏幕 %1 X %2 Y %3 宽 %4 高 %5 文字 %6 文字色 %7 填充色 %8 边框色 %9 圆角 %10",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "W"
+      },
+      {
+        "type": "input_value",
+        "name": "H"
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL"
+      },
+      {
+        "type": "input_value",
+        "name": "TXT"
+      },
+      {
+        "type": "input_value",
+        "name": "FILL"
+      },
+      {
+        "type": "input_value",
+        "name": "BORDER"
+      },
+      {
+        "type": "input_value",
+        "name": "R"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#27AE60",
+    "tooltip": "按钮",
+    "helpUrl": "",
+    "icon": "fa-light fa-hand-pointer",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_toggle",
+    "message0": "【开关】 屏幕 %1 X %2 Y %3 宽 %4 高 %5 打开 %6 开色 %7 关色 %8",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "W"
+      },
+      {
+        "type": "input_value",
+        "name": "H"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "ON",
+        "checked": true
+      },
+      {
+        "type": "input_value",
+        "name": "ONC"
+      },
+      {
+        "type": "input_value",
+        "name": "OFFC"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#27AE60",
+    "tooltip": "开关",
+    "helpUrl": "",
+    "icon": "fa-light fa-toggle-on",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_checkbox",
+    "message0": "【复选框】 屏幕 %1 X %2 Y %3 大小 %4 勾选 %5 颜色 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "SIZE"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "CHECKED",
+        "checked": true
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#27AE60",
+    "tooltip": "复选框",
+    "helpUrl": "",
+    "icon": "fa-light fa-square-check",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_slider",
+    "message0": "【滑块】 屏幕 %1 X %2 Y %3 宽 %4 百分比 %5 轨道 %6 激活 %7 滑钮 %8",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "W"
+      },
+      {
+        "type": "input_value",
+        "name": "PCT"
+      },
+      {
+        "type": "input_value",
+        "name": "TRACK"
+      },
+      {
+        "type": "input_value",
+        "name": "ACTIVE"
+      },
+      {
+        "type": "input_value",
+        "name": "KNOB"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#27AE60",
+    "tooltip": "滑块",
+    "helpUrl": "",
+    "icon": "fa-light fa-sliders",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_battery",
+    "message0": "【电池图标】 屏幕 %1 X %2 Y %3 宽 %4 高 %5 电量 %6 颜色 %7 充电中 %8",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "input_value",
+        "name": "W"
+      },
+      {
+        "type": "input_value",
+        "name": "H"
+      },
+      {
+        "type": "input_value",
+        "name": "PCT"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "CHARGING",
+        "checked": false
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#27AE60",
+    "tooltip": "电池图标",
+    "helpUrl": "",
+    "icon": "fa-light fa-battery-three-quarters",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_signal",
+    "message0": "【信号格】 屏幕 %1 X %2 Y %3 格数 %4 当前 %5 亮色 %6 暗色 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "X"
+      },
+      {
+        "type": "input_value",
+        "name": "Y"
+      },
+      {
+        "type": "field_number",
+        "name": "BARS",
+        "value": 4
+      },
+      {
+        "type": "field_number",
+        "name": "LEVEL",
+        "value": 3
+      },
+      {
+        "type": "input_value",
+        "name": "ON"
+      },
+      {
+        "type": "input_value",
+        "name": "OFF"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#27AE60",
+    "tooltip": "信号格",
+    "helpUrl": "",
+    "icon": "fa-light fa-signal",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_spinner",
+    "message0": "【加载圈】 屏幕 %1 中心X %2 中心Y %3 半径 %4 相位角 %5 颜色 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "CX"
+      },
+      {
+        "type": "input_value",
+        "name": "CY"
+      },
+      {
+        "type": "input_value",
+        "name": "R"
+      },
+      {
+        "type": "input_value",
+        "name": "PHASE"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#27AE60",
+    "tooltip": "加载旋转环(phase 每帧递增做动画)",
+    "helpUrl": "",
+    "icon": "fa-light fa-spinner",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_gauge",
+    "message0": "【仪表盘】 屏幕 %1 中心X %2 中心Y %3 半径 %4 厚度 %5 值 %6 最小 %7 最大 %8 起角 %9 终角 %10 前景 %11 背景 %12",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "CX"
+      },
+      {
+        "type": "input_value",
+        "name": "CY"
+      },
+      {
+        "type": "input_value",
+        "name": "R"
+      },
+      {
+        "type": "input_value",
+        "name": "THICK"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      },
+      {
+        "type": "input_value",
+        "name": "VMIN"
+      },
+      {
+        "type": "input_value",
+        "name": "VMAX"
+      },
+      {
+        "type": "input_value",
+        "name": "START"
+      },
+      {
+        "type": "input_value",
+        "name": "END"
+      },
+      {
+        "type": "input_value",
+        "name": "FG"
+      },
+      {
+        "type": "input_value",
+        "name": "BG"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D35400",
+    "tooltip": "仪表盘(值映射到弧)",
+    "helpUrl": "",
+    "icon": "fa-light fa-gauge",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_ring_progress",
+    "message0": "【环形进度】 屏幕 %1 中心X %2 中心Y %3 外半径 %4 厚度 %5 百分比 %6 前景 %7 背景 %8",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "CX"
+      },
+      {
+        "type": "input_value",
+        "name": "CY"
+      },
+      {
+        "type": "input_value",
+        "name": "ROUT"
+      },
+      {
+        "type": "input_value",
+        "name": "THICK"
+      },
+      {
+        "type": "input_value",
+        "name": "PCT"
+      },
+      {
+        "type": "input_value",
+        "name": "FG"
+      },
+      {
+        "type": "input_value",
+        "name": "BG"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D35400",
+    "tooltip": "圆环进度(圆头)",
+    "helpUrl": "",
+    "icon": "fa-light fa-circle-notch",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_clock_face",
+    "message0": "【时钟表盘】 屏幕 %1 中心X %2 中心Y %3 半径 %4 时 %5 分 %6 秒 %7 盘面 %8 刻度 %9 时针 %10 分针 %11 秒针 %12",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "CX"
+      },
+      {
+        "type": "input_value",
+        "name": "CY"
+      },
+      {
+        "type": "input_value",
+        "name": "R"
+      },
+      {
+        "type": "input_value",
+        "name": "HH"
+      },
+      {
+        "type": "input_value",
+        "name": "MM"
+      },
+      {
+        "type": "input_value",
+        "name": "SS"
+      },
+      {
+        "type": "input_value",
+        "name": "FACE"
+      },
+      {
+        "type": "input_value",
+        "name": "TICK"
+      },
+      {
+        "type": "input_value",
+        "name": "HC"
+      },
+      {
+        "type": "input_value",
+        "name": "MC"
+      },
+      {
+        "type": "input_value",
+        "name": "SC"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D35400",
+    "tooltip": "时钟表盘",
+    "helpUrl": "",
+    "icon": "fa-light fa-clock",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_needle",
+    "message0": "【指针】 屏幕 %1 中心X %2 中心Y %3 长度 %4 角度 %5 根宽 %6 颜色 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "CX"
+      },
+      {
+        "type": "input_value",
+        "name": "CY"
+      },
+      {
+        "type": "input_value",
+        "name": "LEN"
+      },
+      {
+        "type": "input_value",
+        "name": "DEG"
+      },
+      {
+        "type": "field_number",
+        "name": "BASEW",
+        "value": 8
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D35400",
+    "tooltip": "指针(0°=12点顺时针)",
+    "helpUrl": "",
+    "icon": "fa-light fa-location-arrow",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_ticks",
+    "message0": "【刻度环】 屏幕 %1 中心X %2 中心Y %3 外半径 %4 数量 %5 长度 %6 颜色 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "CX"
+      },
+      {
+        "type": "input_value",
+        "name": "CY"
+      },
+      {
+        "type": "input_value",
+        "name": "ROUT"
+      },
+      {
+        "type": "field_number",
+        "name": "COUNT",
+        "value": 60
+      },
+      {
+        "type": "input_value",
+        "name": "LEN"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D35400",
+    "tooltip": "环形刻度",
+    "helpUrl": "",
+    "icon": "fa-light fa-ruler",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_speedometer",
+    "message0": "【速度表】 屏幕 %1 中心X %2 中心Y %3 半径 %4 值 %5 最大 %6 前景 %7 背景 %8 指针 %9",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "CX"
+      },
+      {
+        "type": "input_value",
+        "name": "CY"
+      },
+      {
+        "type": "input_value",
+        "name": "R"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      },
+      {
+        "type": "input_value",
+        "name": "VMAX"
+      },
+      {
+        "type": "input_value",
+        "name": "FG"
+      },
+      {
+        "type": "input_value",
+        "name": "BG"
+      },
+      {
+        "type": "input_value",
+        "name": "NEEDLE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D35400",
+    "tooltip": "速度表",
+    "helpUrl": "",
+    "icon": "fa-light fa-gauge-high",
+    "inputsInline": true
+  },
+  {
+    "type": "chamoled_compass",
+    "message0": "【指南针】 屏幕 %1 中心X %2 中心Y %3 半径 %4 朝向角 %5 环 %6 指针 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gfx",
+        "variableTypes": [
+          "CH13613"
+        ],
+        "defaultType": "CH13613"
+      },
+      {
+        "type": "input_value",
+        "name": "CX"
+      },
+      {
+        "type": "input_value",
+        "name": "CY"
+      },
+      {
+        "type": "input_value",
+        "name": "R"
+      },
+      {
+        "type": "input_value",
+        "name": "HEADING"
+      },
+      {
+        "type": "input_value",
+        "name": "RING"
+      },
+      {
+        "type": "input_value",
+        "name": "NEEDLE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D35400",
+    "tooltip": "指南针",
+    "helpUrl": "",
+    "icon": "fa-light fa-compass",
+    "inputsInline": true
+  },
+  {
+    "type": "chtouch_setup",
+    "message0": "【① 初始化触摸】 触摸 %1 旋转(跟随屏幕) %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "tp"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ROTATION",
+        "options": [
+          [
+            "0°",
+            "0"
+          ],
+          [
+            "90°",
+            "1"
+          ],
+          [
+            "180°",
+            "2"
+          ],
+          [
+            "270°",
+            "3"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1ABC9C",
+    "tooltip": "初始化 CHSC6417 触摸(引脚固定 SCL47/SDA21/RST48/INT10)",
+    "helpUrl": "",
+    "icon": "fa-light fa-hand-pointer",
+    "inputsInline": true
+  },
+  {
+    "type": "chtouch_read",
+    "message0": "【读取触摸(是否有触点)】 触摸 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tp",
+        "variableTypes": [
+          "CHTouch"
+        ],
+        "defaultType": "CHTouch"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#1ABC9C",
+    "tooltip": "采样一次触摸, 返回是否有触点(更新坐标)",
+    "helpUrl": "",
+    "icon": "fa-light fa-hand-pointer",
+    "inputsInline": true
+  },
+  {
+    "type": "chtouch_touched",
+    "message0": "【当前是否触摸】 触摸 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tp",
+        "variableTypes": [
+          "CHTouch"
+        ],
+        "defaultType": "CHTouch"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#1ABC9C",
+    "tooltip": "当前是否有触摸(用上次采样结果)",
+    "helpUrl": "",
+    "icon": "fa-light fa-fingerprint",
+    "inputsInline": true
+  },
+  {
+    "type": "chtouch_x",
+    "message0": "【触摸X坐标】 触摸 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tp",
+        "variableTypes": [
+          "CHTouch"
+        ],
+        "defaultType": "CHTouch"
+      }
+    ],
+    "output": "Number",
+    "colour": "#1ABC9C",
+    "tooltip": "触点 X 坐标",
+    "helpUrl": "",
+    "icon": "fa-light fa-arrows-left-right",
+    "inputsInline": true
+  },
+  {
+    "type": "chtouch_y",
+    "message0": "【触摸Y坐标】 触摸 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tp",
+        "variableTypes": [
+          "CHTouch"
+        ],
+        "defaultType": "CHTouch"
+      }
+    ],
+    "output": "Number",
+    "colour": "#1ABC9C",
+    "tooltip": "触点 Y 坐标",
+    "helpUrl": "",
+    "icon": "fa-light fa-arrows-up-down",
+    "inputsInline": true
+  },
+  {
+    "type": "chtouch_points",
+    "message0": "【触点数量】 触摸 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tp",
+        "variableTypes": [
+          "CHTouch"
+        ],
+        "defaultType": "CHTouch"
+      }
+    ],
+    "output": "Number",
+    "colour": "#1ABC9C",
+    "tooltip": "触点数量",
+    "helpUrl": "",
+    "icon": "fa-light fa-hashtag",
+    "inputsInline": true
+  },
+  {
+    "type": "chtouch_gesture_is",
+    "message0": "【手势判断】 触摸 %1 手势为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tp",
+        "variableTypes": [
+          "CHTouch"
+        ],
+        "defaultType": "CHTouch"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "GESTURE",
+        "options": [
+          [
+            "左滑",
+            "1"
+          ],
+          [
+            "右滑",
+            "2"
+          ],
+          [
+            "上滑",
+            "3"
+          ],
+          [
+            "下滑",
+            "4"
+          ],
+          [
+            "点击",
+            "5"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#1ABC9C",
+    "tooltip": "手势判断(释放后调用): 左右上下滑/点击",
+    "helpUrl": "",
+    "icon": "fa-light fa-hand-back-fist",
+    "inputsInline": true
+  },
+  {
+    "type": "chtouch_present",
+    "message0": "【触摸芯片在?】 触摸 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tp",
+        "variableTypes": [
+          "CHTouch"
+        ],
+        "defaultType": "CHTouch"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#1ABC9C",
+    "tooltip": "I2C 探测触摸芯片是否在(0x2E 应答)",
+    "helpUrl": "",
+    "icon": "fa-light fa-magnifying-glass",
+    "inputsInline": true
+  },
+  {
+    "type": "chtouch_set_rotation",
+    "message0": "【设置触摸旋转】 触摸 %1 旋转 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tp",
+        "variableTypes": [
+          "CHTouch"
+        ],
+        "defaultType": "CHTouch"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ROTATION",
+        "options": [
+          [
+            "0°",
+            "0"
+          ],
+          [
+            "90°",
+            "1"
+          ],
+          [
+            "180°",
+            "2"
+          ],
+          [
+            "270°",
+            "3"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1ABC9C",
+    "tooltip": "设置触摸坐标旋转(与屏幕方向一致)",
+    "helpUrl": "",
+    "icon": "fa-light fa-rotate",
+    "inputsInline": true
+  },
+  {
+    "type": "chtouch_calibrate",
+    "message0": "【触摸方向校准】 触摸 %1 镜像X %2 镜像Y %3 交换XY %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tp",
+        "variableTypes": [
+          "CHTouch"
+        ],
+        "defaultType": "CHTouch"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "MX",
+        "checked": false
+      },
+      {
+        "type": "field_checkbox",
+        "name": "MY",
+        "checked": false
+      },
+      {
+        "type": "field_checkbox",
+        "name": "SWAP",
+        "checked": false
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1ABC9C",
+    "tooltip": "方向校准: 手指位置和屏对不上时翻转 XY/镜像",
+    "helpUrl": "",
+    "icon": "fa-light fa-crosshairs",
+    "inputsInline": true
+  }
+]
