@@ -1,40 +1,28 @@
-# TFT屏幕库 (TFT Screen)
+# TFT Screen
 
-ST7735 TFT屏幕简化库：一键初始化(引脚预设)，绘图/文字/颜色/屏幕信息
+Simplified ST7735 TFT library for the Xueersi ESP32 handheld, with preset pins, drawing, text, colour, animation, and screen information blocks.
 
 ## Library Info
 
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-tft-screen |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Author | ailyProject |
 | License | MIT |
 
 ## Supported Boards
 
-ESP32 系列（依赖TFT_eSPI库）
+Xueersi ESP32 handheld and compatible ESP32 boards using the bundled TFT_eSPI source.
 
-## Pin Configuration (预设)
+## Description
 
-| 引脚 | GPIO |
-|------|------|
-| MOSI | 23 |
-| SCLK | 18 |
-| CS   | 5  |
-| DC   | 4  |
-| RST  | 19 |
-| MISO | 19 |
-| BL   | 未使用(-1) |
-
-- 驱动: ST7735_DRIVER
-- 分辨率: 128x160
-- SPI频率: 27MHz
-- 旋转: 3 (横屏)
-- 颜色模式: RGB
+The library initializes the 128x160 ST7735 display with preset pins and rotation 3. Animation blocks convert GIF or MP4 input to RGB565/RGB332 frames for full playback or frame-by-frame control.
 
 ## Quick Start
 
-1. `tftscr_init` 一键初始化（无参数）
-2. 用绘图块绘制图形/文字
-3. 用颜色块选择预设色或自定义RGB
+1. Add `tftscr_init` to setup.
+2. Use drawing, text, and colour blocks for static content.
+3. Use `tftscr_animation` with a playback or frame-control block for animated content.
+
+Default pins: MOSI 23, SCLK 18, CS 5, DC 4, RST 19, MISO 19. SPI frequency is 27 MHz and HSPI is used on ESP32.
