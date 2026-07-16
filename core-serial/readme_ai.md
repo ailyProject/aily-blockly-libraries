@@ -11,6 +11,7 @@ Serial communication library, supports serial port sending and receiving
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `serial_begin` | Statement | SERIAL(dropdown), SPEED(dropdown) | `serial_begin(SERIAL, SPEED)` | See generator |
+| `serial_wait_for_connection` | Statement | SERIAL(dropdown) | `serial_wait_for_connection(SERIAL)` | `while (!...) { delay(10); }` |
 | `serial_available` | Value | SERIAL(dropdown) | `serial_available(SERIAL)` | ....available() |
 | `serial_read` | Value | SERIAL(dropdown), TYPE(dropdown) | `serial_read(SERIAL, "read()")` | Dynamic code |
 | `serial_read_until` | Value | SERIAL(dropdown), TERMINATOR(input_value) | `serial_read_until(SERIAL, math_number(0))` | ....readStringUntil(...) |
@@ -36,6 +37,7 @@ Serial communication library, supports serial port sending and receiving
 arduino_setup()
     serial_begin(SERIAL, SPEED)
     serial_begin(Serial, 9600)
+    serial_wait_for_connection(Serial)
 
 arduino_loop()
     serial_println(Serial, serial_available(SERIAL))
@@ -47,4 +49,4 @@ arduino_loop()
 1. **Variable**: `serial_begin_esp32_custom("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
-4. **Dynamic fields**: `serial_begin`, `serial_available`, `serial_read`, `serial_read_until`, `serial_print`, `serial_println`, `serial_write`, `serial_read_string`, `serial_begin_esp32_custom`, `serial_begin_software` may add fields at runtime through Blockly extensions.
+4. **Dynamic fields**: `serial_begin`, `serial_wait_for_connection`, `serial_available`, `serial_read`, `serial_read_until`, `serial_print`, `serial_println`, `serial_write`, `serial_read_string`, `serial_begin_esp32_custom`, `serial_begin_software` may add fields at runtime through Blockly extensions.
