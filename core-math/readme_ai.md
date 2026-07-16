@@ -4,7 +4,7 @@ Mathematics related function support library
 
 ## Library Info
 - **Name**: @aily-project/lib-core-math
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
@@ -13,6 +13,7 @@ Mathematics related function support library
 | `math_number` | Value | NUM(field_number) | `math_number(0)` | Dynamic code |
 | `math_number_base` | Value | BASE(dropdown), NUM(field_input) | `math_number_base(DEC, "0")` | Dynamic code |
 | `math_arithmetic` | Value | A(input_value), OP(dropdown), B(input_value) | `math_arithmetic(math_number(0), ADD, math_number(0))` | Dynamic code |
+| `math_change` | Statement | VAR(field_variable), OP(dropdown), DELTA(input_value) | `math_change(variables_get($variable), ADD, math_number(1))` | variable += 1; / variable -= 1; |
 | `math_single` | Value | OP(dropdown), NUM(input_value) | `math_single(ROOT, math_number(0))` | Dynamic code |
 | `math_trig` | Value | OP(dropdown), NUM(input_value) | `math_trig(SIN, math_number(0))` | See generator |
 | `math_constant` | Value | CONSTANT(dropdown) | `math_constant(PI)` | Dynamic code |
@@ -41,6 +42,7 @@ Mathematics related function support library
 |-----------|--------|-------------|
 | BASE | DEC, HEX, BIN | math_number_base |
 | OP | ADD, MINUS, MULTIPLY, DIVIDE, MODULO, POWER | math_arithmetic |
+| OP | ADD, MINUS | math_change |
 | OP | ROOT, ABS, NEG, LN, LOG10, EXP, POW10 | math_single |
 | OP | SIN, COS, TAN, ASIN, ACOS, ATAN | math_trig |
 | CONSTANT | PI, E, GOLDEN_RATIO, SQRT2, SQRT1_2, INFINITY | math_constant |

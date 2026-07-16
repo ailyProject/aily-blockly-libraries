@@ -201,22 +201,14 @@ bool mathIsPrime(long n) {
   return [code, outputOrder];
 };
 
-// Arduino.forBlock["math_change"] = function (block) {
-//   // Add to a variable in place.
-//   const argument0 =
-//     Arduino.valueToCode(block, "DELTA", Arduino.ORDER_ADDITION) || "0";
-//   const varName = Arduino.getVariableName(block.getFieldValue("VAR"));
-//   return (
-//     varName +
-//     " = (typeof " +
-//     varName +
-//     " === 'number' ? " +
-//     varName +
-//     " : 0) + " +
-//     argument0 +
-//     ";\n"
-//   );
-// };
+Arduino.forBlock["math_change"] = function (block) {
+  const delta =
+    Arduino.valueToCode(block, "DELTA", Arduino.ORDER_ASSIGNMENT) || "1";
+  const variable = block.workspace.getVariableById(block.getFieldValue("VAR"));
+  const variableName = variable ? variable.name : "variable";
+  const operator = block.getFieldValue("OP") === "MINUS" ? "-=" : "+=";
+  return variableName + " " + operator + " " + delta + ";\n";
+};
 
 // Rounding functions have a single operand.
 // export const math_round = math_single;

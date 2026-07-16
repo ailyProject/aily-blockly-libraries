@@ -7,7 +7,7 @@ Mathematics related function support library
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-core-math |
-| Version | 0.0.1 |
+| Version | 0.0.2 |
 | Author | ailyProject |
 | Source | N/A |
 | License | Original license |
@@ -19,6 +19,8 @@ Arduino-compatible boards supported by this package.
 ## Description
 
 Mathematics related function support library
+
+Includes a variable compound-assignment block for incrementing (`+=`) and decrementing (`-=`) by a specified value.
 
 ## Quick Start
 
