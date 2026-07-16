@@ -455,6 +455,171 @@
     "icon": "fa-regular fa-eraser"
   },
   {
+    "type": "k10_animation",
+    "message0": "K10动画 %1",
+    "args0": [
+      {
+        "type": "field_tftespi_animation",
+        "name": "CUSTOM_ANIMATION",
+        "width": 240,
+        "height": 320,
+        "fps": 10,
+        "maxFrames": 10,
+        "format": "rgb565",
+        "fieldHeight": 40
+      }
+    ],
+    "output": "K10Animation",
+    "colour": "#2196F3",
+    "icon": "fa-solid fa-film",
+    "tooltip": "上传 GIF 或 MP4 并转换为 K10 画布动画帧"
+  },
+  {
+    "type": "k10_play_animation",
+    "message0": "K10播放动画 X %1 Y %2 动画 %3 模式 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ANIMATION",
+        "check": "K10Animation"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PLAY_MODE",
+        "options": [
+          [
+            "阻塞播放",
+            "BLOCKING"
+          ],
+          [
+            "非阻塞播放",
+            "NON_BLOCKING"
+          ]
+        ]
+      }
+    ],
+    "message1": "循环播放 %1",
+    "args1": [
+      {
+        "type": "field_checkbox",
+        "name": "LOOP",
+        "checked": false
+      }
+    ],
+    "extensions": [
+      "k10_animation_play_dynamic_inputs"
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "icon": "fa-solid fa-film",
+    "tooltip": "播放 K10 动画；每帧自动刷新画布，非阻塞模式需在 loop 中反复执行",
+    "inputsInline": true
+  },
+  {
+    "type": "k10_draw_animation_frame",
+    "message0": "K10显示动画帧 X %1 Y %2 动画 %3 帧 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ANIMATION",
+        "check": "K10Animation"
+      },
+      {
+        "type": "input_value",
+        "name": "FRAME",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "icon": "fa-solid fa-film",
+    "tooltip": "显示指定 K10 动画帧，超出范围的帧号会被限制到有效范围",
+    "inputsInline": true
+  },
+  {
+    "type": "k10_animation_frame_count",
+    "message0": "获取K10动画 %1 总帧数",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ANIMATION",
+        "check": "K10Animation"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2196F3",
+    "icon": "fa-solid fa-film",
+    "tooltip": "获取 K10 动画的总帧数",
+    "inputsInline": true
+  },
+  {
+    "type": "k10_step_animation_frame",
+    "message0": "让帧变量 %1 向目标帧 %2 移动一步 总帧数 %3 方向 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "FRAME_VAR",
+        "variable": "k10AnimationFrame"
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "FRAME_COUNT",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIRECTION",
+        "options": [
+          [
+            "自动",
+            "AUTO"
+          ],
+          [
+            "正向",
+            "FORWARD"
+          ],
+          [
+            "反向",
+            "BACKWARD"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "icon": "fa-solid fa-film",
+    "tooltip": "让帧变量移动一帧；正向和反向会在首尾循环，自动模式会选择方向",
+    "inputsInline": true
+  },
+  {
     "type": "k10_screen_size",
     "message0": "屏幕 %1",
     "args0": [
