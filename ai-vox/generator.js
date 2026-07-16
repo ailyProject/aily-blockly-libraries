@@ -719,7 +719,7 @@ Arduino.forBlock['aivox3_set_es8311_volume'] = function(block, generator) {
 Arduino.forBlock['aivox3_set_screen_light'] = function(block, generator) {
     const aivox3_screen_light = generator.valueToCode(block, 'aivox3_screen_light', generator.ORDER_ATOMIC) || '""';
     // generator.addSetup("aivox3_setup_es8311", `  g_audio_device_es8311 = std::make_shared<ai_vox::AudioDeviceEs8311>(g_i2c_master_bus_handle, ${es8311_i2c_address}, I2C_NUM_1, ${es8311_rate}, GPIO_NUM_${es8311_mclk}, GPIO_NUM_${es8311_sclk}, GPIO_NUM_${es8311_lrck}, GPIO_NUM_${es8311_dsdout}, GPIO_NUM_${es8311_dsdin});`);
-    return `analogWrite(kDisplayBacklightPin, ${aivox3_screen_light});\n`;
+    return `if (kDisplayBacklightPin != GPIO_NUM_NC) {\n  analogWrite(kDisplayBacklightPin, ${aivox3_screen_light});\n}\n`;
 }
 
 Arduino.forBlock['aivox_init_mic'] = function(block, generator) {
@@ -751,17 +751,6 @@ Arduino.forBlock['aivox_init_mic'] = function(block, generator) {
     // generator.addObject('aivox_output_device', `auto g_audio_output_device = std::make_shared<ai_vox::AudioOutputDeviceI2sStd>(kSpeakerPinBclk, kSpeakerPinWs, kSpeakerPinDout);`, true);
     //   auto& ai_vox_engine = ai_vox::Engine::GetInstance();
     generator.addObject('ai_vox_engine', `auto& ai_vox_engine = ai_vox::Engine::GetInstance();`, true);
-    generator.addSetup(' button_config_t_btn_cfg ',`const button_config_t btn_cfg = {
-      .long_press_time = 1000,
-      .short_press_time = 50,
-  };
-
-  const button_gpio_config_t gpio_cfg = {
-      .gpio_num = GPIO_NUM_0,
-      .active_level = 0,
-      .enable_power_save = false,
-      .disable_pull = false,
-  };`, false);
     // Add Setup code
     const setupCode = `
   ai_vox_engine.SetObserver(g_observer);
@@ -805,17 +794,6 @@ Arduino.forBlock['aivox_init_audio'] = function(block, generator) {
     generator.addObject('aivox_output_device', `auto g_audio_output_device = std::make_shared<ai_vox::AudioOutputDeviceI2sStd>(kSpeakerPinBclk, kSpeakerPinWs, kSpeakerPinDout);`, true);
     //   auto& ai_vox_engine = ai_vox::Engine::GetInstance();
     generator.addObject('ai_vox_engine', `auto& ai_vox_engine = ai_vox::Engine::GetInstance();`, true);
-    generator.addSetup(' button_config_t_btn_cfg ',`const button_config_t btn_cfg = {
-      .long_press_time = 1000,
-      .short_press_time = 50,
-  };
-
-  const button_gpio_config_t gpio_cfg = {
-      .gpio_num = GPIO_NUM_0,
-      .active_level = 0,
-      .enable_power_save = false,
-      .disable_pull = false,
-  };`, false);
     // Add Setup code
     const setupCode = `
 `;
@@ -826,6 +804,10 @@ Arduino.forBlock['aivox_init_audio'] = function(block, generator) {
 
 Arduino.forBlock['aivox_init_lcd'] = function(block, generator) {
   const backLight = block.getFieldValue('backLight');
+    const backLightPin = backLight === '-1' ? 'GPIO_NUM_NC' : `GPIO_NUM_${backLight}`;
+    const backLightSetup = backLight === '-1'
+      ? ''
+      : `  pinMode(kDisplayBacklightPin, OUTPUT);\n  analogWrite(kDisplayBacklightPin, 255);\n`;
     const mosi = block.getFieldValue('MOSI');
     const clk = block.getFieldValue('CLK');
     const dc = block.getFieldValue('DC');
@@ -842,7 +824,7 @@ Arduino.forBlock['aivox_init_lcd'] = function(block, generator) {
     generator.addLibrary('include_aivox_button', '#include "components/espressif/button/button_gpio.h"\n#include "components/espressif/button/iot_button.h"\n');
     generator.addLibrary('include_aivox_display', '#include "display.h"');
 
-    generator.addObject('aivox_backLight', `constexpr gpio_num_t kDisplayBacklightPin = GPIO_NUM_${backLight};`, true);
+    generator.addObject('aivox_backLight', `constexpr gpio_num_t kDisplayBacklightPin = ${backLightPin};`, true);
     // generator.addObject('aivox_mosi', `constexpr gpio_num_t kDisplayMosiPin = GPIO_NUM_${mosi};`, true);
     // generator.addObject('aivox_clk', `constexpr gpio_num_t kDisplayClkPin = GPIO_NUM_${clk};`, true);
     // generator.addObject('aivox_dc', `constexpr gpio_num_t kDisplayDcPin = GPIO_NUM_${dc};`, true);
@@ -864,9 +846,7 @@ Arduino.forBlock['aivox_init_lcd'] = function(block, generator) {
 
     generator.addFunction('aivox3_initDisplay', 
 `void InitDisplay() {
-  pinMode(GPIO_NUM_${backLight}, OUTPUT);
-  analogWrite(GPIO_NUM_${backLight}, 255);
-  spi_bus_config_t buscfg{
+${backLightSetup}  spi_bus_config_t buscfg{
     .mosi_io_num = GPIO_NUM_${mosi},
     .miso_io_num = GPIO_NUM_NC,
     .sclk_io_num = GPIO_NUM_${clk},
@@ -912,18 +892,18 @@ Arduino.forBlock['aivox_init_lcd'] = function(block, generator) {
   g_display = std::make_unique<Display>(panel_io, panel, kDisplayWidth, kDisplayHeight, 0, 0, kDisplayMirrorX, kDisplayMirrorY, kDisplaySwapXY);
   g_display->Start();
 }` , true);
-    generator.addSetup(' button_config_t_btn_cfg ',`const button_config_t btn_cfg = {
+    generator.addSetup('aivox_button_config',`const button_config_t aivox_button_cfg = {
       .long_press_time = 1000,
       .short_press_time = 50,
   };
 
-  const button_gpio_config_t gpio_cfg = {
+  const button_gpio_config_t aivox_button_gpio_cfg = {
       .gpio_num = GPIO_NUM_0,
       .active_level = 0,
       .enable_power_save = false,
       .disable_pull = false,
   };
-    ESP_ERROR_CHECK(iot_button_new_gpio_device(&btn_cfg, &gpio_cfg, &g_button_boot_handle));`, false);
+  ESP_ERROR_CHECK(iot_button_new_gpio_device(&aivox_button_cfg, &aivox_button_gpio_cfg, &g_button_boot_handle));`, false);
     generator.addSetup('aivox_init_display', `  InitDisplay();`, false);
     return '';
 }
@@ -1139,7 +1119,25 @@ Arduino.forBlock['aivox3_start_engine'] = function (block, generator) {
           startCode = `g_audio_input_device, g_audio_output_device`;
         }
     // });
-    let code = ` ai_vox_engine.Start(${startCode});\n  ESP_ERROR_CHECK(iot_button_register_cb(
+    let code = `if (g_button_boot_handle == nullptr) {
+  const button_config_t aivox_button_cfg = {
+    .long_press_time = 1000,
+    .short_press_time = 50,
+  };
+  const button_gpio_config_t aivox_button_gpio_cfg = {
+    .gpio_num = GPIO_NUM_0,
+    .active_level = 0,
+    .enable_power_save = false,
+    .disable_pull = false,
+  };
+  ESP_ERROR_CHECK(iot_button_new_gpio_device(
+    &aivox_button_cfg,
+    &aivox_button_gpio_cfg,
+    &g_button_boot_handle));
+}
+ai_vox_engine.Start(${startCode});
+if (g_button_boot_handle != nullptr) {
+  ESP_ERROR_CHECK(iot_button_register_cb(
       g_button_boot_handle,
       BUTTON_PRESS_DOWN,
       nullptr,
@@ -1147,7 +1145,8 @@ Arduino.forBlock['aivox3_start_engine'] = function (block, generator) {
         printf("boot button pressed\\n");
         ai_vox::Engine::GetInstance().Advance();
       },
-      nullptr));`;
+      nullptr));
+}`;
     return code;
 };
 
@@ -1612,4 +1611,4 @@ Blockly.Extensions.registerMutator('custom_dynamic_mutator', {
   }
 });
 
-//  
+//

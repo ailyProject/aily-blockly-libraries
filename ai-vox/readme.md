@@ -7,7 +7,7 @@ Arduino version of Xiaozhi AI, AI Vox voice interaction engine support library, 
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-ai-vox |
-| Version | 2.0.0 |
+| Version | 2.0.1 |
 | Author | nulllab |
 | Source | https://dcnmu33qx4fc.feishu.cn/docx/Lpy7dfEYAo04PzxJNI0ceTj5nxg |
 | License | Original license |
