@@ -4,7 +4,7 @@ TFT_eSPI - Arduino library, graphics and font library supporting multiple TFT di
 
 ## Library Info
 - **Name**: @aily-project/lib-tft-espi
-- **Version**: 2.5.43
+- **Version**: 2.5.46
 
 ## Block Definitions
 
@@ -95,7 +95,7 @@ arduino_loop()
 1. **Variable**: `tftespi_setup("varName", ...)` creates variable `$varName`; reference it later with `variables_get($varName)`.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
-4. **Animation conversion**: GIF and MP4 are decoded in the Blockly editor as selectable RGB565 or RGB332 Base64 frames; generated firmware uses matching `uint16_t` or `uint8_t` `PROGMEM` arrays and automatically calls the matching `pushImage()` overload.
+4. **Animation conversion**: GIF and MP4 are decoded in the Blockly editor as selectable RGB565 or RGB332 Base64 frames; generated firmware uses matching `uint16_t` or `uint8_t` `PROGMEM` arrays and automatically calls the matching `pushImage()` overload. For `ILI9341_DRIVER`, `ILI9341_2_DRIVER`, `ST7735_DRIVER`, `ST7789_DRIVER`, and `ST7789_2_DRIVER`, animation frame generation exchanges the red and blue fields to match the display path; other models keep the source layout.
 5. **Resource budget**: the editor defaults to 160x120 and 10 frames and caps the serialized animation payload at 8 MiB. RGB332 uses one byte per pixel and therefore fits roughly twice as many frames as RGB565 at the same dimensions. The selected board may have much less application flash, so reduce width, height, FPS, or total frames if compilation reports that the program is too large. Identical converted frames and identical animation data blocks share generated `PROGMEM` arrays.
 6. **MP4 codec and audio**: MP4 decoding depends on the Electron/Chromium WebCodecs codec support. Audio tracks are ignored.
 7. **Long video**: this block is for short self-contained animations. Long videos should use a separate SD/MJPEG streaming workflow rather than embedding raw frames.

@@ -665,10 +665,48 @@ function tftespiDecodeBase64Frame(frameValue, expectedByteLength, frameIndex) {
   }
 }
 
-function tftespiFormatRgb565Frame(bytes) {
+function tftespiSwapRgb565RedBlue(value) {
+  const red5 = (value >> 11) & 0x1F;
+  const green6 = (value >> 5) & 0x3F;
+  const blue5 = value & 0x1F;
+  return (blue5 << 11) | (green6 << 5) | red5;
+}
+
+function tftespiSwapRgb332RedBlue(value) {
+  const red3 = (value >> 5) & 0x07;
+  const green3 = (value >> 2) & 0x07;
+  const blue2 = value & 0x03;
+  const swappedRed3 = (blue2 << 1) | (blue2 >> 1);
+  const swappedBlue2 = red3 >> 1;
+  return (swappedRed3 << 5) | (green3 << 2) | swappedBlue2;
+}
+
+function tftespiAnimationNeedsRedBlueSwap(block) {
+  const needsRedBlueSwap = model => [
+    'ILI9341_DRIVER',
+    'ILI9341_2_DRIVER',
+    'ST7735_DRIVER',
+    'ST7789_DRIVER',
+    'ST7789_2_DRIVER'
+  ].includes(model);
+  if (Arduino.tft_espi_type) {
+    return needsRedBlueSwap(Arduino.tft_espi_type);
+  }
+
+  const workspace = block && block.workspace;
+  if (workspace && typeof workspace.getBlocksByType === 'function') {
+    const setupBlocks = workspace.getBlocksByType('tftespi_setup', false);
+    return setupBlocks.some(setupBlock => needsRedBlueSwap(setupBlock.getFieldValue('MODEL')));
+  }
+
+  return false;
+}
+
+function tftespiFormatRgb565Frame(bytes, swapRedBlue) {
   const values = [];
   for (let offset = 0; offset < bytes.length; offset += 2) {
-    const value = (bytes[offset] << 8) | bytes[offset + 1];
+    const sourceValue = (bytes[offset] << 8) | bytes[offset + 1];
+    const value = swapRedBlue ? tftespiSwapRgb565RedBlue(sourceValue) : sourceValue;
     values.push(`0x${value.toString(16).padStart(4, '0').toUpperCase()}`);
   }
 
@@ -679,8 +717,11 @@ function tftespiFormatRgb565Frame(bytes) {
   return lines.join(',\n');
 }
 
-function tftespiFormatRgb332Frame(bytes) {
-  const values = Array.from(bytes, value => `0x${value.toString(16).padStart(2, '0').toUpperCase()}`);
+function tftespiFormatRgb332Frame(bytes, swapRedBlue) {
+  const values = Array.from(bytes, sourceValue => {
+    const value = swapRedBlue ? tftespiSwapRgb332RedBlue(sourceValue) : sourceValue;
+    return `0x${value.toString(16).padStart(2, '0').toUpperCase()}`;
+  });
   const lines = [];
   for (let index = 0; index < values.length; index += 16) {
     lines.push(`  ${values.slice(index, index + 16).join(', ')}`);
@@ -688,7 +729,7 @@ function tftespiFormatRgb332Frame(bytes) {
   return lines.join(',\n');
 }
 
-function tftespiGetAnimationSignature(format, encoding, width, height, fps, encodedFrames) {
+function tftespiGetAnimationSignature(format, encoding, width, height, fps, encodedFrames, swapRedBlue) {
   let hash1 = 0x811C9DC5;
   let hash2 = 0x9E3779B9;
   const updateHash = (value) => {
@@ -700,7 +741,7 @@ function tftespiGetAnimationSignature(format, encoding, width, height, fps, enco
     }
   };
 
-  updateHash(`${format}:${encoding}:${width}:${height}:${fps}:${encodedFrames.length}|`);
+  updateHash(`${format}:${encoding}:${width}:${height}:${fps}:${swapRedBlue ? 'display-rb-swap' : 'native'}:${encodedFrames.length}|`);
   for (const encodedFrame of encodedFrames) {
     updateHash(encodedFrame);
     updateHash('|');
@@ -764,13 +805,16 @@ function tftespiGetAnimationData(block) {
     return null;
   }
 
+  const swapRedBlue = tftespiAnimationNeedsRedBlueSwap(block);
   const frames = [];
   for (let index = 0; index < animationData.frames.length; index++) {
     const binary = tftespiDecodeBase64Frame(animationData.frames[index], expectedByteLength, index);
     if (binary === null) {
       return null;
     }
-    frames.push(isRgb332 ? tftespiFormatRgb332Frame(binary) : tftespiFormatRgb565Frame(binary));
+    frames.push(isRgb332
+      ? tftespiFormatRgb332Frame(binary, swapRedBlue)
+      : tftespiFormatRgb565Frame(binary, swapRedBlue));
   }
 
   return {
@@ -778,7 +822,8 @@ function tftespiGetAnimationData(block) {
     height,
     fps,
     format,
-    signature: tftespiGetAnimationSignature(format, encoding, width, height, fps, animationData.frames),
+    swapRedBlue,
+    signature: tftespiGetAnimationSignature(format, encoding, width, height, fps, animationData.frames, swapRedBlue),
     frames
   };
 }
@@ -849,7 +894,7 @@ Arduino.forBlock['tftespi_animation'] = function(block, generator) {
     return ['', generator.ORDER_ATOMIC];
   }
 
-  const { width, height, fps, format, signature, frames } = animationData;
+  const { width, height, fps, format, swapRedBlue, signature, frames } = animationData;
   const symbolPrefix = `tftespi_animation_${signature}`;
   const frameType = format === 'rgb332' ? 'uint8_t' : 'uint16_t';
   const formatLabel = format.toUpperCase();
@@ -873,7 +918,8 @@ ${frames[index]}
   }
 
   const frameDelay = Math.max(1, Math.round(1000 / fps));
-  const animationDeclaration = `// TFT_eSPI animation (${width}x${height}, ${frameNames.length} frames, ${frameDeclarations.length} unique, ${fps} FPS, ${formatLabel})
+  const colorConversionLabel = swapRedBlue ? ', display R/B corrected' : '';
+  const animationDeclaration = `// TFT_eSPI animation (${width}x${height}, ${frameNames.length} frames, ${frameDeclarations.length} unique, ${fps} FPS, ${formatLabel}${colorConversionLabel})
 ${frameDeclarations.join('\n\n')}
 static const ${frameType}* const ${symbolPrefix}_frames[] = {
   ${frameNames.join(',\n  ')}
