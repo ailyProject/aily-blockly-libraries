@@ -1,0 +1,188 @@
+{
+  "toolbox_name": "OJoy 音频",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "录音/播放": "录音/播放",
+    "流式播放": "流式播放",
+    "多段录音": "多段录音",
+    "音量/增益": "音量/增益",
+    "声音检测": "声音检测",
+    "提示音": "提示音",
+    "AI语音理解": "AI语音理解"
+  },
+  "es8311_init": {
+    "message0": "初始化 OJoy 音频 %1 录音缓冲(秒) %2",
+    "tooltip": "初始化 OJoy 板载 ES8311 音频：I2C 0x18 与 I2S 引脚全部固定，并自动使能功放(IO9)。参数为录音缓冲秒数(走 PSRAM)"
+  },
+  "es8311_record": {
+    "message0": "ES8311 %1 开始录音",
+    "tooltip": "开始录音，时长由初始化块设置"
+  },
+  "es8311_play": {
+    "message0": "ES8311 %1 开始播放",
+    "tooltip": "播放已录制的音频"
+  },
+  "es8311_has_recording": {
+    "message0": "ES8311 %1 是否有录音",
+    "tooltip": "检查是否已录制音频"
+  },
+  "es8311_set_volume": {
+    "message0": "ES8311 %1 设置音量 %2",
+    "tooltip": "设置 ES8311 输出音量（0~100）"
+  },
+  "es8311_set_mic_gain": {
+    "message0": "ES8311 %1 设置麦克风增益 %2",
+    "tooltip": "设置 ES8311 麦克风模拟增益（0~42dB，步进6dB）"
+  },
+  "es8311_stop": {
+    "message0": "ES8311 %1 停止录音/播放",
+    "tooltip": "停止当前录音或播放，清零 I2S DMA 缓冲区"
+  },
+  "es8311_mute": {
+    "message0": "ES8311 %1 %2",
+    "tooltip": "控制 ES8311 静音状态",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "取消静音",
+            "0"
+          ],
+          [
+            "输出静音",
+            "1"
+          ],
+          [
+            "麦克风静音",
+            "2"
+          ],
+          [
+            "全部静音",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8311_play_tone": {
+    "message0": "ES8311 %1 播放提示音 频率 %2 Hz 持续 %3 ms",
+    "tooltip": "生成指定频率的正弦波提示音并播放"
+  },
+  "es8311_alc_enable": {
+    "message0": "ES8311 %1 自动增益控制 %2",
+    "tooltip": "开启或关闭 ES8311 自动增益控制（ALC）",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "开启",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8311_record_slot": {
+    "message0": "ES8311 %1 录音到槽位 %2",
+    "tooltip": "录音到指定槽位（0~3），每个槽位独立存储"
+  },
+  "es8311_play_slot": {
+    "message0": "ES8311 %1 播放槽位 %2",
+    "tooltip": "播放指定槽位的录音"
+  },
+  "es8311_play_loop": {
+    "message0": "ES8311 %1 循环播放录音",
+    "tooltip": "循环播放已录制的音频，直到调用停止"
+  },
+  "es8311_qwen_config": {
+    "message0": "配置 ES8311 云端音频理解 API Key %1 Base URL %2",
+    "tooltip": "配置 DashScope API Key 和兼容模式 Base URL，不包含 WiFi 连接逻辑"
+  },
+  "es8311_qwen_audio_chat": {
+    "message0": "ES8311 %1 上传当前录音到通义千问 提示词 %2 模型 %3 音色 %4 回复播放 %5",
+    "tooltip": "将当前录音上传到通义千问 Omni，流式播放语音回复并保存文本结果。后台播放模式下收完数据立即返回，可用停止块打断",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.5-omni-plus（推荐）",
+            "qwen3.5-omni-plus"
+          ],
+          [
+            "qwen-omni-turbo",
+            "qwen-omni-turbo"
+          ],
+          [
+            "qwen3-omni-flash",
+            "qwen3-omni-flash"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "等待播完",
+            "WAIT"
+          ],
+          [
+            "后台播放(可打断)",
+            "BACKGROUND"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8311_qwen_get_last_text": {
+    "message0": "获取 ES8311 AI 最后文本结果",
+    "tooltip": "返回最近一次云端音频理解的完整文本结果"
+  },
+  "es8311_qwen_get_last_success": {
+    "message0": "ES8311 AI 最后请求成功",
+    "tooltip": "检查最近一次云端音频理解请求是否成功"
+  },
+  "es8311_qwen_get_last_error": {
+    "message0": "获取 ES8311 AI 最后错误信息",
+    "tooltip": "返回最近一次云端音频理解请求的错误信息"
+  },
+  "es8311_record_start": {
+    "message0": "ES8311 %1 开始录音(后台)",
+    "tooltip": "开始后台录音，立即返回不阻塞程序；调用停止录音结束，或录满缓冲自动停止"
+  },
+  "es8311_record_stop": {
+    "message0": "ES8311 %1 停止录音",
+    "tooltip": "停止后台录音并保存实际长度（不足0.1秒视为无效录音）"
+  },
+  "es8311_is_recording": {
+    "message0": "ES8311 %1 正在录音",
+    "tooltip": "后台录音是否进行中（录满缓冲会自动停止）"
+  },
+  "es8311_is_speaking": {
+    "message0": "ES8311 %1 正在播放语音",
+    "tooltip": "流式/后台语音是否还在播放中"
+  },
+  "es8311_sound_level": {
+    "message0": "ES8311 %1 当前声音强度",
+    "tooltip": "实时从麦克风采集一小段音频，返回声音强度（0~100，需先配置 I2S）"
+  },
+  "es8311_stream_begin": {
+    "message0": "ES8311 %1 开始流式播放 源采样率 %2",
+    "tooltip": "开始流式播放：按所选源采样率实时重采样到16kHz输出"
+  },
+  "es8311_stream_end": {
+    "message0": "ES8311 %1 结束流式播放",
+    "tooltip": "结束流式播放并清零 I2S DMA 缓冲区"
+  },
+  "es8311_stream_play_url": {
+    "message0": "ES8311 %1 流式播放网络音频 URL %2 源采样率 %3",
+    "tooltip": "从 http(s) 地址边下载边播放 16bit 单声道 PCM/WAV 音频（需先连接 WiFi）"
+  }
+}
