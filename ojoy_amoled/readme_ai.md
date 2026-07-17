@@ -1,6 +1,6 @@
-# OJoy AMOLED + Touch
+# OJoy AMOLED
 
-CH13613 480x480 QSPI AMOLED 显示 + CHSC6417 电容触摸一体库 (ESP32-S3 + PSRAM): 图形绘制/文本/图标/控件/仪表盘 + 触摸坐标读取/手势识别
+OJoy all-in-one display + touch: CH13613 480x480 AMOLED + CHSC6417 capacitive touch (ESP32-S3 + PSRAM). Drawing/text/CJK/bitmap/icons/widgets/charts/gauges/effects plus touch coordinates & gestures
 
 ## Library Info
 - **Name**: @aily-project/lib-ojoy_amoled

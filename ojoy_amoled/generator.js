@@ -32,7 +32,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": "CH13613_AMOLED",
   "setupCode": "CH13613_Config cfg_{VAR} = CH13613_DEFAULT_CONFIG(); // 引脚固定: CS45 SCK17 D0=8 D1=16 D2=15 D3=18 RST7 TE38\ncfg_{VAR}.freq_hz={FREQ};\n{VAR}.begin(cfg_{VAR});\n{VAR}.setRotation({ROTATION});\n{VAR}.setBrightness({BRIGHT});\n",
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_panel": {
   "a": [
@@ -58,7 +59,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_set_rotation": {
   "a": [
@@ -80,7 +82,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_refresh": {
   "a": [
@@ -102,7 +105,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_dimension": {
   "a": [
@@ -124,7 +128,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_fill_screen": {
   "a": [
@@ -146,7 +151,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_draw_pixel": {
   "a": [
@@ -176,7 +182,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_draw_line": {
   "a": [
@@ -218,7 +225,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_rect": {
   "a": [
@@ -260,7 +268,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_round_rect": {
   "a": [
@@ -306,7 +315,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_circle": {
   "a": [
@@ -344,7 +354,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_ellipse": {
   "a": [
@@ -386,7 +397,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_triangle": {
   "a": [
@@ -436,7 +448,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_arc": {
   "a": [
@@ -486,7 +499,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_sector": {
   "a": [
@@ -532,7 +546,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_star": {
   "a": [
@@ -578,7 +593,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_rect_gradient": {
   "a": [
@@ -624,7 +640,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_radial_gradient": {
   "a": [
@@ -662,7 +679,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_set_text_color": {
   "a": [
@@ -684,7 +702,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_set_text_size": {
   "a": [
@@ -706,7 +725,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_set_text_align": {
   "a": [
@@ -732,7 +752,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_set_cursor": {
   "a": [
@@ -758,7 +779,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_draw_text": {
   "a": [
@@ -788,7 +810,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_text_effect": {
   "a": [
@@ -830,7 +853,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_seg_text": {
   "a": [
@@ -872,7 +896,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_print": {
   "a": [
@@ -902,7 +927,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_set_cn_font": {
   "a": [
@@ -939,7 +965,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_color": {
   "a": [
@@ -957,7 +984,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_color_rgb": {
   "a": [
@@ -983,7 +1011,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_palette": {
   "a": [
@@ -1005,7 +1034,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_set_blend": {
   "a": [
@@ -1027,7 +1057,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_set_alpha": {
   "a": [
@@ -1049,7 +1080,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_clip": {
   "a": [
@@ -1090,7 +1122,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_color_filter": {
   "a": [
@@ -1132,7 +1165,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_effect_rect": {
   "a": [
@@ -1174,7 +1208,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_vignette": {
   "a": [
@@ -1196,7 +1231,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_spotlight": {
   "a": [
@@ -1230,7 +1266,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_glow_circle": {
   "a": [
@@ -1268,7 +1305,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_draw_bitmap": {
   "a": [
@@ -1320,7 +1358,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_draw_icon": {
   "a": [
@@ -1358,7 +1397,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_progress_bar": {
   "a": [
@@ -1404,7 +1444,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_button": {
   "a": [
@@ -1458,7 +1499,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_toggle": {
   "a": [
@@ -1504,7 +1546,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_checkbox": {
   "a": [
@@ -1542,7 +1585,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_slider": {
   "a": [
@@ -1588,7 +1632,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_battery": {
   "a": [
@@ -1634,7 +1679,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_signal": {
   "a": [
@@ -1676,7 +1722,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_spinner": {
   "a": [
@@ -1714,7 +1761,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_gauge": {
   "a": [
@@ -1776,7 +1824,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_ring_progress": {
   "a": [
@@ -1822,7 +1871,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_clock_face": {
   "a": [
@@ -1884,7 +1934,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_needle": {
   "a": [
@@ -1926,7 +1977,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_ticks": {
   "a": [
@@ -1968,7 +2020,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_speedometer": {
   "a": [
@@ -2018,7 +2071,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chamoled_compass": {
   "a": [
@@ -2060,7 +2114,8 @@ var CH_META = {
   "vt": "CH13613",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chtouch_setup": {
   "a": [
@@ -2081,11 +2136,21 @@ var CH_META = {
   "setup": true,
   "vt": "CHTouch",
   "setupClass": "CH13613_Touch",
-  "setupCode": "{VAR}.begin();\n{VAR}.setRotation({ROTATION});\n",
+  "setupCode": "{VAR}.begin(21, 47, 48, 10, Wire1, 400000);\n{VAR}.setRotation({ROTATION});\n",
   "libs": [
    [
     "CH13613_Touch",
     "#include <CH13613_Touch.h>"
+   ],
+   [
+    "Wire",
+    "#include <Wire.h>"
+   ]
+  ],
+  "setups": [
+   [
+    "ojoy_i2c_wire1",
+    "Wire1.begin(21, 47, 400000); // OJoy 触摸I2C SDA21/SCL47 (独立总线)"
    ]
   ]
  },
@@ -2105,7 +2170,8 @@ var CH_META = {
   "vt": "CHTouch",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chtouch_touched": {
   "a": [
@@ -2123,7 +2189,8 @@ var CH_META = {
   "vt": "CHTouch",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chtouch_x": {
   "a": [
@@ -2141,7 +2208,8 @@ var CH_META = {
   "vt": "CHTouch",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chtouch_y": {
   "a": [
@@ -2159,7 +2227,8 @@ var CH_META = {
   "vt": "CHTouch",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chtouch_points": {
   "a": [
@@ -2177,7 +2246,8 @@ var CH_META = {
   "vt": "CHTouch",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chtouch_gesture_is": {
   "a": [
@@ -2199,7 +2269,8 @@ var CH_META = {
   "vt": "CHTouch",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chtouch_present": {
   "a": [
@@ -2217,7 +2288,8 @@ var CH_META = {
   "vt": "CHTouch",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chtouch_set_rotation": {
   "a": [
@@ -2239,7 +2311,8 @@ var CH_META = {
   "vt": "CHTouch",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  },
  "chtouch_calibrate": {
   "a": [
@@ -2269,7 +2342,8 @@ var CH_META = {
   "vt": "CHTouch",
   "setupClass": null,
   "setupCode": null,
-  "libs": []
+  "libs": [],
+  "setups": []
  }
 };
 
@@ -2318,6 +2392,7 @@ Object.keys(CH_META).forEach(function(type){
       vals.VAR=V;
       generator.addVariable(V, m.setupClass+' '+V+';');
       (m.libs||[]).forEach(function(L){ generator.addLibrary(L[0], L[1]); });
+      (m.setups||[]).forEach(function(S){ generator.addSetup(S[0], S[1]); });
       return chSubst(m.setupCode, vals);
     }
 

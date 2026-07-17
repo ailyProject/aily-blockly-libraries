@@ -1,262 +1,1031 @@
 {
+  "toolbox_name": "OJoy Display + Touch",
+  "toolbox_categories": [
+    "Setup & Panel",
+    "Drawing",
+    "Text",
+    "Color",
+    "Render/Blend",
+    "Effects",
+    "Bitmap",
+    "Icons",
+    "Widgets",
+    "Round/Gauges",
+    "Touch"
+  ],
   "chamoled_setup": {
-    "message0": "【① Init Screen (Required·First)】 AMOLED %1 QSPI Freq %2 Rotation %3 Brightness %4",
-    "tooltip": "Init OJoy AMOLED (pins fixed per board, requires ESP32-S3 + PSRAM)"
+    "message0": "[① Initialize screen (required, put first)] AMOLED screen %1 QSPI freq %2 rotation %3 brightness %4",
+    "tooltip": "Initialize the OJoy AMOLED screen (pins fixed for this board; needs ESP32-S3 with PSRAM)"
   },
   "chamoled_panel": {
-    "message0": "【Panel Control】 Screen %1 Action %2 Value %3",
-    "tooltip": "Panel: brightness/sleep/display on/off/invert"
+    "message0": "[Panel control] screen %1 do %2 value %3",
+    "tooltip": "Panel control: brightness / sleep / display on-off / invert",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "set brightness (0-255)",
+            "setBrightness"
+          ],
+          [
+            "sleep (1=on/0=off)",
+            "sleep"
+          ],
+          [
+            "display (1=on/0=off)",
+            "displayOn"
+          ],
+          [
+            "invert (1=on/0=off)",
+            "invertDisplay"
+          ]
+        ]
+      },
+      null
+    ]
   },
   "chamoled_set_rotation": {
-    "message0": "【Set Rotation】 Screen %1 Rotate %2",
-    "tooltip": "Set screen rotation"
+    "message0": "[Set screen rotation] screen %1 rotation %2",
+    "tooltip": "Set the screen rotation"
   },
   "chamoled_refresh": {
-    "message0": "【② Refresh to Screen (Required after drawing)】 Screen %1 Mode %2",
-    "tooltip": "Push framebuffer to screen (required after all drawing)"
+    "message0": "[② Refresh to screen (required after drawing)] screen %1 mode %2",
+    "tooltip": "Push the framebuffer to the panel (required after drawing)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "partial (dirty rect, fast)",
+            "update"
+          ],
+          [
+            "full screen",
+            "display"
+          ]
+        ]
+      }
+    ]
   },
   "chamoled_dimension": {
-    "message0": "【Get Screen Size】 Screen %1 Which %2",
-    "tooltip": "Get screen width/height/rotation"
+    "message0": "[Read screen size] screen %1 %2",
+    "tooltip": "Get screen width / height / rotation",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "width",
+            "width"
+          ],
+          [
+            "height",
+            "height"
+          ],
+          [
+            "rotation",
+            "getRotation"
+          ]
+        ]
+      }
+    ]
   },
   "chamoled_fill_screen": {
-    "message0": "【Fill Screen】 Screen %1 Color %2",
-    "tooltip": "Fill entire screen with color"
+    "message0": "[Clear / fill screen] screen %1 fill color %2",
+    "tooltip": "Fill the whole screen with a color"
   },
   "chamoled_draw_pixel": {
-    "message0": "【Draw Pixel】 Screen %1 X %2 Y %3 Color %4",
-    "tooltip": "Draw pixel"
+    "message0": "[Draw pixel] screen %1 X %2 Y %3 color %4",
+    "tooltip": "Draw a pixel"
   },
   "chamoled_draw_line": {
-    "message0": "【Draw Line】 Screen %1 Style %2 X0 %3 Y0 %4 X1 %5 Y1 %6 Color %7",
-    "tooltip": "Draw line (optional style)"
+    "message0": "[Draw line] screen %1 style %2 from X %3 from Y %4 to X %5 to Y %6 color %7",
+    "tooltip": "Draw a straight line (choose a style)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "solid",
+            "drawLine"
+          ],
+          [
+            "dashed",
+            "drawDashedLine"
+          ],
+          [
+            "dotted",
+            "drawDottedLine"
+          ],
+          [
+            "anti-aliased",
+            "drawLineAA"
+          ],
+          [
+            "arrow",
+            "drawArrow"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_rect": {
-    "message0": "【Draw Rect】 Screen %1 Mode %2 X %3 Y %4 W %5 H %6 Color %7",
-    "tooltip": "Rectangle (stroke/fill)"
+    "message0": "[Draw rectangle] screen %1 mode %2 X %3 Y %4 width %5 height %6 color %7",
+    "tooltip": "Rectangle (outline/fill)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "outline",
+            "drawRect"
+          ],
+          [
+            "fill",
+            "fillRect"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_round_rect": {
-    "message0": "【Draw RoundRect】 Screen %1 Mode %2 X %3 Y %4 W %5 H %6 Radius %7 Color %8",
-    "tooltip": "Rounded rectangle (stroke/fill)"
+    "message0": "[Draw rounded rectangle] screen %1 mode %2 X %3 Y %4 width %5 height %6 corner %7 color %8",
+    "tooltip": "Rounded rectangle (outline/fill)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "outline",
+            "drawRoundRect"
+          ],
+          [
+            "fill",
+            "fillRoundRect"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_circle": {
-    "message0": "【Draw Circle】 Screen %1 Mode %2 CX %3 CY %4 R %5 Color %6",
-    "tooltip": "Circle (stroke/fill/anti-aliased)"
+    "message0": "[Draw circle] screen %1 mode %2 center X %3 center Y %4 radius %5 color %6",
+    "tooltip": "Circle (outline/fill/anti-aliased)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "outline",
+            "drawCircle"
+          ],
+          [
+            "fill",
+            "fillCircle"
+          ],
+          [
+            "outline (AA)",
+            "drawCircleAA"
+          ],
+          [
+            "fill (AA)",
+            "fillCircleAA"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_ellipse": {
-    "message0": "【Draw Ellipse】 Screen %1 Mode %2 CX %3 CY %4 RX %5 RY %6 Color %7",
-    "tooltip": "Ellipse (stroke/fill)"
+    "message0": "[Draw ellipse] screen %1 mode %2 center X %3 center Y %4 radius X %5 radius Y %6 color %7",
+    "tooltip": "Ellipse (outline/fill)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "outline",
+            "drawEllipse"
+          ],
+          [
+            "fill",
+            "fillEllipse"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_triangle": {
-    "message0": "【Draw Triangle】 Screen %1 Mode %2 X0 %3 Y0 %4 X1 %5 Y1 %6 X2 %7 Y2 %8 Color %9",
-    "tooltip": "Triangle (stroke/fill)"
+    "message0": "[Draw triangle] screen %1 mode %2 p1 X %3 p1 Y %4 p2 X %5 p2 Y %6 p3 X %7 p3 Y %8 color %9",
+    "tooltip": "Triangle (outline/fill)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "outline",
+            "drawTriangle"
+          ],
+          [
+            "fill",
+            "fillTriangle"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_arc": {
-    "message0": "【Draw Arc】 Screen %1 Mode %2 CX %3 CY %4 Rin %5 Rout %6 Start %7 End %8 Color %9",
-    "tooltip": "Arc/ring (stroke/fill), 0°=12 o'clock clockwise"
+    "message0": "[Draw arc] screen %1 mode %2 center X %3 center Y %4 inner radius %5 outer radius %6 start angle %7 end angle %8 color %9",
+    "tooltip": "Arc / ring segment (outline/fill); 0° is 12 o'clock, clockwise",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "outline",
+            "drawArc"
+          ],
+          [
+            "fill",
+            "fillArc"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_sector": {
-    "message0": "【Draw Sector】 Screen %1 Mode %2 CX %3 CY %4 R %5 Start %6 End %7 Color %8",
-    "tooltip": "Sector (stroke/fill)"
+    "message0": "[Draw sector] screen %1 mode %2 center X %3 center Y %4 radius %5 start angle %6 end angle %7 color %8",
+    "tooltip": "Sector (outline/fill)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "outline",
+            "drawSector"
+          ],
+          [
+            "fill",
+            "fillSector"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_star": {
-    "message0": "【Draw Star】 Screen %1 CX %2 CY %3 Rout %4 Rin %5 Points %6 Color %7 Fill %8",
+    "message0": "[Draw star] screen %1 center X %2 center Y %3 outer radius %4 inner radius %5 points %6 color %7 filled %8",
     "tooltip": "Star"
   },
   "chamoled_rect_gradient": {
-    "message0": "【Gradient Rect】 Screen %1 Dir %2 X %3 Y %4 W %5 H %6 C1 %7 C2 %8",
-    "tooltip": "Gradient fill rect (horizontal/vertical)"
+    "message0": "[Gradient rectangle] screen %1 direction %2 X %3 Y %4 width %5 height %6 from color %7 to color %8",
+    "tooltip": "Gradient-filled rectangle (horizontal/vertical)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "vertical",
+            "true"
+          ],
+          [
+            "horizontal",
+            "false"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_radial_gradient": {
-    "message0": "【Radial Gradient Circle】 Screen %1 CX %2 CY %3 R %4 Cin %5 Cout %6",
-    "tooltip": "Radial gradient fill circle"
+    "message0": "[Radial gradient circle] screen %1 center X %2 center Y %3 radius %4 inner color %5 outer color %6",
+    "tooltip": "Radial gradient filled circle"
   },
   "chamoled_set_text_color": {
-    "message0": "【Set Text Color】 Screen %1 Color %2",
-    "tooltip": "Set text color"
+    "message0": "[Set text color] screen %1 text color %2",
+    "tooltip": "Set the text color"
   },
   "chamoled_set_text_size": {
-    "message0": "【Set Text Size】 Screen %1 Scale %2",
-    "tooltip": "Set text scale factor"
+    "message0": "[Set text size] screen %1 scale %2",
+    "tooltip": "Set the text scale factor"
   },
   "chamoled_set_text_align": {
-    "message0": "【Set Text Align】 Screen %1 H %2 V %3",
-    "tooltip": "Set text alignment (relative to anchor)"
+    "message0": "[Set text align] screen %1 horizontal %2 vertical %3",
+    "tooltip": "Set text alignment (relative to the anchor)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "left",
+            "CH_ALIGN_LEFT"
+          ],
+          [
+            "center",
+            "CH_ALIGN_CENTER"
+          ],
+          [
+            "right",
+            "CH_ALIGN_RIGHT"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "top",
+            "CH_ALIGN_TOP"
+          ],
+          [
+            "middle",
+            "CH_ALIGN_MIDDLE"
+          ],
+          [
+            "bottom",
+            "CH_ALIGN_BOTTOM"
+          ]
+        ]
+      }
+    ]
   },
   "chamoled_set_cursor": {
-    "message0": "【Set Cursor】 Screen %1 X %2 Y %3",
-    "tooltip": "Set cursor position"
+    "message0": "[Set cursor] screen %1 X %2 Y %3",
+    "tooltip": "Set the cursor position"
   },
   "chamoled_draw_text": {
-    "message0": "【Draw Text】 Screen %1 X %2 Y %3 Text %4",
-    "tooltip": "Draw text by alignment"
+    "message0": "[Draw text] screen %1 X %2 Y %3 label %4",
+    "tooltip": "Draw text using the current alignment"
   },
   "chamoled_text_effect": {
-    "message0": "【Draw Effect Text (Shadow/Outline)】 Screen %1 Style %2 X %3 Y %4 Text %5 Main %6 Sub %7",
-    "tooltip": "Text with shadow/outline effect"
+    "message0": "[Draw styled text (shadow/outline)] screen %1 effect %2 X %3 Y %4 label %5 main color %6 second color %7",
+    "tooltip": "Text with a shadow or an outline",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "shadow",
+            "drawTextShadow"
+          ],
+          [
+            "outline",
+            "drawTextOutline"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_seg_text": {
-    "message0": "【Draw Segmented Number (Clock)】 Screen %1 X %2 Y %3 H %4 Text %5 Color %6 BG %7",
-    "tooltip": "Segment vector digits (clock/gauge), supports 0-9 A-F : . -"
+    "message0": "[Draw 7-segment digits (clock)] screen %1 X %2 Y %3 height %4 label %5 color %6 background %7",
+    "tooltip": "Large 7-segment vector digits (clock/gauge); supports 0-9 A-F : . -"
   },
   "chamoled_print": {
-    "message0": "【Print Text (CJK Support)】 Screen %1 X %2 Y %3 Text %4",
-    "tooltip": "Print at cursor (supports Chinese/UTF-8, use with CN font block)"
+    "message0": "[Print text (CJK supported)] screen %1 X %2 Y %3 label %4",
+    "tooltip": "Print at the cursor (UTF-8 / CJK, use together with the CJK font block)"
   },
   "chamoled_set_cn_font": {
-    "message0": "【Select CN Font】 Screen %1 Font %2",
-    "tooltip": "Switch Chinese dot-matrix font (needs larger APP partition)"
+    "message0": "[Select CJK font] screen %1 CJK font %2",
+    "tooltip": "Switch the CJK bitmap font (needs a large APP partition)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "off",
+            "0"
+          ],
+          [
+            "16px",
+            "16"
+          ],
+          [
+            "24px",
+            "24"
+          ],
+          [
+            "32px",
+            "32"
+          ]
+        ]
+      }
+    ]
   },
   "chamoled_color": {
-    "message0": "【Color】 Color %1",
-    "tooltip": "Preset color"
+    "message0": "[Color] color %1",
+    "tooltip": "Preset color",
+    "args0": [
+      {
+        "options": [
+          [
+            "black",
+            "CH_BLACK"
+          ],
+          [
+            "white",
+            "CH_WHITE"
+          ],
+          [
+            "red",
+            "CH_RED"
+          ],
+          [
+            "green",
+            "CH_GREEN"
+          ],
+          [
+            "blue",
+            "CH_BLUE"
+          ],
+          [
+            "yellow",
+            "CH_YELLOW"
+          ],
+          [
+            "cyan",
+            "CH_CYAN"
+          ],
+          [
+            "magenta",
+            "CH_MAGENTA"
+          ],
+          [
+            "orange",
+            "CH_ORANGE"
+          ],
+          [
+            "pink",
+            "CH_PINK"
+          ],
+          [
+            "purple",
+            "CH_PURPLE"
+          ],
+          [
+            "violet",
+            "CH_VIOLET"
+          ],
+          [
+            "gold",
+            "CH_GOLD"
+          ],
+          [
+            "sky blue",
+            "CH_SKYBLUE"
+          ],
+          [
+            "navy",
+            "CH_NAVY"
+          ],
+          [
+            "dark cyan",
+            "CH_DARKCYAN"
+          ],
+          [
+            "dark green",
+            "CH_DARKGREEN"
+          ],
+          [
+            "dark grey",
+            "CH_DARKGREY"
+          ],
+          [
+            "light grey",
+            "CH_LIGHTGREY"
+          ],
+          [
+            "silver",
+            "CH_SILVER"
+          ],
+          [
+            "olive",
+            "CH_OLIVE"
+          ],
+          [
+            "maroon",
+            "CH_MAROON"
+          ],
+          [
+            "green yellow",
+            "CH_GREENYELLOW"
+          ]
+        ]
+      }
+    ]
   },
   "chamoled_color_rgb": {
-    "message0": "【RGB Color】 R %1 G %2 B %3",
-    "tooltip": "RGB to 565 color"
+    "message0": "[RGB color] red %1 green %2 blue %3",
+    "tooltip": "Convert RGB to a 565 color"
   },
   "chamoled_palette": {
-    "message0": "【Palette Color】 Palette %1 Pos %2",
-    "tooltip": "Palette color (t=0-255)"
+    "message0": "[Palette color] palette %1 position %2",
+    "tooltip": "Pick a color from a palette (t = 0-255)",
+    "args0": [
+      {
+        "options": [
+          [
+            "rainbow",
+            "rainbow"
+          ],
+          [
+            "heat",
+            "heat"
+          ],
+          [
+            "Jet",
+            "jet"
+          ],
+          [
+            "Turbo",
+            "turbo"
+          ],
+          [
+            "Viridis",
+            "viridis"
+          ],
+          [
+            "grayscale",
+            "grayscale"
+          ]
+        ]
+      },
+      null
+    ]
   },
   "chamoled_set_blend": {
-    "message0": "【Set Blend Mode】 Screen %1 Mode %2",
-    "tooltip": "Set blend mode (affects subsequent drawing)"
+    "message0": "[Set blend mode] screen %1 mode %2",
+    "tooltip": "Set the blend mode (affects later drawing)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "normal",
+            "CH_BLEND_NORMAL"
+          ],
+          [
+            "add",
+            "CH_BLEND_ADD"
+          ],
+          [
+            "multiply",
+            "CH_BLEND_MULTIPLY"
+          ],
+          [
+            "screen",
+            "CH_BLEND_SCREEN"
+          ],
+          [
+            "darken",
+            "CH_BLEND_DARKEN"
+          ],
+          [
+            "lighten",
+            "CH_BLEND_LIGHTEN"
+          ],
+          [
+            "overlay",
+            "CH_BLEND_OVERLAY"
+          ],
+          [
+            "subtract",
+            "CH_BLEND_SUBTRACT"
+          ]
+        ]
+      }
+    ]
   },
   "chamoled_set_alpha": {
-    "message0": "【Set Alpha】 Screen %1 Alpha %2",
-    "tooltip": "Set global alpha (0-255)"
+    "message0": "[Set alpha] screen %1 alpha %2",
+    "tooltip": "Set the global alpha (0-255)"
   },
   "chamoled_clip": {
-    "message0": "【Set Clip Region】 Screen %1 Mode %2 X/CX %3 Y/CY %4 W/R %5",
-    "tooltip": "Clip region (subsequent draws only inside region)"
+    "message0": "[Set clip region] screen %1 mode %2 X / center X %3 Y / center Y %4 width / radius %5",
+    "tooltip": "Clip region (later drawing stays inside it)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "rectangle clip",
+            "rect"
+          ],
+          [
+            "circle clip",
+            "circle"
+          ],
+          [
+            "clear clip",
+            "clear"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_color_filter": {
-    "message0": "【Region Color Filter】 Screen %1 Filter %2 X %3 Y %4 W %5 H %6 Strength %7",
-    "tooltip": "Region color filter"
+    "message0": "[Color filter (region)] screen %1 filter %2 X %3 Y %4 width %5 height %6 strength %7",
+    "tooltip": "Apply a color filter to a region",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "grayscale",
+            "CH_FILTER_GRAY"
+          ],
+          [
+            "sepia",
+            "CH_FILTER_SEPIA"
+          ],
+          [
+            "invert",
+            "CH_FILTER_INVERT"
+          ],
+          [
+            "brightness",
+            "CH_FILTER_BRIGHTNESS"
+          ],
+          [
+            "contrast",
+            "CH_FILTER_CONTRAST"
+          ],
+          [
+            "saturation",
+            "CH_FILTER_SATURATION"
+          ],
+          [
+            "tint",
+            "CH_FILTER_TINT"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_effect_rect": {
-    "message0": "【Region Effect (Dim/Blur/InnerShadow)】 Screen %1 Effect %2 X %3 Y %4 W %5 H %6 Strength %7",
-    "tooltip": "Region effect: dim/blur/inner shadow"
+    "message0": "[Region effect (dim/blur/inner shadow)] screen %1 effect %2 X %3 Y %4 width %5 height %6 strength %7",
+    "tooltip": "Region effect: dim / blur / inner shadow",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "dim",
+            "dimRect"
+          ],
+          [
+            "blur",
+            "blurRect"
+          ],
+          [
+            "inner shadow",
+            "innerShadowRect"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_vignette": {
-    "message0": "【Vignette】 Screen %1 Strength %2",
-    "tooltip": "Full screen vignette"
+    "message0": "[Vignette] screen %1 strength %2",
+    "tooltip": "Full-screen vignette"
   },
   "chamoled_spotlight": {
-    "message0": "【Spotlight】 Screen %1 CX %2 CY %3 R %4 Dim %5",
-    "tooltip": "Spotlight (dims outside area)"
+    "message0": "[Spotlight] screen %1 center X %2 center Y %3 radius %4 outside dim %5",
+    "tooltip": "Spotlight (dims everything outside)"
   },
   "chamoled_glow_circle": {
-    "message0": "【Glow Circle】 Screen %1 CX %2 CY %3 R %4 Color %5 GlowW %6",
+    "message0": "[Glow circle] screen %1 center X %2 center Y %3 radius %4 color %5 glow width %6",
     "tooltip": "Glowing circle"
   },
   "chamoled_draw_bitmap": {
-    "message0": "【Draw Bitmap】 Screen %1 Type %2 X %3 Y %4 Data %5 W %6 H %7 FG %8",
-    "tooltip": "Draw bitmap (RGB565 array / mono array)"
+    "message0": "[Draw bitmap] screen %1 bitmap %2 X %3 Y %4 data %5 width %6 height %7 mono color %8",
+    "tooltip": "Draw a bitmap (RGB565 array or mono array)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "color (RGB565)",
+            "rgb"
+          ],
+          [
+            "mono",
+            "mono"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_draw_icon": {
-    "message0": "【Draw Icon】 Screen %1 Icon %2 X %3 Y %4 Size %5 Color %6",
-    "tooltip": "Draw built-in vector icon"
+    "message0": "[Draw icon] screen %1 icon %2 X %3 Y %4 size %5 color %6",
+    "tooltip": "Draw a built-in vector icon",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "battery",
+            "CH_ICON_BATTERY"
+          ],
+          [
+            "battery charging",
+            "CH_ICON_BATTERY_CHARGE"
+          ],
+          [
+            "WiFi",
+            "CH_ICON_WIFI"
+          ],
+          [
+            "WiFi off",
+            "CH_ICON_WIFI_OFF"
+          ],
+          [
+            "Bluetooth",
+            "CH_ICON_BLUETOOTH"
+          ],
+          [
+            "GPS",
+            "CH_ICON_GPS"
+          ],
+          [
+            "USB",
+            "CH_ICON_USB"
+          ],
+          [
+            "volume",
+            "CH_ICON_VOLUME"
+          ],
+          [
+            "mute",
+            "CH_ICON_MUTE"
+          ],
+          [
+            "play",
+            "CH_ICON_PLAY"
+          ],
+          [
+            "pause",
+            "CH_ICON_PAUSE"
+          ],
+          [
+            "stop",
+            "CH_ICON_STOP"
+          ],
+          [
+            "bell",
+            "CH_ICON_BELL"
+          ],
+          [
+            "heart",
+            "CH_ICON_HEART"
+          ],
+          [
+            "clock",
+            "CH_ICON_CLOCK"
+          ],
+          [
+            "settings",
+            "CH_ICON_SETTINGS"
+          ],
+          [
+            "folder",
+            "CH_ICON_FOLDER"
+          ],
+          [
+            "camera",
+            "CH_ICON_CAMERA"
+          ],
+          [
+            "sun",
+            "CH_ICON_SUN"
+          ],
+          [
+            "moon",
+            "CH_ICON_MOON"
+          ],
+          [
+            "cloud",
+            "CH_ICON_CLOUD"
+          ],
+          [
+            "rain",
+            "CH_ICON_RAIN"
+          ],
+          [
+            "success",
+            "CH_ICON_SUCCESS"
+          ],
+          [
+            "warning",
+            "CH_ICON_WARNING"
+          ],
+          [
+            "error",
+            "CH_ICON_ERROR"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_progress_bar": {
-    "message0": "【Progress Bar】 Screen %1 X %2 Y %3 W %4 H %5 Pct %6 FG %7 BG %8",
+    "message0": "[Progress bar] screen %1 X %2 Y %3 width %4 height %5 percent %6 foreground %7 background %8",
     "tooltip": "Progress bar"
   },
   "chamoled_button": {
-    "message0": "【Button】 Screen %1 X %2 Y %3 W %4 H %5 Label %6 TxtColor %7 FillColor %8 BorderColor %9 Radius %10",
-    "tooltip": "Button widget"
+    "message0": "[Button] screen %1 X %2 Y %3 width %4 height %5 label %6 text color %7 fill color %8 border color %9 corner %10",
+    "tooltip": "Button"
   },
   "chamoled_toggle": {
-    "message0": "【Toggle Switch】 Screen %1 X %2 Y %3 W %4 H %5 OnColor %6 OffColor %7",
+    "message0": "[Toggle] screen %1 X %2 Y %3 width %4 height %5 on %6 on color %7 off color %8",
     "tooltip": "Toggle switch"
   },
   "chamoled_checkbox": {
-    "message0": "【Checkbox】 Screen %1 X %2 Y %3 Size %4 Checked %5 Color %6",
+    "message0": "[Checkbox] screen %1 X %2 Y %3 size %4 checked %5 color %6",
     "tooltip": "Checkbox"
   },
   "chamoled_slider": {
-    "message0": "【Slider】 Screen %1 X %2 Y %3 W %4 Pct %5 Track %6 Active %7 Knob %8",
+    "message0": "[Slider] screen %1 X %2 Y %3 width %4 percent %5 track %6 active %7 knob %8",
     "tooltip": "Slider"
   },
   "chamoled_battery": {
-    "message0": "【Battery Icon】 Screen %1 X %2 Y %3 W %4 H %5 Pct %6 Color %7 Charging %8",
+    "message0": "[Battery icon] screen %1 X %2 Y %3 width %4 height %5 charge %6 color %7 charging %8",
     "tooltip": "Battery icon"
   },
   "chamoled_signal": {
-    "message0": "【Signal Bars】 Screen %1 X %2 Y %3 Bars %4 Level %5 On %6 Off %7",
+    "message0": "[Signal bars] screen %1 X %2 Y %3 bars %4 level %5 on color %6 off color %7",
     "tooltip": "Signal bars"
   },
   "chamoled_spinner": {
-    "message0": "【Loading Spinner】 Screen %1 CX %2 CY %3 R %4 Phase %5 Color %6",
-    "tooltip": "Loading spinner (increment phase for animation)"
+    "message0": "[Spinner] screen %1 center X %2 center Y %3 radius %4 phase angle %5 color %6",
+    "tooltip": "Loading spinner (increase phase each frame to animate)"
   },
   "chamoled_gauge": {
-    "message0": "【Gauge】 Screen %1 CX %2 CY %3 R %4 Thick %5 Val %6 Min %7 Max %8 Start %9 End %10 FG %11 BG %12",
-    "tooltip": "Gauge (value mapped to arc)"
+    "message0": "[Gauge] screen %1 center X %2 center Y %3 radius %4 thickness %5 value %6 min %7 max %8 start angle %9 end angle %10 foreground %11 background %12",
+    "tooltip": "Gauge (maps a value onto an arc)"
   },
   "chamoled_ring_progress": {
-    "message0": "【Ring Progress】 Screen %1 CX %2 CY %3 Rout %4 Thick %5 Pct %6 FG %7 BG %8",
-    "tooltip": "Ring progress (rounded ends)"
+    "message0": "[Ring progress] screen %1 center X %2 center Y %3 outer radius %4 thickness %5 percent %6 foreground %7 background %8",
+    "tooltip": "Ring progress (round caps)"
   },
   "chamoled_clock_face": {
-    "message0": "【Clock Face】 Screen %1 CX %2 CY %3 R %4 HH %5 MM %6 SS %7 Face %8 Ticks %9 HC %10 MC %11 SC %12",
+    "message0": "[Clock face] screen %1 center X %2 center Y %3 radius %4 hour %5 min %6 sec %7 face %8 ticks %9 hour hand %10 minute hand %11 second hand %12",
     "tooltip": "Clock face"
   },
   "chamoled_needle": {
-    "message0": "【Needle】 Screen %1 CX %2 CY %3 Len %4 Deg %5 Width %6 Color %7",
-    "tooltip": "Needle (0°=12 o'clock clockwise)"
+    "message0": "[Needle] screen %1 center X %2 center Y %3 length %4 angle %5 base width %6 color %7",
+    "tooltip": "Needle (0° is 12 o'clock, clockwise)"
   },
   "chamoled_ticks": {
-    "message0": "【Tick Ring】 Screen %1 CX %2 CY %3 Rout %4 Count %5 Len %6 Color %7",
-    "tooltip": "Ring ticks"
+    "message0": "[Tick ring] screen %1 center X %2 center Y %3 outer radius %4 count %5 length %6 color %7",
+    "tooltip": "Tick ring"
   },
   "chamoled_speedometer": {
-    "message0": "【Speedometer】 Screen %1 CX %2 CY %3 R %4 Val %5 Max %6 FG %7 BG %8 Needle %9",
+    "message0": "[Speedometer] screen %1 center X %2 center Y %3 radius %4 value %5 max %6 foreground %7 background %8 needle %9",
     "tooltip": "Speedometer"
   },
   "chamoled_compass": {
-    "message0": "【Compass】 Screen %1 CX %2 CY %3 R %4 Heading %5 Ring %6 Needle %7",
+    "message0": "[Compass] screen %1 center X %2 center Y %3 radius %4 heading %5 ring %6 needle %7",
     "tooltip": "Compass"
   },
   "chtouch_setup": {
-    "message0": "【① Init Touch】 Touch %1 Rotation(follow screen) %2",
-    "tooltip": "Init CHSC6417 touch (pins fixed SCL47/SDA21/RST48/INT10)"
+    "message0": "[① Initialize touch] touch %1 rotation (match screen) %2",
+    "tooltip": "Initialize the CHSC6417 touch panel (pins fixed: SCL47/SDA21/RST48/INT10, on the separate Wire1 bus)"
   },
   "chtouch_read": {
-    "message0": "【Read Touch (has touch?)】 Touch %1",
-    "tooltip": "Sample touch once, returns if touched (updates coords)"
+    "message0": "[Read touch (any contact?)] touch %1",
+    "tooltip": "Take one touch sample; returns whether there is a contact (updates the coordinates)"
   },
   "chtouch_touched": {
-    "message0": "【Is Currently Touched?】 Touch %1",
-    "tooltip": "Currently touching? (uses last sample result)"
+    "message0": "[Currently touched] touch %1",
+    "tooltip": "Whether there is a touch right now (uses the last sample)"
   },
   "chtouch_x": {
-    "message0": "【Touch X Coord】 Touch %1",
-    "tooltip": "Touch point X coordinate"
+    "message0": "[Touch X] touch %1",
+    "tooltip": "Touch X coordinate"
   },
   "chtouch_y": {
-    "message0": "【Touch Y Coord】 Touch %1",
-    "tooltip": "Touch point Y coordinate"
+    "message0": "[Touch Y] touch %1",
+    "tooltip": "Touch Y coordinate"
   },
   "chtouch_points": {
-    "message0": "【Touch Point Count】 Touch %1",
+    "message0": "[Touch points] touch %1",
     "tooltip": "Number of touch points"
   },
   "chtouch_gesture_is": {
-    "message0": "【Gesture Check】 Touch %1 Gesture %2",
-    "tooltip": "Gesture check (call after release): swipe L/R/U/D / tap"
+    "message0": "[Gesture is] touch %1 gesture is %2",
+    "tooltip": "Gesture check (call after release): swipe left/right/up/down or tap",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "swipe left",
+            "1"
+          ],
+          [
+            "swipe right",
+            "2"
+          ],
+          [
+            "swipe up",
+            "3"
+          ],
+          [
+            "swipe down",
+            "4"
+          ],
+          [
+            "tap",
+            "5"
+          ]
+        ]
+      }
+    ]
   },
   "chtouch_present": {
-    "message0": "【Touch Chip Present?】 Touch %1",
-    "tooltip": "I2C probe touch chip present (0x2E ack)"
+    "message0": "[Touch chip present?] touch %1",
+    "tooltip": "Probe over I2C whether the touch chip responds (0x2E)"
   },
   "chtouch_set_rotation": {
-    "message0": "【Set Touch Rotation】 Touch %1 Rotation %2",
-    "tooltip": "Set touch coord rotation (match screen orientation)"
+    "message0": "[Set touch rotation] touch %1 rotation %2",
+    "tooltip": "Set the touch coordinate rotation (match the screen)"
   },
   "chtouch_calibrate": {
-    "message0": "【Touch Calibration】 Touch %1 MirrorX %2 MirrorY %3 SwapXY %4",
-    "tooltip": "Direction calibration: flip XY/mirror when finger position mismatch"
+    "message0": "[Calibrate touch orientation] touch %1 mirror X %2 mirror Y %3 swap XY %4",
+    "tooltip": "Orientation calibration: flip XY / mirror when the finger position does not match the screen"
   }
 }
