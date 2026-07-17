@@ -1,0 +1,174 @@
+[
+  {
+    "type": "bq27220_init",
+    "message0": "初始化 BQ27220 %1 地址 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "gauge"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDRESS",
+        "options": [
+          [
+            "0x55 (默认)",
+            "0x55"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5DADE2",
+    "tooltip": "初始化BQ27220电量计",
+    "icon": "fa-solid fa-battery-half"
+  },
+  {
+    "type": "bq27220_basic_read",
+    "message0": "%1 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gauge",
+        "variableTypes": [
+          "BQ27220"
+        ],
+        "defaultType": "BQ27220"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "电压(mV)",
+            "voltage"
+          ],
+          [
+            "电流(mA)",
+            "current"
+          ],
+          [
+            "平均电流(mA)",
+            "avg_current"
+          ],
+          [
+            "温度(°C)",
+            "temperature"
+          ],
+          [
+            "电量(%)",
+            "soc"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#5DADE2",
+    "tooltip": "读取电池基础数据",
+    "icon": "fa-solid fa-gauge-high"
+  },
+  {
+    "type": "bq27220_time_read",
+    "message0": "%1 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gauge",
+        "variableTypes": [
+          "BQ27220"
+        ],
+        "defaultType": "BQ27220"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "放电剩余时间(分钟)",
+            "tte"
+          ],
+          [
+            "充满时间(分钟)",
+            "ttf"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#5DADE2",
+    "tooltip": "读取充放电时间预估",
+    "icon": "fa-solid fa-clock"
+  },
+  {
+    "type": "bq27220_capacity_read",
+    "message0": "%1 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gauge",
+        "variableTypes": [
+          "BQ27220"
+        ],
+        "defaultType": "BQ27220"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "剩余容量(mAh)",
+            "remaining_capacity"
+          ],
+          [
+            "满充容量(mAh)",
+            "full_charge_capacity"
+          ],
+          [
+            "充放电循环次数",
+            "cycle_count"
+          ],
+          [
+            "健康度(%)",
+            "soh"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#5DADE2",
+    "tooltip": "读取电池容量和健康信息",
+    "icon": "fa-solid fa-battery-three-quarters"
+  },
+  {
+    "type": "bq27220_set_design_capacity",
+    "message0": "%1 设置设计容量 %2 mAh",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gauge",
+        "variableTypes": [
+          "BQ27220"
+        ],
+        "defaultType": "BQ27220"
+      },
+      {
+        "type": "input_value",
+        "name": "CAPACITY",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E67E22",
+    "tooltip": "设置电池设计容量(mAh)",
+    "icon": "fa-solid fa-gear"
+  }
+]
