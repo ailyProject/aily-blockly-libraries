@@ -1,0 +1,246 @@
+[
+  {
+    "type": "ojrtc_init",
+    "message0": "【① 初始化时钟】 时钟 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "rtc"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D35400",
+    "tooltip": "初始化 PCF85063 RTC(地址0x51, OJoy I2C SDA5/SCL4 固定, 带电池备份)",
+    "helpUrl": "",
+    "icon": "fa-light fa-power-off",
+    "inputsInline": true
+  },
+  {
+    "type": "ojrtc_set_time",
+    "message0": "【设置时间】 时钟 %1 年 %2 月 %3 日 %4 时 %5 分 %6 秒 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": [
+          "PCF85063"
+        ],
+        "defaultType": "PCF85063"
+      },
+      {
+        "type": "input_value",
+        "name": "YEAR"
+      },
+      {
+        "type": "input_value",
+        "name": "MONTH"
+      },
+      {
+        "type": "input_value",
+        "name": "DAY"
+      },
+      {
+        "type": "input_value",
+        "name": "HOUR"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN"
+      },
+      {
+        "type": "input_value",
+        "name": "SEC"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D35400",
+    "tooltip": "手动设置日期时间(年/月/日/时/分/秒)",
+    "helpUrl": "",
+    "icon": "fa-light fa-clock-rotate-left",
+    "inputsInline": true
+  },
+  {
+    "type": "ojrtc_set_compile_time",
+    "message0": "【设为编译时间】 时钟 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": [
+          "PCF85063"
+        ],
+        "defaultType": "PCF85063"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D35400",
+    "tooltip": "一键把时钟设成固件编译时刻(烧一次校准, 之后靠电池走时)",
+    "helpUrl": "",
+    "icon": "fa-light fa-wand-magic-sparkles",
+    "inputsInline": true
+  },
+  {
+    "type": "ojrtc_read",
+    "message0": "【读取一次】 时钟 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": [
+          "PCF85063"
+        ],
+        "defaultType": "PCF85063"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D35400",
+    "tooltip": "读一次当前时间, 之后用取值/格式化块获取",
+    "helpUrl": "",
+    "icon": "fa-light fa-arrows-rotate",
+    "inputsInline": true
+  },
+  {
+    "type": "ojrtc_get",
+    "message0": "【时间字段】 时钟 %1 取 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": [
+          "PCF85063"
+        ],
+        "defaultType": "PCF85063"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FIELD",
+        "options": [
+          [
+            "年",
+            "year"
+          ],
+          [
+            "月",
+            "month"
+          ],
+          [
+            "日",
+            "day"
+          ],
+          [
+            "时",
+            "hour"
+          ],
+          [
+            "分",
+            "minute"
+          ],
+          [
+            "秒",
+            "second"
+          ],
+          [
+            "星期(0=日)",
+            "weekday"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#D35400",
+    "tooltip": "取年/月/日/时/分/秒/星期(需先\"读取一次\")",
+    "helpUrl": "",
+    "icon": "fa-light fa-calendar-day",
+    "inputsInline": true
+  },
+  {
+    "type": "ojrtc_format",
+    "message0": "【格式化时间】 时钟 %1 格式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": [
+          "PCF85063"
+        ],
+        "defaultType": "PCF85063"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FMT",
+        "options": [
+          [
+            "日期时间",
+            "datetime"
+          ],
+          [
+            "日期",
+            "dateText"
+          ],
+          [
+            "时间",
+            "timeText"
+          ]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#D35400",
+    "tooltip": "返回字符串: 日期时间/日期/时间(需先\"读取一次\")",
+    "helpUrl": "",
+    "icon": "fa-light fa-quote-left",
+    "inputsInline": true
+  },
+  {
+    "type": "ojrtc_lost_power",
+    "message0": "【时间失效?】 时钟 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": [
+          "PCF85063"
+        ],
+        "defaultType": "PCF85063"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#D35400",
+    "tooltip": "振荡器停过(掉电无备份)=>时间不可信, 需重设",
+    "helpUrl": "",
+    "icon": "fa-light fa-triangle-exclamation",
+    "inputsInline": true
+  },
+  {
+    "type": "ojrtc_present",
+    "message0": "【时钟在?】 时钟 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": [
+          "PCF85063"
+        ],
+        "defaultType": "PCF85063"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#D35400",
+    "tooltip": "I2C 探测 RTC 是否应答(0x51)",
+    "helpUrl": "",
+    "icon": "fa-light fa-magnifying-glass",
+    "inputsInline": true
+  }
+]

@@ -1,0 +1,89 @@
+{
+  "toolbox_name": "OJoy RTC-Uhr",
+  "ojrtc_init": {
+    "message0": "[① Uhr initialisieren] Uhr %1",
+    "tooltip": "PCF85063 RTC initialisieren (Adresse 0x51, OJoy I2C SDA5/SCL4 fest, mit Batteriepufferung)"
+  },
+  "ojrtc_set_time": {
+    "message0": "[Zeit setzen] Uhr %1 Jahr %2 Monat %3 Tag %4 Std %5 Min %6 Sek %7",
+    "tooltip": "Datum und Uhrzeit manuell setzen (Jahr/Monat/Tag/Std/Min/Sek)"
+  },
+  "ojrtc_set_compile_time": {
+    "message0": "[Auf Compile-Zeit setzen] Uhr %1",
+    "tooltip": "Uhr auf die Compile-Zeit der Firmware setzen (einmal flashen zum Kalibrieren, danach läuft sie über die Pufferbatterie)"
+  },
+  "ojrtc_read": {
+    "message0": "[Einmal lesen] Uhr %1",
+    "tooltip": "Aktuelle Zeit einmal lesen, danach mit den Hole-/Format-Blöcken abfragen"
+  },
+  "ojrtc_get": {
+    "message0": "[Zeitfeld] Uhr %1 hole %2",
+    "tooltip": "Jahr/Monat/Tag/Stunde/Minute/Sekunde/Wochentag holen (zuerst „Einmal lesen“ aufrufen)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Jahr",
+            "year"
+          ],
+          [
+            "Monat",
+            "month"
+          ],
+          [
+            "Tag",
+            "day"
+          ],
+          [
+            "Stunde",
+            "hour"
+          ],
+          [
+            "Minute",
+            "minute"
+          ],
+          [
+            "Sekunde",
+            "second"
+          ],
+          [
+            "Wochentag (0=So)",
+            "weekday"
+          ]
+        ]
+      }
+    ]
+  },
+  "ojrtc_format": {
+    "message0": "[Zeit formatieren] Uhr %1 Format %2",
+    "tooltip": "Gibt eine Zeichenkette zurück: Datum+Zeit / Datum / Zeit (zuerst „Einmal lesen“ aufrufen)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Datum und Uhrzeit",
+            "datetime"
+          ],
+          [
+            "Datum",
+            "dateText"
+          ],
+          [
+            "Uhrzeit",
+            "timeText"
+          ]
+        ]
+      }
+    ]
+  },
+  "ojrtc_lost_power": {
+    "message0": "[Zeit ungültig?] Uhr %1",
+    "tooltip": "Oszillator stand still (Stromausfall ohne Pufferung) => Zeit unzuverlässig, neu setzen"
+  },
+  "ojrtc_present": {
+    "message0": "[Uhr vorhanden?] Uhr %1",
+    "tooltip": "Über I2C prüfen, ob die RTC antwortet (0x51)"
+  }
+}
