@@ -1,0 +1,89 @@
+{
+  "toolbox_name": "OJoy RTC Clock",
+  "ojrtc_init": {
+    "message0": "[① Initialize clock] clock %1",
+    "tooltip": "Initialize PCF85063 RTC (addr 0x51, OJoy I2C SDA5/SCL4 fixed, battery backed)"
+  },
+  "ojrtc_set_time": {
+    "message0": "[Set time] clock %1 year %2 month %3 day %4 hour %5 min %6 sec %7",
+    "tooltip": "Manually set date and time (year/month/day/hour/min/sec)"
+  },
+  "ojrtc_set_compile_time": {
+    "message0": "[Set to compile time] clock %1",
+    "tooltip": "Set the clock to the firmware compile time (flash once to calibrate, then it runs on the backup battery)"
+  },
+  "ojrtc_read": {
+    "message0": "[Read once] clock %1",
+    "tooltip": "Read the current time once, then fetch it with the get/format blocks"
+  },
+  "ojrtc_get": {
+    "message0": "[Time field] clock %1 get %2",
+    "tooltip": "Get year/month/day/hour/minute/second/weekday (call \"Read once\" first)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "year",
+            "year"
+          ],
+          [
+            "month",
+            "month"
+          ],
+          [
+            "day",
+            "day"
+          ],
+          [
+            "hour",
+            "hour"
+          ],
+          [
+            "minute",
+            "minute"
+          ],
+          [
+            "second",
+            "second"
+          ],
+          [
+            "weekday (0=Sun)",
+            "weekday"
+          ]
+        ]
+      }
+    ]
+  },
+  "ojrtc_format": {
+    "message0": "[Format time] clock %1 format %2",
+    "tooltip": "Return a string: date+time / date / time (call \"Read once\" first)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "date and time",
+            "datetime"
+          ],
+          [
+            "date",
+            "dateText"
+          ],
+          [
+            "time",
+            "timeText"
+          ]
+        ]
+      }
+    ]
+  },
+  "ojrtc_lost_power": {
+    "message0": "[Time invalid?] clock %1",
+    "tooltip": "Oscillator stopped (power lost without backup) => time is unreliable, set it again"
+  },
+  "ojrtc_present": {
+    "message0": "[Clock present?] clock %1",
+    "tooltip": "Probe over I2C whether the RTC responds (0x51)"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "toolbox_name": "OJoy RTC時計",
+  "ojrtc_init": {
+    "message0": "【① 時計を初期化】 時計 %1",
+    "tooltip": "PCF85063 RTCを初期化 (アドレス0x51, OJoy I2C SDA5/SCL4 固定, 電池バックアップ付き)"
+  },
+  "ojrtc_set_time": {
+    "message0": "【時刻を設定】 時計 %1 年 %2 月 %3 日 %4 時 %5 分 %6 秒 %7",
+    "tooltip": "日時を手動設定 (年/月/日/時/分/秒)"
+  },
+  "ojrtc_set_compile_time": {
+    "message0": "【コンパイル時刻に設定】 時計 %1",
+    "tooltip": "ファームウェアのコンパイル時刻に設定 (一度書き込んで校正、以降は電池で計時)"
+  },
+  "ojrtc_read": {
+    "message0": "【1回読み取り】 時計 %1",
+    "tooltip": "現在時刻を1回読み取り、その後 取得/書式化ブロックで参照"
+  },
+  "ojrtc_get": {
+    "message0": "【時刻フィールド】 時計 %1 取得 %2",
+    "tooltip": "年/月/日/時/分/秒/曜日を取得 (先に「1回読み取り」が必要)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "年",
+            "year"
+          ],
+          [
+            "月",
+            "month"
+          ],
+          [
+            "日",
+            "day"
+          ],
+          [
+            "時",
+            "hour"
+          ],
+          [
+            "分",
+            "minute"
+          ],
+          [
+            "秒",
+            "second"
+          ],
+          [
+            "曜日(0=日)",
+            "weekday"
+          ]
+        ]
+      }
+    ]
+  },
+  "ojrtc_format": {
+    "message0": "【時刻を書式化】 時計 %1 書式 %2",
+    "tooltip": "文字列を返す: 日付時刻 / 日付 / 時刻 (先に「1回読み取り」が必要)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "日付と時刻",
+            "datetime"
+          ],
+          [
+            "日付",
+            "dateText"
+          ],
+          [
+            "時刻",
+            "timeText"
+          ]
+        ]
+      }
+    ]
+  },
+  "ojrtc_lost_power": {
+    "message0": "【時刻が無効?】 時計 %1",
+    "tooltip": "発振器が停止した(バックアップなしで電源断)=>時刻は信頼できません。再設定が必要"
+  },
+  "ojrtc_present": {
+    "message0": "【時計あり?】 時計 %1",
+    "tooltip": "I2CでRTCが応答するか確認(0x51)"
+  }
+}
