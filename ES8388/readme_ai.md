@@ -4,7 +4,7 @@ ES8388 stereo audio codec library supporting recording, playback and real-time a
 
 ## Library Info
 - **Name**: @aily-project/lib-es8388
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 

@@ -46,9 +46,10 @@ Arduino.forBlock['kwh018_init'] = function(block, generator) {
   var dc = kwhValue(block, generator, 'DC', '8');
   var cs = kwhValue(block, generator, 'CS', '10');
   var bl = kwhValue(block, generator, 'BL', '9');
-  var freq = kwhValue(block, generator, 'FREQ', '24000000');
+  var freqMHz = kwhValue(block, generator, 'FREQ', '24');
+  var freqHz = '((uint32_t)((' + freqMHz + ') * 1000000.0))';
   generator.addVariable(varName, 'KWH018ST01_4WSPI ' + varName + ';');
-  return spi + '.begin();\n' + varName + '.begin(' + dc + ', ' + cs + ', ' + bl + ', ' + spi + ', ' + freq + ');\n' + varName + '.clearDisplay();\n';
+  return spi + '.begin();\n' + varName + '.begin(' + dc + ', ' + cs + ', ' + bl + ', ' + spi + ', ' + freqHz + ');\n' + varName + '.clearDisplay();\n';
 };
 
 Arduino.forBlock['kwh018_clear'] = function(block) {

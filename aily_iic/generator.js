@@ -178,8 +178,9 @@ Arduino.forBlock['wire_begin'] = function(block, generator) {
 Arduino.forBlock['wire_set_clock'] = function(block, generator) {
   ensureWireLibrary(generator);
   var wire = block.getFieldValue('WIRE') || 'Wire';
-  var frequency = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC);
-  return wire + '.setClock(' + frequency + ');\n';
+  var frequencyKHz = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC) || '100';
+  var frequencyHz = '((uint32_t)((' + frequencyKHz + ') * 1000.0))';
+  return wire + '.setClock(' + frequencyHz + ');\n';
 };
 
 /**

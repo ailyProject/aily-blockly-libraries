@@ -4,7 +4,7 @@ Blockly wrapper for SparkFun KWH018ST01 1.8 inch TFT display.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-hyperdisplay-kwh018st01
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 

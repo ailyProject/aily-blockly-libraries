@@ -4,7 +4,7 @@ ESP32 dedicated I2C communication support library provides master-slave mode com
 
 ## Library Info
 - **Name**: @aily-project/lib-esp32-i2c
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 

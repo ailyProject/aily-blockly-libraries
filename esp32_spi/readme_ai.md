@@ -4,7 +4,7 @@ ESP32 SPI communication support library, suitable for ESP32 series development b
 
 ## Library Info
 - **Name**: @aily-project/lib-esp32-spi
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 

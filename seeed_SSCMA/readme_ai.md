@@ -4,7 +4,7 @@ Seeed SSCMA AI vision sensor communication library reads the inference results o
 
 ## Library Info
 - **Name**: @aily-project/lib-seeed-sscma
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 

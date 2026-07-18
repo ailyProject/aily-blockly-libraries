@@ -30,7 +30,8 @@ Arduino.forBlock['es8388_create'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'es8388';
   const sda = generator.valueToCode(block, 'SDA', generator.ORDER_ATOMIC) || '21';
   const scl = generator.valueToCode(block, 'SCL', generator.ORDER_ATOMIC) || '22';
-  const speed = generator.valueToCode(block, 'SPEED', generator.ORDER_ATOMIC) || '400000';
+  const speedKHz = generator.valueToCode(block, 'SPEED', generator.ORDER_ATOMIC) || '400';
+  const speedHz = '((uint32_t)((' + speedKHz + ') * 1000.0))';
 
   // 添加库引用
   generator.addLibrary('Arduino', '#include <Arduino.h>');
@@ -39,7 +40,7 @@ Arduino.forBlock['es8388_create'] = function(block, generator) {
   // 注册变量到Blockly系统
   
   // 添加变量声明（generator会自动去重）
-  generator.addVariable(varName, 'ES8388 ' + varName + '(' + sda + ', ' + scl + ', ' + speed + ');');
+  generator.addVariable(varName, 'ES8388 ' + varName + '(' + sda + ', ' + scl + ', ' + speedHz + ');');
 
   return '';
 };

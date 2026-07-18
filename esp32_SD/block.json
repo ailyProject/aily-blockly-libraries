@@ -10,7 +10,7 @@
   },
   {
     "type": "esp32_sd_begin_custom",
-    "message0": "初始化SD卡 CS:%1 SCK:%2 MISO:%3 MOSI:%4 频率:%5Hz",
+    "message0": "初始化SD卡 CS:%1 SCK:%2 MISO:%3 MOSI:%4 频率:%5MHz",
     "args0": [
       {
         "type": "input_value",
@@ -56,7 +56,7 @@
   },
   {
     "type": "esp32_sd_init",
-    "message0": "初始化SD卡 使用SPI %1 CS引脚 %2 频率 %3Hz ",
+    "message0": "初始化SD卡 使用SPI %1 CS引脚 %2 频率 %3MHz ",
     "args0": [
       {
         "type": "field_dropdown",
@@ -81,6 +81,56 @@
     "tooltip": "初始化SD卡 使用指定的SPI总线"
   },
   {
+    "type": "esp32_sd_begin_advanced",
+    "message0": "高级初始化SD卡 SPI %1 CS:%2 频率:%3MHz 挂载点:%4 最大文件数:%5 无文件系统时格式化:%6",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SPI",
+        "options": "${board.spi}"
+      },
+      {
+        "type": "input_value",
+        "name": "SS",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "FREQUENCY",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_input",
+        "name": "MOUNT_POINT",
+        "text": "/sd"
+      },
+      {
+        "type": "input_value",
+        "name": "MAX_FILES",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "FORMAT_IF_EMPTY",
+        "check": ["Boolean"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "使用ESP32 Core 3.x完整参数初始化SD；启用格式化可能清除无法挂载的卡",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp32_sd_end",
+    "message0": "卸载SD卡",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "关闭并卸载SD文件系统，再次初始化前可调用",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
     "type": "esp32_sd_card_info",
     "message0": "SD卡信息 %1",
     "args0": [
@@ -103,6 +153,14 @@
           [
             "已用空间(MB)",
             "usedBytes"
+          ],
+          [
+            "扇区数量",
+            "numSectors"
+          ],
+          [
+            "扇区大小(字节)",
+            "sectorSize"
           ]
         ]
       }
@@ -110,6 +168,22 @@
     "output": "Number",
     "colour": "#FF9800",
     "tooltip": "获取SD卡信息",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp32_sd_card_type_name",
+    "message0": "SD卡类型名称",
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "返回NONE、MMC、SDSC、SDHC/SDXC或UNKNOWN",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp32_sd_mountpoint",
+    "message0": "SD卡挂载点",
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "返回当前VFS挂载点，未挂载时返回空字符串",
     "icon": "fa-regular fa-sd-card"
   },
   {
@@ -174,6 +248,38 @@
     "icon": "fa-regular fa-sd-card"
   },
   {
+    "type": "esp32_sd_open_file_to",
+    "message0": "打开文件到 %1 路径:%2 模式:%3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": ["File"],
+        "defaultType": "File"
+      },
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": ["String"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["读取", "FILE_READ"],
+          ["写入（覆盖）", "FILE_WRITE"],
+          ["追加", "FILE_APPEND"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "打开文件并保存到File变量，之后可分块读写",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
     "type": "esp32_sd_close_file",
     "message0": "关闭文件 %1",
     "args0": [
@@ -191,6 +297,23 @@
     "nextStatement": null,
     "colour": "#FF9800",
     "tooltip": "关闭文件",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp32_sd_file_is_open",
+    "message0": "文件已成功打开 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": ["File"],
+        "defaultType": "File"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "tooltip": "检查File对象是否有效",
     "icon": "fa-regular fa-sd-card"
   },
   {
@@ -240,6 +363,62 @@
     "icon": "fa-regular fa-sd-card"
   },
   {
+    "type": "esp32_sd_read_file_bytes",
+    "message0": "从文件 %1 读取最多 %2 字节文本",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": ["File"],
+        "defaultType": "File"
+      },
+      {
+        "type": "input_value",
+        "name": "LENGTH",
+        "check": ["Number"]
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "从当前位置读取指定长度，适合分块读取较大文本文件",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp32_sd_read_byte",
+    "message0": "从文件读取一个字节 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": ["File"],
+        "defaultType": "File"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "读取一个字节，文件结束或失败时返回-1",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp32_sd_peek_byte",
+    "message0": "查看文件下一个字节 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": ["File"],
+        "defaultType": "File"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "返回下一个字节但不移动位置，文件结束时返回-1",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
     "type": "esp32_sd_file_available",
     "message0": "文件可读 %1",
     "args0": [
@@ -259,6 +438,23 @@
     "icon": "fa-regular fa-sd-card"
   },
   {
+    "type": "esp32_sd_file_available_bytes",
+    "message0": "文件剩余可读字节数 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": ["File"],
+        "defaultType": "File"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "返回从当前位置到文件末尾的字节数",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
     "type": "esp32_sd_file_size",
     "message0": "文件大小 %1",
     "args0": [
@@ -275,6 +471,72 @@
     "output": "Number",
     "colour": "#FF9800",
     "tooltip": "获取文件大小",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp32_sd_file_position",
+    "message0": "文件当前位置 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": ["File"],
+        "defaultType": "File"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "返回当前读写位置（字节偏移）",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp32_sd_seek_file",
+    "message0": "设置文件 %1 位置:%2 基准:%3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": ["File"],
+        "defaultType": "File"
+      },
+      {
+        "type": "input_value",
+        "name": "POSITION",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["文件开头", "SeekSet"],
+          ["当前位置", "SeekCur"],
+          ["文件末尾", "SeekEnd"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "tooltip": "移动文件读写位置并返回是否成功",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp32_sd_flush_file",
+    "message0": "刷新文件写入缓存 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": ["File"],
+        "defaultType": "File"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "将已写入的数据刷新到底层文件系统",
     "icon": "fa-regular fa-sd-card"
   },
   {
