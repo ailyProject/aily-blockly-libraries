@@ -1,0 +1,89 @@
+{
+  "toolbox_name": "OJoy Reloj RTC",
+  "ojrtc_init": {
+    "message0": "[① Inicializar reloj] reloj %1",
+    "tooltip": "Inicializar el RTC PCF85063 (dirección 0x51, I2C OJoy SDA5/SCL4 fijo, con pila de respaldo)"
+  },
+  "ojrtc_set_time": {
+    "message0": "[Ajustar hora] reloj %1 año %2 mes %3 día %4 h %5 min %6 s %7",
+    "tooltip": "Ajustar manualmente la fecha y la hora (año/mes/día/h/min/s)"
+  },
+  "ojrtc_set_compile_time": {
+    "message0": "[Ajustar a hora de compilación] reloj %1",
+    "tooltip": "Ajustar el reloj a la hora de compilación del firmware (grabar una vez para calibrar; luego funciona con la pila)"
+  },
+  "ojrtc_read": {
+    "message0": "[Leer una vez] reloj %1",
+    "tooltip": "Leer la hora actual una vez y después usarla con los bloques obtener/formatear"
+  },
+  "ojrtc_get": {
+    "message0": "[Campo de tiempo] reloj %1 obtener %2",
+    "tooltip": "Obtener año/mes/día/hora/minuto/segundo/día de la semana (llamar antes a «Leer una vez»)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "año",
+            "year"
+          ],
+          [
+            "mes",
+            "month"
+          ],
+          [
+            "día",
+            "day"
+          ],
+          [
+            "hora",
+            "hour"
+          ],
+          [
+            "minuto",
+            "minute"
+          ],
+          [
+            "segundo",
+            "second"
+          ],
+          [
+            "día de la semana (0=dom)",
+            "weekday"
+          ]
+        ]
+      }
+    ]
+  },
+  "ojrtc_format": {
+    "message0": "[Formatear hora] reloj %1 formato %2",
+    "tooltip": "Devuelve una cadena: fecha+hora / fecha / hora (llamar antes a «Leer una vez»)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "fecha y hora",
+            "datetime"
+          ],
+          [
+            "fecha",
+            "dateText"
+          ],
+          [
+            "hora",
+            "timeText"
+          ]
+        ]
+      }
+    ]
+  },
+  "ojrtc_lost_power": {
+    "message0": "[¿Hora inválida?] reloj %1",
+    "tooltip": "El oscilador se detuvo (corte sin respaldo) => la hora no es fiable, hay que ajustarla"
+  },
+  "ojrtc_present": {
+    "message0": "[¿Reloj presente?] reloj %1",
+    "tooltip": "Comprobar por I2C si el RTC responde (0x51)"
+  }
+}

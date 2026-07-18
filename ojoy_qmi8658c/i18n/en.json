@@ -1,0 +1,143 @@
+{
+  "toolbox_name": "OJoy 6-Axis IMU",
+  "ojqmi_init": {
+    "message0": "[① Initialize IMU] IMU %1 accel range %2 gyro range %3",
+    "tooltip": "Initialize QMI8658C 6-axis IMU (addr 0x6B, OJoy I2C SDA5/SCL4 fixed)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "±2g",
+            "0"
+          ],
+          [
+            "±4g",
+            "1"
+          ],
+          [
+            "±8g",
+            "2"
+          ],
+          [
+            "±16g",
+            "3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "±16dps",
+            "0"
+          ],
+          [
+            "±32dps",
+            "1"
+          ],
+          [
+            "±64dps",
+            "2"
+          ],
+          [
+            "±128dps",
+            "3"
+          ],
+          [
+            "±256dps",
+            "4"
+          ],
+          [
+            "±512dps",
+            "5"
+          ],
+          [
+            "±1024dps",
+            "6"
+          ],
+          [
+            "±2048dps",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "ojqmi_update": {
+    "message0": "[Read once (sample)] IMU %1",
+    "tooltip": "Take one sample, then read with acceleration/gyro/temperature blocks"
+  },
+  "ojqmi_accel": {
+    "message0": "[Acceleration] IMU %1 axis %2",
+    "tooltip": "Acceleration (g), choose axis",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "X",
+            "x"
+          ],
+          [
+            "Y",
+            "y"
+          ],
+          [
+            "Z",
+            "z"
+          ]
+        ]
+      }
+    ]
+  },
+  "ojqmi_gyro": {
+    "message0": "[Angular rate] IMU %1 axis %2",
+    "tooltip": "Angular rate (dps), choose axis",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "X",
+            "x"
+          ],
+          [
+            "Y",
+            "y"
+          ],
+          [
+            "Z",
+            "z"
+          ]
+        ]
+      }
+    ]
+  },
+  "ojqmi_angle": {
+    "message0": "[Tilt angle] IMU %1 %2",
+    "tooltip": "Pitch/roll angle (degrees) computed from acceleration",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "pitch",
+            "pitch"
+          ],
+          [
+            "roll",
+            "roll"
+          ]
+        ]
+      }
+    ]
+  },
+  "ojqmi_temp": {
+    "message0": "[Temperature] IMU %1",
+    "tooltip": "Chip temperature (°C)"
+  },
+  "ojqmi_present": {
+    "message0": "[IMU present?] IMU %1",
+    "tooltip": "Probe over I2C whether the chip responds (WHO_AM_I=0x05)"
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "toolbox_name": "OJoy 六軸IMU",
+  "ojqmi_init": {
+    "message0": "【① 初始化 IMU】 IMU %1 加速度量程 %2 陀螺量程 %3",
+    "tooltip": "初始化 QMI8658C 六軸(位址0x6B, OJoy I2C SDA5/SCL4 固定)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "±2g",
+            "0"
+          ],
+          [
+            "±4g",
+            "1"
+          ],
+          [
+            "±8g",
+            "2"
+          ],
+          [
+            "±16g",
+            "3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "±16dps",
+            "0"
+          ],
+          [
+            "±32dps",
+            "1"
+          ],
+          [
+            "±64dps",
+            "2"
+          ],
+          [
+            "±128dps",
+            "3"
+          ],
+          [
+            "±256dps",
+            "4"
+          ],
+          [
+            "±512dps",
+            "5"
+          ],
+          [
+            "±1024dps",
+            "6"
+          ],
+          [
+            "±2048dps",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "ojqmi_update": {
+    "message0": "【讀取一次(取樣)】 IMU %1",
+    "tooltip": "取樣一次, 之後用加速度/陀螺/溫度塊取值"
+  },
+  "ojqmi_accel": {
+    "message0": "【加速度】 IMU %1 軸 %2",
+    "tooltip": "加速度(g), 選軸",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "X",
+            "x"
+          ],
+          [
+            "Y",
+            "y"
+          ],
+          [
+            "Z",
+            "z"
+          ]
+        ]
+      }
+    ]
+  },
+  "ojqmi_gyro": {
+    "message0": "【角速度】 IMU %1 軸 %2",
+    "tooltip": "角速度(dps), 選軸",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "X",
+            "x"
+          ],
+          [
+            "Y",
+            "y"
+          ],
+          [
+            "Z",
+            "z"
+          ]
+        ]
+      }
+    ]
+  },
+  "ojqmi_angle": {
+    "message0": "【傾角】 IMU %1 的 %2",
+    "tooltip": "由加速度算出的俯仰/橫滾角(度)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "俯仰角pitch",
+            "pitch"
+          ],
+          [
+            "橫滾角roll",
+            "roll"
+          ]
+        ]
+      }
+    ]
+  },
+  "ojqmi_temp": {
+    "message0": "【溫度】 IMU %1",
+    "tooltip": "晶片溫度(°C)"
+  },
+  "ojqmi_present": {
+    "message0": "【IMU在?】 IMU %1",
+    "tooltip": "I2C 偵測晶片是否存在(WHO_AM_I=0x05)"
+  }
+}
