@@ -1,6 +1,6 @@
 # TFT屏幕库 (TFT Screen)
 
-ST7735 TFT屏幕简化库：一键初始化(引脚预设)，绘图/文字/颜色/动画/屏幕信息
+ST7735 TFT屏幕简化库：一键初始化(引脚预设)，绘图/文字/颜色/动画/TF卡流式动画/屏幕信息
 
 ## Library Info
 - **Name**: @aily-project/lib-tft-screen
@@ -40,6 +40,7 @@ ST7735 TFT屏幕简化库：一键初始化(引脚预设)，绘图/文字/颜色
 | `tftscr_height` | Value (Number) | (无) | `tftscr_height()` | `tft.height()` |
 | `tftscr_animation` | Value (TftScreenAnimation) | CUSTOM_ANIMATION(field_tftespi_animation) | `tftscr_animation()` | `tftscr_animation_..._frames` |
 | `tftscr_play_animation` | Statement | X, Y, ANIMATION (input_value), PLAY_MODE(dropdown), LOOP(field_checkbox) | `tftscr_play_animation(math_number(0), math_number(0), tftscr_animation(), BLOCKING, FALSE)` | 阻塞或非阻塞播放 RGB565/RGB332 动画 |
+| `tftscr_play_tf_animation` | Statement | FILENAME(String), BUFFER_KB(Number) | `tftscr_play_tf_animation(text("/animation.rgb565v"), math_number(48))` | 从板载 TF 卡流式播放 AILY 动画，RGB565 优先使用 LCD DMA |
 | `tftscr_draw_animation_frame` | Statement | X, Y, ANIMATION, FRAME (input_value) | `tftscr_draw_animation_frame(math_number(0), math_number(0), tftscr_animation(), math_number(0))` | 显示指定动画帧 |
 | `tftscr_animation_frame_count` | Value (Number) | ANIMATION(input_value) | `tftscr_animation_frame_count(tftscr_animation())` | 动画总帧数 |
 | `tftscr_step_animation_frame` | Statement | FRAME_VAR(field_variable), TARGET, FRAME_COUNT (input_value), DIRECTION(dropdown) | `tftscr_step_animation_frame(variables_get($tftScreenAnimationFrame), math_number(0), math_number(1), AUTO)` | 让帧变量向目标帧移动一步 |
@@ -63,4 +64,9 @@ ST7735 TFT屏幕简化库：一键初始化(引脚预设)，绘图/文字/颜色
 6. **动画数据**: `tftscr_animation` 使用 `field_tftespi_animation` 上传 GIF/MP4，默认转换区域为160x120，支持RGB565和RGB332
 7. **动画连接**: 播放、单帧显示和总帧数块的 `ANIMATION` 输入需直接连接 `tftscr_animation` 数据块
 8. **播放方式**: 阻塞模式一次播放完整动画；非阻塞模式应放在主循环中反复执行，并可选择循环播放
-9. **ESP32专用**: 使用HSPI端口
+9. **TF-card animation**: `tftscr_play_tf_animation` mounts CS 22 through `TFT_eSPI::getSPIinstance()`. GPIO19 is physically shared by panel RESET and TF MISO, so the generator sets `TFT_RST=-1` and relies on the ST7735 software-reset command; it must never drive GPIO19 as an output. Before every mount attempt it ends SD and restarts the shared SPI instance. The `esp32_SD` Blockly package is not required.
+10. **High-FPS path**: Mounting tries 25 MHz first, then fully resets SD/SPI and retries at 16 MHz and 4 MHz for signal-integrity/card compatibility. ESP32 core 3.3.10 uses CMD18 multi-sector reads. Row-aligned large reads are used, and the default 48 KB buffer can hold a full native RGB565 frame.
+11. **DMA and shared bus**: RGB565 prefers DMA-capable memory and LCD DMA. TFT and TF share GPIO18/23/19, so every LCD DMA transfer finishes before the next card read.
+12. **Scaling**: Oversized RGB565/RGB332 video is proportionally downscaled and centered. Native-size RGB565 remains preferable for FPS; scaling and MONO1_XBM use synchronous display transfers.
+13. **ESP32-only wiring**: TFT and TF time-share the same HSPI instance. TFT CS is 5 and TF CS is 22.
+14. **Visible failures**: Mount, open, AILY validation, frame-read, and allocation failures display a corresponding `TF ERR` instead of returning silently.

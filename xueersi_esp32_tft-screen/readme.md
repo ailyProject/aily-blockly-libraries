@@ -1,28 +1,23 @@
 # TFT Screen
 
-Simplified ST7735 TFT library for the Xueersi ESP32 handheld, with preset pins, drawing, text, colour, animation, and screen information blocks.
+## Description
+
+ST7735 TFT drawing and animation blocks for the Xueersi ESP32 handheld.
 
 ## Library Info
 
-| Field | Value |
-|-------|-------|
-| Package | @aily-project/lib-tft-screen |
-| Version | 1.0.1 |
-| Author | ailyProject |
-| License | MIT |
+| Package | Version | License |
+|---|---|---|
+| @aily-project/lib-tft-screen | 1.0.1 | MIT |
 
 ## Supported Boards
 
-Xueersi ESP32 handheld and compatible ESP32 boards using the bundled TFT_eSPI source.
-
-## Description
-
-The library initializes the 128x160 ST7735 display with preset pins and rotation 3. Animation blocks convert GIF or MP4 input to RGB565/RGB332 frames for full playback or frame-by-frame control.
+Xueersi ESP32 handheld.
 
 ## Quick Start
 
-1. Add `tftscr_init` to setup.
-2. Use drawing, text, and colour blocks for static content.
-3. Use `tftscr_animation` with a playback or frame-control block for animated content.
+1. Add `tftscr_init`.
+2. Use drawing blocks or `tftscr_animation` for embedded animations.
+3. For long animations, copy an AILY video to TF and use `tftscr_play_tf_animation` with the recommended 48 KB buffer.
 
-Default pins: MOSI 23, SCLK 18, CS 5, DC 4, RST 19, MISO 19. SPI frequency is 27 MHz and HSPI is used on ESP32.
+The TF block uses ESP32 `SD`/`FS`. TFT and TF share HSPI (SCLK 18, MOSI 23, MISO 19; CS 5/22). GPIO19 is also wired to panel RESET, so TFT hardware reset is disabled and ST7735 software reset is used. Mounting tries 25, 16, then 4 MHz after full SD/SPI resets. Large reads and optional RGB565 DMA maximize throughput; shared-bus transfers remain serialized.
