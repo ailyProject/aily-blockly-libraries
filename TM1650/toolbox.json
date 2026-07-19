@@ -1,39 +1,77 @@
 {
   "kind": "category",
-  "icon": "iconfont icon-digital-tube",
   "name": "TM1650四位数码管",
+  "colour": "#2878B5",
   "contents": [
     {
-      "kind": "block",
-      "type": "tm1650_init"
+      "kind": "label",
+      "text": "初始化（两种方式只选一种）"
+    },
+    {
+      "kind": "label",
+      "text": "硬件 I2C：使用开发板默认 SDA/SCL"
     },
     {
       "kind": "block",
-      "type": "tm1650_set"
-    },
-    {
-      "kind": "block",
-      "type": "tm1650_displaystring",
+      "type": "tm1650_init_hardware",
       "inputs": {
-        "TMSTR": {
-          "shadow": {
-            "type": "text",
-            "fields": {
-                "TEXT": "abcd"
-            }
-          }
-        }
-      }
-    },
-    {
-      "kind": "block",
-      "type": "tm1650_displayNumber",
-      "inputs": {
-        "TMNUM": {
+        "BRIGHTNESS": {
           "shadow": {
             "type": "math_number",
             "fields": {
-                "NUM": 1
+              "NUM": 3
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "软件 I2C/自定义引脚（兼容硬件 I2C）：使用 SDA/SCL 输入"
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_init",
+      "inputs": {
+        "SDA": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 8
+            }
+          }
+        },
+        "SCL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 9
+            }
+          }
+        },
+        "BRIGHTNESS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 3
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "显示"
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_show_text",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "12.34"
             }
           }
         }
@@ -41,7 +79,193 @@
     },
     {
       "kind": "block",
-      "type": "tm1650_clearDisplay"
+      "type": "tm1650_show_number",
+      "inputs": {
+        "NUMBER": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1234
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_clear"
+    },
+    {
+      "kind": "label",
+      "text": "控制"
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_set_dot",
+      "inputs": {
+        "POSITION": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        },
+        "STATE": {
+          "shadow": {
+            "type": "logic_boolean",
+            "fields": {
+              "BOOL": "TRUE"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_set_brightness",
+      "inputs": {
+        "BRIGHTNESS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 3
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_set_power",
+      "inputs": {
+        "STATE": {
+          "shadow": {
+            "type": "logic_boolean",
+            "fields": {
+              "BOOL": "TRUE"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "滚动"
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_scroll_start",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "HELLO"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_scroll_next"
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_scroll_text",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "HELLO"
+            }
+          }
+        },
+        "DELAY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 500
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "状态"
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_get_brightness"
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_get_digits"
+    },
+    {
+      "kind": "label",
+      "text": "高级"
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_set_segments",
+      "inputs": {
+        "POSITION": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        },
+        "SEGMENTS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 63
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_set_control",
+      "inputs": {
+        "POSITION": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 49
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_get_segments",
+      "inputs": {
+        "POSITION": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
     }
   ]
 }

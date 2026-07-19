@@ -1,38 +1,93 @@
 {
-"toolbox_name": "TM1650四位數碼管",
-"tm1650_init": {
-    "message0": "四位數碼TM1650管初始化"
-},
-"tm1650_set": {
-    "message0": "四位數碼TM1650 顯示%1,亮度設置為%2",
+  "toolbox_name": "TM1650四位數碼管",
+  "toolbox_labels": {
+    "初始化（两种方式只选一种）": "初始化（兩種方式只選一種）",
+    "硬件 I2C：使用开发板默认 SDA/SCL": "硬體 I2C：使用開發板預設 SDA/SCL",
+    "软件 I2C/自定义引脚（兼容硬件 I2C）：使用 SDA/SCL 输入": "軟體 I2C/自訂腳位（相容硬體 I2C）：使用 SDA/SCL 輸入",
+    "显示": "顯示",
+    "控制": "控制",
+    "滚动": "滾動",
+    "状态": "狀態",
+    "高级": "進階"
+  },
+  "tm1650_init_hardware": {
+    "message0": "硬體 I2C 初始化 TM1650 %1 位數 %2 亮度 %3",
+    "tooltip": "使用目前開發板預設硬體 I2C SDA/SCL 腳位初始化 TM1650；不要同時使用自訂腳位初始化積木"
+  },
+  "tm1650_init": {
+    "message0": "軟體 I2C/自訂腳位初始化 TM1650 %1 位數 %2 SDA %3 SCL %4 亮度 %5",
+    "tooltip": "使用自訂 SDA/SCL 腳位；ESP32/ESP8266 使用自訂腳位，其他硬體 I2C 主控自動退回預設 Wire 腳位，確保相容編譯"
+  },
+  "tm1650_show_text": {
+    "message0": "TM1650 %1 顯示文字 %2",
+    "tooltip": "顯示數字或支援的字母；小數點附在前一字元且不佔位置"
+  },
+  "tm1650_show_number": {
+    "message0": "TM1650 %1 顯示數字 %2 小數位 %3",
+    "tooltip": "按指定小數位格式化數字並顯示可用的前置數字"
+  },
+  "tm1650_clear": {
+    "message0": "清空 TM1650 %1",
+    "tooltip": "清除所有字元和小數點但保持顯示器開啟"
+  },
+  "tm1650_set_dot": {
+    "message0": "TM1650 %1 第 %2 位小數點狀態 %3",
+    "tooltip": "設定由左至右的位置小數點，無效位置會安全忽略"
+  },
+  "tm1650_set_brightness": {
+    "message0": "TM1650 %1 %2 設定亮度 %3",
+    "tooltip": "設定 0 至 7 的亮度；漸變模式每級約需 50 毫秒",
     "args0": [
-        {
-            "options": [
-                ["開", "1"],
-                ["關", "0"]
-            ]
-        },
-        {
-            "options": [
-                ["0", "0"],
-                ["1", "1"],
-                ["2", "2"],
-                ["3", "3"],
-                ["4", "4"],
-                ["5", "5"],
-                ["6", "6"],
-                ["7", "7"]
-            ]
-        }
+      null,
+      {
+        "options": [
+          [
+            "立即",
+            "IMMEDIATE"
+          ],
+          [
+            "漸變",
+            "GRADUAL"
+          ]
+        ]
+      },
+      null
     ]
-},
-"tm1650_displaystring": {
-    "message0": "四位數碼TM1650 顯示字符串%1"
-},
-"tm1650_displayNumber": {
-    "message0": "四位數碼TM1650 顯示數字%1"
-},
-"tm1650_clearDisplay": {
-    "message0": "四位數碼TM1650 清屏"
-}
+  },
+  "tm1650_set_power": {
+    "message0": "TM1650 %1 顯示狀態 %2",
+    "tooltip": "開啟或關閉顯示輸出，關閉時保留顯示緩衝內容"
+  },
+  "tm1650_scroll_start": {
+    "message0": "TM1650 %1 開始滾動文字 %2",
+    "tooltip": "顯示滾動文字第一幀並傳回剩餘移動次數"
+  },
+  "tm1650_scroll_next": {
+    "message0": "TM1650 %1 滾動下一幀",
+    "tooltip": "向左移動一幀並傳回剩餘移動次數"
+  },
+  "tm1650_scroll_text": {
+    "message0": "TM1650 %1 完整滾動文字 %2 每幀 %3 毫秒",
+    "tooltip": "阻塞執行完整滾動；即時程式請使用開始和下一幀積木"
+  },
+  "tm1650_set_segments": {
+    "message0": "TM1650 %1 第 %2 位寫入段碼 %3",
+    "tooltip": "把 0 至 255 的原始七段段碼寫入指定位置"
+  },
+  "tm1650_set_control": {
+    "message0": "TM1650 %1 第 %2 位寫入控制值 %3",
+    "tooltip": "把原始值寫入指定位置的 TM1650 控制暫存器"
+  },
+  "tm1650_get_segments": {
+    "message0": "TM1650 %1 第 %2 位段碼",
+    "tooltip": "讀取指定位置的目前段碼，無效位置傳回 0"
+  },
+  "tm1650_get_brightness": {
+    "message0": "TM1650 %1 目前亮度",
+    "tooltip": "傳回目前亮度值 0 至 7"
+  },
+  "tm1650_get_digits": {
+    "message0": "TM1650 %1 顯示位數",
+    "tooltip": "傳回初始化時設定的顯示位數"
+  }
 }

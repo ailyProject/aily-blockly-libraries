@@ -1,38 +1,93 @@
 {
-"toolbox_name": "TM1650 Vierstellige Segmentanzeige",
-"tm1650_init": {
-    "message0": "TM1650 Vierstellige Segmentanzeige initialisieren"
-},
-"tm1650_set": {
-    "message0": "TM1650 Vierstellige Segmentanzeige %1 anzeigen, Helligkeit auf %2 setzen",
+  "toolbox_name": "TM1650 4-stellige Anzeige",
+  "toolbox_labels": {
+    "初始化（两种方式只选一种）": "Initialisierung (eine wählen)",
+    "硬件 I2C：使用开发板默认 SDA/SCL": "Hardware-I2C: Standard-SDA/SCL der Platine",
+    "软件 I2C/自定义引脚（兼容硬件 I2C）：使用 SDA/SCL 输入": "Software-I2C/Benutzerpins (Hardware-I2C-kompatibel): SDA/SCL eingeben",
+    "显示": "Anzeige",
+    "控制": "Steuerung",
+    "滚动": "Lauftext",
+    "状态": "Status",
+    "高级": "Erweitert"
+  },
+  "tm1650_init_hardware": {
+    "message0": "TM1650 per Hardware-I2C initialisieren %1 Stellen %2 Helligkeit %3",
+    "tooltip": "Verwendet die Standard-Hardware-I2C-Pins der Platine; nicht zusammen mit der Benutzerpin-Initialisierung verwenden"
+  },
+  "tm1650_init": {
+    "message0": "TM1650 per Software-I2C/Benutzerpins initialisieren %1 Stellen %2 SDA %3 SCL %4 Helligkeit %5",
+    "tooltip": "ESP32/ESP8266 verwenden die gewählten Pins; andere Hardware-I2C-Platinen fallen für kompatibles Kompilieren auf Standard-Wire zurück"
+  },
+  "tm1650_show_text": {
+    "message0": "TM1650 %1 Text %2 anzeigen",
+    "tooltip": "Zeigt Ziffern oder unterstützte Buchstaben; ein Dezimalpunkt gehört zum vorherigen Zeichen und belegt keine Stelle"
+  },
+  "tm1650_show_number": {
+    "message0": "TM1650 %1 Zahl %2 Dezimalstellen %3 anzeigen",
+    "tooltip": "Formatiert eine Zahl mit den gewählten Dezimalstellen und zeigt die verfügbaren führenden Ziffern"
+  },
+  "tm1650_clear": {
+    "message0": "TM1650 %1 löschen",
+    "tooltip": "Löscht alle Zeichen und Dezimalpunkte bei eingeschalteter Anzeige"
+  },
+  "tm1650_set_dot": {
+    "message0": "TM1650 %1 Position %2 Dezimalpunktstatus %3",
+    "tooltip": "Setzt den Dezimalpunkt an einer von links gezählten Position; ungültige Positionen werden ignoriert"
+  },
+  "tm1650_set_brightness": {
+    "message0": "TM1650 %1 %2 Helligkeit %3 setzen",
+    "tooltip": "Setzt die Helligkeit von 0 bis 7; der Übergang benötigt etwa 50 ms je Stufe",
     "args0": [
-        {
-            "options": [
-                ["Ein", "1"],
-                ["Aus", "0"]
-            ]
-        },
-        {
-            "options": [
-                ["0", "0"],
-                ["1", "1"],
-                ["2", "2"],
-                ["3", "3"],
-                ["4", "4"],
-                ["5", "5"],
-                ["6", "6"],
-                ["7", "7"]
-            ]
-        }
+      null,
+      {
+        "options": [
+          [
+            "sofort",
+            "IMMEDIATE"
+          ],
+          [
+            "schrittweise",
+            "GRADUAL"
+          ]
+        ]
+      },
+      null
     ]
-},
-"tm1650_displaystring": {
-    "message0": "TM1650 Vierstellige Segmentanzeige Zeichenkette %1 anzeigen"
-},
-"tm1650_displayNumber": {
-    "message0": "TM1650 Vierstellige Segmentanzeige Zahl %1 anzeigen"
-},
-"tm1650_clearDisplay": {
-    "message0": "TM1650 Vierstellige Segmentanzeige löschen"
-}
+  },
+  "tm1650_set_power": {
+    "message0": "TM1650 %1 Anzeigestatus %2",
+    "tooltip": "Schaltet die Ausgabe ein oder aus und behält den Anzeigepuffer"
+  },
+  "tm1650_scroll_start": {
+    "message0": "TM1650 %1 Lauftext %2 starten",
+    "tooltip": "Zeigt den ersten Lauftext-Rahmen und gibt die verbleibenden Schritte zurück"
+  },
+  "tm1650_scroll_next": {
+    "message0": "TM1650 %1 zum nächsten Rahmen schieben",
+    "tooltip": "Schiebt einen Rahmen nach links und gibt die verbleibenden Schritte zurück"
+  },
+  "tm1650_scroll_text": {
+    "message0": "TM1650 %1 gesamten Text %2 alle %3 ms schieben",
+    "tooltip": "Führt einen blockierenden Lauftext aus; für reaktionsfähige Programme Start und nächster Rahmen verwenden"
+  },
+  "tm1650_set_segments": {
+    "message0": "TM1650 %1 Position %2 Segmentcode %3 schreiben",
+    "tooltip": "Schreibt einen rohen Siebensegmentwert von 0 bis 255 an eine Position"
+  },
+  "tm1650_set_control": {
+    "message0": "TM1650 %1 Position %2 Steuerwert %3 schreiben",
+    "tooltip": "Schreibt einen Rohwert in das TM1650-Steuerregister einer Position"
+  },
+  "tm1650_get_segments": {
+    "message0": "TM1650 %1 Segmentcode an Position %2",
+    "tooltip": "Liest den aktuellen Segmentcode; ungültige Positionen ergeben 0"
+  },
+  "tm1650_get_brightness": {
+    "message0": "TM1650 %1 aktuelle Helligkeit",
+    "tooltip": "Gibt die aktuelle Helligkeit von 0 bis 7 zurück"
+  },
+  "tm1650_get_digits": {
+    "message0": "TM1650 %1 Anzeigestellen",
+    "tooltip": "Gibt die bei der Initialisierung gewählte Stellenzahl zurück"
+  }
 }

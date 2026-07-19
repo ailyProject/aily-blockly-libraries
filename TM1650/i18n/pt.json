@@ -1,38 +1,93 @@
 {
-"toolbox_name": "TM1650 Tubo de quatro dígitos",
-"tm1650_init": {
-    "message0": "Inicializar TM1650 de quatro dígitos"
-},
-"tm1650_set": {
-    "message0": "TM1650 de quatro dígitos exibir %1, brilho definido para %2",
+  "toolbox_name": "Visor TM1650 de 4 dígitos",
+  "toolbox_labels": {
+    "初始化（两种方式只选一种）": "Inicialização (escolha uma)",
+    "硬件 I2C：使用开发板默认 SDA/SCL": "I2C de hardware: SDA/SCL padrão da placa",
+    "软件 I2C/自定义引脚（兼容硬件 I2C）：使用 SDA/SCL 输入": "I2C software/pinos personalizados (compatível com I2C de hardware): informe SDA/SCL",
+    "显示": "Exibição",
+    "控制": "Controle",
+    "滚动": "Rolagem",
+    "状态": "Estado",
+    "高级": "Avançado"
+  },
+  "tm1650_init_hardware": {
+    "message0": "inicializar TM1650 com I2C de hardware %1 dígitos %2 brilho %3",
+    "tooltip": "Usa os pinos I2C de hardware padrão da placa; não combine com a inicialização de pinos personalizados"
+  },
+  "tm1650_init": {
+    "message0": "inicializar TM1650 por I2C software/pinos personalizados %1 dígitos %2 SDA %3 SCL %4 brilho %5",
+    "tooltip": "ESP32/ESP8266 usam os pinos escolhidos; outras placas I2C de hardware retornam aos pinos Wire padrão para compilar"
+  },
+  "tm1650_show_text": {
+    "message0": "TM1650 %1 exibir texto %2",
+    "tooltip": "Exibe dígitos ou letras compatíveis; o ponto decimal fica no caractere anterior sem ocupar posição"
+  },
+  "tm1650_show_number": {
+    "message0": "TM1650 %1 exibir número %2 casas decimais %3",
+    "tooltip": "Formata o número com as casas escolhidas e mostra os primeiros dígitos disponíveis"
+  },
+  "tm1650_clear": {
+    "message0": "limpar TM1650 %1",
+    "tooltip": "Limpa todos os caracteres e pontos mantendo o visor ligado"
+  },
+  "tm1650_set_dot": {
+    "message0": "TM1650 %1 posição %2 estado do ponto %3",
+    "tooltip": "Define o ponto decimal em uma posição contada da esquerda; posições inválidas são ignoradas"
+  },
+  "tm1650_set_brightness": {
+    "message0": "TM1650 %1 %2 definir brilho %3",
+    "tooltip": "Define o brilho de 0 a 7; o modo gradual leva cerca de 50 ms por nível",
     "args0": [
-        {
-            "options": [
-                ["Ligar", "1"],
-                ["Desligar", "0"]
-            ]
-        },
-        {
-            "options": [
-                ["0", "0"],
-                ["1", "1"],
-                ["2", "2"],
-                ["3", "3"],
-                ["4", "4"],
-                ["5", "5"],
-                ["6", "6"],
-                ["7", "7"]
-            ]
-        }
+      null,
+      {
+        "options": [
+          [
+            "imediatamente",
+            "IMMEDIATE"
+          ],
+          [
+            "gradualmente",
+            "GRADUAL"
+          ]
+        ]
+      },
+      null
     ]
-},
-"tm1650_displaystring": {
-    "message0": "TM1650 de quatro dígitos exibir string %1"
-},
-"tm1650_displayNumber": {
-    "message0": "TM1650 de quatro dígitos exibir número %1"
-},
-"tm1650_clearDisplay": {
-    "message0": "TM1650 de quatro dígitos limpar tela"
-}
+  },
+  "tm1650_set_power": {
+    "message0": "TM1650 %1 estado do visor %2",
+    "tooltip": "Liga ou desliga a saída preservando o buffer do visor"
+  },
+  "tm1650_scroll_start": {
+    "message0": "TM1650 %1 iniciar rolagem do texto %2",
+    "tooltip": "Mostra o primeiro quadro e retorna os deslocamentos restantes"
+  },
+  "tm1650_scroll_next": {
+    "message0": "TM1650 %1 rolar próximo quadro",
+    "tooltip": "Desloca um quadro à esquerda e retorna os deslocamentos restantes"
+  },
+  "tm1650_scroll_text": {
+    "message0": "TM1650 %1 rolar todo o texto %2 a cada %3 ms",
+    "tooltip": "Executa rolagem bloqueante; use iniciar e próximo quadro em programas responsivos"
+  },
+  "tm1650_set_segments": {
+    "message0": "TM1650 %1 posição %2 escrever código de segmentos %3",
+    "tooltip": "Escreve um valor bruto de sete segmentos de 0 a 255 em uma posição"
+  },
+  "tm1650_set_control": {
+    "message0": "TM1650 %1 posição %2 escrever controle %3",
+    "tooltip": "Escreve um valor bruto no registro de controle TM1650 de uma posição"
+  },
+  "tm1650_get_segments": {
+    "message0": "TM1650 %1 código de segmentos da posição %2",
+    "tooltip": "Lê o código atual; uma posição inválida retorna 0"
+  },
+  "tm1650_get_brightness": {
+    "message0": "TM1650 %1 brilho atual",
+    "tooltip": "Retorna o brilho atual de 0 a 7"
+  },
+  "tm1650_get_digits": {
+    "message0": "TM1650 %1 posições do visor",
+    "tooltip": "Retorna o número de posições escolhido na inicialização"
+  }
 }

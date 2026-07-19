@@ -1,38 +1,93 @@
 {
-"toolbox_name": "TM1650 4-Digit Display",
-"tm1650_init": {
-    "message0": "Initialize TM1650 4-digit display"
-},
-"tm1650_set": {
-    "message0": "TM1650 4-digit display %1, brightness set to %2",
+  "toolbox_name": "TM1650 4-Digit Display",
+  "toolbox_labels": {
+    "初始化（两种方式只选一种）": "Initialization (choose one)",
+    "硬件 I2C：使用开发板默认 SDA/SCL": "Hardware I2C: board-default SDA/SCL",
+    "软件 I2C/自定义引脚（兼容硬件 I2C）：使用 SDA/SCL 输入": "Software I2C/custom pins (hardware-I2C compatible): enter SDA/SCL",
+    "显示": "Display",
+    "控制": "Control",
+    "滚动": "Scroll",
+    "状态": "Status",
+    "高级": "Advanced"
+  },
+  "tm1650_init_hardware": {
+    "message0": "hardware I2C initialize TM1650 %1 digits %2 brightness %3",
+    "tooltip": "Initialize TM1650 with the board's default hardware I2C SDA/SCL pins; do not also use custom-pin initialization"
+  },
+  "tm1650_init": {
+    "message0": "software I2C/custom-pin initialize TM1650 %1 digits %2 SDA %3 SCL %4 brightness %5",
+    "tooltip": "Use custom SDA/SCL on ESP32/ESP8266; other hardware-I2C boards automatically fall back to default Wire pins for compile compatibility"
+  },
+  "tm1650_show_text": {
+    "message0": "TM1650 %1 show text %2",
+    "tooltip": "Show digits or supported letters; a decimal point attaches to the preceding character without using a position"
+  },
+  "tm1650_show_number": {
+    "message0": "TM1650 %1 show number %2 decimal places %3",
+    "tooltip": "Format a number with the selected decimal places and show the available leading digits"
+  },
+  "tm1650_clear": {
+    "message0": "clear TM1650 %1",
+    "tooltip": "Clear all characters and decimal points while keeping the display enabled"
+  },
+  "tm1650_set_dot": {
+    "message0": "TM1650 %1 position %2 decimal point state %3",
+    "tooltip": "Set a decimal point using positions counted from the left; invalid positions are safely ignored"
+  },
+  "tm1650_set_brightness": {
+    "message0": "TM1650 %1 %2 set brightness %3",
+    "tooltip": "Set brightness from 0 to 7; gradual mode takes about 50 ms per level",
     "args0": [
-        {
-            "options": [
-                ["On", "1"],
-                ["Off", "0"]
-            ]
-        },
-        {
-            "options": [
-                ["0", "0"],
-                ["1", "1"],
-                ["2", "2"],
-                ["3", "3"],
-                ["4", "4"],
-                ["5", "5"],
-                ["6", "6"],
-                ["7", "7"]
-            ]
-        }
+      null,
+      {
+        "options": [
+          [
+            "immediately",
+            "IMMEDIATE"
+          ],
+          [
+            "gradually",
+            "GRADUAL"
+          ]
+        ]
+      },
+      null
     ]
-},
-"tm1650_displaystring": {
-    "message0": "TM1650 4-digit display show string %1"
-},
-"tm1650_displayNumber": {
-    "message0": "TM1650 4-digit display show number %1"
-},
-"tm1650_clearDisplay": {
-    "message0": "TM1650 4-digit display clear screen"
-}
+  },
+  "tm1650_set_power": {
+    "message0": "TM1650 %1 display state %2",
+    "tooltip": "Enable or disable display output while retaining the display buffer"
+  },
+  "tm1650_scroll_start": {
+    "message0": "TM1650 %1 start scrolling text %2",
+    "tooltip": "Show the first scrolling frame and return the number of shifts remaining"
+  },
+  "tm1650_scroll_next": {
+    "message0": "TM1650 %1 scroll next frame",
+    "tooltip": "Shift left by one frame and return the number of shifts remaining"
+  },
+  "tm1650_scroll_text": {
+    "message0": "TM1650 %1 scroll all text %2 every %3 ms",
+    "tooltip": "Run a complete blocking scroll; use start and next-frame blocks for responsive programs"
+  },
+  "tm1650_set_segments": {
+    "message0": "TM1650 %1 position %2 write segment code %3",
+    "tooltip": "Write a raw seven-segment byte from 0 to 255 to a position"
+  },
+  "tm1650_set_control": {
+    "message0": "TM1650 %1 position %2 write control value %3",
+    "tooltip": "Write a raw value to a TM1650 position control register"
+  },
+  "tm1650_get_segments": {
+    "message0": "TM1650 %1 position %2 segment code",
+    "tooltip": "Read the current segment code for a position; invalid positions return 0"
+  },
+  "tm1650_get_brightness": {
+    "message0": "TM1650 %1 current brightness",
+    "tooltip": "Return the current brightness from 0 to 7"
+  },
+  "tm1650_get_digits": {
+    "message0": "TM1650 %1 display positions",
+    "tooltip": "Return the number of display positions selected during initialization"
+  }
 }
