@@ -1,0 +1,187 @@
+{
+  "kind": "category",
+  "name": "SD卡存储",
+  "icon": "fa-light fa-sd-card",
+  "colour": "#FF9800",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_init"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_end"
+    },
+    {
+      "kind": "label",
+      "text": "卡信息"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_card_info"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_card_type_name"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_mountpoint"
+    },
+    {
+      "kind": "label",
+      "text": "快速文件操作"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_write_file_quick",
+      "inputs": {
+        "PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/hello.txt"}}},
+        "CONTENT": {"shadow": {"type": "text", "fields": {"TEXT": "Hello World"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_read_file_quick",
+      "inputs": {
+        "PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/hello.txt"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_append_file",
+      "inputs": {
+        "PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/log.txt"}}},
+        "CONTENT": {"shadow": {"type": "text", "fields": {"TEXT": "New data"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_delete_file",
+      "inputs": {
+        "PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/temp.txt"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_rename_file",
+      "inputs": {
+        "OLD_PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/old.txt"}}},
+        "NEW_PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/new.txt"}}}
+      }
+    },
+    {
+      "kind": "label",
+      "text": "文件操作"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_open_file_to",
+      "inputs": {
+        "PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/test.txt"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_close_file"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_file_is_open"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_write_file",
+      "inputs": {
+        "CONTENT": {"shadow": {"type": "text", "fields": {"TEXT": "Hello SD Card"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_read_file"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_read_file_bytes",
+      "inputs": {
+        "LENGTH": {"shadow": {"type": "math_number", "fields": {"NUM": "64"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_read_byte"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_peek_byte"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_file_available"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_file_available_bytes"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_file_size"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_file_position"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_seek_file",
+      "inputs": {
+        "POSITION": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_flush_file"
+    },
+    {
+      "kind": "label",
+      "text": "目录操作"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_create_dir",
+      "inputs": {
+        "PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/mydir"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_remove_dir",
+      "inputs": {
+        "PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/mydir"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_list_dir",
+      "inputs": {
+        "PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/"}}},
+        "LEVELS": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}}
+      }
+    },
+    {
+      "kind": "label",
+      "text": "文件检查"
+    },
+    {
+      "kind": "block",
+      "type": "xueersi_esp32_sd_file_exists",
+      "inputs": {
+        "PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/test.txt"}}}
+      }
+    }
+  ]
+}

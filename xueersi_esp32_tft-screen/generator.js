@@ -184,10 +184,8 @@ function tftScreenAddTfAnimationPlayer(generator) {
   generator.addLibrary('TFT_eSPI', '#include <TFT_eSPI.h>');
   generator.addLibrary('FS', '#include <FS.h>');
   generator.addLibrary('SD', '#include <SD.h>');
-  generator.addLibrary('SPI', '#include <SPI.h>');
   generator.addLibrary('stdint', '#include <stdint.h>');
   generator.addLibrary('stdlib', '#include <stdlib.h>');
-  generator.addLibrary('esp_heap_caps', '#include <esp_heap_caps.h>');
   ensureSerialBegin('Serial', generator);
 
   generator.addFunction('tftscr_play_tf_animation', `static uint16_t tftScreenReadTfLe16(const uint8_t *data) {
@@ -217,7 +215,6 @@ static bool tftScreenReadTfData(fs::File &file, uint8_t *buffer, size_t length) 
 static uint8_t *tftScreenAllocateTfBuffer(
     size_t requestedSize,
     size_t rowBytes,
-    bool dmaCapable,
     size_t &allocatedSize) {
   allocatedSize = 0;
   if (rowBytes == 0) {
@@ -231,11 +228,7 @@ static uint8_t *tftScreenAllocateTfBuffer(
   }
 
   while (candidateSize >= rowBytes) {
-    uint8_t *buffer = dmaCapable
-      ? (uint8_t *)heap_caps_malloc(
-          candidateSize,
-          MALLOC_CAP_DMA | MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)
-      : (uint8_t *)malloc(candidateSize);
+    uint8_t *buffer = (uint8_t *)malloc(candidateSize);
     if (buffer != nullptr) {
       allocatedSize = candidateSize;
       return buffer;
@@ -249,72 +242,6 @@ static uint8_t *tftScreenAllocateTfBuffer(
     candidateSize = nextSize;
   }
   return nullptr;
-}
-
-static bool tftScreenTryMountTfCard(
-    SPIClass &sharedSpi,
-    uint32_t frequency) {
-  Serial.printf("[TF] mount try %lu Hz\\n", (unsigned long)frequency);
-  // A failed SD.begin() can leave the card in an intermediate SPI state.
-  // Tear down both layers before every attempt so the next attempt gets the
-  // full low-speed SD power-up/idle sequence again.
-  SD.end();
-  sharedSpi.end();
-  delay(2);
-
-  // Both devices share SCK/MOSI and must be deselected while the bus is
-  // restarted. SD.begin() will control GPIO22 after this point.
-  pinMode(TFT_CS, OUTPUT);
-  digitalWrite(TFT_CS, HIGH);
-  pinMode(22, OUTPUT);
-  digitalWrite(22, HIGH);
-
-  // GPIO19 is wired to both the panel reset input and TF MISO on XiaoMiao.
-  // The TFT setup deliberately uses TFT_RST=-1 (software reset), leaving the
-  // pin available as an input. Restart the shared instance here so every retry
-  // begins from a known SPI pin-matrix state.
-  if (!sharedSpi.begin(18, 19, 23, 22)) {
-    Serial.println("[TF] SPI restart failed");
-    return false;
-  }
-  delay(2);
-
-  if (SD.begin(22, sharedSpi, frequency)) {
-    Serial.printf("[TF] mounted at %lu Hz\\n", (unsigned long)frequency);
-    return true;
-  }
-
-  Serial.printf("[TF] mount failed at %lu Hz\\n", (unsigned long)frequency);
-  SD.end();
-  digitalWrite(22, HIGH);
-  return false;
-}
-
-static bool tftScreenEnsureTfCard(void) {
-  if (SD.cardType() != CARD_NONE) {
-    return true;
-  }
-
-  SPIClass &sharedSpi = TFT_eSPI::getSPIinstance();
-  // Prefer the fastest clock, but some cards or board revisions cannot mount
-  // FAT reliably at 25 MHz on the shared GPIO-matrix bus. Keep high FPS where
-  // possible and fall back only when the complete mount actually fails.
-  static const uint32_t TF_FREQUENCIES[] = {
-    25000000UL,
-    16000000UL,
-    4000000UL
-  };
-  for (size_t i = 0; i < sizeof(TF_FREQUENCIES) / sizeof(TF_FREQUENCIES[0]); i++) {
-    if (tftScreenTryMountTfCard(sharedSpi, TF_FREQUENCIES[i])) {
-      return true;
-    }
-  }
-
-  pinMode(TFT_CS, OUTPUT);
-  digitalWrite(TFT_CS, HIGH);
-  pinMode(22, OUTPUT);
-  digitalWrite(22, HIGH);
-  return false;
 }
 
 static void tftScreenWaitTfFrame(uint32_t frameStartedAt, uint64_t frameIntervalUs) {
@@ -341,22 +268,13 @@ static void tftScreenPushTfRgb565Rows(
     uint8_t *buffer,
     uint16_t width,
     uint16_t y,
-    uint16_t rows,
-    bool dmaEnabled) {
-  if (!dmaEnabled) {
-    display.pushImage(0, y, width, rows, reinterpret_cast<uint16_t *>(buffer));
-    return;
-  }
-
-  display.startWrite();
-  display.setAddrWindow(0, y, width, rows);
-  display.pushPixelsDMA(
-    reinterpret_cast<uint16_t *>(buffer),
-    (uint32_t)width * rows);
-  // TFT and TF share GPIO18/23/19, so the LCD transfer must finish before
-  // the next SD read starts. DMA still removes per-pixel CPU overhead.
-  display.dmaWait();
-  display.endWrite();
+    uint16_t rows) {
+  // Do not call TFT_eSPI::initDMA() on the shared HSPI bus. Its ESP32 DMA
+  // implementation owns the IDF SPI host independently from Arduino SPIClass;
+  // initializing or releasing it invalidates the SD driver's live bus state.
+  // A single batched pushImage keeps CS transactions serialized and is still
+  // much faster than drawing individual pixels.
+  display.pushImage(0, y, width, rows, reinterpret_cast<uint16_t *>(buffer));
 }
 
 static void tftScreenScaleTfRowInPlace(
@@ -380,6 +298,30 @@ static void tftScreenScaleTfRowInPlace(
       buffer[x] = buffer[sourceX];
     }
   }
+}
+
+static void tftScreenLogTfRootDirectory(void) {
+  File root = SD.open("/", FILE_READ);
+  if (!root || !root.isDirectory()) {
+    Serial.println("[TF] cannot read root directory");
+    if (root) root.close();
+    return;
+  }
+
+  Serial.println("[TF] root directory:");
+  uint8_t entriesPrinted = 0;
+  File entry = root.openNextFile();
+  while (entry && entriesPrinted < 32) {
+    Serial.printf("[TF]   %s %s (%lu bytes)\\n",
+      entry.isDirectory() ? "DIR " : "FILE",
+      entry.path(),
+      (unsigned long)entry.size());
+    entry.close();
+    entriesPrinted++;
+    entry = root.openNextFile();
+  }
+  if (entry) entry.close();
+  root.close();
 }
 
 static bool tftScreenShowTfError(
@@ -417,14 +359,22 @@ bool tftScreenPlayTfAnimation(
   if (!normalizedFileName.startsWith("/")) {
     normalizedFileName = String("/") + normalizedFileName;
   }
-  if (!tftScreenEnsureTfCard()) {
-    return tftScreenShowTfError(display, "TF ERR: SD mount");
+  // SD mounting belongs to the xueersi_esp32_sd library. This player only consumes
+  // an already-mounted global SD filesystem and never restarts its SPI bus.
+  if (SD.cardType() == CARD_NONE) {
+    return tftScreenShowTfError(display, "TF ERR: SD not ready");
   }
 
   Serial.printf("[TF] open %s\\n", normalizedFileName.c_str());
+  if (!SD.exists(normalizedFileName.c_str())) {
+    Serial.printf("[TF] path not found: %s\\n", normalizedFileName.c_str());
+    tftScreenLogTfRootDirectory();
+    return tftScreenShowTfError(display, "TF ERR: not found");
+  }
   fs::File file = SD.open(normalizedFileName.c_str(), FILE_READ);
   if (!file || file.isDirectory()) {
     if (file) file.close();
+    tftScreenLogTfRootDirectory();
     return tftScreenShowTfError(display, "TF ERR: file open");
   }
 
@@ -526,36 +476,13 @@ bool tftScreenPlayTfAnimation(
   }
 
   size_t activeBufferSize = 0;
-  bool bufferIsDmaCapable = false;
-  uint8_t *buffer = nullptr;
-  if (pixelFormat == AILY_RGB565_LE) {
-    buffer = tftScreenAllocateTfBuffer(
-      requestedBufferSize,
-      rowBytes,
-      true,
-      activeBufferSize);
-    bufferIsDmaCapable = buffer != nullptr;
-  }
-  if (buffer == nullptr) {
-    buffer = tftScreenAllocateTfBuffer(
-      requestedBufferSize,
-      rowBytes,
-      false,
-      activeBufferSize);
-  }
+  uint8_t *buffer = tftScreenAllocateTfBuffer(
+    requestedBufferSize,
+    rowBytes,
+    activeBufferSize);
   if (buffer == nullptr || activeBufferSize < rowBytes) {
     file.close();
     return tftScreenShowTfError(display, "TF ERR: no memory");
-  }
-
-  bool dmaOwned = false;
-  bool dmaEnabled = false;
-  if (!scaleToFit && pixelFormat == AILY_RGB565_LE && bufferIsDmaCapable) {
-    dmaEnabled = display.DMA_Enabled;
-    if (!dmaEnabled) {
-      dmaEnabled = display.initDMA();
-      dmaOwned = dmaEnabled;
-    }
   }
 
   bool previousSwapBytes = display.getSwapBytes();
@@ -633,8 +560,7 @@ bool tftScreenPlayTfAnimation(
             buffer,
             width,
             (uint16_t)y,
-            rows,
-            dmaEnabled);
+            rows);
         } else if (pixelFormat == AILY_RGB332) {
           display.pushImage(0, y, width, rows, buffer, true);
         } else {
@@ -660,14 +586,7 @@ bool tftScreenPlayTfAnimation(
   if (pixelFormat == AILY_RGB565_LE) {
     display.setSwapBytes(previousSwapBytes);
   }
-  if (dmaOwned) {
-    display.deInitDMA();
-  }
-  if (bufferIsDmaCapable) {
-    heap_caps_free(buffer);
-  } else {
-    free(buffer);
-  }
+  free(buffer);
   file.close();
   if (!success || framesPlayed != frameCount) {
     return tftScreenShowTfError(display, "TF ERR: frame read");
