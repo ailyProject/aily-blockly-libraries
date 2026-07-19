@@ -1,38 +1,93 @@
 {
-"toolbox_name": "Tube numérique 4 chiffres TM1650",
-"tm1650_init": {
-    "message0": "Initialiser le tube numérique 4 chiffres TM1650"
-},
-"tm1650_set": {
-    "message0": "TM1650 4 chiffres afficher %1, régler la luminosité à %2",
+  "toolbox_name": "Afficheur TM1650 à 4 chiffres",
+  "toolbox_labels": {
+    "初始化（两种方式只选一种）": "Initialisation (choisir une méthode)",
+    "硬件 I2C：使用开发板默认 SDA/SCL": "I2C matériel : SDA/SCL par défaut",
+    "软件 I2C/自定义引脚（兼容硬件 I2C）：使用 SDA/SCL 输入": "I2C logiciel/broches personnalisées (compatible I2C matériel) : saisir SDA/SCL",
+    "显示": "Affichage",
+    "控制": "Contrôle",
+    "滚动": "Défilement",
+    "状态": "État",
+    "高级": "Avancé"
+  },
+  "tm1650_init_hardware": {
+    "message0": "initialiser TM1650 en I2C matériel %1 chiffres %2 luminosité %3",
+    "tooltip": "Utilise les broches I2C matérielles par défaut de la carte ; ne pas combiner avec l'initialisation personnalisée"
+  },
+  "tm1650_init": {
+    "message0": "initialiser TM1650 par I2C logiciel/broches personnalisées %1 chiffres %2 SDA %3 SCL %4 luminosité %5",
+    "tooltip": "ESP32/ESP8266 utilisent les broches choisies ; les autres cartes I2C matérielles reviennent à Wire par défaut pour compiler"
+  },
+  "tm1650_show_text": {
+    "message0": "TM1650 %1 afficher le texte %2",
+    "tooltip": "Affiche des chiffres ou lettres compatibles ; le point décimal suit le caractère précédent sans occuper de position"
+  },
+  "tm1650_show_number": {
+    "message0": "TM1650 %1 afficher le nombre %2 décimales %3",
+    "tooltip": "Formate un nombre avec les décimales choisies et affiche les premiers chiffres disponibles"
+  },
+  "tm1650_clear": {
+    "message0": "effacer TM1650 %1",
+    "tooltip": "Efface tous les caractères et points décimaux en gardant l'afficheur activé"
+  },
+  "tm1650_set_dot": {
+    "message0": "TM1650 %1 position %2 état du point décimal %3",
+    "tooltip": "Règle le point décimal à une position comptée depuis la gauche ; les positions invalides sont ignorées"
+  },
+  "tm1650_set_brightness": {
+    "message0": "TM1650 %1 %2 régler la luminosité %3",
+    "tooltip": "Règle la luminosité de 0 à 7 ; le mode progressif prend environ 50 ms par niveau",
     "args0": [
-        {
-            "options": [
-                ["Allumer", "1"],
-                ["Éteindre", "0"]
-            ]
-        },
-        {
-            "options": [
-                ["0", "0"],
-                ["1", "1"],
-                ["2", "2"],
-                ["3", "3"],
-                ["4", "4"],
-                ["5", "5"],
-                ["6", "6"],
-                ["7", "7"]
-            ]
-        }
+      null,
+      {
+        "options": [
+          [
+            "immédiatement",
+            "IMMEDIATE"
+          ],
+          [
+            "progressivement",
+            "GRADUAL"
+          ]
+        ]
+      },
+      null
     ]
-},
-"tm1650_displaystring": {
-    "message0": "TM1650 4 chiffres afficher la chaîne %1"
-},
-"tm1650_displayNumber": {
-    "message0": "TM1650 4 chiffres afficher le nombre %1"
-},
-"tm1650_clearDisplay": {
-    "message0": "TM1650 4 chiffres effacer l'affichage"
-}
+  },
+  "tm1650_set_power": {
+    "message0": "TM1650 %1 état d'affichage %2",
+    "tooltip": "Active ou désactive la sortie tout en conservant le tampon d'affichage"
+  },
+  "tm1650_scroll_start": {
+    "message0": "TM1650 %1 démarrer le défilement du texte %2",
+    "tooltip": "Affiche la première image et renvoie le nombre de décalages restants"
+  },
+  "tm1650_scroll_next": {
+    "message0": "TM1650 %1 défiler à l'image suivante",
+    "tooltip": "Décale d'une image vers la gauche et renvoie le nombre de décalages restants"
+  },
+  "tm1650_scroll_text": {
+    "message0": "TM1650 %1 faire défiler tout le texte %2 toutes les %3 ms",
+    "tooltip": "Exécute un défilement bloquant ; utilisez démarrer et image suivante pour un programme réactif"
+  },
+  "tm1650_set_segments": {
+    "message0": "TM1650 %1 position %2 écrire le code segments %3",
+    "tooltip": "Écrit une valeur sept segments brute de 0 à 255 à une position"
+  },
+  "tm1650_set_control": {
+    "message0": "TM1650 %1 position %2 écrire la commande %3",
+    "tooltip": "Écrit une valeur brute dans le registre de commande TM1650 d'une position"
+  },
+  "tm1650_get_segments": {
+    "message0": "TM1650 %1 code segments à la position %2",
+    "tooltip": "Lit le code segments actuel ; une position invalide renvoie 0"
+  },
+  "tm1650_get_brightness": {
+    "message0": "TM1650 %1 luminosité actuelle",
+    "tooltip": "Renvoie la luminosité actuelle de 0 à 7"
+  },
+  "tm1650_get_digits": {
+    "message0": "TM1650 %1 nombre de positions",
+    "tooltip": "Renvoie le nombre de positions choisi à l'initialisation"
+  }
 }

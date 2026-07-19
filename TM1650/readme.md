@@ -1,26 +1,26 @@
-# TM1650 four-digit digital tube driver library
+# TM1650 Four-Digit Display
 
-TM1650 four-digit digital tube driver library controls the display of four-digit seven-segment digital tubes through the I2C interface and supports the display of numbers and some characters.
+Control TM1650 I2C seven-segment displays from multiple Arduino-compatible boards.
 
 ## Library Info
 
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-tm1650 |
-| Version | 0.0.1 |
-| Author | K2L |
-| Source | N/A |
-| License | Original license |
+| Version | 1.0.0 |
+| Author | Anatoli Arkhipenko |
+| Source | https://github.com/arkhipenko/TM1650 |
+| License | BSD-4-Clause |
 
 ## Supported Boards
 
-Arduino AVR, Arduino SAMD, ESP32, RP2040, Arduino UNO R4
+ESP32 (including ESP32-S3) and Arduino AVR. Generated examples are compile-checked; hardware testing is not claimed.
 
 ## Description
 
-TM1650 four-digit digital tube driver library controls the display of four-digit seven-segment digital tubes through the I2C interface and supports the display of numbers and some characters.
+The library initializes `Wire` at 100 kHz and controls up to 16 TM1650 positions. Choose hardware I2C to use the board defaults, or custom/software-I2C pins; the latter automatically falls back to default `Wire` pins on cores that do not support `Wire.begin(SDA, SCL)`. Its four-digit workflow displays numbers, supported letters, inline decimal points, brightness, power, scrolling, and raw segment controls. TM1650 1.1.0 is bundled; no third-party installation is needed.
 
 ## Quick Start
 
-1. Enable `@aily-project/lib-tm1650` in Aily Blockly.
-2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+1. Connect VCC/GND and I2C SDA/SCL; keep I2C pull-ups within the board GPIO voltage.
+2. In `arduino_setup()`, choose exactly one initialization block: hardware I2C for board defaults, or custom/software I2C (ESP32-S3 example: SDA 8, SCL 9), then show `12.34`.
