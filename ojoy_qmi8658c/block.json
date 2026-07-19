@@ -1,0 +1,257 @@
+[
+  {
+    "type": "ojqmi_init",
+    "message0": "【① 初始化 IMU】 IMU %1 加速度量程 %2 陀螺量程 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "imu"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AR",
+        "options": [
+          [
+            "±2g",
+            "0"
+          ],
+          [
+            "±4g",
+            "1"
+          ],
+          [
+            "±8g",
+            "2"
+          ],
+          [
+            "±16g",
+            "3"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "GR",
+        "options": [
+          [
+            "±16dps",
+            "0"
+          ],
+          [
+            "±32dps",
+            "1"
+          ],
+          [
+            "±64dps",
+            "2"
+          ],
+          [
+            "±128dps",
+            "3"
+          ],
+          [
+            "±256dps",
+            "4"
+          ],
+          [
+            "±512dps",
+            "5"
+          ],
+          [
+            "±1024dps",
+            "6"
+          ],
+          [
+            "±2048dps",
+            "7"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#16A085",
+    "tooltip": "初始化 QMI8658C 六轴(地址0x6B, OJoy I2C SDA5/SCL4 固定)",
+    "helpUrl": "",
+    "icon": "fa-light fa-power-off",
+    "inputsInline": true
+  },
+  {
+    "type": "ojqmi_update",
+    "message0": "【读取一次(采样)】 IMU %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "QMI8658"
+        ],
+        "defaultType": "QMI8658"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#16A085",
+    "tooltip": "采样一次, 之后用加速度/陀螺/温度块取值",
+    "helpUrl": "",
+    "icon": "fa-light fa-arrows-rotate",
+    "inputsInline": true
+  },
+  {
+    "type": "ojqmi_accel",
+    "message0": "【加速度】 IMU %1 轴 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "QMI8658"
+        ],
+        "defaultType": "QMI8658"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          [
+            "X",
+            "x"
+          ],
+          [
+            "Y",
+            "y"
+          ],
+          [
+            "Z",
+            "z"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#16A085",
+    "tooltip": "加速度(g), 选轴",
+    "helpUrl": "",
+    "icon": "fa-light fa-gauge-high",
+    "inputsInline": true
+  },
+  {
+    "type": "ojqmi_gyro",
+    "message0": "【角速度】 IMU %1 轴 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "QMI8658"
+        ],
+        "defaultType": "QMI8658"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          [
+            "X",
+            "x"
+          ],
+          [
+            "Y",
+            "y"
+          ],
+          [
+            "Z",
+            "z"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#16A085",
+    "tooltip": "角速度(dps), 选轴",
+    "helpUrl": "",
+    "icon": "fa-light fa-rotate",
+    "inputsInline": true
+  },
+  {
+    "type": "ojqmi_angle",
+    "message0": "【倾角】 IMU %1 的 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "QMI8658"
+        ],
+        "defaultType": "QMI8658"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WHICH",
+        "options": [
+          [
+            "俯仰角pitch",
+            "pitch"
+          ],
+          [
+            "横滚角roll",
+            "roll"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#16A085",
+    "tooltip": "由加速度算出的俯仰/横滚角(度)",
+    "helpUrl": "",
+    "icon": "fa-light fa-angle",
+    "inputsInline": true
+  },
+  {
+    "type": "ojqmi_temp",
+    "message0": "【温度】 IMU %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "QMI8658"
+        ],
+        "defaultType": "QMI8658"
+      }
+    ],
+    "output": "Number",
+    "colour": "#16A085",
+    "tooltip": "芯片温度(°C)",
+    "helpUrl": "",
+    "icon": "fa-light fa-temperature-half",
+    "inputsInline": true
+  },
+  {
+    "type": "ojqmi_present",
+    "message0": "【IMU在?】 IMU %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "QMI8658"
+        ],
+        "defaultType": "QMI8658"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#16A085",
+    "tooltip": "I2C 探测芯片是否在(WHO_AM_I=0x05)",
+    "helpUrl": "",
+    "icon": "fa-light fa-magnifying-glass",
+    "inputsInline": true
+  }
+]

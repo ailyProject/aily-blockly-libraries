@@ -7,7 +7,7 @@ ESP32 dedicated I2C communication support library provides master-slave mode com
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-esp32-i2c |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Author | ailyProject |
 | Source | N/A |
 | License | Original license |

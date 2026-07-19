@@ -159,7 +159,8 @@ Arduino.forBlock['sscma_begin_spi'] = function(block, generator) {
   const cs = generator.valueToCode(block, 'CS', generator.ORDER_ATOMIC) || '-1';
   const sync = generator.valueToCode(block, 'SYNC', generator.ORDER_ATOMIC) || '-1';
   const rst = generator.valueToCode(block, 'RST', generator.ORDER_ATOMIC) || '-1';
-  const clock = generator.valueToCode(block, 'CLOCK', generator.ORDER_ATOMIC) || '15000000';
+  const clockMHz = generator.valueToCode(block, 'CLOCK', generator.ORDER_ATOMIC) || '15';
+  const clockHz = '((uint32_t)((' + clockMHz + ') * 1000000.0))';
 
   // 添加库和变量
   generator.addLibrary('Seeed_Arduino_SSCMA', '#include <Seeed_Arduino_SSCMA.h>');
@@ -171,7 +172,7 @@ Arduino.forBlock['sscma_begin_spi'] = function(block, generator) {
   if (cs == -1 && sync == -1 && rst == -1) {
     code = varName + '.begin(&' + spi + ');\n';
   } else {
-    code = varName + '.begin(&' + spi + ', ' + cs + ', ' + sync + ', ' + rst + ', ' + clock + ');\n';
+    code = varName + '.begin(&' + spi + ', ' + cs + ', ' + sync + ', ' + rst + ', ' + clockHz + ');\n';
   }
 
   generator.addSetup(`spi_${spi}_begin`, '' + spi + '.begin(); // 初始化SPI ' + spi);

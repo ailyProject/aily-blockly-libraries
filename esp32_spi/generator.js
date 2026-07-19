@@ -413,35 +413,36 @@ Arduino.forBlock['esp32_spi_begin_custom'] = function(block, generator) {
   return '';
 };
 
-// Arduino.forBlock['esp32_spi_settings'] = function(block, generator) {
-//   const varField = block.getField('VAR');
-//   const varName = varField ? varField.getText() : 'SPI';
+Arduino.forBlock['esp32_spi_settings'] = function(block, generator) {
+  const spiName = block.getFieldValue('SPI') || 'SPI';
   
-//   const frequency = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC) || '1000000';
-//   const bitOrder = block.getFieldValue('BIT_ORDER') || 'MSBFIRST';
-//   const mode = block.getFieldValue('MODE') || '0';
+  const frequencyMHz = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC) || '1';
+  const frequencyHz = '((uint32_t)((' + frequencyMHz + ') * 1000000.0))';
+  const bitOrder = block.getFieldValue('BIT_ORDER') || 'MSBFIRST';
+  const mode = block.getFieldValue('MODE') || '0';
 
-//   generator.addLibrary('SPI', '#include <SPI.h>');
+  ensureSPILibrary(generator);
 
-//   let code = '';
-//   code += varName + '.setFrequency(' + frequency + ');\n';
-//   code += varName + '.setBitOrder(' + bitOrder + ');\n';
-//   code += varName + '.setDataMode(' + mode + ');\n';
+  let code = '';
+  code += spiName + '.setFrequency(' + frequencyHz + ');\n';
+  code += spiName + '.setBitOrder(' + bitOrder + ');\n';
+  code += spiName + '.setDataMode(' + mode + ');\n';
   
-//   return code;
-// };
+  return code;
+};
 
 Arduino.forBlock['esp32_spi_begin_transaction'] = function(block, generator) {
   const spiName = block.getFieldValue('SPI') || 'SPI';
 
   ensureSPILibrary(generator);
 
-  const frequency = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC) || '1000000';
+  const frequencyMHz = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC) || '1';
+  const frequencyHz = '((uint32_t)((' + frequencyMHz + ') * 1000000.0))';
   const bitOrder = block.getFieldValue('BIT_ORDER') || 'MSBFIRST';
   const mode = block.getFieldValue('MODE') || '0';
 
   // 使用默认设置开始事务
-  let code = spiName + '.beginTransaction(SPISettings(' + frequency + ', ' + bitOrder + ', SPI_MODE' + mode + '));\n';
+  let code = spiName + '.beginTransaction(SPISettings(' + frequencyHz + ', ' + bitOrder + ', SPI_MODE' + mode + '));\n';
   
   return code;
 };
@@ -508,11 +509,12 @@ Arduino.forBlock['esp32_spi_write_bytes'] = function(block, generator) {
 Arduino.forBlock['esp32_spi_set_frequency'] = function(block, generator) {
   const spiName = block.getFieldValue('SPI') || 'SPI';
   
-  const frequency = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC) || '1000000';
+  const frequencyMHz = generator.valueToCode(block, 'FREQUENCY', generator.ORDER_ATOMIC) || '1';
+  const frequencyHz = '((uint32_t)((' + frequencyMHz + ') * 1000000.0))';
 
   ensureSPILibrary(generator);
 
-  let code = spiName + '.setFrequency(' + frequency + ');\n';
+  let code = spiName + '.setFrequency(' + frequencyHz + ');\n';
   
   return code;
 };

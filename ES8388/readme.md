@@ -7,7 +7,7 @@ ES8388 stereo audio codec library supporting recording, playback and real-time a
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-es8388 |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Author | Unknown |
 | Source | https://github.com/everest-se/ES8388 |
 | License | Original license |

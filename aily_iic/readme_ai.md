@@ -4,7 +4,7 @@ I2C communication support library based on Wire library package, suitable for Ar
 
 ## Library Info
 - **Name**: @aily-project/lib-aily-iic
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 

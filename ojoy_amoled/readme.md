@@ -1,6 +1,6 @@
 # OJoy AMOLED
 
-CH13613 480x480 QSPI AMOLED graphics library (ESP32-S3 + PSRAM): shapes/text/CJK/bitmap/icons/widgets/charts/gauges/effects
+OJoy all-in-one display + touch: CH13613 480x480 AMOLED + CHSC6417 capacitive touch (ESP32-S3 + PSRAM). Drawing/text/CJK/bitmap/icons/widgets/charts/gauges/effects plus touch coordinates & gestures
 
 ## Library Info
 
@@ -18,7 +18,7 @@ ESP32
 
 ## Description
 
-CH13613 480x480 QSPI AMOLED graphics library (ESP32-S3 + PSRAM): shapes/text/CJK/bitmap/icons/widgets/charts/gauges/effects
+OJoy all-in-one display + touch: CH13613 480x480 AMOLED + CHSC6417 capacitive touch (ESP32-S3 + PSRAM). Drawing/text/CJK/bitmap/icons/widgets/charts/gauges/effects plus touch coordinates & gestures
 
 ## Quick Start
 

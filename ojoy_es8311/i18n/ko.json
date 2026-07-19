@@ -1,0 +1,188 @@
+{
+  "toolbox_name": "OJoy 오디오",
+  "toolbox_labels": {
+    "初始化": "초기화",
+    "录音/播放": "녹음/재생",
+    "流式播放": "스트리밍",
+    "多段录音": "여러 녹음",
+    "音量/增益": "볼륨/이득",
+    "声音检测": "소리 감지",
+    "提示音": "삐",
+    "AI语音理解": "AI 음성 이해"
+  },
+  "es8311_init": {
+    "message0": "OJoy 오디오 초기화 %1 녹음 버퍼(초) %2",
+    "tooltip": "OJoy 보드의 ES8311 오디오 초기화: I2C 0x18과 I2S 핀이 모두 고정되며 앰프(IO9)도 자동으로 켜집니다. 값은 녹음 버퍼 초 수(PSRAM에 할당)"
+  },
+  "es8311_record": {
+    "message0": "ES8311 %1 녹음 시작",
+    "tooltip": "녹음 시작, 시간은 초기화 블록에서 설정"
+  },
+  "es8311_play": {
+    "message0": "ES8311 %1 재생 시작",
+    "tooltip": "녹음된 오디오 재생"
+  },
+  "es8311_has_recording": {
+    "message0": "ES8311 %1 녹음 있음",
+    "tooltip": "오디오가 녹음되었는지 확인"
+  },
+  "es8311_set_volume": {
+    "message0": "ES8311 %1 볼륨 설정 %2",
+    "tooltip": "ES8311 출력 볼륨 설정 (0~100)"
+  },
+  "es8311_set_mic_gain": {
+    "message0": "ES8311 %1 마이크 게인 설정 %2",
+    "tooltip": "ES8311 마이크 아날로그 게인 설정 (0~42dB, 6dB 단위)"
+  },
+  "es8311_stop": {
+    "message0": "ES8311 %1 녹음/재생 중지",
+    "tooltip": "현재 녹음 또는 재생 중지, I2S DMA 버퍼 초기화"
+  },
+  "es8311_mute": {
+    "message0": "ES8311 %1 %2",
+    "tooltip": "ES8311 음소거 상태 제어",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "음소거 해제",
+            "0"
+          ],
+          [
+            "출력 음소거",
+            "1"
+          ],
+          [
+            "마이크 음소거",
+            "2"
+          ],
+          [
+            "전체 음소거",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8311_play_tone": {
+    "message0": "ES8311 %1 톤 재생 주파수 %2 Hz 지속 %3 ms",
+    "tooltip": "지정된 주파수의 정현파 톤을 생성하여 재생"
+  },
+  "es8311_alc_enable": {
+    "message0": "ES8311 %1 자동 게인 제어 %2",
+    "tooltip": "ES8311 자동 레벨 제어(ALC) 활성화/비활성화",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "활성화",
+            "true"
+          ],
+          [
+            "비활성화",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8311_record_slot": {
+    "message0": "ES8311 %1 슬롯 %2 에 녹음",
+    "tooltip": "지정 슬롯(0~3)에 녹음, 각 슬롯은 독립 저장"
+  },
+  "es8311_play_slot": {
+    "message0": "ES8311 %1 슬롯 %2 재생",
+    "tooltip": "지정 슬롯의 녹음 재생"
+  },
+  "es8311_play_loop": {
+    "message0": "ES8311 %1 반복 재생",
+    "tooltip": "녹음된 오디오를 중지할 때까지 반복 재생"
+  },
+  "es8311_qwen_config": {
+    "message0": "ES8311 클라우드 오디오 이해 API Key %1 Base URL %2 설정",
+    "tooltip": "DashScope API Key와 호환 모드 Base URL을 설정합니다. WiFi 연결은 기존 WiFi 블록에서 처리합니다"
+  },
+  "es8311_qwen_audio_chat": {
+    "message0": "ES8311 %1 녹음을 Qwen에 업로드 프롬프트 %2 모델 %3 음성 %4 재생 %5",
+    "tooltip": "녹음을 Qwen Omni에 업로드하여 음성 응답을 스트리밍 재생하고 텍스트를 저장합니다. 백그라운드 모드는 수신 후 즉시 반환, 중지 블록으로 중단 가능",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.5-omni-plus (권장)",
+            "qwen3.5-omni-plus"
+          ],
+          [
+            "qwen-omni-turbo",
+            "qwen-omni-turbo"
+          ],
+          [
+            "qwen3-omni-flash",
+            "qwen3-omni-flash"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "재생 완료까지 대기",
+            "WAIT"
+          ],
+          [
+            "백그라운드(중단 가능)",
+            "BACKGROUND"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8311_qwen_get_last_text": {
+    "message0": "ES8311 AI 마지막 텍스트 결과 가져오기",
+    "tooltip": "가장 최근 클라우드 오디오 이해 요청의 전체 텍스트 결과를 반환합니다"
+  },
+  "es8311_qwen_get_last_success": {
+    "message0": "ES8311 AI 마지막 요청 성공",
+    "tooltip": "가장 최근 클라우드 오디오 이해 요청이 성공했는지 확인합니다"
+  },
+  "es8311_qwen_get_last_error": {
+    "message0": "ES8311 AI 마지막 오류 정보 가져오기",
+    "tooltip": "가장 최근 클라우드 오디오 이해 요청의 오류 정보를 반환합니다"
+  },
+  "es8311_record_start": {
+    "message0": "ES8311 %1 녹음 시작(백그라운드)",
+    "tooltip": "백그라운드 녹음을 시작하고 즉시 반환합니다. 녹음 중지 블록으로 종료, 버퍼가 가득 차면 자동 중지"
+  },
+  "es8311_record_stop": {
+    "message0": "ES8311 %1 녹음 중지",
+    "tooltip": "백그라운드 녹음을 중지하고 실제 길이를 저장 (0.1초 미만은 무효)"
+  },
+  "es8311_is_recording": {
+    "message0": "ES8311 %1 녹음 중",
+    "tooltip": "백그라운드 녹음 진행 여부"
+  },
+  "es8311_is_speaking": {
+    "message0": "ES8311 %1 음성 재생 중",
+    "tooltip": "스트리밍/백그라운드 오디오 재생 여부"
+  },
+  "es8311_sound_level": {
+    "message0": "ES8311 %1 현재 소리 레벨",
+    "tooltip": "마이크를 실시간 샘플링하여 레벨(0~100) 반환 (I2S 설정 필요)"
+  },
+  "es8311_stream_begin": {
+    "message0": "ES8311 %1 스트리밍 재생 시작 샘플레이트 %2",
+    "tooltip": "스트리밍 재생 시작, 16kHz로 리샘플링"
+  },
+  "es8311_stream_end": {
+    "message0": "ES8311 %1 스트리밍 재생 종료",
+    "tooltip": "스트리밍 재생을 종료하고 I2S DMA 버퍼 초기화"
+  },
+  "es8311_stream_play_url": {
+    "message0": "ES8311 %1 URL 오디오 스트리밍 재생 %2 샘플레이트 %3",
+    "tooltip": "http(s)에서 16bit 모노 PCM/WAV를 받으며 재생 (WiFi 필요)"
+  }
+}

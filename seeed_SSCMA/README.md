@@ -7,7 +7,7 @@ Seeed SSCMA AI vision sensor communication library reads the inference results o
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-seeed-sscma |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Author | SeeedStudio |
 | Source | https://github.com/Seeed-Studio/Seeed_Arduino_SSCMA |
 | License | MIT |

@@ -18,9 +18,10 @@ Arduino.forBlock['wire_begin_address'] = function(block, generator) {
 
 // 设置I2C时钟频率
 Arduino.forBlock['wire_set_clock'] = function(block, generator) {
-  const clock = generator.valueToCode(block, 'CLOCK', Arduino.ORDER_ATOMIC) || '100000';
+  const clockKHz = generator.valueToCode(block, 'CLOCK', Arduino.ORDER_ATOMIC) || '100';
+  const clockHz = `((uint32_t)((${clockKHz}) * 1000.0))`;
   generator.addLibrary('wire', '#include <Wire.h>');
-  generator.addSetupBegin('wire_set_clock', `Wire.setClock(${clock});`);
+  generator.addSetupBegin('wire_set_clock', `Wire.setClock(${clockHz});`);
   return '';
 };
 

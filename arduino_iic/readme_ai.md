@@ -4,7 +4,7 @@ I2C bus library, used to detect and output the address of the connected device, 
 
 ## Library Info
 - **Name**: @aily-project/lib-core-i2c
-- **Version**: 0.0.1
+- **Version**: 0.0.3
 
 ## Block Definitions
 

@@ -7,7 +7,7 @@ I2C communication support library based on Wire library package, suitable for Ar
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-aily-iic |
-| Version | 0.0.1 |
+| Version | 0.0.2 |
 | Author | ailyProject |
 | Source | N/A |
 | License | Original license |

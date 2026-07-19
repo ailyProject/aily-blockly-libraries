@@ -1,136 +1,179 @@
 {
-  "toolbox_name": "ESP32 SD卡存储",
+  "toolbox_name": "ESP32 SD Card",
   "toolbox_labels": {
-    "初始化": "initialization",
+    "初始化": "Initialization",
     "卡信息": "Card information",
-    "快速文件操作": "Fast file operations",
-    "文件操作": "File operations",
+    "快速文件操作": "Quick file operations",
+    "文件操作": "File streams",
     "目录操作": "Directory operations",
-    "文件检查": "Document check"
+    "文件检查": "Path checks"
   },
   "esp32_sd_begin": {
-    "message0": "初始化SD卡默认引脚",
-    "tooltip": "初始化SD卡文件系统"
+    "message0": "initialize SD card with default pins",
+    "tooltip": "Mount the SD filesystem using the board's default SPI pins"
   },
   "esp32_sd_begin_custom": {
-    "message0": "初始化SD卡 CS:%1 SCK:%2 MISO:%3 MOSI:%4 频率:%5Hz",
-    "tooltip": "使用自定义引脚初始化SD卡"
+    "message0": "initialize SD card CS:%1 SCK:%2 MISO:%3 MOSI:%4 frequency:%5 MHz",
+    "tooltip": "Configure custom SPI pins and mount the SD card"
   },
   "esp32_sd_init": {
-    "message0": "初始化SD卡 使用SPI %1 CS引脚 %2 频率 %3Hz ",
-    "tooltip": "初始化SD卡 使用指定的SPI总线",
+    "message0": "initialize SD card using SPI %1 CS pin %2 frequency %3 MHz",
+    "tooltip": "Mount the SD card on the selected SPI bus during setup",
     "args0": [
-      {
-        "options": "${board.spi}"
-      },
+      {"options": "${board.spi}"},
       null,
       null
     ]
   },
+  "esp32_sd_begin_advanced": {
+    "message0": "advanced SD init SPI %1 CS:%2 frequency:%3 MHz mount point:%4 max files:%5 format if no filesystem:%6",
+    "tooltip": "Mount with all ESP32 Core 3.x options; formatting may erase a card that has no mountable filesystem",
+    "args0": [
+      {"options": "${board.spi}"},
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "esp32_sd_end": {
+    "message0": "unmount SD card",
+    "tooltip": "Close and unmount the SD filesystem"
+  },
   "esp32_sd_card_info": {
-    "message0": "SD卡信息 %1",
-    "tooltip": "获取SD卡信息",
+    "message0": "SD card information %1",
+    "tooltip": "Get SD card or filesystem information",
     "args0": [
       {
         "options": [
-          [
-            "卡类型",
-            "cardType"
-          ],
-          [
-            "卡大小(MB)",
-            "cardSize"
-          ],
-          [
-            "总空间(MB)",
-            "totalBytes"
-          ],
-          [
-            "已用空间(MB)",
-            "usedBytes"
-          ]
+          ["card type", "cardType"],
+          ["card size (MB)", "cardSize"],
+          ["total space (MB)", "totalBytes"],
+          ["used space (MB)", "usedBytes"],
+          ["sector count", "numSectors"],
+          ["sector size (bytes)", "sectorSize"]
         ]
       }
     ]
   },
+  "esp32_sd_card_type_name": {
+    "message0": "SD card type name",
+    "tooltip": "Return NONE, MMC, SDSC, SDHC/SDXC, or UNKNOWN"
+  },
+  "esp32_sd_mountpoint": {
+    "message0": "SD card mount point",
+    "tooltip": "Return the active VFS mount point, or an empty string when unmounted"
+  },
   "esp32_sd_file_exists": {
-    "message0": "文件存在路径:%1",
-    "tooltip": "检查文件是否存在"
+    "message0": "path exists:%1",
+    "tooltip": "Check whether a file or directory exists"
   },
   "esp32_sd_open_file": {
-    "message0": "打开文件 %1 路径:%2 模式:%3",
-    "tooltip": "打开文件",
+    "message0": "open file %1 path:%2 mode:%3",
+    "tooltip": "Legacy value block that opens a file",
     "args0": [
       null,
       null,
-      {
-        "options": [
-          [
-            "读取",
-            "FILE_READ"
-          ],
-          [
-            "写入",
-            "FILE_WRITE"
-          ],
-          [
-            "追加",
-            "FILE_APPEND"
-          ]
-        ]
-      }
+      {"options": [["read", "FILE_READ"], ["write (truncate)", "FILE_WRITE"], ["append", "FILE_APPEND"]]}
+    ]
+  },
+  "esp32_sd_open_file_to": {
+    "message0": "open file into %1 path:%2 mode:%3",
+    "tooltip": "Open a file into a File variable for stream operations",
+    "args0": [
+      null,
+      null,
+      {"options": [["read", "FILE_READ"], ["write (truncate)", "FILE_WRITE"], ["append", "FILE_APPEND"]]}
     ]
   },
   "esp32_sd_close_file": {
-    "message0": "关闭文件 %1",
-    "tooltip": "关闭文件"
+    "message0": "close file %1",
+    "tooltip": "Close an open file"
+  },
+  "esp32_sd_file_is_open": {
+    "message0": "file opened successfully %1",
+    "tooltip": "Check whether the File object is valid"
   },
   "esp32_sd_write_file": {
-    "message0": "写入文件 %1 内容:%2",
-    "tooltip": "写入内容到文件"
+    "message0": "write to file %1 content:%2",
+    "tooltip": "Write text to an open file"
   },
   "esp32_sd_read_file": {
-    "message0": "读取文件 %1",
-    "tooltip": "从文件读取内容"
+    "message0": "read remaining file %1",
+    "tooltip": "Read all remaining data as text; use bounded reads for large files"
+  },
+  "esp32_sd_read_file_bytes": {
+    "message0": "read file %1 up to %2 text bytes",
+    "tooltip": "Read a bounded text chunk from the current file position"
+  },
+  "esp32_sd_read_byte": {
+    "message0": "read one byte from file %1",
+    "tooltip": "Read one byte, returning -1 at end of file or on failure"
+  },
+  "esp32_sd_peek_byte": {
+    "message0": "peek next byte in file %1",
+    "tooltip": "Return the next byte without advancing, or -1 at end of file"
   },
   "esp32_sd_file_available": {
-    "message0": "文件可读 %1",
-    "tooltip": "检查文件是否可读"
+    "message0": "file has readable data %1",
+    "tooltip": "Check whether unread bytes remain"
+  },
+  "esp32_sd_file_available_bytes": {
+    "message0": "remaining readable bytes in file %1",
+    "tooltip": "Return the byte count from the current position to end of file"
   },
   "esp32_sd_file_size": {
-    "message0": "文件大小 %1",
-    "tooltip": "获取文件大小"
+    "message0": "file size %1",
+    "tooltip": "Get the file size in bytes"
+  },
+  "esp32_sd_file_position": {
+    "message0": "file position %1",
+    "tooltip": "Get the current byte offset"
+  },
+  "esp32_sd_seek_file": {
+    "message0": "seek file %1 position:%2 origin:%3",
+    "tooltip": "Move the file position and return whether it succeeded",
+    "args0": [
+      null,
+      null,
+      {"options": [["start of file", "SeekSet"], ["current position", "SeekCur"], ["end of file", "SeekEnd"]]}
+    ]
+  },
+  "esp32_sd_flush_file": {
+    "message0": "flush file write buffer %1",
+    "tooltip": "Flush written data to the underlying filesystem"
   },
   "esp32_sd_write_file_quick": {
-    "message0": "快速写入文件 路径:%1 内容:%2",
-    "tooltip": "快速写入文件（自动打开和关闭）"
+    "message0": "quick write file path:%1 content:%2",
+    "tooltip": "Open, truncate, write, and close a file"
   },
   "esp32_sd_read_file_quick": {
-    "message0": "快速读取文件 路径:%1",
-    "tooltip": "快速读取文件（自动打开和关闭）"
+    "message0": "quick read file path:%1",
+    "tooltip": "Read a whole small text file and close it automatically"
   },
   "esp32_sd_append_file": {
-    "message0": "追加文件 路径:%1 内容:%2",
-    "tooltip": "追加内容到文件末尾"
+    "message0": "append file path:%1 content:%2",
+    "tooltip": "Append text to the end of a file"
   },
   "esp32_sd_delete_file": {
-    "message0": "删除文件 路径:%1",
-    "tooltip": "删除文件"
+    "message0": "delete file path:%1",
+    "tooltip": "Delete a file"
   },
   "esp32_sd_rename_file": {
-    "message0": "重命名文件 旧路径:%1 新路径:%2",
-    "tooltip": "重命名文件"
+    "message0": "rename file old path:%1 new path:%2",
+    "tooltip": "Rename or move a file"
   },
   "esp32_sd_create_dir": {
-    "message0": "创建目录 路径:%1",
-    "tooltip": "创建目录"
+    "message0": "create directory path:%1",
+    "tooltip": "Create a directory"
   },
   "esp32_sd_remove_dir": {
-    "message0": "删除目录 路径:%1",
-    "tooltip": "删除目录"
+    "message0": "remove directory path:%1",
+    "tooltip": "Remove an empty directory"
   },
   "esp32_sd_list_dir": {
-    "message0": "列出目录 路径:%1 层级:%2",
-    "tooltip": "列出目录内容"
+    "message0": "list directory path:%1 depth:%2",
+    "tooltip": "Print directory entries and sizes to Serial"
   }
 }

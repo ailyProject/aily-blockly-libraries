@@ -1,11 +1,49 @@
 {
+  "toolbox_name": "OJoy 显示+触摸",
+  "toolbox_categories": [
+    "初始化与面板",
+    "基础绘制",
+    "文字",
+    "颜色",
+    "渲染/合成",
+    "特效",
+    "位图",
+    "图标",
+    "控件",
+    "圆屏/仪表",
+    "触摸"
+  ],
   "chamoled_setup": {
     "message0": "【① 初始化屏幕(必需·放最前)】 AMOLED屏幕 %1 QSPI频率 %2 旋转 %3 亮度 %4",
     "tooltip": "初始化 OJoy AMOLED 屏幕(引脚已按板卡固定, 需 ESP32-S3 + PSRAM)"
   },
   "chamoled_panel": {
     "message0": "【面板控制】 屏幕 %1 执行 %2 值 %3",
-    "tooltip": "面板控制：亮度/睡眠/显示开关/反色"
+    "tooltip": "面板控制：亮度/睡眠/显示开关/反色",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "设置亮度(0-255)",
+            "setBrightness"
+          ],
+          [
+            "睡眠(1开/0关)",
+            "sleep"
+          ],
+          [
+            "显示(1开/0关)",
+            "displayOn"
+          ],
+          [
+            "反色(1开/0关)",
+            "invertDisplay"
+          ]
+        ]
+      },
+      null
+    ]
   },
   "chamoled_set_rotation": {
     "message0": "【设置屏幕旋转】 屏幕 %1 旋转 %2",
@@ -13,11 +51,45 @@
   },
   "chamoled_refresh": {
     "message0": "【② 刷新到屏幕(绘制后必需)】 屏幕 %1 方式 %2",
-    "tooltip": "把帧缓冲推送到屏幕(所有绘制后需刷新)"
+    "tooltip": "把帧缓冲推送到屏幕(所有绘制后需刷新)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "局部刷新(脏矩形,快)",
+            "update"
+          ],
+          [
+            "整屏刷新",
+            "display"
+          ]
+        ]
+      }
+    ]
   },
   "chamoled_dimension": {
     "message0": "【读取屏幕尺寸】 屏幕 %1 的 %2",
-    "tooltip": "获取屏幕宽/高/旋转"
+    "tooltip": "获取屏幕宽/高/旋转",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "宽度",
+            "width"
+          ],
+          [
+            "高度",
+            "height"
+          ],
+          [
+            "旋转方向",
+            "getRotation"
+          ]
+        ]
+      }
+    ]
   },
   "chamoled_fill_screen": {
     "message0": "【清屏/整屏填充】 屏幕 %1 填充颜色 %2",
@@ -29,35 +101,220 @@
   },
   "chamoled_draw_line": {
     "message0": "【画线】 屏幕 %1 样式 %2 起X %3 起Y %4 终X %5 终Y %6 颜色 %7",
-    "tooltip": "画直线(可选样式)"
+    "tooltip": "画直线(可选样式)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "实线",
+            "drawLine"
+          ],
+          [
+            "虚线",
+            "drawDashedLine"
+          ],
+          [
+            "点线",
+            "drawDottedLine"
+          ],
+          [
+            "抗锯齿线",
+            "drawLineAA"
+          ],
+          [
+            "箭头",
+            "drawArrow"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_rect": {
     "message0": "【画矩形】 屏幕 %1 方式 %2 X %3 Y %4 宽 %5 高 %6 颜色 %7",
-    "tooltip": "矩形(描边/填充)"
+    "tooltip": "矩形(描边/填充)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "描边",
+            "drawRect"
+          ],
+          [
+            "填充",
+            "fillRect"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_round_rect": {
     "message0": "【画圆角矩形】 屏幕 %1 方式 %2 X %3 Y %4 宽 %5 高 %6 圆角 %7 颜色 %8",
-    "tooltip": "圆角矩形(描边/填充)"
+    "tooltip": "圆角矩形(描边/填充)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "描边",
+            "drawRoundRect"
+          ],
+          [
+            "填充",
+            "fillRoundRect"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_circle": {
     "message0": "【画圆】 屏幕 %1 方式 %2 中心X %3 中心Y %4 半径 %5 颜色 %6",
-    "tooltip": "圆(描边/填充/抗锯齿)"
+    "tooltip": "圆(描边/填充/抗锯齿)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "描边",
+            "drawCircle"
+          ],
+          [
+            "填充",
+            "fillCircle"
+          ],
+          [
+            "描边(抗锯齿)",
+            "drawCircleAA"
+          ],
+          [
+            "填充(抗锯齿)",
+            "fillCircleAA"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_ellipse": {
     "message0": "【画椭圆】 屏幕 %1 方式 %2 中心X %3 中心Y %4 半径X %5 半径Y %6 颜色 %7",
-    "tooltip": "椭圆(描边/填充)"
+    "tooltip": "椭圆(描边/填充)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "描边",
+            "drawEllipse"
+          ],
+          [
+            "填充",
+            "fillEllipse"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_triangle": {
     "message0": "【画三角形】 屏幕 %1 方式 %2 点1X %3 点1Y %4 点2X %5 点2Y %6 点3X %7 点3Y %8 颜色 %9",
-    "tooltip": "三角形(描边/填充)"
+    "tooltip": "三角形(描边/填充)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "描边",
+            "drawTriangle"
+          ],
+          [
+            "填充",
+            "fillTriangle"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_arc": {
     "message0": "【画圆弧】 屏幕 %1 方式 %2 中心X %3 中心Y %4 内半径 %5 外半径 %6 起角 %7 终角 %8 颜色 %9",
-    "tooltip": "圆弧/扇环(描边/填充), 0°=12点方向顺时针"
+    "tooltip": "圆弧/扇环(描边/填充), 0°=12点方向顺时针",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "描边",
+            "drawArc"
+          ],
+          [
+            "填充",
+            "fillArc"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_sector": {
     "message0": "【画扇形】 屏幕 %1 方式 %2 中心X %3 中心Y %4 半径 %5 起角 %6 终角 %7 颜色 %8",
-    "tooltip": "扇形(描边/填充)"
+    "tooltip": "扇形(描边/填充)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "描边",
+            "drawSector"
+          ],
+          [
+            "填充",
+            "fillSector"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_star": {
     "message0": "【画星形】 屏幕 %1 中心X %2 中心Y %3 外半径 %4 内半径 %5 角数 %6 颜色 %7 填充 %8",
@@ -65,7 +322,28 @@
   },
   "chamoled_rect_gradient": {
     "message0": "【渐变矩形】 屏幕 %1 方向 %2 X %3 Y %4 宽 %5 高 %6 起色 %7 终色 %8",
-    "tooltip": "矩形渐变填充(水平/垂直)"
+    "tooltip": "矩形渐变填充(水平/垂直)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "垂直",
+            "true"
+          ],
+          [
+            "水平",
+            "false"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_radial_gradient": {
     "message0": "【径向渐变圆】 屏幕 %1 中心X %2 中心Y %3 半径 %4 内色 %5 外色 %6",
@@ -81,7 +359,42 @@
   },
   "chamoled_set_text_align": {
     "message0": "【设置文字对齐】 屏幕 %1 水平 %2 垂直 %3",
-    "tooltip": "设置文字对齐(相对锚点)"
+    "tooltip": "设置文字对齐(相对锚点)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "左",
+            "CH_ALIGN_LEFT"
+          ],
+          [
+            "中",
+            "CH_ALIGN_CENTER"
+          ],
+          [
+            "右",
+            "CH_ALIGN_RIGHT"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "上",
+            "CH_ALIGN_TOP"
+          ],
+          [
+            "中",
+            "CH_ALIGN_MIDDLE"
+          ],
+          [
+            "下",
+            "CH_ALIGN_BOTTOM"
+          ]
+        ]
+      }
+    ]
   },
   "chamoled_set_cursor": {
     "message0": "【设置光标】 屏幕 %1 X %2 Y %3",
@@ -93,7 +406,27 @@
   },
   "chamoled_text_effect": {
     "message0": "【显示特效文字(阴影/描边)】 屏幕 %1 效果 %2 X %3 Y %4 文字 %5 主色 %6 副色 %7",
-    "tooltip": "带阴影/描边的文字"
+    "tooltip": "带阴影/描边的文字",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "阴影",
+            "drawTextShadow"
+          ],
+          [
+            "描边",
+            "drawTextOutline"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_seg_text": {
     "message0": "【显示七段数字(时钟)】 屏幕 %1 X %2 Y %3 高 %4 文字 %5 颜色 %6 背景 %7",
@@ -105,11 +438,132 @@
   },
   "chamoled_set_cn_font": {
     "message0": "【选择中文字体】 屏幕 %1 中文字体 %2",
-    "tooltip": "切换中文点阵字体(需较大 APP 分区)"
+    "tooltip": "切换中文点阵字体(需较大 APP 分区)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "关闭",
+            "0"
+          ],
+          [
+            "16px",
+            "16"
+          ],
+          [
+            "24px",
+            "24"
+          ],
+          [
+            "32px",
+            "32"
+          ]
+        ]
+      }
+    ]
   },
   "chamoled_color": {
     "message0": "【取颜色】 颜色 %1",
-    "tooltip": "预设颜色"
+    "tooltip": "预设颜色",
+    "args0": [
+      {
+        "options": [
+          [
+            "黑",
+            "CH_BLACK"
+          ],
+          [
+            "白",
+            "CH_WHITE"
+          ],
+          [
+            "红",
+            "CH_RED"
+          ],
+          [
+            "绿",
+            "CH_GREEN"
+          ],
+          [
+            "蓝",
+            "CH_BLUE"
+          ],
+          [
+            "黄",
+            "CH_YELLOW"
+          ],
+          [
+            "青",
+            "CH_CYAN"
+          ],
+          [
+            "洋红",
+            "CH_MAGENTA"
+          ],
+          [
+            "橙",
+            "CH_ORANGE"
+          ],
+          [
+            "粉",
+            "CH_PINK"
+          ],
+          [
+            "紫",
+            "CH_PURPLE"
+          ],
+          [
+            "紫罗兰",
+            "CH_VIOLET"
+          ],
+          [
+            "金",
+            "CH_GOLD"
+          ],
+          [
+            "天蓝",
+            "CH_SKYBLUE"
+          ],
+          [
+            "海军蓝",
+            "CH_NAVY"
+          ],
+          [
+            "深青",
+            "CH_DARKCYAN"
+          ],
+          [
+            "深绿",
+            "CH_DARKGREEN"
+          ],
+          [
+            "深灰",
+            "CH_DARKGREY"
+          ],
+          [
+            "浅灰",
+            "CH_LIGHTGREY"
+          ],
+          [
+            "银",
+            "CH_SILVER"
+          ],
+          [
+            "橄榄",
+            "CH_OLIVE"
+          ],
+          [
+            "栗",
+            "CH_MAROON"
+          ],
+          [
+            "黄绿",
+            "CH_GREENYELLOW"
+          ]
+        ]
+      }
+    ]
   },
   "chamoled_color_rgb": {
     "message0": "【取RGB颜色】 红 %1 绿 %2 蓝 %3",
@@ -117,11 +571,81 @@
   },
   "chamoled_palette": {
     "message0": "【取调色板颜色】 调色板 %1 位置 %2",
-    "tooltip": "调色板取色(t=0-255)"
+    "tooltip": "调色板取色(t=0-255)",
+    "args0": [
+      {
+        "options": [
+          [
+            "彩虹",
+            "rainbow"
+          ],
+          [
+            "热力",
+            "heat"
+          ],
+          [
+            "Jet",
+            "jet"
+          ],
+          [
+            "Turbo",
+            "turbo"
+          ],
+          [
+            "Viridis",
+            "viridis"
+          ],
+          [
+            "灰阶",
+            "grayscale"
+          ]
+        ]
+      },
+      null
+    ]
   },
   "chamoled_set_blend": {
     "message0": "【设置混合模式】 屏幕 %1 方式 %2",
-    "tooltip": "设置混合模式(影响后续绘制)"
+    "tooltip": "设置混合模式(影响后续绘制)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "正常",
+            "CH_BLEND_NORMAL"
+          ],
+          [
+            "叠加(Add)",
+            "CH_BLEND_ADD"
+          ],
+          [
+            "正片叠底",
+            "CH_BLEND_MULTIPLY"
+          ],
+          [
+            "滤色",
+            "CH_BLEND_SCREEN"
+          ],
+          [
+            "变暗",
+            "CH_BLEND_DARKEN"
+          ],
+          [
+            "变亮",
+            "CH_BLEND_LIGHTEN"
+          ],
+          [
+            "叠加(Overlay)",
+            "CH_BLEND_OVERLAY"
+          ],
+          [
+            "减去",
+            "CH_BLEND_SUBTRACT"
+          ]
+        ]
+      }
+    ]
   },
   "chamoled_set_alpha": {
     "message0": "【设置透明度】 屏幕 %1 透明度 %2",
@@ -129,15 +653,101 @@
   },
   "chamoled_clip": {
     "message0": "【设置裁剪区域】 屏幕 %1 方式 %2 X/中心X %3 Y/中心Y %4 宽/半径 %5",
-    "tooltip": "裁剪区域(后续绘制仅在区域内)"
+    "tooltip": "裁剪区域(后续绘制仅在区域内)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "矩形裁剪",
+            "rect"
+          ],
+          [
+            "圆形裁剪",
+            "circle"
+          ],
+          [
+            "取消裁剪",
+            "clear"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_color_filter": {
     "message0": "【区域颜色滤镜】 屏幕 %1 滤镜 %2 X %3 Y %4 宽 %5 高 %6 强度 %7",
-    "tooltip": "区域颜色滤镜"
+    "tooltip": "区域颜色滤镜",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "灰度",
+            "CH_FILTER_GRAY"
+          ],
+          [
+            "怀旧",
+            "CH_FILTER_SEPIA"
+          ],
+          [
+            "反色",
+            "CH_FILTER_INVERT"
+          ],
+          [
+            "亮度",
+            "CH_FILTER_BRIGHTNESS"
+          ],
+          [
+            "对比度",
+            "CH_FILTER_CONTRAST"
+          ],
+          [
+            "饱和度",
+            "CH_FILTER_SATURATION"
+          ],
+          [
+            "着色",
+            "CH_FILTER_TINT"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_effect_rect": {
     "message0": "【区域特效(调暗/模糊/内阴影)】 屏幕 %1 特效 %2 X %3 Y %4 宽 %5 高 %6 强度 %7",
-    "tooltip": "区域特效：调暗/模糊/内阴影"
+    "tooltip": "区域特效：调暗/模糊/内阴影",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "调暗",
+            "dimRect"
+          ],
+          [
+            "模糊",
+            "blurRect"
+          ],
+          [
+            "内阴影",
+            "innerShadowRect"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_vignette": {
     "message0": "【全屏暗角】 屏幕 %1 强度 %2",
@@ -153,11 +763,143 @@
   },
   "chamoled_draw_bitmap": {
     "message0": "【显示位图】 屏幕 %1 位图 %2 X %3 Y %4 数据 %5 宽 %6 高 %7 单色前景 %8",
-    "tooltip": "绘制位图(彩色 RGB565 数组 / 单色数组)"
+    "tooltip": "绘制位图(彩色 RGB565 数组 / 单色数组)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "彩色(RGB565)",
+            "rgb"
+          ],
+          [
+            "单色",
+            "mono"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_draw_icon": {
     "message0": "【显示图标】 屏幕 %1 图标 %2 X %3 Y %4 大小 %5 颜色 %6",
-    "tooltip": "绘制内置矢量图标"
+    "tooltip": "绘制内置矢量图标",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "电池",
+            "CH_ICON_BATTERY"
+          ],
+          [
+            "电池充电",
+            "CH_ICON_BATTERY_CHARGE"
+          ],
+          [
+            "WiFi",
+            "CH_ICON_WIFI"
+          ],
+          [
+            "WiFi关",
+            "CH_ICON_WIFI_OFF"
+          ],
+          [
+            "蓝牙",
+            "CH_ICON_BLUETOOTH"
+          ],
+          [
+            "GPS",
+            "CH_ICON_GPS"
+          ],
+          [
+            "USB",
+            "CH_ICON_USB"
+          ],
+          [
+            "音量",
+            "CH_ICON_VOLUME"
+          ],
+          [
+            "静音",
+            "CH_ICON_MUTE"
+          ],
+          [
+            "播放",
+            "CH_ICON_PLAY"
+          ],
+          [
+            "暂停",
+            "CH_ICON_PAUSE"
+          ],
+          [
+            "停止",
+            "CH_ICON_STOP"
+          ],
+          [
+            "铃铛",
+            "CH_ICON_BELL"
+          ],
+          [
+            "心形",
+            "CH_ICON_HEART"
+          ],
+          [
+            "时钟",
+            "CH_ICON_CLOCK"
+          ],
+          [
+            "设置",
+            "CH_ICON_SETTINGS"
+          ],
+          [
+            "文件夹",
+            "CH_ICON_FOLDER"
+          ],
+          [
+            "相机",
+            "CH_ICON_CAMERA"
+          ],
+          [
+            "太阳",
+            "CH_ICON_SUN"
+          ],
+          [
+            "月亮",
+            "CH_ICON_MOON"
+          ],
+          [
+            "云",
+            "CH_ICON_CLOUD"
+          ],
+          [
+            "雨",
+            "CH_ICON_RAIN"
+          ],
+          [
+            "成功",
+            "CH_ICON_SUCCESS"
+          ],
+          [
+            "警告",
+            "CH_ICON_WARNING"
+          ],
+          [
+            "错误",
+            "CH_ICON_ERROR"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null
+    ]
   },
   "chamoled_progress_bar": {
     "message0": "【进度条】 屏幕 %1 X %2 Y %3 宽 %4 高 %5 百分比 %6 前景 %7 背景 %8",
@@ -221,7 +963,7 @@
   },
   "chtouch_setup": {
     "message0": "【① 初始化触摸】 触摸 %1 旋转(跟随屏幕) %2",
-    "tooltip": "初始化 CHSC6417 触摸(引脚固定 SCL47/SDA21/RST48/INT10)"
+    "tooltip": "初始化 CHSC6417 触摸(引脚固定 SCL47/SDA21/RST48/INT10, 走 Wire1 独立总线)"
   },
   "chtouch_read": {
     "message0": "【读取触摸(是否有触点)】 触摸 %1",
@@ -245,7 +987,34 @@
   },
   "chtouch_gesture_is": {
     "message0": "【手势判断】 触摸 %1 手势为 %2",
-    "tooltip": "手势判断(释放后调用): 左右上下滑/点击"
+    "tooltip": "手势判断(释放后调用): 左右上下滑/点击",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "左滑",
+            "1"
+          ],
+          [
+            "右滑",
+            "2"
+          ],
+          [
+            "上滑",
+            "3"
+          ],
+          [
+            "下滑",
+            "4"
+          ],
+          [
+            "点击",
+            "5"
+          ]
+        ]
+      }
+    ]
   },
   "chtouch_present": {
     "message0": "【触摸芯片在?】 触摸 %1",

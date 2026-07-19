@@ -10,11 +10,40 @@
     },
     {
       "kind": "block",
+      "type": "esp32_sd_begin"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_begin_custom",
+      "inputs": {
+        "CS": {"shadow": {"type": "math_number", "fields": {"NUM": "5"}}},
+        "SCK": {"shadow": {"type": "math_number", "fields": {"NUM": "18"}}},
+        "MISO": {"shadow": {"type": "math_number", "fields": {"NUM": "19"}}},
+        "MOSI": {"shadow": {"type": "math_number", "fields": {"NUM": "23"}}},
+        "FREQUENCY": {"shadow": {"type": "math_number", "fields": {"NUM": "4"}}}
+      }
+    },
+    {
+      "kind": "block",
       "type": "esp32_sd_init",
       "inputs": {
         "SS": {"shadow": {"type": "math_number", "fields": {"NUM": "5"}}},
-        "FREQUENCY": {"shadow": {"type": "math_number", "fields": {"NUM": "4000000"}}}
+        "FREQUENCY": {"shadow": {"type": "math_number", "fields": {"NUM": "4"}}}
       }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_begin_advanced",
+      "inputs": {
+        "SS": {"shadow": {"type": "math_number", "fields": {"NUM": "5"}}},
+        "FREQUENCY": {"shadow": {"type": "math_number", "fields": {"NUM": "4"}}},
+        "MAX_FILES": {"shadow": {"type": "math_number", "fields": {"NUM": "5"}}},
+        "FORMAT_IF_EMPTY": {"shadow": {"type": "logic_boolean", "fields": {"BOOL": "FALSE"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_end"
     },
     {
       "kind": "label",
@@ -23,6 +52,14 @@
     {
       "kind": "block",
       "type": "esp32_sd_card_info"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_card_type_name"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_mountpoint"
     },
     {
       "kind": "label",
@@ -72,7 +109,7 @@
     },
     {
       "kind": "block",
-      "type": "esp32_sd_open_file",
+      "type": "esp32_sd_open_file_to",
       "inputs": {
         "PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/test.txt"}}}
       }
@@ -80,6 +117,10 @@
     {
       "kind": "block",
       "type": "esp32_sd_close_file"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_file_is_open"
     },
     {
       "kind": "block",
@@ -94,11 +135,45 @@
     },
     {
       "kind": "block",
+      "type": "esp32_sd_read_file_bytes",
+      "inputs": {
+        "LENGTH": {"shadow": {"type": "math_number", "fields": {"NUM": "64"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_read_byte"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_peek_byte"
+    },
+    {
+      "kind": "block",
       "type": "esp32_sd_file_available"
     },
     {
       "kind": "block",
+      "type": "esp32_sd_file_available_bytes"
+    },
+    {
+      "kind": "block",
       "type": "esp32_sd_file_size"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_file_position"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_seek_file",
+      "inputs": {
+        "POSITION": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_flush_file"
     },
     {
       "kind": "label",

@@ -1,455 +1,803 @@
 {
-    "kind": "category",
-    "name": "HuskyLensV2",
-    "colour": "#00BCD4",
-    "contents": [
-        {
-            "kind": "label",
-            "text": "初始化"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_init_i2c_until"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_init_i2c"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_init_serial"
-        },
-        {
-            "kind": "label",
-            "text": "算法设置"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_set_algorithm_until"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_set_algorithm"
-        },
-        {
-            "kind": "label",
-            "text": "数据获取"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_get_result"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_available"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_count_learned"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_count_id",
-            "inputs": {
-                "ID": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 1
-                        }
-                    }
-                }
+  "kind": "category",
+  "name": "HuskyLensV2",
+  "colour": "#00BCD4",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_init_i2c_until"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_init_i2c"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_init_serial"
+    },
+    {
+      "kind": "label",
+      "text": "算法设置"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_set_algorithm_until"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_set_algorithm"
+    },
+    {
+      "kind": "label",
+      "text": "数据获取"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_get_result_until"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_get_result"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_available"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_count"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_count_learned"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_count_id",
+      "inputs": {
+        "ID": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
             }
-        },
-        {
-            "kind": "label",
-            "text": "结果获取"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_get_center"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_get_by_index",
-            "inputs": {
-                "INDEX": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_get_by_id",
-            "inputs": {
-                "ID": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 1
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_get_by_id_index",
-            "inputs": {
-                "ID": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 1
-                        }
-                    }
-                },
-                "INDEX": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "label",
-            "text": "学习功能"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_learn"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_learn_block",
-            "inputs": {
-                "X": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                },
-                "Y": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                },
-                "WIDTH": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 100
-                        }
-                    }
-                },
-                "HEIGHT": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 100
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_forget"
-        },
-        {
-            "kind": "label",
-            "text": "拍照截图"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_take_photo"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_take_screenshot"
-        },
-        {
-            "kind": "label",
-            "text": "绘图功能"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_draw_rect",
-            "inputs": {
-                "LINEWIDTH": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 2
-                        }
-                    }
-                },
-                "X": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                },
-                "Y": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                },
-                "WIDTH": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 100
-                        }
-                    }
-                },
-                "HEIGHT": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 100
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_draw_unique_rect",
-            "inputs": {
-                "LINEWIDTH": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 2
-                        }
-                    }
-                },
-                "X": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                },
-                "Y": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 0
-                        }
-                    }
-                },
-                "WIDTH": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 100
-                        }
-                    }
-                },
-                "HEIGHT": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 100
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_clear_rect"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_draw_text",
-            "inputs": {
-                "FONTSIZE": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 16
-                        }
-                    }
-                },
-                "X": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 10
-                        }
-                    }
-                },
-                "Y": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 10
-                        }
-                    }
-                },
-                "TEXT": {
-                    "shadow": {
-                        "type": "text",
-                        "fields": {
-                            "TEXT": "Hello"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_clear_text"
-        },
-        {
-            "kind": "label",
-            "text": "知识库管理"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_save_knowledge",
-            "inputs": {
-                "ID": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 1
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_load_knowledge",
-            "inputs": {
-                "ID": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 1
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "label",
-            "text": "音乐播放"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_play_music",
-            "inputs": {
-                "NAME": {
-                    "shadow": {
-                        "type": "text",
-                        "fields": {
-                            "TEXT": "music"
-                        }
-                    }
-                },
-                "VOLUME": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 50
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "label",
-            "text": "设置名称"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_set_name",
-            "inputs": {
-                "ID": {
-                    "shadow": {
-                        "type": "math_number",
-                        "fields": {
-                            "NUM": 1
-                        }
-                    }
-                },
-                "NAME": {
-                    "shadow": {
-                        "type": "text",
-                        "fields": {
-                            "TEXT": "Name"
-                        }
-                    }
-                }
-            }
-        },
-        {
-            "kind": "label",
-            "text": "结果属性"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_result_id"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_result_x"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_result_y"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_result_width"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_result_height"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_result_name"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_result_content"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_result_confidence"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_result_type"
-        },
-        {
-            "kind": "block",
-            "type": "huskylensv2_is_valid"
+          }
         }
-    ]
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_max_id"
+    },
+    {
+      "kind": "label",
+      "text": "结果获取"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_pop_result"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_get_center"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_get_by_index",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_get_by_id",
+      "inputs": {
+        "ID": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_get_by_id_index",
+      "inputs": {
+        "ID": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        },
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "巡线分支"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_current_branch"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_upcoming_branch_count"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_get_branch",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "学习功能"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_learn"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_learn_value"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_learn_block",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "WIDTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 100
+            }
+          }
+        },
+        "HEIGHT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 100
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_learn_block_value",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "WIDTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 100
+            }
+          }
+        },
+        "HEIGHT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 100
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_forget"
+    },
+    {
+      "kind": "label",
+      "text": "拍照截图"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_take_photo"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_take_screenshot"
+    },
+    {
+      "kind": "label",
+      "text": "绘图功能"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_draw_rect",
+      "inputs": {
+        "LINEWIDTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 2
+            }
+          }
+        },
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "WIDTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 100
+            }
+          }
+        },
+        "HEIGHT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 100
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_draw_unique_rect",
+      "inputs": {
+        "LINEWIDTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 2
+            }
+          }
+        },
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "WIDTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 100
+            }
+          }
+        },
+        "HEIGHT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 100
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_clear_rect"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_draw_text",
+      "inputs": {
+        "FONTSIZE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 16
+            }
+          }
+        },
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_clear_text"
+    },
+    {
+      "kind": "label",
+      "text": "知识库管理"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_save_knowledge",
+      "inputs": {
+        "ID": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_load_knowledge",
+      "inputs": {
+        "ID": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "音乐与命名"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_play_music",
+      "inputs": {
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "music"
+            }
+          }
+        },
+        "VOLUME": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 50
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_set_name",
+      "inputs": {
+        "ID": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        },
+        "NAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Name"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "算法参数"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_get_algo_param_bool",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "show_name"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_get_algo_param_float",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "det_thres"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_get_algo_param_string",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "dict_type"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_set_algo_param_bool",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "show_name"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "logic_boolean",
+            "fields": {
+              "BOOL": "TRUE"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_set_algo_param_float",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "det_thres"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0.5
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_set_algo_param_string",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "dict_type"
+            }
+          }
+        },
+        "VALUE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "36h11"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_update_algo_params"
+    },
+    {
+      "kind": "label",
+      "text": "结果属性"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_is_valid"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_id"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_x"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_y"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_width"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_height"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_name"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_content"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_confidence"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_type"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_pitch"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_yaw"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_roll"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_azimuth"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_classid"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_xtarget"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_ytarget"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_angle"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_length"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_level"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_steering"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_result_throttle"
+    },
+    {
+      "kind": "label",
+      "text": "人脸关键点"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_face_leye"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_face_reye"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_face_nose"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_face_lmouth"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_face_rmouth"
+    },
+    {
+      "kind": "label",
+      "text": "手势/姿态关键点"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_hand_point"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_pose_point"
+    },
+    {
+      "kind": "label",
+      "text": "多算法"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_set_multi_algorithm"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_set_multi_algorithm_ratio",
+      "inputs": {
+        "RATIO1": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "RATIO2": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        },
+        "RATIO3": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": -1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "媒体录制"
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_start_recording",
+      "inputs": {
+        "DURATION": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": -1
+            }
+          }
+        },
+        "FILENAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "huskylensv2_stop_recording"
+    }
+  ]
 }

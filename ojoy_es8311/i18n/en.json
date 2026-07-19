@@ -1,0 +1,188 @@
+{
+  "toolbox_name": "OJoy Audio",
+  "toolbox_labels": {
+    "初始化": "initialization",
+    "录音/播放": "Recording/Playing",
+    "流式播放": "Streaming",
+    "多段录音": "multiple recordings",
+    "音量/增益": "Volume/Gain",
+    "声音检测": "Sound detection",
+    "提示音": "beep",
+    "AI语音理解": "AI speech understanding"
+  },
+  "es8311_init": {
+    "message0": "initialize OJoy audio %1 record buffer (s) %2",
+    "tooltip": "Initialize the on-board ES8311 audio: I2C 0x18 and all I2S pins are fixed, and the amplifier (IO9) is enabled automatically. The value is the recording buffer in seconds (allocated in PSRAM)"
+  },
+  "es8311_record": {
+    "message0": "ES8311 %1 start recording",
+    "tooltip": "Start recording, duration set by init block"
+  },
+  "es8311_play": {
+    "message0": "ES8311 %1 start playback",
+    "tooltip": "Play recorded audio"
+  },
+  "es8311_has_recording": {
+    "message0": "ES8311 %1 has recording",
+    "tooltip": "Check if audio has been recorded"
+  },
+  "es8311_set_volume": {
+    "message0": "ES8311 %1 set volume %2",
+    "tooltip": "Set ES8311 output volume (0~100)"
+  },
+  "es8311_set_mic_gain": {
+    "message0": "ES8311 %1 set mic gain %2",
+    "tooltip": "Set ES8311 microphone analog gain (0~42dB, step 6dB)"
+  },
+  "es8311_stop": {
+    "message0": "ES8311 %1 stop record/play",
+    "tooltip": "Stop current recording or playback, clear I2S DMA buffer"
+  },
+  "es8311_mute": {
+    "message0": "ES8311 %1 %2",
+    "tooltip": "Control ES8311 mute state",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Unmute",
+            "0"
+          ],
+          [
+            "Mute output",
+            "1"
+          ],
+          [
+            "Mute mic",
+            "2"
+          ],
+          [
+            "Mute all",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8311_play_tone": {
+    "message0": "ES8311 %1 play tone freq %2 Hz duration %3 ms",
+    "tooltip": "Generate and play a sine wave tone at specified frequency"
+  },
+  "es8311_alc_enable": {
+    "message0": "ES8311 %1 auto gain control %2",
+    "tooltip": "Enable or disable ES8311 Automatic Level Control (ALC)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Enable",
+            "true"
+          ],
+          [
+            "Disable",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8311_record_slot": {
+    "message0": "ES8311 %1 record to slot %2",
+    "tooltip": "Record to specified slot (0~3), each slot stores independently"
+  },
+  "es8311_play_slot": {
+    "message0": "ES8311 %1 play slot %2",
+    "tooltip": "Play recording from specified slot"
+  },
+  "es8311_play_loop": {
+    "message0": "ES8311 %1 loop playback",
+    "tooltip": "Loop play recorded audio until stopped"
+  },
+  "es8311_qwen_config": {
+    "message0": "Configure ES8311 cloud audio understanding API Key %1 Base URL %2",
+    "tooltip": "Configure the DashScope API key and compatible-mode base URL. WiFi connection is handled by existing WiFi blocks"
+  },
+  "es8311_qwen_audio_chat": {
+    "message0": "ES8311 %1 send recording to Qwen prompt %2 model %3 voice %4 playback %5",
+    "tooltip": "Uploads the recording to Qwen Omni, streams the voice reply and stores the text result. Background mode returns once data is received; interrupt with the stop block",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.5-omni-plus (Recommended)",
+            "qwen3.5-omni-plus"
+          ],
+          [
+            "qwen-omni-turbo",
+            "qwen-omni-turbo"
+          ],
+          [
+            "qwen3-omni-flash",
+            "qwen3-omni-flash"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "wait until done",
+            "WAIT"
+          ],
+          [
+            "background (interruptible)",
+            "BACKGROUND"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8311_qwen_get_last_text": {
+    "message0": "get ES8311 AI last text result",
+    "tooltip": "Return the full text result from the most recent cloud audio understanding request"
+  },
+  "es8311_qwen_get_last_success": {
+    "message0": "ES8311 AI last request succeeded",
+    "tooltip": "Check whether the most recent cloud audio understanding request succeeded"
+  },
+  "es8311_qwen_get_last_error": {
+    "message0": "get ES8311 AI last error message",
+    "tooltip": "Return the error message from the most recent cloud audio understanding request"
+  },
+  "es8311_record_start": {
+    "message0": "ES8311 %1 start recording (background)",
+    "tooltip": "Starts background recording and returns immediately; stop with the stop-recording block, auto-stops when the buffer is full"
+  },
+  "es8311_record_stop": {
+    "message0": "ES8311 %1 stop recording",
+    "tooltip": "Stops background recording and keeps the actual length (under 0.1s counts as no recording)"
+  },
+  "es8311_is_recording": {
+    "message0": "ES8311 %1 is recording",
+    "tooltip": "Whether background recording is in progress"
+  },
+  "es8311_is_speaking": {
+    "message0": "ES8311 %1 is playing voice",
+    "tooltip": "Whether streaming/background audio is still playing"
+  },
+  "es8311_sound_level": {
+    "message0": "ES8311 %1 current sound level",
+    "tooltip": "Samples the microphone in real time and returns the level (0~100, I2S must be configured)"
+  },
+  "es8311_stream_begin": {
+    "message0": "ES8311 %1 start streaming playback source rate %2",
+    "tooltip": "Starts streaming playback, resampling the source rate to 16kHz"
+  },
+  "es8311_stream_end": {
+    "message0": "ES8311 %1 end streaming playback",
+    "tooltip": "Ends streaming playback and clears the I2S DMA buffer"
+  },
+  "es8311_stream_play_url": {
+    "message0": "ES8311 %1 stream audio from URL %2 source rate %3",
+    "tooltip": "Downloads and plays 16-bit mono PCM/WAV from http(s) while streaming (WiFi required)"
+  }
+}
