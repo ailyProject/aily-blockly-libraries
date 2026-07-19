@@ -1,6 +1,6 @@
 # Xueersi ESP32 TF Card
 
-Board-specific TF card blocks based on `esp32_SD`, sharing the TFT's HSPI instance for reliable streaming.
+Board-specific TF card blocks based on `esp32_SD`, using HSPI independently or sharing TFT_eSPI's instance when available.
 
 ## Library Info
 
@@ -15,7 +15,7 @@ Board-specific TF card blocks based on `esp32_SD`, sharing the TFT's HSPI instan
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
 |---|---|---|---|---|
-| `xueersi_esp32_sd_init` | Statement | none | `xueersi_esp32_sd_init()` | Mount CS22 on `TFT_eSPI::getSPIinstance()` at the highest verified frequency |
+| `xueersi_esp32_sd_init` | Statement | none | `xueersi_esp32_sd_init()` | Mount CS22 on shared or standalone HSPI at the highest verified frequency |
 | `xueersi_esp32_sd_end` | Statement | none | `xueersi_esp32_sd_end()` | `SD.end()` |
 | `xueersi_esp32_sd_card_info` | Value | INFO | `xueersi_esp32_sd_card_info(cardType)` | Selected `SD` information call |
 | `xueersi_esp32_sd_card_type_name` | Value | none | `xueersi_esp32_sd_card_type_name()` | Card enum to `String` |
@@ -55,8 +55,9 @@ Board-specific TF card blocks based on `esp32_SD`, sharing the TFT's HSPI instan
 ## Notes
 
 - The only initialization block has no inputs. It fixes TFT CS 5, TF CS 22, SCK 18, MISO 19, and MOSI 23.
-- Initialization gets the exact `SPIClass` reference from `TFT_eSPI::getSPIinstance()`, then tries the board-safe 25/20/16/10/4 MHz range. It enumerates up to 32 root entries, reopens the first non-empty regular file by path, and reads 4 KiB samples at five positions before accepting a clock.
-- Place TFT initialization before TF initialization. Both devices share HSPI and are separated by their CS pins.
+- When the Xueersi `tftscr_init` block exists, initialization reuses `TFT_eSPI::getSPIinstance()`; otherwise it lazily creates a standalone HSPI instance, so TFT_eSPI is not required. It then tries the board-safe 25/20/16/10/4 MHz range, enumerates up to 32 root entries, reopens the first non-empty regular file by path, and reads 4 KiB samples at five positions before accepting a clock.
+- TFT and TF initialization may appear in either order. When both are used, they share one HSPI instance and are separated by their CS pins.
+- A mount or probe failure is logged without returning from `setup()`, so later peripheral initialization still runs.
 - Whole-file reads return `String` and are intended for small text files. Use byte or bounded reads for large or binary files.
 - Generated helpers and block types use `xueersiEsp32Sd...` / `xueersi_esp32_sd_...` names to avoid collisions with the generic `esp32_SD` package.
 - `readRAW`/`writeRAW` are intentionally not exposed because they require a correctly sized mutable buffer and raw writes can corrupt the filesystem.

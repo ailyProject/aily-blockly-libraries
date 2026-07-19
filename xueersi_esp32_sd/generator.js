@@ -1,8 +1,31 @@
 'use strict';
 
-function xueersiEsp32SdEnsureLibrary(generator) {
-  generator.addMacro('USE_HSPI_PORT', '#define USE_HSPI_PORT');
-  generator.addLibrary('TFT_eSPI', '#include <TFT_eSPI.h>');
+// Two SPIClass wrappers must not manage the same HSPI peripheral: either
+// wrapper can stop the bus. Inspect the whole workspace so block order does
+// not affect whether SD reuses TFT_eSPI's wrapper or owns a standalone one.
+function xueersiEsp32SdUsesTftEspi(block) {
+  const workspace = block && block.workspace;
+  if (!workspace || typeof workspace.getBlocksByType !== 'function') {
+    return false;
+  }
+
+  return workspace.getBlocksByType('tftscr_init', false).some(tftBlock => {
+    if (typeof tftBlock.getInheritedDisabled === 'function'
+        && tftBlock.getInheritedDisabled()) {
+      return false;
+    }
+    if (typeof tftBlock.isEnabled === 'function') {
+      return tftBlock.isEnabled();
+    }
+    return !tftBlock.disabled;
+  });
+}
+
+function xueersiEsp32SdEnsureLibrary(generator, useTftEspi = false) {
+  if (useTftEspi) {
+    generator.addMacro('USE_HSPI_PORT', '#define USE_HSPI_PORT');
+    generator.addLibrary('TFT_eSPI', '#include <TFT_eSPI.h>');
+  }
   generator.addLibrary('FS', '#include <FS.h>');
   generator.addLibrary('SD', '#include <SD.h>');
   generator.addLibrary('SPI', '#include <SPI.h>');
@@ -49,8 +72,12 @@ function xueersiEsp32SdRegisterFileVariable(block, generator) {
 }
 
 Arduino.forBlock['xueersi_esp32_sd_init'] = function(block, generator) {
-  xueersiEsp32SdEnsureLibrary(generator);
+  const useTftEspi = xueersiEsp32SdUsesTftEspi(block);
+  xueersiEsp32SdEnsureLibrary(generator, useTftEspi);
   ensureSerialBegin('Serial', generator);
+  const spiInstance = useTftEspi
+    ? '  SPIClass &sharedSpi = TFT_eSPI::getSPIinstance();'
+    : '  static SPIClass standaloneSpi(HSPI);\n  SPIClass &sharedSpi = standaloneSpi;';
   generator.addFunction('xueersi_esp32_sd_shared_hspi_begin', `static uint32_t xueersiEsp32SdActiveFrequency = 0;
 
 static bool xueersiEsp32SdProbeFilesystem(void) {
@@ -184,7 +211,7 @@ static bool xueersiEsp32SdTryFrequency(
 }
 
 static bool xueersiEsp32SdBegin(void) {
-  SPIClass &sharedSpi = TFT_eSPI::getSPIinstance();
+${spiInstance}
   static const uint32_t FREQUENCIES[] = {
     25000000UL,
     20000000UL,
@@ -202,7 +229,7 @@ static bool xueersiEsp32SdBegin(void) {
   Serial.println("[Xueersi SD] no usable TF card");
   return false;
 }`);
-  return 'if (!xueersiEsp32SdBegin()) {\n  return;\n}\n';
+  return 'xueersiEsp32SdBegin();\n';
 };
 
 Arduino.forBlock['xueersi_esp32_sd_end'] = function(block, generator) {
