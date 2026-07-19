@@ -1,839 +1,61 @@
 {
   "toolbox_name": "Sentry Vision Sensor",
   "toolbox_categories": [
-    "Sentry2",
-    "Setup Blocks",
-    "Run Blocks",
     "Sentry1",
-    "Setup Blocks",
-    "Run Blocks"
+    "Setting Blocks",
+    "Operation Blocks",
+    "Sentry2",
+    "Setting Blocks",
+    "Operation Blocks",
+    "Sentry3",
+    "Setting Blocks",
+    "Operation Blocks"
   ],
-  "sentry2_begin": {
-    "message0": "Initialize Sentry2 port %1 address %2",
-    "tooltip": "Initialize Sentry2 vision sensor",
-    "args0": [
-      {
-        "options": [
-          [
-            "I2C",
-            "Wire"
-          ],
-          [
-            "Serial",
-            "Serial"
-          ],
-          [
-            "Serial1",
-            "Serial1"
-          ],
-          [
-            "Serial2",
-            "Serial2"
-          ]
-        ]
-      },
-      {
-        "options": [
-          [
-            "0x60",
-            "0x60"
-          ],
-          [
-            "0x61",
-            "0x61"
-          ],
-          [
-            "0x62",
-            "0x62"
-          ],
-          [
-            "0x63",
-            "0x63"
-          ]
-        ]
-      }
-    ]
+  "sentry1_init_i2c": {
+    "message0": "Initialize Sentry1 variable %1 I2C address %2",
+    "tooltip": "Initialize Sentry1 variable I2C address"
   },
-  "sentry2_set_default": {
-    "message0": "Sentry2 restore default parameters",
-    "tooltip": "Restore sensor algorithm status to default"
+  "sentry1_init_uart": {
+    "message0": "Initialize Sentry1 variable %1 hardware serial %2 baud %3",
+    "tooltip": "Initialize Sentry1 variable hardware serial baud"
   },
-  "sentry2_set_vision_status": {
-    "message0": "Sentry2 %1 algorithm %2",
-    "tooltip": "Sentry2 algorithm set",
-    "args0": [
-      {
-        "options": [
-          [
-            "Enable",
-            "Begin"
-          ],
-          [
-            "Disable",
-            "End"
-          ]
-        ]
-      },
-      {
-        "options": [
-          [
-            "Color recognition",
-            "Sentry2::kVisionColor"
-          ],
-          [
-            "Blob detection",
-            "Sentry2::kVisionBlob"
-          ],
-          [
-            "Tag recognition",
-            "Sentry2::kVisionAprilTag"
-          ],
-          [
-            "Line detection",
-            "Sentry2::kVisionLine"
-          ],
-          [
-            "Deep learning",
-            "Sentry2::kVisionLearning"
-          ],
-          [
-            "Card recognition",
-            "Sentry2::kVisionCard"
-          ],
-          [
-            "Face recognition",
-            "Sentry2::kVisionFace"
-          ],
-          [
-            "20-class objects",
-            "Sentry2::kVision20Classes"
-          ],
-          [
-            "QR code",
-            "Sentry2::kVisionQrCode"
-          ],
-          [
-            "Custom",
-            "Sentry2::kVisionCustom"
-          ],
-          [
-            "Moving object",
-            "Sentry2::kVisionMotionDetect"
-          ]
-        ]
-      }
-    ]
-  },
-  "sentry2_set_awb": {
-    "message0": "Sentry2 white balance mode %1",
-    "tooltip": "Sentry2 white balance mode",
-    "args0": [
-      {
-        "options": [
-          [
-            "Auto",
-            "kAutoWhiteBalance"
-          ],
-          [
-            "Lock",
-            "kLockWhiteBalance"
-          ],
-          [
-            "White light",
-            "kWhiteLight"
-          ],
-          [
-            "Yellow light",
-            "kYellowLight"
-          ]
-        ]
-      }
-    ]
-  },
-  "sentry2_set_param_num": {
-    "message0": "Sentry2 algorithm %1 set %2 parameter groups",
-    "tooltip": "Sentry2 set algorithm parameter groups",
-    "args0": [
-      {
-        "options": [
-          [
-            "Color recognition",
-            "Sentry2::kVisionColor"
-          ],
-          [
-            "Blob detection",
-            "Sentry2::kVisionBlob"
-          ],
-          [
-            "Custom",
-            "Sentry2::kVisionCustom"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_set_color_param": {
-    "message0": "Sentry2 color recognition center X %1 Y %2 width %3 height %4 parameter group %5",
-    "tooltip": "Sentry2 color recognition parameter group set"
-  },
-  "sentry2_set_blob_param": {
-    "message0": "Sentry2 blob detection min width %1 height %2 color %3 parameter group %4",
-    "tooltip": "Sentry2 blob detection parameter group set",
+  "sentry1_set_led": {
+    "message0": "Sentry1 %1 LED when detected %2 otherwise %3 brightness %4",
+    "tooltip": "Sentry1 LED when detected otherwise brightness",
     "args0": [
       null,
-      null,
       {
         "options": [
           [
-            "Black",
-            "Sentry2::kColorBlack"
-          ],
-          [
-            "White",
-            "Sentry2::kColorWhite"
-          ],
-          [
-            "Red",
-            "Sentry2::kColorRed"
-          ],
-          [
-            "Green",
-            "Sentry2::kColorGreen"
-          ],
-          [
-            "Blue",
-            "Sentry2::kColorBlue"
-          ],
-          [
-            "Yellow",
-            "Sentry2::kColorYellow"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_set_custom_param": {
-    "message0": "Sentry2 algorithm %1 parameter 1 %2 parameter 2 %3 parameter 3 %4 parameter 4 %5 parameter 5 %6 parameter group %7",
-    "tooltip": "Sentry2 custom parameter group set",
-    "args0": [
-      {
-        "options": [
-          [
-            "Custom",
-            "Sentry2::kVisionCustom"
-          ],
-          [
-            "Color recognition",
-            "Sentry2::kVisionColor"
-          ],
-          [
-            "Blob detection",
-            "Sentry2::kVisionBlob"
-          ],
-          [
-            "Deep learning",
-            "Sentry2::kVisionLearning"
-          ],
-          [
-            "Face recognition",
-            "Sentry2::kVisionFace"
-          ]
-        ]
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-    ]
-  },
-  "sentry2_detected_count": {
-    "message0": "Sentry2 algorithm %1 return result count",
-    "tooltip": "Sentry2 return result count",
-    "args0": [
-      {
-        "options": [
-          [
-            "Color recognition",
-            "Sentry2::kVisionColor"
-          ],
-          [
-            "Blob detection",
-            "Sentry2::kVisionBlob"
-          ],
-          [
-            "Tag recognition",
-            "Sentry2::kVisionAprilTag"
-          ],
-          [
-            "Line detection",
-            "Sentry2::kVisionLine"
-          ],
-          [
-            "Deep learning",
-            "Sentry2::kVisionLearning"
-          ],
-          [
-            "Card recognition",
-            "Sentry2::kVisionCard"
-          ],
-          [
-            "Face recognition",
-            "Sentry2::kVisionFace"
-          ],
-          [
-            "20-class objects",
-            "Sentry2::kVision20Classes"
-          ],
-          [
-            "QR code",
-            "Sentry2::kVisionQrCode"
-          ],
-          [
-            "Custom",
-            "Sentry2::kVisionCustom"
-          ],
-          [
-            "Moving object",
-            "Sentry2::kVisionMotionDetect"
-          ]
-        ]
-      }
-    ]
-  },
-  "sentry2_get_value": {
-    "message0": "Sentry2 algorithm %1 return %2 index %3 value",
-    "tooltip": "Get the corresponding result of the selected algorithm",
-    "args0": [
-      {
-        "options": [
-          [
-            "Blob detection",
-            "Sentry2::kVisionBlob"
-          ],
-          [
-            "Tag recognition",
-            "Sentry2::kVisionAprilTag"
-          ],
-          [
-            "Deep learning",
-            "Sentry2::kVisionLearning"
-          ],
-          [
-            "Card recognition",
-            "Sentry2::kVisionCard"
-          ],
-          [
-            "Face recognition",
-            "Sentry2::kVisionFace"
-          ],
-          [
-            "20-class objects",
-            "Sentry2::kVision20Classes"
-          ],
-          [
-            "Moving object",
-            "Sentry2::kVisionMotionDetect"
-          ]
-        ]
-      },
-      {
-        "options": [
-          [
-            "X coordinate",
-            "kXValue"
-          ],
-          [
-            "Y coordinate",
-            "kYValue"
-          ],
-          [
-            "Width",
-            "kWidthValue"
-          ],
-          [
-            "Height",
-            "kHeightValue"
-          ],
-          [
-            "Label",
-            "kLabel"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_get_color_value": {
-    "message0": "Sentry2 color recognition return %1 index %2 value",
-    "tooltip": "Sentry2 color recognition return value",
-    "args0": [
-      {
-        "options": [
-          [
-            "Label",
-            "kLabel"
-          ],
-          [
-            "Red channel",
-            "kRValue"
-          ],
-          [
-            "Green channel",
-            "kGValue"
-          ],
-          [
-            "Blue channel",
-            "kBValue"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_get_line_value": {
-    "message0": "Sentry2 line detection return %1 index %2 value",
-    "tooltip": "Sentry2 line detection return value",
-    "args0": [
-      {
-        "options": [
-          [
-            "End X coordinate",
-            "kXValue"
-          ],
-          [
-            "End Y coordinate",
-            "kYValue"
-          ],
-          [
-            "Start X coordinate",
-            "kWidthValue"
-          ],
-          [
-            "Start Y coordinate",
-            "kHeightValue"
-          ],
-          [
-            "Tilt angle",
-            "kLabel"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_get_qr_value": {
-    "message0": "Sentry2 QR code return result string",
-    "tooltip": "Sentry2 QR code return result string"
-  },
-  "sentry2_get_qr_position": {
-    "message0": "Sentry2 QR code return %1 index %2 value",
-    "tooltip": "Sentry2 QR code return value",
-    "args0": [
-      {
-        "options": [
-          [
-            "X coordinate",
-            "kXValue"
-          ],
-          [
-            "Y coordinate",
-            "kYValue"
-          ],
-          [
-            "Width",
-            "kWidthValue"
-          ],
-          [
-            "Height",
-            "kHeightValue"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_get_custom_value": {
-    "message0": "Sentry2 custom return %1 index %2 value",
-    "tooltip": "Sentry2 custom return value",
-    "args0": [
-      {
-        "options": [
-          [
-            "Data 1",
-            "kXValue"
-          ],
-          [
-            "Data 2",
-            "kYValue"
-          ],
-          [
-            "Data 3",
-            "kWidthValue"
-          ],
-          [
-            "Data 4",
-            "kHeightValue"
-          ],
-          [
-            "Data 5",
-            "kLabel"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_check_blob_color": {
-    "message0": "Sentry2 blob detected %1 index %2",
-    "tooltip": "Return True when detected, otherwise False",
-    "args0": [
-      {
-        "options": [
-          [
-            "Black",
-            "Sentry2::kColorBlack"
-          ],
-          [
-            "White",
-            "Sentry2::kColorWhite"
-          ],
-          [
-            "Red",
-            "Sentry2::kColorRed"
-          ],
-          [
-            "Green",
-            "Sentry2::kColorGreen"
-          ],
-          [
-            "Blue",
-            "Sentry2::kColorBlue"
-          ],
-          [
-            "Yellow",
-            "Sentry2::kColorYellow"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_check_card": {
-    "message0": "Sentry2 card recognized %1 index %2",
-    "tooltip": "Return True when detected, otherwise False",
-    "args0": [
-      {
-        "options": [
-          [
-            "Forward",
-            "Sentry2::kCardForward"
-          ],
-          [
-            "Turn left",
-            "Sentry2::kCardLeft"
-          ],
-          [
-            "Turn right",
-            "Sentry2::kCardRight"
-          ],
-          [
-            "Turn around",
-            "Sentry2::kCardTurnAround"
-          ],
-          [
-            "Park",
-            "Sentry2::kCardPark"
-          ],
-          [
-            "Green light",
-            "Sentry2::kCardGreenLight"
-          ],
-          [
-            "Red light",
-            "Sentry2::kCardRedLight"
-          ],
-          [
-            "Speed limit 40",
-            "Sentry2::kCardSpeed40"
-          ],
-          [
-            "Speed limit 60",
-            "Sentry2::kCardSpeed60"
-          ],
-          [
-            "Speed limit 80",
-            "Sentry2::kCardSpeed80"
-          ],
-          [
-            "✔",
-            "Sentry2::kCardCheck"
-          ],
-          [
-            "☓",
-            "Sentry2::kCardCross"
-          ],
-          [
-            "◯",
-            "Sentry2::kCardCircle"
-          ],
-          [
-            "☐",
-            "Sentry2::kCardSquare"
-          ],
-          [
-            "△",
-            "Sentry2::kCardTriangle"
-          ],
-          [
-            "+",
-            "Sentry2::kCardPlus"
-          ],
-          [
-            "-",
-            "Sentry2::kCardMinus"
-          ],
-          [
-            "÷",
-            "Sentry2::kCardDivide"
-          ],
-          [
-            "=",
-            "Sentry2::kCardEqual"
-          ],
-          [
-            "0",
-            "Sentry2::kCardZero"
-          ],
-          [
-            "1",
-            "Sentry2::kCardOne"
-          ],
-          [
-            "2",
-            "Sentry2::kCardTwo"
-          ],
-          [
-            "3",
-            "Sentry2::kCardThree"
-          ],
-          [
-            "4",
-            "Sentry2::kCardFour"
-          ],
-          [
-            "5",
-            "Sentry2::kCardFive"
-          ],
-          [
-            "6",
-            "Sentry2::kCardSix"
-          ],
-          [
-            "7",
-            "Sentry2::kCardSeven"
-          ],
-          [
-            "8",
-            "Sentry2::kCardEight"
-          ],
-          [
-            "9",
-            "Sentry2::kCardNine"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_check_20class": {
-    "message0": "Sentry2 20-class object detected %1 index %2",
-    "tooltip": "Return True when detected, otherwise False",
-    "args0": [
-      {
-        "options": [
-          [
-            "Airplane",
-            "Sentry2::kAirplane"
-          ],
-          [
-            "Bicycle",
-            "Sentry2::kBicycle"
-          ],
-          [
-            "Bird",
-            "Sentry2::kBird"
-          ],
-          [
-            "Boat",
-            "Sentry2::kBoat"
-          ],
-          [
-            "Bottle",
-            "Sentry2::kBottle"
-          ],
-          [
-            "Bus",
-            "Sentry2::kBus"
-          ],
-          [
-            "Car",
-            "Sentry2::kCar"
-          ],
-          [
-            "Cat",
-            "Sentry2::kCat"
-          ],
-          [
-            "Chair",
-            "Sentry2::kChair"
-          ],
-          [
-            "Cow",
-            "Sentry2::kCow"
-          ],
-          [
-            "Dining table",
-            "Sentry2::kDiningTable"
-          ],
-          [
-            "Dog",
-            "Sentry2::kDog"
-          ],
-          [
-            "Horse",
-            "Sentry2::kHorse"
-          ],
-          [
-            "Motorbike",
-            "Sentry2::kMotorBike"
-          ],
-          [
-            "Person",
-            "Sentry2::kPerson"
-          ],
-          [
-            "Potted plant",
-            "Sentry2::kPottedPlant"
-          ],
-          [
-            "Sheep",
-            "Sentry2::kSheep"
-          ],
-          [
-            "Sofa",
-            "Sentry2::kSofa"
-          ],
-          [
-            "Train",
-            "Sentry2::kTrain"
-          ],
-          [
-            "Monitor",
-            "Sentry2::kTvMonitor"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_rows": {
-    "message0": "Sentry2 frame rows",
-    "tooltip": "Sentry2 frame rows"
-  },
-  "sentry2_cols": {
-    "message0": "Sentry2 frame columns",
-    "tooltip": "Sentry2 frame columns"
-  },
-  "sentry1_begin": {
-    "message0": "Initialize Sentry1 port %1 address %2",
-    "tooltip": "Initialize Sentry1 vision sensor",
-    "args0": [
-      {
-        "options": [
-          [
-            "I2C",
-            "Wire"
-          ],
-          [
-            "Serial",
-            "Serial"
-          ],
-          [
-            "Serial1",
-            "Serial1"
-          ],
-          [
-            "Serial2",
-            "Serial2"
-          ]
-        ]
-      },
-      {
-        "options": [
-          [
-            "0x60",
-            "0x60"
-          ],
-          [
-            "0x61",
-            "0x61"
-          ],
-          [
-            "0x62",
-            "0x62"
-          ],
-          [
-            "0x63",
-            "0x63"
-          ]
-        ]
-      }
-    ]
-  },
-  "sentry1_set_default": {
-    "message0": "Sentry1 restore default parameters",
-    "tooltip": "Restore sensor algorithm status to default"
-  },
-  "sentry1_led_set_color": {
-    "message0": "Sentry1 when target detected LED %1 otherwise %2 brightness %3",
-    "tooltip": "Black turns the LED off; using the same color for both fields enables manual LED mode",
-    "args0": [
-      {
-        "options": [
-          [
-            "Off",
+            "关闭",
             "kLedClose"
           ],
           [
-            "Red",
+            "红色",
             "kLedRed"
           ],
           [
-            "Green",
+            "绿色",
             "kLedGreen"
           ],
           [
-            "Yellow",
+            "黄色",
             "kLedYellow"
           ],
           [
-            "Blue",
+            "蓝色",
             "kLedBlue"
           ],
           [
-            "Purple",
+            "紫色",
             "kLedPurple"
           ],
           [
-            "Cyan",
+            "青色",
             "kLedCyan"
           ],
           [
-            "White",
+            "白色",
             "kLedWhite"
           ]
         ]
@@ -841,35 +63,35 @@
       {
         "options": [
           [
-            "Off",
+            "关闭",
             "kLedClose"
           ],
           [
-            "Red",
+            "红色",
             "kLedRed"
           ],
           [
-            "Green",
+            "绿色",
             "kLedGreen"
           ],
           [
-            "Yellow",
+            "黄色",
             "kLedYellow"
           ],
           [
-            "Blue",
+            "蓝色",
             "kLedBlue"
           ],
           [
-            "Purple",
+            "紫色",
             "kLedPurple"
           ],
           [
-            "Cyan",
+            "青色",
             "kLedCyan"
           ],
           [
-            "White",
+            "白色",
             "kLedWhite"
           ]
         ]
@@ -877,394 +99,2655 @@
       null
     ]
   },
-  "sentry1_set_vision_status": {
-    "message0": "Sentry1 %1 algorithm %2",
-    "tooltip": "Sentry1 algorithm set",
+  "sentry1_vision_control": {
+    "message0": "Sentry1 %1 %2 vision %3",
+    "tooltip": "Sentry1 vision",
     "args0": [
+      null,
       {
         "options": [
           [
-            "Enable",
-            "Begin"
+            "开始",
+            "BEGIN"
           ],
           [
-            "Disable",
-            "End"
+            "停止",
+            "END"
           ]
         ]
       },
       {
         "options": [
           [
-            "Color recognition",
-            "Sentry1::kVisionColor"
+            "颜色识别",
+            "1"
           ],
           [
-            "Blob detection",
-            "Sentry1::kVisionBlob"
+            "色块检测",
+            "2"
           ],
           [
-            "Ball recognition",
-            "Sentry1::kVisionBall"
+            "球体识别",
+            "3"
           ],
           [
-            "Line detection",
-            "Sentry1::kVisionLine"
+            "线条检测",
+            "4"
           ],
           [
-            "Card recognition",
-            "Sentry1::kVisionCard"
+            "卡片识别",
+            "6"
           ],
           [
-            "Body detection",
-            "Sentry1::kVisionBody"
+            "人体检测",
+            "7"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "运动检测",
+            "11"
           ]
         ]
       }
     ]
   },
-  "sentry1_set_awb": {
-    "message0": "Sentry1 white balance mode %1",
-    "tooltip": "Sentry1 white balance mode",
-    "args0": [
-      {
-        "options": [
-          [
-            "Auto",
-            "kAutoWhiteBalance"
-          ],
-          [
-            "Lock",
-            "kLockWhiteBalance"
-          ],
-          [
-            "White light",
-            "kWhiteLight"
-          ],
-          [
-            "Yellow light",
-            "kYellowLight"
-          ]
-        ]
-      }
-    ]
-  },
-  "sentry1_set_param_num": {
-    "message0": "Sentry1 algorithm %1 set %2 parameter groups",
-    "tooltip": "Sentry1 set algorithm parameter groups",
-    "args0": [
-      {
-        "options": [
-          [
-            "Color recognition",
-            "Sentry1::kVisionColor"
-          ],
-          [
-            "Blob detection",
-            "Sentry1::kVisionBlob"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry1_set_color_param": {
-    "message0": "Sentry1 color recognition center X %1 Y %2 width %3 height %4",
-    "tooltip": "Sentry1 color recognition parameter group set"
+  "sentry1_set_region_param": {
+    "message0": "Sentry1 %1 color region %2 center X %3 center Y %4 width %5 height %6",
+    "tooltip": "Sentry1 color region center X center Y width height"
   },
   "sentry1_set_blob_param": {
-    "message0": "Sentry1 blob detection min width %1 height %2 color %3",
-    "tooltip": "Sentry1 blob detection parameter group set",
+    "message0": "Sentry1 %1 blob group %2 minimum width %3 minimum height %4 color %5",
+    "tooltip": "Sentry1 blob group minimum width minimum height color",
     "args0": [
+      null,
+      null,
       null,
       null,
       {
         "options": [
           [
-            "Black",
-            "Sentry1::kColorBlack"
+            "黑色",
+            "1"
           ],
           [
-            "White",
-            "Sentry1::kColorWhite"
+            "白色",
+            "2"
           ],
           [
-            "Red",
-            "Sentry1::kColorRed"
+            "红色",
+            "3"
           ],
           [
-            "Green",
-            "Sentry1::kColorGreen"
+            "绿色",
+            "4"
           ],
           [
-            "Blue",
-            "Sentry1::kColorBlue"
+            "蓝色",
+            "5"
           ],
           [
-            "Yellow",
-            "Sentry1::kColorYellow"
+            "黄色",
+            "6"
           ]
         ]
       }
     ]
   },
-  "sentry1_detected_count": {
-    "message0": "Sentry1 algorithm %1 return result count",
-    "tooltip": "Sentry1 return result count",
+  "sentry1_camera_awb": {
+    "message0": "Sentry1 %1 white balance %2",
+    "tooltip": "Sentry1 white balance",
     "args0": [
+      null,
       {
         "options": [
           [
-            "Color recognition",
-            "Sentry1::kVisionColor"
+            "自动",
+            "kAutoWhiteBalance"
           ],
           [
-            "Blob detection",
-            "Sentry1::kVisionBlob"
+            "锁定当前值",
+            "kLockWhiteBalance"
           ],
           [
-            "Ball recognition",
-            "Sentry1::kVisionBall"
+            "白光",
+            "kWhiteLight"
           ],
           [
-            "Line detection",
-            "Sentry1::kVisionLine"
+            "黄光",
+            "kYellowLight"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry1_vision_default": {
+    "message0": "Sentry1 %1 restore vision %2 defaults",
+    "tooltip": "Sentry1 restore vision defaults",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
           ],
           [
-            "Card recognition",
-            "Sentry1::kVisionCard"
+            "色块检测",
+            "2"
           ],
           [
-            "Body detection",
-            "Sentry1::kVisionBody"
+            "球体识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人体检测",
+            "7"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry1_restart": {
+    "message0": "Sentry1 %1 restart device",
+    "tooltip": "Sentry1 restart device"
+  },
+  "sentry1_sensor_default": {
+    "message0": "Sentry1 %1 restore defaults vision only %2",
+    "tooltip": "Sentry1 restore defaults vision only"
+  },
+  "sentry1_detected_count": {
+    "message0": "Sentry1 %1 vision %2 detected target count",
+    "tooltip": "Sentry1 vision detected target count",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "球体识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人体检测",
+            "7"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "运动检测",
+            "11"
           ]
         ]
       }
     ]
   },
   "sentry1_get_value": {
-    "message0": "Sentry1 algorithm %1 return %2 index %3 value",
-    "tooltip": "Get the corresponding result of the selected algorithm",
+    "message0": "Sentry1 %1 vision %2 target %3 %4",
+    "tooltip": "Sentry1 vision target",
     "args0": [
+      null,
       {
         "options": [
           [
-            "Blob detection",
-            "Sentry1::kVisionBlob"
+            "颜色识别",
+            "1"
           ],
           [
-            "Ball recognition",
-            "Sentry1::kVisionBall"
+            "色块检测",
+            "2"
           ],
           [
-            "Card recognition",
-            "Sentry1::kVisionCard"
+            "球体识别",
+            "3"
           ],
           [
-            "Body detection",
-            "Sentry1::kVisionBody"
+            "线条检测",
+            "4"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人体检测",
+            "7"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "运动检测",
+            "11"
           ]
         ]
       },
+      null,
       {
         "options": [
           [
-            "X coordinate",
+            "横坐标",
             "kXValue"
           ],
           [
-            "Y coordinate",
+            "纵坐标",
             "kYValue"
           ],
           [
-            "Width",
+            "宽度",
             "kWidthValue"
           ],
           [
-            "Height",
+            "高度",
             "kHeightValue"
           ],
           [
-            "Label",
-            "kLabel"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry1_get_color_value": {
-    "message0": "Sentry1 color recognition return %1 index %2 value",
-    "tooltip": "Sentry1 color recognition return value",
-    "args0": [
-      {
-        "options": [
-          [
-            "Label",
+            "标签",
             "kLabel"
           ],
           [
-            "Red channel",
+            "红色值",
             "kRValue"
           ],
           [
-            "Green channel",
+            "绿色值",
             "kGValue"
           ],
           [
-            "Blue channel",
+            "蓝色值",
             "kBValue"
           ]
         ]
+      }
+    ]
+  },
+  "sentry1_detected_label": {
+    "message0": "Sentry1 %1 vision %2 target %3 label equals %4",
+    "tooltip": "Sentry1 vision target label equals",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "球体识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人体检测",
+            "7"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "sentry1_get_qrcode": {
+    "message0": "Sentry1 %1 read QR text",
+    "tooltip": "Sentry1 read QR text"
+  },
+  "sentry1_vision_status": {
+    "message0": "Sentry1 %1 vision %2 enabled?",
+    "tooltip": "Sentry1 vision enabled?",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "球体识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人体检测",
+            "7"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry1_update_result": {
+    "message0": "Sentry1 %1 update vision %2 result",
+    "tooltip": "Sentry1 update vision result",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "球体识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人体检测",
+            "7"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_init_i2c": {
+    "message0": "Initialize Sentry2 variable %1 I2C address %2",
+    "tooltip": "Initialize Sentry2 variable I2C address"
+  },
+  "sentry2_init_uart": {
+    "message0": "Initialize Sentry2 variable %1 hardware serial %2 baud %3",
+    "tooltip": "Initialize Sentry2 variable hardware serial baud"
+  },
+  "sentry2_set_led": {
+    "message0": "Sentry2 %1 LED when detected %2 otherwise %3 brightness %4",
+    "tooltip": "Sentry2 LED when detected otherwise brightness",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "关闭",
+            "kLedClose"
+          ],
+          [
+            "红色",
+            "kLedRed"
+          ],
+          [
+            "绿色",
+            "kLedGreen"
+          ],
+          [
+            "黄色",
+            "kLedYellow"
+          ],
+          [
+            "蓝色",
+            "kLedBlue"
+          ],
+          [
+            "紫色",
+            "kLedPurple"
+          ],
+          [
+            "青色",
+            "kLedCyan"
+          ],
+          [
+            "白色",
+            "kLedWhite"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "关闭",
+            "kLedClose"
+          ],
+          [
+            "红色",
+            "kLedRed"
+          ],
+          [
+            "绿色",
+            "kLedGreen"
+          ],
+          [
+            "黄色",
+            "kLedYellow"
+          ],
+          [
+            "蓝色",
+            "kLedBlue"
+          ],
+          [
+            "紫色",
+            "kLedPurple"
+          ],
+          [
+            "青色",
+            "kLedCyan"
+          ],
+          [
+            "白色",
+            "kLedWhite"
+          ]
+        ]
       },
       null
     ]
   },
-  "sentry1_get_line_value": {
-    "message0": "Sentry1 line detection return %1 index %2 value",
-    "tooltip": "Sentry1 line detection return value",
+  "sentry2_vision_control": {
+    "message0": "Sentry2 %1 %2 vision %3",
+    "tooltip": "Sentry2 vision",
     "args0": [
+      null,
       {
         "options": [
           [
-            "End X coordinate",
+            "开始",
+            "BEGIN"
+          ],
+          [
+            "停止",
+            "END"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_set_param_num": {
+    "message0": "Sentry2 %1 set vision %2 maximum targets %3",
+    "tooltip": "Sentry2 set vision maximum targets",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_set_region_param": {
+    "message0": "Sentry2 %1 color region %2 center X %3 center Y %4 width %5 height %6",
+    "tooltip": "Sentry2 color region center X center Y width height"
+  },
+  "sentry2_set_blob_param": {
+    "message0": "Sentry2 %1 blob group %2 minimum width %3 minimum height %4 color %5",
+    "tooltip": "Sentry2 blob group minimum width minimum height color",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "黑色",
+            "1"
+          ],
+          [
+            "白色",
+            "2"
+          ],
+          [
+            "红色",
+            "3"
+          ],
+          [
+            "绿色",
+            "4"
+          ],
+          [
+            "蓝色",
+            "5"
+          ],
+          [
+            "黄色",
+            "6"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_set_label_param": {
+    "message0": "Sentry2 %1 vision %2 group %3 label %4",
+    "tooltip": "Sentry2 vision group label",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "sentry2_set_mode": {
+    "message0": "Sentry2 %1 vision %2 mode value %3",
+    "tooltip": "Sentry2 vision mode value",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry2_set_apriltag_mode": {
+    "message0": "Sentry2 %1 tag format %2",
+    "tooltip": "Sentry2 tag format",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "16H5编码",
+            "0"
+          ],
+          [
+            "25H9编码",
+            "1"
+          ],
+          [
+            "36H11编码",
+            "2"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_set_level": {
+    "message0": "Sentry2 %1 vision %2 performance %3",
+    "tooltip": "Sentry2 vision performance",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "默认",
+            "kLevelDefault"
+          ],
+          [
+            "速度优先",
+            "kLevelSpeed"
+          ],
+          [
+            "平衡",
+            "kLevelBalance"
+          ],
+          [
+            "精度优先",
+            "kLevelAccuracy"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_camera_zoom": {
+    "message0": "Sentry2 %1 camera zoom %2",
+    "tooltip": "Sentry2 camera zoom",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "默认",
+            "kZoomDefault"
+          ],
+          [
+            "1倍",
+            "kZoom1"
+          ],
+          [
+            "2倍",
+            "kZoom2"
+          ],
+          [
+            "3倍",
+            "kZoom3"
+          ],
+          [
+            "4倍",
+            "kZoom4"
+          ],
+          [
+            "5倍",
+            "kZoom5"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_camera_awb": {
+    "message0": "Sentry2 %1 white balance %2",
+    "tooltip": "Sentry2 white balance",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "自动",
+            "kAutoWhiteBalance"
+          ],
+          [
+            "锁定当前值",
+            "kLockWhiteBalance"
+          ],
+          [
+            "白光",
+            "kWhiteLight"
+          ],
+          [
+            "黄光",
+            "kYellowLight"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_set_coordinate": {
+    "message0": "Sentry2 %1 coordinate type %2",
+    "tooltip": "Sentry2 coordinate type",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "绝对像素",
+            "kAbsoluteCoordinate"
+          ],
+          [
+            "百分比",
+            "kPercentageCoordinate"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_vision_default": {
+    "message0": "Sentry2 %1 restore vision %2 defaults",
+    "tooltip": "Sentry2 restore vision defaults",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_screen_config": {
+    "message0": "Sentry2 %1 screen enabled %2 user image only %3",
+    "tooltip": "Sentry2 screen enabled user image only"
+  },
+  "sentry2_screen_fill": {
+    "message0": "Sentry2 %1 fill image %2 red %3 green %4 blue %5",
+    "tooltip": "Sentry2 fill image red green blue"
+  },
+  "sentry2_snapshot": {
+    "message0": "Sentry2 %1 snapshot to %2 source %3 format %4",
+    "tooltip": "Sentry2 snapshot to source format",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "存储卡",
+            "kSnapshot2SD"
+          ],
+          [
+            "串口",
+            "kSnapshot2Uart"
+          ],
+          [
+            "通用串行接口",
+            "kSnapshot2Usb"
+          ],
+          [
+            "无线网络",
+            "kSnapshot2Wifi"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "相机",
+            "kSnapshotFromCamera"
+          ],
+          [
+            "屏幕",
+            "kSnapshotFromScreen"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "彩色原始格式",
+            "kSnapshotTypeRGB565"
+          ],
+          [
+            "压缩图像",
+            "kSnapshotTypeJPEG"
+          ],
+          [
+            "文本编码图像",
+            "kSnapshotTypeJPEGBase64"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_restart": {
+    "message0": "Sentry2 %1 restart device",
+    "tooltip": "Sentry2 restart device"
+  },
+  "sentry2_sensor_default": {
+    "message0": "Sentry2 %1 restore defaults vision only %2",
+    "tooltip": "Sentry2 restore defaults vision only"
+  },
+  "sentry2_detected_count": {
+    "message0": "Sentry2 %1 vision %2 detected target count",
+    "tooltip": "Sentry2 vision detected target count",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_get_value": {
+    "message0": "Sentry2 %1 vision %2 target %3 %4",
+    "tooltip": "Sentry2 vision target",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "横坐标",
             "kXValue"
           ],
           [
-            "End Y coordinate",
+            "纵坐标",
             "kYValue"
           ],
           [
-            "Start X coordinate",
+            "宽度",
             "kWidthValue"
           ],
           [
-            "Start Y coordinate",
+            "高度",
             "kHeightValue"
           ],
           [
-            "Tilt angle",
+            "标签",
             "kLabel"
+          ],
+          [
+            "红色值",
+            "kRValue"
+          ],
+          [
+            "绿色值",
+            "kGValue"
+          ],
+          [
+            "蓝色值",
+            "kBValue"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_detected_label": {
+    "message0": "Sentry2 %1 vision %2 target %3 label equals %4",
+    "tooltip": "Sentry2 vision target label equals",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "sentry2_get_qrcode": {
+    "message0": "Sentry2 %1 read QR text",
+    "tooltip": "Sentry2 read QR text"
+  },
+  "sentry2_vision_status": {
+    "message0": "Sentry2 %1 vision %2 enabled?",
+    "tooltip": "Sentry2 vision enabled?",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_update_result": {
+    "message0": "Sentry2 %1 update vision %2 result",
+    "tooltip": "Sentry2 update vision result",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_image_rows": {
+    "message0": "Sentry2 %1 image height",
+    "tooltip": "Sentry2 image height"
+  },
+  "sentry2_image_cols": {
+    "message0": "Sentry2 %1 image width",
+    "tooltip": "Sentry2 image width"
+  },
+  "sentry3_init_i2c": {
+    "message0": "Initialize Sentry3 variable %1 I2C address %2",
+    "tooltip": "Initialize Sentry3 variable I2C address"
+  },
+  "sentry3_init_uart": {
+    "message0": "Initialize Sentry3 variable %1 hardware serial %2 baud %3",
+    "tooltip": "Initialize Sentry3 variable hardware serial baud"
+  },
+  "sentry3_set_led": {
+    "message0": "Sentry3 %1 LED when detected %2 otherwise %3 brightness %4",
+    "tooltip": "Sentry3 LED when detected otherwise brightness",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "关闭",
+            "kLedClose"
+          ],
+          [
+            "红色",
+            "kLedRed"
+          ],
+          [
+            "绿色",
+            "kLedGreen"
+          ],
+          [
+            "黄色",
+            "kLedYellow"
+          ],
+          [
+            "蓝色",
+            "kLedBlue"
+          ],
+          [
+            "紫色",
+            "kLedPurple"
+          ],
+          [
+            "青色",
+            "kLedCyan"
+          ],
+          [
+            "白色",
+            "kLedWhite"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "关闭",
+            "kLedClose"
+          ],
+          [
+            "红色",
+            "kLedRed"
+          ],
+          [
+            "绿色",
+            "kLedGreen"
+          ],
+          [
+            "黄色",
+            "kLedYellow"
+          ],
+          [
+            "蓝色",
+            "kLedBlue"
+          ],
+          [
+            "紫色",
+            "kLedPurple"
+          ],
+          [
+            "青色",
+            "kLedCyan"
+          ],
+          [
+            "白色",
+            "kLedWhite"
           ]
         ]
       },
       null
     ]
   },
-  "sentry1_get_qr_value": {
-    "message0": "Sentry1 QR code return result string",
-    "tooltip": "Sentry1 QR code return result string"
-  },
-  "sentry1_get_qr_position": {
-    "message0": "Sentry1 QR code return %1 index %2 value",
-    "tooltip": "Sentry1 QR code return value",
+  "sentry3_vision_control": {
+    "message0": "Sentry3 %1 %2 vision %3",
+    "tooltip": "Sentry3 vision",
     "args0": [
+      null,
       {
         "options": [
           [
-            "X coordinate",
+            "开始",
+            "BEGIN"
+          ],
+          [
+            "停止",
+            "END"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_set_param_num": {
+    "message0": "Sentry3 %1 set vision %2 maximum targets %3",
+    "tooltip": "Sentry3 set vision maximum targets",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry3_set_region_param": {
+    "message0": "Sentry3 %1 color region %2 center X %3 center Y %4 width %5 height %6",
+    "tooltip": "Sentry3 color region center X center Y width height"
+  },
+  "sentry3_set_blob_param": {
+    "message0": "Sentry3 %1 blob group %2 minimum width %3 minimum height %4 color %5",
+    "tooltip": "Sentry3 blob group minimum width minimum height color",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "黑色",
+            "1"
+          ],
+          [
+            "白色",
+            "2"
+          ],
+          [
+            "红色",
+            "3"
+          ],
+          [
+            "绿色",
+            "4"
+          ],
+          [
+            "蓝色",
+            "5"
+          ],
+          [
+            "黄色",
+            "6"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_set_label_param": {
+    "message0": "Sentry3 %1 vision %2 group %3 label %4",
+    "tooltip": "Sentry3 vision group label",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "sentry3_set_mode": {
+    "message0": "Sentry3 %1 vision %2 mode value %3",
+    "tooltip": "Sentry3 vision mode value",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry3_set_apriltag_mode": {
+    "message0": "Sentry3 %1 tag format %2",
+    "tooltip": "Sentry3 tag format",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "16H5编码",
+            "0"
+          ],
+          [
+            "25H9编码",
+            "1"
+          ],
+          [
+            "36H11编码",
+            "2"
+          ],
+          [
+            "41H12编码",
+            "3"
+          ],
+          [
+            "圆形21H7编码",
+            "4"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_set_barcode_mode": {
+    "message0": "Sentry3 %1 barcode format %2",
+    "tooltip": "Sentry3 barcode format",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "EAN13编码",
+            "2"
+          ],
+          [
+            "Code128编码",
+            "4"
+          ],
+          [
+            "Code39编码",
+            "8"
+          ],
+          [
+            "全部格式",
+            "14"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_set_ocr_mode": {
+    "message0": "Sentry3 %1 text recognition mode %2",
+    "tooltip": "Sentry3 text recognition mode",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "基础模式",
+            "0"
+          ],
+          [
+            "精准模式",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_set_face_mode": {
+    "message0": "Sentry3 %1 face extension mode %2",
+    "tooltip": "Sentry3 face extension mode",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "表情与眼嘴状态",
+            "1"
+          ],
+          [
+            "头部姿态",
+            "2"
+          ],
+          [
+            "情绪识别",
+            "4"
+          ],
+          [
+            "全部扩展",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_set_level": {
+    "message0": "Sentry3 %1 vision %2 performance %3",
+    "tooltip": "Sentry3 vision performance",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "默认",
+            "kLevelDefault"
+          ],
+          [
+            "速度优先",
+            "kLevelSpeed"
+          ],
+          [
+            "平衡",
+            "kLevelBalance"
+          ],
+          [
+            "精度优先",
+            "kLevelAccuracy"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_camera_zoom": {
+    "message0": "Sentry3 %1 camera zoom %2",
+    "tooltip": "Sentry3 camera zoom",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "默认",
+            "kZoomDefault"
+          ],
+          [
+            "1倍",
+            "kZoom1"
+          ],
+          [
+            "2倍",
+            "kZoom2"
+          ],
+          [
+            "3倍",
+            "kZoom3"
+          ],
+          [
+            "4倍",
+            "kZoom4"
+          ],
+          [
+            "5倍",
+            "kZoom5"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_camera_awb": {
+    "message0": "Sentry3 %1 white balance %2",
+    "tooltip": "Sentry3 white balance",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "自动",
+            "kAutoWhiteBalance"
+          ],
+          [
+            "锁定当前值",
+            "kLockWhiteBalance"
+          ],
+          [
+            "白光",
+            "kWhiteLight"
+          ],
+          [
+            "黄光",
+            "kYellowLight"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_set_coordinate": {
+    "message0": "Sentry3 %1 coordinate type %2",
+    "tooltip": "Sentry3 coordinate type",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "绝对像素",
+            "kAbsoluteCoordinate"
+          ],
+          [
+            "百分比",
+            "kPercentageCoordinate"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_vision_default": {
+    "message0": "Sentry3 %1 restore vision %2 defaults",
+    "tooltip": "Sentry3 restore vision defaults",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_screen_config": {
+    "message0": "Sentry3 %1 screen enabled %2 user image only %3",
+    "tooltip": "Sentry3 screen enabled user image only"
+  },
+  "sentry3_screen_fill": {
+    "message0": "Sentry3 %1 fill image %2 red %3 green %4 blue %5",
+    "tooltip": "Sentry3 fill image red green blue"
+  },
+  "sentry3_snapshot": {
+    "message0": "Sentry3 %1 snapshot to %2 source %3 format %4",
+    "tooltip": "Sentry3 snapshot to source format",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "存储卡",
+            "kSnapshot2SD"
+          ],
+          [
+            "串口",
+            "kSnapshot2Uart"
+          ],
+          [
+            "通用串行接口",
+            "kSnapshot2Usb"
+          ],
+          [
+            "无线网络",
+            "kSnapshot2Wifi"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "相机",
+            "kSnapshotFromCamera"
+          ],
+          [
+            "屏幕",
+            "kSnapshotFromScreen"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "彩色原始格式",
+            "kSnapshotTypeRGB565"
+          ],
+          [
+            "压缩图像",
+            "kSnapshotTypeJPEG"
+          ],
+          [
+            "文本编码图像",
+            "kSnapshotTypeJPEGBase64"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_restart": {
+    "message0": "Sentry3 %1 restart device",
+    "tooltip": "Sentry3 restart device"
+  },
+  "sentry3_sensor_default": {
+    "message0": "Sentry3 %1 restore defaults vision only %2",
+    "tooltip": "Sentry3 restore defaults vision only"
+  },
+  "sentry3_detected_count": {
+    "message0": "Sentry3 %1 vision %2 detected target count",
+    "tooltip": "Sentry3 vision detected target count",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_get_value": {
+    "message0": "Sentry3 %1 vision %2 target %3 %4",
+    "tooltip": "Sentry3 vision target",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "横坐标",
             "kXValue"
           ],
           [
-            "Y coordinate",
+            "纵坐标",
             "kYValue"
           ],
           [
-            "Width",
+            "宽度",
             "kWidthValue"
           ],
           [
-            "Height",
+            "高度",
             "kHeightValue"
+          ],
+          [
+            "标签",
+            "kLabel"
+          ],
+          [
+            "红色值",
+            "kRValue"
+          ],
+          [
+            "绿色值",
+            "kGValue"
+          ],
+          [
+            "蓝色值",
+            "kBValue"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_detected_label": {
+    "message0": "Sentry3 %1 vision %2 target %3 label equals %4",
+    "tooltip": "Sentry3 vision target label equals",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "sentry3_get_string": {
+    "message0": "Sentry3 %1 read %2 target %3 text",
+    "tooltip": "Sentry3 read target text",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "人脸属性",
+            "7"
+          ],
+          [
+            "二维码文本",
+            "9"
+          ],
+          [
+            "条形码文本",
+            "10"
+          ],
+          [
+            "文字识别文本",
+            "12"
+          ],
+          [
+            "车牌文本",
+            "14"
           ]
         ]
       },
       null
     ]
   },
-  "sentry1_check_blob_color": {
-    "message0": "Sentry1 blob detected %1 index %2",
-    "tooltip": "Return True when detected, otherwise False",
+  "sentry3_vision_status": {
+    "message0": "Sentry3 %1 vision %2 enabled?",
+    "tooltip": "Sentry3 vision enabled?",
     "args0": [
+      null,
       {
         "options": [
           [
-            "Black",
-            "Sentry1::kColorBlack"
+            "颜色识别",
+            "1"
           ],
           [
-            "White",
-            "Sentry1::kColorWhite"
+            "色块检测",
+            "2"
           ],
           [
-            "Red",
-            "Sentry1::kColorRed"
+            "标签识别",
+            "3"
           ],
           [
-            "Green",
-            "Sentry1::kColorGreen"
+            "线条检测",
+            "4"
           ],
           [
-            "Blue",
-            "Sentry1::kColorBlue"
+            "深度学习",
+            "5"
           ],
           [
-            "Yellow",
-            "Sentry1::kColorYellow"
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
           ]
         ]
-      },
-      null
+      }
     ]
   },
-  "sentry1_check_card": {
-    "message0": "Sentry1 card recognized %1 index %2",
-    "tooltip": "Return True when detected, otherwise False",
+  "sentry3_update_result": {
+    "message0": "Sentry3 %1 update vision %2 result",
+    "tooltip": "Sentry3 update vision result",
     "args0": [
+      null,
       {
         "options": [
           [
-            "Forward",
-            "Sentry1::kCardForward"
+            "颜色识别",
+            "1"
           ],
           [
-            "Turn left",
-            "Sentry1::kCardLeft"
+            "色块检测",
+            "2"
           ],
           [
-            "Turn right",
-            "Sentry1::kCardRight"
+            "标签识别",
+            "3"
           ],
           [
-            "Turn around",
-            "Sentry1::kCardTurnAround"
+            "线条检测",
+            "4"
           ],
           [
-            "Park",
-            "Sentry1::kCardPark"
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
           ]
         ]
-      },
-      null
+      }
     ]
   },
-  "sentry1_check_ball": {
-    "message0": "Sentry1 ball recognized %1 index %2",
-    "tooltip": "Return True when detected, otherwise False",
+  "sentry3_image_rows": {
+    "message0": "Sentry3 %1 image height",
+    "tooltip": "Sentry3 image height"
+  },
+  "sentry3_image_cols": {
+    "message0": "Sentry3 %1 image width",
+    "tooltip": "Sentry3 image width"
+  },
+  "sentry3_wifi_connect": {
+    "message0": "Sentry3 %1 connect WiFi name %2 password %3",
+    "tooltip": "Sentry3 connect WiFi name password"
+  },
+  "sentry3_wifi_close": {
+    "message0": "Sentry3 %1 turn off WiFi",
+    "tooltip": "Sentry3 turn off WiFi"
+  },
+  "sentry3_llm_mode": {
+    "message0": "Sentry3 %1 large-model mode %2",
+    "tooltip": "Sentry3 large-model mode",
     "args0": [
+      null,
       {
         "options": [
           [
-            "Table tennis ball",
-            "Sentry1::kBallTableTennis"
+            "关闭",
+            "kModeClose"
           ],
           [
-            "Tennis ball",
-            "Sentry1::kBallTennis"
+            "文本推理",
+            "kModeChat"
+          ],
+          [
+            "图像推理",
+            "kModeImage"
+          ],
+          [
+            "语音对话",
+            "kModeTalk"
+          ],
+          [
+            "语音识别",
+            "kModeASR"
+          ],
+          [
+            "语音合成",
+            "kModeTTS"
           ]
         ]
-      },
-      null
+      }
     ]
+  },
+  "sentry3_llm_model": {
+    "message0": "Sentry3 %1 model name %2",
+    "tooltip": "Sentry3 model name"
+  },
+  "sentry3_llm_api_key": {
+    "message0": "Sentry3 %1 model API key %2",
+    "tooltip": "Sentry3 model API key"
+  },
+  "sentry3_llm_prompt": {
+    "message0": "Sentry3 %1 system prompt %2",
+    "tooltip": "Sentry3 system prompt"
+  },
+  "sentry3_llm_voice": {
+    "message0": "Sentry3 %1 voice %2",
+    "tooltip": "Sentry3 voice"
+  },
+  "sentry3_llm_thinking": {
+    "message0": "Sentry3 %1 deep thinking %2",
+    "tooltip": "Sentry3 deep thinking"
+  },
+  "sentry3_llm_chat": {
+    "message0": "Sentry3 %1 model input %2 return answer",
+    "tooltip": "Sentry3 model input return answer"
+  },
+  "sentry3_llm_tts": {
+    "message0": "Sentry3 %1 synthesize speech %2",
+    "tooltip": "Sentry3 synthesize speech"
   }
 }

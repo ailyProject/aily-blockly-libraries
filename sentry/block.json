@@ -1,819 +1,4458 @@
 [
   {
-    "type": "sentry2_begin",
-    "icon": "fa-light fa-camera",
-    "message0": "初始化 Sentry2 端口 %1 地址 %2",
+    "type": "sentry1_init_i2c",
+    "message0": "初始化 Sentry1 变量 %1 两线通信地址 %2",
     "args0": [
       {
-        "type": "field_dropdown",
-        "name": "PORT",
-        "options": [
-          ["I2C", "Wire"],
-          ["Serial", "Serial"],
-          ["Serial1", "Serial1"],
-          ["Serial2", "Serial2"]
-        ]
+        "type": "field_input",
+        "name": "VAR",
+        "text": "sentry1"
       },
       {
-        "type": "field_dropdown",
-        "name": "ADDR",
-        "options": [
-          ["0x60", "0x60"],
-          ["0x61", "0x61"],
-          ["0x62", "0x62"],
-          ["0x63", "0x63"]
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": [
+          "Number"
         ]
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#EF5411",
-    "tooltip": "初始化Sentry2视觉传感器"
+    "colour": "#2E86AB",
+    "tooltip": "使用开发板默认两线总线初始化 Sentry1，并自动重试直到连接成功"
   },
   {
-    "type": "sentry2_set_default",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 恢复默认参数",
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#EF5411",
-    "tooltip": "传感器算法状态恢复默认"
-  },
-  {
-    "type": "sentry2_set_vision_status",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 %1 算法 %2",
+    "type": "sentry1_init_uart",
+    "message0": "初始化 Sentry1 变量 %1 硬件串口 %2 波特率 %3",
     "args0": [
       {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "sentry1"
+      },
+      {
         "type": "field_dropdown",
-        "name": "STATUS",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      },
+      {
+        "type": "input_value",
+        "name": "BAUD",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "使用所选硬件串口初始化 Sentry1，并自动重试直到连接成功"
+  },
+  {
+    "type": "sentry1_set_led",
+    "message0": "Sentry1 %1 检测到目标时指示灯 %2 未检测到时 %3 亮度 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry1",
+        "variableTypes": [
+          "Sentry1Device"
+        ],
+        "defaultType": "Sentry1Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DETECTED",
         "options": [
-          ["开启", "Begin"],
-          ["关闭", "End"]
+          [
+            "关闭",
+            "kLedClose"
+          ],
+          [
+            "红色",
+            "kLedRed"
+          ],
+          [
+            "绿色",
+            "kLedGreen"
+          ],
+          [
+            "黄色",
+            "kLedYellow"
+          ],
+          [
+            "蓝色",
+            "kLedBlue"
+          ],
+          [
+            "紫色",
+            "kLedPurple"
+          ],
+          [
+            "青色",
+            "kLedCyan"
+          ],
+          [
+            "白色",
+            "kLedWhite"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "UNDETECTED",
+        "options": [
+          [
+            "关闭",
+            "kLedClose"
+          ],
+          [
+            "红色",
+            "kLedRed"
+          ],
+          [
+            "绿色",
+            "kLedGreen"
+          ],
+          [
+            "黄色",
+            "kLedYellow"
+          ],
+          [
+            "蓝色",
+            "kLedBlue"
+          ],
+          [
+            "紫色",
+            "kLedPurple"
+          ],
+          [
+            "青色",
+            "kLedCyan"
+          ],
+          [
+            "白色",
+            "kLedWhite"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "LEVEL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置检测状态对应的指示灯颜色和亮度（0至15）"
+  },
+  {
+    "type": "sentry1_vision_control",
+    "message0": "Sentry1 %1 %2 识别功能 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry1",
+        "variableTypes": [
+          "Sentry1Device"
+        ],
+        "defaultType": "Sentry1Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "开始",
+            "BEGIN"
+          ],
+          [
+            "停止",
+            "END"
+          ]
         ]
       },
       {
         "type": "field_dropdown",
         "name": "VISION",
         "options": [
-          ["颜色识别", "Sentry2::kVisionColor"],
-          ["色块检测", "Sentry2::kVisionBlob"],
-          ["标签识别", "Sentry2::kVisionAprilTag"],
-          ["线条检测", "Sentry2::kVisionLine"],
-          ["深度学习", "Sentry2::kVisionLearning"],
-          ["卡片识别", "Sentry2::kVisionCard"],
-          ["人脸识别", "Sentry2::kVisionFace"],
-          ["20类物体", "Sentry2::kVision20Classes"],
-          ["二维码", "Sentry2::kVisionQrCode"],
-          ["自定义", "Sentry2::kVisionCustom"],
-          ["运动物体", "Sentry2::kVisionMotionDetect"]
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "球体识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人体检测",
+            "7"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
         ]
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#EF5411"
+    "colour": "#2E86AB",
+    "tooltip": "开始或停止该型号支持的识别功能"
   },
   {
-    "type": "sentry2_set_awb",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 白平衡模式 %1",
+    "type": "sentry1_set_region_param",
+    "message0": "Sentry1 %1 设置颜色识别区域 %2 中心横坐标 %3 中心纵坐标 %4 宽度 %5 高度 %6",
     "args0": [
       {
-        "type": "field_dropdown",
-        "name": "AWB",
-        "options": [
-          ["自动", "kAutoWhiteBalance"],
-          ["锁定", "kLockWhiteBalance"],
-          ["白光", "kWhiteLight"],
-          ["黄光", "kYellowLight"]
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry1",
+        "variableTypes": [
+          "Sentry1Device"
+        ],
+        "defaultType": "Sentry1Device"
+      },
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "HEIGHT",
+        "check": [
+          "Number"
         ]
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#EF5411"
-  },
-  {
-    "type": "sentry2_set_param_num",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 算法 %1 设置 %2 组参数",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "VISION",
-        "options": [
-          ["颜色识别", "Sentry2::kVisionColor"],
-          ["色块检测", "Sentry2::kVisionBlob"],
-          ["自定义", "Sentry2::kVisionCustom"]
-        ]
-      },
-      {"type": "input_value", "name": "NUM", "check": ["Number"]}
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#EF5411"
-  },
-  {
-    "type": "sentry2_set_color_param",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 颜色识别 中心X %1 Y %2 宽 %3 高 %4 参数组 %5",
-    "args0": [
-      {"type": "input_value", "name": "X", "check": ["Number"]},
-      {"type": "input_value", "name": "Y", "check": ["Number"]},
-      {"type": "input_value", "name": "W", "check": ["Number"]},
-      {"type": "input_value", "name": "H", "check": ["Number"]},
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#EF5411"
-  },
-  {
-    "type": "sentry2_set_blob_param",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 色块检测 最小宽 %1 高 %2 颜色 %3 参数组 %4",
-    "args0": [
-      {"type": "input_value", "name": "W", "check": ["Number"]},
-      {"type": "input_value", "name": "H", "check": ["Number"]},
-      {
-        "type": "field_dropdown",
-        "name": "COLOR",
-        "options": [
-          ["黑色", "Sentry2::kColorBlack"],
-          ["白色", "Sentry2::kColorWhite"],
-          ["红色", "Sentry2::kColorRed"],
-          ["绿色", "Sentry2::kColorGreen"],
-          ["蓝色", "Sentry2::kColorBlue"],
-          ["黄色", "Sentry2::kColorYellow"]
-        ]
-      },
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#EF5411"
-  },
-  {
-    "type": "sentry2_set_custom_param",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 算法 %1 参数1 %2 参数2 %3 参数3 %4 参数4 %5 参数5 %6 参数组 %7",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "VISION",
-        "options": [
-          ["自定义", "Sentry2::kVisionCustom"],
-          ["颜色识别", "Sentry2::kVisionColor"],
-          ["色块检测", "Sentry2::kVisionBlob"],
-          ["深度学习", "Sentry2::kVisionLearning"],
-          ["人脸识别", "Sentry2::kVisionFace"]
-        ]
-      },
-      {"type": "input_value", "name": "X", "check": ["Number"]},
-      {"type": "input_value", "name": "Y", "check": ["Number"]},
-      {"type": "input_value", "name": "W", "check": ["Number"]},
-      {"type": "input_value", "name": "H", "check": ["Number"]},
-      {"type": "input_value", "name": "LABEL", "check": ["Number"]},
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#EF5411"
-  },
-  {
-    "type": "sentry2_detected_count",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 算法 %1 返回结果数量",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "VISION",
-        "options": [
-          ["颜色识别", "Sentry2::kVisionColor"],
-          ["色块检测", "Sentry2::kVisionBlob"],
-          ["标签识别", "Sentry2::kVisionAprilTag"],
-          ["线条检测", "Sentry2::kVisionLine"],
-          ["深度学习", "Sentry2::kVisionLearning"],
-          ["卡片识别", "Sentry2::kVisionCard"],
-          ["人脸识别", "Sentry2::kVisionFace"],
-          ["20类物体", "Sentry2::kVision20Classes"],
-          ["二维码", "Sentry2::kVisionQrCode"],
-          ["自定义", "Sentry2::kVisionCustom"],
-          ["运动物体", "Sentry2::kVisionMotionDetect"]
-        ]
-      }
-    ],
-    "output": "Number",
-    "colour": "#EAA20A"
-  },
-  {
-    "type": "sentry2_get_value",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 算法 %1 返回 %2 索引 %3 的值",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "VISION",
-        "options": [
-          ["色块检测", "Sentry2::kVisionBlob"],
-          ["标签识别", "Sentry2::kVisionAprilTag"],
-          ["深度学习", "Sentry2::kVisionLearning"],
-          ["卡片识别", "Sentry2::kVisionCard"],
-          ["人脸识别", "Sentry2::kVisionFace"],
-          ["20类物体", "Sentry2::kVision20Classes"],
-          ["运动物体", "Sentry2::kVisionMotionDetect"]
-        ]
-      },
-      {
-        "type": "field_dropdown",
-        "name": "VALUE",
-        "options": [
-          ["横坐标", "kXValue"],
-          ["纵坐标", "kYValue"],
-          ["宽度", "kWidthValue"],
-          ["高度", "kHeightValue"],
-          ["标签", "kLabel"]
-        ]
-      },
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
-    ],
-    "output": "Number",
-    "colour": "#EAA20A",
-    "tooltip": "获取算法对应结果"
-  },
-  {
-    "type": "sentry2_get_color_value",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 颜色识别 返回 %1 索引 %2 的值",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "VALUE",
-        "options": [
-          ["标签", "kLabel"],
-          ["红色分量", "kRValue"],
-          ["绿色分量", "kGValue"],
-          ["蓝色分量", "kBValue"]
-        ]
-      },
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
-    ],
-    "output": "Number",
-    "colour": "#EAA20A"
-  },
-  {
-    "type": "sentry2_get_line_value",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 线条检测 返回 %1 索引 %2 的值",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "VALUE",
-        "options": [
-          ["终点横坐标", "kXValue"],
-          ["终点纵坐标", "kYValue"],
-          ["起点横坐标", "kWidthValue"],
-          ["起点纵坐标", "kHeightValue"],
-          ["倾斜角度", "kLabel"]
-        ]
-      },
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
-    ],
-    "output": "Number",
-    "colour": "#EAA20A"
-  },
-  {
-    "type": "sentry2_get_qr_value",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 二维码 返回结果字符串",
-    "output": "String",
-    "colour": "#EAA20A"
-  },
-  {
-    "type": "sentry2_get_qr_position",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 二维码 返回 %1 索引 %2 的值",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "VALUE",
-        "options": [
-          ["横坐标", "kXValue"],
-          ["纵坐标", "kYValue"],
-          ["宽度", "kWidthValue"],
-          ["高度", "kHeightValue"]
-        ]
-      },
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
-    ],
-    "output": "Number",
-    "colour": "#EAA20A"
-  },
-  {
-    "type": "sentry2_get_custom_value",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 自定义 返回 %1 索引 %2 的值",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "VALUE",
-        "options": [
-          ["数据1", "kXValue"],
-          ["数据2", "kYValue"],
-          ["数据3", "kWidthValue"],
-          ["数据4", "kHeightValue"],
-          ["数据5", "kLabel"]
-        ]
-      },
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
-    ],
-    "output": "Number",
-    "colour": "#EAA20A"
-  },
-  {
-    "type": "sentry2_check_blob_color",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 色块检测到 %1 索引 %2",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "COLOR",
-        "options": [
-          ["黑色", "Sentry2::kColorBlack"],
-          ["白色", "Sentry2::kColorWhite"],
-          ["红色", "Sentry2::kColorRed"],
-          ["绿色", "Sentry2::kColorGreen"],
-          ["蓝色", "Sentry2::kColorBlue"],
-          ["黄色", "Sentry2::kColorYellow"]
-        ]
-      },
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
-    ],
-    "output": "Boolean",
-    "colour": "#EAA20A",
-    "tooltip": "检测到返回True，否则False"
-  },
-  {
-    "type": "sentry2_check_card",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 卡片识别到 %1 索引 %2",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "CARD",
-        "options": [
-          ["前进", "Sentry2::kCardForward"],
-          ["左转", "Sentry2::kCardLeft"],
-          ["右转", "Sentry2::kCardRight"],
-          ["掉头", "Sentry2::kCardTurnAround"],
-          ["停车", "Sentry2::kCardPark"],
-          ["绿灯", "Sentry2::kCardGreenLight"],
-          ["红灯", "Sentry2::kCardRedLight"],
-          ["限速40", "Sentry2::kCardSpeed40"],
-          ["限速60", "Sentry2::kCardSpeed60"],
-          ["限速80", "Sentry2::kCardSpeed80"],
-          ["✔", "Sentry2::kCardCheck"],
-          ["☓", "Sentry2::kCardCross"],
-          ["◯", "Sentry2::kCardCircle"],
-          ["☐", "Sentry2::kCardSquare"],
-          ["△", "Sentry2::kCardTriangle"],
-          ["+", "Sentry2::kCardPlus"],
-          ["-", "Sentry2::kCardMinus"],
-          ["÷", "Sentry2::kCardDivide"],
-          ["=", "Sentry2::kCardEqual"],
-          ["0", "Sentry2::kCardZero"],
-          ["1", "Sentry2::kCardOne"],
-          ["2", "Sentry2::kCardTwo"],
-          ["3", "Sentry2::kCardThree"],
-          ["4", "Sentry2::kCardFour"],
-          ["5", "Sentry2::kCardFive"],
-          ["6", "Sentry2::kCardSix"],
-          ["7", "Sentry2::kCardSeven"],
-          ["8", "Sentry2::kCardEight"],
-          ["9", "Sentry2::kCardNine"]
-        ]
-      },
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
-    ],
-    "output": "Boolean",
-    "colour": "#EAA20A"
-  },
-  {
-    "type": "sentry2_check_20class",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 20类识别到 %1 索引 %2",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "CLASS",
-        "options": [
-          ["飞机", "Sentry2::kAirplane"],
-          ["自行车", "Sentry2::kBicycle"],
-          ["鸟", "Sentry2::kBird"],
-          ["船", "Sentry2::kBoat"],
-          ["瓶子", "Sentry2::kBottle"],
-          ["公交车", "Sentry2::kBus"],
-          ["汽车", "Sentry2::kCar"],
-          ["猫", "Sentry2::kCat"],
-          ["椅子", "Sentry2::kChair"],
-          ["牛", "Sentry2::kCow"],
-          ["餐桌", "Sentry2::kDiningTable"],
-          ["狗", "Sentry2::kDog"],
-          ["马", "Sentry2::kHorse"],
-          ["摩托车", "Sentry2::kMotorBike"],
-          ["人", "Sentry2::kPerson"],
-          ["盆栽", "Sentry2::kPottedPlant"],
-          ["羊", "Sentry2::kSheep"],
-          ["沙发", "Sentry2::kSofa"],
-          ["火车", "Sentry2::kTrain"],
-          ["显示器", "Sentry2::kTvMonitor"]
-        ]
-      },
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
-    ],
-    "output": "Boolean",
-    "colour": "#EAA20A"
-  },
-  {
-    "type": "sentry2_rows",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 画面行数",
-    "output": "Number",
-    "colour": "#EAA20A"
-  },
-  {
-    "type": "sentry2_cols",
-    "icon": "fa-light fa-camera",
-    "message0": "Sentry2 画面列数",
-    "output": "Number",
-    "colour": "#EAA20A"
-  },
-  {
-    "type": "sentry1_begin",
-    "icon": "fa-light fa-camera-security",
-    "message0": "初始化 Sentry1 端口 %1 地址 %2",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "PORT",
-        "options": [
-          ["I2C", "Wire"],
-          ["Serial", "Serial"],
-          ["Serial1", "Serial1"],
-          ["Serial2", "Serial2"]
-        ]
-      },
-      {
-        "type": "field_dropdown",
-        "name": "ADDR",
-        "options": [
-          ["0x60", "0x60"],
-          ["0x61", "0x61"],
-          ["0x62", "0x62"],
-          ["0x63", "0x63"]
-        ]
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#EF5411",
-    "tooltip": "初始化Sentry1视觉传感器"
-  },
-  {
-    "type": "sentry1_set_default",
-    "icon": "fa-light fa-camera-security",
-    "message0": "Sentry1 恢复默认参数",
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#EF5411"
-  },
-  {
-    "type": "sentry1_led_set_color",
-    "icon": "fa-light fa-camera-security",
-    "message0": "Sentry1 检测到目标时LED %1 否则 %2 亮度 %3",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "COLOR1",
-        "options": [
-          ["关闭", "kLedClose"],
-          ["红色", "kLedRed"],
-          ["绿色", "kLedGreen"],
-          ["黄色", "kLedYellow"],
-          ["蓝色", "kLedBlue"],
-          ["紫色", "kLedPurple"],
-          ["青色", "kLedCyan"],
-          ["白色", "kLedWhite"]
-        ]
-      },
-      {
-        "type": "field_dropdown",
-        "name": "COLOR2",
-        "options": [
-          ["关闭", "kLedClose"],
-          ["红色", "kLedRed"],
-          ["绿色", "kLedGreen"],
-          ["黄色", "kLedYellow"],
-          ["蓝色", "kLedBlue"],
-          ["紫色", "kLedPurple"],
-          ["青色", "kLedCyan"],
-          ["白色", "kLedWhite"]
-        ]
-      },
-      {"type": "input_value", "name": "LEVEL", "check": ["Number"]}
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#EF5411",
-    "tooltip": "黑色为关闭LED，两色相同时LED为手动模式"
-  },
-  {
-    "type": "sentry1_set_vision_status",
-    "icon": "fa-light fa-camera-security",
-    "message0": "Sentry1 %1 算法 %2",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "STATUS",
-        "options": [
-          ["开启", "Begin"],
-          ["关闭", "End"]
-        ]
-      },
-      {
-        "type": "field_dropdown",
-        "name": "VISION",
-        "options": [
-          ["颜色识别", "Sentry1::kVisionColor"],
-          ["色块检测", "Sentry1::kVisionBlob"],
-          ["球体识别", "Sentry1::kVisionBall"],
-          ["线条检测", "Sentry1::kVisionLine"],
-          ["卡片识别", "Sentry1::kVisionCard"],
-          ["人体检测", "Sentry1::kVisionBody"]
-        ]
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#EF5411"
-  },
-  {
-    "type": "sentry1_set_awb",
-    "icon": "fa-light fa-camera-security",
-    "message0": "Sentry1 白平衡模式 %1",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "AWB",
-        "options": [
-          ["自动", "kAutoWhiteBalance"],
-          ["锁定", "kLockWhiteBalance"],
-          ["白光", "kWhiteLight"],
-          ["黄光", "kYellowLight"]
-        ]
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#EF5411"
-  },
-  {
-    "type": "sentry1_set_param_num",
-    "icon": "fa-light fa-camera-security",
-    "message0": "Sentry1 算法 %1 设置 %2 组参数",
-    "args0": [
-      {
-        "type": "field_dropdown",
-        "name": "VISION",
-        "options": [
-          ["颜色识别", "Sentry1::kVisionColor"],
-          ["色块检测", "Sentry1::kVisionBlob"]
-        ]
-      },
-      {"type": "input_value", "name": "NUM", "check": ["Number"]}
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#EF5411"
-  },
-  {
-    "type": "sentry1_set_color_param",
-    "icon": "fa-light fa-camera-security",
-    "message0": "Sentry1 颜色识别 中心X %1 Y %2 宽 %3 高 %4",
-    "args0": [
-      {"type": "input_value", "name": "X", "check": ["Number"]},
-      {"type": "input_value", "name": "Y", "check": ["Number"]},
-      {"type": "input_value", "name": "W", "check": ["Number"]},
-      {"type": "input_value", "name": "H", "check": ["Number"]}
-    ],
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": "#EF5411"
+    "colour": "#2E86AB",
+    "tooltip": "设置颜色识别区域的位置和大小"
   },
   {
     "type": "sentry1_set_blob_param",
-    "icon": "fa-light fa-camera-security",
-    "message0": "Sentry1 色块检测 最小宽 %1 高 %2 颜色 %3",
+    "message0": "Sentry1 %1 设置色块参数 %2 最小宽度 %3 最小高度 %4 颜色 %5",
     "args0": [
-      {"type": "input_value", "name": "W", "check": ["Number"]},
-      {"type": "input_value", "name": "H", "check": ["Number"]},
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry1",
+        "variableTypes": [
+          "Sentry1Device"
+        ],
+        "defaultType": "Sentry1Device"
+      },
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "HEIGHT",
+        "check": [
+          "Number"
+        ]
+      },
       {
         "type": "field_dropdown",
         "name": "COLOR",
         "options": [
-          ["黑色", "Sentry1::kColorBlack"],
-          ["白色", "Sentry1::kColorWhite"],
-          ["红色", "Sentry1::kColorRed"],
-          ["绿色", "Sentry1::kColorGreen"],
-          ["蓝色", "Sentry1::kColorBlue"],
-          ["黄色", "Sentry1::kColorYellow"]
+          [
+            "黑色",
+            "1"
+          ],
+          [
+            "白色",
+            "2"
+          ],
+          [
+            "红色",
+            "3"
+          ],
+          [
+            "绿色",
+            "4"
+          ],
+          [
+            "蓝色",
+            "5"
+          ],
+          [
+            "黄色",
+            "6"
+          ]
         ]
       }
     ],
     "previousStatement": null,
     "nextStatement": null,
-    "colour": "#EF5411"
+    "colour": "#2E86AB",
+    "tooltip": "设置色块检测的尺寸过滤条件和目标颜色"
   },
   {
-    "type": "sentry1_detected_count",
-    "icon": "fa-light fa-camera-security",
-    "message0": "Sentry1 算法 %1 返回结果数量",
+    "type": "sentry1_camera_awb",
+    "message0": "Sentry1 %1 设置白平衡 %2",
     "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry1",
+        "variableTypes": [
+          "Sentry1Device"
+        ],
+        "defaultType": "Sentry1Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AWB",
+        "options": [
+          [
+            "自动",
+            "kAutoWhiteBalance"
+          ],
+          [
+            "锁定当前值",
+            "kLockWhiteBalance"
+          ],
+          [
+            "白光",
+            "kWhiteLight"
+          ],
+          [
+            "黄光",
+            "kYellowLight"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置相机白平衡模式"
+  },
+  {
+    "type": "sentry1_vision_default",
+    "message0": "Sentry1 %1 恢复识别功能 %2 的默认设置",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry1",
+        "variableTypes": [
+          "Sentry1Device"
+        ],
+        "defaultType": "Sentry1Device"
+      },
       {
         "type": "field_dropdown",
         "name": "VISION",
         "options": [
-          ["颜色识别", "Sentry1::kVisionColor"],
-          ["色块检测", "Sentry1::kVisionBlob"],
-          ["球体识别", "Sentry1::kVisionBall"],
-          ["线条检测", "Sentry1::kVisionLine"],
-          ["卡片识别", "Sentry1::kVisionCard"],
-          ["人体检测", "Sentry1::kVisionBody"]
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "球体识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人体检测",
+            "7"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "恢复指定识别功能的默认参数"
+  },
+  {
+    "type": "sentry1_restart",
+    "message0": "Sentry1 %1 重启设备",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry1",
+        "variableTypes": [
+          "Sentry1Device"
+        ],
+        "defaultType": "Sentry1Device"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "请求传感器重启；重启后需要重新初始化通信"
+  },
+  {
+    "type": "sentry1_sensor_default",
+    "message0": "Sentry1 %1 恢复默认设置 仅恢复识别功能 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry1",
+        "variableTypes": [
+          "Sentry1Device"
+        ],
+        "defaultType": "Sentry1Device"
+      },
+      {
+        "type": "input_value",
+        "name": "VISION_ONLY",
+        "check": [
+          "Boolean"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "恢复默认设置；仅恢复识别功能时保留通信配置"
+  },
+  {
+    "type": "sentry1_detected_count",
+    "message0": "Sentry1 %1 识别功能 %2 检测到的目标数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry1",
+        "variableTypes": [
+          "Sentry1Device"
+        ],
+        "defaultType": "Sentry1Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "球体识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人体检测",
+            "7"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
         ]
       }
     ],
     "output": "Number",
-    "colour": "#EAA20A"
+    "colour": "#2E86AB",
+    "tooltip": "刷新并返回目标数量"
   },
   {
     "type": "sentry1_get_value",
-    "icon": "fa-light fa-camera-security",
-    "message0": "Sentry1 算法 %1 返回 %2 索引 %3 的值",
+    "message0": "Sentry1 %1 识别功能 %2 目标 %3 的 %4",
     "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry1",
+        "variableTypes": [
+          "Sentry1Device"
+        ],
+        "defaultType": "Sentry1Device"
+      },
       {
         "type": "field_dropdown",
         "name": "VISION",
         "options": [
-          ["色块检测", "Sentry1::kVisionBlob"],
-          ["球体识别", "Sentry1::kVisionBall"],
-          ["卡片识别", "Sentry1::kVisionCard"],
-          ["人体检测", "Sentry1::kVisionBody"]
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "球体识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人体检测",
+            "7"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": [
+          "Number"
         ]
       },
       {
         "type": "field_dropdown",
-        "name": "VALUE",
+        "name": "INFO",
         "options": [
-          ["横坐标", "kXValue"],
-          ["纵坐标", "kYValue"],
-          ["宽度", "kWidthValue"],
-          ["高度", "kHeightValue"],
-          ["标签", "kLabel"]
+          [
+            "横坐标",
+            "kXValue"
+          ],
+          [
+            "纵坐标",
+            "kYValue"
+          ],
+          [
+            "宽度",
+            "kWidthValue"
+          ],
+          [
+            "高度",
+            "kHeightValue"
+          ],
+          [
+            "标签",
+            "kLabel"
+          ],
+          [
+            "红色值",
+            "kRValue"
+          ],
+          [
+            "绿色值",
+            "kGValue"
+          ],
+          [
+            "蓝色值",
+            "kBValue"
+          ]
         ]
-      },
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+      }
     ],
     "output": "Number",
-    "colour": "#EAA20A"
+    "colour": "#2E86AB",
+    "tooltip": "读取指定目标的数值结果，目标编号从1开始"
   },
   {
-    "type": "sentry1_get_color_value",
-    "icon": "fa-light fa-camera-security",
-    "message0": "Sentry1 颜色识别 返回 %1 索引 %2 的值",
+    "type": "sentry1_detected_label",
+    "message0": "Sentry1 %1 识别功能 %2 目标 %3 标签等于 %4",
     "args0": [
       {
-        "type": "field_dropdown",
-        "name": "VALUE",
-        "options": [
-          ["标签", "kLabel"],
-          ["红色分量", "kRValue"],
-          ["绿色分量", "kGValue"],
-          ["蓝色分量", "kBValue"]
-        ]
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry1",
+        "variableTypes": [
+          "Sentry1Device"
+        ],
+        "defaultType": "Sentry1Device"
       },
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
-    ],
-    "output": "Number",
-    "colour": "#EAA20A"
-  },
-  {
-    "type": "sentry1_get_line_value",
-    "icon": "fa-light fa-camera-security",
-    "message0": "Sentry1 线条检测 返回 %1 索引 %2 的值",
-    "args0": [
       {
         "type": "field_dropdown",
-        "name": "VALUE",
+        "name": "VISION",
         "options": [
-          ["终点横坐标", "kXValue"],
-          ["终点纵坐标", "kYValue"],
-          ["起点横坐标", "kWidthValue"],
-          ["起点纵坐标", "kHeightValue"],
-          ["倾斜角度", "kLabel"]
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "球体识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人体检测",
+            "7"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
         ]
       },
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
+        "check": [
+          "Number"
+        ]
+      }
     ],
-    "output": "Number",
-    "colour": "#EAA20A"
+    "output": "Boolean",
+    "colour": "#2E86AB",
+    "tooltip": "判断指定目标的分类标签是否等于给定值"
   },
   {
-    "type": "sentry1_get_qr_value",
-    "icon": "fa-light fa-camera-security",
-    "message0": "Sentry1 二维码 返回结果字符串",
+    "type": "sentry1_get_qrcode",
+    "message0": "Sentry1 %1 读取二维码文本",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry1",
+        "variableTypes": [
+          "Sentry1Device"
+        ],
+        "defaultType": "Sentry1Device"
+      }
+    ],
     "output": "String",
-    "colour": "#EAA20A"
+    "colour": "#2E86AB",
+    "tooltip": "读取最近一次二维码识别文本"
   },
   {
-    "type": "sentry1_get_qr_position",
-    "icon": "fa-light fa-camera-security",
-    "message0": "Sentry1 二维码 返回 %1 索引 %2 的值",
+    "type": "sentry1_vision_status",
+    "message0": "Sentry1 %1 识别功能 %2 已启用？",
     "args0": [
       {
-        "type": "field_dropdown",
-        "name": "VALUE",
-        "options": [
-          ["横坐标", "kXValue"],
-          ["纵坐标", "kYValue"],
-          ["宽度", "kWidthValue"],
-          ["高度", "kHeightValue"]
-        ]
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry1",
+        "variableTypes": [
+          "Sentry1Device"
+        ],
+        "defaultType": "Sentry1Device"
       },
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "球体识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人体检测",
+            "7"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      }
     ],
-    "output": "Number",
-    "colour": "#EAA20A"
+    "output": "Boolean",
+    "colour": "#2E86AB",
+    "tooltip": "查询识别功能是否启用"
   },
   {
-    "type": "sentry1_check_blob_color",
-    "icon": "fa-light fa-camera-security",
-    "message0": "Sentry1 色块检测到 %1 索引 %2",
+    "type": "sentry1_update_result",
+    "message0": "Sentry1 %1 刷新识别功能 %2 的结果",
     "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry1",
+        "variableTypes": [
+          "Sentry1Device"
+        ],
+        "defaultType": "Sentry1Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "球体识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人体检测",
+            "7"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E86AB",
+    "tooltip": "主动刷新结果并返回已更新的识别功能编号"
+  },
+  {
+    "type": "sentry2_init_i2c",
+    "message0": "初始化 Sentry2 变量 %1 两线通信地址 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "sentry2"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "使用开发板默认两线总线初始化 Sentry2，并自动重试直到连接成功"
+  },
+  {
+    "type": "sentry2_init_uart",
+    "message0": "初始化 Sentry2 变量 %1 硬件串口 %2 波特率 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "sentry2"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      },
+      {
+        "type": "input_value",
+        "name": "BAUD",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "使用所选硬件串口初始化 Sentry2，并自动重试直到连接成功"
+  },
+  {
+    "type": "sentry2_set_led",
+    "message0": "Sentry2 %1 检测到目标时指示灯 %2 未检测到时 %3 亮度 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DETECTED",
+        "options": [
+          [
+            "关闭",
+            "kLedClose"
+          ],
+          [
+            "红色",
+            "kLedRed"
+          ],
+          [
+            "绿色",
+            "kLedGreen"
+          ],
+          [
+            "黄色",
+            "kLedYellow"
+          ],
+          [
+            "蓝色",
+            "kLedBlue"
+          ],
+          [
+            "紫色",
+            "kLedPurple"
+          ],
+          [
+            "青色",
+            "kLedCyan"
+          ],
+          [
+            "白色",
+            "kLedWhite"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "UNDETECTED",
+        "options": [
+          [
+            "关闭",
+            "kLedClose"
+          ],
+          [
+            "红色",
+            "kLedRed"
+          ],
+          [
+            "绿色",
+            "kLedGreen"
+          ],
+          [
+            "黄色",
+            "kLedYellow"
+          ],
+          [
+            "蓝色",
+            "kLedBlue"
+          ],
+          [
+            "紫色",
+            "kLedPurple"
+          ],
+          [
+            "青色",
+            "kLedCyan"
+          ],
+          [
+            "白色",
+            "kLedWhite"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "LEVEL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置检测状态对应的指示灯颜色和亮度（0至15）"
+  },
+  {
+    "type": "sentry2_vision_control",
+    "message0": "Sentry2 %1 %2 识别功能 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "开始",
+            "BEGIN"
+          ],
+          [
+            "停止",
+            "END"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "开始或停止该型号支持的识别功能"
+  },
+  {
+    "type": "sentry2_set_param_num",
+    "message0": "Sentry2 %1 设置识别功能 %2 最大目标数 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "COUNT",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置最多返回的目标数量"
+  },
+  {
+    "type": "sentry2_set_region_param",
+    "message0": "Sentry2 %1 设置颜色识别区域 %2 中心横坐标 %3 中心纵坐标 %4 宽度 %5 高度 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "HEIGHT",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置颜色识别区域的位置和大小"
+  },
+  {
+    "type": "sentry2_set_blob_param",
+    "message0": "Sentry2 %1 设置色块参数 %2 最小宽度 %3 最小高度 %4 颜色 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "HEIGHT",
+        "check": [
+          "Number"
+        ]
+      },
       {
         "type": "field_dropdown",
         "name": "COLOR",
         "options": [
-          ["黑色", "Sentry1::kColorBlack"],
-          ["白色", "Sentry1::kColorWhite"],
-          ["红色", "Sentry1::kColorRed"],
-          ["绿色", "Sentry1::kColorGreen"],
-          ["蓝色", "Sentry1::kColorBlue"],
-          ["黄色", "Sentry1::kColorYellow"]
+          [
+            "黑色",
+            "1"
+          ],
+          [
+            "白色",
+            "2"
+          ],
+          [
+            "红色",
+            "3"
+          ],
+          [
+            "绿色",
+            "4"
+          ],
+          [
+            "蓝色",
+            "5"
+          ],
+          [
+            "黄色",
+            "6"
+          ]
         ]
-      },
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+      }
     ],
-    "output": "Boolean",
-    "colour": "#EAA20A"
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置色块检测的尺寸过滤条件和目标颜色"
   },
   {
-    "type": "sentry1_check_card",
-    "icon": "fa-light fa-camera-security",
-    "message0": "Sentry1 卡片识别到 %1 索引 %2",
+    "type": "sentry2_set_label_param",
+    "message0": "Sentry2 %1 设置识别功能 %2 参数组 %3 标签值 %4",
     "args0": [
       {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
         "type": "field_dropdown",
-        "name": "CARD",
+        "name": "VISION",
         "options": [
-          ["前进", "Sentry1::kCardForward"],
-          ["左转", "Sentry1::kCardLeft"],
-          ["右转", "Sentry1::kCardRight"],
-          ["掉头", "Sentry1::kCardTurnAround"],
-          ["停车", "Sentry1::kCardPark"]
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
         ]
       },
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
+        "check": [
+          "Number"
+        ]
+      }
     ],
-    "output": "Boolean",
-    "colour": "#EAA20A"
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "为深度学习、卡片或其他需要标签的算法写入标签参数"
   },
   {
-    "type": "sentry1_check_ball",
-    "icon": "fa-light fa-camera-security",
-    "message0": "Sentry1 球体识别到 %1 索引 %2",
+    "type": "sentry2_set_mode",
+    "message0": "Sentry2 %1 设置识别功能 %2 模式值 %3",
     "args0": [
       {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
         "type": "field_dropdown",
-        "name": "BALL",
+        "name": "VISION",
         "options": [
-          ["乒乓球", "Sentry1::kBallTableTennis"],
-          ["网球", "Sentry1::kBallTennis"]
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
         ]
       },
-      {"type": "input_value", "name": "INDEX", "check": ["Number"]}
+      {
+        "type": "input_value",
+        "name": "MODE",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置算法模式；标签、条形码、文字等算法的模式值含义不同"
+  },
+  {
+    "type": "sentry2_set_apriltag_mode",
+    "message0": "Sentry2 %1 设置标签编码格式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "16H5编码",
+            "0"
+          ],
+          [
+            "25H9编码",
+            "1"
+          ],
+          [
+            "36H11编码",
+            "2"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置标签识别使用的编码格式"
+  },
+  {
+    "type": "sentry2_set_level",
+    "message0": "Sentry2 %1 设置识别功能 %2 性能优先级 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "LEVEL",
+        "options": [
+          [
+            "默认",
+            "kLevelDefault"
+          ],
+          [
+            "速度优先",
+            "kLevelSpeed"
+          ],
+          [
+            "平衡",
+            "kLevelBalance"
+          ],
+          [
+            "精度优先",
+            "kLevelAccuracy"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置算法的速度与精度偏好"
+  },
+  {
+    "type": "sentry2_camera_zoom",
+    "message0": "Sentry2 %1 设置相机缩放 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ZOOM",
+        "options": [
+          [
+            "默认",
+            "kZoomDefault"
+          ],
+          [
+            "1倍",
+            "kZoom1"
+          ],
+          [
+            "2倍",
+            "kZoom2"
+          ],
+          [
+            "3倍",
+            "kZoom3"
+          ],
+          [
+            "4倍",
+            "kZoom4"
+          ],
+          [
+            "5倍",
+            "kZoom5"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置相机数码缩放"
+  },
+  {
+    "type": "sentry2_camera_awb",
+    "message0": "Sentry2 %1 设置白平衡 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AWB",
+        "options": [
+          [
+            "自动",
+            "kAutoWhiteBalance"
+          ],
+          [
+            "锁定当前值",
+            "kLockWhiteBalance"
+          ],
+          [
+            "白光",
+            "kWhiteLight"
+          ],
+          [
+            "黄光",
+            "kYellowLight"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置相机白平衡模式"
+  },
+  {
+    "type": "sentry2_set_coordinate",
+    "message0": "Sentry2 %1 设置坐标类型 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COORDINATE",
+        "options": [
+          [
+            "绝对像素",
+            "kAbsoluteCoordinate"
+          ],
+          [
+            "百分比",
+            "kPercentageCoordinate"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "选择结果使用绝对像素或百分比坐标"
+  },
+  {
+    "type": "sentry2_vision_default",
+    "message0": "Sentry2 %1 恢复识别功能 %2 的默认设置",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "恢复指定识别功能的默认参数"
+  },
+  {
+    "type": "sentry2_screen_config",
+    "message0": "Sentry2 %1 屏幕开启 %2 仅显示用户图像 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "input_value",
+        "name": "ENABLE",
+        "check": [
+          "Boolean"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "USER_ONLY",
+        "check": [
+          "Boolean"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "配置传感器屏幕显示状态"
+  },
+  {
+    "type": "sentry2_screen_fill",
+    "message0": "Sentry2 %1 填充图像编号 %2 红色 %3 绿色 %4 蓝色 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "input_value",
+        "name": "IMAGE_ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "RED",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "GREEN",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "BLUE",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "用指定颜色填充屏幕图像层"
+  },
+  {
+    "type": "sentry2_snapshot",
+    "message0": "Sentry2 %1 截图到 %2 来源 %3 格式 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DEST",
+        "options": [
+          [
+            "存储卡",
+            "kSnapshot2SD"
+          ],
+          [
+            "串口",
+            "kSnapshot2Uart"
+          ],
+          [
+            "通用串行接口",
+            "kSnapshot2Usb"
+          ],
+          [
+            "无线网络",
+            "kSnapshot2Wifi"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SOURCE",
+        "options": [
+          [
+            "相机",
+            "kSnapshotFromCamera"
+          ],
+          [
+            "屏幕",
+            "kSnapshotFromScreen"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FORMAT",
+        "options": [
+          [
+            "彩色原始格式",
+            "kSnapshotTypeRGB565"
+          ],
+          [
+            "压缩图像",
+            "kSnapshotTypeJPEG"
+          ],
+          [
+            "文本编码图像",
+            "kSnapshotTypeJPEGBase64"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "将相机或屏幕图像保存或发送到指定目标"
+  },
+  {
+    "type": "sentry2_restart",
+    "message0": "Sentry2 %1 重启设备",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "请求传感器重启；重启后需要重新初始化通信"
+  },
+  {
+    "type": "sentry2_sensor_default",
+    "message0": "Sentry2 %1 恢复默认设置 仅恢复识别功能 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "input_value",
+        "name": "VISION_ONLY",
+        "check": [
+          "Boolean"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "恢复默认设置；仅恢复识别功能时保留通信配置"
+  },
+  {
+    "type": "sentry2_detected_count",
+    "message0": "Sentry2 %1 识别功能 %2 检测到的目标数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E86AB",
+    "tooltip": "刷新并返回目标数量"
+  },
+  {
+    "type": "sentry2_get_value",
+    "message0": "Sentry2 %1 识别功能 %2 目标 %3 的 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INFO",
+        "options": [
+          [
+            "横坐标",
+            "kXValue"
+          ],
+          [
+            "纵坐标",
+            "kYValue"
+          ],
+          [
+            "宽度",
+            "kWidthValue"
+          ],
+          [
+            "高度",
+            "kHeightValue"
+          ],
+          [
+            "标签",
+            "kLabel"
+          ],
+          [
+            "红色值",
+            "kRValue"
+          ],
+          [
+            "绿色值",
+            "kGValue"
+          ],
+          [
+            "蓝色值",
+            "kBValue"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E86AB",
+    "tooltip": "读取指定目标的数值结果，目标编号从1开始"
+  },
+  {
+    "type": "sentry2_detected_label",
+    "message0": "Sentry2 %1 识别功能 %2 目标 %3 标签等于 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
+        "check": [
+          "Number"
+        ]
+      }
     ],
     "output": "Boolean",
-    "colour": "#EAA20A"
+    "colour": "#2E86AB",
+    "tooltip": "判断指定目标的分类标签是否等于给定值"
+  },
+  {
+    "type": "sentry2_get_qrcode",
+    "message0": "Sentry2 %1 读取二维码文本",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      }
+    ],
+    "output": "String",
+    "colour": "#2E86AB",
+    "tooltip": "读取最近一次二维码识别文本"
+  },
+  {
+    "type": "sentry2_vision_status",
+    "message0": "Sentry2 %1 识别功能 %2 已启用？",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#2E86AB",
+    "tooltip": "查询识别功能是否启用"
+  },
+  {
+    "type": "sentry2_update_result",
+    "message0": "Sentry2 %1 刷新识别功能 %2 的结果",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "卡片识别",
+            "6"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "20类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "运动检测",
+            "11"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E86AB",
+    "tooltip": "主动刷新结果并返回已更新的识别功能编号"
+  },
+  {
+    "type": "sentry2_image_rows",
+    "message0": "Sentry2 %1 图像高度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E86AB",
+    "tooltip": "读取图像高度"
+  },
+  {
+    "type": "sentry2_image_cols",
+    "message0": "Sentry2 %1 图像宽度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry2",
+        "variableTypes": [
+          "Sentry2Device"
+        ],
+        "defaultType": "Sentry2Device"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E86AB",
+    "tooltip": "读取图像宽度"
+  },
+  {
+    "type": "sentry3_init_i2c",
+    "message0": "初始化 Sentry3 变量 %1 两线通信地址 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "sentry3"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "使用开发板默认两线总线初始化 Sentry3，并自动重试直到连接成功"
+  },
+  {
+    "type": "sentry3_init_uart",
+    "message0": "初始化 Sentry3 变量 %1 硬件串口 %2 波特率 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "sentry3"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      },
+      {
+        "type": "input_value",
+        "name": "BAUD",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "使用所选硬件串口初始化 Sentry3，并自动重试直到连接成功"
+  },
+  {
+    "type": "sentry3_set_led",
+    "message0": "Sentry3 %1 检测到目标时指示灯 %2 未检测到时 %3 亮度 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DETECTED",
+        "options": [
+          [
+            "关闭",
+            "kLedClose"
+          ],
+          [
+            "红色",
+            "kLedRed"
+          ],
+          [
+            "绿色",
+            "kLedGreen"
+          ],
+          [
+            "黄色",
+            "kLedYellow"
+          ],
+          [
+            "蓝色",
+            "kLedBlue"
+          ],
+          [
+            "紫色",
+            "kLedPurple"
+          ],
+          [
+            "青色",
+            "kLedCyan"
+          ],
+          [
+            "白色",
+            "kLedWhite"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "UNDETECTED",
+        "options": [
+          [
+            "关闭",
+            "kLedClose"
+          ],
+          [
+            "红色",
+            "kLedRed"
+          ],
+          [
+            "绿色",
+            "kLedGreen"
+          ],
+          [
+            "黄色",
+            "kLedYellow"
+          ],
+          [
+            "蓝色",
+            "kLedBlue"
+          ],
+          [
+            "紫色",
+            "kLedPurple"
+          ],
+          [
+            "青色",
+            "kLedCyan"
+          ],
+          [
+            "白色",
+            "kLedWhite"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "LEVEL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置检测状态对应的指示灯颜色和亮度（0至15）"
+  },
+  {
+    "type": "sentry3_vision_control",
+    "message0": "Sentry3 %1 %2 识别功能 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "开始",
+            "BEGIN"
+          ],
+          [
+            "停止",
+            "END"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "开始或停止该型号支持的识别功能"
+  },
+  {
+    "type": "sentry3_set_param_num",
+    "message0": "Sentry3 %1 设置识别功能 %2 最大目标数 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "COUNT",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置最多返回的目标数量"
+  },
+  {
+    "type": "sentry3_set_region_param",
+    "message0": "Sentry3 %1 设置颜色识别区域 %2 中心横坐标 %3 中心纵坐标 %4 宽度 %5 高度 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "HEIGHT",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置颜色识别区域的位置和大小"
+  },
+  {
+    "type": "sentry3_set_blob_param",
+    "message0": "Sentry3 %1 设置色块参数 %2 最小宽度 %3 最小高度 %4 颜色 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "HEIGHT",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          [
+            "黑色",
+            "1"
+          ],
+          [
+            "白色",
+            "2"
+          ],
+          [
+            "红色",
+            "3"
+          ],
+          [
+            "绿色",
+            "4"
+          ],
+          [
+            "蓝色",
+            "5"
+          ],
+          [
+            "黄色",
+            "6"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置色块检测的尺寸过滤条件和目标颜色"
+  },
+  {
+    "type": "sentry3_set_label_param",
+    "message0": "Sentry3 %1 设置识别功能 %2 参数组 %3 标签值 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "为深度学习、卡片或其他需要标签的算法写入标签参数"
+  },
+  {
+    "type": "sentry3_set_mode",
+    "message0": "Sentry3 %1 设置识别功能 %2 模式值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MODE",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置算法模式；标签、条形码、文字等算法的模式值含义不同"
+  },
+  {
+    "type": "sentry3_set_apriltag_mode",
+    "message0": "Sentry3 %1 设置标签编码格式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "16H5编码",
+            "0"
+          ],
+          [
+            "25H9编码",
+            "1"
+          ],
+          [
+            "36H11编码",
+            "2"
+          ],
+          [
+            "41H12编码",
+            "3"
+          ],
+          [
+            "圆形21H7编码",
+            "4"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置标签识别使用的编码格式"
+  },
+  {
+    "type": "sentry3_set_barcode_mode",
+    "message0": "Sentry3 %1 设置条形码格式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "EAN13编码",
+            "2"
+          ],
+          [
+            "Code128编码",
+            "4"
+          ],
+          [
+            "Code39编码",
+            "8"
+          ],
+          [
+            "全部格式",
+            "14"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置条形码识别允许的编码格式"
+  },
+  {
+    "type": "sentry3_set_ocr_mode",
+    "message0": "Sentry3 %1 设置文字识别模式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "基础模式",
+            "0"
+          ],
+          [
+            "精准模式",
+            "1"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置文字识别使用快速基础模型或精准模型"
+  },
+  {
+    "type": "sentry3_set_face_mode",
+    "message0": "Sentry3 %1 设置人脸扩展模式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "表情与眼嘴状态",
+            "1"
+          ],
+          [
+            "头部姿态",
+            "2"
+          ],
+          [
+            "情绪识别",
+            "4"
+          ],
+          [
+            "全部扩展",
+            "7"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置人脸识别返回的扩展属性"
+  },
+  {
+    "type": "sentry3_set_level",
+    "message0": "Sentry3 %1 设置识别功能 %2 性能优先级 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "LEVEL",
+        "options": [
+          [
+            "默认",
+            "kLevelDefault"
+          ],
+          [
+            "速度优先",
+            "kLevelSpeed"
+          ],
+          [
+            "平衡",
+            "kLevelBalance"
+          ],
+          [
+            "精度优先",
+            "kLevelAccuracy"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置算法的速度与精度偏好"
+  },
+  {
+    "type": "sentry3_camera_zoom",
+    "message0": "Sentry3 %1 设置相机缩放 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ZOOM",
+        "options": [
+          [
+            "默认",
+            "kZoomDefault"
+          ],
+          [
+            "1倍",
+            "kZoom1"
+          ],
+          [
+            "2倍",
+            "kZoom2"
+          ],
+          [
+            "3倍",
+            "kZoom3"
+          ],
+          [
+            "4倍",
+            "kZoom4"
+          ],
+          [
+            "5倍",
+            "kZoom5"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置相机数码缩放"
+  },
+  {
+    "type": "sentry3_camera_awb",
+    "message0": "Sentry3 %1 设置白平衡 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AWB",
+        "options": [
+          [
+            "自动",
+            "kAutoWhiteBalance"
+          ],
+          [
+            "锁定当前值",
+            "kLockWhiteBalance"
+          ],
+          [
+            "白光",
+            "kWhiteLight"
+          ],
+          [
+            "黄光",
+            "kYellowLight"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置相机白平衡模式"
+  },
+  {
+    "type": "sentry3_set_coordinate",
+    "message0": "Sentry3 %1 设置坐标类型 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COORDINATE",
+        "options": [
+          [
+            "绝对像素",
+            "kAbsoluteCoordinate"
+          ],
+          [
+            "百分比",
+            "kPercentageCoordinate"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "选择结果使用绝对像素或百分比坐标"
+  },
+  {
+    "type": "sentry3_vision_default",
+    "message0": "Sentry3 %1 恢复识别功能 %2 的默认设置",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "恢复指定识别功能的默认参数"
+  },
+  {
+    "type": "sentry3_screen_config",
+    "message0": "Sentry3 %1 屏幕开启 %2 仅显示用户图像 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "input_value",
+        "name": "ENABLE",
+        "check": [
+          "Boolean"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "USER_ONLY",
+        "check": [
+          "Boolean"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "配置传感器屏幕显示状态"
+  },
+  {
+    "type": "sentry3_screen_fill",
+    "message0": "Sentry3 %1 填充图像编号 %2 红色 %3 绿色 %4 蓝色 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "input_value",
+        "name": "IMAGE_ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "RED",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "GREEN",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "BLUE",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "用指定颜色填充屏幕图像层"
+  },
+  {
+    "type": "sentry3_snapshot",
+    "message0": "Sentry3 %1 截图到 %2 来源 %3 格式 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DEST",
+        "options": [
+          [
+            "存储卡",
+            "kSnapshot2SD"
+          ],
+          [
+            "串口",
+            "kSnapshot2Uart"
+          ],
+          [
+            "通用串行接口",
+            "kSnapshot2Usb"
+          ],
+          [
+            "无线网络",
+            "kSnapshot2Wifi"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SOURCE",
+        "options": [
+          [
+            "相机",
+            "kSnapshotFromCamera"
+          ],
+          [
+            "屏幕",
+            "kSnapshotFromScreen"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FORMAT",
+        "options": [
+          [
+            "彩色原始格式",
+            "kSnapshotTypeRGB565"
+          ],
+          [
+            "压缩图像",
+            "kSnapshotTypeJPEG"
+          ],
+          [
+            "文本编码图像",
+            "kSnapshotTypeJPEGBase64"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "将相机或屏幕图像保存或发送到指定目标"
+  },
+  {
+    "type": "sentry3_restart",
+    "message0": "Sentry3 %1 重启设备",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "请求传感器重启；重启后需要重新初始化通信"
+  },
+  {
+    "type": "sentry3_sensor_default",
+    "message0": "Sentry3 %1 恢复默认设置 仅恢复识别功能 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "input_value",
+        "name": "VISION_ONLY",
+        "check": [
+          "Boolean"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "恢复默认设置；仅恢复识别功能时保留通信配置"
+  },
+  {
+    "type": "sentry3_detected_count",
+    "message0": "Sentry3 %1 识别功能 %2 检测到的目标数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E86AB",
+    "tooltip": "刷新并返回目标数量"
+  },
+  {
+    "type": "sentry3_get_value",
+    "message0": "Sentry3 %1 识别功能 %2 目标 %3 的 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INFO",
+        "options": [
+          [
+            "横坐标",
+            "kXValue"
+          ],
+          [
+            "纵坐标",
+            "kYValue"
+          ],
+          [
+            "宽度",
+            "kWidthValue"
+          ],
+          [
+            "高度",
+            "kHeightValue"
+          ],
+          [
+            "标签",
+            "kLabel"
+          ],
+          [
+            "红色值",
+            "kRValue"
+          ],
+          [
+            "绿色值",
+            "kGValue"
+          ],
+          [
+            "蓝色值",
+            "kBValue"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E86AB",
+    "tooltip": "读取指定目标的数值结果，目标编号从1开始"
+  },
+  {
+    "type": "sentry3_detected_label",
+    "message0": "Sentry3 %1 识别功能 %2 目标 %3 标签等于 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "LABEL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#2E86AB",
+    "tooltip": "判断指定目标的分类标签是否等于给定值"
+  },
+  {
+    "type": "sentry3_get_string",
+    "message0": "Sentry3 %1 读取 %2 目标 %3 的文本",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "人脸属性",
+            "7"
+          ],
+          [
+            "二维码文本",
+            "9"
+          ],
+          [
+            "条形码文本",
+            "10"
+          ],
+          [
+            "文字识别文本",
+            "12"
+          ],
+          [
+            "车牌文本",
+            "14"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#2E86AB",
+    "tooltip": "读取二维码、条形码、文字、人脸属性或车牌文本"
+  },
+  {
+    "type": "sentry3_vision_status",
+    "message0": "Sentry3 %1 识别功能 %2 已启用？",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#2E86AB",
+    "tooltip": "查询识别功能是否启用"
+  },
+  {
+    "type": "sentry3_update_result",
+    "message0": "Sentry3 %1 刷新识别功能 %2 的结果",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VISION",
+        "options": [
+          [
+            "颜色识别",
+            "1"
+          ],
+          [
+            "色块检测",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "线条检测",
+            "4"
+          ],
+          [
+            "深度学习",
+            "5"
+          ],
+          [
+            "人脸识别",
+            "7"
+          ],
+          [
+            "80类物体",
+            "8"
+          ],
+          [
+            "二维码",
+            "9"
+          ],
+          [
+            "条形码",
+            "10"
+          ],
+          [
+            "文字识别",
+            "12"
+          ],
+          [
+            "手势姿态",
+            "13"
+          ],
+          [
+            "车牌识别",
+            "14"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E86AB",
+    "tooltip": "主动刷新结果并返回已更新的识别功能编号"
+  },
+  {
+    "type": "sentry3_image_rows",
+    "message0": "Sentry3 %1 图像高度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E86AB",
+    "tooltip": "读取图像高度"
+  },
+  {
+    "type": "sentry3_image_cols",
+    "message0": "Sentry3 %1 图像宽度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E86AB",
+    "tooltip": "读取图像宽度"
+  },
+  {
+    "type": "sentry3_wifi_connect",
+    "message0": "Sentry3 %1 连接无线网络 名称 %2 密码 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "input_value",
+        "name": "SSID",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "配置无线网络并等待连接成功；仅串口初始化可用"
+  },
+  {
+    "type": "sentry3_wifi_close",
+    "message0": "Sentry3 %1 关闭无线网络",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "关闭传感器无线网络"
+  },
+  {
+    "type": "sentry3_llm_mode",
+    "message0": "Sentry3 %1 设置大模型模式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "关闭",
+            "kModeClose"
+          ],
+          [
+            "文本推理",
+            "kModeChat"
+          ],
+          [
+            "图像推理",
+            "kModeImage"
+          ],
+          [
+            "语音对话",
+            "kModeTalk"
+          ],
+          [
+            "语音识别",
+            "kModeASR"
+          ],
+          [
+            "语音合成",
+            "kModeTTS"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置大模型运行模式；语音对话和语音识别取决于固件支持"
+  },
+  {
+    "type": "sentry3_llm_model",
+    "message0": "Sentry3 %1 设置大模型名称 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "input_value",
+        "name": "MODEL",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置云端大模型名称"
+  },
+  {
+    "type": "sentry3_llm_api_key",
+    "message0": "Sentry3 %1 设置大模型密钥 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置大模型服务密钥"
+  },
+  {
+    "type": "sentry3_llm_prompt",
+    "message0": "Sentry3 %1 设置系统提示词 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "input_value",
+        "name": "PROMPT",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置大模型系统提示词"
+  },
+  {
+    "type": "sentry3_llm_voice",
+    "message0": "Sentry3 %1 设置合成人声 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "input_value",
+        "name": "VOICE",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "设置语音合成使用的人声名称"
+  },
+  {
+    "type": "sentry3_llm_thinking",
+    "message0": "Sentry3 %1 深度思考 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "input_value",
+        "name": "ENABLE",
+        "check": [
+          "Boolean"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "开启或关闭大模型深度思考"
+  },
+  {
+    "type": "sentry3_llm_chat",
+    "message0": "Sentry3 %1 大模型输入文本 %2 返回回答",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#2E86AB",
+    "tooltip": "向当前大模型发送文本并返回回答"
+  },
+  {
+    "type": "sentry3_llm_tts",
+    "message0": "Sentry3 %1 语音合成文本 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sentry3",
+        "variableTypes": [
+          "Sentry3Device"
+        ],
+        "defaultType": "Sentry3Device"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E86AB",
+    "tooltip": "将文本合成为语音并通过传感器扬声器播放"
   }
 ]

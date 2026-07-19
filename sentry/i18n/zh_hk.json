@@ -1,827 +1,49 @@
 {
-  "toolbox_name": "Sentry視覺感測器",
+  "toolbox_name": "Sentry智能視覺感測器",
   "toolbox_categories": [
-    "Sentry2",
-    "設定模組",
-    "執行模組",
     "Sentry1",
     "設定模組",
-    "執行模組"
+    "運行模組",
+    "Sentry2",
+    "設定模組",
+    "運行模組",
+    "Sentry3",
+    "設定模組",
+    "運行模組"
   ],
-  "sentry2_begin": {
-    "message0": "初始化 Sentry2 連接埠 %1 位址 %2",
-    "tooltip": "初始化 Sentry2 視覺感測器",
-    "args0": [
-      {
-        "options": [
-          [
-            "I2C",
-            "Wire"
-          ],
-          [
-            "Serial",
-            "Serial"
-          ],
-          [
-            "Serial1",
-            "Serial1"
-          ],
-          [
-            "Serial2",
-            "Serial2"
-          ]
-        ]
-      },
-      {
-        "options": [
-          [
-            "0x60",
-            "0x60"
-          ],
-          [
-            "0x61",
-            "0x61"
-          ],
-          [
-            "0x62",
-            "0x62"
-          ],
-          [
-            "0x63",
-            "0x63"
-          ]
-        ]
-      }
-    ]
+  "sentry1_init_i2c": {
+    "message0": "初始化 Sentry1 變數 %1 I2C 地址 %2",
+    "tooltip": "初始化 Sentry1 變數 I2C 地址"
   },
-  "sentry2_set_default": {
-    "message0": "Sentry2 恢復預設參數",
-    "tooltip": "將感測器演算法狀態恢復為預設"
+  "sentry1_init_uart": {
+    "message0": "初始化 Sentry1 變數 %1 硬件串口 %2 波特率 %3",
+    "tooltip": "初始化 Sentry1 變數 硬件串口 波特率"
   },
-  "sentry2_set_vision_status": {
-    "message0": "Sentry2 %1 演算法 %2",
-    "tooltip": "Sentry2 演算法 設定",
-    "args0": [
-      {
-        "options": [
-          [
-            "開啟",
-            "Begin"
-          ],
-          [
-            "關閉",
-            "End"
-          ]
-        ]
-      },
-      {
-        "options": [
-          [
-            "顏色識別",
-            "Sentry2::kVisionColor"
-          ],
-          [
-            "色塊偵測",
-            "Sentry2::kVisionBlob"
-          ],
-          [
-            "標籤識別",
-            "Sentry2::kVisionAprilTag"
-          ],
-          [
-            "線條偵測",
-            "Sentry2::kVisionLine"
-          ],
-          [
-            "深度學習",
-            "Sentry2::kVisionLearning"
-          ],
-          [
-            "卡片識別",
-            "Sentry2::kVisionCard"
-          ],
-          [
-            "人臉識別",
-            "Sentry2::kVisionFace"
-          ],
-          [
-            "20類物體",
-            "Sentry2::kVision20Classes"
-          ],
-          [
-            "二維碼",
-            "Sentry2::kVisionQrCode"
-          ],
-          [
-            "自訂",
-            "Sentry2::kVisionCustom"
-          ],
-          [
-            "移動物體",
-            "Sentry2::kVisionMotionDetect"
-          ]
-        ]
-      }
-    ]
-  },
-  "sentry2_set_awb": {
-    "message0": "Sentry2 白平衡模式 %1",
-    "tooltip": "Sentry2 白平衡模式",
-    "args0": [
-      {
-        "options": [
-          [
-            "自動",
-            "kAutoWhiteBalance"
-          ],
-          [
-            "鎖定",
-            "kLockWhiteBalance"
-          ],
-          [
-            "白光",
-            "kWhiteLight"
-          ],
-          [
-            "黃光",
-            "kYellowLight"
-          ]
-        ]
-      }
-    ]
-  },
-  "sentry2_set_param_num": {
-    "message0": "Sentry2 演算法 %1 設定 %2 組參數",
-    "tooltip": "Sentry2 設定 演算法 組參數",
-    "args0": [
-      {
-        "options": [
-          [
-            "顏色識別",
-            "Sentry2::kVisionColor"
-          ],
-          [
-            "色塊偵測",
-            "Sentry2::kVisionBlob"
-          ],
-          [
-            "自訂",
-            "Sentry2::kVisionCustom"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_set_color_param": {
-    "message0": "Sentry2 顏色識別 中心X %1 Y %2 寬 %3 高 %4 參數組 %5",
-    "tooltip": "Sentry2 顏色識別 參數組 設定"
-  },
-  "sentry2_set_blob_param": {
-    "message0": "Sentry2 色塊偵測 最小寬 %1 高 %2 顏色 %3 參數組 %4",
-    "tooltip": "Sentry2 色塊偵測 參數組 設定",
+  "sentry1_set_led": {
+    "message0": "Sentry1 %1 LED 設定 檢測 %2 未檢測 %3 亮度 %4",
+    "tooltip": "Sentry1 LED 設定 檢測 未檢測 亮度",
     "args0": [
       null,
-      null,
       {
         "options": [
           [
-            "黑色",
-            "Sentry2::kColorBlack"
-          ],
-          [
-            "白色",
-            "Sentry2::kColorWhite"
-          ],
-          [
-            "紅色",
-            "Sentry2::kColorRed"
-          ],
-          [
-            "綠色",
-            "Sentry2::kColorGreen"
-          ],
-          [
-            "藍色",
-            "Sentry2::kColorBlue"
-          ],
-          [
-            "黃色",
-            "Sentry2::kColorYellow"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_set_custom_param": {
-    "message0": "Sentry2 演算法 %1 參數1 %2 參數2 %3 參數3 %4 參數4 %5 參數5 %6 參數組 %7",
-    "tooltip": "Sentry2 自訂 參數組 設定",
-    "args0": [
-      {
-        "options": [
-          [
-            "自訂",
-            "Sentry2::kVisionCustom"
-          ],
-          [
-            "顏色識別",
-            "Sentry2::kVisionColor"
-          ],
-          [
-            "色塊偵測",
-            "Sentry2::kVisionBlob"
-          ],
-          [
-            "深度學習",
-            "Sentry2::kVisionLearning"
-          ],
-          [
-            "人臉識別",
-            "Sentry2::kVisionFace"
-          ]
-        ]
-      },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-    ]
-  },
-  "sentry2_detected_count": {
-    "message0": "Sentry2 演算法 %1 返回結果數量",
-    "tooltip": "Sentry2 返回結果數量",
-    "args0": [
-      {
-        "options": [
-          [
-            "顏色識別",
-            "Sentry2::kVisionColor"
-          ],
-          [
-            "色塊偵測",
-            "Sentry2::kVisionBlob"
-          ],
-          [
-            "標籤識別",
-            "Sentry2::kVisionAprilTag"
-          ],
-          [
-            "線條偵測",
-            "Sentry2::kVisionLine"
-          ],
-          [
-            "深度學習",
-            "Sentry2::kVisionLearning"
-          ],
-          [
-            "卡片識別",
-            "Sentry2::kVisionCard"
-          ],
-          [
-            "人臉識別",
-            "Sentry2::kVisionFace"
-          ],
-          [
-            "20類物體",
-            "Sentry2::kVision20Classes"
-          ],
-          [
-            "二維碼",
-            "Sentry2::kVisionQrCode"
-          ],
-          [
-            "自訂",
-            "Sentry2::kVisionCustom"
-          ],
-          [
-            "移動物體",
-            "Sentry2::kVisionMotionDetect"
-          ]
-        ]
-      }
-    ]
-  },
-  "sentry2_get_value": {
-    "message0": "Sentry2 演算法 %1 返回 %2 索引 %3 的值",
-    "tooltip": "取得演算法對應結果",
-    "args0": [
-      {
-        "options": [
-          [
-            "色塊偵測",
-            "Sentry2::kVisionBlob"
-          ],
-          [
-            "標籤識別",
-            "Sentry2::kVisionAprilTag"
-          ],
-          [
-            "深度學習",
-            "Sentry2::kVisionLearning"
-          ],
-          [
-            "卡片識別",
-            "Sentry2::kVisionCard"
-          ],
-          [
-            "人臉識別",
-            "Sentry2::kVisionFace"
-          ],
-          [
-            "20類物體",
-            "Sentry2::kVision20Classes"
-          ],
-          [
-            "移動物體",
-            "Sentry2::kVisionMotionDetect"
-          ]
-        ]
-      },
-      {
-        "options": [
-          [
-            "橫座標",
-            "kXValue"
-          ],
-          [
-            "縱座標",
-            "kYValue"
-          ],
-          [
-            "寬度",
-            "kWidthValue"
-          ],
-          [
-            "高度",
-            "kHeightValue"
-          ],
-          [
-            "標籤",
-            "kLabel"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_get_color_value": {
-    "message0": "Sentry2 顏色識別 返回 %1 索引 %2 的值",
-    "tooltip": "Sentry2 顏色識別 返回 的值",
-    "args0": [
-      {
-        "options": [
-          [
-            "標籤",
-            "kLabel"
-          ],
-          [
-            "紅色分量",
-            "kRValue"
-          ],
-          [
-            "綠色分量",
-            "kGValue"
-          ],
-          [
-            "藍色分量",
-            "kBValue"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_get_line_value": {
-    "message0": "Sentry2 線條偵測 返回 %1 索引 %2 的值",
-    "tooltip": "Sentry2 線條偵測 返回 的值",
-    "args0": [
-      {
-        "options": [
-          [
-            "終點橫座標",
-            "kXValue"
-          ],
-          [
-            "終點縱座標",
-            "kYValue"
-          ],
-          [
-            "起點橫座標",
-            "kWidthValue"
-          ],
-          [
-            "起點縱座標",
-            "kHeightValue"
-          ],
-          [
-            "傾斜角度",
-            "kLabel"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_get_qr_value": {
-    "message0": "Sentry2 二維碼 返回結果字串",
-    "tooltip": "Sentry2 二維碼 返回結果字串"
-  },
-  "sentry2_get_qr_position": {
-    "message0": "Sentry2 二維碼 返回 %1 索引 %2 的值",
-    "tooltip": "Sentry2 二維碼 返回 的值",
-    "args0": [
-      {
-        "options": [
-          [
-            "橫座標",
-            "kXValue"
-          ],
-          [
-            "縱座標",
-            "kYValue"
-          ],
-          [
-            "寬度",
-            "kWidthValue"
-          ],
-          [
-            "高度",
-            "kHeightValue"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_get_custom_value": {
-    "message0": "Sentry2 自訂 返回 %1 索引 %2 的值",
-    "tooltip": "Sentry2 自訂 返回 的值",
-    "args0": [
-      {
-        "options": [
-          [
-            "資料1",
-            "kXValue"
-          ],
-          [
-            "資料2",
-            "kYValue"
-          ],
-          [
-            "資料3",
-            "kWidthValue"
-          ],
-          [
-            "資料4",
-            "kHeightValue"
-          ],
-          [
-            "資料5",
-            "kLabel"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_check_blob_color": {
-    "message0": "Sentry2 色塊偵測到 %1 索引 %2",
-    "tooltip": "偵測到返回True，否則False",
-    "args0": [
-      {
-        "options": [
-          [
-            "黑色",
-            "Sentry2::kColorBlack"
-          ],
-          [
-            "白色",
-            "Sentry2::kColorWhite"
-          ],
-          [
-            "紅色",
-            "Sentry2::kColorRed"
-          ],
-          [
-            "綠色",
-            "Sentry2::kColorGreen"
-          ],
-          [
-            "藍色",
-            "Sentry2::kColorBlue"
-          ],
-          [
-            "黃色",
-            "Sentry2::kColorYellow"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_check_card": {
-    "message0": "Sentry2 卡片識別到 %1 索引 %2",
-    "tooltip": "偵測到返回True，否則False",
-    "args0": [
-      {
-        "options": [
-          [
-            "前進",
-            "Sentry2::kCardForward"
-          ],
-          [
-            "左轉",
-            "Sentry2::kCardLeft"
-          ],
-          [
-            "右轉",
-            "Sentry2::kCardRight"
-          ],
-          [
-            "掉頭",
-            "Sentry2::kCardTurnAround"
-          ],
-          [
-            "停車",
-            "Sentry2::kCardPark"
-          ],
-          [
-            "綠燈",
-            "Sentry2::kCardGreenLight"
-          ],
-          [
-            "紅燈",
-            "Sentry2::kCardRedLight"
-          ],
-          [
-            "限速40",
-            "Sentry2::kCardSpeed40"
-          ],
-          [
-            "限速60",
-            "Sentry2::kCardSpeed60"
-          ],
-          [
-            "限速80",
-            "Sentry2::kCardSpeed80"
-          ],
-          [
-            "✔",
-            "Sentry2::kCardCheck"
-          ],
-          [
-            "☓",
-            "Sentry2::kCardCross"
-          ],
-          [
-            "◯",
-            "Sentry2::kCardCircle"
-          ],
-          [
-            "☐",
-            "Sentry2::kCardSquare"
-          ],
-          [
-            "△",
-            "Sentry2::kCardTriangle"
-          ],
-          [
-            "+",
-            "Sentry2::kCardPlus"
-          ],
-          [
-            "-",
-            "Sentry2::kCardMinus"
-          ],
-          [
-            "÷",
-            "Sentry2::kCardDivide"
-          ],
-          [
-            "=",
-            "Sentry2::kCardEqual"
-          ],
-          [
-            "0",
-            "Sentry2::kCardZero"
-          ],
-          [
-            "1",
-            "Sentry2::kCardOne"
-          ],
-          [
-            "2",
-            "Sentry2::kCardTwo"
-          ],
-          [
-            "3",
-            "Sentry2::kCardThree"
-          ],
-          [
-            "4",
-            "Sentry2::kCardFour"
-          ],
-          [
-            "5",
-            "Sentry2::kCardFive"
-          ],
-          [
-            "6",
-            "Sentry2::kCardSix"
-          ],
-          [
-            "7",
-            "Sentry2::kCardSeven"
-          ],
-          [
-            "8",
-            "Sentry2::kCardEight"
-          ],
-          [
-            "9",
-            "Sentry2::kCardNine"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_check_20class": {
-    "message0": "Sentry2 20類識別到 %1 索引 %2",
-    "tooltip": "偵測到返回True，否則False",
-    "args0": [
-      {
-        "options": [
-          [
-            "飛機",
-            "Sentry2::kAirplane"
-          ],
-          [
-            "自行車",
-            "Sentry2::kBicycle"
-          ],
-          [
-            "鳥",
-            "Sentry2::kBird"
-          ],
-          [
-            "船",
-            "Sentry2::kBoat"
-          ],
-          [
-            "瓶子",
-            "Sentry2::kBottle"
-          ],
-          [
-            "公車",
-            "Sentry2::kBus"
-          ],
-          [
-            "汽車",
-            "Sentry2::kCar"
-          ],
-          [
-            "貓",
-            "Sentry2::kCat"
-          ],
-          [
-            "椅子",
-            "Sentry2::kChair"
-          ],
-          [
-            "牛",
-            "Sentry2::kCow"
-          ],
-          [
-            "餐桌",
-            "Sentry2::kDiningTable"
-          ],
-          [
-            "狗",
-            "Sentry2::kDog"
-          ],
-          [
-            "馬",
-            "Sentry2::kHorse"
-          ],
-          [
-            "電單車",
-            "Sentry2::kMotorBike"
-          ],
-          [
-            "人",
-            "Sentry2::kPerson"
-          ],
-          [
-            "盆栽",
-            "Sentry2::kPottedPlant"
-          ],
-          [
-            "羊",
-            "Sentry2::kSheep"
-          ],
-          [
-            "梳化",
-            "Sentry2::kSofa"
-          ],
-          [
-            "火車",
-            "Sentry2::kTrain"
-          ],
-          [
-            "顯示器",
-            "Sentry2::kTvMonitor"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry2_rows": {
-    "message0": "Sentry2 畫面行數",
-    "tooltip": "Sentry2 畫面行數"
-  },
-  "sentry2_cols": {
-    "message0": "Sentry2 畫面列數",
-    "tooltip": "Sentry2 畫面列數"
-  },
-  "sentry1_begin": {
-    "message0": "初始化 Sentry1 連接埠 %1 位址 %2",
-    "tooltip": "初始化 Sentry1 視覺感測器",
-    "args0": [
-      {
-        "options": [
-          [
-            "I2C",
-            "Wire"
-          ],
-          [
-            "Serial",
-            "Serial"
-          ],
-          [
-            "Serial1",
-            "Serial1"
-          ],
-          [
-            "Serial2",
-            "Serial2"
-          ]
-        ]
-      },
-      {
-        "options": [
-          [
-            "0x60",
-            "0x60"
-          ],
-          [
-            "0x61",
-            "0x61"
-          ],
-          [
-            "0x62",
-            "0x62"
-          ],
-          [
-            "0x63",
-            "0x63"
-          ]
-        ]
-      }
-    ]
-  },
-  "sentry1_set_default": {
-    "message0": "Sentry1 恢復預設參數",
-    "tooltip": "將感測器演算法狀態恢復為預設"
-  },
-  "sentry1_led_set_color": {
-    "message0": "Sentry1 偵測到目標時LED %1 否則 %2 亮度 %3",
-    "tooltip": "黑色為關閉LED，兩色相同時LED為手動模式",
-    "args0": [
-      {
-        "options": [
-          [
-            "關閉",
+            "关闭",
             "kLedClose"
           ],
           [
-            "紅色",
+            "红色",
             "kLedRed"
           ],
           [
-            "綠色",
+            "绿色",
             "kLedGreen"
           ],
           [
-            "黃色",
+            "黄色",
             "kLedYellow"
           ],
           [
-            "藍色",
+            "蓝色",
             "kLedBlue"
           ],
           [
@@ -841,23 +63,23 @@
       {
         "options": [
           [
-            "關閉",
+            "关闭",
             "kLedClose"
           ],
           [
-            "紅色",
+            "红色",
             "kLedRed"
           ],
           [
-            "綠色",
+            "绿色",
             "kLedGreen"
           ],
           [
-            "黃色",
+            "黄色",
             "kLedYellow"
           ],
           [
-            "藍色",
+            "蓝色",
             "kLedBlue"
           ],
           [
@@ -877,19 +99,20 @@
       null
     ]
   },
-  "sentry1_set_vision_status": {
-    "message0": "Sentry1 %1 演算法 %2",
-    "tooltip": "Sentry1 演算法 設定",
+  "sentry1_vision_control": {
+    "message0": "Sentry1 %1 執行 %2 視覺 %3",
+    "tooltip": "Sentry1 執行 視覺",
     "args0": [
+      null,
       {
         "options": [
           [
-            "開啟",
-            "Begin"
+            "开始",
+            "BEGIN"
           ],
           [
-            "關閉",
-            "End"
+            "停止",
+            "END"
           ]
         ]
       },
@@ -897,187 +120,257 @@
         "options": [
           [
             "顏色識別",
-            "Sentry1::kVisionColor"
+            "1"
           ],
           [
-            "色塊偵測",
-            "Sentry1::kVisionBlob"
+            "色塊檢測",
+            "2"
           ],
           [
             "球體識別",
-            "Sentry1::kVisionBall"
+            "3"
           ],
           [
-            "線條偵測",
-            "Sentry1::kVisionLine"
+            "線條檢測",
+            "4"
           ],
           [
             "卡片識別",
-            "Sentry1::kVisionCard"
+            "6"
           ],
           [
-            "人體偵測",
-            "Sentry1::kVisionBody"
+            "人體檢測",
+            "7"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "運動檢測",
+            "11"
           ]
         ]
       }
     ]
   },
-  "sentry1_set_awb": {
-    "message0": "Sentry1 白平衡模式 %1",
-    "tooltip": "Sentry1 白平衡模式",
-    "args0": [
-      {
-        "options": [
-          [
-            "自動",
-            "kAutoWhiteBalance"
-          ],
-          [
-            "鎖定",
-            "kLockWhiteBalance"
-          ],
-          [
-            "白光",
-            "kWhiteLight"
-          ],
-          [
-            "黃光",
-            "kYellowLight"
-          ]
-        ]
-      }
-    ]
-  },
-  "sentry1_set_param_num": {
-    "message0": "Sentry1 演算法 %1 設定 %2 組參數",
-    "tooltip": "Sentry1 設定 演算法 組參數",
-    "args0": [
-      {
-        "options": [
-          [
-            "顏色識別",
-            "Sentry1::kVisionColor"
-          ],
-          [
-            "色塊偵測",
-            "Sentry1::kVisionBlob"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry1_set_color_param": {
-    "message0": "Sentry1 顏色識別 中心X %1 Y %2 寬 %3 高 %4",
-    "tooltip": "Sentry1 顏色識別 參數組 設定"
+  "sentry1_set_region_param": {
+    "message0": "Sentry1 %1 設定 顏色區域 %2 X %3 Y %4 寬 %5 高 %6",
+    "tooltip": "Sentry1 設定 顏色區域 X Y 寬 高"
   },
   "sentry1_set_blob_param": {
-    "message0": "Sentry1 色塊偵測 最小寬 %1 高 %2 顏色 %3",
-    "tooltip": "Sentry1 色塊偵測 參數組 設定",
+    "message0": "Sentry1 %1 設定 色塊 %2 最小寬 %3 最小高 %4 顏色 %5",
+    "tooltip": "Sentry1 設定 色塊 最小寬 最小高 顏色",
     "args0": [
+      null,
+      null,
       null,
       null,
       {
         "options": [
           [
             "黑色",
-            "Sentry1::kColorBlack"
+            "1"
           ],
           [
             "白色",
-            "Sentry1::kColorWhite"
+            "2"
           ],
           [
-            "紅色",
-            "Sentry1::kColorRed"
+            "红色",
+            "3"
           ],
           [
-            "綠色",
-            "Sentry1::kColorGreen"
+            "绿色",
+            "4"
           ],
           [
-            "藍色",
-            "Sentry1::kColorBlue"
+            "蓝色",
+            "5"
           ],
           [
-            "黃色",
-            "Sentry1::kColorYellow"
+            "黄色",
+            "6"
           ]
         ]
       }
     ]
   },
-  "sentry1_detected_count": {
-    "message0": "Sentry1 演算法 %1 返回結果數量",
-    "tooltip": "Sentry1 返回結果數量",
+  "sentry1_camera_awb": {
+    "message0": "Sentry1 %1 設定 白平衡 %2",
+    "tooltip": "Sentry1 設定 白平衡",
     "args0": [
+      null,
+      {
+        "options": [
+          [
+            "自动",
+            "kAutoWhiteBalance"
+          ],
+          [
+            "锁定当前值",
+            "kLockWhiteBalance"
+          ],
+          [
+            "白光",
+            "kWhiteLight"
+          ],
+          [
+            "黄光",
+            "kYellowLight"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry1_vision_default": {
+    "message0": "Sentry1 %1 設定 視覺 %2 默認值",
+    "tooltip": "Sentry1 設定 視覺 默認值",
+    "args0": [
+      null,
       {
         "options": [
           [
             "顏色識別",
-            "Sentry1::kVisionColor"
+            "1"
           ],
           [
-            "色塊偵測",
-            "Sentry1::kVisionBlob"
+            "色塊檢測",
+            "2"
           ],
           [
             "球體識別",
-            "Sentry1::kVisionBall"
+            "3"
           ],
           [
-            "線條偵測",
-            "Sentry1::kVisionLine"
+            "線條檢測",
+            "4"
           ],
           [
             "卡片識別",
-            "Sentry1::kVisionCard"
+            "6"
           ],
           [
-            "人體偵測",
-            "Sentry1::kVisionBody"
+            "人體檢測",
+            "7"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "運動檢測",
+            "11"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry1_restart": {
+    "message0": "Sentry1 %1 設定 重啟",
+    "tooltip": "Sentry1 設定 重啟"
+  },
+  "sentry1_sensor_default": {
+    "message0": "Sentry1 %1 設定 默認值 僅視覺 %2",
+    "tooltip": "Sentry1 設定 默認值 僅視覺"
+  },
+  "sentry1_detected_count": {
+    "message0": "Sentry1 %1 視覺 %2 目標數",
+    "tooltip": "Sentry1 視覺 目標數",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "球體識別",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "卡片識別",
+            "6"
+          ],
+          [
+            "人體檢測",
+            "7"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "運動檢測",
+            "11"
           ]
         ]
       }
     ]
   },
   "sentry1_get_value": {
-    "message0": "Sentry1 演算法 %1 返回 %2 索引 %3 的值",
-    "tooltip": "取得演算法對應結果",
+    "message0": "Sentry1 %1 讀取 視覺 %2 目標 %3 %4",
+    "tooltip": "Sentry1 讀取 視覺 目標",
     "args0": [
+      null,
       {
         "options": [
           [
-            "色塊偵測",
-            "Sentry1::kVisionBlob"
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
           ],
           [
             "球體識別",
-            "Sentry1::kVisionBall"
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
           ],
           [
             "卡片識別",
-            "Sentry1::kVisionCard"
+            "6"
           ],
           [
-            "人體偵測",
-            "Sentry1::kVisionBody"
+            "人體檢測",
+            "7"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "運動檢測",
+            "11"
           ]
         ]
       },
+      null,
       {
         "options": [
           [
-            "橫座標",
+            "横坐标",
             "kXValue"
           ],
           [
-            "縱座標",
+            "纵坐标",
             "kYValue"
           ],
           [
-            "寬度",
+            "宽度",
             "kWidthValue"
           ],
           [
@@ -1085,186 +378,2376 @@
             "kHeightValue"
           ],
           [
-            "標籤",
-            "kLabel"
-          ]
-        ]
-      },
-      null
-    ]
-  },
-  "sentry1_get_color_value": {
-    "message0": "Sentry1 顏色識別 返回 %1 索引 %2 的值",
-    "tooltip": "Sentry1 顏色識別 返回 的值",
-    "args0": [
-      {
-        "options": [
-          [
-            "標籤",
+            "标签",
             "kLabel"
           ],
           [
-            "紅色分量",
+            "红色值",
             "kRValue"
           ],
           [
-            "綠色分量",
+            "绿色值",
             "kGValue"
           ],
           [
-            "藍色分量",
+            "蓝色值",
             "kBValue"
           ]
         ]
-      },
-      null
+      }
     ]
   },
-  "sentry1_get_line_value": {
-    "message0": "Sentry1 線條偵測 返回 %1 索引 %2 的值",
-    "tooltip": "Sentry1 線條偵測 返回 的值",
+  "sentry1_detected_label": {
+    "message0": "Sentry1 %1 視覺 %2 目標 %3 標籤等於 %4",
+    "tooltip": "Sentry1 視覺 目標 標籤等於",
     "args0": [
+      null,
       {
         "options": [
           [
-            "終點橫座標",
-            "kXValue"
+            "顏色識別",
+            "1"
           ],
           [
-            "終點縱座標",
-            "kYValue"
+            "色塊檢測",
+            "2"
           ],
           [
-            "起點橫座標",
-            "kWidthValue"
+            "球體識別",
+            "3"
           ],
           [
-            "起點縱座標",
-            "kHeightValue"
+            "線條檢測",
+            "4"
           ],
           [
-            "傾斜角度",
-            "kLabel"
+            "卡片識別",
+            "6"
+          ],
+          [
+            "人體檢測",
+            "7"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "運動檢測",
+            "11"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "sentry1_get_qrcode": {
+    "message0": "Sentry1 %1 讀取 二維碼",
+    "tooltip": "Sentry1 讀取 二維碼"
+  },
+  "sentry1_vision_status": {
+    "message0": "Sentry1 %1 視覺 %2 已啟用？",
+    "tooltip": "Sentry1 視覺 已啟用？",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "球體識別",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "卡片識別",
+            "6"
+          ],
+          [
+            "人體檢測",
+            "7"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "運動檢測",
+            "11"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry1_update_result": {
+    "message0": "Sentry1 %1 設定 視覺 %2 結果",
+    "tooltip": "Sentry1 設定 視覺 結果",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "球體識別",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "卡片識別",
+            "6"
+          ],
+          [
+            "人體檢測",
+            "7"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "運動檢測",
+            "11"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_init_i2c": {
+    "message0": "初始化 Sentry2 變數 %1 I2C 地址 %2",
+    "tooltip": "初始化 Sentry2 變數 I2C 地址"
+  },
+  "sentry2_init_uart": {
+    "message0": "初始化 Sentry2 變數 %1 硬件串口 %2 波特率 %3",
+    "tooltip": "初始化 Sentry2 變數 硬件串口 波特率"
+  },
+  "sentry2_set_led": {
+    "message0": "Sentry2 %1 LED 設定 檢測 %2 未檢測 %3 亮度 %4",
+    "tooltip": "Sentry2 LED 設定 檢測 未檢測 亮度",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "关闭",
+            "kLedClose"
+          ],
+          [
+            "红色",
+            "kLedRed"
+          ],
+          [
+            "绿色",
+            "kLedGreen"
+          ],
+          [
+            "黄色",
+            "kLedYellow"
+          ],
+          [
+            "蓝色",
+            "kLedBlue"
+          ],
+          [
+            "紫色",
+            "kLedPurple"
+          ],
+          [
+            "青色",
+            "kLedCyan"
+          ],
+          [
+            "白色",
+            "kLedWhite"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "关闭",
+            "kLedClose"
+          ],
+          [
+            "红色",
+            "kLedRed"
+          ],
+          [
+            "绿色",
+            "kLedGreen"
+          ],
+          [
+            "黄色",
+            "kLedYellow"
+          ],
+          [
+            "蓝色",
+            "kLedBlue"
+          ],
+          [
+            "紫色",
+            "kLedPurple"
+          ],
+          [
+            "青色",
+            "kLedCyan"
+          ],
+          [
+            "白色",
+            "kLedWhite"
           ]
         ]
       },
       null
     ]
   },
-  "sentry1_get_qr_value": {
-    "message0": "Sentry1 二維碼 返回結果字串",
-    "tooltip": "Sentry1 二維碼 返回結果字串"
-  },
-  "sentry1_get_qr_position": {
-    "message0": "Sentry1 二維碼 返回 %1 索引 %2 的值",
-    "tooltip": "Sentry1 二維碼 返回 的值",
+  "sentry2_vision_control": {
+    "message0": "Sentry2 %1 執行 %2 視覺 %3",
+    "tooltip": "Sentry2 執行 視覺",
     "args0": [
+      null,
       {
         "options": [
           [
-            "橫座標",
-            "kXValue"
+            "开始",
+            "BEGIN"
           ],
           [
-            "縱座標",
-            "kYValue"
+            "停止",
+            "END"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
           ],
           [
-            "寬度",
-            "kWidthValue"
+            "色塊檢測",
+            "2"
           ],
           [
-            "高度",
-            "kHeightValue"
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "卡片識別",
+            "6"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "20類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "運動檢測",
+            "11"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_set_param_num": {
+    "message0": "Sentry2 %1 設定 視覺 %2 最大目標數 %3",
+    "tooltip": "Sentry2 設定 視覺 最大目標數",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "卡片識別",
+            "6"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "20類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "運動檢測",
+            "11"
           ]
         ]
       },
       null
     ]
   },
-  "sentry1_check_blob_color": {
-    "message0": "Sentry1 色塊偵測到 %1 索引 %2",
-    "tooltip": "偵測到返回True，否則False",
+  "sentry2_set_region_param": {
+    "message0": "Sentry2 %1 設定 顏色區域 %2 X %3 Y %4 寬 %5 高 %6",
+    "tooltip": "Sentry2 設定 顏色區域 X Y 寬 高"
+  },
+  "sentry2_set_blob_param": {
+    "message0": "Sentry2 %1 設定 色塊 %2 最小寬 %3 最小高 %4 顏色 %5",
+    "tooltip": "Sentry2 設定 色塊 最小寬 最小高 顏色",
     "args0": [
+      null,
+      null,
+      null,
+      null,
       {
         "options": [
           [
             "黑色",
-            "Sentry1::kColorBlack"
+            "1"
           ],
           [
             "白色",
-            "Sentry1::kColorWhite"
+            "2"
           ],
           [
-            "紅色",
-            "Sentry1::kColorRed"
+            "红色",
+            "3"
           ],
           [
-            "綠色",
-            "Sentry1::kColorGreen"
+            "绿色",
+            "4"
           ],
           [
-            "藍色",
-            "Sentry1::kColorBlue"
+            "蓝色",
+            "5"
           ],
           [
-            "黃色",
-            "Sentry1::kColorYellow"
+            "黄色",
+            "6"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_set_label_param": {
+    "message0": "Sentry2 %1 設定 視覺 %2 組 %3 標籤 %4",
+    "tooltip": "Sentry2 設定 視覺 組 標籤",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "卡片識別",
+            "6"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "20類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "運動檢測",
+            "11"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "sentry2_set_mode": {
+    "message0": "Sentry2 %1 設定 視覺 %2 模式 %3",
+    "tooltip": "Sentry2 設定 視覺 模式",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "卡片識別",
+            "6"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "20類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "運動檢測",
+            "11"
           ]
         ]
       },
       null
     ]
   },
-  "sentry1_check_card": {
-    "message0": "Sentry1 卡片識別到 %1 索引 %2",
-    "tooltip": "偵測到返回True，否則False",
+  "sentry2_set_apriltag_mode": {
+    "message0": "Sentry2 %1 設定 標籤格式 %2",
+    "tooltip": "Sentry2 設定 標籤格式",
     "args0": [
+      null,
       {
         "options": [
           [
-            "前進",
-            "Sentry1::kCardForward"
+            "16H5编码",
+            "0"
           ],
           [
-            "左轉",
-            "Sentry1::kCardLeft"
+            "25H9编码",
+            "1"
           ],
           [
-            "右轉",
-            "Sentry1::kCardRight"
+            "36H11编码",
+            "2"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_set_level": {
+    "message0": "Sentry2 %1 設定 視覺 %2 性能 %3",
+    "tooltip": "Sentry2 設定 視覺 性能",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
           ],
           [
-            "掉頭",
-            "Sentry1::kCardTurnAround"
+            "色塊檢測",
+            "2"
           ],
           [
-            "停車",
-            "Sentry1::kCardPark"
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "卡片識別",
+            "6"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "20類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "運動檢測",
+            "11"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "默认",
+            "kLevelDefault"
+          ],
+          [
+            "速度优先",
+            "kLevelSpeed"
+          ],
+          [
+            "平衡",
+            "kLevelBalance"
+          ],
+          [
+            "精度优先",
+            "kLevelAccuracy"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_camera_zoom": {
+    "message0": "Sentry2 %1 設定 相機縮放 %2",
+    "tooltip": "Sentry2 設定 相機縮放",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "默认",
+            "kZoomDefault"
+          ],
+          [
+            "1倍",
+            "kZoom1"
+          ],
+          [
+            "2倍",
+            "kZoom2"
+          ],
+          [
+            "3倍",
+            "kZoom3"
+          ],
+          [
+            "4倍",
+            "kZoom4"
+          ],
+          [
+            "5倍",
+            "kZoom5"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_camera_awb": {
+    "message0": "Sentry2 %1 設定 白平衡 %2",
+    "tooltip": "Sentry2 設定 白平衡",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "自动",
+            "kAutoWhiteBalance"
+          ],
+          [
+            "锁定当前值",
+            "kLockWhiteBalance"
+          ],
+          [
+            "白光",
+            "kWhiteLight"
+          ],
+          [
+            "黄光",
+            "kYellowLight"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_set_coordinate": {
+    "message0": "Sentry2 %1 設定 座標類型 %2",
+    "tooltip": "Sentry2 設定 座標類型",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "绝对像素",
+            "kAbsoluteCoordinate"
+          ],
+          [
+            "百分比",
+            "kPercentageCoordinate"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_vision_default": {
+    "message0": "Sentry2 %1 設定 視覺 %2 默認值",
+    "tooltip": "Sentry2 設定 視覺 默認值",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "卡片識別",
+            "6"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "20類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "運動檢測",
+            "11"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_screen_config": {
+    "message0": "Sentry2 %1 設定 屏幕 %2 僅用戶圖像 %3",
+    "tooltip": "Sentry2 設定 屏幕 僅用戶圖像"
+  },
+  "sentry2_screen_fill": {
+    "message0": "Sentry2 %1 設定 圖像 %2 紅 %3 綠 %4 藍 %5",
+    "tooltip": "Sentry2 設定 圖像 紅 綠 藍"
+  },
+  "sentry2_snapshot": {
+    "message0": "Sentry2 %1 設定 截圖到 %2 來源 %3 格式 %4",
+    "tooltip": "Sentry2 設定 截圖到 來源 格式",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "存储卡",
+            "kSnapshot2SD"
+          ],
+          [
+            "串口",
+            "kSnapshot2Uart"
+          ],
+          [
+            "通用串行接口",
+            "kSnapshot2Usb"
+          ],
+          [
+            "无线网络",
+            "kSnapshot2Wifi"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "相机",
+            "kSnapshotFromCamera"
+          ],
+          [
+            "屏幕",
+            "kSnapshotFromScreen"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "彩色原始格式",
+            "kSnapshotTypeRGB565"
+          ],
+          [
+            "压缩图像",
+            "kSnapshotTypeJPEG"
+          ],
+          [
+            "文本编码图像",
+            "kSnapshotTypeJPEGBase64"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_restart": {
+    "message0": "Sentry2 %1 設定 重啟",
+    "tooltip": "Sentry2 設定 重啟"
+  },
+  "sentry2_sensor_default": {
+    "message0": "Sentry2 %1 設定 默認值 僅視覺 %2",
+    "tooltip": "Sentry2 設定 默認值 僅視覺"
+  },
+  "sentry2_detected_count": {
+    "message0": "Sentry2 %1 視覺 %2 目標數",
+    "tooltip": "Sentry2 視覺 目標數",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "卡片識別",
+            "6"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "20類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "運動檢測",
+            "11"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_get_value": {
+    "message0": "Sentry2 %1 讀取 視覺 %2 目標 %3 %4",
+    "tooltip": "Sentry2 讀取 視覺 目標",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "卡片識別",
+            "6"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "20類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "運動檢測",
+            "11"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "横坐标",
+            "kXValue"
+          ],
+          [
+            "纵坐标",
+            "kYValue"
+          ],
+          [
+            "宽度",
+            "kWidthValue"
+          ],
+          [
+            "高度",
+            "kHeightValue"
+          ],
+          [
+            "标签",
+            "kLabel"
+          ],
+          [
+            "红色值",
+            "kRValue"
+          ],
+          [
+            "绿色值",
+            "kGValue"
+          ],
+          [
+            "蓝色值",
+            "kBValue"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_detected_label": {
+    "message0": "Sentry2 %1 視覺 %2 目標 %3 標籤等於 %4",
+    "tooltip": "Sentry2 視覺 目標 標籤等於",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "卡片識別",
+            "6"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "20類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "運動檢測",
+            "11"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "sentry2_get_qrcode": {
+    "message0": "Sentry2 %1 讀取 二維碼",
+    "tooltip": "Sentry2 讀取 二維碼"
+  },
+  "sentry2_vision_status": {
+    "message0": "Sentry2 %1 視覺 %2 已啟用？",
+    "tooltip": "Sentry2 視覺 已啟用？",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "卡片識別",
+            "6"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "20類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "運動檢測",
+            "11"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_update_result": {
+    "message0": "Sentry2 %1 設定 視覺 %2 結果",
+    "tooltip": "Sentry2 設定 視覺 結果",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "卡片識別",
+            "6"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "20類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "自定义功能",
+            "10"
+          ],
+          [
+            "運動檢測",
+            "11"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry2_image_rows": {
+    "message0": "Sentry2 %1 圖像 高度",
+    "tooltip": "Sentry2 圖像 高度"
+  },
+  "sentry2_image_cols": {
+    "message0": "Sentry2 %1 圖像 寬度",
+    "tooltip": "Sentry2 圖像 寬度"
+  },
+  "sentry3_init_i2c": {
+    "message0": "初始化 Sentry3 變數 %1 I2C 地址 %2",
+    "tooltip": "初始化 Sentry3 變數 I2C 地址"
+  },
+  "sentry3_init_uart": {
+    "message0": "初始化 Sentry3 變數 %1 硬件串口 %2 波特率 %3",
+    "tooltip": "初始化 Sentry3 變數 硬件串口 波特率"
+  },
+  "sentry3_set_led": {
+    "message0": "Sentry3 %1 LED 設定 檢測 %2 未檢測 %3 亮度 %4",
+    "tooltip": "Sentry3 LED 設定 檢測 未檢測 亮度",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "关闭",
+            "kLedClose"
+          ],
+          [
+            "红色",
+            "kLedRed"
+          ],
+          [
+            "绿色",
+            "kLedGreen"
+          ],
+          [
+            "黄色",
+            "kLedYellow"
+          ],
+          [
+            "蓝色",
+            "kLedBlue"
+          ],
+          [
+            "紫色",
+            "kLedPurple"
+          ],
+          [
+            "青色",
+            "kLedCyan"
+          ],
+          [
+            "白色",
+            "kLedWhite"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "关闭",
+            "kLedClose"
+          ],
+          [
+            "红色",
+            "kLedRed"
+          ],
+          [
+            "绿色",
+            "kLedGreen"
+          ],
+          [
+            "黄色",
+            "kLedYellow"
+          ],
+          [
+            "蓝色",
+            "kLedBlue"
+          ],
+          [
+            "紫色",
+            "kLedPurple"
+          ],
+          [
+            "青色",
+            "kLedCyan"
+          ],
+          [
+            "白色",
+            "kLedWhite"
           ]
         ]
       },
       null
     ]
   },
-  "sentry1_check_ball": {
-    "message0": "Sentry1 球體識別到 %1 索引 %2",
-    "tooltip": "偵測到返回True，否則False",
+  "sentry3_vision_control": {
+    "message0": "Sentry3 %1 執行 %2 視覺 %3",
+    "tooltip": "Sentry3 執行 視覺",
     "args0": [
+      null,
       {
         "options": [
           [
-            "乒乓球",
-            "Sentry1::kBallTableTennis"
+            "开始",
+            "BEGIN"
           ],
           [
-            "網球",
-            "Sentry1::kBallTennis"
+            "停止",
+            "END"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "80類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "條形碼",
+            "10"
+          ],
+          [
+            "文字識別",
+            "12"
+          ],
+          [
+            "手勢姿態",
+            "13"
+          ],
+          [
+            "車牌識別",
+            "14"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_set_param_num": {
+    "message0": "Sentry3 %1 設定 視覺 %2 最大目標數 %3",
+    "tooltip": "Sentry3 設定 視覺 最大目標數",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "80類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "條形碼",
+            "10"
+          ],
+          [
+            "文字識別",
+            "12"
+          ],
+          [
+            "手勢姿態",
+            "13"
+          ],
+          [
+            "車牌識別",
+            "14"
           ]
         ]
       },
       null
     ]
+  },
+  "sentry3_set_region_param": {
+    "message0": "Sentry3 %1 設定 顏色區域 %2 X %3 Y %4 寬 %5 高 %6",
+    "tooltip": "Sentry3 設定 顏色區域 X Y 寬 高"
+  },
+  "sentry3_set_blob_param": {
+    "message0": "Sentry3 %1 設定 色塊 %2 最小寬 %3 最小高 %4 顏色 %5",
+    "tooltip": "Sentry3 設定 色塊 最小寬 最小高 顏色",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "黑色",
+            "1"
+          ],
+          [
+            "白色",
+            "2"
+          ],
+          [
+            "红色",
+            "3"
+          ],
+          [
+            "绿色",
+            "4"
+          ],
+          [
+            "蓝色",
+            "5"
+          ],
+          [
+            "黄色",
+            "6"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_set_label_param": {
+    "message0": "Sentry3 %1 設定 視覺 %2 組 %3 標籤 %4",
+    "tooltip": "Sentry3 設定 視覺 組 標籤",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "80類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "條形碼",
+            "10"
+          ],
+          [
+            "文字識別",
+            "12"
+          ],
+          [
+            "手勢姿態",
+            "13"
+          ],
+          [
+            "車牌識別",
+            "14"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "sentry3_set_mode": {
+    "message0": "Sentry3 %1 設定 視覺 %2 模式 %3",
+    "tooltip": "Sentry3 設定 視覺 模式",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "80類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "條形碼",
+            "10"
+          ],
+          [
+            "文字識別",
+            "12"
+          ],
+          [
+            "手勢姿態",
+            "13"
+          ],
+          [
+            "車牌識別",
+            "14"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry3_set_apriltag_mode": {
+    "message0": "Sentry3 %1 設定 標籤格式 %2",
+    "tooltip": "Sentry3 設定 標籤格式",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "16H5编码",
+            "0"
+          ],
+          [
+            "25H9编码",
+            "1"
+          ],
+          [
+            "36H11编码",
+            "2"
+          ],
+          [
+            "41H12编码",
+            "3"
+          ],
+          [
+            "圆形21H7编码",
+            "4"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_set_barcode_mode": {
+    "message0": "Sentry3 %1 設定 條形碼格式 %2",
+    "tooltip": "Sentry3 設定 條形碼格式",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "EAN13编码",
+            "2"
+          ],
+          [
+            "Code128编码",
+            "4"
+          ],
+          [
+            "Code39编码",
+            "8"
+          ],
+          [
+            "全部格式",
+            "14"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_set_ocr_mode": {
+    "message0": "Sentry3 %1 設定 文字識別模式 %2",
+    "tooltip": "Sentry3 設定 文字識別模式",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "基础模式",
+            "0"
+          ],
+          [
+            "精准模式",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_set_face_mode": {
+    "message0": "Sentry3 %1 設定 人臉擴展模式 %2",
+    "tooltip": "Sentry3 設定 人臉擴展模式",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "表情与眼嘴状态",
+            "1"
+          ],
+          [
+            "头部姿态",
+            "2"
+          ],
+          [
+            "情绪识别",
+            "4"
+          ],
+          [
+            "全部扩展",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_set_level": {
+    "message0": "Sentry3 %1 設定 視覺 %2 性能 %3",
+    "tooltip": "Sentry3 設定 視覺 性能",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "80類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "條形碼",
+            "10"
+          ],
+          [
+            "文字識別",
+            "12"
+          ],
+          [
+            "手勢姿態",
+            "13"
+          ],
+          [
+            "車牌識別",
+            "14"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "默认",
+            "kLevelDefault"
+          ],
+          [
+            "速度优先",
+            "kLevelSpeed"
+          ],
+          [
+            "平衡",
+            "kLevelBalance"
+          ],
+          [
+            "精度优先",
+            "kLevelAccuracy"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_camera_zoom": {
+    "message0": "Sentry3 %1 設定 相機縮放 %2",
+    "tooltip": "Sentry3 設定 相機縮放",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "默认",
+            "kZoomDefault"
+          ],
+          [
+            "1倍",
+            "kZoom1"
+          ],
+          [
+            "2倍",
+            "kZoom2"
+          ],
+          [
+            "3倍",
+            "kZoom3"
+          ],
+          [
+            "4倍",
+            "kZoom4"
+          ],
+          [
+            "5倍",
+            "kZoom5"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_camera_awb": {
+    "message0": "Sentry3 %1 設定 白平衡 %2",
+    "tooltip": "Sentry3 設定 白平衡",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "自动",
+            "kAutoWhiteBalance"
+          ],
+          [
+            "锁定当前值",
+            "kLockWhiteBalance"
+          ],
+          [
+            "白光",
+            "kWhiteLight"
+          ],
+          [
+            "黄光",
+            "kYellowLight"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_set_coordinate": {
+    "message0": "Sentry3 %1 設定 座標類型 %2",
+    "tooltip": "Sentry3 設定 座標類型",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "绝对像素",
+            "kAbsoluteCoordinate"
+          ],
+          [
+            "百分比",
+            "kPercentageCoordinate"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_vision_default": {
+    "message0": "Sentry3 %1 設定 視覺 %2 默認值",
+    "tooltip": "Sentry3 設定 視覺 默認值",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "80類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "條形碼",
+            "10"
+          ],
+          [
+            "文字識別",
+            "12"
+          ],
+          [
+            "手勢姿態",
+            "13"
+          ],
+          [
+            "車牌識別",
+            "14"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_screen_config": {
+    "message0": "Sentry3 %1 設定 屏幕 %2 僅用戶圖像 %3",
+    "tooltip": "Sentry3 設定 屏幕 僅用戶圖像"
+  },
+  "sentry3_screen_fill": {
+    "message0": "Sentry3 %1 設定 圖像 %2 紅 %3 綠 %4 藍 %5",
+    "tooltip": "Sentry3 設定 圖像 紅 綠 藍"
+  },
+  "sentry3_snapshot": {
+    "message0": "Sentry3 %1 設定 截圖到 %2 來源 %3 格式 %4",
+    "tooltip": "Sentry3 設定 截圖到 來源 格式",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "存储卡",
+            "kSnapshot2SD"
+          ],
+          [
+            "串口",
+            "kSnapshot2Uart"
+          ],
+          [
+            "通用串行接口",
+            "kSnapshot2Usb"
+          ],
+          [
+            "无线网络",
+            "kSnapshot2Wifi"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "相机",
+            "kSnapshotFromCamera"
+          ],
+          [
+            "屏幕",
+            "kSnapshotFromScreen"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "彩色原始格式",
+            "kSnapshotTypeRGB565"
+          ],
+          [
+            "压缩图像",
+            "kSnapshotTypeJPEG"
+          ],
+          [
+            "文本编码图像",
+            "kSnapshotTypeJPEGBase64"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_restart": {
+    "message0": "Sentry3 %1 設定 重啟",
+    "tooltip": "Sentry3 設定 重啟"
+  },
+  "sentry3_sensor_default": {
+    "message0": "Sentry3 %1 設定 默認值 僅視覺 %2",
+    "tooltip": "Sentry3 設定 默認值 僅視覺"
+  },
+  "sentry3_detected_count": {
+    "message0": "Sentry3 %1 視覺 %2 目標數",
+    "tooltip": "Sentry3 視覺 目標數",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "80類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "條形碼",
+            "10"
+          ],
+          [
+            "文字識別",
+            "12"
+          ],
+          [
+            "手勢姿態",
+            "13"
+          ],
+          [
+            "車牌識別",
+            "14"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_get_value": {
+    "message0": "Sentry3 %1 讀取 視覺 %2 目標 %3 %4",
+    "tooltip": "Sentry3 讀取 視覺 目標",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "80類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "條形碼",
+            "10"
+          ],
+          [
+            "文字識別",
+            "12"
+          ],
+          [
+            "手勢姿態",
+            "13"
+          ],
+          [
+            "車牌識別",
+            "14"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "横坐标",
+            "kXValue"
+          ],
+          [
+            "纵坐标",
+            "kYValue"
+          ],
+          [
+            "宽度",
+            "kWidthValue"
+          ],
+          [
+            "高度",
+            "kHeightValue"
+          ],
+          [
+            "标签",
+            "kLabel"
+          ],
+          [
+            "红色值",
+            "kRValue"
+          ],
+          [
+            "绿色值",
+            "kGValue"
+          ],
+          [
+            "蓝色值",
+            "kBValue"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_detected_label": {
+    "message0": "Sentry3 %1 視覺 %2 目標 %3 標籤等於 %4",
+    "tooltip": "Sentry3 視覺 目標 標籤等於",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "80類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "條形碼",
+            "10"
+          ],
+          [
+            "文字識別",
+            "12"
+          ],
+          [
+            "手勢姿態",
+            "13"
+          ],
+          [
+            "車牌識別",
+            "14"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "sentry3_get_string": {
+    "message0": "Sentry3 %1 讀取 %2 目標 %3 文本",
+    "tooltip": "Sentry3 讀取 目標 文本",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "人脸属性",
+            "7"
+          ],
+          [
+            "二维码文本",
+            "9"
+          ],
+          [
+            "条形码文本",
+            "10"
+          ],
+          [
+            "文字识别文本",
+            "12"
+          ],
+          [
+            "车牌文本",
+            "14"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "sentry3_vision_status": {
+    "message0": "Sentry3 %1 視覺 %2 已啟用？",
+    "tooltip": "Sentry3 視覺 已啟用？",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "80類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "條形碼",
+            "10"
+          ],
+          [
+            "文字識別",
+            "12"
+          ],
+          [
+            "手勢姿態",
+            "13"
+          ],
+          [
+            "車牌識別",
+            "14"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_update_result": {
+    "message0": "Sentry3 %1 設定 視覺 %2 結果",
+    "tooltip": "Sentry3 設定 視覺 結果",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "顏色識別",
+            "1"
+          ],
+          [
+            "色塊檢測",
+            "2"
+          ],
+          [
+            "标签识别",
+            "3"
+          ],
+          [
+            "線條檢測",
+            "4"
+          ],
+          [
+            "深度學習",
+            "5"
+          ],
+          [
+            "人臉識別",
+            "7"
+          ],
+          [
+            "80類物體",
+            "8"
+          ],
+          [
+            "二維碼",
+            "9"
+          ],
+          [
+            "條形碼",
+            "10"
+          ],
+          [
+            "文字識別",
+            "12"
+          ],
+          [
+            "手勢姿態",
+            "13"
+          ],
+          [
+            "車牌識別",
+            "14"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_image_rows": {
+    "message0": "Sentry3 %1 圖像 高度",
+    "tooltip": "Sentry3 圖像 高度"
+  },
+  "sentry3_image_cols": {
+    "message0": "Sentry3 %1 圖像 寬度",
+    "tooltip": "Sentry3 圖像 寬度"
+  },
+  "sentry3_wifi_connect": {
+    "message0": "Sentry3 %1 設定 無線網絡 名稱 %2 密碼 %3",
+    "tooltip": "Sentry3 設定 無線網絡 名稱 密碼"
+  },
+  "sentry3_wifi_close": {
+    "message0": "Sentry3 %1 設定 關閉 無線網絡",
+    "tooltip": "Sentry3 設定 關閉 無線網絡"
+  },
+  "sentry3_llm_mode": {
+    "message0": "Sentry3 %1 設定 大模型 模式 %2",
+    "tooltip": "Sentry3 設定 大模型 模式",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "关闭",
+            "kModeClose"
+          ],
+          [
+            "文本推理",
+            "kModeChat"
+          ],
+          [
+            "图像推理",
+            "kModeImage"
+          ],
+          [
+            "语音对话",
+            "kModeTalk"
+          ],
+          [
+            "语音识别",
+            "kModeASR"
+          ],
+          [
+            "语音合成",
+            "kModeTTS"
+          ]
+        ]
+      }
+    ]
+  },
+  "sentry3_llm_model": {
+    "message0": "Sentry3 %1 設定 大模型 名稱 %2",
+    "tooltip": "Sentry3 設定 大模型 名稱"
+  },
+  "sentry3_llm_api_key": {
+    "message0": "Sentry3 %1 設定 大模型 密鑰 %2",
+    "tooltip": "Sentry3 設定 大模型 密鑰"
+  },
+  "sentry3_llm_prompt": {
+    "message0": "Sentry3 %1 設定 系統提示 %2",
+    "tooltip": "Sentry3 設定 系統提示"
+  },
+  "sentry3_llm_voice": {
+    "message0": "Sentry3 %1 設定 人聲 %2",
+    "tooltip": "Sentry3 設定 人聲"
+  },
+  "sentry3_llm_thinking": {
+    "message0": "Sentry3 %1 設定 深度思考 %2",
+    "tooltip": "Sentry3 設定 深度思考"
+  },
+  "sentry3_llm_chat": {
+    "message0": "Sentry3 %1 大模型 輸入 %2 返回回答",
+    "tooltip": "Sentry3 大模型 輸入 返回回答"
+  },
+  "sentry3_llm_tts": {
+    "message0": "Sentry3 %1 設定 語音合成 %2",
+    "tooltip": "Sentry3 設定 語音合成"
   }
 }
