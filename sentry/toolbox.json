@@ -1,182 +1,170 @@
 {
   "kind": "category",
-  "name": "Sentry视觉传感器",
-  "colour": "#EF5411",
-  "icon": "fa-light fa-camera-security",
+  "name": "Sentry智能视觉传感器",
+  "colour": "#2E86AB",
   "contents": [
     {
       "kind": "category",
-      "name": "Sentry2",
-      "colour": "#EF5411",
-      "icon": "fa-light fa-camera",
-      "contents": [
-        {
-          "kind": "category",
-          "name": "设置模块",
-          "colour": "#EF5411",
-          "icon": "fa-light fa-camera",
-          "contents": [
-            {"kind": "block", "type": "sentry2_begin"},
-            {"kind": "block", "type": "sentry2_set_default"},
-            {"kind": "block", "type": "sentry2_set_awb"},
-            {"kind": "block", "type": "sentry2_set_vision_status"},
-            {
-              "kind": "block",
-              "type": "sentry2_set_param_num",
-              "inputs": {
-                "NUM": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
-              }
-            },
-            {
-              "kind": "block",
-              "type": "sentry2_set_color_param",
-              "inputs": {
-                "X": {"shadow": {"type": "math_number", "fields": {"NUM": "50"}}},
-                "Y": {"shadow": {"type": "math_number", "fields": {"NUM": "50"}}},
-                "W": {"shadow": {"type": "math_number", "fields": {"NUM": "3"}}},
-                "H": {"shadow": {"type": "math_number", "fields": {"NUM": "4"}}},
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
-              }
-            },
-            {
-              "kind": "block",
-              "type": "sentry2_set_blob_param",
-              "inputs": {
-                "W": {"shadow": {"type": "math_number", "fields": {"NUM": "3"}}},
-                "H": {"shadow": {"type": "math_number", "fields": {"NUM": "4"}}},
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
-              }
-            },
-            {
-              "kind": "block",
-              "type": "sentry2_set_custom_param",
-              "inputs": {
-                "X": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
-                "Y": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
-                "W": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
-                "H": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
-                "LABEL": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
-              }
-            }
-          ]
-        },
-        {
-          "kind": "category",
-          "name": "运行模块",
-          "colour": "#EAA20A",
-          "icon": "fa-light fa-camera",
-          "contents": [
-            {"kind": "block", "type": "sentry2_detected_count"},
-            {
-              "kind": "block",
-              "type": "sentry2_get_value",
-              "inputs": {
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
-              }
-            },
-            {
-              "kind": "block",
-              "type": "sentry2_get_color_value",
-              "inputs": {
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
-              }
-            },
-            {
-              "kind": "block",
-              "type": "sentry2_get_line_value",
-              "inputs": {
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
-              }
-            },
-            {"kind": "block", "type": "sentry2_get_qr_value"},
-            {
-              "kind": "block",
-              "type": "sentry2_get_qr_position",
-              "inputs": {
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
-              }
-            },
-            {
-              "kind": "block",
-              "type": "sentry2_get_custom_value",
-              "inputs": {
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
-              }
-            },
-            {
-              "kind": "block",
-              "type": "sentry2_check_blob_color",
-              "inputs": {
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
-              }
-            },
-            {
-              "kind": "block",
-              "type": "sentry2_check_card",
-              "inputs": {
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
-              }
-            },
-            {
-              "kind": "block",
-              "type": "sentry2_check_20class",
-              "inputs": {
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
-              }
-            },
-            {"kind": "block", "type": "sentry2_rows"},
-            {"kind": "block", "type": "sentry2_cols"}
-          ]
-        }
-      ]
-    },
-    {
-      "kind": "category",
       "name": "Sentry1",
-      "colour": "#EF5411",
-      "icon": "fa-light fa-camera-security",
+      "colour": "#2E86AB",
       "contents": [
         {
           "kind": "category",
           "name": "设置模块",
-          "colour": "#EF5411",
-          "icon": "fa-light fa-camera-security",
+          "colour": "#2E86AB",
           "contents": [
-            {"kind": "block", "type": "sentry1_begin"},
-            {"kind": "block", "type": "sentry1_set_default"},
             {
               "kind": "block",
-              "type": "sentry1_led_set_color",
+              "type": "sentry1_init_i2c",
+              "fields": {
+                "VAR": "sentry1"
+              },
               "inputs": {
-                "LEVEL": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
+                "ADDRESS": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 96
+                    }
+                  }
+                }
               }
             },
-            {"kind": "block", "type": "sentry1_set_awb"},
-            {"kind": "block", "type": "sentry1_set_vision_status"},
             {
               "kind": "block",
-              "type": "sentry1_set_param_num",
+              "type": "sentry1_init_uart",
+              "fields": {
+                "VAR": "sentry1"
+              },
               "inputs": {
-                "NUM": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
+                "BAUD": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 9600
+                    }
+                  }
+                }
               }
             },
             {
               "kind": "block",
-              "type": "sentry1_set_color_param",
+              "type": "sentry1_set_led",
               "inputs": {
-                "X": {"shadow": {"type": "math_number", "fields": {"NUM": "50"}}},
-                "Y": {"shadow": {"type": "math_number", "fields": {"NUM": "50"}}},
-                "W": {"shadow": {"type": "math_number", "fields": {"NUM": "3"}}},
-                "H": {"shadow": {"type": "math_number", "fields": {"NUM": "4"}}}
+                "LEVEL": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry1_vision_control"
+            },
+            {
+              "kind": "block",
+              "type": "sentry1_set_region_param",
+              "inputs": {
+                "ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                },
+                "X": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 50
+                    }
+                  }
+                },
+                "Y": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 50
+                    }
+                  }
+                },
+                "WIDTH": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 10
+                    }
+                  }
+                },
+                "HEIGHT": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 10
+                    }
+                  }
+                }
               }
             },
             {
               "kind": "block",
               "type": "sentry1_set_blob_param",
               "inputs": {
-                "W": {"shadow": {"type": "math_number", "fields": {"NUM": "3"}}},
-                "H": {"shadow": {"type": "math_number", "fields": {"NUM": "4"}}}
+                "ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                },
+                "WIDTH": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 10
+                    }
+                  }
+                },
+                "HEIGHT": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 10
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry1_camera_awb"
+            },
+            {
+              "kind": "block",
+              "type": "sentry1_vision_default"
+            },
+            {
+              "kind": "block",
+              "type": "sentry1_restart"
+            },
+            {
+              "kind": "block",
+              "type": "sentry1_sensor_default",
+              "inputs": {
+                "VISION_ONLY": {
+                  "shadow": {
+                    "type": "logic_boolean",
+                    "fields": {
+                      "BOOL": "TRUE"
+                    }
+                  }
+                }
               }
             }
           ]
@@ -184,58 +172,938 @@
         {
           "kind": "category",
           "name": "运行模块",
-          "colour": "#EAA20A",
-          "icon": "fa-light fa-camera-security",
+          "colour": "#2E86AB",
           "contents": [
-            {"kind": "block", "type": "sentry1_detected_count"},
+            {
+              "kind": "block",
+              "type": "sentry1_detected_count"
+            },
             {
               "kind": "block",
               "type": "sentry1_get_value",
               "inputs": {
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
+                "ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                }
               }
             },
             {
               "kind": "block",
-              "type": "sentry1_get_color_value",
+              "type": "sentry1_detected_label",
               "inputs": {
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
+                "ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                },
+                "LABEL": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                }
               }
             },
             {
               "kind": "block",
-              "type": "sentry1_get_line_value",
-              "inputs": {
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
-              }
-            },
-            {"kind": "block", "type": "sentry1_get_qr_value"},
-            {
-              "kind": "block",
-              "type": "sentry1_get_qr_position",
-              "inputs": {
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
-              }
+              "type": "sentry1_get_qrcode"
             },
             {
               "kind": "block",
-              "type": "sentry1_check_blob_color",
+              "type": "sentry1_vision_status"
+            },
+            {
+              "kind": "block",
+              "type": "sentry1_update_result"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "Sentry2",
+      "colour": "#2E86AB",
+      "contents": [
+        {
+          "kind": "category",
+          "name": "设置模块",
+          "colour": "#2E86AB",
+          "contents": [
+            {
+              "kind": "block",
+              "type": "sentry2_init_i2c",
+              "fields": {
+                "VAR": "sentry2"
+              },
               "inputs": {
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
+                "ADDRESS": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 96
+                    }
+                  }
+                }
               }
             },
             {
               "kind": "block",
-              "type": "sentry1_check_card",
+              "type": "sentry2_init_uart",
+              "fields": {
+                "VAR": "sentry2"
+              },
               "inputs": {
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
+                "BAUD": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 9600
+                    }
+                  }
+                }
               }
             },
             {
               "kind": "block",
-              "type": "sentry1_check_ball",
+              "type": "sentry2_set_led",
               "inputs": {
-                "INDEX": {"shadow": {"type": "math_number", "fields": {"NUM": "1"}}}
+                "LEVEL": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_vision_control"
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_set_param_num",
+              "inputs": {
+                "COUNT": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_set_region_param",
+              "inputs": {
+                "ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                },
+                "X": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 50
+                    }
+                  }
+                },
+                "Y": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 50
+                    }
+                  }
+                },
+                "WIDTH": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 10
+                    }
+                  }
+                },
+                "HEIGHT": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 10
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_set_blob_param",
+              "inputs": {
+                "ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                },
+                "WIDTH": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 10
+                    }
+                  }
+                },
+                "HEIGHT": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 10
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_set_label_param",
+              "inputs": {
+                "ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                },
+                "LABEL": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_set_mode",
+              "inputs": {
+                "MODE": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 0
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_set_apriltag_mode"
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_set_level"
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_camera_zoom"
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_camera_awb"
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_set_coordinate"
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_vision_default"
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_screen_config",
+              "inputs": {
+                "ENABLE": {
+                  "shadow": {
+                    "type": "logic_boolean",
+                    "fields": {
+                      "BOOL": "TRUE"
+                    }
+                  }
+                },
+                "USER_ONLY": {
+                  "shadow": {
+                    "type": "logic_boolean",
+                    "fields": {
+                      "BOOL": "FALSE"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_screen_fill",
+              "inputs": {
+                "IMAGE_ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                },
+                "RED": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 0
+                    }
+                  }
+                },
+                "GREEN": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 0
+                    }
+                  }
+                },
+                "BLUE": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 0
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_snapshot"
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_restart"
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_sensor_default",
+              "inputs": {
+                "VISION_ONLY": {
+                  "shadow": {
+                    "type": "logic_boolean",
+                    "fields": {
+                      "BOOL": "TRUE"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "category",
+          "name": "运行模块",
+          "colour": "#2E86AB",
+          "contents": [
+            {
+              "kind": "block",
+              "type": "sentry2_detected_count"
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_get_value",
+              "inputs": {
+                "ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_detected_label",
+              "inputs": {
+                "ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                },
+                "LABEL": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_get_qrcode"
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_vision_status"
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_update_result"
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_image_rows"
+            },
+            {
+              "kind": "block",
+              "type": "sentry2_image_cols"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "Sentry3",
+      "colour": "#2E86AB",
+      "contents": [
+        {
+          "kind": "category",
+          "name": "设置模块",
+          "colour": "#2E86AB",
+          "contents": [
+            {
+              "kind": "block",
+              "type": "sentry3_init_i2c",
+              "fields": {
+                "VAR": "sentry3"
+              },
+              "inputs": {
+                "ADDRESS": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 96
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_init_uart",
+              "fields": {
+                "VAR": "sentry3"
+              },
+              "inputs": {
+                "BAUD": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 115200
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_set_led",
+              "inputs": {
+                "LEVEL": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_vision_control"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_set_param_num",
+              "inputs": {
+                "COUNT": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_set_region_param",
+              "inputs": {
+                "ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                },
+                "X": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 50
+                    }
+                  }
+                },
+                "Y": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 50
+                    }
+                  }
+                },
+                "WIDTH": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 10
+                    }
+                  }
+                },
+                "HEIGHT": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 10
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_set_blob_param",
+              "inputs": {
+                "ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                },
+                "WIDTH": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 10
+                    }
+                  }
+                },
+                "HEIGHT": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 10
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_set_label_param",
+              "inputs": {
+                "ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                },
+                "LABEL": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_set_mode",
+              "inputs": {
+                "MODE": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 0
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_set_apriltag_mode"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_set_barcode_mode"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_set_ocr_mode"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_set_face_mode"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_set_level"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_camera_zoom"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_camera_awb"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_set_coordinate"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_vision_default"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_screen_config",
+              "inputs": {
+                "ENABLE": {
+                  "shadow": {
+                    "type": "logic_boolean",
+                    "fields": {
+                      "BOOL": "TRUE"
+                    }
+                  }
+                },
+                "USER_ONLY": {
+                  "shadow": {
+                    "type": "logic_boolean",
+                    "fields": {
+                      "BOOL": "FALSE"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_screen_fill",
+              "inputs": {
+                "IMAGE_ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                },
+                "RED": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 0
+                    }
+                  }
+                },
+                "GREEN": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 0
+                    }
+                  }
+                },
+                "BLUE": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 0
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_snapshot"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_restart"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_sensor_default",
+              "inputs": {
+                "VISION_ONLY": {
+                  "shadow": {
+                    "type": "logic_boolean",
+                    "fields": {
+                      "BOOL": "TRUE"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_wifi_connect",
+              "inputs": {
+                "SSID": {
+                  "shadow": {
+                    "type": "text",
+                    "fields": {
+                      "TEXT": "网络名称"
+                    }
+                  }
+                },
+                "PASSWORD": {
+                  "shadow": {
+                    "type": "text",
+                    "fields": {
+                      "TEXT": "网络密码"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_wifi_close"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_llm_mode"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_llm_model",
+              "inputs": {
+                "MODEL": {
+                  "shadow": {
+                    "type": "text",
+                    "fields": {
+                      "TEXT": "模型名称"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_llm_api_key",
+              "inputs": {
+                "KEY": {
+                  "shadow": {
+                    "type": "text",
+                    "fields": {
+                      "TEXT": "服务密钥"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_llm_prompt",
+              "inputs": {
+                "PROMPT": {
+                  "shadow": {
+                    "type": "text",
+                    "fields": {
+                      "TEXT": "你是一个有帮助的助手"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_llm_voice",
+              "inputs": {
+                "VOICE": {
+                  "shadow": {
+                    "type": "text",
+                    "fields": {
+                      "TEXT": "人声名称"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_llm_thinking",
+              "inputs": {
+                "ENABLE": {
+                  "shadow": {
+                    "type": "logic_boolean",
+                    "fields": {
+                      "BOOL": "TRUE"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "category",
+          "name": "运行模块",
+          "colour": "#2E86AB",
+          "contents": [
+            {
+              "kind": "block",
+              "type": "sentry3_detected_count"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_get_value",
+              "inputs": {
+                "ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_detected_label",
+              "inputs": {
+                "ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                },
+                "LABEL": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_get_string",
+              "inputs": {
+                "ID": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 1
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_vision_status"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_update_result"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_image_rows"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_image_cols"
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_llm_chat",
+              "inputs": {
+                "TEXT": {
+                  "shadow": {
+                    "type": "text",
+                    "fields": {
+                      "TEXT": "你好"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "block",
+              "type": "sentry3_llm_tts",
+              "inputs": {
+                "TEXT": {
+                  "shadow": {
+                    "type": "text",
+                    "fields": {
+                      "TEXT": "你好"
+                    }
+                  }
+                }
               }
             }
           ]

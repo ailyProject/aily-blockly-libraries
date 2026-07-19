@@ -1,172 +1,133 @@
-# Sentry Vision Sensor
+# Sentry 智能视觉传感器
 
-Sentry1/Sentry2 AI vision sensor library supporting color, blob, ball, card, face, QR code, and 20-class object detection.
+Sentry1、Sentry2、Sentry3 三型号独立的 Blockly 代码生成库。
 
 ## Library Info
-- **Name**: @aily-project/lib-sentry
-- **Version**: 2.1.5
+- **Name**: @aily-project/lib-tosee-sentry
+- **Version**: 2.0.0
 
-## Global Objects
+## Variable Types
 
-This library uses **global objects** (not variables):
-- `sentry` — Sentry2 instance, created by `sentry2_begin`
-- `sentry1` — Sentry1 instance, created by `sentry1_begin`
+| 初始化积木 | 自动创建变量 | 类型 |
+|---|---|---|
+| `sentry1_init_i2c` / `sentry1_init_uart` | `$sentry1` | `Sentry1Device` |
+| `sentry2_init_i2c` / `sentry2_init_uart` | `$sentry2` | `Sentry2Device` |
+| `sentry3_init_i2c` / `sentry3_init_uart` | `$sentry3` | `Sentry3Device` |
 
-All blocks reference these global objects directly; no variable management needed.
+不同类型不可互换。初始化的 `VAR` 是引号字符串；后续 `VAR` 参数使用 `$变量名`。
 
-## Block Definitions — Sentry2
+## Common Block Pattern
 
-| Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
-|------------|------------|--------------------------|------------|----------------|
-| `sentry2_begin` | Statement | PORT(dropdown), ADDR(dropdown) | `sentry2_begin(Wire, 0x60)` | `while (SENTRY_OK != sentry.begin(&Wire)) {yield();}` |
-| `sentry2_set_default` | Statement | — | `sentry2_set_default()` | `sentry.SensorSetDefault();` |
-| `sentry2_set_vision_status` | Statement | STATUS(dropdown), VISION(dropdown) | `sentry2_set_vision_status(Begin, Sentry2::kVisionColor)` | `sentry.VisionBegin(Sentry2::kVisionColor);` |
-| `sentry2_set_awb` | Statement | AWB(dropdown) | `sentry2_set_awb(kWhiteLight)` | `sentry.CameraSetAwb(kWhiteLight);` |
-| `sentry2_set_param_num` | Statement | VISION(dropdown), NUM(input_value) | `sentry2_set_param_num(Sentry2::kVisionBlob, math_number(1))` | `sentry.SetParamNum(Sentry2::kVisionBlob,1);` |
-| `sentry2_set_color_param` | Statement | X(input_value), Y, W, H, INDEX | `sentry2_set_color_param(math_number(50), math_number(50), math_number(3), math_number(4), math_number(1))` | Sets `sentry_object_t param` fields, calls `sentry.SetParam(...)` |
-| `sentry2_set_blob_param` | Statement | W(input_value), H, COLOR(dropdown), INDEX | `sentry2_set_blob_param(math_number(3), math_number(4), Sentry2::kColorRed, math_number(1))` | Sets param width/height/label, calls `sentry.SetParam(...)` |
-| `sentry2_set_custom_param` | Statement | VISION(dropdown), X, Y, W, H, LABEL, INDEX | `sentry2_set_custom_param(Sentry2::kVisionCustom, 0, 0, 0, 0, 0, 1)` | Sets all param fields, calls `sentry.SetParam(...)` |
-| `sentry2_detected_count` | Value(Number) | VISION(dropdown) | `sentry2_detected_count(Sentry2::kVisionColor)` | `sentry.GetValue(Sentry2::kVisionColor, kStatus)` |
-| `sentry2_get_value` | Value(Number) | VISION(dropdown), VALUE(dropdown), INDEX(input_value) | `sentry2_get_value(Sentry2::kVisionBlob, kXValue, math_number(1))` | `sentry.GetValue(Sentry2::kVisionBlob,kXValue,1)` |
-| `sentry2_get_color_value` | Value(Number) | VALUE(dropdown), INDEX(input_value) | `sentry2_get_color_value(kRValue, math_number(1))` | `sentry.GetValue(Sentry2::kVisionColor,kRValue,1)` |
-| `sentry2_get_line_value` | Value(Number) | VALUE(dropdown), INDEX(input_value) | `sentry2_get_line_value(kXValue, math_number(1))` | `sentry.GetValue(Sentry2::kVisionLine,kXValue,1)` |
-| `sentry2_get_qr_value` | Value(String) | — | `sentry2_get_qr_value()` | `String(sentry.GetQrCodeValue())` |
-| `sentry2_get_qr_position` | Value(Number) | VALUE(dropdown), INDEX(input_value) | `sentry2_get_qr_position(kXValue, math_number(1))` | `sentry.GetValue(Sentry2::kVisionQrCode,kXValue,1)` |
-| `sentry2_get_custom_value` | Value(Number) | VALUE(dropdown), INDEX(input_value) | `sentry2_get_custom_value(kXValue, math_number(1))` | `sentry.GetValue(Sentry2::kVisionCustom,kXValue,1)` |
-| `sentry2_check_blob_color` | Value(Boolean) | COLOR(dropdown), INDEX(input_value) | `sentry2_check_blob_color(Sentry2::kColorRed, math_number(1))` | `(sentry.GetValue(Sentry2::kVisionBlob,kLabel,1)==Sentry2::kColorRed)` |
-| `sentry2_check_card` | Value(Boolean) | CARD(dropdown), INDEX(input_value) | `sentry2_check_card(Sentry2::kCardForward, math_number(1))` | `(sentry.GetValue(Sentry2::kVisionCard,kLabel,1)==Sentry2::kCardForward)` |
-| `sentry2_check_20class` | Value(Boolean) | CLASS(dropdown), INDEX(input_value) | `sentry2_check_20class(Sentry2::kCat, math_number(1))` | `(sentry.GetValue(Sentry2::kVision20Classes,kLabel,1)==Sentry2::kCat)` |
-| `sentry2_rows` | Value(Number) | — | `sentry2_rows()` | `sentry.rows()` |
-| `sentry2_cols` | Value(Number) | — | `sentry2_cols()` | `sentry.cols()` |
-
-## Block Definitions — Sentry1
+以下模式中 `N` 为 `1`、`2` 或 `3`。表格同时覆盖三个型号中存在的同名积木。
 
 | Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |
-|------------|------------|--------------------------|------------|----------------|
-| `sentry1_begin` | Statement | PORT(dropdown), ADDR(dropdown) | `sentry1_begin(Wire, 0x60)` | `while (SENTRY_OK != sentry1.begin(&Wire)) {yield();}` |
-| `sentry1_set_default` | Statement | — | `sentry1_set_default()` | `sentry1.SensorSetDefault();` |
-| `sentry1_led_set_color` | Statement | COLOR1(dropdown), COLOR2(dropdown), LEVEL(input_value) | `sentry1_led_set_color(kLedRed, kLedClose, math_number(1))` | `sentry1.LedSetColor(kLedRed,kLedClose,1);` |
-| `sentry1_set_vision_status` | Statement | STATUS(dropdown), VISION(dropdown) | `sentry1_set_vision_status(Begin, Sentry1::kVisionColor)` | `sentry1.VisionBegin(Sentry1::kVisionColor);` |
-| `sentry1_set_awb` | Statement | AWB(dropdown) | `sentry1_set_awb(kWhiteLight)` | `sentry1.CameraSetAwb(kWhiteLight);` |
-| `sentry1_set_param_num` | Statement | VISION(dropdown), NUM(input_value) | `sentry1_set_param_num(Sentry1::kVisionBlob, math_number(1))` | `sentry1.SetParamNum(Sentry1::kVisionBlob,1);` |
-| `sentry1_set_color_param` | Statement | X, Y, W, H (all input_value) | `sentry1_set_color_param(math_number(50), math_number(50), math_number(3), math_number(4))` | Sets param, calls `sentry1.SetParam(...)` |
-| `sentry1_set_blob_param` | Statement | W, H (input_value), COLOR(dropdown) | `sentry1_set_blob_param(math_number(3), math_number(4), Sentry1::kColorRed)` | Sets param, calls `sentry1.SetParam(...)` |
-| `sentry1_detected_count` | Value(Number) | VISION(dropdown) | `sentry1_detected_count(Sentry1::kVisionColor)` | `sentry1.GetValue(Sentry1::kVisionColor, kStatus)` |
-| `sentry1_get_value` | Value(Number) | VISION(dropdown), VALUE(dropdown), INDEX(input_value) | `sentry1_get_value(Sentry1::kVisionBlob, kXValue, math_number(1))` | `sentry1.GetValue(Sentry1::kVisionBlob,kXValue,1)` |
-| `sentry1_get_color_value` | Value(Number) | VALUE(dropdown), INDEX(input_value) | `sentry1_get_color_value(kRValue, math_number(1))` | `sentry1.GetValue(Sentry1::kVisionColor,kRValue,1)` |
-| `sentry1_get_line_value` | Value(Number) | VALUE(dropdown), INDEX(input_value) | `sentry1_get_line_value(kXValue, math_number(1))` | `sentry1.GetValue(Sentry1::kVisionLine,kXValue,1)` |
-| `sentry1_get_qr_value` | Value(String) | — | `sentry1_get_qr_value()` | `String(sentry1.GetQrCodeValue())` |
-| `sentry1_get_qr_position` | Value(Number) | VALUE(dropdown), INDEX(input_value) | `sentry1_get_qr_position(kXValue, math_number(1))` | `sentry1.GetValue(Sentry1::kVisionQrCode,kXValue,1)` |
-| `sentry1_check_blob_color` | Value(Boolean) | COLOR(dropdown), INDEX(input_value) | `sentry1_check_blob_color(Sentry1::kColorRed, math_number(1))` | `(sentry1.GetValue(Sentry1::kVisionBlob,kLabel,1)==Sentry1::kColorRed)` |
-| `sentry1_check_card` | Value(Boolean) | CARD(dropdown), INDEX(input_value) | `sentry1_check_card(Sentry1::kCardForward, math_number(1))` | `(sentry1.GetValue(Sentry1::kVisionCard,kLabel,1)==Sentry1::kCardForward)` |
-| `sentry1_check_ball` | Value(Boolean) | BALL(dropdown), INDEX(input_value) | `sentry1_check_ball(Sentry1::kBallTableTennis, math_number(1))` | `(sentry1.GetValue(Sentry1::kVisionBall,kLabel,1)==Sentry1::kBallTableTennis)` |
+|---|---|---|---|---|
+| `sentryN_init_i2c` | Statement | VAR(field_input), ADDRESS(input_value) | `sentry1_init_i2c("sentry1", math_number(96))` | `Sentry1 sentry1(96);` and `begin(&Wire)` |
+| `sentryN_init_uart` | Statement | VAR, SERIAL(dropdown), BAUD(input_value) | `sentry3_init_uart("sentry3", Serial, math_number(115200))` | serial begin and sensor begin |
+| `sentryN_set_led` | Statement | VAR, DETECTED, UNDETECTED, LEVEL(input_value) | `sentry1_set_led($sentry1, kLedGreen, kLedClose, math_number(2))` | `LedSetColor(...)` |
+| `sentryN_vision_control` | Statement | VAR, ACTION, VISION | `sentry2_vision_control($sentry2, BEGIN, 5)` | `VisionBegin(5)` |
+| `sentryN_set_region_param` | Statement | VAR, ID, X, Y, WIDTH, HEIGHT | `sentry1_set_region_param($sentry1, math_number(1), math_number(50), math_number(50), math_number(10), math_number(10))` | color region `SetParam` |
+| `sentryN_set_blob_param` | Statement | VAR, ID, WIDTH, HEIGHT, COLOR | `sentry2_set_blob_param($sentry2, math_number(1), math_number(10), math_number(10), 3)` | blob `SetParam` with label |
+| `sentryN_camera_awb` | Statement | VAR, AWB | `sentry1_camera_awb($sentry1, kLockWhiteBalance)` | `CameraSetAwb(...)` |
+| `sentryN_vision_default` | Statement | VAR, VISION | `sentry3_vision_default($sentry3, 12)` | `VisionSetDefault(12)` |
+| `sentryN_restart` | Statement | VAR | `sentry2_restart($sentry2)` | `SensorSetRestart()` |
+| `sentryN_sensor_default` | Statement | VAR, VISION_ONLY(input_value) | `sentry1_sensor_default($sentry1, logic_boolean(TRUE))` | `SensorSetDefault(true)` |
+| `sentryN_detected_count` | Value(Number) | VAR, VISION | `sentry1_detected_count($sentry1, 3)` | `GetValue(3, kStatus, 1)` |
+| `sentryN_get_value` | Value(Number) | VAR, VISION, ID, INFO | `sentry2_get_value($sentry2, 8, math_number(1), kLabel)` | `GetValue(8, kLabel, 1)` |
+| `sentryN_detected_label` | Value(Boolean) | VAR, VISION, ID, LABEL | `sentry3_detected_label($sentry3, 8, math_number(1), math_number(1))` | label comparison |
+| `sentryN_vision_status` | Value(Boolean) | VAR, VISION | `sentry2_vision_status($sentry2, 9)` | `VisionGetStatus(9)` |
+| `sentryN_update_result` | Value(Number) | VAR, VISION | `sentry3_update_result($sentry3, 14)` | `UpdateResult(14)` |
 
-## Parameter Options
+## Sentry1 Blocks
 
-### VISION (Sentry2)
-| Value | Description |
-|-------|-------------|
-| Sentry2::kVisionColor | Color recognition |
-| Sentry2::kVisionBlob | Blob detection |
-| Sentry2::kVisionAprilTag | AprilTag recognition |
-| Sentry2::kVisionLine | Line detection |
-| Sentry2::kVisionLearning | Deep learning |
-| Sentry2::kVisionCard | Card recognition |
-| Sentry2::kVisionFace | Face recognition |
-| Sentry2::kVision20Classes | 20-class object detection |
-| Sentry2::kVisionQrCode | QR code |
-| Sentry2::kVisionCustom | Custom |
-| Sentry2::kVisionMotionDetect | Motion detection |
+| Block Type | Connection | Purpose |
+|---|---|---|
+| `sentry1_init_i2c` | Statement | I2C initialization |
+| `sentry1_init_uart` | Statement | UART initialization |
+| `sentry1_set_led` | Statement | Indicator colors |
+| `sentry1_vision_control` | Statement | Start/stop supported algorithm |
+| `sentry1_set_region_param` | Statement | Color sampling region |
+| `sentry1_set_blob_param` | Statement | Blob size and color |
+| `sentry1_camera_awb` | Statement | White balance |
+| `sentry1_vision_default` | Statement | Restore algorithm defaults |
+| `sentry1_restart` | Statement | Restart sensor |
+| `sentry1_sensor_default` | Statement | Restore sensor defaults |
+| `sentry1_detected_count` | Value(Number) | Detected target count |
+| `sentry1_get_value` | Value(Number) | Numeric result field |
+| `sentry1_detected_label` | Value(Boolean) | Label comparison |
+| `sentry1_get_qrcode` | Value(String) | QR text |
+| `sentry1_vision_status` | Value(Boolean) | Algorithm enabled state |
+| `sentry1_update_result` | Value(Number) | Explicit result update |
 
-### VISION (Sentry1)
-| Value | Description |
-|-------|-------------|
-| Sentry1::kVisionColor | Color recognition |
-| Sentry1::kVisionBlob | Blob detection |
-| Sentry1::kVisionBall | Ball recognition |
-| Sentry1::kVisionLine | Line detection |
-| Sentry1::kVisionCard | Card recognition |
-| Sentry1::kVisionBody | Body detection |
+Sentry1 algorithms: `1` 颜色, `2` 色块, `3` 球体, `4` 线条, `6` 卡片, `7` 人体, `9` 二维码, `11` 运动。Sentry1 只支持单个检测结果。
 
-### VALUE (return type)
-| Value | Description |
-|-------|-------------|
-| kXValue | X coordinate |
-| kYValue | Y coordinate |
-| kWidthValue | Width |
-| kHeightValue | Height |
-| kLabel | Label |
-| kRValue | Red channel |
-| kGValue | Green channel |
-| kBValue | Blue channel |
+## Sentry2 Blocks
 
-### STATUS
-| Value | Description |
-|-------|-------------|
-| Begin | Enable vision |
-| End | Disable vision |
+| Block Type | Connection | Purpose |
+|---|---|---|
+| `sentry2_init_i2c`, `sentry2_init_uart` | Statement | Initialization |
+| `sentry2_set_led`, `sentry2_vision_control` | Statement | Indicator and algorithm control |
+| `sentry2_set_param_num` | Statement | Maximum result count |
+| `sentry2_set_region_param`, `sentry2_set_blob_param`, `sentry2_set_label_param` | Statement | Color/blob/label parameters |
+| `sentry2_set_mode`, `sentry2_set_apriltag_mode`, `sentry2_set_level` | Statement | Algorithm mode and performance |
+| `sentry2_camera_zoom`, `sentry2_camera_awb` | Statement | Camera setup |
+| `sentry2_set_coordinate` | Statement | Pixel/percentage coordinates |
+| `sentry2_vision_default`, `sentry2_restart`, `sentry2_sensor_default` | Statement | Maintenance |
+| `sentry2_screen_config`, `sentry2_screen_fill`, `sentry2_snapshot` | Statement | Screen and image capture |
+| `sentry2_detected_count`, `sentry2_get_value` | Value(Number) | Numeric results |
+| `sentry2_detected_label`, `sentry2_vision_status` | Value(Boolean) | Result/status checks |
+| `sentry2_get_qrcode` | Value(String) | QR text |
+| `sentry2_update_result`, `sentry2_image_rows`, `sentry2_image_cols` | Value(Number) | Update and image dimensions |
 
-### AWB
-| Value | Description |
-|-------|-------------|
-| kAutoWhiteBalance | Auto |
-| kLockWhiteBalance | Lock |
-| kWhiteLight | White light |
-| kYellowLight | Yellow light |
+Sentry2 algorithms: `1` 颜色, `2` 色块, `3` 标签, `4` 线条, `5` 深度学习, `6` 卡片, `7` 人脸, `8` 20类物体, `9` 二维码, `10` 自定义功能, `11` 运动。
 
-### COLOR (Sentry2/Sentry1)
-kColorBlack, kColorWhite, kColorRed, kColorGreen, kColorBlue, kColorYellow
+## Sentry3 Blocks
 
-### PORT
-Wire (I2C), Serial, Serial1, Serial2
+| Block Type | Connection | Purpose |
+|---|---|---|
+| `sentry3_init_i2c`, `sentry3_init_uart` | Statement | Initialization |
+| `sentry3_set_led`, `sentry3_vision_control` | Statement | Indicator and algorithm control |
+| `sentry3_set_param_num` | Statement | Maximum result count |
+| `sentry3_set_region_param`, `sentry3_set_blob_param`, `sentry3_set_label_param` | Statement | Color/blob/label parameters |
+| `sentry3_set_mode`, `sentry3_set_apriltag_mode`, `sentry3_set_barcode_mode` | Statement | General, tag, and barcode modes |
+| `sentry3_set_ocr_mode`, `sentry3_set_face_mode`, `sentry3_set_level` | Statement | OCR, face, and performance modes |
+| `sentry3_camera_zoom`, `sentry3_camera_awb`, `sentry3_set_coordinate` | Statement | Camera/result setup |
+| `sentry3_vision_default`, `sentry3_restart`, `sentry3_sensor_default` | Statement | Maintenance |
+| `sentry3_screen_config`, `sentry3_screen_fill`, `sentry3_snapshot` | Statement | Screen and image capture |
+| `sentry3_detected_count`, `sentry3_get_value` | Value(Number) | Numeric results |
+| `sentry3_detected_label`, `sentry3_vision_status` | Value(Boolean) | Result/status checks |
+| `sentry3_get_string` | Value(String) | Face/QR/barcode/OCR/license text |
+| `sentry3_update_result`, `sentry3_image_rows`, `sentry3_image_cols` | Value(Number) | Update and dimensions |
+| `sentry3_wifi_connect`, `sentry3_wifi_close` | Statement | Cloud WiFi connection |
+| `sentry3_llm_mode`, `sentry3_llm_model`, `sentry3_llm_api_key` | Statement | Large-model access |
+| `sentry3_llm_prompt`, `sentry3_llm_voice`, `sentry3_llm_thinking` | Statement | Large-model behavior |
+| `sentry3_llm_chat` | Value(String) | Send text and return answer |
+| `sentry3_llm_tts` | Statement | Text-to-speech |
 
-## ABS Examples
+Sentry3 algorithms: `1` 颜色, `2` 色块, `3` 标签, `4` 线条, `5` 深度学习, `7` 人脸, `8` 80类物体, `9` 二维码, `10` 条形码, `12` 文字, `13` 手势姿态, `14` 车牌。卡片与人体姿态未加入，因为官方资料标记为待集成。
 
-### Sentry2 Color Recognition
-```
+## Options
+
+| Parameter | Values |
+|---|---|
+| ACTION | `BEGIN`, `END` |
+| INFO | `kXValue`, `kYValue`, `kWidthValue`, `kHeightValue`, `kLabel`, `kRValue`, `kGValue`, `kBValue` |
+| COLOR | `1` black, `2` white, `3` red, `4` green, `5` blue, `6` yellow |
+| LEVEL | `kLevelDefault`, `kLevelSpeed`, `kLevelBalance`, `kLevelAccuracy` |
+| LLM MODE | `kModeClose`, `kModeChat`, `kModeImage`, `kModeTalk`, `kModeASR`, `kModeTTS` |
+
+## Example
+
+```text
 arduino_setup()
-    sentry2_begin(Wire, 0x60)
-    sentry2_set_vision_status(Begin, Sentry2::kVisionColor)
-    serial_begin(Serial, 9600)
-
-arduino_loop()
-    variables_set($count, sentry2_detected_count(Sentry2::kVisionColor))
-    controls_for($i, math_number(1), variables_get($count), math_number(1))
-        serial_println(Serial, sentry2_get_color_value(kRValue, variables_get($i)))
-```
-
-### Sentry2 Blob Detection with Color Check
-```
-arduino_setup()
-    sentry2_begin(Wire, 0x60)
-    sentry2_set_awb(kWhiteLight)
-    sentry2_set_vision_status(Begin, Sentry2::kVisionBlob)
-    sentry2_set_param_num(Sentry2::kVisionBlob, math_number(1))
-    sentry2_set_blob_param(math_number(3), math_number(4), Sentry2::kColorGreen, math_number(1))
+    sentry3_init_uart("sentry3", Serial, math_number(115200))
+    sentry3_vision_control($sentry3, BEGIN, 10)
 
 arduino_loop()
     controls_if()
-        @IF0: sentry2_check_blob_color(Sentry2::kColorGreen, math_number(1))
+        @IF0: logic_compare(sentry3_detected_count($sentry3, 10), GT, math_number(0))
         @DO0:
-            serial_println(Serial, text("Green detected"))
+            serial_println(Serial, sentry3_get_string($sentry3, 10, math_number(1)))
 ```
 
-### Sentry1 Ball Recognition
-```
-arduino_setup()
-    sentry1_begin(Wire, 0x60)
-    sentry1_set_vision_status(Begin, Sentry1::kVisionBall)
-
-arduino_loop()
-    variables_set($count, sentry1_detected_count(Sentry1::kVisionBall))
-    controls_for($i, math_number(1), variables_get($count), math_number(1))
-        serial_println(Serial, sentry1_get_value(Sentry1::kVisionBall, kXValue, variables_get($i)))
-```
-
-## Notes
-
-1. **Initialization**: Call `sentry2_begin` or `sentry1_begin` inside `arduino_setup()` before any other Sentry blocks
-2. **Global objects**: `sentry` (Sentry2) and `sentry1` (Sentry1) are auto-created by begin blocks; do not use both simultaneously
-3. **I2C Wire init**: When PORT=Wire, `Wire.begin()` is auto-added with dedup key `wire_Wire_begin`
-4. **Serial init**: When PORT=Serial/Serial1/Serial2, `ensureSerialBegin()` is called automatically at 9600 baud
-5. **Parameter order**: Follows `block.json` args0 order — dropdowns and input_values may interleave
+All `input_value` parameters require nested value blocks such as `math_number`, `text`, or `logic_boolean`; do not use bare literals in value slots.
