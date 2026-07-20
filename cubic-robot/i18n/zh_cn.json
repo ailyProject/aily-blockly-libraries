@@ -1,0 +1,284 @@
+{
+  "toolbox_name": "Cubic赛事机器人",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "编码电机控制": "编码电机控制",
+    "状态查询": "状态查询",
+    "舵机 / 按键 / 灯": "舵机 / 按键 / 灯"
+  },
+  "cubic_robot_init": {
+    "message0": "初始化 Cubic 机器人 %1",
+    "tooltip": "创建并初始化 Cubic CoreV2+Motor，内部复用编码电机库(lib-encoder-motor)控制 MA/MB"
+  },
+  "cubic_robot_set_motor_pins": {
+    "message0": "%1 设置电机%2 驱动引脚 IN1 %3 IN2 %4 编码器 A %5 B %6",
+    "tooltip": "在初始化之前覆盖电机/编码器引脚。默认 MA=14/15/34/35，MB=12/17/36/39",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "A(MA)",
+            "MOTOR_A"
+          ],
+          [
+            "B(MB)",
+            "MOTOR_B"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "cubic_robot_set_pid": {
+    "message0": "%1 电机%2 设置PID P %3 I %4 D %5",
+    "tooltip": "设置编码电机速度环 PID（复用 EncoderMotor::SetSpeedPid）",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "A(MA)",
+            "MOTOR_A"
+          ],
+          [
+            "B(MB)",
+            "MOTOR_B"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "cubic_robot_run_pwm": {
+    "message0": "%1 电机%2 以动力(PWM) %3 运转(-1023~1023)",
+    "tooltip": "直接 PWM 驱动（EncoderMotor::RunPwmDuty）",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "A(MA)",
+            "MOTOR_A"
+          ],
+          [
+            "B(MB)",
+            "MOTOR_B"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "cubic_robot_run_speed": {
+    "message0": "%1 电机%2 以速度 %3 RPM运转(-300~300)",
+    "tooltip": "速度环控制（EncoderMotor::RunSpeed）",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "A(MA)",
+            "MOTOR_A"
+          ],
+          [
+            "B(MB)",
+            "MOTOR_B"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "cubic_robot_drive": {
+    "message0": "%1 差速行驶 前进 %2 转向 %3",
+    "tooltip": "差速底盘，前进/转向范围 -1023~1023，内部用 PWM 驱动 MA/MB"
+  },
+  "cubic_robot_move": {
+    "message0": "%1 小车 %2 动力 %3",
+    "tooltip": "快捷运动，动力建议 0~1023",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "前进",
+            "FORWARD"
+          ],
+          [
+            "后退",
+            "BACKWARD"
+          ],
+          [
+            "左转",
+            "LEFT"
+          ],
+          [
+            "右转",
+            "RIGHT"
+          ],
+          [
+            "停止",
+            "STOP"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "cubic_robot_stop": {
+    "message0": "%1 停止全部电机",
+    "tooltip": "停止 MA/MB"
+  },
+  "cubic_robot_get_speed": {
+    "message0": "%1 电机%2 当前转速(RPM)",
+    "tooltip": "读取编码电机当前转速",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "A(MA)",
+            "MOTOR_A"
+          ],
+          [
+            "B(MB)",
+            "MOTOR_B"
+          ]
+        ]
+      }
+    ]
+  },
+  "cubic_robot_get_pulse": {
+    "message0": "%1 电机%2 编码脉冲计数",
+    "tooltip": "读取编码脉冲计数",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "A(MA)",
+            "MOTOR_A"
+          ],
+          [
+            "B(MB)",
+            "MOTOR_B"
+          ]
+        ]
+      }
+    ]
+  },
+  "cubic_robot_get_revolutions": {
+    "message0": "%1 电机%2 转动圈数",
+    "tooltip": "读取电机转动圈数",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "A(MA)",
+            "MOTOR_A"
+          ],
+          [
+            "B(MB)",
+            "MOTOR_B"
+          ]
+        ]
+      }
+    ]
+  },
+  "cubic_robot_reset_pulse": {
+    "message0": "%1 电机%2 重置脉冲计数",
+    "tooltip": "重置编码脉冲计数",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "A(MA)",
+            "MOTOR_A"
+          ],
+          [
+            "B(MB)",
+            "MOTOR_B"
+          ]
+        ]
+      }
+    ]
+  },
+  "cubic_robot_servo": {
+    "message0": "%1 舵机%2 角度 %3",
+    "tooltip": "控制舵机角度 0~180（内置 ESP32Servo）",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "1(IO2)",
+            "SERVO_1"
+          ],
+          [
+            "2(IO25)",
+            "SERVO_2"
+          ],
+          [
+            "3(IO16)",
+            "SERVO_3"
+          ],
+          [
+            "4(IO23)",
+            "SERVO_4"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "cubic_robot_button": {
+    "message0": "%1 按键%2 被按下",
+    "tooltip": "读取按键，低电平有效",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "A(IO0)",
+            "0"
+          ],
+          [
+            "B(IO13)",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "cubic_robot_rgb": {
+    "message0": "%1 RGB指示灯 %2",
+    "tooltip": "控制指示灯引脚",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "打开",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "cubic_robot_pin_info": {
+    "message0": "Cubic 默认引脚说明",
+    "tooltip": "MA=14/15 ENC34/35；MB=12/17 ENC36/39；舵机2/25；I2C21/22"
+  }
+}
