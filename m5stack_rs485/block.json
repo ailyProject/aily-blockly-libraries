@@ -1,0 +1,49 @@
+[
+  {
+    "type": "m5stack_rs485_init",
+    "message0": "初始化板载 RS485 波特率 %1",
+    "args0": [{"type": "input_value", "name": "BAUD", "check": "Number"}],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "tooltip": "按开发板官方引脚初始化板载 RS485，无需选择 RX、TX 或方向引脚"
+  },
+  {
+    "type": "m5stack_rs485_available",
+    "message0": "板载 RS485 可读字节数",
+    "output": "Number",
+    "colour": "#546E7A",
+    "tooltip": "返回接收缓冲区中的字节数"
+  },
+  {
+    "type": "m5stack_rs485_read_byte",
+    "message0": "板载 RS485 读取字节",
+    "output": "Number",
+    "colour": "#546E7A",
+    "tooltip": "读取一个字节；没有数据时返回 -1"
+  },
+  {
+    "type": "m5stack_rs485_read_line",
+    "message0": "板载 RS485 读取一行",
+    "output": "String",
+    "colour": "#546E7A",
+    "tooltip": "读取到换行符或 20ms 超时，并去除结尾空白"
+  },
+  {
+    "type": "m5stack_rs485_write_text",
+    "message0": "板载 RS485 发送文本 %1 换行 %2",
+    "args0": [{"type": "input_value", "name": "TEXT"}, {"type": "field_checkbox", "name": "NEWLINE", "checked": true}],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#546E7A",
+    "tooltip": "发送文本并自动切换收发方向，返回是否完整写入"
+  },
+  {
+    "type": "m5stack_rs485_write_byte",
+    "message0": "板载 RS485 发送字节 %1",
+    "args0": [{"type": "input_value", "name": "VALUE", "check": "Number"}],
+    "output": "Boolean",
+    "colour": "#546E7A",
+    "tooltip": "发送一个字节并自动切换收发方向"
+  }
+]

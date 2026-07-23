@@ -1,0 +1,118 @@
+[
+  {
+    "type": "m5stack_sd_init",
+    "message0": "初始化 M5Stack 板载存储卡",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#455A64",
+    "tooltip": "按官方板型引脚自动选择 SPI 或 SDMMC 初始化，无需设置引脚"
+  },
+  {
+    "type": "m5stack_sd_available",
+    "message0": "M5Stack 板载存储卡可用",
+    "output": "Boolean",
+    "colour": "#455A64",
+    "tooltip": "初始化并检测板载存储卡"
+  },
+  {
+    "type": "m5stack_sd_exists",
+    "message0": "M5Stack 存储卡存在文件 %1",
+    "args0": [{"type": "input_value", "name": "PATH", "check": "String"}],
+    "output": "Boolean",
+    "colour": "#455A64",
+    "tooltip": "检测文件或目录是否存在"
+  },
+  {
+    "type": "m5stack_sd_read_text",
+    "message0": "读取 M5Stack 存储卡文本文件 %1",
+    "args0": [{"type": "input_value", "name": "PATH", "check": "String"}],
+    "output": "String",
+    "colour": "#455A64",
+    "tooltip": "读取完整文本文件；失败时返回空字符串"
+  },
+  {
+    "type": "m5stack_sd_write_text",
+    "message0": "M5Stack 存储卡 %1 文件 %2 内容 %3",
+    "args0": [{"type": "field_dropdown", "name": "MODE", "options": [["覆盖写入", "WRITE"], ["追加", "APPEND"]]}, {"type": "input_value", "name": "PATH", "check": "String"}, {"type": "input_value", "name": "TEXT"}],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#455A64",
+    "tooltip": "写入或追加文本文件"
+  },
+  {
+    "type": "m5stack_sd_write_ok",
+    "message0": "M5Stack 存储卡 %1 文件 %2 内容 %3 成功",
+    "args0": [{"type": "field_dropdown", "name": "MODE", "options": [["覆盖写入", "WRITE"], ["追加", "APPEND"]]}, {"type": "input_value", "name": "PATH", "check": "String"}, {"type": "input_value", "name": "TEXT"}],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#455A64",
+    "tooltip": "写入文本并返回是否完整写入成功"
+  },
+  {
+    "type": "m5stack_sd_remove",
+    "message0": "删除 M5Stack 存储卡文件 %1",
+    "args0": [{"type": "input_value", "name": "PATH", "check": "String"}],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#455A64",
+    "tooltip": "删除指定文件"
+  },
+  {
+    "type": "m5stack_sd_file_size",
+    "message0": "M5Stack 存储卡文件 %1 大小",
+    "args0": [{"type": "input_value", "name": "PATH", "check": "String"}],
+    "output": "Number",
+    "colour": "#455A64",
+    "tooltip": "返回文件字节数；失败时返回 0"
+  },
+  {
+    "type": "m5stack_sd_remove_ok",
+    "message0": "删除 M5Stack 存储卡文件 %1 成功",
+    "args0": [{"type": "input_value", "name": "PATH", "check": "String"}],
+    "output": "Boolean",
+    "colour": "#455A64",
+    "tooltip": "删除指定文件并返回结果"
+  },
+  {
+    "type": "m5stack_sd_mkdir",
+    "message0": "创建 M5Stack 存储卡目录 %1 成功",
+    "args0": [{"type": "input_value", "name": "PATH", "check": "String"}],
+    "output": "Boolean",
+    "colour": "#455A64",
+    "tooltip": "创建目录并返回结果"
+  },
+  {
+    "type": "m5stack_sd_rmdir",
+    "message0": "删除 M5Stack 存储卡空目录 %1 成功",
+    "args0": [{"type": "input_value", "name": "PATH", "check": "String"}],
+    "output": "Boolean",
+    "colour": "#455A64",
+    "tooltip": "删除空目录并返回结果"
+  },
+  {
+    "type": "m5stack_sd_rename",
+    "message0": "M5Stack 存储卡重命名 %1 为 %2 成功",
+    "args0": [{"type": "input_value", "name": "FROM", "check": "String"}, {"type": "input_value", "name": "TO", "check": "String"}],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#455A64",
+    "tooltip": "重命名文件或目录并返回结果"
+  },
+  {
+    "type": "m5stack_sd_list",
+    "message0": "列出 M5Stack 存储卡目录 %1",
+    "args0": [{"type": "input_value", "name": "PATH", "check": "String"}],
+    "output": "String",
+    "colour": "#455A64",
+    "tooltip": "返回以换行分隔的文件名，目录名末尾带 /"
+  },
+  {
+    "type": "m5stack_sd_space",
+    "message0": "M5Stack 存储卡 %1 字节数",
+    "args0": [{"type": "field_dropdown", "name": "KIND", "options": [["物理容量", "CAPACITY"], ["文件系统容量", "TOTAL"], ["已使用", "USED"]]}],
+    "output": "Number",
+    "colour": "#455A64",
+    "tooltip": "读取存储卡物理容量、文件系统容量或已使用空间"
+  }
+]

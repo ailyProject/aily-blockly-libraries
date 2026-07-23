@@ -1,0 +1,23 @@
+{
+  "kind": "category",
+  "name": "存储卡",
+  "icon": "fa-light fa-sd-card",
+  "colour": "#455A64",
+  "contents": [
+    {"kind": "block", "type": "m5stack_sd_init"},
+    {"kind": "block", "type": "m5stack_sd_available"},
+    {"kind": "block", "type": "m5stack_sd_exists", "inputs": {"PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/data.txt"}}}}},
+    {"kind": "block", "type": "m5stack_sd_read_text", "inputs": {"PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/data.txt"}}}}},
+    {"kind": "block", "type": "m5stack_sd_write_text", "inputs": {"PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/data.txt"}}}, "TEXT": {"shadow": {"type": "text", "fields": {"TEXT": "Hello"}}}}},
+    {"kind": "block", "type": "m5stack_sd_write_ok", "inputs": {"PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/data.txt"}}}, "TEXT": {"shadow": {"type": "text", "fields": {"TEXT": "Hello"}}}}},
+    {"kind": "block", "type": "m5stack_sd_remove", "inputs": {"PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/data.txt"}}}}},
+    {"kind": "block", "type": "m5stack_sd_remove_ok", "inputs": {"PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/data.txt"}}}}},
+    {"kind": "block", "type": "m5stack_sd_file_size", "inputs": {"PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/data.txt"}}}}},
+    {"kind": "label", "text": "目录与容量"},
+    {"kind": "block", "type": "m5stack_sd_mkdir", "inputs": {"PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/logs"}}}}},
+    {"kind": "block", "type": "m5stack_sd_rmdir", "inputs": {"PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/logs"}}}}},
+    {"kind": "block", "type": "m5stack_sd_rename", "inputs": {"FROM": {"shadow": {"type": "text", "fields": {"TEXT": "/old.txt"}}}, "TO": {"shadow": {"type": "text", "fields": {"TEXT": "/new.txt"}}}}},
+    {"kind": "block", "type": "m5stack_sd_list", "inputs": {"PATH": {"shadow": {"type": "text", "fields": {"TEXT": "/"}}}}},
+    {"kind": "block", "type": "m5stack_sd_space"}
+  ]
+}

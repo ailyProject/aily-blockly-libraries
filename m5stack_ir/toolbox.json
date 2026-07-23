@@ -1,0 +1,20 @@
+{
+  "kind": "category",
+  "name": "板载红外",
+  "icon": "fa-light fa-signal-stream",
+  "colour": "#C62828",
+  "contents": [
+    {"kind": "label", "text": "初始化"},
+    {"kind": "block", "type": "m5stack_ir_init"},
+    {"kind": "label", "text": "协议发送"},
+    {"kind": "block", "type": "m5stack_ir_send", "inputs": {"ADDRESS": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}}, "COMMAND": {"shadow": {"type": "math_number", "fields": {"NUM": 52}}}, "REPEATS": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}}}},
+    {"kind": "block", "type": "m5stack_ir_send_repeat_frame"},
+    {"kind": "block", "type": "m5stack_ir_send_pronto", "inputs": {"CODE": {"shadow": {"type": "text", "fields": {"TEXT": "0000 006D 0022 0000"}}}, "REPEATS": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}}}},
+    {"kind": "label", "text": "原始波形"},
+    {"kind": "block", "type": "m5stack_ir_send_raw", "inputs": {"DATA": {"shadow": {"type": "text", "fields": {"TEXT": "9000,4500,560,560"}}}, "FREQUENCY": {"shadow": {"type": "math_number", "fields": {"NUM": 38}}}}},
+    {"kind": "block", "type": "m5stack_ir_send_raw_repeat", "inputs": {"DATA": {"shadow": {"type": "text", "fields": {"TEXT": "9000,4500,560,560"}}}, "FREQUENCY": {"shadow": {"type": "math_number", "fields": {"NUM": 38}}}, "PERIOD": {"shadow": {"type": "math_number", "fields": {"NUM": 110}}}, "REPEATS": {"shadow": {"type": "math_number", "fields": {"NUM": 1}}}}},
+    {"kind": "label", "text": "高级编码"},
+    {"kind": "block", "type": "m5stack_ir_send_pulse_distance", "inputs": {"FREQUENCY": {"shadow": {"type": "math_number", "fields": {"NUM": 38}}}, "HEADER_MARK": {"shadow": {"type": "math_number", "fields": {"NUM": 9000}}}, "HEADER_SPACE": {"shadow": {"type": "math_number", "fields": {"NUM": 4500}}}, "ONE_MARK": {"shadow": {"type": "math_number", "fields": {"NUM": 560}}}, "ONE_SPACE": {"shadow": {"type": "math_number", "fields": {"NUM": 1690}}}, "ZERO_MARK": {"shadow": {"type": "math_number", "fields": {"NUM": 560}}}, "ZERO_SPACE": {"shadow": {"type": "math_number", "fields": {"NUM": 560}}}, "DATA": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}}, "BITS": {"shadow": {"type": "math_number", "fields": {"NUM": 32}}}, "PERIOD": {"shadow": {"type": "math_number", "fields": {"NUM": 110}}}, "REPEATS": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}}}},
+    {"kind": "block", "type": "m5stack_ir_send_biphase", "inputs": {"FREQUENCY": {"shadow": {"type": "math_number", "fields": {"NUM": 36}}}, "TIME_UNIT": {"shadow": {"type": "math_number", "fields": {"NUM": 889}}}, "DATA": {"shadow": {"type": "math_number", "fields": {"NUM": 0}}}, "BITS": {"shadow": {"type": "math_number", "fields": {"NUM": 14}}}}}
+  ]
+}
