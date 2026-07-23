@@ -1,0 +1,212 @@
+{
+  "kind": "category",
+  "name": "MiaoUI OLED 菜单",
+  "colour": "#7E57C2",
+  "icon": "fa-solid fa-bars",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "创建与启动"
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_init"
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_set_buttons",
+      "inputs": {
+        "UP_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 3
+            }
+          }
+        },
+        "DOWN_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 18
+            }
+          }
+        },
+        "ENTER_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 8
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_set_debounce",
+      "inputs": {
+        "MILLISECONDS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 35
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_set_button_repeat",
+      "inputs": {
+        "DELAY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 450
+            }
+          }
+        },
+        "INTERVAL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 100
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "菜单结构（放入初始化块）"
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_add_page"
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_add_item"
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_add_navigation_item"
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_add_action_item"
+    },
+    {
+      "kind": "label",
+      "text": "数据与文本绑定（放入初始化块）"
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_bind_number",
+      "inputs": {
+        "INITIAL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 50
+            }
+          }
+        },
+        "MIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "MAX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 100
+            }
+          }
+        },
+        "STEP": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 5
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_bind_switch",
+      "inputs": {
+        "INITIAL": {
+          "shadow": {
+            "type": "logic_boolean",
+            "fields": {
+              "BOOL": "TRUE"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_bind_text"
+    },
+    {
+      "kind": "label",
+      "text": "运行与外部输入"
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_push_action"
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_try_push_action"
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_update"
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_set_background",
+      "inputs": {
+        "INVERTED": {
+          "shadow": {
+            "type": "logic_boolean",
+            "fields": {
+              "BOOL": "FALSE"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "状态"
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_is_begun"
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_last_error_code"
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_last_error_message"
+    },
+    {
+      "kind": "block",
+      "type": "miaoui_current_item_name"
+    }
+  ]
+}

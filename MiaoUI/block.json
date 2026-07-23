@@ -1,0 +1,816 @@
+[
+  {
+    "type": "miaoui_init",
+    "message0": "创建 MiaoUI %1 使用 U8g2 对象 %2 首项 %3 由 MiaoUI 初始化屏幕 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "menu"
+      },
+      {
+        "type": "field_input",
+        "name": "DISPLAY",
+        "text": "u8g2"
+      },
+      {
+        "type": "field_variable",
+        "name": "FIRST_ITEM",
+        "variable": "mainHeader",
+        "variableTypes": [
+          "MiaoUIItem"
+        ],
+        "defaultType": "MiaoUIItem"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "INIT_DISPLAY",
+        "checked": true
+      }
+    ],
+    "message1": "菜单结构 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "MENU"
+      }
+    ],
+    "message2": "参数绑定 %1",
+    "args2": [
+      {
+        "type": "input_statement",
+        "name": "PARAMETERS"
+      }
+    ],
+    "message3": "文本绑定 %1",
+    "args3": [
+      {
+        "type": "input_statement",
+        "name": "TEXTS"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "创建 MiaoUI 对象、生成菜单钩子、启动菜单，并自动在 loop 中刷新",
+    "inputsInline": false,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_add_page",
+    "message0": "添加页面 %1 标题 %2 布局 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "PAGE",
+        "text": "mainPage"
+      },
+      {
+        "type": "field_input",
+        "name": "TITLE",
+        "text": "[Main]"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "文本列表",
+            "UI_PAGE_TEXT"
+          ],
+          [
+            "图标列表",
+            "UI_PAGE_ICON"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "创建一个文本或图标菜单页面",
+    "inputsInline": true,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_add_item",
+    "message0": "添加菜单项 %1 文本 %2 到页面 %3 类型 %4 图标表达式 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "ITEM",
+        "text": "mainHeader"
+      },
+      {
+        "type": "field_input",
+        "name": "LABEL",
+        "text": "[Main]"
+      },
+      {
+        "type": "field_variable",
+        "name": "PAGE",
+        "variable": "mainPage",
+        "variableTypes": [
+          "MiaoUIPage"
+        ],
+        "defaultType": "MiaoUIPage"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "普通项",
+            "UI_ITEM_ONCE_FUNCTION"
+          ],
+          [
+            "数据",
+            "UI_ITEM_DATA"
+          ],
+          [
+            "文本",
+            "UI_ITEM_WORD"
+          ],
+          [
+            "波形",
+            "UI_ITEM_WAVE"
+          ]
+        ]
+      },
+      {
+        "type": "field_input",
+        "name": "IMAGE",
+        "text": "nullptr"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "向页面添加普通、数据、文本或波形菜单项；图标页可填 30×30 XBM 数组名",
+    "inputsInline": false,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_add_navigation_item",
+    "message0": "添加导航项 %1 文本 %2 从页面 %3 %4 到页面 %5 图标表达式 %6",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "ITEM",
+        "text": "settingsItem"
+      },
+      {
+        "type": "field_input",
+        "name": "LABEL",
+        "text": "Settings"
+      },
+      {
+        "type": "field_variable",
+        "name": "PAGE",
+        "variable": "mainPage",
+        "variableTypes": [
+          "MiaoUIPage"
+        ],
+        "defaultType": "MiaoUIPage"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "进入子菜单",
+            "UI_ITEM_PARENTS"
+          ],
+          [
+            "返回上级",
+            "UI_ITEM_RETURN"
+          ]
+        ]
+      },
+      {
+        "type": "field_variable",
+        "name": "TARGET_PAGE",
+        "variable": "settingsPage",
+        "variableTypes": [
+          "MiaoUIPage"
+        ],
+        "defaultType": "MiaoUIPage"
+      },
+      {
+        "type": "field_input",
+        "name": "IMAGE",
+        "text": "nullptr"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "添加进入子菜单或返回上级页面的导航项",
+    "inputsInline": false,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_add_action_item",
+    "message0": "添加动作项 %1 文本 %2 到页面 %3 行为 %4 图标表达式 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "ITEM",
+        "text": "actionItem"
+      },
+      {
+        "type": "field_input",
+        "name": "LABEL",
+        "text": "Action"
+      },
+      {
+        "type": "field_variable",
+        "name": "PAGE",
+        "variable": "mainPage",
+        "variableTypes": [
+          "MiaoUIPage"
+        ],
+        "defaultType": "MiaoUIPage"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "进入时执行一次",
+            "UI_ITEM_ONCE_FUNCTION"
+          ],
+          [
+            "停留期间循环执行",
+            "UI_ITEM_LOOP_FUNCTION"
+          ]
+        ]
+      },
+      {
+        "type": "field_input",
+        "name": "IMAGE",
+        "text": "nullptr"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "添加带 Blockly 回调代码的一次性或循环动作菜单项",
+    "inputsInline": false,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_bind_number",
+    "message0": "绑定数值 项 %1 变量 %2 类型 %3 权限 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ITEM",
+        "variable": "valueItem",
+        "variableTypes": [
+          "MiaoUIItem"
+        ],
+        "defaultType": "MiaoUIItem"
+      },
+      {
+        "type": "field_input",
+        "name": "DATA_VAR",
+        "text": "menuValue"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA_TYPE",
+        "options": [
+          [
+            "整数",
+            "INT"
+          ],
+          [
+            "浮点数",
+            "FLOAT"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACCESS",
+        "options": [
+          [
+            "可编辑",
+            "UI_DATA_ACTION_RW"
+          ],
+          [
+            "只读",
+            "UI_DATA_ACTION_RO"
+          ]
+        ]
+      }
+    ],
+    "message1": "初值 %1 最小 %2 最大 %3 步进 %4 回调时机 %5",
+    "args1": [
+      {
+        "type": "input_value",
+        "name": "INITIAL",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MIN",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "MAX",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "STEP",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CALLBACK_MODE",
+        "options": [
+          [
+            "不回调",
+            "NONE"
+          ],
+          [
+            "每步变化",
+            "UI_DATA_FUNCTION_STEP_EXECUTE"
+          ],
+          [
+            "退出编辑",
+            "UI_DATA_FUNCTION_EXIT_EXECUTE"
+          ]
+        ]
+      }
+    ],
+    "message2": "变化时执行 %1",
+    "args2": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "为数据项或波形项创建整数/浮点变量及其编辑范围",
+    "inputsInline": false,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_bind_switch",
+    "message0": "绑定开关 项 %1 变量 %2 初值 %3 权限 %4 回调时机 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ITEM",
+        "variable": "switchItem",
+        "variableTypes": [
+          "MiaoUIItem"
+        ],
+        "defaultType": "MiaoUIItem"
+      },
+      {
+        "type": "field_input",
+        "name": "DATA_VAR",
+        "text": "menuSwitch"
+      },
+      {
+        "type": "input_value",
+        "name": "INITIAL",
+        "check": [
+          "Boolean"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACCESS",
+        "options": [
+          [
+            "可编辑",
+            "UI_DATA_ACTION_RW"
+          ],
+          [
+            "只读",
+            "UI_DATA_ACTION_RO"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CALLBACK_MODE",
+        "options": [
+          [
+            "不回调",
+            "NONE"
+          ],
+          [
+            "每步变化",
+            "UI_DATA_FUNCTION_STEP_EXECUTE"
+          ],
+          [
+            "退出编辑",
+            "UI_DATA_FUNCTION_EXIT_EXECUTE"
+          ]
+        ]
+      }
+    ],
+    "message1": "变化时执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "为数据项创建可读写或只读开关变量",
+    "inputsInline": false,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_bind_text",
+    "message0": "绑定文本 项 %1 内容 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ITEM",
+        "variable": "aboutItem",
+        "variableTypes": [
+          "MiaoUIItem"
+        ],
+        "defaultType": "MiaoUIItem"
+      },
+      {
+        "type": "field_multilinetext",
+        "name": "TEXT",
+        "text": "MiaoUI animated OLED menu."
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "为文本菜单项绑定 UTF-8 文本内容和默认字体",
+    "inputsInline": false,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_set_buttons",
+    "message0": "MiaoUI %1 设置按键 上 %2 下 %3 确认 %4 有效电平 %5 引脚模式 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "menu",
+        "variableTypes": [
+          "MiaoUI"
+        ],
+        "defaultType": "MiaoUI"
+      },
+      {
+        "type": "input_value",
+        "name": "UP_PIN",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DOWN_PIN",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ENTER_PIN",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTIVE_LEVEL",
+        "options": [
+          [
+            "低电平",
+            "Low"
+          ],
+          [
+            "高电平",
+            "High"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PIN_MODE",
+        "options": [
+          [
+            "内部上拉",
+            "INPUT_PULLUP"
+          ],
+          [
+            "普通输入",
+            "INPUT"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "配置上、下、确认三个 GPIO 按键；引脚填 -1 可禁用",
+    "inputsInline": false,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_set_debounce",
+    "message0": "MiaoUI %1 设置消抖时间 %2 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "menu",
+        "variableTypes": [
+          "MiaoUI"
+        ],
+        "defaultType": "MiaoUI"
+      },
+      {
+        "type": "input_value",
+        "name": "MILLISECONDS",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "设置 GPIO 按键消抖时间",
+    "inputsInline": true,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_set_button_repeat",
+    "message0": "MiaoUI %1 设置长按重复 延迟 %2 毫秒 间隔 %3 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "menu",
+        "variableTypes": [
+          "MiaoUI"
+        ],
+        "defaultType": "MiaoUI"
+      },
+      {
+        "type": "input_value",
+        "name": "DELAY",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "INTERVAL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "启用长按自动重复；间隔为 0 时关闭",
+    "inputsInline": true,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_push_action",
+    "message0": "MiaoUI %1 注入操作 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "menu",
+        "variableTypes": [
+          "MiaoUI"
+        ],
+        "defaultType": "MiaoUI"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "向上",
+            "UI_ACTION_UP"
+          ],
+          [
+            "向下",
+            "UI_ACTION_DOWN"
+          ],
+          [
+            "确认",
+            "UI_ACTION_ENTER"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "向八项输入队列注入编码器、串口、触摸等来源的操作",
+    "inputsInline": true,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_try_push_action",
+    "message0": "MiaoUI %1 尝试注入操作 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "menu",
+        "variableTypes": [
+          "MiaoUI"
+        ],
+        "defaultType": "MiaoUI"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "向上",
+            "UI_ACTION_UP"
+          ],
+          [
+            "向下",
+            "UI_ACTION_DOWN"
+          ],
+          [
+            "确认",
+            "UI_ACTION_ENTER"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#7E57C2",
+    "tooltip": "操作入队成功返回真，队列已满时返回假",
+    "inputsInline": true,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_update",
+    "message0": "MiaoUI %1 立即刷新一次",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "menu",
+        "variableTypes": [
+          "MiaoUI"
+        ],
+        "defaultType": "MiaoUI"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "手动处理一次输入、动画和绘制；初始化块已自动持续刷新",
+    "inputsInline": true,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_set_background",
+    "message0": "MiaoUI %1 设置反色背景 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "menu",
+        "variableTypes": [
+          "MiaoUI"
+        ],
+        "defaultType": "MiaoUI"
+      },
+      {
+        "type": "input_value",
+        "name": "INVERTED",
+        "check": [
+          "Boolean"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "切换菜单的黑底白字或白底黑字显示",
+    "inputsInline": true,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_is_begun",
+    "message0": "MiaoUI %1 已启动",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "menu",
+        "variableTypes": [
+          "MiaoUI"
+        ],
+        "defaultType": "MiaoUI"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#7E57C2",
+    "tooltip": "返回菜单是否已成功启动",
+    "inputsInline": true,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_last_error_code",
+    "message0": "MiaoUI %1 最后错误代码",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "menu",
+        "variableTypes": [
+          "MiaoUI"
+        ],
+        "defaultType": "MiaoUI"
+      }
+    ],
+    "output": "Number",
+    "colour": "#7E57C2",
+    "tooltip": "返回最后一次启动错误的数字代码，0 表示无错误",
+    "inputsInline": true,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_last_error_message",
+    "message0": "MiaoUI %1 最后错误信息",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "menu",
+        "variableTypes": [
+          "MiaoUI"
+        ],
+        "defaultType": "MiaoUI"
+      }
+    ],
+    "output": "String",
+    "colour": "#7E57C2",
+    "tooltip": "返回最后一次启动错误的英文说明",
+    "inputsInline": true,
+    "icon": "fa-solid fa-bars"
+  },
+  {
+    "type": "miaoui_current_item_name",
+    "message0": "MiaoUI %1 当前菜单项名称",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "menu",
+        "variableTypes": [
+          "MiaoUI"
+        ],
+        "defaultType": "MiaoUI"
+      }
+    ],
+    "output": "String",
+    "colour": "#7E57C2",
+    "tooltip": "返回当前选中菜单项的文本，未启动时返回空字符串",
+    "inputsInline": true,
+    "icon": "fa-solid fa-bars"
+  }
+]

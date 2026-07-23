@@ -1,0 +1,1329 @@
+[
+  {
+    "type": "astraui_init",
+    "message0": "初始化 AstraUI %1 使用 U8g2 对象 %2 根页面 %3 显示屏已初始化 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "ui"
+      },
+      {
+        "type": "field_input",
+        "name": "DISPLAY",
+        "text": "u8g2"
+      },
+      {
+        "type": "field_variable",
+        "name": "ROOT",
+        "variable": "rootPage",
+        "variableTypes": ["AstraUIPage"],
+        "defaultType": "AstraUIPage"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "DISPLAY_READY",
+        "checked": true
+      }
+    ],
+    "message1": "页面、控件和输入配置 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "CONTENT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6750A4",
+    "tooltip": "创建 U8g2Canvas 和 UI，构建菜单后启动界面，并自动在 loop 中刷新。U8g2 必须使用全缓冲模式。",
+    "inputsInline": false,
+    "icon": "fa-solid fa-layer-group"
+  },
+  {
+    "type": "astraui_create_page",
+    "message0": "创建页面 %1 标题 %2 布局 %3 ID %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "rootPage"
+      },
+      {
+        "type": "field_input",
+        "name": "TITLE",
+        "text": "Main"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "LAYOUT",
+        "options": [
+          ["列表", "List"],
+          ["磁贴", "Tile"]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "ID",
+        "value": 0,
+        "min": 0,
+        "max": 65535,
+        "precision": 1
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6750A4",
+    "tooltip": "创建具有程序全生命周期的 AstraUI 页面。请先创建所有页面，再创建子菜单控件。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-file-lines"
+  },
+  {
+    "type": "astraui_create_action",
+    "message0": "添加动作项 %1 到页面 %2 文本 %3 ID %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "actionItem"
+      },
+      {
+        "type": "field_variable",
+        "name": "PAGE",
+        "variable": "rootPage",
+        "variableTypes": ["AstraUIPage"],
+        "defaultType": "AstraUIPage"
+      },
+      {
+        "type": "field_input",
+        "name": "LABEL",
+        "text": "Action"
+      },
+      {
+        "type": "field_number",
+        "name": "ID",
+        "value": 0,
+        "min": 0,
+        "max": 65535,
+        "precision": 1
+      }
+    ],
+    "message1": "激活时执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7D5260",
+    "tooltip": "添加命令型菜单项；用户激活该项时执行内部积木。",
+    "inputsInline": false,
+    "icon": "fa-solid fa-bolt"
+  },
+  {
+    "type": "astraui_create_submenu",
+    "message0": "添加子菜单项 %1 到页面 %2 文本 %3 目标页面 %4 ID %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "settingsLink"
+      },
+      {
+        "type": "field_variable",
+        "name": "PAGE",
+        "variable": "rootPage",
+        "variableTypes": ["AstraUIPage"],
+        "defaultType": "AstraUIPage"
+      },
+      {
+        "type": "field_input",
+        "name": "LABEL",
+        "text": "Settings"
+      },
+      {
+        "type": "field_variable",
+        "name": "TARGET",
+        "variable": "settingsPage",
+        "variableTypes": ["AstraUIPage"],
+        "defaultType": "AstraUIPage"
+      },
+      {
+        "type": "field_number",
+        "name": "ID",
+        "value": 0,
+        "min": 0,
+        "max": 65535,
+        "precision": 1
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7D5260",
+    "tooltip": "添加打开另一页面的子菜单入口。目标页面必须先创建。",
+    "inputsInline": false,
+    "icon": "fa-solid fa-folder-open"
+  },
+  {
+    "type": "astraui_create_toggle",
+    "message0": "添加开关项 %1 到页面 %2 文本 %3 数据变量 %4 初值 %5 ID %6",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "toggleItem"
+      },
+      {
+        "type": "field_variable",
+        "name": "PAGE",
+        "variable": "rootPage",
+        "variableTypes": ["AstraUIPage"],
+        "defaultType": "AstraUIPage"
+      },
+      {
+        "type": "field_input",
+        "name": "LABEL",
+        "text": "Enabled"
+      },
+      {
+        "type": "field_input",
+        "name": "DATA_VAR",
+        "text": "enabled"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "INITIAL",
+        "checked": true
+      },
+      {
+        "type": "field_number",
+        "name": "ID",
+        "value": 0,
+        "min": 0,
+        "max": 65535,
+        "precision": 1
+      }
+    ],
+    "message1": "值改变时执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7D5260",
+    "tooltip": "添加绑定 bool 全局数据变量的开关控件。",
+    "inputsInline": false,
+    "icon": "fa-solid fa-toggle-on"
+  },
+  {
+    "type": "astraui_create_slider",
+    "message0": "添加滑块项 %1 到页面 %2 文本 %3 数据变量 %4 ID %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "sliderItem"
+      },
+      {
+        "type": "field_variable",
+        "name": "PAGE",
+        "variable": "rootPage",
+        "variableTypes": ["AstraUIPage"],
+        "defaultType": "AstraUIPage"
+      },
+      {
+        "type": "field_input",
+        "name": "LABEL",
+        "text": "Level"
+      },
+      {
+        "type": "field_input",
+        "name": "DATA_VAR",
+        "text": "level"
+      },
+      {
+        "type": "field_number",
+        "name": "ID",
+        "value": 0,
+        "min": 0,
+        "max": 65535,
+        "precision": 1
+      }
+    ],
+    "message1": "初值 %1 最小 %2 最大 %3 步进 %4 后缀 %5",
+    "args1": [
+      {
+        "type": "input_value",
+        "name": "INITIAL",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "MIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "MAX",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "STEP",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_input",
+        "name": "SUFFIX",
+        "text": "%"
+      }
+    ],
+    "message2": "值改变时执行 %1",
+    "args2": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7D5260",
+    "tooltip": "添加绑定 int32_t 全局数据变量的范围滑块。",
+    "inputsInline": false,
+    "icon": "fa-solid fa-sliders"
+  },
+  {
+    "type": "astraui_create_choice",
+    "message0": "添加选项项 %1 到页面 %2 文本 %3 数据变量 %4 ID %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "choiceItem"
+      },
+      {
+        "type": "field_variable",
+        "name": "PAGE",
+        "variable": "rootPage",
+        "variableTypes": ["AstraUIPage"],
+        "defaultType": "AstraUIPage"
+      },
+      {
+        "type": "field_input",
+        "name": "LABEL",
+        "text": "Mode"
+      },
+      {
+        "type": "field_input",
+        "name": "DATA_VAR",
+        "text": "mode"
+      },
+      {
+        "type": "field_number",
+        "name": "ID",
+        "value": 0,
+        "min": 0,
+        "max": 65535,
+        "precision": 1
+      }
+    ],
+    "message1": "逗号分隔选项 %1 初始索引 %2",
+    "args1": [
+      {
+        "type": "field_input",
+        "name": "OPTIONS",
+        "text": "Eco,Balanced,Performance"
+      },
+      {
+        "type": "input_value",
+        "name": "INITIAL",
+        "check": ["Number"]
+      }
+    ],
+    "message2": "值改变时执行 %1",
+    "args2": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7D5260",
+    "tooltip": "添加循环选择控件。选项用英文逗号分隔，数据变量保存当前索引。",
+    "inputsInline": false,
+    "icon": "fa-solid fa-list-check"
+  },
+  {
+    "type": "astraui_create_value",
+    "message0": "添加只读数值项 %1 到页面 %2 文本 %3 数据变量 %4 类型 %5 初值 %6 后缀 %7 ID %8",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "valueItem"
+      },
+      {
+        "type": "field_variable",
+        "name": "PAGE",
+        "variable": "rootPage",
+        "variableTypes": ["AstraUIPage"],
+        "defaultType": "AstraUIPage"
+      },
+      {
+        "type": "field_input",
+        "name": "LABEL",
+        "text": "Value"
+      },
+      {
+        "type": "field_input",
+        "name": "DATA_VAR",
+        "text": "statusValue"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA_TYPE",
+        "options": [
+          ["有符号整数", "int32_t"],
+          ["无符号整数", "uint32_t"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "INITIAL",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_input",
+        "name": "SUFFIX",
+        "text": ""
+      },
+      {
+        "type": "field_number",
+        "name": "ID",
+        "value": 0,
+        "min": 0,
+        "max": 65535,
+        "precision": 1
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7D5260",
+    "tooltip": "添加由格式化回调读取全局整数变量的只读状态项。",
+    "inputsInline": false,
+    "icon": "fa-solid fa-gauge-high"
+  },
+  {
+    "type": "astraui_create_separator",
+    "message0": "添加分隔项 %1 到页面 %2 文本 %3 ID %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "separatorItem"
+      },
+      {
+        "type": "field_variable",
+        "name": "PAGE",
+        "variable": "rootPage",
+        "variableTypes": ["AstraUIPage"],
+        "defaultType": "AstraUIPage"
+      },
+      {
+        "type": "field_input",
+        "name": "LABEL",
+        "text": "Status"
+      },
+      {
+        "type": "field_number",
+        "name": "ID",
+        "value": 0,
+        "min": 0,
+        "max": 65535,
+        "precision": 1
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7D5260",
+    "tooltip": "添加不可聚焦的分区标题或分隔线。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-minus"
+  },
+  {
+    "type": "astraui_set_data_value",
+    "message0": "设置 AstraUI 数据变量 %1 为 %2 并刷新 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "DATA_VAR",
+        "variable": "statusValue",
+        "variableTypes": ["AstraUIData"],
+        "defaultType": "AstraUIData"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      },
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7D5260",
+    "tooltip": "更新开关、滑块、选项或只读数值项所绑定的数据变量，并请求重绘。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-pen-to-square"
+  },
+  {
+    "type": "astraui_data_value",
+    "message0": "AstraUI 数据变量 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "DATA_VAR",
+        "variable": "statusValue",
+        "variableTypes": ["AstraUIData"],
+        "defaultType": "AstraUIData"
+      }
+    ],
+    "output": ["Number", "Boolean"],
+    "colour": "#7D5260",
+    "tooltip": "读取开关、滑块、选项或只读数值项所绑定的数据变量。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-database"
+  },
+  {
+    "type": "astraui_set_item_state",
+    "message0": "控件 %1 设置 %2 为 %3 并刷新 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ITEM",
+        "variable": "actionItem",
+        "variableTypes": ["AstraUIItem"],
+        "defaultType": "AstraUIItem"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROPERTY",
+        "options": [
+          ["启用", "setEnabled"],
+          ["可见", "setVisible"],
+          ["可聚焦", "setFocusable"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "STATE",
+        "check": ["Boolean"]
+      },
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7D5260",
+    "tooltip": "运行时切换控件的启用、显示或可聚焦状态，并请求重绘。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-eye"
+  },
+  {
+    "type": "astraui_set_item_label",
+    "message0": "控件 %1 设置文本 %2 并刷新 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ITEM",
+        "variable": "actionItem",
+        "variableTypes": ["AstraUIItem"],
+        "defaultType": "AstraUIItem"
+      },
+      {
+        "type": "field_input",
+        "name": "LABEL",
+        "text": "New label"
+      },
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7D5260",
+    "tooltip": "把控件文本更换为程序生命周期内有效的字符串常量。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-font"
+  },
+  {
+    "type": "astraui_set_item_icon",
+    "message0": "控件 %1 设置 XBM 图标数组 %2 宽 %3 高 %4 并刷新 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ITEM",
+        "variable": "actionItem",
+        "variableTypes": ["AstraUIItem"],
+        "defaultType": "AstraUIItem"
+      },
+      {
+        "type": "field_input",
+        "name": "BITMAP",
+        "text": "iconBitmap"
+      },
+      {
+        "type": "input_value",
+        "name": "WIDTH",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "HEIGHT",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7D5260",
+    "tooltip": "为控件设置已有的 XBM 位图数组，常用于磁贴页面。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-image"
+  },
+  {
+    "type": "astraui_set_page_options",
+    "message0": "页面 %1 标题栏 %2 循环导航 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "PAGE",
+        "variable": "rootPage",
+        "variableTypes": ["AstraUIPage"],
+        "defaultType": "AstraUIPage"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SHOW_TITLE",
+        "options": [
+          ["跟随全局", "GLOBAL"],
+          ["显示", "TRUE"],
+          ["隐藏", "FALSE"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WRAP",
+        "options": [
+          ["跟随全局", "GLOBAL"],
+          ["启用", "TRUE"],
+          ["禁用", "FALSE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6750A4",
+    "tooltip": "覆盖单个页面的标题栏和循环导航设置。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-file-circle-check"
+  },
+  {
+    "type": "astraui_set_theme",
+    "message0": "AstraUI %1 主题 %2 显示页标题 %3 显示滚动条 %4 显示磁贴页脚 %5 选择框宽度 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["深色", "FALSE"],
+          ["浅色", "TRUE"]
+        ]
+      },
+      {
+        "type": "field_checkbox",
+        "name": "SHOW_TITLE",
+        "checked": true
+      },
+      {
+        "type": "field_checkbox",
+        "name": "SHOW_SCROLLBAR",
+        "checked": true
+      },
+      {
+        "type": "field_checkbox",
+        "name": "SHOW_TILE_FOOTER",
+        "checked": true
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SELECTOR_WIDTH",
+        "options": [
+          ["文字", "Text"],
+          ["整行", "Row"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#006A6A",
+    "tooltip": "设置常用主题外观。应放在 AstraUI 初始化块内部、控件声明之后。",
+    "inputsInline": false,
+    "icon": "fa-solid fa-palette"
+  },
+  {
+    "type": "astraui_set_layout_metrics",
+    "message0": "AstraUI %1 布局 屏幕边距 %2 标题高度 %3 列表行高 %4 磁贴宽 %5 图标宽 %6 图标高 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      },
+      {
+        "type": "input_value",
+        "name": "PADDING",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "HEADER_HEIGHT",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "ROW_HEIGHT",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "TILE_WIDTH",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "ICON_WIDTH",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "ICON_HEIGHT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#006A6A",
+    "tooltip": "调整列表、标题和磁贴的主要尺寸，便于适配 128x32 或自定义屏幕。",
+    "inputsInline": false,
+    "icon": "fa-solid fa-ruler-combined"
+  },
+  {
+    "type": "astraui_set_motion",
+    "message0": "AstraUI %1 动画预设 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PRESET",
+        "options": [
+          ["柔和", "Gentle"],
+          ["迅捷", "Snappy"],
+          ["弹性", "Bouncy"],
+          ["减少动画", "Reduced"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#006A6A",
+    "tooltip": "应用一组经过调校的弹簧动画参数。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-wand-magic-sparkles"
+  },
+  {
+    "type": "astraui_set_behavior",
+    "message0": "AstraUI %1 行为 循环导航 %2 跳过禁用项 %3 记住焦点 %4 返回时取消编辑 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "WRAP",
+        "checked": true
+      },
+      {
+        "type": "field_checkbox",
+        "name": "SKIP_DISABLED",
+        "checked": true
+      },
+      {
+        "type": "field_checkbox",
+        "name": "REMEMBER_FOCUS",
+        "checked": true
+      },
+      {
+        "type": "field_checkbox",
+        "name": "CANCEL_EDIT",
+        "checked": true
+      }
+    ],
+    "message1": "连续渲染 %1 空闲刷新间隔 %2 毫秒 Toast 时长 %3 毫秒",
+    "args1": [
+      {
+        "type": "field_checkbox",
+        "name": "CONTINUOUS",
+        "checked": false
+      },
+      {
+        "type": "input_value",
+        "name": "IDLE_REFRESH",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "TOAST_DURATION",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#006A6A",
+    "tooltip": "设置导航、编辑和刷新策略。动态状态页面可使用低频空闲刷新。",
+    "inputsInline": false,
+    "icon": "fa-solid fa-gears"
+  },
+  {
+    "type": "astraui_create_two_button",
+    "message0": "创建双按键输入 %1 控制 %2 上一个引脚 %3 下一个引脚 %4 有效电平 %5 引脚模式 %6",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "buttons"
+      },
+      {
+        "type": "field_variable",
+        "name": "UI",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      },
+      {
+        "type": "input_value",
+        "name": "PREVIOUS_PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "NEXT_PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TRIGGER",
+        "options": [
+          ["低电平", "LOW"],
+          ["高电平", "HIGH"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PIN_MODE",
+        "options": [
+          ["内部上拉", "INPUT_PULLUP"],
+          ["普通输入", "INPUT"],
+          ["内部下拉", "INPUT_PULLDOWN"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#386A20",
+    "tooltip": "短按前后导航；长按上一个键返回、下一个键激活。自动初始化并在 loop 中扫描。",
+    "inputsInline": false,
+    "icon": "fa-solid fa-keyboard"
+  },
+  {
+    "type": "astraui_create_three_button",
+    "message0": "创建三按键输入 %1 控制 %2 上一个 %3 下一个 %4 确认 %5 有效电平 %6 引脚模式 %7",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "buttons"
+      },
+      {
+        "type": "field_variable",
+        "name": "UI",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      },
+      {
+        "type": "input_value",
+        "name": "PREVIOUS_PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "NEXT_PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "SELECT_PIN",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TRIGGER",
+        "options": [
+          ["低电平", "LOW"],
+          ["高电平", "HIGH"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PIN_MODE",
+        "options": [
+          ["内部上拉", "INPUT_PULLUP"],
+          ["普通输入", "INPUT"],
+          ["内部下拉", "INPUT_PULLDOWN"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#386A20",
+    "tooltip": "前后键支持长按连发，确认键短按激活、长按返回；自动在 loop 中扫描。",
+    "inputsInline": false,
+    "icon": "fa-solid fa-keyboard"
+  },
+  {
+    "type": "astraui_set_button_timing",
+    "message0": "按键输入 %1 消抖 %2 长按 %3 连发延迟 %4 连发间隔 %5 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "buttons",
+        "variableTypes": ["AstraUIButtonInput"],
+        "defaultType": "AstraUIButtonInput"
+      },
+      {
+        "type": "input_value",
+        "name": "DEBOUNCE",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "LONG_PRESS",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "REPEAT_DELAY",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "REPEAT_INTERVAL",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#386A20",
+    "tooltip": "调整按键消抖、长按和自动连发时间。",
+    "inputsInline": false,
+    "icon": "fa-solid fa-stopwatch"
+  },
+  {
+    "type": "astraui_dispatch",
+    "message0": "AstraUI %1 发送输入操作 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          ["上一项/减小", "Previous"],
+          ["下一项/增大", "Next"],
+          ["激活/确认", "Activate"],
+          ["返回", "Back"],
+          ["减小", "Decrement"],
+          ["增大", "Increment"],
+          ["主页", "Home"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#386A20",
+    "tooltip": "注入语义输入，适用于编码器、串口、触摸或自定义按键。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-arrow-pointer"
+  },
+  {
+    "type": "astraui_show_toast",
+    "message0": "AstraUI %1 显示提示 %2 持续 %3 毫秒（0 使用默认值）",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      },
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#B3261E",
+    "tooltip": "在界面上显示非阻塞 Toast 提示。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-message"
+  },
+  {
+    "type": "astraui_ui_command",
+    "message0": "AstraUI %1 执行 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "COMMAND",
+        "options": [
+          ["请求重绘", "invalidate"],
+          ["立即渲染", "renderNow"],
+          ["关闭提示", "dismissToast"],
+          ["返回上一页", "back"],
+          ["回到主页", "home"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#B3261E",
+    "tooltip": "执行常用界面控制命令。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-terminal"
+  },
+  {
+    "type": "astraui_open_page",
+    "message0": "AstraUI %1 打开页面 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      },
+      {
+        "type": "field_variable",
+        "name": "PAGE",
+        "variable": "settingsPage",
+        "variableTypes": ["AstraUIPage"],
+        "defaultType": "AstraUIPage"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#B3261E",
+    "tooltip": "以编程方式打开指定页面。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-arrow-up-right-from-square"
+  },
+  {
+    "type": "astraui_focus",
+    "message0": "AstraUI %1 聚焦索引 %2 使用动画 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": ["Number"]
+      },
+      {
+        "type": "field_checkbox",
+        "name": "ANIMATE",
+        "checked": true
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#B3261E",
+    "tooltip": "让当前页面聚焦到指定的原始控件索引。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-crosshairs"
+  },
+  {
+    "type": "astraui_set_power_save",
+    "message0": "AstraUI %1 显示屏省电 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      },
+      {
+        "type": "input_value",
+        "name": "ENABLED",
+        "check": ["Boolean"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#B3261E",
+    "tooltip": "打开或关闭显示器省电模式。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-power-off"
+  },
+  {
+    "type": "astraui_status",
+    "message0": "AstraUI %1 是否 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STATUS",
+        "options": [
+          ["已启动", "isBegun"],
+          ["正在编辑", "editing"],
+          ["正在过渡", "transitioning"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#B3261E",
+    "tooltip": "查询界面是否已启动、正在编辑或正在进行页面过渡。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-circle-question"
+  },
+  {
+    "type": "astraui_focus_index",
+    "message0": "AstraUI %1 当前焦点索引",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      }
+    ],
+    "output": "Number",
+    "colour": "#B3261E",
+    "tooltip": "返回当前页面的原始焦点索引。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-location-dot"
+  },
+  {
+    "type": "astraui_navigation_depth",
+    "message0": "AstraUI %1 当前导航深度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      }
+    ],
+    "output": "Number",
+    "colour": "#B3261E",
+    "tooltip": "返回页面导航栈深度。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-layer-group"
+  },
+  {
+    "type": "astraui_current_item_id",
+    "message0": "AstraUI %1 当前控件 ID",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      }
+    ],
+    "output": "Number",
+    "colour": "#B3261E",
+    "tooltip": "返回当前控件 ID；没有当前控件时返回 0。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-fingerprint"
+  },
+  {
+    "type": "astraui_begin_result_message",
+    "message0": "AstraUI %1 启动结果文本",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      }
+    ],
+    "output": "String",
+    "colour": "#B3261E",
+    "tooltip": "返回最近一次 begin 的可读结果，例如全缓冲模式错误。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-triangle-exclamation"
+  },
+  {
+    "type": "astraui_when_event",
+    "message0": "当 AstraUI %1 发生事件",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ui",
+        "variableTypes": ["AstraUI"],
+        "defaultType": "AstraUI"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "colour": "#9C4146",
+    "tooltip": "注册全局 AstraUI 事件处理器。内部可使用事件判断和值积木。",
+    "inputsInline": false,
+    "icon": "fa-solid fa-bell"
+  },
+  {
+    "type": "astraui_event_is",
+    "message0": "当前 AstraUI 事件是 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "EVENT",
+        "options": [
+          ["焦点改变", "FocusChanged"],
+          ["已激活", "Activated"],
+          ["值改变", "ValueChanged"],
+          ["开始编辑", "EditStarted"],
+          ["提交编辑", "EditCommitted"],
+          ["取消编辑", "EditCancelled"],
+          ["进入页面", "PageEntered"],
+          ["退出页面", "PageExited"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#9C4146",
+    "tooltip": "只能在 AstraUI 事件处理积木内部使用。",
+    "inputsInline": true,
+    "icon": "fa-solid fa-code-branch"
+  },
+  {
+    "type": "astraui_event_value",
+    "message0": "当前 AstraUI 事件数值",
+    "output": "Number",
+    "colour": "#9C4146",
+    "tooltip": "返回当前事件携带的数值；只能在事件处理积木内部使用。",
+    "icon": "fa-solid fa-hashtag"
+  },
+  {
+    "type": "astraui_event_item_id",
+    "message0": "当前 AstraUI 事件控件 ID",
+    "output": "Number",
+    "colour": "#9C4146",
+    "tooltip": "返回当前事件控件 ID；没有控件时返回 0。只能在事件处理积木内部使用。",
+    "icon": "fa-solid fa-fingerprint"
+  },
+  {
+    "type": "astraui_event_page_id",
+    "message0": "当前 AstraUI 事件页面 ID",
+    "output": "Number",
+    "colour": "#9C4146",
+    "tooltip": "返回当前事件页面 ID；没有页面时返回 0。只能在事件处理积木内部使用。",
+    "icon": "fa-solid fa-file-circle-question"
+  }
+]
