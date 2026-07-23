@@ -6,6 +6,30 @@ function fluxGarageRoboEyesEnsureLibrary(generator) {
   generator.addLibrary('FluxGarage_RoboEyes', '#include <FluxGarage_RoboEyes.h>');
 }
 
+function fluxGarageRoboEyesScreenConfig(screen) {
+  const screens = {
+    SSD1306_128X64: {
+      className: 'Adafruit_SSD1306',
+      header: 'Adafruit_SSD1306',
+      width: 128,
+      height: 64
+    },
+    SSD1306_128X32: {
+      className: 'Adafruit_SSD1306',
+      header: 'Adafruit_SSD1306',
+      width: 128,
+      height: 32
+    },
+    SH1106G_128X64: {
+      className: 'Adafruit_SH1106G',
+      header: 'Adafruit_SH110X',
+      width: 128,
+      height: 64
+    }
+  };
+  return screens[screen] || screens.SSD1306_128X64;
+}
+
 function fluxGarageRoboEyesSafeIdentifier(value, fallback) {
   let name = String(value || fallback || 'roboEyes')
     .replace(/[^A-Za-z0-9_]/g, '_');
@@ -24,6 +48,28 @@ function fluxGarageRoboEyesGetFieldVariable(block) {
 
 function fluxGarageRoboEyesGetValue(block, generator, name, fallback) {
   return generator.valueToCode(block, name, generator.ORDER_ATOMIC) || fallback;
+}
+
+function fluxGarageRoboEyesAddObject(generator, rawVarName, displayName, displayDeclaration) {
+  const varName = fluxGarageRoboEyesSafeIdentifier(rawVarName, 'roboEyes');
+
+  if (typeof registerVariableToBlockly === 'function') {
+    registerVariableToBlockly(rawVarName, FLUXGARAGE_ROBOEYES_TYPE);
+  }
+  generator.addObject(
+    'fluxgarage_roboeyes_display_' + displayName,
+    displayDeclaration
+  );
+  generator.addObject(
+    'fluxgarage_roboeyes_object_' + varName,
+    'RoboEyes<decltype(' + displayName + ')> ' + varName + '(' + displayName + ');'
+  );
+  generator.addLoopBegin(
+    'fluxgarage_roboeyes_update_' + varName,
+    varName + '.update();'
+  );
+
+  return varName;
 }
 
 function fluxGarageRoboEyesAttachRenameMonitor(block) {
@@ -68,6 +114,78 @@ function fluxGarageRoboEyesAttachRenameMonitor(block) {
     }
   };
 }
+
+Arduino.forBlock['fluxgarage_roboeyes_i2c_init'] = function(block, generator) {
+  fluxGarageRoboEyesAttachRenameMonitor(block);
+
+  const rawVarName = block.getFieldValue('VAR') || 'roboEyes';
+  const displayName = fluxGarageRoboEyesSafeIdentifier(
+    block.getFieldValue('DISPLAY'),
+    'display'
+  );
+  const screen = block.getFieldValue('SCREEN') || 'SSD1306_128X64';
+  const config = fluxGarageRoboEyesScreenConfig(screen);
+  const address = fluxGarageRoboEyesGetValue(block, generator, 'ADDRESS', '0x3C');
+  const rst = fluxGarageRoboEyesGetValue(block, generator, 'RST', '-1');
+  const fps = fluxGarageRoboEyesGetValue(block, generator, 'FPS', '60');
+
+  generator.addLibrary('Wire', '#include <Wire.h>');
+  generator.addLibrary('Adafruit_GFX', '#include <Adafruit_GFX.h>');
+  generator.addLibrary(config.header, '#include <' + config.header + '.h>');
+  fluxGarageRoboEyesEnsureLibrary(generator);
+
+  const displayDeclaration = config.className + ' ' + displayName + '(' +
+    config.width + ', ' + config.height + ', &Wire, ' + rst + ');';
+  const varName = fluxGarageRoboEyesAddObject(
+    generator,
+    rawVarName,
+    displayName,
+    displayDeclaration
+  );
+  const displayBegin = config.className === 'Adafruit_SSD1306'
+    ? displayName + '.begin(SSD1306_SWITCHCAPVCC, ' + address + ');\n'
+    : displayName + '.begin(' + address + ', true);\n';
+
+  return displayBegin + varName + '.begin(' + config.width + ', ' +
+    config.height + ', ' + fps + ');\n';
+};
+
+Arduino.forBlock['fluxgarage_roboeyes_spi_init'] = function(block, generator) {
+  fluxGarageRoboEyesAttachRenameMonitor(block);
+
+  const rawVarName = block.getFieldValue('VAR') || 'roboEyes';
+  const displayName = fluxGarageRoboEyesSafeIdentifier(
+    block.getFieldValue('DISPLAY'),
+    'display'
+  );
+  const screen = block.getFieldValue('SCREEN') || 'SSD1306_128X64';
+  const config = fluxGarageRoboEyesScreenConfig(screen);
+  const dc = fluxGarageRoboEyesGetValue(block, generator, 'DC', '9');
+  const cs = fluxGarageRoboEyesGetValue(block, generator, 'CS', '10');
+  const rst = fluxGarageRoboEyesGetValue(block, generator, 'RST', '-1');
+  const fps = fluxGarageRoboEyesGetValue(block, generator, 'FPS', '60');
+
+  generator.addLibrary('SPI', '#include <SPI.h>');
+  generator.addLibrary('Adafruit_GFX', '#include <Adafruit_GFX.h>');
+  generator.addLibrary(config.header, '#include <' + config.header + '.h>');
+  fluxGarageRoboEyesEnsureLibrary(generator);
+
+  const displayDeclaration = config.className + ' ' + displayName + '(' +
+    config.width + ', ' + config.height + ', &SPI, ' + dc + ', ' + rst +
+    ', ' + cs + ');';
+  const varName = fluxGarageRoboEyesAddObject(
+    generator,
+    rawVarName,
+    displayName,
+    displayDeclaration
+  );
+  const displayBegin = config.className === 'Adafruit_SSD1306'
+    ? displayName + '.begin(SSD1306_SWITCHCAPVCC);\n'
+    : displayName + '.begin(0, true);\n';
+
+  return displayBegin + varName + '.begin(' + config.width + ', ' +
+    config.height + ', ' + fps + ');\n';
+};
 
 Arduino.forBlock['fluxgarage_roboeyes_init'] = function(block, generator) {
   fluxGarageRoboEyesAttachRenameMonitor(block);

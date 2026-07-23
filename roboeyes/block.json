@@ -1,5 +1,141 @@
 [
   {
+    "type": "fluxgarage_roboeyes_i2c_init",
+    "message0": "创建 RoboEyes %1 I2C 屏幕 %2 显示对象 %3 地址 %4 复位引脚 %5 最大帧率 %6",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "roboEyes"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SCREEN",
+        "options": [
+          [
+            "SSD1306 128×64",
+            "SSD1306_128X64"
+          ],
+          [
+            "SSD1306 128×32",
+            "SSD1306_128X32"
+          ],
+          [
+            "SH1106G 128×64",
+            "SH1106G_128X64"
+          ]
+        ]
+      },
+      {
+        "type": "field_input",
+        "name": "DISPLAY",
+        "text": "display"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "RST",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "FPS",
+        "check": [
+          "Number",
+          "int"
+        ]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C6BC0",
+    "tooltip": "选择并初始化 I2C OLED，同时创建 RoboEyes；支持 SSD1306 128×64/128×32 和 SH1106G 128×64，默认地址为 0x3C（十进制 60）",
+    "icon": "fa-solid fa-eye"
+  },
+  {
+    "type": "fluxgarage_roboeyes_spi_init",
+    "message0": "创建 RoboEyes %1 SPI 屏幕 %2 显示对象 %3 DC %4 CS %5 RST %6 最大帧率 %7",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "roboEyes"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SCREEN",
+        "options": [
+          [
+            "SSD1306 128×64",
+            "SSD1306_128X64"
+          ],
+          [
+            "SSD1306 128×32",
+            "SSD1306_128X32"
+          ],
+          [
+            "SH1106G 128×64",
+            "SH1106G_128X64"
+          ]
+        ]
+      },
+      {
+        "type": "field_input",
+        "name": "DISPLAY",
+        "text": "display"
+      },
+      {
+        "type": "input_value",
+        "name": "DC",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CS",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "RST",
+        "check": [
+          "Number",
+          "int"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "FPS",
+        "check": [
+          "Number",
+          "int"
+        ]
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C6BC0",
+    "tooltip": "选择并初始化使用开发板硬件 SPI 总线的 OLED，同时创建 RoboEyes；MOSI 和 SCLK 使用开发板默认硬件 SPI 引脚",
+    "icon": "fa-solid fa-eye"
+  },
+  {
     "type": "fluxgarage_roboeyes_init",
     "message0": "创建 RoboEyes %1 使用显示对象 %2 宽 %3 高 %4 最大帧率 %5",
     "args0": [
@@ -42,7 +178,7 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#5C6BC0",
-    "tooltip": "使用已创建并初始化的 Adafruit GFX 兼容显示对象创建 RoboEyes；自动在主循环调用 update()",
+    "tooltip": "使用已创建并初始化、且提供 clearDisplay() 和 display() 的 Adafruit GFX 兼容显示对象创建 RoboEyes；自动在主循环调用 update()",
     "icon": "fa-solid fa-eye"
   },
   {
