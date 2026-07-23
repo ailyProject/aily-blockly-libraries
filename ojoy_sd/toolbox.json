@@ -1,0 +1,146 @@
+{
+  "kind": "category",
+  "name": "OJoy SD卡",
+  "icon": "fa-light fa-sd-card",
+  "colour": "#FF9800",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_mmc_begin"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_mmc_end"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_mmc_info"
+    },
+    {
+      "kind": "label",
+      "text": "文件操作"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_mmc_write_file",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/test.txt"
+            }
+          }
+        },
+        "CONTENT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_mmc_append_file",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/test.txt"
+            }
+          }
+        },
+        "CONTENT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "World"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_mmc_read_file",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/test.txt"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_mmc_delete_file",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/test.txt"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_mmc_exists",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/test.txt"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "目录操作"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_mmc_mkdir",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/mydir"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_sd_mmc_rmdir",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/mydir"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
