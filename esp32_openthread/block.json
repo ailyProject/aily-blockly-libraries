@@ -1,0 +1,183 @@
+[
+  {
+    "type": "esp32_openthread_begin",
+    "message0": "初始化 OpenThread 自动启动 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "AUTO",
+        "check": "Boolean"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "初始化 OpenThread 栈。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_openthread_end",
+    "message0": "结束 OpenThread",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "关闭 OpenThread 栈。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_openthread_control",
+    "message0": "OpenThread %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "启动网络",
+            "start"
+          ],
+          [
+            "停止网络",
+            "stop"
+          ],
+          [
+            "接口上线",
+            "networkInterfaceUp"
+          ],
+          [
+            "接口下线",
+            "networkInterfaceDown"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "控制 Thread 网络或接口。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_openthread_running",
+    "message0": "OpenThread 正在运行",
+    "output": "Boolean",
+    "colour": "#E65100",
+    "tooltip": "检查 OpenThread 栈是否正在运行。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_openthread_role",
+    "message0": "OpenThread 当前角色",
+    "output": "String",
+    "colour": "#E65100",
+    "tooltip": "返回 disabled/detached/child/router/leader。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_openthread_has_dataset",
+    "message0": "OpenThread 有活动数据集",
+    "output": "Boolean",
+    "colour": "#E65100",
+    "tooltip": "检查是否已提交活动数据集。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_openthread_dataset",
+    "message0": "创建并提交 Thread 数据集 %1 名称 %2 信道 %3 PAN ID %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "DATASET",
+        "variable": "threadDataset"
+      },
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PANID",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "创建新的活动数据集并提交。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_openthread_network_number",
+    "message0": "OpenThread 网络数值 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "INFO",
+        "options": [
+          [
+            "信道",
+            "getChannel"
+          ],
+          [
+            "PAN ID",
+            "getPanId"
+          ],
+          [
+            "RLOC16",
+            "getRloc16"
+          ],
+          [
+            "单播地址数",
+            "getUnicastAddressCount"
+          ],
+          [
+            "组播地址数",
+            "getMulticastAddressCount"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E65100",
+    "tooltip": "读取 Thread 网络数值。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_openthread_network_text",
+    "message0": "OpenThread 网络文本 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "INFO",
+        "options": [
+          [
+            "网络名称",
+            "getNetworkName"
+          ],
+          [
+            "Mesh Local EID",
+            "getMeshLocalEid"
+          ],
+          [
+            "Leader RLOC",
+            "getLeaderRloc"
+          ],
+          [
+            "本机 RLOC",
+            "getRloc"
+          ]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#E65100",
+    "tooltip": "读取网络名称或 IPv6 地址。",
+    "helpUrl": ""
+  }
+]

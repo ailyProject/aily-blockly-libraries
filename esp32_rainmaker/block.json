@@ -1,0 +1,198 @@
+[
+  {
+    "type": "esp32_rainmaker_init_node",
+    "message0": "初始化 RainMaker 节点 %1 名称 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "NODE",
+        "variable": "rainmakerNode"
+      },
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "创建 RainMaker 节点。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_rainmaker_add_device",
+    "message0": "RainMaker 节点 %1 添加 %2 设备 %3 名称 %4 初值 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "NODE",
+        "variable": "rainmakerNode"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CLASS",
+        "options": [
+          [
+            "开关",
+            "Switch"
+          ],
+          [
+            "灯",
+            "LightBulb"
+          ],
+          [
+            "风扇",
+            "Fan"
+          ],
+          [
+            "温度传感器",
+            "TemperatureSensor"
+          ]
+        ]
+      },
+      {
+        "type": "field_variable",
+        "name": "DEVICE",
+        "variable": "rainmakerDevice"
+      },
+      {
+        "type": "input_value",
+        "name": "NAME",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": null
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "创建标准设备并添加到节点。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_rainmaker_enable_service",
+    "message0": "RainMaker 启用服务 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SERVICE",
+        "options": [
+          [
+            "OTA",
+            "enableOTA(OTA_USING_TOPICS)"
+          ],
+          [
+            "时区",
+            "enableTZService()"
+          ],
+          [
+            "计划",
+            "enableSchedule()"
+          ],
+          [
+            "场景",
+            "enableScenes()"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "启用 RainMaker 标准服务。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_rainmaker_start",
+    "message0": "启动 RainMaker",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "启动 RainMaker 云服务。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_rainmaker_stop",
+    "message0": "停止 RainMaker",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "停止 RainMaker 云服务。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_rainmaker_report",
+    "message0": "RainMaker 设备 %1 上报参数 %2 值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "DEVICE",
+        "variable": "rainmakerDevice"
+      },
+      {
+        "type": "input_value",
+        "name": "PARAM",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": null
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "更新并上报设备参数。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_rainmaker_reset",
+    "message0": "RainMaker %1 延时 %2 秒",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "RESET",
+        "options": [
+          [
+            "恢复出厂",
+            "RMakerFactoryReset"
+          ],
+          [
+            "重置 Wi-Fi",
+            "RMakerWiFiReset"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SECONDS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "延时执行 RainMaker 恢复出厂或 Wi-Fi 重置。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_rainmaker_node_id",
+    "message0": "RainMaker 节点 %1 ID",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "NODE",
+        "variable": "rainmakerNode"
+      }
+    ],
+    "output": "String",
+    "colour": "#E65100",
+    "tooltip": "读取 RainMaker 节点 ID。",
+    "helpUrl": ""
+  }
+]

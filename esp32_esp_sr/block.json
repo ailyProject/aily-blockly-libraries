@@ -1,0 +1,164 @@
+[
+  {
+    "type": "esp32_esp_sr_begin",
+    "message0": "启动语音识别 I2S %1 命令1 %2 命令2 %3 命令3 %4 命令4 %5 通道 %6 输入格式 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "I2S",
+        "variable": "I2S"
+      },
+      {
+        "type": "input_value",
+        "name": "CMD1",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "CMD2",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "CMD3",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "CMD4",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CHANNELS",
+        "options": [
+          [
+            "单声道",
+            "SR_CHANNELS_MONO"
+          ],
+          [
+            "立体声",
+            "SR_CHANNELS_STEREO"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "FORMAT",
+        "check": "String"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#E65100",
+    "tooltip": "启动离线语音识别并为四个短语分配命令 ID 1-4。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_esp_sr_control",
+    "message0": "语音识别 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "结束",
+            "end"
+          ],
+          [
+            "暂停",
+            "pause"
+          ],
+          [
+            "恢复",
+            "resume"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#E65100",
+    "tooltip": "结束、暂停或恢复语音识别。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_esp_sr_set_mode",
+    "message0": "语音识别模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "唤醒词",
+            "SR_MODE_WAKEWORD"
+          ],
+          [
+            "命令词",
+            "SR_MODE_COMMAND"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#E65100",
+    "tooltip": "切换唤醒词或命令识别模式。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_esp_sr_last_event",
+    "message0": "语音识别最近事件",
+    "output": "Number",
+    "colour": "#E65100",
+    "tooltip": "返回最近的 sr_event_t 数值。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_esp_sr_last_command",
+    "message0": "语音识别最近命令 ID",
+    "output": "Number",
+    "colour": "#E65100",
+    "tooltip": "返回最近识别到的命令 ID。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_esp_sr_last_phrase",
+    "message0": "语音识别最近短语 ID",
+    "output": "Number",
+    "colour": "#E65100",
+    "tooltip": "返回最近识别到的短语 ID。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_esp_sr_event_constant",
+    "message0": "语音事件 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "EVENT",
+        "options": [
+          [
+            "唤醒词",
+            "SR_EVENT_WAKEWORD"
+          ],
+          [
+            "唤醒通道",
+            "SR_EVENT_WAKEWORD_CHANNEL"
+          ],
+          [
+            "命令",
+            "SR_EVENT_COMMAND"
+          ],
+          [
+            "超时",
+            "SR_EVENT_TIMEOUT"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E65100",
+    "tooltip": "返回语音事件常量。",
+    "helpUrl": ""
+  }
+]

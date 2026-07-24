@@ -1,0 +1,258 @@
+[
+  {
+    "type": "esp32_ppp_set_apn",
+    "message0": "PPP 设置 APN %1 SIM PIN %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "APN",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "设置蜂窝网络 APN 与可选 SIM PIN。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_ppp_set_pins",
+    "message0": "PPP 串口引脚 TX %1 RX %2 RTS %3 CTS %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TX",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "RX",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "RTS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CTS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "设置调制解调器 UART 和流控引脚。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_ppp_set_reset",
+    "message0": "PPP 复位引脚 %1 低有效 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "RST",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ACTIVE_LOW",
+        "check": "Boolean"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "设置调制解调器硬件复位引脚。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_ppp_begin",
+    "message0": "启动 PPP 型号 %1 UART %2 波特率 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "通用",
+            "PPP_MODEM_GENERIC"
+          ],
+          [
+            "SIM7600",
+            "PPP_MODEM_SIM7600"
+          ],
+          [
+            "SIM7070",
+            "PPP_MODEM_SIM7070"
+          ],
+          [
+            "SIM7000",
+            "PPP_MODEM_SIM7000"
+          ],
+          [
+            "BG96",
+            "PPP_MODEM_BG96"
+          ],
+          [
+            "SIM800",
+            "PPP_MODEM_SIM800"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "UART",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BAUD",
+        "check": "Number"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#E65100",
+    "tooltip": "启动 PPP 调制解调器。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_ppp_end",
+    "message0": "停止 PPP",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "停止 PPP 数据连接。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_ppp_attached",
+    "message0": "PPP 已附着蜂窝网络",
+    "output": "Boolean",
+    "colour": "#E65100",
+    "tooltip": "检查调制解调器是否附着网络。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_ppp_sync",
+    "message0": "PPP AT 通信正常",
+    "output": "Boolean",
+    "colour": "#E65100",
+    "tooltip": "检查调制解调器是否响应 AT。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_ppp_info_number",
+    "message0": "PPP 数值信息 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "INFO",
+        "options": [
+          [
+            "信号 RSSI",
+            "RSSI"
+          ],
+          [
+            "误码率 BER",
+            "BER"
+          ],
+          [
+            "网络模式",
+            "networkMode"
+          ],
+          [
+            "电池电压",
+            "batteryVoltage"
+          ],
+          [
+            "电池电量",
+            "batteryLevel"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#E65100",
+    "tooltip": "读取调制解调器数值状态。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_ppp_info_text",
+    "message0": "PPP 文本信息 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "INFO",
+        "options": [
+          [
+            "IMEI",
+            "IMEI"
+          ],
+          [
+            "IMSI",
+            "IMSI"
+          ],
+          [
+            "模块名称",
+            "moduleName"
+          ],
+          [
+            "运营商",
+            "operatorName"
+          ]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#E65100",
+    "tooltip": "读取调制解调器身份或运营商文本。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_ppp_sms",
+    "message0": "PPP 发送短信 到 %1 内容 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUMBER",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#E65100",
+    "tooltip": "发送 SMS 短信。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_ppp_at",
+    "message0": "PPP AT 命令 %1 超时 %2 ms",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "COMMAND",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": "Number"
+      }
+    ],
+    "output": "String",
+    "colour": "#E65100",
+    "tooltip": "发送 AT 命令并返回文本响应。",
+    "helpUrl": ""
+  }
+]

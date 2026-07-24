@@ -1,0 +1,359 @@
+[
+  {
+    "type": "esp32_matter_begin",
+    "message0": "启动 Matter",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "启动 Matter 节点；端点需先创建。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_matter_status",
+    "message0": "Matter 状态 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATUS",
+        "options": [
+          [
+            "已配网",
+            "isDeviceCommissioned"
+          ],
+          [
+            "Wi-Fi 已连接",
+            "isWiFiConnected"
+          ],
+          [
+            "Thread 已连接",
+            "isThreadConnected"
+          ],
+          [
+            "设备已连接",
+            "isDeviceConnected"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#E65100",
+    "tooltip": "查询 Matter 配网或连接状态。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_matter_pairing_code",
+    "message0": "Matter 配对信息 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CODE",
+        "options": [
+          [
+            "手动配对码",
+            "getManualPairingCode"
+          ],
+          [
+            "二维码 URL",
+            "getOnboardingQRCodeUrl"
+          ]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#E65100",
+    "tooltip": "获取 Matter 配对码或二维码 URL。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_matter_decommission",
+    "message0": "Matter 清除配网",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "清除当前 Matter Fabric 配网信息。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_matter_create_onoff_light",
+    "message0": "创建 Matter 开关灯 %1 初始状态 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "DEVICE",
+        "variable": "matterLight"
+      },
+      {
+        "type": "input_value",
+        "name": "STATE",
+        "check": "Boolean"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "创建开关灯端点。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_matter_create_dimmable_light",
+    "message0": "创建 Matter 调光灯 %1 状态 %2 亮度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "DEVICE",
+        "variable": "matterDimmer"
+      },
+      {
+        "type": "input_value",
+        "name": "STATE",
+        "check": "Boolean"
+      },
+      {
+        "type": "input_value",
+        "name": "BRIGHTNESS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "创建调光灯端点。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_matter_light_set",
+    "message0": "Matter 灯 %1 设置 %2 为 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "DEVICE",
+        "variable": "matterLight"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROPERTY",
+        "options": [
+          [
+            "开关",
+            "setOnOff"
+          ],
+          [
+            "亮度",
+            "setBrightness"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": null
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "设置灯的开关或亮度。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_matter_light_get",
+    "message0": "Matter 灯 %1 读取 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "DEVICE",
+        "variable": "matterLight"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROPERTY",
+        "options": [
+          [
+            "开关",
+            "getOnOff"
+          ],
+          [
+            "亮度",
+            "getBrightness"
+          ]
+        ]
+      }
+    ],
+    "output": null,
+    "colour": "#E65100",
+    "tooltip": "读取灯的开关或亮度。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_matter_create_numeric_sensor",
+    "message0": "创建 Matter 数值传感器 %1 类型 %2 初值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "DEVICE",
+        "variable": "matterSensor"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SENSOR",
+        "options": [
+          [
+            "温度",
+            "MatterTemperatureSensor"
+          ],
+          [
+            "湿度",
+            "MatterHumiditySensor"
+          ],
+          [
+            "照度",
+            "MatterLightSensor"
+          ],
+          [
+            "压力",
+            "MatterPressureSensor"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "创建常用数值传感器端点。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_matter_numeric_sensor_set",
+    "message0": "Matter 数值传感器 %1 类型 %2 更新 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "DEVICE",
+        "variable": "matterSensor"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "METHOD",
+        "options": [
+          [
+            "温度",
+            "setTemperature"
+          ],
+          [
+            "湿度",
+            "setHumidity"
+          ],
+          [
+            "照度",
+            "setIlluminance"
+          ],
+          [
+            "压力",
+            "setPressure"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "更新并上报数值传感器值。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_matter_create_boolean_sensor",
+    "message0": "创建 Matter 布尔传感器 %1 类型 %2 初值 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "DEVICE",
+        "variable": "matterContact"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SENSOR",
+        "options": [
+          [
+            "接触",
+            "MatterContactSensor"
+          ],
+          [
+            "占用",
+            "MatterOccupancySensor"
+          ],
+          [
+            "雨水",
+            "MatterRainSensor"
+          ],
+          [
+            "漏水",
+            "MatterWaterLeakDetector"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Boolean"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "创建常用布尔传感器端点。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_matter_boolean_sensor_set",
+    "message0": "Matter 布尔传感器 %1 类型 %2 更新 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "DEVICE",
+        "variable": "matterContact"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "METHOD",
+        "options": [
+          [
+            "接触",
+            "setContact"
+          ],
+          [
+            "占用",
+            "setOccupancy"
+          ],
+          [
+            "雨水",
+            "setRain"
+          ],
+          [
+            "漏水",
+            "setLeak"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Boolean"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "更新并上报布尔传感器值。",
+    "helpUrl": ""
+  }
+]

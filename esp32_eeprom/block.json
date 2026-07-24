@@ -1,0 +1,219 @@
+[
+  {
+    "type": "esp32_eeprom_begin",
+    "message0": "初始化 EEPROM 大小 %1 字节",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SIZE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "分配 EEPROM 模拟存储区。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_eeprom_read",
+    "message0": "EEPROM 读取字节 地址 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#E65100",
+    "tooltip": "读取指定地址的一个字节。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_eeprom_write",
+    "message0": "EEPROM 写入字节 地址 %1 值 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "写入一个字节，之后需要提交。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_eeprom_read_typed",
+    "message0": "EEPROM 读取 %1 地址 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "METHOD",
+        "options": [
+          [
+            "整数",
+            "readInt"
+          ],
+          [
+            "无符号整数",
+            "readUInt"
+          ],
+          [
+            "长整数",
+            "readLong64"
+          ],
+          [
+            "浮点数",
+            "readFloat"
+          ],
+          [
+            "双精度",
+            "readDouble"
+          ],
+          [
+            "布尔值",
+            "readBool"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      }
+    ],
+    "output": null,
+    "colour": "#E65100",
+    "tooltip": "按指定类型读取数值。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_eeprom_write_typed",
+    "message0": "EEPROM 写入 %1 地址 %2 值 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "METHOD",
+        "options": [
+          [
+            "整数",
+            "writeInt"
+          ],
+          [
+            "无符号整数",
+            "writeUInt"
+          ],
+          [
+            "长整数",
+            "writeLong64"
+          ],
+          [
+            "浮点数",
+            "writeFloat"
+          ],
+          [
+            "双精度",
+            "writeDouble"
+          ],
+          [
+            "布尔值",
+            "writeBool"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": null
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "按指定类型写入数值。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_eeprom_read_string",
+    "message0": "EEPROM 读取字符串 地址 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      }
+    ],
+    "output": "String",
+    "colour": "#E65100",
+    "tooltip": "读取以零结尾的字符串。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_eeprom_write_string",
+    "message0": "EEPROM 写入字符串 地址 %1 文本 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "写入字符串并返回写入长度。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_eeprom_commit",
+    "message0": "提交 EEPROM 更改",
+    "output": "Boolean",
+    "colour": "#E65100",
+    "tooltip": "把缓存中的更改写入 Flash。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_eeprom_end",
+    "message0": "结束 EEPROM",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E65100",
+    "tooltip": "提交并释放 EEPROM 缓冲区。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_eeprom_length",
+    "message0": "EEPROM 容量",
+    "output": "Number",
+    "colour": "#E65100",
+    "tooltip": "返回当前 EEPROM 容量。",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_eeprom_dirty",
+    "message0": "EEPROM 有未提交更改",
+    "output": "Boolean",
+    "colour": "#E65100",
+    "tooltip": "检查缓存是否有未提交更改。",
+    "helpUrl": ""
+  }
+]
