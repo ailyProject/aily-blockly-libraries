@@ -1108,6 +1108,28 @@ class LibraryValidator {
     return Array.from(libraries);
   }
 
+  // 多语言文件由专用校验器负责，避免纯翻译变更触发整个旧库的规范评分。
+  isI18nFile(file) {
+    const parts = file.split(/[\\/]/);
+    return parts.length >= 3 && parts[1] === 'i18n' && /\.json$/i.test(parts[parts.length - 1]);
+  }
+
+  validateI18nFiles(currentDir) {
+    console.log('🌐 检测到多语言文件变更，运行 npm run i18n:check...\n');
+    try {
+      const command = process.platform === 'win32' ? (process.env.ComSpec || 'cmd.exe') : 'npm';
+      const args = process.platform === 'win32'
+        ? ['/d', '/s', '/c', 'npm run i18n:check']
+        : ['run', 'i18n:check'];
+      execFileSync(command, args, {
+        cwd: currentDir,
+        stdio: 'inherit'
+      });
+    } catch (error) {
+      throw new Error('多语言文件校验失败，请查看上方 i18n:check 报告');
+    }
+  }
+
   // 验证 PR 中变更的库
   async validateChangedLibraries(options = {}) {
     const currentDir = process.cwd();
@@ -1122,11 +1144,26 @@ class LibraryValidator {
     }
     
     console.log(`📝 发现 ${changedFiles.length} 个变更文件`);
-    
-    const changedLibraries = this.extractLibrariesFromChangedFiles(changedFiles);
+
+    const i18nFiles = changedFiles.filter(file => this.isI18nFile(file));
+    const nonI18nFiles = changedFiles.filter(file => !this.isI18nFile(file));
+    const allChangedLibraries = this.extractLibrariesFromChangedFiles(changedFiles);
+    const changedLibraries = this.extractLibrariesFromChangedFiles(nonI18nFiles);
+    const changedLibrarySet = new Set(changedLibraries);
+    const i18nOnlyLibraries = allChangedLibraries.filter(library => !changedLibrarySet.has(library));
+
+    if (i18nFiles.length > 0) {
+      this.validateI18nFiles(currentDir);
+    }
+
+    if (i18nOnlyLibraries.length > 0) {
+      console.log(`\n🌐 跳过 ${i18nOnlyLibraries.length} 个仅修改 i18n/ 的库的通用规范评分:`);
+      i18nOnlyLibraries.forEach(lib => console.log(`   - ${lib}`));
+      console.log('   这些变更已由 npm run i18n:check 校验。');
+    }
     
     if (changedLibraries.length === 0) {
-      console.log('\n✅ 本次变更未涉及库目录\n');
+      console.log('\n✅ 本次变更没有需要运行通用规范评分的库\n');
       return [];
     }
     

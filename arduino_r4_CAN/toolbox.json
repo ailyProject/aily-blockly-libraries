@@ -1,43 +1,116 @@
 {
-  "kind": "category",
-  "name": "CAN总线",
-  "icon": "fa-light fa-car-circle-bolt",
-  "contents": [
-    {
-      "kind": "block",
-      "type": "can_begin"
-    },
-    {
-      "kind": "block",
-      "type": "can_available"
-    },
-    {
-      "kind": "block",
-      "type": "can_read"
-    },
-    {
-      "kind": "block",
-      "type": "can_create_message"
-    },
-    {
-      "kind": "block",
-      "type": "can_write"
-    },
-    {
-      "kind": "block",
-      "type": "can_get_message_id"
-    },
-    {
-      "kind": "block",
-      "type": "can_get_message_data"
-    },
-    {
-      "kind": "block",
-      "type": "can_set_filter_mask"
-    },
-    {
-      "kind": "block",
-      "type": "can_set_filter_id"
-    }
-  ]
+    "kind": "category",
+    "name": "CAN总线",
+    "icon": "fa-light fa-car-circle-bolt",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "can_begin"
+        },
+        {
+            "kind": "block",
+            "type": "can_available"
+        },
+        {
+            "kind": "block",
+            "type": "can_read"
+        },
+        {
+            "kind": "block",
+            "type": "can_create_message",
+            "inputs": {
+                "ID": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 256
+                        }
+                    }
+                },
+                "DATA": {
+                    "shadow": {
+                        "type": "list_values_simple",
+                        "fields": {
+                            "LIST": "1, 2, 3"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "can_write",
+            "inputs": {
+                "MSG": {
+                    "shadow": {
+                        "type": "can_create_message",
+                        "inputs": {
+                            "ID": {
+                                "shadow": {
+                                    "type": "math_number",
+                                    "fields": {
+                                        "NUM": 256
+                                    }
+                                }
+                            },
+                            "DATA": {
+                                "shadow": {
+                                    "type": "list_values_simple",
+                                    "fields": {
+                                        "LIST": "1, 2, 3"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "can_get_message_id"
+        },
+        {
+            "kind": "block",
+            "type": "can_get_message_data",
+            "inputs": {
+                "INDEX": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "can_set_filter_mask",
+            "inputs": {
+                "MASK": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 2047
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "can_set_filter_id",
+            "inputs": {
+                "ID": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        }
+    ]
 }
