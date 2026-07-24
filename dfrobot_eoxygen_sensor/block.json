@@ -1,0 +1,118 @@
+[
+  {
+    "type": "dfrobot_eoxygen_sensor_init",
+    "message0": "initialize DFRobot Electrochemical Oxygen %1 I2C %2 address %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "oxygen"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDR",
+        "options": [
+          [
+            "0x30",
+            "0x30"
+          ],
+          [
+            "0x31",
+            "0x31"
+          ],
+          [
+            "0x32",
+            "0x32"
+          ],
+          [
+            "0x33",
+            "0x33"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Create and initialize DFRobot Electrochemical Oxygen.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "dfrobot_eoxygen_sensor_read",
+    "message0": "DFRobot Electrochemical Oxygen %1 read %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "oxygen",
+        "variableTypes": [
+          "DFRobot_EOxygenSensor_I2C"
+        ],
+        "defaultType": "DFRobot_EOxygenSensor_I2C"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "oxygen concentration (%vol)",
+            "oxygen"
+          ],
+          [
+            "calibration state",
+            "calibration"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "Read a value from DFRobot Electrochemical Oxygen.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "dfrobot_eoxygen_sensor_action",
+    "message0": "DFRobot Electrochemical Oxygen %1 operation %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "oxygen",
+        "variableTypes": [
+          "DFRobot_EOxygenSensor_I2C"
+        ],
+        "defaultType": "DFRobot_EOxygenSensor_I2C"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "calibrate at 20.9%",
+            "calibrate_air"
+          ],
+          [
+            "calibrate at 99.5%",
+            "calibrate_high"
+          ],
+          [
+            "clear calibration",
+            "clear"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Run an operation on DFRobot Electrochemical Oxygen.",
+    "icon": "fa-light fa-microchip"
+  }
+]

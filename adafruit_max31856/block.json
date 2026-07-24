@@ -1,0 +1,101 @@
+[
+  {
+    "type": "adafruit_max31856_init",
+    "message0": "initialize Adafruit MAX31856 %1 CS pin %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "max31856"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CS",
+        "options": "${board.digitalPin}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C62828",
+    "tooltip": "Create and initialize Adafruit MAX31856.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_max31856_read",
+    "message0": "Adafruit MAX31856 %1 read %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "max31856",
+        "variableTypes": [
+          "Adafruit_MAX31856"
+        ],
+        "defaultType": "Adafruit_MAX31856"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "thermocouple (C)",
+            "thermocouple"
+          ],
+          [
+            "cold junction (C)",
+            "cold_junction"
+          ],
+          [
+            "fault bits",
+            "fault"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#C62828",
+    "tooltip": "Read a value from Adafruit MAX31856.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_max31856_set",
+    "message0": "Adafruit MAX31856 %1 set %2 value %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "max31856",
+        "variableTypes": [
+          "Adafruit_MAX31856"
+        ],
+        "defaultType": "Adafruit_MAX31856"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SETTING",
+        "options": [
+          [
+            "thermocouple type enum (0-7)",
+            "type"
+          ],
+          [
+            "conversion mode (0 one-shot, 1 continuous)",
+            "mode"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C62828",
+    "tooltip": "Configure Adafruit MAX31856.",
+    "icon": "fa-light fa-microchip"
+  }
+]

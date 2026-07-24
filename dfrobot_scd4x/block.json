@@ -1,0 +1,170 @@
+[
+  {
+    "type": "dfrobot_scd4x_init",
+    "message0": "initialize DFRobot SCD4X %1 I2C %2 address %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "scd4x"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDR",
+        "options": [
+          [
+            "0x62",
+            "0x62"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Create and initialize DFRobot SCD4X.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "dfrobot_scd4x_read",
+    "message0": "DFRobot SCD4X %1 read %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "scd4x",
+        "variableTypes": [
+          "DFRobot_SCD4X"
+        ],
+        "defaultType": "DFRobot_SCD4X"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "CO2 (ppm)",
+            "co2"
+          ],
+          [
+            "temperature (C)",
+            "temperature"
+          ],
+          [
+            "humidity (%RH)",
+            "humidity"
+          ],
+          [
+            "data ready",
+            "ready"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "Read a value from DFRobot SCD4X.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "dfrobot_scd4x_action",
+    "message0": "DFRobot SCD4X %1 operation %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "scd4x",
+        "variableTypes": [
+          "DFRobot_SCD4X"
+        ],
+        "defaultType": "DFRobot_SCD4X"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "start periodic measurement",
+            "start"
+          ],
+          [
+            "start low-power measurement",
+            "low_power"
+          ],
+          [
+            "stop measurement",
+            "stop"
+          ],
+          [
+            "persist settings",
+            "persist"
+          ],
+          [
+            "factory reset",
+            "reset"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Run an operation on DFRobot SCD4X.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "dfrobot_scd4x_set",
+    "message0": "DFRobot SCD4X %1 set %2 value %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "scd4x",
+        "variableTypes": [
+          "DFRobot_SCD4X"
+        ],
+        "defaultType": "DFRobot_SCD4X"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SETTING",
+        "options": [
+          [
+            "temperature offset (C)",
+            "temperature_offset"
+          ],
+          [
+            "altitude (m)",
+            "altitude"
+          ],
+          [
+            "ambient pressure (Pa)",
+            "pressure"
+          ],
+          [
+            "automatic calibration (0/1)",
+            "auto_calibration"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Configure DFRobot SCD4X.",
+    "icon": "fa-light fa-microchip"
+  }
+]

@@ -1,0 +1,112 @@
+[
+  {
+    "type": "dfrobot_human_detection_init",
+    "message0": "initialize DFRobot Human Detection %1 serial port %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "human"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00838F",
+    "tooltip": "Create and initialize DFRobot Human Detection.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "dfrobot_human_detection_read",
+    "message0": "DFRobot Human Detection %1 read %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "human",
+        "variableTypes": [
+          "DFRobot_HumanDetection"
+        ],
+        "defaultType": "DFRobot_HumanDetection"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "human presence",
+            "presence"
+          ],
+          [
+            "movement state",
+            "movement"
+          ],
+          [
+            "movement range",
+            "range"
+          ],
+          [
+            "human distance",
+            "distance"
+          ],
+          [
+            "heart rate",
+            "heart_rate"
+          ],
+          [
+            "breathing rate",
+            "breathing"
+          ],
+          [
+            "work mode",
+            "mode"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#00838F",
+    "tooltip": "Read a value from DFRobot Human Detection.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "dfrobot_human_detection_action",
+    "message0": "DFRobot Human Detection %1 operation %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "human",
+        "variableTypes": [
+          "DFRobot_HumanDetection"
+        ],
+        "defaultType": "DFRobot_HumanDetection"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "sleep monitoring mode",
+            "sleep_mode"
+          ],
+          [
+            "fall detection mode",
+            "fall_mode"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00838F",
+    "tooltip": "Run an operation on DFRobot Human Detection.",
+    "icon": "fa-light fa-microchip"
+  }
+]

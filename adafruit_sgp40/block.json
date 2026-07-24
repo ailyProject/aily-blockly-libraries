@@ -1,0 +1,126 @@
+[
+  {
+    "type": "adafruit_sgp40_init",
+    "message0": "initialize Adafruit SGP40 %1 I2C %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "sgp40"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Create and initialize Adafruit SGP40.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_sgp40_read",
+    "message0": "Adafruit SGP40 %1 read %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sgp40",
+        "variableTypes": [
+          "Adafruit_SGP40"
+        ],
+        "defaultType": "Adafruit_SGP40"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "raw VOC ticks",
+            "raw"
+          ],
+          [
+            "VOC index",
+            "voc_index"
+          ],
+          [
+            "self-test result",
+            "self_test"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "Read a value from Adafruit SGP40.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_sgp40_measure",
+    "message0": "Adafruit SGP40 %1 compensated VOC index temperature C %2 humidity % %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sgp40",
+        "variableTypes": [
+          "Adafruit_SGP40"
+        ],
+        "defaultType": "Adafruit_SGP40"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE2",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "Measure a compensated value with Adafruit SGP40.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_sgp40_action",
+    "message0": "Adafruit SGP40 %1 operation %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sgp40",
+        "variableTypes": [
+          "Adafruit_SGP40"
+        ],
+        "defaultType": "Adafruit_SGP40"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "soft reset",
+            "reset"
+          ],
+          [
+            "heater off",
+            "heater_off"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Run an operation on Adafruit SGP40.",
+    "icon": "fa-light fa-microchip"
+  }
+]

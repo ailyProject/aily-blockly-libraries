@@ -1,0 +1,124 @@
+[
+  {
+    "type": "sensirion_sps30_init",
+    "message0": "initialize Sensirion SPS30 %1 I2C %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "sps30"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Create and initialize Sensirion SPS30.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "sensirion_sps30_read",
+    "message0": "Sensirion SPS30 %1 read %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sps30",
+        "variableTypes": [
+          "AilySPS30"
+        ],
+        "defaultType": "AilySPS30"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "PM1.0 (ug/m3)",
+            "pm1"
+          ],
+          [
+            "PM2.5 (ug/m3)",
+            "pm25"
+          ],
+          [
+            "PM4.0 (ug/m3)",
+            "pm4"
+          ],
+          [
+            "PM10 (ug/m3)",
+            "pm10"
+          ],
+          [
+            "typical particle size (um)",
+            "typical_size"
+          ],
+          [
+            "data ready",
+            "ready"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "Read a value from Sensirion SPS30.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "sensirion_sps30_action",
+    "message0": "Sensirion SPS30 %1 operation %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sps30",
+        "variableTypes": [
+          "AilySPS30"
+        ],
+        "defaultType": "AilySPS30"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "start measurement",
+            "start"
+          ],
+          [
+            "stop measurement",
+            "stop"
+          ],
+          [
+            "start fan cleaning",
+            "clean"
+          ],
+          [
+            "sleep",
+            "sleep"
+          ],
+          [
+            "wake",
+            "wake"
+          ],
+          [
+            "reset",
+            "reset"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Run an operation on Sensirion SPS30.",
+    "icon": "fa-light fa-microchip"
+  }
+]

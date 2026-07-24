@@ -1,0 +1,155 @@
+[
+  {
+    "type": "adafruit_vl53l5cx_init",
+    "message0": "initialize Adafruit VL53L5CX %1 I2C %2 address %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "vl53l5cx"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDR",
+        "options": [
+          [
+            "0x29",
+            "0x29"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Create and initialize Adafruit VL53L5CX.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_vl53l5cx_read",
+    "message0": "Adafruit VL53L5CX %1 read %2 zone (0-63) %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "vl53l5cx",
+        "variableTypes": [
+          "Adafruit_VL53L5CX"
+        ],
+        "defaultType": "Adafruit_VL53L5CX"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "distance (mm)",
+            "distance"
+          ],
+          [
+            "target count",
+            "targets"
+          ],
+          [
+            "reflectance (%)",
+            "reflectance"
+          ],
+          [
+            "target status",
+            "status"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "Read a value from Adafruit VL53L5CX.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_vl53l5cx_action",
+    "message0": "Adafruit VL53L5CX %1 operation %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "vl53l5cx",
+        "variableTypes": [
+          "Adafruit_VL53L5CX"
+        ],
+        "defaultType": "Adafruit_VL53L5CX"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "start ranging",
+            "start"
+          ],
+          [
+            "stop ranging",
+            "stop"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Run an operation on Adafruit VL53L5CX.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_vl53l5cx_set",
+    "message0": "Adafruit VL53L5CX %1 set %2 value %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "vl53l5cx",
+        "variableTypes": [
+          "Adafruit_VL53L5CX"
+        ],
+        "defaultType": "Adafruit_VL53L5CX"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SETTING",
+        "options": [
+          [
+            "ranging frequency (Hz)",
+            "frequency"
+          ],
+          [
+            "resolution (16 or 64)",
+            "resolution"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Configure Adafruit VL53L5CX.",
+    "icon": "fa-light fa-microchip"
+  }
+]

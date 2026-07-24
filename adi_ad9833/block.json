@@ -1,0 +1,107 @@
+[
+  {
+    "type": "adi_ad9833_init",
+    "message0": "initialize ADI AD9833 %1 CS pin %2 reference clock Hz %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "ad9833"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CS",
+        "options": "${board.digitalPin}"
+      },
+      {
+        "type": "field_input",
+        "name": "REFCLK",
+        "text": "25000000"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF6C00",
+    "tooltip": "Create and initialize ADI AD9833.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adi_ad9833_action",
+    "message0": "ADI AD9833 %1 operation %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ad9833",
+        "variableTypes": [
+          "AilyAD9833"
+        ],
+        "defaultType": "AilyAD9833"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "enable output",
+            "enable"
+          ],
+          [
+            "disable output",
+            "disable"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF6C00",
+    "tooltip": "Run an operation on ADI AD9833.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adi_ad9833_set",
+    "message0": "ADI AD9833 %1 set %2 value %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ad9833",
+        "variableTypes": [
+          "AilyAD9833"
+        ],
+        "defaultType": "AilyAD9833"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SETTING",
+        "options": [
+          [
+            "frequency (Hz)",
+            "frequency"
+          ],
+          [
+            "phase (degrees)",
+            "phase"
+          ],
+          [
+            "waveform (0 sine, 1 triangle, 2 square)",
+            "waveform"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#EF6C00",
+    "tooltip": "Configure ADI AD9833.",
+    "icon": "fa-light fa-microchip"
+  }
+]

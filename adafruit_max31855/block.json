@@ -1,0 +1,65 @@
+[
+  {
+    "type": "adafruit_max31855_init",
+    "message0": "initialize Adafruit MAX31855 %1 CS pin %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "max31855"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CS",
+        "options": "${board.digitalPin}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C62828",
+    "tooltip": "Create and initialize Adafruit MAX31855.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_max31855_read",
+    "message0": "Adafruit MAX31855 %1 read %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "max31855",
+        "variableTypes": [
+          "Adafruit_MAX31855"
+        ],
+        "defaultType": "Adafruit_MAX31855"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "thermocouple (C)",
+            "thermocouple_c"
+          ],
+          [
+            "thermocouple (F)",
+            "thermocouple_f"
+          ],
+          [
+            "cold junction (C)",
+            "internal"
+          ],
+          [
+            "fault bits",
+            "error"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#C62828",
+    "tooltip": "Read a value from Adafruit MAX31855.",
+    "icon": "fa-light fa-microchip"
+  }
+]

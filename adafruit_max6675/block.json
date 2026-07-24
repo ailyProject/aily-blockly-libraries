@@ -1,0 +1,67 @@
+[
+  {
+    "type": "adafruit_max6675_init",
+    "message0": "initialize Adafruit MAX6675 %1 SCLK pin %2 CS pin %3 MISO pin %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "max6675"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SCLK",
+        "options": "${board.digitalPin}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CS",
+        "options": "${board.digitalPin}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MISO",
+        "options": "${board.digitalPin}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C62828",
+    "tooltip": "Create and initialize Adafruit MAX6675.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_max6675_read",
+    "message0": "Adafruit MAX6675 %1 read %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "max6675",
+        "variableTypes": [
+          "MAX6675"
+        ],
+        "defaultType": "MAX6675"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "temperature (C)",
+            "celsius"
+          ],
+          [
+            "temperature (F)",
+            "fahrenheit"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#C62828",
+    "tooltip": "Read a value from Adafruit MAX6675.",
+    "icon": "fa-light fa-microchip"
+  }
+]

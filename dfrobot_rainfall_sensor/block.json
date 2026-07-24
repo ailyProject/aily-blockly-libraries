@@ -1,0 +1,106 @@
+[
+  {
+    "type": "dfrobot_rainfall_sensor_init",
+    "message0": "initialize DFRobot Rainfall Sensor %1 I2C %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "rainfall"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Create and initialize DFRobot Rainfall Sensor.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "dfrobot_rainfall_sensor_read",
+    "message0": "DFRobot Rainfall Sensor %1 read %2 hours (1-24) %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rainfall",
+        "variableTypes": [
+          "DFRobot_RainfallSensor_I2C"
+        ],
+        "defaultType": "DFRobot_RainfallSensor_I2C"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "rainfall in period (mm)",
+            "period"
+          ],
+          [
+            "total rainfall (mm)",
+            "total"
+          ],
+          [
+            "raw tipping count",
+            "raw"
+          ],
+          [
+            "working time (hours)",
+            "working_time"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "Read a value from DFRobot Rainfall Sensor.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "dfrobot_rainfall_sensor_set",
+    "message0": "DFRobot Rainfall Sensor %1 set %2 value %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rainfall",
+        "variableTypes": [
+          "DFRobot_RainfallSensor_I2C"
+        ],
+        "defaultType": "DFRobot_RainfallSensor_I2C"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SETTING",
+        "options": [
+          [
+            "rain per tip (mm)",
+            "bucket"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Configure DFRobot Rainfall Sensor.",
+    "icon": "fa-light fa-microchip"
+  }
+]

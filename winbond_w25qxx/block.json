@@ -1,0 +1,172 @@
+[
+  {
+    "type": "winbond_w25qxx_init",
+    "message0": "initialize Winbond W25Qxx %1 CS pin %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "w25qxx"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CS",
+        "options": "${board.digitalPin}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#455A64",
+    "tooltip": "Create and initialize Winbond W25Qxx.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "winbond_w25qxx_read",
+    "message0": "Winbond W25Qxx %1 read %2 address %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "w25qxx",
+        "variableTypes": [
+          "AilyW25QXX"
+        ],
+        "defaultType": "AilyW25QXX"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "byte",
+            "byte"
+          ],
+          [
+            "busy",
+            "busy"
+          ],
+          [
+            "JEDEC ID",
+            "jedec"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#455A64",
+    "tooltip": "Read a value from Winbond W25Qxx.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "winbond_w25qxx_action",
+    "message0": "Winbond W25Qxx %1 operation %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "w25qxx",
+        "variableTypes": [
+          "AilyW25QXX"
+        ],
+        "defaultType": "AilyW25QXX"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "erase entire chip",
+            "erase_chip"
+          ],
+          [
+            "deep power-down",
+            "sleep"
+          ],
+          [
+            "wake",
+            "wake"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#455A64",
+    "tooltip": "Run an operation on Winbond W25Qxx.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "winbond_w25qxx_set",
+    "message0": "Winbond W25Qxx %1 set %2 value %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "w25qxx",
+        "variableTypes": [
+          "AilyW25QXX"
+        ],
+        "defaultType": "AilyW25QXX"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SETTING",
+        "options": [
+          [
+            "erase sector at address",
+            "erase_sector"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#455A64",
+    "tooltip": "Configure Winbond W25Qxx.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "winbond_w25qxx_write",
+    "message0": "Winbond W25Qxx %1 write address %2 value %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "w25qxx",
+        "variableTypes": [
+          "AilyW25QXX"
+        ],
+        "defaultType": "AilyW25QXX"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#455A64",
+    "tooltip": "Program one W25Qxx byte (the target byte must be erased first).",
+    "icon": "fa-light fa-microchip"
+  }
+]

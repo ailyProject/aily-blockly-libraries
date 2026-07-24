@@ -1,0 +1,131 @@
+[
+  {
+    "type": "adafruit_sgp41_init",
+    "message0": "initialize Adafruit SGP41 %1 I2C %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "sgp41"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Create and initialize Adafruit SGP41.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_sgp41_read",
+    "message0": "Adafruit SGP41 %1 read %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sgp41",
+        "variableTypes": [
+          "Adafruit_SGP41"
+        ],
+        "defaultType": "Adafruit_SGP41"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "raw VOC ticks",
+            "voc_raw"
+          ],
+          [
+            "raw NOx ticks",
+            "nox_raw"
+          ],
+          [
+            "self-test result",
+            "self_test"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "Read a value from Adafruit SGP41.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_sgp41_action",
+    "message0": "Adafruit SGP41 %1 operation %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sgp41",
+        "variableTypes": [
+          "Adafruit_SGP41"
+        ],
+        "defaultType": "Adafruit_SGP41"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "execute conditioning",
+            "conditioning"
+          ],
+          [
+            "soft reset",
+            "reset"
+          ],
+          [
+            "heater off",
+            "heater_off"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Run an operation on Adafruit SGP41.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_sgp41_adjust",
+    "message0": "Adafruit SGP41 %1 measure compensated signals humidity % %2 temperature C %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sgp41",
+        "variableTypes": [
+          "Adafruit_SGP41"
+        ],
+        "defaultType": "Adafruit_SGP41"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE2",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "Configure two values on Adafruit SGP41.",
+    "icon": "fa-light fa-microchip"
+  }
+]

@@ -1,0 +1,140 @@
+[
+  {
+    "type": "adafruit_ina237_ina238_init",
+    "message0": "initialize Adafruit INA237/INA238 %1 I2C %2 model %3 address %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "ina23x"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "INA237",
+            "INA237"
+          ],
+          [
+            "INA238",
+            "INA238"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDR",
+        "options": [
+          [
+            "0x40",
+            "0x40"
+          ],
+          [
+            "0x41",
+            "0x41"
+          ],
+          [
+            "0x44",
+            "0x44"
+          ],
+          [
+            "0x45",
+            "0x45"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "Create and initialize Adafruit INA237/INA238.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_ina237_ina238_read",
+    "message0": "Adafruit INA237/INA238 %1 read %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ina23x",
+        "variableTypes": [
+          "Adafruit_INA237_INA238"
+        ],
+        "defaultType": "Adafruit_INA237_INA238"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "bus voltage (V)",
+            "bus_voltage"
+          ],
+          [
+            "shunt voltage (mV)",
+            "shunt_voltage"
+          ],
+          [
+            "current (mA)",
+            "current"
+          ],
+          [
+            "power (mW)",
+            "power"
+          ],
+          [
+            "die temperature (C)",
+            "temperature"
+          ],
+          [
+            "conversion ready",
+            "ready"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#1565C0",
+    "tooltip": "Read a value from Adafruit INA237/INA238.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_ina237_ina238_adjust",
+    "message0": "Adafruit INA237/INA238 %1 calibrate shunt resistance ohm %2 max current A %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ina23x",
+        "variableTypes": [
+          "Adafruit_INA237_INA238"
+        ],
+        "defaultType": "Adafruit_INA237_INA238"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE2",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "Configure two values on Adafruit INA237/INA238.",
+    "icon": "fa-light fa-microchip"
+  }
+]

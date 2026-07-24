@@ -1,0 +1,131 @@
+[
+  {
+    "type": "adafruit_tmag5273_init",
+    "message0": "initialize Adafruit TMAG5273 %1 I2C %2 address %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "tmag5273"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDR",
+        "options": [
+          [
+            "0x35",
+            "0x35"
+          ],
+          [
+            "0x22",
+            "0x22"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4527A0",
+    "tooltip": "Create and initialize Adafruit TMAG5273.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_tmag5273_read",
+    "message0": "Adafruit TMAG5273 %1 read %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tmag5273",
+        "variableTypes": [
+          "Adafruit_TMAG5273"
+        ],
+        "defaultType": "Adafruit_TMAG5273"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "magnetic X (uT)",
+            "x"
+          ],
+          [
+            "magnetic Y (uT)",
+            "y"
+          ],
+          [
+            "magnetic Z (uT)",
+            "z"
+          ],
+          [
+            "magnitude (mT)",
+            "magnitude"
+          ],
+          [
+            "angle (degrees)",
+            "angle"
+          ],
+          [
+            "temperature (C)",
+            "temperature"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#4527A0",
+    "tooltip": "Read a value from Adafruit TMAG5273.",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "adafruit_tmag5273_set",
+    "message0": "Adafruit TMAG5273 %1 set %2 value %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tmag5273",
+        "variableTypes": [
+          "Adafruit_TMAG5273"
+        ],
+        "defaultType": "Adafruit_TMAG5273"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SETTING",
+        "options": [
+          [
+            "wide XY range (0/1)",
+            "xy_range"
+          ],
+          [
+            "wide Z range (0/1)",
+            "z_range"
+          ],
+          [
+            "low-noise mode (0/1)",
+            "low_noise"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4527A0",
+    "tooltip": "Configure Adafruit TMAG5273.",
+    "icon": "fa-light fa-microchip"
+  }
+]
