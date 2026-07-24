@@ -1,105 +1,215 @@
 {
-    "toolbox_name":  "SDカードストレージ",
-    "toolbox_labels":  {
-                           "初始化":  "初期化",
-                           "卡信息":  "カード情報",
-                           "快速文件操作":  "高速なファイル操作",
-                           "文件操作":  "ファイル操作",
-                           "目录操作":  "ディレクトリ操作",
-                           "文件检查":  "書類チェック"
-                       },
-    "xueersi_esp32_sd_init":  {
-                                  "message0":  "SDカードを初期化",
-                                  "tooltip":  "Use CS22 on the TFT shared HSPI bus and select the highest verified clock automatically"
-                              },
-    "xueersi_esp32_sd_card_info":  {
-                                       "message0":  "SD卡信息 %1",
-                                       "tooltip":  "获取SD卡信息",
-                                       "args0":  [
-                                                     {
-                                                         "options":  [
-                                                                         [
-                                                                             "卡类型",
-                                                                             "cardType"
-                                                                         ],
-                                                                         [
-                                                                             "卡大小(MB)",
-                                                                             "cardSize"
-                                                                         ],
-                                                                         [
-                                                                             "总空间(MB)",
-                                                                             "totalBytes"
-                                                                         ],
-                                                                         [
-                                                                             "已用空间(MB)",
-                                                                             "usedBytes"
-                                                                         ],
-                                                                         [
-                                                                             "扇区数量",
-                                                                             "numSectors"
-                                                                         ],
-                                                                         [
-                                                                             "扇区大小(字节)",
-                                                                             "sectorSize"
-                                                                         ]
-                                                                     ]
-                                                     }
-                                                 ]
-                                   },
-    "xueersi_esp32_sd_file_exists":  {
-                                         "message0":  "文件存在路径:%1",
-                                         "tooltip":  "检查文件是否存在"
-                                     },
-    "xueersi_esp32_sd_close_file":  {
-                                        "message0":  "关闭文件 %1",
-                                        "tooltip":  "关闭文件"
-                                    },
-    "xueersi_esp32_sd_write_file":  {
-                                        "message0":  "写入文件 %1 内容:%2",
-                                        "tooltip":  "写入内容到文件"
-                                    },
-    "xueersi_esp32_sd_read_file":  {
-                                       "message0":  "读取文件 %1",
-                                       "tooltip":  "从文件读取内容"
-                                   },
-    "xueersi_esp32_sd_file_available":  {
-                                            "message0":  "文件可读 %1",
-                                            "tooltip":  "检查文件是否可读"
-                                        },
-    "xueersi_esp32_sd_file_size":  {
-                                       "message0":  "文件大小 %1",
-                                       "tooltip":  "获取文件大小"
-                                   },
-    "xueersi_esp32_sd_write_file_quick":  {
-                                              "message0":  "快速写入文件 路径:%1 内容:%2",
-                                              "tooltip":  "快速写入文件（自动打开和关闭）"
-                                          },
-    "xueersi_esp32_sd_read_file_quick":  {
-                                             "message0":  "快速读取文件 路径:%1",
-                                             "tooltip":  "快速读取文件（自动打开和关闭）"
-                                         },
-    "xueersi_esp32_sd_append_file":  {
-                                         "message0":  "追加文件 路径:%1 内容:%2",
-                                         "tooltip":  "追加内容到文件末尾"
-                                     },
-    "xueersi_esp32_sd_delete_file":  {
-                                         "message0":  "删除文件 路径:%1",
-                                         "tooltip":  "删除文件"
-                                     },
-    "xueersi_esp32_sd_rename_file":  {
-                                         "message0":  "重命名文件 旧路径:%1 新路径:%2",
-                                         "tooltip":  "重命名文件"
-                                     },
-    "xueersi_esp32_sd_create_dir":  {
-                                        "message0":  "创建目录 路径:%1",
-                                        "tooltip":  "创建目录"
-                                    },
-    "xueersi_esp32_sd_remove_dir":  {
-                                        "message0":  "删除目录 路径:%1",
-                                        "tooltip":  "删除目录"
-                                    },
-    "xueersi_esp32_sd_list_dir":  {
-                                      "message0":  "列出目录 路径:%1 层级:%2",
-                                      "tooltip":  "列出目录内容"
-                                  }
+  "toolbox_name": "SDカードストレージ",
+  "toolbox_labels": {
+    "初始化": "初期化",
+    "卡信息": "カード情報",
+    "快速文件操作": "高速なファイル操作",
+    "文件操作": "ファイル操作",
+    "目录操作": "ディレクトリ操作",
+    "文件检查": "書類チェック"
+  },
+  "xueersi_esp32_sd_init": {
+    "message0": "SDカードを初期化",
+    "tooltip": "SDカードはCS22およびTFTと同じHSPIバスで初期化され、安定した読み取りのための最高周波数が自動的に選択されます"
+  },
+  "xueersi_esp32_sd_card_info": {
+    "message0": "SDカード情報%1",
+    "tooltip": "SDカード情報を取得する",
+    "args0": [
+      {
+        "options": [
+          [
+            "カード種別",
+            "cardType"
+          ],
+          [
+            "カード容量(MB)",
+            "cardSize"
+          ],
+          [
+            "全体容量(MB)",
+            "totalBytes"
+          ],
+          [
+            "使用容量(MB)",
+            "usedBytes"
+          ],
+          [
+            "セクター数",
+            "numSectors"
+          ],
+          [
+            "セクターサイズ(バイト)",
+            "sectorSize"
+          ]
+        ]
+      }
+    ]
+  },
+  "xueersi_esp32_sd_file_exists": {
+    "message0": "ファイルパス:%1",
+    "tooltip": "書類が存在するか確認してください"
+  },
+  "xueersi_esp32_sd_close_file": {
+    "message0": "ファイル閉鎖%1",
+    "tooltip": "ファイルを閉じろ"
+  },
+  "xueersi_esp32_sd_write_file": {
+    "message0": "ファイルを書き込む%1内容:%2",
+    "tooltip": "ファイルにコンテンツを書き込む"
+  },
+  "xueersi_esp32_sd_read_file": {
+    "message0": "ファイルを読み取%1",
+    "tooltip": "ファイルから内容を読む"
+  },
+  "xueersi_esp32_sd_file_available": {
+    "message0": "ファイルの可読性%1",
+    "tooltip": "文書が読みやすいかどうか確認してください"
+  },
+  "xueersi_esp32_sd_file_size": {
+    "message0": "ファイルサイズ:%1",
+    "tooltip": "ファイルサイズを把握してください"
+  },
+  "xueersi_esp32_sd_write_file_quick": {
+    "message0": "クイック書き込みファイルパス:%1 内容:%2",
+    "tooltip": "クイックファイル書き込み(自動開閉)"
+  },
+  "xueersi_esp32_sd_read_file_quick": {
+    "message0": "クイックファイル読み取りパス:%1",
+    "tooltip": "高速ファイル読み取り(自動開閉)"
+  },
+  "xueersi_esp32_sd_append_file": {
+    "message0": "ファイルパス付加:%1 内容:%2",
+    "tooltip": "ドキュメントの最後にコンテンツを追加します"
+  },
+  "xueersi_esp32_sd_delete_file": {
+    "message0": "ファイル削除パス:%1",
+    "tooltip": "ファイルを削除してください"
+  },
+  "xueersi_esp32_sd_rename_file": {
+    "message0": "ファイル名変更 古いパス: %1 新しいパス: %2",
+    "tooltip": "ファイル名を変更しました"
+  },
+  "xueersi_esp32_sd_create_dir": {
+    "message0": "ディレクトリパスを作成:%1",
+    "tooltip": "カタログを作成する"
+  },
+  "xueersi_esp32_sd_remove_dir": {
+    "message0": "ディレクトリパスを削除:%1",
+    "tooltip": "ディレクトリを削除してください"
+  },
+  "xueersi_esp32_sd_list_dir": {
+    "message0": "リストディレクトリ パス:%1 レベル:%2",
+    "tooltip": "目次の内容をリストアップしてください"
+  },
+  "xueersi_esp32_sd_end": {
+    "message0": "SDカードをアンインストールしてください",
+    "tooltip": "SDファイルシステムを閉じてアンインストールし、再初期化する前に呼び出せます"
+  },
+  "xueersi_esp32_sd_card_type_name": {
+    "message0": "SDカードの種類名",
+    "tooltip": "NONE、MMC、SDSC、SDHC/SDXC、または不明を返す"
+  },
+  "xueersi_esp32_sd_mountpoint": {
+    "message0": "SDカードの取り付けポイント",
+    "tooltip": "現在のVFSマウントポイントを返します;マウントされていなければ空文字列を返します"
+  },
+  "xueersi_esp32_sd_open_file_to": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "読む",
+            "FILE_READ"
+          ],
+          [
+            "書き(上書き)",
+            "FILE_WRITE"
+          ],
+          [
+            "追加",
+            "FILE_APPEND"
+          ]
+        ]
+      }
+    ],
+    "message0": "ファイルを%1パスに開く:%2モード:%3",
+    "tooltip": "ファイルを開いてファイル変数に保存し、その後ブロック単位で読み書きが可能です"
+  },
+  "xueersi_esp32_sd_file_is_open": {
+    "args0": [
+      null
+    ],
+    "message0": "ファイルは正常に開封されました%1",
+    "tooltip": "ファイルオブジェクトが有効かどうか確認してください"
+  },
+  "xueersi_esp32_sd_read_file_bytes": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "ファイル%1から最大%2バイトのテキストを読み取ってください",
+    "tooltip": "現在の位置から指定された長さを読み込み、ブロック単位の大きなテキストファイルを読むのに適しています"
+  },
+  "xueersi_esp32_sd_read_byte": {
+    "args0": [
+      null
+    ],
+    "message0": "file%1からバイトを読み上げます",
+    "tooltip": "1バイトを読み込み、ファイルが終了または失敗すると-1を返します"
+  },
+  "xueersi_esp32_sd_peek_byte": {
+    "args0": [
+      null
+    ],
+    "message0": "ファイルの次のバイトを見る%1",
+    "tooltip": "位置を移動せずに次のバイトを返します;ファイルの最後に-1を返します。"
+  },
+  "xueersi_esp32_sd_file_available_bytes": {
+    "args0": [
+      null
+    ],
+    "message0": "ファイル内の残り読み取り可能なバイト数:%1",
+    "tooltip": "現在の位置からファイルの末尾までのバイト数を返します"
+  },
+  "xueersi_esp32_sd_file_position": {
+    "args0": [
+      null
+    ],
+    "message0": "現在のファイルlocation%1",
+    "tooltip": "現在の読み書き位置(バイトオフセット)を返します"
+  },
+  "xueersi_esp32_sd_seek_file": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "文書の冒頭で",
+            "SeekSet"
+          ],
+          [
+            "現在の所在地",
+            "SeekCur"
+          ],
+          [
+            "文書の最後に",
+            "SeekEnd"
+          ]
+        ]
+      }
+    ],
+    "message0": "セットファイル %1 場所:%2 参照:%3",
+    "tooltip": "ファイルの読み書き場所を移動して、成功したか確認してください"
+  },
+  "xueersi_esp32_sd_flush_file": {
+    "args0": [
+      null
+    ],
+    "message0": "ファイルをリフレッシュし、キャッシュを書き込む%1",
+    "tooltip": "書き込みデータを基礎ファイルシステムに更新します"
+  }
 }

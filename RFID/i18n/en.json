@@ -1,56 +1,102 @@
 {
-    "toolbox_name": "RFID Module",
-    "toolbox_labels": {
-      "初始化": "initialization",
-      "卡片检测": "Card detection",
-      "数据操作": "Data operations",
-      "控制": "control"
-    },
-    "blocks": {
-        "rfid_init": {
-            "message0": "Create RFID reader %1 SDA pin %2 RST pin %3",
-            "tooltip": "Create an MFRC522 reader and start SPI"
-        },
-        "rfid_is_card_present": {
-            "message0": "RFID %1 detect if card is present",
-            "tooltip": "Check whether a new RFID card is near the reader"
-        },
-        "rfid_read_uid": {
-            "message0": "RFID %1 read card UID",
-            "tooltip": "Read the card UID and return it as hex string"
-        },
-        "rfid_authenticate": {
-            "message0": "RFID %1 authenticate sector %2 key type %3 key %4",
-            "tooltip": "Authenticate the access key for the given sector",
-            "args0": [
-                null,
-                null,
-                [
-                    ["Key A", "PICC_CMD_MF_AUTH_KEY_A"],
-                    ["Key B", "PICC_CMD_MF_AUTH_KEY_B"]
-                ],
-                null
-            ]
-        },
-        "rfid_read_block": {
-            "message0": "RFID %1 read data block %2",
-            "tooltip": "Read the specified data block and return hex string"
-        },
-        "rfid_write_block": {
-            "message0": "RFID %1 write data block %2 data %3",
-            "tooltip": "Write text or hex data to the given block"
-        },
-        "rfid_halt": {
-            "message0": "RFID %1 stop communication",
-            "tooltip": "Stop communicating with the current card and end crypto"
-        },
-        "rfid_get_uid_string": {
-            "message0": "RFID %1 get UID string",
-            "tooltip": "Convert the cached UID to string without rereading"
-        },
-        "rfid_uid_equals": {
-            "message0": "RFID %1 current UID equals %2",
-            "tooltip": "Check whether the cached UID equals the given value"
-        }
-    }
+  "toolbox_name": "RFID Module",
+  "toolbox_labels": {
+    "初始化": "initialization",
+    "卡片检测": "Card detection",
+    "数据操作": "Data operations",
+    "控制": "control"
+  },
+  "mfrc522_setup": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Initialize RFID reader %1 I2C address %2",
+    "tooltip": "Initialize the MFRC522 RFID reader and set the I2C address and pins"
+  },
+  "mfrc522_is_new_card_present": {
+    "args0": [
+      null
+    ],
+    "message0": "RFID %1 New card detected",
+    "tooltip": "Detect if a new RFID card is approaching"
+  },
+  "mfrc522_read_card_serial": {
+    "args0": [
+      null
+    ],
+    "message0": "RFID %1 Read card serial number",
+    "tooltip": "Read the unique serial number of an RFID card"
+  },
+  "mfrc522_read_uid": {
+    "args0": [
+      null
+    ],
+    "message0": "RFID %1 Get UID string",
+    "tooltip": "Get the UID string of the RFID card"
+  },
+  "mfrc522_when_card_detected": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "When RFID %1 detects the card",
+    "message1": "Execute %1",
+    "tooltip": "Event triggered when an RFID card is detected"
+  },
+  "mfrc522_authenticate": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "A key",
+            "A"
+          ],
+          [
+            "B key",
+            "B"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "RFID %1 Authentication Sector %2 Key Type %3 Key %4",
+    "tooltip": "Authenticate the specified sector of the RFID card"
+  },
+  "mfrc522_read_block": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "RFID %1 reads block %2 to %3",
+    "tooltip": "Read the specified block of data into an array"
+  },
+  "mfrc522_write_block": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "RFID %1 writes data %2 to block %3",
+    "tooltip": "Write data to the specified block"
+  },
+  "mfrc522_halt_card": {
+    "args0": [
+      null
+    ],
+    "message0": "RFID %1 Stop card communication",
+    "tooltip": "Stop communication with RFID card"
+  },
+  "mfrc522_get_data_string": {
+    "args0": [
+      null
+    ],
+    "message0": "Get the hexadecimal string of %1",
+    "tooltip": "Convert RFID data array to hexadecimal string format (eg: 48 65 6c 6c 6f)"
+  }
 }

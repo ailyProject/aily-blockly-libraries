@@ -1,5 +1,5 @@
 {
-  "toolbox_name": "Modbus RTU从站",
+  "toolbox_name": "RTU Modbus desde la estación",
   "toolbox_labels": {
     "初始化": "inicialización",
     "数据配置": "Configuración de datos",
@@ -8,8 +8,8 @@
     "运行": "correr"
   },
   "modbus_rtu_slave_create": {
-    "message0": "创建Modbus RTU从站 %1 串口 %2 发送使能引脚 %3 接收使能引脚 %4",
-    "tooltip": "创建Modbus RTU从站实例，DE/RE引脚填-1表示硬件自动切换",
+    "message0": "Crear un puerto serial %1 esclavo Modbus RTU %2 enviar el pin %3 recibir el pin %4",
+    "tooltip": "Crea una instancia esclava de RTU Modbus y llena el pin DE/RE con -1 para indicar conmutación automática de hardware",
     "args0": [
       null,
       {
@@ -20,12 +20,12 @@
     ]
   },
   "modbus_rtu_slave_set_response_delay": {
-    "message0": "Modbus从站 %1 设置响应延时 %2 毫秒",
-    "tooltip": "设置响应延时，避免主机DE引脚释放过慢"
+    "message0": "El esclavo Modbus %1 fijar el retardo de respuesta a %2 milisegundos",
+    "tooltip": "Configura un retardo de respuesta para evitar que el pin de DE del host se libere demasiado lentamente"
   },
   "modbus_rtu_slave_begin": {
-    "message0": "Modbus从站 %1 启动 设备ID %2 波特率 %3 串口格式 %4",
-    "tooltip": "设置从站地址、波特率和串口校验格式",
+    "message0": "ID de dispositivo de inicio %1 esclavo Modbus %2 tasa de baud %3 formato de puerto serie %4",
+    "tooltip": "Establece la dirección esclava, la tasa de baudios y el formato de verificación de puertos en serie",
     "args0": [
       null,
       null,
@@ -84,55 +84,56 @@
     ]
   },
   "modbus_rtu_slave_poll": {
-    "message0": "Modbus从站 %1 轮询请求",
-    "tooltip": "频繁调用以处理主站读写请求"
+    "message0": "Solicitud de sondeo %1 esclavo de Modbus",
+    "tooltip": "Llamadas frecuentes para gestionar solicitudes maestras de lectura/escritura",
+    "message1": "Ejecutar %1 al recibir una solicitud válida"
   },
   "modbus_rtu_slave_bind_coils": {
-    "message0": "Modbus从站 %1 配置线圈数组 %2 长度 %3",
-    "tooltip": "创建布尔线圈数组并告知库其长度"
+    "message0": "Modbus Slave %1 configurar la matriz de bobinas %2 longitud %3",
+    "tooltip": "Crea un array de bobinas booleanas y indica a la biblioteca su longitud"
   },
   "modbus_rtu_slave_bind_discrete": {
-    "message0": "Modbus从站 %1 配置离散输入数组 %2 长度 %3",
-    "tooltip": "创建布尔离散输入数组用于向主站上报"
+    "message0": "Modbus Slave %1 configurar un array de entrada discreto %2 longitud %3",
+    "tooltip": "Crear un array de entrada discreto booleano para informar al maestro"
   },
   "modbus_rtu_slave_bind_holding": {
-    "message0": "Modbus从站 %1 配置保持寄存器 %2 长度 %3",
-    "tooltip": "创建16位保持寄存器数组，用于主站读写"
+    "message0": "Modbus slave %1 Registro de retención de configuración %2 longitud %3",
+    "tooltip": "Crea un array de registros de retención de 16 bits para lectura/escritura maestra"
   },
   "modbus_rtu_slave_bind_input": {
-    "message0": "Modbus从站 %1 配置输入寄存器 %2 长度 %3",
-    "tooltip": "创建16位输入寄存器数组，用于上报模拟量"
+    "message0": "Registros de entrada %1 de configuración de Modbus esclavos %2 longitud %3",
+    "tooltip": "Crear un array de registros de entrada de 16 bits para informar de valores analógicos"
   },
   "modbus_rtu_slave_coils_set": {
-    "message0": "线圈数组 %1 索引 %2 写入 %3",
-    "tooltip": "写入指定线圈值，可用于初始化或本地强制"
+    "message0": "Matriz de bobinas %1 índice %2 escribir %3",
+    "tooltip": "Escribe el valor especificado de la bobina, que puede usarse para inicialización o aplicación local"
   },
   "modbus_rtu_slave_coils_get": {
-    "message0": "线圈数组 %1 索引 %2 的值",
-    "tooltip": "读取线圈状态，用于驱动输出"
+    "message0": "El array de bobinas %1 índice %2 valor",
+    "tooltip": "Lee el estado de la bobina para alimentar la salida"
   },
   "modbus_rtu_slave_discrete_set": {
-    "message0": "离散输入数组 %1 索引 %2 写入 %3",
-    "tooltip": "更新离散输入状态，上报开关量"
+    "message0": "Matriz discreta de entrada %1 índice %2 escritura %3",
+    "tooltip": "Actualizar el estado discreto de la entrada e informar de las magnitudes del interruptor"
   },
   "modbus_rtu_slave_discrete_get": {
-    "message0": "离散输入数组 %1 索引 %2 的值",
-    "tooltip": "读取离散输入数组，多用于调试"
+    "message0": "Matriz discreta de entrada %1 índice %2 valor",
+    "tooltip": "Arrays de entrada discretos de lectura, usados principalmente para depuración"
   },
   "modbus_rtu_slave_holding_set": {
-    "message0": "保持寄存器数组 %1 索引 %2 写入 %3",
-    "tooltip": "写入16位保持寄存器，可提供默认值"
+    "message0": "Registros %1 índices %2 escribir %3",
+    "tooltip": "Escribe en un registro de retención de 16 bits que proporciona valores por defecto"
   },
   "modbus_rtu_slave_holding_get": {
-    "message0": "保持寄存器数组 %1 索引 %2 的值",
-    "tooltip": "读取保持寄存器值，用于模拟量输出"
+    "message0": "Mantiene el valor del array de registros %1 índice %2",
+    "tooltip": "Lee el valor del registro de retención para la salida analógica"
   },
   "modbus_rtu_slave_input_set": {
-    "message0": "输入寄存器数组 %1 索引 %2 写入 %3",
-    "tooltip": "写入16位输入寄存器，上报模拟量"
+    "message0": "Matriz de registros de entrada %1 índice %2 escritura %3",
+    "tooltip": "Escribe en un registro de entrada de 16 bits e informa del valor analógico"
   },
   "modbus_rtu_slave_input_get": {
-    "message0": "输入寄存器数组 %1 索引 %2 的值",
-    "tooltip": "读取输入寄存器值，方便调试"
+    "message0": "Introduce el valor del array de registros %1 índice %2",
+    "tooltip": "Lee valores de los registros de entrada para facilitar la depuración"
   }
 }

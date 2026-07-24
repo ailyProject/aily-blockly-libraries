@@ -1,8 +1,8 @@
 {
-  "toolbox_name": "MLX90642 Thermal Imaging",
+  "toolbox_name": "MLX90642 赤外線サーマルイメージング",
   "mlx90642_init": {
-    "message0": "init MLX90642 %1 SDA %2 SCL %3 address %4 mode %5 refresh %6 output %7",
-    "tooltip": "Initialize the MLX90642 32x24 thermal imaging sensor over ESP32 I2C.",
+    "message0": "SDA%2SCL MLX90642 %1%3アドレス%4モード%5初期化%6出力%7",
+    "tooltip": "ESP32 I2Cピンを介してMLX90642 32x24赤外線サーマルイメージングセンサーを初期化します。",
     "args0": [
       null,
       null,
@@ -47,11 +47,11 @@
       {
         "options": [
           [
-            "temperature",
+            "温度",
             "MLX90642_TEMPERATURE_OUTPUT"
           ],
           [
-            "normalized data",
+            "正規化データ",
             "MLX90642_NORMALIZED_DATA_OUTPUT"
           ]
         ]
@@ -59,20 +59,20 @@
     ]
   },
   "mlx90642_data_ready": {
-    "message0": "MLX90642 %1 data ready",
-    "tooltip": "Check whether a new thermal frame is ready."
+    "message0": "MLX90642 %1 データが準備できた",
+    "tooltip": "MLX90642新しいサーマルイメージングデータのフレームを読み取れるかどうかを検出します。"
   },
   "mlx90642_read_frame": {
-    "message0": "MLX90642 %1 read frame to cache",
-    "tooltip": "Read the current 32x24 image frame into the cache."
+    "message0": "MLX90642 %1 キャッシュに1フレーム読み込む",
+    "tooltip": "現在の32x24画像フレームをキャッシュに読み込みます。"
   },
   "mlx90642_measure_now": {
-    "message0": "MLX90642 %1 measure now and cache frame",
-    "tooltip": "Trigger one measurement and wait for the frame. Returns true on success."
+    "message0": "MLX90642 %1 1フレームを瞬時に測定・キャッシュする",
+    "tooltip": "測定をトリガーし、データが戻るのを待ちます。成功した場合はtrueを返します。"
   },
   "mlx90642_pixel_value": {
-    "message0": "MLX90642 %1 cached pixel X %2 Y %3 read %4",
-    "tooltip": "Read one pixel from the cached frame. X range 0-31, Y range 0-23.",
+    "message0": "MLX90642 %1 キャッシュピクセル X %2 Y %3 %4",
+    "tooltip": "前のフレームキャッシュから指定されたピクセルを読み込み、Xの範囲0-31、Yの範囲0-23を読み込みます。",
     "args0": [
       null,
       null,
@@ -80,11 +80,11 @@
       {
         "options": [
           [
-            "temperature C",
+            "気温:°C",
             "C"
           ],
           [
-            "raw value",
+            "元の値",
             "RAW"
           ]
         ]
@@ -92,8 +92,8 @@
     ]
   },
   "mlx90642_frame_stat": {
-    "message0": "MLX90642 %1 cached frame %2 temperature C",
-    "tooltip": "Calculate minimum, maximum, or average temperature from the cached frame.",
+    "message0": "MLX90642 %1 温度%2 °C のキャッシュフレーム",
+    "tooltip": "前のフレームキャッシュの最小、最大、または平均温度を計算します。",
     "args0": [
       null,
       {
@@ -115,15 +115,15 @@
     ]
   },
   "mlx90642_progress": {
-    "message0": "MLX90642 %1 measurement progress %",
-    "tooltip": "Read current measurement progress percent."
+    "message0": "MLX90642 %1 測定進捗率",
+    "tooltip": "現在の測定進捗率を読んでください。"
   },
   "mlx90642_print_frame_csv": {
-    "message0": "MLX90642 %1 print cached frame as CSV to %2 baud %3",
-    "tooltip": "Print the cached 32x24 temperature frame as 24 CSV rows."
+    "message0": "MLX90642 %1 キャッシュフレームをCSVでエクスポートしてボー%2rate%3",
+    "tooltip": "前のフレームの32x24温度キャッシュを24行のCSVとしてシリアルポートに出力します。"
   },
   "mlx90642_sleep": {
     "message0": "MLX90642 %1 sleep",
-    "tooltip": "Put the MLX90642 into low-power sleep mode."
+    "tooltip": "MLX90642を低消費電力のスリープモードにしてください。"
   }
 }

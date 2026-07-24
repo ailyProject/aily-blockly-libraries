@@ -1,11 +1,13 @@
 {
-  "toolbox_name": "BMV080 PM Sensor",
+  "toolbox_name": "مستشعر الجسيمات BMV080",
   "bmv080_init_i2c": {
-    "message0": "init BMV080 I2C %1 bus %2 address %3",
-    "tooltip": "Initialize and open the BMV080 particulate matter sensor over I2C.",
+    "message0": "تهيئة ناقل BMV080 I2C %1 عنوان %2 %3",
+    "tooltip": "قم بتهيئة وتشغيل مستشعر الجسيمات BMV080 عبر I2C.",
     "args0": [
       null,
-      null,
+      {
+        "options": "${board.i2c}"
+      },
       {
         "options": [
           [
@@ -29,12 +31,12 @@
     ]
   },
   "bmv080_init_spi": {
-    "message0": "init BMV080 SPI %1 bus %2 CS %3",
-    "tooltip": "Initialize and open the BMV080 particulate matter sensor over SPI."
+    "message0": "تهيئة حافلة BMV080 SPI %1 %2 CS %3",
+    "tooltip": "قم بتهيئة وتفعيل حساس الجسيمات BMV080 عبر SPI."
   },
   "bmv080_set_mode": {
-    "message0": "BMV080 %1 set measurement mode %2",
-    "tooltip": "Start continuous or duty-cycle measurement.",
+    "message0": "وضع القياس %1 BMV080 %2",
+    "tooltip": "ابدأ القياس المستمر أو قياس دورة العمل.",
     "args0": [
       null,
       {
@@ -44,7 +46,7 @@
             "CONTINUOUS_MODE"
           ],
           [
-            "duty cycle",
+            "قياس دورة العمل",
             "DUTY_CYCLE_MODE"
           ]
         ]
@@ -52,18 +54,18 @@
     ]
   },
   "bmv080_set_duty_cycle": {
-    "message0": "BMV080 %1 set duty period %2 s integration %3 s",
-    "tooltip": "Set duty-cycle mode parameters. Period must be at least 12 s; integration time must be at least 1 s and at least 2 s shorter than period."
+    "message0": "BMV080 %1 ضبط دورة العمل على %2 ثانية ووقت التكامل إلى %3 ثانية",
+    "tooltip": "قم بتعيين معلمة وضع دورة العمل. يجب أن تكون الدورة على الأقل 12 ثانية، ووقت التكامل على الأقل 1 ثانية، ويجب أن تكون الدورة أطول من وقت التكامل بثانيتين على الأقل."
   },
   "bmv080_set_algorithm": {
-    "message0": "BMV080 %1 set algorithm %2",
-    "tooltip": "Set the PM measurement algorithm.",
+    "message0": "خوارزمية قياس إعداد %1 BMV080 %2",
+    "tooltip": "قم بتعيين خوارزميات قياس PM.",
     "args0": [
       null,
       {
         "options": [
           [
-            "fast response",
+            "استجابة سريعة",
             "FAST_RESPONSE"
           ],
           [
@@ -71,7 +73,7 @@
             "BALANCED"
           ],
           [
-            "high precision",
+            "دقة عالية",
             "HIGH_PRECISION"
           ]
         ]
@@ -79,18 +81,18 @@
     ]
   },
   "bmv080_set_feature": {
-    "message0": "BMV080 %1 set %2 %3",
-    "tooltip": "Enable or disable obstruction detection or vibration filtering.",
+    "message0": "BMV080 %1 Settings%2 %3",
+    "tooltip": "قم بتشغيل أو إيقاف وظائف اكتشاف الانسداد وتصفية الاهتزاز.",
     "args0": [
       null,
       {
         "options": [
           [
-            "obstruction detection",
+            "كشف العوائق",
             "OBSTRUCTION"
           ],
           [
-            "vibration filtering",
+            "ترشيح الاهتزاز",
             "VIBRATION"
           ]
         ]
@@ -98,11 +100,11 @@
       {
         "options": [
           [
-            "on",
+            "تشغيل",
             "true"
           ],
           [
-            "off",
+            "إيقاف",
             "false"
           ]
         ]
@@ -110,12 +112,12 @@
     ]
   },
   "bmv080_read_data": {
-    "message0": "BMV080 %1 refresh PM data",
-    "tooltip": "Read and cache PM1, PM2.5, and PM10. Returns true when new data is ready."
+    "message0": "BMV080 %1 تحديث بيانات PM",
+    "tooltip": "اقرأ واحفظ PM1 وPM2.5 وPM10 مؤقتا. البيانات جاهزة ترجع صحيحا، وغير جاهز يرجع خاطئا."
   },
   "bmv080_pm_value": {
-    "message0": "BMV080 %1 cached value %2",
-    "tooltip": "Read the PM value cached by the last refresh.",
+    "message0": "ذاكرة التخزين المؤقت %1 BMV080 value%2",
+    "tooltip": "اقرأ قيمة ذاكرة التخزين المؤقت PM بعد آخر تحديث.",
     "args0": [
       null,
       {
@@ -137,8 +139,8 @@
     ]
   },
   "bmv080_get_status": {
-    "message0": "BMV080 %1 status/config %2",
-    "tooltip": "Read BMV080 configuration or obstruction status.",
+    "message0": "حالة/تكوين %1 BMV080 %2",
+    "tooltip": "اقرأ تكوين أو حالة الإخفاء في BMV080.",
     "args0": [
       null,
       {
@@ -148,23 +150,23 @@
             "ALGORITHM"
           ],
           [
-            "integration time",
+            "وقت التسجيل",
             "INTEGRATION"
           ],
           [
-            "duty period",
+            "دورة الفراغ",
             "PERIOD"
           ],
           [
-            "obstruction setting",
+            "مفتاح كشف الكتل",
             "OBSTRUCTION_FEATURE"
           ],
           [
-            "vibration setting",
+            "مفتاح مرشح الاهتزاز",
             "VIBRATION_FEATURE"
           ],
           [
-            "is obstructed",
+            "هل يتم إعاقتها أم لا.",
             "OBSTRUCTED"
           ]
         ]
@@ -173,21 +175,21 @@
   },
   "bmv080_command": {
     "message0": "BMV080 %1 run %2",
-    "tooltip": "Stop measurement, reset, or close the BMV080.",
+    "tooltip": "توقف عن القياس، إعادة الضبط، أو إيقاف BMV080.",
     "args0": [
       null,
       {
         "options": [
           [
-            "stop measurement",
+            "أوقف القياس",
             "STOP"
           ],
           [
-            "reset",
+            "عد إلى مكانك",
             "RESET"
           ],
           [
-            "close sensor",
+            "أطفئ المستشعر",
             "CLOSE"
           ]
         ]

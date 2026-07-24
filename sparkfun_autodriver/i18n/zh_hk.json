@@ -2,30 +2,30 @@
   "toolbox_name": "AutoDriver",
   "autodriver_init": {
     "message0": "初始化 AutoDriver %1 鏈位置 %2 CS %3 RESET %4 BUSY %5",
-    "tooltip": "初始化 AutoDriver %1 CS %2 重設 %3 忙碌 %4"
+    "tooltip": "建立 AutoDriver 物件並初始化 SPI、CS 和 RESET 引腳"
   },
   "autodriver_config_step_mode": {
     "message0": "AutoDriver %1 步進模式 %2",
-    "tooltip": "AutoDriver %1 步進模式 %2"
+    "tooltip": "設定 L6470 微步模式"
   },
   "autodriver_set_speed": {
     "message0": "設定 AutoDriver %1 %2 速度 %3 steps/s",
-    "tooltip": "設定 AutoDriver %1 最大速度 %2"
+    "tooltip": "設定最大、最小或全步切換速度"
   },
   "autodriver_set_accel": {
     "message0": "設定 AutoDriver %1 %2 速率 %3",
-    "tooltip": "設定 AutoDriver %1 %2 速率 %3",
+    "tooltip": "設定加速度或減速度",
     "args0": [
       null,
       {
         "options": [
           [
             "加速",
-            "AUTODRIVER_ACC"
+            "ACC"
           ],
           [
-            "減速",
-            "AUTODRIVER_DEC"
+            "減速度",
+            "DEC"
           ]
         ]
       },
@@ -34,22 +34,22 @@
   },
   "autodriver_set_kval": {
     "message0": "設定 AutoDriver %1 KVAL %2 %3",
-    "tooltip": "設定 AutoDriver %1 KVAL %2 %3"
+    "tooltip": "設定運轉、加速、減速或保持 KVAL"
   },
   "autodriver_run": {
     "message0": "AutoDriver %1 運行 方向 速度 %2 %3",
-    "tooltip": "AutoDriver %1 運行 方向 速度 %2 %3",
+    "tooltip": "依指定方向和速度連續運轉步進電機",
     "args0": [
       null,
       {
         "options": [
           [
-            "前進",
-            "DIR_FWD"
+            "陽性",
+            "FWD"
           ],
           [
-            "反向",
-            "DIR_REV"
+            "反向方向",
+            "REV"
           ]
         ]
       },
@@ -58,18 +58,18 @@
   },
   "autodriver_move": {
     "message0": "AutoDriver %1 移動 方向 步數 %2 %3",
-    "tooltip": "AutoDriver %1 移動 方向 步數 %2 %3",
+    "tooltip": "依指定方向移動固定步數",
     "args0": [
       null,
       {
         "options": [
           [
-            "前進",
-            "DIR_FWD"
+            "陽性",
+            "FWD"
           ],
           [
-            "反向",
-            "DIR_REV"
+            "反向方向",
+            "REV"
           ]
         ]
       },
@@ -78,49 +78,49 @@
   },
   "autodriver_go_to": {
     "message0": "AutoDriver %1 前往位置 %2",
-    "tooltip": "AutoDriver %1 前往位置 %2"
+    "tooltip": "移動到絕對位置"
   },
   "autodriver_get_position": {
     "message0": "AutoDriver %1 取得位置",
-    "tooltip": "AutoDriver %1 取得位置"
+    "tooltip": "讀取目前位置"
   },
   "autodriver_get_status": {
     "message0": "AutoDriver %1 取得狀態",
-    "tooltip": "AutoDriver %1 取得狀態"
+    "tooltip": "讀取 L6470 狀態暫存器"
   },
   "autodriver_stop": {
-    "message0": "AutoDriver %1 停止 %2",
-    "tooltip": "AutoDriver %1 停止 %2",
+    "message0": "AutoDriver %1 停止%2",
+    "tooltip": "軟停止或硬停止電機",
     "args0": [
       null,
       {
         "options": [
           [
             "軟停止",
-            "STOP_SOFT"
+            "SOFT"
           ],
           [
-            "硬停止",
-            "STOP_HARD"
+            "硬停",
+            "HARD"
           ]
         ]
       }
     ]
   },
   "autodriver_hiz": {
-    "message0": "AutoDriver %1 HiZ %2",
-    "tooltip": "AutoDriver %1 HiZ %2",
+    "message0": "AutoDriver %1高阻抗%2",
+    "tooltip": "進入高阻態，釋放馬達驅動",
     "args0": [
       null,
       {
         "options": [
           [
             "軟",
-            "HIZ_SOFT"
+            "SOFT"
           ],
           [
-            "硬",
-            "HIZ_HARD"
+            "真的很難",
+            "HARD"
           ]
         ]
       }
@@ -128,10 +128,10 @@
   },
   "autodriver_reset_position": {
     "message0": "AutoDriver %1 重設位置",
-    "tooltip": "AutoDriver %1 重設位置"
+    "tooltip": "將目前位置暫存器清零"
   },
   "autodriver_reset_device": {
     "message0": "AutoDriver %1 重設裝置",
-    "tooltip": "AutoDriver %1 重設裝置"
+    "tooltip": "執行 L6470 resetDev 指令"
   }
 }

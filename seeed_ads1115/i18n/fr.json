@@ -1,0 +1,163 @@
+{
+  "toolbox_name": "ADS1115 ADC",
+  "toolbox_labels": {
+    "初始化与配置": "Initialisation et configuration",
+    "数据读取": "Lecture de données"
+  },
+  "ads1115_init": {
+    "args0": [
+      {
+        "options": [
+          [
+            "0x48 (ADDR vers GND)",
+            "ADS1115_GND_ADDRESS"
+          ],
+          [
+            "0x49 (ADDR vers VDD)",
+            "ADS1115_VDD_ADDRESS"
+          ],
+          [
+            "0x4A (ADDR vers SDA)",
+            "ADS1115_SDA_ADDRESS"
+          ],
+          [
+            "0x4B (ADDR vers SCL)",
+            "ADS1115_SCL_ADDRESS"
+          ]
+        ]
+      }
+    ],
+    "message0": "Initialiser ADS1115 adresse I2C %1",
+    "tooltip": "Initialiser ADS1115 module ADC 16 bits et définir l’adresse I2C"
+  },
+  "ads1115_set_gain": {
+    "args0": [
+      {
+        "options": [
+          [
+            "±6.144V",
+            "ADS1115_PGA_6_144"
+          ],
+          [
+            "±4.096V",
+            "ADS1115_PGA_4_096"
+          ],
+          [
+            "± 2,048V (par défaut)",
+            "ADS1115_PGA_2_048"
+          ],
+          [
+            "±1.024V",
+            "ADS1115_PGA_1_024"
+          ],
+          [
+            "±0.512V",
+            "ADS1115_PGA_0_512"
+          ],
+          [
+            "±0.256V",
+            "ADS1115_PGA_0_256"
+          ]
+        ]
+      }
+    ],
+    "message0": "Réglez le gain range%1",
+    "tooltip": "Réglez la plage de l’amplificateur de gain programmable (PGA)"
+  },
+  "ads1115_read_raw": {
+    "args0": [
+      {
+        "options": [
+          [
+            "AIN0 (À une seule extrémité)",
+            "channel0"
+          ],
+          [
+            "AIN1 (à une seule extrémité)",
+            "channel1"
+          ],
+          [
+            "AIN2 (À une seule extrémité)",
+            "channel2"
+          ],
+          [
+            "AIN3 (à une seule extrémité)",
+            "channel3"
+          ],
+          [
+            "AIN0-AIN1 (Diff)",
+            "channel01"
+          ],
+          [
+            "AIN0-AIN3 (Différence)",
+            "channel03"
+          ],
+          [
+            "AIN1-AIN3 (Différence)",
+            "channel13"
+          ],
+          [
+            "AIN2-AIN3 (Différence)",
+            "channel23"
+          ]
+        ]
+      }
+    ],
+    "message0": "Lisez la chaîne %1 valeur brute",
+    "tooltip": "Lisez la valeur ADC originale du canal spécifié (entier signé 16 bits)"
+  },
+  "ads1115_read_voltage": {
+    "args0": [
+      {
+        "options": [
+          [
+            "AIN0 (À une seule extrémité)",
+            "channel0"
+          ],
+          [
+            "AIN1 (à une seule extrémité)",
+            "channel1"
+          ],
+          [
+            "AIN2 (À une seule extrémité)",
+            "channel2"
+          ],
+          [
+            "AIN3 (à une seule extrémité)",
+            "channel3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "±6.144V",
+            "6.144"
+          ],
+          [
+            "±4.096V",
+            "4.096"
+          ],
+          [
+            "± 2,048V (par défaut)",
+            "2.048"
+          ],
+          [
+            "±1.024V",
+            "1.024"
+          ],
+          [
+            "±0.512V",
+            "0.512"
+          ],
+          [
+            "±0.256V",
+            "0.256"
+          ]
+        ]
+      }
+    ],
+    "message0": "Plage de lecture du canal %1 tension (V) %2",
+    "tooltip": "Lire la valeur de tension du canal spécifié (volts)"
+  }
+}

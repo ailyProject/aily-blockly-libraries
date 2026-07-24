@@ -6,57 +6,97 @@
     "数据操作": "數據操作",
     "控制": "控制"
   },
-  "blocks": {
-    "rfid_init": {
-      "message0": "建立 RFID 讀取器 %1 SDA 腳位 %2 RST 腳位 %3",
-      "tooltip": "建立MFRC522閱讀器並啟動SPI"
-    },
-    "rfid_is_card_present": {
-      "message0": "RFID %1 偵測卡是否存在",
-      "tooltip": "Check whether a new RFID card is near the reader"
-    },
-    "rfid_read_uid": {
-      "message0": "RFID %1 讀卡 UID",
-      "tooltip": "Read the card UID and return it as hex string"
-    },
-    "rfid_authenticate": {
-      "message0": "RFID %1 authenticate sector %2 key type %3 key %4",
-      "tooltip": "驗證給定磁區的存取金鑰",
-      "args0": [
-        null,
-        null,
-        [
+  "mfrc522_setup": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "初始化 RFID 讀寫器 %1 I2C位址 %2",
+    "tooltip": "初始化MFRC522 RFID讀寫器,設定I2C位址和引腳"
+  },
+  "mfrc522_is_new_card_present": {
+    "args0": [
+      null
+    ],
+    "message0": "RFID %1 偵測到新卡片",
+    "tooltip": "檢測是否有新的RFID卡片靠近"
+  },
+  "mfrc522_read_card_serial": {
+    "args0": [
+      null
+    ],
+    "message0": "RFID %1 讀取卡片序號",
+    "tooltip": "讀取RFID卡片的唯一序號"
+  },
+  "mfrc522_read_uid": {
+    "args0": [
+      null
+    ],
+    "message0": "RFID %1 取得UID字串",
+    "tooltip": "取得RFID卡片的UID字串"
+  },
+  "mfrc522_when_card_detected": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "當 RFID %1 偵測到卡片時",
+    "message1": "執行 %1",
+    "tooltip": "當偵測到RFID卡片時觸發的事件"
+  },
+  "mfrc522_authenticate": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
           [
-            "鍵A",
-            "PICC_CMD_MF_AUTH_KEY_A"
+            "A金鑰",
+            "A"
           ],
           [
-            "按鍵B",
-            "PICC_CMD_MF_AUTH_KEY_B"
+            "B密鑰",
+            "B"
           ]
-        ],
-        null
-      ]
-    },
-    "rfid_read_block": {
-      "message0": "RFID %1 讀取資料塊 %2",
-      "tooltip": "Read the specified data block and return hex string"
-    },
-    "rfid_write_block": {
-      "message0": "RFID %1 write data block %2 data %3",
-      "tooltip": "將文字或十六進位資料寫入給定區塊"
-    },
-    "rfid_halt": {
-      "message0": "RFID %1 停止通信",
-      "tooltip": "停止與目前卡片通訊並結束加密"
-    },
-    "rfid_get_uid_string": {
-      "message0": "RFID %1 get UID string",
-      "tooltip": "Convert the cached UID to string without rereading"
-    },
-    "rfid_uid_equals": {
-      "message0": "RFID %1 目前 UID 等於 %2",
-      "tooltip": "檢查快取的UID是否等於給定值"
-    }
+        ]
+      },
+      null
+    ],
+    "message0": "RFID %1 認證磁區 %2 密鑰類型 %3 密鑰 %4",
+    "tooltip": "認證RFID卡片的指定扇區"
+  },
+  "mfrc522_read_block": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "RFID %1 讀取區塊 %2 到 %3",
+    "tooltip": "讀取指定區塊的資料到數組"
+  },
+  "mfrc522_write_block": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "RFID %1 寫入資料 %2 到區塊 %3",
+    "tooltip": "寫入資料到指定區塊"
+  },
+  "mfrc522_halt_card": {
+    "args0": [
+      null
+    ],
+    "message0": "RFID %1阻止卡片通訊",
+    "tooltip": "停止與RFID卡片的通訊"
+  },
+  "mfrc522_get_data_string": {
+    "args0": [
+      null
+    ],
+    "message0": "取得 %1 的十六進位字串",
+    "tooltip": "將RFID資料數組轉換為十六進位字串格式（如：48 65 6c 6c 6f）"
   }
 }

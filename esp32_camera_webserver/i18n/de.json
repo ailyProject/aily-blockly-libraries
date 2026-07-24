@@ -1,5 +1,5 @@
 {
-  "toolbox_name": "摄像头服务器",
+  "toolbox_name": "Kameraserver",
   "toolbox_labels": {
     "基础配置": "Grundkonfiguration",
     "高级配置": "Erweiterte Konfiguration",
@@ -7,8 +7,8 @@
     "拍摄与数据访问": "Fotografie und Datenzugriff"
   },
   "esp32_camera_webserver_init": {
-    "message0": "初始化ESP32摄像头服务器 %1 摄像头型号 %2 分辨率 %3 像素格式 %4",
-    "tooltip": "初始化ESP32摄像头,配置摄像头参数",
+    "message0": "Initialisieren Sie den ESP32-Kameraserver %1 Kameramodell %2 Auflösung %3 Pixelformat %4",
+    "tooltip": "Initialisieren Sie die ESP32-Kamera und konfigurieren Sie die Kameraparameter",
     "args0": [
       null,
       {
@@ -54,7 +54,7 @@
             "CAMERA_MODEL_ESP32_AIOT_KIT_GC2145"
           ],
           [
-            "自定义引脚",
+            "Individuelle Pins",
             "CUSTOM"
           ]
         ]
@@ -122,55 +122,55 @@
     ]
   },
   "esp32_camera_custom_pins": {
-    "message0": "自定义摄像头引脚配置 %1 数据引脚D0-D7 %2 XCLK引脚 %3 PCLK引脚 %4 VSYNC引脚 %5 HREF引脚 %6 SDA引脚 %7 SCL引脚 %8 PWDN引脚 %9 RESET引脚 %10",
-    "tooltip": "当选择'自定义引脚'时,用此块配置摄像头引脚。数据引脚格式: '11,12,13,14,15,16,17,18'"
+    "message0": "Benutzerdefinierte Kamerapin-Konfiguration: %1 Datenpins D0-D7 %2 XCLK-Pin %3 PCLK-Pin %4 VSYNC-Pin %5 HREF-Pin %6 SDA-Pins %7 SCL-Pins %8 PWDN-Pins %9 RESET-Pins %10",
+    "tooltip": "Wenn Sie 'Benutzerdefinierte Pins' auswählen, verwenden Sie diesen Block, um die Kamerapins zu konfigurieren. Datenpin-Formate: '11, 12, 13, 14, 15, 16, 17, 18'"
   },
   "esp32_camera_set_quality": {
-    "message0": "设置摄像头JPEG质量 %1",
-    "tooltip": "设置JPEG压缩质量(0-63,数值越小质量越高)"
+    "message0": "Stelle JPEG-Qualität der Kamera %1",
+    "tooltip": "Stelle JPEG-Kompressionsqualität ein (0-63; je kleiner der Wert, desto höher die Qualität)"
   },
   "esp32_camera_set_flip": {
-    "message0": "设置摄像头翻转 %1 垂直翻转 %2 水平镜像 %3",
-    "tooltip": "设置摄像头画面翻转和镜像"
+    "message0": "Setze Kameraflip %1 vertikalen Flip %2 horizontale Spiegelung %3",
+    "tooltip": "Einrichtung von Kamerabild-Flipping und Spiegelung"
   },
   "esp32_camera_set_brightness": {
-    "message0": "设置摄像头 %1 亮度 %2 对比度 %3 饱和度 %4",
-    "tooltip": "调整摄像头亮度、对比度和饱和度(-2到2)"
+    "message0": "Stelle Kamera%1Helligkeit %2 Kontrast %3 Sättigung %4",
+    "tooltip": "Kamerahelligkeit, Kontrast und Sättigung anpassen (-2 bis 2)"
   },
   "esp32_camera_capture": {
-    "message0": "拍摄一张照片",
-    "tooltip": "获取一帧摄像头画面数据,返回帧对象(⚠️配合'无符号长整型'变量使用,使用完后必须调用释放帧块)"
+    "message0": "Mach ein Foto",
+    "tooltip": "Ruft ein Bild mit Kamerabilddaten ab und gibt das Frame-Objekt zurück ( ⚠️ verwendet mit der Variable 'unsigned long integer'; nach Verwendung muss der Release-Frame-Block aufgerufen werden)"
   },
   "esp32_camera_frame_buffer": {
-    "message0": "帧 %1 的数据指针",
-    "tooltip": "获取帧数据的内存指针(uint8_t*),可用于显示或传输"
+    "message0": "Datenzeiger für Frame %1",
+    "tooltip": "Speicherzeiger (uint8_t*) zum Abruf von Framedaten, die zur Darstellung oder Übertragung verwendet werden können"
   },
   "esp32_camera_frame_len": {
-    "message0": "帧 %1 的数据长度",
-    "tooltip": "获取帧数据的字节长度"
+    "message0": "Die Datenlänge der Frames %1",
+    "tooltip": "Erhalten Sie die Bytelänge der Frame-Daten"
   },
   "esp32_camera_frame_width": {
-    "message0": "帧 %1 的宽度",
-    "tooltip": "获取帧图像的宽度(像素)"
+    "message0": "Rahmen %1 Breite",
+    "tooltip": "Erhalten Sie die Breite des Bildbildes (Pixel)"
   },
   "esp32_camera_frame_height": {
-    "message0": "帧 %1 的高度",
-    "tooltip": "获取帧图像的高度(像素)"
+    "message0": "Die Höhe des Rahmens %1",
+    "tooltip": "Höhe des erhaltenen Bildbildes (Pixel)"
   },
   "esp32_camera_release": {
-    "message0": "释放帧 %1",
-    "tooltip": "释放帧缓冲区内存(使用完帧后必须调用，send_serial块会自动释放)"
+    "message0": "Release Frame %1",
+    "tooltip": "Frame-Buffer-Speicher freigeben (muss nach Verwendung eines Frames aufgerufen werden; send_serial Blöcke werden automatisch freigegeben)"
   },
   "esp32_camera_send_serial": {
-    "message0": "通过串口发送帧 %1",
-    "tooltip": "通过串口发送JPEG图像数据(带帧标识符，可用于上位机显示)"
+    "message0": "Frames über serielle Sendung port%1",
+    "tooltip": "Senden von JPEG-Bilddaten über serielle Anschlüsse (mit Frame-Kennung, nutzbar für die Anzeige des Hostcomputers)"
   },
   "esp32_camera_capture_and_encode_base64": {
-    "message0": "拍摄照片并转换为Base64",
-    "tooltip": "拍摄一张照片并将其JPEG数据编码为Base64格式"
+    "message0": "Mach Fotos und konvertiere sie in Base64",
+    "tooltip": "Machen Sie ein Foto und kodieren Sie dessen JPEG-Daten im Base64-Format"
   },
   "esp32_camera_print_diagnostics": {
-    "message0": "打印摄像头诊断信息",
-    "tooltip": "通过串口打印摄像头初始化状态、传感器PID和常见错误排查提示"
+    "message0": "Diagnoseinformationen zur Druckkamera",
+    "tooltip": "Serielle Anschlüsse drucken den Initialisierungsstatus der Kamera, den Sensor-PID und häufige Fehlerfehler-Fehleraufforderungen aus"
   }
 }

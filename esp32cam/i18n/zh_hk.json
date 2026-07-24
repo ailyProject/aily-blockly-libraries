@@ -7,21 +7,365 @@
     "WebServer 集成": "WebServer 整合"
   },
   "esp32cam_init": {
-    "message0": "初始化 ESP32Cam %1 腳位方案 %2 解像度 %3 像素格式 %4 JPEG品質 %5 幀緩衝數量 %6"
+    "message0": "初始化 ESP32Cam %1 腳位方案 %2 解像度 %3 像素格式 %4 JPEG品質 %5 幀緩衝數量 %6",
+    "tooltip": "使用所選引腳、解析度和像素格式初始化 OV2640 相機；JPEG品質範圍為0到100"
   },
   "esp32cam_end": {
-    "message0": "關閉 ESP32Cam"
+    "message0": "關閉 ESP32Cam",
+    "tooltip": "關閉攝影機並釋放驅動資源"
   },
   "esp32cam_is_ready": {
-    "message0": "ESP32Cam 初始化成功"
+    "message0": "ESP32Cam 初始化成功",
+    "tooltip": "是否最近初始化成功，會回傳"
   },
   "esp32cam_frame_create": {
-    "message0": "建立 ESP32Cam 影像幀變數 %1"
+    "message0": "建立 ESP32Cam 影像幀變數 %1",
+    "tooltip": "建立用於持有相機影像的幀變數"
   },
   "esp32cam_frame_capture": {
-    "message0": "拍攝影像儲存到幀 %1"
+    "message0": "拍攝影像儲存到幀 %1",
+    "tooltip": "拍攝一幀並儲存；再次拍攝會自動釋放原始畫面"
   },
   "esp32cam_frame_release": {
-    "message0": "釋放影像幀 %1"
+    "message0": "釋放影像幀 %1",
+    "tooltip": "立即釋放畫面緩衝區；拍攝下一畫面前應釋放不再使用的畫面"
+  },
+  "esp32cam_set_logger": {
+    "args0": [
+      {
+        "options": "${board.serialPort}"
+      }
+    ],
+    "message0": "ESP32Cam 日誌輸出到 %1",
+    "tooltip": "啟用 esp32cam 運行日誌並輸出到所選串列埠"
+  },
+  "esp32cam_update_resolution": {
+    "args0": [
+      {
+        "options": [
+          [
+            "QQVGA (160x120)",
+            "160,120"
+          ],
+          [
+            "HQVGA (240x176)",
+            "240,176"
+          ],
+          [
+            "QVGA (320x240)",
+            "320,240"
+          ],
+          [
+            "CIF (400x296)",
+            "400,296"
+          ],
+          [
+            "HVGA (480x320)",
+            "480,320"
+          ],
+          [
+            "VGA (640x480)",
+            "640,480"
+          ],
+          [
+            "SVGA (800x600)",
+            "800,600"
+          ],
+          [
+            "XGA (1024x768)",
+            "1024,768"
+          ],
+          [
+            "HD (1280x720)",
+            "1280,720"
+          ],
+          [
+            "SXGA (1280x1024)",
+            "1280,1024"
+          ],
+          [
+            "UXGA (1600x1200)",
+            "1600,1200"
+          ]
+        ]
+      }
+    ],
+    "message0": "ESP32Cam 設定解析度 %1",
+    "tooltip": "運行時修改解析度並等待500毫秒使感測器穩定；不能高於初始化分辨率"
+  },
+  "esp32cam_update_image": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "ESP32Cam 影像參數 亮度 %1 對比 %2 飽和度 %3",
+    "tooltip": "設定亮度、對比度和飽和度，三個參數範圍均為-2到2"
+  },
+  "esp32cam_update_gain": {
+    "args0": [
+      null
+    ],
+    "message0": "ESP32Cam 設定增益 %1",
+    "tooltip": "正數1到31表示手動增益；-2、-4、-8、-16、-32、-64、-128表示自動增益上限"
+  },
+  "esp32cam_update_light_mode": {
+    "args0": [
+      {
+        "options": [
+          [
+            "關閉",
+            "NONE"
+          ],
+          [
+            "自動",
+            "AUTO"
+          ],
+          [
+            "晴天",
+            "SUNNY"
+          ],
+          [
+            "陰天",
+            "CLOUDY"
+          ],
+          [
+            "辦公室",
+            "OFFICE"
+          ],
+          [
+            "室內",
+            "HOME"
+          ]
+        ]
+      }
+    ],
+    "message0": "ESP32Cam 白平衡模式%1",
+    "tooltip": "設定相機自動白平衡和光照模式"
+  },
+  "esp32cam_update_special_effect": {
+    "args0": [
+      {
+        "options": [
+          [
+            "無",
+            "NONE"
+          ],
+          [
+            "負片",
+            "NEGATIVE"
+          ],
+          [
+            "黑白分明",
+            "BLACKWHITE"
+          ],
+          [
+            "偏紅",
+            "REDDISH"
+          ],
+          [
+            "偏綠",
+            "GREENISH"
+          ],
+          [
+            "偏藍",
+            "BLUISH"
+          ],
+          [
+            "復古",
+            "ANTIQUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "ESP32Cam 特效%1",
+    "tooltip": "設定攝影機影像特效"
+  },
+  "esp32cam_update_flip": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "ESP32Cam 影像翻轉 水平鏡像 %1 垂直翻轉 %2",
+    "tooltip": "設定水平鏡像和垂直翻轉"
+  },
+  "esp32cam_update_corrections": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "ESP32Cam 影像校正 原始伽瑪 %1 鏡頭校正 %2",
+    "tooltip": "開啟或關閉原始伽馬和鏡頭校正"
+  },
+  "esp32cam_status_number": {
+    "args0": [
+      {
+        "options": [
+          [
+            "影像寬度",
+            "WIDTH"
+          ],
+          [
+            "影像高度",
+            "HEIGHT"
+          ],
+          [
+            "亮度",
+            "BRIGHTNESS"
+          ],
+          [
+            "對比",
+            "CONTRAST"
+          ],
+          [
+            "飽和度",
+            "SATURATION"
+          ],
+          [
+            "增益",
+            "GAIN"
+          ],
+          [
+            "白平衡模式",
+            "LIGHT_MODE"
+          ],
+          [
+            "影像特效",
+            "SPECIAL_EFFECT"
+          ]
+        ]
+      }
+    ],
+    "message0": "ESP32Cam 目前 %1",
+    "tooltip": "讀取攝影機目前數值設定；模式和特效返回對應枚舉數值"
+  },
+  "esp32cam_status_boolean": {
+    "args0": [
+      {
+        "options": [
+          [
+            "水平鏡像",
+            "HMIRROR"
+          ],
+          [
+            "垂直翻轉",
+            "VFLIP"
+          ],
+          [
+            "原始伽馬",
+            "RAW_GMA"
+          ],
+          [
+            "鏡頭校正",
+            "LENS_CORRECTION"
+          ]
+        ]
+      }
+    ],
+    "message0": "ESP32Cam 目前已開啟 %1",
+    "tooltip": "讀取攝像頭當前布林設置"
+  },
+  "esp32cam_frame_available": {
+    "args0": [
+      null
+    ],
+    "message0": "圖片幀 %1 有效",
+    "tooltip": "檢查拍攝是否成功且幀中有影像"
+  },
+  "esp32cam_frame_info": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "寬度",
+            "WIDTH"
+          ],
+          [
+            "高度",
+            "HEIGHT"
+          ],
+          [
+            "位元組數",
+            "SIZE"
+          ],
+          [
+            "數據指針",
+            "DATA"
+          ]
+        ]
+      }
+    ],
+    "message0": "圖片幀 %1 的 %2",
+    "tooltip": "讀取幀的寬度、高度、位元組數或資料緩衝區位址；無有效幀時返回0"
+  },
+  "esp32cam_frame_format_is": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "JPEG",
+            "JPEG"
+          ],
+          [
+            "BMP",
+            "BMP"
+          ]
+        ]
+      }
+    ],
+    "message0": "圖片幀 %1 是 %2 格式",
+    "tooltip": "檢查影格目前是否為JPEG或BMP格式"
+  },
+  "esp32cam_frame_convert": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "JPEG",
+            "JPEG"
+          ],
+          [
+            "BMP",
+            "BMP"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "影像影格 %1 轉換為 %2 JPEG品質 %3",
+    "tooltip": "轉換影格格式；JPEG品質範圍0到100，轉換BMP時忽略品質參數"
+  },
+  "esp32cam_frame_write_serial": {
+    "args0": [
+      null,
+      {
+        "options": "${board.serialPort}"
+      },
+      null
+    ],
+    "message0": "圖片幀 %1 寫入 %2 逾時毫秒 %3",
+    "tooltip": "將完整影像資料寫入串列埠，並傳回是否在逾時前完成"
+  },
+  "esp32cam_webserver_send_frame": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Web伺服器 %1 傳送影像影格 %2 逾時毫秒 %3",
+    "tooltip": "透過ESP32 WebServer目前客戶端傳送JPEG或BMP靜態影像"
+  },
+  "esp32cam_webserver_stream_mjpeg": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "Web伺服器 %1 推送 MJPEG 最小幀間隔 %2 最大幀數 %3 單幀逾時 %4",
+    "tooltip": "向ESP32 WebServer目前客戶端阻塞推送MJPEG，斷開後傳回已傳送幀數；最大幀數-1表示不限"
   }
 }

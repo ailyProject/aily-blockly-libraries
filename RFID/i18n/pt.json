@@ -6,57 +6,97 @@
     "数据操作": "Operações de dados",
     "控制": "controle"
   },
-  "blocks": {
-    "rfid_init": {
-      "message0": "Criar leitor RFID %1 SDA pino %2 RST pino %3",
-      "tooltip": "Crie um leitor MFRC522 e inicie SPI"
-    },
-    "rfid_is_card_present": {
-      "message0": "RFID %1 detecta se o cartão está presente",
-      "tooltip": "Verifique se um novo cartão RFID está próximo ao leitor"
-    },
-    "rfid_read_uid": {
-      "message0": "RFID %1 ler cartão UID",
-      "tooltip": "Leia o cartão UID e retorne-o como string hexadecimal"
-    },
-    "rfid_authenticate": {
-      "message0": "RFID %1 autenticar setor %2 tipo de chave %3 chave %4",
-      "tooltip": "Autentique a chave de acesso para o setor determinado",
-      "args0": [
-        null,
-        null,
-        [
+  "mfrc522_setup": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Inicialize o leitor RFID %1 endereço I2C %2",
+    "tooltip": "Inicialize MFRC522 leitor/gravador RFID, defina o endereço I2C e os pinos"
+  },
+  "mfrc522_is_new_card_present": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 RFID detecta novos cartões",
+    "tooltip": "Detectar se novos cartões RFID estão por perto"
+  },
+  "mfrc522_read_card_serial": {
+    "args0": [
+      null
+    ],
+    "message0": "O RFID %1 lê o número de série do cartão",
+    "tooltip": "Leia o número de série único do cartão RFID"
+  },
+  "mfrc522_read_uid": {
+    "args0": [
+      null
+    ],
+    "message0": "A %1 RFID obtém a string UID",
+    "tooltip": "Obtenha a string UID do cartão RFID"
+  },
+  "mfrc522_when_card_detected": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "Quando o RFID %1 detecta o cartão",
+    "message1": "executar %1",
+    "tooltip": "Um evento disparado quando um cartão RFID é detectado"
+  },
+  "mfrc522_authenticate": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
           [
-            "Chave A",
-            "PICC_CMD_MF_AUTH_KEY_A"
+            "Uma chave",
+            "A"
           ],
           [
-            "Chave B",
-            "PICC_CMD_MF_AUTH_KEY_B"
+            "Tecla B",
+            "B"
           ]
-        ],
-        null
-      ]
-    },
-    "rfid_read_block": {
-      "message0": "RFID %1 lê o bloco de dados %2",
-      "tooltip": "Leia o bloco de dados especificado e retorne a string hexadecimal"
-    },
-    "rfid_write_block": {
-      "message0": "RFID %1 gravar bloco de dados %2 dados %3",
-      "tooltip": "Escreva texto ou dados hexadecimais no bloco fornecido"
-    },
-    "rfid_halt": {
-      "message0": "RFID %1 interromper comunicação",
-      "tooltip": "Pare de se comunicar com o cartão atual e encerre a criptografia"
-    },
-    "rfid_get_uid_string": {
-      "message0": "RFID %1 obter string UID",
-      "tooltip": "Converta o UID armazenado em cache em string sem reler"
-    },
-    "rfid_uid_equals": {
-      "message0": "RFID %1 atual UID é igual a %2",
-      "tooltip": "Verifique se o UID armazenado em cache é igual ao valor fornecido"
-    }
+        ]
+      },
+      null
+    ],
+    "message0": "Setor %1%2 Autêntico RFID  Tipo %3 Chave %4",
+    "tooltip": "Setores designados para autenticação de cartões RFID"
+  },
+  "mfrc522_read_block": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Bloco de Leitura %1 RFID %2 para %3",
+    "tooltip": "Leia os dados do bloco especificado no array"
+  },
+  "mfrc522_write_block": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "O RFID %1 grava dados %2 para bloquear %3",
+    "tooltip": "Gravar dados em blocos especificados"
+  },
+  "mfrc522_halt_card": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 RFID interrompe a comunicação com cartões",
+    "tooltip": "Interrompa a comunicação com cartões RFID"
+  },
+  "mfrc522_get_data_string": {
+    "args0": [
+      null
+    ],
+    "message0": "Pegue a sequência hexadecimal de %1",
+    "tooltip": "Converter matrizes de dados RFID para formato hexadecimal de string (por exemplo, 48 65 6c 6c 6f)"
   }
 }

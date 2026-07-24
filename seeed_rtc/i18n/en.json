@@ -1,0 +1,269 @@
+{
+  "toolbox_name": "RTC",
+  "toolbox_labels": {
+    "DateTime": "DateTime",
+    "基础": "Basics",
+    "闹钟": "alarm clock"
+  },
+  "seeed_rtc_init": {
+    "args0": [
+      null
+    ],
+    "message0": "Initialize Seeed RTC %1",
+    "tooltip": "Create and initialize the Seeed SAMD21/SAMD51 built-in RTC object"
+  },
+  "seeed_rtc_datetime": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "Date Time Year %1 Month %2 Day %3 Hours %4 Minutes %5 Seconds %6",
+    "tooltip": "Construct a DateTime object with the year range 2000-2099"
+  },
+  "seeed_rtc_build_time": {
+    "message0": "Compilation time DateTime",
+    "tooltip": "Construct compile time using __DATE__ and __TIME__"
+  },
+  "seeed_rtc_set_time": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "%1 sets the RTC time to %2",
+    "tooltip": "Call adjust() to set the RTC current time"
+  },
+  "seeed_rtc_now": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 current time",
+    "tooltip": "Read RTC current DateTime"
+  },
+  "seeed_rtc_datetime_get": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "year",
+            "YEAR"
+          ],
+          [
+            "month",
+            "MONTH"
+          ],
+          [
+            "day",
+            "DAY"
+          ],
+          [
+            "time",
+            "HOUR"
+          ],
+          [
+            "points",
+            "MINUTE"
+          ],
+          [
+            "seconds",
+            "SECOND"
+          ],
+          [
+            "Week(0-6)",
+            "DAY_OF_WEEK"
+          ],
+          [
+            "12-hour clock",
+            "TWELVE_HOUR"
+          ],
+          [
+            "Is it afternoon",
+            "IS_PM"
+          ],
+          [
+            "Unix timestamp",
+            "UNIXTIME"
+          ],
+          [
+            "Seconds since 2000",
+            "SECONDSTIME"
+          ]
+        ]
+      }
+    ],
+    "message0": "Date and time %1 Get %2",
+    "tooltip": "Read the specified field from the DateTime object"
+  },
+  "seeed_rtc_timestamp": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "full date time",
+            "FULL"
+          ],
+          [
+            "only time",
+            "TIME"
+          ],
+          [
+            "Date only",
+            "DATE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Date and time %1 converted to %2 string",
+    "tooltip": "Call DateTime.timestamp() to output a string"
+  },
+  "seeed_rtc_is_valid": {
+    "args0": [
+      null
+    ],
+    "message0": "Date time %1 is valid",
+    "tooltip": "Check if DateTime is a valid datetime"
+  },
+  "seeed_rtc_set_alarm": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Alarm clock 0",
+            "0"
+          ],
+          [
+            "Alarm clock 1 (SAMD51)",
+            "1"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "%1 Set alarm %2 Time %3",
+    "tooltip": "Set the RTC alarm time, SAMD21 ignores the alarm number"
+  },
+  "seeed_rtc_get_alarm": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Alarm clock 0",
+            "0"
+          ],
+          [
+            "Alarm clock 1 (SAMD51)",
+            "1"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 Read alarm clock %2 time",
+    "tooltip": "Read RTC alarm DateTime, SAMD21 ignore alarm number"
+  },
+  "seeed_rtc_enable_alarm": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Alarm clock 0",
+            "0"
+          ],
+          [
+            "Alarm clock 1 (SAMD51)",
+            "1"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Close",
+            "MATCH_OFF"
+          ],
+          [
+            "per minute (seconds to match)",
+            "MATCH_SS"
+          ],
+          [
+            "Hourly (matching minutes and seconds)",
+            "MATCH_MMSS"
+          ],
+          [
+            "Every day (matching hours, minutes and seconds)",
+            "MATCH_HHMMSS"
+          ],
+          [
+            "Monthly (matching day, hour, minute and second)",
+            "MATCH_DHHMMSS"
+          ],
+          [
+            "Every year (matching month, day, hour, minute and second)",
+            "MATCH_MMDDHHMMSS"
+          ],
+          [
+            "Specify year, month, day, hour, minute and second",
+            "MATCH_YYMMDDHHMMSS"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 enables alarm %2 matches %3",
+    "tooltip": "Enable RTC alarm matching rules"
+  },
+  "seeed_rtc_disable_alarm": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Alarm clock 0",
+            "0"
+          ],
+          [
+            "Alarm clock 1 (SAMD51)",
+            "1"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 Turn off the alarm %2",
+    "tooltip": "Turn off the RTC alarm, SAMD21 ignores the alarm number"
+  },
+  "seeed_rtc_on_alarm": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "When %1 RTC alarm triggers",
+    "message1": "Execute %1",
+    "tooltip": "Register RTC alarm interrupt callback, SAMD51 can use trigger flag to distinguish alarm 0/1"
+  },
+  "seeed_rtc_alarm_flag": {
+    "message0": "RTC alarm trigger flag",
+    "tooltip": "SAMD21 returns 1; SAMD51 returns bit0/bit1 indicating alarm clock 0/1"
+  },
+  "seeed_rtc_detach_alarm": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Cancel alarm callback",
+    "tooltip": "Cancel RTC alarm interrupt callback"
+  },
+  "seeed_rtc_standby": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Enter standby mode",
+    "tooltip": "Call standbyMode() to enter low-power standby"
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "toolbox_name": "电机驱动板",
+  "toolbox_name": "Motor driver board",
   "toolbox_labels": {
     "初始化": "initialization",
     "直流电机": "DC motor",
@@ -7,14 +7,14 @@
     "步进电机": "stepper motor"
   },
   "emakefun_md_init": {
-    "message0": "初始化电机驱动板 %1 I2C地址 %2 PWM频率 %3",
-    "tooltip": "初始化Emakefun电机驱动板，通过I2C通信。使用舵机或直流电机选50Hz，使用步进电机选1600Hz",
+    "message0": "Initialize motor driver board %1 I2C address %2 PWM frequency %3",
+    "tooltip": "Initialize the Emakefun motor driver board and communicate via I2C. Choose 50Hz when using a servo or DC motor, and choose 1600Hz when using a stepper motor.",
     "args0": [
       null,
       {
         "options": [
           [
-            "0x60(默认)",
+            "0x60 (default)",
             "0x60"
           ],
           [
@@ -34,11 +34,11 @@
       {
         "options": [
           [
-            "50Hz(舵机/直流电机)",
+            "50Hz (servo/DC motor)",
             "50"
           ],
           [
-            "1600Hz(步进电机)",
+            "1600Hz(stepper motor)",
             "1600"
           ]
         ]
@@ -46,8 +46,8 @@
     ]
   },
   "emakefun_md_dc_run": {
-    "message0": "电机驱动 %1 直流电机 %2 速度 %3 方向 %4",
-    "tooltip": "设置直流电机速度(0-255)和方向。正转:FORWARD，反转:BACKWARD",
+    "message0": "Motor Drive %1 DC Motor %2 Speed %3 Direction %4",
+    "tooltip": "Set DC motor speed (0-255) and direction. Forward rotation: FORWARD, reverse rotation: BACKWARD",
     "args0": [
       null,
       {
@@ -74,11 +74,11 @@
       {
         "options": [
           [
-            "正转",
+            "Forward rotation",
             "FORWARD"
           ],
           [
-            "反转",
+            "reverse",
             "BACKWARD"
           ]
         ]
@@ -86,8 +86,8 @@
     ]
   },
   "emakefun_md_dc_stop": {
-    "message0": "电机驱动 %1 直流电机 %2 %3",
-    "tooltip": "停止直流电机。刹车:立即停止并锁定电机；释放:切断电源使电机自由转动",
+    "message0": "Motor drive %1 DC motor %2 %3",
+    "tooltip": "Stop the DC motor. Brake: Stop and lock the motor immediately; Release: Cut off the power and allow the motor to rotate freely.",
     "args0": [
       null,
       {
@@ -113,11 +113,11 @@
       {
         "options": [
           [
-            "刹车",
+            "brake",
             "BRAKE"
           ],
           [
-            "释放",
+            "release",
             "RELEASE"
           ]
         ]
@@ -125,8 +125,8 @@
     ]
   },
   "emakefun_md_servo_write": {
-    "message0": "电机驱动 %1 舵机 %2 转到角度 %3",
-    "tooltip": "设置舵机转到指定角度(0-180度)",
+    "message0": "Motor drive %1 Servo %2 Turn angle %3",
+    "tooltip": "Set the servo to the specified angle (0-180 degrees)",
     "args0": [
       null,
       {
@@ -169,8 +169,8 @@
     ]
   },
   "emakefun_md_servo_write_speed": {
-    "message0": "电机驱动 %1 舵机 %2 转到角度 %3 速度 %4",
-    "tooltip": "以指定速度(1-10)转动舵机到目标角度(0-180)。速度10最快，1最慢",
+    "message0": "Motor drive %1 Servo %2 Turn angle %3 Speed %4",
+    "tooltip": "Turn the servo to the target angle (0-180) at the specified speed (1-10). Speed 10 is the fastest, 1 is the slowest",
     "args0": [
       null,
       {
@@ -214,8 +214,8 @@
     ]
   },
   "emakefun_md_servo_read": {
-    "message0": "电机驱动 %1 舵机 %2 当前角度",
-    "tooltip": "读取舵机当前角度值",
+    "message0": "Motor drive %1 Servo %2 Current angle",
+    "tooltip": "Read the current angle value of the servo",
     "args0": [
       null,
       {
@@ -257,8 +257,8 @@
     ]
   },
   "emakefun_md_stepper_speed": {
-    "message0": "电机驱动 %1 步进电机 %2 设置速度 %3 RPM",
-    "tooltip": "设置步进电机转速(RPM)，需在步进运动前调用",
+    "message0": "Motor Drive %1 Stepper Motor %2 Set Speed %3 RPM",
+    "tooltip": "Set the stepper motor speed (RPM), which needs to be called before stepping movement",
     "args0": [
       null,
       {
@@ -277,8 +277,8 @@
     ]
   },
   "emakefun_md_stepper_step": {
-    "message0": "电机驱动 %1 步进电机 %2 运动 %3 步 方向 %4 模式 %5",
-    "tooltip": "步进电机运动指定步数。标准步进电机200步=1圈。单步:精度高；双步:力矩大；交错:精度更高；微步:最平滑",
+    "message0": "Motor Drive %1 Stepper Motor %2 Motion %3 Step Direction %4 Mode %5",
+    "tooltip": "The stepper motor moves a specified number of steps. A standard stepper motor has 200 steps = 1 revolution. Single step: high precision; double step: large torque; interleaved: higher precision; micro-step: the smoothest",
     "args0": [
       null,
       {
@@ -297,11 +297,11 @@
       {
         "options": [
           [
-            "正转",
+            "Forward rotation",
             "FORWARD"
           ],
           [
-            "反转",
+            "reverse",
             "BACKWARD"
           ]
         ]
@@ -309,19 +309,19 @@
       {
         "options": [
           [
-            "单步",
+            "single step",
             "SINGLE"
           ],
           [
-            "双步",
+            "double step",
             "DOUBLE"
           ],
           [
-            "交错",
+            "staggered",
             "INTERLEAVE"
           ],
           [
-            "微步",
+            "micro step",
             "MICROSTEP"
           ]
         ]
@@ -329,8 +329,8 @@
     ]
   },
   "emakefun_md_stepper_release": {
-    "message0": "电机驱动 %1 释放步进电机 %2",
-    "tooltip": "释放步进电机，断电使电机自由转动，减少功耗和发热",
+    "message0": "Motor driver %1 releases stepper motor %2",
+    "tooltip": "Release the stepper motor, and the power is turned off to allow the motor to rotate freely, reducing power consumption and heat generation.",
     "args0": [
       null,
       {

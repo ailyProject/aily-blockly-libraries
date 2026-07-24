@@ -1,0 +1,163 @@
+{
+  "toolbox_name": "ADS1115 ADC",
+  "toolbox_labels": {
+    "初始化与配置": "Initialization and configuration",
+    "数据读取": "Data reading"
+  },
+  "ads1115_init": {
+    "args0": [
+      {
+        "options": [
+          [
+            "0x48 (ADDR connected to GND)",
+            "ADS1115_GND_ADDRESS"
+          ],
+          [
+            "0x49 (ADDR connected to VDD)",
+            "ADS1115_VDD_ADDRESS"
+          ],
+          [
+            "0x4A (ADDR connected to SDA)",
+            "ADS1115_SDA_ADDRESS"
+          ],
+          [
+            "0x4B (ADDR connected to SCL)",
+            "ADS1115_SCL_ADDRESS"
+          ]
+        ]
+      }
+    ],
+    "message0": "Initialize ADS1115 I2C address %1",
+    "tooltip": "Initialize the ADS1115 16-bit ADC module and set the I2C address"
+  },
+  "ads1115_set_gain": {
+    "args0": [
+      {
+        "options": [
+          [
+            "±6.144V",
+            "ADS1115_PGA_6_144"
+          ],
+          [
+            "±4.096V",
+            "ADS1115_PGA_4_096"
+          ],
+          [
+            "±2.048V (default)",
+            "ADS1115_PGA_2_048"
+          ],
+          [
+            "±1.024V",
+            "ADS1115_PGA_1_024"
+          ],
+          [
+            "±0.512V",
+            "ADS1115_PGA_0_512"
+          ],
+          [
+            "±0.256V",
+            "ADS1115_PGA_0_256"
+          ]
+        ]
+      }
+    ],
+    "message0": "Set gain range %1",
+    "tooltip": "Set the programmable gain amplifier (PGA) range"
+  },
+  "ads1115_read_raw": {
+    "args0": [
+      {
+        "options": [
+          [
+            "AIN0 (single-ended)",
+            "channel0"
+          ],
+          [
+            "AIN1 (single-ended)",
+            "channel1"
+          ],
+          [
+            "AIN2 (single-ended)",
+            "channel2"
+          ],
+          [
+            "AIN3 (single-ended)",
+            "channel3"
+          ],
+          [
+            "AIN0-AIN1 (differential)",
+            "channel01"
+          ],
+          [
+            "AIN0-AIN3 (differential)",
+            "channel03"
+          ],
+          [
+            "AIN1-AIN3 (differential)",
+            "channel13"
+          ],
+          [
+            "AIN2-AIN3 (differential)",
+            "channel23"
+          ]
+        ]
+      }
+    ],
+    "message0": "Read channel %1 raw value",
+    "tooltip": "Read the raw ADC value of the specified channel (16-bit signed integer)"
+  },
+  "ads1115_read_voltage": {
+    "args0": [
+      {
+        "options": [
+          [
+            "AIN0 (single-ended)",
+            "channel0"
+          ],
+          [
+            "AIN1 (single-ended)",
+            "channel1"
+          ],
+          [
+            "AIN2 (single-ended)",
+            "channel2"
+          ],
+          [
+            "AIN3 (single-ended)",
+            "channel3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "±6.144V",
+            "6.144"
+          ],
+          [
+            "±4.096V",
+            "4.096"
+          ],
+          [
+            "±2.048V (default)",
+            "2.048"
+          ],
+          [
+            "±1.024V",
+            "1.024"
+          ],
+          [
+            "±0.512V",
+            "0.512"
+          ],
+          [
+            "±0.256V",
+            "0.256"
+          ]
+        ]
+      }
+    ],
+    "message0": "Read channel %1 Voltage (V) Range %2",
+    "tooltip": "Read the voltage value (volts) of the specified channel"
+  }
+}

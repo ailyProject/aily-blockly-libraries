@@ -1,0 +1,666 @@
+{
+  "toolbox_name": "Astra UI",
+  "toolbox_labels": {
+    "初始化与页面": "Inicialização com a página",
+    "菜单控件": "Controles de menu",
+    "控件数据与外观": "Dados de controle e aparência",
+    "主题与行为": "Tema e comportamento",
+    "按键与自定义输入": "Teclas e entrada personalizada",
+    "界面控制": "Controle de interface",
+    "状态查询": "Consulta de status",
+    "事件": "Events"
+  },
+  "astraui_init": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "Inicialize o %1 do AstraUI usando objetos U8g2 %2 página raiz %3 exibição inicializada %4",
+    "message1": "Configuração de Página, Controle e Entrada %1",
+    "tooltip": "Crie o U8g2Canvas e a interface, crie o menu, abra a interface e ele vai atualizar automaticamente no loop. O U8G2 deve usar o modo buffer completo."
+  },
+  "astraui_create_page": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "lista",
+            "List"
+          ],
+          [
+            "Adesivos magnéticos",
+            "Tile"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "Crie uma página %1 título %2 layout %3 ID %4",
+    "tooltip": "Crie páginas do AstraUI com ciclos completos de vida do programa. Por favor, crie todas as páginas primeiro, depois crie os controles do submenu."
+  },
+  "astraui_create_action": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "Adicionar %1 de ação à página %2 Texto %3 ID %4",
+    "message1": "Executar ao ser ativado %1",
+    "tooltip": "Adicionar itens do tipo comando no menu; Quando o usuário ativa esse item, ele executa o bloqueio interno."
+  },
+  "astraui_create_submenu": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "Adicionar itens de submenu %1 à página %2 texto %3 página alvo %4 ID %5",
+    "tooltip": "Adicione uma entrada no submenu que abra outra página. A página alvo deve ser criada primeiro."
+  },
+  "astraui_create_toggle": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "Adicionar %1 de alternância à página %2 texto %3 variável de dados %4 valor inicial %5 ID %6",
+    "message1": "Executa quando valores change%1",
+    "tooltip": "Adicione um controle de switch que vincule variáveis de dados globais bool."
+  },
+  "astraui_create_slider": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "args2": [
+      null
+    ],
+    "message0": "Adicionar %1 de item deslizante à página %2 texto %3 variável de dados %4 ID %5",
+    "message1": "Valor inicial %1 Mínimo %2 Máximo %3 Passo %4 Sufixo %5",
+    "message2": "Executa quando valores change%1",
+    "tooltip": "Adicione um controle deslizante de int32_t intervalo limitado para variáveis de dados globais."
+  },
+  "astraui_create_choice": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null,
+      null
+    ],
+    "args2": [
+      null
+    ],
+    "message0": "Adicionar opções %1 à página %2 texto %3 variável de dados %4 ID %5",
+    "message1": "Opções separadas por vírgulas %1 Índice inicial %2",
+    "message2": "Executa quando valores change%1",
+    "tooltip": "Adicione um controle de seleção de loop. As opções são separadas por vírgulas em inglês, e as variáveis de dados são salvas no índice atual."
+  },
+  "astraui_create_value": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Um inteiro com sinal",
+            "int32_t"
+          ],
+          [
+            "inteiro sem sinal",
+            "uint32_t"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ],
+    "message0": "Adicionar itens de valor somente leitura %1 à página %2 texto %3 variável de dados %4 tipo %5 valor inicial %6 sufixo %7 ID %8",
+    "tooltip": "Adiciona itens de estado somente leitura que leem variáveis inteiras globais a partir de callbacks formatados."
+  },
+  "astraui_create_separator": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "Adicionar %1 delimitador à página %2 texto %3 ID %4",
+    "tooltip": "Adicione cabeçalhos ou divisores de partição não focáveis."
+  },
+  "astraui_set_data_value": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Defina a variável de dados do AstraUI %1 para %2 e atualize %3",
+    "tooltip": "Atualize as variáveis de dados vinculadas a switches, controles deslizantes, opções ou valores somente leitura, e solicite redesenhos."
+  },
+  "astraui_data_value": {
+    "args0": [
+      null
+    ],
+    "message0": "Variáveis de Dados AstraUI %1",
+    "tooltip": "Variáveis de dados de leitura vinculadas a switches, controles deslizantes, opções ou itens numéricos somente leitura."
+  },
+  "astraui_set_item_state": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Habilitar",
+            "setEnabled"
+          ],
+          [
+            "Pode-se ver que",
+            "setVisible"
+          ],
+          [
+            "Focalizável",
+            "setFocusable"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "message0": "Controle %1 Defina %2 para %3 e atualizar %4",
+    "tooltip": "Alterne o estado ativado, exibido ou focalizável dos controles em tempo de execução e solicite o redesenho."
+  },
+  "astraui_set_item_label": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Controle %1 Defina %2 de texto e atualize %3",
+    "tooltip": "Substitua o texto de controle por constantes de string válidas durante todo o ciclo de vida do programa."
+  },
+  "astraui_set_item_icon": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 de controle Defina o array de ícones do XBM %2 largura %3 altura %4 e atualize %5",
+    "tooltip": "Configurar um array de bitmap XBM existente para controles, comumente usado para páginas de tile."
+  },
+  "astraui_set_page_options": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Siga o quadro geral",
+            "GLOBAL"
+          ],
+          [
+            "Exibição",
+            "TRUE"
+          ],
+          [
+            "hide",
+            "FALSE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Siga o quadro geral",
+            "GLOBAL"
+          ],
+          [
+            "Habilitar",
+            "TRUE"
+          ],
+          [
+            "Desabilitar",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Barra de Título da Página %1 %2 Navegação em Loop %3",
+    "tooltip": "Sobreponha a barra de título e as configurações circulares de navegação para uma única página."
+  },
+  "astraui_set_theme": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Escuro",
+            "FALSE"
+          ],
+          [
+            "Cor clara",
+            "TRUE"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "texto",
+            "Text"
+          ],
+          [
+            "Linha completa",
+            "Row"
+          ]
+        ]
+      }
+    ],
+    "message0": "AstraUI %1 Themes%2 Mostrar títulos de páginas %3 Mostrar barra de rolagem %4 Mostrar rodapés de tile %5 Selecionar largura da caixa %6",
+    "tooltip": "Defina a aparência de temas frequentemente usados. Ele deve ser colocado dentro do bloco de inicialização do AstraUI, após a declaração de controle."
+  },
+  "astraui_set_layout_metrics": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "AstraUI %1 Margem da tela do layout %2 Altura do título %3 Altura da linha da lista %4 Largura dos blocos %5 Largura dos ícones %6 Altura dos ícones %7",
+    "tooltip": "Ajuste o tamanho principal de listas, títulos e blocos para se adaptar facilmente a telas 128x32 ou personalizadas."
+  },
+  "astraui_set_motion": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Suave",
+            "Gentle"
+          ],
+          [
+            "Swift",
+            "Snappy"
+          ],
+          [
+            "Elasticidade",
+            "Bouncy"
+          ],
+          [
+            "Reduzir animação",
+            "Reduced"
+          ]
+        ]
+      }
+    ],
+    "message0": "Presets de animação %1 do AstraUI %2",
+    "tooltip": "Um conjunto de parâmetros calibrados de animação de mola é aplicado."
+  },
+  "astraui_set_behavior": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null,
+      null,
+      null
+    ],
+    "message0": "AstraUI %1 Comportamentos Navegação por Loop %2 Pular Itens Desabilitados %3 Lembrar o Foco %4 Reverter ao retornar %5",
+    "message1": "Renderização contínua %1 intervalo de atualização ociosa %2 milissegundos, duração de tosta %3 milissegundos",
+    "tooltip": "Defina estratégias de navegação, edição e atualização. A página de status dinâmico pode ser atualizada usando uma atualização de baixa frequência ociosa."
+  },
+  "astraui_create_two_button": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "nivel baixo",
+            "LOW"
+          ],
+          [
+            "nivel alto",
+            "HIGH"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Puxe para dentro",
+            "INPUT_PULLUP"
+          ],
+          [
+            "Entrada regular",
+            "INPUT"
+          ],
+          [
+            "Puxe para baixo por dentro",
+            "INPUT_PULLDOWN"
+          ]
+        ]
+      }
+    ],
+    "message0": "Crie entradas de tecla dupla %1 Controle %2 pino anterior %3 Próximo pino %4 Nível efetivo %5 modo pino %6",
+    "tooltip": "Pressione curta para frente e para trás navegação; Pressione a tecla anterior para retornar, depois a próxima para ativar. Inicializa e escaneia automaticamente em loops."
+  },
+  "astraui_create_three_button": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "nivel baixo",
+            "LOW"
+          ],
+          [
+            "nivel alto",
+            "HIGH"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Puxe para dentro",
+            "INPUT_PULLUP"
+          ],
+          [
+            "Entrada regular",
+            "INPUT"
+          ],
+          [
+            "Puxe para baixo por dentro",
+            "INPUT_PULLDOWN"
+          ]
+        ]
+      }
+    ],
+    "message0": "Crie entrada de três teclas, %1 controle, %2 %3 anterior, próximo %4, confirmar, %5 nível ativo, modo %6 pino %7",
+    "tooltip": "Botões para frente e para trás suportam pressão longa para disparo contínuo, tecla de confirmação para ativar com pressão curta e retorno com pressão longa; Escaneia automaticamente em loops."
+  },
+  "astraui_set_button_timing": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "Pressione a tecla para %1 estabilizar %2 segure %3 latência de rajada %4 intervalo de rajada %5 milissegundos",
+    "tooltip": "Ajuste a estabilização dos botões, segure o pressionamento e o tempo automático de disparo em rajada."
+  },
+  "astraui_dispatch": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Anterior/Diminuição",
+            "Previous"
+          ],
+          [
+            "Próximo/Ampliar",
+            "Next"
+          ],
+          [
+            "Ativar/Confirmar",
+            "Activate"
+          ],
+          [
+            "retornar",
+            "Back"
+          ],
+          [
+            "Diminuição",
+            "Decrement"
+          ],
+          [
+            "Ampliado",
+            "Increment"
+          ],
+          [
+            "Início",
+            "Home"
+          ]
+        ]
+      }
+    ],
+    "message0": "AstraUI %1 Enviar Operações de Entrada %2",
+    "tooltip": "Entrada semântica injetada, adequada para codificadores, portas seriais, touchdown ou teclas personalizadas."
+  },
+  "astraui_show_toast": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Prompt de exibição %1 AstraUI %2 Duração: %3 milissegundos (0 usa o padrão)",
+    "tooltip": "Um prompt de toast não bloqueador será exibido na interface."
+  },
+  "astraui_ui_command": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Solicite um novo desenho",
+            "invalidate"
+          ],
+          [
+            "Renderize imediatamente",
+            "renderNow"
+          ],
+          [
+            "Desligue os prompts",
+            "dismissToast"
+          ],
+          [
+            "Voltar para a página anterior",
+            "back"
+          ],
+          [
+            "Voltar para a página inicial",
+            "home"
+          ]
+        ]
+      }
+    ],
+    "message0": "AstraUI %1 Execução %2",
+    "tooltip": "Execute comandos comuns de controle de interface."
+  },
+  "astraui_open_page": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "AstraUI %1 Página Aberta %2",
+    "tooltip": "Abra a página especificada programaticamente."
+  },
+  "astraui_focus": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "AstraUI %1 Focus Index %2 Usando Animação %3",
+    "tooltip": "Foque a página atual no índice de controle original especificado."
+  },
+  "astraui_set_power_save": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "AstraUI %1 Controle de Economia de Energia %2",
+    "tooltip": "Ligue ou desligue o modo de economia de energia do monitor."
+  },
+  "astraui_status": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Ativado",
+            "isBegun"
+          ],
+          [
+            "Editando agora",
+            "editing"
+          ],
+          [
+            "Transição em andamento",
+            "transitioning"
+          ]
+        ]
+      }
+    ],
+    "message0": "O AstraUI é %1 %2",
+    "tooltip": "Verifique se a interface está iniciada, editando ou mudando de página."
+  },
+  "astraui_focus_index": {
+    "args0": [
+      null
+    ],
+    "message0": "Índice de Foco Atual %1 AstraUI",
+    "tooltip": "Retorna o índice de foco original da página atual."
+  },
+  "astraui_navigation_depth": {
+    "args0": [
+      null
+    ],
+    "message0": "AstraUI %1 Profundidade atual de navegação",
+    "tooltip": "Voltar à profundidade da pilha de navegação de páginas."
+  },
+  "astraui_current_item_id": {
+    "args0": [
+      null
+    ],
+    "message0": "ID de controle atual do AstraUI %1",
+    "tooltip": "Retorna o ID de controle atual; Retorna 0 quando não há controle atual."
+  },
+  "astraui_begin_result_message": {
+    "args0": [
+      null
+    ],
+    "message0": "Texto do resultado de lançamento do AstraUI %1",
+    "tooltip": "Retorna o resultado legível mais recente do Begin, como um erro no modo buffer completo."
+  },
+  "astraui_when_event": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "Quando ocorre um evento quando o AstraUI %1",
+    "message1": "executar %1",
+    "tooltip": "Registre o manipulador global de eventos AstraUI. Internamente, podem ser usados blocos de julgamento de eventos e de valor."
+  },
+  "astraui_event_is": {
+    "args0": [
+      {
+        "options": [
+          [
+            "O foco muda",
+            "FocusChanged"
+          ],
+          [
+            "Ativado",
+            "Activated"
+          ],
+          [
+            "Os valores mudam",
+            "ValueChanged"
+          ],
+          [
+            "Comece a editar",
+            "EditStarted"
+          ],
+          [
+            "Submeter para edição",
+            "EditCommitted"
+          ],
+          [
+            "Deseditar",
+            "EditCancelled"
+          ],
+          [
+            "Vá para a página",
+            "PageEntered"
+          ],
+          [
+            "Saia da página",
+            "PageExited"
+          ]
+        ]
+      }
+    ],
+    "message0": "O evento atual do AstraUI é %1",
+    "tooltip": "Só pode ser usado dentro dos blocos de gerenciamento de eventos do AstraUI."
+  },
+  "astraui_event_value": {
+    "message0": "Valores atuais de eventos do AstraUI",
+    "tooltip": "Retorna o valor carregado pelo evento atual; Só pode ser usado dentro de blocos de gerenciamento de eventos."
+  },
+  "astraui_event_item_id": {
+    "message0": "ID de controle de evento atual do AstraUI",
+    "tooltip": "Retorna o ID de controle de evento atual; Retorna 0 quando não há controles. Só pode ser usado dentro de blocos de gerenciamento de eventos."
+  },
+  "astraui_event_page_id": {
+    "message0": "ID de página de evento do AstraUI atual",
+    "tooltip": "Retorna o ID da página do evento atual; Retorna 0 quando não há páginas. Só pode ser usado dentro de blocos de gerenciamento de eventos."
+  }
+}

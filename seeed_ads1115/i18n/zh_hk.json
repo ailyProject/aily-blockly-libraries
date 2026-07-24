@@ -1,0 +1,163 @@
+{
+  "toolbox_name": "ADS1115 ADC",
+  "toolbox_labels": {
+    "初始化与配置": "初始化與配置",
+    "数据读取": "資料讀取"
+  },
+  "ads1115_init": {
+    "args0": [
+      {
+        "options": [
+          [
+            "0x48（從ADDR到GND）",
+            "ADS1115_GND_ADDRESS"
+          ],
+          [
+            "0x49（從ADDR到VDD）",
+            "ADS1115_VDD_ADDRESS"
+          ],
+          [
+            "0x4A（從ADDR到SDA）",
+            "ADS1115_SDA_ADDRESS"
+          ],
+          [
+            "0x4B（ADDR轉為SCL）",
+            "ADS1115_SCL_ADDRESS"
+          ]
+        ]
+      }
+    ],
+    "message0": "初始化ADS1115 I2C位址 %1",
+    "tooltip": "初始化ADS1115 16位元ADC模組，設定I2C位址"
+  },
+  "ads1115_set_gain": {
+    "args0": [
+      {
+        "options": [
+          [
+            "±6.144V",
+            "ADS1115_PGA_6_144"
+          ],
+          [
+            "±4.096V",
+            "ADS1115_PGA_4_096"
+          ],
+          [
+            "±2.048V (預設)",
+            "ADS1115_PGA_2_048"
+          ],
+          [
+            "±1.024V",
+            "ADS1115_PGA_1_024"
+          ],
+          [
+            "±0.512V",
+            "ADS1115_PGA_0_512"
+          ],
+          [
+            "±0.256V",
+            "ADS1115_PGA_0_256"
+          ]
+        ]
+      }
+    ],
+    "message0": "設定增益量程 %1",
+    "tooltip": "設定可程式增益放大器（PGA）量程"
+  },
+  "ads1115_read_raw": {
+    "args0": [
+      {
+        "options": [
+          [
+            "AIN0 (單端)",
+            "channel0"
+          ],
+          [
+            "AIN1 (單端)",
+            "channel1"
+          ],
+          [
+            "AIN2 (單端)",
+            "channel2"
+          ],
+          [
+            "AIN3 (單端)",
+            "channel3"
+          ],
+          [
+            "AIN0-AIN1（差異）",
+            "channel01"
+          ],
+          [
+            "AIN0-AIN3（差異）",
+            "channel03"
+          ],
+          [
+            "AIN1-AIN3（差異）",
+            "channel13"
+          ],
+          [
+            "AIN2-AIN3（差異）",
+            "channel23"
+          ]
+        ]
+      }
+    ],
+    "message0": "讀取通道 %1 原始值",
+    "tooltip": "讀取指定通道的原始ADC值（16位元有符號整數）"
+  },
+  "ads1115_read_voltage": {
+    "args0": [
+      {
+        "options": [
+          [
+            "AIN0 (單端)",
+            "channel0"
+          ],
+          [
+            "AIN1 (單端)",
+            "channel1"
+          ],
+          [
+            "AIN2 (單端)",
+            "channel2"
+          ],
+          [
+            "AIN3 (單端)",
+            "channel3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "±6.144V",
+            "6.144"
+          ],
+          [
+            "±4.096V",
+            "4.096"
+          ],
+          [
+            "±2.048V (預設)",
+            "2.048"
+          ],
+          [
+            "±1.024V",
+            "1.024"
+          ],
+          [
+            "±0.512V",
+            "0.512"
+          ],
+          [
+            "±0.256V",
+            "0.256"
+          ]
+        ]
+      }
+    ],
+    "message0": "讀取通道 %1 電壓 (V) 量程 %2",
+    "tooltip": "讀取指定通道的電壓值（伏特）"
+  }
+}

@@ -1,6 +1,13 @@
 {
   "toolbox_name": "GxEPD2 电子墨水屏",
-  "toolbox_categories": ["初始化", "分页刷新", "图形绘制", "文字", "状态与颜色"],
+  "toolbox_categories": [
+    "初始化",
+    "分页刷新",
+    "图形绘制",
+    "文字",
+    "状态与颜色",
+    "中文文字 (U8g2)"
+  ],
   "gxepd2_setup": {
     "message0": "初始化电子墨水屏 %1 屏幕 %2 CS %3 DC %4 RST %5 BUSY %6 串口诊断 %7 复位 %8 首次刷新 %9 复位下拉 %10",
     "tooltip": "创建并初始化一个 GxEPD2 电子墨水屏对象。"
@@ -81,5 +88,125 @@
   "gxepd2_color": {
     "message0": "电子墨水屏颜色 %1",
     "tooltip": "GxEPD2 颜色常量。"
+  },
+  "gxepd2_u8g2_begin": {
+    "message0": "中文字体引擎 绑定到 %1",
+    "tooltip": "初始化 U8g2 中文字体引擎并绑定到墨水屏（整个程序用一次即可）",
+    "args0": [
+      null
+    ]
+  },
+  "gxepd2_u8g2_font": {
+    "message0": "中文字体 %1",
+    "tooltip": "设置文字字体（中文用文泉驿 wqy 字体）",
+    "args0": [
+      {
+        "options": [
+          [
+            "中文 12号",
+            "u8g2_font_wqy12_t_gb2312a"
+          ],
+          [
+            "中文 14号",
+            "u8g2_font_wqy14_t_gb2312a"
+          ],
+          [
+            "中文 16号",
+            "u8g2_font_wqy16_t_gb2312a"
+          ],
+          [
+            "英文 6x12",
+            "u8g2_font_6x12_tf"
+          ],
+          [
+            "英文 10x20",
+            "u8g2_font_10x20_tf"
+          ]
+        ]
+      }
+    ]
+  },
+  "gxepd2_u8g2_color": {
+    "message0": "中文文字 前景 %1 背景 %2",
+    "tooltip": "设置文字前景色与背景色",
+    "args0": [
+      {
+        "options": [
+          [
+            "黑",
+            "GxEPD_BLACK"
+          ],
+          [
+            "白",
+            "GxEPD_WHITE"
+          ],
+          [
+            "红",
+            "GxEPD_RED"
+          ],
+          [
+            "黄",
+            "GxEPD_YELLOW"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "白",
+            "GxEPD_WHITE"
+          ],
+          [
+            "黑",
+            "GxEPD_BLACK"
+          ],
+          [
+            "红",
+            "GxEPD_RED"
+          ],
+          [
+            "黄",
+            "GxEPD_YELLOW"
+          ]
+        ]
+      }
+    ]
+  },
+  "gxepd2_u8g2_mode": {
+    "message0": "中文文字 背景模式 %1",
+    "tooltip": "透明只画文字；实心会填充背景色（黑底白字/红底白字需要实心）",
+    "args0": [
+      {
+        "options": [
+          [
+            "透明（只画字）",
+            "1"
+          ],
+          [
+            "实心（填背景）",
+            "0"
+          ]
+        ]
+      }
+    ]
+  },
+  "gxepd2_u8g2_text": {
+    "message0": "中文文字 在 X %1 Y %2 显示 %3",
+    "tooltip": "在指定坐标显示文字（支持中文 UTF-8）；坐标是文字左下角基线",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "gxepd2_spi_pins": {
+    "message0": "重映射 SPI 引脚 SCK %1 MISO %2 MOSI %3 CS %4",
+    "tooltip": "自定义 SPI 引脚（ESP32 / ESP32-C3 用）；放在“初始化墨水屏”之后。墨水屏不用 MISO，可随便填一个空脚",
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ]
   }
 }

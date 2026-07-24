@@ -1,31 +1,31 @@
 {
   "toolbox_name": "AS3935",
   "as3935_init_i2c": {
-    "message0": "初始化 AS3935 I2C %1 地址 %2",
-    "tooltip": "初始化 AS3935 %1 I2C 地址 %2 中斷腳位 %3"
+    "message0": "初始化 AS3935 I2C %1 位址 %2",
+    "tooltip": "透過 I2C 建立並初始化 AS3935 閃電偵測器"
   },
   "as3935_init_spi": {
     "message0": "初始化 AS3935 SPI %1 CS %2",
-    "tooltip": "初始化 AS3935 %1 SPI CS %2 中斷腳位 %3"
+    "tooltip": "透過 SPI 建立並初始化 AS3935 閃電偵測器"
   },
   "as3935_is_ready": {
     "message0": "AS3935 %1 已初始化",
-    "tooltip": "AS3935 %1 已初始化"
+    "tooltip": "返回初始化塊保存的 AS3935 初始化狀態"
   },
   "as3935_set_environment": {
     "message0": "AS3935 %1 環境 %2",
-    "tooltip": "AS3935 %1 環境 %2",
+    "tooltip": "設定 AS3935 室內/室外靈敏度配置",
     "args0": [
       null,
       {
         "options": [
           [
             "室內",
-            "AS3935_INDOOR"
+            "INDOOR"
           ],
           [
-            "室外",
-            "AS3935_OUTDOOR"
+            "戶外活動",
+            "OUTDOOR"
           ]
         ]
       }
@@ -33,45 +33,46 @@
   },
   "as3935_read_interrupt": {
     "message0": "AS3935 %1 讀取中斷源",
-    "tooltip": "AS3935 %1 讀取中斷源"
+    "tooltip": "讀取中斷狀態：LIGHTNING、DISTURBER_DETECT 或 NOISE_TO_HIGH"
   },
   "as3935_distance": {
     "message0": "AS3935 %1 閃電距離 km",
-    "tooltip": "AS3935 %1 閃電距離 km"
+    "tooltip": "讀取風暴距離估計，單位 km"
   },
   "as3935_energy": {
     "message0": "AS3935 %1 閃電能量",
-    "tooltip": "AS3935 %1 閃電能量"
+    "tooltip": "讀取最近閃電事件的 20 位元能量值"
   },
   "as3935_set_watchdog": {
     "message0": "設定 AS3935 %1 看門狗閾值 %2",
-    "tooltip": "設定 AS3935 %1 看門狗閾值 %2"
+    "tooltip": "設定事件看門狗閾值，通常 1-10"
   },
   "as3935_set_noise": {
     "message0": "設定 AS3935 %1 噪聲等級 %2",
-    "tooltip": "設定 AS3935 %1 噪聲等級 %2"
+    "tooltip": "設定噪音閾值，範圍 0-7"
   },
   "as3935_set_spike": {
     "message0": "設定 AS3935 %1 尖峰抑制 %2",
-    "tooltip": "設定 AS3935 %1 尖峰抑制 %2"
+    "tooltip": "設定尖峰拒絕強度，範圍 0-15"
   },
   "as3935_set_lightning_threshold": {
     "message0": "設定 AS3935 %1 閃電閾值 %2",
-    "tooltip": "設定 AS3935 %1 閃電閾值 %2"
+    "tooltip": "設定觸發中斷所需的閃電事件數"
   },
   "as3935_mask_disturber": {
     "message0": "AS3935 %1 屏蔽干擾 %2",
-    "tooltip": "AS3935 %1 屏蔽干擾 %2",
+    "tooltip": "啟用或關閉乾擾事件屏蔽",
     "args0": [
+      null,
       {
         "options": [
           [
-            "開",
-            "ON"
+            "開啟",
+            "true"
           ],
           [
-            "關",
-            "OFF"
+            "關閉",
+            "false"
           ]
         ]
       }
@@ -79,6 +80,6 @@
   },
   "as3935_calibrate": {
     "message0": "AS3935 %1 校準",
-    "tooltip": "AS3935 %1 校準"
+    "tooltip": "校準 AS3935 內部振盪器"
   }
 }

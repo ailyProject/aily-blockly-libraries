@@ -1,5 +1,5 @@
 {
-  "toolbox_name": "eModbus通信",
+  "toolbox_name": "Comunicación eModbus",
   "toolbox_labels": {
     "RTU客户端": "cliente RTU",
     "TCP客户端": "Cliente TCP",
@@ -15,8 +15,8 @@
     "服务器功能": "Funciones del servidor"
   },
   "emodbus_rtu_client_create": {
-    "message0": "创建Modbus RTU客户端 %1 RS485控制引脚 %2",
-    "tooltip": "创建Modbus RTU客户端实例，需要指定RS485模块的DE/RE控制引脚",
+    "message0": "Crear cliente RTU Modbus %1 pin de control RS485 %2",
+    "tooltip": "Para crear una instancia cliente Modbus RTU, necesitas especificar los pines de control DE/RE del módulo RS485",
     "args0": [
       null,
       {
@@ -25,8 +25,8 @@
     ]
   },
   "emodbus_rtu_client_begin": {
-    "message0": "启动RTU客户端 %1 串口 %2 波特率 %3 RX引脚 %4 TX引脚 %5",
-    "tooltip": "启动Modbus RTU客户端，配置串口和引脚",
+    "message0": "Cliente RTU de arranque %1 puerto serie %2 velocidad de baudios %3 PIN RX %4 PIN TX %5",
+    "tooltip": "Inicia el cliente Modbus RTU, configura el puerto serial y los pines",
     "args0": [
       null,
       {
@@ -74,100 +74,102 @@
     ]
   },
   "emodbus_tcp_client_create": {
-    "message0": "创建Modbus TCP客户端 %1",
-    "tooltip": "创建Modbus TCP客户端实例"
+    "message0": "Creación de un cliente Modbus TCP %1",
+    "tooltip": "Crear una instancia cliente Modbus TCP"
   },
   "emodbus_tcp_client_begin": {
-    "message0": "启动TCP客户端 %1",
-    "tooltip": "启动Modbus TCP客户端后台任务"
+    "message0": "Inicia el cliente TCP %1",
+    "tooltip": "Inicia la tarea de backend del cliente Modbus TCP"
   },
   "emodbus_tcp_client_set_target": {
-    "message0": "设置TCP客户端 %1 目标服务器 IP %2 端口 %3",
-    "tooltip": "设置Modbus TCP服务器的IP地址和端口"
+    "message0": "Configurar el cliente TCP %1 la IP del servidor objetivo %2 puerto %3",
+    "tooltip": "Establecer la dirección IP y el puerto del servidor Modbus TCP"
   },
   "emodbus_client_set_timeout": {
-    "message0": "设置客户端 %1 超时时间 %2 毫秒",
-    "tooltip": "设置Modbus通信超时时间"
+    "message0": "Establece el tiempo de espera %1 cliente a %2 milisegundos",
+    "tooltip": "Establece el tiempo de espera de comunicación del modebus"
   },
   "emodbus_client_on_data": {
-    "message0": "当客户端 %1 收到数据时",
-    "tooltip": "设置数据接收回调函数，收到响应时执行"
+    "message0": "Cuando el cliente %1 recibe datos",
+    "tooltip": "Configura una función de llamada de recepción de datos para ejecutarse al recibir una respuesta",
+    "message1": "ejecutar %1"
   },
   "emodbus_client_on_error": {
-    "message0": "当客户端 %1 发生错误时",
-    "tooltip": "设置错误处理回调函数，发生通信错误时执行"
+    "message0": "Cuando el cliente %1 encuentra un error",
+    "tooltip": "Configura una función de callback para gestionar errores para ejecutarse cuando ocurra un error de comunicación",
+    "message1": "ejecutar %1"
   },
   "emodbus_read_holding_registers": {
-    "message0": "客户端 %1 读取保持寄存器 从站ID %2 起始地址 %3 数量 %4",
-    "tooltip": "异步读取保持寄存器(功能码0x03)，结果通过回调返回"
+    "message0": "Cliente %1 Lectura Mantener Registro ID de esclavo %2 Dirección de inicio %3 Cantidad %4",
+    "tooltip": "Lee asíncronamente el registro de retención (código de función 0x03) y devuelve el resultado mediante callback"
   },
   "emodbus_read_input_registers": {
-    "message0": "客户端 %1 读取输入寄存器 从站ID %2 起始地址 %3 数量 %4",
-    "tooltip": "异步读取输入寄存器(功能码0x04)，结果通过回调返回"
+    "message0": "Registro de entrada de %1 de lectura del cliente ID de esclavo %2 dirección de inicio %3 cantidad %4",
+    "tooltip": "Lee asíncronamente el registro de entrada (código de función 0x04) y devuelve el resultado mediante callback"
   },
   "emodbus_read_coils": {
-    "message0": "客户端 %1 读取线圈 从站ID %2 起始地址 %3 数量 %4",
-    "tooltip": "异步读取线圈状态(功能码0x01)，结果通过回调返回"
+    "message0": "Cliente %1 Lectura ID del esclavo de la bobina %2 dirección de inicio %3 cantidad %4",
+    "tooltip": "Lee asíncronamente el estado de la bobina (código de función 0x01) y devuelve el resultado mediante callback"
   },
   "emodbus_read_discrete_inputs": {
-    "message0": "客户端 %1 读取离散输入 从站ID %2 起始地址 %3 数量 %4",
-    "tooltip": "异步读取离散输入(功能码0x02)，结果通过回调返回"
+    "message0": "Cliente %1 Lectura de entrada discreta ID de esclavo %2 dirección de inicio %3 Cantidad %4",
+    "tooltip": "Lee asíncronamente la entrada discreta (código de función 0x02) y devuelve el resultado mediante callback"
   },
   "emodbus_write_single_register": {
-    "message0": "客户端 %1 写入单个寄存器 从站ID %2 地址 %3 值 %4",
-    "tooltip": "写入单个保持寄存器(功能码0x06)"
+    "message0": "Cliente %1 Escribe en un único registro ID de esclavo %2 dirección %3 valor %4",
+    "tooltip": "Escribe un solo registro de retención (código de función 0x06)"
   },
   "emodbus_write_single_coil": {
-    "message0": "客户端 %1 写入单个线圈 从站ID %2 地址 %3 值 %4",
-    "tooltip": "写入单个线圈(功能码0x05)，值为0(OFF)或1(ON)"
+    "message0": "El cliente %1 escribe en un ID de esclavo de bobina única %2 Dirección %3 valor %4",
+    "tooltip": "Escribe una bobina simple (código de función 0x05), con valores de 0 (OFF) o 1 (ON)"
   },
   "emodbus_write_multiple_registers": {
-    "message0": "客户端 %1 写入多个寄存器 从站ID %2 起始地址 %3 值数组 %4",
-    "tooltip": "写入多个保持寄存器(功能码0x10)"
+    "message0": "Cliente %1 Escribir múltiples registros ID de esclavo %2 dirección de inicio %3 valor del array %4",
+    "tooltip": "Escribe múltiples registros de retención (código de función 0x10)"
   },
   "emodbus_sync_read_holding_registers": {
-    "message0": "客户端 %1 同步读取保持寄存器 从站ID %2 地址 %3",
-    "tooltip": "同步读取单个保持寄存器并返回值(功能码0x03)"
+    "message0": "Cliente %1 Lectura y retención sincrónicas de registros ID de esclavo %2 dirección %3",
+    "tooltip": "Lee síncronamente un solo registro de retención y devuelve un valor (código de utilidad 0x03)"
   },
   "emodbus_sync_read_input_register": {
-    "message0": "客户端 %1 同步读取输入寄存器 从站ID %2 地址 %3",
-    "tooltip": "同步读取单个输入寄存器并返回值(功能码0x04)"
+    "message0": "El cliente %1 lee síncronicamente los registros de entrada, el ID del esclavo %2 la dirección %3",
+    "tooltip": "Lee síncronamente un solo registro de entrada y devuelve valor (código de función 0x04)"
   },
   "emodbus_sync_read_coil": {
-    "message0": "客户端 %1 同步读取线圈 从站ID %2 地址 %3",
-    "tooltip": "同步读取单个线圈状态并返回值(功能码0x01)"
+    "message0": "Cliente %1 Lee de forma síncrona el ID del esclavo %2 la dirección %3",
+    "tooltip": "Lee síncronamente el estado de una bobina única y devuelve el valor (código de función 0x01)"
   },
   "emodbus_response_get_uint16": {
-    "message0": "从响应中获取第 %1 个寄存器值(16位)",
-    "tooltip": "从回调响应中读取指定位置的16位寄存器值(从0开始)"
+    "message0": "Recuperar el valor del registro %1th (16 bits) de la respuesta",
+    "tooltip": "Lee el valor del registro de 16 bits en la posición especificada a partir de la respuesta de llamada (empezando desde 0)"
   },
   "emodbus_response_get_float": {
-    "message0": "从响应中获取第 %1 个浮点值(32位)",
-    "tooltip": "从回调响应中读取指定位置的32位浮点值(占用2个寄存器)"
+    "message0": "Recuperar el valor %1th en coma flotante (32 bits) de la respuesta",
+    "tooltip": "Lee un valor de coma flotante de 32 bits en una posición especificada a partir de la respuesta de llamada (ocupando 2 registros)"
   },
   "emodbus_response_server_id": {
-    "message0": "响应的从站ID",
-    "tooltip": "获取当前响应的从站ID"
+    "message0": "ID esclavo respondiendo",
+    "tooltip": "Obtener el ID esclavo de la respuesta actual"
   },
   "emodbus_response_function_code": {
-    "message0": "响应的功能码",
-    "tooltip": "获取当前响应的功能码"
+    "message0": "Código de función de respuesta",
+    "tooltip": "Recuperar el código de función para la respuesta actual"
   },
   "emodbus_response_length": {
-    "message0": "响应的数据长度",
-    "tooltip": "获取当前响应的数据字节数"
+    "message0": "Longitud de los datos de respuesta",
+    "tooltip": "Recupera el número de bytes de datos en la respuesta actual"
   },
   "emodbus_error_code": {
-    "message0": "错误代码",
-    "tooltip": "获取当前错误的错误码"
+    "message0": "Código de error",
+    "tooltip": "Recuperar el código de error del error actual"
   },
   "emodbus_error_message": {
-    "message0": "错误信息",
-    "tooltip": "获取当前错误的可读错误信息"
+    "message0": "Información falsa",
+    "tooltip": "Recuperar mensajes de error legibles para el error actual"
   },
   "emodbus_rtu_server_create": {
-    "message0": "创建Modbus RTU服务器 %1 超时 %2 毫秒 RS485控制引脚 %3",
-    "tooltip": "创建Modbus RTU服务器实例",
+    "message0": "Crear un servidor Modbus RTU %1 tiempo de espera %2 ms RS485 de control %3",
+    "tooltip": "Crear una instancia de servidor Modbus RTU",
     "args0": [
       null,
       null,
@@ -177,8 +179,8 @@
     ]
   },
   "emodbus_rtu_server_begin": {
-    "message0": "启动RTU服务器 %1 串口 %2 波特率 %3 RX引脚 %4 TX引脚 %5",
-    "tooltip": "启动Modbus RTU服务器",
+    "message0": "Iniciar el servidor RTU %1 puerto serie %2 velocidad de baudios %3 pin RX %4 pin TX %5",
+    "tooltip": "Inicia el servidor Modbus RTU",
     "args0": [
       null,
       {
@@ -226,45 +228,49 @@
     ]
   },
   "emodbus_tcp_server_create": {
-    "message0": "创建Modbus TCP服务器 %1 端口 %2 最大客户端数 %3",
-    "tooltip": "创建Modbus TCP服务器实例"
+    "message0": "Crea un servidor Modbus TCP %1 puertos %2 número máximo de clientes %3",
+    "tooltip": "Crear una instancia de servidor Modbus TCP"
   },
   "emodbus_tcp_server_begin": {
-    "message0": "启动TCP服务器 %1",
-    "tooltip": "启动Modbus TCP服务器"
+    "message0": "Inicia el servidor TCP %1",
+    "tooltip": "Inicia el servidor Modbus TCP"
   },
   "emodbus_server_register_fc03": {
-    "message0": "服务器 %1 注册读取保持寄存器处理 从站ID %2",
-    "tooltip": "注册读取保持寄存器(FC03)的处理函数"
+    "message0": "Servidor %1 Registro Lectura, Mantenimiento del Registro Procesando ID de Esclavo %2",
+    "tooltip": "Registro para leer la función de maneo del registro de retención (FC03).",
+    "message1": "Dirección de inicio de la solicitud de procesamiento: %1 Cantidad: %2",
+    "message2": "Datos de retorno %1"
   },
   "emodbus_server_register_fc06": {
-    "message0": "服务器 %1 注册写入单个寄存器处理 从站ID %2",
-    "tooltip": "注册写入单个保持寄存器(FC06)的处理函数"
+    "message0": "Server %1 Registrar y escribir en un solo registro procesando el ID esclavo %2",
+    "tooltip": "Registrar un manejador para escribir un registro de un solo hold (FC06).",
+    "message1": "Dirección de procesamiento de la solicitud: %1 Valor: %2",
+    "message2": "Realiza la operación %1"
   },
   "emodbus_server_add_response_data": {
-    "message0": "添加响应数据(16位) %1",
-    "tooltip": "向服务器响应中添加一个16位数据"
+    "message0": "Añadir datos de respuesta (16 bits) %1",
+    "tooltip": "Añadir un dato de 16 bits a la respuesta del servidor"
   },
   "emodbus_server_set_error": {
-    "message0": "设置响应错误 错误码 %1",
-    "tooltip": "设置服务器响应为错误响应",
+    "message0": "Establecer código de error de respuesta %1",
+    "tooltip": "Configura la respuesta del servidor a respuesta de error",
     "args0": [
       {
         "options": [
           [
-            "非法功能码",
+            "Códigos de función ilegales",
             "ILLEGAL_FUNCTION"
           ],
           [
-            "非法数据地址",
+            "Direcciones de datos ilegales",
             "ILLEGAL_DATA_ADDRESS"
           ],
           [
-            "非法数据值",
+            "Valores de datos ilegales",
             "ILLEGAL_DATA_VALUE"
           ],
           [
-            "设备故障",
+            "Fallo del equipo",
             "SERVER_DEVICE_FAILURE"
           ]
         ]
@@ -272,11 +278,11 @@
     ]
   },
   "emodbus_client_pending_requests": {
-    "message0": "客户端 %1 待处理请求数",
-    "tooltip": "获取队列中待处理的请求数量"
+    "message0": "Cliente %1 Número de solicitudes pendientes",
+    "tooltip": "Asegúrate el número de solicitudes pendientes en la cola"
   },
   "emodbus_client_clear_queue": {
-    "message0": "客户端 %1 清空请求队列",
-    "tooltip": "清空所有待处理的请求"
+    "message0": "El cliente %1 limpia la cola de solicitudes",
+    "tooltip": "Elimina todas las solicitudes pendientes"
   }
 }

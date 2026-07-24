@@ -10,28 +10,228 @@
   "lowpower_init": {
     "message0": "Initialiser mode basse consommation fréquence CPU %1 mode énergie %2",
     "tooltip": "Initialiser le mode basse consommation, définir la fréquence CPU et le mode de latence énergétique.",
-    "args0": [null, { "options": [["Basse Consommation", "LOW_POWER"], ["Latence Constante", "CONSTANT_LATENCY"]] }]
+    "args0": [
+      {
+        "options": [
+          [
+            "64 MHz",
+            "64MHZ"
+          ],
+          [
+            "128 MHz",
+            "128MHZ"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Basse Consommation",
+            "LOW_POWER"
+          ],
+          [
+            "Latence Constante",
+            "CONSTANT_LATENCY"
+          ]
+        ]
+      }
+    ]
   },
-  "lowpower_enter_lowest_power": { "message0": "Entrer dans l'état carte le plus bas en énergie", "tooltip": "Couper les rails d'alimentation de la carte pour la consommation la plus basse." },
-  "lowpower_set_cpu_freq": { "message0": "Définir la fréquence CPU %1", "tooltip": "Changer dynamiquement la fréquence CPU.", "args0": [null] },
-  "lowpower_wfi": { "message0": "WFI attente inactive", "tooltip": "Le CPU entre en état inactif WFI jusqu'à la prochaine interruption." },
-  "lowpower_sleep_ms": { "message0": "Veille basse conso WFI %1 ms", "tooltip": "Délai basse consommation avec boucle WFI." },
-  "lowpower_system_off_timed": { "message0": "System OFF temporisé %1 ms", "tooltip": "Entrer en veille System OFF la plus profonde, réveil par démarrage à froid après le temps spécifié." },
-  "lowpower_system_off_button": { "message0": "System OFF réveil par bouton", "tooltip": "Configurer le bouton utilisateur comme source de réveil puis System OFF." },
-  "lowpower_system_off": { "message0": "Entrer en System OFF %1", "tooltip": "Entrer en mode veille System OFF le plus profond.", "args0": [{ "options": [["Sans rétention RAM (plus basse conso)", "NO_RETENTION"], ["Rétention section .noinit", "RETENTION"]] }] },
+  "lowpower_enter_lowest_power": {
+    "message0": "Entrer dans l'état carte le plus bas en énergie",
+    "tooltip": "Couper les rails d'alimentation de la carte pour la consommation la plus basse."
+  },
+  "lowpower_set_cpu_freq": {
+    "message0": "Définir la fréquence CPU %1",
+    "tooltip": "Changer dynamiquement la fréquence CPU.",
+    "args0": [
+      {
+        "options": [
+          [
+            "64 MHz",
+            "64MHZ"
+          ],
+          [
+            "128 MHz",
+            "128MHZ"
+          ]
+        ]
+      }
+    ]
+  },
+  "lowpower_wfi": {
+    "message0": "WFI attente inactive",
+    "tooltip": "Le CPU entre en état inactif WFI jusqu'à la prochaine interruption."
+  },
+  "lowpower_sleep_ms": {
+    "message0": "Veille basse conso WFI %1 ms",
+    "tooltip": "Délai basse consommation avec boucle WFI."
+  },
+  "lowpower_system_off_timed": {
+    "message0": "System OFF temporisé %1 ms",
+    "tooltip": "Entrer en veille System OFF la plus profonde, réveil par démarrage à froid après le temps spécifié."
+  },
+  "lowpower_system_off_button": {
+    "message0": "System OFF réveil par bouton",
+    "tooltip": "Configurer le bouton utilisateur comme source de réveil puis System OFF."
+  },
+  "lowpower_system_off": {
+    "message0": "Entrer en System OFF %1",
+    "tooltip": "Entrer en mode veille System OFF le plus profond.",
+    "args0": [
+      {
+        "options": [
+          [
+            "Sans rétention RAM (plus basse conso)",
+            "NO_RETENTION"
+          ],
+          [
+            "Rétention section .noinit",
+            "RETENTION"
+          ]
+        ]
+      }
+    ]
+  },
   "lowpower_lpcomp_init": {
     "message0": "Initialiser LPCOMP broche %1 VDD %2 mV seuil %3 mV hystérésis %4 détection %5",
     "tooltip": "Initialiser le comparateur basse consommation (LPCOMP).",
-    "args0": [null, null, null, { "options": [["Activé", "TRUE"], ["Désactivé", "FALSE"]] }, { "options": [["Front montant", "UP"], ["Front descendant", "DOWN"], ["Les deux fronts", "CROSS"]] }]
+    "args0": [
+      {
+        "options": [
+          [
+            "A0",
+            "kPinA0"
+          ],
+          [
+            "A1",
+            "kPinA1"
+          ],
+          [
+            "A2",
+            "kPinA2"
+          ],
+          [
+            "A3",
+            "kPinA3"
+          ],
+          [
+            "A4",
+            "kPinA4"
+          ],
+          [
+            "A5",
+            "kPinA5"
+          ]
+        ]
+      },
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Activé",
+            "TRUE"
+          ],
+          [
+            "Désactivé",
+            "FALSE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Front montant",
+            "UP"
+          ],
+          [
+            "Front descendant",
+            "DOWN"
+          ],
+          [
+            "Les deux fronts",
+            "CROSS"
+          ]
+        ]
+      }
+    ]
   },
-  "lowpower_lpcomp_poll_up": { "message0": "LPCOMP dépassement montant détecté ?", "tooltip": "Vérifier si le LPCOMP a détecté un dépassement de seuil montant." },
-  "lowpower_lpcomp_sample_above": { "message0": "LPCOMP actuellement au-dessus du seuil ?", "tooltip": "Échantillonner immédiatement le comparateur LPCOMP." },
-  "lowpower_lpcomp_clear": { "message0": "Effacer événements LPCOMP", "tooltip": "Effacer tous les drapeaux d'événements LPCOMP." },
-  "lowpower_watchdog_init": { "message0": "Initialiser chien de garde délai %1 ms pause en veille %2", "tooltip": "Initialiser le temporisateur chien de garde.", "args0": [null, { "options": [["Oui", "TRUE"], ["Non", "FALSE"]] }] },
-  "lowpower_watchdog_feed": { "message0": "Nourrir le chien de garde", "tooltip": "Réinitialiser le temporisateur chien de garde." },
-  "lowpower_woke_from": { "message0": "Source de réveil est %1 ?", "tooltip": "Vérifier si ce démarrage a été déclenché par la source de réveil spécifiée.", "args0": [{ "options": [["GPIO (bouton/broche)", "GPIO"], ["GRTC (minuterie)", "GRTC"], ["LPCOMP (comparateur)", "LPCOMP"], ["Chien de garde", "WATCHDOG"]] }] },
-  "lowpower_reset_reason": { "message0": "Valeur raison de réinitialisation", "tooltip": "Obtenir la valeur brute du registre de raison de réinitialisation." },
-  "lowpower_clear_reset_reason": { "message0": "Effacer raison de réinitialisation", "tooltip": "Effacer le registre de raison de réinitialisation." },
-  "lowpower_gpregret_write": { "message0": "Écrire registre retenu valeur %1", "tooltip": "Écrire un octet (0-255) dans le registre retenu GPREGRET." },
-  "lowpower_gpregret_read": { "message0": "Lire registre retenu", "tooltip": "Lire un octet (0-255) du registre retenu GPREGRET." }
+  "lowpower_lpcomp_poll_up": {
+    "message0": "LPCOMP dépassement montant détecté ?",
+    "tooltip": "Vérifier si le LPCOMP a détecté un dépassement de seuil montant."
+  },
+  "lowpower_lpcomp_sample_above": {
+    "message0": "LPCOMP actuellement au-dessus du seuil ?",
+    "tooltip": "Échantillonner immédiatement le comparateur LPCOMP."
+  },
+  "lowpower_lpcomp_clear": {
+    "message0": "Effacer événements LPCOMP",
+    "tooltip": "Effacer tous les drapeaux d'événements LPCOMP."
+  },
+  "lowpower_watchdog_init": {
+    "message0": "Initialiser chien de garde délai %1 ms pause en veille %2",
+    "tooltip": "Initialiser le temporisateur chien de garde.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Oui",
+            "TRUE"
+          ],
+          [
+            "Non",
+            "FALSE"
+          ]
+        ]
+      }
+    ]
+  },
+  "lowpower_watchdog_feed": {
+    "message0": "Nourrir le chien de garde",
+    "tooltip": "Réinitialiser le temporisateur chien de garde."
+  },
+  "lowpower_woke_from": {
+    "message0": "Source de réveil est %1 ?",
+    "tooltip": "Vérifier si ce démarrage a été déclenché par la source de réveil spécifiée.",
+    "args0": [
+      {
+        "options": [
+          [
+            "GPIO (bouton/broche)",
+            "GPIO"
+          ],
+          [
+            "GRTC (minuterie)",
+            "GRTC"
+          ],
+          [
+            "LPCOMP (comparateur)",
+            "LPCOMP"
+          ],
+          [
+            "Chien de garde",
+            "WATCHDOG"
+          ]
+        ]
+      }
+    ]
+  },
+  "lowpower_reset_reason": {
+    "message0": "Valeur raison de réinitialisation",
+    "tooltip": "Obtenir la valeur brute du registre de raison de réinitialisation."
+  },
+  "lowpower_clear_reset_reason": {
+    "message0": "Effacer raison de réinitialisation",
+    "tooltip": "Effacer le registre de raison de réinitialisation."
+  },
+  "lowpower_gpregret_write": {
+    "message0": "Écrire registre retenu valeur %1",
+    "tooltip": "Écrire un octet (0-255) dans le registre retenu GPREGRET."
+  },
+  "lowpower_gpregret_read": {
+    "message0": "Lire registre retenu",
+    "tooltip": "Lire un octet (0-255) du registre retenu GPREGRET."
+  }
 }

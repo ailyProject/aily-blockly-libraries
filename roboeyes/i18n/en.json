@@ -1,0 +1,357 @@
+{
+  "toolbox_name": "FluxGarage RoboEyes",
+  "toolbox_labels": {
+    "初始化（内置屏幕驱动）": "Initialization (built-in screen driver)",
+    "初始化（已有兼容显示对象）": "Initialization (compatible display object already exists)",
+    "外观": "Appearance",
+    "表情与视线": "Expression and sight",
+    "自动动画": "automatic animation",
+    "高级": "Advanced"
+  },
+  "fluxgarage_roboeyes_i2c_init": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "SSD1306 128×64",
+            "SSD1306_128X64"
+          ],
+          [
+            "SSD1306 128×32",
+            "SSD1306_128X32"
+          ],
+          [
+            "SH1106G 128×64",
+            "SH1106G_128X64"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "Create RoboEyes %1 I2C screen %2 Display object %3 Address %4 Reset pin %5 Maximum frame rate %6",
+    "tooltip": "Select and initialize I2C OLED, and create RoboEyes at the same time; supports SSD1306 128×64/128×32 and SH1106G 128×64, the default address is 0x3C (decimal 60)"
+  },
+  "fluxgarage_roboeyes_spi_init": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "SSD1306 128×64",
+            "SSD1306_128X64"
+          ],
+          [
+            "SSD1306 128×32",
+            "SSD1306_128X32"
+          ],
+          [
+            "SH1106G 128×64",
+            "SH1106G_128X64"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "Create RoboEyes %1 SPI screen %2 Display object %3 DC %4 CS %5 RST %6 Maximum frame rate %7",
+    "tooltip": "Select and initialize the OLED using the development board's hardware SPI bus, and create RoboEyes; MOSI and SCLK use the development board's default hardware SPI pins"
+  },
+  "fluxgarage_roboeyes_init": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "Create RoboEyes %1 using display object %2 width %3 height %4 maximum frame rate %5",
+    "tooltip": "Create RoboEyes using an Adafruit GFX-compatible display object that has been created and initialized and provides clearDisplay() and display(); automatically calls update() in the main loop"
+  },
+  "fluxgarage_roboeyes_set_framerate": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "%1 Set the maximum frame rate %2 FPS",
+    "tooltip": "Change the maximum frame rate for animation updates"
+  },
+  "fluxgarage_roboeyes_set_colors": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 Set display color Background %2 Body %3",
+    "tooltip": "Sets the color values for the background/overlay and eye body; monochrome screens typically use 0 and 1"
+  },
+  "fluxgarage_roboeyes_set_dimensions": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 Set eye size Left width %2 Right width %3 Left height %4 Right height %5",
+    "tooltip": "Set the width and height of the left and right eyes in pixels"
+  },
+  "fluxgarage_roboeyes_set_border_radius": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 Set eye rounded corners Left %2 Right %3",
+    "tooltip": "Sets the corner radius of the left and right eyes in pixels"
+  },
+  "fluxgarage_roboeyes_set_spacing": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "%1 Set eye distance %2 pixels",
+    "tooltip": "Set the distance between the eyes, allowing negative values"
+  },
+  "fluxgarage_roboeyes_set_mood": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Default",
+            "DEFAULT"
+          ],
+          [
+            "tired",
+            "TIRED"
+          ],
+          [
+            "angry",
+            "ANGRY"
+          ],
+          [
+            "happy",
+            "HAPPY"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 Set emoticon %2",
+    "tooltip": "Smoothly switch the emotional expression of robot eyes"
+  },
+  "fluxgarage_roboeyes_set_position": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "central",
+            "DEFAULT"
+          ],
+          [
+            "on",
+            "N"
+          ],
+          [
+            "upper right",
+            "NE"
+          ],
+          [
+            "right",
+            "E"
+          ],
+          [
+            "lower right",
+            "SE"
+          ],
+          [
+            "down",
+            "S"
+          ],
+          [
+            "lower left",
+            "SW"
+          ],
+          [
+            "left",
+            "W"
+          ],
+          [
+            "upper left",
+            "NW"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 looks towards %2",
+    "tooltip": "Smoothly move your gaze to a preset direction"
+  },
+  "fluxgarage_roboeyes_set_feature": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "curiosity mode",
+            "CURIOSITY"
+          ],
+          [
+            "One-eyed mode",
+            "CYCLOPS"
+          ],
+          [
+            "sweat effect",
+            "SWEAT"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "%1 sets %2 to %3",
+    "tooltip": "Turn curiosity, one-eyed, or sweating effects on or off"
+  },
+  "fluxgarage_roboeyes_set_flicker": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "level",
+            "HORIZONTAL"
+          ],
+          [
+            "vertical",
+            "VERTICAL"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "message0": "%1 Set %2 Dither Enable %3 Amplitude %4 Pixels",
+    "tooltip": "Turn horizontal/vertical dithering on or off and set pixel amplitude"
+  },
+  "fluxgarage_roboeyes_set_autoblinker": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 Auto Blink Enable %2 Base Interval %3 seconds Randomly vary %4 seconds",
+    "tooltip": "Configure random automatic blinking; the interval and random change units are whole seconds"
+  },
+  "fluxgarage_roboeyes_set_idle_mode": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 Random sight enabled %2 Base interval %3 seconds Random variation %4 seconds",
+    "tooltip": "Configure random gaze movement; both interval and random change units are whole seconds"
+  },
+  "fluxgarage_roboeyes_eye_action": {
+    "message0": "%1 %2 %3",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "open",
+            "OPEN"
+          ],
+          [
+            "closed",
+            "CLOSE"
+          ],
+          [
+            "blink",
+            "BLINK"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "eyes",
+            "BOTH"
+          ],
+          [
+            "left eye",
+            "LEFT"
+          ],
+          [
+            "right eye",
+            "RIGHT"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "Open, close or blink both eyes/eyes"
+  },
+  "fluxgarage_roboeyes_play_animation": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "confused",
+            "CONFUSED"
+          ],
+          [
+            "laugh",
+            "LAUGH"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 Play %2 animation",
+    "tooltip": "Play a confused or laughing preset animation"
+  },
+  "fluxgarage_roboeyes_refresh": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Limit by frame rate",
+            "UPDATE"
+          ],
+          [
+            "draw now",
+            "DRAW"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 %2 Refresh your eyes",
+    "tooltip": "Advanced manual refresh; initialization block has automatically added framerate-limited update() to the main loop"
+  },
+  "fluxgarage_roboeyes_get_constraint": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "X axis",
+            "X"
+          ],
+          [
+            "Y axis",
+            "Y"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 Movable range %2 Maximum value",
+    "tooltip": "Returns the maximum X or Y position allowed by the current eye geometry"
+  }
+}

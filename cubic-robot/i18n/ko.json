@@ -7,12 +7,12 @@
     "舵机 / 按键 / 灯": "서보/버튼/LED"
   },
   "cubic_robot_init": {
-    "message0": "init Cubic robot %1",
-    "tooltip": "Init Cubic robot using EncoderMotor for MA/MB"
+    "message0": "큐빅 로봇 초기화 %1",
+    "tooltip": "내부 다중화된 인코더-모터 라이브러리(lib-encoder-motor)가 MA/MB를 제어하여 큐빅 코어V2+모터를 생성하고 초기화합니다"
   },
   "cubic_robot_set_motor_pins": {
-    "message0": "%1 set motor %2 pins IN1 %3 IN2 %4 encoder A %5 B %6",
-    "tooltip": "Override motor/encoder pins before begin",
+    "message0": "%1 모터 %2 드라이버 핀 IN1 %3 IN2 %4 인코더 A %5 B %6 설정하세요",
+    "tooltip": "초기화 전에 모터/인코더 핀을 덮으세요. 기본값: MA=14/15/34/35, MB=12/17/36/39",
     "args0": [
       null,
       {
@@ -34,8 +34,8 @@
     ]
   },
   "cubic_robot_set_pid": {
-    "message0": "%1 motor %2 set PID P %3 I %4 D %5",
-    "tooltip": "Set speed PID",
+    "message0": "%1 모터 %2 PID P 설정 %3 %4 D %5",
+    "tooltip": "인코딩된 모터 속도 루프 PID 설정(다중화 EncoderMotor::SetSpeedPid)",
     "args0": [
       null,
       {
@@ -56,8 +56,8 @@
     ]
   },
   "cubic_robot_run_pwm": {
-    "message0": "%1 motor %2 run PWM %3 (-1023~1023)",
-    "tooltip": "Run with PWM duty",
+    "message0": "%1 모터 %2 파워(PWM) %3 (-1023~1023)",
+    "tooltip": "직접 PWM 드라이브 (인코더모터::RunPwmDuty)",
     "args0": [
       null,
       {
@@ -76,8 +76,8 @@
     ]
   },
   "cubic_robot_run_speed": {
-    "message0": "%1 motor %2 run speed %3 RPM (-300~300)",
-    "tooltip": "Run with speed loop",
+    "message0": "%1 모터 %2은 %3 RPM(-300~300)에서 작동합니다.",
+    "tooltip": "속도 루프 제어 (인코더모터::런스피드)",
     "args0": [
       null,
       {
@@ -96,34 +96,34 @@
     ]
   },
   "cubic_robot_drive": {
-    "message0": "%1 drive forward %2 turn %3",
-    "tooltip": "Differential drive"
+    "message0": "%1 디퍼렌셜 드라이브 %2 스티어링 %3",
+    "tooltip": "디퍼렌셜 섀시, 전진/조향 범위 -1023~1023, 내부 PWM 드라이브 MA/MB"
   },
   "cubic_robot_move": {
-    "message0": "%1 car %2 power %3",
-    "tooltip": "Quick motion",
+    "message0": "%1 소형 자동차 %2 동력 %3",
+    "tooltip": "퀵 스포츠, 권장 전력 0~1023",
     "args0": [
       null,
       {
         "options": [
           [
-            "前进",
+            "앞으로",
             "FORWARD"
           ],
           [
-            "后退",
+            "뒤로",
             "BACKWARD"
           ],
           [
-            "左转",
+            "좌회전",
             "LEFT"
           ],
           [
-            "右转",
+            "우회전",
             "RIGHT"
           ],
           [
-            "停止",
+            "중지",
             "STOP"
           ]
         ]
@@ -132,12 +132,12 @@
     ]
   },
   "cubic_robot_stop": {
-    "message0": "%1 stop all motors",
-    "tooltip": "Stop MA/MB"
+    "message0": "%1 모든 모터를 멈춰라",
+    "tooltip": "MA/MB 멈춰"
   },
   "cubic_robot_get_speed": {
-    "message0": "%1 motor %2 speed RPM",
-    "tooltip": "Read RPM",
+    "message0": "%1 모터 %2 전류 속도(RPM)",
+    "tooltip": "코드에서 모터의 현재 속도를 읽으세요",
     "args0": [
       null,
       {
@@ -155,8 +155,8 @@
     ]
   },
   "cubic_robot_get_pulse": {
-    "message0": "%1 motor %2 encoder pulse",
-    "tooltip": "Read pulse count",
+    "message0": "%1 모터 %2는 펄스 카운팅을 인코딩합니다",
+    "tooltip": "인코딩된 펄스 카운트를 읽으세요",
     "args0": [
       null,
       {
@@ -174,8 +174,8 @@
     ]
   },
   "cubic_robot_get_revolutions": {
-    "message0": "%1 motor %2 revolutions",
-    "tooltip": "Read revolutions",
+    "message0": "%1 모터 %2의 회전 횟수",
+    "tooltip": "모터 회전 수를 읽어보세요",
     "args0": [
       null,
       {
@@ -193,8 +193,8 @@
     ]
   },
   "cubic_robot_reset_pulse": {
-    "message0": "%1 motor %2 reset pulse",
-    "tooltip": "Reset pulse count",
+    "message0": "%1 모터%2 펄스 카운트 재설정",
+    "tooltip": "부호화 펄스 카운트를 재설정하세요",
     "args0": [
       null,
       {
@@ -212,8 +212,8 @@
     ]
   },
   "cubic_robot_servo": {
-    "message0": "%1 servo %2 angle %3",
-    "tooltip": "Servo angle 0~180",
+    "message0": "%1 서보 %2 각도 %3",
+    "tooltip": "서보 제어 각도 0~180 (내장된 ESP32서보)",
     "args0": [
       null,
       {
@@ -240,8 +240,8 @@
     ]
   },
   "cubic_robot_button": {
-    "message0": "%1 button %2 pressed",
-    "tooltip": "Button pressed",
+    "message0": "%1 버튼 %2 눌림",
+    "tooltip": "읽기 버튼, 낮은 레벨 활성",
     "args0": [
       null,
       {
@@ -266,11 +266,11 @@
       {
         "options": [
           [
-            "打开",
+            "켜기",
             "true"
           ],
           [
-            "关闭",
+            "끄기",
             "false"
           ]
         ]
@@ -278,7 +278,7 @@
     ]
   },
   "cubic_robot_pin_info": {
-    "message0": "Cubic default pin info",
-    "tooltip": "Default pins"
+    "message0": "입방체 기본 핀 설명",
+    "tooltip": "MA=14/15 ENC34/35; MB=12/17 ENC36/39; 서보 2/25; I2C21/22"
   }
 }

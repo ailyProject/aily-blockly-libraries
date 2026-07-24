@@ -2,30 +2,30 @@
   "toolbox_name": "AS3935",
   "as3935_init_i2c": {
     "message0": "初始化 AS3935 I2C %1 地址 %2",
-    "tooltip": "初始化 AS3935 %1 I2C 地址 %2 中断引脚 %3"
+    "tooltip": "通过 I2C 创建并初始化 AS3935 闪电检测器"
   },
   "as3935_init_spi": {
     "message0": "初始化 AS3935 SPI %1 CS %2",
-    "tooltip": "初始化 AS3935 %1 SPI CS %2 中断引脚 %3"
+    "tooltip": "通过 SPI 创建并初始化 AS3935 闪电检测器"
   },
   "as3935_is_ready": {
     "message0": "AS3935 %1 已初始化",
-    "tooltip": "AS3935 %1 已初始化"
+    "tooltip": "返回初始化块保存的 AS3935 初始化状态"
   },
   "as3935_set_environment": {
     "message0": "AS3935 %1 环境 %2",
-    "tooltip": "AS3935 %1 环境 %2",
+    "tooltip": "设置 AS3935 室内/室外灵敏度配置",
     "args0": [
       null,
       {
         "options": [
           [
             "室内",
-            "AS3935_INDOOR"
+            "INDOOR"
           ],
           [
             "室外",
-            "AS3935_OUTDOOR"
+            "OUTDOOR"
           ]
         ]
       }
@@ -33,45 +33,46 @@
   },
   "as3935_read_interrupt": {
     "message0": "AS3935 %1 读取中断源",
-    "tooltip": "AS3935 %1 读取中断源"
+    "tooltip": "读取中断状态：LIGHTNING、DISTURBER_DETECT 或 NOISE_TO_HIGH"
   },
   "as3935_distance": {
     "message0": "AS3935 %1 闪电距离 km",
-    "tooltip": "AS3935 %1 闪电距离 km"
+    "tooltip": "读取风暴距离估计，单位 km"
   },
   "as3935_energy": {
     "message0": "AS3935 %1 闪电能量",
-    "tooltip": "AS3935 %1 闪电能量"
+    "tooltip": "读取最近闪电事件的 20 位能量值"
   },
   "as3935_set_watchdog": {
     "message0": "设置 AS3935 %1 看门狗阈值 %2",
-    "tooltip": "设置 AS3935 %1 看门狗阈值 %2"
+    "tooltip": "设置事件看门狗阈值，通常 1-10"
   },
   "as3935_set_noise": {
     "message0": "设置 AS3935 %1 噪声等级 %2",
-    "tooltip": "设置 AS3935 %1 噪声等级 %2"
+    "tooltip": "设置噪声阈值，范围 0-7"
   },
   "as3935_set_spike": {
     "message0": "设置 AS3935 %1 尖峰抑制 %2",
-    "tooltip": "设置 AS3935 %1 尖峰抑制 %2"
+    "tooltip": "设置尖峰拒绝强度，范围 0-15"
   },
   "as3935_set_lightning_threshold": {
     "message0": "设置 AS3935 %1 闪电阈值 %2",
-    "tooltip": "设置 AS3935 %1 闪电阈值 %2"
+    "tooltip": "设置触发中断所需的闪电事件数"
   },
   "as3935_mask_disturber": {
     "message0": "AS3935 %1 屏蔽干扰 %2",
-    "tooltip": "AS3935 %1 屏蔽干扰 %2",
+    "tooltip": "启用或关闭干扰事件屏蔽",
     "args0": [
+      null,
       {
         "options": [
           [
-            "开",
-            "ON"
+            "开启",
+            "true"
           ],
           [
-            "关",
-            "OFF"
+            "关闭",
+            "false"
           ]
         ]
       }
@@ -79,6 +80,6 @@
   },
   "as3935_calibrate": {
     "message0": "AS3935 %1 校准",
-    "tooltip": "AS3935 %1 校准"
+    "tooltip": "校准 AS3935 内部振荡器"
   }
 }

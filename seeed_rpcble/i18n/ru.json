@@ -1,0 +1,683 @@
+{
+  "toolbox_name": "RPC BLE",
+  "toolbox_categories": [
+    "Управление устройствами",
+    "Серверная сторона GATT",
+    "Собственные значения и события",
+    "трансляция",
+    "сканировать",
+    "Клиент",
+    "BLE UART",
+    "Веб-Bluetooth",
+    "iBeacon"
+  ],
+  "seeed_rpcble_init": {
+    "args0": [
+      null
+    ],
+    "message0": "Инициализация имени устройства BLE %1",
+    "tooltip": "Инициализируйте устройство Wio Terminal rpcBLE и установите имя вещания"
+  },
+  "seeed_rpcble_deinit": {
+    "message0": "Отключите устройства BLE",
+    "tooltip": "Выключите устройство rpcBLE"
+  },
+  "seeed_rpcble_is_initialized": {
+    "message0": "BLE инициализирован",
+    "tooltip": "Возвращает, инициализирован ли BLEDevice"
+  },
+  "seeed_rpcble_get_address": {
+    "message0": "Местный адрес BLE",
+    "tooltip": "Получить локальную строку BLE MAC-адреса"
+  },
+  "seeed_rpcble_set_mtu": {
+    "args0": [
+      null
+    ],
+    "message0": "Настройка BLE MTU %1",
+    "tooltip": "Установите максимальную трансмиссию BLE MTU"
+  },
+  "seeed_rpcble_get_mtu": {
+    "message0": "В настоящее время BLE MTU",
+    "tooltip": "Купите текущий BLE MTU"
+  },
+  "seeed_rpcble_create_server": {
+    "args0": [
+      null
+    ],
+    "message0": "Создание BLE-сервера %1",
+    "tooltip": "Создать объект сервера BLE GATT"
+  },
+  "seeed_rpcble_server_create_service": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Server %1 Create Service %2 UUID%3",
+    "tooltip": "Создание сервисов GATT на сервере BLE"
+  },
+  "seeed_rpcble_service_start": {
+    "args0": [
+      null
+    ],
+    "message0": "Запуск BLE Service %1",
+    "tooltip": "Запустить указанный сервис GATT"
+  },
+  "seeed_rpcble_service_stop": {
+    "args0": [
+      null
+    ],
+    "message0": "Остановить сервис BLE %1",
+    "tooltip": "Прекратите указание сервисов GATT"
+  },
+  "seeed_rpcble_server_connected_count": {
+    "args0": [
+      null
+    ],
+    "message0": "Количество подключённых клиентов %1 сервере",
+    "tooltip": "Определите количество BLE-клиентов, подключённых к серверу"
+  },
+  "seeed_rpcble_server_set_callbacks": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "args2": [
+      null
+    ],
+    "message0": "Установите сервер %1 событие соединения",
+    "message1": "Когда connecting%1",
+    "message2": "Когда disconnected%1",
+    "tooltip": "Настройте соединение и отключите обратные вызовы для сервера BLE"
+  },
+  "seeed_rpcble_create_characteristic": {
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "читать",
+            "BLECharacteristic::PROPERTY_READ"
+          ],
+          [
+            "писать",
+            "BLECharacteristic::PROPERTY_WRITE"
+          ],
+          [
+            "Уведомление",
+            "BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "Чтение/запись",
+            "BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE"
+          ],
+          [
+            "Читать + уведомлять",
+            "BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "Записать + уведомлять",
+            "BLECharacteristic::PROPERTY_WRITE | BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "Чтение/запись+уведомление",
+            "BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE | BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "Индикация",
+            "BLECharacteristic::PROPERTY_INDICATE"
+          ],
+          [
+            "Запись без ответа",
+            "BLECharacteristic::PROPERTY_WRITE_NR"
+          ]
+        ]
+      }
+    ],
+    "message0": "Сервис %1 создание функций %2 UUID %3 атрибутов %4",
+    "tooltip": "Создание собственных значений в сервисе GATT"
+  },
+  "seeed_rpcble_characteristic_set_permissions": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Читаемо",
+            "GATT_PERM_READ"
+          ],
+          [
+            "Можно писать",
+            "GATT_PERM_WRITE"
+          ],
+          [
+            "Читаемо и можно записывать",
+            "GATT_PERM_READ | GATT_PERM_WRITE"
+          ],
+          [
+            "Нет",
+            "0"
+          ]
+        ]
+      }
+    ],
+    "message0": "Набор функций %1 разрешений доступа %2",
+    "tooltip": "Установите права доступа GATT для значений функций"
+  },
+  "seeed_rpcble_characteristic_add_notify_descriptor": {
+    "args0": [
+      null
+    ],
+    "message0": "Функции %1 Добавить дескрипторы уведомлений",
+    "tooltip": "Добавьте BLE2902 descriptor к функциям уведомлений"
+  },
+  "seeed_rpcble_characteristic_add_descriptor": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "ASCII-текст",
+            "ATTRIB_FLAG_VOID | ATTRIB_FLAG_ASCII_Z"
+          ],
+          [
+            "Обычные данные",
+            "ATTRIB_FLAG_VOID"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Читаемо",
+            "GATT_PERM_READ"
+          ],
+          [
+            "Можно писать",
+            "GATT_PERM_WRITE"
+          ],
+          [
+            "Читаемо и можно записывать",
+            "GATT_PERM_READ | GATT_PERM_WRITE"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "Функции %1 Создать дескриптор UUID %2 флаг %3 Разрешения %4 длина %5",
+    "tooltip": "Создайте пользовательские дескрипторы для признаков"
+  },
+  "seeed_rpcble_characteristic_set_value": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Признаки множества %1 значения текста %2",
+    "tooltip": "Установите собственное значение в текстовые данные"
+  },
+  "seeed_rpcble_characteristic_set_byte": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Установите признак %1 байт %2",
+    "tooltip": "Установите собственное значение на 1 байт данных, подходящее для стандартных функций, таких как ёмкость батареи"
+  },
+  "seeed_rpcble_characteristic_get_value": {
+    "args0": [
+      null
+    ],
+    "message0": "Особенности %1 Текущие значения текста",
+    "tooltip": "Прочитайте текущие текстовые данные локального собственного значения"
+  },
+  "seeed_rpcble_characteristic_notify": {
+    "args0": [
+      null
+    ],
+    "message0": "Функции уведомлений %1 обновления данных",
+    "tooltip": "Уведомления отправляются подписанным клиентам"
+  },
+  "seeed_rpcble_characteristic_indicate": {
+    "args0": [
+      null
+    ],
+    "message0": "Особенности индикаторов %1 обновления данных",
+    "tooltip": "Отправьте индикатор значения признака для подтверждения"
+  },
+  "seeed_rpcble_characteristic_set_callbacks": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "Когда записывается признак %1",
+    "message1": "выполнить %1",
+    "tooltip": "Настройка функций, запись обратных обращений и кэширование самого недавно полученного текста"
+  },
+  "seeed_rpcble_characteristic_received_value": {
+    "args0": [
+      null
+    ],
+    "message0": "Feature%1 Недавно написанный текст",
+    "tooltip": "Читайте функции и записываете ближайший текст к кэшу обратного вызова"
+  },
+  "seeed_rpcble_advertising_add_service_uuid": {
+    "args0": [
+      null
+    ],
+    "message0": "Сервис добавления трансляции UUID %1",
+    "tooltip": "Добавление UUID сервисов к вещательным данным BLE"
+  },
+  "seeed_rpcble_advertising_set_scan_response": {
+    "args0": [
+      {
+        "options": [
+          [
+            "Включить",
+            "TRUE"
+          ],
+          [
+            "Отключить",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Отклик сканирования %1",
+    "tooltip": "Установите, включать ли данные ответа на сканирование"
+  },
+  "seeed_rpcble_advertising_set_preferred": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Установите предпочтительные параметры вещания: минимальный %1 максимальный %2",
+    "tooltip": "Настройка предпочтительных параметров соединения для вещания обычно используется для повышения совместимости телефона"
+  },
+  "seeed_rpcble_start_advertising": {
+    "message0": "Начало вещания BLE",
+    "tooltip": "Начните трансляцию, чтобы устройство можно было обнаружить сканированием"
+  },
+  "seeed_rpcble_stop_advertising": {
+    "message0": "Прекратите вещание BLE",
+    "tooltip": "Прекратите вещание BLE"
+  },
+  "seeed_rpcble_scan_create": {
+    "args0": [
+      null
+    ],
+    "message0": "Купите сканер BLE %1",
+    "tooltip": "Получить объект сканера BLEScan"
+  },
+  "seeed_rpcble_scan_set_active": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Включить",
+            "TRUE"
+          ],
+          [
+            "Отключить",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Сканер %1 активное сканирование %2",
+    "tooltip": "Активное сканирование быстрее, но требует больше энергии"
+  },
+  "seeed_rpcble_scan_set_interval": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Сканер %1 интервал %2",
+    "tooltip": "Установите интервал сканирования BLE"
+  },
+  "seeed_rpcble_scan_set_window": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Сканер %1 окна %2",
+    "tooltip": "Установите окно сканирования BLE, обычно меньше или равное интервалу сканирования"
+  },
+  "seeed_rpcble_scan_start": {
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Повторное сканирование",
+            "FALSE"
+          ],
+          [
+            "Продолжайте сканирование",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Сканер %1 Сканирование %2 секунд Сохранить %3 %4",
+    "tooltip": "Начните сканирование BLE и сохраните результаты"
+  },
+  "seeed_rpcble_scan_stop": {
+    "args0": [
+      null
+    ],
+    "message0": "Остановите сканер %1",
+    "tooltip": "Остановите текущее BLE-сканирование"
+  },
+  "seeed_rpcble_scan_clear_results": {
+    "args0": [
+      null
+    ],
+    "message0": "Очистите сканер %1 кэш результатов",
+    "tooltip": "Очистите результаты сканирования и освободите память"
+  },
+  "seeed_rpcble_scan_results_count": {
+    "args0": [
+      null
+    ],
+    "message0": "Сканирование results%1 количество",
+    "tooltip": "Получите количество отсканированных BLE-устройств"
+  },
+  "seeed_rpcble_scan_result_name": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Результат сканирования %1 имя %2",
+    "tooltip": "Читайте название устройства для указанных результатов сканирования"
+  },
+  "seeed_rpcble_scan_result_address": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Результат сканирования %1 адрес с серийным номером %2",
+    "tooltip": "Прочитайте MAC-адрес указанных результатов сканирования"
+  },
+  "seeed_rpcble_scan_result_rssi": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Результаты сканирования %1 RSSI с серийным номером %2",
+    "tooltip": "Читайте RSSI силы сигнала для указанных результатов сканирования"
+  },
+  "seeed_rpcble_scan_result_service_uuid": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Результат сканирования %1 сервисный UUID с серийным номером %2",
+    "tooltip": "Прочитайте первую трансляцию сервиса UUID по указанным результатам сканирования"
+  },
+  "seeed_rpcble_scan_result_info": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Результаты сканирования %1 Полная информация о серийном номере %2",
+    "tooltip": "Прочитайте полный текст описания указанных результатов сканирования"
+  },
+  "seeed_rpcble_scan_result_has_service": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Результат сканирования %1 серийный номер %2 Включает сервисный UUID %3",
+    "tooltip": "Определите, транслируют ли указанные результаты сканирования целевой сервис UUID"
+  },
+  "seeed_rpcble_create_client": {
+    "args0": [
+      null
+    ],
+    "message0": "Создание клиента BLE %1",
+    "tooltip": "Создать клиентский объект BLE GATT"
+  },
+  "seeed_rpcble_client_connect": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Public",
+            "GAP_REMOTE_ADDR_LE_PUBLIC"
+          ],
+          [
+            "Random",
+            "GAP_REMOTE_ADDR_LE_RANDOM"
+          ]
+        ]
+      }
+    ],
+    "message0": "Клиент %1 адрес соединения %2 тип адреса %3",
+    "tooltip": "Подключитесь к указанному BLE MAC-адресу"
+  },
+  "seeed_rpcble_client_disconnect": {
+    "args0": [
+      null
+    ],
+    "message0": "Отключение %1 клиента",
+    "tooltip": "Отключите клиентское соединение BLE"
+  },
+  "seeed_rpcble_client_is_connected": {
+    "args0": [
+      null
+    ],
+    "message0": "Клиент %1 подключен",
+    "tooltip": "Проверьте, подключён ли клиент BLE"
+  },
+  "seeed_rpcble_client_rssi": {
+    "args0": [
+      null
+    ],
+    "message0": "Клиент %1 удалённый RSSI",
+    "tooltip": "Читайте удалённый RSSI, подключённый клиентом"
+  },
+  "seeed_rpcble_client_get_service": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Клиент %1 Получить удалённые услуги %2 UUID%3",
+    "tooltip": "Получите указанный сервис GATT с удалённого сервера BLE"
+  },
+  "seeed_rpcble_remote_service_get_characteristic": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Удалённое обслуживание %1 получение функций %2 UUID %3",
+    "tooltip": "Получите определённые функции от удалённого сервиса GATT"
+  },
+  "seeed_rpcble_remote_characteristic_read": {
+    "args0": [
+      null
+    ],
+    "message0": "Читайте функцию удалённого управления %1 тексте",
+    "tooltip": "Чтение удалённого текста BLE собственных значений"
+  },
+  "seeed_rpcble_remote_characteristic_write": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "но ответа не было",
+            "FALSE"
+          ],
+          [
+            "Нужен ответ",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Пишите удалённые функции %1 текстовые %2 %3",
+    "tooltip": "Запись текстовых данных в удалённые функции BLE"
+  },
+  "seeed_rpcble_remote_characteristic_can_read": {
+    "args0": [
+      null
+    ],
+    "message0": "Удалённые функции %1 читаемы",
+    "tooltip": "Определите, поддерживают ли удалённые функции чтения"
+  },
+  "seeed_rpcble_remote_characteristic_can_write": {
+    "args0": [
+      null
+    ],
+    "message0": "Дистальные черты %1 записываемые",
+    "tooltip": "Определите, поддерживают ли удалённые функции написания"
+  },
+  "seeed_rpcble_remote_characteristic_can_notify": {
+    "args0": [
+      null
+    ],
+    "message0": "Удалённые функции %1 могут быть уведомлены",
+    "tooltip": "Определите, поддерживают ли уведомления удалённых функций"
+  },
+  "seeed_rpcble_remote_characteristic_register_notify": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Уведомление",
+            "TRUE"
+          ],
+          [
+            "Индикация",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "Подпишитесь на удалённые функции %1 уведомления %2",
+    "message1": "На receipt%1",
+    "tooltip": "Подписывайтесь на уведомления о удалённых функциях и кэшируйте полученные данные"
+  },
+  "seeed_rpcble_remote_notify_value": {
+    "args0": [
+      null
+    ],
+    "message0": "Удалённые функции %1 недавний текст уведомлений",
+    "tooltip": "Прочитайте последний текст кэша удалённых уведомлений для обратного вызова."
+  },
+  "seeed_rpcble_uart_begin": {
+    "args0": [
+      null
+    ],
+    "message0": "Запустить сервис BLE UART Название: %1",
+    "tooltip": "Созданы северные сервисы BLE в стиле UART, подходящие для отправки и приёма текстов через мобильные телефоны или веб-Bluetooth"
+  },
+  "seeed_rpcble_uart_send": {
+    "args0": [
+      null
+    ],
+    "message0": "BLE UART Отправить текст %1",
+    "tooltip": "Текстовые данные уведомляются через функции BLE UART TX"
+  },
+  "seeed_rpcble_uart_connected": {
+    "message0": "BLE UART связан",
+    "tooltip": "Проверьте, есть ли у BLE UART клиентские связи"
+  },
+  "seeed_rpcble_uart_received": {
+    "message0": "BLE UART недавно получил текст",
+    "tooltip": "Прочитайте текст, недавно полученный в рубрике BLE UART RX"
+  },
+  "seeed_rpcble_uart_on_receive": {
+    "args1": [
+      null
+    ],
+    "message0": "Когда BLE UART получает текст",
+    "message1": "выполнить %1",
+    "tooltip": "Задайте логику обработки для BLE UART после получения текста"
+  },
+  "seeed_rpcble_web_battery_begin": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Начало веб-Bluetooth Сервисное название батареи: %1 начальный %2 батареи",
+    "tooltip": "Создайте стандартный 0x180F обслуживания батарей, чтобы облегчить чтение образцов через Web Bluetooth и подписку на питание"
+  },
+  "seeed_rpcble_web_battery_set_level": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "и уведомление",
+            "TRUE"
+          ],
+          [
+            "Только обновлено",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Установите %1 %2 батареи на веб-Bluetooth",
+    "tooltip": "Обновите функции уровня батареи и выберите немедленное уведомление клиентов по подписке"
+  },
+  "seeed_rpcble_web_battery_level": {
+    "message0": "Текущий уровень батареи в веб-Bluetooth",
+    "tooltip": "Читайте текущее питание кэша обслуживания батареи"
+  },
+  "seeed_rpcble_web_battery_connected": {
+    "message0": "Подключена веб-услуга Bluetooth-батарей",
+    "tooltip": "Проверьте, есть ли у сервиса подключения клиентов"
+  },
+  "seeed_rpcble_ibeacon_begin": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Нельзя связать",
+            "NONCONN"
+          ],
+          [
+            "Сканируемый",
+            "SCAN_IND"
+          ]
+        ]
+      }
+    ],
+    "message0": "Название стартапа iBeacon %1 UUID %2 Major %3 Minor %4 Vendor ID %5 Power %6 Information %7 Type %8",
+    "tooltip": "Настройте и запустите трансляции iBeacon, которые могут включать имя ответа сканирования и текстовую информацию"
+  },
+  "seeed_rpcble_ibeacon_stop": {
+    "message0": "Остановите трансляцию iBeacon",
+    "tooltip": "Остановите трансляцию iBeacon"
+  }
+}

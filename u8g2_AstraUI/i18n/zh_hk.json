@@ -1,0 +1,666 @@
+{
+  "toolbox_name": "Astra UI",
+  "toolbox_labels": {
+    "初始化与页面": "初始化與頁面",
+    "菜单控件": "選單控制項",
+    "控件数据与外观": "控制項資料與外觀",
+    "主题与行为": "主題與行為",
+    "按键与自定义输入": "按鍵與自訂輸入",
+    "界面控制": "介面控制",
+    "状态查询": "狀態查詢",
+    "事件": "活動"
+  },
+  "astraui_init": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "初始化 AstraUI %1 使用 U8g2 物件 %2 根頁面 %3 顯示器已初始化 %4",
+    "message1": "頁面、控制項和輸入配置 %1",
+    "tooltip": "建立 U8g2Canvas 和 UI，建立選單後啟動介面，並自動在 loop 中刷新。 U8g2 必須使用全緩衝模式。"
+  },
+  "astraui_create_page": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "清單",
+            "List"
+          ],
+          [
+            "磁貼",
+            "Tile"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "建立頁面 %1 標題 %2 版面配置 %3 ID %4",
+    "tooltip": "建立具有程式全生命週期的 AstraUI 頁面。請先建立所有頁面，再建立子選單控制項。"
+  },
+  "astraui_create_action": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "新增動作項目 %1 到頁 %2 文字 %3 ID %4",
+    "message1": "啟動時執行 %1",
+    "tooltip": "新增命令型選單項目；使用者啟動該項目時執行內部積木。"
+  },
+  "astraui_create_submenu": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "新增子選單項目 %1 到頁 %2 文字 %3 目標頁 %4 ID %5",
+    "tooltip": "新增開啟另一頁的子選單入口。目標頁面必須先建立。"
+  },
+  "astraui_create_toggle": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "新增切換項目 %1 到 頁面 %2 文字 %3 資料變數 %4 初始值 %5 ID %6",
+    "message1": "值改變時執行 %1",
+    "tooltip": "新增綁定 bool 全域資料變數的開關控制項。"
+  },
+  "astraui_create_slider": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "args2": [
+      null
+    ],
+    "message0": "新增滑桿項目 %1 到頁 %2 文字 %3 資料變數 %4 ID %5",
+    "message1": "初值 %1 最小 %2 最大 %3 步進 %4 後綴 %5",
+    "message2": "值改變時執行 %1",
+    "tooltip": "新增綁定 int32_t 全域資料變數的範圍滑桿。"
+  },
+  "astraui_create_choice": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null,
+      null
+    ],
+    "args2": [
+      null
+    ],
+    "message0": "新增選項 %1 到頁面 %2 文字 %3 資料變數 %4 ID %5",
+    "message1": "逗號分隔選項 %1 初始索引 %2",
+    "message2": "值改變時執行 %1",
+    "tooltip": "新增循環選擇控制項。選項以英文逗號分隔，資料變數保存目前索引。"
+  },
+  "astraui_create_value": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "有符號整數",
+            "int32_t"
+          ],
+          [
+            "無符號整數",
+            "uint32_t"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ],
+    "message0": "新增唯讀值 items（%1）到頁面 %2 文字 %3 資料變數 %4 類型 %5 初始值 %6 後綴 %7 ID %8",
+    "tooltip": "新增由格式化回調讀取全域整數變數的唯讀狀態項目。"
+  },
+  "astraui_create_separator": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "新增分隔項目 %1 到頁 %2 文字 %3 ID %4",
+    "tooltip": "新增不可聚焦的分割區標題或分隔線。"
+  },
+  "astraui_set_data_value": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "設定 AstraUI 資料變數 %1 為 %2 並重新整理 %3",
+    "tooltip": "更新開關、滑桿、選項或只讀數值項所綁定的資料變量，並要求重繪。"
+  },
+  "astraui_data_value": {
+    "args0": [
+      null
+    ],
+    "message0": "AstraUI 資料變數 %1",
+    "tooltip": "讀取開關、滑桿、選項或只讀數值項所綁定的資料變數。"
+  },
+  "astraui_set_item_state": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "啟用",
+            "setEnabled"
+          ],
+          [
+            "可見",
+            "setVisible"
+          ],
+          [
+            "可聚焦",
+            "setFocusable"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "message0": "控制項 %1 設定 %2 為 %3 並重新整理 %4",
+    "tooltip": "運行時切換控制項的啟用、顯示或可聚焦狀態，並請求重繪。"
+  },
+  "astraui_set_item_label": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "控制項 %1 設定文字 %2 並重新整理 %3",
+    "tooltip": "把控製文字更換為程式生命週期內有效的字串常數。"
+  },
+  "astraui_set_item_icon": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "控制 %1 設定 XBM 圖示陣列 %2 寬度 %3 高 %4 和刷新 %5",
+    "tooltip": "為控制項設定現有的 XBM 點陣圖數組，常用於磁貼頁。"
+  },
+  "astraui_set_page_options": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "跟隨全局",
+            "GLOBAL"
+          ],
+          [
+            "顯示",
+            "TRUE"
+          ],
+          [
+            "隱藏",
+            "FALSE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "跟隨全局",
+            "GLOBAL"
+          ],
+          [
+            "啟用",
+            "TRUE"
+          ],
+          [
+            "停用",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "頁面 %1 標題列 %2 循環導覽 %3",
+    "tooltip": "覆蓋單一頁面的標題列和循環導航設定。"
+  },
+  "astraui_set_theme": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "深色",
+            "FALSE"
+          ],
+          [
+            "淺色",
+            "TRUE"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "正文",
+            "Text"
+          ],
+          [
+            "整條線",
+            "Row"
+          ]
+        ]
+      }
+    ],
+    "message0": "AstraUI %1 主題 %2 顯示頁面標題 %3 顯示捲軸 %4 顯示磁磚頁腳 %5 選擇器寬度 %6",
+    "tooltip": "設定常用主題外觀。應放在 AstraUI 初始化區塊內部、控制項宣告之後。"
+  },
+  "astraui_set_layout_metrics": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "AstraUI %1 版面螢幕邊距 %2 標題高度 %3 列表列高度 %4 磚塊寬度 %5 圖示寬度 %6 圖示高度 %7",
+    "tooltip": "調整清單、標題和磁貼的主要尺寸，方便適配 128x32 或自訂畫面。"
+  },
+  "astraui_set_motion": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "柔和",
+            "Gentle"
+          ],
+          [
+            "斯威夫特",
+            "Snappy"
+          ],
+          [
+            "彈性",
+            "Bouncy"
+          ],
+          [
+            "減少動畫",
+            "Reduced"
+          ]
+        ]
+      }
+    ],
+    "message0": "AstraUI %1 動畫預設 %2",
+    "tooltip": "應用一組經過調校的彈簧動畫參數。"
+  },
+  "astraui_set_behavior": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null,
+      null,
+      null
+    ],
+    "message0": "AstraUI %1 行為迴圈導航 %2 跳過停用項目 %3 記住焦點 %4 返回時復原 %5",
+    "message1": "連續渲染 %1 空閒刷新間隔 %2 毫秒 Toast 時長 %3 毫秒",
+    "tooltip": "設定導航、編輯和刷新策略。動態狀態頁面可使用低頻空閒刷新。"
+  },
+  "astraui_create_two_button": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "低電平",
+            "LOW"
+          ],
+          [
+            "高電平",
+            "HIGH"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "內部上拉",
+            "INPUT_PULLUP"
+          ],
+          [
+            "普通輸入",
+            "INPUT"
+          ],
+          [
+            "內部下拉",
+            "INPUT_PULLDOWN"
+          ]
+        ]
+      }
+    ],
+    "message0": "建立雙鍵輸入%1控制%2前一個腳位%3下一個腳位%4有效電平%5腳位模式%6",
+    "tooltip": "短按前後導航；長按上一個鍵返回、下一個鍵啟動。自動初始化並在 loop 中掃描。"
+  },
+  "astraui_create_three_button": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "低電平",
+            "LOW"
+          ],
+          [
+            "高電平",
+            "HIGH"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "內部上拉",
+            "INPUT_PULLUP"
+          ],
+          [
+            "普通輸入",
+            "INPUT"
+          ],
+          [
+            "內部下拉",
+            "INPUT_PULLDOWN"
+          ]
+        ]
+      }
+    ],
+    "message0": "建立三鍵輸入 %1 控制 %2 上一 %3 下一 %4 確認 %5 有效電平 %6 針腳模式 %7",
+    "tooltip": "前後鍵支援長按連發，確認鍵短按啟動、長按返回；自動在 loop 中掃描。"
+  },
+  "astraui_set_button_timing": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "按鍵輸入 %1 穩定 %2 長按 %3 持續延遲 %4 突發間隔 %5毫秒",
+    "tooltip": "調整按鍵消抖、長按和自動連發時間。"
+  },
+  "astraui_dispatch": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "上一項/減小",
+            "Previous"
+          ],
+          [
+            "下一項/增大",
+            "Next"
+          ],
+          [
+            "啟動/確認",
+            "Activate"
+          ],
+          [
+            "返回",
+            "Back"
+          ],
+          [
+            "減小",
+            "Decrement"
+          ],
+          [
+            "放大",
+            "Increment"
+          ],
+          [
+            "首頁",
+            "Home"
+          ]
+        ]
+      }
+    ],
+    "message0": "AstraUI %1 傳送輸入操作 %2",
+    "tooltip": "注入語意輸入，適用於編碼器、串列埠、觸控或自訂按鍵。"
+  },
+  "astraui_show_toast": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "AstraUI %1 顯示提示 %2 持續 %3 毫秒（0 使用預設值）",
+    "tooltip": "在介面上顯示非阻塞 Toast 提示。"
+  },
+  "astraui_ui_command": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "請求重繪",
+            "invalidate"
+          ],
+          [
+            "立即渲染",
+            "renderNow"
+          ],
+          [
+            "關閉提示",
+            "dismissToast"
+          ],
+          [
+            "回上一頁",
+            "back"
+          ],
+          [
+            "回到首頁",
+            "home"
+          ]
+        ]
+      }
+    ],
+    "message0": "AstraUI %1 執行 %2",
+    "tooltip": "執行常用介面控制指令。"
+  },
+  "astraui_open_page": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "AstraUI %1 開啟頁面 %2",
+    "tooltip": "以程式設計方式開啟指定頁面。"
+  },
+  "astraui_focus": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "AstraUI %1 聚焦指標 %2 使用動畫 %3",
+    "tooltip": "讓目前頁面聚焦到指定的原始控制項索引。"
+  },
+  "astraui_set_power_save": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "AstraUI %1 顯示器省電 %2",
+    "tooltip": "開啟或關閉顯示器省電模式。"
+  },
+  "astraui_status": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "已啟動",
+            "isBegun"
+          ],
+          [
+            "正在編輯",
+            "editing"
+          ],
+          [
+            "正在過渡",
+            "transitioning"
+          ]
+        ]
+      }
+    ],
+    "message0": "AstraUI %1 %2",
+    "tooltip": "查詢介面是否已啟動、正在編輯或正在進行頁面過渡。"
+  },
+  "astraui_focus_index": {
+    "args0": [
+      null
+    ],
+    "message0": "AstraUI %1 目前焦點索引",
+    "tooltip": "傳回目前頁面的原始焦點索引。"
+  },
+  "astraui_navigation_depth": {
+    "args0": [
+      null
+    ],
+    "message0": "AstraUI %1 目前導航深度",
+    "tooltip": "返回頁面導航堆疊深度。"
+  },
+  "astraui_current_item_id": {
+    "args0": [
+      null
+    ],
+    "message0": "AstraUI %1 目前控制項 ID",
+    "tooltip": "傳回目前控制項 ID；沒有目前控制項時傳回 0。"
+  },
+  "astraui_begin_result_message": {
+    "args0": [
+      null
+    ],
+    "message0": "AstraUI %1 啟動結果文本",
+    "tooltip": "傳回最近一次 begin 的可讀結果，例如全緩衝模式錯誤。"
+  },
+  "astraui_when_event": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "當 AstraUI %1 發生事件",
+    "message1": "執行 %1",
+    "tooltip": "註冊全域 AstraUI 事件處理器。內部可使用事件判斷和值積木。"
+  },
+  "astraui_event_is": {
+    "args0": [
+      {
+        "options": [
+          [
+            "焦點改變",
+            "FocusChanged"
+          ],
+          [
+            "已啟用",
+            "Activated"
+          ],
+          [
+            "值改變",
+            "ValueChanged"
+          ],
+          [
+            "開始編輯",
+            "EditStarted"
+          ],
+          [
+            "提交編輯",
+            "EditCommitted"
+          ],
+          [
+            "取消編輯",
+            "EditCancelled"
+          ],
+          [
+            "進入頁面",
+            "PageEntered"
+          ],
+          [
+            "退出頁面",
+            "PageExited"
+          ]
+        ]
+      }
+    ],
+    "message0": "目前 AstraUI 事件是 %1",
+    "tooltip": "只能在 AstraUI 事件處理積木內部使用。"
+  },
+  "astraui_event_value": {
+    "message0": "當前 AstraUI 事件數值",
+    "tooltip": "傳回目前事件攜帶的數值；只能在事件處理積木內部使用。"
+  },
+  "astraui_event_item_id": {
+    "message0": "目前 AstraUI 事件控制項 ID",
+    "tooltip": "傳回目前事件控制項 ID；沒有控制項時傳回 0。只能在事件處理積木內部使用。"
+  },
+  "astraui_event_page_id": {
+    "message0": "目前 AstraUI 事件頁面 ID",
+    "tooltip": "返回目前事件頁面 ID；沒有頁面時返回 0。只能在事件處理積木內部使用。"
+  }
+}

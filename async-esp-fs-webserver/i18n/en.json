@@ -1,0 +1,370 @@
+{
+  "toolbox_labels": {
+    "WebSocket": "WebSocket",
+    "初始化": "initialization",
+    "WiFi与启动": "WiFi and startup",
+    "管理页面": "Management page",
+    "配置选项": "Configuration options",
+    "HTTP路由": "HTTP routing",
+    "状态与维护": "Condition and Maintenance"
+  },
+  "async_fs_webserver_create": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "LittleFS",
+            "LittleFS"
+          ],
+          [
+            "SPIFFS",
+            "SPIFFS"
+          ],
+          [
+            "FFat",
+            "FFat"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "message0": "Create ESP32 file system web server %1 file system %2 port %3 hostname %4",
+    "tooltip": "Create AsyncFsWebServer global object and register variables, dedicated to ESP32"
+  },
+  "async_fs_webserver_mount_fs": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "LittleFS",
+            "LittleFS"
+          ],
+          [
+            "SPIFFS",
+            "SPIFFS"
+          ],
+          [
+            "FFat",
+            "FFat"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "%1 Mount file system %2 Automatically format on failure %3",
+    "tooltip": "Mount the ESP32 file system in setup. It can automatically format and restart if it fails."
+  },
+  "async_fs_webserver_connect_or_ap": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 Connection to saved WiFi timeout %2 milliseconds Turn on AP if failed %3 Password %4 Jump %5",
+    "tooltip": "First connect to WiFi with saved credentials, then start configuring hotspot and captive portal after failure"
+  },
+  "async_fs_webserver_start_wifi": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "%1 Connection saved WiFi timeout %2 milliseconds",
+    "tooltip": "Use WiFi credentials saved in the file system to connect to the network and wait for the specified timeout before returning."
+  },
+  "async_fs_webserver_captive_portal": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 Start configuration AP %2 Password %3 Jump %4",
+    "tooltip": "Start the ESP32 hotspot and captive portal, usually jump to the /setup page"
+  },
+  "async_fs_webserver_start_server": {
+    "args0": [
+      null
+    ],
+    "message0": "Start %1 web server",
+    "tooltip": "Register the built-in processor and start the web server"
+  },
+  "async_fs_webserver_start_ws_server": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "Start the %1 web server and enable the /ws event",
+    "message1": "When the WebSocket event occurs %1",
+    "tooltip": "Start the server and register WebSocket event callbacks at the default /ws path"
+  },
+  "async_fs_webserver_file_editor": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Enable/edit file editor",
+    "tooltip": "Enables built-in ACE file browsing, uploading, editing and deleting pages"
+  },
+  "async_fs_webserver_set_auth": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 Setup/setup account %2 Password %3",
+    "tooltip": "Set the Basic Auth account and password for the /setup management page"
+  },
+  "async_fs_webserver_require_auth": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "%1 All pages require authentication %2",
+    "tooltip": "After opening, all pages require Basic Auth authentication."
+  },
+  "async_fs_webserver_page_title": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "%1 Setting/setup page title %2",
+    "tooltip": "The title displayed in the setup/setup configuration page"
+  },
+  "async_fs_webserver_firmware_version": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "%1 Set firmware version %2",
+    "tooltip": "The current firmware version displayed on the setup/setup page"
+  },
+  "async_fs_webserver_option_box": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "%1 Add option grouping %2",
+    "tooltip": "Add an application configuration options group to the /setup page"
+  },
+  "async_fs_webserver_option_text": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 Add text option tag %2 Default value %3",
+    "tooltip": "Add text configuration items on the /setup page"
+  },
+  "async_fs_webserver_option_number": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 Add numeric option Tag %2 Default %3 Minimum %4 Maximum %5 Step %6",
+    "tooltip": "Add numerical configuration items with range and step on the /setup page"
+  },
+  "async_fs_webserver_option_bool": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 Add switch option label %2 Default checked %3",
+    "tooltip": "Add Boolean switch configuration items on the /setup page"
+  },
+  "async_fs_webserver_option_comment": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 Add description %3 for option %2",
+    "tooltip": "Add help instructions to the specified configuration items in the /setup page"
+  },
+  "async_fs_webserver_route": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "GET",
+            "HTTP_GET"
+          ],
+          [
+            "POST",
+            "HTTP_POST"
+          ],
+          [
+            "PUT",
+            "HTTP_PUT"
+          ],
+          [
+            "DELETE",
+            "HTTP_DELETE"
+          ],
+          [
+            "arbitrary",
+            "HTTP_ANY"
+          ]
+        ]
+      }
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "%1 Add HTTP route Path %2 Method %3",
+    "message1": "After receiving the request %1",
+    "tooltip": "Add custom HTTP route processing function to ESPAsyncWebServer"
+  },
+  "async_fs_webserver_response": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Response request status code %1 type %2 content %3",
+    "tooltip": "Sending response inside HTTP route processing block"
+  },
+  "async_fs_webserver_response_ok": {
+    "message0": "Response OK",
+    "tooltip": "Send default OK response inside HTTP route processing block"
+  },
+  "async_fs_webserver_request_arg": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "query parameters",
+            "false"
+          ],
+          [
+            "Form POST",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "message0": "Request parameter %1 Source %2",
+    "tooltip": "Reading request parameters inside HTTP routing processing block"
+  },
+  "async_fs_webserver_request_has_arg": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "query parameters",
+            "false"
+          ],
+          [
+            "Form POST",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "message0": "The request contains parameter %1 source %2",
+    "tooltip": "Determine whether the request contains specified parameters inside the HTTP routing processing block"
+  },
+  "async_fs_webserver_request_path": {
+    "message0": "Current request path",
+    "tooltip": "Get the current request URL path inside the HTTP routing processing block"
+  },
+  "async_fs_webserver_ws_broadcast": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "%1 WebSocket broadcast text %2",
+    "tooltip": "Broadcast text message to all connected WebSocket clients"
+  },
+  "async_fs_webserver_ws_reply": {
+    "args0": [
+      null
+    ],
+    "message0": "Reply to current WebSocket client %1",
+    "tooltip": "Send text message to current client inside WebSocket event block"
+  },
+  "async_fs_webserver_ws_event_is": {
+    "args0": [
+      {
+        "options": [
+          [
+            "connect",
+            "WS_EVT_CONNECT"
+          ],
+          [
+            "Disconnect",
+            "WS_EVT_DISCONNECT"
+          ],
+          [
+            "data received",
+            "WS_EVT_DATA"
+          ],
+          [
+            "Error",
+            "WS_EVT_ERROR"
+          ]
+        ]
+      }
+    ],
+    "message0": "The WebSocket event is %1",
+    "tooltip": "Determine the current event type inside the WebSocket event block"
+  },
+  "async_fs_webserver_ws_message": {
+    "message0": "Text received by WebSocket",
+    "tooltip": "Get text message in WebSocket received data event"
+  },
+  "async_fs_webserver_ws_client_id": {
+    "message0": "WebSocket client ID",
+    "tooltip": "Get current client ID inside WebSocket event block"
+  },
+  "async_fs_webserver_server_ip": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Server IP address",
+    "tooltip": "Get the current web server IP address string"
+  },
+  "async_fs_webserver_is_ap_mode": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 is currently in AP mode",
+    "tooltip": "Determine whether the server is currently running in hotspot AP mode"
+  },
+  "async_fs_webserver_start_mdns": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Start mDNS service",
+    "tooltip": "Start mDNS responder when WiFi is connected to facilitate access via hostname.local"
+  },
+  "async_fs_webserver_clear_saved_settings": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Clear/setup saved configuration",
+    "tooltip": "Delete the /setup/config.json configuration file, the return value will be ignored"
+  },
+  "async_fs_webserver_settings_file_name": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Configuration file path",
+    "tooltip": "Get the path where /setup saves the configuration file"
+  },
+  "toolbox_name": "ESP32 asynchronous web server"
+}

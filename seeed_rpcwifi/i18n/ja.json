@@ -1,0 +1,690 @@
+{
+  "toolbox_name": "RPC WiFi",
+  "toolbox_categories": [
+    "WiFi接続と状況",
+    "ネットワークスキャン",
+    "WiFiマルチとホットスポット",
+    "TCPクライアント",
+    "UDP通信",
+    "HTTP/HTTPS",
+    "WebServer",
+    "DNS"
+  ],
+  "toolbox_labels": {
+    "WiFiMulti": "WiFiMulti",
+    "热点(AP)": "ホットスポット(AP)"
+  },
+  "seeed_rpcwifi_set_mode": {
+    "args0": [
+      {
+        "options": [
+          [
+            "サイト(STA)",
+            "WIFI_STA"
+          ],
+          [
+            "ホットスポット(AP)",
+            "WIFI_AP"
+          ],
+          [
+            "サイト+ホットスポット",
+            "WIFI_AP_STA"
+          ],
+          [
+            "閉じる",
+            "WIFI_OFF"
+          ]
+        ]
+      }
+    ],
+    "message0": "WiFiモードを%1設定",
+    "tooltip": "Wio端末をWiFi RTL8720動作モードに設定してください"
+  },
+  "seeed_rpcwifi_begin": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "WiFiに接続 SSID %1 パスワード %2",
+    "tooltip": "WiFiに電話してWiFiに接続を開始してください"
+  },
+  "seeed_rpcwifi_connect_wait": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "WiFiに接続して、SSID%1パスワード%2タイムアウトを%3ミリ秒待ちます",
+    "tooltip": "WiFiに接続して、接続が成功するかタイムアウトするまでブロックします"
+  },
+  "seeed_rpcwifi_disconnect": {
+    "args0": [
+      {
+        "options": [
+          [
+            "WiFiはつけておきましょう",
+            "FALSE"
+          ],
+          [
+            "WiFiをオフにしてください",
+            "TRUE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "設定を保持する",
+            "FALSE"
+          ],
+          [
+            "構成をクリアしてください",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "WiFi%1 %2切断",
+    "tooltip": "現在のWiFi接続を切断"
+  },
+  "seeed_rpcwifi_reconnect": {
+    "message0": "WiFiに再接続してください",
+    "tooltip": "WiFi.reconnectに電話して、開始が成功したかどうかを返します"
+  },
+  "seeed_rpcwifi_status": {
+    "message0": "WiFi接続状態",
+    "tooltip": "WiFi.status() ステータスコードを取得してください"
+  },
+  "seeed_rpcwifi_status_type": {
+    "args0": [
+      {
+        "options": [
+          [
+            "アイドル",
+            "WL_IDLE_STATUS"
+          ],
+          [
+            "SSIDは利用できません",
+            "WL_NO_SSID_AVAIL"
+          ],
+          [
+            "スキャン完了",
+            "WL_SCAN_COMPLETED"
+          ],
+          [
+            "接続済み",
+            "WL_CONNECTED"
+          ],
+          [
+            "接続不良",
+            "WL_CONNECT_FAILED"
+          ],
+          [
+            "接続喪失",
+            "WL_CONNECTION_LOST"
+          ],
+          [
+            "切断する",
+            "WL_DISCONNECTED"
+          ],
+          [
+            "加群なし",
+            "WL_NO_SHIELD"
+          ]
+        ]
+      }
+    ],
+    "message0": "WiFi状態定数:%1",
+    "tooltip": "WiFi接続状態が一定"
+  },
+  "seeed_rpcwifi_is_connected": {
+    "message0": "WiFi接続済み",
+    "tooltip": "WiFiが接続されているか確認してください"
+  },
+  "seeed_rpcwifi_wait_for_connect_result": {
+    "message0": "WiFi接続の結果を待ちます",
+    "tooltip": "WiFi.waitForConnectResult() に電話してください"
+  },
+  "seeed_rpcwifi_local_ip": {
+    "message0": "ローカルIPアドレス",
+    "tooltip": "WiFi.localIP()文字列を取得します"
+  },
+  "seeed_rpcwifi_mac_address": {
+    "message0": "MACアドレス",
+    "tooltip": "WiFiのMACアドレスを取得してください"
+  },
+  "seeed_rpcwifi_current_ssid": {
+    "message0": "現在のWiFi名(SSID)",
+    "tooltip": "現在の接続のSSIDを取得してください"
+  },
+  "seeed_rpcwifi_rssi": {
+    "message0": "信号強度(RSSI)",
+    "tooltip": "現在のWiFi信号強度を入手してください"
+  },
+  "seeed_rpcwifi_set_auto_reconnect": {
+    "args0": [
+      {
+        "options": [
+          [
+            "有効にする",
+            "TRUE"
+          ],
+          [
+            "無効にする",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "自動再接続%1設定してください",
+    "tooltip": "WiFiを自動再接続に設定します"
+  },
+  "seeed_rpcwifi_mode_value": {
+    "args0": [
+      {
+        "options": [
+          [
+            "サイト(STA)",
+            "WIFI_MODE_STA"
+          ],
+          [
+            "ホットスポット(AP)",
+            "WIFI_MODE_AP"
+          ],
+          [
+            "サイト+ホットスポット",
+            "WIFI_MODE_APSTA"
+          ],
+          [
+            "閉じる",
+            "WIFI_MODE_NULL"
+          ]
+        ]
+      }
+    ],
+    "message0": "WiFiモードの定数%1",
+    "tooltip": "WiFiモードの定数"
+  },
+  "seeed_rpcwifi_firmware_version": {
+    "message0": "RTL8720ファームウェアバージョン",
+    "tooltip": "eRPCのファームウェアバージョンRTL8720読んでください"
+  },
+  "seeed_rpcwifi_scan_networks": {
+    "args0": [
+      {
+        "options": [
+          [
+            "同期",
+            "FALSE"
+          ],
+          [
+            "非同期",
+            "TRUE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "隠しネットワークは表示されません",
+            "FALSE"
+          ],
+          [
+            "隠れたネットワークの表示",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "WiFiネットワーク%1 %2スキャン",
+    "tooltip": "近くのWiFiネットワークをスキャンして、その金額を返品してください"
+  },
+  "seeed_rpcwifi_scan_complete": {
+    "message0": "非同期スキャンが結果を完成させます",
+    "tooltip": "非同期スキャンの状況や結果数を確認してください"
+  },
+  "seeed_rpcwifi_scan_delete": {
+    "message0": "スキャン結果を消去してください",
+    "tooltip": "WiFiスキャン結果を公開します"
+  },
+  "seeed_rpcwifi_scanned_ssid": {
+    "args0": [
+      null
+    ],
+    "message0": "スキャン結果%1SSIDが判明しました",
+    "tooltip": "指定されたスキャン結果のSSIDを取得してください"
+  },
+  "seeed_rpcwifi_scanned_rssi": {
+    "args0": [
+      null
+    ],
+    "message0": "RSSI%1スキャン結果",
+    "tooltip": "指定されたスキャン結果の信号強度を取得します"
+  },
+  "seeed_rpcwifi_scanned_encryption": {
+    "args0": [
+      null
+    ],
+    "message0": "スキャン結果の暗号化タイプは%1",
+    "tooltip": "指定されたスキャン結果の暗号化タイプを取得する"
+  },
+  "seeed_rpcwifi_scanned_channel": {
+    "args0": [
+      null
+    ],
+    "message0": "%1チャンネルをスキャンする",
+    "tooltip": "指定されたスキャン結果チャネルを取得します"
+  },
+  "seeed_rpcwifi_encryption_type": {
+    "args0": [
+      {
+        "options": [
+          [
+            "オープン",
+            "WIFI_AUTH_OPEN"
+          ],
+          [
+            "WEP",
+            "WIFI_AUTH_WEP"
+          ],
+          [
+            "WPA_PSK",
+            "WIFI_AUTH_WPA_PSK"
+          ],
+          [
+            "WPA2_PSK",
+            "WIFI_AUTH_WPA2_PSK"
+          ],
+          [
+            "WPA/WPA2_PSK",
+            "WIFI_AUTH_WPA_WPA2_PSK"
+          ],
+          [
+            "WPA2_ENTERPRISE",
+            "WIFI_AUTH_WPA2_ENTERPRISE"
+          ]
+        ]
+      }
+    ],
+    "message0": "暗号型定数%1",
+    "tooltip": "WiFi暗号化の種類定数"
+  },
+  "seeed_rpcwifi_multi_create": {
+    "args0": [
+      null
+    ],
+    "message0": "WiFiMulti Object %1を作成",
+    "tooltip": "複数のホットスポットを自動的に選択するためのWiFiMultiオブジェクトを作成する"
+  },
+  "seeed_rpcwifi_multi_add_ap": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "WiFiMulti %1 AP のSSID%2パスワードを追加%3",
+    "tooltip": "WiFiMulti候補リストにホットスポットを追加する"
+  },
+  "seeed_rpcwifi_multi_run": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "WiFiMultiの%1接続タイムアウトは%2ミリ秒です",
+    "tooltip": "候補リストの中で最も電波の良いWiFiに接続してください"
+  },
+  "seeed_rpcwifi_softap": {
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "放送SSID",
+            "FALSE"
+          ],
+          [
+            "SSIDを非表示にする",
+            "TRUE"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "WiFiホットスポットのSSID%1パスワード、パスワード、チャンネル%2最大接続%3 %4作成%5",
+    "tooltip": "APホットスポットモードを起動してください"
+  },
+  "seeed_rpcwifi_softap_config": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "ホットスポットIP%1ゲートウェイ%2サブネットマスク%3設定してください",
+    "tooltip": "APホットスポットのIP、ゲートウェイ、サブネットマスクの設定"
+  },
+  "seeed_rpcwifi_softap_disconnect": {
+    "args0": [
+      {
+        "options": [
+          [
+            "WiFiはつけておきましょう",
+            "FALSE"
+          ],
+          [
+            "WiFiをオフにしてください",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "WiFiホットスポットをオフに%1",
+    "tooltip": "APホットスポットの近く"
+  },
+  "seeed_rpcwifi_softap_station_count": {
+    "message0": "ホットスポット接続デバイスの数",
+    "tooltip": "APに接続されているクライアントの数を把握してください"
+  },
+  "seeed_rpcwifi_softap_ip": {
+    "message0": "ホットスポットIPアドレス",
+    "tooltip": "APホットスポットのIPアドレスを取得する"
+  },
+  "seeed_rpcwifi_client_create": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "ノーマル",
+            "NORMAL"
+          ],
+          [
+            "SSL/TLS",
+            "SECURE"
+          ]
+        ]
+      }
+    ],
+    "message0": "TCPクライアントをタイプ%1%2作成",
+    "tooltip": "WiFiClient または WiFiClientSecure オブジェクトを作成"
+  },
+  "seeed_rpcwifi_client_connect": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "TCPクライアントがホストへの接続%1%2ポート%3",
+    "tooltip": "TCPホストおよびポートに接続"
+  },
+  "seeed_rpcwifi_secure_set_ca": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "セキュアクライアント%1 CA証明書設定%2",
+    "tooltip": "WiFiClientSecureのrootCA証明書を設定してください"
+  },
+  "seeed_rpcwifi_client_print": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "換行",
+            "TRUE"
+          ],
+          [
+            "ラインの変更は禁止",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "TCPクライアントは%1送信%2 %3",
+    "tooltip": "TCP接続へのデータ送信"
+  },
+  "seeed_rpcwifi_client_available": {
+    "args0": [
+      null
+    ],
+    "message0": "TCPクライアント%1読み取れるバイト",
+    "tooltip": "TCPクライアント用の読み取れるバイト数を取得する"
+  },
+  "seeed_rpcwifi_client_read_string": {
+    "args0": [
+      null
+    ],
+    "message0": "TCPクライアント%1テキスト読み取り",
+    "tooltip": "TCPクライアントバッファからテキストを読み取る"
+  },
+  "seeed_rpcwifi_client_connected": {
+    "args0": [
+      null
+    ],
+    "message0": "TCPクライアント%1接続されています",
+    "tooltip": "TCPクライアントの接続状況を確認してください"
+  },
+  "seeed_rpcwifi_client_stop": {
+    "args0": [
+      null
+    ],
+    "message0": "TCPクライアント%1を停止する",
+    "tooltip": "TCP接続をオフにしてください"
+  },
+  "seeed_rpcwifi_udp_create": {
+    "args0": [
+      null
+    ],
+    "message0": "UDPオブジェクトの作成%1",
+    "tooltip": "WiFiUDPオブジェクトを作成する"
+  },
+  "seeed_rpcwifi_udp_begin": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "UDP %1 ポート%2を受信開始",
+    "tooltip": "UDP監視を有効にする"
+  },
+  "seeed_rpcwifi_udp_send": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "UDP%1データを%3%2 ports%4に送信します。",
+    "tooltip": "UDPパケットを送信"
+  },
+  "seeed_rpcwifi_udp_parse_packet": {
+    "args0": [
+      null
+    ],
+    "message0": "UDP %1 パケットサイズを受信します",
+    "tooltip": "UDPパケットを解析し、そのサイズを返します"
+  },
+  "seeed_rpcwifi_udp_read_string": {
+    "args0": [
+      null
+    ],
+    "message0": "UDP %1 テキストを読む",
+    "tooltip": "現在のUDPパッケージの内容はテキストとして読めます"
+  },
+  "seeed_rpcwifi_http_create": {
+    "args0": [
+      null
+    ],
+    "message0": "HTTPClientオブジェクトを作成%1",
+    "tooltip": "HTTPClientオブジェクトを作成する"
+  },
+  "seeed_rpcwifi_http_begin": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "HTTPClient %1 Open URL %2",
+    "tooltip": "HTTPのURLを設定する"
+  },
+  "seeed_rpcwifi_http_begin_https": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "HTTPClient %1 Open HTTPS URL %2 CA証明書%3",
+    "tooltip": "HTTPS URLとrootCA証明書の設定"
+  },
+  "seeed_rpcwifi_http_add_header": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "HTTPClient %1 リクエストヘッダー %2 値 %3",
+    "tooltip": "HTTPリクエストヘッダーの追加"
+  },
+  "seeed_rpcwifi_http_request": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "GET",
+            "GET"
+          ],
+          [
+            "POST",
+            "POST"
+          ],
+          [
+            "PUT",
+            "PUT"
+          ],
+          [
+            "PATCH",
+            "PATCH"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "HTTPClient %1 Request %2 Data %3",
+    "tooltip": "HTTPリクエストを送信し応答コードを返す際、GETはデータパラメータを無視します"
+  },
+  "seeed_rpcwifi_http_get_string": {
+    "args0": [
+      null
+    ],
+    "message0": "HTTPClient %1応答テキスト",
+    "tooltip": "HTTP応答テキストを読んでください"
+  },
+  "seeed_rpcwifi_http_end": {
+    "args0": [
+      null
+    ],
+    "message0": "HTTPClient %1 リクエストを終了する",
+    "tooltip": "HTTPClientリソースをリリースしてください"
+  },
+  "seeed_rpcwifi_webserver_create": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "WebServerオブジェクトをポート%1%2作成",
+    "tooltip": "WebServerサーバーオブジェクトを作成する"
+  },
+  "seeed_rpcwifi_webserver_begin": {
+    "args0": [
+      null
+    ],
+    "message0": "ウェブサーバー%1を起動",
+    "tooltip": "WebServerサービスを開始"
+  },
+  "seeed_rpcwifi_webserver_on": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "GET",
+            "HTTP_GET"
+          ],
+          [
+            "POST",
+            "HTTP_POST"
+          ],
+          [
+            "PUT",
+            "HTTP_PUT"
+          ],
+          [
+            "DELETE",
+            "HTTP_DELETE"
+          ],
+          [
+            "恣意的",
+            "HTTP_ANY"
+          ]
+        ]
+      }
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "WebServer %1 パス%2メソッドが%3",
+    "message1": "%1 を実行します",
+    "tooltip": "WebServerルーティングコールバックに登録"
+  },
+  "seeed_rpcwifi_webserver_send": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "WebServer %1応答コード%2コンテンツ%3タイプ%4",
+    "tooltip": "HTTPレスポンスを送信する"
+  },
+  "seeed_rpcwifi_webserver_handle_client": {
+    "args0": [
+      null
+    ],
+    "message0": "WebServer %1クライアントを扱います",
+    "tooltip": "WebServerクライアントのリクエストをループ内で処理する"
+  },
+  "seeed_rpcwifi_dns_create": {
+    "args0": [
+      null
+    ],
+    "message0": "DNSServerオブジェクトを作成%1",
+    "tooltip": "DNSサーバーオブジェクトの作成"
+  },
+  "seeed_rpcwifi_dns_start": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "DNSServer %1 IP%2を指%4すドメイン名%3スタートアップポート",
+    "tooltip": "DNSサーバーを起動し、指定されたIPにドメイン名を解決します"
+  },
+  "seeed_rpcwifi_dns_start_captive": {
+    "args0": [
+      null
+    ],
+    "message0": "DNSServer %1 強制ポータルDNSを開始する",
+    "tooltip": "すべてのドメイン名を現在のAPIPに繰り返し解析します"
+  },
+  "seeed_rpcwifi_dns_process": {
+    "args0": [
+      null
+    ],
+    "message0": "DNSServer %1リクエストを処理します",
+    "tooltip": "DNSリクエストをループで処理します"
+  }
+}

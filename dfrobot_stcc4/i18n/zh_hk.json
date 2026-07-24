@@ -1,15 +1,17 @@
 {
   "toolbox_name": "STCC4 CO2",
   "stcc4_init": {
-    "message0": "initialize STCC4 %1 I2C %2 address %3",
-    "tooltip": "Create and initialize the STCC4 CO2 sensor, wake it, and start continuous measurement.",
+    "message0": "初始化 STCC4 %1 I2C %2位址%3",
+    "tooltip": "建立並初始化 STCC4 二氧化碳感測器，醒來後開始連續測量。",
     "args0": [
       null,
-      null,
+      {
+        "options": "${board.i2c}"
+      },
       {
         "options": [
           [
-            "0x64 (Default)",
+            "0x64（預設）",
             "0x64"
           ],
           [
@@ -21,34 +23,34 @@
     ]
   },
   "stcc4_read": {
-    "message0": "STCC4 %1 read data successfully",
-    "tooltip": "Read CO2, temperature, humidity, and status once. Returns true on success."
+    "message0": "STCC4 %1 資料成功讀取",
+    "tooltip": "讀取一次二氧化碳、溫度、濕度和狀態資料，成功後返回為真。"
   },
   "stcc4_get_data": {
-    "message0": "STCC4 %1 data %2",
-    "tooltip": "Read the latest cached measurement or calibration value.",
+    "message0": "STCC4 %1資料%2",
+    "tooltip": "閱讀最近測量或校正所得的數據。",
     "args0": [
       null,
       {
         "options": [
           [
-            "CO2 concentration ppm",
+            "二氧化碳濃度 ppm",
             "CO2"
           ],
           [
-            "temperature °C",
+            "溫度 °C",
             "TEMPERATURE"
           ],
           [
-            "humidity %RH",
+            "濕度 %RH",
             "HUMIDITY"
           ],
           [
-            "sensor status",
+            "感測器狀態",
             "STATUS"
           ],
           [
-            "forced calibration correction",
+            "強制校正值",
             "FRC_CORRECTION"
           ]
         ]
@@ -56,26 +58,26 @@
     ]
   },
   "stcc4_get_id": {
-    "message0": "STCC4 %1 sensor ID",
-    "tooltip": "Read the STCC4 sensor ID."
+    "message0": "STCC4 %1感測器識別碼",
+    "tooltip": "讀取 STCC4 感測器 ID。"
   },
   "stcc4_measurement_control": {
-    "message0": "STCC4 %1 measurement control %2",
-    "tooltip": "Control continuous measurement or trigger a single measurement.",
+    "message0": "STCC4 %1 測量控制%2",
+    "tooltip": "控制 STCC4 以進行連續測量或觸發單一測量。",
     "args0": [
       null,
       {
         "options": [
           [
-            "start continuous measurement",
+            "開始連續測量",
             "startMeasurement"
           ],
           [
-            "stop continuous measurement",
+            "停止連續測量",
             "stopMeasurement"
           ],
           [
-            "single measurement",
+            "單一測量",
             "singleMeasurement"
           ]
         ]
@@ -83,8 +85,8 @@
     ]
   },
   "stcc4_power_control": {
-    "message0": "STCC4 %1 power control %2",
-    "tooltip": "Wake the sensor or enter sleep mode.",
+    "message0": "STCC4 %1 動力控制%2",
+    "tooltip": "喚醒感應器或進入睡眠模式。",
     "args0": [
       null,
       {
@@ -102,18 +104,18 @@
     ]
   },
   "stcc4_reset": {
-    "message0": "STCC4 %1 reset %2",
-    "tooltip": "Run soft reset or factory reset on STCC4.",
+    "message0": "STCC4 %1重置%2",
+    "tooltip": "對 STCC4 進行軟重置或出廠重置。",
     "args0": [
       null,
       {
         "options": [
           [
-            "soft reset",
+            "軟性重新定位",
             "softRest"
           ],
           [
-            "factory reset",
+            "恢復出廠設定",
             "factoryReset"
           ]
         ]
@@ -121,15 +123,15 @@
     ]
   },
   "stcc4_set_rht_compensation": {
-    "message0": "STCC4 %1 set RHT compensation temperature °C %2 humidity %RH %3",
-    "tooltip": "Set temperature and humidity compensation. Temperature range is 10-40°C; humidity range is 20-80%RH."
+    "message0": "STCC4 %1 設定溫度與濕度補償 溫度 °C %2 濕度 %RH %3",
+    "tooltip": "設置溫度與濕度補償系統，溫度範圍為10-40°C，濕度範圍為20-80%相對濕度。"
   },
   "stcc4_set_pressure_compensation": {
-    "message0": "STCC4 %1 set pressure compensation hPa %2",
-    "tooltip": "Set pressure compensation, range 400-1100 hPa."
+    "message0": "STCC4 %1 設定空氣壓力補償 hPa %2",
+    "tooltip": "配備氣壓補償系統，壓力範圍介於400至1100 hPa之間。"
   },
   "stcc4_forced_recalibration": {
-    "message0": "STCC4 %1 forced recalibration target ppm %2",
-    "tooltip": "Run forced recalibration. Target range is 0-32000 ppm. Read the correction value after success."
+    "message0": "STCC4 %1 強制校正目標 ppm %2",
+    "tooltip": "執行強制校正，目標值範圍為0-32,000 ppm，成功後讀取強制校正值。"
   }
 }

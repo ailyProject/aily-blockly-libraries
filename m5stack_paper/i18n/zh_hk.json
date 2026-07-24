@@ -1,0 +1,63 @@
+{
+  "toolbox_labels": {
+    "FRAM（256 字节）": "FRAM（256 位元組）"
+  },
+  "m5paper_init": {
+    "message0": "初始化板載溫濕度與 FRAM",
+    "tooltip": "使用官方內部 I2C 接腳 GPIO21/22 初始化 SHT30；FRAM 位址固定為 0x50"
+  },
+  "m5paper_sht_available": {
+    "message0": "板載溫濕度感測器可用",
+    "tooltip": "檢測位址 0x44 的板載 SHT30"
+  },
+  "m5paper_sht_value": {
+    "args0": [
+      {
+        "options": [
+          [
+            "溫度 °C",
+            "TEMPERATURE"
+          ],
+          [
+            "濕度 %",
+            "HUMIDITY"
+          ]
+        ]
+      }
+    ],
+    "message0": "板載溫濕度 %1",
+    "tooltip": "讀取 SHT30；有效讀數快取 500ms，讀取失敗返回 NAN"
+  },
+  "m5paper_fram_write_byte": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "FRAM 位址 %1 寫入位元組 %2",
+    "tooltip": "向 256 位元組 FM24C02 寫入一個位元組，位址自動限製到 0-255"
+  },
+  "m5paper_fram_read_byte": {
+    "args0": [
+      null
+    ],
+    "message0": "FRAM 位址 %1 的位元組",
+    "tooltip": "讀取一個位元組；通訊失敗返回 -1"
+  },
+  "m5paper_fram_write_text": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "FRAM 位址 %1 寫入文字 %2",
+    "tooltip": "逐字節寫入以 0 結尾的文本，不會越過 256 位元組容量"
+  },
+  "m5paper_fram_read_text": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "FRAM 位址 %1 讀取文字 最長 %2",
+    "tooltip": "讀取到 0 結尾或指定長度，不會越過 FRAM 容量"
+  },
+  "toolbox_name": "溫濕度與 FRAM"
+}

@@ -1,0 +1,379 @@
+{
+  "toolbox_name": "Miao UI",
+  "toolbox_labels": {
+    "创建与启动": "创建与启动",
+    "菜单结构（放入初始化块）": "菜单结构（放入初始化块）",
+    "数据与文本绑定（放入初始化块）": "数据与文本绑定（放入初始化块）",
+    "运行与外部输入": "运行与外部输入",
+    "状态": "状态"
+  },
+  "miaoui_init": {
+    "message0": "创建 MiaoUI %1 使用 U8g2 对象 %2 首项 %3 由 MiaoUI 初始化屏幕 %4",
+    "message1": "菜单结构 %1",
+    "message2": "参数绑定 %1",
+    "message3": "文本绑定 %1",
+    "tooltip": "创建 MiaoUI 对象、生成菜单钩子、启动菜单，并自动在 loop 中刷新",
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "args2": [
+      null
+    ],
+    "args3": [
+      null
+    ]
+  },
+  "miaoui_add_page": {
+    "message0": "添加页面 %1 标题 %2 布局 %3",
+    "tooltip": "创建一个文本或图标菜单页面",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "文本列表",
+            "UI_PAGE_TEXT"
+          ],
+          [
+            "图标列表",
+            "UI_PAGE_ICON"
+          ]
+        ]
+      }
+    ]
+  },
+  "miaoui_add_item": {
+    "message0": "添加菜单项 %1 文本 %2 到页面 %3 类型 %4 图标表达式 %5",
+    "tooltip": "向页面添加普通、数据、文本或波形菜单项；图标页可填 30×30 XBM 数组名",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "普通项",
+            "UI_ITEM_ONCE_FUNCTION"
+          ],
+          [
+            "数据",
+            "UI_ITEM_DATA"
+          ],
+          [
+            "文本",
+            "UI_ITEM_WORD"
+          ],
+          [
+            "波形",
+            "UI_ITEM_WAVE"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "miaoui_add_navigation_item": {
+    "message0": "添加导航项 %1 文本 %2 从页面 %3 %4 到页面 %5 图标表达式 %6",
+    "tooltip": "添加进入子菜单或返回上级页面的导航项",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "进入子菜单",
+            "UI_ITEM_PARENTS"
+          ],
+          [
+            "返回上级",
+            "UI_ITEM_RETURN"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "miaoui_add_action_item": {
+    "message0": "添加动作项 %1 文本 %2 到页面 %3 行为 %4 图标表达式 %5",
+    "message1": "执行 %1",
+    "tooltip": "添加带 Blockly 回调代码的一次性或循环动作菜单项",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "进入时执行一次",
+            "UI_ITEM_ONCE_FUNCTION"
+          ],
+          [
+            "停留期间循环执行",
+            "UI_ITEM_LOOP_FUNCTION"
+          ]
+        ]
+      },
+      null
+    ],
+    "args1": [
+      null
+    ]
+  },
+  "miaoui_bind_number": {
+    "message0": "绑定数值 项 %1 变量 %2 类型 %3 权限 %4",
+    "message1": "初值 %1 最小 %2 最大 %3 步进 %4 回调时机 %5",
+    "message2": "变化时执行 %1",
+    "tooltip": "为数据项或波形项创建整数/浮点变量及其编辑范围",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "整数",
+            "INT"
+          ],
+          [
+            "浮点数",
+            "FLOAT"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "可编辑",
+            "UI_DATA_ACTION_RW"
+          ],
+          [
+            "只读",
+            "UI_DATA_ACTION_RO"
+          ]
+        ]
+      }
+    ],
+    "args1": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "不回调",
+            "NONE"
+          ],
+          [
+            "每步变化",
+            "UI_DATA_FUNCTION_STEP_EXECUTE"
+          ],
+          [
+            "退出编辑",
+            "UI_DATA_FUNCTION_EXIT_EXECUTE"
+          ]
+        ]
+      }
+    ],
+    "args2": [
+      null
+    ]
+  },
+  "miaoui_bind_switch": {
+    "message0": "绑定开关 项 %1 变量 %2 初值 %3 权限 %4 回调时机 %5",
+    "message1": "变化时执行 %1",
+    "tooltip": "为数据项创建可读写或只读开关变量",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "可编辑",
+            "UI_DATA_ACTION_RW"
+          ],
+          [
+            "只读",
+            "UI_DATA_ACTION_RO"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "不回调",
+            "NONE"
+          ],
+          [
+            "每步变化",
+            "UI_DATA_FUNCTION_STEP_EXECUTE"
+          ],
+          [
+            "退出编辑",
+            "UI_DATA_FUNCTION_EXIT_EXECUTE"
+          ]
+        ]
+      }
+    ],
+    "args1": [
+      null
+    ]
+  },
+  "miaoui_bind_text": {
+    "message0": "绑定文本 项 %1 内容 %2",
+    "tooltip": "为文本菜单项绑定 UTF-8 文本内容和默认字体",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "miaoui_set_buttons": {
+    "message0": "MiaoUI %1 设置按键 上 %2 下 %3 确认 %4 有效电平 %5 引脚模式 %6",
+    "tooltip": "配置上、下、确认三个 GPIO 按键；引脚填 -1 可禁用",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "低电平",
+            "Low"
+          ],
+          [
+            "高电平",
+            "High"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "内部上拉",
+            "INPUT_PULLUP"
+          ],
+          [
+            "普通输入",
+            "INPUT"
+          ]
+        ]
+      }
+    ]
+  },
+  "miaoui_set_debounce": {
+    "message0": "MiaoUI %1 设置消抖时间 %2 毫秒",
+    "tooltip": "设置 GPIO 按键消抖时间",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "miaoui_set_button_repeat": {
+    "message0": "MiaoUI %1 设置长按重复 延迟 %2 毫秒 间隔 %3 毫秒",
+    "tooltip": "启用长按自动重复；间隔为 0 时关闭",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "miaoui_push_action": {
+    "message0": "MiaoUI %1 注入操作 %2",
+    "tooltip": "向八项输入队列注入编码器、串口、触摸等来源的操作",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "向上",
+            "UI_ACTION_UP"
+          ],
+          [
+            "向下",
+            "UI_ACTION_DOWN"
+          ],
+          [
+            "确认",
+            "UI_ACTION_ENTER"
+          ]
+        ]
+      }
+    ]
+  },
+  "miaoui_try_push_action": {
+    "message0": "MiaoUI %1 尝试注入操作 %2",
+    "tooltip": "操作入队成功返回真，队列已满时返回假",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "向上",
+            "UI_ACTION_UP"
+          ],
+          [
+            "向下",
+            "UI_ACTION_DOWN"
+          ],
+          [
+            "确认",
+            "UI_ACTION_ENTER"
+          ]
+        ]
+      }
+    ]
+  },
+  "miaoui_update": {
+    "message0": "MiaoUI %1 立即刷新一次",
+    "tooltip": "手动处理一次输入、动画和绘制；初始化块已自动持续刷新",
+    "args0": [
+      null
+    ]
+  },
+  "miaoui_set_background": {
+    "message0": "MiaoUI %1 设置反色背景 %2",
+    "tooltip": "切换菜单的黑底白字或白底黑字显示",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "miaoui_is_begun": {
+    "message0": "MiaoUI %1 已启动",
+    "tooltip": "返回菜单是否已成功启动",
+    "args0": [
+      null
+    ]
+  },
+  "miaoui_last_error_code": {
+    "message0": "MiaoUI %1 最后错误代码",
+    "tooltip": "返回最后一次启动错误的数字代码，0 表示无错误",
+    "args0": [
+      null
+    ]
+  },
+  "miaoui_last_error_message": {
+    "message0": "MiaoUI %1 最后错误信息",
+    "tooltip": "返回最后一次启动错误的英文说明",
+    "args0": [
+      null
+    ]
+  },
+  "miaoui_current_item_name": {
+    "message0": "MiaoUI %1 当前菜单项名称",
+    "tooltip": "返回当前选中菜单项的文本，未启动时返回空字符串",
+    "args0": [
+      null
+    ]
+  }
+}

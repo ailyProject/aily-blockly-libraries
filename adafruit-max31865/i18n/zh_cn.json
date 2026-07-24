@@ -1,0 +1,139 @@
+{
+  "toolbox_name": "MAX31865 RTD温度传感器",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "读取数据": "读取数据",
+    "故障管理": "故障管理",
+    "配置": "配置"
+  },
+  "max31865_init": {
+    "message0": "初始化 MAX31865 %1 SPI模式 %2 CS引脚 %3 线制 %4 %5",
+    "tooltip": "初始化 MAX31865 RTD温度传感器，设置SPI接口和线制",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "硬件SPI",
+            "HW"
+          ],
+          [
+            "软件SPI",
+            "SW"
+          ]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": [
+          [
+            "2线",
+            "MAX31865_2WIRE"
+          ],
+          [
+            "3线",
+            "MAX31865_3WIRE"
+          ],
+          [
+            "4线",
+            "MAX31865_4WIRE"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "max31865_read_temperature": {
+    "message0": "%1 读取温度 RTD标称值 %2 参考电阻 %3",
+    "tooltip": "读取摄氏温度。PT100标称值为100，PT1000为1000；PT100参考电阻为430，PT1000为4300",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "max31865_read_rtd": {
+    "message0": "%1 读取原始RTD值",
+    "tooltip": "读取16位原始RTD值（非温度值）",
+    "args0": [
+      null
+    ]
+  },
+  "max31865_read_fault": {
+    "message0": "%1 读取故障状态",
+    "tooltip": "读取8位故障状态寄存器",
+    "args0": [
+      null
+    ]
+  },
+  "max31865_clear_fault": {
+    "message0": "%1 清除故障",
+    "tooltip": "清除故障状态寄存器中的所有故障",
+    "args0": [
+      null
+    ]
+  },
+  "max31865_set_wires": {
+    "message0": "%1 设置线制 %2",
+    "tooltip": "设置RTD线制（2线、3线或4线）",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "2线",
+            "MAX31865_2WIRE"
+          ],
+          [
+            "3线",
+            "MAX31865_3WIRE"
+          ],
+          [
+            "4线",
+            "MAX31865_4WIRE"
+          ]
+        ]
+      }
+    ]
+  },
+  "max31865_auto_convert": {
+    "message0": "%1 自动转换 %2",
+    "tooltip": "启用或禁用连续自动转换模式",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "启用",
+            "TRUE"
+          ],
+          [
+            "禁用",
+            "FALSE"
+          ]
+        ]
+      }
+    ]
+  },
+  "max31865_enable_50hz": {
+    "message0": "%1 50Hz滤波 %2",
+    "tooltip": "启用50Hz噪声滤波（禁用时默认为60Hz）",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "启用",
+            "TRUE"
+          ],
+          [
+            "禁用",
+            "FALSE"
+          ]
+        ]
+      }
+    ]
+  }
+}

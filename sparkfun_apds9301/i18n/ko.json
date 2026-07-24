@@ -2,29 +2,30 @@
   "toolbox_name": "APDS9301",
   "apds9301_init": {
     "message0": "초기화 APDS9301 %1 주소 %2",
-    "tooltip": "초기화 APDS9301 %1 주소 %2"
+    "tooltip": "SparkFun APDS9301 빛 센서를 생성하고 초기화하세요"
   },
   "apds9301_is_ready": {
     "message0": "APDS9301 %1 초기화됨",
-    "tooltip": "APDS9301 %1 초기화됨"
+    "tooltip": "초기화 블록이 저장한 APDS9301 초기화 상태를 반환합니다"
   },
   "apds9301_read_lux": {
     "message0": "APDS9301 %1 조도 읽기",
-    "tooltip": "APDS9301 %1 조도 읽기"
+    "tooltip": "계산된 LUX 조명 값을 읽어보세요"
   },
   "apds9301_read_channel": {
     "message0": "APDS9301 %1 원시 채널 읽기 %2",
-    "tooltip": "APDS9301 %1 원시 채널 읽기 %2",
+    "tooltip": "원본 채널 값APDS9301 읽기",
     "args0": [
+      null,
       {
         "options": [
           [
-            "CH0 가시광+IR",
-            "APDS9301_CHANNEL_0"
+            "CH0 가시광선 + 적외선",
+            "readCH0Level"
           ],
           [
-            "CH1 IR",
-            "APDS9301_CHANNEL_1"
+            "CH1 적외선",
+            "readCH1Level"
           ]
         ]
       }
@@ -32,17 +33,18 @@
   },
   "apds9301_set_gain": {
     "message0": "설정 APDS9301 %1 게인 %2",
-    "tooltip": "설정 APDS9301 %1 게인 %2",
+    "tooltip": "게인APDS9301 설정하세요",
     "args0": [
+      null,
       {
         "options": [
           [
-            "낮음 (1x)",
-            "APDS9301_GAIN_LOW"
+            "낮음",
+            "APDS9301::LOW_GAIN"
           ],
           [
-            "높음 (16x)",
-            "APDS9301_GAIN_HIGH"
+            "높음",
+            "APDS9301::HIGH_GAIN"
           ]
         ]
       }
@@ -50,21 +52,22 @@
   },
   "apds9301_set_integration_time": {
     "message0": "설정 APDS9301 %1 변환 시간 %2",
-    "tooltip": "설정 APDS9301 %1 변환 시간 %2"
+    "tooltip": "APDS9301점 시간 설정"
   },
   "apds9301_enable_interrupt": {
     "message0": "APDS9301 %1 인터럽트 %2",
-    "tooltip": "APDS9301 %1 인터럽트 %2 지속 %3",
+    "tooltip": "인터럽트 출력 APDS9301 활성화 또는 비활성화",
     "args0": [
+      null,
       {
         "options": [
           [
             "활성화",
-            "ENABLE"
+            "APDS9301::INT_ON"
           ],
           [
             "비활성화",
-            "DISABLE"
+            "APDS9301::INT_OFF"
           ]
         ]
       }
@@ -72,18 +75,18 @@
   },
   "apds9301_set_threshold": {
     "message0": "설정 APDS9301 %1 %2 임계값 %3",
-    "tooltip": "설정 APDS9301 %1 %2 임계값 %3",
+    "tooltip": "인터럽트 임계값APDS9301 설정하세요",
     "args0": [
       null,
       {
         "options": [
           [
             "하한",
-            "APDS9301_THRESHOLD_LOW"
+            "LOW"
           ],
           [
             "상한",
-            "APDS9301_THRESHOLD_HIGH"
+            "HIGH"
           ]
         ]
       },
@@ -92,17 +95,18 @@
   },
   "apds9301_power": {
     "message0": "APDS9301 %1 전원 %2",
-    "tooltip": "APDS9301 %1 전원 %2",
+    "tooltip": "전원APDS9301 켜거나 끄세요",
     "args0": [
+      null,
       {
         "options": [
           [
             "켜기",
-            "ON"
+            "APDS9301::POW_ON"
           ],
           [
             "끄기",
-            "OFF"
+            "APDS9301::POW_OFF"
           ]
         ]
       }

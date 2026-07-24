@@ -1,0 +1,690 @@
+{
+  "toolbox_name": "RPC WiFi",
+  "toolbox_categories": [
+    "WiFi连接与状态",
+    "网络扫描",
+    "WiFiMulti与热点",
+    "TCP客户端",
+    "UDP通信",
+    "HTTP/HTTPS",
+    "WebServer",
+    "DNS"
+  ],
+  "toolbox_labels": {
+    "WiFiMulti": "WiFiMulti",
+    "热点(AP)": "热点(AP)"
+  },
+  "seeed_rpcwifi_set_mode": {
+    "message0": "设置WiFi模式 %1",
+    "tooltip": "设置Wio Terminal RTL8720 WiFi工作模式",
+    "args0": [
+      {
+        "options": [
+          [
+            "站点(STA)",
+            "WIFI_STA"
+          ],
+          [
+            "热点(AP)",
+            "WIFI_AP"
+          ],
+          [
+            "站点+热点",
+            "WIFI_AP_STA"
+          ],
+          [
+            "关闭",
+            "WIFI_OFF"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcwifi_begin": {
+    "message0": "连接WiFi SSID %1 密码 %2",
+    "tooltip": "调用WiFi.begin开始连接WiFi",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcwifi_connect_wait": {
+    "message0": "连接WiFi并等待 SSID %1 密码 %2 超时 %3 毫秒",
+    "tooltip": "连接WiFi并阻塞等待到连接成功或超时",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "seeed_rpcwifi_disconnect": {
+    "message0": "断开WiFi %1 %2",
+    "tooltip": "断开当前WiFi连接",
+    "args0": [
+      {
+        "options": [
+          [
+            "保持WiFi开启",
+            "FALSE"
+          ],
+          [
+            "关闭WiFi",
+            "TRUE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "保留配置",
+            "FALSE"
+          ],
+          [
+            "清除配置",
+            "TRUE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcwifi_reconnect": {
+    "message0": "重新连接WiFi",
+    "tooltip": "调用WiFi.reconnect并返回是否发起成功"
+  },
+  "seeed_rpcwifi_status": {
+    "message0": "WiFi连接状态",
+    "tooltip": "获取WiFi.status()状态码"
+  },
+  "seeed_rpcwifi_status_type": {
+    "message0": "WiFi状态常量 %1",
+    "tooltip": "WiFi连接状态常量",
+    "args0": [
+      {
+        "options": [
+          [
+            "空闲",
+            "WL_IDLE_STATUS"
+          ],
+          [
+            "无可用SSID",
+            "WL_NO_SSID_AVAIL"
+          ],
+          [
+            "扫描完成",
+            "WL_SCAN_COMPLETED"
+          ],
+          [
+            "已连接",
+            "WL_CONNECTED"
+          ],
+          [
+            "连接失败",
+            "WL_CONNECT_FAILED"
+          ],
+          [
+            "连接丢失",
+            "WL_CONNECTION_LOST"
+          ],
+          [
+            "断开连接",
+            "WL_DISCONNECTED"
+          ],
+          [
+            "无模块",
+            "WL_NO_SHIELD"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcwifi_is_connected": {
+    "message0": "WiFi已连接",
+    "tooltip": "判断WiFi是否已连接"
+  },
+  "seeed_rpcwifi_wait_for_connect_result": {
+    "message0": "等待WiFi连接结果",
+    "tooltip": "调用WiFi.waitForConnectResult()"
+  },
+  "seeed_rpcwifi_local_ip": {
+    "message0": "本机IP地址",
+    "tooltip": "获取WiFi.localIP()字符串"
+  },
+  "seeed_rpcwifi_mac_address": {
+    "message0": "MAC地址",
+    "tooltip": "获取WiFi MAC地址"
+  },
+  "seeed_rpcwifi_current_ssid": {
+    "message0": "当前WiFi名称(SSID)",
+    "tooltip": "获取当前连接的SSID"
+  },
+  "seeed_rpcwifi_rssi": {
+    "message0": "信号强度(RSSI)",
+    "tooltip": "获取当前WiFi信号强度"
+  },
+  "seeed_rpcwifi_set_auto_reconnect": {
+    "message0": "设置自动重连 %1",
+    "tooltip": "设置WiFi自动重连",
+    "args0": [
+      {
+        "options": [
+          [
+            "启用",
+            "TRUE"
+          ],
+          [
+            "禁用",
+            "FALSE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcwifi_mode_value": {
+    "message0": "WiFi模式常量 %1",
+    "tooltip": "WiFi模式常量",
+    "args0": [
+      {
+        "options": [
+          [
+            "站点(STA)",
+            "WIFI_MODE_STA"
+          ],
+          [
+            "热点(AP)",
+            "WIFI_MODE_AP"
+          ],
+          [
+            "站点+热点",
+            "WIFI_MODE_APSTA"
+          ],
+          [
+            "关闭",
+            "WIFI_MODE_NULL"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcwifi_firmware_version": {
+    "message0": "RTL8720固件版本",
+    "tooltip": "读取RTL8720 eRPC固件版本"
+  },
+  "seeed_rpcwifi_scan_networks": {
+    "message0": "扫描WiFi网络 %1 %2",
+    "tooltip": "扫描附近WiFi网络并返回数量",
+    "args0": [
+      {
+        "options": [
+          [
+            "同步",
+            "FALSE"
+          ],
+          [
+            "异步",
+            "TRUE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "隐藏网络不显示",
+            "FALSE"
+          ],
+          [
+            "显示隐藏网络",
+            "TRUE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcwifi_scan_complete": {
+    "message0": "异步扫描完成结果",
+    "tooltip": "检查异步扫描状态或结果数量"
+  },
+  "seeed_rpcwifi_scan_delete": {
+    "message0": "清除扫描结果",
+    "tooltip": "释放WiFi扫描结果"
+  },
+  "seeed_rpcwifi_scanned_ssid": {
+    "message0": "扫描结果 %1 的SSID",
+    "tooltip": "获取指定扫描结果的SSID",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_scanned_rssi": {
+    "message0": "扫描结果 %1 的RSSI",
+    "tooltip": "获取指定扫描结果信号强度",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_scanned_encryption": {
+    "message0": "扫描结果 %1 的加密类型",
+    "tooltip": "获取指定扫描结果的加密类型",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_scanned_channel": {
+    "message0": "扫描结果 %1 的信道",
+    "tooltip": "获取指定扫描结果信道",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_encryption_type": {
+    "message0": "加密类型常量 %1",
+    "tooltip": "WiFi加密类型常量",
+    "args0": [
+      {
+        "options": [
+          [
+            "开放",
+            "WIFI_AUTH_OPEN"
+          ],
+          [
+            "WEP",
+            "WIFI_AUTH_WEP"
+          ],
+          [
+            "WPA_PSK",
+            "WIFI_AUTH_WPA_PSK"
+          ],
+          [
+            "WPA2_PSK",
+            "WIFI_AUTH_WPA2_PSK"
+          ],
+          [
+            "WPA/WPA2_PSK",
+            "WIFI_AUTH_WPA_WPA2_PSK"
+          ],
+          [
+            "WPA2_ENTERPRISE",
+            "WIFI_AUTH_WPA2_ENTERPRISE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcwifi_multi_create": {
+    "message0": "创建WiFiMulti对象 %1",
+    "tooltip": "创建WiFiMulti对象用于多热点自动选择",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_multi_add_ap": {
+    "message0": "WiFiMulti %1 添加AP SSID %2 密码 %3",
+    "tooltip": "向WiFiMulti候选列表添加一个热点",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "seeed_rpcwifi_multi_run": {
+    "message0": "WiFiMulti %1 连接 超时 %2 毫秒",
+    "tooltip": "连接到候选列表中信号最好的WiFi",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcwifi_softap": {
+    "message0": "创建WiFi热点 SSID %1 密码 %2 信道 %3 %4 最大连接 %5",
+    "tooltip": "启动AP热点模式",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "广播SSID",
+            "FALSE"
+          ],
+          [
+            "隐藏SSID",
+            "TRUE"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "seeed_rpcwifi_softap_config": {
+    "message0": "配置热点IP %1 网关 %2 子网掩码 %3",
+    "tooltip": "配置AP热点IP、网关和子网掩码",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "seeed_rpcwifi_softap_disconnect": {
+    "message0": "关闭WiFi热点 %1",
+    "tooltip": "关闭AP热点",
+    "args0": [
+      {
+        "options": [
+          [
+            "保持WiFi开启",
+            "FALSE"
+          ],
+          [
+            "关闭WiFi",
+            "TRUE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcwifi_softap_station_count": {
+    "message0": "热点连接设备数",
+    "tooltip": "获取连接到AP的客户端数量"
+  },
+  "seeed_rpcwifi_softap_ip": {
+    "message0": "热点IP地址",
+    "tooltip": "获取AP热点IP地址"
+  },
+  "seeed_rpcwifi_client_create": {
+    "message0": "创建TCP客户端 %1 类型 %2",
+    "tooltip": "创建WiFiClient或WiFiClientSecure对象",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "普通",
+            "NORMAL"
+          ],
+          [
+            "SSL/TLS",
+            "SECURE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcwifi_client_connect": {
+    "message0": "TCP客户端 %1 连接主机 %2 端口 %3",
+    "tooltip": "连接到TCP主机和端口",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "seeed_rpcwifi_secure_set_ca": {
+    "message0": "安全客户端 %1 设置CA证书 %2",
+    "tooltip": "为WiFiClientSecure设置根CA证书",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcwifi_client_print": {
+    "message0": "TCP客户端 %1 发送 %2 %3",
+    "tooltip": "向TCP连接发送数据",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "换行",
+            "TRUE"
+          ],
+          [
+            "不换行",
+            "FALSE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcwifi_client_available": {
+    "message0": "TCP客户端 %1 可读字节数",
+    "tooltip": "获取TCP客户端可读字节数",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_client_read_string": {
+    "message0": "TCP客户端 %1 读取文本",
+    "tooltip": "读取TCP客户端缓冲区文本",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_client_connected": {
+    "message0": "TCP客户端 %1 已连接",
+    "tooltip": "判断TCP客户端连接状态",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_client_stop": {
+    "message0": "停止TCP客户端 %1",
+    "tooltip": "关闭TCP连接",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_udp_create": {
+    "message0": "创建UDP对象 %1",
+    "tooltip": "创建WiFiUDP对象",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_udp_begin": {
+    "message0": "UDP %1 开始监听端口 %2",
+    "tooltip": "启动UDP监听",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcwifi_udp_send": {
+    "message0": "UDP %1 发送到 %2 端口 %3 数据 %4",
+    "tooltip": "发送UDP数据包",
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "seeed_rpcwifi_udp_parse_packet": {
+    "message0": "UDP %1 接收包大小",
+    "tooltip": "解析UDP数据包并返回大小",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_udp_read_string": {
+    "message0": "UDP %1 读取文本",
+    "tooltip": "读取当前UDP包内容为文本",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_http_create": {
+    "message0": "创建HTTPClient对象 %1",
+    "tooltip": "创建HTTPClient对象",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_http_begin": {
+    "message0": "HTTPClient %1 打开URL %2",
+    "tooltip": "配置HTTP URL",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcwifi_http_begin_https": {
+    "message0": "HTTPClient %1 打开HTTPS URL %2 CA证书 %3",
+    "tooltip": "配置HTTPS URL和根CA证书",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "seeed_rpcwifi_http_add_header": {
+    "message0": "HTTPClient %1 添加请求头 %2 值 %3",
+    "tooltip": "添加HTTP请求头",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "seeed_rpcwifi_http_request": {
+    "message0": "HTTPClient %1 请求 %2 数据 %3",
+    "tooltip": "发送HTTP请求并返回响应码，GET会忽略数据参数",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "GET",
+            "GET"
+          ],
+          [
+            "POST",
+            "POST"
+          ],
+          [
+            "PUT",
+            "PUT"
+          ],
+          [
+            "PATCH",
+            "PATCH"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "seeed_rpcwifi_http_get_string": {
+    "message0": "HTTPClient %1 响应文本",
+    "tooltip": "读取HTTP响应文本",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_http_end": {
+    "message0": "HTTPClient %1 结束请求",
+    "tooltip": "释放HTTPClient资源",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_webserver_create": {
+    "message0": "创建WebServer对象 %1 端口 %2",
+    "tooltip": "创建WebServer服务器对象",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcwifi_webserver_begin": {
+    "message0": "启动WebServer %1",
+    "tooltip": "启动WebServer服务",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_webserver_on": {
+    "message0": "WebServer %1 当路径 %2 方法 %3",
+    "message1": "执行 %1",
+    "tooltip": "注册WebServer路由回调",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "GET",
+            "HTTP_GET"
+          ],
+          [
+            "POST",
+            "HTTP_POST"
+          ],
+          [
+            "PUT",
+            "HTTP_PUT"
+          ],
+          [
+            "DELETE",
+            "HTTP_DELETE"
+          ],
+          [
+            "任意",
+            "HTTP_ANY"
+          ]
+        ]
+      }
+    ],
+    "args1": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_webserver_send": {
+    "message0": "WebServer %1 响应码 %2 类型 %3 内容 %4",
+    "tooltip": "发送HTTP响应",
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "seeed_rpcwifi_webserver_handle_client": {
+    "message0": "WebServer %1 处理客户端",
+    "tooltip": "在loop中处理WebServer客户端请求",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_dns_create": {
+    "message0": "创建DNSServer对象 %1",
+    "tooltip": "创建DNS服务器对象",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_dns_start": {
+    "message0": "DNSServer %1 启动 端口 %2 域名 %3 指向IP %4",
+    "tooltip": "启动DNS服务器并解析域名到指定IP",
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "seeed_rpcwifi_dns_start_captive": {
+    "message0": "DNSServer %1 启动强制门户DNS",
+    "tooltip": "将所有域名解析到当前AP IP",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcwifi_dns_process": {
+    "message0": "DNSServer %1 处理请求",
+    "tooltip": "在loop中处理DNS请求",
+    "args0": [
+      null
+    ]
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "toolbox_labels": {
+    "初始化": "initialisation",
+    "读取数据": "Lire des données",
+    "故障管理": "Gestion des pannes",
+    "配置": "Configuration"
+  },
+  "max31865_init": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "SPI matériel",
+            "HW"
+          ],
+          [
+            "SPI logicielle",
+            "SW"
+          ]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": [
+          [
+            "2",
+            "MAX31865_2WIRE"
+          ],
+          [
+            "3",
+            "MAX31865_3WIRE"
+          ],
+          [
+            "4 lignes",
+            "MAX31865_4WIRE"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "Initialiser MAX31865 %1 mode SPI %2 broches CS %3 le câblage %4 %5",
+    "tooltip": "Initialiser le capteur de température RTD MAX31865, configurer l’interface SPI et le câblage"
+  },
+  "max31865_read_temperature": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 Température de lecture RTD valeur nominale %2 résistance de référence %3",
+    "tooltip": "Lisez la température Celsius. PT100 a une valeur nominale de 100, PT1000 est de 1000 ; La résistance de référence du PT100 est de 430, et celle du PT1000 de 4300"
+  },
+  "max31865_read_rtd": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Lire la valeur RTD originale",
+    "tooltip": "Lire la valeur brute RTD 16 bits (pas la valeur de température)"
+  },
+  "max31865_read_fault": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Lire le statut de la panne",
+    "tooltip": "Lit le registre d’état de défaut sur 8 bits"
+  },
+  "max31865_clear_fault": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Défauts clairs",
+    "tooltip": "Effacez tous les défauts du registre d’état des défauts"
+  },
+  "max31865_set_wires": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "2",
+            "MAX31865_2WIRE"
+          ],
+          [
+            "3",
+            "MAX31865_3WIRE"
+          ],
+          [
+            "4 lignes",
+            "MAX31865_4WIRE"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 Disposition des câbles %2",
+    "tooltip": "Système de câbles RTD réglé (2 fils, 3 fils ou 4 fils)"
+  },
+  "max31865_auto_convert": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Activer",
+            "TRUE"
+          ],
+          [
+            "Désactiver",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 Conversion automatique %2",
+    "tooltip": "Activez ou désactivez le mode de conversion automatique continue"
+  },
+  "max31865_enable_50hz": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Activer",
+            "TRUE"
+          ],
+          [
+            "Désactiver",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 filtrage 50Hz %2",
+    "tooltip": "Activez le filtrage du bruit à 50 Hz (par défaut 60 Hz lorsqu’il est désactivé)"
+  },
+  "toolbox_name": "MAX31865 capteur de température RTD"
+}

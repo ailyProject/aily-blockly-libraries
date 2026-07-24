@@ -23,32 +23,32 @@
     "tooltip": "Initialise le microphone et le haut-parleur du UNIHIKER K10 ; utilisez le même objet pour enregistrer et lire."
   },
   "mimo_i2s_speaker_init": {
-    "message0": "I2S speaker init object %1 %2 BCLK %3 LRCLK %4 DIN %5 sample rate %6",
-    "tooltip": "Initialize a standard I2S speaker output object such as MAX98357A."
+    "message0": "Objet d’initialisation de haut-parleur I2S %1 %2 BCLK %3 LRCLK %4 %5 fréquence d’échantillonnage DIN %6",
+    "tooltip": "Initialiser MAX98357A et autres objets de sortie haut-parleur I2S, et déclarer automatiquement les objets I2SClass"
   },
   "mimo_i2s_mic_init": {
-    "message0": "I2S microphone init object %1 %2 BCLK %3 LRCLK/WS %4 SD/DOUT %5 sample rate %6",
-    "tooltip": "Initialize a standard I2S microphone input object such as INMP441."
+    "message0": "Objet d’initialisation de microphone I2S %1 %2 BCLK %3 LRCLK/WS %4 SD/DOUT %5 Taux d’échantillonnage %6",
+    "tooltip": "Initialiser les objets d’entrée standard I2S des microphones tels que INMP441 et déclarer automatiquement les objets I2SClass"
   },
   "mimo_pdm_mic_init": {
-    "message0": "PDM microphone init object %1 %2 CLK %3 DATA %4 sample rate %5",
-    "tooltip": "Initialize a PDM microphone input object."
+    "message0": "Objet d’initialisation du microphone PDM %1 %2 CLK %3 DONNÉES %4 taux d’échantillonnage %5",
+    "tooltip": "Initialise les objets d’entrée microphone PDM, adaptés aux microphones embarqués XIAO ESP32S3 Sense et autres. XIAO ESP32S3 Sense est par défaut à 42 CLK et 41 DATA"
   },
   "mimo_es8311_mic_init": {
-    "message0": "ES8311 microphone init object %1 %2 SDA %3 SCL %4 address %5 BCLK %6 LRCLK %7 SDOUT %8 MCLK %9 sample rate %10 gain register %11",
-    "tooltip": "Initialize ES8311 microphone input."
+    "message0": "ES8311 Objet d’initialisation du microphone %1 %2 SDA %3 SCL %4 Adresse %5 BCLK %6 LRCLK %7 SDOUT %8 MCLK %9 Taux d’échantillonnage %10 Registre de gain %11",
+    "tooltip": "Initialisez l’entrée microphone du codec audio ES8311, configurez d’abord le chemin ADC/microphone via I2C, puis initialisez l’objet d’enregistrement I2S. Adresse par défaut 0x18 (décimale 24), registre de gain par défaut 0x24 (décimale 36)"
   },
   "mimo_es8311_audio_init": {
-    "message0": "ES8311 mic+speaker init object %1 %2 SDA %3 SCL %4 address %5 BCLK/SCLK %6 LR %7 DI/DAC in %8 DO/ADC out %9 MCK %10 sample rate %11 gain register %12 PA_EN %13",
-    "tooltip": "Initialize ES8311 microphone and speaker channels."
+    "message0": "ES8311 Microphone + Objet d’initialisation haut-parleur %1 %2 SDA %3 SCL %4 Adresse %5 BCLK/SCLK %6 LR %7 Entrée DI/DAC %8 Sortie DO/ADC %9 MCK %10 Taux d’échantillonnage %11 Registre de gain %12 PA_EN %13",
+    "tooltip": "Initialisez les canaux du microphone et des haut-parleurs du codec audio ES8311, adapté aux cartes Microphone + Amplificateur audio. Par défaut dans la figure : SCLK39, LR2, DI38, DO40, MCK46, SDA41, SCL42. L’ES8311 fournit une alimentation 3V et un amplificateur NS4150B 5V. PA_EN par défaut -1 signifie pas de contrôle ; Si la carte possède une broche d’activation de l’amplificateur, insérer un GPIO augmentera le score"
   },
   "mimo_i2s_prompt_tone": {
-    "message0": "play prompt tone object %1 %2 frequency Hz %3 duration ms %4",
-    "tooltip": "Play a short prompt tone through the current I2S or ES8311 speaker."
+    "message0": "Lecture de l’invite Objet sonore %1 %2 Fréquence Hz %3 Durée ms %4",
+    "tooltip": "Faites jouer un petit son d’invite via l’objet enceinte I2S/ES8311 actuel, utilisé pour démarrer, terminer ou vérifier la sortie du haut-parleur"
   },
   "mimo_i2s_record_text": {
-    "message0": "Xiaomi MiMo record to text microphone %1 %2 record %3 seconds %4 model %5 %6 transcription prompt(optional) %7",
-    "tooltip": "Record from an I2S microphone and send it to Xiaomi MiMo audio understanding, returning text only.",
+    "message0": "Objet microphone Xiaomi MiMo Enregistrement en texte %1 %2 Enregistrement %3 secondes %4 Modèle %5 %6 Invite de transcription (optionnelle) %7",
+    "tooltip": "L’utilisation du microphone I2S pour enregistrer et appeler le son du Xiaomi MiMo, l’interprétation audio ne renvoie que le texte reconnu/compris. Le format d’enregistrement est 16 kHz mono 16 bits",
     "args0": [
       null,
       null,
@@ -93,8 +93,8 @@
     ]
   },
   "mimo_voice_chat": {
-    "message0": "Xiaomi MiMo voice chat microphone %1 speaker %2 %3 record %4 seconds %5 understanding model %6 voice %7 TTS model %8 beep %9 %10 prompt(optional) %11",
-    "tooltip": "Record audio, ask Xiaomi MiMo to understand it, synthesize the answer, and play it through I2S.",
+    "message0": "Microphone de conversation vocale Xiaomi MiMo, objet %1 objet haut-parleur, enregistrement %2 %3%4 secondes %5 compréhension du modèle %6 tonalité %7  TTS Model %8 Tonalité %9 %10 Question (optionnelle) %11",
+    "tooltip": "D’abord, enregistrez avec un micro I2S et laissez Xiaomi MiMo comprendre, puis synthétissez la réponse via TTS et jouez-la sur le haut-parleur I2S. Un bip invité sera entendu au début et à la fin de l’enregistrement",
     "args0": [
       null,
       null,
@@ -116,19 +116,19 @@
             "mimo_default"
           ],
           [
-            "冰糖 (V2.5)",
+            "Rock Sugar (V2.5 Voix féminine chinoise)",
             "冰糖"
           ],
           [
-            "茉莉 (V2.5)",
+            "Jasmine (V2.5 Voix féminine chinoise)",
             "茉莉"
           ],
           [
-            "苏打 (V2.5)",
+            "Soda (V2.5 voix masculine chinoise)",
             "苏打"
           ],
           [
-            "白桦 (V2.5)",
+            "Bai Hua (V2.5 Voix masculine chinoise)",
             "白桦"
           ],
           [
@@ -174,7 +174,7 @@
             "mimo-v2.5"
           ],
           [
-            "mimo-v2.5-pro",
+            "MIMO-v2.5-Pro",
             "mimo-v2.5-pro"
           ]
         ]
@@ -205,7 +205,7 @@
             "mimo-v2.5"
           ],
           [
-            "mimo-v2.5-pro",
+            "MIMO-v2.5-Pro",
             "mimo-v2.5-pro"
           ]
         ]
@@ -430,19 +430,19 @@
             "mimo_default"
           ],
           [
-            "冰糖 (V2.5)",
+            "Rock Sugar (V2.5 Voix féminine chinoise)",
             "冰糖"
           ],
           [
-            "茉莉 (V2.5)",
+            "Jasmine (V2.5 Voix féminine chinoise)",
             "茉莉"
           ],
           [
-            "苏打 (V2.5)",
+            "Soda (V2.5 voix masculine chinoise)",
             "苏打"
           ],
           [
-            "白桦 (V2.5)",
+            "Bai Hua (V2.5 Voix masculine chinoise)",
             "白桦"
           ],
           [
@@ -485,19 +485,19 @@
             "mimo_default"
           ],
           [
-            "冰糖 (V2.5)",
+            "Rock Sugar (V2.5 Voix féminine chinoise)",
             "冰糖"
           ],
           [
-            "茉莉 (V2.5)",
+            "Jasmine (V2.5 Voix féminine chinoise)",
             "茉莉"
           ],
           [
-            "苏打 (V2.5)",
+            "Soda (V2.5 voix masculine chinoise)",
             "苏打"
           ],
           [
-            "白桦 (V2.5)",
+            "Bai Hua (V2.5 Voix masculine chinoise)",
             "白桦"
           ],
           [
@@ -571,19 +571,19 @@
             "mimo_default"
           ],
           [
-            "冰糖 (V2.5)",
+            "Rock Sugar (V2.5 Voix féminine chinoise)",
             "冰糖"
           ],
           [
-            "茉莉 (V2.5)",
+            "Jasmine (V2.5 Voix féminine chinoise)",
             "茉莉"
           ],
           [
-            "苏打 (V2.5)",
+            "Soda (V2.5 voix masculine chinoise)",
             "苏打"
           ],
           [
-            "白桦 (V2.5)",
+            "Bai Hua (V2.5 Voix masculine chinoise)",
             "白桦"
           ],
           [
@@ -627,19 +627,19 @@
             "mimo_default"
           ],
           [
-            "冰糖 (V2.5)",
+            "Rock Sugar (V2.5 Voix féminine chinoise)",
             "冰糖"
           ],
           [
-            "茉莉 (V2.5)",
+            "Jasmine (V2.5 Voix féminine chinoise)",
             "茉莉"
           ],
           [
-            "苏打 (V2.5)",
+            "Soda (V2.5 voix masculine chinoise)",
             "苏打"
           ],
           [
-            "白桦 (V2.5)",
+            "Bai Hua (V2.5 Voix masculine chinoise)",
             "白桦"
           ],
           [
@@ -710,19 +710,19 @@
             "mimo_default"
           ],
           [
-            "冰糖 (V2.5)",
+            "Sucre de Rocheuse (V2.5)",
             "冰糖"
           ],
           [
-            "茉莉 (V2.5)",
+            "Jasmine (V2.5)",
             "茉莉"
           ],
           [
-            "苏打 (V2.5)",
+            "Soda (V2.5)",
             "苏打"
           ],
           [
-            "白桦 (V2.5)",
+            "Bouleau (V2.5)",
             "白桦"
           ],
           [
@@ -758,19 +758,19 @@
             "mimo_default"
           ],
           [
-            "冰糖 (V2.5)",
+            "Sucre de Rocheuse (V2.5)",
             "冰糖"
           ],
           [
-            "茉莉 (V2.5)",
+            "Jasmine (V2.5)",
             "茉莉"
           ],
           [
-            "苏打 (V2.5)",
+            "Soda (V2.5)",
             "苏打"
           ],
           [
-            "白桦 (V2.5)",
+            "Bouleau (V2.5)",
             "白桦"
           ],
           [

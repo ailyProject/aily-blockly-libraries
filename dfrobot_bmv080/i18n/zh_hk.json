@@ -1,11 +1,13 @@
 {
-  "toolbox_name": "BMV080 PM Sensor",
+  "toolbox_name": "BMV080 懸浮粒子感測器",
   "bmv080_init_i2c": {
-    "message0": "init BMV080 I2C %1 bus %2 address %3",
-    "tooltip": "Initialize and open the BMV080 particulate matter sensor over I2C.",
+    "message0": "初始化 BMV080 I2C %1匯流排%2位址%3",
+    "tooltip": "透過 I2C 初始化並啟用 BMV080 顆粒物感測器。",
     "args0": [
       null,
-      null,
+      {
+        "options": "${board.i2c}"
+      },
       {
         "options": [
           [
@@ -29,12 +31,12 @@
     ]
   },
   "bmv080_init_spi": {
-    "message0": "init BMV080 SPI %1 bus %2 CS %3",
-    "tooltip": "Initialize and open the BMV080 particulate matter sensor over SPI."
+    "message0": "初始化 BMV080 SPI %1 匯流排%2 CS %3",
+    "tooltip": "透過 SPI 初始化並啟動 BMV080 顆粒物感測器。"
   },
   "bmv080_set_mode": {
-    "message0": "BMV080 %1 set measurement mode %2",
-    "tooltip": "Start continuous or duty-cycle measurement.",
+    "message0": "BMV080 %1 設定測量模式%2",
+    "tooltip": "開始連續測量或工作週期測量。",
     "args0": [
       null,
       {
@@ -44,7 +46,7 @@
             "CONTINUOUS_MODE"
           ],
           [
-            "duty cycle",
+            "工作比測量",
             "DUTY_CYCLE_MODE"
           ]
         ]
@@ -52,18 +54,18 @@
     ]
   },
   "bmv080_set_duty_cycle": {
-    "message0": "BMV080 %1 set duty period %2 s integration %3 s",
-    "tooltip": "Set duty-cycle mode parameters. Period must be at least 12 s; integration time must be at least 1 s and at least 2 s shorter than period."
+    "message0": "BMV080 %1 將工作週期設為%2秒，積分時間設為%3秒",
+    "tooltip": "設定占空比模式參數。 循環時間應至少為12秒，積分時間至少1秒，週期必須比積分時間長至少2秒。"
   },
   "bmv080_set_algorithm": {
-    "message0": "BMV080 %1 set algorithm %2",
-    "tooltip": "Set the PM measurement algorithm.",
+    "message0": "BMV080 %1設定測量演算法%2",
+    "tooltip": "設定PM測量演算法。",
     "args0": [
       null,
       {
         "options": [
           [
-            "fast response",
+            "快速回應",
             "FAST_RESPONSE"
           ],
           [
@@ -71,7 +73,7 @@
             "BALANCED"
           ],
           [
-            "high precision",
+            "高精度",
             "HIGH_PRECISION"
           ]
         ]
@@ -79,18 +81,18 @@
     ]
   },
   "bmv080_set_feature": {
-    "message0": "BMV080 %1 set %2 %3",
-    "tooltip": "Enable or disable obstruction detection or vibration filtering.",
+    "message0": "BMV080 %1 Settings%2 %3",
+    "tooltip": "開啟或關閉遮蔽偵測與震動過濾功能。",
     "args0": [
       null,
       {
         "options": [
           [
-            "obstruction detection",
+            "障礙物偵測",
             "OBSTRUCTION"
           ],
           [
-            "vibration filtering",
+            "振動過濾",
             "VIBRATION"
           ]
         ]
@@ -98,11 +100,11 @@
       {
         "options": [
           [
-            "on",
+            "開啟",
             "true"
           ],
           [
-            "off",
+            "關閉",
             "false"
           ]
         ]
@@ -110,12 +112,12 @@
     ]
   },
   "bmv080_read_data": {
-    "message0": "BMV080 %1 refresh PM data",
-    "tooltip": "Read and cache PM1, PM2.5, and PM10. Returns true when new data is ready."
+    "message0": "BMV080 %1刷新PM資料",
+    "tooltip": "讀取並快取 PM1、PM2.5、PM10。 資料就緒回傳真，未準備回傳假。"
   },
   "bmv080_pm_value": {
-    "message0": "BMV080 %1 cached value %2",
-    "tooltip": "Read the PM value cached by the last refresh.",
+    "message0": "BMV080 %1快取value%2",
+    "tooltip": "在最後一次刷新後讀取 PM 快取值。",
     "args0": [
       null,
       {
@@ -125,11 +127,11 @@
             "PM1"
           ],
           [
-            "PM2.5 ug/m3",
+            "PM2.5 微克/m3",
             "PM25"
           ],
           [
-            "PM10 ug/m3",
+            "PM10 微克/公尺",
             "PM10"
           ]
         ]
@@ -137,8 +139,8 @@
     ]
   },
   "bmv080_get_status": {
-    "message0": "BMV080 %1 status/config %2",
-    "tooltip": "Read BMV080 configuration or obstruction status.",
+    "message0": "BMV080 %1狀態/配置%2",
+    "tooltip": "請檢查 BMV080 的配置或阻塞狀態。",
     "args0": [
       null,
       {
@@ -148,23 +150,23 @@
             "ALGORITHM"
           ],
           [
-            "integration time",
+            "計分時間",
             "INTEGRATION"
           ],
           [
-            "duty period",
+            "虛空循環",
             "PERIOD"
           ],
           [
-            "obstruction setting",
+            "區塊偵測開關",
             "OBSTRUCTION_FEATURE"
           ],
           [
-            "vibration setting",
+            "振動過濾開關",
             "VIBRATION_FEATURE"
           ],
           [
-            "is obstructed",
+            "是否被阻擋",
             "OBSTRUCTED"
           ]
         ]
@@ -173,21 +175,21 @@
   },
   "bmv080_command": {
     "message0": "BMV080 %1 run %2",
-    "tooltip": "Stop measurement, reset, or close the BMV080.",
+    "tooltip": "停止測量、重置或關閉 BMV080。",
     "args0": [
       null,
       {
         "options": [
           [
-            "stop measurement",
+            "停止測量",
             "STOP"
           ],
           [
-            "reset",
+            "回到你的位置",
             "RESET"
           ],
           [
-            "close sensor",
+            "關閉感應器",
             "CLOSE"
           ]
         ]

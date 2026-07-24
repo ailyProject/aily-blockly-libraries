@@ -1,5 +1,5 @@
 {
-  "toolbox_name": "Modbus RTU从站",
+  "toolbox_name": "역에서 본 Modbus RTU",
   "toolbox_labels": {
     "初始化": "초기화",
     "数据配置": "데이터 구성",
@@ -8,8 +8,8 @@
     "运行": "달리다"
   },
   "modbus_rtu_slave_create": {
-    "message0": "创建Modbus RTU从站 %1 串口 %2 发送使能引脚 %3 接收使能引脚 %4",
-    "tooltip": "创建Modbus RTU从站实例，DE/RE引脚填-1表示硬件自动切换",
+    "message0": "Modbus RTU 슬레이브를 시리얼 포트%1 생성%2 활성화 %3핀을 보내고 수신 활성화 핀 %4",
+    "tooltip": "Modbus RTU 슬레이브 인스턴스를 생성하고, DE/RE 핀에 -1을 채워 자동 하드웨어 전환을 나타냅니다",
     "args0": [
       null,
       {
@@ -20,12 +20,12 @@
     ]
   },
   "modbus_rtu_slave_set_response_delay": {
-    "message0": "Modbus从站 %1 设置响应延时 %2 毫秒",
-    "tooltip": "设置响应延时，避免主机DE引脚释放过慢"
+    "message0": "Modbus 슬레이브 %1 응답 지연을 %2밀리초로 설정합니다",
+    "tooltip": "호스트 DE 핀이 너무 느리게 풀리지 않도록 응답 지연을 설정하세요"
   },
   "modbus_rtu_slave_begin": {
-    "message0": "Modbus从站 %1 启动 设备ID %2 波特率 %3 串口格式 %4",
-    "tooltip": "设置从站地址、波特率和串口校验格式",
+    "message0": "Modbus 슬레이브 %1 시작 장치 ID %2 보드 속도 %3 직렬 포트 포맷 %4",
+    "tooltip": "슬레이브 주소, 보드 속도, 시리얼 포트 검증 형식을 설정하세요",
     "args0": [
       null,
       null,
@@ -84,55 +84,56 @@
     ]
   },
   "modbus_rtu_slave_poll": {
-    "message0": "Modbus从站 %1 轮询请求",
-    "tooltip": "频繁调用以处理主站读写请求"
+    "message0": "Modbus 슬레이브 %1 폴링 요청",
+    "tooltip": "마스터 읽기/쓰기 요청을 처리하기 위한 빈번한 호출",
+    "message1": "유효한 요청을 받으면 %1 실행"
   },
   "modbus_rtu_slave_bind_coils": {
-    "message0": "Modbus从站 %1 配置线圈数组 %2 长度 %3",
-    "tooltip": "创建布尔线圈数组并告知库其长度"
+    "message0": "Modbus 슬레이브%1 코일 어레이를 %2 길이로 구성%3",
+    "tooltip": "불리언 코일 배열을 만들고 라이브러리에 그 길이를 알려주세요"
   },
   "modbus_rtu_slave_bind_discrete": {
-    "message0": "Modbus从站 %1 配置离散输入数组 %2 长度 %3",
-    "tooltip": "创建布尔离散输入数组用于向主站上报"
+    "message0": "Modbus 슬레이브%1 길이 %2 이산 입력 배열을 구성할 수 있습니다%3",
+    "tooltip": "마스터에 보고할 불리언 이산 입력 배열을 만드세요"
   },
   "modbus_rtu_slave_bind_holding": {
-    "message0": "Modbus从站 %1 配置保持寄存器 %2 长度 %3",
-    "tooltip": "创建16位保持寄存器数组，用于主站读写"
+    "message0": "Modbus 슬레이브 %1 구성 보존 레지스터 %2 길이 %3",
+    "tooltip": "마스터 읽기/쓰기를 위한 16비트 홀딩 레지스터 배열을 생성하세요"
   },
   "modbus_rtu_slave_bind_input": {
-    "message0": "Modbus从站 %1 配置输入寄存器 %2 长度 %3",
-    "tooltip": "创建16位输入寄存器数组，用于上报模拟量"
+    "message0": "Modbus 슬레이브 %1 구성 입력 레지스터 %2 길이 %3",
+    "tooltip": "아날로그 값을 보고하기 위한 16비트 입력 레지스터 배열을 만드세요"
   },
   "modbus_rtu_slave_coils_set": {
-    "message0": "线圈数组 %1 索引 %2 写入 %3",
-    "tooltip": "写入指定线圈值，可用于初始化或本地强制"
+    "message0": "코일 어레이 %1 인덱스%2 쓰기 %3",
+    "tooltip": "초기화 또는 로컬 강제에 사용할 수 있는 지정된 코일 값을 기록합니다"
   },
   "modbus_rtu_slave_coils_get": {
-    "message0": "线圈数组 %1 索引 %2 的值",
-    "tooltip": "读取线圈状态，用于驱动输出"
+    "message0": "코일 배열은 %2 값%1 지수",
+    "tooltip": "코일 상태를 읽어 출력을 구동합니다"
   },
   "modbus_rtu_slave_discrete_set": {
-    "message0": "离散输入数组 %1 索引 %2 写入 %3",
-    "tooltip": "更新离散输入状态，上报开关量"
+    "message0": "이산 입력 배열%1 인덱스 %2 쓰기 %3",
+    "tooltip": "이산 입력 상태를 업데이트하고 스위치 수량을 보고하세요"
   },
   "modbus_rtu_slave_discrete_get": {
-    "message0": "离散输入数组 %1 索引 %2 的值",
-    "tooltip": "读取离散输入数组，多用于调试"
+    "message0": "인덱스 %2 값%1 이산 입력 배열",
+    "tooltip": "주로 디버깅에 사용되는 이산 입력 배열을 읽습니다"
   },
   "modbus_rtu_slave_holding_set": {
-    "message0": "保持寄存器数组 %1 索引 %2 写入 %3",
-    "tooltip": "写入16位保持寄存器，可提供默认值"
+    "message0": "레지스터 배열%1 인덱스를 %2 %3",
+    "tooltip": "기본값을 제공하는 16비트 보존 레지스터에 쓰기"
   },
   "modbus_rtu_slave_holding_get": {
-    "message0": "保持寄存器数组 %1 索引 %2 的值",
-    "tooltip": "读取保持寄存器值，用于模拟量输出"
+    "message0": "레지스터 배열의 값을 인덱스%1 유지%2",
+    "tooltip": "아날로그 출력에 대한 보존 레지스터 값을 읽습니다"
   },
   "modbus_rtu_slave_input_set": {
-    "message0": "输入寄存器数组 %1 索引 %2 写入 %3",
-    "tooltip": "写入16位输入寄存器，上报模拟量"
+    "message0": "입력 레지스터 배열%1 인덱스%2 쓰기 %3",
+    "tooltip": "16비트 입력 레지스터에 쓰고 아날로그 값을 보고합니다"
   },
   "modbus_rtu_slave_input_get": {
-    "message0": "输入寄存器数组 %1 索引 %2 的值",
-    "tooltip": "读取输入寄存器值，方便调试"
+    "message0": "레지스터 배열의 값을 인덱스 %1 입력하세요%2",
+    "tooltip": "디버깅을 쉽게 하기 위해 입력 레지스터 값을 읽습니다"
   }
 }

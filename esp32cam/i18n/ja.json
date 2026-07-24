@@ -1,35 +1,118 @@
 {
-  "toolbox_name": "ESP32Cam Camera",
+  "toolbox_name": "ESP32Camカメラ",
   "toolbox_labels": {
-    "初始化": "Initialization",
-    "运行时设置": "Runtime settings",
-    "图像帧": "Image frames",
-    "WebServer 集成": "WebServer integration"
+    "初始化": "初期化",
+    "运行时设置": "ランタイム設定",
+    "图像帧": "画像フレーム",
+    "WebServer 集成": "WebServer統合"
   },
   "esp32cam_init": {
-    "message0": "initialize ESP32Cam %1 pin preset %2 resolution %3 pixel format %4 JPEG quality %5 frame buffers %6",
-    "tooltip": "Initialize the OV2640 camera with the selected pins, resolution and pixel format; JPEG quality ranges from 0 to 100",
+    "message0": "ESP32Cam %1ピン方式の初期化 %2解像度 %3 ピクセルフォーマット %4 JPEG 品質 %5 バッファリングされたフレーム数 %6",
+    "tooltip": "選択したピン、解像度、ピクセルフォーマットでOV2640カメラを初期化します。 JPEGの画質は0から100の範囲です",
     "args0": [
       null,
       {
         "options": [
-          ["Auto (from board)", "AUTO"],
-          ["AI Thinker ESP32-CAM", "AiThinker"],
-          ["XIAO ESP32S3 Sense", "XiaoSense"],
-          ["ESP32-S3 N16R8 CAM", "S3N16R8"],
-          ["FREENOVE WROVER CAM", "FreeNove"],
-          ["M5Stack M5Camera", "M5Camera"],
-          ["M5Stack M5Camera LED", "M5CameraLED"],
-          ["TTGO ESP32-CAM", "TTGO"]
+          [
+            "自動(開発委員会によると)",
+            "AUTO"
+          ],
+          [
+            "AI Thinker ESP32-CAM",
+            "AiThinker"
+          ],
+          [
+            "XIAO ESP32S3 Sense",
+            "XiaoSense"
+          ],
+          [
+            "ESP32-S3 N16R8 CAM",
+            "S3N16R8"
+          ],
+          [
+            "FREENOVE WROVER CAM",
+            "FreeNove"
+          ],
+          [
+            "M5スタック M5カメラ",
+            "M5Camera"
+          ],
+          [
+            "M5Stack M5Camera LED",
+            "M5CameraLED"
+          ],
+          [
+            "TTGO ESP32-CAM",
+            "TTGO"
+          ]
         ]
       },
-      null,
       {
         "options": [
-          ["JPEG", "JPEG"],
-          ["RGB565", "RGB"],
-          ["YUV422", "YUV"],
-          ["Grayscale", "GRAYSCALE"]
+          [
+            "QVGA (320x240)",
+            "320,240"
+          ],
+          [
+            "QQVGA (160x120)",
+            "160,120"
+          ],
+          [
+            "HQVGA (240x176)",
+            "240,176"
+          ],
+          [
+            "CIF (400x296)",
+            "400,296"
+          ],
+          [
+            "HVGA (480x320)",
+            "480,320"
+          ],
+          [
+            "VGA (640x480)",
+            "640,480"
+          ],
+          [
+            "SVGA (800x600)",
+            "800,600"
+          ],
+          [
+            "XGA (1024x768)",
+            "1024,768"
+          ],
+          [
+            "HD (1280x720)",
+            "1280,720"
+          ],
+          [
+            "SXGA (1280x1024)",
+            "1280,1024"
+          ],
+          [
+            "UXGA (1600x1200)",
+            "1600,1200"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "JPEG",
+            "JPEG"
+          ],
+          [
+            "RGB565",
+            "RGB"
+          ],
+          [
+            "YUV422",
+            "YUV"
+          ],
+          [
+            "Grayscale",
+            "GRAYSCALE"
+          ]
         ]
       },
       null,
@@ -37,151 +120,238 @@
     ]
   },
   "esp32cam_end": {
-    "message0": "shut down ESP32Cam",
-    "tooltip": "Shut down the camera and release driver resources"
+    "message0": "ESP32Camをオフにしてください",
+    "tooltip": "カメラを切ってドライブリソースを解放してください"
   },
   "esp32cam_is_ready": {
-    "message0": "ESP32Cam initialization succeeded",
-    "tooltip": "Return whether the most recent initialization succeeded"
+    "message0": "ESP32Camの初期化成功",
+    "tooltip": "直近の初期化が成功したかどうかを返します"
   },
   "esp32cam_set_logger": {
-    "message0": "send ESP32Cam logs to %1",
-    "tooltip": "Enable esp32cam runtime logs on the selected serial port"
+    "message0": "ESP32Camは出力を%1に記録します",
+    "tooltip": "ログを実行し、選択したシリアルポートに出力するESP32CAMを有効にしてください"
   },
   "esp32cam_update_resolution": {
-    "message0": "set ESP32Cam resolution %1",
-    "tooltip": "Change resolution at runtime and wait 500 ms for stabilization; it cannot exceed the initial resolution"
+    "message0": "ESP32Cam解像度設定%1",
+    "tooltip": "実行中に解像度を調整し、センサーの安定化を500ミリ秒待つこと; 初期解像度を超えることはできません"
   },
   "esp32cam_update_image": {
-    "message0": "ESP32Cam image brightness %1 contrast %2 saturation %3",
-    "tooltip": "Set brightness, contrast and saturation; each value ranges from -2 to 2"
+    "message0": "ESP32Camの画像パラメータ、明るさ%1コントラスト%2彩度%3",
+    "tooltip": "明るさ、コントラスト、彩度を設定し、3つのパラメータすべてを-2から2の範囲で調整します"
   },
   "esp32cam_update_gain": {
-    "message0": "set ESP32Cam gain %1",
-    "tooltip": "Positive 1 to 31 selects manual gain; -2, -4, -8, -16, -32, -64 or -128 selects the AGC ceiling"
+    "message0": "ESP32Camゲイン設定%1",
+    "tooltip": "正の数字1から31は手動利得を示し、 -2、-4、-8、-16、-32、-64、-128はオートゲインの制限を示します"
   },
   "esp32cam_update_light_mode": {
-    "message0": "set ESP32Cam white balance %1",
-    "tooltip": "Set automatic white balance and lighting mode",
+    "message0": "ESP32Camホワイトバランスモード%1",
+    "tooltip": "カメラの自動ホワイトバランスとライティングモードを設定する",
     "args0": [
       {
         "options": [
-          ["Off", "NONE"],
-          ["Auto", "AUTO"],
-          ["Sunny", "SUNNY"],
-          ["Cloudy", "CLOUDY"],
-          ["Office", "OFFICE"],
-          ["Home", "HOME"]
+          [
+            "閉じる",
+            "NONE"
+          ],
+          [
+            "Auto",
+            "AUTO"
+          ],
+          [
+            "Sunny",
+            "SUNNY"
+          ],
+          [
+            "Cloudy",
+            "CLOUDY"
+          ],
+          [
+            "Office",
+            "OFFICE"
+          ],
+          [
+            "Home",
+            "HOME"
+          ]
         ]
       }
     ]
   },
   "esp32cam_update_special_effect": {
-    "message0": "set ESP32Cam effect %1",
-    "tooltip": "Set the camera image effect",
+    "message0": "ESP32Cam 特殊効果%1",
+    "tooltip": "カメライメージエフェクトを設定してください",
     "args0": [
       {
         "options": [
-          ["None", "NONE"],
-          ["Negative", "NEGATIVE"],
-          ["Black and white", "BLACKWHITE"],
-          ["Reddish", "REDDISH"],
-          ["Greenish", "GREENISH"],
-          ["Bluish", "BLUISH"],
-          ["Antique", "ANTIQUE"]
+          [
+            "None",
+            "NONE"
+          ],
+          [
+            "Negative",
+            "NEGATIVE"
+          ],
+          [
+            "白黒",
+            "BLACKWHITE"
+          ],
+          [
+            "Reddish",
+            "REDDISH"
+          ],
+          [
+            "Greenish",
+            "GREENISH"
+          ],
+          [
+            "Bluish",
+            "BLUISH"
+          ],
+          [
+            "Antique",
+            "ANTIQUE"
+          ]
         ]
       }
     ]
   },
   "esp32cam_update_flip": {
-    "message0": "ESP32Cam image flip horizontal mirror %1 vertical flip %2",
-    "tooltip": "Set horizontal mirroring and vertical flipping"
+    "message0": "ESP32Cam 画像フリップ水平ミラーリング%1垂直フリップ%2",
+    "tooltip": "水平ミラーリングと垂直反転の設定"
   },
   "esp32cam_update_corrections": {
-    "message0": "ESP32Cam corrections raw gamma %1 lens correction %2",
-    "tooltip": "Enable or disable raw gamma and lens correction"
+    "message0": "ESP32Cam画像補正RAWガンマ%1レンズ補正%2",
+    "tooltip": "元のガンマ補正とレンズ補正をオンまたはオフにしてください"
   },
   "esp32cam_status_number": {
-    "message0": "ESP32Cam current %1",
-    "tooltip": "Read a numeric camera setting; modes and effects return their enum values",
+    "message0": "ESP32Camの現行%1",
+    "tooltip": "カメラの現在の数値設定を読み取ってください。 モードと効果は対応する列挙値を表示します",
     "args0": [
       {
         "options": [
-          ["image width", "WIDTH"],
-          ["image height", "HEIGHT"],
-          ["brightness", "BRIGHTNESS"],
-          ["contrast", "CONTRAST"],
-          ["saturation", "SATURATION"],
-          ["gain", "GAIN"],
-          ["white balance mode", "LIGHT_MODE"],
-          ["image effect", "SPECIAL_EFFECT"]
+          [
+            "画像幅",
+            "WIDTH"
+          ],
+          [
+            "画像高さ",
+            "HEIGHT"
+          ],
+          [
+            "brightness",
+            "BRIGHTNESS"
+          ],
+          [
+            "contrast",
+            "CONTRAST"
+          ],
+          [
+            "saturation",
+            "SATURATION"
+          ],
+          [
+            "gain",
+            "GAIN"
+          ],
+          [
+            "ホワイトバランスモード",
+            "LIGHT_MODE"
+          ],
+          [
+            "視覚効果",
+            "SPECIAL_EFFECT"
+          ]
         ]
       }
     ]
   },
   "esp32cam_status_boolean": {
-    "message0": "ESP32Cam currently has %1 enabled",
-    "tooltip": "Read a Boolean camera setting",
+    "message0": "ESP32Camは現在、現在enabled%1",
+    "tooltip": "カメラの現在のブール設定を読みましょう",
     "args0": [
       {
         "options": [
-          ["horizontal mirror", "HMIRROR"],
-          ["vertical flip", "VFLIP"],
-          ["raw gamma", "RAW_GMA"],
-          ["lens correction", "LENS_CORRECTION"]
+          [
+            "水平ミラーリング",
+            "HMIRROR"
+          ],
+          [
+            "垂直反転",
+            "VFLIP"
+          ],
+          [
+            "原始ガンマ線",
+            "RAW_GMA"
+          ],
+          [
+            "レンズ補正",
+            "LENS_CORRECTION"
+          ]
         ]
       }
     ]
   },
   "esp32cam_frame_create": {
-    "message0": "create ESP32Cam image frame variable %1",
-    "tooltip": "Create a variable that holds a camera image frame"
+    "message0": "ESP32Cam画像フレーム変数の作成%1",
+    "tooltip": "カメラ画像を保持するためのフレーム変数を作成する"
   },
   "esp32cam_frame_capture": {
-    "message0": "capture image into frame %1",
-    "tooltip": "Capture one frame; capturing again automatically releases the prior frame"
+    "message0": "画像を撮影して保存frames%1",
+    "tooltip": "フレームを取って保存し、 再度撮影すると、元のフレームが自動的に解放されます"
   },
   "esp32cam_frame_available": {
-    "message0": "image frame %1 is valid",
-    "tooltip": "Check whether capture succeeded and the frame contains an image"
+    "message0": "画像フレーム%1有効です",
+    "tooltip": "撮影が成功したか、フレームに画像が含まれているか確認してください"
   },
   "esp32cam_frame_info": {
-    "message0": "image frame %1 %2",
-    "tooltip": "Read frame width, height, byte count or data address; returns 0 without a valid frame",
+    "message0": "画像フレーム%1 %2",
+    "tooltip": "フレーム幅、高さ、バイト数、またはデータバッファアドレスを読み込みます。 有効なフレームがない場合は0を返します",
     "args0": [
       null,
       {
         "options": [
-          ["width", "WIDTH"],
-          ["height", "HEIGHT"],
-          ["byte count", "SIZE"],
-          ["data pointer", "DATA"]
+          [
+            "width",
+            "WIDTH"
+          ],
+          [
+            "height",
+            "HEIGHT"
+          ],
+          [
+            "バイト数",
+            "SIZE"
+          ],
+          [
+            "データポインタ",
+            "DATA"
+          ]
         ]
       }
     ]
   },
   "esp32cam_frame_format_is": {
-    "message0": "image frame %1 is %2",
-    "tooltip": "Check whether the frame is currently JPEG or BMP"
+    "message0": "画像フレーム%1は%2形式です",
+    "tooltip": "フレームが現在JPEG形式かBMP形式かを確認してください"
   },
   "esp32cam_frame_convert": {
-    "message0": "convert image frame %1 to %2 JPEG quality %3",
-    "tooltip": "Convert the frame format; JPEG quality ranges from 0 to 100 and is ignored for BMP"
+    "message0": "画像フレーム%1JPEG%2変換quality%3",
+    "tooltip": "フレームフォーマットの変換; JPEGの品質は0から100の範囲です。BMP変換時は品質パラメータは無視してください"
   },
   "esp32cam_frame_write_serial": {
-    "message0": "write image frame %1 to %2 timeout ms %3",
-    "tooltip": "Write the complete image data to a serial port and return whether it finished before timeout"
+    "message0": "画像フレーム%1タイムアウト%2書きますmilliseconds%3",
+    "tooltip": "完全な画像データをシリアルポートに書き込み、タイムアウト前に完了したかどうかを返します"
   },
   "esp32cam_frame_release": {
-    "message0": "release image frame %1",
-    "tooltip": "Release the frame buffer immediately; release unused frames before capturing another one"
+    "message0": "リリースイメージフレーム%1",
+    "tooltip": "すぐにフレームバッファを解放し、 未使用のフレームは次のフレームを撮影する前にリリースしてください"
   },
   "esp32cam_webserver_send_frame": {
-    "message0": "Web server %1 send image frame %2 timeout ms %3",
-    "tooltip": "Send a JPEG or BMP still image through the current ESP32 WebServer client"
+    "message0": "ウェブサーバー%1画像フレームをタイムアウト%2送信milliseconds%3",
+    "tooltip": "現在のESP32 WebServerクライアントを通じてJPEGまたはBMP静止画像を送信できます"
   },
   "esp32cam_webserver_stream_mjpeg": {
-    "message0": "Web server %1 stream MJPEG minimum interval %2 max frames %3 frame timeout %4",
-    "tooltip": "Block while streaming MJPEG to the current client and return frames sent; max frames -1 means unlimited"
+    "message0": "ウェブサーバー %1 プッシュ MJPEG 最小フレーム間隔 %2 最大フレーム数 %3 シングルフレームタイムアウト %4",
+    "tooltip": "MJPEGをブロックして現在のESP32 WebServerクライアントにプッシュし、切断後に送信されたフレーム数を返します。 最大フレーム数-1は制限なしを意味します"
   }
 }

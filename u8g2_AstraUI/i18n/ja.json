@@ -1,0 +1,666 @@
+{
+  "toolbox_name": "Astra UI",
+  "toolbox_labels": {
+    "初始化与页面": "ページとの初期化",
+    "菜单控件": "メニュー操作",
+    "控件数据与外观": "制御データと外観",
+    "主题与行为": "テーマと行動",
+    "按键与自定义输入": "キーとカスタム入力",
+    "界面控制": "インターフェース制御",
+    "状态查询": "ステータスクエリ",
+    "事件": "Events"
+  },
+  "astraui_init": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "AstraUIを初期化%1、U8g2オブジェクト%2ルートページ%3初期化したディスプレイ%4",
+    "message1": "ページ、コントロール、入力構成%1",
+    "tooltip": "U8g2CanvasとUIを作成し、メニューを作成し、インターフェースを起動すると、ループ内で自動的にリフレッシュされます。 U8G2はフルバッファモードを使用しなければなりません。"
+  },
+  "astraui_create_page": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "リスト",
+            "List"
+          ],
+          [
+            "磁気ステッカー",
+            "Tile"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "タイトル%2%1レイアウトページを作成し%3ID%4",
+    "tooltip": "AstraUIのページを作成し、完全なプログラムライフサイクルを掲載します。 まずすべてのページを作成し、その後サブメニューのコントロールを作成してください。"
+  },
+  "astraui_create_action": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "ページ%2テキスト%3IDにアクション%1を追加する%4",
+    "message1": "起動時に実行%1",
+    "tooltip": "コマンドタイプのメニュー項目を追加し、 ユーザーがこのアイテムを起動すると、内部ブロックが実行されます。"
+  },
+  "astraui_create_submenu": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "ターゲットページ%2テキスト%4ID%5にサブメニュー項目%1追加%3",
+    "tooltip": "サブメニューのエントリを追加して別のページを開く。 まずターゲットページを作成しなければなりません。"
+  },
+  "astraui_create_toggle": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "ページ%2%3テキストにトグル%1を追加してください。データ変数%4初%5値 ID %6",
+    "message1": "値がchange%1時に実行されます",
+    "tooltip": "Boolグローバルデータ変数をバインドするスイッチコントロールを追加してください。"
+  },
+  "astraui_create_slider": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "args2": [
+      null
+    ],
+    "message0": "ページ%2テキストにスライダー項目%1を追加します。データ変数%3%4ID %5",
+    "message1": "初期値 %1最小%2最大 %3 %4 接尾辞%5",
+    "message2": "値がchange%1時に実行されます",
+    "tooltip": "グローバルデータ変数用にバウンドされたint32_tの範囲スライダーを追加してください。"
+  },
+  "astraui_create_choice": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null,
+      null
+    ],
+    "args2": [
+      null
+    ],
+    "message0": "ページ%2テキスト%3データ変数%4ID %1オプションを追加%5",
+    "message1": "カンマ区切りオプション%1初期インデックス%2",
+    "message2": "値がchange%1時に実行されます",
+    "tooltip": "ループ選択コントロールを追加してください。 オプションは英語のカンマで区切られ、データ変数は現在のインデックスに保存されます。"
+  },
+  "astraui_create_value": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "符号付き整数",
+            "int32_t"
+          ],
+          [
+            "符号なし整数",
+            "uint32_t"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ],
+    "message0": "ページに読み取り専用の項目 %1 ページ %2 テキスト %3 データ変数 %4 タイプ %5 初期値 %6 接尾辞 %7 ID %8",
+    "tooltip": "フォーマット済みコールバックからグローバル整数変数を読み取る読み取り専用の状態項目を追加します。"
+  },
+  "astraui_create_separator": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "ページ%2テキスト%3IDに区切り符%1を追加する%4",
+    "tooltip": "非フォーカス可能なパーティションヘッダーや区切り板を追加しましょう。"
+  },
+  "astraui_set_data_value": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "AstraUIのデータ変数%1を%2に設定し、%3をリフレッシュしてください。",
+    "tooltip": "スイッチ、スライダー、オプション、読み取り専用値に割り当てられたデータ変数を更新し、再描画を要求します。"
+  },
+  "astraui_data_value": {
+    "args0": [
+      null
+    ],
+    "message0": "AstraUI Data Variables %1",
+    "tooltip": "スイッチ、スライダー、オプション、または読み取り専用の数値項目に割り当てられたデータ変数を読み込みます。"
+  },
+  "astraui_set_item_state": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "有効にする",
+            "setEnabled"
+          ],
+          [
+            "次のように見ることができます",
+            "setVisible"
+          ],
+          [
+            "フォーカス可能",
+            "setFocusable"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "message0": "コントロール%1 %2を%3とリフレッシュに設定%4",
+    "tooltip": "実行時にコントロールの有効状態、表示状態、フォーカス可能な状態を切り替え、再描画をリクエストしてください。"
+  },
+  "astraui_set_item_label": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "コントロール%1テキスト%2設定とリフレッシュ%3",
+    "tooltip": "制御テキストをプログラムのライフサイクル全体で有効な文字列定数に置き換えます。"
+  },
+  "astraui_set_item_icon": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "コントロール%1 XBMのアイコン配列を幅%3高さ%2%4設定し、リフレッシュ%5",
+    "tooltip": "既存のXBMビットマップ配列をコントロール用にセットアップすること。これはタイルページでよく使われます。"
+  },
+  "astraui_set_page_options": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "全体像を追いましょう",
+            "GLOBAL"
+          ],
+          [
+            "ショー",
+            "TRUE"
+          ],
+          [
+            "隠す",
+            "FALSE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "全体像を追いましょう",
+            "GLOBAL"
+          ],
+          [
+            "有効にする",
+            "TRUE"
+          ],
+          [
+            "無効にする",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "ページ %1 タイトルバー %2 ループナビゲーション %3",
+    "tooltip": "タイトルバーと円形ナビゲーション設定を1ページに重ねて使います。"
+  },
+  "astraui_set_theme": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "ダーク",
+            "FALSE"
+          ],
+          [
+            "明るい色",
+            "TRUE"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "テキスト",
+            "Text"
+          ],
+          [
+            "全路線",
+            "Row"
+          ]
+        ]
+      }
+    ],
+    "message0": "AstraUI %1 Themes%2 ページタイトル表示 %3 スクロールバー表示 %4 タイルフッター表示 %5 ボックス幅選択 %6",
+    "tooltip": "よく使われるテーマの外観を設定しましょう。 コントロール宣言の後、AstraUI初期化ブロック内に配置すべきです。"
+  },
+  "astraui_set_layout_metrics": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "AstraUI %1 レイアウト 画面余白 %2 タイトル高さ %3 リスト行の高さ %4 タイル幅 %5 アイコン幅 %6 アイコン高さ %7",
+    "tooltip": "リスト、タイトル、タイルのメインサイズを調整して、128x32やカスタム画面に簡単に適応させてください。"
+  },
+  "astraui_set_motion": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "柔らかい",
+            "Gentle"
+          ],
+          [
+            "スウィフト",
+            "Snappy"
+          ],
+          [
+            "弾性",
+            "Bouncy"
+          ],
+          [
+            "アニメーションを減らす",
+            "Reduced"
+          ]
+        ]
+      }
+    ],
+    "message0": "AstraUI%1アニメーションプリセット%2",
+    "tooltip": "校正済みのスプリングアニメーションパラメータセットが適用されます。"
+  },
+  "astraui_set_behavior": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "args1": [
+      null,
+      null,
+      null
+    ],
+    "message0": "AstraUI%1挙動ループナビゲーション%2無効化されたアイテムをスキップ%3返却時にフォーカス%4元編集を忘れないようにする%5",
+    "message1": "連続レンダリング%1アイドルリフレッシュ間隔はミリ秒%2、トースト時間は%3ミリ秒",
+    "tooltip": "ナビゲーション、編集、リフレッシュの戦略を設定しましょう。 動的ステータスページは低周波アイドルリフレッシュで更新できます。"
+  },
+  "astraui_create_two_button": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Low",
+            "LOW"
+          ],
+          [
+            "High",
+            "HIGH"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "中に停めて",
+            "INPUT_PULLUP"
+          ],
+          [
+            "正則入力",
+            "INPUT"
+          ],
+          [
+            "中を下ろして",
+            "INPUT_PULLDOWN"
+          ]
+        ]
+      }
+    ],
+    "message0": "デュアルキー入力%1作成 コントロール %2前のピン %3 次のピン %4 有効レベル %5 ピンモード %6",
+    "tooltip": "短押しで前後方向のナビゲーション; 前のキーを長押ししてリターンし、次のキーで起動します。 自動で初期化し、ループでスキャンします。"
+  },
+  "astraui_create_three_button": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Low",
+            "LOW"
+          ],
+          [
+            "High",
+            "HIGH"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "中に停めて",
+            "INPUT_PULLUP"
+          ],
+          [
+            "正則入力",
+            "INPUT"
+          ],
+          [
+            "中を下ろして",
+            "INPUT_PULLDOWN"
+          ]
+        ]
+      }
+    ],
+    "message0": "3キー入力、%1コントロール、前の%3、次の%4%2、確認、アクティブレベル%5、ピンモード%6、%7",
+    "tooltip": "前後ボタンは連続射撃のための長押し、短押しでキーを起動し、長押しで戻る確認ボタンに対応しています。 自動でループスキャンします。"
+  },
+  "astraui_set_button_timing": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "キーを押して安定化%1%2バーストレイテン%4バースト間隔%5ミリ秒%3ホールドしてください",
+    "tooltip": "ボタンの手ぶき調整、押し込み、自動バースト発射時間の調整。"
+  },
+  "astraui_dispatch": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "過去/減少",
+            "Previous"
+          ],
+          [
+            "次/拡大",
+            "Next"
+          ],
+          [
+            "起動/確認",
+            "Activate"
+          ],
+          [
+            "戻り値",
+            "Back"
+          ],
+          [
+            "減少",
+            "Decrement"
+          ],
+          [
+            "拡大",
+            "Increment"
+          ],
+          [
+            "ホーム",
+            "Home"
+          ]
+        ]
+      }
+    ],
+    "message0": "AstraUI%1入力操作を送信%2",
+    "tooltip": "エンコーダ、シリアルポート、タッチキー、カスタムキーに適したセマンティック入力を注入します。"
+  },
+  "astraui_show_toast": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "AstraUI%1表示プロンプト%2持続時間:%3ミリ秒(0はデフォルト使用)",
+    "tooltip": "インターフェース上には非ブロッキングのトーストプロンプトが表示されます。"
+  },
+  "astraui_ui_command": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "再開選を依頼してください",
+            "invalidate"
+          ],
+          [
+            "すぐにレンダリング",
+            "renderNow"
+          ],
+          [
+            "プロンプトをオフにする",
+            "dismissToast"
+          ],
+          [
+            "前ページに戻る",
+            "back"
+          ],
+          [
+            "ホームページに戻る",
+            "home"
+          ]
+        ]
+      }
+    ],
+    "message0": "AstraUI%1実行%2",
+    "tooltip": "一般的なインターフェース制御コマンドを実行します。"
+  },
+  "astraui_open_page": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "AstraUI%1オープンページ%2",
+    "tooltip": "指定されたページをプログラムで開いてください。"
+  },
+  "astraui_focus": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "AstraUI%1フォーカスインデックス%2アニメーション%3を使った",
+    "tooltip": "現在のページを指定された元のコントロールインデックスに集中させます。"
+  },
+  "astraui_set_power_save": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "AstraUI%1省電力ディスプレイ%2",
+    "tooltip": "モニターの省電力モードをオンまたはオフしてください。"
+  },
+  "astraui_status": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "発足",
+            "isBegun"
+          ],
+          [
+            "現在編集中",
+            "editing"
+          ],
+          [
+            "移行進行中",
+            "transitioning"
+          ]
+        ]
+      }
+    ],
+    "message0": "AstraUIは%1 %2",
+    "tooltip": "インターフェースが起動中、編集中、またはページ移行中かを確認してください。"
+  },
+  "astraui_focus_index": {
+    "args0": [
+      null
+    ],
+    "message0": "AstraUI%1現在のフォーカス指数",
+    "tooltip": "現在のページの元のフォーカスインデックスを返します。"
+  },
+  "astraui_navigation_depth": {
+    "args0": [
+      null
+    ],
+    "message0": "AstraUI %1 現在の航行深度",
+    "tooltip": "ページナビゲーションのスタック深度に戻る。"
+  },
+  "astraui_current_item_id": {
+    "args0": [
+      null
+    ],
+    "message0": "AstraUI %1 現在の制御ID",
+    "tooltip": "現在の制御IDを返します。 現在の制御がない場合は0に戻ります。"
+  },
+  "astraui_begin_result_message": {
+    "args0": [
+      null
+    ],
+    "message0": "AstraUI%1起動結果テキスト",
+    "tooltip": "開始時の最新の読み取り可能な結果、例えばフルバッファモードエラーを返します。"
+  },
+  "astraui_when_event": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "AstraUIがイベントを発生させたとき%1",
+    "message1": "%1 を実行します",
+    "tooltip": "グローバルなAstraUIイベントハンドラを登録します。 内部的には、イベント判断ブロックや価値ブロックを利用できます。"
+  },
+  "astraui_event_is": {
+    "args0": [
+      {
+        "options": [
+          [
+            "焦点が移る",
+            "FocusChanged"
+          ],
+          [
+            "発足",
+            "Activated"
+          ],
+          [
+            "値が変わる",
+            "ValueChanged"
+          ],
+          [
+            "編集開始",
+            "EditStarted"
+          ],
+          [
+            "編集のために提出",
+            "EditCommitted"
+          ],
+          [
+            "未編集",
+            "EditCancelled"
+          ],
+          [
+            "ページへ行く",
+            "PageEntered"
+          ],
+          [
+            "ページを終了する",
+            "PageExited"
+          ]
+        ]
+      }
+    ],
+    "message0": "現在のAstraUIイベントは%1",
+    "tooltip": "AstraUIのイベント処理ブロック内でのみ使用可能です。"
+  },
+  "astraui_event_value": {
+    "message0": "現在のAstraUIイベント値",
+    "tooltip": "現在のイベントが持つ値を返します。 イベント処理ブロック内でのみ使用可能です。"
+  },
+  "astraui_event_item_id": {
+    "message0": "現在のAstraUIイベント制御ID",
+    "tooltip": "現在のイベント制御IDを返します。 制御がないときは0を返します。 イベント処理ブロック内でのみ使用可能です。"
+  },
+  "astraui_event_page_id": {
+    "message0": "現在のAstraUIイベントページID",
+    "tooltip": "現在のイベントページIDを返します。 ページがない場合は0を返します。 イベント処理ブロック内でのみ使用可能です。"
+  }
+}

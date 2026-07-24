@@ -6,5 +6,349 @@
     "姿态与校准": "姿态与校准",
     "配置": "配置",
     "状态与调试": "状态与调试"
+  },
+  "seeed_9dof_init": {
+    "message0": "初始化 Seeed 9DOF %1 ICM20600地址 %2 磁力计模式 %3",
+    "tooltip": "创建并初始化 Grove - IMU 9DOF(ICM20600 + AK09918)，自动启动 I2C。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "0x69 (AD0高电平/默认)",
+            "true"
+          ],
+          [
+            "0x68 (AD0低电平)",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "连续100Hz",
+            "AK09918_CONTINUOUS_100HZ"
+          ],
+          [
+            "连续50Hz",
+            "AK09918_CONTINUOUS_50HZ"
+          ],
+          [
+            "连续20Hz",
+            "AK09918_CONTINUOUS_20HZ"
+          ],
+          [
+            "连续10Hz",
+            "AK09918_CONTINUOUS_10HZ"
+          ],
+          [
+            "单次测量",
+            "AK09918_NORMAL"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_9dof_read_motion": {
+    "message0": "Seeed 9DOF %1 读取 %2 %3 轴",
+    "tooltip": "读取 ICM20600 加速度计或陀螺仪指定轴数据。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "加速度(mg)",
+            "ACCEL"
+          ],
+          [
+            "陀螺仪(dps)",
+            "GYRO"
+          ],
+          [
+            "原始加速度",
+            "RAW_ACCEL"
+          ],
+          [
+            "原始陀螺仪",
+            "RAW_GYRO"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_9dof_read_magnetic": {
+    "message0": "Seeed 9DOF %1 读取 %2 %3 轴",
+    "tooltip": "读取 AK09918 磁力计指定轴数据，单位可选微特斯拉或原始值。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "磁场(uT)",
+            "UT"
+          ],
+          [
+            "原始磁场",
+            "RAW"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "X",
+            "0"
+          ],
+          [
+            "Y",
+            "1"
+          ],
+          [
+            "Z",
+            "2"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_9dof_read_temperature": {
+    "message0": "Seeed 9DOF %1 读取温度(°C)",
+    "tooltip": "读取 ICM20600 内置温度传感器数值。",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_9dof_magnetic_ready": {
+    "message0": "Seeed 9DOF %1 磁力计数据就绪",
+    "tooltip": "检查 AK09918 是否已有可读取的新磁场数据。",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_9dof_magnet_status": {
+    "message0": "Seeed 9DOF %1 获取磁力计状态 %2",
+    "tooltip": "返回 AK09918_err_type_t 状态码，0 表示正常。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "数据就绪",
+            "DATA_READY"
+          ],
+          [
+            "数据跳过",
+            "DATA_SKIP"
+          ],
+          [
+            "自检",
+            "SELF_TEST"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_9dof_error_text": {
+    "message0": "Seeed 9DOF %1 错误码 %2 转文本",
+    "tooltip": "把 AK09918 错误码转换为可打印的说明文本。",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_9dof_set_power_mode": {
+    "message0": "Seeed 9DOF %1 设置6轴电源模式 %2",
+    "tooltip": "设置 ICM20600 的工作电源模式。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "6轴低功耗",
+            "ICM_6AXIS_LOW_POWER"
+          ],
+          [
+            "6轴低噪声",
+            "ICM_6AXIS_LOW_NOISE"
+          ],
+          [
+            "仅加速度低功耗",
+            "ICM_ACC_LOW_POWER"
+          ],
+          [
+            "仅加速度低噪声",
+            "ICM_ACC_LOW_NOISE"
+          ],
+          [
+            "仅陀螺仪低功耗",
+            "ICM_GYRO_LOW_POWER"
+          ],
+          [
+            "仅陀螺仪低噪声",
+            "ICM_GYRO_LOW_NOISE"
+          ],
+          [
+            "待机",
+            "ICM_STANDYBY_MODE"
+          ],
+          [
+            "睡眠",
+            "ICM_SLEEP_MODE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_9dof_set_motion_range": {
+    "message0": "Seeed 9DOF %1 设置加速度量程 %2 陀螺仪量程 %3",
+    "tooltip": "设置 ICM20600 加速度计和陀螺仪满量程。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "±2g",
+            "RANGE_2G"
+          ],
+          [
+            "±4g",
+            "RANGE_4G"
+          ],
+          [
+            "±8g",
+            "RANGE_8G"
+          ],
+          [
+            "±16g",
+            "RANGE_16G"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "±250dps",
+            "RANGE_250_DPS"
+          ],
+          [
+            "±500dps",
+            "RANGE_500_DPS"
+          ],
+          [
+            "±1000dps",
+            "RANGE_1K_DPS"
+          ],
+          [
+            "±2000dps",
+            "RANGE_2K_DPS"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_9dof_set_sample_divider": {
+    "message0": "Seeed 9DOF %1 设置采样分频 %2",
+    "tooltip": "设置 ICM20600 采样分频，采样率约为 1kHz/(1+分频)。",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_9dof_set_magnet_mode": {
+    "message0": "Seeed 9DOF %1 设置磁力计模式 %2",
+    "tooltip": "切换 AK09918 磁力计工作模式。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "单次测量",
+            "AK09918_NORMAL"
+          ],
+          [
+            "连续10Hz",
+            "AK09918_CONTINUOUS_10HZ"
+          ],
+          [
+            "连续20Hz",
+            "AK09918_CONTINUOUS_20HZ"
+          ],
+          [
+            "连续50Hz",
+            "AK09918_CONTINUOUS_50HZ"
+          ],
+          [
+            "连续100Hz",
+            "AK09918_CONTINUOUS_100HZ"
+          ],
+          [
+            "关闭",
+            "AK09918_POWER_DOWN"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_9dof_calibrate_magnet": {
+    "message0": "Seeed 9DOF %1 校准磁力计 时长(ms) %2",
+    "tooltip": "在指定时间内采集磁场最大/最小值，生成航向角偏移量。",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_9dof_heading": {
+    "message0": "Seeed 9DOF %1 读取航向角 磁偏角 %2",
+    "tooltip": "根据加速度和磁场数据计算倾斜补偿后的航向角，单位为度。",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_9dof_print_all": {
+    "message0": "Seeed 9DOF %1 用串口 %2 打印全部数据",
+    "tooltip": "打印加速度、陀螺仪、磁场、温度和航向角，便于调试。",
+    "args0": [
+      null,
+      {
+        "options": "${board.serialPort}"
+      }
+    ]
+  },
+  "seeed_9dof_device_id": {
+    "message0": "Seeed 9DOF %1 读取设备ID %2",
+    "tooltip": "读取 ICM20600 或 AK09918 的芯片 ID。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "ICM20600",
+            "ICM"
+          ],
+          [
+            "AK09918",
+            "AK"
+          ]
+        ]
+      }
+    ]
   }
 }

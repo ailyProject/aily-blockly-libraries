@@ -140,5 +140,129 @@
   "esp32_sd_list_dir": {
     "message0": "列出目录 路径:%1 层级:%2",
     "tooltip": "列出目录内容"
+  },
+  "esp32_sd_begin_advanced": {
+    "message0": "高级初始化SD卡 SPI %1 CS:%2 频率:%3MHz 挂载点:%4 最大文件数:%5 无文件系统时格式化:%6",
+    "tooltip": "使用ESP32 Core 3.x完整参数初始化SD；启用格式化可能清除无法挂载的卡",
+    "args0": [
+      {
+        "options": "${board.spi}"
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "esp32_sd_end": {
+    "message0": "卸载SD卡",
+    "tooltip": "关闭并卸载SD文件系统，再次初始化前可调用"
+  },
+  "esp32_sd_card_type_name": {
+    "message0": "SD卡类型名称",
+    "tooltip": "返回NONE、MMC、SDSC、SDHC/SDXC或UNKNOWN"
+  },
+  "esp32_sd_mountpoint": {
+    "message0": "SD卡挂载点",
+    "tooltip": "返回当前VFS挂载点，未挂载时返回空字符串"
+  },
+  "esp32_sd_open_file_to": {
+    "message0": "打开文件到 %1 路径:%2 模式:%3",
+    "tooltip": "打开文件并保存到File变量，之后可分块读写",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "读取",
+            "FILE_READ"
+          ],
+          [
+            "写入（覆盖）",
+            "FILE_WRITE"
+          ],
+          [
+            "追加",
+            "FILE_APPEND"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_sd_file_is_open": {
+    "message0": "文件已成功打开 %1",
+    "tooltip": "检查File对象是否有效",
+    "args0": [
+      null
+    ]
+  },
+  "esp32_sd_read_file_bytes": {
+    "message0": "从文件 %1 读取最多 %2 字节文本",
+    "tooltip": "从当前位置读取指定长度，适合分块读取较大文本文件",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "esp32_sd_read_byte": {
+    "message0": "从文件读取一个字节 %1",
+    "tooltip": "读取一个字节，文件结束或失败时返回-1",
+    "args0": [
+      null
+    ]
+  },
+  "esp32_sd_peek_byte": {
+    "message0": "查看文件下一个字节 %1",
+    "tooltip": "返回下一个字节但不移动位置，文件结束时返回-1",
+    "args0": [
+      null
+    ]
+  },
+  "esp32_sd_file_available_bytes": {
+    "message0": "文件剩余可读字节数 %1",
+    "tooltip": "返回从当前位置到文件末尾的字节数",
+    "args0": [
+      null
+    ]
+  },
+  "esp32_sd_file_position": {
+    "message0": "文件当前位置 %1",
+    "tooltip": "返回当前读写位置（字节偏移）",
+    "args0": [
+      null
+    ]
+  },
+  "esp32_sd_seek_file": {
+    "message0": "设置文件 %1 位置:%2 基准:%3",
+    "tooltip": "移动文件读写位置并返回是否成功",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "文件开头",
+            "SeekSet"
+          ],
+          [
+            "当前位置",
+            "SeekCur"
+          ],
+          [
+            "文件末尾",
+            "SeekEnd"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_sd_flush_file": {
+    "message0": "刷新文件写入缓存 %1",
+    "tooltip": "将已写入的数据刷新到底层文件系统",
+    "args0": [
+      null
+    ]
   }
 }

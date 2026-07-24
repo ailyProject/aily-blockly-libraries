@@ -2,30 +2,30 @@
   "toolbox_name": "AS7265X",
   "as7265x_init": {
     "message0": "初始化 AS7265X %1",
-    "tooltip": "初始化 AS7265X %1"
+    "tooltip": "创建并初始化 AS7265X 18 通道光谱传感器"
   },
   "as7265x_is_ready": {
     "message0": "AS7265X %1 已初始化",
-    "tooltip": "AS7265X %1 已初始化"
+    "tooltip": "返回初始化块保存的 AS7265X 初始化状态"
   },
   "as7265x_is_connected": {
     "message0": "AS7265X %1 已连接",
-    "tooltip": "AS7265X %1 已连接"
+    "tooltip": "检查 AS7265X I2C 连接"
   },
   "as7265x_take_measurements": {
     "message0": "AS7265X %1 采集测量 灯泡 %2",
-    "tooltip": "AS7265X %1 采集测量 灯泡 %2",
+    "tooltip": "执行一次阻塞式 18 通道光谱测量",
     "args0": [
       null,
       {
         "options": [
           [
-            "无灯泡",
-            "false"
+            "不带灯",
+            "NO"
           ],
           [
-            "有灯泡",
-            "true"
+            "带灯",
+            "YES"
           ]
         ]
       }
@@ -33,38 +33,53 @@
   },
   "as7265x_data_available": {
     "message0": "AS7265X %1 数据可用",
-    "tooltip": "AS7265X %1 数据可用"
+    "tooltip": "检查 AS7265X 光谱数据是否就绪"
   },
   "as7265x_read_calibrated": {
     "message0": "AS7265X %1 读取校准通道 %2",
-    "tooltip": "AS7265X %1 读取校准通道 %2"
+    "tooltip": "读取 AS7265X 校准光谱通道值"
   },
   "as7265x_read_raw": {
     "message0": "AS7265X %1 读取原始通道 %2",
-    "tooltip": "AS7265X %1 读取原始通道 %2"
+    "tooltip": "读取 AS7265X 原始光谱通道值"
   },
   "as7265x_read_temperature": {
     "message0": "AS7265X %1 设备温度 %2",
-    "tooltip": "AS7265X %1 设备温度 %2"
+    "tooltip": "读取 AS7265X 指定内部设备温度"
   },
   "as7265x_set_gain": {
     "message0": "设置 AS7265X %1 增益 %2",
-    "tooltip": "设置 AS7265X %1 增益 %2"
+    "tooltip": "设置 AS7265X 光谱增益"
   },
   "as7265x_set_measurement_mode": {
     "message0": "设置 AS7265X %1 测量模式 %2",
-    "tooltip": "设置 AS7265X %1 测量模式 %2"
+    "tooltip": "设置 AS7265X 测量模式"
   },
   "as7265x_set_integration_cycles": {
     "message0": "设置 AS7265X %1 积分周期 %2",
-    "tooltip": "设置 AS7265X %1 积分周期 %2"
+    "tooltip": "设置积分周期，积分时间约为 2.8ms x 周期"
   },
   "as7265x_bulb": {
     "message0": "AS7265X %1 设备灯泡 %2 %3",
-    "tooltip": "AS7265X %1 设备灯泡 %2 %3",
+    "tooltip": "打开或关闭 AS7265X 指定设备的照明 LED",
     "args0": [
       null,
-      null,
+      {
+        "options": [
+          [
+            "NIR",
+            "AS72651_NIR"
+          ],
+          [
+            "VIS",
+            "AS72652_VISIBLE"
+          ],
+          [
+            "UV",
+            "AS72653_UV"
+          ]
+        ]
+      },
       {
         "options": [
           [
@@ -81,6 +96,6 @@
   },
   "as7265x_set_bulb_current": {
     "message0": "设置 AS7265X %1 设备灯泡电流 %2 %3 mA",
-    "tooltip": "设置 AS7265X %1 设备灯泡电流 %2 %3 mA"
+    "tooltip": "设置 AS7265X 指定照明 LED 电流"
   }
 }

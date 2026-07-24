@@ -1,18 +1,18 @@
 {
   "toolbox_name": "Robot concours Cubic",
   "toolbox_labels": {
-    "初始化": "Init",
+    "初始化": "initialisation",
     "编码电机控制": "Moteur codeur",
     "状态查询": "État",
     "舵机 / 按键 / 灯": "Servo/Bouton/LED"
   },
   "cubic_robot_init": {
-    "message0": "init Cubic robot %1",
-    "tooltip": "Init Cubic robot using EncoderMotor for MA/MB"
+    "message0": "Initialiser le robot Cubic %1",
+    "tooltip": "Créer et initialiser le Cubic CoreV2+Moteur, avec une bibliothèque encodeur-moteur multiplexée interne (lib-encoder-motor) contrôlant MA/MB"
   },
   "cubic_robot_set_motor_pins": {
-    "message0": "%1 set motor %2 pins IN1 %3 IN2 %4 encoder A %5 B %6",
-    "tooltip": "Override motor/encoder pins before begin",
+    "message0": "%1 Régler les broches du moteur %2 pilotes IN1 %3 IN2 %4 Encodeur A %5 B %6",
+    "tooltip": "Couvrez les broches moteur/encodeur avant l’initialisation. Par défaut : MA=14/15/34/35, MB=17/12/36/39",
     "args0": [
       null,
       {
@@ -34,8 +34,8 @@
     ]
   },
   "cubic_robot_set_pid": {
-    "message0": "%1 motor %2 set PID P %3 I %4 D %5",
-    "tooltip": "Set speed PID",
+    "message0": "%1 Moteur %2 PID P %3 I %4 D %5",
+    "tooltip": "Régler le PID de la boucle de vitesse du moteur codé (multiplexage d’EncoderMotor ::SetSpeedPid)",
     "args0": [
       null,
       {
@@ -56,8 +56,8 @@
     ]
   },
   "cubic_robot_run_pwm": {
-    "message0": "%1 motor %2 run PWM %3 (-1023~1023)",
-    "tooltip": "Run with PWM duty",
+    "message0": "%1 %2 moteur fonctionne par puissance (PWM) %3 (-1023~1023)",
+    "tooltip": "Lecteur PWM direct (EncoderMotor ::RunPwmDuty)",
     "args0": [
       null,
       {
@@ -76,8 +76,8 @@
     ]
   },
   "cubic_robot_run_speed": {
-    "message0": "%1 motor %2 run speed %3 RPM (-300~300)",
-    "tooltip": "Run with speed loop",
+    "message0": "%1 Moteur %2 fonctionne à %3 tr/min (-300~300)",
+    "tooltip": "Contrôle de la boucle de vitesse (EncoderMotor ::RunSpeed)",
     "args0": [
       null,
       {
@@ -96,34 +96,34 @@
     ]
   },
   "cubic_robot_drive": {
-    "message0": "%1 drive forward %2 turn %3",
-    "tooltip": "Differential drive"
+    "message0": "%1 différentiel conduisant vers l’avant %2 direction %3",
+    "tooltip": "Châssis différentiel, plage avant/direction - 1023~1023, transmission PWM interne MA/MB"
   },
   "cubic_robot_move": {
-    "message0": "%1 car %2 power %3",
-    "tooltip": "Quick motion",
+    "message0": "%1 Petite voiture %2 %3",
+    "tooltip": "Quick Sport, puissance recommandée 0~1023",
     "args0": [
       null,
       {
         "options": [
           [
-            "前进",
+            "Avancer",
             "FORWARD"
           ],
           [
-            "后退",
+            "Retour",
             "BACKWARD"
           ],
           [
-            "左转",
+            "Tourner a gauche",
             "LEFT"
           ],
           [
-            "右转",
+            "Tourner a droite",
             "RIGHT"
           ],
           [
-            "停止",
+            "Arrêt",
             "STOP"
           ]
         ]
@@ -132,12 +132,12 @@
     ]
   },
   "cubic_robot_stop": {
-    "message0": "%1 stop all motors",
-    "tooltip": "Stop MA/MB"
+    "message0": "%1 Arrêtez tous les moteurs",
+    "tooltip": "Arrêtez MA/MB"
   },
   "cubic_robot_get_speed": {
-    "message0": "%1 motor %2 speed RPM",
-    "tooltip": "Read RPM",
+    "message0": "%1 Moteur %2 Vitesse de courant (RPM)",
+    "tooltip": "Lisez la vitesse actuelle du moteur dans le code",
     "args0": [
       null,
       {
@@ -155,8 +155,8 @@
     ]
   },
   "cubic_robot_get_pulse": {
-    "message0": "%1 motor %2 encoder pulse",
-    "tooltip": "Read pulse count",
+    "message0": "%1 Moteur %2 encode le comptage des impulsions",
+    "tooltip": "Lisez le nombre d’impulsions codées",
     "args0": [
       null,
       {
@@ -174,8 +174,8 @@
     ]
   },
   "cubic_robot_get_revolutions": {
-    "message0": "%1 motor %2 revolutions",
-    "tooltip": "Read revolutions",
+    "message0": "%1 Nombre de rotations du moteur %2",
+    "tooltip": "Lire le nombre de révolutions des moteurs",
     "args0": [
       null,
       {
@@ -193,8 +193,8 @@
     ]
   },
   "cubic_robot_reset_pulse": {
-    "message0": "%1 motor %2 reset pulse",
-    "tooltip": "Reset pulse count",
+    "message0": "%1 Réinitialisation du nombre d’impulsions %2 moteur",
+    "tooltip": "Réinitialisez le nombre d’impulsions de codage",
     "args0": [
       null,
       {
@@ -212,8 +212,8 @@
     ]
   },
   "cubic_robot_servo": {
-    "message0": "%1 servo %2 angle %3",
-    "tooltip": "Servo angle 0~180",
+    "message0": "%1 Servo %2 Angle %3",
+    "tooltip": "Angle de contrôle du servo 0~180 (ESP32Servo intégré)",
     "args0": [
       null,
       {
@@ -240,8 +240,8 @@
     ]
   },
   "cubic_robot_button": {
-    "message0": "%1 button %2 pressed",
-    "tooltip": "Button pressed",
+    "message0": "%1 Bouton %2 pressé",
+    "tooltip": "Boutons de lecture, niveau bas actif",
     "args0": [
       null,
       {
@@ -266,11 +266,11 @@
       {
         "options": [
           [
-            "打开",
+            "Ouvrir",
             "true"
           ],
           [
-            "关闭",
+            "Desactive",
             "false"
           ]
         ]
@@ -278,7 +278,7 @@
     ]
   },
   "cubic_robot_pin_info": {
-    "message0": "Cubic default pin info",
-    "tooltip": "Default pins"
+    "message0": "Description par défaut de broches cubiques",
+    "tooltip": "MA=14/15 ENC34/35 ; MB=12/17 ENC36/39 ; servo 2/25 ; I2C21/22"
   }
 }

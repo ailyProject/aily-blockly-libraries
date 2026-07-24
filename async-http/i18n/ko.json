@@ -1,5 +1,5 @@
 {
-  "toolbox_name": "异步HTTP",
+  "toolbox_name": "비동기식 HTTP",
   "toolbox_labels": {
     "初始化": "초기화",
     "发送请求": "요청 보내기",
@@ -8,75 +8,81 @@
     "管理": "관리"
   },
   "async_http_create": {
-    "message0": "创建异步HTTP客户端 %1",
-    "tooltip": "创建异步HTTP客户端对象并初始化，会自动在loop中调用update()"
+    "message0": "비동기 HTTP 클라이언트 %1",
+    "tooltip": "비동기 HTTP 클라이언트 객체를 생성하고 초기화하면 루프에서 자동으로 update()를 호출합니다."
   },
   "async_http_set_timeout": {
-    "message0": "设置 %1 超时时间为 %2 毫秒",
-    "tooltip": "设置HTTP请求超时时间（默认10000毫秒）"
+    "message0": "타임아웃%1 %2밀리초로 설정하세요",
+    "tooltip": "HTTP 요청 타임아웃 설정(기본 10,000밀리초 설정)"
   },
   "async_http_set_header": {
-    "message0": "%1 设置默认请求头 %2 值 %3",
-    "tooltip": "设置应用到所有请求的默认请求头"
+    "message0": "%1 기본 요청 헤더 값을 %2 설정하세요%3",
+    "tooltip": "모든 요청에 적용된 기본 요청 헤더를 설정하세요"
   },
   "async_http_clear_headers": {
-    "message0": "%1 清除所有默认请求头",
-    "tooltip": "清除所有已设置的默认请求头"
+    "message0": "%1 모든 기본 요청 헤더를 지우기",
+    "tooltip": "설정된 모든 기본 요청 헤더를 지우세요"
   },
   "async_http_get": {
-    "message0": "%1 发送GET请求 URL %2",
-    "tooltip": "发送异步GET请求，收到响应后执行回调代码（非阻塞）"
+    "message0": "%1 GET 요청 URL %2 보내기",
+    "tooltip": "비동기 GET 요청을 보내고, 응답을 받은 후 콜백 코드를 실행합니다(비차단)",
+    "message1": "response%1 받은 후"
   },
   "async_http_post_json": {
-    "message0": "%1 发送POST JSON请求 URL %2 JSON内容 %3",
-    "tooltip": "发送异步POST请求并附带JSON数据（Content-Type: application/json）"
+    "message0": "%1 POST JSON 요청 URL %2 JSON 콘텐츠 %3 보내기",
+    "tooltip": "JSON 데이터를 포함한 비동기 POST 요청을 보내기 (Content-Type: application/json)",
+    "message1": "response%1 받은 후"
   },
   "async_http_post": {
-    "message0": "%1 发送POST请求 URL %2 内容 %3 类型 %4",
-    "tooltip": "发送异步POST请求并指定内容类型"
+    "message0": "%1 POST 요청 전송 URL %2 콘텐츠 %3 유형 %4",
+    "tooltip": "비동기 POST 요청을 보내고 콘텐츠 유형을 지정합니다",
+    "message1": "response%1 받은 후"
   },
   "async_http_put_json": {
-    "message0": "%1 发送PUT JSON请求 URL %2 JSON内容 %3",
-    "tooltip": "发送异步PUT请求并附带JSON数据（Content-Type: application/json）"
+    "message0": "%1 PUT JSON 요청 URL %2 JSON content%3 보내기",
+    "tooltip": "JSON 데이터를 포함한 비동기 PUT 요청을 보내기 (Content-Type: application/json)",
+    "message1": "response%1 받은 후"
   },
   "async_http_del": {
-    "message0": "%1 发送DELETE请求 URL %2",
-    "tooltip": "发送异步DELETE请求，收到响应后执行回调代码"
+    "message0": "%1 DELETE 요청 URL 전송 %2",
+    "tooltip": "비동기 DELETE 요청을 보내고, 응답을 받은 후 콜백 코드를 실행합니다",
+    "message1": "response%1 받은 후"
   },
   "async_http_on_error": {
-    "message0": "当 %1 发生错误时",
-    "tooltip": "当HTTP请求发生错误时执行回调代码（在回调中可使用错误代码和错误信息块）"
+    "message0": "%1 오류를 범할 때",
+    "tooltip": "HTTP 요청이 오류가 발생하면 콜백 코드를 실행합니다(콜백에 오류 코드와 오류 메시지 블록을 사용할 수 있음)",
+    "message1": "실행 %1"
   },
   "async_http_response_status": {
-    "message0": "HTTP响应状态码",
-    "tooltip": "获取HTTP响应状态码（如200、404等），仅在请求回调中使用"
+    "message0": "HTTP 응답 상태 코드",
+    "tooltip": "HTTP 응답 상태 코드(예: 200, 404 등)를 가져오며, 요청 콜백에만 사용합니다"
   },
   "async_http_response_body": {
-    "message0": "HTTP响应内容",
-    "tooltip": "获取HTTP响应的正文内容，仅在请求回调中使用"
+    "message0": "HTTP 응답 내용",
+    "tooltip": "HTTP 응답의 본문 내용을 가져와 요청 콜백에만 사용합니다"
   },
   "async_http_response_is_success": {
-    "message0": "HTTP响应是否成功",
-    "tooltip": "判断HTTP响应是否成功（状态码200-299），仅在请求回调中使用"
+    "message0": "HTTP 응답이 성공했는지?",
+    "tooltip": "HTTP 응답이 성공했는지(상태 코드 200-299)를 결정하며, 요청 콜백 시에만 사용합니다"
   },
   "async_http_response_header": {
-    "message0": "HTTP响应头 %1 的值",
-    "tooltip": "获取指定HTTP响应头的值，仅在请求回调中使用"
+    "message0": "HTTP 응답 헤더의 가치는 %1",
+    "tooltip": "지정된 HTTP 응답 헤더의 값을 가져와 요청 콜백에만 사용됩니다"
   },
   "async_http_error_code": {
-    "message0": "HTTP错误代码",
-    "tooltip": "获取HTTP错误代码，仅在错误回调中使用"
+    "message0": "HTTP 오류 코드",
+    "tooltip": "오류 콜백에만 사용되는 HTTP 오류 코드를 얻으세요"
   },
   "async_http_error_message": {
-    "message0": "HTTP错误信息",
-    "tooltip": "获取HTTP错误信息文本，仅在错误回调中使用"
+    "message0": "HTTP 오류 메시지",
+    "tooltip": "오류 콜백에만 사용되는 HTTP 오류 메시지 텍스트를 검색합니다"
   },
   "async_http_pending": {
-    "message0": "%1 待处理请求数",
-    "tooltip": "获取当前正在处理中的异步请求数量"
+    "message0": "%1 보류 요청 수",
+    "tooltip": "현재 처리 중인 비동기 요청 수를 확인하세요"
   },
   "async_http_abort_all": {
-    "message0": "%1 取消所有请求",
-    "tooltip": "取消所有正在进行的异步HTTP请求"
+    "message0": "%1 모든 요청을 취소하세요",
+    "tooltip": "모든 진행 중인 비동기 HTTP 요청을 취소하세요"
   }
 }

@@ -1,6 +1,13 @@
 {
   "toolbox_name": "GxEPD2 e-Paper",
-  "toolbox_categories": ["Setup", "Paged Refresh", "Drawing", "Text", "State and Color"],
+  "toolbox_categories": [
+    "Setup",
+    "Paged Refresh",
+    "Drawing",
+    "Text",
+    "State and Color",
+    "Chinese text (U8g2)"
+  ],
   "gxepd2_setup": {
     "message0": "initialize e-paper %1 panel %2 CS %3 DC %4 RST %5 BUSY %6 serial %7 reset %8 initial refresh %9 reset pulldown %10",
     "tooltip": "Create and initialize a GxEPD2 e-paper display object."
@@ -81,5 +88,125 @@
   "gxepd2_color": {
     "message0": "e-paper color %1",
     "tooltip": "GxEPD2 color constant."
+  },
+  "gxepd2_u8g2_begin": {
+    "args0": [
+      null
+    ],
+    "message0": "Chinese font engine bound to %1",
+    "tooltip": "Initialize the U8g2 Chinese font engine and bind it to the ink screen (the entire program can be used once)"
+  },
+  "gxepd2_u8g2_font": {
+    "args0": [
+      {
+        "options": [
+          [
+            "Chinese No. 12",
+            "u8g2_font_wqy12_t_gb2312a"
+          ],
+          [
+            "Chinese No. 14",
+            "u8g2_font_wqy14_t_gb2312a"
+          ],
+          [
+            "Chinese No. 16",
+            "u8g2_font_wqy16_t_gb2312a"
+          ],
+          [
+            "English 6x12",
+            "u8g2_font_6x12_tf"
+          ],
+          [
+            "English 10x20",
+            "u8g2_font_10x20_tf"
+          ]
+        ]
+      }
+    ],
+    "message0": "Chinese font %1",
+    "tooltip": "Set text font (for Chinese, use Wenquanyi wqy font)"
+  },
+  "gxepd2_u8g2_color": {
+    "args0": [
+      {
+        "options": [
+          [
+            "black",
+            "GxEPD_BLACK"
+          ],
+          [
+            "white",
+            "GxEPD_WHITE"
+          ],
+          [
+            "red",
+            "GxEPD_RED"
+          ],
+          [
+            "Yellow",
+            "GxEPD_YELLOW"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "white",
+            "GxEPD_WHITE"
+          ],
+          [
+            "black",
+            "GxEPD_BLACK"
+          ],
+          [
+            "red",
+            "GxEPD_RED"
+          ],
+          [
+            "Yellow",
+            "GxEPD_YELLOW"
+          ]
+        ]
+      }
+    ],
+    "message0": "Chinese text Foreground %1 Background %2",
+    "tooltip": "Set text foreground and background colors"
+  },
+  "gxepd2_u8g2_mode": {
+    "args0": [
+      {
+        "options": [
+          [
+            "Transparent (only draw words)",
+            "1"
+          ],
+          [
+            "Solid (fill in the background)",
+            "0"
+          ]
+        ]
+      }
+    ],
+    "message0": "Chinese text background mode %1",
+    "tooltip": "Transparent only draws text; solid will fill in the background color (white text on black background/white text on red background needs to be solid)"
+  },
+  "gxepd2_u8g2_text": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Chinese text displayed in X %1 Y %2 %3",
+    "tooltip": "Display text at specified coordinates (supports Chinese UTF-8); the coordinate is the baseline of the lower left corner of the text"
+  },
+  "gxepd2_spi_pins": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "Remap SPI pins SCK %1 MISO %2 MOSI %3 CS %4",
+    "tooltip": "Custom SPI pin (for ESP32 / ESP32-C3); placed after \"Initialize Ink Screen\". The ink screen does not require MISO, you can just fill in a blank."
   }
 }

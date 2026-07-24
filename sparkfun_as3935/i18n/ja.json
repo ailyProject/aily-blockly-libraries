@@ -2,30 +2,30 @@
   "toolbox_name": "AS3935",
   "as3935_init_i2c": {
     "message0": "初期化 AS3935 I2C %1 アドレス %2",
-    "tooltip": "初期化 AS3935 %1 I2C アドレス %2 割り込みピン %3"
+    "tooltip": "I2C経由でAS3935雷検知器を作成・初期化します"
   },
   "as3935_init_spi": {
     "message0": "初期化 AS3935 SPI %1 CS %2",
-    "tooltip": "初期化 AS3935 %1 SPI CS %2 割り込みピン %3"
+    "tooltip": "SPI経由でAS3935雷検知機を作成・初期化します"
   },
   "as3935_is_ready": {
     "message0": "AS3935 %1 初期化済み",
-    "tooltip": "AS3935 %1 初期化済み"
+    "tooltip": "初期化ブロックによって保存されたAS3935の初期化状態を返します"
   },
   "as3935_set_environment": {
     "message0": "AS3935 %1 環境 %2",
-    "tooltip": "AS3935 %1 環境 %2",
+    "tooltip": "AS3935の屋内外感度設定をセット",
     "args0": [
       null,
       {
         "options": [
           [
-            "屋内",
-            "AS3935_INDOOR"
+            "Home",
+            "INDOOR"
           ],
           [
             "屋外",
-            "AS3935_OUTDOOR"
+            "OUTDOOR"
           ]
         ]
       }
@@ -33,45 +33,46 @@
   },
   "as3935_read_interrupt": {
     "message0": "AS3935 %1 割り込みソース読み取り",
-    "tooltip": "AS3935 %1 割り込みソース読み取り"
+    "tooltip": "割り込み状態を読み取る:LIGHTNING、DISTURBER_DETECT、またはNOISE_TO_HIGH"
   },
   "as3935_distance": {
     "message0": "AS3935 %1 雷距離 km",
-    "tooltip": "AS3935 %1 雷距離 km"
+    "tooltip": "推定の嵐距離(キロメートル)を読みましょう"
   },
   "as3935_energy": {
     "message0": "AS3935 %1 雷エネルギー",
-    "tooltip": "AS3935 %1 雷エネルギー"
+    "tooltip": "直近の雷事象の20ビットエネルギー値を読みましょう"
   },
   "as3935_set_watchdog": {
     "message0": "設定 AS3935 %1 ウォッチドッグしきい値 %2",
-    "tooltip": "設定 AS3935 %1 ウォッチドッグしきい値 %2"
+    "tooltip": "イベントウォッチドッグの閾値を設定し、通常は1〜10"
   },
   "as3935_set_noise": {
     "message0": "設定 AS3935 %1 ノイズレベル %2",
-    "tooltip": "設定 AS3935 %1 ノイズレベル %2"
+    "tooltip": "ノイズのしきい値を設定して0〜7の範囲に設定します"
   },
   "as3935_set_spike": {
     "message0": "設定 AS3935 %1 スパイク除去 %2",
-    "tooltip": "設定 AS3935 %1 スパイク除去 %2"
+    "tooltip": "ピークリジェクション強度の範囲を設定する:0-15"
   },
   "as3935_set_lightning_threshold": {
     "message0": "設定 AS3935 %1 雷しきい値 %2",
-    "tooltip": "設定 AS3935 %1 雷しきい値 %2"
+    "tooltip": "割り込みをトリガーするために必要な稲妻イベントの数を設定します"
   },
   "as3935_mask_disturber": {
     "message0": "AS3935 %1 妨害マスク %2",
-    "tooltip": "AS3935 %1 妨害マスク %2",
+    "tooltip": "干渉イベントシールドの有効化または無効化",
     "args0": [
+      null,
       {
         "options": [
           [
-            "オン",
-            "ON"
+            "オンにする",
+            "true"
           ],
           [
-            "オフ",
-            "OFF"
+            "閉じる",
+            "false"
           ]
         ]
       }
@@ -79,6 +80,6 @@
   },
   "as3935_calibrate": {
     "message0": "AS3935 %1 校正",
-    "tooltip": "AS3935 %1 校正"
+    "tooltip": "AS3935内部発振器の校正"
   }
 }

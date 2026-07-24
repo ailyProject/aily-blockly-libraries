@@ -1,5 +1,5 @@
 {
-  "toolbox_name": "Modbus RTU从站",
+  "toolbox_name": "Modbus RTU スレーブ",
   "toolbox_labels": {
     "初始化": "初期化",
     "数据配置": "データ構成",
@@ -8,8 +8,8 @@
     "运行": "走る"
   },
   "modbus_rtu_slave_create": {
-    "message0": "创建Modbus RTU从站 %1 串口 %2 发送使能引脚 %3 接收使能引脚 %4",
-    "tooltip": "创建Modbus RTU从站实例，DE/RE引脚填-1表示硬件自动切换",
+    "message0": "Modbus RTU スレーブの作成 %1 シリアル ポート %2 送信イネーブル ピン %3 受信イネーブル ピン %4",
+    "tooltip": "Modbus RTU スレーブ インスタンスを作成します。ハードウェアの自動切り替えを示すには、DE/RE ピンに -1 を入力します。",
     "args0": [
       null,
       {
@@ -20,12 +20,12 @@
     ]
   },
   "modbus_rtu_slave_set_response_delay": {
-    "message0": "Modbus从站 %1 设置响应延时 %2 毫秒",
-    "tooltip": "设置响应延时，避免主机DE引脚释放过慢"
+    "message0": "Modbus スレーブ %1 応答遅延を設定 %2 ミリ秒",
+    "tooltip": "ホスト DE ピンの解放が遅すぎるのを避けるために応答遅延を設定します。"
   },
   "modbus_rtu_slave_begin": {
-    "message0": "Modbus从站 %1 启动 设备ID %2 波特率 %3 串口格式 %4",
-    "tooltip": "设置从站地址、波特率和串口校验格式",
+    "message0": "Modbus スレーブ %1 開始デバイス ID %2 ボーレート %3 シリアル ポート形式 %4",
+    "tooltip": "スレーブアドレス、ボーレート、シリアルポート検証フォーマットを設定します。",
     "args0": [
       null,
       null,
@@ -84,55 +84,56 @@
     ]
   },
   "modbus_rtu_slave_poll": {
-    "message0": "Modbus从站 %1 轮询请求",
-    "tooltip": "频繁调用以处理主站读写请求"
+    "message0": "Modbus スレーブ %1 ポーリング リクエスト",
+    "tooltip": "プライマリ サイトの読み取りおよび書き込みリクエストを処理するために頻繁に呼び出されます。",
+    "message1": "有効なリクエストを受信したときに実行されます %1"
   },
   "modbus_rtu_slave_bind_coils": {
-    "message0": "Modbus从站 %1 配置线圈数组 %2 长度 %3",
-    "tooltip": "创建布尔线圈数组并告知库其长度"
+    "message0": "Modbus スレーブ %1 構成コイル アレイ %2 長さ %3",
+    "tooltip": "ブール型コイルの配列を作成し、その長さをライブラリに指示します。"
   },
   "modbus_rtu_slave_bind_discrete": {
-    "message0": "Modbus从站 %1 配置离散输入数组 %2 长度 %3",
-    "tooltip": "创建布尔离散输入数组用于向主站上报"
+    "message0": "Modbus スレーブ %1 離散入力配列の構成 %2 長さ %3",
+    "tooltip": "メインステーションにレポートするためのブール離散入力配列を作成します。"
   },
   "modbus_rtu_slave_bind_holding": {
-    "message0": "Modbus从站 %1 配置保持寄存器 %2 长度 %3",
-    "tooltip": "创建16位保持寄存器数组，用于主站读写"
+    "message0": "Modbus スレーブ %1 構成保持レジスタ %2 長さ %3",
+    "tooltip": "マスターステーションの読み書き用の16ビット保持レジスタ配列を作成します。"
   },
   "modbus_rtu_slave_bind_input": {
-    "message0": "Modbus从站 %1 配置输入寄存器 %2 长度 %3",
-    "tooltip": "创建16位输入寄存器数组，用于上报模拟量"
+    "message0": "Modbus スレーブ %1 構成入力レジスタ %2 長さ %3",
+    "tooltip": "アナログ値をレポートするための 16 ビット入力レジスタ配列を作成する"
   },
   "modbus_rtu_slave_coils_set": {
-    "message0": "线圈数组 %1 索引 %2 写入 %3",
-    "tooltip": "写入指定线圈值，可用于初始化或本地强制"
+    "message0": "コイル配列 %1 インデックス %2 書き込み %3",
+    "tooltip": "指定されたコイル値を書き込みます。初期化またはローカル強制に使用できます。"
   },
   "modbus_rtu_slave_coils_get": {
-    "message0": "线圈数组 %1 索引 %2 的值",
-    "tooltip": "读取线圈状态，用于驱动输出"
+    "message0": "コイル配列の値 %1 インデックス %2",
+    "tooltip": "コイルの状態を読み取って出力を駆動します"
   },
   "modbus_rtu_slave_discrete_set": {
-    "message0": "离散输入数组 %1 索引 %2 写入 %3",
-    "tooltip": "更新离散输入状态，上报开关量"
+    "message0": "離散入力配列 %1 インデックス %2 書き込み %3",
+    "tooltip": "ディスクリート入力ステータスを更新し、スイッチ値を報告します"
   },
   "modbus_rtu_slave_discrete_get": {
-    "message0": "离散输入数组 %1 索引 %2 的值",
-    "tooltip": "读取离散输入数组，多用于调试"
+    "message0": "離散入力配列 %1 インデックス %2 の値",
+    "tooltip": "離散入力配列の読み取り。主にデバッグに使用されます。"
   },
   "modbus_rtu_slave_holding_set": {
-    "message0": "保持寄存器数组 %1 索引 %2 写入 %3",
-    "tooltip": "写入16位保持寄存器，可提供默认值"
+    "message0": "保持レジスタ配列 %1 インデックス %2 書き込み %3",
+    "tooltip": "16 ビット保持レジスタに書き込み、デフォルト値を提供します"
   },
   "modbus_rtu_slave_holding_get": {
-    "message0": "保持寄存器数组 %1 索引 %2 的值",
-    "tooltip": "读取保持寄存器值，用于模拟量输出"
+    "message0": "レジスタ配列 %1 インデックス %2 の値を保持します",
+    "tooltip": "アナログ出力の保持レジスタ値を読み取る"
   },
   "modbus_rtu_slave_input_set": {
-    "message0": "输入寄存器数组 %1 索引 %2 写入 %3",
-    "tooltip": "写入16位输入寄存器，上报模拟量"
+    "message0": "入力レジスタ配列 %1 インデックス %2 書き込み %3",
+    "tooltip": "16 ビット入力レジスタに書き込み、アナログ値を報告します"
   },
   "modbus_rtu_slave_input_get": {
-    "message0": "输入寄存器数组 %1 索引 %2 的值",
-    "tooltip": "读取输入寄存器值，方便调试"
+    "message0": "入力レジスタ配列の値 %1 インデックス %2",
+    "tooltip": "デバッグを容易にするために入力レジスタ値を読み取る"
   }
 }

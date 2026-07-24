@@ -10,19 +10,19 @@
   },
   "espui_wifi_ap": {
     "message0": "ESPUI 開啟熱點 SSID %1 密碼 %2",
-    "tooltip": "ESPUI 開啟熱點 SSID %1 密碼 %2"
+    "tooltip": "將 ESP 設備配置為 WiFi 熱點，適合沒有路由器的本地控制介面"
   },
   "espui_wifi_sta": {
     "message0": "ESPUI 連接 WiFi SSID %1 密碼 %2 逾時(ms) %3",
-    "tooltip": "ESPUI 連接 WiFi SSID %1 密碼 %2 逾時(ms) %3"
+    "tooltip": "連接到現有 WiFi 網絡，並在指定逾時時間後繼續運行"
   },
   "espui_wifi_auto": {
     "message0": "ESPUI 自動聯網 STA SSID %1 STA 密碼 %2 AP SSID %3 AP 密碼 %4 逾時(ms) %5",
-    "tooltip": "ESPUI 自動聯網 STA SSID %1 STA 密碼 %2 AP SSID %3 AP 密碼 %4 逾時(ms) %5"
+    "tooltip": "先嘗試連接路由器，失敗後自動建立熱點"
   },
   "espui_begin": {
     "message0": "啟動 ESPUI 標題 %1 模式 %2 認證 %3 用戶名 %4 密碼 %5 連接埠 %6 滑桿連續更新 %7 捕獲入口 %8",
-    "tooltip": "啟動 ESPUI 標題 %1 模式 %2 認證 %3 用戶名 %4 密碼 %5 連接埠 %6 滑桿連續更新 %7 捕獲入口 %8",
+    "tooltip": "在建立控制項後啟動 ESPUI Web 服務；LittleFS 模式需要先準備檔案系統",
     "args0": [
       null,
       {
@@ -55,11 +55,11 @@
       {
         "options": [
           [
-            "否",
+            "不",
             "FALSE"
           ],
           [
-            "是",
+            "是的",
             "TRUE"
           ]
         ]
@@ -80,16 +80,16 @@
   },
   "espui_prepare_filesystem": {
     "message0": "準備 ESPUI LittleFS 檔案系統 格式化 %1",
-    "tooltip": "準備 ESPUI LittleFS 檔案系統 格式化 %1",
+    "tooltip": "將 ESPUI 靜態網頁資源寫入 LittleFS，通常只需單獨執行一次",
     "args0": [
       {
         "options": [
           [
-            "是",
+            "是的",
             "TRUE"
           ],
           [
-            "否",
+            "不",
             "FALSE"
           ]
         ]
@@ -102,19 +102,19 @@
   },
   "espui_control_id": {
     "message0": "ESPUI 控制項 %1 的ID",
-    "tooltip": "ESPUI 控制項 %1 的ID"
+    "tooltip": "讀取已建立 ESPUI 控制項的 uint16_t ID"
   },
   "espui_create_tab": {
     "message0": "建立標籤頁 ID %1 標題 %2",
-    "tooltip": "建立標籤頁 ID %1 標題 %2"
+    "tooltip": "建立一個 ESPUI 標籤頁，並儲存控制項ID供子控制項使用"
   },
   "espui_create_separator": {
     "message0": "建立分隔線 ID %1 文字 %2 父控制項 %3",
-    "tooltip": "建立分隔線 ID %1 文字 %2 父控制項 %3"
+    "tooltip": "建立用於分隔 UI 區域的文字分隔線"
   },
   "espui_create_label": {
     "message0": "建立標籤 ID %1 標題 %2 值 %3 顏色 %4 父控制項 %5",
-    "tooltip": "建立標籤 ID %1 標題 %2 值 %3 顏色 %4 父控制項 %5",
+    "tooltip": "建立只顯示文字或HTML內容的標籤控制項",
     "args0": [
       null,
       null,
@@ -164,7 +164,7 @@
   },
   "espui_create_button": {
     "message0": "建立按鈕 ID %1 標題 %2 文字 %3 顏色 %4 父控制項 %5",
-    "tooltip": "建立按鈕 ID %1 標題 %2 文字 %3 顏色 %4 父控制項 %5",
+    "tooltip": "建立按鈕控件，並分別處理按下和放開事件",
     "message1": "按下時 %1 鬆開時 %2",
     "args0": [
       null,
@@ -215,7 +215,7 @@
   },
   "espui_create_switcher": {
     "message0": "建立開關 ID %1 標題 %2 初始狀態 %3 顏色 %4 父控制項 %5",
-    "tooltip": "建立開關 ID %1 標題 %2 初始狀態 %3 顏色 %4 父控制項 %5",
+    "tooltip": "建立開關控件，並分別處理開啟和關閉事件",
     "message1": "開啟時 %1 關閉時 %2",
     "args0": [
       null,
@@ -277,7 +277,7 @@
   },
   "espui_create_slider": {
     "message0": "建立滑桿 ID %1 標題 %2 值 %3 最小 %4 最大 %5 顏色 %6 父控制項 %7",
-    "tooltip": "建立滑桿 ID %1 標題 %2 值 %3 最小 %4 最大 %5 顏色 %6 父控制項 %7",
+    "tooltip": "建立滑條控件，變更時可用「事件控件值」讀取新值",
     "message1": "值變化時 %1",
     "args0": [
       null,
@@ -330,7 +330,7 @@
   },
   "espui_create_number": {
     "message0": "建立數字輸入 ID %1 標題 %2 值 %3 最小 %4 最大 %5 顏色 %6 父控制項 %7",
-    "tooltip": "建立數字輸入 ID %1 標題 %2 值 %3 最小 %4 最大 %5 顏色 %6 父控制項 %7",
+    "tooltip": "建立數位輸入控件，變更時可讀取事件控件值",
     "message1": "值變化時 %1",
     "args0": [
       null,
@@ -383,7 +383,7 @@
   },
   "espui_create_text": {
     "message0": "建立文字輸入 ID %1 標題 %2 值 %3 類型 %4 顏色 %5 父控制項 %6",
-    "tooltip": "建立文字輸入 ID %1 標題 %2 值 %3 類型 %4 顏色 %5 父控制項 %6",
+    "tooltip": "建立文字輸入控件，可設定 HTML input 類型",
     "message1": "內容變化時 %1",
     "args0": [
       null,
@@ -466,7 +466,7 @@
   },
   "espui_create_select": {
     "message0": "建立選擇器 ID %1 標題 %2 初始值 %3 顏色 %4 父控制項 %5",
-    "tooltip": "建立選擇器 ID %1 標題 %2 初始值 %3 顏色 %4 父控制項 %5",
+    "tooltip": "建立下拉選擇器；以「新增選擇器選項」區塊新增選項",
     "message1": "選擇變化時 %1",
     "args0": [
       null,
@@ -517,11 +517,11 @@
   },
   "espui_add_option": {
     "message0": "給選擇器 %1 新增選項 標題 %2 值 %3",
-    "tooltip": "給選擇器 %1 新增選項 標題 %2 值 %3"
+    "tooltip": "在已建立的 ESPUI 選擇器中新增一個選項"
   },
   "espui_create_pad": {
     "message0": "建立方向板 ID %1 標題 %2 中心鍵 %3 顏色 %4 父控制項 %5",
-    "tooltip": "建立方向板 ID %1 標題 %2 中心鍵 %3 顏色 %4 父控制項 %5",
+    "tooltip": "建立方向控制板；在事件裡用「如果 ESPUI 事件是」區分方向和按下/鬆開",
     "message1": "事件發生時 %1",
     "args0": [
       null,
@@ -583,7 +583,7 @@
   },
   "espui_create_graph": {
     "message0": "建立圖表 ID %1 標題 %2 顏色 %3 父控制項 %4",
-    "tooltip": "建立圖表 ID %1 標題 %2 顏色 %3 父控制項 %4",
+    "tooltip": "建立可動態新增資料點的圖表控件",
     "args0": [
       null,
       null,
@@ -632,7 +632,7 @@
   },
   "espui_create_gauge": {
     "message0": "建立儀表 ID %1 標題 %2 值 %3 最小 %4 最大 %5 顏色 %6 父控制項 %7",
-    "tooltip": "建立儀表 ID %1 標題 %2 值 %3 最小 %4 最大 %5 顏色 %6 父控制項 %7",
+    "tooltip": "建立儀表板控件，用於顯示百分比或感測器數值",
     "args0": [
       null,
       null,
@@ -684,7 +684,7 @@
   },
   "espui_create_file_display": {
     "message0": "建立檔案顯示 ID %1 標題 %2 檔名 %3 顏色 %4 父控制項 %5",
-    "tooltip": "建立檔案顯示 ID %1 標題 %2 檔名 %3 顏色 %4 父控制項 %5",
+    "tooltip": "顯示 LittleFS 中指定檔案的內容，需要檔案系統模式或已掛載檔案系統",
     "args0": [
       null,
       null,
@@ -734,7 +734,7 @@
   },
   "espui_create_accelerometer": {
     "message0": "建立加速度輸入 ID %1 標題 %2 顏色 %3 父控制項 %4",
-    "tooltip": "建立加速度輸入 ID %1 標題 %2 顏色 %3 父控制項 %4",
+    "tooltip": "建立移動端加速度輸入控件，變更時讀取事件控件值",
     "message1": "資料變化時 %1",
     "args0": [
       null,
@@ -784,49 +784,49 @@
   },
   "espui_update_value": {
     "message0": "更新控制項 %1 的值 %2",
-    "tooltip": "更新控制項 %1 的值 %2"
+    "tooltip": "呼叫 updateControlValue 更新任意控制項的值"
   },
   "espui_update_control_label": {
     "message0": "更新控制項 %1 的標題 %2",
-    "tooltip": "更新控制項 %1 的標題 %2"
+    "tooltip": "呼叫 updateControlLabel 修改控制項標題文本"
   },
   "espui_update_switcher": {
     "message0": "更新開關 %1 為 %2",
-    "tooltip": "更新開關 %1 為 %2"
+    "tooltip": "用布林值更新開關控制項狀態"
   },
   "espui_update_number": {
     "message0": "更新數值控制項 %1 為 %2",
-    "tooltip": "更新數值控制項 %1 為 %2"
+    "tooltip": "更新滑條、數位輸入或儀表板等數值控件"
   },
   "espui_add_graph_point": {
     "message0": "給圖表 %1 新增資料點 %2",
-    "tooltip": "給圖表 %1 新增資料點 %2"
+    "tooltip": "向 ESPUI 圖表追加一個數值點"
   },
   "espui_clear_graph": {
     "message0": "清空圖表 %1",
-    "tooltip": "清空圖表 %1"
+    "tooltip": "清空 ESPUI 圖表中的所有資料點"
   },
   "espui_set_enabled": {
     "message0": "設定控制項 %1 啟用 %2",
-    "tooltip": "設定控制項 %1 啟用 %2"
+    "tooltip": "啟用或停用控制項並同步到網頁端"
   },
   "espui_set_visible": {
     "message0": "設定控制項 %1 可見 %2",
-    "tooltip": "設定控制項 %1 可見 %2"
+    "tooltip": "顯示或隱藏控制項並同步到網頁端"
   },
   "espui_set_layout": {
     "message0": "設定控制項 %1 寬面板 %2 垂直佈局 %3",
-    "tooltip": "設定控制項 %1 寬面板 %2 垂直佈局 %3"
+    "tooltip": "設定控制項面板寬度和垂直佈局屬性"
   },
   "espui_set_style": {
     "message0": "設定控制項 %1 樣式位置 %2 CSS %3",
-    "tooltip": "設定控制項 %1 樣式位置 %2 CSS %3",
+    "tooltip": "設定控制項面板或內部元素的內嵌 CSS 樣式",
     "args0": [
       null,
       {
         "options": [
           [
-            "面板",
+            "小組",
             "PANEL"
           ],
           [
@@ -840,7 +840,7 @@
   },
   "espui_set_input_type": {
     "message0": "設定文字控制項 %1 輸入類型 %2",
-    "tooltip": "設定文字控制項 %1 輸入類型 %2",
+    "tooltip": "修改文字輸入控制項的 HTML input 類型",
     "args0": [
       null,
       {
@@ -879,7 +879,7 @@
   },
   "espui_get_value": {
     "message0": "控制項 %1 的值",
-    "tooltip": "控制項 %1 的值"
+    "tooltip": "讀取控制項目前值，控制項不存在時傳回空字串"
   },
   "espui_sender_value": {
     "message0": "事件控制項值",
@@ -898,8 +898,8 @@
     "tooltip": "ESPUI事件類型"
   },
   "espui_event_is": {
-    "message0": "ESPUI事件是 %1",
-    "tooltip": "ESPUI事件是 %1",
+    "message0": "ESPUI的活動%1",
+    "tooltip": "在 ESPUI 事件處理內部判斷目前事件類型",
     "args0": [
       {
         "options": [
@@ -936,7 +936,7 @@
             "S_VALUE"
           ],
           [
-            "左按下",
+            "向左推",
             "P_LEFT_DOWN"
           ],
           [
@@ -944,7 +944,7 @@
             "P_LEFT_UP"
           ],
           [
-            "右按下",
+            "向右按",
             "P_RIGHT_DOWN"
           ],
           [
@@ -952,7 +952,7 @@
             "P_RIGHT_UP"
           ],
           [
-            "前按下",
+            "繼續前進",
             "P_FOR_DOWN"
           ],
           [
@@ -968,7 +968,7 @@
             "P_BACK_UP"
           ],
           [
-            "中心按下",
+            "中心施壓",
             "P_CENTER_DOWN"
           ],
           [
@@ -980,8 +980,8 @@
     ]
   },
   "espui_if_event": {
-    "message0": "如果 ESPUI 事件是 %1",
-    "tooltip": "如果 ESPUI 事件是 %1",
+    "message0": "如果ESPUI事件是%1",
+    "tooltip": "在 ESPUI 回呼內部按事件類型執行語句",
     "message1": "%1",
     "args0": [
       {
@@ -1019,7 +1019,7 @@
             "S_VALUE"
           ],
           [
-            "左按下",
+            "向左推",
             "P_LEFT_DOWN"
           ],
           [
@@ -1027,7 +1027,7 @@
             "P_LEFT_UP"
           ],
           [
-            "右按下",
+            "向右按",
             "P_RIGHT_DOWN"
           ],
           [
@@ -1035,7 +1035,7 @@
             "P_RIGHT_UP"
           ],
           [
-            "前按下",
+            "繼續前進",
             "P_FOR_DOWN"
           ],
           [
@@ -1051,7 +1051,7 @@
             "P_BACK_UP"
           ],
           [
-            "中心按下",
+            "中心施壓",
             "P_CENTER_DOWN"
           ],
           [
@@ -1067,8 +1067,8 @@
     "tooltip": "WiFi已連接"
   },
   "espui_ip_address": {
-    "message0": "ESPUI IP地址 %1",
-    "tooltip": "ESPUI IP地址 %1",
+    "message0": "ESPUI IP位址 %1",
+    "tooltip": "讀取目前 WiFi 或熱點模式的 IP 位址字串",
     "args0": [
       {
         "options": [

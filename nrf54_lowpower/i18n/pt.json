@@ -10,28 +10,228 @@
   "lowpower_init": {
     "message0": "Inicializar modo baixo consumo frequência CPU %1 modo energia %2",
     "tooltip": "Inicializar modo baixo consumo, configurar frequência CPU e modo de latência energética.",
-    "args0": [null, { "options": [["Baixo Consumo", "LOW_POWER"], ["Latência Constante", "CONSTANT_LATENCY"]] }]
+    "args0": [
+      {
+        "options": [
+          [
+            "64 MHz",
+            "64MHZ"
+          ],
+          [
+            "128 MHz",
+            "128MHZ"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Baixo Consumo",
+            "LOW_POWER"
+          ],
+          [
+            "Latência Constante",
+            "CONSTANT_LATENCY"
+          ]
+        ]
+      }
+    ]
   },
-  "lowpower_enter_lowest_power": { "message0": "Entrar no estado placa mais baixo consumo", "tooltip": "Desligar trilhos de alimentação da placa para o consumo mais baixo." },
-  "lowpower_set_cpu_freq": { "message0": "Definir frequência CPU %1", "tooltip": "Alterar dinamicamente a frequência CPU.", "args0": [null] },
-  "lowpower_wfi": { "message0": "WFI espera ociosa", "tooltip": "CPU entra em estado ocioso WFI até a próxima interrupção." },
-  "lowpower_sleep_ms": { "message0": "Sleep WFI baixo consumo %1 ms", "tooltip": "Atraso baixo consumo com loop WFI." },
-  "lowpower_system_off_timed": { "message0": "System OFF temporizado %1 ms", "tooltip": "Entrar em sleep System OFF mais profundo, despertar por boot frio após o tempo especificado." },
-  "lowpower_system_off_button": { "message0": "System OFF despertar por botão", "tooltip": "Configurar botão do usuário como fonte de despertar e entrar em System OFF." },
-  "lowpower_system_off": { "message0": "Entrar em System OFF %1", "tooltip": "Entrar no modo sleep System OFF mais profundo.", "args0": [{ "options": [["Sem retenção RAM (menor consumo)", "NO_RETENTION"], ["Reter seção .noinit", "RETENTION"]] }] },
+  "lowpower_enter_lowest_power": {
+    "message0": "Entrar no estado placa mais baixo consumo",
+    "tooltip": "Desligar trilhos de alimentação da placa para o consumo mais baixo."
+  },
+  "lowpower_set_cpu_freq": {
+    "message0": "Definir frequência CPU %1",
+    "tooltip": "Alterar dinamicamente a frequência CPU.",
+    "args0": [
+      {
+        "options": [
+          [
+            "64 MHz",
+            "64MHZ"
+          ],
+          [
+            "128 MHz",
+            "128MHZ"
+          ]
+        ]
+      }
+    ]
+  },
+  "lowpower_wfi": {
+    "message0": "WFI espera ociosa",
+    "tooltip": "CPU entra em estado ocioso WFI até a próxima interrupção."
+  },
+  "lowpower_sleep_ms": {
+    "message0": "Sleep WFI baixo consumo %1 ms",
+    "tooltip": "Atraso baixo consumo com loop WFI."
+  },
+  "lowpower_system_off_timed": {
+    "message0": "System OFF temporizado %1 ms",
+    "tooltip": "Entrar em sleep System OFF mais profundo, despertar por boot frio após o tempo especificado."
+  },
+  "lowpower_system_off_button": {
+    "message0": "System OFF despertar por botão",
+    "tooltip": "Configurar botão do usuário como fonte de despertar e entrar em System OFF."
+  },
+  "lowpower_system_off": {
+    "message0": "Entrar em System OFF %1",
+    "tooltip": "Entrar no modo sleep System OFF mais profundo.",
+    "args0": [
+      {
+        "options": [
+          [
+            "Sem retenção RAM (menor consumo)",
+            "NO_RETENTION"
+          ],
+          [
+            "Reter seção .noinit",
+            "RETENTION"
+          ]
+        ]
+      }
+    ]
+  },
   "lowpower_lpcomp_init": {
     "message0": "Inicializar LPCOMP pino %1 VDD %2 mV limiar %3 mV histerese %4 detecção %5",
     "tooltip": "Inicializar comparador de baixo consumo (LPCOMP).",
-    "args0": [null, null, null, { "options": [["Ligado", "TRUE"], ["Desligado", "FALSE"]] }, { "options": [["Borda de subida", "UP"], ["Borda de descida", "DOWN"], ["Ambas bordas", "CROSS"]] }]
+    "args0": [
+      {
+        "options": [
+          [
+            "A0",
+            "kPinA0"
+          ],
+          [
+            "A1",
+            "kPinA1"
+          ],
+          [
+            "A2",
+            "kPinA2"
+          ],
+          [
+            "A3",
+            "kPinA3"
+          ],
+          [
+            "A4",
+            "kPinA4"
+          ],
+          [
+            "A5",
+            "kPinA5"
+          ]
+        ]
+      },
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Ligado",
+            "TRUE"
+          ],
+          [
+            "Desligado",
+            "FALSE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Borda de subida",
+            "UP"
+          ],
+          [
+            "Borda de descida",
+            "DOWN"
+          ],
+          [
+            "Ambas bordas",
+            "CROSS"
+          ]
+        ]
+      }
+    ]
   },
-  "lowpower_lpcomp_poll_up": { "message0": "LPCOMP detectou cruzamento ascendente?", "tooltip": "Verificar se LPCOMP detectou tensão subindo acima do limiar." },
-  "lowpower_lpcomp_sample_above": { "message0": "LPCOMP atualmente acima do limiar?", "tooltip": "Amostrar imediatamente o comparador LPCOMP." },
-  "lowpower_lpcomp_clear": { "message0": "Limpar eventos LPCOMP", "tooltip": "Limpar todas as flags de eventos LPCOMP." },
-  "lowpower_watchdog_init": { "message0": "Inicializar watchdog timeout %1 ms pausa em sleep %2", "tooltip": "Inicializar temporizador watchdog.", "args0": [null, { "options": [["Sim", "TRUE"], ["Não", "FALSE"]] }] },
-  "lowpower_watchdog_feed": { "message0": "Alimentar watchdog", "tooltip": "Reiniciar temporizador watchdog." },
-  "lowpower_woke_from": { "message0": "Fonte de despertar é %1 ?", "tooltip": "Verificar se esta inicialização foi acionada pela fonte especificada.", "args0": [{ "options": [["GPIO (botão/pino)", "GPIO"], ["GRTC (temporizador)", "GRTC"], ["LPCOMP (comparador)", "LPCOMP"], ["Watchdog", "WATCHDOG"]] }] },
-  "lowpower_reset_reason": { "message0": "Valor razão de reset", "tooltip": "Obter valor bruto do registro de razão de reset." },
-  "lowpower_clear_reset_reason": { "message0": "Limpar razão de reset", "tooltip": "Limpar registro de razão de reset." },
-  "lowpower_gpregret_write": { "message0": "Escrever registro retido valor %1", "tooltip": "Escrever byte (0-255) no registro retido GPREGRET." },
-  "lowpower_gpregret_read": { "message0": "Ler registro retido", "tooltip": "Ler byte (0-255) do registro retido GPREGRET." }
+  "lowpower_lpcomp_poll_up": {
+    "message0": "LPCOMP detectou cruzamento ascendente?",
+    "tooltip": "Verificar se LPCOMP detectou tensão subindo acima do limiar."
+  },
+  "lowpower_lpcomp_sample_above": {
+    "message0": "LPCOMP atualmente acima do limiar?",
+    "tooltip": "Amostrar imediatamente o comparador LPCOMP."
+  },
+  "lowpower_lpcomp_clear": {
+    "message0": "Limpar eventos LPCOMP",
+    "tooltip": "Limpar todas as flags de eventos LPCOMP."
+  },
+  "lowpower_watchdog_init": {
+    "message0": "Inicializar watchdog timeout %1 ms pausa em sleep %2",
+    "tooltip": "Inicializar temporizador watchdog.",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Sim",
+            "TRUE"
+          ],
+          [
+            "Não",
+            "FALSE"
+          ]
+        ]
+      }
+    ]
+  },
+  "lowpower_watchdog_feed": {
+    "message0": "Alimentar watchdog",
+    "tooltip": "Reiniciar temporizador watchdog."
+  },
+  "lowpower_woke_from": {
+    "message0": "Fonte de despertar é %1 ?",
+    "tooltip": "Verificar se esta inicialização foi acionada pela fonte especificada.",
+    "args0": [
+      {
+        "options": [
+          [
+            "GPIO (botão/pino)",
+            "GPIO"
+          ],
+          [
+            "GRTC (temporizador)",
+            "GRTC"
+          ],
+          [
+            "LPCOMP (comparador)",
+            "LPCOMP"
+          ],
+          [
+            "Watchdog",
+            "WATCHDOG"
+          ]
+        ]
+      }
+    ]
+  },
+  "lowpower_reset_reason": {
+    "message0": "Valor razão de reset",
+    "tooltip": "Obter valor bruto do registro de razão de reset."
+  },
+  "lowpower_clear_reset_reason": {
+    "message0": "Limpar razão de reset",
+    "tooltip": "Limpar registro de razão de reset."
+  },
+  "lowpower_gpregret_write": {
+    "message0": "Escrever registro retido valor %1",
+    "tooltip": "Escrever byte (0-255) no registro retido GPREGRET."
+  },
+  "lowpower_gpregret_read": {
+    "message0": "Ler registro retido",
+    "tooltip": "Ler byte (0-255) do registro retido GPREGRET."
+  }
 }

@@ -1,0 +1,337 @@
+{
+  "toolbox_name": "FS",
+  "toolbox_categories": [
+    "SDカードストレージ",
+    "SFUDフラッシュファイルシステム",
+    "SFUDオリジナルフラッシュメモリ"
+  ],
+  "toolbox_labels": {
+    "初始化": "初期化",
+    "卡信息": "カード情報",
+    "快速文件操作": "高速なファイル操作",
+    "文件操作": "ファイル操作",
+    "目录操作": "ディレクトリ操作",
+    "文件检查": "書類チェック",
+    "闪存信息": "フラッシュ情報",
+    "文件操作（与SD文件块共用）": "ファイル操作(SDファイルブロックと共有)",
+    "读写操作": "読み書き操作"
+  },
+  "seeed_fs_sd_begin": {
+    "message0": "SDカードの初期化(デフォルトのSPIピン)",
+    "tooltip": "デフォルトのSPIピンを使ってSeeed SDカードファイルシステムを初期化します"
+  },
+  "seeed_fs_sd_begin_spi": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "SDカードの初期化 CSピン:%1 周波数:%2 MHz",
+    "tooltip": "指定されたCSピンと周波数を使ってSDカードを初期化します"
+  },
+  "seeed_fs_sd_card_info": {
+    "args0": [
+      {
+        "options": [
+          [
+            "カード種別",
+            "cardType"
+          ],
+          [
+            "カード容量(MB)",
+            "cardSize"
+          ],
+          [
+            "全体容量(MB)",
+            "totalBytes"
+          ],
+          [
+            "使用容量(MB)",
+            "usedBytes"
+          ]
+        ]
+      }
+    ],
+    "message0": "SDカード情報%1",
+    "tooltip": "SDカード情報を取得する"
+  },
+  "seeed_fs_file_exists": {
+    "args0": [
+      null
+    ],
+    "message0": "ファイルが存在する パス:%1",
+    "tooltip": "指定されたパスを持つファイルやディレクトリが存在するかどうかを確認してください"
+  },
+  "seeed_fs_open_file": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "読む",
+            "FILE_READ"
+          ],
+          [
+            "書く",
+            "FILE_WRITE"
+          ],
+          [
+            "追加",
+            "FILE_APPEND"
+          ]
+        ]
+      }
+    ],
+    "message0": "ファイル%1を開くパス:%2モード:%3",
+    "tooltip": "ファイルを開いてファイルオブジェクトを返します"
+  },
+  "seeed_fs_close_file": {
+    "args0": [
+      null
+    ],
+    "message0": "ファイル閉鎖%1",
+    "tooltip": "開いたファイルを閉じてください"
+  },
+  "seeed_fs_write_file": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "ファイルを書き込む%1内容:%2",
+    "tooltip": "開いたファイルにコンテンツを書き込む"
+  },
+  "seeed_fs_read_file": {
+    "args0": [
+      null
+    ],
+    "message0": "ファイルを読み取%1",
+    "tooltip": "開いたファイルからすべての内容を読み取る"
+  },
+  "seeed_fs_file_available": {
+    "args0": [
+      null
+    ],
+    "message0": "ファイルの可読性%1",
+    "tooltip": "ファイルに読み取れるデータがあるか確認してください"
+  },
+  "seeed_fs_file_size": {
+    "args0": [
+      null
+    ],
+    "message0": "ファイルサイズ:%1",
+    "tooltip": "開いたファイルのサイズ(バイト数)を取得します"
+  },
+  "seeed_fs_write_quick": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "クイック書き込みファイルパス:%1 内容:%2",
+    "tooltip": "高速ファイル書き込み(自動開閉、書き書きの上書き)"
+  },
+  "seeed_fs_read_quick": {
+    "args0": [
+      null
+    ],
+    "message0": "クイックファイル読み取りパス:%1",
+    "tooltip": "ファイル全体を素早く読み込む(自動開閉)"
+  },
+  "seeed_fs_append_file": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "ファイルを追加 書き込み パス: %1 内容: %2",
+    "tooltip": "ファイルの最後にコンテンツを追加する(自動開閉)"
+  },
+  "seeed_fs_delete_file": {
+    "args0": [
+      null
+    ],
+    "message0": "ファイル削除パス:%1",
+    "tooltip": "指定されたパスでファイルを削除する"
+  },
+  "seeed_fs_rename_file": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "ファイル名変更 古いパス: %1 新しいパス: %2",
+    "tooltip": "ファイル名変更または移動"
+  },
+  "seeed_fs_create_dir": {
+    "args0": [
+      null
+    ],
+    "message0": "ディレクトリパスを作成:%1",
+    "tooltip": "目次(中間ディレクトリを含む)を作成する"
+  },
+  "seeed_fs_remove_dir": {
+    "args0": [
+      null
+    ],
+    "message0": "ディレクトリパスを削除:%1",
+    "tooltip": "指定されたパスを持つディレクトリを削除してください"
+  },
+  "seeed_fs_list_dir": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "リストディレクトリパス:%1層数:%2",
+    "tooltip": "Serialによるディレクトリの内容リスト、LEVELSは再帰層の数を指定します(0=現在の層のみ)"
+  },
+  "seeed_sfud_fs_begin_qspi": {
+    "message0": "SFUDフラッシュファイルシステム(QSPI)の初期化",
+    "tooltip": "Wio端末は、内蔵のW25Q32フラッシュメモリファイルシステムを備えたQSPIインターフェースを使用して初期化し、デフォルト周波数は104MHzです"
+  },
+  "seeed_sfud_fs_begin_spi": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "SFUDフラッシュファイルシステム(SPI)の初期化 CSピン:%1 周波数:%2 MHz",
+    "tooltip": "SPIインターフェースを使ってSFUD外部フラッシュファイルシステムを初期化します"
+  },
+  "seeed_sfud_fs_flash_info": {
+    "args0": [
+      {
+        "options": [
+          [
+            "フラッシュメモリサイズ(バイト)",
+            "flashSize"
+          ],
+          [
+            "全体容量(MB)",
+            "totalBytes"
+          ],
+          [
+            "使用容量(MB)",
+            "usedBytes"
+          ]
+        ]
+      }
+    ],
+    "message0": "SFUDフラッシュ情報%1",
+    "tooltip": "SFUDフラッシュ容量情報を取得"
+  },
+  "seeed_sfud_fs_file_exists": {
+    "args0": [
+      null
+    ],
+    "message0": "SFUDフラッシュファイルが存在する Path: %1",
+    "tooltip": "指定されたファイルやディレクトリがSFUDフラッシュファイルシステムに存在するか確認してください"
+  },
+  "seeed_sfud_fs_open_file": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "読む",
+            "FILE_READ"
+          ],
+          [
+            "書く",
+            "FILE_WRITE"
+          ],
+          [
+            "追加",
+            "FILE_APPEND"
+          ]
+        ]
+      }
+    ],
+    "message0": "SFUDフラッシュメモリは%1 パス:%2モード:%3",
+    "tooltip": "SFUDフラッシュファイルシステムでファイルを開き、ファイルオブジェクトを返すこと(ファイルブロックの閉じ、読み書き、書き込む際に使用可能)"
+  },
+  "seeed_sfud_fs_write_quick": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "SFUDフラッシュ高速書き込みパス:%1 内容:%2",
+    "tooltip": "SFUDフラッシュファイルの高速書き込み(自動開閉、上書き、書き込み)"
+  },
+  "seeed_sfud_fs_read_quick": {
+    "args0": [
+      null
+    ],
+    "message0": "SFUDフラッシュ高速読み取りパス:%1",
+    "tooltip": "SFUDフラッシュファイルの全内容を素早く読みましょう(自動開閉)"
+  },
+  "seeed_sfud_fs_append_file": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "SFUDフラッシュ追加書き込みパス:%1 コンテンツ:%2",
+    "tooltip": "SFUDフラッシュファイルの末尾にコンテンツを追加する(自動開閉)"
+  },
+  "seeed_sfud_fs_delete_file": {
+    "args0": [
+      null
+    ],
+    "message0": "SFUDフラッシュメモリファイル削除パス:%1",
+    "tooltip": "SFUDフラッシュファイルシステムで指定されたファイルを削除します"
+  },
+  "seeed_sfud_fs_rename_file": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "SFUDフラッシュメモリのリネーム:旧パス:%1 新パス:%2",
+    "tooltip": "SFUDフラッシュファイルシステム内でファイル名変更または移動"
+  },
+  "seeed_sfud_fs_create_dir": {
+    "args0": [
+      null
+    ],
+    "message0": "SFUDフラッシュメモリ作成ディレクトリパス:%1",
+    "tooltip": "SFUDフラッシュファイルシステムでディレクトリを作成する"
+  },
+  "seeed_sfud_fs_remove_dir": {
+    "args0": [
+      null
+    ],
+    "message0": "SFUDフラッシュメモリ削除ディレクトリパス:%1",
+    "tooltip": "SFUDフラッシュファイルシステムにおけるディレクトリの削除"
+  },
+  "seeed_sfud_fs_list_dir": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "SFUDフラッシュメモリディレクトリパス:%1層数:%2",
+    "tooltip": "Serial経由でSFUDフラッシュファイルシステムディレクトリの内容を一覧表示します"
+  },
+  "seeed_sfud_init": {
+    "message0": "SFUDの生フラッシュメモリ(QSPI高速読み取り)を初期化する",
+    "tooltip": "Wio端末内蔵のW25Q32フラッシュで、SFUDを初期化し、低レベルの読み書き操作のためのQSPI高速読み込みを有効にしてください"
+  },
+  "seeed_sfud_erase": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "SFUD 消去フラッシュメモリアドレス:%1サイズ:%2バイト",
+    "tooltip": "指定されたアドレスから開始する指定サイズのフラッシュメモリ領域を消去します(アドレスとサイズは4096バイトのセクターに合わせることが推奨されます)。"
+  },
+  "seeed_sfud_write_str": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "SFUDは文字列を書きます。アドレス:%1 内容:%2",
+    "tooltip": "指定されたアドレスで文字列をフラッシュメモリに書き込む(書き込む前に消去、ターミネーターも含む)"
+  },
+  "seeed_sfud_read_str": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "SFUDは文字列を読み上げます。住所:%1 長さ:%2",
+    "tooltip": "指定されたアドレスから指定された長さの文字列を読み取る"
+  }
+}

@@ -1,15 +1,17 @@
 {
   "toolbox_name": "STCC4 CO2",
   "stcc4_init": {
-    "message0": "initialize STCC4 %1 I2C %2 address %3",
-    "tooltip": "Create and initialize the STCC4 CO2 sensor, wake it, and start continuous measurement.",
+    "message0": "Inicialize STCC4 %1 I2C %2 endereço %3",
+    "tooltip": "Crie e inicialize o sensor de CO2 STCC4 e, após acordar, comece medições contínuas.",
     "args0": [
       null,
-      null,
+      {
+        "options": "${board.i2c}"
+      },
       {
         "options": [
           [
-            "0x64 (Default)",
+            "0x64 (padrão)",
             "0x64"
           ],
           [
@@ -21,34 +23,34 @@
     ]
   },
   "stcc4_read": {
-    "message0": "STCC4 %1 read data successfully",
-    "tooltip": "Read CO2, temperature, humidity, and status once. Returns true on success."
+    "message0": "STCC4 %1 Dados lidos com sucesso",
+    "tooltip": "Lê dados de CO2, temperatura, umidade e status uma vez, e retorna o sucesso verdadeiro."
   },
   "stcc4_get_data": {
-    "message0": "STCC4 %1 data %2",
-    "tooltip": "Read the latest cached measurement or calibration value.",
+    "message0": "STCC4 %1 Dados %2",
+    "tooltip": "Leia os dados obtidos da medição ou calibração mais recente.",
     "args0": [
       null,
       {
         "options": [
           [
-            "CO2 concentration ppm",
+            "Concentração de CO2 ppm",
             "CO2"
           ],
           [
-            "temperature °C",
+            "Temperatura: °C",
             "TEMPERATURE"
           ],
           [
-            "humidity %RH",
+            "Umidade % de UR",
             "HUMIDITY"
           ],
           [
-            "sensor status",
+            "Status do sensor",
             "STATUS"
           ],
           [
-            "forced calibration correction",
+            "Valores de correção forçada de calibração",
             "FRC_CORRECTION"
           ]
         ]
@@ -56,26 +58,26 @@
     ]
   },
   "stcc4_get_id": {
-    "message0": "STCC4 %1 sensor ID",
-    "tooltip": "Read the STCC4 sensor ID."
+    "message0": "STCC4 %1 Sensor ID",
+    "tooltip": "Leia o ID do sensor STCC4."
   },
   "stcc4_measurement_control": {
-    "message0": "STCC4 %1 measurement control %2",
-    "tooltip": "Control continuous measurement or trigger a single measurement.",
+    "message0": "STCC4 %1 Controle de Medição %2",
+    "tooltip": "Controle STCC4 para medição contínua ou para acionar uma única medição.",
     "args0": [
       null,
       {
         "options": [
           [
-            "start continuous measurement",
+            "Iniciar medição contínua",
             "startMeasurement"
           ],
           [
-            "stop continuous measurement",
+            "Medição contínua de parada",
             "stopMeasurement"
           ],
           [
-            "single measurement",
+            "Medição única",
             "singleMeasurement"
           ]
         ]
@@ -83,8 +85,8 @@
     ]
   },
   "stcc4_power_control": {
-    "message0": "STCC4 %1 power control %2",
-    "tooltip": "Wake the sensor or enter sleep mode.",
+    "message0": "STCC4 %1 Controle de Energia %2",
+    "tooltip": "Acorde o sensor ou entre no modo de suspensão.",
     "args0": [
       null,
       {
@@ -102,18 +104,18 @@
     ]
   },
   "stcc4_reset": {
-    "message0": "STCC4 %1 reset %2",
-    "tooltip": "Run soft reset or factory reset on STCC4.",
+    "message0": "STCC4 %1 Resetar %2",
+    "tooltip": "Realize um soft reset ou reset de fábrica no STCC4.",
     "args0": [
       null,
       {
         "options": [
           [
-            "soft reset",
+            "Reposicionamento suave",
             "softRest"
           ],
           [
-            "factory reset",
+            "Restaurar configurações de fábrica",
             "factoryReset"
           ]
         ]
@@ -121,15 +123,15 @@
     ]
   },
   "stcc4_set_rht_compensation": {
-    "message0": "STCC4 %1 set RHT compensation temperature °C %2 humidity %RH %3",
-    "tooltip": "Set temperature and humidity compensation. Temperature range is 10-40°C; humidity range is 20-80%RH."
+    "message0": "STCC4 %1 Ajuste a temperatura e compensação de umidade Temperatura °C %2 Umidade % de umidade relativa %3",
+    "tooltip": "A compensação de temperatura e umidade é definida, com uma faixa de temperatura de 10-40°C e uma faixa de umidade de 20-80% de umidade relativa."
   },
   "stcc4_set_pressure_compensation": {
-    "message0": "STCC4 %1 set pressure compensation hPa %2",
-    "tooltip": "Set pressure compensation, range 400-1100 hPa."
+    "message0": "STCC4 %1 Ajuste a compensação de pressão do ar hPa %2",
+    "tooltip": "Equipado com compensação de pressão do ar, variando de 400 a 1100 hPa."
   },
   "stcc4_forced_recalibration": {
-    "message0": "STCC4 %1 forced recalibration target ppm %2",
-    "tooltip": "Run forced recalibration. Target range is 0-32000 ppm. Read the correction value after success."
+    "message0": "STCC4 %1 Calibração forçada de alvo ppm %2",
+    "tooltip": "Realize calibração forçada, com valor alvo entre 0 e 32.000 ppm, e em caso de sucesso, leia o valor de correção da calibração forçada."
   }
 }

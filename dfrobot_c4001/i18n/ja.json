@@ -1,11 +1,13 @@
 {
-  "toolbox_name": "C4001 mmWave Radar",
+  "toolbox_name": "C4001ミリ波レーダー",
   "c4001_init_i2c": {
-    "message0": "init C4001 I2C %1 bus %2 address %3",
-    "tooltip": "Initialize the C4001 radar over I2C.",
+    "message0": "アドレス%2バス%1C4001 I2Cを初期化%3",
+    "tooltip": "I2C経由でC4001レーダーを初期化します。",
     "args0": [
       null,
-      null,
+      {
+        "options": "${board.i2c}"
+      },
       {
         "options": [
           [
@@ -21,8 +23,8 @@
     ]
   },
   "c4001_init_uart": {
-    "message0": "init C4001 UART %1 serial %2 RX %3 TX %4",
-    "tooltip": "Initialize the C4001 radar over UART at 9600 baud.",
+    "message0": "C4001 UARTをシリアルポート%1RX%3TX%2初期化%4",
+    "tooltip": "UART経由でC4001レーダーを初期化すると、ボーレートは9600に固定されます。",
     "args0": [
       null,
       {
@@ -46,12 +48,12 @@
     ]
   },
   "c4001_motion_detected": {
-    "message0": "C4001 %1 presence/motion detected",
-    "tooltip": "Read the presence or motion detection result in presence mode."
+    "message0": "C4001%1人間の存在を検知した",
+    "tooltip": "検出モードでは、人体や動く標的が検出されているかどうかを読み取ります。"
   },
   "c4001_set_mode": {
-    "message0": "C4001 %1 set mode %2",
-    "tooltip": "Switch between presence mode and speed/range mode.",
+    "message0": "C4001 %1 動作モード設定%2",
+    "tooltip": "C4001の動作モードに切り替えてください。",
     "args0": [
       null,
       {
@@ -61,7 +63,7 @@
             "eExitMode"
           ],
           [
-            "speed/range",
+            "距離と速度の測定",
             "eSpeedMode"
           ]
         ]
@@ -70,33 +72,33 @@
   },
   "c4001_sensor_command": {
     "message0": "C4001 %1 run %2",
-    "tooltip": "Start, stop, reset, factory reset, save parameters, or switch mode.",
+    "tooltip": "C4001センサー制御コマンドを実行してください。",
     "args0": [
       null,
       {
         "options": [
           [
-            "start sensor",
+            "収集を始めましょう",
             "eStartSen"
           ],
           [
-            "stop sensor",
+            "集めるのはやめろ",
             "eStopSen"
           ],
           [
-            "reset sensor",
+            "センサーリセット",
             "eResetSen"
           ],
           [
-            "factory reset",
+            "デフォルトパラメータを復元する",
             "eRecoverSen"
           ],
           [
-            "save parameters",
+            "設定を保存してください",
             "eSaveParams"
           ],
           [
-            "change mode",
+            "スイッチモード",
             "eChangeMode"
           ]
         ]
@@ -104,22 +106,22 @@
     ]
   },
   "c4001_get_status": {
-    "message0": "C4001 %1 status %2",
-    "tooltip": "Read working status, current mode, or initialization status.",
+    "message0": "C4001 %1 Status%2",
+    "tooltip": "読み取り状態:動作状態0/1、動作モード0/1、初期化状態0/1。",
     "args0": [
       null,
       {
         "options": [
           [
-            "work status",
+            "現役状況",
             "WORK"
           ],
           [
-            "current mode",
+            "動作モード",
             "MODE"
           ],
           [
-            "init status",
+            "初期化状態",
             "INIT"
           ]
         ]
@@ -127,12 +129,12 @@
     ]
   },
   "c4001_set_presence_range": {
-    "message0": "C4001 %1 set presence range min %2 max %3 trigger %4 cm",
-    "tooltip": "Set minimum, maximum, and trigger distances for presence detection."
+    "message0": "C4001 %1 検出範囲 最小cm %2 最大cm %3トリガーcm%4",
+    "tooltip": "存在感の検出範囲を最小30-2000cm、最大240-2000cmに設定し、トリガー距離は範囲を超えてはいけません。"
   },
   "c4001_set_sensitivity": {
-    "message0": "C4001 %1 set %2 sensitivity %3",
-    "tooltip": "Set trigger or keep sensitivity.",
+    "message0": "C4001 %1 %2感度%3セット",
+    "tooltip": "トリガーを設定するか感度を維持するか、範囲0-9。",
     "args0": [
       null,
       {
@@ -151,42 +153,42 @@
     ]
   },
   "c4001_set_delay": {
-    "message0": "C4001 %1 set trigger delay %2 keep time %3 s",
-    "tooltip": "Set detection trigger delay and keep timeout."
+    "message0": "C4001 %1 ディレイトリガー(0.01秒) %2ホールド(0.5秒)%3",
+    "tooltip": "トリガーディレイを設定し、タイムアウトを維持しましょう。 ユニットを0.01秒、ホールドユニット0.5秒。"
   },
   "c4001_get_presence_config": {
-    "message0": "C4001 %1 presence config %2",
-    "tooltip": "Read presence detection configuration.",
+    "message0": "C4001 %1 プレゼンス構成%2",
+    "tooltip": "読み取り検出に関連する構成。",
     "args0": [
       null,
       {
         "options": [
           [
-            "min range",
+            "最小距離 cm",
             "MIN"
           ],
           [
-            "max range",
+            "最大距離 cm",
             "MAX"
           ],
           [
-            "trigger range",
+            "トリガー距離cm",
             "TRIG_RANGE"
           ],
           [
-            "trigger sensitivity",
+            "トリガー感度",
             "TRIG_SENS"
           ],
           [
-            "keep sensitivity",
+            "警戒を怠るな",
             "KEEP_SENS"
           ],
           [
-            "trigger delay",
+            "トリガーディレイ",
             "TRIG_DELAY"
           ],
           [
-            "keep time",
+            "タイムアウトを維持",
             "KEEP_TIMEOUT"
           ],
           [
@@ -210,31 +212,31 @@
     ]
   },
   "c4001_set_io_polarity": {
-    "message0": "C4001 %1 set IO polarity %2",
-    "tooltip": "Set the active level polarity of the detection output IO.",
+    "message0": "C4001 %1 IO極性を設定%2",
+    "tooltip": "ターゲットを検出した後、出力端子の極性を設定します。 UARTモードは動作します。",
     "args0": [
       null,
       {
         "options": [
           [
-            "active high",
-            "1"
-          ],
-          [
             "active low",
             "0"
+          ],
+          [
+            "active high",
+            "1"
           ]
         ]
       }
     ]
   },
   "c4001_set_pwm": {
-    "message0": "C4001 %1 set PWM1 %2 PWM2 %3 period %4",
-    "tooltip": "Set PWM output parameters."
+    "message0": "C4001 %1 PWMをターゲット%2ターゲット%3勾配時間%4設定",
+    "tooltip": "OUTピンのPWMをデューティサイクル0-100に設定し、勾配時間単位は64msにします。 UARTモードは動作します。"
   },
   "c4001_get_target": {
     "message0": "C4001 %1 target %2",
-    "tooltip": "Read target count, speed, range, or energy in speed/range mode.",
+    "tooltip": "距離および速度測定モードで目標の数、速度、距離、エネルギーを読み取る。 ターゲットの数量を最初に読み取ることで内部キャッシュが更新されます。",
     "args0": [
       null,
       {
@@ -260,22 +262,22 @@
     ]
   },
   "c4001_set_speed_threshold": {
-    "message0": "C4001 %1 set speed threshold min %2 max %3 threshold %4",
-    "tooltip": "Set detection range and threshold for speed/range mode."
+    "message0": "C4001 %1 距離および速度測定閾値 最小cm%2最大cm%3閾値%4",
+    "tooltip": "距離距離と速度測定モードの距離距離と目標検出閾値を設定します。"
   },
   "c4001_set_micro_motion": {
-    "message0": "C4001 %1 micro-motion detection %2",
-    "tooltip": "Enable or disable micro-motion detection in speed/range mode.",
+    "message0": "C4001 %1 微小動作検知%2",
+    "tooltip": "距離測定および速度測定モードでマイクロモーション検知を有効または無効にできます。",
     "args0": [
       null,
       {
         "options": [
           [
-            "on",
+            "オンにする",
             "eON"
           ],
           [
-            "off",
+            "閉じる",
             "eOFF"
           ]
         ]
@@ -283,18 +285,18 @@
     ]
   },
   "c4001_get_speed_config": {
-    "message0": "C4001 %1 speed config %2",
-    "tooltip": "Read speed/range configuration.",
+    "message0": "C4001 %1距離および速度測定の構成%2",
+    "tooltip": "距離と速度測定モードの構成を読み取る。",
     "args0": [
       null,
       {
         "options": [
           [
-            "min range",
+            "最小距離 cm",
             "MIN"
           ],
           [
-            "max range",
+            "最大距離 cm",
             "MAX"
           ],
           [

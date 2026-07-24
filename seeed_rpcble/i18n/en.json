@@ -1,0 +1,683 @@
+{
+  "toolbox_name": "RPC BLE",
+  "toolbox_categories": [
+    "Device management",
+    "GATT server",
+    "Feature values and events",
+    "broadcast",
+    "scan",
+    "client",
+    "BLE UART",
+    "Web Bluetooth",
+    "iBeacon"
+  ],
+  "seeed_rpcble_init": {
+    "args0": [
+      null
+    ],
+    "message0": "Initialize BLE device name %1",
+    "tooltip": "Initialize Wio Terminal rpcBLE device and set broadcast name"
+  },
+  "seeed_rpcble_deinit": {
+    "message0": "Turn off BLE device",
+    "tooltip": "Shut down the rpcBLE device"
+  },
+  "seeed_rpcble_is_initialized": {
+    "message0": "BLE initialized",
+    "tooltip": "Returns whether the BLEDevice has been initialized"
+  },
+  "seeed_rpcble_get_address": {
+    "message0": "Native BLE address",
+    "tooltip": "Get the native BLE MAC address string"
+  },
+  "seeed_rpcble_set_mtu": {
+    "args0": [
+      null
+    ],
+    "message0": "Set BLE MTU %1",
+    "tooltip": "Set BLE maximum transmission unit MTU"
+  },
+  "seeed_rpcble_get_mtu": {
+    "message0": "Current BLE MTU",
+    "tooltip": "Get current BLE MTU"
+  },
+  "seeed_rpcble_create_server": {
+    "args0": [
+      null
+    ],
+    "message0": "Create BLE server %1",
+    "tooltip": "Create BLE GATT server object"
+  },
+  "seeed_rpcble_server_create_service": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Server %1 Create service %2 UUID %3",
+    "tooltip": "Create GATT service on BLE server"
+  },
+  "seeed_rpcble_service_start": {
+    "args0": [
+      null
+    ],
+    "message0": "Start BLE service %1",
+    "tooltip": "Start the specified GATT service"
+  },
+  "seeed_rpcble_service_stop": {
+    "args0": [
+      null
+    ],
+    "message0": "Stop BLE service %1",
+    "tooltip": "Stop specified GATT service"
+  },
+  "seeed_rpcble_server_connected_count": {
+    "args0": [
+      null
+    ],
+    "message0": "Server %1 Number of connected clients",
+    "tooltip": "Get the number of BLE clients connected to the server"
+  },
+  "seeed_rpcble_server_set_callbacks": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "args2": [
+      null
+    ],
+    "message0": "Set server %1 connection event",
+    "message1": "When connecting %1",
+    "message2": "When disconnected %1",
+    "tooltip": "Set connection and disconnection callbacks for the BLE server"
+  },
+  "seeed_rpcble_create_characteristic": {
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "read",
+            "BLECharacteristic::PROPERTY_READ"
+          ],
+          [
+            "write",
+            "BLECharacteristic::PROPERTY_WRITE"
+          ],
+          [
+            "Notification",
+            "BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "Read and write",
+            "BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE"
+          ],
+          [
+            "Read+Notify",
+            "BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "write+notify",
+            "BLECharacteristic::PROPERTY_WRITE | BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "Read and write + notification",
+            "BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE | BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "instructions",
+            "BLECharacteristic::PROPERTY_INDICATE"
+          ],
+          [
+            "No response to write",
+            "BLECharacteristic::PROPERTY_WRITE_NR"
+          ]
+        ]
+      }
+    ],
+    "message0": "Service %1 Create Feature %2 UUID %3 Attribute %4",
+    "tooltip": "Create characteristic values in GATT services"
+  },
+  "seeed_rpcble_characteristic_set_permissions": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "readable",
+            "GATT_PERM_READ"
+          ],
+          [
+            "writable",
+            "GATT_PERM_WRITE"
+          ],
+          [
+            "Readable and writable",
+            "GATT_PERM_READ | GATT_PERM_WRITE"
+          ],
+          [
+            "None",
+            "0"
+          ]
+        ]
+      }
+    ],
+    "message0": "Set Feature %1 Access %2",
+    "tooltip": "Set GATT access rights for characteristic values"
+  },
+  "seeed_rpcble_characteristic_add_notify_descriptor": {
+    "args0": [
+      null
+    ],
+    "message0": "Feature %1 Add notification descriptor",
+    "tooltip": "Add BLE2902 descriptor for notification characteristics"
+  },
+  "seeed_rpcble_characteristic_add_descriptor": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "ASCII text",
+            "ATTRIB_FLAG_VOID | ATTRIB_FLAG_ASCII_Z"
+          ],
+          [
+            "Normal data",
+            "ATTRIB_FLAG_VOID"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "readable",
+            "GATT_PERM_READ"
+          ],
+          [
+            "writable",
+            "GATT_PERM_WRITE"
+          ],
+          [
+            "Readable and writable",
+            "GATT_PERM_READ | GATT_PERM_WRITE"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "Characteristics %1 Create Descriptor UUID %2 Flags %3 Permissions %4 Length %5",
+    "tooltip": "Create custom descriptors for features"
+  },
+  "seeed_rpcble_characteristic_set_value": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Set Characteristic %1 Text Value %2",
+    "tooltip": "Set feature value to text data"
+  },
+  "seeed_rpcble_characteristic_set_byte": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Set Characteristic %1 Byte Value %2",
+    "tooltip": "Set the characteristic value to 1 byte data, suitable for standard characteristics such as battery power"
+  },
+  "seeed_rpcble_characteristic_get_value": {
+    "args0": [
+      null
+    ],
+    "message0": "Features %1 current text value",
+    "tooltip": "Read the current text data of the local feature value"
+  },
+  "seeed_rpcble_characteristic_notify": {
+    "args0": [
+      null
+    ],
+    "message0": "Notification feature %1 data update",
+    "tooltip": "Send notifications to subscribed clients"
+  },
+  "seeed_rpcble_characteristic_indicate": {
+    "args0": [
+      null
+    ],
+    "message0": "Indicative feature %1 data update",
+    "tooltip": "Send an indication of a characteristic value that requires confirmation"
+  },
+  "seeed_rpcble_characteristic_set_callbacks": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "When feature %1 is written",
+    "message1": "Execute %1",
+    "tooltip": "Set a feature write callback and cache the most recently received text"
+  },
+  "seeed_rpcble_characteristic_received_value": {
+    "args0": [
+      null
+    ],
+    "message0": "Features %1 Recently written text",
+    "tooltip": "Read characteristics write the most recent text cached by the callback"
+  },
+  "seeed_rpcble_advertising_add_service_uuid": {
+    "args0": [
+      null
+    ],
+    "message0": "Broadcast added service UUID %1",
+    "tooltip": "Add service UUID to BLE broadcast data"
+  },
+  "seeed_rpcble_advertising_set_scan_response": {
+    "args0": [
+      {
+        "options": [
+          [
+            "enable",
+            "TRUE"
+          ],
+          [
+            "Disable",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Set scan response %1",
+    "tooltip": "Set whether to enable scanning response data"
+  },
+  "seeed_rpcble_advertising_set_preferred": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Set broadcast preference parameters minimum %1 maximum %2",
+    "tooltip": "Set broadcast preferred connection parameters, often used to improve mobile phone compatibility"
+  },
+  "seeed_rpcble_start_advertising": {
+    "message0": "Start BLE broadcast",
+    "tooltip": "Start broadcasting to make the device discoverable by scanning"
+  },
+  "seeed_rpcble_stop_advertising": {
+    "message0": "Stop BLE broadcast",
+    "tooltip": "Stop BLE broadcast"
+  },
+  "seeed_rpcble_scan_create": {
+    "args0": [
+      null
+    ],
+    "message0": "Get BLE scanner %1",
+    "tooltip": "Get the BLEScan scanner object"
+  },
+  "seeed_rpcble_scan_set_active": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "enable",
+            "TRUE"
+          ],
+          [
+            "Disable",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Scanner %1 Active Scan %2",
+    "tooltip": "Active scanning is faster but consumes more power"
+  },
+  "seeed_rpcble_scan_set_interval": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Scanner %1 Interval %2",
+    "tooltip": "Set BLE scan interval"
+  },
+  "seeed_rpcble_scan_set_window": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Scanner %1 Window %2",
+    "tooltip": "Set the BLE scan window, usually less than or equal to the scan interval"
+  },
+  "seeed_rpcble_scan_start": {
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Rescan",
+            "FALSE"
+          ],
+          [
+            "Continue scanning",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Scanner %1 scans %2 seconds saves as %3 %4",
+    "tooltip": "Start a BLE scan and save scan results"
+  },
+  "seeed_rpcble_scan_stop": {
+    "args0": [
+      null
+    ],
+    "message0": "Stop scanner %1",
+    "tooltip": "Stop current BLE scan"
+  },
+  "seeed_rpcble_scan_clear_results": {
+    "args0": [
+      null
+    ],
+    "message0": "Clear scanner %1 result cache",
+    "tooltip": "Clear scan results and free memory"
+  },
+  "seeed_rpcble_scan_results_count": {
+    "args0": [
+      null
+    ],
+    "message0": "Scan result %1 quantity",
+    "tooltip": "Get the number of scanned BLE devices"
+  },
+  "seeed_rpcble_scan_result_name": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Scan result %1 serial number %2 name",
+    "tooltip": "Read the device name of the specified scan result"
+  },
+  "seeed_rpcble_scan_result_address": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Scan result %1 serial number %2 address",
+    "tooltip": "Read the MAC address of the specified scan result"
+  },
+  "seeed_rpcble_scan_result_rssi": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "RSSI of scan result %1 serial number %2",
+    "tooltip": "Read the signal strength RSSI of the specified scan result"
+  },
+  "seeed_rpcble_scan_result_service_uuid": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Scan result %1 Serial number %2 Service UUID",
+    "tooltip": "Read the first service UUID broadcast by the specified scan result"
+  },
+  "seeed_rpcble_scan_result_info": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Scan result %1 Complete information of serial number %2",
+    "tooltip": "Read the complete description text of the specified scan result"
+  },
+  "seeed_rpcble_scan_result_has_service": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Scan result %1 Serial number %2 Contains service UUID %3",
+    "tooltip": "Determine whether the specified scan result broadcasts the target service UUID"
+  },
+  "seeed_rpcble_create_client": {
+    "args0": [
+      null
+    ],
+    "message0": "Create BLE client %1",
+    "tooltip": "Create BLE GATT client object"
+  },
+  "seeed_rpcble_client_connect": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Public",
+            "GAP_REMOTE_ADDR_LE_PUBLIC"
+          ],
+          [
+            "Random",
+            "GAP_REMOTE_ADDR_LE_RANDOM"
+          ]
+        ]
+      }
+    ],
+    "message0": "Client %1 Connection address %2 Address type %3",
+    "tooltip": "Connect to specified BLE MAC address"
+  },
+  "seeed_rpcble_client_disconnect": {
+    "args0": [
+      null
+    ],
+    "message0": "Client %1 disconnected",
+    "tooltip": "Disconnect BLE client"
+  },
+  "seeed_rpcble_client_is_connected": {
+    "args0": [
+      null
+    ],
+    "message0": "Client %1 is connected",
+    "tooltip": "Determine whether the BLE client is connected"
+  },
+  "seeed_rpcble_client_rssi": {
+    "args0": [
+      null
+    ],
+    "message0": "Client %1 Remote RSSI",
+    "tooltip": "Read the remote RSSI of the client connection"
+  },
+  "seeed_rpcble_client_get_service": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Client %1 obtains remote service %2 UUID %3",
+    "tooltip": "Obtain the specified GATT service from the remote BLE server"
+  },
+  "seeed_rpcble_remote_service_get_characteristic": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Remote service %1 Get characteristics %2 UUID %3",
+    "tooltip": "Obtain specified characteristics from the remote GATT service"
+  },
+  "seeed_rpcble_remote_characteristic_read": {
+    "args0": [
+      null
+    ],
+    "message0": "Read remote feature %1 text",
+    "tooltip": "Read remote BLE characteristic value text"
+  },
+  "seeed_rpcble_remote_characteristic_write": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "No response",
+            "FALSE"
+          ],
+          [
+            "response required",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Write remote feature %1 text %2 %3",
+    "tooltip": "Write text data to remote BLE signature"
+  },
+  "seeed_rpcble_remote_characteristic_can_read": {
+    "args0": [
+      null
+    ],
+    "message0": "Remote signature %1 readable",
+    "tooltip": "Determine whether the remote feature supports reading"
+  },
+  "seeed_rpcble_remote_characteristic_can_write": {
+    "args0": [
+      null
+    ],
+    "message0": "Remote feature %1 writable",
+    "tooltip": "Determine whether the remote feature supports writing"
+  },
+  "seeed_rpcble_remote_characteristic_can_notify": {
+    "args0": [
+      null
+    ],
+    "message0": "Remote feature %1 can be notified",
+    "tooltip": "Determine whether the remote feature supports notifications"
+  },
+  "seeed_rpcble_remote_characteristic_register_notify": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Notification",
+            "TRUE"
+          ],
+          [
+            "instructions",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "Subscribe to remote feature %1 notification %2",
+    "message1": "Upon receipt %1",
+    "tooltip": "Subscribe to remote feature notifications and cache received data"
+  },
+  "seeed_rpcble_remote_notify_value": {
+    "args0": [
+      null
+    ],
+    "message0": "Remote characteristics %1 Recent notification text",
+    "tooltip": "Read the latest text cached by the remote notification callback"
+  },
+  "seeed_rpcble_uart_begin": {
+    "args0": [
+      null
+    ],
+    "message0": "Start BLE UART service Name %1",
+    "tooltip": "Create a Nordic UART style BLE service suitable for mobile phones or Web Bluetooth for text sending and receiving"
+  },
+  "seeed_rpcble_uart_send": {
+    "args0": [
+      null
+    ],
+    "message0": "BLE UART send text %1",
+    "tooltip": "Notify text data via BLE UART TX feature"
+  },
+  "seeed_rpcble_uart_connected": {
+    "message0": "BLE UART connected",
+    "tooltip": "Determine whether there is a client connection to BLE UART"
+  },
+  "seeed_rpcble_uart_received": {
+    "message0": "BLE UART recently received text",
+    "tooltip": "Read BLE UART RX Characteristics Recently Received Text"
+  },
+  "seeed_rpcble_uart_on_receive": {
+    "args1": [
+      null
+    ],
+    "message0": "When BLE UART receives text",
+    "message1": "Execute %1",
+    "tooltip": "Set the processing logic after the BLE UART receives the text"
+  },
+  "seeed_rpcble_web_battery_begin": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Start Web Bluetooth battery service Name %1 Initial battery %2",
+    "tooltip": "Create the standard battery service 0x180F to facilitate the Web Bluetooth sample to read and subscribe to the battery level"
+  },
+  "seeed_rpcble_web_battery_set_level": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "and notify",
+            "TRUE"
+          ],
+          [
+            "Update only",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Set Web Bluetooth battery %1 %2",
+    "tooltip": "Update battery level characteristics, optionally notifying subscribing clients immediately"
+  },
+  "seeed_rpcble_web_battery_level": {
+    "message0": "Web Bluetooth current battery level",
+    "tooltip": "Read the current battery level cached by the battery service"
+  },
+  "seeed_rpcble_web_battery_connected": {
+    "message0": "Web Bluetooth battery service connected",
+    "tooltip": "Determine whether the battery service has a client connection"
+  },
+  "seeed_rpcble_ibeacon_begin": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Not connectable",
+            "NONCONN"
+          ],
+          [
+            "scannable",
+            "SCAN_IND"
+          ]
+        ]
+      }
+    ],
+    "message0": "Start iBeacon Name %1 UUID %2 Major %3 Minor %4 Vendor ID %5 Power %6 Information %7 Type %8",
+    "tooltip": "Configure and start iBeacon broadcasts, which can include scan response names and text messages"
+  },
+  "seeed_rpcble_ibeacon_stop": {
+    "message0": "Stop iBeacon broadcast",
+    "tooltip": "Stop iBeacon broadcast"
+  }
+}

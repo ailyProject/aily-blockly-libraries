@@ -1,0 +1,690 @@
+{
+  "toolbox_name": "RPC WiFi",
+  "toolbox_categories": [
+    "WiFi connection and status",
+    "Network scan",
+    "WiFiMulti and Hotspot",
+    "TCP client",
+    "UDP communication",
+    "HTTP/HTTPS",
+    "WebServer",
+    "DNS"
+  ],
+  "toolbox_labels": {
+    "WiFiMulti": "WiFiMulti",
+    "热点(AP)": "Hotspot(AP)"
+  },
+  "seeed_rpcwifi_set_mode": {
+    "args0": [
+      {
+        "options": [
+          [
+            "Site(STA)",
+            "WIFI_STA"
+          ],
+          [
+            "Hotspot(AP)",
+            "WIFI_AP"
+          ],
+          [
+            "Site+Hotspot",
+            "WIFI_AP_STA"
+          ],
+          [
+            "Close",
+            "WIFI_OFF"
+          ]
+        ]
+      }
+    ],
+    "message0": "Set WiFi mode %1",
+    "tooltip": "Set Wio Terminal RTL8720 WiFi working mode"
+  },
+  "seeed_rpcwifi_begin": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Connect to WiFi SSID %1 Password %2",
+    "tooltip": "Call WiFi.begin to start connecting to WiFi"
+  },
+  "seeed_rpcwifi_connect_wait": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Connect to WiFi and wait for SSID %1 Password %2 Timeout %3 milliseconds",
+    "tooltip": "Connect to WiFi and block until the connection is successful or times out"
+  },
+  "seeed_rpcwifi_disconnect": {
+    "args0": [
+      {
+        "options": [
+          [
+            "Keep WiFi on",
+            "FALSE"
+          ],
+          [
+            "Turn off WiFi",
+            "TRUE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Keep configuration",
+            "FALSE"
+          ],
+          [
+            "clear configuration",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Disconnect WiFi %1 %2",
+    "tooltip": "Disconnect current WiFi connection"
+  },
+  "seeed_rpcwifi_reconnect": {
+    "message0": "Reconnect WiFi",
+    "tooltip": "Call WiFi.reconnect and return whether the initiation is successful"
+  },
+  "seeed_rpcwifi_status": {
+    "message0": "WiFi connection status",
+    "tooltip": "Get WiFi.status() status code"
+  },
+  "seeed_rpcwifi_status_type": {
+    "args0": [
+      {
+        "options": [
+          [
+            "free",
+            "WL_IDLE_STATUS"
+          ],
+          [
+            "No SSID available",
+            "WL_NO_SSID_AVAIL"
+          ],
+          [
+            "Scan completed",
+            "WL_SCAN_COMPLETED"
+          ],
+          [
+            "Connected",
+            "WL_CONNECTED"
+          ],
+          [
+            "Connection failed",
+            "WL_CONNECT_FAILED"
+          ],
+          [
+            "connection lost",
+            "WL_CONNECTION_LOST"
+          ],
+          [
+            "Disconnect",
+            "WL_DISCONNECTED"
+          ],
+          [
+            "No module",
+            "WL_NO_SHIELD"
+          ]
+        ]
+      }
+    ],
+    "message0": "WiFi status constant %1",
+    "tooltip": "WiFi connection status constants"
+  },
+  "seeed_rpcwifi_is_connected": {
+    "message0": "WiFi is connected",
+    "tooltip": "Determine whether WiFi is connected"
+  },
+  "seeed_rpcwifi_wait_for_connect_result": {
+    "message0": "Waiting for WiFi connection result",
+    "tooltip": "Call WiFi.waitForConnectResult()"
+  },
+  "seeed_rpcwifi_local_ip": {
+    "message0": "Local IP address",
+    "tooltip": "Get WiFi.localIP() string"
+  },
+  "seeed_rpcwifi_mac_address": {
+    "message0": "MAC address",
+    "tooltip": "Get WiFi MAC address"
+  },
+  "seeed_rpcwifi_current_ssid": {
+    "message0": "Current WiFi name (SSID)",
+    "tooltip": "Get the SSID of the current connection"
+  },
+  "seeed_rpcwifi_rssi": {
+    "message0": "Signal strength (RSSI)",
+    "tooltip": "Get current WiFi signal strength"
+  },
+  "seeed_rpcwifi_set_auto_reconnect": {
+    "args0": [
+      {
+        "options": [
+          [
+            "enable",
+            "TRUE"
+          ],
+          [
+            "Disable",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Set automatic reconnection %1",
+    "tooltip": "Set WiFi automatic reconnection"
+  },
+  "seeed_rpcwifi_mode_value": {
+    "args0": [
+      {
+        "options": [
+          [
+            "Site(STA)",
+            "WIFI_MODE_STA"
+          ],
+          [
+            "Hotspot(AP)",
+            "WIFI_MODE_AP"
+          ],
+          [
+            "Site+Hotspot",
+            "WIFI_MODE_APSTA"
+          ],
+          [
+            "Close",
+            "WIFI_MODE_NULL"
+          ]
+        ]
+      }
+    ],
+    "message0": "WiFi mode constant %1",
+    "tooltip": "WiFi mode constants"
+  },
+  "seeed_rpcwifi_firmware_version": {
+    "message0": "RTL8720 firmware version",
+    "tooltip": "Read RTL8720 eRPC firmware version"
+  },
+  "seeed_rpcwifi_scan_networks": {
+    "args0": [
+      {
+        "options": [
+          [
+            "sync",
+            "FALSE"
+          ],
+          [
+            "asynchronous",
+            "TRUE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Hidden network is not shown",
+            "FALSE"
+          ],
+          [
+            "Show hidden networks",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Scan WiFi networks %1 %2",
+    "tooltip": "Scan nearby WiFi networks and return the number"
+  },
+  "seeed_rpcwifi_scan_complete": {
+    "message0": "Asynchronous scan completion results",
+    "tooltip": "Check asynchronous scan status or number of results"
+  },
+  "seeed_rpcwifi_scan_delete": {
+    "message0": "Clear scan results",
+    "tooltip": "Release WiFi scan results"
+  },
+  "seeed_rpcwifi_scanned_ssid": {
+    "args0": [
+      null
+    ],
+    "message0": "Scanning result: SSID of %1",
+    "tooltip": "Get the SSID of the specified scan result"
+  },
+  "seeed_rpcwifi_scanned_rssi": {
+    "args0": [
+      null
+    ],
+    "message0": "RSSI of scan result %1",
+    "tooltip": "Get the signal strength of the specified scan result"
+  },
+  "seeed_rpcwifi_scanned_encryption": {
+    "args0": [
+      null
+    ],
+    "message0": "Encryption type of scan result %1",
+    "tooltip": "Get the encryption type of the specified scan result"
+  },
+  "seeed_rpcwifi_scanned_channel": {
+    "args0": [
+      null
+    ],
+    "message0": "Scan result %1 channel",
+    "tooltip": "Get the specified scan result channel"
+  },
+  "seeed_rpcwifi_encryption_type": {
+    "args0": [
+      {
+        "options": [
+          [
+            "open",
+            "WIFI_AUTH_OPEN"
+          ],
+          [
+            "WEP",
+            "WIFI_AUTH_WEP"
+          ],
+          [
+            "WPA_PSK",
+            "WIFI_AUTH_WPA_PSK"
+          ],
+          [
+            "WPA2_PSK",
+            "WIFI_AUTH_WPA2_PSK"
+          ],
+          [
+            "WPA/WPA2_PSK",
+            "WIFI_AUTH_WPA_WPA2_PSK"
+          ],
+          [
+            "WPA2_ENTERPRISE",
+            "WIFI_AUTH_WPA2_ENTERPRISE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Encryption type constant %1",
+    "tooltip": "WiFi encryption type constants"
+  },
+  "seeed_rpcwifi_multi_create": {
+    "args0": [
+      null
+    ],
+    "message0": "Create WiFiMulti object %1",
+    "tooltip": "Create a WiFiMulti object for automatic selection of multiple hotspots"
+  },
+  "seeed_rpcwifi_multi_add_ap": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "WiFiMulti %1 Add AP SSID %2 Password %3",
+    "tooltip": "Add a hotspot to the WiFiMulti candidate list"
+  },
+  "seeed_rpcwifi_multi_run": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "WiFiMulti %1 Connection Timeout %2 milliseconds",
+    "tooltip": "Connect to the WiFi with the best signal on your shortlist"
+  },
+  "seeed_rpcwifi_softap": {
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Broadcast SSID",
+            "FALSE"
+          ],
+          [
+            "Hide SSID",
+            "TRUE"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "Create WiFi Hotspot SSID %1 Password %2 Channel %3 %4 Max Connections %5",
+    "tooltip": "Start AP hotspot mode"
+  },
+  "seeed_rpcwifi_softap_config": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Configure hotspot IP %1 gateway %2 subnet mask %3",
+    "tooltip": "Configure AP hotspot IP, gateway and subnet mask"
+  },
+  "seeed_rpcwifi_softap_disconnect": {
+    "args0": [
+      {
+        "options": [
+          [
+            "Keep WiFi on",
+            "FALSE"
+          ],
+          [
+            "Turn off WiFi",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Turn off WiFi hotspot %1",
+    "tooltip": "Turn off AP hotspot"
+  },
+  "seeed_rpcwifi_softap_station_count": {
+    "message0": "Number of hotspot connected devices",
+    "tooltip": "Get the number of clients connected to the AP"
+  },
+  "seeed_rpcwifi_softap_ip": {
+    "message0": "Hotspot IP address",
+    "tooltip": "Get AP hotspot IP address"
+  },
+  "seeed_rpcwifi_client_create": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Ordinary",
+            "NORMAL"
+          ],
+          [
+            "SSL/TLS",
+            "SECURE"
+          ]
+        ]
+      }
+    ],
+    "message0": "Create TCP client %1 type %2",
+    "tooltip": "Create a WiFiClient or WiFiClientSecure object"
+  },
+  "seeed_rpcwifi_client_connect": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "TCP client %1 connects to host %2 port %3",
+    "tooltip": "Connect to TCP host and port"
+  },
+  "seeed_rpcwifi_secure_set_ca": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Security client %1 Set CA certificate %2",
+    "tooltip": "Set root CA certificate for WiFiClientSecure"
+  },
+  "seeed_rpcwifi_client_print": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "newline",
+            "TRUE"
+          ],
+          [
+            "No line breaks",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "TCP client %1 sends %2 %3",
+    "tooltip": "Send data to TCP connection"
+  },
+  "seeed_rpcwifi_client_available": {
+    "args0": [
+      null
+    ],
+    "message0": "TCP client %1 Number of readable bytes",
+    "tooltip": "Get the number of bytes readable by the TCP client"
+  },
+  "seeed_rpcwifi_client_read_string": {
+    "args0": [
+      null
+    ],
+    "message0": "TCP client %1 reads text",
+    "tooltip": "Read TCP client buffer text"
+  },
+  "seeed_rpcwifi_client_connected": {
+    "args0": [
+      null
+    ],
+    "message0": "TCP client %1 connected",
+    "tooltip": "Determine TCP client connection status"
+  },
+  "seeed_rpcwifi_client_stop": {
+    "args0": [
+      null
+    ],
+    "message0": "Stop TCP client %1",
+    "tooltip": "Close TCP connection"
+  },
+  "seeed_rpcwifi_udp_create": {
+    "args0": [
+      null
+    ],
+    "message0": "Create UDP object %1",
+    "tooltip": "Create WiFiUDP object"
+  },
+  "seeed_rpcwifi_udp_begin": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "UDP %1 starts listening on port %2",
+    "tooltip": "Start UDP listening"
+  },
+  "seeed_rpcwifi_udp_send": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "UDP %1 sent to %2 port %3 data %4",
+    "tooltip": "Send UDP packet"
+  },
+  "seeed_rpcwifi_udp_parse_packet": {
+    "args0": [
+      null
+    ],
+    "message0": "UDP %1 receive packet size",
+    "tooltip": "Parse UDP packet and return size"
+  },
+  "seeed_rpcwifi_udp_read_string": {
+    "args0": [
+      null
+    ],
+    "message0": "UDP %1 Read text",
+    "tooltip": "Read the current UDP packet content as text"
+  },
+  "seeed_rpcwifi_http_create": {
+    "args0": [
+      null
+    ],
+    "message0": "Create HTTPClient object %1",
+    "tooltip": "Create HTTPClient object"
+  },
+  "seeed_rpcwifi_http_begin": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "HTTPClient %1 Open URL %2",
+    "tooltip": "Configure HTTP URL"
+  },
+  "seeed_rpcwifi_http_begin_https": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "HTTPClient %1 Open HTTPS URL %2 CA Certificate %3",
+    "tooltip": "Configure HTTPS URL and root CA certificate"
+  },
+  "seeed_rpcwifi_http_add_header": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "HTTPClient %1 Add request header %2 value %3",
+    "tooltip": "Add HTTP request header"
+  },
+  "seeed_rpcwifi_http_request": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "GET",
+            "GET"
+          ],
+          [
+            "POST",
+            "POST"
+          ],
+          [
+            "PUT",
+            "PUT"
+          ],
+          [
+            "PATCH",
+            "PATCH"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "HTTPClient %1 Request %2 Data %3",
+    "tooltip": "Send an HTTP request and return a response code. GET ignores data parameters."
+  },
+  "seeed_rpcwifi_http_get_string": {
+    "args0": [
+      null
+    ],
+    "message0": "HTTPClient %1 response text",
+    "tooltip": "Read HTTP response text"
+  },
+  "seeed_rpcwifi_http_end": {
+    "args0": [
+      null
+    ],
+    "message0": "HTTPClient %1 End request",
+    "tooltip": "Release HTTPClient resources"
+  },
+  "seeed_rpcwifi_webserver_create": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Create WebServer object %1 port %2",
+    "tooltip": "Create WebServer server object"
+  },
+  "seeed_rpcwifi_webserver_begin": {
+    "args0": [
+      null
+    ],
+    "message0": "Start WebServer %1",
+    "tooltip": "Start the WebServer service"
+  },
+  "seeed_rpcwifi_webserver_on": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "GET",
+            "HTTP_GET"
+          ],
+          [
+            "POST",
+            "HTTP_POST"
+          ],
+          [
+            "PUT",
+            "HTTP_PUT"
+          ],
+          [
+            "DELETE",
+            "HTTP_DELETE"
+          ],
+          [
+            "arbitrary",
+            "HTTP_ANY"
+          ]
+        ]
+      }
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "WebServer %1 when path %2 method %3",
+    "message1": "Execute %1",
+    "tooltip": "Register WebServer routing callback"
+  },
+  "seeed_rpcwifi_webserver_send": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "WebServer %1 Response code %2 Type %3 Content %4",
+    "tooltip": "Send HTTP response"
+  },
+  "seeed_rpcwifi_webserver_handle_client": {
+    "args0": [
+      null
+    ],
+    "message0": "WebServer %1 handles clients",
+    "tooltip": "Handle WebServer client requests in a loop"
+  },
+  "seeed_rpcwifi_dns_create": {
+    "args0": [
+      null
+    ],
+    "message0": "Create DNSServer object %1",
+    "tooltip": "Create DNS server object"
+  },
+  "seeed_rpcwifi_dns_start": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "DNSServer %1 Start Port %2 Domain Name %3 Point to IP %4",
+    "tooltip": "Start the DNS server and resolve the domain name to the specified IP"
+  },
+  "seeed_rpcwifi_dns_start_captive": {
+    "args0": [
+      null
+    ],
+    "message0": "DNSServer %1 Start captive portal DNS",
+    "tooltip": "Resolve all domain names to the current AP IP"
+  },
+  "seeed_rpcwifi_dns_process": {
+    "args0": [
+      null
+    ],
+    "message0": "DNSServer %1 handles requests",
+    "tooltip": "Handle DNS requests in a loop"
+  }
+}

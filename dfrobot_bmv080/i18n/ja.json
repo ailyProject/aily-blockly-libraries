@@ -1,11 +1,13 @@
 {
-  "toolbox_name": "BMV080 PM Sensor",
+  "toolbox_name": "BMV080粒子状物質センサー",
   "bmv080_init_i2c": {
-    "message0": "init BMV080 I2C %1 bus %2 address %3",
-    "tooltip": "Initialize and open the BMV080 particulate matter sensor over I2C.",
+    "message0": "BMV080 I2C %1バスをアドレス%2初期化%3",
+    "tooltip": "I2Cを使ってBMV080粒子状物質センサーを初期化し、起動します。",
     "args0": [
       null,
-      null,
+      {
+        "options": "${board.i2c}"
+      },
       {
         "options": [
           [
@@ -29,12 +31,12 @@
     ]
   },
   "bmv080_init_spi": {
-    "message0": "init BMV080 SPI %1 bus %2 CS %3",
-    "tooltip": "Initialize and open the BMV080 particulate matter sensor over SPI."
+    "message0": "BMV080 SPI %1 バス%2CS %3を初期化してください",
+    "tooltip": "SPI経由でBMV080粒子状物質センサーを初期化し、起動してください。"
   },
   "bmv080_set_mode": {
-    "message0": "BMV080 %1 set measurement mode %2",
-    "tooltip": "Start continuous or duty-cycle measurement.",
+    "message0": "BMV080 %1 測定モード設定 %2",
+    "tooltip": "連続測定またはデューティサイクル測定を開始します。",
     "args0": [
       null,
       {
@@ -44,7 +46,7 @@
             "CONTINUOUS_MODE"
           ],
           [
-            "duty cycle",
+            "デューティサイクル測定",
             "DUTY_CYCLE_MODE"
           ]
         ]
@@ -52,18 +54,18 @@
     ]
   },
   "bmv080_set_duty_cycle": {
-    "message0": "BMV080 %1 set duty period %2 s integration %3 s",
-    "tooltip": "Set duty-cycle mode parameters. Period must be at least 12 s; integration time must be at least 1 s and at least 2 s shorter than period."
+    "message0": "BMV080 %1 デューティサイクルを%2秒、積分時間を%3秒に設定",
+    "tooltip": "デューティサイクルモードパラメータを設定します。 サイクルは少なくとも12秒、積分時間は少なくとも1秒、サイクルは積分時間より少なくとも2秒長くなければなりません。"
   },
   "bmv080_set_algorithm": {
-    "message0": "BMV080 %1 set algorithm %2",
-    "tooltip": "Set the PM measurement algorithm.",
+    "message0": "BMV080 %1 設定測定アルゴリズム%2",
+    "tooltip": "PM測定アルゴリズムを設定しましょう。",
     "args0": [
       null,
       {
         "options": [
           [
-            "fast response",
+            "迅速な対応",
             "FAST_RESPONSE"
           ],
           [
@@ -71,7 +73,7 @@
             "BALANCED"
           ],
           [
-            "high precision",
+            "高精度",
             "HIGH_PRECISION"
           ]
         ]
@@ -79,18 +81,18 @@
     ]
   },
   "bmv080_set_feature": {
-    "message0": "BMV080 %1 set %2 %3",
-    "tooltip": "Enable or disable obstruction detection or vibration filtering.",
+    "message0": "BMV080 %1 Settings%2 %3",
+    "tooltip": "閉塞検知と振動フィルタリング機能をオンまたはオフにしてください。",
     "args0": [
       null,
       {
         "options": [
           [
-            "obstruction detection",
+            "障害物検出",
             "OBSTRUCTION"
           ],
           [
-            "vibration filtering",
+            "振動ろ過",
             "VIBRATION"
           ]
         ]
@@ -98,11 +100,11 @@
       {
         "options": [
           [
-            "on",
+            "オンにする",
             "true"
           ],
           [
-            "off",
+            "閉じる",
             "false"
           ]
         ]
@@ -110,12 +112,12 @@
     ]
   },
   "bmv080_read_data": {
-    "message0": "BMV080 %1 refresh PM data",
-    "tooltip": "Read and cache PM1, PM2.5, and PM10. Returns true when new data is ready."
+    "message0": "BMV080%1PMデータを更新します",
+    "tooltip": "PM1、PM2.5、PM10を読み込みキャッシュします。 データはtrueを返し、unreadyはfalseを返します。"
   },
   "bmv080_pm_value": {
-    "message0": "BMV080 %1 cached value %2",
-    "tooltip": "Read the PM value cached by the last refresh.",
+    "message0": "BMV080 %1キャッシュvalue%2",
+    "tooltip": "最後のリフレッシュ後にPMキャッシュの値を読み取ってください。",
     "args0": [
       null,
       {
@@ -137,8 +139,8 @@
     ]
   },
   "bmv080_get_status": {
-    "message0": "BMV080 %1 status/config %2",
-    "tooltip": "Read BMV080 configuration or obstruction status.",
+    "message0": "BMV080 %1状態/構成%2",
+    "tooltip": "BMV080の設定や閉塞状態を確認してください。",
     "args0": [
       null,
       {
@@ -148,23 +150,23 @@
             "ALGORITHM"
           ],
           [
-            "integration time",
+            "得点時間",
             "INTEGRATION"
           ],
           [
-            "duty period",
+            "空のサイクル",
             "PERIOD"
           ],
           [
-            "obstruction setting",
+            "ブロック検出スイッチ",
             "OBSTRUCTION_FEATURE"
           ],
           [
-            "vibration setting",
+            "振動フィルタースイッチ",
             "VIBRATION_FEATURE"
           ],
           [
-            "is obstructed",
+            "それが妨げられているかどうか",
             "OBSTRUCTED"
           ]
         ]
@@ -173,21 +175,21 @@
   },
   "bmv080_command": {
     "message0": "BMV080 %1 run %2",
-    "tooltip": "Stop measurement, reset, or close the BMV080.",
+    "tooltip": "BMV080の測定やリセット、電源オフをやめてください。",
     "args0": [
       null,
       {
         "options": [
           [
-            "stop measurement",
+            "測定を止めて",
             "STOP"
           ],
           [
-            "reset",
+            "元の場所に戻れ",
             "RESET"
           ],
           [
-            "close sensor",
+            "センサーを切ってください",
             "CLOSE"
           ]
         ]

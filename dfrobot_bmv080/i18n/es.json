@@ -1,11 +1,13 @@
 {
-  "toolbox_name": "BMV080 PM Sensor",
+  "toolbox_name": "Sensor de partículas BMV080",
   "bmv080_init_i2c": {
-    "message0": "init BMV080 I2C %1 bus %2 address %3",
-    "tooltip": "Initialize and open the BMV080 particulate matter sensor over I2C.",
+    "message0": "Inicializar el bus %1 del  BMV080 I2C %2 dirección %3",
+    "tooltip": "Inicializa y enciende el sensor de partículas BMV080 mediante I2C.",
     "args0": [
       null,
-      null,
+      {
+        "options": "${board.i2c}"
+      },
       {
         "options": [
           [
@@ -29,12 +31,12 @@
     ]
   },
   "bmv080_init_spi": {
-    "message0": "init BMV080 SPI %1 bus %2 CS %3",
-    "tooltip": "Initialize and open the BMV080 particulate matter sensor over SPI."
+    "message0": "Inicializar el bus %1  SPI BMV080 %2 CS %3",
+    "tooltip": "Inicializa y activa el sensor de partículas BMV080 mediante SPI."
   },
   "bmv080_set_mode": {
-    "message0": "BMV080 %1 set measurement mode %2",
-    "tooltip": "Start continuous or duty-cycle measurement.",
+    "message0": "BMV080 %1 Configuración del modo de medición %2",
+    "tooltip": "Inicia la medición continua o la medición del ciclo de trabajo.",
     "args0": [
       null,
       {
@@ -44,7 +46,7 @@
             "CONTINUOUS_MODE"
           ],
           [
-            "duty cycle",
+            "Medición del ciclo de trabajo",
             "DUTY_CYCLE_MODE"
           ]
         ]
@@ -52,18 +54,18 @@
     ]
   },
   "bmv080_set_duty_cycle": {
-    "message0": "BMV080 %1 set duty period %2 s integration %3 s",
-    "tooltip": "Set duty-cycle mode parameters. Period must be at least 12 s; integration time must be at least 1 s and at least 2 s shorter than period."
+    "message0": "BMV080 %1 Ajusta el ciclo de trabajo a %2 segundos y el tiempo de integración a %3 segundos",
+    "tooltip": "Establece el parámetro de Modo de Ciclo de Trabajo. El ciclo debe durar al menos 12 segundos, el tiempo de integración al menos 1 segundo, y el ciclo debe ser al menos 2 segundos más largo que el tiempo de integración."
   },
   "bmv080_set_algorithm": {
-    "message0": "BMV080 %1 set algorithm %2",
-    "tooltip": "Set the PM measurement algorithm.",
+    "message0": "BMV080 %1 Algoritmo de Medición de Configuración %2",
+    "tooltip": "Establece algoritmos de medición de PM.",
     "args0": [
       null,
       {
         "options": [
           [
-            "fast response",
+            "Respuesta rápida",
             "FAST_RESPONSE"
           ],
           [
@@ -71,7 +73,7 @@
             "BALANCED"
           ],
           [
-            "high precision",
+            "Alta precisión",
             "HIGH_PRECISION"
           ]
         ]
@@ -79,18 +81,18 @@
     ]
   },
   "bmv080_set_feature": {
-    "message0": "BMV080 %1 set %2 %3",
-    "tooltip": "Enable or disable obstruction detection or vibration filtering.",
+    "message0": "BMV080 %1 Settings%2 %3",
+    "tooltip": "Activa o desactiva las funciones de detección de oclusión y filtrado de vibraciones.",
     "args0": [
       null,
       {
         "options": [
           [
-            "obstruction detection",
+            "Detección de obstrucciones",
             "OBSTRUCTION"
           ],
           [
-            "vibration filtering",
+            "Filtración por vibraciones",
             "VIBRATION"
           ]
         ]
@@ -98,11 +100,11 @@
       {
         "options": [
           [
-            "on",
+            "Activado",
             "true"
           ],
           [
-            "off",
+            "Desactivado",
             "false"
           ]
         ]
@@ -110,12 +112,12 @@
     ]
   },
   "bmv080_read_data": {
-    "message0": "BMV080 %1 refresh PM data",
-    "tooltip": "Read and cache PM1, PM2.5, and PM10. Returns true when new data is ready."
+    "message0": "BMV080 %1 actualiza los datos PM",
+    "tooltip": "Lee y almacena en caché PM1, PM2.5, PM10. Data ready devuelve verdadero, unready devuelve false."
   },
   "bmv080_pm_value": {
-    "message0": "BMV080 %1 cached value %2",
-    "tooltip": "Read the PM value cached by the last refresh.",
+    "message0": "value%2 caché de %1 BMV080",
+    "tooltip": "Lee el valor de la caché de PM después de la última actualización.",
     "args0": [
       null,
       {
@@ -137,8 +139,8 @@
     ]
   },
   "bmv080_get_status": {
-    "message0": "BMV080 %1 status/config %2",
-    "tooltip": "Read BMV080 configuration or obstruction status.",
+    "message0": "BMV080 %1 Estado/Configuración %2",
+    "tooltip": "Lee la configuración o el estado de oclusión del BMV080.",
     "args0": [
       null,
       {
@@ -148,23 +150,23 @@
             "ALGORITHM"
           ],
           [
-            "integration time",
+            "Tiempo de anotación",
             "INTEGRATION"
           ],
           [
-            "duty period",
+            "Ciclo del vacío",
             "PERIOD"
           ],
           [
-            "obstruction setting",
+            "Conmutador de detección de bloques",
             "OBSTRUCTION_FEATURE"
           ],
           [
-            "vibration setting",
+            "Interruptor de filtro de vibración",
             "VIBRATION_FEATURE"
           ],
           [
-            "is obstructed",
+            "Si está obstruido",
             "OBSTRUCTED"
           ]
         ]
@@ -173,21 +175,21 @@
   },
   "bmv080_command": {
     "message0": "BMV080 %1 run %2",
-    "tooltip": "Stop measurement, reset, or close the BMV080.",
+    "tooltip": "Deja de medir, reiniciar o apagar el BMV080.",
     "args0": [
       null,
       {
         "options": [
           [
-            "stop measurement",
+            "Detener la medición",
             "STOP"
           ],
           [
-            "reset",
+            "Vuelve a tu lugar",
             "RESET"
           ],
           [
-            "close sensor",
+            "Apaga el sensor",
             "CLOSE"
           ]
         ]

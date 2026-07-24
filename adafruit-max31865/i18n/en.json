@@ -1,0 +1,139 @@
+{
+  "toolbox_labels": {
+    "初始化": "initialization",
+    "读取数据": "Read data",
+    "故障管理": "Fault management",
+    "配置": "Configuration"
+  },
+  "max31865_init": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "HardwareSPI",
+            "HW"
+          ],
+          [
+            "SoftwareSPI",
+            "SW"
+          ]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": [
+          [
+            "2 lines",
+            "MAX31865_2WIRE"
+          ],
+          [
+            "3 lines",
+            "MAX31865_3WIRE"
+          ],
+          [
+            "4 lines",
+            "MAX31865_4WIRE"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "Initialization MAX31865 %1 SPI mode %2 CS pin %3 Wire system %4 %5",
+    "tooltip": "Initialize the MAX31865 RTD temperature sensor, set the SPI interface and wire system"
+  },
+  "max31865_read_temperature": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 Read temperature RTD nominal value %2 Reference resistor %3",
+    "tooltip": "Read the temperature in Celsius. The nominal value of PT100 is 100, and the PT1000 is 1000; the reference resistance of PT100 is 430, and the PT1000 is 4300."
+  },
+  "max31865_read_rtd": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Read the original RTD value",
+    "tooltip": "Read 16-bit raw RTD value (not temperature value)"
+  },
+  "max31865_read_fault": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Read fault status",
+    "tooltip": "Read the 8-bit fault status register"
+  },
+  "max31865_clear_fault": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Clear fault",
+    "tooltip": "Clear all faults in the fault status register"
+  },
+  "max31865_set_wires": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "2 lines",
+            "MAX31865_2WIRE"
+          ],
+          [
+            "3 lines",
+            "MAX31865_3WIRE"
+          ],
+          [
+            "4 lines",
+            "MAX31865_4WIRE"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 Set wire system %2",
+    "tooltip": "Set RTD wire system (2-wire, 3-wire, or 4-wire)"
+  },
+  "max31865_auto_convert": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "enable",
+            "TRUE"
+          ],
+          [
+            "Disable",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 Automatic conversion %2",
+    "tooltip": "Enable or disable continuous automatic conversion mode"
+  },
+  "max31865_enable_50hz": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "enable",
+            "TRUE"
+          ],
+          [
+            "Disable",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 50Hz filter %2",
+    "tooltip": "Enable 50Hz noise filtering (defaults to 60Hz when disabled)"
+  },
+  "toolbox_name": "MAX31865 RTD temperature sensor"
+}

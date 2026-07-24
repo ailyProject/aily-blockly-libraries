@@ -1,0 +1,261 @@
+{
+  "toolbox_labels": {
+    "── 初始化 ──": "──Initialization──",
+    "── 开机动画 ──": "── Boot animation ──",
+    "── 行走动画 ──": "── Walking animation ──",
+    "── 力量动画 ──": "── Power animation ──",
+    "── 背景绘制 ──": "── Background drawing ──",
+    "── 中文输出 ──": "──Chinese output──",
+    "── 按键管理 ──": "──Button management──",
+    "── 页面导航 ──": "──Page navigation──"
+  },
+  "ui_begin": {
+    "args0": [
+      null
+    ],
+    "message0": "UI animation initialization TFT %1",
+    "tooltip": "Initialize the UI animation module and bind the TFT screen"
+  },
+  "ui_set_font": {
+    "args0": [
+      null
+    ],
+    "message0": "UI animation set font %1",
+    "tooltip": "Set Chinese font variable name"
+  },
+  "ui_welcome": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Boot animation title %1 name %2 subtitle %3",
+    "tooltip": "Play startup animation: rainbow bar + power animation (need to be set first) + text display"
+  },
+  "ui_walk_init": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "Walking Animation Initialization X %1 Y %2 Width %3 High %4 Spacing ms %5",
+    "tooltip": "Initialize walking sprite animation and create Sprite buffer"
+  },
+  "ui_walk_frames": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "Walking animation set frame data Array name %1 Frame number %2 Source width %3 Source height %4",
+    "tooltip": "Set the frame data array of the walking animation (need to be used with the img header file)"
+  },
+  "ui_walk_update": {
+    "message0": "Walking animation update",
+    "tooltip": "Called in loop to automatically update walking animation frames"
+  },
+  "ui_strength_init": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "Power Animation Initialization X %1 Y %2 Width %3 High %4",
+    "tooltip": "Initialize the position and size of the power display animation"
+  },
+  "ui_strength_frames": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Power animation set frame data array name %1 frame number %2",
+    "tooltip": "Set the frame data array of the force animation"
+  },
+  "ui_strength_play": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "Power animation play loop %1 times interval %2 ms",
+    "tooltip": "Play strength display animation"
+  },
+  "ui_set_fg_color": {
+    "args0": [
+      null
+    ],
+    "message0": "Set text color %1",
+    "tooltip": "Set the foreground color of U8g2 Chinese text"
+  },
+  "ui_print_cn": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Chinese output X %1 Y %2 Content %3",
+    "tooltip": "Output Chinese text at specified coordinates (using the set font and foreground color)"
+  },
+  "ui_draw_bg": {
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "message0": "Draw the night sky background X %1 Y %2 Width %3 High %4",
+    "tooltip": "Draw the night sky gradient background (dark blue → black)"
+  },
+  "ui_draw_stars": {
+    "message0": "Draw the starry sky",
+    "tooltip": "Draw random star points on the background"
+  },
+  "ui_btn_add": {
+    "args0": [
+      {
+        "options": [
+          [
+            "LEFT",
+            "0"
+          ],
+          [
+            "RIGHT",
+            "1"
+          ],
+          [
+            "UP",
+            "2"
+          ],
+          [
+            "DOWN",
+            "3"
+          ],
+          [
+            "A",
+            "4"
+          ],
+          [
+            "B",
+            "5"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "Button Registration Button %1 Pin %2",
+    "tooltip": "Register a button to the specified pin (automatically set to INPUT_PULLUP)"
+  },
+  "ui_btn_scan": {
+    "message0": "Button Scan",
+    "tooltip": "Scan all registered button states (including debounce)"
+  },
+  "ui_btn_pressed": {
+    "args0": [
+      {
+        "options": [
+          [
+            "LEFT",
+            "0"
+          ],
+          [
+            "RIGHT",
+            "1"
+          ],
+          [
+            "UP",
+            "2"
+          ],
+          [
+            "DOWN",
+            "3"
+          ],
+          [
+            "A",
+            "4"
+          ],
+          [
+            "B",
+            "5"
+          ]
+        ]
+      }
+    ],
+    "message0": "Button %1 just pressed",
+    "tooltip": "Detect whether the specified button has just been pressed (edge triggered)"
+  },
+  "ui_btn_is_pressed": {
+    "args0": [
+      {
+        "options": [
+          [
+            "LEFT",
+            "0"
+          ],
+          [
+            "RIGHT",
+            "1"
+          ],
+          [
+            "UP",
+            "2"
+          ],
+          [
+            "DOWN",
+            "3"
+          ],
+          [
+            "A",
+            "4"
+          ],
+          [
+            "B",
+            "5"
+          ]
+        ]
+      }
+    ],
+    "message0": "Button %1 is being pressed",
+    "tooltip": "Detect whether the specified button is currently pressed (level trigger)"
+  },
+  "ui_btn_set_debounce": {
+    "args0": [
+      null
+    ],
+    "message0": "Button debounce time %1 ms",
+    "tooltip": "Set button debounce interval (default 200ms)"
+  },
+  "ui_page_count": {
+    "args0": [
+      null
+    ],
+    "message0": "Page Total number of settings %1",
+    "tooltip": "Set the total number of pages (for circular navigation)"
+  },
+  "ui_page_current": {
+    "message0": "Page Current page number",
+    "tooltip": "Get the current page number (starting from 0)"
+  },
+  "ui_page_changed": {
+    "message0": "Page switched",
+    "tooltip": "Determine whether the page has just changed"
+  },
+  "ui_page_next": {
+    "message0": "Page next page",
+    "tooltip": "Switch to the next page (loop to the end and back to the beginning)"
+  },
+  "ui_page_prev": {
+    "message0": "Page Previous page",
+    "tooltip": "Switch to the previous page (loop to the beginning and back to the end)"
+  },
+  "ui_page_set": {
+    "args0": [
+      null
+    ],
+    "message0": "Page Set current %1",
+    "tooltip": "Directly set the current page number"
+  },
+  "toolbox_name": "UI animation"
+}

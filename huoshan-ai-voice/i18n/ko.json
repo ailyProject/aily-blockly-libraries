@@ -1,5 +1,5 @@
 {
-  "toolbox_name": "Huoshan AI Voice",
+  "toolbox_name": "화산 AI 음성",
   "toolbox_labels": {
     "配置": "구성",
     "屏幕": "스크린",
@@ -7,29 +7,104 @@
     "参数": "매개변수",
     "状态": "상태"
   },
-  "huoshan_ai_config": {"message0": "Configure Huoshan AI Voice Doubao App ID %1 Doubao Token %2 Coze Token %3 Coze Bot ID %4 User ID %5", "tooltip": "Configure Doubao ASR/TTS and Coze chat credentials"},
-  "huoshan_ai_wifi_connect": {"message0": "Huoshan AI connect WiFi SSID %1 password %2 timeout(ms) %3", "tooltip": "Connect WiFi"},
-  "huoshan_ai_mic_config": {"message0": "Configure Huoshan AI I2S microphone port %1 BCLK %2 WS/LRCLK %3 DIN %4 gain %5 max record seconds %6", "tooltip": "Configure I2S microphone pins and recording"},
-  "huoshan_ai_speaker_config": {"message0": "Configure Huoshan AI I2S speaker port %1 BCLK %2 WS/LRCLK %3 DOUT %4 volume %5", "tooltip": "Configure I2S speaker pins and volume"},
-  "huoshan_ai_begin": {"message0": "Start Huoshan AI Voice", "tooltip": "Initialize I2S microphone and speaker"},
-  "huoshan_ai_start_listening": {"message0": "Huoshan AI start listening", "tooltip": "Start I2S microphone recording"},
-  "huoshan_ai_stop_listening_and_chat": {"message0": "Huoshan AI stop listening and chat", "tooltip": "Stop recording, recognize, chat with Coze, and play reply"},
-  "huoshan_ai_send_text": {"message0": "Huoshan AI send text to Coze text %1 speak reply %2", "tooltip": "Send text directly to Coze"},
-  "huoshan_ai_tts_speak": {"message0": "Huoshan AI TTS speak text %1", "tooltip": "Speak text with Doubao TTS"},
-  "huoshan_ai_stop_audio": {"message0": "Huoshan AI stop audio playback", "tooltip": "Stop current I2S playback"},
-  "huoshan_ai_clear_conversation": {"message0": "Huoshan AI clear Coze conversation", "tooltip": "Clear conversation_id"},
-  "huoshan_ai_set_voice": {"message0": "Huoshan AI set Doubao voice %1", "tooltip": "Set Doubao TTS voice_type"},
-  "huoshan_ai_set_volume": {"message0": "Huoshan AI set playback volume %1", "tooltip": "Set local I2S playback volume"},
-  "huoshan_ai_set_speed": {"message0": "Huoshan AI set TTS speed %1", "tooltip": "Set Doubao TTS speed_ratio"},
-  "huoshan_ai_get_state": {"message0": "Get Huoshan AI state", "tooltip": "Return current state"},
-  "huoshan_ai_is_wifi_connected": {"message0": "Huoshan AI WiFi connected", "tooltip": "Check WiFi status"},
-  "huoshan_ai_get_last_asr_text": {"message0": "Get Huoshan AI last ASR text", "tooltip": "Return last ASR text"},
-  "huoshan_ai_get_last_reply_text": {"message0": "Get Huoshan AI last reply text", "tooltip": "Return last Coze reply"},
-  "huoshan_ai_get_last_error": {"message0": "Get Huoshan AI last error", "tooltip": "Return last error message"},
-  "huoshan_ai_screen_config": {"message0": "Configure Huoshan AI screen width %1 height %2 rotation %3 brightness %4 backlight %5 MISO %6 MOSI %7 SCLK %8 CS %9 DC %10 RST %11 touch SDA %12 SCL %13 RST %14 INT %15", "tooltip": "Configure ST7789, TFT_eSPI, LVGL, and FT6336U touch screen macros"},
-  "huoshan_ai_screen_begin": {"message0": "Start Huoshan AI screen touch-to-talk %1 auto messages %2", "tooltip": "Initialize the LVGL voice panel and touch-to-talk button"},
-  "huoshan_ai_screen_set_brightness": {"message0": "Huoshan AI screen set brightness %1", "tooltip": "Set screen backlight brightness"},
-  "huoshan_ai_screen_set_status": {"message0": "Huoshan AI screen set status %1", "tooltip": "Set the top status text manually"},
-  "huoshan_ai_screen_add_message": {"message0": "Huoshan AI screen add message role %1 text %2", "tooltip": "Append a message to the screen message list"},
-  "huoshan_ai_screen_clear_messages": {"message0": "Huoshan AI screen clear messages", "tooltip": "Clear the screen message list"}
+  "huoshan_ai_config": {
+    "message0": "화산 AI 음성 Doubao 앱 ID %1 Doubao 토큰 %2 Coze Token %3 Coze Bot ID %4 사용자 ID %5",
+    "tooltip": "Doubao ASR/TTS와 Coze 멀티턴 대화에 필요한 매개변수를 설정하세요; 사용자 ID가 null일 때는 칩 ID를 사용하세요"
+  },
+  "huoshan_ai_wifi_connect": {
+    "message0": "Volcano AI 연결 WiFi SSID %1 비밀번호 %2 타임아웃(ms) %3",
+    "tooltip": "WiFi 연결, 이후 ASR, Coze, TTS는 모두 네트워크에 의존합니다"
+  },
+  "huoshan_ai_mic_config": {
+    "message0": "최대 녹음 seconds%6 ports%1%2 BCLK  WS/LRCLK %4 gain%5%3 Volcano AI I2S 마이크를 장착했습니다",
+    "tooltip": "I2S 마이크 핀과 녹음 파라미터를 갖추고 있으며, 고정된 16kHz 16비트 모노 샘플링 속도를 지원합니다. 권장 게인 4. 로그가 클리핑을 유발하면 게인을 줄이세요"
+  },
+  "huoshan_ai_speaker_config": {
+    "message0": "Volcano AI I2S 스피커 포트를 BCLK %2 WS/LRCLK %1%3 DOUT %4 볼륨 %5 설정하세요",
+    "tooltip": "MAX98357개의 I2S 스피커, 16kHz의 TTS PCM 재생 기능이 탑재되어 있습니다."
+  },
+  "huoshan_ai_begin": {
+    "message0": "화산 AI 음성 활성화",
+    "tooltip": "음성 대화를 준비하기 위해 I2S 마이크와 스피커를 초기화하세요"
+  },
+  "huoshan_ai_start_listening": {
+    "message0": "화산 AI가 귀 기울이기 시작한다",
+    "tooltip": "버튼 누름 시 보통 위치하는 I2S 마이크에서 녹음을 시작하세요"
+  },
+  "huoshan_ai_stop_listening_and_chat": {
+    "message0": "화산 AI는 듣고 말하는 것을 멈췄다",
+    "tooltip": "녹화를 멈추고 Doubao ASR 인식을 호출한 뒤 Coze로 보내고 Doubao TTS로 답장을 재생하세요"
+  },
+  "huoshan_ai_send_text": {
+    "message0": "Volcano AI가 Coze 텍스트로 텍스트를 보내%1 재생하고 replies%2",
+    "tooltip": "여러 턴에 걸친 대화를 위해 Coze에게 직접 문자를 보내고, TTS로 답장을 재생할 수 있는 옵션도 있습니다"
+  },
+  "huoshan_ai_tts_speak": {
+    "message0": "화산 AI TTS 텍스트 재생 %1",
+    "tooltip": "텍스트는 Doubao TTS를 사용해 합성되어 I2S 스피커를 통해 재생됩니다"
+  },
+  "huoshan_ai_stop_audio": {
+    "message0": "화산 AI가 오디오 재생을 멈췄습니다",
+    "tooltip": "I2S DMA 버퍼를 지우고 현재 재생을 멈추세요"
+  },
+  "huoshan_ai_clear_conversation": {
+    "message0": "Volcano AI가 Coze 세션을 클리어합니다",
+    "tooltip": "conversation_id을 비우고 새 세션에서 다음 요청을 시작하세요"
+  },
+  "huoshan_ai_set_voice": {
+    "message0": "화산 AI는 두파오의 분위기를 %1",
+    "tooltip": "예를 들어 두파오 TTS voice_type을 설정하세요zh_female_wanwanxiaohe_moon_bigtts"
+  },
+  "huoshan_ai_set_volume": {
+    "message0": "화산 AI 재생 볼륨 설정 %1",
+    "tooltip": "로컬 I2S 재생 볼륨을 0.0에서 1.0 사이로 설정하세요"
+  },
+  "huoshan_ai_set_speed": {
+    "message0": "Volcano AI가 TTS 음성 rate%1",
+    "tooltip": "두파오 TTS speed_ratio을 보통 0.8에서 1.2 사이로 설정하세요"
+  },
+  "huoshan_ai_get_state": {
+    "message0": "Volcano AI의 현재 상태를 확인하세요",
+    "tooltip": "대기 상태, 듣기, 인식, 생각, 말하기, 오류 등 여러 상태에서 반환합니다"
+  },
+  "huoshan_ai_is_wifi_connected": {
+    "message0": "Volcano AI WiFi가 연결되어 있습니다",
+    "tooltip": "와이파이가 연결되어 있는지 확인해 보세요"
+  },
+  "huoshan_ai_get_last_asr_text": {
+    "message0": "Volcano AI의 최종 텍스트 인식 기능을 얻으세요",
+    "tooltip": "가장 최근 두보 ASR의 최종 인정 텍스트를 반환하세요"
+  },
+  "huoshan_ai_get_last_reply_text": {
+    "message0": "Volcano AI에서 최종 답변 텍스트를 받아보세요",
+    "tooltip": "가장 최근 Coze 답글을 반환하세요"
+  },
+  "huoshan_ai_get_last_error": {
+    "message0": "Volcano AI 마지막 오류",
+    "tooltip": "가장 최근의 오류 메시지 반환하기"
+  },
+  "huoshan_ai_screen_config": {
+    "message0": "구성: 화산 AI 화면: 너비 %1 높이 %2 회전 %3 밝기: %4 Backlight%5 MISO %6 MOSI %7 SCLK %8 CS %9 DC %10 RST %11 터치 SDA %12 SCL %13 RST %14 지능 %15",
+    "tooltip": "ST7789, TFT_eSPI, LVGL, FT6336U 터치스크린 엔지니어링 매크로를 설정하고, 기본 사양은 원래 PIO 프로젝트 하드웨어와 일치하도록 하세요"
+  },
+  "huoshan_ai_screen_begin": {
+    "message0": "Volcano AI 화면을 활성화하고, 터치로 말하려면 버튼을 누르고 %1 자동으로 표시됩니다conversations%2",
+    "tooltip": "LVGL 음성 패널을 초기화하고, 상태 표시줄, 메시지 목록, 터치 통화 버튼을 만드세요"
+  },
+  "huoshan_ai_screen_set_brightness": {
+    "message0": "Volcano AI 화면 밝기 설정 %1",
+    "tooltip": "화면 백라이트 밝기를 0에서 100으로 설정하세요"
+  },
+  "huoshan_ai_screen_set_status": {
+    "message0": "화산 AI 화면 설정 Status%1",
+    "tooltip": "화면 상단에 상태 텍스트를 수동으로 설정하세요"
+  },
+  "huoshan_ai_screen_add_message": {
+    "message0": "화산 AI 화면이 메시지, 캐릭터, %1 Text%2 추가합니다",
+    "tooltip": "사용자 메시지, AI, 시스템 메시지를 화면 메시지 목록에 추가하세요"
+  },
+  "huoshan_ai_screen_clear_messages": {
+    "message0": "화산 AI 화면이 메시지를 삭제했다",
+    "tooltip": "화면의 메시지 목록을 지우세요"
+  }
 }

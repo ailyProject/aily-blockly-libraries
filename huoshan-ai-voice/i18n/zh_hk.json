@@ -7,29 +7,104 @@
     "参数": "參數",
     "状态": "狀態"
   },
-  "huoshan_ai_config": {"message0": "配置火山 AI 語音 豆包 App ID %1 豆包 Token %2 Coze Token %3 Coze Bot ID %4 User ID %5", "tooltip": "Configure Doubao ASR/TTS and Coze chat credentials"},
-  "huoshan_ai_wifi_connect": {"message0": "Huoshan AI connect WiFi SSID %1 password %2 timeout(ms) %3", "tooltip": "Connect WiFi"},
-  "huoshan_ai_mic_config": {"message0": "Configure Huoshan AI I2S microphone port %1 BCLK %2 WS/LRCLK %3 DIN %4 gain %5 max record seconds %6", "tooltip": "Configure I2S microphone pins and recording"},
-  "huoshan_ai_speaker_config": {"message0": "Configure Huoshan AI I2S speaker port %1 BCLK %2 WS/LRCLK %3 DOUT %4 volume %5", "tooltip": "Configure I2S speaker pins and volume"},
-  "huoshan_ai_begin": {"message0": "Start Huoshan AI Voice", "tooltip": "Initialize I2S microphone and speaker"},
-  "huoshan_ai_start_listening": {"message0": "Huoshan AI start listening", "tooltip": "Start I2S microphone recording"},
-  "huoshan_ai_stop_listening_and_chat": {"message0": "Huoshan AI stop listening and chat", "tooltip": "Stop recording, recognize, chat with Coze, and play reply"},
-  "huoshan_ai_send_text": {"message0": "Huoshan AI send text to Coze text %1 speak reply %2", "tooltip": "Send text directly to Coze"},
-  "huoshan_ai_tts_speak": {"message0": "Huoshan AI TTS speak text %1", "tooltip": "Speak text with Doubao TTS"},
-  "huoshan_ai_stop_audio": {"message0": "Huoshan AI stop audio playback", "tooltip": "Stop current I2S playback"},
-  "huoshan_ai_clear_conversation": {"message0": "Huoshan AI clear Coze conversation", "tooltip": "Clear conversation_id"},
-  "huoshan_ai_set_voice": {"message0": "Huoshan AI set Doubao voice %1", "tooltip": "Set Doubao TTS voice_type"},
-  "huoshan_ai_set_volume": {"message0": "Huoshan AI set playback volume %1", "tooltip": "Set local I2S playback volume"},
-  "huoshan_ai_set_speed": {"message0": "Huoshan AI set TTS speed %1", "tooltip": "Set Doubao TTS speed_ratio"},
-  "huoshan_ai_get_state": {"message0": "Get Huoshan AI state", "tooltip": "Return current state"},
-  "huoshan_ai_is_wifi_connected": {"message0": "Huoshan AI WiFi connected", "tooltip": "Check WiFi status"},
-  "huoshan_ai_get_last_asr_text": {"message0": "Get Huoshan AI last ASR text", "tooltip": "Return last ASR text"},
-  "huoshan_ai_get_last_reply_text": {"message0": "Get Huoshan AI last reply text", "tooltip": "Return last Coze reply"},
-  "huoshan_ai_get_last_error": {"message0": "Get Huoshan AI last error", "tooltip": "Return last error message"},
-  "huoshan_ai_screen_config": {"message0": "配置火山 AI 屏幕 寬 %1 高 %2 旋轉 %3 亮度 %4 背光 %5 MISO %6 MOSI %7 SCLK %8 CS %9 DC %10 RST %11 觸摸 SDA %12 SCL %13 RST %14 INT %15", "tooltip": "配置 ST7789、TFT_eSPI、LVGL 與 FT6336U 觸摸屏工程宏"},
-  "huoshan_ai_screen_begin": {"message0": "啟動火山 AI 屏幕 觸摸按住說話 %1 自動顯示對話 %2", "tooltip": "初始化 LVGL 語音面板和觸摸說話按鈕"},
-  "huoshan_ai_screen_set_brightness": {"message0": "火山 AI 屏幕設定亮度 %1", "tooltip": "設定屏幕背光亮度"},
-  "huoshan_ai_screen_set_status": {"message0": "火山 AI 屏幕設定狀態 %1", "tooltip": "手動設定屏幕頂部狀態文字"},
-  "huoshan_ai_screen_add_message": {"message0": "火山 AI 屏幕新增消息 角色 %1 文字 %2", "tooltip": "向屏幕消息列表新增一條消息"},
-  "huoshan_ai_screen_clear_messages": {"message0": "火山 AI 屏幕清空消息", "tooltip": "清空屏幕消息列表"}
+  "huoshan_ai_config": {
+    "message0": "配置火山 AI 語音 豆包 App ID %1 豆包 Token %2 Coze Token %3 Coze Bot ID %4 User ID %5",
+    "tooltip": "配置Doubao ASR/TTS與Coze多回合對話所需的參數;當使用者ID為空時，使用晶片ID"
+  },
+  "huoshan_ai_wifi_connect": {
+    "message0": "Volcano AI 連線 WiFi SSID %1 密碼 %2 逾時（ms）%3",
+    "tooltip": "連接 WiFi、後續的 ASR、Coze 和 TTS 都依賴網路"
+  },
+  "huoshan_ai_mic_config": {
+    "message0": "配備Volcano AI I2S麥克風ports%1BCLK%2WS/LRCLK%3DIN，最大錄音%4 gain%5seconds%6",
+    "tooltip": "配備 I2S 麥克風腳位與錄音參數，並具備固定 16kHz 16 位元單聲道取樣率; 建議增益 4. 如果對音提示有削波，請降低增益"
+  },
+  "huoshan_ai_speaker_config": {
+    "message0": "設定 Volcano AI I2S 喇叭埠%1 BCLK %2 WS/LRCLK %3 DOUT %4 音量%5",
+    "tooltip": "配備MAX98357 I2S 喇叭，TTS PCM 播放速度為 16kHz"
+  },
+  "huoshan_ai_begin": {
+    "message0": "啟動火山 AI 語音",
+    "tooltip": "初始化 I2S 麥克風與喇叭，準備語音對話"
+  },
+  "huoshan_ai_start_listening": {
+    "message0": "火山人工智慧開始傾聽",
+    "tooltip": "從通常按下按鈕時放置的 I2S 麥克風開始錄音"
+  },
+  "huoshan_ai_stop_listening_and_chat": {
+    "message0": "火山人工智慧結束聆聽與對話",
+    "tooltip": "停止錄影，呼叫Doubao ASR識別，然後傳給Coze，再用Doubao TTS播放回覆"
+  },
+  "huoshan_ai_send_text": {
+    "message0": "Volcano AI 會將文字傳送到 Coze %1播放和replies%2",
+    "tooltip": "直接傳送簡訊給 Coze，進行多回合對話，並可選擇在 TTS 中播放回覆"
+  },
+  "huoshan_ai_tts_speak": {
+    "message0": "火山 AI TTS 文字播放%1",
+    "tooltip": "文字以 Doubao TTS 合成，並透過 I2S 喇叭播放"
+  },
+  "huoshan_ai_stop_audio": {
+    "message0": "火山 AI 停止播放音訊",
+    "tooltip": "清除 I2S DMA 緩衝區並停止目前的播放"
+  },
+  "huoshan_ai_clear_conversation": {
+    "message0": "Volcano AI 清除 Coze 場次",
+    "tooltip": "清除conversation_id，然後從新會話開始下一個請求"
+  },
+  "huoshan_ai_set_voice": {
+    "message0": "火山AI為斗寶定下基調%1",
+    "tooltip": "例如，設定斗寶TTS voice_type zh_female_wanwanxiaohe_moon_bigtts"
+  },
+  "huoshan_ai_set_volume": {
+    "message0": "火山 AI 設定播放音量%1",
+    "tooltip": "本地 I2S 播放音量建議設在 0.0 到 1.0 之間"
+  },
+  "huoshan_ai_set_speed": {
+    "message0": "Volcano AI 設定 TTS 語音rate%1",
+    "tooltip": "將道寶TT speed_ratio S設定在0.8到1.2之間，通常設定在0.8到1.2之間"
+  },
+  "huoshan_ai_get_state": {
+    "message0": "取得火山 AI 的最新狀態",
+    "tooltip": "回傳閒置、聆聽、識別、思考、說話、錯誤及其他狀態"
+  },
+  "huoshan_ai_is_wifi_connected": {
+    "message0": "Volcano AI WiFi 已連接上",
+    "tooltip": "檢查是否有 WiFi 連接"
+  },
+  "huoshan_ai_get_last_asr_text": {
+    "message0": "取得火山人工智慧的最終文字辨識",
+    "tooltip": "回傳最近一次道寶ASR的最終認可文字"
+  },
+  "huoshan_ai_get_last_reply_text": {
+    "message0": "從 Volcano AI 獲取最終回覆文字",
+    "tooltip": "回傳最近的 Coze 回覆簡訊"
+  },
+  "huoshan_ai_get_last_error": {
+    "message0": "取得火山 AI 最後錯誤",
+    "tooltip": "回傳最近的錯誤訊息"
+  },
+  "huoshan_ai_screen_config": {
+    "message0": "配置火山 AI 屏幕 寬 %1 高 %2 旋轉 %3 亮度 %4 背光 %5 MISO %6 MOSI %7 SCLK %8 CS %9 DC %10 RST %11 觸摸 SDA %12 SCL %13 RST %14 INT %15",
+    "tooltip": "配置 ST7789、TFT_eSPI、LVGL 與 FT6336U 觸摸屏工程宏"
+  },
+  "huoshan_ai_screen_begin": {
+    "message0": "啟動火山 AI 屏幕 觸摸按住說話 %1 自動顯示對話 %2",
+    "tooltip": "初始化 LVGL 語音面板和觸摸說話按鈕"
+  },
+  "huoshan_ai_screen_set_brightness": {
+    "message0": "火山 AI 屏幕設定亮度 %1",
+    "tooltip": "設定屏幕背光亮度"
+  },
+  "huoshan_ai_screen_set_status": {
+    "message0": "火山 AI 屏幕設定狀態 %1",
+    "tooltip": "手動設定屏幕頂部狀態文字"
+  },
+  "huoshan_ai_screen_add_message": {
+    "message0": "火山 AI 屏幕新增消息 角色 %1 文字 %2",
+    "tooltip": "向屏幕消息列表新增一條消息"
+  },
+  "huoshan_ai_screen_clear_messages": {
+    "message0": "火山 AI 螢幕清空訊息",
+    "tooltip": "清空螢幕訊息列表"
+  }
 }

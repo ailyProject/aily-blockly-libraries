@@ -1,0 +1,167 @@
+{
+  "toolbox_labels": {
+    "初始化": "initialization",
+    "控制": "control",
+    "状态": "Status",
+    "事件": "event"
+  },
+  "stepper_ctrl_init": {
+    "args0": [
+      null,
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      null,
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "message0": "Initialize stepper motor %1 Pulse pin %2 Direction pin %3 Speed (μs) %4 Front limit pin %5 Rear limit pin %6",
+    "tooltip": "Initialize stepper motor controller, configure pins and speed"
+  },
+  "stepper_ctrl_start": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "FORWARD",
+            "FORWARD"
+          ],
+          [
+            "REVERSE",
+            "REVERSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 Start Target Steps %2 Direction %3",
+    "tooltip": "Start the stepper motor after setting the target number of steps and direction"
+  },
+  "stepper_ctrl_stop": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Stop",
+    "tooltip": "Stop stepper motor"
+  },
+  "stepper_ctrl_set_speed": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "%1 Set speed (μs) %2",
+    "tooltip": "Set the step pulse interval (microseconds). The smaller the value, the faster the speed. The range is 200~5000."
+  },
+  "stepper_ctrl_set_rpm": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 Set speed (RPM) %2 Steps per revolution %3",
+    "tooltip": "Set speed by RPM and steps per revolution"
+  },
+  "stepper_ctrl_set_direction": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "FORWARD",
+            "FORWARD"
+          ],
+          [
+            "REVERSE",
+            "REVERSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 Set direction %2",
+    "tooltip": "Set motor rotation direction"
+  },
+  "stepper_ctrl_tick": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Execute one step",
+    "tooltip": "Called in the loop, drive the motor and automatically detect limits and targets"
+  },
+  "stepper_ctrl_is_running": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 is running",
+    "tooltip": "Determine whether the stepper motor is running"
+  },
+  "stepper_ctrl_get_steps": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Number of steps taken",
+    "tooltip": "Get the current number of steps taken"
+  },
+  "stepper_ctrl_reset_steps": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Clear steps",
+    "tooltip": "Clear step counter to zero"
+  },
+  "stepper_ctrl_is_front_limit": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 Front limit trigger",
+    "tooltip": "Determine whether the front limit switch is triggered"
+  },
+  "stepper_ctrl_is_back_limit": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 rear limit trigger",
+    "tooltip": "Determine whether the rear limit switch is triggered"
+  },
+  "stepper_ctrl_on_target_done": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "When %1 target number of steps is completed",
+    "message1": "Execute %1",
+    "tooltip": "Event: Triggered when the target number of steps is completed"
+  },
+  "stepper_ctrl_on_front_limit": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "When %1 front limit is triggered",
+    "message1": "Execute %1",
+    "tooltip": "Event: When the front limit switch is triggered"
+  },
+  "stepper_ctrl_on_back_limit": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "When %1 rear limit is triggered",
+    "message1": "Execute %1",
+    "tooltip": "Event: When the rear limit switch is triggered"
+  },
+  "toolbox_name": "STM32 stepper motor control shortcut module"
+}

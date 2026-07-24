@@ -1,0 +1,683 @@
+{
+  "toolbox_name": "RPC BLE",
+  "toolbox_categories": [
+    "장치 관리",
+    "GATT 서버 측",
+    "고유값과 사건",
+    "방송",
+    "스캔",
+    "고객",
+    "BLE UART",
+    "웹 블루투스",
+    "iBeacon"
+  ],
+  "seeed_rpcble_init": {
+    "args0": [
+      null
+    ],
+    "message0": "BLE 장치 이름 초기화 %1",
+    "tooltip": "Wio 터미널 rpcBLE 장치를 초기화하고 방송 이름을 설정하세요"
+  },
+  "seeed_rpcble_deinit": {
+    "message0": "BLE 장치를 끄세요",
+    "tooltip": "rpcBLE 장치를 꺼"
+  },
+  "seeed_rpcble_is_initialized": {
+    "message0": "BLE가 초기화되었습니다",
+    "tooltip": "BLEDevice가 초기화되었는지 여부를 반환합니다"
+  },
+  "seeed_rpcble_get_address": {
+    "message0": "지역 BLE 주소",
+    "tooltip": "로컬 BLE MAC 주소 문자열을 얻습니다"
+  },
+  "seeed_rpcble_set_mtu": {
+    "args0": [
+      null
+    ],
+    "message0": "BLE MTU 설정 %1",
+    "tooltip": "최대 BLE 전송 유닛 MTU 설정"
+  },
+  "seeed_rpcble_get_mtu": {
+    "message0": "현재 BLE MTU",
+    "tooltip": "현재 BLE MTU를 받아보세요"
+  },
+  "seeed_rpcble_create_server": {
+    "args0": [
+      null
+    ],
+    "message0": "BLE 서버 %1 생성",
+    "tooltip": "BLE GATT 서버 객체 생성"
+  },
+  "seeed_rpcble_server_create_service": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "서버 %1 서비스 %2 UUID%3",
+    "tooltip": "BLE 서버에서 GATT 서비스를 생성하세요"
+  },
+  "seeed_rpcble_service_start": {
+    "args0": [
+      null
+    ],
+    "message0": "BLE 서비스 %1 개시",
+    "tooltip": "지정된 GATT 서비스를 시작하세요"
+  },
+  "seeed_rpcble_service_stop": {
+    "args0": [
+      null
+    ],
+    "message0": "BLE 서비스 중단%1",
+    "tooltip": "GATT 서비스 명시를 중단하세요"
+  },
+  "seeed_rpcble_server_connected_count": {
+    "args0": [
+      null
+    ],
+    "message0": "서버에 연결된 클라이언트 %1 수",
+    "tooltip": "서버에 연결된 BLE 클라이언트 수를 확인하세요"
+  },
+  "seeed_rpcble_server_set_callbacks": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "args2": [
+      null
+    ],
+    "message0": "서버 %1 연결 이벤트 설정하세요",
+    "message1": "언제 connecting%1",
+    "message2": "언제 disconnected%1",
+    "tooltip": "BLE 서버의 연결 설정 및 콜백 해제"
+  },
+  "seeed_rpcble_create_characteristic": {
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "읽다",
+            "BLECharacteristic::PROPERTY_READ"
+          ],
+          [
+            "쓰다",
+            "BLECharacteristic::PROPERTY_WRITE"
+          ],
+          [
+            "알림",
+            "BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "읽기/쓰기",
+            "BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE"
+          ],
+          [
+            "읽기 + 알림",
+            "BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "쓰기 + 알림",
+            "BLECharacteristic::PROPERTY_WRITE | BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "읽기/쓰기+알림",
+            "BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE | BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "표시",
+            "BLECharacteristic::PROPERTY_INDICATE"
+          ],
+          [
+            "응답 없는 쓰기",
+            "BLECharacteristic::PROPERTY_WRITE_NR"
+          ]
+        ]
+      }
+    ],
+    "message0": "서비스 %1 UUID%3 속성 %2 기능을 생성%4",
+    "tooltip": "GATT 서비스에서 고유값 생성"
+  },
+  "seeed_rpcble_characteristic_set_permissions": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "읽기 쉬움",
+            "GATT_PERM_READ"
+          ],
+          [
+            "쓸 수 있는",
+            "GATT_PERM_WRITE"
+          ],
+          [
+            "읽기 쉽고 쓰기 쉽다",
+            "GATT_PERM_READ | GATT_PERM_WRITE"
+          ],
+          [
+            "없음",
+            "0"
+          ]
+        ]
+      }
+    ],
+    "message0": "기능 설정 %1 접근 권한 %2",
+    "tooltip": "특징 값에 대한 GATT 접근 권한 설정"
+  },
+  "seeed_rpcble_characteristic_add_notify_descriptor": {
+    "args0": [
+      null
+    ],
+    "message0": "특징 %1 알림 디스크립터 추가",
+    "tooltip": "알림 기능에 BLE2902 디스크립터를 추가하세요"
+  },
+  "seeed_rpcble_characteristic_add_descriptor": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "ASCII 텍스트",
+            "ATTRIB_FLAG_VOID | ATTRIB_FLAG_ASCII_Z"
+          ],
+          [
+            "일반 데이터",
+            "ATTRIB_FLAG_VOID"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "읽기 쉬움",
+            "GATT_PERM_READ"
+          ],
+          [
+            "쓸 수 있는",
+            "GATT_PERM_WRITE"
+          ],
+          [
+            "읽기 쉽고 쓰기 쉽다",
+            "GATT_PERM_READ | GATT_PERM_WRITE"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "특징 %1 디스크립터 생성 UUID %2 플래그 %3 Permissions %4 길이 %5",
+    "tooltip": "특징에 대한 맞춤형 설명자 생성"
+  },
+  "seeed_rpcble_characteristic_set_value": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "텍스트 값%1 특징 설정%2",
+    "tooltip": "고유값을 텍스트 데이터로 설정하세요"
+  },
+  "seeed_rpcble_characteristic_set_byte": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "기능을 바이트 값%1 설정%2",
+    "tooltip": "고유값을 배터리 용량과 같은 표준 기능에 적합한 1바이트 단위로 설정하세요"
+  },
+  "seeed_rpcble_characteristic_get_value": {
+    "args0": [
+      null
+    ],
+    "message0": "특징 %1 현재 텍스트 값",
+    "tooltip": "현재 로컬 고유값의 텍스트 데이터를 읽으세요"
+  },
+  "seeed_rpcble_characteristic_notify": {
+    "args0": [
+      null
+    ],
+    "message0": "알림 기능 %1 데이터 업데이트",
+    "tooltip": "알림은 구독된 클라이언트에게 전송됩니다"
+  },
+  "seeed_rpcble_characteristic_indicate": {
+    "args0": [
+      null
+    ],
+    "message0": "지표 기능 %1 데이터 업데이트",
+    "tooltip": "확인할 특징 값을 표시하는 표시를 전송하세요"
+  },
+  "seeed_rpcble_characteristic_set_callbacks": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "특징 %1가 작성될 때",
+    "message1": "실행 %1",
+    "tooltip": "기능을 설정하고, 콜백을 쓰고, 가장 최근에 받은 텍스트를 캐시합니다."
+  },
+  "seeed_rpcble_characteristic_received_value": {
+    "args0": [
+      null
+    ],
+    "message0": "Feature%1 최근에 작성된 텍스트",
+    "tooltip": "특징을 읽고 콜백 캐시에 가장 가까운 텍스트를 쓰기"
+  },
+  "seeed_rpcble_advertising_add_service_uuid": {
+    "args0": [
+      null
+    ],
+    "message0": "방송 추가 서비스 UUID %1",
+    "tooltip": "BLE 방송 데이터에 서비스 UUID 추가"
+  },
+  "seeed_rpcble_advertising_set_scan_response": {
+    "args0": [
+      {
+        "options": [
+          [
+            "활성화",
+            "TRUE"
+          ],
+          [
+            "비활성화",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "스캐닝 응답 설정%1",
+    "tooltip": "스캔 응답 데이터 활성화 여부를 설정하세요"
+  },
+  "seeed_rpcble_advertising_set_preferred": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "방송 선호 매개변수 최소 %1 최대 %2 설정",
+    "tooltip": "방송 선호 연결 매개변수 설정은 전화 호환성을 높이기 위해 일반적으로 사용됩니다"
+  },
+  "seeed_rpcble_start_advertising": {
+    "message0": "BLE 방송 시작",
+    "tooltip": "방송을 시작해서 스캔으로 장치를 감지할 수 있게 하세요"
+  },
+  "seeed_rpcble_stop_advertising": {
+    "message0": "BLE 방송 중단",
+    "tooltip": "BLE 방송 중단"
+  },
+  "seeed_rpcble_scan_create": {
+    "args0": [
+      null
+    ],
+    "message0": "BLE 스캐너를 %1",
+    "tooltip": "BLEScan 스캐너 객체를 얻으세요"
+  },
+  "seeed_rpcble_scan_set_active": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "활성화",
+            "TRUE"
+          ],
+          [
+            "비활성화",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "스캐너 %1 액티브 스캐닝 %2",
+    "tooltip": "능동 스캔은 더 빠르지만 전력 소모가 더 큽니다"
+  },
+  "seeed_rpcble_scan_set_interval": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "스캐너 %1 인터벌 %2",
+    "tooltip": "BLE 스캔 간격을 설정하세요"
+  },
+  "seeed_rpcble_scan_set_window": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "윈도우 %1 스캐너 %2",
+    "tooltip": "BLE 스캔 창을 설정하세요. 보통 검사 간격보다 작거나 같아요"
+  },
+  "seeed_rpcble_scan_start": {
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "재스캔",
+            "FALSE"
+          ],
+          [
+            "계속 스캔해",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "스캐너 %1 스캔 %2초 저장 %3 %4",
+    "tooltip": "BLE 스캔을 시작하고 결과를 저장하세요"
+  },
+  "seeed_rpcble_scan_stop": {
+    "args0": [
+      null
+    ],
+    "message0": "스캐너 멈춰%1",
+    "tooltip": "현재 BLE 스캔을 중단하세요"
+  },
+  "seeed_rpcble_scan_clear_results": {
+    "args0": [
+      null
+    ],
+    "message0": "결과 캐시%1 스캐너를 지우세요",
+    "tooltip": "스캔 결과를 지우고 메모리를 해제하세요"
+  },
+  "seeed_rpcble_scan_results_count": {
+    "args0": [
+      null
+    ],
+    "message0": "results%1량 스캔",
+    "tooltip": "BLE 장치 수량을 검사하세요"
+  },
+  "seeed_rpcble_scan_result_name": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "스캔 결과%1 이름 %2",
+    "tooltip": "지정된 스캔 결과를 위해 장치 이름을 읽어보세요"
+  },
+  "seeed_rpcble_scan_result_address": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "일련번호%1 주소가 %2",
+    "tooltip": "지정된 스캔 결과의 MAC 주소를 읽으세요"
+  },
+  "seeed_rpcble_scan_result_rssi": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "RSSI%1 일련번호가 있는 스캔 결과 %2",
+    "tooltip": "지정된 스캔 결과에 대한 신호 세기 RSSI를 읽어보세요"
+  },
+  "seeed_rpcble_scan_result_service_uuid": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "일련번호%1 있는 서비스 UUID를 스캔 결과 %2",
+    "tooltip": "지정된 스캔 결과로 첫 번째 서비스 UUID를 읽습니다"
+  },
+  "seeed_rpcble_scan_result_info": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "스캔 결과 %1 일련번호 %2에 대한 완전한 정보",
+    "tooltip": "지정된 스캔 결과에 대한 전체 설명문을 읽어보세요"
+  },
+  "seeed_rpcble_scan_result_has_service": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "스캔 결과%1 일련번호 %2 서비스 UUID 포함 %3",
+    "tooltip": "지정된 스캔 결과가 대상 서비스 UUID를 방송하는지 확인하세요"
+  },
+  "seeed_rpcble_create_client": {
+    "args0": [
+      null
+    ],
+    "message0": "BLE 클라이언트 생성 %1",
+    "tooltip": "BLE GATT 클라이언트 객체 생성"
+  },
+  "seeed_rpcble_client_connect": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Public",
+            "GAP_REMOTE_ADDR_LE_PUBLIC"
+          ],
+          [
+            "Random",
+            "GAP_REMOTE_ADDR_LE_RANDOM"
+          ]
+        ]
+      }
+    ],
+    "message0": "클라이언트 %1 연결 주소 %2 주소 유형 %3",
+    "tooltip": "지정된 BLE MAC 주소로 연결하세요"
+  },
+  "seeed_rpcble_client_disconnect": {
+    "args0": [
+      null
+    ],
+    "message0": "클라이언트 %1 연결 끊김",
+    "tooltip": "BLE 클라이언트 연결을 끊으세요"
+  },
+  "seeed_rpcble_client_is_connected": {
+    "args0": [
+      null
+    ],
+    "message0": "클라이언트 %1가 연결되어 있습니다",
+    "tooltip": "BLE 클라이언트가 연결되어 있는지 확인해 보세요"
+  },
+  "seeed_rpcble_client_rssi": {
+    "args0": [
+      null
+    ],
+    "message0": "원격 RSSI %1 클라이언트",
+    "tooltip": "클라이언트가 연결된 원격 RSSI를 읽으세요"
+  },
+  "seeed_rpcble_client_get_service": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "클라이언트는 원격 서비스를 %1 %2 UUID%3",
+    "tooltip": "원격 BLE 서버에서 지정된 GATT 서비스를 획득하세요"
+  },
+  "seeed_rpcble_remote_service_get_characteristic": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "원격 서비스 %1 기능 획득 %2 UUID %3",
+    "tooltip": "원격 GATT 서비스에서 지정된 기능을 얻기"
+  },
+  "seeed_rpcble_remote_characteristic_read": {
+    "args0": [
+      null
+    ],
+    "message0": "원격 기능을 읽기 %1 텍스트",
+    "tooltip": "원격 BLE 고유값 텍스트 읽기"
+  },
+  "seeed_rpcble_remote_characteristic_write": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "하지만 아무런 반응도 없었다",
+            "FALSE"
+          ],
+          [
+            "답변이 필요합니다",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "텍스트 %1 원격 기능 작성 %2 %3",
+    "tooltip": "원격 BLE 기능에 텍스트 데이터를 쓰기"
+  },
+  "seeed_rpcble_remote_characteristic_can_read": {
+    "args0": [
+      null
+    ],
+    "message0": "원격 기능%1 읽기 쉽습니다",
+    "tooltip": "원격 기능이 읽기를 지원하는지 확인하세요"
+  },
+  "seeed_rpcble_remote_characteristic_can_write": {
+    "args0": [
+      null
+    ],
+    "message0": "원위 특징%1 작성 가능하다",
+    "tooltip": "원격 기능이 쓰기를 지원하는지 확인하세요"
+  },
+  "seeed_rpcble_remote_characteristic_can_notify": {
+    "args0": [
+      null
+    ],
+    "message0": "원격 기능%1 알림이 가능합니다",
+    "tooltip": "원격 기능이 알림을 지원하는지 확인하세요"
+  },
+  "seeed_rpcble_remote_characteristic_register_notify": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "알림",
+            "TRUE"
+          ],
+          [
+            "표시",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "원격 기능 구독 %1 알림 %2",
+    "message1": "receipt%1",
+    "tooltip": "원격 기능 알림 구독 및 수신 데이터 캐시"
+  },
+  "seeed_rpcble_remote_notify_value": {
+    "args0": [
+      null
+    ],
+    "message0": "원격 기능 %1 최근 알림 텍스트",
+    "tooltip": "원격 알림 콜백 캐시의 최신 텍스트를 읽어보세요"
+  },
+  "seeed_rpcble_uart_begin": {
+    "args0": [
+      null
+    ],
+    "message0": "BLE UART 서비스 시작 이름: %1",
+    "tooltip": "모바일 폰이나 웹 블루투스를 통한 문자 송수신에 적합한 북유럽 UART 스타일의 BLE 서비스를 개발했습니다"
+  },
+  "seeed_rpcble_uart_send": {
+    "args0": [
+      null
+    ],
+    "message0": "BLE UART 텍스트 보내기%1",
+    "tooltip": "텍스트 데이터는 BLE UART TX 기능을 통해 알림됩니다"
+  },
+  "seeed_rpcble_uart_connected": {
+    "message0": "BLE UART는 연결되어 있습니다",
+    "tooltip": "BLE UART가 고객 연계가 있는지 확인해 보세요"
+  },
+  "seeed_rpcble_uart_received": {
+    "message0": "BLE UART는 최근 이 문자를 받았습니다",
+    "tooltip": "최근 BLE UART RX 특집에서 받은 텍스트를 읽어보세요"
+  },
+  "seeed_rpcble_uart_on_receive": {
+    "args1": [
+      null
+    ],
+    "message0": "BLE UART가 텍스트를 받을 때",
+    "message1": "실행 %1",
+    "tooltip": "텍스트를 받은 후 BLE UART의 처리 로직을 설정하세요"
+  },
+  "seeed_rpcble_web_battery_begin": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "웹 블루투스 배터리 서비스 이름: %1 초기 배터리 %2",
+    "tooltip": "웹 블루투스 샘플 읽기 및 전력 구독을 용이하게 하기 위한 표준 배터리 서비스 0x180F 만들세요"
+  },
+  "seeed_rpcble_web_battery_set_level": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "그리고 공지",
+            "TRUE"
+          ],
+          [
+            "업데이트만 했습니다",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "웹 블루투스 배터리 %1 %2 설정",
+    "tooltip": "배터리 용량 기능을 업데이트하고 구독 고객에게 즉시 알림을 선택하세요"
+  },
+  "seeed_rpcble_web_battery_level": {
+    "message0": "웹 블루투스의 현재 배터리 잔량",
+    "tooltip": "현재 배터리 서비스 캐시 전원 값을 읽으세요"
+  },
+  "seeed_rpcble_web_battery_connected": {
+    "message0": "웹 블루투스 배터리 서비스가 연결되어 있습니다",
+    "tooltip": "배터리 서비스가 클라이언트 연결이 있는지 확인해 보세요"
+  },
+  "seeed_rpcble_ibeacon_begin": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "연결할 수 없습니다",
+            "NONCONN"
+          ],
+          [
+            "스캔 가능",
+            "SCAN_IND"
+          ]
+        ]
+      }
+    ],
+    "message0": "출시 iBeacon 이름 %1 UUID %2 주요 %3 부소 %4 벤더 ID %5 전력 %6 정보 %7 유형 %8",
+    "tooltip": "스캔 응답 이름과 텍스트 정보를 포함할 수 있는 iBeacon 방송을 구성 및 시작하세요"
+  },
+  "seeed_rpcble_ibeacon_stop": {
+    "message0": "아이비콘 방송 중단",
+    "tooltip": "아이비콘 방송 중단"
+  }
+}

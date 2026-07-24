@@ -1,11 +1,13 @@
 {
-  "toolbox_name": "C4001 mmWave Radar",
+  "toolbox_name": "Radar de ondas milimétricas C4001",
   "c4001_init_i2c": {
-    "message0": "init C4001 I2C %1 bus %2 address %3",
-    "tooltip": "Initialize the C4001 radar over I2C.",
+    "message0": "Inicializar el bus %1 C4001 I2C %2 dirección %3",
+    "tooltip": "Inicializa el radar C4001 vía I2C.",
     "args0": [
       null,
-      null,
+      {
+        "options": "${board.i2c}"
+      },
       {
         "options": [
           [
@@ -21,8 +23,8 @@
     ]
   },
   "c4001_init_uart": {
-    "message0": "init C4001 UART %1 serial %2 RX %3 TX %4",
-    "tooltip": "Initialize the C4001 radar over UART at 9600 baud.",
+    "message0": "Inicializar el puerto serie C4001 UART %1 %2 RX %3 TX %4",
+    "tooltip": "Inicializando el radar C4001 mediante UART, la tasa de baudios se fija en 9600.",
     "args0": [
       null,
       {
@@ -46,12 +48,12 @@
     ]
   },
   "c4001_motion_detected": {
-    "message0": "C4001 %1 presence/motion detected",
-    "tooltip": "Read the presence or motion detection result in presence mode."
+    "message0": "C4001 %1 detectó la presencia de cuerpos humanos",
+    "tooltip": "En modo de detección, lee si se detecta un cuerpo humano o un objetivo en movimiento."
   },
   "c4001_set_mode": {
-    "message0": "C4001 %1 set mode %2",
-    "tooltip": "Switch between presence mode and speed/range mode.",
+    "message0": "C4001 %1 Configurar el modo de funcionamiento %2",
+    "tooltip": "Cambiar a modo de funcionamiento C4001.",
     "args0": [
       null,
       {
@@ -61,7 +63,7 @@
             "eExitMode"
           ],
           [
-            "speed/range",
+            "Medición de distancia y velocidad",
             "eSpeedMode"
           ]
         ]
@@ -70,33 +72,33 @@
   },
   "c4001_sensor_command": {
     "message0": "C4001 %1 run %2",
-    "tooltip": "Start, stop, reset, factory reset, save parameters, or switch mode.",
+    "tooltip": "Ejecuta los comandos de control del sensor C4001.",
     "args0": [
       null,
       {
         "options": [
           [
-            "start sensor",
+            "Empieza a coleccionar",
             "eStartSen"
           ],
           [
-            "stop sensor",
+            "Deja de coleccionar",
             "eStopSen"
           ],
           [
-            "reset sensor",
+            "reiniciar sensor",
             "eResetSen"
           ],
           [
-            "factory reset",
+            "Restaurar parámetros predeterminados",
             "eRecoverSen"
           ],
           [
-            "save parameters",
+            "Guardar la configuración",
             "eSaveParams"
           ],
           [
-            "change mode",
+            "Modos de cambio",
             "eChangeMode"
           ]
         ]
@@ -104,22 +106,22 @@
     ]
   },
   "c4001_get_status": {
-    "message0": "C4001 %1 status %2",
-    "tooltip": "Read working status, current mode, or initialization status.",
+    "message0": "C4001 %1 Status%2",
+    "tooltip": "Estado de lectura: Estado operativo 0/1, Modo operativo 0/1, Estado de inicialización 0/1.",
     "args0": [
       null,
       {
         "options": [
           [
-            "work status",
+            "Estado de trabajo",
             "WORK"
           ],
           [
-            "current mode",
+            "Modo trabajo",
             "MODE"
           ],
           [
-            "init status",
+            "Estado inicializado",
             "INIT"
           ]
         ]
@@ -127,12 +129,12 @@
     ]
   },
   "c4001_set_presence_range": {
-    "message0": "C4001 %1 set presence range min %2 max %3 trigger %4 cm",
-    "tooltip": "Set minimum, maximum, and trigger distances for presence detection."
+    "message0": "C4001 %1 Rango de detección Mínimo cm %2 Máximo cm %3 Disparador cm %4",
+    "tooltip": "Establece el rango de detección para la presencia, mínimo 30-2000 cm, máximo 240-2000 cm, y la distancia de disparo no debe superar el alcance."
   },
   "c4001_set_sensitivity": {
-    "message0": "C4001 %1 set %2 sensitivity %3",
-    "tooltip": "Set trigger or keep sensitivity.",
+    "message0": "C4001 %1 Ajuste %2 Sensibilidad %3",
+    "tooltip": "Activa el disparador o mantén la sensibilidad, rango 0-9.",
     "args0": [
       null,
       {
@@ -151,42 +153,42 @@
     ]
   },
   "c4001_set_delay": {
-    "message0": "C4001 %1 set trigger delay %2 keep time %3 s",
-    "tooltip": "Set detection trigger delay and keep timeout."
+    "message0": "C4001 %1 Disparador de retardo (0,01s) %2 Mantener (0,5s) %3",
+    "tooltip": "Configura el retardo del disparador y mantén el tiempo de espera. Activa la unidad 0,01s, mantenga la unidad 0,5s."
   },
   "c4001_get_presence_config": {
-    "message0": "C4001 %1 presence config %2",
-    "tooltip": "Read presence detection configuration.",
+    "message0": "Configuración de %1 C4001 %2",
+    "tooltip": "Configuraciones relacionadas con la detección de lectura.",
     "args0": [
       null,
       {
         "options": [
           [
-            "min range",
+            "Distancia mínima cm",
             "MIN"
           ],
           [
-            "max range",
+            "Distancia máxima cm",
             "MAX"
           ],
           [
-            "trigger range",
+            "Distancia del disparo cm",
             "TRIG_RANGE"
           ],
           [
-            "trigger sensitivity",
+            "Sensibilidad al disparo",
             "TRIG_SENS"
           ],
           [
-            "keep sensitivity",
+            "Mantente alerta",
             "KEEP_SENS"
           ],
           [
-            "trigger delay",
+            "Retardo del disparador",
             "TRIG_DELAY"
           ],
           [
-            "keep time",
+            "Mantener el tiempo de espera",
             "KEEP_TIMEOUT"
           ],
           [
@@ -210,31 +212,31 @@
     ]
   },
   "c4001_set_io_polarity": {
-    "message0": "C4001 %1 set IO polarity %2",
-    "tooltip": "Set the active level polarity of the detection output IO.",
+    "message0": "C4001 %1 Establecer la polaridad de la %2",
+    "tooltip": "Ajusta la polaridad de salida del pin OUT después de detectar el objetivo. El modo UART funciona.",
     "args0": [
       null,
       {
         "options": [
           [
-            "active high",
-            "1"
-          ],
-          [
             "active low",
             "0"
+          ],
+          [
+            "active high",
+            "1"
           ]
         ]
       }
     ]
   },
   "c4001_set_pwm": {
-    "message0": "C4001 %1 set PWM1 %2 PWM2 %3 period %4",
-    "tooltip": "Set PWM output parameters."
+    "message0": "C4001 %1 Configurar PWM para objetivo %2 objetivo %3 tiempo de gradiente %4",
+    "tooltip": "Ajusta el PIN PWM de salida a un ciclo de trabajo de 0 a 100, con una unidad de tiempo de gradiente de 64ms. El modo UART funciona."
   },
   "c4001_get_target": {
     "message0": "C4001 %1 target %2",
-    "tooltip": "Read target count, speed, range, or energy in speed/range mode.",
+    "tooltip": "Lee el número de objetivos, velocidad, distancia y energía en modo de medición de distancia y velocidad. Leer primero la cantidad objetivo puede refrescar la caché interna.",
     "args0": [
       null,
       {
@@ -260,22 +262,22 @@
     ]
   },
   "c4001_set_speed_threshold": {
-    "message0": "C4001 %1 set speed threshold min %2 max %3 threshold %4",
-    "tooltip": "Set detection range and threshold for speed/range mode."
+    "message0": "C4001 %1 Umbral de medición de distancia y velocidad Mínimo cm %2 máximo cm %3 umbral %4",
+    "tooltip": "Establece la distancia, el rango y el umbral de detección de objetivos para los modos de medición de distancia y velocidad."
   },
   "c4001_set_micro_motion": {
-    "message0": "C4001 %1 micro-motion detection %2",
-    "tooltip": "Enable or disable micro-motion detection in speed/range mode.",
+    "message0": "C4001 %1 Detección de Micro Movimiento %2",
+    "tooltip": "Activa o desactiva la detección de micromovimiento en los modos de medición de distancia y velocidad.",
     "args0": [
       null,
       {
         "options": [
           [
-            "on",
+            "Activado",
             "eON"
           ],
           [
-            "off",
+            "Desactivado",
             "eOFF"
           ]
         ]
@@ -283,18 +285,18 @@
     ]
   },
   "c4001_get_speed_config": {
-    "message0": "C4001 %1 speed config %2",
-    "tooltip": "Read speed/range configuration.",
+    "message0": "C4001 %1 Configuración de Medición de Distancia y Velocidad %2",
+    "tooltip": "Lee las configuraciones de distancia y modos de medición de velocidad.",
     "args0": [
       null,
       {
         "options": [
           [
-            "min range",
+            "Distancia mínima cm",
             "MIN"
           ],
           [
-            "max range",
+            "Distancia máxima cm",
             "MAX"
           ],
           [

@@ -2,29 +2,30 @@
   "toolbox_name": "APDS9301",
   "apds9301_init": {
     "message0": "初始化 APDS9301 %1 地址 %2",
-    "tooltip": "初始化 APDS9301 %1 地址 %2"
+    "tooltip": "创建并初始化 SparkFun APDS9301 光照传感器"
   },
   "apds9301_is_ready": {
     "message0": "APDS9301 %1 已初始化",
-    "tooltip": "APDS9301 %1 已初始化"
+    "tooltip": "返回初始化块保存的 APDS9301 初始化状态"
   },
   "apds9301_read_lux": {
     "message0": "APDS9301 %1 读取照度",
-    "tooltip": "APDS9301 %1 读取照度"
+    "tooltip": "读取计算后的 lux 光照值"
   },
   "apds9301_read_channel": {
     "message0": "APDS9301 %1 读取原始通道 %2",
-    "tooltip": "APDS9301 %1 读取原始通道 %2",
+    "tooltip": "读取 APDS9301 原始通道值",
     "args0": [
+      null,
       {
         "options": [
           [
-            "CH0 可见光+红外",
-            "APDS9301_CHANNEL_0"
+            "CH0 可见+红外",
+            "readCH0Level"
           ],
           [
             "CH1 红外",
-            "APDS9301_CHANNEL_1"
+            "readCH1Level"
           ]
         ]
       }
@@ -32,17 +33,18 @@
   },
   "apds9301_set_gain": {
     "message0": "设置 APDS9301 %1 增益 %2",
-    "tooltip": "设置 APDS9301 %1 增益 %2",
+    "tooltip": "设置 APDS9301 增益",
     "args0": [
+      null,
       {
         "options": [
           [
-            "低 (1x)",
-            "APDS9301_GAIN_LOW"
+            "低",
+            "APDS9301::LOW_GAIN"
           ],
           [
-            "高 (16x)",
-            "APDS9301_GAIN_HIGH"
+            "高",
+            "APDS9301::HIGH_GAIN"
           ]
         ]
       }
@@ -50,21 +52,22 @@
   },
   "apds9301_set_integration_time": {
     "message0": "设置 APDS9301 %1 转换时间 %2",
-    "tooltip": "设置 APDS9301 %1 转换时间 %2"
+    "tooltip": "设置 APDS9301 积分时间"
   },
   "apds9301_enable_interrupt": {
     "message0": "APDS9301 %1 中断 %2",
-    "tooltip": "APDS9301 %1 中断 %2 保持 %3",
+    "tooltip": "启用或禁用 APDS9301 中断输出",
     "args0": [
+      null,
       {
         "options": [
           [
             "启用",
-            "ENABLE"
+            "APDS9301::INT_ON"
           ],
           [
             "禁用",
-            "DISABLE"
+            "APDS9301::INT_OFF"
           ]
         ]
       }
@@ -72,18 +75,18 @@
   },
   "apds9301_set_threshold": {
     "message0": "设置 APDS9301 %1 %2 阈值 %3",
-    "tooltip": "设置 APDS9301 %1 %2 阈值 %3",
+    "tooltip": "设置 APDS9301 中断阈值",
     "args0": [
       null,
       {
         "options": [
           [
             "下限",
-            "APDS9301_THRESHOLD_LOW"
+            "LOW"
           ],
           [
             "上限",
-            "APDS9301_THRESHOLD_HIGH"
+            "HIGH"
           ]
         ]
       },
@@ -92,17 +95,18 @@
   },
   "apds9301_power": {
     "message0": "APDS9301 %1 电源 %2",
-    "tooltip": "APDS9301 %1 电源 %2",
+    "tooltip": "打开或关闭 APDS9301 电源",
     "args0": [
+      null,
       {
         "options": [
           [
-            "开",
-            "ON"
+            "开启",
+            "APDS9301::POW_ON"
           ],
           [
-            "关",
-            "OFF"
+            "关闭",
+            "APDS9301::POW_OFF"
           ]
         ]
       }

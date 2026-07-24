@@ -10,19 +10,19 @@
   },
   "espui_wifi_ap": {
     "message0": "ESPUI ホットスポット開始 SSID %1 パスワード %2",
-    "tooltip": "ESPUI ホットスポット開始 SSID %1 パスワード %2"
+    "tooltip": "ESP デバイスを WiFi ホットスポットとして構成し、ルーターなしのローカル制御インターフェイスに適しています"
   },
   "espui_wifi_sta": {
     "message0": "ESPUI WiFi接続 SSID %1 パスワード %2 タイムアウト(ms) %3",
-    "tooltip": "ESPUI WiFi接続 SSID %1 パスワード %2 タイムアウト(ms) %3"
+    "tooltip": "既存の WiFi ネットワークに接続し、指定されたタイムアウト後に実行を継続します。"
   },
   "espui_wifi_auto": {
     "message0": "ESPUI 自動ネットワーク STA SSID %1 STAパスワード %2 AP SSID %3 APパスワード %4 タイムアウト(ms) %5",
-    "tooltip": "ESPUI 自動ネットワーク STA SSID %1 STAパスワード %2 AP SSID %3 APパスワード %4 タイムアウト(ms) %5"
+    "tooltip": "最初にルーターへの接続を試み、失敗すると自動的にホットスポットを作成します。"
   },
   "espui_begin": {
     "message0": "ESPUI開始 タイトル %1 モード %2 認証 %3 ユーザー名 %4 パスワード %5 ポート %6 スライダー連続更新 %7 キャプティブポータル %8",
-    "tooltip": "ESPUI開始 タイトル %1 モード %2 認証 %3 ユーザー名 %4 パスワード %5 ポート %6 スライダー連続更新 %7 キャプティブポータル %8",
+    "tooltip": "コントロールを作成した後、ESPUI Web サービスを開始します。 LittleFS モードでは、最初にファイル システムを準備する必要があります",
     "args0": [
       null,
       {
@@ -80,7 +80,7 @@
   },
   "espui_prepare_filesystem": {
     "message0": "ESPUI LittleFS ファイルシステム準備 フォーマット %1",
-    "tooltip": "ESPUI LittleFS ファイルシステム準備 フォーマット %1",
+    "tooltip": "ESPUI 静的 Web リソースを LittleFS に書き込みます。通常は 1 回だけ実行する必要があります。",
     "args0": [
       {
         "options": [
@@ -102,19 +102,19 @@
   },
   "espui_control_id": {
     "message0": "ESPUI コントロール %1 のID",
-    "tooltip": "ESPUI コントロール %1 のID"
+    "tooltip": "作成されたESPUIコントロールのuint16_t IDを読み取ります。"
   },
   "espui_create_tab": {
     "message0": "タブ作成 ID %1 タイトル %2",
-    "tooltip": "タブ作成 ID %1 タイトル %2"
+    "tooltip": "ESPUI タブを作成し、子コントロールで使用できるようにコントロール ID を保存します。"
   },
   "espui_create_separator": {
     "message0": "セパレーター作成 ID %1 テキスト %2 親 %3",
-    "tooltip": "セパレーター作成 ID %1 テキスト %2 親 %3"
+    "tooltip": "UI 領域を区切るテキスト区切り線を作成する"
   },
   "espui_create_label": {
     "message0": "ラベル作成 ID %1 タイトル %2 値 %3 色 %4 親 %5",
-    "tooltip": "ラベル作成 ID %1 タイトル %2 値 %3 色 %4 親 %5",
+    "tooltip": "テキストまたは HTML コンテンツのみを表示するラベル コントロールを作成する",
     "args0": [
       null,
       null,
@@ -164,7 +164,7 @@
   },
   "espui_create_button": {
     "message0": "ボタン作成 ID %1 タイトル %2 テキスト %3 色 %4 親 %5",
-    "tooltip": "ボタン作成 ID %1 タイトル %2 テキスト %3 色 %4 親 %5",
+    "tooltip": "ボタン コントロールを作成し、プレス イベントとリリース イベントをそれぞれ処理します。",
     "message1": "押下時 %1 解放時 %2",
     "args0": [
       null,
@@ -215,7 +215,7 @@
   },
   "espui_create_switcher": {
     "message0": "スイッチ作成 ID %1 タイトル %2 初期状態 %3 色 %4 親 %5",
-    "tooltip": "スイッチ作成 ID %1 タイトル %2 初期状態 %3 色 %4 親 %5",
+    "tooltip": "スイッチ コントロールを作成し、オン イベントとオフ イベントをそれぞれ処理します。",
     "message1": "オン時 %1 オフ時 %2",
     "args0": [
       null,
@@ -277,7 +277,7 @@
   },
   "espui_create_slider": {
     "message0": "スライダー作成 ID %1 タイトル %2 値 %3 最小 %4 最大 %5 色 %6 親 %7",
-    "tooltip": "スライダー作成 ID %1 タイトル %2 値 %3 最小 %4 最大 %5 色 %6 親 %7",
+    "tooltip": "スライダー コントロールを作成し、「イベント コントロール値」を使用して、変更された新しい値を読み取ります。",
     "message1": "値変更時 %1",
     "args0": [
       null,
@@ -330,7 +330,7 @@
   },
   "espui_create_number": {
     "message0": "数値入力作成 ID %1 タイトル %2 値 %3 最小 %4 最大 %5 色 %6 親 %7",
-    "tooltip": "数値入力作成 ID %1 タイトル %2 値 %3 最小 %4 最大 %5 色 %6 親 %7",
+    "tooltip": "数値入力コントロールを作成すると、イベント コントロールの値が変化したときにその値を読み取ることができます",
     "message1": "値変更時 %1",
     "args0": [
       null,
@@ -383,7 +383,7 @@
   },
   "espui_create_text": {
     "message0": "テキスト入力作成 ID %1 タイトル %2 値 %3 種類 %4 色 %5 親 %6",
-    "tooltip": "テキスト入力作成 ID %1 タイトル %2 値 %3 種類 %4 色 %5 親 %6",
+    "tooltip": "テキスト入力コントロールを作成し、HTML 入力タイプを設定します。",
     "message1": "内容変更時 %1",
     "args0": [
       null,
@@ -466,7 +466,7 @@
   },
   "espui_create_select": {
     "message0": "セレクト作成 ID %1 タイトル %2 初期値 %3 色 %4 親 %5",
-    "tooltip": "セレクト作成 ID %1 タイトル %2 初期値 %3 色 %4 親 %5",
+    "tooltip": "ドロップダウン セレクターを作成します。 「Add Selector Options」ブロックを使用してオプションを追加します",
     "message1": "選択変更時 %1",
     "args0": [
       null,
@@ -517,11 +517,11 @@
   },
   "espui_add_option": {
     "message0": "セレクト %1 に選択肢を追加 タイトル %2 値 %3",
-    "tooltip": "セレクト %1 に選択肢を追加 タイトル %2 値 %3"
+    "tooltip": "作成したESPUIセレクターにオプションを追加します"
   },
   "espui_create_pad": {
     "message0": "方向パッド作成 ID %1 タイトル %2 中央ボタン %3 色 %4 親 %5",
-    "tooltip": "方向パッド作成 ID %1 タイトル %2 中央ボタン %3 色 %4 親 %5",
+    "tooltip": "方向制御パッドを作成します。イベント内で「if ESPUI イベント」を使用して、方向とプレス/リリースを区別します",
     "message1": "イベント時 %1",
     "args0": [
       null,
@@ -583,7 +583,7 @@
   },
   "espui_create_graph": {
     "message0": "グラフ作成 ID %1 タイトル %2 色 %3 親 %4",
-    "tooltip": "グラフ作成 ID %1 タイトル %2 色 %3 親 %4",
+    "tooltip": "データポイントを動的に追加するチャートコントロールを作成する",
     "args0": [
       null,
       null,
@@ -632,7 +632,7 @@
   },
   "espui_create_gauge": {
     "message0": "ゲージ作成 ID %1 タイトル %2 値 %3 最小 %4 最大 %5 色 %6 親 %7",
-    "tooltip": "ゲージ作成 ID %1 タイトル %2 値 %3 最小 %4 最大 %5 色 %6 親 %7",
+    "tooltip": "パーセントまたはセンサー値を表示するダッシュボード コントロールを作成する",
     "args0": [
       null,
       null,
@@ -684,7 +684,7 @@
   },
   "espui_create_file_display": {
     "message0": "ファイル表示作成 ID %1 タイトル %2 ファイル名 %3 色 %4 親 %5",
-    "tooltip": "ファイル表示作成 ID %1 タイトル %2 ファイル名 %3 色 %4 親 %5",
+    "tooltip": "LittleFS で指定されたファイルの内容を表示します。ファイル システム モードまたはマウントされたファイル システムが必要です",
     "args0": [
       null,
       null,
@@ -734,7 +734,7 @@
   },
   "espui_create_accelerometer": {
     "message0": "加速度入力作成 ID %1 タイトル %2 色 %3 親 %4",
-    "tooltip": "加速度入力作成 ID %1 タイトル %2 色 %3 親 %4",
+    "tooltip": "モバイル端末加速入力コントロールを作成し、イベント コントロール値が変化したときにそれを読み取ります。",
     "message1": "データ変更時 %1",
     "args0": [
       null,
@@ -784,43 +784,43 @@
   },
   "espui_update_value": {
     "message0": "コントロール %1 の値を %2 に更新",
-    "tooltip": "コントロール %1 の値を %2 に更新"
+    "tooltip": "updateControlValue を呼び出してコントロールの値を更新します"
   },
   "espui_update_control_label": {
     "message0": "コントロール %1 のタイトルを %2 に更新",
-    "tooltip": "コントロール %1 のタイトルを %2 に更新"
+    "tooltip": "updateControlLabel を呼び出してコントロールのタイトル テキストを変更します。"
   },
   "espui_update_switcher": {
     "message0": "スイッチ %1 を %2 に更新",
-    "tooltip": "スイッチ %1 を %2 に更新"
+    "tooltip": "スイッチ制御状態をブール値で更新します"
   },
   "espui_update_number": {
     "message0": "数値コントロール %1 を %2 に更新",
-    "tooltip": "数値コントロール %1 を %2 に更新"
+    "tooltip": "スライダー、数値入力、ゲージなどの数値コントロールを更新します。"
   },
   "espui_add_graph_point": {
     "message0": "グラフ %1 にデータ点 %2 を追加",
-    "tooltip": "グラフ %1 にデータ点 %2 を追加"
+    "tooltip": "ESPUI チャートに数値ポイントを追加する"
   },
   "espui_clear_graph": {
     "message0": "グラフ %1 をクリア",
-    "tooltip": "グラフ %1 をクリア"
+    "tooltip": "ESPUI チャートのすべてのデータ ポイントをクリアします"
   },
   "espui_set_enabled": {
     "message0": "コントロール %1 有効 %2",
-    "tooltip": "コントロール %1 有効 %2"
+    "tooltip": "コントロールを有効または無効にし、Web ページに同期します"
   },
   "espui_set_visible": {
     "message0": "コントロール %1 表示 %2",
-    "tooltip": "コントロール %1 表示 %2"
+    "tooltip": "コントロールの表示または非表示と Web ページへの同期"
   },
   "espui_set_layout": {
     "message0": "コントロール %1 ワイドパネル %2 縦配置 %3",
-    "tooltip": "コントロール %1 ワイドパネル %2 縦配置 %3"
+    "tooltip": "コントロール パネルの幅と垂直レイアウトのプロパティを設定する"
   },
   "espui_set_style": {
     "message0": "コントロール %1 スタイル対象 %2 CSS %3",
-    "tooltip": "コントロール %1 スタイル対象 %2 CSS %3",
+    "tooltip": "コントロール パネルまたは内部要素のインライン CSS スタイルを設定する",
     "args0": [
       null,
       {
@@ -840,7 +840,7 @@
   },
   "espui_set_input_type": {
     "message0": "テキストコントロール %1 入力タイプ %2",
-    "tooltip": "テキストコントロール %1 入力タイプ %2",
+    "tooltip": "テキスト入力コントロールの HTML 入力タイプを変更する",
     "args0": [
       null,
       {
@@ -879,7 +879,7 @@
   },
   "espui_get_value": {
     "message0": "コントロール %1 の値",
-    "tooltip": "コントロール %1 の値"
+    "tooltip": "コントロールの現在の値を読み取り、コントロールが存在しない場合は空の文字列を返します。"
   },
   "espui_sender_value": {
     "message0": "イベントコントロール値",
@@ -899,7 +899,7 @@
   },
   "espui_event_is": {
     "message0": "ESPUIイベントが %1",
-    "tooltip": "ESPUIイベントが %1",
+    "tooltip": "ESPUI イベント処理内の現在のイベント タイプを決定する",
     "args0": [
       {
         "options": [
@@ -981,7 +981,7 @@
   },
   "espui_if_event": {
     "message0": "もし ESPUI イベントが %1",
-    "tooltip": "もし ESPUI イベントが %1",
+    "tooltip": "ESPUI コールバック内のイベント タイプごとにステートメントを実行する",
     "message1": "%1",
     "args0": [
       {
@@ -1068,7 +1068,7 @@
   },
   "espui_ip_address": {
     "message0": "ESPUI IPアドレス %1",
-    "tooltip": "ESPUI IPアドレス %1",
+    "tooltip": "現在の WiFi またはホットスポット モードの IP アドレス文字列を読み取ります",
     "args0": [
       {
         "options": [

@@ -1,6 +1,9 @@
 {
-  "a2dp_sink_config_i2s_pins": {"message0": "Configure receiver %1 I2S pins BCK %2 WS %3 DATA %4", "tooltip": "Set the bit clock, word select, and data pins for an external I2S DAC"},
-  "toolbox_name": "ESP32 蓝牙音频",
+  "a2dp_sink_config_i2s_pins": {
+    "message0": "수신기 %1의 I2S 핀 BCK를 WS %3 데이터 %2 설정하세요%4",
+    "tooltip": "외부 I2S DAC의 비트 클럭, 채널 선택, 데이터 핀을 설정하세요"
+  },
+  "toolbox_name": "ESP32 블루투스 오디오",
   "toolbox_labels": {
     "蓝牙音频接收器 (Sink)": "Bluetooth 오디오 수신기(싱크)",
     "播放控制": "재생 제어",
@@ -10,18 +13,18 @@
     "蓝牙音频发送器 (Source)": "Bluetooth 오디오 송신기(소스)"
   },
   "a2dp_sink_create": {
-    "message0": "创建蓝牙音频接收器 %1 输出到 %2",
-    "tooltip": "创建蓝牙A2DP音频接收器(Sink)对象",
+    "message0": "블루투스 오디오 리시버 %1 출력을 %2",
+    "tooltip": "블루투스 A2DP 오디오 수신기(싱크) 객체를 만드세요",
     "args0": [
       null,
       {
         "options": [
           [
-            "I2S外部DAC",
+            "I2S 외장 DAC",
             "I2S"
           ],
           [
-            "内置DAC",
+            "내장 DAC",
             "INTERNAL_DAC"
           ]
         ]
@@ -29,82 +32,90 @@
     ]
   },
   "a2dp_sink_start": {
-    "message0": "启动蓝牙音频接收器 %1 设备名称 %2",
-    "tooltip": "启动蓝牙音频接收器并设置蓝牙名称"
+    "message0": "기기 이름: %2 %1 블루투스 오디오 리시버를 시작하세요",
+    "tooltip": "블루투스 오디오 리시버를 켜고 블루투스 이름을 설정하세요"
   },
   "a2dp_sink_set_volume": {
-    "message0": "设置音量 %1 音量值 %2",
-    "tooltip": "设置音量(0-127)"
+    "message0": "볼륨 %1 볼륨 값을 설정하세요%2",
+    "tooltip": "세트 볼륨 (0-127)"
   },
   "a2dp_sink_get_volume": {
-    "message0": "获取音量 %1",
-    "tooltip": "获取当前音量值(0-127)"
+    "message0": "부피 %1",
+    "tooltip": "현재 볼륨 값(0-127) 값을 얻습니다."
   },
   "a2dp_sink_play": {
-    "message0": "播放 %1",
-    "tooltip": "发送播放命令(AVRC)"
+    "message0": "%1 연주해",
+    "tooltip": "재생 명령 전송 (AVRC)"
   },
   "a2dp_sink_pause": {
-    "message0": "暂停 %1",
-    "tooltip": "发送暂停命令(AVRC)"
+    "message0": "잠시 멈춰%1",
+    "tooltip": "일시정지 전송 명령 (AVRC)"
   },
   "a2dp_sink_stop": {
-    "message0": "停止 %1",
-    "tooltip": "发送停止命令(AVRC)"
+    "message0": "그만%1",
+    "tooltip": "중지 명령 전송 (AVRC)"
   },
   "a2dp_sink_next": {
-    "message0": "下一曲 %1",
-    "tooltip": "发送下一曲命令(AVRC)"
+    "message0": "다음 곡 %1",
+    "tooltip": "다음 노래 전송 명령 (AVRC)"
   },
   "a2dp_sink_previous": {
-    "message0": "上一曲 %1",
-    "tooltip": "发送上一曲命令(AVRC)"
+    "message0": "이전 노래 %1",
+    "tooltip": "이전 노래 명령어 전송(AVRC)"
   },
   "a2dp_sink_on_metadata": {
-    "message0": "接收器 %1 收到元数据时执行",
-    "tooltip": "当接收到音乐元数据(标题、艺术家等)时执行"
+    "message0": "메타데이터가 수신되면 수신 %1가 실행됩니다",
+    "tooltip": "음악 메타데이터(제목, 아티스트 등)가 수신될 때 실행됩니다",
+    "message2": "%1",
+    "message1": "ID: %1 목차: %2"
   },
   "a2dp_sink_on_connection_state": {
-    "message0": "接收器 %1 连接状态改变时执行",
-    "tooltip": "当蓝牙连接状态改变时执行"
+    "message0": "수신%1자는 연결 상태가 변경될 때 실행됩니다",
+    "tooltip": "블루투스 연결 상태가 변할 때 실행됩니다",
+    "message2": "%1",
+    "message1": "상태: %1"
   },
   "a2dp_sink_on_audio_state": {
-    "message0": "接收器 %1 音频状态改变时执行",
-    "tooltip": "当音频播放状态改变时执行"
+    "message0": "수신기 %1 오디오 상태가 변할 때 실행됩니다",
+    "tooltip": "오디오 재생 상태가 변경될 때 실행됩니다",
+    "message2": "%1",
+    "message1": "상태: %1"
   },
   "a2dp_sink_get_audio_state": {
-    "message0": "获取音频状态 %1",
-    "tooltip": "获取当前音频播放状态"
+    "message0": "오디오 상태 확인 %1",
+    "tooltip": "현재 오디오 재생 상태 확인"
   },
   "a2dp_source_create": {
-    "message0": "创建蓝牙音频发送器 %1",
-    "tooltip": "创建蓝牙A2DP音频发送器(Source)对象"
+    "message0": "블루투스 오디오 송신기를 만드%1",
+    "tooltip": "블루투스 A2DP 오디오 송신기(소스) 객체를 생성하세요"
   },
   "a2dp_source_start": {
-    "message0": "启动蓝牙音频发送器 %1 目标设备名称 %2",
-    "tooltip": "启动蓝牙音频发送器并连接到目标设备"
+    "message0": "블루투스 오디오 송신기 %1 시작 대상 장치명: %2",
+    "tooltip": "블루투스 오디오 송신기를 켜고 대상 장치에 연결하세요"
   },
   "a2dp_source_set_volume": {
-    "message0": "设置发送器音量 %1 音量值 %2",
-    "tooltip": "设置音频发送器音量(0-127)"
+    "message0": "송신기 볼륨 %1 볼륨 값 설정%2",
+    "tooltip": "오디오 송신기 볼륨 설정(0-127)"
   },
   "a2dp_source_on_data_callback": {
-    "message0": "发送器 %1 请求音频数据时执行",
-    "tooltip": "当需要发送音频数据时调用此回调函数"
+    "message0": "송신기 %1 오디오 데이터를 요청할 때 실행됩니다",
+    "tooltip": "이 콜백 함수는 오디오 데이터를 전송해야 할 때 호출됩니다",
+    "message2": "%1",
+    "message1": "데이터 버퍼: %1 프레임: %2"
   },
   "a2dp_source_set_auto_reconnect": {
-    "message0": "发送器 %1 设置自动重连 %2",
-    "tooltip": "设置是否自动重连到上次连接的设备",
+    "message0": "송신기 %1 자동 재연결 설정 %2",
+    "tooltip": "마지막으로 연결된 장치에 자동으로 재연결할지 여부를 설정하세요",
     "args0": [
       null,
       {
         "options": [
           [
-            "启用",
+            "활성화",
             "TRUE"
           ],
           [
-            "禁用",
+            "비활성화",
             "FALSE"
           ]
         ]
@@ -112,15 +123,15 @@
     ]
   },
   "a2dp_audio_state_started": {
-    "message0": "音频状态_正在播放",
+    "message0": "오디오 status_Playing 지금",
     "tooltip": "ESP_A2D_AUDIO_STATE_STARTED"
   },
   "a2dp_audio_state_stopped": {
-    "message0": "音频状态_已停止",
+    "message0": "오디오 status_has 중단",
     "tooltip": "ESP_A2D_AUDIO_STATE_STOPPED"
   },
   "a2dp_audio_state_remote_suspend": {
-    "message0": "音频状态_远程暂停",
+    "message0": "오디오 status_Remote 일시 정지",
     "tooltip": "ESP_A2D_AUDIO_STATE_REMOTE_SUSPEND"
   }
 }

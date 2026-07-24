@@ -1,146 +1,206 @@
 {
-  "toolbox_name": "AS5600 magnetic encoder",
+  "toolbox_name": "Магнитный энкодер AS5600",
   "toolbox_labels": {
-    "初始化": "Initialization",
-    "角度读取": "Angle reading",
-    "磁铁状态": "Magnet status",
-    "位置配置": "Position setup",
-    "高级配置": "Advanced setup",
-    "一次性烧录": "Permanent burn"
+    "初始化": "инициализация",
+    "角度读取": "Угол чтения",
+    "磁铁状态": "Магнитное состояние",
+    "位置配置": "Конфигурация расположения",
+    "高级配置": "Расширенная конфигурация",
+    "一次性烧录": "Однократное сожжение"
   },
   "seeed_as5600_init": {
-    "message0": "initialize Seeed AS5600 encoder %1",
-    "tooltip": "Initialize the Grove/Seeed AS5600 12-bit magnetic absolute encoder"
+    "message0": "Инициализировать кодировщик AS5600 %1",
+    "tooltip": "Инициализация 12-битного магнитного абсолютного кодера Grove/Seeed AS5600"
   },
   "seeed_as5600_get_address": {
-    "message0": "encoder %1 I2C address",
-    "tooltip": "Get the fixed AS5600 I2C address, usually 0x36"
+    "message0": "Кодировщик %1 адрес I2C",
+    "tooltip": "Получите фиксированный адрес I2C AS5600, обычно 0x36"
   },
   "seeed_as5600_read_angle": {
-    "message0": "encoder %1 read %2 angle as %3",
-    "tooltip": "Read raw or scaled angle data as 0-4095 raw units or converted degrees",
+    "message0": "Энкодер %1 чтение %2 угла %3",
+    "tooltip": "Читайте исходное или масштабированное значение угла, которое может вернуть исходное значение от 0 до 4095 или преобразовать его в угол",
     "args0": [
       null,
       {
         "options": [
-          ["raw", "RAW"],
-          ["scaled", "SCALED"]
+          [
+            "raw",
+            "RAW"
+          ],
+          [
+            "scaled",
+            "SCALED"
+          ]
         ]
       },
       {
         "options": [
-          ["raw value", "RAW"],
-          ["degrees", "DEGREES"]
+          [
+            "Исходные значения",
+            "RAW"
+          ],
+          [
+            "degrees",
+            "DEGREES"
+          ]
         ]
       }
     ]
   },
   "seeed_as5600_detect_magnet": {
-    "message0": "encoder %1 detects magnet",
-    "tooltip": "Check whether the AS5600 detects a magnet"
+    "message0": "Энкодер %1 обнаруживает магнит",
+    "tooltip": "Обнаружение магнита AS5600"
   },
   "seeed_as5600_magnet_status": {
-    "message0": "encoder %1 magnet status is %2",
-    "tooltip": "Check magnet strength state: 0 none, 1 weak, 2 good, 3 strong",
+    "message0": "Энкодер %1 состояние магнита — это %2",
+    "tooltip": "Оценить состояние силы магнита: 0 Не обнаружено, 1 Слишком слабо, 2 Пригоден, 3 Слишком сильный",
     "args0": [
       null,
       {
         "options": [
-          ["not detected", "NONE"],
-          ["too weak", "WEAK"],
-          ["good", "GOOD"],
-          ["too strong", "STRONG"]
+          [
+            "Не обнаружено",
+            "NONE"
+          ],
+          [
+            "Слишком слабый",
+            "WEAK"
+          ],
+          [
+            "good",
+            "GOOD"
+          ],
+          [
+            "Слишком сильный",
+            "STRONG"
+          ]
         ]
       }
     ]
   },
   "seeed_as5600_get_magnet_strength": {
-    "message0": "encoder %1 magnet strength state",
-    "tooltip": "Read magnet strength state: 0 none, 1 weak, 2 good, 3 strong"
+    "message0": "Энкодер %1 состояние силы магнита",
+    "tooltip": "Читайте значения силы магнита: 0 Не обнаружено, 1 слишком слабо, 2 подходящее, 3 слишком сильные"
   },
   "seeed_as5600_get_magnitude": {
-    "message0": "encoder %1 magnetic magnitude",
-    "tooltip": "Read the AS5600 internal CORDIC magnetic magnitude"
+    "message0": "Энкодер %1 амплитуды магнитного поля",
+    "tooltip": "Считайте амплитуду внутреннего магнитного поля CORDIC AS5600"
   },
   "seeed_as5600_get_agc": {
-    "message0": "encoder %1 automatic gain AGC",
-    "tooltip": "Read the AS5600 automatic gain control register value"
+    "message0": "Энкодер %1 автоматический усиление AGC",
+    "tooltip": "Читайте значение автоматического регистра управления усилением AS5600"
   },
   "seeed_as5600_set_position_current": {
-    "message0": "encoder %1 set current position as %2",
-    "tooltip": "Use the current magnet position as the start position, end position, or max angle",
+    "message0": "Кодировщик %1 устанавливает текущую позицию на %2",
+    "tooltip": "Установите начало, конец или максимальный угол с помощью положения магнита тока",
     "args0": [
       null,
       {
         "options": [
-          ["start position", "START"],
-          ["end position", "END"],
-          ["max angle", "MAX"]
+          [
+            "Стартовая позиция",
+            "START"
+          ],
+          [
+            "Конечная позиция",
+            "END"
+          ],
+          [
+            "Максимальный угол",
+            "MAX"
+          ]
         ]
       }
     ]
   },
   "seeed_as5600_set_position": {
-    "message0": "encoder %1 set %2 to raw value %3",
-    "tooltip": "Set the start position, end position, or max angle register, usually 0-4095",
+    "message0": "Encoder %1 устанавливает %2 на исходный value%3",
+    "tooltip": "Установите начальную позицию, конечную позицию или регистр максимального угла, при этом значения обычно варьируются от 0 до 4095",
     "args0": [
       null,
       {
         "options": [
-          ["start position", "START"],
-          ["end position", "END"],
-          ["max angle", "MAX"]
+          [
+            "Стартовая позиция",
+            "START"
+          ],
+          [
+            "Конечная позиция",
+            "END"
+          ],
+          [
+            "Максимальный угол",
+            "MAX"
+          ]
         ]
       },
       null
     ]
   },
   "seeed_as5600_get_position": {
-    "message0": "encoder %1 read %2",
-    "tooltip": "Read the raw start position, end position, or max angle register value",
+    "message0": "Энкодер %1 читать %2",
+    "tooltip": "Читайте исходное значение начальной позиции, конечной позиции или регистра максимального угла",
     "args0": [
       null,
       {
         "options": [
-          ["start position", "START"],
-          ["end position", "END"],
-          ["max angle", "MAX"]
+          [
+            "Стартовая позиция",
+            "START"
+          ],
+          [
+            "Конечная позиция",
+            "END"
+          ],
+          [
+            "Максимальный угол",
+            "MAX"
+          ]
         ]
       }
     ]
   },
   "seeed_as5600_set_output_mode": {
-    "message0": "encoder %1 set output mode %2",
-    "tooltip": "Set the AS5600 OUT pin output mode",
+    "message0": "Кодировщик %1 Задать режим вывода %2",
+    "tooltip": "Установите выходной режим вывода вывода вывода AS5600",
     "args0": [
       null,
       {
         "options": [
-          ["PWM", "0"],
-          ["analog 0-100%", "1"],
-          ["analog 10-90%", "2"]
+          [
+            "PWM",
+            "0"
+          ],
+          [
+            "analog 0-100%",
+            "1"
+          ],
+          [
+            "analog 10-90%",
+            "2"
+          ]
         ]
       }
     ]
   },
   "seeed_as5600_get_conf": {
-    "message0": "encoder %1 config register",
-    "tooltip": "Read the raw AS5600 CONF configuration register value"
+    "message0": "Encoder %1 Configure registers",
+    "tooltip": "Прочитайте исходное значение регистра конфигурации AS5600 CONF"
   },
   "seeed_as5600_set_conf": {
-    "message0": "encoder %1 set config register %2",
-    "tooltip": "Write the raw AS5600 CONF configuration register value"
+    "message0": "Encoder %1 Configure Registers %2",
+    "tooltip": "Запишите исходное значение конфигурационного регистра AS5600 CONF"
   },
   "seeed_as5600_get_burn_count": {
-    "message0": "encoder %1 burn count",
-    "tooltip": "Read the ZMCO burn count. Start/end positions can be burned up to 3 times"
+    "message0": "Энкодировщик %1 Количество сгоревших штрихов",
+    "tooltip": "Читайте количество сжиганий ZMCO; начальные и конечные позиции можно запрограммировать до 3 раз"
   },
   "seeed_as5600_burn_angle": {
-    "message0": "encoder %1 burn start/end angle and return status code",
-    "tooltip": "Permanently burn start/end positions to the chip. Returns 1 for success and negative error codes. Use is limited"
+    "message0": "Энкодер %1 Сжигает углы начала и конца и возвращает статус кода",
+    "tooltip": "Навсегда прошить начальную и конечную позицию на чип, вернуть 1 для успеха, отрицательные цифры указывают на коды ошибок. Эта операция ограничена количеством раз"
   },
   "seeed_as5600_burn_settings": {
-    "message0": "encoder %1 burn max angle and config and return status code",
-    "tooltip": "Permanently burn max angle and configuration to the chip. This can be done once only. Returns 1 for success and negative error codes"
+    "message0": "Энкодер %1 Сжигает максимальный угол и конфигурацию и возвращает статус кода",
+    "tooltip": "Постоянно прошивать максимальный угол и конфигурацию на чип; это можно выполнить только один раз, возвращает 1 успешный результат, отрицательные числа указывают на коды ошибок"
   }
 }

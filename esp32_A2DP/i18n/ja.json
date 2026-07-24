@@ -1,6 +1,9 @@
 {
-  "a2dp_sink_config_i2s_pins": {"message0": "Configure receiver %1 I2S pins BCK %2 WS %3 DATA %4", "tooltip": "Set the bit clock, word select, and data pins for an external I2S DAC"},
-  "toolbox_name": "ESP32 蓝牙音频",
+  "a2dp_sink_config_i2s_pins": {
+    "message0": "受信機%1のI2SピンBCKをWS%3データ%2設定%4",
+    "tooltip": "外部I2S DACのビットクロック、チャネル選択、データピンの設定"
+  },
+  "toolbox_name": "ESP32 Bluetoothオーディオ",
   "toolbox_labels": {
     "蓝牙音频接收器 (Sink)": "Bluetoothオーディオレシーバー（シンク）",
     "播放控制": "再生コントロール",
@@ -10,8 +13,8 @@
     "蓝牙音频发送器 (Source)": "Bluetooth オーディオ トランスミッター (ソース)"
   },
   "a2dp_sink_create": {
-    "message0": "创建蓝牙音频接收器 %1 输出到 %2",
-    "tooltip": "创建蓝牙A2DP音频接收器(Sink)对象",
+    "message0": "Bluetoothオーディオレシーバーを作成して、%1%2",
+    "tooltip": "Bluetooth A2DPオーディオレシーバー(Sink)オブジェクトを作成する",
     "args0": [
       null,
       {
@@ -21,7 +24,7 @@
             "I2S"
           ],
           [
-            "内置DAC",
+            "内蔵DAC",
             "INTERNAL_DAC"
           ]
         ]
@@ -29,82 +32,90 @@
     ]
   },
   "a2dp_sink_start": {
-    "message0": "启动蓝牙音频接收器 %1 设备名称 %2",
-    "tooltip": "启动蓝牙音频接收器并设置蓝牙名称"
+    "message0": "Bluetoothオーディオレシーバーを起動%1デバイス名:%2",
+    "tooltip": "Bluetoothオーディオレシーバーを起動し、Bluetooth名を設定します"
   },
   "a2dp_sink_set_volume": {
-    "message0": "设置音量 %1 音量值 %2",
-    "tooltip": "设置音量(0-127)"
+    "message0": "音量%1音量値を設定%2",
+    "tooltip": "セットボリューム(0-127)"
   },
   "a2dp_sink_get_volume": {
-    "message0": "获取音量 %1",
-    "tooltip": "获取当前音量值(0-127)"
+    "message0": "ボリューム%1の取得",
+    "tooltip": "現在のボリューム値(0-127)を取得します"
   },
   "a2dp_sink_play": {
-    "message0": "播放 %1",
-    "tooltip": "发送播放命令(AVRC)"
+    "message0": "プレイ%1",
+    "tooltip": "再生コマンドを送信(AVRC)"
   },
   "a2dp_sink_pause": {
-    "message0": "暂停 %1",
-    "tooltip": "发送暂停命令(AVRC)"
+    "message0": "間%1",
+    "tooltip": "一時停止コマンドを送信(AVRC)"
   },
   "a2dp_sink_stop": {
-    "message0": "停止 %1",
-    "tooltip": "发送停止命令(AVRC)"
+    "message0": "やめて%1",
+    "tooltip": "送信停止コマンド(AVRC)"
   },
   "a2dp_sink_next": {
-    "message0": "下一曲 %1",
-    "tooltip": "发送下一曲命令(AVRC)"
+    "message0": "次の曲%1",
+    "tooltip": "次の曲コマンドを送信(AVRC)"
   },
   "a2dp_sink_previous": {
-    "message0": "上一曲 %1",
-    "tooltip": "发送上一曲命令(AVRC)"
+    "message0": "前回の曲%1",
+    "tooltip": "前の曲コマンドを送信(AVRC)"
   },
   "a2dp_sink_on_metadata": {
-    "message0": "接收器 %1 收到元数据时执行",
-    "tooltip": "当接收到音乐元数据(标题、艺术家等)时执行"
+    "message0": "メタデータが受信されると受信%1実行されます",
+    "tooltip": "音楽メタデータ(タイトル、アーティストなど)が受信された際に実行されます",
+    "message2": "%1",
+    "message1": "ID:%1 目次:%2"
   },
   "a2dp_sink_on_connection_state": {
-    "message0": "接收器 %1 连接状态改变时执行",
-    "tooltip": "当蓝牙连接状态改变时执行"
+    "message0": "接続状態が変わったときにレシーバー%1実行されます",
+    "tooltip": "Bluetooth接続の状態が変わったときに実行されます",
+    "message2": "%1",
+    "message1": "ステータス:%1"
   },
   "a2dp_sink_on_audio_state": {
-    "message0": "接收器 %1 音频状态改变时执行",
-    "tooltip": "当音频播放状态改变时执行"
+    "message0": "レシーバー%1は音声状態が変わったときに実行されます",
+    "tooltip": "音声再生の状態が変わったときに実行されます",
+    "message2": "%1",
+    "message1": "ステータス:%1"
   },
   "a2dp_sink_get_audio_state": {
-    "message0": "获取音频状态 %1",
-    "tooltip": "获取当前音频播放状态"
+    "message0": "音声状態を取得%1",
+    "tooltip": "現在の音声再生状況を把握してください"
   },
   "a2dp_source_create": {
-    "message0": "创建蓝牙音频发送器 %1",
-    "tooltip": "创建蓝牙A2DP音频发送器(Source)对象"
+    "message0": "Bluetoothオーディオ送信機を作成%1",
+    "tooltip": "Bluetooth A2DPオーディオ送信機(Source)オブジェクトを作成する"
   },
   "a2dp_source_start": {
-    "message0": "启动蓝牙音频发送器 %1 目标设备名称 %2",
-    "tooltip": "启动蓝牙音频发送器并连接到目标设备"
+    "message0": "音声発信機Bluetooth開始 %1 ターゲットデバイス名:%2",
+    "tooltip": "Bluetoothオーディオ送信機をオンにして、ターゲットのデバイスに接続してください"
   },
   "a2dp_source_set_volume": {
-    "message0": "设置发送器音量 %1 音量值 %2",
-    "tooltip": "设置音频发送器音量(0-127)"
+    "message0": "送信機の音量を%1音量値%2設定",
+    "tooltip": "オーディオ送信機の音量設定(0-127)"
   },
   "a2dp_source_on_data_callback": {
-    "message0": "发送器 %1 请求音频数据时执行",
-    "tooltip": "当需要发送音频数据时调用此回调函数"
+    "message0": "送信%1は音声データを要求するときに実行されます",
+    "tooltip": "このコールバック機能は、音声データを送信する必要があるときに呼び出されます",
+    "message2": "%1",
+    "message1": "データバッファ:%1 フレーム数:%2"
   },
   "a2dp_source_set_auto_reconnect": {
-    "message0": "发送器 %1 设置自动重连 %2",
-    "tooltip": "设置是否自动重连到上次连接的设备",
+    "message0": "送信機%1自動再接続設定%2",
+    "tooltip": "最後に接続したデバイスに自動で再接続するかどうかを設定",
     "args0": [
       null,
       {
         "options": [
           [
-            "启用",
+            "有効にする",
             "TRUE"
           ],
           [
-            "禁用",
+            "無効にする",
             "FALSE"
           ]
         ]
@@ -112,15 +123,15 @@
     ]
   },
   "a2dp_audio_state_started": {
-    "message0": "音频状态_正在播放",
+    "message0": "音声status_Playing現在",
     "tooltip": "ESP_A2D_AUDIO_STATE_STARTED"
   },
   "a2dp_audio_state_stopped": {
-    "message0": "音频状态_已停止",
+    "message0": "音声status_has止まりました",
     "tooltip": "ESP_A2D_AUDIO_STATE_STOPPED"
   },
   "a2dp_audio_state_remote_suspend": {
-    "message0": "音频状态_远程暂停",
+    "message0": "音声status_Remote一時停止",
     "tooltip": "ESP_A2D_AUDIO_STATE_REMOTE_SUSPEND"
   }
 }

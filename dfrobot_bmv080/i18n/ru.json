@@ -1,11 +1,13 @@
 {
-  "toolbox_name": "BMV080 PM Sensor",
+  "toolbox_name": "BMV080 — датчик твердых частиц",
   "bmv080_init_i2c": {
-    "message0": "init BMV080 I2C %1 bus %2 address %3",
-    "tooltip": "Initialize and open the BMV080 particulate matter sensor over I2C.",
+    "message0": "Инициализировать шину BMV080 I2C %1 %2 адрес %3",
+    "tooltip": "Инициализируйте и включите датчик твердых частиц BMV080 через I2C.",
     "args0": [
       null,
-      null,
+      {
+        "options": "${board.i2c}"
+      },
       {
         "options": [
           [
@@ -29,12 +31,12 @@
     ]
   },
   "bmv080_init_spi": {
-    "message0": "init BMV080 SPI %1 bus %2 CS %3",
-    "tooltip": "Initialize and open the BMV080 particulate matter sensor over SPI."
+    "message0": "Инициализация BMV080 SPI %1 шина %2 CS %3",
+    "tooltip": "Инициализируйте и активируйте датчик твердых частиц BMV080 с помощью SPI."
   },
   "bmv080_set_mode": {
-    "message0": "BMV080 %1 set measurement mode %2",
-    "tooltip": "Start continuous or duty-cycle measurement.",
+    "message0": "BMV080 %1 настройка режима измерения %2",
+    "tooltip": "Начните непрерывное измерение или измерение рабочих циклов.",
     "args0": [
       null,
       {
@@ -44,7 +46,7 @@
             "CONTINUOUS_MODE"
           ],
           [
-            "duty cycle",
+            "Измерение рабочего цикла",
             "DUTY_CYCLE_MODE"
           ]
         ]
@@ -52,18 +54,18 @@
     ]
   },
   "bmv080_set_duty_cycle": {
-    "message0": "BMV080 %1 set duty period %2 s integration %3 s",
-    "tooltip": "Set duty-cycle mode parameters. Period must be at least 12 s; integration time must be at least 1 s and at least 2 s shorter than period."
+    "message0": "BMV080 %1 Установите рабочий цикл на %2 секунды и время интеграции на %3 секунд",
+    "tooltip": "Установите параметр режима Duty Cycle. Цикл должен длиться не менее 12 секунд, время интеграции — не менее 1 секунды, а цикл — как минимум на 2 секунды длиннее времени интеграции."
   },
   "bmv080_set_algorithm": {
-    "message0": "BMV080 %1 set algorithm %2",
-    "tooltip": "Set the PM measurement algorithm.",
+    "message0": "BMV080 %1 Настройка алгоритма измерения %2",
+    "tooltip": "Задайте алгоритмы измерения PM.",
     "args0": [
       null,
       {
         "options": [
           [
-            "fast response",
+            "Быстрый ответ",
             "FAST_RESPONSE"
           ],
           [
@@ -71,7 +73,7 @@
             "BALANCED"
           ],
           [
-            "high precision",
+            "Высокая точность",
             "HIGH_PRECISION"
           ]
         ]
@@ -79,18 +81,18 @@
     ]
   },
   "bmv080_set_feature": {
-    "message0": "BMV080 %1 set %2 %3",
-    "tooltip": "Enable or disable obstruction detection or vibration filtering.",
+    "message0": "BMV080 %1 Settings%2 %3",
+    "tooltip": "Включите или выключите функции обнаружения окклюзии и фильтрации вибраций.",
     "args0": [
       null,
       {
         "options": [
           [
-            "obstruction detection",
+            "Обнаружение препятствий",
             "OBSTRUCTION"
           ],
           [
-            "vibration filtering",
+            "Вибрационная фильтрация",
             "VIBRATION"
           ]
         ]
@@ -98,11 +100,11 @@
       {
         "options": [
           [
-            "on",
+            "Вкл",
             "true"
           ],
           [
-            "off",
+            "Выкл",
             "false"
           ]
         ]
@@ -110,26 +112,26 @@
     ]
   },
   "bmv080_read_data": {
-    "message0": "BMV080 %1 refresh PM data",
-    "tooltip": "Read and cache PM1, PM2.5, and PM10. Returns true when new data is ready."
+    "message0": "BMV080 %1 обновляет данные PM",
+    "tooltip": "Читайте и кэшируйте PM1, PM2.5, PM10. Data ready возвращает true, неготовый — ложный."
   },
   "bmv080_pm_value": {
-    "message0": "BMV080 %1 cached value %2",
-    "tooltip": "Read the PM value cached by the last refresh.",
+    "message0": "BMV080 %1 кэш value%2",
+    "tooltip": "Читайте значение PM cache после последнего обновления.",
     "args0": [
       null,
       {
         "options": [
           [
-            "PM1 ug/m3",
+            "PM1 мкг/м3",
             "PM1"
           ],
           [
-            "PM2.5 ug/m3",
+            "PM2.5 мкг/м3",
             "PM25"
           ],
           [
-            "PM10 ug/m3",
+            "PM10 мкг/м3",
             "PM10"
           ]
         ]
@@ -137,8 +139,8 @@
     ]
   },
   "bmv080_get_status": {
-    "message0": "BMV080 %1 status/config %2",
-    "tooltip": "Read BMV080 configuration or obstruction status.",
+    "message0": "BMV080 %1 Статус/Конфигурация %2",
+    "tooltip": "Прочитайте конфигурацию или статус окклюзии BMV080.",
     "args0": [
       null,
       {
@@ -148,23 +150,23 @@
             "ALGORITHM"
           ],
           [
-            "integration time",
+            "Время набора очков",
             "INTEGRATION"
           ],
           [
-            "duty period",
+            "Цикл пустоты",
             "PERIOD"
           ],
           [
-            "obstruction setting",
+            "Переключатель обнаружения блоков",
             "OBSTRUCTION_FEATURE"
           ],
           [
-            "vibration setting",
+            "Выключатель вибрационного фильтра",
             "VIBRATION_FEATURE"
           ],
           [
-            "is obstructed",
+            "Заблокирована ли она",
             "OBSTRUCTED"
           ]
         ]
@@ -173,21 +175,21 @@
   },
   "bmv080_command": {
     "message0": "BMV080 %1 run %2",
-    "tooltip": "Stop measurement, reset, or close the BMV080.",
+    "tooltip": "Перестаньте измерять, сбрасывать или выключать BMV080.",
     "args0": [
       null,
       {
         "options": [
           [
-            "stop measurement",
+            "Остановите измерение",
             "STOP"
           ],
           [
-            "reset",
+            "Возвращайся на своё место",
             "RESET"
           ],
           [
-            "close sensor",
+            "Выключи датчик",
             "CLOSE"
           ]
         ]

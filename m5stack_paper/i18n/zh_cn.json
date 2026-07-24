@@ -1,0 +1,63 @@
+{
+  "toolbox_name": "温湿度与 FRAM",
+  "toolbox_labels": {
+    "FRAM（256 字节）": "FRAM（256 字节）"
+  },
+  "m5paper_init": {
+    "message0": "初始化板载温湿度与 FRAM",
+    "tooltip": "使用官方内部 I2C 引脚 GPIO21/22 初始化 SHT30；FRAM 地址固定为 0x50"
+  },
+  "m5paper_sht_available": {
+    "message0": "板载温湿度传感器可用",
+    "tooltip": "检测地址 0x44 的板载 SHT30"
+  },
+  "m5paper_sht_value": {
+    "message0": "板载温湿度 %1",
+    "tooltip": "读取 SHT30；有效读数缓存 500ms，读取失败返回 NAN",
+    "args0": [
+      {
+        "options": [
+          [
+            "温度 °C",
+            "TEMPERATURE"
+          ],
+          [
+            "湿度 %",
+            "HUMIDITY"
+          ]
+        ]
+      }
+    ]
+  },
+  "m5paper_fram_write_byte": {
+    "message0": "FRAM 地址 %1 写入字节 %2",
+    "tooltip": "向 256 字节 FM24C02 写入一个字节，地址自动限制到 0-255",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "m5paper_fram_read_byte": {
+    "message0": "FRAM 地址 %1 的字节",
+    "tooltip": "读取一个字节；通信失败返回 -1",
+    "args0": [
+      null
+    ]
+  },
+  "m5paper_fram_write_text": {
+    "message0": "FRAM 地址 %1 写入文本 %2",
+    "tooltip": "逐字节写入以 0 结尾的文本，不会越过 256 字节容量",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "m5paper_fram_read_text": {
+    "message0": "FRAM 地址 %1 读取文本 最长 %2",
+    "tooltip": "读取到 0 结尾或指定长度，不会越过 FRAM 容量",
+    "args0": [
+      null,
+      null
+    ]
+  }
+}

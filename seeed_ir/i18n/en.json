@@ -1,0 +1,317 @@
+{
+  "toolbox_name": "IR",
+  "toolbox_labels": {
+    "Wio Terminal 发射": "Wio Terminal Launch",
+    "对象发射": "Object emission",
+    "接收解码": "Receive decoding"
+  },
+  "seeed_ir_sender_create": {
+    "args0": [
+      null
+    ],
+    "message0": "Create IR emitter %1",
+    "tooltip": "Create an IRLib2 infrared emitter object; Wio Terminal automatically uses the built-in WIO_IR emitter pin"
+  },
+  "seeed_ir_raw_sender_create": {
+    "args0": [
+      null
+    ],
+    "message0": "Create Raw IR emitter %1",
+    "tooltip": "Create an IRsendRaw object for sending the raw infrared timing array"
+  },
+  "seeed_ir_send": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "NEC",
+            "NEC"
+          ],
+          [
+            "Sony",
+            "SONY"
+          ],
+          [
+            "RC5",
+            "RC5"
+          ],
+          [
+            "RC6",
+            "RC6"
+          ],
+          [
+            "Panasonic Old",
+            "PANASONIC_OLD"
+          ],
+          [
+            "JVC",
+            "JVC"
+          ],
+          [
+            "NECx",
+            "NECX"
+          ],
+          [
+            "Samsung36",
+            "SAMSUNG36"
+          ],
+          [
+            "GI Cable",
+            "GICABLE"
+          ],
+          [
+            "DirecTV",
+            "DIRECTV"
+          ],
+          [
+            "RCMM",
+            "RCMM"
+          ],
+          [
+            "CYKM",
+            "CYKM"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ],
+    "message0": "Infrared emission %1 Protocol %2 Data %3 Additional/digits %4 Frequency kHz %5",
+    "tooltip": "Call IRsend.send(protocol, data, data2, kHz) to send the specified protocol infrared code; Sony commonly uses data2 to represent the number of digits, and NEC commonly uses 0"
+  },
+  "seeed_ir_send_nec": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Infrared Emission NEC %1 Data %2 Frequency kHz %3",
+    "tooltip": "Sending a 32-bit infrared code using NEC protocol, suitable for the TV power supply example in the Wio Terminal tutorial"
+  },
+  "seeed_ir_wio_send": {
+    "args0": [
+      {
+        "options": [
+          [
+            "NEC",
+            "NEC"
+          ],
+          [
+            "Sony",
+            "SONY"
+          ],
+          [
+            "RC5",
+            "RC5"
+          ],
+          [
+            "RC6",
+            "RC6"
+          ],
+          [
+            "Panasonic Old",
+            "PANASONIC_OLD"
+          ],
+          [
+            "JVC",
+            "JVC"
+          ],
+          [
+            "NECx",
+            "NECX"
+          ],
+          [
+            "Samsung36",
+            "SAMSUNG36"
+          ],
+          [
+            "GI Cable",
+            "GICABLE"
+          ],
+          [
+            "DirecTV",
+            "DIRECTV"
+          ],
+          [
+            "RCMM",
+            "RCMM"
+          ],
+          [
+            "CYKM",
+            "CYKM"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ],
+    "message0": "Wio built-in infrared transmission protocol %1 data %2 additional/digits %3 frequency kHz %4",
+    "tooltip": "No need to manually create objects, just use Wio Terminal's built-in infrared transmitter to send infrared codes"
+  },
+  "seeed_ir_send_raw": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "Raw infrared emission %1 Timing %2 Frequency kHz %3",
+    "tooltip": "Send raw infrared signals in microsecond timing array, for example 9000,4500,560,560"
+  },
+  "seeed_ir_receiver_create": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "NEC",
+            "NEC"
+          ],
+          [
+            "Sony",
+            "SONY"
+          ],
+          [
+            "RC5",
+            "RC5"
+          ],
+          [
+            "RC6",
+            "RC6"
+          ],
+          [
+            "Panasonic Old",
+            "PANASONIC_OLD"
+          ],
+          [
+            "JVC",
+            "JVC"
+          ],
+          [
+            "NECx",
+            "NECX"
+          ],
+          [
+            "Samsung36",
+            "SAMSUNG36"
+          ],
+          [
+            "GI Cable",
+            "GICABLE"
+          ],
+          [
+            "DirecTV",
+            "DIRECTV"
+          ],
+          [
+            "RCMM",
+            "RCMM"
+          ],
+          [
+            "CYKM",
+            "CYKM"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "Create IR Receiver %1 Decoder %2 Protocol %3 Pin %4",
+    "tooltip": "Creates an IRrecvPCI receiver and IRdecode decoder object and loads only the selected IRLib2 protocol; the receiver uses the specified digital input pin"
+  },
+  "seeed_ir_receiver_enable": {
+    "args0": [
+      null
+    ],
+    "message0": "Start infrared reception %1",
+    "tooltip": "Call enableIRIn() to start or resume infrared reception"
+  },
+  "seeed_ir_on_receive": {
+    "args0": [
+      null,
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "When infrared reception %1 uses decoder %2",
+    "message1": "Execute %1",
+    "tooltip": "Automatically decode after receiving a complete infrared frame, execute internal building blocks, and then resume reception"
+  },
+  "seeed_ir_receiver_available": {
+    "args0": [
+      null
+    ],
+    "message0": "Infrared reception %1 has complete signal",
+    "tooltip": "Returns getResults() whether a complete frame of infrared signal is received"
+  },
+  "seeed_ir_decoder_decode": {
+    "args0": [
+      null
+    ],
+    "message0": "Infrared decoding %1",
+    "tooltip": "Call IRdecode.decode() to parse the current receive buffer"
+  },
+  "seeed_ir_decoder_get": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Agreement number",
+            "PROTOCOL"
+          ],
+          [
+            "data value",
+            "VALUE"
+          ],
+          [
+            "address",
+            "ADDRESS"
+          ],
+          [
+            "Number of digits",
+            "BITS"
+          ]
+        ]
+      }
+    ],
+    "message0": "Infrared decoding %1 field %2",
+    "tooltip": "Read the protocol number, data, address or number of bits in the decoder"
+  },
+  "seeed_ir_decoder_protocol_name": {
+    "args0": [
+      null
+    ],
+    "message0": "Infrared decoding %1 protocol name",
+    "tooltip": "Convert protocolNum to protocol name string"
+  },
+  "seeed_ir_decoder_dump": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Yes",
+            "true"
+          ],
+          [
+            "No",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "message0": "Serial printing infrared decoding %1 details %2",
+    "tooltip": "Print decoding results and original timing via Serial for easy copying to Raw send block"
+  },
+  "seeed_ir_receiver_resume": {
+    "args0": [
+      null
+    ],
+    "message0": "Infrared reception %1 prepares for the next frame",
+    "tooltip": "Manually call enableIRIn() to resume the next reception in the custom reception process"
+  }
+}

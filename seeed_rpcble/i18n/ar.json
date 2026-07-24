@@ -1,0 +1,683 @@
+{
+  "toolbox_name": "RPC BLE",
+  "toolbox_categories": [
+    "إدارة الجهاز",
+    "جانب خادم GATT",
+    "القيم الذاتية والأحداث",
+    "بث",
+    "مسح",
+    "عميل",
+    "BLE UART",
+    "ويب بلوتوث",
+    "iBeacon"
+  ],
+  "seeed_rpcble_init": {
+    "args0": [
+      null
+    ],
+    "message0": "تهيئة اسم جهاز BLE %1",
+    "tooltip": "قم بتهيئة جهاز rpcBLE في محطة Wio وتعيين اسم البث"
+  },
+  "seeed_rpcble_deinit": {
+    "message0": "إيقاف تشغيل أجهزة BLE",
+    "tooltip": "أوقف جهاز rpcBLE"
+  },
+  "seeed_rpcble_is_initialized": {
+    "message0": "تم تهيئة BLE",
+    "tooltip": "يعيد ما إذا كان BLEDevice قد تم تهيئة ما إذا كان BLEDevice قد تم تهيئة"
+  },
+  "seeed_rpcble_get_address": {
+    "message0": "عنوان BLE المحلي",
+    "tooltip": "الحصول على سلسلة عناوين BLE MAC المحلية"
+  },
+  "seeed_rpcble_set_mtu": {
+    "args0": [
+      null
+    ],
+    "message0": "إعداد وحدة MTU BLE %1",
+    "tooltip": "اضبط الحد الأقصى لوحدة نقل BLE MTU"
+  },
+  "seeed_rpcble_get_mtu": {
+    "message0": "حاليا، BLE MTU",
+    "tooltip": "احصل على وحدة MTU الحالية لوحدة BLE"
+  },
+  "seeed_rpcble_create_server": {
+    "args0": [
+      null
+    ],
+    "message0": "إنشاء خادم BLE %1",
+    "tooltip": "إنشاء كائن خادم BLE GATT"
+  },
+  "seeed_rpcble_server_create_service": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 إنشاء خدمة %2 UUID%3",
+    "tooltip": "إنشاء خدمات GATT على خادم BLE"
+  },
+  "seeed_rpcble_service_start": {
+    "args0": [
+      null
+    ],
+    "message0": "إطلاق خدمة BLE %1",
+    "tooltip": "ابدأ خدمة GATT المحددة"
+  },
+  "seeed_rpcble_service_stop": {
+    "args0": [
+      null
+    ],
+    "message0": "إيقاف خدمة BLE %1",
+    "tooltip": "توقف عن تحديد خدمات GATT"
+  },
+  "seeed_rpcble_server_connected_count": {
+    "args0": [
+      null
+    ],
+    "message0": "عدد العملاء المتصلين %1 الخادم",
+    "tooltip": "احصل على عدد عملاء BLE المتصل بالخادم"
+  },
+  "seeed_rpcble_server_set_callbacks": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "args2": [
+      null
+    ],
+    "message0": "قم بتعيين حدث الاتصال %1 الخادم",
+    "message1": "متى connecting%1",
+    "message2": "متى disconnected%1",
+    "tooltip": "قم بإعداد الاتصال وفصل مكالمات المكالمات لخادم BLE"
+  },
+  "seeed_rpcble_create_characteristic": {
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "قراءة",
+            "BLECharacteristic::PROPERTY_READ"
+          ],
+          [
+            "اكتب",
+            "BLECharacteristic::PROPERTY_WRITE"
+          ],
+          [
+            "إشعار",
+            "BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "قراءة/كتابة",
+            "BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE"
+          ],
+          [
+            "اقرأ + إشعار",
+            "BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "اكتب + إشعار",
+            "BLECharacteristic::PROPERTY_WRITE | BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "قراءة/كتابة+إشعار",
+            "BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE | BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "إشارة",
+            "BLECharacteristic::PROPERTY_INDICATE"
+          ],
+          [
+            "كتابة بلا رد",
+            "BLECharacteristic::PROPERTY_WRITE_NR"
+          ]
+        ]
+      }
+    ],
+    "message0": "إنشاء ميزات %1 %2 UUIDs %3 السمات %4",
+    "tooltip": "إنشاء القيم الذاتية في خدمة GATT"
+  },
+  "seeed_rpcble_characteristic_set_permissions": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "قابل للقراءة",
+            "GATT_PERM_READ"
+          ],
+          [
+            "قابل للكتابة",
+            "GATT_PERM_WRITE"
+          ],
+          [
+            "سهل القراءة والكتابة",
+            "GATT_PERM_READ | GATT_PERM_WRITE"
+          ],
+          [
+            "بدون",
+            "0"
+          ]
+        ]
+      }
+    ],
+    "message0": "تعيين الميزات %1 صلاحيات الوصول %2",
+    "tooltip": "تعيين صلاحيات الوصول في GATT لقيم الميزات"
+  },
+  "seeed_rpcble_characteristic_add_notify_descriptor": {
+    "args0": [
+      null
+    ],
+    "message0": "الميزات %1 إضافة واصفات الإشعارات",
+    "tooltip": "أضف واصفا BLE2902 إلى ميزات الإشعارات"
+  },
+  "seeed_rpcble_characteristic_add_descriptor": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "نص ASCII",
+            "ATTRIB_FLAG_VOID | ATTRIB_FLAG_ASCII_Z"
+          ],
+          [
+            "البيانات العادية",
+            "ATTRIB_FLAG_VOID"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "قابل للقراءة",
+            "GATT_PERM_READ"
+          ],
+          [
+            "قابل للكتابة",
+            "GATT_PERM_WRITE"
+          ],
+          [
+            "سهل القراءة والكتابة",
+            "GATT_PERM_READ | GATT_PERM_WRITE"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "الميزات %1 إنشاء وصف UUID %2 علم %3 الأذونات %4 الطول %5",
+    "tooltip": "إنشاء أوصاف مخصصة للميزات"
+  },
+  "seeed_rpcble_characteristic_set_value": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "تعيين الميزات %1 قيم النص %2",
+    "tooltip": "قم بتعيين القيمة الذاتية إلى بيانات نصية"
+  },
+  "seeed_rpcble_characteristic_set_byte": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "تعيين الميزة %1 قيمة البايت %2",
+    "tooltip": "اضبط القيمة الذاتية إلى بايت واحد من البيانات، مناسبة للميزات القياسية مثل سعة البطارية"
+  },
+  "seeed_rpcble_characteristic_get_value": {
+    "args0": [
+      null
+    ],
+    "message0": "الميزات %1 قيم النص الحالية",
+    "tooltip": "اقرأ بيانات النص الحالية للقيمة الذاتية المحلية"
+  },
+  "seeed_rpcble_characteristic_notify": {
+    "args0": [
+      null
+    ],
+    "message0": "ميزات الإشعارات %1 تحديثات البيانات",
+    "tooltip": "يتم إرسال الإشعارات إلى العملاء المشتركين"
+  },
+  "seeed_rpcble_characteristic_indicate": {
+    "args0": [
+      null
+    ],
+    "message0": "ميزات المؤشر %1 تحديثات البيانات",
+    "tooltip": "أرسل مؤشر قيمة الميزة للتأكيد"
+  },
+  "seeed_rpcble_characteristic_set_callbacks": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "عند كتابة %1 الميزة",
+    "message1": "نفذ %1",
+    "tooltip": "اضبط ميزة كتابة الاستدعاءات وذاكرة مؤقتة للنص المستلم الأخير"
+  },
+  "seeed_rpcble_characteristic_received_value": {
+    "args0": [
+      null
+    ],
+    "message0": "Feature%1 نص كتب مؤخرا",
+    "tooltip": "قراءة الميزات وكتابة أقرب نص إلى ذاكرة التخزين المؤقت للاستدعاء"
+  },
+  "seeed_rpcble_advertising_add_service_uuid": {
+    "args0": [
+      null
+    ],
+    "message0": "خدمة إضافة البث UUID %1",
+    "tooltip": "إضافة UUID للخدمة إلى بيانات بث BLE"
+  },
+  "seeed_rpcble_advertising_set_scan_response": {
+    "args0": [
+      {
+        "options": [
+          [
+            "تمكين",
+            "TRUE"
+          ],
+          [
+            "تعطيل",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "اضبط استجابة المسح %1",
+    "tooltip": "حدد ما إذا كنت سأفعل بيانات الاستجابة للمسح"
+  },
+  "seeed_rpcble_advertising_set_preferred": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "حدد معايير البث المفضلة: الحد الأدنى %1 الحد الأقصى %2",
+    "tooltip": "عادة ما يستخدم تعيين معايير الاتصال المفضلة للبث لتحسين توافق الهاتف"
+  },
+  "seeed_rpcble_start_advertising": {
+    "message0": "ابدأ البث عبر BLE",
+    "tooltip": "ابدأ البث حتى يمكن اكتشاف الجهاز عن طريق المسح"
+  },
+  "seeed_rpcble_stop_advertising": {
+    "message0": "إيقاف بث BLE",
+    "tooltip": "إيقاف بث BLE"
+  },
+  "seeed_rpcble_scan_create": {
+    "args0": [
+      null
+    ],
+    "message0": "احصل على ماسح BLE %1",
+    "tooltip": "الحصول على كائن الماسح الضوئي BLEScan"
+  },
+  "seeed_rpcble_scan_set_active": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "تمكين",
+            "TRUE"
+          ],
+          [
+            "تعطيل",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "الماسح %1 المسح النشط %2",
+    "tooltip": "المسح النشط أسرع لكنه يستهلك طاقة أكثر"
+  },
+  "seeed_rpcble_scan_set_interval": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "ماسح %1 %2 الفاصل",
+    "tooltip": "اضبط فترة مسح BLE"
+  },
+  "seeed_rpcble_scan_set_window": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "ماسح %1 نافذة %2",
+    "tooltip": "اضبط نافذة مسح BLE، عادة أقل من أو يساوي فترة المسح"
+  },
+  "seeed_rpcble_scan_start": {
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "إعادة المسح",
+            "FALSE"
+          ],
+          [
+            "استمر في المسح",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "المسح %1 المسح %2 ثانية حفظ إلى %3 %4",
+    "tooltip": "ابدأ بمسح BLE واحفظ النتائج"
+  },
+  "seeed_rpcble_scan_stop": {
+    "args0": [
+      null
+    ],
+    "message0": "أوقف الماسح %1",
+    "tooltip": "أوقف فحص BLE الحالي"
+  },
+  "seeed_rpcble_scan_clear_results": {
+    "args0": [
+      null
+    ],
+    "message0": "امسح الماسح %1 ذاكرة التخزين المؤقت للنتائج",
+    "tooltip": "مسح نتائج الفحص وتحرير الذاكرة"
+  },
+  "seeed_rpcble_scan_results_count": {
+    "args0": [
+      null
+    ],
+    "message0": "مسح كمية results%1",
+    "tooltip": "قم بمسح عدد أجهزة BLE"
+  },
+  "seeed_rpcble_scan_result_name": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "نتيجة المسح %1 الاسم %2",
+    "tooltip": "اقرأ اسم الجهاز للحصول على نتائج المسح المحددة"
+  },
+  "seeed_rpcble_scan_result_address": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "امسح نتيجة %1 العنوان مع الرقم التسلسلي %2",
+    "tooltip": "اقرأ عنوان MAC لنتائج المسح المحددة"
+  },
+  "seeed_rpcble_scan_result_rssi": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "نتائج المسح %1 RSSI مع الرقم التسلسلي %2",
+    "tooltip": "اقرأ RSSI قوة الإشارة للحصول على نتائج المسح المحددة"
+  },
+  "seeed_rpcble_scan_result_service_uuid": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "افحص نتائج %1 وحدة تعريف الخدمة UUID مع رقم تسلسلي %2",
+    "tooltip": "اقرأ أول بث خدمة UUID بناء على نتائج المسح المحددة"
+  },
+  "seeed_rpcble_scan_result_info": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "نتائج المسح %1 معلومات كاملة عن الرقم التسلسلي %2",
+    "tooltip": "اقرأ نص الوصف الكامل لنتائج المسح المحددة"
+  },
+  "seeed_rpcble_scan_result_has_service": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "نتيجة المسح %1 الرقم التسلسلي %2 يشمل وحدة UUID الخدمة %3",
+    "tooltip": "تحديد ما إذا كانت نتائج المسح المحددة تبث خدمة الهدف UUID"
+  },
+  "seeed_rpcble_create_client": {
+    "args0": [
+      null
+    ],
+    "message0": "إنشاء عميل BLE %1",
+    "tooltip": "إنشاء كائن عميل BLE GATT"
+  },
+  "seeed_rpcble_client_connect": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Public",
+            "GAP_REMOTE_ADDR_LE_PUBLIC"
+          ],
+          [
+            "Random",
+            "GAP_REMOTE_ADDR_LE_RANDOM"
+          ]
+        ]
+      }
+    ],
+    "message0": "عنوان الاتصال %1 العميل %2 نوع العنوان %3",
+    "tooltip": "الاتصال بعنوان BLE MAC المحدد"
+  },
+  "seeed_rpcble_client_disconnect": {
+    "args0": [
+      null
+    ],
+    "message0": "انقطاع %1 العميل",
+    "tooltip": "افصل اتصال عميل BLE"
+  },
+  "seeed_rpcble_client_is_connected": {
+    "args0": [
+      null
+    ],
+    "message0": "العميل %1 متصل",
+    "tooltip": "تحقق مما إذا كان عميل BLE متصلا"
+  },
+  "seeed_rpcble_client_rssi": {
+    "args0": [
+      null
+    ],
+    "message0": "العميل %1 RSSI عن بعد",
+    "tooltip": "اقرأ RSSI البعيد المتصل بالعميل"
+  },
+  "seeed_rpcble_client_get_service": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 العملاء للحصول على خدمات عن بعد %2 UUID%3",
+    "tooltip": "الحصول على خدمة GATT المحددة من خادم BLE البعيد"
+  },
+  "seeed_rpcble_remote_service_get_characteristic": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "%2 اكتساب الميزات %1 الخدمة عن بعد %3 UUID",
+    "tooltip": "الحصول على ميزات محددة من خدمة GATT البعيدة"
+  },
+  "seeed_rpcble_remote_characteristic_read": {
+    "args0": [
+      null
+    ],
+    "message0": "اقرأ ميزة التحكم عن بعد %1 النص",
+    "tooltip": "اقرأ نص القيمة الذاتية عن بعد"
+  },
+  "seeed_rpcble_remote_characteristic_write": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لكن لم يكن هناك رد",
+            "FALSE"
+          ],
+          [
+            "هناك حاجة إلى رد",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "ميزات الكتابة عن بعد %1 %2 %3 النص",
+    "tooltip": "كتابة بيانات نصية إلى ميزات BLE البعيدة"
+  },
+  "seeed_rpcble_remote_characteristic_can_read": {
+    "args0": [
+      null
+    ],
+    "message0": "الميزات عن بعد %1 قابلة للقراءة",
+    "tooltip": "تحديد ما إذا كانت الميزات البعيدة تدعم القراءة"
+  },
+  "seeed_rpcble_remote_characteristic_can_write": {
+    "args0": [
+      null
+    ],
+    "message0": "الملامح البعيدة %1 قابلة للكتابة",
+    "tooltip": "تحديد ما إذا كانت الميزات البعيدة تدعم الكتابة"
+  },
+  "seeed_rpcble_remote_characteristic_can_notify": {
+    "args0": [
+      null
+    ],
+    "message0": "يمكن إشعار الميزات عن بعد %1",
+    "tooltip": "تحديد ما إذا كانت الميزات البعيدة تدعم الإشعارات"
+  },
+  "seeed_rpcble_remote_characteristic_register_notify": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "إشعار",
+            "TRUE"
+          ],
+          [
+            "إشارة",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "اشترك في الميزات %1 الإشعارات عن بعد %2",
+    "message1": "على receipt%1",
+    "tooltip": "اشترك في إشعارات الميزات عن بعد والبيانات المستلمة في ذاكرة التخزين المؤقت"
+  },
+  "seeed_rpcble_remote_notify_value": {
+    "args0": [
+      null
+    ],
+    "message0": "ميزات البث عن بعد %1 نص الإشعارات الأخير",
+    "tooltip": "اقرأ أحدث نص من ذاكرة التخزين المؤقت للاستدعاء عن بعد"
+  },
+  "seeed_rpcble_uart_begin": {
+    "args0": [
+      null
+    ],
+    "message0": "ابدأ خدمة BLE UART الاسم: %1",
+    "tooltip": "أنشأت خدمات BLE على غرار UART الإسكندنافي، مناسبة لإرسال واستقبال النصوص عبر الهواتف المحمولة أو البلوتوث عبر الإنترنت"
+  },
+  "seeed_rpcble_uart_send": {
+    "args0": [
+      null
+    ],
+    "message0": "إرسال رسالة نصية من BLE UART %1",
+    "tooltip": "يتم إشعار بيانات النص عبر ميزات BLE UART TX"
+  },
+  "seeed_rpcble_uart_connected": {
+    "message0": "BLE UART متصل",
+    "tooltip": "تحقق مما إذا كان لدى BLE UART اتصالات مع العملاء"
+  },
+  "seeed_rpcble_uart_received": {
+    "message0": "تلقت BLE UART مؤخرا النص",
+    "tooltip": "اقرأ النص الذي استلمه مؤخرا من ميزة BLE UART RX"
+  },
+  "seeed_rpcble_uart_on_receive": {
+    "args1": [
+      null
+    ],
+    "message0": "عندما تستقبل BLE UART النص",
+    "message1": "نفذ %1",
+    "tooltip": "قم بتعيين منطق المعالجة ل BLE UART بعد استلام النص"
+  },
+  "seeed_rpcble_web_battery_begin": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "اسم خدمة بطارية البلوتوث على الويب التشغيل: %1 البطارية الأولية %2",
+    "tooltip": "إنشاء 0x180F خدمة بطارية قياسية لتسهيل قراءة عينات البلوتوث عبر الويب واشتراك الطاقة"
+  },
+  "seeed_rpcble_web_battery_set_level": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "وإشعار",
+            "TRUE"
+          ],
+          [
+            "تم التحديث فقط",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "تعيين بطارية البلوتوث على الويب %1 %2",
+    "tooltip": "قم بتحديث ميزات مستوى البطارية واختر إبلاغ العملاء المشتركين فورا"
+  },
+  "seeed_rpcble_web_battery_level": {
+    "message0": "مستوى بطارية الويب الحالي في بلوتوث الويب",
+    "tooltip": "اقرأ طاقة ذاكرة التخزين المؤقت الحالية لخدمة البطارية"
+  },
+  "seeed_rpcble_web_battery_connected": {
+    "message0": "خدمة بطارية البلوتوث عبر الإنترنت متصلة",
+    "tooltip": "تحقق مما إذا كانت خدمة البطارية لديها اتصالات عميل"
+  },
+  "seeed_rpcble_ibeacon_begin": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "لا يمكن ربطها",
+            "NONCONN"
+          ],
+          [
+            "قابل للمسح الضوئي",
+            "SCAN_IND"
+          ]
+        ]
+      }
+    ],
+    "message0": "اسم iBeacon لبدء التشغيل %1 UUID %2 معرف البائع الرئيسي %3 الثانوي %4 %5 معلومات الطاقة %6 النوع %7 %8",
+    "tooltip": "قم بتكوين وبدء بث iBeacon، والتي يمكن أن تتضمن اسم استجابة المسح ومعلومات نصية"
+  },
+  "seeed_rpcble_ibeacon_stop": {
+    "message0": "أوقف بث iBeacon",
+    "tooltip": "أوقف بث iBeacon"
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "toolbox_name": "STM32步进电机控制快捷模块",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "控制": "控制",
+    "状态": "状态",
+    "事件": "事件"
+  },
+  "stepper_ctrl_init": {
+    "message0": "初始化步进电机 %1 脉冲引脚 %2 方向引脚 %3 速度(μs) %4 前限位引脚 %5 后限位引脚 %6",
+    "tooltip": "初始化步进电机控制器，配置引脚和速度",
+    "args0": [
+      null,
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      null,
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "stepper_ctrl_start": {
+    "message0": "%1 启动 目标步数 %2 方向 %3",
+    "tooltip": "设置目标步数和方向后启动步进电机",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "FORWARD",
+            "FORWARD"
+          ],
+          [
+            "REVERSE",
+            "REVERSE"
+          ]
+        ]
+      }
+    ]
+  },
+  "stepper_ctrl_stop": {
+    "message0": "%1 停止",
+    "tooltip": "停止步进电机",
+    "args0": [
+      null
+    ]
+  },
+  "stepper_ctrl_set_speed": {
+    "message0": "%1 设置速度(μs) %2",
+    "tooltip": "设置步进脉冲间隔（微秒），值越小速度越快，范围200~5000",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "stepper_ctrl_set_rpm": {
+    "message0": "%1 设置转速(RPM) %2 每圈步数 %3",
+    "tooltip": "通过转速和每圈步数设置速度",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "stepper_ctrl_set_direction": {
+    "message0": "%1 设置方向 %2",
+    "tooltip": "设置电机旋转方向",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "FORWARD",
+            "FORWARD"
+          ],
+          [
+            "REVERSE",
+            "REVERSE"
+          ]
+        ]
+      }
+    ]
+  },
+  "stepper_ctrl_tick": {
+    "message0": "%1 执行一步",
+    "tooltip": "在loop中调用，驱动电机并自动检测限位和目标",
+    "args0": [
+      null
+    ]
+  },
+  "stepper_ctrl_is_running": {
+    "message0": "%1 运行中",
+    "tooltip": "判断步进电机是否正在运行",
+    "args0": [
+      null
+    ]
+  },
+  "stepper_ctrl_get_steps": {
+    "message0": "%1 已走步数",
+    "tooltip": "获取当前已走步数",
+    "args0": [
+      null
+    ]
+  },
+  "stepper_ctrl_reset_steps": {
+    "message0": "%1 清零步数",
+    "tooltip": "将步数计数器清零",
+    "args0": [
+      null
+    ]
+  },
+  "stepper_ctrl_is_front_limit": {
+    "message0": "%1 前限位触发",
+    "tooltip": "判断前限位开关是否触发",
+    "args0": [
+      null
+    ]
+  },
+  "stepper_ctrl_is_back_limit": {
+    "message0": "%1 后限位触发",
+    "tooltip": "判断后限位开关是否触发",
+    "args0": [
+      null
+    ]
+  },
+  "stepper_ctrl_on_target_done": {
+    "message0": "当 %1 目标步数完成时",
+    "message1": "执行 %1",
+    "tooltip": "事件：目标步数完成时触发",
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ]
+  },
+  "stepper_ctrl_on_front_limit": {
+    "message0": "当 %1 前限位触发时",
+    "message1": "执行 %1",
+    "tooltip": "事件：前限位开关触发时",
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ]
+  },
+  "stepper_ctrl_on_back_limit": {
+    "message0": "当 %1 后限位触发时",
+    "message1": "执行 %1",
+    "tooltip": "事件：后限位开关触发时",
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ]
+  }
+}

@@ -1,11 +1,13 @@
 {
   "toolbox_name": "BMP58X Barometer",
   "bmp58x_init_i2c": {
-    "message0": "init BMP58X I2C %1 bus %2 address %3",
-    "tooltip": "Initialize the BMP58X pressure and temperature sensor over I2C.",
+    "message0": "BMP58X I2C%1バス%2アドレスを初期化%3",
+    "tooltip": "I2Cを使ってBMP58X気圧温度センサーを初期化します。",
     "args0": [
       null,
-      null,
+      {
+        "options": "${board.i2c}"
+      },
       {
         "options": [
           [
@@ -21,12 +23,12 @@
     ]
   },
   "bmp58x_init_spi": {
-    "message0": "init BMP58X SPI %1 bus %2 CS %3",
-    "tooltip": "Initialize the BMP58X pressure and temperature sensor over SPI."
+    "message0": "BMP58X SPI %1 バス%2CS %3を初期化してください",
+    "tooltip": "BMP58Xの気圧温度センサーをSPIで初期化します。"
   },
   "bmp58x_init_uart": {
-    "message0": "init BMP58X UART %1 serial %2 address %3 RX %4 TX %5",
-    "tooltip": "Initialize the BMP58X over UART/Modbus RTU at default 9600 baud.",
+    "message0": "BMP58X UARTをシリアルポート%1初期化%2アドレス%3RX%4TX%5",
+    "tooltip": "UART/Modbus RTU経由でBMP58Xを初期化し、デフォルトのボーレート9600。",
     "args0": [
       null,
       {
@@ -62,22 +64,22 @@
     ]
   },
   "bmp58x_read_value": {
-    "message0": "BMP58X %1 read %2",
-    "tooltip": "Read temperature, pressure, or pressure-based altitude.",
+    "message0": "BMP58X %1 読%2",
+    "tooltip": "気圧、気圧、または気圧に基づいて計算された高度を読みましょう。",
     "args0": [
       null,
       {
         "options": [
           [
-            "temperature C",
+            "温度C",
             "TEMP"
           ],
           [
-            "pressure Pa",
+            "空気圧 Pa",
             "PRESS"
           ],
           [
-            "altitude m",
+            "標高 m",
             "ALT"
           ]
         ]
@@ -85,8 +87,8 @@
     ]
   },
   "bmp58x_set_measure_mode": {
-    "message0": "BMP58X %1 set measurement mode %2",
-    "tooltip": "Set the BMP58X measurement or power mode.",
+    "message0": "BMP58X %1 測定モード設定 %2",
+    "tooltip": "BMP58Xの測定/電源モードを設定してください。",
     "args0": [
       null,
       {
@@ -96,7 +98,7 @@
             "eNormal"
           ],
           [
-            "single shot",
+            "単一測定",
             "eSingleShot"
           ],
           [
@@ -108,7 +110,7 @@
             "eSleep"
           ],
           [
-            "deep sleep",
+            "深い睡眠",
             "eDeepSleep"
           ]
         ]
@@ -116,27 +118,27 @@
     ]
   },
   "bmp58x_set_odr": {
-    "message0": "BMP58X %1 set output rate %2",
-    "tooltip": "Set output data rate."
+    "message0": "BMP58X %1出力レートを%2設定",
+    "tooltip": "出力データレートODRを設定します。"
   },
   "bmp58x_set_osr": {
-    "message0": "BMP58X %1 set oversampling temp %2 pressure %3",
-    "tooltip": "Set temperature and pressure oversampling."
+    "message0": "BMP58X %1 オーバーサンプリング温度%2圧力設定%3",
+    "tooltip": "温度と圧力の過高サンプリング率を設定します。"
   },
   "bmp58x_set_iir": {
-    "message0": "BMP58X %1 set IIR temp %2 pressure %3",
-    "tooltip": "Set temperature and pressure IIR filter coefficients."
+    "message0": "BMP58X %1 IIR 温度%2圧力%3設定します",
+    "tooltip": "温度と圧力のIIRフィルター係数を設定してください。"
   },
   "bmp58x_calibrate_altitude": {
-    "message0": "BMP58X %1 calibrate absolute difference at altitude %2 m",
-    "tooltip": "Use the known current altitude to calibrate absolute measurement difference."
+    "message0": "BMP58X %1は、絶対的な低電流高度である%2mにキャリブレーションされています",
+    "tooltip": "絶対的な測定差は、現在知られている標高を用いて校正されます。"
   },
   "bmp58x_set_uart_baud": {
-    "message0": "BMP58X UART %1 set baud %2",
-    "tooltip": "UART version only. Change the sensor UART baud rate."
+    "message0": "BMP58X UART %1 ボーレート設定%2",
+    "tooltip": "UARTバージョンのみが利用可能で、センサーのUARTボーレートが変更されます。"
   },
   "bmp58x_reset": {
-    "message0": "BMP58X %1 software reset",
-    "tooltip": "Run BMP58X software reset."
+    "message0": "BMP58X %1ソフトウェアリセット",
+    "tooltip": "BMP58Xのソフトウェアリセットを実行してください。"
   }
 }

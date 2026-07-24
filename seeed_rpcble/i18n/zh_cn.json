@@ -1,0 +1,683 @@
+{
+  "toolbox_name": "RPC BLE",
+  "toolbox_categories": [
+    "设备管理",
+    "GATT服务端",
+    "特征值与事件",
+    "广播",
+    "扫描",
+    "客户端",
+    "BLE UART",
+    "网页蓝牙",
+    "iBeacon"
+  ],
+  "seeed_rpcble_init": {
+    "message0": "初始化 BLE 设备 名称 %1",
+    "tooltip": "初始化 Wio Terminal rpcBLE 设备并设置广播名称",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_deinit": {
+    "message0": "关闭 BLE 设备",
+    "tooltip": "关闭 rpcBLE 设备"
+  },
+  "seeed_rpcble_is_initialized": {
+    "message0": "BLE 已初始化",
+    "tooltip": "返回 BLEDevice 是否已初始化"
+  },
+  "seeed_rpcble_get_address": {
+    "message0": "本机 BLE 地址",
+    "tooltip": "获取本机 BLE MAC 地址字符串"
+  },
+  "seeed_rpcble_set_mtu": {
+    "message0": "设置 BLE MTU %1",
+    "tooltip": "设置 BLE 最大传输单元 MTU",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_get_mtu": {
+    "message0": "当前 BLE MTU",
+    "tooltip": "获取当前 BLE MTU"
+  },
+  "seeed_rpcble_create_server": {
+    "message0": "创建 BLE 服务端 %1",
+    "tooltip": "创建 BLE GATT 服务端对象",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_server_create_service": {
+    "message0": "服务端 %1 创建服务 %2 UUID %3",
+    "tooltip": "在 BLE 服务端创建 GATT 服务",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "seeed_rpcble_service_start": {
+    "message0": "启动 BLE 服务 %1",
+    "tooltip": "启动指定 GATT 服务",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_service_stop": {
+    "message0": "停止 BLE 服务 %1",
+    "tooltip": "停止指定 GATT 服务",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_server_connected_count": {
+    "message0": "服务端 %1 已连接客户端数量",
+    "tooltip": "获取连接到服务端的 BLE 客户端数量",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_server_set_callbacks": {
+    "message0": "设置服务端 %1 连接事件",
+    "message1": "连接时 %1",
+    "message2": "断开时 %1",
+    "tooltip": "为 BLE 服务端设置连接和断开回调",
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "args2": [
+      null
+    ]
+  },
+  "seeed_rpcble_create_characteristic": {
+    "message0": "服务 %1 创建特征 %2 UUID %3 属性 %4",
+    "tooltip": "在 GATT 服务中创建特征值",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "读取",
+            "BLECharacteristic::PROPERTY_READ"
+          ],
+          [
+            "写入",
+            "BLECharacteristic::PROPERTY_WRITE"
+          ],
+          [
+            "通知",
+            "BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "读写",
+            "BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE"
+          ],
+          [
+            "读取+通知",
+            "BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "写入+通知",
+            "BLECharacteristic::PROPERTY_WRITE | BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "读写+通知",
+            "BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE | BLECharacteristic::PROPERTY_NOTIFY"
+          ],
+          [
+            "指示",
+            "BLECharacteristic::PROPERTY_INDICATE"
+          ],
+          [
+            "无响应写入",
+            "BLECharacteristic::PROPERTY_WRITE_NR"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcble_characteristic_set_permissions": {
+    "message0": "设置特征 %1 访问权限 %2",
+    "tooltip": "设置特征值的 GATT 访问权限",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "可读",
+            "GATT_PERM_READ"
+          ],
+          [
+            "可写",
+            "GATT_PERM_WRITE"
+          ],
+          [
+            "可读写",
+            "GATT_PERM_READ | GATT_PERM_WRITE"
+          ],
+          [
+            "无",
+            "0"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcble_characteristic_add_notify_descriptor": {
+    "message0": "特征 %1 添加通知描述符",
+    "tooltip": "为通知特征添加 BLE2902 描述符",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_characteristic_add_descriptor": {
+    "message0": "特征 %1 创建描述符 UUID %2 标志 %3 权限 %4 长度 %5",
+    "tooltip": "为特征创建自定义描述符",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "ASCII 文本",
+            "ATTRIB_FLAG_VOID | ATTRIB_FLAG_ASCII_Z"
+          ],
+          [
+            "普通数据",
+            "ATTRIB_FLAG_VOID"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "可读",
+            "GATT_PERM_READ"
+          ],
+          [
+            "可写",
+            "GATT_PERM_WRITE"
+          ],
+          [
+            "可读写",
+            "GATT_PERM_READ | GATT_PERM_WRITE"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "seeed_rpcble_characteristic_set_value": {
+    "message0": "设置特征 %1 文本值 %2",
+    "tooltip": "设置特征值为文本数据",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcble_characteristic_set_byte": {
+    "message0": "设置特征 %1 字节值 %2",
+    "tooltip": "设置特征值为 1 字节数据，适合电池电量等标准特征",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcble_characteristic_get_value": {
+    "message0": "特征 %1 当前文本值",
+    "tooltip": "读取本地特征值的当前文本数据",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_characteristic_notify": {
+    "message0": "通知特征 %1 数据更新",
+    "tooltip": "向已订阅客户端发送通知",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_characteristic_indicate": {
+    "message0": "指示特征 %1 数据更新",
+    "tooltip": "发送需要确认的特征值指示",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_characteristic_set_callbacks": {
+    "message0": "当特征 %1 被写入时",
+    "message1": "执行 %1",
+    "tooltip": "设置特征写入回调，并缓存最近一次收到的文本",
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ]
+  },
+  "seeed_rpcble_characteristic_received_value": {
+    "message0": "特征 %1 最近写入文本",
+    "tooltip": "读取特征写入回调缓存的最近文本",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_advertising_add_service_uuid": {
+    "message0": "广播添加服务 UUID %1",
+    "tooltip": "将服务 UUID 加入 BLE 广播数据",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_advertising_set_scan_response": {
+    "message0": "设置扫描响应 %1",
+    "tooltip": "设置是否启用扫描响应数据",
+    "args0": [
+      {
+        "options": [
+          [
+            "启用",
+            "TRUE"
+          ],
+          [
+            "禁用",
+            "FALSE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcble_advertising_set_preferred": {
+    "message0": "设置广播首选参数 最小 %1 最大 %2",
+    "tooltip": "设置广播首选连接参数，常用于改善手机兼容性",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcble_start_advertising": {
+    "message0": "开始 BLE 广播",
+    "tooltip": "开始广播，使设备可被扫描发现"
+  },
+  "seeed_rpcble_stop_advertising": {
+    "message0": "停止 BLE 广播",
+    "tooltip": "停止 BLE 广播"
+  },
+  "seeed_rpcble_scan_create": {
+    "message0": "获取 BLE 扫描器 %1",
+    "tooltip": "获取 BLEScan 扫描器对象",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_scan_set_active": {
+    "message0": "扫描器 %1 主动扫描 %2",
+    "tooltip": "主动扫描更快但更耗电",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "启用",
+            "TRUE"
+          ],
+          [
+            "禁用",
+            "FALSE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcble_scan_set_interval": {
+    "message0": "扫描器 %1 间隔 %2",
+    "tooltip": "设置 BLE 扫描间隔",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcble_scan_set_window": {
+    "message0": "扫描器 %1 窗口 %2",
+    "tooltip": "设置 BLE 扫描窗口，通常小于或等于扫描间隔",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcble_scan_start": {
+    "message0": "扫描器 %1 扫描 %2 秒 保存为 %3 %4",
+    "tooltip": "启动 BLE 扫描并保存扫描结果",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "重新扫描",
+            "FALSE"
+          ],
+          [
+            "继续扫描",
+            "TRUE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcble_scan_stop": {
+    "message0": "停止扫描器 %1",
+    "tooltip": "停止当前 BLE 扫描",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_scan_clear_results": {
+    "message0": "清除扫描器 %1 结果缓存",
+    "tooltip": "清除扫描结果并释放内存",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_scan_results_count": {
+    "message0": "扫描结果 %1 数量",
+    "tooltip": "获取扫描到的 BLE 设备数量",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_scan_result_name": {
+    "message0": "扫描结果 %1 序号 %2 的名称",
+    "tooltip": "读取指定扫描结果的设备名称",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcble_scan_result_address": {
+    "message0": "扫描结果 %1 序号 %2 的地址",
+    "tooltip": "读取指定扫描结果的 MAC 地址",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcble_scan_result_rssi": {
+    "message0": "扫描结果 %1 序号 %2 的 RSSI",
+    "tooltip": "读取指定扫描结果的信号强度 RSSI",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcble_scan_result_service_uuid": {
+    "message0": "扫描结果 %1 序号 %2 的服务 UUID",
+    "tooltip": "读取指定扫描结果广播的第一个服务 UUID",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcble_scan_result_info": {
+    "message0": "扫描结果 %1 序号 %2 的完整信息",
+    "tooltip": "读取指定扫描结果的完整描述文本",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcble_scan_result_has_service": {
+    "message0": "扫描结果 %1 序号 %2 包含服务 UUID %3",
+    "tooltip": "判断指定扫描结果是否广播了目标服务 UUID",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "seeed_rpcble_create_client": {
+    "message0": "创建 BLE 客户端 %1",
+    "tooltip": "创建 BLE GATT 客户端对象",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_client_connect": {
+    "message0": "客户端 %1 连接地址 %2 地址类型 %3",
+    "tooltip": "连接到指定 BLE MAC 地址",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Public",
+            "GAP_REMOTE_ADDR_LE_PUBLIC"
+          ],
+          [
+            "Random",
+            "GAP_REMOTE_ADDR_LE_RANDOM"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcble_client_disconnect": {
+    "message0": "客户端 %1 断开连接",
+    "tooltip": "断开 BLE 客户端连接",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_client_is_connected": {
+    "message0": "客户端 %1 已连接",
+    "tooltip": "判断 BLE 客户端是否已连接",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_client_rssi": {
+    "message0": "客户端 %1 远端 RSSI",
+    "tooltip": "读取客户端连接的远端 RSSI",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_client_get_service": {
+    "message0": "客户端 %1 获取远端服务 %2 UUID %3",
+    "tooltip": "从远端 BLE 服务端获取指定 GATT 服务",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "seeed_rpcble_remote_service_get_characteristic": {
+    "message0": "远端服务 %1 获取特征 %2 UUID %3",
+    "tooltip": "从远端 GATT 服务获取指定特征",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "seeed_rpcble_remote_characteristic_read": {
+    "message0": "读取远端特征 %1 文本",
+    "tooltip": "读取远端 BLE 特征值文本",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_remote_characteristic_write": {
+    "message0": "写入远端特征 %1 文本 %2 %3",
+    "tooltip": "向远端 BLE 特征写入文本数据",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "无响应",
+            "FALSE"
+          ],
+          [
+            "需要响应",
+            "TRUE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcble_remote_characteristic_can_read": {
+    "message0": "远端特征 %1 可读",
+    "tooltip": "判断远端特征是否支持读取",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_remote_characteristic_can_write": {
+    "message0": "远端特征 %1 可写",
+    "tooltip": "判断远端特征是否支持写入",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_remote_characteristic_can_notify": {
+    "message0": "远端特征 %1 可通知",
+    "tooltip": "判断远端特征是否支持通知",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_remote_characteristic_register_notify": {
+    "message0": "订阅远端特征 %1 通知 %2",
+    "message1": "收到时 %1",
+    "tooltip": "订阅远端特征通知并缓存收到的数据",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "通知",
+            "TRUE"
+          ],
+          [
+            "指示",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "args1": [
+      null
+    ]
+  },
+  "seeed_rpcble_remote_notify_value": {
+    "message0": "远端特征 %1 最近通知文本",
+    "tooltip": "读取远端通知回调缓存的最近文本",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_uart_begin": {
+    "message0": "启动 BLE UART 服务 名称 %1",
+    "tooltip": "创建 Nordic UART 风格 BLE 服务，适合手机或 Web Bluetooth 进行文本收发",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_uart_send": {
+    "message0": "BLE UART 发送文本 %1",
+    "tooltip": "通过 BLE UART TX 特征通知文本数据",
+    "args0": [
+      null
+    ]
+  },
+  "seeed_rpcble_uart_connected": {
+    "message0": "BLE UART 已连接",
+    "tooltip": "判断 BLE UART 是否有客户端连接"
+  },
+  "seeed_rpcble_uart_received": {
+    "message0": "BLE UART 最近收到文本",
+    "tooltip": "读取 BLE UART RX 特征最近收到的文本"
+  },
+  "seeed_rpcble_uart_on_receive": {
+    "message0": "当 BLE UART 收到文本时",
+    "message1": "执行 %1",
+    "tooltip": "设置 BLE UART 收到文本后的处理逻辑",
+    "args1": [
+      null
+    ]
+  },
+  "seeed_rpcble_web_battery_begin": {
+    "message0": "启动 Web Bluetooth 电池服务 名称 %1 初始电量 %2",
+    "tooltip": "创建标准电池服务 0x180F，便于 Web Bluetooth 示例读取和订阅电量",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "seeed_rpcble_web_battery_set_level": {
+    "message0": "设置 Web Bluetooth 电量 %1 %2",
+    "tooltip": "更新电池电量特征，可选择立即通知订阅客户端",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "并通知",
+            "TRUE"
+          ],
+          [
+            "仅更新",
+            "FALSE"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcble_web_battery_level": {
+    "message0": "Web Bluetooth 当前电量",
+    "tooltip": "读取电池服务缓存的当前电量"
+  },
+  "seeed_rpcble_web_battery_connected": {
+    "message0": "Web Bluetooth 电池服务已连接",
+    "tooltip": "判断电池服务是否有客户端连接"
+  },
+  "seeed_rpcble_ibeacon_begin": {
+    "message0": "启动 iBeacon 名称 %1 UUID %2 Major %3 Minor %4 厂商ID %5 功率 %6 信息 %7 类型 %8",
+    "tooltip": "配置并启动 iBeacon 广播，可附带扫描响应名称和文本信息",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "不可连接",
+            "NONCONN"
+          ],
+          [
+            "可扫描",
+            "SCAN_IND"
+          ]
+        ]
+      }
+    ]
+  },
+  "seeed_rpcble_ibeacon_stop": {
+    "message0": "停止 iBeacon 广播",
+    "tooltip": "停止 iBeacon 广播"
+  }
+}

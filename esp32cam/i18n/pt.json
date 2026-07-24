@@ -1,35 +1,118 @@
 {
-  "toolbox_name": "ESP32Cam Camera",
+  "toolbox_name": "Câmera ESP32Cam",
   "toolbox_labels": {
-    "初始化": "Initialization",
-    "运行时设置": "Runtime settings",
-    "图像帧": "Image frames",
-    "WebServer 集成": "WebServer integration"
+    "初始化": "inicialização",
+    "运行时设置": "Configurações de tempo de execução",
+    "图像帧": "Moldura de imagem",
+    "WebServer 集成": "Integração com WebServer"
   },
   "esp32cam_init": {
-    "message0": "initialize ESP32Cam %1 pin preset %2 resolution %3 pixel format %4 JPEG quality %5 frame buffers %6",
-    "tooltip": "Initialize the OV2640 camera with the selected pins, resolution and pixel format; JPEG quality ranges from 0 to 100",
+    "message0": "Inicializar ESP32Cam %1 esquema de pinos %2 Resolução %3 formato de pixels %4 qualidade JPEG %5 Número de quadros em buffer %6",
+    "tooltip": "Inicialize a câmera OV2640 usando o pino, resolução e formato de pixel selecionados; A qualidade do JPEG varia de 0 a 100",
     "args0": [
       null,
       {
         "options": [
-          ["Auto (from board)", "AUTO"],
-          ["AI Thinker ESP32-CAM", "AiThinker"],
-          ["XIAO ESP32S3 Sense", "XiaoSense"],
-          ["ESP32-S3 N16R8 CAM", "S3N16R8"],
-          ["FREENOVE WROVER CAM", "FreeNove"],
-          ["M5Stack M5Camera", "M5Camera"],
-          ["M5Stack M5Camera LED", "M5CameraLED"],
-          ["TTGO ESP32-CAM", "TTGO"]
+          [
+            "Automático (segundo o conselho de desenvolvimento)",
+            "AUTO"
+          ],
+          [
+            "AI Thinker ESP32-CAM",
+            "AiThinker"
+          ],
+          [
+            "XIAO ESP32S3 Sense",
+            "XiaoSense"
+          ],
+          [
+            "ESP32-S3 N16R8 CAM",
+            "S3N16R8"
+          ],
+          [
+            "FREENOVE WROVER CAM",
+            "FreeNove"
+          ],
+          [
+            "M5Stack M5Camera",
+            "M5Camera"
+          ],
+          [
+            "M5Stack M5Camera LED",
+            "M5CameraLED"
+          ],
+          [
+            "TTGO ESP32-CAM",
+            "TTGO"
+          ]
         ]
       },
-      null,
       {
         "options": [
-          ["JPEG", "JPEG"],
-          ["RGB565", "RGB"],
-          ["YUV422", "YUV"],
-          ["Grayscale", "GRAYSCALE"]
+          [
+            "QVGA (320x240)",
+            "320,240"
+          ],
+          [
+            "QQVGA (160x120)",
+            "160,120"
+          ],
+          [
+            "HQVGA (240x176)",
+            "240,176"
+          ],
+          [
+            "CIF (400x296)",
+            "400,296"
+          ],
+          [
+            "HVGA (480x320)",
+            "480,320"
+          ],
+          [
+            "VGA (640x480)",
+            "640,480"
+          ],
+          [
+            "SVGA (800x600)",
+            "800,600"
+          ],
+          [
+            "XGA (1024x768)",
+            "1024,768"
+          ],
+          [
+            "HD (1280x720)",
+            "1280,720"
+          ],
+          [
+            "SXGA (1280x1024)",
+            "1280,1024"
+          ],
+          [
+            "UXGA (1600x1200)",
+            "1600,1200"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "JPEG",
+            "JPEG"
+          ],
+          [
+            "RGB565",
+            "RGB"
+          ],
+          [
+            "YUV422",
+            "YUV"
+          ],
+          [
+            "Grayscale",
+            "GRAYSCALE"
+          ]
         ]
       },
       null,
@@ -37,151 +120,238 @@
     ]
   },
   "esp32cam_end": {
-    "message0": "shut down ESP32Cam",
-    "tooltip": "Shut down the camera and release driver resources"
+    "message0": "Desligue o ESP32Cam",
+    "tooltip": "Desligue a câmera e libere os recursos do drive"
   },
   "esp32cam_is_ready": {
-    "message0": "ESP32Cam initialization succeeded",
-    "tooltip": "Return whether the most recent initialization succeeded"
+    "message0": "Inicialização do ESP32Cam bem-sucedida",
+    "tooltip": "Retorna se a inicialização mais recente foi bem-sucedida"
   },
   "esp32cam_set_logger": {
-    "message0": "send ESP32Cam logs to %1",
-    "tooltip": "Enable esp32cam runtime logs on the selected serial port"
+    "message0": "O ESP32Cam registra a saída para %1",
+    "tooltip": "Permita ESP32CAM execute o log e o envie para a porta serial selecionada"
   },
   "esp32cam_update_resolution": {
-    "message0": "set ESP32Cam resolution %1",
-    "tooltip": "Change resolution at runtime and wait 500 ms for stabilization; it cannot exceed the initial resolution"
+    "message0": "Configuração de resolução do ESP32Cam %1",
+    "tooltip": "Modificar a resolução durante o tempo de execução e esperar 500 milissegundos para estabilizar o sensor; Não pode exceder a resolução inicial"
   },
   "esp32cam_update_image": {
-    "message0": "ESP32Cam image brightness %1 contrast %2 saturation %3",
-    "tooltip": "Set brightness, contrast and saturation; each value ranges from -2 to 2"
+    "message0": "Parâmetros de imagem ESP32Cam: Brilho %1 Contraste %2 Saturação %3",
+    "tooltip": "Defina brilho, contraste e saturação, com os três parâmetros variando de -2 a 2"
   },
   "esp32cam_update_gain": {
-    "message0": "set ESP32Cam gain %1",
-    "tooltip": "Positive 1 to 31 selects manual gain; -2, -4, -8, -16, -32, -64 or -128 selects the AGC ceiling"
+    "message0": "Configuração de ganho do ESP32Cam %1",
+    "tooltip": "Números positivos de 1 a 31 indicam ganho manual; -2, -4, -8, -16, -32, -64, -128 indicam o limite de ganho automático"
   },
   "esp32cam_update_light_mode": {
-    "message0": "set ESP32Cam white balance %1",
-    "tooltip": "Set automatic white balance and lighting mode",
+    "message0": "Modo de Balanço de Branco ESP32Cam %1",
+    "tooltip": "Defina o balanço de branco automático e os modos de iluminação da câmera",
     "args0": [
       {
         "options": [
-          ["Off", "NONE"],
-          ["Auto", "AUTO"],
-          ["Sunny", "SUNNY"],
-          ["Cloudy", "CLOUDY"],
-          ["Office", "OFFICE"],
-          ["Home", "HOME"]
+          [
+            "Desligado",
+            "NONE"
+          ],
+          [
+            "Auto",
+            "AUTO"
+          ],
+          [
+            "Sunny",
+            "SUNNY"
+          ],
+          [
+            "Cloudy",
+            "CLOUDY"
+          ],
+          [
+            "Office",
+            "OFFICE"
+          ],
+          [
+            "Home",
+            "HOME"
+          ]
         ]
       }
     ]
   },
   "esp32cam_update_special_effect": {
-    "message0": "set ESP32Cam effect %1",
-    "tooltip": "Set the camera image effect",
+    "message0": "ESP32Cam Efeitos Especiais %1",
+    "tooltip": "Definir efeitos de imagem da câmera",
     "args0": [
       {
         "options": [
-          ["None", "NONE"],
-          ["Negative", "NEGATIVE"],
-          ["Black and white", "BLACKWHITE"],
-          ["Reddish", "REDDISH"],
-          ["Greenish", "GREENISH"],
-          ["Bluish", "BLUISH"],
-          ["Antique", "ANTIQUE"]
+          [
+            "None",
+            "NONE"
+          ],
+          [
+            "Negative",
+            "NEGATIVE"
+          ],
+          [
+            "Preto e branco",
+            "BLACKWHITE"
+          ],
+          [
+            "Reddish",
+            "REDDISH"
+          ],
+          [
+            "Greenish",
+            "GREENISH"
+          ],
+          [
+            "Bluish",
+            "BLUISH"
+          ],
+          [
+            "Antique",
+            "ANTIQUE"
+          ]
         ]
       }
     ]
   },
   "esp32cam_update_flip": {
-    "message0": "ESP32Cam image flip horizontal mirror %1 vertical flip %2",
-    "tooltip": "Set horizontal mirroring and vertical flipping"
+    "message0": "ESP32Cam Imagem: Flip Espelhamento Horizontal %1 Flip Vertical %2",
+    "tooltip": "Defina espelhamento horizontal e inversão vertical"
   },
   "esp32cam_update_corrections": {
-    "message0": "ESP32Cam corrections raw gamma %1 lens correction %2",
-    "tooltip": "Enable or disable raw gamma and lens correction"
+    "message0": "Correção de imagem ESP32Cam Raw Gamma %1 Correção de Lente %2",
+    "tooltip": "Ligue ou desative a correção original de gama e de lente"
   },
   "esp32cam_status_number": {
-    "message0": "ESP32Cam current %1",
-    "tooltip": "Read a numeric camera setting; modes and effects return their enum values",
+    "message0": "ESP32Cam Atualidade %1",
+    "tooltip": "Leia as configurações atuais de valores da câmera; Modos e efeitos retornam os valores enumerados correspondentes",
     "args0": [
       {
         "options": [
-          ["image width", "WIDTH"],
-          ["image height", "HEIGHT"],
-          ["brightness", "BRIGHTNESS"],
-          ["contrast", "CONTRAST"],
-          ["saturation", "SATURATION"],
-          ["gain", "GAIN"],
-          ["white balance mode", "LIGHT_MODE"],
-          ["image effect", "SPECIAL_EFFECT"]
+          [
+            "Largura da imagem",
+            "WIDTH"
+          ],
+          [
+            "Altura da imagem",
+            "HEIGHT"
+          ],
+          [
+            "brightness",
+            "BRIGHTNESS"
+          ],
+          [
+            "contrast",
+            "CONTRAST"
+          ],
+          [
+            "saturation",
+            "SATURATION"
+          ],
+          [
+            "gain",
+            "GAIN"
+          ],
+          [
+            "Modo de balanço de branco",
+            "LIGHT_MODE"
+          ],
+          [
+            "Efeitos visuais",
+            "SPECIAL_EFFECT"
+          ]
         ]
       }
     ]
   },
   "esp32cam_status_boolean": {
-    "message0": "ESP32Cam currently has %1 enabled",
-    "tooltip": "Read a Boolean camera setting",
+    "message0": "O ESP32Cam está atualmente enabled%1",
+    "tooltip": "Leia as configurações booleanas atuais da câmera",
     "args0": [
       {
         "options": [
-          ["horizontal mirror", "HMIRROR"],
-          ["vertical flip", "VFLIP"],
-          ["raw gamma", "RAW_GMA"],
-          ["lens correction", "LENS_CORRECTION"]
+          [
+            "Imagem espelhada horizontal",
+            "HMIRROR"
+          ],
+          [
+            "Flip vertical",
+            "VFLIP"
+          ],
+          [
+            "Gama primitiva",
+            "RAW_GMA"
+          ],
+          [
+            "Correção de lente",
+            "LENS_CORRECTION"
+          ]
         ]
       }
     ]
   },
   "esp32cam_frame_create": {
-    "message0": "create ESP32Cam image frame variable %1",
-    "tooltip": "Create a variable that holds a camera image frame"
+    "message0": "Criando variáveis de quadro de imagem ESP32Cam %1",
+    "tooltip": "Criar variáveis de quadro para segurar imagens da câmera"
   },
   "esp32cam_frame_capture": {
-    "message0": "capture image into frame %1",
-    "tooltip": "Capture one frame; capturing again automatically releases the prior frame"
+    "message0": "Capture imagens e salve para frames%1",
+    "tooltip": "Pegue um frame e salve; Fotografar novamente liberará automaticamente o quadro original"
   },
   "esp32cam_frame_available": {
-    "message0": "image frame %1 is valid",
-    "tooltip": "Check whether capture succeeded and the frame contains an image"
+    "message0": "Quadros de imagem %1 válidos",
+    "tooltip": "Verifique se a cena foi bem-sucedida e se o quadro contém imagens"
   },
   "esp32cam_frame_info": {
-    "message0": "image frame %1 %2",
-    "tooltip": "Read frame width, height, byte count or data address; returns 0 without a valid frame",
+    "message0": "Quadro de Imagem %1 %2",
+    "tooltip": "Leia a largura do quadro, altura, contagem de bytes ou endereço do buffer de dados; Retorna 0 quando não há quadros válidos",
     "args0": [
       null,
       {
         "options": [
-          ["width", "WIDTH"],
-          ["height", "HEIGHT"],
-          ["byte count", "SIZE"],
-          ["data pointer", "DATA"]
+          [
+            "width",
+            "WIDTH"
+          ],
+          [
+            "height",
+            "HEIGHT"
+          ],
+          [
+            "Contagem de bytes",
+            "SIZE"
+          ],
+          [
+            "Ponteiros de dados",
+            "DATA"
+          ]
         ]
       }
     ]
   },
   "esp32cam_frame_format_is": {
-    "message0": "image frame %1 is %2",
-    "tooltip": "Check whether the frame is currently JPEG or BMP"
+    "message0": "O %1 de quadro de imagem está em formato %2",
+    "tooltip": "Verifique se o frame está atualmente no formato JPEG ou BMP"
   },
   "esp32cam_frame_convert": {
-    "message0": "convert image frame %1 to %2 JPEG quality %3",
-    "tooltip": "Convert the frame format; JPEG quality ranges from 0 to 100 and is ignored for BMP"
+    "message0": "Quadro de imagem %1 convertido para %2 quality%3 JPEG",
+    "tooltip": "Converter formatos de quadros; A qualidade do JPEG varia de 0 a 100; ignore os parâmetros de qualidade ao converter o BMP"
   },
   "esp32cam_frame_write_serial": {
-    "message0": "write image frame %1 to %2 timeout ms %3",
-    "tooltip": "Write the complete image data to a serial port and return whether it finished before timeout"
+    "message0": "Quadros de imagem %1 escrever %2 tempo de espera milliseconds%3",
+    "tooltip": "Escreva os dados completos da imagem na porta serial e retorne se foi concluído antes do timeout"
   },
   "esp32cam_frame_release": {
-    "message0": "release image frame %1",
-    "tooltip": "Release the frame buffer immediately; release unused frames before capturing another one"
+    "message0": "Lançar quadros de imagem %1",
+    "tooltip": "Libere imediatamente o buffer de quadros; Quadros não utilizados devem ser liberados antes de fotografar o próximo quadro"
   },
   "esp32cam_webserver_send_frame": {
-    "message0": "Web server %1 send image frame %2 timeout ms %3",
-    "tooltip": "Send a JPEG or BMP still image through the current ESP32 WebServer client"
+    "message0": "Servidor web %1 enviar quadros de imagem %2 timeout milliseconds%3",
+    "tooltip": "Envie imagens estáticas JPEG ou BMP via o cliente atual do ESP32 WebServer"
   },
   "esp32cam_webserver_stream_mjpeg": {
-    "message0": "Web server %1 stream MJPEG minimum interval %2 max frames %3 frame timeout %4",
-    "tooltip": "Block while streaming MJPEG to the current client and return frames sent; max frames -1 means unlimited"
+    "message0": "Servidor web %1 Push MJPEG Intervalo mínimo de quadro %2 Número máximo de quadros %3 Timeout de um único quadro %4",
+    "tooltip": "Bloquear e enviar o MJPEG para o cliente atual do ESP32 WebServer e, após desconectar, retorna o número de quadros enviados; Número máximo de quadros -1 significa sem limite"
   }
 }

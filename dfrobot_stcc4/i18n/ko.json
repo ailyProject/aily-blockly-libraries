@@ -1,15 +1,17 @@
 {
   "toolbox_name": "STCC4 CO2",
   "stcc4_init": {
-    "message0": "initialize STCC4 %1 I2C %2 address %3",
-    "tooltip": "Create and initialize the STCC4 CO2 sensor, wake it, and start continuous measurement.",
+    "message0": "주소 %2 I2C %1 STCC4 초기화%3",
+    "tooltip": "STCC4 CO2 센서를 생성하고 초기화한 후, 깨어난 후 연속 측정을 시작하세요.",
     "args0": [
       null,
-      null,
+      {
+        "options": "${board.i2c}"
+      },
       {
         "options": [
           [
-            "0x64 (Default)",
+            "0x64 (기본값)",
             "0x64"
           ],
           [
@@ -21,34 +23,34 @@
     ]
   },
   "stcc4_read": {
-    "message0": "STCC4 %1 read data successfully",
-    "tooltip": "Read CO2, temperature, humidity, and status once. Returns true on success."
+    "message0": "STCC4 %1 데이터 읽기 성공",
+    "tooltip": "CO2, 온도, 습도, 상태 데이터를 한 번 읽고 성공하면 true로 돌아옵니다."
   },
   "stcc4_get_data": {
-    "message0": "STCC4 %1 data %2",
-    "tooltip": "Read the latest cached measurement or calibration value.",
+    "message0": "STCC4 %1 데이터 %2",
+    "tooltip": "가장 최근의 측정 또는 보정에서 얻은 데이터를 읽으세요.",
     "args0": [
       null,
       {
         "options": [
           [
-            "CO2 concentration ppm",
+            "CO2 농도 ppm",
             "CO2"
           ],
           [
-            "temperature °C",
+            "온도: °C",
             "TEMPERATURE"
           ],
           [
-            "humidity %RH",
+            "습도 %RH",
             "HUMIDITY"
           ],
           [
-            "sensor status",
+            "센서 상태",
             "STATUS"
           ],
           [
-            "forced calibration correction",
+            "강제 보정 보정값",
             "FRC_CORRECTION"
           ]
         ]
@@ -56,26 +58,26 @@
     ]
   },
   "stcc4_get_id": {
-    "message0": "STCC4 %1 sensor ID",
-    "tooltip": "Read the STCC4 sensor ID."
+    "message0": "STCC4 %1 센서 ID",
+    "tooltip": "STCC4 센서 ID를 읽어보세요."
   },
   "stcc4_measurement_control": {
-    "message0": "STCC4 %1 measurement control %2",
-    "tooltip": "Control continuous measurement or trigger a single measurement.",
+    "message0": "STCC4 %1 측정 제어 %2",
+    "tooltip": "STCC4를 제어하여 연속 측정을 하거나 단일 측정을 트리거합니다.",
     "args0": [
       null,
       {
         "options": [
           [
-            "start continuous measurement",
+            "연속 측정 시작",
             "startMeasurement"
           ],
           [
-            "stop continuous measurement",
+            "멈추고 연속 측정",
             "stopMeasurement"
           ],
           [
-            "single measurement",
+            "단일 측정",
             "singleMeasurement"
           ]
         ]
@@ -83,8 +85,8 @@
     ]
   },
   "stcc4_power_control": {
-    "message0": "STCC4 %1 power control %2",
-    "tooltip": "Wake the sensor or enter sleep mode.",
+    "message0": "STCC4 %1 전력 제어 %2",
+    "tooltip": "센서를 깨우거나 절전 모드로 전환하세요.",
     "args0": [
       null,
       {
@@ -102,18 +104,18 @@
     ]
   },
   "stcc4_reset": {
-    "message0": "STCC4 %1 reset %2",
-    "tooltip": "Run soft reset or factory reset on STCC4.",
+    "message0": "STCC4 %1 리셋 %2",
+    "tooltip": "STCC4에서 소프트 리셋 또는 공장 초기화를 수행하세요.",
     "args0": [
       null,
       {
         "options": [
           [
-            "soft reset",
+            "소프트 재배치",
             "softRest"
           ],
           [
-            "factory reset",
+            "공장 설정 복원",
             "factoryReset"
           ]
         ]
@@ -121,15 +123,15 @@
     ]
   },
   "stcc4_set_rht_compensation": {
-    "message0": "STCC4 %1 set RHT compensation temperature °C %2 humidity %RH %3",
-    "tooltip": "Set temperature and humidity compensation. Temperature range is 10-40°C; humidity range is 20-80%RH."
+    "message0": "STCC4 %1 온도 및 습도 보상 설정 온도, °C %2 습도, 습도, %3",
+    "tooltip": "온도 및 습도 보상이 설정되어 있으며, 온도 범위는 10-40°C, 습도 범위는 20-80%의 습도입니다."
   },
   "stcc4_set_pressure_compensation": {
-    "message0": "STCC4 %1 set pressure compensation hPa %2",
-    "tooltip": "Set pressure compensation, range 400-1100 hPa."
+    "message0": "STCC4 %1 공기 압력 보상 hPa 설정 %2",
+    "tooltip": "400에서 1100 hPa 범위의 공기압 보상 기능을 갖추고 있습니다."
   },
   "stcc4_forced_recalibration": {
-    "message0": "STCC4 %1 forced recalibration target ppm %2",
-    "tooltip": "Run forced recalibration. Target range is 0-32000 ppm. Read the correction value after success."
+    "message0": "STCC4 %1 강제 보정 목표 ppm %2",
+    "tooltip": "강제 보정을 수행하면, 목표 값은 0-32,000 ppm 범위 내에 있고, 성공하면 강제 보정 보정 값을 읽습니다."
   }
 }

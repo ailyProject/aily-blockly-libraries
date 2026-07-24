@@ -1,11 +1,13 @@
 {
-  "toolbox_name": "BMV080 PM Sensor",
+  "toolbox_name": "BMV080 입자 물질 센서",
   "bmv080_init_i2c": {
-    "message0": "init BMV080 I2C %1 bus %2 address %3",
-    "tooltip": "Initialize and open the BMV080 particulate matter sensor over I2C.",
+    "message0": "BMV080 I2C %1 버스 %2 주소 초기화%3",
+    "tooltip": "I2C를 통해 BMV080 입자 물질 센서를 초기화하고 켜세요.",
     "args0": [
       null,
-      null,
+      {
+        "options": "${board.i2c}"
+      },
       {
         "options": [
           [
@@ -29,12 +31,12 @@
     ]
   },
   "bmv080_init_spi": {
-    "message0": "init BMV080 SPI %1 bus %2 CS %3",
-    "tooltip": "Initialize and open the BMV080 particulate matter sensor over SPI."
+    "message0": "BMV080 SPI %1 버스 %2 CS %3 초기화",
+    "tooltip": "SPI를 통해 BMV080 입자 물질 센서를 초기화하고 활성화하세요."
   },
   "bmv080_set_mode": {
-    "message0": "BMV080 %1 set measurement mode %2",
-    "tooltip": "Start continuous or duty-cycle measurement.",
+    "message0": "BMV080 %1 측정 모드 설정 %2",
+    "tooltip": "연속 측정 또는 듀티 사이클 측정을 시작하세요.",
     "args0": [
       null,
       {
@@ -44,7 +46,7 @@
             "CONTINUOUS_MODE"
           ],
           [
-            "duty cycle",
+            "듀티 사이클 측정",
             "DUTY_CYCLE_MODE"
           ]
         ]
@@ -52,18 +54,18 @@
     ]
   },
   "bmv080_set_duty_cycle": {
-    "message0": "BMV080 %1 set duty period %2 s integration %3 s",
-    "tooltip": "Set duty-cycle mode parameters. Period must be at least 12 s; integration time must be at least 1 s and at least 2 s shorter than period."
+    "message0": "BMV080 %1 듀티 사이클을 %2초, 적분 시간을 %3초로 설정함",
+    "tooltip": "듀티 사이클 모드 매개변수를 설정하세요. 사이클은 최소 12초, 적분 시간은 최소 1초, 사이클은 적분 시간보다 최소 2초 이상 길어야 합니다."
   },
   "bmv080_set_algorithm": {
-    "message0": "BMV080 %1 set algorithm %2",
-    "tooltip": "Set the PM measurement algorithm.",
+    "message0": "BMV080 %1 설정 측정 알고리즘 %2",
+    "tooltip": "PM 측정 알고리즘을 설정하세요.",
     "args0": [
       null,
       {
         "options": [
           [
-            "fast response",
+            "빠른 대응",
             "FAST_RESPONSE"
           ],
           [
@@ -71,7 +73,7 @@
             "BALANCED"
           ],
           [
-            "high precision",
+            "고정밀",
             "HIGH_PRECISION"
           ]
         ]
@@ -79,18 +81,18 @@
     ]
   },
   "bmv080_set_feature": {
-    "message0": "BMV080 %1 set %2 %3",
-    "tooltip": "Enable or disable obstruction detection or vibration filtering.",
+    "message0": "BMV080 %1 Settings%2 %3",
+    "tooltip": "폐쇄 감지와 진동 필터링 기능을 켜거나 끄세요.",
     "args0": [
       null,
       {
         "options": [
           [
-            "obstruction detection",
+            "장애물 탐지",
             "OBSTRUCTION"
           ],
           [
-            "vibration filtering",
+            "진동 여과",
             "VIBRATION"
           ]
         ]
@@ -98,11 +100,11 @@
       {
         "options": [
           [
-            "on",
+            "켜기",
             "true"
           ],
           [
-            "off",
+            "끄기",
             "false"
           ]
         ]
@@ -110,12 +112,12 @@
     ]
   },
   "bmv080_read_data": {
-    "message0": "BMV080 %1 refresh PM data",
-    "tooltip": "Read and cache PM1, PM2.5, and PM10. Returns true when new data is ready."
+    "message0": "BMV080 %1 PM 데이터를 새로고침합니다",
+    "tooltip": "PM1, PM2.5, PM10을 읽고 캐시하세요. 데이터는 true를, unready는 false를 반환합니다."
   },
   "bmv080_pm_value": {
-    "message0": "BMV080 %1 cached value %2",
-    "tooltip": "Read the PM value cached by the last refresh.",
+    "message0": "BMV080 %1 캐시 value%2",
+    "tooltip": "마지막 새로고침 후 PM 캐시 값을 읽으세요.",
     "args0": [
       null,
       {
@@ -137,8 +139,8 @@
     ]
   },
   "bmv080_get_status": {
-    "message0": "BMV080 %1 status/config %2",
-    "tooltip": "Read BMV080 configuration or obstruction status.",
+    "message0": "BMV080 %1 상태/구성 %2",
+    "tooltip": "BMV080의 구성이나 폐쇄 상태를 확인하세요.",
     "args0": [
       null,
       {
@@ -148,23 +150,23 @@
             "ALGORITHM"
           ],
           [
-            "integration time",
+            "득점 시간",
             "INTEGRATION"
           ],
           [
-            "duty period",
+            "공허 주기",
             "PERIOD"
           ],
           [
-            "obstruction setting",
+            "블록 감지 스위치",
             "OBSTRUCTION_FEATURE"
           ],
           [
-            "vibration setting",
+            "진동 필터 스위치",
             "VIBRATION_FEATURE"
           ],
           [
-            "is obstructed",
+            "막히는지 여부",
             "OBSTRUCTED"
           ]
         ]
@@ -173,21 +175,21 @@
   },
   "bmv080_command": {
     "message0": "BMV080 %1 run %2",
-    "tooltip": "Stop measurement, reset, or close the BMV080.",
+    "tooltip": "BMV080을 측정하거나 재설정하거나 끄는 것을 멈추세요.",
     "args0": [
       null,
       {
         "options": [
           [
-            "stop measurement",
+            "측정을 멈춰",
             "STOP"
           ],
           [
-            "reset",
+            "자리로 돌아가",
             "RESET"
           ],
           [
-            "close sensor",
+            "센서 꺼",
             "CLOSE"
           ]
         ]

@@ -7,12 +7,12 @@
     "舵机 / 按键 / 灯": "舵機 / 按鍵 / 燈"
   },
   "cubic_robot_init": {
-    "message0": "init Cubic robot %1",
-    "tooltip": "Init Cubic robot using EncoderMotor for MA/MB"
+    "message0": "初始化立方體機器人%1",
+    "tooltip": "建立並初始化立方體 CoreV2+馬達，並使用內部多工編碼馬達函式庫（lib-encoder-motor）控制 MA/MB"
   },
   "cubic_robot_set_motor_pins": {
-    "message0": "%1 set motor %2 pins IN1 %3 IN2 %4 encoder A %5 B %6",
-    "tooltip": "Override motor/encoder pins before begin",
+    "message0": "%1 將馬達%2驅動針腳 IN1 %3 IN2 %4編碼器 A %5 B %6",
+    "tooltip": "在初始化前先蓋住馬達/編碼器腳位。 預設值：MA=14/15/34/35，MB=12/17/36/39",
     "args0": [
       null,
       {
@@ -34,8 +34,8 @@
     ]
   },
   "cubic_robot_set_pid": {
-    "message0": "%1 motor %2 set PID P %3 I %4 D %5",
-    "tooltip": "Set speed PID",
+    "message0": "%1馬達%2設定PID P%3我%4%5",
+    "tooltip": "設定編碼馬達速度迴路 PID（多工 EncoderMotor：：SetSpeedPid）",
     "args0": [
       null,
       {
@@ -56,8 +56,8 @@
     ]
   },
   "cubic_robot_run_pwm": {
-    "message0": "%1 motor %2 run PWM %3 (-1023~1023)",
-    "tooltip": "Run with PWM duty",
+    "message0": "%1 以功率（PWM）%3驅動的馬達%2（-1023~1023）",
+    "tooltip": "直接 PWM 驅動（編碼馬達：：RunPwmDuty）",
     "args0": [
       null,
       {
@@ -76,8 +76,8 @@
     ]
   },
   "cubic_robot_run_speed": {
-    "message0": "%1 motor %2 run speed %3 RPM (-300~300)",
-    "tooltip": "Run with speed loop",
+    "message0": "%1 馬達%2以%3轉速（-300~300）運作",
+    "tooltip": "速度迴路控制（編碼馬達：：RunSpeed）",
     "args0": [
       null,
       {
@@ -96,34 +96,34 @@
     ]
   },
   "cubic_robot_drive": {
-    "message0": "%1 drive forward %2 turn %3",
-    "tooltip": "Differential drive"
+    "message0": "%1 差速器前進%2轉向%3",
+    "tooltip": "差速器底盤，前進/轉向範圍 -1023~1023，內部 PWM 驅動 MA/MB"
   },
   "cubic_robot_move": {
-    "message0": "%1 car %2 power %3",
-    "tooltip": "Quick motion",
+    "message0": "%1 小型車%2動力%3",
+    "tooltip": "Quick Sport，建議功率 0~1023",
     "args0": [
       null,
       {
         "options": [
           [
-            "前进",
+            "前進",
             "FORWARD"
           ],
           [
-            "后退",
+            "後退",
             "BACKWARD"
           ],
           [
-            "左转",
+            "左轉",
             "LEFT"
           ],
           [
-            "右转",
+            "右轉",
             "RIGHT"
           ],
           [
-            "停止",
+            "停下",
             "STOP"
           ]
         ]
@@ -132,12 +132,12 @@
     ]
   },
   "cubic_robot_stop": {
-    "message0": "%1 stop all motors",
-    "tooltip": "Stop MA/MB"
+    "message0": "%1 停止所有馬達",
+    "tooltip": "停止MA/MB"
   },
   "cubic_robot_get_speed": {
-    "message0": "%1 motor %2 speed RPM",
-    "tooltip": "Read RPM",
+    "message0": "%1 馬達%2電流轉速（RPM）",
+    "tooltip": "讀取馬達目前的轉速，請參考程式碼",
     "args0": [
       null,
       {
@@ -155,8 +155,8 @@
     ]
   },
   "cubic_robot_get_pulse": {
-    "message0": "%1 motor %2 encoder pulse",
-    "tooltip": "Read pulse count",
+    "message0": "%1 馬達%2編碼脈衝計數",
+    "tooltip": "讀取編碼的脈衝計數",
     "args0": [
       null,
       {
@@ -174,8 +174,8 @@
     ]
   },
   "cubic_robot_get_revolutions": {
-    "message0": "%1 motor %2 revolutions",
-    "tooltip": "Read revolutions",
+    "message0": "%1 馬達轉數%2",
+    "tooltip": "讀取馬達轉數",
     "args0": [
       null,
       {
@@ -193,8 +193,8 @@
     ]
   },
   "cubic_robot_reset_pulse": {
-    "message0": "%1 motor %2 reset pulse",
-    "tooltip": "Reset pulse count",
+    "message0": "%1 重設馬達脈衝計數%2",
+    "tooltip": "重設編碼脈衝計數",
     "args0": [
       null,
       {
@@ -212,8 +212,8 @@
     ]
   },
   "cubic_robot_servo": {
-    "message0": "%1 servo %2 angle %3",
-    "tooltip": "Servo angle 0~180",
+    "message0": "%1 伺服 %2 角度 %3",
+    "tooltip": "伺服控制角度 0~180（內建 ESP32 伺服）",
     "args0": [
       null,
       {
@@ -240,8 +240,8 @@
     ]
   },
   "cubic_robot_button": {
-    "message0": "%1 button %2 pressed",
-    "tooltip": "Button pressed",
+    "message0": "%1 按鈕%2按下",
+    "tooltip": "讀取按鈕，低強度啟動",
     "args0": [
       null,
       {
@@ -266,11 +266,11 @@
       {
         "options": [
           [
-            "打开",
+            "打開",
             "true"
           ],
           [
-            "关闭",
+            "關閉",
             "false"
           ]
         ]
@@ -278,7 +278,7 @@
     ]
   },
   "cubic_robot_pin_info": {
-    "message0": "Cubic default pin info",
-    "tooltip": "Default pins"
+    "message0": "立方體預設腳位描述",
+    "tooltip": "MA=14/15 ENC34/35; MB=12/17 ENC36/39; 伺服 2/25;I2C21/22"
   }
 }

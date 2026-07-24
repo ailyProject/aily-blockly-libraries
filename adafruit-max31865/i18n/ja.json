@@ -1,0 +1,139 @@
+{
+  "toolbox_labels": {
+    "初始化": "初期化",
+    "读取数据": "読み取りデータ",
+    "故障管理": "障害管理",
+    "配置": "構成"
+  },
+  "max31865_init": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "ハードウェアSPI",
+            "HW"
+          ],
+          [
+            "ソフトウェアSPI",
+            "SW"
+          ]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": [
+          [
+            "2行",
+            "MAX31865_2WIRE"
+          ],
+          [
+            "3行",
+            "MAX31865_3WIRE"
+          ],
+          [
+            "4行",
+            "MAX31865_4WIRE"
+          ]
+        ]
+      },
+      null
+    ],
+    "message0": "初期化 MAX31865 %1 SPI モード %2 CS ピン %3 ワイヤーシステム %4 %5",
+    "tooltip": "MAX31865 RTD温度センサーを初期化し、SPIインターフェースと配線システムを設定します。"
+  },
+  "max31865_read_temperature": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "%1 温度 RTD 公称値の読み取り %2 基準抵抗器 %3",
+    "tooltip": "温度を摂氏で読み取ります。 PT100 の公称値は 100、PT1000 は 1000 です。 PT100の基準抵抗は430、PT1000は4300です。"
+  },
+  "max31865_read_rtd": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 元の RTD 値を読み取ります",
+    "tooltip": "16 ビットの生の RTD 値を読み取ります (温度値ではありません)。"
+  },
+  "max31865_read_fault": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 障害ステータスの読み取り",
+    "tooltip": "8ビットのフォルトステータスレジスタを読み取ります。"
+  },
+  "max31865_clear_fault": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 障害のクリア",
+    "tooltip": "フォルトステータスレジスタ内のすべてのフォルトをクリアします。"
+  },
+  "max31865_set_wires": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "2行",
+            "MAX31865_2WIRE"
+          ],
+          [
+            "3行",
+            "MAX31865_3WIRE"
+          ],
+          [
+            "4行",
+            "MAX31865_4WIRE"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 ワイヤー システムの設定 %2",
+    "tooltip": "RTD ワイヤーシステムの設定 (2 線式、3 線式、または 4 線式)"
+  },
+  "max31865_auto_convert": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "有効にする",
+            "TRUE"
+          ],
+          [
+            "無効にする",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 自動変換 %2",
+    "tooltip": "連続自動変換モードを有効または無効にする"
+  },
+  "max31865_enable_50hz": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "有効にする",
+            "TRUE"
+          ],
+          [
+            "無効にする",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "message0": "%1 50Hz フィルター %2",
+    "tooltip": "50Hz ノイズ フィルタリングを有効にします (無効の場合、デフォルトは 60Hz)"
+  },
+  "toolbox_name": "MAX31865 RTD 温度センサー"
+}

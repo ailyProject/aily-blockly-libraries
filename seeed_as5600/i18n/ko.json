@@ -1,146 +1,206 @@
 {
-  "toolbox_name": "AS5600 magnetic encoder",
+  "toolbox_name": "AS5600 자기 인코더",
   "toolbox_labels": {
-    "初始化": "Initialization",
-    "角度读取": "Angle reading",
-    "磁铁状态": "Magnet status",
-    "位置配置": "Position setup",
-    "高级配置": "Advanced setup",
-    "一次性烧录": "Permanent burn"
+    "初始化": "초기화",
+    "角度读取": "각도 판독",
+    "磁铁状态": "자석 상태",
+    "位置配置": "위치 구성",
+    "高级配置": "고급 구성",
+    "一次性烧录": "일회성 소각"
   },
   "seeed_as5600_init": {
-    "message0": "initialize Seeed AS5600 encoder %1",
-    "tooltip": "Initialize the Grove/Seeed AS5600 12-bit magnetic absolute encoder"
+    "message0": "시드 AS5600 인코더 초기화 %1",
+    "tooltip": "Grove/Seeed AS5600 12비트 자기 절대값 인코더를 초기화하세요"
   },
   "seeed_as5600_get_address": {
-    "message0": "encoder %1 I2C address",
-    "tooltip": "Get the fixed AS5600 I2C address, usually 0x36"
+    "message0": "인코더 %1 I2C 주소",
+    "tooltip": "AS5600 고정 I2C 주소를 얻으세요, 보통 0x36"
   },
   "seeed_as5600_read_angle": {
-    "message0": "encoder %1 read %2 angle as %3",
-    "tooltip": "Read raw or scaled angle data as 0-4095 raw units or converted degrees",
+    "message0": "인코더%1 각도 %2 읽%3",
+    "tooltip": "원본 각도 값이나 스케일링된 값을 읽으면, 0에서 4095까지 원본 값을 반환하거나 각도로 변환할 수 있습니다",
     "args0": [
       null,
       {
         "options": [
-          ["raw", "RAW"],
-          ["scaled", "SCALED"]
+          [
+            "raw",
+            "RAW"
+          ],
+          [
+            "scaled",
+            "SCALED"
+          ]
         ]
       },
       {
         "options": [
-          ["raw value", "RAW"],
-          ["degrees", "DEGREES"]
+          [
+            "원시 값",
+            "RAW"
+          ],
+          [
+            "degrees",
+            "DEGREES"
+          ]
         ]
       }
     ]
   },
   "seeed_as5600_detect_magnet": {
-    "message0": "encoder %1 detects magnet",
-    "tooltip": "Check whether the AS5600 detects a magnet"
+    "message0": "인코더는 자석을 감지%1",
+    "tooltip": "AS5600이 자석을 감지하는지 감지하기"
   },
   "seeed_as5600_magnet_status": {
-    "message0": "encoder %1 magnet status is %2",
-    "tooltip": "Check magnet strength state: 0 none, 1 weak, 2 good, 3 strong",
+    "message0": "인코더%1 마그넷 스테이트는 %2",
+    "tooltip": "자석의 강도 상태 평가: 0 감지되지 않음, 1 너무 약함, 2 적합함, 3 너무 강함",
     "args0": [
       null,
       {
         "options": [
-          ["not detected", "NONE"],
-          ["too weak", "WEAK"],
-          ["good", "GOOD"],
-          ["too strong", "STRONG"]
+          [
+            "감지되지 않음",
+            "NONE"
+          ],
+          [
+            "너무 약해",
+            "WEAK"
+          ],
+          [
+            "good",
+            "GOOD"
+          ],
+          [
+            "너무 강해",
+            "STRONG"
+          ]
         ]
       }
     ]
   },
   "seeed_as5600_get_magnet_strength": {
-    "message0": "encoder %1 magnet strength state",
-    "tooltip": "Read magnet strength state: 0 none, 1 weak, 2 good, 3 strong"
+    "message0": "인코더 %1 자석 강도 상태 값",
+    "tooltip": "자석의 강도 상태 값을 읽어보세요: 0 감지되지 않음, 1 너무 약함, 2 적합함, 3 너무 강함"
   },
   "seeed_as5600_get_magnitude": {
-    "message0": "encoder %1 magnetic magnitude",
-    "tooltip": "Read the AS5600 internal CORDIC magnetic magnitude"
+    "message0": "인코더 %1 자기장 진폭",
+    "tooltip": "AS5600 내부 CORDIC 자기장 진폭을 읽어보세요"
   },
   "seeed_as5600_get_agc": {
-    "message0": "encoder %1 automatic gain AGC",
-    "tooltip": "Read the AS5600 automatic gain control register value"
+    "message0": "인코더 %1 자동 게인 AGC",
+    "tooltip": "AS5600 자동 이득 제어 레지스터 값을 읽어보세요"
   },
   "seeed_as5600_set_position_current": {
-    "message0": "encoder %1 set current position as %2",
-    "tooltip": "Use the current magnet position as the start position, end position, or max angle",
+    "message0": "인코더 %1 현재 위치를 %2로 설정합니다",
+    "tooltip": "현재 자석 위치를 기준으로 시작, 끝, 또는 최대 각도를 설정하세요",
     "args0": [
       null,
       {
         "options": [
-          ["start position", "START"],
-          ["end position", "END"],
-          ["max angle", "MAX"]
+          [
+            "출발 위치",
+            "START"
+          ],
+          [
+            "끝 위치",
+            "END"
+          ],
+          [
+            "최대 각도",
+            "MAX"
+          ]
         ]
       }
     ]
   },
   "seeed_as5600_set_position": {
-    "message0": "encoder %1 set %2 to raw value %3",
-    "tooltip": "Set the start position, end position, or max angle register, usually 0-4095",
+    "message0": "인코더 %1 원본 %2 설정value%3",
+    "tooltip": "시작 위치, 종료 위치 또는 최대 각도 레지스터를 설정하며, 값은 보통 0에서 4095 사이입니다",
     "args0": [
       null,
       {
         "options": [
-          ["start position", "START"],
-          ["end position", "END"],
-          ["max angle", "MAX"]
+          [
+            "출발 위치",
+            "START"
+          ],
+          [
+            "끝 위치",
+            "END"
+          ],
+          [
+            "최대 각도",
+            "MAX"
+          ]
         ]
       },
       null
     ]
   },
   "seeed_as5600_get_position": {
-    "message0": "encoder %1 read %2",
-    "tooltip": "Read the raw start position, end position, or max angle register value",
+    "message0": "인코더%1 읽기 %2",
+    "tooltip": "시작 위치, 끝 위치, 또는 최대 각도 레지스터의 원래 값을 읽으세요",
     "args0": [
       null,
       {
         "options": [
-          ["start position", "START"],
-          ["end position", "END"],
-          ["max angle", "MAX"]
+          [
+            "출발 위치",
+            "START"
+          ],
+          [
+            "끝 위치",
+            "END"
+          ],
+          [
+            "최대 각도",
+            "MAX"
+          ]
         ]
       }
     ]
   },
   "seeed_as5600_set_output_mode": {
-    "message0": "encoder %1 set output mode %2",
-    "tooltip": "Set the AS5600 OUT pin output mode",
+    "message0": "인코더 %1 출력 모드 설정 %2",
+    "tooltip": "AS5600 OUT 핀 출력 모드를 설정하세요",
     "args0": [
       null,
       {
         "options": [
-          ["PWM", "0"],
-          ["analog 0-100%", "1"],
-          ["analog 10-90%", "2"]
+          [
+            "PWM",
+            "0"
+          ],
+          [
+            "analog 0-100%",
+            "1"
+          ],
+          [
+            "analog 10-90%",
+            "2"
+          ]
         ]
       }
     ]
   },
   "seeed_as5600_get_conf": {
-    "message0": "encoder %1 config register",
-    "tooltip": "Read the raw AS5600 CONF configuration register value"
+    "message0": "인코더 %1 레지스터 구성",
+    "tooltip": "AS5600 CONF 구성 레지스터의 원래 값을 읽으세요"
   },
   "seeed_as5600_set_conf": {
-    "message0": "encoder %1 set config register %2",
-    "tooltip": "Write the raw AS5600 CONF configuration register value"
+    "message0": "인코더%1 레지스터 구성 %2",
+    "tooltip": "AS5600 CONF 구성 레지스터의 원래 값을 기록하세요"
   },
   "seeed_as5600_get_burn_count": {
-    "message0": "encoder %1 burn count",
-    "tooltip": "Read the ZMCO burn count. Start/end positions can be burned up to 3 times"
+    "message0": "인코더 %1 소각된 스트로크 수",
+    "tooltip": "ZMCO 연소 횟수를 읽으세요; 시작 및 종료 위치는 최대 3번까지 프로그래밍할 수 있습니다"
   },
   "seeed_as5600_burn_angle": {
-    "message0": "encoder %1 burn start/end angle and return status code",
-    "tooltip": "Permanently burn start/end positions to the chip. Returns 1 for success and negative error codes. Use is limited"
+    "message0": "인코더 %1 시작과 종료 각도를 소각시키고 상태 코드를 반환합니다",
+    "tooltip": "시작/종료 위치를 칩에 영구적으로 플래시하고, 성공 시 1을 반환하며, 음수 숫자는 오류 코드를 나타냅니다. 이 연산은 횟수에 제한이 있습니다"
   },
   "seeed_as5600_burn_settings": {
-    "message0": "encoder %1 burn max angle and config and return status code",
-    "tooltip": "Permanently burn max angle and configuration to the chip. This can be done once only. Returns 1 for success and negative error codes"
+    "message0": "인코더 %1 최대 각도와 구성을 태우고 상태 코드를 반환합니다",
+    "tooltip": "최대 각도와 구성을 칩에 영구적으로 플래시합니다; 한 번만 실행할 수 있고, 1번 성공을 반환하며, 음수는 오류 코드를 나타냅니다"
   }
 }

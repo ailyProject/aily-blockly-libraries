@@ -6,57 +6,97 @@
     "数据操作": "データ操作",
     "控制": "コントロール"
   },
-  "blocks": {
-    "rfid_init": {
-      "message0": "RFID リーダーの作成 %1 SDA ピン %2 RST ピン %3",
-      "tooltip": "MFRC522 リーダーを作成し、SPI を開始します。"
-    },
-    "rfid_is_card_present": {
-      "message0": "RFID %1 カードが存在するかどうかを検出します",
-      "tooltip": "新しい RFID カードがリーダーの近くにあるかどうかを確認します"
-    },
-    "rfid_read_uid": {
-      "message0": "RFID %1 カードの読み取り UID",
-      "tooltip": "カード UID を読み取り、16 進文字列として返します"
-    },
-    "rfid_authenticate": {
-      "message0": "RFID %1 セクターを認証 %2 キーの種類 %3 キー %4",
-      "tooltip": "指定されたセクターのアクセスキーを認証します",
-      "args0": [
-        null,
-        null,
-        [
+  "mfrc522_setup": {
+    "args0": [
+      null,
+      null
+    ],
+    "message0": "RFID リーダー %1 I2C アドレス %2 を初期化します",
+    "tooltip": "MFRC522 RFID リーダーを初期化し、I2C アドレスとピンを設定します。"
+  },
+  "mfrc522_is_new_card_present": {
+    "args0": [
+      null
+    ],
+    "message0": "RFID %1 新しいカードが検出されました",
+    "tooltip": "新しいRFIDカードが近づいているかどうかを検出します"
+  },
+  "mfrc522_read_card_serial": {
+    "args0": [
+      null
+    ],
+    "message0": "RFID %1 カードのシリアル番号を読み取ります",
+    "tooltip": "RFIDカードの一意のシリアル番号を読み取ります"
+  },
+  "mfrc522_read_uid": {
+    "args0": [
+      null
+    ],
+    "message0": "RFID %1 UID文字列を取得",
+    "tooltip": "RFIDカードのUID文字列を取得する"
+  },
+  "mfrc522_when_card_detected": {
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ],
+    "message0": "RFID %1 がカードを検出した場合",
+    "message1": "%1 を実行します",
+    "tooltip": "RFIDカードが検出されたときにトリガーされるイベント"
+  },
+  "mfrc522_authenticate": {
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
           [
-            "キーA",
-            "PICC_CMD_MF_AUTH_KEY_A"
+            "鍵",
+            "A"
           ],
           [
-            "キーB",
-            "PICC_CMD_MF_AUTH_KEY_B"
+            "Bキー",
+            "B"
           ]
-        ],
-        null
-      ]
-    },
-    "rfid_read_block": {
-      "message0": "RFID %1 読み取りデータ ブロック %2",
-      "tooltip": "指定されたデータ ブロックを読み取り、16 進文字列を返します。"
-    },
-    "rfid_write_block": {
-      "message0": "RFID %1 データブロックの書き込み %2 データ %3",
-      "tooltip": "テキストまたは 16 進データを指定されたブロックに書き込みます"
-    },
-    "rfid_halt": {
-      "message0": "RFID %1 通信を停止します",
-      "tooltip": "現在のカードとの通信を停止し、暗号化を終了します"
-    },
-    "rfid_get_uid_string": {
-      "message0": "RFID %1 UID 文字列を取得",
-      "tooltip": "キャッシュされた UID を再読み込みせずに文字列に変換します"
-    },
-    "rfid_uid_equals": {
-      "message0": "RFID %1 現在の UID は %2 と等しい",
-      "tooltip": "キャッシュされた UID が指定された値と等しいかどうかを確認します"
-    }
+        ]
+      },
+      null
+    ],
+    "message0": "RFID %1 認証セクター %2 キーの種類 %3 キー %4",
+    "tooltip": "RFIDカードの指定セクタを認証する"
+  },
+  "mfrc522_read_block": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "RFID %1 はブロック %2 を %3 に読み取ります",
+    "tooltip": "指定されたデータブロックを配列に読み取ります"
+  },
+  "mfrc522_write_block": {
+    "args0": [
+      null,
+      null,
+      null
+    ],
+    "message0": "RFID %1 はデータ %2 をブロック %3 に書き込みます",
+    "tooltip": "指定したブロックにデータを書き込みます"
+  },
+  "mfrc522_halt_card": {
+    "args0": [
+      null
+    ],
+    "message0": "RFID %1 カード通信を停止します",
+    "tooltip": "RFIDカードとの通信を停止する"
+  },
+  "mfrc522_get_data_string": {
+    "args0": [
+      null
+    ],
+    "message0": "%1 の 16 進文字列を取得します",
+    "tooltip": "RFID データ配列を 16 進文字列形式に変換します (例: 48 65 6c 6c 6f)"
   }
 }

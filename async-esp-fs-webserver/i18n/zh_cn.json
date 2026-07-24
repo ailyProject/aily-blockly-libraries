@@ -1,0 +1,370 @@
+{
+  "toolbox_name": "ESP32异步Web服务器",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "WiFi与启动": "WiFi与启动",
+    "管理页面": "管理页面",
+    "配置选项": "配置选项",
+    "HTTP路由": "HTTP路由",
+    "WebSocket": "WebSocket",
+    "状态与维护": "状态与维护"
+  },
+  "async_fs_webserver_create": {
+    "message0": "创建ESP32文件系统Web服务器 %1 文件系统 %2 端口 %3 主机名 %4",
+    "tooltip": "创建AsyncFsWebServer全局对象并注册变量，ESP32专用",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "LittleFS",
+            "LittleFS"
+          ],
+          [
+            "SPIFFS",
+            "SPIFFS"
+          ],
+          [
+            "FFat",
+            "FFat"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "async_fs_webserver_mount_fs": {
+    "message0": "%1 挂载文件系统 %2 失败时自动格式化 %3",
+    "tooltip": "在setup中挂载ESP32文件系统，失败时可自动格式化并重启",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "LittleFS",
+            "LittleFS"
+          ],
+          [
+            "SPIFFS",
+            "SPIFFS"
+          ],
+          [
+            "FFat",
+            "FFat"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "async_fs_webserver_connect_or_ap": {
+    "message0": "%1 连接已保存WiFi 超时 %2 毫秒 失败则开启AP %3 密码 %4 跳转 %5",
+    "tooltip": "先用已保存凭据连接WiFi，失败后启动配置热点和强制门户",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "async_fs_webserver_start_wifi": {
+    "message0": "%1 连接已保存WiFi 超时 %2 毫秒",
+    "tooltip": "使用文件系统中保存的WiFi凭据连接网络，返回前会等待指定超时",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "async_fs_webserver_captive_portal": {
+    "message0": "%1 启动配置AP %2 密码 %3 跳转 %4",
+    "tooltip": "启动ESP32热点和强制门户，通常跳转到/setup页面",
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "async_fs_webserver_start_server": {
+    "message0": "启动 %1 Web服务器",
+    "tooltip": "注册内置处理器并启动Web服务器",
+    "args0": [
+      null
+    ]
+  },
+  "async_fs_webserver_start_ws_server": {
+    "message0": "启动 %1 Web服务器并启用/ws事件",
+    "message1": "当WebSocket事件发生 %1",
+    "tooltip": "启动服务器并在默认/ws路径注册WebSocket事件回调",
+    "args0": [
+      null
+    ],
+    "args1": [
+      null
+    ]
+  },
+  "async_fs_webserver_file_editor": {
+    "message0": "%1 启用/edit文件编辑器",
+    "tooltip": "启用内置ACE文件浏览、上传、编辑和删除页面",
+    "args0": [
+      null
+    ]
+  },
+  "async_fs_webserver_set_auth": {
+    "message0": "%1 设置/setup账号 %2 密码 %3",
+    "tooltip": "给/setup管理页面设置Basic Auth账号和密码",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "async_fs_webserver_require_auth": {
+    "message0": "%1 所有页面都需要认证 %2",
+    "tooltip": "开启后所有页面都需要Basic Auth认证",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "async_fs_webserver_page_title": {
+    "message0": "%1 设置/setup页面标题 %2",
+    "tooltip": "设置/setup配置页面中显示的标题",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "async_fs_webserver_firmware_version": {
+    "message0": "%1 设置固件版本 %2",
+    "tooltip": "设置/setup页面显示的当前固件版本",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "async_fs_webserver_option_box": {
+    "message0": "%1 添加选项分组 %2",
+    "tooltip": "在/setup页面添加一个应用配置选项分组",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "async_fs_webserver_option_text": {
+    "message0": "%1 添加文本选项 标签 %2 默认值 %3",
+    "tooltip": "在/setup页面添加文本配置项",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "async_fs_webserver_option_number": {
+    "message0": "%1 添加数值选项 标签 %2 默认值 %3 最小 %4 最大 %5 步进 %6",
+    "tooltip": "在/setup页面添加带范围和步进的数值配置项",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "async_fs_webserver_option_bool": {
+    "message0": "%1 添加开关选项 标签 %2 默认勾选 %3",
+    "tooltip": "在/setup页面添加布尔开关配置项",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "async_fs_webserver_option_comment": {
+    "message0": "%1 为选项 %2 添加说明 %3",
+    "tooltip": "给/setup页面中的指定配置项添加帮助说明",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "async_fs_webserver_route": {
+    "message0": "%1 添加HTTP路由 路径 %2 方法 %3",
+    "message1": "收到请求后 %1",
+    "tooltip": "为ESPAsyncWebServer添加自定义HTTP路由处理函数",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "GET",
+            "HTTP_GET"
+          ],
+          [
+            "POST",
+            "HTTP_POST"
+          ],
+          [
+            "PUT",
+            "HTTP_PUT"
+          ],
+          [
+            "DELETE",
+            "HTTP_DELETE"
+          ],
+          [
+            "任意",
+            "HTTP_ANY"
+          ]
+        ]
+      }
+    ],
+    "args1": [
+      null
+    ]
+  },
+  "async_fs_webserver_response": {
+    "message0": "响应请求 状态码 %1 类型 %2 内容 %3",
+    "tooltip": "在HTTP路由处理块内部发送响应",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "async_fs_webserver_response_ok": {
+    "message0": "响应OK",
+    "tooltip": "在HTTP路由处理块内部发送默认OK响应"
+  },
+  "async_fs_webserver_request_arg": {
+    "message0": "请求参数 %1 来源 %2",
+    "tooltip": "在HTTP路由处理块内部读取请求参数",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "查询参数",
+            "false"
+          ],
+          [
+            "表单POST",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "async_fs_webserver_request_has_arg": {
+    "message0": "请求包含参数 %1 来源 %2",
+    "tooltip": "在HTTP路由处理块内部判断请求是否包含指定参数",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "查询参数",
+            "false"
+          ],
+          [
+            "表单POST",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "async_fs_webserver_request_path": {
+    "message0": "当前请求路径",
+    "tooltip": "在HTTP路由处理块内部获取当前请求URL路径"
+  },
+  "async_fs_webserver_ws_broadcast": {
+    "message0": "%1 WebSocket广播文本 %2",
+    "tooltip": "向所有已连接WebSocket客户端广播文本消息",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "async_fs_webserver_ws_reply": {
+    "message0": "回复当前WebSocket客户端 %1",
+    "tooltip": "在WebSocket事件块内部向当前客户端发送文本消息",
+    "args0": [
+      null
+    ]
+  },
+  "async_fs_webserver_ws_event_is": {
+    "message0": "WebSocket事件是 %1",
+    "tooltip": "在WebSocket事件块内部判断当前事件类型",
+    "args0": [
+      {
+        "options": [
+          [
+            "连接",
+            "WS_EVT_CONNECT"
+          ],
+          [
+            "断开",
+            "WS_EVT_DISCONNECT"
+          ],
+          [
+            "收到数据",
+            "WS_EVT_DATA"
+          ],
+          [
+            "错误",
+            "WS_EVT_ERROR"
+          ]
+        ]
+      }
+    ]
+  },
+  "async_fs_webserver_ws_message": {
+    "message0": "WebSocket收到的文本",
+    "tooltip": "在WebSocket收到数据事件中获取文本消息"
+  },
+  "async_fs_webserver_ws_client_id": {
+    "message0": "WebSocket客户端ID",
+    "tooltip": "在WebSocket事件块内部获取当前客户端ID"
+  },
+  "async_fs_webserver_server_ip": {
+    "message0": "%1 服务器IP地址",
+    "tooltip": "获取当前Web服务器IP地址字符串",
+    "args0": [
+      null
+    ]
+  },
+  "async_fs_webserver_is_ap_mode": {
+    "message0": "%1 当前是AP模式",
+    "tooltip": "判断服务器当前是否运行在热点AP模式",
+    "args0": [
+      null
+    ]
+  },
+  "async_fs_webserver_start_mdns": {
+    "message0": "%1 启动mDNS服务",
+    "tooltip": "WiFi已连接时启动mDNS响应器，便于通过hostname.local访问",
+    "args0": [
+      null
+    ]
+  },
+  "async_fs_webserver_clear_saved_settings": {
+    "message0": "%1 清除/setup保存的配置",
+    "tooltip": "删除/setup/config.json配置文件，返回值会被忽略",
+    "args0": [
+      null
+    ]
+  },
+  "async_fs_webserver_settings_file_name": {
+    "message0": "%1 配置文件路径",
+    "tooltip": "获取/setup保存配置文件的路径",
+    "args0": [
+      null
+    ]
+  }
+}

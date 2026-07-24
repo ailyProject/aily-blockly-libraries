@@ -1,5 +1,5 @@
 {
-  "toolbox_name": "小智AI",
+  "toolbox_name": "샤오즈 AI",
   "toolbox_labels": {
     "说明:小智事件中禁用delay阻塞编程，简单定时器不如多线程": "참고: Xiaozhi 이벤트에서 지연 차단 프로그래밍을 비활성화합니다. 단순 타이머는 멀티스레드만큼 좋지 않습니다.",
     "说明:1. 预内置和自定义不可混用": "참고: 1. 사전 내장형과 맞춤형을 혼합할 수 없습니다.",
@@ -11,43 +11,53 @@
     " 就行，这里的自定义一般不需要，单色屏时可考虑使用": "괜찮습니다. 여기서 사용자 정의는 일반적으로 필요하지 않습니다. 흑백 화면을 사용할 때 사용을 고려해 볼 수 있습니다.",
     "说明:操作设备代码放设置，服务器读取代码放上报": "설명: 작동 장치 코드가 설정되고, 서버는 코드를 읽고 이를 보고합니다."
   },
-  "toolbox_categories": ["초기화", "디스플레이", "내장", "사용자 정의", "제어", "AI 버튼", "상태 및 활성화", "이모티콘 및 채팅", "MCP"],
+  "toolbox_categories": [
+    "초기화",
+    "디스플레이",
+    "내장",
+    "사용자 정의",
+    "제어",
+    "AI 버튼",
+    "상태 및 활성화",
+    "이모티콘 및 채팅",
+    "MCP"
+  ],
   "esp32_task": {
-    "message0": "ESP32 task%1 Core%2 空间分配%3",
-    "tooltip": "设置线程在哪个内核上运行",
+    "message0": "ESP32 task%1 Core%2 공간 할당 %3",
+    "tooltip": "스레드가 실행되는 커널을 설정하세요",
     "args0": [
       {
         "options": [
           [
-            "任务1",
+            "과제 1",
             "1"
           ],
           [
-            "任务2",
+            "임무 2",
             "2"
           ],
           [
-            "任务3",
+            "과제 3",
             "3"
           ],
           [
-            "任务4",
+            "과제 4",
             "4"
           ],
           [
-            "任务5",
+            "과제 5",
             "5"
           ],
           [
-            "任务6",
+            "과제 6",
             "6"
           ],
           [
-            "任务7",
+            "임무 7",
             "7"
           ],
           [
-            "任务8",
+            "과제 8",
             "8"
           ]
         ]
@@ -55,21 +65,23 @@
       {
         "options": [
           [
-            "核心0",
+            "코어 0",
             "0"
           ],
           [
-            "核心1",
+            "코어 1",
             "1"
           ]
         ]
       },
       null
-    ]
+    ],
+    "message1": "초기화 %1",
+    "message2": "원형 %1"
   },
   "esp32_serial_init": {
-    "message0": "ESP32 串口初始化 %1 RX针脚%2 TX针脚%3 波特率%4",
-    "tooltip": "初始化ESP32指定串口及引脚配置",
+    "message0": "ESP32 직렬 포트 초기화 %1 RX 핀 %2 TX 핀 %3 보드 rate%4",
+    "tooltip": "ESP32를 초기화하여 시리얼 포트와 핀 구성을 지정합니다",
     "args0": [
       {
         "options": [
@@ -128,8 +140,8 @@
     ]
   },
   "esp32ai_button_setup": {
-    "message0": "AI触发按钮引脚 %1 模式 %2 低电平有效 %3",
-    "tooltip": "创建并初始化ESP32 AI语音交互按钮（适配Espressif按钮库）",
+    "message0": "AI 트리거 버튼 핀 %1 모드 %2 저레벨 활성 %3",
+    "tooltip": "ESP32 AI 음성 상호작용 버튼 생성 및 초기화 (Espressif 버튼 라이브러리에 맞게 조정됨)",
     "args0": [
       {
         "options": "${board.digitalPins}"
@@ -137,11 +149,11 @@
       {
         "options": [
           [
-            "普通输入",
+            "정규 입력",
             "INPUT"
           ],
           [
-            "上拉输入",
+            "입력 풀업",
             "INPUT_PULLUP"
           ]
         ]
@@ -149,11 +161,11 @@
       {
         "options": [
           [
-            "是",
+            "예",
             "TRUE"
           ],
           [
-            "否",
+            "아니요",
             "FALSE"
           ]
         ]
@@ -161,12 +173,12 @@
     ]
   },
   "esp32ai_init_wifi": {
-    "message0": "初始化 ESP32_小智AI WIFI模式 %1",
+    "message0": "샤오즈 AI WIFI 모드를 초기화ESP32_ %1",
     "args0": [
       {
         "options": [
           [
-            "手动配网",
+            "수동 네트워크 설정",
             "Manual"
           ]
         ]
@@ -174,25 +186,28 @@
     ]
   },
   "esp32ai_button_click": {
-    "message0": "AI触发按钮单击时",
-    "tooltip": "按钮单击事件触发时执行的操作"
+    "message0": "AI가 버튼을 누르고 클릭할 때",
+    "tooltip": "이벤트가 발생하면 버튼을 클릭해 행동을 수행하세요",
+    "message1": "%1"
   },
   "esp32ai_button_double_click": {
-    "message0": "AI触发按钮双击时",
-    "tooltip": "按钮双击事件触发时执行的操作"
+    "message0": "AI가 더블 클릭으로 버튼을 작동시킬 때",
+    "tooltip": "이벤트가 발동될 때 버튼을 더블 클릭해 행동을 수행하세요",
+    "message1": "%1"
   },
   "esp32ai_button_long_pressing": {
-    "message0": "AI触发按钮长按中",
-    "tooltip": "按钮长按过程中持续触发的操作"
+    "message0": "AI 트리거 버튼을 누르고 있으면 됩니다",
+    "tooltip": "버튼을 길게 누르는 동안 계속 발동되는 동작들",
+    "message1": "%1"
   },
   "esp32_i2s_mic_setup": {
-    "message0": "AI麦克风类型 %1",
-    "tooltip": "初始化I2S/PDM麦克风（适配ai_vox_engine音频输入）",
+    "message0": "AI 마이크 유형: %1",
+    "tooltip": "I2S/PDM 마이크 초기화 (ai_vox_engine 오디오 입력에 맞게 조정됨)",
     "args0": [
       {
         "options": [
           [
-            "I2S标准",
+            "I2S 표준",
             "AUDIO_INPUT_DEVICE_TYPE_I2S_STD"
           ],
           [
@@ -204,8 +219,8 @@
     ]
   },
   "esp32ai_i2s_speaker_setup": {
-    "message0": "AI扬声器 SCK/BCLK %1 WS/LRCLK %2 SD/DIN %3",
-    "tooltip": "初始化I2S扬声器（引脚对应main.cpp中的kSpeakerPin*常量）",
+    "message0": "AI 스피커 SCK/BCLK %1 WS/LRCLK %2 SD/DIN %3",
+    "tooltip": "I2S 스피커를 초기화하세요(main.cpp의 kSpeakerPin* 상수에 해당하는 핀)",
     "args0": [
       {
         "options": "${board.digitalPins}"
@@ -219,8 +234,8 @@
     ]
   },
   "esp32ai_init_display": {
-    "message0": "原界面初始化显示屏: %1",
-    "tooltip": "初始化指定类型的显示屏",
+    "message0": "원래 인터페이스 초기화 디스플레이: %1",
+    "tooltip": "지정된 디스플레이 유형을 초기화합니다",
     "args0": [
       {
         "options": [
@@ -237,8 +252,8 @@
     ]
   },
   "esp32ai_init_nlvgl_display": {
-    "message0": "自定lVGL初始化显示屏: %1  旋转角度: %2  ",
-    "tooltip": "初始化指定类型的显示屏",
+    "message0": "사용자 지정 가능한 VGL 초기화 디스플레이: %1 회전 각도: %2",
+    "tooltip": "지정된 디스플레이 유형을 초기화합니다",
     "args0": [
       {
         "options": [
@@ -275,27 +290,28 @@
     ]
   },
   "aivox_config_ota_url": {
-    "message0": "自定义OTA链接 %1 ",
-    "tooltip": "使用虾哥服务器不需要调用此块，自建兼容虾哥服务器协议调用此块"
+    "message0": "맞춤형 OTA 링크 %1",
+    "tooltip": "Shrimp Server를 사용할 때 이 블록을 호출할 필요는 없습니다; 맞춤형 호환 Shrimp Server 프로토콜이 이 블록을 호출할 수 있습니다"
   },
   "aivox_config_websocket": {
-    "message0": "自定义websocket链接 %1",
-    "tooltip": "使用虾哥服务器不需要调用此块，自建兼容虾哥服务器协议调用此块"
+    "message0": "커스텀 WebSocket 링크 %1",
+    "tooltip": "Shrimp Server를 사용할 때 이 블록을 호출할 필요는 없습니다; 맞춤형 호환 Shrimp Server 프로토콜이 이 블록을 호출할 수 있습니다",
+    "message1": "요청 헤더(C 언어 배열 형식) %1"
   },
   "esp32ai_start_engine": {
-    "message0": "启动ESP32-AI引擎 "
+    "message0": "ESP32-AI 엔진 출시"
   },
   "aivox_display_mode": {
-    "message0": "初始化会话显示样式为 %1 ",
+    "message0": "세션 표시 스타일을 %1 초기화하세요",
     "args0": [
       {
         "options": [
           [
-            "普通",
+            "일반",
             "normal"
           ],
           [
-            "微信对话",
+            "위챗 대화",
             "wechat"
           ]
         ]
@@ -303,35 +319,35 @@
     ]
   },
   "aivox3_set_es8311_volume": {
-    "message0": "设置AI音量为 %1 ",
-    "tooltip": "设置AI设备音量大小"
+    "message0": "AI 볼륨을 %1로 설정하세요",
+    "tooltip": "AI 장치의 볼륨 레벨을 설정하세요"
   },
   "aivox3_set_screen_light": {
-    "message0": "设置ST7789屏幕亮度为 %1 ",
-    "tooltip": "设置ST7789屏幕亮度"
+    "message0": "ST7789 화면 밝기를 %1로 설정하세요",
+    "tooltip": "ST7789 화면 밝기 설정"
   },
   "esp32ai_wake_engine": {
-    "message0": "唤醒ESP32-AI"
+    "message0": "ESP32-AI를 각성하라"
   },
   "esp32ai_sendtext": {
-    "message0": "主动发送消息 %1 ",
-    "tooltip": "主动给小智发送消息，让他干活"
+    "message0": "메시지를 적극적으로 보내%1",
+    "tooltip": "그는 적극적으로 샤오즈에게 메시지를 보내 출근시키려 했다"
   },
   "aivox_lcd_show_status": {
-    "message0": "在 %1显示 %2 ",
+    "message0": "%1에서 %2 보여줘",
     "args0": [
       {
         "options": [
           [
-            "状态框",
+            "상태 상자",
             "ShowStatus"
           ],
           [
-            "表情框",
+            "이모지 박스",
             "SetEmotion"
           ],
           [
-            "内容框",
+            "콘텐츠 박스",
             "SetChatMessage"
           ]
         ]
@@ -340,73 +356,76 @@
     ]
   },
   "esp32ai_state_change_root": {
-    "message0": "当AI设备状态变化时",
-    "tooltip": "处理AI设备所有状态变化事件的总入口"
+    "message0": "AI 기기 상태가 바뀔 때",
+    "tooltip": "AI 장치의 모든 상태 변화 이벤트를 처리하는 주요 게이트웨이",
+    "message1": "%1"
   },
   "esp32ai_state_change_case": {
-    "message0": "当状态为 %1 时",
-    "tooltip": "当AI设备进入指定状态时，执行这里的代码",
+    "message0": "국가가 %1",
+    "tooltip": "AI 장치가 지정된 상태에 들어가면 여기서 코드를 실행하세요",
     "args0": [
       {
         "options": [
           [
-            "空闲 (Idle)",
+            "유휴",
             "kIdle"
           ],
           [
-            "已初始化 (Initted)",
+            "시작했다",
             "kInitted"
           ],
           [
-            "加载中 (Loading)",
+            "로딩",
             "kLoading"
           ],
           [
-            "加载失败 (LoadingFailed)",
+            "로딩에 실패",
             "kLoadingFailed"
           ],
           [
-            "待命 (Standby)",
+            "대기",
             "kStandby"
           ],
           [
-            "连接中 (Connecting)",
+            "연결",
             "kConnecting"
           ],
           [
-            "聆听中 (Listening)",
+            "경청",
             "kListening"
           ],
           [
-            "说话中 (Speaking)",
+            "말하기",
             "kSpeaking"
           ]
         ]
       }
-    ]
+    ],
+    "message1": "%1"
   },
   "aivox3_ST77789TurnOnBacklight_engine": {
-    "message0": "点亮ST77789屏 "
+    "message0": "ST77789 화면을 밝히며"
   },
   "aivox3_ST77789TurnOffBacklight_engine": {
-    "message0": "熄灭ST77789屏 "
+    "message0": "ST77789 화면을 꺼"
   },
   "esp32ai_loop_activation": {
-    "message0": "当AI收到激活信息",
-    "tooltip": "AI激活事件的逻辑"
+    "message0": "AI가 활성화 메시지를 받을 때",
+    "tooltip": "AI는 사건의 논리를 활성화합니다",
+    "message1": "%1"
   },
   "get_aivox_activation_message": {
-    "message0": "收到的 %1",
-    "tooltip": "获取设备的激活码",
+    "message0": "수령 %1",
+    "tooltip": "장치의 활성화 코드를 얻으세요",
     "args0": [
       {
         "options": [
           [
-            "激活码",
+            "활성화 코드",
             "code"
           ],
           [
-            "激活网址",
+            "웹사이트 활성화",
             "message"
           ]
         ]
@@ -414,97 +433,98 @@
     ]
   },
   "esp32ai_loop_emotion": {
-    "message0": "当AI收到表情码",
-    "tooltip": "AI-VOX表情事件的逻辑"
+    "message0": "AI가 이모지 코드를 받을 때",
+    "tooltip": "AI-VOX 이모지 사건의 논리",
+    "message1": "%1"
   },
   "get_aivox_emotion_result": {
-    "message0": "收到的表情码",
-    "tooltip": "获取当前情绪表情"
+    "message0": "수신된 이모지 코드",
+    "tooltip": "현재 감정 표현을 파악하세요"
   },
   "aivox_emotion": {
-    "message0": "收到的表情为 %1?",
-    "tooltip": "情绪表情",
+    "message0": "어떤 이모지를 receive%1었나요?",
+    "tooltip": "감정 표현",
     "args0": [
       {
         "options": [
           [
-            "高兴",
+            "행복해",
             "happy"
           ],
           [
-            "酷炫",
+            "멋지네요",
             "cool"
           ],
           [
-            "大笑",
+            "크게 웃으며",
             "laughing"
           ],
           [
-            "搞笑",
+            "재밌네",
             "funny"
           ],
           [
-            "忧伤",
+            "슬픔에 잠겼다",
             "sad"
           ],
           [
-            "生气",
+            "화가 났다",
             "angry"
           ],
           [
-            "哭泣",
+            "울음",
             "crying"
           ],
           [
-            "喜欢",
+            "좋아",
             "loving"
           ],
           [
-            "尴尬",
+            "어색하다",
             "embarrassed"
           ],
           [
-            "惊讶",
+            "놀랐다",
             "surprised"
           ],
           [
-            "震惊",
+            "충격",
             "shocked"
           ],
           [
-            "思考",
+            "사고",
             "thinking"
           ],
           [
-            "调皮",
+            "장난꾸러기",
             "winking"
           ],
           [
-            "放松",
+            "진정해.",
             "relaxed"
           ],
           [
-            "享受",
+            "즐기세요",
             "delicious"
           ],
           [
-            "亲亲",
+            "다정한 말",
             "kissy"
           ],
           [
-            "自信",
+            "자신감",
             "confident"
           ],
           [
-            "困倦",
+            "피로",
             "sleepy"
           ],
           [
-            "搞怪",
+            "재밌네",
             "silly"
           ],
           [
-            "困惑",
+            "혼란스러워",
             "confused"
           ]
         ]
@@ -512,89 +532,89 @@
     ]
   },
   "aivox_emotion_list": {
-    "message0": "表情包 %1",
-    "tooltip": "情绪表情",
+    "message0": "밈 %1",
+    "tooltip": "감정 표현",
     "args0": [
       {
         "options": [
           [
-            "高兴",
+            "행복해",
             "happy"
           ],
           [
-            "酷炫",
+            "멋지네요",
             "cool"
           ],
           [
-            "大笑",
+            "크게 웃으며",
             "laughing"
           ],
           [
-            "搞笑",
+            "재밌네",
             "funny"
           ],
           [
-            "忧伤",
+            "슬픔에 잠겼다",
             "sad"
           ],
           [
-            "生气",
+            "화가 났다",
             "angry"
           ],
           [
-            "哭泣",
+            "울음",
             "crying"
           ],
           [
-            "喜欢",
+            "좋아",
             "loving"
           ],
           [
-            "尴尬",
+            "어색하다",
             "embarrassed"
           ],
           [
-            "惊讶",
+            "놀랐다",
             "surprised"
           ],
           [
-            "震惊",
+            "충격",
             "shocked"
           ],
           [
-            "思考",
+            "사고",
             "thinking"
           ],
           [
-            "调皮",
+            "장난꾸러기",
             "winking"
           ],
           [
-            "放松",
+            "진정해.",
             "relaxed"
           ],
           [
-            "享受",
+            "즐기세요",
             "delicious"
           ],
           [
-            "亲亲",
+            "다정한 말",
             "kissy"
           ],
           [
-            "自信",
+            "자신감",
             "confident"
           ],
           [
-            "困倦",
+            "피로",
             "sleepy"
           ],
           [
-            "搞怪",
+            "재밌네",
             "silly"
           ],
           [
-            "困惑",
+            "혼란스러워",
             "confused"
           ]
         ]
@@ -602,21 +622,22 @@
     ]
   },
   "esp32ai_loop_chat_message": {
-    "message0": "当AI收到聊天消息",
-    "tooltip": "处理AI-VOX交互消息事件"
+    "message0": "AI가 채팅 메시지를 받을 때",
+    "tooltip": "AI-VOX 상호작용 메시지 이벤트 처리",
+    "message1": "%1"
   },
   "aivox_loop_chat_message_role_var": {
-    "message0": "收到%1的消息？",
-    "tooltip": "AI-VOX设备当前消息的角色",
+    "message0": "%1에게서 소식 받았나요?",
+    "tooltip": "현재 메시지에서 AI-VOX 장치의 역할",
     "args0": [
       {
         "options": [
           [
-            "助手回复",
+            "조수가 대답했다",
             "Assistant"
           ],
           [
-            "用户询问",
+            "사용자 문의",
             "User"
           ]
         ]
@@ -624,43 +645,44 @@
     ]
   },
   "aivox_mcp_register_control_command": {
-    "message0": "%1注册MCP控制服务%2",
+    "message0": "%1 MCP 제어 서비스 등록부 %2",
     "args0": [
       {
         "options": [
           [
-            "常规",
+            "일반",
             "regular"
           ],
           [
-            "只设置",
+            "그냥 세팅만 했어",
             "set_only"
           ],
           [
-            "只上报",
+            "당국에만 보고했다",
             "report_only"
           ]
         ]
       },
       null
-    ]
+    ],
+    "message1": "Parameters%1"
   },
   "aivox_mcp_control_param": {
-    "message0": "MCP服务参数%1 参数类型%2",
+    "message0": "MCP 서비스 매개변수 %1 매개변수 Types%2",
     "args0": [
       null,
       {
         "options": [
           [
-            "布尔值 (Boolean)",
+            "불리언",
             "Boolean"
           ],
           [
-            "数值 (Number)",
+            "번호",
             "Number"
           ],
           [
-            "字符串 (String)",
+            "스트링",
             "String"
           ]
         ]
@@ -668,21 +690,21 @@
     ]
   },
   "esp32ai_mcp_control_param": {
-    "message0": "MCP服务参数%1 参数类型%2",
+    "message0": "MCP 서비스 매개변수 %1 매개변수 Types%2",
     "args0": [
       null,
       {
         "options": [
           [
-            "布尔值 (Boolean)",
+            "불리언",
             "Boolean"
           ],
           [
-            "数值 (Number)",
+            "번호",
             "Number"
           ],
           [
-            "字符串 (String)",
+            "스트링",
             "String"
           ]
         ]
@@ -690,106 +712,111 @@
     ]
   },
   "aivox_mcp_control": {
-    "message0": "MCP服务名称%1 描述%2"
+    "message0": "MCP 서비스 Name%1 Description%2"
   },
   "aivox_loop_chat_message_msg_var": {
-    "message0": "收到的消息内容",
-    "tooltip": "AI-VOX设备当前聊天的信息内容"
+    "message0": "수신된 메시지의 내용",
+    "tooltip": "AI-VOX 장치의 현재 채팅 콘텐츠"
   },
   "esp32ai_loop_mcp": {
-    "message0": "当AI收到MCP消息",
-    "tooltip": "处理AI-VOX MCP信息"
+    "message0": "AI가 MCP 메시지를 받을 때",
+    "tooltip": "AI-VOX MCP 정보 처리",
+    "message1": "%1"
   },
   "esp32ai_loop_mcp_new": {
-    "message0": "%1 注册MCP控制服务",
-    "tooltip": "MCP服务注册及消息处理",
+    "message0": "%1 MCP 제어 서비스 레지스터",
+    "tooltip": "MCP 서비스 등록 및 메시지 처리",
     "args0": [
       {
         "options": [
           [
-            "常规",
+            "일반",
             "regular"
           ],
           [
-            "只设置",
+            "그냥 세팅만 했어",
             "set_only"
           ],
           [
-            "只上报",
+            "당국에만 보고했다",
             "report_only"
           ]
         ]
       }
-    ]
+    ],
+    "message1": "복무 Name%1 Description%2",
+    "message2": "Parameters%1",
+    "message3": "메시지 처리"
   },
   "aivox_get_iot_message_event_name": {
-    "message0": "设备名称为 %1"
+    "message0": "장치 이름: %1"
   },
   "aivox_get_iot_message_event_name_new": {
-    "message0": "MCP服务名称为 %1?"
+    "message0": "MCP 서비스 이름은 %1인가요?"
   },
   "aivox_state_control_message_event_fuction": {
-    "message0": "获取设备名称 %1 状态参数 %2 的结果"
+    "message0": "장치 이름%1 상태 매개변수의 결과를 얻으세요%2"
   },
   "aivox_control_message_event_fuction": {
-    "message0": "获取MCP服务名称 %1 参数 %2 的结果"
+    "message0": "MCP 서비스 이름의 결과를 얻기 %1 매개변수 %2"
   },
   "aivox_response_mcp_control_result": {
-    "message0": "上报设备 %1 控制结果"
+    "message0": "장비 %1 제어 결과 보고"
   },
   "aivox_response_mcp_control_result_new": {
-    "message0": "上报MCP服务名称 %1 执行完成"
+    "message0": "MCP 서비스 이름 보고%1 실행 완료"
   },
   "aivox_update_mcp_control_state_new": {
-    "message0": "简单上报MCP服务名称 %1 参数 %2 的值为 %3"
+    "message0": "단순히 MCP 서비스 이름을 보고하고%1, 매개변수 %2 값이 %3"
   },
   "aivox_calculateupdate_mcp_control_state": {
-    "message0": "计算上报MCP服务名称 %1 参数 %2"
+    "message0": "MCP 서비스 이름%1 매개변수를 계산하고 보고하세요%2",
+    "message1": "%1"
   },
   "esp32ai_selget_mcp_control": {
-    "message0": "MCP服务名称 %1"
+    "message0": "MCP 서비스 명칭: %1"
   },
   "lvgl_port_lock": {
-    "message0": "获取LVGL锁 超时%1ms",
-    "tooltip": "获取LVGL互斥锁"
+    "message0": "LVGL 잠금 타임아웃을 %1ms",
+    "tooltip": "LVGL 뮤텍스를 얻으세요"
   },
   "lvgl_port_unlock": {
-    "message0": "释放LVGL锁",
-    "tooltip": "释放LVGL互斥锁"
+    "message0": "LVGL 잠금장치 해제",
+    "tooltip": "LVGL 뮤텍스 해제"
   },
   "esp32ai_lvgl_obj_set_style_text_font": {
-    "message0": "设置 %1 小智字体 %2",
-    "tooltip": "设置对象的文本字体",
+    "message0": "샤오즈 폰트%1 설정%2",
+    "tooltip": "객체의 텍스트 글꼴을 설정하세요",
     "args0": [
       null,
       {
         "options": [
           [
-            "单色屏文本14号字体",
+            "흑백 화면 텍스트 글꼴 크기 14",
             "font_puhui_14_1"
           ],
           [
-            "单色屏30号大图标",
+            "30인치 대형 아이콘이 있는 단색 화면입니다",
             "font_awesome_30_1"
           ],
           [
-            "单色屏14号小图标",
+            "흑백 화면 No. 14 작은 아이콘",
             "font_awesome_14_1"
           ],
           [
-            "彩屏文本16号字体",
+            "컬러 화면 텍스트 글꼴 크기 16",
             "font_puhui_16_4"
           ],
           [
-            "彩屏黑色功能图标30号",
+            "컬러 스크린 블랙 기능 아이콘 No. 30",
             "font_awesome_30_4"
           ],
           [
-            "彩屏黑色功能图标16号",
+            "컬러 스크린 블랙 기능 아이콘 No. 16",
             "font_awesome_16_4"
           ],
           [
-            "彩屏情绪32号",
+            "컬러 스크린 무드 32호",
             "font_emoji_32_init()"
           ]
         ]
@@ -797,41 +824,41 @@
     ]
   },
   "esp32ai_emotion_select": {
-    "message0": "返回图片字体 分类：%1",
-    "tooltip": "选择分类和图标，返回对应的图形字体宏",
+    "message0": "이미지 폰트로 돌아가기 카테고리: %1",
+    "tooltip": "해당 그래픽 폰트 매크로를 반환하려면 카테고리와 아이콘을 선택하세요",
     "args0": [
       {
         "options": [
           [
-            "表情类",
+            "표현식 유형",
             "EMOJI"
           ],
           [
-            "电池类",
+            "배터리",
             "BATTERY"
           ],
           [
-            "WiFi类",
+            "WiFi 유형",
             "WIFI"
           ],
           [
-            "信号类",
+            "신호 등급",
             "SIGNAL"
           ],
           [
-            "音量类",
+            "부피 범주",
             "VOLUME"
           ],
           [
-            "媒体控制类",
+            "미디어 제어 클래스",
             "MEDIA"
           ],
           [
-            "箭头类",
+            "화살 종류",
             "ARROW"
           ],
           [
-            "功能图标类",
+            "함수 아이콘 클래스",
             "FUNCTION"
           ]
         ]
@@ -839,17 +866,17 @@
     ]
   },
   "lvgl_label_set_text_emotion": {
-    "message0": "设置标签 %1 图标文本为 %2",
-    "tooltip": "设置标签显示的图标"
+    "message0": "아이콘 텍스트%1 탭을 %2로 설정하세요",
+    "tooltip": "라벨에 표시된 아이콘을 설정하세요"
   },
   "lvgl_label_set_text_cpemotion": {
-    "message0": "设置标签 %1 小智彩屏表情 %2",
-    "tooltip": "设置标签显示的小智彩屏表情"
+    "message0": "샤오즈 컬러 스크린 이모지 %1 태그 설정 %2",
+    "tooltip": "태그의 샤오즈 컬러 스크린 이모지 표시를 설정하세요"
   },
   "aivox3_init_es8311": {
-    "tooltip": "初始化AI-VOX3引擎ES8311模块"
+    "tooltip": "AI-VOX3 엔진 ES8311 모듈을 초기화하세요"
   },
   "esp32ai_init_es8388": {
-    "tooltip": "初始化小智语音引擎ES8388模块"
+    "tooltip": "샤오즈 음성 엔진의 ES8388 모듈을 초기화하세요"
   }
 }

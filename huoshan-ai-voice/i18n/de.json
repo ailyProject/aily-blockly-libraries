@@ -1,5 +1,5 @@
 {
-  "toolbox_name": "Huoshan AI Voice",
+  "toolbox_name": "Vulkan-KI-Stimme",
   "toolbox_labels": {
     "配置": "Konfiguration",
     "屏幕": "Bildschirm",
@@ -7,29 +7,104 @@
     "参数": "Parameter",
     "状态": "Status"
   },
-  "huoshan_ai_config": {"message0": "Configure Huoshan AI Voice Doubao App ID %1 Doubao Token %2 Coze Token %3 Coze Bot ID %4 User ID %5", "tooltip": "Configure Doubao ASR/TTS and Coze chat credentials"},
-  "huoshan_ai_wifi_connect": {"message0": "Huoshan AI connect WiFi SSID %1 password %2 timeout(ms) %3", "tooltip": "Connect WiFi"},
-  "huoshan_ai_mic_config": {"message0": "Configure Huoshan AI I2S microphone port %1 BCLK %2 WS/LRCLK %3 DIN %4 gain %5 max record seconds %6", "tooltip": "Configure I2S microphone pins and recording"},
-  "huoshan_ai_speaker_config": {"message0": "Configure Huoshan AI I2S speaker port %1 BCLK %2 WS/LRCLK %3 DOUT %4 volume %5", "tooltip": "Configure I2S speaker pins and volume"},
-  "huoshan_ai_begin": {"message0": "Start Huoshan AI Voice", "tooltip": "Initialize I2S microphone and speaker"},
-  "huoshan_ai_start_listening": {"message0": "Huoshan AI start listening", "tooltip": "Start I2S microphone recording"},
-  "huoshan_ai_stop_listening_and_chat": {"message0": "Huoshan AI stop listening and chat", "tooltip": "Stop recording, recognize, chat with Coze, and play reply"},
-  "huoshan_ai_send_text": {"message0": "Huoshan AI send text to Coze text %1 speak reply %2", "tooltip": "Send text directly to Coze"},
-  "huoshan_ai_tts_speak": {"message0": "Huoshan AI TTS speak text %1", "tooltip": "Speak text with Doubao TTS"},
-  "huoshan_ai_stop_audio": {"message0": "Huoshan AI stop audio playback", "tooltip": "Stop current I2S playback"},
-  "huoshan_ai_clear_conversation": {"message0": "Huoshan AI clear Coze conversation", "tooltip": "Clear conversation_id"},
-  "huoshan_ai_set_voice": {"message0": "Huoshan AI set Doubao voice %1", "tooltip": "Set Doubao TTS voice_type"},
-  "huoshan_ai_set_volume": {"message0": "Huoshan AI set playback volume %1", "tooltip": "Set local I2S playback volume"},
-  "huoshan_ai_set_speed": {"message0": "Huoshan AI set TTS speed %1", "tooltip": "Set Doubao TTS speed_ratio"},
-  "huoshan_ai_get_state": {"message0": "Get Huoshan AI state", "tooltip": "Return current state"},
-  "huoshan_ai_is_wifi_connected": {"message0": "Huoshan AI WiFi connected", "tooltip": "Check WiFi status"},
-  "huoshan_ai_get_last_asr_text": {"message0": "Get Huoshan AI last ASR text", "tooltip": "Return last ASR text"},
-  "huoshan_ai_get_last_reply_text": {"message0": "Get Huoshan AI last reply text", "tooltip": "Return last Coze reply"},
-  "huoshan_ai_get_last_error": {"message0": "Get Huoshan AI last error", "tooltip": "Return last error message"},
-  "huoshan_ai_screen_config": {"message0": "Configure Huoshan AI screen width %1 height %2 rotation %3 brightness %4 backlight %5 MISO %6 MOSI %7 SCLK %8 CS %9 DC %10 RST %11 touch SDA %12 SCL %13 RST %14 INT %15", "tooltip": "Configure ST7789, TFT_eSPI, LVGL, and FT6336U touch screen macros"},
-  "huoshan_ai_screen_begin": {"message0": "Start Huoshan AI screen touch-to-talk %1 auto messages %2", "tooltip": "Initialize the LVGL voice panel and touch-to-talk button"},
-  "huoshan_ai_screen_set_brightness": {"message0": "Huoshan AI screen set brightness %1", "tooltip": "Set screen backlight brightness"},
-  "huoshan_ai_screen_set_status": {"message0": "Huoshan AI screen set status %1", "tooltip": "Set the top status text manually"},
-  "huoshan_ai_screen_add_message": {"message0": "Huoshan AI screen add message role %1 text %2", "tooltip": "Append a message to the screen message list"},
-  "huoshan_ai_screen_clear_messages": {"message0": "Huoshan AI screen clear messages", "tooltip": "Clear the screen message list"}
+  "huoshan_ai_config": {
+    "message0": "Konfigurieren Sie die Volcano AI Voice Doubao App ID %1 Doubao Token %2 Coze Token %3 Coze Bot ID %4 User ID %5",
+    "tooltip": "Konfigurieren Sie die für Doubao ASR/TTS und Coze-Mehrrundendialog erforderlichen Parameter; verwenden Sie die Chip-ID, wenn die Benutzer-ID null ist"
+  },
+  "huoshan_ai_wifi_connect": {
+    "message0": "Volcano AI Verbindung WLAN-SSID %1 Passwort %2 Timeout (ms) %3",
+    "tooltip": "Die Verbindung mit WLAN, anschließendem ASR, Coze und TTS sind alle auf das Netzwerk angewiesen"
+  },
+  "huoshan_ai_mic_config": {
+    "message0": "Ausgestattet mit Volcano AI I2S-Mikrofon ports%1 BCLK %2 WS/LRCLK %3 DIN %4 gain%5 maximaler Aufnahme seconds%6",
+    "tooltip": "Ausgestattet mit I2S-Mikrofonpins und Aufnahmeparametern, mit einer festen 16kHz 16-Bit-Mono-Abtastrate; Empfohlener Gain 4. Wenn das Log Clipping verlangt, reduzieren Sie die Verstärkung"
+  },
+  "huoshan_ai_speaker_config": {
+    "message0": "Konfigurieren Sie Volcano AI I2S-Lautsprecherports %1 BCLK %2 WS/LRCLK %3 DOUT %4 Lautstärke %5",
+    "tooltip": "Ausgestattet mit MAX98357 I2S-Lautsprechern, TTS-PCM-Wiedergabe bei 16 kHz"
+  },
+  "huoshan_ai_begin": {
+    "message0": "Aktiviere die Vulkan-KI-Stimme",
+    "tooltip": "Initialisieren Sie das I2S-Mikrofon und die Lautsprecher, um sich auf Sprachgespräche vorzubereiten"
+  },
+  "huoshan_ai_start_listening": {
+    "message0": "Volcano AI beginnt zuzuhören",
+    "tooltip": "Beginnen Sie mit der Aufnahme vom I2S-Mikrofon, das üblicherweise per Knopfdruck platziert wird"
+  },
+  "huoshan_ai_stop_listening_and_chat": {
+    "message0": "Die Vulkan-KI hört auf zu hören und zu sprechen",
+    "tooltip": "Stoppt die Aufnahme, ruft die Doubao ASR-Erkennung an, schickt es dann an Coze und spielt eine Antwort mit Doubao TTS ab"
+  },
+  "huoshan_ai_send_text": {
+    "message0": "Die Vulkan-KI sendet Text an Coze, Text %1 spielt und replies%2",
+    "tooltip": "Senden Sie eine SMS direkt an Coze für Gespräche über mehrere Runden, mit der Option, Antworten in TTS abzuspielen"
+  },
+  "huoshan_ai_tts_speak": {
+    "message0": "Volcano AI TTS Textwiedergabe %1",
+    "tooltip": "Der Text wird mit Doubao TTS synthetisiert und über I2S-Lautsprecher abgespielt"
+  },
+  "huoshan_ai_stop_audio": {
+    "message0": "Die Vulkan-KI hörte auf, Audio abzuspielen",
+    "tooltip": "Lösche den I2S-DMA-Puffer und stoppe die aktuelle Wiedergabe"
+  },
+  "huoshan_ai_clear_conversation": {
+    "message0": "Vulkan-KI schafft Coze-Sitzungen",
+    "tooltip": "Lösche die conversation_id und starte die nächste Anfrage aus einer neuen Sitzung"
+  },
+  "huoshan_ai_set_voice": {
+    "message0": "Volcano AI setzt den Doubao-Ton %1",
+    "tooltip": "Stell zum Beispiel die Doubao TTS voice_type zh_female_wanwanxiaohe_moon_bigtts"
+  },
+  "huoshan_ai_set_volume": {
+    "message0": "Volcano AI stellt die Lautstärke der Wiedergabe %1",
+    "tooltip": "Stelle die lokale I2S-Wiedergabelautstärke ein, empfohlen zwischen 0,0 und 1,0"
+  },
+  "huoshan_ai_set_speed": {
+    "message0": "Volcano AI stellt TTS-Sprachen rate%1",
+    "tooltip": "Stelle den Doubao TTS speed_ratio, meist zwischen 0,8 und 1,2"
+  },
+  "huoshan_ai_get_state": {
+    "message0": "Erhalten Sie den aktuellen Status der Vulkan-KI",
+    "tooltip": "Kehrt Leerlauf, Zuhören, Erkennen, Denken, Sprechen, Fehler und andere Zustände zurück"
+  },
+  "huoshan_ai_is_wifi_connected": {
+    "message0": "Volcano AI WiFi ist verbunden",
+    "tooltip": "Überprüfe, ob WLAN verbunden ist"
+  },
+  "huoshan_ai_get_last_asr_text": {
+    "message0": "Erhalten Sie die endgültige Texterkennung von Volcano AI",
+    "tooltip": "Senden Sie den endgültigen Erkennungstext für den letzten Doubao ASR zurück"
+  },
+  "huoshan_ai_get_last_reply_text": {
+    "message0": "Erhalten Sie die abschließende Antwort von Volcano AI",
+    "tooltip": "Gib die aktuellste Coze-Antwort-Nachricht zurück"
+  },
+  "huoshan_ai_get_last_error": {
+    "message0": "Get Volcano AI letzter Fehler",
+    "tooltip": "Geben Sie die aktuellste Fehlermeldung zurück"
+  },
+  "huoshan_ai_screen_config": {
+    "message0": "Konfiguration: Volcano AI Bildschirm: Breite %1 Höhe %2 Rotation %3 Helligkeit: %4 Backlight%5 MISO %6 MOSI-%7 SCLK %8 CS %9 DC %10 RST %11 Touch SDA %12 SCL %13 RST %14 INT %15",
+    "tooltip": "Konfigurieren Sie ST7789, TFT_eSPI, LVGL und FT6336U Touchscreen-Engineering-Makros, wobei standardmäßig die ursprüngliche PIO-Projekthardware entspricht"
+  },
+  "huoshan_ai_screen_begin": {
+    "message0": "Aktivieren Sie den Volcano-KI-Bildschirm, drücken Sie und halten Sie den Knopfdruck, um mit Touch zu sprechen %1 automatisch conversations%2",
+    "tooltip": "Initialisieren Sie das LVGL-Sprachpanel, erstellen Sie eine Statusleiste, eine Nachrichtenliste und eine Touch-Talk-Taste"
+  },
+  "huoshan_ai_screen_set_brightness": {
+    "message0": "Volcano AI Bildschirmhelligkeitseinstellungen %1",
+    "tooltip": "Stell die Hintergrundbeleuchtung des Bildschirms von 0 auf 100 ein"
+  },
+  "huoshan_ai_screen_set_status": {
+    "message0": "Volcano AI Bildschirmeinstellungen Status%1",
+    "tooltip": "Stellen Sie manuell den Statustext oben auf dem Bildschirm ein"
+  },
+  "huoshan_ai_screen_add_message": {
+    "message0": "Der Vulkan-KI-Bildschirm fügt Nachrichten, Charaktere %1 Text%2 hinzu",
+    "tooltip": "Fügen Sie eine Benutzer-, KI- oder Systemnachricht zur Bildschirmnachrichtenliste hinzu"
+  },
+  "huoshan_ai_screen_clear_messages": {
+    "message0": "Der Vulkan-KI-Bildschirm löschte die Nachricht",
+    "tooltip": "Lösche die Nachrichtenliste auf dem Bildschirm"
+  }
 }

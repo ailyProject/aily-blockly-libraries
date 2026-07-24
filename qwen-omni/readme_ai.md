@@ -56,7 +56,7 @@ Alibaba Cloud Tongyi Qwen large language model API library supports text dialogu
 | MODEL | qwen3.7-plus, qwen3-vl-plus, qwen3-vl-flash, qwen-vl-max, qwen-vl-plus | qwen_omni_vision_chat, qwen_omni_vision_chat_direct_capture, qwen_omni_vision_url_chat |
 | MODEL | wanx2.1-t2i-turbo, wanx2.1-t2i-plus, wanx-v1 | qwen_omni_image_generate |
 | SIZE | 1024*1024, 720*1280, 1280*720 | qwen_omni_image_generate |
-| VOICE | Cherry, Ethan, Chelsie, Serena, Chelsie, Dylan, Jada, Sunny | qwen_omni_tts |
+| VOICE | Cherry, Ethan, Chelsie, Serena, Dylan, Jada, Sunny | qwen_omni_tts |
 | MODEL | qwen3-tts-flash, qwen3-tts-instruct-flash, qwen-tts | qwen_omni_tts, qwen_omni_tts_and_play, qwen_omni_tts_stream_play |
 | LANGUAGE | Chinese, English, Japanese, Korean, French, German, Spanish, Russian, Portuguese, Italian | qwen_omni_tts, qwen_omni_tts_and_play, qwen_omni_tts_stream_play |
 | VOICE | Cherry, Ethan, Chelsie, Serena, Dylan, Jada, Sunny | qwen_omni_tts_and_play, qwen_omni_tts_stream_play |

@@ -1,63 +1,101 @@
 {
-"toolbox_name": "文本转语音",
-"openjumper_tts_init": {
+  "toolbox_name": "文本转语音",
+  "openjumper_tts_init": {
     "message0": "TTS初始化 RX引脚：%1 TX引脚：%2",
     "args0": [
-        null,
-        null
-    ]
-},
-"openjumper_tts_play_invoice": {
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "tooltip": "初始化OpenJumper TTS语音合成模块，设置软串口通信引脚"
+  },
+  "openjumper_tts_play_invoice": {
     "message0": "播放内置 %1 第%2首",
     "args0": [
-        {
-            "options": [
-                ["铃声", "VOICE_Ringtones"],
-                ["提示音", "VOICE_PromptSound"],
-                ["警示音", "VOICE_WarningSound"]
-            ]
-        },
-        null
-    ]
-},
-"openjumper_tts_play_control": {
+      {
+        "options": [
+          [
+            "铃声",
+            "VOICE_Ringtones"
+          ],
+          [
+            "提示音",
+            "VOICE_PromptSound"
+          ],
+          [
+            "警示音",
+            "VOICE_WarningSound"
+          ]
+        ]
+      },
+      null
+    ],
+    "tooltip": "播放TTS模块内置的铃声、提示音或警示音"
+  },
+  "openjumper_tts_play_control": {
     "message0": "控制播放 %1",
     "args0": [
-        {
-            "options": [
-                ["停止", "PLAY_STOP"],
-                ["暂停", "PLAY_PAUSE"],
-                ["继续", "PLAY_CONTINUE"]
-            ]
-        }
-    ]
-},
-"openjumper_tts_play_number": {
+      {
+        "options": [
+          [
+            "停止",
+            "PLAY_STOP"
+          ],
+          [
+            "暂停",
+            "PLAY_PAUSE"
+          ],
+          [
+            "继续",
+            "PLAY_CONTINUE"
+          ]
+        ]
+      }
+    ],
+    "tooltip": "控制TTS播放状态：停止、暂停或继续播放"
+  },
+  "openjumper_tts_play_number": {
     "message0": "播放数字 %1",
     "args0": [
-        null
-    ]
-},
-"openjumper_tts_play_text": {
+      null
+    ],
+    "tooltip": "将数字转换为语音播报"
+  },
+  "openjumper_tts_play_text": {
     "message0": "播放文本 %1",
     "args0": [
-        null
-    ]
-},
-"openjumper_tts_setcfg": {
+      null
+    ],
+    "tooltip": "将文本内容转换为语音播报，支持中文和数字"
+  },
+  "openjumper_tts_setcfg": {
     "message0": "设置%1 为%2",
     "args0": [
-        {
-            "options": [
-                ["语速", "setspeechSpeed"],
-                ["语调", "setIntonation"],
-                ["音量", "setVolume"]
-            ]
-        },
-        null
-    ]
-},
-"openjumper_tts_restore_defaults": {
-    "message0": "恢复默认设置"
-}
+      {
+        "options": [
+          [
+            "语速",
+            "setspeechSpeed"
+          ],
+          [
+            "语调",
+            "setIntonation"
+          ],
+          [
+            "音量",
+            "setVolume"
+          ]
+        ]
+      },
+      null
+    ],
+    "tooltip": "设置TTS语音参数：语速(0-10)、语调(0-10)或音量(0-10)"
+  },
+  "openjumper_tts_restore_defaults": {
+    "message0": "恢复默认设置",
+    "tooltip": "将语速、语调、音量恢复到默认值"
+  }
 }

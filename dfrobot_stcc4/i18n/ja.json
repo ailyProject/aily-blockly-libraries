@@ -1,15 +1,17 @@
 {
   "toolbox_name": "STCC4 CO2",
   "stcc4_init": {
-    "message0": "initialize STCC4 %1 I2C %2 address %3",
-    "tooltip": "Create and initialize the STCC4 CO2 sensor, wake it, and start continuous measurement.",
+    "message0": "STCC4をI2C%1%2アドレスの初期化%3",
+    "tooltip": "STCC4 CO2センサーを作成・初期化し、起床後は連続測定を開始します。",
     "args0": [
       null,
-      null,
+      {
+        "options": "${board.i2c}"
+      },
       {
         "options": [
           [
-            "0x64 (Default)",
+            "0x64(デフォルト)",
             "0x64"
           ],
           [
@@ -21,34 +23,34 @@
     ]
   },
   "stcc4_read": {
-    "message0": "STCC4 %1 read data successfully",
-    "tooltip": "Read CO2, temperature, humidity, and status once. Returns true on success."
+    "message0": "STCC4 %1データ読み込み成功",
+    "tooltip": "CO2、温度、湿度、状態データを一度読み取り、成功するとtrueを返します。"
   },
   "stcc4_get_data": {
-    "message0": "STCC4 %1 data %2",
-    "tooltip": "Read the latest cached measurement or calibration value.",
+    "message0": "STCC4 %1データ%2",
+    "tooltip": "最新の測定または校正から得られたデータを読みましょう。",
     "args0": [
       null,
       {
         "options": [
           [
-            "CO2 concentration ppm",
+            "CO2濃度ppm",
             "CO2"
           ],
           [
-            "temperature °C",
+            "温度℃",
             "TEMPERATURE"
           ],
           [
-            "humidity %RH",
+            "湿度%RH",
             "HUMIDITY"
           ],
           [
-            "sensor status",
+            "センサーの状態",
             "STATUS"
           ],
           [
-            "forced calibration correction",
+            "強制キャリブレーション補正値",
             "FRC_CORRECTION"
           ]
         ]
@@ -56,26 +58,26 @@
     ]
   },
   "stcc4_get_id": {
-    "message0": "STCC4 %1 sensor ID",
-    "tooltip": "Read the STCC4 sensor ID."
+    "message0": "STCC4 %1センサーID",
+    "tooltip": "STCC4センサーIDを読み取ってください。"
   },
   "stcc4_measurement_control": {
-    "message0": "STCC4 %1 measurement control %2",
-    "tooltip": "Control continuous measurement or trigger a single measurement.",
+    "message0": "STCC4 %1測定制御%2",
+    "tooltip": "STCC4を制御して連続測定または単一測定をトリガーします。",
     "args0": [
       null,
       {
         "options": [
           [
-            "start continuous measurement",
+            "連続測定を開始",
             "startMeasurement"
           ],
           [
-            "stop continuous measurement",
+            "停止連続測定",
             "stopMeasurement"
           ],
           [
-            "single measurement",
+            "単一測定",
             "singleMeasurement"
           ]
         ]
@@ -83,8 +85,8 @@
     ]
   },
   "stcc4_power_control": {
-    "message0": "STCC4 %1 power control %2",
-    "tooltip": "Wake the sensor or enter sleep mode.",
+    "message0": "STCC4 %1 パワーコントロール%2",
+    "tooltip": "センサーを起動するか、スリープモードに入ってください。",
     "args0": [
       null,
       {
@@ -102,18 +104,18 @@
     ]
   },
   "stcc4_reset": {
-    "message0": "STCC4 %1 reset %2",
-    "tooltip": "Run soft reset or factory reset on STCC4.",
+    "message0": "STCC4 %1リセット%2",
+    "tooltip": "STCC4でソフトリセットまたは工場出荷時リセットを実行してください。",
     "args0": [
       null,
       {
         "options": [
           [
-            "soft reset",
+            "ソフトリポジション",
             "softRest"
           ],
           [
-            "factory reset",
+            "工場出荷時の設定を復元する",
             "factoryReset"
           ]
         ]
@@ -121,15 +123,15 @@
     ]
   },
   "stcc4_set_rht_compensation": {
-    "message0": "STCC4 %1 set RHT compensation temperature °C %2 humidity %RH %3",
-    "tooltip": "Set temperature and humidity compensation. Temperature range is 10-40°C; humidity range is 20-80%RH."
+    "message0": "STCC4 %1 温度および湿度補償の設定 温度 °C %2湿度 %RH %3",
+    "tooltip": "温度と湿度の補償が設定されており、温度範囲は10〜40°C、湿度範囲は湿度20〜80%です。"
   },
   "stcc4_set_pressure_compensation": {
-    "message0": "STCC4 %1 set pressure compensation hPa %2",
-    "tooltip": "Set pressure compensation, range 400-1100 hPa."
+    "message0": "STCC4 %1 空気圧補償をhPa %2設定",
+    "tooltip": "空気圧補償機能を備えており、400〜1100 hPaの範囲です。"
   },
   "stcc4_forced_recalibration": {
-    "message0": "STCC4 %1 forced recalibration target ppm %2",
-    "tooltip": "Run forced recalibration. Target range is 0-32000 ppm. Read the correction value after success."
+    "message0": "STCC4 %1 強制キャリブレーションターゲットppm%2",
+    "tooltip": "強制キャリブレーションを行い、ターゲット値は0〜32,000ppmの範囲で、成功したら強制キャリブレーション補正値を読み出します。"
   }
 }

@@ -2,7 +2,7 @@
   "toolbox_name": "低功耗",
   "toolbox_labels": {
     "电源配置": "電源配置",
-    "休眠模式": "休眠模式",
+    "休眠模式": "睡眠模式",
     "LPCOMP 低功耗比较器": "LPCOMP 低功耗比較器",
     "看门狗": "看門狗",
     "唤醒与复位": "喚醒與復位"
@@ -10,28 +10,228 @@
   "lowpower_init": {
     "message0": "初始化低功耗模式 CPU頻率 %1 功耗模式 %2",
     "tooltip": "初始化低功耗模式，設置CPU頻率和功耗延遲模式。低功耗模式允許系統在空閒時關閉時鐘節省電量；恆定延遲保持時鐘常開以獲得更低喚醒延遲。",
-    "args0": [null, { "options": [["低功耗 (Low Power)", "LOW_POWER"], ["恆定延遲 (Constant Latency)", "CONSTANT_LATENCY"]] }]
+    "args0": [
+      {
+        "options": [
+          [
+            "64 MHz",
+            "64MHZ"
+          ],
+          [
+            "128 MHz",
+            "128MHZ"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "低功率",
+            "LOW_POWER"
+          ],
+          [
+            "恆定延遲 (Constant Latency)",
+            "CONSTANT_LATENCY"
+          ]
+        ]
+      }
+    ]
   },
-  "lowpower_enter_lowest_power": { "message0": "進入最低功耗板級狀態", "tooltip": "關閉板級供電軌和共享控制網路，使開發板進入最低功耗狀態。" },
-  "lowpower_set_cpu_freq": { "message0": "設置CPU頻率 %1", "tooltip": "運行時動態切換CPU頻率。", "args0": [null] },
-  "lowpower_wfi": { "message0": "WFI 空閒等待", "tooltip": "CPU進入WFI空閒狀態，直到下一個中斷喚醒。" },
-  "lowpower_sleep_ms": { "message0": "低功耗WFI休眠 %1 毫秒", "tooltip": "使用WFI迴圈實現低功耗延時。" },
-  "lowpower_system_off_timed": { "message0": "定時 System OFF 休眠 %1 毫秒", "tooltip": "進入System OFF最深休眠，指定時間後冷啟動喚醒。" },
-  "lowpower_system_off_button": { "message0": "System OFF 按鈕喚醒", "tooltip": "配置用戶按鈕為喚醒源，然後進入System OFF最深休眠。" },
-  "lowpower_system_off": { "message0": "進入 System OFF %1", "tooltip": "進入System OFF最深休眠模式。", "args0": [{ "options": [["不保留RAM (最低功耗)", "NO_RETENTION"], ["保留.noinit段", "RETENTION"]] }] },
+  "lowpower_enter_lowest_power": {
+    "message0": "進入最低功耗板級狀態",
+    "tooltip": "關閉板級供電軌和共享控制網路，使開發板進入最低功耗狀態。"
+  },
+  "lowpower_set_cpu_freq": {
+    "message0": "設置CPU頻率 %1",
+    "tooltip": "運行時動態切換CPU頻率。",
+    "args0": [
+      {
+        "options": [
+          [
+            "64 MHz",
+            "64MHZ"
+          ],
+          [
+            "128 MHz",
+            "128MHZ"
+          ]
+        ]
+      }
+    ]
+  },
+  "lowpower_wfi": {
+    "message0": "WFI 空閒等待",
+    "tooltip": "CPU進入WFI空閒狀態，直到下一個中斷喚醒。"
+  },
+  "lowpower_sleep_ms": {
+    "message0": "低功耗 WFI 睡眠時間%1毫秒",
+    "tooltip": "使用WFI迴圈實現低功耗延時。"
+  },
+  "lowpower_system_off_timed": {
+    "message0": "定時 System OFF 休眠 %1 毫秒",
+    "tooltip": "進入System OFF最深休眠，指定時間後冷啟動喚醒。"
+  },
+  "lowpower_system_off_button": {
+    "message0": "System OFF 按鈕喚醒",
+    "tooltip": "配置用戶按鈕為喚醒源，然後進入System OFF最深休眠。"
+  },
+  "lowpower_system_off": {
+    "message0": "進入 System OFF %1",
+    "tooltip": "進入System OFF最深休眠模式。",
+    "args0": [
+      {
+        "options": [
+          [
+            "無記憶體保留（最低功耗）",
+            "NO_RETENTION"
+          ],
+          [
+            "保留 .noinit 段",
+            "RETENTION"
+          ]
+        ]
+      }
+    ]
+  },
   "lowpower_lpcomp_init": {
     "message0": "初始化LPCOMP 引腳 %1 VDD %2 mV 閾值 %3 mV 遲滯 %4 檢測 %5",
     "tooltip": "初始化低功耗比較器(LPCOMP)，監測類比引腳電壓是否越過閾值。",
-    "args0": [null, null, null, { "options": [["開啟", "TRUE"], ["關閉", "FALSE"]] }, { "options": [["上升沿", "UP"], ["下降沿", "DOWN"], ["雙向", "CROSS"]] }]
+    "args0": [
+      {
+        "options": [
+          [
+            "A0",
+            "kPinA0"
+          ],
+          [
+            "A1",
+            "kPinA1"
+          ],
+          [
+            "A2",
+            "kPinA2"
+          ],
+          [
+            "A3",
+            "kPinA3"
+          ],
+          [
+            "A4",
+            "kPinA4"
+          ],
+          [
+            "A5",
+            "kPinA5"
+          ]
+        ]
+      },
+      null,
+      null,
+      {
+        "options": [
+          [
+            "開啟",
+            "TRUE"
+          ],
+          [
+            "關閉",
+            "FALSE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "上升沿",
+            "UP"
+          ],
+          [
+            "下降沿",
+            "DOWN"
+          ],
+          [
+            "雙向",
+            "CROSS"
+          ]
+        ]
+      }
+    ]
   },
-  "lowpower_lpcomp_poll_up": { "message0": "LPCOMP 檢測到上升越限？", "tooltip": "檢查LPCOMP是否檢測到電壓上升越過閾值。" },
-  "lowpower_lpcomp_sample_above": { "message0": "LPCOMP 當前高於閾值？", "tooltip": "立即採樣LPCOMP比較器，返回當前類比輸入是否高於設定閾值。" },
-  "lowpower_lpcomp_clear": { "message0": "清除 LPCOMP 事件", "tooltip": "清除所有LPCOMP事件標誌。" },
-  "lowpower_watchdog_init": { "message0": "初始化看門狗 超時 %1 毫秒 休眠暫停 %2", "tooltip": "初始化看門狗計時器。", "args0": [null, { "options": [["是", "TRUE"], ["否", "FALSE"]] }] },
-  "lowpower_watchdog_feed": { "message0": "餵看門狗", "tooltip": "重置看門狗計時器，防止系統復位。" },
-  "lowpower_woke_from": { "message0": "喚醒來源是 %1 ？", "tooltip": "檢查本次啟動是否由指定喚醒源觸發。", "args0": [{ "options": [["GPIO (按鈕/引腳)", "GPIO"], ["GRTC (計時器)", "GRTC"], ["LPCOMP (比較器)", "LPCOMP"], ["看門狗", "WATCHDOG"]] }] },
-  "lowpower_reset_reason": { "message0": "復位原因值", "tooltip": "獲取復位原因暫存器的原始值。" },
-  "lowpower_clear_reset_reason": { "message0": "清除復位原因", "tooltip": "清除復位原因暫存器。" },
-  "lowpower_gpregret_write": { "message0": "寫保持暫存器 值 %1", "tooltip": "向GPREGRET保持暫存器寫入一個位元組值(0-255)。" },
-  "lowpower_gpregret_read": { "message0": "讀保持暫存器", "tooltip": "從GPREGRET保持暫存器讀取一個位元組值(0-255)。" }
+  "lowpower_lpcomp_poll_up": {
+    "message0": "LPCOMP 檢測到上升越限？",
+    "tooltip": "檢查LPCOMP是否檢測到電壓上升越過閾值。"
+  },
+  "lowpower_lpcomp_sample_above": {
+    "message0": "LPCOMP 當前高於閾值？",
+    "tooltip": "立即採樣LPCOMP比較器，返回當前類比輸入是否高於設定閾值。"
+  },
+  "lowpower_lpcomp_clear": {
+    "message0": "清除 LPCOMP 事件",
+    "tooltip": "清除所有LPCOMP事件標誌。"
+  },
+  "lowpower_watchdog_init": {
+    "message0": "初始化看門狗 超時 %1 毫秒 休眠暫停 %2",
+    "tooltip": "初始化看門狗計時器。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "是的",
+            "TRUE"
+          ],
+          [
+            "不",
+            "FALSE"
+          ]
+        ]
+      }
+    ]
+  },
+  "lowpower_watchdog_feed": {
+    "message0": "餵看門狗",
+    "tooltip": "重置看門狗計時器，防止系統復位。"
+  },
+  "lowpower_woke_from": {
+    "message0": "喚醒來源是 %1 ？",
+    "tooltip": "檢查本次啟動是否由指定喚醒源觸發。",
+    "args0": [
+      {
+        "options": [
+          [
+            "GPIO (按鈕/引腳)",
+            "GPIO"
+          ],
+          [
+            "GRTC (計時器)",
+            "GRTC"
+          ],
+          [
+            "LPCOMP (比較器)",
+            "LPCOMP"
+          ],
+          [
+            "看門狗",
+            "WATCHDOG"
+          ]
+        ]
+      }
+    ]
+  },
+  "lowpower_reset_reason": {
+    "message0": "復位原因值",
+    "tooltip": "獲取復位原因暫存器的原始值。"
+  },
+  "lowpower_clear_reset_reason": {
+    "message0": "清除復位原因",
+    "tooltip": "清除復位原因暫存器。"
+  },
+  "lowpower_gpregret_write": {
+    "message0": "寫保持暫存器 值 %1",
+    "tooltip": "向GPREGRET保持暫存器寫入一個位元組值(0-255)。"
+  },
+  "lowpower_gpregret_read": {
+    "message0": "讀保持暫存器",
+    "tooltip": "從GPREGRET保持暫存器讀取一個位元組值(0-255)。"
+  }
 }
