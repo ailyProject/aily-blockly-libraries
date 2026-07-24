@@ -1,0 +1,164 @@
+[
+  {
+    "type": "esp8266_mdns_begin",
+    "message0": "启动mDNS服务 主机名 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "HOSTNAME",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "启动mDNS服务，设置主机名(可通过 主机名.local 访问)",
+    "icon": "fa-regular fa-globe"
+  },
+  {
+    "type": "esp8266_mdns_end",
+    "message0": "停止mDNS服务",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "停止mDNS服务",
+    "icon": "fa-regular fa-globe"
+  },
+  {
+    "type": "esp8266_mdns_add_service",
+    "message0": "注册mDNS服务 类型 %1 协议 %2 端口 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SERVICE",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROTO",
+        "options": [
+          [
+            "TCP",
+            "tcp"
+          ],
+          [
+            "UDP",
+            "udp"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "注册一个mDNS服务(如http、mqtt等)",
+    "icon": "fa-regular fa-globe"
+  },
+  {
+    "type": "esp8266_mdns_add_service_txt",
+    "message0": "添加mDNS服务文本 服务 %1 协议 %2 键 %3 值 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SERVICE",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROTO",
+        "options": [
+          [
+            "TCP",
+            "tcp"
+          ],
+          [
+            "UDP",
+            "udp"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "KEY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "为mDNS服务添加TXT记录",
+    "icon": "fa-regular fa-globe"
+  },
+  {
+    "type": "esp8266_mdns_query_service",
+    "message0": "查询mDNS服务 类型 %1 协议 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SERVICE",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROTO",
+        "options": [
+          [
+            "TCP",
+            "tcp"
+          ],
+          [
+            "UDP",
+            "udp"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#00BCD4",
+    "tooltip": "查询mDNS服务,返回找到的服务数量",
+    "icon": "fa-regular fa-globe"
+  },
+  {
+    "type": "esp8266_mdns_result",
+    "message0": "mDNS查询结果 索引 %1 属性 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ATTR",
+        "options": [
+          [
+            "主机名",
+            "hostname"
+          ],
+          [
+            "IP地址",
+            "address"
+          ],
+          [
+            "端口",
+            "port"
+          ]
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#00BCD4",
+    "tooltip": "获取mDNS服务查询结果的具体信息",
+    "icon": "fa-regular fa-globe"
+  }
+]

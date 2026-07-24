@@ -1,0 +1,23 @@
+{
+  "kind": "category",
+  "name": "LittleFS文件系统",
+  "icon": "fa-light fa-hard-drive",
+  "colour": "#2196F3",
+  "contents": [
+    { "kind": "label", "text": "初始化" },
+    { "kind": "block", "type": "esp8266_littlefs_begin" },
+    { "kind": "block", "type": "esp8266_littlefs_end" },
+    { "kind": "block", "type": "esp8266_littlefs_format" },
+    { "kind": "block", "type": "esp8266_littlefs_info" },
+    { "kind": "label", "text": "文件操作" },
+    { "kind": "block", "type": "esp8266_littlefs_write_file", "inputs": { "PATH": { "shadow": { "type": "text", "fields": { "TEXT": "/test.txt" } } }, "CONTENT": { "shadow": { "type": "text", "fields": { "TEXT": "Hello" } } } } },
+    { "kind": "block", "type": "esp8266_littlefs_append_file", "inputs": { "PATH": { "shadow": { "type": "text", "fields": { "TEXT": "/test.txt" } } }, "CONTENT": { "shadow": { "type": "text", "fields": { "TEXT": "World" } } } } },
+    { "kind": "block", "type": "esp8266_littlefs_read_file", "inputs": { "PATH": { "shadow": { "type": "text", "fields": { "TEXT": "/test.txt" } } } } },
+    { "kind": "block", "type": "esp8266_littlefs_delete_file", "inputs": { "PATH": { "shadow": { "type": "text", "fields": { "TEXT": "/test.txt" } } } } },
+    { "kind": "block", "type": "esp8266_littlefs_exists", "inputs": { "PATH": { "shadow": { "type": "text", "fields": { "TEXT": "/test.txt" } } } } },
+    { "kind": "block", "type": "esp8266_littlefs_rename", "inputs": { "OLD_PATH": { "shadow": { "type": "text", "fields": { "TEXT": "/old.txt" } } }, "NEW_PATH": { "shadow": { "type": "text", "fields": { "TEXT": "/new.txt" } } } } },
+    { "kind": "label", "text": "目录操作" },
+    { "kind": "block", "type": "esp8266_littlefs_mkdir", "inputs": { "PATH": { "shadow": { "type": "text", "fields": { "TEXT": "/mydir" } } } } },
+    { "kind": "block", "type": "esp8266_littlefs_rmdir", "inputs": { "PATH": { "shadow": { "type": "text", "fields": { "TEXT": "/mydir" } } } } }
+  ]
+}

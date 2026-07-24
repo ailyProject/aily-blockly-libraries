@@ -1,0 +1,209 @@
+[
+  {
+    "type": "esp8266_lwip_ethernet_create",
+    "message0": "创建以太网 %1 芯片 %2 CS引脚 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "eth"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DRIVER",
+        "options": [
+          [
+            "W5500",
+            "Wiznet5500lwIP"
+          ],
+          [
+            "W5100",
+            "Wiznet5100lwIP"
+          ],
+          [
+            "ENC28J60",
+            "ENC28J60lwIP"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CS",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1E88E5",
+    "tooltip": "创建以太网 芯片 CS引脚"
+  },
+  {
+    "type": "esp8266_lwip_ethernet_begin_dhcp",
+    "message0": "以太网 %1 启动DHCP",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "eth",
+        "variableTypes": [
+          "LwipEthernet"
+        ],
+        "defaultType": "LwipEthernet"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#1E88E5",
+    "tooltip": "以太网 启动DHCP"
+  },
+  {
+    "type": "esp8266_lwip_ethernet_begin_static",
+    "message0": "以太网 %1 静态IP %2 网关 %3 掩码 %4 DNS %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "eth",
+        "variableTypes": [
+          "LwipEthernet"
+        ],
+        "defaultType": "LwipEthernet"
+      },
+      {
+        "type": "input_value",
+        "name": "IP",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "GATEWAY",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "MASK",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "DNS",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#1E88E5",
+    "tooltip": "以太网 静态IP 网关 掩码 DNS"
+  },
+  {
+    "type": "esp8266_lwip_ethernet_connected",
+    "message0": "以太网 %1 已连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "eth",
+        "variableTypes": [
+          "LwipEthernet"
+        ],
+        "defaultType": "LwipEthernet"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#1E88E5",
+    "tooltip": "以太网 已连接"
+  },
+  {
+    "type": "esp8266_lwip_ethernet_local_ip",
+    "message0": "以太网 %1 本地IP",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "eth",
+        "variableTypes": [
+          "LwipEthernet"
+        ],
+        "defaultType": "LwipEthernet"
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#1E88E5",
+    "tooltip": "以太网 本地IP"
+  },
+  {
+    "type": "esp8266_lwip_ethernet_linked",
+    "message0": "以太网 %1 链路已连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "eth",
+        "variableTypes": [
+          "LwipEthernet"
+        ],
+        "defaultType": "LwipEthernet"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#1E88E5",
+    "tooltip": "以太网 链路已连接"
+  },
+  {
+    "type": "esp8266_lwip_ethernet_link_detectable",
+    "message0": "以太网 %1 支持链路检测",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "eth",
+        "variableTypes": [
+          "LwipEthernet"
+        ],
+        "defaultType": "LwipEthernet"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#1E88E5",
+    "tooltip": "以太网 支持链路检测"
+  },
+  {
+    "type": "esp8266_lwip_ethernet_set_default",
+    "message0": "设置以太网 %1 为默认路由 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "eth",
+        "variableTypes": [
+          "LwipEthernet"
+        ],
+        "defaultType": "LwipEthernet"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ENABLE",
+        "options": [
+          [
+            "是",
+            "true"
+          ],
+          [
+            "否",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1E88E5",
+    "tooltip": "设置以太网 为默认路由"
+  }
+]

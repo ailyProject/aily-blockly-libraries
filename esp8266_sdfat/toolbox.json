@@ -1,0 +1,102 @@
+{
+  "kind": "category",
+  "name": "ESP8266 SdFat",
+  "icon": "fa-light fa-sd-card",
+  "colour": "#1E88E5",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "esp8266_sdfat_create"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sdfat_begin",
+      "inputs": {
+        "MHZ": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "4"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sdfat_exists",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/test.txt"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sdfat_mkdir",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/data"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sdfat_remove",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/test.txt"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sdfat_rename",
+      "inputs": {
+        "OLD": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/old.txt"
+            }
+          }
+        },
+        "NEW": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/new.txt"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sdfat_sector_count"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sdfat_fat_type"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sdfat_format"
+    }
+  ]
+}

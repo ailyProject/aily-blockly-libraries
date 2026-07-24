@@ -1,0 +1,568 @@
+[
+  {
+    "type": "esp8266_sd_begin",
+    "message0": "初始化SD卡 CS引脚 %1",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "使用指定的片选引脚初始化SD卡文件系统",
+    "icon": "fa-regular fa-sd-card",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CS_PIN",
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  {
+    "type": "esp8266_sd_end",
+    "message0": "卸载SD卡",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "关闭并卸载SD文件系统，再次初始化前可调用",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_file_exists",
+    "message0": "文件存在路径:%1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "tooltip": "检查文件是否存在",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_open_file",
+    "message0": "打开文件 %1 路径:%2 模式:%3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": [
+          "File"
+        ],
+        "defaultType": "File"
+      },
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "读取",
+            "FILE_READ"
+          ],
+          [
+            "写入",
+            "FILE_WRITE"
+          ],
+          [
+            "追加",
+            "FILE_APPEND"
+          ]
+        ]
+      }
+    ],
+    "output": "File",
+    "colour": "#FF9800",
+    "tooltip": "打开文件",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_open_file_to",
+    "message0": "打开文件到 %1 路径:%2 模式:%3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": [
+          "File"
+        ],
+        "defaultType": "File"
+      },
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "读取",
+            "FILE_READ"
+          ],
+          [
+            "写入（覆盖）",
+            "FILE_WRITE"
+          ],
+          [
+            "追加",
+            "FILE_APPEND"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "打开文件并保存到File变量，之后可分块读写",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_close_file",
+    "message0": "关闭文件 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": [
+          "File"
+        ],
+        "defaultType": "File"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "关闭文件",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_file_is_open",
+    "message0": "文件已成功打开 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": [
+          "File"
+        ],
+        "defaultType": "File"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "tooltip": "检查File对象是否有效",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_write_file",
+    "message0": "写入文件 %1 内容:%2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": [
+          "File"
+        ],
+        "defaultType": "File"
+      },
+      {
+        "type": "input_value",
+        "name": "CONTENT",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "写入内容到文件",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_read_file",
+    "message0": "读取文件 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": [
+          "File"
+        ],
+        "defaultType": "File"
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "从文件读取内容",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_read_file_bytes",
+    "message0": "从文件 %1 读取最多 %2 字节文本",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": [
+          "File"
+        ],
+        "defaultType": "File"
+      },
+      {
+        "type": "input_value",
+        "name": "LENGTH",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "从当前位置读取指定长度，适合分块读取较大文本文件",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_read_byte",
+    "message0": "从文件读取一个字节 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": [
+          "File"
+        ],
+        "defaultType": "File"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "读取一个字节，文件结束或失败时返回-1",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_peek_byte",
+    "message0": "查看文件下一个字节 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": [
+          "File"
+        ],
+        "defaultType": "File"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "返回下一个字节但不移动位置，文件结束时返回-1",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_file_available",
+    "message0": "文件可读 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": [
+          "File"
+        ],
+        "defaultType": "File"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "tooltip": "检查文件是否可读",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_file_available_bytes",
+    "message0": "文件剩余可读字节数 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": [
+          "File"
+        ],
+        "defaultType": "File"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "返回从当前位置到文件末尾的字节数",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_file_size",
+    "message0": "文件大小 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": [
+          "File"
+        ],
+        "defaultType": "File"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取文件大小",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_file_position",
+    "message0": "文件当前位置 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": [
+          "File"
+        ],
+        "defaultType": "File"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "返回当前读写位置（字节偏移）",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_seek_file",
+    "message0": "设置文件 %1 位置:%2 基准:%3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": [
+          "File"
+        ],
+        "defaultType": "File"
+      },
+      {
+        "type": "input_value",
+        "name": "POSITION",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "文件开头",
+            "SeekSet"
+          ],
+          [
+            "当前位置",
+            "SeekCur"
+          ],
+          [
+            "文件末尾",
+            "SeekEnd"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "tooltip": "移动文件读写位置并返回是否成功",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_flush_file",
+    "message0": "刷新文件写入缓存 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "file",
+        "variableTypes": [
+          "File"
+        ],
+        "defaultType": "File"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "将已写入的数据刷新到底层文件系统",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_write_file_quick",
+    "message0": "快速写入文件 路径:%1 内容:%2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CONTENT",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "快速写入文件（自动打开和关闭）",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_read_file_quick",
+    "message0": "快速读取文件 路径:%1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "快速读取文件（自动打开和关闭）",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_append_file",
+    "message0": "追加文件 路径:%1 内容:%2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CONTENT",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "追加内容到文件末尾",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_delete_file",
+    "message0": "删除文件 路径:%1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "删除文件",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_rename_file",
+    "message0": "重命名文件 旧路径:%1 新路径:%2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "OLD_PATH",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "NEW_PATH",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "重命名文件",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_create_dir",
+    "message0": "创建目录 路径:%1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "创建目录",
+    "icon": "fa-regular fa-sd-card"
+  },
+  {
+    "type": "esp8266_sd_remove_dir",
+    "message0": "删除目录 路径:%1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "删除目录",
+    "icon": "fa-regular fa-sd-card"
+  }
+]

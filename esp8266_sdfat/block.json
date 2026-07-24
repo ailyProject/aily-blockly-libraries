@@ -1,0 +1,208 @@
+[
+  {
+    "type": "esp8266_sdfat_create",
+    "message0": "创建SdFat %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "sd"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1E88E5",
+    "tooltip": "创建SdFat"
+  },
+  {
+    "type": "esp8266_sdfat_begin",
+    "message0": "启动SdFat %1 CS引脚 %2 频率MHz %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sd",
+        "variableTypes": [
+          "SdFs"
+        ],
+        "defaultType": "SdFs"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CS",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "MHZ",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#1E88E5",
+    "tooltip": "启动SdFat CS引脚 频率MHz"
+  },
+  {
+    "type": "esp8266_sdfat_exists",
+    "message0": "SdFat %1 存在路径 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sd",
+        "variableTypes": [
+          "SdFs"
+        ],
+        "defaultType": "SdFs"
+      },
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#1E88E5",
+    "tooltip": "SdFat 存在路径"
+  },
+  {
+    "type": "esp8266_sdfat_mkdir",
+    "message0": "SdFat %1 创建目录 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sd",
+        "variableTypes": [
+          "SdFs"
+        ],
+        "defaultType": "SdFs"
+      },
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1E88E5",
+    "tooltip": "SdFat 创建目录"
+  },
+  {
+    "type": "esp8266_sdfat_remove",
+    "message0": "SdFat %1 删除文件 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sd",
+        "variableTypes": [
+          "SdFs"
+        ],
+        "defaultType": "SdFs"
+      },
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1E88E5",
+    "tooltip": "SdFat 删除文件"
+  },
+  {
+    "type": "esp8266_sdfat_rename",
+    "message0": "SdFat %1 重命名 %2 为 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sd",
+        "variableTypes": [
+          "SdFs"
+        ],
+        "defaultType": "SdFs"
+      },
+      {
+        "type": "input_value",
+        "name": "OLD",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "NEW",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1E88E5",
+    "tooltip": "SdFat 重命名 为"
+  },
+  {
+    "type": "esp8266_sdfat_sector_count",
+    "message0": "SdFat %1 扇区数量",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sd",
+        "variableTypes": [
+          "SdFs"
+        ],
+        "defaultType": "SdFs"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#1E88E5",
+    "tooltip": "SdFat 扇区数量"
+  },
+  {
+    "type": "esp8266_sdfat_fat_type",
+    "message0": "SdFat %1 FAT类型",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sd",
+        "variableTypes": [
+          "SdFs"
+        ],
+        "defaultType": "SdFs"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#1E88E5",
+    "tooltip": "SdFat FAT类型"
+  },
+  {
+    "type": "esp8266_sdfat_format",
+    "message0": "格式化SdFat %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sd",
+        "variableTypes": [
+          "SdFs"
+        ],
+        "defaultType": "SdFs"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#1E88E5",
+    "tooltip": "格式化SdFat"
+  }
+]

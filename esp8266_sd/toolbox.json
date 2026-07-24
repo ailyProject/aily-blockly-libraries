@@ -1,0 +1,286 @@
+{
+  "kind": "category",
+  "name": "ESP8266 SD卡存储",
+  "icon": "fa-light fa-sd-card",
+  "colour": "#FF9800",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_begin"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_end"
+    },
+    {
+      "kind": "label",
+      "text": "卡信息"
+    },
+    {
+      "kind": "label",
+      "text": "快速文件操作"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_write_file_quick",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/hello.txt"
+            }
+          }
+        },
+        "CONTENT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello World"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_read_file_quick",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/hello.txt"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_append_file",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/log.txt"
+            }
+          }
+        },
+        "CONTENT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "New data"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_delete_file",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/temp.txt"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_rename_file",
+      "inputs": {
+        "OLD_PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/old.txt"
+            }
+          }
+        },
+        "NEW_PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/new.txt"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "文件操作"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_open_file_to",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/test.txt"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_close_file"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_file_is_open"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_write_file",
+      "inputs": {
+        "CONTENT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello SD Card"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_read_file"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_read_file_bytes",
+      "inputs": {
+        "LENGTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "64"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_read_byte"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_peek_byte"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_file_available"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_file_available_bytes"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_file_size"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_file_position"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_seek_file",
+      "inputs": {
+        "POSITION": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "0"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_flush_file"
+    },
+    {
+      "kind": "label",
+      "text": "目录操作"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_create_dir",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/mydir"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_remove_dir",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/mydir"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "文件检查"
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_file_exists",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/test.txt"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp8266_sd_open_file",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/test.txt"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

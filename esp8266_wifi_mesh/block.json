@@ -1,0 +1,187 @@
+[
+  {
+    "type": "esp8266_wifi_mesh_begin",
+    "message0": "创建Mesh %1 密码 %2 网络前缀 %3 节点ID %4 调试 %5 收到消息时",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "mesh"
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "PREFIX",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "NODE_ID",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VERBOSE",
+        "options": [
+          [
+            "关闭",
+            "false"
+          ],
+          [
+            "开启",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#1E88E5",
+    "tooltip": "创建Mesh 密码 网络前缀 节点ID 调试 收到消息时"
+  },
+  {
+    "type": "esp8266_wifi_mesh_broadcast",
+    "message0": "Mesh %1 广播 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mesh",
+        "variableTypes": [
+          "FloodingMesh"
+        ],
+        "defaultType": "FloodingMesh"
+      },
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1E88E5",
+    "tooltip": "Mesh 广播"
+  },
+  {
+    "type": "esp8266_wifi_mesh_encrypted_broadcast",
+    "message0": "Mesh %1 加密广播 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mesh",
+        "variableTypes": [
+          "FloodingMesh"
+        ],
+        "defaultType": "FloodingMesh"
+      },
+      {
+        "type": "input_value",
+        "name": "MESSAGE",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1E88E5",
+    "tooltip": "Mesh 加密广播"
+  },
+  {
+    "type": "esp8266_wifi_mesh_maintenance",
+    "message0": "执行Mesh后台维护",
+    "args0": [],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1E88E5",
+    "tooltip": "执行Mesh后台维护"
+  },
+  {
+    "type": "esp8266_wifi_mesh_deactivate_ap",
+    "message0": "关闭Mesh接收热点",
+    "args0": [],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1E88E5",
+    "tooltip": "关闭Mesh接收热点"
+  },
+  {
+    "type": "esp8266_wifi_mesh_message",
+    "message0": "收到的Mesh消息",
+    "args0": [],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#1E88E5",
+    "tooltip": "收到的Mesh消息"
+  },
+  {
+    "type": "esp8266_wifi_mesh_origin_mac",
+    "message0": "Mesh %1 消息来源MAC",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mesh",
+        "variableTypes": [
+          "FloodingMesh"
+        ],
+        "defaultType": "FloodingMesh"
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#1E88E5",
+    "tooltip": "Mesh 消息来源MAC"
+  },
+  {
+    "type": "esp8266_wifi_mesh_max_plain",
+    "message0": "Mesh %1 最大普通消息长度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mesh",
+        "variableTypes": [
+          "FloodingMesh"
+        ],
+        "defaultType": "FloodingMesh"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#1E88E5",
+    "tooltip": "Mesh 最大普通消息长度"
+  },
+  {
+    "type": "esp8266_wifi_mesh_max_encrypted",
+    "message0": "Mesh %1 最大加密消息长度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mesh",
+        "variableTypes": [
+          "FloodingMesh"
+        ],
+        "defaultType": "FloodingMesh"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#1E88E5",
+    "tooltip": "Mesh 最大加密消息长度"
+  }
+]

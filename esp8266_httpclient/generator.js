@@ -1,0 +1,328 @@
+'use strict';
+
+// 确保HTTPClient库被包含
+function esp8266EnsureHTTPClientLib(generator) {
+  generator.addLibrary('HTTPClient', '#include <ESP8266HTTPClient.h>');
+}
+
+// 获取变量名的工具函数
+function getVariableName(block, fieldName, defaultName) {
+  const varField = block.getField(fieldName);
+  return varField ? varField.getText() : defaultName;
+}
+
+// 创建HTTPClient对象
+Arduino.forBlock['esp8266_httpclient_create'] = function(block, generator) {
+  // 设置变量重命名监听
+  if (!block._httpclientVarMonitorAttached) {
+    block._httpclientVarMonitorAttached = true;
+    block._httpclientVarLastName = block.getFieldValue('VAR') || 'http';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._httpclientVarLastName, 'HTTPClient');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._httpclientVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'HTTPClient');
+          block._httpclientVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'http';
+  
+  // 添加库和变量声明
+  esp8266EnsureHTTPClientLib(generator);
+  if (isBlockConnected(block)) {
+    return 'HTTPClient ' + varName + ';\n';
+  } else {
+    generator.addObject(varName, 'HTTPClient ' + varName + ';');
+  }
+  
+  return '';
+};
+
+// 连接到URL
+Arduino.forBlock['esp8266_httpclient_begin_url'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  const url = generator.valueToCode(block, 'URL', generator.ORDER_ATOMIC) || '""';
+  esp8266EnsureHTTPClientLib(generator);
+  generator.addLibrary('ESP8266WiFi', '#include <ESP8266WiFi.h>');
+  generator.addObject('esp8266_http_client_' + varName, 'WiFiClient ' + varName + '_net;');
+  return varName + '.begin(' + varName + '_net, ' + url + ');\n';
+};
+
+// 连接到主机、端口、路径
+Arduino.forBlock['esp8266_httpclient_begin_host'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  const host = generator.valueToCode(block, 'HOST', generator.ORDER_ATOMIC) || '""';
+  const port = generator.valueToCode(block, 'PORT', generator.ORDER_ATOMIC) || '80';
+  const uri = generator.valueToCode(block, 'URI', generator.ORDER_ATOMIC) || '"/"';
+  esp8266EnsureHTTPClientLib(generator);
+  generator.addLibrary('ESP8266WiFi', '#include <ESP8266WiFi.h>');
+  generator.addObject('esp8266_http_client_' + varName, 'WiFiClient ' + varName + '_net;');
+  return varName + '.begin(' + varName + '_net, ' + host + ', ' + port + ', ' + uri + ');\n';
+};
+
+// 安全连接到URL（带CA证书）
+Arduino.forBlock['esp8266_httpclient_begin_secure'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  const url = generator.valueToCode(block, 'URL', generator.ORDER_ATOMIC) || '""';
+  esp8266EnsureHTTPClientLib(generator);
+  generator.addLibrary('ESP8266BearSSL', '#include <WiFiClientSecureBearSSL.h>');
+  generator.addObject('esp8266_https_client_' + varName, 'BearSSL::WiFiClientSecure ' + varName + '_secure;');
+  generator.addSetupBegin('esp8266_https_insecure_' + varName, varName + '_secure.setInsecure();');
+  return varName + '.begin(' + varName + '_secure, ' + url + ');\n';
+};
+
+// 双向认证连接
+
+
+// 断开连接
+Arduino.forBlock['esp8266_httpclient_end'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  return varName + '.end();\n';
+};
+
+// 设置用户代理
+Arduino.forBlock['esp8266_httpclient_set_user_agent'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  const userAgent = generator.valueToCode(block, 'USER_AGENT', generator.ORDER_ATOMIC) || '""';
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  return varName + '.setUserAgent(' + userAgent + ');\n';
+};
+
+// 设置基本认证
+Arduino.forBlock['esp8266_httpclient_set_authorization'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  const user = generator.valueToCode(block, 'USER', generator.ORDER_ATOMIC) || '""';
+  const password = generator.valueToCode(block, 'PASSWORD', generator.ORDER_ATOMIC) || '""';
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  return varName + '.setAuthorization(' + user + ', ' + password + ');\n';
+};
+
+// 设置认证令牌
+Arduino.forBlock['esp8266_httpclient_set_authorization_token'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  const token = generator.valueToCode(block, 'TOKEN', generator.ORDER_ATOMIC) || '""';
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  return varName + '.setAuthorization(' + token + ');\n';
+};
+
+// 设置超时
+Arduino.forBlock['esp8266_httpclient_set_timeout'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  const timeout = generator.valueToCode(block, 'TIMEOUT', generator.ORDER_ATOMIC) || '5000';
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  return varName + '.setTimeout(' + timeout + ');\n';
+};
+
+// 设置连接超时
+
+
+// 设置连接复用
+Arduino.forBlock['esp8266_httpclient_set_reuse'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  const reuse = block.getFieldValue('REUSE') || 'true';
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  return varName + '.setReuse(' + reuse + ');\n';
+};
+
+// 设置重定向跟随
+Arduino.forBlock['esp8266_httpclient_set_follow_redirects'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  const follow = block.getFieldValue('FOLLOW') || 'HTTPC_DISABLE_FOLLOW_REDIRECTS';
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  return varName + '.setFollowRedirects(' + follow + ');\n';
+};
+
+// 设置重定向限制
+Arduino.forBlock['esp8266_httpclient_set_redirect_limit'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  const limit = generator.valueToCode(block, 'LIMIT', generator.ORDER_ATOMIC) || '10';
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  return varName + '.setRedirectLimit(' + limit + ');\n';
+};
+
+// 添加请求头
+Arduino.forBlock['esp8266_httpclient_add_header'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  const name = generator.valueToCode(block, 'NAME', generator.ORDER_ATOMIC) || '""';
+  const value = generator.valueToCode(block, 'VALUE', generator.ORDER_ATOMIC) || '""';
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  return varName + '.addHeader(' + name + ', ' + value + ');\n';
+};
+
+// GET请求
+Arduino.forBlock['esp8266_httpclient_get'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  generator.addVariable('esp8266_http_code', 'int httpCode = 0;');
+  const code = 'httpCode = ' + varName + '.GET();\n';
+  return code;
+};
+
+// POST请求
+Arduino.forBlock['esp8266_httpclient_post'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  const data = generator.valueToCode(block, 'DATA', generator.ORDER_ATOMIC) || '""';
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  generator.addVariable('esp8266_http_code', 'int httpCode = 0;');
+  const code = 'httpCode = ' + varName + '.POST(' + data + ');\n';
+  return code;
+};
+
+// PUT请求
+Arduino.forBlock['esp8266_httpclient_put'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  const data = generator.valueToCode(block, 'DATA', generator.ORDER_ATOMIC) || '""';
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  generator.addVariable('esp8266_http_code', 'int httpCode = 0;');
+  const code = 'httpCode = ' + varName + '.PUT(' + data + ');\n';
+  return code;
+};
+
+// PATCH请求
+Arduino.forBlock['esp8266_httpclient_patch'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  const data = generator.valueToCode(block, 'DATA', generator.ORDER_ATOMIC) || '""';
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  generator.addVariable('esp8266_http_code', 'int httpCode = 0;');
+  const code = 'httpCode = ' + varName + '.PATCH(' + data + ');\n';
+  return code;
+};
+
+// 获取响应代码
+Arduino.forBlock['esp8266_httpclient_get_response_code'] = function(block, generator) {
+  const code = 'httpCode';
+  
+  esp8266EnsureHTTPClientLib(generator);
+
+  return [code, generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['esp8266_httpclient_code_list'] = function(block, generator) {
+  const code = block.getFieldValue('CODE');
+
+  esp8266EnsureHTTPClientLib(generator);
+
+  return [code, generator.ORDER_ATOMIC];
+}
+
+// 获取响应大小
+Arduino.forBlock['esp8266_httpclient_get_size'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  const code = varName + '.getSize()';
+  return [code, generator.ORDER_FUNCTION_CALL];
+};
+
+// 获取响应字符串
+Arduino.forBlock['esp8266_httpclient_get_string'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  const code = varName + '.getString()';
+  return [code, generator.ORDER_FUNCTION_CALL];
+};
+
+// 获取响应头
+Arduino.forBlock['esp8266_httpclient_get_header'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  const name = generator.valueToCode(block, 'NAME', generator.ORDER_ATOMIC) || '""';
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  const code = varName + '.header(' + name + '.c_str())';
+  return [code, generator.ORDER_FUNCTION_CALL];
+};
+
+// 获取重定向位置
+Arduino.forBlock['esp8266_httpclient_get_location'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  const code = varName + '.getLocation()';
+  return [code, generator.ORDER_FUNCTION_CALL];
+};
+
+// 获取数据流
+Arduino.forBlock['esp8266_httpclient_get_stream'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  const code = varName + '.getStream()';
+  return [code, generator.ORDER_FUNCTION_CALL];
+};
+
+// // 写入到流
+// Arduino.forBlock['esp8266_httpclient_write_to_stream'] = function(block, generator) {
+//   const varName = getVariableName(block, 'VAR', 'http');
+//   const stream = generator.valueToCode(block, 'STREAM', generator.ORDER_ATOMIC) || '""';
+  
+//   esp8266EnsureHTTPClientLib(generator);
+  
+//   const code = varName + '.writeToStream(' + stream + ')';
+//   return [code, generator.ORDER_FUNCTION_CALL];
+// };
+
+// 检查连接状态
+Arduino.forBlock['esp8266_httpclient_connected'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  const code = varName + '.connected()';
+  return [code, generator.ORDER_FUNCTION_CALL];
+};
+
+// 错误代码转字符串
+Arduino.forBlock['esp8266_httpclient_error_to_string'] = function(block, generator) {
+  const varName = getVariableName(block, 'VAR', 'http');
+
+  const errorCode = generator.valueToCode(block, 'ERROR_CODE', generator.ORDER_ATOMIC) || '0';
+  
+  esp8266EnsureHTTPClientLib(generator);
+  
+  const code = varName + '.errorToString(' + errorCode + ')';
+  return [code, generator.ORDER_FUNCTION_CALL];
+};
