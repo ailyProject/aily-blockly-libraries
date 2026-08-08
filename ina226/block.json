@@ -1,0 +1,170 @@
+[
+  {
+    "type": "ina226_init",
+    "message0": "初始化INA226模块 %1 I2C地址 %2 使用 %3 最大电流 %4 A 分流电阻 %5 Ω",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "ina226"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDRESS",
+        "options": [
+          [
+            "0x40",
+            "0x40"
+          ],
+          [
+            "0x41",
+            "0x41"
+          ],
+          [
+            "0x42",
+            "0x42"
+          ],
+          [
+            "0x43",
+            "0x43"
+          ],
+          [
+            "0x44",
+            "0x44"
+          ],
+          [
+            "0x45",
+            "0x45"
+          ],
+          [
+            "0x46",
+            "0x46"
+          ],
+          [
+            "0x47",
+            "0x47"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "input_value",
+        "name": "MAX_AMPS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SHUNT_RES",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "初始化 INA226 功率监测芯片，设置 I2C 地址、总线、最大电流和分流电阻值",
+    "icon": "fa-regular fa-meter"
+  },
+  {
+    "type": "ina226_read_value",
+    "message0": "读取INA226模块 %1 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ina226",
+        "variableTypes": [
+          "INA226"
+        ],
+        "defaultType": "INA226"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "总线电压 (V)",
+            "BUS_VOLTAGE"
+          ],
+          [
+            "分流电压",
+            "SHUNT_VOLTAGE"
+          ],
+          [
+            "电流",
+            "CURRENT"
+          ],
+          [
+            "功率",
+            "POWER"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "从 INA226 读取总线电压、分流电压、电流或功率值",
+    "icon": "fa-regular fa-meter"
+  },
+  {
+    "type": "ina226_set_averaging",
+    "message0": "设置INA226模块 %1 平均采样次数 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ina226",
+        "variableTypes": [
+          "INA226"
+        ],
+        "defaultType": "INA226"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AVG",
+        "options": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "4",
+            "4"
+          ],
+          [
+            "16",
+            "16"
+          ],
+          [
+            "64",
+            "64"
+          ],
+          [
+            "128",
+            "128"
+          ],
+          [
+            "256",
+            "256"
+          ],
+          [
+            "512",
+            "512"
+          ],
+          [
+            "1024",
+            "1024"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "设置 INA226 的硬件平均采样次数，值越大精度越高但转换越慢",
+    "icon": "fa-regular fa-meter"
+  }
+]
