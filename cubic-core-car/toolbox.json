@@ -1,0 +1,635 @@
+{
+  "kind": "category",
+  "name": "Cubic Core 小车",
+  "icon": "fa-light fa-car-side",
+  "contents": [
+    {
+      "kind": "category",
+      "name": "初始化",
+      "icon": "fa-light fa-power-off",
+      "colour": "#455A64",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "cubic_init",
+          "fields": {
+            "M0PH": "em::EncoderMotor::kBPhaseLeads",
+            "M1PH": "em::EncoderMotor::kAPhaseLeads"
+          },
+          "inputs": {
+            "PPR": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 3
+                }
+              }
+            },
+            "RED": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 48
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_ps3_begin",
+          "inputs": {
+            "MAC": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "auto"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_ps3_connected"
+        },
+        {
+          "kind": "block",
+          "type": "cubic_on_connect"
+        },
+        {
+          "kind": "block",
+          "type": "cubic_on_disconnect"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "手柄输入",
+      "icon": "fa-light fa-gamepad",
+      "colour": "#607D8B",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "cubic_stick",
+          "fields": {
+            "STICK": "l",
+            "AXIS": "y"
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_button",
+          "fields": {
+            "BTN": "cross"
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_button_pressed",
+          "fields": {
+            "BTN": "cross"
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_rumble",
+          "inputs": {
+            "POWER": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 100
+                }
+              }
+            },
+            "MS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 300
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "电机",
+      "icon": "fa-light fa-gear",
+      "colour": "#EF6C00",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "cubic_stop_all"
+        },
+        {
+          "kind": "block",
+          "type": "cubic_i2c_motor",
+          "fields": {
+            "M": "0",
+            "DIR": "0"
+          },
+          "inputs": {
+            "SPD": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 150
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_i2c_all",
+          "fields": {
+            "DIR": "0"
+          },
+          "inputs": {
+            "SPD": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 150
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_enc_run_pwm",
+          "fields": {
+            "M": "0"
+          },
+          "inputs": {
+            "PWM": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 150
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_enc_run_speed",
+          "fields": {
+            "M": "0"
+          },
+          "inputs": {
+            "RPM": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 100
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_enc_stop",
+          "fields": {
+            "M": "0"
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_enc_speed",
+          "fields": {
+            "M": "0"
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_enc_pulse",
+          "fields": {
+            "M": "0"
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_enc_revolutions",
+          "fields": {
+            "M": "0"
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_enc_reset",
+          "fields": {
+            "M": "0"
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_enc_pid",
+          "fields": {
+            "M": "0"
+          },
+          "inputs": {
+            "P": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 3
+                }
+              }
+            },
+            "I": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 1
+                }
+              }
+            },
+            "D": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 1
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "舵机",
+      "icon": "fa-light fa-arrows-rotate",
+      "colour": "#6A1B9A",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "cubic_servo",
+          "fields": {
+            "S": "1"
+          },
+          "inputs": {
+            "ANGLE": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 90
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_servo_all",
+          "inputs": {
+            "ANGLE": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 90
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_servo_center"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "屏幕",
+      "icon": "fa-light fa-desktop",
+      "colour": "#00838F",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "cubic_oled_logo"
+        },
+        {
+          "kind": "block",
+          "type": "cubic_oled_clear"
+        },
+        {
+          "kind": "block",
+          "type": "cubic_oled_text",
+          "inputs": {
+            "X": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "Y": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 12
+                }
+              }
+            },
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Cubic Core"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_oled_refresh_stream"
+        },
+        {
+          "kind": "block",
+          "type": "cubic_oled_refresh_full"
+        },
+        {
+          "kind": "block",
+          "type": "cubic_oled_num",
+          "inputs": {
+            "X": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "Y": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 30
+                }
+              }
+            },
+            "NUM": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_oled_pixel",
+          "inputs": {
+            "X": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "Y": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_oled_line",
+          "inputs": {
+            "X1": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "Y1": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "X2": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 127
+                }
+              }
+            },
+            "Y2": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 63
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_oled_rect",
+          "fields": {
+            "FILL": "0"
+          },
+          "inputs": {
+            "X": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "Y": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "W": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 40
+                }
+              }
+            },
+            "H": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 20
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_oled_circle",
+          "fields": {
+            "FILL": "0"
+          },
+          "inputs": {
+            "X": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 64
+                }
+              }
+            },
+            "Y": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 32
+                }
+              }
+            },
+            "R": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 15
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_oled_font",
+          "fields": {
+            "SIZE": "m"
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_oled_color",
+          "fields": {
+            "COLOR": "1"
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_oled_contrast",
+          "inputs": {
+            "VAL": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 128
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_oled_power",
+          "fields": {
+            "MODE": "0"
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_oled_flip",
+          "fields": {
+            "MODE": "0"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "按键",
+      "icon": "fa-light fa-hand-pointer",
+      "colour": "#795548",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "cubic_key",
+          "fields": {
+            "KEY": "1"
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_key_pressed",
+          "fields": {
+            "KEY": "1"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "电量",
+      "icon": "fa-light fa-battery-half",
+      "colour": "#558B2F",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "cubic_battery"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "参数",
+      "icon": "fa-light fa-sliders",
+      "colour": "#5D4037",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "cubic_set_deadzone",
+          "inputs": {
+            "VAL": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 30
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "cubic_invert_axis",
+          "fields": {
+            "AXIS": "LY",
+            "MODE": "-1"
+          }
+        }
+      ]
+    }
+  ]
+}

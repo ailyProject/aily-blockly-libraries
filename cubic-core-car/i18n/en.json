@@ -1,0 +1,185 @@
+{
+  "toolbox_name": "Cubic Core Car",
+  "toolbox_categories": [
+    "Setup",
+    "Gamepad",
+    "Motors",
+    "Servos",
+    "Screen",
+    "Buttons",
+    "Battery",
+    "Params"
+  ],
+  "cubic_init": {
+    "message0": "initialize Cubic Core car encoder PPR %1 reduction %2 M0 phase %3 M1 phase %4",
+    "tooltip": "One-tap init: 8 IO lights, I2C bus (100kHz), 4 servos, encoder-motor PWM, OLED. Put it first in setup."
+  },
+  "cubic_ps3_begin": {
+    "message0": "connect PS3 controller MAC %1",
+    "tooltip": "Start the Bluetooth host and wait for the controller. Use \"auto\" for this board's MAC (printed on serial), or the paired MAC."
+  },
+  "cubic_ps3_connected": {
+    "message0": "controller connected?",
+    "tooltip": "Whether the PS3 controller is connected"
+  },
+  "cubic_on_connect": {
+    "message0": "when controller connects %1 %2",
+    "tooltip": "Runs once when the controller connects"
+  },
+  "cubic_on_disconnect": {
+    "message0": "when controller disconnects %1 %2",
+    "tooltip": "Runs when the controller disconnects (already auto-stops; add your handling here)"
+  },
+  "cubic_stick": {
+    "message0": "stick %1 %2 value",
+    "tooltip": "Read a stick value -127..127, with built-in deadzone and direction correction (push up = positive)."
+  },
+  "cubic_button": {
+    "message0": "button %1 is held",
+    "tooltip": "Whether the button is currently held down (stays true)"
+  },
+  "cubic_button_pressed": {
+    "message0": "button %1 just pressed",
+    "tooltip": "True only on the instant the button is pressed (rising edge); good for toggles/triggers."
+  },
+  "cubic_rumble": {
+    "message0": "controller rumble power %1 duration %2 ms",
+    "tooltip": "Make the controller vibrate. Power 0-255."
+  },
+  "cubic_stop_all": {
+    "message0": "stop all",
+    "tooltip": "Stop the encoder motors and all I2C motors."
+  },
+  "cubic_i2c_motor": {
+    "message0": "I2C motor %1 direction %2 speed %3",
+    "tooltip": "Control a single I2C motor. Speed 0-255."
+  },
+  "cubic_i2c_all": {
+    "message0": "I2C 4 motors all direction %1 speed %2",
+    "tooltip": "All four I2C motors same direction and speed. Speed 0-255."
+  },
+  "cubic_servo": {
+    "message0": "servo %1 to %2 °",
+    "tooltip": "Move one servo to the given angle 0-180."
+  },
+  "cubic_servo_all": {
+    "message0": "all servos to %1 °",
+    "tooltip": "Move all 4 servos to the given angle 0-180."
+  },
+  "cubic_servo_center": {
+    "message0": "all servos center (90°)",
+    "tooltip": "Return all 4 servos to center 90°."
+  },
+  "cubic_oled_clear": {
+    "message0": "OLED clear",
+    "tooltip": "Clear the display buffer (does not refresh). Text shows only after a refresh."
+  },
+  "cubic_oled_text": {
+    "message0": "OLED text X %1 Y %2 content %3",
+    "tooltip": "Draw text into the buffer (coordinate is the text lower-left). Needs a refresh block to show."
+  },
+  "cubic_oled_refresh_full": {
+    "message0": "OLED full refresh (blocking)",
+    "tooltip": "Push the whole screen at once. Holds the bus ~90ms; use for static screens/boot only, not while driving fast."
+  },
+  "cubic_oled_refresh_stream": {
+    "message0": "OLED stream refresh (motor-safe)",
+    "tooltip": "Put in loop. Sends only 1/8 screen per call, interleaved with motor commands to keep motors real-time. ~8 calls per full frame."
+  },
+  "cubic_oled_logo": {
+    "message0": "OLED show boot logo",
+    "tooltip": "Show the built-in Cubic Core boot logo (full refresh)."
+  },
+  "cubic_set_deadzone": {
+    "message0": "set stick deadzone %1",
+    "tooltip": "Stick values whose absolute value is below this are treated as 0, default 30."
+  },
+  "cubic_invert_axis": {
+    "message0": "stick %1 direction %2",
+    "tooltip": "Invert a stick axis if its direction is reversed."
+  },
+  "cubic_oled_pixel": {
+    "message0": "OLED pixel X %1 Y %2",
+    "tooltip": "Draw a pixel in the buffer. Needs a refresh block to show."
+  },
+  "cubic_oled_line": {
+    "message0": "OLED line from X %1 Y %2 to X %3 Y %4",
+    "tooltip": "Draw a line in the buffer. Needs a refresh block."
+  },
+  "cubic_oled_rect": {
+    "message0": "OLED rectangle X %1 Y %2 W %3 H %4 %5",
+    "tooltip": "Draw a rectangle (outline/filled) in the buffer. Needs a refresh block."
+  },
+  "cubic_oled_circle": {
+    "message0": "OLED circle X %1 Y %2 radius %3 %4",
+    "tooltip": "Draw a circle (outline/filled) in the buffer. Needs a refresh block."
+  },
+  "cubic_oled_num": {
+    "message0": "OLED number X %1 Y %2 value %3",
+    "tooltip": "Write a number at the coordinate (lower-left). Needs a refresh block."
+  },
+  "cubic_oled_font": {
+    "message0": "OLED font %1",
+    "tooltip": "Set the font size for following text/numbers (small 6x10 / medium 7x13 / large 10x20)."
+  },
+  "cubic_oled_color": {
+    "message0": "OLED draw color %1",
+    "tooltip": "Set draw color: on = set pixels, off = erase, xor = invert."
+  },
+  "cubic_oled_contrast": {
+    "message0": "OLED brightness %1",
+    "tooltip": "Set screen contrast/brightness 0-255."
+  },
+  "cubic_oled_power": {
+    "message0": "OLED screen %1",
+    "tooltip": "Turn the screen on or enter power save (display off, buffer kept)."
+  },
+  "cubic_oled_flip": {
+    "message0": "OLED flip 180° %1",
+    "tooltip": "Flip the screen content 180° (turn on if mounted upside down)."
+  },
+  "cubic_enc_run_pwm": {
+    "message0": "encoder motor %1 run power %2",
+    "tooltip": "Open-loop PWM drive, power -1023..1023 (negative = reverse)."
+  },
+  "cubic_enc_run_speed": {
+    "message0": "encoder motor %1 run speed %2 RPM",
+    "tooltip": "Closed-loop speed control, -300..300 RPM (encoder feedback + PID)."
+  },
+  "cubic_enc_stop": {
+    "message0": "encoder motor %1 stop",
+    "tooltip": "Stop a single encoder motor."
+  },
+  "cubic_enc_speed": {
+    "message0": "encoder motor %1 speed (RPM)",
+    "tooltip": "Read the current speed of the encoder motor (RPM)."
+  },
+  "cubic_enc_pulse": {
+    "message0": "encoder motor %1 pulse count",
+    "tooltip": "Read the accumulated encoder pulse count."
+  },
+  "cubic_enc_revolutions": {
+    "message0": "encoder motor %1 revolutions",
+    "tooltip": "Read the number of revolutions turned."
+  },
+  "cubic_enc_reset": {
+    "message0": "encoder motor %1 reset pulse count",
+    "tooltip": "Clear the encoder pulse/revolution count."
+  },
+  "cubic_enc_pid": {
+    "message0": "encoder motor %1 set PID P %2 I %3 D %4",
+    "tooltip": "Tune the speed-loop PID (default P3 I1 D1; adjust if closed loop is unstable)."
+  },
+  "cubic_key": {
+    "message0": "button %1 held",
+    "tooltip": "Whether one of the 3 onboard buttons (shared GPIO0 ADC) is pressed."
+  },
+  "cubic_key_pressed": {
+    "message0": "button %1 just pressed",
+    "tooltip": "True on the instant an onboard button is pressed (rising edge)."
+  },
+  "cubic_battery": {
+    "message0": "battery voltage (V)",
+    "tooltip": "Read the battery voltage (volts) via the IO32 divider."
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "toolbox_name": "Cubic Core 小車",
+  "toolbox_categories": [
+    "初始化",
+    "手把輸入",
+    "電機",
+    "舵機",
+    "螢幕",
+    "按鍵",
+    "電量",
+    "參數"
+  ],
+  "cubic_init": {
+    "message0": "初始化 Cubic Core 小車 編碼器脈衝 %1 減速比 %2 M0相位 %3 M1相位 %4",
+    "tooltip": "一鍵初始化：8路IO燈、I2C匯流排(100kHz)、4路舵機、編碼電機PWM、OLED。放在 setup 裡第一句。"
+  },
+  "cubic_ps3_begin": {
+    "message0": "連接 PS3 手把 MAC位址 %1",
+    "tooltip": "啟動藍牙主機並等待手把連接。填 auto 用本機藍牙MAC(會串口列印)，或填手把已配對的MAC。"
+  },
+  "cubic_ps3_connected": {
+    "message0": "手把已連接？",
+    "tooltip": "PS3 手把是否已連接"
+  },
+  "cubic_on_connect": {
+    "message0": "當手把連接時 %1 %2",
+    "tooltip": "手把連接成功時執行一次"
+  },
+  "cubic_on_disconnect": {
+    "message0": "當手把斷開時 %1 %2",
+    "tooltip": "手把斷開時執行（已自動停車，這裡可加你的處理）"
+  },
+  "cubic_stick": {
+    "message0": "搖桿 %1 %2 值",
+    "tooltip": "讀取搖桿值 -127~127，已內建死區與方向校正(上推=正)。"
+  },
+  "cubic_button": {
+    "message0": "按鍵 %1 正被按住",
+    "tooltip": "按鍵目前是否處於按下狀態（持續為真）"
+  },
+  "cubic_button_pressed": {
+    "message0": "按鍵 %1 剛按下",
+    "tooltip": "按鍵剛被按下的那一瞬間為真（上升沿），適合做切換/觸發。"
+  },
+  "cubic_rumble": {
+    "message0": "手把震動 強度 %1 時長 %2 毫秒",
+    "tooltip": "讓手把震動。強度 0~255。"
+  },
+  "cubic_stop_all": {
+    "message0": "全部停車",
+    "tooltip": "停止編碼電機和全部 I2C 馬達。"
+  },
+  "cubic_i2c_motor": {
+    "message0": "I2C馬達 %1 方向 %2 速度 %3",
+    "tooltip": "單獨控制一個 I2C 馬達。速度 0~255。"
+  },
+  "cubic_i2c_all": {
+    "message0": "I2C四馬達 全部 方向 %1 速度 %2",
+    "tooltip": "四個 I2C 馬達同方向同速度。速度 0~255。"
+  },
+  "cubic_servo": {
+    "message0": "舵機 %1 轉到 %2 °",
+    "tooltip": "單個舵機轉到指定角度 0~180。"
+  },
+  "cubic_servo_all": {
+    "message0": "全部舵機 轉到 %1 °",
+    "tooltip": "4 個舵機一起轉到指定角度 0~180。"
+  },
+  "cubic_servo_center": {
+    "message0": "全部舵機 歸中 (90°)",
+    "tooltip": "4 個舵機回到中位 90°。"
+  },
+  "cubic_oled_clear": {
+    "message0": "OLED 清空畫面",
+    "tooltip": "清空顯示緩衝(不立即刷屏)。寫完文字後要刷新才顯示。"
+  },
+  "cubic_oled_text": {
+    "message0": "OLED 寫文字 X %1 Y %2 內容 %3",
+    "tooltip": "把文字畫進緩衝區(座標為文字左下角)。需配合刷新塊顯示。"
+  },
+  "cubic_oled_refresh_full": {
+    "message0": "OLED 整屏刷新 (阻塞)",
+    "tooltip": "一次性把整屏推送出去。約90ms內佔用匯流排，僅用於靜態介面/開機，不要在高速行駛時用。"
+  },
+  "cubic_oled_refresh_stream": {
+    "message0": "OLED 持續刷新 (不打斷電機)",
+    "tooltip": "放 loop 裡。每次只推送1/8屏，與電機指令交錯，保證電機實時。約8次呼叫刷完整屏。"
+  },
+  "cubic_oled_logo": {
+    "message0": "OLED 顯示開機圖示",
+    "tooltip": "顯示內建的 Cubic Core 開機圖示(整屏刷新)。"
+  },
+  "cubic_set_deadzone": {
+    "message0": "設定搖桿死區 %1",
+    "tooltip": "搖桿值絕對值小於此值時視為0，預設30。"
+  },
+  "cubic_invert_axis": {
+    "message0": "搖桿 %1 方向 %2",
+    "tooltip": "某個搖桿軸方向反了就把它取反。"
+  },
+  "cubic_oled_pixel": {
+    "message0": "OLED 畫點 X %1 Y %2",
+    "tooltip": "在緩衝區畫一個點。需配合刷新塊顯示。"
+  },
+  "cubic_oled_line": {
+    "message0": "OLED 畫線 從 X %1 Y %2 到 X %3 Y %4",
+    "tooltip": "在緩衝區畫一條直線。需配合刷新塊顯示。"
+  },
+  "cubic_oled_rect": {
+    "message0": "OLED 矩形 X %1 Y %2 寬 %3 高 %4 %5",
+    "tooltip": "在緩衝區畫矩形（空心=邊框，實心=填充）。需配合刷新塊顯示。"
+  },
+  "cubic_oled_circle": {
+    "message0": "OLED 圓 X %1 Y %2 半徑 %3 %4",
+    "tooltip": "在緩衝區畫圓（空心=圓環，實心=圓盤）。需配合刷新塊顯示。"
+  },
+  "cubic_oled_num": {
+    "message0": "OLED 寫數值 X %1 Y %2 數值 %3",
+    "tooltip": "在指定座標寫一個數值(座標為文字左下角)。需配合刷新塊顯示。"
+  },
+  "cubic_oled_font": {
+    "message0": "OLED 字體 %1",
+    "tooltip": "設定後續文字/數值的字號（小6x10 / 中7x13 / 大10x20）。"
+  },
+  "cubic_oled_color": {
+    "message0": "OLED 繪圖顏色 %1",
+    "tooltip": "設定後續繪製顏色：亮=點亮像素，滅=擦除，反色=異或。"
+  },
+  "cubic_oled_contrast": {
+    "message0": "OLED 亮度 %1",
+    "tooltip": "設定螢幕對比度/亮度 0~255。"
+  },
+  "cubic_oled_power": {
+    "message0": "OLED 螢幕 %1",
+    "tooltip": "打開螢幕或進入省電(關閉顯示，緩衝區保留)。"
+  },
+  "cubic_oled_flip": {
+    "message0": "OLED 翻轉180° %1",
+    "tooltip": "螢幕內容上下翻轉180°（裝反了就打開）。"
+  },
+  "cubic_enc_run_pwm": {
+    "message0": "編碼電機 %1 以動力 %2 運轉",
+    "tooltip": "開環 PWM 驅動，動力 -1023~1023（負=反轉）。"
+  },
+  "cubic_enc_run_speed": {
+    "message0": "編碼電機 %1 以轉速 %2 RPM 運轉",
+    "tooltip": "閉環轉速控制，-300~300 RPM（靠編碼器回饋+PID穩速）。"
+  },
+  "cubic_enc_stop": {
+    "message0": "編碼電機 %1 停止",
+    "tooltip": "停止單個編碼電機。"
+  },
+  "cubic_enc_speed": {
+    "message0": "編碼電機 %1 目前轉速(RPM)",
+    "tooltip": "讀取編碼電機目前轉速(RPM)。"
+  },
+  "cubic_enc_pulse": {
+    "message0": "編碼電機 %1 脈衝計數",
+    "tooltip": "讀取編碼器累計脈衝數。"
+  },
+  "cubic_enc_revolutions": {
+    "message0": "編碼電機 %1 轉動圈數",
+    "tooltip": "讀取電機轉動的圈數。"
+  },
+  "cubic_enc_reset": {
+    "message0": "編碼電機 %1 重置脈衝計數",
+    "tooltip": "把編碼器脈衝/圈數清零。"
+  },
+  "cubic_enc_pid": {
+    "message0": "編碼電機 %1 設定PID P %2 I %3 D %4",
+    "tooltip": "調整轉速環 PID 參數（預設 P3 I1 D1，閉環不穩時再調）。"
+  },
+  "cubic_key": {
+    "message0": "按鍵 %1 按下",
+    "tooltip": "板載3個按鍵(共用GPIO0 ADC分壓)目前是否被按下。"
+  },
+  "cubic_key_pressed": {
+    "message0": "按鍵 %1 剛按下",
+    "tooltip": "板載按鍵剛被按下那一瞬間為真(上升沿)，適合做切換/觸發。"
+  },
+  "cubic_battery": {
+    "message0": "電池電壓 (V)",
+    "tooltip": "讀取電池電壓(伏)，IO32 分壓採集。"
+  }
+}

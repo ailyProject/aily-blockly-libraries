@@ -1,0 +1,185 @@
+{
+  "toolbox_name": "Voiture Cubic Core",
+  "toolbox_categories": [
+    "Initialisation",
+    "Manette",
+    "Moteurs",
+    "Servos",
+    "Écran",
+    "Boutons",
+    "Batterie",
+    "Paramètres"
+  ],
+  "cubic_init": {
+    "message0": "initialiser la voiture Cubic Core PPR encodeur %1 réduction %2 phase M0 %3 phase M1 %4",
+    "tooltip": "Init en un geste : 8 lumières IO, bus I2C (100kHz), 4 servos, PWM moteurs à encodeur, OLED. À mettre en premier dans setup."
+  },
+  "cubic_ps3_begin": {
+    "message0": "connecter la manette PS3 MAC %1",
+    "tooltip": "Démarre l'hôte Bluetooth et attend la manette. \"auto\" utilise la MAC de la carte (affichée en série) ou la MAC appairée."
+  },
+  "cubic_ps3_connected": {
+    "message0": "manette connectée ?",
+    "tooltip": "Si la manette PS3 est connectée"
+  },
+  "cubic_on_connect": {
+    "message0": "quand la manette se connecte %1 %2",
+    "tooltip": "S'exécute une fois à la connexion de la manette"
+  },
+  "cubic_on_disconnect": {
+    "message0": "quand la manette se déconnecte %1 %2",
+    "tooltip": "S'exécute à la déconnexion (arrêt automatique déjà fait ; ajoutez votre traitement ici)"
+  },
+  "cubic_stick": {
+    "message0": "valeur du joystick %1 %2",
+    "tooltip": "Lit une valeur de joystick -127..127, avec zone morte et correction de sens (vers le haut = positif)."
+  },
+  "cubic_button": {
+    "message0": "bouton %1 maintenu",
+    "tooltip": "Si le bouton est actuellement maintenu (reste vrai)"
+  },
+  "cubic_button_pressed": {
+    "message0": "bouton %1 vient d'être pressé",
+    "tooltip": "Vrai seulement à l'instant de l'appui (front montant) ; idéal pour bascules/déclencheurs."
+  },
+  "cubic_rumble": {
+    "message0": "vibration manette force %1 durée %2 ms",
+    "tooltip": "Fait vibrer la manette. Force 0-255."
+  },
+  "cubic_stop_all": {
+    "message0": "tout arrêter",
+    "tooltip": "Arrêter les moteurs à encodeur et tous les moteurs I2C."
+  },
+  "cubic_i2c_motor": {
+    "message0": "moteur I2C %1 sens %2 vitesse %3",
+    "tooltip": "Piloter un seul moteur I2C. Vitesse 0-255."
+  },
+  "cubic_i2c_all": {
+    "message0": "I2C 4 moteurs tous sens %1 vitesse %2",
+    "tooltip": "Les quatre moteurs I2C même sens et vitesse. Vitesse 0-255."
+  },
+  "cubic_servo": {
+    "message0": "servo %1 à %2 °",
+    "tooltip": "Amener un servo à l'angle 0-180."
+  },
+  "cubic_servo_all": {
+    "message0": "tous les servos à %1 °",
+    "tooltip": "Amener les 4 servos à l'angle 0-180."
+  },
+  "cubic_servo_center": {
+    "message0": "tous les servos au centre (90°)",
+    "tooltip": "Ramener les 4 servos au centre 90°."
+  },
+  "cubic_oled_clear": {
+    "message0": "OLED effacer",
+    "tooltip": "Effacer le tampon d'affichage (sans rafraîchir). Le texte n'apparaît qu'après un rafraîchissement."
+  },
+  "cubic_oled_text": {
+    "message0": "OLED texte X %1 Y %2 contenu %3",
+    "tooltip": "Dessiner le texte dans le tampon (coordonnée = bas gauche). Nécessite un bloc de rafraîchissement."
+  },
+  "cubic_oled_refresh_full": {
+    "message0": "OLED rafraîchissement complet (bloquant)",
+    "tooltip": "Envoyer tout l'écran d'un coup. Occupe le bus ~90ms ; pour écrans statiques/démarrage seulement, pas en conduite rapide."
+  },
+  "cubic_oled_refresh_stream": {
+    "message0": "OLED rafraîchissement continu (sûr pour moteurs)",
+    "tooltip": "À mettre dans loop. Envoie seulement 1/8 d'écran par appel, entrelacé avec les commandes moteur pour rester temps réel. ~8 appels par image."
+  },
+  "cubic_oled_logo": {
+    "message0": "OLED afficher le logo de démarrage",
+    "tooltip": "Afficher le logo de démarrage Cubic Core intégré (rafraîchissement complet)."
+  },
+  "cubic_set_deadzone": {
+    "message0": "régler zone morte du joystick %1",
+    "tooltip": "Les valeurs dont la valeur absolue est inférieure sont mises à 0, défaut 30."
+  },
+  "cubic_invert_axis": {
+    "message0": "joystick %1 sens %2",
+    "tooltip": "Inverser un axe de joystick si son sens est inversé."
+  },
+  "cubic_oled_pixel": {
+    "message0": "OLED pixel X %1 Y %2",
+    "tooltip": "Dessiner un pixel dans le tampon. Nécessite un bloc de rafraîchissement."
+  },
+  "cubic_oled_line": {
+    "message0": "OLED ligne de X %1 Y %2 à X %3 Y %4",
+    "tooltip": "Dessiner une ligne dans le tampon. Nécessite un bloc de rafraîchissement."
+  },
+  "cubic_oled_rect": {
+    "message0": "OLED rectangle X %1 Y %2 L %3 H %4 %5",
+    "tooltip": "Dessiner un rectangle (contour/plein) dans le tampon. Nécessite un bloc de rafraîchissement."
+  },
+  "cubic_oled_circle": {
+    "message0": "OLED cercle X %1 Y %2 rayon %3 %4",
+    "tooltip": "Dessiner un cercle (contour/plein) dans le tampon. Nécessite un bloc de rafraîchissement."
+  },
+  "cubic_oled_num": {
+    "message0": "OLED nombre X %1 Y %2 valeur %3",
+    "tooltip": "Écrire un nombre à la coordonnée (bas gauche). Nécessite un bloc de rafraîchissement."
+  },
+  "cubic_oled_font": {
+    "message0": "OLED police %1",
+    "tooltip": "Régler la taille de police pour le texte/nombres suivants (petit 6x10 / moyen 7x13 / grand 10x20)."
+  },
+  "cubic_oled_color": {
+    "message0": "OLED couleur de tracé %1",
+    "tooltip": "Régler la couleur : allumé = tracer, éteint = effacer, xor = inverser."
+  },
+  "cubic_oled_contrast": {
+    "message0": "OLED luminosité %1",
+    "tooltip": "Régler le contraste/luminosité de l'écran 0-255."
+  },
+  "cubic_oled_power": {
+    "message0": "OLED écran %1",
+    "tooltip": "Allumer l'écran ou passer en veille (affichage éteint, tampon conservé)."
+  },
+  "cubic_oled_flip": {
+    "message0": "OLED retourner 180° %1",
+    "tooltip": "Retourner le contenu de l'écran à 180° (activer si monté à l'envers)."
+  },
+  "cubic_enc_run_pwm": {
+    "message0": "moteur à encodeur %1 tourner puissance %2",
+    "tooltip": "Commande PWM en boucle ouverte, puissance -1023..1023 (négatif = arrière)."
+  },
+  "cubic_enc_run_speed": {
+    "message0": "moteur à encodeur %1 tourner vitesse %2 RPM",
+    "tooltip": "Régulation de vitesse en boucle fermée, -300..300 RPM (retour encodeur + PID)."
+  },
+  "cubic_enc_stop": {
+    "message0": "moteur à encodeur %1 arrêter",
+    "tooltip": "Arrêter un seul moteur à encodeur."
+  },
+  "cubic_enc_speed": {
+    "message0": "moteur à encodeur %1 vitesse (RPM)",
+    "tooltip": "Lire la vitesse actuelle du moteur à encodeur (RPM)."
+  },
+  "cubic_enc_pulse": {
+    "message0": "moteur à encodeur %1 nombre d'impulsions",
+    "tooltip": "Lire le nombre cumulé d'impulsions de l'encodeur."
+  },
+  "cubic_enc_revolutions": {
+    "message0": "moteur à encodeur %1 tours",
+    "tooltip": "Lire le nombre de tours effectués."
+  },
+  "cubic_enc_reset": {
+    "message0": "moteur à encodeur %1 réinitialiser les impulsions",
+    "tooltip": "Remettre à zéro les impulsions/tours de l'encodeur."
+  },
+  "cubic_enc_pid": {
+    "message0": "moteur à encodeur %1 régler PID P %2 I %3 D %4",
+    "tooltip": "Régler le PID de vitesse (défaut P3 I1 D1 ; ajuster si instable)."
+  },
+  "cubic_key": {
+    "message0": "bouton %1 appuyé",
+    "tooltip": "Si l'un des 3 boutons embarqués (ADC GPIO0 partagé) est appuyé."
+  },
+  "cubic_key_pressed": {
+    "message0": "bouton %1 vient d'être appuyé",
+    "tooltip": "Vrai à l'instant de l'appui d'un bouton embarqué (front montant)."
+  },
+  "cubic_battery": {
+    "message0": "tension batterie (V)",
+    "tooltip": "Lire la tension de la batterie (volts) via le diviseur IO32."
+  }
+}
