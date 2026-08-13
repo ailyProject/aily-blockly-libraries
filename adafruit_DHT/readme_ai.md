@@ -4,7 +4,7 @@ DHT11/DHT22(AM2302)/DHT21(AM2301)/DHT20(I2C) temperature and humidity sensor lib
 
 ## Library Info
 - **Name**: @aily-project/lib-adafruit-dht
-- **Version**: 1.0.1
+- **Version**: 1.0.2
 
 ## Block Definitions
 
@@ -55,3 +55,5 @@ arduino_loop()
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
 4. **Dynamic fields**: the third positional argument is `PIN` for DHT11/DHT21/DHT22 and `WIRE` for DHT20; it is required even though it is injected by a Blockly extension rather than listed in static `args0`.
 5. **Custom names**: custom sensor names are supported, but the initializer and every later field-variable reference must match exactly, for example `dht_init("roomSensor", DHT20, Wire)` with `$roomSensor`.
+6. **CI13XX compatibility**: the bundled DHT 1.4.6 source adds a guarded `microsecondsToClockCycles` fallback for ChipIntelli CI13XX cores; other upstream behavior is unchanged.
+7. **Upstream licenses**: see `THIRD_PARTY_NOTICES.md` and the `LICENSES` directory for the exact upstream tags, retained notices, and license texts.

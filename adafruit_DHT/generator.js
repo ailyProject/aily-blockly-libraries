@@ -40,8 +40,16 @@ Blockly.Extensions.register('dht_init_dynamic', function () {
   const varField = this.getField('VAR');
   const getWorkspace = () => dhtBlock.workspace
     || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+  const workspace = getWorkspace();
+
+  // Toolbox flyout blocks share the target workspace's variable map. Creating
+  // a variable while the flyout is rendering refreshes the toolbox and creates
+  // this block again, causing an infinite recursion. The real workspace block
+  // is created separately when the user drags it out, so defer variable
+  // registration until then.
+  if (workspace && workspace.isFlyout) return;
+
   const ensureVariable = name => {
-    const workspace = getWorkspace();
     if (!workspace || !name) return { model: null, created: false };
     const existing = workspace.getVariable(name);
     if (existing) return { model: existing, created: false };
@@ -67,7 +75,6 @@ Blockly.Extensions.register('dht_init_dynamic', function () {
       const resolvedName = String(originalResult === undefined ? newName : originalResult).trim();
       if (!resolvedName) return null;
 
-      const workspace = getWorkspace();
       const oldName = dhtBlock._dhtVarLastName;
       if (workspace && resolvedName !== oldName) {
         const existingTarget = workspace.getVariable(resolvedName);

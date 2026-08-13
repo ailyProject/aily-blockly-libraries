@@ -1,26 +1,26 @@
 # DHT temperature and humidity sensor
 
-DHT11/DHT22(AM2302)/DHT21(AM2301)/DHT20(I2C) temperature and humidity sensor library supports temperature and humidity data collection, low-power operation, fast response speed, and strong anti-interference ability.
+DHT11, DHT22/AM2302, DHT21/AM2301 and DHT20 sensor blocks.
 
 ## Library Info
 
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-adafruit-dht |
-| Version | 1.0.1 |
+| Version | 1.0.2 |
 | Author | adafruit |
-| Source | N/A |
-| License | Original license |
+| Source | Adafruit DHT sensor library 1.4.6, Adafruit Unified Sensor 1.1.14, DHT20 0.3.1 |
+| License | MIT and Apache-2.0; see `THIRD_PARTY_NOTICES.md` |
 
 ## Supported Boards
 
-Arduino-compatible boards supported by this package.
+Arduino-compatible boards, including ChipIntelli CI13XX cores.
 
 ## Description
 
-DHT11/DHT22(AM2302)/DHT21(AM2301)/DHT20(I2C) temperature and humidity sensor library supports temperature and humidity data collection, low-power operation, fast response speed, and strong anti-interference ability.
+Initialize a sensor and read temperature, humidity and read status.
 
 ## Quick Start
 
-1. Enable `@aily-project/lib-adafruit-dht` in Aily Blockly.
-2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+1. Enable the package in Aily Blockly.
+2. Initialize the sensor, then add read blocks to the loop.
