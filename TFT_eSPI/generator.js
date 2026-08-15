@@ -36,6 +36,69 @@ function cleanValue(value) {
   return value;
 }
 
+// Versions <= 2.5.46 stored these setup values as value inputs. Since 2.5.47
+// they are inline fields, but published projects can still contain the old
+// connections. Keep hidden compatibility inputs so Blockly can restore them.
+var tftEspiLegacySetupInputNames = [
+  'WIDTH',
+  'HEIGHT',
+  'MISO',
+  'MOSI',
+  'SCLK',
+  'CS',
+  'DC',
+  'RST',
+  'BL'
+];
+
+function ensureTftEspiLegacySetupInputs(block) {
+  tftEspiLegacySetupInputNames.forEach(name => {
+    let input = block.getInput(name);
+    if (!input) {
+      input = block.appendValueInput(name).setCheck('Number');
+    }
+
+    if (block.rendered) {
+      input.setVisible(false);
+    }
+  });
+}
+
+function migrateTftEspiLegacyNumberInputs(block) {
+  tftEspiLegacySetupInputNames.forEach(name => {
+    const input = block.getInput(name);
+    const targetBlock = input && input.connection && input.connection.targetBlock();
+    const field = block.getField(name);
+    if (!targetBlock || !field || targetBlock.type !== 'math_number' || !targetBlock.isShadow()) {
+      return;
+    }
+
+    const value = targetBlock.getFieldValue('NUM');
+    if (value !== null && value !== undefined) {
+      field.setValue(String(value));
+      targetBlock.dispose(false);
+      if (typeof input.connection.setShadowState === 'function') {
+        input.connection.setShadowState(null);
+      }
+    }
+  });
+}
+
+function getTftEspiSetupValue(block, generator, name, fallback) {
+  const input = block.getInput(name);
+  if (input && input.connection && input.connection.targetConnection) {
+    const legacyValue = generator.valueToCode(block, name, generator.ORDER_ATOMIC);
+    if (legacyValue) {
+      return cleanValue(legacyValue);
+    }
+  }
+
+  const fieldValue = block.getFieldValue(name);
+  return fieldValue === null || fieldValue === undefined || fieldValue === ''
+    ? fallback
+    : fieldValue;
+}
+
 // Apply the board's built-in display settings once, while keeping later manual edits.
 function applyBoardDisplayConfig(block) {
   const config = typeof window !== 'undefined' && window['boardConfig']
@@ -90,9 +153,12 @@ if (Blockly.Extensions.isRegistered('tftespi_board_display_config')) {
 
 Blockly.Extensions.register('tftespi_board_display_config', function() {
   const block = this;
+  ensureTftEspiLegacySetupInputs(block);
   let retries = 0;
   const updateConfig = () => {
     if (!block.workspace) return;
+    ensureTftEspiLegacySetupInputs(block);
+    migrateTftEspiLegacyNumberInputs(block);
     if (!applyBoardDisplayConfig(block) && retries++ < 3) {
       setTimeout(updateConfig, 0);
       return;
@@ -254,15 +320,15 @@ Arduino.forBlock['tftespi_setup'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'tft';
   const model = block.getFieldValue('MODEL') || 'ILI9341_DRIVER';
   const frequency = block.getFieldValue('FREQUENCY') || '40000000';
-  const width = block.getFieldValue('WIDTH') || '240';
-  const height = block.getFieldValue('HEIGHT') || '320';
-  const miso = block.getFieldValue('MISO') || '-1';
-  const mosi = block.getFieldValue('MOSI') || '-1';
-  const sclk = block.getFieldValue('SCLK') || '-1';
-  const cs = block.getFieldValue('CS') || '-1';
-  const dc = block.getFieldValue('DC') || '-1';
-  const rst = block.getFieldValue('RST') || '-1';
-  const bl = block.getFieldValue('BL') || '-1';
+  const width = getTftEspiSetupValue(block, generator, 'WIDTH', '240');
+  const height = getTftEspiSetupValue(block, generator, 'HEIGHT', '320');
+  const miso = getTftEspiSetupValue(block, generator, 'MISO', '-1');
+  const mosi = getTftEspiSetupValue(block, generator, 'MOSI', '-1');
+  const sclk = getTftEspiSetupValue(block, generator, 'SCLK', '-1');
+  const cs = getTftEspiSetupValue(block, generator, 'CS', '-1');
+  const dc = getTftEspiSetupValue(block, generator, 'DC', '-1');
+  const rst = getTftEspiSetupValue(block, generator, 'RST', '-1');
+  const bl = getTftEspiSetupValue(block, generator, 'BL', '-1');
   const blLevel = block.getFieldValue('BL_LEVEL') || 'HIGH';
   const colorMode = block.getFieldValue('COLOR_MODE') || 'TFT_RGB';
   // const rotation = block.getFieldValue('ROTATION') || '0';
