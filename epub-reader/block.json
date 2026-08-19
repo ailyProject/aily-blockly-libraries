@@ -1,0 +1,608 @@
+[
+  {
+    "type": "epub_reader_open",
+    "message0": "EPUB 打开文件 %1 每行字数 %2 每页行数 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": [
+          "String"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CHARS_PER_LINE",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "LINES_PER_PAGE",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "打开SD卡上的EPUB文件并解析内容"
+  },
+  {
+    "type": "epub_reader_is_open",
+    "message0": "EPUB 已打开",
+    "output": [
+      "Boolean"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "检查EPUB文件是否成功打开"
+  },
+  {
+    "type": "epub_reader_get_page",
+    "message0": "EPUB 当前页内容",
+    "output": [
+      "String"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "获取当前页的文本内容"
+  },
+  {
+    "type": "epub_reader_get_page_num",
+    "message0": "EPUB 当前页码",
+    "output": [
+      "Number"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "获取当前页码"
+  },
+  {
+    "type": "epub_reader_next",
+    "message0": "EPUB 下一页",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "翻到下一页"
+  },
+  {
+    "type": "epub_reader_prev",
+    "message0": "EPUB 上一页",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "翻到上一页"
+  },
+  {
+    "type": "epub_reader_has_next",
+    "message0": "EPUB 有下一页",
+    "output": [
+      "Boolean"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "检查是否还有下一页"
+  },
+  {
+    "type": "epub_reader_has_prev",
+    "message0": "EPUB 有上一页",
+    "output": [
+      "Boolean"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "检查是否还有上一页"
+  },
+  {
+    "type": "epub_reader_render_page",
+    "message0": "EPUB 渲染到屏幕 起始X %1 起始Y %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "将当前EPUB页面渲染到TFT屏幕"
+  },
+  {
+    "type": "epub_reader_close",
+    "message0": "EPUB 关闭",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "关闭EPUB文件并释放内存"
+  },
+  {
+    "type": "epub_reader_font_height",
+    "message0": "EPUB 当前字体行高",
+    "output": [
+      "Number"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "获取当前已加载字体的行高(像素)"
+  },
+  {
+    "type": "epub_reader_get_chapter",
+    "message0": "EPUB 当前章节",
+    "output": [
+      "Number"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "获取当前章节号(从1开始)"
+  },
+  {
+    "type": "epub_reader_get_chapter_count",
+    "message0": "EPUB 总章节数",
+    "output": [
+      "Number"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "获取总章节数"
+  },
+  {
+    "type": "epub_reader_scan_books",
+    "message0": "扫描 %1 目录下的EPUB书籍",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DIR",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "扫描指定目录下的.epub文件，结果存在全局列表中"
+  },
+  {
+    "type": "epub_reader_book_count",
+    "message0": "书籍数量",
+    "output": [
+      "Number"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "获取扫描到的EPUB书籍总数"
+  },
+  {
+    "type": "epub_reader_book_name",
+    "message0": "第 %1 本书的文件名",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "output": [
+      "String"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "获取指定索引的书籍文件名"
+  },
+  {
+    "type": "epub_reader_book_path",
+    "message0": "第 %1 本书的完整路径",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "output": [
+      "String"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "获取指定索引书籍的完整SD卡路径"
+  },
+  {
+    "type": "epub_reader_show_bookshelf",
+    "message0": "EPUB 显示书架 (选中第 %1 本)",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SEL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "渲染书架界面，高亮选中书籍"
+  },
+  {
+    "type": "epub_reader_show_page",
+    "message0": "EPUB 显示阅读页",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "渲染当前阅读页(含章节信息)"
+  },
+  {
+    "type": "epub_reader_goto_chapter",
+    "message0": "EPUB 跳转章节 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "output": [
+      "Boolean"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "跳转到指定章节(0-based)，返回是否成功"
+  },
+  {
+    "type": "epub_reader_chapter_title_at",
+    "message0": "EPUB 第 %1 章标题",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "output": [
+      "String"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "获取指定章节的标题"
+  },
+  {
+    "type": "epub_reader_save_pos",
+    "message0": "EPUB 保存进度 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "保存当前阅读进度(章节+页码)到NVS"
+  },
+  {
+    "type": "epub_reader_load_pos",
+    "message0": "EPUB 读取进度 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "output": [
+      "Boolean"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "从NVS读取并恢复阅读进度，返回是否有保存的进度"
+  },
+  {
+    "type": "epub_reader_show_toc",
+    "message0": "EPUB 显示目录 (选中第 %1 项)",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SEL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "渲染章节目录界面，高亮选中项"
+  },
+  {
+    "type": "epub_reader_toc_page_next",
+    "message0": "EPUB 目录下翻页 (当前 %1)",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SEL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "返回目录下一页的选中项序号"
+  },
+  {
+    "type": "epub_reader_toc_page_prev",
+    "message0": "EPUB 目录上翻页 (当前 %1)",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SEL",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "返回目录上一页的选中项序号"
+  },
+  {
+    "type": "epub_reader_load_sd_font",
+    "message0": "EPUB 加载SD卡字体 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "从SD卡加载.bin格式的CJK字体文件（默认路径为fallback，自动读取/fonts/.selected）"
+  },
+  {
+    "type": "epub_reader_select_font",
+    "message0": "EPUB 选择字体 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "加载并保存选中的字体路径"
+  },
+  {
+    "type": "epub_reader_sd_font_loaded",
+    "message0": "EPUB SD字体已加载",
+    "output": [
+      "Boolean"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "检查SD卡字体是否已加载"
+  },
+  {
+    "type": "epub_reader_unload_sd_font",
+    "message0": "EPUB 卸载SD字体",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "卸载SD卡字体，释放缓存内存"
+  },
+  {
+    "type": "epub_reader_load_ui_font",
+    "message0": "EPUB 加载UI字体 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "从SD卡加载UI字体(用于菜单/标题/界面)，与阅读字体独立"
+  },
+  {
+    "type": "epub_reader_unload_ui_font",
+    "message0": "EPUB 卸载UI字体",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "卸载UI字体，释放内存"
+  },
+  {
+    "type": "epub_reader_ui_font_loaded",
+    "message0": "EPUB UI字体已加载",
+    "output": [
+      "Boolean"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "检查UI字体是否已加载(含共享阅读字体的情况)"
+  },
+  {
+    "type": "epub_reader_share_reading_font",
+    "message0": "EPUB 共享阅读字体为UI字体",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "将当前阅读字体同时用作UI字体，节省内存"
+  },
+  {
+    "type": "epub_reader_gen_cover",
+    "message0": "EPUB 生成封面缩略图 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "从EPUB提取封面并生成48x64缩略图缓存到SD卡"
+  },
+  {
+    "type": "epub_reader_show_full_image",
+    "message0": "EPUB 显示全屏图片 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "缩放显示第N张图片(宽度=屏幕宽,逐屏滚动)"
+  },
+  {
+    "type": "epub_reader_page_img_count",
+    "message0": "EPUB 当前页图片数",
+    "output": [
+      "Number"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "获取当前页面包含的图片数量"
+  },
+  {
+    "type": "epub_reader_full_img_next",
+    "message0": "EPUB 图片下一屏",
+    "output": [
+      "Number"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "滚动到下一屏(到末尾则加载下一张图)，返回是否还有内容"
+  },
+  {
+    "type": "epub_reader_full_img_prev",
+    "message0": "EPUB 图片上一屏",
+    "output": [
+      "Number"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "滚动到上一屏(到开头则加载上一张图)，返回是否还有内容"
+  },
+  {
+    "type": "epub_reader_full_img_exit",
+    "message0": "EPUB 退出全屏图片(释放内存)",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "释放全屏图片缓存内存"
+  },
+  {
+    "type": "epub_reader_show_fit_image",
+    "message0": "EPUB 整页缩放图片 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "整页缩放显示第N张图片(适应屏幕)"
+  },
+  {
+    "type": "epub_reader_fit_img_next",
+    "message0": "EPUB 整页缩放下一张",
+    "output": [
+      "Number"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "下一张整页缩放图片，返回是否还有"
+  },
+  {
+    "type": "epub_reader_fit_img_prev",
+    "message0": "EPUB 整页缩放上一张",
+    "output": [
+      "Number"
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "上一张整页缩放图片，返回是否还有"
+  },
+  {
+    "type": "epub_reader_show_history",
+    "message0": "EPUB 显示阅读记录",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "渲染最近阅读列表(书名+章节进度)，高亮选中项"
+  },
+  {
+    "type": "epub_reader_hist_count",
+    "message0": "EPUB 阅读记录 数量",
+    "args0": [],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "最近阅读列表条目数(0-8)"
+  },
+  {
+    "type": "epub_reader_hist_next",
+    "message0": "EPUB 阅读记录 下一本",
+    "args0": [],
+    "colour": "#9C27B0",
+    "tooltip": "选中下一本书并重绘列表",
+    "previousStatement": null,
+    "nextStatement": null
+  },
+  {
+    "type": "epub_reader_hist_prev",
+    "message0": "EPUB 阅读记录 上一本",
+    "args0": [],
+    "colour": "#9C27B0",
+    "tooltip": "选中上一本书并重绘列表",
+    "previousStatement": null,
+    "nextStatement": null
+  },
+  {
+    "type": "epub_reader_hist_resume",
+    "message0": "EPUB 阅读记录 继续阅读",
+    "args0": [],
+    "output": "Boolean",
+    "colour": "#9C27B0",
+    "tooltip": "打开选中的书并恢复到上次阅读位置"
+  },
+  {
+    "type": "epub_reader_cur_path",
+    "message0": "EPUB 当前打开的书路径",
+    "args0": [],
+    "output": "String",
+    "colour": "#9C27B0",
+    "tooltip": "返回当前打开书籍的完整SD卡路径(未打开时为空串)"
+  }
+]
