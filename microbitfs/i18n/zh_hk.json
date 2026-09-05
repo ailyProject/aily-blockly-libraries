@@ -1,0 +1,81 @@
+{
+  "toolbox_name": "micro:bit 檔案系統",
+  "toolbox_labels": {
+    "写入": "寫入",
+    "读取": "讀取",
+    "管理": "管理",
+    "文件夹": "資料夾"
+  },
+  "microbitfs_begin": {
+    "message0": "初始化 micro:bit 檔案系統 清空重建 %1",
+    "tooltip": "初始化/恢復 microbitfs 檔案系統（完整移植自 micropython-microbit-v2，視窗 0x6D000-0x73000）。不勾選：自動恢復，全新晶片會自動初始化；勾選清空重建：先刪除全部檔案再重建。建議在程式開頭呼叫一次；其他檔案積木未初始化時也會自動初始化。"
+  },
+  "microbitfs_format": {
+    "message0": "格式化檔案系統（清空所有檔案）",
+    "tooltip": "擦除整個檔案系統視窗並重新初始化，刪除全部檔案，不可復原。"
+  },
+  "microbitfs_write": {
+    "message0": "寫入檔案 %1 內容 %2",
+    "tooltip": "覆蓋寫（上游 'w' 模式）：檔案已存在則清空重寫，不存在則建立。檔名可帶虛擬資料夾前綴，如 logs/a.txt（總長上限 120 字元）。"
+  },
+  "microbitfs_append_line": {
+    "message0": "追加一行到檔案 %1 內容 %2",
+    "tooltip": "上游無追加模式：自動讀出原內容後與新增行一起重寫（追加後總長上限 8192 位元組），自動補換行符。"
+  },
+  "microbitfs_append_number": {
+    "message0": "追加數字到檔案 %1 數值 %2 保留小數 %3 位",
+    "tooltip": "把數字按指定小數位轉成文字並追加為一行（讀改寫實現），常用於記錄感測器數值。"
+  },
+  "microbitfs_read": {
+    "message0": "讀取檔案 %1 的內容",
+    "tooltip": "讀取整個檔案內容為文字（最多 8192 位元組），檔案不存在時回傳空文字。"
+  },
+  "microbitfs_read_line": {
+    "message0": "讀取檔案 %1 第 %2 行",
+    "tooltip": "按行號讀取一行文字（行號從 0 開始，單行最多 256 位元組），超出範圍回傳空文字。可配合「檔案行數」積木遍歷。"
+  },
+  "microbitfs_line_count": {
+    "message0": "檔案 %1 的行數",
+    "tooltip": "統計檔案總行數（按換行符計算，末行無換行符也計一行），檔案不存在時回傳 0。"
+  },
+  "microbitfs_exists": {
+    "message0": "檔案 %1 存在？",
+    "tooltip": "判斷檔案是否存在於檔案系統中。"
+  },
+  "microbitfs_file_size": {
+    "message0": "檔案 %1 的大小（位元組）",
+    "tooltip": "回傳檔案的位元組大小，檔案不存在時回傳 0。"
+  },
+  "microbitfs_remove": {
+    "message0": "刪除檔案 %1",
+    "tooltip": "刪除指定檔案（塊被標記釋放，空間由檔案系統自動回收），檔案不存在時無操作。"
+  },
+  "microbitfs_list_files": {
+    "message0": "列出所有檔名",
+    "tooltip": "回傳全部檔名，多個檔名之間用換行符分隔；可傳送到串列埠查看。"
+  },
+  "microbitfs_file_count": {
+    "message0": "檔案總數",
+    "tooltip": "回傳檔案系統中檔案的總個數。"
+  },
+  "microbitfs_free_kb": {
+    "message0": "檔案系統剩餘空間（KB）",
+    "tooltip": "回傳檔案系統剩餘可用容量（KB）。視窗 24KB，可用資料約 20KB（160 塊 × 126 位元組）。"
+  },
+  "microbitfs_dir_exists": {
+    "message0": "資料夾 %1 存在？",
+    "tooltip": "虛擬資料夾（封裝層擴充）：上游為扁平檔案系統、無目錄實體。判斷是否存在名字以「該資料夾/」開頭的檔案；資料夾隨第一個檔案寫入自動出現，空資料夾不存在。"
+  },
+  "microbitfs_dir_list": {
+    "message0": "列出資料夾 %1 的內容",
+    "tooltip": "回傳直接子項：檔名 + 子資料夾名（以 / 結尾），用換行符分隔；填 / 可列出根目錄內容。"
+  },
+  "microbitfs_dir_file_count": {
+    "message0": "資料夾 %1 內檔案總數",
+    "tooltip": "統計該資料夾（含子資料夾）下所有檔案的數量；填 / 統計全盤檔案數。"
+  },
+  "microbitfs_dir_remove": {
+    "message0": "刪除資料夾 %1 及其全部檔案",
+    "tooltip": "刪除所有名字以「該資料夾/」開頭的檔案（含子資料夾內容）；檔案刪完後資料夾即消失。根目錄不可整刪，需用格式化。"
+  }
+}

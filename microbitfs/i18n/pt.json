@@ -1,0 +1,81 @@
+{
+  "toolbox_name": "Sistema de arquivos micro:bit",
+  "toolbox_labels": {
+    "写入": "Escrita",
+    "读取": "Leitura",
+    "管理": "Gerenciar",
+    "文件夹": "Pastas"
+  },
+  "microbitfs_begin": {
+    "message0": "Inicializar sistema de arquivos micro:bit reconstruir vazio %1",
+    "tooltip": "Inicializa/restaura o sistema microbitfs (porte completo do micropython-microbit-v2, janela 0x6D000-0x73000). Desmarcado: recuperação automática, um chip novo é inicializado sozinho; marcado: apagar todos os arquivos e reconstruir. Chame uma vez no início; os outros blocos também se inicializam automaticamente."
+  },
+  "microbitfs_format": {
+    "message0": "Formatar sistema de arquivos (apagar todos os arquivos)",
+    "tooltip": "Apaga toda a janela do sistema de arquivos e reinicializa; remove todos os arquivos e não pode ser desfeito."
+  },
+  "microbitfs_write": {
+    "message0": "Gravar no arquivo %1 conteúdo %2",
+    "tooltip": "Sobrescreve (modo 'w' original): um arquivo existente é limpo e regravado; um ausente é criado. Os nomes podem ter um prefixo de pasta virtual como logs/a.txt (até 120 caracteres no total)."
+  },
+  "microbitfs_append_line": {
+    "message0": "Anexar linha ao arquivo %1 conteúdo %2",
+    "tooltip": "O original não tem modo de anexar: o conteúdo anterior é relido e regravado junto com a nova linha (comprimento total máx. 8192 bytes após anexar); a quebra de linha é adicionada automaticamente."
+  },
+  "microbitfs_append_number": {
+    "message0": "Anexar número ao arquivo %1 valor %2 decimais %3",
+    "tooltip": "Converte o número com as casas decimais escolhidas e o anexa como uma linha (ler-e-regravar); útil para registrar valores de sensores."
+  },
+  "microbitfs_read": {
+    "message0": "Ler conteúdo do arquivo %1",
+    "tooltip": "Lê o arquivo inteiro como texto (máximo 8192 bytes); retorna texto vazio se o arquivo não existir."
+  },
+  "microbitfs_read_line": {
+    "message0": "Ler arquivo %1 linha %2",
+    "tooltip": "Lê uma linha pelo número (a partir de 0, máximo 256 bytes por linha); fora do intervalo retorna texto vazio. Combine com o bloco de número de linhas."
+  },
+  "microbitfs_line_count": {
+    "message0": "Número de linhas do arquivo %1",
+    "tooltip": "Conta as linhas pelas quebras; uma última linha sem quebra também conta. Retorna 0 se o arquivo não existir."
+  },
+  "microbitfs_exists": {
+    "message0": "Arquivo %1 existe?",
+    "tooltip": "Verifica se o arquivo existe no sistema."
+  },
+  "microbitfs_file_size": {
+    "message0": "Tamanho do arquivo %1 (bytes)",
+    "tooltip": "Retorna o tamanho em bytes, ou 0 se o arquivo não existir."
+  },
+  "microbitfs_remove": {
+    "message0": "Excluir arquivo %1",
+    "tooltip": "Exclui o arquivo (os blocos são marcados como livres e o espaço é recuperado automaticamente); nenhum efeito se não existir."
+  },
+  "microbitfs_list_files": {
+    "message0": "Listar todos os nomes de arquivos",
+    "tooltip": "Retorna todos os nomes separados por quebras de linha; envie pela serial para conferir."
+  },
+  "microbitfs_file_count": {
+    "message0": "Número total de arquivos",
+    "tooltip": "Retorna o número total de arquivos."
+  },
+  "microbitfs_free_kb": {
+    "message0": "Espaço livre do sistema (KB)",
+    "tooltip": "Retorna a capacidade livre em KB. Janela de 24KB, dados úteis ~20KB (160 blocos × 126 bytes)."
+  },
+  "microbitfs_dir_exists": {
+    "message0": "Pasta %1 existe?",
+    "tooltip": "Pastas virtuais (extensão da camada de envoltório): o sistema original é plano, sem entidades de diretório. Verifica se algum nome de arquivo começa com 'pasta/'; uma pasta aparece ao gravar seu primeiro arquivo e uma pasta vazia não existe."
+  },
+  "microbitfs_dir_list": {
+    "message0": "Listar o conteúdo da pasta %1",
+    "tooltip": "Retorna os filhos diretos: nomes de arquivos e de subpastas (terminados em /), separados por quebras de linha; digite / para listar a raiz."
+  },
+  "microbitfs_dir_file_count": {
+    "message0": "Total de arquivos na pasta %1",
+    "tooltip": "Conta todos os arquivos da pasta, incluindo subpastas; digite / para contar todos."
+  },
+  "microbitfs_dir_remove": {
+    "message0": "Excluir a pasta %1 e todos os seus arquivos",
+    "tooltip": "Exclui todo arquivo cujo nome começa com 'pasta/' (incluindo subpastas); vazia, a pasta desaparece. A raiz não pode ser excluída assim; use formatar."
+  }
+}
