@@ -1,0 +1,81 @@
+{
+  "toolbox_name": "micro:bit-Dateisystem",
+  "toolbox_labels": {
+    "写入": "Schreiben",
+    "读取": "Lesen",
+    "管理": "Verwalten",
+    "文件夹": "Ordner"
+  },
+  "microbitfs_begin": {
+    "message0": "micro:bit-Dateisystem initialisieren leer neu aufbauen %1",
+    "tooltip": "Initialisiert/stellt das microbitfs-Dateisystem wieder her (vollständige Portierung aus micropython-microbit-v2, Fenster 0x6D000-0x73000). Ohne Häkchen: automatische Wiederherstellung, ein leerer Chip wird automatisch initialisiert; mit Häkchen: zuerst alle Dateien löschen und neu aufbauen. Einmal beim Start aufrufen; andere Datei-Blöcke initialisieren bei Bedarf automatisch."
+  },
+  "microbitfs_format": {
+    "message0": "Dateisystem formatieren (alle Dateien löschen)",
+    "tooltip": "Löscht das gesamte Dateisystem-Fenster und initialisiert neu; alle Dateien werden entfernt, nicht rückgängig zu machen."
+  },
+  "microbitfs_write": {
+    "message0": "In Datei %1 Inhalt %2 schreiben",
+    "tooltip": "Überschreiben (Upstream-'w'-Modus): vorhandene Datei wird geleert und neu geschrieben, fehlende erstellt. Namen dürfen einen virtuellen Ordner-Präfix wie logs/a.txt enthalten (gesamt bis 120 Zeichen)."
+  },
+  "microbitfs_append_line": {
+    "message0": "An Datei %1 Zeile %2 anhängen",
+    "tooltip": "Upstream hat keinen Anhang-Modus: der ursprüngliche Inhalt wird gelesen und zusammen mit der neuen Zeile neu geschrieben (Gesamtlänge nach Anhängen maximal 8192 Bytes); der Zeilenumbruch wird automatisch ergänzt."
+  },
+  "microbitfs_append_number": {
+    "message0": "Zahl an Datei %1 anhängen Wert %2 Dezimalstellen %3",
+    "tooltip": "Formatiert die Zahl mit den gewählten Dezimalstellen und hängt sie als Zeile an (Lesen-und-Neuschreiben); praktisch für Sensorwerte."
+  },
+  "microbitfs_read": {
+    "message0": "Inhalt der Datei %1 lesen",
+    "tooltip": "Liest die ganze Datei als Text (max. 8192 Bytes); bei fehlender Datei wird ein leerer Text zurückgegeben."
+  },
+  "microbitfs_read_line": {
+    "message0": "Datei %1 Zeile %2 lesen",
+    "tooltip": "Liest eine Zeile per Index (ab 0, max. 256 Bytes je Zeile); außerhalb des Bereichs wird ein leerer Text zurückgegeben. Mit dem Zeilenzahl-Block kombinierbar."
+  },
+  "microbitfs_line_count": {
+    "message0": "Zeilenzahl der Datei %1",
+    "tooltip": "Zählt Zeilen anhand von Umbrüchen; eine letzte Zeile ohne Umbruch zählt ebenfalls. Fehlende Datei ergibt 0."
+  },
+  "microbitfs_exists": {
+    "message0": "Datei %1 vorhanden?",
+    "tooltip": "Prüft, ob die Datei im Dateisystem existiert."
+  },
+  "microbitfs_file_size": {
+    "message0": "Größe der Datei %1 (Bytes)",
+    "tooltip": "Gibt die Dateigröße in Bytes zurück, bei fehlender Datei 0."
+  },
+  "microbitfs_remove": {
+    "message0": "Datei %1 löschen",
+    "tooltip": "Löscht die Datei (Chunks werden als frei markiert und automatisch zurückgewonnen); nicht vorhandene Dateien werden ignoriert."
+  },
+  "microbitfs_list_files": {
+    "message0": "Alle Dateinamen auflisten",
+    "tooltip": "Gibt alle Dateinamen durch Umbrüche getrennt zurück; zur Kontrolle über die serielle Ausgabe ausgeben."
+  },
+  "microbitfs_file_count": {
+    "message0": "Dateianzahl",
+    "tooltip": "Gibt die Gesamtzahl der Dateien zurück."
+  },
+  "microbitfs_free_kb": {
+    "message0": "Freier Speicher des Dateisystems (KB)",
+    "tooltip": "Gibt freien Speicher in KB zurück. Fenster 24KB, nutzbare Daten etwa 20KB (160 Chunks × 126 Bytes)."
+  },
+  "microbitfs_dir_exists": {
+    "message0": "Ordner %1 vorhanden?",
+    "tooltip": "Virtuelle Ordner (Wrapper-Erweiterung): das Upstream-Dateisystem ist flach ohne Verzeichnisobjekte. Prüft, ob ein Dateiname mit 'Ordner/' beginnt; ein Ordner erscheint mit der ersten hinein geschriebenen Datei, ein leerer Ordner existiert nicht."
+  },
+  "microbitfs_dir_list": {
+    "message0": "Inhalt von Ordner %1 auflisten",
+    "tooltip": "Gibt direkte Kinder zurück: Dateinamen und Unterordnernamen (mit Endsymbol /), durch Umbrüche getrennt; mit / wird der Stammordner aufgelistet."
+  },
+  "microbitfs_dir_file_count": {
+    "message0": "Dateien in Ordner %1 gesamt",
+    "tooltip": "Zählt alle Dateien unter dem Ordner einschließlich Unterordnern; mit / werden alle Dateien gezählt."
+  },
+  "microbitfs_dir_remove": {
+    "message0": "Ordner %1 und alle seine Dateien löschen",
+    "tooltip": "Löscht jede Datei, deren Name mit 'Ordner/' beginnt (einschließlich Unterordner-Inhalten); ist er leer, verschwindet der Ordner. Der Stammordner kann so nicht gelöscht werden; verwenden Sie Formatieren."
+  }
+}

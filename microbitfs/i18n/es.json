@@ -1,0 +1,81 @@
+{
+  "toolbox_name": "Sistema de archivos micro:bit",
+  "toolbox_labels": {
+    "写入": "Escritura",
+    "读取": "Lectura",
+    "管理": "Gestión",
+    "文件夹": "Carpetas"
+  },
+  "microbitfs_begin": {
+    "message0": "Inicializar sistema de archivos micro:bit reconstruir vacío %1",
+    "tooltip": "Inicializa/restaura el sistema microbitfs (portado por completo de micropython-microbit-v2, ventana 0x6D000-0x73000). Sin marcar: recuperación automática, un chip nuevo se inicializa solo; marcado: borrar todos los archivos y reconstruir. Llámalo una vez al inicio; el resto de bloques también se inicializan automáticamente."
+  },
+  "microbitfs_format": {
+    "message0": "Formatear sistema de archivos (borrar todos los archivos)",
+    "tooltip": "Borra toda la ventana del sistema de archivos y reinicializa; elimina todos los archivos y no se puede deshacer."
+  },
+  "microbitfs_write": {
+    "message0": "Escribir en el archivo %1 contenido %2",
+    "tooltip": "Sobrescribe (modo 'w' original): un archivo existente se vacía y reescribe; uno inexistente se crea. Los nombres pueden incluir un prefijo de carpeta virtual como logs/a.txt (hasta 120 caracteres en total)."
+  },
+  "microbitfs_append_line": {
+    "message0": "Añadir línea al archivo %1 contenido %2",
+    "tooltip": "El original no tiene modo de añadir: el contenido previo se relee y se reescribe junto con la nueva línea (longitud total máx. 8192 bytes tras añadir); el salto de línea se añade solo."
+  },
+  "microbitfs_append_number": {
+    "message0": "Añadir número al archivo %1 valor %2 decimales %3",
+    "tooltip": "Convierte el número con los decimales elegidos y lo añade como una línea (leer-y-reescribir); útil para registrar valores de sensores."
+  },
+  "microbitfs_read": {
+    "message0": "Leer contenido del archivo %1",
+    "tooltip": "Lee el archivo completo como texto (máximo 8192 bytes); devuelve texto vacío si no existe."
+  },
+  "microbitfs_read_line": {
+    "message0": "Leer archivo %1 línea %2",
+    "tooltip": "Lee una línea por número (desde 0, máximo 256 bytes por línea); fuera de rango devuelve texto vacío. Combínalo con el bloque de número de líneas."
+  },
+  "microbitfs_line_count": {
+    "message0": "Número de líneas del archivo %1",
+    "tooltip": "Cuenta las líneas por saltos; una última línea sin salto también cuenta. Devuelve 0 si el archivo no existe."
+  },
+  "microbitfs_exists": {
+    "message0": "¿Existe el archivo %1?",
+    "tooltip": "Comprueba si el archivo existe en el sistema."
+  },
+  "microbitfs_file_size": {
+    "message0": "Tamaño del archivo %1 (bytes)",
+    "tooltip": "Devuelve el tamaño en bytes, o 0 si el archivo no existe."
+  },
+  "microbitfs_remove": {
+    "message0": "Eliminar archivo %1",
+    "tooltip": "Elimina el archivo (los bloques se marcan como libres y el espacio se recupera solo); no hace nada si no existe."
+  },
+  "microbitfs_list_files": {
+    "message0": "Listar todos los nombres de archivo",
+    "tooltip": "Devuelve todos los nombres separados por saltos de línea; envíalo por serie para revisarlo."
+  },
+  "microbitfs_file_count": {
+    "message0": "Número total de archivos",
+    "tooltip": "Devuelve el número total de archivos."
+  },
+  "microbitfs_free_kb": {
+    "message0": "Espacio libre del sistema (KB)",
+    "tooltip": "Devuelve la capacidad libre en KB. Ventana de 24KB, datos útiles ~20KB (160 bloques × 126 bytes)."
+  },
+  "microbitfs_dir_exists": {
+    "message0": "¿Existe la carpeta %1?",
+    "tooltip": "Carpetas virtuales (extensión del envoltorio): el sistema original es plano, sin entidades de directorio. Comprueba si algún nombre de archivo empieza por 'carpeta/'; una carpeta aparece al escribir su primer archivo y una carpeta vacía no existe."
+  },
+  "microbitfs_dir_list": {
+    "message0": "Listar el contenido de la carpeta %1",
+    "tooltip": "Devuelve los hijos directos: nombres de archivos y de subcarpetas (terminados en /), separados por saltos de línea; escribe / para listar la raíz."
+  },
+  "microbitfs_dir_file_count": {
+    "message0": "Total de archivos en la carpeta %1",
+    "tooltip": "Cuenta todos los archivos de la carpeta, subcarpetas incluidas; escribe / para contar todos."
+  },
+  "microbitfs_dir_remove": {
+    "message0": "Eliminar la carpeta %1 y todos sus archivos",
+    "tooltip": "Elimina cada archivo cuyo nombre empiece por 'carpeta/' (subcarpetas incluidas); al vaciarse, la carpeta desaparece. La raíz no se puede eliminar así; usa formatear."
+  }
+}

@@ -1,0 +1,300 @@
+[
+  {
+    "type": "microbitfs_begin",
+    "message0": "初始化 micro:bit 文件系统 清空重建 %1",
+    "args0": [
+      {
+        "type": "field_checkbox",
+        "name": "REBUILD",
+        "checked": false
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2D8659",
+    "tooltip": "初始化/恢复 microbitfs 文件系统（完整移植自 micropython-microbit-v2，窗口 0x6D000-0x73000）。不勾选：自动恢复，全新芯片会自动初始化；勾选清空重建：先删除全部文件再重建。建议在程序开头调用一次；其他文件积木未初始化时也会自动初始化。",
+    "icon": "fa-light fa-hard-drive"
+  },
+  {
+    "type": "microbitfs_format",
+    "message0": "格式化文件系统（清空所有文件）",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2D8659",
+    "tooltip": "擦除整个文件系统窗口并重新初始化，删除全部文件，不可恢复。",
+    "icon": "fa-light fa-eraser"
+  },
+  {
+    "type": "microbitfs_write",
+    "message0": "写入文件 %1 内容 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "FILE",
+        "text": "data.txt"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2D8659",
+    "tooltip": "覆盖写（上游 'w' 模式）：文件已存在则清空重写，不存在则创建。文件名可带虚拟文件夹前缀，如 logs/a.txt（总长上限 120 字符）。",
+    "icon": "fa-light fa-file-pen"
+  },
+  {
+    "type": "microbitfs_append_line",
+    "message0": "追加一行到文件 %1 内容 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "FILE",
+        "text": "data.txt"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2D8659",
+    "tooltip": "上游无追加模式：自动读出原内容后与新增行一起重写（追加后总长上限 8192 字节），自动补换行符。",
+    "icon": "fa-light fa-file-circle-plus"
+  },
+  {
+    "type": "microbitfs_append_number",
+    "message0": "追加数字到文件 %1 数值 %2 保留小数 %3 位",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "FILE",
+        "text": "data.txt"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "DECIMALS",
+        "value": 2,
+        "min": 0,
+        "max": 7,
+        "precision": 1
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2D8659",
+    "tooltip": "把数字按指定小数位转成文本并追加为一行（读改写实现），常用于记录传感器数值。",
+    "icon": "fa-light fa-arrow-down-1-9"
+  },
+  {
+    "type": "microbitfs_read",
+    "message0": "读取文件 %1 的内容",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "FILE",
+        "text": "data.txt"
+      }
+    ],
+    "output": "String",
+    "colour": "#2D8659",
+    "tooltip": "读取整个文件内容为文本（最多 8192 字节），文件不存在时返回空文本。",
+    "icon": "fa-light fa-file-lines"
+  },
+  {
+    "type": "microbitfs_read_line",
+    "message0": "读取文件 %1 第 %2 行",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "FILE",
+        "text": "data.txt"
+      },
+      {
+        "type": "input_value",
+        "name": "LINE",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "output": "String",
+    "colour": "#2D8659",
+    "tooltip": "按行号读取一行文本（行号从 0 开始，单行最多 256 字节），超出范围返回空文本。可配合“文件行数”积木遍历。",
+    "icon": "fa-light fa-bars-staggered"
+  },
+  {
+    "type": "microbitfs_line_count",
+    "message0": "文件 %1 的行数",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "FILE",
+        "text": "data.txt"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2D8659",
+    "tooltip": "统计文件总行数（按换行符计算，末行无换行符也计一行），文件不存在时返回 0。",
+    "icon": "fa-light fa-list-ol"
+  },
+  {
+    "type": "microbitfs_exists",
+    "message0": "文件 %1 存在？",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "FILE",
+        "text": "data.txt"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#2D8659",
+    "tooltip": "判断文件是否存在于文件系统中。",
+    "icon": "fa-light fa-circle-question"
+  },
+  {
+    "type": "microbitfs_file_size",
+    "message0": "文件 %1 的大小（字节）",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "FILE",
+        "text": "data.txt"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2D8659",
+    "tooltip": "返回文件的字节大小，文件不存在时返回 0。",
+    "icon": "fa-light fa-weight-hanging"
+  },
+  {
+    "type": "microbitfs_remove",
+    "message0": "删除文件 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "FILE",
+        "text": "data.txt"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2D8659",
+    "tooltip": "删除指定文件（块被标记释放，空间由文件系统自动回收），文件不存在时无操作。",
+    "icon": "fa-light fa-trash-can"
+  },
+  {
+    "type": "microbitfs_list_files",
+    "message0": "列出所有文件名",
+    "args0": [],
+    "output": "String",
+    "colour": "#2D8659",
+    "tooltip": "返回全部文件名，多个文件名之间用换行符分隔；可发送到串口查看。",
+    "icon": "fa-light fa-folder-tree"
+  },
+  {
+    "type": "microbitfs_file_count",
+    "message0": "文件总数",
+    "args0": [],
+    "output": "Number",
+    "colour": "#2D8659",
+    "tooltip": "返回文件系统中文件的总个数。",
+    "icon": "fa-light fa-files"
+  },
+  {
+    "type": "microbitfs_free_kb",
+    "message0": "文件系统剩余空间（KB）",
+    "args0": [],
+    "output": "Number",
+    "colour": "#2D8659",
+    "tooltip": "返回文件系统剩余可用容量（KB）。窗口 24KB，可用数据约 20KB（160 块 × 126 字节）。",
+    "icon": "fa-light fa-database"
+  },
+  {
+    "type": "microbitfs_used_kb",
+    "message0": "文件系统已用空间（KB）",
+    "args0": [],
+    "output": "Number",
+    "colour": "#2D8659",
+    "tooltip": "返回文件系统已占用容量（KB，按 chunk 数据区估算）。",
+    "icon": "fa-light fa-chart-pie"
+  },
+  {
+    "type": "microbitfs_dir_exists",
+    "message0": "文件夹 %1 存在？",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "DIR",
+        "text": "logs"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#2D8659",
+    "tooltip": "虚拟文件夹（封装层扩展）：上游为扁平文件系统、无目录实体。判断是否存在名字以“该文件夹/”开头的文件；文件夹随第一个文件写入自动出现，空文件夹不存在。",
+    "icon": "fa-light fa-folder-check"
+  },
+  {
+    "type": "microbitfs_dir_list",
+    "message0": "列出文件夹 %1 的内容",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "DIR",
+        "text": "logs"
+      }
+    ],
+    "output": "String",
+    "colour": "#2D8659",
+    "tooltip": "返回直接子项：文件名 + 子文件夹名（以 / 结尾），用换行符分隔；填写 / 可列出根目录内容。",
+    "icon": "fa-light fa-folder-open"
+  },
+  {
+    "type": "microbitfs_dir_file_count",
+    "message0": "文件夹 %1 内文件总数",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "DIR",
+        "text": "logs"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2D8659",
+    "tooltip": "统计该文件夹（含子文件夹）下所有文件的数量；填 / 统计全盘文件数。",
+    "icon": "fa-light fa-folder-tree"
+  },
+  {
+    "type": "microbitfs_dir_remove",
+    "message0": "删除文件夹 %1 及其全部文件",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "DIR",
+        "text": "logs"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2D8659",
+    "tooltip": "删除所有名字以“该文件夹/”开头的文件（含子文件夹内容）；文件删完后文件夹即消失。根目录不可整删，需用格式化。",
+    "icon": "fa-light fa-folder-minus"
+  }
+]

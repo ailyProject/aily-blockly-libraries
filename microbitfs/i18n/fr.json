@@ -1,0 +1,81 @@
+{
+  "toolbox_name": "Système de fichiers micro:bit",
+  "toolbox_labels": {
+    "写入": "Écriture",
+    "读取": "Lecture",
+    "管理": "Gestion",
+    "文件夹": "Dossiers"
+  },
+  "microbitfs_begin": {
+    "message0": "Initialiser le système de fichiers micro:bit reconstruire vide %1",
+    "tooltip": "Initialise/restaure le système microbitfs (portage complet de micropython-microbit-v2, fenêtre 0x6D000-0x73000). Décoché : restauration automatique, une puce vierge est initialisée automatiquement ; coché : effacer tous les fichiers puis reconstruire. À appeler une fois au démarrage ; les autres blocs s'initialisent aussi automatiquement au besoin."
+  },
+  "microbitfs_format": {
+    "message0": "Formater le système de fichiers (effacer tous les fichiers)",
+    "tooltip": "Efface toute la fenêtre du système de fichiers et réinitialise ; tous les fichiers sont supprimés, irréversible."
+  },
+  "microbitfs_write": {
+    "message0": "Écrire dans le fichier %1 contenu %2",
+    "tooltip": "Écrasement (mode 'w' amont) : un fichier existant est vidé puis réécrit, un fichier absent est créé. Les noms peuvent inclure un préfixe de dossier virtuel tel que logs/a.txt (120 caractères au total)."
+  },
+  "microbitfs_append_line": {
+    "message0": "Ajouter une ligne au fichier %1 contenu %2",
+    "tooltip": "L'amont n'a pas de mode ajout : le contenu d'origine est relu puis réécrit avec la nouvelle ligne (longueur totale max 8192 octets après ajout) ; un retour à la ligne est ajouté automatiquement."
+  },
+  "microbitfs_append_number": {
+    "message0": "Ajouter un nombre au fichier %1 valeur %2 décimales %3",
+    "tooltip": "Convertit le nombre avec les décimales choisies et l'ajoute comme une ligne (lecture-réécriture) ; utile pour enregistrer des mesures."
+  },
+  "microbitfs_read": {
+    "message0": "Lire le contenu du fichier %1",
+    "tooltip": "Lit tout le fichier en texte (8192 octets maximum) ; renvoie un texte vide si le fichier est absent."
+  },
+  "microbitfs_read_line": {
+    "message0": "Lire le fichier %1 ligne %2",
+    "tooltip": "Lit une ligne par numéro (à partir de 0, 256 octets maximum par ligne) ; hors plage, renvoie un texte vide. À combiner avec le bloc nombre de lignes."
+  },
+  "microbitfs_line_count": {
+    "message0": "Nombre de lignes du fichier %1",
+    "tooltip": "Compte les lignes via les retours à la ligne ; une dernière ligne sans retour compte aussi. Renvoie 0 si le fichier est absent."
+  },
+  "microbitfs_exists": {
+    "message0": "Fichier %1 existant ?",
+    "tooltip": "Indique si le fichier existe dans le système."
+  },
+  "microbitfs_file_size": {
+    "message0": "Taille du fichier %1 (octets)",
+    "tooltip": "Renvoie la taille en octets, ou 0 si le fichier est absent."
+  },
+  "microbitfs_remove": {
+    "message0": "Supprimer le fichier %1",
+    "tooltip": "Supprime le fichier (les blocs sont marqués libres et l'espace est récupéré automatiquement) ; aucun effet s'il n'existe pas."
+  },
+  "microbitfs_list_files": {
+    "message0": "Lister tous les noms de fichiers",
+    "tooltip": "Renvoie tous les noms séparés par des retours à la ligne ; à afficher sur le port série."
+  },
+  "microbitfs_file_count": {
+    "message0": "Nombre total de fichiers",
+    "tooltip": "Renvoie le nombre total de fichiers."
+  },
+  "microbitfs_free_kb": {
+    "message0": "Espace libre du système (Ko)",
+    "tooltip": "Renvoie l'espace libre en Ko. Fenêtre de 24 Ko, données utiles ~20 Ko (160 blocs × 126 octets)."
+  },
+  "microbitfs_dir_exists": {
+    "message0": "Dossier %1 existant ?",
+    "tooltip": "Dossiers virtuels (extension de l'enveloppe) : le système amont est plat, sans entité répertoire. Vérifie si un nom de fichier commence par 'dossier/' ; un dossier apparaît dès l'écriture de son premier fichier, un dossier vide n'existe pas."
+  },
+  "microbitfs_dir_list": {
+    "message0": "Lister le contenu du dossier %1",
+    "tooltip": "Renvoie les enfants directs : noms de fichiers et de sous-dossiers (terminés par /), séparés par des retours à la ligne ; saisissez / pour lister la racine."
+  },
+  "microbitfs_dir_file_count": {
+    "message0": "Total des fichiers du dossier %1",
+    "tooltip": "Compte tous les fichiers sous le dossier, sous-dossiers compris ; saisissez / pour tout compter."
+  },
+  "microbitfs_dir_remove": {
+    "message0": "Supprimer le dossier %1 et tous ses fichiers",
+    "tooltip": "Supprime chaque fichier dont le nom commence par 'dossier/' (sous-dossiers compris) ; vidé, le dossier disparaît. La racine ne peut pas être supprimée ainsi ; utilisez le formatage."
+  }
+}
