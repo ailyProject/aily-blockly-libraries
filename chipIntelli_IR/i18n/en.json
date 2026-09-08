@@ -4,7 +4,26 @@
     "原始波形与 NEC": "Raw waveform and NEC",
     "空调码库": "Air-conditioner database",
     "空调码搜索": "Air-code search",
-    "诊断": "Diagnostics"
+    "诊断": "Diagnostics",
+    "高级初始化": "Advanced initialization"
+  },
+  "chipintelli_ir_init_default": {
+    "message0": "initialize infrared with default board pins mode %1",
+    "tooltip": "Default pins: PA2/PA4, or PA2/PA3 on easyVoice. Air mode enables the database automatically; requires core 1.0.17+. Unsupported on the CI1302 standard layout.",
+    "args0": [
+      {
+        "options": [
+          [
+            "Raw waveform / NEC",
+            "Raw"
+          ],
+          [
+            "Air-conditioner database",
+            "AirConditioner"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_init_raw": {
     "message0": "initialize CI13XX raw infrared TX %1 RX %2 timer %3",
@@ -32,7 +51,7 @@
   },
   "chipintelli_ir_init_air": {
     "message0": "initialize CI13XX air-conditioner IR TX %1 RX %2 timer %3 database resource ID %4",
-    "tooltip": "Initialize the official 36-brand air-conditioner database; the default resource ID is 50000.",
+    "tooltip": "Initialize the official 36-brand air mode and enable the database automatically. Default resource ID: 50000. Requires core 1.0.17+; unsupported on the CI1302 standard layout.",
     "args0": [
       null,
       null,
@@ -57,7 +76,7 @@
   },
   "chipintelli_ir_send_raw": {
     "message0": "send raw infrared waveform %1",
-    "tooltip": "Send comma-, semicolon- or whitespace-separated microsecond durations, up to 1024 entries."
+    "tooltip": "Send comma-, semicolon- or whitespace-separated durations of 200–131070 microseconds each; alternate mark and space starting with mark, up to 1024 entries."
   },
   "chipintelli_ir_send_nec": {
     "message0": "send NEC address %1 command %2 repeats %3",
@@ -91,6 +110,63 @@
   "chipintelli_ir_received_text": {
     "message0": "most recent raw waveform text",
     "tooltip": "Return comma-separated microsecond durations."
+  },
+  "chipintelli_ir_decode_nec": {
+    "message0": "when the latest waveform decodes as NEC with tolerance %1 %%",
+    "message1": "run %1",
+    "tooltip": "Decode the latest read or parsed waveform. Tolerance defaults to 25% and is limited to 0–40%. Supports standard NEC, extended NEC and standalone repeat frames."
+  },
+  "chipintelli_ir_nec_field": {
+    "message0": "latest NEC decode %1",
+    "tooltip": "A standalone repeat frame has address and command set to 0; associate it with the previous complete frame in your program.",
+    "args0": [
+      {
+        "options": [
+          [
+            "Frame type",
+            "type"
+          ],
+          [
+            "Address",
+            "address"
+          ],
+          [
+            "Command",
+            "command"
+          ],
+          [
+            "Repeat frame count",
+            "repeatCount"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_ir_nec_frame_type": {
+    "message0": "NEC frame type %1",
+    "tooltip": "0 = Unknown; 1 = Standard NEC; 2 = Extended NEC; 3 = Repeat frame",
+    "args0": [
+      {
+        "options": [
+          [
+            "Unknown",
+            "0"
+          ],
+          [
+            "Standard NEC",
+            "1"
+          ],
+          [
+            "Extended NEC",
+            "2"
+          ],
+          [
+            "Repeat frame",
+            "3"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_receive_status": {
     "message0": "infrared receive status",
@@ -128,7 +204,49 @@
   },
   "chipintelli_ir_is_busy": {
     "message0": "infrared driver is busy",
-    "tooltip": "Check whether the driver is sending, receiving or searching."
+    "tooltip": "Check whether the driver is sending, receiving or searching, including queued work and the silent interval between two frames."
+  },
+  "chipintelli_ir_wait_until_idle": {
+    "message0": "wait for infrared idle timeout %1 ms",
+    "tooltip": "Block until the driver is idle, including queued work, transmission and the silent interval between two frames. Default timeout: 30000 ms. On failure, check the last error code."
+  },
+  "chipintelli_ir_wait_until_idle_result": {
+    "message0": "wait for infrared idle timeout %1 ms succeeds",
+    "tooltip": "Block until the driver is idle, including queued work, transmission and the silent interval between two frames. Default timeout: 30000 ms. Return true on success or false on failure; check the last error code on failure."
+  },
+  "chipintelli_ir_air_send_status": {
+    "message0": "air-conditioner infrared send status",
+    "tooltip": "0 = Idle; 1 = Queued; 2 = Sending; 3 = Waiting for next frame; 4 = Failed"
+  },
+  "chipintelli_ir_air_send_status_value": {
+    "message0": "air-conditioner infrared send status %1",
+    "tooltip": "0 = Idle; 1 = Queued; 2 = Sending; 3 = Waiting for next frame; 4 = Failed",
+    "args0": [
+      {
+        "options": [
+          [
+            "Idle",
+            "0"
+          ],
+          [
+            "Queued",
+            "1"
+          ],
+          [
+            "Sending",
+            "2"
+          ],
+          [
+            "Waiting for next frame",
+            "3"
+          ],
+          [
+            "Failed",
+            "4"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_select_air_brand": {
     "message0": "select air-conditioner brand %1",

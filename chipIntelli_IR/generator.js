@@ -4,6 +4,11 @@ function ensureChipIntelliIR(generator) {
   generator.addLibrary('chipintelli_ir', '#include <ChipIntelliIR.h>');
 }
 
+function ensureChipIntelliIRDatabase(generator) {
+  ensureChipIntelliIR(generator);
+  generator.addMacro('chipintelli_ir_database', '#define CHIPINTELLI_IR_DATABASE 1');
+}
+
 function chipIntelliIRValue(block, generator, name, fallback) {
   return generator.valueToCode(block, name, generator.ORDER_ATOMIC) || fallback;
 }
@@ -11,7 +16,7 @@ function chipIntelliIRValue(block, generator, name, fallback) {
 function ensureChipIntelliIRRawBuffer(generator) {
   ensureChipIntelliIR(generator);
   generator.addVariable('chipintelli_ir_raw_buffer',
-    'uint16_t ailyChipIntelliIRRaw[ChipIntelliIRClass::MaxRawEntries] = {};');
+    'uint32_t ailyChipIntelliIRRaw[ChipIntelliIRClass::MaxRawEntries] = {};');
   generator.addVariable('chipintelli_ir_raw_count', 'size_t ailyChipIntelliIRRawCount = 0;');
 }
 
@@ -27,7 +32,7 @@ function ensureChipIntelliIRRawParser(generator) {
     '    const char c = index < text.length() ? text[index] : \'\\0\';\n' +
     '    if (c >= \'0\' && c <= \'9\') {\n' +
     '      value = value * 10U + (uint32_t)(c - \'0\');\n' +
-    '      if (value > 65535U) return false;\n' +
+    '      if (value > ChipIntelliIRClass::MaxRawDurationUs) return false;\n' +
     '      hasValue = true;\n' +
     '      continue;\n' +
     '    }\n' +
@@ -35,7 +40,7 @@ function ensureChipIntelliIRRawParser(generator) {
     '    if (!separator) return false;\n' +
     '    if (hasValue) {\n' +
     '      if (value < 200U || parsedCount >= ChipIntelliIRClass::MaxRawEntries) return false;\n' +
-    '      ailyChipIntelliIRRaw[parsedCount++] = (uint16_t)value;\n' +
+    '      ailyChipIntelliIRRaw[parsedCount++] = value;\n' +
     '      value = 0;\n' +
     '      hasValue = false;\n' +
     '    }\n' +
@@ -55,7 +60,7 @@ function ensureChipIntelliIRRawText(generator) {
   generator.addFunction('chipintelli_ir_raw_text',
     'String ailyChipIntelliIRRawText() {\n' +
     '  String text;\n' +
-    '  text.reserve(ailyChipIntelliIRRawCount * 6U);\n' +
+    '  text.reserve(ailyChipIntelliIRRawCount * 7U);\n' +
     '  for (size_t index = 0; index < ailyChipIntelliIRRawCount; ++index) {\n' +
     '    if (index != 0) text += \',\';\n' +
     '    text += ailyChipIntelliIRRaw[index];\n' +
@@ -78,18 +83,45 @@ function ensureChipIntelliIRSearch(generator) {
     '}\n');
 }
 
+function ensureChipIntelliIRNECResult(generator) {
+  ensureChipIntelliIRRawBuffer(generator);
+  generator.addVariable('chipintelli_ir_nec_result',
+    'ChipIntelliIRClass::NECDecodeResult ailyChipIntelliIRNECResult;');
+}
+
+function chipIntelliIRWaitUntilIdle(block, generator) {
+  ensureChipIntelliIR(generator);
+  generator.addFunction('chipintelli_ir_wait_until_idle',
+    'bool ailyChipIntelliIRWaitUntilIdle(int64_t timeoutMs) {\n' +
+    '  const uint32_t timeout = timeoutMs < 0 ? 0U :\n' +
+    '    (timeoutMs > INT32_MAX ? (uint32_t)INT32_MAX : (uint32_t)timeoutMs);\n' +
+    '  return ChipIntelliIR.waitUntilIdle(timeout);\n' +
+    '}\n');
+  const timeout = chipIntelliIRValue(block, generator, 'TIMEOUT', '30000');
+  return 'ailyChipIntelliIRWaitUntilIdle(' + timeout + ')';
+}
+
+Arduino.forBlock['chipintelli_ir_init_default'] = function(block, generator) {
+  if (block.getFieldValue('MODE') === 'AirConditioner') {
+    ensureChipIntelliIRDatabase(generator);
+    return 'ChipIntelliIR.beginAirConditioner();\n';
+  }
+  ensureChipIntelliIR(generator);
+  return 'ChipIntelliIR.begin();\n';
+};
+
 Arduino.forBlock['chipintelli_ir_init_raw'] = function(block, generator) {
   ensureChipIntelliIR(generator);
-  const tx = chipIntelliIRValue(block, generator, 'TX_PIN', '2');
-  const rx = chipIntelliIRValue(block, generator, 'RX_PIN', '4');
+  const tx = chipIntelliIRValue(block, generator, 'TX_PIN', 'ChipIntelliIRClass::DefaultTransmitPin');
+  const rx = chipIntelliIRValue(block, generator, 'RX_PIN', 'ChipIntelliIRClass::DefaultReceivePin');
   const timer = ['0', '1', '2'].indexOf(block.getFieldValue('TIMER')) >= 0 ? block.getFieldValue('TIMER') : '2';
   return 'ChipIntelliIR.begin((uint8_t)(' + tx + '), (uint8_t)(' + rx + '), ' + timer + ');\n';
 };
 
 Arduino.forBlock['chipintelli_ir_init_air'] = function(block, generator) {
-  ensureChipIntelliIR(generator);
-  const tx = chipIntelliIRValue(block, generator, 'TX_PIN', '2');
-  const rx = chipIntelliIRValue(block, generator, 'RX_PIN', '4');
+  ensureChipIntelliIRDatabase(generator);
+  const tx = chipIntelliIRValue(block, generator, 'TX_PIN', 'ChipIntelliIRClass::DefaultTransmitPin');
+  const rx = chipIntelliIRValue(block, generator, 'RX_PIN', 'ChipIntelliIRClass::DefaultReceivePin');
   const resource = chipIntelliIRValue(block, generator, 'RESOURCE_ID', '50000');
   const timer = ['0', '1', '2'].indexOf(block.getFieldValue('TIMER')) >= 0 ? block.getFieldValue('TIMER') : '2';
   return 'ChipIntelliIR.beginAirConditioner((uint8_t)(' + tx + '), (uint8_t)(' + rx + '), ' + timer + ', (uint16_t)(' + resource + '));\n';
@@ -153,6 +185,33 @@ Arduino.forBlock['chipintelli_ir_received_text'] = function(block, generator) {
   return ['ailyChipIntelliIRRawText()', generator.ORDER_ATOMIC];
 };
 
+Arduino.forBlock['chipintelli_ir_decode_nec'] = function(block, generator) {
+  ensureChipIntelliIRNECResult(generator);
+  generator.addFunction('chipintelli_ir_nec_tolerance',
+    'static constexpr uint8_t ailyChipIntelliIRNECTolerance(int64_t percent) {\n' +
+    '  return percent < 0 ? 0 : (percent > ChipIntelliIRClass::MaximumNECTolerancePercent ?\n' +
+    '    ChipIntelliIRClass::MaximumNECTolerancePercent : static_cast<uint8_t>(percent));\n' +
+    '}\n');
+  const tolerance = chipIntelliIRValue(block, generator, 'TOLERANCE', '25');
+  const handler = generator.statementToCode(block, 'HANDLER') || '';
+  return 'if (ChipIntelliIRClass::decodeNEC(ailyChipIntelliIRRaw, ailyChipIntelliIRRawCount,\n' +
+    '    ailyChipIntelliIRNECResult, ailyChipIntelliIRNECTolerance(' + tolerance + '))) {\n' +
+    handler + '}\n';
+};
+
+Arduino.forBlock['chipintelli_ir_nec_field'] = function(block, generator) {
+  ensureChipIntelliIRNECResult(generator);
+  const selected = block.getFieldValue('FIELD');
+  const field = ['type', 'address', 'command', 'repeatCount'].indexOf(selected) >= 0 ? selected : 'type';
+  const code = 'ailyChipIntelliIRNECResult.' + field;
+  return [field === 'type' ? 'static_cast<uint8_t>(' + code + ')' : code, generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['chipintelli_ir_nec_frame_type'] = function(block, generator) {
+  const value = block.getFieldValue('FRAME_TYPE');
+  return [['0', '1', '2', '3'].indexOf(value) >= 0 ? value : '0', generator.ORDER_ATOMIC];
+};
+
 Arduino.forBlock['chipintelli_ir_receive_status'] = function(block, generator) {
   ensureChipIntelliIR(generator);
   return ['static_cast<uint8_t>(ChipIntelliIR.receiveStatus())', generator.ORDER_ATOMIC];
@@ -166,6 +225,14 @@ Arduino.forBlock['chipintelli_ir_receive_status_value'] = function(block, genera
 Arduino.forBlock['chipintelli_ir_is_busy'] = function(block, generator) {
   ensureChipIntelliIR(generator);
   return ['ChipIntelliIR.isBusy()', generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['chipintelli_ir_wait_until_idle'] = function(block, generator) {
+  return chipIntelliIRWaitUntilIdle(block, generator) + ';\n';
+};
+
+Arduino.forBlock['chipintelli_ir_wait_until_idle_result'] = function(block, generator) {
+  return [chipIntelliIRWaitUntilIdle(block, generator), generator.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['chipintelli_ir_select_air_brand'] = function(block, generator) {
@@ -188,6 +255,16 @@ Arduino.forBlock['chipintelli_ir_select_air_code'] = function(block, generator) 
 Arduino.forBlock['chipintelli_ir_air_code'] = function(block, generator) {
   ensureChipIntelliIR(generator);
   return ['ChipIntelliIR.airCode()', generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['chipintelli_ir_air_send_status'] = function(block, generator) {
+  ensureChipIntelliIR(generator);
+  return ['static_cast<uint8_t>(ChipIntelliIR.airSendStatus())', generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['chipintelli_ir_air_send_status_value'] = function(block, generator) {
+  const value = block.getFieldValue('STATUS');
+  return [['0', '1', '2', '3', '4'].indexOf(value) >= 0 ? value : '0', generator.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['chipintelli_ir_send_air_command'] = function(block, generator) {

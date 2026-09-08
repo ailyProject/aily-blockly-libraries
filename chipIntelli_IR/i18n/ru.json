@@ -4,7 +4,26 @@
     "原始波形与 NEC": "Raw waveform and NEC",
     "空调码库": "Air-conditioner database",
     "空调码搜索": "Air-code search",
-    "诊断": "Diagnostics"
+    "诊断": "Diagnostics",
+    "高级初始化": "Расширенная инициализация"
+  },
+  "chipintelli_ir_init_default": {
+    "message0": "инициализировать ИК с выводами платы по умолчанию, режим %1",
+    "tooltip": "Выводы по умолчанию: PA2/PA4, для easyVoice — PA2/PA3. Режим кондиционера автоматически включает базу данных; требуется ядро 1.0.17+. Стандартная конфигурация CI1302 не поддерживается.",
+    "args0": [
+      {
+        "options": [
+          [
+            "Необработанный сигнал / NEC",
+            "Raw"
+          ],
+          [
+            "База кодов кондиционеров",
+            "AirConditioner"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_init_raw": {
     "message0": "initialize CI13XX raw infrared TX %1 RX %2 timer %3",
@@ -32,7 +51,7 @@
   },
   "chipintelli_ir_init_air": {
     "message0": "initialize CI13XX air-conditioner IR TX %1 RX %2 timer %3 database resource ID %4",
-    "tooltip": "Initialize the official 36-brand air-conditioner database; the default resource ID is 50000.",
+    "tooltip": "Инициализирует официальный режим кондиционера для 36 марок и автоматически включает базу данных. ID ресурса по умолчанию: 50000. Требуется ядро 1.0.17+; стандартная конфигурация CI1302 не поддерживается.",
     "args0": [
       null,
       null,
@@ -57,7 +76,7 @@
   },
   "chipintelli_ir_send_raw": {
     "message0": "send raw infrared waveform %1",
-    "tooltip": "Send comma-, semicolon- or whitespace-separated microsecond durations, up to 1024 entries."
+    "tooltip": "Передаёт длительности по 200–131070 микросекунд, разделённые запятыми, точками с запятой или пробелами. Импульсы и паузы чередуются, начиная с импульса; не более 1024 значений."
   },
   "chipintelli_ir_send_nec": {
     "message0": "send NEC address %1 command %2 repeats %3",
@@ -91,6 +110,63 @@
   "chipintelli_ir_received_text": {
     "message0": "most recent raw waveform text",
     "tooltip": "Return comma-separated microsecond durations."
+  },
+  "chipintelli_ir_decode_nec": {
+    "message0": "когда последний сигнал декодирован как NEC с допуском %1 %%",
+    "message1": "выполнить %1",
+    "tooltip": "Декодирует последний прочитанный или разобранный сигнал. Допуск по умолчанию — 25%, диапазон — 0–40%. Поддерживает стандартный NEC, расширенный NEC и отдельные кадры повтора."
+  },
+  "chipintelli_ir_nec_field": {
+    "message0": "последний результат декодирования NEC %1",
+    "tooltip": "У отдельного кадра повтора адрес и команда равны 0; программа должна связать его с предыдущим полным кадром.",
+    "args0": [
+      {
+        "options": [
+          [
+            "Тип кадра",
+            "type"
+          ],
+          [
+            "Адрес",
+            "address"
+          ],
+          [
+            "Команда",
+            "command"
+          ],
+          [
+            "Число кадров повтора",
+            "repeatCount"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_ir_nec_frame_type": {
+    "message0": "тип кадра NEC %1",
+    "tooltip": "0 = Неизвестный; 1 = Стандартный NEC; 2 = Расширенный NEC; 3 = Кадр повтора",
+    "args0": [
+      {
+        "options": [
+          [
+            "Неизвестный",
+            "0"
+          ],
+          [
+            "Стандартный NEC",
+            "1"
+          ],
+          [
+            "Расширенный NEC",
+            "2"
+          ],
+          [
+            "Кадр повтора",
+            "3"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_receive_status": {
     "message0": "infrared receive status",
@@ -128,7 +204,49 @@
   },
   "chipintelli_ir_is_busy": {
     "message0": "infrared driver is busy",
-    "tooltip": "Check whether the driver is sending, receiving or searching."
+    "tooltip": "Проверяет, занят ли драйвер передачей, приёмом или поиском, включая очередь и интервал тишины между двумя кадрами."
+  },
+  "chipintelli_ir_wait_until_idle": {
+    "message0": "ждать освобождения ИК, тайм-аут %1 мс",
+    "tooltip": "Блокирует выполнение до освобождения драйвера, включая очередь, передачу и интервал тишины между двумя кадрами. Тайм-аут по умолчанию: 30000 мс. При сбое проверьте последний код ошибки."
+  },
+  "chipintelli_ir_wait_until_idle_result": {
+    "message0": "ожидание освобождения ИК с тайм-аутом %1 мс успешно",
+    "tooltip": "Блокирует выполнение до освобождения драйвера, включая очередь, передачу и интервал тишины между двумя кадрами. Тайм-аут по умолчанию: 30000 мс. Возвращает истину при успехе и ложь при сбое; при сбое проверьте последний код ошибки."
+  },
+  "chipintelli_ir_air_send_status": {
+    "message0": "состояние ИК-передачи кондиционера",
+    "tooltip": "0 = Свободен; 1 = В очереди; 2 = Передача; 3 = Ожидание следующего кадра; 4 = Сбой"
+  },
+  "chipintelli_ir_air_send_status_value": {
+    "message0": "состояние ИК-передачи кондиционера %1",
+    "tooltip": "0 = Свободен; 1 = В очереди; 2 = Передача; 3 = Ожидание следующего кадра; 4 = Сбой",
+    "args0": [
+      {
+        "options": [
+          [
+            "Свободен",
+            "0"
+          ],
+          [
+            "В очереди",
+            "1"
+          ],
+          [
+            "Передача",
+            "2"
+          ],
+          [
+            "Ожидание следующего кадра",
+            "3"
+          ],
+          [
+            "Сбой",
+            "4"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_select_air_brand": {
     "message0": "select air-conditioner brand %1",

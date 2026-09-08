@@ -4,7 +4,26 @@
     "原始波形与 NEC": "Raw waveform and NEC",
     "空调码库": "Air-conditioner database",
     "空调码搜索": "Air-code search",
-    "诊断": "Diagnostics"
+    "诊断": "Diagnostics",
+    "高级初始化": "고급 초기화"
+  },
+  "chipintelli_ir_init_default": {
+    "message0": "보드 기본 핀으로 적외선 초기화 모드 %1",
+    "tooltip": "기본 핀은 PA2/PA4이며 easyVoice는 PA2/PA3입니다. 에어컨 모드는 데이터베이스를 자동으로 활성화합니다. 코어 1.0.17 이상이 필요하며 CI1302 표준 구성은 지원하지 않습니다.",
+    "args0": [
+      {
+        "options": [
+          [
+            "원시 파형 / NEC",
+            "Raw"
+          ],
+          [
+            "에어컨 코드 데이터베이스",
+            "AirConditioner"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_init_raw": {
     "message0": "initialize CI13XX raw infrared TX %1 RX %2 timer %3",
@@ -32,7 +51,7 @@
   },
   "chipintelli_ir_init_air": {
     "message0": "initialize CI13XX air-conditioner IR TX %1 RX %2 timer %3 database resource ID %4",
-    "tooltip": "Initialize the official 36-brand air-conditioner database; the default resource ID is 50000.",
+    "tooltip": "공식 36개 브랜드 에어컨 모드를 초기화하고 데이터베이스를 자동으로 활성화합니다. 기본 리소스 ID는 50000입니다. 코어 1.0.17 이상이 필요하며 CI1302 표준 구성은 지원하지 않습니다.",
     "args0": [
       null,
       null,
@@ -57,7 +76,7 @@
   },
   "chipintelli_ir_send_raw": {
     "message0": "send raw infrared waveform %1",
-    "tooltip": "Send comma-, semicolon- or whitespace-separated microsecond durations, up to 1024 entries."
+    "tooltip": "쉼표, 세미콜론 또는 공백으로 구분된 항목당 200~131070 마이크로초의 지속 시간을 전송합니다. 펄스로 시작하여 펄스와 휴지 구간을 번갈아 지정하며 최대 1024개 항목을 지원합니다."
   },
   "chipintelli_ir_send_nec": {
     "message0": "send NEC address %1 command %2 repeats %3",
@@ -91,6 +110,63 @@
   "chipintelli_ir_received_text": {
     "message0": "most recent raw waveform text",
     "tooltip": "Return comma-separated microsecond durations."
+  },
+  "chipintelli_ir_decode_nec": {
+    "message0": "최근 파형이 허용 오차 %1 %%로 NEC 디코딩에 성공하면",
+    "message1": "실행 %1",
+    "tooltip": "최근에 읽거나 파싱한 파형을 디코딩합니다. 허용 오차는 기본 25%이며 0~40%로 제한됩니다. 표준 NEC, 확장 NEC 및 독립 반복 프레임을 지원합니다."
+  },
+  "chipintelli_ir_nec_field": {
+    "message0": "최근 NEC 디코딩 결과 %1",
+    "tooltip": "독립 반복 프레임의 주소와 명령은 0입니다. 프로그램에서 이전의 완전한 프레임과 직접 연결해야 합니다.",
+    "args0": [
+      {
+        "options": [
+          [
+            "프레임 유형",
+            "type"
+          ],
+          [
+            "주소",
+            "address"
+          ],
+          [
+            "명령",
+            "command"
+          ],
+          [
+            "반복 프레임 수",
+            "repeatCount"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_ir_nec_frame_type": {
+    "message0": "NEC 프레임 유형 %1",
+    "tooltip": "0 = 알 수 없음; 1 = 표준 NEC; 2 = 확장 NEC; 3 = 반복 프레임",
+    "args0": [
+      {
+        "options": [
+          [
+            "알 수 없음",
+            "0"
+          ],
+          [
+            "표준 NEC",
+            "1"
+          ],
+          [
+            "확장 NEC",
+            "2"
+          ],
+          [
+            "반복 프레임",
+            "3"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_receive_status": {
     "message0": "infrared receive status",
@@ -128,7 +204,49 @@
   },
   "chipintelli_ir_is_busy": {
     "message0": "infrared driver is busy",
-    "tooltip": "Check whether the driver is sending, receiving or searching."
+    "tooltip": "대기열과 두 프레임 사이의 무신호 구간을 포함하여 드라이버가 전송, 수신 또는 검색 중인지 확인합니다."
+  },
+  "chipintelli_ir_wait_until_idle": {
+    "message0": "적외선 유휴 상태까지 대기 제한 시간 %1 ms",
+    "tooltip": "대기열, 전송 및 두 프레임 사이의 무신호 구간을 포함하여 드라이버가 유휴 상태가 될 때까지 실행을 차단하고 기다립니다. 기본 제한 시간은 30000 ms입니다. 실패하면 최근 오류 코드를 확인하세요."
+  },
+  "chipintelli_ir_wait_until_idle_result": {
+    "message0": "적외선 유휴 상태까지 대기 제한 시간 %1 ms 성공",
+    "tooltip": "대기열, 전송 및 두 프레임 사이의 무신호 구간을 포함하여 드라이버가 유휴 상태가 될 때까지 실행을 차단하고 기다립니다. 기본 제한 시간은 30000 ms입니다. 성공하면 참, 실패하면 거짓을 반환합니다. 실패하면 최근 오류 코드를 확인하세요."
+  },
+  "chipintelli_ir_air_send_status": {
+    "message0": "에어컨 적외선 전송 상태",
+    "tooltip": "0 = 유휴; 1 = 대기열에 있음; 2 = 전송 중; 3 = 다음 프레임 대기 중; 4 = 실패"
+  },
+  "chipintelli_ir_air_send_status_value": {
+    "message0": "에어컨 적외선 전송 상태 %1",
+    "tooltip": "0 = 유휴; 1 = 대기열에 있음; 2 = 전송 중; 3 = 다음 프레임 대기 중; 4 = 실패",
+    "args0": [
+      {
+        "options": [
+          [
+            "유휴",
+            "0"
+          ],
+          [
+            "대기열에 있음",
+            "1"
+          ],
+          [
+            "전송 중",
+            "2"
+          ],
+          [
+            "다음 프레임 대기 중",
+            "3"
+          ],
+          [
+            "실패",
+            "4"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_select_air_brand": {
     "message0": "select air-conditioner brand %1",

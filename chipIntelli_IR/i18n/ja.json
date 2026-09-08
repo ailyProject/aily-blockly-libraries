@@ -4,7 +4,26 @@
     "原始波形与 NEC": "Raw waveform and NEC",
     "空调码库": "Air-conditioner database",
     "空调码搜索": "Air-code search",
-    "诊断": "Diagnostics"
+    "诊断": "Diagnostics",
+    "高级初始化": "詳細な初期化"
+  },
+  "chipintelli_ir_init_default": {
+    "message0": "ボードの既定ピンで赤外線を初期化 モード %1",
+    "tooltip": "標準ピンは PA2/PA4、easyVoice は PA2/PA3 です。エアコンモードではデータベースを自動で有効にします。コア 1.0.17 以降が必要で、CI1302 の標準構成は非対応です。",
+    "args0": [
+      {
+        "options": [
+          [
+            "生波形 / NEC",
+            "Raw"
+          ],
+          [
+            "エアコンコードデータベース",
+            "AirConditioner"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_init_raw": {
     "message0": "initialize CI13XX raw infrared TX %1 RX %2 timer %3",
@@ -32,7 +51,7 @@
   },
   "chipintelli_ir_init_air": {
     "message0": "initialize CI13XX air-conditioner IR TX %1 RX %2 timer %3 database resource ID %4",
-    "tooltip": "Initialize the official 36-brand air-conditioner database; the default resource ID is 50000.",
+    "tooltip": "公式の36ブランドのエアコンモードを初期化し、データベースを自動で有効にします。標準リソース ID は 50000。コア 1.0.17 以降が必要で、CI1302 の標準構成は非対応です。",
     "args0": [
       null,
       null,
@@ -57,7 +76,7 @@
   },
   "chipintelli_ir_send_raw": {
     "message0": "send raw infrared waveform %1",
-    "tooltip": "Send comma-, semicolon- or whitespace-separated microsecond durations, up to 1024 entries."
+    "tooltip": "カンマ、セミコロン、空白で区切った各 200～131070 マイクロ秒の長さを送信します。パルスから始めてパルスと休止を交互に指定し、最大 1024 項目です。"
   },
   "chipintelli_ir_send_nec": {
     "message0": "send NEC address %1 command %2 repeats %3",
@@ -91,6 +110,63 @@
   "chipintelli_ir_received_text": {
     "message0": "most recent raw waveform text",
     "tooltip": "Return comma-separated microsecond durations."
+  },
+  "chipintelli_ir_decode_nec": {
+    "message0": "最新の波形を許容誤差 %1 %% で NEC としてデコードできたとき",
+    "message1": "実行 %1",
+    "tooltip": "直近に読み取りまたは解析した波形をデコードします。許容誤差の既定値は 25%、範囲は 0～40% です。標準 NEC、拡張 NEC、独立したリピートフレームに対応します。"
+  },
+  "chipintelli_ir_nec_field": {
+    "message0": "最新の NEC デコード結果 %1",
+    "tooltip": "独立したリピートフレームのアドレスとコマンドは 0 です。プログラムで直前の完全なフレームと関連付ける必要があります。",
+    "args0": [
+      {
+        "options": [
+          [
+            "フレーム種別",
+            "type"
+          ],
+          [
+            "アドレス",
+            "address"
+          ],
+          [
+            "コマンド",
+            "command"
+          ],
+          [
+            "リピートフレーム数",
+            "repeatCount"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_ir_nec_frame_type": {
+    "message0": "NEC フレーム種別 %1",
+    "tooltip": "0 = 不明; 1 = 標準 NEC; 2 = 拡張 NEC; 3 = リピートフレーム",
+    "args0": [
+      {
+        "options": [
+          [
+            "不明",
+            "0"
+          ],
+          [
+            "標準 NEC",
+            "1"
+          ],
+          [
+            "拡張 NEC",
+            "2"
+          ],
+          [
+            "リピートフレーム",
+            "3"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_receive_status": {
     "message0": "infrared receive status",
@@ -128,7 +204,49 @@
   },
   "chipintelli_ir_is_busy": {
     "message0": "infrared driver is busy",
-    "tooltip": "Check whether the driver is sending, receiving or searching."
+    "tooltip": "キューと 2 つのフレーム間の無信号期間を含め、ドライバーが送信、受信、検索中かどうかを確認します。"
+  },
+  "chipintelli_ir_wait_until_idle": {
+    "message0": "赤外線が待機状態になるまで待つ タイムアウト %1 ms",
+    "tooltip": "キュー、送信、2 つのフレーム間の無信号期間を含め、ドライバーが待機状態になるまで処理を停止して待ちます。既定のタイムアウトは 30000 ms です。失敗時は最新のエラーコードを確認してください。"
+  },
+  "chipintelli_ir_wait_until_idle_result": {
+    "message0": "赤外線が待機状態になるまで待つ タイムアウト %1 ms 成功",
+    "tooltip": "キュー、送信、2 つのフレーム間の無信号期間を含め、ドライバーが待機状態になるまで処理を停止して待ちます。既定のタイムアウトは 30000 ms です。成功時は真、失敗時は偽を返します。失敗時は最新のエラーコードを確認してください。"
+  },
+  "chipintelli_ir_air_send_status": {
+    "message0": "エアコン赤外線の送信状態",
+    "tooltip": "0 = 待機中; 1 = キュー待ち; 2 = 送信中; 3 = 次のフレーム待ち; 4 = 失敗"
+  },
+  "chipintelli_ir_air_send_status_value": {
+    "message0": "エアコン赤外線の送信状態 %1",
+    "tooltip": "0 = 待機中; 1 = キュー待ち; 2 = 送信中; 3 = 次のフレーム待ち; 4 = 失敗",
+    "args0": [
+      {
+        "options": [
+          [
+            "待機中",
+            "0"
+          ],
+          [
+            "キュー待ち",
+            "1"
+          ],
+          [
+            "送信中",
+            "2"
+          ],
+          [
+            "次のフレーム待ち",
+            "3"
+          ],
+          [
+            "失敗",
+            "4"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_select_air_brand": {
     "message0": "select air-conditioner brand %1",

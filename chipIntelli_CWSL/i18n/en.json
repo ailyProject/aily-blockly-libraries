@@ -4,7 +4,8 @@
     "初始化": "Initialization",
     "学习与删除": "Learning and deletion",
     "状态与容量": "State and capacity",
-    "异步事件": "Asynchronous events"
+    "异步事件": "Asynchronous events",
+    "诊断与事件队列": "Diagnostics and event queues"
   },
   "chipintelli_cwsl_init": {
     "message0": "initialize CI13XX command-word self-learning timeout %1 ms",
@@ -16,7 +17,7 @@
   },
   "chipintelli_cwsl_learn": {
     "message0": "learn %1 command ID %2 group ID %3",
-    "tooltip": "Start asynchronous learning; the command ID must exist in the active cmd_info resource.",
+    "tooltip": "Start asynchronous learning; command ID: 0–65535, group ID: 0–255. The command ID must exist in the active cmd_info resource; IDs 199–208 are reserved.",
     "args0": [
       {
         "options": [
@@ -40,7 +41,7 @@
   },
   "chipintelli_cwsl_erase_template": {
     "message0": "erase learned %1 command ID %2 group ID %3",
-    "tooltip": "Submit deletion of a specific learned template.",
+    "tooltip": "Submit deletion of a learned template. Command ID: 0–65535; group ID: 0–255.",
     "args0": [
       {
         "options": [
@@ -95,7 +96,7 @@
   },
   "chipintelli_cwsl_state": {
     "message0": "current self-learning state",
-    "tooltip": "Return 0 idle, 1 recognizing, 2 learning, 3 deleting, or 255 unavailable."
+    "tooltip": "Return 0 idle, 1 recognizing, 2 learning, 3 deleting, or 255 unavailable; return 255 before begin succeeds."
   },
   "chipintelli_cwsl_state_value": {
     "message0": "self-learning state %1",
@@ -129,7 +130,7 @@
   },
   "chipintelli_cwsl_count": {
     "message0": "%1 count",
-    "tooltip": "Query learned-template usage and capacity.",
+    "tooltip": "Query learned-template usage and capacity; return -1 if begin has not succeeded.",
     "args0": [
       {
         "options": [
@@ -159,7 +160,7 @@
   },
   "chipintelli_cwsl_dropped_events": {
     "message0": "number of dropped self-learning events",
-    "tooltip": "Return the accumulated event-queue overflow count."
+    "tooltip": "Return the sum of dropped-event counts from the independent polling and callback queues."
   },
   "chipintelli_cwsl_event_type": {
     "message0": "current self-learning event type",
@@ -268,6 +269,116 @@
           [
             "6",
             "6"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_is_begun": {
+    "message0": "self-learning initialized successfully",
+    "tooltip": "True if the latest begin succeeded and end has not been called."
+  },
+  "chipintelli_cwsl_last_error": {
+    "message0": "last self-learning operation error code",
+    "tooltip": "Error code from the last initialization, learning, deletion or cancellation request. 0 means no error; it does not mean asynchronous completion."
+  },
+  "chipintelli_cwsl_error_value": {
+    "message0": "self-learning error %1",
+    "tooltip": "Use to compare with the last operation error code.",
+    "args0": [
+      {
+        "options": [
+          [
+            "no error",
+            "0"
+          ],
+          [
+            "profile disabled",
+            "1"
+          ],
+          [
+            "SDK start failed",
+            "2"
+          ],
+          [
+            "SDK initialization failed",
+            "3"
+          ],
+          [
+            "initialization timed out",
+            "4"
+          ],
+          [
+            "request rejected",
+            "5"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_error_string": {
+    "message0": "last self-learning operation error description",
+    "tooltip": "Return the upstream library's English error description."
+  },
+  "chipintelli_cwsl_state_name": {
+    "message0": "current self-learning state name",
+    "tooltip": "Return the current state name in English."
+  },
+  "chipintelli_cwsl_event_name": {
+    "message0": "current self-learning event %1 name",
+    "tooltip": "Read the current event's English name inside an event handler.",
+    "args0": [
+      {
+        "options": [
+          [
+            "event type",
+            "TYPE"
+          ],
+          [
+            "attempt result",
+            "RESULT"
+          ],
+          [
+            "word type",
+            "WORD_TYPE"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_pending_events": {
+    "message0": "number of pending self-learning events",
+    "tooltip": "Return the polling queue backlog, up to 15 events."
+  },
+  "chipintelli_cwsl_clear_events": {
+    "message0": "clear pending self-learning events",
+    "tooltip": "Clear only the polling queue; does not cancel learning, deletion or callbacks."
+  },
+  "chipintelli_cwsl_dropped_read_events": {
+    "message0": "number of dropped self-learning polling events",
+    "tooltip": "Return the polling queue's dropped-event count."
+  },
+  "chipintelli_cwsl_dropped_callback_events": {
+    "message0": "number of dropped self-learning callback events",
+    "tooltip": "Return the callback delivery failure count, independent of the polling queue."
+  },
+  "chipintelli_cwsl_word_type_value": {
+    "message0": "self-learning word type %1",
+    "tooltip": "Use to compare with the current event's word type.",
+    "args0": [
+      {
+        "options": [
+          [
+            "command word",
+            "0"
+          ],
+          [
+            "wake word",
+            "1"
+          ],
+          [
+            "all",
+            "2"
           ]
         ]
       }

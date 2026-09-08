@@ -4,7 +4,26 @@
     "原始波形与 NEC": "原始波形与 NEC",
     "空调码库": "空调码库",
     "空调码搜索": "空调码搜索",
-    "诊断": "诊断"
+    "诊断": "诊断",
+    "高级初始化": "高级初始化"
+  },
+  "chipintelli_ir_init_default": {
+    "message0": "使用开发板默认引脚初始化红外 模式 %1",
+    "tooltip": "默认引脚为 PA2/PA4，easyVoice 为 PA2/PA3。空调模式自动启用数据库；需核心 1.0.17+，不支持 CI1302 标准布局。",
+    "args0": [
+      {
+        "options": [
+          [
+            "原始波形 / NEC",
+            "Raw"
+          ],
+          [
+            "空调码库",
+            "AirConditioner"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_init_raw": {
     "message0": "初始化 CI13XX 红外原始模式 TX %1 RX %2 定时器 %3",
@@ -12,11 +31,11 @@
   },
   "chipintelli_ir_init_air": {
     "message0": "初始化 CI13XX 空调红外 TX %1 RX %2 定时器 %3 数据库资源 ID %4",
-    "tooltip": "初始化原厂 36 品牌空调数据库模式；默认资源 ID 为 50000"
+    "tooltip": "初始化原厂 36 品牌空调模式并自动启用数据库；默认资源 ID 为 50000，需核心 1.0.17+，不支持 CI1302 标准布局。"
   },
   "chipintelli_ir_send_raw": {
     "message0": "发送原始红外波形 %1",
-    "tooltip": "发送以逗号、分号或空白分隔的微秒时长；mark/space 交替且从 mark 开始，最多 1024 项"
+    "tooltip": "发送以逗号、分号或空白分隔的微秒时长；每项为 200～131070 μs，mark/space 交替且从 mark 开始，最多 1024 项。"
   },
   "chipintelli_ir_send_nec": {
     "message0": "发送 NEC 地址 %1 命令 %2 重复 %3 次",
@@ -51,6 +70,63 @@
     "message0": "最近原始红外波形 文本",
     "tooltip": "返回逗号分隔的微秒时长文本"
   },
+  "chipintelli_ir_decode_nec": {
+    "message0": "当最近波形解码为 NEC 容差 %1 %%",
+    "message1": "执行 %1",
+    "tooltip": "解码最近已读取或解析的波形；容差默认 25%，限制为 0～40%；支持标准 NEC、扩展 NEC 和独立重复帧。"
+  },
+  "chipintelli_ir_nec_field": {
+    "message0": "最近 NEC 解码 %1",
+    "tooltip": "独立重复帧的地址和命令均为 0，需要在程序中自行关联上一次完整帧。",
+    "args0": [
+      {
+        "options": [
+          [
+            "帧类型",
+            "type"
+          ],
+          [
+            "地址",
+            "address"
+          ],
+          [
+            "命令",
+            "command"
+          ],
+          [
+            "重复帧数",
+            "repeatCount"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_ir_nec_frame_type": {
+    "message0": "NEC 帧类型 %1",
+    "tooltip": "0 = 未知; 1 = 标准 NEC; 2 = 扩展 NEC; 3 = 重复帧",
+    "args0": [
+      {
+        "options": [
+          [
+            "未知",
+            "0"
+          ],
+          [
+            "标准 NEC",
+            "1"
+          ],
+          [
+            "扩展 NEC",
+            "2"
+          ],
+          [
+            "重复帧",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
   "chipintelli_ir_receive_status": {
     "message0": "红外接收状态",
     "tooltip": "返回 0 空闲、1 接收中、2 就绪、3 超时、4 错误"
@@ -61,7 +137,49 @@
   },
   "chipintelli_ir_is_busy": {
     "message0": "红外驱动忙碌",
-    "tooltip": "检查红外驱动当前是否正在发送、接收或搜索"
+    "tooltip": "判断红外驱动当前是否正在发送、接收或搜索，包含排队及双帧之间的静默窗口。"
+  },
+  "chipintelli_ir_wait_until_idle": {
+    "message0": "等待红外空闲 超时 %1 ms",
+    "tooltip": "阻塞等待驱动空闲，包含排队、发送和双帧之间的静默窗口；默认超时 30000 ms，失败时查询最近错误码。"
+  },
+  "chipintelli_ir_wait_until_idle_result": {
+    "message0": "等待红外空闲 超时 %1 ms 成功",
+    "tooltip": "阻塞等待驱动空闲，包含排队、发送和双帧之间的静默窗口；默认超时 30000 ms，成功返回真，失败返回假并可查询最近错误码。"
+  },
+  "chipintelli_ir_air_send_status": {
+    "message0": "空调红外发送状态",
+    "tooltip": "0 = 空闲; 1 = 排队中; 2 = 发送中; 3 = 等待后续帧; 4 = 失败"
+  },
+  "chipintelli_ir_air_send_status_value": {
+    "message0": "空调红外发送状态 %1",
+    "tooltip": "0 = 空闲; 1 = 排队中; 2 = 发送中; 3 = 等待后续帧; 4 = 失败",
+    "args0": [
+      {
+        "options": [
+          [
+            "空闲",
+            "0"
+          ],
+          [
+            "排队中",
+            "1"
+          ],
+          [
+            "发送中",
+            "2"
+          ],
+          [
+            "等待后续帧",
+            "3"
+          ],
+          [
+            "失败",
+            "4"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_select_air_brand": {
     "message0": "选择空调品牌 %1",

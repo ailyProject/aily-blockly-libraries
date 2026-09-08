@@ -4,7 +4,26 @@
     "原始波形与 NEC": "原始波形与 NEC",
     "空调码库": "空调码库",
     "空调码搜索": "空调码搜索",
-    "诊断": "诊断"
+    "诊断": "诊断",
+    "高级初始化": "進階初始化"
+  },
+  "chipintelli_ir_init_default": {
+    "message0": "使用開發板預設引腳初始化紅外 模式 %1",
+    "tooltip": "預設引腳為 PA2/PA4，easyVoice 為 PA2/PA3。空調模式自動啟用資料庫；需要核心 1.0.17+，不支援 CI1302 標準配置。",
+    "args0": [
+      {
+        "options": [
+          [
+            "原始波形 / NEC",
+            "Raw"
+          ],
+          [
+            "空調碼庫",
+            "AirConditioner"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_init_raw": {
     "message0": "初始化 CI13XX 红外原始模式 TX %1 RX %2 定时器 %3",
@@ -12,11 +31,11 @@
   },
   "chipintelli_ir_init_air": {
     "message0": "初始化 CI13XX 空调红外 TX %1 RX %2 定时器 %3 数据库资源 ID %4",
-    "tooltip": "初始化原厂 36 品牌空调数据库模式；默认资源 ID 为 50000"
+    "tooltip": "初始化原廠 36 品牌空調模式並自動啟用資料庫；預設資源 ID 為 50000，需要核心 1.0.17+，不支援 CI1302 標準配置。"
   },
   "chipintelli_ir_send_raw": {
     "message0": "发送原始红外波形 %1",
-    "tooltip": "发送以逗号、分号或空白分隔的微秒时长；mark/space 交替且从 mark 开始，最多 1024 项"
+    "tooltip": "傳送以逗號、分號或空白分隔的微秒時長；每項為 200～131070 μs，mark/space 交替且從 mark 開始，最多 1024 項。"
   },
   "chipintelli_ir_send_nec": {
     "message0": "发送 NEC 地址 %1 命令 %2 重复 %3 次",
@@ -51,6 +70,63 @@
     "message0": "最近原始红外波形 文本",
     "tooltip": "返回逗号分隔的微秒时长文本"
   },
+  "chipintelli_ir_decode_nec": {
+    "message0": "當最近波形解碼為 NEC 容差 %1 %%",
+    "message1": "執行 %1",
+    "tooltip": "解碼最近已讀取或解析的波形；容差預設 25%，限制為 0～40%；支援標準 NEC、擴展 NEC 和獨立重複幀。"
+  },
+  "chipintelli_ir_nec_field": {
+    "message0": "最近 NEC 解碼 %1",
+    "tooltip": "獨立重複幀的地址和命令均為 0，需要在程式中自行關聯上一次完整幀。",
+    "args0": [
+      {
+        "options": [
+          [
+            "幀類型",
+            "type"
+          ],
+          [
+            "地址",
+            "address"
+          ],
+          [
+            "命令",
+            "command"
+          ],
+          [
+            "重複幀數",
+            "repeatCount"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_ir_nec_frame_type": {
+    "message0": "NEC 幀類型 %1",
+    "tooltip": "0 = 未知; 1 = 標準 NEC; 2 = 擴展 NEC; 3 = 重複幀",
+    "args0": [
+      {
+        "options": [
+          [
+            "未知",
+            "0"
+          ],
+          [
+            "標準 NEC",
+            "1"
+          ],
+          [
+            "擴展 NEC",
+            "2"
+          ],
+          [
+            "重複幀",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
   "chipintelli_ir_receive_status": {
     "message0": "红外接收状态",
     "tooltip": "返回 0 空闲、1 接收中、2 就绪、3 超时、4 错误"
@@ -61,7 +137,49 @@
   },
   "chipintelli_ir_is_busy": {
     "message0": "红外驱动忙碌",
-    "tooltip": "检查红外驱动当前是否正在发送、接收或搜索"
+    "tooltip": "判斷紅外驅動目前是否正在傳送、接收或搜尋，包含排隊及雙幀之間的靜默時段。"
+  },
+  "chipintelli_ir_wait_until_idle": {
+    "message0": "等待紅外閒置 逾時 %1 ms",
+    "tooltip": "阻塞等待驅動閒置，包含排隊、傳送和雙幀之間的靜默時段；預設逾時 30000 ms，失敗時查詢最近錯誤碼。"
+  },
+  "chipintelli_ir_wait_until_idle_result": {
+    "message0": "等待紅外閒置 逾時 %1 ms 成功",
+    "tooltip": "阻塞等待驅動閒置，包含排隊、傳送和雙幀之間的靜默時段；預設逾時 30000 ms，成功傳回真，失敗傳回假並可查詢最近錯誤碼。"
+  },
+  "chipintelli_ir_air_send_status": {
+    "message0": "空調紅外傳送狀態",
+    "tooltip": "0 = 閒置; 1 = 排隊中; 2 = 傳送中; 3 = 等待後續幀; 4 = 失敗"
+  },
+  "chipintelli_ir_air_send_status_value": {
+    "message0": "空調紅外傳送狀態 %1",
+    "tooltip": "0 = 閒置; 1 = 排隊中; 2 = 傳送中; 3 = 等待後續幀; 4 = 失敗",
+    "args0": [
+      {
+        "options": [
+          [
+            "閒置",
+            "0"
+          ],
+          [
+            "排隊中",
+            "1"
+          ],
+          [
+            "傳送中",
+            "2"
+          ],
+          [
+            "等待後續幀",
+            "3"
+          ],
+          [
+            "失敗",
+            "4"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_select_air_brand": {
     "message0": "选择空调品牌 %1",

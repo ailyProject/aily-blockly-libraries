@@ -4,7 +4,26 @@
     "原始波形与 NEC": "Raw waveform and NEC",
     "空调码库": "Air-conditioner database",
     "空调码搜索": "Air-code search",
-    "诊断": "Diagnostics"
+    "诊断": "Diagnostics",
+    "高级初始化": "تهيئة متقدمة"
+  },
+  "chipintelli_ir_init_default": {
+    "message0": "تهيئة الأشعة تحت الحمراء بدبابيس اللوحة الافتراضية، الوضع %1",
+    "tooltip": "الأطراف الافتراضية PA2/PA4، أو PA2/PA3 على easyVoice. يفعّل وضع المكيف قاعدة البيانات تلقائيًا؛ يتطلب النواة 1.0.17 أو أحدث. تخطيط CI1302 القياسي غير مدعوم.",
+    "args0": [
+      {
+        "options": [
+          [
+            "موجة خام / NEC",
+            "Raw"
+          ],
+          [
+            "قاعدة أكواد المكيفات",
+            "AirConditioner"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_init_raw": {
     "message0": "initialize CI13XX raw infrared TX %1 RX %2 timer %3",
@@ -32,7 +51,7 @@
   },
   "chipintelli_ir_init_air": {
     "message0": "initialize CI13XX air-conditioner IR TX %1 RX %2 timer %3 database resource ID %4",
-    "tooltip": "Initialize the official 36-brand air-conditioner database; the default resource ID is 50000.",
+    "tooltip": "تهيئة وضع المكيف الرسمي لـ36 علامة تجارية وتفعيل قاعدة البيانات تلقائيًا. معرّف المورد الافتراضي 50000. يتطلب النواة 1.0.17 أو أحدث؛ تخطيط CI1302 القياسي غير مدعوم.",
     "args0": [
       null,
       null,
@@ -57,7 +76,7 @@
   },
   "chipintelli_ir_send_raw": {
     "message0": "send raw infrared waveform %1",
-    "tooltip": "Send comma-, semicolon- or whitespace-separated microsecond durations, up to 1024 entries."
+    "tooltip": "يرسل مددًا تتراوح بين 200 و131070 ميكروثانية لكل عنصر، مفصولة بفواصل أو فواصل منقوطة أو مسافات. تتناوب النبضة والتوقف بدءًا بنبضة، بحد أقصى 1024 عنصرًا."
   },
   "chipintelli_ir_send_nec": {
     "message0": "send NEC address %1 command %2 repeats %3",
@@ -91,6 +110,63 @@
   "chipintelli_ir_received_text": {
     "message0": "most recent raw waveform text",
     "tooltip": "Return comma-separated microsecond durations."
+  },
+  "chipintelli_ir_decode_nec": {
+    "message0": "عند فك ترميز أحدث موجة إلى NEC بسماحية %1 %%",
+    "message1": "تنفيذ %1",
+    "tooltip": "يفك ترميز أحدث موجة تمت قراءتها أو تحليلها. السماحية الافتراضية 25% ومحدودة بالنطاق 0–40%. يدعم NEC القياسي وNEC الموسع وإطارات التكرار المستقلة."
+  },
+  "chipintelli_ir_nec_field": {
+    "message0": "أحدث نتيجة لفك ترميز NEC %1",
+    "tooltip": "عنوان وأمر إطار التكرار المستقل يساويان 0؛ يجب ربطه بالإطار الكامل السابق داخل البرنامج.",
+    "args0": [
+      {
+        "options": [
+          [
+            "نوع الإطار",
+            "type"
+          ],
+          [
+            "العنوان",
+            "address"
+          ],
+          [
+            "الأمر",
+            "command"
+          ],
+          [
+            "عدد إطارات التكرار",
+            "repeatCount"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_ir_nec_frame_type": {
+    "message0": "نوع إطار NEC %1",
+    "tooltip": "0 = غير معروف; 1 = NEC قياسي; 2 = NEC موسع; 3 = إطار تكرار",
+    "args0": [
+      {
+        "options": [
+          [
+            "غير معروف",
+            "0"
+          ],
+          [
+            "NEC قياسي",
+            "1"
+          ],
+          [
+            "NEC موسع",
+            "2"
+          ],
+          [
+            "إطار تكرار",
+            "3"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_receive_status": {
     "message0": "infrared receive status",
@@ -128,7 +204,49 @@
   },
   "chipintelli_ir_is_busy": {
     "message0": "infrared driver is busy",
-    "tooltip": "Check whether the driver is sending, receiving or searching."
+    "tooltip": "يتحقق مما إذا كان المشغل يرسل أو يستقبل أو يبحث، بما يشمل الطابور وفترة الصمت بين إطارين."
+  },
+  "chipintelli_ir_wait_until_idle": {
+    "message0": "انتظار خمول الأشعة تحت الحمراء بمهلة %1 مللي ثانية",
+    "tooltip": "يوقف التنفيذ حتى يصبح المشغل خاملاً، بما يشمل الطابور والإرسال وفترة الصمت بين إطارين. المهلة الافتراضية 30000 مللي ثانية. عند الفشل، تحقق من رمز الخطأ الأخير."
+  },
+  "chipintelli_ir_wait_until_idle_result": {
+    "message0": "نجاح انتظار خمول الأشعة تحت الحمراء بمهلة %1 مللي ثانية",
+    "tooltip": "يوقف التنفيذ حتى يصبح المشغل خاملاً، بما يشمل الطابور والإرسال وفترة الصمت بين إطارين. المهلة الافتراضية 30000 مللي ثانية. يعيد صحيح عند النجاح وخطأ عند الفشل؛ عند الفشل، تحقق من رمز الخطأ الأخير."
+  },
+  "chipintelli_ir_air_send_status": {
+    "message0": "حالة إرسال الأشعة تحت الحمراء للمكيف",
+    "tooltip": "0 = خامل; 1 = في الطابور; 2 = جارٍ الإرسال; 3 = بانتظار الإطار التالي; 4 = فشل"
+  },
+  "chipintelli_ir_air_send_status_value": {
+    "message0": "حالة إرسال الأشعة تحت الحمراء للمكيف %1",
+    "tooltip": "0 = خامل; 1 = في الطابور; 2 = جارٍ الإرسال; 3 = بانتظار الإطار التالي; 4 = فشل",
+    "args0": [
+      {
+        "options": [
+          [
+            "خامل",
+            "0"
+          ],
+          [
+            "في الطابور",
+            "1"
+          ],
+          [
+            "جارٍ الإرسال",
+            "2"
+          ],
+          [
+            "بانتظار الإطار التالي",
+            "3"
+          ],
+          [
+            "فشل",
+            "4"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_select_air_brand": {
     "message0": "select air-conditioner brand %1",
