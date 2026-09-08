@@ -1,0 +1,142 @@
+{
+  "toolbox_name": "InkSight",
+  "inksight_wifi": {
+    "message0": "InkSight WiFi verbinden SSID %1 Passwort %2",
+    "tooltip": "WiFi im STA-Modus verbinden (wartet bis zu 15 s, Auto-Reconnect aktiv); Grund bei letzter Fehler ablesen",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "inksight_setup": {
+    "message0": "InkSight-Server %1 Geräte-Token %2",
+    "tooltip": "Backend-Adresse und Geräte-Token von InkSight festlegen (bei Self-Hosting eigene Adresse; Token stammt aus der Website-Kopplung, darf leer sein)",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "inksight_fetch": {
+    "message0": "InkSight-Inhalt abrufen",
+    "tooltip": "/api/render über das Netzwerk anfordern und die Bitmap dekodieren; WiFi muss verbunden sein. Gibt bei Erfolg wahr zurück",
+    "args0": []
+  },
+  "inksight_draw": {
+    "message0": "InkSight-Inhalt auf %1 zeichnen",
+    "tooltip": "Zeichnet die abgerufene 400x300-Bitmap auf das E-Paper-Objekt; muss innerhalb des Zeichenbereichs einer Vollaktualisierung liegen",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_ready": {
+    "message0": "InkSight hat Bild",
+    "tooltip": "Ob mindestens ein Abruf erfolgreich war",
+    "args0": []
+  },
+  "inksight_error": {
+    "message0": "InkSight letzter Fehler",
+    "tooltip": "Beschreibung des letzten Abruffehlers (\"ok\" bei Erfolg)",
+    "args0": []
+  },
+  "inksight_pair": {
+    "message0": "InkSight Kopplungscode senden %1",
+    "tooltip": "Sendet den Kopplungscode der Website an das Backend, um die Gerätezuordnung zu bestätigen (leer überspringt); nach der Serverkonfiguration aufrufen",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_refresh_ms": {
+    "message0": "InkSight serverseitiges Aktualisierungsintervall (ms)",
+    "tooltip": "Vom Server über X-Refresh-Minutes übermitteltes Intervall (Standard 15 Minuten, begrenzt auf 1..1440)",
+    "args0": []
+  },
+  "inksight_due": {
+    "message0": "InkSight Aktualisierung fällig?",
+    "tooltip": "Planer wie im Original: nach dem Boot-Rendern folgt das persistente Intervall; ein 10-Minuten-Online-Fenster (5-s-Polling) öffnet nur nach erfolgreicher Übermittlung des Kopplungscodes",
+    "args0": []
+  },
+  "inksight_draw_color": {
+    "message0": "InkSight-Farbinhalt auf %1 zeichnen",
+    "tooltip": "Farbzeichnung (Schwarz/Weiß/Gelb, Rot als Gelb angenähert; Schwarz-Weiß-Inhalt fällt automatisch zurück); muss innerhalb des Zeichenbereichs einer Vollaktualisierung liegen",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_mode": {
+    "message0": "InkSight-Betriebsmodus %1",
+    "tooltip": "Aktiv: 5-s-Polling + Heartbeat, Website zeigt Aktiv und Sofort-Push funktioniert; Intervall: offizieller Stromspar-Standard (10-Minuten-Online-Fenster nach Kopplung)",
+    "args0": [
+      {
+        "options": [
+          [
+            "Aktiv (online, Sofort-Push)",
+            "ACTIVE"
+          ],
+          [
+            "Intervall (offiziell stromsparend)",
+            "INTERVAL"
+          ]
+        ]
+      }
+    ]
+  },
+  "inksight_changed": {
+    "message0": "InkSight-Inhalt geändert?",
+    "tooltip": "Offizielle Schonlogik: gibt falsch zurück, wenn das geladene Bild dem Bildschirm entspricht, und überspringt die Aktualisierung zum Schutz des E-Papers",
+    "args0": []
+  },
+  "inksight_show_cached": {
+    "message0": "InkSight offline Cache-Inhalt anzeigen %1",
+    "tooltip": "Zeichnet bei Abruffehler das zuletzt zwischengespeicherte Bild neu (übersprungen ohne Cache oder wenn bereits angezeigt)",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_led": {
+    "message0": "InkSight-Status-LED an Pin %1",
+    "tooltip": "Optional: LED + Widerstand an freiem GPIO (z. B. 4); blinkt bei WiFi-Ausfall/Verbindung, sonst aus; ohne Hardware weglassen",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_red_style": {
+    "message0": "InkSight Rot anzeigen als %1",
+    "tooltip": "Wie serverseitiges Rot (z. B. aktuelle Stundenplanspalte) auf Panels ohne Rotkanal dargestellt wird: Gelb = dritte Farbe, Schwarz = invertierte Hervorhebung；Auf Panels ohne Rotkanal identisch mit Gelb; echtes Rot auf S/W-Rot-Panels",
+    "args0": [
+      {
+        "options": [
+          [
+            "Gelb (Tri-Color)",
+            "YELLOW"
+          ],
+          [
+            "Schwarz (invertiert)",
+            "BLACK"
+          ],
+          [
+            "Rot (für S/W-Rot-Panels)",
+            "RED"
+          ]
+        ]
+      }
+    ]
+  },
+  "inksight_colors": {
+    "message0": "InkSight Farbmodus für Inhalte %1",
+    "tooltip": "S/W = colors=2, Stundenplan invertiert die aktuelle Spalte komplett; Farbe = colors=3, Server setzt rote/gelbe Akzente (S/W-Gelb-Panels wirken in S/W am besten)",
+    "args0": [
+      {
+        "options": [
+          [
+            "S/W (Ganzspalten-Hervorhebung)",
+            "BW"
+          ],
+          [
+            "Farbe (rote Akzente)",
+            "COLOR"
+          ]
+        ]
+      }
+    ]
+  }
+}

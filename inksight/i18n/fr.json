@@ -1,0 +1,142 @@
+{
+  "toolbox_name": "InkSight",
+  "inksight_wifi": {
+    "message0": "InkSight connexion WiFi ssid %1 mot de passe %2",
+    "tooltip": "Rejoindre le WiFi en mode STA (attend jusqu'à 15 s, reconnexion auto activée) ; consultez le bloc dernière erreur en cas d'échec",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "inksight_setup": {
+    "message0": "Serveur InkSight %1 jeton d'appareil %2",
+    "tooltip": "Configurer l'adresse du serveur InkSight et le jeton d'appareil (adresse personnelle si auto-hébergé ; jeton issu de l'appairage sur le site, peut être vide)",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "inksight_fetch": {
+    "message0": "récupérer le contenu InkSight",
+    "tooltip": "Demander /api/render et décoder l'image via le réseau ; le WiFi doit être connecté. Renvoie vrai en cas de succès",
+    "args0": []
+  },
+  "inksight_draw": {
+    "message0": "dessiner le contenu InkSight sur %1",
+    "tooltip": "Dessine l'image 400x300 récupérée sur l'objet e-paper ; doit se trouver dans la zone de dessin d'un rafraîchissement complet",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_ready": {
+    "message0": "InkSight a une image",
+    "tooltip": "Indique si au moins une récupération a réussi",
+    "args0": []
+  },
+  "inksight_error": {
+    "message0": "dernière erreur InkSight",
+    "tooltip": "Description du dernier échec de récupération (\"ok\" en cas de succès)",
+    "args0": []
+  },
+  "inksight_pair": {
+    "message0": "InkSight envoyer code d'appairage %1",
+    "tooltip": "Envoie le code d'appairage du site au backend pour confirmer l'appartenance de l'appareil (vide = ignoré) ; à appeler après la configuration du serveur",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_refresh_ms": {
+    "message0": "InkSight intervalle d'actualisation suggéré par le serveur (ms)",
+    "tooltip": "Intervalle transmis par le serveur via X-Refresh-Minutes (15 minutes par défaut, limité à 1..1440)",
+    "args0": []
+  },
+  "inksight_due": {
+    "message0": "InkSight actualisation due ?",
+    "tooltip": "Planificateur officiel : après le rendu de démarrage, suit l'intervalle persistant ; une fenêtre en ligne de 10 min (interrogation 5 s) s'ouvre uniquement après l'envoi réussi du code d'appairage",
+    "args0": []
+  },
+  "inksight_draw_color": {
+    "message0": "dessiner le contenu couleur InkSight sur %1",
+    "tooltip": "Dessin en couleur (noir/blanc/jaune, rouge assimilé au jaune ; retour automatique au N&B) ; à placer dans la zone de dessin d'un rafraîchissement complet",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_mode": {
+    "message0": "InkSight mode de fonctionnement %1",
+    "tooltip": "Actif : interrogation 5 s + battement, le site affiche Actif et la poussée instantanée fonctionne ; Intervalle : mode économe officiel (fenêtre en ligne de 10 min après appairage)",
+    "args0": [
+      {
+        "options": [
+          [
+            "Actif (en ligne, poussée instantanée)",
+            "ACTIVE"
+          ],
+          [
+            "Intervalle (économe officiel)",
+            "INTERVAL"
+          ]
+        ]
+      }
+    ]
+  },
+  "inksight_changed": {
+    "message0": "Contenu InkSight modifié ?",
+    "tooltip": "Protection officielle : renvoie faux si l'image récupérée est identique à l'écran, pour sauter le rafraîchissement et préserver l'e-paper",
+    "args0": []
+  },
+  "inksight_show_cached": {
+    "message0": "InkSight afficher le cache hors ligne %1",
+    "tooltip": "En cas d'échec de récupération, redessine la dernière image en cache (ignoré sans cache ou si déjà affichée)",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_led": {
+    "message0": "LED d'état InkSight sur broche %1",
+    "tooltip": "Optionnel : LED + résistance sur un GPIO libre (ex. 4) ; clignote quand le WiFi est coupé/en connexion, éteinte sinon ; omettre sans matériel",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_red_style": {
+    "message0": "InkSight afficher le rouge en %1",
+    "tooltip": "Comment le rouge envoyé par le serveur (ex. colonne actuelle de l'emploi du temps) est rendu sur un panneau sans canal rouge : Jaune = troisième couleur, Noir = surlignage inversé；Identique au jaune sur les panneaux sans canal rouge ; rouge réel sur les panneaux N/B-rouge",
+    "args0": [
+      {
+        "options": [
+          [
+            "Jaune (trois couleurs)",
+            "YELLOW"
+          ],
+          [
+            "Noir (inversé)",
+            "BLACK"
+          ],
+          [
+            "Rouge (panneaux N/B-rouge)",
+            "RED"
+          ]
+        ]
+      }
+    ]
+  },
+  "inksight_colors": {
+    "message0": "InkSight mode couleur du contenu %1",
+    "tooltip": "N&B = colors=2, l'emploi du temps inverse toute la colonne actuelle ; Couleur = colors=3, le serveur ajoute des touches rouge/jaune (les panneaux N&B-jaune sont plus lisibles en N&B)",
+    "args0": [
+      {
+        "options": [
+          [
+            "N&B (colonne entière inversée)",
+            "BW"
+          ],
+          [
+            "Couleur (accents rouges)",
+            "COLOR"
+          ]
+        ]
+      }
+    ]
+  }
+}

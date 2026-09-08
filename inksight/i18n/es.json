@@ -1,0 +1,142 @@
+{
+  "toolbox_name": "InkSight",
+  "inksight_wifi": {
+    "message0": "InkSight conectar WiFi ssid %1 contraseña %2",
+    "tooltip": "Conecta el WiFi en modo STA (espera hasta 15 s, auto-reconexión activada); consulta el bloque último error si falla",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "inksight_setup": {
+    "message0": "Servidor InkSight %1 token de dispositivo %2",
+    "tooltip": "Configura la dirección del backend InkSight y el token del dispositivo (usa tu propia dirección si lo autoalojas; el token viene del emparejamiento web y puede quedar vacío)",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "inksight_fetch": {
+    "message0": "obtener contenido InkSight",
+    "tooltip": "Solicita /api/render y descodifica el mapa de bits por red; antes hay que conectar el WiFi. Devuelve verdadero si tiene éxito",
+    "args0": []
+  },
+  "inksight_draw": {
+    "message0": "dibujar contenido InkSight en %1",
+    "tooltip": "Dibuja el mapa de bits 400x300 obtenido en el objeto de tinta electrónica; debe ir dentro de la zona de dibujo de un refresco completo",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_ready": {
+    "message0": "InkSight tiene imagen",
+    "tooltip": "Si al menos una obtención ha tenido éxito",
+    "args0": []
+  },
+  "inksight_error": {
+    "message0": "último error de InkSight",
+    "tooltip": "Descripción del último fallo de obtención (\"ok\" si tuvo éxito)",
+    "args0": []
+  },
+  "inksight_pair": {
+    "message0": "InkSight enviar código de emparejamiento %1",
+    "tooltip": "Envía al backend el código de emparejamiento del sitio para confirmar la propiedad del dispositivo (vacío lo omite); llamar después de configurar el servidor",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_refresh_ms": {
+    "message0": "InkSight intervalo de actualización sugerido por el servidor (ms)",
+    "tooltip": "Intervalo enviado por el servidor vía X-Refresh-Minutes (15 minutos por defecto, limitado a 1..1440)",
+    "args0": []
+  },
+  "inksight_due": {
+    "message0": "¿InkSight toca actualizar?",
+    "tooltip": "Planificador oficial: tras el render de arranque sigue el intervalo persistente; una ventana en línea de 10 min (sondeo cada 5 s) se abre solo tras enviar con éxito el código de emparejamiento",
+    "args0": []
+  },
+  "inksight_draw_color": {
+    "message0": "dibujar contenido en color InkSight en %1",
+    "tooltip": "Dibujo en color (negro/blanco/amarillo, rojo aproximado a amarillo; vuelve automáticamente a B/N); debe ir dentro de la zona de dibujo de un refresco completo",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_mode": {
+    "message0": "Modo de funcionamiento InkSight %1",
+    "tooltip": "Activo: sondea cada 5 s + latido, la web muestra Activo y permite envío instantáneo; Intermitente: ahorro de energía oficial (ventana en línea de 10 min tras emparejar)",
+    "args0": [
+      {
+        "options": [
+          [
+            "Activo (en línea, envío instantáneo)",
+            "ACTIVE"
+          ],
+          [
+            "Intermitente (oficial, ahorro)",
+            "INTERVAL"
+          ]
+        ]
+      }
+    ]
+  },
+  "inksight_changed": {
+    "message0": "¿Contenido InkSight cambiado?",
+    "tooltip": "Protección oficial: devuelve falso si la imagen obtenida coincide con la pantalla, saltando el refresco para cuidar el e-paper",
+    "args0": []
+  },
+  "inksight_show_cached": {
+    "message0": "InkSight mostrar caché sin conexión %1",
+    "tooltip": "Si falla la obtención, vuelve a dibujar la última imagen en caché (se omite sin caché o si ya está mostrada)",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_led": {
+    "message0": "LED de estado InkSight en pin %1",
+    "tooltip": "Opcional: LED + resistencia en un GPIO libre (p. ej. 4); parpadea con WiFi caído/conectando, apagado en caso contrario; omítelo sin hardware",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_red_style": {
+    "message0": "InkSight mostrar el rojo como %1",
+    "tooltip": "Cómo se renderiza el rojo del servidor (p. ej. la columna actual del horario) en paneles sin canal rojo: Amarillo = tercer color, Negro = resaltado invertido；Igual que el amarillo en paneles sin canal rojo; rojo real en paneles B/N-rojo",
+    "args0": [
+      {
+        "options": [
+          [
+            "Amarillo (tricolor)",
+            "YELLOW"
+          ],
+          [
+            "Negro (invertido)",
+            "BLACK"
+          ],
+          [
+            "Rojo (paneles B/N-rojo)",
+            "RED"
+          ]
+        ]
+      }
+    ]
+  },
+  "inksight_colors": {
+    "message0": "Modo de color del contenido InkSight %1",
+    "tooltip": "B/N = colors=2, el horario invierte toda la columna actual; Color = colors=3, el servidor añade acentos rojos/amarillos (en paneles B/N-amarillo destaca más el B/N)",
+    "args0": [
+      {
+        "options": [
+          [
+            "B/N (columna invertida)",
+            "BW"
+          ],
+          [
+            "Color (acentos rojos)",
+            "COLOR"
+          ]
+        ]
+      }
+    ]
+  }
+}

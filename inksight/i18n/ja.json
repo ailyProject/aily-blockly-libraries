@@ -1,0 +1,142 @@
+{
+  "toolbox_name": "InkSight",
+  "inksight_wifi": {
+    "message0": "InkSight WiFi接続 SSID %1 パスワード %2",
+    "tooltip": "STA モードで WiFi に接続（最大15秒待機、自動再接続オン）。失敗理由は直近エラーで確認",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "inksight_setup": {
+    "message0": "InkSight サーバー %1 デバイストークン %2",
+    "tooltip": "InkSight バックエンドのアドレスとデバイストークンを設定（セルフホストの場合は自分のアドレスを入力。トークンはサイトのペアリングで取得、空も可）",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "inksight_fetch": {
+    "message0": "InkSight コンテンツを取得",
+    "tooltip": "ネットワーク経由で /api/render を要求しビットマップをデコード。事前に WiFi 接続が必要。成功すると真",
+    "args0": []
+  },
+  "inksight_draw": {
+    "message0": "InkSight コンテンツを %1 に描画",
+    "tooltip": "取得した 400x300 ビットマップを電子ペーパーに描画。全画面更新の描画領域内に置くこと",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_ready": {
+    "message0": "InkSight 画像あり",
+    "tooltip": "少なくとも一度の取得成功があるか",
+    "args0": []
+  },
+  "inksight_error": {
+    "message0": "InkSight 直近のエラー",
+    "tooltip": "直近の取得エラーの説明（成功時は ok）",
+    "args0": []
+  },
+  "inksight_pair": {
+    "message0": "InkSight ペアリングコード送信 %1",
+    "tooltip": "サイトで発行されたペアリングコードを送信してデバイス所有を確認（空ならスキップ）。サーバー設定の後に呼ぶこと",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_refresh_ms": {
+    "message0": "InkSight サーバー推奨の更新間隔(ミリ秒)",
+    "tooltip": "サーバーが X-Refresh-Minutes で通知する更新間隔（既定15分、1..1440分に制限）",
+    "args0": []
+  },
+  "inksight_due": {
+    "message0": "InkSight 更新の時間？",
+    "tooltip": "公式スケジューラ：起動時の取得後は永続化された間隔で更新。ペアリングコード送信成功時のみ10分のオンライン期間（5秒ポーリング）を開く",
+    "args0": []
+  },
+  "inksight_draw_color": {
+    "message0": "InkSight カラーコンテンツを %1 に描画",
+    "tooltip": "カラー描画（黒/白/黄、赤は黄で近似、白黒コンテンツは自動フォールバック）。全画面更新の描画領域内に置くこと",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_mode": {
+    "message0": "InkSight 動作モード %1",
+    "tooltip": "アクティブ：5秒ポーリング＋ハートビートで常時オンライン、即時プッシュ可。間欠：公式の省電力既定（ペアリング後10分だけオンライン）",
+    "args0": [
+      {
+        "options": [
+          [
+            "アクティブ(オンライン・即時)",
+            "ACTIVE"
+          ],
+          [
+            "間欠(公式省電力)",
+            "INTERVAL"
+          ]
+        ]
+      }
+    ]
+  },
+  "inksight_changed": {
+    "message0": "InkSight コンテンツに変化あり？",
+    "tooltip": "公式の再書き込み防止：取得画像が画面と同一なら偽を返し、電子ペーパー保護のため更新をスキップ",
+    "args0": []
+  },
+  "inksight_show_cached": {
+    "message0": "InkSight オフライン時にキャッシュ表示 %1",
+    "tooltip": "取得失敗時に前回のキャッシュ画像を再表示（キャッシュなし・表示済みならスキップ）",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_led": {
+    "message0": "InkSight 状態LED ピン %1",
+    "tooltip": "任意：空きGPIO（例:4）にLED+抵抗を接続。WiFi切断/接続中は点滅、通常は消灯。未接続なら不要",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_red_style": {
+    "message0": "InkSight 赤を %1 で表示",
+    "tooltip": "赤チャンネルのないパネルでサーバーの赤（例：時間割の現在列）をどう描くか：黄=第三色、黒=黒地反転；赤チャンネルのない屏では黄と同じ表示；白黒赤パネルでは本物の赤",
+    "args0": [
+      {
+        "options": [
+          [
+            "黄色（3色近似）",
+            "YELLOW"
+          ],
+          [
+            "黒色（反転ハイライト）",
+            "BLACK"
+          ],
+          [
+            "赤色（白黒赤パネル用）",
+            "RED"
+          ]
+        ]
+      }
+    ]
+  },
+  "inksight_colors": {
+    "message0": "InkSight コンテンツのカラーモード %1",
+    "tooltip": "白黒=colors=2、時間割は現在列を全面反転強調；カラー=colors=3、サーバーは赤/黄のアクセント（白黒黄パネルは白黒推奨）",
+    "args0": [
+      {
+        "options": [
+          [
+            "白黒（列全体を反転）",
+            "BW"
+          ],
+          [
+            "カラー（赤アクセント）",
+            "COLOR"
+          ]
+        ]
+      }
+    ]
+  }
+}
