@@ -1,0 +1,142 @@
+{
+  "toolbox_name": "InkSight",
+  "inksight_wifi": {
+    "message0": "InkSight 連接WiFi 帳號 %1 密碼 %2",
+    "tooltip": "以 STA 模式連接 WiFi（最多等15秒，自動重連開啟），失敗原因可用最近錯誤查詢",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "inksight_setup": {
+    "message0": "InkSight 伺服器 %1 裝置權杖 %2",
+    "tooltip": "設定 InkSight 後端地址與裝置權杖（自建後端填自己的地址；權杖來自網站配對，可留空）",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "inksight_fetch": {
+    "message0": "拉取 InkSight 內容",
+    "tooltip": "連線請求 /api/render 並解碼點陣圖，需先連接 WiFi；成功回傳真",
+    "args0": []
+  },
+  "inksight_draw": {
+    "message0": "InkSight 內容繪製到 %1",
+    "tooltip": "把已拉取的 400x300 點陣圖繪製到墨水屏物件，須放在整屏刷新的繪製區內",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_ready": {
+    "message0": "InkSight 已有圖像",
+    "tooltip": "是否已有一次成功拉取的圖像",
+    "args0": []
+  },
+  "inksight_error": {
+    "message0": "InkSight 最近錯誤",
+    "tooltip": "回傳最近一次拉取的錯誤說明（成功時為 ok）",
+    "args0": []
+  },
+  "inksight_pair": {
+    "message0": "InkSight 提交配對碼 %1",
+    "tooltip": "把網站產生的配對碼提交給後端確認裝置歸屬（留空則跳過）；須在設定伺服器之後呼叫",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_refresh_ms": {
+    "message0": "InkSight 伺服器建議刷新間隔(毫秒)",
+    "tooltip": "伺服器透過 X-Refresh-Minutes 下發的刷新間隔（預設 15 分鐘，範圍 1..1440 分鐘）",
+    "args0": []
+  },
+  "inksight_due": {
+    "message0": "InkSight 到刷新時間了？",
+    "tooltip": "官方排程器：開機取圖後按持久化間隔刷新；僅提交配對碼成功後開商10分鐘線上視窗（5秒輪詢）",
+    "args0": []
+  },
+  "inksight_draw_color": {
+    "message0": "InkSight 彩色內容繪製到 %1",
+    "tooltip": "彩色繪製（黑/白/黃，紅近似為黃；黑白內容自動回退），須放在整屏刷新的繪製區內",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_mode": {
+    "message0": "InkSight 運行模式 %1",
+    "tooltip": "保持活躍：持绥 5 秒輪詢+心跳，網站顯示活躍並可即時推送；間歇：僅按刷新間隔取圖（配對後仍有 10 分鐘線上視窗）",
+    "args0": [
+      {
+        "options": [
+          [
+            "保持活躍(線上,可即時推送)",
+            "ACTIVE"
+          ],
+          [
+            "間歇(官方省電)",
+            "INTERVAL"
+          ]
+        ]
+      }
+    ]
+  },
+  "inksight_changed": {
+    "message0": "InkSight 內容有變化？",
+    "tooltip": "官方防重刷：新取的圖與螢幕上的一致時回傳假，跳過刷新保護墨水屏",
+    "args0": []
+  },
+  "inksight_show_cached": {
+    "message0": "InkSight 離線時顯示快取內容 %1",
+    "tooltip": "取圖失敗且有快取時把上次內容刷上螢（無快取或已顯示則跳過）",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_led": {
+    "message0": "InkSight 狀態LED接引腳 %1",
+    "tooltip": "可選：LED+電阻接空閒 GPIO（如 4）；WiFi 斷線/連線中閃爍，正常時熄滅；不接硬體可不用此塊",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_red_style": {
+    "message0": "InkSight 红色顯示為 %1",
+    "tooltip": "無紅色通道的屏如何渲染伺服器下發的紅色（如課程表當前列高亮）：黃=用第三色顯示，黑=黑底反白；無紅色通道的屏選此項與黃色顯示相同；黑白銀紅屏會顯示真紅",
+    "args0": [
+      {
+        "options": [
+          [
+            "黃色（三色屏近似）",
+            "YELLOW"
+          ],
+          [
+            "黑色（反白高亮觀感）",
+            "BLACK"
+          ],
+          [
+            "紅色（黑白銀紅屏用）",
+            "RED"
+          ]
+        ]
+      }
+    ]
+  },
+  "inksight_colors": {
+    "message0": "InkSight 內容顏色模式 %1",
+    "tooltip": "黑白=colors=2，課程表當前列整列黑底反白；彩色=colors=3，伺服器用紅/黃點経（黑白黄屏選黑白最醒目）",
+    "args0": [
+      {
+        "options": [
+          [
+            "黑白（整列反白高亮）",
+            "BW"
+          ],
+          [
+            "彩色（紅點経，需三色/四色屏）",
+            "COLOR"
+          ]
+        ]
+      }
+    ]
+  }
+}

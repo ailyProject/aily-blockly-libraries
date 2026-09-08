@@ -1,0 +1,142 @@
+{
+  "toolbox_name": "InkSight",
+  "inksight_wifi": {
+    "message0": "InkSight connect WiFi ssid %1 password %2",
+    "tooltip": "Join WiFi in STA mode (waits up to 15 s, auto-reconnect on); check the last-error block for the failure reason",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "inksight_setup": {
+    "message0": "InkSight server %1 device token %2",
+    "tooltip": "Configure the InkSight backend address and device token (use your own address when self-hosting; token comes from website pairing and may be empty)",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "inksight_fetch": {
+    "message0": "fetch InkSight content",
+    "tooltip": "Request /api/render and decode the bitmap over the network; WiFi must be connected first. Returns true on success",
+    "args0": []
+  },
+  "inksight_draw": {
+    "message0": "draw InkSight content on %1",
+    "tooltip": "Draw the fetched 400x300 bitmap on the e-paper object; must sit inside a full-refresh draw section",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_ready": {
+    "message0": "InkSight has image",
+    "tooltip": "Whether at least one fetch has succeeded",
+    "args0": []
+  },
+  "inksight_error": {
+    "message0": "InkSight last error",
+    "tooltip": "Description of the most recent fetch failure (\"ok\" when successful)",
+    "args0": []
+  },
+  "inksight_pair": {
+    "message0": "InkSight submit pair code %1",
+    "tooltip": "Submit the website pairing code to the backend to confirm device ownership (empty skips); call after configuring the server",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_refresh_ms": {
+    "message0": "InkSight server-suggested refresh interval (ms)",
+    "tooltip": "Refresh interval delivered by the server via X-Refresh-Minutes (default 15 minutes, clamped to 1..1440)",
+    "args0": []
+  },
+  "inksight_due": {
+    "message0": "InkSight refresh due?",
+    "tooltip": "Official scheduler: after the boot render it follows the persisted interval; a 10-minute online window (5 s polling) opens only after a successful pair-code submission",
+    "args0": []
+  },
+  "inksight_draw_color": {
+    "message0": "draw InkSight color content on %1",
+    "tooltip": "Color drawing (black/white/yellow, red approximated as yellow; falls back to B/W content automatically); must sit inside a full-refresh draw section",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_mode": {
+    "message0": "InkSight runtime mode %1",
+    "tooltip": "Active: polls every 5 s + heartbeat, website shows Active and instant push works; Interval: official power-saving default (10-min online window still opens after pairing)",
+    "args0": [
+      {
+        "options": [
+          [
+            "Active (online, instant push)",
+            "ACTIVE"
+          ],
+          [
+            "Interval (official power saving)",
+            "INTERVAL"
+          ]
+        ]
+      }
+    ]
+  },
+  "inksight_changed": {
+    "message0": "InkSight content changed?",
+    "tooltip": "Official anti-rewrite: returns false when the fetched image matches the screen, skipping the refresh to protect the e-paper",
+    "args0": []
+  },
+  "inksight_show_cached": {
+    "message0": "InkSight show cached content offline %1",
+    "tooltip": "On fetch failure, redraws the last cached image (skipped when no cache or already shown)",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_led": {
+    "message0": "InkSight status LED on pin %1",
+    "tooltip": "Optional: LED + resistor on a free GPIO (e.g. 4); blinks while WiFi is down/connecting, off otherwise; omit the block if no LED is wired",
+    "args0": [
+      null
+    ]
+  },
+  "inksight_red_style": {
+    "message0": "InkSight render red as %1",
+    "tooltip": "How server-sent red (e.g. the current timetable column) renders on panels without a red channel: Yellow = third color, Black = inverted highlight；Same as yellow on panels without a red channel; shows real red on b/w/red panels",
+    "args0": [
+      {
+        "options": [
+          [
+            "Yellow (tri-color)",
+            "YELLOW"
+          ],
+          [
+            "Black (inverted)",
+            "BLACK"
+          ],
+          [
+            "Red (for BWR panels)",
+            "RED"
+          ]
+        ]
+      }
+    ]
+  },
+  "inksight_colors": {
+    "message0": "InkSight content color mode %1",
+    "tooltip": "BW = colors=2, timetable highlights the current column fully inverted; Color = colors=3, server accents in red/yellow (BW-yellow panels look best in BW)",
+    "args0": [
+      {
+        "options": [
+          [
+            "B&W (full-column highlight)",
+            "BW"
+          ],
+          [
+            "Color (red accents)",
+            "COLOR"
+          ]
+        ]
+      }
+    ]
+  }
+}
