@@ -18,8 +18,8 @@ CI13XX 原始红外、NEC 与原厂空调码库积木。依赖 **CI13XX 核心 1
 | `chipintelli_ir_wait_until_idle_result` | Value | TIMEOUT(input_value) | `chipintelli_ir_wait_until_idle_result(math_number(30000))` | `ailyChipIntelliIRWaitUntilIdle(1)` |
 | `chipintelli_ir_air_send_status` | Value | (none) | `chipintelli_ir_air_send_status()` | `static_cast<uint8_t>(ChipIntelliIR.airSendStatus())` |
 | `chipintelli_ir_air_send_status_value` | Value | STATUS(dropdown) | `chipintelli_ir_air_send_status_value(0)` | `0` |
-| `chipintelli_ir_init_raw` | 语句 | TX_PIN(input_value), RX_PIN(input_value), TIMER(dropdown) | `chipintelli_ir_init_raw(math_number(2), math_number(4), 2)` | `ChipIntelliIR.begin((uint8_t)(1), (uint8_t)(1), 0);` |
-| `chipintelli_ir_init_air` | 语句 | TX_PIN(input_value), RX_PIN(input_value), TIMER(dropdown), RESOURCE_ID(input_value) | `chipintelli_ir_init_air(math_number(2), math_number(4), 2, math_number(50000))` | `ChipIntelliIR.beginAirConditioner((uint8_t)(1), (uint8_t)(1), 0, (uint16_t)(1));` |
+| `chipintelli_ir_init_raw` | 语句 | TX_PIN(input_value), RX_PIN(input_value), TIMER(dropdown) | `chipintelli_ir_init_raw(io_pin_digi(2), io_pin_digi(4), 2)` | `ChipIntelliIR.begin((uint8_t)(1), (uint8_t)(1), 0);` |
+| `chipintelli_ir_init_air` | 语句 | TX_PIN(input_value), RX_PIN(input_value), TIMER(dropdown), RESOURCE_ID(input_value) | `chipintelli_ir_init_air(io_pin_digi(2), io_pin_digi(4), 2, math_number(50000))` | `ChipIntelliIR.beginAirConditioner((uint8_t)(1), (uint8_t)(1), 0, (uint16_t)(1));` |
 | `chipintelli_ir_send_raw` | 语句 | DURATIONS(input_value) | `chipintelli_ir_send_raw(text("9000,4500,560,560"))` | `ailyChipIntelliIRSendRawText(String("value"));` |
 | `chipintelli_ir_send_nec` | 语句 | ADDRESS(input_value), COMMAND(input_value), REPEATS(input_value) | `chipintelli_ir_send_nec(math_number(16), math_number(32), math_number(0))` | `ChipIntelliIR.sendNEC((uint8_t)(1), (uint8_t)(1), (uint8_t)constrain((int)(1), 0, 239));` |
 | `chipintelli_ir_send_extended_nec` | 语句 | ADDRESS(input_value), COMMAND(input_value), REPEATS(input_value) | `chipintelli_ir_send_extended_nec(math_number(13483), math_number(32), math_number(0))` | `ChipIntelliIR.sendExtendedNEC((uint16_t)(1), (uint8_t)(1), (uint8_t)constrain((int)(1), 0, 239));` |
@@ -51,6 +51,7 @@ CI13XX 原始红外、NEC 与原厂空调码库积木。依赖 **CI13XX 核心 1
 ## Parameter Options
 
 - `MODE`: `Raw` 原始波形/NEC，或 `AirConditioner` 空调码库。默认初始化按板型选择引脚，CI1302/CI1303/CI1306/CI-D06GT01D 为 PA2/PA4，easyVoice 1306 dev 为 PA2/PA3。
+- `TX_PIN`、`RX_PIN`: 高级初始化使用 `core-io` 的 `io_pin_digi` 数字引脚块，从当前开发板的引脚列表中选择；TX 需支持 PWM，RX 需支持中断。上表示例为 PA2/PA4，easyVoice 1306 dev 应选择 PA2/PA3。
 - `TIMER`: `0`、`1`、`2`；TIMER3 被 BLE SDK 占用。
 - `TOLERANCE`: NEC 解码容差百分比，默认 25，限制 0～40。
 - `FIELD`: `type` 帧类型、`address` 地址、`command` 命令、`repeatCount` 重复帧数；`FRAME_TYPE`: `0` 未知、`1` 标准、`2` 扩展、`3` 独立重复帧。
