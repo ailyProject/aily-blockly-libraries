@@ -534,6 +534,21 @@ if (typeof Blockly !== 'undefined' && Blockly.Extensions) {
     
     // 注册扩展
     Blockly.Extensions.register('serial_begin_esp32_custom_extension', function() {
+      // 字段恢复紧接在扩展初始化之后，必须同步准备选项，否则 UART2 等值
+      // 会先被静态下拉框（仅 UART0/UART1）拒绝，回退后再延迟更新也无法恢复。
+      // flyout 同样需要完整选项，确保工具箱创建和工程加载使用相同的端口范围。
+      const uartField = this.getField('UART');
+      if (uartField) {
+        const uartOptions = generateUARTOptions();
+        const currentValue = uartField.getValue();
+        uartField.menuGenerator_ = uartOptions;
+        uartField.getOptions = function() {
+          return uartOptions;
+        };
+        const matchingOption = uartOptions.some(([, value]) => value === currentValue);
+        uartField.setValue(matchingOption ? currentValue : uartOptions[0][1]);
+      }
+
       // 检查块是否在 flyout 中
       if (this.isInFlyout) {
         return;
@@ -567,34 +582,6 @@ if (typeof Blockly !== 'undefined' && Blockly.Extensions) {
       
       setTimeout(() => {
         try {
-          const uartField = this.getField('UART');
-          if (uartField) {
-            // 获取动态 UART 选项
-            const uartOptions = generateUARTOptions();
-
-            // console.log('更新 UART 下拉框选项:', uartOptions);
-            
-            // 更新下拉框选项
-            uartField.menuGenerator_ = uartOptions;
-            uartField.getOptions = function() {
-              return uartOptions;
-            };
-            
-            // 获取当前值
-            const currentValue = uartField.getValue();
-            
-            // 检查当前值是否在新选项中
-            const matchingOption = uartOptions.find(([text, value]) => value === currentValue);
-            
-            if (currentValue && matchingOption) {
-              // 当前值有效，保持不变
-              uartField.setValue(currentValue);
-            } else if (uartOptions.length > 0) {
-              // 当前值无效，设置为第一个选项
-              uartField.setValue(uartOptions[0][1]);
-            }
-          }
-          
           // 更新UI显示
           updateSerialBlocksWithCustomPorts();
           addSerialInputChangeListener(this);
