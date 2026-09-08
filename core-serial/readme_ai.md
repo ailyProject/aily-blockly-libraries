@@ -4,7 +4,7 @@ Serial communication library, supports serial port sending and receiving
 
 ## Library Info
 - **Name**: @aily-project/lib-core-serial
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 

@@ -7,7 +7,7 @@ Serial communication library, supports serial port sending and receiving
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-core-serial |
-| Version | 0.0.1 |
+| Version | 0.0.2 |
 | Author | ailyProject |
 | Source | N/A |
 | License | Original license |
