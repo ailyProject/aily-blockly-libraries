@@ -1,5 +1,73 @@
 [
   {
+    "type": "chipintelli_ir_init_default",
+    "message0": "使用开发板默认引脚初始化红外 模式 %1",
+    "args0": [{"type": "field_dropdown", "name": "MODE", "options": [["原始波形 / NEC", "Raw"], ["空调码库", "AirConditioner"]]}],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C62828",
+    "tooltip": "按开发板使用默认引脚：PA2/PA4，easyVoice 为 PA2/PA3。空调模式自动启用数据库；需核心 1.0.17+，CI1302 标准资源布局不支持"
+  },
+  {
+    "type": "chipintelli_ir_decode_nec",
+    "message0": "当最近波形解码为 NEC 容差 %1 %%",
+    "args0": [{"type": "input_value", "name": "TOLERANCE", "check": ["Number"]}],
+    "message1": "执行 %1",
+    "args1": [{"type": "input_statement", "name": "HANDLER"}],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#D32F2F",
+    "tooltip": "解码已读取或解析的波形，成功后执行内部积木；支持标准、扩展和独立重复帧。默认容差 25%，限制 0～40%"
+  },
+  {
+    "type": "chipintelli_ir_nec_field",
+    "message0": "最近 NEC 解码 %1",
+    "args0": [{"type": "field_dropdown", "name": "FIELD", "options": [["帧类型", "type"], ["地址", "address"], ["命令", "command"], ["重复帧数", "repeatCount"]]}],
+    "output": "Number",
+    "colour": "#D32F2F",
+    "tooltip": "读取最近 NEC 解码结果；独立重复帧的地址和命令为 0，需自行关联上次完整帧"
+  },
+  {
+    "type": "chipintelli_ir_nec_frame_type",
+    "message0": "NEC 帧类型 %1",
+    "args0": [{"type": "field_dropdown", "name": "FRAME_TYPE", "options": [["未知", "0"], ["标准 NEC", "1"], ["扩展 NEC", "2"], ["重复帧", "3"]]}],
+    "output": "Number",
+    "colour": "#D32F2F",
+    "tooltip": "用于与最近 NEC 解码的帧类型比较"
+  },
+  {
+    "type": "chipintelli_ir_wait_until_idle",
+    "message0": "等待红外空闲 超时 %1 ms",
+    "args0": [{"type": "input_value", "name": "TIMEOUT", "check": ["Number"]}],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#AD1457",
+    "tooltip": "阻塞等待队列、发送和双帧静默窗口结束，默认 30000 ms；失败可读取最近错误"
+  },
+  {
+    "type": "chipintelli_ir_wait_until_idle_result",
+    "message0": "等待红外空闲 超时 %1 ms 成功",
+    "args0": [{"type": "input_value", "name": "TIMEOUT", "check": ["Number"]}],
+    "output": "Boolean",
+    "colour": "#AD1457",
+    "tooltip": "阻塞等待红外空闲并返回是否成功；默认 30000 ms，超时或异步发送错误返回假"
+  },
+  {
+    "type": "chipintelli_ir_air_send_status",
+    "message0": "空调红外发送状态",
+    "output": "Number",
+    "colour": "#AD1457",
+    "tooltip": "返回 0 空闲、1 排队中、2 发送中、3 等待后续帧、4 失败"
+  },
+  {
+    "type": "chipintelli_ir_air_send_status_value",
+    "message0": "空调红外发送状态 %1",
+    "args0": [{"type": "field_dropdown", "name": "STATUS", "options": [["空闲", "0"], ["排队中", "1"], ["发送中", "2"], ["等待后续帧", "3"], ["失败", "4"]]}],
+    "output": "Number",
+    "colour": "#AD1457",
+    "tooltip": "用于与空调红外发送状态比较"
+  },
+  {
     "type": "chipintelli_ir_init_raw",
     "message0": "初始化 CI13XX 红外原始模式 TX %1 RX %2 定时器 %3",
     "args0": [
@@ -24,7 +92,7 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#AD1457",
-    "tooltip": "初始化原厂 36 品牌空调数据库模式；默认资源 ID 为 50000"
+    "tooltip": "初始化原厂 36 品牌空调模式并自动启用数据库；默认资源 ID 为 50000，需核心 1.0.17+，CI1302 标准资源布局不支持"
   },
   {
     "type": "chipintelli_ir_send_raw",
@@ -33,7 +101,7 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#C62828",
-    "tooltip": "发送以逗号、分号或空白分隔的微秒时长；mark/space 交替且从 mark 开始，最多 1024 项"
+    "tooltip": "发送以逗号、分号或空白分隔的微秒时长；每项 200～131070 µs，最多 1024 项，mark/space 交替且从 mark 开始"
   },
   {
     "type": "chipintelli_ir_send_nec",
@@ -130,7 +198,7 @@
     "message0": "红外驱动忙碌",
     "output": "Boolean",
     "colour": "#C62828",
-    "tooltip": "检查红外驱动当前是否正在发送、接收或搜索"
+    "tooltip": "检查红外驱动是否忙碌，包含接收、搜索、空调命令排队、发送和双帧静默窗口"
   },
   {
     "type": "chipintelli_ir_select_air_brand",

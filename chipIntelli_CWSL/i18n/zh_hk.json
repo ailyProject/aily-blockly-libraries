@@ -4,7 +4,8 @@
     "初始化": "初始化",
     "学习与删除": "学习与删除",
     "状态与容量": "状态与容量",
-    "异步事件": "异步事件"
+    "异步事件": "异步事件",
+    "诊断与事件队列": "診斷與事件佇列"
   },
   "chipintelli_cwsl_init": {
     "message0": "初始化 CI13XX 命令词自学习 超时 %1 ms",
@@ -16,7 +17,7 @@
   },
   "chipintelli_cwsl_learn": {
     "message0": "学习 %1 命令 ID %2 分组 ID %3",
-    "tooltip": "异步开始学习；命令 ID 必须已存在于当前 cmd_info 资源中"
+    "tooltip": "以非同步方式開始學習；命令 ID 範圍為 0～65535，群組 ID 範圍為 0～255。命令 ID 必須已存在於目前 cmd_info 資源中；199～208 為保留命令 ID"
   },
   "chipintelli_cwsl_cancel_learning": {
     "message0": "取消尚未开始录音的学习",
@@ -24,7 +25,7 @@
   },
   "chipintelli_cwsl_erase_template": {
     "message0": "删除已学习的 %1 命令 ID %2 分组 ID %3",
-    "tooltip": "提交指定命令与分组的模板删除请求"
+    "tooltip": "提交指定命令與群組的範本刪除請求；命令 ID 範圍為 0～65535，群組 ID 範圍為 0～255"
   },
   "chipintelli_cwsl_erase_templates": {
     "message0": "删除 %1 已学习模板",
@@ -45,7 +46,7 @@
   },
   "chipintelli_cwsl_state": {
     "message0": "当前自学习状态",
-    "tooltip": "返回状态：0 空闲、1 识别、2 学习、3 删除、255 不可用"
+    "tooltip": "傳回狀態：0 閒置、1 識別、2 學習、3 刪除、255 不可用；begin 成功前傳回 255"
   },
   "chipintelli_cwsl_state_value": {
     "message0": "自学习状态 %1",
@@ -53,11 +54,11 @@
   },
   "chipintelli_cwsl_count": {
     "message0": "%1 数量",
-    "tooltip": "查询已学习模板数量和容量"
+    "tooltip": "查詢已學習範本數量和容量；begin 未成功時傳回 -1"
   },
   "chipintelli_cwsl_dropped_events": {
     "message0": "已丢弃的自学习事件数",
-    "tooltip": "返回事件队列溢出后累计丢弃的事件数量"
+    "tooltip": "傳回輪詢和回呼兩個獨立佇列的事件丟棄計數之和"
   },
   "chipintelli_cwsl_event_type": {
     "message0": "当前自学习事件 类型",
@@ -94,5 +95,115 @@
   "chipintelli_cwsl_learn_result_value": {
     "message0": "学习尝试结果 %1",
     "tooltip": "用于与当前尝试结果比较"
+  },
+  "chipintelli_cwsl_is_begun": {
+    "message0": "自學習已初始化成功",
+    "tooltip": "最近一次 begin 已成功且尚未呼叫 end 時傳回真"
+  },
+  "chipintelli_cwsl_last_error": {
+    "message0": "自學習上次操作錯誤碼",
+    "tooltip": "傳回上次初始化、學習、刪除或取消請求的錯誤碼；0 表示無錯誤，不代表非同步操作已完成"
+  },
+  "chipintelli_cwsl_error_value": {
+    "message0": "自學習錯誤 %1",
+    "tooltip": "用於比較上次操作錯誤碼",
+    "args0": [
+      {
+        "options": [
+          [
+            "無錯誤",
+            "0"
+          ],
+          [
+            "設定未啟用",
+            "1"
+          ],
+          [
+            "SDK 啟動失敗",
+            "2"
+          ],
+          [
+            "SDK 初始化失敗",
+            "3"
+          ],
+          [
+            "初始化逾時",
+            "4"
+          ],
+          [
+            "請求被拒絕",
+            "5"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_error_string": {
+    "message0": "自學習上次操作錯誤說明",
+    "tooltip": "傳回上游庫提供的英文錯誤說明"
+  },
+  "chipintelli_cwsl_state_name": {
+    "message0": "目前自學習狀態名稱",
+    "tooltip": "傳回目前狀態的英文名稱"
+  },
+  "chipintelli_cwsl_event_name": {
+    "message0": "目前自學習事件 %1 名稱",
+    "tooltip": "在事件處理器內讀取目前事件的英文名稱",
+    "args0": [
+      {
+        "options": [
+          [
+            "事件類型",
+            "TYPE"
+          ],
+          [
+            "嘗試結果",
+            "RESULT"
+          ],
+          [
+            "詞類型",
+            "WORD_TYPE"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_pending_events": {
+    "message0": "待處理的自學習事件數",
+    "tooltip": "傳回輪詢佇列中積壓的事件數，最多 15"
+  },
+  "chipintelli_cwsl_clear_events": {
+    "message0": "清空待處理的自學習事件",
+    "tooltip": "僅清空輪詢佇列，不取消學習、刪除或回呼"
+  },
+  "chipintelli_cwsl_dropped_read_events": {
+    "message0": "已丟棄的自學習輪詢事件數",
+    "tooltip": "傳回輪詢佇列的事件丟棄計數"
+  },
+  "chipintelli_cwsl_dropped_callback_events": {
+    "message0": "已丟棄的自學習回呼事件數",
+    "tooltip": "傳回回呼投遞失敗計數，獨立於輪詢佇列"
+  },
+  "chipintelli_cwsl_word_type_value": {
+    "message0": "自學習詞類型 %1",
+    "tooltip": "用於與目前事件詞類型比較",
+    "args0": [
+      {
+        "options": [
+          [
+            "普通命令詞",
+            "0"
+          ],
+          [
+            "喚醒詞",
+            "1"
+          ],
+          [
+            "全部",
+            "2"
+          ]
+        ]
+      }
+    ]
   }
 }

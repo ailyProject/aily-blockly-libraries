@@ -4,7 +4,26 @@
     "原始波形与 NEC": "Raw waveform and NEC",
     "空调码库": "Air-conditioner database",
     "空调码搜索": "Air-code search",
-    "诊断": "Diagnostics"
+    "诊断": "Diagnostics",
+    "高级初始化": "Inicialización avanzada"
+  },
+  "chipintelli_ir_init_default": {
+    "message0": "inicializar infrarrojos con los pines predeterminados de la placa, modo %1",
+    "tooltip": "Pines predeterminados: PA2/PA4, o PA2/PA3 en easyVoice. El modo de aire acondicionado activa la base de datos automáticamente; requiere el núcleo 1.0.17+. No admite la configuración estándar del CI1302.",
+    "args0": [
+      {
+        "options": [
+          [
+            "Señal sin procesar / NEC",
+            "Raw"
+          ],
+          [
+            "Base de códigos de aire acondicionado",
+            "AirConditioner"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_init_raw": {
     "message0": "initialize CI13XX raw infrared TX %1 RX %2 timer %3",
@@ -32,7 +51,7 @@
   },
   "chipintelli_ir_init_air": {
     "message0": "initialize CI13XX air-conditioner IR TX %1 RX %2 timer %3 database resource ID %4",
-    "tooltip": "Initialize the official 36-brand air-conditioner database; the default resource ID is 50000.",
+    "tooltip": "Inicializa el modo oficial de aire acondicionado de 36 marcas y activa la base de datos automáticamente. ID de recurso predeterminado: 50000. Requiere el núcleo 1.0.17+; no admite la configuración estándar del CI1302.",
     "args0": [
       null,
       null,
@@ -57,7 +76,7 @@
   },
   "chipintelli_ir_send_raw": {
     "message0": "send raw infrared waveform %1",
-    "tooltip": "Send comma-, semicolon- or whitespace-separated microsecond durations, up to 1024 entries."
+    "tooltip": "Envía duraciones de 200–131070 microsegundos cada una, separadas por comas, puntos y comas o espacios. Alterna pulso y pausa, comenzando con un pulso; máximo 1024 valores."
   },
   "chipintelli_ir_send_nec": {
     "message0": "send NEC address %1 command %2 repeats %3",
@@ -91,6 +110,63 @@
   "chipintelli_ir_received_text": {
     "message0": "most recent raw waveform text",
     "tooltip": "Return comma-separated microsecond durations."
+  },
+  "chipintelli_ir_decode_nec": {
+    "message0": "cuando la última señal se decodifique como NEC con tolerancia %1 %%",
+    "message1": "ejecutar %1",
+    "tooltip": "Decodifica la última señal leída o analizada. La tolerancia predeterminada es del 25%, limitada al 0–40%. Admite NEC estándar, NEC extendido y tramas de repetición independientes."
+  },
+  "chipintelli_ir_nec_field": {
+    "message0": "última decodificación NEC %1",
+    "tooltip": "La dirección y el comando de una trama de repetición independiente son 0; el programa debe asociarla con la última trama completa.",
+    "args0": [
+      {
+        "options": [
+          [
+            "Tipo de trama",
+            "type"
+          ],
+          [
+            "Dirección",
+            "address"
+          ],
+          [
+            "Comando",
+            "command"
+          ],
+          [
+            "Número de tramas de repetición",
+            "repeatCount"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_ir_nec_frame_type": {
+    "message0": "tipo de trama NEC %1",
+    "tooltip": "0 = Desconocido; 1 = NEC estándar; 2 = NEC extendido; 3 = Trama de repetición",
+    "args0": [
+      {
+        "options": [
+          [
+            "Desconocido",
+            "0"
+          ],
+          [
+            "NEC estándar",
+            "1"
+          ],
+          [
+            "NEC extendido",
+            "2"
+          ],
+          [
+            "Trama de repetición",
+            "3"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_receive_status": {
     "message0": "infrared receive status",
@@ -128,7 +204,49 @@
   },
   "chipintelli_ir_is_busy": {
     "message0": "infrared driver is busy",
-    "tooltip": "Check whether the driver is sending, receiving or searching."
+    "tooltip": "Comprueba si el controlador está enviando, recibiendo o buscando, incluyendo la cola y el intervalo de silencio entre dos tramas."
+  },
+  "chipintelli_ir_wait_until_idle": {
+    "message0": "esperar a que infrarrojos esté inactivo, tiempo límite %1 ms",
+    "tooltip": "Espera de forma bloqueante hasta que el controlador esté inactivo, incluyendo la cola, el envío y el intervalo de silencio entre dos tramas. Tiempo límite predeterminado: 30000 ms. Si falla, consulte el último código de error."
+  },
+  "chipintelli_ir_wait_until_idle_result": {
+    "message0": "esperar a que infrarrojos esté inactivo, tiempo límite %1 ms, con éxito",
+    "tooltip": "Espera de forma bloqueante hasta que el controlador esté inactivo, incluyendo la cola, el envío y el intervalo de silencio entre dos tramas. Tiempo límite predeterminado: 30000 ms. Devuelve verdadero si tiene éxito o falso si falla; consulte el último código de error en caso de fallo."
+  },
+  "chipintelli_ir_air_send_status": {
+    "message0": "estado de envío infrarrojo del aire acondicionado",
+    "tooltip": "0 = Inactivo; 1 = En cola; 2 = Enviando; 3 = Esperando la siguiente trama; 4 = Fallido"
+  },
+  "chipintelli_ir_air_send_status_value": {
+    "message0": "estado de envío infrarrojo del aire acondicionado %1",
+    "tooltip": "0 = Inactivo; 1 = En cola; 2 = Enviando; 3 = Esperando la siguiente trama; 4 = Fallido",
+    "args0": [
+      {
+        "options": [
+          [
+            "Inactivo",
+            "0"
+          ],
+          [
+            "En cola",
+            "1"
+          ],
+          [
+            "Enviando",
+            "2"
+          ],
+          [
+            "Esperando la siguiente trama",
+            "3"
+          ],
+          [
+            "Fallido",
+            "4"
+          ]
+        ]
+      }
+    ]
   },
   "chipintelli_ir_select_air_brand": {
     "message0": "select air-conditioner brand %1",

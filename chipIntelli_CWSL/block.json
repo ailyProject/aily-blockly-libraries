@@ -27,7 +27,7 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#388E3C",
-    "tooltip": "异步开始学习；命令 ID 必须已存在于当前 cmd_info 资源中"
+    "tooltip": "异步开始学习；命令 ID 范围为 0～65535，分组 ID 范围为 0～255。命令 ID 必须已存在于当前 cmd_info 资源中；199～208 为保留命令 ID"
   },
   {
     "type": "chipintelli_cwsl_cancel_learning",
@@ -48,7 +48,7 @@
     "previousStatement": null,
     "nextStatement": null,
     "colour": "#C62828",
-    "tooltip": "提交指定命令与分组的模板删除请求"
+    "tooltip": "提交指定命令与分组的模板删除请求；命令 ID 范围为 0～65535，分组 ID 范围为 0～255"
   },
   {
     "type": "chipintelli_cwsl_erase_templates",
@@ -92,7 +92,7 @@
     "message0": "当前自学习状态",
     "output": "Number",
     "colour": "#2E7D32",
-    "tooltip": "返回状态：0 空闲、1 识别、2 学习、3 删除、255 不可用"
+    "tooltip": "返回状态：0 空闲、1 识别、2 学习、3 删除、255 不可用；begin 成功前返回 255"
   },
   {
     "type": "chipintelli_cwsl_state_value",
@@ -116,14 +116,14 @@
     }],
     "output": "Number",
     "colour": "#2E7D32",
-    "tooltip": "查询已学习模板数量和容量"
+    "tooltip": "查询已学习模板数量和容量；begin 未成功时返回 -1"
   },
   {
     "type": "chipintelli_cwsl_dropped_events",
     "message0": "已丢弃的自学习事件数",
     "output": "Number",
     "colour": "#2E7D32",
-    "tooltip": "返回事件队列溢出后累计丢弃的事件数量"
+    "tooltip": "返回轮询和回调两个独立队列的事件丢弃计数之和"
   },
   {
     "type": "chipintelli_cwsl_event_type",
@@ -204,5 +204,155 @@
     "output": "Number",
     "colour": "#43A047",
     "tooltip": "用于与当前尝试结果比较"
+  },
+  {
+    "type": "chipintelli_cwsl_is_begun",
+    "message0": "自学习已初始化成功",
+    "output": "Boolean",
+    "colour": "#2E7D32",
+    "tooltip": "最近一次 begin 已成功且尚未调用 end 时返回真"
+  },
+  {
+    "type": "chipintelli_cwsl_last_error",
+    "message0": "自学习上次操作错误码",
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "返回上次初始化、学习、删除或取消请求的错误码；0 表示无错误，不代表异步操作已完成"
+  },
+  {
+    "type": "chipintelli_cwsl_error_value",
+    "message0": "自学习错误 %1",
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "用于比较上次操作错误码",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ERROR",
+        "options": [
+          [
+            "无错误",
+            "0"
+          ],
+          [
+            "配置未启用",
+            "1"
+          ],
+          [
+            "SDK 启动失败",
+            "2"
+          ],
+          [
+            "SDK 初始化失败",
+            "3"
+          ],
+          [
+            "初始化超时",
+            "4"
+          ],
+          [
+            "请求被拒绝",
+            "5"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "chipintelli_cwsl_error_string",
+    "message0": "自学习上次操作错误说明",
+    "output": "String",
+    "colour": "#2E7D32",
+    "tooltip": "返回上游库提供的英文错误说明"
+  },
+  {
+    "type": "chipintelli_cwsl_state_name",
+    "message0": "当前自学习状态名称",
+    "output": "String",
+    "colour": "#2E7D32",
+    "tooltip": "返回当前状态的英文名称"
+  },
+  {
+    "type": "chipintelli_cwsl_event_name",
+    "message0": "当前自学习事件 %1 名称",
+    "output": "String",
+    "colour": "#2E7D32",
+    "tooltip": "在事件处理器内读取当前事件的英文名称",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DETAIL",
+        "options": [
+          [
+            "事件类型",
+            "TYPE"
+          ],
+          [
+            "尝试结果",
+            "RESULT"
+          ],
+          [
+            "词类型",
+            "WORD_TYPE"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "chipintelli_cwsl_pending_events",
+    "message0": "待处理的自学习事件数",
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "返回轮询队列中积压的事件数，最大 15"
+  },
+  {
+    "type": "chipintelli_cwsl_clear_events",
+    "message0": "清空待处理的自学习事件",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#43A047",
+    "tooltip": "仅清空轮询队列，不取消学习、删除或回调"
+  },
+  {
+    "type": "chipintelli_cwsl_dropped_read_events",
+    "message0": "已丢弃的自学习轮询事件数",
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "返回轮询队列的事件丢弃计数"
+  },
+  {
+    "type": "chipintelli_cwsl_dropped_callback_events",
+    "message0": "已丢弃的自学习回调事件数",
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "返回回调投递失败计数，独立于轮询队列"
+  },
+  {
+    "type": "chipintelli_cwsl_word_type_value",
+    "message0": "自学习词类型 %1",
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "用于与当前事件词类型比较",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WORD_TYPE",
+        "options": [
+          [
+            "普通命令词",
+            "0"
+          ],
+          [
+            "唤醒词",
+            "1"
+          ],
+          [
+            "全部",
+            "2"
+          ]
+        ]
+      }
+    ]
   }
 ]

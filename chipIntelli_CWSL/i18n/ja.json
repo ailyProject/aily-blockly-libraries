@@ -4,7 +4,8 @@
     "初始化": "Initialization",
     "学习与删除": "Learning and deletion",
     "状态与容量": "State and capacity",
-    "异步事件": "Asynchronous events"
+    "异步事件": "Asynchronous events",
+    "诊断与事件队列": "診断とイベントキュー"
   },
   "chipintelli_cwsl_init": {
     "message0": "initialize CI13XX command-word self-learning timeout %1 ms",
@@ -16,7 +17,7 @@
   },
   "chipintelli_cwsl_learn": {
     "message0": "learn %1 command ID %2 group ID %3",
-    "tooltip": "Start asynchronous learning; the command ID must exist in the active cmd_info resource.",
+    "tooltip": "非同期学習を開始します。コマンド ID は 0～65535、グループ ID は 0～255 です。コマンド ID は現在の cmd_info リソースに存在する必要があります。199～208 は予約済みです。",
     "args0": [
       {
         "options": [
@@ -40,7 +41,7 @@
   },
   "chipintelli_cwsl_erase_template": {
     "message0": "erase learned %1 command ID %2 group ID %3",
-    "tooltip": "Submit deletion of a specific learned template.",
+    "tooltip": "指定した学習済みテンプレートの削除を要求します。コマンド ID は 0～65535、グループ ID は 0～255 です。",
     "args0": [
       {
         "options": [
@@ -95,7 +96,7 @@
   },
   "chipintelli_cwsl_state": {
     "message0": "current self-learning state",
-    "tooltip": "Return 0 idle, 1 recognizing, 2 learning, 3 deleting, or 255 unavailable."
+    "tooltip": "0 待機、1 認識、2 学習、3 削除、255 利用不可を返します。begin が成功する前は 255 を返します。"
   },
   "chipintelli_cwsl_state_value": {
     "message0": "self-learning state %1",
@@ -129,7 +130,7 @@
   },
   "chipintelli_cwsl_count": {
     "message0": "%1 count",
-    "tooltip": "Query learned-template usage and capacity.",
+    "tooltip": "学習済みテンプレート数と容量を取得します。begin が成功していない場合は -1 を返します。",
     "args0": [
       {
         "options": [
@@ -159,7 +160,7 @@
   },
   "chipintelli_cwsl_dropped_events": {
     "message0": "number of dropped self-learning events",
-    "tooltip": "Return the accumulated event-queue overflow count."
+    "tooltip": "独立したポーリングキューとコールバックキューのイベント破棄数の合計を返します。"
   },
   "chipintelli_cwsl_event_type": {
     "message0": "current self-learning event type",
@@ -268,6 +269,116 @@
           [
             "6",
             "6"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_is_begun": {
+    "message0": "自己学習の初期化が成功済み",
+    "tooltip": "最後の begin が成功し、end が呼ばれていない場合に真を返します。"
+  },
+  "chipintelli_cwsl_last_error": {
+    "message0": "自己学習の直前の操作のエラーコード",
+    "tooltip": "直前の初期化・学習・削除・キャンセル要求のエラーコードです。0 はエラーなしを表し、非同期処理の完了は意味しません。"
+  },
+  "chipintelli_cwsl_error_value": {
+    "message0": "自己学習エラー %1",
+    "tooltip": "直前の操作のエラーコードとの比較に使います。",
+    "args0": [
+      {
+        "options": [
+          [
+            "エラーなし",
+            "0"
+          ],
+          [
+            "設定が無効",
+            "1"
+          ],
+          [
+            "SDK 起動失敗",
+            "2"
+          ],
+          [
+            "SDK 初期化失敗",
+            "3"
+          ],
+          [
+            "初期化タイムアウト",
+            "4"
+          ],
+          [
+            "要求拒否",
+            "5"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_error_string": {
+    "message0": "自己学習の直前の操作のエラー説明",
+    "tooltip": "元のライブラリが提供する英語のエラー説明を返します。"
+  },
+  "chipintelli_cwsl_state_name": {
+    "message0": "現在の自己学習状態名",
+    "tooltip": "現在の状態名を英語で返します。"
+  },
+  "chipintelli_cwsl_event_name": {
+    "message0": "現在の自己学習イベントの %1 名",
+    "tooltip": "イベントハンドラー内で現在のイベントの英語名を読み取ります。",
+    "args0": [
+      {
+        "options": [
+          [
+            "イベント種別",
+            "TYPE"
+          ],
+          [
+            "試行結果",
+            "RESULT"
+          ],
+          [
+            "単語種別",
+            "WORD_TYPE"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_pending_events": {
+    "message0": "未処理の自己学習イベント数",
+    "tooltip": "ポーリングキューの未処理イベント数を返します。最大 15 件です。"
+  },
+  "chipintelli_cwsl_clear_events": {
+    "message0": "未処理の自己学習イベントをクリア",
+    "tooltip": "ポーリングキューのみをクリアします。学習・削除・コールバックはキャンセルしません。"
+  },
+  "chipintelli_cwsl_dropped_read_events": {
+    "message0": "破棄された自己学習ポーリングイベント数",
+    "tooltip": "ポーリングキューで破棄されたイベント数を返します。"
+  },
+  "chipintelli_cwsl_dropped_callback_events": {
+    "message0": "破棄された自己学習コールバックイベント数",
+    "tooltip": "ポーリングキューとは独立したコールバック配信失敗数を返します。"
+  },
+  "chipintelli_cwsl_word_type_value": {
+    "message0": "自己学習の単語種別 %1",
+    "tooltip": "現在のイベントの単語種別との比較に使います。",
+    "args0": [
+      {
+        "options": [
+          [
+            "コマンド語",
+            "0"
+          ],
+          [
+            "ウェイクワード",
+            "1"
+          ],
+          [
+            "すべて",
+            "2"
           ]
         ]
       }

@@ -13,15 +13,15 @@
   "nickname_ru": "ИК и управление кондиционером CI13XX",
   "nickname_ar": "الأشعة تحت الحمراء والتحكم بالمكيف CI13XX",
   "author": "ChipIntelli Arduino contributors / ailyProject",
-  "description": "CI13XX 固定 38 kHz 原始红外收发、NEC 发送，以及原厂 36 品牌空调码库与搜索积木。",
-  "description_zh_cn": "CI13XX 固定 38 kHz 原始红外收发、NEC 发送，以及原厂 36 品牌空调码库与搜索积木。",
-  "description_en": "CI13XX fixed-38-kHz raw infrared I/O, NEC transmission, and official 36-brand air-conditioner database and search blocks.",
-  "version": "1.0.0",
+  "description": "CI13XX 32 位原始红外收发、NEC 发送与解码，以及原厂 36 品牌空调码库、搜索和异步发送状态积木。",
+  "description_zh_cn": "CI13XX 32 位原始红外收发、NEC 发送与解码，以及原厂 36 品牌空调码库、搜索和异步发送状态积木。",
+  "description_en": "CI13XX 32-bit raw infrared I/O, NEC transmission and decoding, and official 36-brand air-conditioner database, search and asynchronous send status blocks.",
+  "version": "1.2.0",
   "spec": true,
   "license": "LGPL-2.1-or-later",
   "url": "https://document.chipintelli.com/",
   "compatibility": {
-    "core": ["chipintelli:ci13xx:ci1302", "chipintelli:ci13xx:ci1303", "chipintelli:ci13xx:ci1306"],
+    "core": ["chipintelli:ci13xx:ci1302", "chipintelli:ci13xx:ci1303", "chipintelli:ci13xx:ci1306", "chipintelli:ci13xx:ci_d06gt01d", "chipintelli:ci13xx:easyvoice_1306_dev"],
     "voltage": [3.3]
   },
   "keywords": ["aily", "blockly", "chipintelli", "ci13xx", "infrared", "ir", "nec", "raw", "air-conditioner"],
@@ -30,24 +30,13 @@
   "tested": false,
   "tester": "",
   "tags": ["communication", "output", "device"],
-  "bundledSources": [
-    {
-      "name": "ChipIntelliIR",
-      "version": "1.0.0",
-      "author": "ChipIntelli Arduino contributors",
-      "url": "https://document.chipintelli.com/",
-      "license": "LGPL-2.1-or-later",
-      "path": "src/ChipIntelliIR/ChipIntelliIR.h",
-      "reason": "Bundles the exact raw, NEC and air-conditioner IR wrapper used by these blocks."
-    }
-  ],
   "bundledResources": [
     {
       "path": "recursos/user_file_entries/[50000]ir_data_2024_08_16.bin",
       "resourceId": 50000,
       "size": 70716,
       "sha256": "f7e3680b45f9abe56c6d3e16d1bbffd7336e286d0b0dabed20e1d2b4854b97d0",
-      "reason": "Official CI13XX air-conditioner database required by beginAirConditioner()."
+      "reason": "Official database mirror for manual use. CI13XX core 1.0.17+ prepares its matching copy when CHIPINTELLI_IR_DATABASE is enabled."
     }
   ]
 }

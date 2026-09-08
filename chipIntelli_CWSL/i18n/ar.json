@@ -4,7 +4,8 @@
     "初始化": "Initialization",
     "学习与删除": "Learning and deletion",
     "状态与容量": "State and capacity",
-    "异步事件": "Asynchronous events"
+    "异步事件": "Asynchronous events",
+    "诊断与事件队列": "التشخيص وقوائم انتظار الأحداث"
   },
   "chipintelli_cwsl_init": {
     "message0": "initialize CI13XX command-word self-learning timeout %1 ms",
@@ -16,7 +17,7 @@
   },
   "chipintelli_cwsl_learn": {
     "message0": "learn %1 command ID %2 group ID %3",
-    "tooltip": "Start asynchronous learning; the command ID must exist in the active cmd_info resource.",
+    "tooltip": "يبدأ التعلم غير المتزامن. معرّف الأمر: 0–65535؛ معرّف المجموعة: 0–255. يجب أن يكون معرّف الأمر موجودًا في مورد cmd_info الحالي؛ المعرّفات 199–208 محجوزة.",
     "args0": [
       {
         "options": [
@@ -40,7 +41,7 @@
   },
   "chipintelli_cwsl_erase_template": {
     "message0": "erase learned %1 command ID %2 group ID %3",
-    "tooltip": "Submit deletion of a specific learned template.",
+    "tooltip": "يرسل طلب حذف قالب متعلم. معرّف الأمر: 0–65535؛ معرّف المجموعة: 0–255.",
     "args0": [
       {
         "options": [
@@ -95,7 +96,7 @@
   },
   "chipintelli_cwsl_state": {
     "message0": "current self-learning state",
-    "tooltip": "Return 0 idle, 1 recognizing, 2 learning, 3 deleting, or 255 unavailable."
+    "tooltip": "يعيد 0 للخمول، و1 للتعرف، و2 للتعلم، و3 للحذف، و255 لعدم التوفر. يعيد 255 قبل نجاح begin."
   },
   "chipintelli_cwsl_state_value": {
     "message0": "self-learning state %1",
@@ -129,7 +130,7 @@
   },
   "chipintelli_cwsl_count": {
     "message0": "%1 count",
-    "tooltip": "Query learned-template usage and capacity.",
+    "tooltip": "يستعلم عن عدد القوالب المتعلمة والسعة؛ يعيد -1 إذا لم ينجح begin.",
     "args0": [
       {
         "options": [
@@ -159,7 +160,7 @@
   },
   "chipintelli_cwsl_dropped_events": {
     "message0": "number of dropped self-learning events",
-    "tooltip": "Return the accumulated event-queue overflow count."
+    "tooltip": "يعيد مجموع عدد الأحداث المهملة من قائمتي انتظار الاستقصاء والاستدعاءات الراجعة المستقلتين."
   },
   "chipintelli_cwsl_event_type": {
     "message0": "current self-learning event type",
@@ -268,6 +269,116 @@
           [
             "6",
             "6"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_is_begun": {
+    "message0": "تمت تهيئة التعلم الذاتي بنجاح",
+    "tooltip": "صحيح إذا نجح آخر استدعاء begin ولم يتم استدعاء end بعد."
+  },
+  "chipintelli_cwsl_last_error": {
+    "message0": "رمز خطأ آخر عملية تعلم ذاتي",
+    "tooltip": "رمز خطأ آخر طلب تهيئة أو تعلم أو حذف أو إلغاء. يشير 0 إلى عدم وجود خطأ، وليس إلى اكتمال العملية غير المتزامنة."
+  },
+  "chipintelli_cwsl_error_value": {
+    "message0": "خطأ التعلم الذاتي %1",
+    "tooltip": "يُستخدم للمقارنة مع رمز خطأ آخر عملية.",
+    "args0": [
+      {
+        "options": [
+          [
+            "لا يوجد خطأ",
+            "0"
+          ],
+          [
+            "الإعداد غير مفعّل",
+            "1"
+          ],
+          [
+            "فشل بدء SDK",
+            "2"
+          ],
+          [
+            "فشلت تهيئة SDK",
+            "3"
+          ],
+          [
+            "انتهت مهلة التهيئة",
+            "4"
+          ],
+          [
+            "تم رفض الطلب",
+            "5"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_error_string": {
+    "message0": "وصف خطأ آخر عملية تعلم ذاتي",
+    "tooltip": "يعيد وصف الخطأ باللغة الإنجليزية الذي توفره المكتبة الأصلية."
+  },
+  "chipintelli_cwsl_state_name": {
+    "message0": "اسم حالة التعلم الذاتي الحالية",
+    "tooltip": "يعيد اسم الحالة الحالية باللغة الإنجليزية."
+  },
+  "chipintelli_cwsl_event_name": {
+    "message0": "اسم %1 لحدث التعلم الذاتي الحالي",
+    "tooltip": "يقرأ الاسم الإنجليزي للحدث الحالي داخل معالج الأحداث.",
+    "args0": [
+      {
+        "options": [
+          [
+            "نوع الحدث",
+            "TYPE"
+          ],
+          [
+            "نتيجة المحاولة",
+            "RESULT"
+          ],
+          [
+            "نوع الكلمة",
+            "WORD_TYPE"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_pending_events": {
+    "message0": "عدد أحداث التعلم الذاتي المعلقة",
+    "tooltip": "يعيد عدد الأحداث المتراكمة في قائمة انتظار الاستقصاء، بحد أقصى 15."
+  },
+  "chipintelli_cwsl_clear_events": {
+    "message0": "مسح أحداث التعلم الذاتي المعلقة",
+    "tooltip": "يمسح قائمة انتظار الاستقصاء فقط؛ ولا يلغي التعلم أو الحذف أو الاستدعاءات الراجعة."
+  },
+  "chipintelli_cwsl_dropped_read_events": {
+    "message0": "عدد أحداث استقصاء التعلم الذاتي المهملة",
+    "tooltip": "يعيد عدد الأحداث المهملة من قائمة انتظار الاستقصاء."
+  },
+  "chipintelli_cwsl_dropped_callback_events": {
+    "message0": "عدد أحداث الاستدعاء الراجع للتعلم الذاتي المهملة",
+    "tooltip": "يعيد عدد حالات فشل تسليم الاستدعاءات الراجعة، بصورة مستقلة عن قائمة انتظار الاستقصاء."
+  },
+  "chipintelli_cwsl_word_type_value": {
+    "message0": "نوع كلمة التعلم الذاتي %1",
+    "tooltip": "يُستخدم للمقارنة مع نوع كلمة الحدث الحالي.",
+    "args0": [
+      {
+        "options": [
+          [
+            "كلمة أمر",
+            "0"
+          ],
+          [
+            "كلمة تنشيط",
+            "1"
+          ],
+          [
+            "الكل",
+            "2"
           ]
         ]
       }

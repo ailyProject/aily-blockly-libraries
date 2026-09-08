@@ -4,7 +4,8 @@
     "初始化": "Initialization",
     "学习与删除": "Learning and deletion",
     "状态与容量": "State and capacity",
-    "异步事件": "Asynchronous events"
+    "异步事件": "Asynchronous events",
+    "诊断与事件队列": "Diagnostic et files d'événements"
   },
   "chipintelli_cwsl_init": {
     "message0": "initialize CI13XX command-word self-learning timeout %1 ms",
@@ -16,7 +17,7 @@
   },
   "chipintelli_cwsl_learn": {
     "message0": "learn %1 command ID %2 group ID %3",
-    "tooltip": "Start asynchronous learning; the command ID must exist in the active cmd_info resource.",
+    "tooltip": "Démarre l'apprentissage asynchrone. ID de commande : 0–65535 ; ID de groupe : 0–255. L'ID de commande doit exister dans la ressource cmd_info active ; les ID 199–208 sont réservés.",
     "args0": [
       {
         "options": [
@@ -40,7 +41,7 @@
   },
   "chipintelli_cwsl_erase_template": {
     "message0": "erase learned %1 command ID %2 group ID %3",
-    "tooltip": "Submit deletion of a specific learned template.",
+    "tooltip": "Demande la suppression d'un modèle appris. ID de commande : 0–65535 ; ID de groupe : 0–255.",
     "args0": [
       {
         "options": [
@@ -95,7 +96,7 @@
   },
   "chipintelli_cwsl_state": {
     "message0": "current self-learning state",
-    "tooltip": "Return 0 idle, 1 recognizing, 2 learning, 3 deleting, or 255 unavailable."
+    "tooltip": "Renvoie 0 inactif, 1 reconnaissance, 2 apprentissage, 3 suppression ou 255 indisponible. Avant la réussite de begin, renvoie 255."
   },
   "chipintelli_cwsl_state_value": {
     "message0": "self-learning state %1",
@@ -129,7 +130,7 @@
   },
   "chipintelli_cwsl_count": {
     "message0": "%1 count",
-    "tooltip": "Query learned-template usage and capacity.",
+    "tooltip": "Interroge le nombre de modèles appris et leur capacité ; renvoie -1 si begin n'a pas réussi.",
     "args0": [
       {
         "options": [
@@ -159,7 +160,7 @@
   },
   "chipintelli_cwsl_dropped_events": {
     "message0": "number of dropped self-learning events",
-    "tooltip": "Return the accumulated event-queue overflow count."
+    "tooltip": "Renvoie la somme des événements abandonnés dans les deux files indépendantes d'interrogation et de rappel."
   },
   "chipintelli_cwsl_event_type": {
     "message0": "current self-learning event type",
@@ -268,6 +269,116 @@
           [
             "6",
             "6"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_is_begun": {
+    "message0": "auto-apprentissage initialisé avec succès",
+    "tooltip": "Vrai si le dernier appel à begin a réussi et si end n'a pas encore été appelé."
+  },
+  "chipintelli_cwsl_last_error": {
+    "message0": "code d'erreur de la dernière opération d'auto-apprentissage",
+    "tooltip": "Code d'erreur de la dernière demande d'initialisation, d'apprentissage, de suppression ou d'annulation. 0 indique l'absence d'erreur, pas la fin de l'opération asynchrone."
+  },
+  "chipintelli_cwsl_error_value": {
+    "message0": "erreur d'auto-apprentissage %1",
+    "tooltip": "Permet de comparer le code d'erreur de la dernière opération.",
+    "args0": [
+      {
+        "options": [
+          [
+            "aucune erreur",
+            "0"
+          ],
+          [
+            "configuration désactivée",
+            "1"
+          ],
+          [
+            "échec du démarrage du SDK",
+            "2"
+          ],
+          [
+            "échec de l'initialisation du SDK",
+            "3"
+          ],
+          [
+            "délai d'initialisation dépassé",
+            "4"
+          ],
+          [
+            "demande refusée",
+            "5"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_error_string": {
+    "message0": "description de l'erreur de la dernière opération d'auto-apprentissage",
+    "tooltip": "Renvoie la description de l'erreur en anglais fournie par la bibliothèque d'origine."
+  },
+  "chipintelli_cwsl_state_name": {
+    "message0": "nom de l'état actuel d'auto-apprentissage",
+    "tooltip": "Renvoie le nom de l'état actuel en anglais."
+  },
+  "chipintelli_cwsl_event_name": {
+    "message0": "nom de %1 de l'événement d'auto-apprentissage actuel",
+    "tooltip": "Lit le nom anglais de l'événement actuel dans un gestionnaire d'événements.",
+    "args0": [
+      {
+        "options": [
+          [
+            "type d'événement",
+            "TYPE"
+          ],
+          [
+            "résultat de la tentative",
+            "RESULT"
+          ],
+          [
+            "type de mot",
+            "WORD_TYPE"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_pending_events": {
+    "message0": "nombre d'événements d'auto-apprentissage en attente",
+    "tooltip": "Renvoie le nombre d'événements dans la file d'interrogation, au maximum 15."
+  },
+  "chipintelli_cwsl_clear_events": {
+    "message0": "effacer les événements d'auto-apprentissage en attente",
+    "tooltip": "Vide uniquement la file d'interrogation ; n'annule ni l'apprentissage, ni la suppression, ni les rappels."
+  },
+  "chipintelli_cwsl_dropped_read_events": {
+    "message0": "nombre d'événements d'interrogation d'auto-apprentissage abandonnés",
+    "tooltip": "Renvoie le nombre d'événements abandonnés dans la file d'interrogation."
+  },
+  "chipintelli_cwsl_dropped_callback_events": {
+    "message0": "nombre d'événements de rappel d'auto-apprentissage abandonnés",
+    "tooltip": "Renvoie le nombre d'échecs de transmission des rappels, indépendamment de la file d'interrogation."
+  },
+  "chipintelli_cwsl_word_type_value": {
+    "message0": "type de mot d'auto-apprentissage %1",
+    "tooltip": "Permet de comparer le type de mot de l'événement actuel.",
+    "args0": [
+      {
+        "options": [
+          [
+            "mot de commande",
+            "0"
+          ],
+          [
+            "mot d'activation",
+            "1"
+          ],
+          [
+            "tous",
+            "2"
           ]
         ]
       }

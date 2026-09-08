@@ -4,7 +4,8 @@
     "初始化": "Initialization",
     "学习与删除": "Learning and deletion",
     "状态与容量": "State and capacity",
-    "异步事件": "Asynchronous events"
+    "异步事件": "Asynchronous events",
+    "诊断与事件队列": "진단 및 이벤트 큐"
   },
   "chipintelli_cwsl_init": {
     "message0": "initialize CI13XX command-word self-learning timeout %1 ms",
@@ -16,7 +17,7 @@
   },
   "chipintelli_cwsl_learn": {
     "message0": "learn %1 command ID %2 group ID %3",
-    "tooltip": "Start asynchronous learning; the command ID must exist in the active cmd_info resource.",
+    "tooltip": "비동기 학습을 시작합니다. 명령 ID는 0~65535, 그룹 ID는 0~255입니다. 명령 ID는 현재 cmd_info 리소스에 있어야 합니다. 199~208은 예약된 명령 ID입니다.",
     "args0": [
       {
         "options": [
@@ -40,7 +41,7 @@
   },
   "chipintelli_cwsl_erase_template": {
     "message0": "erase learned %1 command ID %2 group ID %3",
-    "tooltip": "Submit deletion of a specific learned template.",
+    "tooltip": "지정된 학습 템플릿의 삭제를 요청합니다. 명령 ID는 0~65535, 그룹 ID는 0~255입니다.",
     "args0": [
       {
         "options": [
@@ -95,7 +96,7 @@
   },
   "chipintelli_cwsl_state": {
     "message0": "current self-learning state",
-    "tooltip": "Return 0 idle, 1 recognizing, 2 learning, 3 deleting, or 255 unavailable."
+    "tooltip": "0 대기, 1 인식, 2 학습, 3 삭제, 255 사용 불가를 반환합니다. begin이 성공하기 전에는 255를 반환합니다."
   },
   "chipintelli_cwsl_state_value": {
     "message0": "self-learning state %1",
@@ -129,7 +130,7 @@
   },
   "chipintelli_cwsl_count": {
     "message0": "%1 count",
-    "tooltip": "Query learned-template usage and capacity.",
+    "tooltip": "학습된 템플릿 수와 용량을 조회합니다. begin이 성공하지 않았으면 -1을 반환합니다.",
     "args0": [
       {
         "options": [
@@ -159,7 +160,7 @@
   },
   "chipintelli_cwsl_dropped_events": {
     "message0": "number of dropped self-learning events",
-    "tooltip": "Return the accumulated event-queue overflow count."
+    "tooltip": "서로 독립적인 폴링 큐와 콜백 큐의 이벤트 폐기 횟수 합계를 반환합니다."
   },
   "chipintelli_cwsl_event_type": {
     "message0": "current self-learning event type",
@@ -268,6 +269,116 @@
           [
             "6",
             "6"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_is_begun": {
+    "message0": "자기 학습 초기화 성공",
+    "tooltip": "최근 begin이 성공하고 아직 end를 호출하지 않았으면 참을 반환합니다."
+  },
+  "chipintelli_cwsl_last_error": {
+    "message0": "자기 학습의 마지막 작업 오류 코드",
+    "tooltip": "마지막 초기화, 학습, 삭제 또는 취소 요청의 오류 코드입니다. 0은 오류 없음을 뜻하며 비동기 작업 완료를 뜻하지 않습니다."
+  },
+  "chipintelli_cwsl_error_value": {
+    "message0": "자기 학습 오류 %1",
+    "tooltip": "마지막 작업의 오류 코드와 비교할 때 사용합니다.",
+    "args0": [
+      {
+        "options": [
+          [
+            "오류 없음",
+            "0"
+          ],
+          [
+            "설정 비활성화",
+            "1"
+          ],
+          [
+            "SDK 시작 실패",
+            "2"
+          ],
+          [
+            "SDK 초기화 실패",
+            "3"
+          ],
+          [
+            "초기화 시간 초과",
+            "4"
+          ],
+          [
+            "요청 거부",
+            "5"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_error_string": {
+    "message0": "자기 학습의 마지막 작업 오류 설명",
+    "tooltip": "원본 라이브러리가 제공하는 영어 오류 설명을 반환합니다."
+  },
+  "chipintelli_cwsl_state_name": {
+    "message0": "현재 자기 학습 상태 이름",
+    "tooltip": "현재 상태의 영어 이름을 반환합니다."
+  },
+  "chipintelli_cwsl_event_name": {
+    "message0": "현재 자기 학습 이벤트의 %1 이름",
+    "tooltip": "이벤트 처리기 안에서 현재 이벤트의 영어 이름을 읽습니다.",
+    "args0": [
+      {
+        "options": [
+          [
+            "이벤트 유형",
+            "TYPE"
+          ],
+          [
+            "시도 결과",
+            "RESULT"
+          ],
+          [
+            "단어 유형",
+            "WORD_TYPE"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_pending_events": {
+    "message0": "대기 중인 자기 학습 이벤트 수",
+    "tooltip": "폴링 큐에 쌓인 이벤트 수를 반환합니다. 최대 15개입니다."
+  },
+  "chipintelli_cwsl_clear_events": {
+    "message0": "대기 중인 자기 학습 이벤트 지우기",
+    "tooltip": "폴링 큐만 비웁니다. 학습, 삭제 또는 콜백을 취소하지 않습니다."
+  },
+  "chipintelli_cwsl_dropped_read_events": {
+    "message0": "버려진 자기 학습 폴링 이벤트 수",
+    "tooltip": "폴링 큐에서 버려진 이벤트 수를 반환합니다."
+  },
+  "chipintelli_cwsl_dropped_callback_events": {
+    "message0": "버려진 자기 학습 콜백 이벤트 수",
+    "tooltip": "폴링 큐와 독립적인 콜백 전달 실패 횟수를 반환합니다."
+  },
+  "chipintelli_cwsl_word_type_value": {
+    "message0": "자기 학습 단어 유형 %1",
+    "tooltip": "현재 이벤트의 단어 유형과 비교할 때 사용합니다.",
+    "args0": [
+      {
+        "options": [
+          [
+            "명령어",
+            "0"
+          ],
+          [
+            "호출어",
+            "1"
+          ],
+          [
+            "전체",
+            "2"
           ]
         ]
       }

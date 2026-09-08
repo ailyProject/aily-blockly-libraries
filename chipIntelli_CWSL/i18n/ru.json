@@ -4,7 +4,8 @@
     "初始化": "Initialization",
     "学习与删除": "Learning and deletion",
     "状态与容量": "State and capacity",
-    "异步事件": "Asynchronous events"
+    "异步事件": "Asynchronous events",
+    "诊断与事件队列": "Диагностика и очереди событий"
   },
   "chipintelli_cwsl_init": {
     "message0": "initialize CI13XX command-word self-learning timeout %1 ms",
@@ -16,7 +17,7 @@
   },
   "chipintelli_cwsl_learn": {
     "message0": "learn %1 command ID %2 group ID %3",
-    "tooltip": "Start asynchronous learning; the command ID must exist in the active cmd_info resource.",
+    "tooltip": "Запускает асинхронное обучение. ID команды: 0–65535; ID группы: 0–255. ID команды должен существовать в текущем ресурсе cmd_info; ID 199–208 зарезервированы.",
     "args0": [
       {
         "options": [
@@ -40,7 +41,7 @@
   },
   "chipintelli_cwsl_erase_template": {
     "message0": "erase learned %1 command ID %2 group ID %3",
-    "tooltip": "Submit deletion of a specific learned template.",
+    "tooltip": "Отправляет запрос удаления обученного шаблона. ID команды: 0–65535; ID группы: 0–255.",
     "args0": [
       {
         "options": [
@@ -95,7 +96,7 @@
   },
   "chipintelli_cwsl_state": {
     "message0": "current self-learning state",
-    "tooltip": "Return 0 idle, 1 recognizing, 2 learning, 3 deleting, or 255 unavailable."
+    "tooltip": "Возвращает 0 — ожидание, 1 — распознавание, 2 — обучение, 3 — удаление, 255 — недоступно. До успешного begin возвращает 255."
   },
   "chipintelli_cwsl_state_value": {
     "message0": "self-learning state %1",
@@ -129,7 +130,7 @@
   },
   "chipintelli_cwsl_count": {
     "message0": "%1 count",
-    "tooltip": "Query learned-template usage and capacity.",
+    "tooltip": "Запрашивает число обученных шаблонов и ёмкость; возвращает -1, если begin не завершился успешно.",
     "args0": [
       {
         "options": [
@@ -159,7 +160,7 @@
   },
   "chipintelli_cwsl_dropped_events": {
     "message0": "number of dropped self-learning events",
-    "tooltip": "Return the accumulated event-queue overflow count."
+    "tooltip": "Возвращает сумму отброшенных событий двух независимых очередей: опроса и обратных вызовов."
   },
   "chipintelli_cwsl_event_type": {
     "message0": "current self-learning event type",
@@ -268,6 +269,116 @@
           [
             "6",
             "6"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_is_begun": {
+    "message0": "самообучение успешно инициализировано",
+    "tooltip": "Истина, если последний вызов begin завершился успешно и end ещё не вызывался."
+  },
+  "chipintelli_cwsl_last_error": {
+    "message0": "код ошибки последней операции самообучения",
+    "tooltip": "Код ошибки последнего запроса инициализации, обучения, удаления или отмены. 0 означает отсутствие ошибки, но не завершение асинхронной операции."
+  },
+  "chipintelli_cwsl_error_value": {
+    "message0": "ошибка самообучения %1",
+    "tooltip": "Для сравнения с кодом ошибки последней операции.",
+    "args0": [
+      {
+        "options": [
+          [
+            "нет ошибки",
+            "0"
+          ],
+          [
+            "конфигурация отключена",
+            "1"
+          ],
+          [
+            "ошибка запуска SDK",
+            "2"
+          ],
+          [
+            "ошибка инициализации SDK",
+            "3"
+          ],
+          [
+            "истекло время инициализации",
+            "4"
+          ],
+          [
+            "запрос отклонён",
+            "5"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_error_string": {
+    "message0": "описание ошибки последней операции самообучения",
+    "tooltip": "Возвращает описание ошибки на английском языке из исходной библиотеки."
+  },
+  "chipintelli_cwsl_state_name": {
+    "message0": "название текущего состояния самообучения",
+    "tooltip": "Возвращает название текущего состояния на английском языке."
+  },
+  "chipintelli_cwsl_event_name": {
+    "message0": "название %1 текущего события самообучения",
+    "tooltip": "Читает английское название текущего события внутри обработчика событий.",
+    "args0": [
+      {
+        "options": [
+          [
+            "типа события",
+            "TYPE"
+          ],
+          [
+            "результата попытки",
+            "RESULT"
+          ],
+          [
+            "типа слова",
+            "WORD_TYPE"
+          ]
+        ]
+      }
+    ]
+  },
+  "chipintelli_cwsl_pending_events": {
+    "message0": "число ожидающих событий самообучения",
+    "tooltip": "Возвращает число событий в очереди опроса, не более 15."
+  },
+  "chipintelli_cwsl_clear_events": {
+    "message0": "очистить ожидающие события самообучения",
+    "tooltip": "Очищает только очередь опроса; не отменяет обучение, удаление или обратные вызовы."
+  },
+  "chipintelli_cwsl_dropped_read_events": {
+    "message0": "число отброшенных событий опроса самообучения",
+    "tooltip": "Возвращает число отброшенных событий очереди опроса."
+  },
+  "chipintelli_cwsl_dropped_callback_events": {
+    "message0": "число отброшенных событий обратного вызова самообучения",
+    "tooltip": "Возвращает число сбоев доставки обратных вызовов, независимо от очереди опроса."
+  },
+  "chipintelli_cwsl_word_type_value": {
+    "message0": "тип слова самообучения %1",
+    "tooltip": "Для сравнения с типом слова текущего события.",
+    "args0": [
+      {
+        "options": [
+          [
+            "командное слово",
+            "0"
+          ],
+          [
+            "слово активации",
+            "1"
+          ],
+          [
+            "все",
+            "2"
           ]
         ]
       }
