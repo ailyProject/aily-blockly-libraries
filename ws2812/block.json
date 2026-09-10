@@ -1,0 +1,183 @@
+[
+  {
+    "type": "ws2812_init",
+    "message0": "初始化WS2812灯带 数据引脚 %1 灯珠数量 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DATA_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_number",
+        "name": "COUNT",
+        "value": 10,
+        "min": 1,
+        "max": 1000,
+        "precision": 1
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2A82DA",
+    "icon": "iconfont icon-ws2812",
+    "tooltip": "按数据引脚初始化WS2812灯带并创建RMT硬件时序，需在控制该引脚的其他灯带积木之前调用；同引脚重复初始化会自动重新配置"
+  },
+  {
+    "type": "ws2812_fill",
+    "message0": "WS2812填充全部灯珠 数据引脚 %1 红色 %2 绿色 %3 蓝色 %4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DATA_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "RED",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "GREEN",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "BLUE",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2A82DA",
+    "icon": "iconfont icon-ws2812",
+    "tooltip": "把该引脚灯带缓冲区内全部灯珠设为指定RGB颜色(0-255)，调用刷新积木后生效"
+  },
+  {
+    "type": "ws2812_set_pixel",
+    "message0": "WS2812设置单个灯珠 数据引脚 %1 序号 %2 红色 %3 绿色 %4 蓝色 %5",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DATA_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "RED",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "GREEN",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "BLUE",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2A82DA",
+    "icon": "iconfont icon-ws2812",
+    "tooltip": "设置该引脚灯带上指定序号(从0开始)灯珠的RGB颜色(0-255)，调用刷新积木后生效"
+  },
+  {
+    "type": "ws2812_set_brightness",
+    "message0": "WS2812设置亮度 数据引脚 %1 亮度 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DATA_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "BRIGHTNESS",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2A82DA",
+    "icon": "iconfont icon-ws2812",
+    "tooltip": "设置该引脚灯带整体亮度0-255，在下次刷新时生效"
+  },
+  {
+    "type": "ws2812_clear",
+    "message0": "WS2812清空缓冲区 数据引脚 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DATA_PIN",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2A82DA",
+    "icon": "iconfont icon-ws2812",
+    "tooltip": "把该引脚灯带全部灯珠缓冲区清为熄灭状态，需再调用刷新积木才会真正熄灭"
+  },
+  {
+    "type": "ws2812_show",
+    "message0": "WS2812刷新显示 数据引脚 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DATA_PIN",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2A82DA",
+    "icon": "iconfont icon-ws2812",
+    "tooltip": "把该引脚灯带缓冲区内容通过RMT硬件时序发送到灯带并显示"
+  },
+  {
+    "type": "ws2812_is_ready",
+    "message0": "WS2812已初始化 数据引脚 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DATA_PIN",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2A82DA",
+    "icon": "iconfont icon-ws2812",
+    "tooltip": "返回1表示该引脚灯带RMT初始化成功，返回0表示未初始化或初始化失败（如无可分配RMT通道）"
+  }
+]
