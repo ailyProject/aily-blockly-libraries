@@ -1,0 +1,85 @@
+{
+  "toolbox_name": "micro:bit File System",
+  "toolbox_labels": {
+    "写入": "Write",
+    "读取": "Read",
+    "管理": "Manage",
+    "文件夹": "Folders"
+  },
+  "microbitfs_begin": {
+    "message0": "Initialize micro:bit filesystem rebuild-empty %1",
+    "tooltip": "Initialize/restore the microbitfs filesystem (a complete port of micropython-microbit-v2, window 0x6D000-0x73000). Unchecked: automatic recovery, a blank chip is initialized automatically; checked: erase all files and rebuild first. Call once at startup; other file blocks also auto-initialize when needed."
+  },
+  "microbitfs_format": {
+    "message0": "Format filesystem (erase all files)",
+    "tooltip": "Erase the whole filesystem window and reinitialize; deletes every file and cannot be undone."
+  },
+  "microbitfs_write": {
+    "message0": "Write file %1 content %2",
+    "tooltip": "Overwrite (upstream 'w' mode): an existing file is cleared and rewritten; a missing file is created. Names may include a virtual folder prefix such as logs/a.txt (total length up to 120 characters)."
+  },
+  "microbitfs_append_line": {
+    "message0": "Append line to file %1 content %2",
+    "tooltip": "Upstream has no append mode: the original content is read back and rewritten together with the new line (total length limit 8192 bytes after append); a newline is added automatically."
+  },
+  "microbitfs_append_number": {
+    "message0": "Append number to file %1 value %2 decimals %3",
+    "tooltip": "Formats the number with the given decimals and appends it as one line (read-modify-write); useful for recording sensor values."
+  },
+  "microbitfs_read": {
+    "message0": "Read content of file %1",
+    "tooltip": "Read the whole file as text (max 8192 bytes); returns an empty string if the file is missing."
+  },
+  "microbitfs_read_line": {
+    "message0": "Read file %1 line %2",
+    "tooltip": "Read one line by index (0-based, max 256 bytes per line); returns an empty string when out of range. Combine with the line-count block."
+  },
+  "microbitfs_line_count": {
+    "message0": "Line count of file %1",
+    "tooltip": "Counts total lines by newlines; a final line without a newline still counts. Returns 0 if the file is missing."
+  },
+  "microbitfs_exists": {
+    "message0": "File %1 exists?",
+    "tooltip": "Checks whether the file exists in the filesystem."
+  },
+  "microbitfs_file_size": {
+    "message0": "Size of file %1 (bytes)",
+    "tooltip": "Returns the file size in bytes, or 0 if the file is missing."
+  },
+  "microbitfs_remove": {
+    "message0": "Remove file %1",
+    "tooltip": "Deletes the file (chunks are marked freed and reclaimed automatically); no effect if it does not exist."
+  },
+  "microbitfs_list_files": {
+    "message0": "List all file names",
+    "tooltip": "Returns all file names separated by newlines; print to serial to inspect."
+  },
+  "microbitfs_file_count": {
+    "message0": "Total file count",
+    "tooltip": "Returns the total number of files in the filesystem."
+  },
+  "microbitfs_free_kb": {
+    "message0": "Filesystem free space (KB)",
+    "tooltip": "Returns free capacity in KB. The window is 24KB with about 20KB usable data (160 chunks x 126 bytes)."
+  },
+  "microbitfs_used_kb": {
+    "message0": "Filesystem used space (KB)",
+    "tooltip": "Returns used capacity in KB (estimated from chunk data areas)."
+  },
+  "microbitfs_dir_exists": {
+    "message0": "Folder %1 exists?",
+    "tooltip": "Virtual folders (wrapper extension): the upstream filesystem is flat with no directory entities. Checks whether any file name starts with 'folder/'; a folder appears when its first file is written and an empty folder does not exist."
+  },
+  "microbitfs_dir_list": {
+    "message0": "List contents of folder %1",
+    "tooltip": "Returns direct children: file names plus subfolder names (ending with /), separated by newlines; enter / to list the root folder."
+  },
+  "microbitfs_dir_file_count": {
+    "message0": "Total files in folder %1",
+    "tooltip": "Counts all files under the folder, including subfolders; enter / to count every file."
+  },
+  "microbitfs_dir_remove": {
+    "message0": "Delete folder %1 and all its files",
+    "tooltip": "Deletes every file whose name starts with 'folder/' (including subfolder contents); the folder disappears once empty. The root folder cannot be deleted this way; use format."
+  }
+}
