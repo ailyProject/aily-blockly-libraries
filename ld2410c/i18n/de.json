@@ -1,0 +1,181 @@
+{
+  "toolbox_name": "LD2410C-Radar",
+  "ld2410c_init": {
+    "message0": "%1 SoftwareSerial verbinden RX-Pin %2 TX-Pin %3 Baudrate %4",
+    "tooltip": "Erstellt ein LD2410C-Radarobjekt und initialisiert das SoftwareSerial (Modul-TX an RX-Pin, Modul-RX an TX-Pin)",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "256000 (Werksstandard)",
+            "256000"
+          ],
+          [
+            "115200",
+            "115200"
+          ],
+          [
+            "57600",
+            "57600"
+          ],
+          [
+            "38400",
+            "38400"
+          ],
+          [
+            "19200",
+            "19200"
+          ],
+          [
+            "9600",
+            "9600"
+          ]
+        ]
+      }
+    ]
+  },
+  "ld2410c_read_frame": {
+    "message0": "%1 einen Frame lesen und speichern",
+    "tooltip": "Empfängt Bytes vom SoftwareSerial, richtet sich am Header (244 243 242 241) aus und begrenzt den Frame am Ende (248 247 246 245); speichert den neuesten Frame (23 Byte im Basismodus, bis 45 Byte im Engineering-Modus). Nicht blockierend; im Loop wiederholt aufrufen",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_new_frame": {
+    "message0": "%1 neuer Frame empfangen?",
+    "tooltip": "Ob gerade ein neuer Frame empfangen und gespeichert wurde (Flag wird beim Lesen automatisch gelöscht)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_frame_valid": {
+    "message0": "%1 gültiger Frame gespeichert?",
+    "tooltip": "Bleibt ab dem ersten gültigen Frame wahr (Pegel-Signal, kein automatisches Löschen)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_frame_byte": {
+    "message0": "Byte %2 von %1 gespeichertem Frame",
+    "tooltip": "Liest Byte 1 bis Frame-Länge des gespeicherten Frames (Header, Datenbereich und Ende eingeschlossen)",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_data_byte": {
+    "message0": "Byte %2 von %1 Datenbereich",
+    "tooltip": "Liest Byte 1 bis Datenbereich-Länge des gespeicherten Frames (Datenbereich = Frame-Länge - 8)",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_frame_length": {
+    "message0": "%1 Frame-Größe in Bytes",
+    "tooltip": "Gibt die tatsächliche Länge des gespeicherten Frames zurück: 23-45 Byte (0, wenn kein gültiger Frame gespeichert ist)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_data_length": {
+    "message0": "%1 Datenbereich-Größe in Bytes",
+    "tooltip": "Gibt die tatsächliche Datenbereich-Länge zurück: = Frame-Länge - 8 (15 Byte im Basismodus; 0, wenn kein gültiger Frame gespeichert ist)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_mode": {
+    "message0": "%1 Report-Modus",
+    "tooltip": "Frame-Byte 7: 1 = Engineering-Report, 2 = Basis-Report",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_target_status": {
+    "message0": "%1 Zielstatus",
+    "tooltip": "Frame-Byte 9: 0 = kein Ziel, 1 = bewegt, 2 = ruhend, 3 = bewegt + ruhend",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_moving_distance": {
+    "message0": "%1 Entfernung des bewegten Ziels",
+    "tooltip": "Rohwert der Entfernung des bewegten Ziels, Frame-Bytes 10-11, 16 Bit Little-Endian",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_moving_energy": {
+    "message0": "%1 Energie des bewegten Ziels",
+    "tooltip": "Energie des bewegten Ziels 0-100, Frame-Byte 12",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_static_distance": {
+    "message0": "%1 Entfernung des ruhenden Ziels",
+    "tooltip": "Rohwert der Entfernung des ruhenden Ziels, Frame-Bytes 13-14, 16 Bit Little-Endian",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_static_energy": {
+    "message0": "%1 Energie des ruhenden Ziels",
+    "tooltip": "Energie des ruhenden Ziels 0-100, Frame-Byte 15",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_detect_distance": {
+    "message0": "%1 Erfassungsentfernung",
+    "tooltip": "Rohwert der Gesamterfassungsentfernung, Frame-Bytes 16-17, 16 Bit Little-Endian",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_move_gate_count": {
+    "message0": "%1 max. Bewegungs-Entfernungstor",
+    "tooltip": "Anzahl der Bewegungserfassungstore, Frame-Byte 18; nur im Engineering-Frame (0 im Basis-Frame)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_static_gate_count": {
+    "message0": "%1 max. Ruhend-Entfernungstor",
+    "tooltip": "Anzahl der ruhenden Erfassungstore, Frame-Byte 19; nur im Engineering-Frame (0 im Basis-Frame)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_move_gate_energy": {
+    "message0": "%1 Energie Bewegungstor %2",
+    "tooltip": "Energie 0-100 des Bewegungsstors 1-9, Frame-Bytes 20-28; nur im Engineering-Frame",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_static_gate_energy": {
+    "message0": "%1 Energie Ruhendstor %2",
+    "tooltip": "Energie 0-100 des Ruhendestors 1-9, Frame-Bytes 29-37; nur im Engineering-Frame",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_photosensitive": {
+    "message0": "%1 Lichtsensorwert",
+    "tooltip": "Umgebungshelligkeitswert 0-255, Frame-Byte 38; nur im Engineering-Frame (0 im Basis-Frame)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_poll_auto": {
+    "message0": "Alle Radare automatisch abfragen",
+    "tooltip": "Wechselt automatisch das aktive Empfangen zwischen allen initialisierten LD2410C-Radarobjekten: Nach einer vollständigen Frame oder nach 500 ms ohne Frame wird zum nächsten gewechselt. Im Loop wiederholt aufrufen und Werte mit den Parse-Blöcken jedes Objekts lesen; ein separater Lese-Block ist nicht nötig"
+  }
+}
