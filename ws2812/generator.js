@@ -1,4 +1,4 @@
-// @aily-project/lib-ws2812 代码生成器（引脚直控版）
+// @aily-project/lib-esp32-ws2812 代码生成器（引脚直控版）
 // 无对象变量：每个积木直接携带 DATA_PIN 引脚，底层按引脚路由到对应灯带。
 
 Arduino.forBlock['ws2812_init'] = function (block, generator) {
