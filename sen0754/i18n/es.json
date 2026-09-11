@@ -1,0 +1,52 @@
+{
+  "sen0754_init": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Serial1 (UART1)",
+            "Serial1"
+          ],
+          [
+            "Serial2 (UART2)",
+            "Serial2"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "message0": "inicializar sensor ultrasónico de nivel %1 serie %2 pin RX %3 pin TX %4",
+    "tooltip": "Inicializa el sensor ultrasónico de nivel de líquido SEN0754 (Modbus UART, baudios fijos 115200). El pin RX se conecta al cable TX verde del sensor; el pin TX al cable RX azul. Para placas serie ESP32."
+  },
+  "toolbox_name": "Nivel de líquido ultrasónico",
+  "sen0754_set_install_height": {
+    "message0": "fijar altura de instalación de %1 a %2 mm",
+    "tooltip": "Fija la altura de montaje superior del sensor en milímetros. Nivel = altura de instalación − distancia vacía. Por defecto 2000 mm."
+  },
+  "sen0754_read_realtime": {
+    "message0": "leer valor en tiempo real %1",
+    "tooltip": "Envía el comando Modbus para leer distancia y temperatura en tiempo real. Respuesta rápida (≈100 ms), para superficie tranquila."
+  },
+  "sen0754_read_processed": {
+    "message0": "leer valor procesado %1",
+    "tooltip": "Envía el comando Modbus para leer la distancia filtrada por algoritmo y la temperatura. Estable pero lento (≥2 s), para superficie con oleaje."
+  },
+  "sen0754_get_water_level": {
+    "message0": "nivel de agua (mm) %1",
+    "tooltip": "Devuelve nivel = altura de instalación − distancia vacía (mm). Ejecutar antes un bloque de lectura. -3 mm significa líquido no detectado."
+  },
+  "sen0754_get_distance": {
+    "message0": "distancia vacía (mm) %1",
+    "tooltip": "Devuelve la distancia vacía (sensor → superficie) de la última lectura en milímetros. -3 mm significa líquido no detectado."
+  },
+  "sen0754_get_temperature": {
+    "message0": "temperatura (°C) %1",
+    "tooltip": "Devuelve la temperatura de la última lectura (resolución 0,1 °C)."
+  },
+  "sen0754_is_valid": {
+    "message0": "última lectura correcta %1",
+    "tooltip": "Indica si la última lectura (tiempo real o procesada) recibió una trama con CRC válido."
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "sen0754_init": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Serial1 (UART1)",
+            "Serial1"
+          ],
+          [
+            "Serial2 (UART2)",
+            "Serial2"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "message0": "initialiser le capteur de niveau ultrasonique %1 série %2 broche RX %3 broche TX %4",
+    "tooltip": "Initialise le capteur de niveau de liquide ultrasonique SEN0754 (Modbus UART, vitesse fixe 115200). La broche RX se connecte au fil TX vert du capteur, la broche TX au fil RX bleu. Pour cartes série ESP32."
+  },
+  "toolbox_name": "Niveau de liquide ultrasonique",
+  "sen0754_set_install_height": {
+    "message0": "régler la hauteur d'installation de %1 à %2 mm",
+    "tooltip": "Définit la hauteur de montage supérieure du capteur en millimètres. Niveau = hauteur d'installation − distance à vide. Par défaut 2000 mm."
+  },
+  "sen0754_read_realtime": {
+    "message0": "lire la valeur temps réel %1",
+    "tooltip": "Envoie la commande Modbus pour lire la distance et la température en temps réel. Réponse rapide (≈100 ms), pour surface calme."
+  },
+  "sen0754_read_processed": {
+    "message0": "lire la valeur traitée %1",
+    "tooltip": "Envoie la commande Modbus pour lire la distance filtrée par algorithme et la température. Stable mais lent (≥2 s), pour surface agitée."
+  },
+  "sen0754_get_water_level": {
+    "message0": "niveau d'eau (mm) %1",
+    "tooltip": "Renvoie niveau = hauteur d'installation − distance à vide (mm). Exécuter d'abord un bloc de lecture. -3 mm signifie aucun liquide détecté."
+  },
+  "sen0754_get_distance": {
+    "message0": "distance à vide (mm) %1",
+    "tooltip": "Renvoie la distance à vide (capteur → surface) du dernier relevé en millimètres. -3 mm signifie aucun liquide détecté."
+  },
+  "sen0754_get_temperature": {
+    "message0": "température (°C) %1",
+    "tooltip": "Renvoie la température du dernier relevé (résolution 0,1 °C)."
+  },
+  "sen0754_is_valid": {
+    "message0": "dernière lecture réussie %1",
+    "tooltip": "Indique si la dernière lecture (temps réel ou traitée) a reçu une trame CRC valide."
+  }
+}

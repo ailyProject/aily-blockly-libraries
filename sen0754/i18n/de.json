@@ -1,0 +1,52 @@
+{
+  "sen0754_init": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Serial1 (UART1)",
+            "Serial1"
+          ],
+          [
+            "Serial2 (UART2)",
+            "Serial2"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "message0": "Ultraschall-Füllstandssensor %1 initialisieren seriell %2 RX-Pin %3 TX-Pin %4",
+    "tooltip": "Initialisiert den SEN0754-Ultraschall-Füllstandssensor (UART-Modbus, feste Baudrate 115200). Der RX-Pin verbindet mit der grünen TX-Leitung des Sensors, der TX-Pin mit der blauen RX-Leitung. Für ESP32-Boards."
+  },
+  "toolbox_name": "Ultraschall-Füllstand",
+  "sen0754_set_install_height": {
+    "message0": "Installationshöhe von %1 auf %2 mm setzen",
+    "tooltip": "Setzt die obere Einbauhöhe des Sensors in Millimetern. Füllstand = Einbauhöhe − Leerraum. Standard 2000 mm."
+  },
+  "sen0754_read_realtime": {
+    "message0": "Echtzeitwert von %1 lesen",
+    "tooltip": "Sendet den Modbus-Befehl zum Lesen von Echtzeit-Abstand und Temperatur. Schnelle Antwort (ca. 100 ms), für ruhige Flüssigkeitsoberflächen."
+  },
+  "sen0754_read_processed": {
+    "message0": "verarbeiteten Wert von %1 lesen",
+    "tooltip": "Sendet den Modbus-Befehl zum Lesen des algorithmisch gefilterten Abstands und der Temperatur. Stabil, aber langsam (≥2 s), für bewegte Oberflächen."
+  },
+  "sen0754_get_water_level": {
+    "message0": "Füllstand (mm) %1",
+    "tooltip": "Liefert Füllstand = Einbauhöhe − Leerraum (mm). Zuerst einen Leseblock ausführen. -3 mm heißt: keine Flüssigkeit erkannt."
+  },
+  "sen0754_get_distance": {
+    "message0": "Leerraum (mm) %1",
+    "tooltip": "Liefert den Leerraum (Sensor bis Flüssigkeitsoberfläche) der letzten Messung in Millimetern. -3 mm heißt: keine Flüssigkeit erkannt."
+  },
+  "sen0754_get_temperature": {
+    "message0": "Temperatur (°C) %1",
+    "tooltip": "Liefert die Temperatur der letzten Messung (0,1 °C Auflösung)."
+  },
+  "sen0754_is_valid": {
+    "message0": "letzter Lesevorgang erfolgreich %1",
+    "tooltip": "Ob der letzte Lesevorgang (Echtzeit oder verarbeitet) einen CRC-gültigen Frame empfangen hat."
+  }
+}

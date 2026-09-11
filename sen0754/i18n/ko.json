@@ -1,0 +1,52 @@
+{
+  "sen0754_init": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Serial1 (UART1)",
+            "Serial1"
+          ],
+          [
+            "Serial2 (UART2)",
+            "Serial2"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "message0": "초음파 액위 센서 %1 초기화 시리얼 %2 RX 핀 %3 TX 핀 %4",
+    "tooltip": "SEN0754 초음파 액위 센서를 초기화합니다(UART Modbus, 보레이트 고정 115200). RX 핀은 센서의 녹색 TX 선에, TX 핀은 파란색 RX 선에 연결합니다. ESP32 시리즈 보드용."
+  },
+  "toolbox_name": "초음파 액위",
+  "sen0754_set_install_height": {
+    "message0": "%1의 설치 높이를 %2 mm로 설정",
+    "tooltip": "센서의 상단 설치 높이(mm)를 설정합니다. 수위 = 설치 높이 − 공간 거리. 기본값 2000 mm."
+  },
+  "sen0754_read_realtime": {
+    "message0": "%1 실시간 값 읽기",
+    "tooltip": "Modbus 명령으로 실시간 거리와 온도를 읽습니다. 응답이 빠릅니다(약 100ms). 수면이 잔잔한 경우에 적합합니다."
+  },
+  "sen0754_read_processed": {
+    "message0": "%1 처리 값 읽기",
+    "tooltip": "알고리즘으로 처리된 거리와 온도를 Modbus 명령으로 읽습니다. 안정적이지만 응답이 느립니다(≥2초). 수면이 흔들리는 경우에 적합합니다."
+  },
+  "sen0754_get_water_level": {
+    "message0": "수위(mm) %1",
+    "tooltip": "수위 = 설치 높이 − 공간 거리(mm)를 반환합니다. 먼저 읽기 블록을 실행하세요. -3mm는 액체 미감지를 의미합니다."
+  },
+  "sen0754_get_distance": {
+    "message0": "공간 거리(mm) %1",
+    "tooltip": "마지막 읽기의 공간 거리(센서에서 액체 표면까지, mm)를 반환합니다. -3mm는 액체 미감지를 의미합니다."
+  },
+  "sen0754_get_temperature": {
+    "message0": "온도(℃) %1",
+    "tooltip": "마지막 읽기의 온도(분해능 0.1℃)를 반환합니다."
+  },
+  "sen0754_is_valid": {
+    "message0": "마지막 읽기 성공 %1",
+    "tooltip": "마지막 읽기(실시간 또는 처리 값)에서 CRC 유효 프레임을 수신했는지 여부입니다."
+  }
+}
