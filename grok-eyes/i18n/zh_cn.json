@@ -1,0 +1,810 @@
+{
+  "toolbox_name": "grokEyes",
+  "grok_eyes_init": {
+    "message0": "grokEyes %1 初始化 屏幕 %2 帧率 %3 宽度 %4 高度 %5 自动刷新 %6",
+    "tooltip": "先初始化 TFT_eSPI 屏幕。宽高为 0 使用全屏；自动刷新加入 loop；可查询初始化是否成功。"
+  },
+  "grok_eyes_set_expression": {
+    "message0": "grokEyes %1 设置表情 表情 %2 毫秒 %3",
+    "tooltip": "25 个原始表情。时长 65535 使用弹簧，0 立即切换，1–65534 定时过渡。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "expression_00",
+            "GROK_EXPRESSION_00"
+          ],
+          [
+            "expression_01",
+            "GROK_EXPRESSION_01"
+          ],
+          [
+            "expression_02",
+            "GROK_EXPRESSION_02"
+          ],
+          [
+            "expression_03",
+            "GROK_EXPRESSION_03"
+          ],
+          [
+            "expression_04",
+            "GROK_EXPRESSION_04"
+          ],
+          [
+            "expression_05",
+            "GROK_EXPRESSION_05"
+          ],
+          [
+            "expression_06",
+            "GROK_EXPRESSION_06"
+          ],
+          [
+            "expression_07",
+            "GROK_EXPRESSION_07"
+          ],
+          [
+            "expression_08",
+            "GROK_EXPRESSION_08"
+          ],
+          [
+            "expression_09",
+            "GROK_EXPRESSION_09"
+          ],
+          [
+            "expression_10",
+            "GROK_EXPRESSION_10"
+          ],
+          [
+            "expression_11",
+            "GROK_EXPRESSION_11"
+          ],
+          [
+            "expression_12",
+            "GROK_EXPRESSION_12"
+          ],
+          [
+            "expression_13",
+            "GROK_EXPRESSION_13"
+          ],
+          [
+            "expression_14",
+            "GROK_EXPRESSION_14"
+          ],
+          [
+            "expression_15",
+            "GROK_EXPRESSION_15"
+          ],
+          [
+            "expression_16",
+            "GROK_EXPRESSION_16"
+          ],
+          [
+            "expression_17",
+            "GROK_EXPRESSION_17"
+          ],
+          [
+            "expression_18",
+            "GROK_EXPRESSION_18"
+          ],
+          [
+            "expression_19",
+            "GROK_EXPRESSION_19"
+          ],
+          [
+            "expression_20",
+            "GROK_EXPRESSION_20"
+          ],
+          [
+            "expression_21",
+            "GROK_EXPRESSION_21"
+          ],
+          [
+            "expression_22",
+            "GROK_EXPRESSION_22"
+          ],
+          [
+            "expression_23",
+            "GROK_EXPRESSION_23"
+          ],
+          [
+            "expression_24",
+            "GROK_EXPRESSION_24"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "grok_eyes_set_alias": {
+    "message0": "grokEyes %1 设置小智表情 表情 %2 毫秒 %3",
+    "tooltip": "21 个小智别名复用原始表情；65535 使用默认过渡，0 立即切换。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "平静 (neutral)",
+            "XIAOZHI_NEUTRAL"
+          ],
+          [
+            "开心 (happy)",
+            "XIAOZHI_HAPPY"
+          ],
+          [
+            "大笑 (laughing)",
+            "XIAOZHI_LAUGHING"
+          ],
+          [
+            "搞怪 (funny)",
+            "XIAOZHI_FUNNY"
+          ],
+          [
+            "悲伤 (sad)",
+            "XIAOZHI_SAD"
+          ],
+          [
+            "生气 (angry)",
+            "XIAOZHI_ANGRY"
+          ],
+          [
+            "哭泣 (crying)",
+            "XIAOZHI_CRYING"
+          ],
+          [
+            "喜爱 (loving)",
+            "XIAOZHI_LOVING"
+          ],
+          [
+            "害羞 (embarrassed)",
+            "XIAOZHI_EMBARRASSED"
+          ],
+          [
+            "惊讶 (surprised)",
+            "XIAOZHI_SURPRISED"
+          ],
+          [
+            "震惊 (shocked)",
+            "XIAOZHI_SHOCKED"
+          ],
+          [
+            "思考 (thinking)",
+            "XIAOZHI_THINKING"
+          ],
+          [
+            "眨眼 (winking)",
+            "XIAOZHI_WINKING"
+          ],
+          [
+            "酷 (cool)",
+            "XIAOZHI_COOL"
+          ],
+          [
+            "放松 (relaxed)",
+            "XIAOZHI_RELAXED"
+          ],
+          [
+            "美味 (delicious)",
+            "XIAOZHI_DELICIOUS"
+          ],
+          [
+            "亲吻 (kissy)",
+            "XIAOZHI_KISSY"
+          ],
+          [
+            "自信 (confident)",
+            "XIAOZHI_CONFIDENT"
+          ],
+          [
+            "困倦 (sleepy)",
+            "XIAOZHI_SLEEPY"
+          ],
+          [
+            "傻笑 (silly)",
+            "XIAOZHI_SILLY"
+          ],
+          [
+            "困惑 (confused)",
+            "XIAOZHI_CONFUSED"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "grok_eyes_set_expression_name": {
+    "message0": "grokEyes %1 按名称设置表情并返回成功 名称 %2 毫秒 %3",
+    "tooltip": "按 expression00–expression24 或 happy 等小智名称设置表情。此值块有设置副作用，返回名称是否有效。"
+  },
+  "grok_eyes_set_shape": {
+    "message0": "grokEyes %1 设置形状 形状 %2 毫秒 %3",
+    "tooltip": "18 种形状只改变眼睛布局，不绘制脸部轮廓。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "团块 (blob)",
+            "SHAPE_BLOB"
+          ],
+          [
+            "卵石 (pebble)",
+            "SHAPE_PEBBLE"
+          ],
+          [
+            "豆形 (bean)",
+            "SHAPE_BEAN"
+          ],
+          [
+            "蛋形 (egg)",
+            "SHAPE_EGG"
+          ],
+          [
+            "圆方形 (squircle)",
+            "SHAPE_SQUIRCLE"
+          ],
+          [
+            "平板 (tablet)",
+            "SHAPE_TABLET"
+          ],
+          [
+            "胶囊 (capsule)",
+            "SHAPE_CAPSULE"
+          ],
+          [
+            "圆柱 (cylinder)",
+            "SHAPE_CYLINDER"
+          ],
+          [
+            "六边形 (hex)",
+            "SHAPE_HEX"
+          ],
+          [
+            "宝石 (gem)",
+            "SHAPE_GEM"
+          ],
+          [
+            "水晶 (crystal)",
+            "SHAPE_CRYSTAL"
+          ],
+          [
+            "楔形 (wedge)",
+            "SHAPE_WEDGE"
+          ],
+          [
+            "盾形 (shield)",
+            "SHAPE_SHIELD"
+          ],
+          [
+            "圆顶 (dome)",
+            "SHAPE_DOME"
+          ],
+          [
+            "拱形 (arch)",
+            "SHAPE_ARCH"
+          ],
+          [
+            "云朵 (cloud)",
+            "SHAPE_CLOUD"
+          ],
+          [
+            "泪滴 (teardrop)",
+            "SHAPE_TEARDROP"
+          ],
+          [
+            "叶片 (leaf)",
+            "SHAPE_LEAF"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "grok_eyes_set_state": {
+    "message0": "grokEyes %1 设置行为状态 状态 %2 自动换表情 %3 毫秒 %4",
+    "tooltip": "39 种行为状态控制表情池与节奏；启用自动换表情后会周期性改变表情。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "睡眠 (sleeping)",
+            "STATE_SLEEPING"
+          ],
+          [
+            "苏醒 (waking)",
+            "STATE_WAKING"
+          ],
+          [
+            "待机 (idle)",
+            "STATE_IDLE"
+          ],
+          [
+            "聆听 (listening)",
+            "STATE_LISTENING"
+          ],
+          [
+            "思考 (thinking)",
+            "STATE_THINKING"
+          ],
+          [
+            "搜索 (searching)",
+            "STATE_SEARCHING"
+          ],
+          [
+            "工作 (working)",
+            "STATE_WORKING"
+          ],
+          [
+            "兴奋 (excited)",
+            "STATE_EXCITED"
+          ],
+          [
+            "惊讶 (surprised)",
+            "STATE_SURPRISED"
+          ],
+          [
+            "怀疑 (suspicious)",
+            "STATE_SUSPICIOUS"
+          ],
+          [
+            "生气 (angry)",
+            "STATE_ANGRY"
+          ],
+          [
+            "困倦 (drowsy)",
+            "STATE_DROWSY"
+          ],
+          [
+            "开心 (happy)",
+            "STATE_HAPPY"
+          ],
+          [
+            "好奇 (curious)",
+            "STATE_CURIOUS"
+          ],
+          [
+            "困惑 (confused)",
+            "STATE_CONFUSED"
+          ],
+          [
+            "无聊 (bored)",
+            "STATE_BORED"
+          ],
+          [
+            "自豪 (proud)",
+            "STATE_PROUD"
+          ],
+          [
+            "害羞 (shy)",
+            "STATE_SHY"
+          ],
+          [
+            "悲伤 (sad)",
+            "STATE_SAD"
+          ],
+          [
+            "大笑 (laughing)",
+            "STATE_LAUGHING"
+          ],
+          [
+            "害怕 (scared)",
+            "STATE_SCARED"
+          ],
+          [
+            "顽皮 (playful)",
+            "STATE_PLAYFUL"
+          ],
+          [
+            "庆祝 (celebrate)",
+            "STATE_CELEBRATE"
+          ],
+          [
+            "轨道 (orbit)",
+            "STATE_ORBIT"
+          ],
+          [
+            "雷达 (radar)",
+            "STATE_RADAR"
+          ],
+          [
+            "进度 (progress)",
+            "STATE_PROGRESS"
+          ],
+          [
+            "生成 (spawning)",
+            "STATE_SPAWNING"
+          ],
+          [
+            "哼唱 (humming)",
+            "STATE_HUMMING"
+          ],
+          [
+            "加载 (loading)",
+            "STATE_LOADING"
+          ],
+          [
+            "听写 (dictating)",
+            "STATE_DICTATING"
+          ],
+          [
+            "书写 (writing)",
+            "STATE_WRITING"
+          ],
+          [
+            "发送 (sending)",
+            "STATE_SENDING"
+          ],
+          [
+            "接收 (receiving)",
+            "STATE_RECEIVING"
+          ],
+          [
+            "上传 (uploading)",
+            "STATE_UPLOADING"
+          ],
+          [
+            "通知 (notifying)",
+            "STATE_NOTIFYING"
+          ],
+          [
+            "警报 (alerting)",
+            "STATE_ALERTING"
+          ],
+          [
+            "拖动 (dragging)",
+            "STATE_DRAGGING"
+          ],
+          [
+            "弹跳 (bouncing)",
+            "STATE_BOUNCING"
+          ],
+          [
+            "关机 (powering_down)",
+            "STATE_POWERING_DOWN"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "grok_eyes_blink": {
+    "message0": "grokEyes %1 眨眼 眼睛 %2 毫秒 %3",
+    "tooltip": "左眼、右眼或双眼眨眼；时长 0 使用配置的闭合、停留和睁开阶段。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "双眼 (both)",
+            "BOTH"
+          ],
+          [
+            "左眼 (left)",
+            "LEFT"
+          ],
+          [
+            "右眼 (right)",
+            "RIGHT"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "grok_eyes_set_blink_timing": {
+    "message0": "grokEyes %1 设置眨眼阶段 闭合毫秒 %2 停留毫秒 %3 睁开毫秒 %4 闭合比例 %5",
+    "tooltip": "闭合比例 0 完全闭眼，1 不压缩。阶段时长为毫秒。"
+  },
+  "grok_eyes_set_gaze": {
+    "message0": "grokEyes %1 设置视线 X %2 Y %3 毫秒 %4",
+    "tooltip": "X/Y 范围 -100–100，负 X 向左，负 Y 向上。"
+  },
+  "grok_eyes_center_gaze": {
+    "message0": "grokEyes %1 视线回中 毫秒 %2",
+    "tooltip": "视线回中"
+  },
+  "grok_eyes_set_turn": {
+    "message0": "grokEyes %1 转头 角度 %2 毫秒 %3",
+    "tooltip": "球面转头；180 度朝后时眼睛会隐藏。"
+  },
+  "grok_eyes_spin": {
+    "message0": "grokEyes %1 旋转 圈数 %2 毫秒 %3",
+    "tooltip": "正负圈数控制旋转方向。"
+  },
+  "grok_eyes_set_position": {
+    "message0": "grokEyes %1 设置整组位置 X %2 Y %3 毫秒 %4",
+    "tooltip": "采用 240×240 设计坐标，默认中心 (120,120)。"
+  },
+  "grok_eyes_set_spacing": {
+    "message0": "grokEyes %1 设置眼距 百分比 %2 毫秒 %3",
+    "tooltip": "眼距 0–250%，默认 100%。"
+  },
+  "grok_eyes_set_eye_offset": {
+    "message0": "grokEyes %1 设置单眼偏移 眼睛 %2 X %3 Y %4 毫秒 %5",
+    "tooltip": "眼睛偏移采用设计坐标，X/Y 范围 -240–240。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "双眼 (both)",
+            "BOTH"
+          ],
+          [
+            "左眼 (left)",
+            "LEFT"
+          ],
+          [
+            "右眼 (right)",
+            "RIGHT"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "grok_eyes_set_eye_size": {
+    "message0": "grokEyes %1 设置单眼尺寸 眼睛 %2 宽度 %3 高度 %4 毫秒 %5",
+    "tooltip": "宽高为百分比，范围 10–250%。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "双眼 (both)",
+            "BOTH"
+          ],
+          [
+            "左眼 (left)",
+            "LEFT"
+          ],
+          [
+            "右眼 (right)",
+            "RIGHT"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "grok_eyes_set_eye_scale": {
+    "message0": "grokEyes %1 设置整体缩放 百分比 %2 毫秒 %3",
+    "tooltip": "整体眼睛倍率范围 50–160%。"
+  },
+  "grok_eyes_reset_layout": {
+    "message0": "grokEyes %1 重置布局 毫秒 %2",
+    "tooltip": "恢复位置、眼距和独立眼睛大小/偏移，不改变形状预设。"
+  },
+  "grok_eyes_set_feature": {
+    "message0": "grokEyes %1 设置功能 功能 %2 启用 %3",
+    "tooltip": "设置功能",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "状态动作 (motion)",
+            "MOTION"
+          ],
+          [
+            "活泼模式 (lively)",
+            "LIVELY"
+          ],
+          [
+            "自动表情 (auto_expression)",
+            "AUTO_EXPRESSION"
+          ],
+          [
+            "弹簧过渡 (spring)",
+            "SPRING"
+          ],
+          [
+            "水平镜像 (flip_x)",
+            "FLIP_X"
+          ],
+          [
+            "抗锯齿 (antialiasing)",
+            "ANTIALIASING"
+          ],
+          [
+            "强调 (emphasis)",
+            "EMPHASIS"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "grok_eyes_set_spring_frequency": {
+    "message0": "grokEyes %1 设置弹簧频率 频率 rad/s %2",
+    "tooltip": "弹簧自然频率 0.5–40 rad/s，默认 18；仅影响默认弹簧过渡。"
+  },
+  "grok_eyes_set_auto_blink": {
+    "message0": "grokEyes %1 设置自动眨眼 启用 %2 间隔毫秒 %3 变化毫秒 %4",
+    "tooltip": "间隔 0 使用当前状态的眨眼节奏；非零使用自定义间隔。"
+  },
+  "grok_eyes_use_state_blink": {
+    "message0": "grokEyes %1 恢复状态眨眼节奏",
+    "tooltip": "恢复状态节奏，但不会开启已关闭的自动眨眼。"
+  },
+  "grok_eyes_set_idle": {
+    "message0": "grokEyes %1 设置随机视线 启用 %2 间隔毫秒 %3",
+    "tooltip": "设置随机视线"
+  },
+  "grok_eyes_set_framerate": {
+    "message0": "grokEyes %1 设置帧率 帧率 %2",
+    "tooltip": "帧率限制在 15–60 FPS，实际速度受屏幕和处理器影响。"
+  },
+  "grok_eyes_set_fit": {
+    "message0": "grokEyes %1 设置画布适配 模式 %2",
+    "tooltip": "设置画布适配",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "等比包含 (contain)",
+            "FIT_CONTAIN"
+          ],
+          [
+            "等比铺满 (cover)",
+            "FIT_COVER"
+          ],
+          [
+            "拉伸 (stretch)",
+            "FIT_STRETCH"
+          ]
+        ]
+      }
+    ]
+  },
+  "grok_eyes_set_theme": {
+    "message0": "grokEyes %1 设置主题 主题 %2",
+    "tooltip": "设置主题",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "深色 (dark)",
+            "DARK"
+          ],
+          [
+            "浅色 (light)",
+            "LIGHT"
+          ]
+        ]
+      }
+    ]
+  },
+  "grok_eyes_set_colors": {
+    "message0": "grokEyes %1 设置颜色 背景 RGB565 %2 眼睛 RGB565 %3 强调 RGB565 %4",
+    "tooltip": "颜色使用 RGB565 整数，也可连接 TFT_eSPI 颜色积木。"
+  },
+  "grok_eyes_render": {
+    "message0": "grokEyes %1 刷新 模式 %2",
+    "tooltip": "UPDATE 按帧率刷新；DRAW 立即绘制并推送；DRAW_TO_SPRITE 只绘制内部缓冲，不推送屏幕。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "按帧率刷新 (update)",
+            "UPDATE"
+          ],
+          [
+            "立即绘制 (draw)",
+            "DRAW"
+          ],
+          [
+            "只绘制缓冲 (draw_to_sprite)",
+            "DRAW_TO_SPRITE"
+          ]
+        ]
+      }
+    ]
+  },
+  "grok_eyes_reset": {
+    "message0": "grokEyes %1 重置瞬时动画",
+    "tooltip": "取消瞬时动画，保留形状、布局、主题和自动行为配置。不是恢复所有默认值。"
+  },
+  "grok_eyes_end": {
+    "message0": "grokEyes %1 释放画布",
+    "tooltip": "释放画布内存并清除初始化成功标记；再次初始化可恢复。"
+  },
+  "grok_eyes_is_ready": {
+    "message0": "grokEyes %1 初始化成功",
+    "tooltip": "读取最近一次初始化结果，释放画布后为 false。"
+  },
+  "grok_eyes_is_animating": {
+    "message0": "grokEyes %1 动画进行中 模式 %2",
+    "tooltip": "ANY 查询瞬时动画；TRANSITION 只查询表情形变。不表示自动行为全部停止。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "任意瞬时动画 (any)",
+            "ANY"
+          ],
+          [
+            "表情过渡 (transition)",
+            "TRANSITION"
+          ]
+        ]
+      }
+    ]
+  },
+  "grok_eyes_get_number": {
+    "message0": "grokEyes %1 读取数值 属性 %2",
+    "tooltip": "读取数值",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "表情编号 (expression)",
+            "EXPRESSION"
+          ],
+          [
+            "形状 (shape)",
+            "SHAPE"
+          ],
+          [
+            "状态 (state)",
+            "STATE"
+          ],
+          [
+            "画布宽 (width)",
+            "WIDTH"
+          ],
+          [
+            "画布高 (height)",
+            "HEIGHT"
+          ],
+          [
+            "已绘制帧数 (frames)",
+            "FRAMES"
+          ],
+          [
+            "弹簧频率 (spring_frequency)",
+            "SPRING_FREQUENCY"
+          ]
+        ]
+      }
+    ]
+  },
+  "grok_eyes_get_name": {
+    "message0": "grokEyes %1 读取名称 属性 %2",
+    "tooltip": "读取名称",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "表情编号 (expression)",
+            "EXPRESSION"
+          ],
+          [
+            "形状 (shape)",
+            "SHAPE"
+          ],
+          [
+            "状态 (state)",
+            "STATE"
+          ]
+        ]
+      }
+    ]
+  },
+  "grok_eyes_wait": {
+    "message0": "grokEyes %1 等待并刷新动画 毫秒 %2",
+    "tooltip": "等待期间持续刷新选中的眼睛；会占用当前程序流程，其他 loop 逻辑不会执行。"
+  }
+}
