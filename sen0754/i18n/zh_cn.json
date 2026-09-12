@@ -1,0 +1,52 @@
+{
+  "sen0754_init": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Serial1 (UART1)",
+            "Serial1"
+          ],
+          [
+            "Serial2 (UART2)",
+            "Serial2"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "message0": "初始化超声波液位传感器 %1 串口 %2 RX引脚 %3 TX引脚 %4",
+    "tooltip": "初始化 SEN0754 超声波液位监测传感器（UART Modbus，波特率固定 115200）。RX引脚接传感器绿色TX线，TX引脚接传感器蓝色RX线。适用于 ESP32 系列主板。"
+  },
+  "toolbox_name": "超声波液位",
+  "sen0754_set_install_height": {
+    "message0": "设置安装高度 %1 为 %2 毫米",
+    "tooltip": "设置传感器顶部安装高度（毫米）。液位高度 = 安装高度 − 空高。默认 2000 毫米。"
+  },
+  "sen0754_read_realtime": {
+    "message0": "读取实时值 %1",
+    "tooltip": "发送 Modbus 指令读取实时空高与温度，响应快（约100ms），适合液面无晃动的场景。之后用液位高度/空高/温度积木取值。"
+  },
+  "sen0754_read_processed": {
+    "message0": "读取处理值 %1",
+    "tooltip": "发送 Modbus 指令读取算法处理后的空高与温度，数据稳定但响应慢（≥2秒），适合液面晃动的场景。之后用液位高度/空高/温度积木取值。"
+  },
+  "sen0754_get_water_level": {
+    "message0": "液位高度（毫米）%1",
+    "tooltip": "返回液位高度 = 安装高度 − 空高（毫米）。需先执行读取积木。空高为 -3 毫米表示未检测到液体。"
+  },
+  "sen0754_get_distance": {
+    "message0": "空高（毫米）%1",
+    "tooltip": "返回最近一次读取的空高（液面到传感器的距离，毫米）。空高为 -3 毫米表示未检测到液体。"
+  },
+  "sen0754_get_temperature": {
+    "message0": "温度（℃）%1",
+    "tooltip": "返回最近一次读取的温度（摄氏度，精度 0.1℃）。"
+  },
+  "sen0754_is_valid": {
+    "message0": "上次读取成功 %1",
+    "tooltip": "最近一次读取（实时值或处理值）是否成功收到 CRC 校验通过的数据帧，可用于超时判断。"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "sen0754_init": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Serial1 (UART1)",
+            "Serial1"
+          ],
+          [
+            "Serial2 (UART2)",
+            "Serial2"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "message0": "initialize ultrasonic liquid level sensor %1 serial %2 RX pin %3 TX pin %4",
+    "tooltip": "Initialize the SEN0754 ultrasonic liquid level sensor (UART Modbus, fixed 115200 baud). The RX pin connects to the sensor's green TX wire; the TX pin connects to the sensor's blue RX wire. For ESP32-series boards."
+  },
+  "toolbox_name": "Ultrasonic Liquid Level",
+  "sen0754_set_install_height": {
+    "message0": "set install height of %1 to %2 mm",
+    "tooltip": "Set the sensor's top mounting height in millimeters. Water level = install height − empty distance. Default 2000 mm."
+  },
+  "sen0754_read_realtime": {
+    "message0": "read realtime value %1",
+    "tooltip": "Send the Modbus command to read realtime distance and temperature. Fast response (about 100 ms), for calm liquid surfaces. Read results with the water level / distance / temperature blocks."
+  },
+  "sen0754_read_processed": {
+    "message0": "read processed value %1",
+    "tooltip": "Send the Modbus command to read the algorithm-filtered distance and temperature. Stable but slow (≥2 s), for wavy liquid surfaces. Read results with the water level / distance / temperature blocks."
+  },
+  "sen0754_get_water_level": {
+    "message0": "water level (mm) %1",
+    "tooltip": "Returns water level = install height − empty distance (mm). Run a read block first. An empty distance of -3 mm means no liquid detected."
+  },
+  "sen0754_get_distance": {
+    "message0": "empty distance (mm) %1",
+    "tooltip": "Returns the empty distance (sensor to liquid surface) from the last read, in millimeters. -3 mm means no liquid detected."
+  },
+  "sen0754_get_temperature": {
+    "message0": "temperature (°C) %1",
+    "tooltip": "Returns the temperature from the last read (0.1 °C resolution)."
+  },
+  "sen0754_is_valid": {
+    "message0": "last read ok %1",
+    "tooltip": "Whether the last read (realtime or processed) received a CRC-valid frame; useful for timeout handling."
+  }
+}

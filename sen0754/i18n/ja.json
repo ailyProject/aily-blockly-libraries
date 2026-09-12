@@ -1,0 +1,52 @@
+{
+  "sen0754_init": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Serial1 (UART1)",
+            "Serial1"
+          ],
+          [
+            "Serial2 (UART2)",
+            "Serial2"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "message0": "超音波液位センサー %1 を初期化 シリアル %2 RXピン %3 TXピン %4",
+    "tooltip": "SEN0754 超音波液位センサーを初期化します（UART Modbus、ボーレート固定 115200）。RXピンはセンサーの緑のTX線に、TXピンは青のRX線に接続します。ESP32系ボード向け。"
+  },
+  "toolbox_name": "超音波液位",
+  "sen0754_set_install_height": {
+    "message0": "センサー %1 の設置高さを %2 mm に設定",
+    "tooltip": "センサーの上方設置高さ（mm）を設定します。液位 = 設置高さ − 空間距離。既定値は 2000 mm。"
+  },
+  "sen0754_read_realtime": {
+    "message0": "%1 の実時間値を読み取る",
+    "tooltip": "Modbusコマンドでリアルタイムの距離と温度を読み取ります。応答は速い（約100ms）。液面が穏やかな場面向け。結果は液位・距離・温度ブロックで取得します。"
+  },
+  "sen0754_read_processed": {
+    "message0": "%1 の処理値を読み取る",
+    "tooltip": "アルゴリズム処理後の距離と温度をModbusコマンドで読み取ります。安定ですが応答は遅い（≥2秒）。波のある液面向け。"
+  },
+  "sen0754_get_water_level": {
+    "message0": "液位（mm）%1",
+    "tooltip": "液位 = 設置高さ − 空間距離（mm）を返します。先に読み取りブロックを実行してください。-3mm は液体未検出を意味します。"
+  },
+  "sen0754_get_distance": {
+    "message0": "空間距離（mm）%1",
+    "tooltip": "最後の読み取りでの空間距離（液面までの距離、mm）を返します。-3mm は液体未検出を意味します。"
+  },
+  "sen0754_get_temperature": {
+    "message0": "温度（℃）%1",
+    "tooltip": "最後の読み取りの温度（分解能 0.1℃）を返します。"
+  },
+  "sen0754_is_valid": {
+    "message0": "前回の読み取り成功 %1",
+    "tooltip": "最後の読み取り（実時間値または処理値）がCRC検証済みフレームを受信したかどうか。"
+  }
+}

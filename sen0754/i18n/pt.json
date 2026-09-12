@@ -1,0 +1,52 @@
+{
+  "sen0754_init": {
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Serial1 (UART1)",
+            "Serial1"
+          ],
+          [
+            "Serial2 (UART2)",
+            "Serial2"
+          ]
+        ]
+      },
+      null,
+      null
+    ],
+    "message0": "inicializar sensor ultrassônico de nível %1 serial %2 pino RX %3 pino TX %4",
+    "tooltip": "Inicializa o sensor ultrassônico de nível de líquido SEN0754 (Modbus UART, baud rate fixo 115200). O pino RX conecta ao fio TX verde do sensor; o pino TX ao fio RX azul. Para placas da série ESP32."
+  },
+  "toolbox_name": "Nível de líquido ultrassônico",
+  "sen0754_set_install_height": {
+    "message0": "definir altura de instalação de %1 para %2 mm",
+    "tooltip": "Define a altura de montagem superior do sensor em milímetros. Nível = altura de instalação − distância vazia. Padrão 2000 mm."
+  },
+  "sen0754_read_realtime": {
+    "message0": "ler valor em tempo real %1",
+    "tooltip": "Envia o comando Modbus para ler distância e temperatura em tempo real. Resposta rápida (≈100 ms), para superfície calma."
+  },
+  "sen0754_read_processed": {
+    "message0": "ler valor processado %1",
+    "tooltip": "Envia o comando Modbus para ler a distância filtrada por algoritmo e a temperatura. Estável, porém lento (≥2 s), para superfície com ondulação."
+  },
+  "sen0754_get_water_level": {
+    "message0": "nível de água (mm) %1",
+    "tooltip": "Retorna nível = altura de instalação − distância vazia (mm). Execute antes um bloco de leitura. -3 mm significa líquido não detectado."
+  },
+  "sen0754_get_distance": {
+    "message0": "distância vazia (mm) %1",
+    "tooltip": "Retorna a distância vazia (sensor → superfície) da última leitura em milímetros. -3 mm significa líquido não detectado."
+  },
+  "sen0754_get_temperature": {
+    "message0": "temperatura (°C) %1",
+    "tooltip": "Retorna a temperatura da última leitura (resolução 0,1 °C)."
+  },
+  "sen0754_is_valid": {
+    "message0": "última leitura bem-sucedida %1",
+    "tooltip": "Indica se a última leitura (tempo real ou processada) recebeu um quadro com CRC válido."
+  }
+}
