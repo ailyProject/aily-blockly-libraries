@@ -1,0 +1,181 @@
+{
+  "toolbox_name": "Radar LD2410C",
+  "ld2410c_init": {
+    "message0": "%1 connecter le port série logiciel broche RX %2 broche TX %3 débit %4",
+    "tooltip": "Crée un objet radar LD2410C et initialise le port série logiciel (TX du module sur la broche RX, RX du module sur la broche TX)",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "256000 (réglage usine)",
+            "256000"
+          ],
+          [
+            "115200",
+            "115200"
+          ],
+          [
+            "57600",
+            "57600"
+          ],
+          [
+            "38400",
+            "38400"
+          ],
+          [
+            "19200",
+            "19200"
+          ],
+          [
+            "9600",
+            "9600"
+          ]
+        ]
+      }
+    ]
+  },
+  "ld2410c_read_frame": {
+    "message0": "%1 lire et mémoriser une trame",
+    "tooltip": "Reçoit les octets du port série logiciel, s'aligne sur l'en-tête (244 243 242 241) et délimite la trame par la fin (248 247 246 245), puis mémorise la dernière trame (23 octets en mode basic, jusqu'à 45 en mode ingénierie). Non bloquant ; à appeler en boucle",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_new_frame": {
+    "message0": "%1 nouvelle trame reçue ?",
+    "tooltip": "Indique si une nouvelle trame vient d'être reçue et mémorisée (le drapeau se remet à zéro après lecture)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_frame_valid": {
+    "message0": "%1 trame valide mémorisée ?",
+    "tooltip": "Reste vrai dès la première trame valide (signal de niveau, sans remise à zéro automatique)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_frame_byte": {
+    "message0": "octet %2 de la trame mémorisée de %1",
+    "tooltip": "Lit l'octet 1 à longueur de trame de la trame mémorisée (en-tête, zone de données et fin compris)",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_data_byte": {
+    "message0": "octet %2 de la zone de données de %1",
+    "tooltip": "Lit l'octet 1 à longueur de zone de données de la trame mémorisée (zone = longueur de trame - 8)",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_frame_length": {
+    "message0": "%1 taille totale de la trame",
+    "tooltip": "Renvoie la longueur réelle de la trame mémorisée : 23 à 45 octets (0 sans trame valide)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_data_length": {
+    "message0": "%1 taille de la zone de données",
+    "tooltip": "Renvoie la longueur réelle de la zone de données : = longueur de trame - 8 (15 octets en mode basic ; 0 sans trame valide)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_mode": {
+    "message0": "%1 mode de rapport",
+    "tooltip": "Octet 7 de la trame : 1 = rapport ingénierie, 2 = rapport basic",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_target_status": {
+    "message0": "%1 état de la cible",
+    "tooltip": "Octet 9 : 0 = aucune cible, 1 = mobile, 2 = statique, 3 = mobile + statique",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_moving_distance": {
+    "message0": "%1 distance de la cible mobile",
+    "tooltip": "Valeur brute de la distance de la cible mobile, octets 10-11, 16 bits petit-boutiste",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_moving_energy": {
+    "message0": "%1 énergie de la cible mobile",
+    "tooltip": "Énergie de la cible mobile 0-100, octet 12",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_static_distance": {
+    "message0": "%1 distance de la cible statique",
+    "tooltip": "Valeur brute de la distance de la cible statique, octets 13-14, 16 bits petit-boutiste",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_static_energy": {
+    "message0": "%1 énergie de la cible statique",
+    "tooltip": "Énergie de la cible statique 0-100, octet 15",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_detect_distance": {
+    "message0": "%1 distance de détection",
+    "tooltip": "Valeur brute de la distance de détection globale, octets 16-17, 16 bits petit-boutiste",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_move_gate_count": {
+    "message0": "%1 porte mobile maximale",
+    "tooltip": "Nombre de portes de détection mobile, octet 18 ; trames ingénierie uniquement (0 en trame basic)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_static_gate_count": {
+    "message0": "%1 porte statique maximale",
+    "tooltip": "Nombre de portes de détection statique, octet 19 ; trames ingénierie uniquement (0 en trame basic)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_move_gate_energy": {
+    "message0": "%1 énergie porte mobile %2",
+    "tooltip": "Énergie 0-100 de la porte mobile 1-9, octets 20-28 ; trames ingénierie uniquement",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_static_gate_energy": {
+    "message0": "%1 énergie porte statique %2",
+    "tooltip": "Énergie 0-100 de la porte statique 1-9, octets 29-37 ; trames ingénierie uniquement",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_photosensitive": {
+    "message0": "%1 valeur photosensible",
+    "tooltip": "Valeur de lumière ambiante 0-255, octet 38 ; trames ingénierie uniquement (0 en trame basic)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_poll_auto": {
+    "message0": "Interroger tous les radars automatiquement",
+    "tooltip": "Alterne automatiquement l'écoute entre tous les objets radar LD2410C initialisés : passe au suivant après une trame complète ou après 500 ms sans trame. À appeler en boucle et à lire avec les blocs d'analyse de chaque objet ; un bloc de lecture séparé n'est pas nécessaire"
+  }
+}

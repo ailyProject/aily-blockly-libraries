@@ -1,0 +1,181 @@
+{
+  "toolbox_name": "Radar LD2410C",
+  "ld2410c_init": {
+    "message0": "%1 conectar puerto serie por software pin RX %2 pin TX %3 baudios %4",
+    "tooltip": "Crea un objeto de radar LD2410C e inicializa el puerto serie por software (TX del módulo al pin RX, RX del módulo al pin TX)",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "256000 (valor de fábrica)",
+            "256000"
+          ],
+          [
+            "115200",
+            "115200"
+          ],
+          [
+            "57600",
+            "57600"
+          ],
+          [
+            "38400",
+            "38400"
+          ],
+          [
+            "19200",
+            "19200"
+          ],
+          [
+            "9600",
+            "9600"
+          ]
+        ]
+      }
+    ]
+  },
+  "ld2410c_read_frame": {
+    "message0": "%1 leer y guardar una trama",
+    "tooltip": "Recibe bytes del puerto serie por software, se alinea con la cabecera (244 243 242 241) y delimita la trama por el final (248 247 246 245); guarda la última trama (23 bytes en modo básico, hasta 45 en modo ingeniería). No bloqueante; llamar repetidamente en el bucle",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_new_frame": {
+    "message0": "%1 ¿trama nueva recibida?",
+    "tooltip": "Indica si acaba de recibirse y guardarse una trama nueva (el indicador se borra automáticamente al leerlo)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_frame_valid": {
+    "message0": "%1 ¿trama válida guardada?",
+    "tooltip": "Permanece verdadero desde la primera trama válida (señal de nivel, sin borrado automático)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_frame_byte": {
+    "message0": "byte %2 de la trama guardada de %1",
+    "tooltip": "Lee el byte 1 a longitud de trama de la trama guardada (cabecera, zona de datos y final incluidos)",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_data_byte": {
+    "message0": "byte %2 de la zona de datos de %1",
+    "tooltip": "Lee el byte 1 a longitud de zona de datos de la trama guardada (zona = longitud de trama - 8)",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_frame_length": {
+    "message0": "%1 bytes totales de la trama",
+    "tooltip": "Devuelve la longitud real de la trama guardada: 23 a 45 bytes (0 si no hay trama válida)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_data_length": {
+    "message0": "%1 bytes de la zona de datos",
+    "tooltip": "Devuelve la longitud real de la zona de datos: = longitud de trama - 8 (15 bytes en modo básico; 0 si no hay trama válida)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_mode": {
+    "message0": "%1 modo de informe",
+    "tooltip": "Byte 7 de la trama: 1 = informe de ingeniería, 2 = informe básico",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_target_status": {
+    "message0": "%1 estado del objetivo",
+    "tooltip": "Byte 9: 0 = sin objetivo, 1 = en movimiento, 2 = estático, 3 = movimiento + estático",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_moving_distance": {
+    "message0": "%1 distancia del objetivo en movimiento",
+    "tooltip": "Valor bruto de la distancia del objetivo en movimiento, bytes 10-11, 16 bits little-endian",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_moving_energy": {
+    "message0": "%1 energía del objetivo en movimiento",
+    "tooltip": "Energía del objetivo en movimiento 0-100, byte 12",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_static_distance": {
+    "message0": "%1 distancia del objetivo estático",
+    "tooltip": "Valor bruto de la distancia del objetivo estático, bytes 13-14, 16 bits little-endian",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_static_energy": {
+    "message0": "%1 energía del objetivo estático",
+    "tooltip": "Energía del objetivo estático 0-100, byte 15",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_detect_distance": {
+    "message0": "%1 distancia de detección",
+    "tooltip": "Valor bruto de la distancia de detección global, bytes 16-17, 16 bits little-endian",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_move_gate_count": {
+    "message0": "%1 puerta de movimiento máxima",
+    "tooltip": "Número de puertas de detección de movimiento, byte 18; solo en tramas de ingeniería (0 en trama básica)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_static_gate_count": {
+    "message0": "%1 puerta estática máxima",
+    "tooltip": "Número de puertas de detección estática, byte 19; solo en tramas de ingeniería (0 en trama básica)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_move_gate_energy": {
+    "message0": "%1 energía puerta de movimiento %2",
+    "tooltip": "Energía 0-100 de la puerta de movimiento 1-9, bytes 20-28; solo en tramas de ingeniería",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_static_gate_energy": {
+    "message0": "%1 energía puerta estática %2",
+    "tooltip": "Energía 0-100 de la puerta estática 1-9, bytes 29-37; solo en tramas de ingeniería",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_photosensitive": {
+    "message0": "%1 valor fotosensible",
+    "tooltip": "Valor de luz ambiental 0-255, byte 38; solo en tramas de ingeniería (0 en trama básica)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_poll_auto": {
+    "message0": "Sondear todos los radares automáticamente",
+    "tooltip": "Alterna automáticamente la escucha entre todos los objetos de radar LD2410C inicializados: cambia al siguiente al recibir una trama completa o tras 500 ms sin trama. Llamar repetidamente en el bucle y leer con los bloques de análisis de cada objeto; no hace falta un bloque de lectura aparte"
+  }
+}

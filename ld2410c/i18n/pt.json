@@ -1,0 +1,181 @@
+{
+  "toolbox_name": "Radar LD2410C",
+  "ld2410c_init": {
+    "message0": "%1 conectar porta serial por software pino RX %2 pino TX %3 baudrate %4",
+    "tooltip": "Cria um objeto de radar LD2410C e inicializa a porta serial por software (TX do módulo no pino RX, RX do módulo no pino TX)",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "256000 (padrão de fábrica)",
+            "256000"
+          ],
+          [
+            "115200",
+            "115200"
+          ],
+          [
+            "57600",
+            "57600"
+          ],
+          [
+            "38400",
+            "38400"
+          ],
+          [
+            "19200",
+            "19200"
+          ],
+          [
+            "9600",
+            "9600"
+          ]
+        ]
+      }
+    ]
+  },
+  "ld2410c_read_frame": {
+    "message0": "%1 ler e armazenar um quadro",
+    "tooltip": "Recebe bytes da porta serial por software, alinha pelo cabeçalho (244 243 242 241) e delimita o quadro pelo final (248 247 246 245); armazena o quadro mais recente (23 bytes no modo básico, até 45 no modo engenharia). Não bloqueante; chame repetidamente no laço",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_new_frame": {
+    "message0": "%1 novo quadro recebido?",
+    "tooltip": "Indica se um novo quadro acabou de ser recebido e armazenado (o sinal zera automaticamente após a leitura)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_frame_valid": {
+    "message0": "%1 quadro válido armazenado?",
+    "tooltip": "Permanece verdadeiro desde o primeiro quadro válido (sinal de nível, sem zerar automaticamente)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_frame_byte": {
+    "message0": "byte %2 do quadro armazenado de %1",
+    "tooltip": "Lê o byte 1 até o comprimento do quadro armazenado (cabeçalho, área de dados e final incluídos)",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_data_byte": {
+    "message0": "byte %2 da área de dados de %1",
+    "tooltip": "Lê o byte 1 até o comprimento da área de dados do quadro armazenado (área = comprimento do quadro - 8)",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_frame_length": {
+    "message0": "%1 bytes totais do quadro",
+    "tooltip": "Retorna o comprimento real do quadro armazenado: 23 a 45 bytes (0 sem quadro válido)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_data_length": {
+    "message0": "%1 bytes da área de dados",
+    "tooltip": "Retorna o comprimento real da área de dados: = comprimento do quadro - 8 (15 bytes no modo básico; 0 sem quadro válido)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_mode": {
+    "message0": "%1 modo de relatório",
+    "tooltip": "Byte 7 do quadro: 1 = relatório de engenharia, 2 = relatório básico",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_target_status": {
+    "message0": "%1 estado do alvo",
+    "tooltip": "Byte 9: 0 = sem alvo, 1 = em movimento, 2 = parado, 3 = movimento + parado",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_moving_distance": {
+    "message0": "%1 distância do alvo em movimento",
+    "tooltip": "Valor bruto da distância do alvo em movimento, bytes 10-11, 16 bits little-endian",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_moving_energy": {
+    "message0": "%1 energia do alvo em movimento",
+    "tooltip": "Energia do alvo em movimento 0-100, byte 12",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_static_distance": {
+    "message0": "%1 distância do alvo parado",
+    "tooltip": "Valor bruto da distância do alvo parado, bytes 13-14, 16 bits little-endian",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_static_energy": {
+    "message0": "%1 energia do alvo parado",
+    "tooltip": "Energia do alvo parado 0-100, byte 15",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_detect_distance": {
+    "message0": "%1 distância de detecção",
+    "tooltip": "Valor bruto da distância de detecção geral, bytes 16-17, 16 bits little-endian",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_move_gate_count": {
+    "message0": "%1 porta de movimento máxima",
+    "tooltip": "Número de portas de detecção de movimento, byte 18; apenas em quadros de engenharia (0 em quadro básico)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_static_gate_count": {
+    "message0": "%1 porta estática máxima",
+    "tooltip": "Número de portas de detecção estática, byte 19; apenas em quadros de engenharia (0 em quadro básico)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_move_gate_energy": {
+    "message0": "%1 energia porta de movimento %2",
+    "tooltip": "Energia 0-100 da porta de movimento 1-9, bytes 20-28; apenas em quadros de engenharia",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_static_gate_energy": {
+    "message0": "%1 energia porta estática %2",
+    "tooltip": "Energia 0-100 da porta estática 1-9, bytes 29-37; apenas em quadros de engenharia",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_photosensitive": {
+    "message0": "%1 valor fotossensível",
+    "tooltip": "Valor de luz ambiente 0-255, byte 38; apenas em quadros de engenharia (0 em quadro básico)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_poll_auto": {
+    "message0": "Sondar todos os radares automaticamente",
+    "tooltip": "Alterna automaticamente a escuta entre todos os objetos de radar LD2410C inicializados: muda para o próximo ao receber um quadro completo ou após 500 ms sem quadro. Chame repetidamente no laço e leia com os blocos de análise de cada objeto; um bloco de leitura separado não é necessário"
+  }
+}

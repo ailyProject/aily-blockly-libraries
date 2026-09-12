@@ -1,0 +1,181 @@
+{
+  "toolbox_name": "LD2410C Radar",
+  "ld2410c_init": {
+    "message0": "%1 connect soft serial RX pin %2 TX pin %3 baud rate %4",
+    "tooltip": "Create an LD2410C radar object and initialize the soft serial (module TX to RX pin, module RX to TX pin)",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "256000 (factory default)",
+            "256000"
+          ],
+          [
+            "115200",
+            "115200"
+          ],
+          [
+            "57600",
+            "57600"
+          ],
+          [
+            "38400",
+            "38400"
+          ],
+          [
+            "19200",
+            "19200"
+          ],
+          [
+            "9600",
+            "9600"
+          ]
+        ]
+      }
+    ]
+  },
+  "ld2410c_read_frame": {
+    "message0": "%1 read and store one frame",
+    "tooltip": "Receive bytes from the soft serial, align on header (244 243 242 241) and delimit by tail (248 247 246 245), and store the latest frame (23 bytes in basic mode, up to 45 in engineering mode). Non-blocking; call repeatedly in the loop",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_new_frame": {
+    "message0": "%1 new frame received?",
+    "tooltip": "Whether a new frame has just been received and stored (flag clears automatically after reading)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_frame_valid": {
+    "message0": "%1 valid frame stored?",
+    "tooltip": "Stays true from the first valid frame (level signal, no auto-clear)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_frame_byte": {
+    "message0": "byte %2 of %1 stored frame",
+    "tooltip": "Read byte 1 to frame length of the stored frame (header, data section and tail included)",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_data_byte": {
+    "message0": "byte %2 of %1 data section",
+    "tooltip": "Read byte 1 to data section length of the stored frame's data section (data section = frame length - 8)",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_frame_length": {
+    "message0": "%1 total frame bytes",
+    "tooltip": "Returns the actual stored frame length: 23-45 bytes (0 when no valid frame stored)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_data_length": {
+    "message0": "%1 data section bytes",
+    "tooltip": "Returns the actual data section length: = frame length - 8 (15 bytes in basic mode; 0 when no valid frame stored)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_mode": {
+    "message0": "%1 report mode",
+    "tooltip": "Frame byte 7: 1 = engineering report, 2 = basic report",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_target_status": {
+    "message0": "%1 target status",
+    "tooltip": "Frame byte 9: 0 = no target, 1 = moving, 2 = static, 3 = moving + static",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_moving_distance": {
+    "message0": "%1 moving target distance",
+    "tooltip": "Raw moving target distance, frame bytes 10-11, 16-bit little-endian",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_moving_energy": {
+    "message0": "%1 moving target energy",
+    "tooltip": "Moving target energy 0-100, frame byte 12",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_static_distance": {
+    "message0": "%1 static target distance",
+    "tooltip": "Raw static target distance, frame bytes 13-14, 16-bit little-endian",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_static_energy": {
+    "message0": "%1 static target energy",
+    "tooltip": "Static target energy 0-100, frame byte 15",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_detect_distance": {
+    "message0": "%1 detection distance",
+    "tooltip": "Raw overall detection distance, frame bytes 16-17, 16-bit little-endian",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_move_gate_count": {
+    "message0": "%1 max moving distance gate",
+    "tooltip": "Number of moving detection gates, frame byte 18; engineering frames only (0 in basic frames)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_static_gate_count": {
+    "message0": "%1 max static distance gate",
+    "tooltip": "Number of static detection gates, frame byte 19; engineering frames only (0 in basic frames)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_move_gate_energy": {
+    "message0": "%1 moving gate %2 energy",
+    "tooltip": "Energy 0-100 of moving gate 1-9, frame bytes 20-28; engineering frames only",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_static_gate_energy": {
+    "message0": "%1 static gate %2 energy",
+    "tooltip": "Energy 0-100 of static gate 1-9, frame bytes 29-37; engineering frames only",
+    "args0": [
+      null,
+      null
+    ]
+  },
+  "ld2410c_photosensitive": {
+    "message0": "%1 photosensitive value",
+    "tooltip": "Ambient light value 0-255, frame byte 38; engineering frames only (0 in basic frames)",
+    "args0": [
+      null
+    ]
+  },
+  "ld2410c_poll_auto": {
+    "message0": "Poll all radars automatically",
+    "tooltip": "Automatically alternates listening among all initialized LD2410C radar objects: switches to the next one after a complete frame arrives or after 500 ms without one. Call repeatedly in the loop and read values with each object's parsing blocks; a separate read block is not needed"
+  }
+}

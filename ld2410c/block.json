@@ -1,0 +1,349 @@
+[
+  {
+    "type": "ld2410c_init",
+    "message0": "%1 连接软串口 RX引脚 %2 TX引脚 %3 波特率 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      },
+      {
+        "type": "field_number",
+        "name": "RX",
+        "value": 2
+      },
+      {
+        "type": "field_number",
+        "name": "TX",
+        "value": 3
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BAUD",
+        "options": [
+          [
+            "256000（出厂默认）",
+            "256000"
+          ],
+          [
+            "115200",
+            "115200"
+          ],
+          [
+            "57600",
+            "57600"
+          ],
+          [
+            "38400",
+            "38400"
+          ],
+          [
+            "19200",
+            "19200"
+          ],
+          [
+            "9600",
+            "9600"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "tooltip": "创建LD2410C雷达对象并初始化软串口（模块TX接RX引脚，模块RX接TX引脚）",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_read_frame",
+    "message0": "%1 读取并存储一帧数据",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "tooltip": "从软串口接收数据，按帧头(244 243 242 241)对齐、按帧尾(248 247 246 245)定界，存储最新一帧(基本模式23字节，工程模式最长45字节)。非阻塞，需在循环中反复调用",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_poll_auto",
+    "message0": "自动轮询所有雷达",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "tooltip": "在所有已初始化的LD2410C雷达对象间自动轮流侦听：当前模块收到一帧完整数据或超过500毫秒未收到即切换下一个。在循环中反复调用，配合各对象的解析块使用，无需再单独调用读取块",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_new_frame",
+    "message0": "%1 收到新帧？",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      }
+    ],
+    "output": "Boolean",
+    "tooltip": "是否刚收到并存储了新的一帧（读取后标志自动清零）",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_frame_valid",
+    "message0": "%1 已存储有效帧？",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      }
+    ],
+    "output": "Boolean",
+    "tooltip": "自首次收到有效帧起保持为真（电平信号，不自动清零）",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_frame_byte",
+    "message0": "%1 存储帧的第 %2 字节",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX"
+      }
+    ],
+    "output": "Number",
+    "tooltip": "读取存储帧中第1~帧长度字节的值（含帧头、数据区、帧尾）",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_data_byte",
+    "message0": "%1 数据区的第 %2 字节",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX"
+      }
+    ],
+    "output": "Number",
+    "tooltip": "读取存储帧数据区中第1~数据区长度字节的值（数据区=帧长-8）",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_frame_length",
+    "message0": "%1 帧总字节数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      }
+    ],
+    "output": "Number",
+    "tooltip": "返回存储帧的实际总长度：23~45字节（未存有效帧时为0）",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_data_length",
+    "message0": "%1 数据区字节数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      }
+    ],
+    "output": "Number",
+    "tooltip": "返回数据区的实际长度：=帧长-8（基本模式15字节，未存有效帧时为0）",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_mode",
+    "message0": "%1 上报模式",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      }
+    ],
+    "output": "Number",
+    "tooltip": "帧第7字节：1=工程模式上报，2=基本模式上报",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_target_status",
+    "message0": "%1 目标状态",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      }
+    ],
+    "output": "Number",
+    "tooltip": "帧第9字节：0=无目标 1=运动目标 2=静止目标 3=运动+静止",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_moving_distance",
+    "message0": "%1 运动目标距离",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      }
+    ],
+    "output": "Number",
+    "tooltip": "运动目标距离原始值，帧第10~11字节小端16位",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_moving_energy",
+    "message0": "%1 运动目标能量",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      }
+    ],
+    "output": "Number",
+    "tooltip": "运动目标能量值0~100，帧第12字节",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_static_distance",
+    "message0": "%1 静止目标距离",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      }
+    ],
+    "output": "Number",
+    "tooltip": "静止目标距离原始值，帧第13~14字节小端16位",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_static_energy",
+    "message0": "%1 静止目标能量",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      }
+    ],
+    "output": "Number",
+    "tooltip": "静止目标能量值0~100，帧第15字节",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_detect_distance",
+    "message0": "%1 探测距离",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      }
+    ],
+    "output": "Number",
+    "tooltip": "综合探测距离原始值，帧第16~17字节小端16位",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_move_gate_count",
+    "message0": "%1 最远运动距离门",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      }
+    ],
+    "output": "Number",
+    "tooltip": "运动探测距离门数量，帧第18字节，仅工程模式帧有值（基本模式帧返回0）",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_static_gate_count",
+    "message0": "%1 最远静止距离门",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      }
+    ],
+    "output": "Number",
+    "tooltip": "静止探测距离门数量，帧第19字节，仅工程模式帧有值（基本模式帧返回0）",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_move_gate_energy",
+    "message0": "%1 运动距离门 %2 能量",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX"
+      }
+    ],
+    "output": "Number",
+    "tooltip": "第1~9个运动距离门能量值0~100，帧第20~28字节，仅工程模式帧有值",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_static_gate_energy",
+    "message0": "%1 静止距离门 %2 能量",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX"
+      }
+    ],
+    "output": "Number",
+    "tooltip": "第1~9个静止距离门能量值0~100，帧第29~37字节，仅工程模式帧有值",
+    "colour": "#00C48C"
+  },
+  {
+    "type": "ld2410c_photosensitive",
+    "message0": "%1 光敏值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ld2410c"
+      }
+    ],
+    "output": "Number",
+    "tooltip": "环境光敏值0~255，帧第38字节，仅工程模式帧有值（基本模式帧返回0）",
+    "colour": "#00C48C"
+  }
+]
