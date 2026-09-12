@@ -7,7 +7,7 @@ Prompt, local-audio and runtime-number playback for ChipIntelli CI13XX.
 | Field | Value |
 |---|---|
 | Package | `@aily-project/lib-chipintelli-audio` |
-| Version | 1.0.2 |
+| Version | 1.1.0 |
 | Author | ChipIntelli Arduino contributors / ailyProject |
 | Source | [ChipIntelli documentation](https://document.chipintelli.com/) |
 | License | LGPL-2.1-or-later; vendor SDK terms also apply |
@@ -18,11 +18,11 @@ CI1302, CI1303 and CI1306 (`chipintelli:ci13xx`) at 3.3 V.
 
 ## Description
 
-Plays fixed `voice.bin` prompts, imported audio, or decimal values from numeric variables. Includes queue/interrupt, volume, mute, status and completion; numeric speech supports 15 languages.
+Plays prompts, imported audio and numeric variables. CWSL's managed controller guards other playback while learning.
 
 ## Quick Start
 
-1. Initialize and select the runtime-number language.
+1. Initialize and select the runtime-number language. Playback volume defaults to 100%.
 2. Optionally set prompt voice, volume and speed.
-3. Play a prompt, configured local audio or numeric variable; immediate mode interrupts, while queue mode waits.
-4. Put follow-up work in the completion event, which dispatches from the Arduino loop.
+3. Playback is asynchronous; interrupt mode does not wait for completion.
+4. Use the completion event only without a managed CWSL controller.

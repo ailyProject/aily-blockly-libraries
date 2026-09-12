@@ -4,6 +4,93 @@
   "icon": "fa-light fa-microphone-lines",
   "colour": "#2E7D32",
   "contents": [
+    {
+      "kind": "label",
+      "text": "完整语音学习（推荐）"
+    },
+    {
+      "kind": "block",
+      "type": "chipintelli_cwsl_voice_learning_init",
+      "inputs": {
+        "COMMAND_ID": {
+          "shadow": {
+            "type": "chipintelli_asr_command_fixed_id",
+            "fields": {
+              "TEXT": "执行操作",
+              "COMMAND_ID": 1000
+            }
+          }
+        },
+        "WAKE_ID": {
+          "shadow": {
+            "type": "chipintelli_asr_command_id",
+            "fields": {
+              "COMMAND_ID": 1
+            }
+          }
+        },
+        "GROUP_ID": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "COMMAND_PROMPT": {
+          "shadow": {
+            "type": "chipintelli_audio_voice",
+            "fields": {
+              "TEXT": "提示结束后，说出新的命令短语。没有听到结果时，请间隔两秒重复。"
+            }
+          }
+        },
+        "WAKE_PROMPT": {
+          "shadow": {
+            "type": "chipintelli_audio_voice",
+            "fields": {
+              "TEXT": "提示结束后，说出新的唤醒短语。没有听到结果时，请间隔两秒重复。"
+            }
+          }
+        },
+        "SUCCESS_PROMPT": {
+          "shadow": {
+            "type": "chipintelli_audio_voice",
+            "fields": {
+              "TEXT": "操作成功，已经保存。"
+            }
+          }
+        },
+        "FAILURE_PROMPT": {
+          "shadow": {
+            "type": "chipintelli_audio_voice",
+            "fields": {
+              "TEXT": "操作失败。如果再次学习仍然失败，请重新上电并换一个短语。"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "chipintelli_cwsl_voice_learning_request"
+    },
+    {
+      "kind": "block",
+      "type": "chipintelli_cwsl_voice_learning_busy"
+    },
+    {
+      "kind": "block",
+      "type": "chipintelli_cwsl_voice_learning_ready"
+    },
+    {
+      "kind": "block",
+      "type": "chipintelli_cwsl_voice_learning_error"
+    },
+    {
+      "kind": "label",
+      "text": "底层接口（不要与控制器混用）"
+    },
     {"kind": "label", "text": "初始化"},
     {"kind": "block", "type": "chipintelli_cwsl_init", "inputs": {"TIMEOUT": {"shadow": {"type": "math_number", "fields": {"NUM": 10000}}}}},
     {"kind": "block", "type": "chipintelli_cwsl_is_begun"},

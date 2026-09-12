@@ -5,20 +5,20 @@ Plays generated voice prompts or project-local audio on CI13XX devices. Use `chi
 ## Library Info
 
 - **Name**: `@aily-project/lib-chipintelli-audio`
-- **Version**: 1.0.2
+- **Version**: 1.1.0
 
 ## Block Definitions
 
 | Block Type | Connection | Parameters (block.json order) | ABS Format | Generated Code |
 |---|---|---|---|---|
-| `chipintelli_audio_init` | Statement | LANGUAGE(dropdown) | `chipintelli_audio_init(CHIPINTELLI_LANGUAGE_EN)` | `ChipIntelliAudio.begin();` |
+| `chipintelli_audio_init` | Statement | LANGUAGE(dropdown) | `chipintelli_audio_init(CHIPINTELLI_LANGUAGE_EN)` | `ChipIntelliAudio.begin(); ChipIntelliAudio.setVolume(100);` |
 | `chipintelli_audio_end` | Statement | (none) | `chipintelli_audio_end()` | `ChipIntelliAudio.end();` |
 | `chipintelli_audio_voice_settings` | Statement | VOICE_ROLE(dropdown), VOICE_VOLUME(field_number), VOICE_SPEED(field_number) | `chipintelli_audio_voice_settings("小小-伶俐女声", 10, 10)` | `//VOICE_ROLE:"小小-伶俐女声";VOICE_VOLUME:10;VOICE_SPEED:10;` |
 | `chipintelli_audio_voice` | Value | TEXT(field_input) | `chipintelli_audio_voice("Hello")` | `VOICE1` |
 | `chipintelli_audio_local_audio` | Value | AUDIO(field_audio) | `chipintelli_audio_local_audio({"audioPath":""})` | `0` |
 | `chipintelli_audio_play_voice` | Statement | VOICE_ID(input_value), MODE(dropdown) | `chipintelli_audio_play_voice(chipintelli_audio_voice("Hello"), true)` | `ChipIntelliAudio.playVoice((uint16_t)(1), true);` |
 | `chipintelli_audio_stop` | Statement | (none) | `chipintelli_audio_stop()` | `ChipIntelliAudio.stop();` |
-| `chipintelli_audio_set_volume` | Statement | VOLUME(input_value) | `chipintelli_audio_set_volume(math_number(70))` | `ChipIntelliAudio.setVolume((uint8_t)constrain((int)(1), 0, 100));` |
+| `chipintelli_audio_set_volume` | Statement | VOLUME(input_value) | `chipintelli_audio_set_volume(math_number(100))` | `ChipIntelliAudio.setVolume((uint8_t)constrain((int)(100), 0, 100));` |
 | `chipintelli_audio_set_muted` | Statement | MUTED(input_value) | `chipintelli_audio_set_muted(logic_boolean(TRUE))` | `ChipIntelliAudio.setMuted((bool)(true));` |
 | `chipintelli_audio_is_ready` | Value | (none) | `chipintelli_audio_is_ready()` | `ChipIntelliAudio.isReady()` |
 | `chipintelli_audio_is_playing` | Value | (none) | `chipintelli_audio_is_playing()` | `ChipIntelliAudio.isPlaying()` |
@@ -34,7 +34,7 @@ Plays generated voice prompts or project-local audio on CI13XX devices. Use `chi
 | VOICE_ROLE | `小小-伶俐女声`, `小蝶-清新女声`, `云儿-温柔女声`, `小爱-活泼女声`, `妞妞-中文女声`, `思思-知性女声`, `方方-标准女声`, `橙子-甜美客服`, `小雨-优雅女声`, `小韩-快乐女声`, `娇娇-邻家女声`, `小美-娇美女声`, `姗姗-温柔女声`, `阿文-温和男声`, `晓君-川话男声`, `阿月-粤语女声`, `阿栋-浑厚男声`, `可可-欢快女童`, `小萌-可爱女童`, `程程-标准男童`, `小英-高兴`, `小英-日常`, `小英-温和`, `小英-认真`, `小伦-日常`, `小伦-高兴`, `小伦-放松`, `小伦-认真`, `Ana-英语女声`, `Olivia-英语女声`, `Sophia-英语女声`, `Mia-英语女声`, `Harper-英语女声`, `Linda-英语女声`, `Dora-英语女声`, `Rebecca-英语女声`, `David-英语男声`, `Daniel-英语男声`, `James-英语男声`, `John-英语男声`, `Ava-英语女童`, `樱子-标准女声`, `Aiko-清新女声`, `Daichi-标准男声`, `Yoki-标准童声`, `智恩-韩文女声`, `尤金-韩文女声`, `俊昊-韩文男声`, `Alexey-俄语男声`, `Alina-俄语女声`, `Carlos-西班牙男声`, `Mateo-西班牙男声`, `Paula-西班牙女声`, `Bella-西班牙女声`, `Ken-泰语男声`, `Lemur-泰语女声`, `Supaporn-泰语女声`, `Felix-德语男声`, `Anna-德语女声`, `Paolo-印尼男声`, `Jessica-印尼女声`, `Khoa-越南语男声`, `Tuyet-越南语女声`, `Sophie-法语女声`, `Camille-法语女声`, `Louis-法语男声`, `Gabriel-法语男声`, `Beatriz-葡萄牙女声`, `Rodrigo-葡萄牙男声`, `Farzaneh-波斯女声`, `Ali-波斯男声`, `Mustafa-土耳其男声`, `Mehmet-土耳其女声`, `Jamila-阿拉伯女声`, `Emm-阿拉伯女声`, `Adam-阿拉伯男声`, `Rem-阿拉伯男声` | Generated-prompt voice role; these are the exact dropdown values |
 | MODE | `true`, `false` | `true` interrupts the current prompt; `false` queues the request |
 
-`VOICE_VOLUME` and `VOICE_SPEED` are integer fields from 0 to 20 and default to 10. Runtime `VOLUME` is a percentage and is constrained to 0–100.
+`VOICE_VOLUME` and `VOICE_SPEED` are integer fields from 0 to 20 and default to 10. Runtime `VOLUME` is a percentage and is constrained to 0–100. Initialization sets playback volume to 100%; the volume block also defaults to 100 when newly added or when its input is empty.
 
 ## ABS Examples
 
@@ -43,7 +43,7 @@ arduino_setup()
     chipintelli_audio_init(CHIPINTELLI_LANGUAGE_EN)
     chipintelli_audio_voice_settings("Ana-英语女声", 10, 10)
     serial_begin(Serial, 115200)
-    chipintelli_audio_set_volume(math_number(70))
+    chipintelli_audio_set_volume(math_number(100))
     chipintelli_audio_play_voice(chipintelli_audio_voice("System ready"), true)
 
     variable_define("number", int, math_number(300))
@@ -53,6 +53,12 @@ chipintelli_audio_on_finished()
     @HANDLER:
         serial_println(Serial, text("Voice request completed"))
 ```
+
+## Coordination with CWSL 1.2.0
+
+When a managed voice-learning controller is connected, ordinary play/stop blocks automatically check its busy flag. Wake or business prompts cannot interrupt learning instructions or recording. Requests during that interval are discarded, not replayed later. Also guard non-audio business actions with `chipintelli_cwsl_voice_learning_busy()`.
+
+Do not combine the managed controller with `chipintelli_audio_on_finished` or Audio end blocks: the controller owns the completion callback. Generation rejects that combination. Without a managed controller the existing Audio blocks behave as before. In a manual state machine, a global completion flag identifies no particular voice request; do not let another prompt's completion advance learning. Check readiness and playback acceptance, time out both instructions and feedback, and never interpret timeout as completion.
 
 ## Notes
 

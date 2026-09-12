@@ -82,7 +82,26 @@
     "args0": [{"type": "field_input", "name": "TEXT", "text": "打开灯"}],
     "output": "Number",
     "colour": "#FB8C00",
-    "tooltip": "定义语音命令词并返回其 ID；ID 从 2 开始，相同文本自动复用"
+    "tooltip": "定义语音命令词并返回 ID；从 2 开始自动避开固定 ID 和 199～208，相同文本复用（含固定定义）"
+  },
+  {
+    "type": "chipintelli_asr_command_fixed_id",
+    "message0": "命令词 %1 固定 ID %2",
+    "args0": [
+      {"type": "field_input", "name": "TEXT", "text": "执行操作"},
+      {"type": "field_number", "name": "COMMAND_ID", "value": 1000, "min": 2, "max": 65535, "precision": 1}
+    ],
+    "output": "Number",
+    "colour": "#FB8C00",
+    "tooltip": "定义固定 ID 的普通词条并生成资源宏，适合作为 CWSL 学习目标；自动编号会避开此 ID。相同 ID 不可定义不同文本，199～208 不可用"
+  },
+  {
+    "type": "chipintelli_asr_command_id",
+    "message0": "命令词 ID %1",
+    "args0": [{"type": "field_number", "name": "COMMAND_ID", "value": 1000, "min": 0, "max": 65535, "precision": 1}],
+    "output": "Number",
+    "colour": "#FB8C00",
+    "tooltip": "原样引用已有 ID，不定义或预留词条；默认 1000 用于减少与常见低编号误用，但不保证资源存在。新学习目标请用固定 ID 命令词块；首个唤醒词引用 1"
   },
   {
     "type": "chipintelli_asr_detach_lifecycle",

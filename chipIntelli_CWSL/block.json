@@ -1,5 +1,128 @@
 [
   {
+    "type": "chipintelli_cwsl_voice_learning_init",
+    "message0": "初始化语音自学习 命令目标 %1 唤醒 ID %2 分组 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "COMMAND_ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "WAKE_ID",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "GROUP_ID",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "message1": "学命令提示 %1 学唤醒提示 %2 成功提示 %3 失败提示 %4",
+    "args1": [
+      {
+        "type": "input_value",
+        "name": "COMMAND_PROMPT",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "WAKE_PROMPT",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SUCCESS_PROMPT",
+        "check": [
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "FAILURE_PROMPT",
+        "check": [
+          "Number"
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "完整语音学习流程：提示结束后录音、匹配事件、超时处理。命令目标连接固定 ID 定义块；不要混用底层 CWSL 控制/读取或音频完成事件"
+  },
+  {
+    "type": "chipintelli_cwsl_voice_learning_request",
+    "message0": "语音自学习 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "首次学习命令词",
+            "LEARN_COMMAND"
+          ],
+          [
+            "首次学习唤醒词",
+            "LEARN_WAKE"
+          ],
+          [
+            "修改命令词",
+            "REPLACE_COMMAND"
+          ],
+          [
+            "修改唤醒词",
+            "REPLACE_WAKE"
+          ],
+          [
+            "删除命令词",
+            "DELETE_COMMAND"
+          ],
+          [
+            "删除唤醒词",
+            "DELETE_WAKE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#388E3C",
+    "tooltip": "在 ASR 控制口令事件中提交一次操作；忙碌时忽略，修改会先删除指定目标再学习，不删除其他模板"
+  },
+  {
+    "type": "chipintelli_cwsl_voice_learning_busy",
+    "message0": "语音自学习正在处理",
+    "output": "Boolean",
+    "colour": "#2E7D32",
+    "tooltip": "包括提示、录音、删除及反馈；此时业务动作也应暂停"
+  },
+  {
+    "type": "chipintelli_cwsl_voice_learning_ready",
+    "message0": "语音自学习可用",
+    "output": "Boolean",
+    "colour": "#2E7D32",
+    "tooltip": "初始化成功且未出现需要重启恢复的异常"
+  },
+  {
+    "type": "chipintelli_cwsl_voice_learning_error",
+    "message0": "语音自学习最近错误说明",
+    "output": "String",
+    "colour": "#C62828",
+    "tooltip": "包含初始化、播放拒绝、请求拒绝、默认命令冲突及超时原因"
+  },
+  {
     "type": "chipintelli_cwsl_init",
     "message0": "初始化 CI13XX 命令词自学习 超时 %1 ms",
     "args0": [{"type": "input_value", "name": "TIMEOUT", "check": ["Number"]}],
