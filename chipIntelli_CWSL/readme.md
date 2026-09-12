@@ -7,7 +7,7 @@ Command- and wake-word self-learning blocks for CI13XX.
 | Field | Value |
 |---|---|
 | Package | `@aily-project/lib-chipintelli-cwsl` |
-| Version | 1.1.0 |
+| Version | 1.2.0 |
 | Author | ChipIntelli Arduino contributors / ailyProject |
 | Source | [ChipIntelli documentation](https://document.chipintelli.com/) |
 | License | LGPL-2.1-or-later |
@@ -18,8 +18,10 @@ CI1302, CI1303, CI1306, CI-D06GT01D and EasyVoice 1306. Requires the board core'
 
 ## Description
 
-Learn words, manage persistent templates, poll events and inspect errors. Common actions come first; advanced queue diagnostics follow.
+Managed voice learning handles prompts, recording, targeted replacement and failures. Raw CWSL blocks remain available separately.
 
 ## Quick Start
 
-Select a CWSL profile. Initialize, check success, learn an existing command ID, then drain events in loop. ID 2/group 0 is the default; wake words need a wake-command ID. See readme_ai.md for complete examples. Prefer the minimal example on CI1302.
+1. Set a wake word and add the voice-learning controller with a fixed-ID target.
+2. Connect ASR controls to its learning/replacement request blocks.
+3. Guard business actions with its busy block. Do not mix raw CWSL reads or Audio completion events.

@@ -26,6 +26,30 @@ function chipIntelliAudioValue(block, generator, name, fallback) {
   return generator.valueToCode(block, name, generator.ORDER_ATOMIC) || fallback;
 }
 
+function chipIntelliAudioLearningManaged(block) {
+  const workspace = block && block.workspace;
+  if (!workspace || typeof workspace.getAllBlocks !== 'function') return false;
+  return workspace.getAllBlocks(false).some(candidate => {
+    if (candidate.type !== 'chipintelli_cwsl_voice_learning_init' || candidate.isInFlyout) return false;
+    const visited = new Set();
+    let current = candidate;
+    let connected = false;
+    while (current && !visited.has(current)) {
+      visited.add(current);
+      if (typeof current.isEnabled === 'function' && !current.isEnabled()) return false;
+      if (['arduino_setup', 'arduino_loop'].indexOf(current.type) >= 0) connected = true;
+      current = typeof current.getParent === 'function' ? current.getParent() : null;
+    }
+    return connected;
+  });
+}
+
+function chipIntelliAudioGuard(block, generator, expression) {
+  if (!chipIntelliAudioLearningManaged(block)) return expression;
+  generator.addFunction('chipintelli_cwsl_voice_busy_declaration', 'bool ailyChipIntelliCWSLVoiceBusy();');
+  return '(!ailyChipIntelliCWSLVoiceBusy() && ' + expression + ')';
+}
+
 function chipIntelliAudioIsVariableInput(block, name) {
   const inputBlock = block && typeof block.getInputTargetBlock === 'function'
     ? block.getInputTargetBlock(name)
@@ -123,7 +147,7 @@ Arduino.forBlock['chipintelli_audio_init'] = function(block, generator) {
     '#define CHIPINTELLI_LANGUAGE ' + language
   );
   ensureChipIntelliAudio(generator);
-  return 'ChipIntelliAudio.begin();\n';
+  return 'ChipIntelliAudio.begin();\nChipIntelliAudio.setVolume(100);\n';
 };
 
 Arduino.forBlock['chipintelli_audio_end'] = function(block, generator) {
@@ -164,19 +188,23 @@ Arduino.forBlock['chipintelli_audio_play_voice'] = function(block, generator) {
   const voiceId = chipIntelliAudioValue(block, generator, 'VOICE_ID', '1');
   const interruptCurrent = block.getFieldValue('MODE') === 'false' ? 'false' : 'true';
   if (chipIntelliAudioIsVariableInput(block, 'VOICE_ID')) {
-    return 'ChipIntelliAudio.playVoice(String(' + voiceId + '), ' + interruptCurrent + ');\n';
+    return chipIntelliAudioGuard(block, generator, 'ChipIntelliAudio.playVoice(String(' + voiceId + '), ' + interruptCurrent + ')') + ';\n';
   }
-  return 'ChipIntelliAudio.playVoice((uint16_t)(' + voiceId + '), ' + interruptCurrent + ');\n';
+  return chipIntelliAudioGuard(block, generator, 'ChipIntelliAudio.playVoice((uint16_t)(' + voiceId + '), ' + interruptCurrent + ')') + ';\n';
 };
 
 Arduino.forBlock['chipintelli_audio_stop'] = function(block, generator) {
   ensureChipIntelliAudio(generator);
+  if (chipIntelliAudioLearningManaged(block)) {
+    generator.addFunction('chipintelli_cwsl_voice_busy_declaration', 'bool ailyChipIntelliCWSLVoiceBusy();');
+    return 'if (!ailyChipIntelliCWSLVoiceBusy()) ChipIntelliAudio.stop();\n';
+  }
   return 'ChipIntelliAudio.stop();\n';
 };
 
 Arduino.forBlock['chipintelli_audio_set_volume'] = function(block, generator) {
   ensureChipIntelliAudio(generator);
-  const volume = chipIntelliAudioValue(block, generator, 'VOLUME', '70');
+  const volume = chipIntelliAudioValue(block, generator, 'VOLUME', '100');
   return 'ChipIntelliAudio.setVolume((uint8_t)constrain((int)(' + volume + '), 0, 100));\n';
 };
 

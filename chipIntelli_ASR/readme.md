@@ -7,7 +7,7 @@ Offline wake-word, command and semantic recognition for ChipIntelli CI13XX.
 | Field | Value |
 |---|---|
 | Package | `@aily-project/lib-chipintelli-asr` |
-| Version | 2.3.0 |
+| Version | 2.4.1 |
 | Author | ChipIntelli Arduino contributors / ailyProject |
 | Source | [ChipIntelli documentation](https://document.chipintelli.com/) |
 | License | LGPL-2.1-or-later |
@@ -18,10 +18,10 @@ CI1302, CI1303 and CI1306 (`chipintelli:ci13xx`) at 3.3 V.
 
 ## Description
 
-Supports multiple wake words, command/semantic handlers, result access, queue diagnostics, AEC and barge-in status. Event blocks register setup callbacks and add non-blocking `tick()` processing; polling is available as an alternative.
+Text commands allocate IDs; fixed-ID commands reserve IDs and generate vocabulary. Automatic IDs skip fixed definitions and CWSL controls 199–208. Numeric ID references remain unchanged. Fixed ID 1000 is suggested for a learning target; define its text first.
 
 ## Quick Start
 
-1. Initialize, then add wake words.
-2. Use either events or `read_results`; both consume the same queue.
-3. Put `keep_awake_for` in a wake handler to extend a session. Its editable toolbox input starts at 15 seconds; omitting the block leaves the SDK/firmware default unchanged.
+1. Initialize and set an explicit wake word.
+2. Define the learning target with a fixed ID; use separate control commands.
+3. Add command events; they call `tick()` in loop. Use polling separately.

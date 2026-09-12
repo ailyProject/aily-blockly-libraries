@@ -29,6 +29,33 @@ function chipIntelliASRRegisterEntryBlocks() {
 
 function chipIntelliASRIsBlockConnected(block) {
   if (!block || block.isInFlyout) return false;
+  // Workspace preflight must ignore the same disabled branches as codegen.
+  var ancestor = block;
+  var enabledVisited = new Set();
+  while (ancestor && !enabledVisited.has(ancestor)) {
+    enabledVisited.add(ancestor);
+    if ((typeof ancestor.isEnabled === 'function' && !ancestor.isEnabled()) ||
+        (typeof ancestor.isInsertionMarker === 'function' && ancestor.isInsertionMarker())) return false;
+    ancestor = typeof ancestor.getParent === 'function' ? ancestor.getParent()
+      : typeof ancestor.getSurroundParent === 'function' ? ancestor.getSurroundParent() : null;
+  }
+  // Core variable declarations may intentionally live at workspace root.
+  // Their compile-time resource initializer is active even though the runtime
+  // entry-point helper reports the declaration as disconnected.
+  if (['chipintelli_asr_command', 'chipintelli_asr_command_fixed_id',
+       'chipintelli_asr_command_id'].indexOf(block.type) >= 0) {
+    var parent = typeof block.getParent === 'function' ? block.getParent() : null;
+    var declarationVisited = new Set();
+    while (parent && !declarationVisited.has(parent)) {
+      declarationVisited.add(parent);
+      var outer = typeof parent.getParent === 'function' ? parent.getParent() : null;
+      if (parent.type === 'arduino_global' ||
+          (!outer && ['variable_define', 'variable_define_advanced'].indexOf(parent.type) >= 0) ||
+          (['variable_define_scoped', 'variable_define_advanced_scoped'].indexOf(parent.type) >= 0 &&
+           parent.getFieldValue('SCOPE') === 'global')) return true;
+      parent = outer;
+    }
+  }
   if (typeof isBlockConnected === 'function') {
     return isBlockConnected(block);
   }
@@ -82,6 +109,9 @@ function chipIntelliASRValue(block, generator, name, fallback) {
 function chipIntelliASRText(block, fieldName, fallback) {
   const value = block.getFieldValue(fieldName);
   const text = String(value === null || value === undefined ? '' : value).trim();
+  if (/[\r\n\u2028\u2029]/.test(text) || /\\$/.test(text)) {
+    throw new Error('语音词条必须是单行文本，且不能以反斜杠结尾');
+  }
   return text || fallback;
 }
 
@@ -89,25 +119,89 @@ function chipIntelliASRMacroName(commandId) {
   return 'COMMAND' + commandId;
 }
 
-function chipIntelliASRState(generator) {
+function chipIntelliASRNumericId(block) {
+  const value = block.getFieldValue('COMMAND_ID');
+  const commandId = Number(value);
+  if (value === null || value === undefined || String(value).trim() === '' ||
+      !Number.isInteger(commandId) || commandId < 0 || commandId > 65535) {
+    throw new RangeError('命令词 ID 必须是 0～65535 的整数');
+  }
+  return commandId;
+}
+
+function chipIntelliASRReservedId(commandId) {
+  return commandId < 2 || (commandId >= 199 && commandId <= 208);
+}
+
+function chipIntelliASRReserveCommand(block, state) {
+  const commandId = chipIntelliASRNumericId(block);
+  const text = chipIntelliASRText(block, 'TEXT', '执行操作');
+  if (chipIntelliASRReservedId(commandId)) {
+    throw new RangeError('固定命令 ID 不能使用 0、1 或 CWSL 保留的 199～208');
+  }
+  if (Object.prototype.hasOwnProperty.call(state.fixedCommandTexts, commandId) &&
+      state.fixedCommandTexts[commandId] !== text) {
+    throw new Error('命令 ID ' + commandId + ' 已分配给“' + state.fixedCommandTexts[commandId] + '”，不能再定义“' + text + '”');
+  }
+  if (Object.prototype.hasOwnProperty.call(state.fixedCommandIds, text) &&
+      state.fixedCommandIds[text] !== commandId) {
+    throw new Error('命令词“' + text + '”不能同时指定多个固定 ID');
+  }
+  if (Object.prototype.hasOwnProperty.call(state.commandIds, text) &&
+      state.commandIds[text] !== commandId) {
+    throw new Error('命令词“' + text + '”已生成其他 ID，请重新生成整个工作区');
+  }
+  state.fixedCommandTexts[commandId] = text;
+  state.fixedCommandIds[text] = commandId;
+}
+
+function chipIntelliASRState(generator, block) {
   const macros = generator.codeDict && generator.codeDict.macros;
-  if (!generator._chipIntelliASRState || generator._chipIntelliASRState.macros !== macros) {
-    generator._chipIntelliASRState = {
+  const workspace = block && block.workspace;
+  if (!generator._chipIntelliASRState || generator._chipIntelliASRState.macros !== macros ||
+      generator._chipIntelliASRState.workspace !== workspace) {
+    const state = {
       macros: macros,
+      workspace: workspace,
       nextResourceId: 2,
       hasExplicitWakeWord: false,
       wakeWordIds: Object.create(null),
       commandIds: Object.create(null),
+      fixedCommandTexts: Object.create(null),
+      fixedCommandIds: Object.create(null),
+      usedResourceIds: new Set([0, 1]),
       callbackIndexes: Object.create(null),
       nextCallbackIndex: 1
     };
+    // Reserve definitions before allocating ANY automatic command/wake ID.
+    // Literal references deliberately do not reserve IDs or change bindings.
+    const blocks = workspace && typeof workspace.getAllBlocks === 'function'
+      ? workspace.getAllBlocks(false) : [block];
+    blocks.forEach(function(candidate) {
+      if (candidate && candidate.type === 'chipintelli_asr_command_fixed_id' &&
+          chipIntelliASRIsBlockConnected(candidate)) chipIntelliASRReserveCommand(candidate, state);
+    });
+    generator._chipIntelliASRState = state;
   }
   return generator._chipIntelliASRState;
 }
 
+function chipIntelliASRAllocateId(state) {
+  while (state.nextResourceId <= 65535 &&
+         (chipIntelliASRReservedId(state.nextResourceId) ||
+          state.usedResourceIds.has(state.nextResourceId) ||
+          Object.prototype.hasOwnProperty.call(state.fixedCommandTexts, state.nextResourceId))) {
+    state.nextResourceId++;
+  }
+  if (state.nextResourceId > 65535) throw new RangeError('命令词 ID 空间已用完，无法继续分配');
+  const commandId = state.nextResourceId++;
+  state.usedResourceIds.add(commandId);
+  return commandId;
+}
+
 function chipIntelliASRSetWakeWord(block, generator) {
   const text = chipIntelliASRText(block, 'WAKE_WORD', '智能管家');
-  const state = chipIntelliASRState(generator);
+  const state = chipIntelliASRState(generator, block);
   const blockKey = String(block.id || 'text:' + text);
   let wakeWordId = state.wakeWordIds[blockKey];
 
@@ -116,7 +210,7 @@ function chipIntelliASRSetWakeWord(block, generator) {
       wakeWordId = 1;
       state.hasExplicitWakeWord = true;
     } else {
-      wakeWordId = state.nextResourceId++;
+      wakeWordId = chipIntelliASRAllocateId(state);
     }
     state.wakeWordIds[blockKey] = wakeWordId;
   }
@@ -129,11 +223,18 @@ function chipIntelliASRSetWakeWord(block, generator) {
 }
 
 function chipIntelliASRAddCommandMacro(block, generator) {
-  const text = chipIntelliASRText(block, 'TEXT', '打开灯');
-  const state = chipIntelliASRState(generator);
+  const text = chipIntelliASRText(block, 'TEXT',
+    block.type === 'chipintelli_asr_command_fixed_id' ? '执行操作' : '打开灯');
+  const state = chipIntelliASRState(generator, block);
 
   if (!Object.prototype.hasOwnProperty.call(state.commandIds, text)) {
-    const commandId = state.nextResourceId++;
+    const commandId = Object.prototype.hasOwnProperty.call(state.fixedCommandIds, text)
+      ? state.fixedCommandIds[text] : chipIntelliASRAllocateId(state);
+    if (Object.prototype.hasOwnProperty.call(state.fixedCommandIds, text) &&
+        state.usedResourceIds.has(commandId)) {
+      throw new Error('固定命令 ID ' + commandId + ' 与已生成词条冲突，请重新生成整个工作区');
+    }
+    state.usedResourceIds.add(commandId);
     state.commandIds[text] = commandId;
     generator.addMacro(
       'chipintelli_asr_command:' + text,
@@ -145,7 +246,7 @@ function chipIntelliASRAddCommandMacro(block, generator) {
 }
 
 function chipIntelliASRCallbackName(block, generator, eventName) {
-  const state = chipIntelliASRState(generator);
+  const state = chipIntelliASRState(generator, block);
   const blockId = String(block.id || 'anonymous_' + state.nextCallbackIndex);
   const key = eventName + ':' + blockId;
   if (!Object.prototype.hasOwnProperty.call(state.callbackIndexes, key)) {
@@ -278,7 +379,23 @@ Arduino.forBlock['chipintelli_asr_on_semantic'] = function(block, generator) {
 };
 
 Arduino.forBlock['chipintelli_asr_command'] = function(block, generator) {
+  // citool-cli ignores COMMAND macros without this include, including when
+  // this value block is used only as a CWSL target.
+  ensureChipIntelliASR(generator);
   return [chipIntelliASRAddCommandMacro(block, generator), generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['chipintelli_asr_command_fixed_id'] = function(block, generator) {
+  const state = chipIntelliASRState(generator, block);
+  chipIntelliASRReserveCommand(block, state);
+  ensureChipIntelliASR(generator);
+  return [chipIntelliASRAddCommandMacro(block, generator), generator.ORDER_ATOMIC];
+};
+
+// A reference must retain its value, even when it intentionally addresses a
+// resource defined by a text block. Never allocate or silently renumber here.
+Arduino.forBlock['chipintelli_asr_command_id'] = function(block, generator) {
+  return [String(chipIntelliASRNumericId(block)), generator.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['chipintelli_asr_detach_lifecycle'] = function(block, generator) {
