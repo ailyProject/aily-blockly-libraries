@@ -1,0 +1,144 @@
+[
+  {
+    "type": "grbl_init",
+    "message0": "GRBL init %1 X step %2 X dir %3 Y step %4 Y dir %5 Z step %6 Z dir %7 enable %8 X limit %9 Y limit %10 Z limit %11 laser PWM %12",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "grbl"
+      },
+      {
+        "type": "field_number",
+        "name": "STEP_X",
+        "value": 0
+      },
+      {
+        "type": "field_number",
+        "name": "DIR_X",
+        "value": 3
+      },
+      {
+        "type": "field_number",
+        "name": "STEP_Y",
+        "value": 1
+      },
+      {
+        "type": "field_number",
+        "name": "DIR_Y",
+        "value": 4
+      },
+      {
+        "type": "field_number",
+        "name": "STEP_Z",
+        "value": 2
+      },
+      {
+        "type": "field_number",
+        "name": "DIR_Z",
+        "value": 5
+      },
+      {
+        "type": "field_number",
+        "name": "ENABLE",
+        "value": 6
+      },
+      {
+        "type": "field_number",
+        "name": "LIM_X",
+        "value": 26
+      },
+      {
+        "type": "field_number",
+        "name": "LIM_Y",
+        "value": 27
+      },
+      {
+        "type": "field_number",
+        "name": "LIM_Z",
+        "value": 28
+      },
+      {
+        "type": "field_number",
+        "name": "LASER",
+        "value": 8
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E0592A",
+    "tooltip": "Create a Grbl motion controller bound to STEP/DIR driver pins, limit switches and laser PWM pin"
+  },
+  {
+    "type": "grbl_begin",
+    "message0": "GRBL begin %1 port %2 baud %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "grbl"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PORT",
+        "options": [
+          [
+            "Serial",
+            "Serial"
+          ],
+          [
+            "USART1",
+            "USART1"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BAUD",
+        "options": [
+          [
+            "115200",
+            "115200"
+          ],
+          [
+            "9600",
+            "9600"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E0592A",
+    "tooltip": "Start the serial port, attach the controller to it and print the welcome banner"
+  },
+  {
+    "type": "grbl_tick",
+    "message0": "GRBL tick %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "grbl"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E0592A",
+    "tooltip": "Drive the controller once: serial line processing, planner, stepper DDA, homing and laser state"
+  },
+  {
+    "type": "grbl_is_idle",
+    "message0": "GRBL idle %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "grbl"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#E0592A",
+    "tooltip": "True when no motion is running and no line is executing"
+  }
+]
