@@ -1,0 +1,147 @@
+[
+  {
+    "type": "grbl_init",
+    "message0": "GRBL init %1 enable mode %2 X step %3 X dir %4 Y step %5 Y dir %6 Z step %7 Z dir %8 enable %9 X limit %10 Y limit %11 Z limit %12 laser PWM %13",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "grbl"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ENABLE_MODE",
+        "options": [
+          [
+            "use enable pin",
+            "USE"
+          ],
+          [
+            "always enabled (bypass)",
+            "BYPASS"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "STEP_X"
+      },
+      {
+        "type": "input_value",
+        "name": "DIR_X"
+      },
+      {
+        "type": "input_value",
+        "name": "STEP_Y"
+      },
+      {
+        "type": "input_value",
+        "name": "DIR_Y"
+      },
+      {
+        "type": "input_value",
+        "name": "STEP_Z"
+      },
+      {
+        "type": "input_value",
+        "name": "DIR_Z"
+      },
+      {
+        "type": "input_value",
+        "name": "ENABLE"
+      },
+      {
+        "type": "input_value",
+        "name": "LIM_X"
+      },
+      {
+        "type": "input_value",
+        "name": "LIM_Y"
+      },
+      {
+        "type": "input_value",
+        "name": "LIM_Z"
+      },
+      {
+        "type": "input_value",
+        "name": "LASER"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E0592A",
+    "tooltip": "Create a Grbl motion controller. Connect board-aware pin selector blocks (digital pin / PWM pin) or numbers. Enable mode 'bypass' keeps motors permanently enabled so absolute position is never lost."
+  },
+  {
+    "type": "grbl_begin",
+    "message0": "GRBL begin %1 port %2 baud %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "grbl"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PORT",
+        "options": [
+          [
+            "Serial",
+            "Serial"
+          ],
+          [
+            "USART1",
+            "USART1"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BAUD",
+        "options": [
+          [
+            "115200",
+            "115200"
+          ],
+          [
+            "9600",
+            "9600"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E0592A",
+    "tooltip": "Start the serial port, attach the controller to it and print the welcome banner"
+  },
+  {
+    "type": "grbl_tick",
+    "message0": "GRBL tick %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "grbl"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E0592A",
+    "tooltip": "Drive the controller once: serial line processing, planner, stepper DDA, homing and laser state"
+  },
+  {
+    "type": "grbl_is_idle",
+    "message0": "GRBL idle %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "grbl"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#E0592A",
+    "tooltip": "True when no motion is running and no line is executing"
+  }
+]
