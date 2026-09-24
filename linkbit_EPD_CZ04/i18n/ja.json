@@ -1,0 +1,398 @@
+{
+  "toolbox_name": "linkbit グレースケール電子ペーパー",
+  "toolbox_categories": [
+    "初期化",
+    "更新",
+    "描画",
+    "文字",
+    "画像"
+  ],
+  "linkbit_epd_init": {
+    "message0": "linkbit グレースケール電子ペーパー %1 を初期化",
+    "tooltip": "内蔵の 2.13 インチ 104×212 4 階調電子ペーパーを初期化します（ピン固定 CS=2 DC=3 RST=1 BUSY=0 SCK=6 MOSI=7）。キャンバスは白、文字は黒"
+  },
+  "linkbit_epd_set_rotation": {
+    "message0": "電子ペーパー %1 画面の向き %2",
+    "tooltip": "キャンバスの向き：縦 104×212、横 212×104。以降の描画にのみ影響します",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "縦 0°",
+            "0"
+          ],
+          [
+            "横 90°",
+            "1"
+          ],
+          [
+            "縦 180°",
+            "2"
+          ],
+          [
+            "横 270°",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_clear_ghosting": {
+    "message0": "電子ペーパー %1 残像消去 %2 回",
+    "tooltip": "黒と白の全面更新を交互に行い残像を消します。1 回で全面更新 2 回（十数秒）。最後は白、キャンバスは保持"
+  },
+  "linkbit_epd_frame": {
+    "message0": "電子ペーパー %1 1 フレーム描画 %2",
+    "message1": "%1",
+    "message2": "そして更新",
+    "tooltip": "選択どおりにキャンバスを準備し、中の描画ブロックを実行してから 1 回全面更新します（数秒）",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "先に白で消去",
+            "WHITE"
+          ],
+          [
+            "前のフレームに重ねる",
+            "KEEP"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_display": {
+    "message0": "電子ペーパー %1 画面を更新",
+    "tooltip": "キャンバスを電子ペーパーに反映します。描画ブロックはキャンバスだけを変更し、更新には数秒かかります"
+  },
+  "linkbit_epd_clear": {
+    "message0": "電子ペーパー %1 %2 で消去して更新",
+    "tooltip": "キャンバスを 1 色で塗ってすぐ更新します"
+  },
+  "linkbit_epd_fill_screen": {
+    "message0": "電子ペーパー %1 キャンバスを塗る %2",
+    "tooltip": "キャンバス全体を 1 色で塗ります（更新なし）"
+  },
+  "linkbit_epd_draw_pixel": {
+    "message0": "電子ペーパー %1 点 X %2 Y %3 色 %4",
+    "tooltip": "キャンバスに点を描きます。画面外は切り取られます"
+  },
+  "linkbit_epd_draw_line": {
+    "message0": "電子ペーパー %1 線 X1 %2 Y1 %3 X2 %4 Y2 %5 色 %6",
+    "tooltip": "キャンバスに直線を描きます"
+  },
+  "linkbit_epd_draw_rect": {
+    "message0": "電子ペーパー %1 四角形 X %2 Y %3 幅 %4 高さ %5 色 %6 %7",
+    "tooltip": "左上 (X, Y) から四角形を描きます（輪郭または塗りつぶし）",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "輪郭",
+            "OUTLINE"
+          ],
+          [
+            "塗りつぶし",
+            "FILLED"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_draw_circle": {
+    "message0": "電子ペーパー %1 円 中心 X %2 Y %3 半径 %4 色 %5 %6",
+    "tooltip": "(X, Y) を中心に円を描きます（輪郭または塗りつぶし）",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "輪郭",
+            "OUTLINE"
+          ],
+          [
+            "塗りつぶし",
+            "FILLED"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_set_text_color": {
+    "message0": "電子ペーパー %1 文字色 %2",
+    "tooltip": "英字・数字の色（背景は透明）"
+  },
+  "linkbit_epd_set_text_size": {
+    "message0": "電子ペーパー %1 文字倍率 %2 倍",
+    "tooltip": "英字・数字を整数倍で拡大します",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ],
+          [
+            "4",
+            "4"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "6",
+            "6"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_set_font": {
+    "message0": "電子ペーパー %1 英字フォント %2",
+    "tooltip": "英字・数字のフォント。標準フォントは左上、その他はベースラインで位置決めします",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "標準 6×8",
+            "NULL"
+          ],
+          [
+            "Sans 9pt",
+            "FreeSans9pt7b"
+          ],
+          [
+            "Sans 太字 12pt",
+            "FreeSansBold12pt7b"
+          ],
+          [
+            "Sans 太字 18pt",
+            "FreeSansBold18pt7b"
+          ],
+          [
+            "等幅 9pt",
+            "FreeMono9pt7b"
+          ],
+          [
+            "等幅 太字 12pt",
+            "FreeMonoBold12pt7b"
+          ],
+          [
+            "Serif 9pt",
+            "FreeSerif9pt7b"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_set_cursor": {
+    "message0": "電子ペーパー %1 カーソル X %2 Y %3",
+    "tooltip": "次の英字テキストの開始位置"
+  },
+  "linkbit_epd_print": {
+    "message0": "電子ペーパー %1 文字を表示 %2 %3",
+    "tooltip": "カーソル位置に英字・数字・変数を書きます（中国語は中国語ブロックを使用）",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "改行なし",
+            "print"
+          ],
+          [
+            "改行",
+            "println"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_cn_text": {
+    "message0": "電子ペーパー %1 X %2 Y %3 に中国語 %4 を表示 フォント %5 色 %6",
+    "tooltip": "中国語と英字の UTF-8 テキストを表示。(X, Y) は左下のベースライン、背景は透明。大きな数字は数字と : - . / のみ",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "中国語 12 px",
+            "u8g2_font_wqy12_t_gb2312a"
+          ],
+          [
+            "中国語 14 px",
+            "u8g2_font_wqy14_t_gb2312a"
+          ],
+          [
+            "中国語 16 px",
+            "u8g2_font_wqy16_t_gb2312a"
+          ],
+          [
+            "大きな数字 32 px",
+            "u8g2_font_logisoso32_tn"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "linkbit_epd_draw_weather": {
+    "message0": "電子ペーパー %1 X %2 Y %3 に天気アイコン %4 色 %5",
+    "tooltip": "左上 (X, Y) に 32×32 の天気アイコンを描きます（線のみ、背景透明）",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "晴れ",
+            "LINKBIT_EPD_WEATHER_SUNNY"
+          ],
+          [
+            "晴れ時々曇り",
+            "LINKBIT_EPD_WEATHER_PARTLY_CLOUDY"
+          ],
+          [
+            "曇り",
+            "LINKBIT_EPD_WEATHER_CLOUDY"
+          ],
+          [
+            "本曇り",
+            "LINKBIT_EPD_WEATHER_OVERCAST"
+          ],
+          [
+            "夜の晴れ",
+            "LINKBIT_EPD_WEATHER_CLEAR_NIGHT"
+          ],
+          [
+            "夜の曇り",
+            "LINKBIT_EPD_WEATHER_CLOUDY_NIGHT"
+          ],
+          [
+            "にわか雨",
+            "LINKBIT_EPD_WEATHER_SHOWER"
+          ],
+          [
+            "雷雨",
+            "LINKBIT_EPD_WEATHER_THUNDERSHOWER"
+          ],
+          [
+            "小雨",
+            "LINKBIT_EPD_WEATHER_LIGHT_RAIN"
+          ],
+          [
+            "雨",
+            "LINKBIT_EPD_WEATHER_MODERATE_RAIN"
+          ],
+          [
+            "大雨",
+            "LINKBIT_EPD_WEATHER_HEAVY_RAIN"
+          ],
+          [
+            "豪雨",
+            "LINKBIT_EPD_WEATHER_RAINSTORM"
+          ],
+          [
+            "みぞれ",
+            "LINKBIT_EPD_WEATHER_SLEET"
+          ],
+          [
+            "小雪",
+            "LINKBIT_EPD_WEATHER_LIGHT_SNOW"
+          ],
+          [
+            "雪",
+            "LINKBIT_EPD_WEATHER_MODERATE_SNOW"
+          ],
+          [
+            "大雪",
+            "LINKBIT_EPD_WEATHER_HEAVY_SNOW"
+          ],
+          [
+            "砂塵",
+            "LINKBIT_EPD_WEATHER_DUST"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "linkbit_epd_draw_image": {
+    "message0": "電子ペーパー %1 X %2 Y %3 に画像 %4 色 %5",
+    "tooltip": "画像の点灯ピクセルを指定色で描き、他のピクセルはキャンバスのまま"
+  },
+  "linkbit_epd_image_portrait": {
+    "message0": "縦画像 104×212 %1",
+    "tooltip": "全画面の縦モノクロ画像。手描きまたは画像を取り込めます"
+  },
+  "linkbit_epd_image_landscape": {
+    "message0": "横画像 212×104 %1",
+    "tooltip": "全画面の横モノクロ画像。横向きと組み合わせて使います"
+  },
+  "linkbit_epd_image_icon": {
+    "message0": "アイコン 32×32 %1",
+    "tooltip": "32×32 のモノクロアイコン"
+  },
+  "linkbit_epd_width": {
+    "message0": "電子ペーパー %1 幅",
+    "tooltip": "現在の向きでのキャンバス幅（縦 104、横 212）"
+  },
+  "linkbit_epd_height": {
+    "message0": "電子ペーパー %1 高さ",
+    "tooltip": "現在の向きでのキャンバス高さ（縦 212、横 104）"
+  },
+  "linkbit_epd_color": {
+    "message0": "グレー色 %1",
+    "tooltip": "電子ペーパーの 4 階調の色",
+    "args0": [
+      {
+        "options": [
+          [
+            "黒",
+            "LINKBIT_EPD_BLACK"
+          ],
+          [
+            "濃い灰色",
+            "LINKBIT_EPD_DARKGREY"
+          ],
+          [
+            "薄い灰色",
+            "LINKBIT_EPD_LIGHTGREY"
+          ],
+          [
+            "白",
+            "LINKBIT_EPD_WHITE"
+          ]
+        ]
+      }
+    ]
+  }
+}

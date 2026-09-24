@@ -1,0 +1,398 @@
+{
+  "toolbox_name": "linkbit灰階墨水屏",
+  "toolbox_categories": [
+    "初始化",
+    "刷新",
+    "繪圖",
+    "文字",
+    "圖像"
+  ],
+  "linkbit_epd_init": {
+    "message0": "初始化 linkbit 灰階墨水屏 %1",
+    "tooltip": "初始化板載 2.13 吋 104×212 四級灰階墨水屏（引腳固定 CS=2 DC=3 RST=1 BUSY=0 SCK=6 MOSI=7），畫布清為白色，文字預設黑色"
+  },
+  "linkbit_epd_set_rotation": {
+    "message0": "墨水屏 %1 螢幕方向 %2",
+    "tooltip": "設定畫布方向：豎屏 104×212，橫屏 212×104。只影響之後的繪製",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "豎屏 0°",
+            "0"
+          ],
+          [
+            "橫屏 90°",
+            "1"
+          ],
+          [
+            "豎屏 180°",
+            "2"
+          ],
+          [
+            "橫屏 270°",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_clear_ghosting": {
+    "message0": "墨水屏 %1 清除殘影 %2 輪",
+    "tooltip": "整屏黑白交替刷新以去除殘影，每輪兩次全刷約十幾秒；結束後螢幕為白色，畫布內容保留"
+  },
+  "linkbit_epd_frame": {
+    "message0": "墨水屏 %1 畫一幀 %2",
+    "message1": "%1",
+    "message2": "然後刷新顯示",
+    "tooltip": "先按選項準備畫布，執行裡面的繪圖積木，最後整屏刷新一次（約數秒）",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "先清空為白色",
+            "WHITE"
+          ],
+          [
+            "在上一幀上繼續畫",
+            "KEEP"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_display": {
+    "message0": "墨水屏 %1 刷新顯示",
+    "tooltip": "把畫布整屏刷到墨水屏上。繪圖積木只改畫布，刷新後才看得到；一次刷新需要數秒"
+  },
+  "linkbit_epd_clear": {
+    "message0": "墨水屏 %1 清屏為 %2 並刷新",
+    "tooltip": "把畫布填成一種顏色並立即刷新"
+  },
+  "linkbit_epd_fill_screen": {
+    "message0": "墨水屏 %1 畫布填充 %2",
+    "tooltip": "把整塊畫布填成一種顏色（不刷新）"
+  },
+  "linkbit_epd_draw_pixel": {
+    "message0": "墨水屏 %1 畫點 X %2 Y %3 顏色 %4",
+    "tooltip": "在畫布上畫一個點，超出螢幕的部分自動裁掉"
+  },
+  "linkbit_epd_draw_line": {
+    "message0": "墨水屏 %1 畫線 X1 %2 Y1 %3 X2 %4 Y2 %5 顏色 %6",
+    "tooltip": "在畫布上畫一條直線"
+  },
+  "linkbit_epd_draw_rect": {
+    "message0": "墨水屏 %1 畫矩形 X %2 Y %3 寬 %4 高 %5 顏色 %6 %7",
+    "tooltip": "以左上角 (X, Y) 畫矩形，可選空心或實心",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "空心",
+            "OUTLINE"
+          ],
+          [
+            "實心",
+            "FILLED"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_draw_circle": {
+    "message0": "墨水屏 %1 畫圓 圓心 X %2 Y %3 半徑 %4 顏色 %5 %6",
+    "tooltip": "以 (X, Y) 為圓心畫圓，可選空心或實心",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "空心",
+            "OUTLINE"
+          ],
+          [
+            "實心",
+            "FILLED"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_set_text_color": {
+    "message0": "墨水屏 %1 文字顏色 %2",
+    "tooltip": "設定英文/數字文字的顏色，背景透明"
+  },
+  "linkbit_epd_set_text_size": {
+    "message0": "墨水屏 %1 文字放大 %2 倍",
+    "tooltip": "按整數倍放大英文/數字文字",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ],
+          [
+            "4",
+            "4"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "6",
+            "6"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_set_font": {
+    "message0": "墨水屏 %1 英文字體 %2",
+    "tooltip": "選擇英文/數字字體。預設點陣字體以左上角定位，其他字體以文字基線（左下角）定位",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "預設點陣 6×8",
+            "NULL"
+          ],
+          [
+            "無襯線 9pt",
+            "FreeSans9pt7b"
+          ],
+          [
+            "無襯線粗體 12pt",
+            "FreeSansBold12pt7b"
+          ],
+          [
+            "無襯線粗體 18pt",
+            "FreeSansBold18pt7b"
+          ],
+          [
+            "等寬 9pt",
+            "FreeMono9pt7b"
+          ],
+          [
+            "等寬粗體 12pt",
+            "FreeMonoBold12pt7b"
+          ],
+          [
+            "襯線 9pt",
+            "FreeSerif9pt7b"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_set_cursor": {
+    "message0": "墨水屏 %1 游標移到 X %2 Y %3",
+    "tooltip": "設定下一段英文/數字文字的起點"
+  },
+  "linkbit_epd_print": {
+    "message0": "墨水屏 %1 顯示文字 %2 %3",
+    "tooltip": "在游標處寫英文、數字或變數值（中文請用「顯示中文」積木）",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "不換行",
+            "print"
+          ],
+          [
+            "換行",
+            "println"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_cn_text": {
+    "message0": "墨水屏 %1 在 X %2 Y %3 顯示中文 %4 字體 %5 顏色 %6",
+    "tooltip": "顯示中英文混排文字（UTF-8），(X, Y) 是文字左下角基線，背景透明。大號數字字體只含數字和 : - . /",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "中文 12 像素",
+            "u8g2_font_wqy12_t_gb2312a"
+          ],
+          [
+            "中文 14 像素",
+            "u8g2_font_wqy14_t_gb2312a"
+          ],
+          [
+            "中文 16 像素",
+            "u8g2_font_wqy16_t_gb2312a"
+          ],
+          [
+            "大號數字 32 像素",
+            "u8g2_font_logisoso32_tn"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "linkbit_epd_draw_weather": {
+    "message0": "墨水屏 %1 在 X %2 Y %3 畫天氣圖示 %4 顏色 %5",
+    "tooltip": "以左上角 (X, Y) 畫一個 32×32 的天氣圖示，只畫線條，背景透明",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "晴",
+            "LINKBIT_EPD_WEATHER_SUNNY"
+          ],
+          [
+            "晴間多雲",
+            "LINKBIT_EPD_WEATHER_PARTLY_CLOUDY"
+          ],
+          [
+            "多雲",
+            "LINKBIT_EPD_WEATHER_CLOUDY"
+          ],
+          [
+            "陰",
+            "LINKBIT_EPD_WEATHER_OVERCAST"
+          ],
+          [
+            "夜間晴",
+            "LINKBIT_EPD_WEATHER_CLEAR_NIGHT"
+          ],
+          [
+            "夜間多雲",
+            "LINKBIT_EPD_WEATHER_CLOUDY_NIGHT"
+          ],
+          [
+            "陣雨",
+            "LINKBIT_EPD_WEATHER_SHOWER"
+          ],
+          [
+            "雷陣雨",
+            "LINKBIT_EPD_WEATHER_THUNDERSHOWER"
+          ],
+          [
+            "小雨",
+            "LINKBIT_EPD_WEATHER_LIGHT_RAIN"
+          ],
+          [
+            "中雨",
+            "LINKBIT_EPD_WEATHER_MODERATE_RAIN"
+          ],
+          [
+            "大雨",
+            "LINKBIT_EPD_WEATHER_HEAVY_RAIN"
+          ],
+          [
+            "暴雨",
+            "LINKBIT_EPD_WEATHER_RAINSTORM"
+          ],
+          [
+            "雨夾雪",
+            "LINKBIT_EPD_WEATHER_SLEET"
+          ],
+          [
+            "小雪",
+            "LINKBIT_EPD_WEATHER_LIGHT_SNOW"
+          ],
+          [
+            "中雪",
+            "LINKBIT_EPD_WEATHER_MODERATE_SNOW"
+          ],
+          [
+            "大雪",
+            "LINKBIT_EPD_WEATHER_HEAVY_SNOW"
+          ],
+          [
+            "浮塵揚沙",
+            "LINKBIT_EPD_WEATHER_DUST"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "linkbit_epd_draw_image": {
+    "message0": "墨水屏 %1 在 X %2 Y %3 畫圖像 %4 顏色 %5",
+    "tooltip": "把圖像中點亮的像素畫成指定顏色，其餘像素保持畫布原樣"
+  },
+  "linkbit_epd_image_portrait": {
+    "message0": "豎屏圖像 104×212 %1",
+    "tooltip": "整屏豎屏單色圖像，可以手繪或匯入圖片"
+  },
+  "linkbit_epd_image_landscape": {
+    "message0": "橫屏圖像 212×104 %1",
+    "tooltip": "整屏橫屏單色圖像，配合橫屏方向使用"
+  },
+  "linkbit_epd_image_icon": {
+    "message0": "圖示 32×32 %1",
+    "tooltip": "32×32 單色小圖示"
+  },
+  "linkbit_epd_width": {
+    "message0": "墨水屏 %1 寬度",
+    "tooltip": "目前方向下畫布的寬度（豎屏 104，橫屏 212）"
+  },
+  "linkbit_epd_height": {
+    "message0": "墨水屏 %1 高度",
+    "tooltip": "目前方向下畫布的高度（豎屏 212，橫屏 104）"
+  },
+  "linkbit_epd_color": {
+    "message0": "灰階顏色 %1",
+    "tooltip": "墨水屏的四級灰度顏色",
+    "args0": [
+      {
+        "options": [
+          [
+            "黑色",
+            "LINKBIT_EPD_BLACK"
+          ],
+          [
+            "深灰",
+            "LINKBIT_EPD_DARKGREY"
+          ],
+          [
+            "淺灰",
+            "LINKBIT_EPD_LIGHTGREY"
+          ],
+          [
+            "白色",
+            "LINKBIT_EPD_WHITE"
+          ]
+        ]
+      }
+    ]
+  }
+}
