@@ -1,0 +1,398 @@
+{
+  "toolbox_name": "linkbit e-paper em tons de cinza",
+  "toolbox_categories": [
+    "Inicialização",
+    "Atualizar",
+    "Desenho",
+    "Texto",
+    "Imagens"
+  ],
+  "linkbit_epd_init": {
+    "message0": "inicializar e-paper linkbit em tons de cinza %1",
+    "tooltip": "Inicializa o e-paper de 2,13\" 104×212 com quatro tons de cinza (pinos fixos CS=2 DC=3 RST=1 BUSY=0 SCK=6 MOSI=7); tela branca, texto preto"
+  },
+  "linkbit_epd_set_rotation": {
+    "message0": "e-paper %1 orientação %2",
+    "tooltip": "Orientação da tela: retrato 104×212, paisagem 212×104. Vale para os desenhos seguintes",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "retrato 0°",
+            "0"
+          ],
+          [
+            "paisagem 90°",
+            "1"
+          ],
+          [
+            "retrato 180°",
+            "2"
+          ],
+          [
+            "paisagem 270°",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_clear_ghosting": {
+    "message0": "e-paper %1 limpar fantasmas %2 rodadas",
+    "tooltip": "Remove fantasmas com atualizações completas pretas e brancas alternadas; duas por rodada (mais de dez segundos). Termina branco, a tela é mantida"
+  },
+  "linkbit_epd_frame": {
+    "message0": "e-paper %1 desenhar um quadro %2",
+    "message1": "%1",
+    "message2": "e depois atualizar",
+    "tooltip": "Prepara a tela, executa os blocos de desenho e faz uma atualização completa (alguns segundos)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "limpar para branco primeiro",
+            "WHITE"
+          ],
+          [
+            "desenhar sobre o último quadro",
+            "KEEP"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_display": {
+    "message0": "e-paper %1 atualizar",
+    "tooltip": "Envia a tela para o e-paper. Os blocos de desenho só alteram a tela; uma atualização leva alguns segundos"
+  },
+  "linkbit_epd_clear": {
+    "message0": "e-paper %1 limpar para %2 e atualizar",
+    "tooltip": "Preenche a tela com uma cor e atualiza em seguida"
+  },
+  "linkbit_epd_fill_screen": {
+    "message0": "e-paper %1 preencher tela %2",
+    "tooltip": "Preenche toda a tela com uma cor (sem atualizar)"
+  },
+  "linkbit_epd_draw_pixel": {
+    "message0": "e-paper %1 pixel X %2 Y %3 cor %4",
+    "tooltip": "Desenha um pixel; o que sai da tela é cortado"
+  },
+  "linkbit_epd_draw_line": {
+    "message0": "e-paper %1 linha X1 %2 Y1 %3 X2 %4 Y2 %5 cor %6",
+    "tooltip": "Desenha uma linha reta"
+  },
+  "linkbit_epd_draw_rect": {
+    "message0": "e-paper %1 retângulo X %2 Y %3 largura %4 altura %5 cor %6 %7",
+    "tooltip": "Desenha um retângulo a partir do canto superior esquerdo (X, Y), contorno ou preenchido",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "contorno",
+            "OUTLINE"
+          ],
+          [
+            "preenchido",
+            "FILLED"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_draw_circle": {
+    "message0": "e-paper %1 círculo centro X %2 Y %3 raio %4 cor %5 %6",
+    "tooltip": "Desenha um círculo com centro em (X, Y), contorno ou preenchido",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "contorno",
+            "OUTLINE"
+          ],
+          [
+            "preenchido",
+            "FILLED"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_set_text_color": {
+    "message0": "e-paper %1 cor do texto %2",
+    "tooltip": "Cor do texto latino e dos dígitos, fundo transparente"
+  },
+  "linkbit_epd_set_text_size": {
+    "message0": "e-paper %1 ampliar texto %2 vezes",
+    "tooltip": "Amplia o texto latino por um fator inteiro",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ],
+          [
+            "4",
+            "4"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "6",
+            "6"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_set_font": {
+    "message0": "e-paper %1 fonte latina %2",
+    "tooltip": "Fonte do texto latino. A padrão é posicionada pelo canto superior esquerdo, as outras pela linha de base",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "padrão 6×8",
+            "NULL"
+          ],
+          [
+            "Sans 9pt",
+            "FreeSans9pt7b"
+          ],
+          [
+            "Sans negrito 12pt",
+            "FreeSansBold12pt7b"
+          ],
+          [
+            "Sans negrito 18pt",
+            "FreeSansBold18pt7b"
+          ],
+          [
+            "Mono 9pt",
+            "FreeMono9pt7b"
+          ],
+          [
+            "Mono negrito 12pt",
+            "FreeMonoBold12pt7b"
+          ],
+          [
+            "Serif 9pt",
+            "FreeSerif9pt7b"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_set_cursor": {
+    "message0": "e-paper %1 cursor em X %2 Y %3",
+    "tooltip": "Ponto inicial do próximo texto"
+  },
+  "linkbit_epd_print": {
+    "message0": "e-paper %1 mostrar texto %2 %3",
+    "tooltip": "Escreve texto, números ou uma variável no cursor (para chinês use o bloco de chinês)",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "sem quebra de linha",
+            "print"
+          ],
+          [
+            "com quebra de linha",
+            "println"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_cn_text": {
+    "message0": "e-paper %1 em X %2 Y %3 mostrar chinês %4 fonte %5 cor %6",
+    "tooltip": "Mostra texto UTF-8 chinês e latino; (X, Y) é a linha de base inferior esquerda, fundo transparente. Dígitos grandes contêm só dígitos e : - . /",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "chinês 12 px",
+            "u8g2_font_wqy12_t_gb2312a"
+          ],
+          [
+            "chinês 14 px",
+            "u8g2_font_wqy14_t_gb2312a"
+          ],
+          [
+            "chinês 16 px",
+            "u8g2_font_wqy16_t_gb2312a"
+          ],
+          [
+            "dígitos grandes 32 px",
+            "u8g2_font_logisoso32_tn"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "linkbit_epd_draw_weather": {
+    "message0": "e-paper %1 em X %2 Y %3 ícone do clima %4 cor %5",
+    "tooltip": "Desenha um ícone do clima 32×32 a partir de (X, Y) no canto superior esquerdo; só linhas, fundo transparente",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "ensolarado",
+            "LINKBIT_EPD_WEATHER_SUNNY"
+          ],
+          [
+            "parcialmente nublado",
+            "LINKBIT_EPD_WEATHER_PARTLY_CLOUDY"
+          ],
+          [
+            "nublado",
+            "LINKBIT_EPD_WEATHER_CLOUDY"
+          ],
+          [
+            "encoberto",
+            "LINKBIT_EPD_WEATHER_OVERCAST"
+          ],
+          [
+            "noite limpa",
+            "LINKBIT_EPD_WEATHER_CLEAR_NIGHT"
+          ],
+          [
+            "noite nublada",
+            "LINKBIT_EPD_WEATHER_CLOUDY_NIGHT"
+          ],
+          [
+            "pancada de chuva",
+            "LINKBIT_EPD_WEATHER_SHOWER"
+          ],
+          [
+            "trovoada",
+            "LINKBIT_EPD_WEATHER_THUNDERSHOWER"
+          ],
+          [
+            "chuva fraca",
+            "LINKBIT_EPD_WEATHER_LIGHT_RAIN"
+          ],
+          [
+            "chuva moderada",
+            "LINKBIT_EPD_WEATHER_MODERATE_RAIN"
+          ],
+          [
+            "chuva forte",
+            "LINKBIT_EPD_WEATHER_HEAVY_RAIN"
+          ],
+          [
+            "tempestade",
+            "LINKBIT_EPD_WEATHER_RAINSTORM"
+          ],
+          [
+            "chuva com neve",
+            "LINKBIT_EPD_WEATHER_SLEET"
+          ],
+          [
+            "neve fraca",
+            "LINKBIT_EPD_WEATHER_LIGHT_SNOW"
+          ],
+          [
+            "neve moderada",
+            "LINKBIT_EPD_WEATHER_MODERATE_SNOW"
+          ],
+          [
+            "neve forte",
+            "LINKBIT_EPD_WEATHER_HEAVY_SNOW"
+          ],
+          [
+            "poeira / areia",
+            "LINKBIT_EPD_WEATHER_DUST"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "linkbit_epd_draw_image": {
+    "message0": "e-paper %1 em X %2 Y %3 imagem %4 cor %5",
+    "tooltip": "Desenha os pixels acesos da imagem na cor; os outros pixels ficam como estão"
+  },
+  "linkbit_epd_image_portrait": {
+    "message0": "imagem retrato 104×212 %1",
+    "tooltip": "Imagem monocromática em tela cheia no modo retrato; desenhe ou importe uma imagem"
+  },
+  "linkbit_epd_image_landscape": {
+    "message0": "imagem paisagem 212×104 %1",
+    "tooltip": "Imagem monocromática em tela cheia no modo paisagem, use com orientação paisagem"
+  },
+  "linkbit_epd_image_icon": {
+    "message0": "ícone 32×32 %1",
+    "tooltip": "Ícone monocromático 32×32"
+  },
+  "linkbit_epd_width": {
+    "message0": "e-paper %1 largura",
+    "tooltip": "Largura da tela na orientação atual (retrato 104, paisagem 212)"
+  },
+  "linkbit_epd_height": {
+    "message0": "e-paper %1 altura",
+    "tooltip": "Altura da tela na orientação atual (retrato 212, paisagem 104)"
+  },
+  "linkbit_epd_color": {
+    "message0": "tom de cinza %1",
+    "tooltip": "Um dos quatro tons de cinza do e-paper",
+    "args0": [
+      {
+        "options": [
+          [
+            "preto",
+            "LINKBIT_EPD_BLACK"
+          ],
+          [
+            "cinza-escuro",
+            "LINKBIT_EPD_DARKGREY"
+          ],
+          [
+            "cinza-claro",
+            "LINKBIT_EPD_LIGHTGREY"
+          ],
+          [
+            "branco",
+            "LINKBIT_EPD_WHITE"
+          ]
+        ]
+      }
+    ]
+  }
+}

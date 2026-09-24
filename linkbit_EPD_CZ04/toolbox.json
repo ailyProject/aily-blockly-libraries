@@ -1,0 +1,451 @@
+{
+  "kind": "category",
+  "name": "linkbit灰阶墨水屏",
+  "icon": "fa-light fa-tablet-screen-button",
+  "colour": "#546E7A",
+  "contents": [
+    {
+      "kind": "category",
+      "name": "初始化",
+      "icon": "fa-light fa-plug",
+      "colour": "#546E7A",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "linkbit_epd_init"
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_set_rotation"
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_clear_ghosting",
+          "inputs": {
+            "ROUNDS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 1
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "刷新",
+      "icon": "fa-light fa-arrows-rotate",
+      "colour": "#546E7A",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "linkbit_epd_frame"
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_display"
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_clear",
+          "inputs": {
+            "COLOR": {
+              "shadow": {
+                "type": "linkbit_epd_color",
+                "fields": {
+                  "COLOR": "LINKBIT_EPD_WHITE"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "绘图",
+      "icon": "fa-light fa-pen-nib",
+      "colour": "#546E7A",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "linkbit_epd_color"
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_fill_screen",
+          "inputs": {
+            "COLOR": {
+              "shadow": {
+                "type": "linkbit_epd_color",
+                "fields": {
+                  "COLOR": "LINKBIT_EPD_WHITE"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_draw_pixel",
+          "inputs": {
+            "X": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 10
+                }
+              }
+            },
+            "Y": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 10
+                }
+              }
+            },
+            "COLOR": {
+              "shadow": {
+                "type": "linkbit_epd_color",
+                "fields": {
+                  "COLOR": "LINKBIT_EPD_BLACK"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_draw_line",
+          "inputs": {
+            "X1": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "Y1": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "X2": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 103
+                }
+              }
+            },
+            "Y2": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 211
+                }
+              }
+            },
+            "COLOR": {
+              "shadow": {
+                "type": "linkbit_epd_color",
+                "fields": {
+                  "COLOR": "LINKBIT_EPD_BLACK"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_draw_rect",
+          "inputs": {
+            "X": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 10
+                }
+              }
+            },
+            "Y": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 10
+                }
+              }
+            },
+            "W": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 40
+                }
+              }
+            },
+            "H": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 30
+                }
+              }
+            },
+            "COLOR": {
+              "shadow": {
+                "type": "linkbit_epd_color",
+                "fields": {
+                  "COLOR": "LINKBIT_EPD_DARKGREY"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_draw_circle",
+          "inputs": {
+            "X": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 52
+                }
+              }
+            },
+            "Y": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 106
+                }
+              }
+            },
+            "RADIUS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 30
+                }
+              }
+            },
+            "COLOR": {
+              "shadow": {
+                "type": "linkbit_epd_color",
+                "fields": {
+                  "COLOR": "LINKBIT_EPD_BLACK"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_width"
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_height"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "文字",
+      "icon": "fa-light fa-font",
+      "colour": "#7E57C2",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "linkbit_epd_cn_text",
+          "inputs": {
+            "X": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 4
+                }
+              }
+            },
+            "Y": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 20
+                }
+              }
+            },
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "你好，linkbit"
+                }
+              }
+            },
+            "COLOR": {
+              "shadow": {
+                "type": "linkbit_epd_color",
+                "fields": {
+                  "COLOR": "LINKBIT_EPD_BLACK"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_set_font"
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_set_text_color",
+          "inputs": {
+            "COLOR": {
+              "shadow": {
+                "type": "linkbit_epd_color",
+                "fields": {
+                  "COLOR": "LINKBIT_EPD_BLACK"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_set_text_size"
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_set_cursor",
+          "inputs": {
+            "X": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "Y": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_print",
+          "inputs": {
+            "TEXT": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Hello"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "图像",
+      "icon": "fa-light fa-image",
+      "colour": "#66BB6A",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "linkbit_epd_draw_weather",
+          "inputs": {
+            "X": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 36
+                }
+              }
+            },
+            "Y": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 36
+                }
+              }
+            },
+            "COLOR": {
+              "shadow": {
+                "type": "linkbit_epd_color",
+                "fields": {
+                  "COLOR": "LINKBIT_EPD_BLACK"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_draw_image",
+          "inputs": {
+            "X": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "Y": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "IMAGE": {
+              "shadow": {
+                "type": "linkbit_epd_image_icon"
+              }
+            },
+            "COLOR": {
+              "shadow": {
+                "type": "linkbit_epd_color",
+                "fields": {
+                  "COLOR": "LINKBIT_EPD_BLACK"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_image_icon"
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_image_portrait"
+        },
+        {
+          "kind": "block",
+          "type": "linkbit_epd_image_landscape"
+        }
+      ]
+    }
+  ]
+}
