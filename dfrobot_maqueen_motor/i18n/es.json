@@ -1,0 +1,98 @@
+{
+  "toolbox_name": "Motor Maqueen",
+  "maqueen_motor_init": {
+    "message0": "inicializar controlador de motor Maqueen %1",
+    "tooltip": "Inicia I2C en los pines I2C de la placa y busca el controlador de motor Maqueen (dirección I2C fija 0x10); avisa por serie si no lo encuentra. En el mPython 3.0 el I2C y el puerto serie comparten pines, así que no avisa; usa el bloque «conectado»"
+  },
+  "maqueen_motor_run": {
+    "message0": "Maqueen %1 %2 %3 velocidad %4",
+    "tooltip": "Gira un motor en el sentido elegido, velocidad 0~255, los valores fuera de rango se limitan",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "motor izquierdo",
+            "MAQUEEN_MOTOR_LEFT"
+          ],
+          [
+            "motor derecho",
+            "MAQUEEN_MOTOR_RIGHT"
+          ],
+          [
+            "todos los motores",
+            "MAQUEEN_MOTOR_ALL"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "adelante",
+            "MAQUEEN_MOTOR_CW"
+          ],
+          [
+            "atrás",
+            "MAQUEEN_MOTOR_CCW"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "maqueen_motor_stop": {
+    "message0": "Maqueen %1 %2 detener",
+    "tooltip": "Detiene el motor elegido (velocidad 0)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "todos los motores",
+            "MAQUEEN_MOTOR_ALL"
+          ],
+          [
+            "motor izquierdo",
+            "MAQUEEN_MOTOR_LEFT"
+          ],
+          [
+            "motor derecho",
+            "MAQUEEN_MOTOR_RIGHT"
+          ]
+        ]
+      }
+    ]
+  },
+  "maqueen_motor_move": {
+    "message0": "Maqueen %1 coche %2 velocidad %3",
+    "tooltip": "Controla ambos motores: avanzar, retroceder o girar en el sitio con un lado hacia delante y el otro hacia atrás. Velocidad 0~255",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "avanzar",
+            "FORWARD"
+          ],
+          [
+            "retroceder",
+            "BACKWARD"
+          ],
+          [
+            "girar a la izquierda en el sitio",
+            "LEFT"
+          ],
+          [
+            "girar a la derecha en el sitio",
+            "RIGHT"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "maqueen_motor_is_connected": {
+    "message0": "Maqueen %1 conectado",
+    "tooltip": "Verdadero cuando el controlador de motor Maqueen responde en la dirección I2C 0x10; sirve para comprobar cableado y alimentación"
+  }
+}

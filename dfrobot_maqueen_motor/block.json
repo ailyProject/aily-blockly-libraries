@@ -1,0 +1,182 @@
+[
+  {
+    "type": "maqueen_motor_init",
+    "message0": "初始化 Maqueen 电机驱动 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "maqueen"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "按开发板的 I2C 引脚启动总线并检测 Maqueen 电机驱动（I2C 地址固定 0x10），未检测到时串口打印提示。掌控板 3.0 的 I2C 与串口共用引脚，不打印提示，可用「已连接」积木检查",
+    "icon": "fa-light fa-plug"
+  },
+  {
+    "type": "maqueen_motor_run",
+    "message0": "Maqueen %1 %2 %3 速度 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "maqueen",
+        "variableTypes": [
+          "Maqueen_Motor"
+        ],
+        "defaultType": "Maqueen_Motor"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INDEX",
+        "options": [
+          [
+            "左电机",
+            "MAQUEEN_MOTOR_LEFT"
+          ],
+          [
+            "右电机",
+            "MAQUEEN_MOTOR_RIGHT"
+          ],
+          [
+            "全部电机",
+            "MAQUEEN_MOTOR_ALL"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          [
+            "正转",
+            "MAQUEEN_MOTOR_CW"
+          ],
+          [
+            "反转",
+            "MAQUEEN_MOTOR_CCW"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "让电机按方向转动，速度 0~255，超出范围自动限制",
+    "icon": "fa-light fa-engine"
+  },
+  {
+    "type": "maqueen_motor_stop",
+    "message0": "Maqueen %1 %2 停止",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "maqueen",
+        "variableTypes": [
+          "Maqueen_Motor"
+        ],
+        "defaultType": "Maqueen_Motor"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INDEX",
+        "options": [
+          [
+            "全部电机",
+            "MAQUEEN_MOTOR_ALL"
+          ],
+          [
+            "左电机",
+            "MAQUEEN_MOTOR_LEFT"
+          ],
+          [
+            "右电机",
+            "MAQUEEN_MOTOR_RIGHT"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "让指定电机停转（速度设为 0）",
+    "icon": "fa-light fa-hand"
+  },
+  {
+    "type": "maqueen_motor_move",
+    "message0": "Maqueen %1 小车 %2 速度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "maqueen",
+        "variableTypes": [
+          "Maqueen_Motor"
+        ],
+        "defaultType": "Maqueen_Motor"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "前进",
+            "FORWARD"
+          ],
+          [
+            "后退",
+            "BACKWARD"
+          ],
+          [
+            "原地左转",
+            "LEFT"
+          ],
+          [
+            "原地右转",
+            "RIGHT"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "同时控制左右电机：前进、后退，或一侧正转一侧反转原地转向。速度 0~255",
+    "icon": "fa-light fa-car-side"
+  },
+  {
+    "type": "maqueen_motor_is_connected",
+    "message0": "Maqueen %1 已连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "maqueen",
+        "variableTypes": [
+          "Maqueen_Motor"
+        ],
+        "defaultType": "Maqueen_Motor"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#F57C00",
+    "tooltip": "Maqueen 电机驱动在 I2C 地址 0x10 上有应答时为真，可用来检查接线和电源",
+    "icon": "fa-light fa-link"
+  }
+]
