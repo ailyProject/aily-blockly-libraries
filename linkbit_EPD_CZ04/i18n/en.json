@@ -1,0 +1,398 @@
+{
+  "toolbox_name": "linkbit Greyscale e-Paper",
+  "toolbox_categories": [
+    "Setup",
+    "Refresh",
+    "Drawing",
+    "Text",
+    "Images"
+  ],
+  "linkbit_epd_init": {
+    "message0": "initialize linkbit greyscale e-paper %1",
+    "tooltip": "Initialize the onboard 2.13\" 104×212 four-grey e-paper (fixed pins CS=2 DC=3 RST=1 BUSY=0 SCK=6 MOSI=7); the canvas starts white, text black"
+  },
+  "linkbit_epd_set_rotation": {
+    "message0": "e-paper %1 orientation %2",
+    "tooltip": "Canvas orientation: portrait 104×212, landscape 212×104. Affects later drawing only",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "portrait 0°",
+            "0"
+          ],
+          [
+            "landscape 90°",
+            "1"
+          ],
+          [
+            "portrait 180°",
+            "2"
+          ],
+          [
+            "landscape 270°",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_clear_ghosting": {
+    "message0": "e-paper %1 clear ghosting %2 rounds",
+    "tooltip": "Wipe ghosting with alternating full black and white refreshes; each round is two full refreshes (over ten seconds). The panel ends white, the canvas is kept"
+  },
+  "linkbit_epd_frame": {
+    "message0": "e-paper %1 draw a frame %2",
+    "message1": "%1",
+    "message2": "then refresh",
+    "tooltip": "Prepare the canvas as selected, run the drawing blocks inside, then do one full refresh (several seconds)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "clear to white first",
+            "WHITE"
+          ],
+          [
+            "draw over the last frame",
+            "KEEP"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_display": {
+    "message0": "e-paper %1 refresh",
+    "tooltip": "Push the canvas to the e-paper. Drawing blocks only change the canvas; a refresh takes several seconds"
+  },
+  "linkbit_epd_clear": {
+    "message0": "e-paper %1 clear to %2 and refresh",
+    "tooltip": "Fill the canvas with one color and refresh immediately"
+  },
+  "linkbit_epd_fill_screen": {
+    "message0": "e-paper %1 fill canvas %2",
+    "tooltip": "Fill the whole canvas with one color (no refresh)"
+  },
+  "linkbit_epd_draw_pixel": {
+    "message0": "e-paper %1 pixel X %2 Y %3 color %4",
+    "tooltip": "Draw one pixel on the canvas; anything off screen is clipped"
+  },
+  "linkbit_epd_draw_line": {
+    "message0": "e-paper %1 line X1 %2 Y1 %3 X2 %4 Y2 %5 color %6",
+    "tooltip": "Draw a straight line on the canvas"
+  },
+  "linkbit_epd_draw_rect": {
+    "message0": "e-paper %1 rectangle X %2 Y %3 width %4 height %5 color %6 %7",
+    "tooltip": "Draw a rectangle from its top-left corner (X, Y), outline or filled",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "outline",
+            "OUTLINE"
+          ],
+          [
+            "filled",
+            "FILLED"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_draw_circle": {
+    "message0": "e-paper %1 circle center X %2 Y %3 radius %4 color %5 %6",
+    "tooltip": "Draw a circle centered at (X, Y), outline or filled",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "outline",
+            "OUTLINE"
+          ],
+          [
+            "filled",
+            "FILLED"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_set_text_color": {
+    "message0": "e-paper %1 text color %2",
+    "tooltip": "Color of Latin text and digits, transparent background"
+  },
+  "linkbit_epd_set_text_size": {
+    "message0": "e-paper %1 text scale %2 x",
+    "tooltip": "Scale Latin text and digits by a whole number",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ],
+          [
+            "4",
+            "4"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "6",
+            "6"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_set_font": {
+    "message0": "e-paper %1 Latin font %2",
+    "tooltip": "Font for Latin text and digits. The default font is placed by its top-left corner, the others by the text baseline",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "default 6×8",
+            "NULL"
+          ],
+          [
+            "Sans 9pt",
+            "FreeSans9pt7b"
+          ],
+          [
+            "Sans Bold 12pt",
+            "FreeSansBold12pt7b"
+          ],
+          [
+            "Sans Bold 18pt",
+            "FreeSansBold18pt7b"
+          ],
+          [
+            "Mono 9pt",
+            "FreeMono9pt7b"
+          ],
+          [
+            "Mono Bold 12pt",
+            "FreeMonoBold12pt7b"
+          ],
+          [
+            "Serif 9pt",
+            "FreeSerif9pt7b"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_set_cursor": {
+    "message0": "e-paper %1 cursor to X %2 Y %3",
+    "tooltip": "Start point of the next Latin text"
+  },
+  "linkbit_epd_print": {
+    "message0": "e-paper %1 print %2 %3",
+    "tooltip": "Write Latin text, digits or a variable at the cursor (use the Chinese text block for Chinese)",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "no newline",
+            "print"
+          ],
+          [
+            "newline",
+            "println"
+          ]
+        ]
+      }
+    ]
+  },
+  "linkbit_epd_cn_text": {
+    "message0": "e-paper %1 at X %2 Y %3 show Chinese text %4 font %5 color %6",
+    "tooltip": "Show mixed Chinese and Latin UTF-8 text; (X, Y) is the bottom-left baseline, background transparent. Large digits contain only digits and : - . /",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Chinese 12 px",
+            "u8g2_font_wqy12_t_gb2312a"
+          ],
+          [
+            "Chinese 14 px",
+            "u8g2_font_wqy14_t_gb2312a"
+          ],
+          [
+            "Chinese 16 px",
+            "u8g2_font_wqy16_t_gb2312a"
+          ],
+          [
+            "large digits 32 px",
+            "u8g2_font_logisoso32_tn"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "linkbit_epd_draw_weather": {
+    "message0": "e-paper %1 at X %2 Y %3 draw weather icon %4 color %5",
+    "tooltip": "Draw a 32×32 weather icon from its top-left corner (X, Y); lines only, background transparent",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "sunny",
+            "LINKBIT_EPD_WEATHER_SUNNY"
+          ],
+          [
+            "partly cloudy",
+            "LINKBIT_EPD_WEATHER_PARTLY_CLOUDY"
+          ],
+          [
+            "cloudy",
+            "LINKBIT_EPD_WEATHER_CLOUDY"
+          ],
+          [
+            "overcast",
+            "LINKBIT_EPD_WEATHER_OVERCAST"
+          ],
+          [
+            "clear night",
+            "LINKBIT_EPD_WEATHER_CLEAR_NIGHT"
+          ],
+          [
+            "cloudy night",
+            "LINKBIT_EPD_WEATHER_CLOUDY_NIGHT"
+          ],
+          [
+            "shower",
+            "LINKBIT_EPD_WEATHER_SHOWER"
+          ],
+          [
+            "thundershower",
+            "LINKBIT_EPD_WEATHER_THUNDERSHOWER"
+          ],
+          [
+            "light rain",
+            "LINKBIT_EPD_WEATHER_LIGHT_RAIN"
+          ],
+          [
+            "moderate rain",
+            "LINKBIT_EPD_WEATHER_MODERATE_RAIN"
+          ],
+          [
+            "heavy rain",
+            "LINKBIT_EPD_WEATHER_HEAVY_RAIN"
+          ],
+          [
+            "rainstorm",
+            "LINKBIT_EPD_WEATHER_RAINSTORM"
+          ],
+          [
+            "sleet",
+            "LINKBIT_EPD_WEATHER_SLEET"
+          ],
+          [
+            "light snow",
+            "LINKBIT_EPD_WEATHER_LIGHT_SNOW"
+          ],
+          [
+            "moderate snow",
+            "LINKBIT_EPD_WEATHER_MODERATE_SNOW"
+          ],
+          [
+            "heavy snow",
+            "LINKBIT_EPD_WEATHER_HEAVY_SNOW"
+          ],
+          [
+            "dust / sand",
+            "LINKBIT_EPD_WEATHER_DUST"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "linkbit_epd_draw_image": {
+    "message0": "e-paper %1 at X %2 Y %3 draw image %4 color %5",
+    "tooltip": "Draw the lit pixels of the image in the given color; other pixels keep the canvas as it is"
+  },
+  "linkbit_epd_image_portrait": {
+    "message0": "portrait image 104×212 %1",
+    "tooltip": "Full-screen portrait monochrome image; draw it or import a picture"
+  },
+  "linkbit_epd_image_landscape": {
+    "message0": "landscape image 212×104 %1",
+    "tooltip": "Full-screen landscape monochrome image, use with landscape orientation"
+  },
+  "linkbit_epd_image_icon": {
+    "message0": "icon 32×32 %1",
+    "tooltip": "32×32 monochrome icon"
+  },
+  "linkbit_epd_width": {
+    "message0": "e-paper %1 width",
+    "tooltip": "Canvas width in the current orientation (portrait 104, landscape 212)"
+  },
+  "linkbit_epd_height": {
+    "message0": "e-paper %1 height",
+    "tooltip": "Canvas height in the current orientation (portrait 212, landscape 104)"
+  },
+  "linkbit_epd_color": {
+    "message0": "grey color %1",
+    "tooltip": "One of the four grey levels of the e-paper",
+    "args0": [
+      {
+        "options": [
+          [
+            "black",
+            "LINKBIT_EPD_BLACK"
+          ],
+          [
+            "dark grey",
+            "LINKBIT_EPD_DARKGREY"
+          ],
+          [
+            "light grey",
+            "LINKBIT_EPD_LIGHTGREY"
+          ],
+          [
+            "white",
+            "LINKBIT_EPD_WHITE"
+          ]
+        ]
+      }
+    ]
+  }
+}
