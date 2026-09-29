@@ -1,0 +1,180 @@
+{
+  "kind": "category",
+  "name": "ESP32低功耗",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "制作者：李北极 QQ:328828999"
+    },
+    {
+      "kind": "label",
+      "text": "基础设置"
+    },
+    {
+      "kind": "block",
+      "type": "espsleep_esp32_timer_wakeup",
+      "inputs": {
+        "SEC": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 60
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "espsleep_esp32_gpio_wakeup",
+      "fields": {
+        "LEVEL": "1"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "espsleep_esp32_wakeup_cause"
+    },
+    {
+      "kind": "block",
+      "type": "espsleep_esp32_touch_wakeup",
+      "fields": {
+        "CHANNEL": "T6",
+        "CALLBACK": "onTouchCallback"
+      },
+      "inputs": {
+        "THRESHOLD": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 30000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "espsleep_esp32_ext1_wakeup",
+      "fields": {
+        "MODE": "ANY_HIGH"
+      },
+      "inputs": {
+        "PIN_MASK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 20
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "espsleep_esp32_uart_wakeup",
+      "fields": {
+        "UART_NUM": "0"
+      },
+      "inputs": {
+        "THRESHOLD": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 3
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "espsleep_esp32_disable_wakeup",
+      "fields": {
+        "SOURCE": "ALL"
+      }
+    },
+    {
+      "kind": "label",
+      "text": "执行睡眠"
+    },
+    {
+      "kind": "block",
+      "type": "espsleep_esp32_deep_sleep"
+    },
+    {
+      "kind": "block",
+      "type": "espsleep_esp32_light_sleep"
+    },
+    {
+      "kind": "block",
+      "type": "espsleep_esp32_quick_sleep",
+      "inputs": {
+        "SEC": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 60
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "RTC存储"
+    },
+    {
+      "kind": "block",
+      "type": "espsleep_esp32_rtc_int",
+      "fields": {
+        "VAR_NAME": "rtcCounter"
+      },
+      "inputs": {
+        "INIT_VAL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "espsleep_esp32_set_rtc",
+      "fields": {
+        "VAR_NAME": "rtcCounter"
+      },
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "espsleep_esp32_get_rtc",
+      "fields": {
+        "VAR_NAME": "rtcCounter"
+      }
+    },
+    {
+      "kind": "label",
+      "text": "功耗优化"
+    },
+    {
+      "kind": "block",
+      "type": "espsleep_esp32_set_cpu_freq",
+      "fields": {
+        "FREQ": "240"
+      }
+    }
+  ]
+}
