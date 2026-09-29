@@ -101,7 +101,7 @@ Arduino.forBlock['maqueen_motor_init'] = function (block, generator) {
   ensureSerialBegin('Serial', generator);
   let code = '';
   code += 'if (!' + varName + '.begin()) {\n';
-  code += '  Serial.println("未检测到 Maqueen 电机驱动（I2C 地址 0x10），请检查连接并打开电源");\n';
+  code += '  Serial.println("未检测到电机驱动（I2C 地址 0x10），请检查连接并打开电源");\n';
   code += '}\n';
   return code;
 };
