@@ -1,0 +1,98 @@
+{
+  "toolbox_name": "Moteur Maqueen",
+  "maqueen_motor_init": {
+    "message0": "initialiser le pilote moteur Maqueen %1",
+    "tooltip": "Démarre l’I2C sur les broches I2C de la carte et cherche le pilote moteur Maqueen (adresse I2C fixe 0x10) ; affiche un message série s’il est absent. Sur le mPython 3.0, l’I2C et le port série partagent les broches : aucun message, utilisez le bloc « connecté »"
+  },
+  "maqueen_motor_run": {
+    "message0": "Maqueen %1 %2 %3 vitesse %4",
+    "tooltip": "Fait tourner un moteur dans le sens choisi, vitesse 0~255, les valeurs hors plage sont limitées",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "moteur gauche",
+            "MAQUEEN_MOTOR_LEFT"
+          ],
+          [
+            "moteur droit",
+            "MAQUEEN_MOTOR_RIGHT"
+          ],
+          [
+            "tous les moteurs",
+            "MAQUEEN_MOTOR_ALL"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "avant",
+            "MAQUEEN_MOTOR_CW"
+          ],
+          [
+            "arrière",
+            "MAQUEEN_MOTOR_CCW"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "maqueen_motor_stop": {
+    "message0": "Maqueen %1 %2 arrêter",
+    "tooltip": "Arrête le moteur choisi (vitesse 0)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "tous les moteurs",
+            "MAQUEEN_MOTOR_ALL"
+          ],
+          [
+            "moteur gauche",
+            "MAQUEEN_MOTOR_LEFT"
+          ],
+          [
+            "moteur droit",
+            "MAQUEEN_MOTOR_RIGHT"
+          ]
+        ]
+      }
+    ]
+  },
+  "maqueen_motor_move": {
+    "message0": "Maqueen %1 voiture %2 vitesse %3",
+    "tooltip": "Pilote les deux moteurs : avancer, reculer ou tourner sur place, un côté en avant et l’autre en arrière. Vitesse 0~255",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "avancer",
+            "FORWARD"
+          ],
+          [
+            "reculer",
+            "BACKWARD"
+          ],
+          [
+            "tourner à gauche sur place",
+            "LEFT"
+          ],
+          [
+            "tourner à droite sur place",
+            "RIGHT"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "maqueen_motor_is_connected": {
+    "message0": "Maqueen %1 connecté",
+    "tooltip": "Vrai quand le pilote moteur Maqueen répond à l’adresse I2C 0x10 ; utile pour vérifier câblage et alimentation"
+  }
+}
