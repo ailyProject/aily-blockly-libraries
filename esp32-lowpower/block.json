@@ -1,0 +1,345 @@
+[
+  {
+    "type": "espsleep_esp32_timer_wakeup",
+    "message0": "设置定时唤醒睡眠%1秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SEC",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#a6745b",
+    "tooltip": "配置RTC定时器唤醒，指定秒数后唤醒"
+  },
+  {
+    "type": "espsleep_esp32_gpio_wakeup",
+    "message0": "设置外部引脚唤醒 引脚%1 电平%2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "LEVEL",
+        "options": [
+          [
+            "高电平",
+            "1"
+          ],
+          [
+            "低电平",
+            "0"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#a6745b",
+    "tooltip": "配置GPIO引脚作为唤醒源，需使用RTC GPIO引脚。\n兼容性：ESP32/S2/S3 使用 ext0（深度+浅睡眠有效）；C3/C6 使用 gpio_wakeup（仅深度睡眠有效，仅 RTC GPIO0~5 可用，唤醒后重启运行 setup()）。\n高电平唤醒自动配下拉电阻，低电平唤醒自动配上拉电阻。"
+  },
+  {
+    "type": "espsleep_esp32_wakeup_cause",
+    "message0": "获取唤醒原因",
+    "output": "Number",
+    "colour": "#a6745b",
+    "tooltip": "返回唤醒原因编号：\n0 = 未唤醒（首次启动/复位）\n1 = 非唤醒原因（仅用于禁用）\n2 = ext0 外部信号（RTC_IO）\n3 = ext1 外部信号（RTC_CNTL）\n4 = 定时器\n5 = 触摸\n6 = ULP\n7 = GPIO（C3 深度睡眠）\n8 = UART（仅浅睡眠）\n9 = WiFi\n10 = COCPU 中断\n11 = COCPU 崩溃\n12 = BT\n13 = VAD 语音活动检测"
+  },
+  {
+    "type": "espsleep_esp32_touch_wakeup",
+    "message0": "设置触摸唤醒 通道%1 回调函数%2 阈值%3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          [
+            "T0",
+            "T0"
+          ],
+          [
+            "T1",
+            "T1"
+          ],
+          [
+            "T2",
+            "T2"
+          ],
+          [
+            "T3",
+            "T3"
+          ],
+          [
+            "T4",
+            "T4"
+          ],
+          [
+            "T5",
+            "T5"
+          ],
+          [
+            "T6",
+            "T6"
+          ],
+          [
+            "T7",
+            "T7"
+          ],
+          [
+            "T8",
+            "T8"
+          ],
+          [
+            "T9",
+            "T9"
+          ]
+        ]
+      },
+      {
+        "type": "field_input",
+        "name": "CALLBACK",
+        "text": "onTouchCallback"
+      },
+      {
+        "type": "input_value",
+        "name": "THRESHOLD",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#a6745b",
+    "tooltip": "配置触摸唤醒深度睡眠（仅ESP32原版/S3支持）\n通道：T0~T9；阈值：触摸灵敏度，常用 20000~40000（值越小越灵敏）\n回调函数：唤醒后不会调用，但需传入函数名（可为空，自动生成空实现避免链接错误）\nESP32 原版引脚映射：T0=GPIO4 T1=GPIO0 T2=GPIO2 T3=GPIO15 T4=GPIO13 T5=GPIO12 T6=GPIO14 T7=GPIO27 T8=GPIO33 T9=GPIO32\nESP32-S3/S2 引脚映射：T1=GPIO1 T2=GPIO2 ... T14=GPIO14\n注意：C3/C6 无触摸功能，此积木会编译报错"
+  },
+  {
+    "type": "espsleep_esp32_ext1_wakeup",
+    "message0": "设置ext1多引脚唤醒 位掩码%1 触发模式%2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PIN_MASK",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "任一高电平",
+            "ANY_HIGH"
+          ],
+          [
+            "全部低电平",
+            "ALL_LOW"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#a6745b",
+    "tooltip": "启用ext1多引脚组合唤醒（仅ESP32/S2/S3支持，C3不可用）\n任一高电平：选中引脚任一拉高时唤醒（需外部下拉电阻）\n全部低电平：选中引脚同时拉低时唤醒（需外部上拉电阻）\n单引脚位掩码：GPIO0=1 GPIO2=4 GPIO4=16 GPIO12=4096 GPIO13=8192 GPIO14=16384 GPIO15=32768 GPIO25=33554432 GPIO26=67108864 GPIO27=134217728 GPIO32=4294967296 GPIO33=8589934592\n常用组合：GPIO0+GPIO2=5 GPIO0+GPIO4=17 GPIO2+GPIO4=20 GPIO0+GPIO2+GPIO4=21 GPIO12+GPIO13=12288 GPIO12+GPIO13+GPIO14=28672\n计算公式：位掩码 = (1ULL << GPIO_NUM_n) | (1ULL << GPIO_NUM_m) | ...\n注意：必须使用RTC GPIO引脚，唤醒后设备重启运行setup()"
+  },
+  {
+    "type": "espsleep_esp32_uart_wakeup",
+    "message0": "设置UART唤醒 串口%1 阈值字符数%2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "UART_NUM",
+        "options": [
+          [
+            "UART0",
+            "0"
+          ],
+          [
+            "UART1",
+            "1"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "THRESHOLD",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#a6745b",
+    "tooltip": "启用UART串口唤醒（仅浅睡眠有效）\n阈值：接收到的字符数达到此值时唤醒\n深度睡眠不支持UART唤醒"
+  },
+  {
+    "type": "espsleep_esp32_disable_wakeup",
+    "message0": "禁用唤醒源 类型%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SOURCE",
+        "options": [
+          [
+            "全部",
+            "ALL"
+          ],
+          [
+            "定时器",
+            "TIMER"
+          ],
+          [
+            "GPIO/EXT",
+            "GPIO"
+          ],
+          [
+            "触摸",
+            "TOUCHPAD"
+          ],
+          [
+            "UART",
+            "UART"
+          ],
+          [
+            "WiFi",
+            "WIFI"
+          ],
+          [
+            "蓝牙",
+            "BT"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#a6745b",
+    "tooltip": "禁用指定类型的唤醒源\n多次进入睡眠前建议调用防止残留唤醒源\n全部：禁用所有已配置的唤醒源"
+  },
+  {
+    "type": "espsleep_esp32_deep_sleep",
+    "message0": "进入深度睡眠",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#a6745b",
+    "tooltip": "让ESP32进入深度睡眠，执行后无后续代码运行"
+  },
+  {
+    "type": "espsleep_esp32_light_sleep",
+    "message0": "进入浅度睡眠",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#a6745b",
+    "tooltip": "让ESP32进入浅度睡眠"
+  },
+  {
+    "type": "espsleep_esp32_quick_sleep",
+    "message0": "快速深度睡眠%1秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SEC",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#a6745b",
+    "tooltip": "快速进入深度睡眠，指定秒数后唤醒"
+  },
+  {
+    "type": "espsleep_esp32_rtc_int",
+    "message0": "RTC整数变量%1初始值%2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR_NAME",
+        "text": "rtcCounter"
+      },
+      {
+        "type": "input_value",
+        "name": "INIT_VAL"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#a6745b",
+    "tooltip": "创建RTC_DATA_ATTR整数变量，深度睡眠中保持数据"
+  },
+  {
+    "type": "espsleep_esp32_set_rtc",
+    "message0": "设置RTC变量%1 = %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR_NAME",
+        "text": "rtcCounter"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#a6745b",
+    "tooltip": "设置RTC变量的值"
+  },
+  {
+    "type": "espsleep_esp32_get_rtc",
+    "message0": "获取RTC变量%1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR_NAME",
+        "text": "rtcCounter"
+      }
+    ],
+    "inputsInline": true,
+    "output": null,
+    "colour": "#a6745b",
+    "tooltip": "获取RTC变量的值"
+  },
+  {
+    "type": "espsleep_esp32_set_cpu_freq",
+    "message0": "设置CPU频率%1MHz",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FREQ",
+        "options": [
+          [
+            "80",
+            "80"
+          ],
+          [
+            "160",
+            "160"
+          ],
+          [
+            "240",
+            "240"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#a6745b",
+    "tooltip": "设置ESP32 CPU频率"
+  }
+]

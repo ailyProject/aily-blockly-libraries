@@ -189,6 +189,18 @@
     "message0": "module de mouvement %1 heure du dernier envoi",
     "tooltip": "Renvoie l'horodatage millis() de la dernière trame envoyée avec succès"
   },
+  "evlabmotion_calibrate_zero": {
+    "message0": "module de mouvement %1 étalonner le zéro du courant",
+    "tooltip": "Mesure la ligne de base du courant moteurs à l’arrêt et la conserve comme point zéro. L’initialisation le fait une fois automatiquement ; à refaire dès que les moteurs sont à l’arrêt"
+  },
+  "evlabmotion_current_amps": {
+    "message0": "module de mouvement %1 courant du bus",
+    "tooltip": "Lit le courant du bus moteur en ampères. Nécessite un micrologiciel de coprocesseur avec mesure de courant ; renvoie 0 et positionne un code d’erreur en cas d’échec"
+  },
+  "evlabmotion_current_raw": {
+    "message0": "module de mouvement %1 valeur brute ADC du courant",
+    "tooltip": "Lit la valeur brute 12 bits de l’ADC de mesure de courant (0-4095) ; renvoie -1 en cas d’échec ou si le micrologiciel ne gère pas le courant"
+  },
   "evlabmotion_error_const": {
     "message0": "code d'erreur %1",
     "tooltip": "Constante de code d'erreur, à comparer au dernier code d'erreur pour identifier la panne",
@@ -218,6 +230,10 @@
           [
             "relecture non conforme",
             "EVLABMOTION_ERROR_VERIFY"
+          ],
+          [
+            "pas de données de courant",
+            "EVLABMOTION_ERROR_NO_CURRENT"
           ]
         ]
       }

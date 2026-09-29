@@ -3,8 +3,16 @@
     "type": "evlabmotion_init",
     "message0": "初始化运动模块 %1 I2C总线 %2",
     "args0": [
-      { "type": "field_input", "name": "VAR", "text": "motion" },
-      { "type": "field_dropdown", "name": "WIRE", "options": "${board.i2c}" }
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "motion"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
     ],
     "inputsInline": true,
     "previousStatement": null,
@@ -17,7 +25,15 @@
     "type": "evlabmotion_is_connected",
     "message0": "运动模块 %1 已连接",
     "args0": [
-      { "type": "field_variable", "name": "VAR", "variable": "motion", "variableTypes": ["EVLabMotion"], "defaultType": "EVLabMotion" }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      }
     ],
     "inputsInline": true,
     "output": "Boolean",
@@ -29,7 +45,15 @@
     "type": "evlabmotion_get_address",
     "message0": "运动模块 %1 的I2C地址",
     "args0": [
-      { "type": "field_variable", "name": "VAR", "variable": "motion", "variableTypes": ["EVLabMotion"], "defaultType": "EVLabMotion" }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      }
     ],
     "inputsInline": true,
     "output": "Number",
@@ -41,9 +65,42 @@
     "type": "evlabmotion_set_servo",
     "message0": "运动模块 %1 设置舵机 %2 角度 %3 度",
     "args0": [
-      { "type": "field_variable", "name": "VAR", "variable": "motion", "variableTypes": ["EVLabMotion"], "defaultType": "EVLabMotion" },
-      { "type": "field_dropdown", "name": "INDEX", "options": [["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"]] },
-      { "type": "input_value", "name": "ANGLE", "check": "Number" }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INDEX",
+        "options": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ],
+          [
+            "4",
+            "4"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ANGLE",
+        "check": "Number"
+      }
     ],
     "inputsInline": true,
     "previousStatement": null,
@@ -56,8 +113,20 @@
     "type": "evlabmotion_set_all_servos",
     "message0": "运动模块 %1 全部舵机转到 %2 度",
     "args0": [
-      { "type": "field_variable", "name": "VAR", "variable": "motion", "variableTypes": ["EVLabMotion"], "defaultType": "EVLabMotion" },
-      { "type": "input_value", "name": "ANGLE", "check": "Number" }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      },
+      {
+        "type": "input_value",
+        "name": "ANGLE",
+        "check": "Number"
+      }
     ],
     "inputsInline": true,
     "previousStatement": null,
@@ -70,10 +139,48 @@
     "type": "evlabmotion_motor_run",
     "message0": "运动模块 %1 电机 %2 %3 速度 %4",
     "args0": [
-      { "type": "field_variable", "name": "VAR", "variable": "motion", "variableTypes": ["EVLabMotion"], "defaultType": "EVLabMotion" },
-      { "type": "field_dropdown", "name": "INDEX", "options": [["1", "1"], ["2", "2"]] },
-      { "type": "field_dropdown", "name": "DIR", "options": [["正转", "FORWARD"], ["反转", "BACKWARD"]] },
-      { "type": "input_value", "name": "SPEED", "check": "Number" }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INDEX",
+        "options": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          [
+            "正转",
+            "FORWARD"
+          ],
+          [
+            "反转",
+            "BACKWARD"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number"
+      }
     ],
     "inputsInline": true,
     "previousStatement": null,
@@ -86,10 +193,39 @@
     "type": "evlabmotion_set_motor",
     "message0": "运动模块 %1 电机 %2 方向 %3 速度 %4",
     "args0": [
-      { "type": "field_variable", "name": "VAR", "variable": "motion", "variableTypes": ["EVLabMotion"], "defaultType": "EVLabMotion" },
-      { "type": "field_dropdown", "name": "INDEX", "options": [["1", "1"], ["2", "2"]] },
-      { "type": "input_value", "name": "DIR", "check": "Number" },
-      { "type": "input_value", "name": "SPEED", "check": "Number" }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INDEX",
+        "options": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DIR",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number"
+      }
     ],
     "inputsInline": true,
     "previousStatement": null,
@@ -102,8 +238,29 @@
     "type": "evlabmotion_stop_motor",
     "message0": "运动模块 %1 停止电机 %2",
     "args0": [
-      { "type": "field_variable", "name": "VAR", "variable": "motion", "variableTypes": ["EVLabMotion"], "defaultType": "EVLabMotion" },
-      { "type": "field_dropdown", "name": "INDEX", "options": [["1", "1"], ["2", "2"]] }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INDEX",
+        "options": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ]
+        ]
+      }
     ],
     "inputsInline": true,
     "previousStatement": null,
@@ -116,7 +273,15 @@
     "type": "evlabmotion_stop_motors",
     "message0": "运动模块 %1 停止全部电机",
     "args0": [
-      { "type": "field_variable", "name": "VAR", "variable": "motion", "variableTypes": ["EVLabMotion"], "defaultType": "EVLabMotion" }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      }
     ],
     "inputsInline": true,
     "previousStatement": null,
@@ -129,10 +294,30 @@
     "type": "evlabmotion_send_frame",
     "message0": "运动模块 %1 发送原始帧 ID %2 参数1 %3 参数2 %4",
     "args0": [
-      { "type": "field_variable", "name": "VAR", "variable": "motion", "variableTypes": ["EVLabMotion"], "defaultType": "EVLabMotion" },
-      { "type": "input_value", "name": "ID", "check": "Number" },
-      { "type": "input_value", "name": "ARG1", "check": "Number" },
-      { "type": "input_value", "name": "ARG2", "check": "Number" }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      },
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ARG1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ARG2",
+        "check": "Number"
+      }
     ],
     "inputsInline": true,
     "previousStatement": null,
@@ -145,7 +330,15 @@
     "type": "evlabmotion_verify",
     "message0": "运动模块 %1 回读校验通过",
     "args0": [
-      { "type": "field_variable", "name": "VAR", "variable": "motion", "variableTypes": ["EVLabMotion"], "defaultType": "EVLabMotion" }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      }
     ],
     "inputsInline": true,
     "output": "Boolean",
@@ -157,8 +350,33 @@
     "type": "evlabmotion_read_frame_byte",
     "message0": "运动模块 %1 回读帧的 %2",
     "args0": [
-      { "type": "field_variable", "name": "VAR", "variable": "motion", "variableTypes": ["EVLabMotion"], "defaultType": "EVLabMotion" },
-      { "type": "field_dropdown", "name": "PART", "options": [["帧ID", "0"], ["参数1", "1"], ["参数2", "2"]] }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PART",
+        "options": [
+          [
+            "帧ID",
+            "0"
+          ],
+          [
+            "参数1",
+            "1"
+          ],
+          [
+            "参数2",
+            "2"
+          ]
+        ]
+      }
     ],
     "inputsInline": true,
     "output": "Number",
@@ -170,8 +388,33 @@
     "type": "evlabmotion_last_frame_byte",
     "message0": "运动模块 %1 最后发送帧的 %2",
     "args0": [
-      { "type": "field_variable", "name": "VAR", "variable": "motion", "variableTypes": ["EVLabMotion"], "defaultType": "EVLabMotion" },
-      { "type": "field_dropdown", "name": "PART", "options": [["帧ID", "0"], ["参数1", "1"], ["参数2", "2"]] }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PART",
+        "options": [
+          [
+            "帧ID",
+            "0"
+          ],
+          [
+            "参数1",
+            "1"
+          ],
+          [
+            "参数2",
+            "2"
+          ]
+        ]
+      }
     ],
     "inputsInline": true,
     "output": "Number",
@@ -183,7 +426,15 @@
     "type": "evlabmotion_last_error",
     "message0": "运动模块 %1 最近错误码",
     "args0": [
-      { "type": "field_variable", "name": "VAR", "variable": "motion", "variableTypes": ["EVLabMotion"], "defaultType": "EVLabMotion" }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      }
     ],
     "inputsInline": true,
     "output": "Number",
@@ -195,7 +446,15 @@
     "type": "evlabmotion_last_write",
     "message0": "运动模块 %1 最后发送时刻",
     "args0": [
-      { "type": "field_variable", "name": "VAR", "variable": "motion", "variableTypes": ["EVLabMotion"], "defaultType": "EVLabMotion" }
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      }
     ],
     "inputsInline": true,
     "output": "Number",
@@ -204,10 +463,104 @@
     "icon": "fa-regular fa-stopwatch"
   },
   {
+    "type": "evlabmotion_calibrate_zero",
+    "message0": "运动模块 %1 标定电流零点",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C6BC0",
+    "tooltip": "在电机停止时采一次电流基线存为零点。初始化已自动执行一次，电机空闲时可随时重新标定",
+    "icon": "fa-regular fa-weight-scale"
+  },
+  {
+    "type": "evlabmotion_current_amps",
+    "message0": "运动模块 %1 母线电流",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#5C6BC0",
+    "tooltip": "读取电机母线电流，单位安培。需要协处理器固件支持电流采集，失败时返回 0 并置错误码",
+    "icon": "fa-regular fa-bolt"
+  },
+  {
+    "type": "evlabmotion_current_raw",
+    "message0": "运动模块 %1 电流ADC原始值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motion",
+        "variableTypes": [
+          "EVLabMotion"
+        ],
+        "defaultType": "EVLabMotion"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#5C6BC0",
+    "tooltip": "读取电流检测的12位ADC原始值（0~4095），读取失败或固件不支持电流采集时返回 -1",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
     "type": "evlabmotion_error_const",
     "message0": "错误码 %1",
     "args0": [
-      { "type": "field_dropdown", "name": "CODE", "options": [["正常", "EVLABMOTION_OK"], ["连接失败", "EVLABMOTION_ERROR_CONNECT"], ["索引越界", "EVLABMOTION_ERROR_INDEX"], ["角度越界", "EVLABMOTION_ERROR_ANGLE"], ["字节缺失", "EVLABMOTION_ERROR_MISSING_BYTES"], ["回读不符", "EVLABMOTION_ERROR_VERIFY"]] }
+      {
+        "type": "field_dropdown",
+        "name": "CODE",
+        "options": [
+          [
+            "正常",
+            "EVLABMOTION_OK"
+          ],
+          [
+            "连接失败",
+            "EVLABMOTION_ERROR_CONNECT"
+          ],
+          [
+            "索引越界",
+            "EVLABMOTION_ERROR_INDEX"
+          ],
+          [
+            "角度越界",
+            "EVLABMOTION_ERROR_ANGLE"
+          ],
+          [
+            "字节缺失",
+            "EVLABMOTION_ERROR_MISSING_BYTES"
+          ],
+          [
+            "回读不符",
+            "EVLABMOTION_ERROR_VERIFY"
+          ],
+          [
+            "无电流数据",
+            "EVLABMOTION_ERROR_NO_CURRENT"
+          ]
+        ]
+      }
     ],
     "inputsInline": true,
     "output": "Number",

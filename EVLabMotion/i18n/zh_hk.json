@@ -189,6 +189,18 @@
     "message0": "運動模塊 %1 最後發送時刻",
     "tooltip": "返回最後一次成功發送幀時的 millis() 毫秒時間戳"
   },
+  "evlabmotion_calibrate_zero": {
+    "message0": "運動模塊 %1 標定電流零點",
+    "tooltip": "在馬達停止時採一次電流基線存為零點。初始化已自動執行一次，馬達空閒時可隨時重新標定"
+  },
+  "evlabmotion_current_amps": {
+    "message0": "運動模塊 %1 母線電流",
+    "tooltip": "讀取馬達母線電流，單位安培。需要協處理器固件支援電流採集，失敗時返回 0 並置錯誤碼"
+  },
+  "evlabmotion_current_raw": {
+    "message0": "運動模塊 %1 電流ADC原始值",
+    "tooltip": "讀取電流檢測的12位ADC原始值（0~4095），讀取失敗或固件不支援電流採集時返回 -1"
+  },
   "evlabmotion_error_const": {
     "message0": "錯誤碼 %1",
     "tooltip": "錯誤碼常量，用來和「最近錯誤碼」比較判斷故障類型",
@@ -218,6 +230,10 @@
           [
             "回讀不符",
             "EVLABMOTION_ERROR_VERIFY"
+          ],
+          [
+            "無電流數據",
+            "EVLABMOTION_ERROR_NO_CURRENT"
           ]
         ]
       }

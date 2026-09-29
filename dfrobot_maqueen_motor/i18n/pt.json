@@ -1,0 +1,98 @@
+{
+  "toolbox_name": "Driver de motor de expansão mPython",
+  "maqueen_motor_init": {
+    "message0": "inicializar driver de motor Car %1",
+    "tooltip": "Inicia o I2C nos pinos I2C da placa e procura o driver de motor (endereço I2C fixo 0x10); avisa pela serial se não o encontrar. No mPython 3.0 o I2C e a serial partilham pinos, por isso não avisa; use o bloco «conectado»"
+  },
+  "maqueen_motor_run": {
+    "message0": "Car %1 %2 %3 velocidade %4",
+    "tooltip": "Gira um motor no sentido escolhido, velocidade 0~255, valores fora da faixa são limitados",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "motor esquerdo",
+            "MAQUEEN_MOTOR_LEFT"
+          ],
+          [
+            "motor direito",
+            "MAQUEEN_MOTOR_RIGHT"
+          ],
+          [
+            "todos os motores",
+            "MAQUEEN_MOTOR_ALL"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "para frente",
+            "MAQUEEN_MOTOR_CW"
+          ],
+          [
+            "para trás",
+            "MAQUEEN_MOTOR_CCW"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "maqueen_motor_stop": {
+    "message0": "Car %1 %2 parar",
+    "tooltip": "Para o motor escolhido (velocidade 0)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "todos os motores",
+            "MAQUEEN_MOTOR_ALL"
+          ],
+          [
+            "motor esquerdo",
+            "MAQUEEN_MOTOR_LEFT"
+          ],
+          [
+            "motor direito",
+            "MAQUEEN_MOTOR_RIGHT"
+          ]
+        ]
+      }
+    ]
+  },
+  "maqueen_motor_move": {
+    "message0": "Car %1 carro %2 velocidade %3",
+    "tooltip": "Controla os dois motores: avançar, recuar ou girar no lugar com um lado para frente e o outro para trás. Velocidade 0~255",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "avançar",
+            "FORWARD"
+          ],
+          [
+            "recuar",
+            "BACKWARD"
+          ],
+          [
+            "girar à esquerda no lugar",
+            "LEFT"
+          ],
+          [
+            "girar à direita no lugar",
+            "RIGHT"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "maqueen_motor_is_connected": {
+    "message0": "Car %1 conectado",
+    "tooltip": "Verdadeiro quando o driver de motor responde no endereço I2C 0x10; útil para verificar ligações e alimentação"
+  }
+}

@@ -208,6 +208,28 @@ Arduino.forBlock['evlabmotion_last_write'] = function (block, generator) {
   return [varName + '.lastWrite()', generator.ORDER_FUNCTION_CALL];
 };
 
+// 母线电流：10mΩ 采样电阻 + INA199A1(50V/V)，接协处理器 P01(ADC CH7)。
+// 基准电压不写死——实测板子是 1.26V 而不是图纸标的 2.5V，所以由 begin() 在
+// 电机停止时采一次基线当零点，换板换批次都自动适应。
+// 需要带电流采集的协处理器固件，旧固件读回 0 会被库判为"无电流数据"。
+Arduino.forBlock['evlabmotion_calibrate_zero'] = function (block, generator) {
+  const varName = Arduino.evlabMotionVarName(block, 'VAR', 'motion');
+  Arduino.evlabMotionEnsureLibrary(generator);
+  return varName + '.calibrateZero();\n';
+};
+
+Arduino.forBlock['evlabmotion_current_amps'] = function (block, generator) {
+  const varName = Arduino.evlabMotionVarName(block, 'VAR', 'motion');
+  Arduino.evlabMotionEnsureLibrary(generator);
+  return [varName + '.readCurrentAmps()', generator.ORDER_FUNCTION_CALL];
+};
+
+Arduino.forBlock['evlabmotion_current_raw'] = function (block, generator) {
+  const varName = Arduino.evlabMotionVarName(block, 'VAR', 'motion');
+  Arduino.evlabMotionEnsureLibrary(generator);
+  return [varName + '.readCurrentRaw()', generator.ORDER_FUNCTION_CALL];
+};
+
 Arduino.forBlock['evlabmotion_error_const'] = function (block, generator) {
   const code = block.getFieldValue('CODE') || 'EVLABMOTION_OK';
   Arduino.evlabMotionEnsureLibrary(generator);

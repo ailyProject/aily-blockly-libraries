@@ -25,6 +25,9 @@ EasyVoice 1306 Dev only: drive 4 servos and 2 DC motors
 | `evlabmotion_last_frame_byte` | Value | VAR(field_variable), PART(dropdown) | `evlabmotion_last_frame_byte($motion, 0)` | `evlabMotionLastFrameByte(motion, 0)` |
 | `evlabmotion_last_error` | Value | VAR(field_variable) | `evlabmotion_last_error($motion)` | `motion.lastError()` |
 | `evlabmotion_last_write` | Value | VAR(field_variable) | `evlabmotion_last_write($motion)` | `motion.lastWrite()` |
+| `evlabmotion_calibrate_zero` | Statement | VAR(field_variable) | `evlabmotion_calibrate_zero($motion)` | `motion.calibrateZero();` |
+| `evlabmotion_current_amps` | Value | VAR(field_variable) | `evlabmotion_current_amps($motion)` | `motion.readCurrentAmps()` |
+| `evlabmotion_current_raw` | Value | VAR(field_variable) | `evlabmotion_current_raw($motion)` | `motion.readCurrentRaw()` |
 | `evlabmotion_error_const` | Value | CODE(dropdown) | `evlabmotion_error_const(EVLABMOTION_OK)` | `EVLABMOTION_OK` |
 
 ## Parameter Options
@@ -35,7 +38,7 @@ EasyVoice 1306 Dev only: drive 4 servos and 2 DC motors
 | INDEX | 1, 2 | evlabmotion_motor_run, evlabmotion_set_motor, evlabmotion_stop_motor |
 | DIR | FORWARD, BACKWARD | evlabmotion_motor_run |
 | PART | 0, 1, 2 | evlabmotion_read_frame_byte, evlabmotion_last_frame_byte |
-| CODE | EVLABMOTION_OK, EVLABMOTION_ERROR_CONNECT, EVLABMOTION_ERROR_INDEX, EVLABMOTION_ERROR_ANGLE, EVLABMOTION_ERROR_MISSING_BYTES, EVLABMOTION_ERROR_VERIFY | evlabmotion_error_const |
+| CODE | EVLABMOTION_OK, EVLABMOTION_ERROR_CONNECT, EVLABMOTION_ERROR_INDEX, EVLABMOTION_ERROR_ANGLE, EVLABMOTION_ERROR_MISSING_BYTES, EVLABMOTION_ERROR_VERIFY, EVLABMOTION_ERROR_NO_CURRENT | evlabmotion_error_const |
 
 ## ABS Examples
 
@@ -55,8 +58,10 @@ arduino_loop()
 1. **Variable**: `evlabmotion_init` creates a Blockly variable. Use `$varName` only for field_variable slots; input_value slots must use the explicit `variables_get($varName)` block.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
-4. **Board scope**: this library targets the EasyVoice 1306 Dev board only (`chipintelli:ci13xx:easyvoice_1306_dev`). That board exposes a single I2C bus `Wire` on SDA=11 / SCL=12, which is the bus the co-processor sits on.
-5. **Setup side effects**: `evlabmotion_init` also emits `#include <Wire.h>`, `#include <EVLabMotion.h>`, the object declaration `EVLabMotion motion;`, `Wire.begin();` at setup begin, and a `Serial.begin()` call. The table above shows only the statement code the block returns.
+4. **Board scope**: this library targets the EasyVoiceLab 1306 board (`chipintelli:ci13xx:easyvoice_1306_dev`, shared by the EasyVoice 1306 Dev and EasyVoiceLab 1306 board packages).
+5. **Setup side effects**: `evlabmotion_init` also emits `#include <Wire.h>`, `#include <EVLabMotion.h>`, the object declaration `EVLabMotion motion;` (or `EVLabMotion motion(&Wire1);` for a non-default bus), `Wire.begin();` at setup begin, and a `Serial.begin()` call. The table above shows only the statement code the block returns.
 6. **Fixed address**: the co-processor answers at I2C 0x10 only, so no address field is exposed. SDA and SCL need external pull-ups.
 7. **Read-once error**: `evlabmotion_last_error` clears the error state as it reads, and it only reflects the most recent call, so a later successful call hides an earlier failure. Store it in a variable right after the call you care about.
 8. **Byte range clamping**: `SPEED` on `evlabmotion_motor_run` / `evlabmotion_set_motor` and `DIR` on `evlabmotion_set_motor` are `uint8_t` parameters that would wrap silently (256 becomes 0, stopping the motor). The generator clamps them to 0-255: numeric literals are folded at generation time, other expressions are wrapped in `constrain(value, 0, 255)`. `evlabmotion_send_frame` is deliberately left unclamped because it is the raw escape hatch.
+9. **Current sense**: a 10 mOhm shunt feeds an INA199A1 (50 V/V) whose output is sampled on the co-processor pin P01 (ADC channel 7) and returned in bytes 3-4 of a 5 byte read. It needs co-processor firmware that samples P01; older firmware returns 0, which the library reports as `EVLABMOTION_ERROR_NO_CURRENT` (raw -1, amps 0).
+10. **Zero point**: the amplifier reference voltage is not assumed. `evlabmotion_init` samples the output once with the motors stopped and keeps it as the zero point, so the reading is correct whatever the reference actually is and the amplifier offset cancels out. Use `evlabmotion_calibrate_zero` to redo it whenever the motors are idle; a calibration taken while the motors draw current biases every later reading.

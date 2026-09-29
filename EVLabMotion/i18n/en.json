@@ -189,6 +189,18 @@
     "message0": "motion module %1 last write time",
     "tooltip": "Return the millis() timestamp of the last frame that was sent successfully"
   },
+  "evlabmotion_calibrate_zero": {
+    "message0": "motion module %1 calibrate current zero",
+    "tooltip": "Sample the current baseline with the motors stopped and keep it as the zero point. begin() already does this once; call it again whenever the motors are idle"
+  },
+  "evlabmotion_current_amps": {
+    "message0": "motion module %1 bus current",
+    "tooltip": "Read the motor bus current in amps. Needs co-processor firmware with current sampling; returns 0 and sets an error code on failure"
+  },
+  "evlabmotion_current_raw": {
+    "message0": "motion module %1 current ADC raw value",
+    "tooltip": "Read the raw 12 bit ADC value of the current sense (0-4095); returns -1 when the read fails or the firmware has no current support"
+  },
   "evlabmotion_error_const": {
     "message0": "error code %1",
     "tooltip": "Error code constant, compare it with the last error code to tell the fault apart",
@@ -218,6 +230,10 @@
           [
             "read back mismatch",
             "EVLABMOTION_ERROR_VERIFY"
+          ],
+          [
+            "no current data",
+            "EVLABMOTION_ERROR_NO_CURRENT"
           ]
         ]
       }

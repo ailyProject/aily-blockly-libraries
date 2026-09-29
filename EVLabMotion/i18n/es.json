@@ -189,6 +189,18 @@
     "message0": "módulo de movimiento %1 hora del último envío",
     "tooltip": "Devuelve la marca de tiempo millis() de la última trama enviada correctamente"
   },
+  "evlabmotion_calibrate_zero": {
+    "message0": "módulo de movimiento %1 calibrar el cero de corriente",
+    "tooltip": "Mide la línea base de corriente con los motores parados y la guarda como punto cero. La inicialización lo hace una vez automáticamente; puede repetirse siempre que los motores estén parados"
+  },
+  "evlabmotion_current_amps": {
+    "message0": "módulo de movimiento %1 corriente del bus",
+    "tooltip": "Lee la corriente del bus del motor en amperios. Requiere firmware del coprocesador con medición de corriente; devuelve 0 y fija un código de error si falla"
+  },
+  "evlabmotion_current_raw": {
+    "message0": "módulo de movimiento %1 valor bruto ADC de corriente",
+    "tooltip": "Lee el valor bruto de 12 bits del ADC de medición de corriente (0-4095); devuelve -1 si falla la lectura o el firmware no admite corriente"
+  },
   "evlabmotion_error_const": {
     "message0": "código de error %1",
     "tooltip": "Constante de código de error, compárala con el último código de error para distinguir el fallo",
@@ -218,6 +230,10 @@
           [
             "la relectura no coincide",
             "EVLABMOTION_ERROR_VERIFY"
+          ],
+          [
+            "sin datos de corriente",
+            "EVLABMOTION_ERROR_NO_CURRENT"
           ]
         ]
       }
