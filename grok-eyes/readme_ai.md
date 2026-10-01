@@ -15,7 +15,7 @@ TFT_eSPI eye animations with 25 expressions, 21 Xiaozhi aliases, 18 shapes and 3
 | `grok_eyes_set_alias` | Statement | VAR(field_variable), EXPRESSION(dropdown), DURATION(input_value) | `grok_eyes_set_alias($eyes, XIAOZHI_NEUTRAL, math_number(65535))` | `#include <grokEyes.h> ↵ eyes.setXiaozhiExpression(grokEyes::XIAOZHI_NEUTRAL, 65535);` |
 | `grok_eyes_set_expression_name` | Value (Boolean) | VAR(field_variable), NAME(input_value), DURATION(input_value) | `grok_eyes_set_expression_name($eyes, text("happy"), math_number(65535))` | `#include <grokEyes.h> ↵ eyes.setExpression(String("happy").c_str(), 65535)` |
 | `grok_eyes_set_shape` | Statement | VAR(field_variable), SHAPE(dropdown), DURATION(input_value) | `grok_eyes_set_shape($eyes, SHAPE_BLOB, math_number(300))` | `#include <grokEyes.h> ↵ eyes.setShape(grokEyes::SHAPE_BLOB, 300);` |
-| `grok_eyes_set_state` | Statement | VAR(field_variable), STATE(dropdown), AUTO_EXPRESSION(input_value), DURATION(input_value) | `grok_eyes_set_state($eyes, STATE_SLEEPING, logic_boolean(TRUE), math_number(65535))` | `#include <grokEyes.h> ↵ eyes.setState(grokEyes::STATE_SLEEPING, true, 65535);` |
+| `grok_eyes_set_state` | Statement | VAR(field_variable), STATE(dropdown), AUTO_EXPRESSION(input_value), DURATION(input_value) | `grok_eyes_set_state($eyes, STATE_SLEEPING, logic_boolean(true), math_number(65535))` | `#include <grokEyes.h> ↵ eyes.setState(grokEyes::STATE_SLEEPING, true, 65535);` |
 | `grok_eyes_blink` | Statement | VAR(field_variable), EYE(dropdown), DURATION(input_value) | `grok_eyes_blink($eyes, BOTH, math_number(0))` | `#include <grokEyes.h> ↵ eyes.blinkEye(grokEyes::BOTH, 0);` |
 | `grok_eyes_set_blink_timing` | Statement | VAR(field_variable), CLOSE(input_value), HOLD(input_value), OPEN(input_value), SCALE(input_value) | `grok_eyes_set_blink_timing($eyes, math_number(90), math_number(40), math_number(190), math_number(0.035))` | `#include <grokEyes.h> ↵ { ↵   grokEyes::BlinkConfig config; ↵   config.closeMs = 90; ↵   config.holdMs = 40; ↵   config.openMs = 190; ↵   config.closedScale = 0.035; ↵   eyes.setBlinkConfig(config); ↵ }` |
 | `grok_eyes_set_gaze` | Statement | VAR(field_variable), X(input_value), Y(input_value), DURATION(input_value) | `grok_eyes_set_gaze($eyes, math_number(0), math_number(0), math_number(220))` | `#include <grokEyes.h> ↵ eyes.setGaze(0, 0, 220);` |
@@ -28,11 +28,11 @@ TFT_eSPI eye animations with 25 expressions, 21 Xiaozhi aliases, 18 shapes and 3
 | `grok_eyes_set_eye_size` | Statement | VAR(field_variable), EYE(dropdown), WIDTH(input_value), HEIGHT(input_value), DURATION(input_value) | `grok_eyes_set_eye_size($eyes, BOTH, math_number(100), math_number(100), math_number(300))` | `#include <grokEyes.h> ↵ eyes.setEyeSize(grokEyes::BOTH, 100, 100, 300);` |
 | `grok_eyes_set_eye_scale` | Statement | VAR(field_variable), PERCENT(input_value), DURATION(input_value) | `grok_eyes_set_eye_scale($eyes, math_number(100), math_number(300))` | `#include <grokEyes.h> ↵ eyes.setEyeScale(100, 300);` |
 | `grok_eyes_reset_layout` | Statement | VAR(field_variable), DURATION(input_value) | `grok_eyes_reset_layout($eyes, math_number(300))` | `#include <grokEyes.h> ↵ eyes.resetLayout(300);` |
-| `grok_eyes_set_feature` | Statement | VAR(field_variable), FEATURE(dropdown), ENABLED(input_value) | `grok_eyes_set_feature($eyes, MOTION, logic_boolean(TRUE))` | `#include <grokEyes.h> ↵ eyes.setMotionEnabled(true);` |
+| `grok_eyes_set_feature` | Statement | VAR(field_variable), FEATURE(dropdown), ENABLED(input_value) | `grok_eyes_set_feature($eyes, MOTION, logic_boolean(true))` | `#include <grokEyes.h> ↵ eyes.setMotionEnabled(true);` |
 | `grok_eyes_set_spring_frequency` | Statement | VAR(field_variable), FREQUENCY(input_value) | `grok_eyes_set_spring_frequency($eyes, math_number(18))` | `#include <grokEyes.h> ↵ eyes.setSpringFrequency(18);` |
-| `grok_eyes_set_auto_blink` | Statement | VAR(field_variable), ENABLED(input_value), INTERVAL(input_value), VARIATION(input_value) | `grok_eyes_set_auto_blink($eyes, logic_boolean(TRUE), math_number(0), math_number(0))` | `#include <grokEyes.h> ↵ eyes.setAutoBlink(true, 0, 0);` |
+| `grok_eyes_set_auto_blink` | Statement | VAR(field_variable), ENABLED(input_value), INTERVAL(input_value), VARIATION(input_value) | `grok_eyes_set_auto_blink($eyes, logic_boolean(true), math_number(0), math_number(0))` | `#include <grokEyes.h> ↵ eyes.setAutoBlink(true, 0, 0);` |
 | `grok_eyes_use_state_blink` | Statement | VAR(field_variable) | `grok_eyes_use_state_blink($eyes)` | `#include <grokEyes.h> ↵ eyes.useStateBlinkCadence();` |
-| `grok_eyes_set_idle` | Statement | VAR(field_variable), ENABLED(input_value), INTERVAL(input_value) | `grok_eyes_set_idle($eyes, logic_boolean(TRUE), math_number(1800))` | `#include <grokEyes.h> ↵ eyes.setIdle(true, 1800);` |
+| `grok_eyes_set_idle` | Statement | VAR(field_variable), ENABLED(input_value), INTERVAL(input_value) | `grok_eyes_set_idle($eyes, logic_boolean(true), math_number(1800))` | `#include <grokEyes.h> ↵ eyes.setIdle(true, 1800);` |
 | `grok_eyes_set_framerate` | Statement | VAR(field_variable), FPS(input_value) | `grok_eyes_set_framerate($eyes, math_number(50))` | `#include <grokEyes.h> ↵ eyes.setFrameRate(50);` |
 | `grok_eyes_set_fit` | Statement | VAR(field_variable), MODE(dropdown) | `grok_eyes_set_fit($eyes, FIT_CONTAIN)` | `#include <grokEyes.h> ↵ eyes.setFitMode(grokEyes::FIT_CONTAIN);` |
 | `grok_eyes_set_theme` | Statement | VAR(field_variable), THEME(dropdown) | `grok_eyes_set_theme($eyes, DARK)` | `#include <grokEyes.h> ↵ eyes.setTheme(grokEyes::darkTheme());` |
@@ -64,6 +64,8 @@ TFT_eSPI eye animations with 25 expressions, 21 Xiaozhi aliases, 18 shapes and 3
 - grok_eyes_get_name.PROPERTY: `EXPRESSION`, `SHAPE`, `STATE`.
 - AUTO_UPDATE: `TRUE`, `FALSE`.
 
+Boolean value blocks use `logic_boolean(true)` / `logic_boolean(false)` (lowercase core-logic dropdown values). Only the AUTO_UPDATE checkbox uses uppercase `TRUE` / `FALSE`.
+
 ## ABS Examples
 
 ### Automatic state animation
@@ -75,9 +77,9 @@ arduino_setup()
     tftespi_setup("tft", ST7789_DRIVER, "240", "240", "48", "47", "21", "44", "43", "-1", "-1", HIGH, TFT_RGB, 40000000, "-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1")
     grok_eyes_init("eyes", $tft, math_number(50), math_number(0), math_number(0), TRUE)
     grok_eyes_set_shape($eyes, SHAPE_BLOB, math_number(300))
-    grok_eyes_set_feature($eyes, LIVELY, logic_boolean(TRUE))
-    grok_eyes_set_state($eyes, STATE_LISTENING, logic_boolean(TRUE), math_number(65535))
-    grok_eyes_set_auto_blink($eyes, logic_boolean(TRUE), math_number(0), math_number(0))
+    grok_eyes_set_feature($eyes, LIVELY, logic_boolean(true))
+    grok_eyes_set_state($eyes, STATE_LISTENING, logic_boolean(true), math_number(65535))
+    grok_eyes_set_auto_blink($eyes, logic_boolean(true), math_number(0), math_number(0))
 
 arduino_loop()
 ```
@@ -88,8 +90,8 @@ arduino_loop()
 arduino_setup()
     tftespi_setup("tft", ST7789_DRIVER, "240", "240", "48", "47", "21", "44", "43", "-1", "-1", HIGH, TFT_RGB, 40000000, "-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1")
     grok_eyes_init("eyes", $tft, math_number(50), math_number(0), math_number(0), FALSE)
-    grok_eyes_set_auto_blink($eyes, logic_boolean(FALSE), math_number(0), math_number(0))
-    grok_eyes_set_feature($eyes, MOTION, logic_boolean(FALSE))
+    grok_eyes_set_auto_blink($eyes, logic_boolean(false), math_number(0), math_number(0))
+    grok_eyes_set_feature($eyes, MOTION, logic_boolean(false))
 
 arduino_loop()
     grok_eyes_set_expression($eyes, GROK_EXPRESSION_HAPPY, math_number(450))

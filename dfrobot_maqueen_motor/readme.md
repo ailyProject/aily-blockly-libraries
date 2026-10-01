@@ -1,6 +1,6 @@
-# Maqueen Motor
+# mPython Expansion Motor Driver
 
-DFRobot Maqueen car motors over I2C for mPython 2.0/3.0, micro:bit and ESP32
+Expansion board with a built-in motor driver, for mPython 2.0/3.0, ESP32, K10, micro:bit and other boards
 
 ## Library Info
 
@@ -8,17 +8,17 @@ DFRobot Maqueen car motors over I2C for mPython 2.0/3.0, micro:bit and ESP32
 |-------|-------|
 | Package | @aily-project/lib-dfrobot-maqueen-motor |
 | Version | 1.0.1 |
-| Author | DFRobot |
+| Author | OpenJumper |
 | Source | N/A |
 | License | Original license |
 
 ## Supported Boards
 
-ESP32, n-able-Arduino:arm-ble
+ESP32, UNIHIKER:esp32, n-able-Arduino:arm-ble
 
 ## Description
 
-DFRobot Maqueen car motors over I2C for mPython 2.0/3.0, micro:bit and ESP32
+Expansion board with a built-in motor driver, for mPython 2.0/3.0, ESP32, K10, micro:bit and other boards
 
 ## Quick Start
 
