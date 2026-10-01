@@ -28,6 +28,7 @@ function xiaozhiEnsure(block, generator) {
   // All blocks share one internal global, including independent event roots.
   // Register in the host's global-variable section, independent of traversal order.
   const name = 'xiaozhiClient';
+  generator.addVariable('xiaozhi_loop_stack', 'SET_LOOP_TASK_STACK_SIZE(16 * 1024);');
   generator.addVariable('xiaozhi_' + name, 'AilyXiaozhi ' + name + ';');
   generator.addLoopBegin('xiaozhi_' + name, name + '.loop();');
   return name;
@@ -117,12 +118,31 @@ Arduino.forBlock['xiaozhi_audio_preset'] = function(block, generator) {
   // Include the preset explicitly after the core; legacy presets unconditionally
   // enable wake, so override the flag after BoardPresets and before the audio port.
   let includes = '#define XIAOZHI_BOARD ' + board + '\n#include <xiaozhi/boards/BoardPresets.h>\n#undef XIAOZHI_AUDIO_ENABLE_WAKE_ESP_SR\n#define XIAOZHI_AUDIO_ENABLE_WAKE_ESP_SR ' + (wake ? '1' : '0') + '\n';
+  if (wake) includes += '#include <ESP_SR.h>\n';
   if (board !== 'NULLLAB_AI_VOX') includes += '#include <Wire.h>\n#include <EspressifEs8311.h>\n';
   includes += '#include <xiaozhi/audio/AudioBoard.h>';
   // Ensure Xiaozhi.h has already been loaded before the board macro is defined.
   xiaozhiInclude(generator);
   const name = xiaozhiAudioEntry(block, generator, includes);
-  return xiaozhiAudioAttach(name, '    auto config = xiaozhi_audio_board::makeConfig();\n    config.enableWakeDetection = ' + (wake ? 'true' : 'false') + ';\n');
+  let config = '    auto config = xiaozhi_audio_board::makeConfig();\n    config.enableWakeDetection = ' + (wake ? 'true' : 'false') + ';\n';
+  if (wake) {
+    config += '    config.wakeModelPartition = "model";\n    config.wakeModelKeyword = "wn9_nihaoxiaozhi_tts";\n';
+  }
+  if (board === 'OJ_ESP32S3_OJOY') {
+    // Keep the proven OJoy speech path with its board wiring preset.
+    config += '    config.inputTaskStackBytes = 4 * 1024;\n    config.outputTaskStackBytes = 3 * 1024;\n' +
+      '    config.hardware.es8311.outputVolumeDb = -12.0f;\n    config.hardware.es8311.playbackMicrophoneGainDb = 12.0f;\n' +
+      '    config.playbackMuteDelayMs = 150;\n    config.enableSpeechConditioning = true;\n' +
+      '    config.speechGateRms = 40;\n    config.speechTargetRms = 2200;\n    config.speechMaximumGain = 16.0f;\n' +
+      '    config.speechSilenceGain = 0.25f;\n    config.speechStartPackets = 2;\n    config.speechHoldMs = 420;\n';
+    if (wake) {
+      config += '    config.enableWakeWordInterruption = true;\n    config.enableWakeAec = true;\n' +
+        '    config.wakeAecDuringPlaybackOnly = true;\n    config.wakeDetectionThreshold = 0.55f;\n';
+    }
+  }
+  // The installer is referenced only by wake-enabled sketches, so the linker
+  // drops the embedded model from headless and wake-disabled applications.
+  return (wake ? name + '.useBundledWakeModel();\n' : '') + xiaozhiAudioAttach(name, config);
 };
 
 Arduino.forBlock['xiaozhi_audio_es8311'] = function(block, generator) {

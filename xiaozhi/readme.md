@@ -1,27 +1,31 @@
-# Xiaozhi AI
+﻿# Xiaozhi AI
 
-Voice chat, activation and MCP for ESP32-S3.
+ESP32-S3 voice chat, activation, audio events and MCP.
 
 ## Library Info
 
 | Field | Value |
 |---|---|
 | Package | @aily-project/lib-xiaozhi |
-| Version | 1.0.0 |
-| Author | Shenzhen Xinzhi Future Technology Co., Ltd., Project Contributors |
-| Source | [Xiaozhi](https://github.com/78/xiaozhi-esp32); Arduino 2.4.0 |
-| License | MIT; bundled dependencies retain their licenses |
+| Version | 0.0.2 |
+| Source | Xiaozhi Arduino 2.4.0 |
+| License | MIT; dependencies retain their licenses |
 
 ## Supported Boards
 
-ESP32 Core 3.x; audio requires ESP32-S3, suitable PSRAM and a large app partition.
+ESP32-S3, Arduino Core 3.x; audio needs PSRAM and a large app partition.
 
 ## Description
 
-53 blocks for ES8311/I2S/PDM audio, events and MCP.
+53 blocks; OJoy includes tuned audio and PSRAM/TLS settings.
 
 ## Quick Start
 
-Requires **ESP32 WiFi** (@aily-project/lib-esp32-wifi ^1.0.3). In setup, select audio, configure WiFi STA/auto-reconnect, connect with esp32_wifi_begin, then start Xiaozhi. Startup waits for WiFi. Read the activation code in its event. All blocks share one client. The legacy WiFi shortcut remains compatible.
+Select audio, connect WiFi, then start the official service. Requires ESP32 WiFi.
+For wake, enable the checkbox and use ESP SR 16M or a dedicated
+`model,data,spiffs` partition >=`0x48000`. The bundled “你好小智” model installs
+at its actual address; different contents are replaced, matching images are
+only verified. Allow ~285 KiB extra app flash. No separate model upload.
 
-See [ABS examples and wiring notes](readme_ai.md). Hardware testing is pending.
+See [examples and validation](readme_ai.md) and [model/license](models/README.md).
+This update needs a device test.
