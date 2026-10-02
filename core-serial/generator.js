@@ -228,30 +228,27 @@ function ensureSTM32HardwareSerial(serialPort, generator) {
   );
 }
 
-// 从 uploadParam 中获取 ESP32 芯片型号
+// MCU is declared by the board package, independent of SDK/board aliases.
+// Retain the old upload/FQBN path only for packages without that declaration.
 function getESP32ChipType() {
-  try {
-    const boardConfig = window['boardConfig'];
-    if (!boardConfig || !boardConfig.uploadParam) {
-      return null;
-    }
-    
-    // 解析 uploadParam，例如: "esptool --chip esp32s3"
-    const match = boardConfig.uploadParam.match(/--chip\s+(esp32\w*)/i);
-    if (match && match[1]) {
-      return match[1].toLowerCase();
-    }
-    
-    return null;
-  } catch (e) {
-    // console.error('获取 ESP32 芯片型号失败:', e);
-    return null;
+  const config = window['boardConfig'];
+  if (!config) return null;
+  if (typeof config.mcu === 'string' && config.mcu.trim()) {
+    return config.mcu.trim().toLowerCase();
   }
+  const upload = typeof config.uploadParam === 'string'
+    && config.uploadParam.match(/--chip\s+(esp32\w*)/i);
+  if (upload) return upload[1].toLowerCase();
+  const fqbn = typeof config.type === 'string' ? config.type.split(':')[2] : '';
+  // Do not mistake the esp32 platform prefix for the actual chip. Board aliases
+  // such as XIAO_ESP32C3 carry an explicit chip token; unknown aliases stay unknown.
+  const chip = fqbn?.match(/(?:^|[_-])(esp32(?:[schp]\d+)?)($|[_-])/i);
+  return chip ? chip[1].toLowerCase() : null;
 }
 
 // 根据芯片型号获取 UART 数量
 function getUARTCountForChip(chipType) {
-  if (!chipType) return 3; // 默认返回 3 个 UART
+  if (!chipType) return 2; // 未识别时保留 block.json 的 UART0/UART1，不擅自扩展 UART2
   
   // ESP32 芯片型号对应的 UART 数量
   const uartMap = {
@@ -264,7 +261,7 @@ function getUARTCountForChip(chipType) {
     'esp32p4': 6,    // ESP32-P4: UART0-UART5
   };
   
-  return uartMap[chipType] || 3; // 默认 3 个
+  return uartMap[chipType] || 2;
 }
 
 // 生成 UART 选项

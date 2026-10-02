@@ -33,7 +33,7 @@ before(async () => {
     export { normalizeAbsSerializedWorkspace } from './src/app/integrations/blockly/abs/abs-serialized-workspace';
     export { loadAbsWorkspaceState, captureAbsWorkspaceState } from './src/app/integrations/blockly/abs/abs-workspace-state';
     export { createAbsProjection } from './src/app/integrations/blockly/abs/abs-identity-map';
-    export { reconcileAbsDraft } from './src/app/integrations/blockly/abs/abs-reconciler';
+    export { reconcileAbsDraft, createAbsReconciler } from './src/app/integrations/blockly/abs/abs-reconciler';
     export { prepareAbsNativeReconciliation } from './src/app/integrations/blockly/abs/abs-native-reconciliation';
     export { assertAbsReadback } from './src/app/integrations/blockly/abs/abs-readback';
     export { projectDataRuntime } from '@domain/project/public-api';
@@ -93,6 +93,50 @@ before(async () => {
 after(async () => {
   await browser?.close();
   if (server) await new Promise(resolve => server.close(resolve));
+});
+
+for (const reverse of [false, true]) test('custom UART options survive ABS, native verification and host load; reverse=' + reverse, async () => {
+  const result = await page.evaluate(async reverse => {
+    const lines = ['serial_begin_esp32_custom("MyUart", UART1, 9600, 4, 5)', 'serial_println(MyUart, text("UART ready"))'];
+    if (reverse) lines.reverse();
+    const code = await window.loadAbs('arduino_setup()\n    ' + lines.join('\n    '));
+    const { Blockly, withNativeStateLoading, assertAbsReadback } = window.host;
+    const { workspace, generator } = window.fixture;
+    const saved = Blockly.serialization.workspaces.save(workspace);
+    withNativeStateLoading(Blockly, workspace, saved, () => Blockly.serialization.workspaces.load(saved, workspace));
+    assertAbsReadback(saved, Blockly.serialization.workspaces.save(workspace));
+    return { code, reopened: generator.workspaceToCode(workspace) };
+  }, reverse);
+  assert.match(result.code, /HardwareSerial MyUart\(1\);/);
+  assert.match(result.code, /MyUart.begin\(9600, SERIAL_8N1, 4, 5\);/);
+  assert.match(result.code, /MyUart.println\("UART ready"\);/);
+  assert.equal(result.code, result.reopened);
+});
+
+test('UART choices prefer declared MCU across SDKs and retain legacy package compatibility', async () => {
+  const cases = [
+    { type: 'esp32:esp32:wifiduino32', mcu: 'esp32', count: 3 },
+    { type: 'esp32:esp32:wifiduino32s3', mcu: 'esp32s3', count: 3 },
+    { type: 'esp32:esp32:wifiduino32c3', mcu: 'esp32c3', count: 2 },
+    { type: 'custom:sdk:opaque_alias', mcu: 'esp32s3', count: 3 },
+    { type: 'esp32:esp32:esp32c3', mcu: ' ESP32S3 ', uploadParam: 'esptool --chip esp32c3', count: 3 },
+    { type: 'esp32:esp32:esp32s3', mcu: 'other-chip', count: 2 },
+    { type: 'esp32:esp32:esp32c3', count: 2 },
+    { type: 'esp32:esp32:XIAO_ESP32C3', count: 2 },
+    { type: 'esp32:esp32:esp32s3', count: 3 },
+    { type: 'esp32:esp32:unknown_board', count: 2 },
+    { type: 'esp32:esp32:esp32s3', uploadParam: 'esptool --chip esp32c3', count: 2 },
+  ];
+  for (const config of cases) {
+    const result = await page.evaluate(async config => {
+      const { steps } = window.fixture;
+      const configured = steps.map(step => step.kind === 'context' ? { ...step, boardConfig: { ...step.boardConfig, ...config } } : step);
+      const bound = await window.host.evaluateNativeCandidate({ steps: configured, blocks: [],
+        abs: '# ABS Schema: 2\nserial_begin_esp32_custom("Uart", UART1, 9600, 4, 5)' }, { assertCurrent() {} });
+      return bound.binding.instances[0].shape.fields.UART.options.map(option => option[1]);
+    }, config);
+    assert.deepEqual(result, Array.from({length: config.count}, (_, i) => 'UART' + i));
+  }
 });
 
 for (const pin of ['0', '4']) test(`DHT same-shape edits keep field identity and GPIO${pin}`, async () => {
@@ -316,7 +360,7 @@ test('unambiguous historical shorthand binds against actual native definitions',
   assert.match(code, /Serial.println\(counter\)/);
 });
 
-test('new declarations survive the complete discovery, identity replay, merge and verification transaction', async () => {
+test('new declarations and dependent UART fields survive discovery, identity replay, merge and verification', async () => {
   const result = await page.evaluate(async () => {
     const h = window.host, { workspace, catalog, generator, steps } = window.fixture;
     // This transaction contains no external payload. Configure the real data
@@ -333,11 +377,13 @@ test('new declarations survive the complete discovery, identity replay, merge an
       generation: 'empty-declarations', baselineRef: 'base', savedAbiHash: null, scope: { projectKey: 'fixture', pageId: 'main' } });
     const source = `# ABS Schema: 2
 arduino_setup()
+    serial_println(TransactionUart, text("ready"))
+    serial_begin_esp32_custom("TransactionUart", UART1, 9600, 4, 5)
     variable_define("a", int, 7)
     variable_define("b", int, $a)
     controls_for($i, 0, $b, 1)
         serial_println(Serial, $i)`;
-    const prepared = await h.prepareAbsNativeReconciliation(baseline, source, {},
+    const prepared = await h.prepareAbsNativeReconciliation(h.createAbsReconciler(baseline, source), {},
       request => h.evaluateNativeCandidate({ ...request, steps }, { assertCurrent() {} }), () => {});
     h.withNativeStateLoading(h.Blockly, workspace, prepared.materialized,
       () => h.Blockly.serialization.workspaces.load(prepared.materialized, workspace));
@@ -350,4 +396,6 @@ arduino_setup()
   assert.deepEqual(result.models, ['a', 'b', 'i']);
   assert.match(result.code, /int b = a;/);
   assert.match(result.code, /for \(int i = i_start;/);
+  assert.match(result.code, /HardwareSerial TransactionUart\(1\);/);
+  assert.match(result.code, /TransactionUart.println\("ready"\);/);
 });
