@@ -1,0 +1,752 @@
+{
+  "toolbox_name": "GxEPD2 电子墨水屏",
+  "toolbox_categories": [
+    "初始化",
+    "分页刷新",
+    "图形绘制",
+    "文字",
+    "状态与颜色",
+    "中文文字 (U8g2)"
+  ],
+  "gxepd2_setup": {
+    "message0": "初始化电子墨水屏 %1 屏幕 %2 CS %3 DC %4 RST %5 BUSY %6 串口诊断 %7 复位 %8 首次刷新 %9 复位下拉 %10",
+    "tooltip": "创建并初始化一个 GxEPD2 电子墨水屏对象。"
+  },
+  "gxepd2_page_update": {
+    "message0": "电子墨水屏 %1 分页刷新 %2",
+    "message1": "绘制 %1",
+    "tooltip": "使用 GxEPD2 firstPage/nextPage 分页方式刷新电子墨水屏。"
+  },
+  "gxepd2_clear_display": {
+    "message0": "电子墨水屏 %1 清屏并刷新 颜色 %2",
+    "tooltip": "用指定颜色填充整个屏幕并刷新。"
+  },
+  "gxepd2_set_partial_window": {
+    "message0": "电子墨水屏 %1 局部窗口 X %2 Y %3 宽 %4 高 %5",
+    "tooltip": "设置 GxEPD2 局部刷新窗口。"
+  },
+  "gxepd2_fill_screen": {
+    "message0": "电子墨水屏 %1 填充缓冲区 颜色 %2",
+    "tooltip": "填充当前显示缓冲区，通常放在分页刷新块内部。"
+  },
+  "gxepd2_set_rotation": {
+    "message0": "电子墨水屏 %1 旋转 %2",
+    "tooltip": "设置屏幕旋转方向。"
+  },
+  "gxepd2_set_text_color": {
+    "message0": "电子墨水屏 %1 文字颜色 %2",
+    "tooltip": "设置文字绘制颜色。"
+  },
+  "gxepd2_set_text_size": {
+    "message0": "电子墨水屏 %1 文字大小 %2",
+    "tooltip": "设置 Adafruit_GFX 内置字体缩放倍率。"
+  },
+  "gxepd2_set_font": {
+    "message0": "电子墨水屏 %1 字体 %2",
+    "tooltip": "设置 print 文字块使用的 Adafruit_GFX 字体。"
+  },
+  "gxepd2_set_cursor": {
+    "message0": "电子墨水屏 %1 光标 X %2 Y %3",
+    "tooltip": "设置文字光标位置。"
+  },
+  "gxepd2_print": {
+    "message0": "电子墨水屏 %1 打印 %2",
+    "tooltip": "在当前光标位置打印文字或数值。"
+  },
+  "gxepd2_draw_pixel": {
+    "message0": "电子墨水屏 %1 画点 X %2 Y %3 颜色 %4",
+    "tooltip": "在当前缓冲区绘制一个像素点。"
+  },
+  "gxepd2_draw_line": {
+    "message0": "电子墨水屏 %1 画线 X1 %2 Y1 %3 X2 %4 Y2 %5 颜色 %6",
+    "tooltip": "在当前缓冲区绘制直线。"
+  },
+  "gxepd2_draw_rect": {
+    "message0": "电子墨水屏 %1 矩形 X %2 Y %3 宽 %4 高 %5 颜色 %6 %7",
+    "tooltip": "绘制矩形轮廓或填充矩形。"
+  },
+  "gxepd2_draw_circle": {
+    "message0": "电子墨水屏 %1 圆 X %2 Y %3 半径 %4 颜色 %5 %6",
+    "tooltip": "绘制圆形轮廓或填充圆形。"
+  },
+  "gxepd2_refresh": {
+    "message0": "电子墨水屏 %1 刷新 %2",
+    "tooltip": "将控制器显存刷新到电子墨水屏。"
+  },
+  "gxepd2_sleep": {
+    "message0": "电子墨水屏 %1 电源 %2",
+    "tooltip": "关闭电源或让电子墨水屏进入休眠。"
+  },
+  "gxepd2_width": {
+    "message0": "电子墨水屏 %1 宽度",
+    "tooltip": "获取旋转后的当前显示宽度。"
+  },
+  "gxepd2_height": {
+    "message0": "电子墨水屏 %1 高度",
+    "tooltip": "获取旋转后的当前显示高度。"
+  },
+  "gxepd2_color": {
+    "message0": "电子墨水屏颜色 %1",
+    "tooltip": "GxEPD2 颜色常量。"
+  },
+  "gxepd2_u8g2_begin": {
+    "message0": "中文字体引擎 绑定到 %1",
+    "tooltip": "初始化 U8g2 中文字体引擎并绑定到墨水屏（整个程序用一次即可）",
+    "args0": [
+      null
+    ]
+  },
+  "gxepd2_u8g2_font": {
+    "message0": "中文字体 %1",
+    "tooltip": "设置文字字体（中文用文泉驿 wqy 字体）",
+    "args0": [
+      {
+        "options": [
+          [
+            "中文 12号",
+            "u8g2_font_wqy12_t_gb2312a"
+          ],
+          [
+            "中文 14号",
+            "u8g2_font_wqy14_t_gb2312a"
+          ],
+          [
+            "中文 16号",
+            "u8g2_font_wqy16_t_gb2312a"
+          ],
+          [
+            "英文 6x12",
+            "u8g2_font_6x12_tf"
+          ],
+          [
+            "英文 10x20",
+            "u8g2_font_10x20_tf"
+          ]
+        ]
+      }
+    ]
+  },
+  "gxepd2_u8g2_color": {
+    "message0": "中文文字 前景 %1 背景 %2",
+    "tooltip": "设置文字前景色与背景色",
+    "args0": [
+      {
+        "options": [
+          [
+            "黑",
+            "GxEPD_BLACK"
+          ],
+          [
+            "白",
+            "GxEPD_WHITE"
+          ],
+          [
+            "红",
+            "GxEPD_RED"
+          ],
+          [
+            "黄",
+            "GxEPD_YELLOW"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "白",
+            "GxEPD_WHITE"
+          ],
+          [
+            "黑",
+            "GxEPD_BLACK"
+          ],
+          [
+            "红",
+            "GxEPD_RED"
+          ],
+          [
+            "黄",
+            "GxEPD_YELLOW"
+          ]
+        ]
+      }
+    ]
+  },
+  "gxepd2_u8g2_mode": {
+    "message0": "中文文字 背景模式 %1",
+    "tooltip": "透明只画文字；实心会填充背景色（黑底白字/红底白字需要实心）",
+    "args0": [
+      {
+        "options": [
+          [
+            "透明（只画字）",
+            "1"
+          ],
+          [
+            "实心（填背景）",
+            "0"
+          ]
+        ]
+      }
+    ]
+  },
+  "gxepd2_u8g2_text": {
+    "message0": "中文文字 在 X %1 Y %2 显示 %3",
+    "tooltip": "在指定坐标显示文字（支持中文 UTF-8）；坐标是文字左下角基线",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "gxepd2_spi_pins": {
+    "message0": "重映射 SPI 引脚 SCK %1 MISO %2 MOSI %3 CS %4",
+    "tooltip": "自定义 SPI 引脚（ESP32 / ESP32-C3 用）；放在“初始化墨水屏”之后。墨水屏不用 MISO，可随便填一个空脚",
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "gxepd2any_setup": {
+    "message0": "初始化任意 GxEPD2 墨水屏 %1 型号 %2 SCK %3 MOSI(DIN) %4 CS %5 DC %6 RST %7 BUSY %8 串口 %9 复位 %10 首次全刷 %11 复位下拉 %12",
+    "tooltip": "创建并初始化任意 GxEPD2 支持的单控制器墨水屏（型号标签含尺寸/分辨率/颜色类型）。SCK/MOSI 默认 ESP32 VSPI 18/23，修改后自动重映射。创建的变量可用于全部 GxEPD2 绘图积木。双IC HINK-E042A03-A1 屏请改用专用双IC初始化积木。",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "1.02\" 黑白 GxEPD2_102 80x128",
+            "GxEPD2_102"
+          ],
+          [
+            "2.13\" 黑白 GxEPD2_213_flex 104x212",
+            "GxEPD2_213_flex"
+          ],
+          [
+            "2.13\" 黑白 GxEPD2_213_M21 104x212",
+            "GxEPD2_213_M21"
+          ],
+          [
+            "2.13\" 黑白 GxEPD2_213_T5D 104x212",
+            "GxEPD2_213_T5D"
+          ],
+          [
+            "2.13\" 黑白 GxEPD2_213 128x250",
+            "GxEPD2_213"
+          ],
+          [
+            "2.13\" 黑白 GxEPD2_213_B72 128x250",
+            "GxEPD2_213_B72"
+          ],
+          [
+            "2.13\" 黑白 GxEPD2_213_B73 128x250",
+            "GxEPD2_213_B73"
+          ],
+          [
+            "2.13\" 黑白 GxEPD2_213_B74 128x250",
+            "GxEPD2_213_B74"
+          ],
+          [
+            "2.13\" 黑白 GxEPD2_213_BN 128x250",
+            "GxEPD2_213_BN"
+          ],
+          [
+            "2.13\" 黑白 GxEPD2_213_GDEY0213B74 128x250",
+            "GxEPD2_213_GDEY0213B74"
+          ],
+          [
+            "2.9\" 黑白 GxEPD2_290 128x296",
+            "GxEPD2_290"
+          ],
+          [
+            "2.9\" 黑白 GxEPD2_290_BS 128x296",
+            "GxEPD2_290_BS"
+          ],
+          [
+            "2.9\" 黑白 GxEPD2_290_GDEY029T94 128x296",
+            "GxEPD2_290_GDEY029T94"
+          ],
+          [
+            "2.9\" 黑白 GxEPD2_290_I6FD 128x296",
+            "GxEPD2_290_I6FD"
+          ],
+          [
+            "2.9\" 黑白 GxEPD2_290_M06 128x296",
+            "GxEPD2_290_M06"
+          ],
+          [
+            "2.9\" 黑白 GxEPD2_290_T5 128x296",
+            "GxEPD2_290_T5"
+          ],
+          [
+            "2.9\" 黑白 GxEPD2_290_T5D 128x296",
+            "GxEPD2_290_T5D"
+          ],
+          [
+            "2.9\" 黑白 GxEPD2_290_T94 128x296",
+            "GxEPD2_290_T94"
+          ],
+          [
+            "2.9\" 黑白 GxEPD2_290_T94_V2 128x296",
+            "GxEPD2_290_T94_V2"
+          ],
+          [
+            "1.54\" 黑白 GxEPD2_154_M10 152x152",
+            "GxEPD2_154_M10"
+          ],
+          [
+            "1.54\" 黑白 GxEPD2_154_T8 152x152",
+            "GxEPD2_154_T8"
+          ],
+          [
+            "2.6\" 黑白 GxEPD2_260 152x296",
+            "GxEPD2_260"
+          ],
+          [
+            "2.6\" 黑白 GxEPD2_260_M01 152x296",
+            "GxEPD2_260_M01"
+          ],
+          [
+            "2.66\" 黑白 GxEPD2_266_BN 152x296",
+            "GxEPD2_266_BN"
+          ],
+          [
+            "2.66\" 黑白 GxEPD2_266_GDEY0266T90 152x296",
+            "GxEPD2_266_GDEY0266T90"
+          ],
+          [
+            "2.9\" 黑白 GxEPD2_290_GDEY029T71H 168x384",
+            "GxEPD2_290_GDEY029T71H"
+          ],
+          [
+            "2.7\" 黑白 GxEPD2_270 176x264",
+            "GxEPD2_270"
+          ],
+          [
+            "2.7\" 黑白 GxEPD2_270_GDEY027T91 176x264",
+            "GxEPD2_270_GDEY027T91"
+          ],
+          [
+            "1.5\" 黑白 GxEPD2_150_BN 200x200",
+            "GxEPD2_150_BN"
+          ],
+          [
+            "1.54\" 黑白 GxEPD2_154 200x200",
+            "GxEPD2_154"
+          ],
+          [
+            "1.54\" 黑白 GxEPD2_154_D67 200x200",
+            "GxEPD2_154_D67"
+          ],
+          [
+            "1.54\" 黑白 GxEPD2_154_GDEY0154D67 200x200",
+            "GxEPD2_154_GDEY0154D67"
+          ],
+          [
+            "1.54\" 黑白 GxEPD2_154_M09 200x200",
+            "GxEPD2_154_M09"
+          ],
+          [
+            "3.1\" 黑白 GxEPD2_310_GDEQ031T10 240x320",
+            "GxEPD2_310_GDEQ031T10"
+          ],
+          [
+            "3.7\" 黑白 GxEPD2_370_GDEY037T03 240x416",
+            "GxEPD2_370_GDEY037T03"
+          ],
+          [
+            "3.71\" 黑白 GxEPD2_371 240x416",
+            "GxEPD2_371"
+          ],
+          [
+            "3.7\" 黑白 GxEPD2_370_TC1 280x480",
+            "GxEPD2_370_TC1"
+          ],
+          [
+            "4.2\" 黑白 GxEPD2_420 400x300",
+            "GxEPD2_420"
+          ],
+          [
+            "4.2\" 黑白 GxEPD2_420_GDEY042T81 400x300",
+            "GxEPD2_420_GDEY042T81"
+          ],
+          [
+            "4.2\" 黑白 GxEPD2_420_GYE042A87 400x300",
+            "GxEPD2_420_GYE042A87"
+          ],
+          [
+            "4.2\" 黑白 GxEPD2_420_M01 400x300",
+            "GxEPD2_420_M01"
+          ],
+          [
+            "4.2\" 黑白 GxEPD2_420_SE0420NQ04 400x300",
+            "GxEPD2_420_SE0420NQ04"
+          ],
+          [
+            "5.83\" 黑白 GxEPD2_583 600x448",
+            "GxEPD2_583"
+          ],
+          [
+            "7.5\" 黑白 GxEPD2_750 640x384",
+            "GxEPD2_750"
+          ],
+          [
+            "5.83\" 黑白 GxEPD2_583_GDEQ0583T31 648x480",
+            "GxEPD2_583_GDEQ0583T31"
+          ],
+          [
+            "5.83\" 黑白 GxEPD2_583_T8 648x480",
+            "GxEPD2_583_T8"
+          ],
+          [
+            "5.79\" 黑白 GxEPD2_579_GDEY0579T93 792x272",
+            "GxEPD2_579_GDEY0579T93"
+          ],
+          [
+            "3.97\" 黑白 GxEPD2_397_GDEM0397T81 800x480",
+            "GxEPD2_397_GDEM0397T81"
+          ],
+          [
+            "4.26\" 黑白 GxEPD2_426_GDEQ0426T82 800x480",
+            "GxEPD2_426_GDEQ0426T82"
+          ],
+          [
+            "7.5\" 黑白 GxEPD2_750_GDEY075T7 800x480",
+            "GxEPD2_750_GDEY075T7"
+          ],
+          [
+            "7.5\" 黑白 GxEPD2_750_T7 800x480",
+            "GxEPD2_750_T7"
+          ],
+          [
+            "5.76\" 黑白 GxEPD2_576_GDEH0576T81 920x680",
+            "GxEPD2_576_GDEH0576T81"
+          ],
+          [
+            "10.2\" 黑白 GxEPD2_1020_GDEM102T91 960x640",
+            "GxEPD2_1020_GDEM102T91"
+          ],
+          [
+            "11.6\" 黑白 GxEPD2_1160_T91 960x640",
+            "GxEPD2_1160_T91"
+          ],
+          [
+            "13.3\" 黑白 GxEPD2_1330_GDEM133T91 960x680",
+            "GxEPD2_1330_GDEM133T91"
+          ],
+          [
+            "12.48\" 黑白 GxEPD2_1248 1304x984",
+            "GxEPD2_1248"
+          ],
+          [
+            "10.85\" 黑白 GxEPD2_1085_GDEM1085T51 1360x480",
+            "GxEPD2_1085_GDEM1085T51"
+          ],
+          [
+            "2.13\" 三色 GxEPD2_213_Z19c 104x212",
+            "GxEPD2_213_Z19c"
+          ],
+          [
+            "2.13\" 三色 GxEPD2_213c 104x212",
+            "GxEPD2_213c"
+          ],
+          [
+            "2.13\" 三色 GxEPD2_213_Z98c 128x250",
+            "GxEPD2_213_Z98c"
+          ],
+          [
+            "2.9\" 三色 GxEPD2_290_C90c 128x296",
+            "GxEPD2_290_C90c"
+          ],
+          [
+            "2.9\" 三色 GxEPD2_290_Z13c 128x296",
+            "GxEPD2_290_Z13c"
+          ],
+          [
+            "2.9\" 三色 GxEPD2_290c 128x296",
+            "GxEPD2_290c"
+          ],
+          [
+            "2.66\" 三色 GxEPD2_266c 152x296",
+            "GxEPD2_266c"
+          ],
+          [
+            "2.7\" 三色 GxEPD2_270c 176x264",
+            "GxEPD2_270c"
+          ],
+          [
+            "1.54\" 三色 GxEPD2_154_Z90c 200x200",
+            "GxEPD2_154_Z90c"
+          ],
+          [
+            "1.54\" 三色 GxEPD2_154c 200x200",
+            "GxEPD2_154c"
+          ],
+          [
+            "4.2\" 三色 GxEPD2_420c 400x300",
+            "GxEPD2_420c"
+          ],
+          [
+            "4.2\" 三色 GxEPD2_420c_GDEY042Z98 400x300",
+            "GxEPD2_420c_GDEY042Z98"
+          ],
+          [
+            "4.2\" 三色 GxEPD2_420c_Z21 400x300",
+            "GxEPD2_420c_Z21"
+          ],
+          [
+            "5.83\" 三色 GxEPD2_583c 600x448",
+            "GxEPD2_583c"
+          ],
+          [
+            "7.5\" 三色 GxEPD2_750c 640x384",
+            "GxEPD2_750c"
+          ],
+          [
+            "5.83\" 三色 GxEPD2_583c_GDEQ0583Z31 648x480",
+            "GxEPD2_583c_GDEQ0583Z31"
+          ],
+          [
+            "5.83\" 三色 GxEPD2_583c_Z83 648x480",
+            "GxEPD2_583c_Z83"
+          ],
+          [
+            "5.79\" 三色 GxEPD2_579c_GDEY0579Z93 792x272",
+            "GxEPD2_579c_GDEY0579Z93"
+          ],
+          [
+            "7.5\" 三色 GxEPD2_750c_GDEW075Z08 800x480",
+            "GxEPD2_750c_GDEW075Z08"
+          ],
+          [
+            "7.5\" 三色 GxEPD2_750c_GDEY075Z08 800x480",
+            "GxEPD2_750c_GDEY075Z08"
+          ],
+          [
+            "7.5\" 三色 GxEPD2_750c_Z08 800x480",
+            "GxEPD2_750c_Z08"
+          ],
+          [
+            "7.5\" 三色 GxEPD2_750c_Z90 880x528",
+            "GxEPD2_750c_Z90"
+          ],
+          [
+            "11.6\" 三色 GxEPD2_1160c_GDEY116Z91 960x640",
+            "GxEPD2_1160c_GDEY116Z91"
+          ],
+          [
+            "13.3\" 三色 GxEPD2_1330c_GDEM133Z91 960x680",
+            "GxEPD2_1330c_GDEM133Z91"
+          ],
+          [
+            "12.48\" 三色 GxEPD2_1248c 1304x984",
+            "GxEPD2_1248c"
+          ],
+          [
+            "2.13\" 四色 GxEPD2_213c_GDEY0213F51 128x250",
+            "GxEPD2_213c_GDEY0213F51"
+          ],
+          [
+            "2.9\" 四色 GxEPD2_290c_GDEY029F51H 168x384",
+            "GxEPD2_290c_GDEY029F51H"
+          ],
+          [
+            "3.0\" 四色 GxEPD2_300c 168x400",
+            "GxEPD2_300c"
+          ],
+          [
+            "2.66\" 四色 GxEPD2_266c_GDEY0266F51H 184x360",
+            "GxEPD2_266c_GDEY0266F51H"
+          ],
+          [
+            "3.5\" 四色 GxEPD2_350c_GDEM035F51 184x384",
+            "GxEPD2_350c_GDEM035F51"
+          ],
+          [
+            "1.54\" 四色 GxEPD2_154c_GDEM0154F51H 200x200",
+            "GxEPD2_154c_GDEM0154F51H"
+          ],
+          [
+            "4.2\" 四色 GxEPD2_420c_GDEY0420F51 400x300",
+            "GxEPD2_420c_GDEY0420F51"
+          ],
+          [
+            "4.37\" 四色 GxEPD2_437c 512x368",
+            "GxEPD2_437c"
+          ],
+          [
+            "5.79\" 四色 GxEPD2_579c_GDEY0579F51 792x272",
+            "GxEPD2_579c_GDEY0579F51"
+          ],
+          [
+            "3.97\" 四色 GxEPD2_397c_GDEM0397F81 800x480",
+            "GxEPD2_397c_GDEM0397F81"
+          ],
+          [
+            "7.5\" 四色 GxEPD2_750c_GDEM075F52 800x480",
+            "GxEPD2_750c_GDEM075F52"
+          ],
+          [
+            "11.6\" 四色 GxEPD2_1160c_GDEY116F51 960x640",
+            "GxEPD2_1160c_GDEY116F51"
+          ],
+          [
+            "5.65\" 七色 GxEPD2_565c 600x448",
+            "GxEPD2_565c"
+          ],
+          [
+            "5.65\" 七色 GxEPD2_565c_GDEP0565D90 600x448",
+            "GxEPD2_565c_GDEP0565D90"
+          ],
+          [
+            "7.3\" 七色 GxEPD2_730c_ACeP_730 800x480",
+            "GxEPD2_730c_ACeP_730"
+          ],
+          [
+            "7.3\" 七色 GxEPD2_730c_GDEP073E01 800x480",
+            "GxEPD2_730c_GDEP073E01"
+          ],
+          [
+            "7.3\" 七色 GxEPD2_730c_GDEY073D46 800x480",
+            "GxEPD2_730c_GDEY073D46"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "关",
+            "0"
+          ],
+          [
+            "115200",
+            "115200"
+          ],
+          [
+            "9600",
+            "9600"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "2 ms",
+            "2"
+          ],
+          [
+            "10 ms",
+            "10"
+          ],
+          [
+            "20 ms",
+            "20"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "是",
+            "TRUE"
+          ],
+          [
+            "否",
+            "FALSE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "关",
+            "FALSE"
+          ],
+          [
+            "开",
+            "TRUE"
+          ]
+        ]
+      }
+    ]
+  },
+  "gxepd22ic_setup": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "115200",
+            "115200"
+          ],
+          [
+            "9600",
+            "9600"
+          ],
+          [
+            "关",
+            "0"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "2 ms",
+            "2"
+          ],
+          [
+            "10 ms",
+            "10"
+          ],
+          [
+            "20 ms",
+            "20"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "是",
+            "TRUE"
+          ],
+          [
+            "否",
+            "FALSE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "关",
+            "FALSE"
+          ],
+          [
+            "开",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "初始化双IC墨水屏 仅HINK-E042A03-A1 4.2寸400x300双SSD1608 %1 SCK %2 MOSI %3 CS(左半屏) %4 CS2(右半屏) %5 DC %6 RST %7 BUSY %8 电源脚(-1=不接) %9 串口 %10 复位脉冲 %11 首次全刷 %12 复位下拉 %13",
+    "tooltip": "仅支持 HINK-E042A03-A1（4.2寸 400x300，双SSD1608 价格签屏），其他型号请勿使用。CS=左半屏(列0..199)，CS2=右半屏(列200..399)。电源脚一般不接：填 -1 跳过，仅当转接板真有电源使能脚时才填实际引脚。绘图用 GxEPD2 官方积木。"
+  }
+}

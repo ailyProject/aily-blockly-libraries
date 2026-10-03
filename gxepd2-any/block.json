@@ -1,0 +1,1682 @@
+[
+  {
+    "type": "gxepd2_setup",
+    "message0": "initialize e-paper %1 panel %2 CS %3 DC %4 RST %5 BUSY %6 serial %7 reset %8 initial refresh %9 reset pulldown %10",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "display"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PANEL",
+        "options": [
+          [
+            "1.54\" BW GDEH0154D67 200x200",
+            "BW_GDEH0154D67"
+          ],
+          [
+            "2.13\" BW GDEY0213B74 122x250",
+            "BW_GDEY0213B74"
+          ],
+          [
+            "2.66\" BW DEPG0266BN 152x296",
+            "BW_DEPG0266BN"
+          ],
+          [
+            "2.9\" BW GDEM029T94 128x296",
+            "BW_GDEM029T94"
+          ],
+          [
+            "4.2\" BW GDEW042T2 400x300",
+            "BW_GDEW042T2"
+          ],
+          [
+            "7.5\" BW GDEW075T7 800x480",
+            "BW_GDEW075T7"
+          ],
+          [
+            "1.54\" 3-color GDEH0154Z90",
+            "C3_GDEH0154Z90"
+          ],
+          [
+            "2.13\" 3-color GDEY0213Z98",
+            "C3_GDEY0213Z98"
+          ],
+          [
+            "2.9\" 3-color GDEM029C90",
+            "C3_GDEM029C90"
+          ],
+          [
+            "4.2\" 3-color GDEW042Z15",
+            "C3_GDEW042Z15"
+          ],
+          [
+            "5.83\" 3-color GDEW0583Z83",
+            "C3_GDEW0583Z83"
+          ],
+          [
+            "7.5\" 3-color GDEW075Z08",
+            "C3_GDEW075Z08"
+          ],
+          [
+            "3.00\" 4-color Waveshare",
+            "C4_WS300"
+          ],
+          [
+            "5.65\" 7-color Waveshare",
+            "C7_WS565"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DC",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "RST",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BUSY",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BAUD",
+        "options": [
+          [
+            "off",
+            "0"
+          ],
+          [
+            "115200",
+            "115200"
+          ],
+          [
+            "9600",
+            "9600"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RESET_DURATION",
+        "options": [
+          [
+            "2 ms",
+            "2"
+          ],
+          [
+            "10 ms",
+            "10"
+          ],
+          [
+            "20 ms",
+            "20"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INITIAL",
+        "options": [
+          [
+            "yes",
+            "TRUE"
+          ],
+          [
+            "no",
+            "FALSE"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PULLDOWN",
+        "options": [
+          [
+            "off",
+            "FALSE"
+          ],
+          [
+            "on",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-tablet-screen-button",
+    "tooltip": "Create and initialize a GxEPD2 e-paper display object."
+  },
+  {
+    "type": "gxepd2_page_update",
+    "message0": "e-paper %1 paged refresh %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WINDOW",
+        "options": [
+          [
+            "full screen",
+            "FULL"
+          ],
+          [
+            "current window",
+            "CURRENT"
+          ]
+        ]
+      }
+    ],
+    "message1": "draw %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DRAW"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-repeat",
+    "tooltip": "Refresh the e-paper display with GxEPD2 firstPage/nextPage paged drawing."
+  },
+  {
+    "type": "gxepd2_clear_display",
+    "message0": "e-paper %1 clear and refresh color %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-eraser",
+    "tooltip": "Fill the full e-paper screen with one color and refresh it."
+  },
+  {
+    "type": "gxepd2_set_partial_window",
+    "message0": "e-paper %1 partial window X %2 Y %3 W %4 H %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "W",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-crop-simple",
+    "tooltip": "Set the GxEPD2 partial update window."
+  },
+  {
+    "type": "gxepd2_fill_screen",
+    "message0": "e-paper %1 fill buffer color %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-fill-drip",
+    "tooltip": "Fill the current display buffer; use inside a paged refresh block."
+  },
+  {
+    "type": "gxepd2_set_rotation",
+    "message0": "e-paper %1 rotation %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ROTATION",
+        "options": [
+          [
+            "0 degrees",
+            "0"
+          ],
+          [
+            "90 degrees",
+            "1"
+          ],
+          [
+            "180 degrees",
+            "2"
+          ],
+          [
+            "270 degrees",
+            "3"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-rotate",
+    "tooltip": "Set display rotation."
+  },
+  {
+    "type": "gxepd2_set_text_color",
+    "message0": "e-paper %1 text color %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-font",
+    "tooltip": "Set the text drawing color."
+  },
+  {
+    "type": "gxepd2_set_text_size",
+    "message0": "e-paper %1 text size %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SIZE",
+        "options": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ],
+          [
+            "4",
+            "4"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "6",
+            "6"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-text-size",
+    "tooltip": "Set the built-in Adafruit_GFX text scale."
+  },
+  {
+    "type": "gxepd2_set_font",
+    "message0": "e-paper %1 font %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FONT",
+        "options": [
+          [
+            "classic 5x7",
+            "NULL"
+          ],
+          [
+            "FreeMono 9",
+            "&FreeMono9pt7b"
+          ],
+          [
+            "FreeMono Bold 9",
+            "&FreeMonoBold9pt7b"
+          ],
+          [
+            "FreeSans 9",
+            "&FreeSans9pt7b"
+          ],
+          [
+            "FreeSans Bold 12",
+            "&FreeSansBold12pt7b"
+          ],
+          [
+            "FreeSerif 9",
+            "&FreeSerif9pt7b"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-font-case",
+    "tooltip": "Set the Adafruit_GFX font used by print text blocks."
+  },
+  {
+    "type": "gxepd2_set_cursor",
+    "message0": "e-paper %1 cursor X %2 Y %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-i-cursor",
+    "tooltip": "Set the text cursor position."
+  },
+  {
+    "type": "gxepd2_print",
+    "message0": "e-paper %1 print %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-keyboard",
+    "tooltip": "Print text or a value at the current cursor position."
+  },
+  {
+    "type": "gxepd2_draw_pixel",
+    "message0": "e-paper %1 pixel X %2 Y %3 color %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-location-dot",
+    "tooltip": "Draw one pixel in the current buffer."
+  },
+  {
+    "type": "gxepd2_draw_line",
+    "message0": "e-paper %1 line X1 %2 Y1 %3 X2 %4 Y2 %5 color %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "X1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "X2",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y2",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-slash",
+    "tooltip": "Draw a line in the current buffer."
+  },
+  {
+    "type": "gxepd2_draw_rect",
+    "message0": "e-paper %1 rectangle X %2 Y %3 W %4 H %5 color %6 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "W",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FILL",
+        "options": [
+          [
+            "outline",
+            "OUTLINE"
+          ],
+          [
+            "filled",
+            "FILLED"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-square",
+    "tooltip": "Draw an outline or filled rectangle."
+  },
+  {
+    "type": "gxepd2_draw_circle",
+    "message0": "e-paper %1 circle X %2 Y %3 radius %4 color %5 %6",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "RADIUS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FILL",
+        "options": [
+          [
+            "outline",
+            "OUTLINE"
+          ],
+          [
+            "filled",
+            "FILLED"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-circle",
+    "tooltip": "Draw an outline or filled circle."
+  },
+  {
+    "type": "gxepd2_refresh",
+    "message0": "e-paper %1 refresh %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "full",
+            "FULL"
+          ],
+          [
+            "partial",
+            "PARTIAL"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-arrows-rotate",
+    "tooltip": "Refresh the controller memory to the e-paper panel."
+  },
+  {
+    "type": "gxepd2_sleep",
+    "message0": "e-paper %1 power %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "power off",
+            "POWER_OFF"
+          ],
+          [
+            "hibernate",
+            "HIBERNATE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-power-off",
+    "tooltip": "Power off or hibernate the e-paper display."
+  },
+  {
+    "type": "gxepd2_width",
+    "message0": "e-paper %1 width",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      }
+    ],
+    "output": "Number",
+    "colour": "#546E7A",
+    "icon": "fa-light fa-arrows-left-right",
+    "tooltip": "Get the current display width after rotation."
+  },
+  {
+    "type": "gxepd2_height",
+    "message0": "e-paper %1 height",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      }
+    ],
+    "output": "Number",
+    "colour": "#546E7A",
+    "icon": "fa-light fa-arrows-up-down",
+    "tooltip": "Get the current display height after rotation."
+  },
+  {
+    "type": "gxepd2_color",
+    "message0": "e-paper color %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          [
+            "black",
+            "GxEPD_BLACK"
+          ],
+          [
+            "white",
+            "GxEPD_WHITE"
+          ],
+          [
+            "red",
+            "GxEPD_RED"
+          ],
+          [
+            "yellow",
+            "GxEPD_YELLOW"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#546E7A",
+    "icon": "fa-light fa-palette",
+    "tooltip": "GxEPD2 color constant."
+  },
+  {
+    "type": "gxepd2_u8g2_begin",
+    "message0": "中文字体引擎 绑定到 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ],
+        "defaultType": "GxEPD2"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "icon": "fa-light fa-language",
+    "tooltip": "初始化 U8g2 中文字体引擎并绑定到墨水屏（整个程序用一次即可）"
+  },
+  {
+    "type": "gxepd2_u8g2_font",
+    "message0": "中文字体 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FONT",
+        "options": [
+          [
+            "中文 12号",
+            "u8g2_font_wqy12_t_gb2312a"
+          ],
+          [
+            "中文 14号",
+            "u8g2_font_wqy14_t_gb2312a"
+          ],
+          [
+            "中文 16号",
+            "u8g2_font_wqy16_t_gb2312a"
+          ],
+          [
+            "英文 6x12",
+            "u8g2_font_6x12_tf"
+          ],
+          [
+            "英文 10x20",
+            "u8g2_font_10x20_tf"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "icon": "fa-light fa-font",
+    "tooltip": "设置文字字体（中文用文泉驿 wqy 字体）"
+  },
+  {
+    "type": "gxepd2_u8g2_color",
+    "message0": "中文文字 前景 %1 背景 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FG",
+        "options": [
+          [
+            "黑",
+            "GxEPD_BLACK"
+          ],
+          [
+            "白",
+            "GxEPD_WHITE"
+          ],
+          [
+            "红",
+            "GxEPD_RED"
+          ],
+          [
+            "黄",
+            "GxEPD_YELLOW"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BG",
+        "options": [
+          [
+            "白",
+            "GxEPD_WHITE"
+          ],
+          [
+            "黑",
+            "GxEPD_BLACK"
+          ],
+          [
+            "红",
+            "GxEPD_RED"
+          ],
+          [
+            "黄",
+            "GxEPD_YELLOW"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "icon": "fa-light fa-palette",
+    "tooltip": "设置文字前景色与背景色"
+  },
+  {
+    "type": "gxepd2_u8g2_mode",
+    "message0": "中文文字 背景模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "透明（只画字）",
+            "1"
+          ],
+          [
+            "实心（填背景）",
+            "0"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "icon": "fa-light fa-fill-drip",
+    "tooltip": "透明只画文字；实心会填充背景色（黑底白字/红底白字需要实心）"
+  },
+  {
+    "type": "gxepd2_u8g2_text",
+    "message0": "中文文字 在 X %1 Y %2 显示 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "icon": "fa-light fa-language",
+    "tooltip": "在指定坐标显示文字（支持中文 UTF-8）；坐标是文字左下角基线"
+  },
+  {
+    "type": "gxepd2_spi_pins",
+    "message0": "重映射 SPI 引脚 SCK %1 MISO %2 MOSI %3 CS %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SCK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MISO",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MOSI",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CS",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-microchip",
+    "tooltip": "自定义 SPI 引脚（ESP32 / ESP32-C3 用）；放在“初始化墨水屏”之后。墨水屏不用 MISO，可随便填一个空脚"
+  },
+  {
+    "type": "gxepd2any_setup",
+    "message0": "init any GxEPD2 e-paper %1 panel %2 SCK %3 MOSI(DIN) %4 CS %5 DC %6 RST %7 BUSY %8 serial %9 reset %10 initial refresh %11 reset pulldown %12",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "display"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PANEL",
+        "options": [
+          [
+            "1.02\" BW GxEPD2_102 80x128",
+            "GxEPD2_102"
+          ],
+          [
+            "2.13\" BW GxEPD2_213_flex 104x212",
+            "GxEPD2_213_flex"
+          ],
+          [
+            "2.13\" BW GxEPD2_213_M21 104x212",
+            "GxEPD2_213_M21"
+          ],
+          [
+            "2.13\" BW GxEPD2_213_T5D 104x212",
+            "GxEPD2_213_T5D"
+          ],
+          [
+            "2.13\" BW GxEPD2_213 128x250",
+            "GxEPD2_213"
+          ],
+          [
+            "2.13\" BW GxEPD2_213_B72 128x250",
+            "GxEPD2_213_B72"
+          ],
+          [
+            "2.13\" BW GxEPD2_213_B73 128x250",
+            "GxEPD2_213_B73"
+          ],
+          [
+            "2.13\" BW GxEPD2_213_B74 128x250",
+            "GxEPD2_213_B74"
+          ],
+          [
+            "2.13\" BW GxEPD2_213_BN 128x250",
+            "GxEPD2_213_BN"
+          ],
+          [
+            "2.13\" BW GxEPD2_213_GDEY0213B74 128x250",
+            "GxEPD2_213_GDEY0213B74"
+          ],
+          [
+            "2.9\" BW GxEPD2_290 128x296",
+            "GxEPD2_290"
+          ],
+          [
+            "2.9\" BW GxEPD2_290_BS 128x296",
+            "GxEPD2_290_BS"
+          ],
+          [
+            "2.9\" BW GxEPD2_290_GDEY029T94 128x296",
+            "GxEPD2_290_GDEY029T94"
+          ],
+          [
+            "2.9\" BW GxEPD2_290_I6FD 128x296",
+            "GxEPD2_290_I6FD"
+          ],
+          [
+            "2.9\" BW GxEPD2_290_M06 128x296",
+            "GxEPD2_290_M06"
+          ],
+          [
+            "2.9\" BW GxEPD2_290_T5 128x296",
+            "GxEPD2_290_T5"
+          ],
+          [
+            "2.9\" BW GxEPD2_290_T5D 128x296",
+            "GxEPD2_290_T5D"
+          ],
+          [
+            "2.9\" BW GxEPD2_290_T94 128x296",
+            "GxEPD2_290_T94"
+          ],
+          [
+            "2.9\" BW GxEPD2_290_T94_V2 128x296",
+            "GxEPD2_290_T94_V2"
+          ],
+          [
+            "1.54\" BW GxEPD2_154_M10 152x152",
+            "GxEPD2_154_M10"
+          ],
+          [
+            "1.54\" BW GxEPD2_154_T8 152x152",
+            "GxEPD2_154_T8"
+          ],
+          [
+            "2.6\" BW GxEPD2_260 152x296",
+            "GxEPD2_260"
+          ],
+          [
+            "2.6\" BW GxEPD2_260_M01 152x296",
+            "GxEPD2_260_M01"
+          ],
+          [
+            "2.66\" BW GxEPD2_266_BN 152x296",
+            "GxEPD2_266_BN"
+          ],
+          [
+            "2.66\" BW GxEPD2_266_GDEY0266T90 152x296",
+            "GxEPD2_266_GDEY0266T90"
+          ],
+          [
+            "2.9\" BW GxEPD2_290_GDEY029T71H 168x384",
+            "GxEPD2_290_GDEY029T71H"
+          ],
+          [
+            "2.7\" BW GxEPD2_270 176x264",
+            "GxEPD2_270"
+          ],
+          [
+            "2.7\" BW GxEPD2_270_GDEY027T91 176x264",
+            "GxEPD2_270_GDEY027T91"
+          ],
+          [
+            "1.5\" BW GxEPD2_150_BN 200x200",
+            "GxEPD2_150_BN"
+          ],
+          [
+            "1.54\" BW GxEPD2_154 200x200",
+            "GxEPD2_154"
+          ],
+          [
+            "1.54\" BW GxEPD2_154_D67 200x200",
+            "GxEPD2_154_D67"
+          ],
+          [
+            "1.54\" BW GxEPD2_154_GDEY0154D67 200x200",
+            "GxEPD2_154_GDEY0154D67"
+          ],
+          [
+            "1.54\" BW GxEPD2_154_M09 200x200",
+            "GxEPD2_154_M09"
+          ],
+          [
+            "3.1\" BW GxEPD2_310_GDEQ031T10 240x320",
+            "GxEPD2_310_GDEQ031T10"
+          ],
+          [
+            "3.7\" BW GxEPD2_370_GDEY037T03 240x416",
+            "GxEPD2_370_GDEY037T03"
+          ],
+          [
+            "3.71\" BW GxEPD2_371 240x416",
+            "GxEPD2_371"
+          ],
+          [
+            "3.7\" BW GxEPD2_370_TC1 280x480",
+            "GxEPD2_370_TC1"
+          ],
+          [
+            "4.2\" BW GxEPD2_420 400x300",
+            "GxEPD2_420"
+          ],
+          [
+            "4.2\" BW GxEPD2_420_GDEY042T81 400x300",
+            "GxEPD2_420_GDEY042T81"
+          ],
+          [
+            "4.2\" BW GxEPD2_420_GYE042A87 400x300",
+            "GxEPD2_420_GYE042A87"
+          ],
+          [
+            "4.2\" BW GxEPD2_420_M01 400x300",
+            "GxEPD2_420_M01"
+          ],
+          [
+            "4.2\" BW GxEPD2_420_SE0420NQ04 400x300",
+            "GxEPD2_420_SE0420NQ04"
+          ],
+          [
+            "5.83\" BW GxEPD2_583 600x448",
+            "GxEPD2_583"
+          ],
+          [
+            "7.5\" BW GxEPD2_750 640x384",
+            "GxEPD2_750"
+          ],
+          [
+            "5.83\" BW GxEPD2_583_GDEQ0583T31 648x480",
+            "GxEPD2_583_GDEQ0583T31"
+          ],
+          [
+            "5.83\" BW GxEPD2_583_T8 648x480",
+            "GxEPD2_583_T8"
+          ],
+          [
+            "5.79\" BW GxEPD2_579_GDEY0579T93 792x272",
+            "GxEPD2_579_GDEY0579T93"
+          ],
+          [
+            "3.97\" BW GxEPD2_397_GDEM0397T81 800x480",
+            "GxEPD2_397_GDEM0397T81"
+          ],
+          [
+            "4.26\" BW GxEPD2_426_GDEQ0426T82 800x480",
+            "GxEPD2_426_GDEQ0426T82"
+          ],
+          [
+            "7.5\" BW GxEPD2_750_GDEY075T7 800x480",
+            "GxEPD2_750_GDEY075T7"
+          ],
+          [
+            "7.5\" BW GxEPD2_750_T7 800x480",
+            "GxEPD2_750_T7"
+          ],
+          [
+            "5.76\" BW GxEPD2_576_GDEH0576T81 920x680",
+            "GxEPD2_576_GDEH0576T81"
+          ],
+          [
+            "10.2\" BW GxEPD2_1020_GDEM102T91 960x640",
+            "GxEPD2_1020_GDEM102T91"
+          ],
+          [
+            "11.6\" BW GxEPD2_1160_T91 960x640",
+            "GxEPD2_1160_T91"
+          ],
+          [
+            "13.3\" BW GxEPD2_1330_GDEM133T91 960x680",
+            "GxEPD2_1330_GDEM133T91"
+          ],
+          [
+            "12.48\" BW GxEPD2_1248 1304x984",
+            "GxEPD2_1248"
+          ],
+          [
+            "10.85\" BW GxEPD2_1085_GDEM1085T51 1360x480",
+            "GxEPD2_1085_GDEM1085T51"
+          ],
+          [
+            "2.13\" 3-color GxEPD2_213_Z19c 104x212",
+            "GxEPD2_213_Z19c"
+          ],
+          [
+            "2.13\" 3-color GxEPD2_213c 104x212",
+            "GxEPD2_213c"
+          ],
+          [
+            "2.13\" 3-color GxEPD2_213_Z98c 128x250",
+            "GxEPD2_213_Z98c"
+          ],
+          [
+            "2.9\" 3-color GxEPD2_290_C90c 128x296",
+            "GxEPD2_290_C90c"
+          ],
+          [
+            "2.9\" 3-color GxEPD2_290_Z13c 128x296",
+            "GxEPD2_290_Z13c"
+          ],
+          [
+            "2.9\" 3-color GxEPD2_290c 128x296",
+            "GxEPD2_290c"
+          ],
+          [
+            "2.66\" 3-color GxEPD2_266c 152x296",
+            "GxEPD2_266c"
+          ],
+          [
+            "2.7\" 3-color GxEPD2_270c 176x264",
+            "GxEPD2_270c"
+          ],
+          [
+            "1.54\" 3-color GxEPD2_154_Z90c 200x200",
+            "GxEPD2_154_Z90c"
+          ],
+          [
+            "1.54\" 3-color GxEPD2_154c 200x200",
+            "GxEPD2_154c"
+          ],
+          [
+            "4.2\" 3-color GxEPD2_420c 400x300",
+            "GxEPD2_420c"
+          ],
+          [
+            "4.2\" 3-color GxEPD2_420c_GDEY042Z98 400x300",
+            "GxEPD2_420c_GDEY042Z98"
+          ],
+          [
+            "4.2\" 3-color GxEPD2_420c_Z21 400x300",
+            "GxEPD2_420c_Z21"
+          ],
+          [
+            "5.83\" 3-color GxEPD2_583c 600x448",
+            "GxEPD2_583c"
+          ],
+          [
+            "7.5\" 3-color GxEPD2_750c 640x384",
+            "GxEPD2_750c"
+          ],
+          [
+            "5.83\" 3-color GxEPD2_583c_GDEQ0583Z31 648x480",
+            "GxEPD2_583c_GDEQ0583Z31"
+          ],
+          [
+            "5.83\" 3-color GxEPD2_583c_Z83 648x480",
+            "GxEPD2_583c_Z83"
+          ],
+          [
+            "5.79\" 3-color GxEPD2_579c_GDEY0579Z93 792x272",
+            "GxEPD2_579c_GDEY0579Z93"
+          ],
+          [
+            "7.5\" 3-color GxEPD2_750c_GDEW075Z08 800x480",
+            "GxEPD2_750c_GDEW075Z08"
+          ],
+          [
+            "7.5\" 3-color GxEPD2_750c_GDEY075Z08 800x480",
+            "GxEPD2_750c_GDEY075Z08"
+          ],
+          [
+            "7.5\" 3-color GxEPD2_750c_Z08 800x480",
+            "GxEPD2_750c_Z08"
+          ],
+          [
+            "7.5\" 3-color GxEPD2_750c_Z90 880x528",
+            "GxEPD2_750c_Z90"
+          ],
+          [
+            "11.6\" 3-color GxEPD2_1160c_GDEY116Z91 960x640",
+            "GxEPD2_1160c_GDEY116Z91"
+          ],
+          [
+            "13.3\" 3-color GxEPD2_1330c_GDEM133Z91 960x680",
+            "GxEPD2_1330c_GDEM133Z91"
+          ],
+          [
+            "12.48\" 3-color GxEPD2_1248c 1304x984",
+            "GxEPD2_1248c"
+          ],
+          [
+            "2.13\" 4-color GxEPD2_213c_GDEY0213F51 128x250",
+            "GxEPD2_213c_GDEY0213F51"
+          ],
+          [
+            "2.9\" 4-color GxEPD2_290c_GDEY029F51H 168x384",
+            "GxEPD2_290c_GDEY029F51H"
+          ],
+          [
+            "3.0\" 4-color GxEPD2_300c 168x400",
+            "GxEPD2_300c"
+          ],
+          [
+            "2.66\" 4-color GxEPD2_266c_GDEY0266F51H 184x360",
+            "GxEPD2_266c_GDEY0266F51H"
+          ],
+          [
+            "3.5\" 4-color GxEPD2_350c_GDEM035F51 184x384",
+            "GxEPD2_350c_GDEM035F51"
+          ],
+          [
+            "1.54\" 4-color GxEPD2_154c_GDEM0154F51H 200x200",
+            "GxEPD2_154c_GDEM0154F51H"
+          ],
+          [
+            "4.2\" 4-color GxEPD2_420c_GDEY0420F51 400x300",
+            "GxEPD2_420c_GDEY0420F51"
+          ],
+          [
+            "4.37\" 4-color GxEPD2_437c 512x368",
+            "GxEPD2_437c"
+          ],
+          [
+            "5.79\" 4-color GxEPD2_579c_GDEY0579F51 792x272",
+            "GxEPD2_579c_GDEY0579F51"
+          ],
+          [
+            "3.97\" 4-color GxEPD2_397c_GDEM0397F81 800x480",
+            "GxEPD2_397c_GDEM0397F81"
+          ],
+          [
+            "7.5\" 4-color GxEPD2_750c_GDEM075F52 800x480",
+            "GxEPD2_750c_GDEM075F52"
+          ],
+          [
+            "11.6\" 4-color GxEPD2_1160c_GDEY116F51 960x640",
+            "GxEPD2_1160c_GDEY116F51"
+          ],
+          [
+            "5.65\" 7-color GxEPD2_565c 600x448",
+            "GxEPD2_565c"
+          ],
+          [
+            "5.65\" 7-color GxEPD2_565c_GDEP0565D90 600x448",
+            "GxEPD2_565c_GDEP0565D90"
+          ],
+          [
+            "7.3\" 7-color GxEPD2_730c_ACeP_730 800x480",
+            "GxEPD2_730c_ACeP_730"
+          ],
+          [
+            "7.3\" 7-color GxEPD2_730c_GDEP073E01 800x480",
+            "GxEPD2_730c_GDEP073E01"
+          ],
+          [
+            "7.3\" 7-color GxEPD2_730c_GDEY073D46 800x480",
+            "GxEPD2_730c_GDEY073D46"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SCK",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MOSI",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DC",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "RST",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BUSY",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BAUD",
+        "options": [
+          [
+            "off",
+            "0"
+          ],
+          [
+            "115200",
+            "115200"
+          ],
+          [
+            "9600",
+            "9600"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RESET_DURATION",
+        "options": [
+          [
+            "2 ms",
+            "2"
+          ],
+          [
+            "10 ms",
+            "10"
+          ],
+          [
+            "20 ms",
+            "20"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INITIAL",
+        "options": [
+          [
+            "yes",
+            "TRUE"
+          ],
+          [
+            "no",
+            "FALSE"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PULLDOWN",
+        "options": [
+          [
+            "off",
+            "FALSE"
+          ],
+          [
+            "on",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-tablet-screen-button",
+    "tooltip": "Create and initialize any GxEPD2-supported single-controller e-paper panel (size, resolution and color type in each label). SCK/MOSI default to ESP32 VSPI 18/23 and are remapped automatically when changed. The created variable works with all GxEPD2 drawing blocks. For the dual-IC HINK-E042A03-A1 panel use the dedicated dual-IC init block instead."
+  },
+  {
+    "args0": [
+      {
+        "name": "VAR",
+        "text": "display",
+        "type": "field_input"
+      },
+      {
+        "check": "Number",
+        "name": "SCK",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "MOSI",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "CS",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "CS2",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "DC",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "RST",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "BUSY",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "PWR",
+        "type": "input_value"
+      },
+      {
+        "name": "BAUD",
+        "options": [
+          [
+            "115200",
+            "115200"
+          ],
+          [
+            "9600",
+            "9600"
+          ],
+          [
+            "关",
+            "0"
+          ]
+        ],
+        "type": "field_dropdown"
+      },
+      {
+        "name": "RESET_DURATION",
+        "options": [
+          [
+            "2 ms",
+            "2"
+          ],
+          [
+            "10 ms",
+            "10"
+          ],
+          [
+            "20 ms",
+            "20"
+          ]
+        ],
+        "type": "field_dropdown"
+      },
+      {
+        "name": "INITIAL",
+        "options": [
+          [
+            "是",
+            "TRUE"
+          ],
+          [
+            "否",
+            "FALSE"
+          ]
+        ],
+        "type": "field_dropdown"
+      },
+      {
+        "name": "PULLDOWN",
+        "options": [
+          [
+            "关",
+            "FALSE"
+          ],
+          [
+            "开",
+            "TRUE"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "message0": "初始化双IC墨水屏 仅HINK-E042A03-A1 4.2寸400x300双SSD1608 %1 SCK %2 MOSI %3 CS(左半屏) %4 CS2(右半屏) %5 DC %6 RST %7 BUSY %8 电源脚(-1=不接) %9 串口 %10 复位脉冲 %11 首次全刷 %12 复位下拉 %13",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#546E7A",
+    "icon": "fa-light fa-tablet-screen-button",
+    "tooltip": "仅支持 HINK-E042A03-A1（4.2寸 400x300，双SSD1608 价格签屏），其他型号请勿使用。CS=左半屏(列0..199)，CS2=右半屏(列200..399)。电源脚一般不接：填 -1 跳过，仅当转接板真有电源使能脚时才填实际引脚。绘图用 GxEPD2 官方积木。",
+    "type": "gxepd22ic_setup"
+  }
+]
