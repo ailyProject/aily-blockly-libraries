@@ -209,46 +209,67 @@ function hasSamePinsAsDefaultSerial(serialPort) {
 
 function ensureSTM32HardwareSerial(serialPort, generator) {
   if (!isSTM32Core() || !serialPort || serialPort === 'Serial') {
-    return;
+    return '';
   }
 
   if (hasSamePinsAsDefaultSerial(serialPort)) {
-    return;
+    return '';
   }
 
   const serialPins = getSerialPinsFromBoard(serialPort);
   if (!serialPins) {
-    return;
+    return '';
   }
 
-  generator.addLibrary(`stm32_hardware_serial_${serialPort}`, '#include <HardwareSerial.h>');
+  // Arduino.h supplies the core version and enabled UART instance macros.
+  // STM32 core 3.x renamed its concrete HardwareSerial class to Uart.
+  generator.addLibrary('stm32_hardware_serial', '#include <Arduino.h>');
+  const declaration = [
+    '#if defined(STM32_CORE_VERSION_MAJOR) && STM32_CORE_VERSION_MAJOR >= 3',
+    `Uart ${serialPort}(${serialPins.rxPin}, ${serialPins.txPin});`,
+    '#else',
+    `HardwareSerial ${serialPort}(${serialPins.rxPin}, ${serialPins.txPin});`,
+    '#endif'
+  ];
+  const serialInstance = /^Serial((?:LP)?\d+)$/.exec(serialPort);
+  if (serialInstance) {
+    // Reuse instances supplied by the core instead of defining them twice.
+    declaration.unshift(`#if !defined(HAVE_HWSERIAL${serialInstance[1]})`);
+    declaration.push('#endif');
+  }
   generator.addObject(
     `stm32_hardware_serial_${serialPort}`,
-    `HardwareSerial ${serialPort}(${serialPins.rxPin}, ${serialPins.txPin});`
+    declaration.join('\n')
   );
+
+  // Existing core instances also need the pins from the board configuration.
+  return `${serialPort}.setRx(${serialPins.rxPin});\n${serialPort}.setTx(${serialPins.txPin});\n`;
 }
 
-// MCU is declared by the board package, independent of SDK/board aliases.
-// Retain the old upload/FQBN path only for packages without that declaration.
+// 从 uploadParam 中获取 ESP32 芯片型号
 function getESP32ChipType() {
-  const config = window['boardConfig'];
-  if (!config) return null;
-  if (typeof config.mcu === 'string' && config.mcu.trim()) {
-    return config.mcu.trim().toLowerCase();
+  try {
+    const boardConfig = window['boardConfig'];
+    if (!boardConfig || !boardConfig.uploadParam) {
+      return null;
+    }
+    
+    // 解析 uploadParam，例如: "esptool --chip esp32s3"
+    const match = boardConfig.uploadParam.match(/--chip\s+(esp32\w*)/i);
+    if (match && match[1]) {
+      return match[1].toLowerCase();
+    }
+    
+    return null;
+  } catch (e) {
+    // console.error('获取 ESP32 芯片型号失败:', e);
+    return null;
   }
-  const upload = typeof config.uploadParam === 'string'
-    && config.uploadParam.match(/--chip\s+(esp32\w*)/i);
-  if (upload) return upload[1].toLowerCase();
-  const fqbn = typeof config.type === 'string' ? config.type.split(':')[2] : '';
-  // Do not mistake the esp32 platform prefix for the actual chip. Board aliases
-  // such as XIAO_ESP32C3 carry an explicit chip token; unknown aliases stay unknown.
-  const chip = fqbn?.match(/(?:^|[_-])(esp32(?:[schp]\d+)?)($|[_-])/i);
-  return chip ? chip[1].toLowerCase() : null;
 }
 
 // 根据芯片型号获取 UART 数量
 function getUARTCountForChip(chipType) {
-  if (!chipType) return 2; // 未识别时保留 block.json 的 UART0/UART1，不擅自扩展 UART2
+  if (!chipType) return 3; // 默认返回 3 个 UART
   
   // ESP32 芯片型号对应的 UART 数量
   const uartMap = {
@@ -261,7 +282,7 @@ function getUARTCountForChip(chipType) {
     'esp32p4': 6,    // ESP32-P4: UART0-UART5
   };
   
-  return uartMap[chipType] || 2;
+  return uartMap[chipType] || 3; // 默认 3 个
 }
 
 // 生成 UART 选项
@@ -738,13 +759,13 @@ function ensureSerialBegin(serialPort, generator, baudrate = 9600) {
     return;
   }
 
-  ensureSTM32HardwareSerial(serialPort, generator);
+  const pinSetup = ensureSTM32HardwareSerial(serialPort, generator);
   
   // 检查这个串口是否已经添加过初始化代码（无论是用户设置的还是默认的）
   if (!Arduino.addedSerialInitCode.has(serialPort) || baudrate != 9600) {
     // console.log(`Adding default serial initialization for ${serialPort} at ${baudrate} baud.`);
     // 只有在没有添加过任何初始化代码时才添加默认初始化
-    generator.addSetupBegin(`serial_${serialPort}_begin`, `${serialPort}.begin(${baudrate});`, true);
+    generator.addSetupBegin(`serial_${serialPort}_begin`, `${pinSetup}${serialPort}.begin(${baudrate});`, true);
     // 标记为已添加初始化代码
     Arduino.addedSerialInitCode.add(serialPort);
   } else {
