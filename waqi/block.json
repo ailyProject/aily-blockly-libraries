@@ -1,0 +1,147 @@
+[
+  {
+    "args0": [
+      {
+        "name": "WIFI_SSID",
+        "text": "",
+        "type": "field_input"
+      },
+      {
+        "name": "WIFI_PASS",
+        "text": "",
+        "type": "field_input"
+      }
+    ],
+    "colour": "#00C48C",
+    "message0": "连接WiFi 名称 %1 密码 %2",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "连接WiFi（阻塞等待最多约20秒），在初始化中调用",
+    "type": "waqi_begin"
+  },
+  {
+    "args0": [
+      {
+        "name": "STATION",
+        "text": "",
+        "type": "field_input"
+      },
+      {
+        "name": "TOKEN",
+        "text": "",
+        "type": "field_input"
+      }
+    ],
+    "colour": "#FF9800",
+    "message0": "获取空气质量数据 站点 %1 令牌 %2",
+    "output": "Boolean",
+    "tooltip": "从 waqi.info 接口获取并解析数据，成功返回真",
+    "type": "waqi_fetch"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "GxEPD2",
+        "name": "VAR",
+        "type": "field_variable",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ]
+      }
+    ],
+    "colour": "#00C48C",
+    "message0": "绘制空气质量界面 到墨水屏 %1",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "按最近一次获取的数据绘制完整监测界面（自带分页刷新）",
+    "type": "waqi_draw"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "GxEPD2",
+        "name": "VAR",
+        "type": "field_variable",
+        "variable": "display",
+        "variableTypes": [
+          "GxEPD2"
+        ]
+      },
+      {
+        "check": "String",
+        "name": "TEXT",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#00C48C",
+    "message0": "绘制错误页面 到墨水屏 %1 提示 %2",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "数据获取失败时显示的错误提示页（自带分页刷新）",
+    "type": "waqi_draw_error"
+  },
+  {
+    "colour": "#48C2C4",
+    "message0": "空气质量指数 AQI",
+    "output": "Number",
+    "tooltip": "返回最近一次解析的 AQI 数值",
+    "type": "waqi_aqi"
+  },
+  {
+    "colour": "#48C2C4",
+    "message0": "AQI 等级（中文）",
+    "output": "String",
+    "tooltip": "按 AQI 返回：优/良/轻度污染/中度污染/重度污染/严重污染",
+    "type": "waqi_level_cn"
+  },
+  {
+    "colour": "#48C2C4",
+    "message0": "监测点城市",
+    "output": "String",
+    "tooltip": "返回监测点名称（优先取括号里的中文名）",
+    "type": "waqi_city"
+  },
+  {
+    "colour": "#48C2C4",
+    "message0": "数据更新时间",
+    "output": "String",
+    "tooltip": "返回形如 09-24 17:00 的更新时间",
+    "type": "waqi_time_short"
+  },
+  {
+    "colour": "#48C2C4",
+    "message0": "主要污染物",
+    "output": "String",
+    "tooltip": "返回主要污染物代码，如 pm25",
+    "type": "waqi_dominentpol"
+  },
+  {
+    "colour": "#48C2C4",
+    "message0": "PM2.5 数值",
+    "output": "Number",
+    "tooltip": "返回 PM2.5 浓度（ug/m3）",
+    "type": "waqi_pm25"
+  },
+  {
+    "colour": "#48C2C4",
+    "message0": "PM10 数值",
+    "output": "Number",
+    "tooltip": "返回 PM10 浓度（ug/m3）",
+    "type": "waqi_pm10"
+  },
+  {
+    "colour": "#48C2C4",
+    "message0": "温度",
+    "output": "Number",
+    "tooltip": "返回温度（摄氏度）",
+    "type": "waqi_temp"
+  },
+  {
+    "colour": "#48C2C4",
+    "message0": "湿度",
+    "output": "Number",
+    "tooltip": "返回相对湿度（%）",
+    "type": "waqi_hum"
+  }
+]
