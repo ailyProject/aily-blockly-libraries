@@ -42,10 +42,18 @@ function espuiVarFromField(block, fieldName, fallback) {
   return block.getFieldValue(fieldName) || fallback;
 }
 
+var ESPUI_RESERVED_KEYWORDS = ['auto', 'break', 'case', 'char', 'const', 'continue', 'default',
+  'do', 'double', 'else', 'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long',
+  'register', 'return', 'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef',
+  'union', 'unsigned', 'void', 'volatile', 'while', 'class', 'public', 'private', 'protected',
+  'new', 'delete', 'this', 'namespace', 'template', 'try', 'catch', 'throw', 'true', 'false',
+  'bool', 'string', 'byte'];
+
 function espuiSafeIdentifier(value, fallback) {
   let identifier = String(value || fallback || 'value').replace(/[^A-Za-z0-9_]/g, '_');
   if (!identifier) identifier = fallback || 'value';
   if (/^[0-9]/.test(identifier)) identifier = '_' + identifier;
+  if (ESPUI_RESERVED_KEYWORDS.indexOf(identifier.toLowerCase()) > -1) identifier = '_' + identifier;
   return identifier;
 }
 
