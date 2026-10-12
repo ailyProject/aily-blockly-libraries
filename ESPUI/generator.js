@@ -36,16 +36,27 @@ function espuiVarFromInput(block, fallback) {
 
 function espuiVarFromField(block, fieldName, fallback) {
   const field = block.getField(fieldName);
+  let raw;
   if (field && typeof field.getText === 'function') {
-    return field.getText() || fallback;
+    raw = field.getText() || fallback;
+  } else {
+    raw = block.getFieldValue(fieldName) || fallback;
   }
-  return block.getFieldValue(fieldName) || fallback;
+  return espuiSafeIdentifier(raw, fallback);
 }
+
+var ESPUI_RESERVED_KEYWORDS = ['auto', 'break', 'case', 'char', 'const', 'continue', 'default',
+  'do', 'double', 'else', 'enum', 'extern', 'float', 'for', 'goto', 'if', 'int', 'long',
+  'register', 'return', 'short', 'signed', 'sizeof', 'static', 'struct', 'switch', 'typedef',
+  'union', 'unsigned', 'void', 'volatile', 'while', 'class', 'public', 'private', 'protected',
+  'new', 'delete', 'this', 'namespace', 'template', 'try', 'catch', 'throw', 'true', 'false',
+  'bool', 'string', 'byte'];
 
 function espuiSafeIdentifier(value, fallback) {
   let identifier = String(value || fallback || 'value').replace(/[^A-Za-z0-9_]/g, '_');
   if (!identifier) identifier = fallback || 'value';
   if (/^[0-9]/.test(identifier)) identifier = '_' + identifier;
+  if (ESPUI_RESERVED_KEYWORDS.indexOf(identifier) > -1) identifier = '_' + identifier;
   return identifier;
 }
 
@@ -58,7 +69,7 @@ function espuiRegisterControlVariable(varName) {
 function espuiAttachControlVarMonitor(block, fallback) {
   if (!block._espuiControlVarMonitorAttached) {
     block._espuiControlVarMonitorAttached = true;
-    block._espuiControlVarLastName = espuiVarFromInput(block, fallback);
+    block._espuiControlVarLastName = espuiSafeIdentifier(espuiVarFromInput(block, fallback), fallback);
     espuiRegisterControlVariable(block._espuiControlVarLastName);
 
     const varField = block.getField('VAR');
@@ -70,11 +81,12 @@ function espuiAttachControlVarMonitor(block, fallback) {
         }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._espuiControlVarLastName;
-        if (workspace && newName && newName !== oldName) {
+        const sanitizedNewName = espuiSafeIdentifier(newName, fallback);
+        if (workspace && newName && sanitizedNewName !== oldName) {
           if (typeof renameVariableInBlockly === 'function') {
-            renameVariableInBlockly(block, oldName, newName, 'ESPUIControl');
+            renameVariableInBlockly(block, oldName, sanitizedNewName, 'ESPUIControl');
           }
-          block._espuiControlVarLastName = newName;
+          block._espuiControlVarLastName = sanitizedNewName;
         }
       };
     }
@@ -83,9 +95,9 @@ function espuiAttachControlVarMonitor(block, fallback) {
 
 function espuiDeclareControl(block, generator, fallback) {
   espuiAttachControlVarMonitor(block, fallback);
-  const varName = espuiVarFromInput(block, fallback);
+  const varName = espuiSafeIdentifier(espuiVarFromInput(block, fallback), fallback);
   espuiRegisterControlVariable(varName);
-  generator.addVariable('espui_control_' + espuiSafeIdentifier(varName, fallback), 'uint16_t ' + varName + ' = 0;');
+  generator.addVariable('espui_control_' + varName, 'uint16_t ' + varName + ' = 0;');
   espuiEnsureLibrary(generator);
   return varName;
 }
