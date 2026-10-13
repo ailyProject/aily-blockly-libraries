@@ -6,7 +6,7 @@ const vm = require('node:vm');
 const {createRequire} = require('node:module');
 
 // Exercise actual Blockly fields from the host's installed package.
-const root = process.env.AILY_BLOCKLY_ROOT || path.resolve(__dirname, '../../aily--blockly');
+const root = process.env.AILY_BLOCKLY_ROOT || path.resolve(__dirname, '../../aily-blockly');
 const Blockly = createRequire(path.join(root, 'package.json'))('blockly/core');
 const source = fs.readFileSync(path.join(__dirname, '../core-serial/generator.js'), 'utf8');
 

@@ -12,6 +12,6 @@ Rules:
 
 - the filename must exactly match the top-level library directory, including case;
 - library code and Agents must not depend on this file at runtime;
-- all README generation, migration, and validation code must load contracts
+- all README generation and validation code must load contracts
   through `.scripts/readme-library-contracts.js`;
 - `readme_ai.contract.json` must not be placed inside a library directory.

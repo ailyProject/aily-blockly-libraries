@@ -16,13 +16,6 @@ const {
   allDocumentedBlocks,
 } = require('./check-readme-compliance');
 const { generateCandidate } = require('./generate-readme-candidate');
-const { rewriteReadme } = require('./migrate-readme-field-variables');
-const { rewriteReadmeTables } = require('./migrate-readme-table-statements');
-const { rewriteReadmeBlockTables } = require('./migrate-readme-block-tables');
-const { rewriteReadmeExamples } = require('./migrate-readme-examples');
-const { rewriteReadmeExampleCalls } = require('./migrate-readme-example-calls');
-const { appendMissingRuntimeVariantExamples } = require('./migrate-readme-runtime-variants');
-const { rewriteReadmeStructure } = require('./migrate-readme-structure');
 const { callWithNamedValueInputs } = require('./check-readme-cross-library-examples');
 const {
   buildGeneratedCodePreviews,
@@ -112,86 +105,6 @@ test('library README contracts live outside downloadable library folders', () =>
   assert.deepEqual(validateLibraryContractInventory(libraryNames), []);
 });
 
-test('runtime-variant migration adds only missing contract examples and is idempotent', () => {
-  const parameters = paramsDescriptionForBlock(dhtInit, dhtRuntimeContract.blocks.dht_init);
-  const before = [
-    '| Block Type | Connection | Parameters (block.json order) | ABS Format | Generated Code |',
-    '|---|---|---|---|---|',
-    `| \`dht_init\` | Statement | ${parameters} | \`dht_init("dht", DHT11, 2)\` | code |`,
-    '',
-    '```abs',
-    'arduino_setup()',
-    '    dht_init("dht", DHT11, 2)',
-    '```',
-  ].join('\n');
-
-  const rewritten = appendMissingRuntimeVariantExamples(before, [dhtInit], dhtRuntimeContract);
-  assert.deepEqual(rewritten.addedVariants, ['dht_init/dht20-i2c']);
-  assert.match(rewritten.content, /### Runtime Variant: dht_init\/dht20-i2c/);
-  assert.match(rewritten.content, /dht_init\("dht", DHT20, Wire\)/);
-  assert.deepEqual(validateAiAbsContracts(rewritten.content, [dhtInit], dhtRuntimeContract), []);
-
-  const secondPass = appendMissingRuntimeVariantExamples(rewritten.content, [dhtInit], dhtRuntimeContract);
-  assert.deepEqual(secondPass.addedVariants, []);
-  assert.equal(secondPass.content, rewritten.content);
-});
-
-test('runtime-variant migration renders appended statement inputs as named ABS children', () => {
-  const block = {
-    type: 'dynamic_service',
-    args0: [
-      { type: 'field_dropdown', name: 'MODE', options: [['regular', 'regular'], ['set only', 'set_only']] },
-      { type: 'field_input', name: 'VAR', text: 'led' },
-      { type: 'input_value', name: 'DESC' },
-      { type: 'input_statement', name: 'params_list' },
-    ],
-  };
-  const contract = {
-    schemaVersion: 1,
-    blocks: {
-      dynamic_service: {
-        variants: [
-          {
-            id: 'regular',
-            when: { MODE: ['regular'] },
-            appendArgs: [
-              { name: 'setCODE_BLOCK', type: 'input_statement', example: 'serial_println(Serial, text("set"))', required: true },
-              { name: 'CODE_BLOCK', type: 'input_statement', example: 'serial_println(Serial, text("report"))', required: true },
-            ],
-          },
-          {
-            id: 'set-only',
-            when: { MODE: ['set_only'] },
-            appendArgs: [
-              { name: 'setCODE_BLOCK', type: 'input_statement', example: 'serial_println(Serial, text("set"))', required: true },
-            ],
-          },
-        ],
-      },
-    },
-  };
-  const parameters = paramsDescriptionForBlock(block, contract.blocks.dynamic_service);
-  const before = [
-    '| Block Type | Connection | Parameters (block.json order) | ABS Format | Generated Code |',
-    '|---|---|---|---|---|',
-    `| \`dynamic_service\` | Hat | ${parameters} | \`dynamic_service(regular, "led", math_number(0))\` | code |`,
-    '',
-    '```abs',
-    'dynamic_service(regular, "led", math_number(0))',
-    '```',
-  ].join('\n');
-
-  const rewritten = appendMissingRuntimeVariantExamples(before, [block], contract);
-  assert.deepEqual(rewritten.addedVariants, ['dynamic_service/regular', 'dynamic_service/set-only']);
-  assert.match(rewritten.content, /dynamic_service\(regular, "led", math_number\(0\)\)\n    @setCODE_BLOCK:\n        serial_println/);
-  assert.match(rewritten.content, /    @CODE_BLOCK:\n        serial_println/);
-  assert.deepEqual(validateAiAbsContracts(rewritten.content, [block], contract), []);
-
-  const secondPass = appendMissingRuntimeVariantExamples(rewritten.content, [block], contract);
-  assert.deepEqual(secondPass.addedVariants, []);
-  assert.equal(secondPass.content, rewritten.content);
-});
-
 test('variadic contracts require stable named inputs and accept additional indexed slots', () => {
   const block = {
     type: 'list_values',
@@ -278,20 +191,6 @@ test('runtime-defined blocks participate in README generation and strict ABI val
   assert.match(readme, /\| `invoke_runtime` \| Value \| FUNC_NAME\(field_variable\); variadic: INPUT\{0\.\.\.\}\(input_value\)/);
   assert.match(readme, /invoke_runtime\(FUNC_NAME=\$myFunction, INPUT0=math_number\(1\), INPUT1=math_number\(1\)\)/);
   assert.deepEqual(validateAiAbsContracts(readme, [], contract), []);
-
-  const wrappedVariable = readme.replace('FUNC_NAME=$myFunction', 'FUNC_NAME=variables_get($myFunction)');
-  const migratedVariable = rewriteReadme(wrappedVariable, [], contract);
-  assert.ok(migratedVariable.replacements > 0);
-  assert.match(migratedVariable.content, /invoke_runtime\(FUNC_NAME=\$myFunction/);
-
-  const insertedTable = rewriteReadmeBlockTables(
-    '# Runtime\n\n## Block Definitions\n\n| Block Type | Connection | Parameters (block.json order) | ABS Format | Generated Code |\n|---|---|---|---|---|\n',
-    [],
-    '',
-    contract,
-  );
-  assert.equal(insertedTable.insertedRows, 1);
-  assert.match(insertedTable.content, /\| `invoke_runtime` \| Value \|/);
 
   const missingRow = readme.split('\n').filter(line => !line.includes('| `invoke_runtime` |')).join('\n');
   assert.ok(validateAiAbsContracts(missingRow, [], contract)
@@ -453,110 +352,6 @@ test('cross-library validation recognizes named value inputs without attaching n
     callWithNamedValueInputs(region, 'arduino_loop()', { block: { type: 'arduino_loop' }, contract: null }),
     'arduino_loop()',
   );
-});
-
-test('field-variable migration rewrites only declared field slots in executable README regions', () => {
-  const consumeValue = {
-    type: 'consume_value',
-    previousStatement: null,
-    nextStatement: null,
-    args0: [{ type: 'input_value', name: 'VALUE' }],
-  };
-  const content = [
-    '| Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |',
-    '|---|---|---|---|---|',
-    '| `dht_read_temperature` | Value | VAR(field_variable) | `dht_read_temperature(variables_get($sensor))` | code |',
-    '| `dht_read_temperature` | Value | VAR(field_variable) | `dht_read_temperature(VAR)` | second row for migration coverage |',
-    '',
-    'Negative prose example: dht_read_temperature(variables_get($keepAsDocumentation)).',
-    '',
-    '```abs',
-    'serial_println(Serial, dht_read_temperature(VAR=variables_get($"room sensor")))',
-    'serial_println(Serial, variables_get($ordinaryValue))',
-    'consume_value($legacyShorthand)',
-    '```',
-    '',
-    '1. **Variable**: creates variable `$varName`; reference it later with `variables_get($varName)`.',
-    '',
-    '```cpp',
-    'dht_read_temperature(variables_get($notAbs))',
-    '```',
-  ].join('\n');
-  const rewritten = rewriteReadme(content, [dhtRead, consumeValue]);
-  assert.equal(rewritten.replacements, 2);
-  assert.equal(rewritten.inputValueReplacements, 1);
-  assert.equal(rewritten.defaultFieldReplacements, 1);
-  assert.equal(rewritten.noteReplacements, 1);
-  assert.match(rewritten.content, /dht_read_temperature\(\$sensor\)/);
-  assert.match(rewritten.content, /dht_read_temperature\(\$dht\)/);
-  assert.match(rewritten.content, /dht_read_temperature\(VAR=\$"room sensor"\)/);
-  assert.match(rewritten.content, /variables_get\(\$ordinaryValue\)/);
-  assert.match(rewritten.content, /consume_value\(variables_get\(\$legacyShorthand\)\)/);
-  assert.match(rewritten.content, /Negative prose example: dht_read_temperature\(variables_get/);
-  assert.match(rewritten.content, /```cpp\ndht_read_temperature\(variables_get\(\$notAbs\)\)/);
-  assert.match(rewritten.content, /pass `\$varName` directly to `field_variable` slots/);
-});
-
-test('table statement migration removes only unsupported inline statement suffixes', () => {
-  const block = {
-    type: 'on_event',
-    args0: [{ type: 'field_dropdown', name: 'MODE', options: [['change', 'CHANGE']] }],
-    args1: [{ type: 'input_statement', name: 'HANDLER' }],
-  };
-  const content = [
-    '| Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |',
-    '|---|---|---|---|---|',
-    '| `on_event` | Hat | MODE, HANDLER | `on_event(CHANGE) @HANDLER: child_block()` | callback |',
-    '',
-    '```abs',
-    'on_event(CHANGE)',
-    '    serial_println(Serial, text("kept"))',
-    '```',
-  ].join('\n');
-  const rewritten = rewriteReadmeTables(content, [block]);
-  assert.equal(rewritten.replacements, 1);
-  assert.deepEqual(rewritten.blockTypes, ['on_event']);
-  assert.match(rewritten.content, /`on_event\(CHANGE\)`/);
-  assert.match(rewritten.content, /serial_println\(Serial, text\("kept"\)\)/);
-  assert.doesNotMatch(rewritten.content.split('\n')[2], /child_block/);
-});
-
-test('block-table migration repairs static calls and inserts missing rows without touching runtime shapes', () => {
-  const staticBlock = {
-    type: 'static_draw',
-    previousStatement: null,
-    nextStatement: null,
-    args0: [
-      { type: 'field_colour_hsv_sliders', name: 'COLOR', colour: '#123456' },
-      { type: 'input_value', name: 'X', check: 'Number' },
-    ],
-  };
-  const missingBlock = {
-    type: 'static_label',
-    previousStatement: null,
-    nextStatement: null,
-    args0: [{ type: 'field_multilinetext', name: 'TEXT', text: 'line 1\nline 2' }],
-  };
-  const dynamicBlock = {
-    type: 'dynamic_block',
-    previousStatement: null,
-    nextStatement: null,
-    args0: [{ type: 'field_input', name: 'NAME', text: 'item' }],
-    extensions: ['dynamic_shape'],
-  };
-  const content = [
-    '| Block Type | Connection | Parameters (args0 order) | ABS Format | Generated Code |',
-    '|---|---|---|---|---|',
-    '| `static_draw` | Statement | COLOR, X | `static_draw(...)` | code |',
-    '',
-  ].join('\n');
-  const rewritten = rewriteReadmeBlockTables(content, [staticBlock, missingBlock, dynamicBlock]);
-  assert.equal(rewritten.canonicalizedRows, 1);
-  assert.equal(rewritten.insertedRows, 1);
-  assert.equal(rewritten.skippedRuntimeShape, 1);
-  assert.match(rewritten.content, /`static_draw\("#123456", math_number\(0\)\)`/);
-  assert.match(rewritten.content, /`static_label\("line 1\\nline 2"\)`/);
-  assert.doesNotMatch(rewritten.content, /`dynamic_block`/);
 });
 
 test('canonical table rows keep long executable calls and numeric dropdown values intact', () => {
@@ -737,93 +532,6 @@ test('Block Definitions rejects a block row placed in another section', () => {
   ].join('\n');
   const messages = validateAiAbsContracts(content, [block]);
   assert.ok(messages.some(message => message.includes('Block Definitions missing exact row for misplaced_block')));
-});
-
-test('block-table migration adds a canonical section when a legacy README has no ABS table', () => {
-  const block = {
-    type: 'legacy_read',
-    output: 'Number',
-    args0: [{ type: 'input_value', name: 'PIN', check: 'Number' }],
-  };
-  const content = '# Legacy\n\n## Notes\n\nUseful lifecycle knowledge.\n';
-  const rewritten = rewriteReadmeBlockTables(content, [block]);
-  assert.equal(rewritten.insertedRows, 1);
-  assert.equal(rewritten.createdCanonicalTable, true);
-  assert.match(rewritten.content, /## Block Definitions/);
-  assert.match(rewritten.content, /`legacy_read\(math_number\(2\)\)`/);
-  assert.match(rewritten.content, /Useful lifecycle knowledge/);
-});
-
-test('example migration adds one validated library call without replacing lifecycle notes', () => {
-  const block = {
-    type: 'sensor_begin',
-    previousStatement: null,
-    nextStatement: null,
-    args0: [{ type: 'field_input', name: 'VAR', text: 'sensor' }],
-  };
-  const content = [
-    '# Sensor',
-    '',
-    '## Block Definitions',
-    '',
-    '| Block Type | Connection | Parameters | ABS Format | Generated Code |',
-    '|---|---|---|---|---|',
-    '| `sensor_begin` | Statement | VAR(field_input) | `sensor_begin("sensor")` | begin |',
-    '',
-    '## Notes',
-    '',
-    'Keep this hardware rule.',
-    '',
-  ].join('\n');
-  const rewritten = rewriteReadmeExamples(content, [block]);
-  assert.equal(rewritten.addedExample, true);
-  assert.match(rewritten.content, /## ABS Examples/);
-  assert.match(rewritten.content, /arduino_setup\(\)\n    sensor_begin\("sensor"\)/);
-  assert.match(rewritten.content, /Keep this hardware rule/);
-  assert.deepEqual(validateAiAbsContracts(rewritten.content, [block]), []);
-});
-
-test('example-call migration repairs invalid local calls but preserves prose and valid calls', () => {
-  const content = [
-    '## ABS Examples',
-    '',
-    '```abs',
-    'arduino_setup()',
-    '    dht_read_temperature()',
-    '    dht_read_temperature($kept)',
-    '```',
-    '',
-    '## Notes',
-    '',
-    'Do not rewrite dht_read_temperature() in prose outside ABS examples.',
-  ].join('\n');
-  const rewritten = rewriteReadmeExampleCalls(content, [dhtRead]);
-  assert.equal(rewritten.replacements, 1);
-  assert.match(rewritten.content, /dht_read_temperature\(\$dht\)/);
-  assert.match(rewritten.content, /dht_read_temperature\(\$kept\)/);
-  assert.match(rewritten.content, /outside ABS examples\./);
-});
-
-test('structure migration normalizes localized headings without replacing library guidance', () => {
-  const content = [
-    '# Sensor', '', 'Keep this lifecycle guidance.', '',
-    '## 库信息', '- old metadata', '',
-    '## 块定义', '',
-    '| 块类型 | 连接 | 参数（args0顺序） | ABS格式 | 生成代码 |',
-    '|---|---|---|---|---|',
-    '| `sensor_mode` | Value | MODE(dropdown) | `sensor_mode(FAST)` | code |', '',
-    '## ABS示例', '', '```abs', 'sensor_mode(FAST)', '```',
-  ].join('\n');
-  const blocks = [{
-    type: 'sensor_mode', output: 'Number',
-    args0: [{ type: 'field_dropdown', name: 'MODE', options: [['Fast', 'FAST']] }],
-  }];
-  const rewritten = rewriteReadmeStructure(content, { name: 'sensor', version: '1.0.0' }, blocks);
-  assert.match(rewritten.content, /## Library Info/);
-  assert.match(rewritten.content, /## Block Definitions/);
-  assert.match(rewritten.content, /Parameters \(block\.json order\)/);
-  assert.match(rewritten.content, /## ABS Examples/);
-  assert.match(rewritten.content, /Keep this lifecycle guidance\./);
 });
 
 test('accepts existing Blockly block types with a numeric prefix', () => {
