@@ -1,0 +1,193 @@
+[
+  {
+    "args0": [
+      {
+        "name": "HOST",
+        "type": "input_value"
+      },
+      {
+        "name": "KEY",
+        "type": "input_value"
+      },
+      {
+        "name": "LOC_ID",
+        "type": "input_value"
+      },
+      {
+        "name": "LOC_NAME",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#00C48C",
+    "message0": "和风天气 配置 服务器 %1 密钥 %2 地区ID %3 地区名 %4",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "qweather_setup",
+    "tooltip": "配置和风天气API：服务器、密钥、地区"
+  },
+  {
+    "colour": "#00C48C",
+    "message0": "和风天气 刷新数据（实况+7日预报）",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "qweather_update",
+    "tooltip": "联网刷新天气数据（实况+7日预报，阻塞2~8秒）"
+  },
+  {
+    "colour": "#00C48C",
+    "message0": "和风天气 数据有效",
+    "output": "Boolean",
+    "type": "qweather_ok",
+    "tooltip": "最近一次数据是否有效"
+  },
+  {
+    "colour": "#00C48C",
+    "message0": "和风天气 当前温度(℃)",
+    "output": "Number",
+    "type": "qweather_get_temp",
+    "tooltip": "当前温度(℃)"
+  },
+  {
+    "colour": "#00C48C",
+    "message0": "和风天气 今日最高(℃)",
+    "output": "Number",
+    "type": "qweather_get_high",
+    "tooltip": "今日最高温度(℃)"
+  },
+  {
+    "colour": "#00C48C",
+    "message0": "和风天气 今日最低(℃)",
+    "output": "Number",
+    "type": "qweather_get_low",
+    "tooltip": "今日最低温度(℃)"
+  },
+  {
+    "colour": "#00C48C",
+    "message0": "和风天气 天气现象",
+    "output": "String",
+    "type": "qweather_get_text",
+    "tooltip": "天气现象文字，如 多云"
+  },
+  {
+    "colour": "#00C48C",
+    "message0": "和风天气 地区名",
+    "output": "String",
+    "type": "qweather_get_city",
+    "tooltip": "配置的地区名"
+  },
+  {
+    "args0": [
+      {
+        "name": "DAY",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#00C48C",
+    "message0": "和风天气 预报 第%1天 最高(℃)",
+    "output": "Number",
+    "type": "qweather_f_high",
+    "tooltip": "预报第N天最高温(0今天~3大后天)"
+  },
+  {
+    "args0": [
+      {
+        "name": "DAY",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#00C48C",
+    "message0": "和风天气 预报 第%1天 最低(℃)",
+    "output": "Number",
+    "type": "qweather_f_low",
+    "tooltip": "预报第N天最低温(0今天~3大后天)"
+  },
+  {
+    "args0": [
+      {
+        "name": "DAY",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#00C48C",
+    "message0": "和风天气 预报 第%1天 现象",
+    "output": "String",
+    "type": "qweather_f_text",
+    "tooltip": "预报第N天现象文字"
+  },
+  {
+    "args0": [
+      {
+        "name": "DAY",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#00C48C",
+    "message0": "和风天气 预报 第%1天 日期(MM-DD)",
+    "output": "String",
+    "type": "qweather_f_date",
+    "tooltip": "预报第N天日期(MM-DD)"
+  },
+  {
+    "type": "qweather_ui_open",
+    "message0": "和风天气 打开天气界面",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C48C",
+    "tooltip": "创建并打开独立天气屏"
+  },
+  {
+    "type": "qweather_ui_show",
+    "message0": "和风天气 刷新界面显示",
+    "args0": [],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C48C",
+    "tooltip": "把最新数据刷新到天气界面"
+  },
+  {
+    "type": "qweather_ui_set_time",
+    "message0": "和风天气 更新时间显示 时 %1 分 %2 月 %3 日 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "HOUR"
+      },
+      {
+        "type": "input_value",
+        "name": "MINUTE"
+      },
+      {
+        "type": "input_value",
+        "name": "MONTH"
+      },
+      {
+        "type": "input_value",
+        "name": "MDAY"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C48C",
+    "tooltip": "更新界面时钟与日期(时/分/月/日)"
+  },
+  {
+    "type": "qweather_ui_attach",
+    "message0": "和风天气 挂载天气面板到 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "PARENT",
+        "variable": "screen",
+        "variableTypes": [
+          "lv_obj_t"
+        ],
+        "defaultType": "lv_obj_t"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00C48C",
+    "tooltip": "把天气面板挂载到已有屏幕对象"
+  }
+]

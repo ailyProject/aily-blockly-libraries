@@ -171,7 +171,6 @@ function updateAllESPSPIBlocksInWorkspace(spiName) {
           // 只更新特定 SPI 实例的块或全部块（当 spiName 为空时）
           if (!spiName || blockSpi === spiName) {
             updateESPSPIBlockDropdownWithCustomPorts(b);
-            b.render();
           }
         } catch (e) {
           // 忽略已销毁的块
@@ -226,7 +225,7 @@ function updateCustomESPSPIConfig(customName, sckPin, misoPin, mosiPin, ssPin) {
 }
 
 // 更新单个SPI块的下拉菜单选项
-function updateESPSPIBlockDropdownWithCustomPorts(block, config) {
+function updateESPSPIBlockDropdownWithCustomPorts(block, config, preparedOptions) {
   try {
     // 检查block是否有SPI字段
     if (!block || !block.getField || !block.getField('SPI')) return;
@@ -239,8 +238,15 @@ function updateESPSPIBlockDropdownWithCustomPorts(block, config) {
     const spiField = block.getField('SPI');
     if (!spiField) return;
     
-    const optionsWithCustom = generateESPSPIOptionsWithCustom(boardConfig);
+    const optionsWithCustom = preparedOptions || generateESPSPIOptionsWithCustom(boardConfig);
     const currentValue = spiField.getValue();
+    const previousOptions = spiField.getOptions(false);
+    if (optionsWithCustom.some(([, value]) => value === currentValue) &&
+        previousOptions.length === optionsWithCustom.length &&
+        previousOptions.every((option, index) =>
+          option[0] === optionsWithCustom[index][0] && option[1] === optionsWithCustom[index][1])) {
+      return;
+    }
 
     // 更新下拉菜单选项
     if (optionsWithCustom.length > 0) {
@@ -254,8 +260,13 @@ function updateESPSPIBlockDropdownWithCustomPorts(block, config) {
       const matchingOption = optionsWithCustom.find(([text, value]) => value === currentValue);
 
       if (currentValue && matchingOption) {
-        // 强制调用setValue刷新UI（即使值未变，setValue也会刷新显示文本）
-        spiField.setValue(currentValue);
+        // Only a changed selected label needs new geometry. New unselected
+        // options must not rerender every dependent block while dragging.
+        const previousLabel = previousOptions.find(([, value]) => value === currentValue)?.[0];
+        if (previousLabel !== matchingOption[0]) {
+          spiField.setValue(currentValue);
+          spiField.forceRerender();
+        }
       } else if (currentValue) {
         // 当前值在选项中不存在，但保持原值（可能是待注册的自定义SPI）
         // 不强制重置，让全局验证拦截器处理
@@ -315,12 +326,6 @@ function updateESPSPIBlocksWithCustomPorts() {
     const spiOptionsWithPins = generateESPSPIOptionsWithCustom(boardConfig);
     // console.log('ESP32-SPI: 生成的SPI选项（带引脚信息）:', spiOptionsWithPins);
     
-    // 创建临时配置对象，避免修改原始boardConfig（参考IIC实现）
-    const tempConfig = {
-      ...boardConfig,
-      spi: spiOptionsWithPins
-    };
-    
     // 更新工作区中所有现有的SPI块
     const workspace = Blockly.getMainWorkspace();
     if (workspace) {
@@ -329,9 +334,7 @@ function updateESPSPIBlocksWithCustomPorts() {
         // 扩展到所有包含SPI字段的block
         if (block.getField && block.getField('SPI')) {
           // 更新下拉菜单选项
-          updateESPSPIBlockDropdownWithCustomPorts(block, tempConfig);
-          // 强制重绘以确保UI立即曹新（参考IIC实现）
-          block.render();
+          updateESPSPIBlockDropdownWithCustomPorts(block, boardConfig, spiOptionsWithPins);
         }
       });
     }

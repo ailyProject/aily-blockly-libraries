@@ -1,0 +1,371 @@
+[
+  {
+    "type": "pca9685_init",
+    "message0": "初始化 PCA9685  地址 %1  PWM频率 %2 Hz",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ADDR",
+        "options": [
+          [
+            "0x40",
+            "0x40"
+          ],
+          [
+            "0x41",
+            "0x41"
+          ],
+          [
+            "0x42",
+            "0x42"
+          ],
+          [
+            "0x43",
+            "0x43"
+          ],
+          [
+            "0x44",
+            "0x44"
+          ],
+          [
+            "0x45",
+            "0x45"
+          ],
+          [
+            "0x46",
+            "0x46"
+          ],
+          [
+            "0x47",
+            "0x47"
+          ],
+          [
+            "0x48",
+            "0x48"
+          ],
+          [
+            "0x49",
+            "0x49"
+          ],
+          [
+            "0x4A",
+            "0x4A"
+          ],
+          [
+            "0x4B",
+            "0x4B"
+          ],
+          [
+            "0x4C",
+            "0x4C"
+          ],
+          [
+            "0x4D",
+            "0x4D"
+          ],
+          [
+            "0x4E",
+            "0x4E"
+          ],
+          [
+            "0x4F",
+            "0x4F"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FREQ",
+        "options": [
+          [
+            "50",
+            "50"
+          ],
+          [
+            "60",
+            "60"
+          ],
+          [
+            "100",
+            "100"
+          ],
+          [
+            "200",
+            "200"
+          ],
+          [
+            "300",
+            "300"
+          ],
+          [
+            "400",
+            "400"
+          ],
+          [
+            "500",
+            "500"
+          ],
+          [
+            "1000",
+            "1000"
+          ],
+          [
+            "1600",
+            "1600"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979d",
+    "tooltip": "初始化 PCA9685 并设置 PWM 频率。PCA9685 全部 16 个通道共用同一频率：同时使用舵机时必须选 50Hz；仅驱动直流电机时可选 1000Hz 以上以获得更平滑的调速。"
+  },
+  {
+    "type": "pca9685_i2c_pins",
+    "message0": "PCA9685 自定义 I2C 引脚  SDA %1  SCL %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SDA",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SCL",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979d",
+    "tooltip": "当开发板使用非默认 I2C 引脚时添加此积木（例如 ESP32-S3 使用 GPIO47/48）。它只作为初始化积木的配置项，需与“初始化 PCA9685”积木一起使用。"
+  },
+  {
+    "type": "pca9685_motor_set",
+    "message0": "PCA9685 直流电机 %1 速度 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR",
+        "options": [
+          [
+            "M1",
+            "1"
+          ],
+          [
+            "M2",
+            "2"
+          ],
+          [
+            "M3",
+            "3"
+          ],
+          [
+            "M4",
+            "4"
+          ]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "SPEED",
+        "value": 50,
+        "min": -100,
+        "max": 100,
+        "precision": 1
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979d",
+    "tooltip": "设置指定直流电机的速度与方向：-100~100，正值正转，负值反转，0 为停止。M1~M4 依次占用 LED0~LED7。"
+  },
+  {
+    "type": "pca9685_motor_stop",
+    "message0": "PCA9685 直流电机 %1 停止",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR",
+        "options": [
+          [
+            "M1",
+            "1"
+          ],
+          [
+            "M2",
+            "2"
+          ],
+          [
+            "M3",
+            "3"
+          ],
+          [
+            "M4",
+            "4"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979d",
+    "tooltip": "停止指定电机（自由停止，因惯性会继续转动一段距离）。"
+  },
+  {
+    "type": "pca9685_motor_stop_all",
+    "message0": "PCA9685 停止所有直流电机",
+    "args0": [],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979d",
+    "tooltip": "紧急停止 M1~M4 全部直流电机（关闭 LED0~LED7 输出）。"
+  },
+  {
+    "type": "pca9685_servo_write",
+    "message0": "PCA9685 舵机 %1 转到角度 %2 °",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SERVO",
+        "options": [
+          [
+            "S1",
+            "1"
+          ],
+          [
+            "S2",
+            "2"
+          ],
+          [
+            "S3",
+            "3"
+          ],
+          [
+            "S4",
+            "4"
+          ],
+          [
+            "S5",
+            "5"
+          ],
+          [
+            "S6",
+            "6"
+          ],
+          [
+            "S7",
+            "7"
+          ],
+          [
+            "S8",
+            "8"
+          ]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "ANGLE",
+        "value": 90,
+        "min": 0,
+        "max": 180,
+        "precision": 1
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979d",
+    "tooltip": "控制舵机转到指定角度（0~180°）。S1~S8 依次占用 LED8~LED15。需在初始化时把 PWM 频率设为 50Hz。"
+  },
+  {
+    "type": "pca9685_servo_write_us",
+    "message0": "PCA9685 舵机 %1 脉宽 %2 μs",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SERVO",
+        "options": [
+          [
+            "S1",
+            "1"
+          ],
+          [
+            "S2",
+            "2"
+          ],
+          [
+            "S3",
+            "3"
+          ],
+          [
+            "S4",
+            "4"
+          ],
+          [
+            "S5",
+            "5"
+          ],
+          [
+            "S6",
+            "6"
+          ],
+          [
+            "S7",
+            "7"
+          ],
+          [
+            "S8",
+            "8"
+          ]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "US",
+        "value": 1500,
+        "min": 0,
+        "max": 20000,
+        "precision": 1
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979d",
+    "tooltip": "直接以脉宽（微秒）控制舵机，用于精细校准。常用范围 500~2500μs，1500μs 为中位。"
+  },
+  {
+    "type": "pca9685_servo_range",
+    "message0": "PCA9685 设置舵机脉宽范围 %1 ~ %2 μs",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "MIN_US",
+        "value": 500,
+        "min": 0,
+        "max": 20000,
+        "precision": 1
+      },
+      {
+        "type": "field_number",
+        "name": "MAX_US",
+        "value": 2500,
+        "min": 0,
+        "max": 20000,
+        "precision": 1
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00979d",
+    "tooltip": "设置“转到角度”积木所对应的脉宽范围（对应 0° 与 180°）。不同品牌舵机范围不同，可据此校准。"
+  }
+]

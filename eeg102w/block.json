@@ -1,0 +1,92 @@
+[
+  {
+    "type": "eeg102w_connect",
+    "message0": "连接 EEG102W 脑电模组 超时 %1 秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7E57C2",
+    "tooltip": "扫描并连接 EEG102W 脑电模组（BLE 广播名 KSEEG102），阻塞至多指定秒数"
+  },
+  {
+    "type": "eeg102w_connected",
+    "message0": "EEG102W 已连接",
+    "output": "Boolean",
+    "colour": "#7E57C2",
+    "tooltip": "EEG102W 模组当前是否保持 BLE 连接"
+  },
+  {
+    "type": "eeg102w_metric",
+    "message0": "EEG102W 指标 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "METRIC",
+        "options": [
+          [
+            "专注度",
+            "FOCUS"
+          ],
+          [
+            "放松度",
+            "RELAX"
+          ],
+          [
+            "疲劳度",
+            "FATIGUE"
+          ],
+          [
+            "冥想值",
+            "MEDITATION"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#7E57C2",
+    "tooltip": "最新 EEG 指标值（1~100）"
+  },
+  {
+    "type": "eeg102w_raw",
+    "message0": "EEG102W 原始值 通道 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CH",
+        "options": [
+          [
+            "CH1",
+            "1"
+          ],
+          [
+            "CH2",
+            "2"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#7E57C2",
+    "tooltip": "最新原始 EEG 值（协议原始采样值÷10000）"
+  },
+  {
+    "type": "eeg102w_battery",
+    "message0": "EEG102W 电池电量 (%%)",
+    "output": "Number",
+    "colour": "#7E57C2",
+    "tooltip": "模组电池电量百分比（0~100）"
+  },
+  {
+    "type": "eeg102w_leadoff",
+    "message0": "EEG102W 电极脱落",
+    "output": "Boolean",
+    "colour": "#7E57C2",
+    "tooltip": "电极脱落检测标志（true 表示电极脱落）"
+  }
+]

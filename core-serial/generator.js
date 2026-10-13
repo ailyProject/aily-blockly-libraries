@@ -47,7 +47,6 @@ function updateAllSerialBlocksInWorkspace(customSerialName) {
       if (b.getField && b.getField('SERIAL')) {
         try {
           updateSerialBlockDropdownWithCustomPorts(b);
-          b.render();
         } catch (e) {
           // 忽略已销毁的块
         }
@@ -1150,12 +1149,6 @@ function updateSerialBlocksWithCustomPorts() {
       boardConfig.serialPortOriginal = [...originalSerialPorts];
     }
     
-    // 创建临时配置对象，避免修改原始boardConfig
-    const tempConfig = {
-      ...boardConfig,
-      serialPort: serialPortOptionsWithCustom
-    };
-    
     // 更新工作区中所有现有的串口块
     const workspace = Blockly.getMainWorkspace();
     if (workspace) {
@@ -1164,9 +1157,7 @@ function updateSerialBlocksWithCustomPorts() {
         // 扩展到所有包含SERIAL字段的block
         if (block.getField && block.getField('SERIAL')) {
           // 更新下拉菜单选项
-          updateSerialBlockDropdownWithCustomPorts(block, tempConfig);
-          // 强制重绘以确保UI立即更新
-          block.render();
+          updateSerialBlockDropdownWithCustomPorts(block, boardConfig, serialPortOptionsWithCustom);
         }
       });
     }
@@ -1193,7 +1184,7 @@ function generateSerialPortOptionsWithCustom(boardConfig) {
 }
 
 // 更新单个串口块的下拉菜单选项
-function updateSerialBlockDropdownWithCustomPorts(block, config) {
+function updateSerialBlockDropdownWithCustomPorts(block, config, preparedOptions) {
   try {
     // 检查block是否有SERIAL字段
     if (!block || !block.getField || !block.getField('SERIAL')) return;
@@ -1206,8 +1197,15 @@ function updateSerialBlockDropdownWithCustomPorts(block, config) {
     const serialField = block.getField('SERIAL');
     if (!serialField) return;
     
-    const optionsWithCustom = generateSerialPortOptionsWithCustom(boardConfig);
+    const optionsWithCustom = preparedOptions || generateSerialPortOptionsWithCustom(boardConfig);
     const currentValue = serialField.getValue();
+    const previousOptions = serialField.getOptions(false);
+    if (optionsWithCustom.some(([, value]) => value === currentValue) &&
+        previousOptions.length === optionsWithCustom.length &&
+        previousOptions.every((option, index) =>
+          option[0] === optionsWithCustom[index][0] && option[1] === optionsWithCustom[index][1])) {
+      return;
+    }
 
     // 更新下拉菜单选项
     if (optionsWithCustom.length > 0) {
@@ -1221,8 +1219,13 @@ function updateSerialBlockDropdownWithCustomPorts(block, config) {
       const matchingOption = optionsWithCustom.find(([text, value]) => value === currentValue);
 
       if (currentValue && matchingOption) {
-        // 强制调用 setValue 刷新 UI
-        serialField.setValue(currentValue);
+        // 相同值不会触发渲染排队；标签变化需要显式刷新尺寸。
+        // 未选中选项的变化不影响显示，避免把所有字段标记为脏。
+        const previousLabel = previousOptions.find(([, value]) => value === currentValue)?.[0];
+        if (previousLabel !== matchingOption[0]) {
+          serialField.setValue(currentValue);
+          serialField.forceRerender();
+        }
       } else {
         // 当前值无效，设置为第一个选项
         serialField.setValue(optionsWithCustom[0][1]);
@@ -1584,4 +1587,3 @@ window.validateAllCustomSerialPorts = function() {
     // 忽略错误
   }
 };
-

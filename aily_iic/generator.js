@@ -42,7 +42,6 @@ function updateAllWireBlocksInWorkspace(wire) {
           const blockWire = b.getFieldValue('WIRE');
           if (!wire || blockWire === wire) {
             updateBlockDropdownWithPinInfo(b);
-            b.render();
           }
         } catch (e) {
           // 忽略已销毁的块
@@ -497,12 +496,6 @@ function updateI2CBlocksWithPinInfo() {
       boardConfig.i2cOriginal = [...originalI2C];
     }
     
-    // 创建临时配置对象，避免修改原始boardConfig
-    const tempConfig = {
-      ...boardConfig,
-      i2c: i2cOptionsWithPins
-    };
-    
     // 更新工作区中所有现有的I2C块
     const workspace = Blockly.getMainWorkspace();
     if (workspace) {
@@ -511,9 +504,7 @@ function updateI2CBlocksWithPinInfo() {
         // 扩展到所有包含WIRE字段的block
         if (block.getField && block.getField('WIRE')) {
           // 更新下拉菜单选项
-          updateBlockDropdownWithPinInfo(block, tempConfig);
-          // 强制重绘以确保UI立即更新
-          block.render();
+          updateBlockDropdownWithPinInfo(block, boardConfig, i2cOptionsWithPins);
         }
       });
     }
@@ -672,7 +663,7 @@ function generateI2COptionsWithPins(boardConfig) {
 }
 
 // 更新单个block的下拉菜单选项（扩展版，支持所有I2C块）
-function updateBlockDropdownWithPinInfo(block, config) {
+function updateBlockDropdownWithPinInfo(block, config, preparedOptions) {
   try {
     // 检查block是否有WIRE字段
     if (!block || !block.getField || !block.getField('WIRE')) return;
@@ -685,7 +676,15 @@ function updateBlockDropdownWithPinInfo(block, config) {
     const wireField = block.getField('WIRE');
     if (!wireField) return;
     
-    const optionsWithPins = generateI2COptionsWithPins(boardConfig);
+    const optionsWithPins = preparedOptions || generateI2COptionsWithPins(boardConfig);
+    const currentValue = wireField.getValue();
+    const previousOptions = wireField.getOptions(false);
+    if (optionsWithPins.some(([, value]) => value === currentValue) &&
+        previousOptions.length === optionsWithPins.length &&
+        previousOptions.every((option, index) =>
+          option[0] === optionsWithPins[index][0] && option[1] === optionsWithPins[index][1])) {
+      return;
+    }
 
     // 更新下拉菜单选项
     if (optionsWithPins.length > 0) {
@@ -695,14 +694,17 @@ function updateBlockDropdownWithPinInfo(block, config) {
         return optionsWithPins;
       };
 
-      // 获取当前值
-      const currentValue = wireField.getValue();
       // 检查当前值是否在新的选项列表中
       const matchingOption = optionsWithPins.find(([text, value]) => value === currentValue);
 
       if (currentValue && matchingOption) {
-        // 强制调用setValue刷新UI（即使值未变，setValue也会刷新显示文本）
-        wireField.setValue(currentValue);
+        // Only a changed selected label needs new geometry. New unselected
+        // options must not rerender every dependent block while dragging.
+        const previousLabel = previousOptions.find(([, value]) => value === currentValue)?.[0];
+        if (previousLabel !== matchingOption[0]) {
+          wireField.setValue(currentValue);
+          wireField.forceRerender();
+        }
       } else {
         // 当前值无效，设置为第一个选项
         wireField.setValue(optionsWithPins[0][1]);
@@ -1034,7 +1036,6 @@ function addInputChangeListener(block) {
                           b.getFieldValue('WIRE') === wire) {
                         // 更新下拉菜单选项并触发重绘
                         updateBlockDropdownWithPinInfo(b);
-                        b.render();
                       }
                     });
                   }
