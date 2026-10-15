@@ -1,0 +1,1391 @@
+[
+  {
+    "type": "otto_init",
+    "message0": "创建 OTTO 机器人 %1 左腿舵机 %2 右腿舵机 %3 左脚舵机 %4 右脚舵机 %5 读取EEPROM校准 %6 蜂鸣器引脚 %7",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "NAME",
+        "text": "Otto"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "YL",
+        "options": "${board.servoPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "YR",
+        "options": "${board.servoPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RL",
+        "options": "${board.servoPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RR",
+        "options": "${board.servoPins}"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "CAL",
+        "checked": true
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BUZZER",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_init_matrix",
+    "message0": "OTTO %1 初始化8x8点阵 DIN %2 CS %3 CLK %4 屏幕方向 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CS",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CLK",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ROT",
+        "options": [
+          [
+            "顶部朝上",
+            "1"
+          ],
+          [
+            "顶部朝下",
+            "2"
+          ],
+          [
+            "顶部朝左",
+            "3"
+          ],
+          [
+            "顶部朝右",
+            "4"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_attach_servos",
+    "message0": "OTTO %1 连接舵机",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_detach_servos",
+    "message0": "OTTO %1 断开舵机",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_home",
+    "message0": "OTTO %1 回到初始姿态",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_set_rest_state",
+    "message0": "OTTO %1 设置静止状态 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "静止",
+            "true"
+          ],
+          [
+            "运动中",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_get_rest_state",
+    "message0": "OTTO %1 是否处于静止状态",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_jump",
+    "message0": "OTTO %1 跳跃 步数 %2 单步时间T %3 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "STEPS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "T",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_walk",
+    "message0": "OTTO %1 行走 步数 %2 单步时间T %3 毫秒 方向 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "STEPS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "T",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          [
+            "前进",
+            "1"
+          ],
+          [
+            "后退",
+            "-1"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_turn",
+    "message0": "OTTO %1 原地转弯 步数 %2 单步时间T %3 毫秒 方向 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "STEPS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "T",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          [
+            "向左",
+            "1"
+          ],
+          [
+            "向右",
+            "-1"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_bend",
+    "message0": "OTTO %1 弯腰 次数 %2 单步时间T %3 毫秒 方向 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "STEPS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "T",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          [
+            "向左",
+            "1"
+          ],
+          [
+            "向右",
+            "-1"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_shake_leg",
+    "message0": "OTTO %1 抬腿抖动 次数 %2 单步时间T %3 毫秒 方向 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "STEPS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "T",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          [
+            "向左",
+            "1"
+          ],
+          [
+            "向右",
+            "-1"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_updown",
+    "message0": "OTTO %1 升降 次数 %2 单步时间T %3 毫秒 高度H %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "STEPS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "T",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_swing",
+    "message0": "OTTO %1 前后摇摆 次数 %2 单步时间T %3 毫秒 幅度H %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "STEPS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "T",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_tiptoe_swing",
+    "message0": "OTTO %1 踮脚摇摆 次数 %2 单步时间T %3 毫秒 幅度H %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "STEPS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "T",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_jitter",
+    "message0": "OTTO %1 抖动 次数 %2 单步时间T %3 毫秒 幅度H %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "STEPS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "T",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_ascending_turn",
+    "message0": "OTTO %1 上升转弯 次数 %2 单步时间T %3 毫秒 高度H %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "STEPS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "T",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_moonwalker",
+    "message0": "OTTO %1 月球漫步 次数 %2 单步时间T %3 毫秒 高度H %4 方向 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "STEPS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "T",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          [
+            "向左",
+            "1"
+          ],
+          [
+            "向右",
+            "-1"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_crusaito",
+    "message0": "OTTO %1 十字步 次数 %2 单步时间T %3 毫秒 高度H %4 方向 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "STEPS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "T",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          [
+            "前进",
+            "1"
+          ],
+          [
+            "后退",
+            "-1"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_flapping",
+    "message0": "OTTO %1 拍翅膀 次数 %2 单步时间T %3 毫秒 高度H %4 方向 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "STEPS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "T",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          [
+            "前进",
+            "1"
+          ],
+          [
+            "后退",
+            "-1"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_move_single",
+    "message0": "OTTO %1 把 %2 舵机移动到 %3 度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERVO",
+        "options": [
+          [
+            "左腿",
+            "0"
+          ],
+          [
+            "右腿",
+            "1"
+          ],
+          [
+            "左脚",
+            "2"
+          ],
+          [
+            "右脚",
+            "3"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "POS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_move_servos",
+    "message0": "OTTO %1 用 %2 毫秒 同时移动到 左腿 %3 右腿 %4 左脚 %5 右脚 %6 度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "T",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "P0",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "P1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "P2",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "P3",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_oscillate_servos",
+    "message0": "OTTO %1 舵机振荡 振幅A 左腿 %2 右腿 %3 左脚 %4 右脚 %5",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "A0",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "A1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "A2",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "A3",
+        "check": "Number"
+      }
+    ],
+    "message1": "偏移O 左腿 %1 右腿 %2 左脚 %3 右脚 %4",
+    "args1": [
+      {
+        "type": "input_value",
+        "name": "O0",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "O1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "O2",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "O3",
+        "check": "Number"
+      }
+    ],
+    "message2": "周期T %1 毫秒 相位 左腿 %2 右腿 %3 左脚 %4 右脚 %5 循环数 %6",
+    "args2": [
+      {
+        "type": "input_value",
+        "name": "T",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PH0",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PH1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PH2",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PH3",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CYC",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_tone",
+    "message0": "OTTO %1 蜂鸣器发声 频率 %2 Hz 时长 %3 毫秒 间隔 %4 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "FREQ",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DUR",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SILENT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_bend_tones",
+    "message0": "OTTO %1 蜂鸣器滑音 起始频率 %2 结束频率 %3 变化比例 %4 单音时长 %5 毫秒 间隔 %6 毫秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "F0",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "F1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PROP",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DUR",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SILENT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_sing",
+    "message0": "OTTO %1 播放内置音乐 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SONG",
+        "options": [
+          [
+            "连接",
+            "0"
+          ],
+          [
+            "断开连接",
+            "1"
+          ],
+          [
+            "按下按钮",
+            "2"
+          ],
+          [
+            "模式1",
+            "3"
+          ],
+          [
+            "模式2",
+            "4"
+          ],
+          [
+            "模式3",
+            "5"
+          ],
+          [
+            "惊讶",
+            "6"
+          ],
+          [
+            "OhOoh",
+            "7"
+          ],
+          [
+            "OhOoh2",
+            "8"
+          ],
+          [
+            "撒娇",
+            "9"
+          ],
+          [
+            "睡觉",
+            "10"
+          ],
+          [
+            "开心",
+            "11"
+          ],
+          [
+            "超开心",
+            "12"
+          ],
+          [
+            "短开心",
+            "13"
+          ],
+          [
+            "难过",
+            "14"
+          ],
+          [
+            "困惑",
+            "15"
+          ],
+          [
+            "放屁1",
+            "16"
+          ],
+          [
+            "放屁2",
+            "17"
+          ],
+          [
+            "放屁3",
+            "18"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_put_mouth",
+    "message0": "OTTO %1 点阵显示嘴型 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MOUTH",
+        "options": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ],
+          [
+            "4",
+            "4"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "6",
+            "6"
+          ],
+          [
+            "7",
+            "7"
+          ],
+          [
+            "8",
+            "8"
+          ],
+          [
+            "9",
+            "9"
+          ],
+          [
+            "微笑",
+            "10"
+          ],
+          [
+            "张嘴开心",
+            "11"
+          ],
+          [
+            "闭嘴开心",
+            "12"
+          ],
+          [
+            "爱心",
+            "13"
+          ],
+          [
+            "大惊",
+            "14"
+          ],
+          [
+            "小惊",
+            "15"
+          ],
+          [
+            "吐舌",
+            "16"
+          ],
+          [
+            "尖牙1",
+            "17"
+          ],
+          [
+            "尖牙2",
+            "18"
+          ],
+          [
+            "直线嘴",
+            "19"
+          ],
+          [
+            "困惑",
+            "20"
+          ],
+          [
+            "斜嘴",
+            "21"
+          ],
+          [
+            "难过",
+            "22"
+          ],
+          [
+            "张嘴难过",
+            "23"
+          ],
+          [
+            "闭嘴难过",
+            "24"
+          ],
+          [
+            "OK嘴",
+            "25"
+          ],
+          [
+            "X嘴",
+            "26"
+          ],
+          [
+            "问号",
+            "27"
+          ],
+          [
+            "闪电",
+            "28"
+          ],
+          [
+            "屁股",
+            "29"
+          ],
+          [
+            "生气",
+            "30"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_put_mouth_raw",
+    "message0": "OTTO %1 点阵显示自定义图案 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "BITS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_put_animation_mouth",
+    "message0": "OTTO %1 播放嘴型动画 %2 第 %3 帧",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ANIM",
+        "options": [
+          [
+            "littleUuh",
+            "0"
+          ],
+          [
+            "dreamMouth",
+            "1"
+          ],
+          [
+            "adivinawi",
+            "2"
+          ],
+          [
+            "wave",
+            "3"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_clear_mouth",
+    "message0": "OTTO %1 清空点阵显示",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_matrix_intensity",
+    "message0": "OTTO %1 点阵亮度 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "INTENSITY",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_set_led",
+    "message0": "OTTO %1 点阵 坐标X %2 坐标Y %3 状态 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VALUE",
+        "options": [
+          [
+            "点亮",
+            "1"
+          ],
+          [
+            "熄灭",
+            "0"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  },
+  {
+    "type": "otto_write_text",
+    "message0": "OTTO %1 点阵滚动显示文字 %2 滚动速度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Otto",
+        "variableTypes": [
+          "Otto"
+        ],
+        "defaultType": "Otto"
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#0E9AA7"
+  }
+]
