@@ -13,8 +13,8 @@ function stcc4Value(block, generator, name, fallback) {
 }
 
 function stcc4AttachVar(block) {
-  if (block._stcc4VarAttached) return;
-  block._stcc4VarAttached = true;
+  if (block._stcc4VarMonitorAttached) return;
+  block._stcc4VarMonitorAttached = true;
   block._stcc4VarLastName = block.getFieldValue('VAR') || 'stcc4';
   if (typeof registerVariableToBlockly === 'function') {
     registerVariableToBlockly(block._stcc4VarLastName, 'DFRobot_STCC4_I2C');

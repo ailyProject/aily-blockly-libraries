@@ -1023,6 +1023,6 @@ CI 对 README 变更输出机器可读差异：
 - 仍含 `...` 的 12 行均来自真实 generator 输出中的日志字符串、注释或文件扩展名判断，并由精确输出比较锁定，不属于截断占位符。
 - `readme_ai.md` 仍以 5KB 为成本目标；为保留复杂库的完整签名和代表性生成代码，硬上限调整为 64KB。当前正常候选没有超过该上限。
 
-迁移命令为 `npm run readme:migrate-generated-code`；默认只预览，人工确认后使用 `npm run readme:migrate-generated-code -- --apply`。提交门禁使用 `readme:generator-coverage` 做逐块精确比较，并继续与 ABS 契约、动态 shape、真实 runtime fixture 和 aily-builder 编译分层验证，不能用合成输出替代真实运行证据。
+一次性 README 批量迁移工具及其 npm 入口已移除。后续文档维护使用现有候选生成与校验工具。提交门禁使用 `readme:generator-coverage` 做逐块精确比较，并继续与 ABS 契约、动态 shape、真实 runtime fixture 和 aily-builder 编译分层验证，不能用合成输出替代真实运行证据。
 
 本阶段最终复验：`readme:test` 44/44；`readme:dynamic-shapes` 118/118；`readme:contract` 559 个库、0 错误；`readme:generator-coverage` 0 公开缺失、0 槽位/探针/文档不一致、13 个合法无直接输出全部有版本化分类；源 README 的 3860 个跨库调用与 559 份候选中的 3896 个跨库调用均为 0 错误、0 歧义；GitHub Actions 自检 6/6；真实运行时黄金夹具 21/21；`@aily-project/aily-builder@1.3.0` 编译夹具 1/1。Generated Code 迁移再次预览为 0/559 个库、0 行变化，证明迁移幂等。
