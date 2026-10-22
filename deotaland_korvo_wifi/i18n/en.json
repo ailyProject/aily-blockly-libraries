@@ -1,0 +1,996 @@
+{
+  "toolbox_name": "Korvo Wi-Fi Agent",
+  "toolbox_categories": [
+    "Setup & Network",
+    "Sessions",
+    "Voice",
+    "Screen & Camera",
+    "Touch",
+    "Sound",
+    "Servos",
+    "Platform"
+  ],
+  "korvo_wifi_init": {
+    "message0": "initialize Korvo Wi-Fi agent UI %1 Wi-Fi name %2 password %3 serial debug %4",
+    "tooltip": "Starts the screen, touch and audio and connects to the cloud platform. An empty Wi-Fi name uses the saved network, otherwise the KorvoCloud-XXXX hotspot opens for setup; on first use enter the activation code shown on the screen in the platform and bind an agent. Original UI runs the full IDF pages (home, apps, camera, voice, sessions, servo, status) and the drawing, touch and camera blocks have no effect. Needs 16MB flash, OPI PSRAM and an app partition of at least 5MB",
+    "args0": [
+      {
+        "options": [
+          [
+            "blocks",
+            "false"
+          ],
+          [
+            "original UI",
+            "true"
+          ]
+        ]
+      },
+      null,
+      null,
+      {
+        "options": [
+          [
+            "on",
+            "true"
+          ],
+          [
+            "off",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_cloud": {
+    "message0": "Korvo cloud platform %1",
+    "tooltip": "Connect to or disconnect from the Wi-Fi cloud platform; initialize already connects. Connecting is asynchronous, check \"platform online\"",
+    "args0": [
+      {
+        "options": [
+          [
+            "connect",
+            "connect"
+          ],
+          [
+            "disconnect",
+            "disconnect"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_state": {
+    "message0": "Korvo %1",
+    "tooltip": "Hotspot setup: join KorvoCloud-XXXX from a phone to set Wi-Fi; waiting for activation code: enter it in the platform; needs action: read the status hint; voice agent bound: an agent with realtime voice is bound in the platform; voice connecting: the call is being requested; voice connected: the realtime call is up; listening: the microphone is uploading; playing sound: the speaker still has sound queued",
+    "args0": [
+      {
+        "options": [
+          [
+            "Wi-Fi connected",
+            "WIFI"
+          ],
+          [
+            "platform online",
+            "PLATFORM"
+          ],
+          [
+            "hotspot setup",
+            "SETUP"
+          ],
+          [
+            "waiting for activation code",
+            "PAIRING"
+          ],
+          [
+            "needs action",
+            "BLOCKED"
+          ],
+          [
+            "voice agent bound",
+            "AGENT"
+          ],
+          [
+            "voice connecting",
+            "CONNECTING"
+          ],
+          [
+            "voice connected",
+            "VOICE"
+          ],
+          [
+            "listening",
+            "LISTEN"
+          ],
+          [
+            "playing sound",
+            "PLAYING"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_info": {
+    "message0": "Korvo %1",
+    "tooltip": "On first use the activation code is here; enter it in the platform to bind. Connection phase is one of idle, setup, connecting, pairing, blocked, online, ready; status code is the platform business code; voice status tells how far the call has got",
+    "args0": [
+      {
+        "options": [
+          [
+            "IP address",
+            "IP"
+          ],
+          [
+            "activation code",
+            "CODE"
+          ],
+          [
+            "activation code seconds left",
+            "EXPIRES"
+          ],
+          [
+            "status title",
+            "TITLE"
+          ],
+          [
+            "status hint",
+            "HINT"
+          ],
+          [
+            "connection phase",
+            "PHASE"
+          ],
+          [
+            "status code",
+            "DETAIL"
+          ],
+          [
+            "device SN",
+            "SN"
+          ],
+          [
+            "firmware version",
+            "VERSION"
+          ],
+          [
+            "agent name",
+            "AGENT"
+          ],
+          [
+            "agent ID",
+            "AGENT_ID"
+          ],
+          [
+            "current session ID",
+            "SESSION"
+          ],
+          [
+            "current session name",
+            "SESSION_NAME"
+          ],
+          [
+            "voice status",
+            "VOICE_STATUS"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_show_status": {
+    "message0": "Korvo show network and activation status on screen",
+    "tooltip": "Shows the network step, hint, activation code and IP; redraws only when they change, so it can sit in loop"
+  },
+  "korvo_wifi_reset": {
+    "message0": "Korvo %1",
+    "tooltip": "Reset activation: erases the platform key and requests a new activation code at once, keeping Wi-Fi; unbind this device in the platform console first or the new activation is refused. Clear Wi-Fi: erases the saved Wi-Fi, restarts and opens the setup hotspot; only works when the Wi-Fi name in initialize is empty",
+    "args0": [
+      {
+        "options": [
+          [
+            "reset activation",
+            "ACTIVATION"
+          ],
+          [
+            "clear Wi-Fi and set up again",
+            "WIFI"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_ui_page": {
+    "message0": "Korvo original UI open %1",
+    "tooltip": "Original UI mode only: switches to the page. The voice page connects with the selected session by itself, or opens the session list when there is none",
+    "args0": [
+      {
+        "options": [
+          [
+            "home",
+            "HOME"
+          ],
+          [
+            "apps",
+            "APPS"
+          ],
+          [
+            "camera",
+            "CAMERA"
+          ],
+          [
+            "voice",
+            "VOICE"
+          ],
+          [
+            "servo",
+            "SERVO"
+          ],
+          [
+            "status",
+            "STATUS"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_session_new": {
+    "message0": "Korvo new session",
+    "tooltip": "Creates a session for the bound agent and selects it; an ongoing call hangs up and reconnects on the new session. This network request blocks"
+  },
+  "korvo_wifi_session_refresh": {
+    "message0": "Korvo read session list %1",
+    "tooltip": "Reads one page of up to 8 sessions from the platform; a blocking network request, do not call it on every loop pass. Nothing is requested when there is no next or previous page",
+    "args0": [
+      {
+        "options": [
+          [
+            "first page",
+            "FIRST"
+          ],
+          [
+            "next page",
+            "NEXT"
+          ],
+          [
+            "previous page",
+            "PREV"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_session_has_page": {
+    "message0": "Korvo session list has %1",
+    "tooltip": "Whether the latest read can page further; the platform only says whether more exist, not how many",
+    "args0": [
+      {
+        "options": [
+          [
+            "next page",
+            "NEXT"
+          ],
+          [
+            "previous page",
+            "PREV"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_session_count": {
+    "message0": "Korvo sessions on this page",
+    "tooltip": "Number of sessions on the page read last"
+  },
+  "korvo_wifi_session_get": {
+    "message0": "Korvo session %1 %2",
+    "tooltip": "Name, ID or creation time of a session on this page, counting from 1; without a name the ID is returned",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "name",
+            "NAME"
+          ],
+          [
+            "ID",
+            "ID"
+          ],
+          [
+            "created time",
+            "TIME"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_session_select": {
+    "message0": "Korvo select session %1",
+    "tooltip": "Selects a session on this page for the following calls; the choice is saved and comes back after a restart for the same agent. An ongoing call hangs up and reconnects on the new session"
+  },
+  "korvo_wifi_session_delete": {
+    "message0": "Korvo delete current session",
+    "tooltip": "Deletes the selected session on the platform, which cannot be undone; an ongoing call hangs up first and the list returns to the first page"
+  },
+  "korvo_wifi_session_delete_at": {
+    "message0": "Korvo delete session %1",
+    "tooltip": "Deletes a session on this page on the platform, which cannot be undone; deleting the current session clears the selection, and the list returns to the first page"
+  },
+  "korvo_wifi_voice_connect": {
+    "message0": "Korvo start voice call",
+    "tooltip": "Connects realtime voice on the current session: retries every second while the platform is not ready, up to 10 times, and gives up after 30 seconds. Once connected the microphone streams continuously and the agent replies play by themselves"
+  },
+  "korvo_wifi_listen": {
+    "message0": "Korvo %1 listening",
+    "tooltip": "Pauses or resumes streaming the microphone to the agent during a call; stopping keeps the call, starting listens for the rest of the call",
+    "args0": [
+      {
+        "options": [
+          [
+            "start",
+            "start"
+          ],
+          [
+            "stop",
+            "stop"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_voice_end": {
+    "message0": "Korvo end voice call",
+    "tooltip": "Stops listening and playback and ends the realtime call"
+  },
+  "korvo_wifi_on_text": {
+    "message0": "when Korvo receives agent text",
+    "message1": "%1",
+    "tooltip": "Runs when the agent sends new text; get it with \"agent text\". Do not wait long inside"
+  },
+  "korvo_wifi_agent_text": {
+    "message0": "agent text",
+    "tooltip": "The latest text received (up to 2048 bytes); Chinese can be shown directly with the screen text block"
+  },
+  "korvo_wifi_screen_clear": {
+    "message0": "Korvo clear screen color %1",
+    "tooltip": "Fills the whole screen with one color",
+    "args0": [
+      {
+        "options": [
+          [
+            "white",
+            "0xFFFF"
+          ],
+          [
+            "black",
+            "0x0000"
+          ],
+          [
+            "red",
+            "0xF800"
+          ],
+          [
+            "green",
+            "0x07E0"
+          ],
+          [
+            "blue",
+            "0x001F"
+          ],
+          [
+            "yellow",
+            "0xFFE0"
+          ],
+          [
+            "cyan",
+            "0x07FF"
+          ],
+          [
+            "magenta",
+            "0xF81F"
+          ],
+          [
+            "orange",
+            "0xFD20"
+          ],
+          [
+            "gray",
+            "0x8410"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_screen_text": {
+    "message0": "Korvo screen x %1 y %2 show %3 color %4",
+    "tooltip": "Shows text with the built-in 14px font, Chinese included, wrapping at the right edge; the landscape screen is 280×240, keep 20px from the corners",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "white",
+            "0xFFFF"
+          ],
+          [
+            "black",
+            "0x0000"
+          ],
+          [
+            "red",
+            "0xF800"
+          ],
+          [
+            "green",
+            "0x07E0"
+          ],
+          [
+            "blue",
+            "0x001F"
+          ],
+          [
+            "yellow",
+            "0xFFE0"
+          ],
+          [
+            "cyan",
+            "0x07FF"
+          ],
+          [
+            "magenta",
+            "0xF81F"
+          ],
+          [
+            "orange",
+            "0xFD20"
+          ],
+          [
+            "gray",
+            "0x8410"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_screen_big": {
+    "message0": "Korvo screen x %1 y %2 show large English %3 color %4 scale %5",
+    "tooltip": "Letters, digits and symbols only, scaled 1–8 times",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "white",
+            "0xFFFF"
+          ],
+          [
+            "black",
+            "0x0000"
+          ],
+          [
+            "red",
+            "0xF800"
+          ],
+          [
+            "green",
+            "0x07E0"
+          ],
+          [
+            "blue",
+            "0x001F"
+          ],
+          [
+            "yellow",
+            "0xFFE0"
+          ],
+          [
+            "cyan",
+            "0x07FF"
+          ],
+          [
+            "magenta",
+            "0xF81F"
+          ],
+          [
+            "orange",
+            "0xFD20"
+          ],
+          [
+            "gray",
+            "0x8410"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_wifi_screen_rect": {
+    "message0": "Korvo draw rectangle x %1 y %2 width %3 height %4 color %5 %6",
+    "tooltip": "Draws a filled or outlined rectangle",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "white",
+            "0xFFFF"
+          ],
+          [
+            "black",
+            "0x0000"
+          ],
+          [
+            "red",
+            "0xF800"
+          ],
+          [
+            "green",
+            "0x07E0"
+          ],
+          [
+            "blue",
+            "0x001F"
+          ],
+          [
+            "yellow",
+            "0xFFE0"
+          ],
+          [
+            "cyan",
+            "0x07FF"
+          ],
+          [
+            "magenta",
+            "0xF81F"
+          ],
+          [
+            "orange",
+            "0xFD20"
+          ],
+          [
+            "gray",
+            "0x8410"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "filled",
+            "true"
+          ],
+          [
+            "outline",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_backlight": {
+    "message0": "Korvo screen backlight %1",
+    "tooltip": "Turns the screen backlight on or off",
+    "args0": [
+      {
+        "options": [
+          [
+            "on",
+            "true"
+          ],
+          [
+            "off",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_camera_preview": {
+    "message0": "Korvo show camera picture on screen",
+    "tooltip": "Captures one frame and draws it in the middle of the screen (240×240); call it in loop for a live preview"
+  },
+  "korvo_wifi_camera_stop": {
+    "message0": "Korvo stop camera preview",
+    "tooltip": "Stops capturing; the screen keeps the last frame"
+  },
+  "korvo_wifi_touch_pressed": {
+    "message0": "Korvo screen is touched",
+    "tooltip": "Touch is read once per loop pass, so checks and coordinates in one pass come from the same sample"
+  },
+  "korvo_wifi_touch_point": {
+    "message0": "Korvo touch %1",
+    "tooltip": "Position of the latest touch: X 0–279, Y 0–239",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_touch_gesture": {
+    "message0": "Korvo detected %1",
+    "tooltip": "At most one gesture per press: moving more than 42 pixels is a swipe, releasing after less than 15 pixels is a tap. A gesture is kept for 1 second and cleared once read",
+    "args0": [
+      {
+        "options": [
+          [
+            "tap",
+            "TAP"
+          ],
+          [
+            "swipe left",
+            "LEFT"
+          ],
+          [
+            "swipe right",
+            "RIGHT"
+          ],
+          [
+            "swipe up",
+            "UP"
+          ],
+          [
+            "swipe down",
+            "DOWN"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_volume": {
+    "message0": "Korvo volume %1",
+    "tooltip": "Speaker volume 0–100; affects agent speech and tones"
+  },
+  "korvo_wifi_tone": {
+    "message0": "Korvo play tone frequency %1 Hz for %2 ms",
+    "tooltip": "Plays a sine tone locally and waits until it ends; during a voice call it interrupts the agent"
+  },
+  "korvo_wifi_mic": {
+    "message0": "Korvo microphone local capture %1",
+    "tooltip": "Captures locally to measure the level only; nothing is uploaded and no network is needed",
+    "args0": [
+      {
+        "options": [
+          [
+            "start",
+            "start"
+          ],
+          [
+            "stop",
+            "stop"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_mic_level": {
+    "message0": "Korvo microphone level",
+    "tooltip": "Peak of the latest frame, 0–100; start local capture first"
+  },
+  "korvo_wifi_servo": {
+    "message0": "Korvo servo %1 %2 to %3 degrees",
+    "tooltip": "External eight-channel servo board (I2C 0x10, GPIO19/20, updated four-byte firmware). 180° position takes 0–180 degrees and 360° position 0–360; pick the mode that matches the servo. All drives the eight channels with one mode. The board state is read back after each command",
+    "args0": [
+      {
+        "options": [
+          [
+            "SS1",
+            "1"
+          ],
+          [
+            "SS2",
+            "2"
+          ],
+          [
+            "SS3",
+            "3"
+          ],
+          [
+            "SS4",
+            "4"
+          ],
+          [
+            "SS5",
+            "5"
+          ],
+          [
+            "SS6",
+            "6"
+          ],
+          [
+            "SS7",
+            "7"
+          ],
+          [
+            "SS8",
+            "8"
+          ],
+          [
+            "all",
+            "255"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "180° position",
+            "KORVO_WIFI_SERVO_180"
+          ],
+          [
+            "360° position",
+            "KORVO_WIFI_SERVO_360"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_wifi_servo_speed": {
+    "message0": "Korvo servo %1 continuous speed %2 %",
+    "tooltip": "Speed of a continuous-rotation servo, -100 to 100; the sign is the direction and 0 stops",
+    "args0": [
+      {
+        "options": [
+          [
+            "SS1",
+            "1"
+          ],
+          [
+            "SS2",
+            "2"
+          ],
+          [
+            "SS3",
+            "3"
+          ],
+          [
+            "SS4",
+            "4"
+          ],
+          [
+            "SS5",
+            "5"
+          ],
+          [
+            "SS6",
+            "6"
+          ],
+          [
+            "SS7",
+            "7"
+          ],
+          [
+            "SS8",
+            "8"
+          ],
+          [
+            "all",
+            "255"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_wifi_servo_stop": {
+    "message0": "Korvo servo %1 %2",
+    "tooltip": "Stop turning: sets a continuous servo to speed 0 (neutral pulses); release: turns the pulses off so the servo no longer holds",
+    "args0": [
+      {
+        "options": [
+          [
+            "SS1",
+            "1"
+          ],
+          [
+            "SS2",
+            "2"
+          ],
+          [
+            "SS3",
+            "3"
+          ],
+          [
+            "SS4",
+            "4"
+          ],
+          [
+            "SS5",
+            "5"
+          ],
+          [
+            "SS6",
+            "6"
+          ],
+          [
+            "SS7",
+            "7"
+          ],
+          [
+            "SS8",
+            "8"
+          ],
+          [
+            "all",
+            "255"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "stop turning",
+            "STOP"
+          ],
+          [
+            "release",
+            "RELEASE"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_servo_read": {
+    "message0": "Korvo read servo board status",
+    "tooltip": "Reads back the mode and setting of all eight channels, waiting up to 0.3 seconds; these are controller settings, not measured angles"
+  },
+  "korvo_wifi_servo_value": {
+    "message0": "Korvo servo %1 %2",
+    "tooltip": "From the latest read. Setting: angle or speed; mode: 0 released, 1 180° position, 2 360° position, 3 continuous, -1 before a read",
+    "args0": [
+      {
+        "options": [
+          [
+            "SS1",
+            "1"
+          ],
+          [
+            "SS2",
+            "2"
+          ],
+          [
+            "SS3",
+            "3"
+          ],
+          [
+            "SS4",
+            "4"
+          ],
+          [
+            "SS5",
+            "5"
+          ],
+          [
+            "SS6",
+            "6"
+          ],
+          [
+            "SS7",
+            "7"
+          ],
+          [
+            "SS8",
+            "8"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "setting",
+            "VALUE"
+          ],
+          [
+            "mode",
+            "MODE"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_servo_ok": {
+    "message0": "Korvo servo board %1",
+    "tooltip": "Whether the I2C write of the latest servo command, and the status read after it, succeeded; a successful write does not mean the servo has arrived",
+    "args0": [
+      {
+        "options": [
+          [
+            "last write succeeded",
+            "WRITE"
+          ],
+          [
+            "status read succeeded",
+            "READ"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_on_control": {
+    "message0": "when the platform controls ID %1 name %2 type %3",
+    "message1": "%1",
+    "tooltip": "Registers a controllable endpoint in the platform and agent and runs when a command arrives; get the value with \"platform sent\". Use unique IDs of letters, digits and underscores, at most 12",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "number",
+            "KORVO_WIFI_NUMBER"
+          ],
+          [
+            "switch",
+            "KORVO_WIFI_SWITCH"
+          ],
+          [
+            "text",
+            "KORVO_WIFI_TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_control_value": {
+    "message0": "platform sent %1",
+    "tooltip": "Value of the latest platform command: number, switch (true/false) or text",
+    "args0": [
+      {
+        "options": [
+          [
+            "number",
+            "NUMBER"
+          ],
+          [
+            "switch",
+            "SWITCH"
+          ],
+          [
+            "text",
+            "TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_report": {
+    "message0": "Korvo report platform data ID %1 name %2 type %3 value %4",
+    "tooltip": "Registers a device data endpoint in the platform and updates its latest value, which the platform and agent get when they read it; ID rules as for platform controls, at most 8. Text is at most 16 bytes and not empty",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "number",
+            "KORVO_WIFI_NUMBER"
+          ],
+          [
+            "switch",
+            "KORVO_WIFI_SWITCH"
+          ],
+          [
+            "text",
+            "KORVO_WIFI_TEXT"
+          ]
+        ]
+      },
+      null
+    ]
+  }
+}

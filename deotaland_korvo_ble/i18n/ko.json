@@ -1,0 +1,286 @@
+{
+  "toolbox_name": "Korvo 블루투스 에이전트",
+  "toolbox_categories": [
+    "초기화 및 상태",
+    "음성",
+    "에이전트",
+    "화면",
+    "터치",
+    "TF 카드 녹음",
+    "센서 및 제어"
+  ],
+  "korvo_ble_init": {
+    "message0": "Korvo 에이전트 초기화 블루투스 이름 %1 화면 %2 카메라 %3 시리얼 디버그 %4 App 펌웨어 업데이트 %5",
+    "tooltip": "ESP32-S3-Korvo-2 V3의 스피커, 마이크, 카메라, 화면, 블루투스를 초기화한 뒤 Agent Link App으로 이 이름에 연결합니다. 16MB 플래시와 OPI PSRAM 필요. 시리얼 디버그를 켜면 115200으로 시작·링크 정보를 출력. App 펌웨어 업데이트를 켜면 App이 블루투스로 새 펌웨어를 써 넣어 현재 프로그램을 대체합니다. app 슬롯이 두 개인 파티션(기본 app3M_fat9M_16MB 가능)이 필요합니다",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "사용",
+            "true"
+          ],
+          [
+            "사용 안 함",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "사용",
+            "true"
+          ],
+          [
+            "사용 안 함",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "켜기",
+            "true"
+          ],
+          [
+            "끄기",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "끄기",
+            "false"
+          ],
+          [
+            "켜기",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_is_ready": {
+    "message0": "Korvo App 연결됨",
+    "tooltip": "App이 연결되고 구독하면 참이며, 그때부터 음성·사진·텍스트를 보낼 수 있습니다"
+  },
+  "korvo_ble_print_status": {
+    "message0": "Korvo 진단 정보 시리얼 출력",
+    "tooltip": "링크, 각 채널, 재생, 메모리 상태를 시리얼로 출력합니다(초기화에서 시리얼 디버그 켜기)"
+  },
+  "korvo_ble_talk_start": {
+    "message0": "Korvo %1 시작 최대 %2 초",
+    "tooltip": "마이크 소리 업로드를 시작하고 시간이 되면 자동 종료합니다. 음성 명령: 말을 마치면 에이전트가 답변. 실시간 받아쓰기: App이 말하는 내용을 바로 텍스트로 변환(App이 오디오 채널을 열어야 함). 둘 다 App 연결 필요",
+    "args0": [
+      {
+        "options": [
+          [
+            "음성 명령",
+            "VOICE"
+          ],
+          [
+            "실시간 받아쓰기",
+            "ASR"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_ble_talk_stop": {
+    "message0": "Korvo 말하기 중지",
+    "tooltip": "음성 업로드를 끝냅니다. 이후 에이전트가 답변합니다"
+  },
+  "korvo_ble_is_talking": {
+    "message0": "Korvo 음성 업로드 중",
+    "tooltip": "음성 업로드 중이면 참"
+  },
+  "korvo_ble_is_speaking": {
+    "message0": "Korvo 답변 재생 중",
+    "tooltip": "에이전트 음성 답변을 받거나 재생 중이면 참"
+  },
+  "korvo_ble_test_tone": {
+    "message0": "Korvo 스피커 테스트음 재생",
+    "tooltip": "1kHz 테스트음을 1초 동안 로컬 재생해 스피커를 확인합니다(블루투스 미사용)"
+  },
+  "korvo_ble_send_prompt": {
+    "message0": "Korvo 에이전트에 텍스트 보내기 %1",
+    "tooltip": "텍스트를 프롬프트로 에이전트에 보냅니다. 예: \"사진을 찍어서 사람이 있는지 봐줘\""
+  },
+  "korvo_ble_take_photo": {
+    "message0": "Korvo 사진 찍어 에이전트에 보내기",
+    "tooltip": "240×240 사진을 찍어 JPEG로 인코딩한 뒤 App에 업로드합니다. 이전 사진 업로드 중에는 무시됩니다"
+  },
+  "korvo_ble_on_text": {
+    "message0": "Korvo가 에이전트 텍스트를 받았을 때",
+    "message1": "%1",
+    "tooltip": "에이전트가 텍스트를 보내면 실행됩니다. \"에이전트가 보낸 텍스트\"로 가져오며, 안에서 오래 기다리지 마세요"
+  },
+  "korvo_ble_agent_text": {
+    "message0": "에이전트가 보낸 텍스트",
+    "tooltip": "가장 최근에 받은 에이전트 텍스트(UTF-8)"
+  },
+  "korvo_ble_show_text": {
+    "message0": "Korvo 화면 표시 %1",
+    "tooltip": "화면에 글자를 표시합니다. 영문, 숫자, 일반 기호를 지원하며 중국어는 ?로 표시됩니다. 에이전트 텍스트도 자동 표시"
+  },
+  "korvo_ble_backlight": {
+    "message0": "Korvo 화면 백라이트 %1",
+    "tooltip": "화면 백라이트를 켜거나 끕니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "켜기",
+            "true"
+          ],
+          [
+            "끄기",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_update_sensor": {
+    "message0": "Korvo 센서 보고 ID %1 이름 %2 단위 %3 형식 %4 값 %5",
+    "tooltip": "측정값을 에이전트에 보고합니다. ID는 영문과 숫자로 중복 없이. 오프라인일 때는 최신 값만 보관하고 재연결 후 전송",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "숫자",
+            "KORVO_NUMBER"
+          ],
+          [
+            "스위치",
+            "KORVO_SWITCH"
+          ],
+          [
+            "텍스트",
+            "KORVO_TEXT"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_ble_on_control": {
+    "message0": "App이 ID %1 이름 %2 형식 %3 을 제어할 때",
+    "message1": "%1",
+    "tooltip": "App과 에이전트에 제어 가능한 엔드포인트를 등록하고 명령이 오면 실행합니다. 값은 \"App이 보낸\"으로 가져오며, 안에서 오래 기다리지 마세요",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "숫자",
+            "KORVO_NUMBER"
+          ],
+          [
+            "스위치",
+            "KORVO_SWITCH"
+          ],
+          [
+            "텍스트",
+            "KORVO_TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_control_value": {
+    "message0": "App이 보낸 %1",
+    "tooltip": "가장 최근 App 제어 명령의 값: 숫자, 스위치(참/거짓) 또는 텍스트",
+    "args0": [
+      {
+        "options": [
+          [
+            "숫자",
+            "NUMBER"
+          ],
+          [
+            "스위치",
+            "SWITCH"
+          ],
+          [
+            "텍스트",
+            "TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_camera_preview": {
+    "message0": "Korvo 카메라 실시간 미리보기 %1",
+    "tooltip": "카메라 화면을 실시간으로 화면에 표시합니다(약 15fps). 미리보기 중에는 화면 글자 갱신이 멈추고, 끄면 다시 표시됩니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "켜기",
+            "true"
+          ],
+          [
+            "끄기",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_touch_pressed": {
+    "message0": "Korvo 화면이 눌림",
+    "tooltip": "손가락이 터치스크린에 닿아 있으면 참"
+  },
+  "korvo_ble_touch_point": {
+    "message0": "Korvo 터치 좌표 %1",
+    "tooltip": "마지막으로 누른 위치(가로 화면 좌표): X는 0~279(왼쪽→오른쪽), Y는 0~239(위→아래)",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_sd_ready": {
+    "message0": "Korvo TF 카드 사용 가능",
+    "tooltip": "FAT32 TF 카드가 꽂혀 있고 녹음을 쓸 수 있으면 참. 카드는 초기화 때 마운트되므로 바꾼 뒤에는 다시 시작하세요"
+  },
+  "korvo_ble_record_start": {
+    "message0": "Korvo TF 카드에 녹음 시작",
+    "tooltip": "마이크를 녹음해 TF 카드 records 폴더에 rec-0001.wav 같은 파일로 저장합니다(IMA-ADPCM, 약 8KB/초). 음성 업로드와 함께 쓸 수 있고 App에서 녹음을 볼 수 있습니다"
+  },
+  "korvo_ble_record_stop": {
+    "message0": "Korvo 녹음 중지",
+    "tooltip": "녹음을 끝내고 파일을 저장합니다. 정상적으로 멈추지 않은 파일(전원 차단 등)은 열리지 않을 수 있습니다"
+  },
+  "korvo_ble_is_recording": {
+    "message0": "Korvo 녹음 중",
+    "tooltip": "녹음 중이면 참"
+  },
+  "korvo_ble_record_seconds": {
+    "message0": "Korvo 녹음 길이(초)",
+    "tooltip": "지금까지 녹음한 초. 멈춘 뒤에는 마지막 길이를 유지"
+  },
+  "korvo_ble_record_file": {
+    "message0": "Korvo 최근 녹음 파일 이름",
+    "tooltip": "가장 최근 녹음 파일 이름(예: rec-0001.wav). 아직 녹음하지 않았으면 빈 값"
+  }
+}
