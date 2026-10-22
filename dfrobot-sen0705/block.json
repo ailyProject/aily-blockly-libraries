@@ -1,0 +1,261 @@
+[
+  {
+    "type": "sen0705_init",
+    "message0": "初始化触觉传感器 %1 串口 %2 RX %3 TX %4 地址 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "tactile"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": [
+          [
+            "Serial1",
+            "Serial1"
+          ],
+          [
+            "Serial2",
+            "Serial2"
+          ],
+          [
+            "Serial",
+            "Serial"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RX",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TX",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDR",
+        "options": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "UART 115200 初始化 4x8 柔性阵列压力传感器。",
+    "icon": "fa-light fa-table",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0705_read",
+    "message0": "触觉传感器 %1 读取成功",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tactile",
+        "variableTypes": [
+          "DFRobot_TactileSensor"
+        ],
+        "defaultType": "DFRobot_TactileSensor"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#F57C00",
+    "tooltip": "读取整帧压力阵列，成功返回 true。",
+    "icon": "fa-light fa-table",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0705_cell",
+    "message0": "触觉传感器 %1 点 行 %2 列 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tactile",
+        "variableTypes": [
+          "DFRobot_TactileSensor"
+        ],
+        "defaultType": "DFRobot_TactileSensor"
+      },
+      {
+        "type": "input_value",
+        "name": "ROW",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COL",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#F57C00",
+    "tooltip": "读取缓存阵列 ADC，行 0-3，列 0-7。",
+    "icon": "fa-light fa-table",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0705_set_thld",
+    "message0": "触觉传感器 %1 阈值 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tactile",
+        "variableTypes": [
+          "DFRobot_TactileSensor"
+        ],
+        "defaultType": "DFRobot_TactileSensor"
+      },
+      {
+        "type": "input_value",
+        "name": "THLD",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "设置阈值 0-4095，默认 50。",
+    "icon": "fa-light fa-table",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0705_set_rate",
+    "message0": "触觉传感器 %1 采样率 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tactile",
+        "variableTypes": [
+          "DFRobot_TactileSensor"
+        ],
+        "defaultType": "DFRobot_TactileSensor"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RATE",
+        "options": [
+          [
+            "20Hz",
+            "eSampleRate20Hz"
+          ],
+          [
+            "50Hz",
+            "eSampleRate50Hz"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "设置采样率 20 或 50Hz。",
+    "icon": "fa-light fa-table",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0705_info",
+    "message0": "触觉传感器 %1 设备 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tactile",
+        "variableTypes": [
+          "DFRobot_TactileSensor"
+        ],
+        "defaultType": "DFRobot_TactileSensor"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "INFO",
+        "options": [
+          [
+            "VID",
+            "VID"
+          ],
+          [
+            "PID",
+            "PID"
+          ],
+          [
+            "版本",
+            "VER"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#F57C00",
+    "tooltip": "读取设备信息。",
+    "icon": "fa-light fa-table",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0705_restore",
+    "message0": "触觉传感器 %1 恢复默认",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tactile",
+        "variableTypes": [
+          "DFRobot_TactileSensor"
+        ],
+        "defaultType": "DFRobot_TactileSensor"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "恢复阈值、地址、波特率和采样率默认值。",
+    "icon": "fa-light fa-table",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0705_set_addr",
+    "message0": "触觉传感器 %1 设置地址 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "tactile",
+        "variableTypes": [
+          "DFRobot_TactileSensor"
+        ],
+        "defaultType": "DFRobot_TactileSensor"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDR",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "设置设备地址 1-255，0 为广播不可写。",
+    "icon": "fa-light fa-table",
+    "inputsInline": true
+  }
+]

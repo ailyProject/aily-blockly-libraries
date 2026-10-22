@@ -1,0 +1,996 @@
+{
+  "toolbox_name": "Korvo Wi-Fi 智能体",
+  "toolbox_categories": [
+    "初始化与联网",
+    "会话",
+    "语音",
+    "屏幕与摄像头",
+    "触摸",
+    "声音",
+    "舵机",
+    "平台控制"
+  ],
+  "korvo_wifi_init": {
+    "message0": "初始化 Korvo Wi-Fi 智能体 界面 %1 Wi-Fi 名称 %2 密码 %3 串口调试 %4",
+    "tooltip": "启动屏幕、触摸、音频并连接云平台。Wi-Fi 名称留空时用已保存的网络，没有则打开 KorvoCloud-XXXX 热点配网；首次使用要在平台输入屏幕上的激活码并绑定智能体。原版界面运行 IDF 的完整页面（首页、应用、摄像头、语音、会话、舵机、状态），此时绘图、触摸和摄像头积木不起作用。需要 16MB Flash、OPI PSRAM、app 分区至少 5MB",
+    "args0": [
+      {
+        "options": [
+          [
+            "积木控制",
+            "false"
+          ],
+          [
+            "原版界面",
+            "true"
+          ]
+        ]
+      },
+      null,
+      null,
+      {
+        "options": [
+          [
+            "打开",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_cloud": {
+    "message0": "Korvo 云平台 %1",
+    "tooltip": "连接或断开 Wi-Fi 云平台；初始化时已自动连接。连接是异步的，用「平台已上线」判断结果",
+    "args0": [
+      {
+        "options": [
+          [
+            "连接",
+            "connect"
+          ],
+          [
+            "断开",
+            "disconnect"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_state": {
+    "message0": "Korvo %1",
+    "tooltip": "正在热点配网：手机连 KorvoCloud-XXXX 热点设置 Wi-Fi；等待输入激活码：到平台输入激活码；需要处理：看状态提示；已绑定语音智能体：平台里绑定了支持实时语音的智能体；语音连接中：正在申请通话；语音已接通：实时通话已建立；正在收音：麦克风正在上传；正在播放声音：扬声器还有声音没播完",
+    "args0": [
+      {
+        "options": [
+          [
+            "Wi-Fi 已连接",
+            "WIFI"
+          ],
+          [
+            "平台已上线",
+            "PLATFORM"
+          ],
+          [
+            "正在热点配网",
+            "SETUP"
+          ],
+          [
+            "等待输入激活码",
+            "PAIRING"
+          ],
+          [
+            "需要处理",
+            "BLOCKED"
+          ],
+          [
+            "已绑定语音智能体",
+            "AGENT"
+          ],
+          [
+            "语音连接中",
+            "CONNECTING"
+          ],
+          [
+            "语音已接通",
+            "VOICE"
+          ],
+          [
+            "正在收音",
+            "LISTEN"
+          ],
+          [
+            "正在播放声音",
+            "PLAYING"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_info": {
+    "message0": "Korvo %1",
+    "tooltip": "首次使用时激活码在这里，到平台输入它完成绑定。连接阶段是 idle、setup、connecting、pairing、blocked、online、ready 之一；状态代码是平台返回的业务码；语音状态说明通话进行到哪一步",
+    "args0": [
+      {
+        "options": [
+          [
+            "IP 地址",
+            "IP"
+          ],
+          [
+            "激活码",
+            "CODE"
+          ],
+          [
+            "激活码剩余秒数",
+            "EXPIRES"
+          ],
+          [
+            "状态标题",
+            "TITLE"
+          ],
+          [
+            "状态提示",
+            "HINT"
+          ],
+          [
+            "连接阶段",
+            "PHASE"
+          ],
+          [
+            "状态代码",
+            "DETAIL"
+          ],
+          [
+            "设备编号",
+            "SN"
+          ],
+          [
+            "固件版本",
+            "VERSION"
+          ],
+          [
+            "智能体名称",
+            "AGENT"
+          ],
+          [
+            "智能体 ID",
+            "AGENT_ID"
+          ],
+          [
+            "当前会话 ID",
+            "SESSION"
+          ],
+          [
+            "当前会话名称",
+            "SESSION_NAME"
+          ],
+          [
+            "语音状态",
+            "VOICE_STATUS"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_show_status": {
+    "message0": "Korvo 屏幕显示联网和激活状态",
+    "tooltip": "在屏幕上显示联网步骤、提示、激活码和 IP，只在内容变化时重画，可以放在 loop 里"
+  },
+  "korvo_wifi_reset": {
+    "message0": "Korvo %1",
+    "tooltip": "重置激活：清除平台密钥并马上申请新激活码，Wi-Fi 保留；先在平台控制台解绑这台设备，否则新激活会被拒绝。清除 Wi-Fi：删除保存的 Wi-Fi 后重启并打开配网热点，只在初始化积木的 Wi-Fi 名称留空时有效",
+    "args0": [
+      {
+        "options": [
+          [
+            "重置激活",
+            "ACTIVATION"
+          ],
+          [
+            "清除 Wi-Fi 并重新配网",
+            "WIFI"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_ui_page": {
+    "message0": "Korvo 原版界面打开 %1",
+    "tooltip": "只在原版界面模式有效：切换到指定页面。打开语音页会用已选会话自动接通，没有会话时先进入会话列表",
+    "args0": [
+      {
+        "options": [
+          [
+            "首页",
+            "HOME"
+          ],
+          [
+            "应用",
+            "APPS"
+          ],
+          [
+            "摄像头",
+            "CAMERA"
+          ],
+          [
+            "语音",
+            "VOICE"
+          ],
+          [
+            "舵机",
+            "SERVO"
+          ],
+          [
+            "状态",
+            "STATUS"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_session_new": {
+    "message0": "Korvo 新建会话",
+    "tooltip": "为绑定的智能体新建一个会话并选中它；正在通话时先挂断，建好后在新会话上重新接通。阻塞的网络请求"
+  },
+  "korvo_wifi_session_refresh": {
+    "message0": "Korvo 读取会话列表 %1",
+    "tooltip": "从平台读取一页会话，每页最多 8 个；阻塞的网络请求，不要每轮 loop 调用。没有下一页或上一页时不发请求",
+    "args0": [
+      {
+        "options": [
+          [
+            "第一页",
+            "FIRST"
+          ],
+          [
+            "下一页",
+            "NEXT"
+          ],
+          [
+            "上一页",
+            "PREV"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_session_has_page": {
+    "message0": "Korvo 会话列表有 %1",
+    "tooltip": "根据最近一次读取判断还能不能翻页；平台只告诉还有没有更多，不给总数",
+    "args0": [
+      {
+        "options": [
+          [
+            "下一页",
+            "NEXT"
+          ],
+          [
+            "上一页",
+            "PREV"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_session_count": {
+    "message0": "Korvo 本页会话数量",
+    "tooltip": "最近一次读取到的这一页的会话个数"
+  },
+  "korvo_wifi_session_get": {
+    "message0": "Korvo 第 %1 个会话的 %2",
+    "tooltip": "按本页顺序取会话的名称、ID 或创建时间，从 1 开始；没有名称时返回 ID",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "名称",
+            "NAME"
+          ],
+          [
+            "ID",
+            "ID"
+          ],
+          [
+            "创建时间",
+            "TIME"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_session_select": {
+    "message0": "Korvo 选择第 %1 个会话",
+    "tooltip": "选择本页的会话，之后通话就用它；选择会保存，重启后对同一个智能体自动恢复。正在通话时会挂断并在新会话上重新接通"
+  },
+  "korvo_wifi_session_delete": {
+    "message0": "Korvo 删除当前会话",
+    "tooltip": "在平台上删除当前选中的会话，无法恢复；正在通话会先挂断，删除后列表回到第一页"
+  },
+  "korvo_wifi_session_delete_at": {
+    "message0": "Korvo 删除第 %1 个会话",
+    "tooltip": "在平台上删除本页的某个会话，无法恢复；删掉的是当前会话时会取消选择，删除后列表回到第一页"
+  },
+  "korvo_wifi_voice_connect": {
+    "message0": "Korvo 开始语音通话",
+    "tooltip": "用当前会话接通实时语音：平台没准备好时每秒重试，最多 10 次，30 秒没接通就放弃；接通后自动持续收音，智能体的回答自动播放"
+  },
+  "korvo_wifi_listen": {
+    "message0": "Korvo %1 收音",
+    "tooltip": "通话中暂停或恢复把麦克风声音上传给智能体；停止后通话保持，开始后通话期间一直收音",
+    "args0": [
+      {
+        "options": [
+          [
+            "开始",
+            "start"
+          ],
+          [
+            "停止",
+            "stop"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_voice_end": {
+    "message0": "Korvo 结束语音通话",
+    "tooltip": "停止收音和播放并结束实时通话"
+  },
+  "korvo_wifi_on_text": {
+    "message0": "当 Korvo 收到智能体文字时",
+    "message1": "%1",
+    "tooltip": "智能体发来新文字时执行，用「智能体的文字」取得；里面不要写长时间等待"
+  },
+  "korvo_wifi_agent_text": {
+    "message0": "智能体的文字",
+    "tooltip": "最近一次收到的文字（最长 2048 字节），中文可以直接用「屏幕显示」积木显示"
+  },
+  "korvo_wifi_screen_clear": {
+    "message0": "Korvo 清屏 颜色 %1",
+    "tooltip": "用一种颜色填满整个屏幕",
+    "args0": [
+      {
+        "options": [
+          [
+            "白",
+            "0xFFFF"
+          ],
+          [
+            "黑",
+            "0x0000"
+          ],
+          [
+            "红",
+            "0xF800"
+          ],
+          [
+            "绿",
+            "0x07E0"
+          ],
+          [
+            "蓝",
+            "0x001F"
+          ],
+          [
+            "黄",
+            "0xFFE0"
+          ],
+          [
+            "青",
+            "0x07FF"
+          ],
+          [
+            "品红",
+            "0xF81F"
+          ],
+          [
+            "橙",
+            "0xFD20"
+          ],
+          [
+            "灰",
+            "0x8410"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_screen_text": {
+    "message0": "Korvo 屏幕 x %1 y %2 显示 %3 颜色 %4",
+    "tooltip": "用内置 14 像素字库显示文字，支持中文和英文，到屏幕右边自动换行；屏幕横向 280×240，四角留 20 像素",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "白",
+            "0xFFFF"
+          ],
+          [
+            "黑",
+            "0x0000"
+          ],
+          [
+            "红",
+            "0xF800"
+          ],
+          [
+            "绿",
+            "0x07E0"
+          ],
+          [
+            "蓝",
+            "0x001F"
+          ],
+          [
+            "黄",
+            "0xFFE0"
+          ],
+          [
+            "青",
+            "0x07FF"
+          ],
+          [
+            "品红",
+            "0xF81F"
+          ],
+          [
+            "橙",
+            "0xFD20"
+          ],
+          [
+            "灰",
+            "0x8410"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_screen_big": {
+    "message0": "Korvo 屏幕 x %1 y %2 显示大号英文 %3 颜色 %4 放大 %5 倍",
+    "tooltip": "只支持英文、数字和符号，可以放大 1～8 倍",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "白",
+            "0xFFFF"
+          ],
+          [
+            "黑",
+            "0x0000"
+          ],
+          [
+            "红",
+            "0xF800"
+          ],
+          [
+            "绿",
+            "0x07E0"
+          ],
+          [
+            "蓝",
+            "0x001F"
+          ],
+          [
+            "黄",
+            "0xFFE0"
+          ],
+          [
+            "青",
+            "0x07FF"
+          ],
+          [
+            "品红",
+            "0xF81F"
+          ],
+          [
+            "橙",
+            "0xFD20"
+          ],
+          [
+            "灰",
+            "0x8410"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_wifi_screen_rect": {
+    "message0": "Korvo 画矩形 x %1 y %2 宽 %3 高 %4 颜色 %5 %6",
+    "tooltip": "画实心或空心矩形",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "白",
+            "0xFFFF"
+          ],
+          [
+            "黑",
+            "0x0000"
+          ],
+          [
+            "红",
+            "0xF800"
+          ],
+          [
+            "绿",
+            "0x07E0"
+          ],
+          [
+            "蓝",
+            "0x001F"
+          ],
+          [
+            "黄",
+            "0xFFE0"
+          ],
+          [
+            "青",
+            "0x07FF"
+          ],
+          [
+            "品红",
+            "0xF81F"
+          ],
+          [
+            "橙",
+            "0xFD20"
+          ],
+          [
+            "灰",
+            "0x8410"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "实心",
+            "true"
+          ],
+          [
+            "空心",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_backlight": {
+    "message0": "Korvo 屏幕背光 %1",
+    "tooltip": "打开或关闭屏幕背光",
+    "args0": [
+      {
+        "options": [
+          [
+            "打开",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_camera_preview": {
+    "message0": "Korvo 摄像头画面显示到屏幕",
+    "tooltip": "拍一帧显示在屏幕中间（240×240），放在 loop 里持续调用就是实时预览"
+  },
+  "korvo_wifi_camera_stop": {
+    "message0": "Korvo 停止摄像头预览",
+    "tooltip": "停止采集，屏幕保留最后一帧"
+  },
+  "korvo_wifi_touch_pressed": {
+    "message0": "Korvo 屏幕被按下",
+    "tooltip": "每轮 loop 读一次触摸，同一轮里的判断和坐标来自同一次读数"
+  },
+  "korvo_wifi_touch_point": {
+    "message0": "Korvo 触摸坐标 %1",
+    "tooltip": "最近一次按下的位置：X 为 0～279，Y 为 0～239",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_touch_gesture": {
+    "message0": "Korvo 检测到 %1",
+    "tooltip": "每次按下最多识别一个手势：滑动超过 42 像素算滑动，移动不到 15 像素松开算点击。手势保留 1 秒，读到一次后清除",
+    "args0": [
+      {
+        "options": [
+          [
+            "点击",
+            "TAP"
+          ],
+          [
+            "左滑",
+            "LEFT"
+          ],
+          [
+            "右滑",
+            "RIGHT"
+          ],
+          [
+            "上滑",
+            "UP"
+          ],
+          [
+            "下滑",
+            "DOWN"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_volume": {
+    "message0": "Korvo 音量 %1",
+    "tooltip": "扬声器音量 0～100，智能体语音和提示音都受影响"
+  },
+  "korvo_wifi_tone": {
+    "message0": "Korvo 播放提示音 频率 %1 Hz 时长 %2 毫秒",
+    "tooltip": "本地播放正弦提示音，播放期间程序等待；语音通话中会打断智能体的声音"
+  },
+  "korvo_wifi_mic": {
+    "message0": "Korvo 麦克风本地采集 %1",
+    "tooltip": "只在本地采集用来测音量，不上传，不需要联网",
+    "args0": [
+      {
+        "options": [
+          [
+            "开始",
+            "start"
+          ],
+          [
+            "停止",
+            "stop"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_mic_level": {
+    "message0": "Korvo 麦克风音量",
+    "tooltip": "最近一帧的峰值，0～100；需要先开始本地采集"
+  },
+  "korvo_wifi_servo": {
+    "message0": "Korvo 舵机 %1 %2 转到 %3 度",
+    "tooltip": "外接八路舵机板（I2C 0x10，GPIO19/20，新版四字节固件）。180° 定位 0～180 度，360° 定位 0～360 度，按舵机型号选择；全部表示八路同时用同一模式。命令发出后自动读回板子状态",
+    "args0": [
+      {
+        "options": [
+          [
+            "SS1",
+            "1"
+          ],
+          [
+            "SS2",
+            "2"
+          ],
+          [
+            "SS3",
+            "3"
+          ],
+          [
+            "SS4",
+            "4"
+          ],
+          [
+            "SS5",
+            "5"
+          ],
+          [
+            "SS6",
+            "6"
+          ],
+          [
+            "SS7",
+            "7"
+          ],
+          [
+            "SS8",
+            "8"
+          ],
+          [
+            "全部",
+            "255"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "180° 定位",
+            "KORVO_WIFI_SERVO_180"
+          ],
+          [
+            "360° 定位",
+            "KORVO_WIFI_SERVO_360"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_wifi_servo_speed": {
+    "message0": "Korvo 舵机 %1 连续旋转 速度 %2 %",
+    "tooltip": "连续旋转舵机的速度 -100～100，正负是方向，0 停止",
+    "args0": [
+      {
+        "options": [
+          [
+            "SS1",
+            "1"
+          ],
+          [
+            "SS2",
+            "2"
+          ],
+          [
+            "SS3",
+            "3"
+          ],
+          [
+            "SS4",
+            "4"
+          ],
+          [
+            "SS5",
+            "5"
+          ],
+          [
+            "SS6",
+            "6"
+          ],
+          [
+            "SS7",
+            "7"
+          ],
+          [
+            "SS8",
+            "8"
+          ],
+          [
+            "全部",
+            "255"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_wifi_servo_stop": {
+    "message0": "Korvo 舵机 %1 %2",
+    "tooltip": "停止转动：连续旋转舵机速度设为 0（输出中位脉冲）；释放：关闭脉冲，舵机不再出力",
+    "args0": [
+      {
+        "options": [
+          [
+            "SS1",
+            "1"
+          ],
+          [
+            "SS2",
+            "2"
+          ],
+          [
+            "SS3",
+            "3"
+          ],
+          [
+            "SS4",
+            "4"
+          ],
+          [
+            "SS5",
+            "5"
+          ],
+          [
+            "SS6",
+            "6"
+          ],
+          [
+            "SS7",
+            "7"
+          ],
+          [
+            "SS8",
+            "8"
+          ],
+          [
+            "全部",
+            "255"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "停止转动",
+            "STOP"
+          ],
+          [
+            "释放",
+            "RELEASE"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_servo_read": {
+    "message0": "Korvo 读取舵机板状态",
+    "tooltip": "读回八路的模式和设定值，最多等 0.3 秒；读到的是控制器设定，不是实测角度"
+  },
+  "korvo_wifi_servo_value": {
+    "message0": "Korvo 舵机 %1 的 %2",
+    "tooltip": "最近一次读到的状态。设定值：角度或速度；模式：0 释放、1 180° 定位、2 360° 定位、3 连续旋转，还没读到时为 -1",
+    "args0": [
+      {
+        "options": [
+          [
+            "SS1",
+            "1"
+          ],
+          [
+            "SS2",
+            "2"
+          ],
+          [
+            "SS3",
+            "3"
+          ],
+          [
+            "SS4",
+            "4"
+          ],
+          [
+            "SS5",
+            "5"
+          ],
+          [
+            "SS6",
+            "6"
+          ],
+          [
+            "SS7",
+            "7"
+          ],
+          [
+            "SS8",
+            "8"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "设定值",
+            "VALUE"
+          ],
+          [
+            "模式",
+            "MODE"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_servo_ok": {
+    "message0": "Korvo 舵机板 %1",
+    "tooltip": "最近一条舵机命令的 I2C 写入和随后的状态读取是否成功；写入成功不代表舵机已经转到位",
+    "args0": [
+      {
+        "options": [
+          [
+            "上次写入成功",
+            "WRITE"
+          ],
+          [
+            "状态读取成功",
+            "READ"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_on_control": {
+    "message0": "当平台控制 ID %1 名称 %2 类型 %3 时",
+    "message1": "%1",
+    "tooltip": "在平台和智能体里注册一个可控制的端点，收到命令时执行，用「平台下发的值」取得；ID 用英文字母、数字和下划线且不重复，最多 12 个",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "数字",
+            "KORVO_WIFI_NUMBER"
+          ],
+          [
+            "开关",
+            "KORVO_WIFI_SWITCH"
+          ],
+          [
+            "文字",
+            "KORVO_WIFI_TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_control_value": {
+    "message0": "平台下发的 %1",
+    "tooltip": "最近一次平台控制命令的值：数字、开关（真/假）或文字",
+    "args0": [
+      {
+        "options": [
+          [
+            "数字",
+            "NUMBER"
+          ],
+          [
+            "开关",
+            "SWITCH"
+          ],
+          [
+            "文字",
+            "TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_report": {
+    "message0": "Korvo 上报平台数据 ID %1 名称 %2 类型 %3 值 %4",
+    "tooltip": "在平台注册一个设备数据端点并更新它的最新值，平台和智能体读取时拿到这个值；ID 规则同平台控制，最多 8 个。文字最多 16 字节且不能为空",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "数字",
+            "KORVO_WIFI_NUMBER"
+          ],
+          [
+            "开关",
+            "KORVO_WIFI_SWITCH"
+          ],
+          [
+            "文字",
+            "KORVO_WIFI_TEXT"
+          ]
+        ]
+      },
+      null
+    ]
+  }
+}

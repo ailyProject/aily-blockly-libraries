@@ -1,0 +1,664 @@
+[
+  {
+    "type": "sen0670_init_i2c",
+    "message0": "初始化姿态手势传感器 %1 I2C %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "humanPose"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C2185B",
+    "tooltip": "I2C 初始化 SEN0670，地址固定 0x3A。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0670_init_uart",
+    "message0": "初始化姿态手势传感器 %1 UART %2 RX %3 TX %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "humanPose"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": [
+          [
+            "Serial1",
+            "Serial1"
+          ],
+          [
+            "Serial2",
+            "Serial2"
+          ],
+          [
+            "Serial",
+            "Serial"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RX",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TX",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C2185B",
+    "tooltip": "UART 9600 初始化 SEN0670。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0670_set_model",
+    "message0": "传感器 %1 识别模式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "humanPose",
+        "variableTypes": [
+          "DFRobot_HumanPose"
+        ],
+        "defaultType": "DFRobot_HumanPose"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "自定义手势",
+            "eHand"
+          ],
+          [
+            "自定义姿势",
+            "ePose"
+          ],
+          [
+            "固定手势",
+            "eGesture"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C2185B",
+    "tooltip": "eHand 自定义手势，ePose 自定义姿势，eGesture 13 种固定手势。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0670_get_result",
+    "message0": "传感器 %1 识别成功",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "humanPose",
+        "variableTypes": [
+          "DFRobot_HumanPose"
+        ],
+        "defaultType": "DFRobot_HumanPose"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#C2185B",
+    "tooltip": "触发一次识别，成功返回 true。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0670_available",
+    "message0": "传感器 %1 还有未读结果",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "humanPose",
+        "variableTypes": [
+          "DFRobot_HumanPose"
+        ],
+        "defaultType": "DFRobot_HumanPose"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#C2185B",
+    "tooltip": "上次识别是否还有未取出的目标。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0670_pop",
+    "message0": "传感器 %1 取出下一个结果",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "humanPose",
+        "variableTypes": [
+          "DFRobot_HumanPose"
+        ],
+        "defaultType": "DFRobot_HumanPose"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C2185B",
+    "tooltip": "取出下一个检测结果到缓存，供 ID/名称/框/关键点积木使用。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0670_field",
+    "message0": "结果 %1 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "humanPose",
+        "variableTypes": [
+          "DFRobot_HumanPose"
+        ],
+        "defaultType": "DFRobot_HumanPose"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FIELD",
+        "options": [
+          [
+            "ID",
+            "ID"
+          ],
+          [
+            "分数",
+            "SCORE"
+          ],
+          [
+            "左",
+            "X"
+          ],
+          [
+            "上",
+            "Y"
+          ],
+          [
+            "宽",
+            "W"
+          ],
+          [
+            "高",
+            "H"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#C2185B",
+    "tooltip": "读取当前结果的 ID、分数或检测框。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0670_name",
+    "message0": "结果 %1 名称",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "humanPose",
+        "variableTypes": [
+          "DFRobot_HumanPose"
+        ],
+        "defaultType": "DFRobot_HumanPose"
+      }
+    ],
+    "output": "String",
+    "colour": "#C2185B",
+    "tooltip": "当前结果名称。固定手势如 like/ok/stop；自定义为学习名；未学习为 unknown。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0670_pose_pt",
+    "message0": "姿势关键点 %1 %2 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "humanPose",
+        "variableTypes": [
+          "DFRobot_HumanPose"
+        ],
+        "defaultType": "DFRobot_HumanPose"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PT",
+        "options": [
+          [
+            "鼻子",
+            "nose"
+          ],
+          [
+            "左眼",
+            "leye"
+          ],
+          [
+            "右眼",
+            "reye"
+          ],
+          [
+            "左耳",
+            "lear"
+          ],
+          [
+            "右耳",
+            "rear"
+          ],
+          [
+            "左肩",
+            "lshoulder"
+          ],
+          [
+            "右肩",
+            "rshoulder"
+          ],
+          [
+            "左肘",
+            "lelbow"
+          ],
+          [
+            "右肘",
+            "relbow"
+          ],
+          [
+            "左腕",
+            "lwrist"
+          ],
+          [
+            "右腕",
+            "rwrist"
+          ],
+          [
+            "左髋",
+            "lhip"
+          ],
+          [
+            "右髋",
+            "rhip"
+          ],
+          [
+            "左膝",
+            "lknee"
+          ],
+          [
+            "右膝",
+            "rknee"
+          ],
+          [
+            "左踝",
+            "lankle"
+          ],
+          [
+            "右踝",
+            "rankle"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "XY",
+        "options": [
+          [
+            "X",
+            "x"
+          ],
+          [
+            "Y",
+            "y"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#C2185B",
+    "tooltip": "读取姿势 17 关键点坐标，需当前模式为 ePose。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0670_hand_pt",
+    "message0": "手部关键点 %1 %2 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "humanPose",
+        "variableTypes": [
+          "DFRobot_HumanPose"
+        ],
+        "defaultType": "DFRobot_HumanPose"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PT",
+        "options": [
+          [
+            "手腕",
+            "wrist"
+          ],
+          [
+            "拇指CMC",
+            "thumbCmc"
+          ],
+          [
+            "拇指MCP",
+            "thumbMcp"
+          ],
+          [
+            "拇指IP",
+            "thumbIp"
+          ],
+          [
+            "拇指尖",
+            "thumbTip"
+          ],
+          [
+            "食指MCP",
+            "indexFingerMcp"
+          ],
+          [
+            "食指PIP",
+            "indexFingerPip"
+          ],
+          [
+            "食指DIP",
+            "indexFingerDip"
+          ],
+          [
+            "食指尖",
+            "indexFingerTip"
+          ],
+          [
+            "中指MCP",
+            "middleFingerMcp"
+          ],
+          [
+            "中指PIP",
+            "middleFingerPip"
+          ],
+          [
+            "中指DIP",
+            "middleFingerDip"
+          ],
+          [
+            "中指尖",
+            "middleFingerTip"
+          ],
+          [
+            "无名指MCP",
+            "ringFingerMcp"
+          ],
+          [
+            "无名指PIP",
+            "ringFingerPip"
+          ],
+          [
+            "无名指DIP",
+            "ringFingerDip"
+          ],
+          [
+            "无名指尖",
+            "ringFingerTip"
+          ],
+          [
+            "小指MCP",
+            "pinkyFingerMcp"
+          ],
+          [
+            "小指PIP",
+            "pinkyFingerPip"
+          ],
+          [
+            "小指DIP",
+            "pinkyFingerDip"
+          ],
+          [
+            "小指尖",
+            "pinkyFingerTip"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "XY",
+        "options": [
+          [
+            "X",
+            "x"
+          ],
+          [
+            "Y",
+            "y"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#C2185B",
+    "tooltip": "读取手部 21 关键点坐标，需当前模式为 eHand。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0670_set_conf",
+    "message0": "传感器 %1 置信度阈值 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "humanPose",
+        "variableTypes": [
+          "DFRobot_HumanPose"
+        ],
+        "defaultType": "DFRobot_HumanPose"
+      },
+      {
+        "type": "input_value",
+        "name": "VAL",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C2185B",
+    "tooltip": "检测置信度 0-100，默认约 60。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0670_set_iou",
+    "message0": "传感器 %1 IOU 阈值 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "humanPose",
+        "variableTypes": [
+          "DFRobot_HumanPose"
+        ],
+        "defaultType": "DFRobot_HumanPose"
+      },
+      {
+        "type": "input_value",
+        "name": "VAL",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C2185B",
+    "tooltip": "NMS IOU 0-100，默认约 45。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0670_set_sim",
+    "message0": "传感器 %1 学习相似度 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "humanPose",
+        "variableTypes": [
+          "DFRobot_HumanPose"
+        ],
+        "defaultType": "DFRobot_HumanPose"
+      },
+      {
+        "type": "input_value",
+        "name": "VAL",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C2185B",
+    "tooltip": "自定义目标相似度 0-100，默认约 80。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0670_learn_list",
+    "message0": "传感器 %1 获取学习列表 模式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "humanPose",
+        "variableTypes": [
+          "DFRobot_HumanPose"
+        ],
+        "defaultType": "DFRobot_HumanPose"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODEL",
+        "options": [
+          [
+            "自定义手势",
+            "eHand"
+          ],
+          [
+            "自定义姿势",
+            "ePose"
+          ],
+          [
+            "固定手势",
+            "eGesture"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C2185B",
+    "tooltip": "读取已学习名称列表。固定手势模式返回空列表。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0670_learn_size",
+    "message0": "传感器 %1 学习数量",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "humanPose",
+        "variableTypes": [
+          "DFRobot_HumanPose"
+        ],
+        "defaultType": "DFRobot_HumanPose"
+      }
+    ],
+    "output": "Number",
+    "colour": "#C2185B",
+    "tooltip": "最近一次学习列表的数量。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0670_learn_name",
+    "message0": "传感器 %1 学习名称 序号 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "humanPose",
+        "variableTypes": [
+          "DFRobot_HumanPose"
+        ],
+        "defaultType": "DFRobot_HumanPose"
+      },
+      {
+        "type": "input_value",
+        "name": "INDEX",
+        "check": "Number"
+      }
+    ],
+    "output": "String",
+    "colour": "#C2185B",
+    "tooltip": "学习列表中的名称，序号从 0 开始。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0670_set_en",
+    "message0": "使能引脚 %1 输出 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "LEVEL",
+        "options": [
+          [
+            "高",
+            "HIGH"
+          ],
+          [
+            "低",
+            "LOW"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#C2185B",
+    "tooltip": "控制 SEN0670 EN/wakeup 引脚，低电平可关闭传感器。",
+    "icon": "fa-light fa-person",
+    "inputsInline": true
+  }
+]

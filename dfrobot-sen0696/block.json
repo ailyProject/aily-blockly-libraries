@@ -1,0 +1,624 @@
+[
+  {
+    "type": "sen0696_init_i2c",
+    "message0": "初始化 10轴 IMU %1 I2C %2 地址 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "imu"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDRESS",
+        "options": [
+          [
+            "0x4A (默认)",
+            "0x4A"
+          ],
+          [
+            "0x4B",
+            "0x4B"
+          ],
+          [
+            "0x4C",
+            "0x4C"
+          ],
+          [
+            "0x4D",
+            "0x4D"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A1B9A",
+    "tooltip": "通过 I2C 初始化并设置为正常模式、+/-2g、+/-250dps。",
+    "icon": "fa-light fa-compass",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0696_init_uart",
+    "message0": "初始化 10轴 IMU %1 UART %2 RX %3 TX %4 地址 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "imu"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": [
+          [
+            "Serial1",
+            "Serial1"
+          ],
+          [
+            "Serial2",
+            "Serial2"
+          ],
+          [
+            "Serial",
+            "Serial"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RX",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TX",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDRESS",
+        "options": [
+          [
+            "0x4A (默认)",
+            "0x4A"
+          ],
+          [
+            "0x4B",
+            "0x4B"
+          ],
+          [
+            "0x4C",
+            "0x4C"
+          ],
+          [
+            "0x4D",
+            "0x4D"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A1B9A",
+    "tooltip": "通过 UART Modbus 9600 初始化 IMU。",
+    "icon": "fa-light fa-compass",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0696_set_mode",
+    "message0": "IMU %1 工作模式 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "DFRobot_Multi_DOF_IMU"
+        ],
+        "defaultType": "DFRobot_Multi_DOF_IMU"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "正常",
+            "eNormalMode"
+          ],
+          [
+            "低功耗",
+            "eLowPowerMode"
+          ],
+          [
+            "高性能",
+            "eHighPerformanceMode"
+          ],
+          [
+            "睡眠",
+            "eSleepMode"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A1B9A",
+    "tooltip": "设置传感器工作模式。",
+    "icon": "fa-light fa-compass",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0696_set_accel",
+    "message0": "IMU %1 加速度量程 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "DFRobot_Multi_DOF_IMU"
+        ],
+        "defaultType": "DFRobot_Multi_DOF_IMU"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RANGE",
+        "options": [
+          [
+            "+/-2g",
+            "eAccelRange2G"
+          ],
+          [
+            "+/-4g",
+            "eAccelRange4G"
+          ],
+          [
+            "+/-8g",
+            "eAccelRange8G"
+          ],
+          [
+            "+/-16g",
+            "eAccelRange16G"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A1B9A",
+    "tooltip": "设置加速度计量程。",
+    "icon": "fa-light fa-compass",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0696_set_gyro",
+    "message0": "IMU %1 陀螺仪量程 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "DFRobot_Multi_DOF_IMU"
+        ],
+        "defaultType": "DFRobot_Multi_DOF_IMU"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RANGE",
+        "options": [
+          [
+            "+/-125dps",
+            "eGyroRange125DPS"
+          ],
+          [
+            "+/-250dps",
+            "eGyroRange250DPS"
+          ],
+          [
+            "+/-500dps",
+            "eGyroRange500DPS"
+          ],
+          [
+            "+/-1000dps",
+            "eGyroRange1000DPS"
+          ],
+          [
+            "+/-2000dps",
+            "eGyroRange2000DPS"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A1B9A",
+    "tooltip": "设置陀螺仪量程。",
+    "icon": "fa-light fa-compass",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0696_read",
+    "message0": "IMU %1 读取数据成功",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "DFRobot_Multi_DOF_IMU"
+        ],
+        "defaultType": "DFRobot_Multi_DOF_IMU"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#6A1B9A",
+    "tooltip": "读取加速度/角速度等数据到缓存，成功返回 true。",
+    "icon": "fa-light fa-compass",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0696_get_data",
+    "message0": "IMU %1 数据 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "DFRobot_Multi_DOF_IMU"
+        ],
+        "defaultType": "DFRobot_Multi_DOF_IMU"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "加速度 X g",
+            "ACC_X"
+          ],
+          [
+            "加速度 Y g",
+            "ACC_Y"
+          ],
+          [
+            "加速度 Z g",
+            "ACC_Z"
+          ],
+          [
+            "角速度 X dps",
+            "GYR_X"
+          ],
+          [
+            "角速度 Y dps",
+            "GYR_Y"
+          ],
+          [
+            "角速度 Z dps",
+            "GYR_Z"
+          ],
+          [
+            "磁力 X uT",
+            "MAG_X"
+          ],
+          [
+            "磁力 Y uT",
+            "MAG_Y"
+          ],
+          [
+            "磁力 Z uT",
+            "MAG_Z"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#6A1B9A",
+    "tooltip": "读取最近一次成功读取缓存的物理量。",
+    "icon": "fa-light fa-compass",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0696_reset",
+    "message0": "IMU %1 恢复出厂设置",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "DFRobot_Multi_DOF_IMU"
+        ],
+        "defaultType": "DFRobot_Multi_DOF_IMU"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A1B9A",
+    "tooltip": "恢复出厂设置。",
+    "icon": "fa-light fa-compass",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0696_step",
+    "message0": "IMU %1 步数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "DFRobot_Multi_DOF_IMU"
+        ],
+        "defaultType": "DFRobot_Multi_DOF_IMU"
+      }
+    ],
+    "output": "Number",
+    "colour": "#6A1B9A",
+    "tooltip": "读取累计步数。",
+    "icon": "fa-light fa-compass",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0696_tap",
+    "message0": "IMU %1 敲击为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "DFRobot_Multi_DOF_IMU"
+        ],
+        "defaultType": "DFRobot_Multi_DOF_IMU"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "单击",
+            "1"
+          ],
+          [
+            "双击",
+            "2"
+          ],
+          [
+            "三击",
+            "3"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#6A1B9A",
+    "tooltip": "判断最近敲击类型。",
+    "icon": "fa-light fa-compass",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0696_orient",
+    "message0": "IMU %1 朝向为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "DFRobot_Multi_DOF_IMU"
+        ],
+        "defaultType": "DFRobot_Multi_DOF_IMU"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "竖屏朝上",
+            "1"
+          ],
+          [
+            "横屏向左",
+            "2"
+          ],
+          [
+            "横屏向右",
+            "3"
+          ],
+          [
+            "竖屏朝下",
+            "4"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#6A1B9A",
+    "tooltip": "判断最近朝向类型（高字节）。",
+    "icon": "fa-light fa-compass",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0696_set_int",
+    "message0": "IMU %1 中断 %2 类型 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "DFRobot_Multi_DOF_IMU"
+        ],
+        "defaultType": "DFRobot_Multi_DOF_IMU"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": [
+          [
+            "INT1",
+            "eImuIntPin1"
+          ],
+          [
+            "INT2",
+            "eImuIntPin2"
+          ],
+          [
+            "INT3",
+            "eImuIntPin3"
+          ],
+          [
+            "INT4",
+            "eImuIntPin4"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ITYPE",
+        "options": [
+          [
+            "数据就绪",
+            "eInt1_2DataReady"
+          ],
+          [
+            "任意运动",
+            "eInt1_2AnyMotion"
+          ],
+          [
+            "无运动",
+            "eInt1_2NoMotion"
+          ],
+          [
+            "显著运动",
+            "eInt1_2SigMotion"
+          ],
+          [
+            "计步",
+            "eInt1_2StepCounter"
+          ],
+          [
+            "放平",
+            "eInt1_2Flat"
+          ],
+          [
+            "朝向",
+            "eInt1_2Orientation"
+          ],
+          [
+            "敲击",
+            "eInt1_2Tap"
+          ],
+          [
+            "倾斜",
+            "eInt1_2Tilt"
+          ],
+          [
+            "关闭",
+            "eInt1_2Disable"
+          ],
+          [
+            "INT3 数据就绪",
+            "eInt3DataReady"
+          ],
+          [
+            "INT3 关闭",
+            "eInt3Disable"
+          ],
+          [
+            "INT4 数据就绪",
+            "eInt4DataReady"
+          ],
+          [
+            "INT4 气压超限",
+            "eInt4PressureOOR"
+          ],
+          [
+            "INT4 关闭",
+            "eInt4Disable"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A1B9A",
+    "tooltip": "配置中断引脚和类型。",
+    "icon": "fa-light fa-compass",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0696_pressure",
+    "message0": "IMU %1 气压 Pa",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "DFRobot_Multi_DOF_IMU"
+        ],
+        "defaultType": "DFRobot_Multi_DOF_IMU"
+      }
+    ],
+    "output": "Number",
+    "colour": "#6A1B9A",
+    "tooltip": "读取最近一次 10 轴读取缓存的气压（帕）。",
+    "icon": "fa-light fa-compass",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0696_altitude",
+    "message0": "IMU %1 海拔 m",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "DFRobot_Multi_DOF_IMU"
+        ],
+        "defaultType": "DFRobot_Multi_DOF_IMU"
+      }
+    ],
+    "output": "Number",
+    "colour": "#6A1B9A",
+    "tooltip": "读取海拔（米）。会再次采样 10 轴数据。",
+    "icon": "fa-light fa-compass",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0696_cal_alt",
+    "message0": "IMU %1 海拔校准 m %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "imu",
+        "variableTypes": [
+          "DFRobot_Multi_DOF_IMU"
+        ],
+        "defaultType": "DFRobot_Multi_DOF_IMU"
+      },
+      {
+        "type": "input_value",
+        "name": "ALT",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A1B9A",
+    "tooltip": "用当地海拔校准气压高度。",
+    "icon": "fa-light fa-compass",
+    "inputsInline": true
+  }
+]

@@ -24,3 +24,7 @@ Used to read data from BME280 sensors, including temperature, pressure, altitude
 
 1. Enable `@aily-project/lib-adafruit-bme280` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+
+## Sampling Configuration
+
+Sampling uses typed enums; old project values migrate automatically. Off disables a channel. Select 1x to 16x to read it. Standby supports up to 1000 ms.

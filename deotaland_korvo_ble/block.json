@@ -1,0 +1,479 @@
+[
+  {
+    "type": "korvo_ble_init",
+    "message0": "初始化 Korvo 智能体 蓝牙名称 %1 屏幕 %2 摄像头 %3 串口调试 %4 App 远程升级 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "NAME",
+        "text": "KORVO"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SCREEN",
+        "options": [
+          [
+            "启用",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CAMERA",
+        "options": [
+          [
+            "启用",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DEBUG",
+        "options": [
+          [
+            "打开",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OTA",
+        "options": [
+          [
+            "关闭",
+            "false"
+          ],
+          [
+            "开启",
+            "true"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7C4DFF",
+    "icon": "fa-solid fa-robot",
+    "tooltip": "初始化 ESP32-S3-Korvo-2 V3：扬声器、麦克风、摄像头、屏幕和蓝牙，之后用 Agent Link App 连接这个蓝牙名称。板卡需 16MB Flash、OPI PSRAM。串口调试打开时以 115200 打印启动和链路信息。App 远程升级开启后，App 可以通过蓝牙把新固件写进板子，会覆盖当前程序；需要带两个 app 槽的分区（默认的 app3M_fat9M_16MB 即可）"
+  },
+  {
+    "type": "korvo_ble_is_ready",
+    "message0": "Korvo 已连接 App",
+    "output": "Boolean",
+    "colour": "#7C4DFF",
+    "icon": "fa-regular fa-bluetooth",
+    "tooltip": "App 已连接并订阅事件后为真，此时才能上传语音、照片和发送文字"
+  },
+  {
+    "type": "korvo_ble_print_status",
+    "message0": "Korvo 串口打印诊断信息",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7C4DFF",
+    "icon": "fa-regular fa-bug",
+    "tooltip": "把链路、各通道、播放和内存状态打印到串口（需在初始化里打开串口调试）"
+  },
+  {
+    "type": "korvo_ble_talk_start",
+    "message0": "Korvo 开始 %1 最长 %2 秒",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "语音指令",
+            "VOICE"
+          ],
+          [
+            "语音转写",
+            "ASR"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SECONDS",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7C4DFF",
+    "icon": "fa-light fa-microphone",
+    "tooltip": "开始把麦克风声音上传，到时间自动结束。语音指令：说完后智能体回复；语音转写：App 把声音实时转成文字（需要 App 打开音频通道）。都需要 App 已连接"
+  },
+  {
+    "type": "korvo_ble_talk_stop",
+    "message0": "Korvo 停止说话",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7C4DFF",
+    "icon": "fa-light fa-hand",
+    "tooltip": "结束本次语音上传，智能体随后开始回复"
+  },
+  {
+    "type": "korvo_ble_is_talking",
+    "message0": "Korvo 正在上传语音",
+    "output": "Boolean",
+    "colour": "#7C4DFF",
+    "icon": "fa-light fa-microphone",
+    "tooltip": "语音上传进行中为真"
+  },
+  {
+    "type": "korvo_ble_is_speaking",
+    "message0": "Korvo 正在播放回复",
+    "output": "Boolean",
+    "colour": "#7C4DFF",
+    "icon": "fa-light fa-volume-high",
+    "tooltip": "正在接收或播放智能体的语音回复时为真"
+  },
+  {
+    "type": "korvo_ble_test_tone",
+    "message0": "Korvo 扬声器播放测试音",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7C4DFF",
+    "icon": "fa-regular fa-wave-square",
+    "tooltip": "本地播放 1 秒 1kHz 测试音，用来检查扬声器，不经过蓝牙"
+  },
+  {
+    "type": "korvo_ble_send_prompt",
+    "message0": "Korvo 发送文字给智能体 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7C4DFF",
+    "icon": "fa-solid fa-paper-plane",
+    "tooltip": "把一段文字作为提示词发给智能体，例如「拍一张照片，看看有没有人」"
+  },
+  {
+    "type": "korvo_ble_take_photo",
+    "message0": "Korvo 拍照上传给智能体",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7C4DFF",
+    "icon": "fa-light fa-camera",
+    "tooltip": "拍一张 240×240 照片，编码成 JPEG 后上传给 App；上一张还在上传时会忽略"
+  },
+  {
+    "type": "korvo_ble_on_text",
+    "message0": "当 Korvo 收到智能体文字时",
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#7C4DFF",
+    "icon": "fa-solid fa-message",
+    "tooltip": "智能体发来文字时执行，文字用「智能体发来的文字」取得；里面不要写长时间等待"
+  },
+  {
+    "type": "korvo_ble_agent_text",
+    "message0": "智能体发来的文字",
+    "output": "String",
+    "colour": "#7C4DFF",
+    "icon": "fa-regular fa-comment",
+    "tooltip": "最近一次收到的智能体文字（UTF-8）"
+  },
+  {
+    "type": "korvo_ble_show_text",
+    "message0": "Korvo 屏幕显示 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7C4DFF",
+    "icon": "fa-solid fa-display",
+    "tooltip": "在屏幕上显示文字，支持英文字母、数字和常用符号，中文显示为 ?；智能体的文字也会自动显示"
+  },
+  {
+    "type": "korvo_ble_backlight",
+    "message0": "Korvo 屏幕背光 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "打开",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7C4DFF",
+    "icon": "fa-light fa-lightbulb",
+    "tooltip": "打开或关闭屏幕背光"
+  },
+  {
+    "type": "korvo_ble_update_sensor",
+    "message0": "Korvo 上报传感器 ID %1 名称 %2 单位 %3 类型 %4 值 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "ID",
+        "text": "temp0"
+      },
+      {
+        "type": "field_input",
+        "name": "LABEL",
+        "text": "温度"
+      },
+      {
+        "type": "field_input",
+        "name": "UNIT",
+        "text": "C"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "数字",
+            "KORVO_NUMBER"
+          ],
+          [
+            "开关",
+            "KORVO_SWITCH"
+          ],
+          [
+            "文字",
+            "KORVO_TEXT"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7C4DFF",
+    "icon": "fa-light fa-chart-line",
+    "tooltip": "把一个读数上报给智能体，ID 用英文字母和数字且不重复；离线时只保留最新值，连上后自动发送"
+  },
+  {
+    "type": "korvo_ble_on_control",
+    "message0": "当 App 控制 ID %1 名称 %2 类型 %3 时",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "ID",
+        "text": "led0"
+      },
+      {
+        "type": "field_input",
+        "name": "LABEL",
+        "text": "灯"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "数字",
+            "KORVO_NUMBER"
+          ],
+          [
+            "开关",
+            "KORVO_SWITCH"
+          ],
+          [
+            "文字",
+            "KORVO_TEXT"
+          ]
+        ]
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#7C4DFF",
+    "icon": "fa-light fa-toggle-on",
+    "tooltip": "在 App 和智能体里注册一个可控制的端点，收到控制命令时执行，用「App 下发的值」取得命令值；里面不要写长时间等待"
+  },
+  {
+    "type": "korvo_ble_control_value",
+    "message0": "App 下发的 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "KIND",
+        "options": [
+          [
+            "数字",
+            "NUMBER"
+          ],
+          [
+            "开关",
+            "SWITCH"
+          ],
+          [
+            "文字",
+            "TEXT"
+          ]
+        ]
+      }
+    ],
+    "output": [
+      "Number",
+      "Boolean",
+      "String"
+    ],
+    "colour": "#7C4DFF",
+    "icon": "fa-light fa-toggle-on",
+    "tooltip": "最近一次 App 控制命令的值：数字、开关（真/假）或文字"
+  },
+  {
+    "type": "korvo_ble_camera_preview",
+    "message0": "Korvo 摄像头实时预览 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "打开",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7C4DFF",
+    "icon": "fa-light fa-video",
+    "tooltip": "把摄像头画面实时显示在屏幕上（约 15 帧/秒）；预览期间屏幕文字暂停刷新，关闭预览后恢复"
+  },
+  {
+    "type": "korvo_ble_touch_pressed",
+    "message0": "Korvo 屏幕被按下",
+    "output": "Boolean",
+    "colour": "#7C4DFF",
+    "icon": "fa-light fa-hand-pointer",
+    "tooltip": "手指按在触摸屏上时为真"
+  },
+  {
+    "type": "korvo_ble_touch_point",
+    "message0": "Korvo 触摸坐标 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#7C4DFF",
+    "icon": "fa-light fa-crosshairs",
+    "tooltip": "最近一次按下的位置，横屏坐标：X 为 0～279（左到右），Y 为 0～239（上到下）"
+  },
+  {
+    "type": "korvo_ble_sd_ready",
+    "message0": "Korvo TF 卡可用",
+    "output": "Boolean",
+    "colour": "#7C4DFF",
+    "icon": "fa-light fa-sd-card",
+    "tooltip": "插着 FAT32 格式的 TF 卡并能写入录音时为真；卡在初始化时挂载，换卡后需重启"
+  },
+  {
+    "type": "korvo_ble_record_start",
+    "message0": "Korvo 开始录音到 TF 卡",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7C4DFF",
+    "icon": "fa-solid fa-circle",
+    "tooltip": "用麦克风录音，保存为 TF 卡 records 目录下的 rec-0001.wav 这类文件（IMA-ADPCM，约 8KB/秒）；可与语音上传同时进行，App 能浏览这些录音"
+  },
+  {
+    "type": "korvo_ble_record_stop",
+    "message0": "Korvo 停止录音",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#7C4DFF",
+    "icon": "fa-solid fa-stop",
+    "tooltip": "结束录音并保存文件；没有正常停止（例如断电）的文件可能打不开"
+  },
+  {
+    "type": "korvo_ble_is_recording",
+    "message0": "Korvo 正在录音",
+    "output": "Boolean",
+    "colour": "#7C4DFF",
+    "icon": "fa-light fa-record-vinyl",
+    "tooltip": "录音进行中为真"
+  },
+  {
+    "type": "korvo_ble_record_seconds",
+    "message0": "Korvo 录音时长（秒）",
+    "output": "Number",
+    "colour": "#7C4DFF",
+    "icon": "fa-light fa-stopwatch",
+    "tooltip": "当前录音已录的秒数；停止后保持最后一次的时长"
+  },
+  {
+    "type": "korvo_ble_record_file",
+    "message0": "Korvo 最近的录音文件名",
+    "output": "String",
+    "colour": "#7C4DFF",
+    "icon": "fa-light fa-file-audio",
+    "tooltip": "最近一次录音的文件名，例如 rec-0001.wav；还没录过时为空"
+  }
+]
