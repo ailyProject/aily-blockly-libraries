@@ -1,0 +1,286 @@
+{
+  "toolbox_name": "Korvo Bluetooth エージェント",
+  "toolbox_categories": [
+    "初期化と状態",
+    "音声",
+    "エージェント",
+    "画面",
+    "タッチ",
+    "TF カード録音",
+    "センサーと制御"
+  ],
+  "korvo_ble_init": {
+    "message0": "Korvo エージェントを初期化 Bluetooth 名 %1 画面 %2 カメラ %3 シリアルデバッグ %4 App からの更新 %5",
+    "tooltip": "ESP32-S3-Korvo-2 V3 のスピーカー、マイク、カメラ、画面、Bluetooth を初期化します。その後 Agent Link App でこの名前に接続します。16MB フラッシュと OPI PSRAM が必要。シリアルデバッグがオンなら 115200 で起動とリンク情報を出力。App からの更新をオンにすると、App が Bluetooth で新しいファームウェアを書き込み、このプログラムは置き換わります。app スロットが 2 つあるパーティション（既定の app3M_fat9M_16MB で可）が必要",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "有効",
+            "true"
+          ],
+          [
+            "無効",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "有効",
+            "true"
+          ],
+          [
+            "無効",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "オン",
+            "true"
+          ],
+          [
+            "オフ",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "オフ",
+            "false"
+          ],
+          [
+            "オン",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_is_ready": {
+    "message0": "Korvo が App に接続済み",
+    "tooltip": "App が接続して購読すると真。そのとき初めて音声・写真・テキストを送れます"
+  },
+  "korvo_ble_print_status": {
+    "message0": "Korvo 診断情報をシリアル出力",
+    "tooltip": "リンク、各チャンネル、再生、メモリの状態をシリアルに出力します（初期化でシリアルデバッグをオン）"
+  },
+  "korvo_ble_talk_start": {
+    "message0": "Korvo %1 を開始 最大 %2 秒",
+    "tooltip": "マイク音声のアップロードを開始し、時間になると自動終了。音声コマンド：話し終えるとエージェントが返答。リアルタイム文字起こし：App が話す内容をその場で文字にします（App が音声チャンネルを開く必要あり）。どちらも App の接続が必要",
+    "args0": [
+      {
+        "options": [
+          [
+            "音声コマンド",
+            "VOICE"
+          ],
+          [
+            "リアルタイム文字起こし",
+            "ASR"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_ble_talk_stop": {
+    "message0": "Korvo 話し終える",
+    "tooltip": "音声アップロードを終了します。その後エージェントが返答します"
+  },
+  "korvo_ble_is_talking": {
+    "message0": "Korvo 音声アップロード中",
+    "tooltip": "音声アップロード中は真"
+  },
+  "korvo_ble_is_speaking": {
+    "message0": "Korvo 返答を再生中",
+    "tooltip": "エージェントの音声返答を受信・再生中は真"
+  },
+  "korvo_ble_test_tone": {
+    "message0": "Korvo スピーカーでテスト音",
+    "tooltip": "1 kHz のテスト音を 1 秒ローカル再生してスピーカーを確認します（Bluetooth を使いません）"
+  },
+  "korvo_ble_send_prompt": {
+    "message0": "Korvo エージェントにテキスト送信 %1",
+    "tooltip": "テキストをプロンプトとしてエージェントに送ります。例：「写真を撮って人がいるか見て」"
+  },
+  "korvo_ble_take_photo": {
+    "message0": "Korvo 写真を撮ってエージェントへ",
+    "tooltip": "240×240 の写真を撮り JPEG に変換して App へアップロードします。前の写真のアップロード中は無視されます"
+  },
+  "korvo_ble_on_text": {
+    "message0": "Korvo がエージェントのテキストを受け取ったとき",
+    "message1": "%1",
+    "tooltip": "エージェントからテキストが届くと実行。「エージェントからのテキスト」で取得します。中で長く待たないでください"
+  },
+  "korvo_ble_agent_text": {
+    "message0": "エージェントからのテキスト",
+    "tooltip": "最後に受け取ったエージェントのテキスト（UTF-8）"
+  },
+  "korvo_ble_show_text": {
+    "message0": "Korvo 画面に表示 %1",
+    "tooltip": "画面に文字を表示します。英字・数字・一般的な記号に対応し、中国語は ? になります。エージェントのテキストも自動表示されます"
+  },
+  "korvo_ble_backlight": {
+    "message0": "Korvo 画面バックライト %1",
+    "tooltip": "画面のバックライトをオン・オフします",
+    "args0": [
+      {
+        "options": [
+          [
+            "オン",
+            "true"
+          ],
+          [
+            "オフ",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_update_sensor": {
+    "message0": "Korvo センサー報告 ID %1 名前 %2 単位 %3 型 %4 値 %5",
+    "tooltip": "読み取り値をエージェントに報告します。ID は英数字で重複不可。オフライン中は最新値のみ保持し、再接続後に送信",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "数値",
+            "KORVO_NUMBER"
+          ],
+          [
+            "スイッチ",
+            "KORVO_SWITCH"
+          ],
+          [
+            "テキスト",
+            "KORVO_TEXT"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_ble_on_control": {
+    "message0": "App が ID %1 名前 %2 型 %3 を制御したとき",
+    "message1": "%1",
+    "tooltip": "App とエージェントに制御可能なエンドポイントを登録し、コマンドが届くと実行。値は「App から届いた」で取得。中で長く待たないでください",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "数値",
+            "KORVO_NUMBER"
+          ],
+          [
+            "スイッチ",
+            "KORVO_SWITCH"
+          ],
+          [
+            "テキスト",
+            "KORVO_TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_control_value": {
+    "message0": "App から届いた %1",
+    "tooltip": "最新の App 制御コマンドの値：数値、スイッチ（真/偽）またはテキスト",
+    "args0": [
+      {
+        "options": [
+          [
+            "数値",
+            "NUMBER"
+          ],
+          [
+            "スイッチ",
+            "SWITCH"
+          ],
+          [
+            "テキスト",
+            "TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_camera_preview": {
+    "message0": "Korvo カメラのライブプレビュー %1",
+    "tooltip": "カメラ映像を画面にリアルタイム表示します（約 15 fps）。プレビュー中は画面の文字更新が止まり、オフにすると戻ります",
+    "args0": [
+      {
+        "options": [
+          [
+            "オン",
+            "true"
+          ],
+          [
+            "オフ",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_touch_pressed": {
+    "message0": "Korvo 画面がタッチされている",
+    "tooltip": "指がタッチパネルに触れている間は真"
+  },
+  "korvo_ble_touch_point": {
+    "message0": "Korvo タッチ座標 %1",
+    "tooltip": "最後にタッチした位置（横向き座標）：X は 0～279（左→右）、Y は 0～239（上→下）",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_sd_ready": {
+    "message0": "Korvo TF カード使用可能",
+    "tooltip": "FAT32 の TF カードが挿さっていて録音を書き込めるとき真。カードは初期化時にマウントされるので、交換後は再起動してください"
+  },
+  "korvo_ble_record_start": {
+    "message0": "Korvo TF カードに録音開始",
+    "tooltip": "マイクを録音し、TF カードの records フォルダに rec-0001.wav のようなファイルで保存します（IMA-ADPCM、約 8KB/秒）。音声アップロードと同時に使え、App から録音を閲覧できます"
+  },
+  "korvo_ble_record_stop": {
+    "message0": "Korvo 録音停止",
+    "tooltip": "録音を終えてファイルを保存します。正しく停止しなかったファイル（停電など）は開けないことがあります"
+  },
+  "korvo_ble_is_recording": {
+    "message0": "Korvo 録音中",
+    "tooltip": "録音中は真"
+  },
+  "korvo_ble_record_seconds": {
+    "message0": "Korvo 録音時間（秒）",
+    "tooltip": "これまでに録音した秒数。停止後は最後の長さを保持します"
+  },
+  "korvo_ble_record_file": {
+    "message0": "Korvo 最新の録音ファイル名",
+    "tooltip": "最新の録音ファイル名（例：rec-0001.wav）。まだ録音していなければ空"
+  }
+}

@@ -1,0 +1,286 @@
+{
+  "toolbox_name": "Agent Bluetooth Korvo",
+  "toolbox_categories": [
+    "Initialisation et état",
+    "Voix",
+    "Agent",
+    "Écran",
+    "Tactile",
+    "Enregistrement carte TF",
+    "Capteurs et commandes"
+  ],
+  "korvo_ble_init": {
+    "message0": "initialiser l’agent Korvo nom Bluetooth %1 écran %2 caméra %3 débogage série %4 mise à jour par l’App %5",
+    "tooltip": "Initialise le haut-parleur, les micros, la caméra, l’écran et le Bluetooth de l’ESP32-S3-Korvo-2 V3 ; connectez ensuite l’App Agent Link à ce nom. Nécessite 16 Mo de flash et la PSRAM OPI. Le débogage série affiche démarrage et liaison à 115200. Avec la mise à jour par l’App, l’App peut écrire un nouveau firmware par Bluetooth, qui remplace ce programme ; il faut un schéma de partitions à deux emplacements app (app3M_fat9M_16MB par défaut convient)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "activé",
+            "true"
+          ],
+          [
+            "désactivé",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "activé",
+            "true"
+          ],
+          [
+            "désactivé",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "activé",
+            "true"
+          ],
+          [
+            "désactivé",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "désactivée",
+            "false"
+          ],
+          [
+            "activée",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_is_ready": {
+    "message0": "Korvo connecté à l’App",
+    "tooltip": "Vrai une fois l’App connectée et abonnée ; alors seulement voix, photos et texte peuvent partir"
+  },
+  "korvo_ble_print_status": {
+    "message0": "Korvo afficher le diagnostic sur le port série",
+    "tooltip": "Affiche l’état de la liaison, des canaux, de la lecture et de la mémoire sur le port série (activer le débogage série à l’initialisation)"
+  },
+  "korvo_ble_talk_start": {
+    "message0": "Korvo démarrer %1 au plus %2 secondes",
+    "tooltip": "Commence à envoyer le son du micro et s’arrête seul après la durée. Commande vocale : l’agent répond quand vous avez fini. Transcription en direct : l’App transforme la parole en texte au fur et à mesure (l’App doit ouvrir son canal audio). Les deux nécessitent l’App connectée",
+    "args0": [
+      {
+        "options": [
+          [
+            "commande vocale",
+            "VOICE"
+          ],
+          [
+            "transcription en direct",
+            "ASR"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_ble_talk_stop": {
+    "message0": "Korvo arrêter de parler",
+    "tooltip": "Termine l’envoi de la voix ; l’agent répond ensuite"
+  },
+  "korvo_ble_is_talking": {
+    "message0": "Korvo envoie la voix",
+    "tooltip": "Vrai pendant l’envoi de la voix"
+  },
+  "korvo_ble_is_speaking": {
+    "message0": "Korvo joue une réponse",
+    "tooltip": "Vrai pendant la réception ou la lecture de la réponse vocale de l’agent"
+  },
+  "korvo_ble_test_tone": {
+    "message0": "Korvo jouer le son de test",
+    "tooltip": "Joue localement un son de test à 1 kHz pendant une seconde pour vérifier le haut-parleur, sans Bluetooth"
+  },
+  "korvo_ble_send_prompt": {
+    "message0": "Korvo envoyer le texte à l’agent %1",
+    "tooltip": "Envoie un texte comme consigne à l’agent, par ex. « prends une photo et regarde s’il y a quelqu’un »"
+  },
+  "korvo_ble_take_photo": {
+    "message0": "Korvo prendre une photo pour l’agent",
+    "tooltip": "Prend une photo 240×240, l’encode en JPEG et l’envoie à l’App ; ignoré tant que la précédente est en cours d’envoi"
+  },
+  "korvo_ble_on_text": {
+    "message0": "quand Korvo reçoit du texte de l’agent",
+    "message1": "%1",
+    "tooltip": "S’exécute quand l’agent envoie du texte ; obtenez-le avec « texte de l’agent ». Ne pas attendre longtemps dedans"
+  },
+  "korvo_ble_agent_text": {
+    "message0": "texte de l’agent",
+    "tooltip": "Dernier texte reçu de l’agent (UTF-8)"
+  },
+  "korvo_ble_show_text": {
+    "message0": "Korvo écran afficher %1",
+    "tooltip": "Affiche du texte à l’écran : lettres, chiffres et symboles courants ; le chinois s’affiche en ?. Le texte de l’agent s’affiche aussi automatiquement"
+  },
+  "korvo_ble_backlight": {
+    "message0": "Korvo rétroéclairage %1",
+    "tooltip": "Allume ou éteint le rétroéclairage de l’écran",
+    "args0": [
+      {
+        "options": [
+          [
+            "activé",
+            "true"
+          ],
+          [
+            "désactivé",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_update_sensor": {
+    "message0": "Korvo signaler le capteur ID %1 nom %2 unité %3 type %4 valeur %5",
+    "tooltip": "Signale une mesure à l’agent. ID unique en lettres et chiffres ; hors ligne, seule la dernière valeur est gardée et envoyée à la reconnexion",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "nombre",
+            "KORVO_NUMBER"
+          ],
+          [
+            "interrupteur",
+            "KORVO_SWITCH"
+          ],
+          [
+            "texte",
+            "KORVO_TEXT"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_ble_on_control": {
+    "message0": "quand l’App commande ID %1 nom %2 type %3",
+    "message1": "%1",
+    "tooltip": "Déclare un point de commande dans l’App et l’agent et s’exécute à l’arrivée d’une commande ; valeur via « envoyé par l’App ». Ne pas attendre longtemps dedans",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "nombre",
+            "KORVO_NUMBER"
+          ],
+          [
+            "interrupteur",
+            "KORVO_SWITCH"
+          ],
+          [
+            "texte",
+            "KORVO_TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_control_value": {
+    "message0": "envoyé par l’App %1",
+    "tooltip": "Valeur de la dernière commande de l’App : nombre, interrupteur (vrai/faux) ou texte",
+    "args0": [
+      {
+        "options": [
+          [
+            "nombre",
+            "NUMBER"
+          ],
+          [
+            "interrupteur",
+            "SWITCH"
+          ],
+          [
+            "texte",
+            "TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_camera_preview": {
+    "message0": "Korvo aperçu caméra en direct %1",
+    "tooltip": "Affiche l’image de la caméra en direct à l’écran (environ 15 i/s) ; le texte de l’écran est suspendu pendant l’aperçu et revient quand il est désactivé",
+    "args0": [
+      {
+        "options": [
+          [
+            "activé",
+            "true"
+          ],
+          [
+            "désactivé",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_touch_pressed": {
+    "message0": "Korvo écran touché",
+    "tooltip": "Vrai tant qu’un doigt touche l’écran tactile"
+  },
+  "korvo_ble_touch_point": {
+    "message0": "Korvo position tactile %1",
+    "tooltip": "Position du dernier toucher en coordonnées paysage : X de 0 à 279 (gauche à droite), Y de 0 à 239 (haut en bas)",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_sd_ready": {
+    "message0": "Korvo carte TF prête",
+    "tooltip": "Vrai quand une carte TF FAT32 est insérée et que les enregistrements peuvent être écrits ; la carte est montée à l’initialisation, redémarrez après l’avoir changée"
+  },
+  "korvo_ble_record_start": {
+    "message0": "Korvo démarrer l’enregistrement sur carte TF",
+    "tooltip": "Enregistre le micro dans des fichiers comme rec-0001.wav dans le dossier records de la carte TF (IMA-ADPCM, environ 8 Ko/s) ; fonctionne en même temps que l’envoi de la voix, et l’App peut parcourir les enregistrements"
+  },
+  "korvo_ble_record_stop": {
+    "message0": "Korvo arrêter l’enregistrement",
+    "tooltip": "Termine l’enregistrement et sauvegarde le fichier ; un fichier non arrêté correctement (coupure de courant par ex.) peut ne pas s’ouvrir"
+  },
+  "korvo_ble_is_recording": {
+    "message0": "Korvo enregistre",
+    "tooltip": "Vrai pendant l’enregistrement"
+  },
+  "korvo_ble_record_seconds": {
+    "message0": "Korvo durée d’enregistrement (secondes)",
+    "tooltip": "Secondes enregistrées jusqu’ici ; garde la dernière durée après l’arrêt"
+  },
+  "korvo_ble_record_file": {
+    "message0": "Korvo nom du dernier enregistrement",
+    "tooltip": "Nom du dernier enregistrement, par ex. rec-0001.wav ; vide avant le premier enregistrement"
+  }
+}

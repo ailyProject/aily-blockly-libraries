@@ -1,0 +1,286 @@
+{
+  "toolbox_name": "Korvo 藍牙智能體",
+  "toolbox_categories": [
+    "初始化與狀態",
+    "語音",
+    "智能體",
+    "螢幕",
+    "觸控",
+    "TF 卡錄音",
+    "感測器與控制"
+  ],
+  "korvo_ble_init": {
+    "message0": "初始化 Korvo 智能體 藍牙名稱 %1 螢幕 %2 攝像頭 %3 串口除錯 %4 App 遠端升級 %5",
+    "tooltip": "初始化 ESP32-S3-Korvo-2 V3：揚聲器、麥克風、攝像頭、螢幕和藍牙，之後用 Agent Link App 連接這個藍牙名稱。板卡需 16MB Flash、OPI PSRAM。串口除錯打開時以 115200 列印啟動和鏈路資訊。App 遠端升級開啟後，App 可以經藍牙把新韌體寫進板子，會覆蓋目前程式；需要帶兩個 app 槽的分區（預設的 app3M_fat9M_16MB 即可）",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "啟用",
+            "true"
+          ],
+          [
+            "關閉",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "啟用",
+            "true"
+          ],
+          [
+            "關閉",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "打開",
+            "true"
+          ],
+          [
+            "關閉",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "關閉",
+            "false"
+          ],
+          [
+            "開啟",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_is_ready": {
+    "message0": "Korvo 已連接 App",
+    "tooltip": "App 已連接並訂閱事件後為真，此時才能上傳語音、照片和發送文字"
+  },
+  "korvo_ble_print_status": {
+    "message0": "Korvo 串口列印診斷資訊",
+    "tooltip": "把鏈路、各通道、播放和記憶體狀態列印到串口（需在初始化裡打開串口除錯）"
+  },
+  "korvo_ble_talk_start": {
+    "message0": "Korvo 開始 %1 最長 %2 秒",
+    "tooltip": "開始把麥克風聲音上傳，到時間自動結束。語音指令：說完後智能體回覆；語音轉寫：App 把聲音即時轉成文字（需要 App 打開音訊通道）。都需要 App 已連接",
+    "args0": [
+      {
+        "options": [
+          [
+            "語音指令",
+            "VOICE"
+          ],
+          [
+            "語音轉寫",
+            "ASR"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_ble_talk_stop": {
+    "message0": "Korvo 停止說話",
+    "tooltip": "結束本次語音上傳，智能體隨後開始回覆"
+  },
+  "korvo_ble_is_talking": {
+    "message0": "Korvo 正在上傳語音",
+    "tooltip": "語音上傳進行中為真"
+  },
+  "korvo_ble_is_speaking": {
+    "message0": "Korvo 正在播放回覆",
+    "tooltip": "正在接收或播放智能體的語音回覆時為真"
+  },
+  "korvo_ble_test_tone": {
+    "message0": "Korvo 揚聲器播放測試音",
+    "tooltip": "本地播放 1 秒 1kHz 測試音，用來檢查揚聲器，不經過藍牙"
+  },
+  "korvo_ble_send_prompt": {
+    "message0": "Korvo 發送文字給智能體 %1",
+    "tooltip": "把一段文字作為提示詞發給智能體，例如「拍一張照片，看看有沒有人」"
+  },
+  "korvo_ble_take_photo": {
+    "message0": "Korvo 拍照上傳給智能體",
+    "tooltip": "拍一張 240×240 照片，編碼成 JPEG 後上傳給 App；上一張還在上傳時會忽略"
+  },
+  "korvo_ble_on_text": {
+    "message0": "當 Korvo 收到智能體文字時",
+    "message1": "%1",
+    "tooltip": "智能體發來文字時執行，文字用「智能體發來的文字」取得；裡面不要寫長時間等待"
+  },
+  "korvo_ble_agent_text": {
+    "message0": "智能體發來的文字",
+    "tooltip": "最近一次收到的智能體文字（UTF-8）"
+  },
+  "korvo_ble_show_text": {
+    "message0": "Korvo 螢幕顯示 %1",
+    "tooltip": "在螢幕上顯示文字，支援英文字母、數字和常用符號，中文顯示為 ?；智能體的文字也會自動顯示"
+  },
+  "korvo_ble_backlight": {
+    "message0": "Korvo 螢幕背光 %1",
+    "tooltip": "打開或關閉螢幕背光",
+    "args0": [
+      {
+        "options": [
+          [
+            "打開",
+            "true"
+          ],
+          [
+            "關閉",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_update_sensor": {
+    "message0": "Korvo 上報感測器 ID %1 名稱 %2 單位 %3 類型 %4 值 %5",
+    "tooltip": "把一個讀數上報給智能體，ID 用英文字母和數字且不重複；離線時只保留最新值，連上後自動發送",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "數字",
+            "KORVO_NUMBER"
+          ],
+          [
+            "開關",
+            "KORVO_SWITCH"
+          ],
+          [
+            "文字",
+            "KORVO_TEXT"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_ble_on_control": {
+    "message0": "當 App 控制 ID %1 名稱 %2 類型 %3 時",
+    "message1": "%1",
+    "tooltip": "在 App 和智能體裡註冊一個可控制的端點，收到控制命令時執行，用「App 下發的值」取得命令值；裡面不要寫長時間等待",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "數字",
+            "KORVO_NUMBER"
+          ],
+          [
+            "開關",
+            "KORVO_SWITCH"
+          ],
+          [
+            "文字",
+            "KORVO_TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_control_value": {
+    "message0": "App 下發的 %1",
+    "tooltip": "最近一次 App 控制命令的值：數字、開關（真/假）或文字",
+    "args0": [
+      {
+        "options": [
+          [
+            "數字",
+            "NUMBER"
+          ],
+          [
+            "開關",
+            "SWITCH"
+          ],
+          [
+            "文字",
+            "TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_camera_preview": {
+    "message0": "Korvo 攝像頭即時預覽 %1",
+    "tooltip": "把攝像頭畫面即時顯示在螢幕上（約 15 幀/秒）；預覽期間螢幕文字暫停刷新，關閉預覽後恢復",
+    "args0": [
+      {
+        "options": [
+          [
+            "打開",
+            "true"
+          ],
+          [
+            "關閉",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_touch_pressed": {
+    "message0": "Korvo 螢幕被按下",
+    "tooltip": "手指按在觸控螢幕上時為真"
+  },
+  "korvo_ble_touch_point": {
+    "message0": "Korvo 觸控座標 %1",
+    "tooltip": "最近一次按下的位置，橫屏座標：X 為 0～279（左到右），Y 為 0～239（上到下）",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_sd_ready": {
+    "message0": "Korvo TF 卡可用",
+    "tooltip": "插著 FAT32 格式的 TF 卡並能寫入錄音時為真；卡在初始化時掛載，換卡後需重新啟動"
+  },
+  "korvo_ble_record_start": {
+    "message0": "Korvo 開始錄音到 TF 卡",
+    "tooltip": "用麥克風錄音，儲存為 TF 卡 records 目錄下的 rec-0001.wav 這類檔案（IMA-ADPCM，約 8KB/秒）；可與語音上傳同時進行，App 能瀏覽這些錄音"
+  },
+  "korvo_ble_record_stop": {
+    "message0": "Korvo 停止錄音",
+    "tooltip": "結束錄音並儲存檔案；沒有正常停止（例如斷電）的檔案可能打不開"
+  },
+  "korvo_ble_is_recording": {
+    "message0": "Korvo 正在錄音",
+    "tooltip": "錄音進行中為真"
+  },
+  "korvo_ble_record_seconds": {
+    "message0": "Korvo 錄音時長（秒）",
+    "tooltip": "目前錄音已錄的秒數；停止後保持最後一次的時長"
+  },
+  "korvo_ble_record_file": {
+    "message0": "Korvo 最近的錄音檔名",
+    "tooltip": "最近一次錄音的檔名，例如 rec-0001.wav；還沒錄過時為空"
+  }
+}
