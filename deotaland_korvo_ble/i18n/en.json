@@ -1,0 +1,286 @@
+{
+  "toolbox_name": "Korvo Bluetooth Agent",
+  "toolbox_categories": [
+    "Setup & Status",
+    "Voice",
+    "Agent",
+    "Screen",
+    "Touch",
+    "TF Card Recording",
+    "Sensors & Controls"
+  ],
+  "korvo_ble_init": {
+    "message0": "initialize Korvo agent Bluetooth name %1 screen %2 camera %3 serial debug %4 App firmware update %5",
+    "tooltip": "Initialize ESP32-S3-Korvo-2 V3: speaker, microphones, camera, screen and Bluetooth; then connect with the Agent Link App using this Bluetooth name. Needs 16MB flash and OPI PSRAM. Serial debug prints startup and link messages at 115200. With App firmware update on, the App can write new firmware over Bluetooth, replacing this program; needs a partition scheme with two app slots (the default app3M_fat9M_16MB works)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "on",
+            "true"
+          ],
+          [
+            "off",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "on",
+            "true"
+          ],
+          [
+            "off",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "on",
+            "true"
+          ],
+          [
+            "off",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "off",
+            "false"
+          ],
+          [
+            "on",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_is_ready": {
+    "message0": "Korvo connected to App",
+    "tooltip": "True once the App is connected and subscribed; only then voice, photos and text can be sent"
+  },
+  "korvo_ble_print_status": {
+    "message0": "Korvo print diagnostics",
+    "tooltip": "Print link, channel, playback and memory status to serial (turn on serial debug in initialize)"
+  },
+  "korvo_ble_talk_start": {
+    "message0": "Korvo start %1 for up to %2 seconds",
+    "tooltip": "Start uploading microphone audio; it stops by itself after the time. Voice command: the agent replies when you finish. Live transcription: the App turns speech into text as you speak (the App must open its audio channel). Both need the App connected",
+    "args0": [
+      {
+        "options": [
+          [
+            "voice command",
+            "VOICE"
+          ],
+          [
+            "live transcription",
+            "ASR"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_ble_talk_stop": {
+    "message0": "Korvo stop talking",
+    "tooltip": "End the voice upload; the agent then replies"
+  },
+  "korvo_ble_is_talking": {
+    "message0": "Korvo is uploading voice",
+    "tooltip": "True while voice is being uploaded"
+  },
+  "korvo_ble_is_speaking": {
+    "message0": "Korvo is playing a reply",
+    "tooltip": "True while the agent voice reply is being received or played"
+  },
+  "korvo_ble_test_tone": {
+    "message0": "Korvo play speaker test tone",
+    "tooltip": "Play a 1 kHz test tone for one second locally to check the speaker, no Bluetooth involved"
+  },
+  "korvo_ble_send_prompt": {
+    "message0": "Korvo send text to agent %1",
+    "tooltip": "Send a piece of text to the agent as a prompt, for example \"take a photo and check whether anyone is there\""
+  },
+  "korvo_ble_take_photo": {
+    "message0": "Korvo take photo for agent",
+    "tooltip": "Take a 240×240 photo, encode it as JPEG and upload it to the App; ignored while the previous one is still uploading"
+  },
+  "korvo_ble_on_text": {
+    "message0": "when Korvo receives agent text",
+    "message1": "%1",
+    "tooltip": "Runs when the agent sends text; get it with \"text from agent\". Do not wait long inside"
+  },
+  "korvo_ble_agent_text": {
+    "message0": "text from agent",
+    "tooltip": "The latest text received from the agent (UTF-8)"
+  },
+  "korvo_ble_show_text": {
+    "message0": "Korvo screen show %1",
+    "tooltip": "Show text on the screen: letters, digits and common symbols; Chinese shows as ?. Agent text is shown automatically too"
+  },
+  "korvo_ble_backlight": {
+    "message0": "Korvo screen backlight %1",
+    "tooltip": "Turn the screen backlight on or off",
+    "args0": [
+      {
+        "options": [
+          [
+            "on",
+            "true"
+          ],
+          [
+            "off",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_update_sensor": {
+    "message0": "Korvo report sensor ID %1 name %2 unit %3 type %4 value %5",
+    "tooltip": "Report a reading to the agent. Use a unique ID of letters and digits; offline only the latest value is kept and sent after reconnecting",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "number",
+            "KORVO_NUMBER"
+          ],
+          [
+            "switch",
+            "KORVO_SWITCH"
+          ],
+          [
+            "text",
+            "KORVO_TEXT"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_ble_on_control": {
+    "message0": "when App controls ID %1 name %2 type %3",
+    "message1": "%1",
+    "tooltip": "Registers a controllable endpoint in the App and agent and runs when a command arrives; get the value with \"App sent\". Do not wait long inside",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "number",
+            "KORVO_NUMBER"
+          ],
+          [
+            "switch",
+            "KORVO_SWITCH"
+          ],
+          [
+            "text",
+            "KORVO_TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_control_value": {
+    "message0": "App sent %1",
+    "tooltip": "Value of the latest App control command: number, switch (true/false) or text",
+    "args0": [
+      {
+        "options": [
+          [
+            "number",
+            "NUMBER"
+          ],
+          [
+            "switch",
+            "SWITCH"
+          ],
+          [
+            "text",
+            "TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_camera_preview": {
+    "message0": "Korvo camera live preview %1",
+    "tooltip": "Show the camera picture live on the screen (about 15 fps); screen text pauses during the preview and comes back when it is turned off",
+    "args0": [
+      {
+        "options": [
+          [
+            "on",
+            "true"
+          ],
+          [
+            "off",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_touch_pressed": {
+    "message0": "Korvo screen is touched",
+    "tooltip": "True while a finger is on the touch screen"
+  },
+  "korvo_ble_touch_point": {
+    "message0": "Korvo touch %1",
+    "tooltip": "Position of the latest touch in landscape coordinates: X 0–279 (left to right), Y 0–239 (top to bottom)",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_sd_ready": {
+    "message0": "Korvo TF card ready",
+    "tooltip": "True when a FAT32 TF card is inserted and recordings can be written; the card is mounted at initialize, restart after changing it"
+  },
+  "korvo_ble_record_start": {
+    "message0": "Korvo start recording to TF card",
+    "tooltip": "Record the microphone to files such as rec-0001.wav in the records folder of the TF card (IMA-ADPCM, about 8 KB/s); works together with voice upload, and the App can browse the recordings"
+  },
+  "korvo_ble_record_stop": {
+    "message0": "Korvo stop recording",
+    "tooltip": "Finish recording and save the file; a file not stopped properly (for example on power loss) may not open"
+  },
+  "korvo_ble_is_recording": {
+    "message0": "Korvo is recording",
+    "tooltip": "True while recording"
+  },
+  "korvo_ble_record_seconds": {
+    "message0": "Korvo recording length (seconds)",
+    "tooltip": "Seconds recorded so far; keeps the last length after stopping"
+  },
+  "korvo_ble_record_file": {
+    "message0": "Korvo latest recording file name",
+    "tooltip": "File name of the latest recording, for example rec-0001.wav; empty before the first recording"
+  }
+}

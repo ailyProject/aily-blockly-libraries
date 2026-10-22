@@ -1,0 +1,286 @@
+{
+  "toolbox_name": "Korvo-Bluetooth-Agent",
+  "toolbox_categories": [
+    "Einrichtung & Status",
+    "Sprache",
+    "Agent",
+    "Bildschirm",
+    "Touch",
+    "TF-Karten-Aufnahme",
+    "Sensoren & Steuerung"
+  ],
+  "korvo_ble_init": {
+    "message0": "Korvo-Agent initialisieren Bluetooth-Name %1 Bildschirm %2 Kamera %3 serielles Debugging %4 Firmware-Update per App %5",
+    "tooltip": "Initialisiert Lautsprecher, Mikrofone, Kamera, Bildschirm und Bluetooth des ESP32-S3-Korvo-2 V3; danach mit der Agent-Link-App über diesen Namen verbinden. Benötigt 16MB Flash und OPI-PSRAM. Serielles Debugging gibt Start- und Verbindungsmeldungen mit 115200 aus. Mit Firmware-Update per App kann die App neue Firmware über Bluetooth schreiben und ersetzt dieses Programm; braucht ein Partitionsschema mit zwei App-Slots (das voreingestellte app3M_fat9M_16MB passt)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "an",
+            "true"
+          ],
+          [
+            "aus",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "an",
+            "true"
+          ],
+          [
+            "aus",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "an",
+            "true"
+          ],
+          [
+            "aus",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "aus",
+            "false"
+          ],
+          [
+            "an",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_is_ready": {
+    "message0": "Korvo mit App verbunden",
+    "tooltip": "Wahr, sobald die App verbunden und abonniert ist; erst dann lassen sich Sprache, Fotos und Text senden"
+  },
+  "korvo_ble_print_status": {
+    "message0": "Korvo Diagnose seriell ausgeben",
+    "tooltip": "Gibt Verbindungs-, Kanal-, Wiedergabe- und Speicherstatus seriell aus (serielles Debugging beim Initialisieren einschalten)"
+  },
+  "korvo_ble_talk_start": {
+    "message0": "Korvo %1 starten höchstens %2 Sekunden",
+    "tooltip": "Beginnt, Mikrofonaudio hochzuladen, und stoppt nach der Zeit selbst. Sprachbefehl: Der Agent antwortet, wenn du fertig bist. Live-Transkription: Die App wandelt Gesprochenes sofort in Text um (die App muss ihren Audiokanal öffnen). Beides braucht die verbundene App",
+    "args0": [
+      {
+        "options": [
+          [
+            "Sprachbefehl",
+            "VOICE"
+          ],
+          [
+            "Live-Transkription",
+            "ASR"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_ble_talk_stop": {
+    "message0": "Korvo Sprechen beenden",
+    "tooltip": "Beendet den Sprach-Upload; danach antwortet der Agent"
+  },
+  "korvo_ble_is_talking": {
+    "message0": "Korvo lädt Sprache hoch",
+    "tooltip": "Wahr, solange Sprache hochgeladen wird"
+  },
+  "korvo_ble_is_speaking": {
+    "message0": "Korvo spielt Antwort ab",
+    "tooltip": "Wahr, solange die Sprachantwort des Agents empfangen oder abgespielt wird"
+  },
+  "korvo_ble_test_tone": {
+    "message0": "Korvo Testton am Lautsprecher",
+    "tooltip": "Spielt lokal eine Sekunde lang einen 1-kHz-Testton, um den Lautsprecher zu prüfen, ohne Bluetooth"
+  },
+  "korvo_ble_send_prompt": {
+    "message0": "Korvo Text an Agent senden %1",
+    "tooltip": "Sendet Text als Prompt an den Agent, z. B. „mach ein Foto und schau, ob jemand da ist“"
+  },
+  "korvo_ble_take_photo": {
+    "message0": "Korvo Foto für Agent aufnehmen",
+    "tooltip": "Nimmt ein 240×240-Foto auf, kodiert es als JPEG und lädt es in die App hoch; wird ignoriert, solange das vorige noch hochlädt"
+  },
+  "korvo_ble_on_text": {
+    "message0": "wenn Korvo Text vom Agent erhält",
+    "message1": "%1",
+    "tooltip": "Läuft, wenn der Agent Text sendet; den Text liefert „Text vom Agent“. Darin nicht lange warten"
+  },
+  "korvo_ble_agent_text": {
+    "message0": "Text vom Agent",
+    "tooltip": "Der zuletzt vom Agent empfangene Text (UTF-8)"
+  },
+  "korvo_ble_show_text": {
+    "message0": "Korvo Bildschirm zeigt %1",
+    "tooltip": "Zeigt Text auf dem Bildschirm: Buchstaben, Ziffern und gängige Zeichen; Chinesisch erscheint als ?. Agent-Text wird ebenfalls automatisch angezeigt"
+  },
+  "korvo_ble_backlight": {
+    "message0": "Korvo Hintergrundbeleuchtung %1",
+    "tooltip": "Schaltet die Hintergrundbeleuchtung des Bildschirms ein oder aus",
+    "args0": [
+      {
+        "options": [
+          [
+            "an",
+            "true"
+          ],
+          [
+            "aus",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_update_sensor": {
+    "message0": "Korvo Sensor melden ID %1 Name %2 Einheit %3 Typ %4 Wert %5",
+    "tooltip": "Meldet einen Messwert an den Agent. Eindeutige ID aus Buchstaben und Ziffern; offline wird nur der neueste Wert behalten und nach dem Verbinden gesendet",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Zahl",
+            "KORVO_NUMBER"
+          ],
+          [
+            "Schalter",
+            "KORVO_SWITCH"
+          ],
+          [
+            "Text",
+            "KORVO_TEXT"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_ble_on_control": {
+    "message0": "wenn die App ID %1 Name %2 Typ %3 steuert",
+    "message1": "%1",
+    "tooltip": "Registriert einen steuerbaren Endpunkt in App und Agent und läuft, wenn ein Befehl eintrifft; den Wert liefert „von der App gesendet“. Darin nicht lange warten",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Zahl",
+            "KORVO_NUMBER"
+          ],
+          [
+            "Schalter",
+            "KORVO_SWITCH"
+          ],
+          [
+            "Text",
+            "KORVO_TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_control_value": {
+    "message0": "von der App gesendet %1",
+    "tooltip": "Wert des letzten App-Steuerbefehls: Zahl, Schalter (wahr/falsch) oder Text",
+    "args0": [
+      {
+        "options": [
+          [
+            "Zahl",
+            "NUMBER"
+          ],
+          [
+            "Schalter",
+            "SWITCH"
+          ],
+          [
+            "Text",
+            "TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_camera_preview": {
+    "message0": "Korvo Kamera-Livevorschau %1",
+    "tooltip": "Zeigt das Kamerabild live auf dem Bildschirm (etwa 15 fps); Bildschirmtext pausiert während der Vorschau und kehrt nach dem Ausschalten zurück",
+    "args0": [
+      {
+        "options": [
+          [
+            "an",
+            "true"
+          ],
+          [
+            "aus",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_touch_pressed": {
+    "message0": "Korvo Bildschirm wird berührt",
+    "tooltip": "Wahr, solange ein Finger auf dem Touchscreen liegt"
+  },
+  "korvo_ble_touch_point": {
+    "message0": "Korvo Touch-Position %1",
+    "tooltip": "Position der letzten Berührung im Querformat: X 0–279 (links nach rechts), Y 0–239 (oben nach unten)",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_ble_sd_ready": {
+    "message0": "Korvo TF-Karte bereit",
+    "tooltip": "Wahr, wenn eine FAT32-TF-Karte steckt und Aufnahmen geschrieben werden können; die Karte wird beim Initialisieren eingebunden, nach einem Wechsel neu starten"
+  },
+  "korvo_ble_record_start": {
+    "message0": "Korvo Aufnahme auf TF-Karte starten",
+    "tooltip": "Nimmt das Mikrofon in Dateien wie rec-0001.wav im Ordner records der TF-Karte auf (IMA-ADPCM, etwa 8 KB/s); funktioniert zusammen mit dem Sprach-Upload, die App kann die Aufnahmen durchsuchen"
+  },
+  "korvo_ble_record_stop": {
+    "message0": "Korvo Aufnahme beenden",
+    "tooltip": "Beendet die Aufnahme und speichert die Datei; nicht richtig beendete Dateien (z. B. bei Stromausfall) lassen sich eventuell nicht öffnen"
+  },
+  "korvo_ble_is_recording": {
+    "message0": "Korvo nimmt auf",
+    "tooltip": "Wahr während der Aufnahme"
+  },
+  "korvo_ble_record_seconds": {
+    "message0": "Korvo Aufnahmedauer (Sekunden)",
+    "tooltip": "Bisher aufgenommene Sekunden; behält nach dem Stoppen die letzte Dauer"
+  },
+  "korvo_ble_record_file": {
+    "message0": "Korvo Dateiname der letzten Aufnahme",
+    "tooltip": "Dateiname der letzten Aufnahme, z. B. rec-0001.wav; leer vor der ersten Aufnahme"
+  }
+}
