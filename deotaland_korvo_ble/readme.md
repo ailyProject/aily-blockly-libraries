@@ -1,7 +1,5 @@
 # Korvo Bluetooth Agent
 
-Korvo-2 V3 on the Deotaland platform over Bluetooth: voice chat, photos, TF recording, screen, touch and App controls
-
 ## Library Info
 
 | Field | Value |
@@ -14,13 +12,14 @@ Korvo-2 V3 on the Deotaland platform over Bluetooth: voice chat, photos, TF reco
 
 ## Supported Boards
 
-ESP32
+ESP32-S3-Korvo-2 V3 (Aily board OJ Korvo S3) only, with its fixed wiring.
 
 ## Description
 
-Korvo-2 V3 on the Deotaland platform over Bluetooth: voice chat, photos, TF recording, screen, touch and App controls
+Korvo-2 V3 on the Deotaland platform over Bluetooth: voice chat, photos, TF recording, screen, touch and App controls.
 
 ## Quick Start
 
-1. Enable `@aily-project/lib-deotaland-korvo-ble` in Aily Blockly.
-2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+1. Keep the OJ Korvo S3 defaults (16MB flash, OPI PSRAM, USB CDC On Boot off); Arduino-ESP32 3.3.10+, verified with 3.3.12.
+2. Partition: keep the default `app3M_fat9M_16MB` (the firmware is about 1.6MB; App firmware updates need its two app slots).
+3. Put `korvo_ble_init` in `arduino_setup()`, then connect from the Agent Link App with the Bluetooth name set there.
