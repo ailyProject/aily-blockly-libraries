@@ -1,0 +1,996 @@
+{
+  "toolbox_name": "Korvo Wi-Fi 에이전트",
+  "toolbox_categories": [
+    "초기화와 네트워크",
+    "세션",
+    "음성",
+    "화면과 카메라",
+    "터치",
+    "소리",
+    "서보",
+    "플랫폼"
+  ],
+  "korvo_wifi_init": {
+    "message0": "Korvo Wi-Fi 에이전트 초기화 UI %1 Wi-Fi 이름 %2 비밀번호 %3 시리얼 디버그 %4",
+    "tooltip": "화면, 터치, 오디오를 시작하고 클라우드에 연결합니다. Wi-Fi 이름이 비어 있으면 저장된 네트워크를, 없으면 KorvoCloud-XXXX 핫스팟으로 설정합니다. 처음에는 화면의 활성화 코드를 플랫폼에 입력하고 에이전트를 연결하세요. 원래 UI는 IDF 전체 페이지(홈, 앱, 카메라, 음성, 세션, 서보, 상태)를 실행하며 그리기, 터치, 카메라 블록은 동작하지 않습니다. 16MB Flash, OPI PSRAM, 5MB 이상의 app 파티션 필요",
+    "args0": [
+      {
+        "options": [
+          [
+            "블록 제어",
+            "false"
+          ],
+          [
+            "원본 UI",
+            "true"
+          ]
+        ]
+      },
+      null,
+      null,
+      {
+        "options": [
+          [
+            "켜기",
+            "true"
+          ],
+          [
+            "끄기",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_cloud": {
+    "message0": "Korvo 클라우드 %1",
+    "tooltip": "Wi-Fi 클라우드에 연결하거나 끊습니다. 초기화 때 이미 자동 연결됩니다. 비동기이므로 \"플랫폼 온라인\"으로 확인",
+    "args0": [
+      {
+        "options": [
+          [
+            "연결",
+            "connect"
+          ],
+          [
+            "끊기",
+            "disconnect"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_state": {
+    "message0": "Korvo %1",
+    "tooltip": "핫스팟 설정 중: 휴대폰으로 KorvoCloud-XXXX에 접속해 Wi-Fi 설정; 활성화 코드 대기: 플랫폼에 코드 입력; 조치 필요: 상태 안내 확인; 음성 에이전트 연결됨: 실시간 음성을 지원하는 에이전트가 연결됨; 음성 연결 중: 통화 요청 중; 음성 연결됨: 실시간 통화 성립; 수음 중: 마이크 업로드 중; 소리 재생 중: 스피커에 재생할 소리가 남음",
+    "args0": [
+      {
+        "options": [
+          [
+            "Wi-Fi 연결됨",
+            "WIFI"
+          ],
+          [
+            "플랫폼 온라인",
+            "PLATFORM"
+          ],
+          [
+            "핫스팟 설정 중",
+            "SETUP"
+          ],
+          [
+            "활성화 코드 대기",
+            "PAIRING"
+          ],
+          [
+            "조치 필요",
+            "BLOCKED"
+          ],
+          [
+            "음성 에이전트 연결됨",
+            "AGENT"
+          ],
+          [
+            "음성 연결 중",
+            "CONNECTING"
+          ],
+          [
+            "음성 연결됨",
+            "VOICE"
+          ],
+          [
+            "수음 중",
+            "LISTEN"
+          ],
+          [
+            "소리 재생 중",
+            "PLAYING"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_info": {
+    "message0": "Korvo %1",
+    "tooltip": "처음 사용할 때 활성화 코드가 여기에 있습니다. 연결 단계는 idle, setup, connecting, pairing, blocked, online, ready 중 하나; 상태 코드는 플랫폼 업무 코드; 음성 상태는 통화 진행 단계",
+    "args0": [
+      {
+        "options": [
+          [
+            "IP 주소",
+            "IP"
+          ],
+          [
+            "활성화 코드",
+            "CODE"
+          ],
+          [
+            "코드 남은 초",
+            "EXPIRES"
+          ],
+          [
+            "상태 제목",
+            "TITLE"
+          ],
+          [
+            "상태 안내",
+            "HINT"
+          ],
+          [
+            "연결 단계",
+            "PHASE"
+          ],
+          [
+            "상태 코드",
+            "DETAIL"
+          ],
+          [
+            "기기 번호",
+            "SN"
+          ],
+          [
+            "펌웨어 버전",
+            "VERSION"
+          ],
+          [
+            "에이전트 이름",
+            "AGENT"
+          ],
+          [
+            "에이전트 ID",
+            "AGENT_ID"
+          ],
+          [
+            "현재 세션 ID",
+            "SESSION"
+          ],
+          [
+            "현재 세션 이름",
+            "SESSION_NAME"
+          ],
+          [
+            "음성 상태",
+            "VOICE_STATUS"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_show_status": {
+    "message0": "Korvo 화면에 네트워크 및 활성화 상태 표시",
+    "tooltip": "연결 단계, 안내, 활성화 코드, IP를 표시하고 바뀔 때만 다시 그리므로 loop에 둘 수 있습니다"
+  },
+  "korvo_wifi_reset": {
+    "message0": "Korvo %1",
+    "tooltip": "활성화 초기화: 플랫폼 키를 지우고 새 활성화 코드를 바로 요청하며 Wi-Fi는 유지합니다. 먼저 콘솔에서 이 기기의 연결을 해제해야 새 활성화가 거부되지 않습니다. Wi-Fi 지우기: 저장된 Wi-Fi를 지우고 재시작해 설정 핫스팟을 엽니다. 초기화 블록의 Wi-Fi 이름이 비어 있을 때만 유효",
+    "args0": [
+      {
+        "options": [
+          [
+            "활성화 초기화",
+            "ACTIVATION"
+          ],
+          [
+            "Wi-Fi 지우고 다시 설정",
+            "WIFI"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_ui_page": {
+    "message0": "Korvo 원래 UI에서 %1 열기",
+    "tooltip": "원래 UI 모드에서만 동작: 지정한 페이지로 전환합니다. 음성 페이지는 선택된 세션으로 자동 연결하고, 없으면 세션 목록을 엽니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "홈",
+            "HOME"
+          ],
+          [
+            "앱",
+            "APPS"
+          ],
+          [
+            "카메라",
+            "CAMERA"
+          ],
+          [
+            "음성",
+            "VOICE"
+          ],
+          [
+            "서보",
+            "SERVO"
+          ],
+          [
+            "상태",
+            "STATUS"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_session_new": {
+    "message0": "Korvo 새 세션",
+    "tooltip": "연결된 에이전트에 새 세션을 만들고 선택합니다. 통화 중이면 끊고 새 세션으로 다시 연결합니다. 블로킹 네트워크 요청"
+  },
+  "korvo_wifi_session_refresh": {
+    "message0": "Korvo 세션 목록 읽기 %1",
+    "tooltip": "플랫폼에서 페이지당 최대 8개의 세션을 읽습니다. 블로킹 요청이므로 매 loop마다 호출하지 마세요. 다음/이전 페이지가 없으면 요청하지 않습니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "첫 페이지",
+            "FIRST"
+          ],
+          [
+            "다음 페이지",
+            "NEXT"
+          ],
+          [
+            "이전 페이지",
+            "PREV"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_session_has_page": {
+    "message0": "Korvo 세션 목록에 %1 있음",
+    "tooltip": "마지막 읽기 기준으로 페이지를 넘길 수 있는지; 플랫폼은 더 있는지 여부만 알려 주고 총수는 주지 않습니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "다음 페이지",
+            "NEXT"
+          ],
+          [
+            "이전 페이지",
+            "PREV"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_session_count": {
+    "message0": "Korvo 이 페이지 세션 수",
+    "tooltip": "마지막으로 읽은 페이지의 세션 개수"
+  },
+  "korvo_wifi_session_get": {
+    "message0": "Korvo %1번째 세션의 %2",
+    "tooltip": "이 페이지 세션의 이름, ID 또는 생성 시간(1부터); 이름이 없으면 ID를 반환",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "이름",
+            "NAME"
+          ],
+          [
+            "ID",
+            "ID"
+          ],
+          [
+            "생성 시간",
+            "TIME"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_session_select": {
+    "message0": "Korvo %1번째 세션 선택",
+    "tooltip": "이 페이지의 세션을 이후 통화에 사용합니다. 선택은 저장되어 같은 에이전트라면 재시작 후에도 복원됩니다. 통화 중이면 끊고 새 세션으로 다시 연결합니다"
+  },
+  "korvo_wifi_session_delete": {
+    "message0": "Korvo 현재 세션 삭제",
+    "tooltip": "선택된 세션을 플랫폼에서 삭제하며 되돌릴 수 없습니다. 통화 중이면 먼저 끊고 목록은 첫 페이지로 돌아갑니다"
+  },
+  "korvo_wifi_session_delete_at": {
+    "message0": "Korvo %1번째 세션 삭제",
+    "tooltip": "이 페이지의 세션을 플랫폼에서 삭제하며 되돌릴 수 없습니다. 현재 세션이면 선택이 해제되고 목록은 첫 페이지로 돌아갑니다"
+  },
+  "korvo_wifi_voice_connect": {
+    "message0": "Korvo 음성 통화 시작",
+    "tooltip": "현재 세션으로 실시간 음성을 연결합니다. 플랫폼이 준비될 때까지 1초마다 최대 10번 재시도하고 30초 후 포기합니다. 연결되면 마이크를 계속 보내고 에이전트 답변은 자동 재생됩니다"
+  },
+  "korvo_wifi_listen": {
+    "message0": "Korvo 수음 %1",
+    "tooltip": "통화 중 마이크 전송을 일시 정지하거나 재개합니다. 정지해도 통화는 유지되고, 시작하면 통화 내내 수음합니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "시작",
+            "start"
+          ],
+          [
+            "중지",
+            "stop"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_voice_end": {
+    "message0": "Korvo 음성 통화 종료",
+    "tooltip": "수음과 재생을 멈추고 실시간 통화를 끝냅니다"
+  },
+  "korvo_wifi_on_text": {
+    "message0": "Korvo가 에이전트 텍스트를 받았을 때",
+    "message1": "%1",
+    "tooltip": "새 텍스트가 오면 실행됩니다. \"에이전트 텍스트\"로 가져오며 안에서 오래 기다리지 마세요"
+  },
+  "korvo_wifi_agent_text": {
+    "message0": "에이전트 텍스트",
+    "tooltip": "가장 최근에 받은 텍스트(최대 2048바이트). 중국어도 화면 표시 블록으로 바로 표시됩니다"
+  },
+  "korvo_wifi_screen_clear": {
+    "message0": "Korvo 화면 지우기 색 %1",
+    "tooltip": "화면 전체를 한 색으로 채웁니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "흰색",
+            "0xFFFF"
+          ],
+          [
+            "검정",
+            "0x0000"
+          ],
+          [
+            "빨강",
+            "0xF800"
+          ],
+          [
+            "초록",
+            "0x07E0"
+          ],
+          [
+            "파랑",
+            "0x001F"
+          ],
+          [
+            "노랑",
+            "0xFFE0"
+          ],
+          [
+            "청록",
+            "0x07FF"
+          ],
+          [
+            "자홍",
+            "0xF81F"
+          ],
+          [
+            "주황",
+            "0xFD20"
+          ],
+          [
+            "회색",
+            "0x8410"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_screen_text": {
+    "message0": "Korvo 화면 x %1 y %2 에 %3 표시 색 %4",
+    "tooltip": "내장 14px 글꼴로 중국어와 영어를 표시하고 오른쪽 끝에서 줄바꿈합니다. 가로 280×240, 모서리는 20px 비우세요",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "흰색",
+            "0xFFFF"
+          ],
+          [
+            "검정",
+            "0x0000"
+          ],
+          [
+            "빨강",
+            "0xF800"
+          ],
+          [
+            "초록",
+            "0x07E0"
+          ],
+          [
+            "파랑",
+            "0x001F"
+          ],
+          [
+            "노랑",
+            "0xFFE0"
+          ],
+          [
+            "청록",
+            "0x07FF"
+          ],
+          [
+            "자홍",
+            "0xF81F"
+          ],
+          [
+            "주황",
+            "0xFD20"
+          ],
+          [
+            "회색",
+            "0x8410"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_screen_big": {
+    "message0": "Korvo 화면 x %1 y %2 큰 영문 %3 색 %4 배율 %5",
+    "tooltip": "영문, 숫자, 기호만 지원하며 1~8배 확대",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "흰색",
+            "0xFFFF"
+          ],
+          [
+            "검정",
+            "0x0000"
+          ],
+          [
+            "빨강",
+            "0xF800"
+          ],
+          [
+            "초록",
+            "0x07E0"
+          ],
+          [
+            "파랑",
+            "0x001F"
+          ],
+          [
+            "노랑",
+            "0xFFE0"
+          ],
+          [
+            "청록",
+            "0x07FF"
+          ],
+          [
+            "자홍",
+            "0xF81F"
+          ],
+          [
+            "주황",
+            "0xFD20"
+          ],
+          [
+            "회색",
+            "0x8410"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_wifi_screen_rect": {
+    "message0": "Korvo 사각형 x %1 y %2 너비 %3 높이 %4 색 %5 %6",
+    "tooltip": "채운 사각형이나 테두리 사각형을 그립니다",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "흰색",
+            "0xFFFF"
+          ],
+          [
+            "검정",
+            "0x0000"
+          ],
+          [
+            "빨강",
+            "0xF800"
+          ],
+          [
+            "초록",
+            "0x07E0"
+          ],
+          [
+            "파랑",
+            "0x001F"
+          ],
+          [
+            "노랑",
+            "0xFFE0"
+          ],
+          [
+            "청록",
+            "0x07FF"
+          ],
+          [
+            "자홍",
+            "0xF81F"
+          ],
+          [
+            "주황",
+            "0xFD20"
+          ],
+          [
+            "회색",
+            "0x8410"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "채움",
+            "true"
+          ],
+          [
+            "테두리",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_backlight": {
+    "message0": "Korvo 화면 백라이트 %1",
+    "tooltip": "화면 백라이트를 켜거나 끕니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "켜기",
+            "true"
+          ],
+          [
+            "끄기",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_camera_preview": {
+    "message0": "Korvo 카메라 화면을 화면에 표시",
+    "tooltip": "한 프레임을 찍어 화면 가운데(240×240)에 그립니다. loop에서 계속 호출하면 실시간 미리보기"
+  },
+  "korvo_wifi_camera_stop": {
+    "message0": "Korvo 카메라 미리보기 중지",
+    "tooltip": "촬영을 멈추며 화면에는 마지막 프레임이 남습니다"
+  },
+  "korvo_wifi_touch_pressed": {
+    "message0": "Korvo 화면이 눌림",
+    "tooltip": "터치는 loop마다 한 번 읽으므로 같은 회차의 판정과 좌표는 같은 샘플입니다"
+  },
+  "korvo_wifi_touch_point": {
+    "message0": "Korvo 터치 좌표 %1",
+    "tooltip": "마지막 터치 위치: X는 0~279, Y는 0~239",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_touch_gesture": {
+    "message0": "Korvo %1 감지",
+    "tooltip": "한 번 누를 때 최대 한 가지 제스처: 42픽셀 이상 움직이면 스와이프, 15픽셀 미만에서 떼면 탭. 제스처는 1초간 유지되고 한 번 읽으면 지워집니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "탭",
+            "TAP"
+          ],
+          [
+            "왼쪽 스와이프",
+            "LEFT"
+          ],
+          [
+            "오른쪽 스와이프",
+            "RIGHT"
+          ],
+          [
+            "위로 스와이프",
+            "UP"
+          ],
+          [
+            "아래로 스와이프",
+            "DOWN"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_volume": {
+    "message0": "Korvo 음량 %1",
+    "tooltip": "스피커 음량 0~100. 에이전트 음성과 알림음에 적용"
+  },
+  "korvo_wifi_tone": {
+    "message0": "Korvo 알림음 주파수 %1 Hz 길이 %2 밀리초",
+    "tooltip": "사인파를 로컬 재생하고 끝날 때까지 기다립니다. 통화 중에는 에이전트 음성을 끊습니다"
+  },
+  "korvo_wifi_mic": {
+    "message0": "Korvo 마이크 로컬 수음 %1",
+    "tooltip": "음량 측정용으로 로컬에서만 수음하며 업로드하지 않고 네트워크도 필요 없습니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "시작",
+            "start"
+          ],
+          [
+            "중지",
+            "stop"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_mic_level": {
+    "message0": "Korvo 마이크 음량",
+    "tooltip": "최근 프레임의 피크 0~100. 먼저 로컬 수음을 시작하세요"
+  },
+  "korvo_wifi_servo": {
+    "message0": "Korvo 서보 %1 %2 %3도로",
+    "tooltip": "외장 8채널 서보 보드(I2C 0x10, GPIO19/20, 새 4바이트 펌웨어). 180° 위치는 0~180도, 360° 위치는 0~360도이며 서보에 맞게 고릅니다. 전체는 8채널을 같은 모드로 구동합니다. 명령마다 보드 상태를 다시 읽습니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "SS1",
+            "1"
+          ],
+          [
+            "SS2",
+            "2"
+          ],
+          [
+            "SS3",
+            "3"
+          ],
+          [
+            "SS4",
+            "4"
+          ],
+          [
+            "SS5",
+            "5"
+          ],
+          [
+            "SS6",
+            "6"
+          ],
+          [
+            "SS7",
+            "7"
+          ],
+          [
+            "SS8",
+            "8"
+          ],
+          [
+            "전체",
+            "255"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "180° 위치",
+            "KORVO_WIFI_SERVO_180"
+          ],
+          [
+            "360° 위치",
+            "KORVO_WIFI_SERVO_360"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_wifi_servo_speed": {
+    "message0": "Korvo 서보 %1 연속 회전 속도 %2 %",
+    "tooltip": "연속 회전 서보의 속도 -100~100, 부호가 방향이고 0은 정지",
+    "args0": [
+      {
+        "options": [
+          [
+            "SS1",
+            "1"
+          ],
+          [
+            "SS2",
+            "2"
+          ],
+          [
+            "SS3",
+            "3"
+          ],
+          [
+            "SS4",
+            "4"
+          ],
+          [
+            "SS5",
+            "5"
+          ],
+          [
+            "SS6",
+            "6"
+          ],
+          [
+            "SS7",
+            "7"
+          ],
+          [
+            "SS8",
+            "8"
+          ],
+          [
+            "전체",
+            "255"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "korvo_wifi_servo_stop": {
+    "message0": "Korvo 서보 %1 %2",
+    "tooltip": "회전 정지: 연속 회전 서보를 속도 0(중립 펄스)으로; 해제: 펄스를 꺼서 서보가 힘을 내지 않게 합니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "SS1",
+            "1"
+          ],
+          [
+            "SS2",
+            "2"
+          ],
+          [
+            "SS3",
+            "3"
+          ],
+          [
+            "SS4",
+            "4"
+          ],
+          [
+            "SS5",
+            "5"
+          ],
+          [
+            "SS6",
+            "6"
+          ],
+          [
+            "SS7",
+            "7"
+          ],
+          [
+            "SS8",
+            "8"
+          ],
+          [
+            "전체",
+            "255"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "회전 정지",
+            "STOP"
+          ],
+          [
+            "해제",
+            "RELEASE"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_servo_read": {
+    "message0": "Korvo 서보 보드 상태 읽기",
+    "tooltip": "8채널의 모드와 설정값을 최대 0.3초 기다려 읽습니다. 실측 각도가 아니라 컨트롤러 설정입니다"
+  },
+  "korvo_wifi_servo_value": {
+    "message0": "Korvo 서보 %1의 %2",
+    "tooltip": "마지막으로 읽은 상태. 설정값: 각도 또는 속도; 모드: 0 해제, 1 180° 위치, 2 360° 위치, 3 연속 회전, 읽기 전에는 -1",
+    "args0": [
+      {
+        "options": [
+          [
+            "SS1",
+            "1"
+          ],
+          [
+            "SS2",
+            "2"
+          ],
+          [
+            "SS3",
+            "3"
+          ],
+          [
+            "SS4",
+            "4"
+          ],
+          [
+            "SS5",
+            "5"
+          ],
+          [
+            "SS6",
+            "6"
+          ],
+          [
+            "SS7",
+            "7"
+          ],
+          [
+            "SS8",
+            "8"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "설정값",
+            "VALUE"
+          ],
+          [
+            "모드",
+            "MODE"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_servo_ok": {
+    "message0": "Korvo 서보 보드 %1",
+    "tooltip": "마지막 서보 명령의 I2C 쓰기와 이후 상태 읽기가 성공했는지; 쓰기 성공이 도착을 뜻하지는 않습니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "마지막 쓰기 성공",
+            "WRITE"
+          ],
+          [
+            "상태 읽기 성공",
+            "READ"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_on_control": {
+    "message0": "플랫폼이 ID %1 이름 %2 형식 %3을 제어할 때",
+    "message1": "%1",
+    "tooltip": "플랫폼과 에이전트에 제어 가능한 엔드포인트를 등록하고 명령이 오면 실행합니다. 값은 \"플랫폼이 보낸 값\"으로 가져옵니다. ID는 영문, 숫자, 밑줄로 중복 없이, 최대 12개",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "숫자",
+            "KORVO_WIFI_NUMBER"
+          ],
+          [
+            "스위치",
+            "KORVO_WIFI_SWITCH"
+          ],
+          [
+            "텍스트",
+            "KORVO_WIFI_TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_control_value": {
+    "message0": "플랫폼이 보낸 %1",
+    "tooltip": "가장 최근 플랫폼 명령의 값: 숫자, 스위치(참/거짓) 또는 텍스트",
+    "args0": [
+      {
+        "options": [
+          [
+            "숫자",
+            "NUMBER"
+          ],
+          [
+            "스위치",
+            "SWITCH"
+          ],
+          [
+            "텍스트",
+            "TEXT"
+          ]
+        ]
+      }
+    ]
+  },
+  "korvo_wifi_report": {
+    "message0": "Korvo 플랫폼 데이터 보고 ID %1 이름 %2 형식 %3 값 %4",
+    "tooltip": "기기 데이터 엔드포인트를 등록하고 최신 값을 갱신합니다. 플랫폼과 에이전트가 읽으면 이 값을 받습니다. ID 규칙은 제어와 같고 최대 8개. 텍스트는 16바이트 이하이며 비울 수 없습니다",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "숫자",
+            "KORVO_WIFI_NUMBER"
+          ],
+          [
+            "스위치",
+            "KORVO_WIFI_SWITCH"
+          ],
+          [
+            "텍스트",
+            "KORVO_WIFI_TEXT"
+          ]
+        ]
+      },
+      null
+    ]
+  }
+}
