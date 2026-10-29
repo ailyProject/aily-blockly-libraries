@@ -1,0 +1,161 @@
+[
+  {
+    "type": "sen0755_init_uart",
+    "message0": "初始化 TF-UW500 %1 UART %2 RX %3 TX %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "lidar"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": [
+          [
+            "Serial1",
+            "Serial1"
+          ],
+          [
+            "Serial2",
+            "Serial2"
+          ],
+          [
+            "Serial",
+            "Serial"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RX",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TX",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00838F",
+    "tooltip": "UART 115200 初始化水下单点激光雷达，默认 mm。",
+    "icon": "fa-light fa-location-crosshairs",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0755_init_i2c",
+    "message0": "初始化 TF-UW500 %1 I2C %2 地址 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "lidar"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDRESS",
+        "options": [
+          [
+            "0x10 (默认)",
+            "0x10"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00838F",
+    "tooltip": "I2C 初始化，默认从机地址 0x10。出厂可能为 I2C 模式。",
+    "icon": "fa-light fa-location-crosshairs",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0755_read",
+    "message0": "TF-UW500 %1 读取成功",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "lidar",
+        "variableTypes": [
+          "DFRobot_TFUW500"
+        ],
+        "defaultType": "DFRobot_TFUW500"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#00838F",
+    "tooltip": "读取一帧距离数据，校验成功且距离有效返回 true。",
+    "icon": "fa-light fa-location-crosshairs",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0755_get_data",
+    "message0": "TF-UW500 %1 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "lidar",
+        "variableTypes": [
+          "DFRobot_TFUW500"
+        ],
+        "defaultType": "DFRobot_TFUW500"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA",
+        "options": [
+          [
+            "距离 mm",
+            "DIST"
+          ],
+          [
+            "信号强度 Peak",
+            "PEAK"
+          ],
+          [
+            "温度 C",
+            "TEMP"
+          ],
+          [
+            "置信度",
+            "CONF"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#00838F",
+    "tooltip": "读取最近一帧缓存。空气中距离约需乘 1.33。Peak<30 时距离为 65535。",
+    "icon": "fa-light fa-location-crosshairs",
+    "inputsInline": true
+  },
+  {
+    "type": "sen0755_valid",
+    "message0": "TF-UW500 %1 数据有效",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "lidar",
+        "variableTypes": [
+          "DFRobot_TFUW500"
+        ],
+        "defaultType": "DFRobot_TFUW500"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#00838F",
+    "tooltip": "最近一次读取是否有效。",
+    "icon": "fa-light fa-location-crosshairs",
+    "inputsInline": true
+  }
+]
