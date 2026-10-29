@@ -1,0 +1,1455 @@
+{
+  "toolbox_name": "ESP32 クラシック Bluetooth HID",
+  "toolbox_categories": [
+    "初期化",
+    "接続状態",
+    "接続管理",
+    "キーボード",
+    "マウス",
+    "メディアキー",
+    "汎用ゲームパッド",
+    "Switch Proコントローラー"
+  ],
+  "esp32_classic_hid_begin_keyboard": {
+    "message0": "クラシック Bluetooth キーボードを開始 名前 %1",
+    "tooltip": "setupで1種類のモードを開始します。キーボードとマウスの併用は複合モードを選択。初代ESP32、Arduino-ESP32 ≥3.3.10のみ。初期化成功は接続完了ではありません。停止後は同じモードを再開できます。"
+  },
+  "esp32_classic_hid_begin_mouse": {
+    "message0": "クラシック Bluetooth マウスを開始 名前 %1",
+    "tooltip": "setupで1種類のモードを開始します。キーボードとマウスの併用は複合モードを選択。初代ESP32、Arduino-ESP32 ≥3.3.10のみ。初期化成功は接続完了ではありません。停止後は同じモードを再開できます。"
+  },
+  "esp32_classic_hid_begin_combo": {
+    "message0": "クラシック Bluetooth キーボードとマウスを開始 名前 %1",
+    "tooltip": "setupで1種類のモードを開始します。キーボードとマウスの併用は複合モードを選択。初代ESP32、Arduino-ESP32 ≥3.3.10のみ。初期化成功は接続完了ではありません。停止後は同じモードを再開できます。"
+  },
+  "esp32_classic_hid_begin_media": {
+    "message0": "クラシック Bluetooth メディアキーを開始 名前 %1",
+    "tooltip": "setupで1種類のモードを開始します。キーボードとマウスの併用は複合モードを選択。初代ESP32、Arduino-ESP32 ≥3.3.10のみ。初期化成功は接続完了ではありません。停止後は同じモードを再開できます。"
+  },
+  "esp32_classic_hid_begin_gamepad": {
+    "message0": "クラシック Bluetooth 汎用ゲームパッドを開始 名前 %1",
+    "tooltip": "setupで1種類のモードを開始します。キーボードとマウスの併用は複合モードを選択。初代ESP32、Arduino-ESP32 ≥3.3.10のみ。初期化成功は接続完了ではありません。停止後は同じモードを再開できます。"
+  },
+  "esp32_classic_hid_begin_switch": {
+    "message0": "クラシック Bluetooth SwitchPro を開始 名前 %1",
+    "tooltip": "setupで1種類のモードを開始します。キーボードとマウスの併用は複合モードを選択。初代ESP32、Arduino-ESP32 ≥3.3.10のみ。初期化成功は接続完了ではありません。停止後は同じモードを再開できます。"
+  },
+  "esp32_classic_hid_connected": {
+    "message0": "クラシック Bluetooth 接続中",
+    "tooltip": "現在のホスト接続を取得します。ペアリングと接続は非同期です。入力送信前に確認してください。"
+  },
+  "esp32_classic_hid_last_init_ok": {
+    "message0": "前回の初期化が成功",
+    "tooltip": "直近の初期化が成功したかを取得します。接続中であることやホストへの入力到達を示す値ではありません。"
+  },
+  "esp32_classic_hid_last_ok": {
+    "message0": "前回の操作を受理",
+    "tooltip": "直近の操作がローカルで受理されたかを取得します。ホストの受信や実行は保証しません。参照と自動更新では変化しません。"
+  },
+  "esp32_classic_hid_last_error": {
+    "message0": "クラシック Bluetooth の最新エラー",
+    "tooltip": "初期化、操作、非同期のデバイスエラーを取得します。入力の受理後に送信が失敗する場合もあります。"
+  },
+  "esp32_classic_hid_update": {
+    "message0": "クラシック Bluetooth デバイスを更新",
+    "tooltip": "保留中のレポートとコールバックを処理します。loop先頭では自動実行されます。長いループ内でも呼び出し、長時間のブロックを避けてください。"
+  },
+  "esp32_classic_hid_end": {
+    "message0": "クラシック Bluetooth デバイスを停止",
+    "tooltip": "デバイスを停止してリソースを解放します。同じモードを再開できます。解放失敗時は状態が保持され、停止を再試行できます。"
+  },
+  "esp32_classic_hid_disconnect": {
+    "message0": "クラシック Bluetooth を切断",
+    "tooltip": "ペアリング情報を残して現在のホストを切断します。デバイスモードは停止しません。"
+  },
+  "esp32_classic_hid_unpair": {
+    "message0": "クラシック Bluetooth のペアリングを消去",
+    "tooltip": "保存済みのペアリング鍵を削除し、完了まで同期的に待ちます。その後は再ペアリングが必要です。毎ループ呼び出さないでください。"
+  },
+  "esp32_classic_hid_keyboard_text": {
+    "message0": "キーボード %1 テキスト %2",
+    "tooltip": "キーボード テキスト — テキストは US ASCII のみで、通常キーは同時に六つまで保持できます。",
+    "args0": [
+      {
+        "options": [
+          [
+            "出力",
+            "PRINT"
+          ],
+          [
+            "改行付き出力",
+            "PRINTLN"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_classic_hid_keyboard_key": {
+    "message0": "キーボード %1 キー %2",
+    "tooltip": "押したままの状態は、そのキーを離すか全キーを解放するまで続きます。A–ZはShiftなしの文字キーです。テキストはUS ASCIIのみ対応します。",
+    "args0": [
+      {
+        "options": [
+          [
+            "押したまま",
+            "PRESS"
+          ],
+          [
+            "離す",
+            "RELEASE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "A",
+            "ASCII_A"
+          ],
+          [
+            "B",
+            "ASCII_B"
+          ],
+          [
+            "C",
+            "ASCII_C"
+          ],
+          [
+            "D",
+            "ASCII_D"
+          ],
+          [
+            "E",
+            "ASCII_E"
+          ],
+          [
+            "F",
+            "ASCII_F"
+          ],
+          [
+            "G",
+            "ASCII_G"
+          ],
+          [
+            "H",
+            "ASCII_H"
+          ],
+          [
+            "I",
+            "ASCII_I"
+          ],
+          [
+            "J",
+            "ASCII_J"
+          ],
+          [
+            "K",
+            "ASCII_K"
+          ],
+          [
+            "L",
+            "ASCII_L"
+          ],
+          [
+            "M",
+            "ASCII_M"
+          ],
+          [
+            "N",
+            "ASCII_N"
+          ],
+          [
+            "O",
+            "ASCII_O"
+          ],
+          [
+            "P",
+            "ASCII_P"
+          ],
+          [
+            "Q",
+            "ASCII_Q"
+          ],
+          [
+            "R",
+            "ASCII_R"
+          ],
+          [
+            "S",
+            "ASCII_S"
+          ],
+          [
+            "T",
+            "ASCII_T"
+          ],
+          [
+            "U",
+            "ASCII_U"
+          ],
+          [
+            "V",
+            "ASCII_V"
+          ],
+          [
+            "W",
+            "ASCII_W"
+          ],
+          [
+            "X",
+            "ASCII_X"
+          ],
+          [
+            "Y",
+            "ASCII_Y"
+          ],
+          [
+            "Z",
+            "ASCII_Z"
+          ],
+          [
+            "0",
+            "DIGIT_0"
+          ],
+          [
+            "1",
+            "DIGIT_1"
+          ],
+          [
+            "2",
+            "DIGIT_2"
+          ],
+          [
+            "3",
+            "DIGIT_3"
+          ],
+          [
+            "4",
+            "DIGIT_4"
+          ],
+          [
+            "5",
+            "DIGIT_5"
+          ],
+          [
+            "6",
+            "DIGIT_6"
+          ],
+          [
+            "7",
+            "DIGIT_7"
+          ],
+          [
+            "8",
+            "DIGIT_8"
+          ],
+          [
+            "9",
+            "DIGIT_9"
+          ],
+          [
+            "スペース",
+            "SPACE"
+          ],
+          [
+            "Enter",
+            "RETURN"
+          ],
+          [
+            "Tab",
+            "TAB"
+          ],
+          [
+            "Esc",
+            "ESCAPE"
+          ],
+          [
+            "Backspace",
+            "BACKSPACE"
+          ],
+          [
+            "Delete",
+            "DELETE"
+          ],
+          [
+            "左矢印",
+            "LEFT"
+          ],
+          [
+            "右矢印",
+            "RIGHT"
+          ],
+          [
+            "上矢印",
+            "UP"
+          ],
+          [
+            "下矢印",
+            "DOWN"
+          ],
+          [
+            "Home",
+            "HOME"
+          ],
+          [
+            "End",
+            "END"
+          ],
+          [
+            "Page Up",
+            "PAGE_UP"
+          ],
+          [
+            "Page Down",
+            "PAGE_DOWN"
+          ],
+          [
+            "F1",
+            "F1"
+          ],
+          [
+            "F2",
+            "F2"
+          ],
+          [
+            "F3",
+            "F3"
+          ],
+          [
+            "F4",
+            "F4"
+          ],
+          [
+            "F5",
+            "F5"
+          ],
+          [
+            "F6",
+            "F6"
+          ],
+          [
+            "F7",
+            "F7"
+          ],
+          [
+            "F8",
+            "F8"
+          ],
+          [
+            "F9",
+            "F9"
+          ],
+          [
+            "F10",
+            "F10"
+          ],
+          [
+            "F11",
+            "F11"
+          ],
+          [
+            "F12",
+            "F12"
+          ],
+          [
+            "左 CTRL",
+            "LEFT_CTRL"
+          ],
+          [
+            "左 SHIFT",
+            "LEFT_SHIFT"
+          ],
+          [
+            "左 ALT",
+            "LEFT_ALT"
+          ],
+          [
+            "左 GUI",
+            "LEFT_GUI"
+          ],
+          [
+            "右 CTRL",
+            "RIGHT_CTRL"
+          ],
+          [
+            "右 SHIFT",
+            "RIGHT_SHIFT"
+          ],
+          [
+            "右 ALT",
+            "RIGHT_ALT"
+          ],
+          [
+            "右 GUI",
+            "RIGHT_GUI"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_keyboard_ascii": {
+    "message0": "キーボード %1 ASCII 文字 %2",
+    "tooltip": "US ASCIIの1文字を指定します。押した後は対応する解放または全キー解放が必要です。Unicodeや複数バイトの文字列は使えません。",
+    "args0": [
+      {
+        "options": [
+          [
+            "押したまま",
+            "PRESS"
+          ],
+          [
+            "離す",
+            "RELEASE"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_classic_hid_keyboard_raw": {
+    "message0": "キーボード %1 HID Usage %2",
+    "tooltip": "ASCIIではなくキーボードのHID Usageです。有効範囲は0x04–0xA4、0xB0–0xDD、0xE0–0xE7。押した後は離してください。通常は名前付きキーを使用します。",
+    "args0": [
+      {
+        "options": [
+          [
+            "押したまま",
+            "PRESS"
+          ],
+          [
+            "離す",
+            "RELEASE"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_classic_hid_keyboard_shortcut": {
+    "message0": "キーボードのショートカット %1 と %2",
+    "tooltip": "修飾キーとの組み合わせを送信後、以前から押していたキーも含め全キーを解放します。追加の組み合わせは左側修飾キーです。毎ループ無条件で実行しないでください。",
+    "args0": [
+      {
+        "options": [
+          [
+            "左 CTRL",
+            "LEFT_CTRL"
+          ],
+          [
+            "左 SHIFT",
+            "LEFT_SHIFT"
+          ],
+          [
+            "左 ALT",
+            "LEFT_ALT"
+          ],
+          [
+            "左 GUI",
+            "LEFT_GUI"
+          ],
+          [
+            "右 CTRL",
+            "RIGHT_CTRL"
+          ],
+          [
+            "右 SHIFT",
+            "RIGHT_SHIFT"
+          ],
+          [
+            "右 ALT",
+            "RIGHT_ALT"
+          ],
+          [
+            "右 GUI",
+            "RIGHT_GUI"
+          ],
+          [
+            "Ctrl + Shift",
+            "CTRL_SHIFT"
+          ],
+          [
+            "Ctrl + Alt",
+            "CTRL_ALT"
+          ],
+          [
+            "Ctrl + Alt + Shift",
+            "CTRL_ALT_SHIFT"
+          ],
+          [
+            "Win/Cmd + Shift",
+            "GUI_SHIFT"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "A",
+            "ASCII_A"
+          ],
+          [
+            "B",
+            "ASCII_B"
+          ],
+          [
+            "C",
+            "ASCII_C"
+          ],
+          [
+            "D",
+            "ASCII_D"
+          ],
+          [
+            "E",
+            "ASCII_E"
+          ],
+          [
+            "F",
+            "ASCII_F"
+          ],
+          [
+            "G",
+            "ASCII_G"
+          ],
+          [
+            "H",
+            "ASCII_H"
+          ],
+          [
+            "I",
+            "ASCII_I"
+          ],
+          [
+            "J",
+            "ASCII_J"
+          ],
+          [
+            "K",
+            "ASCII_K"
+          ],
+          [
+            "L",
+            "ASCII_L"
+          ],
+          [
+            "M",
+            "ASCII_M"
+          ],
+          [
+            "N",
+            "ASCII_N"
+          ],
+          [
+            "O",
+            "ASCII_O"
+          ],
+          [
+            "P",
+            "ASCII_P"
+          ],
+          [
+            "Q",
+            "ASCII_Q"
+          ],
+          [
+            "R",
+            "ASCII_R"
+          ],
+          [
+            "S",
+            "ASCII_S"
+          ],
+          [
+            "T",
+            "ASCII_T"
+          ],
+          [
+            "U",
+            "ASCII_U"
+          ],
+          [
+            "V",
+            "ASCII_V"
+          ],
+          [
+            "W",
+            "ASCII_W"
+          ],
+          [
+            "X",
+            "ASCII_X"
+          ],
+          [
+            "Y",
+            "ASCII_Y"
+          ],
+          [
+            "Z",
+            "ASCII_Z"
+          ],
+          [
+            "0",
+            "DIGIT_0"
+          ],
+          [
+            "1",
+            "DIGIT_1"
+          ],
+          [
+            "2",
+            "DIGIT_2"
+          ],
+          [
+            "3",
+            "DIGIT_3"
+          ],
+          [
+            "4",
+            "DIGIT_4"
+          ],
+          [
+            "5",
+            "DIGIT_5"
+          ],
+          [
+            "6",
+            "DIGIT_6"
+          ],
+          [
+            "7",
+            "DIGIT_7"
+          ],
+          [
+            "8",
+            "DIGIT_8"
+          ],
+          [
+            "9",
+            "DIGIT_9"
+          ],
+          [
+            "スペース",
+            "SPACE"
+          ],
+          [
+            "Enter",
+            "RETURN"
+          ],
+          [
+            "Tab",
+            "TAB"
+          ],
+          [
+            "Esc",
+            "ESCAPE"
+          ],
+          [
+            "Backspace",
+            "BACKSPACE"
+          ],
+          [
+            "Delete",
+            "DELETE"
+          ],
+          [
+            "左矢印",
+            "LEFT"
+          ],
+          [
+            "右矢印",
+            "RIGHT"
+          ],
+          [
+            "上矢印",
+            "UP"
+          ],
+          [
+            "下矢印",
+            "DOWN"
+          ],
+          [
+            "Home",
+            "HOME"
+          ],
+          [
+            "End",
+            "END"
+          ],
+          [
+            "Page Up",
+            "PAGE_UP"
+          ],
+          [
+            "Page Down",
+            "PAGE_DOWN"
+          ],
+          [
+            "F1",
+            "F1"
+          ],
+          [
+            "F2",
+            "F2"
+          ],
+          [
+            "F3",
+            "F3"
+          ],
+          [
+            "F4",
+            "F4"
+          ],
+          [
+            "F5",
+            "F5"
+          ],
+          [
+            "F6",
+            "F6"
+          ],
+          [
+            "F7",
+            "F7"
+          ],
+          [
+            "F8",
+            "F8"
+          ],
+          [
+            "F9",
+            "F9"
+          ],
+          [
+            "F10",
+            "F10"
+          ],
+          [
+            "F11",
+            "F11"
+          ],
+          [
+            "F12",
+            "F12"
+          ],
+          [
+            "左 CTRL",
+            "LEFT_CTRL"
+          ],
+          [
+            "左 SHIFT",
+            "LEFT_SHIFT"
+          ],
+          [
+            "左 ALT",
+            "LEFT_ALT"
+          ],
+          [
+            "左 GUI",
+            "LEFT_GUI"
+          ],
+          [
+            "右 CTRL",
+            "RIGHT_CTRL"
+          ],
+          [
+            "右 SHIFT",
+            "RIGHT_SHIFT"
+          ],
+          [
+            "右 ALT",
+            "RIGHT_ALT"
+          ],
+          [
+            "右 GUI",
+            "RIGHT_GUI"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_keyboard_release_all": {
+    "message0": "キーボードの全キーを離す",
+    "tooltip": "キーボードの全キーを離す — テキストは US ASCII のみで、通常キーは同時に六つまで保持できます。"
+  },
+  "esp32_classic_hid_keyboard_led": {
+    "message0": "キーボードの %1 LED が点灯",
+    "tooltip": "キーボードの LED が点灯 — テキストは US ASCII のみで、通常キーは同時に六つまで保持できます。",
+    "args0": [
+      {
+        "options": [
+          [
+            "Num Lock",
+            "NUM"
+          ],
+          [
+            "Caps Lock",
+            "CAPS"
+          ],
+          [
+            "Scroll Lock",
+            "SCROLL"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_mouse_move": {
+    "message0": "マウス移動 X %1 Y %2 ホイール %3",
+    "tooltip": "X、Y、ホイールは-127～127の整数。X正は右、Y正は下です。各呼び出しは相対移動です。Bootモードではホイールを使えません。"
+  },
+  "esp32_classic_hid_mouse_button": {
+    "message0": "マウス %1 ボタン %2",
+    "tooltip": "押したままは離すまで保持されます。クリックは自動で押して離します。Bootモードは左・右・中央ボタンのみです。",
+    "args0": [
+      {
+        "options": [
+          [
+            "クリック",
+            "CLICK"
+          ],
+          [
+            "押したまま",
+            "PRESS"
+          ],
+          [
+            "離す",
+            "RELEASE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "中央",
+            "MIDDLE"
+          ],
+          [
+            "戻る",
+            "BACK"
+          ],
+          [
+            "進む",
+            "FORWARD"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_mouse_release_all": {
+    "message0": "マウスの全ボタンを離す",
+    "tooltip": "マウスの全ボタンを離す — 移動とホイールは -127～127。Boot モードは三ボタンと X/Y のみです。"
+  },
+  "esp32_classic_hid_mouse_pressed": {
+    "message0": "マウスボタン %1 が押されている",
+    "tooltip": "マウスボタン が押されている — 移動とホイールは -127～127。Boot モードは三ボタンと X/Y のみです。",
+    "args0": [
+      {
+        "options": [
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "中央",
+            "MIDDLE"
+          ],
+          [
+            "戻る",
+            "BACK"
+          ],
+          [
+            "進む",
+            "FORWARD"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_media_tap": {
+    "message0": "メディアキー %1 をタップ",
+    "tooltip": "メディアキー をタップ — Report モードのみです。タップ後は自動で離し、処理中の新規押下は蓄積しません。",
+    "args0": [
+      {
+        "options": [
+          [
+            "音量を上げる",
+            "VOLUME_UP"
+          ],
+          [
+            "音量を下げる",
+            "VOLUME_DOWN"
+          ],
+          [
+            "ミュート",
+            "MUTE"
+          ],
+          [
+            "再生/一時停止",
+            "PLAY_PAUSE"
+          ],
+          [
+            "次の曲",
+            "NEXT"
+          ],
+          [
+            "前の曲",
+            "PREVIOUS"
+          ],
+          [
+            "停止",
+            "STOP"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_media_release_all": {
+    "message0": "全メディアキーを離す",
+    "tooltip": "全メディアキーを離す — Report モードのみです。タップ後は自動で離し、処理中の新規押下は蓄積しません。"
+  },
+  "esp32_classic_hid_media_busy": {
+    "message0": "メディアキーが処理中",
+    "tooltip": "メディアキーが処理中 — Report モードのみです。タップ後は自動で離し、処理中の新規押下は蓄積しません。"
+  },
+  "esp32_classic_hid_gamepad_button": {
+    "message0": "汎用ゲームパッド %1 ボタン %2",
+    "tooltip": "汎用ゲームパッドのボタン番号は1–16。押下状態は解放またはリセットまで続きます。ローカルの入力状態であり、ホストの応答ではありません。",
+    "args0": [
+      {
+        "options": [
+          [
+            "押したまま",
+            "PRESS"
+          ],
+          [
+            "離す",
+            "RELEASE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "ボタン 1",
+            "1"
+          ],
+          [
+            "ボタン 2",
+            "2"
+          ],
+          [
+            "ボタン 3",
+            "3"
+          ],
+          [
+            "ボタン 4",
+            "4"
+          ],
+          [
+            "ボタン 5",
+            "5"
+          ],
+          [
+            "ボタン 6",
+            "6"
+          ],
+          [
+            "ボタン 7",
+            "7"
+          ],
+          [
+            "ボタン 8",
+            "8"
+          ],
+          [
+            "ボタン 9",
+            "9"
+          ],
+          [
+            "ボタン 10",
+            "10"
+          ],
+          [
+            "ボタン 11",
+            "11"
+          ],
+          [
+            "ボタン 12",
+            "12"
+          ],
+          [
+            "ボタン 13",
+            "13"
+          ],
+          [
+            "ボタン 14",
+            "14"
+          ],
+          [
+            "ボタン 15",
+            "15"
+          ],
+          [
+            "ボタン 16",
+            "16"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_gamepad_buttons": {
+    "message0": "汎用ゲームパッドのボタンマスク %1",
+    "tooltip": "汎用ゲームパッドのボタンマスク — 最初に汎用ゲームパッドを初期化します。ボタン番号とハットは SwitchPro と異なります。"
+  },
+  "esp32_classic_hid_gamepad_axes": {
+    "message0": "汎用ゲームパッド X %1 Y %2 RX %3 RY %4",
+    "tooltip": "汎用ゲームパッド X Y RX RY — 最初に汎用ゲームパッドを初期化します。ボタン番号とハットは SwitchPro と異なります。"
+  },
+  "esp32_classic_hid_gamepad_hat": {
+    "message0": "汎用ゲームパッドのハット %1",
+    "tooltip": "汎用ゲームパッドのハット — 最初に汎用ゲームパッドを初期化します。ボタン番号とハットは SwitchPro と異なります。",
+    "args0": [
+      {
+        "options": [
+          [
+            "中立",
+            "8"
+          ],
+          [
+            "上",
+            "0"
+          ],
+          [
+            "右上",
+            "1"
+          ],
+          [
+            "右",
+            "2"
+          ],
+          [
+            "右下",
+            "3"
+          ],
+          [
+            "下",
+            "4"
+          ],
+          [
+            "左下",
+            "5"
+          ],
+          [
+            "左",
+            "6"
+          ],
+          [
+            "左上",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_gamepad_reset": {
+    "message0": "汎用ゲームパッドを中立に戻す",
+    "tooltip": "汎用ゲームパッドを中立に戻す — 最初に汎用ゲームパッドを初期化します。ボタン番号とハットは SwitchPro と異なります。"
+  },
+  "esp32_classic_hid_gamepad_pressed": {
+    "message0": "汎用ゲームパッドのボタン %1 が押されている",
+    "tooltip": "汎用ゲームパッドのボタン が押されている — 最初に汎用ゲームパッドを初期化します。ボタン番号とハットは SwitchPro と異なります。",
+    "args0": [
+      {
+        "options": [
+          [
+            "ボタン 1",
+            "1"
+          ],
+          [
+            "ボタン 2",
+            "2"
+          ],
+          [
+            "ボタン 3",
+            "3"
+          ],
+          [
+            "ボタン 4",
+            "4"
+          ],
+          [
+            "ボタン 5",
+            "5"
+          ],
+          [
+            "ボタン 6",
+            "6"
+          ],
+          [
+            "ボタン 7",
+            "7"
+          ],
+          [
+            "ボタン 8",
+            "8"
+          ],
+          [
+            "ボタン 9",
+            "9"
+          ],
+          [
+            "ボタン 10",
+            "10"
+          ],
+          [
+            "ボタン 11",
+            "11"
+          ],
+          [
+            "ボタン 12",
+            "12"
+          ],
+          [
+            "ボタン 13",
+            "13"
+          ],
+          [
+            "ボタン 14",
+            "14"
+          ],
+          [
+            "ボタン 15",
+            "15"
+          ],
+          [
+            "ボタン 16",
+            "16"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_switch_button": {
+    "message0": "SwitchPro %1 ボタン %2",
+    "tooltip": "押下は離すか全ボタン解放まで続きます。状態設定ブロックなら物理ボタンに継続して追従できます。先に初期化と接続を行ってください。",
+    "args0": [
+      {
+        "options": [
+          [
+            "押したまま",
+            "PRESS"
+          ],
+          [
+            "離す",
+            "RELEASE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "X",
+            "X"
+          ],
+          [
+            "B",
+            "B"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "R",
+            "R"
+          ],
+          [
+            "ZR",
+            "ZR"
+          ],
+          [
+            "−",
+            "MINUS"
+          ],
+          [
+            "+",
+            "PLUS"
+          ],
+          [
+            "右スティックボタン",
+            "RIGHT_STICK"
+          ],
+          [
+            "左スティックボタン",
+            "LEFT_STICK"
+          ],
+          [
+            "ホーム",
+            "HOME"
+          ],
+          [
+            "キャプチャー",
+            "CAPTURE"
+          ],
+          [
+            "下",
+            "DOWN"
+          ],
+          [
+            "上",
+            "UP"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "L",
+            "L"
+          ],
+          [
+            "ZL",
+            "ZL"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_switch_button_state": {
+    "message0": "SwitchPro ボタン %1 の押下状態を %2 に設定",
+    "tooltip": "真で押したまま、偽で離します。毎ループ物理ボタンの真偽値を渡すと押下と解放を扱えます。先に初期化と接続を行ってください。",
+    "args0": [
+      {
+        "options": [
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "X",
+            "X"
+          ],
+          [
+            "B",
+            "B"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "R",
+            "R"
+          ],
+          [
+            "ZR",
+            "ZR"
+          ],
+          [
+            "−",
+            "MINUS"
+          ],
+          [
+            "+",
+            "PLUS"
+          ],
+          [
+            "右スティックボタン",
+            "RIGHT_STICK"
+          ],
+          [
+            "左スティックボタン",
+            "LEFT_STICK"
+          ],
+          [
+            "ホーム",
+            "HOME"
+          ],
+          [
+            "キャプチャー",
+            "CAPTURE"
+          ],
+          [
+            "下",
+            "DOWN"
+          ],
+          [
+            "上",
+            "UP"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "L",
+            "L"
+          ],
+          [
+            "ZL",
+            "ZL"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_classic_hid_switch_buttons": {
+    "message0": "SwitchPro のボタンマスク %1",
+    "tooltip": "SwitchPro のボタンマスク — 最初に SwitchPro を初期化します。クラシック Bluetooth のエミュレーションで、Switch 実機では未検証です。"
+  },
+  "esp32_classic_hid_switch_release_all": {
+    "message0": "SwitchPro の全ボタンを離す",
+    "tooltip": "SwitchPro の全ボタンを離す — 最初に SwitchPro を初期化します。クラシック Bluetooth のエミュレーションで、Switch 実機では未検証です。"
+  },
+  "esp32_classic_hid_switch_dpad": {
+    "message0": "SwitchPro 十字キー 上 %1 下 %2 左 %3 右 %4",
+    "tooltip": "SwitchPro 十字キー 上 下 左 右 — 最初に SwitchPro を初期化します。クラシック Bluetooth のエミュレーションで、Switch 実機では未検証です。"
+  },
+  "esp32_classic_hid_switch_axes": {
+    "message0": "SwitchPro スティック LX %1 LY %2 RX %3 RY %4",
+    "tooltip": "SwitchPro スティック LX LY RX RY — 最初に SwitchPro を初期化します。クラシック Bluetooth のエミュレーションで、Switch 実機では未検証です。"
+  },
+  "esp32_classic_hid_switch_stick": {
+    "message0": "SwitchPro の %1 スティック X %2 Y %3",
+    "tooltip": "SwitchPro の スティック X Y — 最初に SwitchPro を初期化します。クラシック Bluetooth のエミュレーションで、Switch 実機では未検証です。",
+    "args0": [
+      {
+        "options": [
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "esp32_classic_hid_switch_battery": {
+    "message0": "SwitchPro の報告電池残量 %1 充電中 %2",
+    "tooltip": "SwitchPro の報告電池残量 充電中 — 報告する電池残量と充電フラグのみを設定し、実際の電池は測定しません。"
+  },
+  "esp32_classic_hid_switch_status": {
+    "message0": "SwitchPro %1",
+    "tooltip": "SwitchPro — 最初に SwitchPro を初期化します。クラシック Bluetooth のエミュレーションで、Switch 実機では未検証です。",
+    "args0": [
+      {
+        "options": [
+          [
+            "レポートモード",
+            "REPORT_MODE"
+          ],
+          [
+            "プレイヤー LED ビットマップ",
+            "PLAYER_LIGHTS"
+          ],
+          [
+            "不正レポート数",
+            "MALFORMED"
+          ],
+          [
+            "破棄した応答数",
+            "DROPPED"
+          ],
+          [
+            "最後の未対応サブコマンド",
+            "UNSUPPORTED"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_switch_feature": {
+    "message0": "SwitchPro のホスト要求 %1",
+    "tooltip": "SwitchPro のホスト要求 — ホスト要求フラグを返します。実際のセンサーやモーターの存在は示しません。",
+    "args0": [
+      {
+        "options": [
+          [
+            "IMU",
+            "IMU"
+          ],
+          [
+            "振動",
+            "VIBRATION"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_switch_rumble": {
+    "message0": "SwitchPro の生 rumble バイト %1",
+    "tooltip": "ホストから受信した振動プロトコルの生バイトを読みます。位置は0–7。モーターの駆動や振動強度の復号はしません。",
+    "args0": [
+      {
+        "options": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ],
+          [
+            "4",
+            "4"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "6",
+            "6"
+          ],
+          [
+            "7",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_switch_connect": {
+    "message0": "SwitchPro をホストアドレス %1 に接続",
+    "tooltip": "先にSwitch Proを初期化し、実際のホストMACをAA:BB:CC:DD:EE:FF形式で指定します。能動接続はペアリング鍵を偽造・生成しません。"
+  }
+}

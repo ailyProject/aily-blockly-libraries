@@ -1,0 +1,1455 @@
+{
+  "toolbox_name": "ESP32 经典蓝牙 HID",
+  "toolbox_categories": [
+    "初始化",
+    "连接状态",
+    "连接管理",
+    "键盘",
+    "鼠标",
+    "媒体按键",
+    "通用手柄",
+    "Switch Pro 控制器"
+  ],
+  "esp32_classic_hid_begin_keyboard": {
+    "message0": "初始化经典蓝牙键盘 名称 %1",
+    "tooltip": "在初始化区启动一种设备模式；键盘和鼠标同时使用时选择键鼠组合。仅限原始 ESP32、Arduino-ESP32 ≥3.3.10。初始化成功不等于已经连接；停止后可重新启动相同模式。"
+  },
+  "esp32_classic_hid_begin_mouse": {
+    "message0": "初始化经典蓝牙鼠标 名称 %1",
+    "tooltip": "在初始化区启动一种设备模式；键盘和鼠标同时使用时选择键鼠组合。仅限原始 ESP32、Arduino-ESP32 ≥3.3.10。初始化成功不等于已经连接；停止后可重新启动相同模式。"
+  },
+  "esp32_classic_hid_begin_combo": {
+    "message0": "初始化经典蓝牙键鼠组合 名称 %1",
+    "tooltip": "在初始化区启动一种设备模式；键盘和鼠标同时使用时选择键鼠组合。仅限原始 ESP32、Arduino-ESP32 ≥3.3.10。初始化成功不等于已经连接；停止后可重新启动相同模式。"
+  },
+  "esp32_classic_hid_begin_media": {
+    "message0": "初始化经典蓝牙媒体按键 名称 %1",
+    "tooltip": "在初始化区启动一种设备模式；键盘和鼠标同时使用时选择键鼠组合。仅限原始 ESP32、Arduino-ESP32 ≥3.3.10。初始化成功不等于已经连接；停止后可重新启动相同模式。"
+  },
+  "esp32_classic_hid_begin_gamepad": {
+    "message0": "初始化经典蓝牙通用手柄 名称 %1",
+    "tooltip": "在初始化区启动一种设备模式；键盘和鼠标同时使用时选择键鼠组合。仅限原始 ESP32、Arduino-ESP32 ≥3.3.10。初始化成功不等于已经连接；停止后可重新启动相同模式。"
+  },
+  "esp32_classic_hid_begin_switch": {
+    "message0": "初始化经典蓝牙 SwitchPro 名称 %1",
+    "tooltip": "在初始化区启动一种设备模式；键盘和鼠标同时使用时选择键鼠组合。仅限原始 ESP32、Arduino-ESP32 ≥3.3.10。初始化成功不等于已经连接；停止后可重新启动相同模式。"
+  },
+  "esp32_classic_hid_connected": {
+    "message0": "经典蓝牙已连接",
+    "tooltip": "查询当前设备与主机的连接状态；配对和连接异步完成，发送输入前先判断此值。"
+  },
+  "esp32_classic_hid_last_init_ok": {
+    "message0": "最近一次初始化成功",
+    "tooltip": "查询最近一次初始化是否成功；它不表示当前已连接，也不保证主机接收了输入。"
+  },
+  "esp32_classic_hid_last_ok": {
+    "message0": "最近一次操作已接受",
+    "tooltip": "查询最近一次操作是否被本地接受；不保证主机已收到或执行。查询块和自动更新不会刷新此值。"
+  },
+  "esp32_classic_hid_last_error": {
+    "message0": "经典蓝牙最近错误",
+    "tooltip": "读取初始化、操作或异步设备错误；成功提交输入不等于后续传输一定成功。"
+  },
+  "esp32_classic_hid_update": {
+    "message0": "更新经典蓝牙设备",
+    "tooltip": "处理待发送报告和设备回调。循环开头已自动调用一次；长循环内需要继续调用，避免长时间阻塞。"
+  },
+  "esp32_classic_hid_end": {
+    "message0": "停止经典蓝牙设备",
+    "tooltip": "停止设备并清理资源；可重新初始化相同模式。清理失败时保留上下文，可以再次停止重试。"
+  },
+  "esp32_classic_hid_disconnect": {
+    "message0": "断开经典蓝牙连接",
+    "tooltip": "断开当前主机连接，保留配对记录；不会停止设备模式。"
+  },
+  "esp32_classic_hid_unpair": {
+    "message0": "清除经典蓝牙配对",
+    "tooltip": "删除设备保存的配对密钥，并同步等待完成；之后需要重新配对。请勿在每轮循环中调用。"
+  },
+  "esp32_classic_hid_keyboard_text": {
+    "message0": "键盘 %1 文本 %2",
+    "tooltip": "键盘 文本 — 键盘文本仅支持 US ASCII，最多同时保持六个普通键。",
+    "args0": [
+      {
+        "options": [
+          [
+            "打印",
+            "PRINT"
+          ],
+          [
+            "打印并换行",
+            "PRINTLN"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_classic_hid_keyboard_key": {
+    "message0": "键盘 %1 按键 %2",
+    "tooltip": "按住会保持按下状态，直到松开同一按键或释放所有键。A–Z 表示未加 Shift 的字母键；文字输入仅支持 US ASCII。",
+    "args0": [
+      {
+        "options": [
+          [
+            "按住",
+            "PRESS"
+          ],
+          [
+            "松开",
+            "RELEASE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "A",
+            "ASCII_A"
+          ],
+          [
+            "B",
+            "ASCII_B"
+          ],
+          [
+            "C",
+            "ASCII_C"
+          ],
+          [
+            "D",
+            "ASCII_D"
+          ],
+          [
+            "E",
+            "ASCII_E"
+          ],
+          [
+            "F",
+            "ASCII_F"
+          ],
+          [
+            "G",
+            "ASCII_G"
+          ],
+          [
+            "H",
+            "ASCII_H"
+          ],
+          [
+            "I",
+            "ASCII_I"
+          ],
+          [
+            "J",
+            "ASCII_J"
+          ],
+          [
+            "K",
+            "ASCII_K"
+          ],
+          [
+            "L",
+            "ASCII_L"
+          ],
+          [
+            "M",
+            "ASCII_M"
+          ],
+          [
+            "N",
+            "ASCII_N"
+          ],
+          [
+            "O",
+            "ASCII_O"
+          ],
+          [
+            "P",
+            "ASCII_P"
+          ],
+          [
+            "Q",
+            "ASCII_Q"
+          ],
+          [
+            "R",
+            "ASCII_R"
+          ],
+          [
+            "S",
+            "ASCII_S"
+          ],
+          [
+            "T",
+            "ASCII_T"
+          ],
+          [
+            "U",
+            "ASCII_U"
+          ],
+          [
+            "V",
+            "ASCII_V"
+          ],
+          [
+            "W",
+            "ASCII_W"
+          ],
+          [
+            "X",
+            "ASCII_X"
+          ],
+          [
+            "Y",
+            "ASCII_Y"
+          ],
+          [
+            "Z",
+            "ASCII_Z"
+          ],
+          [
+            "0",
+            "DIGIT_0"
+          ],
+          [
+            "1",
+            "DIGIT_1"
+          ],
+          [
+            "2",
+            "DIGIT_2"
+          ],
+          [
+            "3",
+            "DIGIT_3"
+          ],
+          [
+            "4",
+            "DIGIT_4"
+          ],
+          [
+            "5",
+            "DIGIT_5"
+          ],
+          [
+            "6",
+            "DIGIT_6"
+          ],
+          [
+            "7",
+            "DIGIT_7"
+          ],
+          [
+            "8",
+            "DIGIT_8"
+          ],
+          [
+            "9",
+            "DIGIT_9"
+          ],
+          [
+            "空格",
+            "SPACE"
+          ],
+          [
+            "回车",
+            "RETURN"
+          ],
+          [
+            "Tab",
+            "TAB"
+          ],
+          [
+            "Esc",
+            "ESCAPE"
+          ],
+          [
+            "退格",
+            "BACKSPACE"
+          ],
+          [
+            "Delete",
+            "DELETE"
+          ],
+          [
+            "左箭头",
+            "LEFT"
+          ],
+          [
+            "右箭头",
+            "RIGHT"
+          ],
+          [
+            "上箭头",
+            "UP"
+          ],
+          [
+            "下箭头",
+            "DOWN"
+          ],
+          [
+            "Home",
+            "HOME"
+          ],
+          [
+            "End",
+            "END"
+          ],
+          [
+            "Page Up",
+            "PAGE_UP"
+          ],
+          [
+            "Page Down",
+            "PAGE_DOWN"
+          ],
+          [
+            "F1",
+            "F1"
+          ],
+          [
+            "F2",
+            "F2"
+          ],
+          [
+            "F3",
+            "F3"
+          ],
+          [
+            "F4",
+            "F4"
+          ],
+          [
+            "F5",
+            "F5"
+          ],
+          [
+            "F6",
+            "F6"
+          ],
+          [
+            "F7",
+            "F7"
+          ],
+          [
+            "F8",
+            "F8"
+          ],
+          [
+            "F9",
+            "F9"
+          ],
+          [
+            "F10",
+            "F10"
+          ],
+          [
+            "F11",
+            "F11"
+          ],
+          [
+            "F12",
+            "F12"
+          ],
+          [
+            "左 CTRL",
+            "LEFT_CTRL"
+          ],
+          [
+            "左 SHIFT",
+            "LEFT_SHIFT"
+          ],
+          [
+            "左 ALT",
+            "LEFT_ALT"
+          ],
+          [
+            "左 GUI",
+            "LEFT_GUI"
+          ],
+          [
+            "右 CTRL",
+            "RIGHT_CTRL"
+          ],
+          [
+            "右 SHIFT",
+            "RIGHT_SHIFT"
+          ],
+          [
+            "右 ALT",
+            "RIGHT_ALT"
+          ],
+          [
+            "右 GUI",
+            "RIGHT_GUI"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_keyboard_ascii": {
+    "message0": "键盘 %1 ASCII 字符 %2",
+    "tooltip": "输入一个 US ASCII 字符。按住会保持该键，必须配套松开或释放所有键；不接受中文或多字节字符。",
+    "args0": [
+      {
+        "options": [
+          [
+            "按住",
+            "PRESS"
+          ],
+          [
+            "松开",
+            "RELEASE"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_classic_hid_keyboard_raw": {
+    "message0": "键盘 %1 HID Usage %2",
+    "tooltip": "原始键盘 HID Usage，不是 ASCII 编码。有效值为 0x04–0xA4、0xB0–0xDD、0xE0–0xE7；按住后必须松开。普通应用优先使用命名按键。",
+    "args0": [
+      {
+        "options": [
+          [
+            "按住",
+            "PRESS"
+          ],
+          [
+            "松开",
+            "RELEASE"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_classic_hid_keyboard_shortcut": {
+    "message0": "键盘快捷键 %1 加 %2",
+    "tooltip": "发送修饰键与按键组合，然后松开所有键，包括此前已按住的键。新增组合使用左侧修饰键。不要在每轮循环中无条件触发。",
+    "args0": [
+      {
+        "options": [
+          [
+            "左 CTRL",
+            "LEFT_CTRL"
+          ],
+          [
+            "左 SHIFT",
+            "LEFT_SHIFT"
+          ],
+          [
+            "左 ALT",
+            "LEFT_ALT"
+          ],
+          [
+            "左 GUI",
+            "LEFT_GUI"
+          ],
+          [
+            "右 CTRL",
+            "RIGHT_CTRL"
+          ],
+          [
+            "右 SHIFT",
+            "RIGHT_SHIFT"
+          ],
+          [
+            "右 ALT",
+            "RIGHT_ALT"
+          ],
+          [
+            "右 GUI",
+            "RIGHT_GUI"
+          ],
+          [
+            "Ctrl + Shift",
+            "CTRL_SHIFT"
+          ],
+          [
+            "Ctrl + Alt",
+            "CTRL_ALT"
+          ],
+          [
+            "Ctrl + Alt + Shift",
+            "CTRL_ALT_SHIFT"
+          ],
+          [
+            "Win/Cmd + Shift",
+            "GUI_SHIFT"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "A",
+            "ASCII_A"
+          ],
+          [
+            "B",
+            "ASCII_B"
+          ],
+          [
+            "C",
+            "ASCII_C"
+          ],
+          [
+            "D",
+            "ASCII_D"
+          ],
+          [
+            "E",
+            "ASCII_E"
+          ],
+          [
+            "F",
+            "ASCII_F"
+          ],
+          [
+            "G",
+            "ASCII_G"
+          ],
+          [
+            "H",
+            "ASCII_H"
+          ],
+          [
+            "I",
+            "ASCII_I"
+          ],
+          [
+            "J",
+            "ASCII_J"
+          ],
+          [
+            "K",
+            "ASCII_K"
+          ],
+          [
+            "L",
+            "ASCII_L"
+          ],
+          [
+            "M",
+            "ASCII_M"
+          ],
+          [
+            "N",
+            "ASCII_N"
+          ],
+          [
+            "O",
+            "ASCII_O"
+          ],
+          [
+            "P",
+            "ASCII_P"
+          ],
+          [
+            "Q",
+            "ASCII_Q"
+          ],
+          [
+            "R",
+            "ASCII_R"
+          ],
+          [
+            "S",
+            "ASCII_S"
+          ],
+          [
+            "T",
+            "ASCII_T"
+          ],
+          [
+            "U",
+            "ASCII_U"
+          ],
+          [
+            "V",
+            "ASCII_V"
+          ],
+          [
+            "W",
+            "ASCII_W"
+          ],
+          [
+            "X",
+            "ASCII_X"
+          ],
+          [
+            "Y",
+            "ASCII_Y"
+          ],
+          [
+            "Z",
+            "ASCII_Z"
+          ],
+          [
+            "0",
+            "DIGIT_0"
+          ],
+          [
+            "1",
+            "DIGIT_1"
+          ],
+          [
+            "2",
+            "DIGIT_2"
+          ],
+          [
+            "3",
+            "DIGIT_3"
+          ],
+          [
+            "4",
+            "DIGIT_4"
+          ],
+          [
+            "5",
+            "DIGIT_5"
+          ],
+          [
+            "6",
+            "DIGIT_6"
+          ],
+          [
+            "7",
+            "DIGIT_7"
+          ],
+          [
+            "8",
+            "DIGIT_8"
+          ],
+          [
+            "9",
+            "DIGIT_9"
+          ],
+          [
+            "空格",
+            "SPACE"
+          ],
+          [
+            "回车",
+            "RETURN"
+          ],
+          [
+            "Tab",
+            "TAB"
+          ],
+          [
+            "Esc",
+            "ESCAPE"
+          ],
+          [
+            "退格",
+            "BACKSPACE"
+          ],
+          [
+            "Delete",
+            "DELETE"
+          ],
+          [
+            "左箭头",
+            "LEFT"
+          ],
+          [
+            "右箭头",
+            "RIGHT"
+          ],
+          [
+            "上箭头",
+            "UP"
+          ],
+          [
+            "下箭头",
+            "DOWN"
+          ],
+          [
+            "Home",
+            "HOME"
+          ],
+          [
+            "End",
+            "END"
+          ],
+          [
+            "Page Up",
+            "PAGE_UP"
+          ],
+          [
+            "Page Down",
+            "PAGE_DOWN"
+          ],
+          [
+            "F1",
+            "F1"
+          ],
+          [
+            "F2",
+            "F2"
+          ],
+          [
+            "F3",
+            "F3"
+          ],
+          [
+            "F4",
+            "F4"
+          ],
+          [
+            "F5",
+            "F5"
+          ],
+          [
+            "F6",
+            "F6"
+          ],
+          [
+            "F7",
+            "F7"
+          ],
+          [
+            "F8",
+            "F8"
+          ],
+          [
+            "F9",
+            "F9"
+          ],
+          [
+            "F10",
+            "F10"
+          ],
+          [
+            "F11",
+            "F11"
+          ],
+          [
+            "F12",
+            "F12"
+          ],
+          [
+            "左 CTRL",
+            "LEFT_CTRL"
+          ],
+          [
+            "左 SHIFT",
+            "LEFT_SHIFT"
+          ],
+          [
+            "左 ALT",
+            "LEFT_ALT"
+          ],
+          [
+            "左 GUI",
+            "LEFT_GUI"
+          ],
+          [
+            "右 CTRL",
+            "RIGHT_CTRL"
+          ],
+          [
+            "右 SHIFT",
+            "RIGHT_SHIFT"
+          ],
+          [
+            "右 ALT",
+            "RIGHT_ALT"
+          ],
+          [
+            "右 GUI",
+            "RIGHT_GUI"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_keyboard_release_all": {
+    "message0": "键盘释放全部按键",
+    "tooltip": "键盘释放全部按键 — 键盘文本仅支持 US ASCII，最多同时保持六个普通键。"
+  },
+  "esp32_classic_hid_keyboard_led": {
+    "message0": "键盘 %1 灯已亮",
+    "tooltip": "键盘 灯已亮 — 键盘文本仅支持 US ASCII，最多同时保持六个普通键。",
+    "args0": [
+      {
+        "options": [
+          [
+            "数字锁定",
+            "NUM"
+          ],
+          [
+            "大写锁定",
+            "CAPS"
+          ],
+          [
+            "滚动锁定",
+            "SCROLL"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_mouse_move": {
+    "message0": "鼠标移动 X %1 Y %2 滚轮 %3",
+    "tooltip": "X、Y、滚轮均为 -127–127 的整数；X 向右、Y 向下为正。每次调用表示相对位移；Boot 模式不支持滚轮。"
+  },
+  "esp32_classic_hid_mouse_button": {
+    "message0": "鼠标 %1 按钮 %2",
+    "tooltip": "按住会保持鼠标按钮，松开才解除；单击会自动按下并松开。Boot 模式只支持左、右、中键。",
+    "args0": [
+      {
+        "options": [
+          [
+            "单击",
+            "CLICK"
+          ],
+          [
+            "按住",
+            "PRESS"
+          ],
+          [
+            "松开",
+            "RELEASE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "中键",
+            "MIDDLE"
+          ],
+          [
+            "后退",
+            "BACK"
+          ],
+          [
+            "前进",
+            "FORWARD"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_mouse_release_all": {
+    "message0": "鼠标释放全部按钮",
+    "tooltip": "鼠标释放全部按钮 — 位移与滚轮范围为 -127 到 127；Boot 模式只支持三键和 X/Y。"
+  },
+  "esp32_classic_hid_mouse_pressed": {
+    "message0": "鼠标按钮 %1 已按下",
+    "tooltip": "鼠标按钮 已按下 — 位移与滚轮范围为 -127 到 127；Boot 模式只支持三键和 X/Y。",
+    "args0": [
+      {
+        "options": [
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "中键",
+            "MIDDLE"
+          ],
+          [
+            "后退",
+            "BACK"
+          ],
+          [
+            "前进",
+            "FORWARD"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_media_tap": {
+    "message0": "媒体按键 轻按 %1",
+    "tooltip": "媒体按键 轻按 — 仅支持 Report 模式；轻按会自动释放，忙碌时不积压新按下。",
+    "args0": [
+      {
+        "options": [
+          [
+            "音量增加",
+            "VOLUME_UP"
+          ],
+          [
+            "音量减少",
+            "VOLUME_DOWN"
+          ],
+          [
+            "静音",
+            "MUTE"
+          ],
+          [
+            "播放/暂停",
+            "PLAY_PAUSE"
+          ],
+          [
+            "下一曲",
+            "NEXT"
+          ],
+          [
+            "上一曲",
+            "PREVIOUS"
+          ],
+          [
+            "停止",
+            "STOP"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_media_release_all": {
+    "message0": "媒体按键全部释放",
+    "tooltip": "媒体按键全部释放 — 仅支持 Report 模式；轻按会自动释放，忙碌时不积压新按下。"
+  },
+  "esp32_classic_hid_media_busy": {
+    "message0": "媒体按键忙碌",
+    "tooltip": "媒体按键忙碌 — 仅支持 Report 模式；轻按会自动释放，忙碌时不积压新按下。"
+  },
+  "esp32_classic_hid_gamepad_button": {
+    "message0": "通用手柄 %1 按钮 %2",
+    "tooltip": "通用手柄按钮编号 1–16。按住状态会保持，直到松开或复位；这是本地发送状态，不是主机按键反馈。",
+    "args0": [
+      {
+        "options": [
+          [
+            "按住",
+            "PRESS"
+          ],
+          [
+            "松开",
+            "RELEASE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "按钮 1",
+            "1"
+          ],
+          [
+            "按钮 2",
+            "2"
+          ],
+          [
+            "按钮 3",
+            "3"
+          ],
+          [
+            "按钮 4",
+            "4"
+          ],
+          [
+            "按钮 5",
+            "5"
+          ],
+          [
+            "按钮 6",
+            "6"
+          ],
+          [
+            "按钮 7",
+            "7"
+          ],
+          [
+            "按钮 8",
+            "8"
+          ],
+          [
+            "按钮 9",
+            "9"
+          ],
+          [
+            "按钮 10",
+            "10"
+          ],
+          [
+            "按钮 11",
+            "11"
+          ],
+          [
+            "按钮 12",
+            "12"
+          ],
+          [
+            "按钮 13",
+            "13"
+          ],
+          [
+            "按钮 14",
+            "14"
+          ],
+          [
+            "按钮 15",
+            "15"
+          ],
+          [
+            "按钮 16",
+            "16"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_gamepad_buttons": {
+    "message0": "通用手柄设置按钮位掩码 %1",
+    "tooltip": "通用手柄设置按钮位掩码 — 先初始化通用手柄模式；按钮编号和方向帽与 SwitchPro 模式不同。"
+  },
+  "esp32_classic_hid_gamepad_axes": {
+    "message0": "通用手柄设置 X %1 Y %2 RX %3 RY %4",
+    "tooltip": "通用手柄设置 X Y RX RY — 先初始化通用手柄模式；按钮编号和方向帽与 SwitchPro 模式不同。"
+  },
+  "esp32_classic_hid_gamepad_hat": {
+    "message0": "通用手柄方向帽 %1",
+    "tooltip": "通用手柄方向帽 — 先初始化通用手柄模式；按钮编号和方向帽与 SwitchPro 模式不同。",
+    "args0": [
+      {
+        "options": [
+          [
+            "中立",
+            "8"
+          ],
+          [
+            "上",
+            "0"
+          ],
+          [
+            "右上",
+            "1"
+          ],
+          [
+            "右",
+            "2"
+          ],
+          [
+            "右下",
+            "3"
+          ],
+          [
+            "下",
+            "4"
+          ],
+          [
+            "左下",
+            "5"
+          ],
+          [
+            "左",
+            "6"
+          ],
+          [
+            "左上",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_gamepad_reset": {
+    "message0": "通用手柄回到中立",
+    "tooltip": "通用手柄回到中立 — 先初始化通用手柄模式；按钮编号和方向帽与 SwitchPro 模式不同。"
+  },
+  "esp32_classic_hid_gamepad_pressed": {
+    "message0": "通用手柄按钮 %1 已按下",
+    "tooltip": "通用手柄按钮 已按下 — 先初始化通用手柄模式；按钮编号和方向帽与 SwitchPro 模式不同。",
+    "args0": [
+      {
+        "options": [
+          [
+            "按钮 1",
+            "1"
+          ],
+          [
+            "按钮 2",
+            "2"
+          ],
+          [
+            "按钮 3",
+            "3"
+          ],
+          [
+            "按钮 4",
+            "4"
+          ],
+          [
+            "按钮 5",
+            "5"
+          ],
+          [
+            "按钮 6",
+            "6"
+          ],
+          [
+            "按钮 7",
+            "7"
+          ],
+          [
+            "按钮 8",
+            "8"
+          ],
+          [
+            "按钮 9",
+            "9"
+          ],
+          [
+            "按钮 10",
+            "10"
+          ],
+          [
+            "按钮 11",
+            "11"
+          ],
+          [
+            "按钮 12",
+            "12"
+          ],
+          [
+            "按钮 13",
+            "13"
+          ],
+          [
+            "按钮 14",
+            "14"
+          ],
+          [
+            "按钮 15",
+            "15"
+          ],
+          [
+            "按钮 16",
+            "16"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_switch_button": {
+    "message0": "SwitchPro %1 按键 %2",
+    "tooltip": "按住会保持 Switch Pro 按键，直到松开或释放所有按键。可用“设置按键状态”持续跟随实体按钮；需要先初始化并连接。",
+    "args0": [
+      {
+        "options": [
+          [
+            "按住",
+            "PRESS"
+          ],
+          [
+            "松开",
+            "RELEASE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "X",
+            "X"
+          ],
+          [
+            "B",
+            "B"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "R",
+            "R"
+          ],
+          [
+            "ZR",
+            "ZR"
+          ],
+          [
+            "−",
+            "MINUS"
+          ],
+          [
+            "+",
+            "PLUS"
+          ],
+          [
+            "右摇杆按键",
+            "RIGHT_STICK"
+          ],
+          [
+            "左摇杆按键",
+            "LEFT_STICK"
+          ],
+          [
+            "主页",
+            "HOME"
+          ],
+          [
+            "截图",
+            "CAPTURE"
+          ],
+          [
+            "下",
+            "DOWN"
+          ],
+          [
+            "上",
+            "UP"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "L",
+            "L"
+          ],
+          [
+            "ZL",
+            "ZL"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_switch_button_state": {
+    "message0": "设置 SwitchPro 按键 %1 为按下 %2",
+    "tooltip": "真表示按住、假表示松开；在循环中持续接入实体按钮的布尔状态，可同时实现按下与释放。需要先初始化并连接。",
+    "args0": [
+      {
+        "options": [
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "X",
+            "X"
+          ],
+          [
+            "B",
+            "B"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "R",
+            "R"
+          ],
+          [
+            "ZR",
+            "ZR"
+          ],
+          [
+            "−",
+            "MINUS"
+          ],
+          [
+            "+",
+            "PLUS"
+          ],
+          [
+            "右摇杆按键",
+            "RIGHT_STICK"
+          ],
+          [
+            "左摇杆按键",
+            "LEFT_STICK"
+          ],
+          [
+            "主页",
+            "HOME"
+          ],
+          [
+            "截图",
+            "CAPTURE"
+          ],
+          [
+            "下",
+            "DOWN"
+          ],
+          [
+            "上",
+            "UP"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ],
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "L",
+            "L"
+          ],
+          [
+            "ZL",
+            "ZL"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_classic_hid_switch_buttons": {
+    "message0": "SwitchPro 设置按键位掩码 %1",
+    "tooltip": "SwitchPro 设置按键位掩码 — 先初始化 SwitchPro 模式；这是经典蓝牙手柄模拟，尚未验证 Switch 实机互通。"
+  },
+  "esp32_classic_hid_switch_release_all": {
+    "message0": "SwitchPro 释放全部按键",
+    "tooltip": "SwitchPro 释放全部按键 — 先初始化 SwitchPro 模式；这是经典蓝牙手柄模拟，尚未验证 Switch 实机互通。"
+  },
+  "esp32_classic_hid_switch_dpad": {
+    "message0": "SwitchPro 方向键 上 %1 下 %2 左 %3 右 %4",
+    "tooltip": "SwitchPro 方向键 上 下 左 右 — 先初始化 SwitchPro 模式；这是经典蓝牙手柄模拟，尚未验证 Switch 实机互通。"
+  },
+  "esp32_classic_hid_switch_axes": {
+    "message0": "SwitchPro 摇杆 LX %1 LY %2 RX %3 RY %4",
+    "tooltip": "SwitchPro 摇杆 LX LY RX RY — 先初始化 SwitchPro 模式；这是经典蓝牙手柄模拟，尚未验证 Switch 实机互通。"
+  },
+  "esp32_classic_hid_switch_stick": {
+    "message0": "SwitchPro 设置 %1 摇杆 X %2 Y %3",
+    "tooltip": "SwitchPro 设置 摇杆 X Y — 先初始化 SwitchPro 模式；这是经典蓝牙手柄模拟，尚未验证 Switch 实机互通。",
+    "args0": [
+      {
+        "options": [
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "esp32_classic_hid_switch_battery": {
+    "message0": "SwitchPro 报告电量百分比 %1 充电 %2",
+    "tooltip": "SwitchPro 报告电量百分比 充电 — 这里只设置报告电量与充电标记，不读取实体电池。"
+  },
+  "esp32_classic_hid_switch_status": {
+    "message0": "SwitchPro %1",
+    "tooltip": "SwitchPro — 先初始化 SwitchPro 模式；这是经典蓝牙手柄模拟，尚未验证 Switch 实机互通。",
+    "args0": [
+      {
+        "options": [
+          [
+            "报告模式",
+            "REPORT_MODE"
+          ],
+          [
+            "玩家指示灯位图",
+            "PLAYER_LIGHTS"
+          ],
+          [
+            "无效报告计数",
+            "MALFORMED"
+          ],
+          [
+            "丢弃回复计数",
+            "DROPPED"
+          ],
+          [
+            "最近未支持子命令",
+            "UNSUPPORTED"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_switch_feature": {
+    "message0": "SwitchPro 主机请求 %1",
+    "tooltip": "SwitchPro 主机请求 — 返回主机请求标记，不表示存在实体传感器或马达。",
+    "args0": [
+      {
+        "options": [
+          [
+            "IMU",
+            "IMU"
+          ],
+          [
+            "振动",
+            "VIBRATION"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_switch_rumble": {
+    "message0": "SwitchPro 原始 rumble 第 %1 字节",
+    "tooltip": "读取主机发来的原始震动协议字节，索引 0–7；此块不驱动马达，也不解码震动强度。",
+    "args0": [
+      {
+        "options": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ],
+          [
+            "4",
+            "4"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "6",
+            "6"
+          ],
+          [
+            "7",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_switch_connect": {
+    "message0": "SwitchPro 主动连接主机地址 %1",
+    "tooltip": "先初始化 Switch Pro，再使用主机的真实 MAC 地址，格式 AA:BB:CC:DD:EE:FF。主动连接不会伪造或生成配对密钥。"
+  }
+}
