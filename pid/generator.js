@@ -40,11 +40,25 @@ Blockly.Extensions.register('pid_preset_extension', function() {
 });
 
 // 初始化PID控制器
+// Explicit workspace-model ownership; variable dropdown constraints alone are consumers.
+Arduino.modelDeclarations = Arduino.modelDeclarations || {};
+Arduino.modelDeclarations.pid_init = {
+    version: 1,
+    scope: 'workspace',
+    fields: { PID_NAME: 'PID', INPUT: 'double', OUTPUT: 'double', SETPOINT: 'double' },
+    shared: ['INPUT', 'OUTPUT', 'SETPOINT']
+};
 Arduino.forBlock['pid_init'] = function(block, generator) {
     const pidName = getVariableName(block, 'PID_NAME');
     const inputVar = getVariableName(block, 'INPUT');
     const outputVar = getVariableName(block, 'OUTPUT');
     const setpointVar = getVariableName(block, 'SETPOINT');
+    if (typeof registerVariableToBlockly === 'function') {
+        registerVariableToBlockly(pidName, 'PID');
+        registerVariableToBlockly(inputVar, 'double');
+        registerVariableToBlockly(outputVar, 'double');
+        registerVariableToBlockly(setpointVar, 'double');
+    }
     const kp = block.getFieldValue('KP');
     const ki = block.getFieldValue('KI');
     const kd = block.getFieldValue('KD');
