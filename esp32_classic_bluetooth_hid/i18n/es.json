@@ -1,0 +1,1455 @@
+{
+  "toolbox_name": "ESP32 Bluetooth clásico HID",
+  "toolbox_categories": [
+    "Inicialización",
+    "Estado de conexión",
+    "Gestión de conexión",
+    "Teclado",
+    "Ratón",
+    "Teclas multimedia",
+    "Mando genérico",
+    "Mando Switch Pro"
+  ],
+  "esp32_classic_hid_begin_keyboard": {
+    "message0": "Iniciar teclado Bluetooth clásico con nombre %1",
+    "tooltip": "Iniciar un único modo en setup; elegir el combinado para teclado y ratón. Solo ESP32 original y Arduino-ESP32 ≥3.3.10. Inicializar no significa estar conectado; el mismo modo puede reiniciarse tras detenerlo."
+  },
+  "esp32_classic_hid_begin_mouse": {
+    "message0": "Iniciar ratón Bluetooth clásico con nombre %1",
+    "tooltip": "Iniciar un único modo en setup; elegir el combinado para teclado y ratón. Solo ESP32 original y Arduino-ESP32 ≥3.3.10. Inicializar no significa estar conectado; el mismo modo puede reiniciarse tras detenerlo."
+  },
+  "esp32_classic_hid_begin_combo": {
+    "message0": "Iniciar teclado y ratón Bluetooth clásicos con nombre %1",
+    "tooltip": "Iniciar un único modo en setup; elegir el combinado para teclado y ratón. Solo ESP32 original y Arduino-ESP32 ≥3.3.10. Inicializar no significa estar conectado; el mismo modo puede reiniciarse tras detenerlo."
+  },
+  "esp32_classic_hid_begin_media": {
+    "message0": "Iniciar teclas multimedia Bluetooth clásicas con nombre %1",
+    "tooltip": "Iniciar un único modo en setup; elegir el combinado para teclado y ratón. Solo ESP32 original y Arduino-ESP32 ≥3.3.10. Inicializar no significa estar conectado; el mismo modo puede reiniciarse tras detenerlo."
+  },
+  "esp32_classic_hid_begin_gamepad": {
+    "message0": "Iniciar mando Bluetooth clásico genérico con nombre %1",
+    "tooltip": "Iniciar un único modo en setup; elegir el combinado para teclado y ratón. Solo ESP32 original y Arduino-ESP32 ≥3.3.10. Inicializar no significa estar conectado; el mismo modo puede reiniciarse tras detenerlo."
+  },
+  "esp32_classic_hid_begin_switch": {
+    "message0": "Iniciar SwitchPro Bluetooth clásico con nombre %1",
+    "tooltip": "Iniciar un único modo en setup; elegir el combinado para teclado y ratón. Solo ESP32 original y Arduino-ESP32 ≥3.3.10. Inicializar no significa estar conectado; el mismo modo puede reiniciarse tras detenerlo."
+  },
+  "esp32_classic_hid_connected": {
+    "message0": "Bluetooth clásico conectado",
+    "tooltip": "Consultar la conexión actual al anfitrión. Emparejamiento y conexión son asíncronos; comprobar antes de enviar entradas."
+  },
+  "esp32_classic_hid_last_init_ok": {
+    "message0": "Última inicialización correcta",
+    "tooltip": "Consultar si la última inicialización tuvo éxito. No confirma conexión ni recepción de entradas por el anfitrión."
+  },
+  "esp32_classic_hid_last_ok": {
+    "message0": "Última operación aceptada",
+    "tooltip": "Consultar la aceptación local de la última operación, sin garantizar entrega ni ejecución. Las consultas y la actualización automática no cambian este resultado."
+  },
+  "esp32_classic_hid_last_error": {
+    "message0": "Último error de Bluetooth clásico",
+    "tooltip": "Leer errores de inicialización, operación o dispositivo asíncronos. Una entrada aceptada localmente aún puede fallar al transmitirse."
+  },
+  "esp32_classic_hid_update": {
+    "message0": "Actualizar dispositivo Bluetooth clásico",
+    "tooltip": "Procesar informes y callbacks pendientes. Se llama al inicio de loop automáticamente; seguir llamando en bucles largos y evitar bloqueos prolongados."
+  },
+  "esp32_classic_hid_end": {
+    "message0": "Detener dispositivo Bluetooth clásico",
+    "tooltip": "Detener y liberar recursos; después puede reiniciarse el mismo modo. Si la limpieza falla, conserva el contexto y se puede reintentar."
+  },
+  "esp32_classic_hid_disconnect": {
+    "message0": "Desconectar Bluetooth clásico",
+    "tooltip": "Desconectar el anfitrión actual conservando el emparejamiento. No detiene el modo del dispositivo."
+  },
+  "esp32_classic_hid_unpair": {
+    "message0": "Borrar emparejamiento Bluetooth clásico",
+    "tooltip": "Borrar las claves de emparejamiento y esperar de forma síncrona. Después hay que emparejar de nuevo; no llamar en cada iteración."
+  },
+  "esp32_classic_hid_keyboard_text": {
+    "message0": "Teclado %1 texto %2",
+    "tooltip": "Teclado texto — El texto admite solo US ASCII y un máximo de seis teclas normales mantenidas.",
+    "args0": [
+      {
+        "options": [
+          [
+            "escribir",
+            "PRINT"
+          ],
+          [
+            "escribir con salto de línea",
+            "PRINTLN"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_classic_hid_keyboard_key": {
+    "message0": "Teclado %1 tecla %2",
+    "tooltip": "Mantener deja la tecla pulsada hasta soltarla o liberar todas. A–Z son teclas sin Mayús; el texto solo admite US ASCII.",
+    "args0": [
+      {
+        "options": [
+          [
+            "mantener pulsado",
+            "PRESS"
+          ],
+          [
+            "soltar",
+            "RELEASE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "A",
+            "ASCII_A"
+          ],
+          [
+            "B",
+            "ASCII_B"
+          ],
+          [
+            "C",
+            "ASCII_C"
+          ],
+          [
+            "D",
+            "ASCII_D"
+          ],
+          [
+            "E",
+            "ASCII_E"
+          ],
+          [
+            "F",
+            "ASCII_F"
+          ],
+          [
+            "G",
+            "ASCII_G"
+          ],
+          [
+            "H",
+            "ASCII_H"
+          ],
+          [
+            "I",
+            "ASCII_I"
+          ],
+          [
+            "J",
+            "ASCII_J"
+          ],
+          [
+            "K",
+            "ASCII_K"
+          ],
+          [
+            "L",
+            "ASCII_L"
+          ],
+          [
+            "M",
+            "ASCII_M"
+          ],
+          [
+            "N",
+            "ASCII_N"
+          ],
+          [
+            "O",
+            "ASCII_O"
+          ],
+          [
+            "P",
+            "ASCII_P"
+          ],
+          [
+            "Q",
+            "ASCII_Q"
+          ],
+          [
+            "R",
+            "ASCII_R"
+          ],
+          [
+            "S",
+            "ASCII_S"
+          ],
+          [
+            "T",
+            "ASCII_T"
+          ],
+          [
+            "U",
+            "ASCII_U"
+          ],
+          [
+            "V",
+            "ASCII_V"
+          ],
+          [
+            "W",
+            "ASCII_W"
+          ],
+          [
+            "X",
+            "ASCII_X"
+          ],
+          [
+            "Y",
+            "ASCII_Y"
+          ],
+          [
+            "Z",
+            "ASCII_Z"
+          ],
+          [
+            "0",
+            "DIGIT_0"
+          ],
+          [
+            "1",
+            "DIGIT_1"
+          ],
+          [
+            "2",
+            "DIGIT_2"
+          ],
+          [
+            "3",
+            "DIGIT_3"
+          ],
+          [
+            "4",
+            "DIGIT_4"
+          ],
+          [
+            "5",
+            "DIGIT_5"
+          ],
+          [
+            "6",
+            "DIGIT_6"
+          ],
+          [
+            "7",
+            "DIGIT_7"
+          ],
+          [
+            "8",
+            "DIGIT_8"
+          ],
+          [
+            "9",
+            "DIGIT_9"
+          ],
+          [
+            "Espacio",
+            "SPACE"
+          ],
+          [
+            "Intro",
+            "RETURN"
+          ],
+          [
+            "Tab",
+            "TAB"
+          ],
+          [
+            "Esc",
+            "ESCAPE"
+          ],
+          [
+            "Retroceso",
+            "BACKSPACE"
+          ],
+          [
+            "Supr",
+            "DELETE"
+          ],
+          [
+            "Flecha izquierda",
+            "LEFT"
+          ],
+          [
+            "Flecha derecha",
+            "RIGHT"
+          ],
+          [
+            "Flecha arriba",
+            "UP"
+          ],
+          [
+            "Flecha abajo",
+            "DOWN"
+          ],
+          [
+            "Inicio",
+            "HOME"
+          ],
+          [
+            "Fin",
+            "END"
+          ],
+          [
+            "Re Pág",
+            "PAGE_UP"
+          ],
+          [
+            "Av Pág",
+            "PAGE_DOWN"
+          ],
+          [
+            "F1",
+            "F1"
+          ],
+          [
+            "F2",
+            "F2"
+          ],
+          [
+            "F3",
+            "F3"
+          ],
+          [
+            "F4",
+            "F4"
+          ],
+          [
+            "F5",
+            "F5"
+          ],
+          [
+            "F6",
+            "F6"
+          ],
+          [
+            "F7",
+            "F7"
+          ],
+          [
+            "F8",
+            "F8"
+          ],
+          [
+            "F9",
+            "F9"
+          ],
+          [
+            "F10",
+            "F10"
+          ],
+          [
+            "F11",
+            "F11"
+          ],
+          [
+            "F12",
+            "F12"
+          ],
+          [
+            "izquierda CTRL",
+            "LEFT_CTRL"
+          ],
+          [
+            "izquierda SHIFT",
+            "LEFT_SHIFT"
+          ],
+          [
+            "izquierda ALT",
+            "LEFT_ALT"
+          ],
+          [
+            "izquierda GUI",
+            "LEFT_GUI"
+          ],
+          [
+            "derecha CTRL",
+            "RIGHT_CTRL"
+          ],
+          [
+            "derecha SHIFT",
+            "RIGHT_SHIFT"
+          ],
+          [
+            "derecha ALT",
+            "RIGHT_ALT"
+          ],
+          [
+            "derecha GUI",
+            "RIGHT_GUI"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_keyboard_ascii": {
+    "message0": "Teclado %1 carácter ASCII %2",
+    "tooltip": "Usar un solo carácter US ASCII. Mantener requiere soltar después o liberar todas las teclas; no admite Unicode ni texto multibyte.",
+    "args0": [
+      {
+        "options": [
+          [
+            "mantener pulsado",
+            "PRESS"
+          ],
+          [
+            "soltar",
+            "RELEASE"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_classic_hid_keyboard_raw": {
+    "message0": "Teclado %1 uso HID %2",
+    "tooltip": "Usage HID de teclado bruto, no ASCII. Valores válidos: 0x04–0xA4, 0xB0–0xDD y 0xE0–0xE7. Soltar tras mantener; preferir teclas con nombre.",
+    "args0": [
+      {
+        "options": [
+          [
+            "mantener pulsado",
+            "PRESS"
+          ],
+          [
+            "soltar",
+            "RELEASE"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_classic_hid_keyboard_shortcut": {
+    "message0": "Atajo de teclado %1 más %2",
+    "tooltip": "Enviar la combinación y soltar todas las teclas, incluidas las ya mantenidas. Las combinaciones nuevas usan modificadores izquierdos. No activar sin condición en cada iteración.",
+    "args0": [
+      {
+        "options": [
+          [
+            "izquierda CTRL",
+            "LEFT_CTRL"
+          ],
+          [
+            "izquierda SHIFT",
+            "LEFT_SHIFT"
+          ],
+          [
+            "izquierda ALT",
+            "LEFT_ALT"
+          ],
+          [
+            "izquierda GUI",
+            "LEFT_GUI"
+          ],
+          [
+            "derecha CTRL",
+            "RIGHT_CTRL"
+          ],
+          [
+            "derecha SHIFT",
+            "RIGHT_SHIFT"
+          ],
+          [
+            "derecha ALT",
+            "RIGHT_ALT"
+          ],
+          [
+            "derecha GUI",
+            "RIGHT_GUI"
+          ],
+          [
+            "Ctrl + Shift",
+            "CTRL_SHIFT"
+          ],
+          [
+            "Ctrl + Alt",
+            "CTRL_ALT"
+          ],
+          [
+            "Ctrl + Alt + Shift",
+            "CTRL_ALT_SHIFT"
+          ],
+          [
+            "Win/Cmd + Shift",
+            "GUI_SHIFT"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "A",
+            "ASCII_A"
+          ],
+          [
+            "B",
+            "ASCII_B"
+          ],
+          [
+            "C",
+            "ASCII_C"
+          ],
+          [
+            "D",
+            "ASCII_D"
+          ],
+          [
+            "E",
+            "ASCII_E"
+          ],
+          [
+            "F",
+            "ASCII_F"
+          ],
+          [
+            "G",
+            "ASCII_G"
+          ],
+          [
+            "H",
+            "ASCII_H"
+          ],
+          [
+            "I",
+            "ASCII_I"
+          ],
+          [
+            "J",
+            "ASCII_J"
+          ],
+          [
+            "K",
+            "ASCII_K"
+          ],
+          [
+            "L",
+            "ASCII_L"
+          ],
+          [
+            "M",
+            "ASCII_M"
+          ],
+          [
+            "N",
+            "ASCII_N"
+          ],
+          [
+            "O",
+            "ASCII_O"
+          ],
+          [
+            "P",
+            "ASCII_P"
+          ],
+          [
+            "Q",
+            "ASCII_Q"
+          ],
+          [
+            "R",
+            "ASCII_R"
+          ],
+          [
+            "S",
+            "ASCII_S"
+          ],
+          [
+            "T",
+            "ASCII_T"
+          ],
+          [
+            "U",
+            "ASCII_U"
+          ],
+          [
+            "V",
+            "ASCII_V"
+          ],
+          [
+            "W",
+            "ASCII_W"
+          ],
+          [
+            "X",
+            "ASCII_X"
+          ],
+          [
+            "Y",
+            "ASCII_Y"
+          ],
+          [
+            "Z",
+            "ASCII_Z"
+          ],
+          [
+            "0",
+            "DIGIT_0"
+          ],
+          [
+            "1",
+            "DIGIT_1"
+          ],
+          [
+            "2",
+            "DIGIT_2"
+          ],
+          [
+            "3",
+            "DIGIT_3"
+          ],
+          [
+            "4",
+            "DIGIT_4"
+          ],
+          [
+            "5",
+            "DIGIT_5"
+          ],
+          [
+            "6",
+            "DIGIT_6"
+          ],
+          [
+            "7",
+            "DIGIT_7"
+          ],
+          [
+            "8",
+            "DIGIT_8"
+          ],
+          [
+            "9",
+            "DIGIT_9"
+          ],
+          [
+            "Espacio",
+            "SPACE"
+          ],
+          [
+            "Intro",
+            "RETURN"
+          ],
+          [
+            "Tab",
+            "TAB"
+          ],
+          [
+            "Esc",
+            "ESCAPE"
+          ],
+          [
+            "Retroceso",
+            "BACKSPACE"
+          ],
+          [
+            "Supr",
+            "DELETE"
+          ],
+          [
+            "Flecha izquierda",
+            "LEFT"
+          ],
+          [
+            "Flecha derecha",
+            "RIGHT"
+          ],
+          [
+            "Flecha arriba",
+            "UP"
+          ],
+          [
+            "Flecha abajo",
+            "DOWN"
+          ],
+          [
+            "Inicio",
+            "HOME"
+          ],
+          [
+            "Fin",
+            "END"
+          ],
+          [
+            "Re Pág",
+            "PAGE_UP"
+          ],
+          [
+            "Av Pág",
+            "PAGE_DOWN"
+          ],
+          [
+            "F1",
+            "F1"
+          ],
+          [
+            "F2",
+            "F2"
+          ],
+          [
+            "F3",
+            "F3"
+          ],
+          [
+            "F4",
+            "F4"
+          ],
+          [
+            "F5",
+            "F5"
+          ],
+          [
+            "F6",
+            "F6"
+          ],
+          [
+            "F7",
+            "F7"
+          ],
+          [
+            "F8",
+            "F8"
+          ],
+          [
+            "F9",
+            "F9"
+          ],
+          [
+            "F10",
+            "F10"
+          ],
+          [
+            "F11",
+            "F11"
+          ],
+          [
+            "F12",
+            "F12"
+          ],
+          [
+            "izquierda CTRL",
+            "LEFT_CTRL"
+          ],
+          [
+            "izquierda SHIFT",
+            "LEFT_SHIFT"
+          ],
+          [
+            "izquierda ALT",
+            "LEFT_ALT"
+          ],
+          [
+            "izquierda GUI",
+            "LEFT_GUI"
+          ],
+          [
+            "derecha CTRL",
+            "RIGHT_CTRL"
+          ],
+          [
+            "derecha SHIFT",
+            "RIGHT_SHIFT"
+          ],
+          [
+            "derecha ALT",
+            "RIGHT_ALT"
+          ],
+          [
+            "derecha GUI",
+            "RIGHT_GUI"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_keyboard_release_all": {
+    "message0": "Soltar todas las teclas",
+    "tooltip": "Soltar todas las teclas — El texto admite solo US ASCII y un máximo de seis teclas normales mantenidas."
+  },
+  "esp32_classic_hid_keyboard_led": {
+    "message0": "LED de teclado %1 encendido",
+    "tooltip": "LED de teclado encendido — El texto admite solo US ASCII y un máximo de seis teclas normales mantenidas.",
+    "args0": [
+      {
+        "options": [
+          [
+            "Bloq Num",
+            "NUM"
+          ],
+          [
+            "Bloq Mayús",
+            "CAPS"
+          ],
+          [
+            "Bloq Despl",
+            "SCROLL"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_mouse_move": {
+    "message0": "Mover ratón X %1 Y %2 rueda %3",
+    "tooltip": "X, Y y rueda son enteros -127 a 127; X positivo a la derecha, Y hacia abajo. Cada llamada es un movimiento relativo. Boot no admite rueda."
+  },
+  "esp32_classic_hid_mouse_button": {
+    "message0": "Ratón %1 botón %2",
+    "tooltip": "Mantener deja el botón pulsado hasta soltar; clic pulsa y suelta automáticamente. Boot solo admite izquierdo, derecho y central.",
+    "args0": [
+      {
+        "options": [
+          [
+            "hacer clic",
+            "CLICK"
+          ],
+          [
+            "mantener pulsado",
+            "PRESS"
+          ],
+          [
+            "soltar",
+            "RELEASE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "izquierda",
+            "LEFT"
+          ],
+          [
+            "derecha",
+            "RIGHT"
+          ],
+          [
+            "central",
+            "MIDDLE"
+          ],
+          [
+            "atrás",
+            "BACK"
+          ],
+          [
+            "adelante",
+            "FORWARD"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_mouse_release_all": {
+    "message0": "Soltar todos los botones del ratón",
+    "tooltip": "Soltar todos los botones del ratón — Movimiento y rueda: -127 a 127. Boot solo admite tres botones y X/Y."
+  },
+  "esp32_classic_hid_mouse_pressed": {
+    "message0": "Botón del ratón %1 pulsado",
+    "tooltip": "Botón del ratón pulsado — Movimiento y rueda: -127 a 127. Boot solo admite tres botones y X/Y.",
+    "args0": [
+      {
+        "options": [
+          [
+            "izquierda",
+            "LEFT"
+          ],
+          [
+            "derecha",
+            "RIGHT"
+          ],
+          [
+            "central",
+            "MIDDLE"
+          ],
+          [
+            "atrás",
+            "BACK"
+          ],
+          [
+            "adelante",
+            "FORWARD"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_media_tap": {
+    "message0": "Pulsar brevemente tecla multimedia %1",
+    "tooltip": "Pulsar brevemente tecla multimedia — Solo modo Report. La pulsación se libera automáticamente y no se acumulan nuevas mientras está ocupado.",
+    "args0": [
+      {
+        "options": [
+          [
+            "subir volumen",
+            "VOLUME_UP"
+          ],
+          [
+            "bajar volumen",
+            "VOLUME_DOWN"
+          ],
+          [
+            "silenciar",
+            "MUTE"
+          ],
+          [
+            "reproducir/pausa",
+            "PLAY_PAUSE"
+          ],
+          [
+            "pista siguiente",
+            "NEXT"
+          ],
+          [
+            "pista anterior",
+            "PREVIOUS"
+          ],
+          [
+            "detener",
+            "STOP"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_media_release_all": {
+    "message0": "Soltar todas las teclas multimedia",
+    "tooltip": "Soltar todas las teclas multimedia — Solo modo Report. La pulsación se libera automáticamente y no se acumulan nuevas mientras está ocupado."
+  },
+  "esp32_classic_hid_media_busy": {
+    "message0": "Teclas multimedia ocupadas",
+    "tooltip": "Teclas multimedia ocupadas — Solo modo Report. La pulsación se libera automáticamente y no se acumulan nuevas mientras está ocupado."
+  },
+  "esp32_classic_hid_gamepad_button": {
+    "message0": "Mando genérico %1 botón %2",
+    "tooltip": "Botones genéricos numerados 1–16. El estado pulsado permanece hasta soltar o reiniciar; es el estado local de entrada, no información del anfitrión.",
+    "args0": [
+      {
+        "options": [
+          [
+            "mantener pulsado",
+            "PRESS"
+          ],
+          [
+            "soltar",
+            "RELEASE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "botón 1",
+            "1"
+          ],
+          [
+            "botón 2",
+            "2"
+          ],
+          [
+            "botón 3",
+            "3"
+          ],
+          [
+            "botón 4",
+            "4"
+          ],
+          [
+            "botón 5",
+            "5"
+          ],
+          [
+            "botón 6",
+            "6"
+          ],
+          [
+            "botón 7",
+            "7"
+          ],
+          [
+            "botón 8",
+            "8"
+          ],
+          [
+            "botón 9",
+            "9"
+          ],
+          [
+            "botón 10",
+            "10"
+          ],
+          [
+            "botón 11",
+            "11"
+          ],
+          [
+            "botón 12",
+            "12"
+          ],
+          [
+            "botón 13",
+            "13"
+          ],
+          [
+            "botón 14",
+            "14"
+          ],
+          [
+            "botón 15",
+            "15"
+          ],
+          [
+            "botón 16",
+            "16"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_gamepad_buttons": {
+    "message0": "Establecer máscara de botones del mando %1",
+    "tooltip": "Establecer máscara de botones del mando — Inicializar el mando genérico; los botones y la cruceta son distintos de SwitchPro."
+  },
+  "esp32_classic_hid_gamepad_axes": {
+    "message0": "Mando genérico X %1 Y %2 RX %3 RY %4",
+    "tooltip": "Mando genérico X Y RX RY — Inicializar el mando genérico; los botones y la cruceta son distintos de SwitchPro."
+  },
+  "esp32_classic_hid_gamepad_hat": {
+    "message0": "Cruceta del mando genérico %1",
+    "tooltip": "Cruceta del mando genérico — Inicializar el mando genérico; los botones y la cruceta son distintos de SwitchPro.",
+    "args0": [
+      {
+        "options": [
+          [
+            "neutro",
+            "8"
+          ],
+          [
+            "arriba",
+            "0"
+          ],
+          [
+            "arriba derecha",
+            "1"
+          ],
+          [
+            "derecha",
+            "2"
+          ],
+          [
+            "abajo derecha",
+            "3"
+          ],
+          [
+            "abajo",
+            "4"
+          ],
+          [
+            "abajo izquierda",
+            "5"
+          ],
+          [
+            "izquierda",
+            "6"
+          ],
+          [
+            "arriba izquierda",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_gamepad_reset": {
+    "message0": "Poner mando genérico en neutro",
+    "tooltip": "Poner mando genérico en neutro — Inicializar el mando genérico; los botones y la cruceta son distintos de SwitchPro."
+  },
+  "esp32_classic_hid_gamepad_pressed": {
+    "message0": "Botón del mando genérico %1 pulsado",
+    "tooltip": "Botón del mando genérico pulsado — Inicializar el mando genérico; los botones y la cruceta son distintos de SwitchPro.",
+    "args0": [
+      {
+        "options": [
+          [
+            "botón 1",
+            "1"
+          ],
+          [
+            "botón 2",
+            "2"
+          ],
+          [
+            "botón 3",
+            "3"
+          ],
+          [
+            "botón 4",
+            "4"
+          ],
+          [
+            "botón 5",
+            "5"
+          ],
+          [
+            "botón 6",
+            "6"
+          ],
+          [
+            "botón 7",
+            "7"
+          ],
+          [
+            "botón 8",
+            "8"
+          ],
+          [
+            "botón 9",
+            "9"
+          ],
+          [
+            "botón 10",
+            "10"
+          ],
+          [
+            "botón 11",
+            "11"
+          ],
+          [
+            "botón 12",
+            "12"
+          ],
+          [
+            "botón 13",
+            "13"
+          ],
+          [
+            "botón 14",
+            "14"
+          ],
+          [
+            "botón 15",
+            "15"
+          ],
+          [
+            "botón 16",
+            "16"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_switch_button": {
+    "message0": "SwitchPro %1 botón %2",
+    "tooltip": "Mantener deja el botón pulsado hasta soltarlo o liberar todos. El bloque de estado puede seguir un botón físico continuamente. Inicializar y conectar primero.",
+    "args0": [
+      {
+        "options": [
+          [
+            "mantener pulsado",
+            "PRESS"
+          ],
+          [
+            "soltar",
+            "RELEASE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "X",
+            "X"
+          ],
+          [
+            "B",
+            "B"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "R",
+            "R"
+          ],
+          [
+            "ZR",
+            "ZR"
+          ],
+          [
+            "−",
+            "MINUS"
+          ],
+          [
+            "+",
+            "PLUS"
+          ],
+          [
+            "botón palanca derecha",
+            "RIGHT_STICK"
+          ],
+          [
+            "botón palanca izquierda",
+            "LEFT_STICK"
+          ],
+          [
+            "Inicio",
+            "HOME"
+          ],
+          [
+            "Captura",
+            "CAPTURE"
+          ],
+          [
+            "abajo",
+            "DOWN"
+          ],
+          [
+            "arriba",
+            "UP"
+          ],
+          [
+            "derecha",
+            "RIGHT"
+          ],
+          [
+            "izquierda",
+            "LEFT"
+          ],
+          [
+            "L",
+            "L"
+          ],
+          [
+            "ZL",
+            "ZL"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_switch_button_state": {
+    "message0": "Establecer botón SwitchPro %1 pulsado %2",
+    "tooltip": "Verdadero mantiene y falso suelta. Introducir el estado booleano del botón físico en cada iteración para manejar ambas transiciones. Inicializar y conectar primero.",
+    "args0": [
+      {
+        "options": [
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "X",
+            "X"
+          ],
+          [
+            "B",
+            "B"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "R",
+            "R"
+          ],
+          [
+            "ZR",
+            "ZR"
+          ],
+          [
+            "−",
+            "MINUS"
+          ],
+          [
+            "+",
+            "PLUS"
+          ],
+          [
+            "botón palanca derecha",
+            "RIGHT_STICK"
+          ],
+          [
+            "botón palanca izquierda",
+            "LEFT_STICK"
+          ],
+          [
+            "Inicio",
+            "HOME"
+          ],
+          [
+            "Captura",
+            "CAPTURE"
+          ],
+          [
+            "abajo",
+            "DOWN"
+          ],
+          [
+            "arriba",
+            "UP"
+          ],
+          [
+            "derecha",
+            "RIGHT"
+          ],
+          [
+            "izquierda",
+            "LEFT"
+          ],
+          [
+            "L",
+            "L"
+          ],
+          [
+            "ZL",
+            "ZL"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_classic_hid_switch_buttons": {
+    "message0": "Establecer máscara de botones SwitchPro %1",
+    "tooltip": "Establecer máscara de botones SwitchPro — Inicializar SwitchPro. Emulación Bluetooth clásico sin validación en una Switch real."
+  },
+  "esp32_classic_hid_switch_release_all": {
+    "message0": "Soltar todos los botones SwitchPro",
+    "tooltip": "Soltar todos los botones SwitchPro — Inicializar SwitchPro. Emulación Bluetooth clásico sin validación en una Switch real."
+  },
+  "esp32_classic_hid_switch_dpad": {
+    "message0": "Cruceta SwitchPro arriba %1 abajo %2 izquierda %3 derecha %4",
+    "tooltip": "Cruceta SwitchPro arriba abajo izquierda derecha — Inicializar SwitchPro. Emulación Bluetooth clásico sin validación en una Switch real."
+  },
+  "esp32_classic_hid_switch_axes": {
+    "message0": "Palancas SwitchPro LX %1 LY %2 RX %3 RY %4",
+    "tooltip": "Palancas SwitchPro LX LY RX RY — Inicializar SwitchPro. Emulación Bluetooth clásico sin validación en una Switch real."
+  },
+  "esp32_classic_hid_switch_stick": {
+    "message0": "Establecer palanca SwitchPro %1 X %2 Y %3",
+    "tooltip": "Establecer palanca SwitchPro X Y — Inicializar SwitchPro. Emulación Bluetooth clásico sin validación en una Switch real.",
+    "args0": [
+      {
+        "options": [
+          [
+            "izquierda",
+            "LEFT"
+          ],
+          [
+            "derecha",
+            "RIGHT"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "esp32_classic_hid_switch_battery": {
+    "message0": "Batería indicada SwitchPro %1 cargando %2",
+    "tooltip": "Batería indicada SwitchPro cargando — Solo establece valores indicados de batería y carga; no mide una batería física."
+  },
+  "esp32_classic_hid_switch_status": {
+    "message0": "SwitchPro %1",
+    "tooltip": "SwitchPro — Inicializar SwitchPro. Emulación Bluetooth clásico sin validación en una Switch real.",
+    "args0": [
+      {
+        "options": [
+          [
+            "modo de informe",
+            "REPORT_MODE"
+          ],
+          [
+            "mapa de LED de jugadores",
+            "PLAYER_LIGHTS"
+          ],
+          [
+            "informes incorrectos",
+            "MALFORMED"
+          ],
+          [
+            "respuestas descartadas",
+            "DROPPED"
+          ],
+          [
+            "último subcomando no admitido",
+            "UNSUPPORTED"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_switch_feature": {
+    "message0": "Solicitud del anfitrión SwitchPro %1",
+    "tooltip": "Solicitud del anfitrión SwitchPro — Devuelve una solicitud del anfitrión, no la presencia de sensor o motor.",
+    "args0": [
+      {
+        "options": [
+          [
+            "IMU",
+            "IMU"
+          ],
+          [
+            "vibración",
+            "VIBRATION"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_switch_rumble": {
+    "message0": "Byte rumble bruto SwitchPro %1",
+    "tooltip": "Leer un byte bruto del protocolo de vibración recibido, índice 0–7. No mueve un motor ni decodifica la intensidad.",
+    "args0": [
+      {
+        "options": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ],
+          [
+            "4",
+            "4"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "6",
+            "6"
+          ],
+          [
+            "7",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_classic_hid_switch_connect": {
+    "message0": "Conectar SwitchPro a dirección del anfitrión %1",
+    "tooltip": "Inicializar Switch Pro y usar la MAC real del anfitrión con formato AA:BB:CC:DD:EE:FF. La conexión activa no inventa ni genera claves de emparejamiento."
+  }
+}
