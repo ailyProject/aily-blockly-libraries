@@ -1,0 +1,63 @@
+{
+  "toolbox_name": "IBox S31 Akku",
+  "iboxs31_battery_init": {
+    "message0": "Akku-Ladestandsmesser initialisieren",
+    "tooltip": "Initialisiert den BQ27220 (I2C 0x55); danach wird alle 100 ms die Spannung gemessen. Nur die Spannung ist verlässlich: der eigene Prozentwert ist auf diesem Board nicht kalibriert"
+  },
+  "iboxs31_battery_read": {
+    "message0": "Akku %1",
+    "tooltip": "Ladestand aus der geglätteten Spannung über eine Entladekurve (3,3 V = 0 %, 3,8 V ≈ 50 %, 4,2 V = 100 %) mit 2 % Hysterese; Spannung ist geglättet, Rohspannung die letzte Messung; Strom beim Entladen negativ",
+    "args0": [
+      {
+        "options": [
+          [
+            "Ladestand %",
+            "PERCENT"
+          ],
+          [
+            "Spannung V",
+            "VOLT"
+          ],
+          [
+            "Rohspannung mV",
+            "RAW"
+          ],
+          [
+            "Strom mA",
+            "CURRENT"
+          ],
+          [
+            "Temperatur °C",
+            "TEMP"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_battery_state": {
+    "message0": "Akku %1",
+    "tooltip": "Niedrig: ≤10 %; abschalten: die geglättete Spannung liegt seit etwa 3 s unter 3,3 V; Spannung gelesen: der Messer antwortet",
+    "args0": [
+      {
+        "options": [
+          [
+            "niedrig",
+            "LOW"
+          ],
+          [
+            "abschalten",
+            "SHUTDOWN"
+          ],
+          [
+            "Spannung gelesen",
+            "VALID"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_battery_shutdown": {
+    "message0": "Akku in Tiefschlaf abschalten",
+    "tooltip": "Letzter Schritt des Unterspannungsschutzes: Tiefschlaf bis Strom angeschlossen oder Reset gedrückt wird. Verstärker und Lichter vorher selbst ausschalten"
+  }
+}

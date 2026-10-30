@@ -1,0 +1,63 @@
+{
+  "toolbox_name": "IBox S31 Battery",
+  "iboxs31_battery_init": {
+    "message0": "initialize battery fuel gauge",
+    "tooltip": "Initialize the BQ27220 (I2C 0x55); voltage is then sampled every 100 ms automatically. Only voltage is trusted: the gauge’s own percentage is not calibrated on this board"
+  },
+  "iboxs31_battery_read": {
+    "message0": "battery %1",
+    "tooltip": "Charge comes from the smoothed voltage on a discharge curve (3.3 V = 0%, 3.8 V ≈ 50%, 4.2 V = 100%) with 2% hysteresis; voltage is smoothed, raw voltage is the latest reading; current is negative while discharging",
+    "args0": [
+      {
+        "options": [
+          [
+            "charge %",
+            "PERCENT"
+          ],
+          [
+            "voltage V",
+            "VOLT"
+          ],
+          [
+            "raw voltage mV",
+            "RAW"
+          ],
+          [
+            "current mA",
+            "CURRENT"
+          ],
+          [
+            "temperature °C",
+            "TEMP"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_battery_state": {
+    "message0": "battery %1",
+    "tooltip": "Low: ≤10%; time to shut down: the smoothed voltage has been below 3.3 V for about 3 s; voltage read: the gauge answers",
+    "args0": [
+      {
+        "options": [
+          [
+            "low",
+            "LOW"
+          ],
+          [
+            "time to shut down",
+            "SHUTDOWN"
+          ],
+          [
+            "voltage read",
+            "VALID"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_battery_shutdown": {
+    "message0": "battery shut down into deep sleep",
+    "tooltip": "The last step of low-voltage protection: deep sleep until power is plugged in or reset is pressed. Turn off the amplifier and lights yourself first"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "toolbox_name": "IBox S31 Bateria",
+  "iboxs31_battery_init": {
+    "message0": "inicializar medidor de bateria",
+    "tooltip": "Inicializa o BQ27220 (I2C 0x55); depois a tensão é medida a cada 100 ms. Só a tensão é confiável: a porcentagem do medidor não está calibrada nesta placa"
+  },
+  "iboxs31_battery_read": {
+    "message0": "bateria %1",
+    "tooltip": "A carga vem da tensão suavizada numa curva de descarga (3,3 V = 0 %, 3,8 V ≈ 50 %, 4,2 V = 100 %) com 2 % de histerese; tensão suavizada, tensão bruta = última leitura; corrente negativa ao descarregar",
+    "args0": [
+      {
+        "options": [
+          [
+            "carga %",
+            "PERCENT"
+          ],
+          [
+            "tensão V",
+            "VOLT"
+          ],
+          [
+            "tensão bruta mV",
+            "RAW"
+          ],
+          [
+            "corrente mA",
+            "CURRENT"
+          ],
+          [
+            "temperatura °C",
+            "TEMP"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_battery_state": {
+    "message0": "bateria %1",
+    "tooltip": "Fraca: ≤10 %; desligar: a tensão suavizada está abaixo de 3,3 V há cerca de 3 s; tensão lida: o medidor responde",
+    "args0": [
+      {
+        "options": [
+          [
+            "fraca",
+            "LOW"
+          ],
+          [
+            "desligar",
+            "SHUTDOWN"
+          ],
+          [
+            "tensão lida",
+            "VALID"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_battery_shutdown": {
+    "message0": "bateria desligar em sono profundo",
+    "tooltip": "Último passo da proteção: sono profundo até ligar a alimentação ou apertar reset. Desligue antes você mesmo o amplificador e as luzes"
+  }
+}

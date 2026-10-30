@@ -1,0 +1,63 @@
+{
+  "toolbox_name": "IBox S31 Batterie",
+  "iboxs31_battery_init": {
+    "message0": "initialiser la jauge de batterie",
+    "tooltip": "Initialise le BQ27220 (I2C 0x55) ; la tension est ensuite mesurée toutes les 100 ms. Seule la tension est fiable : le pourcentage de la jauge n’est pas calibré sur cette carte"
+  },
+  "iboxs31_battery_read": {
+    "message0": "batterie %1",
+    "tooltip": "La charge vient de la tension lissée sur une courbe de décharge (3,3 V = 0 %, 3,8 V ≈ 50 %, 4,2 V = 100 %) avec 2 % d’hystérésis ; tension lissée, tension brute = dernière mesure ; courant négatif en décharge",
+    "args0": [
+      {
+        "options": [
+          [
+            "charge %",
+            "PERCENT"
+          ],
+          [
+            "tension V",
+            "VOLT"
+          ],
+          [
+            "tension brute mV",
+            "RAW"
+          ],
+          [
+            "courant mA",
+            "CURRENT"
+          ],
+          [
+            "température °C",
+            "TEMP"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_battery_state": {
+    "message0": "batterie %1",
+    "tooltip": "Faible : ≤10 % ; à éteindre : la tension lissée est sous 3,3 V depuis environ 3 s ; tension lue : la jauge répond",
+    "args0": [
+      {
+        "options": [
+          [
+            "faible",
+            "LOW"
+          ],
+          [
+            "à éteindre",
+            "SHUTDOWN"
+          ],
+          [
+            "tension lue",
+            "VALID"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_battery_shutdown": {
+    "message0": "batterie éteindre en sommeil profond",
+    "tooltip": "Dernière étape de la protection : sommeil profond jusqu’au branchement ou à un reset. Éteignez d’abord vous-même l’amplificateur et les lumières"
+  }
+}
