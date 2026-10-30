@@ -1,0 +1,79 @@
+{
+  "toolbox_name": "IBox S31 SD Card",
+  "iboxs31_sdcard_init": {
+    "message0": "initialize SD card read/write self-test %1",
+    "tooltip": "Powers the card (IO39 low) and mounts it over 1-bit SDMMC at /sdcard; FAT/FAT32 only, never formatted. The self-test writes, reads back and deletes a temporary file",
+    "args0": [
+      {
+        "options": [
+          [
+            "yes",
+            "true"
+          ],
+          [
+            "no",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_sdcard_state": {
+    "message0": "SD card %1",
+    "tooltip": "Mounted: a FAT card is inserted; read/write OK: the self-test write and read-back matched (false without a self-test)",
+    "args0": [
+      {
+        "options": [
+          [
+            "mounted",
+            "MOUNTED"
+          ],
+          [
+            "read/write OK",
+            "RW_OK"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_sdcard_size": {
+    "message0": "SD card capacity GB",
+    "tooltip": "Total card capacity in GB; 0 when not mounted"
+  },
+  "iboxs31_sdcard_status": {
+    "message0": "SD card status",
+    "tooltip": "Self-test result: OK (mounted and read/write fine), R/W? (mounted but read/write failed), FAIL (not mounted), -- (not checked yet)"
+  },
+  "iboxs31_sdcard_write": {
+    "message0": "SD card %1 file %2 text %3",
+    "tooltip": "Write replaces the file; append adds to its end. Paths start with /, such as /log.txt; add a newline to the text yourself",
+    "args0": [
+      {
+        "options": [
+          [
+            "write",
+            "WRITE"
+          ],
+          [
+            "append",
+            "APPEND"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "iboxs31_sdcard_read": {
+    "message0": "SD card read file %1",
+    "tooltip": "Reads the whole file as text; empty if it is missing or the card is not mounted. Large files use a lot of memory"
+  },
+  "iboxs31_sdcard_exists": {
+    "message0": "SD card file %1 exists",
+    "tooltip": "Whether the file or folder exists"
+  },
+  "iboxs31_sdcard_remove": {
+    "message0": "SD card delete file %1",
+    "tooltip": "Deletes the file; this cannot be undone"
+  }
+}
