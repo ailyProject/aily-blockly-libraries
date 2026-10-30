@@ -1,0 +1,98 @@
+[
+  {
+    "args0": [
+      {
+        "check": "Number",
+        "name": "SDA",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "SCL",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "ADDR",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "FREQ",
+        "type": "input_value"
+      }
+    ],
+    "colour": 270,
+    "inputsInline": true,
+    "message0": "初始化PCA9685(软件I2C) SDA引脚 %1 SCL引脚 %2 I2C地址(64=0x40) %3 舵机频率Hz %4",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "用任意两个GPIO软件模拟I2C初始化PCA9685舵机驱动板，不占用硬件I2C，默认地址0x40、频率50Hz",
+    "type": "swi2c_pca9685_init"
+  },
+  {
+    "args0": [
+      {
+        "check": "Number",
+        "name": "CH",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "ANGLE",
+        "type": "input_value"
+      }
+    ],
+    "colour": 270,
+    "inputsInline": true,
+    "message0": "设置舵机角度 通道(0-15) %1 角度(0-180°) %2",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "控制PCA9685指定通道的舵机转到0-180度角度",
+    "type": "swi2c_pca9685_set_angle"
+  },
+  {
+    "args0": [
+      {
+        "check": "Number",
+        "name": "ANGLE",
+        "type": "input_value"
+      }
+    ],
+    "colour": 270,
+    "inputsInline": true,
+    "message0": "全部16路舵机设为角度(0-180°) %1",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "PCA9685全部16个通道的舵机同时转到指定角度",
+    "type": "swi2c_pca9685_set_all_angle"
+  },
+  {
+    "args0": [
+      {
+        "check": "Number",
+        "name": "CH",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "US",
+        "type": "input_value"
+      }
+    ],
+    "colour": 270,
+    "inputsInline": true,
+    "message0": "设置舵机脉宽 通道(0-15) %1 脉宽(微秒500-2500) %2",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "以微秒脉宽直接控制舵机(500-2500微秒)，用于非标准舵机",
+    "type": "swi2c_pca9685_set_us"
+  },
+  {
+    "colour": 270,
+    "message0": "PCA9685已连接？",
+    "output": "Boolean",
+    "tooltip": "检测软件I2C总线上是否能应答指定地址的PCA9685",
+    "type": "swi2c_pca9685_is_connected"
+  }
+]
