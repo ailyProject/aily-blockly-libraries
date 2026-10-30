@@ -1,0 +1,429 @@
+[
+  {
+    "type": "iboxs31_audio_init",
+    "message0": "初始化音频",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#AB47BC",
+    "tooltip": "打开 I2S（16kHz 立体声）、初始化 ES8389（I2C 0x10）并打开喇叭功放（IO7），音量 80、麦克风增益 12dB",
+    "icon": "fa-solid fa-volume-high"
+  },
+  {
+    "type": "iboxs31_audio_volume",
+    "message0": "音频 音量 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "VOLUME",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#AB47BC",
+    "tooltip": "喇叭音量 0~100（初始化后是 80）",
+    "icon": "fa-solid fa-volume-low"
+  },
+  {
+    "type": "iboxs31_audio_play",
+    "message0": "播放 %1 文件 %2 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SRC",
+        "options": [
+          [
+            "SD 卡",
+            "SD"
+          ],
+          [
+            "U 盘",
+            "USB"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "后台播放",
+            "BACKGROUND"
+          ],
+          [
+            "等放完",
+            "WAIT"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#AB47BC",
+    "tooltip": "播放 WAV 或 MP3。SD 卡会自动挂载；U 盘要先初始化 IBoxS31_USB。后台播放马上往下执行；新的播放会打断正在放的",
+    "icon": "fa-solid fa-play"
+  },
+  {
+    "type": "iboxs31_audio_play_folder",
+    "message0": "播放 %1 文件夹 %2 第 %3 首 %4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SRC",
+        "options": [
+          [
+            "SD 卡",
+            "SD"
+          ],
+          [
+            "U 盘",
+            "USB"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DIR",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "NUMBER",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "后台播放",
+            "BACKGROUND"
+          ],
+          [
+            "等放完",
+            "WAIT"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#AB47BC",
+    "tooltip": "文件夹里的 WAV/MP3 按文件名排序，放第几首（从 1 开始，超过数量会绕回第 1 首），方便做上一首/下一首",
+    "icon": "fa-solid fa-list-ol"
+  },
+  {
+    "type": "iboxs31_audio_folder_count",
+    "message0": "%1 文件夹 %2 里的音频数量",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SRC",
+        "options": [
+          [
+            "SD 卡",
+            "SD"
+          ],
+          [
+            "U 盘",
+            "USB"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DIR",
+        "check": "String"
+      }
+    ],
+    "output": "Number",
+    "inputsInline": true,
+    "colour": "#AB47BC",
+    "tooltip": "文件夹里有几首 WAV/MP3（不算子文件夹和 . 开头的隐藏文件）",
+    "icon": "fa-solid fa-folder-open"
+  },
+  {
+    "type": "iboxs31_audio_control",
+    "message0": "音频 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          [
+            "暂停",
+            "PAUSE"
+          ],
+          [
+            "继续",
+            "RESUME"
+          ],
+          [
+            "停止",
+            "STOP"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#AB47BC",
+    "tooltip": "暂停、继续播放；停止会结束播放或录音，录音文件会保存好",
+    "icon": "fa-solid fa-pause"
+  },
+  {
+    "type": "iboxs31_audio_loop",
+    "message0": "音频 单曲循环 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "打开",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#AB47BC",
+    "tooltip": "打开后，后台播放的文件放完会从头再放，直到停止或放别的",
+    "icon": "fa-solid fa-repeat"
+  },
+  {
+    "type": "iboxs31_audio_state",
+    "message0": "音频 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WHAT",
+        "options": [
+          [
+            "正在播放",
+            "PLAYING"
+          ],
+          [
+            "已暂停",
+            "PAUSED"
+          ],
+          [
+            "正在录音",
+            "RECORDING"
+          ],
+          [
+            "空闲",
+            "IDLE"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "inputsInline": true,
+    "colour": "#AB47BC",
+    "tooltip": "播放器现在的状态；暂停时「正在播放」为假；放完或出错后是「空闲」",
+    "icon": "fa-solid fa-circle-play"
+  },
+  {
+    "type": "iboxs31_audio_info",
+    "message0": "音频 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WHAT",
+        "options": [
+          [
+            "已播放秒数",
+            "POS"
+          ],
+          [
+            "总时长秒数",
+            "DUR"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "inputsInline": true,
+    "colour": "#AB47BC",
+    "tooltip": "当前文件已放（录音时为已录）多少秒、一共多少秒；MP3 的总时长按码率估算，录到停止的录音总时长为 0",
+    "icon": "fa-solid fa-clock"
+  },
+  {
+    "type": "iboxs31_audio_file_name",
+    "message0": "音频 当前文件名",
+    "output": "String",
+    "colour": "#AB47BC",
+    "tooltip": "正在放或刚放完的文件名（不含文件夹）；录音时是录音文件名",
+    "icon": "fa-solid fa-file-audio"
+  },
+  {
+    "type": "iboxs31_audio_error",
+    "message0": "音频 错误信息",
+    "output": "String",
+    "colour": "#AB47BC",
+    "tooltip": "最近一次播放或录音失败的原因（英文），如找不到文件、格式不支持、SD 卡没插；没出错时为空",
+    "icon": "fa-solid fa-triangle-exclamation"
+  },
+  {
+    "type": "iboxs31_audio_record",
+    "message0": "录音到 %1 文件 %2 时长 %3 秒 %4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SRC",
+        "options": [
+          [
+            "SD 卡",
+            "SD"
+          ],
+          [
+            "U 盘",
+            "USB"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "SECONDS",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "后台录",
+            "BACKGROUND"
+          ],
+          [
+            "等录完",
+            "WAIT"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#AB47BC",
+    "tooltip": "把麦克风录成 16kHz 单声道 WAV（每秒约 32KB）；时长填 0 会一直录到「停止」；正在放的会被打断",
+    "icon": "fa-solid fa-microphone-lines"
+  },
+  {
+    "type": "iboxs31_audio_tone",
+    "message0": "音频 播放 %1 Hz 提示音 %2 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "HZ",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#AB47BC",
+    "tooltip": "在喇叭上放正弦提示音（board_test 是 1000Hz、0.35 秒），放完才往下执行；正在放的文件会先停掉",
+    "icon": "fa-solid fa-bell"
+  },
+  {
+    "type": "iboxs31_audio_mic_level",
+    "message0": "音频 麦克风音量",
+    "output": "Number",
+    "colour": "#AB47BC",
+    "tooltip": "麦克风声音的峰值 0~100，对着麦克风说话或拍手会变大；平时读约 32 毫秒的声音，录音时直接给录音的音量",
+    "icon": "fa-solid fa-wave-square"
+  },
+  {
+    "type": "iboxs31_audio_mic_gain",
+    "message0": "音频 麦克风增益 %1 dB",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DB",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#AB47BC",
+    "tooltip": "麦克风放大倍数，按 3.5、6.5、9.5…36.5dB 取最近一档；24dB 以上容易削波",
+    "icon": "fa-solid fa-microphone"
+  },
+  {
+    "type": "iboxs31_audio_switch",
+    "message0": "音频 %1 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WHAT",
+        "options": [
+          [
+            "喇叭功放",
+            "PA"
+          ],
+          [
+            "麦克风静音",
+            "MUTE"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "打开",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#AB47BC",
+    "tooltip": "喇叭功放：关掉后喇叭没声（省电、去底噪）；麦克风静音：打开后麦克风音量为 0",
+    "icon": "fa-solid fa-toggle-on"
+  },
+  {
+    "type": "iboxs31_audio_end",
+    "message0": "关闭音频",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#AB47BC",
+    "tooltip": "关功放、让编解码器进入低功耗并关闭 I2S；要再用时重新初始化",
+    "icon": "fa-solid fa-volume-xmark"
+  }
+]

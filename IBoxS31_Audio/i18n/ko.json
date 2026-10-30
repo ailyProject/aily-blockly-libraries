@@ -1,0 +1,263 @@
+{
+  "toolbox_name": "IBox S31 오디오",
+  "iboxs31_audio_init": {
+    "message0": "오디오 초기화",
+    "tooltip": "I2S(16kHz 스테레오)를 열고 ES8389(I2C 0x10)를 초기화한 뒤 스피커 앰프(IO7)를 켭니다. 음량 80, 마이크 이득 12dB"
+  },
+  "iboxs31_audio_volume": {
+    "message0": "오디오 음량 %1",
+    "tooltip": "스피커 음량 0~100(초기화 후 80)"
+  },
+  "iboxs31_audio_play": {
+    "message0": "%1 파일 %2 재생 %3",
+    "tooltip": "WAV나 MP3를 재생합니다. SD 카드는 자동 마운트, USB 메모리는 먼저 IBoxS31_USBHost를 시작하세요. 백그라운드면 바로 다음으로 진행하며 새 재생은 지금 재생을 멈춥니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "SD 카드",
+            "SD"
+          ],
+          [
+            "USB 메모리",
+            "USB"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "백그라운드로",
+            "BACKGROUND"
+          ],
+          [
+            "끝날 때까지 대기",
+            "WAIT"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_audio_play_folder": {
+    "message0": "%1 폴더 %2 의 %3 번째 곡 재생 %4",
+    "tooltip": "폴더의 WAV/MP3를 파일 이름순으로 정렬해 해당 곡을 재생합니다(1부터, 개수를 넘으면 1번으로). 이전/다음 곡에 편리합니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "SD 카드",
+            "SD"
+          ],
+          [
+            "USB 메모리",
+            "USB"
+          ]
+        ]
+      },
+      null,
+      null,
+      {
+        "options": [
+          [
+            "백그라운드로",
+            "BACKGROUND"
+          ],
+          [
+            "끝날 때까지 대기",
+            "WAIT"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_audio_folder_count": {
+    "message0": "%1 폴더 %2 의 오디오 개수",
+    "tooltip": "폴더에 있는 WAV/MP3 개수(하위 폴더와 . 으로 시작하는 숨김 파일 제외)",
+    "args0": [
+      {
+        "options": [
+          [
+            "SD 카드",
+            "SD"
+          ],
+          [
+            "USB 메모리",
+            "USB"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "iboxs31_audio_control": {
+    "message0": "오디오 %1",
+    "tooltip": "재생 일시정지·재개. 정지는 재생이나 녹음을 끝내며 녹음 파일은 제대로 저장됩니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "일시정지",
+            "PAUSE"
+          ],
+          [
+            "재개",
+            "RESUME"
+          ],
+          [
+            "정지",
+            "STOP"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_audio_loop": {
+    "message0": "오디오 한 곡 반복 %1",
+    "tooltip": "켜면 백그라운드 재생 중인 파일이 끝나면 처음부터 다시 재생합니다(정지하거나 다른 곡을 틀 때까지)",
+    "args0": [
+      {
+        "options": [
+          [
+            "켜기",
+            "true"
+          ],
+          [
+            "끄기",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_audio_state": {
+    "message0": "오디오 %1",
+    "tooltip": "플레이어의 현재 상태. 일시정지 중에는 \"재생 중\"이 거짓, 끝나거나 오류 뒤에는 \"대기\"",
+    "args0": [
+      {
+        "options": [
+          [
+            "재생 중",
+            "PLAYING"
+          ],
+          [
+            "일시정지됨",
+            "PAUSED"
+          ],
+          [
+            "녹음 중",
+            "RECORDING"
+          ],
+          [
+            "대기",
+            "IDLE"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_audio_info": {
+    "message0": "오디오 %1",
+    "tooltip": "현재 파일의 재생한(녹음 중이면 녹음한) 초와 전체 초. MP3 길이는 비트레이트로 추정, 정지까지 녹음하면 전체는 0",
+    "args0": [
+      {
+        "options": [
+          [
+            "재생한 초",
+            "POS"
+          ],
+          [
+            "전체 초",
+            "DUR"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_audio_file_name": {
+    "message0": "오디오 현재 파일 이름",
+    "tooltip": "재생 중이거나 방금 재생한 파일 이름(폴더 제외). 녹음 중이면 녹음 파일"
+  },
+  "iboxs31_audio_error": {
+    "message0": "오디오 오류 메시지",
+    "tooltip": "마지막 재생이나 녹음이 실패한 이유(영어). 파일 없음, 지원하지 않는 형식, SD 카드 없음 등. 문제없으면 빈 값"
+  },
+  "iboxs31_audio_record": {
+    "message0": "%1 파일 %2 에 %3 초 녹음 %4",
+    "tooltip": "마이크를 16kHz 모노 WAV(초당 약 32KB)로 녹음합니다. 0초면 정지할 때까지 녹음, 재생 중인 소리는 멈춥니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "SD 카드",
+            "SD"
+          ],
+          [
+            "USB 메모리",
+            "USB"
+          ]
+        ]
+      },
+      null,
+      null,
+      {
+        "options": [
+          [
+            "백그라운드로",
+            "BACKGROUND"
+          ],
+          [
+            "끝날 때까지 대기",
+            "WAIT"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_audio_tone": {
+    "message0": "오디오 %1 Hz 신호음 %2 ms 재생",
+    "tooltip": "스피커로 사인파 신호음을 내고(board_test는 1000Hz, 0.35초) 끝난 뒤 진행합니다. 재생 중인 파일은 먼저 멈춥니다"
+  },
+  "iboxs31_audio_mic_level": {
+    "message0": "오디오 마이크 음량",
+    "tooltip": "마이크 소리의 최댓값 0~100. 말하거나 박수 치면 커집니다. 평소엔 약 32ms를 읽고, 녹음 중엔 녹음 음량을 줍니다"
+  },
+  "iboxs31_audio_mic_gain": {
+    "message0": "오디오 마이크 이득 %1 dB",
+    "tooltip": "마이크 증폭. 3.5, 6.5, 9.5…36.5dB 중 가장 가까운 단계로 맞춥니다. 24dB를 넘으면 쉽게 클리핑됩니다"
+  },
+  "iboxs31_audio_switch": {
+    "message0": "오디오 %1 %2",
+    "tooltip": "스피커 앰프: 끄면 소리가 나지 않음(절전, 잡음 제거). 마이크 음소거: 켜면 마이크 음량 0",
+    "args0": [
+      {
+        "options": [
+          [
+            "스피커 앰프",
+            "PA"
+          ],
+          [
+            "마이크 음소거",
+            "MUTE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "켜기",
+            "true"
+          ],
+          [
+            "끄기",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_audio_end": {
+    "message0": "오디오 닫기",
+    "tooltip": "앰프를 끄고 코덱을 저전력으로 두고 I2S를 닫습니다. 다시 쓰려면 다시 초기화하세요"
+  }
+}

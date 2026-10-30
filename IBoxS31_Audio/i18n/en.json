@@ -1,0 +1,263 @@
+{
+  "toolbox_name": "IBox S31 Audio",
+  "iboxs31_audio_init": {
+    "message0": "initialize audio",
+    "tooltip": "Opens I2S (16 kHz stereo), initializes the ES8389 (I2C 0x10) and turns on the speaker amplifier (IO7); volume 80, microphone gain 12 dB"
+  },
+  "iboxs31_audio_volume": {
+    "message0": "audio volume %1",
+    "tooltip": "Speaker volume 0–100 (80 after init)"
+  },
+  "iboxs31_audio_play": {
+    "message0": "play %1 file %2 %3",
+    "tooltip": "Plays a WAV or MP3. The SD card is mounted automatically; a USB drive needs IBoxS31_USB started first. In background the program goes on at once; a new play stops the current one",
+    "args0": [
+      {
+        "options": [
+          [
+            "SD card",
+            "SD"
+          ],
+          [
+            "USB drive",
+            "USB"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "in background",
+            "BACKGROUND"
+          ],
+          [
+            "and wait",
+            "WAIT"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_audio_play_folder": {
+    "message0": "play %1 folder %2 track %3 %4",
+    "tooltip": "Sorts the WAV/MP3 files in the folder by name and plays the given one (from 1; past the end it wraps to 1), handy for previous/next",
+    "args0": [
+      {
+        "options": [
+          [
+            "SD card",
+            "SD"
+          ],
+          [
+            "USB drive",
+            "USB"
+          ]
+        ]
+      },
+      null,
+      null,
+      {
+        "options": [
+          [
+            "in background",
+            "BACKGROUND"
+          ],
+          [
+            "and wait",
+            "WAIT"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_audio_folder_count": {
+    "message0": "number of audio files in %1 folder %2",
+    "tooltip": "How many WAV/MP3 files the folder has (subfolders and hidden files starting with . are not counted)",
+    "args0": [
+      {
+        "options": [
+          [
+            "SD card",
+            "SD"
+          ],
+          [
+            "USB drive",
+            "USB"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "iboxs31_audio_control": {
+    "message0": "audio %1",
+    "tooltip": "Pause or resume playback; stop ends playback or recording and the recording is saved properly",
+    "args0": [
+      {
+        "options": [
+          [
+            "pause",
+            "PAUSE"
+          ],
+          [
+            "resume",
+            "RESUME"
+          ],
+          [
+            "stop",
+            "STOP"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_audio_loop": {
+    "message0": "audio repeat one %1",
+    "tooltip": "When on, a file playing in background starts again at the end until it is stopped or another file is played",
+    "args0": [
+      {
+        "options": [
+          [
+            "on",
+            "true"
+          ],
+          [
+            "off",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_audio_state": {
+    "message0": "audio %1",
+    "tooltip": "What the player is doing now; \"playing\" is false while paused; after the end or an error it is \"idle\"",
+    "args0": [
+      {
+        "options": [
+          [
+            "playing",
+            "PLAYING"
+          ],
+          [
+            "paused",
+            "PAUSED"
+          ],
+          [
+            "recording",
+            "RECORDING"
+          ],
+          [
+            "idle",
+            "IDLE"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_audio_info": {
+    "message0": "audio %1",
+    "tooltip": "Seconds played (recorded, while recording) and total seconds of the current file; MP3 length is estimated from the bitrate, and a recording until stop has total 0",
+    "args0": [
+      {
+        "options": [
+          [
+            "seconds played",
+            "POS"
+          ],
+          [
+            "total seconds",
+            "DUR"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_audio_file_name": {
+    "message0": "audio current file name",
+    "tooltip": "Name of the file playing or just played (without the folder); while recording, the recording file"
+  },
+  "iboxs31_audio_error": {
+    "message0": "audio error message",
+    "tooltip": "Why the last play or recording failed, such as file not found, unsupported format or no SD card; empty when nothing went wrong"
+  },
+  "iboxs31_audio_record": {
+    "message0": "record to %1 file %2 for %3 seconds %4",
+    "tooltip": "Records the microphone as a 16 kHz mono WAV (about 32 KB per second); 0 seconds records until stop; anything playing is stopped",
+    "args0": [
+      {
+        "options": [
+          [
+            "SD card",
+            "SD"
+          ],
+          [
+            "USB drive",
+            "USB"
+          ]
+        ]
+      },
+      null,
+      null,
+      {
+        "options": [
+          [
+            "in background",
+            "BACKGROUND"
+          ],
+          [
+            "and wait",
+            "WAIT"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_audio_tone": {
+    "message0": "audio play %1 Hz tone for %2 ms",
+    "tooltip": "Plays a sine tone on the speaker (board_test uses 1000 Hz for 0.35 s) and continues when it ends; a file that is playing is stopped first"
+  },
+  "iboxs31_audio_mic_level": {
+    "message0": "audio microphone level",
+    "tooltip": "Peak of the microphone sound, 0–100; talking or clapping raises it. Normally it reads about 32 ms of sound; while recording it gives the recording level"
+  },
+  "iboxs31_audio_mic_gain": {
+    "message0": "audio microphone gain %1 dB",
+    "tooltip": "Microphone amplification, rounded to the nearest of 3.5, 6.5, 9.5 … 36.5 dB; above 24 dB it clips easily"
+  },
+  "iboxs31_audio_switch": {
+    "message0": "audio %1 %2",
+    "tooltip": "Speaker amplifier: off silences the speaker (saves power, removes hiss); microphone mute: on makes the microphone level 0",
+    "args0": [
+      {
+        "options": [
+          [
+            "speaker amplifier",
+            "PA"
+          ],
+          [
+            "microphone mute",
+            "MUTE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "on",
+            "true"
+          ],
+          [
+            "off",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_audio_end": {
+    "message0": "close audio",
+    "tooltip": "Turns off the amplifier, puts the codec in low power and closes I2S; initialize again to use it"
+  }
+}
