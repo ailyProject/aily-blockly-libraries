@@ -1,0 +1,167 @@
+{
+  "toolbox_name": "IBox S31 IMU & Compass",
+  "iboxs31_imu_init": {
+    "message0": "initialize IMU (six-axis + compass)",
+    "tooltip": "Starts the onboard QMI8658 six-axis sensor (I2C 0x6B, falls back to 0x6A) and the QMC6309 compass (I2C 0x7C, falls back to 0x2C); ±2g and ±1024°/s by default. Put it in setup"
+  },
+  "iboxs31_imu_range": {
+    "message0": "IMU range acceleration %1 angular rate %2",
+    "tooltip": "A smaller range is finer but clips stronger motion; the scaling follows automatically",
+    "args0": [
+      {
+        "options": [
+          [
+            "±2g",
+            "0"
+          ],
+          [
+            "±4g",
+            "1"
+          ],
+          [
+            "±8g",
+            "2"
+          ],
+          [
+            "±16g",
+            "3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "±256°/s",
+            "4"
+          ],
+          [
+            "±512°/s",
+            "5"
+          ],
+          [
+            "±1024°/s",
+            "6"
+          ],
+          [
+            "±2048°/s",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_imu_read": {
+    "message0": "IMU %1",
+    "tooltip": "Lying still, acceleration Z ≈ ±1 g; pitch and roll come from the accelerometer and are rough while shaking. Reads within 10 ms share one sample",
+    "args0": [
+      {
+        "options": [
+          [
+            "acceleration X g",
+            "AX"
+          ],
+          [
+            "acceleration Y g",
+            "AY"
+          ],
+          [
+            "acceleration Z g",
+            "AZ"
+          ],
+          [
+            "angular rate X °/s",
+            "GX"
+          ],
+          [
+            "angular rate Y °/s",
+            "GY"
+          ],
+          [
+            "angular rate Z °/s",
+            "GZ"
+          ],
+          [
+            "temperature ℃",
+            "TEMP"
+          ],
+          [
+            "pitch °",
+            "PITCH"
+          ],
+          [
+            "roll °",
+            "ROLL"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_imu_ok": {
+    "message0": "IMU read OK",
+    "tooltip": "Whether the latest reading succeeded; on failure the last good values are kept"
+  },
+  "iboxs31_imu_mag_read": {
+    "message0": "compass %1",
+    "tooltip": "Heading 0–360° (hard-iron offsets removed, declination added; keep the board level); X/Y/Z are raw field counts. Reads within 10 ms share one sample",
+    "args0": [
+      {
+        "options": [
+          [
+            "heading °",
+            "HEADING"
+          ],
+          [
+            "field X",
+            "X"
+          ],
+          [
+            "field Y",
+            "Y"
+          ],
+          [
+            "field Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_imu_mag_calibrate": {
+    "message0": "compass calibrate for %1 seconds",
+    "tooltip": "Hard-iron calibration: turn the board flat a few full circles meanwhile; the new offsets apply at the end. The program waits during calibration"
+  },
+  "iboxs31_imu_mag_declination": {
+    "message0": "compass declination %1 degrees",
+    "tooltip": "Local magnetic declination, east positive and west negative; it is added to the heading to point at true north"
+  },
+  "iboxs31_imu_mag_set_offsets": {
+    "message0": "compass hard-iron offsets X %1 Y %2 Z %3",
+    "tooltip": "Set offsets from an earlier calibration (for example read back from storage at boot) to skip calibrating every time"
+  },
+  "iboxs31_imu_mag_offset": {
+    "message0": "compass hard-iron offset %1",
+    "tooltip": "The offset in use; after calibrating, store it and set it back next boot with the offsets block",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_imu_mag_ok": {
+    "message0": "compass read OK",
+    "tooltip": "Whether the latest reading succeeded; on failure the last good values are kept"
+  }
+}
