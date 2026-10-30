@@ -1,0 +1,93 @@
+{
+  "toolbox_name": "IBox S31 環境光",
+  "iboxs31_ltr303_init": {
+    "message0": "初始化 LTR303 環境光感測器",
+    "tooltip": "初始化板載 LTR-303（I2C 0x29），增益 1 倍、積分 100 毫秒，放在 setup 裏"
+  },
+  "iboxs31_ltr303_gain": {
+    "message0": "LTR303 增益 %1",
+    "tooltip": "增益越大越適合暗處，但強光下容易飽和；照度 lux 會自動按增益換算",
+    "args0": [
+      {
+        "options": [
+          [
+            "1 倍",
+            "GAIN_1X"
+          ],
+          [
+            "2 倍",
+            "GAIN_2X"
+          ],
+          [
+            "4 倍",
+            "GAIN_4X"
+          ],
+          [
+            "8 倍",
+            "GAIN_8X"
+          ],
+          [
+            "48 倍",
+            "GAIN_48X"
+          ],
+          [
+            "96 倍",
+            "GAIN_96X"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_ltr303_integration": {
+    "message0": "LTR303 積分時間 %1",
+    "tooltip": "每次採光的時間，越長越靈敏；測量週期固定 500 毫秒，lux 會自動換算",
+    "args0": [
+      {
+        "options": [
+          [
+            "50 毫秒",
+            "INT_50MS"
+          ],
+          [
+            "100 毫秒",
+            "INT_100MS"
+          ],
+          [
+            "200 毫秒",
+            "INT_200MS"
+          ],
+          [
+            "400 毫秒",
+            "INT_400MS"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_ltr303_read": {
+    "message0": "LTR303 %1",
+    "tooltip": "照度 lux 按應用筆記公式換算；CH0、CH1 是原始計數（board_test 卡片顯示的是 CH0）。0.1 秒內重複讀取用上次結果",
+    "args0": [
+      {
+        "options": [
+          [
+            "照度 lux",
+            "LUX"
+          ],
+          [
+            "可見光+紅外 CH0",
+            "CH0"
+          ],
+          [
+            "紅外 CH1",
+            "CH1"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_ltr303_ok": {
+    "message0": "LTR303 讀取成功",
+    "tooltip": "最近一次讀數是否成功；失敗時保留上次的有效值"
+  }
+}

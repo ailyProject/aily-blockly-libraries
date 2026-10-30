@@ -1,0 +1,124 @@
+[
+  {
+    "type": "iboxs31_ltr303_init",
+    "message0": "初始化 LTR303 环境光传感器",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F9A825",
+    "tooltip": "初始化板载 LTR-303（I2C 0x29），增益 1 倍、积分 100 毫秒，放在 setup 里",
+    "icon": "fa-solid fa-sun"
+  },
+  {
+    "type": "iboxs31_ltr303_gain",
+    "message0": "LTR303 增益 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "GAIN",
+        "options": [
+          [
+            "1 倍",
+            "GAIN_1X"
+          ],
+          [
+            "2 倍",
+            "GAIN_2X"
+          ],
+          [
+            "4 倍",
+            "GAIN_4X"
+          ],
+          [
+            "8 倍",
+            "GAIN_8X"
+          ],
+          [
+            "48 倍",
+            "GAIN_48X"
+          ],
+          [
+            "96 倍",
+            "GAIN_96X"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#F9A825",
+    "tooltip": "增益越大越适合暗处，但强光下容易饱和；照度 lux 会自动按增益换算",
+    "icon": "fa-solid fa-sliders"
+  },
+  {
+    "type": "iboxs31_ltr303_integration",
+    "message0": "LTR303 积分时间 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TIME",
+        "options": [
+          [
+            "50 毫秒",
+            "INT_50MS"
+          ],
+          [
+            "100 毫秒",
+            "INT_100MS"
+          ],
+          [
+            "200 毫秒",
+            "INT_200MS"
+          ],
+          [
+            "400 毫秒",
+            "INT_400MS"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#F9A825",
+    "tooltip": "每次采光的时间，越长越灵敏；测量周期固定 500 毫秒，lux 会自动换算",
+    "icon": "fa-solid fa-hourglass-half"
+  },
+  {
+    "type": "iboxs31_ltr303_read",
+    "message0": "LTR303 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WHAT",
+        "options": [
+          [
+            "照度 lux",
+            "LUX"
+          ],
+          [
+            "可见光+红外 CH0",
+            "CH0"
+          ],
+          [
+            "红外 CH1",
+            "CH1"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "inputsInline": true,
+    "colour": "#F9A825",
+    "tooltip": "照度 lux 按应用笔记公式换算；CH0、CH1 是原始计数（board_test 卡片显示的是 CH0）。0.1 秒内重复读取用上次结果",
+    "icon": "fa-solid fa-lightbulb"
+  },
+  {
+    "type": "iboxs31_ltr303_ok",
+    "message0": "LTR303 读取成功",
+    "output": "Boolean",
+    "colour": "#F9A825",
+    "tooltip": "最近一次读数是否成功；失败时保留上次的有效值",
+    "icon": "fa-solid fa-circle-check"
+  }
+]

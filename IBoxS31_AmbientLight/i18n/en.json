@@ -1,0 +1,93 @@
+{
+  "toolbox_name": "IBox S31 Ambient Light",
+  "iboxs31_ltr303_init": {
+    "message0": "initialize LTR303 ambient light sensor",
+    "tooltip": "Initialize the onboard LTR-303 (I2C 0x29) with gain 1x and 100 ms integration; put it in setup"
+  },
+  "iboxs31_ltr303_gain": {
+    "message0": "LTR303 gain %1",
+    "tooltip": "Higher gain suits dim light but saturates in bright light; lux is corrected for the gain automatically",
+    "args0": [
+      {
+        "options": [
+          [
+            "1x",
+            "GAIN_1X"
+          ],
+          [
+            "2x",
+            "GAIN_2X"
+          ],
+          [
+            "4x",
+            "GAIN_4X"
+          ],
+          [
+            "8x",
+            "GAIN_8X"
+          ],
+          [
+            "48x",
+            "GAIN_48X"
+          ],
+          [
+            "96x",
+            "GAIN_96X"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_ltr303_integration": {
+    "message0": "LTR303 integration time %1",
+    "tooltip": "How long each reading collects light; longer is more sensitive. The measurement period stays 500 ms and lux is corrected",
+    "args0": [
+      {
+        "options": [
+          [
+            "50 ms",
+            "INT_50MS"
+          ],
+          [
+            "100 ms",
+            "INT_100MS"
+          ],
+          [
+            "200 ms",
+            "INT_200MS"
+          ],
+          [
+            "400 ms",
+            "INT_400MS"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_ltr303_read": {
+    "message0": "LTR303 %1",
+    "tooltip": "Lux follows the application note formula; CH0 and CH1 are raw counts (the board_test card shows CH0). Reads within 0.1 s reuse the last result",
+    "args0": [
+      {
+        "options": [
+          [
+            "illuminance lux",
+            "LUX"
+          ],
+          [
+            "visible+IR CH0",
+            "CH0"
+          ],
+          [
+            "infrared CH1",
+            "CH1"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_ltr303_ok": {
+    "message0": "LTR303 read OK",
+    "tooltip": "Whether the latest reading succeeded; on failure the last good values are kept"
+  }
+}
