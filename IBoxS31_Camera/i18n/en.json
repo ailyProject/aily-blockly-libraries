@@ -1,0 +1,187 @@
+{
+  "toolbox_name": "IBox S31 Camera",
+  "iboxs31_camera_init": {
+    "message0": "initialize camera",
+    "tooltip": "Opens the OV3660 (640×480 RGB565, 20 MHz XCLK, two frame buffers using about 1.2 MB of PSRAM). It can be called again to retry after a failure"
+  },
+  "iboxs31_camera_ready": {
+    "message0": "camera ready",
+    "tooltip": "True once initialization succeeded and frames can be taken"
+  },
+  "iboxs31_camera_error": {
+    "message0": "camera error message",
+    "tooltip": "Why initialization failed, such as no answer or not enough PSRAM; empty on success"
+  },
+  "iboxs31_camera_flip": {
+    "message0": "camera %1 %2",
+    "tooltip": "Flip or mirror the picture in the sensor; later photos and colour coordinates follow it",
+    "args0": [
+      {
+        "options": [
+          [
+            "vertical flip",
+            "VFLIP"
+          ],
+          [
+            "horizontal mirror",
+            "MIRROR"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "on",
+            "true"
+          ],
+          [
+            "off",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_exposure": {
+    "message0": "camera exposure level %1",
+    "tooltip": "Target brightness of auto exposure, -5 to +5; 0 is the default, positive is brighter"
+  },
+  "iboxs31_camera_capture": {
+    "message0": "camera take a frame",
+    "tooltip": "Takes the latest frame and computes brightness and colours (waits up to 0.5 s); true on success. Read them with the picture blocks afterwards"
+  },
+  "iboxs31_camera_average": {
+    "message0": "picture %1",
+    "tooltip": "Average over the whole picture taken last, 0–255",
+    "args0": [
+      {
+        "options": [
+          [
+            "average brightness",
+            "L"
+          ],
+          [
+            "average red",
+            "R"
+          ],
+          [
+            "average green",
+            "G"
+          ],
+          [
+            "average blue",
+            "B"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_pixel": {
+    "message0": "picture at x %1 y %2 %3",
+    "tooltip": "Colour at a point of the picture taken last, 0–255; x 0–639, y 0–479 from the top left, sampled on an 8×8 pixel grid",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "brightness",
+            "L"
+          ],
+          [
+            "red",
+            "R"
+          ],
+          [
+            "green",
+            "G"
+          ],
+          [
+            "blue",
+            "B"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_save_bmp": {
+    "message0": "camera save a photo to SD card %1",
+    "tooltip": "Takes a photo and saves it as a 24-bit BMP; true on success. Normally 640×480 (about 900 KB); while the video stream runs it uses the stream size. Initialize the card with IBoxS31_SDCard first; writing takes 1–2 s"
+  },
+  "iboxs31_camera_stream_start": {
+    "message0": "camera start video stream size %1 pixel format %2",
+    "tooltip": "Keeps grabbing the latest picture in the background (turned upright and scaled), about 10 fps, without blocking the program; 320×240 matches the screen. Big-endian matches IBoxS31_Display, little-endian suits TFT_eSPI and LVGL. While it runs, take-a-frame, colour and BMP blocks read from the stream",
+    "args0": [
+      {
+        "options": [
+          [
+            "320×240 (screen size)",
+            "320"
+          ],
+          [
+            "640×480 (full)",
+            "640"
+          ],
+          [
+            "160×120",
+            "160"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "RGB565 big-endian",
+            "BE"
+          ],
+          [
+            "RGB565 little-endian",
+            "LE"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_stream_stop": {
+    "message0": "camera stop video stream",
+    "tooltip": "Stops the background capture and frees the stream buffers"
+  },
+  "iboxs31_camera_stream_new_frame": {
+    "message0": "video stream has a new picture",
+    "tooltip": "True when a new frame is ready; it holds that frame so you can hand \"video stream picture data\" to a display block right after. The frame stays unchanged until the next check"
+  },
+  "iboxs31_camera_stream_pixels": {
+    "message0": "video stream picture data",
+    "tooltip": "Pixels of the frame taken last (const uint16_t*, RGB565, row by row from the top left, width×height) for display blocks of other libraries; take a frame with \"has a new picture\" first"
+  },
+  "iboxs31_camera_stream_info": {
+    "message0": "video stream %1",
+    "tooltip": "Picture width and height in pixels, frame rate over the last second, frames since start, and bytes per frame (width×height×2); 0 while the stream is off",
+    "args0": [
+      {
+        "options": [
+          [
+            "width",
+            "WIDTH"
+          ],
+          [
+            "height",
+            "HEIGHT"
+          ],
+          [
+            "frame rate",
+            "FPS"
+          ],
+          [
+            "frames so far",
+            "FRAMES"
+          ],
+          [
+            "bytes per frame",
+            "BYTES"
+          ]
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "toolbox_name": "IBox S31 Caméra",
+  "iboxs31_camera_init": {
+    "message0": "initialiser la caméra",
+    "tooltip": "Ouvre l’OV3660 (640×480 RGB565, XCLK 20 MHz, deux tampons d’image utilisant environ 1,2 Mo de PSRAM). Rappelez-le pour réessayer après un échec"
+  },
+  "iboxs31_camera_ready": {
+    "message0": "caméra prête",
+    "tooltip": "Vrai une fois l’initialisation réussie et la capture possible"
+  },
+  "iboxs31_camera_error": {
+    "message0": "message d’erreur caméra",
+    "tooltip": "Pourquoi l’initialisation a échoué, par exemple pas de réponse ou PSRAM insuffisante ; vide en cas de succès"
+  },
+  "iboxs31_camera_flip": {
+    "message0": "caméra %1 %2",
+    "tooltip": "Retourne ou met en miroir l’image dans le capteur ; les photos et coordonnées de couleur suivent",
+    "args0": [
+      {
+        "options": [
+          [
+            "retournement vertical",
+            "VFLIP"
+          ],
+          [
+            "miroir horizontal",
+            "MIRROR"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "activé",
+            "true"
+          ],
+          [
+            "désactivé",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_exposure": {
+    "message0": "caméra niveau d’exposition %1",
+    "tooltip": "Luminosité visée par l’exposition auto, de -5 à +5 ; 0 par défaut, positif plus clair"
+  },
+  "iboxs31_camera_capture": {
+    "message0": "caméra prendre une image",
+    "tooltip": "Prend l’image la plus récente et calcule luminosité et couleurs (attend jusqu’à 0,5 s) ; vrai en cas de succès. Lisez-les ensuite avec les blocs image"
+  },
+  "iboxs31_camera_average": {
+    "message0": "image %1",
+    "tooltip": "Moyenne sur toute la dernière image prise, 0–255",
+    "args0": [
+      {
+        "options": [
+          [
+            "luminosité moyenne",
+            "L"
+          ],
+          [
+            "rouge moyen",
+            "R"
+          ],
+          [
+            "vert moyen",
+            "G"
+          ],
+          [
+            "bleu moyen",
+            "B"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_pixel": {
+    "message0": "image en x %1 y %2 %3",
+    "tooltip": "Couleur en un point de la dernière image, 0–255 ; x 0–639, y 0–479 depuis le coin supérieur gauche, échantillonnée sur une grille de 8×8 pixels",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "luminosité",
+            "L"
+          ],
+          [
+            "rouge",
+            "R"
+          ],
+          [
+            "vert",
+            "G"
+          ],
+          [
+            "bleu",
+            "B"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_save_bmp": {
+    "message0": "caméra enregistrer une photo sur la carte SD %1",
+    "tooltip": "Prend une photo et l’enregistre en BMP 24 bits ; vrai en cas de succès. Normalement 640×480 (environ 900 Ko), pendant le flux vidéo à la taille du flux. Initialisez d’abord la carte avec IBoxS31_SDCard ; l’écriture prend 1 à 2 s"
+  },
+  "iboxs31_camera_stream_start": {
+    "message0": "caméra démarrer le flux vidéo taille %1 format %2",
+    "tooltip": "Capture sans cesse la dernière image en arrière-plan (redressée et réduite), environ 10 i/s, sans bloquer le programme ; 320×240 correspond à l’écran. Gros-boutiste = format d’IBoxS31_Display, petit-boutiste pour TFT_eSPI et LVGL. Pendant le flux, les blocs image, couleur et BMP lisent le flux",
+    "args0": [
+      {
+        "options": [
+          [
+            "320×240 (taille écran)",
+            "320"
+          ],
+          [
+            "640×480 (pleine)",
+            "640"
+          ],
+          [
+            "160×120",
+            "160"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "RGB565 gros-boutiste",
+            "BE"
+          ],
+          [
+            "RGB565 petit-boutiste",
+            "LE"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_stream_stop": {
+    "message0": "caméra arrêter le flux vidéo",
+    "tooltip": "Arrête la capture en arrière-plan et libère les tampons du flux"
+  },
+  "iboxs31_camera_stream_new_frame": {
+    "message0": "flux vidéo nouvelle image",
+    "tooltip": "Vrai quand une nouvelle image est prête ; elle est retenue pour passer aussitôt « données d’image du flux » à un bloc d’affichage. Elle ne change pas jusqu’au test suivant"
+  },
+  "iboxs31_camera_stream_pixels": {
+    "message0": "données d’image du flux",
+    "tooltip": "Pixels de la dernière image prise (const uint16_t*, RGB565, ligne par ligne depuis le coin supérieur gauche, largeur×hauteur) pour les blocs d’affichage d’autres bibliothèques ; prenez d’abord une image avec « nouvelle image »"
+  },
+  "iboxs31_camera_stream_info": {
+    "message0": "flux vidéo %1",
+    "tooltip": "Largeur et hauteur de l’image en pixels, cadence sur la dernière seconde, images depuis le début et octets par image (largeur×hauteur×2) ; 0 quand le flux est arrêté",
+    "args0": [
+      {
+        "options": [
+          [
+            "largeur",
+            "WIDTH"
+          ],
+          [
+            "hauteur",
+            "HEIGHT"
+          ],
+          [
+            "cadence",
+            "FPS"
+          ],
+          [
+            "images jusqu’ici",
+            "FRAMES"
+          ],
+          [
+            "octets par image",
+            "BYTES"
+          ]
+        ]
+      }
+    ]
+  }
+}

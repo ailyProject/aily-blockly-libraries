@@ -1,0 +1,187 @@
+{
+  "toolbox_name": "IBox S31 Kamera",
+  "iboxs31_camera_init": {
+    "message0": "Kamera initialisieren",
+    "tooltip": "Öffnet die OV3660 (640×480 RGB565, 20 MHz XCLK, zwei Bildpuffer mit etwa 1,2 MB PSRAM). Nach einem Fehler erneut aufrufen, um es noch einmal zu versuchen"
+  },
+  "iboxs31_camera_ready": {
+    "message0": "Kamera bereit",
+    "tooltip": "Wahr, sobald die Initialisierung gelang und Bilder aufgenommen werden können"
+  },
+  "iboxs31_camera_error": {
+    "message0": "Kamera-Fehlermeldung",
+    "tooltip": "Warum die Initialisierung fehlschlug, etwa keine Antwort oder zu wenig PSRAM; leer bei Erfolg"
+  },
+  "iboxs31_camera_flip": {
+    "message0": "Kamera %1 %2",
+    "tooltip": "Spiegelt oder dreht das Bild im Sensor; spätere Fotos und Farbkoordinaten folgen dem",
+    "args0": [
+      {
+        "options": [
+          [
+            "vertikal spiegeln",
+            "VFLIP"
+          ],
+          [
+            "horizontal spiegeln",
+            "MIRROR"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "an",
+            "true"
+          ],
+          [
+            "aus",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_exposure": {
+    "message0": "Kamera Belichtungsstufe %1",
+    "tooltip": "Zielhelligkeit der Belichtungsautomatik, -5 bis +5; 0 ist Standard, positiv ist heller"
+  },
+  "iboxs31_camera_capture": {
+    "message0": "Kamera ein Bild aufnehmen",
+    "tooltip": "Nimmt das neueste Bild und berechnet Helligkeit und Farben (wartet bis 0,5 s); wahr bei Erfolg. Danach mit den Bild-Blöcken lesen"
+  },
+  "iboxs31_camera_average": {
+    "message0": "Bild %1",
+    "tooltip": "Mittelwert über das zuletzt aufgenommene Bild, 0–255",
+    "args0": [
+      {
+        "options": [
+          [
+            "mittlere Helligkeit",
+            "L"
+          ],
+          [
+            "mittleres Rot",
+            "R"
+          ],
+          [
+            "mittleres Grün",
+            "G"
+          ],
+          [
+            "mittleres Blau",
+            "B"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_pixel": {
+    "message0": "Bild bei x %1 y %2 %3",
+    "tooltip": "Farbe an einem Punkt des zuletzt aufgenommenen Bildes, 0–255; x 0–639, y 0–479 ab links oben, auf einem 8×8-Pixel-Raster abgetastet",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Helligkeit",
+            "L"
+          ],
+          [
+            "Rot",
+            "R"
+          ],
+          [
+            "Grün",
+            "G"
+          ],
+          [
+            "Blau",
+            "B"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_save_bmp": {
+    "message0": "Kamera Foto auf SD-Karte speichern %1",
+    "tooltip": "Nimmt ein Foto auf und speichert es als 24-Bit-BMP; wahr bei Erfolg. Normal 640×480 (etwa 900 KB), bei laufendem Videostream in dessen Größe. Karte zuerst mit IBoxS31_SDCard initialisieren; Schreiben dauert 1–2 s"
+  },
+  "iboxs31_camera_stream_start": {
+    "message0": "Kamera Videostream starten Größe %1 Pixelformat %2",
+    "tooltip": "Holt im Hintergrund ständig das neueste Bild (aufgerichtet und verkleinert), etwa 10 fps, ohne das Programm zu blockieren; 320×240 entspricht dem Bildschirm. Big-Endian passt zu IBoxS31_Display, Little-Endian zu TFT_eSPI und LVGL. Solange er läuft, lesen Bild-, Farb- und BMP-Blöcke aus dem Stream",
+    "args0": [
+      {
+        "options": [
+          [
+            "320×240 (Bildschirmgröße)",
+            "320"
+          ],
+          [
+            "640×480 (voll)",
+            "640"
+          ],
+          [
+            "160×120",
+            "160"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "RGB565 Big-Endian",
+            "BE"
+          ],
+          [
+            "RGB565 Little-Endian",
+            "LE"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_stream_stop": {
+    "message0": "Kamera Videostream stoppen",
+    "tooltip": "Beendet die Hintergrundaufnahme und gibt die Stream-Puffer frei"
+  },
+  "iboxs31_camera_stream_new_frame": {
+    "message0": "Videostream hat ein neues Bild",
+    "tooltip": "Wahr, wenn ein neues Bild bereit ist; es wird festgehalten, damit „Videostream Bilddaten“ gleich an einen Anzeigeblock gehen kann. Bis zur nächsten Abfrage bleibt es unverändert"
+  },
+  "iboxs31_camera_stream_pixels": {
+    "message0": "Videostream Bilddaten",
+    "tooltip": "Pixel des zuletzt geholten Bildes (const uint16_t*, RGB565, zeilenweise ab links oben, Breite×Höhe) für Anzeigeblöcke anderer Bibliotheken; zuerst mit „hat ein neues Bild“ ein Bild holen"
+  },
+  "iboxs31_camera_stream_info": {
+    "message0": "Videostream %1",
+    "tooltip": "Bildbreite und -höhe in Pixeln, Bildrate der letzten Sekunde, Bilder seit dem Start und Bytes pro Bild (Breite×Höhe×2); 0, solange der Stream aus ist",
+    "args0": [
+      {
+        "options": [
+          [
+            "Breite",
+            "WIDTH"
+          ],
+          [
+            "Höhe",
+            "HEIGHT"
+          ],
+          [
+            "Bildrate",
+            "FPS"
+          ],
+          [
+            "Bilder bisher",
+            "FRAMES"
+          ],
+          [
+            "Bytes pro Bild",
+            "BYTES"
+          ]
+        ]
+      }
+    ]
+  }
+}
