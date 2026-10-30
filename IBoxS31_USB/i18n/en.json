@@ -1,0 +1,503 @@
+{
+  "toolbox_name": "IBox S31 USB Host",
+  "iboxs31_usbhost_init": {
+    "message0": "initialize USB host, USB-A power %1",
+    "tooltip": "Starts the USB host for a keyboard, mouse and USB drive (mounted at /usb, FAT32/FAT16 only). The USB-A 5 V comes from XL9555 P07; without power nothing is detected",
+    "args0": [
+      {
+        "options": [
+          [
+            "on",
+            "true"
+          ],
+          [
+            "off",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_vbus": {
+    "message0": "USB-A power %1",
+    "tooltip": "Turns the USB-A 5 V on or off by itself; off then on makes the plugged device reconnect",
+    "args0": [
+      {
+        "options": [
+          [
+            "on",
+            "true"
+          ],
+          [
+            "off",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_state": {
+    "message0": "USB %1",
+    "tooltip": "\"state changed\" compares plugging, input and USB drive info with the previous read of this block; the first read is true; \"USB-A powered\" reads XL9555 P07 back to confirm the 5 V is on",
+    "args0": [
+      {
+        "options": [
+          [
+            "started",
+            "STARTED"
+          ],
+          [
+            "keyboard/mouse connected",
+            "CONNECTED"
+          ],
+          [
+            "USB drive mounted",
+            "MSC"
+          ],
+          [
+            "mouse left button down",
+            "LEFT"
+          ],
+          [
+            "mouse right button down",
+            "RIGHT"
+          ],
+          [
+            "state changed",
+            "CHANGED"
+          ],
+          [
+            "USB-A powered",
+            "VBUS"
+          ],
+          [
+            "mouse middle button down",
+            "MIDDLE"
+          ],
+          [
+            "mouse back button down",
+            "BACK"
+          ],
+          [
+            "mouse forward button down",
+            "FORWARD"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_value": {
+    "message0": "USB %1",
+    "tooltip": "Mouse X/Y add up the movement (can be zeroed; right and down are positive); the key code is a HID code: a=4…z=29, 1=30…0=39, Enter=40, Space=44; the file count is taken when the drive is plugged in",
+    "args0": [
+      {
+        "options": [
+          [
+            "mouse X",
+            "MX"
+          ],
+          [
+            "mouse Y",
+            "MY"
+          ],
+          [
+            "last key code",
+            "KEY"
+          ],
+          [
+            "input count",
+            "INPUTS"
+          ],
+          [
+            "plug-in count",
+            "CONNECTS"
+          ],
+          [
+            "USB drive size MB",
+            "MSC_MB"
+          ],
+          [
+            "files in drive root",
+            "MSC_FILES"
+          ],
+          [
+            "mouse wheel",
+            "WHEEL"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_mouse_zero": {
+    "message0": "USB mouse position to zero",
+    "tooltip": "Makes the current mouse position X=0, Y=0"
+  },
+  "iboxs31_usbhost_new_key": {
+    "message0": "USB keyboard newly pressed key code",
+    "tooltip": "Takes the HID code of the next newly pressed key, or 0; keys are queued (up to 32), so slow reading loses nothing"
+  },
+  "iboxs31_usbhost_key_char": {
+    "message0": "character of key code %1",
+    "tooltip": "Turns a HID key code into a character (letters, digits, symbols, space, newline); if it is the key just taken by \"newly pressed key code\", the Shift and Caps Lock state from that press is used, so Shift+1 gives !; other keys give empty text"
+  },
+  "iboxs31_usbhost_key_name": {
+    "message0": "name of key code %1",
+    "tooltip": "Turns a HID key code into a key name such as A, 1, Enter, F1, Home, Up, LeftShift or Num5; use it for keys that type no character, like function and arrow keys; unknown codes give empty text"
+  },
+  "iboxs31_usbhost_new_char": {
+    "message0": "USB keyboard next typed character",
+    "tooltip": "Takes the next typed character, with case from Shift and Caps Lock and symbols too; Enter gives a newline; empty text when none. Characters are queued, so slow reading loses nothing"
+  },
+  "iboxs31_usbhost_key_held": {
+    "message0": "USB keyboard %1 is held",
+    "tooltip": "Whether this key is down right now; Shift, Ctrl and Alt count on either side",
+    "args0": [
+      {
+        "options": [
+          [
+            "Enter",
+            "ENTER"
+          ],
+          [
+            "Space",
+            "SPACE"
+          ],
+          [
+            "Esc",
+            "ESC"
+          ],
+          [
+            "Backspace",
+            "BACKSPACE"
+          ],
+          [
+            "Tab",
+            "TAB"
+          ],
+          [
+            "↑ up",
+            "UP"
+          ],
+          [
+            "↓ down",
+            "DOWN"
+          ],
+          [
+            "← left",
+            "LEFT"
+          ],
+          [
+            "→ right",
+            "RIGHT"
+          ],
+          [
+            "Shift",
+            "SHIFT"
+          ],
+          [
+            "Ctrl",
+            "CTRL"
+          ],
+          [
+            "Alt",
+            "ALT"
+          ],
+          [
+            "F1",
+            "F1"
+          ],
+          [
+            "F2",
+            "F2"
+          ],
+          [
+            "F3",
+            "F3"
+          ],
+          [
+            "F4",
+            "F4"
+          ],
+          [
+            "F5",
+            "F5"
+          ],
+          [
+            "F6",
+            "F6"
+          ],
+          [
+            "F7",
+            "F7"
+          ],
+          [
+            "F8",
+            "F8"
+          ],
+          [
+            "F9",
+            "F9"
+          ],
+          [
+            "F10",
+            "F10"
+          ],
+          [
+            "F11",
+            "F11"
+          ],
+          [
+            "F12",
+            "F12"
+          ],
+          [
+            "Insert",
+            "INSERT"
+          ],
+          [
+            "Delete",
+            "DELETE"
+          ],
+          [
+            "Home",
+            "HOME"
+          ],
+          [
+            "End",
+            "END"
+          ],
+          [
+            "PageUp",
+            "PAGEUP"
+          ],
+          [
+            "PageDown",
+            "PAGEDOWN"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "B",
+            "B"
+          ],
+          [
+            "C",
+            "C"
+          ],
+          [
+            "D",
+            "D"
+          ],
+          [
+            "E",
+            "E"
+          ],
+          [
+            "F",
+            "F"
+          ],
+          [
+            "G",
+            "G"
+          ],
+          [
+            "H",
+            "H"
+          ],
+          [
+            "I",
+            "I"
+          ],
+          [
+            "J",
+            "J"
+          ],
+          [
+            "K",
+            "K"
+          ],
+          [
+            "L",
+            "L"
+          ],
+          [
+            "M",
+            "M"
+          ],
+          [
+            "N",
+            "N"
+          ],
+          [
+            "O",
+            "O"
+          ],
+          [
+            "P",
+            "P"
+          ],
+          [
+            "Q",
+            "Q"
+          ],
+          [
+            "R",
+            "R"
+          ],
+          [
+            "S",
+            "S"
+          ],
+          [
+            "T",
+            "T"
+          ],
+          [
+            "U",
+            "U"
+          ],
+          [
+            "V",
+            "V"
+          ],
+          [
+            "W",
+            "W"
+          ],
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ],
+          [
+            "0",
+            "N0"
+          ],
+          [
+            "1",
+            "N1"
+          ],
+          [
+            "2",
+            "N2"
+          ],
+          [
+            "3",
+            "N3"
+          ],
+          [
+            "4",
+            "N4"
+          ],
+          [
+            "5",
+            "N5"
+          ],
+          [
+            "6",
+            "N6"
+          ],
+          [
+            "7",
+            "N7"
+          ],
+          [
+            "8",
+            "N8"
+          ],
+          [
+            "9",
+            "N9"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_typing": {
+    "message0": "USB keyboard text being typed",
+    "tooltip": "Text typed on the current line so far (before Enter); Backspace removes the last character; up to 127 characters"
+  },
+  "iboxs31_usbhost_line_ready": {
+    "message0": "USB keyboard has a new line",
+    "tooltip": "True after Enter is pressed, until the line is taken with \"take the typed line\""
+  },
+  "iboxs31_usbhost_read_line": {
+    "message0": "USB keyboard take the typed line",
+    "tooltip": "Takes the line handed over by Enter (without the newline) and clears it; empty text before Enter"
+  },
+  "iboxs31_usbhost_clear_input": {
+    "message0": "USB keyboard clear input",
+    "tooltip": "Clears unread keys, characters and the text being typed"
+  },
+  "iboxs31_usbhost_text": {
+    "message0": "USB %1 text",
+    "tooltip": "Device type is None/Keyboard/Mouse/Generic; last input looks like \"Key [!] (0x1e) +Shift\" or \"Mouse x=12 y=-3 wheel=0 L1 R0 M0\"; drive info looks like \"7380MB 3files:a.txt\"; raw report is the last keyboard/mouse report in hex, for checking devices that are not understood",
+    "args0": [
+      {
+        "options": [
+          [
+            "device type",
+            "DEVICE"
+          ],
+          [
+            "last input",
+            "INPUT"
+          ],
+          [
+            "status",
+            "STATUS"
+          ],
+          [
+            "USB drive info",
+            "MSC_INFO"
+          ],
+          [
+            "raw report",
+            "RAW"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_file_write": {
+    "message0": "USB drive %1 file %2 text %3",
+    "tooltip": "Write replaces the content, append adds to the end; the path starts at the drive root, and nothing happens without a drive",
+    "args0": [
+      {
+        "options": [
+          [
+            "write",
+            "WRITE"
+          ],
+          [
+            "append",
+            "APPEND"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "iboxs31_usbhost_file_read": {
+    "message0": "USB drive read file %1",
+    "tooltip": "Reads a whole text file (up to 8 KB); empty text when the file or the drive is missing"
+  },
+  "iboxs31_usbhost_file_exists": {
+    "message0": "USB drive file %1 exists",
+    "tooltip": "True when a drive is plugged in and this file or folder exists"
+  },
+  "iboxs31_usbhost_file_remove": {
+    "message0": "USB drive delete file %1",
+    "tooltip": "Deletes this file from the drive"
+  }
+}

@@ -1,0 +1,503 @@
+{
+  "toolbox_name": "IBox S31 Hôte USB",
+  "iboxs31_usbhost_init": {
+    "message0": "initialiser l’hôte USB, alimentation USB-A %1",
+    "tooltip": "Démarre l’hôte USB pour clavier, souris et clé USB (montée sur /usb, FAT32/FAT16 uniquement). Le 5 V de l’USB-A passe par XL9555 P07 ; sans alimentation rien n’est détecté",
+    "args0": [
+      {
+        "options": [
+          [
+            "activée",
+            "true"
+          ],
+          [
+            "désactivée",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_vbus": {
+    "message0": "alimentation USB-A %1",
+    "tooltip": "Coupe ou rétablit seulement le 5 V de l’USB-A ; couper puis rétablir reconnecte l’appareil branché",
+    "args0": [
+      {
+        "options": [
+          [
+            "activé",
+            "true"
+          ],
+          [
+            "désactivé",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_state": {
+    "message0": "USB %1",
+    "tooltip": "« état changé » compare branchements, saisies et infos de la clé depuis la dernière lecture de ce bloc ; vrai à la première lecture",
+    "args0": [
+      {
+        "options": [
+          [
+            "démarré",
+            "STARTED"
+          ],
+          [
+            "clavier/souris connecté",
+            "CONNECTED"
+          ],
+          [
+            "clé USB montée",
+            "MSC"
+          ],
+          [
+            "bouton gauche enfoncé",
+            "LEFT"
+          ],
+          [
+            "bouton droit enfoncé",
+            "RIGHT"
+          ],
+          [
+            "état changé",
+            "CHANGED"
+          ],
+          [
+            "USB-A alimenté",
+            "VBUS"
+          ],
+          [
+            "bouton du milieu enfoncé",
+            "MIDDLE"
+          ],
+          [
+            "bouton précédent enfoncé",
+            "BACK"
+          ],
+          [
+            "bouton suivant enfoncé",
+            "FORWARD"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_value": {
+    "message0": "USB %1",
+    "tooltip": "Souris X/Y cumulent le déplacement (remise à zéro possible ; droite et bas positifs) ; le code de touche est un code HID : a=4…z=29, 1=30…0=39, Entrée=40, Espace=44 ; le nombre de fichiers est compté au branchement",
+    "args0": [
+      {
+        "options": [
+          [
+            "souris X",
+            "MX"
+          ],
+          [
+            "souris Y",
+            "MY"
+          ],
+          [
+            "dernier code de touche",
+            "KEY"
+          ],
+          [
+            "nombre de saisies",
+            "INPUTS"
+          ],
+          [
+            "nombre de branchements",
+            "CONNECTS"
+          ],
+          [
+            "taille de la clé Mo",
+            "MSC_MB"
+          ],
+          [
+            "fichiers à la racine",
+            "MSC_FILES"
+          ],
+          [
+            "molette",
+            "WHEEL"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_mouse_zero": {
+    "message0": "position de la souris USB à zéro",
+    "tooltip": "La position actuelle de la souris devient X=0, Y=0"
+  },
+  "iboxs31_usbhost_new_key": {
+    "message0": "clavier USB code de la touche nouvellement pressée",
+    "tooltip": "Prend le code HID de la prochaine touche pressée, sinon 0 ; les touches sont mises en file (jusqu’à 32), une lecture lente ne perd rien"
+  },
+  "iboxs31_usbhost_key_char": {
+    "message0": "caractère du code de touche %1",
+    "tooltip": "Convertit un code HID en caractère (lettres, chiffres, symboles, espace, saut de ligne) ; si c’est la touche tout juste prise par « code de la touche nouvellement pressée », Maj et Verr. Maj de cet appui sont utilisés, donc Maj+1 donne ! ; les autres touches donnent un texte vide"
+  },
+  "iboxs31_usbhost_key_name": {
+    "message0": "nom du code de touche %1",
+    "tooltip": "Convertit un code HID en nom de touche comme A, 1, Enter, F1, Home, Up, LeftShift ou Num5 ; utile pour les touches sans caractère comme les touches de fonction et fléchées ; codes inconnus : texte vide"
+  },
+  "iboxs31_usbhost_new_char": {
+    "message0": "clavier USB prochain caractère tapé",
+    "tooltip": "Prend le prochain caractère tapé, majuscules selon Maj et Verr. Maj, symboles compris ; Entrée donne un saut de ligne ; texte vide s’il n’y en a pas. Les caractères sont mis en file, une lecture lente ne perd rien"
+  },
+  "iboxs31_usbhost_key_held": {
+    "message0": "clavier USB %1 enfoncée",
+    "tooltip": "Si cette touche est enfoncée en ce moment ; Maj, Ctrl et Alt comptent des deux côtés",
+    "args0": [
+      {
+        "options": [
+          [
+            "Entrée",
+            "ENTER"
+          ],
+          [
+            "Espace",
+            "SPACE"
+          ],
+          [
+            "Échap",
+            "ESC"
+          ],
+          [
+            "Retour arrière",
+            "BACKSPACE"
+          ],
+          [
+            "Tab",
+            "TAB"
+          ],
+          [
+            "↑ haut",
+            "UP"
+          ],
+          [
+            "↓ bas",
+            "DOWN"
+          ],
+          [
+            "← gauche",
+            "LEFT"
+          ],
+          [
+            "→ droite",
+            "RIGHT"
+          ],
+          [
+            "Maj",
+            "SHIFT"
+          ],
+          [
+            "Ctrl",
+            "CTRL"
+          ],
+          [
+            "Alt",
+            "ALT"
+          ],
+          [
+            "F1",
+            "F1"
+          ],
+          [
+            "F2",
+            "F2"
+          ],
+          [
+            "F3",
+            "F3"
+          ],
+          [
+            "F4",
+            "F4"
+          ],
+          [
+            "F5",
+            "F5"
+          ],
+          [
+            "F6",
+            "F6"
+          ],
+          [
+            "F7",
+            "F7"
+          ],
+          [
+            "F8",
+            "F8"
+          ],
+          [
+            "F9",
+            "F9"
+          ],
+          [
+            "F10",
+            "F10"
+          ],
+          [
+            "F11",
+            "F11"
+          ],
+          [
+            "F12",
+            "F12"
+          ],
+          [
+            "Insert",
+            "INSERT"
+          ],
+          [
+            "Delete",
+            "DELETE"
+          ],
+          [
+            "Home",
+            "HOME"
+          ],
+          [
+            "End",
+            "END"
+          ],
+          [
+            "PageUp",
+            "PAGEUP"
+          ],
+          [
+            "PageDown",
+            "PAGEDOWN"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "B",
+            "B"
+          ],
+          [
+            "C",
+            "C"
+          ],
+          [
+            "D",
+            "D"
+          ],
+          [
+            "E",
+            "E"
+          ],
+          [
+            "F",
+            "F"
+          ],
+          [
+            "G",
+            "G"
+          ],
+          [
+            "H",
+            "H"
+          ],
+          [
+            "I",
+            "I"
+          ],
+          [
+            "J",
+            "J"
+          ],
+          [
+            "K",
+            "K"
+          ],
+          [
+            "L",
+            "L"
+          ],
+          [
+            "M",
+            "M"
+          ],
+          [
+            "N",
+            "N"
+          ],
+          [
+            "O",
+            "O"
+          ],
+          [
+            "P",
+            "P"
+          ],
+          [
+            "Q",
+            "Q"
+          ],
+          [
+            "R",
+            "R"
+          ],
+          [
+            "S",
+            "S"
+          ],
+          [
+            "T",
+            "T"
+          ],
+          [
+            "U",
+            "U"
+          ],
+          [
+            "V",
+            "V"
+          ],
+          [
+            "W",
+            "W"
+          ],
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ],
+          [
+            "0",
+            "N0"
+          ],
+          [
+            "1",
+            "N1"
+          ],
+          [
+            "2",
+            "N2"
+          ],
+          [
+            "3",
+            "N3"
+          ],
+          [
+            "4",
+            "N4"
+          ],
+          [
+            "5",
+            "N5"
+          ],
+          [
+            "6",
+            "N6"
+          ],
+          [
+            "7",
+            "N7"
+          ],
+          [
+            "8",
+            "N8"
+          ],
+          [
+            "9",
+            "N9"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_typing": {
+    "message0": "clavier USB texte en cours de saisie",
+    "tooltip": "Texte tapé sur la ligne en cours (avant Entrée) ; Retour arrière efface le dernier caractère ; jusqu’à 127 caractères"
+  },
+  "iboxs31_usbhost_line_ready": {
+    "message0": "clavier USB nouvelle ligne disponible",
+    "tooltip": "Vrai après un appui sur Entrée, jusqu’à ce que la ligne soit prise avec « prendre la ligne tapée »"
+  },
+  "iboxs31_usbhost_read_line": {
+    "message0": "clavier USB prendre la ligne tapée",
+    "tooltip": "Prend la ligne validée par Entrée (sans le saut de ligne) et l’efface ; vide avant Entrée"
+  },
+  "iboxs31_usbhost_clear_input": {
+    "message0": "clavier USB vider la saisie",
+    "tooltip": "Efface les touches et caractères non lus et le texte en cours"
+  },
+  "iboxs31_usbhost_text": {
+    "message0": "texte USB %1",
+    "tooltip": "Type d’appareil : None/Keyboard/Mouse/Generic ; dernière saisie du genre \"Key [!] (0x1e) +Shift\" ou \"Mouse x=12 y=-3 wheel=0 L1 R0 M0\" ; infos clé du genre \"7380MB 3files:a.txt\" ; le rapport brut est le dernier rapport clavier/souris en hexadécimal, pour diagnostiquer un appareil mal reconnu",
+    "args0": [
+      {
+        "options": [
+          [
+            "type d’appareil",
+            "DEVICE"
+          ],
+          [
+            "dernière saisie",
+            "INPUT"
+          ],
+          [
+            "état",
+            "STATUS"
+          ],
+          [
+            "infos de la clé",
+            "MSC_INFO"
+          ],
+          [
+            "rapport brut",
+            "RAW"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_file_write": {
+    "message0": "clé USB %1 fichier %2 texte %3",
+    "tooltip": "Écrire remplace le contenu, ajouter complète la fin ; le chemin part de la racine de la clé, sans clé rien ne se passe",
+    "args0": [
+      {
+        "options": [
+          [
+            "écrire",
+            "WRITE"
+          ],
+          [
+            "ajouter",
+            "APPEND"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "iboxs31_usbhost_file_read": {
+    "message0": "clé USB lire le fichier %1",
+    "tooltip": "Lit tout un fichier texte (jusqu’à 8 Ko) ; texte vide si le fichier ou la clé manque"
+  },
+  "iboxs31_usbhost_file_exists": {
+    "message0": "clé USB le fichier %1 existe",
+    "tooltip": "Vrai si une clé est branchée et que ce fichier ou dossier existe"
+  },
+  "iboxs31_usbhost_file_remove": {
+    "message0": "clé USB supprimer le fichier %1",
+    "tooltip": "Supprime ce fichier de la clé"
+  }
+}

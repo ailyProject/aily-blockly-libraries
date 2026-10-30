@@ -1,0 +1,503 @@
+{
+  "toolbox_name": "IBox S31 USB 호스트",
+  "iboxs31_usbhost_init": {
+    "message0": "USB 호스트 초기화 USB-A 전원 %1",
+    "tooltip": "USB 호스트를 시작해 키보드·마우스·USB 메모리(/usb에 마운트, FAT32/FAT16만)를 지원합니다. USB-A 5V는 XL9555 P07로 켜며, 전원이 없으면 아무것도 인식하지 않습니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "켜기",
+            "true"
+          ],
+          [
+            "끄기",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_vbus": {
+    "message0": "USB-A 전원 %1",
+    "tooltip": "USB-A 5V만 켜고 끕니다. 껐다 켜면 꽂힌 장치가 다시 연결됩니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "켜기",
+            "true"
+          ],
+          [
+            "끄기",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_state": {
+    "message0": "USB %1",
+    "tooltip": "\"상태 변화\"는 이 블록을 마지막으로 읽은 뒤의 연결·입력·USB 메모리 정보를 비교합니다. 처음 읽으면 참",
+    "args0": [
+      {
+        "options": [
+          [
+            "시작됨",
+            "STARTED"
+          ],
+          [
+            "키보드/마우스 연결됨",
+            "CONNECTED"
+          ],
+          [
+            "USB 메모리 마운트됨",
+            "MSC"
+          ],
+          [
+            "마우스 왼쪽 버튼 누름",
+            "LEFT"
+          ],
+          [
+            "마우스 오른쪽 버튼 누름",
+            "RIGHT"
+          ],
+          [
+            "상태 변화",
+            "CHANGED"
+          ],
+          [
+            "USB-A 전원 켜짐",
+            "VBUS"
+          ],
+          [
+            "마우스 가운데 버튼 누름",
+            "MIDDLE"
+          ],
+          [
+            "마우스 뒤로 버튼 누름",
+            "BACK"
+          ],
+          [
+            "마우스 앞으로 버튼 누름",
+            "FORWARD"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_value": {
+    "message0": "USB %1",
+    "tooltip": "마우스 X/Y는 이동량 누적(0으로 되돌릴 수 있음, 오른쪽·아래가 양수). 키 코드는 HID 코드로 a=4…z=29, 1=30…0=39, Enter=40, Space=44. 파일 수는 USB 메모리를 꽂을 때 셉니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "마우스 X",
+            "MX"
+          ],
+          [
+            "마우스 Y",
+            "MY"
+          ],
+          [
+            "마지막 키 코드",
+            "KEY"
+          ],
+          [
+            "입력 횟수",
+            "INPUTS"
+          ],
+          [
+            "연결 횟수",
+            "CONNECTS"
+          ],
+          [
+            "USB 메모리 용량 MB",
+            "MSC_MB"
+          ],
+          [
+            "루트 파일 수",
+            "MSC_FILES"
+          ],
+          [
+            "마우스 휠",
+            "WHEEL"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_mouse_zero": {
+    "message0": "USB 마우스 위치 0으로",
+    "tooltip": "현재 마우스 위치를 X=0, Y=0으로 합니다"
+  },
+  "iboxs31_usbhost_new_key": {
+    "message0": "USB 키보드 새로 누른 키 코드",
+    "tooltip": "다음에 새로 누른 키의 HID 코드를 꺼냅니다. 없으면 0. 키는 최대 32개까지 줄을 서서 늦게 읽어도 빠지지 않습니다"
+  },
+  "iboxs31_usbhost_key_char": {
+    "message0": "키 코드 %1 의 문자",
+    "tooltip": "HID 키 코드를 문자(영문·숫자·기호·공백·줄바꿈)로 바꿉니다. \"새로 누른 키 코드\"로 방금 꺼낸 키면 누를 때의 Shift와 Caps Lock을 써서 Shift+1은 !가 됩니다. 다른 키는 빈 텍스트"
+  },
+  "iboxs31_usbhost_key_name": {
+    "message0": "키 코드 %1 의 키 이름",
+    "tooltip": "HID 키 코드를 A, 1, Enter, F1, Home, Up, LeftShift, Num5 같은 키 이름으로 바꿉니다. 기능 키·방향키처럼 문자가 없는 키에 쓰세요. 모르는 코드는 빈 텍스트"
+  },
+  "iboxs31_usbhost_new_char": {
+    "message0": "USB 키보드 새로 입력한 문자",
+    "tooltip": "다음에 입력된 문자를 꺼냅니다. Shift와 Caps Lock으로 대소문자, 기호도 되고 Enter는 줄바꿈. 없으면 빈 텍스트. 문자는 줄을 서서 늦게 읽어도 빠지지 않습니다"
+  },
+  "iboxs31_usbhost_key_held": {
+    "message0": "USB 키보드 %1 누르는 중",
+    "tooltip": "이 키가 지금 눌려 있는지. Shift·Ctrl·Alt는 좌우 모두",
+    "args0": [
+      {
+        "options": [
+          [
+            "Enter",
+            "ENTER"
+          ],
+          [
+            "스페이스",
+            "SPACE"
+          ],
+          [
+            "Esc",
+            "ESC"
+          ],
+          [
+            "백스페이스",
+            "BACKSPACE"
+          ],
+          [
+            "Tab",
+            "TAB"
+          ],
+          [
+            "↑ 위",
+            "UP"
+          ],
+          [
+            "↓ 아래",
+            "DOWN"
+          ],
+          [
+            "← 왼쪽",
+            "LEFT"
+          ],
+          [
+            "→ 오른쪽",
+            "RIGHT"
+          ],
+          [
+            "Shift",
+            "SHIFT"
+          ],
+          [
+            "Ctrl",
+            "CTRL"
+          ],
+          [
+            "Alt",
+            "ALT"
+          ],
+          [
+            "F1",
+            "F1"
+          ],
+          [
+            "F2",
+            "F2"
+          ],
+          [
+            "F3",
+            "F3"
+          ],
+          [
+            "F4",
+            "F4"
+          ],
+          [
+            "F5",
+            "F5"
+          ],
+          [
+            "F6",
+            "F6"
+          ],
+          [
+            "F7",
+            "F7"
+          ],
+          [
+            "F8",
+            "F8"
+          ],
+          [
+            "F9",
+            "F9"
+          ],
+          [
+            "F10",
+            "F10"
+          ],
+          [
+            "F11",
+            "F11"
+          ],
+          [
+            "F12",
+            "F12"
+          ],
+          [
+            "Insert",
+            "INSERT"
+          ],
+          [
+            "Delete",
+            "DELETE"
+          ],
+          [
+            "Home",
+            "HOME"
+          ],
+          [
+            "End",
+            "END"
+          ],
+          [
+            "PageUp",
+            "PAGEUP"
+          ],
+          [
+            "PageDown",
+            "PAGEDOWN"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "B",
+            "B"
+          ],
+          [
+            "C",
+            "C"
+          ],
+          [
+            "D",
+            "D"
+          ],
+          [
+            "E",
+            "E"
+          ],
+          [
+            "F",
+            "F"
+          ],
+          [
+            "G",
+            "G"
+          ],
+          [
+            "H",
+            "H"
+          ],
+          [
+            "I",
+            "I"
+          ],
+          [
+            "J",
+            "J"
+          ],
+          [
+            "K",
+            "K"
+          ],
+          [
+            "L",
+            "L"
+          ],
+          [
+            "M",
+            "M"
+          ],
+          [
+            "N",
+            "N"
+          ],
+          [
+            "O",
+            "O"
+          ],
+          [
+            "P",
+            "P"
+          ],
+          [
+            "Q",
+            "Q"
+          ],
+          [
+            "R",
+            "R"
+          ],
+          [
+            "S",
+            "S"
+          ],
+          [
+            "T",
+            "T"
+          ],
+          [
+            "U",
+            "U"
+          ],
+          [
+            "V",
+            "V"
+          ],
+          [
+            "W",
+            "W"
+          ],
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ],
+          [
+            "0",
+            "N0"
+          ],
+          [
+            "1",
+            "N1"
+          ],
+          [
+            "2",
+            "N2"
+          ],
+          [
+            "3",
+            "N3"
+          ],
+          [
+            "4",
+            "N4"
+          ],
+          [
+            "5",
+            "N5"
+          ],
+          [
+            "6",
+            "N6"
+          ],
+          [
+            "7",
+            "N7"
+          ],
+          [
+            "8",
+            "N8"
+          ],
+          [
+            "9",
+            "N9"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_typing": {
+    "message0": "USB 키보드 입력 중인 글자",
+    "tooltip": "현재 줄에 지금까지 입력한 글자(Enter 전). 백스페이스로 마지막 글자 삭제. 최대 127자"
+  },
+  "iboxs31_usbhost_line_ready": {
+    "message0": "USB 키보드 새 줄 있음",
+    "tooltip": "Enter를 누른 뒤 참이며 \"입력한 줄 꺼내기\"로 꺼낼 때까지 유지됩니다"
+  },
+  "iboxs31_usbhost_read_line": {
+    "message0": "USB 키보드 입력한 줄 꺼내기",
+    "tooltip": "Enter로 넘어온 한 줄(줄바꿈 제외)을 꺼내고 지웁니다. Enter 전에는 빈 텍스트"
+  },
+  "iboxs31_usbhost_clear_input": {
+    "message0": "USB 키보드 입력 지우기",
+    "tooltip": "읽지 않은 키·문자와 입력 중인 글자를 지웁니다"
+  },
+  "iboxs31_usbhost_text": {
+    "message0": "USB %1 텍스트",
+    "tooltip": "장치 종류는 None/Keyboard/Mouse/Generic, 마지막 입력은 \"Key [!] (0x1e) +Shift\"나 \"Mouse x=12 y=-3 wheel=0 L1 R0 M0\" 형태, USB 메모리 정보는 \"7380MB 3files:a.txt\" 형태. 원시 리포트는 마지막 키보드/마우스 리포트의 16진수로, 인식 안 되는 장치 점검용",
+    "args0": [
+      {
+        "options": [
+          [
+            "장치 종류",
+            "DEVICE"
+          ],
+          [
+            "마지막 입력",
+            "INPUT"
+          ],
+          [
+            "상태",
+            "STATUS"
+          ],
+          [
+            "USB 메모리 정보",
+            "MSC_INFO"
+          ],
+          [
+            "원시 리포트",
+            "RAW"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_file_write": {
+    "message0": "USB 메모리 %1 파일 %2 내용 %3",
+    "tooltip": "쓰기는 내용을 덮어쓰고 덧붙이기는 끝에 붙입니다. 경로는 USB 메모리 루트 기준이며 없으면 아무것도 하지 않습니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "쓰기",
+            "WRITE"
+          ],
+          [
+            "덧붙이기",
+            "APPEND"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "iboxs31_usbhost_file_read": {
+    "message0": "USB 메모리 파일 읽기 %1",
+    "tooltip": "텍스트 파일 전체를 읽습니다(최대 8KB). 파일이나 USB 메모리가 없으면 빈 텍스트"
+  },
+  "iboxs31_usbhost_file_exists": {
+    "message0": "USB 메모리 파일 %1 있음",
+    "tooltip": "USB 메모리가 꽂혀 있고 이 파일이나 폴더가 있으면 참"
+  },
+  "iboxs31_usbhost_file_remove": {
+    "message0": "USB 메모리 파일 삭제 %1",
+    "tooltip": "USB 메모리에서 이 파일을 삭제합니다"
+  }
+}

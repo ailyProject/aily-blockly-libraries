@@ -1,0 +1,503 @@
+{
+  "toolbox_name": "IBox S31 Host USB",
+  "iboxs31_usbhost_init": {
+    "message0": "inicializar host USB, alimentação USB-A %1",
+    "tooltip": "Inicia o host USB para teclado, mouse e pendrive (montado em /usb, só FAT32/FAT16). Os 5 V do USB-A vêm pelo XL9555 P07; sem alimentação nada é detectado",
+    "args0": [
+      {
+        "options": [
+          [
+            "ligada",
+            "true"
+          ],
+          [
+            "desligada",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_vbus": {
+    "message0": "alimentação USB-A %1",
+    "tooltip": "Liga ou desliga só os 5 V do USB-A; desligar e ligar faz o dispositivo reconectar",
+    "args0": [
+      {
+        "options": [
+          [
+            "ligado",
+            "true"
+          ],
+          [
+            "desligado",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_state": {
+    "message0": "USB %1",
+    "tooltip": "\"estado mudou\" compara conexões, entradas e info do pendrive desde a última leitura deste bloco; na primeira vez é verdadeiro",
+    "args0": [
+      {
+        "options": [
+          [
+            "iniciado",
+            "STARTED"
+          ],
+          [
+            "teclado/mouse conectado",
+            "CONNECTED"
+          ],
+          [
+            "pendrive montado",
+            "MSC"
+          ],
+          [
+            "botão esquerdo pressionado",
+            "LEFT"
+          ],
+          [
+            "botão direito pressionado",
+            "RIGHT"
+          ],
+          [
+            "estado mudou",
+            "CHANGED"
+          ],
+          [
+            "USB-A alimentado",
+            "VBUS"
+          ],
+          [
+            "botão do meio pressionado",
+            "MIDDLE"
+          ],
+          [
+            "botão voltar pressionado",
+            "BACK"
+          ],
+          [
+            "botão avançar pressionado",
+            "FORWARD"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_value": {
+    "message0": "USB %1",
+    "tooltip": "Mouse X/Y somam o movimento (dá para zerar; direita e baixo são positivos); o código de tecla é HID: a=4…z=29, 1=30…0=39, Enter=40, Espaço=44; os arquivos são contados ao conectar o pendrive",
+    "args0": [
+      {
+        "options": [
+          [
+            "mouse X",
+            "MX"
+          ],
+          [
+            "mouse Y",
+            "MY"
+          ],
+          [
+            "último código de tecla",
+            "KEY"
+          ],
+          [
+            "número de entradas",
+            "INPUTS"
+          ],
+          [
+            "número de conexões",
+            "CONNECTS"
+          ],
+          [
+            "tamanho do pendrive MB",
+            "MSC_MB"
+          ],
+          [
+            "arquivos na raiz",
+            "MSC_FILES"
+          ],
+          [
+            "roda do mouse",
+            "WHEEL"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_mouse_zero": {
+    "message0": "posição do mouse USB a zero",
+    "tooltip": "A posição atual do mouse passa a ser X=0, Y=0"
+  },
+  "iboxs31_usbhost_new_key": {
+    "message0": "teclado USB código da tecla recém-pressionada",
+    "tooltip": "Pega o código HID da próxima tecla pressionada, ou 0; as teclas ficam em fila (até 32), ler devagar não perde nada"
+  },
+  "iboxs31_usbhost_key_char": {
+    "message0": "caractere do código de tecla %1",
+    "tooltip": "Converte um código HID em caractere (letras, dígitos, símbolos, espaço, quebra de linha); se for a tecla recém-pega por \"código da tecla recém-pressionada\", usa o Shift e Caps Lock daquele toque, então Shift+1 dá !; outras teclas dão texto vazio"
+  },
+  "iboxs31_usbhost_key_name": {
+    "message0": "nome do código de tecla %1",
+    "tooltip": "Converte um código HID em nome de tecla como A, 1, Enter, F1, Home, Up, LeftShift ou Num5; serve para teclas sem caractere como as de função e as setas; códigos desconhecidos dão texto vazio"
+  },
+  "iboxs31_usbhost_new_char": {
+    "message0": "teclado USB próximo caractere digitado",
+    "tooltip": "Pega o próximo caractere digitado, com maiúsculas pelo Shift e Caps Lock e também símbolos; Enter dá quebra de linha; texto vazio se não houver. Os caracteres ficam em fila, ler devagar não perde nada"
+  },
+  "iboxs31_usbhost_key_held": {
+    "message0": "teclado USB %1 pressionada",
+    "tooltip": "Se esta tecla está pressionada agora; Shift, Ctrl e Alt contam dos dois lados",
+    "args0": [
+      {
+        "options": [
+          [
+            "Enter",
+            "ENTER"
+          ],
+          [
+            "Espaço",
+            "SPACE"
+          ],
+          [
+            "Esc",
+            "ESC"
+          ],
+          [
+            "Backspace",
+            "BACKSPACE"
+          ],
+          [
+            "Tab",
+            "TAB"
+          ],
+          [
+            "↑ cima",
+            "UP"
+          ],
+          [
+            "↓ baixo",
+            "DOWN"
+          ],
+          [
+            "← esquerda",
+            "LEFT"
+          ],
+          [
+            "→ direita",
+            "RIGHT"
+          ],
+          [
+            "Shift",
+            "SHIFT"
+          ],
+          [
+            "Ctrl",
+            "CTRL"
+          ],
+          [
+            "Alt",
+            "ALT"
+          ],
+          [
+            "F1",
+            "F1"
+          ],
+          [
+            "F2",
+            "F2"
+          ],
+          [
+            "F3",
+            "F3"
+          ],
+          [
+            "F4",
+            "F4"
+          ],
+          [
+            "F5",
+            "F5"
+          ],
+          [
+            "F6",
+            "F6"
+          ],
+          [
+            "F7",
+            "F7"
+          ],
+          [
+            "F8",
+            "F8"
+          ],
+          [
+            "F9",
+            "F9"
+          ],
+          [
+            "F10",
+            "F10"
+          ],
+          [
+            "F11",
+            "F11"
+          ],
+          [
+            "F12",
+            "F12"
+          ],
+          [
+            "Insert",
+            "INSERT"
+          ],
+          [
+            "Delete",
+            "DELETE"
+          ],
+          [
+            "Home",
+            "HOME"
+          ],
+          [
+            "End",
+            "END"
+          ],
+          [
+            "PageUp",
+            "PAGEUP"
+          ],
+          [
+            "PageDown",
+            "PAGEDOWN"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "B",
+            "B"
+          ],
+          [
+            "C",
+            "C"
+          ],
+          [
+            "D",
+            "D"
+          ],
+          [
+            "E",
+            "E"
+          ],
+          [
+            "F",
+            "F"
+          ],
+          [
+            "G",
+            "G"
+          ],
+          [
+            "H",
+            "H"
+          ],
+          [
+            "I",
+            "I"
+          ],
+          [
+            "J",
+            "J"
+          ],
+          [
+            "K",
+            "K"
+          ],
+          [
+            "L",
+            "L"
+          ],
+          [
+            "M",
+            "M"
+          ],
+          [
+            "N",
+            "N"
+          ],
+          [
+            "O",
+            "O"
+          ],
+          [
+            "P",
+            "P"
+          ],
+          [
+            "Q",
+            "Q"
+          ],
+          [
+            "R",
+            "R"
+          ],
+          [
+            "S",
+            "S"
+          ],
+          [
+            "T",
+            "T"
+          ],
+          [
+            "U",
+            "U"
+          ],
+          [
+            "V",
+            "V"
+          ],
+          [
+            "W",
+            "W"
+          ],
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ],
+          [
+            "0",
+            "N0"
+          ],
+          [
+            "1",
+            "N1"
+          ],
+          [
+            "2",
+            "N2"
+          ],
+          [
+            "3",
+            "N3"
+          ],
+          [
+            "4",
+            "N4"
+          ],
+          [
+            "5",
+            "N5"
+          ],
+          [
+            "6",
+            "N6"
+          ],
+          [
+            "7",
+            "N7"
+          ],
+          [
+            "8",
+            "N8"
+          ],
+          [
+            "9",
+            "N9"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_typing": {
+    "message0": "teclado USB texto sendo digitado",
+    "tooltip": "Texto digitado na linha atual (antes do Enter); Backspace apaga o último caractere; até 127 caracteres"
+  },
+  "iboxs31_usbhost_line_ready": {
+    "message0": "teclado USB tem uma linha nova",
+    "tooltip": "Verdadeiro depois do Enter, até a linha ser pega com \"pegar a linha digitada\""
+  },
+  "iboxs31_usbhost_read_line": {
+    "message0": "teclado USB pegar a linha digitada",
+    "tooltip": "Pega a linha entregue pelo Enter (sem quebra de linha) e a apaga; vazio antes do Enter"
+  },
+  "iboxs31_usbhost_clear_input": {
+    "message0": "teclado USB limpar entrada",
+    "tooltip": "Apaga teclas e caracteres não lidos e o texto sendo digitado"
+  },
+  "iboxs31_usbhost_text": {
+    "message0": "texto USB %1",
+    "tooltip": "Tipo de dispositivo None/Keyboard/Mouse/Generic; última entrada como \"Key [!] (0x1e) +Shift\" ou \"Mouse x=12 y=-3 wheel=0 L1 R0 M0\"; info do pendrive como \"7380MB 3files:a.txt\"; o relatório bruto é o último relatório de teclado/mouse em hexadecimal, para verificar dispositivos não reconhecidos",
+    "args0": [
+      {
+        "options": [
+          [
+            "tipo de dispositivo",
+            "DEVICE"
+          ],
+          [
+            "última entrada",
+            "INPUT"
+          ],
+          [
+            "estado",
+            "STATUS"
+          ],
+          [
+            "info do pendrive",
+            "MSC_INFO"
+          ],
+          [
+            "relatório bruto",
+            "RAW"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_file_write": {
+    "message0": "pendrive %1 arquivo %2 texto %3",
+    "tooltip": "Gravar substitui o conteúdo, acrescentar adiciona ao fim; o caminho parte da raiz do pendrive e sem pendrive nada acontece",
+    "args0": [
+      {
+        "options": [
+          [
+            "gravar",
+            "WRITE"
+          ],
+          [
+            "acrescentar",
+            "APPEND"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "iboxs31_usbhost_file_read": {
+    "message0": "pendrive ler arquivo %1",
+    "tooltip": "Lê um arquivo de texto inteiro (até 8 KB); texto vazio se faltar o arquivo ou o pendrive"
+  },
+  "iboxs31_usbhost_file_exists": {
+    "message0": "pendrive arquivo %1 existe",
+    "tooltip": "Verdadeiro se há um pendrive conectado e este arquivo ou pasta existe"
+  },
+  "iboxs31_usbhost_file_remove": {
+    "message0": "pendrive apagar arquivo %1",
+    "tooltip": "Apaga este arquivo do pendrive"
+  }
+}
