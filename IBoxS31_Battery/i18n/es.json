@@ -1,0 +1,63 @@
+{
+  "toolbox_name": "IBox S31 Batería",
+  "iboxs31_battery_init": {
+    "message0": "inicializar medidor de batería",
+    "tooltip": "Inicializa el BQ27220 (I2C 0x55); después se mide la tensión cada 100 ms. Solo la tensión es fiable: el porcentaje propio del medidor no está calibrado en esta placa"
+  },
+  "iboxs31_battery_read": {
+    "message0": "batería %1",
+    "tooltip": "La carga sale de la tensión suavizada en una curva de descarga (3,3 V = 0 %, 3,8 V ≈ 50 %, 4,2 V = 100 %) con 2 % de histéresis; tensión suavizada, tensión en bruto = última lectura; corriente negativa al descargar",
+    "args0": [
+      {
+        "options": [
+          [
+            "carga %",
+            "PERCENT"
+          ],
+          [
+            "tensión V",
+            "VOLT"
+          ],
+          [
+            "tensión en bruto mV",
+            "RAW"
+          ],
+          [
+            "corriente mA",
+            "CURRENT"
+          ],
+          [
+            "temperatura °C",
+            "TEMP"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_battery_state": {
+    "message0": "batería %1",
+    "tooltip": "Baja: ≤10 %; hay que apagar: la tensión suavizada lleva unos 3 s bajo 3,3 V; tensión leída: el medidor responde",
+    "args0": [
+      {
+        "options": [
+          [
+            "baja",
+            "LOW"
+          ],
+          [
+            "hay que apagar",
+            "SHUTDOWN"
+          ],
+          [
+            "tensión leída",
+            "VALID"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_battery_shutdown": {
+    "message0": "batería apagar en sueño profundo",
+    "tooltip": "Último paso de la protección: sueño profundo hasta conectar la alimentación o pulsar reset. Apaga antes tú mismo el amplificador y las luces"
+  }
+}
