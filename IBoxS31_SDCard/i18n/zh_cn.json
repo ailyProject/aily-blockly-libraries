@@ -1,0 +1,79 @@
+{
+  "toolbox_name": "IBox S31 SD 卡",
+  "iboxs31_sdcard_init": {
+    "message0": "初始化 SD 卡 读写自检 %1",
+    "tooltip": "给卡上电（IO39 拉低）并以 1 线 SDMMC 挂载到 /sdcard，只认 FAT/FAT32、不自动格式化；自检会写一个临时文件再读回删除",
+    "args0": [
+      {
+        "options": [
+          [
+            "做",
+            "true"
+          ],
+          [
+            "不做",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_sdcard_state": {
+    "message0": "SD 卡 %1",
+    "tooltip": "已挂载：卡插好且是 FAT 格式；读写正常：自检的写入、读回比对都通过（没做自检时为假）",
+    "args0": [
+      {
+        "options": [
+          [
+            "已挂载",
+            "MOUNTED"
+          ],
+          [
+            "读写正常",
+            "RW_OK"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_sdcard_size": {
+    "message0": "SD 卡容量 GB",
+    "tooltip": "卡的总容量（GB），没挂载时为 0"
+  },
+  "iboxs31_sdcard_status": {
+    "message0": "SD 卡状态",
+    "tooltip": "自检结果：OK（挂载并读写正常）、R/W?（挂上了但读写不过）、FAIL（没挂上）、--（还没检查）"
+  },
+  "iboxs31_sdcard_write": {
+    "message0": "SD 卡 %1 文件 %2 内容 %3",
+    "tooltip": "写入：覆盖原文件；追加：接在文件末尾。路径以 / 开头，比如 /log.txt；要换行请在内容里加换行符",
+    "args0": [
+      {
+        "options": [
+          [
+            "写入",
+            "WRITE"
+          ],
+          [
+            "追加",
+            "APPEND"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "iboxs31_sdcard_read": {
+    "message0": "SD 卡 读取文件 %1",
+    "tooltip": "把整个文件作为文字读出来，文件不存在或卡没挂载时为空；大文件会占用很多内存"
+  },
+  "iboxs31_sdcard_exists": {
+    "message0": "SD 卡 文件 %1 存在",
+    "tooltip": "文件或文件夹是否存在"
+  },
+  "iboxs31_sdcard_remove": {
+    "message0": "SD 卡 删除文件 %1",
+    "tooltip": "删除文件，无法恢复"
+  }
+}
