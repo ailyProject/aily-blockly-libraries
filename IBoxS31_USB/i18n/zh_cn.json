@@ -1,0 +1,503 @@
+{
+  "toolbox_name": "IBox S31 USB 主机",
+  "iboxs31_usbhost_init": {
+    "message0": "初始化 USB 主机 USB-A 口供电 %1",
+    "tooltip": "启动 USB 主机，同时支持键盘、鼠标和 U 盘（挂到 /usb，只认 FAT32/FAT16）。USB-A 口 5V 由 XL9555 P07 打开，不供电时插什么都不认",
+    "args0": [
+      {
+        "options": [
+          [
+            "打开",
+            "true"
+          ],
+          [
+            "不打开",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_vbus": {
+    "message0": "USB-A 口供电 %1",
+    "tooltip": "单独开关 USB-A 口的 5V，关掉再打开可以让插着的设备重新连接",
+    "args0": [
+      {
+        "options": [
+          [
+            "打开",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_state": {
+    "message0": "USB %1",
+    "tooltip": "「状态有变化」比较的是上次读这个积木以来的插拔、输入和 U 盘信息，第一次读为真；「USB-A 口已供电」从 XL9555 读回 P07 确认 5V 打开了",
+    "args0": [
+      {
+        "options": [
+          [
+            "已启动",
+            "STARTED"
+          ],
+          [
+            "键盘鼠标已连接",
+            "CONNECTED"
+          ],
+          [
+            "U 盘已挂载",
+            "MSC"
+          ],
+          [
+            "鼠标左键按下",
+            "LEFT"
+          ],
+          [
+            "鼠标右键按下",
+            "RIGHT"
+          ],
+          [
+            "状态有变化",
+            "CHANGED"
+          ],
+          [
+            "USB-A 口已供电",
+            "VBUS"
+          ],
+          [
+            "鼠标中键按下",
+            "MIDDLE"
+          ],
+          [
+            "鼠标侧键（后退）按下",
+            "BACK"
+          ],
+          [
+            "鼠标侧键（前进）按下",
+            "FORWARD"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_value": {
+    "message0": "USB %1",
+    "tooltip": "鼠标 X/Y 是移动量的累加（可清零，向右、向下为正）；按键码是 HID 码，a=4…z=29、1=30…0=39、回车=40、空格=44；文件数在 U 盘插入时统计",
+    "args0": [
+      {
+        "options": [
+          [
+            "鼠标 X",
+            "MX"
+          ],
+          [
+            "鼠标 Y",
+            "MY"
+          ],
+          [
+            "最近按键码",
+            "KEY"
+          ],
+          [
+            "输入次数",
+            "INPUTS"
+          ],
+          [
+            "插入次数",
+            "CONNECTS"
+          ],
+          [
+            "U 盘容量 MB",
+            "MSC_MB"
+          ],
+          [
+            "U 盘根目录文件数",
+            "MSC_FILES"
+          ],
+          [
+            "鼠标滚轮",
+            "WHEEL"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_mouse_zero": {
+    "message0": "USB 鼠标位置清零",
+    "tooltip": "把当前鼠标位置记为 X=0、Y=0"
+  },
+  "iboxs31_usbhost_new_key": {
+    "message0": "USB 键盘新按下的按键码",
+    "tooltip": "取出下一个新按下的键的 HID 码，没有就是 0；按键会排队（最多 32 个），读得慢也不会漏"
+  },
+  "iboxs31_usbhost_key_char": {
+    "message0": "按键码 %1 对应的字符",
+    "tooltip": "把 HID 按键码转成字符（小写字母、数字、符号、空格、换行）；如果正是「新按下的按键码」刚取出的那个键，就按它按下时的 Shift 和大写锁定来转，比如 Shift+1 得到 !；其他键返回空文本"
+  },
+  "iboxs31_usbhost_key_name": {
+    "message0": "按键码 %1 的键名",
+    "tooltip": "把 HID 按键码转成键名，如 A、1、Enter、F1、Home、Up、LeftShift、Num5；功能键、方向键这些打不出字符的键用它；不认识的码返回空文本"
+  },
+  "iboxs31_usbhost_new_char": {
+    "message0": "USB 键盘新输入的字符",
+    "tooltip": "取出下一个打出来的字符，按 Shift、大写锁定区分大小写，也能打出符号，回车是换行；没有就是空文本。字符会排队，读得慢也不会漏"
+  },
+  "iboxs31_usbhost_key_held": {
+    "message0": "USB 键盘 %1 正按着",
+    "tooltip": "这个键现在是否按着；Shift、Ctrl、Alt 左右两边都算",
+    "args0": [
+      {
+        "options": [
+          [
+            "回车",
+            "ENTER"
+          ],
+          [
+            "空格",
+            "SPACE"
+          ],
+          [
+            "Esc",
+            "ESC"
+          ],
+          [
+            "退格",
+            "BACKSPACE"
+          ],
+          [
+            "Tab",
+            "TAB"
+          ],
+          [
+            "↑ 上",
+            "UP"
+          ],
+          [
+            "↓ 下",
+            "DOWN"
+          ],
+          [
+            "← 左",
+            "LEFT"
+          ],
+          [
+            "→ 右",
+            "RIGHT"
+          ],
+          [
+            "Shift",
+            "SHIFT"
+          ],
+          [
+            "Ctrl",
+            "CTRL"
+          ],
+          [
+            "Alt",
+            "ALT"
+          ],
+          [
+            "F1",
+            "F1"
+          ],
+          [
+            "F2",
+            "F2"
+          ],
+          [
+            "F3",
+            "F3"
+          ],
+          [
+            "F4",
+            "F4"
+          ],
+          [
+            "F5",
+            "F5"
+          ],
+          [
+            "F6",
+            "F6"
+          ],
+          [
+            "F7",
+            "F7"
+          ],
+          [
+            "F8",
+            "F8"
+          ],
+          [
+            "F9",
+            "F9"
+          ],
+          [
+            "F10",
+            "F10"
+          ],
+          [
+            "F11",
+            "F11"
+          ],
+          [
+            "F12",
+            "F12"
+          ],
+          [
+            "Insert",
+            "INSERT"
+          ],
+          [
+            "Delete",
+            "DELETE"
+          ],
+          [
+            "Home",
+            "HOME"
+          ],
+          [
+            "End",
+            "END"
+          ],
+          [
+            "PageUp",
+            "PAGEUP"
+          ],
+          [
+            "PageDown",
+            "PAGEDOWN"
+          ],
+          [
+            "A",
+            "A"
+          ],
+          [
+            "B",
+            "B"
+          ],
+          [
+            "C",
+            "C"
+          ],
+          [
+            "D",
+            "D"
+          ],
+          [
+            "E",
+            "E"
+          ],
+          [
+            "F",
+            "F"
+          ],
+          [
+            "G",
+            "G"
+          ],
+          [
+            "H",
+            "H"
+          ],
+          [
+            "I",
+            "I"
+          ],
+          [
+            "J",
+            "J"
+          ],
+          [
+            "K",
+            "K"
+          ],
+          [
+            "L",
+            "L"
+          ],
+          [
+            "M",
+            "M"
+          ],
+          [
+            "N",
+            "N"
+          ],
+          [
+            "O",
+            "O"
+          ],
+          [
+            "P",
+            "P"
+          ],
+          [
+            "Q",
+            "Q"
+          ],
+          [
+            "R",
+            "R"
+          ],
+          [
+            "S",
+            "S"
+          ],
+          [
+            "T",
+            "T"
+          ],
+          [
+            "U",
+            "U"
+          ],
+          [
+            "V",
+            "V"
+          ],
+          [
+            "W",
+            "W"
+          ],
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ],
+          [
+            "0",
+            "N0"
+          ],
+          [
+            "1",
+            "N1"
+          ],
+          [
+            "2",
+            "N2"
+          ],
+          [
+            "3",
+            "N3"
+          ],
+          [
+            "4",
+            "N4"
+          ],
+          [
+            "5",
+            "N5"
+          ],
+          [
+            "6",
+            "N6"
+          ],
+          [
+            "7",
+            "N7"
+          ],
+          [
+            "8",
+            "N8"
+          ],
+          [
+            "9",
+            "N9"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_typing": {
+    "message0": "USB 键盘正在输入的文字",
+    "tooltip": "这一行已经打了的文字（还没按回车）；退格会删掉最后一个字，最多 127 个字符"
+  },
+  "iboxs31_usbhost_line_ready": {
+    "message0": "USB 键盘有新的一行",
+    "tooltip": "按回车之后为真，直到用「取出输入的一行」把它取走"
+  },
+  "iboxs31_usbhost_read_line": {
+    "message0": "USB 键盘取出输入的一行",
+    "tooltip": "取出按回车交出来的那一行文字（不含回车）并清掉；还没按回车时是空文本"
+  },
+  "iboxs31_usbhost_clear_input": {
+    "message0": "USB 键盘清空输入",
+    "tooltip": "清掉还没读的按键、字符和正在输入的文字"
+  },
+  "iboxs31_usbhost_text": {
+    "message0": "USB %1 文字",
+    "tooltip": "设备类型是 None/Keyboard/Mouse/Generic；最近输入如 \"Key [!] (0x1e) +Shift\" 或 \"Mouse x=12 y=-3 wheel=0 L1 R0 M0\"；U 盘信息如 \"7380MB 3files:a.txt\"；原始报文是最近一份键鼠报文的十六进制，排查认不出的设备用",
+    "args0": [
+      {
+        "options": [
+          [
+            "设备类型",
+            "DEVICE"
+          ],
+          [
+            "最近输入",
+            "INPUT"
+          ],
+          [
+            "状态",
+            "STATUS"
+          ],
+          [
+            "U 盘信息",
+            "MSC_INFO"
+          ],
+          [
+            "原始报文",
+            "RAW"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_usbhost_file_write": {
+    "message0": "U 盘 %1 文件 %2 内容 %3",
+    "tooltip": "写入会覆盖原内容，追加接在末尾；路径从 U 盘根目录算，没插 U 盘时什么也不做",
+    "args0": [
+      {
+        "options": [
+          [
+            "写入",
+            "WRITE"
+          ],
+          [
+            "追加",
+            "APPEND"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "iboxs31_usbhost_file_read": {
+    "message0": "U 盘 读取文件 %1",
+    "tooltip": "读出整个文本文件（最多 8KB），文件不存在或没插 U 盘时为空文本"
+  },
+  "iboxs31_usbhost_file_exists": {
+    "message0": "U 盘 文件 %1 存在",
+    "tooltip": "插着 U 盘且这个文件或文件夹存在时为真"
+  },
+  "iboxs31_usbhost_file_remove": {
+    "message0": "U 盘 删除文件 %1",
+    "tooltip": "删除 U 盘上的这个文件"
+  }
+}
