@@ -1,0 +1,167 @@
+{
+  "toolbox_name": "IBox S31 IMU e bússola",
+  "iboxs31_imu_init": {
+    "message0": "inicializar IMU (6 eixos + bússola)",
+    "tooltip": "Inicia o sensor de 6 eixos QMI8658 integrado (I2C 0x6B, senão 0x6A) e a bússola QMC6309 (I2C 0x7C, senão 0x2C); ±2g e ±1024°/s por padrão. Coloque em setup"
+  },
+  "iboxs31_imu_range": {
+    "message0": "IMU faixa aceleração %1 velocidade angular %2",
+    "tooltip": "Faixa menor é mais fina mas corta movimentos fortes; a escala se ajusta sozinha",
+    "args0": [
+      {
+        "options": [
+          [
+            "±2g",
+            "0"
+          ],
+          [
+            "±4g",
+            "1"
+          ],
+          [
+            "±8g",
+            "2"
+          ],
+          [
+            "±16g",
+            "3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "±256°/s",
+            "4"
+          ],
+          [
+            "±512°/s",
+            "5"
+          ],
+          [
+            "±1024°/s",
+            "6"
+          ],
+          [
+            "±2048°/s",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_imu_read": {
+    "message0": "IMU %1",
+    "tooltip": "Parada e na horizontal, aceleração Z ≈ ±1 g; arfagem e rolagem vêm do acelerômetro e são aproximadas ao mexer. Leituras em 10 ms compartilham a amostra",
+    "args0": [
+      {
+        "options": [
+          [
+            "aceleração X g",
+            "AX"
+          ],
+          [
+            "aceleração Y g",
+            "AY"
+          ],
+          [
+            "aceleração Z g",
+            "AZ"
+          ],
+          [
+            "velocidade angular X °/s",
+            "GX"
+          ],
+          [
+            "velocidade angular Y °/s",
+            "GY"
+          ],
+          [
+            "velocidade angular Z °/s",
+            "GZ"
+          ],
+          [
+            "temperatura ℃",
+            "TEMP"
+          ],
+          [
+            "arfagem °",
+            "PITCH"
+          ],
+          [
+            "rolagem °",
+            "ROLL"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_imu_ok": {
+    "message0": "leitura IMU ok",
+    "tooltip": "Se a última leitura deu certo; em caso de falha os últimos valores válidos são mantidos"
+  },
+  "iboxs31_imu_mag_read": {
+    "message0": "bússola %1",
+    "tooltip": "Rumo 0–360° (sem desvios hard-iron e com declinação; mantenha a placa na horizontal); X/Y/Z são valores brutos. Leituras em 10 ms compartilham a amostra",
+    "args0": [
+      {
+        "options": [
+          [
+            "rumo °",
+            "HEADING"
+          ],
+          [
+            "campo X",
+            "X"
+          ],
+          [
+            "campo Y",
+            "Y"
+          ],
+          [
+            "campo Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_imu_mag_calibrate": {
+    "message0": "calibrar bússola por %1 segundos",
+    "tooltip": "Calibração hard-iron: gire a placa na horizontal algumas voltas; no fim os novos desvios são aplicados. O programa espera enquanto isso"
+  },
+  "iboxs31_imu_mag_declination": {
+    "message0": "bússola declinação %1 graus",
+    "tooltip": "Declinação magnética local, leste positiva e oeste negativa; somada ao rumo para apontar o norte verdadeiro"
+  },
+  "iboxs31_imu_mag_set_offsets": {
+    "message0": "bússola desvios hard-iron X %1 Y %2 Z %3",
+    "tooltip": "Define os desvios de uma calibração anterior (por exemplo lidos ao ligar) para não calibrar toda vez"
+  },
+  "iboxs31_imu_mag_offset": {
+    "message0": "bússola desvio hard-iron %1",
+    "tooltip": "O desvio em uso; depois de calibrar, guarde-o e defina de novo no próximo início com o bloco de desvios",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_imu_mag_ok": {
+    "message0": "leitura bússola ok",
+    "tooltip": "Se a última leitura deu certo; em caso de falha os últimos valores válidos são mantidos"
+  }
+}

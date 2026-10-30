@@ -1,0 +1,167 @@
+{
+  "toolbox_name": "IBox S31 IMU et boussole",
+  "iboxs31_imu_init": {
+    "message0": "initialiser l’IMU (6 axes + boussole)",
+    "tooltip": "Démarre le capteur 6 axes QMI8658 intégré (I2C 0x6B, sinon 0x6A) et la boussole QMC6309 (I2C 0x7C, sinon 0x2C) ; ±2g et ±1024°/s par défaut. À placer dans setup"
+  },
+  "iboxs31_imu_range": {
+    "message0": "IMU plage accélération %1 vitesse angulaire %2",
+    "tooltip": "Une plage plus petite est plus fine mais écrête les mouvements forts ; l’échelle suit automatiquement",
+    "args0": [
+      {
+        "options": [
+          [
+            "±2g",
+            "0"
+          ],
+          [
+            "±4g",
+            "1"
+          ],
+          [
+            "±8g",
+            "2"
+          ],
+          [
+            "±16g",
+            "3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "±256°/s",
+            "4"
+          ],
+          [
+            "±512°/s",
+            "5"
+          ],
+          [
+            "±1024°/s",
+            "6"
+          ],
+          [
+            "±2048°/s",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_imu_read": {
+    "message0": "IMU %1",
+    "tooltip": "À plat et immobile, accélération Z ≈ ±1 g ; tangage et roulis viennent de l’accéléromètre et sont approximatifs en mouvement. Les lectures dans les 10 ms partagent un échantillon",
+    "args0": [
+      {
+        "options": [
+          [
+            "accélération X g",
+            "AX"
+          ],
+          [
+            "accélération Y g",
+            "AY"
+          ],
+          [
+            "accélération Z g",
+            "AZ"
+          ],
+          [
+            "vitesse angulaire X °/s",
+            "GX"
+          ],
+          [
+            "vitesse angulaire Y °/s",
+            "GY"
+          ],
+          [
+            "vitesse angulaire Z °/s",
+            "GZ"
+          ],
+          [
+            "température ℃",
+            "TEMP"
+          ],
+          [
+            "tangage °",
+            "PITCH"
+          ],
+          [
+            "roulis °",
+            "ROLL"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_imu_ok": {
+    "message0": "lecture IMU réussie",
+    "tooltip": "Indique si la dernière lecture a réussi ; en cas d’échec, les dernières valeurs valides sont gardées"
+  },
+  "iboxs31_imu_mag_read": {
+    "message0": "boussole %1",
+    "tooltip": "Cap 0–360° (décalages hard-iron retirés, déclinaison ajoutée ; garder la carte à plat) ; X/Y/Z sont des valeurs brutes. Les lectures dans les 10 ms partagent un échantillon",
+    "args0": [
+      {
+        "options": [
+          [
+            "cap °",
+            "HEADING"
+          ],
+          [
+            "champ X",
+            "X"
+          ],
+          [
+            "champ Y",
+            "Y"
+          ],
+          [
+            "champ Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_imu_mag_calibrate": {
+    "message0": "calibrer boussole pendant %1 secondes",
+    "tooltip": "Calibrage hard-iron : tournez la carte à plat quelques tours entiers ; les nouveaux décalages s’appliquent à la fin. Le programme attend pendant ce temps"
+  },
+  "iboxs31_imu_mag_declination": {
+    "message0": "boussole déclinaison %1 degrés",
+    "tooltip": "Déclinaison magnétique locale, est positive et ouest négative ; ajoutée au cap pour indiquer le nord géographique"
+  },
+  "iboxs31_imu_mag_set_offsets": {
+    "message0": "boussole décalages hard-iron X %1 Y %2 Z %3",
+    "tooltip": "Définit les décalages d’un calibrage précédent (lus au démarrage depuis la mémoire par exemple) pour éviter de recalibrer"
+  },
+  "iboxs31_imu_mag_offset": {
+    "message0": "boussole décalage hard-iron %1",
+    "tooltip": "Le décalage utilisé ; après calibrage, enregistrez-le et remettez-le au prochain démarrage avec le bloc des décalages",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_imu_mag_ok": {
+    "message0": "lecture boussole réussie",
+    "tooltip": "Indique si la dernière lecture a réussi ; en cas d’échec, les dernières valeurs valides sont gardées"
+  }
+}

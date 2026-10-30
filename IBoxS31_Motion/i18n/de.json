@@ -1,0 +1,167 @@
+{
+  "toolbox_name": "IBox S31 IMU & Kompass",
+  "iboxs31_imu_init": {
+    "message0": "IMU initialisieren (6-Achsen + Kompass)",
+    "tooltip": "Startet den integrierten QMI8658-6-Achsen-Sensor (I2C 0x6B, sonst 0x6A) und den QMC6309-Kompass (I2C 0x7C, sonst 0x2C); standardmäßig ±2g und ±1024°/s. In setup setzen"
+  },
+  "iboxs31_imu_range": {
+    "message0": "IMU Messbereich Beschleunigung %1 Drehrate %2",
+    "tooltip": "Ein kleinerer Bereich ist feiner, schneidet aber stärkere Bewegungen ab; die Skalierung passt sich an",
+    "args0": [
+      {
+        "options": [
+          [
+            "±2g",
+            "0"
+          ],
+          [
+            "±4g",
+            "1"
+          ],
+          [
+            "±8g",
+            "2"
+          ],
+          [
+            "±16g",
+            "3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "±256°/s",
+            "4"
+          ],
+          [
+            "±512°/s",
+            "5"
+          ],
+          [
+            "±1024°/s",
+            "6"
+          ],
+          [
+            "±2048°/s",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_imu_read": {
+    "message0": "IMU %1",
+    "tooltip": "Flach und ruhig ist Beschleunigung Z ≈ ±1 g; Nick- und Rollwinkel stammen aus dem Beschleunigungssensor und sind beim Schütteln ungenau. Abfragen innerhalb 10 ms teilen eine Messung",
+    "args0": [
+      {
+        "options": [
+          [
+            "Beschleunigung X g",
+            "AX"
+          ],
+          [
+            "Beschleunigung Y g",
+            "AY"
+          ],
+          [
+            "Beschleunigung Z g",
+            "AZ"
+          ],
+          [
+            "Drehrate X °/s",
+            "GX"
+          ],
+          [
+            "Drehrate Y °/s",
+            "GY"
+          ],
+          [
+            "Drehrate Z °/s",
+            "GZ"
+          ],
+          [
+            "Temperatur ℃",
+            "TEMP"
+          ],
+          [
+            "Nickwinkel °",
+            "PITCH"
+          ],
+          [
+            "Rollwinkel °",
+            "ROLL"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_imu_ok": {
+    "message0": "IMU erfolgreich gelesen",
+    "tooltip": "Ob die letzte Messung gelang; bei Fehlern bleiben die letzten gültigen Werte"
+  },
+  "iboxs31_imu_mag_read": {
+    "message0": "Kompass %1",
+    "tooltip": "Kurs 0–360° (Hard-Iron-Versatz abgezogen, Deklination addiert; Board waagerecht halten); X/Y/Z sind Rohwerte. Abfragen innerhalb 10 ms teilen eine Messung",
+    "args0": [
+      {
+        "options": [
+          [
+            "Kurs °",
+            "HEADING"
+          ],
+          [
+            "Feld X",
+            "X"
+          ],
+          [
+            "Feld Y",
+            "Y"
+          ],
+          [
+            "Feld Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_imu_mag_calibrate": {
+    "message0": "Kompass %1 Sekunden kalibrieren",
+    "tooltip": "Hard-Iron-Kalibrierung: das Board dabei waagerecht einige Male drehen; danach gelten die neuen Versätze. Das Programm wartet währenddessen"
+  },
+  "iboxs31_imu_mag_declination": {
+    "message0": "Kompass Deklination %1 Grad",
+    "tooltip": "Örtliche Missweisung, Ost positiv, West negativ; wird zum Kurs addiert, damit er auf geografisch Nord zeigt"
+  },
+  "iboxs31_imu_mag_set_offsets": {
+    "message0": "Kompass Hard-Iron-Versatz X %1 Y %2 Z %3",
+    "tooltip": "Versätze einer früheren Kalibrierung setzen (etwa beim Start aus dem Speicher gelesen), damit nicht jedes Mal kalibriert werden muss"
+  },
+  "iboxs31_imu_mag_offset": {
+    "message0": "Kompass Hard-Iron-Versatz %1",
+    "tooltip": "Der verwendete Versatz; nach dem Kalibrieren speichern und beim nächsten Start mit dem Versatz-Block zurücksetzen",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_imu_mag_ok": {
+    "message0": "Kompass erfolgreich gelesen",
+    "tooltip": "Ob die letzte Messung gelang; bei Fehlern bleiben die letzten gültigen Werte"
+  }
+}
