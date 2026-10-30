@@ -1,0 +1,187 @@
+{
+  "toolbox_name": "IBox S31 Câmera",
+  "iboxs31_camera_init": {
+    "message0": "inicializar câmera",
+    "tooltip": "Abre a OV3660 (640×480 RGB565, XCLK de 20 MHz, dois buffers de quadro usando cerca de 1,2 MB de PSRAM). Pode ser chamado de novo para tentar outra vez após falha"
+  },
+  "iboxs31_camera_ready": {
+    "message0": "câmera pronta",
+    "tooltip": "Verdadeiro quando a inicialização deu certo e já dá para capturar"
+  },
+  "iboxs31_camera_error": {
+    "message0": "mensagem de erro da câmera",
+    "tooltip": "Por que a inicialização falhou, como sem resposta ou PSRAM insuficiente; vazio quando dá certo"
+  },
+  "iboxs31_camera_flip": {
+    "message0": "câmera %1 %2",
+    "tooltip": "Inverte ou espelha a imagem no sensor; as fotos e coordenadas de cor seguintes acompanham",
+    "args0": [
+      {
+        "options": [
+          [
+            "inversão vertical",
+            "VFLIP"
+          ],
+          [
+            "espelho horizontal",
+            "MIRROR"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "ligado",
+            "true"
+          ],
+          [
+            "desligado",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_exposure": {
+    "message0": "câmera nível de exposição %1",
+    "tooltip": "Brilho alvo da exposição automática, de -5 a +5; 0 é o padrão, positivo é mais claro"
+  },
+  "iboxs31_camera_capture": {
+    "message0": "câmera capturar um quadro",
+    "tooltip": "Pega o quadro mais recente e calcula brilho e cores (espera até 0,5 s); verdadeiro se der certo. Leia depois com os blocos de imagem"
+  },
+  "iboxs31_camera_average": {
+    "message0": "imagem %1",
+    "tooltip": "Média de toda a última imagem capturada, 0–255",
+    "args0": [
+      {
+        "options": [
+          [
+            "brilho médio",
+            "L"
+          ],
+          [
+            "vermelho médio",
+            "R"
+          ],
+          [
+            "verde médio",
+            "G"
+          ],
+          [
+            "azul médio",
+            "B"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_pixel": {
+    "message0": "imagem em x %1 y %2 %3",
+    "tooltip": "Cor num ponto da última imagem, 0–255; x 0–639, y 0–479 a partir do canto superior esquerdo, amostrada numa grade de 8×8 pixels",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "brilho",
+            "L"
+          ],
+          [
+            "vermelho",
+            "R"
+          ],
+          [
+            "verde",
+            "G"
+          ],
+          [
+            "azul",
+            "B"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_save_bmp": {
+    "message0": "câmera salvar foto no cartão SD %1",
+    "tooltip": "Tira uma foto e salva como BMP de 24 bits; verdadeiro se der certo. Normalmente 640×480 (cerca de 900 KB); com o vídeo ligado, no tamanho do vídeo. Inicialize antes o cartão com IBoxS31_SDCard; gravar leva 1–2 s"
+  },
+  "iboxs31_camera_stream_start": {
+    "message0": "câmera iniciar vídeo tamanho %1 formato %2",
+    "tooltip": "Pega sem parar a imagem mais recente em segundo plano (desvirada e reduzida), cerca de 10 fps, sem travar o programa; 320×240 é o tamanho da tela. Big-endian é o formato do IBoxS31_Display, little-endian serve para TFT_eSPI e LVGL. Enquanto roda, os blocos de quadro, cor e BMP leem do vídeo",
+    "args0": [
+      {
+        "options": [
+          [
+            "320×240 (tamanho da tela)",
+            "320"
+          ],
+          [
+            "640×480 (completo)",
+            "640"
+          ],
+          [
+            "160×120",
+            "160"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "RGB565 big-endian",
+            "BE"
+          ],
+          [
+            "RGB565 little-endian",
+            "LE"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_stream_stop": {
+    "message0": "câmera parar vídeo",
+    "tooltip": "Para a captura em segundo plano e libera os buffers do vídeo"
+  },
+  "iboxs31_camera_stream_new_frame": {
+    "message0": "vídeo tem imagem nova",
+    "tooltip": "Verdadeiro quando há um quadro novo; ele fica retido para passar logo \"dados da imagem do vídeo\" a um bloco de tela. Não muda até a próxima verificação"
+  },
+  "iboxs31_camera_stream_pixels": {
+    "message0": "dados da imagem do vídeo",
+    "tooltip": "Pixels do último quadro pego (const uint16_t*, RGB565, linha a linha a partir do canto superior esquerdo, largura×altura) para blocos de tela de outras bibliotecas; pegue antes um quadro com \"tem imagem nova\""
+  },
+  "iboxs31_camera_stream_info": {
+    "message0": "vídeo %1",
+    "tooltip": "Largura e altura da imagem em pixels, quadros por segundo no último segundo, quadros desde o início e bytes por quadro (largura×altura×2); 0 com o vídeo parado",
+    "args0": [
+      {
+        "options": [
+          [
+            "largura",
+            "WIDTH"
+          ],
+          [
+            "altura",
+            "HEIGHT"
+          ],
+          [
+            "fps",
+            "FPS"
+          ],
+          [
+            "quadros até agora",
+            "FRAMES"
+          ],
+          [
+            "bytes por quadro",
+            "BYTES"
+          ]
+        ]
+      }
+    ]
+  }
+}

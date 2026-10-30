@@ -1,0 +1,187 @@
+{
+  "toolbox_name": "IBox S31 攝像頭",
+  "iboxs31_camera_init": {
+    "message0": "初始化攝像頭",
+    "tooltip": "打開 OV3660（640×480 RGB565，XCLK 20MHz，兩塊幀緩衝共約 1.2MB PSRAM）。可以重複呼叫，失敗後再呼叫會重試"
+  },
+  "iboxs31_camera_ready": {
+    "message0": "攝像頭已就緒",
+    "tooltip": "初始化成功、可以拍照時為真"
+  },
+  "iboxs31_camera_error": {
+    "message0": "攝像頭錯誤訊息",
+    "tooltip": "初始化失敗的原因，例如沒有應答或 PSRAM 不夠；成功時為空"
+  },
+  "iboxs31_camera_flip": {
+    "message0": "攝像頭 %1 %2",
+    "tooltip": "在感測器端翻轉或鏡像畫面，之後拍到的照片和顏色座標都跟着變",
+    "args0": [
+      {
+        "options": [
+          [
+            "上下翻轉",
+            "VFLIP"
+          ],
+          [
+            "左右鏡像",
+            "MIRROR"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "打開",
+            "true"
+          ],
+          [
+            "關閉",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_exposure": {
+    "message0": "攝像頭 曝光等級 %1",
+    "tooltip": "自動曝光的目標亮度 -5~+5，0 為預設，正數更亮"
+  },
+  "iboxs31_camera_capture": {
+    "message0": "攝像頭 拍一幀",
+    "tooltip": "取最新一幀並算出亮度、顏色（最多等 0.5 秒），成功回傳真；之後用「畫面」積木讀取"
+  },
+  "iboxs31_camera_average": {
+    "message0": "畫面 %1",
+    "tooltip": "最近一次拍到的整幅畫面的平均值，0~255",
+    "args0": [
+      {
+        "options": [
+          [
+            "平均亮度",
+            "L"
+          ],
+          [
+            "平均紅",
+            "R"
+          ],
+          [
+            "平均綠",
+            "G"
+          ],
+          [
+            "平均藍",
+            "B"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_pixel": {
+    "message0": "畫面 x %1 y %2 的 %3",
+    "tooltip": "最近一次拍到的畫面在某點的顏色，0~255；x 0~639、y 0~479（左上角為原點），按 8×8 像素一格取樣",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "亮度",
+            "L"
+          ],
+          [
+            "紅",
+            "R"
+          ],
+          [
+            "綠",
+            "G"
+          ],
+          [
+            "藍",
+            "B"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_save_bmp": {
+    "message0": "攝像頭 拍照存到 SD 卡 %1",
+    "tooltip": "拍一張照片存成 24 位 BMP，成功回傳真；平時是 640×480（約 900KB），視頻流開着時按視頻流的尺寸存；需要先用 IBoxS31_SDCard 初始化 SD 卡，寫卡要 1~2 秒"
+  },
+  "iboxs31_camera_stream_start": {
+    "message0": "攝像頭 開始視頻流 尺寸 %1 像素格式 %2",
+    "tooltip": "後台不停地取最新畫面（翻正、縮小），每秒約 10 幀，程式不會被卡住；320×240 和螢幕一樣大。大端和 IBoxS31_Display 的格式一樣，小端給 TFT_eSPI、LVGL 用。開着時拍一幀、取色、存 BMP 都從視頻流裏取",
+    "args0": [
+      {
+        "options": [
+          [
+            "320×240（螢幕大小）",
+            "320"
+          ],
+          [
+            "640×480（原始）",
+            "640"
+          ],
+          [
+            "160×120",
+            "160"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "RGB565 大端",
+            "BE"
+          ],
+          [
+            "RGB565 小端",
+            "LE"
+          ]
+        ]
+      }
+    ]
+  },
+  "iboxs31_camera_stream_stop": {
+    "message0": "攝像頭 停止視頻流",
+    "tooltip": "停掉後台採集並釋放視頻流的緩衝"
+  },
+  "iboxs31_camera_stream_new_frame": {
+    "message0": "視頻流 有新畫面",
+    "tooltip": "有新的一幀時為真，並把這一幀拿住，接着用「視頻流 畫面數據」交給顯示類積木；下一次判斷之前這幀不會被改"
+  },
+  "iboxs31_camera_stream_pixels": {
+    "message0": "視頻流 畫面數據",
+    "tooltip": "最近拿到的那一幀的像素（const uint16_t*，RGB565，從左上角一行行排，寬×高），給螢幕等其他庫的顯示積木用；先用「視頻流 有新畫面」拿幀"
+  },
+  "iboxs31_camera_stream_info": {
+    "message0": "視頻流 %1",
+    "tooltip": "視頻流的畫面寬高（像素）、最近一秒的幀率、開始以來出了多少幀、每幀多少位元組（寬×高×2）；沒開視頻流時為 0",
+    "args0": [
+      {
+        "options": [
+          [
+            "寬度",
+            "WIDTH"
+          ],
+          [
+            "高度",
+            "HEIGHT"
+          ],
+          [
+            "幀率",
+            "FPS"
+          ],
+          [
+            "已出幀數",
+            "FRAMES"
+          ],
+          [
+            "每幀位元組數",
+            "BYTES"
+          ]
+        ]
+      }
+    ]
+  }
+}

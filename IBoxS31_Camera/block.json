@@ -1,0 +1,290 @@
+[
+  {
+    "type": "iboxs31_camera_init",
+    "message0": "初始化摄像头",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00ACC1",
+    "tooltip": "打开 OV3660（640×480 RGB565，XCLK 20MHz，两块帧缓冲共约 1.2MB PSRAM）。可以重复调用，失败后再调用会重试",
+    "icon": "fa-solid fa-camera"
+  },
+  {
+    "type": "iboxs31_camera_ready",
+    "message0": "摄像头已就绪",
+    "output": "Boolean",
+    "colour": "#00ACC1",
+    "tooltip": "初始化成功、可以拍照时为真",
+    "icon": "fa-solid fa-circle-check"
+  },
+  {
+    "type": "iboxs31_camera_error",
+    "message0": "摄像头错误信息",
+    "output": "String",
+    "colour": "#00ACC1",
+    "tooltip": "初始化失败的原因，比如没有应答或 PSRAM 不够；成功时为空",
+    "icon": "fa-solid fa-triangle-exclamation"
+  },
+  {
+    "type": "iboxs31_camera_flip",
+    "message0": "摄像头 %1 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WHAT",
+        "options": [
+          [
+            "上下翻转",
+            "VFLIP"
+          ],
+          [
+            "左右镜像",
+            "MIRROR"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "打开",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#00ACC1",
+    "tooltip": "在传感器端翻转或镜像画面，之后拍到的照片和颜色坐标都跟着变",
+    "icon": "fa-solid fa-arrows-left-right"
+  },
+  {
+    "type": "iboxs31_camera_exposure",
+    "message0": "摄像头 曝光等级 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "LEVEL",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#00ACC1",
+    "tooltip": "自动曝光的目标亮度 -5~+5，0 为默认，正数更亮",
+    "icon": "fa-solid fa-sun"
+  },
+  {
+    "type": "iboxs31_camera_capture",
+    "message0": "摄像头 拍一帧",
+    "output": "Boolean",
+    "colour": "#00ACC1",
+    "tooltip": "取最新一帧并算出亮度、颜色（最多等 0.5 秒），成功返回真；之后用「画面」积木读取",
+    "icon": "fa-solid fa-camera-retro"
+  },
+  {
+    "type": "iboxs31_camera_average",
+    "message0": "画面 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WHAT",
+        "options": [
+          [
+            "平均亮度",
+            "L"
+          ],
+          [
+            "平均红",
+            "R"
+          ],
+          [
+            "平均绿",
+            "G"
+          ],
+          [
+            "平均蓝",
+            "B"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "inputsInline": true,
+    "colour": "#00ACC1",
+    "tooltip": "最近一次拍到的整幅画面的平均值，0~255",
+    "icon": "fa-solid fa-circle-half-stroke"
+  },
+  {
+    "type": "iboxs31_camera_pixel",
+    "message0": "画面 x %1 y %2 的 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WHAT",
+        "options": [
+          [
+            "亮度",
+            "L"
+          ],
+          [
+            "红",
+            "R"
+          ],
+          [
+            "绿",
+            "G"
+          ],
+          [
+            "蓝",
+            "B"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "inputsInline": true,
+    "colour": "#00ACC1",
+    "tooltip": "最近一次拍到的画面在某点的颜色，0~255；x 0~639、y 0~479（左上角为原点），按 8×8 像素一格取样",
+    "icon": "fa-solid fa-eye-dropper"
+  },
+  {
+    "type": "iboxs31_camera_save_bmp",
+    "message0": "摄像头 拍照存到 SD 卡 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": "String"
+      }
+    ],
+    "output": "Boolean",
+    "inputsInline": true,
+    "colour": "#00ACC1",
+    "tooltip": "拍一张照片存成 24 位 BMP，成功返回真；平时是 640×480（约 900KB），视频流开着时按视频流的尺寸存；需要先用 IBoxS31_SDCard 初始化 SD 卡，写卡要 1~2 秒",
+    "icon": "fa-solid fa-floppy-disk"
+  },
+  {
+    "type": "iboxs31_camera_stream_start",
+    "message0": "摄像头 开始视频流 尺寸 %1 像素格式 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SIZE",
+        "options": [
+          [
+            "320×240（屏幕大小）",
+            "320"
+          ],
+          [
+            "640×480（原始）",
+            "640"
+          ],
+          [
+            "160×120",
+            "160"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ORDER",
+        "options": [
+          [
+            "RGB565 大端",
+            "BE"
+          ],
+          [
+            "RGB565 小端",
+            "LE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#00ACC1",
+    "tooltip": "后台不停地取最新画面（翻正、缩小），每秒约 10 帧，程序不会被卡住；320×240 和屏幕一样大。大端和 IBoxS31_Display 的格式一样，小端给 TFT_eSPI、LVGL 用。开着时拍一帧、取色、存 BMP 都从视频流里取",
+    "icon": "fa-solid fa-video"
+  },
+  {
+    "type": "iboxs31_camera_stream_stop",
+    "message0": "摄像头 停止视频流",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00ACC1",
+    "tooltip": "停掉后台采集并释放视频流的缓冲",
+    "icon": "fa-solid fa-video-slash"
+  },
+  {
+    "type": "iboxs31_camera_stream_new_frame",
+    "message0": "视频流 有新画面",
+    "output": "Boolean",
+    "colour": "#00ACC1",
+    "tooltip": "有新的一帧时为真，并把这一帧拿住，接着用「视频流 画面数据」交给显示类积木；下一次判断之前这帧不会被改",
+    "icon": "fa-solid fa-film"
+  },
+  {
+    "type": "iboxs31_camera_stream_pixels",
+    "message0": "视频流 画面数据",
+    "output": "IBoxS31_Image",
+    "colour": "#00ACC1",
+    "tooltip": "最近拿到的那一帧的像素（const uint16_t*，RGB565，从左上角一行行排，宽×高），给屏幕等其他库的显示积木用；先用「视频流 有新画面」拿帧",
+    "icon": "fa-solid fa-image"
+  },
+  {
+    "type": "iboxs31_camera_stream_info",
+    "message0": "视频流 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WHAT",
+        "options": [
+          [
+            "宽度",
+            "WIDTH"
+          ],
+          [
+            "高度",
+            "HEIGHT"
+          ],
+          [
+            "帧率",
+            "FPS"
+          ],
+          [
+            "已出帧数",
+            "FRAMES"
+          ],
+          [
+            "每帧字节数",
+            "BYTES"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "inputsInline": true,
+    "colour": "#00ACC1",
+    "tooltip": "视频流的画面宽高（像素）、最近一秒的帧率、开始以来出了多少帧、每帧多少字节（宽×高×2）；没开视频流时为 0",
+    "icon": "fa-solid fa-gauge"
+  }
+]
