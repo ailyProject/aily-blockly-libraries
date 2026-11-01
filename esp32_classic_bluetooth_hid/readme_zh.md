@@ -4,7 +4,7 @@
 
 ## 库信息与支持环境
 
-- 包：`@aily-project/lib-esp32-classic-bluetooth-hid`，版本 `0.0.3`，作者 `ailyProject`。
+- 包：`@aily-project/lib-esp32-classic-bluetooth-hid`，版本 `0.0.4`，作者 `ailyProject`。
 - 包装代码使用 MIT；预编译 Host 及第三方代码许可见随包 NOTICE 和原生库许可文件。
 - 仅支持原始 ESP32（WROOM-32、WROVER），要求 Arduino-ESP32 **3.3.10 或更高版本**；不支持 ESP32-S3、C3 等其他芯片。
 - 请选择 Arduino-ESP32 3.3.10 或更高版本的 SDK；本包不会自动下载、替换或升级 SDK。
@@ -68,3 +68,13 @@ Switch电量仅设置报告中的百分比和充电标记，不检测实体电�
 ## 0.0.3 优化验证
 
 2026-10-29：保留46个积木及原有参数值，新增4种组合修饰键；连接查询与管理分开，键盘和Switch高级功能分组，11种语言同步。35项生成器、ABS绑定与读回及工具箱渲染检查通过；新增6个实际输入示例和键盘全块检查共7个程序使用官方Arduino-ESP32 3.3.12完成编译和链接。英文README与严格ABS文档规范检查通过。未进行ESP32上板、PC配对或Switch实机互通测试。
+
+## 0.0.4 Switch 设备识别修复
+
+2026-11-01：针对 [issue #602](https://github.com/ailyProject/aily-blockly-libraries/issues/602)，内置原生库更新为 ESP32ClassicBluetoothHID 0.4.2 和 ESP32BluetoothSwitchProController 0.2.2。先设置 `0x002508` Class of Device，再启用通用可发现模式；显式发布包含设备名和 HID 服务 UUID 的 EIR；Switch 改用 170 字节 Pro Controller 蓝牙 HID 描述符，正确声明简单模式按钮、方向帽和四轴。认证、ACL 和 HID 连接失败的状态码及对端地址可由底层错误诊断提供，Blockly 通过“最近错误”读取。
+
+仍使用正常 SSP 配对和 Host 保存的绑定信息；没有依据要求安装一个通用固定链接密钥。初次复测使用默认名称 `Pro Controller`，在 Switch 的“更改握法/顺序”页面连接。连接后由用户按钮或命令触发 L、R 按住，分配玩家后显式“释放全部”；避免在循环中自动注入配对按键。`last_init_ok` 仅表示本地初始化成功，须结合连接状态与 `last_error` 区分未连接、认证失败和已连接但未分配玩家。
+
+原生回归已通过：后端 9 组 / 660 检查、Switch 适配层 12 场景 / 397 检查、Switch 纯协议 24 场景 / 16926 检查，以及输入协议、键鼠接口和传输状态机测试。Switch Basic、HID Keyboard、PrintCompatibility 三项通过官方 Arduino-ESP32 3.3.12 编译与链接，`--warnings all` 无警告。这些原生验证不代表已完成 Switch 1/2 实机发现、配对、输入或重连测试。上传后必须按 EN 的现象仍需依据实际上传及启动日志另行定位，本次未修改上传复位流程。
+
+发布归档验证：重建 `src.7z` 后解压读回，40 个文件与生产源码一致，Aily 辅助层保持原样；直接使用归档中的两份库，键盘、鼠标、键鼠组合、媒体、通用手柄和 Switch 六种模式的实际生成代码全部通过官方 Arduino-ESP32 3.3.12 编译及链接，`--warnings all` 无警告。上述检查未上传固件或进行无线互通测试。
