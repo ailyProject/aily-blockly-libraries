@@ -5,7 +5,7 @@ Classic BR/EDR HID profiles for the original ESP32, with both independent native
 ## Library Info
 
 - **Name**: @aily-project/lib-esp32-classic-bluetooth-hid
-- **Version**: 0.0.3
+- **Version**: 0.0.4
 - **Author**: ailyProject
 - **License**: MIT wrappers; bundled Host notices and third-party licenses remain applicable.
 
@@ -392,3 +392,13 @@ arduino_loop()
 ## Version 0.0.3 validation
 
 2026-10-29: all 46 block contracts and existing enum values are preserved; four combined modifier values were added. Generator, native ABS binding/readback and toolbox rendering checks passed. All six input examples above and a full keyboard contract fixture compiled and linked with the official Arduino-ESP32 3.3.12 SDK. Documentation passed the strict ABS checks. These checks do not establish ESP32 radio pairing or PC/Switch hardware interoperability.
+
+## Version 0.0.4 Switch identity update
+
+2026-11-01: bundled native libraries are ESP32ClassicBluetoothHID 0.4.2 and ESP32BluetoothSwitchProController 0.2.2. The native Host sets Class of Device `0x002508` before enabling GENERAL discovery, explicitly includes the local name and HID service UUID in EIR, and publishes the 170-byte Pro Controller Bluetooth report layout. Simple report `0x3F` now declares buttons, a hat and four axes. Native authentication, ACL and HID connection failures retain status codes and peer addresses, accessible through `last_error`. All 46 block signatures, existing enums and generator behavior are preserved.
+
+Use the default name `Pro Controller` for initial testing. Normal SSP pairing and Host bond storage remain in use; a universal fixed link key is not a prerequisite established by the working reference implementations. On the Switch Change Grip/Order screen, wait for a connection, then use a user-triggered action to hold L and R, followed by an explicit release-all after player assignment. Do not inject pairing buttons automatically on every loop. `last_init_ok` confirms local initialization only; inspect `connected` and `last_error` to distinguish discovery/connection failure, authentication failure and a connected controller awaiting player assignment.
+
+Native validation: production backend 9 groups / 660 checks, Switch adapter 12 cases / 397 checks and protocol 24 cases / 16926 checks passed, along with input protocol, public input API and transport state tests. Switch Basic, HID Keyboard and PrintCompatibility compiled and linked with official Arduino-ESP32 3.3.12 and `--warnings all` without warnings. These are native source checks, not Switch 1/2 radio, pairing, input or reconnection validation. The separate need to press EN after upload remains unexplained; this update does not change the uploader's reset sequence.
+
+Archive integration validation: the rebuilt `src.7z` extracts to 40 files identical to the production source tree, with the Aily helper preserved. Actual generated code for keyboard, mouse, combo, media, gamepad and Switch profiles compiled and linked against the extracted libraries using official Arduino-ESP32 3.3.12 and `--warnings all` with no warnings. No firmware was uploaded and no radio interoperability test was performed.
