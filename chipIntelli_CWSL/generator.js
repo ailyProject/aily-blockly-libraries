@@ -29,8 +29,13 @@ function ensureChipIntelliCWSLIds(generator) {
 
 Arduino.forBlock['chipintelli_cwsl_init'] = function(block, generator) {
   ensureChipIntelliCWSL(generator);
+  // Keep timeout conversion independent of global Arduino/FastLED max overloads.
+  generator.addFunction('chipintelli_cwsl_timeout_ms',
+    'static constexpr uint32_t ailyChipIntelliCWSLTimeoutMs(long milliseconds) {\n' +
+    '  return milliseconds > 0 ? (uint32_t)milliseconds : 0UL;\n' +
+    '}');
   const timeout = chipIntelliCWSLValue(block, generator, 'TIMEOUT', '10000');
-  return 'ChipIntelliCWSL.begin((uint32_t)max(0L, (long)(' + timeout + ')));\n';
+  return 'ChipIntelliCWSL.begin(ailyChipIntelliCWSLTimeoutMs((long)(' + timeout + ')));\n';
 };
 
 Arduino.forBlock['chipintelli_cwsl_end'] = function(block, generator) {
@@ -518,9 +523,10 @@ Arduino.forBlock['chipintelli_cwsl_voice_learning_error'] = function(block, gene
 };
 
 // Check ownership even if a raw block is generated before the controller.
-Object.keys(Arduino.forBlock).filter(type => type.indexOf('chipintelli_cwsl_') === 0).forEach(type => {
-  const generate = Arduino.forBlock[type];
-  Arduino.forBlock[type] = function(block, generator) {
+Object.keys(Arduino.forBlock).forEach(function(blockType) {
+  if (blockType.indexOf('chipintelli_cwsl_') !== 0) return;
+  const generate = Arduino.forBlock[blockType];
+  Arduino.forBlock[blockType] = function(block, generator) {
     chipIntelliCWSLManagedConfiguration(block, false);
     return generate(block, generator);
   };

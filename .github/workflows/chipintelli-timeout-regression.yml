@@ -1,0 +1,44 @@
+name: ChipIntelli timeout regression
+
+on:
+  pull_request:
+    paths:
+      - 'chipIntelli_ASR/**'
+      - 'chipIntelli_CWSL/**'
+      - 'tests/chipintelli-timeout.test.cjs'
+      - 'tests/chipintelli-generator-coverage.test.cjs'
+      - '.scripts/check-library-generator-coverage.js'
+      - '.scripts/check-readme-compliance.js'
+      - '.scripts/readme-library-contracts.js'
+      - '.scripts/contracts/readme-library-contracts/chipIntelli_CWSL.json'
+      - 'tests/fixtures/chipintelli-timeout/**'
+      - '.github/workflows/chipintelli-timeout-regression.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'chipIntelli_ASR/**'
+      - 'chipIntelli_CWSL/**'
+      - 'tests/chipintelli-timeout.test.cjs'
+      - 'tests/chipintelli-generator-coverage.test.cjs'
+      - '.scripts/check-library-generator-coverage.js'
+      - '.scripts/check-readme-compliance.js'
+      - '.scripts/readme-library-contracts.js'
+      - '.scripts/contracts/readme-library-contracts/chipIntelli_CWSL.json'
+      - 'tests/fixtures/chipintelli-timeout/**'
+      - '.github/workflows/chipintelli-timeout-regression.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Check generated timeout code and C++ behavior
+        env:
+          AILY_TEST_CXX: g++
+        run: node --test tests/chipintelli-timeout.test.cjs tests/chipintelli-generator-coverage.test.cjs

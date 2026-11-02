@@ -6,6 +6,7 @@ const { execFileSync } = require('child_process');
 const {
   loadLibraryContract,
   validateLibraryContractInventory,
+  validateGeneratorProbe,
 } = require('./readme-library-contracts');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -1475,6 +1476,13 @@ function validateAiContract(contract, blocks) {
     const excludedRuntimeArgs = Array.isArray(blockContract?.excludedRuntimeArgs)
       ? blockContract.excludedRuntimeArgs
       : [];
+    const probeArgs = [
+      ...visibleArgs(knownBlocks.get(blockType)),
+      ...(Array.isArray(variants[0]?.appendArgs) ? variants[0].appendArgs : []),
+    ];
+    for (const error of validateGeneratorProbe(blockContract?.generatorProbe, new Map(probeArgs.map(arg => [arg.name, arg.type])))) {
+      messages.push(contractLabel + ' ' + blockType + ' ' + error);
+    }
     if (blockContract?.agentVisible !== undefined && typeof blockContract.agentVisible !== 'boolean') {
       messages.push(`${contractLabel} ${blockType} agentVisible must be boolean`);
     }
@@ -1497,7 +1505,8 @@ function validateAiContract(contract, blocks) {
       }
       continue;
     }
-    if (variants.length === 0 && variadics.length === 0 && excludedRuntimeArgs.length === 0) {
+    if (variants.length === 0 && variadics.length === 0 && excludedRuntimeArgs.length === 0
+        && blockContract?.generatorProbe === undefined) {
       messages.push(`${contractLabel} ${blockType} must declare at least one runtime variant, variadic input, or excluded runtime argument`);
       continue;
     }
