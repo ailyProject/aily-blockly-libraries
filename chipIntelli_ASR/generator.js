@@ -434,8 +434,13 @@ Arduino.forBlock['chipintelli_asr_detach_handlers'] = function(block, generator)
 
 Arduino.forBlock['chipintelli_asr_keep_awake_for'] = function(block, generator) {
   ensureChipIntelliASR(generator);
+  // Avoid the competing global max templates from CI13XX and FastLED.
+  generator.addFunction('chipintelli_asr_timeout_ms',
+    'static constexpr uint32_t ailyChipIntelliASRTimeoutMs(long seconds) {\n' +
+    '  return seconds > 0 ? (uint32_t)seconds * 1000UL : 0UL;\n' +
+    '}');
   const timeoutSeconds = chipIntelliASRValue(block, generator, 'TIMEOUT', '15');
-  return 'ChipIntelliASR.keepAwakeFor((uint32_t)max(0L, (long)(' + timeoutSeconds + ')) * 1000UL);\n';
+  return 'ChipIntelliASR.keepAwakeFor(ailyChipIntelliASRTimeoutMs((long)(' + timeoutSeconds + ')));\n';
 };
 
 Arduino.forBlock['chipintelli_asr_is_awake'] = function(block, generator) {

@@ -95,7 +95,7 @@ Match single-template events by `(wordType, commandId, groupId)`. Bulk deletion 
 | `chipintelli_cwsl_voice_learning_busy` | 值(Boolean) | (none) | `chipintelli_cwsl_voice_learning_busy()` | `ailyChipIntelliCWSLVoiceBusy()` |
 | `chipintelli_cwsl_voice_learning_ready` | 值(Boolean) | (none) | `chipintelli_cwsl_voice_learning_ready()` | `ailyChipIntelliVoiceLearning.ready` |
 | `chipintelli_cwsl_voice_learning_error` | 值(String) | (none) | `chipintelli_cwsl_voice_learning_error()` | `String(ailyChipIntelliVoiceLearning.error)` |
-| `chipintelli_cwsl_init` | 语句 | TIMEOUT(input_value) | `chipintelli_cwsl_init(math_number(10000))` | `ChipIntelliCWSL.begin((uint32_t)max(0L, (long)(10000)));` |
+| `chipintelli_cwsl_init` | 语句 | TIMEOUT(input_value) | `chipintelli_cwsl_init(math_number(10000))` | `ChipIntelliCWSL.begin(ailyChipIntelliCWSLTimeoutMs((long)(10000)));` |
 | `chipintelli_cwsl_end` | 语句 | (none) | `chipintelli_cwsl_end()` | `ChipIntelliCWSL.end();` |
 | `chipintelli_cwsl_learn` | 语句 | WORD_TYPE(dropdown), COMMAND_ID(input_value), GROUP_ID(input_value) | `chipintelli_cwsl_learn(COMMAND, math_number(2), math_number(0))` | `ChipIntelliCWSL.learnCommand(ailyChipIntelliCWSLCommandId(2), ailyChipIntelliCWSLGroupId(0));` |
 | `chipintelli_cwsl_cancel_learning` | 语句 | (none) | `chipintelli_cwsl_cancel_learning()` | `ChipIntelliCWSL.cancelLearning();` |

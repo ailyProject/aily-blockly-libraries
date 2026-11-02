@@ -52,7 +52,7 @@ CWSL 学习目标必须是资源中已有、词类型匹配的 ID。学习普通
 | `chipintelli_asr_detach_command` | 语句 | COMMAND(input_value) | `chipintelli_asr_detach_command(math_number(2))` | `ChipIntelliASR.detachCommand((uint16_t)(2));` |
 | `chipintelli_asr_detach_semantic` | 语句 | SEMANTIC_ID(input_value) | `chipintelli_asr_detach_semantic(math_number(31725955))` | `ChipIntelliASR.detachSemantic((uint32_t)(31725955));` |
 | `chipintelli_asr_detach_handlers` | 语句 | HANDLERS(dropdown) | `chipintelli_asr_detach_handlers(COMMANDS)` | `ChipIntelliASR.detachAllCommands();` |
-| `chipintelli_asr_keep_awake_for` | 语句 | TIMEOUT(input_value) | `chipintelli_asr_keep_awake_for(math_number(15))` | `ChipIntelliASR.keepAwakeFor((uint32_t)max(0L, (long)(15)) * 1000UL);` |
+| `chipintelli_asr_keep_awake_for` | 语句 | TIMEOUT(input_value) | `chipintelli_asr_keep_awake_for(math_number(15))` | `ChipIntelliASR.keepAwakeFor(ailyChipIntelliASRTimeoutMs((long)(15)));` |
 | `chipintelli_asr_is_awake` | 值(Boolean) | (none) | `chipintelli_asr_is_awake()` | `ChipIntelliASR.isAwake()` |
 | `chipintelli_asr_read_results` | 语句 | HANDLER(input_statement) | `chipintelli_asr_read_results()` | `while (ChipIntelliASR.read(ailyChipIntelliASRResult)) { ↵ }` |
 | `chipintelli_asr_available` | 值(Boolean) | (none) | `chipintelli_asr_available()` | `ChipIntelliASR.available()` |

@@ -29,8 +29,13 @@ function ensureChipIntelliCWSLIds(generator) {
 
 Arduino.forBlock['chipintelli_cwsl_init'] = function(block, generator) {
   ensureChipIntelliCWSL(generator);
+  // Keep timeout conversion independent of global Arduino/FastLED max overloads.
+  generator.addFunction('chipintelli_cwsl_timeout_ms',
+    'static constexpr uint32_t ailyChipIntelliCWSLTimeoutMs(long milliseconds) {\n' +
+    '  return milliseconds > 0 ? (uint32_t)milliseconds : 0UL;\n' +
+    '}');
   const timeout = chipIntelliCWSLValue(block, generator, 'TIMEOUT', '10000');
-  return 'ChipIntelliCWSL.begin((uint32_t)max(0L, (long)(' + timeout + ')));\n';
+  return 'ChipIntelliCWSL.begin(ailyChipIntelliCWSLTimeoutMs((long)(' + timeout + ')));\n';
 };
 
 Arduino.forBlock['chipintelli_cwsl_end'] = function(block, generator) {
