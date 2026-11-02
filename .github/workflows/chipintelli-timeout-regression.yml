@@ -6,6 +6,11 @@ on:
       - 'chipIntelli_ASR/**'
       - 'chipIntelli_CWSL/**'
       - 'tests/chipintelli-timeout.test.cjs'
+      - 'tests/chipintelli-generator-coverage.test.cjs'
+      - '.scripts/check-library-generator-coverage.js'
+      - '.scripts/check-readme-compliance.js'
+      - '.scripts/readme-library-contracts.js'
+      - '.scripts/contracts/readme-library-contracts/chipIntelli_CWSL.json'
       - 'tests/fixtures/chipintelli-timeout/**'
       - '.github/workflows/chipintelli-timeout-regression.yml'
   push:
@@ -14,6 +19,11 @@ on:
       - 'chipIntelli_ASR/**'
       - 'chipIntelli_CWSL/**'
       - 'tests/chipintelli-timeout.test.cjs'
+      - 'tests/chipintelli-generator-coverage.test.cjs'
+      - '.scripts/check-library-generator-coverage.js'
+      - '.scripts/check-readme-compliance.js'
+      - '.scripts/readme-library-contracts.js'
+      - '.scripts/contracts/readme-library-contracts/chipIntelli_CWSL.json'
       - 'tests/fixtures/chipintelli-timeout/**'
       - '.github/workflows/chipintelli-timeout-regression.yml'
 
@@ -31,4 +41,4 @@ jobs:
       - name: Check generated timeout code and C++ behavior
         env:
           AILY_TEST_CXX: g++
-        run: node --test tests/chipintelli-timeout.test.cjs
+        run: node --test tests/chipintelli-timeout.test.cjs tests/chipintelli-generator-coverage.test.cjs

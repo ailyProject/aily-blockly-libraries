@@ -523,9 +523,10 @@ Arduino.forBlock['chipintelli_cwsl_voice_learning_error'] = function(block, gene
 };
 
 // Check ownership even if a raw block is generated before the controller.
-Object.keys(Arduino.forBlock).filter(type => type.indexOf('chipintelli_cwsl_') === 0).forEach(type => {
-  const generate = Arduino.forBlock[type];
-  Arduino.forBlock[type] = function(block, generator) {
+Object.keys(Arduino.forBlock).forEach(function(blockType) {
+  if (blockType.indexOf('chipintelli_cwsl_') !== 0) return;
+  const generate = Arduino.forBlock[blockType];
+  Arduino.forBlock[blockType] = function(block, generator) {
     chipIntelliCWSLManagedConfiguration(block, false);
     return generate(block, generator);
   };

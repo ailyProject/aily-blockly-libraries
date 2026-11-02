@@ -67,6 +67,37 @@ function listLibraryContractNames() {
     .sort();
 }
 
+// Probe contexts supply prerequisite blocks, never replacement handler code.
+function validateGeneratorProbe(probe, slots = new Map()) {
+  if (probe === undefined) return [];
+  if (!probe || typeof probe !== 'object' || Array.isArray(probe)) return ['generatorProbe must be an object'];
+  const errors = [];
+  const validType = type => typeof type === 'string' && /^[A-Za-z0-9_]+$/.test(type);
+  const hasWorkspace = Array.isArray(probe.workspaceBlocks) && probe.workspaceBlocks.length > 0;
+  const hasInputs = probe.inputBlocks && typeof probe.inputBlocks === 'object'
+    && !Array.isArray(probe.inputBlocks) && Object.keys(probe.inputBlocks).length > 0;
+  if (!hasWorkspace && !hasInputs) errors.push('generatorProbe must declare prerequisite blocks or connected inputs');
+  if (Object.keys(probe).some(key => !['workspaceBlocks', 'inputBlocks'].includes(key))) {
+    errors.push('generatorProbe contains an unknown property');
+  }
+  if (probe.workspaceBlocks !== undefined &&
+      (!Array.isArray(probe.workspaceBlocks) || !probe.workspaceBlocks.every(validType))) {
+    errors.push('generatorProbe workspaceBlocks must contain block type identifiers');
+  }
+  if (probe.inputBlocks !== undefined) {
+    if (!probe.inputBlocks || typeof probe.inputBlocks !== 'object' || Array.isArray(probe.inputBlocks)) {
+      errors.push('generatorProbe inputBlocks must be an object');
+    } else {
+      for (const [name, type] of Object.entries(probe.inputBlocks)) {
+        if (slots.get(name) !== 'input_value' || !validType(type)) {
+          errors.push('generatorProbe inputBlocks must name declared value inputs and block type identifiers: ' + name);
+        }
+      }
+    }
+  }
+  return errors;
+}
+
 function validateLibraryContractInventory(libraries) {
   const expected = new Set((libraries || []).map(normalizeLibraryName));
   const expectedByLowerCase = new Map(
@@ -102,4 +133,5 @@ module.exports = {
   normalizeLibraryName,
   parseContract,
   validateLibraryContractInventory,
+  validateGeneratorProbe,
 };
