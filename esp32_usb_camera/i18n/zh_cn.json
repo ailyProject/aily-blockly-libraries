@@ -1,0 +1,151 @@
+{
+  "toolbox_name": "ESP32-S3 USB摄像头",
+  "toolbox_labels": {
+    "采集与状态": "采集与状态",
+    "保存与预览": "保存与预览"
+  },
+  "esp32_usb_camera_init": {
+    "message0": "USB摄像头 初始化 分辨率 %1 帧率 %2 VBUS控制引脚 %3 有效电平 %4",
+    "tooltip": "仅ESP32-S3与Arduino-ESP32 3.3.12。连接Full-Speed MJPEG摄像头，GPIO19=D−、GPIO20=D+。VBUS引脚控制外部5V电源开关，-1表示外部持续供电。初始化异步返回，用连接状态和错误码诊断。",
+    "args0": [
+      {
+        "options": [
+          [
+            "320 × 240",
+            "320x240"
+          ],
+          [
+            "160 × 120",
+            "160x120"
+          ],
+          [
+            "640 × 480",
+            "640x480"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "15",
+            "15"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "10",
+            "10"
+          ],
+          [
+            "30",
+            "30"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "高电平",
+            "true"
+          ],
+          [
+            "低电平",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_camera_is_connected": {
+    "message0": "USB摄像头 已连接并开始取流",
+    "tooltip": "USB摄像头完成MJPEG格式协商且视频流成功启动时为真。"
+  },
+  "esp32_usb_camera_capture": {
+    "message0": "USB摄像头 捕获新帧 等待 %1 毫秒",
+    "tooltip": "等待一张新的JPEG并保存为稳定快照，成功返回真。等待限制为0至60000毫秒；0只读取尚未捕获的新帧。失败会清除旧快照。"
+  },
+  "esp32_usb_camera_frame_info": {
+    "message0": "USB摄像头 %1",
+    "tooltip": "宽、高和字节数对应捕获成功后的快照；没有快照时为0。累计帧数统计本次初始化以来收到的视频帧。",
+    "args0": [
+      {
+        "options": [
+          [
+            "当前JPEG字节数",
+            "frameSize"
+          ],
+          [
+            "当前图像宽度",
+            "frameWidth"
+          ],
+          [
+            "当前图像高度",
+            "frameHeight"
+          ],
+          [
+            "累计接收帧数",
+            "frameCount"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_camera_release": {
+    "message0": "USB摄像头 释放当前快照",
+    "tooltip": "使当前快照失效，后续保存前需要再次捕获。USB后台取流继续运行。"
+  },
+  "esp32_usb_camera_last_error": {
+    "message0": "USB摄像头 最近错误码",
+    "tooltip": "0为ESP_OK，其余为ESP-IDF错误码。异步连接、内存不足或格式不匹配也可在此诊断。"
+  },
+  "esp32_usb_camera_save": {
+    "message0": "USB摄像头 保存当前JPEG到 %1 路径 %2",
+    "tooltip": "保存已捕获的快照，成功返回真。请先用相应文件系统库挂载存储，再捕获新帧；同名文件会被覆盖。",
+    "args0": [
+      {
+        "options": [
+          [
+            "SD",
+            "SD"
+          ],
+          [
+            "SD_MMC",
+            "SD_MMC"
+          ],
+          [
+            "LittleFS",
+            "LittleFS"
+          ],
+          [
+            "SPIFFS",
+            "SPIFFS"
+          ],
+          [
+            "FFat",
+            "FFat"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_usb_camera_server_start": {
+    "message0": "USB摄像头 启动网页预览 端口 %1",
+    "tooltip": "先通过WiFi库连接网络。后台HTTP服务提供网页预览和/capture JPEG接口；端口1至65535，非法值使用80。"
+  },
+  "esp32_usb_camera_server_url": {
+    "message0": "USB摄像头 网页预览地址",
+    "tooltip": "返回WiFi局域网预览URL，包含实际端口；HTTP服务未启动时返回空字符串。"
+  },
+  "esp32_usb_camera_server_stop": {
+    "message0": "USB摄像头 停止网页预览",
+    "tooltip": "停止HTTP服务，USB摄像头继续取流。"
+  },
+  "esp32_usb_camera_end": {
+    "message0": "USB摄像头 停止并释放资源",
+    "tooltip": "停止HTTP和摄像头并释放本库拥有的USB资源。停止失败时保留在用资源，用最近错误码检查结果后重试。"
+  }
+}

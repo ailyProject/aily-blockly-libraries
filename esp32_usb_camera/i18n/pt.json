@@ -1,0 +1,151 @@
+{
+  "toolbox_name": "Câmara USB ESP32-S3",
+  "toolbox_labels": {
+    "采集与状态": "Captura e estado",
+    "保存与预览": "Guardar e pré-visualizar"
+  },
+  "esp32_usb_camera_init": {
+    "message0": "câmara USB inicializar resolução %1 frequência %2 pino de controlo VBUS %3 nível ativo %4",
+    "tooltip": "Apenas ESP32-S3 e Arduino-ESP32 3.3.12. Ligue uma câmara Full-Speed MJPEG: GPIO19=D−, GPIO20=D+. O pino VBUS controla um interruptor externo de alimentação de 5 V; -1 indica alimentação externa permanente. A inicialização é assíncrona; verifique a ligação e o código de erro.",
+    "args0": [
+      {
+        "options": [
+          [
+            "320 × 240",
+            "320x240"
+          ],
+          [
+            "160 × 120",
+            "160x120"
+          ],
+          [
+            "640 × 480",
+            "640x480"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "15",
+            "15"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "10",
+            "10"
+          ],
+          [
+            "30",
+            "30"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "Alto",
+            "true"
+          ],
+          [
+            "Baixo",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_camera_is_connected": {
+    "message0": "câmara USB ligada e a transmitir",
+    "tooltip": "Verdadeiro após a negociação MJPEG e o início da transmissão de vídeo."
+  },
+  "esp32_usb_camera_capture": {
+    "message0": "câmara USB capturar novo fotograma espera %1 ms",
+    "tooltip": "Aguarda um novo JPEG e mantém um instantâneo estável; verdadeiro em caso de sucesso. Espera: 0–60000 ms. Com 0, lê apenas um novo fotograma ainda não capturado. Uma falha apaga o instantâneo anterior."
+  },
+  "esp32_usb_camera_frame_info": {
+    "message0": "câmara USB %1",
+    "tooltip": "A largura, altura e tamanho referem-se ao instantâneo capturado; são 0 se não existir. O contador inclui fotogramas recebidos desde a inicialização.",
+    "args0": [
+      {
+        "options": [
+          [
+            "tamanho JPEG atual em bytes",
+            "frameSize"
+          ],
+          [
+            "largura atual da imagem",
+            "frameWidth"
+          ],
+          [
+            "altura atual da imagem",
+            "frameHeight"
+          ],
+          [
+            "total de fotogramas recebidos",
+            "frameCount"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_camera_release": {
+    "message0": "câmara USB libertar instantâneo atual",
+    "tooltip": "Invalida o instantâneo atual. Capture novamente antes de guardar. A transmissão USB continua em segundo plano."
+  },
+  "esp32_usb_camera_last_error": {
+    "message0": "câmara USB último código de erro",
+    "tooltip": "0 significa ESP_OK; os restantes valores são códigos ESP-IDF. Também indica erros assíncronos de ligação, memória e formato."
+  },
+  "esp32_usb_camera_save": {
+    "message0": "câmara USB guardar JPEG atual em %1 caminho %2",
+    "tooltip": "Guarda o instantâneo capturado; verdadeiro em caso de sucesso. Monte o armazenamento com a biblioteca do sistema de ficheiros antes de capturar. Um ficheiro no mesmo caminho é substituído.",
+    "args0": [
+      {
+        "options": [
+          [
+            "SD",
+            "SD"
+          ],
+          [
+            "SD_MMC",
+            "SD_MMC"
+          ],
+          [
+            "LittleFS",
+            "LittleFS"
+          ],
+          [
+            "SPIFFS",
+            "SPIFFS"
+          ],
+          [
+            "FFat",
+            "FFat"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_usb_camera_server_start": {
+    "message0": "câmara USB iniciar pré-visualização web porta %1",
+    "tooltip": "Ligue primeiro o WiFi. O servidor HTTP em segundo plano fornece a pré-visualização web e o endpoint JPEG /capture. Portas: 1–65535; valores inválidos usam 80."
+  },
+  "esp32_usb_camera_server_url": {
+    "message0": "câmara USB URL da pré-visualização web",
+    "tooltip": "Devolve o URL de pré-visualização na LAN WiFi com a porta real, ou uma cadeia vazia se o servidor HTTP estiver parado."
+  },
+  "esp32_usb_camera_server_stop": {
+    "message0": "câmara USB parar pré-visualização web",
+    "tooltip": "Para o servidor HTTP. A câmara USB continua a transmitir."
+  },
+  "esp32_usb_camera_end": {
+    "message0": "câmara USB parar e libertar recursos",
+    "tooltip": "Para HTTP e a câmara e liberta os recursos USB desta biblioteca. Se a paragem falhar, mantém os recursos ainda em uso. Verifique o último erro e tente novamente."
+  }
+}

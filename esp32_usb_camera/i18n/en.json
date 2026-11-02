@@ -1,0 +1,151 @@
+{
+  "toolbox_name": "ESP32-S3 USB Camera",
+  "toolbox_labels": {
+    "采集与状态": "Capture and status",
+    "保存与预览": "Save and preview"
+  },
+  "esp32_usb_camera_init": {
+    "message0": "USB camera initialize resolution %1 frame rate %2 VBUS control pin %3 active level %4",
+    "tooltip": "Requires ESP32-S3 and Arduino-ESP32 3.3.12. Connect a Full-Speed MJPEG camera: GPIO19=D−, GPIO20=D+. The VBUS pin controls an external 5V power switch; -1 means continuous external power. Initialization returns asynchronously; check connection status and error code.",
+    "args0": [
+      {
+        "options": [
+          [
+            "320 × 240",
+            "320x240"
+          ],
+          [
+            "160 × 120",
+            "160x120"
+          ],
+          [
+            "640 × 480",
+            "640x480"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "15",
+            "15"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "10",
+            "10"
+          ],
+          [
+            "30",
+            "30"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "High",
+            "true"
+          ],
+          [
+            "Low",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_camera_is_connected": {
+    "message0": "USB camera connected and streaming",
+    "tooltip": "True after MJPEG negotiation succeeds and video streaming starts."
+  },
+  "esp32_usb_camera_capture": {
+    "message0": "USB camera capture new frame wait %1 ms",
+    "tooltip": "Wait for a new JPEG and keep a stable snapshot; returns true on success. Timeout: 0–60000 ms. Zero reads only a new frame not yet captured. Failure clears the old snapshot."
+  },
+  "esp32_usb_camera_frame_info": {
+    "message0": "USB camera %1",
+    "tooltip": "Width, height and byte size describe the captured snapshot; zero when none exists. Frame count includes video frames received since initialization.",
+    "args0": [
+      {
+        "options": [
+          [
+            "current JPEG size in bytes",
+            "frameSize"
+          ],
+          [
+            "current image width",
+            "frameWidth"
+          ],
+          [
+            "current image height",
+            "frameHeight"
+          ],
+          [
+            "received frame count",
+            "frameCount"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_camera_release": {
+    "message0": "USB camera release current snapshot",
+    "tooltip": "Invalidate the current snapshot. Capture again before saving. Background USB streaming continues."
+  },
+  "esp32_usb_camera_last_error": {
+    "message0": "USB camera last error code",
+    "tooltip": "Zero means ESP_OK; other values are ESP-IDF error codes. Also reports asynchronous connection, memory and format errors."
+  },
+  "esp32_usb_camera_save": {
+    "message0": "USB camera save current JPEG to %1 path %2",
+    "tooltip": "Save the captured snapshot and return true on success. Mount storage with its filesystem library before capturing. An existing file at the same path is overwritten.",
+    "args0": [
+      {
+        "options": [
+          [
+            "SD",
+            "SD"
+          ],
+          [
+            "SD_MMC",
+            "SD_MMC"
+          ],
+          [
+            "LittleFS",
+            "LittleFS"
+          ],
+          [
+            "SPIFFS",
+            "SPIFFS"
+          ],
+          [
+            "FFat",
+            "FFat"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_usb_camera_server_start": {
+    "message0": "USB camera start web preview port %1",
+    "tooltip": "Connect WiFi first. The background HTTP server provides web preview and the /capture JPEG endpoint. Valid ports: 1–65535; invalid values use 80."
+  },
+  "esp32_usb_camera_server_url": {
+    "message0": "USB camera web preview URL",
+    "tooltip": "Return the WiFi LAN preview URL with the actual port, or an empty string if the HTTP server is stopped."
+  },
+  "esp32_usb_camera_server_stop": {
+    "message0": "USB camera stop web preview",
+    "tooltip": "Stop the HTTP server. USB camera streaming continues."
+  },
+  "esp32_usb_camera_end": {
+    "message0": "USB camera stop and release resources",
+    "tooltip": "Stop HTTP and the camera; release USB resources owned by this library. If stopping fails, retain resources still in use. Check the last error and retry."
+  }
+}
