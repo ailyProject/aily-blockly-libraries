@@ -1,0 +1,1777 @@
+[
+  {
+    "args0": [
+      {
+        "name": "NAME",
+        "text": "otto",
+        "type": "field_input"
+      },
+      {
+        "name": "YL",
+        "options": "${board.servoPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "YR",
+        "options": "${board.servoPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "RL",
+        "options": "${board.servoPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "RR",
+        "options": "${board.servoPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "CALIB",
+        "options": [
+          [
+            "是",
+            "true"
+          ],
+          [
+            "否",
+            "false"
+          ]
+        ],
+        "type": "field_dropdown"
+      },
+      {
+        "name": "NOISE",
+        "options": "${board.analogPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "BUZZER",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "TRIG",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "ECHO",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#00A8F3",
+    "message0": "初始化 Otto %1 左腿YL %2 右腿YR %3 左脚RL %4 右脚RR %5 载入EEPROM校准 %6 噪声传感器 %7 蜂鸣器 %8 超声Trig %9 超声Echo %10",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "初始化舵机、蜂鸣器、噪声与超声波传感器，需放在 setup 中",
+    "type": "otto_init"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "name": "DIN",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "CS",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "CLK",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "ROTATE",
+        "options": [
+          [
+            "朝上",
+            "1"
+          ],
+          [
+            "朝下",
+            "2"
+          ],
+          [
+            "朝左",
+            "3"
+          ],
+          [
+            "朝右",
+            "4"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#E91E63",
+    "message0": "初始化 LED 矩阵 %1 DIN %2 CS %3 CLK %4 朝向 %5",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "Otto 官方矩阵接线 DIN=A3 CS=A2 CLK=A1",
+    "type": "otto_init_matrix"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      }
+    ],
+    "colour": "#00A8F3",
+    "message0": "接通舵机 %1",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_attach_servos"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      }
+    ],
+    "colour": "#00A8F3",
+    "message0": "断开舵机 %1",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_detach_servos"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "YL",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "YR",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "RL",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "RR",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#00A8F3",
+    "inputsInline": true,
+    "message0": "设置舵机微调 %1 左腿 %2 右腿 %3 左脚 %4 右脚 %5",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "微调范围约 -30~30，用于校准舵机零位",
+    "type": "otto_set_trims"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      }
+    ],
+    "colour": "#00A8F3",
+    "message0": "保存微调到 EEPROM %1",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_save_trims"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      }
+    ],
+    "colour": "#FF7A00",
+    "message0": "回到初始姿势 %1",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_home"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      }
+    ],
+    "colour": "#00B0FF",
+    "message0": "休息中 %1",
+    "output": "Boolean",
+    "type": "otto_get_rest_state"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "name": "STATE",
+        "options": [
+          [
+            "是（休息）",
+            "true"
+          ],
+          [
+            "否（活动）",
+            "false"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#00A8F3",
+    "message0": "设置休息状态 %1 %2",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_set_rest_state"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "STEPS",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "T",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#FF7A00",
+    "inputsInline": true,
+    "message0": "跳动 %1 步数 %2 周期 %3 ms",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_jump"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "STEPS",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "T",
+        "type": "input_value"
+      },
+      {
+        "name": "DIR",
+        "options": [
+          [
+            "前进",
+            "FORWARD"
+          ],
+          [
+            "后退",
+            "BACKWARD"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#FF7A00",
+    "inputsInline": true,
+    "message0": "步行 %1 步数 %2 周期 %3 ms 方向 %4",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_walk"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "STEPS",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "T",
+        "type": "input_value"
+      },
+      {
+        "name": "DIR",
+        "options": [
+          [
+            "左转",
+            "LEFT"
+          ],
+          [
+            "右转",
+            "RIGHT"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#FF7A00",
+    "inputsInline": true,
+    "message0": "转身 %1 步数 %2 周期 %3 ms 方向 %4",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_turn"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "STEPS",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "T",
+        "type": "input_value"
+      },
+      {
+        "name": "DIR",
+        "options": [
+          [
+            "向左",
+            "LEFT"
+          ],
+          [
+            "向右",
+            "RIGHT"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#FF7A00",
+    "inputsInline": true,
+    "message0": "弯腰 %1 步数 %2 周期 %3 ms 方向 %4",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_bend"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "STEPS",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "T",
+        "type": "input_value"
+      },
+      {
+        "name": "DIR",
+        "options": [
+          [
+            "右腿",
+            "RIGHT"
+          ],
+          [
+            "左腿",
+            "LEFT"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#FF7A00",
+    "inputsInline": true,
+    "message0": "甩腿 %1 步数 %2 周期 %3 ms 方向 %4",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_shake_leg"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "STEPS",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "T",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "H",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#FF7A00",
+    "inputsInline": true,
+    "message0": "上下起伏 %1 步数 %2 周期 %3 ms 幅度 %4",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_updown"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "STEPS",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "T",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "H",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#FF7A00",
+    "inputsInline": true,
+    "message0": "左右摇摆 %1 步数 %2 周期 %3 ms 幅度 %4",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_swing"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "STEPS",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "T",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "H",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#FF7A00",
+    "inputsInline": true,
+    "message0": "脚尖摇摆 %1 步数 %2 周期 %3 ms 幅度 %4",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_tiptoe_swing"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "STEPS",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "T",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "H",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#FF7A00",
+    "inputsInline": true,
+    "message0": "快速抖动 %1 步数 %2 周期 %3 ms 幅度 %4",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_jitter"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "STEPS",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "T",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "H",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#FF7A00",
+    "inputsInline": true,
+    "message0": "上升转身 %1 步数 %2 周期 %3 ms 幅度 %4",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_ascending_turn"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "STEPS",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "T",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "H",
+        "type": "input_value"
+      },
+      {
+        "name": "DIR",
+        "options": [
+          [
+            "向左",
+            "LEFT"
+          ],
+          [
+            "向右",
+            "RIGHT"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#FF7A00",
+    "inputsInline": true,
+    "message0": "太空步 %1 步数 %2 周期 %3 ms 幅度 %4 方向 %5",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_moonwalker"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "STEPS",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "T",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "H",
+        "type": "input_value"
+      },
+      {
+        "name": "DIR",
+        "options": [
+          [
+            "前进",
+            "FORWARD"
+          ],
+          [
+            "后退",
+            "BACKWARD"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#FF7A00",
+    "inputsInline": true,
+    "message0": "交叉步 %1 步数 %2 周期 %3 ms 幅度 %4 方向 %5",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_crusaito"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "STEPS",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "T",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "H",
+        "type": "input_value"
+      },
+      {
+        "name": "DIR",
+        "options": [
+          [
+            "前进",
+            "FORWARD"
+          ],
+          [
+            "后退",
+            "BACKWARD"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#FF7A00",
+    "inputsInline": true,
+    "message0": "振翅摆动 %1 步数 %2 周期 %3 ms 幅度 %4 方向 %5",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_flapping"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      }
+    ],
+    "colour": "#00B0FF",
+    "message0": "超声波距离(cm) %1",
+    "output": "Number",
+    "type": "otto_get_distance"
+  },
+  {
+    "args0": [
+      {
+        "name": "PIN",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#00B0FF",
+    "message0": "触摸开关被按下 %1",
+    "output": "Boolean",
+    "tooltip": "Otto Plus 触摸模块默认接 A0，触摸头部时为真",
+    "type": "otto_touch_pressed"
+  },
+  {
+    "args0": [
+      {
+        "name": "PIN",
+        "options": "${board.analogPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "check": "Number",
+        "name": "THRESHOLD",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#00B0FF",
+    "inputsInline": true,
+    "message0": "声控开关触发 %1 阈值 %2",
+    "output": "Boolean",
+    "tooltip": "Otto Plus 声控模块默认接 A6，音量超过阈值时为真（阈值 0-1023）",
+    "type": "otto_sound_triggered"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "INTENSITY",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#E91E63",
+    "inputsInline": true,
+    "message0": "矩阵亮度 %1 亮度 %2 (0-15)",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_matrix_intensity"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "name": "MOUTH",
+        "options": [
+          [
+            "数字 0",
+            "zero"
+          ],
+          [
+            "数字 1",
+            "one"
+          ],
+          [
+            "数字 2",
+            "two"
+          ],
+          [
+            "数字 3",
+            "three"
+          ],
+          [
+            "数字 4",
+            "four"
+          ],
+          [
+            "数字 5",
+            "five"
+          ],
+          [
+            "数字 6",
+            "six"
+          ],
+          [
+            "数字 7",
+            "seven"
+          ],
+          [
+            "数字 8",
+            "eight"
+          ],
+          [
+            "数字 9",
+            "nine"
+          ],
+          [
+            "微笑",
+            "smile"
+          ],
+          [
+            "大笑",
+            "happyOpen"
+          ],
+          [
+            "笑（闭嘴）",
+            "happyClosed"
+          ],
+          [
+            "爱心",
+            "heart"
+          ],
+          [
+            "大惊讶",
+            "bigSurprise"
+          ],
+          [
+            "小惊讶",
+            "smallSurprise"
+          ],
+          [
+            "吐舌头",
+            "tongueOut"
+          ],
+          [
+            "吸血鬼 1",
+            "vamp1"
+          ],
+          [
+            "吸血鬼 2",
+            "vamp2"
+          ],
+          [
+            "平嘴",
+            "lineMouth"
+          ],
+          [
+            "疑惑",
+            "confused"
+          ],
+          [
+            "斜线",
+            "diagonal"
+          ],
+          [
+            "难过",
+            "sad"
+          ],
+          [
+            "难过张嘴",
+            "sadOpen"
+          ],
+          [
+            "难过闭嘴",
+            "sadClosed"
+          ],
+          [
+            "OK 嘴",
+            "okMouth"
+          ],
+          [
+            "叉叉嘴",
+            "xMouth"
+          ],
+          [
+            "问号",
+            "interrogation"
+          ],
+          [
+            "闪电",
+            "thunder"
+          ],
+          [
+            "桃心臀",
+            "culito"
+          ],
+          [
+            "生气",
+            "angry"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#E91E63",
+    "message0": "显示嘴型 %1 %2",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_put_mouth"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "CODE",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#E91E63",
+    "message0": "显示位图嘴型 %1 位图数值 %2",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "把 32 位 LED 位图（十进制数值）直接显示到矩阵",
+    "type": "otto_put_mouth_bitmap"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "name": "ANIM",
+        "options": [
+          [
+            "小圆嘴",
+            "littleUuh"
+          ],
+          [
+            "梦幻",
+            "dreamMouth"
+          ],
+          [
+            "猜谜",
+            "adivinawi"
+          ],
+          [
+            "波浪",
+            "wave"
+          ]
+        ],
+        "type": "field_dropdown"
+      },
+      {
+        "check": "Number",
+        "name": "INDEX",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#E91E63",
+    "inputsInline": true,
+    "message0": "显示嘴型动画 %1 %2 帧序号 %3",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_put_animation_mouth"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      }
+    ],
+    "colour": "#E91E63",
+    "message0": "清除嘴型显示 %1",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_clear_mouth"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "X",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "Y",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "VALUE",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#E91E63",
+    "inputsInline": true,
+    "message0": "设置矩阵点 %1 列X %2 (0-7) 行Y %3 (0-7) 亮 %4",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_set_led"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "String",
+        "name": "TEXT",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "SPEED",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#E91E63",
+    "inputsInline": true,
+    "message0": "矩阵显示文字 %1 文本 %2 滚动速度 %3 ms",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "仅支持字体表内的 ASCII 字符",
+    "type": "otto_write_text"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "FREQ",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "DURATION",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "SILENT",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#9C27B0",
+    "inputsInline": true,
+    "message0": "播放音调 %1 频率 %2 Hz 时长 %3 ms 静音 %4 ms",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_tone"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "INITF",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "FINALF",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "PROP",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "DUR",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "SILENT",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#9C27B0",
+    "inputsInline": true,
+    "message0": "播放滑音 %1 起始 %2 Hz 结束 %3 Hz 比例 %4 单音时长 %5 ms 静音 %6 ms",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_bend_tones"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "name": "SONG",
+        "options": [
+          [
+            "连接",
+            "S_connection"
+          ],
+          [
+            "断开",
+            "S_disconnection"
+          ],
+          [
+            "按键",
+            "S_buttonPushed"
+          ],
+          [
+            "模式 1",
+            "S_mode1"
+          ],
+          [
+            "模式 2",
+            "S_mode2"
+          ],
+          [
+            "模式 3",
+            "S_mode3"
+          ],
+          [
+            "惊讶",
+            "S_surprise"
+          ],
+          [
+            "喔哦",
+            "S_OhOoh"
+          ],
+          [
+            "喔哦 2",
+            "S_OhOoh2"
+          ],
+          [
+            "撒娇",
+            "S_cuddly"
+          ],
+          [
+            "睡觉",
+            "S_sleeping"
+          ],
+          [
+            "开心",
+            "S_happy"
+          ],
+          [
+            "超开心",
+            "S_superHappy"
+          ],
+          [
+            "开心短音",
+            "S_happy_short"
+          ],
+          [
+            "难过",
+            "S_sad"
+          ],
+          [
+            "疑惑",
+            "S_confused"
+          ],
+          [
+            "屁声 1",
+            "S_fart1"
+          ],
+          [
+            "屁声 2",
+            "S_fart2"
+          ],
+          [
+            "屁声 3",
+            "S_fart3"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#9C27B0",
+    "message0": "唱歌 %1 %2",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_sing"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "POSITION",
+        "type": "input_value"
+      },
+      {
+        "name": "SERVO",
+        "options": [
+          [
+            "左腿 YL",
+            "0"
+          ],
+          [
+            "右腿 YR",
+            "1"
+          ],
+          [
+            "左脚 RL",
+            "2"
+          ],
+          [
+            "右脚 RR",
+            "3"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#546E7A",
+    "inputsInline": true,
+    "message0": "转动单个舵机 %1 角度 %2 (0-180) 舵机 %3",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_move_single"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "TIME",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "YL",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "YR",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "RL",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "RR",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#546E7A",
+    "inputsInline": true,
+    "message0": "四舵机同步移动 %1 时间 %2 ms 左腿 %3 右腿 %4 左脚 %5 右脚 %6 (角度0-180)",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "otto_move_servos"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "Otto9",
+        "name": "NAME",
+        "type": "field_variable",
+        "variableTypes": [
+          "Otto9"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "AYL",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "AYR",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "ARL",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "ARR",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "OYL",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "OYR",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "ORL",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "ORR",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "T",
+        "type": "input_value"
+      },
+      {
+        "name": "PYL",
+        "options": [
+          [
+            "0°",
+            "0"
+          ],
+          [
+            "30°",
+            "0.5235987755982988"
+          ],
+          [
+            "45°",
+            "0.7853981633974483"
+          ],
+          [
+            "60°",
+            "1.0471975511965976"
+          ],
+          [
+            "90°",
+            "1.5707963267948966"
+          ],
+          [
+            "120°",
+            "2.0943951023931953"
+          ],
+          [
+            "135°",
+            "2.356194490192345"
+          ],
+          [
+            "150°",
+            "2.6179938779914944"
+          ],
+          [
+            "180°",
+            "3.141592653589793"
+          ],
+          [
+            "210°",
+            "3.665191429188092"
+          ],
+          [
+            "225°",
+            "3.9269908169872414"
+          ],
+          [
+            "240°",
+            "4.1887902047863905"
+          ],
+          [
+            "270°",
+            "4.71238898038469"
+          ],
+          [
+            "300°",
+            "5.235987755982988"
+          ],
+          [
+            "315°",
+            "5.497787143782138"
+          ],
+          [
+            "330°",
+            "5.759586531581287"
+          ],
+          [
+            "360°",
+            "6.283185307179586"
+          ]
+        ],
+        "type": "field_dropdown"
+      },
+      {
+        "name": "PYR",
+        "options": [
+          [
+            "0°",
+            "0"
+          ],
+          [
+            "30°",
+            "0.5235987755982988"
+          ],
+          [
+            "45°",
+            "0.7853981633974483"
+          ],
+          [
+            "60°",
+            "1.0471975511965976"
+          ],
+          [
+            "90°",
+            "1.5707963267948966"
+          ],
+          [
+            "120°",
+            "2.0943951023931953"
+          ],
+          [
+            "135°",
+            "2.356194490192345"
+          ],
+          [
+            "150°",
+            "2.6179938779914944"
+          ],
+          [
+            "180°",
+            "3.141592653589793"
+          ],
+          [
+            "210°",
+            "3.665191429188092"
+          ],
+          [
+            "225°",
+            "3.9269908169872414"
+          ],
+          [
+            "240°",
+            "4.1887902047863905"
+          ],
+          [
+            "270°",
+            "4.71238898038469"
+          ],
+          [
+            "300°",
+            "5.235987755982988"
+          ],
+          [
+            "315°",
+            "5.497787143782138"
+          ],
+          [
+            "330°",
+            "5.759586531581287"
+          ],
+          [
+            "360°",
+            "6.283185307179586"
+          ]
+        ],
+        "type": "field_dropdown"
+      },
+      {
+        "name": "PRL",
+        "options": [
+          [
+            "0°",
+            "0"
+          ],
+          [
+            "30°",
+            "0.5235987755982988"
+          ],
+          [
+            "45°",
+            "0.7853981633974483"
+          ],
+          [
+            "60°",
+            "1.0471975511965976"
+          ],
+          [
+            "90°",
+            "1.5707963267948966"
+          ],
+          [
+            "120°",
+            "2.0943951023931953"
+          ],
+          [
+            "135°",
+            "2.356194490192345"
+          ],
+          [
+            "150°",
+            "2.6179938779914944"
+          ],
+          [
+            "180°",
+            "3.141592653589793"
+          ],
+          [
+            "210°",
+            "3.665191429188092"
+          ],
+          [
+            "225°",
+            "3.9269908169872414"
+          ],
+          [
+            "240°",
+            "4.1887902047863905"
+          ],
+          [
+            "270°",
+            "4.71238898038469"
+          ],
+          [
+            "300°",
+            "5.235987755982988"
+          ],
+          [
+            "315°",
+            "5.497787143782138"
+          ],
+          [
+            "330°",
+            "5.759586531581287"
+          ],
+          [
+            "360°",
+            "6.283185307179586"
+          ]
+        ],
+        "type": "field_dropdown"
+      },
+      {
+        "name": "PRR",
+        "options": [
+          [
+            "0°",
+            "0"
+          ],
+          [
+            "30°",
+            "0.5235987755982988"
+          ],
+          [
+            "45°",
+            "0.7853981633974483"
+          ],
+          [
+            "60°",
+            "1.0471975511965976"
+          ],
+          [
+            "90°",
+            "1.5707963267948966"
+          ],
+          [
+            "120°",
+            "2.0943951023931953"
+          ],
+          [
+            "135°",
+            "2.356194490192345"
+          ],
+          [
+            "150°",
+            "2.6179938779914944"
+          ],
+          [
+            "180°",
+            "3.141592653589793"
+          ],
+          [
+            "210°",
+            "3.665191429188092"
+          ],
+          [
+            "225°",
+            "3.9269908169872414"
+          ],
+          [
+            "240°",
+            "4.1887902047863905"
+          ],
+          [
+            "270°",
+            "4.71238898038469"
+          ],
+          [
+            "300°",
+            "5.235987755982988"
+          ],
+          [
+            "315°",
+            "5.497787143782138"
+          ],
+          [
+            "330°",
+            "5.759586531581287"
+          ],
+          [
+            "360°",
+            "6.283185307179586"
+          ]
+        ],
+        "type": "field_dropdown"
+      },
+      {
+        "check": "Number",
+        "name": "CYCLE",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#546E7A",
+    "inputsInline": false,
+    "message0": "舵机振荡 %1 摆幅 左腿 %2 右腿 %3 左脚 %4 右脚 %5 偏移 左腿 %6 右腿 %7 左脚 %8 右脚 %9 周期 %10 ms 相位 左腿 %11 右腿 %12 左脚 %13 右脚 %14 循环数 %15",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "底层振荡接口：按摆幅/偏移/相位差驱动四个舵机",
+    "type": "otto_oscillate_servos"
+  }
+]
