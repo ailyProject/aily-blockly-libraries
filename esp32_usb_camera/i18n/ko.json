@@ -1,0 +1,151 @@
+{
+  "toolbox_name": "ESP32-S3 USB 카메라",
+  "toolbox_labels": {
+    "采集与状态": "촬영 및 상태",
+    "保存与预览": "저장 및 미리보기"
+  },
+  "esp32_usb_camera_init": {
+    "message0": "USB 카메라 초기화 해상도 %1 프레임 속도 %2 VBUS 제어 핀 %3 활성 레벨 %4",
+    "tooltip": "ESP32-S3 및 Arduino-ESP32 3.3.12 전용입니다. Full-Speed MJPEG 카메라를 GPIO19=D−, GPIO20=D+에 연결하세요. VBUS 핀은 외부 5V 전원 스위치를 제어하며 -1은 외부 상시 전원을 뜻합니다. 초기화는 비동기이므로 연결 상태와 오류 코드를 확인하세요.",
+    "args0": [
+      {
+        "options": [
+          [
+            "320 × 240",
+            "320x240"
+          ],
+          [
+            "160 × 120",
+            "160x120"
+          ],
+          [
+            "640 × 480",
+            "640x480"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "15",
+            "15"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "10",
+            "10"
+          ],
+          [
+            "30",
+            "30"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "높음",
+            "true"
+          ],
+          [
+            "낮음",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_camera_is_connected": {
+    "message0": "USB 카메라 연결 및 스트리밍 중",
+    "tooltip": "MJPEG 형식 협상에 성공하고 영상 스트리밍이 시작되면 참입니다."
+  },
+  "esp32_usb_camera_capture": {
+    "message0": "USB 카메라 새 프레임 캡처 대기 %1 밀리초",
+    "tooltip": "새 JPEG를 기다려 안정적인 스냅샷을 유지하며 성공 시 참을 반환합니다. 대기 범위는 0~60000밀리초입니다. 0은 아직 캡처하지 않은 새 프레임만 읽습니다. 실패하면 이전 스냅샷을 지웁니다."
+  },
+  "esp32_usb_camera_frame_info": {
+    "message0": "USB 카메라 %1",
+    "tooltip": "너비, 높이, 바이트 수는 캡처된 스냅샷의 값이며 스냅샷이 없으면 0입니다. 누적 수는 초기화 이후 수신한 영상 프레임 수입니다.",
+    "args0": [
+      {
+        "options": [
+          [
+            "현재 JPEG 바이트 수",
+            "frameSize"
+          ],
+          [
+            "현재 이미지 너비",
+            "frameWidth"
+          ],
+          [
+            "현재 이미지 높이",
+            "frameHeight"
+          ],
+          [
+            "누적 수신 프레임 수",
+            "frameCount"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_camera_release": {
+    "message0": "USB 카메라 현재 스냅샷 해제",
+    "tooltip": "현재 스냅샷을 무효화합니다. 저장하려면 다시 캡처하세요. 백그라운드 USB 스트리밍은 계속됩니다."
+  },
+  "esp32_usb_camera_last_error": {
+    "message0": "USB 카메라 최근 오류 코드",
+    "tooltip": "0은 ESP_OK이며 나머지는 ESP-IDF 오류 코드입니다. 비동기 연결, 메모리 부족 및 형식 불일치도 진단할 수 있습니다."
+  },
+  "esp32_usb_camera_save": {
+    "message0": "USB 카메라 현재 JPEG 저장 %1 경로 %2",
+    "tooltip": "캡처한 스냅샷을 저장하고 성공 시 참을 반환합니다. 캡처 전에 해당 파일 시스템 라이브러리로 저장 장치를 마운트하세요. 같은 경로의 파일은 덮어씁니다.",
+    "args0": [
+      {
+        "options": [
+          [
+            "SD",
+            "SD"
+          ],
+          [
+            "SD_MMC",
+            "SD_MMC"
+          ],
+          [
+            "LittleFS",
+            "LittleFS"
+          ],
+          [
+            "SPIFFS",
+            "SPIFFS"
+          ],
+          [
+            "FFat",
+            "FFat"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_usb_camera_server_start": {
+    "message0": "USB 카메라 웹 미리보기 시작 포트 %1",
+    "tooltip": "먼저 WiFi에 연결하세요. 백그라운드 HTTP 서버가 웹 미리보기와 /capture JPEG 엔드포인트를 제공합니다. 포트 범위는 1~65535이며 잘못된 값은 80을 사용합니다."
+  },
+  "esp32_usb_camera_server_url": {
+    "message0": "USB 카메라 웹 미리보기 URL",
+    "tooltip": "실제 포트가 포함된 WiFi LAN 미리보기 URL을 반환합니다. HTTP 서버가 중지된 경우 빈 문자열을 반환합니다."
+  },
+  "esp32_usb_camera_server_stop": {
+    "message0": "USB 카메라 웹 미리보기 중지",
+    "tooltip": "HTTP 서버를 중지합니다. USB 카메라 스트리밍은 계속됩니다."
+  },
+  "esp32_usb_camera_end": {
+    "message0": "USB 카메라 중지 및 리소스 해제",
+    "tooltip": "HTTP와 카메라를 중지하고 이 라이브러리가 소유한 USB 리소스를 해제합니다. 중지 실패 시 사용 중인 리소스를 유지합니다. 최근 오류를 확인한 후 재시도하세요."
+  }
+}

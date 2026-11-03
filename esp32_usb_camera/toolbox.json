@@ -1,0 +1,90 @@
+{
+  "kind": "category",
+  "name": "ESP32-S3 USB摄像头",
+  "colour": "#00897B",
+  "icon": "fa-regular fa-camera",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "采集与状态"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_usb_camera_init"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_usb_camera_is_connected"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_usb_camera_capture",
+      "inputs": {
+        "TIMEOUT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_usb_camera_frame_info"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_usb_camera_release"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_usb_camera_last_error"
+    },
+    {
+      "kind": "label",
+      "text": "保存与预览"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_usb_camera_save",
+      "inputs": {
+        "PATH": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "/capture.jpg"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_usb_camera_server_start",
+      "inputs": {
+        "PORT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 80
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_usb_camera_server_url"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_usb_camera_server_stop"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_usb_camera_end"
+    }
+  ]
+}

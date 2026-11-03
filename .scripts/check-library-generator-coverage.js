@@ -10,7 +10,7 @@ const {
   runtimeBlockDefinitions,
   absArgExample,
 } = require('./check-readme-compliance');
-const { loadLibraryContract } = require('./readme-library-contracts');
+const { loadLibraryContract, validateGeneratorProbe } = require('./readme-library-contracts');
 
 const ROOT = path.resolve(__dirname, '..');
 const GENERATOR_REGISTRATION_CONTRACT = path.join(
@@ -511,45 +511,73 @@ function probeGeneratorHandler(loaded, handler, block, blockContract) {
       onFinishEditing_: null,
     });
   };
-  const createFakeBlock = () => createNoopProxy({
-    id: `generator-coverage-${block.type}`,
-    type: block.type,
-    isInFlyout: false,
-    isEnabled: () => true,
-    isInsertionMarker: () => false,
-    inputList: args.filter(arg => arg?.name).map(arg => ({ name: arg.name })),
-    workspace: createNoopProxy({
-      isFlyout: false,
-      getAllBlocks: () => [],
-      getAllVariables: () => [],
-      getBlocksByType: () => [],
-      getVariable: () => null,
-      getVariableById: id => ({ name: id || 'item', getId: () => id || 'item' }),
-      createVariable: (name, type, id) => ({ name, type, getId: () => id || name }),
-    }),
-    getFieldValue: name => {
-      reads.push({ kind: 'field', name });
-      return defaultFieldValue(fields.get(name));
-    },
-    getField: name => {
-      reads.push({ kind: 'field', name });
-      return fieldObject(name);
-    },
-    getInput: name => inputs.has(name) ? createNoopProxy({ name }) : null,
-    getInputTargetBlock: () => null,
-    getParent: () => null,
-    getSurroundParent: () => null,
-    getNextBlock: () => null,
-    getPreviousBlock: () => null,
-    getVars: () => [],
-    params_: [],
-    arguments_: [],
-    itemCount_: 0,
-    inputCount_: 0,
-    elseifCount_: 0,
-    elseCount_: 0,
-    outputConnection: block.output === undefined ? null : createNoopProxy(),
-  });
+  // Stateful generators need a valid representative workspace. This describes
+  // blocks and connections only; the real handler still performs all checks.
+  const probeContext = blockContract?.generatorProbe;
+  const contextErrors = validateGeneratorProbe(probeContext, new Map(args.filter(arg => arg?.name).map(arg => [arg.name, arg.type])));
+  if (contextErrors.length > 0) return { reads, error: contextErrors.join('; '), generatedCode: NO_DIRECT_PREVIEW };
+  const createFakeBlock = () => {
+    const workspaceBlocks = [];
+    const inputBlocks = new Map();
+    const fakeBlock = createNoopProxy({
+      id: `generator-coverage-${block.type}`,
+      type: block.type,
+      isInFlyout: false,
+      isEnabled: () => true,
+      isInsertionMarker: () => false,
+      inputList: args.filter(arg => arg?.name).map(arg => ({ name: arg.name })),
+      workspace: createNoopProxy({
+        isFlyout: false,
+        getAllBlocks: () => workspaceBlocks,
+        getAllVariables: () => [],
+        getBlocksByType: type => workspaceBlocks.filter(candidate => candidate.type === type),
+        getVariable: () => null,
+        getVariableById: id => ({ name: id || 'item', getId: () => id || 'item' }),
+        createVariable: (name, type, id) => ({ name, type, getId: () => id || name }),
+      }),
+      getFieldValue: name => {
+        reads.push({ kind: 'field', name });
+        return defaultFieldValue(fields.get(name));
+      },
+      getField: name => {
+        reads.push({ kind: 'field', name });
+        return fieldObject(name);
+      },
+      getInput: name => inputs.has(name) ? createNoopProxy({ name }) : null,
+      getInputTargetBlock: name => inputBlocks.get(name) || null,
+      getParent: () => null,
+      getSurroundParent: () => null,
+      getNextBlock: () => null,
+      getPreviousBlock: () => null,
+      getVars: () => [],
+      params_: [],
+      arguments_: [],
+      itemCount_: 0,
+      inputCount_: 0,
+      elseifCount_: 0,
+      elseCount_: 0,
+      outputConnection: block.output === undefined ? null : createNoopProxy(),
+    });
+    if (probeContext) {
+      const companion = (type, id, parent = null) => ({
+        type, id, workspace: fakeBlock.workspace, isInFlyout: false,
+        isEnabled: () => true,
+        isInsertionMarker: () => false,
+        getParent: () => parent,
+        getSurroundParent: () => parent,
+      });
+      workspaceBlocks.push(fakeBlock);
+      for (const type of new Set(probeContext.workspaceBlocks || [])) {
+        if (type !== block.type) workspaceBlocks.push(companion(type, 'probe-context-' + type));
+      }
+      for (const [name, type] of Object.entries(probeContext.inputBlocks || {})) {
+        const child = companion(type, 'probe-input-' + name, fakeBlock);
+        inputBlocks.set(name, child);
+        workspaceBlocks.push(child);
+      }
+    }
+    return fakeBlock;
+  };
   const valueToCode = (_sourceBlock, name) => {
     reads.push({ kind: 'value', name });
     const arg = argsByName.get(name);

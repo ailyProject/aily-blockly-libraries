@@ -1,0 +1,151 @@
+{
+  "toolbox_name": "ESP32-S3 USBカメラ",
+  "toolbox_labels": {
+    "采集与状态": "撮影と状態",
+    "保存与预览": "保存とプレビュー"
+  },
+  "esp32_usb_camera_init": {
+    "message0": "USBカメラを初期化 解像度 %1 フレームレート %2 VBUS制御ピン %3 有効レベル %4",
+    "tooltip": "ESP32-S3とArduino-ESP32 3.3.12専用。Full-Speed MJPEGカメラをGPIO19=D−、GPIO20=D+に接続します。VBUSピンは外部5V電源スイッチを制御し、-1は外部からの常時給電です。初期化は非同期です。接続状態とエラーコードを確認してください。",
+    "args0": [
+      {
+        "options": [
+          [
+            "320 × 240",
+            "320x240"
+          ],
+          [
+            "160 × 120",
+            "160x120"
+          ],
+          [
+            "640 × 480",
+            "640x480"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "15",
+            "15"
+          ],
+          [
+            "5",
+            "5"
+          ],
+          [
+            "10",
+            "10"
+          ],
+          [
+            "30",
+            "30"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "High",
+            "true"
+          ],
+          [
+            "Low",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_camera_is_connected": {
+    "message0": "USBカメラが接続されストリーミング中",
+    "tooltip": "MJPEG形式のネゴシエーションに成功し、映像ストリームが開始すると真になります。"
+  },
+  "esp32_usb_camera_capture": {
+    "message0": "USBカメラで新規フレームを取得 待機 %1 ミリ秒",
+    "tooltip": "新しいJPEGを待ち、安定したスナップショットを保持します。成功時は真。待機は0～60000ミリ秒。0は未取得の新しいフレームのみ読み取ります。失敗時は以前のスナップショットを消去します。"
+  },
+  "esp32_usb_camera_frame_info": {
+    "message0": "USBカメラ %1",
+    "tooltip": "幅、高さ、バイト数は取得済みスナップショットの値で、存在しない場合は0です。累計数は初期化後に受信した映像フレーム数です。",
+    "args0": [
+      {
+        "options": [
+          [
+            "現在のJPEGバイト数",
+            "frameSize"
+          ],
+          [
+            "現在の画像の幅",
+            "frameWidth"
+          ],
+          [
+            "現在の画像の高さ",
+            "frameHeight"
+          ],
+          [
+            "受信フレームの累計数",
+            "frameCount"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_camera_release": {
+    "message0": "USBカメラの現在のスナップショットを解放",
+    "tooltip": "現在のスナップショットを無効化します。保存前に再取得が必要です。USBのバックグラウンド受信は続行します。"
+  },
+  "esp32_usb_camera_last_error": {
+    "message0": "USBカメラの最新エラーコード",
+    "tooltip": "0はESP_OK、その他はESP-IDFのエラーコードです。非同期接続、メモリ不足、形式不一致も診断できます。"
+  },
+  "esp32_usb_camera_save": {
+    "message0": "USBカメラの現在のJPEGを %1 のパス %2 に保存",
+    "tooltip": "取得済みスナップショットを保存し、成功時は真を返します。撮影前に対応するファイルシステムのライブラリでストレージをマウントしてください。同じパスのファイルは上書きされます。",
+    "args0": [
+      {
+        "options": [
+          [
+            "SD",
+            "SD"
+          ],
+          [
+            "SD_MMC",
+            "SD_MMC"
+          ],
+          [
+            "LittleFS",
+            "LittleFS"
+          ],
+          [
+            "SPIFFS",
+            "SPIFFS"
+          ],
+          [
+            "FFat",
+            "FFat"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_usb_camera_server_start": {
+    "message0": "USBカメラのWebプレビューを開始 ポート %1",
+    "tooltip": "先にWiFiに接続してください。バックグラウンドHTTPサーバーがWebプレビューと/capture JPEGエンドポイントを提供します。ポートは1～65535、無効な値は80になります。"
+  },
+  "esp32_usb_camera_server_url": {
+    "message0": "USBカメラのWebプレビューURL",
+    "tooltip": "実際のポートを含むWiFi LANのプレビューURLを返します。HTTPサーバー停止中は空文字列です。"
+  },
+  "esp32_usb_camera_server_stop": {
+    "message0": "USBカメラのWebプレビューを停止",
+    "tooltip": "HTTPサーバーを停止します。USBカメラのストリーミングは続行します。"
+  },
+  "esp32_usb_camera_end": {
+    "message0": "USBカメラを停止しリソースを解放",
+    "tooltip": "HTTPとカメラを停止し、本ライブラリが所有するUSBリソースを解放します。停止に失敗した場合は使用中のリソースを保持します。最新エラーを確認して再試行してください。"
+  }
+}
