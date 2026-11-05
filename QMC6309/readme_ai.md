@@ -4,7 +4,7 @@ QMC6309 magnetometer compass: heading, three-axis field and hard-iron calibratio
 
 ## Library Info
 - **Name**: @aily-project/lib-qmc6309
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 

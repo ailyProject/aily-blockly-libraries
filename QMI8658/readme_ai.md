@@ -4,7 +4,7 @@ QMI8658 six-axis IMU: acceleration, angular rate, temperature and tilt; pins and
 
 ## Library Info
 - **Name**: @aily-project/lib-qmi8658
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 

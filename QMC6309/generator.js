@@ -51,11 +51,14 @@ Arduino.qmc6309SampleEnsure = function (generator) {
     'float qmc6309_heading = 0;',
     'bool qmc6309_valid = false;',
     'uint32_t qmc6309_at = 0;',
+    'bool qmc6309_sampled = false;',
   ].join('\n'));
   generator.addFunction('qmc6309_update', [
     'void qmc6309_update() {',
-    '  if (qmc6309_at && millis() - qmc6309_at < 10) return;',
-    '  qmc6309_at = millis() | 1;',
+    '  const uint32_t now = millis();',
+    '  if (qmc6309_sampled && (uint32_t)(now - qmc6309_at) < 10) return;',
+    '  qmc6309_at = now;',
+    '  qmc6309_sampled = true;',
     '  int16_t x, y, z;',
     '  float heading;',
     '  qmc6309_valid = qmc6309.readRaw(x, y, z) && qmc6309.readHeading(heading);',
@@ -103,7 +106,7 @@ Arduino.forBlock['qmc6309_calibrate'] = function (block, generator) {
     '    delay(20);',
     '  }',
     '  qmc6309.calibrateApply();',
-    '  qmc6309_at = 0;',
+    '  qmc6309_sampled = false;',
     '}',
   ].join('\n'));
   return 'qmc6309_calibrate(' + seconds + ');\n';

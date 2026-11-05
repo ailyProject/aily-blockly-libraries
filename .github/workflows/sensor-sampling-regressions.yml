@@ -1,0 +1,18 @@
+name: Sensor sampling regression
+on:
+  pull_request:
+    paths: ['bq27220/**', 'QMI8658/**', 'QMC6309/**', 'LTR303/**', '.scripts/sensor-sampling.test.js', '.github/workflows/sensor-sampling-regressions.yml']
+  push:
+    branches: [main]
+    paths: ['bq27220/**', 'QMI8658/**', 'QMC6309/**', 'LTR303/**', '.scripts/sensor-sampling.test.js', '.github/workflows/sensor-sampling-regressions.yml']
+permissions:
+  contents: read
+jobs:
+  sampling:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test .scripts/sensor-sampling.test.js

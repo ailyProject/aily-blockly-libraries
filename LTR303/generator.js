@@ -46,12 +46,15 @@ Arduino.ltr303Ensure = function (generator) {
     'uint16_t ltr303_ch0 = 0, ltr303_ch1 = 0;',
     'bool ltr303_valid = false;',
     'uint32_t ltr303_at = 0;',
+    'bool ltr303_sampled = false;',
   ].join('\n'));
   // 0.1 秒内重复取值直接用上次结果，三种读数来自同一次采样
   generator.addFunction('ltr303_update', [
     'void ltr303_update() {',
-    '  if (ltr303_at && millis() - ltr303_at < 100) return;',
-    '  ltr303_at = millis() | 1;',
+    '  const uint32_t now = millis();',
+    '  if (ltr303_sampled && (uint32_t)(now - ltr303_at) < 100) return;',
+    '  ltr303_at = now;',
+    '  ltr303_sampled = true;',
     '  uint16_t ch0, ch1;',
     '  float lux;',
     '  ltr303_valid = ltr303.readChannels(ch0, ch1) && ltr303.readLux(lux);',
