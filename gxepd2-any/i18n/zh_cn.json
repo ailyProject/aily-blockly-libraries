@@ -1,5 +1,214 @@
 {
   "toolbox_name": "GxEPD2 全型号墨水屏",
+  "toolbox_categories": [
+    "初始化",
+    "分页刷新",
+    "图形绘制",
+    "文字",
+    "状态与颜色",
+    "中文文字 (U8g2)"
+  ],
+  "gxepd2_setup": {
+    "message0": "初始化电子墨水屏 %1 屏幕 %2 CS %3 DC %4 RST %5 BUSY %6 串口诊断 %7 复位 %8 首次刷新 %9 复位下拉 %10",
+    "tooltip": "创建并初始化一个 GxEPD2 电子墨水屏对象。"
+  },
+  "gxepd2_page_update": {
+    "message0": "电子墨水屏 %1 分页刷新 %2",
+    "message1": "绘制 %1",
+    "tooltip": "使用 GxEPD2 firstPage/nextPage 分页方式刷新电子墨水屏。"
+  },
+  "gxepd2_clear_display": {
+    "message0": "电子墨水屏 %1 清屏并刷新 颜色 %2",
+    "tooltip": "用指定颜色填充整个屏幕并刷新。"
+  },
+  "gxepd2_set_partial_window": {
+    "message0": "电子墨水屏 %1 局部窗口 X %2 Y %3 宽 %4 高 %5",
+    "tooltip": "设置 GxEPD2 局部刷新窗口。"
+  },
+  "gxepd2_fill_screen": {
+    "message0": "电子墨水屏 %1 填充缓冲区 颜色 %2",
+    "tooltip": "填充当前显示缓冲区，通常放在分页刷新块内部。"
+  },
+  "gxepd2_set_rotation": {
+    "message0": "电子墨水屏 %1 旋转 %2",
+    "tooltip": "设置屏幕旋转方向。"
+  },
+  "gxepd2_set_text_color": {
+    "message0": "电子墨水屏 %1 文字颜色 %2",
+    "tooltip": "设置文字绘制颜色。"
+  },
+  "gxepd2_set_text_size": {
+    "message0": "电子墨水屏 %1 文字大小 %2",
+    "tooltip": "设置 Adafruit_GFX 内置字体缩放倍率。"
+  },
+  "gxepd2_set_font": {
+    "message0": "电子墨水屏 %1 字体 %2",
+    "tooltip": "设置 print 文字块使用的 Adafruit_GFX 字体。"
+  },
+  "gxepd2_set_cursor": {
+    "message0": "电子墨水屏 %1 光标 X %2 Y %3",
+    "tooltip": "设置文字光标位置。"
+  },
+  "gxepd2_print": {
+    "message0": "电子墨水屏 %1 打印 %2",
+    "tooltip": "在当前光标位置打印文字或数值。"
+  },
+  "gxepd2_draw_pixel": {
+    "message0": "电子墨水屏 %1 画点 X %2 Y %3 颜色 %4",
+    "tooltip": "在当前缓冲区绘制一个像素点。"
+  },
+  "gxepd2_draw_line": {
+    "message0": "电子墨水屏 %1 画线 X1 %2 Y1 %3 X2 %4 Y2 %5 颜色 %6",
+    "tooltip": "在当前缓冲区绘制直线。"
+  },
+  "gxepd2_draw_rect": {
+    "message0": "电子墨水屏 %1 矩形 X %2 Y %3 宽 %4 高 %5 颜色 %6 %7",
+    "tooltip": "绘制矩形轮廓或填充矩形。"
+  },
+  "gxepd2_draw_circle": {
+    "message0": "电子墨水屏 %1 圆 X %2 Y %3 半径 %4 颜色 %5 %6",
+    "tooltip": "绘制圆形轮廓或填充圆形。"
+  },
+  "gxepd2_refresh": {
+    "message0": "电子墨水屏 %1 刷新 %2",
+    "tooltip": "将控制器显存刷新到电子墨水屏。"
+  },
+  "gxepd2_sleep": {
+    "message0": "电子墨水屏 %1 电源 %2",
+    "tooltip": "关闭电源或让电子墨水屏进入休眠。"
+  },
+  "gxepd2_width": {
+    "message0": "电子墨水屏 %1 宽度",
+    "tooltip": "获取旋转后的当前显示宽度。"
+  },
+  "gxepd2_height": {
+    "message0": "电子墨水屏 %1 高度",
+    "tooltip": "获取旋转后的当前显示高度。"
+  },
+  "gxepd2_color": {
+    "message0": "电子墨水屏颜色 %1",
+    "tooltip": "GxEPD2 颜色常量。"
+  },
+  "gxepd2_u8g2_begin": {
+    "message0": "中文字体引擎 绑定到 %1",
+    "tooltip": "初始化 U8g2 中文字体引擎并绑定到墨水屏（整个程序用一次即可）",
+    "args0": [
+      null
+    ]
+  },
+  "gxepd2_u8g2_font": {
+    "message0": "中文字体 %1",
+    "tooltip": "设置文字字体（中文用文泉驿 wqy 字体）",
+    "args0": [
+      {
+        "options": [
+          [
+            "中文 12号",
+            "u8g2_font_wqy12_t_gb2312a"
+          ],
+          [
+            "中文 14号",
+            "u8g2_font_wqy14_t_gb2312a"
+          ],
+          [
+            "中文 16号",
+            "u8g2_font_wqy16_t_gb2312a"
+          ],
+          [
+            "英文 6x12",
+            "u8g2_font_6x12_tf"
+          ],
+          [
+            "英文 10x20",
+            "u8g2_font_10x20_tf"
+          ]
+        ]
+      }
+    ]
+  },
+  "gxepd2_u8g2_color": {
+    "message0": "中文文字 前景 %1 背景 %2",
+    "tooltip": "设置文字前景色与背景色",
+    "args0": [
+      {
+        "options": [
+          [
+            "黑",
+            "GxEPD_BLACK"
+          ],
+          [
+            "白",
+            "GxEPD_WHITE"
+          ],
+          [
+            "红",
+            "GxEPD_RED"
+          ],
+          [
+            "黄",
+            "GxEPD_YELLOW"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "白",
+            "GxEPD_WHITE"
+          ],
+          [
+            "黑",
+            "GxEPD_BLACK"
+          ],
+          [
+            "红",
+            "GxEPD_RED"
+          ],
+          [
+            "黄",
+            "GxEPD_YELLOW"
+          ]
+        ]
+      }
+    ]
+  },
+  "gxepd2_u8g2_mode": {
+    "message0": "中文文字 背景模式 %1",
+    "tooltip": "透明只画文字；实心会填充背景色（黑底白字/红底白字需要实心）",
+    "args0": [
+      {
+        "options": [
+          [
+            "透明（只画字）",
+            "1"
+          ],
+          [
+            "实心（填背景）",
+            "0"
+          ]
+        ]
+      }
+    ]
+  },
+  "gxepd2_u8g2_text": {
+    "message0": "中文文字 在 X %1 Y %2 显示 %3",
+    "tooltip": "在指定坐标显示文字（支持中文 UTF-8）；坐标是文字左下角基线",
+    "args0": [
+      null,
+      null,
+      null
+    ]
+  },
+  "gxepd2_spi_pins": {
+    "message0": "重映射 SPI 引脚 SCK %1 MISO %2 MOSI %3 CS %4",
+    "tooltip": "自定义 SPI 引脚（ESP32 / ESP32-C3 用）；放在“初始化墨水屏”之后。墨水屏不用 MISO，可随便填一个空脚",
+    "args0": [
+      null,
+      null,
+      null,
+      null
+    ]
+  },
   "gxepd2any_setup": {
     "message0": "初始化墨水屏(全型号) %1 型号 %2 SCK %3 MOSI(DIN) %4 CS %5 DC %6 RST %7 BUSY %8 串口 %9 复位 %10 初始刷新 %11 复位下拉 %12",
     "tooltip": "从 GxEPD2 全部支持的面板中任选型号（标签含尺寸/颜色/分辨率）创建并初始化墨水屏；SCK/MOSI 默认 ESP32 的 18/23，改了会自动重映射。创建的变量可用于所有 GxEPD2 绘图积木。",
@@ -468,5 +677,76 @@
         ]
       }
     ]
+  },
+  "gxepd22ic_setup": {
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "115200",
+            "115200"
+          ],
+          [
+            "9600",
+            "9600"
+          ],
+          [
+            "关",
+            "0"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "2 ms",
+            "2"
+          ],
+          [
+            "10 ms",
+            "10"
+          ],
+          [
+            "20 ms",
+            "20"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "是",
+            "TRUE"
+          ],
+          [
+            "否",
+            "FALSE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "关",
+            "FALSE"
+          ],
+          [
+            "开",
+            "TRUE"
+          ]
+        ]
+      }
+    ],
+    "message0": "初始化双IC墨水屏 仅HINK-E042A03-A1 4.2寸400x300双SSD1608 %1 SCK %2 MOSI %3 CS(左半屏) %4 CS2(右半屏) %5 DC %6 RST %7 BUSY %8 电源脚(-1=不接) %9 串口 %10 复位脉冲 %11 首次全刷 %12 复位下拉 %13",
+    "tooltip": "仅支持 HINK-E042A03-A1（4.2寸 400x300，双SSD1608 价格签屏），其他型号请勿使用。CS=左半屏(列0..199)，CS2=右半屏(列200..399)。电源脚一般不接：填 -1 跳过，仅当转接板真有电源使能脚时才填实际引脚。绘图用 GxEPD2 官方积木。"
   }
 }
