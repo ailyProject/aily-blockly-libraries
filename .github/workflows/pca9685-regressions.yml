@@ -1,0 +1,19 @@
+name: Software I2C PCA9685 regression
+on:
+  pull_request:
+    paths: ['swi2c-pca9685/**', '.github/workflows/pca9685-regressions.yml']
+  push:
+    branches: [main]
+    paths: ['swi2c-pca9685/**', '.github/workflows/pca9685-regressions.yml']
+permissions:
+  contents: read
+jobs:
+  cpp11-calculations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile C++11 pulse calculations
+        shell: bash
+        run: |
+          7z x swi2c-pca9685/src.7z -o"$RUNNER_TEMP/pca9685" -y
+          g++ -std=c++11 -x c++ -I swi2c-pca9685/tests/native -I "$RUNNER_TEMP/pca9685/src/Swi2cPca9685" -c swi2c-pca9685/tests/calculations/calculations.ino -o "$RUNNER_TEMP/pca9685-test.o"
