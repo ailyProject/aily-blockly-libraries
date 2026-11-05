@@ -7,14 +7,14 @@ Applicable to AHT10, AHT20 temperature and humidity sensors
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-adafruit-ahtx0 |
-| Version | 0.0.1 |
+| Version | 0.0.2 |
 | Author | Adafruit |
 | Source | N/A |
 | License | Original license |
 
 ## Supported Boards
 
-Arduino-compatible boards supported by this package.
+Arduino-compatible boards supported by this package. On ESP32 boards the I2C pins follow the selected board's `i2cPins` (IBox S31: SDA=IO0, SCL=IO1).
 
 ## Description
 
