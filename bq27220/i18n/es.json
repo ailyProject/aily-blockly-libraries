@@ -5,11 +5,12 @@
     "基础读取": "Lectura básica",
     "时间预估": "estimación de tiempo",
     "容量信息": "Información de capacidad",
-    "配置": "Configuración"
+    "配置": "Configuración",
+    "电压估算与关机": "Estimación por voltaje y apagado"
   },
   "bq27220_init": {
     "message0": "Inicializar BQ27220 %1 I2C %2 dirección %3",
-    "tooltip": "Inicializar medidor de combustible de iones de litio de una sola celda BQ27220",
+    "tooltip": "Inicializar medidor de combustible de iones de litio de una sola celda BQ27220; pines I2C según la placa",
     "args0": [
       null,
       {
@@ -105,5 +106,32 @@
   "bq27220_set_design_capacity": {
     "message0": "%1 establecer capacidad de diseño %2 mAh",
     "tooltip": "Establecer capacidad de diseño de batería(mAh)"
+  },
+  "bq27220_voltage_percent": {
+    "message0": "%1 carga estimada por voltaje",
+    "tooltip": "0–100: el voltaje se suaviza (unos 1 s) y se convierte con una curva Li-ion de 1 celda (3,3 V = 0 %, 3,8 V ≈ 50 %, 4,2 V = 100 %) con 2 % de histéresis; se mide cada 100 ms al inicio de loop. Úsalo si el medidor no está calibrado (p. ej. IBox S31)"
+  },
+  "bq27220_battery_state": {
+    "message0": "%1 batería %2",
+    "tooltip": "Baja: la carga estimada por voltaje es 10 % o menos; debe apagarse: el voltaje suavizado lleva unos 3 s por debajo de 3,3 V. Se mide cada 100 ms al inicio de loop, evita esperas largas",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "baja",
+            "LOW"
+          ],
+          [
+            "debe apagarse",
+            "SHUTDOWN"
+          ]
+        ]
+      }
+    ]
+  },
+  "bq27220_deep_sleep": {
+    "message0": "entrar en sueño profundo para apagar",
+    "tooltip": "Último paso de la protección por baja tensión: el ESP32 entra en sueño profundo y se reinicia al conectar la alimentación o pulsar reset. Apaga antes el amplificador, las luces, etc."
   }
 }

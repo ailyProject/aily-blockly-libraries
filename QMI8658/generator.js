@@ -51,11 +51,14 @@ Arduino.qmi8658SampleEnsure = function (generator) {
     'float qmi8658_temp = 0;',
     'bool qmi8658_valid = false;',
     'uint32_t qmi8658_at = 0;',
+    'bool qmi8658_sampled = false;',
   ].join('\n'));
   generator.addFunction('qmi8658_update', [
     'void qmi8658_update() {',
-    '  if (qmi8658_at && millis() - qmi8658_at < 10) return;',
-    '  qmi8658_at = millis() | 1;',
+    '  const uint32_t now = millis();',
+    '  if (qmi8658_sampled && (uint32_t)(now - qmi8658_at) < 10) return;',
+    '  qmi8658_at = now;',
+    '  qmi8658_sampled = true;',
     '  QMI8658Data d;',
     '  qmi8658_valid = qmi8658.read(d);',
     '  if (qmi8658_valid) qmi8658_data = d;',

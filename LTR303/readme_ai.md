@@ -4,7 +4,7 @@ LTR-303 ambient light sensor: lux plus raw visible and infrared counts, I2C pins
 
 ## Library Info
 - **Name**: @aily-project/lib-ltr303
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 
