@@ -1,3 +1,53 @@
+// 板载 WS2812 的引脚和灯数量按开发板选（做法同 TFT_eSPI 读 board.json 的 displayConfig，
+// 字段按 aily-blockly-boards《功能引脚申明规范》）：
+//   引脚：board.json 的 ws2812Config.pins.din > ws2812Pin > 下面库内置的板卡表
+//   数量：board.json 的 ws2812Config.count > 下面库内置的板卡表
+// 只改工具箱（flyout）里的积木，拖出来的积木带着这些默认值；打开已保存的程序时积木不在 flyout 里，
+// 用户选过的引脚和数量不会被改掉。所有带 DATA_PIN 的积木默认同一个脚，都指向同一个 leds_<pin>。
+const FASTLED_BOARD_LEDS = {
+  // board.json 的 name 去掉空格、横线、下划线后转大写；已发布的板卡包还没有 ws2812Config 时用
+  IBOXS31: { pin: "38", count: 4 },
+};
+
+function fastledBoardLedConfig() {
+  let board = null;
+  try {
+    board = window["boardConfig"];
+  } catch (e) {
+    board = null;
+  }
+  if (!board) return null;
+  const config = board.ws2812Config && typeof board.ws2812Config === "object" ? board.ws2812Config : {};
+  const configPin = config.pins && config.pins.din != null && config.pins.din !== "" ? config.pins.din : null;
+  const builtin = FASTLED_BOARD_LEDS[String(board.name || "").replace(/[\s_-]+/g, "").toUpperCase()] || {};
+  const pin = configPin != null ? configPin : board.ws2812Pin != null && board.ws2812Pin !== "" ? board.ws2812Pin : builtin.pin;
+  const count = config.count != null ? config.count : builtin.count;
+  return {
+    pin: pin != null ? String(pin) : null,
+    count: Number(count) > 0 ? Math.floor(Number(count)) : null,
+  };
+}
+
+if (Blockly.Extensions.isRegistered("fastled_board_ws2812")) {
+  Blockly.Extensions.unregister("fastled_board_ws2812");
+}
+Blockly.Extensions.register("fastled_board_ws2812", function () {
+  if (!this.isInFlyout) return;
+  const config = fastledBoardLedConfig();
+  if (!config) return;
+  const pinField = config.pin ? this.getField("DATA_PIN") : null;
+  if (pinField) {
+    try {
+      // 引脚列表里没有这个脚就保持原来的默认值
+      if (pinField.getOptions(false).some((option) => option[1] === config.pin)) pinField.setValue(config.pin);
+    } catch (e) {
+      // 保持默认值
+    }
+  }
+  const countField = config.count ? this.getField("NUM_LEDS") : null;
+  if (countField) countField.setValue(config.count);
+});
+
 Arduino.forBlock["fastled_init"] = function (block, generator) {
   const type = block.getFieldValue("TYPE");
   const dataPin = block.getFieldValue("DATA_PIN");
