@@ -14,7 +14,7 @@
 
 ESP32 boards (Arduino-ESP32) with an ES8389. Pins and address come from the board’s `audioConfig` (IBox S31); a board with another codec fails to compile.
 
-SD-card playback and recording require a chip with an SDMMC host. On chips without SDMMC (such as ESP32-C3), the built-in SD source is unavailable and `mountSD()` returns `false`; I2S audio, tones, microphone access and files on other supported, already mounted filesystems remain available. USB drives also require a USB-host-capable chip and host driver.
+SD playback/recording require SDMMC. Without it (e.g. ESP32-C3), `mountSD()` returns `false`; I2S, tones, microphone and other supported mounted filesystems remain usable. USB drives require a USB host and driver.
 
 ## Description
 
