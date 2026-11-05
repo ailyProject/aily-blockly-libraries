@@ -1,0 +1,126 @@
+[
+  {
+    "args0": [
+      {
+        "name": "NAME",
+        "text": "mp3",
+        "type": "field_input"
+      },
+      {
+        "name": "RX_PIN",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "TX_PIN",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#E9A126",
+    "message0": "初始化 JQ6500 %1 RX引脚 %2 TX引脚 %3",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "jq6500_init"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "JQ6500_Serial",
+        "name": "VAR",
+        "type": "field_variable",
+        "variable": "mp3",
+        "variableTypes": [
+          "JQ6500_Serial"
+        ]
+      }
+    ],
+    "colour": "#E9A126",
+    "message0": "JQ6500 %1 复位模块",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "jq6500_reset"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "JQ6500_Serial",
+        "name": "VAR",
+        "type": "field_variable",
+        "variable": "mp3",
+        "variableTypes": [
+          "JQ6500_Serial"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "VOLUME",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#E9A126",
+    "message0": "JQ6500 %1 设置音量 %2",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "jq6500_set_volume"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "JQ6500_Serial",
+        "name": "VAR",
+        "type": "field_variable",
+        "variable": "mp3",
+        "variableTypes": [
+          "JQ6500_Serial"
+        ]
+      },
+      {
+        "check": "Number",
+        "name": "INDEX",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#E9A126",
+    "message0": "JQ6500 %1 播放第 %2 个音频",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "jq6500_play_index"
+  },
+  {
+    "args0": [
+      {
+        "defaultType": "JQ6500_Serial",
+        "name": "VAR",
+        "type": "field_variable",
+        "variable": "mp3",
+        "variableTypes": [
+          "JQ6500_Serial"
+        ]
+      },
+      {
+        "name": "MODE",
+        "options": [
+          [
+            "不循环",
+            "MP3_LOOP_NONE"
+          ],
+          [
+            "单曲循环",
+            "MP3_LOOP_ONE"
+          ],
+          [
+            "全盘循环",
+            "MP3_LOOP_ALL"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#E9A126",
+    "message0": "JQ6500 %1 设置循环模式 %2",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "jq6500_set_loop"
+  }
+]
