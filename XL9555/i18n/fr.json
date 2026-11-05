@@ -1,0 +1,194 @@
+{
+  "toolbox_name": "XL9555 Extension E/S",
+  "xl9555_init": {
+    "message0": "initialiser l’extension E/S XL9555 adresse %1",
+    "tooltip": "Cherche le XL9555 sur les broches I2C de la carte (adresse 0x20–0x27 ; automatique prend la première qui répond) et lit toutes les entrées au début de chaque loop. À placer dans setup. Sur l’IBox S31 c’est 0x27",
+    "args0": [
+      {
+        "options": [
+          [
+            "automatique",
+            "0"
+          ],
+          [
+            "0x20",
+            "0x20"
+          ],
+          [
+            "0x21",
+            "0x21"
+          ],
+          [
+            "0x22",
+            "0x22"
+          ],
+          [
+            "0x23",
+            "0x23"
+          ],
+          [
+            "0x24",
+            "0x24"
+          ],
+          [
+            "0x25",
+            "0x25"
+          ],
+          [
+            "0x26",
+            "0x26"
+          ],
+          [
+            "0x27",
+            "0x27"
+          ]
+        ]
+      }
+    ]
+  },
+  "xl9555_name_pin": {
+    "message0": "XL9555 broche %1 nommer %2 utiliser comme %3",
+    "tooltip": "Nomme une broche et la règle en touche, entrée ou sortie ; les blocs suivants la choisissent par son nom dans la liste. À placer dans setup. Ne mettez pas en sortie une broche reliée à une touche",
+    "args0": [
+      {
+        "options": [
+          [
+            "P00",
+            "0"
+          ],
+          [
+            "P01",
+            "1"
+          ],
+          [
+            "P02",
+            "2"
+          ],
+          [
+            "P03",
+            "3"
+          ],
+          [
+            "P04",
+            "4"
+          ],
+          [
+            "P05",
+            "5"
+          ],
+          [
+            "P06",
+            "6"
+          ],
+          [
+            "P07",
+            "7"
+          ],
+          [
+            "P10",
+            "8"
+          ],
+          [
+            "P11",
+            "9"
+          ],
+          [
+            "P12",
+            "10"
+          ],
+          [
+            "P13",
+            "11"
+          ],
+          [
+            "P14",
+            "12"
+          ],
+          [
+            "P15",
+            "13"
+          ],
+          [
+            "P16",
+            "14"
+          ],
+          [
+            "P17",
+            "15"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "touche (appuyée = bas)",
+            "KEY_LOW"
+          ],
+          [
+            "touche (appuyée = haut)",
+            "KEY_HIGH"
+          ],
+          [
+            "entrée",
+            "INPUT"
+          ],
+          [
+            "sortie",
+            "OUTPUT"
+          ]
+        ]
+      }
+    ]
+  },
+  "xl9555_key": {
+    "message0": "touche %1 %2",
+    "tooltip": "Utilise le niveau choisi en nommant la broche ; « vient d’être appuyée » et « relâchée » ne sont vraies qu’un passage de loop, à tester à chaque passage sans longs délais",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "vient d’être appuyée",
+            "PRESSED"
+          ],
+          [
+            "vient d’être relâchée",
+            "RELEASED"
+          ],
+          [
+            "maintenue",
+            "HELD"
+          ]
+        ]
+      }
+    ]
+  },
+  "xl9555_write": {
+    "message0": "XL9555 %1 sortie %2",
+    "tooltip": "Met la broche à l’état haut ou bas (nommez-la en sortie) ; seule cette broche change. Sur l’IBox S31, P07 à l’état haut alimente le port USB-A",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "haut",
+            "HIGH"
+          ],
+          [
+            "bas",
+            "LOW"
+          ]
+        ]
+      }
+    ]
+  },
+  "xl9555_read": {
+    "message0": "XL9555 niveau de %1",
+    "tooltip": "Lit la broche tout de suite : 1 pour haut, 0 pour bas, -1 en cas d’échec"
+  },
+  "xl9555_ok": {
+    "message0": "XL9555 connecté",
+    "tooltip": "Vrai si la puce a été trouvée à l’initialisation"
+  }
+}
