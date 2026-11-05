@@ -34,32 +34,85 @@ function espuiVarFromInput(block, fallback) {
   return block.getFieldValue('VAR') || fallback;
 }
 
-function espuiVarFromField(block, fieldName, fallback) {
-  const field = block.getField(fieldName);
-  if (field && typeof field.getText === 'function') {
-    return field.getText() || fallback;
-  }
-  return block.getFieldValue(fieldName) || fallback;
-}
+const ESPUI_VAR_TYPE = 'ESPUIControl';
 
+const ESPUI_RESERVED_KEYWORDS = new Set((
+  'alignas alignof and and_eq asm auto bitand bitor bool break case catch char char8_t char16_t char32_t ' +
+  'class compl concept const consteval constexpr constinit const_cast continue co_await co_return co_yield ' +
+  'decltype default delete do double dynamic_cast else enum explicit export extern false float for friend goto ' +
+  'if inline int long mutable namespace new noexcept not not_eq nullptr operator or or_eq private protected ' +
+  'public register reinterpret_cast requires return short signed sizeof static static_assert static_cast ' +
+  'struct switch template this thread_local throw true try typedef typeid typename union unsigned using ' +
+  'virtual void volatile wchar_t while xor xor_eq').split(' '));
+
+// Base sanitizing only. Used when no Blockly variable model / host name database is available;
+// otherwise the C++ name always comes from the variable model via espuiCppNameForModel().
 function espuiSafeIdentifier(value, fallback) {
   let identifier = String(value || fallback || 'value').replace(/[^A-Za-z0-9_]/g, '_');
   if (!identifier) identifier = fallback || 'value';
   if (/^[0-9]/.test(identifier)) identifier = '_' + identifier;
+  if (ESPUI_RESERVED_KEYWORDS.has(identifier)) identifier = '_' + identifier;
   return identifier;
+}
+
+function espuiWorkspace(block) {
+  return block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace()) || null;
+}
+
+function espuiVariableNameType() {
+  return (typeof Blockly !== 'undefined' && Blockly.Names && Blockly.Names.NameType && Blockly.Names.NameType.VARIABLE) || 'VARIABLE';
+}
+
+// The identity of a control is its Blockly variable model (typed ESPUIControl). The model keeps the
+// name the user typed; the C++ identifier is allocated from the host generator's nameDB_, keyed by
+// model ID, so declarations, callbacks and every VAR/SELECT reference resolve to the same name and
+// never collide with each other or with other libraries. The memo only covers names we derive by
+// prefixing a C++ keyword; it is dropped whenever the host starts a new generation.
+function espuiCppNameForModel(generator, model) {
+  const db = generator.nameDB_;
+  if (!model || !db || typeof db.getName !== 'function') return null;
+  let memo = generator._espuiNames;
+  if (!memo || memo.db !== db || memo.run !== generator.definitions_) {
+    memo = generator._espuiNames = { db: db, run: generator.definitions_, byId: new Map() };
+  }
+  const id = model.getId();
+  if (!memo.byId.has(id)) {
+    const type = espuiVariableNameType();
+    let name = db.getName(id, type);
+    if (ESPUI_RESERVED_KEYWORDS.has(name)) name = db.getDistinctName('_' + name, type);
+    memo.byId.set(id, name);
+  }
+  return memo.byId.get(id);
+}
+
+function espuiVarFromField(block, generator, fieldName, fallback) {
+  const field = block.getField(fieldName);
+  const workspace = espuiWorkspace(block);
+  if (field && typeof field.getValue === 'function' && workspace && typeof workspace.getVariableById === 'function') {
+    const name = espuiCppNameForModel(generator, workspace.getVariableById(field.getValue()));
+    if (name) return name;
+  }
+  const raw = field && typeof field.getText === 'function' ? field.getText() : block.getFieldValue(fieldName);
+  return espuiSafeIdentifier(raw, fallback);
 }
 
 function espuiRegisterControlVariable(varName) {
   if (typeof registerVariableToBlockly === 'function') {
-    registerVariableToBlockly(varName, 'ESPUIControl');
+    registerVariableToBlockly(varName, ESPUI_VAR_TYPE);
   }
+}
+
+function espuiControlModel(block, fallback) {
+  const raw = espuiVarFromInput(block, fallback);
+  espuiRegisterControlVariable(raw);
+  const workspace = espuiWorkspace(block);
+  return workspace && typeof workspace.getVariable === 'function' ? workspace.getVariable(raw, ESPUI_VAR_TYPE) : null;
 }
 
 function espuiAttachControlVarMonitor(block, fallback) {
   if (!block._espuiControlVarMonitorAttached) {
     block._espuiControlVarMonitorAttached = true;
     block._espuiControlVarLastName = espuiVarFromInput(block, fallback);
-    espuiRegisterControlVariable(block._espuiControlVarLastName);
 
     const varField = block.getField('VAR');
     if (varField) {
@@ -68,11 +121,11 @@ function espuiAttachControlVarMonitor(block, fallback) {
         if (typeof originalFinishEditing === 'function') {
           originalFinishEditing.call(this, newName);
         }
-        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._espuiControlVarLastName;
-        if (workspace && newName && newName !== oldName) {
+        if (espuiWorkspace(block) && newName && newName !== oldName) {
+          // Renames the existing model, so references keep their binding.
           if (typeof renameVariableInBlockly === 'function') {
-            renameVariableInBlockly(block, oldName, newName, 'ESPUIControl');
+            renameVariableInBlockly(block, oldName, newName, ESPUI_VAR_TYPE);
           }
           block._espuiControlVarLastName = newName;
         }
@@ -83,9 +136,9 @@ function espuiAttachControlVarMonitor(block, fallback) {
 
 function espuiDeclareControl(block, generator, fallback) {
   espuiAttachControlVarMonitor(block, fallback);
-  const varName = espuiVarFromInput(block, fallback);
-  espuiRegisterControlVariable(varName);
-  generator.addVariable('espui_control_' + espuiSafeIdentifier(varName, fallback), 'uint16_t ' + varName + ' = 0;');
+  const model = espuiControlModel(block, fallback);
+  const varName = espuiCppNameForModel(generator, model) || espuiSafeIdentifier(espuiVarFromInput(block, fallback), fallback);
+  generator.addVariable('espui_control_' + varName, 'uint16_t ' + varName + ' = 0;');
   espuiEnsureLibrary(generator);
   return varName;
 }
@@ -208,7 +261,7 @@ Arduino.forBlock['espui_no_parent'] = function(block, generator) {
 
 Arduino.forBlock['espui_control_id'] = function(block, generator) {
   espuiEnsureLibrary(generator);
-  return [espuiVarFromField(block, 'VAR', 'statusLabel'), generator.ORDER_ATOMIC];
+  return [espuiVarFromField(block, generator, 'VAR', 'statusLabel'), generator.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['espui_create_tab'] = function(block, generator) {
@@ -321,7 +374,7 @@ Arduino.forBlock['espui_create_select'] = function(block, generator) {
 
 Arduino.forBlock['espui_add_option'] = function(block, generator) {
   espuiEnsureLibrary(generator);
-  const selectVar = espuiVarFromField(block, 'SELECT', 'select1');
+  const selectVar = espuiVarFromField(block, generator, 'SELECT', 'select1');
   const label = espuiValue(block, generator, 'LABEL', '"Option"');
   const value = espuiValue(block, generator, 'VALUE', '"option"');
   return 'ESPUI.addControl(ControlType::Option, ' + label + ', String(' + value + '), ControlColor::None, ' + selectVar + ');\n';
@@ -378,62 +431,62 @@ Arduino.forBlock['espui_create_accelerometer'] = function(block, generator) {
 
 Arduino.forBlock['espui_update_value'] = function(block, generator) {
   espuiEnsureLibrary(generator);
-  const varName = espuiVarFromField(block, 'VAR', 'statusLabel');
+  const varName = espuiVarFromField(block, generator, 'VAR', 'statusLabel');
   const value = espuiValue(block, generator, 'VALUE', '""');
   return 'ESPUI.updateControlValue(' + varName + ', String(' + value + '));\n';
 };
 
 Arduino.forBlock['espui_update_control_label'] = function(block, generator) {
   espuiEnsureLibrary(generator);
-  const varName = espuiVarFromField(block, 'VAR', 'statusLabel');
+  const varName = espuiVarFromField(block, generator, 'VAR', 'statusLabel');
   const label = espuiValue(block, generator, 'LABEL', '"Label"');
   return 'ESPUI.updateControlLabel(' + varName + ', ' + label + ');\n';
 };
 
 Arduino.forBlock['espui_update_switcher'] = function(block, generator) {
   espuiEnsureLibrary(generator);
-  const varName = espuiVarFromField(block, 'VAR', 'switch1');
+  const varName = espuiVarFromField(block, generator, 'VAR', 'switch1');
   const state = espuiValue(block, generator, 'STATE', 'false');
   return 'ESPUI.updateSwitcher(' + varName + ', ' + state + ');\n';
 };
 
 Arduino.forBlock['espui_update_number'] = function(block, generator) {
   espuiEnsureLibrary(generator);
-  const varName = espuiVarFromField(block, 'VAR', 'slider1');
+  const varName = espuiVarFromField(block, generator, 'VAR', 'slider1');
   const value = espuiValue(block, generator, 'VALUE', '0');
   return 'ESPUI.updateControlValue(' + varName + ', String(' + value + '));\n';
 };
 
 Arduino.forBlock['espui_add_graph_point'] = function(block, generator) {
   espuiEnsureLibrary(generator);
-  const varName = espuiVarFromField(block, 'VAR', 'graph1');
+  const varName = espuiVarFromField(block, generator, 'VAR', 'graph1');
   const value = espuiValue(block, generator, 'VALUE', '0');
   return 'ESPUI.addGraphPoint(' + varName + ', ' + value + ');\n';
 };
 
 Arduino.forBlock['espui_clear_graph'] = function(block, generator) {
   espuiEnsureLibrary(generator);
-  const varName = espuiVarFromField(block, 'VAR', 'graph1');
+  const varName = espuiVarFromField(block, generator, 'VAR', 'graph1');
   return 'ESPUI.clearGraph(' + varName + ');\n';
 };
 
 Arduino.forBlock['espui_set_enabled'] = function(block, generator) {
   espuiEnsureLibrary(generator);
-  const varName = espuiVarFromField(block, 'VAR', 'button1');
+  const varName = espuiVarFromField(block, generator, 'VAR', 'button1');
   const enabled = espuiValue(block, generator, 'ENABLED', 'true');
   return 'ESPUI.setEnabled(' + varName + ', ' + enabled + ');\n';
 };
 
 Arduino.forBlock['espui_set_visible'] = function(block, generator) {
   espuiEnsureLibrary(generator);
-  const varName = espuiVarFromField(block, 'VAR', 'statusLabel');
+  const varName = espuiVarFromField(block, generator, 'VAR', 'statusLabel');
   const visible = espuiValue(block, generator, 'VISIBLE', 'true');
   return 'ESPUI.updateVisibility(' + varName + ', ' + visible + ');\n';
 };
 
 Arduino.forBlock['espui_set_layout'] = function(block, generator) {
   espuiEnsureLibrary(generator);
-  const varName = espuiVarFromField(block, 'VAR', 'slider1');
+  const varName = espuiVarFromField(block, generator, 'VAR', 'slider1');
   const wide = espuiValue(block, generator, 'WIDE', 'false');
   const vertical = espuiValue(block, generator, 'VERTICAL', 'false');
   return 'ESPUI.setPanelWide(' + varName + ', ' + wide + ');\n' +
@@ -443,7 +496,7 @@ Arduino.forBlock['espui_set_layout'] = function(block, generator) {
 
 Arduino.forBlock['espui_set_style'] = function(block, generator) {
   espuiEnsureLibrary(generator);
-  const varName = espuiVarFromField(block, 'VAR', 'statusLabel');
+  const varName = espuiVarFromField(block, generator, 'VAR', 'statusLabel');
   const css = espuiValue(block, generator, 'CSS', '""');
   if (block.getFieldValue('TARGET') === 'ELEMENT') {
     return 'ESPUI.setElementStyle(' + varName + ', String(' + css + '));\n';
@@ -453,7 +506,7 @@ Arduino.forBlock['espui_set_style'] = function(block, generator) {
 
 Arduino.forBlock['espui_set_input_type'] = function(block, generator) {
   espuiEnsureLibrary(generator);
-  const varName = espuiVarFromField(block, 'VAR', 'text1');
+  const varName = espuiVarFromField(block, generator, 'VAR', 'text1');
   const inputType = block.getFieldValue('INPUT_TYPE') || 'text';
   return 'ESPUI.setInputType(' + varName + ', "' + inputType + '");\n';
 };
@@ -461,7 +514,7 @@ Arduino.forBlock['espui_set_input_type'] = function(block, generator) {
 Arduino.forBlock['espui_get_value'] = function(block, generator) {
   espuiEnsureLibrary(generator);
   espuiEnsureGetValueHelper(generator);
-  const varName = espuiVarFromField(block, 'VAR', 'statusLabel');
+  const varName = espuiVarFromField(block, generator, 'VAR', 'statusLabel');
   return ['espui_get_control_value(' + varName + ')', generator.ORDER_ATOMIC];
 };
 
