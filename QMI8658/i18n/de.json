@@ -1,0 +1,103 @@
+{
+  "toolbox_name": "QMI8658 IMU",
+  "qmi8658_init": {
+    "message0": "QMI8658-Sechsachsen-IMU initialisieren",
+    "tooltip": "Startet den QMI8658 (I2C 0x6B, sonst 0x6A) mit Pins und Adresse der Platine; standardmäßig ±2g und ±1024°/s. In setup setzen"
+  },
+  "qmi8658_range": {
+    "message0": "QMI8658 Messbereich Beschleunigung %1 Drehrate %2",
+    "tooltip": "Ein kleinerer Bereich ist feiner, schneidet aber stärkere Bewegungen ab; die Skalierung passt sich an",
+    "args0": [
+      {
+        "options": [
+          [
+            "±2g",
+            "0"
+          ],
+          [
+            "±4g",
+            "1"
+          ],
+          [
+            "±8g",
+            "2"
+          ],
+          [
+            "±16g",
+            "3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "±256°/s",
+            "4"
+          ],
+          [
+            "±512°/s",
+            "5"
+          ],
+          [
+            "±1024°/s",
+            "6"
+          ],
+          [
+            "±2048°/s",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "qmi8658_read": {
+    "message0": "QMI8658 %1",
+    "tooltip": "Flach und ruhig ist Beschleunigung Z ≈ ±1 g; Nick- und Rollwinkel stammen aus dem Beschleunigungssensor und sind beim Schütteln ungenau. Abfragen innerhalb 10 ms teilen eine Messung",
+    "args0": [
+      {
+        "options": [
+          [
+            "Beschleunigung X g",
+            "AX"
+          ],
+          [
+            "Beschleunigung Y g",
+            "AY"
+          ],
+          [
+            "Beschleunigung Z g",
+            "AZ"
+          ],
+          [
+            "Drehrate X °/s",
+            "GX"
+          ],
+          [
+            "Drehrate Y °/s",
+            "GY"
+          ],
+          [
+            "Drehrate Z °/s",
+            "GZ"
+          ],
+          [
+            "Temperatur ℃",
+            "TEMP"
+          ],
+          [
+            "Nickwinkel °",
+            "PITCH"
+          ],
+          [
+            "Rollwinkel °",
+            "ROLL"
+          ]
+        ]
+      }
+    ]
+  },
+  "qmi8658_ok": {
+    "message0": "QMI8658 erfolgreich gelesen",
+    "tooltip": "Ob die letzte Messung gelang; bei Fehlern bleiben die letzten gültigen Werte"
+  }
+}

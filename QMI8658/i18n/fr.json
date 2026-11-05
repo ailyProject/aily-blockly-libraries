@@ -1,0 +1,103 @@
+{
+  "toolbox_name": "QMI8658 IMU",
+  "qmi8658_init": {
+    "message0": "initialiser la centrale inertielle QMI8658",
+    "tooltip": "Démarre le QMI8658 (I2C 0x6B, sinon 0x6A) avec les broches et l’adresse de la carte ; ±2g et ±1024°/s par défaut. À placer dans setup"
+  },
+  "qmi8658_range": {
+    "message0": "QMI8658 plage accélération %1 vitesse angulaire %2",
+    "tooltip": "Une plage plus petite est plus fine mais écrête les mouvements forts ; l’échelle suit automatiquement",
+    "args0": [
+      {
+        "options": [
+          [
+            "±2g",
+            "0"
+          ],
+          [
+            "±4g",
+            "1"
+          ],
+          [
+            "±8g",
+            "2"
+          ],
+          [
+            "±16g",
+            "3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "±256°/s",
+            "4"
+          ],
+          [
+            "±512°/s",
+            "5"
+          ],
+          [
+            "±1024°/s",
+            "6"
+          ],
+          [
+            "±2048°/s",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "qmi8658_read": {
+    "message0": "QMI8658 %1",
+    "tooltip": "À plat et immobile, accélération Z ≈ ±1 g ; tangage et roulis viennent de l’accéléromètre et sont approximatifs en mouvement. Les lectures dans les 10 ms partagent un échantillon",
+    "args0": [
+      {
+        "options": [
+          [
+            "accélération X g",
+            "AX"
+          ],
+          [
+            "accélération Y g",
+            "AY"
+          ],
+          [
+            "accélération Z g",
+            "AZ"
+          ],
+          [
+            "vitesse angulaire X °/s",
+            "GX"
+          ],
+          [
+            "vitesse angulaire Y °/s",
+            "GY"
+          ],
+          [
+            "vitesse angulaire Z °/s",
+            "GZ"
+          ],
+          [
+            "température ℃",
+            "TEMP"
+          ],
+          [
+            "tangage °",
+            "PITCH"
+          ],
+          [
+            "roulis °",
+            "ROLL"
+          ]
+        ]
+      }
+    ]
+  },
+  "qmi8658_ok": {
+    "message0": "lecture QMI8658 réussie",
+    "tooltip": "Indique si la dernière lecture a réussi ; en cas d’échec, les dernières valeurs valides sont gardées"
+  }
+}
