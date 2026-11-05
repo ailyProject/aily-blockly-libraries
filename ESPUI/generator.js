@@ -34,16 +34,7 @@ function espuiVarFromInput(block, fallback) {
   return block.getFieldValue('VAR') || fallback;
 }
 
-function espuiVarFromField(block, generator, fieldName, fallback) {
-  const field = block.getField(fieldName);
-  let raw;
-  if (field && typeof field.getText === 'function') {
-    raw = field.getText() || fallback;
-  } else {
-    raw = block.getFieldValue(fieldName) || fallback;
-  }
-  return espuiResolveName(generator, raw, fallback);
-}
+const ESPUI_VAR_TYPE = 'ESPUIControl';
 
 const ESPUI_RESERVED_KEYWORDS = new Set((
   'alignas alignof and and_eq asm auto bitand bitor bool break case catch char char8_t char16_t char32_t ' +
@@ -54,8 +45,8 @@ const ESPUI_RESERVED_KEYWORDS = new Set((
   'struct switch template this thread_local throw true try typedef typeid typename union unsigned using ' +
   'virtual void volatile wchar_t while xor xor_eq').split(' '));
 
-// Base sanitizing only: may map distinct inputs to the same text, so never use it directly
-// as a variable name. Use espuiResolveName(), which keeps generated names unique.
+// Base sanitizing only. Used when no Blockly variable model / host name database is available;
+// otherwise the C++ name always comes from the variable model via espuiCppNameForModel().
 function espuiSafeIdentifier(value, fallback) {
   let identifier = String(value || fallback || 'value').replace(/[^A-Za-z0-9_]/g, '_');
   if (!identifier) identifier = fallback || 'value';
@@ -64,68 +55,64 @@ function espuiSafeIdentifier(value, fallback) {
   return identifier;
 }
 
-function espuiWorkspaceRawNames(generator) {
-  try {
-    const workspace = generator.workspace ||
-      (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-    if (!workspace || typeof workspace.getAllBlocks !== 'function') return null;
-    const names = new Set();
-    workspace.getAllBlocks(false).forEach(function(block) {
-      if (!block || !block.type || block.type.indexOf('espui_') !== 0) return;
-      ['VAR', 'SELECT'].forEach(function(fieldName) {
-        const field = typeof block.getField === 'function' ? block.getField(fieldName) : null;
-        if (!field) return;
-        const text = typeof field.getText === 'function' ? field.getText() : block.getFieldValue(fieldName);
-        if (text) names.add(String(text));
-      });
-    });
-    return names;
-  } catch (e) {
-    return null;
-  }
+function espuiWorkspace(block) {
+  return block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace()) || null;
 }
 
-function espuiAllocateName(state, raw, fallback) {
-  const base = espuiSafeIdentifier(raw, fallback);
-  let candidate = base;
-  for (let n = 2; state.used.has(candidate); n++) candidate = base + '_' + n;
-  state.used.add(candidate);
-  state.byRaw.set(raw, candidate);
-  return candidate;
+function espuiVariableNameType() {
+  return (typeof Blockly !== 'undefined' && Blockly.Names && Blockly.Names.NameType && Blockly.Names.NameType.VARIABLE) || 'VARIABLE';
 }
 
-// Maps each distinct raw control name to a unique, stable C++ identifier. Names that are already
-// valid keep their spelling (and are allocated first when the workspace is visible), so only
-// invalid/keyword names are ever rewritten, and never onto another control's name.
-function espuiResolveName(generator, rawValue, fallback) {
-  const raw = String(rawValue || fallback || 'value');
-  let state = generator._espuiNameState;
-  const workspaceNames = espuiWorkspaceRawNames(generator);
-  const signature = workspaceNames ? Array.from(workspaceNames).sort().join('\n') : null;
-  if (!state || (signature !== null && state.signature !== signature)) {
-    state = generator._espuiNameState = { signature: signature, byRaw: new Map(), used: new Set() };
-    if (workspaceNames) {
-      const sorted = Array.from(workspaceNames).sort();
-      sorted.filter(function(n) { return espuiSafeIdentifier(n) === n; })
-        .forEach(function(n) { espuiAllocateName(state, n, fallback); });
-      sorted.filter(function(n) { return !state.byRaw.has(n); })
-        .forEach(function(n) { espuiAllocateName(state, n, fallback); });
-    }
+// The identity of a control is its Blockly variable model (typed ESPUIControl). The model keeps the
+// name the user typed; the C++ identifier is allocated from the host generator's nameDB_, keyed by
+// model ID, so declarations, callbacks and every VAR/SELECT reference resolve to the same name and
+// never collide with each other or with other libraries. The memo only covers names we derive by
+// prefixing a C++ keyword; it is dropped whenever the host starts a new generation.
+function espuiCppNameForModel(generator, model) {
+  const db = generator.nameDB_;
+  if (!model || !db || typeof db.getName !== 'function') return null;
+  let memo = generator._espuiNames;
+  if (!memo || memo.db !== db || memo.run !== generator.definitions_) {
+    memo = generator._espuiNames = { db: db, run: generator.definitions_, byId: new Map() };
   }
-  return state.byRaw.get(raw) || espuiAllocateName(state, raw, fallback);
+  const id = model.getId();
+  if (!memo.byId.has(id)) {
+    const type = espuiVariableNameType();
+    let name = db.getName(id, type);
+    if (ESPUI_RESERVED_KEYWORDS.has(name)) name = db.getDistinctName('_' + name, type);
+    memo.byId.set(id, name);
+  }
+  return memo.byId.get(id);
+}
+
+function espuiVarFromField(block, generator, fieldName, fallback) {
+  const field = block.getField(fieldName);
+  const workspace = espuiWorkspace(block);
+  if (field && typeof field.getValue === 'function' && workspace && typeof workspace.getVariableById === 'function') {
+    const name = espuiCppNameForModel(generator, workspace.getVariableById(field.getValue()));
+    if (name) return name;
+  }
+  const raw = field && typeof field.getText === 'function' ? field.getText() : block.getFieldValue(fieldName);
+  return espuiSafeIdentifier(raw, fallback);
 }
 
 function espuiRegisterControlVariable(varName) {
   if (typeof registerVariableToBlockly === 'function') {
-    registerVariableToBlockly(varName, 'ESPUIControl');
+    registerVariableToBlockly(varName, ESPUI_VAR_TYPE);
   }
 }
 
-function espuiAttachControlVarMonitor(block, generator, fallback) {
+function espuiControlModel(block, fallback) {
+  const raw = espuiVarFromInput(block, fallback);
+  espuiRegisterControlVariable(raw);
+  const workspace = espuiWorkspace(block);
+  return workspace && typeof workspace.getVariable === 'function' ? workspace.getVariable(raw, ESPUI_VAR_TYPE) : null;
+}
+
+function espuiAttachControlVarMonitor(block, fallback) {
   if (!block._espuiControlVarMonitorAttached) {
     block._espuiControlVarMonitorAttached = true;
-    block._espuiControlVarLastName = espuiResolveName(generator, espuiVarFromInput(block, fallback), fallback);
-    espuiRegisterControlVariable(block._espuiControlVarLastName);
+    block._espuiControlVarLastName = espuiVarFromInput(block, fallback);
 
     const varField = block.getField('VAR');
     if (varField) {
@@ -134,14 +121,13 @@ function espuiAttachControlVarMonitor(block, generator, fallback) {
         if (typeof originalFinishEditing === 'function') {
           originalFinishEditing.call(this, newName);
         }
-        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._espuiControlVarLastName;
-        const sanitizedNewName = espuiResolveName(generator, newName, fallback);
-        if (workspace && newName && sanitizedNewName !== oldName) {
+        if (espuiWorkspace(block) && newName && newName !== oldName) {
+          // Renames the existing model, so references keep their binding.
           if (typeof renameVariableInBlockly === 'function') {
-            renameVariableInBlockly(block, oldName, sanitizedNewName, 'ESPUIControl');
+            renameVariableInBlockly(block, oldName, newName, ESPUI_VAR_TYPE);
           }
-          block._espuiControlVarLastName = sanitizedNewName;
+          block._espuiControlVarLastName = newName;
         }
       };
     }
@@ -149,9 +135,9 @@ function espuiAttachControlVarMonitor(block, generator, fallback) {
 }
 
 function espuiDeclareControl(block, generator, fallback) {
-  espuiAttachControlVarMonitor(block, generator, fallback);
-  const varName = espuiResolveName(generator, espuiVarFromInput(block, fallback), fallback);
-  espuiRegisterControlVariable(varName);
+  espuiAttachControlVarMonitor(block, fallback);
+  const model = espuiControlModel(block, fallback);
+  const varName = espuiCppNameForModel(generator, model) || espuiSafeIdentifier(espuiVarFromInput(block, fallback), fallback);
   generator.addVariable('espui_control_' + varName, 'uint16_t ' + varName + ' = 0;');
   espuiEnsureLibrary(generator);
   return varName;
