@@ -1,0 +1,142 @@
+[
+  {
+    "type": "qmc6309_init",
+    "message0": "初始化 QMC6309 地磁传感器",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#8D6E63",
+    "tooltip": "初始化 QMC6309（I2C 0x7C，找不到再试 0x2C），I2C 引脚按开发板自动选；先扫一遍总线避免冷启动认不到，放在 setup 里",
+    "icon": "fa-solid fa-compass"
+  },
+  {
+    "type": "qmc6309_read",
+    "message0": "QMC6309 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WHAT",
+        "options": [
+          [
+            "航向角 °",
+            "HEADING"
+          ],
+          [
+            "磁场 X",
+            "X"
+          ],
+          [
+            "磁场 Y",
+            "Y"
+          ],
+          [
+            "磁场 Z",
+            "Z"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "inputsInline": true,
+    "colour": "#8D6E63",
+    "tooltip": "航向角 0~360°（已减去硬铁偏置并加上磁偏角，板子要水平放）；X/Y/Z 是原始磁场读数。10 毫秒内重复读取用同一次采样",
+    "icon": "fa-solid fa-location-arrow"
+  },
+  {
+    "type": "qmc6309_calibrate",
+    "message0": "QMC6309 校准 %1 秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SECONDS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#8D6E63",
+    "tooltip": "硬铁校准：期间把板子水平转几圈，结束后自动使用新的偏置。校准期间程序等待",
+    "icon": "fa-solid fa-rotate"
+  },
+  {
+    "type": "qmc6309_declination",
+    "message0": "QMC6309 磁偏角 %1 度",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DEGREES",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#8D6E63",
+    "tooltip": "当地磁偏角，东偏为正、西偏为负（中国大部分地区为西偏 -3°~-10°），加到航向角上得到真北方向",
+    "icon": "fa-solid fa-globe"
+  },
+  {
+    "type": "qmc6309_set_offsets",
+    "message0": "QMC6309 硬铁偏置 X %1 Y %2 Z %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Z",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#8D6E63",
+    "tooltip": "直接设置校准得到的偏置（比如开机时从存储里读回），就不用每次都转圈校准",
+    "icon": "fa-solid fa-floppy-disk"
+  },
+  {
+    "type": "qmc6309_offset",
+    "message0": "QMC6309 硬铁偏置 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "inputsInline": true,
+    "colour": "#8D6E63",
+    "tooltip": "当前使用的偏置，校准后可以把它存起来，下次开机用「硬铁偏置」积木设回去",
+    "icon": "fa-solid fa-crosshairs"
+  },
+  {
+    "type": "qmc6309_ok",
+    "message0": "QMC6309 读取成功",
+    "output": "Boolean",
+    "colour": "#8D6E63",
+    "tooltip": "最近一次读数是否成功；失败时保留上次的有效值",
+    "icon": "fa-solid fa-circle-check"
+  }
+]
