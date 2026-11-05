@@ -1,0 +1,103 @@
+{
+  "toolbox_name": "QMI8658 IMU",
+  "qmi8658_init": {
+    "message0": "inicializar IMU de seis ejes QMI8658",
+    "tooltip": "Inicia el QMI8658 (I2C 0x6B, si no 0x6A) con los pines y la dirección de la placa; ±2g y ±1024°/s por defecto. Colócalo en setup"
+  },
+  "qmi8658_range": {
+    "message0": "QMI8658 rango aceleración %1 velocidad angular %2",
+    "tooltip": "Un rango menor es más fino pero recorta movimientos fuertes; la escala se ajusta sola",
+    "args0": [
+      {
+        "options": [
+          [
+            "±2g",
+            "0"
+          ],
+          [
+            "±4g",
+            "1"
+          ],
+          [
+            "±8g",
+            "2"
+          ],
+          [
+            "±16g",
+            "3"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "±256°/s",
+            "4"
+          ],
+          [
+            "±512°/s",
+            "5"
+          ],
+          [
+            "±1024°/s",
+            "6"
+          ],
+          [
+            "±2048°/s",
+            "7"
+          ]
+        ]
+      }
+    ]
+  },
+  "qmi8658_read": {
+    "message0": "QMI8658 %1",
+    "tooltip": "Quieta y plana, aceleración Z ≈ ±1 g; cabeceo y alabeo salen del acelerómetro y son aproximados al moverla. Las lecturas en 10 ms comparten muestra",
+    "args0": [
+      {
+        "options": [
+          [
+            "aceleración X g",
+            "AX"
+          ],
+          [
+            "aceleración Y g",
+            "AY"
+          ],
+          [
+            "aceleración Z g",
+            "AZ"
+          ],
+          [
+            "velocidad angular X °/s",
+            "GX"
+          ],
+          [
+            "velocidad angular Y °/s",
+            "GY"
+          ],
+          [
+            "velocidad angular Z °/s",
+            "GZ"
+          ],
+          [
+            "temperatura ℃",
+            "TEMP"
+          ],
+          [
+            "cabeceo °",
+            "PITCH"
+          ],
+          [
+            "alabeo °",
+            "ROLL"
+          ]
+        ]
+      }
+    ]
+  },
+  "qmi8658_ok": {
+    "message0": "lectura QMI8658 correcta",
+    "tooltip": "Si la última lectura tuvo éxito; si falla se conservan los últimos valores válidos"
+  }
+}
