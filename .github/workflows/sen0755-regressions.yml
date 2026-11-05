@@ -1,0 +1,20 @@
+name: SEN0755 frame regression
+on:
+  pull_request:
+    paths: ['dfrobot-sen0755/**', '.github/workflows/sen0755-regressions.yml']
+  push:
+    branches: [main]
+    paths: ['dfrobot-sen0755/**', '.github/workflows/sen0755-regressions.yml']
+permissions:
+  contents: read
+jobs:
+  frame-errors:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test partial I2C transactions
+        shell: bash
+        run: |
+          7z x dfrobot-sen0755/src.7z -o"$RUNNER_TEMP/sen0755" -y
+          g++ -std=c++11 -DARDUINO_AVR_UNO -I dfrobot-sen0755/tests/native -I "$RUNNER_TEMP/sen0755/src/DFRobot_TFUW500" dfrobot-sen0755/tests/native/frame.cpp "$RUNNER_TEMP/sen0755/src/DFRobot_TFUW500/DFRobot_TFUW500.cpp" -o "$RUNNER_TEMP/sen0755-test"
+          "$RUNNER_TEMP/sen0755-test"
