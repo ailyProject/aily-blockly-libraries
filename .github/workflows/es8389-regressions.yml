@@ -1,0 +1,20 @@
+name: ES8389 mount cooldown regression
+on:
+  pull_request:
+    paths: ['ES8389/**', '.github/workflows/es8389-regressions.yml']
+  push:
+    branches: [main]
+    paths: ['ES8389/**', '.github/workflows/es8389-regressions.yml']
+permissions:
+  contents: read
+jobs:
+  cooldown:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          7z x ES8389/src.7z -o"$RUNNER_TEMP/es8389" -y
+          node ES8389/tests/sd_cooldown.test.cjs "$RUNNER_TEMP/es8389/src/ES8389/src/ES8389Player.cpp"
