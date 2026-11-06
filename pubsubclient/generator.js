@@ -3,6 +3,15 @@ function ensurePubSubLib(generator) {
   generator.addLibrary('PubSubClient', '#include <PubSubClient.h>');
 }
 
+// publish consumes both strings during the call. Keep temporary String objects
+// alive for that full expression and evaluate each input only once.
+function ensurePubSubPublishText(generator) {
+  ensurePubSubLib(generator);
+  generator.addFunction('aily_mqtt_cstr',
+    'inline const char* aily_mqtt_cstr(const char* value) { return value; }\n' +
+    'inline const char* aily_mqtt_cstr(const String& value) { return value.c_str(); }\n');
+}
+
 // 确保WiFi库引用（根据板卡类型）
 function ensureWiFiLib(generator) {
   const boardConfig = window['boardConfig'];
@@ -244,7 +253,7 @@ Arduino.forBlock['pubsub_publish'] = function(block, generator) {
   const topic = generator.valueToCode(block, 'TOPIC', generator.ORDER_ATOMIC) || '"topic"';
   const payload = generator.valueToCode(block, 'PAYLOAD', generator.ORDER_ATOMIC) || '"message"';
   
-  ensurePubSubLib(generator);
+  ensurePubSubPublishText(generator);
   
   // 查找已创建的MQTT客户端变量
   const workspace = block.workspace;
@@ -256,7 +265,7 @@ Arduino.forBlock['pubsub_publish'] = function(block, generator) {
     }
   }
   
-  return mqttClientVar + '.publish(' + topic + ', ' + payload + ');\n';
+  return mqttClientVar + '.publish(aily_mqtt_cstr(' + topic + '), aily_mqtt_cstr(' + payload + '));\n';
 };
 
 // 订阅MQTT主题

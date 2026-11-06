@@ -4,7 +4,7 @@ DS1302 real-time clock module library, providing time reading, setting and RAM o
 
 ## Library Info
 - **Name**: @aily-project/lib-ds1302
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 

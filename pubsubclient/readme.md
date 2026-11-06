@@ -7,7 +7,7 @@ MQTT support library based on PubSubClient, suitable for Arduino UNO R4 WiFi, ES
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-pubsubclient |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Author | Nick O'Leary |
 | Source | https://github.com/knolleary/pubsubclient |
 | License | Original license |

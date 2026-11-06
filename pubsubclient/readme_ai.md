@@ -4,7 +4,7 @@ MQTT support library based on PubSubClient, suitable for Arduino UNO R4 WiFi, ES
 
 ## Library Info
 - **Name**: @aily-project/lib-pubsubclient
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 
@@ -16,7 +16,7 @@ MQTT support library based on PubSubClient, suitable for Arduino UNO R4 WiFi, ES
 | `pubsub_get_topic_callback_payload` | Value | (none) | `pubsub_get_topic_callback_payload()` | `payload_str` |
 | `pubsub_connect` | Value | VAR(field_variable), CLIENT_ID(input_value) | `pubsub_connect($mqttClient, text("value"))` | `mqttClient.connect("value")` |
 | `pubsub_connect_auth` | Value | VAR(field_variable), CLIENT_ID(input_value), USERNAME(input_value), PASSWORD(input_value) | `pubsub_connect_auth($mqttClient, text("value"), text("value"), text("value"))` | `mqttClient.connect("value", "value", "value")` |
-| `pubsub_publish` | Statement | VAR(field_variable), TOPIC(input_value), PAYLOAD(input_value) | `pubsub_publish($mqttClient, text("value"), text("value"))` | `mqttClient.publish("value", "value");` |
+| `pubsub_publish` | Statement | VAR(field_variable), TOPIC(input_value), PAYLOAD(input_value) | `pubsub_publish($mqttClient, text("value"), text("value"))` | `mqttClient.publish(aily_mqtt_cstr("value"), aily_mqtt_cstr("value"));` |
 | `pubsub_subscribe` | Statement | VAR(field_variable), TOPIC(input_value) | `pubsub_subscribe($mqttClient, text("value"))` | `mqttClient.subscribe("value");` |
 | `pubsub_unsubscribe` | Statement | VAR(field_variable), TOPIC(input_value) | `pubsub_unsubscribe($mqttClient, text("value"))` | `mqttClient.unsubscribe("value");` |
 | `pubsub_loop` | Statement | VAR(field_variable) | `pubsub_loop($mqttClient)` | `mqttClient.loop();` |
@@ -51,3 +51,4 @@ arduino_loop()
 1. **Variable**: `pubsub_create("varName", ...)` creates variable `$varName`; pass `$varName` directly to `field_variable` slots; use `variables_get($varName)` only for `input_value` slots.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+4. **Publish text**: TOPIC and PAYLOAD accept literals, Arduino `String` variables and temporary String expressions. The generator adds `aily_mqtt_cstr` overloads once, so each expression is evaluated once during publish; no manual `c_str()` conversion is needed. This conversion is specific to publish, which consumes the text immediately.
