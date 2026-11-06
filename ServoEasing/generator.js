@@ -82,6 +82,58 @@ function getServoEasingVar(block, generator) {
   return varName;
 }
 
+// Simple pin controls share an object without exposing an extra Blockly variable.
+// Attach at first execution so unused branches do not activate servo outputs.
+function getServoEasingPin(block, generator) {
+  ensureServoEasingLibrary(generator);
+  const pin = block.getFieldValue('PIN') || '9';
+  const varName = 'aily_servoeasing_pin_' + String(pin).replace(/[^A-Za-z0-9_]/g, '_');
+  generator.addObject(varName, 'ServoEasing ' + varName + ';');
+  generator.addFunction('aily_servoeasing_move', [
+    'void aily_servoeasing_move(ServoEasing &servo, int pin, float target, long duration, bool wait) {',
+    '  if (!servo.attached()) {',
+    '    servo.attach(pin);',
+    '  }',
+    '  if (!servo.attached()) {',
+    '    return;',
+    '  }',
+    '  servo.stop();',
+    '  if (duration <= 0) {',
+    '    servo.write(target);',
+    '    return;',
+    '  }',
+    '  const uint_fast16_t moveDuration = duration > 65535L ? 65535 : duration;',
+    '  if (wait) {',
+    '    servo.easeToD(target, moveDuration);',
+    '  } else {',
+    '    servo.startEaseToD(target, moveDuration);',
+    '  }',
+    '}',
+    ''
+  ].join('\n'));
+  return { pin, varName };
+}
+
+Arduino.forBlock['servoeasing_pin_write'] = function(block, generator) {
+  const { pin, varName } = getServoEasingPin(block, generator);
+  const target = getServoEasingValue(block, generator, 'TARGET', '90');
+  return 'aily_servoeasing_move(' + varName + ', ' + pin + ', ' + target + ', 0, true);\n';
+};
+
+Arduino.forBlock['servoeasing_pin_ease_to_duration'] = function(block, generator) {
+  const { pin, varName } = getServoEasingPin(block, generator);
+  const duration = getServoEasingValue(block, generator, 'DURATION', '1000');
+  const target = getServoEasingValue(block, generator, 'TARGET', '90');
+  return 'aily_servoeasing_move(' + varName + ', ' + pin + ', ' + target + ', ' + duration + ', true);\n';
+};
+
+Arduino.forBlock['servoeasing_pin_start_ease_to_duration'] = function(block, generator) {
+  const { pin, varName } = getServoEasingPin(block, generator);
+  const duration = getServoEasingValue(block, generator, 'DURATION', '1000');
+  const target = getServoEasingValue(block, generator, 'TARGET', '90');
+  return 'aily_servoeasing_move(' + varName + ', ' + pin + ', ' + target + ', ' + duration + ', false);\n';
+};
+
 Arduino.forBlock['servoeasing_create'] = function(block, generator) {
   attachServoEasingVarMonitor(block);
   const varName = block.getFieldValue('VAR') || 'servoEase';

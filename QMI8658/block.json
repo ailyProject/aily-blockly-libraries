@@ -1,0 +1,128 @@
+[
+  {
+    "type": "qmi8658_init",
+    "message0": "初始化 QMI8658 六轴传感器",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C6BC0",
+    "tooltip": "初始化 QMI8658（I2C 0x6B，找不到再试 0x6A），引脚和地址按开发板自动选；默认加速度 ±2g、角速度 ±1024°/s，放在 setup 里",
+    "icon": "fa-solid fa-compass-drafting"
+  },
+  {
+    "type": "qmi8658_range",
+    "message0": "QMI8658 量程 加速度 %1 角速度 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ACC",
+        "options": [
+          [
+            "±2g",
+            "0"
+          ],
+          [
+            "±4g",
+            "1"
+          ],
+          [
+            "±8g",
+            "2"
+          ],
+          [
+            "±16g",
+            "3"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "GYRO",
+        "options": [
+          [
+            "±256°/s",
+            "4"
+          ],
+          [
+            "±512°/s",
+            "5"
+          ],
+          [
+            "±1024°/s",
+            "6"
+          ],
+          [
+            "±2048°/s",
+            "7"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#5C6BC0",
+    "tooltip": "量程越小越精细，超出量程的动作会被截断；换算系数自动跟着变",
+    "icon": "fa-solid fa-sliders"
+  },
+  {
+    "type": "qmi8658_read",
+    "message0": "QMI8658 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WHAT",
+        "options": [
+          [
+            "加速度 X g",
+            "AX"
+          ],
+          [
+            "加速度 Y g",
+            "AY"
+          ],
+          [
+            "加速度 Z g",
+            "AZ"
+          ],
+          [
+            "角速度 X °/s",
+            "GX"
+          ],
+          [
+            "角速度 Y °/s",
+            "GY"
+          ],
+          [
+            "角速度 Z °/s",
+            "GZ"
+          ],
+          [
+            "温度 ℃",
+            "TEMP"
+          ],
+          [
+            "俯仰角 °",
+            "PITCH"
+          ],
+          [
+            "横滚角 °",
+            "ROLL"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "inputsInline": true,
+    "colour": "#5C6BC0",
+    "tooltip": "平放静止时加速度 Z ≈ ±1g；俯仰角、横滚角由加速度算出，晃动时不准。10 毫秒内重复读取用同一次采样",
+    "icon": "fa-solid fa-arrows-up-down-left-right"
+  },
+  {
+    "type": "qmi8658_ok",
+    "message0": "QMI8658 读取成功",
+    "output": "Boolean",
+    "colour": "#5C6BC0",
+    "tooltip": "最近一次读数是否成功；失败时保留上次的有效值",
+    "icon": "fa-solid fa-circle-check"
+  }
+]

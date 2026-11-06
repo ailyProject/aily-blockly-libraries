@@ -1,0 +1,71 @@
+{
+  "toolbox_name": "QMC6309 Compass",
+  "qmc6309_init": {
+    "message0": "initialize QMC6309 magnetometer",
+    "tooltip": "Starts the QMC6309 (I2C 0x7C, falls back to 0x2C) on the board’s I2C pins; scans the bus first so a cold start is detected. Put it in setup"
+  },
+  "qmc6309_read": {
+    "message0": "QMC6309 %1",
+    "tooltip": "Heading 0–360° (hard-iron offsets removed, declination added; keep the board level); X/Y/Z are raw field counts. Reads within 10 ms share one sample",
+    "args0": [
+      {
+        "options": [
+          [
+            "heading °",
+            "HEADING"
+          ],
+          [
+            "field X",
+            "X"
+          ],
+          [
+            "field Y",
+            "Y"
+          ],
+          [
+            "field Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "qmc6309_calibrate": {
+    "message0": "QMC6309 calibrate for %1 seconds",
+    "tooltip": "Hard-iron calibration: turn the board flat a few full circles meanwhile; the new offsets apply at the end. The program waits during calibration"
+  },
+  "qmc6309_declination": {
+    "message0": "QMC6309 declination %1 degrees",
+    "tooltip": "Local magnetic declination, east positive and west negative; it is added to the heading to point at true north"
+  },
+  "qmc6309_set_offsets": {
+    "message0": "QMC6309 hard-iron offsets X %1 Y %2 Z %3",
+    "tooltip": "Set offsets from an earlier calibration (for example read back from storage at boot) to skip calibrating every time"
+  },
+  "qmc6309_offset": {
+    "message0": "QMC6309 hard-iron offset %1",
+    "tooltip": "The offset in use; after calibrating, store it and set it back next boot with the offsets block",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "qmc6309_ok": {
+    "message0": "QMC6309 read OK",
+    "tooltip": "Whether the latest reading succeeded; on failure the last good values are kept"
+  }
+}

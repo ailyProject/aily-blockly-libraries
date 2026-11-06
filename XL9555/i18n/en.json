@@ -1,0 +1,194 @@
+{
+  "toolbox_name": "XL9555 IO Expander",
+  "xl9555_init": {
+    "message0": "initialize XL9555 IO expander address %1",
+    "tooltip": "Finds the XL9555 on the board’s I2C pins (address 0x20–0x27; auto takes the first that answers) and reads all inputs at the start of every loop. Put it in setup. On the IBox S31 it is 0x27",
+    "args0": [
+      {
+        "options": [
+          [
+            "auto",
+            "0"
+          ],
+          [
+            "0x20",
+            "0x20"
+          ],
+          [
+            "0x21",
+            "0x21"
+          ],
+          [
+            "0x22",
+            "0x22"
+          ],
+          [
+            "0x23",
+            "0x23"
+          ],
+          [
+            "0x24",
+            "0x24"
+          ],
+          [
+            "0x25",
+            "0x25"
+          ],
+          [
+            "0x26",
+            "0x26"
+          ],
+          [
+            "0x27",
+            "0x27"
+          ]
+        ]
+      }
+    ]
+  },
+  "xl9555_name_pin": {
+    "message0": "XL9555 pin %1 name %2 use as %3",
+    "tooltip": "Names a pin and sets it as a key, input or output; later blocks pick it by name from the dropdown. Put it in setup. Do not set a pin wired to a key as output",
+    "args0": [
+      {
+        "options": [
+          [
+            "P00",
+            "0"
+          ],
+          [
+            "P01",
+            "1"
+          ],
+          [
+            "P02",
+            "2"
+          ],
+          [
+            "P03",
+            "3"
+          ],
+          [
+            "P04",
+            "4"
+          ],
+          [
+            "P05",
+            "5"
+          ],
+          [
+            "P06",
+            "6"
+          ],
+          [
+            "P07",
+            "7"
+          ],
+          [
+            "P10",
+            "8"
+          ],
+          [
+            "P11",
+            "9"
+          ],
+          [
+            "P12",
+            "10"
+          ],
+          [
+            "P13",
+            "11"
+          ],
+          [
+            "P14",
+            "12"
+          ],
+          [
+            "P15",
+            "13"
+          ],
+          [
+            "P16",
+            "14"
+          ],
+          [
+            "P17",
+            "15"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "key (pressed = low)",
+            "KEY_LOW"
+          ],
+          [
+            "key (pressed = high)",
+            "KEY_HIGH"
+          ],
+          [
+            "input",
+            "INPUT"
+          ],
+          [
+            "output",
+            "OUTPUT"
+          ]
+        ]
+      }
+    ]
+  },
+  "xl9555_key": {
+    "message0": "key %1 %2",
+    "tooltip": "Uses the level chosen when naming the pin; \"just pressed\" and \"just released\" are true for one loop pass only, so check them every pass and avoid long delays in loop",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "just pressed",
+            "PRESSED"
+          ],
+          [
+            "just released",
+            "RELEASED"
+          ],
+          [
+            "held",
+            "HELD"
+          ]
+        ]
+      }
+    ]
+  },
+  "xl9555_write": {
+    "message0": "XL9555 %1 output %2",
+    "tooltip": "Drives the pin high or low (name it as output first); only this pin changes. On the IBox S31, P07 high turns on the USB-A port power",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "high",
+            "HIGH"
+          ],
+          [
+            "low",
+            "LOW"
+          ]
+        ]
+      }
+    ]
+  },
+  "xl9555_read": {
+    "message0": "XL9555 level of %1",
+    "tooltip": "Reads the pin right away: 1 for high, 0 for low, -1 if the read fails"
+  },
+  "xl9555_ok": {
+    "message0": "XL9555 connected",
+    "tooltip": "True when the chip was found at init"
+  }
+}

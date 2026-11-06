@@ -1,0 +1,71 @@
+{
+  "toolbox_name": "QMC6309 Kompass",
+  "qmc6309_init": {
+    "message0": "QMC6309-Magnetometer initialisieren",
+    "tooltip": "Startet den QMC6309 (I2C 0x7C, sonst 0x2C) an den I2C-Pins der Platine; durchsucht zuerst den Bus, damit er auch beim Kaltstart erkannt wird. In setup setzen"
+  },
+  "qmc6309_read": {
+    "message0": "QMC6309 %1",
+    "tooltip": "Kurs 0–360° (Hard-Iron-Versatz abgezogen, Deklination addiert; Board waagerecht halten); X/Y/Z sind Rohwerte. Abfragen innerhalb 10 ms teilen eine Messung",
+    "args0": [
+      {
+        "options": [
+          [
+            "Kurs °",
+            "HEADING"
+          ],
+          [
+            "Feld X",
+            "X"
+          ],
+          [
+            "Feld Y",
+            "Y"
+          ],
+          [
+            "Feld Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "qmc6309_calibrate": {
+    "message0": "QMC6309 %1 Sekunden kalibrieren",
+    "tooltip": "Hard-Iron-Kalibrierung: das Board dabei waagerecht einige Male drehen; danach gelten die neuen Versätze. Das Programm wartet währenddessen"
+  },
+  "qmc6309_declination": {
+    "message0": "QMC6309 Deklination %1 Grad",
+    "tooltip": "Örtliche Missweisung, Ost positiv, West negativ; wird zum Kurs addiert, damit er auf geografisch Nord zeigt"
+  },
+  "qmc6309_set_offsets": {
+    "message0": "QMC6309 Hard-Iron-Versatz X %1 Y %2 Z %3",
+    "tooltip": "Versätze einer früheren Kalibrierung setzen (etwa beim Start aus dem Speicher gelesen), damit nicht jedes Mal kalibriert werden muss"
+  },
+  "qmc6309_offset": {
+    "message0": "QMC6309 Hard-Iron-Versatz %1",
+    "tooltip": "Der verwendete Versatz; nach dem Kalibrieren speichern und beim nächsten Start mit dem Versatz-Block zurücksetzen",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "qmc6309_ok": {
+    "message0": "QMC6309 erfolgreich gelesen",
+    "tooltip": "Ob die letzte Messung gelang; bei Fehlern bleiben die letzten gültigen Werte"
+  }
+}

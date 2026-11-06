@@ -1,0 +1,263 @@
+{
+  "toolbox_name": "ES8389 Audio",
+  "es8389_init": {
+    "message0": "initialiser l’audio",
+    "tooltip": "Ouvre l’I2S (16 kHz stéréo), initialise l’ES8389 et allume l’amplificateur ; broches et adresse I2C issues des réglages audio de la carte ; volume 80, gain micro 12 dB. La compilation échoue si la puce audio de la carte n’est pas un ES8389"
+  },
+  "es8389_volume": {
+    "message0": "audio volume %1",
+    "tooltip": "Volume du haut-parleur 0–100 (80 après l’initialisation)"
+  },
+  "es8389_play": {
+    "message0": "lire sur %1 le fichier %2 %3",
+    "tooltip": "Lit un WAV ou un MP3. Une carte SD non montée est montée sur les broches SD de la carte (la carte doit être alimentée : sur l’IBox S31 mettre IO39 à l’état bas) ; une clé USB nécessite l’hôte USB ESP32 démarré. En arrière-plan le programme continue aussitôt ; une nouvelle lecture arrête la courante",
+    "args0": [
+      {
+        "options": [
+          [
+            "carte SD",
+            "SD"
+          ],
+          [
+            "clé USB",
+            "USB"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "en arrière-plan",
+            "BACKGROUND"
+          ],
+          [
+            "et attendre",
+            "WAIT"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8389_play_folder": {
+    "message0": "lire sur %1 le dossier %2 piste %3 %4",
+    "tooltip": "Trie les WAV/MP3 du dossier par nom et lit la piste demandée (à partir de 1 ; après la dernière, retour à 1), pratique pour précédent/suivant",
+    "args0": [
+      {
+        "options": [
+          [
+            "carte SD",
+            "SD"
+          ],
+          [
+            "clé USB",
+            "USB"
+          ]
+        ]
+      },
+      null,
+      null,
+      {
+        "options": [
+          [
+            "en arrière-plan",
+            "BACKGROUND"
+          ],
+          [
+            "et attendre",
+            "WAIT"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8389_folder_count": {
+    "message0": "nombre de fichiers audio sur %1 dossier %2",
+    "tooltip": "Combien de WAV/MP3 contient le dossier (sans sous-dossiers ni fichiers cachés commençant par .)",
+    "args0": [
+      {
+        "options": [
+          [
+            "carte SD",
+            "SD"
+          ],
+          [
+            "clé USB",
+            "USB"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "es8389_control": {
+    "message0": "audio %1",
+    "tooltip": "Met en pause ou reprend la lecture ; arrêter termine la lecture ou l’enregistrement, qui est bien sauvegardé",
+    "args0": [
+      {
+        "options": [
+          [
+            "pause",
+            "PAUSE"
+          ],
+          [
+            "reprendre",
+            "RESUME"
+          ],
+          [
+            "arrêter",
+            "STOP"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8389_loop": {
+    "message0": "audio répéter le titre %1",
+    "tooltip": "Activé, un fichier lu en arrière-plan recommence à la fin jusqu’à l’arrêt ou une autre lecture",
+    "args0": [
+      {
+        "options": [
+          [
+            "activée",
+            "true"
+          ],
+          [
+            "désactivée",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8389_state": {
+    "message0": "audio %1",
+    "tooltip": "Ce que fait le lecteur ; « en lecture » est faux en pause ; après la fin ou une erreur, « au repos »",
+    "args0": [
+      {
+        "options": [
+          [
+            "en lecture",
+            "PLAYING"
+          ],
+          [
+            "en pause",
+            "PAUSED"
+          ],
+          [
+            "en enregistrement",
+            "RECORDING"
+          ],
+          [
+            "au repos",
+            "IDLE"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8389_info": {
+    "message0": "audio %1",
+    "tooltip": "Secondes lues (enregistrées pendant l’enregistrement) et durée totale du fichier ; la durée MP3 est estimée d’après le débit, un enregistrement jusqu’à l’arrêt a une durée 0",
+    "args0": [
+      {
+        "options": [
+          [
+            "secondes lues",
+            "POS"
+          ],
+          [
+            "durée totale (s)",
+            "DUR"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8389_file_name": {
+    "message0": "audio nom du fichier actuel",
+    "tooltip": "Nom du fichier en lecture ou tout juste lu (sans le dossier) ; pendant l’enregistrement, le fichier enregistré"
+  },
+  "es8389_error": {
+    "message0": "audio message d’erreur",
+    "tooltip": "Pourquoi la dernière lecture ou l’enregistrement a échoué (en anglais), par ex. fichier introuvable, format non pris en charge ou pas de carte SD ; vide sans erreur"
+  },
+  "es8389_record": {
+    "message0": "enregistrer sur %1 le fichier %2 pendant %3 secondes %4",
+    "tooltip": "Enregistre le micro en WAV mono 16 kHz (environ 32 Ko par seconde) ; 0 seconde enregistre jusqu’à l’arrêt ; la lecture en cours s’arrête",
+    "args0": [
+      {
+        "options": [
+          [
+            "carte SD",
+            "SD"
+          ],
+          [
+            "clé USB",
+            "USB"
+          ]
+        ]
+      },
+      null,
+      null,
+      {
+        "options": [
+          [
+            "en arrière-plan",
+            "BACKGROUND"
+          ],
+          [
+            "et attendre",
+            "WAIT"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8389_tone": {
+    "message0": "audio jouer un bip de %1 Hz pendant %2 ms",
+    "tooltip": "Joue un son sinusoïdal (board_test : 1000 Hz pendant 0,35 s) puis continue ; un fichier en lecture est d’abord arrêté"
+  },
+  "es8389_mic_level": {
+    "message0": "audio niveau du micro",
+    "tooltip": "Crête du son du micro, 0–100 ; parler ou applaudir l’augmente. D’ordinaire il lit environ 32 ms, pendant l’enregistrement il donne le niveau enregistré"
+  },
+  "es8389_mic_gain": {
+    "message0": "audio gain du micro %1 dB",
+    "tooltip": "Amplification du micro, arrondie au plus proche de 3,5, 6,5, 9,5 … 36,5 dB ; au-delà de 24 dB, ça sature facilement"
+  },
+  "es8389_switch": {
+    "message0": "audio %1 %2",
+    "tooltip": "Amplificateur : éteint, le haut-parleur se tait (économie, pas de souffle) ; micro muet : allumé, le niveau du micro vaut 0",
+    "args0": [
+      {
+        "options": [
+          [
+            "amplificateur du haut-parleur",
+            "PA"
+          ],
+          [
+            "micro muet",
+            "MUTE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "activé",
+            "true"
+          ],
+          [
+            "désactivé",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "es8389_end": {
+    "message0": "fermer l’audio",
+    "tooltip": "Éteint l’amplificateur, met le codec en basse consommation et ferme l’I2S ; réinitialisez pour l’utiliser à nouveau"
+  }
+}

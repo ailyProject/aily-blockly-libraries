@@ -1,5 +1,81 @@
 [
   {
+    "type": "servoeasing_pin_write",
+    "message0": "set servo on pin %1 to %2 degree",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#FF6B35",
+    "tooltip": "Automatically connect on first use, stop any previous easing, and immediately write the target angle. No variable or separate initialization is needed.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_pin_ease_to_duration",
+    "message0": "move servo on pin %1 in %2 ms to %3 degree",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#FF6B35",
+    "tooltip": "Automatically connect on first use and wait for the timed move to finish. The first move starts from a default software position, not a measured power-on angle.",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servoeasing_pin_start_ease_to_duration",
+    "message0": "start moving servo on pin %1 in %2 ms to %3 degree",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "DURATION",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "TARGET",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#FF6B35",
+    "tooltip": "Automatically connect on first use and start a timed move without waiting. Requires a platform with background timer support.",
+    "icon": "iconfont icon-servo"
+  },
+  {
     "type": "servoeasing_create",
     "message0": "create ServoEasing %1 on pin %2 start at %3 degree",
     "args0": [
