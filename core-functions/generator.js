@@ -225,32 +225,6 @@ function scheduleFunctionDefinitionSync(block) {
   }, 0);
 }
 
-function cleanupOrphanFunctionVariables(workspace) {
-  if (!workspace || typeof workspace.getAllVariables !== 'function') return;
-  var defs = workspace.getBlocksByType('custom_function_def', false);
-  var validFuncVarIds = new Set();
-  var validFuncNames = new Set();
-  for (var i = 0; i < defs.length; i++) {
-    ensureFunctionVariableMetadata(defs[i]);
-    if (defs[i].funcVarId_) {
-      validFuncVarIds.add(defs[i].funcVarId_);
-    }
-    var fname = defs[i].getFieldValue('FUNC_NAME') || defs[i]._funcLastName;
-    if (fname) validFuncNames.add(fname);
-  }
-  var allVariables = workspace.getAllVariables();
-  for (var vi = 0; vi < allVariables.length; vi++) {
-    var variable = allVariables[vi];
-    // 只删除 ID 和名称都不匹配的真正孤儿变量
-    // 使用 VariableMap.deleteVariable 静默删除，不弹确认框、不销毁引用块
-    if (variable.type === 'FUNC' && !validFuncVarIds.has(variable.getId()) && !validFuncNames.has(variable.name)) {
-      try {
-        workspace.getVariableMap().deleteVariable(variable);
-      } catch(e) { /* ignore - variable might already be gone */ }
-    }
-  }
-}
-
 function rebindCallBlockFuncField(block) {
   if (!block || !block.workspace || block.workspace.isFlyout) return;
   var funcField = block.getField('FUNC_NAME');
@@ -527,6 +501,8 @@ var functionParamsMutator = {
         this.params_.push({ type: 'int', name: 'param' + i });
       }
     }
+
+    this._hasSavedFuncVarId = typeof state.funcVarId === 'string' && state.funcVarId.length > 0;
     this.funcVarId_ = state.funcVarId || (this.id + '::FUNC');
     this.paramVarIds_ = (state.paramVarIds || []).slice();
     this._nextParamVarSeq = typeof state.nextParamVarSeq === 'number' ? state.nextParamVarSeq : 0;
@@ -891,21 +867,24 @@ function _initFunctionLibOnLoad(workspace) {
 
   var defs = workspace.getBlocksByType('custom_function_def', false);
 
-  // === Phase 1: 按名称查找/创建 FUNC 变量，避免 ID 不匹配触发 renameVariableById 导致变量合并 ===
+  // === Phase 1: 保留已保存的函数身份，旧文档缺省身份时才按名称兼容 ===
   var funcNameToVarId = {};
   for (var di = 0; di < defs.length; di++) {
     var defBlock = defs[di];
     ensureFunctionVariableMetadata(defBlock);
     defBlock._funcLastName = defBlock.getFieldValue('FUNC_NAME') || 'myFunction';
     var fn = defBlock._funcLastName;
+    var funcVar = workspace.getVariableById(defBlock.funcVarId_);
 
-    // 按名称查找 FUNC 变量（不按 funcVarId_, 因为 ABI 数据可能有重复/错误的 ID）
-    var funcVar = workspace.getVariable(fn, 'FUNC');
+    if (defBlock._hasSavedFuncVarId && (!funcVar || funcVar.name !== fn || funcVar.type !== 'FUNC')) {
+      throw new Error('Saved function variable does not match its definition: ' + fn + ' / ' + defBlock.funcVarId_);
+    }
+
+    if (!funcVar) funcVar = workspace.getVariable(fn, 'FUNC');
     if (!funcVar) {
-      // 变量不存在，创建（用 DEF 块自身 ID 生成稳定的变量 ID）
+      // 兼容未保存模型身份的旧文档；不得替换已有文档的显式身份。
       funcVar = workspace.createVariable(fn, 'FUNC', defBlock.id + '::FUNC');
     }
-    // 以实际变量 ID 为准，覆盖可能损坏的 funcVarId_
     defBlock.funcVarId_ = funcVar.getId();
     funcNameToVarId[fn] = funcVar.getId();
 
@@ -953,8 +932,7 @@ function _initFunctionLibOnLoad(workspace) {
     if (callBlock.updateFromRegistry_) callBlock.updateFromRegistry_();
   }
 
-  // === Phase 3: 清理 + 同步工具箱 ===
-  cleanupOrphanFunctionVariables(workspace);
+  // 分片加载时当前画布可能尚不完整，不能据此删除共享变量。
   syncFunctionCallsToToolbox();
 }
 

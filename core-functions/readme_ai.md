@@ -5,7 +5,7 @@ Defines typed Arduino functions and calls them with dynamically generated call b
 ## Library Info
 
 - **Name**: `@aily-project/lib-core-functions`
-- **Version**: `1.0.1`
+- **Version**: `1.0.2`
 
 ## Block Definitions
 
@@ -75,3 +75,5 @@ arduino_loop()
 3. Match `INPUT0`, `INPUT1`, and later indexes to the definition's parameter order.
 4. Use an indented child statement for a function body. Use `custom_function_return(...)` or `custom_function_return_void()` only when an explicit early return is needed.
 5. `RETURN_TYPE` accepts the dropdown value stored by the block, such as `void`, `int`, `float`, `bool`, `String`, pointer types, or reference types.
+
+Loading retains saved function model IDs and types. A partially loaded workspace is not evidence that a shared function model is unused; initialization does not delete such models. An explicit saved function ID that no longer matches its name/type is a loading error, not permission to create a replacement identity.
