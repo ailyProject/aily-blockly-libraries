@@ -44,6 +44,39 @@ permissions:
   statuses: read           # 读取状态检查
 
 jobs:
+  validate-i18n-contracts:
+    name: Block and i18n contracts
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Validate changed block and i18n contracts
+      env:
+        EVENT_NAME: ${{ github.event_name }}
+        PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        PUSH_BEFORE_SHA: ${{ github.event.before }}
+        HEAD_SHA: ${{ github.sha }}
+      run: |
+        if [ "$EVENT_NAME" = "pull_request" ]; then
+          node .scripts/check-changed-i18n.js --base "$PR_BASE_SHA" --head "$PR_HEAD_SHA" --merge-base
+        elif [ -n "$PUSH_BEFORE_SHA" ] && [ "$PUSH_BEFORE_SHA" != "0000000000000000000000000000000000000000" ]; then
+          node .scripts/check-changed-i18n.js --base "$PUSH_BEFORE_SHA" --head "$HEAD_SHA"
+        else
+          node .scripts/check-changed-i18n.js --head "$HEAD_SHA"
+        fi
+
   validate-libraries:
     runs-on: ubuntu-latest
     # 在job级别也明确权限（可选，但更安全）

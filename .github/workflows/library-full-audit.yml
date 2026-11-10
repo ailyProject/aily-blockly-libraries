@@ -31,6 +31,10 @@ jobs:
     - name: Test README governance unit tests
       run: npm run readme:test
 
+    - name: Audit all block and i18n contracts
+      if: always()
+      run: npm run i18n:check
+
     - name: Audit all README ABS contracts
       if: always()
       run: npm run readme:contract

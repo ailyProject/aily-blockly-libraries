@@ -15,7 +15,13 @@
 - ✅ **block.json设计** - 块定义、字段类型、连接规则
 - ✅ **generator.js实现** - 代码生成质量、最佳实践
 - ✅ **toolbox.json配置** - 工具箱结构、影子块设置
+- ✅ **积木与翻译参数一致性** - `messageN` 必须引用全部 `argsN`，翻译不能丢失占位符或改变下拉框机器值
 - ✅ **README文档** - 文档完整性、规范格式
+
+积木与翻译契约由独立的 **Block and i18n contracts** Actions 任务检查，不受 README 检查结果影响。
+PR 和 Push 只要修改某个库的 `block.json`、`toolbox.json` 或 `i18n/*.json`，都会检查该库全部 11 种语言，
+即使翻译文件本身没有修改。全部删除的库会跳过，单个翻译文件缺失会报错。每周和手动运行的
+**Library Full Audit** 会检查所有库。
 
 ### 智能报告
 - 📊 **详细分数**: 每个类别的具体得分和总分
@@ -56,6 +62,12 @@ npm run validate:all
 ```bash
 # 检测Git变更的库
 npm run validate:changed
+
+# 独立检查工作区变更库的积木与翻译契约
+npm run i18n:changed
+
+# 指定提交范围；PR 比较额外添加 --merge-base
+npm run i18n:changed -- --base <base-sha> --head <head-sha>
 ```
 
 ## 📊 评分标准
