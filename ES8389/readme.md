@@ -23,5 +23,5 @@ ES8389 audio: play MP3/WAV from SD card or USB drive, record, tones and micropho
 ## Quick Start
 
 1. Select a board with an ES8389 (IBox S31) and copy MP3 or WAV files to a FAT32 SD card.
-2. In `arduino_setup()` power the card if the board needs it (IBox S31: IO39 low), add `es8389_init`, then `es8389_play` a path such as `/music/song.mp3`.
+2. In `arduino_setup()` power the card if the board needs it (IBox S31: XL9555 P10 low), add `es8389_init`, then `es8389_play` a path such as `/music/song.mp3`.
 
