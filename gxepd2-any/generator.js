@@ -160,14 +160,6 @@ function gxepd2anyAttachVarMonitor(block) {
 Arduino.forBlock['gxepd2any_setup'] = function(block, generator) {
   gxepd2anyAttachVarMonitor(block);
   var boardCore = gxepd2anyGetBoardCore(); // reserved for board-specific adaptations
-  // Same include keys as @aily-project/lib-gxepd2 so duplicate includes deduplicate.
-  generator.addLibrary('Adafruit_GFX', '#include <Adafruit_GFX.h>');
-  generator.addLibrary('GxEPD2', '#include <GxEPD2.h>');
-  generator.addLibrary('GxEPD2_BW', '#include <GxEPD2_BW.h>');
-  generator.addLibrary('GxEPD2_3C', '#include <GxEPD2_3C.h>');
-  generator.addLibrary('GxEPD2_4C', '#include <GxEPD2_4C.h>');
-  generator.addLibrary('GxEPD2_7C', '#include <GxEPD2_7C.h>');
-  generator.addLibrary('SPI', '#include <SPI.h>');
 
   var varName = gxepd2anySanitizeIdentifier(block.getFieldValue('VAR'), 'display');
   var cls = block.getFieldValue('PANEL');
@@ -175,6 +167,13 @@ Arduino.forBlock['gxepd2any_setup'] = function(block, generator) {
   if (!panel) {
     panel = GXEPD2ANY_PANELS['GxEPD2_154_D67'] || { base: 'GxEPD2_BW', pageH: 200 };
   }
+  // Use the same include keys as @aily-project/lib-gxepd2 when both are present.
+  generator.addLibrary('Adafruit_GFX', '#include <Adafruit_GFX.h>');
+  generator.addLibrary(panel.base, '#include <' + panel.base + '.h>');
+  if (generator.codeDict?.libraries?.GxEPD2_color_constants) {
+    generator.addLibrary('GxEPD2_color_constants', '', true);
+  }
+  generator.addLibrary('SPI', '#include <SPI.h>');
   var sck = gxepd2anyValueToCode(block, generator, 'SCK', '18');
   var mosi = gxepd2anyValueToCode(block, generator, 'MOSI', '23');
   var cs = gxepd2anyValueToCode(block, generator, 'CS', 'SS');
