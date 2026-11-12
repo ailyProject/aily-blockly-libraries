@@ -76,9 +76,11 @@ arduino_loop()
 ```abs
 arduino_setup()
     serial_begin(Serial, 115200)
-    io_digitalwrite(math_number(39), io_state(HIGH))
+    xl9555_init(0x27)
+    xl9555_name_pin(8, "sd_power", OUTPUT)
+    xl9555_write($sd_power, HIGH)
     time_delay(math_number(200))
-    io_digitalwrite(math_number(39), io_state(LOW))
+    xl9555_write($sd_power, LOW)
     time_delay(math_number(250))
     esp32_sd_mmc_begin(true)
     ov3660_init()
@@ -95,5 +97,5 @@ arduino_setup()
 1. **Boards**: ESP32-S31 boards only (Arduino-ESP32 4.0.0, PSRAM). `ov3660_init` takes D0–D7 (`y2`–`y9`), PCLK, XCLK, VSYNC and HREF from the board’s `cameraConfig` and starts `Wire` (SCCB, address 0x3C) on its SDA/SCL. IBox S31: D0–D7=IO46–IO53, PCLK=IO54, XCLK=IO55, VSYNC=IO56, HREF=IO57, SDA=IO0, SCL=IO1. A board whose `cameraConfig` lists other models fails to compile with an `#error`; without `cameraConfig` the library defaults (IBox S31 wiring) are used.
 2. **Frames**: 640×480 RGB565 big-endian at about 10 fps, two 600 KB buffers in PSRAM. The sensor delivers frames upside down; the blocks flip them so (0, 0) is the top left. `ov3660_init` can be called again to retry; `ov3660_error` tells why it failed.
 3. **Colours**: `ov3660_capture` keeps an 80×60 thumbnail (one sample per 8×8 pixels) and the whole-picture averages; average and pixel blocks read that last capture, 0–255.
-4. **Saving**: `ov3660_save_bmp` writes an uncompressed 24-bit BMP (640×480 is about 900 KB) with `SD_MMC`, so mount the card first, e.g. with `esp32_sd_mmc_begin`. On the IBox S31 power the card first (IO39 high 200 ms, then low), as in the example.
+4. **Saving**: `ov3660_save_bmp` writes an uncompressed 24-bit BMP (640×480 is about 900 KB) with `SD_MMC`, so mount the card first, e.g. with `esp32_sd_mmc_begin`. On the IBox S31 power the card first with XL9555 P10 (high 200 ms, then low), as in the example.
 5. **Video stream**: `ov3660_stream_start` runs a background task that keeps the latest upright frame at 640×480, 320×240 or 160×120 in two PSRAM buffers; while it runs, capture, colour and BMP blocks read from it. For a screen library: `if (ov3660_stream_next()) lcd.blit(0, 0, ov3660_stream.width(), ov3660_stream.height(), ov3660_stream.pixels());` (big-endian RGB565 for SPI LCD drivers that push bytes as-is; little-endian for TFT_eSPI/LVGL). The held frame stays unchanged until the next new-picture check.
