@@ -4,7 +4,7 @@ Single button event detection library, supporting multiple events such as single
 
 ## Library Info
 - **Name**: @aily-project/lib-onebutton
-- **Version**: 0.0.2
+- **Version**: 0.0.3
 
 ## Block Definitions
 
@@ -47,8 +47,25 @@ arduino_loop()
     time_delay(math_number(1000))
 ```
 
+### linkbit: onboard keys A and B
+```
+arduino_setup()
+    serial_begin(Serial, 115200)
+    onebutton_setup("keyA", 10, INPUT_PULLUP, TRUE)
+    onebutton_setup("keyB", 5, INPUT_PULLUP, TRUE)
+
+onebutton_attach_click($keyA)
+    @HANDLER:
+        serial_println(Serial, text("A clicked"))
+
+onebutton_attach_long_press_start($keyB)
+    @HANDLER:
+        serial_println(Serial, text("B long press"))
+```
+
 ## Notes
 
 1. **Variable**: `onebutton_setup("varName", ...)` creates variable `$varName`; pass `$varName` directly to `field_variable` slots; use `variables_get($varName)` only for `input_value` slots.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+4. **Board defaults**: on boards whose `board.json` has `buttonConfig` (`activeLevel` plus `pins` mapping a name to a pin, e.g. linkbit `{ "keyA": "10", "keyB": "5", "keyC": "8" }`, IBox S31 `{ "button": "61" }`), an `onebutton_setup` taken from the toolbox starts with the first onboard button not yet used in the workspace, named after it, with `INPUT_PULLUP` and active low when `activeLevel` is 0 (active high when 1). Other boards keep the defaults; saved programs keep their values. In ABS, write the name, pin and mode explicitly.
