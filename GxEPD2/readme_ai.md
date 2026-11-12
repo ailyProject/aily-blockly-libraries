@@ -4,7 +4,7 @@ GxEPD2 Blockly blocks for SPI e-paper displays from Good Display and Waveshare.
 
 ## Library Info
 - **Name**: @aily-project/lib-gxepd2
-- **Version**: 1.6.9
+- **Version**: 1.6.10
 
 ## Block Definitions
 
@@ -66,9 +66,25 @@ arduino_loop()
     gxepd2_sleep($display, HIBERNATE)
 ```
 
+### linkbit: onboard 2.13" 3-color panel
+```abs
+arduino_setup()
+    gxepd2_setup("display", C3_GDEY0213Z98, math_number(2), math_number(3), math_number(1), math_number(0), 0, 2, TRUE, FALSE)
+    gxepd2_spi_pins(math_number(6), math_number(-1), math_number(7), math_number(2))
+    gxepd2_set_rotation($display, 1)
+    gxepd2_page_update($display, FULL)
+        @DRAW:
+            gxepd2_fill_screen($display, gxepd2_color(GxEPD_WHITE))
+            gxepd2_set_text_color($display, gxepd2_color(GxEPD_RED))
+            gxepd2_set_cursor($display, math_number(10), math_number(30))
+            gxepd2_print($display, text("linkbit"))
+    gxepd2_sleep($display, HIBERNATE)
+```
+
 ## Notes
 
 1. `gxepd2_setup("display", ...)` creates `$display`; pass `$display` directly to `field_variable` slots. Use `variables_get($display)` only when another block explicitly expects an `input_value`.
 2. Put drawing blocks inside `gxepd2_page_update`; GxEPD2 may call the body multiple times while paging.
 3. Use `gxepd2_set_partial_window` before `gxepd2_page_update(..., CURRENT)` for partial refresh areas.
 4. E-paper modules need correct voltage and wiring. Most bare panels require 3.3V power and 3.3V logic.
+5. **Board defaults**: when the board’s `board.json` `displayConfig` has `interface` `spi` and a `model` that matches a PANEL value without its color prefix (linkbit: `gdey0213z98` → `C3_GDEY0213Z98`), a `gxepd2_setup` taken from the toolbox starts with that panel and the `cs`/`dc`/`rst`/`busy` pins, and `gxepd2_spi_pins` with `sclk`, `miso` (or -1), `mosi` and `cs`. Other boards keep the defaults; saved programs keep their values. On ESP32 boards, when `gxepd2_setup` uses exactly the board’s panel and pins, the board gives `sclk`/`mosi`, and the workspace has no `gxepd2_spi_pins`, the generated code adds `SPI.end(); SPI.begin(sclk, miso, mosi, cs);` after `init`. In ABS, write `gxepd2_spi_pins` explicitly, as in the linkbit example.
