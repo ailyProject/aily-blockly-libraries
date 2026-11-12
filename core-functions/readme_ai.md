@@ -76,4 +76,4 @@ arduino_loop()
 4. Use an indented child statement for a function body. Use `custom_function_return(...)` or `custom_function_return_void()` only when an explicit early return is needed.
 5. `RETURN_TYPE` accepts the dropdown value stored by the block, such as `void`, `int`, `float`, `bool`, `String`, pointer types, or reference types.
 
-Loading retains saved function model IDs and types. A partially loaded workspace is not evidence that a shared function model is unused; initialization does not delete such models. An explicit saved function ID that no longer matches its name/type is a loading error, not permission to create a replacement identity.
+Loading validates function IDs after the shared variable table is restored and retains shared models across workspace fragments. An older definition may have saved its generated `<blockId>::FUNC` ID even though creation reused an existing model. If that generated ID is absent and exactly one matching `FUNC` model exists, loading reuses the model's ID for the definition and its references. Other mismatches in explicit IDs are loading errors.
