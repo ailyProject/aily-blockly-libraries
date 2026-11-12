@@ -3,6 +3,77 @@
 
 'use strict';
 
+// 板载按键按开发板选（做法同 TFT_eSPI 读 board.json 的 displayConfig）：读 board.json 的 buttonConfig
+//   pins：按键名 → 引脚（如 linkbit 的 keyA/keyB/keyC，IBox S31 的 button）；activeLevel：按下时的电平
+// 只改工具箱（flyout）里的积木：引脚默认选工作区里还没用到的第一个板载按键，变量名用按键名；
+// activeLevel 为 0 时选上拉输入、低电平有效，为 1 时选高电平有效。打开已保存的程序时不改用户的值。
+function onebuttonBoardButtons() {
+  let board = null;
+  try {
+    board = window['boardConfig'];
+  } catch (e) {
+    board = null;
+  }
+  const config = board && board.buttonConfig;
+  if (!config || typeof config !== 'object' || !config.pins || typeof config.pins !== 'object') return null;
+  const keys = Array.isArray(config.pins)
+    ? config.pins
+        .filter(item => Array.isArray(item) && item.length > 1)
+        .map(item => ({ name: String(item[0]), pin: String(item[1]) }))
+    : Object.keys(config.pins).map(name => ({ name: name, pin: String(config.pins[name]) }));
+  if (!keys.length) return null;
+  const level = Number(config.activeLevel);
+  return { keys: keys, activeLevel: level === 0 || level === 1 ? level : null };
+}
+
+if (Blockly.Extensions.isRegistered('onebutton_board_button')) {
+  Blockly.Extensions.unregister('onebutton_board_button');
+}
+Blockly.Extensions.register('onebutton_board_button', function() {
+  if (!this.isInFlyout) return;
+  const config = onebuttonBoardButtons();
+  if (!config) return;
+  const pinField = this.getField('PIN');
+  if (!pinField) return;
+  let options = [];
+  try {
+    options = pinField.getOptions(false).map(option => option[1]);
+  } catch (e) {
+    options = [];
+  }
+  // 引脚列表里没有的按键不用
+  const keys = config.keys.filter(key => options.indexOf(key.pin) > -1);
+  if (!keys.length) return;
+
+  // 主工作区里已经创建过的按钮：用过的引脚和变量名
+  const usedPins = new Set();
+  const usedNames = new Set();
+  try {
+    const main = (this.workspace && this.workspace.targetWorkspace) ||
+      (Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+    if (main && main !== this.workspace) {
+      main.getBlocksByType('onebutton_setup', false).forEach(other => {
+        usedPins.add(other.getFieldValue('PIN'));
+        usedNames.add(other.getFieldValue('VAR'));
+      });
+    }
+  } catch (e) {
+    // 拿不到主工作区就按第一个按键
+  }
+  const unused = keys.find(key => !usedPins.has(key.pin));
+  const key = unused || keys[0];
+  pinField.setValue(key.pin);
+  if (unused && /^[A-Za-z_][A-Za-z0-9_]*$/.test(key.name) && !usedNames.has(key.name)) {
+    this.setFieldValue(key.name, 'VAR');
+  }
+  if (config.activeLevel === 0) {
+    this.setFieldValue('INPUT_PULLUP', 'PIN_MODE');
+    this.setFieldValue('TRUE', 'ACTIVE_LOW');
+  } else if (config.activeLevel === 1) {
+    this.setFieldValue('FALSE', 'ACTIVE_LOW');
+  }
+});
+
 // 创建按钮块
 Arduino.forBlock['onebutton_setup'] = function(block, generator) {
   // 1. 设置变量重命名监听
