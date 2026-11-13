@@ -1298,12 +1298,16 @@ if (Blockly.Extensions.isRegistered('esp32ai_init_display_dynamic_inputs')) {
     Blockly.Extensions.unregister('esp32ai_init_display_dynamic_inputs');
 }
 Blockly.Extensions.register('esp32ai_init_display_dynamic_inputs', function() {
+    const libraryI18n = typeof window !== 'undefined' && window.__BLOCKLY_LIB_I18N__ &&
+        window.__BLOCKLY_LIB_I18N__['@aily-project/lib-esp32-xzai'];
+    const sizeLabels = libraryI18n && libraryI18n.extensions &&
+        libraryI18n.extensions.esp32ai_init_display_dynamic_inputs || {};
     // 这个函数负责根据选择的显示屏类型更新块的形状
     this.updateShape_ = function(displayType) {
         // 1. 移除所有可能存在的动态引脚输入，防止残留
         const inputNames = [
             'BACKLIGHT_PIN', 'MOSI_PIN', 'CLK_PIN', 'DC_PIN', 'RST_PIN', 'CS_PIN', // ST7789
-            'SCL_PIN', 'SDA_PIN', 'set_PIN', 'set_PIN1', 'i2c_settings'           // SSD1306
+            'SCL_PIN', 'SDA_PIN', 'set_PIN', 'set_PIN1', 'i2c_settings', 'DISPLAY_SIZE' // SSD1306
         ];
         inputNames.forEach(name => {
             if (this.getInput(name)) {
@@ -1339,6 +1343,15 @@ Blockly.Extensions.register('esp32ai_init_display_dynamic_inputs', function() {
                 .appendField('SDA 引脚:')
                 .appendField(new Blockly.FieldNumber(21), 'SDA_PIN');
         }
+        if (displayType === 'ST7789' || displayType === 'SSD1306') {
+            const width = displayType === 'ST7789' ? 240 : 128;
+            const height = displayType === 'ST7789' ? 240 : 64;
+            this.appendDummyInput('DISPLAY_SIZE')
+                .appendField(sizeLabels.width || '宽度:')
+                .appendField(new Blockly.FieldNumber(width, 1, 4096, 1), 'WIDTH')
+                .appendField(sizeLabels.height || '高度:')
+                .appendField(new Blockly.FieldNumber(height, 1, 4096, 1), 'HEIGHT');
+        }
     };
 
     // 3. 为 DISPLAY_TYPE 字段添加验证器，当值改变时触发形状更新
@@ -1360,6 +1373,8 @@ Arduino.forBlock['esp32ai_init_display'] = function(block, generator) {
     generator.addLibrary('include_aivox_engine', '#include "ai_vox_engine.h"');
     const displayType = block.getFieldValue('DISPLAY_TYPE');
     display_type = block.getFieldValue('DISPLAY_TYPE');
+    const width = block.getFieldValue('WIDTH') || (displayType === 'ST7789' ? 240 : 128);
+    const height = block.getFieldValue('HEIGHT') || (displayType === 'ST7789' ? 240 : 64);
     // 根据显示屏类型生成不同的代码
     if (displayType === 'ST7789') {
         // --- ST7789 (SPI) 代码生成 ---
@@ -1395,8 +1410,8 @@ constexpr gpio_num_t kDisplayRstPin = GPIO_NUM_${RSTPin};
 constexpr gpio_num_t kDisplayCsPin = GPIO_NUM_${CSPin};
 
 constexpr auto kDisplaySpiMode = 0;
-constexpr uint32_t kDisplayWidth = 240;
-constexpr uint32_t kDisplayHeight = 240;
+constexpr uint32_t kDisplayWidth = ${width};
+constexpr uint32_t kDisplayHeight = ${height};
 constexpr bool kDisplayMirrorX = false;
 constexpr bool kDisplayMirrorY = false;
 constexpr bool kDisplayInvertColor = true;
@@ -1426,8 +1441,8 @@ constexpr auto kDisplayRgbElementOrder = LCD_RGB_ELEMENT_ORDER_RGB;
 constexpr gpio_num_t kI2cPinSda = GPIO_NUM_${sdaPin};
 constexpr gpio_num_t kI2cPinScl = GPIO_NUM_${sclPin};
 
-constexpr uint32_t kDisplayWidth = 128;
-constexpr uint32_t kDisplayHeight = 64;
+constexpr uint32_t kDisplayWidth = ${width};
+constexpr uint32_t kDisplayHeight = ${height};
 constexpr bool kDisplayMirrorX = true;
 constexpr bool kDisplayMirrorY = true;
 `;
