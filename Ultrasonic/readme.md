@@ -7,7 +7,7 @@ Ultrasonic sensor, the driver library supports SR04, achieves non-contact distan
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-ultrasonic |
-| Version | 0.0.2 |
+| Version | 0.0.3 |
 | Author | ailyProject |
 | Source | N/A |
 | License | Original license |
