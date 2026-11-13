@@ -7,7 +7,7 @@ Serial communication library, supports serial port sending and receiving
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-core-serial |
-| Version | 0.0.1 |
+| Version | 0.0.2 |
 | Author | ailyProject |
 | Source | N/A |
 | License | Original license |
@@ -24,3 +24,5 @@ Serial communication library, supports serial port sending and receiving
 
 1. Enable `@aily-project/lib-core-serial` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+
+Version 0.0.2 preserves saved ESP32-S3 UART2 selections. Update the installed serial library to receive the fix.

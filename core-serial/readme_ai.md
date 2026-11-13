@@ -4,7 +4,7 @@ Serial communication library, supports serial port sending and receiving
 
 ## Library Info
 - **Name**: @aily-project/lib-core-serial
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
@@ -48,5 +48,7 @@ arduino_loop()
 
 1. **Variable**: `serial_begin_esp32_custom("varName", ...)` creates variable `$varName`; pass `$varName` directly to `field_variable` slots; use `variables_get($varName)` only for `input_value` slots.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
-3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(true/false)`, variables, or nested value blocks.
 4. **UI-only extensions**: serial extensions refresh existing serial-port dropdowns and variable metadata; they do not add ABS arguments.
+
+5. **UART restoration (0.0.2)**: UART choices are prepared synchronously before saved fields load. ESP32-S3 supports UART0, UART1 and UART2; the list depends on the selected chip.
