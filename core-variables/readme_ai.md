@@ -4,7 +4,7 @@ Core library, usually already integrated into the initial template
 
 ## Library Info
 - **Name**: @aily-project/lib-core-variables
-- **Version**: 1.0.1
+- **Version**: 1.0.2
 
 ## Block Definitions
 
