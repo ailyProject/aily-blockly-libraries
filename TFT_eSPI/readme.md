@@ -1,38 +1,26 @@
 # TFT_eSPI
 
-TFT_eSPI - Arduino library, graphics and font library supporting multiple TFT displays
+Graphics, text, images and animation for TFT displays.
 
 ## Library Info
 
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-tft-espi |
-| Version | 2.5.53 |
+| Version | 2.5.55 |
 | Author | ailyProject |
 | Source | https://github.com/Bodmer/TFT_eSPI |
 | License | Original license |
 
 ## Supported Boards
 
-ESP32, RP2040, STMicroelectronics:stm32, adafruit:samd, Seeeduino:samd, adafruit:nrf52
-
-## Description
-
-TFT_eSPI - Arduino library, graphics and font library supporting multiple TFT displays
+ESP32, RP2040, STM32, SAMD, nRF52 and ChipIntelli CI13XX.
 
 ## Quick Start
 
-1. Enable `@aily-project/lib-tft-espi` in Aily Blockly.
-2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+Enable the package, configure the screen in `arduino_setup()`, then draw in `arduino_loop()`.
+Version 2.5.55 also restores older setup connections for size and pins.
 
-## Static Images
+## Description
 
-Upload PNG, JPEG, WebP, or BMP images and convert them to RGB565 or RGB332 pixel data. Images are embedded in `PROGMEM` and rendered at the selected coordinates with `pushImage()`. The source image is retained by the editor so changing width, height, or colour format always reconverts from the original file.
-
-Image pixels and drawing primitives use the same standard RGB channel layout. Select `TFT_RGB` or `TFT_BGR` in the setup block to match the panel; the controller colour-order setting applies consistently to fills, text, images, and animations.
-
-If red and blue are reversed, change the setup block's colour order rather than enabling display inversion or changing the image byte-swap setting.
-
-## GIF and MP4 Animation
-
-Upload GIF or MP4 in the animation field and choose RGB565 for higher colour fidelity or RGB332 for roughly twice the frame capacity. The generated `PROGMEM` frames are rendered through the matching `pushImage()` overload automatically. Blocking, non-blocking, looped, and selected-frame playback are supported. Keep clips short; MP4 audio is ignored.
+Upload PNG/JPEG/WebP/BMP images or short GIF/MP4 clips. Choose RGB565 for colour fidelity or RGB332 for smaller frames; MP4 audio is ignored. The editor retains original images for reconversion. Select TFT_RGB or TFT_BGR to match the panel. Playback supports blocking, non-blocking, looping and individual frames.
