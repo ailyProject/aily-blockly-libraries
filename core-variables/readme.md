@@ -7,7 +7,7 @@ Core library, usually already integrated into the initial template
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-core-variables |
-| Version | 1.0.1 |
+| Version | 1.0.2 |
 | Author | Unknown |
 | Source | N/A |
 | License | Original license |
