@@ -4,7 +4,7 @@ TFT_eSPI - Arduino library, graphics and font library supporting multiple TFT di
 
 ## Library Info
 - **Name**: @aily-project/lib-tft-espi
-- **Version**: 2.5.53
+- **Version**: 2.5.55
 
 ## Block Definitions
 
@@ -42,11 +42,11 @@ TFT_eSPI - Arduino library, graphics and font library supporting multiple TFT di
 | `tftespi_set_text_size` | Statement | VAR(field_variable), SIZE(dropdown) | `tftespi_set_text_size($tft, "1")` | `tft.setTextSize(1);` |
 | `tftespi_set_text_font` | Statement | VAR(field_variable), FONT(dropdown) | `tftespi_set_text_font($tft, "1")` | `tft.setTextFont(1);` |
 | `tftespi_image` | Value (TFTImage) | CUSTOM_IMAGE(field_tftespi_image) | `tftespi_image({"schemaVersion":1,"format":"rgb565","encoding":"rgb565-be","width":160,"height":120,"fps":10,"maxFrames":1,"frameCount":0,"frames":null})` | `#include <TFT_eSPI.h>` |
-| `tftespi_draw_image` | Statement | VAR(field_variable), X(input_value), Y(input_value), IMAGE(input_value) | `tftespi_draw_image($tft, math_number(0), math_number(0), tftespi_image())` | `// No TFT_eSPI image data` |
+| `tftespi_draw_image` | Statement | VAR(field_variable), X(input_value), Y(input_value), IMAGE(input_value) | `tftespi_draw_image($tft, math_number(0), math_number(0), tftespi_image({"schemaVersion":1,"format":"rgb565","encoding":"rgb565-be","width":160,"height":120,"fps":10,"maxFrames":1,"frameCount":0,"frames":null}))` | `// No TFT_eSPI image data` |
 | `tftespi_animation` | Value | CUSTOM_ANIMATION(field_tftespi_animation) | `tftespi_animation({"schemaVersion":1,"format":"rgb565","encoding":"rgb565-be","width":160,"height":120,"fps":10,"maxFrames":10,"frameCount":0,"frames":null})` | `#include <TFT_eSPI.h>` |
-| `tftespi_play_animation` | Statement | VAR(field_variable), X(input_value), Y(input_value), ANIMATION(input_value), PLAY_MODE(dropdown), LOOP(field_checkbox) | `tftespi_play_animation($tft, math_number(0), math_number(0), tftespi_animation(), NON_BLOCKING, TRUE)` | `// No TFT_eSPI animation data` |
-| `tftespi_draw_animation_frame` | Statement | VAR(field_variable), X(input_value), Y(input_value), ANIMATION(input_value), FRAME(input_value) | `tftespi_draw_animation_frame($tft, math_number(0), math_number(0), tftespi_animation(), variables_get(frame))` | `// No TFT_eSPI animation data` |
-| `tftespi_animation_frame_count` | Value | ANIMATION(input_value) | `tftespi_animation_frame_count(tftespi_animation())` | `0` |
+| `tftespi_play_animation` | Statement | VAR(field_variable), X(input_value), Y(input_value), ANIMATION(input_value), PLAY_MODE(dropdown), LOOP(field_checkbox) | `tftespi_play_animation($tft, math_number(0), math_number(0), tftespi_animation({"schemaVersion":1,"format":"rgb565","encoding":"rgb565-be","width":160,"height":120,"fps":10,"maxFrames":10,"frameCount":0,"frames":null}), NON_BLOCKING, TRUE)` | `// No TFT_eSPI animation data` |
+| `tftespi_draw_animation_frame` | Statement | VAR(field_variable), X(input_value), Y(input_value), ANIMATION(input_value), FRAME(input_value) | `tftespi_draw_animation_frame($tft, math_number(0), math_number(0), tftespi_animation({"schemaVersion":1,"format":"rgb565","encoding":"rgb565-be","width":160,"height":120,"fps":10,"maxFrames":10,"frameCount":0,"frames":null}), variables_get(frame))` | `// No TFT_eSPI animation data` |
+| `tftespi_animation_frame_count` | Value | ANIMATION(input_value) | `tftespi_animation_frame_count(tftespi_animation({"schemaVersion":1,"format":"rgb565","encoding":"rgb565-be","width":160,"height":120,"fps":10,"maxFrames":10,"frameCount":0,"frames":null}))` | `0` |
 | `tftespi_color_rgb565` | Value | VAR(field_variable), COLOR(field_colour_hsv_sliders) | `tftespi_color_rgb565($tft, "#ffffff")` | `tft.color565(255, 255, 255)` |
 | `tftespi_color` | Value | COLOR(dropdown) | `tftespi_color(TFT_BLACK)` | `TFT_BLACK` |
 
