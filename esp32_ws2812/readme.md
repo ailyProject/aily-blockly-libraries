@@ -7,7 +7,7 @@ Direct-pin Blockly bindings for WS2812/WS2812B RGB strips. Arduino-ESP32 3.x RMT
 | Field | Value |
 |---|---|
 | Package | @aily-project/lib-esp32-ws2812 |
-| Version | 2.0.0 |
+| Version | 2.0.1 |
 | Source | Arduino-ESP32 RMT API |
 | License | UNLICENSED |
 

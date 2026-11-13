@@ -4,7 +4,7 @@ Blockly bindings for direct-pin WS2812/WS2812B strips using Arduino-ESP32 3.x RM
 
 ## Library Info
 - **Name**: @aily-project/lib-esp32-ws2812
-- **Version**: 2.0.0
+- **Version**: 2.0.1
 
 ## Block Definitions
 
