@@ -4,7 +4,7 @@ Mathematics related function support library
 
 ## Library Info
 - **Name**: @aily-project/lib-core-math
-- **Version**: 0.0.2
+- **Version**: 0.0.3
 
 ## Block Definitions
 
@@ -42,7 +42,7 @@ Mathematics related function support library
 |-----------|--------|-------------|
 | BASE | DEC, HEX, BIN | math_number_base |
 | OP | ADD, MINUS, MULTIPLY, DIVIDE, MODULO, POWER | math_arithmetic |
-| OP | ADD, MINUS | math_change |
+| OP | ADD, MINUS, MULTIPLY, DIVIDE | math_change |
 | OP | ROOT, ABS, NEG, LN, LOG10, EXP, POW10 | math_single |
 | OP | SIN, COS, TAN, ASIN, ACOS, ATAN | math_trig |
 | CONSTANT | PI, E, GOLDEN_RATIO, SQRT2, SQRT1_2, INFINITY | math_constant |
@@ -70,6 +70,7 @@ arduino_loop()
 1. **Parameter order**: ABS parameters follow `block.json` args order.
 2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
 3. **Runtime shape**: only `math_number_property` changes its ABS signature: `PROPERTY=DIVISIBLE_BY` adds `DIVISOR`. Tooltip/help extensions on `math_number`, `math_arithmetic`, `math_single`, and `math_trig` are UI-only.
+4. **Compound assignment**: `math_change` supports `+=`, `-=`, `*=`, and `/=`. Division follows the C++ variable type (integer division truncates); use a nonzero divisor.
 
 ## Runtime Variant Examples
 
