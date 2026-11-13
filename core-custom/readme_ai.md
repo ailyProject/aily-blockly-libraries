@@ -19,7 +19,7 @@ Supplementary tools to the standard Blockly library: advanced functions such as 
 | `custom_function_text` | Statement | NAME(field_input), RETURN(dropdown), PARAMS(field_input), BODY(field_multilinetext) | `custom_function_text("myFunction", void, "int x, int y", "// function body")` | `void myFunction(int x, int y) { ↵ // function body ↵ }` |
 | `custom_function_call` | Statement | NAME(field_input), ARGS(field_input) | `custom_function_call("myFunction", "ARGS")` | `myFunction(value);` |
 | `custom_function_call_return` | Value | NAME(field_input), ARGS(field_input) | `custom_function_call_return("myFunction", "ARGS")` | `myFunction(value)` |
-| `custom_return` | Statement | VALUE(input_value) | `custom_return(math_number(0))` | `return 1;` |
+| `custom_return` | Statement | VALUE(input_value) | `custom_return(math_number(0))` | `return 0;` |
 | `custom_return_void` | Statement | (none) | `custom_return_void()` | `return;` |
 | `custom_insert_code` | Statement | POSITION(dropdown), CODE(field_multilinetext) | `custom_insert_code(macro, "// your code")` | `// your code` |
 | `custom_ifdef` | Statement | MACRO(field_input), CODE(input_statement) | `custom_ifdef("DEBUG")` | `#ifdef DEBUG ↵ #endif // DEBUG` |
