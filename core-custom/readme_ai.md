@@ -12,7 +12,7 @@ Supplementary tools to the standard Blockly library: advanced functions such as 
 |------------|------------|--------------------------|------------|----------------|
 | `custom_code` | Statement | CODE(field_multilinetext) | `custom_code("// your code here")` | `// your code here` |
 | `custom_code2` | Value | CODE(field_multilinetext) | `custom_code2("expression")` | `expression` |
-| `custom_declaration_group` | Hat | DECLARATIONS(input_statement) | `custom_declaration_group()` | Children retain their global code regions |
+| `custom_declaration_group` | Hat | DECLARATIONS(input_statement) | `custom_declaration_group()` | No direct code emitted when the DECLARATIONS statement input is empty. |
 | `custom_macro` | Statement | NAME(field_input), VALUE(field_input) | `custom_macro("LED_PIN", "13")` | `#define LED_PIN 13` |
 | `custom_library` | Statement | LIB_NAME(field_input) | `custom_library("Wire.h")` | `#include <Wire.h>` |
 | `custom_function` | Hat | NAME(field_input), RETURN(dropdown), PARAMS(field_input), BODY(input_statement) | `custom_function("myFunction", void, "PARAMS")` | `void myFunction(value) { ↵ }` |
