@@ -4,7 +4,7 @@ Ultrasonic sensor, the driver library supports SR04, achieves non-contact distan
 
 ## Library Info
 - **Name**: @aily-project/lib-ultrasonic
-- **Version**: 0.0.2
+- **Version**: 0.0.3
 
 ## Block Definitions
 
@@ -28,3 +28,4 @@ arduino_loop()
 
 1. **Parameter order**: ABS parameters follow `block.json` args order.
 2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+3. Echo measurement explicitly uses a 1,000,000 microsecond timeout, including on cores that require all three `pulseIn` arguments.

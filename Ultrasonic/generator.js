@@ -8,7 +8,7 @@ Arduino.forBlock["ultrasonic_ranging"] = function (block, generator) {
   digitalWrite(${pin1}, HIGH);
   delayMicroseconds(10);
   digitalWrite(${pin1}, LOW);
-  float distance = pulseIn(${pin2}, HIGH) / 58.00;
+  float distance = pulseIn(${pin2}, HIGH, 1000000UL) / 58.00;
   delay(10);
   return distance;
 }`;
