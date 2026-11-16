@@ -1,0 +1,242 @@
+{
+  "kind": "category",
+  "name": "pocket-translator",
+  "icon": "fa-light fa-language",
+  "colour": "#00796B",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "pt_init"
+    },
+    {
+      "kind": "block",
+      "type": "pt_set_volume",
+      "inputs": {
+        "VOLUME": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 40
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "按键与录音"
+    },
+    {
+      "kind": "block",
+      "type": "pt_button_edge"
+    },
+    {
+      "kind": "block",
+      "type": "pt_button_down"
+    },
+    {
+      "kind": "block",
+      "type": "pt_record_hold",
+      "inputs": {
+        "SECONDS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "pt_record_ms"
+    },
+    {
+      "kind": "block",
+      "type": "pt_free_buffer"
+    },
+    {
+      "kind": "label",
+      "text": "识别与翻译"
+    },
+    {
+      "kind": "block",
+      "type": "pt_speech_to_text",
+      "inputs": {
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "https://api.siliconflow.cn/v1/audio/transcriptions"
+            }
+          }
+        },
+        "TOKEN": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "sk-xxxxxxxx"
+            }
+          }
+        },
+        "MODEL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "FunAudioLLM/SenseVoiceSmall"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "pt_translate",
+      "inputs": {
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "https://api.siliconflow.cn/v1/chat/completions"
+            }
+          }
+        },
+        "TOKEN": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "sk-xxxxxxxx"
+            }
+          }
+        },
+        "MODEL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Qwen/Qwen2.5-7B-Instruct"
+            }
+          }
+        },
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "pt_last_error"
+    },
+    {
+      "kind": "label",
+      "text": "朗读英文"
+    },
+    {
+      "kind": "block",
+      "type": "pt_speak",
+      "inputs": {
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "https://api.siliconflow.cn/v1/audio/speech"
+            }
+          }
+        },
+        "TOKEN": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "sk-xxxxxxxx"
+            }
+          }
+        },
+        "MODEL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "FunAudioLLM/CosyVoice2-0.5B"
+            }
+          }
+        },
+        "VOICE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "FunAudioLLM/CosyVoice2-0.5B:anna"
+            }
+          }
+        },
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "pt_speak_ok"
+    },
+    {
+      "kind": "block",
+      "type": "pt_speak_ms"
+    },
+    {
+      "kind": "label",
+      "text": "屏幕显示"
+    },
+    {
+      "kind": "block",
+      "type": "pt_draw_text",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        },
+        "FG": {
+          "shadow": {
+            "type": "tftespi_color"
+          }
+        },
+        "BG": {
+          "shadow": {
+            "type": "tftespi_color"
+          }
+        }
+      }
+    }
+  ]
+}
