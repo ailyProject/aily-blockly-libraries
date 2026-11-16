@@ -1,0 +1,338 @@
+[
+  {
+    "args0": [
+      {
+        "name": "BTN1",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "BTN2",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "WS",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "SCK",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "SD",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "RATE",
+        "options": [
+          [
+            "16000 Hz",
+            "16000"
+          ],
+          [
+            "8000 Hz",
+            "8000"
+          ],
+          [
+            "44100 Hz",
+            "44100"
+          ]
+        ],
+        "type": "field_dropdown"
+      },
+      {
+        "name": "BITS",
+        "options": [
+          [
+            "32位帧(INMP441 24位有效)",
+            "32"
+          ],
+          [
+            "16位",
+            "16"
+          ],
+          [
+            "24位",
+            "24"
+          ]
+        ],
+        "type": "field_dropdown"
+      },
+      {
+        "name": "CH",
+        "options": [
+          [
+            "左声道(L/R接地)",
+            "PT_CH_LEFT"
+          ],
+          [
+            "右声道",
+            "PT_CH_RIGHT"
+          ],
+          [
+            "立体声",
+            "PT_CH_STEREO"
+          ]
+        ],
+        "type": "field_dropdown"
+      },
+      {
+        "name": "SPK_BCLK",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "SPK_LRC",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "SPK_DIN",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      }
+    ],
+    "message0": "初始化口袋翻译机 按键1:%1 按键2:%2 麦克风WS:%3 SCK:%4 SD:%5 采样率:%6 位宽:%7 声道:%8 功放BCLK:%9 功放LRC:%10 功放DIN:%11",
+    "previousStatement": null,
+    "nextStatement": null,
+    "type": "pt_init",
+    "colour": 200
+  },
+  {
+    "args0": [],
+    "message0": "有按键刚按下(消抖)",
+    "output": "Boolean",
+    "type": "pt_button_edge",
+    "colour": 200
+  },
+  {
+    "args0": [],
+    "message0": "有按键正按住",
+    "output": "Boolean",
+    "type": "pt_button_down",
+    "colour": 200
+  },
+  {
+    "args0": [
+      {
+        "check": "Number",
+        "name": "SECONDS",
+        "type": "input_value"
+      }
+    ],
+    "inputsInline": true,
+    "message0": "按住录音 最长 %1 秒（松开立即停止）",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "pt_record_hold",
+    "colour": 200
+  },
+  {
+    "args0": [],
+    "message0": "本次录音时长(毫秒)",
+    "output": "Number",
+    "type": "pt_record_ms",
+    "colour": 200
+  },
+  {
+    "args0": [
+      {
+        "check": "String",
+        "name": "URL",
+        "type": "input_value"
+      },
+      {
+        "check": "String",
+        "name": "TOKEN",
+        "type": "input_value"
+      },
+      {
+        "check": "String",
+        "name": "MODEL",
+        "type": "input_value"
+      }
+    ],
+    "inputsInline": false,
+    "message0": "硅基流动语音识别 地址:%1 密钥:%2 模型:%3",
+    "output": "String",
+    "type": "pt_speech_to_text",
+    "colour": 200
+  },
+  {
+    "args0": [
+      {
+        "check": "String",
+        "name": "URL",
+        "type": "input_value"
+      },
+      {
+        "check": "String",
+        "name": "TOKEN",
+        "type": "input_value"
+      },
+      {
+        "check": "String",
+        "name": "MODEL",
+        "type": "input_value"
+      },
+      {
+        "check": "String",
+        "name": "TEXT",
+        "type": "input_value"
+      }
+    ],
+    "inputsInline": false,
+    "message0": "硅基流动翻译 中文→英文 地址:%1 密钥:%2 模型:%3 文本:%4",
+    "output": "String",
+    "type": "pt_translate",
+    "colour": 200
+  },
+  {
+    "args0": [],
+    "message0": "最近一次错误信息",
+    "output": "String",
+    "type": "pt_last_error",
+    "colour": 200
+  },
+  {
+    "args0": [
+      {
+        "name": "TFT",
+        "type": "field_variable",
+        "variableTypes": [
+          "TFT_eSPI"
+        ],
+        "defaultType": "TFT_eSPI"
+      },
+      {
+        "check": "Number",
+        "name": "X",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "Y",
+        "type": "input_value"
+      },
+      {
+        "check": "String",
+        "name": "TEXT",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "FG",
+        "type": "input_value"
+      },
+      {
+        "check": "Number",
+        "name": "BG",
+        "type": "input_value"
+      }
+    ],
+    "inputsInline": false,
+    "message0": "屏幕写文字(含中文) 屏幕:%1 X:%2 Y:%3 内容:%4 颜色:%5 背景:%6",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "pt_draw_text",
+    "colour": 200
+  },
+  {
+    "args0": [],
+    "message0": "释放录音缓冲",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "pt_free_buffer",
+    "colour": 200
+  },
+  {
+    "args0": [
+      {
+        "check": "String",
+        "name": "URL",
+        "type": "input_value"
+      },
+      {
+        "check": "String",
+        "name": "TOKEN",
+        "type": "input_value"
+      },
+      {
+        "check": "String",
+        "name": "MODEL",
+        "type": "input_value"
+      },
+      {
+        "check": "String",
+        "name": "VOICE",
+        "type": "input_value"
+      },
+      {
+        "check": "String",
+        "name": "TEXT",
+        "type": "input_value"
+      },
+      {
+        "name": "RATE",
+        "options": [
+          [
+            "16000 Hz",
+            "16000"
+          ],
+          [
+            "24000 Hz",
+            "24000"
+          ],
+          [
+            "32000 Hz",
+            "32000"
+          ],
+          [
+            "44100 Hz",
+            "44100"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "inputsInline": false,
+    "message0": "硅基流动语音朗读英文 地址:%1 密钥:%2 模型:%3 音色:%4 文本:%5 采样率:%6",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "pt_speak",
+    "colour": 200
+  },
+  {
+    "args0": [],
+    "message0": "最近一次朗读成功",
+    "output": "Boolean",
+    "type": "pt_speak_ok",
+    "colour": 200
+  },
+  {
+    "args0": [],
+    "message0": "最近一次朗读时长(毫秒)",
+    "output": "Number",
+    "type": "pt_speak_ms",
+    "colour": 200
+  },
+  {
+    "args0": [
+      {
+        "check": "Number",
+        "name": "VOLUME",
+        "type": "input_value"
+      }
+    ],
+    "inputsInline": true,
+    "message0": "设置喇叭音量 %1 (0-100)",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "pt_set_volume",
+    "colour": 200
+  }
+]
