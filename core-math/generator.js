@@ -205,7 +205,8 @@ Arduino.forBlock["math_change"] = function (block) {
   const delta =
     Arduino.valueToCode(block, "DELTA", Arduino.ORDER_ASSIGNMENT) || "1";
   const variable = block.workspace.getVariableById(block.getFieldValue("VAR"));
-  const variableName = variable ? variable.name : "variable";
+  const variableName = variable && typeof Arduino.getModelSymbolReference === 'function'
+    ? Arduino.getModelSymbolReference(variable) ?? variable.name : variable ? variable.name : "variable";
   const operator = block.getFieldValue("OP") === "MINUS" ? "-=" : "+=";
   return variableName + " " + operator + " " + delta + ";\n";
 };

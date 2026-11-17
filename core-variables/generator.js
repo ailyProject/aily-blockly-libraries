@@ -1,3 +1,37 @@
+// Untyped core models opt in only through actual declaration blocks.
+if (typeof Arduino.registerModelSymbolDeclarations === 'function') {
+  Arduino.registerModelSymbolDeclarations('core-variables.declarations', function(workspace) {
+    const declarations = [];
+    for (const block of workspace.getAllBlocks(false)) {
+      if (!['variable_define', 'variable_define_scoped', 'variable_define_advanced', 'variable_define_advanced_scoped'].includes(block.type)) continue;
+      if (block.isEnabled() === false || block.getInheritedDisabled()) continue;
+      const model = workspace.getVariableMap().getVariable(block.getFieldValue('VAR'), '');
+      if (model) declarations.push({ nameOrId: model.getId(), type: '', by: 'id' });
+    }
+    return declarations;
+  });
+}
+function coreModelDeclaredSymbol(block, generator, name) {
+  const model = block.workspace.getVariableMap().getVariable(name, '');
+  return model && typeof generator.getModelSymbol === 'function'
+    ? generator.getModelSymbol(model.getId(), '', { by: 'id' }) : name;
+}
+function coreModelReferenceSymbol(block, generator, model) {
+  const name = model.getName();
+  // A native procedure parameter keeps its existing local spelling even when
+  // a same-named global model has opted into generated names.
+  if (model.getType() === '') {
+    const visited = new Set();
+    for (let parent = block.getSurroundParent(); parent && !visited.has(parent); parent = parent.getSurroundParent()) {
+      visited.add(parent);
+      const definition = typeof parent.getProcedureDef === 'function' ? parent.getProcedureDef() : undefined;
+      if (Array.isArray(definition && definition[1]) && definition[1].includes(name)) return name;
+    }
+  }
+  return typeof generator.getModelSymbolReference === 'function'
+    ? generator.getModelSymbolReference(model) ?? name : name;
+}
+
 // CREATE_VARIABLE 功能已禁用
 
 Blockly.getMainWorkspace().addChangeListener((event) => {
@@ -462,7 +496,7 @@ function registerVariableToBlockly(varName, varType) {
   const workspace = Blockly.getMainWorkspace();
   if (workspace && workspace.createVariable && varName) {
     // 检查是否已存在同名变量（不考虑类型）
-    const existingVar = workspace.getVariable(varName);
+    const existingVar = workspace.getVariable(varName, varType === undefined ? '' : varType);
     if (existingVar) {
       return; // 已存在，无需创建
     }
@@ -814,7 +848,7 @@ Arduino.forBlock["variable_define"] = function (block, generator) {
   }
 
   let type = block.getFieldValue("TYPE");
-  const name = block.getFieldValue("VAR");
+  const name = coreModelDeclaredSymbol(block, generator, block.getFieldValue("VAR"));
   let value = Arduino.valueToCode(block, "VALUE", Arduino.ORDER_ATOMIC);
 
   let defaultValue = "";
@@ -885,7 +919,7 @@ Arduino.forBlock["variable_define_scoped"] = function (block, generator) {
   }
 
   let type = block.getFieldValue("TYPE");
-  const name = block.getFieldValue("VAR");
+  const name = coreModelDeclaredSymbol(block, generator, block.getFieldValue("VAR"));
   let value = Arduino.valueToCode(block, "VALUE", Arduino.ORDER_ATOMIC);
   const scope = block.getFieldValue("SCOPE"); // local or global
 
@@ -959,7 +993,7 @@ Arduino.forBlock["variable_define_advanced"] = function (block, generator) {
   const storage = block.getFieldValue("STORAGE");  // static, extern, ""
   const qualifier = block.getFieldValue("QUALIFIER");  // const, volatile, const volatile, ""
   let type = block.getFieldValue("TYPE");
-  const name = block.getFieldValue("VAR");
+  const name = coreModelDeclaredSymbol(block, generator, block.getFieldValue("VAR"));
   let value = Arduino.valueToCode(block, "VALUE", Arduino.ORDER_ATOMIC);
 
   let defaultValue = "";
@@ -1063,7 +1097,7 @@ Arduino.forBlock["variable_define_advanced_scoped"] = function (block, generator
   const storage = block.getFieldValue("STORAGE");  // static, extern, ""
   const qualifier = block.getFieldValue("QUALIFIER");  // const, volatile, const volatile, ""
   let type = block.getFieldValue("TYPE");
-  const name = block.getFieldValue("VAR");
+  const name = coreModelDeclaredSymbol(block, generator, block.getFieldValue("VAR"));
   let value = Arduino.valueToCode(block, "VALUE", Arduino.ORDER_ATOMIC);
   const scope = block.getFieldValue("SCOPE"); // local or global
 
@@ -1136,9 +1170,8 @@ Arduino.forBlock["variable_define_advanced_scoped"] = function (block, generator
 
 Arduino.forBlock["variables_get"] = function (block, generator) {
   // Variable getter.
-  const { name: code, type } = block.workspace.getVariableById(
-    block.getFieldValue("VAR"),
-  );
+  const model = block.workspace.getVariableMap().getVariableById(block.getFieldValue("VAR"));
+  const code = coreModelReferenceSymbol(block, generator, model), type = model.getType();
   // console.log("name: ", code);
   // setLibraryVariable(type, code);
   return [code, Arduino.ORDER_ATOMIC];
@@ -1149,9 +1182,8 @@ Arduino.forBlock["variables_set"] = function (block, generator) {
   const value =
     Arduino.valueToCode(block, "VALUE", Arduino.ORDER_ASSIGNMENT) || "0";
 
-  const { name: code, type } = block.workspace.getVariableById(
-    block.getFieldValue("VAR"),
-  );
+  const model = block.workspace.getVariableMap().getVariableById(block.getFieldValue("VAR"));
+  const code = coreModelReferenceSymbol(block, generator, model), type = model.getType();
 
   // // 检查工作区中是否有变量定义块定义了当前变量
   // const workspace = block.workspace;

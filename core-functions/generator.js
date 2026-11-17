@@ -1,3 +1,19 @@
+// This library owns its parameter schema; the Host only consumes the public
+// local-binding protocol and never inspects these private block properties.
+if (typeof Arduino.registerModelSymbolLocalScope === 'function') {
+  Arduino.registerModelSymbolLocalScope('core-functions.parameters', function(block, model) {
+    if (block.type !== 'custom_function_def' || model.getType() !== '') return false;
+    const variables = block.workspace.getVariableMap();
+    return (block.params_ || []).some(function(parameter, index) {
+      // ensureVariableWithId can reuse an existing by-name model when the
+      // requested parameter ID does not exist. Observe that same real binding.
+      const id = (block.paramVarIds_ || [])[index];
+      const bound = (id && variables.getVariableById(id)) || variables.getVariable(parameter.name, '');
+      return !!bound && bound.getId() === model.getId();
+    });
+  });
+}
+
 // ==================== 自定义函数库 - 代码生成器 ====================
 // 块定义在 block.json，扩展和代码生成器全部在此文件
 //

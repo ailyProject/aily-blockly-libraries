@@ -1,3 +1,28 @@
+if (typeof Arduino.registerModelSymbolDeclarations === 'function') {
+  Arduino.registerModelSymbolDeclarations('ds1302.declarations', function(workspace) {
+    const declarations = [];
+    for (const block of workspace.getAllBlocks(false)) {
+      if (block.type !== 'ds1302_setup' || block.isEnabled() === false || block.getInheritedDisabled()) continue;
+      const model = workspace.getVariableMap().getVariable(block.getFieldValue('VAR'), 'DS1302');
+      if (model) declarations.push({ nameOrId: model.getId(), type: 'DS1302', by: 'id' });
+    }
+    return declarations;
+  });
+}
+function ds1302ModelFieldSymbol(block, generator, declaration = false) {
+  const field = block.getField('VAR');
+  const name = (field && field.getText ? field.getText() : block.getFieldValue('VAR')) || 'rtc';
+  const model = field && typeof field.getVariable === 'function' ? field.getVariable()
+    : block.workspace.getVariableMap().getVariable(name, 'DS1302');
+  if (!model || model.getType() !== 'DS1302') return name;
+  if (typeof generator.getModelSymbolReference === 'function') {
+    const symbol = generator.getModelSymbolReference(model);
+    if (symbol !== undefined) return symbol;
+  }
+  return declaration && typeof generator.getModelSymbol === 'function'
+    ? generator.getModelSymbol(model.getId(), 'DS1302', { by: 'id' }) : name;
+}
+
 /**
  * DS1302 RTC Library Generator for Aily Blockly
  * Based on msparks/arduino-ds1302 library
@@ -28,7 +53,7 @@ Arduino.forBlock['ds1302_setup'] = function(block, generator) {
     }
   }
 
-  const varName = block.getFieldValue('VAR') || 'rtc';
+  const varName = ds1302ModelFieldSymbol(block, generator, true);
   const cePin = generator.valueToCode(block, 'CE_PIN', generator.ORDER_ATOMIC) || '5';
   const ioPin = generator.valueToCode(block, 'IO_PIN', generator.ORDER_ATOMIC) || '6';
   const sclkPin = generator.valueToCode(block, 'SCLK_PIN', generator.ORDER_ATOMIC) || '7';
@@ -43,7 +68,7 @@ Arduino.forBlock['ds1302_setup'] = function(block, generator) {
 // DS1302 Set Write Protect
 Arduino.forBlock['ds1302_set_write_protect'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'rtc';
+  const varName = ds1302ModelFieldSymbol(block, generator);
   const enable = block.getFieldValue('ENABLE') === 'TRUE';
 
   return varName + '.writeProtect(' + (enable ? 'true' : 'false') + ');\n';
@@ -52,7 +77,7 @@ Arduino.forBlock['ds1302_set_write_protect'] = function(block, generator) {
 // DS1302 Set Halt
 Arduino.forBlock['ds1302_set_halt'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'rtc';
+  const varName = ds1302ModelFieldSymbol(block, generator);
   const halt = block.getFieldValue('HALT') === 'TRUE';
 
   return varName + '.halt(' + (halt ? 'true' : 'false') + ');\n';
@@ -61,7 +86,7 @@ Arduino.forBlock['ds1302_set_halt'] = function(block, generator) {
 // DS1302 Get Time
 Arduino.forBlock['ds1302_get_time'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'rtc';
+  const varName = ds1302ModelFieldSymbol(block, generator);
 
   generator.addLibrary('DS1302', '#include <DS1302.h>');
   
@@ -71,7 +96,7 @@ Arduino.forBlock['ds1302_get_time'] = function(block, generator) {
 // DS1302 Set Time
 Arduino.forBlock['ds1302_set_time'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'rtc';
+  const varName = ds1302ModelFieldSymbol(block, generator);
   
   const year = generator.valueToCode(block, 'YEAR', generator.ORDER_ATOMIC) || '2024';
   const month = generator.valueToCode(block, 'MONTH', generator.ORDER_ATOMIC) || '1';
@@ -140,7 +165,7 @@ Arduino.forBlock['ds1302_get_weekday'] = function(block, generator) {
 // DS1302 Write RAM
 Arduino.forBlock['ds1302_write_ram'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'rtc';
+  const varName = ds1302ModelFieldSymbol(block, generator);
   
   const address = generator.valueToCode(block, 'ADDRESS', generator.ORDER_ATOMIC) || '0';
   const value = generator.valueToCode(block, 'VALUE', generator.ORDER_ATOMIC) || '0';
@@ -151,7 +176,7 @@ Arduino.forBlock['ds1302_write_ram'] = function(block, generator) {
 // DS1302 Read RAM
 Arduino.forBlock['ds1302_read_ram'] = function(block, generator) {
   const varField = block.getField('VAR');
-  const varName = varField ? varField.getText() : 'rtc';
+  const varName = ds1302ModelFieldSymbol(block, generator);
   
   const address = generator.valueToCode(block, 'ADDRESS', generator.ORDER_ATOMIC) || '0';
 
