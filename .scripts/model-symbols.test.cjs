@@ -6,6 +6,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 const { createRequire } = require('node:module');
 const { spawnSync, execFileSync } = require('node:child_process');
+const { webcrypto } = require('node:crypto');
 
 const libraries = path.resolve(__dirname, '..');
 // These integration contracts need the real Host and an existing project's
@@ -22,11 +23,12 @@ const { DOMImplementation, DOMParser, XMLSerializer } = hostRequire('@xmldom/xml
 Blockly.utils.xml.injectDependencies({ document: new DOMImplementation().createDocument(null, 'xml'), DOMParser, XMLSerializer });
 const { buildSync } = hostRequire('esbuild');
 const arduino = path.join(host, 'src/app/editors/blockly-editor/components/blockly/generators/arduino/arduino.ts');
-const bundled = buildSync({ stdin: { contents: `import ${JSON.stringify(path.join(host, 'src/app/editors/blockly-editor/utils/blockly-legacy-library-compat.ts'))}; export * from ${JSON.stringify(arduino)};`, resolveDir: host }, bundle: true, platform: 'node', format: 'cjs',
+const customContract = path.join(host, 'src/app/editors/blockly-editor/services/blockly-custom-function-contract.ts');
+const bundled = buildSync({ stdin: { contents: `import ${JSON.stringify(path.join(host, 'src/app/editors/blockly-editor/utils/blockly-legacy-library-compat.ts'))}; export * from ${JSON.stringify(arduino)}; export { registerCustomFunctionContract, captureCustomFunctionRegistration, clearCustomFunctionRegistration } from ${JSON.stringify(customContract)};`, resolveDir: host }, bundle: true, platform: 'node', format: 'cjs',
   external: ['blockly'], write: false, logLevel: 'silent' }).outputFiles[0].text;
 const compiled = { exports: {} };
-vm.runInNewContext(bundled, { require: hostRequire, module: compiled, exports: compiled.exports, TextEncoder });
-const { ArduinoGenerator } = compiled.exports;
+vm.runInNewContext(bundled, { require: hostRequire, module: compiled, exports: compiled.exports, TextEncoder, window: { crypto: webcrypto } });
+const { ArduinoGenerator, registerCustomFunctionContract, captureCustomFunctionRegistration, clearCustomFunctionRegistration } = compiled.exports;
 const installed = name => path.join(normal, 'lib-' + name);
 const definitions = name => JSON.parse(fs.readFileSync(path.join(libraries, name, 'block.json'), 'utf8'));
 const needed = new Set(['arduino_setup', 'arduino_loop', 'arduino_global', 'math_number', 'text',
@@ -286,3 +288,60 @@ test('actual core-functions custom parameter binding remains local when ensureVa
   assert.ok(body.includes('link = link;'), 'Custom parameter reads and writes must use the actual local declaration');
   assert.ok(body.includes('link += 1;'), 'A public API math consumer must preserve the same local binding');
 });
+
+async function pinnedCustomParameterRuntime(t, { suffix = '', isCurrent = () => true } = {}) {
+  const r = runtime(t), global = r.model('link', '', 'legacy-custom-global-link');
+  r.block('variable_define', { VAR: global.name, TYPE: 'int' });
+  const source = execFileSync('git', ['show', '20793c14123ed162edff19f718edafe5e2cd26de:core-functions/generator.js'], { cwd: libraries, encoding: 'utf8' }) + suffix;
+  assert.ok(!source.includes('registerModelSymbolLocalScope'), 'Exercise the original pinned source without the new library scope provider');
+  new vm.Script(source, { filename: 'original-core-functions/generator.js' }).runInContext(r.context);
+  const owner = {};
+  t.after(() => clearCustomFunctionRegistration(Blockly.Blocks, owner));
+  await registerCustomFunctionContract(source, r.context, Blockly.Blocks, owner, isCurrent);
+  Blockly.defineBlocksWithJsonArray(definitions('core-functions').filter(block => block.type === 'custom_function_def'));
+  const definition = r.block('custom_function_def', { FUNC_NAME: 'pinnedParamScope', RETURN_TYPE: 'void' });
+  definition.loadExtraState({ params: [{ type: 'int', name: 'link' }], paramVarIds: ['legacy-requested-param-id'] });
+  assert.equal(r.context.ensureVariableWithId(r.workspace, 'link', '', definition.paramVarIds_[0]).getId(), global.getId());
+  const set = r.block('variables_set', { VAR: global.getId() }), get = r.block('variables_get', { VAR: global.getId() });
+  set.getInput('VALUE').connection.connect(get.outputConnection);
+  const change = r.block('math_change', { VAR: global.getId() });
+  definition.getInput('STACK').connection.connect(set.previousConnection); set.nextConnection.connect(change.previousConnection);
+  return { r, global, owner };
+}
+
+test('pinned original core-functions retains local parameter binding beside newly migrated core globals', async t => {
+  const { r, global } = await pinnedCustomParameterRuntime(t);
+  assert.equal(captureCustomFunctionRegistration(Blockly.Blocks)?.get('custom_function_def')?.kind, 'definition', 'The genuine original source must pass the existing production provenance contract');
+  r.generate();
+  const body = r.generator.codeDict.functions.pinnedParamScope;
+  assert.ok(body.includes('void pinnedParamScope(int link)'));
+  assert.ok(body.includes('link = link;'), 'Pinned custom parameter reads and writes must retain their actual local declaration');
+  assert.ok(body.includes('link += 1;'), 'Pinned custom parameters must also keep public API math consumers local');
+  const outside = r.block('variables_get', { VAR: global.getId() });
+  r.generator.init(r.workspace);
+  const globalSymbol = r.generator.getModelSymbolReference(global);
+  assert.notEqual(globalSymbol, 'link');
+  assert.equal(r.generator.blockToCode(outside)[0], globalSymbol, 'The same native ID outside the function must retain its migrated global declaration');
+});
+
+for (const refusal of ['unknown-source', 'inactive-session', 'cleared-owner']) {
+  test('legacy custom scope bridge refuses ' + refusal + ' while retaining migrated global names', async t => {
+    let active = true;
+    const { r, global, owner } = await pinnedCustomParameterRuntime(t, {
+      suffix: refusal === 'unknown-source' ? '\n// Unreviewed source variant.\n' : '',
+      isCurrent: () => active,
+    });
+    if (refusal !== 'unknown-source') {
+      assert.equal(captureCustomFunctionRegistration(Blockly.Blocks)?.get('custom_function_def')?.kind, 'definition');
+    }
+    if (refusal === 'inactive-session') active = false;
+    if (refusal === 'cleared-owner') clearCustomFunctionRegistration(Blockly.Blocks, owner);
+    assert.equal(captureCustomFunctionRegistration(Blockly.Blocks)?.get('custom_function_def'), undefined);
+    r.generate();
+    const body = r.generator.codeDict.functions.pinnedParamScope;
+    const symbol = r.generator.getModelSymbolReference(global);
+    assert.notEqual(symbol, 'link');
+    assert.ok(body.includes(symbol + ' = ' + symbol + ';'), 'No unproven or inactive compatibility callback may suppress the real global model symbol');
+    assert.ok(body.includes(symbol + ' += 1;'));
+  });
+}
