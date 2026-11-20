@@ -1,3 +1,71 @@
+// BEGIN shared FreeRTOS symbol resolver
+function ailyFreeRtosSymbol(generator, block, family, role, label) {
+  const variableTypes = { esp32: 'ESP32FreeRTOS', avr: 'FreeRTOS', r4: 'R4FreeRTOS', seeed: 'SeeedFreeRTOS', stm32: 'STM32FreeRTOS' };
+  const roleTypes = { task: 'Task', handle: 'Task', queue: 'Queue', semaphore: 'Semaphore' };
+  const defaults = { task: 'TaskBlink', queue: 'sensorQueue', semaphore: 'syncSem' };
+  const workspace = block.workspace;
+  const variables = workspace?.getVariableMap?.();
+  const resolveLabel = (target, platform, kind, text) => {
+    const type = variableTypes[platform] + roleTypes[kind];
+    const model = target.getField('VAR')?.getVariable?.();
+    if (model?.type === type) return model.name;
+    // Legacy create blocks still store the name in an ordinary text field.
+    const namedModel = variables?.getVariable?.(text, type);
+    return namedModel?.name ?? text;
+  };
+  const legacyName = (kind, name) => kind === 'handle' ? name + 'Handle' : name;
+  const owner = (platform, kind, name) => JSON.stringify([platform, kind, name]);
+  const currentName = resolveLabel(block, family, role, String(label));
+  const legacy = legacyName(role, currentName);
+
+  // Arduino creates a fresh codeDict per generation. Cache only the claims for
+  // that pass so reordering blocks cannot give one of two owners the old name.
+  const generation = generator.codeDict;
+  const scopes = ailyFreeRtosSymbol.scopes ??= new WeakMap();
+  let scope = generation && scopes.get(generation);
+  if (!scope) {
+    const claims = new Map();
+    const reserve = (platform, kind, name) => {
+      const symbol = legacyName(kind, name);
+      if (!claims.has(symbol)) claims.set(symbol, new Set());
+      claims.get(symbol).add(owner(platform, kind, name));
+    };
+    for (const target of workspace?.getAllBlocks?.(false) ?? []) {
+      const declaration = /^(esp32|avr|r4|seeed|stm32)_freertos_(task|queue|semaphore)_(create|function)$/.exec(target.type);
+      if (!declaration || target.isEnabled?.() === false || target.getInheritedDisabled?.()) continue;
+      const [, platform, kind, operation] = declaration;
+      const text = operation === 'create' ? target.getFieldValue('VAR') : target.getField('VAR')?.getText();
+      const name = resolveLabel(target, platform, kind, text || defaults[kind]);
+      reserve(platform, kind, name);
+      if (kind === 'task') reserve(platform, 'handle', name);
+    }
+    const ordinary = new Set(['Serial', 'Serial1', 'Serial2', 'Wire', 'SPI', 'setup', 'loop']);
+    const rtosTypes = new Set(Object.values(variableTypes).flatMap(prefix => Object.values(roleTypes).map(kind => prefix + kind)));
+    for (const model of variables?.getAllVariables?.() ?? []) {
+      if (!rtosTypes.has(model.type)) ordinary.add(model.name);
+    }
+    const nameDb = generator.nameDB_;
+    for (const name of nameDb?.getUserNames?.('PROCEDURE') ?? []) ordinary.add(nameDb.getName(name, 'PROCEDURE'));
+    const cppKeywords = 'alignas alignof and and_eq asm auto bitand bitor bool break case catch char char8_t char16_t char32_t class compl concept const const_cast consteval constexpr constinit continue co_await co_return co_yield decltype default delete do double dynamic_cast else enum explicit export extern false float for friend goto if inline int long mutable namespace new noexcept not not_eq nullptr operator or or_eq private protected public register reinterpret_cast requires return short signed sizeof static static_assert static_cast struct switch template this thread_local throw true try typedef typeid typename union unsigned using virtual void volatile wchar_t while xor xor_eq';
+    for (const word of cppKeywords.split(' ').concat((generator.RESERVED_WORDS_ || '').split(','))) ordinary.add(word);
+    scope = { claims, ordinary };
+    if (generation) scopes.set(generation, scope);
+  }
+
+  const owners = scope.claims.get(legacy);
+  const available = !owners || (owners.size === 1 && owners.has(owner(family, role, currentName)));
+  if (/^[A-Za-z][A-Za-z0-9_]*$/.test(legacy) && !legacy.includes('__') && !legacy.startsWith('ailyRtos_')
+      && available && !scope.ordinary.has(legacy)) return legacy;
+
+  // Escape the complete label, not a lossy spelling or a hash. Roles and
+  // platforms have disjoint namespaces, with no C++ implementation prefix.
+  const encoded = Array.from(currentName, character => character.codePointAt(0).toString(16)).join('_');
+  let symbol = 'ailyRtos_' + family + '_' + role + '_' + encoded;
+  while (scope.ordinary.has(symbol)) symbol += 'x';
+  return symbol;
+}
+// END shared FreeRTOS symbol resolver
+
 function esp32FreeRTOSOrderAtomic(generator) {
   return generator.ORDER_ATOMIC || Arduino.ORDER_ATOMIC;
 }
@@ -26,10 +94,6 @@ function esp32FreeRTOSGetInputName(block, fallback) {
 function esp32FreeRTOSGetVarName(block, fallback) {
   const varField = block.getField('VAR');
   return varField ? varField.getText() : fallback;
-}
-
-function esp32FreeRTOSTaskHandleName(taskName) {
-  return esp32FreeRTOSSanitizeName(taskName, 'Task') + 'Handle';
 }
 
 function esp32FreeRTOSWaitTicks(block, generator) {
@@ -93,11 +157,11 @@ function attachESP32FreeRTOSVarMonitor(block, varType, fallback) {
 Arduino.forBlock['esp32_freertos_task_create'] = function(block, generator) {
   attachESP32FreeRTOSVarMonitor(block, 'ESP32FreeRTOSTask', 'TaskBlink');
   const taskLabel = esp32FreeRTOSGetInputName(block, 'TaskBlink');
-  const taskName = esp32FreeRTOSSanitizeName(taskLabel, 'TaskBlink');
+  const taskName = ailyFreeRtosSymbol(generator, block, 'esp32', 'task', taskLabel);
   const stackSize = block.getFieldValue('STACK_SIZE') || '4096';
   const priority = block.getFieldValue('PRIORITY') || '1';
   const core = block.getFieldValue('CORE') || 'AUTO';
-  const handleName = esp32FreeRTOSTaskHandleName(taskLabel);
+  const handleName = ailyFreeRtosSymbol(generator, block, 'esp32', 'handle', taskLabel);
 
   ensureESP32FreeRTOSLibrary(generator);
   registerESP32FreeRTOSVariable(taskLabel, 'ESP32FreeRTOSTask');
@@ -128,7 +192,7 @@ Arduino.forBlock['esp32_freertos_task_create'] = function(block, generator) {
 
 Arduino.forBlock['esp32_freertos_task_function'] = function(block, generator) {
   const taskLabel = esp32FreeRTOSGetVarName(block, 'TaskBlink');
-  const taskName = esp32FreeRTOSSanitizeName(taskLabel, 'TaskBlink');
+  const taskName = ailyFreeRtosSymbol(generator, block, 'esp32', 'task', taskLabel);
   const taskCode = generator.statementToCode(block, 'TASK_CODE') || '';
 
   ensureESP32FreeRTOSLibrary(generator);
@@ -157,19 +221,19 @@ Arduino.forBlock['esp32_freertos_task_delay_ticks'] = function(block, generator)
 Arduino.forBlock['esp32_freertos_task_suspend'] = function(block, generator) {
   ensureESP32FreeRTOSLibrary(generator);
   const taskLabel = esp32FreeRTOSGetVarName(block, 'TaskBlink');
-  return 'vTaskSuspend(' + esp32FreeRTOSTaskHandleName(taskLabel) + ');\n';
+  return 'vTaskSuspend(' + ailyFreeRtosSymbol(generator, block, 'esp32', 'handle', taskLabel) + ');\n';
 };
 
 Arduino.forBlock['esp32_freertos_task_resume'] = function(block, generator) {
   ensureESP32FreeRTOSLibrary(generator);
   const taskLabel = esp32FreeRTOSGetVarName(block, 'TaskBlink');
-  return 'vTaskResume(' + esp32FreeRTOSTaskHandleName(taskLabel) + ');\n';
+  return 'vTaskResume(' + ailyFreeRtosSymbol(generator, block, 'esp32', 'handle', taskLabel) + ');\n';
 };
 
 Arduino.forBlock['esp32_freertos_task_delete'] = function(block, generator) {
   ensureESP32FreeRTOSLibrary(generator);
   const taskLabel = esp32FreeRTOSGetVarName(block, 'TaskBlink');
-  const handleName = esp32FreeRTOSTaskHandleName(taskLabel);
+  const handleName = ailyFreeRtosSymbol(generator, block, 'esp32', 'handle', taskLabel);
   return 'vTaskDelete(' + handleName + ');\n' + handleName + ' = NULL;\n';
 };
 
@@ -181,13 +245,13 @@ Arduino.forBlock['esp32_freertos_task_delete_current'] = function(block, generat
 Arduino.forBlock['esp32_freertos_task_notify'] = function(block, generator) {
   ensureESP32FreeRTOSLibrary(generator);
   const taskLabel = esp32FreeRTOSGetVarName(block, 'TaskBlink');
-  return 'xTaskNotifyGive(' + esp32FreeRTOSTaskHandleName(taskLabel) + ');\n';
+  return 'xTaskNotifyGive(' + ailyFreeRtosSymbol(generator, block, 'esp32', 'handle', taskLabel) + ');\n';
 };
 
 Arduino.forBlock['esp32_freertos_task_notify_from_isr'] = function(block, generator) {
   ensureESP32FreeRTOSLibrary(generator);
   const taskLabel = esp32FreeRTOSGetVarName(block, 'TaskBlink');
-  const handleName = esp32FreeRTOSTaskHandleName(taskLabel);
+  const handleName = ailyFreeRtosSymbol(generator, block, 'esp32', 'handle', taskLabel);
   return '{\n' +
     '  BaseType_t xHigherPriorityTaskWoken = pdFALSE;\n' +
     '  vTaskNotifyGiveFromISR(' + handleName + ', &xHigherPriorityTaskWoken);\n' +
@@ -206,7 +270,7 @@ Arduino.forBlock['esp32_freertos_task_wait_notification'] = function(block, gene
 Arduino.forBlock['esp32_freertos_queue_create'] = function(block, generator) {
   attachESP32FreeRTOSVarMonitor(block, 'ESP32FreeRTOSQueue', 'sensorQueue');
   const queueLabel = esp32FreeRTOSGetInputName(block, 'sensorQueue');
-  const queueName = esp32FreeRTOSSanitizeName(queueLabel, 'sensorQueue');
+  const queueName = ailyFreeRtosSymbol(generator, block, 'esp32', 'queue', queueLabel);
   const queueLength = block.getFieldValue('QUEUE_LENGTH') || '10';
   const dataType = block.getFieldValue('DATA_TYPE') || 'int';
 
@@ -218,7 +282,7 @@ Arduino.forBlock['esp32_freertos_queue_create'] = function(block, generator) {
 
 Arduino.forBlock['esp32_freertos_queue_send'] = function(block, generator) {
   const queueLabel = esp32FreeRTOSGetVarName(block, 'sensorQueue');
-  const queueName = esp32FreeRTOSSanitizeName(queueLabel, 'sensorQueue');
+  const queueName = ailyFreeRtosSymbol(generator, block, 'esp32', 'queue', queueLabel);
   const dataType = block.getFieldValue('DATA_TYPE') || 'int';
   const data = generator.valueToCode(block, 'DATA', esp32FreeRTOSOrderAtomic(generator)) || '0';
   const waitTicks = esp32FreeRTOSWaitTicks(block, generator);
@@ -233,7 +297,7 @@ Arduino.forBlock['esp32_freertos_queue_send'] = function(block, generator) {
 
 Arduino.forBlock['esp32_freertos_queue_receive_do'] = function(block, generator) {
   const queueLabel = esp32FreeRTOSGetVarName(block, 'sensorQueue');
-  const queueName = esp32FreeRTOSSanitizeName(queueLabel, 'sensorQueue');
+  const queueName = ailyFreeRtosSymbol(generator, block, 'esp32', 'queue', queueLabel);
   const dataType = block.getFieldValue('DATA_TYPE') || 'int';
   const itemName = esp32FreeRTOSSanitizeName(block.getFieldValue('ITEM_VAR'), 'queueValue');
   const waitTicks = esp32FreeRTOSWaitTicks(block, generator);
@@ -251,14 +315,14 @@ Arduino.forBlock['esp32_freertos_queue_receive_do'] = function(block, generator)
 Arduino.forBlock['esp32_freertos_queue_messages_waiting'] = function(block, generator) {
   ensureESP32FreeRTOSQueueLibrary(generator);
   const queueLabel = esp32FreeRTOSGetVarName(block, 'sensorQueue');
-  const queueName = esp32FreeRTOSSanitizeName(queueLabel, 'sensorQueue');
+  const queueName = ailyFreeRtosSymbol(generator, block, 'esp32', 'queue', queueLabel);
   return ['uxQueueMessagesWaiting(' + queueName + ')', esp32FreeRTOSOrderFunctionCall(generator)];
 };
 
 Arduino.forBlock['esp32_freertos_semaphore_create'] = function(block, generator) {
   attachESP32FreeRTOSVarMonitor(block, 'ESP32FreeRTOSSemaphore', 'syncSem');
   const semaphoreLabel = esp32FreeRTOSGetInputName(block, 'syncSem');
-  const semaphoreName = esp32FreeRTOSSanitizeName(semaphoreLabel, 'syncSem');
+  const semaphoreName = ailyFreeRtosSymbol(generator, block, 'esp32', 'semaphore', semaphoreLabel);
   const semaphoreType = block.getFieldValue('SEMAPHORE_TYPE') || 'BINARY';
   const maxCount = block.getFieldValue('MAX_COUNT') || '10';
   const initialCount = block.getFieldValue('INITIAL_COUNT') || '0';
@@ -279,7 +343,7 @@ Arduino.forBlock['esp32_freertos_semaphore_create'] = function(block, generator)
 Arduino.forBlock['esp32_freertos_semaphore_take'] = function(block, generator) {
   ensureESP32FreeRTOSSemaphoreLibrary(generator);
   const semaphoreLabel = esp32FreeRTOSGetVarName(block, 'syncSem');
-  const semaphoreName = esp32FreeRTOSSanitizeName(semaphoreLabel, 'syncSem');
+  const semaphoreName = ailyFreeRtosSymbol(generator, block, 'esp32', 'semaphore', semaphoreLabel);
   const waitTicks = esp32FreeRTOSWaitTicks(block, generator);
   return ['(xSemaphoreTake(' + semaphoreName + ', ' + waitTicks + ') == pdTRUE)', esp32FreeRTOSOrderFunctionCall(generator)];
 };
@@ -287,14 +351,14 @@ Arduino.forBlock['esp32_freertos_semaphore_take'] = function(block, generator) {
 Arduino.forBlock['esp32_freertos_semaphore_give'] = function(block, generator) {
   ensureESP32FreeRTOSSemaphoreLibrary(generator);
   const semaphoreLabel = esp32FreeRTOSGetVarName(block, 'syncSem');
-  const semaphoreName = esp32FreeRTOSSanitizeName(semaphoreLabel, 'syncSem');
+  const semaphoreName = ailyFreeRtosSymbol(generator, block, 'esp32', 'semaphore', semaphoreLabel);
   return 'xSemaphoreGive(' + semaphoreName + ');\n';
 };
 
 Arduino.forBlock['esp32_freertos_semaphore_give_from_isr'] = function(block, generator) {
   ensureESP32FreeRTOSSemaphoreLibrary(generator);
   const semaphoreLabel = esp32FreeRTOSGetVarName(block, 'syncSem');
-  const semaphoreName = esp32FreeRTOSSanitizeName(semaphoreLabel, 'syncSem');
+  const semaphoreName = ailyFreeRtosSymbol(generator, block, 'esp32', 'semaphore', semaphoreLabel);
   return '{\n' +
     '  BaseType_t xHigherPriorityTaskWoken = pdFALSE;\n' +
     '  xSemaphoreGiveFromISR(' + semaphoreName + ', &xHigherPriorityTaskWoken);\n' +
@@ -330,7 +394,7 @@ Arduino.forBlock['esp32_freertos_get_task_count'] = function(block, generator) {
 Arduino.forBlock['esp32_freertos_get_task_name'] = function(block, generator) {
   ensureESP32FreeRTOSLibrary(generator);
   const taskLabel = esp32FreeRTOSGetVarName(block, 'TaskBlink');
-  return ['pcTaskGetName(' + esp32FreeRTOSTaskHandleName(taskLabel) + ')', esp32FreeRTOSOrderFunctionCall(generator)];
+  return ['pcTaskGetName(' + ailyFreeRtosSymbol(generator, block, 'esp32', 'handle', taskLabel) + ')', esp32FreeRTOSOrderFunctionCall(generator)];
 };
 
 Arduino.forBlock['esp32_freertos_get_current_task_name'] = function(block, generator) {
@@ -341,7 +405,7 @@ Arduino.forBlock['esp32_freertos_get_current_task_name'] = function(block, gener
 Arduino.forBlock['esp32_freertos_get_stack_high_water_mark'] = function(block, generator) {
   ensureESP32FreeRTOSLibrary(generator);
   const taskLabel = esp32FreeRTOSGetVarName(block, 'TaskBlink');
-  return ['uxTaskGetStackHighWaterMark(' + esp32FreeRTOSTaskHandleName(taskLabel) + ')', esp32FreeRTOSOrderFunctionCall(generator)];
+  return ['uxTaskGetStackHighWaterMark(' + ailyFreeRtosSymbol(generator, block, 'esp32', 'handle', taskLabel) + ')', esp32FreeRTOSOrderFunctionCall(generator)];
 };
 
 Arduino.forBlock['esp32_freertos_get_current_stack_high_water_mark'] = function(block, generator) {
