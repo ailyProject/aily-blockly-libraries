@@ -1,0 +1,289 @@
+[
+  {
+    "args0": [
+      {
+        "name": "CS",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "SID",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      },
+      {
+        "name": "SCLK",
+        "options": "${board.digitalPins}",
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#2D8CF0",
+    "message0": "初始化 LCD12864（带字库）  CS引脚 %1  SID引脚 %2  SCLK引脚 %3",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "以串行接口初始化带字库的 LCD12864（CS 片选 / SID 数据 / SCLK 时钟），在启动时执行一次",
+    "type": "lcd12864_init"
+  },
+  {
+    "args0": [],
+    "colour": "#2D8CF0",
+    "message0": "清空 LCD 屏幕",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "清空整屏文本并将光标复位到最开始位置",
+    "type": "lcd12864_clear"
+  },
+  {
+    "args0": [
+      {
+        "name": "TEXT",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#2D8CF0",
+    "message0": "LCD 显示文本 %1",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "从当前光标位置显示文本；中文字符按当前文本编码设置转换为字库编码；文本中的换行符（\\n、\\r\\n）自动换到下一行",
+    "type": "lcd12864_print"
+  },
+  {
+    "args0": [
+      {
+        "name": "MODE",
+        "options": [
+          [
+            "开",
+            "on"
+          ],
+          [
+            "关",
+            "off"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#2D8CF0",
+    "message0": "自动换行 %1",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "开启后写满一行自动换到下一行；写满整屏时按“满屏时停止显示”设置滚动或停止",
+    "type": "lcd12864_autowrap"
+  },
+  {
+    "args0": [
+      {
+        "name": "MODE",
+        "options": [
+          [
+            "关",
+            "off"
+          ],
+          [
+            "开",
+            "on"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#2D8CF0",
+    "message0": "满屏时停止显示 %1",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "开启后整屏写满即停止显示后续文本；关闭且自动换行开启时，满屏后向上滚动一行继续显示",
+    "type": "lcd12864_stopfull"
+  },
+  {
+    "args0": [
+      {
+        "name": "MODE",
+        "options": [
+          [
+            "开",
+            "on"
+          ],
+          [
+            "关",
+            "off"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#2D8CF0",
+    "message0": "半角字符自动补空格 %1",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "开启后半角字符落在全角格右半时自动补一个空格对齐；关闭则原样落在右半格",
+    "type": "lcd12864_halfpad"
+  },
+  {
+    "args0": [
+      {
+        "name": "ENC",
+        "options": [
+          [
+            "UTF-8",
+            "utf8"
+          ],
+          [
+            "GB2312",
+            "gb2312"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#2D8CF0",
+    "message0": "文本编码 %1",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "UTF-8：显示文本按 UTF-8 解码并自动转换为字库的 GB2312 编码；GB2312：字节原样透传给字库",
+    "type": "lcd12864_encoding"
+  },
+  {
+    "args0": [],
+    "colour": "#2D8CF0",
+    "message0": "光标回到最开始位置",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "光标回到第 0 行第 0 列（屏幕左上角），不清除内容",
+    "type": "lcd12864_home"
+  },
+  {
+    "args0": [
+      {
+        "name": "COL",
+        "type": "input_value"
+      },
+      {
+        "name": "ROW",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#2D8CF0",
+    "message0": "定位光标位置  列 %1  行 %2",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "列 0-15、行 0-3（半角单位），超界自动收敛到边界",
+    "type": "lcd12864_setcursor"
+  },
+  {
+    "args0": [
+      {
+        "name": "INDEX",
+        "options": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ]
+        ],
+        "type": "field_dropdown"
+      },
+      {
+        "name": "DATA",
+        "type": "input_value"
+      }
+    ],
+    "colour": "#2D8CF0",
+    "message0": "写入自定义字符到 CGRAM  编号 %1  点阵数据 %2",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "编号 0-3，各为一个 16×16 全角自造字；点阵数据为 32 个十六进制字节（按行、每行 2 字节，逗号分隔）",
+    "type": "lcd12864_cgram"
+  },
+  {
+    "args0": [
+      {
+        "name": "INDEX",
+        "options": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#2D8CF0",
+    "message0": "显示自定义字符  编号 %1",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "在当前光标位置显示已写入 CGRAM 的 16×16 自定义字符",
+    "type": "lcd12864_cgram_char"
+  },
+  {
+    "args0": [
+      {
+        "name": "MODE",
+        "options": [
+          [
+            "关",
+            "off"
+          ],
+          [
+            "开",
+            "on"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#2D8CF0",
+    "message0": "反色显示 %1",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "开启后整屏反白显示（ST7920 扩充指令），关闭恢复正常",
+    "type": "lcd12864_invert"
+  },
+  {
+    "args0": [
+      {
+        "name": "MODE",
+        "options": [
+          [
+            "关",
+            "off"
+          ],
+          [
+            "开",
+            "on"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#2D8CF0",
+    "message0": "绘图模式 %1",
+    "nextStatement": null,
+    "previousStatement": null,
+    "tooltip": "开启进入绘图模式（清空 GDRAM 并打开图形层）；关闭退出并恢复文本显示",
+    "type": "lcd12864_graphic"
+  }
+]
