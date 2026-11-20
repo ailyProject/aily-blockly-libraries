@@ -49,13 +49,14 @@ arduino_global()
 
 arduino_setup()
     serial_begin(Serial, 115200)
-    io_digitalwrite(math_number(39), io_state(HIGH))
+    xl9555_init(0x27)
+    xl9555_name_pin(8, "sd_power", OUTPUT)
+    xl9555_write($sd_power, HIGH)
     time_delay(math_number(200))
-    io_digitalwrite(math_number(39), io_state(LOW))
+    xl9555_write($sd_power, LOW)
     time_delay(math_number(250))
     es8389_init()
     es8389_volume(math_number(60))
-    xl9555_init(0x27)
     xl9555_name_pin(5, "a_key", KEY_LOW)
     xl9555_name_pin(2, "right_key", KEY_LOW)
     serial_println(Serial, es8389_folder_count(SD, text("/music")))
@@ -83,12 +84,13 @@ arduino_loop()
 ```abs
 arduino_setup()
     serial_begin(Serial, 115200)
-    io_digitalwrite(math_number(39), io_state(HIGH))
+    xl9555_init(0x27)
+    xl9555_name_pin(8, "sd_power", OUTPUT)
+    xl9555_write($sd_power, HIGH)
     time_delay(math_number(200))
-    io_digitalwrite(math_number(39), io_state(LOW))
+    xl9555_write($sd_power, LOW)
     time_delay(math_number(250))
     es8389_init()
-    xl9555_init(0x27)
     xl9555_name_pin(6, "b_key", KEY_LOW)
 
 arduino_loop()
@@ -104,7 +106,7 @@ arduino_loop()
 ## Notes
 
 1. **Boards**: ESP32 boards with an ES8389. `es8389_init` takes MCLK, BCK, WS, data pins, amplifier pin and I2C address from the board’s `audioConfig` and starts `Wire` on its SDA/SCL (IBox S31: MCLK=IO2, BCK=IO3, WS=IO4, MCU→codec IO5, codec→MCU IO6, amplifier IO7, 0x10 on SDA=IO0, SCL=IO1). A board whose `audioConfig` names another codec (ES8311 on Korvo S3) fails to compile with an `#error`; a board without `audioConfig` uses the library defaults, which are the IBox S31 wiring.
-2. **Files**: WAV (8/16/24/32-bit PCM or float, mono/stereo) and MP3 (libhelix in the core). SD paths start at the card root: an already mounted card (SD_MMC at /sdcard, e.g. from esp32_sd_mmc) is used as is, otherwise it is mounted on the board’s `sdCardPins` in 1-bit mode. The library never powers the card; on the IBox S31 drive IO39 high for 200 ms, then low for 250 ms before the first access, as in the examples. USB drive paths need the ESP32 USB host started. Rates other than 8/16/44.1/48/96 kHz are resampled.
+2. **Files**: WAV (8/16/24/32-bit PCM or float, mono/stereo) and MP3 (libhelix in the core). SD paths start at the card root: an already mounted card (SD_MMC at /sdcard, e.g. from esp32_sd_mmc) is used as is, otherwise it is mounted on the board’s `sdCardPins` in 1-bit mode. The library never powers the card; on the IBox S31 the card power is XL9555 P10 (low = on): drive it high for 200 ms, then low for 250 ms before the first access, as in the examples. USB drive paths need the ESP32 USB host started. Rates other than 8/16/44.1/48/96 kHz are resampled.
 3. **Player**: play, folder and record run in a background task; a new one, the tone block or close audio stops the current one. Folder tracks are sorted by file name, counted from 1 and wrap around. Recording is 16 kHz mono WAV from the left (microphone) channel.
 4. **Storage capabilities**: the built-in SD source requires `SOC_SDMMC_HOST_SUPPORTED`. Chips without SDMMC (for example ESP32-C3) return `false` from `mountSD()` and cannot use SD playback/recording. I2S audio, tones, microphone access and files on other supported, already mounted filesystems remain available. A USB drive requires a USB-host-capable chip and an initialized host driver.
 
