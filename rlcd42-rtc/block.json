@@ -1,0 +1,116 @@
+[
+  {
+    "args0": [
+      {
+        "checked": true,
+        "name": "CALIBRATE",
+        "type": "field_checkbox"
+      }
+    ],
+    "colour": "#00C48C",
+    "message0": "RLCD 板 初始化 RTC 时钟 掉电时自动校准 %1",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "rlcd42_rtc_init"
+  },
+  {
+    "colour": "#00C48C",
+    "message0": "RLCD 板 读取 RTC 时间",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "rlcd42_rtc_read"
+  },
+  {
+    "args0": [
+      {
+        "name": "FIELD",
+        "options": [
+          [
+            "年",
+            "year"
+          ],
+          [
+            "月",
+            "month"
+          ],
+          [
+            "日",
+            "day"
+          ],
+          [
+            "时",
+            "hour"
+          ],
+          [
+            "分",
+            "minute"
+          ],
+          [
+            "秒",
+            "second"
+          ],
+          [
+            "星期",
+            "weekday"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#4A6CD4",
+    "message0": "RLCD RTC %1",
+    "output": "Number",
+    "type": "rlcd42_rtc_get"
+  },
+  {
+    "args0": [
+      {
+        "name": "FMT",
+        "options": [
+          [
+            "时间 HH:MM:SS",
+            "timeText"
+          ],
+          [
+            "日期 YYYY-MM-DD",
+            "dateText"
+          ],
+          [
+            "完整日期时间",
+            "datetime"
+          ]
+        ],
+        "type": "field_dropdown"
+      }
+    ],
+    "colour": "#4A6CD4",
+    "message0": "RLCD RTC 格式化 %1",
+    "output": "String",
+    "type": "rlcd42_rtc_format"
+  },
+  {
+    "colour": "#00C48C",
+    "message0": "RLCD 板 读取温湿度(SHTC3)",
+    "nextStatement": null,
+    "previousStatement": null,
+    "type": "rlcd42_env_read"
+  },
+  {
+    "colour": "#4A6CD4",
+    "message0": "RLCD 板 温度(°C)",
+    "output": "Number",
+    "type": "rlcd42_env_temp"
+  },
+  {
+    "colour": "#4A6CD4",
+    "message0": "RLCD 板 湿度(%RH)",
+    "output": "Number",
+    "type": "rlcd42_env_humi"
+  },
+  {
+    "colour": "#00C48C",
+    "message0": "RLCD 板 NTP 网络校时(东八区)",
+    "output": "Boolean",
+    "type": "rlcd42_rtc_ntp"
+  }
+]
