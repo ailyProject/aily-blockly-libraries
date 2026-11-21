@@ -565,72 +565,20 @@ Blockly.Extensions.register('aivox3_init_es8311_extension', function () {
 });
 
 Blockly.Extensions.register('aivox3_mcp_control_param_extension', function () {
-    // 直接在扩展中添加updateShape_函数
-  this.updateShape_ = function (configType) {
-    if (this.getInput('MIN')) {
-      this.removeInput('MIN');
-    }
-    if (this.getInput('MAX')) {
-      this.removeInput('MAX');
-    }
-
-    if (configType !== 'Boolean') {
-      this.appendValueInput('MIN')
-        .setCheck('Number')
-        .appendField("最小值");
-
-      this.appendValueInput('MAX')
-        .setCheck('Number')
-        .appendField("最大值");
-
-      setTimeout(() => {
-        this.createDefaultBlocks_();
-      }, 100);
-    }
-  };
-
-    // 创建默认数字块的方法
-  this.createDefaultBlocks_ = function() {
-    // 检查workspace是否存在且已渲染
-    if (!this.workspace || !this.workspace.rendered) {
-      return;
-    }
-
-    // 为MIN输入添加默认的数字块
-    const minInput = this.getInput('MIN');
-    if (minInput && !minInput.connection.targetConnection) {
-      try {
-        var minBlock = this.workspace.newBlock('math_number');
-        minBlock.setFieldValue(0, 'NUM');
-        minBlock.initSvg();
-        minBlock.render();
-        minInput.connection.connect(minBlock.outputConnection);
-      } catch (e) {
-        console.warn('Failed to create MIN default block:', e);
-      }
-    }
-
-    // 为MAX输入添加默认的数字块
-    const maxInput = this.getInput('MAX');
-    if (maxInput && !maxInput.connection.targetConnection) {
-      try {
-        var maxBlock = this.workspace.newBlock('math_number');
-        maxBlock.setFieldValue(100, 'NUM');
-        maxBlock.initSvg();
-        maxBlock.render();
-        maxInput.connection.connect(maxBlock.outputConnection);
-      } catch (e) {
-        console.warn('Failed to create MAX default block:', e);
+  const updateBounds = type => {
+    for (const [name, label, number] of [['MIN', '最小值', 0], ['MAX', '最大值', 100]]) {
+      const input = this.getInput(name);
+      if (type !== 'Number') {
+        if (input) this.removeInput(name);
+      } else if (!input) {
+        const { connection } = this.appendValueInput(name).setCheck('Number').appendField(label);
+        connection.setShadowState({ type: 'math_number', fields: { NUM: number } });
       }
     }
   };
-
-  // 监听TYPE字段的变化
-  this.getField('TYPE').setValidator(function (option) {
-    this.getSourceBlock().updateShape_(option);
-    return option;
-  });
-  this.updateShape_(this.getFieldValue('TYPE'));
+  const selector = this.getField('TYPE');
+  selector.setValidator(type => { updateBounds(type); return type; });
+  updateBounds(selector.getValue());
 });
 
 // AIVOX wifi init
