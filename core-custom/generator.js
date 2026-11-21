@@ -42,6 +42,11 @@ Arduino.forBlock['custom_insert_code'] = function (block, generator) {
 
 // ===== 预处理指令 =====
 
+// Grouping changes workspace layout only; child generators retain their regions.
+Arduino.forBlock['custom_declaration_group'] = function (block, generator) {
+    return generator.statementToCode(block, 'DECLARATIONS');
+};
+
 Arduino.forBlock['custom_macro'] = function (block, generator) {
     const name = block.getFieldValue('NAME');
     const value = block.getFieldValue('VALUE');
