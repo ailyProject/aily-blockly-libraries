@@ -1098,6 +1098,25 @@ if (g_button_boot_handle != nullptr) {
     return code;
 };
 
+function aivoxQueryParameterCodes(workspace, serviceName, declared) {
+    const parameters = new Set();
+    for (const block of workspace?.getBlocksByType('aivox_update_mcp_control_state_new', false) ?? []) {
+        if (block.isEnabled?.() === false || block.getInheritedDisabled?.()
+            || block.getField('VAR')?.getText() !== serviceName) continue;
+        const state = block.getInputTargetBlock('STATE');
+        for (const value of state?.getDescendants(false) ?? []) {
+            if (value.isEnabled?.() === false || value.getInheritedDisabled?.()) continue;
+            // An inline C++ expression can consume any key of the callback's map.
+            if (value.type === 'custom_code2' && /\bparam\b/.test(value.getFieldValue('CODE'))) return declared;
+            if (value.type === 'aivox_control_message_event_fuction') {
+                const name = value.getField('PVAR')?.getText();
+                if (name) parameters.add(name);
+            }
+        }
+    }
+    return declared.filter(param => parameters.has(param.match(/^\s*"([^"]+)"\s*,/)?.[1]));
+}
+
 Arduino.forBlock['aivox_mcp_register_control_command'] = function(block, generator) {
     let mcp_control_name = generator.valueToCode(block, 'NAME', generator.ORDER_ATOMIC) || '""';
     if (mcp_control_name === '""') {
@@ -1135,12 +1154,10 @@ Arduino.forBlock['aivox_mcp_register_control_command'] = function(block, generat
 
     console.log('Parameter Values:', paramValues);
 
-    let paramCodes = '';
-    if (paramValues.length > 0) {
-        paramCodes = paramValues.map(param => `{${param}},`).join('\n                        ');
-    } else {
-        paramCodes = '';
-    }
+    const formatParameters = values => values.map(param => `{${param}},`).join('\n                        ');
+    const paramCodes = formatParameters(paramValues);
+    // Legacy projects may deliberately read call parameters in their query expression.
+    const queryParamCodes = formatParameters(aivoxQueryParameterCodes(block.workspace, name, paramValues));
 
     generator.addObject('ai_vox_engine', `auto& ai_vox_engine = ai_vox::Engine::GetInstance();`, true);
     generator.addSetup(`aivox_instance`, `ai_vox_engine.SetObserver(g_observer);\n`, true);
@@ -1151,12 +1168,8 @@ Arduino.forBlock['aivox_mcp_register_control_command'] = function(block, generat
                       ${paramCodes}
                     }
   );\n`, true);
-    generator.addSetup(`aivox_add_mcp_tool_get_${name}`, `  ai_vox_engine.AddMcpTool("${control_name_get}",                                           // tool name
-                    "${description}", 
-                    {
-                      ${paramCodes}
-                    }
-  );\n`, true);
+    generator.addSetup(`aivox_add_mcp_tool_get_${name}`, `  ai_vox_engine.AddMcpTool("${control_name_get}",
+                    "Read current state: ${description}", {${queryParamCodes}});\n`, true);
     return '';
 };
 
@@ -1338,34 +1351,12 @@ Arduino.forBlock['aivox_response_mcp_control_result_new'] = function(block, gene
 };
 
 Arduino.forBlock['aivox_update_mcp_control_state_new'] = function(block, generator) {
-    const eventVar = getEventVarName(block);
-    // 获取变量字段值
     const varField = block.getField('VAR');
     const varName = varField ? varField.getText() : 'led';
-    const paramField = block.getField('PVAR');
-    const paramName = paramField ? paramField.getText() : 'led';
-    const param = getMcpControlParam(paramName);
-    console.log("aivox_update_mcp_control_state_new ====: ", param);
-    // A stale or partially restored workspace may reference a parameter before
-    // its registration block has run. Keep the existing Boolean fallback rather
-    // than crashing code generation while reading missing metadata.
-    const type = param ? param.type : 'Boolean';
-    let state = generator.valueToCode(block, 'STATE', generator.ORDER_ATOMIC) || '""';
-    // 验证服务是否存在
+    const state = generator.valueToCode(block, 'STATE', generator.ORDER_ATOMIC) || '""';
     const service = getAivoxControlService(varName);
     if (!service) {
         console.warn(`AIVOX service '${varName}' not found`);
-    }
-    let resCode = '';
-    if (param && type === 'Boolean') {
-        resCode = `std::get<bool>(param.at("${paramName}"))`;
-    } else if (param && type === 'Number') {
-        resCode = `std::get<int64_t>(param.at("${paramName}"))`;
-    } else if (param && type === 'String') {
-        resCode = `std::get<std::string>(param.at("${paramName}"))`;
-    } else {
-        // 默认使用bool类型
-        resCode = `std::get<bool>(param.at("${paramName}"))`;
     }
     const code = `if ("self.${varName}.get" == name) {\n   ai_vox_engine.SendMcpCallResponse(id, ${state});\n}`;
 
