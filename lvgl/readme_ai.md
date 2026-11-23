@@ -167,7 +167,7 @@ LVGL 图形界面库。该库负责生成 LVGL 控件和事件代码，但显示
 ### Recipe 1: TFT_eSPI + LVGL 文本标签
 ```
 arduino_setup()
-    tftespi_setup("tft", ST7789_DRIVER, "172", "320", "-1", "10", "12", "13", "11", "14", "3", HIGH, TFT_RGB, 40000000, "-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1")
+    tftespi_setup("tft", ST7789_DRIVER, "172", "320", "-1", "10", "12", "13", "11", "14", "3", HIGH, TFT_RGB, 40000000)
     lvgl_init(TFT_eSPI, math_number(172), math_number(320), LV_DISPLAY_ROTATION_90)
     lvgl_screen_create(global, "screen")
     lvgl_label_create(global, "label", $screen)
@@ -220,7 +220,7 @@ arduino_loop()
 ### Minimal object creation pattern
 ```
 arduino_setup()
-    tftespi_setup("tft", ST7789_DRIVER, "240", "240", "-1", "10", "12", "13", "11", "14", "3", HIGH, TFT_RGB, 40000000, "-1", "-1", "-1", "-1", "-1", "-1", "-1", "-1")
+    tftespi_setup("tft", ST7789_DRIVER, "240", "240", "-1", "10", "12", "13", "11", "14", "3", HIGH, TFT_RGB, 40000000)
     lvgl_init(TFT_eSPI, math_number(240), math_number(240), LV_DISPLAY_ROTATION_0)
     lvgl_screen_create(global, "screen")
     lvgl_obj_create(global, "panel", $screen)
