@@ -4,7 +4,7 @@ Screen driver library designed for Wio Terminal's built-in 2.4-inch 320×240 TFT
 
 ## Library Info
 - **Name**: @aily-project/lib-seeed-wio-gfx
-- **Version**: 1.0.11
+- **Version**: 1.0.3
 
 ## Wio Terminal Scope
 
@@ -41,7 +41,7 @@ Screen driver library designed for Wio Terminal's built-in 2.4-inch 320×240 TFT
 | `seeed_gfx_print` | Statement | VAR(field_variable), TEXT(input_value) | `seeed_gfx_print($tft, text("value"))` | `tft.print("value");` |
 | `seeed_gfx_draw_string` | Statement | VAR(field_variable), TEXT(input_value), X(input_value), Y(input_value), FONT(dropdown) | `seeed_gfx_draw_string($tft, text("value"), math_number(0), math_number(0), "1")` | `tft.drawString("value", 1, 1, 1);` |
 | `seeed_gfx_image` | Value (SeeedGfxImage) | CUSTOM_IMAGE(field_tftespi_image) | `seeed_gfx_image({"schemaVersion":1,"format":"rgb565","encoding":"rgb565-be","width":320,"height":240,"fps":10,"maxFrames":1,"frameCount":0,"frames":null})` | `#include <TFT_eSPI.h> ↵ #include <SPI.h>` |
-| `seeed_gfx_draw_image` | Statement | VAR(field_variable), X(input_value), Y(input_value), IMAGE(input_value) | `seeed_gfx_draw_image($tft, math_number(0), math_number(0), seeed_gfx_image())` | `// No Seeed GFX image data` |
+| `seeed_gfx_draw_image` | Statement | VAR(field_variable), X(input_value), Y(input_value), IMAGE(input_value) | `seeed_gfx_draw_image($tft, math_number(0), math_number(0), seeed_gfx_image({"schemaVersion":1,"format":"rgb565","encoding":"rgb565-be","width":320,"height":240,"fps":10,"maxFrames":1,"frameCount":0,"frames":null}))` | `// No Seeed GFX image data` |
 | `seeed_gfx_animation` | Value | CUSTOM_ANIMATION(field_tftespi_animation) | `seeed_gfx_animation({"schemaVersion":1,"format":"rgb565","encoding":"rgb565-be","width":160,"height":120,"fps":10,"maxFrames":10,"frameCount":0,"frames":null})` | `#include <TFT_eSPI.h> ↵ #include <SPI.h>` |
 | `seeed_gfx_play_animation` | Statement | VAR(field_variable), X(input_value), Y(input_value), ANIMATION(input_value), PLAY_MODE(dropdown), LOOP(field_checkbox) | `seeed_gfx_play_animation($tft, math_number(0), math_number(0), math_number(0), BLOCKING, FALSE)` | `// No Seeed GFX animation data` |
 | `seeed_gfx_play_sd_video` | Statement | VAR(field_variable), FILENAME(input_value), BUFFER_KB(input_value) | `seeed_gfx_play_sd_video($tft, text("value"), math_number(0))` | `seeedGfxPlaySdVideo(tft, String("value"), (int32_t)(1));` |

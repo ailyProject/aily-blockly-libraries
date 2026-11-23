@@ -4,7 +4,7 @@ Controls addressable RGB/GRB light strips by pin, including static drawing and s
 
 ## Library Info
 - **Name**: @aily-project/lib-fastled
-- **Version**: 1.0.4
+- **Version**: 1.0.5
 
 ## Block Definitions
 
@@ -76,3 +76,4 @@ arduino_loop()
 3. `fastled_set_pixel`, `fastled_set_range`, `fastled_draw_bar`, `fastled_brightness`, `fastled_fill_solid` and all effect blocks call `FastLED.show()` automatically unless a later `fastled_refresh` exists in the same statement chain. A trailing refresh therefore batches earlier changes. `fastled_clear` never refreshes by itself. `fastled_show` and `fastled_refresh` both emit `FastLED.show()`.
 4. Fire, meteor, palette, breathing and twinkle update one frame per call and generate no delay. Invoke them repeatedly in `arduino_loop()` and use `time_delay` to set the frame interval.
 5. The interface exposes only `DATA_PIN`; no separate clock-pin argument exists for clocked chipset selections such as APA102, WS2801 or LPD8806.
+6. Board defaults: blocks taken from the toolbox start with the board’s onboard WS2812 settings. Every block with a `DATA_PIN` dropdown (`fastled_init` and all drawing/effect blocks) selects the same pin, so they address the same `leds_<pin>`; `fastled_init` also sets `NUM_LEDS`. Sources, highest first: pin from `board.json` `ws2812Config.pins.din`, then `ws2812Pin`; count from `ws2812Config.count` (e.g. `"ws2812Config": { "count": 4, "pins": { "din": "38" } }`); missing values fall back to the library’s built-in table (IBox S31: pin 38, 4 LEDs). Boards without these keep the first listed pin and 30 LEDs. Saved programs keep their saved values. In ABS, always write the pin and count explicitly, e.g. `fastled_init(38, WS2812B, 4)` on the IBox S31.

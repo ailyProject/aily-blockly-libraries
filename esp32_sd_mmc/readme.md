@@ -16,7 +16,7 @@ ESP32 SD_MMC (SDIO mode) reads and writes SD cards, supports 1-bit and 4-bit mod
 
 ESP32, ESP32-S3 and ESP32-S31 boards with SDMMC. Pins come from the board's `sdCardPins` unless a set-pins block is used.
 
-IBox S31: the card power is IO39 (low = on). Drive it high for 200 ms, then low for 250 ms before init.
+IBox S31: the card power is XL9555 P10 (low = on). Make it an output with the XL9555 library, drive it high for 200 ms, then low for 250 ms before init.
 
 ## Description
 
