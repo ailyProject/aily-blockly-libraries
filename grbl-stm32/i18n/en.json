@@ -1,0 +1,78 @@
+{
+  "toolbox_name": "GRBL Engraver",
+  "grbl_init": {
+    "message0": "GRBL init %1 enable mode %2 X step %3 X dir %4 Y step %5 Y dir %6 Z step %7 Z dir %8 enable pin %9 X limit %10 Y limit %11 Z limit %12 laser PWM %13",
+    "tooltip": "Create a Grbl motion controller. Pin slots accept board-aware pin selector blocks (digital pin / PWM pin) or numbers. Bypass keeps motors permanently enabled so absolute position is never lost",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "use enable pin",
+            "USE"
+          ],
+          [
+            "always enabled (bypass)",
+            "BYPASS"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "grbl_begin": {
+    "message0": "GRBL begin %1 port %2 baud %3",
+    "tooltip": "Start the serial port, attach the controller to it and print the welcome banner",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Serial",
+            "Serial"
+          ],
+          [
+            "USART1 (PA9/PA10)",
+            "USART1"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "115200",
+            "115200"
+          ],
+          [
+            "9600",
+            "9600"
+          ]
+        ]
+      }
+    ]
+  },
+  "grbl_tick": {
+    "message0": "GRBL tick %1",
+    "tooltip": "Drive the controller once: serial line processing, planner, stepper DDA, homing and laser state",
+    "args0": [
+      null
+    ]
+  },
+  "grbl_is_idle": {
+    "message0": "GRBL idle %1",
+    "tooltip": "True when no motion is running and no line is executing",
+    "args0": [
+      null
+    ]
+  }
+}
