@@ -18,8 +18,8 @@ Blockly.getMainWorkspace().addChangeListener((event) => {
     // 找到变量类别并更新其内容
     for (let category of originalToolboxDef.contents) {
       // 通过检查是否包含 variable_define 块来识别变量分类
-      const isVariableCategory = category.name === "Variables" ||
-        (category.contents && category.contents.some(item => item.type === "variable_define"));
+      const isVariableCategory = Array.isArray(category.contents) &&
+        (category.name === "Variables" || category.contents.some(item => item.type === "variable_define"));
       if (isVariableCategory) {
 
         // 首先过滤删除的变量
@@ -231,8 +231,8 @@ addVariableToToolbox = function (block, varName) {
 
     const allCategories = toolbox.getToolboxItems();
     const variableCategory = allCategories.find(item =>
-      item.name_ === "Variables" || 
-      (item.getContents && item.getContents().some(c => c.type === "variable_define"))
+      item.getContents && Array.isArray(item.getContents()) &&
+      (item.name_ === "Variables" || item.getContents().some(c => c.type === "variable_define"))
     );
 
     // 确保变量存在，如果不存在则创建
@@ -258,8 +258,8 @@ addVariableToToolbox = function (block, varName) {
     let variableCategoryFound = false;
     for (let category of originalToolboxDef.contents) {
       // 通过检查是否包含 variable_define 块来识别变量分类
-      const isVariableCategory = category.name === "Variables" ||
-        (category.contents && category.contents.some(item => item.type === "variable_define"));
+      const isVariableCategory = Array.isArray(category.contents) &&
+        (category.name === "Variables" || category.contents.some(item => item.type === "variable_define"));
       if (isVariableCategory) {
         variableCategoryFound = true;
         if (category.contents.length <= 1) {
@@ -370,8 +370,8 @@ function loadExistingVariablesToToolbox(workspace) {
   // 找到变量类别
   for (let category of originalToolboxDef.contents) {
     // 通过检查是否包含 variable_define 块来识别变量分类
-    const isVariableCategory = category.name === "Variables" ||
-      (category.contents && category.contents.some(item => item.type === "variable_define"));
+    const isVariableCategory = Array.isArray(category.contents) &&
+      (category.name === "Variables" || category.contents.some(item => item.type === "variable_define"));
     if (isVariableCategory) {
 
       // 确保类别内容包含基本的变量块
@@ -447,8 +447,8 @@ function refreshToolbox(oldWorkspace, openVariableItem = true) {
   const toolbox = workspace.getToolbox();
   const allCategories = toolbox.getToolboxItems();
   const variableCategory = allCategories.find(item =>
-    item.name_ === "Variables" ||
-    (item.getContents && item.getContents().some(c => c.type === "variable_define"))
+    item.getContents && Array.isArray(item.getContents()) &&
+    (item.name_ === "Variables" || item.getContents().some(c => c.type === "variable_define"))
   );
   if (toolbox.isVisible_ && openVariableItem) {
     toolbox.setSelectedItem(variableCategory);
@@ -516,8 +516,8 @@ function renameVariable(block, oldName, newName, vtype) {
 
     const allCategories = toolbox.getToolboxItems();
     const variableCategory = allCategories.find(item =>
-      item.name_ === "Variables" ||
-      (item.getContents && item.getContents().some(c => c.type === "variable_define"))
+      item.getContents && Array.isArray(item.getContents()) &&
+      (item.name_ === "Variables" || item.getContents().some(c => c.type === "variable_define"))
     );
 
     // 获取原始工具箱定义
@@ -564,8 +564,8 @@ function renameVariable(block, oldName, newName, vtype) {
     for (let category of originalToolboxDef.contents) {
       // console.log("category: ", category);
       // 通过检查是否包含 variable_define 块来识别变量分类
-      const isVariableCategory = category.name === "Variables" ||
-        (category.contents && category.contents.some(item => item.type === "variable_define"));
+      const isVariableCategory = Array.isArray(category.contents) &&
+        (category.name === "Variables" || category.contents.some(item => item.type === "variable_define"));
       if (isVariableCategory) {
 
         // console.log("isOldVarStillReferenced: ", isOldVarStillReferenced);
