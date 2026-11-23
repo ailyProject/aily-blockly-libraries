@@ -20,7 +20,7 @@
 | `xiaozhi_mcp_get_string` | Value String | KEY(input_value) | `xiaozhi_mcp_get_string(text("state"))` | `xiaozhiMcpGetStringParam("value")` |
 | `xiaozhi_mcp_get_number` | Value Number | KEY(input_value) | `xiaozhi_mcp_get_number(text("value"))` | `xiaozhiMcpGetNumberParam("value")` |
 | `xiaozhi_mcp_get_bool` | Value Boolean | KEY(input_value) | `xiaozhi_mcp_get_bool(text("enabled"))` | `xiaozhiMcpGetBoolParam("value")` |
-| `xiaozhi_mcp_return_result` | Statement | KEY(input_value), VALUE(input_value) | `xiaozhi_mcp_return_result(text("success"), logic_boolean(TRUE))` | `{ ↵ JsonDocument xiaozhiMcpResultDoc; ↵ xiaozhiMcpResultDoc["value"] = 1; ↵ serializeJson(xiaozhiMcpResultDoc, xiaozhiMcpReturnValue); ↵ }` |
+| `xiaozhi_mcp_return_result` | Statement | KEY(input_value), VALUE(input_value) | `xiaozhi_mcp_return_result(text("success"), logic_boolean(true))` | `{ ↵ JsonDocument xiaozhiMcpResultDoc; ↵ xiaozhiMcpResultDoc["value"] = 1; ↵ serializeJson(xiaozhiMcpResultDoc, xiaozhiMcpReturnValue); ↵ }` |
 
 ## Parameter Options
 
@@ -42,7 +42,7 @@ arduino_loop()
 
 xiaozhi_mcp_on_tool(text("lamp"))
     @DO:
-        xiaozhi_mcp_return_result(text("success"), logic_boolean(TRUE))
+        xiaozhi_mcp_return_result(text("success"), logic_boolean(true))
 ```
 
 ## Ordering Notes
