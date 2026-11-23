@@ -46,9 +46,11 @@ arduino_loop()
 ```
 arduino_setup()
     serial_begin(Serial, 115200)
-    io_digitalwrite(math_number(39), io_state(HIGH))
+    xl9555_init(0x27)
+    xl9555_name_pin(8, "sd_power", OUTPUT)
+    xl9555_write($sd_power, HIGH)
     time_delay(math_number(200))
-    io_digitalwrite(math_number(39), io_state(LOW))
+    xl9555_write($sd_power, LOW)
     time_delay(math_number(250))
     esp32_sd_mmc_begin(true)
     esp32_sd_mmc_append_file(text("/log.txt"), text("boot;"))
@@ -61,4 +63,4 @@ arduino_setup()
 2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
 3. **Pins**: `esp32_sd_mmc_begin` first sets the pins from the board’s `sdCardPins` (CLK, CMD, D0, plus D1–D3 in 4-bit mode) unless the workspace has an `esp32_sd_mmc_set_pins` block, which then wins. Boards without `sdCardPins` keep the SD_MMC default pins.
 4. **Mount retry**: a failed mount calls `SD_MMC.end()` and releases the SDMMC host (`sdmmc_host_deinit`), then tries once more; on IDF 6 the host otherwise stays busy and every later mount fails (0x107).
-5. **IBox S31**: CLK=IO24, CMD=IO25, D0=IO20 come from the board; the card power is switched by IO39 (low = on) and the library does not touch it. Drive IO39 high for 200 ms, then low for 250 ms before `esp32_sd_mmc_begin`, as in the example.
+5. **IBox S31**: CLK=IO24, CMD=IO25, D0=IO20 come from the board; the card power is switched by XL9555 P10 (SD_CTRL, low = on) and the library does not touch it. With the XL9555 library, name P10 as an output, drive it high for 200 ms, then low for 250 ms before `esp32_sd_mmc_begin`, as in the example.
