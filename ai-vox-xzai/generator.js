@@ -1344,13 +1344,15 @@ Blockly.Extensions.register('esp32ai_init_display_dynamic_inputs', function() {
                 .appendField(new Blockly.FieldNumber(21), 'SDA_PIN');
         }
         if (displayType === 'ST7789' || displayType === 'SSD1306') {
-            const width = displayType === 'ST7789' ? 240 : 128;
-            const height = displayType === 'ST7789' ? 240 : 64;
+            const isLcd = displayType === 'ST7789';
+            // ST7789 uses unswapped axes. The SSD1306 driver supports 128×32 and 128×64.
+            const width = isLcd ? new Blockly.FieldNumber(240, 1, 240, 1) : new Blockly.FieldNumber(128, 128, 128, 1);
+            const height = isLcd ? new Blockly.FieldNumber(240, 1, 320, 1) : new Blockly.FieldNumber(64, 32, 64, 32);
             this.appendDummyInput('DISPLAY_SIZE')
                 .appendField(sizeLabels.width || '宽度:')
-                .appendField(new Blockly.FieldNumber(width, 1, 4096, 1), 'WIDTH')
+                .appendField(width, 'WIDTH')
                 .appendField(sizeLabels.height || '高度:')
-                .appendField(new Blockly.FieldNumber(height, 1, 4096, 1), 'HEIGHT');
+                .appendField(height, 'HEIGHT');
         }
     };
 

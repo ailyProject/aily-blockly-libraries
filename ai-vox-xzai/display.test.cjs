@@ -72,6 +72,22 @@ test('changing display type recreates the correct size fields without duplicates
     loaded.setFieldValue(0, 'WIDTH');
     loaded.setFieldValue(99999, 'HEIGHT');
     assert.equal(loaded.getFieldValue('WIDTH'), 1);
-    assert.equal(loaded.getFieldValue('HEIGHT'), 4096);
+    assert.equal(loaded.getFieldValue('HEIGHT'), 320);
+  } finally { workspace.dispose(); }
+});
+
+test('SSD1306 saved dimensions stay within the supported panel sizes', () => {
+  const workspace = new Blockly.Workspace();
+  try {
+    Blockly.serialization.workspaces.load({ blocks: { blocks: [
+      { type: 'esp32ai_init_display', fields: { DISPLAY_TYPE: 'SSD1306', WIDTH: 256, HEIGHT: 256 } },
+    ] } }, workspace);
+    const block = workspace.getAllBlocks(false)[0];
+    assert.equal(block.getFieldValue('WIDTH'), 128);
+    assert.equal(block.getFieldValue('HEIGHT'), 64);
+    assert.match(generate(block), /kDisplayHeight = 64;/);
+
+    block.setFieldValue(32, 'HEIGHT');
+    assert.match(generate(block), /kDisplayHeight = 32;/);
   } finally { workspace.dispose(); }
 });

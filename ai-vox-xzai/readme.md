@@ -22,7 +22,7 @@ Xiaozhi AI for Arduino is based on the AI ​​Vox voice interaction engine sup
 
 ## Quick Start
 
-Set the built-in display's width and height to match the panel (e.g. 240×320).
+Set the built-in ST7789 dimensions to match your panel, up to 240×320. The built-in SSD1306 supports 128×32 and 128×64.
 
 1. Enable `@aily-project/lib-esp32-xzai` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.

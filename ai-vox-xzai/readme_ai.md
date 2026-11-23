@@ -107,7 +107,7 @@ arduino_loop()
 
 `esp32ai_init_display` adds `WIDTH` and `HEIGHT` numeric fields after its pin fields.
 For a 240×320 ST7789 panel, use `esp32ai_init_display(ST7789, 27, 13, 14, 33, 2, 5, 240, 320)`.
-The SSD1306 variant uses `esp32ai_init_display(SSD1306, 22, 21, 128, 64)`.
+The SSD1306 variant supports 128×32 and 128×64. Use `esp32ai_init_display(SSD1306, 22, 21, 128, 64)` for the 64-pixel height.
 Dimensions must match the panel; legacy blocks without size fields keep their original defaults.
 
 1. **Variable**: `aivox_mcp_control_param("varName", ...)` creates variable `$varName`; pass `$varName` directly to `field_variable` slots; use `variables_get($varName)` only for `input_value` slots.
