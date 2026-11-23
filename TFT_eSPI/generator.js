@@ -36,6 +36,42 @@ function cleanValue(value) {
   return value;
 }
 
+// Versions <= 2.5.46 serialized these parameters as value connections. Keep
+// compatibility inputs available before Blockly restores the saved children.
+const TFT_ESPI_LEGACY_SETUP_INPUTS = ['WIDTH', 'HEIGHT', 'MISO', 'MOSI', 'SCLK', 'CS', 'DC', 'RST', 'BL'];
+
+function attachTftEspiLegacySetupInputs(block) {
+  TFT_ESPI_LEGACY_SETUP_INPUTS.forEach(name => {
+    if (!block.getInput(name)) block.appendValueInput(name).setCheck('Number').appendField(name);
+  });
+}
+
+function migrateTftEspiLegacySetupInputs(block) {
+  TFT_ESPI_LEGACY_SETUP_INPUTS.forEach(name => {
+    const input = block.getInput(name);
+    const target = input && input.connection.targetBlock();
+    if (target && target.type === 'math_number' && target.isShadow()) {
+      block.setFieldValue(String(target.getFieldValue('NUM')), name);
+      // Clear the shadow first so disposing it cannot create a replacement.
+      input.connection.setShadowState(null);
+      // Recent Blockly versions dispose the connected shadow in setShadowState.
+      if (input.connection.targetBlock() === target) target.dispose(false);
+    }
+    // Keep non-shadow legacy expressions visible and editable.
+    input.setVisible(!!input.connection.targetBlock());
+  });
+}
+
+function getTftEspiSetupValue(block, generator, name, fallback) {
+  const input = block.getInput(name);
+  if (input && input.connection.targetBlock()) {
+    const code = generator.valueToCode(block, name, generator.ORDER_ATOMIC);
+    if (code) return cleanValue(code);
+  }
+  const value = block.getFieldValue(name);
+  return value === null || value === undefined || value === '' ? fallback : value;
+}
+
 // The bundled User_Setup.h contains a default ILI9341 configuration. Blockly
 // supplies the complete configuration through project-wide build macros, so
 // prevent TFT_eSPI from loading that default and keep the fonts it previously
@@ -150,9 +186,11 @@ if (Blockly.Extensions.isRegistered('tftespi_board_display_config')) {
 Blockly.Extensions.register('tftespi_board_display_config', function() {
   const block = this;
   attachCh13613QspiFields(block);
+  attachTftEspiLegacySetupInputs(block);
   let retries = 0;
   const updateConfig = () => {
     if (!block.workspace) return;
+    migrateTftEspiLegacySetupInputs(block);
     if (!applyBoardDisplayConfig(block) && retries++ < 3) {
       setTimeout(updateConfig, 0);
       return;
@@ -357,16 +395,16 @@ Arduino.forBlock['tftespi_setup'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'tft';
   const model = block.getFieldValue('MODEL') || 'ILI9341_DRIVER';
   const frequency = block.getFieldValue('FREQUENCY') || '40000000';
-  const width = block.getFieldValue('WIDTH') || '240';
-  const height = block.getFieldValue('HEIGHT') || '320';
+  const width = getTftEspiSetupValue(block, generator, 'WIDTH', '240');
+  const height = getTftEspiSetupValue(block, generator, 'HEIGHT', '320');
   const isCh13613 = model === 'CH13613_DRIVER';
-  const miso = isCh13613 ? '-1' : (block.getFieldValue('MISO') || '-1');
-  const mosi = isCh13613 ? '-1' : (block.getFieldValue('MOSI') || '-1');
-  const sclk = isCh13613 ? (block.getFieldValue('QSPI_SCLK') || '-1') : (block.getFieldValue('SCLK') || '-1');
-  const cs = isCh13613 ? (block.getFieldValue('QSPI_CS') || '-1') : (block.getFieldValue('CS') || '-1');
-  const dc = isCh13613 ? '-1' : (block.getFieldValue('DC') || '-1');
-  const rst = isCh13613 ? (block.getFieldValue('QSPI_RST') || '-1') : (block.getFieldValue('RST') || '-1');
-  const bl = isCh13613 ? '-1' : (block.getFieldValue('BL') || '-1');
+  const miso = isCh13613 ? '-1' : (getTftEspiSetupValue(block, generator, 'MISO', '-1'));
+  const mosi = isCh13613 ? '-1' : (getTftEspiSetupValue(block, generator, 'MOSI', '-1'));
+  const sclk = isCh13613 ? (block.getFieldValue('QSPI_SCLK') || '-1') : (getTftEspiSetupValue(block, generator, 'SCLK', '-1'));
+  const cs = isCh13613 ? (block.getFieldValue('QSPI_CS') || '-1') : (getTftEspiSetupValue(block, generator, 'CS', '-1'));
+  const dc = isCh13613 ? '-1' : (getTftEspiSetupValue(block, generator, 'DC', '-1'));
+  const rst = isCh13613 ? (block.getFieldValue('QSPI_RST') || '-1') : (getTftEspiSetupValue(block, generator, 'RST', '-1'));
+  const bl = isCh13613 ? '-1' : (getTftEspiSetupValue(block, generator, 'BL', '-1'));
   const d0 = isCh13613 ? (block.getFieldValue('D0') || '-1') : '-1';
   const d1 = isCh13613 ? (block.getFieldValue('D1') || '-1') : '-1';
   const d2 = isCh13613 ? (block.getFieldValue('D2') || '-1') : '-1';
