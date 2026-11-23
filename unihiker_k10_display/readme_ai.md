@@ -27,9 +27,9 @@ UNIHIKER K10 screen display library with drawing, text, image, animation, and QR
 | `k10_clear_canvas_row` | Statement | LINE(input_value) | `k10_clear_canvas_row(math_number(1))` | `k10.canvas->canvasClear(1);` |
 | `k10_clear_qrcode` | Statement | (none) | `k10_clear_qrcode()` | `k10.clearCode();` |
 | `k10_animation` | Value (K10Animation) | CUSTOM_ANIMATION(field_tftespi_animation) | `k10_animation({"schemaVersion":1,"format":"rgb565","encoding":"rgb565-be","width":240,"height":320,"fps":10,"maxFrames":10,"frameCount":0,"frames":null})` | `No direct code emitted while the custom animation field has no frame data.` |
-| `k10_play_animation` | Statement | X(input_value), Y(input_value), ANIMATION(input_value), PLAY_MODE(dropdown), LOOP(field_checkbox) | `k10_play_animation(math_number(0), math_number(0), k10_animation(), BLOCKING, FALSE)` | `// No K10 animation data` |
-| `k10_draw_animation_frame` | Statement | X(input_value), Y(input_value), ANIMATION(input_value), FRAME(input_value) | `k10_draw_animation_frame(math_number(0), math_number(0), k10_animation(), math_number(0))` | `// No K10 animation data` |
-| `k10_animation_frame_count` | Value (Number) | ANIMATION(input_value) | `k10_animation_frame_count(k10_animation())` | `0` |
+| `k10_play_animation` | Statement | X(input_value), Y(input_value), ANIMATION(input_value), PLAY_MODE(dropdown), LOOP(field_checkbox) | `k10_play_animation(math_number(0), math_number(0), k10_animation({"schemaVersion":1,"format":"rgb565","encoding":"rgb565-be","width":240,"height":320,"fps":10,"maxFrames":10,"frameCount":0,"frames":null}), BLOCKING, FALSE)` | `// No K10 animation data` |
+| `k10_draw_animation_frame` | Statement | X(input_value), Y(input_value), ANIMATION(input_value), FRAME(input_value) | `k10_draw_animation_frame(math_number(0), math_number(0), k10_animation({"schemaVersion":1,"format":"rgb565","encoding":"rgb565-be","width":240,"height":320,"fps":10,"maxFrames":10,"frameCount":0,"frames":null}), math_number(0))` | `// No K10 animation data` |
+| `k10_animation_frame_count` | Value (Number) | ANIMATION(input_value) | `k10_animation_frame_count(k10_animation({"schemaVersion":1,"format":"rgb565","encoding":"rgb565-be","width":240,"height":320,"fps":10,"maxFrames":10,"frameCount":0,"frames":null}))` | `0` |
 | `k10_screen_size` | Value | WHICH(dropdown) | `k10_screen_size(W)` | `240` |
 
 ## Parameter Options

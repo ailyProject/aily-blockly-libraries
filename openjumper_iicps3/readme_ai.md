@@ -4,16 +4,16 @@ Adapted to the openjumper PS3 wireless receiver (No. ojmoBhp4039), the library p
 
 ## Library Info
 - **Name**: @aily-project/lib-openjumper-iicps3
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
 | Block Type | Connection | Parameters (block.json order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `openjumper_iicps3_init` | Statement | PS3_NAME(field_input) | `openjumper_iicps3_init("ps3")` | `OpenJumperPS3 ps3; ↵ Wire.begin();` |
-| `openjumper_iicps3_run` | Statement | PS3_NAME(field_input) | `openjumper_iicps3_run("ps3")` | `ps3.run();` |
-| `openjumper_iicps3_butstate` | Value | PS3_NAME(field_input), IICPS3_BTN(dropdown) | `openjumper_iicps3_butstate("ps3", up)` | `ps3.ps3Data.up` |
-| `openjumper_iicps3_xy` | Value | PS3_NAME(field_input), IICPS3_XY(dropdown) | `openjumper_iicps3_xy("ps3", lx)` | `ps3.ps3Data.lx` |
+| `openjumper_iicps3_run` | Statement | PS3_NAME(field_variable) | `openjumper_iicps3_run($ps3)` | `ps3.run();` |
+| `openjumper_iicps3_butstate` | Value | PS3_NAME(field_variable), IICPS3_BTN(dropdown) | `openjumper_iicps3_butstate($ps3, up)` | `ps3.ps3Data.up` |
+| `openjumper_iicps3_xy` | Value | PS3_NAME(field_variable), IICPS3_XY(dropdown) | `openjumper_iicps3_xy($ps3, lx)` | `ps3.ps3Data.lx` |
 
 ## Parameter Options
 
@@ -31,11 +31,11 @@ arduino_setup()
     serial_begin(Serial, 9600)
 
 arduino_loop()
-    serial_println(Serial, openjumper_iicps3_butstate("ps3", up))
+    serial_println(Serial, openjumper_iicps3_butstate($ps3, up))
     time_delay(math_number(1000))
 ```
 
 ## Notes
 
 1. **Parameter order**: ABS parameters follow `block.json` args order.
-2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(true/false)`, variables, or nested value blocks.

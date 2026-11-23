@@ -7,7 +7,7 @@ Adapted to the openjumper PS3 wireless receiver (No. ojmoBhp4039), the library p
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-openjumper-iicps3 |
-| Version | 0.0.1 |
+| Version | 0.0.2 |
 | Author | OpenJumper |
 | Source | N/A |
 | License | Original license |
