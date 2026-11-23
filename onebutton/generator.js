@@ -45,32 +45,46 @@ Blockly.Extensions.register('onebutton_board_button', function() {
   const keys = config.keys.filter(key => options.indexOf(key.pin) > -1);
   if (!keys.length) return;
 
-  // 主工作区里已经创建过的按钮：用过的引脚和变量名
-  const usedPins = new Set();
-  const usedNames = new Set();
-  try {
-    const main = (this.workspace && this.workspace.targetWorkspace) ||
-      (Blockly.getMainWorkspace && Blockly.getMainWorkspace());
-    if (main && main !== this.workspace) {
-      main.getBlocksByType('onebutton_setup', false).forEach(other => {
-        usedPins.add(other.getFieldValue('PIN'));
-        usedNames.add(other.getFieldValue('VAR'));
-      });
-    }
-  } catch (e) {
-    // 拿不到主工作区就按第一个按键
+  const block = this;
+  const main = (block.workspace && block.workspace.targetWorkspace) ||
+    (Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+  const targetWorkspace = main !== block.workspace ? main : null;
+  const defaultName = block.getFieldValue('VAR');
+
+  function selectUnusedButton() {
+    const buttons = targetWorkspace ? targetWorkspace.getBlocksByType('onebutton_setup', false) : [];
+    const usedPins = new Set(buttons.map(button => button.getFieldValue('PIN')));
+    const usedNames = new Set(buttons.map(button => button.getFieldValue('VAR')));
+    const unused = keys.find(key => !usedPins.has(key.pin));
+    const key = unused || keys[0];
+    const canUseName = unused && /^[A-Za-z_][A-Za-z0-9_]*$/.test(key.name) && !usedNames.has(key.name);
+    pinField.setValue(key.pin);
+    block.setFieldValue(canUseName ? key.name : defaultName, 'VAR');
   }
-  const unused = keys.find(key => !usedPins.has(key.pin));
-  const key = unused || keys[0];
-  pinField.setValue(key.pin);
-  if (unused && /^[A-Za-z_][A-Za-z0-9_]*$/.test(key.name) && !usedNames.has(key.name)) {
-    this.setFieldValue(key.name, 'VAR');
+
+  selectUnusedButton();
+  // A pinned flyout keeps the same template after dragging a block into the workspace.
+  if (targetWorkspace) {
+    const refresh = event => {
+      if (event.type === Blockly.Events.BLOCK_CREATE || event.type === Blockly.Events.BLOCK_DELETE ||
+          (event.type === Blockly.Events.BLOCK_CHANGE && event.element === 'field' &&
+           (event.name === 'PIN' || event.name === 'VAR'))) {
+        selectUnusedButton();
+      }
+    };
+    targetWorkspace.addChangeListener(refresh);
+    const dispose = block.dispose;
+    block.dispose = function (...args) {
+      targetWorkspace.removeChangeListener(refresh);
+      return dispose.apply(this, args);
+    };
   }
+
   if (config.activeLevel === 0) {
-    this.setFieldValue('INPUT_PULLUP', 'PIN_MODE');
-    this.setFieldValue('TRUE', 'ACTIVE_LOW');
+    block.setFieldValue('INPUT_PULLUP', 'PIN_MODE');
+    block.setFieldValue('TRUE', 'ACTIVE_LOW');
   } else if (config.activeLevel === 1) {
-    this.setFieldValue('FALSE', 'ACTIVE_LOW');
+    block.setFieldValue('FALSE', 'ACTIVE_LOW');
   }
 });
 
