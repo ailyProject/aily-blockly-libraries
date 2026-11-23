@@ -100,6 +100,90 @@ function gxepd2AddCore(generator) {
 // On ESP32 (65536 buffer), HEIGHT always fits, so the macro is unnecessary.
 }
 
+// 板载墨水屏按开发板配置（做法同 TFT_eSPI 读 board.json 的 displayConfig，字段按《功能引脚申明规范》）：
+// 只有 displayConfig.interface 是 spi、displayConfig.model 对得上本库的面板时才采用，否则保持手动配置。
+function gxepd2BoardDisplay() {
+  var board = typeof window !== 'undefined' && window['boardConfig'] ? window['boardConfig'] : null;
+  var config = board && board.displayConfig;
+  if (!config || typeof config !== 'object') return null;
+  if (String(config.interface || '').toLowerCase() !== 'spi') return null;
+  var model = String(config.model || '').replace(/[\s_-]+/g, '').toUpperCase();
+  if (!model) return null;
+  var panelKey = null;
+  Object.keys(GXEPD2_PANEL_OPTIONS).forEach(function(key) {
+    // 面板键名是“颜色前缀_型号”，如 C3_GDEY0213Z98
+    if (!panelKey && key.replace(/^[A-Z0-9]+_/, '') === model) panelKey = key;
+  });
+  if (!panelKey) return null;
+  var pins = config.pins && typeof config.pins === 'object' ? config.pins : {};
+  function pin(name) {
+    return pins[name] != null && pins[name] !== '' ? String(pins[name]) : null;
+  }
+  return {
+    panel: panelKey,
+    cs: pin('cs'), dc: pin('dc'), rst: pin('rst'), busy: pin('busy'),
+    sclk: pin('sclk'), mosi: pin('mosi'), miso: pin('miso')
+  };
+}
+
+// 把工具箱积木里数字输入的默认值（影子积木）改成板卡的引脚；不是纯数字的引脚名就保持原默认值
+function gxepd2SetShadowNumber(block, inputName, value) {
+  if (value == null || !/^-?\d+$/.test(String(value))) return;
+  var target = block.getInputTargetBlock && block.getInputTargetBlock(inputName);
+  if (target && target.isShadow && target.isShadow() && target.getField('NUM')) {
+    target.setFieldValue(String(value), 'NUM');
+  }
+}
+
+// 只改工具箱（flyout）里的积木，拖出来的积木带着板卡的面板和引脚；打开已保存的程序时不改用户的值
+if (Blockly.Extensions.isRegistered('gxepd2_board_display')) {
+  Blockly.Extensions.unregister('gxepd2_board_display');
+}
+Blockly.Extensions.register('gxepd2_board_display', function() {
+  var block = this;
+  if (!block.isInFlyout) return;
+  // 工具箱里的影子积木在扩展挂上之后才接上，延后一拍再填
+  setTimeout(function() {
+    var disposed = typeof block.isDisposed === 'function' ? block.isDisposed() : block.disposed;
+    if (!block.workspace || disposed) return;
+    var config = gxepd2BoardDisplay();
+    if (!config) return;
+    if (block.type === 'gxepd2_setup') {
+      block.setFieldValue(config.panel, 'PANEL');
+      gxepd2SetShadowNumber(block, 'CS', config.cs);
+      gxepd2SetShadowNumber(block, 'DC', config.dc);
+      gxepd2SetShadowNumber(block, 'RST', config.rst);
+      gxepd2SetShadowNumber(block, 'BUSY', config.busy);
+    } else if (block.type === 'gxepd2_spi_pins') {
+      if (!config.sclk || !config.mosi) return;
+      gxepd2SetShadowNumber(block, 'SCK', config.sclk);
+      gxepd2SetShadowNumber(block, 'MISO', config.miso != null ? config.miso : '-1');
+      gxepd2SetShadowNumber(block, 'MOSI', config.mosi);
+      gxepd2SetShadowNumber(block, 'CS', config.cs);
+    }
+    if (block.rendered && typeof block.render === 'function') block.render();
+  }, 0);
+});
+
+// 初始化积木的面板和 4 个引脚跟板卡 displayConfig 完全一致（用的就是板载屏），板卡又写了 sclk/mosi，
+// 并且工作区里没有“重映射 SPI 引脚”积木时，自动把 SPI 接到板载屏的脚上（ESP32 内核）
+function gxepd2BoardSpiRemap(block, panelKey, cs, dc, rst, busy) {
+  if (gxepd2GetBoardCore().indexOf('esp32') < 0) return null;
+  var config = gxepd2BoardDisplay();
+  if (!config || !config.sclk || !config.mosi) return null;
+  if (panelKey !== config.panel || cs !== config.cs || dc !== config.dc || rst !== config.rst || busy !== config.busy) {
+    return null;
+  }
+  var workspace = block.workspace;
+  if (workspace && typeof workspace.getAllBlocks === 'function') {
+    var hasSpiBlock = workspace.getAllBlocks(false).some(function(other) {
+      return other.type === 'gxepd2_spi_pins' && (typeof other.isEnabled !== 'function' || other.isEnabled());
+    });
+    if (hasSpiBlock) return null;
+  }
+  return config;
+}
+
 function gxepd2AttachVarMonitor(block) {
   if (block._gxepd2VarMonitorAttached) {
     return;
@@ -159,7 +243,15 @@ Arduino.forBlock['gxepd2_setup'] = function(block, generator) {
     varName + '(' + panel.driver + '(' + cs + ', ' + dc + ', ' + rst + ', ' + busy + '));';
   generator.addVariable(varName, declaration);
 
-  return varName + '.init(' + baud + ', ' + initial + ', ' + resetDuration + ', ' + pulldown + ');\n';
+  var code = varName + '.init(' + baud + ', ' + initial + ', ' + resetDuration + ', ' + pulldown + ');\n';
+  var boardSpi = gxepd2BoardSpiRemap(block, panelKey, cs, dc, rst, busy);
+  if (boardSpi) {
+    generator.addLibrary('SPI', '#include <SPI.h>');
+    code += 'SPI.end();\n' +
+      'SPI.begin(' + boardSpi.sclk + ', ' + (boardSpi.miso != null ? boardSpi.miso : '-1') + ', ' +
+      boardSpi.mosi + ', ' + boardSpi.cs + '); // 板载墨水屏的 SPI 引脚（开发板 displayConfig）\n';
+  }
+  return code;
 };
 
 Arduino.forBlock['gxepd2_page_update'] = function(block, generator) {

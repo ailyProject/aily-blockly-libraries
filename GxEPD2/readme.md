@@ -7,7 +7,7 @@ GxEPD2 Blockly blocks for SPI e-paper displays from Good Display and Waveshare.
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-gxepd2 |
-| Version | 1.6.9 |
+| Version | 1.6.10 |
 | Author | Jean-Marc Zingg |
 | Source | https://github.com/ZinggJM/GxEPD2 |
 | License | GPL-3.0 |
@@ -15,6 +15,8 @@ GxEPD2 Blockly blocks for SPI e-paper displays from Good Display and Waveshare.
 ## Supported Boards
 
 Arduino-compatible boards supported by GxEPD2. E-paper panels require 3.3V supply and 3.3V data lines.
+
+Boards with a matching `displayConfig` (e.g. linkbit) prefill the panel and pins; ESP32 also remaps SPI.
 
 ## Description
 
