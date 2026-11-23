@@ -7,14 +7,14 @@ Single button event detection library, supporting multiple events such as single
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-onebutton |
-| Version | 0.0.2 |
+| Version | 0.0.3 |
 | Author | mathertel |
 | Source | https://github.com/mathertel/OneButton |
 | License | Original license |
 
 ## Supported Boards
 
-Arduino-compatible boards supported by this package.
+Arduino-compatible boards supported by this package. Boards with a `buttonConfig` (e.g. linkbit keys A/B/C, IBox S31) prefill the next unused onboard button, its name and pull-up in toolbox blocks.
 
 ## Description
 
