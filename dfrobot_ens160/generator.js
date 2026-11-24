@@ -1,6 +1,29 @@
 // _varMonitorAttached: the init field hook below monitors variable renames.
 function dfrobot_ens160EnsureLibrary(generator) {
-  generator.addLibrary('dfrobot_ens160_0', '#include <DFRobot_ENS160.h>');
+  generator.addLibrary('dfrobot_ens160_0', `#include <DFRobot_ENS160.h>
+class AilyENS160Connection {
+ public:
+  void attach(DFRobot_ENS160_I2C& sensor, TwoWire& bus, uint8_t address) {
+    port = &bus;
+    slaveAddress = address;
+    ready = false;
+    ensure(sensor);
+  }
+  bool ensure(DFRobot_ENS160_I2C& sensor) {
+    if (!port) return false;
+    port->beginTransmission(slaveAddress);
+    if (port->endTransmission() != 0) {
+      ready = false;
+      return false;
+    }
+    if (!ready) ready = sensor.begin() == NO_ERR;
+    return ready;
+  }
+ private:
+  TwoWire* port = nullptr;
+  uint8_t slaveAddress = 0;
+  bool ready = false;
+};`);
 }
 
 function dfrobot_ens160Variable(block) {
@@ -26,7 +49,7 @@ function dfrobot_ens160AttachVariable(block) {
 }
 
 function dfrobot_ens160EnsureExtras(generator, varName) {
-  // No cached data objects required.
+  generator.addObject('dfrobot_ens160_connection_' + varName, 'AilyENS160Connection ailyEns160Connection_' + varName + ';');
 }
 
 Arduino.forBlock['dfrobot_ens160_init'] = function(block, generator) {
@@ -39,9 +62,8 @@ Arduino.forBlock['dfrobot_ens160_init'] = function(block, generator) {
   generator.addObject('dfrobot_ens160_object_' + varName, objectCode);
   dfrobot_ens160EnsureExtras(generator, varName);
   generator.addSetupBegin('dfrobot_ens160_wire_' + wire, wire + '.begin();');
-  var beginCall = String(varName) + ".begin()";
-  generator.addSetupBegin('dfrobot_ens160_begin_' + varName, 'while ((' + beginCall + ') != 0) { delay(100); }');
-  generator.addSetupBegin('dfrobot_ens160_after_' + varName, String(varName) + ".setPWRMode(ENS160_STANDARD_MODE);");
+  generator.addSetupBegin('dfrobot_ens160_begin_' + varName,
+    'ailyEns160Connection_' + varName + '.attach(' + varName + ', ' + wire + ', ' + addr + ');');
   return '';
 };
 
@@ -56,7 +78,9 @@ Arduino.forBlock['dfrobot_ens160_read'] = function(block, generator) {
     "eco2": String(varName) + ".getECO2()",
     "status": String(varName) + ".getENS160Status()"
   };
-  return [expressions[data] || expressions["aqi"], generator.ORDER_FUNCTION_CALL];
+  var fallback = data === 'status' ? 3 : 0;
+  return ['(ailyEns160Connection_' + varName + '.ensure(' + varName + ') ? ' +
+    (expressions[data] || expressions.aqi) + ' : ' + fallback + ')', generator.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['dfrobot_ens160_action'] = function(block, generator) {
@@ -69,7 +93,7 @@ Arduino.forBlock['dfrobot_ens160_action'] = function(block, generator) {
     "idle": String(varName) + ".setPWRMode(ENS160_IDLE_MODE);",
     "sleep": String(varName) + ".setPWRMode(ENS160_SLEEP_MODE);"
   };
-  return (actions[action] || actions["standard"]) + '\n';
+  return 'if (ailyEns160Connection_' + varName + '.ensure(' + varName + ')) { ' + (actions[action] || actions.standard) + ' }\n';
 };
 
 Arduino.forBlock['dfrobot_ens160_adjust'] = function(block, generator) {
@@ -77,6 +101,7 @@ Arduino.forBlock['dfrobot_ens160_adjust'] = function(block, generator) {
   var varName = dfrobot_ens160Variable(block);
   var value1 = generator.valueToCode(block, 'VALUE1', generator.ORDER_ATOMIC) || "25";
   var value2 = generator.valueToCode(block, 'VALUE2', generator.ORDER_ATOMIC) || "50";
-  return String(varName) + ".setTempAndHum(" + String(value1) + ", " + String(value2) + ");" + '\n';
+  dfrobot_ens160EnsureExtras(generator, varName);
+  return "if (ailyEns160Connection_" + varName + ".ensure(" + varName + ")) { " + varName + ".setTempAndHum(" + String(value1) + ", " + String(value2) + "); }" + '\n';
 };
 

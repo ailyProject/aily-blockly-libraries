@@ -9,7 +9,7 @@ Blocks for the ENS160 digital air-quality sensor.
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-dfrobot-ens160 |
-| Version | 0.1.0 |
+| Version | 0.1.1 |
 | Author | DFRobot |
 | Source | https://github.com/DFRobot/DFRobot_ENS160 |
 | License | MIT |
@@ -25,3 +25,5 @@ This package bundles the required driver source and generates initialization, re
 ## Quick Start
 
 Place the initialization block in setup, then use read, operation, and configuration blocks in the program flow.
+
+Initialization tries the selected I²C address once. Later blocks retry when the module is connected. An unavailable sensor returns status 3 and zero for AQI, TVOC and eCO₂.

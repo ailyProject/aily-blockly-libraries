@@ -4,7 +4,7 @@ Blocks for the ENS160 digital air-quality sensor.
 
 ## Library Info
 - **Name**: @aily-project/lib-dfrobot-ens160
-- **Version**: 0.1.0
+- **Version**: 0.1.1
 - **Author**: DFRobot
 - **Source**: https://github.com/DFRobot/DFRobot_ENS160
 - **License**: MIT
