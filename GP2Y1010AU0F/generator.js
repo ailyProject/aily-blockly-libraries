@@ -21,3 +21,9 @@ Arduino.forBlock['gp2y1010au0f_read'] = function(block, generator) {
   // 返回读取粉尘浓度的代码，单位是ug/m3
   return ['dustSensor.read()', Arduino.ORDER_FUNCTION_CALL];
 };
+
+Arduino.forBlock['gp2y1010au0f_adc_scale'] = function(block) {
+  const millivolts = Number(block.getFieldValue('REFERENCE_MV'));
+  const maxCode = Number(block.getFieldValue('MAX_CODE'));
+  return 'dustSensor.setAdcScale(' + millivolts + ', ' + maxCode + ');\n';
+};
