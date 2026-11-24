@@ -42,3 +42,21 @@ Arduino.forBlock['qwiic_ultrasonic_read'] = function(block, generator) {
     'if (!sensor.isConnected() || sensor.triggerAndRead(mm) != ksfTkErrOk) return -1L; return mm; })(' + varName + ')';
   return [code, generator.ORDER_FUNCTION_CALL];
 };
+
+Arduino.forBlock['qwiic_ultrasonic_j2_pulse'] = function(block, generator) {
+  const trigger = block.getFieldValue('TRIG');
+  const echo = block.getFieldValue('ECHO');
+  generator.addFunction('ailyTct40J2EchoMicros', [
+    'unsigned long ailyTct40J2EchoMicros(uint32_t triggerPin, uint32_t echoPin) {',
+    '  if (triggerPin == echoPin) return 0;',
+    '  pinMode(echoPin, INPUT);',
+    '  pinMode(triggerPin, OUTPUT);',
+    '  digitalWrite(triggerPin, LOW);',
+    '  digitalWrite(triggerPin, HIGH);',
+    '  delayMicroseconds(50);',
+    '  digitalWrite(triggerPin, LOW);',
+    '  return pulseIn(echoPin, LOW, 40000UL);',
+    '}',
+  ].join('\n'));
+  return ['ailyTct40J2EchoMicros(' + trigger + ', ' + echo + ')', generator.ORDER_FUNCTION_CALL];
+};

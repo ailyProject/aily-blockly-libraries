@@ -19,5 +19,16 @@
     "output": "Number",
     "colour": "#00BCD4",
     "tooltip": "触发测量并读取最近可用的距离（毫米）。I²C 通信失败返回 -1。"
+  },
+  {
+    "type": "qwiic_ultrasonic_j2_pulse",
+    "message0": "TCT40 J2 回波脉宽 (µs) TRIG %1 ECHO %2",
+    "args0": [
+      { "type": "field_dropdown", "name": "TRIG", "options": "${board.digitalPins}" },
+      { "type": "field_dropdown", "name": "ECHO", "options": "${board.digitalPins}" }
+    ],
+    "output": "Number",
+    "colour": "#00BCD4",
+    "tooltip": "选择两个不同的 3.3 V 引脚。发送 50 µs 触发脉冲，读取低电平回波。40 ms 超时返回 0。"
   }
 ]
