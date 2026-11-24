@@ -4,7 +4,7 @@ HM3301 laser dust sensor, I2C communication, can detect PM1.0, PM2.5, PM10 parti
 
 ## Library Info
 - **Name**: @aily-project/lib-seeed-hm3301
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 
@@ -45,3 +45,5 @@ arduino_loop()
 arduino_setup()
     hm3301_init(21, 22)
 ```
+
+New ESP32 blocks default to the board Wire route. On XIAO ESP32-S3 the labels are D4 (SDA) and D5 (SCL). A read checks the 29-byte frame and checksum before returning a concentration. An unavailable or invalid frame yields zero.

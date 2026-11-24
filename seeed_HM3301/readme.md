@@ -7,7 +7,7 @@ HM3301 laser dust sensor, I2C communication, can detect PM1.0, PM2.5, PM10 parti
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-seeed-hm3301 |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Author | SeeedStudio |
 | Source | https://github.com/Seeed-Studio/Seeed_PM2_5_sensor_HM3301 |
 | License | Original license |

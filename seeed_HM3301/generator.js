@@ -35,11 +35,19 @@ if (Blockly.Extensions && Blockly.Extensions.register) {
         ['18', '18'], ['5', '5'], ['17', '17'], ['16', '16']
       ];
 
+      var wirePins = (boardConfig.i2cPins && boardConfig.i2cPins.Wire) || [];
+      function optionsFor(role) {
+        var route = wirePins.find(function(pair) { return pair[0] === role; });
+        var selected = route ? route[1] : role;
+        var options = pinOptions.filter(function(pair) { return pair[1] !== selected; });
+        var first = pinOptions.find(function(pair) { return pair[1] === selected; }) || [role, selected];
+        return [first].concat(options);
+      }
       this.appendDummyInput('PIN_INPUT')
         .appendField(sdaLabel)
-        .appendField(new Blockly.FieldDropdown(pinOptions), 'SDA_PIN')
+        .appendField(new Blockly.FieldDropdown(optionsFor('SDA')), 'SDA_PIN')
         .appendField(sclLabel)
-        .appendField(new Blockly.FieldDropdown(pinOptions), 'SCL_PIN');
+        .appendField(new Blockly.FieldDropdown(optionsFor('SCL')), 'SCL_PIN');
 
       this.setTooltip(extI18n.tooltip_esp32 || '初始化HM3301传感器，ESP32需要设置SDA/SCL引脚');
     } else {
