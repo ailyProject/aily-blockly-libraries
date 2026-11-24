@@ -6,12 +6,7 @@
 Arduino.forBlock['dfrobot_airquality_begin'] = function (block, generator) {
   generator.addLibrary('DFRobot_AirQualitySensor', '#include "DFRobot_AirQualitySensor.h"');
   generator.addObject('airquality_sensor', 'DFRobot_AirQualitySensor_I2C particle(&Wire, 0x19);');
-  generator.addSetupEnd('airquality_begin', [
-    'while(!particle.begin())',
-    '{',
-    '  delay(500);',
-    '}'
-  ].join('\n'));
+  generator.addSetupEnd('airquality_begin', 'particle.begin();');
 
   return '';
 };

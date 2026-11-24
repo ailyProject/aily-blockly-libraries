@@ -5,13 +5,13 @@ DFRobot SEN0460空气质量传感器库，通过I2C接口使用Gravity接口，�
 ## Library Info
 
 - **名称**: @aily-project/lib-dfrobot-airquality
-- **版本**: 0.1.0
+- **版本**: 0.1.1
 
 ## Block Definitions
 
 | Block Type | Connection | Parameters (block.json order) | ABS Format | Generated Code |
 |--------|------|-----------------|---------|----------|
-| `dfrobot_airquality_begin` | 语句块 | (none) | `dfrobot_airquality_begin()` | `DFRobot_AirQualitySensor_I2C particle(&Wire, 0x19); ↵ while(!particle.begin()) ↵ { ↵ delay(500); ↵ }` |
+| `dfrobot_airquality_begin` | 语句块 | (none) | `dfrobot_airquality_begin()` | `DFRobot_AirQualitySensor_I2C particle(&Wire, 0x19); ↵ particle.begin();` |
 | `dfrobot_airquality_read_concentration` | 值块 | ENVIRONMENT(dropdown), PARTICLE(dropdown) | `dfrobot_airquality_read_concentration(STANDARD, PM2_5)` | `particle.gainParticleConcentration_ugm3(PARTICLE_PM2_5_STANDARD)` |
 | `dfrobot_airquality_read_count` | 值块 | DIAMETER(dropdown) | `dfrobot_airquality_read_count(PARTICLENUM_0_3_UM)` | `particle.gainParticleNum_Every0_1L(PARTICLENUM_0_3_UM_EVERY0_1L_AIR)` |
 | `dfrobot_airquality_get_version` | 值块 | (none) | `dfrobot_airquality_get_version()` | `particle.gainVersion()` |
@@ -62,7 +62,7 @@ arduino_loop()
 ## 注意事项
 
 1. **I2C地址**: 该传感器使用固定的I2C地址0x19，无需配置
-2. **初始化**: `dfrobot_airquality_begin()`块会阻塞直到初始化成功，建议放在`arduino_setup()`中
+2. **初始化**: `dfrobot_airquality_begin()`块只探测一次，未连接传感器时程序也会继续运行。建议放在`arduino_setup()`中
 3. **环境类型**: STANDARD用于标准颗粒物浓度，ATMOSPHERE用于大气环境浓度
 4. **颗粒物类型**: 支持PM2.5、PM1.0和PM10三种颗粒物类型
 5. **粒径范围**: 支持0.3um、0.5um、1.0um、2.5um、5.0um和10um六种粒径
