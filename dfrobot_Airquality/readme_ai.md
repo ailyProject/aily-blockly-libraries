@@ -5,7 +5,7 @@ DFRobot SEN0460空气质量传感器库，通过I2C接口使用Gravity接口，�
 ## Library Info
 
 - **名称**: @aily-project/lib-dfrobot-airquality
-- **版本**: 0.1.1
+- **版本**: 0.1.2
 
 ## Block Definitions
 

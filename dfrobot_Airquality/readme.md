@@ -7,7 +7,7 @@ DFRobot SEN0460空气质量传感器库，通过I2C接口使用Gravity接口，�
 | 字段 | 值 |
 |------|----|
 | 包名 | @aily-project/lib-dfrobot-airquality |
-| 版本 | 0.1.1 |
+| 版本 | 0.1.2 |
 | 作者 | DFRobot |
 | 来源 | https://github.com/DFRobot/DFRobot_AirQualitySensor |
 | 许可证 | MIT |
@@ -28,3 +28,5 @@ DFRobot SEN0460空气质量传感器是一款基于Gravity接口的I2C数字空�
 4. 在`arduino_loop()`中使用读取块获取空气质量数据
 
 初始化只探测一次。缺件或收到不完整的寄存器数据时，浓度、数量和版本读数返回零；连接恢复后可再次读取。
+
+在 STM32F1 使用 STM32duino 3.0.0 时，传感器掉线可能触发 Wire 主机进入从机监听。驱动在本次传输触发该状态时恢复主机，接回器件后可继续读取。
