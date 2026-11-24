@@ -7,7 +7,7 @@ SGP30 gas/air quality sensor support library, which realizes real-time detection
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-adafruit-sgp30 |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Author | ailyProject |
 | Source | N/A |
 | License | Original license |
@@ -24,3 +24,5 @@ SGP30 gas/air quality sensor support library, which realizes real-time detection
 
 1. Enable `@aily-project/lib-adafruit-sgp30` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+
+If the sensor is absent, initialization reports the failure and the sketch continues. Measurement blocks retry initialization at most once per second. A failed measurement yields zero for the corresponding cached readings.
