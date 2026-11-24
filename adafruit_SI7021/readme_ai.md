@@ -4,7 +4,7 @@ Si7021 temperature and humidity sensor control library realizes high-precision m
 
 ## Library Info
 - **Name**: @aily-project/lib-adafruit-si7021
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 

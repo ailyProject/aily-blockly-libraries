@@ -5,11 +5,13 @@ Arduino.forBlock['si7021_begin'] = function(block, generator) {
 // 添加库引用
 generator.addLibrary('#include <Adafruit_Si7021.h>', '#include <Adafruit_Si7021.h>');
 // 添加I2C初始化
-generator.addSetupBegin('WIRE_BEGIN', 'Wire.begin();');
+var wire = block.getFieldValue('WIRE') || 'Wire';
+var setupKey = wire === 'Wire' ? 'WIRE_BEGIN' : 'WIRE_BEGIN_' + wire;
+generator.addSetupBegin(setupKey, wire + '.begin();');
 generator.addLibrary('WIRE_INCLUDE', '#include <Wire.h>');
 
 // 添加对象声明
-generator.addObject('Adafruit_Si7021 ' + objectName, 'Adafruit_Si7021 ' + objectName + ' = Adafruit_Si7021();');
+generator.addObject('Adafruit_Si7021 ' + objectName, 'Adafruit_Si7021 ' + objectName + ' = Adafruit_Si7021(&' + wire + ');');
 
 // 初始化代码
 var code = 'if (!' + objectName + '.begin()) {\n';
