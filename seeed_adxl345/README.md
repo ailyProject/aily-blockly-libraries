@@ -7,14 +7,14 @@ Blockly library for Seeed Adxl345.
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-seeed-adxl345 |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Author | SeeedStudio |
 | Source | https://github.com/Seeed-Studio/Seeed_Arduino_ADXL345 |
 | License | Original license |
 
 ## Supported Boards
 
-Arduino AVR, Arduino SAMD, ESP32, RP2040
+Arduino AVR, Arduino SAMD, ESP32, RP2040, STM32duino (OJ Nano STM32F103C8 tested)
 
 ## Description
 

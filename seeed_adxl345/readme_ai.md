@@ -4,7 +4,7 @@ Blockly library for Seeed Adxl345.
 
 ## Library Info
 - **Name**: @aily-project/lib-seeed-adxl345
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 
