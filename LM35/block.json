@@ -13,5 +13,34 @@
     "output": null,
     "colour": "#4CAF50",
     "icon": "fa-regular fa-temperature-half"
+  },
+  {
+    "inputsInline": true,
+    "message0": "LM35 温度 (°C) 管脚 %1 ADC 满量程 (mV) %2 最大计数 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.analogPins}"
+      },
+      {
+        "type": "field_number",
+        "name": "REFERENCE_MV",
+        "value": 3300,
+        "min": 1
+      },
+      {
+        "type": "field_number",
+        "name": "MAX_CODE",
+        "value": 4095,
+        "min": 1,
+        "max": 65535,
+        "precision": 1
+      }
+    ],
+    "type": "lm35_read_calibrated",
+    "output": "Number",
+    "colour": "#4CAF50",
+    "icon": "fa-regular fa-temperature-half"
   }
 ]
