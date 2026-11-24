@@ -4,7 +4,7 @@ Blocks for the Sensirion SGP41 VOC and NOx gas sensor.
 
 ## Library Info
 - **Name**: @aily-project/lib-adafruit-sgp41
-- **Version**: 0.1.0
+- **Version**: 0.1.2
 - **Author**: Adafruit
 - **Source**: https://github.com/adafruit/Adafruit_SGP41
 - **License**: BSD-3-Clause

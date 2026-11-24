@@ -9,7 +9,7 @@ Blocks for the Sensirion SGP41 VOC and NOx gas sensor.
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-adafruit-sgp41 |
-| Version | 0.1.0 |
+| Version | 0.1.2 |
 | Author | Adafruit |
 | Source | https://github.com/adafruit/Adafruit_SGP41 |
 | License | BSD-3-Clause |
@@ -24,4 +24,6 @@ This package bundles the required driver source and generates initialization, re
 
 ## Quick Start
 
-Place the initialization block in setup, then use read, operation, and configuration blocks in the program flow.
+Initialize the instance on the selected Wire bus. From idle, use the conditioning operation before the first dual-channel measurement and again after turning the heater off. Sensirion recommends 10 seconds of conditioning and specifies a maximum of 10 seconds. During conditioning the sensor returns only the VOC raw word.
+
+Each read block requests a measurement. The compensated measurement block accepts relative humidity in percent, then temperature in degrees Celsius, and updates both raw words from a single transaction. On a missing device or failed transfer, the generated measurement clears both cached words. A later operation probes the selected bus and can reinitialize the reconnected device. The raw values are sensor ticks.
