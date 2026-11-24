@@ -33,6 +33,11 @@ Arduino.forBlock['veml6075_init'] = function(block, generator) {
   return 'Wire.begin();\n' + varName + '.begin();\n';
 };
 
+Arduino.forBlock['veml6075_connected'] = function(block, generator) {
+  veml6075EnsureLib(generator);
+  return [veml6075GetVar(block) + '.isConnected()', generator.ORDER_FUNCTION_CALL];
+};
+
 Arduino.forBlock['veml6075_uva'] = function(block, generator) {
   veml6075EnsureLib(generator);
   return [veml6075GetVar(block) + '.uva()', generator.ORDER_FUNCTION_CALL];
