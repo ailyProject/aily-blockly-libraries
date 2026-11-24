@@ -4,7 +4,7 @@ Blockly wrapper for the SparkFun ADXL345 triple-axis accelerometer.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-adxl345
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
