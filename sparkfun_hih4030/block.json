@@ -45,5 +45,45 @@
     "output": "Number",
     "colour": "#FF9800",
     "tooltip": "读取 HIH4030 传感器的模拟输出电压"
+  },
+  {
+    "type": "hih4030_set_adc",
+    "message0": "HIH4030 %1 配置 ADC 满量程计数 %2 参考电压（V） %3 分压比例 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "hih4030",
+        "variableTypes": [
+          "HIH4030"
+        ],
+        "defaultType": "HIH4030"
+      },
+      {
+        "type": "field_number",
+        "name": "MAX_CODE",
+        "value": 1023,
+        "min": 1,
+        "max": 65535,
+        "precision": 1
+      },
+      {
+        "type": "field_number",
+        "name": "REFERENCE",
+        "value": 3.3,
+        "min": 0.001
+      },
+      {
+        "type": "field_number",
+        "name": "RATIO",
+        "value": 1,
+        "min": 1e-06,
+        "max": 1
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "分压比例为 ADC 引脚电压除以传感器 OUT 电压。此积木仅校准当前传感器。"
   }
 ]

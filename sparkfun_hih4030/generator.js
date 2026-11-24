@@ -1,5 +1,5 @@
 function hih4030EnsureLib(generator) {
-  generator.addLibrary('HIH4030', '#include <SparkFun_HIH4030_Arduino_Library/SparkFun_HIH4030.h>');
+  generator.addLibrary('HIH4030', '#include <SparkFun_HIH4030.h>');
 }
 
 function hih4030GetVar(block) {
@@ -50,4 +50,12 @@ Arduino.forBlock['hih4030_get_true_rh'] = function(block, generator) {
 Arduino.forBlock['hih4030_vout'] = function(block, generator) {
   hih4030EnsureLib(generator);
   return [hih4030GetVar(block) + '.vout()', generator.ORDER_FUNCTION_CALL];
+};
+
+Arduino.forBlock['hih4030_set_adc'] = function(block, generator) {
+  hih4030EnsureLib(generator);
+  var maxCode = Number(block.getFieldValue('MAX_CODE'));
+  var reference = Number(block.getFieldValue('REFERENCE'));
+  var ratio = Number(block.getFieldValue('RATIO'));
+  return hih4030GetVar(block) + '.setAdcCalibration(' + maxCode + ', ' + reference + ', ' + ratio + ');\n';
 };
