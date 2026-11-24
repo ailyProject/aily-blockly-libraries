@@ -7,7 +7,7 @@ Blockly wrapper for the SparkFun HTU21D I2C humidity and temperature sensor.
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-htu21d |
-| Version | 0.0.1 |
+| Version | 0.0.2 |
 | Author | SparkFun |
 | Source | N/A |
 | License | Original license |

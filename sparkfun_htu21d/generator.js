@@ -1,6 +1,6 @@
 function htu21dEnsureLib(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('HTU21D', '#include <SparkFun_HTU21D_Breakout_Arduino_Library/SparkFunHTU21D.h>');
+  generator.addLibrary('HTU21D', '#include <SparkFunHTU21D.h>');
 }
 
 function htu21dGetVar(block) {
