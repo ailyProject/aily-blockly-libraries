@@ -7,7 +7,7 @@ Vishay VEML6040 RGBW color sensor over I2C: read R/G/B/W, CCT and ambient light.
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-veml6040 |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Author | thewknd |
 | Source | https://github.com/thewknd/VEML6040 |
 | License | MIT |
@@ -24,3 +24,5 @@ Library for the Vishay VEML6040 RGBW color sensor (I2C address 0x10). Reads red/
 
 1. Enable `@aily-project/lib-veml6040` in Aily Blockly.
 2. Wire the sensor to I2C (SDA/SCL, 0x10). Put **init color sensor** in `arduino_setup()`, then use **read** blocks in `arduino_loop()`.
+
+The initialization block configures the selected I²C bus only when the sensor acknowledges its address. Run the block again after reconnecting the sensor.

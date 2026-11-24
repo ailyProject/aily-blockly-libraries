@@ -69,8 +69,9 @@ Arduino.forBlock['veml6040_init'] = function (block, generator) {
   ensureSerialBegin("Serial", generator);
   generator.addSetup('wire_' + wire + '_begin', wire + '.begin();');
 
-  let code = varName + '.begin(&' + wire + ');\n';
-  code += varName + '.setConfiguration(' + it + ' + VEML6040_AF_AUTO + VEML6040_SD_ENABLE);\n';
+  let code = 'if (' + varName + '.begin(&' + wire + ')) {\n';
+  code += '  ' + varName + '.setConfiguration(' + it + ' + VEML6040_AF_AUTO + VEML6040_SD_ENABLE);\n';
+  code += '}\n';
   return code;
 };
 
