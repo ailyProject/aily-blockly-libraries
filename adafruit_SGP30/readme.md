@@ -7,7 +7,7 @@ SGP30 gas/air quality sensor support library, which realizes real-time detection
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-adafruit-sgp30 |
-| Version | 1.0.1 |
+| Version | 1.0.2 |
 | Author | ailyProject |
 | Source | N/A |
 | License | Original license |

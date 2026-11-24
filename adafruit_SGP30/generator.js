@@ -6,15 +6,24 @@ function sgp30Support(generator) {
     generator.addObject('Adafruit_SGP30 sgp', 'Adafruit_SGP30 sgp;');
     generator.addObject('sgp30Connection', [
         'TwoWire *sgp30Bus = &Wire;',
+        'TwoWire *sgp30StartedBus = nullptr;',
         'bool sgp30Connected = false;',
         'bool sgp30Attempted = false;',
         'unsigned long sgp30LastAttempt = 0;'
     ].join('\n'));
     generator.addFunction('sgp30EnsureReady', [
         'bool sgp30EnsureReady() {',
-        '  if (sgp30Connected) return true;',
         '  const unsigned long now = millis();',
-        '  if (sgp30Attempted && now - sgp30LastAttempt < 1000UL) return false;',
+        '  if (!sgp30Connected && sgp30Attempted && now - sgp30LastAttempt < 1000UL) return false;',
+        '  if (sgp30StartedBus != sgp30Bus) { sgp30Bus->begin(); sgp30StartedBus = sgp30Bus; }',
+        '  sgp30Bus->beginTransmission(SGP30_I2CADDR_DEFAULT);',
+        '  if (sgp30Bus->endTransmission() != 0) {',
+        '    sgp30Attempted = !sgp30Connected;',
+        '    sgp30Connected = false;',
+        '    sgp30LastAttempt = now;',
+        '    return false;',
+        '  }',
+        '  if (sgp30Connected) return true;',
         '  sgp30Attempted = true;',
         '  sgp30LastAttempt = now;',
         '  sgp30Connected = sgp.begin(sgp30Bus);',
