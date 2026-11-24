@@ -24,3 +24,5 @@ Blockly wrapper for the SparkFun I2C soil moisture sensor.
 
 1. Enable `@aily-project/lib-sparkfun-soil-moisture` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+
+读取前可用 `soil_moisture_is_connected` 检查地址应答。原生驱动遇到读错误会返回 0，此时百分比可能显示 100%。地址应答与测量是两笔独立的 I²C 事务。

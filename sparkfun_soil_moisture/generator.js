@@ -33,6 +33,11 @@ Arduino.forBlock['soil_moisture_init'] = function(block, generator) {
   return 'Wire.begin();\n' + varName + '.begin();\n';
 };
 
+Arduino.forBlock['soil_moisture_is_connected'] = function(block, generator) {
+  soilMoistureEnsureLib(generator);
+  return [soilMoistureGetVar(block) + '.isConnected()', generator.ORDER_FUNCTION_CALL];
+};
+
 Arduino.forBlock['soil_moisture_read_value'] = function(block, generator) {
   soilMoistureEnsureLib(generator);
   return [soilMoistureGetVar(block) + '.readMoistureValue()', generator.ORDER_FUNCTION_CALL];

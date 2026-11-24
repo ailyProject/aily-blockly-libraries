@@ -39,3 +39,5 @@ arduino_loop()
 1. **Variable**: `soil_moisture_init("varName", ...)` creates variable `$varName`; pass `$varName` directly to `field_variable` slots; use `variables_get($varName)` only for `input_value` slots.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+读取前可用 `soil_moisture_is_connected` 检查地址应答。原生驱动遇到读错误会返回 0，此时百分比可能显示 100%。地址应答与测量是两笔独立的 I²C 事务。
