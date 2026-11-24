@@ -22,3 +22,5 @@ LTR-303 ambient light sensor: lux plus raw visible and infrared counts, I2C pins
 
 1. Select an ESP32 board; the I2C pins come from the board (IBox S31: SDA=IO0, SCL=IO1).
 2. Put `ltr303_init` in `arduino_setup()`, then use `ltr303_read` in `arduino_loop()`.
+
+1.0.2 支持 OJ Nano 的默认 Wire 和 ESP32-S3。readSample(ch0, ch1, lux) 从同一笔四字节 I²C 事务取得两个通道并计算照度。增益或积分时间改变后，等下一次转换完成再读取新设置对应的样本。

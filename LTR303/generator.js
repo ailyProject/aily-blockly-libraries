@@ -57,7 +57,7 @@ Arduino.ltr303Ensure = function (generator) {
     '  ltr303_sampled = true;',
     '  uint16_t ch0, ch1;',
     '  float lux;',
-    '  ltr303_valid = ltr303.readChannels(ch0, ch1) && ltr303.readLux(lux);',
+    '  ltr303_valid = ltr303.readSample(ch0, ch1, lux);',
     '  if (ltr303_valid) { ltr303_ch0 = ch0; ltr303_ch1 = ch1; ltr303_lux = lux; }',
     '}',
   ].join('\n'));
@@ -66,20 +66,20 @@ Arduino.ltr303Ensure = function (generator) {
 Arduino.forBlock['ltr303_init'] = function (block, generator) {
   Arduino.ltr303Ensure(generator);
   Arduino.ltr303WireBegin(generator);
-  return 'ltr303.begin(Wire);\n';
+  return 'ltr303.begin(Wire);\nltr303_sampled = false;\n';
 };
 
 Arduino.forBlock['ltr303_gain'] = function (block, generator) {
   const gain = block.getFieldValue('GAIN') || 'GAIN_1X';
   Arduino.ltr303Ensure(generator);
-  return 'ltr303.setGain(LTR303::' + gain + ');\n';
+  return 'ltr303.setGain(LTR303::' + gain + ');\nltr303_sampled = false;\n';
 };
 
 Arduino.forBlock['ltr303_integration'] = function (block, generator) {
   const time = block.getFieldValue('TIME') || 'INT_100MS';
   Arduino.ltr303Ensure(generator);
   // 积分时间不能超过测量周期，周期保持默认的 500ms
-  return 'ltr303.setTiming(LTR303::' + time + ', LTR303::RATE_500MS);\n';
+  return 'ltr303.setTiming(LTR303::' + time + ', LTR303::RATE_500MS);\nltr303_sampled = false;\n';
 };
 
 Arduino.forBlock['ltr303_read'] = function (block, generator) {

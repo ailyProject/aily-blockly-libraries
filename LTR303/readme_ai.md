@@ -47,3 +47,5 @@ arduino_loop()
 1. **Boards**: any ESP32 board. `ltr303_init` starts `Wire` on the board’s I2C pins (the board `i2cPins`, or pins set with the aily I2C library) before talking to the chip. The LTR-303 address is fixed at 0x29. IBox S31: onboard, SDA=IO0, SCL=IO1.
 2. **Values**: `LUX` uses the LTR-303 application note formula and follows the current gain and integration time. `CH0` is visible + infrared, `CH1` infrared only (raw counts). The sensor updates every 500 ms; reads within 0.1 s reuse one sample.
 3. **Gain and integration**: raise the gain or integration time in dim places; in bright light lower them if the counts stop rising (saturation). The LTR-303 is not the LTR-308: different address and registers.
+
+1.0.2 支持 OJ Nano 的默认 Wire 和 ESP32-S3。readSample(ch0, ch1, lux) 从同一笔四字节 I²C 事务取得两个通道并计算照度。增益或积分时间改变后，等下一次转换完成再读取新设置对应的样本。
