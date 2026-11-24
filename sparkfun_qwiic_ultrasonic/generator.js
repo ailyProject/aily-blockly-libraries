@@ -32,14 +32,13 @@ Arduino.forBlock['qwiic_ultrasonic_init'] = function(block, generator) {
   qwiicUltrasonicEnsureLib(generator);
   var varName = block.getFieldValue('VAR') || 'sonar';
   generator.addVariable(varName, 'QwiicUltrasonic ' + varName + ';');
-  generator.addVariable('_ultrasonic_dist_' + varName, 'uint16_t _ultrasonic_dist_' + varName + ' = 0;');
-  return varName + '.begin();\n';
+  return 'Wire.begin();\n' + varName + '.begin();\n';
 };
 
 Arduino.forBlock['qwiic_ultrasonic_read'] = function(block, generator) {
   qwiicUltrasonicEnsureLib(generator);
   var varName = qwiicUltrasonicGetVar(block);
-  var distVar = '_ultrasonic_dist_' + varName;
-  var code = '([&](){ ' + varName + '.triggerAndRead(' + distVar + '); return ' + distVar + '; })()';
+  var code = '([](QwiicUltrasonic &sensor) -> long { uint16_t mm = 0; ' +
+    'if (!sensor.isConnected() || sensor.triggerAndRead(mm) != ksfTkErrOk) return -1L; return mm; })(' + varName + ')';
   return [code, generator.ORDER_FUNCTION_CALL];
 };
