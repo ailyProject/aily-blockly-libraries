@@ -4,7 +4,7 @@ Cross-controller Wire blocks for SEN50/SEN54/SEN55 particulate, humidity, temper
 
 ## Library Info
 - **Name**: @aily-project/lib-sensirion-sen5x
-- **Version**: 0.1.0
+- **Version**: 0.1.1
 - **Author**: Sensirion / Aily Project
 - **Source**: https://github.com/Sensirion/arduino-i2c-sen5x
 - **License**: MIT
@@ -13,9 +13,9 @@ Cross-controller Wire blocks for SEN50/SEN54/SEN55 particulate, humidity, temper
 
 | Block Type | Connection | Parameters (block.json order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `sensirion_sen5x_init` | Statement | VAR(field_input), WIRE(dropdown) | `sensirion_sen5x_init(VAR, WIRE)` | `AilySEN5X sen5x(&WIRE); ↵ WIRE.begin(); ↵ while (!(sen5x.begin())) { delay(100); } ↵ sen5x.startMeasurement();` |
-| `sensirion_sen5x_read` | Value | VAR(field_variable), DATA(dropdown) | `sensirion_sen5x_read($sen5x, pm1)` | `(sen5x.read(), sen5x.pm1())` |
-| `sensirion_sen5x_action` | Statement | VAR(field_variable), ACTION(dropdown) | `sensirion_sen5x_action($sen5x, start)` | `sen5x.startMeasurement();` |
+| `sensirion_sen5x_init` | Statement | VAR(field_input), WIRE(dropdown) | `sensirion_sen5x_init(VAR, WIRE)` | `AilySEN5X sen5x(&WIRE); ↵ WIRE.begin(); ↵ sen5x.ensureMeasurementSession();` |
+| `sensirion_sen5x_read` | Value | VAR(field_variable), DATA(dropdown) | `sensirion_sen5x_read($sen5x, pm1)` | `(sen5x.ensureMeasurementSession() && sen5x.read() ? sen5x.pm1() : NAN)` |
+| `sensirion_sen5x_action` | Statement | VAR(field_variable), ACTION(dropdown) | `sensirion_sen5x_action($sen5x, start)` | `if (sen5x.ensureMeasurementSession()) { sen5x.startMeasurement(); }` |
 
 ## Parameter Options
 

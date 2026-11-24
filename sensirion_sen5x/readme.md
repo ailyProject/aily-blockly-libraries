@@ -9,7 +9,7 @@ Cross-controller Wire blocks for SEN50/SEN54/SEN55 particulate, humidity, temper
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-sensirion-sen5x |
-| Version | 0.1.0 |
+| Version | 0.1.1 |
 | Author | Sensirion / Aily Project |
 | Source | https://github.com/Sensirion/arduino-i2c-sen5x |
 | License | MIT |
@@ -25,3 +25,5 @@ This package bundles the required driver source and generates initialization, re
 ## Quick Start
 
 Place the initialization block in setup, then use read, operation, and configuration blocks in the program flow.
+
+Setup performs a bounded probe. Later reads retry a disconnected sensor. Numeric blocks return NaN on transport errors, invalid measurements or warm-up. Check the data-ready block before consuming a fresh sample.

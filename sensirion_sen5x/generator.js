@@ -38,9 +38,7 @@ Arduino.forBlock['sensirion_sen5x_init'] = function(block, generator) {
   generator.addObject('sensirion_sen5x_object_' + varName, objectCode);
   sensirion_sen5xEnsureExtras(generator, varName);
   generator.addSetupBegin('sensirion_sen5x_wire_' + wire, wire + '.begin();');
-  var beginCall = String(varName) + ".begin()";
-  generator.addSetupBegin('sensirion_sen5x_begin_' + varName, 'while (!(' + beginCall + ')) { delay(100); }');
-  generator.addSetupBegin('sensirion_sen5x_after_' + varName, String(varName) + ".startMeasurement();");
+  generator.addSetupBegin('sensirion_sen5x_begin_' + varName, varName + '.ensureMeasurementSession();');
   return '';
 };
 
@@ -49,18 +47,13 @@ Arduino.forBlock['sensirion_sen5x_read'] = function(block, generator) {
   var varName = sensirion_sen5xVariable(block);
   sensirion_sen5xEnsureExtras(generator, varName);
   var data = block.getFieldValue('DATA') || "pm1";
-  var expressions = {
-    "pm1": "(" + String(varName) + ".read(), " + String(varName) + ".pm1())",
-    "pm25": "(" + String(varName) + ".read(), " + String(varName) + ".pm25())",
-    "pm4": "(" + String(varName) + ".read(), " + String(varName) + ".pm4())",
-    "pm10": "(" + String(varName) + ".read(), " + String(varName) + ".pm10())",
-    "humidity": "(" + String(varName) + ".read(), " + String(varName) + ".humidity())",
-    "temperature": "(" + String(varName) + ".read(), " + String(varName) + ".temperature())",
-    "voc": "(" + String(varName) + ".read(), " + String(varName) + ".vocIndex())",
-    "nox": "(" + String(varName) + ".read(), " + String(varName) + ".noxIndex())",
-    "ready": String(varName) + ".dataReady()"
-  };
-  return [expressions[data] || expressions["pm1"], generator.ORDER_FUNCTION_CALL];
+  if (data === 'ready') {
+    return ['(' + varName + '.ensureMeasurementSession() && ' + varName + '.dataReady())', generator.ORDER_ATOMIC];
+  }
+  var getters = { pm1: 'pm1', pm25: 'pm25', pm4: 'pm4', pm10: 'pm10',
+    humidity: 'humidity', temperature: 'temperature', voc: 'vocIndex', nox: 'noxIndex' };
+  return ['(' + varName + '.ensureMeasurementSession() && ' + varName + '.read() ? ' +
+    varName + '.' + (getters[data] || getters.pm1) + '() : NAN)', generator.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['sensirion_sen5x_action'] = function(block, generator) {
@@ -74,6 +67,6 @@ Arduino.forBlock['sensirion_sen5x_action'] = function(block, generator) {
     "clean": String(varName) + ".startFanCleaning();",
     "reset": String(varName) + ".reset();"
   };
-  return (actions[action] || actions["start"]) + '\n';
+  return 'if (' + varName + '.ensureMeasurementSession()) { ' + (actions[action] || actions.start) + ' }' + '\n';
 };
 
