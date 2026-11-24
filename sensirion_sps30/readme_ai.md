@@ -4,7 +4,7 @@ Cross-controller Wire blocks for the Sensirion SPS30 particulate matter sensor.
 
 ## Library Info
 - **Name**: @aily-project/lib-sensirion-sps30
-- **Version**: 0.1.0
+- **Version**: 0.1.1
 - **Author**: Sensirion / Aily Project
 - **Source**: https://github.com/Sensirion/arduino-sps
 - **License**: MIT

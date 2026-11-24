@@ -9,7 +9,7 @@ Cross-controller Wire blocks for the Sensirion SPS30 particulate matter sensor.
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-sensirion-sps30 |
-| Version | 0.1.0 |
+| Version | 0.1.1 |
 | Author | Sensirion / Aily Project |
 | Source | https://github.com/Sensirion/arduino-sps |
 | License | MIT |
@@ -25,3 +25,5 @@ This package bundles the required driver source and generates initialization, re
 ## Quick Start
 
 Place the initialization block in setup, then use read, operation, and configuration blocks in the program flow.
+
+Setup probes the selected Wire bus once. Later blocks retry if the sensor was missing. Unavailable or invalid measurements return zero. A successful connection keeps explicitly selected operating modes.
