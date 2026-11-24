@@ -24,3 +24,7 @@ Blockly wrapper for the SparkFun APDS9301 lux sensor.
 
 1. Enable `@aily-project/lib-sparkfun-apds9301` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+
+### Initialization status (0.0.2)
+
+`APDS9301::begin(address)` probes the selected I²C address and reports the power-on write result. The ready block reports the last initialization result. Reinitialize after reconnecting the module.
