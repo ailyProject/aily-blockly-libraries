@@ -4,7 +4,7 @@ Blockly wrapper for the SparkFun VEML7700 high-accuracy I2C ambient light sensor
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-veml7700
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
@@ -40,3 +40,5 @@ arduino_loop()
 1. **Variable**: `veml7700_init("varName", ...)` creates variable `$varName`; pass `$varName` directly to `field_variable` slots; use `variables_get($varName)` only for `input_value` slots.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+The native source archive includes SparkFun Toolkit 1.2.1 and its MIT license. Installing this package supplies both the sensor driver and its Toolkit dependency. [Upstream Toolkit source](https://github.com/sparkfun/SparkFun_Toolkit/tree/b65201164e14c67255de1a07965f035420181db4)
