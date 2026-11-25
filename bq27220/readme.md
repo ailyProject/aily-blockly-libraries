@@ -7,7 +7,7 @@ TI BQ27220 single-cell Li-Ion battery fuel gauge, reads battery voltage, current
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-bq27220 |
-| Version | 1.0.2 |
+| Version | 1.0.3 |
 | Author | OpenJumper |
 | Source | https://github.com/kodediy/kode_bq27220-idf |
 | License | Apache-2.0 |

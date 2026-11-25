@@ -3,7 +3,8 @@
 #include <cmath>
 #include <cstdio>
 
-void delay(unsigned long) {}
+static unsigned long clockMs = 0;
+void delay(unsigned long ms) { clockMs += ms; }
 size_t TwoWire::write(uint8_t value) { return write(&value, 1); }
 size_t TwoWire::write(const uint8_t *data, size_t count) {
   if (shortWrite) return 0;
@@ -27,8 +28,8 @@ uint8_t TwoWire::endTransmission(bool stop) {
     else if (word == 0xffff && !refuseKeys) {
       if (pendingKey) access = 2;
       pendingKey = !pendingKey;
-    } else if (word == 0x0090 && access == 2) { configured = true; ++entries; }
-    else if (word == 0x0092) { configured = false; ++exits; }
+    } else if (word == 0x0090 && access == 2) { enterAt = clockMs + 2000; ++entries; }
+    else if (word == 0x0092) { configured = false; enterAt = 0; ++exits; }
     break;
   case 0x3e:
     assert(configured && word == 0x929f);
@@ -51,6 +52,7 @@ uint8_t TwoWire::endTransmission(bool stop) {
 uint8_t TwoWire::requestFrom(uint8_t address, uint8_t count) {
   assert(address == 0x55 && repeatedStart && count == 2);
   repeatedStart = false;
+  if (enterAt && clockMs >= enterAt) { configured = true; enterAt = 0; }
   uint16_t value = 0;
   switch (reg) {
   case 0x06: value = 2982; break;

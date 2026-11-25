@@ -20,7 +20,7 @@ public:
   bool emptyFifo = false, pendingKey = false, repeatedStart = false;
   uint8_t access = 4, selected = 0, reg = 0;
   uint16_t capacity = 3000, staged = 0;
-  unsigned long frequency = 0;
+  unsigned long frequency = 0, enterAt = 0;
   unsigned entries = 0, exits = 0, commits = 0;
   std::vector<uint8_t> tx, rx;
 };
