@@ -7,7 +7,7 @@ BMP58X reads pressure, temperature, and altitude through I2C, SPI, or UART.
 | Field | Value |
 |-------|-------|
 | Package | `@aily-project/lib-dfrobot-bmp58x` |
-| Version | `0.1.0` |
+| Version | `0.1.1` |
 | Author | DFRobot |
 | Source | https://gitee.com/dfrobot/DFRobot_BMP58X |
 | License | MIT |
@@ -23,3 +23,5 @@ Supports BMP581/BMP585 pressure and temperature reading, altitude calculation, O
 ## Quick Start
 
 Initialize by I2C, SPI, or UART, set measurement mode to normal, optionally configure ODR/OSR/IIR, then read temperature, pressure, or altitude in the loop.
+
+The I²C initialization block attempts setup once. On a failed sensor read, temperature, pressure, and altitude return NaN. After reconnecting the sensor, run initialization and reapply its measurement settings.

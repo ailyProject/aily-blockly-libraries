@@ -5,7 +5,7 @@ DFRobot BMP58X pressure and temperature sensor blocks with bundled DFRobot_RTU d
 ## Library Info
 
 - **Name**: `@aily-project/lib-dfrobot-bmp58x`
-- **Version**: `0.1.0`
+- **Version**: `0.1.1`
 - **Arduino classes**: `DFRobot_BMP58X_I2C`, `DFRobot_BMP58X_SPI`, `DFRobot_BMP58X_UART`
 - **Bundled dependency**: `DFRobot_RTU`
 
@@ -13,7 +13,7 @@ DFRobot BMP58X pressure and temperature sensor blocks with bundled DFRobot_RTU d
 
 | Block Type | Connection | Parameters (block.json order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `bmp58x_init_i2c` | Statement | VAR(field_input), WIRE(dropdown), ADDRESS(dropdown) | `bmp58x_init_i2c("bmp58x", Wire, "0x47")` | `while (!bmp58x.begin()) { ↵ delay(1000); ↵ }` |
+| `bmp58x_init_i2c` | Statement | VAR(field_input), WIRE(dropdown), ADDRESS(dropdown) | `bmp58x_init_i2c("bmp58x", Wire, "0x47")` | `bmp58x.begin();` |
 | `bmp58x_init_spi` | Statement | VAR(field_input), SPI(dropdown), CS(input_value) | `bmp58x_init_spi("bmp58x", SPI, math_number(5))` | `while (!bmp58x.begin()) { ↵ delay(1000); ↵ }` |
 | `bmp58x_init_uart` | Statement | VAR(field_input), SERIAL(dropdown), ADDRESS(dropdown), RX(input_value), TX(input_value) | `bmp58x_init_uart("bmp58x", Serial1, "0x47", math_number(25), math_number(26))` | `while (!bmp58x.begin()) { ↵ delay(1000); ↵ }` |
 | `bmp58x_read_value` | Value Number | VAR(field_variable), DATA(dropdown) | `bmp58x_read_value($bmp58x, PRESS)` | `bmp58x.readTempC()` |
@@ -55,3 +55,5 @@ bmp58x_read_value($bmp58x, PRESS)
 2. UART mode depends on DFRobot_RTU; the dependency is bundled in `src.7z`.
 3. `bmp58x_set_uart_baud` is only meaningful for UART/Modbus versions.
 4. Interrupt and FIFO examples from the upstream library are not exposed in this first block set.
+
+The I²C initialization block attempts setup once. On a failed sensor read, temperature, pressure, and altitude return NaN. After reconnecting the sensor, run initialization and reapply its measurement settings.

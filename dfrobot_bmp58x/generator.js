@@ -48,7 +48,7 @@ Arduino.forBlock['bmp58x_init_i2c'] = function(block, generator) {
   var wire = block.getFieldValue('WIRE') || 'Wire';
   var address = block.getFieldValue('ADDRESS') || '0x47';
   generator.addObject(varName, 'DFRobot_BMP58X_I2C ' + varName + '(&' + wire + ', ' + address + ');');
-  return bmp58xBeginCode(varName);
+  return varName + '.begin();\n';
 };
 
 Arduino.forBlock['bmp58x_init_spi'] = function(block, generator) {
