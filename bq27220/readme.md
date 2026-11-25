@@ -7,14 +7,14 @@ TI BQ27220 single-cell Li-Ion battery fuel gauge, reads battery voltage, current
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-bq27220 |
-| Version | 1.0.1 |
+| Version | 1.0.2 |
 | Author | OpenJumper |
 | Source | https://github.com/kodediy/kode_bq27220-idf |
 | License | Apache-2.0 |
 
 ## Supported Boards
 
-Arduino AVR, Arduino SAMD, ESP32, RP2040
+Arduino AVR, Arduino SAMD, ESP32, RP2040, STM32
 
 ## Description
 
@@ -26,3 +26,5 @@ TI BQ27220 single-cell Li-Ion/LiPo fuel gauge: voltage, current, temperature, ch
 2. Use read blocks in `arduino_loop()` to get battery data (select specific parameter from dropdown)
 3. Print results using Serial print blocks
 4. ESP32 I2C pins follow the board; uncalibrated gauges need the voltage-based blocks
+
+The gauge uses the selected Arduino Wire bus. The shutdown block requires an ESP32. Coder can check begin() and lastOperationSucceeded() to distinguish an unavailable gauge from a valid zero. setDesignCapacityChecked(mAh) updates volatile CEDV profile 1 RAM. It requires full access or an unsealed gauge with the factory full-access key and leaves an unsealed gauge in full-access mode. A sealed gauge must be explicitly unlocked by its owner.

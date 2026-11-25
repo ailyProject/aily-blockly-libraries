@@ -4,7 +4,7 @@ TI BQ27220 single-cell Li-Ion battery fuel gauge, reads battery voltage, current
 
 ## Library Info
 - **Name**: @aily-project/lib-bq27220
-- **Version**: 1.0.1
+- **Version**: 1.0.2
 
 ## Block Definitions
 
@@ -14,7 +14,7 @@ TI BQ27220 single-cell Li-Ion battery fuel gauge, reads battery voltage, current
 | `bq27220_basic_read` | Value | VAR(field_variable), TYPE(dropdown) | `bq27220_basic_read($gauge, voltage)` | `gauge.getVoltage()` |
 | `bq27220_time_read` | Value | VAR(field_variable), TYPE(dropdown) | `bq27220_time_read($gauge, tte)` | `gauge.getTimeToEmpty()` |
 | `bq27220_capacity_read` | Value | VAR(field_variable), TYPE(dropdown) | `bq27220_capacity_read($gauge, remaining_capacity)` | `gauge.getRemainingCapacity()` |
-| `bq27220_set_design_capacity` | Statement | VAR(field_variable), CAPACITY(input_value) | `bq27220_set_design_capacity($gauge, math_number(3000))` | `gauge.setDesignCapacity((uint16_t)(1));` |
+| `bq27220_set_design_capacity` | Statement | VAR(field_variable), CAPACITY(input_value) | `bq27220_set_design_capacity($gauge, math_number(3000))` | `gauge.setDesignCapacity((uint16_t)(3000));` |
 | `bq27220_voltage_percent` | Value | VAR(field_variable) | `bq27220_voltage_percent($gauge)` | `bq27220_voltage_percent(gauge, gauge_estimate)` |
 | `bq27220_battery_state` | Value | VAR(field_variable), STATE(dropdown) | `bq27220_battery_state($gauge, LOW)` | `bq27220_battery_low(gauge, gauge_estimate)` |
 | `bq27220_deep_sleep` | Statement | (none) | `bq27220_deep_sleep()` | `Serial.flush(); ↵ esp_deep_sleep_start();` |
@@ -75,3 +75,5 @@ arduino_loop()
 6. **I2C pins**: `bq27220_init` starts the chosen bus first. On ESP32 boards the pins come from the aily I2C library, the board’s `batteryConfig` (when its gauge is a BQ27220) or `i2cPins`; IBox S31: SDA=IO0, SCL=IO1. Other boards keep `begin()` with default pins.
 7. **Voltage-based charge**: an uncalibrated gauge reports a wrong SOC (IBox S31). `bq27220_voltage_percent` and `bq27220_battery_state` instead sample the voltage every 100 ms at the start of `loop()`, smooth it (about 1 s), map it on a single-cell Li-ion curve (3.3 V = 0%, 3.8 V ≈ 50%, 4.2 V = 100%) with 2% hysteresis; LOW is ≤10%, SHUTDOWN is the smoothed voltage below 3.3 V for about 3 s. Long `delay()` in the loop slows the sampling.
 8. **Deep sleep**: `bq27220_deep_sleep` flushes Serial and calls `esp_deep_sleep_start()` (ESP32 only); power or reset restarts the program. Turn off amplifiers and lights first.
+
+The gauge uses the selected Arduino Wire bus. The shutdown block requires an ESP32. Coder can check begin() and lastOperationSucceeded() to distinguish an unavailable gauge from a valid zero. setDesignCapacityChecked(mAh) updates volatile CEDV profile 1 RAM. It requires full access or an unsealed gauge with the factory full-access key and leaves an unsealed gauge in full-access mode. A sealed gauge must be explicitly unlocked by its owner.
