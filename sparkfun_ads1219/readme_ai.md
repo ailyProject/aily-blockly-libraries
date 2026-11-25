@@ -4,7 +4,7 @@ Blockly wrapper for the SparkFun ADS1219 24-bit 4-channel I2C ADC.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-ads1219
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
@@ -52,3 +52,5 @@ arduino_loop()
 1. **Variable**: `ads1219_init("varName", ...)` creates variable `$varName`; pass `$varName` directly to `field_variable` slots; use `variables_get($varName)` only for `input_value` slots.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+Successful reset restores 1x gain for millivolt conversion. A rejected configuration write preserves the previously acknowledged gain.
