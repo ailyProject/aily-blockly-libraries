@@ -30,7 +30,8 @@ Arduino.forBlock['shtc3_init'] = function(block, generator) {
   shtc3EnsureLib(generator);
   var varName = block.getFieldValue('VAR') || 'shtc3';
   generator.addVariable(varName, 'SHTC3 ' + varName + ';');
-  return 'Wire.begin();\n' + varName + '.begin();\n';
+  return 'Wire.begin();\n' + varName + '.begin();\n' +
+    varName + '.setMode(SHTC3_CMD_CSD_RHF_NPM);\n';
 };
 
 Arduino.forBlock['shtc3_update'] = function(block, generator) {
