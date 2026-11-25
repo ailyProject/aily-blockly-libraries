@@ -25,3 +25,5 @@ This package bundles the required driver source and generates initialization, re
 ## Quick Start
 
 Place the initialization block in setup, then use read, operation, and configuration blocks in the program flow.
+
+0.1.1 初始化尝试一次，缺件后主循环可以继续。用结果积木检查初始化和最近一次 I²C 传输；恢复连接后执行“重试初始化”。温度读取失败返回 NaN，ADC 和状态字失败返回 0，可通过传输结果与有效零值区分。

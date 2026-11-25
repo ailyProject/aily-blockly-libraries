@@ -42,3 +42,5 @@ arduino_setup()
 1. The init block registers a typed Blockly variable and emits the required driver include and object declaration.
 2. Input value sockets include numeric shadow blocks.
 3. The package is marked untested until verified on physical hardware.
+
+0.1.1 初始化尝试一次，缺件后主循环可以继续。用结果积木检查初始化和最近一次 I²C 传输；恢复连接后执行“重试初始化”。温度读取失败返回 NaN，ADC 和状态字失败返回 0，可通过传输结果与有效零值区分。

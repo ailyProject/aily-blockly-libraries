@@ -39,9 +39,8 @@ Arduino.forBlock['adafruit_mcp9600_init'] = function(block, generator) {
   generator.addObject('adafruit_mcp9600_object_' + varName, objectCode);
   adafruit_mcp9600EnsureExtras(generator, varName);
   generator.addSetupBegin('adafruit_mcp9600_wire_' + wire, wire + '.begin();');
-  var beginCall = String(varName) + ".begin(" + String(addr) + ", &" + String(wire) + ")";
-  generator.addSetupBegin('adafruit_mcp9600_begin_' + varName, 'while (!(' + beginCall + ')) { delay(100); }');
-  generator.addSetupBegin('adafruit_mcp9600_after_' + varName, String(varName) + ".enable(true);");
+  generator.addSetupBegin('adafruit_mcp9600_begin_' + varName,
+    varName + '.beginOnActiveBus(' + addr + ', &' + wire + ');');
   return '';
 };
 
@@ -66,7 +65,8 @@ Arduino.forBlock['adafruit_mcp9600_action'] = function(block, generator) {
   var action = block.getFieldValue('ACTION') || "enable";
   var actions = {
     "enable": String(varName) + ".enable(true);",
-    "disable": String(varName) + ".enable(false);"
+    "disable": String(varName) + ".enable(false);",
+    "retry": String(varName) + ".retry();"
   };
   return (actions[action] || actions["enable"]) + '\n';
 };
@@ -84,3 +84,9 @@ Arduino.forBlock['adafruit_mcp9600_set'] = function(block, generator) {
   return (settings[setting] || settings["type"]) + '\n';
 };
 
+
+Arduino.forBlock['adafruit_mcp9600_result'] = function(block, generator) {
+  adafruit_mcp9600EnsureLibrary(generator);
+  var method = block.getFieldValue('RESULT') === 'transfer' ? '.lastTransferSucceeded()' : '.isInitialized()';
+  return [adafruit_mcp9600Variable(block) + method, generator.ORDER_FUNCTION_CALL];
+};
