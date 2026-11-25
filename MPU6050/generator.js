@@ -14,26 +14,24 @@ Arduino.forBlock['mpu6050_begin'] = function(block, generator) {
   return '';
 };
 
-Arduino.forBlock['mpu6050_get_accel'] = function(block, generator) {
-  var axis = block.getFieldValue('AXIS');
-  
-  // 确保事件数据更新
-  var code = 'mpu.getEvent(&a, &g, &temp); a.acceleration.' + axis;
+function mpu6050ReadNumber(value) {
+  // A Blockly Number must remain one expression, even inside arithmetic or calls.
+  const code = '([]() { mpu.getEvent(&a, &g, &temp); return ' + value + '; }())';
   return [code, Arduino.ORDER_ATOMIC];
+}
+
+Arduino.forBlock['mpu6050_get_accel'] = function(block, generator) {
+  const axis = block.getFieldValue('AXIS');
+  return mpu6050ReadNumber('a.acceleration.' + axis + ' / SENSORS_GRAVITY_STANDARD');
 };
 
 Arduino.forBlock['mpu6050_get_gyro'] = function(block, generator) {
-  var axis = block.getFieldValue('AXIS');
-  
-  // 获取角速度数据 (需要转换回度/秒，因为库返回的是弧度/秒)
-  var code = 'mpu.getEvent(&a, &g, &temp); (g.gyro.' + axis + ' * 57.2958)'; // 57.2958 = 180/PI 将弧度转为度
-  return [code, Arduino.ORDER_ATOMIC];
+  const axis = block.getFieldValue('AXIS');
+  return mpu6050ReadNumber('g.gyro.' + axis + ' / SENSORS_DPS_TO_RADS');
 };
 
 Arduino.forBlock['mpu6050_get_temp'] = function(block, generator) {
-  // 获取温度数据
-  var code = 'mpu.getEvent(&a, &g, &temp); temp.temperature';
-  return [code, Arduino.ORDER_ATOMIC];
+  return mpu6050ReadNumber('temp.temperature');
 };
 
 Arduino.forBlock['mpu6050_set_accel_range'] = function(block, generator) {
