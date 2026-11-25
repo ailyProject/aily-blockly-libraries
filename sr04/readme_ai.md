@@ -4,7 +4,7 @@ SR04 ultrasonic distance sensor library, supports 2-400cm distance measurement
 
 ## Library Info
 - **Name**: @aily-project/lib-sr04
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 

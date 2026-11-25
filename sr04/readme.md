@@ -7,7 +7,7 @@ SR04 ultrasonic distance sensor library, supports 2-400cm distance measurement
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-sr04 |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Author | Martinsos |
 | Source | https://github.com/Martinsos/arduino-lib-hc-sr04 |
 | License | Original license |

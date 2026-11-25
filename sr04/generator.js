@@ -35,9 +35,7 @@ Arduino.forBlock['sr04_setup'] = function(block, generator) {
 };
 
 Arduino.forBlock['sr04_measure_distance'] = function(block, generator) {
-  const varId = block.getFieldValue('VAR');
-  const variable = block.workspace.getVariableById(varId);
-  const varName = variable ? variable.name : 'sr04';
+  const varName = block.getField('VAR').getVariable()?.name || 'sr04';
 
   generator.addLibrary('HCSR04', '#include <HCSR04.h>');
 
@@ -45,9 +43,7 @@ Arduino.forBlock['sr04_measure_distance'] = function(block, generator) {
 };
 
 Arduino.forBlock['sr04_measure_distance_with_temp'] = function(block, generator) {
-  const varId = block.getFieldValue('VAR');
-  const variable = block.workspace.getVariableById(varId);
-  const varName = variable ? variable.name : 'sr04';
+  const varName = block.getField('VAR').getVariable()?.name || 'sr04';
   const temperature = generator.valueToCode(block, 'TEMPERATURE', generator.ORDER_ATOMIC) || '20';
 
   generator.addLibrary('HCSR04', '#include <HCSR04.h>');
