@@ -21,8 +21,8 @@ Arduino.forBlock['bmp280_init'] = function(block, generator) {
   };
   
   Arduino.forBlock['bmp280_read_altitude'] = function(block, generator) {
-    var seaLevelPressure = block.getFieldValue('SEAPRESSURE');
-    return ['bmp.readAltitude(' + seaLevelPressure + 'F)', Arduino.ORDER_FUNCTION_CALL];
+    const seaLevelPressure = block.getFieldValue('SEAPRESSURE');
+    return ['bmp.readAltitude(static_cast<float>(' + seaLevelPressure + '))', Arduino.ORDER_FUNCTION_CALL];
   };
   
   Arduino.forBlock['bmp280_set_sampling'] = function(block, generator) {
