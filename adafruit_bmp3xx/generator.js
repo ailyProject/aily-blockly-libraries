@@ -1,6 +1,6 @@
 // _varMonitorAttached: the init field hook below monitors variable renames.
 function adafruit_bmp3xxEnsureLibrary(generator) {
-  generator.addLibrary('adafruit_bmp3xx_0', '#include <Adafruit_BMP3XX.h>');
+  generator.addLibrary('adafruit_bmp3xx_0', '#include <Aily_BMP3XX.h>');
 }
 
 function adafruit_bmp3xxVariable(block) {
@@ -25,35 +25,27 @@ function adafruit_bmp3xxAttachVariable(block) {
   };
 }
 
-function adafruit_bmp3xxEnsureExtras(generator, varName) {
-  // No cached data objects required.
-}
-
 Arduino.forBlock['adafruit_bmp3xx_init'] = function(block, generator) {
   adafruit_bmp3xxAttachVariable(block);
   adafruit_bmp3xxEnsureLibrary(generator);
   var varName = block.getFieldValue('VAR') || 'bmp3xx';
   var wire = block.getFieldValue('WIRE') || "Wire";
   var addr = block.getFieldValue('ADDR') || "0x77";
-  var objectCode = "Adafruit_BMP3XX " + String(varName) + ";";
+  var objectCode = "Aily_BMP3XX " + String(varName) + ";";
   generator.addObject('adafruit_bmp3xx_object_' + varName, objectCode);
-  adafruit_bmp3xxEnsureExtras(generator, varName);
   generator.addSetupBegin('adafruit_bmp3xx_wire_' + wire, wire + '.begin();');
-  var beginCall = String(varName) + ".begin_I2C(" + String(addr) + ", &" + String(wire) + ")";
-  generator.addSetupBegin('adafruit_bmp3xx_begin_' + varName, 'while (!(' + beginCall + ')) { delay(100); }');
-  generator.addSetupBegin('adafruit_bmp3xx_after_' + varName, String(varName) + ".setTemperatureOversampling(BMP3_OVERSAMPLING_8X);\n" + String(varName) + ".setPressureOversampling(BMP3_OVERSAMPLING_4X);\n" + String(varName) + ".setIIRFilterCoeff(BMP3_IIR_FILTER_COEFF_3);\n" + String(varName) + ".setOutputDataRate(BMP3_ODR_50_HZ);");
+  generator.addSetupBegin('adafruit_bmp3xx_begin_' + varName, varName + '.beginSensor(' + addr + ', ' + wire + ');');
   return '';
 };
 
 Arduino.forBlock['adafruit_bmp3xx_read'] = function(block, generator) {
   adafruit_bmp3xxEnsureLibrary(generator);
   var varName = adafruit_bmp3xxVariable(block);
-  adafruit_bmp3xxEnsureExtras(generator, varName);
   var data = block.getFieldValue('DATA') || "temperature";
   var expressions = {
-    "temperature": String(varName) + ".readTemperature()",
-    "pressure": String(varName) + ".readPressure()",
-    "altitude": String(varName) + ".readAltitude(1013.25)"
+    "temperature": String(varName) + ".sampleTemperature()",
+    "pressure": String(varName) + ".samplePressure()",
+    "altitude": String(varName) + ".sampleAltitude()"
   };
   return [expressions[data] || expressions["temperature"], generator.ORDER_FUNCTION_CALL];
 };
@@ -61,13 +53,12 @@ Arduino.forBlock['adafruit_bmp3xx_read'] = function(block, generator) {
 Arduino.forBlock['adafruit_bmp3xx_set'] = function(block, generator) {
   adafruit_bmp3xxEnsureLibrary(generator);
   var varName = adafruit_bmp3xxVariable(block);
-  adafruit_bmp3xxEnsureExtras(generator, varName);
   var setting = block.getFieldValue('SETTING') || "sea_level";
   var value = generator.valueToCode(block, 'VALUE', generator.ORDER_ATOMIC) || "1013.25";
   var settings = {
-    "sea_level": "(void)" + String(varName) + ".readAltitude((float)" + String(value) + ");",
-    "temp_oversampling": String(varName) + ".setTemperatureOversampling((uint8_t)" + String(value) + ");",
-    "pressure_oversampling": String(varName) + ".setPressureOversampling((uint8_t)" + String(value) + ");"
+    "sea_level": String(varName) + ".setSeaLevelPressure((float)" + String(value) + ");",
+    "temp_oversampling": String(varName) + ".configureTemperature((uint8_t)" + String(value) + ");",
+    "pressure_oversampling": String(varName) + ".configurePressure((uint8_t)" + String(value) + ");"
   };
   return (settings[setting] || settings["sea_level"]) + '\n';
 };

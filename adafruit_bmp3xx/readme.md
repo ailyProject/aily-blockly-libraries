@@ -9,7 +9,7 @@ Blocks for BMP388/BMP390 temperature and barometric pressure sensors.
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-adafruit-bmp3xx |
-| Version | 0.1.0 |
+| Version | 0.1.1 |
 | Author | Adafruit |
 | Source | https://github.com/adafruit/Adafruit_BMP3XX |
 | License | BSD-3-Clause |
@@ -25,3 +25,5 @@ This package bundles the required driver source and generates initialization, re
 ## Quick Start
 
 Place the initialization block in setup, then use read, operation, and configuration blocks in the program flow.
+
+A missing I²C device leaves setup responsive. Read blocks return NaN on failure and retry on subsequent reads once 100 ms have elapsed. Pressure is in Pa. Each sensor stores its own positive sea-level reference in hPa (default 1013.25) for altitude in metres.
