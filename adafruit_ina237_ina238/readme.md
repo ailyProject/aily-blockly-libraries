@@ -9,7 +9,7 @@ Blocks for INA237 and INA238 current, voltage and power monitors.
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-adafruit-ina237-ina238 |
-| Version | 0.1.0 |
+| Version | 0.1.1 |
 | Author | Adafruit |
 | Source | https://github.com/adafruit/Adafruit_INA237_INA238 |
 | License | BSD-3-Clause |
