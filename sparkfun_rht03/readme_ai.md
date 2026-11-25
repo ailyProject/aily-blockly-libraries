@@ -4,7 +4,7 @@ Blockly wrapper for the SparkFun RHT03 single-wire humidity and temperature sens
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-rht03
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
@@ -34,3 +34,5 @@ arduino_loop()
 1. **Variable**: `rht03_init("varName", ...)` creates variable `$varName`; pass `$varName` directly to `field_variable` slots; use `variables_get($varName)` only for `input_value` slots.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+Read the RHT03 after its two-second power-up period. The driver leaves interrupts enabled during the two millisecond-based start delays and masks interrupts for the timing-sensitive response. A successful update returns 1.
