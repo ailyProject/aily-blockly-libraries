@@ -1,6 +1,6 @@
 function mma8452qEnsureLibrary(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('MMA8452Q', '#include <SparkFun_MMA8452Q_Arduino_Library/SparkFun_MMA8452Q.h>');
+  generator.addLibrary('MMA8452Q', '#include <SparkFun_MMA8452Q.h>');
 }
 
 function mma8452qGetVar(block) {
