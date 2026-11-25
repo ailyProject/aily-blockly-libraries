@@ -1,6 +1,6 @@
 function grideyeEnsureLib(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('GridEYE', '#include <SparkFun_GridEYE_Arduino_Library/SparkFun_GridEYE_Arduino_Library.h>');
+  generator.addLibrary('GridEYE', '#include <SparkFun_GridEYE_Arduino_Library.h>');
 }
 
 function grideyeGetVar(block) {
