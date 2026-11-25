@@ -4,7 +4,7 @@ Blockly wrapper for SparkFun Qwiic Scale NAU7802 (24-bit ADC load cell interface
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-nau7802
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
@@ -38,3 +38,5 @@ arduino_loop()
 1. **Variable**: `nau7802_init("varName", ...)` creates variable `$varName`; pass `$varName` directly to `field_variable` slots; use `variables_get($varName)` only for `input_value` slots.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+Call Wire.begin() before initializing the scale. available() returns false if the register read fails. A failed or incomplete ADC read returns zero.
