@@ -30,9 +30,8 @@ Arduino.forBlock['vcnl4040_init'] = function(block, generator) {
   vcnl4040EnsureLib(generator);
   var varName = block.getFieldValue('VAR') || 'prox';
   generator.addVariable(varName, 'VCNL4040 ' + varName + ';');
-  return 'Wire.begin();\n' + varName + '.begin();\n' +
-    varName + '.powerOnProximity();\n' +
-    varName + '.powerOnAmbient();\n';
+  return 'Wire.begin();\nif (' + varName + '.beginOnActiveBus(Wire)) {\n  ' +
+    varName + '.powerOnAmbient();\n}\n';
 };
 
 Arduino.forBlock['vcnl4040_get_proximity'] = function(block, generator) {
@@ -62,4 +61,14 @@ Arduino.forBlock['vcnl4040_power_ambient'] = function(block, generator) {
   var varName = vcnl4040GetVar(block);
   var state = block.getFieldValue('STATE') || 'ON';
   return varName + (state === 'ON' ? '.powerOnAmbient()' : '.powerOffAmbient()') + ';\n';
+};
+
+Arduino.forBlock['vcnl4040_is_initialized'] = function(block, generator) {
+  vcnl4040EnsureLib(generator);
+  return [vcnl4040GetVar(block) + '.isInitialized()', generator.ORDER_FUNCTION_CALL];
+};
+
+Arduino.forBlock['vcnl4040_last_transfer_ok'] = function(block, generator) {
+  vcnl4040EnsureLib(generator);
+  return [vcnl4040GetVar(block) + '.lastOperationSucceeded()', generator.ORDER_FUNCTION_CALL];
 };

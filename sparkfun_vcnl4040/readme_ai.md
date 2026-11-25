@@ -41,3 +41,5 @@ arduino_loop()
 1. **Variable**: `vcnl4040_init("varName", ...)` creates variable `$varName`; pass `$varName` directly to `field_variable` slots; use `variables_get($varName)` only for `input_value` slots.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+0.0.2 增加“上次初始化成功”和“上次 I²C 传输成功”。读数为 0 时可用后者区分合法零值与断线、短读；请在下一次总线操作前读取状态。C++ 的 begin() 仍会启动 Wire，已启动的总线可使用 beginOnActiveBus(Wire)。
