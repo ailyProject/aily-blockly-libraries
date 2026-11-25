@@ -7,14 +7,14 @@ Used for Infineon DPS3xx high-precision air pressure and temperature sensor, ach
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-dps3xx |
-| Version | 0.0.1 |
+| Version | 0.0.2 |
 | Author | aily-project |
 | Source | N/A |
 | License | Original license |
 
 ## Supported Boards
 
-Arduino AVR, ESP32
+Arduino AVR, ESP32, and OJ Nano (STM32F103C8)
 
 ## Description
 
@@ -24,3 +24,5 @@ Used for Infineon DPS3xx high-precision air pressure and temperature sensor, ach
 
 1. Enable `@aily-project/lib-dps3xx` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+
+The read blocks return NaN when initialization or a measurement fails. A valid zero is returned as zero. The product and revision blocks report the IDs cached at initialization. To recover after reconnecting the sensor, initialize it again.

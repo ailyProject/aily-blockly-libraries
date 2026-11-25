@@ -8,7 +8,7 @@ Arduino.forBlock['dps3xx_init'] = function(block, generator) {
   generator.addLibrary('WIRE_INCLUDE', '#include <Wire.h>');
   generator.addObject('DPS3XX_OBJECT', 'Dps3xx dps3xxSensor;');
   generator.addSetupBegin('WIRE_BEGIN', wire + '.begin();');
-  generator.addSetupBegin('DPS3XX_SETUP', 'dps3xxSensor.begin(' + wire + ', ' + address + ');\n  dps3xxSensor.correctTemp();');
+  generator.addSetupBegin('DPS3XX_SETUP', 'dps3xxSensor.begin(' + wire + ', ' + address + ');');
 
   return '';
 };
@@ -21,9 +21,8 @@ Arduino.forBlock['dps3xx_read_temperature'] = function(block, generator) {
 
   generator.addFunction('DPS3XX_READ_TEMP', 
     'float dps3xx_readTemperature(uint8_t osr) {\n' +
-    '  float result = 0;\n' +
-    '  dps3xxSensor.measureTempOnce(result, osr);\n' +
-    '  return result;\n' +
+    '  float result;\n' +
+    '  return dps3xxSensor.measureTempOnce(result, osr) == 0 ? result : NAN;\n' +
     '}');
 
   return ['dps3xx_readTemperature(' + osr + ')', Arduino.ORDER_FUNCTION_CALL];
@@ -37,9 +36,8 @@ Arduino.forBlock['dps3xx_read_pressure'] = function(block, generator) {
 
   generator.addFunction('DPS3XX_READ_PRESSURE',
     'float dps3xx_readPressure(uint8_t osr) {\n' +
-    '  float result = 0;\n' +
-    '  dps3xxSensor.measurePressureOnce(result, osr);\n' +
-    '  return result;\n' +
+    '  float result;\n' +
+    '  return dps3xxSensor.measurePressureOnce(result, osr) == 0 ? result : NAN;\n' +
     '}');
 
   return ['dps3xx_readPressure(' + osr + ')', Arduino.ORDER_FUNCTION_CALL];

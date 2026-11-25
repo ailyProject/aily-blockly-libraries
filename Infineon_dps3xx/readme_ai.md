@@ -4,13 +4,13 @@ Used for Infineon DPS3xx high-precision air pressure and temperature sensor, ach
 
 ## Library Info
 - **Name**: @aily-project/lib-dps3xx
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
 | Block Type | Connection | Parameters (block.json order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `dps3xx_init` | Statement | ADDR(dropdown), WIRE(dropdown) | `dps3xx_init("0x77", WIRE)` | `Dps3xx dps3xxSensor; ↵ WIRE.begin(); ↵ dps3xxSensor.begin(WIRE, 0x77); ↵ dps3xxSensor.correctTemp();` |
+| `dps3xx_init` | Statement | ADDR(dropdown), WIRE(dropdown) | `dps3xx_init("0x77", WIRE)` | `Dps3xx dps3xxSensor; ↵ WIRE.begin(); ↵ dps3xxSensor.begin(WIRE, 0x77);` |
 | `dps3xx_read_temperature` | Value | OSR(dropdown) | `dps3xx_read_temperature("0")` | `dps3xx_readTemperature(0)` |
 | `dps3xx_read_pressure` | Value | OSR(dropdown) | `dps3xx_read_pressure("0")` | `dps3xx_readPressure(0)` |
 | `dps3xx_correct_temp` | Statement | (none) | `dps3xx_correct_temp()` | `dps3xxSensor.correctTemp();` |
@@ -41,3 +41,5 @@ arduino_loop()
 
 1. **Parameter order**: ABS parameters follow `block.json` args order.
 2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+The read blocks return NaN when initialization or a measurement fails. A valid zero is returned as zero. The product and revision blocks report the IDs cached at initialization. To recover after reconnecting the sensor, initialize it again.
