@@ -4,7 +4,7 @@ Blockly wrapper for the SparkFun RHT03 single-wire humidity and temperature sens
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-rht03
-- **Version**: 0.0.2
+- **Version**: 0.0.3
 
 ## Block Definitions
 
@@ -36,3 +36,4 @@ arduino_loop()
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
 
 Read the RHT03 after its two-second power-up period. The driver leaves interrupts enabled during the two millisecond-based start delays and masks interrupts for the timing-sensitive response. A successful update returns 1.
+The driver decodes each bit by counting pin polls during its low and high pulses. This keeps reads accurate on cores that update their microsecond clock from a timer interrupt.
