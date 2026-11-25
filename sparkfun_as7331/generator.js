@@ -33,6 +33,29 @@ function as7331EnsureHelpers(generator) {
   generator.addFunction('as7331_read_temperature_helper', 'float as7331ReadTemperature(SfeAS7331ArdI2C &sensor) {\n  sensor.readTemp();\n  return sensor.getTemp();\n}\n');
 }
 
+function as7331ConfigurationCode(block, generator, setter, field, fallback) {
+  generator.addFunction('as7331_configure', `template <typename Update>
+bool as7331Configure(SfeAS7331ArdI2C &sensor, Update update) {
+  if (sensor.getOperationMode() == DEVICE_MODE_CFG) return update() == ksfTkErrOk;
+  sfe_as7331_reg_cfg_osr_t osr;
+  if (sensor.getOSR(osr) != ksfTkErrOk) return false;
+  const auto mode = sensor.getMeasurementMode();
+  const bool resume = osr.ss && mode != MEAS_MODE_CMD;
+  if (sensor.setStartState(false) != ksfTkErrOk) return false;
+  if (sensor.setOperationMode(DEVICE_MODE_CFG) != ksfTkErrOk) {
+    if (resume) sensor.setStartState(true);
+    return false;
+  }
+  const bool applied = update() == ksfTkErrOk;
+  const bool restored = sensor.prepareMeasurement(mode, resume);
+  return applied && restored;
+}
+`);
+  const name = as7331GetVar(block);
+  const value = block.getFieldValue(field) || fallback;
+  return name + '_ready = as7331Configure(' + name + ', [&]() { return ' + name + '.' + setter + '(' + value + '); });\n';
+}
+
 Arduino.forBlock['as7331_init'] = function(block, generator) {
   as7331AttachVar(block);
   as7331EnsureLibrary(generator);
@@ -41,7 +64,7 @@ Arduino.forBlock['as7331_init'] = function(block, generator) {
   var mode = block.getFieldValue('MODE') || 'MEAS_MODE_CMD';
   generator.addVariable(varName, 'SfeAS7331ArdI2C ' + varName + ';');
   generator.addVariable(varName + '_ready', 'bool ' + varName + '_ready = false;');
-  return 'Wire.begin();\n' + varName + '_ready = ' + varName + '.begin(' + address + ', Wire);\nif (' + varName + '_ready) ' + varName + '.prepareMeasurement(' + mode + ');\n';
+  return 'Wire.begin();\n' + varName + '_ready = ' + varName + '.begin(' + address + ', Wire) && ' + varName + '.prepareMeasurement(' + mode + ');\n';
 };
 
 Arduino.forBlock['as7331_is_ready'] = function(block, generator) {
@@ -75,13 +98,15 @@ Arduino.forBlock['as7331_data_ready'] = function(block, generator) {
 };
 
 Arduino.forBlock['as7331_prepare_measurement'] = function(block) {
-  return as7331GetVar(block) + '.prepareMeasurement(' + (block.getFieldValue('MODE') || 'MEAS_MODE_CMD') + ');\n';
+  var name = as7331GetVar(block);
+  var mode = block.getFieldValue('MODE') || 'MEAS_MODE_CMD';
+  return name + '_ready = ' + name + '.setStartState(false) == ksfTkErrOk && ' + name + '.setOperationMode(DEVICE_MODE_CFG) == ksfTkErrOk && ' + name + '.prepareMeasurement(' + mode + ');\n';
 };
 
-Arduino.forBlock['as7331_set_gain'] = function(block) {
-  return as7331GetVar(block) + '.setGain(' + (block.getFieldValue('GAIN') || 'GAIN_2') + ');\n';
+Arduino.forBlock['as7331_set_gain'] = function(block, generator) {
+  return as7331ConfigurationCode(block, generator, 'setGain', 'GAIN', 'GAIN_2');
 };
 
-Arduino.forBlock['as7331_set_conversion_time'] = function(block) {
-  return as7331GetVar(block) + '.setConversionTime(' + (block.getFieldValue('TIME') || 'TIME_64MS') + ');\n';
+Arduino.forBlock['as7331_set_conversion_time'] = function(block, generator) {
+  return as7331ConfigurationCode(block, generator, 'setConversionTime', 'TIME', 'TIME_64MS');
 };
