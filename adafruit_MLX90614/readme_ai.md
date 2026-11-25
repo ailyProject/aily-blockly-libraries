@@ -39,3 +39,5 @@ arduino_loop()
 
 1. **Parameter order**: ABS parameters follow `block.json` args order.
 2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+1.0.1 checks the SMBus read PEC and temperature error bit. Invalid temperature and emissivity reads return NaN. Use the last-operation result after a write, and retry initialization after reconnecting. The supported emissivity range is 0.1–1.0.

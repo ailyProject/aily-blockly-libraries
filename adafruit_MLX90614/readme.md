@@ -24,3 +24,5 @@ MLX90614 infrared non-contact temperature sensor driver library, which can measu
 
 1. Enable `@aily-project/lib-mlx90614` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+
+1.0.1 checks the SMBus read PEC and temperature error bit. Invalid temperature and emissivity reads return NaN. Use the last-operation result after a write, and retry initialization after reconnecting. The supported emissivity range is 0.1–1.0.

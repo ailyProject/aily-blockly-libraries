@@ -43,3 +43,20 @@ Arduino.forBlock['mlx90614_write_emissivity'] = function(block, generator) {
   var code = 'mlx.writeEmissivity(' + emissivity + ');\n';
   return code;
 };
+Arduino.forBlock['mlx90614_retry'] = function(block, generator) {
+  generator.addLibrary('MLX90614', '#include <Adafruit_MLX90614.h>');
+  generator.addVariable('mlx90614', 'Adafruit_MLX90614 mlx;');
+  return 'mlx.retry();\n';
+};
+
+Arduino.forBlock['mlx90614_initialized'] = function(block, generator) {
+  generator.addLibrary('MLX90614', '#include <Adafruit_MLX90614.h>');
+  generator.addVariable('mlx90614', 'Adafruit_MLX90614 mlx;');
+  return ['mlx.isInitialized()', generator.ORDER_FUNCTION_CALL];
+};
+
+Arduino.forBlock['mlx90614_last_ok'] = function(block, generator) {
+  generator.addLibrary('MLX90614', '#include <Adafruit_MLX90614.h>');
+  generator.addVariable('mlx90614', 'Adafruit_MLX90614 mlx;');
+  return ['mlx.lastOperationSucceeded()', generator.ORDER_FUNCTION_CALL];
+};
