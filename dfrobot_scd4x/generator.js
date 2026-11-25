@@ -47,16 +47,24 @@ Arduino.forBlock['dfrobot_scd4x_init'] = function(block, generator) {
 
 Arduino.forBlock['dfrobot_scd4x_read'] = function(block, generator) {
   dfrobot_scd4xEnsureLibrary(generator);
-  var varName = dfrobot_scd4xVariable(block);
-  dfrobot_scd4xEnsureExtras(generator, varName);
+  var varName = String(dfrobot_scd4xVariable(block));
   var data = block.getFieldValue('DATA') || "co2";
-  var expressions = {
-    "co2": "(" + String(varName) + ".readMeasurement(&" + String(varName) + "Data), " + String(varName) + "Data.CO2ppm)",
-    "temperature": "(" + String(varName) + ".readMeasurement(&" + String(varName) + "Data), " + String(varName) + "Data.temp)",
-    "humidity": "(" + String(varName) + ".readMeasurement(&" + String(varName) + "Data), " + String(varName) + "Data.humidity)",
-    "ready": String(varName) + ".getDataReadyStatus()"
-  };
-  return [expressions[data] || expressions["co2"], generator.ORDER_FUNCTION_CALL];
+  if (data === "ready") {
+    return [varName + ".getDataReadyStatus()", generator.ORDER_FUNCTION_CALL];
+  }
+
+  dfrobot_scd4xEnsureExtras(generator, varName);
+  var refresh = "ailyScd4xRefresh_" + varName;
+  // One hardware read consumes the tuple. Retain it between ready results.
+  generator.addFunction('dfrobot_scd4x_refresh_' + varName,
+    "static void " + refresh + "() {\n" +
+    "  if (" + varName + ".getDataReadyStatus()) {\n" +
+    "    " + varName + ".readMeasurement(&" + varName + "Data);\n" +
+    "  }\n" +
+    "}");
+  var fields = { co2: "CO2ppm", temperature: "temp", humidity: "humidity" };
+  return ["(" + refresh + "(), " + varName + "Data." + (fields[data] || fields.co2) + ")",
+    generator.ORDER_FUNCTION_CALL];
 };
 
 Arduino.forBlock['dfrobot_scd4x_action'] = function(block, generator) {
