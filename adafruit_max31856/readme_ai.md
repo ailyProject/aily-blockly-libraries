@@ -4,7 +4,7 @@ Blocks for the MAX31856 precision universal thermocouple-to-digital converter.
 
 ## Library Info
 - **Name**: @aily-project/lib-adafruit-max31856
-- **Version**: 0.1.0
+- **Version**: 0.1.1
 - **Author**: Adafruit
 - **Source**: https://github.com/adafruit/Adafruit_MAX31856
 - **License**: BSD-3-Clause
@@ -39,3 +39,5 @@ arduino_setup()
 1. The init block registers a typed Blockly variable and emits the required driver include and object declaration.
 2. Input value sockets include numeric shadow blocks.
 3. The package is marked untested until verified on physical hardware.
+
+Cold-junction readings use the signed CJTH/CJTL register pair. For example, a raw value of 0xF600 represents −10 °C.
