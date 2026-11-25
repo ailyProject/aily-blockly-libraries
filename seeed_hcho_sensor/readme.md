@@ -7,7 +7,7 @@ Grove HCHO formaldehyde sensor library, based on the WSP2110 semiconductor VOC g
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-seeed-hcho-sensor |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Author | SeeedStudio |
 | Source | https://wiki.seeedstudio.com/Grove-HCHO_Sensor/ |
 | License | Original license |

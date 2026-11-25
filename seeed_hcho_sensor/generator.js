@@ -67,8 +67,9 @@ Arduino.forBlock['grove_hcho_init'] = function(block, generator) {
   }
 };`;
   
-  generator.addFunction('GroveHCHO_struct', structDef);
-  generator.addVariable(varName, 'GroveHCHO ' + varName + '(' + pin + ', ' + r0 + ');');
+  // The Arduino generator emits type declarations in variables before objects.
+  generator.addVariable('GroveHCHO_struct', structDef);
+  generator.addObject(varName, 'GroveHCHO ' + varName + '(' + pin + ', ' + r0 + ');');
   
   return '';
 };
