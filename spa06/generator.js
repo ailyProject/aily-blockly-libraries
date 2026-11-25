@@ -74,20 +74,21 @@ if (Blockly.Extensions && Blockly.Extensions.register) {
     this.boardType_ = isESP32 ? 'ESP32' : (isMega2560 ? 'MEGA' : 'UNO');
     
     if (isESP32) {
-      // ESP32需要添加SDA和SCL引脚选择
-      var digitalPins = (boardConfig.digitalPins || []);
-      var pinOptions = digitalPins.length > 0 ? digitalPins : [
-        ['21', '21'], ['22', '22'], ['19', '19'], ['23', '23'],
-        ['18', '18'], ['5', '5'], ['17', '17'], ['16', '16']
-      ];
-      
-      // 添加引脚字段到消息
+      const wirePins = boardConfig.i2cPins?.Wire || [];
+      const digitalPins = boardConfig.digitalPins?.length ? boardConfig.digitalPins
+        : ['21', '22', '19', '23', '18', '5', '17', '16'].map(pin => [pin, pin]);
+      function optionsFor(signal) {
+        const configured = wirePins.find(([role]) => role === signal);
+        const value = String(configured?.[1] ?? signal);
+        const first = digitalPins.find(([, pin]) => pin === value) || [value, value];
+        return [first, ...digitalPins.filter(([, pin]) => pin !== value)];
+      }
       this.appendDummyInput('PIN_INPUT')
         .appendField('SDA引脚')
-        .appendField(new Blockly.FieldDropdown(pinOptions), 'SDA_PIN')
+        .appendField(new Blockly.FieldDropdown(optionsFor('SDA')), 'SDA_PIN')
         .appendField('SCL引脚')
-        .appendField(new Blockly.FieldDropdown(pinOptions), 'SCL_PIN');
-      
+        .appendField(new Blockly.FieldDropdown(optionsFor('SCL')), 'SCL_PIN');
+
       this.setTooltip('创建SPA06-003气压温度传感器对象，ESP32需要设置I2C地址和SDA/SCL引脚');
     } else {
       // Arduino UNO和Mega2560不需要引脚选择（引脚固定）
@@ -122,8 +123,8 @@ if (Blockly.Extensions && Blockly.Extensions.register) {
 Arduino.forBlock['spa06_create_i2c'] = function(block, generator) {
   const varName = block.getFieldValue('VAR') || 'spa06';
   const addr = block.getFieldValue('ADDR');
-  const sdaPin = block.getFieldValue('SDA_PIN') || '21';
-  const sclPin = block.getFieldValue('SCL_PIN') || '22';
+  const sdaPin = block.getFieldValue('SDA_PIN') || 'SDA';
+  const sclPin = block.getFieldValue('SCL_PIN') || 'SCL';
 
   // 注册变量到Blockly
   registerVariableToBlockly(varName, 'SPL07_003');
