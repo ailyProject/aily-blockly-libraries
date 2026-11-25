@@ -11,11 +11,12 @@ Arduino.forBlock['bq27441_begin'] = function(block, generator) {
   bq27441EnsureLibrary(generator);
   var capacity = generator.valueToCode(block, 'CAPACITY', generator.ORDER_ATOMIC) || '850';
   generator.addVariable('bq27441_ready', 'bool bq27441_ready = false;');
-  return 'bq27441_ready = lipo.begin();\nif (bq27441_ready) {\n  lipo.setCapacity(' + capacity + ');\n}\n';
+  return 'bq27441_ready = lipo.begin() && lipo.setCapacity(' + capacity + ');\n';
 };
 
 Arduino.forBlock['bq27441_is_ready'] = function(block, generator) {
   bq27441EnsureLibrary(generator);
+  generator.addVariable('bq27441_ready', 'bool bq27441_ready = false;');
   return ['bq27441_ready', generator.ORDER_ATOMIC];
 };
 
@@ -78,4 +79,9 @@ Arduino.forBlock['bq27441_set_gpout_function'] = function(block, generator) {
 Arduino.forBlock['bq27441_set_gpout_polarity'] = function(block, generator) {
   bq27441EnsureLibrary(generator);
   return 'lipo.setGPOUTPolarity(' + bq27441Bool(block.getFieldValue('ACTIVE_HIGH') || 'TRUE') + ');\n';
+};
+
+Arduino.forBlock['bq27441_last_operation_ok'] = function(block, generator) {
+  bq27441EnsureLibrary(generator);
+  return ['lipo.lastOperationSucceeded()', generator.ORDER_FUNCTION_CALL];
 };

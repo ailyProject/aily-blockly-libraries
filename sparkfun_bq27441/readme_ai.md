@@ -4,14 +4,15 @@ Blockly wrapper for the SparkFun BQ27441 LiPo fuel gauge.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-bq27441
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
 | Block Type | Connection | Parameters (block.json order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `bq27441_begin` | Statement | CAPACITY(input_value) | `bq27441_begin(math_number(0))` | `bq27441_ready = lipo.begin(); ↵ if (bq27441_ready) { ↵ lipo.setCapacity(1); ↵ }` |
+| `bq27441_begin` | Statement | CAPACITY(input_value) | `bq27441_begin(math_number(0))` | `bq27441_ready = lipo.begin() && lipo.setCapacity(1);` |
 | `bq27441_is_ready` | Value | (none) | `bq27441_is_ready()` | `bq27441_ready` |
+| `bq27441_last_operation_ok` | Value | (none) | `bq27441_last_operation_ok()` | `lipo.lastOperationSucceeded()` |
 | `bq27441_set_capacity` | Statement | CAPACITY(input_value) | `bq27441_set_capacity(math_number(0))` | `lipo.setCapacity(1);` |
 | `bq27441_voltage` | Value | (none) | `bq27441_voltage()` | `lipo.voltage()` |
 | `bq27441_current` | Value | TYPE(dropdown) | `bq27441_current(AVG)` | `lipo.current(AVG)` |
@@ -54,3 +55,5 @@ arduino_loop()
 
 1. **Parameter order**: ABS parameters follow `block.json` args order.
 2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+Integer reads return zero on a transport error. Check the last operation immediately after reading to distinguish an error from valid zero. The ready block reflects the last initialization, including design-capacity verification. Temperature is in 0.1 K.
