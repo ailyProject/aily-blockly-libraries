@@ -4,7 +4,7 @@ Blockly wrapper for SparkFun LIS3DH 3-axis accelerometer.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-lis3dh
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
@@ -43,3 +43,5 @@ arduino_loop()
 1. **Variable**: `lis3dh_init("varName", ...)` creates variable `$varName`; pass `$varName` directly to `field_variable` slots; use `variables_get($varName)` only for `input_value` slots.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+The initialization block uses I²C. C++ sketches can also select four-wire SPI with the SPI_MODE constructor. On STM32 and ESP32-S3, the driver uses a 1 MHz, MSB-first mode 3 transaction for each SPI transfer.
