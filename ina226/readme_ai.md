@@ -4,7 +4,7 @@ INA226高精度电流、电压、功率监测芯片驱动库，支持I2C通信�
 
 ## Library Info
 - **Name**: @aily-project/lib-ina226
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 
