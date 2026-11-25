@@ -142,7 +142,6 @@ Arduino.forBlock['bh1750_init_with_wire'] = function(block, generator) {
       } catch (e) {}
       generator.addSetup(wireBeginKey, pinComment + wire + '.begin();\n');
     }
-    setupCode += 'if (' + varName + '.begin(BH1750::' + mode + ', ' + address + ', &' + wire + ')) {\n';
   } else {
     const wireBeginKey = `wire_${wire}_begin`;
     var isAlreadyInitialized = false;
@@ -181,12 +180,8 @@ Arduino.forBlock['bh1750_init_with_wire'] = function(block, generator) {
       } catch (e) {}
       generator.addSetup(wireBeginKey, pinComment + 'Wire.begin();\n');
     }
-    if (mode === 'CONTINUOUS_HIGH_RES_MODE') {
-      setupCode += 'if (' + varName + '.begin()) {\n';
-    } else {
-      setupCode += 'if (' + varName + '.begin(BH1750::' + mode + ')) {\n';
-    }
   }
+  setupCode += 'if (' + varName + '.begin(BH1750::' + mode + ', ' + address + ', &' + wire + ')) {\n';
   setupCode += '  Serial.println("BH1750传感器 ' + varName + ' 初始化成功!");\n';
   setupCode += '} else {\n';
   setupCode += '  Serial.println("警告: BH1750传感器 ' + varName + ' 初始化失败，请检查接线!");\n';
