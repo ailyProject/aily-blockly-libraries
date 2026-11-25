@@ -4,7 +4,7 @@ Blockly wrapper for the SparkFun VL53L1X I2C laser ToF distance sensor.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-vl53l1x
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
@@ -43,3 +43,5 @@ arduino_loop()
 1. **Variable**: `vl53l1x_init("varName", ...)` creates variable `$varName`; pass `$varName` directly to `field_variable` slots; use `variables_get($varName)` only for `input_value` slots.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+Use the last-initialization-success block after init. In C++, begin() retains its original zero-on-success convention. Missing or short I²C reads yield data ready false, distance 0 and range status 255. Reinitialize after reconnecting the device.

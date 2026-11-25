@@ -69,3 +69,8 @@ Arduino.forBlock['vl53l1x_get_range_status'] = function(block, generator) {
   vl53l1xEnsureLib(generator);
   return [vl53l1xGetVar(block) + '.getRangeStatus()', generator.ORDER_FUNCTION_CALL];
 };
+
+Arduino.forBlock['vl53l1x_is_initialized'] = function(block, generator) {
+  vl53l1xEnsureLib(generator);
+  return [vl53l1xGetVar(block) + '.isInitialized()', generator.ORDER_FUNCTION_CALL];
+};
