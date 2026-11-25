@@ -1,6 +1,6 @@
 function ms5803EnsureLibrary(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('MS5803', '#include <SparkFun_MS5803-14BA_Breakout_Arduino_Library/SparkFun_MS5803_I2C.h>');
+  generator.addLibrary('MS5803', '#include <SparkFun_MS5803_I2C.h>');
 }
 
 function ms5803GetVar(block) {
