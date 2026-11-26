@@ -77,7 +77,7 @@ Arduino.forBlock['stcc4_get_data'] = function(block, generator) {
   var names = stcc4EnsureDataVars(generator, varName);
   var data = block.getFieldValue('DATA') || 'CO2';
   var map = {
-    CO2: names.co2,
+    CO2: 'static_cast<int16_t>(' + names.co2 + ')',
     TEMPERATURE: names.temperature,
     HUMIDITY: names.humidity,
     STATUS: names.status,

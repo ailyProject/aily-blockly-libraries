@@ -23,3 +23,9 @@ Reads CO2 concentration, temperature, humidity, and sensor status over I2C. Incl
 ## Quick Start
 
 Initialize the sensor in `arduino_setup()`, then call the read block in `arduino_loop()` before using the data block.
+
+## 0.1.2
+
+产品标识和测量值均校验本次请求、长度及每个 16 位字的 CRC。短读、CRC 错误和校准失败保留上一次有效读数。积木按有符号 ppm 展示 CO₂，现有 C++ 接口仍可获取原始 16 位字。
+
+软件复位调用会向 I²C 通用地址发送复位命令，同一总线上支持通用复位的其他器件也可能复位。需要单器件操作时，请使用适合当前场景的器件命令。[STCC4 数据表](https://sensirion.com/media/documents/6AED4B15/69295E41/CD_DS_STCC4_D1.pdf)
