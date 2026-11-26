@@ -10,7 +10,7 @@ function ensureMAX30102Library(generator) {
 function ensureMAX30102Support(generator) {
   ensureMAX30102Library(generator);
 
-  generator.addVariable('max30102_int_pin', 'uint32_t _ailyMax30102IntPin = 0;');
+  generator.addVariable('max30102_int_pin', 'uint32_t ailyMax30102InterruptPin = 0;');
   generator.addVariable('max30102_ir_buffer', 'uint32_t _ailyMax30102IrBuffer[BUFFER_SIZE];');
   generator.addVariable('max30102_red_buffer', 'uint32_t _ailyMax30102RedBuffer[BUFFER_SIZE];');
   generator.addVariable('max30102_last_red', 'uint32_t _ailyMax30102LastRed = 0;');
@@ -79,8 +79,8 @@ bool ailyMax30102Configure() {
 
 bool ailyMax30102Begin(uint32_t sdaPin, uint32_t sclPin, uint32_t intPin) {
   ailyMax30102Invalidate();
-  _ailyMax30102IntPin = intPin;
-  pinMode(_ailyMax30102IntPin, INPUT);
+  ailyMax30102InterruptPin = intPin;
+  pinMode(ailyMax30102InterruptPin, INPUT);
 #if defined(ESP32)
   Wire.begin(sdaPin, sclPin);
 #else
@@ -101,7 +101,7 @@ bool ailyMax30102Measure(uint32_t timeoutMs) {
   uint32_t measureStartMs = millis();
   for (int32_t i = 0; i < BUFFER_SIZE; i++) {
     if (timeoutMs && uint32_t(millis() - measureStartMs) >= timeoutMs) return false;
-    while (digitalRead(_ailyMax30102IntPin) == HIGH) {
+    while (digitalRead(ailyMax30102InterruptPin) == HIGH) {
       if (timeoutMs > 0 && (millis() - measureStartMs) > timeoutMs) {
         _ailyMax30102LastOK = false;
         return false;
