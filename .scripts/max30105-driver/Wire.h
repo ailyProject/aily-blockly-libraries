@@ -42,7 +42,7 @@ public:
     bursts.push_back(n);
     if(partial || bursts.size()==partialOnBurst){n=std::min<size_t>(n,4);partial=false;}
     for(size_t a=0;a<n;++a){
-      if(!byteOffset){latched=fifo[reg[6]];reg[6]=(reg[6]+1)%32;}
+      if(!byteOffset){reg[5]=0;latched=fifo[reg[6]];reg[6]=(reg[6]+1)%32;}
       const auto word=latched[byteOffset/3];
       rx.push_back(uint8_t(word>>(16-(byteOffset%3)*8)));
       if(++byteOffset==3*mode)byteOffset=0;

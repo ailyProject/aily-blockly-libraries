@@ -54,6 +54,32 @@ int main(){
     assert(sensor.available()==0);
     for(auto n:Wire.bursts)assert(n<=32 && n%(channels*3)==0);
   }
+  for (bool shortFirstBurst : {false, true}) {
+    configure(sensor);
+    for (unsigned n = 0; n < 32; ++n) Wire.append(n, n + 100, n + 200);
+    Wire.reg[5] = 15;
+    Wire.denyRegister = 5;
+    assert(sensor.check() == 0 && sensor.available() == 0);
+    Wire.denyRegister = -1;
+    if (shortFirstBurst) {
+      Wire.partial = true;
+      assert(sensor.check() == 0 && Wire.reg[5] == 0 && Wire.reg[6] == 0);
+    }
+    assert(sensor.check() == 32 && Wire.reg[5] == 0 && sensor.available() == 4);
+    for (unsigned n = 28; n < 32; ++n) {
+      assert(sensor.getFIFORed() == n && sensor.getFIFOIR() == n + 100 &&
+             sensor.getFIFOGreen() == n + 200);
+      sensor.nextSample();
+    }
+    assert(sensor.check() == 0 && sensor.available() == 0);
+  }
+  configure(sensor);
+  for (unsigned n = 0; n < 32; ++n) Wire.append(n, n, n);
+  Wire.reg[5] = 1;
+  Wire.partial = true;
+  assert(sensor.check() == 0 && Wire.reg[5] == 0);
+  sensor.clearFIFO();
+  assert(sensor.check() == 0 && sensor.available() == 0);
   configure(sensor);Wire.address=0x55;assert(sensor.begin(Wire,100000,0x55));sensor.setup();Wire.append(3,4,5);assert(sensor.check()==1 && sensor.getFIFOIR()==4);
   configure(sensor);auto before=millis();assert(!sensor.safeCheck(300) && millis()-before>=300);
   puts("MAX30105 packaged driver passed identity, FIFO order, timeouts, partial transfers, wrap and recovery.");

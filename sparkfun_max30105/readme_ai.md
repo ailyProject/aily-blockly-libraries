@@ -54,3 +54,5 @@ arduino_loop()
 Initialize the sensor before setup. A failed identity check suppresses configuration writes. FIFO reads commit complete samples only. A short read retries from the interrupted chunk on a later poll. If the hardware read pointer cannot be restored, initialize and set up the sensor again. The local FIFO holds the four most recent unread samples in chronological order. Individual immediate channel getters may wait for different frames. Use check(), getFIFORed()/getFIFOIR()/getFIFOGreen() and nextSample() to read channels of one frame.
 
 The LED power field is the 8-bit amplitude register code. Project files saved with ADC choice 32768 retain the original driver behavior (2048 nA full scale).
+
+With equal hardware read and write pointers, a positive overflow counter confirms 32 pending samples. The driver drains the FIFO in whole frames and keeps the newest four. A partial first burst can be retried after rewinding even when the first byte cleared the overflow counter. When exactly 32 samples arrive without any overflow, the pointers and zero counter alone cannot distinguish full from empty. Poll before the FIFO fills when every sample matters.
