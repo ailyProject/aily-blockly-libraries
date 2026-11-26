@@ -45,3 +45,7 @@ arduino_loop()
 1. **Variable**: `ojqmi_init("varName", ...)` creates variable `$varName`; pass `$varName` directly to `field_variable` slots; use `variables_get($varName)` only for `input_value` slots.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+## 0.0.2
+
+初始化和量程设置会检查总线应答。三轴加速度、三轴角速度和温度都读取完整后才提交新样本，短读或掉线时 read() 返回 false，保留上一帧。

@@ -18,7 +18,7 @@ var QMI_META={
    }
   ],
   "code": null,
-  "setupCode": "{VAR}.begin();\n{VAR}.setAccelRange({AR});\n{VAR}.setGyroRange({GR});\n",
+  "setupCode": "if ({VAR}.begin()) {\n  {VAR}.setAccelRange({AR});\n  {VAR}.setGyroRange({GR});\n}\n",
   "out": null,
   "setup": true,
   "order": "ORDER_FUNCTION_CALL"

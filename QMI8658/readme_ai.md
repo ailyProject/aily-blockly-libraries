@@ -49,3 +49,7 @@ arduino_loop()
 1. **Boards**: any ESP32 board. When the board’s `imuConfig` names a QMI8658, `qmi8658_init` uses its I2C pins and address (IBox S31: SDA=IO0, SCL=IO1, 0x6B; Korvo S3: SDA=IO17, SCL=IO18, 0x6B); otherwise the board’s I2C pins and 0x6B. The driver tries 0x6A if the first address does not answer.
 2. **Values**: acceleration in g, angular rate in °/s, chip temperature in °C. Pitch and roll are computed from the accelerometer, so they are only valid while the board is not accelerating. Reads within 10 ms share one sample.
 3. **Range**: `qmi8658_range(ACC, GYRO)` takes 0–3 for ±2/4/8/16 g and 4–7 for ±256/512/1024/2048 °/s; the default after init is ±2 g and ±1024 °/s.
+
+## 1.0.2
+
+初始化会核对首选地址及备用地址的 WHO_AM_I，仅读到 0x05 才配置器件。开启自动递增并使用小端格式读取有符号轴数据。
