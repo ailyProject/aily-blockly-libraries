@@ -47,6 +47,11 @@ int main() {
     assert(acc.ReadID(&id) == 0 && id == 0x33);
     bus.present[1] = true;
 
+    bus.regs[0][0x23] = 0x08;
+    bus.regs[0][0x28] = 0x40; bus.regs[0][0x29] = 0x06;
+    bus.regs[0][0x2a] = 0xc0; bus.regs[0][0x2b] = 0xf9;
+    int32_t acceleration[3] = {};
+    assert(acc.GetAxes(acceleration) == 0 && acceleration[0] == 98 && acceleration[1] == -98);
     float temp = 91;
     assert(acc.GetTemperature(&temp) != 0 && temp == 91 && testTimeMs == 1100);
     bus.regs[0][7] = 4;

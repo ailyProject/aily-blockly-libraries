@@ -4,7 +4,7 @@ LSM303AGR 3D accelerometer and 3D magnetometer sensor control library. Reads acc
 
 ## Library Info
 - **Name**: @aily-project/lib-lsm303agr
-- **Version**: 0.0.2
+- **Version**: 0.0.3
 
 On a missing device or a short I²C transfer the driver returns an error. The axis blocks return `INT32_MIN` and the temperature block returns `NaN`. The angle block returns `NaN` before the first successful AHRS update and after an update with invalid acceleration or magnetic data. Call the update block again after the device reconnects. Temperature acquisition allows one full 1 Hz sample period plus 100 ms.
 

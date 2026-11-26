@@ -7,7 +7,7 @@ LSM303AGR 3D accelerometer and 3D magnetometer sensor control library. Reads acc
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-lsm303agr |
-| Version | 0.0.2 |
+| Version | 0.0.3 |
 | Author | stm32duino |
 | Source | https://github.com/stm32duino/LSM303AGR |
 | License | Original license |
