@@ -37,9 +37,7 @@ Arduino.forBlock['dfrobot_rainfall_sensor_init'] = function(block, generator) {
   var objectCode = "DFRobot_RainfallSensor_I2C " + String(varName) + "(&" + String(wire) + ");";
   generator.addObject('dfrobot_rainfall_sensor_object_' + varName, objectCode);
   dfrobot_rainfall_sensorEnsureExtras(generator, varName);
-  generator.addSetupBegin('dfrobot_rainfall_sensor_wire_' + wire, wire + '.begin();');
-  var beginCall = String(varName) + ".begin()";
-  generator.addSetupBegin('dfrobot_rainfall_sensor_begin_' + varName, 'while (!(' + beginCall + ')) { delay(100); }');
+  generator.addSetupBegin('dfrobot_rainfall_sensor_begin_' + varName, varName + '.begin();');
   return '';
 };
 

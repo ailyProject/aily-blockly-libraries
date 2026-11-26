@@ -4,7 +4,7 @@ Blocks for the DFRobot tipping-bucket rainfall sensor using its universal I2C in
 
 ## Library Info
 - **Name**: @aily-project/lib-dfrobot-rainfall-sensor
-- **Version**: 0.1.0
+- **Version**: 0.1.1
 - **Author**: DFRobot
 - **Source**: https://github.com/DFRobot/DFRobot_RainfallSensor
 - **License**: MIT
@@ -39,3 +39,7 @@ arduino_setup()
 1. The init block registers a typed Blockly variable and emits the required driver include and object declaration.
 2. Input value sockets include numeric shadow blocks.
 3. The package is marked untested until verified on physical hardware.
+
+## I²C status and recovery
+
+The initialization block calls `begin()` once during setup. A missing sensor allows the remaining setup and loop to run. Coder can call `begin()` again to check the product and vendor IDs. In I²C mode, calibration returns zero on success and a nonzero status on a rejected write. The period reading returns –1 on a failed window selection or incomplete response. Total rainfall, tip count and working time keep their original zero fallback, which also represents a valid dry or newly powered sensor. Use `begin()` to check presence. The selector accepts 1–24 hours in Blockly.
