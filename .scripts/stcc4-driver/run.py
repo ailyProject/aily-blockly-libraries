@@ -16,5 +16,5 @@ with tempfile.TemporaryDirectory() as folder:
     subprocess.run(['c++', '-std=c++17', '-I' + str(here), '-I' + str(src),
                     here / 'word-integrity.cpp', src / 'DFRobot_STCC4.cpp', '-o', exe], check=True)
     result = subprocess.check_output([exe], text=True).splitlines()
-    assert len(result) == 28 and all(row.endswith(',pass') for row in result), result
+    assert len(result) == 31 and all(row.endswith(',pass') for row in result), result
     print('STCC4 driver checks passed:', len(result))

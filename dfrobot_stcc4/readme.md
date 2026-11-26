@@ -33,3 +33,7 @@ Initialize the sensor in `arduino_setup()`, then call the read block in `arduino
 ## 0.1.3
 
 修正命令的最短等待时间。产品 ID、序列号及其他带等待的命令在 Arduino 的毫秒节拍边界也会等待完整时长。软件复位接受通用地址已应答、复位数据字节未应答的返回状态。
+
+## 0.1.4
+
+设置温湿度补偿、设置气压补偿和进入休眠后均等待 1 毫秒，随后可立即调用下一条命令。

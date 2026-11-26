@@ -56,4 +56,8 @@ int main() {
   Wire.endStatus=2; test("soft-reset-address-nack",!driver.softRest());
   Wire.endStatus=3;bool woke=driver.wakeup();test("wake-data-nack",woke&&Wire.addr==0x64&&Wire.tx==std::vector<uint8_t>{0});
   Wire.endStatus=2;test("wake-address-nack",!driver.wakeup());
+  Wire.endStatus=0;
+  test("compensation-ready-before-next-command",driver.setRHTcompensation(25,50) && micros()-Wire.wroteAt>=1000);
+  test("pressure-ready-before-single-shot",driver.setPressureCompensation(1013) && micros()-Wire.wroteAt>=1000);
+  test("sleep-ready-before-wake",driver.sleep() && micros()-Wire.wroteAt>=1000);
 }
