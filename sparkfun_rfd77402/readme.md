@@ -7,7 +7,7 @@ Blockly wrapper for the SparkFun RFD77402 I2C laser distance sensor.
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-rfd77402 |
-| Version | 0.0.1 |
+| Version | 0.0.2 |
 | Author | SparkFun |
 | Source | N/A |
 | License | Original license |
@@ -24,3 +24,5 @@ Blockly wrapper for the SparkFun RFD77402 I2C laser distance sensor.
 
 1. Enable `@aily-project/lib-sparkfun-rfd77402` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+
+Use the measurement block before reading distance, pixels or confidence. The three Blockly values return −1 if the latest attempt has no valid sample. The status block distinguishes success (0), near, far and saturation (1–3), no new result (4), timeout (5), and an I²C or initialization failure (6). A successful sample may contain zero. Native unsigned getters retain the last complete sample.

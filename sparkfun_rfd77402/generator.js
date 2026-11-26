@@ -40,15 +40,20 @@ Arduino.forBlock['rfd77402_take_measurement'] = function(block, generator) {
 
 Arduino.forBlock['rfd77402_get_distance'] = function(block, generator) {
   rfd77402EnsureLib(generator);
-  return [rfd77402GetVar(block) + '.getDistance()', generator.ORDER_FUNCTION_CALL];
+  return [rfd77402GetVar(block) + '.getDistanceOrError()', generator.ORDER_FUNCTION_CALL];
 };
 
 Arduino.forBlock['rfd77402_get_valid_pixels'] = function(block, generator) {
   rfd77402EnsureLib(generator);
-  return [rfd77402GetVar(block) + '.getValidPixels()', generator.ORDER_FUNCTION_CALL];
+  return [rfd77402GetVar(block) + '.getValidPixelsOrError()', generator.ORDER_FUNCTION_CALL];
 };
 
 Arduino.forBlock['rfd77402_get_confidence'] = function(block, generator) {
   rfd77402EnsureLib(generator);
-  return [rfd77402GetVar(block) + '.getConfidenceValue()', generator.ORDER_FUNCTION_CALL];
+  return [rfd77402GetVar(block) + '.getConfidenceOrError()', generator.ORDER_FUNCTION_CALL];
+};
+
+Arduino.forBlock['rfd77402_get_status'] = function(block, generator) {
+  rfd77402EnsureLib(generator);
+  return [rfd77402GetVar(block) + '.getMeasurementStatus()', generator.ORDER_FUNCTION_CALL];
 };
