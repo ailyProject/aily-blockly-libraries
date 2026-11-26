@@ -7,14 +7,14 @@ TI BQ27220 single-cell Li-Ion fuel gauge, supports voltage, current, temperature
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-ojoy_bq27220 |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Author | OpenJumper |
 | Source | https://github.com/kodediy/kode_bq27220-idf |
 | License | Original license |
 
 ## Supported Boards
 
-Arduino AVR, Arduino SAMD, ESP32, RP2040
+OJoy (ESP32-S3). The onboard BQ27220 uses the main Wire bus at address 0x55, with GPIO5 as SDA and GPIO4 as SCL.
 
 ## Description
 

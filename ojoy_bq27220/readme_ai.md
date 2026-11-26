@@ -4,7 +4,7 @@ TI BQ27220 single-cell Li-Ion fuel gauge, supports voltage, current, temperature
 
 ## Library Info
 - **Name**: @aily-project/lib-ojoy_bq27220
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 
