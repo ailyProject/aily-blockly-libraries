@@ -32,7 +32,7 @@ Arduino.forBlock['lsm303c_init'] = function(block, generator) {
   lsm303cEnsureLib(generator);
   var varName = block.getFieldValue('VAR') || 'imu6';
   generator.addVariable(varName, 'LSM303C ' + varName + ';');
-  return varName + '.begin();\n';
+  return 'Wire.begin();\n' + varName + '.begin();\n';
 };
 
 Arduino.forBlock['lsm303c_read_accel'] = function(block, generator) {
