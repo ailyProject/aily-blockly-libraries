@@ -7,7 +7,7 @@ Blockly wrapper for the SparkFun AS7265X 18-channel spectral triad.
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-as7265x |
-| Version | 0.0.2 |
+| Version | 0.0.3 |
 | Author | Nathan Seidle and Kevin Kuwata / SparkFun Electronics |
 | Source | N/A |
 | License | Original license |
