@@ -38,7 +38,7 @@ Arduino.forBlock['lidarv4_init'] = function(block, generator) {
 Arduino.forBlock['lidarv4_get_distance'] = function(block, generator) {
   lidarv4EnsureLib(generator);
   var varName = lidarv4GetVar(block);
-  return [varName + '.getDistance()', generator.ORDER_FUNCTION_CALL];
+  return [varName + '.getDistanceCm()', generator.ORDER_FUNCTION_CALL];
 };
 
 Arduino.forBlock['lidarv4_configure'] = function(block, generator) {
