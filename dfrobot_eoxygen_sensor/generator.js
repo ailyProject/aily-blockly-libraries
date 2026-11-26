@@ -34,7 +34,9 @@ Arduino.forBlock['dfrobot_eoxygen_sensor_init'] = function(block, generator) {
   dfrobot_eoxygen_sensorEnsureLibrary(generator);
   var varName = block.getFieldValue('VAR') || 'oxygen';
   var wire = block.getFieldValue('WIRE') || "Wire";
-  var addr = block.getFieldValue('ADDR') || "0x30";
+  // Keep published dropdown IDs so saved projects retain their DIP-switch position.
+  var addresses = { '0x30': '0x70', '0x31': '0x71', '0x32': '0x72', '0x33': '0x73' };
+  var addr = addresses[block.getFieldValue('ADDR')] || '0x70';
   var objectCode = "DFRobot_EOxygenSensor_I2C " + String(varName) + "(&" + String(wire) + ", " + String(addr) + ");";
   generator.addObject('dfrobot_eoxygen_sensor_object_' + varName, objectCode);
   dfrobot_eoxygen_sensorEnsureExtras(generator, varName);
