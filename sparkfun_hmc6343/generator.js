@@ -1,6 +1,6 @@
 function hmc6343EnsureLib(generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
-  generator.addLibrary('HMC6343', '#include <SparkFun_HMC6343_Arduino_Library/SFE_HMC6343.h>');
+  generator.addLibrary('HMC6343', '#include <SFE_HMC6343.h>');
 }
 
 function hmc6343GetVar(block) {
@@ -53,7 +53,8 @@ Arduino.forBlock['hmc6343_read_accel'] = function(block, generator) {
 Arduino.forBlock['hmc6343_get_value'] = function(block, generator) {
   hmc6343EnsureLib(generator);
   var fieldName = block.getFieldValue('FIELD') || 'heading';
-  return [hmc6343GetVar(block) + '.' + fieldName, generator.ORDER_MEMBER];
+  var measurement = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+  return [hmc6343GetVar(block) + '.value(SFE_HMC6343::Measurement::' + measurement + ')', generator.ORDER_MEMBER];
 };
 
 Arduino.forBlock['hmc6343_set_orientation'] = function(block, generator) {
@@ -68,6 +69,17 @@ Arduino.forBlock['hmc6343_sleep_control'] = function(block, generator) {
   if (mode === 'sleep') {
     return hmc6343GetVar(block) + '.enterSleep();\n';
   } else {
-    return hmc6343GetVar(block) + '.exitSleep();\n';
+    var sensor = hmc6343GetVar(block);
+    return sensor + '.exitSleep();\n' + sensor + '.exitStandby();\n';
   }
+};
+
+Arduino.forBlock['hmc6343_initialized'] = function(block, generator) {
+  hmc6343EnsureLib(generator);
+  return [hmc6343GetVar(block) + '.isInitialized()', generator.ORDER_MEMBER];
+};
+
+Arduino.forBlock['hmc6343_read_tilt'] = function(block, generator) {
+  hmc6343EnsureLib(generator);
+  return hmc6343GetVar(block) + '.readTilt();\n';
 };
