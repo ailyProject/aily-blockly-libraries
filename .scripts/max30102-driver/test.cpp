@@ -8,8 +8,10 @@ static uint32_t nowMs = 0;
 static int waveformSample = -1;
 unsigned long millis() { return nowMs; }
 void delay(unsigned long ms) { nowMs += ms; }
-void pinMode(int, int) {}
-int digitalRead(int) {
+static int configuredPin = -1;
+void pinMode(int pin, int) { configuredPin = pin; }
+int digitalRead(int pin) {
+  assert(pin == configuredPin);
   if (waveformSample < 0) return HIGH;
   const double phase = 2 * 3.141592653589793 * (waveformSample++ % 20) / 20.0;
   Wire.sample(uint32_t(60000 + 900*std::sin(phase)), uint32_t(80000 + 1800*std::sin(phase)));
@@ -62,6 +64,7 @@ int main() {
   assert(!maxim_max30102_read_temperature(&degree,&fraction) && degree==37 && fraction==1);
   Wire.failRegister=-1;
   assert(maxim_max30102_read_temperature(&degree,&fraction) && degree == -4 && fraction == 12);
+  assert(ailyMax30102Begin(23,22,0xc0) && configuredPin == 0xc0);
   waveformSample=0; assert(ailyMax30102Measure(5000));
   assert(_ailyMax30102HeartRate == 75 && _ailyMax30102SpO2Valid && _ailyMax30102HeartRateValid);
   waveformSample=-1; assert(!ailyMax30102Measure(5));

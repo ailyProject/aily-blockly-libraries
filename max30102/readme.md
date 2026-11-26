@@ -26,3 +26,5 @@ Blockly wrapper for the MAX30102 pulse oximeter library. It wraps MAX30102_by_RF
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
 
 Initialization checks the shared MAX3010x part ID (0x15) before configuration. Check initialization and measurement validity after power loss or a failed transfer. The reset block clears the initialization state; initialize again before measuring. FIFO reads publish the red and IR outputs together only after all six bytes arrive. Temperature is read after the conversion completes.
+
+OJ STM32F103C8 Nano 使用默认 Wire 总线，SDA 为 PB7，SCL 为 PB6。测量需要连接 INT，例如 PA0。ESP32-S3 使用所选的 SDA、SCL 和 INT 引脚。

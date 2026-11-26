@@ -10,7 +10,7 @@ function ensureMAX30102Library(generator) {
 function ensureMAX30102Support(generator) {
   ensureMAX30102Library(generator);
 
-  generator.addVariable('max30102_int_pin', 'int8_t _ailyMax30102IntPin = -1;');
+  generator.addVariable('max30102_int_pin', 'uint32_t _ailyMax30102IntPin = 0;');
   generator.addVariable('max30102_ir_buffer', 'uint32_t _ailyMax30102IrBuffer[BUFFER_SIZE];');
   generator.addVariable('max30102_red_buffer', 'uint32_t _ailyMax30102RedBuffer[BUFFER_SIZE];');
   generator.addVariable('max30102_last_red', 'uint32_t _ailyMax30102LastRed = 0;');
@@ -77,7 +77,7 @@ bool ailyMax30102Configure() {
   return true;
 }
 
-bool ailyMax30102Begin(uint8_t sdaPin, uint8_t sclPin, uint8_t intPin) {
+bool ailyMax30102Begin(uint32_t sdaPin, uint32_t sclPin, uint32_t intPin) {
   ailyMax30102Invalidate();
   _ailyMax30102IntPin = intPin;
   pinMode(_ailyMax30102IntPin, INPUT);
@@ -96,7 +96,7 @@ bool ailyMax30102Begin(uint8_t sdaPin, uint8_t sclPin, uint8_t intPin) {
 
 bool ailyMax30102Measure(uint32_t timeoutMs) {
   ailyMax30102Invalidate();
-  if (!_ailyMax30102Initialized || _ailyMax30102IntPin < 0) return false;
+  if (!_ailyMax30102Initialized) return false;
 
   uint32_t measureStartMs = millis();
   for (int32_t i = 0; i < BUFFER_SIZE; i++) {
