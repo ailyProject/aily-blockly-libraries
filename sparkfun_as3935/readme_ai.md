@@ -4,7 +4,7 @@ Blockly wrapper for the SparkFun AS3935 lightning detector.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-as3935
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
@@ -17,9 +17,9 @@ Blockly wrapper for the SparkFun AS3935 lightning detector.
 | `as3935_read_interrupt` | Value | VAR(field_variable) | `as3935_read_interrupt($as3935)` | `as3935.readInterruptReg()` |
 | `as3935_distance` | Value | VAR(field_variable) | `as3935_distance($as3935)` | `as3935.distanceToStorm()` |
 | `as3935_energy` | Value | VAR(field_variable) | `as3935_energy($as3935)` | `as3935.lightningEnergy()` |
-| `as3935_set_watchdog` | Statement | VAR(field_variable), VALUE(input_value) | `as3935_set_watchdog($as3935, math_number(0))` | `as3935.watchdogThreshold(1);` |
-| `as3935_set_noise` | Statement | VAR(field_variable), VALUE(input_value) | `as3935_set_noise($as3935, math_number(0))` | `as3935.setNoiseLevel(1);` |
-| `as3935_set_spike` | Statement | VAR(field_variable), VALUE(input_value) | `as3935_set_spike($as3935, math_number(0))` | `as3935.spikeRejection(1);` |
+| `as3935_set_watchdog` | Statement | VAR(field_variable), VALUE(input_value) | `as3935_set_watchdog($as3935, math_number(0))` | `as3935.watchdogThreshold(0);` |
+| `as3935_set_noise` | Statement | VAR(field_variable), VALUE(input_value) | `as3935_set_noise($as3935, math_number(0))` | `as3935.setNoiseLevel(0);` |
+| `as3935_set_spike` | Statement | VAR(field_variable), VALUE(input_value) | `as3935_set_spike($as3935, math_number(0))` | `as3935.spikeRejection(0);` |
 | `as3935_set_lightning_threshold` | Statement | VAR(field_variable), STRIKES(dropdown) | `as3935_set_lightning_threshold($as3935, "1")` | `as3935.lightningThreshold(1);` |
 | `as3935_mask_disturber` | Statement | VAR(field_variable), STATE(dropdown) | `as3935_mask_disturber($as3935, true)` | `as3935.maskDisturber(true);` |
 | `as3935_calibrate` | Statement | VAR(field_variable) | `as3935_calibrate($as3935)` | `as3935.calibrateOsc();` |
@@ -51,3 +51,5 @@ arduino_loop()
 1. **Variable**: `as3935_init_i2c("varName", ...)` creates variable `$varName`; pass `$varName` directly to `field_variable` slots; use `variables_get($varName)` only for `input_value` slots.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+The ready block caches the latest initialization result. Check interrupt and distance for 255 and energy for 4294967295 on transfer failure. Distance 63 is a valid out-of-range indication. Reinitialize after changing wiring.
