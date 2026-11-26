@@ -50,7 +50,7 @@ Arduino.forBlock['adafruit_ina237_ina238_init'] = function(block, generator) {
   adafruit_ina237_ina238EnsureExtras(generator, varName);
   generator.addSetupBegin('adafruit_ina237_ina238_wire_' + wire, wire + '.begin();');
   var beginCall = String(varName) + ".begin(" + String(addr) + ", &" + String(wire) + ")";
-  generator.addSetupBegin('adafruit_ina237_ina238_begin_' + varName, 'while (!(' + beginCall + ')) { delay(100); }');
+  generator.addSetupBegin('adafruit_ina237_ina238_begin_' + varName, beginCall + ';');
   return '';
 };
 
@@ -78,3 +78,13 @@ Arduino.forBlock['adafruit_ina237_ina238_adjust'] = function(block, generator) {
   return String(varName) + ".setShunt((float)" + String(value1) + ", (float)" + String(value2) + ");" + '\n';
 };
 
+
+Arduino.forBlock['adafruit_ina237_ina238_initialized'] = function(block, generator) {
+  adafruit_ina237_ina238EnsureLibrary(generator);
+  return [adafruit_ina237_ina238Variable(block) + '.isInitialized()', generator.ORDER_FUNCTION_CALL];
+};
+
+Arduino.forBlock['adafruit_ina237_ina238_retry'] = function(block, generator) {
+  adafruit_ina237_ina238EnsureLibrary(generator);
+  return adafruit_ina237_ina238Variable(block) + '.retryBegin();\n';
+};

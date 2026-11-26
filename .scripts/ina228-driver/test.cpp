@@ -9,7 +9,9 @@ Stream Serial;
 static void near(float observed, float expected) {
   assert(std::abs(observed - expected) <= std::max(1e-10f, std::abs(expected) * 1e-5f));
 }
+void checkIna237Family();
 int main() {
+  checkIna237Family();
   TwoWire bus;
   bus.address = 0x45;
   Adafruit_INA228 meter;

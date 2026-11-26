@@ -9,7 +9,7 @@ Blocks for INA237 and INA238 current, voltage and power monitors.
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-adafruit-ina237-ina238 |
-| Version | 0.1.1 |
+| Version | 0.1.2 |
 | Author | Adafruit |
 | Source | https://github.com/adafruit/Adafruit_INA237_INA238 |
 | License | BSD-3-Clause |
@@ -24,4 +24,6 @@ This package bundles the required driver source and generates initialization, re
 
 ## Quick Start
 
-Place the initialization block in setup, then use read, operation, and configuration blocks in the program flow.
+Select the model printed on the board. Setup tries once. Check initialization, retry after reconnecting, then calibrate the actual shunt. Failed measurements return NaN. Shunt voltage is in mV in Blockly (0.1.1 returned V). The Coder readShuntVoltage() method still returns V.
+
+[Driver behavior and units](readme_ai.md)

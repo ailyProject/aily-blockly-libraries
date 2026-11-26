@@ -9,7 +9,7 @@ Blocks for the INA228 high-precision current, voltage, power, energy and charge 
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-adafruit-ina228 |
-| Version | 0.1.1 |
+| Version | 0.1.2 |
 | Author | Adafruit |
 | Source | https://github.com/adafruit/Adafruit_INA228 |
 | License | BSD-3-Clause |

@@ -22,6 +22,6 @@ with tempfile.TemporaryDirectory() as temp:
     subprocess.run([os.environ.get("CXX", "c++"), "-std=c++11", "-DARDUINO=10819",
                     "-I", fixture, *[flag for d in drivers for flag in ("-I", d)],
                     *[p for d in drivers for p in sorted(d.glob("*.cpp"))],
-                    fixture / "test.cpp", "-o", exe], check=True)
+                    fixture / "test.cpp", fixture / "test-family.cpp", "-o", exe], check=True)
     subprocess.run([exe], check=True)
 print("INA228 recovery, measurement, copy, and INA237/238 identity checks passed.")
