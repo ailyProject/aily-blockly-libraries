@@ -4,7 +4,7 @@ Used to read BMM150 three-axis magnetic data and compass heading angle
 
 ## Library Info
 - **Name**: @aily-project/lib-seeed-bmm150
-- **Version**: 0.0.2
+- **Version**: 0.0.3
 
 ## Block Definitions
 

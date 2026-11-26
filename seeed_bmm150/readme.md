@@ -2,7 +2,7 @@
 
 ## Library Info
 
-@aily-project/lib-seeed-bmm150 0.0.2 · Seeed Studio Grove 3-Axis Digital Compass v2.
+@aily-project/lib-seeed-bmm150 0.0.3 · Seeed Studio Grove 3-Axis Digital Compass v2.
 
 ## Supported Boards
 
