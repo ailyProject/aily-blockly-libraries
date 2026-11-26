@@ -41,3 +41,7 @@ sfa40_value($sfa40, HCHO)
 1. `sfa40_read_data` returns status: `0` reliable, `1` not ready, `2` warming/not within specification, `3` communication or CRC failure.
 2. Values are updated when status is `0`, `1`, or `2`; status `3` means cached values should not be trusted.
 3. To read the serial number length, stop measurement, call `sfa40_read_serial`, then read `sfa40_serial_length`.
+
+## 0.1.1
+
+序列号读取遇到短读或 CRC 错误时长度为 0。下一次成功读取时，长度恢复为当前协议的有效字节数。
