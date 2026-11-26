@@ -4,7 +4,7 @@ QMC6309 magnetometer compass: heading, three-axis field and hard-iron calibratio
 
 ## Library Info
 - **Name**: @aily-project/lib-qmc6309
-- **Version**: 1.0.1
+- **Version**: 1.0.2
 
 ## Block Definitions
 
@@ -47,6 +47,8 @@ arduino_loop()
 
 ## Notes
 
-1. **Boards**: any ESP32 board. When the board’s `magnetometerConfig` names a QMC6309, `qmc6309_init` uses its I2C pins (IBox S31: SDA=IO0, SCL=IO1); otherwise the board’s I2C pins. The driver tries 0x7C, then 0x2C, and scans the bus first so a cold start is detected.
+1. **Boards**: ESP32 and STM32F1 boards. When the board’s `magnetometerConfig` names a QMC6309, `qmc6309_init` uses its I2C pins (IBox S31: SDA=IO0, SCL=IO1); otherwise the board’s I2C pins. The driver tries 0x7C, then 0x2C, and scans the bus first so a cold start is detected.
 2. **Heading**: 0–360°, `atan2(Y, X)` after removing the hard-iron offsets, plus the declination. Keep the board level; tilt and nearby metal or magnets change it. Reads within 10 ms share one sample.
 3. **Calibration**: `qmc6309_calibrate` blocks for the given seconds (1–120) while you turn the board flat a few circles, then applies the midpoints as offsets. Save `qmc6309_offset` X/Y/Z and restore them with `qmc6309_set_offsets` to skip it next time.
+
+The QST factory address is `0x7C`. The Aily driver also checks `0x2C` for compatibility. It requires chip ID `0x90` before writing either address. Each successful Blockly update publishes X, Y, Z and the corrected heading from one six-byte frame. On failure the valid flag is false and the numeric outputs retain their last complete frame (zero before the first sample).

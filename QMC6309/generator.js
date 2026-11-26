@@ -60,11 +60,10 @@ Arduino.qmc6309SampleEnsure = function (generator) {
     '  qmc6309_at = now;',
     '  qmc6309_sampled = true;',
     '  int16_t x, y, z;',
-    '  float heading;',
-    '  qmc6309_valid = qmc6309.readRaw(x, y, z) && qmc6309.readHeading(heading);',
+    '  qmc6309_valid = qmc6309.readRaw(x, y, z);',
     '  if (qmc6309_valid) {',
     '    qmc6309_x = x; qmc6309_y = y; qmc6309_z = z;',
-    '    qmc6309_heading = heading;',
+    '    qmc6309_heading = qmc6309.headingForSample(x, y);',
     '  }',
     '}',
   ].join('\n'));
