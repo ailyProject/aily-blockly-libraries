@@ -12,10 +12,10 @@ public:
   void begin() {}
   void beginTransmission(uint8_t address) { addr = address; tx.clear(); }
   size_t write(uint8_t b) { tx.push_back(b); return 1; }
-  uint8_t endTransmission() { wroteAt = clockMs; return endStatus; }
+  uint8_t endTransmission() { wroteAt = micros(); return endStatus; }
   size_t requestFrom(uint8_t, uint8_t n) {
     pos = 0;
-    return clockMs - wroteAt < minDelay ? 0 : std::min(response.size(), size_t(n));
+    return micros() - wroteAt < 1000 * minDelay ? 0 : std::min(response.size(), size_t(n));
   }
   int read() { return pos < response.size() ? response[pos++] : -1; }
 };

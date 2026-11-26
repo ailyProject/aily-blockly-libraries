@@ -51,6 +51,9 @@ int main() {
   reply({0xffff});uint16_t correction=99;test("frc-execution-error",!driver.forcedRecalibration(400,&correction)&&correction==99);
   reply({0x8000});Wire.response.back()^=1;test("frc-corrupt",!driver.forcedRecalibration(400,&correction)&&correction==99);
   Wire.endStatus=0;bool reset=driver.softRest();test("soft-reset-address",reset&&Wire.addr==0&&Wire.tx==std::vector<uint8_t>{6});
+  Wire.endStatus=3; const auto t=clockMs;
+  test("soft-reset-data-nack",driver.softRest() && Wire.addr==0 && clockMs-t>=10);
+  Wire.endStatus=2; test("soft-reset-address-nack",!driver.softRest());
   Wire.endStatus=3;bool woke=driver.wakeup();test("wake-data-nack",woke&&Wire.addr==0x64&&Wire.tx==std::vector<uint8_t>{0});
   Wire.endStatus=2;test("wake-address-nack",!driver.wakeup());
 }

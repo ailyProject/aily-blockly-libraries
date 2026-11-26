@@ -96,7 +96,7 @@ Arduino.forBlock['stcc4_measurement_control'] = function(block, generator) {
   var varName = stcc4GetVar(block);
   var action = block.getFieldValue('ACTION') || 'startMeasurement';
   if (action === 'singleMeasurement') {
-    return varName + '.singleMeasurement();\ndelay(500);\n';
+    return varName + '.singleMeasurement();\ndelay(501);\n';
   }
   return varName + '.' + action + '();\n';
 };
