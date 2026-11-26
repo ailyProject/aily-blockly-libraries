@@ -4,7 +4,7 @@ Emakefun NLCS21 color sensor module supports RGBC color detection, gain and inte
 
 ## Library Info
 - **Name**: @aily-project/lib-emakefun-nlcs21
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 
