@@ -159,7 +159,7 @@ Arduino.forBlock['lsm303agr_acc_get_axis'] = function(block, generator) {
   const funcDef =
     'int32_t ' + funcName + '(LSM303AGR_ACC_Sensor &sensor, int axis) {\n' +
     '  int32_t axes[3];\n' +
-    '  sensor.GetAxes(axes);\n' +
+    '  if (sensor.GetAxes(axes) != LSM303AGR_ACC_STATUS_OK) return INT32_MIN;\n' +
     '  return axes[axis];\n' +
     '}\n';
   generator.addFunction(funcName, funcDef, true);
@@ -179,7 +179,7 @@ Arduino.forBlock['lsm303agr_mag_get_axis'] = function(block, generator) {
   const funcDef =
     'int32_t ' + funcName + '(LSM303AGR_MAG_Sensor &sensor, int axis) {\n' +
     '  int32_t axes[3];\n' +
-    '  sensor.GetAxes(axes);\n' +
+    '  if (sensor.GetAxes(axes) != LSM303AGR_MAG_STATUS_OK) return INT32_MIN;\n' +
     '  return axes[axis];\n' +
     '}\n';
   generator.addFunction(funcName, funcDef, true);
@@ -198,7 +198,7 @@ Arduino.forBlock['lsm303agr_acc_get_temperature'] = function(block, generator) {
   const funcDef =
     'float ' + funcName + '(LSM303AGR_ACC_Sensor &sensor) {\n' +
     '  float temperature;\n' +
-    '  sensor.GetTemperature(&temperature);\n' +
+    '  if (sensor.GetTemperature(&temperature) != LSM303AGR_ACC_STATUS_OK) return NAN;\n' +
     '  return temperature;\n' +
     '}\n';
   generator.addFunction(funcName, funcDef, true);
@@ -206,6 +206,12 @@ Arduino.forBlock['lsm303agr_acc_get_temperature'] = function(block, generator) {
 
   return [funcName + '(' + varName + ')', generator.ORDER_FUNCTION_CALL];
 };
+
+function ensureLSM303AGRFilter(generator) {
+  ensureLibrary(generator, 'madgwick_ahrs', '#include <MadgwickAHRS.h>');
+  generator.addObject('_lsm303agr_ahrs_filter', 'Madgwick _lsm303agr_ahrs_filter;');
+  generator.addObject('_lsm303agr_ahrs_valid', 'bool _lsm303agr_ahrs_valid = false;');
+}
 
 // ============ AHRS姿态解算 - 更新 ============
 Arduino.forBlock['lsm303agr_ahrs_update'] = function(block, generator) {
@@ -217,18 +223,17 @@ Arduino.forBlock['lsm303agr_ahrs_update'] = function(block, generator) {
   // 确保库引用
   ensureLSM303AGRLibraries(generator, 'ACC');
   ensureLSM303AGRLibraries(generator, 'MAG');
-  ensureLibrary(generator, 'madgwick_ahrs', '#include <MadgwickAHRS.h>');
-
-  // 添加Madgwick滤波器全局对象
-  generator.addObject('_lsm303agr_ahrs_filter', 'Madgwick _lsm303agr_ahrs_filter;');
+  ensureLSM303AGRFilter(generator);
 
   // 添加AHRS更新辅助函数（使用Madgwick滤波器，无陀螺仪时gyro传0）
   const funcName = '_lsm303agr_ahrs_update';
   const funcDef =
     'void ' + funcName + '(LSM303AGR_ACC_Sensor &acc, LSM303AGR_MAG_Sensor &mag) {\n' +
     '  int32_t accAxes[3], magAxes[3];\n' +
-    '  acc.GetAxes(accAxes);\n' +
-    '  mag.GetAxes(magAxes);\n' +
+    '  _lsm303agr_ahrs_valid = acc.GetAxes(accAxes) == LSM303AGR_ACC_STATUS_OK &&\n' +
+    '      mag.GetAxes(magAxes) == LSM303AGR_MAG_STATUS_OK &&\n' +
+    '      (accAxes[0] || accAxes[1] || accAxes[2]) && (magAxes[0] || magAxes[1] || magAxes[2]);\n' +
+    '  if (!_lsm303agr_ahrs_valid) return;\n' +
     '  _lsm303agr_ahrs_filter.update(\n' +
     '    0, 0, 0,\n' +
     '    accAxes[0] / 1000.0f, accAxes[1] / 1000.0f, accAxes[2] / 1000.0f,\n' +
@@ -249,7 +254,7 @@ Arduino.forBlock['lsm303agr_ahrs_update'] = function(block, generator) {
 Arduino.forBlock['lsm303agr_ahrs_get_angle'] = function(block, generator) {
   const angle = block.getFieldValue('ANGLE') || 'ROLL';
 
-  ensureLibrary(generator, 'madgwick_ahrs', '#include <MadgwickAHRS.h>');
+  ensureLSM303AGRFilter(generator);
 
   let methodCall;
   if (angle === 'ROLL') {
@@ -260,7 +265,7 @@ Arduino.forBlock['lsm303agr_ahrs_get_angle'] = function(block, generator) {
     methodCall = '_lsm303agr_ahrs_filter.getYaw()';
   }
 
-  return [methodCall, generator.ORDER_FUNCTION_CALL];
+  return ['(_lsm303agr_ahrs_valid ? ' + methodCall + ' : NAN)', generator.ORDER_ATOMIC];
 };
 
 // ============ 引脚信息扩展 ============
