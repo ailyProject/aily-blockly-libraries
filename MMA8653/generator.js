@@ -16,7 +16,6 @@ Arduino.forBlock['mma8653_init'] = function (block, generator) {
     var initCode = 'Wire.begin();\n';
     initCode += 'if (!accel.init(' + range + ', ' + resolution + ', ' + dataRate + ')) {\n';
     initCode += '  Serial.println("MMA8653 not found! Check wiring.");\n';
-    initCode += '  while(1);\n';
     initCode += '}\n';
 
     generator.addSetupBegin('mma8653_init', initCode);
@@ -46,7 +45,7 @@ Arduino.forBlock['mma8653_read_x'] = function (block, generator) {
     generator.addVariable('mma8653_z', 'int16_t mma8653_z;');
 
     var funcCode = 'int16_t mma8653_getX() {\n';
-    funcCode += '  accel.readSensor(&mma8653_x, &mma8653_y, &mma8653_z);\n';
+    funcCode += '  if (!accel.tryReadSensor(&mma8653_x, &mma8653_y, &mma8653_z)) return INT16_MIN;\n';
     funcCode += '  return mma8653_x;\n';
     funcCode += '}';
 
@@ -63,7 +62,7 @@ Arduino.forBlock['mma8653_read_y'] = function (block, generator) {
     generator.addVariable('mma8653_z', 'int16_t mma8653_z;');
 
     var funcCode = 'int16_t mma8653_getY() {\n';
-    funcCode += '  accel.readSensor(&mma8653_x, &mma8653_y, &mma8653_z);\n';
+    funcCode += '  if (!accel.tryReadSensor(&mma8653_x, &mma8653_y, &mma8653_z)) return INT16_MIN;\n';
     funcCode += '  return mma8653_y;\n';
     funcCode += '}';
 
@@ -80,7 +79,7 @@ Arduino.forBlock['mma8653_read_z'] = function (block, generator) {
     generator.addVariable('mma8653_z', 'int16_t mma8653_z;');
 
     var funcCode = 'int16_t mma8653_getZ() {\n';
-    funcCode += '  accel.readSensor(&mma8653_x, &mma8653_y, &mma8653_z);\n';
+    funcCode += '  if (!accel.tryReadSensor(&mma8653_x, &mma8653_y, &mma8653_z)) return INT16_MIN;\n';
     funcCode += '  return mma8653_z;\n';
     funcCode += '}';
 
@@ -103,7 +102,8 @@ Arduino.forBlock['mma8653_read_xyz'] = function (block, generator) {
     generator.addVariable(varY, 'int16_t ' + varY + ';');
     generator.addVariable(varZ, 'int16_t ' + varZ + ';');
 
-    var code = 'accel.readSensor(&' + varX + ', &' + varY + ', &' + varZ + ');\n';
+    var code = 'if (!accel.tryReadSensor(&' + varX + ', &' + varY + ', &' + varZ + ')) {\n'
+        + '  ' + varX + ' = ' + varY + ' = ' + varZ + ' = INT16_MIN;\n}\n';
 
     return code;
 };
@@ -156,7 +156,7 @@ Arduino.forBlock['mma8653_get_roll'] = function (block, generator) {
     ensureMMA8653TiltVars(generator);
 
     var funcCode = 'float mma8653_getRoll() {\n';
-    funcCode += '  accel.readSensor(&mma8653_x, &mma8653_y, &mma8653_z);\n';
+    funcCode += '  if (!accel.tryReadSensor(&mma8653_x, &mma8653_y, &mma8653_z)) return NAN;\n';
     funcCode += '  return atan2((float)mma8653_y, (float)mma8653_z) * 180.0 / PI;\n';
     funcCode += '}';
 
@@ -169,7 +169,7 @@ Arduino.forBlock['mma8653_get_pitch'] = function (block, generator) {
     ensureMMA8653TiltVars(generator);
 
     var funcCode = 'float mma8653_getPitch() {\n';
-    funcCode += '  accel.readSensor(&mma8653_x, &mma8653_y, &mma8653_z);\n';
+    funcCode += '  if (!accel.tryReadSensor(&mma8653_x, &mma8653_y, &mma8653_z)) return NAN;\n';
     funcCode += '  return atan2(-(float)mma8653_x, sqrt((float)mma8653_y * mma8653_y + (float)mma8653_z * mma8653_z)) * 180.0 / PI;\n';
     funcCode += '}';
 
@@ -182,7 +182,7 @@ Arduino.forBlock['mma8653_get_tilt'] = function (block, generator) {
     ensureMMA8653TiltVars(generator);
 
     var funcCode = 'float mma8653_getTilt() {\n';
-    funcCode += '  accel.readSensor(&mma8653_x, &mma8653_y, &mma8653_z);\n';
+    funcCode += '  if (!accel.tryReadSensor(&mma8653_x, &mma8653_y, &mma8653_z)) return NAN;\n';
     funcCode += '  float g = sqrt((float)mma8653_x * mma8653_x + (float)mma8653_y * mma8653_y + (float)mma8653_z * mma8653_z);\n';
     funcCode += '  if (g == 0) return 0;\n';
     funcCode += '  return acos((float)mma8653_z / g) * 180.0 / PI;\n';
