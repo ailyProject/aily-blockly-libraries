@@ -4,13 +4,13 @@ Blockly wrapper for SparkFun LSM6DSO 6DoF IMU (accel, gyro, temperature) via I2C
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-lsm6dso
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
 | Block Type | Connection | Parameters (block.json order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `lsm6dso_init` | Statement | VAR(field_input) | `lsm6dso_init("imu")` | `imu.begin(); ↵ imu.initialize(BASIC_SETTINGS);` |
+| `lsm6dso_init` | Statement | VAR(field_input) | `lsm6dso_init("imu")` | `Wire.begin(); ↵ if (imu.begin()) { ↵ imu.initialize(BASIC_SETTINGS); ↵ }` |
 | `lsm6dso_get_accel` | Value | VAR(field_variable), AXIS(dropdown) | `lsm6dso_get_accel($imu, X)` | `imu.readFloatAccelX()` |
 | `lsm6dso_get_gyro` | Value | VAR(field_variable), AXIS(dropdown) | `lsm6dso_get_gyro($imu, X)` | `imu.readFloatGyroX()` |
 | `lsm6dso_get_temp_c` | Value | VAR(field_variable) | `lsm6dso_get_temp_c($imu)` | `imu.readTempC()` |

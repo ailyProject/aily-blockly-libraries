@@ -32,7 +32,7 @@ Arduino.forBlock['lsm6dso_init'] = function(block, generator) {
   lsm6dsoEnsureLib(generator);
   var varName = block.getFieldValue('VAR') || 'imu';
   generator.addVariable(varName, 'LSM6DSO ' + varName + ';');
-  return varName + '.begin();\n' + varName + '.initialize(BASIC_SETTINGS);\n';
+  return 'Wire.begin();\nif (' + varName + '.begin()) {\n  ' + varName + '.initialize(BASIC_SETTINGS);\n}\n';
 };
 
 Arduino.forBlock['lsm6dso_get_accel'] = function(block, generator) {
