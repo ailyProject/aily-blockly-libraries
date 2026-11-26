@@ -5,6 +5,7 @@ Arduino.forBlock['mt6701_init'] = function(block, generator) {
   generator.addLibrary('#include "MT6701.h"', '#include "MT6701.h"');
   generator.addObject(objectName, 'MT6701 ' + objectName + ';');
   generator.addSetupBegin(objectName + '_begin', objectName + '.begin();');
+  generator.addLoopBegin(objectName + '_poll', objectName + '.poll();');
   
   return '';
 };
@@ -18,6 +19,7 @@ Arduino.forBlock['mt6701_init_advanced'] = function(block, generator) {
   generator.addLibrary('#include "MT6701.h"', '#include "MT6701.h"');
   generator.addObject(objectName, 'MT6701 ' + objectName + '(' + address + ', ' + interval + ');');
   generator.addSetupBegin(objectName + '_begin', objectName + '.begin();');
+  generator.addLoopBegin(objectName + '_poll', objectName + '.poll();');
   
   return '';
 };
