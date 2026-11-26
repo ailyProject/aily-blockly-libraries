@@ -7,7 +7,7 @@ Emakefun NLCS11 color sensor module supports RGBC color detection, gain and inte
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-emakefun-nlcs11 |
-| Version | 1.0.1 |
+| Version | 1.0.2 |
 | Author | Emakefun |
 | Source | https://github.com/emakefun-arduino-library/emakefun_color_sensor_nlcs11 |
 | License | Original license |
