@@ -60,7 +60,7 @@ Arduino.forBlock['as726x_read_calibrated'] = function(block, generator) {
 };
 
 Arduino.forBlock['as726x_read_temperature'] = function(block, generator) {
-  return [as726xGetVar(block) + '.getTemperature()', generator.ORDER_FUNCTION_CALL];
+  return [as726xGetVar(block) + '.readTemperatureCelsius()', generator.ORDER_FUNCTION_CALL];
 };
 
 Arduino.forBlock['as726x_set_gain'] = function(block) {
