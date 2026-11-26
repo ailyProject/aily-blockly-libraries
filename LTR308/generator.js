@@ -101,7 +101,6 @@ Arduino.forBlock['ltr308_init_with_wire'] = function(block, generator) {
       } catch (e) {}
       generator.addSetup(wireBeginKey, pinComment + wire + '.begin();\n');
     }
-    setupCode += 'if (' + varName + '.begin(&' + wire + ')) {\n';
   } else {
     const wireBeginKey = 'wire_begin_Wire';
     var isAlreadyInitialized = false;
@@ -140,16 +139,12 @@ Arduino.forBlock['ltr308_init_with_wire'] = function(block, generator) {
       } catch (e) {}
       generator.addSetup(wireBeginKey, pinComment + 'Wire.begin();\n');
     }
-    setupCode += 'if (' + varName + '.begin()) {\n';
   }
   
+  setupCode += 'if (' + varName + '.beginConfigured(&' + wire + ', ' + gain + ', ' + integrationTime + ', ' + measurementRate + ')) {\n';
   setupCode += '  Serial.println("LTR308传感器 ' + varName + ' 初始化成功!");\n';
-  setupCode += '  // 设置传感器参数\n';
-  setupCode += '  ' + varName + '.setGain(' + gain + ');\n';
-  setupCode += '  ' + varName + '.setIntegrationTime(' + integrationTime + ');\n';
-  setupCode += '  ' + varName + '.setMeasurementRate(' + measurementRate + ');\n';
   setupCode += '} else {\n';
-  setupCode += '  Serial.println("警告: LTR308传感器 ' + varName + ' 初始化失败，请检查接线!");\n';
+  setupCode += '  Serial.println("警告: LTR308传感器 ' + varName + ' 初始化失败，' + (measurementRate === 'LTR308_RATE_200MS' ? '请选择支持的测量周期' : '请检查接线和配置') + '!");\n';
   setupCode += '}\n';
   
   return setupCode;

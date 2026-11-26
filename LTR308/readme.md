@@ -7,7 +7,7 @@ LTR308 digital light intensity sensor control library, suitable for ESP32 develo
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-ltr308 |
-| Version | 0.0.1 |
+| Version | 0.0.2 |
 | Author | VonWell |
 | Source | https://github.com/dantudose/LTR308 |
 | License | Original license |
@@ -24,3 +24,5 @@ LTR308 digital light intensity sensor control library, suitable for ESP32 develo
 
 1. Enable `@aily-project/lib-ltr308` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+
+A failed or short read returns `UINT32_MAX` for raw counts and `NaN` for lux. Darkness returns zero. The legacy 200 ms repeat setting fails initialization. A 200 ms integration time is supported.
