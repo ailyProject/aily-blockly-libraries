@@ -29,7 +29,7 @@ Arduino.forBlock['zx_sensor_init'] = function(block, generator) {
   zxSensorAttachVar(block);
   zxSensorEnsureLib(generator);
   var varName = block.getFieldValue('VAR') || 'gesture';
-  generator.addVariable(varName, 'ZX_Sensor ' + varName + ';');
+  generator.addVariable(varName, 'ZX_Sensor ' + varName + '(0x10);');
   return 'Wire.begin();\n' + varName + '.init();\n';
 };
 

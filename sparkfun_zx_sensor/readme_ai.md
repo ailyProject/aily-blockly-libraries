@@ -4,7 +4,7 @@ Blockly wrapper for the SparkFun ZX distance and gesture sensor.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-zx-sensor
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
@@ -35,3 +35,5 @@ arduino_loop()
 1. **Variable**: `zx_sensor_init("varName", ...)` creates variable `$varName`; pass `$varName` directly to `field_variable` slots; use `variables_get($varName)` only for `input_value` slots.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+The default I²C address is `0x10`. Failed or incomplete transfers return false for availability and 255 for coordinates and gestures. Native `init()` returns false on version, configuration or transfer errors and can be retried after reconnecting.
