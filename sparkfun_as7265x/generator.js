@@ -66,7 +66,7 @@ Arduino.forBlock['as7265x_read_raw'] = function(block, generator) {
 };
 
 Arduino.forBlock['as7265x_read_temperature'] = function(block, generator) {
-  return [as7265xGetVar(block) + '.getTemperature(' + (block.getFieldValue('DEVICE') || 'AS72651_NIR') + ')', generator.ORDER_FUNCTION_CALL];
+  return [as7265xGetVar(block) + '.readTemperatureCelsius(' + (block.getFieldValue('DEVICE') || 'AS72651_NIR') + ')', generator.ORDER_FUNCTION_CALL];
 };
 
 Arduino.forBlock['as7265x_set_gain'] = function(block) {

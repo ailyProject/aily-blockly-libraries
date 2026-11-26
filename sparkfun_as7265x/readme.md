@@ -7,7 +7,7 @@ Blockly wrapper for the SparkFun AS7265X 18-channel spectral triad.
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-as7265x |
-| Version | 0.0.1 |
+| Version | 0.0.2 |
 | Author | Nathan Seidle and Kevin Kuwata / SparkFun Electronics |
 | Source | N/A |
 | License | Original license |
@@ -24,3 +24,5 @@ Blockly wrapper for the SparkFun AS7265X 18-channel spectral triad.
 
 1. Enable `@aily-project/lib-sparkfun-as7265x` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+
+Check begin() for the complete triad. isConnected() checks only the I²C address. On failure raw channels return -1, temperature returns -128 and calibrated channels return NaN. Use lastOperationSucceeded() to check commands. Reinitialize after reconnecting.

@@ -4,7 +4,7 @@ Blockly wrapper for the SparkFun AS7265X 18-channel spectral triad.
 
 ## Library Info
 - **Name**: @aily-project/lib-sparkfun-as7265x
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
@@ -17,10 +17,10 @@ Blockly wrapper for the SparkFun AS7265X 18-channel spectral triad.
 | `as7265x_data_available` | Value | VAR(field_variable) | `as7265x_data_available($as7265x)` | `as7265x.dataAvailable()` |
 | `as7265x_read_calibrated` | Value | VAR(field_variable), CHANNEL(dropdown) | `as7265x_read_calibrated($as7265x, getCalibratedA)` | `as7265x.getCalibratedA()` |
 | `as7265x_read_raw` | Value | VAR(field_variable), CHANNEL(dropdown) | `as7265x_read_raw($as7265x, getA)` | `as7265x.getA()` |
-| `as7265x_read_temperature` | Value | VAR(field_variable), DEVICE(dropdown) | `as7265x_read_temperature($as7265x, AS72651_NIR)` | `as7265x.getTemperature(AS72651_NIR)` |
+| `as7265x_read_temperature` | Value | VAR(field_variable), DEVICE(dropdown) | `as7265x_read_temperature($as7265x, AS72651_NIR)` | `as7265x.readTemperatureCelsius(AS72651_NIR)` |
 | `as7265x_set_gain` | Statement | VAR(field_variable), GAIN(dropdown) | `as7265x_set_gain($as7265x, AS7265X_GAIN_1X)` | `as7265x.setGain(AS7265X_GAIN_1X);` |
 | `as7265x_set_measurement_mode` | Statement | VAR(field_variable), MODE(dropdown) | `as7265x_set_measurement_mode($as7265x, AS7265X_MEASUREMENT_MODE_4CHAN)` | `as7265x.setMeasurementMode(AS7265X_MEASUREMENT_MODE_4CHAN);` |
-| `as7265x_set_integration_cycles` | Statement | VAR(field_variable), CYCLES(input_value) | `as7265x_set_integration_cycles($as7265x, math_number(0))` | `as7265x.setIntegrationCycles(1);` |
+| `as7265x_set_integration_cycles` | Statement | VAR(field_variable), CYCLES(input_value) | `as7265x_set_integration_cycles($as7265x, math_number(0))` | `as7265x.setIntegrationCycles(0);` |
 | `as7265x_bulb` | Statement | VAR(field_variable), DEVICE(dropdown), STATE(dropdown) | `as7265x_bulb($as7265x, AS72651_NIR, ON)` | `as7265x.enableBulb(AS72651_NIR);` |
 | `as7265x_set_bulb_current` | Statement | VAR(field_variable), DEVICE(dropdown), CURRENT(dropdown) | `as7265x_set_bulb_current($as7265x, AS72651_NIR, AS7265X_LED_CURRENT_LIMIT_12_5MA)` | `as7265x.setBulbCurrent(AS7265X_LED_CURRENT_LIMIT_12_5MA, AS72651_NIR);` |
 
