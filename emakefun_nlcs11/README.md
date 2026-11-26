@@ -7,7 +7,7 @@ Emakefun NLCS11 color sensor module supports RGBC color detection, gain and inte
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-emakefun-nlcs11 |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Author | Emakefun |
 | Source | https://github.com/emakefun-arduino-library/emakefun_color_sensor_nlcs11 |
 | License | Original license |
@@ -24,3 +24,5 @@ Emakefun NLCS11 color sensor module supports RGBC color detection, gain and inte
 
 1. Enable `@aily-project/lib-emakefun-nlcs11` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+
+GetColor returns false while integration is pending and retains the previous output during that wait. A failed I²C transaction or a zero clear channel returns false and clears the output. Each successful update uses one complete eight-byte RGBC frame.

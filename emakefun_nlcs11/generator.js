@@ -10,7 +10,9 @@ Arduino.forBlock['nlcs11_init'] = function(block, generator) {
   if (!block._nlcs11VarMonitorAttached) {
     block._nlcs11VarMonitorAttached = true;
     block._nlcs11VarLastName = block.getFieldValue('VAR') || 'colorSensor';
-    registerVariableToBlockly(block._nlcs11VarLastName, 'ColorSensorNlcs11');
+    if (typeof registerVariableToBlockly === 'function') {
+      registerVariableToBlockly(block._nlcs11VarLastName, 'ColorSensorNlcs11');
+    }
 
     const varField = block.getField('VAR');
     if (varField) {
@@ -21,7 +23,9 @@ Arduino.forBlock['nlcs11_init'] = function(block, generator) {
         }
         const oldName = block._nlcs11VarLastName;
         if (newName && newName !== oldName) {
-          renameVariableInBlockly(block, oldName, newName, 'ColorSensorNlcs11');
+          if (typeof renameVariableInBlockly === 'function') {
+            renameVariableInBlockly(block, oldName, newName, 'ColorSensorNlcs11');
+          }
           block._nlcs11VarLastName = newName;
         }
       };
@@ -34,7 +38,6 @@ Arduino.forBlock['nlcs11_init'] = function(block, generator) {
 
   // 添加库和变量
   generator.addLibrary('ColorSensorNlcs11', '#include <color_sensor_nlcs11.h>');
-  registerVariableToBlockly(varName, 'ColorSensorNlcs11');
   generator.addVariable(varName, 'emakefun::ColorSensorNlcs11 ' + varName + '(emakefun::ColorSensorNlcs11::' + gain + ', emakefun::ColorSensorNlcs11::' + integrationTime + ');');
   generator.addVariable(varName + '_color', 'emakefun::ColorSensorNlcs11::Color ' + varName + '_color;');
 
