@@ -28,17 +28,12 @@ function lsm9ds1AttachVar(block) {
   };
 }
 
-// calcGyro / calcAccel / calcMag helper — converts raw to float
-function lsm9ds1AddCalcHelpers(varName, generator) {
-  // nothing needed; library provides calcGyro(gx) etc.
-}
-
 Arduino.forBlock['lsm9ds1_init'] = function(block, generator) {
   lsm9ds1AttachVar(block);
   lsm9ds1EnsureLib(generator);
   var varName = block.getFieldValue('VAR') || 'imu';
   generator.addVariable(varName, 'LSM9DS1 ' + varName + ';');
-  return varName + '.begin();\n';
+  return 'Wire.begin();\n' + varName + '.begin();\n';
 };
 
 Arduino.forBlock['lsm9ds1_read_gyro'] = function(block, generator) {
@@ -60,22 +55,22 @@ Arduino.forBlock['lsm9ds1_get_gyro_axis'] = function(block, generator) {
   lsm9ds1EnsureLib(generator);
   var varName = lsm9ds1GetVar(block);
   var axis = block.getFieldValue('AXIS') || 'X';
-  var rawMap = { 'X': 'gx', 'Y': 'gy', 'Z': 'gz' };
-  return [varName + '.calcGyro(' + varName + '.' + rawMap[axis] + ')', generator.ORDER_FUNCTION_CALL];
+  var selected = { X: 'X_AXIS', Y: 'Y_AXIS', Z: 'Z_AXIS' }[axis] || 'X_AXIS';
+  return [varName + '.angularRateDps(' + selected + ')', generator.ORDER_FUNCTION_CALL];
 };
 
 Arduino.forBlock['lsm9ds1_get_accel_axis'] = function(block, generator) {
   lsm9ds1EnsureLib(generator);
   var varName = lsm9ds1GetVar(block);
   var axis = block.getFieldValue('AXIS') || 'X';
-  var rawMap = { 'X': 'ax', 'Y': 'ay', 'Z': 'az' };
-  return [varName + '.calcAccel(' + varName + '.' + rawMap[axis] + ')', generator.ORDER_FUNCTION_CALL];
+  var selected = { X: 'X_AXIS', Y: 'Y_AXIS', Z: 'Z_AXIS' }[axis] || 'X_AXIS';
+  return [varName + '.accelerationG(' + selected + ')', generator.ORDER_FUNCTION_CALL];
 };
 
 Arduino.forBlock['lsm9ds1_get_mag_axis'] = function(block, generator) {
   lsm9ds1EnsureLib(generator);
   var varName = lsm9ds1GetVar(block);
   var axis = block.getFieldValue('AXIS') || 'X';
-  var rawMap = { 'X': 'mx', 'Y': 'my', 'Z': 'mz' };
-  return [varName + '.calcMag(' + varName + '.' + rawMap[axis] + ')', generator.ORDER_FUNCTION_CALL];
+  var selected = { X: 'X_AXIS', Y: 'Y_AXIS', Z: 'Z_AXIS' }[axis] || 'X_AXIS';
+  return [varName + '.magneticFieldGauss(' + selected + ')', generator.ORDER_FUNCTION_CALL];
 };
