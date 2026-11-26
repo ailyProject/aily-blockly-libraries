@@ -50,3 +50,9 @@ arduino_loop()
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
 4. **Current sign**: positive = charging, negative = discharging
 5. **Temperature**: returns Celsius (°C)
+
+## LinkBit V2 onboard gauge
+
+GPIO9 selects the gauge at I²C address `0x55` when high and the CN2 connector when low. Both board variants use GPIO20 for SDA and GPIO21 for SCL. The factory board template uses USB CDC for `Serial`.
+
+`bool setDesignCapacity(uint16_t mAh)` updates Profile 1 in volatile gauge RAM. Check its return value and use `getDesignCapacity()` to read the active setting. A disconnected gauge or an unsuccessful update returns `false`. The Wire path supports factory-sealed devices and restores their sealed state after the operation. The native IDF path requires the owner to unseal a sealed device before updating its capacity.
