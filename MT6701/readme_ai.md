@@ -4,7 +4,7 @@ MT6701 magnetic rotary encoder library, supports angle reading, RPM calculation 
 
 ## Library Info
 - **Name**: @aily-project/lib-mt6701
-- **Version**: 1.1.0
+- **Version**: 1.1.1
 
 ## Block Definitions
 
