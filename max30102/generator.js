@@ -50,12 +50,17 @@ bool ailyMax30102SetSpO2Config(SampleAveraging averaging, SPO2_ADC_Range adcRang
   return ailyMax30102ApplySpO2Config();
 }
 
+void ailyMax30102Invalidate() {
+  _ailyMax30102LastOK = false;
+  _ailyMax30102SpO2Valid = 0;
+  _ailyMax30102HeartRateValid = 0;
+}
+
 bool ailyMax30102Configure() {
-  maxim_max30102_reset();
-  delay(1000);
+  if (!maxim_max30102_reset()) return false;
 
   uint8_t dummy;
-  maxim_max30102_read_reg(REG_INTR_STATUS_1, &dummy);
+  if (!maxim_max30102_read_reg(REG_INTR_STATUS_1, &dummy)) return false;
 
   if (!maxim_max30102_write_reg(REG_INTR_ENABLE_1, 0xc0)) return false;
   if (!maxim_max30102_write_reg(REG_INTR_ENABLE_2, 0x00)) return false;
@@ -73,6 +78,7 @@ bool ailyMax30102Configure() {
 }
 
 bool ailyMax30102Begin(uint8_t sdaPin, uint8_t sclPin, uint8_t intPin) {
+  ailyMax30102Invalidate();
   _ailyMax30102IntPin = intPin;
   pinMode(_ailyMax30102IntPin, INPUT);
 #if defined(ESP32)
@@ -89,13 +95,12 @@ bool ailyMax30102Begin(uint8_t sdaPin, uint8_t sclPin, uint8_t intPin) {
 }
 
 bool ailyMax30102Measure(uint32_t timeoutMs) {
-  if (!_ailyMax30102Initialized || _ailyMax30102IntPin < 0) {
-    _ailyMax30102LastOK = false;
-    return false;
-  }
+  ailyMax30102Invalidate();
+  if (!_ailyMax30102Initialized || _ailyMax30102IntPin < 0) return false;
 
   uint32_t measureStartMs = millis();
   for (int32_t i = 0; i < BUFFER_SIZE; i++) {
+    if (timeoutMs && uint32_t(millis() - measureStartMs) >= timeoutMs) return false;
     while (digitalRead(_ailyMax30102IntPin) == HIGH) {
       if (timeoutMs > 0 && (millis() - measureStartMs) > timeoutMs) {
         _ailyMax30102LastOK = false;
@@ -125,9 +130,11 @@ bool ailyMax30102Measure(uint32_t timeoutMs) {
 
   int8_t integerTemperature = 0;
   uint8_t fractionalTemperature = 0;
-  if (maxim_max30102_read_temperature(&integerTemperature, &fractionalTemperature)) {
-    _ailyMax30102Temperature = integerTemperature + ((float)fractionalTemperature) / 16.0;
+  if (!maxim_max30102_read_temperature(&integerTemperature, &fractionalTemperature)) {
+    ailyMax30102Invalidate();
+    return false;
   }
+  _ailyMax30102Temperature = integerTemperature + ((float)fractionalTemperature) / 16.0;
 
   _ailyMax30102LastOK = (_ailyMax30102SpO2Valid == 1 && _ailyMax30102HeartRateValid == 1);
   return _ailyMax30102LastOK;
@@ -180,15 +187,14 @@ Arduino.forBlock['max30102_is_valid'] = function(block, generator) {
 
 Arduino.forBlock['max30102_reset'] = function(block, generator) {
   ensureMAX30102Support(generator);
-  return 'maxim_max30102_reset();\n';
+  return 'if (_ailyMax30102Initialized) maxim_max30102_reset();\n_ailyMax30102Initialized = false;\nailyMax30102Invalidate();\n';
 };
 
 Arduino.forBlock['max30102_set_led_amplitude'] = function(block, generator) {
   ensureMAX30102Support(generator);
   const led1 = generator.valueToCode(block, 'LED1', generator.ORDER_ATOMIC) || '36';
   const led2 = generator.valueToCode(block, 'LED2', generator.ORDER_ATOMIC) || '36';
-  return 'setLED1PulseAmplitude((uint8_t)(' + led1 + '));\n' +
-    'setLED2PulseAmplitude((uint8_t)(' + led2 + '));\n';
+  return 'if (_ailyMax30102Initialized) {\n  setLED1PulseAmplitude((uint8_t)(' + led1 + '));\n  setLED2PulseAmplitude((uint8_t)(' + led2 + '));\n}\n';
 };
 
 Arduino.forBlock['max30102_config_spo2'] = function(block, generator) {

@@ -4,7 +4,7 @@ Blockly wrapper for the MAX30102 pulse oximeter library. It wraps MAX30102_by_RF
 
 ## Library Info
 - **Name**: @aily-project/lib-max30102
-- **Version**: 0.0.2
+- **Version**: 0.0.3
 
 ## Block Definitions
 
@@ -47,3 +47,5 @@ arduino_loop()
 
 1. **Parameter order**: ABS parameters follow `block.json` args order.
 2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+Initialization checks the shared MAX3010x part ID (0x15) before configuration. Check initialization and measurement validity after power loss or a failed transfer. The reset block clears the initialization state; initialize again before measuring. FIFO reads publish the red and IR outputs together only after all six bytes arrive. Temperature is read after the conversion completes.
