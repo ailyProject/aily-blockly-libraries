@@ -2,7 +2,6 @@ Arduino.forBlock['five_line_tracker_v3_setup'] = function(block, generator) {
   if (!block._varMonitorAttached) {
     block._varMonitorAttached = true;
     block._varLastName = block.getFieldValue('VAR') || 'lineTracker';
-    registerVariableToBlockly(block._varLastName, 'FiveLineTracker');
     const varField = block.getField('VAR');
     if (varField) {
       const originalFinishEditing = varField.onFinishEditing_;
@@ -12,7 +11,7 @@ Arduino.forBlock['five_line_tracker_v3_setup'] = function(block, generator) {
         }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._varLastName;
-        if (workspace && newName && newName !== oldName) {
+        if (workspace && newName && newName !== oldName && typeof renameVariableInBlockly === 'function') {
           renameVariableInBlockly(block, oldName, newName, 'FiveLineTracker');
           block._varLastName = newName;
         }
@@ -25,7 +24,7 @@ Arduino.forBlock['five_line_tracker_v3_setup'] = function(block, generator) {
 
   generator.addLibrary('five_line_tracker_v3', '#include <five_line_tracker_v3.h>');
   generator.addLibrary('Wire', '#include <Wire.h>');
-  registerVariableToBlockly(varName, 'FiveLineTracker');
+  if (typeof registerVariableToBlockly === 'function') registerVariableToBlockly(varName, 'FiveLineTracker');
   generator.addVariable(varName, 'emakefun::FiveLineTracker ' + varName + '(Wire, ' + i2cAddress + ');');
 
   generator.addSetupBegin('Wire.begin()', 'Wire.begin();');

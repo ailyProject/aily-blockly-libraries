@@ -4,7 +4,7 @@ Emakefun five-channel line-following sensor module v3 supports analog and digita
 
 ## Library Info
 - **Name**: @aily-project/lib-emakefun-five-line-tracker
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 
