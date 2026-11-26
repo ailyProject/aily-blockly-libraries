@@ -53,7 +53,9 @@ int main() {
     accel.enterStandby();
     assert(!mma8653_is_active() && Wire.regs[0x2a] == 0x20 && mma8653_read_z() == INT16_MIN);
     mma8653_begin();
+    assert(accel.readREG(0x0d) == 0x5a);
     Wire.online=false; assert(mma8653_read_x()==INT16_MIN);
+    assert(accel.readREG(0x0d) == 0);
     Wire.online=true; Wire.regs.fill(0); Wire.regs[0x0d]=0x5a;
     mma8653_begin(); assert(mma8653_is_active() && Wire.regs[0x2a]==0x21 && accel.getRange()==4);
 }

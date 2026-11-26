@@ -28,3 +28,5 @@ MMA8653 three-axis accelerometer library, I2C communication, supports 2/4/8G ran
 ## I²C 读数有效性（1.0.1）
 
 初始化探测失败后程序可以继续运行。恢复连接后执行“开始测量”可重试此前的初始化设置。读取单轴或 XYZ 积木时，待机、短读或掉线返回 INT16_MIN（−32768）；读倾角时返回 NaN。原始 8 位或 10 位样本均可合法等于 −1。Coder 可调用 `bool tryReadSensor(int16_t*, int16_t*, int16_t*)`，失败时三个输出均保留原值。
+
+1.0.2 补全了已声明的 `readREG(reg)`。传输失败时返回 0。检查设备身份请使用 `whoAmI()`。
