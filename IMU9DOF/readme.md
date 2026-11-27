@@ -24,3 +24,8 @@ ESP32
 
 1. Enable `@aily-project/lib-imu9dof` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+
+
+### 0.0.2 驱动修正
+
+QMI8658A 读取使用连续地址和小端格式，量程与采样率写入各自的控制位，温度由芯片的有符号输出换算。MMC5603NJ 读取磁场和温度前检查对应的完成位。器件掉线或转换超时时，磁场和温度浮点 API 返回 NaN，可重新连接后再次读取。
