@@ -12,11 +12,6 @@ function c4001Value(block, generator, name, fallback) {
   return generator.valueToCode(block, name, generator.ORDER_ATOMIC) || fallback;
 }
 
-function c4001Core() {
-  if (typeof window === 'undefined' || !window.boardConfig) return '';
-  return String(window.boardConfig.core || window.boardConfig.board || '');
-}
-
 function c4001AttachVar(block) {
   if (block._c4001VarAttached) return;
   block._c4001VarAttached = true;
@@ -53,16 +48,23 @@ Arduino.forBlock['c4001_init_uart'] = function(block, generator) {
   var serialName = block.getFieldValue('SERIAL') || 'Serial1';
   var rx = c4001Value(block, generator, 'RX', 'D2');
   var tx = c4001Value(block, generator, 'TX', 'D3');
-  var core = c4001Core();
-  if (core.indexOf('arduino:avr:uno') !== -1 || core.indexOf('esp8266') !== -1) {
-    generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
-    generator.addObject(varName + '_serial', 'SoftwareSerial ' + varName + 'Serial(' + rx + ', ' + tx + ');');
-    generator.addObject(varName, 'DFRobot_C4001_UART ' + varName + '(&' + varName + 'Serial, 9600);');
-  } else if (core.indexOf('esp32') !== -1) {
-    generator.addObject(varName, 'DFRobot_C4001_UART ' + varName + '(&' + serialName + ', 9600, ' + rx + ', ' + tx + ');');
-  } else {
-    generator.addObject(varName, 'DFRobot_C4001_UART ' + varName + '(&' + serialName + ', 9600);');
+  var softwarePort = varName + 'Serial';
+  var object = ['#if defined(ARDUINO_AVR_UNO) || defined(ESP8266)',
+    'SoftwareSerial ' + softwarePort + '(' + rx + ', ' + tx + ');',
+    'DFRobot_C4001_UART ' + varName + '(&' + softwarePort + ', 9600);',
+    '#elif defined(ESP32)',
+    'DFRobot_C4001_UART ' + varName + '(&' + serialName + ', 9600, ' + rx + ', ' + tx + ');'];
+  // STM32duino only instantiates selected hardware ports in some board configurations.
+  // Share one fallback port per controller across radar declarations on those boards.
+  if (serialName === 'Serial1' || serialName === 'Serial2') {
+    var index = serialName.slice(-1);
+    var missingPort = 'defined(ARDUINO_ARCH_STM32) && !defined(HAVE_HWSERIAL' + index + ') && defined(USART' + index + ')';
+    var port = 'ailyC4001Usart' + index;
+    generator.addObject(port, '#if ' + missingPort + '\nUart ' + port + '(USART' + index + ');\n#endif');
+    object.push('#elif ' + missingPort, 'DFRobot_C4001_UART ' + varName + '(&' + port + ', 9600);');
   }
+  object.push('#else', 'DFRobot_C4001_UART ' + varName + '(&' + serialName + ', 9600);', '#endif');
+  generator.addObject(varName, object.join('\n'));
   return 'while (!' + varName + '.begin()) {\n  delay(1000);\n}\n';
 };
 
