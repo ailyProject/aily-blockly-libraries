@@ -1,7 +1,7 @@
 [
   {
     "type": "dfrobot_human_detection_init",
-    "message0": "initialize DFRobot Human Detection %1 serial port %2",
+    "message0": "initialize DFRobot Human Detection %1 serial port %2 %3",
     "args0": [
       {
         "type": "field_input",
@@ -12,6 +12,24 @@
         "type": "field_dropdown",
         "name": "SERIAL",
         "options": "${board.serialPort}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PORT_MODE",
+        "options": [
+          [
+            "Board port",
+            "BOARD"
+          ],
+          [
+            "Automatic UART",
+            "AUTO"
+          ],
+          [
+            "UART1 (RX/TX pins)",
+            "ROUTED1"
+          ]
+        ]
       }
     ],
     "previousStatement": null,
@@ -21,6 +39,19 @@
     "icon": "fa-light fa-microchip",
     "extensions": [
       "dfrobot_c1001_uart"
+    ],
+    "message1": "RX %1 TX %2",
+    "args1": [
+      {
+        "type": "field_dropdown",
+        "name": "RX_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TX_PIN",
+        "options": "${board.digitalPins}"
+      }
     ]
   },
   {

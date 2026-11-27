@@ -31,36 +31,23 @@ function dfrobot_human_detectionEnsureExtras(generator, varName) {
 
 if (Blockly.Extensions.isRegistered('dfrobot_c1001_uart')) Blockly.Extensions.unregister('dfrobot_c1001_uart');
 Blockly.Extensions.register('dfrobot_c1001_uart', function () {
-  const serial = this.getField('SERIAL');
-  const labels = window.__BLOCKLY_LIB_I18N__?.['@aily-project/lib-dfrobot-human-detection']?.extensions?.uart || {};
-  const options = [[labels.auto || 'Automatic UART', 'AUTO']];
-  const architecture = window.boardConfig?.core?.split(':').pop();
-  if (architecture === 'esp32' || architecture === 'stm32') {
-    options.push([labels.routed || 'UART1 (RX/TX pins)', 'ROUTED1']);
-  }
-  serial.setOptions([...options, ...serial.getOptions(false)]);
-  const updatePins = value => {
-    if (value !== 'ROUTED1') {
-      if (this.getInput('ROUTE')) this.removeInput('ROUTE');
-    } else if (!this.getInput('ROUTE')) {
-      const pins = window.boardConfig?.digitalPins || [['2','2'],['3','3']];
-      const input = this.appendDummyInput('ROUTE');
-      for (const [field, label, preferred] of [['RX_PIN','RX',['PA10','D7','2']],['TX_PIN','TX',['PA9','D6','3']]]) {
-        input.appendField(label).appendField(new Blockly.FieldDropdown(pins), field);
-        const pin = preferred.find(v => pins.some(([, value]) => value === v));
-        if (pin) this.setFieldValue(pin, field);
-      }
-    }
+  const mode = this.getField('PORT_MODE');
+  const show = value => {
+    this.getField('SERIAL').setVisible(value === 'BOARD');
+    this.getField('RX_PIN').getParentInput().setVisible(value === 'ROUTED1');
+    if (this.rendered) this.render();
   };
-  serial.setValidator(value => { updatePins(value); return value; });
-  updatePins(serial.getValue());
+  mode.setValidator(value => { show(value); return value; });
+  show(mode.getValue());
+
 });
 
 Arduino.forBlock['dfrobot_human_detection_init'] = function(block, generator) {
   dfrobot_human_detectionAttachVariable(block);
   dfrobot_human_detectionEnsureLibrary(generator);
   const name = block.getFieldValue('VAR') || 'human';
-  const selection = block.getFieldValue('SERIAL') || 'AUTO';
+  const mode = block.getFieldValue('PORT_MODE') || 'BOARD';
+  const selection = mode === 'BOARD' ? (block.getFieldValue('SERIAL') || 'Serial1') : mode;
   const routed = selection === 'ROUTED1';
   const automatic = selection === 'AUTO';
   const board = typeof window !== 'undefined' ? window.boardConfig : null;
