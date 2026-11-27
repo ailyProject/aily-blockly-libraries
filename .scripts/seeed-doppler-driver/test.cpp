@@ -69,7 +69,7 @@ int main(){
     uart.expect(0xc1,{},{1,0x23,2});uart.response.back()^=1;
     assert(!radar.getInfo(&state,&speed)&&state==7&&speed==111);
     uart.expect(0xc1,{},{1,0x23,2});uart.response.resize(5);
-    const auto started=nowUs;assert(!radar.getInfo(&state,&speed)&&nowUs-started<851000);
+    const auto started=nowUs;assert(!radar.getInfo(&state,&speed)&&nowUs-started<55000);
     uart.expect(0xc1,{},{1,0x23,2});
     Bytes noise{0x11,0x55,0x55,0xaa};
     auto unrelated=frame(0xa2,0xc5,{0});noise.insert(noise.end(),unrelated.begin(),unrelated.end());
