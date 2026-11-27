@@ -7,7 +7,7 @@ Wind speed, wind direction and rain sensor control library, hardware adapted to 
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-wind |
-| Version | 1.0.1 |
+| Version | 1.0.2 |
 | Author | OpenJumper |
 | Source | N/A |
 | License | Original license |

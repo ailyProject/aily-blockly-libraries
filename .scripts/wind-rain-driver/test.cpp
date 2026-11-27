@@ -18,6 +18,7 @@ int main(int argc,char**argv){
   if(argc!=2)return 2;
   const String which=argv[1];
   WindSpeed::begin(2,3);RainSensor::begin(4);
+  require(Serial.writes == 0, "initialization requires a configured serial port");
   require(pins[2].mode==FALLING && pins[4].mode==RISING,"interrupt polarity");
   if(which=="directions"){
     const int reads[]={42,117,210,370,545,700,840,960};

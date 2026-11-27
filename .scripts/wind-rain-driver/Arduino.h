@@ -13,7 +13,8 @@ inline void interrupts() {}
 inline void noInterrupts() {}
 inline void detachInterrupt(int) {}
 struct Console {
-  template<class... T> void print(T...) {}
-  template<class... T> void println(T...) {}
+  unsigned writes = 0;
+  template<class... T> void print(T...) { ++writes; }
+  template<class... T> void println(T...) { ++writes; }
 };
 extern Console Serial;
