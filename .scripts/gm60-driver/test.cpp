@@ -38,6 +38,12 @@ int main() {
     assert(i2c.detection() == std::string(257, 'Z'));
     Wire.rx = {4,0,3,'A',0,'B'};
     assert(i2c.detection() == std::string("A\0B",3));
+    Wire.connected = false;
+    const auto start = millis();
+    assert(i2c.detection() == "null" && millis() == start);
+    Wire.connected = true;
+    Wire.rx = {4,0,1,'R'};
+    assert(i2c.detection() == "R");
     SerialPeer peer;
     DFRobot_GM60_UART uart;
     peer.deliver({2,0,0,1,0,0x33,0x31}, 3);
