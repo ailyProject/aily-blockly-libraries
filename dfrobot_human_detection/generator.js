@@ -29,18 +29,73 @@ function dfrobot_human_detectionEnsureExtras(generator, varName) {
   // No cached data objects required.
 }
 
+if (Blockly.Extensions.isRegistered('dfrobot_c1001_uart')) Blockly.Extensions.unregister('dfrobot_c1001_uart');
+Blockly.Extensions.register('dfrobot_c1001_uart', function () {
+  const serial = this.getField('SERIAL');
+  const labels = window.__BLOCKLY_LIB_I18N__?.['@aily-project/lib-dfrobot-human-detection']?.extensions?.uart || {};
+  const options = [[labels.auto || 'Automatic UART', 'AUTO']];
+  const architecture = window.boardConfig?.core?.split(':').pop();
+  if (architecture === 'esp32' || architecture === 'stm32') {
+    options.push([labels.routed || 'UART1 (RX/TX pins)', 'ROUTED1']);
+  }
+  serial.setOptions([...options, ...serial.getOptions(false)]);
+  const updatePins = value => {
+    if (value !== 'ROUTED1') {
+      if (this.getInput('ROUTE')) this.removeInput('ROUTE');
+    } else if (!this.getInput('ROUTE')) {
+      const pins = window.boardConfig?.digitalPins || [['2','2'],['3','3']];
+      const input = this.appendDummyInput('ROUTE');
+      for (const [field, label, preferred] of [['RX_PIN','RX',['PA10','D7','2']],['TX_PIN','TX',['PA9','D6','3']]]) {
+        input.appendField(label).appendField(new Blockly.FieldDropdown(pins), field);
+        const pin = preferred.find(v => pins.some(([, value]) => value === v));
+        if (pin) this.setFieldValue(pin, field);
+      }
+    }
+  };
+  serial.setValidator(value => { updatePins(value); return value; });
+  updatePins(serial.getValue());
+});
+
 Arduino.forBlock['dfrobot_human_detection_init'] = function(block, generator) {
   dfrobot_human_detectionAttachVariable(block);
   dfrobot_human_detectionEnsureLibrary(generator);
-  var varName = block.getFieldValue('VAR') || 'human';
-  var serial = block.getFieldValue('SERIAL') || "Serial1";
-  var objectCode = "DFRobot_HumanDetection " + String(varName) + "(&" + String(serial) + ");";
-  generator.addObject('dfrobot_human_detection_object_' + varName, objectCode);
-  dfrobot_human_detectionEnsureExtras(generator, varName);
-  generator.addSetupBegin('dfrobot_human_detection_serial_' + serial, serial + '.begin(115200);');
-  var beginCall = String(varName) + ".begin()";
-  generator.addSetupBegin('dfrobot_human_detection_begin_' + varName, 'while ((' + beginCall + ') != 0) { delay(100); }');
-  generator.addSetupBegin('dfrobot_human_detection_after_' + varName, String(varName) + ".configWorkMode(" + String(varName) + ".eSleepMode);");
+  const name = block.getFieldValue('VAR') || 'human';
+  const selection = block.getFieldValue('SERIAL') || 'AUTO';
+  const routed = selection === 'ROUTED1';
+  const automatic = selection === 'AUTO';
+  const board = typeof window !== 'undefined' ? window.boardConfig : null;
+  const supported = board?.serialPort?.map(option => option[1]) || [];
+  const defaultPort = !supported.length || supported.includes('Serial1') || board?.core?.endsWith(':avr')
+    ? 'Serial1' : supported[0];
+  const serial = automatic ? defaultPort : routed ? 'Serial1' : selection;
+  const numbered = /^Serial(\d+)$/.exec(serial);
+  let port = serial;
+  let begin = port + '.begin(115200);';
+  if (numbered) {
+    const n = numbered[1];
+    port = 'c1001' + (automatic ? 'Auto' : '') + 'Port' + n;
+    const declaration = ['#if defined(ARDUINO_ARCH_STM32) && defined(USART'+n+') && !defined(HAVE_HWSERIAL'+n+')',
+      'Uart '+port+'(USART'+n+');'];
+    if (automatic) declaration.push('#elif defined(ARDUINO_ARCH_AVR) && !defined(HAVE_HWSERIAL1)',
+      '#include <SoftwareSerial.h>', 'SoftwareSerial '+port+'(2, 3);');
+    declaration.push('#else','auto& '+port+' = '+serial+';','#endif');
+    generator.addObject('dfrobot_c1001_port_'+port, declaration.join('\n'));
+    begin = port+'.begin(115200);';
+    if (routed) {
+      const rx = block.getFieldValue('RX_PIN') || '2';
+      const tx = block.getFieldValue('TX_PIN') || '3';
+      begin = ['#if defined(ARDUINO_ARCH_ESP32)',port+'.begin(115200, SERIAL_8N1, '+rx+', '+tx+');',
+        '#else','#if defined(ARDUINO_ARCH_STM32)',port+'.setRx('+rx+');',port+'.setTx('+tx+');','#endif',begin,'#endif'].join('\n');
+    } else if (automatic) {
+      begin = ['#if defined(ARDUINO_XIAO_ESP32S3)',port+'.begin(115200, SERIAL_8N1, D7, D6);','#else',begin,'#endif'].join('\n');
+    }
+  }
+  generator.addObject('dfrobot_human_detection_object_'+name, 'DFRobot_HumanDetection '+name+'(&'+port+');');
+  const code = begin+'\nif ('+name+'.begin() == 0) '+name+'.configWorkMode('+name+'.eSleepMode);\n';
+  let parent = block;
+  while (parent && parent.type !== 'arduino_setup') parent = parent.getSurroundParent?.();
+  if (parent) return code;
+  generator.addSetupBegin('dfrobot_human_detection_init_'+name, code);
   return '';
 };
 
