@@ -5,9 +5,16 @@ function ft6336uEnsureLibrary(generator) {
   generator.addLibrary('FT6336U', '#include <FT6336U.h>');
 }
 
+// Preserve ordinary sketch identifiers and give the driver's enum names a distinct C++ spelling.
+function ft6336uObjectName(name) {
+  var reserved = /^(touch|stream|release|working_mode|factory_mode|keep_active_mode|switch_to_monitor_mode|pollingMode|triggerMode|FT6336U)$/;
+  if (!reserved.test(name) && !name.startsWith('aily_ft6336u_') && !name.endsWith('_points')) return name;
+  return 'aily_ft6336u_device_' + name;
+}
+
 function ft6336uGetVar(block) {
   var field = block.getField('VAR');
-  return field ? field.getText() : (block.getFieldValue('VAR') || 'touch');
+  return ft6336uObjectName(field ? field.getText() : (block.getFieldValue('VAR') || 'touch'));
 }
 
 function ft6336uRegisterVar(varName) {
@@ -55,8 +62,13 @@ function ft6336uAddCustomPinObject(generator, varName, sdaPin, sclPin, rstPin, i
   generator.addObject('ft6336u_' + varName, code);
 }
 
+function ft6336uCacheName(varName) {
+  if (varName.startsWith('aily_ft6336u_device_')) return 'aily_ft6336u_cache_' + varName;
+  return varName + '_points';
+}
+
 function ft6336uEnsureScanCache(generator, varName) {
-  generator.addObject('ft6336u_' + varName + '_points', 'FT6336U_TouchPointType ' + varName + '_points;');
+  generator.addObject('ft6336u_cache:' + varName, 'FT6336U_TouchPointType ' + ft6336uCacheName(varName) + ' = {0, {{release, 0, 0}, {release, 0, 0}}};');
 }
 
 var FT6336U_TOUCH_READERS = {
@@ -115,6 +127,7 @@ Arduino.forBlock['ft6336u_init'] = function(block, generator) {
   var intPin = ft6336uValue(block, generator, 'INT', '34');
 
   ft6336uRegisterVar(varName);
+  varName = ft6336uObjectName(varName);
   ft6336uAddDefaultObject(generator, varName, rstPin, intPin);
 
   return varName + '.begin();\n';
@@ -131,6 +144,7 @@ Arduino.forBlock['ft6336u_init_with_pins'] = function(block, generator) {
   var intPin = ft6336uValue(block, generator, 'INT', '34');
 
   ft6336uRegisterVar(varName);
+  varName = ft6336uObjectName(varName);
   ft6336uAddCustomPinObject(generator, varName, sdaPin, sclPin, rstPin, intPin);
 
   return varName + '.begin();\n';
@@ -159,14 +173,14 @@ Arduino.forBlock['ft6336u_scan'] = function(block, generator) {
   ft6336uEnsureLibrary(generator);
   var varName = ft6336uGetVar(block);
   ft6336uEnsureScanCache(generator, varName);
-  return varName + '_points = ' + varName + '.scan();\n';
+  return ft6336uCacheName(varName) + ' = ' + varName + '.scan();\n';
 };
 
 Arduino.forBlock['ft6336u_scan_touch_count'] = function(block, generator) {
   ft6336uEnsureLibrary(generator);
   var varName = ft6336uGetVar(block);
   ft6336uEnsureScanCache(generator, varName);
-  return [varName + '_points.touch_count', generator.ORDER_MEMBER];
+  return [ft6336uCacheName(varName) + '.touch_count', generator.ORDER_MEMBER];
 };
 
 Arduino.forBlock['ft6336u_scan_point'] = function(block, generator) {
@@ -175,7 +189,7 @@ Arduino.forBlock['ft6336u_scan_point'] = function(block, generator) {
   var point = block.getFieldValue('POINT') || '0';
   var field = block.getFieldValue('FIELD') || 'status';
   ft6336uEnsureScanCache(generator, varName);
-  return [varName + '_points.tp[' + point + '].' + field, generator.ORDER_MEMBER];
+  return [ft6336uCacheName(varName) + '.tp[' + point + '].' + field, generator.ORDER_MEMBER];
 };
 
 Arduino.forBlock['ft6336u_scan_point_pressed'] = function(block, generator) {
@@ -183,7 +197,7 @@ Arduino.forBlock['ft6336u_scan_point_pressed'] = function(block, generator) {
   var varName = ft6336uGetVar(block);
   var point = block.getFieldValue('POINT') || '0';
   ft6336uEnsureScanCache(generator, varName);
-  return [varName + '_points.tp[' + point + '].status != release', generator.ORDER_RELATIONAL];
+  return [ft6336uCacheName(varName) + '.tp[' + point + '].status != release', generator.ORDER_RELATIONAL];
 };
 
 Arduino.forBlock['ft6336u_set_device_mode'] = function(block, generator) {

@@ -7,7 +7,7 @@ Blockly library for the FT6336U capacitive touch controller, with two-point coor
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-ft6336u |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Author | Atsushi Sasaki |
 | Source | https://github.com/aselectroworks/Arduino-FT6336U |
 | License | MIT |
@@ -23,3 +23,5 @@ This package wraps the FT6336U self-capacitive touch panel controller. It suppor
 ## Quick Start
 
 Enable `@aily-project/lib-ft6336u`, initialize in `arduino_setup()`, call scan in `arduino_loop()`, then read cached point status and coordinates.
+
+Each scan reads both hardware slots in one I²C transaction. An absent device, incomplete frame or invalid contact ID releases the cached points while preserving their last coordinates. In Coder, use `tryScan(sample)` to distinguish a failed read from a successful empty frame. On failure the caller's sample is unchanged.
