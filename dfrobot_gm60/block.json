@@ -30,7 +30,7 @@
   {
     "type": "gm60_init_uart",
     "icon": "fa-light fa-qrcode",
-    "message0": "初始化二维码扫描器(串口) %1 RX引脚 %2 TX引脚 %3",
+    "message0": "初始化二维码扫描器(串口) %1 RX引脚 %2 TX引脚 %3 · %4",
     "args0": [
       {
         "type": "field_input",
@@ -40,12 +40,17 @@
       {
         "type": "input_value",
         "name": "RX",
-        "check": "Number"
+        "check": ["Number", "Any"]
       },
       {
         "type": "input_value",
         "name": "TX",
-        "check": "Number"
+        "check": ["Number", "Any"]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TRANSPORT",
+        "options": [["Auto", "AUTO"], ["UART1", "UART1"], ["UART2", "UART2"], ["SoftwareSerial", "SOFTWARE"]]
       }
     ],
     "inputsInline": true,

@@ -7,7 +7,7 @@ Arduino.forBlock['gm60_init_i2c'] = function(block, generator) {
     block._gm60VarMonitorAttached = true;
     block._gm60VarLastName = block.getFieldValue('VAR') || 'gm60';
     // 初次注册变量到 Blockly 系统（仅执行一次）
-    registerVariableToBlockly(block._gm60VarLastName, 'GM60');
+    if (typeof registerVariableToBlockly === 'function') registerVariableToBlockly(block._gm60VarLastName, 'GM60');
     const varField = block.getField('VAR');
     if (varField) {
       const originalFinishEditing = varField.onFinishEditing_;
@@ -17,7 +17,7 @@ Arduino.forBlock['gm60_init_i2c'] = function(block, generator) {
         }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._gm60VarLastName;
-        if (workspace && newName && newName !== oldName) {
+        if (workspace && newName && newName !== oldName && typeof renameVariableInBlockly === 'function') {
           renameVariableInBlockly(block, oldName, newName, 'GM60');
           block._gm60VarLastName = newName;
         }
@@ -63,7 +63,7 @@ Arduino.forBlock['gm60_init_uart'] = function(block, generator) {
     block._gm60VarMonitorAttached = true;
     block._gm60VarLastName = block.getFieldValue('VAR') || 'gm60';
     // 初次注册变量到 Blockly 系统（仅执行一次）
-    registerVariableToBlockly(block._gm60VarLastName, 'GM60');
+    if (typeof registerVariableToBlockly === 'function') registerVariableToBlockly(block._gm60VarLastName, 'GM60');
     const varField = block.getField('VAR');
     if (varField) {
       const originalFinishEditing = varField.onFinishEditing_;
@@ -73,7 +73,7 @@ Arduino.forBlock['gm60_init_uart'] = function(block, generator) {
         }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._gm60VarLastName;
-        if (workspace && newName && newName !== oldName) {
+        if (workspace && newName && newName !== oldName && typeof renameVariableInBlockly === 'function') {
           renameVariableInBlockly(block, oldName, newName, 'GM60');
           block._gm60VarLastName = newName;
         }
@@ -82,23 +82,42 @@ Arduino.forBlock['gm60_init_uart'] = function(block, generator) {
   }
 
   var varName = block.getFieldValue('VAR') || 'gm60';
-  var rxPin = generator.valueToCode(block, 'RX', Arduino.ORDER_ATOMIC);
-  var txPin = generator.valueToCode(block, 'TX', Arduino.ORDER_ATOMIC);
+  var rxPin = generator.valueToCode(block, 'RX', Arduino.ORDER_ATOMIC) || '2';
+  var txPin = generator.valueToCode(block, 'TX', Arduino.ORDER_ATOMIC) || '3';
+  var mode = block.getFieldValue('TRANSPORT') || 'AUTO';
+  var index = mode === 'UART2' ? '2' : '1';
+  var port = 'Serial' + index;
+  var local = varName + 'Serial';
 
-  // 注册Blockly变量
-
-  // 添加库引用
   generator.addLibrary('DFRobot_GM60', '#include <DFRobot_GM60.h>');
-  generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
-
-  // 添加全局对象声明
-  generator.addObject(varName + '_serial', 'SoftwareSerial ' + varName + 'Serial(' + rxPin + ', ' + txPin + ');');
+  var declaration;
+  var setup;
+  var softwarePort = 'SoftwareSerial ' + local + '(' + rxPin + ', ' + txPin + ');';
+  var startSoftware = local + '.begin(9600);';
+  var startEsp = local + '.begin(9600, SERIAL_8N1, ' + rxPin + ', ' + txPin + ');';
+  if (mode === 'SOFTWARE') {
+    generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
+    declaration = softwarePort;
+    setup = startSoftware;
+  } else if (mode === 'AUTO') {
+    // Keep existing pin-based sketches portable. ESP32 routes arbitrary pins through its UART matrix.
+    generator.addLibrary('gm60_auto_serial', '#if !defined(ARDUINO_ARCH_ESP32)\n#include <SoftwareSerial.h>\n#endif');
+    declaration = ['#if defined(ARDUINO_ARCH_ESP32)', 'auto &' + local + ' = Serial1;',
+      '#else', softwarePort, '#endif'].join('\n');
+    setup = ['#if defined(ARDUINO_ARCH_ESP32)', startEsp, '#else', startSoftware, '#endif'].join('\n');
+  } else {
+    var fallback = 'defined(ARDUINO_ARCH_STM32) && !defined(HAVE_HWSERIAL' + index + ') && defined(USART' + index + ')';
+    var stmPort = 'ailyGm60Usart' + index;
+    generator.addObject(stmPort, '#if ' + fallback + '\nUart ' + stmPort + '(USART' + index + ');\n#endif');
+    declaration = ['#if ' + fallback, 'auto &' + local + ' = ' + stmPort + ';',
+      '#else', 'auto &' + local + ' = ' + port + ';', '#endif'].join('\n');
+    setup = ['#if defined(ARDUINO_ARCH_ESP32)', startEsp, '#else', '#if defined(ARDUINO_ARCH_STM32)',
+      local + '.setRx(' + rxPin + ');', local + '.setTx(' + txPin + ');',
+      '#endif', local + '.begin(9600);', '#endif'].join('\n');
+  }
+  generator.addObject(local, declaration);
   generator.addObject(varName, 'DFRobot_GM60_UART ' + varName + ';');
-
-  // 在setup中初始化串口和模块
-  var setupCode = varName + 'Serial.begin(9600);\n';
-  setupCode += varName + '.begin(' + varName + 'Serial);\n';
-  generator.addSetupBegin('gm60_uart_begin_' + varName, setupCode);
+  generator.addSetupBegin('gm60_uart_begin_' + varName, setup + '\n' + varName + '.begin(' + local + ');\n');
 
   return '';
 };
