@@ -8,7 +8,7 @@ function sen0670Value(block, generator, name, fallback) {
 }
 function sen0670Core() {
   if (typeof window === 'undefined' || !window.boardConfig) return '';
-  return String(window.boardConfig.core || window.boardConfig.board || '');
+  return [window.boardConfig.core, window.boardConfig.board, window.boardConfig.fqbn].filter(Boolean).join(' ');
 }
 function sen0670AttachVar(block, typeName) {
   if (block.sen0670VarMonitorAttached) return;
@@ -49,14 +49,32 @@ Arduino.forBlock['sen0670_init_uart'] = function(block, generator) {
   var serialName = block.getFieldValue('SERIAL') || 'Serial1';
   var rx = block.getFieldValue('RX') || '25';
   var tx = block.getFieldValue('TX') || '26';
-  if (core.indexOf('arduino:avr') !== -1 || core.indexOf('esp8266') !== -1) {
+  // BOARD preserves the user's original selected port and ESP32 pin fields in saved projects.
+  const mode = block.getFieldValue('PORT_MODE') || 'BOARD';
+  if (core.includes('arduino:avr') || core.includes('esp8266')) {
     generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
     generator.addObject(varName + '_serial', 'SoftwareSerial ' + varName + 'Serial(' + rx + ', ' + tx + ');');
     generator.addObject(varName, 'DFRobot_HumanPose_UART ' + varName + '(&' + varName + 'Serial, 9600);');
-  } else if (core.indexOf('esp32') !== -1) {
-    generator.addObject(varName, 'DFRobot_HumanPose_UART ' + varName + '(&' + serialName + ', 9600, ' + rx + ', ' + tx + ');');
   } else {
-    generator.addObject(varName, 'DFRobot_HumanPose_UART ' + varName + '(&' + serialName + ', 9600);');
+    const port = mode === 'AUTO' ? 'Serial1' : serialName;
+    let receiver = port;
+    const numberedPort = /^Serial([1-3])$/.exec(port);
+    if (core.toLowerCase().includes('stm32') && numberedPort) {
+      const number = numberedPort[1];
+      receiver = 'sen0670Port' + number;
+      generator.addObject('sen0670_uart_' + number, [
+        '#if defined(USART' + number + ') && !defined(HAVE_HWSERIAL' + number + ')',
+        'Uart ' + receiver + '(USART' + number + ');',
+        '#else', 'auto& ' + receiver + ' = ' + port + ';', '#endif',
+      ].join('\n'));
+    }
+    const declaration = 'DFRobot_HumanPose_UART ' + varName + '(&' + receiver + ', 9600';
+    if (mode === 'AUTO' && core.includes('esp32')) {
+      generator.addObject(varName, ['#if defined(ARDUINO_XIAO_ESP32S3)',
+        declaration + ', D7, D6);', '#else', declaration + ');', '#endif'].join('\n'));
+    } else {
+      generator.addObject(varName, declaration + (core.includes('esp32') ? ', ' + rx + ', ' + tx : '') + ');');
+    }
   }
   return 'while (!' + varName + '.begin()) {\n  delay(1000);\n}\n';
 };

@@ -4,11 +4,11 @@ SEN0670 Gravity AI vision gesture and pose sensor with learned hand/pose classes
 
 ## Library Info
 - **Name**: @aily-project/lib-dfrobot-sen0670
-- **Version**: 0.1.0
+- **Version**: 0.1.1
 
 ## Block Definitions
 
-Compatibility types: `arduino:avr:uno`, `esp32:esp32:esp32`, `esp32:esp32:esp32c3`, `esp32:esp32:esp32s3`. Nano/Mega and other types are excluded. UNO UART uses SoftwareSerial; ESP32 uses a board hardware port (prefer Serial1; no Serial2 on ESP32-C3).
+Compatibility types: `arduino:avr:uno`, `esp32:esp32:esp32`, `esp32:esp32:esp32c3`, `esp32:esp32:esp32s3`, `STMicroelectronics:stm32:GenF1` (OJ Nano). UNO UART uses SoftwareSerial; ESP32 uses a board hardware port (prefer Serial1; no Serial2 on ESP32-C3).
 
 | Block Type | Connection | Parameters (block.json order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
@@ -60,3 +60,5 @@ arduino_loop()
 1. **Variable**: `sen0670_init_i2c` creates a Blockly variable. Use `$varName` only for field_variable slots; input_value slots must use the explicit `variables_get($varName)` block.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(true/false)`, variables, or nested value blocks.
+
+OJ Nano UART1 uses USART1 (RX PA10, TX PA9). XIAO ESP32-S3 automatic UART1 uses RX D7 and TX D6. Existing board-port selections retain the configured ESP32 RX and TX. The driver opens the selected port at 9600 baud.
