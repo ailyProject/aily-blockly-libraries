@@ -1,7 +1,7 @@
 [
   {
     "type": "sen0755_init_uart",
-    "message0": "初始化 TF-UW500 %1 UART %2 RX %3 TX %4",
+    "message0": "初始化 TF-UW500 %1 UART %2 RX %3 TX %4 · %5",
     "args0": [
       {
         "type": "field_input",
@@ -35,6 +35,28 @@
         "type": "field_dropdown",
         "name": "TX",
         "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PORT_MODE",
+        "options": [
+          [
+            "Board port",
+            "BOARD"
+          ],
+          [
+            "Auto",
+            "AUTO"
+          ],
+          [
+            "UART1 (RX/TX)",
+            "ROUTED1"
+          ],
+          [
+            "UART2 (RX/TX)",
+            "ROUTED2"
+          ]
+        ]
       }
     ],
     "previousStatement": null,
@@ -42,7 +64,10 @@
     "colour": "#00838F",
     "tooltip": "UART 115200 初始化水下单点激光雷达，默认 mm。",
     "icon": "fa-light fa-location-crosshairs",
-    "inputsInline": true
+    "inputsInline": true,
+    "extensions": [
+      "sen0755_port_mode"
+    ]
   },
   {
     "type": "sen0755_init_i2c",
