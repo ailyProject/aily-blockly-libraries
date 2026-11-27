@@ -7,11 +7,6 @@ function dfrobotC4002Value(block, generator, name, fallback) {
   return generator.valueToCode(block, name, Arduino.ORDER_ATOMIC) || fallback;
 }
 
-function dfrobotC4002BoardCore() {
-  if (typeof window === 'undefined' || !window.boardConfig) return '';
-  return String(window.boardConfig.core || window.boardConfig.board || '');
-}
-
 function dfrobotC4002RegisterInitVariable(block, varType) {
   if (block._dfrobotC4002VarMonitorAttached) return;
   block._dfrobotC4002VarMonitorAttached = true;
@@ -72,19 +67,23 @@ Arduino.forBlock['dfrobot_c4002_init'] = function(block, generator) {
   const rxPin = dfrobotC4002Value(block, generator, 'RX', '26');
   const txPin = dfrobotC4002Value(block, generator, 'TX', '25');
   const outPin = dfrobotC4002Value(block, generator, 'OUT_PIN', '255');
-  const core = dfrobotC4002BoardCore();
-
   generator.addLibrary('DFRobot_C4002', '#include <DFRobot_C4002.h>');
-
-  if (core.indexOf('arduino:avr:uno') !== -1 || core.indexOf('esp8266') !== -1) {
-    generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
-    generator.addObject(varName + '_serial', 'SoftwareSerial ' + varName + 'Serial(' + rxPin + ', ' + txPin + ');');
-    generator.addObject(varName, 'DFRobot_C4002 ' + varName + '(&' + varName + 'Serial, ' + baud + ');');
-  } else if (core.indexOf('esp32') !== -1) {
-    generator.addObject(varName, 'DFRobot_C4002 ' + varName + '(&' + serialName + ', ' + baud + ', ' + rxPin + ', ' + txPin + ');');
-  } else {
-    generator.addObject(varName, 'DFRobot_C4002 ' + varName + '(&' + serialName + ', ' + baud + ');');
+  const declaration = [
+    '#if defined(ARDUINO_AVR_UNO) || defined(ESP8266)',
+    'SoftwareSerial ' + varName + 'Serial(' + rxPin + ', ' + txPin + ');',
+    'DFRobot_C4002 ' + varName + '(&' + varName + 'Serial, ' + baud + ');',
+    '#elif defined(ESP32)',
+    'DFRobot_C4002 ' + varName + '(&' + serialName + ', ' + baud + ', ' + rxPin + ', ' + txPin + ');'
+  ];
+  if (serialName === 'Serial1' || serialName === 'Serial2') {
+    const index = serialName.slice(-1);
+    const condition = 'defined(ARDUINO_ARCH_STM32) && !defined(HAVE_HWSERIAL' + index + ') && defined(USART' + index + ')';
+    const port = 'ailyC4002Usart' + index;
+    generator.addObject(port, '#if ' + condition + '\nUart ' + port + '(USART' + index + ');\n#endif');
+    declaration.push('#elif ' + condition, 'DFRobot_C4002 ' + varName + '(&' + port + ', ' + baud + ');');
   }
+  declaration.push('#else', 'DFRobot_C4002 ' + varName + '(&' + serialName + ', ' + baud + ');', '#endif');
+  generator.addObject(varName, declaration.join('\n'));
 
   return 'while (' + varName + '.begin(' + outPin + ') != true) {\n  delay(1000);\n}\n';
 };
