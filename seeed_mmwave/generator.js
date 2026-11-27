@@ -118,10 +118,15 @@ Arduino.forBlock['mmwave_init'] = function(block, generator) {
   }
   generator.addVariable('mmwave_serial_' + varName, declaration);
   generator.addVariable('mmwave_obj_' + varName, 'Seeed_HSP24 ' + varName + '(' + portName + ');');
-  generator.addSetupBegin('mmwave_begin_' + varName, begin + '\n');
-
   generator.addVariable('mmwave_status_' + varName, 'Seeed_HSP24::RadarStatus ' + varName + '_status;');
 
+  // UARTs may share the boot console pins. Keep the author's setup order.
+  let container = block;
+  while (container && container.type !== 'arduino_setup') {
+    container = container.getSurroundParent ? container.getSurroundParent() : null;
+  }
+  if (container) return begin + '\n';
+  generator.addSetupBegin('mmwave_begin_' + varName, begin + '\n');
   return '';
 };
 
