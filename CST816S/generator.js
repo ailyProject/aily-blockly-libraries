@@ -20,7 +20,7 @@ Arduino.forBlock['cst816s_init'] = function(block, generator) {
         }
         const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
         const oldName = block._varLastName;
-        if (workspace && newName && newName !== oldName) {
+        if (workspace && newName && newName !== oldName && typeof renameVariableInBlockly === 'function') {
           renameVariableInBlockly(block, oldName, newName, CST816S_TYPE);
           block._varLastName = newName;
         }
@@ -35,10 +35,10 @@ Arduino.forBlock['cst816s_init'] = function(block, generator) {
 
   generator.addLibrary('Wire', '#include <Wire.h>');
   generator.addLibrary('cst816s', '#include "CST816S.h"');
-  registerVariableToBlockly(varName, CST816S_TYPE);
+  if (typeof registerVariableToBlockly === 'function') registerVariableToBlockly(varName, CST816S_TYPE);
   generator.addObject(varName, 'CST816S ' + varName + ';');
   generator.addSetup('wire_' + wire + '_begin', wire + '.begin();');
-  ensureSerialBegin('Serial', generator);
+  if (typeof ensureSerialBegin === 'function') ensureSerialBegin('Serial', generator);
 
   let setupCode = varName + '.begin(' + rst + ', ' + irq + ', &' + wire + ');\n';
   return setupCode;
