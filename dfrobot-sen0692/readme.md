@@ -7,14 +7,14 @@ Gravity SEN0692 6-DOF IMU with I2C/UART, accel, gyro.
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-dfrobot-sen0692 |
-| Version | 0.1.0 |
+| Version | 0.1.1 |
 | Author | vonweller |
 | Source | https://gitee.com/dfrobot/DFRobot_Multi_DOF_IMU |
 | License | MIT |
 
 ## Supported Boards
 
-Arduino UNO, ESP32, ESP32-C3 and ESP32-S3 only. Nano/Mega and other types are excluded. UNO UART uses SoftwareSerial; ESP32 uses a board hardware port (prefer Serial1; no Serial2 on ESP32-C3).
+Supported profiles include Arduino UNO, ESP32, ESP32-C3, ESP32-S3 and OJ Nano STM32F103C8. Automatic UART uses USART1 on OJ Nano (PA10 RX, PA9 TX) and D7 RX / D6 TX on XIAO ESP32-S3. Existing sketches retain their board port selection. On UNO, select the RX/TX pins for SoftwareSerial.
 
 ## Description
 

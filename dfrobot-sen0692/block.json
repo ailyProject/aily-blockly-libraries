@@ -45,7 +45,7 @@
   },
   {
     "type": "sen0692_init_uart",
-    "message0": "初始化 6轴 IMU %1 UART %2 RX %3 TX %4 地址 %5",
+    "message0": "初始化 6轴 IMU %1 UART %2 RX %3 TX %4 地址 %5 · %6",
     "args0": [
       {
         "type": "field_input",
@@ -101,6 +101,28 @@
             "0x4D"
           ]
         ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PORT_MODE",
+        "options": [
+          [
+            "Board port",
+            "BOARD"
+          ],
+          [
+            "Auto",
+            "AUTO"
+          ],
+          [
+            "UART1 (RX/TX)",
+            "ROUTED1"
+          ],
+          [
+            "UART2 (RX/TX)",
+            "ROUTED2"
+          ]
+        ]
       }
     ],
     "previousStatement": null,
@@ -108,7 +130,10 @@
     "colour": "#5E35B1",
     "tooltip": "通过 UART Modbus 9600 初始化 IMU。",
     "icon": "fa-light fa-compass",
-    "inputsInline": true
+    "inputsInline": true,
+    "extensions": [
+      "sen0692_port_mode"
+    ]
   },
   {
     "type": "sen0692_set_mode",
