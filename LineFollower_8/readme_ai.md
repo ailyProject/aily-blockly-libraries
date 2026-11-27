@@ -10,7 +10,7 @@ Eight-channel line patrol sensor library supports I2C communication, status dete
 
 | Block Type | Connection | Parameters (block.json order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
-| `line_init` | Statement | WIRE(dropdown) | `line_init(WIRE)` | `lineSensor.begin();` |
+| `line_init` | Statement | WIRE(dropdown) | `line_init(WIRE)` | `lineSensor.begin(Wire);` |
 | `line_is_state` | Value | STATE(dropdown) | `line_is_state("0")` | `(lineSensor.calculateDigitalState(lineSensor.getLatestData()) == 0)` |
 | `line_get_state` | Value | (none) | `line_get_state()` | `lineSensor.calculateDigitalState(lineSensor.getLatestData())` |
 | `line_offset` | Value | (none) | `line_offset()` | `lineSensor.calculateLineOffset(lineSensor.getLatestData())` |
@@ -46,3 +46,5 @@ arduino_loop()
 
 1. **Parameter order**: ABS parameters follow `block.json` args order.
 2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+When using an existing I²C bus, initialize it once and pass it to `lineSensor.begin(bus)`. The no-argument overload initializes the board default bus. Sensor channel indices are 0–7.

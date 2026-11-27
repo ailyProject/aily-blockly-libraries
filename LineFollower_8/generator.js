@@ -16,7 +16,7 @@ Arduino.forBlock['line_init'] = function(block, generator) {
   generator.addSetup(`wire_${wire}_begin`, '' + wire + '.begin(); // 初始化I2C ' + wire);
   
   // 传感器初始化代码（在积木块位置执行）
-  let code = 'lineSensor.begin();\n';
+  let code = 'lineSensor.begin(' + wire + ');\n';
   
   return code;
 };
