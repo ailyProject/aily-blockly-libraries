@@ -36,7 +36,7 @@ Arduino.forBlock['xm125_presence_init'] = function(block, generator) {
   generator.addVariable(varName, 'SparkFunXM125Presence ' + varName + ';');
   generator.addVariable('_xm125_presence_' + varName, 'uint32_t _xm125_presence_' + varName + ' = 0;');
   generator.addVariable('_xm125_dist_' + varName, 'uint32_t _xm125_dist_' + varName + ' = 0;');
-  return varName + '.begin();\n' + varName + '.detectorStart(' + startMM + ', ' + endMM + ');\n';
+  return 'Wire.begin();\n' + varName + '.begin();\n' + varName + '.detectorStart(' + startMM + ', ' + endMM + ');\n';
 };
 
 Arduino.forBlock['xm125_is_detected'] = function(block, generator) {
