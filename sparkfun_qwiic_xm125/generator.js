@@ -36,14 +36,23 @@ Arduino.forBlock['xm125_presence_init'] = function(block, generator) {
   generator.addVariable(varName, 'SparkFunXM125Presence ' + varName + ';');
   generator.addVariable('_xm125_presence_' + varName, 'uint32_t _xm125_presence_' + varName + ' = 0;');
   generator.addVariable('_xm125_dist_' + varName, 'uint32_t _xm125_dist_' + varName + ' = 0;');
-  return 'Wire.begin();\n' + varName + '.begin();\n' + varName + '.detectorStart(' + startMM + ', ' + endMM + ');\n';
+  return [
+    'Wire.begin();',
+    'if (' + varName + '.begin() && ' + varName + '.detectorStart(' + startMM + ', ' + endMM + ') == ksfTkErrOk',
+    '    && ' + varName + '.setCommand(SFE_XM125_PRESENCE_START_DETECTOR) == ksfTkErrOk) {',
+    '  uint32_t busy = 1;',
+    '  const uint32_t started = millis();',
+    '  while (millis() - started < 1000 && ' + varName + '.getBusy(busy) == ksfTkErrOk && busy) delay(1);',
+    '}',
+    ''
+  ].join('\n');
 };
 
 Arduino.forBlock['xm125_is_detected'] = function(block, generator) {
   xm125EnsureLib(generator);
   var varName = xm125GetVar(block);
   var presVar = '_xm125_presence_' + varName;
-  var code = '([&](){ ' + varName + '.getDetectorPresenceDetected(' + presVar + '); return ' + presVar + ' != 0; })()';
+  var code = '([&](){ return ' + varName + '.getDetectorPresenceDetected(' + presVar + ') == ksfTkErrOk && ' + presVar + ' != 0; })()';
   return [code, generator.ORDER_FUNCTION_CALL];
 };
 
@@ -51,6 +60,6 @@ Arduino.forBlock['xm125_get_distance'] = function(block, generator) {
   xm125EnsureLib(generator);
   var varName = xm125GetVar(block);
   var distVar = '_xm125_dist_' + varName;
-  var code = '([&](){ ' + varName + '.getDistance(' + distVar + '); return (int)' + distVar + '; })()';
+  var code = '([&](){ return ' + varName + '.getDistance(' + distVar + ') == ksfTkErrOk ? (int)' + distVar + ' : 0; })()';
   return [code, generator.ORDER_FUNCTION_CALL];
 };

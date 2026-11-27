@@ -7,7 +7,7 @@ Blockly wrapper for SparkFun Qwiic XM125 Pulsed Coherent Radar sensor.
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-sparkfun-qwiic-xm125 |
-| Version | 0.0.2 |
+| Version | 0.0.3 |
 | Author | SparkFun |
 | Source | N/A |
 | License | Original license |
