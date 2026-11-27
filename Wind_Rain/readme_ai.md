@@ -4,7 +4,7 @@ Wind speed, wind direction and rain sensor control library, hardware adapted to 
 
 ## Library Info
 - **Name**: @aily-project/lib-wind
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 
