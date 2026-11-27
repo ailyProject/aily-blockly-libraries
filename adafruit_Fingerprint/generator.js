@@ -2,7 +2,7 @@ Arduino.forBlock['fingerprint_begin'] = function (block, generator) {
   var baud = block.getFieldValue('BAUDRATE');
   generator.addLibrary('#include <Adafruit_Fingerprint.h>', '#include <Adafruit_Fingerprint.h>');
   generator.addVariable('Adafruit_Fingerprint finger(&Serial, 0x0);', 'Adafruit_Fingerprint finger(&Serial, 0x0);');
-  generator.addSetupBegin('finger_begin', 'finger.begin(' + baud + ');');
+  generator.addSetupBegin('finger_begin', 'finger.begin(' + baud + ');', true);
   return '';
 };
 
@@ -15,18 +15,10 @@ Arduino.forBlock['fingerprint_get_image'] = function (block, generator) {
 };
 
 Arduino.forBlock['fingerprint_image2Tz'] = function (block, generator) {
-  var slot = block.getFieldValue('SLOT');
-  if (slot === '1') {
-    slot = 'FINGERPRINT_CHARBUFFER1';
-  } else if (slot === '2') {
-    slot = 'FINGERPRINT_CHARBUFFER2';
-  } else {
-    slot = 'FINGERPRINT_CHARBUFFER1';
-  }
+  var slot = Number(block.getFieldValue('SLOT')) === 2 ? 2 : 1;
   generator.addLibrary('#include <Adafruit_Fingerprint.h>', '#include <Adafruit_Fingerprint.h>');
   generator.addVariable('Adafruit_Fingerprint finger(&Serial, 0x0);', 'Adafruit_Fingerprint finger(&Serial, 0x0);');
   generator.addSetupBegin('finger_begin', 'finger.begin(57600);');
-  generator.addSetupBegin('finger_image2Tz', 'finger.image2Tz(' + slot + ');');
   return ['finger.image2Tz(' + slot + ')', Arduino.ORDER_ATOMIC];
 };
 
