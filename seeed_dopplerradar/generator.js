@@ -35,28 +35,38 @@ Arduino.forBlock['doppler_radar_init'] = function(block, generator) {
   // 添加库
   ensureDopplerRadarLibrary(generator);
 
-  // 根据开发板类型选择串口类型
-  var serialType = 'HardwareSerial';
-  try {
-    const boardConfig = window['boardConfig'];
-    const core = boardConfig?.core || '';
-    if (core.includes('samd')) {
-      serialType = 'Uart';
-    } else if (core.includes('rp2040') || core.includes('rp2350')) {
-      serialType = 'SerialUART';
-    } else if (core.includes('nrf52')) {
-      serialType = 'Uart';
-    }
-  } catch (e) {}
-
-  // 声明全局对象
-  generator.addObject(varName, 'BGT24LTR11<' + serialType + '> ' + varName + ';');
-
-  // 在setup中初始化串口和传感器
-  generator.addSetup('doppler_serial_' + varName, serialPort + '.begin(115200);');
-  generator.addSetup('doppler_init_' + varName, varName + '.init(' + serialPort + ');');
-  generator.addSetup('doppler_mode_' + varName, 'while(!' + varName + '.setMode(' + mode + '));');
-
+  generator.addObject(varName, 'BGT24LTR11<Stream> ' + varName + ';');
+  const numbered = /^Serial([1-9][0-9]*)$/.exec(serialPort);
+  const rx = generator.valueToCode(block, 'RX', generator.ORDER_ATOMIC);
+  const tx = generator.valueToCode(block, 'TX', generator.ORDER_ATOMIC);
+  const setup = ['{'];
+  if (numbered) {
+    const n = numbered[1];
+    const fallback = 'defined(ARDUINO_ARCH_STM32) && defined(USART' + n + ') && !defined(HAVE_HWSERIAL' + n + ')';
+    const stmPort = 'ailyDopplerUsart' + n;
+    generator.addObject(stmPort, '#if ' + fallback + '\nUart ' + stmPort + '(USART' + n + ');\n#endif');
+    setup.push('#if ' + fallback, 'auto &radarPort = ' + stmPort + ';', '#else',
+      'auto &radarPort = ' + serialPort + ';', '#endif');
+  } else {
+    setup.push('auto &radarPort = ' + serialPort + ';');
+  }
+  if ((rx || tx) && (numbered || serialPort === 'Serial0')) {
+    setup.push('#if defined(ARDUINO_ARCH_ESP32)', 'radarPort.begin(115200, SERIAL_8N1, ' +
+      (rx || '-1') + ', ' + (tx || '-1') + ');', '#else', '#if defined(ARDUINO_ARCH_STM32)');
+    if (rx) setup.push('radarPort.setRx(' + rx + ');');
+    if (tx) setup.push('radarPort.setTx(' + tx + ');');
+    setup.push('#endif', 'radarPort.begin(115200);', '#endif');
+  } else {
+    setup.push('radarPort.begin(115200);');
+  }
+  setup.push(varName + '.init(radarPort);', varName + '.setMode(' + mode + ');', '}');
+  const code = setup.join('\n') + '\n';
+  let container = block;
+  while (container && container.type !== 'arduino_setup') {
+    container = container.getSurroundParent ? container.getSurroundParent() : null;
+  }
+  if (container) return code;
+  generator.addSetup('doppler_init_' + varName, code);
   return '';
 };
 
