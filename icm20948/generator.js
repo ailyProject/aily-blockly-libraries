@@ -2,114 +2,74 @@
 // 避免重复加载扩展
 if (typeof Arduino !== 'undefined') {
 
-  // 初始化ICM20948传感器
+  function ensureGyroOffsets(generator) {
+    generator.addVariable('gyro_offset', 'float gyro_offset_x = 0, gyro_offset_y = 0, gyro_offset_z = 0;');
+  }
+
+  function ensureSample(generator) {
+    generator.addVariable('icm_sample_flags', 'bool icm_sample_fresh = false, icm_sample_valid = false;');
+    generator.addFunction('icm20948_read_data', `
+void icm20948_read_data() {
+  static unsigned long lastAttempt = 0;
+  icm_sample_fresh = false;
+  if (!icm_initialized) {
+    if (millis() - lastAttempt < 250) return;
+    lastAttempt = millis();
+    icm20948_begin();
+    if (!icm_initialized) return;
+  }
+  if (myICM.dataReady()) {
+    myICM.getAGMT();
+    icm_sample_fresh = myICM.status == ICM_20948_Stat_Ok;
+    icm_sample_valid = icm_sample_fresh;
+  }
+  if (myICM.status != ICM_20948_Stat_Ok && myICM.status != ICM_20948_Stat_NoData) {
+    icm_sample_valid = false;
+    icm_initialized = false;
+    lastAttempt = millis();
+  }
+}`);
+    generator.addLoopBegin('icm20948_read', 'icm20948_read_data();');
+  }
+
   Arduino.forBlock['icm20948_init'] = function(block, generator) {
     const address = block.getFieldValue('ADDRESS');
-    
     generator.addLibrary('icm20948_lib', '#include "ICM_20948.h"');
     generator.addVariable('icm20948_obj', 'ICM_20948_I2C myICM;');
     generator.addVariable('icm20948_initialized', 'bool icm_initialized = false;');
-    
-    const initCode = `
-  if (!icm_initialized) {
-    Wire.begin();
-    Wire.setClock(400000);
-    
-    myICM.begin(Wire, ${address});
-    if (myICM.status == ICM_20948_Stat_Ok) {
-      // 软件复位
-      myICM.swReset();
-      delay(250);
-      
-      // 唤醒传感器
-      myICM.sleep(false);
-      myICM.lowPower(false);
-      
-      // 启动磁力计
-      myICM.startupMagnetometer();
-      
-      icm_initialized = true;
-      Serial.println("ICM20948 initialized successfully");
-    } else {
-      Serial.println("ICM20948 initialization failed");
-    }
-  }`;
-    
-    generator.addSetupBegin('icm20948_init', initCode);
-    
+    generator.addFunction('icm20948_begin', `
+void icm20948_begin() {
+  icm_initialized = myICM.begin(Wire, ${address}) == ICM_20948_Stat_Ok;
+}`);
+    generator.addSetupBegin('icm20948_init', `
+  Wire.begin();
+  Wire.setClock(400000);
+  icm20948_begin();
+  Serial.println(icm_initialized ? "ICM20948 initialized successfully" : "ICM20948 initialization failed");`);
     return '';
   };
 
-  // 读取加速度计数据
-  Arduino.forBlock['icm20948_read_accel'] = function(block, generator) {
-    const axis = block.getFieldValue('AXIS');
-    
-    generator.addFunction('icm20948_read_data', `
-void icm20948_read_data() {
-  if (icm_initialized && myICM.dataReady()) {
-    myICM.getAGMT();
+  for (const [type, method] of [['accel','acc'], ['gyro','gyr'], ['mag','mag']]) {
+    Arduino.forBlock['icm20948_read_' + type] = function(block, generator) {
+      ensureSample(generator);
+      const axis = block.getFieldValue('AXIS');
+      let value = `myICM.${method}${axis}()`;
+      if (type === 'gyro') {
+        ensureGyroOffsets(generator);
+        value += ' - gyro_offset_' + axis.toLowerCase();
+      }
+      return [`(icm_sample_valid ? ${value} : NAN)`, Arduino.ORDER_ATOMIC];
+    };
   }
-}`);
-    
-    generator.addLoopBegin('icm20948_read', 'icm20948_read_data();');
-    
-    const code = `myICM.acc${axis}()`;
-    return [code, Arduino.ORDER_FUNCTION_CALL];
-  };
 
-  // 读取陀螺仪数据
-  Arduino.forBlock['icm20948_read_gyro'] = function(block, generator) {
-    const axis = block.getFieldValue('AXIS');
-    
-    generator.addFunction('icm20948_read_data', `
-void icm20948_read_data() {
-  if (icm_initialized && myICM.dataReady()) {
-    myICM.getAGMT();
-  }
-}`);
-    
-    generator.addLoopBegin('icm20948_read', 'icm20948_read_data();');
-    
-    const code = `myICM.gyr${axis}()`;
-    return [code, Arduino.ORDER_FUNCTION_CALL];
-  };
-
-  // 读取磁力计数据
-  Arduino.forBlock['icm20948_read_mag'] = function(block, generator) {
-    const axis = block.getFieldValue('AXIS');
-    
-    generator.addFunction('icm20948_read_data', `
-void icm20948_read_data() {
-  if (icm_initialized && myICM.dataReady()) {
-    myICM.getAGMT();
-  }
-}`);
-    
-    generator.addLoopBegin('icm20948_read', 'icm20948_read_data();');
-    
-    const code = `myICM.mag${axis}()`;
-    return [code, Arduino.ORDER_FUNCTION_CALL];
-  };
-
-  // 读取温度
   Arduino.forBlock['icm20948_read_temp'] = function(block, generator) {
-    generator.addFunction('icm20948_read_data', `
-void icm20948_read_data() {
-  if (icm_initialized && myICM.dataReady()) {
-    myICM.getAGMT();
-  }
-}`);
-    
-    generator.addLoopBegin('icm20948_read', 'icm20948_read_data();');
-    
-    const code = `myICM.temp()`;
-    return [code, Arduino.ORDER_FUNCTION_CALL];
+    ensureSample(generator);
+    return ['(icm_sample_valid ? myICM.temp() : NAN)', Arduino.ORDER_ATOMIC];
   };
 
-  // 数据就绪检查
   Arduino.forBlock['icm20948_data_ready'] = function(block, generator) {
-    const code = `(icm_initialized && myICM.dataReady())`;
-    return [code, Arduino.ORDER_RELATIONAL];
+    ensureSample(generator);
+    return ['icm_sample_fresh', Arduino.ORDER_ATOMIC];
   };
 
   // 初始化AHRS
@@ -144,7 +104,7 @@ void madgwick_update(float gx, float gy, float gz, float ax, float ay, float az,
   qDot4 = 0.5f * (ahrs_q0 * gz + ahrs_q1 * gy - ahrs_q2 * gx);
 
   // Compute feedback only if accelerometer measurement valid
-  if(!((ax == 0.0f) && (ay == 0.0f) && (az == 0.0f))) {
+  if ((ax != 0.0f || ay != 0.0f || az != 0.0f) && (mx != 0.0f || my != 0.0f || mz != 0.0f)) {
     // Normalise accelerometer measurement
     recipNorm = 1.0f / sqrt(ax * ax + ay * ay + az * az);
     ax *= recipNorm;
@@ -192,17 +152,14 @@ void madgwick_update(float gx, float gy, float gz, float ax, float ay, float az,
     s1 = _2q3 * (2.0f * q1q3 - _2q0q2 - ax) + _2q0 * (2.0f * q0q1 + _2q2q3 - ay) - 4.0f * ahrs_q1 * (1 - 2.0f * q1q1 - 2.0f * q2q2 - az) + _2bz * ahrs_q3 * (_2bx * (0.5f - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - mx) + (_2bx * ahrs_q2 + _2bz * ahrs_q0) * (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - my) + (_2bx * ahrs_q3 - _4bz * ahrs_q1) * (_2bx * (q0q2 + q1q3) + _2bz * (0.5f - q1q1 - q2q2) - mz);
     s2 = -_2q0 * (2.0f * q1q3 - _2q0q2 - ax) + _2q3 * (2.0f * q0q1 + _2q2q3 - ay) - 4.0f * ahrs_q2 * (1 - 2.0f * q1q1 - 2.0f * q2q2 - az) + (-_4bx * ahrs_q2 - _2bz * ahrs_q0) * (_2bx * (0.5f - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - mx) + (_2bx * ahrs_q1 + _2bz * ahrs_q3) * (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - my) + (_2bx * ahrs_q0 - _4bz * ahrs_q2) * (_2bx * (q0q2 + q1q3) + _2bz * (0.5f - q1q1 - q2q2) - mz);
     s3 = _2q1 * (2.0f * q1q3 - _2q0q2 - ax) + _2q2 * (2.0f * q0q1 + _2q2q3 - ay) + (-_4bx * ahrs_q3 + _2bz * ahrs_q1) * (_2bx * (0.5f - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - mx) + (-_2bx * ahrs_q0 + _2bz * ahrs_q2) * (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - my) + _2bx * ahrs_q1 * (_2bx * (q0q2 + q1q3) + _2bz * (0.5f - q1q1 - q2q2) - mz);
-    recipNorm = 1.0f / sqrt(s0 * s0 + s1 * s1 + s2 * s2 + s3 * s3); // normalise step magnitude
-    s0 *= recipNorm;
-    s1 *= recipNorm;
-    s2 *= recipNorm;
-    s3 *= recipNorm;
-
-    // Apply feedback step
-    qDot1 -= ahrs_beta * s0;
-    qDot2 -= ahrs_beta * s1;
-    qDot3 -= ahrs_beta * s2;
-    qDot4 -= ahrs_beta * s3;
+    const float gradientSq = s0*s0 + s1*s1 + s2*s2 + s3*s3;
+    if (gradientSq > 0.0f) {
+      const float feedback = ahrs_beta / sqrt(gradientSq);
+      qDot1 -= feedback * s0;
+      qDot2 -= feedback * s1;
+      qDot3 -= feedback * s2;
+      qDot4 -= feedback * s3;
+    }
   }
 
   // Integrate rate of change of quaternion to yield quaternion
@@ -221,7 +178,7 @@ void madgwick_update(float gx, float gy, float gz, float ax, float ay, float az,
 
   // Convert quaternion to Euler angles
   ahrs_roll = atan2(2.0f * (ahrs_q0 * ahrs_q1 + ahrs_q2 * ahrs_q3), 1.0f - 2.0f * (ahrs_q1 * ahrs_q1 + ahrs_q2 * ahrs_q2)) * 57.2958f;
-  ahrs_pitch = asin(2.0f * (ahrs_q0 * ahrs_q2 - ahrs_q3 * ahrs_q1)) * 57.2958f;
+  ahrs_pitch = asin(fmaxf(-1.0f, fminf(1.0f, 2.0f * (ahrs_q0 * ahrs_q2 - ahrs_q3 * ahrs_q1)))) * 57.2958f;
   ahrs_yaw = atan2(2.0f * (ahrs_q0 * ahrs_q3 + ahrs_q1 * ahrs_q2), 1.0f - 2.0f * (ahrs_q2 * ahrs_q2 + ahrs_q3 * ahrs_q3)) * 57.2958f;
 }`);
 
@@ -230,11 +187,12 @@ void madgwick_update(float gx, float gy, float gz, float ax, float ay, float az,
 
   // 更新AHRS
   Arduino.forBlock['icm20948_ahrs_update'] = function(block, generator) {
+    ensureGyroOffsets(generator);
+    ensureSample(generator);
     const code = `
-  if (icm_initialized && myICM.dataReady()) {
-    myICM.getAGMT();
+  if (icm_sample_fresh) {
     madgwick_update(
-      myICM.gyrX(), myICM.gyrY(), myICM.gyrZ(),
+      myICM.gyrX() - gyro_offset_x, myICM.gyrY() - gyro_offset_y, myICM.gyrZ() - gyro_offset_z,
       myICM.accX(), myICM.accY(), myICM.accZ(),
       myICM.magX(), myICM.magY(), myICM.magZ()
     );
@@ -264,34 +222,30 @@ void madgwick_update(float gx, float gy, float gz, float ax, float ay, float az,
   Arduino.forBlock['icm20948_calibrate_gyro'] = function(block, generator) {
     const samples = block.getFieldValue('SAMPLES');
     
-    generator.addVariable('gyro_offset', 'float gyro_offset_x = 0, gyro_offset_y = 0, gyro_offset_z = 0;');
-    
+    ensureGyroOffsets(generator);
     const code = `
-  Serial.println("开始陀螺仪校准，请保持传感器静止...");
-  delay(2000);
-  
-  float sum_x = 0, sum_y = 0, sum_z = 0;
-  for (int i = 0; i < ${samples}; i++) {
-    if (myICM.dataReady()) {
-      myICM.getAGMT();
-      sum_x += myICM.gyrX();
-      sum_y += myICM.gyrY();
-      sum_z += myICM.gyrZ();
+  if (icm_initialized) {
+    Serial.println("开始陀螺仪校准，请保持传感器静止...");
+    delay(2000);
+    float sumX = 0, sumY = 0, sumZ = 0;
+    const unsigned long start = millis();
+    unsigned int count = 0;
+    while (count < ${samples} && millis() - start < ${samples}UL * 20UL + 500UL) {
+      if (myICM.dataReady()) {
+        myICM.getAGMT();
+        if (myICM.status != ICM_20948_Stat_Ok) break;
+        sumX += myICM.gyrX(); sumY += myICM.gyrY(); sumZ += myICM.gyrZ();
+        ++count;
+      } else if (myICM.status != ICM_20948_Stat_NoData) break;
       delay(2);
     }
-  }
-  
-  gyro_offset_x = sum_x / ${samples};
-  gyro_offset_y = sum_y / ${samples};
-  gyro_offset_z = sum_z / ${samples};
-  
-  Serial.print("陀螺仪偏移值 - X: ");
-  Serial.print(gyro_offset_x);
-  Serial.print(", Y: ");
-  Serial.print(gyro_offset_y);
-  Serial.print(", Z: ");
-  Serial.println(gyro_offset_z);`;
-    
+    if (count == ${samples}) {
+      gyro_offset_x = sumX/count; gyro_offset_y = sumY/count; gyro_offset_z = sumZ/count;
+      Serial.print("陀螺仪偏移值 - X: "); Serial.print(gyro_offset_x);
+      Serial.print(", Y: "); Serial.print(gyro_offset_y);
+      Serial.print(", Z: "); Serial.println(gyro_offset_z);
+    } else Serial.println("陀螺仪校准未完成");
+  }`;
     return code;
   };
 
@@ -301,7 +255,7 @@ void madgwick_update(float gx, float gy, float gz, float ax, float ay, float az,
     const offset_y = generator.valueToCode(block, 'OFFSET_Y', Arduino.ORDER_ATOMIC) || '0';
     const offset_z = generator.valueToCode(block, 'OFFSET_Z', Arduino.ORDER_ATOMIC) || '0';
     
-    generator.addVariable('gyro_offset', 'float gyro_offset_x = 0, gyro_offset_y = 0, gyro_offset_z = 0;');
+    ensureGyroOffsets(generator);
     
     const code = `
   gyro_offset_x = ${offset_x};
