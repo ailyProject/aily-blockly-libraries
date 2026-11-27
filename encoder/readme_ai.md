@@ -1,6 +1,6 @@
 # Rotary encoder blocks
 
-Package `@aily-project/lib-encoder` version `0.0.2` reads quadrature signals on two digital GPIO pins. One complete cycle changes the position by four counts. Select a separate Encoder variable and two pins for each device.
+Package `@aily-project/lib-encoder` version `0.0.3` reads quadrature signals on two digital GPIO pins. One complete cycle changes the position by four counts. Select a separate Encoder variable and two pins for each device.
 
 | Block | Parameters in order | Result |
 | --- | --- | --- |
