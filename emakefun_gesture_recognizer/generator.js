@@ -33,6 +33,16 @@ Arduino.forBlock['gesture_recognizer_setup'] = function(block, generator) {
   const i2cAddress = block.getFieldValue('I2C_ADDRESS') || '0x39';
 
   // 添加库和变量声明
+  // Aily Wire blocks write the shared setup entry even when visited after this sensor.
+  // Respect explicit routes on the same bus in either block order.
+  const workspace = block.workspace;
+  const explicitWire = workspace && workspace.getAllBlocks(false).some(candidate =>
+    (candidate.type === 'wire_begin' || candidate.type === 'wire_begin_with_settings') &&
+    (candidate.getFieldValue('WIRE') || 'Wire') === 'Wire' && candidate.isEnabled() &&
+    !candidate.getInheritedDisabled() && !candidate.isInsertionMarker());
+  if (!explicitWire && !generator.codeDict?.setups_begin?.wire_Wire_begin) {
+    generator.addSetup('wire_Wire_begin', 'Wire.begin();');
+  }
   generator.addLibrary('gesture_recognizer', '#include <gesture_recognizer.h>');
   registerVariableToBlockly(varName, 'GestureRecognizer');
   generator.addVariable(varName, 'emakefun::GestureRecognizer ' + varName + '(Wire, ' + i2cAddress + ');');
