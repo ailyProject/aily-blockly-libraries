@@ -84,3 +84,37 @@ Arduino.forBlock['fps_delete_id'] = function(block, generator) {
 Arduino.forBlock['fps_delete_all'] = function(block) {
   return fpsGetVar(block) + '.DeleteAll();\n';
 };
+
+Arduino.forBlock['fps_init_uart'] = function(block, generator) {
+  fpsAttachVar(block);
+  fpsEnsureLibrary(generator);
+  var name = block.getFieldValue('VAR') || 'fps';
+  var port = name + '_uart';
+  var index = block.getFieldValue('UART') === '2' ? '2' : '1';
+  var rx = generator.valueToCode(block, 'RX', generator.ORDER_ATOMIC) || '4';
+  var tx = generator.valueToCode(block, 'TX', generator.ORDER_ATOMIC) || '5';
+  generator.addVariable(name, [
+    '#if defined(ARDUINO_ARCH_STM32) && !defined(HAVE_HWSERIAL' + index + ') && defined(USART' + index + ')',
+    '#if STM32_CORE_VERSION_MAJOR >= 3',
+    'Uart ' + port + '(USART' + index + ');',
+    '#else',
+    'HardwareSerial ' + port + '(USART' + index + ');',
+    '#endif',
+    '#else',
+    'auto &' + port + ' = Serial' + index + ';',
+    '#endif',
+    'FPS_GT511C3 ' + name + '(' + port + ');'
+  ].join('\n'));
+  return [
+    '#if defined(ARDUINO_ARCH_ESP32)',
+    port + '.begin(9600, SERIAL_8N1, ' + rx + ', ' + tx + ');',
+    '#else',
+    '#if defined(ARDUINO_ARCH_STM32)',
+    port + '.setRx(' + rx + ');',
+    port + '.setTx(' + tx + ');',
+    '#endif',
+    port + '.begin(9600);',
+    '#endif',
+    name + '.Open();', ''
+  ].join('\n');
+};
