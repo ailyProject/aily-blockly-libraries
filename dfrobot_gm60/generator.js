@@ -117,8 +117,15 @@ Arduino.forBlock['gm60_init_uart'] = function(block, generator) {
   }
   generator.addObject(local, declaration);
   generator.addObject(varName, 'DFRobot_GM60_UART ' + varName + ';');
-  generator.addSetupBegin('gm60_uart_begin_' + varName, setup + '\n' + varName + '.begin(' + local + ');\n');
-
+  var initialize = setup + '\n' + varName + '.begin(' + local + ');\n';
+  // Respect the user's setup order: starting UART0 after UART1 can detach its pins on ESP32-S3.
+  // Keep automatic setup for legacy projects that place the initialization block outside setup.
+  var container = block;
+  while (container && container.type !== 'arduino_setup') {
+    container = typeof container.getSurroundParent === 'function' ? container.getSurroundParent() : null;
+  }
+  if (container) return initialize;
+  generator.addSetupBegin('gm60_uart_begin_' + varName, initialize);
   return '';
 };
 
