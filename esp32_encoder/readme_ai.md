@@ -1,10 +1,10 @@
 # ESP32 Rotary Encoder Library
 
-The ESP32 rotary encoder driver library is suitable for esp32. Through I2C communication, it can realize efficient collection and processing of rotary encoder signals and simplify the encoder application development p...
+Reads quadrature signals on CLK and DT using the ESP32 pulse counter. SW is an active-low push button.
 
 ## Library Info
 - **Name**: @aily-project/lib-esp32-encoder
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
@@ -42,3 +42,7 @@ arduino_loop()
 
 1. **Parameter order**: ABS parameters follow `block.json` args order.
 2. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+## Encoder wiring and switch
+
+Connect CLK and DT to GPIO inputs and SW to an input with the internal pull-up. Connect the switch to ground. The PRESSED event fires once per stable press after 50 ms. BUTTON_HELD returns 1 until a stable release and 0 afterwards.

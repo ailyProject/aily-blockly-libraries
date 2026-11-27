@@ -30,6 +30,7 @@ Arduino.forBlock['rotary_encoder_init'] = function(block, generator) {
 
   // 按键状态变量
   generator.addVariable('buttonPressed', 'bool buttonPressed = false;');
+  generator.addVariable('buttonPressedEvent', 'bool buttonPressedEvent = false;');
   generator.addVariable('lastButtonState', 'bool lastButtonState = HIGH;');
   generator.addVariable('lastDebounceTime', 'unsigned long lastDebounceTime = 0;');
   generator.addVariable('debounceDelay', 'const unsigned long debounceDelay = 50;');
@@ -92,20 +93,16 @@ Arduino.forBlock['rotary_encoder_init'] = function(block, generator) {
 
   // 检测按键状态
   bool reading = digitalRead(SW_PIN);
-  
+  buttonPressedEvent = false;
   if (reading != lastButtonState) {
     lastDebounceTime = millis();
+    lastButtonState = reading;
   }
-  
-  if ((millis() - lastDebounceTime) > debounceDelay) {
-    if (reading != buttonPressed && reading == LOW) {
-      buttonPressed = true;
-    } else {
-      buttonPressed = false;
-    }
-  }
-  
-  lastButtonState = reading;`);
+  if (millis() - lastDebounceTime >= debounceDelay) {
+    bool pressed = reading == LOW;
+    buttonPressedEvent = pressed && !buttonPressed;
+    buttonPressed = pressed;
+  }`);
 
 
   
@@ -129,6 +126,11 @@ Arduino.forBlock['rotary_encoder_state_change'] = function(block, generator) {
   
   let code = '';
   switch (state) {
+    case 'PRESSED':
+      code = `if (buttonPressedEvent) {
+${branch}  }
+`;
+      break;
     case 'CHANGED':
       code = `if (positionChanged) {
 ${branch}  }
@@ -165,6 +167,9 @@ Arduino.forBlock['rotary_encoder_get_property'] = function(block, generator) {
   
   let code = '';
   switch (property) {
+    case 'BUTTON_HELD':
+      code = '(buttonPressed ? 1 : 0)';
+      break;
     case 'POSITION':
       code = 'displayPos';  // 使用整数显示位置
       break;
