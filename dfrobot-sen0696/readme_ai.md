@@ -4,16 +4,16 @@ Gravity SEN0696 10-DOF IMU with I2C/UART, accel, gyro, mag and barometer.
 
 ## Library Info
 - **Name**: @aily-project/lib-dfrobot-sen0696
-- **Version**: 0.1.0
+- **Version**: 0.1.1
 
 ## Block Definitions
 
-Compatibility types: `arduino:avr:uno`, `esp32:esp32:esp32`, `esp32:esp32:esp32c3`, `esp32:esp32:esp32s3`. Nano/Mega and other types are excluded. UNO UART uses SoftwareSerial; ESP32 uses a board hardware port (prefer Serial1; no Serial2 on ESP32-C3).
+Supported profiles include Arduino UNO, ESP32, ESP32-C3, ESP32-S3 and OJ Nano STM32F103C8. Automatic UART uses USART1 on OJ Nano (PA10 RX, PA9 TX) and D7 RX / D6 TX on XIAO ESP32-S3. Existing sketches retain their board port selection. On UNO, select the RX/TX pins for SoftwareSerial.
 
 | Block Type | Connection | Parameters (block.json order) | ABS Format | Generated Code |
 |------------|------------|--------------------------|------------|----------------|
 | `sen0696_init_i2c` | Statement | VAR(field_input), WIRE(dropdown), ADDRESS(dropdown) | `sen0696_init_i2c("imu", Wire, "0x4A")` | `while (!imu.begin()) { ↵ delay(1000); ↵ } ↵ imu.setSensorMode(DFRobot_Multi_DOF_IMU::eNormalMode); ↵ imu.setAccelRange(DFRobot_Multi_DOF_IMU::eAccelRange2G); ↵ imu.setGyroRange(DFRobot_Multi_DOF_IMU::eGyroRange250DPS);` |
-| `sen0696_init_uart` | Statement | VAR(field_input), SERIAL(dropdown), RX(dropdown), TX(dropdown), ADDRESS(dropdown) | `sen0696_init_uart("imu", Serial1, RX, TX, "0x4A")` | `while (!imu.begin()) { ↵ delay(1000); ↵ } ↵ imu.setSensorMode(DFRobot_Multi_DOF_IMU::eNormalMode); ↵ imu.setAccelRange(DFRobot_Multi_DOF_IMU::eAccelRange2G); ↵ imu.setGyroRange(DFRobot_Multi_DOF_IMU::eGyroRange250DPS);` |
+| `sen0696_init_uart` | Statement | VAR(field_input), SERIAL(dropdown), RX(dropdown), TX(dropdown), ADDRESS(dropdown), PORT_MODE(dropdown) | `sen0696_init_uart("imu", Serial1, RX, TX, "0x4A", AUTO)` | `while (!imu.begin()) { ↵ delay(1000); ↵ } ↵ imu.setSensorMode(DFRobot_Multi_DOF_IMU::eNormalMode); ↵ imu.setAccelRange(DFRobot_Multi_DOF_IMU::eAccelRange2G); ↵ imu.setGyroRange(DFRobot_Multi_DOF_IMU::eGyroRange250DPS);` |
 | `sen0696_set_mode` | Statement | VAR(field_variable), MODE(dropdown) | `sen0696_set_mode($imu, eNormalMode)` | `imu.setSensorMode(DFRobot_Multi_DOF_IMU::eNormalMode);` |
 | `sen0696_set_accel` | Statement | VAR(field_variable), RANGE(dropdown) | `sen0696_set_accel($imu, eAccelRange2G)` | `imu.setAccelRange(DFRobot_Multi_DOF_IMU::eAccelRange2G);` |
 | `sen0696_set_gyro` | Statement | VAR(field_variable), RANGE(dropdown) | `sen0696_set_gyro($imu, eGyroRange125DPS)` | `imu.setGyroRange(DFRobot_Multi_DOF_IMU::eGyroRange125DPS);` |

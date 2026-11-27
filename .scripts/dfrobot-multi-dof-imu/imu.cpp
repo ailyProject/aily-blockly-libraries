@@ -1,5 +1,6 @@
 #include <DFRobot_Multi_DOF_IMU.h>
 #include <cassert>
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <cstdio>
@@ -31,8 +32,13 @@ static void test(DFRobot_Multi_DOF_IMU& imu){
   assert(imu.setSensorMode(M::eNormalMode));
   assert(imu.setAccelRange(M::eAccelRange2G) && imu.setGyroRange(M::eGyroRange250DPS));
   M::sSensorData_t a{},g{},m{};
+#if IMU_AXES == 10
+  float pressure = 0, altitude = 0;
+#endif
   auto read = [&](){
-#if IMU_AXES == 9
+#if IMU_AXES == 10
+    return imu.get10dofData(&a,&g,&m,&pressure,false);
+#elif IMU_AXES == 9
     return imu.get9dofData(&a,&g,&m);
 #else
     return imu.get6dofData(&a,&g);
@@ -40,12 +46,18 @@ static void test(DFRobot_Multi_DOF_IMU& imu){
   };
   assert(read());assert(a.x==0 && a.y==0 && a.z==0 && g.x==0 && g.y==0 && g.z==0);
   assert(m.x==0 && m.y==0 && m.z==0);
+#if IMU_AXES == 10
+  assert(pressure == 101325 && imu.get10dofData(&a,&g,&m,&altitude,true) && altitude == 0);
+#endif
   exchange("MOTION");
   auto sample=[&](){
     assert(read());
     assert(a.x==-.5f && a.y==1.f && a.z==.25f);
-    #if IMU_AXES == 9
+#if IMU_AXES >= 9
     assert(m.x==1234.5f && m.y==-1300.25f && m.z==-.25f);
+#endif
+#if IMU_AXES == 10
+    assert(pressure == 90000);
 #endif
     assert(g.x==-62.5f && g.y==31.25f && g.z==125.f);
   };
@@ -53,8 +65,16 @@ static void test(DFRobot_Multi_DOF_IMU& imu){
   assert(imu.setAccelRange(M::eAccelRange8G) && imu.setGyroRange(M::eGyroRange1000DPS));sample();
   assert(imu.getStepCount()==0x10023 && imu.getTap()==2 && imu.getOrientation()==0x301);
   assert(imu.setInt(M::eImuIntPin1,M::eInt1_2Tap) && imu.setInt(M::eImuIntPin2,M::eInt1_2Orientation));
-#if IMU_AXES == 9
+#if IMU_AXES >= 9
   assert(imu.setInt(M::eImuIntPin3, M::eInt3DataReady));
+#endif
+#if IMU_AXES == 10
+  assert(imu.setInt(M::eImuIntPin4, M::eInt4PressureOOR));
+  assert(imu.setPressOOR(101325, 100, M::ePressOORCountLimit7));
+  assert(imu.get10dofData(&a,&g,&m,&altitude,true) && std::abs(altitude-988.093f)<0.03f);
+  assert(!imu.calibrateAltitude(0) && imu.calibrateAltitude(540));
+  assert(imu.get10dofData(&a,&g,&m,&altitude,true) && std::abs(altitude-510.857f)<0.03f);
+  assert(read() && pressure == 90000);
 #endif
   exchange("CONFIG");
   exchange("UNPLUG");
@@ -64,7 +84,9 @@ static void test(DFRobot_Multi_DOF_IMU& imu){
   assert(imu.reset());sample();
 }
 int main(int argc,char**argv){
-#if IMU_AXES == 9
+#if IMU_AXES == 10
+  constexpr auto model = DFRobot_Multi_DOF_IMU::eSensorModel10DOF;
+#elif IMU_AXES == 9
   constexpr auto model = DFRobot_Multi_DOF_IMU::eSensorModel9DOF;
 #else
   constexpr auto model = DFRobot_Multi_DOF_IMU::eSensorModel6DOF;

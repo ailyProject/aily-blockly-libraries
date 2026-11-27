@@ -8,7 +8,7 @@ function sen0696Value(block, generator, name, fallback) {
 }
 function sen0696Core() {
   if (typeof window === 'undefined' || !window.boardConfig) return '';
-  return String(window.boardConfig.core || window.boardConfig.board || '');
+  return [window.boardConfig.core, window.boardConfig.board, window.boardConfig.fqbn].filter(Boolean).join(' ');
 }
 function sen0696AttachVar(block, typeName) {
   if (block.sen0696VarMonitorAttached) return;
@@ -50,25 +50,60 @@ Arduino.forBlock['sen0696_init_i2c'] = function(block, generator) {
   generator.addObject(varName, 'DFRobot_Multi_DOF_IMU_I2C ' + varName + '(DFRobot_Multi_DOF_IMU::eSensorModel10DOF, &' + wire + ', ' + address + ');');
   return 'while (!' + varName + '.begin()) {\n  delay(1000);\n}\n' + varName + '.setSensorMode(DFRobot_Multi_DOF_IMU::eNormalMode);\n' + varName + '.setAccelRange(DFRobot_Multi_DOF_IMU::eAccelRange2G);\n' + varName + '.setGyroRange(DFRobot_Multi_DOF_IMU::eGyroRange250DPS);\n';
 };
+// The editor refreshes SERIAL from the active board. Keep the routing choice in a stable field.
+if (typeof Blockly !== 'undefined') {
+  const extension = 'sen0696_port_mode';
+  if (Blockly.Extensions.isRegistered(extension)) Blockly.Extensions.unregister(extension);
+  Blockly.Extensions.register(extension, function () {
+    const mode = this.getField('PORT_MODE');
+    const show = value => {
+      this.getField('SERIAL').setVisible(value === 'BOARD');
+      if (this.rendered) this.render();
+    };
+    mode.setValidator(value => { show(value); return value; });
+    show(mode.getValue());
+  });
+}
+
 Arduino.forBlock['sen0696_init_uart'] = function(block, generator) {
   sen0696AttachVar(block, 'DFRobot_Multi_DOF_IMU');
   sen0696EnsureLib(generator);
   var varName = block.getFieldValue('VAR') || 'imu';
   var address = block.getFieldValue('ADDRESS') || '0x4A';
   var core = sen0696Core();
-  var serialName = block.getFieldValue('SERIAL') || 'Serial1';
-  var rx = block.getFieldValue('RX') || '16';
-  var tx = block.getFieldValue('TX') || '17';
-  if (core.indexOf('arduino:avr') !== -1 || core.indexOf('esp8266') !== -1) {
+  const mode = block.getFieldValue('PORT_MODE') || 'BOARD';
+  const automatic = mode === 'AUTO';
+  const selected = mode === 'BOARD' ? (block.getFieldValue('SERIAL') || 'Serial1') :
+    mode === 'ROUTED2' ? 'Serial2' : 'Serial1';
+  const rx = block.getFieldValue('RX') || '16';
+  const tx = block.getFieldValue('TX') || '17';
+  const numbered = /^Serial([12])$/.exec(selected);
+  let port = selected;
+  let beforeBegin = '';
+  if (core.includes('arduino:avr') || core.includes('esp8266')) {
     generator.addLibrary('SoftwareSerial', '#include <SoftwareSerial.h>');
-    generator.addObject(varName + '_serial', 'SoftwareSerial ' + varName + 'Serial(' + rx + ', ' + tx + ');');
-    generator.addObject(varName, 'DFRobot_Multi_DOF_IMU_UART ' + varName + '(DFRobot_Multi_DOF_IMU::eSensorModel10DOF, &' + varName + 'Serial, 9600, ' + address + ');');
-  } else if (core.indexOf('esp32') !== -1) {
-    generator.addObject(varName, 'DFRobot_Multi_DOF_IMU_UART ' + varName + '(DFRobot_Multi_DOF_IMU::eSensorModel10DOF, &' + serialName + ', 9600, ' + address + ', ' + rx + ', ' + tx + ');');
-  } else {
-    generator.addObject(varName, 'DFRobot_Multi_DOF_IMU_UART ' + varName + '(DFRobot_Multi_DOF_IMU::eSensorModel10DOF, &' + serialName + ', 9600, ' + address + ');');
+    port = varName + 'Serial';
+    generator.addObject(varName + '_serial', 'SoftwareSerial ' + port + '(' + rx + ', ' + tx + ');');
+  } else if (numbered) {
+    port = 'sen0696Port' + numbered[1];
+    const n = numbered[1];
+    generator.addObject('sen0696_uart_' + n, [
+      '#if defined(ARDUINO_ARCH_STM32) && defined(USART' + n + ') && !defined(HAVE_HWSERIAL' + n + ')',
+      'Uart ' + port + '(USART' + n + ');',
+      '#else', 'auto& ' + port + ' = ' + selected + ';', '#endif',
+    ].join('\n'));
+    if (mode === 'ROUTED1' || mode === 'ROUTED2') {
+      beforeBegin = ['#if defined(ARDUINO_ARCH_STM32)', port + '.setRx(' + rx + ');',
+        port + '.setTx(' + tx + ');', '#endif', ''].join('\n');
+    }
   }
-  return 'while (!' + varName + '.begin()) {\n  delay(1000);\n}\n' + varName + '.setSensorMode(DFRobot_Multi_DOF_IMU::eNormalMode);\n' + varName + '.setAccelRange(DFRobot_Multi_DOF_IMU::eAccelRange2G);\n' + varName + '.setGyroRange(DFRobot_Multi_DOF_IMU::eGyroRange250DPS);\n';
+  const decl = 'DFRobot_Multi_DOF_IMU_UART ' + varName + '(DFRobot_Multi_DOF_IMU::eSensorModel10DOF, &' + port + ', 9600, ' + address;
+  // The packed driver opens the port in begin(). Supply pins to its ESP32 constructor.
+  const object = automatic
+    ? ['#if defined(ARDUINO_XIAO_ESP32S3)', decl + ', D7, D6);', '#else', decl + ');', '#endif'].join('\n')
+    : decl + (core.includes('esp32') ? ', ' + rx + ', ' + tx : '') + ');';
+  generator.addObject(varName, object);
+  return beforeBegin + 'while (!' + varName + '.begin()) {\n  delay(1000);\n}\n' + varName + '.setSensorMode(DFRobot_Multi_DOF_IMU::eNormalMode);\n' + varName + '.setAccelRange(DFRobot_Multi_DOF_IMU::eAccelRange2G);\n' + varName + '.setGyroRange(DFRobot_Multi_DOF_IMU::eGyroRange250DPS);\n';
 };
 Arduino.forBlock['sen0696_set_mode'] = function(block, generator) {
   sen0696EnsureLib(generator);

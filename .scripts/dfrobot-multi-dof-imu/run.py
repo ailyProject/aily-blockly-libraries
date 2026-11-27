@@ -27,3 +27,4 @@ def exercise(sku, axes, fixture):
 
 exercise('dfrobot-sen0692', 6, 'frames.json')
 exercise('dfrobot-sen0694', 9, 'frames-9dof.json')
+exercise('dfrobot-sen0696', 10, 'frames-10dof.json')
