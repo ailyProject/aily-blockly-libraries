@@ -13,7 +13,7 @@ Blockly.Extensions.register('mmwave_init_dynamic', function () {
   this.updateShape_ = function (serialType) {
     if (this.getInput('RX_SET')) this.removeInput('RX_SET');
     if (this.getInput('TX_SET')) this.removeInput('TX_SET');
-    if (serialType === 'SOFTWARE') {
+    if (serialType === 'SOFTWARE' || serialType === 'ROUTED1') {
       const pinOptions = (window.boardConfig && window.boardConfig.digitalPins)
         ? window.boardConfig.digitalPins
         : [['D2','2'],['D3','3'],['D4','4'],['D5','5'],['D6','6'],['D7','7'],['D8','8'],['D9','9'],['D10','10'],['D11','11'],['D12','12'],['D13','13']];
@@ -77,23 +77,48 @@ Arduino.forBlock['mmwave_init'] = function(block, generator) {
   }
 
   const varName = block.getFieldValue('VAR') || 'radar';
-  const serialType = block.getFieldValue('SERIAL_TYPE') || 'SOFTWARE';
-
+  const serialType = block.getFieldValue('SERIAL_TYPE') || 'AUTO';
+  const portName = varName + 'Serial';
   ensureMmwaveLib(generator);
 
+  let declaration;
+  let begin;
   if (serialType === 'SOFTWARE') {
-    const rxPin = block.getFieldValue('RX_PIN') || '2';
-    const txPin = block.getFieldValue('TX_PIN') || '3';
+    const rx = block.getFieldValue('RX_PIN') || '2';
+    const tx = block.getFieldValue('TX_PIN') || '3';
     generator.addLibrary('softwareserial', '#include <SoftwareSerial.h>');
-    generator.addVariable('mmwave_serial_' + varName, 'SoftwareSerial ' + varName + 'Serial(' + rxPin + ', ' + txPin + ');');
-    generator.addVariable('mmwave_obj_' + varName, 'Seeed_HSP24 ' + varName + '(' + varName + 'Serial);');
-    generator.addSetupBegin('mmwave_begin_' + varName, varName + 'Serial.begin(9600);\n');
+    declaration = 'SoftwareSerial ' + portName + '(' + rx + ', ' + tx + ');';
+    begin = portName + '.begin(9600);';
   } else {
-    // Hardware serial: Serial1 or Serial2
-    const hwSerial = serialType === 'SERIAL1' ? 'Serial1' : 'Serial2';
-    generator.addVariable('mmwave_obj_' + varName, 'Seeed_HSP24 ' + varName + '(' + hwSerial + ');');
-    generator.addSetupBegin('mmwave_begin_' + varName, hwSerial + '.begin(9600);\n');
+    const n = serialType === 'SERIAL2' ? '2' : '1';
+    const automatic = serialType === 'AUTO';
+    const routed = serialType === 'ROUTED1';
+    const rx = block.getFieldValue('RX_PIN') || '2';
+    const tx = block.getFieldValue('TX_PIN') || '3';
+    const lines = [
+      '#if defined(ARDUINO_ARCH_STM32) && defined(USART' + n + ') && !defined(HAVE_HWSERIAL' + n + ')',
+      'Uart ' + portName + '(USART' + n + ');'
+    ];
+    if (automatic) {
+      lines.push('#elif !defined(ARDUINO_ARCH_ESP32) && !defined(ARDUINO_ARCH_STM32) && !defined(HAVE_HWSERIAL1) && !defined(SERIAL_PORT_HARDWARE1)',
+        '#include <SoftwareSerial.h>', 'SoftwareSerial ' + portName + '(2, 3);');
+    }
+    lines.push('#else', 'auto& ' + portName + ' = Serial' + n + ';', '#endif');
+    declaration = lines.join('\n');
+    const setup = [];
+    if (routed) {
+      setup.push('#if defined(ARDUINO_ARCH_ESP32)', portName + '.begin(9600, SERIAL_8N1, ' + rx + ', ' + tx + ');',
+        '#else', '#if defined(ARDUINO_ARCH_STM32)', portName + '.setRx(' + rx + ');', portName + '.setTx(' + tx + ');', '#endif');
+    } else if (automatic) {
+      setup.push('#if defined(ARDUINO_XIAO_ESP32S3)', portName + '.begin(9600, SERIAL_8N1, D7, D6);', '#else');
+    }
+    setup.push(portName + '.begin(9600);');
+    if (routed || automatic) setup.push('#endif');
+    begin = setup.join('\n');
   }
+  generator.addVariable('mmwave_serial_' + varName, declaration);
+  generator.addVariable('mmwave_obj_' + varName, 'Seeed_HSP24 ' + varName + '(' + portName + ');');
+  generator.addSetupBegin('mmwave_begin_' + varName, begin + '\n');
 
   generator.addVariable('mmwave_status_' + varName, 'Seeed_HSP24::RadarStatus ' + varName + '_status;');
 
@@ -127,7 +152,7 @@ Arduino.forBlock['mmwave_target_status'] = function(block, generator) {
   return ['String(mmwave_targetStatusToString(' + varName + '_status.targetStatus))', generator.ORDER_ATOMIC];
 };
 
-// Distance value — returns detected distance in mm
+// Distance value — returns detected distance in cm
 Arduino.forBlock['mmwave_distance'] = function(block, generator) {
   const varField = block.getField('VAR');
   const varName = varField ? varField.getText() : 'radar';
@@ -142,10 +167,7 @@ Arduino.forBlock['mmwave_set_detection'] = function(block, generator) {
   const distance = generator.valueToCode(block, 'DISTANCE', generator.ORDER_ATOMIC) || '8';
   const duration = generator.valueToCode(block, 'DURATION', generator.ORDER_ATOMIC) || '5';
 
-  let code = varName + '.enableConfigMode();\n';
-  code += varName + '.setDetectionDistance(' + distance + ', ' + duration + ');\n';
-  code += varName + '.disableConfigMode();\n';
-  return code;
+  return varName + '.setDetectionDistance(' + distance + ', ' + duration + ');\n';
 };
 
 // Set gate sensitivity
@@ -156,10 +178,7 @@ Arduino.forBlock['mmwave_set_gate_sensitivity'] = function(block, generator) {
   const movePower = generator.valueToCode(block, 'MOVE_POWER', generator.ORDER_ATOMIC) || '50';
   const staticPower = generator.valueToCode(block, 'STATIC_POWER', generator.ORDER_ATOMIC) || '50';
 
-  let code = varName + '.enableConfigMode();\n';
-  code += varName + '.setGatePower(' + gate + ', ' + movePower + ', ' + staticPower + ');\n';
-  code += varName + '.disableConfigMode();\n';
-  return code;
+  return varName + '.setGatePower(' + gate + ', ' + movePower + ', ' + staticPower + ');\n';
 };
 
 // Set resolution
@@ -168,10 +187,7 @@ Arduino.forBlock['mmwave_set_resolution'] = function(block, generator) {
   const varName = varField ? varField.getText() : 'radar';
   const resolution = block.getFieldValue('RESOLUTION') || '0';
 
-  let code = varName + '.enableConfigMode();\n';
-  code += varName + '.setResolution(' + resolution + ');\n';
-  code += varName + '.disableConfigMode();\n';
-  return code;
+  return varName + '.setResolution(' + resolution + ');\n';
 };
 
 // Get firmware version
@@ -187,9 +203,7 @@ Arduino.forBlock['mmwave_reboot'] = function(block, generator) {
   const varField = block.getField('VAR');
   const varName = varField ? varField.getText() : 'radar';
 
-  let code = varName + '.enableConfigMode();\n';
-  code += varName + '.rebootRadar();\n';
-  return code;
+  return varName + '.rebootRadar();\n';
 };
 
 // Factory reset
@@ -197,9 +211,7 @@ Arduino.forBlock['mmwave_factory_reset'] = function(block, generator) {
   const varField = block.getField('VAR');
   const varName = varField ? varField.getText() : 'radar';
 
-  let code = varName + '.enableConfigMode();\n';
-  code += varName + '.refactoryRadar();\n';
-  return code;
+  return varName + '.refactoryRadar();\n';
 };
 
 // Engineering mode toggle
@@ -208,12 +220,5 @@ Arduino.forBlock['mmwave_engineering_mode'] = function(block, generator) {
   const varName = varField ? varField.getText() : 'radar';
   const mode = block.getFieldValue('MODE');
 
-  let code = varName + '.enableConfigMode();\n';
-  if (mode === 'ENABLE') {
-    code += varName + '.enableEngineeringModel();\n';
-  } else {
-    code += varName + '.disableEngineeringModel();\n';
-  }
-  code += varName + '.disableConfigMode();\n';
-  return code;
+  return varName + (mode === 'ENABLE' ? '.enableEngineeringModel();\n' : '.disableEngineeringModel();\n');
 };
