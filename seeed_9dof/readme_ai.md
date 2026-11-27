@@ -4,7 +4,7 @@ Blockly wrapper for Grove IMU 9DOF (ICM20600 + AK09918).
 
 ## Library Info
 - **Name**: @aily-project/lib-seeed-9dof
-- **Version**: 0.0.1
+- **Version**: 0.0.2
 
 ## Block Definitions
 
@@ -59,3 +59,4 @@ arduino_loop()
 1. **Variable**: `seeed_9dof_init("imu", ...)` creates `$imu` of type `Seeed9DOF`.
 2. **Calibration**: run `seeed_9dof_calibrate_magnet` before `seeed_9dof_heading` for better compass output.
 3. **Input values**: use `math_number(n)` for `DIV`, `TIMEOUT`, `DECLINATION`, and error-code inputs.
+Version 0.0.2 supports the STM32 and ESP32 Wire receive buffers. On the Grove board the default ICM20600 address is 0x69 and the AK09918 address is 0x0C. Single measurement is selected explicitly. The integer temperature API handles signed samples below 25 °C, and the compass self-test interprets its negative Z value as signed 16-bit.

@@ -18,16 +18,12 @@ function seeed9dofEnsureCore(generator) {
   AK09918_err_type_t begin(AK09918_mode_type_t mode) {
     Wire.begin();
     icm.initialize();
-    AK09918_err_type_t err = mag.initialize();
+    AK09918_err_type_t err = mag.switchMode(AK09918_POWER_DOWN);
     if (err != AK09918_ERR_OK) {
       return err;
     }
-    if (mode != AK09918_NORMAL) {
-      mag.switchMode(AK09918_POWER_DOWN);
-      delay(1);
-      err = mag.switchMode(mode);
-    }
-    return err;
+    delay(1);
+    return mag.initialize(mode);
   }
 };`);
 }

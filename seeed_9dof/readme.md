@@ -7,7 +7,7 @@ Blockly library for Grove IMU 9DOF (ICM20600 + AK09918), covering acceleration, 
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-seeed-9dof |
-| Version | 0.0.1 |
+| Version | 0.0.2 |
 | Author | Seeed Studio |
 | Source | https://github.com/Seeed-Studio/Seeed_ICM20600_AK09918 |
 | License | MIT |
@@ -23,3 +23,4 @@ This package wraps Seeed's ICM20600 + AK09918 Arduino library for visual program
 ## Quick Start
 
 Connect the Grove 9DOF module to I2C, place `seeed_9dof_init` in setup, then read motion or magnetic values in loop.
+Version 0.0.2 supports the STM32 and ESP32 Wire receive buffers. On the Grove board the default ICM20600 address is 0x69 and the AK09918 address is 0x0C. Single measurement is selected explicitly. The integer temperature API handles signed samples below 25 °C, and the compass self-test interprets its negative Z value as signed 16-bit.
