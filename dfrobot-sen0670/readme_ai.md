@@ -4,7 +4,7 @@ SEN0670 Gravity AI vision gesture and pose sensor with learned hand/pose classes
 
 ## Library Info
 - **Name**: @aily-project/lib-dfrobot-sen0670
-- **Version**: 0.1.1
+- **Version**: 0.1.2
 
 ## Block Definitions
 
@@ -62,3 +62,5 @@ arduino_loop()
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(true/false)`, variables, or nested value blocks.
 
 OJ Nano UART1 uses USART1 (RX PA10, TX PA9). XIAO ESP32-S3 automatic UART1 uses RX D7 and TX D6. Existing board-port selections retain the configured ESP32 RX and TX. The driver opens the selected port at 9600 baud.
+
+STM32F103xB (20 KiB SRAM) uses 1024-byte receive and AT payload buffers per instance. The wire protocol still negotiates 192-byte packets and supports keypoints. Other targets retain the vendor buffer defaults.

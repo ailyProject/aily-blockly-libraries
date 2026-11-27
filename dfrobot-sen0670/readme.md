@@ -7,7 +7,7 @@ SEN0670 Gravity AI vision gesture and pose sensor with learned hand/pose classes
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-dfrobot-sen0670 |
-| Version | 0.1.1 |
+| Version | 0.1.2 |
 | Author | vonweller |
 | Source | https://gitee.com/DFRobot/DFRobot_HumanPose |
 | License | MIT |
@@ -25,3 +25,5 @@ SEN0670 Gravity AI vision gesture and pose sensor with learned hand/pose classes
 Init in setup, set model, then in loop: get_result -> while available -> pop -> read fields. Built-in gestures: zero/one/two/three/four/five/dislike/like/ok/stop/rock/three2/two_up/no_gesture.
 
 OJ Nano UART1 uses USART1 (RX PA10, TX PA9). XIAO ESP32-S3 automatic UART1 uses RX D7 and TX D6. Existing board-port selections retain the configured ESP32 RX and TX. The driver opens the selected port at 9600 baud.
+
+STM32F103xB (20 KiB SRAM) uses 1024-byte receive and AT payload buffers per instance. The wire protocol still negotiates 192-byte packets and supports keypoints. Other targets retain the vendor buffer defaults.
