@@ -32,13 +32,30 @@ function sen0705AttachVar(block, typeName) {
 function sen0705EnsureLib(generator) {
   generator.addLibrary('DFRobot_TactileSensor', '#include "DFRobot_TactileSensor.h"');
 }
+// The editor refreshes SERIAL from the active board. Keep the routing choice in a stable field.
+if (typeof Blockly !== 'undefined') {
+  const extension = 'sen0705_port_mode';
+  if (Blockly.Extensions.isRegistered(extension)) Blockly.Extensions.unregister(extension);
+  Blockly.Extensions.register(extension, function () {
+    const mode = this.getField('PORT_MODE');
+    const show = value => {
+      this.getField('SERIAL').setVisible(value === 'BOARD');
+      if (this.rendered) this.render();
+    };
+    mode.setValidator(value => { show(value); return value; });
+    show(mode.getValue());
+  });
+}
+
 Arduino.forBlock['sen0705_init'] = function(block, generator) {
   sen0705AttachVar(block, 'DFRobot_TactileSensor');
   sen0705EnsureLib(generator);
   var varName = block.getFieldValue('VAR') || 'tactile';
   var addr = block.getFieldValue('ADDR') || '1';
   var core = sen0705Core();
-  var serialName = block.getFieldValue('SERIAL') || 'Serial1';
+  const mode = block.getFieldValue('PORT_MODE') || 'BOARD';
+  const serialName = mode === 'BOARD' ? (block.getFieldValue('SERIAL') || 'Serial1') :
+    mode === 'AUTO' ? 'AUTO' : mode === 'ROUTED2' ? 'Serial2' : 'Serial1';
   var rx = block.getFieldValue('RX') || '4';
   var tx = block.getFieldValue('TX') || '5';
   const automatic = serialName === 'AUTO';

@@ -1,7 +1,7 @@
 [
   {
     "type": "sen0704_init",
-    "message0": "初始化触觉传感器 %1 串口 %2 RX %3 TX %4 地址 %5",
+    "message0": "初始化触觉传感器 %1 串口 %2 RX %3 TX %4 地址 %5 · %6",
     "args0": [
       {
         "type": "field_input",
@@ -23,10 +23,6 @@
           [
             "Serial",
             "Serial"
-          ],
-          [
-            "Auto (board UART)",
-            "AUTO"
           ]
         ]
       },
@@ -57,6 +53,28 @@
             "3"
           ]
         ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PORT_MODE",
+        "options": [
+          [
+            "Board port",
+            "BOARD"
+          ],
+          [
+            "Auto",
+            "AUTO"
+          ],
+          [
+            "UART1 (RX/TX)",
+            "ROUTED1"
+          ],
+          [
+            "UART2 (RX/TX)",
+            "ROUTED2"
+          ]
+        ]
       }
     ],
     "previousStatement": null,
@@ -64,7 +82,10 @@
     "colour": "#EF6C00",
     "tooltip": "UART 115200 初始化 6x6 柔性阵列压力传感器。",
     "icon": "fa-light fa-table",
-    "inputsInline": true
+    "inputsInline": true,
+    "extensions": [
+      "sen0704_port_mode"
+    ]
   },
   {
     "type": "sen0704_read",
