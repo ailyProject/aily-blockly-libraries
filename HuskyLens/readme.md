@@ -7,7 +7,7 @@ HuskyLens AI vision sensor library supports multiple AI functions such as face r
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-huskylens |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Author | Vonweller |
 | Source | N/A |
 | License | Original license |
@@ -24,3 +24,5 @@ HuskyLens AI vision sensor library supports multiple AI functions such as face r
 
 1. Enable `@aily-project/lib-huskylens` in Aily Blockly.
 2. Add the library blocks, initialize hardware in `arduino_setup()`, then use read/write blocks in `arduino_loop()`.
+
+After a successful request, `available()` gives the number of results in the saved frame. Iterate from 0 through `available() - 1` with `readDirect(index)`. On STM32, select a hardware serial port for the camera and use a separate port for the console.

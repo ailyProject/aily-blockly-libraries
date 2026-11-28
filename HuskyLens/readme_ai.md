@@ -4,7 +4,7 @@ HuskyLens AI vision sensor library supports multiple AI functions such as face r
 
 ## Library Info
 - **Name**: @aily-project/lib-huskylens
-- **Version**: 1.0.0
+- **Version**: 1.0.1
 
 ## Block Definitions
 
@@ -74,3 +74,5 @@ arduino_loop()
 1. **Variable**: `huskylens_init_i2c_until("varName", ...)` creates variable `$varName`; pass `$varName` directly to `field_variable` slots; use `variables_get($varName)` only for `input_value` slots.
 2. **Parameter order**: ABS parameters follow `block.json` args order.
 3. **Input values**: use `math_number(n)`, `text("s")`, `logic_boolean(TRUE/FALSE)`, variables, or nested value blocks.
+
+After a successful request, `available()` gives the number of results in the saved frame. Iterate from 0 through `available() - 1` with `readDirect(index)`. On STM32, select a hardware serial port for the camera and use a separate port for the console.

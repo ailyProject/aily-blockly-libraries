@@ -152,13 +152,22 @@ Arduino.forBlock['huskylens_init_serial'] = function (block, generator) {
     generator.addLibrary('HUSKYLENS', '#include "HUSKYLENS.h"');
 
     // 注册变量
+    registerVariableToBlockly(varName, 'HUSKYLENS');
 
     // 添加对象
     generator.addObject(varName, 'HUSKYLENS ' + varName + ';');
 
     // 初始化串口和HuskyLens
-    generator.addSetup(serial + '_begin', serial + '.begin(9600);');
-    generator.addSetupEnd(varName + '_begin', 'while (!' + varName + '.begin(' + serial + ')) {\n    Serial.println(F("HuskyLens begin failed!"));\n    delay(100);\n  }');
+    var port = serial;
+    if (/^Serial[1-8]$/.test(serial)) {
+        var number = serial.slice(6);
+        port = 'ailyHuskyLens' + serial;
+        generator.addObject(port,
+            '#if defined(ARDUINO_ARCH_STM32) && !defined(HAVE_HWSERIAL' + number + ') && defined(USART' + number + ')\n' +
+            'Uart ' + port + '(USART' + number + ');\n#else\nauto &' + port + ' = ' + serial + ';\n#endif');
+    }
+    generator.addSetup(serial + '_begin', port + '.begin(9600);');
+    generator.addSetupEnd(varName + '_begin', 'while (!' + varName + '.begin(' + port + ')) {\n    Serial.println(F("HuskyLens begin failed!"));\n    delay(100);\n  }');
 
     return '';
 };
