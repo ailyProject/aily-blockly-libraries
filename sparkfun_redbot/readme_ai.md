@@ -18,7 +18,7 @@ Blockly wrapper for the SparkFun RedBot robotics platform.
 | `redbot_sensor_init` | Statement | VAR(field_input), PIN(input_value) | `redbot_sensor_init("sensor1", math_number(2))` | `RedBotSensor sensor1(1);` |
 | `redbot_sensor_read` | Value | VAR(field_variable) | `redbot_sensor_read($sensor1)` | `sensor1.read()` |
 | `redbot_bumper_init` | Statement | VAR(field_input), PIN(input_value) | `redbot_bumper_init("bumper1", math_number(2))` | `RedBotBumper bumper1(1);` |
-| `redbot_bumper_read` | Value | VAR(field_variable) | `redbot_bumper_read($bumper1)` | `bumper1.read()` |
+| `redbot_bumper_read` | Value | VAR(field_variable) | `redbot_bumper_read($bumper1)` | `bumper1.read() == LOW` |
 
 ## ABS Examples
 

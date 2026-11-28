@@ -82,5 +82,5 @@ Arduino.forBlock['redbot_bumper_init'] = function(block, generator) {
 
 Arduino.forBlock['redbot_bumper_read'] = function(block, generator) {
   redbotEnsureLib(generator);
-  return [redbotGetVar(block) + '.read()', generator.ORDER_FUNCTION_CALL];
+  return [redbotGetVar(block) + '.read() == LOW', generator.ORDER_EQUALITY];
 };
