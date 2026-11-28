@@ -20,6 +20,12 @@ function mlx90642Frame(varName) {
   return varName + '_frame';
 }
 
+function mlx90642Cached(varName, expression, temperatureOnly) {
+  var condition = varName + '_frame_valid';
+  if (temperatureOnly) condition += ' && ' + varName + '_in_celsius';
+  return ['(' + condition + ' ? (float)(' + expression + ') : NAN)', 0];
+}
+
 function mlx90642AttachVar(block) {
   if (block._mlx90642VarAttached) return;
   block._mlx90642VarAttached = true;
@@ -41,8 +47,8 @@ function mlx90642AttachVar(block) {
 
 function mlx90642EnsureFrameHelpers(generator) {
   generator.addFunction('mlx90642_pixel_raw', 'uint16_t mlx90642PixelRaw(const uint16_t *frame, int x, int y) {\n  if (x < 0) x = 0;\n  if (x > 31) x = 31;\n  if (y < 0) y = 0;\n  if (y > 23) y = 23;\n  return frame[y * 32 + x];\n}\n');
-  generator.addFunction('mlx90642_pixel_c', 'float mlx90642PixelC(const uint16_t *frame, int x, int y) {\n  return ((int16_t)mlx90642PixelRaw(frame, x, y)) / 100.0f;\n}\n');
-  generator.addFunction('mlx90642_frame_stat_c', 'float mlx90642FrameStatC(const uint16_t *frame, uint8_t mode) {\n  int16_t minValue = (int16_t)frame[0];\n  int16_t maxValue = minValue;\n  int32_t sum = 0;\n  for (uint16_t i = 0; i < MLX90642_TOTAL_NUMBER_OF_PIXELS; i++) {\n    int16_t value = (int16_t)frame[i];\n    if (value < minValue) minValue = value;\n    if (value > maxValue) maxValue = value;\n    sum += value;\n  }\n  if (mode == 0) return minValue / 100.0f;\n  if (mode == 1) return maxValue / 100.0f;\n  return (sum / (float)MLX90642_TOTAL_NUMBER_OF_PIXELS) / 100.0f;\n}\n');
+  generator.addFunction('mlx90642_pixel_c', 'float mlx90642PixelC(const uint16_t *frame, int x, int y) {\n  return ((int16_t)mlx90642PixelRaw(frame, x, y)) / 50.0f;\n}\n');
+  generator.addFunction('mlx90642_frame_stat_c', 'float mlx90642FrameStatC(const uint16_t *frame, uint8_t mode) {\n  int16_t minValue = (int16_t)frame[0];\n  int16_t maxValue = minValue;\n  int32_t sum = 0;\n  for (uint16_t i = 0; i < MLX90642_TOTAL_NUMBER_OF_PIXELS; i++) {\n    int16_t value = (int16_t)frame[i];\n    if (value < minValue) minValue = value;\n    if (value > maxValue) maxValue = value;\n    sum += value;\n  }\n  if (mode == 0) return minValue / 50.0f;\n  if (mode == 1) return maxValue / 50.0f;\n  return (sum / (float)MLX90642_TOTAL_NUMBER_OF_PIXELS) / 50.0f;\n}\n');
 }
 
 function mlx90642EnsurePrintHelper(generator) {
@@ -62,12 +68,15 @@ Arduino.forBlock['mlx90642_init'] = function(block, generator) {
   var format = block.getFieldValue('FORMAT') || 'MLX90642_TEMPERATURE_OUTPUT';
   generator.addObject(mlx90642Addr(varName), 'const uint8_t ' + mlx90642Addr(varName) + ' = ' + address + ';');
   generator.addObject(mlx90642Frame(varName), 'uint16_t ' + mlx90642Frame(varName) + '[MLX90642_TOTAL_NUMBER_OF_PIXELS];');
+  generator.addObject(varName + '_frame_valid', 'bool ' + varName + '_frame_valid = false;');
+  generator.addObject(varName + '_in_celsius', 'bool ' + varName + '_in_celsius = false;');
   return 'MLX90642_I2CInit(' + sda + ', ' + scl + ');\n' +
+    varName + '_frame_valid = false;\n' +
     'MLX90642_WakeUp(' + mlx90642Addr(varName) + ');\n' +
     'while (MLX90642_Init(' + mlx90642Addr(varName) + ') != 0) {\n  delay(500);\n}\n' +
     'MLX90642_SetMeasMode(' + mlx90642Addr(varName) + ', ' + mode + ');\n' +
     'MLX90642_SetRefreshRate(' + mlx90642Addr(varName) + ', ' + rate + ');\n' +
-    'MLX90642_SetOutputFormat(' + mlx90642Addr(varName) + ', ' + format + ');\n' +
+    varName + '_in_celsius = (MLX90642_SetOutputFormat(' + mlx90642Addr(varName) + ', ' + format + ') == 0 && ' + format + ' == MLX90642_TEMPERATURE_OUTPUT);\n' +
     'delay(300);\n';
 };
 
@@ -80,13 +89,13 @@ Arduino.forBlock['mlx90642_data_ready'] = function(block, generator) {
 Arduino.forBlock['mlx90642_read_frame'] = function(block, generator) {
   mlx90642EnsureLib(generator);
   var varName = mlx90642GetVar(block);
-  return 'MLX90642_GetImage(' + mlx90642Addr(varName) + ', ' + mlx90642Frame(varName) + ');\n';
+  return varName + '_frame_valid = MLX90642_GetImage(' + mlx90642Addr(varName) + ', ' + mlx90642Frame(varName) + ') == 0;\n';
 };
 
 Arduino.forBlock['mlx90642_measure_now'] = function(block, generator) {
   mlx90642EnsureLib(generator);
   var varName = mlx90642GetVar(block);
-  return ['(MLX90642_MeasureNow(' + mlx90642Addr(varName) + ', ' + mlx90642Frame(varName) + ') == 0)', generator.ORDER_ATOMIC];
+  return ['(' + varName + '_frame_valid = MLX90642_MeasureNow(' + mlx90642Addr(varName) + ', ' + mlx90642Frame(varName) + ') == 0)', generator.ORDER_ATOMIC];
 };
 
 Arduino.forBlock['mlx90642_pixel_value'] = function(block, generator) {
@@ -97,7 +106,7 @@ Arduino.forBlock['mlx90642_pixel_value'] = function(block, generator) {
   var y = mlx90642Value(block, generator, 'Y', '0');
   var unit = block.getFieldValue('UNIT') || 'C';
   var fn = unit === 'RAW' ? 'mlx90642PixelRaw' : 'mlx90642PixelC';
-  return [fn + '(' + mlx90642Frame(varName) + ', ' + x + ', ' + y + ')', generator.ORDER_FUNCTION_CALL];
+  return mlx90642Cached(varName, fn + '(' + mlx90642Frame(varName) + ', ' + x + ', ' + y + ')', unit !== 'RAW');
 };
 
 Arduino.forBlock['mlx90642_frame_stat'] = function(block, generator) {
@@ -106,7 +115,7 @@ Arduino.forBlock['mlx90642_frame_stat'] = function(block, generator) {
   var varName = mlx90642GetVar(block);
   var map = { MIN: '0', MAX: '1', AVG: '2' };
   var stat = map[block.getFieldValue('STAT') || 'AVG'] || '2';
-  return ['mlx90642FrameStatC(' + mlx90642Frame(varName) + ', ' + stat + ')', generator.ORDER_FUNCTION_CALL];
+  return mlx90642Cached(varName, 'mlx90642FrameStatC(' + mlx90642Frame(varName) + ', ' + stat + ')', true);
 };
 
 Arduino.forBlock['mlx90642_progress'] = function(block, generator) {
@@ -122,7 +131,7 @@ Arduino.forBlock['mlx90642_print_frame_csv'] = function(block, generator) {
   var serialName = block.getFieldValue('SERIAL') || 'Serial';
   var baud = mlx90642Value(block, generator, 'BAUD', '921600');
   generator.addSetupBegin('mlx90642_' + serialName + '_begin', serialName + '.begin(' + baud + ');');
-  return 'mlx90642PrintFrameCsv(' + serialName + ', ' + mlx90642Frame(varName) + ');\n';
+  return 'if (' + varName + '_frame_valid && ' + varName + '_in_celsius) mlx90642PrintFrameCsv(' + serialName + ', ' + mlx90642Frame(varName) + ');\n';
 };
 
 Arduino.forBlock['mlx90642_sleep'] = function(block, generator) {
