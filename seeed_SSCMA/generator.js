@@ -1,9 +1,10 @@
 'use strict';
 
-// 检测是否为ESP32核心
-function isESP32Core() {
-  const boardConfig = window['boardConfig'];
-  return boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1;
+// A blocking handshake in setup follows any pin-routing blocks above it.
+function sscmaSetup(block, generator, key, code) {
+  if (block.getRootBlock().type === 'arduino_setup') return code + '\n';
+  generator.addSetup(key, code);
+  return '';
 }
 
 // 初始化块 - I2C接口
@@ -41,16 +42,7 @@ Arduino.forBlock['sscma_begin_i2c'] = function(block, generator) {
   generator.addLibrary('Wire', '#include <Wire.h>');
   generator.addObject(varName, 'SSCMA ' + varName + ';');
 
-  generator.addSetup(`wire_${wire}_begin`, '' + wire + '.begin(); // 初始化I2C ' + wire);
-  // 生成初始化代码
-  let code = '';
-  if (rst == -1) {
-    code = varName + '.begin(&' + wire + ', -1, ' + address + ');\n';
-  } else {
-    code = varName + '.begin(&' + wire + ', ' + rst + ', ' + address + ');\n';
-  }
-
-  return code;
+  return varName + '.begin(&' + wire + ', ' + rst + ', ' + address + ');\n';
 };
 
 // 初始化块 - 串口接口
@@ -87,46 +79,15 @@ Arduino.forBlock['sscma_begin_serial'] = function(block, generator) {
   generator.addLibrary('Seeed_Arduino_SSCMA', '#include <Seeed_Arduino_SSCMA.h>');
   generator.addObject(varName, 'SSCMA ' + varName + ';');
 
-  // 生成SSCMA初始化代码
-  let code = '';
-  if (serial === 'Serial' || serial === 'Serial1' || serial === 'Serial2') {
-    const isESP32 = isESP32Core();
-    if (isESP32) {
-      // ESP32核心使用HardwareSerial对象
-      let atSerial = '';
-      if (serial === 'Serial') {
-        atSerial = 'atSerial(0)';
-      } else if (serial === 'Serial1') {
-        atSerial = 'atSerial(1)';
-      } else if (serial === 'Serial2') {
-        atSerial = 'atSerial(2)';
-      } else {
-        atSerial = 'atSerial(0)';
-      }
-      generator.addLibrary('HardwareSerial', '#include <HardwareSerial.h>');
-      generator.addObject(serial, 'HardwareSerial ' + atSerial + ';');
-    } else {
-      // 非ESP32核心使用Serial对象
-      generator.addObject(serial, '#define atSerial ' + serial + ';');
-    }
-    if (rst == -1) {
-      code = varName + '.begin(&atSerial, -1, ' + baud + ');\n';
-    } else {
-      code = varName + '.begin(&atSerial, ' + rst + ', ' + baud + ');\n';
-    }
-  } else {
-    // 生成SSCMA初始化代码
-    let code = '';
-    if (rst == -1) {
-      code = varName + '.begin(&' + serial + ', -1, ' + baud + ');\n';
-    } else {
-      code = varName + '.begin(&' + serial + ', ' + rst + ', ' + baud + ');\n';
-    }
+  let port = serial;
+  if (serial === 'Serial') {
+    port = 'ailySscmaPrimarySerial';
+    generator.addObject(port,
+      '#if defined(ARDUINO_ARCH_ESP32) && ARDUINO_USB_CDC_ON_BOOT\n' +
+      'auto &' + port + ' = Serial0;\n#else\nauto &' + port + ' = Serial;\n#endif');
   }
-
-  generator.addSetup(varName + '_sscma_serial_begin', code);
-
-  return '';
+  const code = varName + '.begin(&' + port + ', ' + rst + ', ' + baud + ');';
+  return sscmaSetup(block, generator, varName + '_sscma_serial_begin', code);
 };
 
 // 初始化块 - SPI接口
@@ -167,18 +128,8 @@ Arduino.forBlock['sscma_begin_spi'] = function(block, generator) {
   generator.addLibrary('SPI', '#include <SPI.h>');
   generator.addVariable(varName, 'SSCMA ' + varName + ';');
 
-  // 生成初始化代码
-  let code = '';
-  if (cs == -1 && sync == -1 && rst == -1) {
-    code = varName + '.begin(&' + spi + ');\n';
-  } else {
-    code = varName + '.begin(&' + spi + ', ' + cs + ', ' + sync + ', ' + rst + ', ' + clockHz + ');\n';
-  }
-
-  generator.addSetup(`spi_${spi}_begin`, '' + spi + '.begin(); // 初始化SPI ' + spi);
-  generator.addSetup(varName + '_sscma_spi_begin', code);
-
-  return '';
+  const code = varName + '.begin(&' + spi + ', ' + cs + ', ' + sync + ', ' + rst + ', ' + clockHz + ');';
+  return sscmaSetup(block, generator, varName + '_sscma_spi_begin', code);
 };
 
 // 执行AI推理
