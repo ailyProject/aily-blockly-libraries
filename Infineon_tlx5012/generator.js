@@ -70,8 +70,8 @@ Arduino.forBlock['tlx5012_read_angle'] = function(block, generator) {
   generator.addFunction('tlx5012_getAngle_' + varName, 
     'double tlx5012_getAngle_' + varName + '() {\n' +
     '  double val = 0.0;\n' +
-    '  ' + varName + '.getAngleValue(val);\n' +
-    '  return val;\n' +
+    '  ' + varName + '_err = ' + varName + '.getAngleValue(val);\n' +
+    '  return ' + varName + '_err == NO_ERROR ? (double)val : NAN;\n' +
     '}\n'
   );
 
@@ -88,8 +88,8 @@ Arduino.forBlock['tlx5012_read_speed'] = function(block, generator) {
   generator.addFunction('tlx5012_getSpeed_' + varName,
     'double tlx5012_getSpeed_' + varName + '() {\n' +
     '  double val = 0.0;\n' +
-    '  ' + varName + '.getAngleSpeed(val);\n' +
-    '  return val;\n' +
+    '  ' + varName + '_err = ' + varName + '.getAngleSpeed(val);\n' +
+    '  return ' + varName + '_err == NO_ERROR ? (double)val : NAN;\n' +
     '}\n'
   );
 
@@ -104,10 +104,10 @@ Arduino.forBlock['tlx5012_read_revolutions'] = function(block, generator) {
   ensureTlx5012Libraries(generator);
 
   generator.addFunction('tlx5012_getRevolutions_' + varName,
-    'int16_t tlx5012_getRevolutions_' + varName + '() {\n' +
+    'double tlx5012_getRevolutions_' + varName + '() {\n' +
     '  int16_t val = 0;\n' +
-    '  ' + varName + '.getNumRevolutions(val);\n' +
-    '  return val;\n' +
+    '  ' + varName + '_err = ' + varName + '.getNumRevolutions(val);\n' +
+    '  return ' + varName + '_err == NO_ERROR ? (double)val : NAN;\n' +
     '}\n'
   );
 
@@ -124,8 +124,8 @@ Arduino.forBlock['tlx5012_read_temperature'] = function(block, generator) {
   generator.addFunction('tlx5012_getTemperature_' + varName,
     'double tlx5012_getTemperature_' + varName + '() {\n' +
     '  double val = 0.0;\n' +
-    '  ' + varName + '.getTemperature(val);\n' +
-    '  return val;\n' +
+    '  ' + varName + '_err = ' + varName + '.getTemperature(val);\n' +
+    '  return ' + varName + '_err == NO_ERROR ? (double)val : NAN;\n' +
     '}\n'
   );
 
@@ -142,8 +142,8 @@ Arduino.forBlock['tlx5012_read_angle_range'] = function(block, generator) {
   generator.addFunction('tlx5012_getAngleRange_' + varName,
     'double tlx5012_getAngleRange_' + varName + '() {\n' +
     '  double val = 0.0;\n' +
-    '  ' + varName + '.getAngleRange(val);\n' +
-    '  return val;\n' +
+    '  ' + varName + '_err = ' + varName + '.getAngleRange(val);\n' +
+    '  return ' + varName + '_err == NO_ERROR ? (double)val : NAN;\n' +
     '}\n'
   );
 
@@ -157,5 +157,5 @@ Arduino.forBlock['tlx5012_reset'] = function(block, generator) {
 
   ensureTlx5012Libraries(generator);
 
-  return varName + '.resetFirmware();\n';
+  return varName + '_err = ' + varName + '.resetFirmware();\n';
 };
