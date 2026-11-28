@@ -54,6 +54,25 @@ function ensureWireBegin(wire, generator) {
   }
 }
 
+// Transport recovery is per sensor. An unsupported command does not mean the device disconnected.
+function ensureTLx493DConnection(generator, name) {
+  var online = '_tlx493d_online_' + name;
+  generator.addVariable(online, 'bool ' + online + ' = false;');
+  var ready = '_tlx493d_connected_' + name;
+  generator.addFunction(ready, 'bool ' + ready + '() {\n' +
+    '  static bool attempted = false;\n' +
+    '  static bool initialized = false;\n' +
+    '  static unsigned long lastAttempt = 0;\n' +
+    '  if (' + online + ') return true;\n' +
+    '  if (attempted && millis() - lastAttempt < 100) return false;\n' +
+    '  attempted = true; lastAttempt = millis();\n' +
+    '  if (initialized) return ' + online + ' = ' + name + '.setDefaultConfig();\n' +
+    '  initialized = ' + name + '.begin();\n' +
+    '  return ' + online + ' = initialized;\n' +
+    '}\n');
+  return { online: online, ready: ready + '()' };
+}
+
 // ============ 初始化块 ============
 Arduino.forBlock['tlx493d_init'] = function(block, generator) {
   // 变量重命名监听器
@@ -96,7 +115,8 @@ Arduino.forBlock['tlx493d_init'] = function(block, generator) {
 
   // 返回setup中的初始化代码
   var code = '';
-  code += 'if (!' + varName + '.begin()) {\n';
+  var connection = ensureTLx493DConnection(generator, varName);
+  code += 'if (!' + connection.ready + ') {\n';
   code += '  Serial.println("TLx493D sensor ' + varName + ' init failed!");\n';
   code += '}\n';
 
@@ -111,10 +131,12 @@ Arduino.forBlock['tlx493d_get_temperature'] = function(block, generator) {
   ensureTLx493DLibraries(generator);
 
   // 生成辅助函数
+  var connection = ensureTLx493DConnection(generator, varName);
   var funcName = '_tlx493d_getTemp_' + varName;
   var funcDef = 'double ' + funcName + '() {\n' +
     '  double temp = 0;\n' +
-    '  ' + varName + '.getTemperature(&temp);\n' +
+    '  if (!' + connection.ready + ') return NAN;\n' +
+    '  if (!' + varName + '.getTemperature(&temp)) { ' + connection.online + ' = false; return NAN; }\n' +
     '  return temp;\n' +
     '}\n';
   generator.addFunction(funcName, funcDef);
@@ -131,11 +153,13 @@ Arduino.forBlock['tlx493d_get_magnetic_field'] = function(block, generator) {
   ensureTLx493DLibraries(generator);
 
   // 为每个轴生成辅助函数
+  var connection = ensureTLx493DConnection(generator, varName);
   var funcName = '_tlx493d_getMag' + axis + '_' + varName;
   var returnVar = axis.toLowerCase();
   var funcDef = 'double ' + funcName + '() {\n' +
     '  double x = 0, y = 0, z = 0;\n' +
-    '  ' + varName + '.getMagneticField(&x, &y, &z);\n' +
+    '  if (!' + connection.ready + ') return NAN;\n' +
+    '  if (!' + varName + '.getMagneticField(&x, &y, &z)) { ' + connection.online + ' = false; return NAN; }\n' +
     '  return ' + returnVar + ';\n' +
     '}\n';
   generator.addFunction(funcName, funcDef);
@@ -172,7 +196,14 @@ Arduino.forBlock['tlx493d_has_valid_data'] = function(block, generator) {
 
   ensureTLx493DLibraries(generator);
 
-  return [varName + '.hasValidData()', generator.ORDER_FUNCTION_CALL];
+  var connection = ensureTLx493DConnection(generator, varName);
+  var funcName = '_tlx493d_valid_' + varName;
+  generator.addFunction(funcName, 'bool ' + funcName + '() {\n' +
+    '  if (!' + connection.ready + ') return false;\n' +
+    '  if (!' + varName + '.readRegisters()) { ' + connection.online + ' = false; return false; }\n' +
+    '  return ' + varName + '.hasValidData();\n' +
+    '}\n');
+  return [funcName + '()', generator.ORDER_FUNCTION_CALL];
 };
 
 // ============ 软件复位 ============
