@@ -118,15 +118,19 @@ Arduino.forBlock['huskylensv2_init_serial'] = function (block, generator) {
   const serial = block.getFieldValue('SERIAL') || 'Serial1';
   const baud = hlv2SerialBaud(serial);
   hlv2EnsureCore(generator, varName);
-  generator.addSetup(serial + '_begin', serial + '.begin(' + baud + ');');
-  generator.addSetup(
-    varName + '_begin',
-    'while (!' +
-      varName +
-      '.begin(' +
-      serial +
-      ')) {\n    delay(100);\n  }'
-  );
+  let port = serial;
+  if (/^Serial[1-8]$/.test(serial)) {
+    const number = serial.slice(6);
+    port = 'ailyHuskyLensV2' + serial;
+    generator.addObject(port,
+      '#if defined(ARDUINO_ARCH_STM32) && !defined(HAVE_HWSERIAL' + number + ') && defined(USART' + number + ')\n' +
+      'Uart ' + port + '(USART' + number + ');\n#else\nauto &' + port + ' = ' + serial + ';\n#endif');
+  }
+  generator.addSetup(serial + '_begin', port + '.begin(' + baud + ');');
+  const handshake = 'while (!' + varName + '.begin(' + port + ')) {\n    delay(100);\n  }';
+  // In setup, pin routing before this block must finish before the blocking handshake.
+  if (block.getRootBlock().type === 'arduino_setup') return handshake + '\n';
+  generator.addSetup(varName + '_begin', handshake);
   return '';
 };
 
