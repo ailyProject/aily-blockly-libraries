@@ -49,7 +49,9 @@ Arduino.forBlock['74hc595_create'] = function(block, generator) {
   var hclkPin = block.getFieldValue("HCCLOCK_PIN");
   var hclhPin = block.getFieldValue("HCLATCH_PIN");
   ensure74HC595Library(generator);
-  generator.addVariable(hcName, 'ShiftRegister74HC595<'+hcnum+'> ' + hcName + '(' + hcdtPin + ', ' + hclkPin + ', ' + hclhPin + ');\n');
+  generator.addVariable(hcName, 'ShiftRegister74HC595<' + hcnum + '> ' + hcName + ';');
+  generator.addSetupBegin('74hc595_begin_' + hcName,
+    hcName + '.begin(' + hcdtPin + ', ' + hclkPin + ', ' + hclhPin + ');');
   return '';
 };
 

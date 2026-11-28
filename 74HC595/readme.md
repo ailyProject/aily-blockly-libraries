@@ -7,7 +7,7 @@ Shift register 74HC595 control library, supports Arduino UNO, MEGA, ESP8266, ESP
 | Field | Value |
 |-------|-------|
 | Package | @aily-project/lib-shiftregister |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Author | Simsso |
 | Source | N/A |
 | License | Original license |
@@ -19,6 +19,20 @@ Arduino-compatible boards supported by this package.
 ## Description
 
 Shift register 74HC595 control library, supports Arduino UNO, MEGA, ESP8266, ESP32 and other development boards
+
+## Coder initialization
+
+Declare a register at file scope and initialize its pins in Arduino setup. For example:
+
+```cpp
+ShiftRegister74HC595<2> outputs;
+
+void setup() {
+  outputs.begin(dataPin, clockPin, latchPin);
+}
+```
+
+Each call to `begin` configures the three pins and latches zeros into both registers. The original three-pin constructor still initializes immediately. Blockly initializes the same named object at the start of setup.
 
 ## Quick Start
 
