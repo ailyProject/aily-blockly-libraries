@@ -22,3 +22,7 @@ Aily Blockly library for the MLX90642 32x24 infrared thermal imaging sensor. It 
 1. Set SDA, SCL, and I2C address in the init block. The default address is `0x66`.
 2. In loop, check `data ready`, then read one frame into the cache.
 3. Use pixel, min/max/average, or CSV output blocks to process the cached frame.
+
+Object temperatures use 0.02 °C per count. In normalized mode use the raw pixel output. A failed read invalidates the cache until the next successful acquisition.
+
+像素温度的分辨率为 0.02 °C。归一化模式请选择像素原始值。读取失败后缓存失效，成功采集一帧后恢复。

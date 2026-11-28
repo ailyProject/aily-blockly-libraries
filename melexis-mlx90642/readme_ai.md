@@ -50,5 +50,5 @@ arduino_loop()
 
 1. The init block creates `<name>_addr` and `<name>_frame`; other blocks reference the Blockly variable name to use those globals.
 2. Pixel coordinates are clamped to X `0..31` and Y `0..23`.
-3. Celsius helpers interpret cached frame values as signed centi-degrees (`value / 100.0`).
+3. For temperature output, divide the signed 16-bit object pixel value by 50. The separate die-temperature register uses 100 counts per °C. Select RAW to read normalized data. After an unsuccessful acquisition the pixel and statistics blocks return NaN and the CSV block emits no rows.
 4. The bundled dependency uses the ESP32 `Wire.begin(SDA, SCL, frequency)` signature, so this package is marked ESP32-only.
